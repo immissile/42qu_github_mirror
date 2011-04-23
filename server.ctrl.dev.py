@@ -5,12 +5,10 @@ import tornado.wsgi
 import tornado.httpserver
 import tornado.ioloop
 
+from zkit.wsgiserver import CherryPyWSGIServer 
 
 def WSGIServer(port, application):
-    container = tornado.wsgi.WSGIContainer(application)
-    http_server = tornado.httpserver.HTTPServer(container)
-    http_server.listen(port)
-    tornado.ioloop.IOLoop.instance().start()
+    return CherryPyWSGIServer(('0.0.0.0',port),application)
 
 if __name__ == "__main__":
     from ctrl._application import application
@@ -22,5 +20,8 @@ if __name__ == "__main__":
         port = config.zpage_ctrl.PORT
 
     print "server on port %s"%port
-    WSGIServer(port, application)
-
+    server = WSGIServer(port, application)
+    try:
+        server.start()
+    except KeyboardInterrupt:
+        server.stop()

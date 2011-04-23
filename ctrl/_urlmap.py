@@ -5,6 +5,6 @@ URLMAP = []
 
 def urlmap(url):
     def _(cls):
-        URLMAP.append((url,cls))
+        URLMAP.append((url, cls))
         return cls
     return _
