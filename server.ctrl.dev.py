@@ -10,7 +10,7 @@ from zkit.wsgiserver import CherryPyWSGIServer
 def WSGIServer(port, application):
     return CherryPyWSGIServer(('0.0.0.0', port), application)
 
-if __name__ == "__main__":
+def run():
     from ctrl._application import application
     import config.zpage_ctrl
     import sys
@@ -25,3 +25,13 @@ if __name__ == "__main__":
         server.start()
     except KeyboardInterrupt:
         server.stop()
+
+if __name__ == "__main__":
+    from zkit.reloader.reload_server import auto_reload
+    while True:
+        auto_reload(run)
+        print "\nSleep 4 seconds"
+        for i in xrange(10, 0, -1):
+            sleep(0.4)
+            print i,
+        print ""
