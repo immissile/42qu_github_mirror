@@ -7,9 +7,8 @@ from _urlmap import urlmap
 
 
 @urlmap("/")
-class IndexHandler(_handler.Handler):
+class Index(_handler.Base):
     def get(self):
-        self.write("Hello, world2")
-        raise
+        self.render(test="test")
 
 
