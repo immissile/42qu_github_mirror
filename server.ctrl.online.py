@@ -1,15 +1,23 @@
 #!/usr/bin/env python
 #coding:utf-8
+import config.zpage_ctrl
+config.zpage_ctrl.DEBUG = False
 
 from ctrl._application import application
-from weberror.errormiddleware import ErrorMiddleware
-application = ErrorMiddleware(application, debug=True)
+
+
+from zkit.errormiddleware import ErrorMiddleware
+from config.zpage_mako import render
+application = ErrorMiddleware(application, render ,"_error/500.htm")
+
+
 
 
 import tornado.ioloop
 import tornado.wsgi
 import tornado.httpserver
 import tornado.ioloop
+import sys
 
 
 def WSGIServer(port, application):
@@ -19,7 +27,6 @@ def WSGIServer(port, application):
     tornado.ioloop.IOLoop.instance().start()
 
 if __name__ == "__main__":
-    from ctrl._application import application
     import config.zpage_ctrl
     import sys
     if len(sys.argv) > 1 and sys.argv[1].isdigit():

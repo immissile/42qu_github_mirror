@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
+import config.zpage_ctrl
+config.zpage_ctrl.DEBUG = True
 
 from ctrl._application import application
 from weberror.evalexception import EvalException
