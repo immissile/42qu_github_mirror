@@ -3,8 +3,10 @@
 
 
 import tornado.web
-import _url
+from _urlmap import urlmap
 
+
+@urlmap("/")
 class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("Hello, world")
