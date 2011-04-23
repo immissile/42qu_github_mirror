@@ -5,10 +5,10 @@ import tornado.wsgi
 import tornado.httpserver
 import tornado.ioloop
 
-from zkit.wsgiserver import CherryPyWSGIServer 
+from zkit.wsgiserver import CherryPyWSGIServer
 
 def WSGIServer(port, application):
-    return CherryPyWSGIServer(('0.0.0.0',port),application)
+    return CherryPyWSGIServer(('0.0.0.0', port), application)
 
 if __name__ == "__main__":
     from ctrl._application import application
