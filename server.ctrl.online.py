@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 #coding:utf-8
+
+from ctrl._application import application
+from weberror.errormiddleware import ErrorMiddleware
+application = ErrorMiddleware(application, debug=True)
+
+
 import tornado.ioloop
 import tornado.wsgi
 import tornado.httpserver

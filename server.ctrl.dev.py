@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 #coding:utf-8
+
+from ctrl._application import application
+from weberror.evalexception import EvalException
+application = EvalException(application, )
+
+
+
 import tornado.ioloop
 import tornado.wsgi
 import tornado.httpserver
@@ -11,7 +18,6 @@ def WSGIServer(port, application):
     return CherryPyWSGIServer(('0.0.0.0', port), application)
 
 def run():
-    from ctrl._application import application
     import config.zpage_ctrl
     import sys
     if len(sys.argv) > 1 and sys.argv[1].isdigit():
