@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #coding:utf-8
 import tornado.ioloop
 import tornado.wsgi
@@ -13,11 +14,12 @@ def WSGIServer(port, application):
 
 if __name__ == "__main__":
     from ctrl._application import application
+    import config.zpage_ctrl
     import sys
     if len(sys.argv) > 1 and sys.argv[1].isdigit():
         port = int(sys.argv[1])
     else:
-        port = config.DEVPORT
+        port = config.zpage_ctrl.PORT
 
     print "server on port %s"%port
     WSGIServer(port, application)
