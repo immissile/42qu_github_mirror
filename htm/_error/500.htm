@@ -1,5 +1,9 @@
-
+<%!
+from pprint import pformat
+%>
+<%inherit file="/_base.htm" />
+<%def name="htm_title()">${exc_info}</%def>
 <h1>${exc_info}</h1>
 
 <pre>${traceback}</pre>
-<pre>${environ}</pre>
+<pre>${pformat(environ)}</pre>
