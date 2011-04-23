@@ -3,9 +3,9 @@
 
 def main():
     import tornado.wsgi
-    import _url
-    _url_map = tuple(_url.MAP)
-    application = tornado.wsgi.WSGIApplication(_url_map)
+    import _urlmap
+    urlmap = tuple(_urlmap.URLMAP)
+    application = tornado.wsgi.WSGIApplication(urlmap)
     return application
 
 application = main()

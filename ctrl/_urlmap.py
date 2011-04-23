@@ -1,4 +1,10 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-MAP = []
+URLMAP = []
+
+def urlmap(url):
+    def _(cls):
+        URLMAP.append((url,cls))
+        return cls
+    return _
