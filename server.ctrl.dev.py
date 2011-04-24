@@ -8,7 +8,6 @@ from weberror.evalexception import EvalException
 application = EvalException(application, )
 
 
-
 import tornado.ioloop
 import tornado.wsgi
 import tornado.httpserver
@@ -17,7 +16,16 @@ import tornado.ioloop
 from zkit.wsgiserver import CherryPyWSGIServer
 
 def WSGIServer(port, application):
-    return CherryPyWSGIServer(('0.0.0.0', port), application)
+    import logging
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s %(filename)s[line:%(lineno)d]  %(message)s',
+        datefmt='%H:%M:%S',
+    )
+    def _(environ, start_response):
+        logging.info("%s %s"%(environ.get('REQUEST_METHOD'), environ.get('PATH_INFO')))
+        return application(environ, start_response)
+    return CherryPyWSGIServer(('0.0.0.0', port), _, numthreads=1)
 
 def run():
     import config.zpage_ctrl
