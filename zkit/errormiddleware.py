@@ -7,7 +7,7 @@ from traceback import format_exc
 def ErrorMiddleware(application, render, template):
     def _(environ, start_response):
         try:
-            application(environ, start_response)
+            return application(environ, start_response)
         except:
             exc_info = sys.exc_info()
 
@@ -17,12 +17,11 @@ def ErrorMiddleware(application, render, template):
                 [('content-type', 'text/html')],
                 exc_info
             )
-            return render(
+            return [render(
                 template,
                 exc_info=exc_info,
                 traceback=traceback,
                 environ=environ
-            )
-            return [response]
+            )]
     return _
 
