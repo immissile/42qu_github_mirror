@@ -19,7 +19,7 @@ def WSGIServer(port, application):
     import logging
     logging.basicConfig(
         level=logging.DEBUG,
-        format='%(asctime)s %(filename)s[line:%(lineno)d]  %(message)s',
+        format='%(asctime)s %(message)s',
         datefmt='%H:%M:%S',
     )
     def _(environ, start_response):
