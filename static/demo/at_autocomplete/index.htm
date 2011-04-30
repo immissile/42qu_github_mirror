@@ -1,0 +1,78 @@
+<!doctype html>
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.4.4.min.js"></script>
+<script src="selection.js"></script>
+<style>
+    .AT{
+        font: '14px/20px "Helvetica Neue", Helvetica, Arial';
+        height:200px;padding:10px;
+        resize:none;
+    }
+</style>
+</head>
+<body>
+    <div style="text-align:center;margin-top:14px">
+        <textarea class="AT" id="txt" style="width:80%;margin:auto;"></textarea>
+    </div>
+    <div style="width:100px;position:absolute"><div id="tip" style="border:1px solid #eee;padding:10px;background:#ffc">test</div></div>
+<script>
+function zat(at){
+    var jat = $(at),jtip=$('#tip'),tip=jtip[0],pre,tipw=tip.parentNode,dot,pos;
+
+    jat.keyup(function(e){
+        var range = jat.getSelection(),
+            elem=e.target,
+            value=elem.value,
+            keycode = e.keyCode
+            rs = range.start-1;
+        if(value&&value!=''){
+            prechar=e.target.value.charAt();
+            /*
+            keycode   40 = Down
+            keycode   38 = Up
+            keycode   13 = Enter
+            keycode   16 = Shift_L
+            keycode    9 = Tab
+            */
+            if($.inArray(keycode, [38,40,13,16,9])<0){
+                if(prechar=="@"){
+                    if(!pre){
+                        dot=$('<b>&nbsp;</b>')
+                        pre=$('<pre class="AT"/>').css({
+                            position: 'absolute',
+                            left:'-9999px',
+                            'word-wrap': 'break-word',
+                            border:'1px'
+                        })
+                        pre.appendTo('body')
+                    }
+                    pre.css({
+                        height:jat.height()+"px",
+                        width:jat.width()+'px',
+                        top:at.offsetTop+"px"
+                    }).text(value.substring(0,rs)).append(dot)
+                    pos=dot.position()
+                    jtip.show()
+                    jtip.html('12')
+                    $(tipw).css({
+                        top:(at.offsetTop+pos.top+32)+"px",
+                        left:(at.offsetLeft+pos.left)+"px"
+                    })
+                }  
+            }else{
+                if(keycode==9||keycode==13){
+                    if(jtip.is(":visible")){
+                        jtip.hide()
+                    } 
+                }      
+            }
+        }
+    })
+}
+zat($("#txt")[0])
+</script>
+
+</body>
+
+
+
