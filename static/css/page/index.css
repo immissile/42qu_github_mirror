@@ -1,24 +1,24 @@
-* { outline: 0pt none ! important; }
+* { outline: 0 none ! important; }
 .clear { height: 1px; overflow: hidden; clear: both; }
-html { height: 100%; margin: 0pt; padding: 0pt; border: 0pt none; overflow-y: scroll; }
-body { height: 100%; font-family:"微软雅黑", Arial,'Helvetica Neue',Helvetica,sans-serif; margin: 0pt; padding: 0pt; border: 0pt none; }
+html { height: 100%; margin: 0; padding: 0; border: 0 none; overflow-y: scroll; }
+body { height: 100%; font-family:"微软雅黑", Arial,'Helvetica Neue',Helvetica,sans-serif; margin: 0; padding: 0; border: 0 none; }
 input, button, select, option { font-family:"微软雅黑",Arial,'Helvetica Neue',Helvetica,sans-serif; }
-h1, p { margin: 0pt; padding: 0pt; }
+h1, p { margin: 0; padding: 0; }
 a,img{border:0;}
 
 body{background:#fff;}
-#header{padding-top:25px;background:url('bgimg/bkg_header.gif') repeat-x;}
+#header{padding-top:25px;background:url(/img/bkg_header.gif) repeat-x;}
 #header #logo{padding:20px 0 10px 35px;height:42px;margin-right:540px;}
 
 #register-form{width:540px;height:38px;overflow:hidden;float:right;padding:22px 5px 12px 0;}
-#register-form .input-wrapper { width: 190px; height: 38px; margin: 0 5px; float: left; position: relative;background:url('bgimg/input.png') -1px -1px no-repeat;}
+#register-form .input-wrapper { width: 190px; height: 38px; margin: 0 5px; float: left; position: relative;background:url(/img/input.png) -1px -1px no-repeat;}
 #register-form .blurred{background-position:-1px -1px;}
 #register-form .focused{background-position:-1px -66px;}
 #register-form .filled{background-position:-1px -129px;}
 #register-form .input-wrapper input{ width: 180px; height: 38px; line-height: 38px; padding: 0 10px; font-size: 20px; color: rgb(51, 51, 51); cursor: text; position: absolute; background:transparent; border:0;}
-#register-form .input-wrapper label { width: 180px; height: 36px; line-height: 38px; position: absolute; z-index: 1; top: 0pt; left: 0pt; padding: 1px 10px; color:#c27162;font-size: 20px;cursor: text;}
+#register-form .input-wrapper label { width: 180px; height: 36px; line-height: 38px; position: absolute; z-index: 1; top: 0; left: 0; padding: 1px 10px; color:#c27162;font-size: 20px;cursor: text;}
 #register-form .input-wrapper.focused label,#register-form .input-wrapper.filled label { display: none; }
-#register-form button { color: #ede8cc; font-size: 16px; font-weight: bold; background: #9C0703; border: 1px solid rgb(42, 63, 86); box-shadow: 0pt 1px 0pt rgba(255, 255, 255, 0.2), 0pt 1px 2px rgba(255, 255, 255, 0.4) inset; margin: 0 0 0 5px; text-align:center; width:120px; cursor: pointer; position: relative; float: left; height: 38px; line-height:38px; opacity: 0.91; white-space: nowrap; }
+#register-form button { color: #ede8cc; font-size: 16px; font-weight: bold; background: #9C0703; border: 1px solid rgb(42, 63, 86); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(255, 255, 255, 0.4) inset; margin: 0 0 0 5px; text-align:center; width:120px; cursor: pointer; position: relative; float: left; height: 38px; line-height:38px; opacity: 0.91; white-space: nowrap; }
 #register-form button:hover{opacity:1;color:#fff;}
 
 #header #nav{margin-top:-10px;}
@@ -28,9 +28,9 @@ body{background:#fff;}
 #header #nav ul .on{background:#5e0402;}
 #header #nav .ornament{position:relative;width:100%;height:43px;margin:-53px 0 10px;}
 #header #nav .ornament div{height:43px;position:absolute;}
-#header #nav .ornament .ornament-left{background:url('bgimg/left-robbin.png') right 0 no-repeat #9C0703;width:50%;left:-475px;}
+#header #nav .ornament .ornament-left{background:url(/img/left-robbin.png) right 0 no-repeat #9C0703;width:50%;left:-475px;}
 #header #nav .ornament .ornament-blank{width:475px;background:#fff;}
-#header #nav .ornament .ornament-right{background:url('bgimg/right-robbin.png') 475px 0 no-repeat #9C0703;width:50%;right:0;}
+#header #nav .ornament .ornament-right{background:url(/img/right-robbin.png) 475px 0 no-repeat #9C0703;width:50%;right:0;}
 
 .wrap{width:950px;margin:0 auto;background:#fff;background:rgba(255,255,255,0.6); box-shadow:0px 3px 3px #333333; }
 
