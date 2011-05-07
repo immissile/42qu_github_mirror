@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
-from mako.lookup import TemplateLookup
+from hmako.lookup import TemplateLookup
 from os.path import abspath, dirname, join, normpath
 from zpage_ctrl import DEBUG
 
