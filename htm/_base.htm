@@ -1,7 +1,7 @@
 <%!
 from static import css,js
 %>\
-<!doctype html>
+<!doctype html>\
 <head>\
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">\
 <script src="${js.jquery}"></script>\
@@ -10,6 +10,6 @@ from static import css,js
 ${self.htm_head()}\
 <title>${self.htm_title()}</title>\
 </head>\
-${next.body()}\
+<body>${next.body()}</body>\
 <%def name="htm_title()">42区, 找到给你答案的人</%def>\
 <%def name="htm_head()"></%def>\

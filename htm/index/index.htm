@@ -2,4 +2,38 @@
 from pprint import pformat
 %>
 <%inherit file="/_base.htm" />
-${test}
+    
+<div id="container">
+    <div id="header">
+        <div id="info-box" class="wrap">
+
+            <form style="" method="post" action="" id="register-form" class="register" onsubmit="return true;">
+                <div class="input-wrapper">
+                    <label for="user_email">Email address</label>
+                    <input id="user_email" name="user[email]" data-validation-type="email" value="" type="text">
+                </div>
+                <div class="input-wrapper">
+                    <label for="user_password">Password</label>
+                    <input id="user_password" name="user[password]" data-validation-type="password" value="" type="password">
+
+                </div>
+                <button type="submit"><span>开始使用！</span></button>
+            </form>
+            <div id="logo"><a href="" title="Home"><img src="img/logo.png" width="319" height="42" alt="Home" /></a></div>
+        </div>
+        <div id="nav">
+            <ul>
+                <li><a href="" title="Home">首页</a></li>
+
+                <li class="on"><a href="" title="About Us">关于Untitle-1</a></li>
+            </ul>
+            <div class="ornament">
+                <div class="ornament-left"></div>
+                <div class="ornament-right"><div class="ornament-blank"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main" class="wrap" style="min-height:100px;">
+    </div>
+</div>

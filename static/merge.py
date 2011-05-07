@@ -171,9 +171,9 @@ from config.zpage_ctrl import DEBUG
 from config.zpage_host import STATIC_HOST 
 
 if DEBUG:
-    ORG_CSS_JS = False
-else:
     ORG_CSS_JS = True
+else:
+    ORG_CSS_JS = False
 
 
 if ORG_CSS_JS:
@@ -223,9 +223,9 @@ from config.zpage_ctrl import DEBUG
 from config.zpage_host import STATIC_HOST 
 
 if DEBUG:
-    ORG_CSS_JS = False
-else:
     ORG_CSS_JS = True
+else:
+    ORG_CSS_JS = False
 
 
 if ORG_CSS_JS:
