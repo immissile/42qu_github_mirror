@@ -1,0 +1,3 @@
+python static/merge.py
+ps x -u work|ack server\.ctrl\.online\.py|ack python|ack 22000|awk  '{print $1}'|xargs kill
+ps x -u work|ack server\.ctrl\.online\.py|ack python|ack 22001|awk  '{print $1}'|xargs kill
