@@ -167,15 +167,14 @@ JS_INIT_TEMPLATE = """\
 <%!
 from os.path import join,basename,dirname
 %>
-try:
-    from myconf.config import ORG_CSS_JS
-except:
-    ORG_CSS_JS = False
+from config.zpage_ctrl import DEBUG
+from config.zpage_host import STATIC_HOST 
 
-try:
-    from myconf.config import JS_FILE_HOST
-except:
-    JS_FILE_HOST = ""
+if DEBUG:
+    ORG_CSS_JS = False
+else:
+    ORG_CSS_JS = True
+
 
 if ORG_CSS_JS:
 %for path,num in filename2num.iteritems():
@@ -195,7 +194,7 @@ pathdir = join("js",dirname(path))
 pathfile = basename(path)
 filename = join(pathdir,"~%s~%s.js"%(num,pathfile)).replace("\\\\","/")
 %>
-    ${name} = "%s/${filename}"%JS_FILE_HOST
+    ${name} = "%s/${filename}"%STATIC_HOST
 %endfor
 
 
@@ -220,18 +219,14 @@ CSS_INIT_TEMPLATE = """\
 <%!
 from os.path import join,basename,dirname
 %>
-try:
-    from myconf.config import ORG_CSS_JS
-except ImportError:
-    ORG_CSS_JS = False
+from config.zpage_ctrl import DEBUG
+from config.zpage_host import STATIC_HOST 
 
-try:
-    from myconf.config import CSS_FILE_HOST
-except ImportError:
-    try:
-        from myconf.config import FILE_HOST as CSS_FILE_HOST
-    except ImportError:
-        CSS_FILE_HOST = ""
+if DEBUG:
+    ORG_CSS_JS = False
+else:
+    ORG_CSS_JS = True
+
 
 if ORG_CSS_JS:
 %for path,num in filename2num.iteritems():
@@ -251,7 +246,7 @@ pathdir = join("css",dirname(path))
 pathfile = basename(path)
 filename = join(pathdir,"~%s~%s.css"%(num,pathfile)).replace("\\\\","/")
 %>
-    ${name} = "%s/${filename}"%CSS_FILE_HOST
+    ${name} = "%s/${filename}"%STATIC_HOST
 %endfor
 """
 merge("css", CSS_INIT_TEMPLATE)
