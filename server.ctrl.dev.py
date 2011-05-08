@@ -22,7 +22,7 @@ import tornado.wsgi
 import tornado.httpserver
 import tornado.ioloop
 
-from zkit.wsgiserver import CherryPyWSGIServer
+from cherrypy.wsgiserver import CherryPyWSGIServer
 
 def WSGIServer(port, application):
     import logging
