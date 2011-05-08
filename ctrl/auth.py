@@ -15,7 +15,7 @@ class Login(_handler.Base):
         mail = self.get_argument('mail',None)
         password = self.get_argument('password',None)
         if mail and password:
-
+            pass
         self.render(
             mail = mail,
             password = password
