@@ -22,6 +22,16 @@ def user_id_by_mail(mail):
     mc_user_id_by_mail.set(mail, c)
     return c
 
+def user_mail_new(user_id, mail):
+    mail = mail.strip().lower()
+    id = user_id_by_mail(mail)
+    if id:
+        return id
+    id = u.id
+    mc_user_id_by_mail.set(mail, id)
+    return id
 
 if __name__ == "__main__":
-    print user_id_by_mail("zsp007@gmail.com")
+    for i in UserMail.where():
+        i.delete()
+    #print user_id_by_mail_new("zsp007@gmail.com")
