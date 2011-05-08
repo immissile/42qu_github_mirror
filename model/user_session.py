@@ -2,10 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model,McModel
 
-class Zsite(McModel):
-    pass
-
-class Zpage(McModel):
+class UserSession(McModel):
     pass
 
 
