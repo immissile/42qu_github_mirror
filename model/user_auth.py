@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 from _db import Model,McModel
 
-class UserSession(McModel):
+class UserPassword(Model):
     pass
 
-
+def user_login(mail, password):
+    pass
 
