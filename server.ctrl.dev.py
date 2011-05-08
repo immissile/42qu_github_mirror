@@ -27,6 +27,34 @@ def WSGIServer(port, application):
         return application(environ, start_response)
     return CherryPyWSGIServer(('0.0.0.0', port), _, numthreads=1)
 
+
+#################
+
+from zkit import static
+from os.path import join
+import re
+
+STATIC_VERSION = re.compile("/\d+?~")
+STATIC_FILE = static.Cling(join(config.zpage_ctrl.PREFIX, "static"))
+STATIC_PATH = ('/css/', '/js/', '/pic/', '/img/', '/favicon.ico', '/bazs.cert', '/robots.txt')
+
+def url_selector(func):
+    def _url_selector(environ, start_response):
+        path = environ['PATH_INFO']
+
+        #print environ
+        for i in STATIC_PATH:
+            if path.startswith(i):
+                if i in ('/css/', '/js/'):
+                    environ['PATH_INFO'] = STATIC_VERSION.sub("/.", path)
+                return STATIC_FILE(environ, start_response)
+
+        return func(environ, start_response)
+    return _url_selector
+
+#################
+application = url_selector(application)
+
 def run():
     import config.zpage_ctrl
     import sys
