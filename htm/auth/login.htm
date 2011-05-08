@@ -1,15 +1,19 @@
 <%inherit file="/_base/1.htm" />
+<%def name="info_box()">
+<div id="logo"><a href="" title="Home"></a></div>
+</%def>
 
 
-<form method="POST" action="/login" id="register-form" class="register" >
+<form method="POST" action="/login" >
+<div>密码有误</div>
 <div class="input-wrapper">
-    <label for="mail">邮箱 ...</label>
+    <label for="mail">邮箱</label>
     <input id="mail" name="mail"  value="" type="text">
 </div>
 <div class="input-wrapper">
-    <label for="password">密码 ...</label>
+    <label for="password">密码<label>
     <input id="password" name="password" value="" type="password">
-
 </div>
 <button type="submit"><span>开始使用！</span></button>
 </form>
+

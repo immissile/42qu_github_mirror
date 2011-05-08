@@ -1,25 +1,10 @@
 <%inherit file="_base.htm" />
 <div id="container">
     <div id="header">
-        <div id="info-box" class="wrap">
-
-            <form method="POST" action="/login" id="register-form" class="register" >
-                <div class="input-wrapper">
-                    <label for="mail">邮箱 ...</label>
-                    <input id="mail" name="mail"  value="" type="text">
-                </div>
-                <div class="input-wrapper">
-                    <label for="password">密码 ...</label>
-                    <input id="password" name="password" value="" type="password">
-
-                </div>
-                <button type="submit"><span>开始使用！</span></button>
-            </form>
-            <div id="logo"><a href="" title="Home"></a></div>
-        </div>
+        <div id="info-box" class="wrap">${self.info_box()}</div>
         <div id="nav">
             <ul>
-                <li><a href="" title="Home">首页</a></li>
+                <li><a href="/" title="Home">首页</a></li>
                 <li class="on"><a href="" title="About Us">关于Untitle-1</a></li>
             </ul>
             <div class="ornament">
@@ -33,3 +18,19 @@
     ${next.body()}
     </div>
 </div>
+
+<%def name="info_box()">
+<form method="POST" action="/login" id="register-form" class="register" >
+    <div class="input-wrapper">
+        <label for="mail">邮箱 ...</label>
+        <input id="mail" name="mail"  value="" type="text">
+    </div>
+    <div class="input-wrapper">
+        <label for="password">密码 ...</label>
+        <input id="password" name="password" value="" type="password">
+
+    </div>
+    <button type="submit"><span>开始使用！</span></button>
+</form>
+<div id="logo"><a href="/"></a></div>
+</%def>
