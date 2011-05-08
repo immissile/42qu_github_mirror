@@ -34,7 +34,7 @@ def WSGIServer(port, application):
     def _(environ, start_response):
         logging.info("%s %s"%(environ.get('REQUEST_METHOD'), environ.get('PATH_INFO')))
         return application(environ, start_response)
-    return CherryPyWSGIServer(('0.0.0.0', port), _, numthreads=1)
+    return CherryPyWSGIServer(('0.0.0.0', port), _, numthreads=10)
 
 
 #################
