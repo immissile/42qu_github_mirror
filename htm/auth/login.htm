@@ -18,7 +18,7 @@
     <input id="password" name="password" value="" type="password">
 </div>
 %if error_password:    
-<div>${error_password}</div>
+<div>${error_password|n}</div>
 %endif
 
 <button type="submit"><span>开始使用！</span></button>

@@ -5,6 +5,7 @@
 import _handler
 from _urlmap import urlmap
 from zkit.txt import EMAIL_VALID
+from cgi import escape
 
 @urlmap("/login")
 class Login(_handler.Base):
@@ -28,6 +29,8 @@ class Login(_handler.Base):
         if not password:
             error_password = "请输入密码"
 
+        if not any((error_password,error_mail)):
+            error_password = """密码有误。 忘记密码了？<a href="/password/reset/%s">点此找回</a>"""%escape(mail)
 
         self.render(
             mail = mail,
@@ -35,4 +38,10 @@ class Login(_handler.Base):
             error_mail = error_mail,
             error_password = error_password
         )
+
+
+@urlmap("/password/reset/(.*)")
+class PasswordReset(_handler.Base):
+    pass
+
 
