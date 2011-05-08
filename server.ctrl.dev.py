@@ -38,7 +38,7 @@ STATIC_VERSION = re.compile("/\d+?~")
 STATIC_FILE = static.Cling(join(config.zpage_ctrl.PREFIX, "static"))
 STATIC_PATH = ('/css/', '/js/', '/pic/', '/img/', '/favicon.ico', '/bazs.cert', '/robots.txt')
 
-def url_selector(func):
+def static_middleware(func):
     def _url_selector(environ, start_response):
         path = environ['PATH_INFO']
 
@@ -52,8 +52,8 @@ def url_selector(func):
         return func(environ, start_response)
     return _url_selector
 
+application = static_middleware(application)
 #################
-application = url_selector(application)
 
 def run():
     import config.zpage_ctrl
