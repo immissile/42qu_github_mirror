@@ -25,7 +25,7 @@ def user_session(user_id):
             s = urandom(12)
             u.value = s
             u.save()
-        mc.set(mc_key, s)
+            mc_user_session.set(user_id, s)
 
     user_id_key = pack("I", int(user_id))
     user_id_key = urlsafe_b64encode(user_id_key)[:6]
@@ -33,5 +33,12 @@ def user_session(user_id):
     ck_key = urlsafe_b64encode(s)
     return "%s%s"%(user_id_key, ck_key)
 
+
+def user_session_rm(user_id):
+    u = UserSession.where(id=user_id).update(value=None)
+    mc_user_session.delete(user_id)
+
 if __name__ == "__main__":
     print user_session(1)
+    user_session_rm(1)
+    print user_session_by_db(1)
