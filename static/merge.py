@@ -168,7 +168,7 @@ JS_INIT_TEMPLATE = """\
 from os.path import join,basename,dirname
 %>
 from config.zpage_ctrl import DEBUG
-from config.zpage_host import STATIC_HOST 
+from config.zpage_host import STATIC_HOST
 
 if DEBUG:
     ORG_CSS_JS = True
@@ -182,7 +182,7 @@ if ORG_CSS_JS:
 path = path.rsplit(".js",1)[0]
 name = path.replace("/","_").replace(".","_").replace("-","_")
 %>
-    ${name} = "/js/${path}.js"
+    ${name} = "%s/js/${path}.js"%STATIC_HOST
 %endfor
 
 else:
@@ -234,7 +234,7 @@ if ORG_CSS_JS:
 path = path.rsplit(".css",1)[0]
 name = path.replace("/","_").replace(".","_").replace("-","_")
 %>
-    ${name} = "/css/${path}.css"
+    ${name} = "%s/css/${path}.css"%STATIC_HOST
 %endfor
 
 else:

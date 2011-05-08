@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
+import config.dev
 import config.zpage_ctrl
 config.zpage_ctrl.DEBUG = True
 
@@ -37,30 +38,30 @@ def WSGIServer(port, application):
 
 
 #################
-
-from zkit import static
-from os.path import join
-import re
-
-STATIC_VERSION = re.compile("/\d+?~")
-STATIC_FILE = static.Cling(join(config.zpage_ctrl.PREFIX, "static"))
-STATIC_PATH = ('/css/', '/js/', '/pic/', '/img/', '/favicon.ico', '/bazs.cert', '/robots.txt')
-
-def static_middleware(func):
-    def _(environ, start_response):
-        path = environ['PATH_INFO']
-
-        #print environ
-        for i in STATIC_PATH:
-            if path.startswith(i):
-                if i in ('/css/', '/js/'):
-                    environ['PATH_INFO'] = STATIC_VERSION.sub("/.", path)
-                return STATIC_FILE(environ, start_response)
-
-        return func(environ, start_response)
-    return _
-
-application = static_middleware(application)
+#
+#from zkit import static
+#from os.path import join
+#import re
+#
+#STATIC_VERSION = re.compile("/\d+?~")
+#STATIC_FILE = static.Cling(join(config.zpage_ctrl.PREFIX, "static"))
+#STATIC_PATH = ('/css/', '/js/', '/pic/', '/img/', '/favicon.ico', '/bazs.cert', '/robots.txt')
+#
+#def static_middleware(func):
+#    def _(environ, start_response):
+#        path = environ['PATH_INFO']
+#
+#        #print environ
+#        for i in STATIC_PATH:
+#            if path.startswith(i):
+#                if i in ('/css/', '/js/'):
+#                    environ['PATH_INFO'] = STATIC_VERSION.sub("/.", path)
+#                return STATIC_FILE(environ, start_response)
+#
+#        return func(environ, start_response)
+#    return _
+#
+#application = static_middleware(application)
 #################
 
 def run():
