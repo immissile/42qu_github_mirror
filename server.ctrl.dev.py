@@ -3,6 +3,14 @@
 import config.zpage_ctrl
 config.zpage_ctrl.DEBUG = True
 
+import sys
+if len(sys.argv) > 1 and sys.argv[1].isdigit():
+    PORT = int(sys.argv[1])
+    config.zpage_ctrl.PORT = PORT
+else:
+    PORT = config.zpage_ctrl.PORT
+
+
 from ctrl._application import application
 from weberror.evalexception import EvalException
 application = EvalException(application, )
@@ -39,7 +47,7 @@ STATIC_FILE = static.Cling(join(config.zpage_ctrl.PREFIX, "static"))
 STATIC_PATH = ('/css/', '/js/', '/pic/', '/img/', '/favicon.ico', '/bazs.cert', '/robots.txt')
 
 def static_middleware(func):
-    def _url_selector(environ, start_response):
+    def _(environ, start_response):
         path = environ['PATH_INFO']
 
         #print environ
@@ -50,21 +58,15 @@ def static_middleware(func):
                 return STATIC_FILE(environ, start_response)
 
         return func(environ, start_response)
-    return _url_selector
+    return _
 
 application = static_middleware(application)
 #################
 
 def run():
-    import config.zpage_ctrl
-    import sys
-    if len(sys.argv) > 1 and sys.argv[1].isdigit():
-        port = int(sys.argv[1])
-    else:
-        port = config.zpage_ctrl.PORT
 
-    print "server on port %s"%port
-    server = WSGIServer(port, application)
+    print "server on port %s"%PORT
+    server = WSGIServer(PORT, application)
     try:
         server.start()
     except KeyboardInterrupt:
@@ -72,6 +74,7 @@ def run():
 
 if __name__ == "__main__":
     from zkit.reloader.reload_server import auto_reload
+    from time import sleep
     while True:
         auto_reload(run)
         print "\nSleep 4 seconds"

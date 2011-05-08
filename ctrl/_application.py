@@ -6,6 +6,9 @@ def main():
     import _urlmap
     urlmap = tuple(_urlmap.URLMAP)
     application = tornado.wsgi.WSGIApplication(urlmap)
+
+    from _middleware import domain_middleware
+    application = domain_middleware(application)
     return application
 
 application = main()
