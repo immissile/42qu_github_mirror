@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache
+from _db import Model, McModel, McCache, mc
 from os import urandom
 from struct import pack, unpack
 from base64 import urlsafe_b64encode, urlsafe_b64decode
@@ -38,7 +38,23 @@ def user_session_rm(user_id):
     u = UserSession.where(id=user_id).update(value=None)
     mc_user_session.delete(user_id)
 
+
+def user_id_by_session(session):
+    if not session:
+        return
+    user_id = session[:6]
+    value = session[6:]
+    try:
+        value = urlsafe_b64decode(value+"=")
+        user_id = urlsafe_b64decode(user_id+"==")
+    except (binascii.Error, exceptions.TypeError):
+        return
+
+    user_id = unpack('I', user_id)[0]
+
+    if value == user_session_by_db(user_id):
+        return user_id
+
 if __name__ == "__main__":
-    print user_session(1)
-    user_session_rm(1)
-    print user_session_by_db(1)
+    s = user_session(1)
+    print user_id_by_session(s)
