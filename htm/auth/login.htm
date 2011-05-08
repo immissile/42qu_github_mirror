@@ -4,16 +4,23 @@
 </%def>
 
 
-<form method="POST" action="/login" >
-<div>密码有误</div>
+<form method="POST">
 <div class="input-wrapper">
     <label for="mail">邮箱</label>
-    <input id="mail" name="mail"  value="" type="text">
+    <input id="mail" name="mail"  value="${mail or ''}" type="text">
 </div>
+%if error_mail:    
+<div>${error_mail}</div>
+%endif
+
 <div class="input-wrapper">
     <label for="password">密码<label>
     <input id="password" name="password" value="" type="password">
 </div>
+%if error_password:    
+<div>${error_password}</div>
+%endif
+
 <button type="submit"><span>开始使用！</span></button>
 </form>
 
