@@ -11,14 +11,14 @@ class UserSession(McModel):
     pass
 
 @mc_user_session("{user_id}")
-def man_session_by_db(user_id):
+def user_session_by_db(user_id):
     u = UserSession.get(user_id)
     if u is not None:
         s = u.value
         return s
 
-def man_session(user_id):
-    s = man_session_by_db(user_id)
+def user_session(user_id):
+    s = user_session_by_db(user_id)
     if s is None:
         u = UserSession.get_or_create(id=user_id)
         if u.value is None:
@@ -34,4 +34,4 @@ def man_session(user_id):
     return "%s%s"%(user_id_key, ck_key)
 
 if __name__ == "__main__":
-    print man_session(1)
+    print user_session(1)
