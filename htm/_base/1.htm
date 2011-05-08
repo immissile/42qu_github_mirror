@@ -3,14 +3,14 @@
     <div id="header">
         <div id="info-box" class="wrap">
 
-            <form style="" method="post" action="" id="register-form" class="register" onsubmit="return true;">
+            <form method="POST" action="/login" id="register-form" class="register" >
                 <div class="input-wrapper">
-                    <label for="user_email">Email address</label>
-                    <input id="user_email" name="user[email]" data-validation-type="email" value="" type="text">
+                    <label for="mail">邮箱 ...</label>
+                    <input id="mail" name="mail"  value="" type="text">
                 </div>
                 <div class="input-wrapper">
-                    <label for="user_password">Password</label>
-                    <input id="user_password" name="user[password]" data-validation-type="password" value="" type="password">
+                    <label for="password">密码 ...</label>
+                    <input id="password" name="password" value="" type="password">
 
                 </div>
                 <button type="submit"><span>开始使用！</span></button>
