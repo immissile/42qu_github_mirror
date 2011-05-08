@@ -4,3 +4,6 @@ from _db import Model,McModel
 
 class Zsite(McModel):
     pass
+
+class Zpage(McModel):
+    pass

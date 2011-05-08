@@ -2,7 +2,7 @@
 #coding:utf-8
 
 MYSQLPORT = 3306
-MYSQLPASSWD = "zpagepasswd"
+MYSQLPASSWD = "42qu.com"
 MYSQLUSER = "zpage"
 
 DB_HOST_MAIN = "127.0.0.1:%s:zpage_main:%s:%s"%(MYSQLPORT, MYSQLUSER, MYSQLPASSWD)
