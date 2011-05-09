@@ -1,2 +1,5 @@
 <%inherit file="/_base/1.htm" />
-current_user : ${current_user}
+%if current_user:
+current_user : ${current_user} ${current_user.id} 
+<p>名字 ${current_user.name}</p>
+%endif

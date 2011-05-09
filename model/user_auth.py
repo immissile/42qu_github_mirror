@@ -30,7 +30,6 @@ def user_password_verify(user_id, password):
         return True
 
 
-
 def user_new_by_mail(mail, password=None):
     user_id = user_id_by_mail(mail)
     if not user_id:
@@ -43,4 +42,9 @@ def user_new_by_mail(mail, password=None):
 #mail_id = user_id_by_mail_new(mail, password)
 
 if __name__ == "__main__":
-    print len(hash_password(1,2))
+    pass
+
+
+
+
+
