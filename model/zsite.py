@@ -19,7 +19,7 @@ class Zpage(McModel):
 
 
 
-def zsite_new(cid, name):
+def zsite_new(name, cid):
     zsite = Zsite(cid=cid, name=name, state=ZSITE_STATE_DEFAULT)
     zsite.save()
     page = Zpage(
@@ -31,8 +31,8 @@ def zsite_new(cid, name):
     return zsite
 
 def zsite_new_user(name):
-    return zsite_new(name,ZSITE_CID_USER)
+    return zsite_new(name, ZSITE_CID_USER)
 
 if __name__ == "__main__":
     for i in Zsite.where():
-        print i.id
+        print i.id, i.name

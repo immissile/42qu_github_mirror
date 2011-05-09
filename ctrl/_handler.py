@@ -36,7 +36,7 @@ class Base(tornado.web.RequestHandler):
             user_id = user_id_by_session(session)
             if user_id:
                 user = Zsite.get(user_id)
-                print "!!!",user
+                #print "!!!",user
                 return user
             else:
                 self.clear_cookie(key)
