@@ -4,8 +4,8 @@
 
 import tornado.web
 from config.zpage_mako import render
-
-
+from model.user_session import user_id_by_session
+from model.zsite import Zsite
 
 def lower_name(class_name):
     """
@@ -29,6 +29,16 @@ def lower_name(class_name):
 
 
 class Base(tornado.web.RequestHandler):
+    def get_current_user(self):
+        key = "S"
+        session = self.get_cookie(key)
+        if session:
+            user_id = user_id_by_session(session)
+            if user_id:
+                return Zsite.mc_get(user_id)
+            else:
+                self.clear_cookie(key)
+
     def get_error_html(self, status_code, **kwargs):
         e = kwargs.get('exception')
         if e:
