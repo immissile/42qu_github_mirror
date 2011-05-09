@@ -35,7 +35,9 @@ class Base(tornado.web.RequestHandler):
         if session:
             user_id = user_id_by_session(session)
             if user_id:
-                return Zsite.mc_get(user_id)
+                user = Zsite.get(user_id)
+                print "!!!",user
+                return user
             else:
                 self.clear_cookie(key)
 
@@ -55,4 +57,5 @@ class Base(tornado.web.RequestHandler):
                 )
             template_name = self.template
         kwds['current_user'] = self.current_user
-        self.finish(render(template_name, **kwds))
+        if not self._finished:
+            self.finish(render(template_name, **kwds))

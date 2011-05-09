@@ -7,7 +7,16 @@ from _urlmap import urlmap
 from zkit.txt import EMAIL_VALID
 from cgi import escape
 from model.user_auth import user_password_verify, user_new_by_mail
-from model.user_session import user_session
+from model.user_session import user_session, user_session_rm
+
+@urlmap("/logout")
+class Logout(_handler.Base):
+    def get(self):
+        self.clear_cookie("S")
+        current_user = self.current_user
+        if current_user:
+            user_session_rm(current_user.id)
+        self.redirect("/")
 
 @urlmap("/login")
 class Login(_handler.Base):
@@ -39,6 +48,7 @@ class Login(_handler.Base):
             if user_password_verify(user_id, password):
                 session = user_session(user_id)
                 self.set_cookie("S",session)
+                self.redirect("/")
             else:
                 error_password = """密码有误。 忘记密码了？<a href="/password/reset/%s">点此找回</a>"""%escape(mail)
 

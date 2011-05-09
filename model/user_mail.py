@@ -27,6 +27,8 @@ def user_mail_new(user_id, mail):
     id = user_id_by_mail(mail)
     if id:
         return id
+    u = UserMail(mail=mail)
+    u.save()
     id = u.id
     mc_user_id_by_mail.set(mail, id)
     return id

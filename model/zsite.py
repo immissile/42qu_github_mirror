@@ -33,3 +33,6 @@ def zsite_new(cid, name):
 def zsite_new_user(name):
     return zsite_new(name,ZSITE_CID_USER)
 
+if __name__ == "__main__":
+    for i in Zsite.where():
+        print i.id

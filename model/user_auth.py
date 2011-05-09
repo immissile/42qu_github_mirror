@@ -15,7 +15,7 @@ class UserPassword(Model):
 def user_new_session(user_id):
     return
 
-def user_password(user_id, password):
+def user_password_new(user_id, password):
     if password is not None:
         o = UserPassword.get_or_create(id=user_id)
         o.password = hash_password(user_id,password)
@@ -24,7 +24,7 @@ def user_password(user_id, password):
 def user_password_verify(user_id, password):
     p = UserPassword.get(user_id)
     if p is None:
-        user_password(user_id, password)
+        user_password_new(user_id, password)
         return True
     if p.password == hash_password(user_id,password):
         return True
