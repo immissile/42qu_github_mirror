@@ -54,4 +54,5 @@ class Base(tornado.web.RequestHandler):
                     lower_name(self.__class__.__name__)
                 )
             template_name = self.template
+        kwds['current_user'] = self.current_user
         self.finish(render(template_name, **kwds))

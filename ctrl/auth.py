@@ -12,6 +12,8 @@ from model.user_session import user_session
 @urlmap("/login")
 class Login(_handler.Base):
     def get(self):
+        if self.current_user:
+            return self.redirect("/")
         self.render()
 
     def post(self):
