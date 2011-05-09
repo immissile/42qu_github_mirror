@@ -6,7 +6,7 @@ import _handler
 from _urlmap import urlmap
 from zkit.txt import EMAIL_VALID
 from cgi import escape
-from model.user_auth import user_password_verify
+from model.user_auth import user_password_verify, user_new_by_mail
 from model.user_session import user_session
 
 @urlmap("/login")
