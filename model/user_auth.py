@@ -21,17 +21,24 @@ def user_password(user_id, password):
         o.password = hash_password(user_id,password)
         o.save()
 
+def user_password_verify(user_id, password):
+    p = UserPassword.get(user_id)
+    if p is None:
+        user_password(user_id, password)
+        return True
+    if p.password == hash_password(user_id,password):
+        return True
+
+
 
 def user_new_by_mail(mail, password=None):
     user_id = user_id_by_mail(mail)
-    if user_id:
-        zsite = Zsite.mc_get(id)
-    else:
+    if not user_id:
         zsite = zsite_new_user(mail.split("@",1)[0])
         user_id = zsite.id
         user_mail_new(user_id, mail)
         user_password_new(user_id, password)
-    return zsite
+    return user_id
 
 #mail_id = user_id_by_mail_new(mail, password)
 
