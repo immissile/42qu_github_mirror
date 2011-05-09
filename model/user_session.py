@@ -29,7 +29,6 @@ def user_session(user_id):
 
     user_id_key = pack("I", int(user_id))
     user_id_key = urlsafe_b64encode(user_id_key)[:6]
-
     ck_key = urlsafe_b64encode(s)
     return "%s%s"%(user_id_key, ck_key)
 
@@ -51,10 +50,13 @@ def user_id_by_session(session):
         return
 
     user_id = unpack('I', user_id)[0]
-
-    if value == user_session_by_db(user_id):
+    db = user_session_by_db(user_id)
+    if value == db:
         return user_id
 
 if __name__ == "__main__":
-    s = user_session(1)
-    print user_id_by_session(s)
+    session = user_session(2)
+    print session
+    #print session
+    #print user_id_by_session(session)
+    #user_session_rm(2)
