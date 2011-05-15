@@ -2,20 +2,14 @@
 <%inherit file="_base.htm" />
 
 <%!
-from config.zpage_host import SITE_HOST
-NAV_LIST = [
-    (SITE_HOST,'首页'),
-    ('%s/setting'%SITE_HOST,'设置'),
-]
+from config.zpage_host import SITE_DOMAIN
 %>
 <%def name="nav_index(uri)">
-    %for link, name in NAV_LIST:
 <li
-%if uri==link:
+%if request.host==SITE_DOMAIN and request.uri=='/':
 class="on"\
 %endif
-><a href="${link}">${name}</a></li>\
-    %endfor 
+><a href="${SITE_URL}">首页</a></li>\
 </%def>
 
 <div id="container">
@@ -38,7 +32,8 @@ class="on"\
 <%def name="info_box()">
 %if current_user: 
 <div style="float:right">
-<a href="${current_user.link}">${current_user.name}</a>, 你好 
+<a href="${current_user.link}">${current_user.name}</a>
+<a href="/setting">设置</a>
 <a href="/logout">退出</a></div>
 %else:
 <%htm:form action="/login" id="register-form" className="register" >

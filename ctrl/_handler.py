@@ -3,7 +3,7 @@
 
 from _tornado import web
 from config.zpage_mako import render
-from config.zpage_host import SITE_DOMAIN, SITE_HOST
+from config.zpage_host import SITE_DOMAIN, SITE_URL
 from config.zpage_ctrl import PORT
 from model.zsite_link import zsite_by_domain
 from model.user_session import user_id_by_session
@@ -71,6 +71,6 @@ class Base(web.RequestHandler):
         zsite = zsite_by_domain(host)
         self.zsite = zsite
         if zsite is None and not host.startswith(SITE_DOMAIN):
-            return self.redirect(SITE_HOST)
+            return self.redirect(SITE_URL)
 
 
