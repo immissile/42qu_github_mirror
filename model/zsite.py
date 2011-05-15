@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel
-from config.zpage_host import SITE_DOMAIN
 
 ZSITE_CID_USER = 1
 

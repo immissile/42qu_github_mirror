@@ -3,9 +3,17 @@
 from _db import Model, McModel
 from hashlib import sha256
 from zsite import zsite_new_user, Zsite
+from config.zpage_host import SITE_DOMAIN
 
-def zsite_id_by_domain(domain):
-    pass
+SITE_DOMAIN_SUFFIX = ".%s"%(SITE_DOMAIN)
+
+def zsite_by_domain(domain):
+    zsite = None
+    if domain.endswith(SITE_DOMAIN_SUFFIX):
+        domain = domain[:-len(SITE_DOMAIN_SUFFIX)]
+        if domain.isdigit():
+            zsite = Zsite.mc_get(domain)
+    return zsite
 
 @property
 def _link(self):
