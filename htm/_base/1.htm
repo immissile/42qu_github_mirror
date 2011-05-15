@@ -3,10 +3,10 @@
 <%inherit file="_base.htm" />
 
 <%!
+from config.zpage_host import SITE_HOST
 NAV_LIST = [
-    ('/','首页'),
-    ('/setting','设置'),
-
+    (SITE_HOST,'首页'),
+    ('%s/setting'%SITE_HOST,'设置'),
 ]
 %>
 <%def name="nav_index(uri)">
@@ -38,7 +38,9 @@ class="on"\
 
 <%def name="info_box()">
 %if current_user: 
-<div style="float:right"><a href="/logout">退出</a></div>
+<div style="float:right">
+<a href="${current_link}">${current_user.name}</a>, 你好 
+<a href="/logout">退出</a></div>
 %else:
 <%htm:form action="/login" id="register-form" className="register" >
     <div class="input-wrapper">

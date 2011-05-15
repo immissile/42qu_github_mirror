@@ -4,6 +4,7 @@
 
 import tornado.web
 from config.zpage_mako import render
+from config.zpage_host import SITE_DOMAIN
 from model.user_session import user_id_by_session
 from model.zsite import Zsite
 
@@ -55,7 +56,10 @@ class Base(tornado.web.RequestHandler):
                     lower_name(self.__class__.__name__)
                 )
             template_name = self.template
-        kwds['current_user'] = self.current_user
+        current_user = self.current_user
+        kwds['current_user'] = current_user
+        if current_user:
+            kwds['current_link'] = "http://%s.%s"%(current_user.id,SITE_DOMAIN)
         kwds['request'] = self.request
         kwds['xsrf_form_html'] = self.xsrf_form_html
         if not self._finished:
