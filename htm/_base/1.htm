@@ -5,11 +5,20 @@
 from config.zpage_host import SITE_DOMAIN,SITE_URL
 %>
 <%def name="nav_index(uri)">
+<%
+host_now = request.host==SITE_DOMAIN 
+uri = request.uri
+%>
 <li
-%if request.host==SITE_DOMAIN and request.uri=='/':
+%if host_now and uri=='/':
 class="on"\
 %endif
 ><a href="${SITE_URL}">首页</a></li>\
+%if host_now:
+%if uri == "/setting":
+<li class="on" ><a href="/setting">账号</a></li>\
+%endif
+%endif
 %if zsite:
 <li class="on"><a href="${zsite.link}">${zsite.name}</a></li>\
 %endif
