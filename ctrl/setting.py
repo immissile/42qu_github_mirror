@@ -9,4 +9,4 @@ from _urlmap import urlmap
 class Setting(_handler.Base):
     def get(self):
         self.render()
-
+    post = get
