@@ -61,6 +61,7 @@ class Base(web.RequestHandler):
         kwds['current_user'] = current_user
         kwds['request'] = self.request
         kwds['xsrf_form_html'] = self.xsrf_form_html
+        kwds['zsite'] = self.zsite
         if not self._finished:
             self.finish(render(template_name, **kwds))
 
@@ -68,5 +69,8 @@ class Base(web.RequestHandler):
     def prepare(self):
         host = self.request.host
         zsite = zsite_by_domain(host)
+        self.zsite = zsite
         if zsite is None and not host.startswith(SITE_DOMAIN):
             return self.redirect(SITE_HOST)
+
+

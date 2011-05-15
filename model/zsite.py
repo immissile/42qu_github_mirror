@@ -6,12 +6,13 @@ ZSITE_CID_USER = 1
 
 ZSITE_STATE_DEFAULT = 20
 
-class Zsite(McModel):
-    pass
-
 ZPAGE_NAME = "主页"
 
 ZPAGE_STATE_INDEX = 10
+
+
+class Zsite(McModel):
+    pass
 
 class Zpage(McModel):
     pass
@@ -33,3 +34,5 @@ def zsite_new_user(name):
 if __name__ == "__main__":
     for i in Zsite.where():
         print i.id, i.name
+
+

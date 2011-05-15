@@ -3,3 +3,6 @@
 current_user : ${current_user} ${current_user.id} 
 <p>名字 ${current_user.name}</p>
 %endif
+%if zsite:
+<p>Zsite ${zsite.name}</p>
+%endif
