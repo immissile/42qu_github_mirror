@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-
-import tornado.web
+from _tornado import web
 from config.zpage_mako import render
 from model.user_session import user_id_by_session
 from model.zsite import Zsite
@@ -28,7 +27,7 @@ def lower_name(class_name):
     return "".join(result)
 
 
-class Base(tornado.web.RequestHandler):
+class Base(web.RequestHandler):
     def get_current_user(self):
         key = "S"
         session = self.get_cookie(key)
@@ -44,7 +43,7 @@ class Base(tornado.web.RequestHandler):
         e = kwargs.get('exception')
         if e:
             raise e
-        tornado.web.RequestHandler.get_error_html(self, status_code, **kwargs)
+        web.RequestHandler.get_error_html(self, status_code, **kwargs)
 
 
     def render(self, template_name=None, **kwds):
