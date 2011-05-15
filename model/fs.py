@@ -2,6 +2,7 @@ import _env
 from config.zpage_host import FS_PATH, PIC_URL
 from os.path import join, exists, dirname
 from os import remove, makedirs
+from cStringIO import StringIO
 
 def fs_path(root, prefix, id, suffix):
     path = join(root, prefix, str(id%1024), "%s.%s"%(id, suffix))

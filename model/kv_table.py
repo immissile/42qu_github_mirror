@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import mc,cursor_by_table
+from _db import mc, cursor_by_table
 
 class KvTable(object):
     def __init__(self, table):
@@ -12,8 +12,9 @@ class KvTable(object):
         mc_key = self.__mc_key__%key
         r = mc.get(mc_key)
         if r is None:
-            c = self.cursor.execute('select value from %s where id=%%s'%self.__tabel__, key)
-            r = c.fetchone()
+            cursor = self.cursor
+            cursor.execute('select value from %s where id=%%s'%self.__table__, key)
+            r = cursor.fetchone()
             if r:
                 r = r[0]
             if r is None:
@@ -26,15 +27,16 @@ class KvTable(object):
         if r != value:
             mc_key = self.__mc_key__%key
             cursor = self.cursor
-            table = self.__tabel__
+            table = self.__table__
             if r is False:
-                cursor.execute('insert delayed into %s (id,value) values (%%s,%%s)'%table, key, value)
+                cursor.execute('insert delayed into %s (id,value) values (%%s,%%s)'%table, (key, value))
             else:
-                cursor.execute('update %s set value=%%s where id=%%s'%table, value, key)
+                cursor.execute('update %s set value=%%s where id=%%s'%table, (value, key))
             cursor.connection.commit()
-            mc.set(key, value)
+            mc.set(mc_key, value)
 
     def delete(key):
-        cursor.execute("delete from %s where id=%%s"%self.__tabel__, key)
-        mc.delete(key)
+        cursor.execute("delete from %s where id=%%s"%self.__table__, key)
+        mc_key = self.__mc_key__%key
+        mc.delete(mc_key)
 
