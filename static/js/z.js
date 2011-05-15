@@ -25,3 +25,41 @@ $(function(){
     },0)
 });
 
+cookie = {
+set:function(dict, days, path){
+    if(typeof(days)=='string'){
+        path=days;
+        days=0;
+    }
+    days = days || 99;
+    path = path||'/';
+    var date = new Date();
+    date.setTime(date.getTime()+(days*24*60*60*1000));
+    var expires = "; expires="+date.toGMTString();
+    for (var i in dict){
+        document.cookie = i+"="+dict[i]+expires+"; path="+path;
+    }
+},
+get:function(name) {
+    var e = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(e) == 0) {
+            return c.substring(e.length,c.length).replace(/\"/g,'');
+        }
+    }
+    return null;
+}
+}
+
+_gaq=[['_setAccount', 'UA-23361634-1'],['_trackPageview'],['_trackPageLoadTime']];
+(function(){
+    /*google 百度 统计*/
+    var g=document.createElement('script'),b=document.getElementsByTagName('body')[0];
+    g.setAttribute('async', 'true');
+    g.src='http://www.google-analytics.com/ga.js';
+    b.appendChild(g);
+    if(!cookie.get('B'))cookie.set({B:uuid()},999)
+})()
