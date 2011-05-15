@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import mc
-
+from _db import mc,cursor_by_table
 
 class KvTable(object):
     def __init__(self, table):
