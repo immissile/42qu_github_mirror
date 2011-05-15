@@ -5,4 +5,4 @@
 import index
 import auth
 import setting
-
+import note

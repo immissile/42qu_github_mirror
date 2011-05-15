@@ -3,6 +3,12 @@
 
 <%!
 from config.zpage_host import SITE_DOMAIN,SITE_URL
+
+NAVURL = {
+    '/setting' : "设置",
+    '/note/write' : "书写",
+
+}
 %>
 <%def name="nav_index(uri)">
 <%
@@ -14,10 +20,8 @@ uri = request.uri
 class="on"\
 %endif
 ><a href="${SITE_URL}">首页</a></li>\
-%if host_now:
-%if uri == "/setting":
-<li class="on" ><a href="/setting">账号</a></li>\
-%endif
+%if host_now and uri in NAVURL:
+<li class="on" ><a href="${uri}">${NAVURL[uri]}</a></li>\
 %endif
 %if zsite:
 <li class="on"><a href="${zsite.link}">${zsite.name}</a></li>\
@@ -48,8 +52,8 @@ link = current_user.link
 %>
 <div style="float:right">
 <a href="${link}">${current_user.name}</a>
-<a href="${link}/write">书写</a>
-<a href="/setting">账号</a>
+<a href="${SITE_URL}/note/write">书写</a>
+<a href="${SITE_URL}/setting">账号</a>
 <a href="/logout">退出</a></div>
 %else:
 <%htm:form action="/login" id="register-form" className="register" >
