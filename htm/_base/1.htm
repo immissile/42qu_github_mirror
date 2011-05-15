@@ -2,7 +2,7 @@
 <%inherit file="_base.htm" />
 
 <%!
-from config.zpage_host import SITE_DOMAIN
+from config.zpage_host import SITE_DOMAIN,SITE_URL
 %>
 <%def name="nav_index(uri)">
 <li
@@ -10,6 +10,9 @@ from config.zpage_host import SITE_DOMAIN
 class="on"\
 %endif
 ><a href="${SITE_URL}">首页</a></li>\
+%if zsite:
+<li class="on"><a href="${zsite.link}">${zsite.name}</a></li>\
+%endif
 </%def>
 
 <div id="container">
@@ -33,7 +36,7 @@ class="on"\
 %if current_user: 
 <div style="float:right">
 <a href="${current_user.link}">${current_user.name}</a>
-<a href="/setting">设置</a>
+<a href="/setting">账号</a>
 <a href="/logout">退出</a></div>
 %else:
 <%htm:form action="/login" id="register-form" className="register" >
