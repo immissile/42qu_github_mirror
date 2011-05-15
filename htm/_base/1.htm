@@ -39,7 +39,7 @@ class="on"\
 <%def name="info_box()">
 %if current_user: 
 <div style="float:right">
-<a href="${current_link}">${current_user.name}</a>, 你好 
+<a href="${current_user.link}">${current_user.name}</a>, 你好 
 <a href="/logout">退出</a></div>
 %else:
 <%htm:form action="/login" id="register-form" className="register" >

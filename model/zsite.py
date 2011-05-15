@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel
+from config.zpage_host import SITE_DOMAIN
 
 ZSITE_CID_USER = 1
 
@@ -9,15 +10,12 @@ ZSITE_STATE_DEFAULT = 20
 class Zsite(McModel):
     pass
 
-
 ZPAGE_NAME = "主页"
 
 ZPAGE_STATE_INDEX = 10
 
 class Zpage(McModel):
     pass
-
-
 
 def zsite_new(name, cid):
     zsite = Zsite(cid=cid, name=name, state=ZSITE_STATE_DEFAULT)
