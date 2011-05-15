@@ -6,9 +6,10 @@ import _handler
 from _urlmap import urlmap
 from zkit.pic import picopen
 from model.pic_ico import pic_ico_new
+from tornado.web import authenticated
 
 @urlmap("/setting")
-class Setting(_handler.Base):
+class Setting(_handler.LoginBase):
     def get(self):
         self.render()
 
@@ -26,3 +27,4 @@ class Setting(_handler.Base):
         self.render(
            error_img=error_img
         )
+

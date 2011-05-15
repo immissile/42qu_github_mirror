@@ -8,6 +8,8 @@ from config.zpage_ctrl import PORT
 from model.zsite_link import zsite_by_domain
 from model.user_session import user_id_by_session
 from model.zsite import Zsite
+import urlparse
+import urllib
 
 def lower_name(class_name):
     """
@@ -72,5 +74,21 @@ class Base(web.RequestHandler):
         self.zsite = zsite
         if zsite is None and not host.startswith(SITE_DOMAIN):
             return self.redirect(SITE_URL)
+
+
+class LoginBase(Base):
+    def prepare(self):
+        if not self.current_user:
+            url = self.get_login_url()
+            if "?" not in url:
+                if urlparse.urlsplit(url).scheme:
+                    # if login url is absolute, make next absolute too
+                    next_url = self.request.full_url()
+                else:
+                    next_url = self.request.uri
+                url += "?" + urllib.urlencode(dict(next=next_url))
+            self.redirect(url)
+            return
+        super(LoginBase,self).prepare()
 
 
