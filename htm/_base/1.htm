@@ -1,3 +1,5 @@
+<%namespace file="/_util/htm.htm" name="htm"/>
+
 <%inherit file="_base.htm" />
 <div id="container">
     <div id="header">
@@ -23,7 +25,7 @@
 %if current_user: 
 <div style="float:right"><a href="/logout">退出</a></div>
 %else:
-<form method="POST" action="/login" id="register-form" class="register" >
+<%htm:form action="/login" id="register-form" className="register" >
     <div class="input-wrapper">
         <label for="mail">邮箱 ...</label>
         <input id="mail" name="mail"  value="" type="text">
@@ -34,8 +36,7 @@
 
     </div>
     <button type="submit"><span>开始使用！</span></button>
-${xsrf_form_html()|n}
-</form>
+</%htm:form>
 %endif
 <div id="logo"><a href="/"></a></div>
 </%def>
