@@ -1,5 +1,28 @@
 import _env
 from config.zpage_host import STATIC_PATH
+from os.path import join, exists, dirname
+from os import remove, makedirs
+
+def get_path(prefix, id):
+    path = join(STATIC_PATH, prefix, id%1024)
+    if not exists(path):
+        makedirs(path)
+    path = join(path, key)
+    return path
+
+
+class Fs(object):
+    def __init__(self, prefix):
+        pass
+
+    def get(self, id):
+        pass
+
+    def set(self, id, value):
+        pass
+
+    def link(self, id):
+        pass
 
 
 #import init_env
@@ -7,21 +30,8 @@ from config.zpage_host import STATIC_PATH
 #from myconf.config import KV_HOST, KV_PATH
 #from mmhash import get_unsigned_hash
 #from cStringIO import StringIO
-#from os.path import join, exists, dirname
-#from os import remove, makedirs
 #from shutil import move
 #
-#
-#def get_path(root, prefix, key):
-#    h = key.split(".", 1)[0]
-#    h = hex(get_unsigned_hash(h))
-#    path = join(root, prefix, h[2:4], h[4:6], key)
-#    return path
-#
-#def makepathdirs(path):
-#    dirpath = dirname(path)
-#    if not exists(dirpath):
-#        makedirs(dirpath)
 #
 #
 #def fs_set(prefix, key, data):
