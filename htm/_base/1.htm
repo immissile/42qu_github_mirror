@@ -34,8 +34,12 @@ class="on"\
 
 <%def name="info_box()">
 %if current_user: 
+<%
+link = current_user.link
+%>
 <div style="float:right">
-<a href="${current_user.link}">${current_user.name}</a>
+<a href="${link}">${current_user.name}</a>
+<a href="${link}/write">记录</a>
 <a href="/setting">账号</a>
 <a href="/logout">退出</a></div>
 %else:
