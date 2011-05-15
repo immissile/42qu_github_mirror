@@ -3,6 +3,9 @@
 
 from _tornado import web
 from config.zpage_mako import render
+from config.zpage_host import SITE_DOMAIN, SITE_HOST
+from config.zpage_ctrl import PORT
+from model.zsite_link import zsite_by_domain
 from model.user_session import user_id_by_session
 from model.zsite import Zsite
 
@@ -50,7 +53,7 @@ class Base(web.RequestHandler):
         if template_name is None:
             if not hasattr(self, "template"):
                 self.template = "%s/%s.htm"%(
-                    self.__module__.split(".",1)[1],
+                    self.__module__.split(".", 1)[1],
                     lower_name(self.__class__.__name__)
                 )
             template_name = self.template
@@ -62,3 +65,8 @@ class Base(web.RequestHandler):
             self.finish(render(template_name, **kwds))
 
 
+    def prepare(self):
+        host = self.request.host
+        zsite = zsite_by_domain(host)
+        if zsite is None and not host.startswith(SITE_DOMAIN):
+            return self.redirect(SITE_HOST)
