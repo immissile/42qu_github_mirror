@@ -3,7 +3,7 @@
 attr=[("method",method)]
 if className:
     attr.append(("class",className))
-    attr.extend(kwds.items())
+attr.extend(kwds.items())
 attr = " ".join([
     '%s="%s"'%(i[0],i[1].replace('"','\\"'))
     for i in attr
