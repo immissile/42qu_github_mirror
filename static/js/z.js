@@ -25,6 +25,18 @@ $(function(){
     },0)
 });
 
+$.postJSON = function(url, args, callback) {
+    args._xsrf = cookie.get("_xsrf");
+    $.ajax({
+        url: url, data: $.param(args), 
+        dataType: "text", 
+        type: "POST",
+        success: function(response) {
+            callback(eval("(" + response + ")"));
+        }
+    });
+};
+
 cookie = {
 set:function(dict, days, path){
     if(typeof(days)=='string'){

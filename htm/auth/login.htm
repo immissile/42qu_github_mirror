@@ -1,10 +1,10 @@
 <%inherit file="/_base/1.htm" />
+<%namespace file="/_util/htm.htm" name="htm"/>
 <%def name="info_box()">
 <div id="logo"><a href="" title="Home"></a></div>
 </%def>
 
-
-<form method="POST">
+<%htm:form>
 <div class="input-wrapper">
     <label for="mail">邮箱</label>
     <input id="mail" name="mail"  value="${mail or ''}" type="text">
@@ -22,6 +22,5 @@
 %endif
 
 <button type="submit"><span>开始使用！</span></button>
-${xsrf_form_html()|n}
 </form>
-
+</%htm:form>
