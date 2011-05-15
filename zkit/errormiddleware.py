@@ -3,6 +3,7 @@
 import sys
 from cgi import escape
 from traceback import format_exc
+import logging
 
 def ErrorMiddleware(application, render, template):
     def _(environ, start_response):
@@ -17,6 +18,8 @@ def ErrorMiddleware(application, render, template):
                 [('content-type', 'text/html')],
                 exc_info
             )
+            logging.error(environ)
+            logging.error(traceback)
             return [render(
                 template,
                 exc_info=exc_info,
