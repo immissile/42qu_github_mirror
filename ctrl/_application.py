@@ -11,8 +11,8 @@ def main():
         xsrf_cookies = True,
     )
 
-    from _middleware import domain_middleware
-    application = domain_middleware(application)
+    from _middleware import default_middleware
+    application = default_middleware(application)
     return application
 
 application = main()

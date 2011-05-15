@@ -3,6 +3,7 @@
 
 
 from tornado import web
+from tornado.web import HTTPError
 from config.zpage_host import SITE_DOMAIN_SUFFIX
 
 _set_cookie = web.RequestHandler.set_cookie
@@ -18,4 +19,22 @@ def set_cookie(
     )
 
 
+def _execute(self, transforms, *args, **kwargs):
+    """Executes this request with the given output transforms."""
+    self._transforms = transforms
+    if self.request.method not in self.SUPPORTED_METHODS:
+        raise HTTPError(405)
+    # If XSRF cookies are turned on, reject form submissions without
+    # the proper cookie
+    if self.request.method not in ("GET", "HEAD") and \
+       self.application.settings.get("xsrf_cookies"):
+        self.check_xsrf_cookie()
+    self.prepare()
+    if not self._finished:
+        getattr(self, self.request.method.lower())(*args, **kwargs)
+        if self._auto_finish and not self._finished:
+            self.finish()
+
+
 web.RequestHandler.set_cookie = set_cookie
+web.RequestHandler._execute = _execute

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-def domain_middleware(func):
+def default_middleware(func):
     from config.zpage_host import SITE_DOMAIN
     from config.zpage_ctrl import PORT
     from model.zsite_link import zsite_by_domain
@@ -20,6 +20,7 @@ def domain_middleware(func):
         else:
             zsite = zsite_by_domain(host)
             if zsite:
+                environ['zsite'] = zsite
                 return func(environ, start_response)
             else:
                 start_response('301 Redirect', [
