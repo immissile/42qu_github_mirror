@@ -30,16 +30,16 @@ def pic_show_save(man_id, im):
     pic_f = "%s.jpg"%pic_id
     prefix = PIC_SHOW_PREFIX
 
-    fs_set_jpg(prefix+"0", pic_f, im)
+    fs_set_jpg("ico0", pic_f, im)
 
     pic = pic_fit_height_if_high(im, 721, 406)
-    fs_set_jpg(prefix+"721", pic_f, pic)
+    fs_set_jpg("ico1", pic_f, pic)
 
     pic = pic_fit_height_if_high(im, 470, 264)
-    fs_set_jpg(prefix+"470", pic_f, pic)
+    fs_set_jpg("ico2", pic_f, pic)
 
     pic = pic_fit_height_if_high(im, 219, 123)
-    fs_set_jpg(prefix+"219", pic_f, pic)
+    fs_set_jpg("ico3", pic_f, pic)
 
     pic_show_set_jpg_square(pic_id, im)
     return pic_id
