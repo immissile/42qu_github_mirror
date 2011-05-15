@@ -14,7 +14,7 @@ CREATE TABLE `user_mail` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index_2` (`user_id`,`mail`),
   KEY `mail` (`mail`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_password`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -23,7 +23,7 @@ CREATE TABLE `user_password` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `password` binary(32) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=binary;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_session`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -32,7 +32,7 @@ CREATE TABLE `user_session` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `value` binary(12) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_task`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -70,7 +70,7 @@ CREATE TABLE `zpage` (
   `state` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `zsite_id` (`zsite_id`,`state`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `zsite`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -81,7 +81,7 @@ CREATE TABLE `zsite` (
   `cid` smallint(5) unsigned NOT NULL DEFAULT '1',
   `state` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

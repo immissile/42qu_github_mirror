@@ -168,7 +168,7 @@ JS_INIT_TEMPLATE = """\
 from os.path import join,basename,dirname
 %>
 from config.zpage_ctrl import DEBUG
-from config.zpage_host import STATIC_HOST
+from config.zpage_host import STATIC_URL
 
 if DEBUG:
     ORG_CSS_JS = True
@@ -182,7 +182,7 @@ if ORG_CSS_JS:
 path = path.rsplit(".js",1)[0]
 name = path.replace("/","_").replace(".","_").replace("-","_")
 %>
-    ${name} = "%s/js/${path}.js"%STATIC_HOST
+    ${name} = "%s/js/${path}.js"%STATIC_URL
 %endfor
 
 else:
@@ -194,7 +194,7 @@ pathdir = join("js",dirname(path))
 pathfile = basename(path)
 filename = join(pathdir,"~%s~%s.js"%(num,pathfile)).replace("\\\\","/")
 %>
-    ${name} = "%s/${filename}"%STATIC_HOST
+    ${name} = "%s/${filename}"%STATIC_URL
 %endfor
 
 
@@ -220,7 +220,7 @@ CSS_INIT_TEMPLATE = """\
 from os.path import join,basename,dirname
 %>
 from config.zpage_ctrl import DEBUG
-from config.zpage_host import STATIC_HOST 
+from config.zpage_host import STATIC_URL 
 
 if DEBUG:
     ORG_CSS_JS = True
@@ -234,7 +234,7 @@ if ORG_CSS_JS:
 path = path.rsplit(".css",1)[0]
 name = path.replace("/","_").replace(".","_").replace("-","_")
 %>
-    ${name} = "%s/css/${path}.css"%STATIC_HOST
+    ${name} = "%s/css/${path}.css"%STATIC_URL
 %endfor
 
 else:
@@ -246,7 +246,7 @@ pathdir = join("css",dirname(path))
 pathfile = basename(path)
 filename = join(pathdir,"~%s~%s.css"%(num,pathfile)).replace("\\\\","/")
 %>
-    ${name} = "%s/${filename}"%STATIC_HOST
+    ${name} = "%s/${filename}"%STATIC_URL
 %endfor
 """
 merge("css", CSS_INIT_TEMPLATE)

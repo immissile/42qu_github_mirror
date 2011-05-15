@@ -1,30 +1,41 @@
 import _env
-from config.zpage_host import STATIC_PATH
+from config.zpage_host import FS_PATH, PIC_URL
 from os.path import join, exists, dirname
 from os import remove, makedirs
 
-def get_path(prefix, id):
-    path = join(STATIC_PATH, prefix, id%1024)
-    if not exists(path):
-        makedirs(path)
-    path = join(path, key)
+def fs_path(root, prefix, id, suffix):
+    path = join(root, prefix, str(id%1024), "%s.%s"%(id, suffix))
     return path
 
+def fs_file(prefix, id, suffix):
+    return fs_path(FS_PATH, prefix, id, suffix)
 
-class Fs(object):
-    def __init__(self, prefix):
-        pass
+def fs_url(prefix, id, suffix):
+    return fs_path(PIC_URL, prefix, id, suffix)
 
-    def get(self, id):
-        pass
+def img2str(image, quality=95):
+    f = StringIO()
+    image = image.convert('RGB')
+    image.save(f, 'JPEG', quality=quality)
+    return f.getvalue()
 
-    def set(self, id, value):
-        pass
+def fs_set(prefix, id, suffix, data):
+    path = fs_file(prefix, id, suffix)
+    dirpath = dirname(path)
+    if not exists(dirpath):
+        makedirs(dirpath)
+    f = open(path, "wb")
+    f.write(data)
+    f.close()
 
-    def link(self, id):
-        pass
+def fs_set_jpg(prefix, key, image, quality=95):
+    fs_set(prefix, key, "jpg", img2str(image, quality))
 
+def fs_url_jpg(prefix, key):
+    return fs_url(prefix, key, "jpg")
 
+#print fs_file("test", 1, "jpg")
+#print fs_link("test", 1, "jpg")
 #import init_env
 #from base64 import urlsafe_b64encode, urlsafe_b64decode
 #from myconf.config import KV_HOST, KV_PATH
@@ -34,12 +45,6 @@ class Fs(object):
 #
 #
 #
-#def fs_set(prefix, key, data):
-#    path = get_path(KV_PATH, prefix, key)
-#    makepathdirs(path)
-#    f = open(path, "wb")
-#    f.write(data)
-#    f.close()
 #
 #def fs_get(prefix, key):
 #    p = get_path(KV_PATH, prefix, key)
