@@ -3,9 +3,8 @@
 from _db import Model, McModel
 from hashlib import sha256
 from zsite import zsite_new_user, Zsite
-from config.zpage_host import SITE_DOMAIN
+from config.zpage_host import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
 
-SITE_DOMAIN_SUFFIX = ".%s"%(SITE_DOMAIN)
 
 def zsite_by_domain(domain):
     zsite = None

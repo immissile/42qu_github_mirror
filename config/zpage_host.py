@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-SITE_HOST = "42qu.me"
-SITE_DOMAIN = "http://%s"%SITE_HOST
+SITE_DOMAIN = "42qu.me"
+SITE_DOMAIN_SUFFIX = ".%s"%(SITE_DOMAIN)
+SITE_HOST = "http://%s"%SITE_DOMAIN
 STATIC_HOST = "http://s.42qu.info"
