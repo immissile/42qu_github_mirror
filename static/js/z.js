@@ -56,10 +56,10 @@ get:function(name) {
 
 _gaq=[['_setAccount', 'UA-23361634-1'],['_trackPageview'],['_trackPageLoadTime']];
 (function(){
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     /*google 百度 统计*/
-    var g=document.createElement('script'),b=document.getElementsByTagName('body')[0];
-    g.setAttribute('async', 'true');
-    g.src='http://www.google-analytics.com/ga.js';
-    b.appendChild(g);
-    if(!cookie.get('B'))cookie.set({B:uuid()},999)
 })()

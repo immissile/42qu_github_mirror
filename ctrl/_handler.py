@@ -56,5 +56,8 @@ class Base(tornado.web.RequestHandler):
                 )
             template_name = self.template
         kwds['current_user'] = self.current_user
+        kwds['xsrf_form_html'] = self.xsrf_form_html
         if not self._finished:
             self.finish(render(template_name, **kwds))
+
+
