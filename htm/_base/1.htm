@@ -1,15 +1,18 @@
+
+<%!
+from config.zpage_host import SITE_DOMAIN
+from config.zpage_host import SITE_URL
+NAVURL = (
+    ('/note/write', "书写"),
+    ( '/setting' , "账号"),
+)
+NAVURL_DICT = dict(NAVURL)
+
+%>
+
 <%namespace file="/_util/htm.htm" name="htm"/>
 <%inherit file="_base.htm" />
 
-<%!
-from config.zpage_host import SITE_DOMAIN,SITE_URL
-
-NAVURL = {
-    '/setting' : "设置",
-    '/note/write' : "书写",
-
-}
-%>
 <%def name="nav_index(uri)">
 <%
 host_now = request.host==SITE_DOMAIN 
@@ -20,8 +23,8 @@ uri = request.uri
 class="on"\
 %endif
 ><a href="${SITE_URL}">首页</a></li>\
-%if host_now and uri in NAVURL:
-<li class="on" ><a href="${uri}">${NAVURL[uri]}</a></li>\
+%if host_now and uri in NAVURL_DICT:
+<li class="on" ><a href="${uri}">${NAVURL_DICT[uri]}</a></li>\
 %endif
 %if zsite:
 <li class="on"><a href="${zsite.link}">${zsite.name}</a></li>\
@@ -52,8 +55,9 @@ link = current_user.link
 %>
 <div style="float:right">
 <a href="${link}">${current_user.name}</a>
-<a href="${SITE_URL}/note/write">书写</a>
-<a href="${SITE_URL}/setting">账号</a>
+%for url,name in NAVURL:
+<a href="${SITE_URL}${url}">${name}</a>
+%endfor
 <a href="/logout">退出</a></div>
 %else:
 <%htm:form action="/login" id="register-form" className="register" >
