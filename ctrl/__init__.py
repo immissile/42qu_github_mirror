@@ -4,4 +4,5 @@
 
 import index
 import auth
+import setting
 
