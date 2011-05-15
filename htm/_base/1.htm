@@ -9,17 +9,21 @@ NAV_LIST = [
 
 ]
 %>
+<%def name="nav_index(uri)">
+    %for link, name in NAV_LIST:
+<li
+%if uri==link:
+class="on"\
+%endif
+><a href="${link}">${name}</a></li>\
+    %endfor 
+</%def>
 
-${request}
 <div id="container">
     <div id="header">
         <div id="info-box" class="wrap">${self.info_box()}</div>
         <div id="nav">
-            <ul>
-    %for link, name in NAV_LIST:
-<li class="on"><a href="${link}">${name}</a></li>\
-    %endfor 
-            </ul>
+            <ul>${nav_index(request.uri)}</ul>
             <div class="ornament">
                 <div class="ornament-left"></div>
                 <div class="ornament-right"><div class="ornament-blank"></div></div>
