@@ -8,6 +8,9 @@ from model.reply import REPLY_STATE_APPLYED, REPLY_STATE_ACTIVE
 
 @urlmap("/wall")
 class Wall(_handler.LoginBase):
+    def get(self):
+        return self.redirect(zsite.link)
+
     def post(self):
         zsite = self.zsite
         txt = self.get_argument('txt',None)
