@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel
+from reply import ReplyMixin
+from _const import TID_ZSITE
 
 ZSITE_CID_USER = 1
 
@@ -11,8 +13,8 @@ ZPAGE_NAME = "主页"
 ZPAGE_STATE_INDEX = 10
 
 
-class Zsite(McModel):
-    pass
+class Zsite(McModel, ReplyMixin):
+    TID = TID_ZSITE
 
 class Zpage(McModel):
     pass
@@ -33,6 +35,5 @@ def zsite_new_user(name):
 
 if __name__ == "__main__":
     for i in Zsite.where():
-        print i.id, i.name
-
+        print i.id, i.name, i.reply_new(1, "2")
 

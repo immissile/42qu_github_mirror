@@ -7,7 +7,7 @@ from time import time
 class Txt(Model):
     pass
 
-def txt_set(id, txt):
+def txt_new(id, txt):
     txt = txt.rstrip()
     t = Txt.get(id)
     if t is None:
@@ -37,6 +37,6 @@ if __name__ == "__main__":
     from gid import gid
     id = 1#gid()
     txt_set(id, "test3")
-    print txt_get(id)
+    print txt_new(id)
 
 
