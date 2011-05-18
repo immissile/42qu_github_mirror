@@ -1,8 +1,17 @@
 <%inherit file="/_base/1.htm" />
+<%namespace file="/_util/htm.htm" name="htm"/>
+
+
 %if current_user:
 current_user : ${current_user} ${current_user.id} 
 <p>名字 ${current_user.name}</p>
 %endif
 %if zsite:
 <p>Zsite ${zsite.name}</p>
+<%htm:form action="${zsite.link}/wall">
+<textarea name="txt">
+</textarea>
+<input type="checkbox" name="secret" id="secret"><label for="secret">悄悄话</label>
+<button type="submit">留言</button>
+</%htm:form>
 %endif
