@@ -6,6 +6,7 @@ from txt import txt_new
 from spammer import is_spammer
 from time import time
 from txt import txt_bind
+from zkit.txt2htm import txt_withlink
 
 REPLY_STATE_DEL = 3
 REPLY_STATE_APPLY = 5
@@ -83,7 +84,9 @@ class ReplyMixin(object):
         return r
 
 class Reply(McModel):
-    pass
+    @property
+    def html(self):
+        return txt_withlink(self.txt)
 
 def mc_flush_reply_id_list(cid, rid):
     key = "%s_%s_%%s"%(cid, rid)

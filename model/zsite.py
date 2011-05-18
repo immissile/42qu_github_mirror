@@ -44,4 +44,4 @@ def zsite_new_user(name):
 if __name__ == "__main__":
     for i in Zsite.where():
         for reply in i.reply_list():
-            print reply.txt
+            print reply.html
