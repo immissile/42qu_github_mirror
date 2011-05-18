@@ -46,7 +46,7 @@ class ReplyMixin(object):
         mc_flush_reply_id_list(cid, rid)
         return id
 
-    @mc_reply_id_list("{self.TID}_{self.id}_{state}")
+    @mc_reply_id_list("{self.TID}_{self.id}")
     def reply_id_list(self, limit=None, offset=None):
         cursor = self.reply_cursor
         cid = self.TID
@@ -61,6 +61,7 @@ class ReplyMixin(object):
             rid,
             cid
         ]
+        sql.append("order by id desc")
 
         if limit:
             sql.append("limit %s")
@@ -69,7 +70,6 @@ class ReplyMixin(object):
         if offset:
             sql.append("offset %s")
             para.append(offset)
-        sql.append("order by id desc")
 
         cursor.execute(
             " ".join(sql), para
@@ -77,22 +77,23 @@ class ReplyMixin(object):
         return [i for i, in cursor]
 
 
-    def reply_list(self, user_id=None):
+    def reply_list(self, limit=None, offset=None):
+        from model.zsite import Zsite
         r = Reply.mc_get_list(
-            self.reply_id_list(user_id)
+            self.reply_id_list(limit,offset)
         )
         txt_bind(r)
+        Zsite.mc_bind(r,"user","user_id")
         return r
 
 class Reply(McModel):
     @property
-    def html(self):
+    def htm(self):
         return txt_withlink(self.txt)
 
 def mc_flush_reply_id_list(cid, rid):
-    key = "%s_%s_%%s"%(cid, rid)
-    for i in REPLY_STATE:
-        mc_reply_id_list.delete(key%i)
+    key = "%s_%s"%(cid, rid)
+    mc_reply_id_list.delete(key)
 
 if __name__ == "__main__":
     pass

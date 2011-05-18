@@ -1,17 +1,45 @@
 <%inherit file="/_base/1.htm" />
 <%namespace file="/_util/htm.htm" name="htm"/>
-
+<%!
+from model.reply import REPLY_STATE_APPLYED, REPLY_STATE_ACTIVE
+%>
 
 %if current_user:
 current_user : ${current_user} ${current_user.id} 
 <p>名字 ${current_user.name}</p>
 %endif
+
+
 %if zsite:
+<%
+is_owner = zsite == current_user
+%>
 <p>Zsite ${zsite.name}</p>
+
 <%htm:form action="${zsite.link}/wall">
 <textarea name="txt">
 </textarea>
 <input type="checkbox" name="secret" id="secret"><label for="secret">悄悄话</label>
 <button type="submit">留言</button>
 </%htm:form>
+%for i in zsite.reply_list(10,0):
+<%
+user = i.user
+is_apply = i.state==REPLY_STATE_APPLYED
+self_say = i.user==current_user
+%>
+<div>
+<a href="${user.link}">${user.name}</a>
+%if is_apply and self_say:
+悄悄说
+%endif
+:
+%if is_owner or not is_apply or (is_apply and self_say):
+<pre>${i.htm|n}</pre>
+%else:
+<span style="color:#999">悄悄话 (${len(i.txt.decode('utf-8','ignore'))}字) ...</span>
+%endif
+</div>
+%endfor
+
 %endif
