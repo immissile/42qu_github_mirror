@@ -29,7 +29,6 @@ def txt_get(id):
         return r[0]
     return ''
 
-
 if __name__ == "__main__":
     from gid import gid
     id = 1#gid()
