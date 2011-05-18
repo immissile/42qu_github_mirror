@@ -4,6 +4,14 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `gid`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gid` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pic_ico`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -18,14 +26,35 @@ DROP TABLE IF EXISTS `pic_ico_history`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pic_ico_history` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `zpage_id` int(10) unsigned NOT NULL,
+  `zsite_id` int(10) unsigned NOT NULL,
   `create_time` int(10) unsigned DEFAULT NULL,
   `admin_id` int(10) unsigned NOT NULL DEFAULT '0',
   `state` tinyint(3) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `AdminId` (`admin_id`),
   KEY `State` (`state`)
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `txt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `txt` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `txt` mediumblob NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `txt_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `txt_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `txt` mediumblob NOT NULL,
+  `create_time` int(10) unsigned NOT NULL,
+  `rid` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `rc` (`rid`,`create_time`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_mail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
