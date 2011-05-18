@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel
-from reply import ReplyMixin
+from reply import ReplyMixin,REPLY_STATE_ACTIVE,REPLY_STATE_APPLYED
 from _const import TID_ZSITE
 
 ZSITE_CID_USER = 1
@@ -15,6 +15,14 @@ ZPAGE_STATE_INDEX = 10
 
 class Zsite(McModel, ReplyMixin):
     TID = TID_ZSITE
+
+    def reply_id_list(self, user_id=None, limit=None, offset=None):
+        if id == user_id:
+            state = REPLY_STATE_APPLYED
+        else:
+            state = REPLY_STATE_ACTIVE
+        return super(Zsite,self).reply_id_list(state,limit,offset)
+
 
 class Zpage(McModel):
     pass
@@ -35,5 +43,5 @@ def zsite_new_user(name):
 
 if __name__ == "__main__":
     for i in Zsite.where():
-        print i.id, i.name, i.reply_new(1, "2")
-
+        for reply in i.reply_list():
+            print reply

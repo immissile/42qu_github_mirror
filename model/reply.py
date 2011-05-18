@@ -9,6 +9,7 @@ from time import time
 
 REPLY_STATE_DEL = 3
 REPLY_STATE_APPLY = 5
+REPLY_STATE_APPLYED = 7
 REPLY_STATE_ACTIVE = 10
 
 REPLY_STATE = (
@@ -41,43 +42,56 @@ class ReplyMixin(object):
             (state, rid, user_id)
         )
         cursor.connection.commit()
-        mc_flush_reply_id_list(cid,rid)
+        mc_flush_reply_id_list(cid, rid)
         return id
 
-    def reply_id_list(self, user_id=None):
-        id = self.id
-        if id == user_id:
-            state = REPLY_STATE_APPLY
-        else:
-            state = REPLY_STATE_ACTIVE
+    @mc_reply_id_list("{self.TID}_{self.id}_{state}")
+    def reply_id_list(self, state=None, limit=None, offset=None):
         cursor = self.reply_cursor
-        return _reply_id_list(self.TID, id, state)
+        cid = self.TID
+        rid = self.id
+
+        sql = [
+            "select id from reply where state>=%s and rid=%s and cid=%s"
+        ]
+
+        para = [
+                state,
+                rid,
+                cid
+        ]
+
+        if limit:
+            sql.append("limit %s")
+            para.append(limit)
+
+        if offset:
+            sql.append("offset %s")
+            para.append(offset)
+
+        cursor.execute(
+            " ".join(sql), para
+        )
+        return [i for i, in cursor]
+
+
+    def reply_list(self, user_id=None):
+        r = Reply.mc_get_list(
+            self.reply_id_list(user_id)
+        )
+
+        return r
 
 class Reply(McModel):
     pass
 
 def mc_flush_reply_id_list(cid, rid):
-    key = "%s_%s_%%s"%(cid,rid)
+    key = "%s_%s_%%s"%(cid, rid)
     for i in REPLY_STATE:
         mc_reply_id_list.delete(key%i)
 
-@mc_reply_id_list("{cid}_{rid}_{state}")
-def _reply_id_list(cid, rid, state, cursor=None):
-    if cursor is None:
-        cursor = cursor_by_table('reply')
-    cursor.execute(
-        "select id from reply where state>=%s and rid=%s and cid=%s",
-        state,
-        rid,
-        cid
-    )
-
-
 if __name__ == "__main__":
-    from _db import exe_sql
-    def create_reply_table_sql(table):
-        pass
-
+    pass
 
 
 
