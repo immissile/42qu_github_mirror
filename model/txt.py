@@ -15,7 +15,7 @@ def txt_set(id, txt):
     elif txt != t.txt:
         c = cursor_by_table('txt_history')
         c.execute(
-            "insert into txt_history (rid,txt,create_time) values (%s,%s,%s)",
+            "insert delayed into txt_history (rid,txt,create_time) values (%s,%s,%s)",
             (id, t.txt, int(time()))
         )
         c.connection.commit()
