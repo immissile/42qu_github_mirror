@@ -47,19 +47,19 @@ class ReplyMixin(object):
         return id
 
     @mc_reply_id_list("{self.TID}_{self.id}_{state}")
-    def reply_id_list(self, state=None, limit=None, offset=None):
+    def reply_id_list(self, limit=None, offset=None):
         cursor = self.reply_cursor
         cid = self.TID
         rid = self.id
 
         sql = [
-            "select id from reply where state>=%s and rid=%s and cid=%s"
+            "select id from reply where rid=%s and cid=%s",
+            "and state>=%s"%REPLY_STATE_APPLYED
         ]
 
         para = [
-                state,
-                rid,
-                cid
+            rid,
+            cid
         ]
 
         if limit:
@@ -69,6 +69,7 @@ class ReplyMixin(object):
         if offset:
             sql.append("offset %s")
             para.append(offset)
+        sql.append("order by id desc")
 
         cursor.execute(
             " ".join(sql), para

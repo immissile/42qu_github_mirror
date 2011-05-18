@@ -16,12 +16,6 @@ ZPAGE_STATE_INDEX = 10
 class Zsite(McModel, ReplyMixin):
     TID = TID_ZSITE
 
-    def reply_id_list(self, user_id=None, limit=None, offset=None):
-        if id == user_id:
-            state = REPLY_STATE_APPLYED
-        else:
-            state = REPLY_STATE_ACTIVE
-        return super(Zsite,self).reply_id_list(state,limit,offset)
 
 
 class Zpage(McModel):
