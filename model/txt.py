@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from _db import  Model, cursor_by_table
+from _db import  Model, cursor_by_table,McCache
 from time import time
 
 class Txt(Model):
@@ -22,6 +22,9 @@ def txt_new(id, txt):
         t.txt = txt
         t.save()
 
+mc_txt = McCache("Txt:%s")
+
+@mc_txt("{id}")
 def txt_get(id):
     c = Txt.raw_sql('select txt from txt where id=%s', id)
     r = c.fetchone()
@@ -30,13 +33,16 @@ def txt_get(id):
     return ''
 
 
-
-
+def txt_bind(o_list):
+    r = mc_txt.get_multi(i.id for i in o_list)
+    for i in o_list:
+        iid = i.id
+        txt = r[iid]
+        if txt is not None:
+            i.txt = txt
+        else:
+            i.txt = txt_get(iid)
 
 if __name__ == "__main__":
-    from gid import gid
-    id = 1#gid()
-    txt_set(id, "test3")
-    print txt_new(id)
-
+    pass
 

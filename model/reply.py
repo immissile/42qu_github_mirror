@@ -5,7 +5,7 @@ from _db import cursor_by_table, McModel, McLimitA
 from txt import txt_new
 from spammer import is_spammer
 from time import time
-
+from txt import txt_bind
 
 REPLY_STATE_DEL = 3
 REPLY_STATE_APPLY = 5
@@ -79,7 +79,7 @@ class ReplyMixin(object):
         r = Reply.mc_get_list(
             self.reply_id_list(user_id)
         )
-
+        txt_bind(r)
         return r
 
 class Reply(McModel):
