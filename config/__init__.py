@@ -3,12 +3,14 @@
 
 import sys
 reload(sys)
-sys.setdefaultencoding("utf-8")
+sys.setdefaultencoding('utf-8')
 
 from os.path import abspath, dirname, join, normpath
 from hmako.lookup import TemplateLookup
 
 from conf import *
+
+GOD_PORT = PORT + 11
 
 SITE_DOMAIN_SUFFIX = '.%s' % SITE_DOMAIN
 

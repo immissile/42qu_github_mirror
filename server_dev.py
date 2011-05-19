@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 #coding:utf-8
 import config
-import config.dev
+config.conf.DEBUG = True
 reload(config)
 
 from ctrl._application import application
-
 
 import sys
 if len(sys.argv) > 1 and sys.argv[1].isdigit():
@@ -13,8 +12,6 @@ if len(sys.argv) > 1 and sys.argv[1].isdigit():
     config.PORT = PORT
 else:
     PORT = config.PORT
-
-
 
 
 import tornado.ioloop
@@ -34,7 +31,7 @@ def WSGIServer(port, application):
         datefmt='%H:%M:%S',
     )
     def _(environ, start_response):
-        logging.info("%s %s"%(environ.get('REQUEST_METHOD'), environ.get('PATH_INFO')))
+        logging.info('%s %s'%(environ.get('REQUEST_METHOD'), environ.get('PATH_INFO')))
         return application(environ, start_response)
     return CherryPyWSGIServer(('0.0.0.0', port), _, numthreads=10)
 
@@ -45,8 +42,8 @@ def WSGIServer(port, application):
 #from os.path import join
 #import re
 #
-#STATIC_VERSION = re.compile("/\d+?~")
-#STATIC_FILE = static.Cling(join(config.PREFIX, "static"))
+#STATIC_VERSION = re.compile('/\d+?~')
+#STATIC_FILE = static.Cling(join(config.PREFIX, 'static'))
 #STATIC_PATH = ('/css/', '/js/', '/pic/', '/img/', '/favicon.ico', '/bazs.cert', '/robots.txt')
 #
 #def static_middleware(func):
@@ -57,7 +54,7 @@ def WSGIServer(port, application):
 #        for i in STATIC_PATH:
 #            if path.startswith(i):
 #                if i in ('/css/', '/js/'):
-#                    environ['PATH_INFO'] = STATIC_VERSION.sub("/.", path)
+#                    environ['PATH_INFO'] = STATIC_VERSION.sub('/.', path)
 #                return STATIC_FILE(environ, start_response)
 #
 #        return func(environ, start_response)
@@ -68,20 +65,20 @@ def WSGIServer(port, application):
 
 def run():
 
-    print "server on port %s"%PORT
+    print 'server on port %s'%PORT
     server = WSGIServer(PORT, application)
     try:
         server.start()
     except KeyboardInterrupt:
         server.stop()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from zkit.reloader.reload_server import auto_reload
     from time import sleep
     while True:
         auto_reload(run)
-        print "\nSleep 4 seconds"
+        print '\nSleep 4 seconds'
         for i in xrange(10, 0, -1):
             sleep(0.4)
             print i,
-        print ""
+        print ''

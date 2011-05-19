@@ -8,5 +8,5 @@ if len(sys.argv) > 1 and sys.argv[1].isdigit():
     port = int(sys.argv[1])
 else:
     port = config.PORT
-print "server on port %s"%port
+print 'server on port %s'%port
 WSGIServer(port, application)

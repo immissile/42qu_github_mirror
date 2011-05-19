@@ -11,7 +11,6 @@ if PREFIX not in sys.path:
 
 
 PORT = 5555
-GOD_PORT = PORT + 11
 DEBUG = False
 
 
@@ -30,3 +29,10 @@ MYSQL_PORT = 3306
 MYSQL_USER = 'zpage'
 MYSQL_PASSWD = '42qu.com'
 MYSQL_MAIN = 'zpage_main'
+
+import getpass
+LOCAL_SETTINGS = 'conf_%s' % getpass.getuser()
+try:
+    __import__(LOCAL_SETTINGS, globals(), locals(), [], -1)
+except ImportError, e:
+    print e
