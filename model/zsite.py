@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel
-from reply import ReplyMixin,REPLY_STATE_ACTIVE,REPLY_STATE_APPLYED
+from reply import ReplyMixin,REPLY_STATE_ACTIVE,REPLY_STATE_SECRET
 from _const import TID_ZSITE
 
 ZSITE_CID_USER = 1

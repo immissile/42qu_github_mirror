@@ -4,7 +4,7 @@
 
 import _handler
 from _urlmap import urlmap
-from model.reply import REPLY_STATE_APPLYED, REPLY_STATE_ACTIVE
+from model.reply import REPLY_STATE_SECRET, REPLY_STATE_ACTIVE
 
 @urlmap("/wall")
 class Wall(_handler.LoginBase):
@@ -21,7 +21,7 @@ class Wall(_handler.LoginBase):
             reply = zsite.reply_new(
                 current_user.id,
                 txt,
-                REPLY_STATE_APPLYED if secret else REPLY_STATE_ACTIVE
+                REPLY_STATE_SECRET if secret else REPLY_STATE_ACTIVE
             )
 
 

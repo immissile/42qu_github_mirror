@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 from gid import gid
-from _db import cursor_by_table, McModel, McLimitA
+from _db import cursor_by_table, McModel, McLimitA, McCache
 from txt import txt_new
 from spammer import is_spammer
 from time import time
@@ -10,7 +10,7 @@ from zkit.txt2htm import txt_withlink
 
 REPLY_STATE_DEL = 3
 REPLY_STATE_APPLY = 5
-REPLY_STATE_APPLYED = 7
+REPLY_STATE_SECRET = 7
 REPLY_STATE_ACTIVE = 10
 
 REPLY_STATE = (
@@ -20,6 +20,7 @@ REPLY_STATE = (
 )
 
 mc_reply_id_list = McLimitA("ReplyIdList:%s", 512)
+mc_reply_total = McCache("ReplyTotal:%s")
 
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
@@ -46,6 +47,14 @@ class ReplyMixin(object):
         mc_flush_reply_id_list(cid, rid)
         return id
 
+    @property
+    @mc_reply_total("{self.TID}_${self.id}")
+    def reply_total(self):
+        cursor = self.reply_cursor
+        cursor.execute("select count(1) from reply where rid=%s and cid=%s and state>=%s", (rid, cid, REPLY_STATE_SECRET))
+        r = cursor.fetchone()
+        return r[0]
+
     @mc_reply_id_list("{self.TID}_{self.id}")
     def reply_id_list(self, limit=None, offset=None):
         cursor = self.reply_cursor
@@ -54,7 +63,7 @@ class ReplyMixin(object):
 
         sql = [
             "select id from reply where rid=%s and cid=%s",
-            "and state>=%s"%REPLY_STATE_APPLYED
+            "and state>=%s"%REPLY_STATE_SECRET
         ]
 
         para = [
@@ -80,10 +89,10 @@ class ReplyMixin(object):
     def reply_list(self, limit=None, offset=None):
         from model.zsite import Zsite
         r = Reply.mc_get_list(
-            self.reply_id_list(limit,offset)
+            self.reply_id_list(limit, offset)
         )
         txt_bind(r)
-        Zsite.mc_bind(r,"user","user_id")
+        Zsite.mc_bind(r, "user", "user_id")
         return r
 
 class Reply(McModel):
@@ -94,7 +103,7 @@ class Reply(McModel):
 def mc_flush_reply_id_list(cid, rid):
     key = "%s_%s"%(cid, rid)
     mc_reply_id_list.delete(key)
-
+    mc_reply_total.delete(key)
 if __name__ == "__main__":
     pass
 

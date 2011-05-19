@@ -1,7 +1,7 @@
 <%inherit file="/_base/1.htm" />
 <%namespace file="/_util/htm.htm" name="htm"/>
 <%!
-from model.reply import REPLY_STATE_APPLYED, REPLY_STATE_ACTIVE
+from model.reply import REPLY_STATE_SECRET, REPLY_STATE_ACTIVE
 %>
 
 %if current_user:
@@ -25,7 +25,7 @@ is_owner = zsite == current_user
 %for i in zsite.reply_list(10,0):
 <%
 user = i.user
-is_apply = i.state==REPLY_STATE_APPLYED
+is_apply = i.state==REPLY_STATE_SECRET
 self_say = i.user==current_user
 %>
 <div>
