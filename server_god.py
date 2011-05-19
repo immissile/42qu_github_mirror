@@ -2,7 +2,7 @@
 #coding:utf-8
 import config
 from zweb.server_tornado import WSGIServer
-from ctrl._application import application
+from god._application import application
 import config.zpage_ctrl
 import sys
 if len(sys.argv) > 1 and sys.argv[1].isdigit():

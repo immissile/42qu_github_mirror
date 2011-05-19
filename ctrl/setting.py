@@ -3,7 +3,7 @@
 
 
 import _handler
-from _urlmap import urlmap
+from zweb._urlmap import urlmap
 from zkit.pic import picopen
 from model.pic_ico import pic_ico_new
 from tornado.web import authenticated

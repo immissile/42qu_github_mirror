@@ -8,7 +8,6 @@ def main():
     application = tornado.wsgi.WSGIApplication(
         urlmap,
         login_url = "/login",
-        xsrf_cookies = True,
     )
 
     from zweb._middleware import default_middleware
