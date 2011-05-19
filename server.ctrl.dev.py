@@ -2,6 +2,7 @@
 #coding:utf-8
 import config.dev
 import config.zpage_ctrl
+
 config.zpage_ctrl.DEBUG = True
 
 import sys
