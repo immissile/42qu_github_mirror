@@ -2,6 +2,7 @@
 #coding:utf-8
 import config.dev
 import config.zpage_ctrl
+from ctrl._application import application
 
 config.zpage_ctrl.DEBUG = True
 
@@ -23,7 +24,6 @@ import tornado.ioloop
 from cherrypy.wsgiserver import CherryPyWSGIServer
 
 def WSGIServer(port, application):
-    from ctrl._application import application
     from weberror.evalexception import EvalException
     application = EvalException(application, )
     import logging
