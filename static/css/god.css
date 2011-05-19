@@ -18,8 +18,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     vertical-align: baseline;
     background: transparent;
     font-family: Verdana, Geneva, sans-serif;
-    font-size:14px;
-    line-height:1.5;
+    font-size:16px;
+    line-height:24px;
 }
 small{
     font-size:12px;
@@ -86,4 +86,25 @@ table {
 width: 972px;;
 margin-right:auto;
 margin-left:auto;
+}
+.R{
+float:right
+}
+.L{
+float:left
+}
+#HD{
+border-bottom:1px solid #ddd
+}
+#HDI{
+width:972px;margin:auto;padding:6px 0;
+line-height:21px;
+text-align:right;
+}
+#HDI a{
+color:#666;
+padding:4px 7px
+}
+#HDI a:hover{
+background:#eee;
 }
