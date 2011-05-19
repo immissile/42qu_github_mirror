@@ -44,12 +44,6 @@ class Base(web.RequestHandler):
             else:
                 self.clear_cookie(key)
 
-#    def get_error_html(self, status_code, **kwargs):
-#        e = kwargs.get('exception')
-#        if e:
-#            raise e
-#        web.RequestHandler.get_error_html(self, status_code, **kwargs)
-
 
     def render(self, template_name=None, **kwds):
         if template_name is None:
