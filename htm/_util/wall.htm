@@ -1,0 +1,27 @@
+<%!
+from model.reply import REPLY_STATE_SECRET, REPLY_STATE_ACTIVE
+%>
+
+<%def name="reply_render(i)">
+
+
+<%
+user = i.user
+is_apply = i.state==REPLY_STATE_SECRET
+self_say = i.user==current_user
+%>
+
+<div>
+<a href="${user.link}">${user.name}</a>
+%if is_apply:
+悄悄说
+%endif
+:
+%if is_owner or not is_apply or (is_apply and self_say):
+<pre>${i.htm|n}</pre>
+%else:
+<span style="color:#999">省略 ${len(i.txt.decode('utf-8','ignore'))} 字 ...</span>
+%endif
+</div>
+
+</%def>

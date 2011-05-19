@@ -1,0 +1,9 @@
+<%inherit file="/_base/1.htm" />
+<%namespace file="/_util/htm.htm" name="htm"/>
+
+
+<%namespace file="/_util/wall.htm" import="reply_render"/>
+
+%for i in reply_list:
+    ${reply_render(i)}
+%endfor

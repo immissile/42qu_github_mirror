@@ -30,5 +30,6 @@ class Wall(_handler.LoginBase):
 
 @urlmap("/wall/(\-?\d+)")
 class Page(_handler.LoginBase):
-    def get(self):
+    def get(self, page):
         return self.render()
+
