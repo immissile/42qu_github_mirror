@@ -16,7 +16,7 @@ def zsite_by_domain(domain):
 @property
 def _link(self):
     if not hasattr(self, "_link"):
-        self._link = "http://-%s.%s"%(self.id, SITE_DOMAIN)
+        self._link = "http://%s.%s"%(self.id, SITE_DOMAIN)
     return self._link
 
 Zsite.link = _link
