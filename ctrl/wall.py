@@ -26,3 +26,9 @@ class Wall(_handler.LoginBase):
 
 
         return self.redirect(zsite.link)
+
+
+@urlmap("/wall/(\-?\d+)")
+class Page(_handler.LoginBase):
+    def get(self):
+        return self.render()
