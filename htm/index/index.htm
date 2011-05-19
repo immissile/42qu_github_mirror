@@ -15,14 +15,19 @@ current_user : ${current_user} ${current_user.id}
 is_owner = zsite == current_user
 %>
 <p>Zsite ${zsite.name}</p>
-
+<%
+reply_total = zsite.reply_total
+REPLY_LIMIT = 10
+%>
+<div>${reply_total}留言</div>
 <%htm:form action="${zsite.link}/wall">
 <textarea name="txt">
 </textarea>
 <input type="checkbox" name="secret" id="secret"><label for="secret">悄悄话</label>
-<button type="submit">留言</button>
+<button type="submit">
+此致 , 敬礼</button>
 </%htm:form>
-%for i in zsite.reply_list(10,0):
+%for i in zsite.reply_list(REPLY_LIMIT,0):
 <%
 user = i.user
 is_apply = i.state==REPLY_STATE_SECRET
@@ -41,5 +46,8 @@ self_say = i.user==current_user
 %endif
 </div>
 %endfor
-
 %endif
+%if reply_total > REPLY_LIMIT:
+<a href="/wall/-${REPLY_LIMIT}">等等等 ...</a>
+%endif
+

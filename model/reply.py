@@ -50,6 +50,8 @@ class ReplyMixin(object):
     @property
     @mc_reply_total("{self.TID}_${self.id}")
     def reply_total(self):
+        cid = self.TID
+        rid = self.id
         cursor = self.reply_cursor
         cursor.execute("select count(1) from reply where rid=%s and cid=%s and state>=%s", (rid, cid, REPLY_STATE_SECRET))
         r = cursor.fetchone()
