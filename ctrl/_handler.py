@@ -9,7 +9,7 @@ import urlparse
 import urllib
 import zweb._handler
 
-class Base(zweb._handler):
+class Base(zweb._handler.Base):
     def prepare(self):
         host = self.request.host
         zsite = zsite_by_domain(host)
