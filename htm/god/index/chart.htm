@@ -11,8 +11,8 @@ from json import dumps
 
 <%def name="render_chart(cid,data)">
 <%
-y_max = max(data) + 1
-y_min = min(data) - 1
+y_max = max(data)
+y_min = min(data)
 step = max(int((y_max - y_min)/10),1)
 values = data
 json = {
