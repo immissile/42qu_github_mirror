@@ -2,8 +2,8 @@
 #coding:utf-8
 
 
-import _handler
-from _urlmap import urlmap
+from zweb import _handler
+from zweb._urlmap import urlmap
 
 
 @urlmap("/")
