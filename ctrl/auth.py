@@ -2,7 +2,7 @@
 #coding:utf-8
 
 
-import _handler
+from zweb import _handler
 from _urlmap import urlmap
 from zkit.txt import EMAIL_VALID
 from cgi import escape

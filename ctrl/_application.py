@@ -3,7 +3,7 @@
 
 def main():
     import tornado.wsgi
-    import _urlmap
+    from zweb import _urlmap
     urlmap = tuple(_urlmap.URLMAP)
     application = tornado.wsgi.WSGIApplication(
         urlmap,
@@ -11,7 +11,7 @@ def main():
         xsrf_cookies = True,
     )
 
-    from _middleware import default_middleware
+    from zweb._middleware import default_middleware
     application = default_middleware(application)
     return application
 
