@@ -5,17 +5,29 @@ from config import FS_URL
 %>
 <%def name="htm_head()">
 <link href="${css.god_chart}" rel="stylesheet" type="text/css">\
+<script src="${js.swf}"></script>
 </%def>
 
-<div class="C">
+<div class="C"><div class="ra">
 <div class="ra4">
-<%
-cid = 1
-%>
-    <div>新增用户数 今日</div>
-    <div>
-        <script>swfobject.embedSWF('${FS_URL}/swf/open-flash-chart.swf', "chart${cid}", "972", "608", "9");</script>
-    </div>
+%for cid in xrange(19):
+<div class="chart">
+    <div class="chart_title">新增用户数 今日 +10</div>
+    <div id="chart${cid}"></div>
+<script>
+swfobject.embedSWF(
+    '/swf/open-flash-chart.swf', "chart${cid}", "972", "302", "9", "expressInstall.swf",
+    {"get-data":"chart${cid}"} 
+);
+function chart${cid}(){
+    return '{"elements":[{"type":"bar","values":[9,8,4,10,5,5,9,5,5]}],"title":{"text":"Chart 2 :-)"}}'
+    
+}
+</script>
 </div>
+%endfor
 
 </div>
+
+
+</div></div>
