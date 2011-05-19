@@ -27,7 +27,7 @@ class Wall(_handler.LoginBase):
 
         return self.redirect(zsite.link)
 
-PAGE_LIMIT = 12
+PAGE_LIMIT = 42
 
 @urlmap("/wall/(\-?\d+)")
 class Page(_handler.LoginBase):
