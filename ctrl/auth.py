@@ -3,7 +3,7 @@
 
 
 from zweb import _handler
-from _urlmap import urlmap
+from zweb._urlmap import urlmap
 from zkit.txt import EMAIL_VALID
 from cgi import escape
 from model.user_auth import user_password_verify, user_new_by_mail

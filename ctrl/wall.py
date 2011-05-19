@@ -2,7 +2,7 @@
 #coding:utf-8
 
 from zweb import _handler
-from _urlmap import urlmap
+from zweb._urlmap import urlmap
 from model.reply import REPLY_STATE_SECRET, REPLY_STATE_ACTIVE
 from zkit.page import page_limit_offset
 

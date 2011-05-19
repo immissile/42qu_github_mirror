@@ -3,7 +3,7 @@
 
 
 from zweb import _handler
-from _urlmap import urlmap
+from zweb._urlmap import urlmap
 
 
 @urlmap("/")

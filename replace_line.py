@@ -4,19 +4,19 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-from zweb import _handler
+from _urlmap import urlmap
 """
 
 TO_STRING = """
-from zweb import _handler
+from zweb._urlmap import urlmap
 """
 
 FROM_STRING = FROM_STRING.strip()
 TO_STRING = TO_STRING.strip()
 
-FILE = abspath(__file__))
+FILE = abspath(__file__)
 
-for dirpath, dirnames, filenames in walk(dirname(FILE):
+for dirpath, dirnames, filenames in walk(dirname(FILE)):
     dirname = basename(dirpath)
     if dirname.startswith("."):
         continue
