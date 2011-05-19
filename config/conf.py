@@ -11,6 +11,7 @@ if PREFIX not in sys.path:
 
 
 PORT = 5555
+GOD_PORT = 5666
 DEBUG = False
 
 
