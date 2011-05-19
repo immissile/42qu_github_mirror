@@ -1,13 +1,13 @@
 #coding:utf-8
 
 import _env
-from config.zpage_memcache import MEMCACHED_ADDR, DISABLE_LOCAL_CACHED
+from config import MEMCACHED_ADDR, DISABLE_LOCAL_CACHED
 from sqlbean.db.mc_connection import init_mc
 
 init_mc(memcached_addr=MEMCACHED_ADDR, disable_local_cached=DISABLE_LOCAL_CACHED)
 
 
-from config.zpage_mysql import DB_CONFIG
+from config import DB_CONFIG
 from sqlbean.db import connection
 connection.THREAD_SAFE = False
 

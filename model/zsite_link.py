@@ -3,7 +3,7 @@
 from _db import Model, McModel
 from hashlib import sha256
 from zsite import zsite_new_user, Zsite
-from config.zpage_host import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
+from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
 
 def zsite_by_domain(domain):
     zsite = None

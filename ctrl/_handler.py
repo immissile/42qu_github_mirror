@@ -3,8 +3,8 @@
 
 from _tornado import web
 from config.zpage_mako import render
-from config.zpage_host import SITE_DOMAIN, SITE_URL
-from config.zpage_ctrl import PORT
+from config import SITE_DOMAIN, SITE_URL
+from config import PORT
 from model.zsite_link import zsite_by_domain
 from model.user_session import user_id_by_session
 from model.zsite import Zsite
