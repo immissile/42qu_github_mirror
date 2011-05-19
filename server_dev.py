@@ -4,7 +4,6 @@ import config
 import config.dev
 reload(config)
 
-import config.zpage_ctrl
 from ctrl._application import application
 
 
