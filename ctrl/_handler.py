@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-from _tornado import web
+from zweb._tornado import web
 from config import render
 from config import SITE_DOMAIN, SITE_URL
 from config import PORT
