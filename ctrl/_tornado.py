@@ -4,7 +4,7 @@
 
 from tornado import web
 from tornado.web import HTTPError
-from config.zpage_host import SITE_DOMAIN_SUFFIX
+from config import SITE_DOMAIN_SUFFIX
 
 _set_cookie = web.RequestHandler.set_cookie
 

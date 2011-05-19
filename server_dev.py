@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 #coding:utf-8
+import config
 import config.dev
-import config.zpage_ctrl
+reload(config)
 
-config.zpage_ctrl.DEBUG = True
 
 import sys
 if len(sys.argv) > 1 and sys.argv[1].isdigit():
     PORT = int(sys.argv[1])
-    config.zpage_ctrl.PORT = PORT
+    config.PORT = PORT
 else:
-    PORT = config.zpage_ctrl.PORT
+    PORT = config.PORT
 
 
 from ctrl._application import application
@@ -45,7 +45,7 @@ def WSGIServer(port, application):
 #import re
 #
 #STATIC_VERSION = re.compile("/\d+?~")
-#STATIC_FILE = static.Cling(join(config.zpage_ctrl.PREFIX, "static"))
+#STATIC_FILE = static.Cling(join(config.PREFIX, "static"))
 #STATIC_PATH = ('/css/', '/js/', '/pic/', '/img/', '/favicon.ico', '/bazs.cert', '/robots.txt')
 #
 #def static_middleware(func):

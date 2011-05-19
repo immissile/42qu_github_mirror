@@ -7,7 +7,7 @@ import sys
 PREFIX = dirname(abspath(__file__))
 sys.path = [dirname(dirname(PREFIX))]+sys.path
 
-from config.zpage_mysql import DB_CONFIG
+from config import DB_CONFIG
 COMM_OPTION = " -h%s -P%s -u%s -p%s %s "
 def backup_table(key, host, port, name, user, password):
     comm_option = COMM_OPTION%(host, port, user, password, name)

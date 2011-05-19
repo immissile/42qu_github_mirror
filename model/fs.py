@@ -1,5 +1,5 @@
 import _env
-from config.zpage_host import FS_PATH, PIC_URL
+from config import FS_PATH, PIC_URL
 from os.path import join, exists, dirname
 from os import remove, makedirs
 from cStringIO import StringIO

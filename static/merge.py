@@ -167,8 +167,8 @@ JS_INIT_TEMPLATE = """\
 <%!
 from os.path import join,basename,dirname
 %>
-from config.zpage_ctrl import DEBUG
-from config.zpage_host import STATIC_URL
+from config import DEBUG
+from config import STATIC_URL
 
 if DEBUG:
     ORG_CSS_JS = True
@@ -219,8 +219,8 @@ CSS_INIT_TEMPLATE = """\
 <%!
 from os.path import join,basename,dirname
 %>
-from config.zpage_ctrl import DEBUG
-from config.zpage_host import STATIC_URL 
+from config import DEBUG
+from config import STATIC_URL
 
 if DEBUG:
     ORG_CSS_JS = True
