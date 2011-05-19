@@ -2,32 +2,48 @@
 <%!
 from static import css,js
 from config import FS_URL 
+from json import dumps
 %>
 <%def name="htm_head()">
 <link href="${css.god_chart}" rel="stylesheet" type="text/css">\
 <script src="${js.swf}"></script>
 </%def>
 
-<div class="C"><div class="ra">
-<div class="ra4">
-%for cid in xrange(19):
+<%def name="render_chart(cid,data)">
+<%
+y_max = max(data) + 1
+y_min = min(data) - 1
+step = max(int((y_max - y_min)/10),1)
+values = data
+json = {
+    "elements": [ 
+    {
+        "type": "line", "values": data, "dot-style": { "type": "solid-dot", "dot-size": 3, "halo-size": 1, "colour": "#3D5C56" }, "width": 2, "colour": "#3D5C56" } ], "y_axis": { "min": y_min, "max": y_max, "steps": step} 
+
+}
+%>
 <div class="chart">
     <div class="chart_title">新增用户数 今日 +10</div>
     <div id="chart${cid}"></div>
 <script>
 swfobject.embedSWF(
-    '/swf/open-flash-chart.swf', "chart${cid}", "972", "302", "9", "expressInstall.swf",
+    '/swf/open-flash-chart.swf', "chart${cid}", "100%", "302", "9", "expressInstall.swf",
     {"get-data":"chart${cid}"} 
 );
 function chart${cid}(){
-    return '{"elements":[{"type":"bar","values":[9,8,4,10,5,5,9,5,5]}]}'
-    
+    return '${dumps(json)|n}' 
 }
 </script>
 </div>
+</%def>
+
+
+
+%for cid in xrange(3):
+<%
+data = range(100,181)
+%>
+${render_chart(cid,data)}
 %endfor
 
-</div>
 
-
-</div></div>
