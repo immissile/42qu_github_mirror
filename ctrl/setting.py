@@ -2,7 +2,7 @@
 #coding:utf-8
 
 
-from zweb import _handler
+import _handler
 from zweb._urlmap import urlmap
 from zkit.pic import picopen
 from model.pic_ico import pic_ico_new
