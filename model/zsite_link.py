@@ -9,8 +9,8 @@ def zsite_by_domain(domain):
     zsite = None
     if domain.endswith(SITE_DOMAIN_SUFFIX):
         domain = domain[:-len(SITE_DOMAIN_SUFFIX)]
-        if domain.startswith("-"):
-            zsite = Zsite.mc_get(domain[1:])
+        if domain.isdigit():
+            zsite = Zsite.mc_get(domain)
     return zsite
 
 @property
