@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-<%namespace file="/_util/
+%inherit file="/_base/
 """
 
 TO_STRING = """
-<%namespace file="/ctrl/_util/
+%inherit file="/ctrl/_base/
 """
 
 FROM_STRING = FROM_STRING.strip()
