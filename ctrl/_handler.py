@@ -2,7 +2,7 @@
 #coding:utf-8
 
 from _tornado import web
-from config.zpage_mako import render
+from config import render
 from config import SITE_DOMAIN, SITE_URL
 from config import PORT
 from model.zsite_link import zsite_by_domain
