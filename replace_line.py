@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-from _urlmap import urlmap
+<%namespace file="/_util/
 """
 
 TO_STRING = """
-from zweb._urlmap import urlmap
+<%namespace file="/ctrl/_util/
 """
 
 FROM_STRING = FROM_STRING.strip()

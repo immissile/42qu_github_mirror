@@ -55,7 +55,7 @@ class Base(web.RequestHandler):
         if template_name is None:
             if not hasattr(self, "template"):
                 self.template = "%s/%s.htm"%(
-                    self.__module__.split(".", 1)[1],
+                    self.__module__.replace(".", "/"),
                     lower_name(self.__class__.__name__)
                 )
             template_name = self.template
