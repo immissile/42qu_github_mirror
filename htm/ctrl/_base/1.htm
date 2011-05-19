@@ -3,6 +3,7 @@ from config import SITE_DOMAIN
 from config import SITE_URL
 NAVURL = (
     ( '/setting' , "账号"),
+    ( '/note/write' , "文章"),
 )
 NAVURL_DICT = dict(NAVURL)
 %>
@@ -52,9 +53,15 @@ link = current_user.link
 %>
 <div style="float:right">
 <a href="${link}">${current_user.name}</a>
-%for url,name in NAVURL:
-<a href="${SITE_URL}${url}">${name}</a>
-%endfor
+<a href="${SITE_URL}/setting">账号</a>
+
+<div>
+发布
+<a href="/cout/word">微博</a>
+<a href="/cout/note">文章</a>
+</div>
+
+
 <a href="/logout">退出</a></div>
 %else:
 <%htm:form action="/login" id="register-form" className="register" >

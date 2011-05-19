@@ -5,7 +5,7 @@
 import _handler
 from zweb._urlmap import urlmap
 
-@urlmap("/note/write")
+@urlmap("/cout/write")
 class write(_handler.Base):
     def get(self):
         return self.render()

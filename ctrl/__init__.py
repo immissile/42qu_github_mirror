@@ -6,4 +6,4 @@ import index
 import auth
 import setting
 import wall
-import note
+import cout
