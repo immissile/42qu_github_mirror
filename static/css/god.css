@@ -18,10 +18,22 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     vertical-align: baseline;
     background: transparent;
     font-family: Verdana, Geneva, sans-serif;
-}
-body {
     font-size:14px;
     line-height:1.5;
+}
+small{
+    font-size:12px;
+}
+a{text-decoration:none;color:#01a}
+a:hover{text-decoration:none;color:#a10}
+pre{
+word-wrap:break-word;
+overflow:hidden;
+word-break:break-all;
+white-space: pre-wrap;
+white-space:-moz-pre-wrap;
+*white-space: pre;
+*word-wrap: break-word;
 }
 ol, ul {
     list-style: none;
