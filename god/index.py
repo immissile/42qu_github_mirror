@@ -11,4 +11,8 @@ class Index(_handler.Base):
     def get(self):
         self.render()
 
+@urlmap("/chart")
+class Chart(_handler.Base):
+    def get(self):
+        self.render()
 

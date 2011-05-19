@@ -18,7 +18,11 @@ values = data
 json = {
     "elements": [ 
     {
-        "type": "line", "values": data, "dot-style": { "type": "solid-dot", "dot-size": 3, "halo-size": 1, "colour": "#3D5C56" }, "width": 2, "colour": "#3D5C56" } ], "y_axis": { "min": y_min, "max": y_max, "steps": step} 
+        "type": "line", "values": data,  "width": 1, "colour": "#3D5C56" } ], "y_axis": { "min": y_min, "max": y_max, "steps": step},
+"x_axis": { 
+    "colour": "#A2ACBA", "grid-colour": "#D7E4A3", 
+    "offset": 'false', "steps": 7
+}
 
 }
 %>
@@ -41,7 +45,7 @@ function chart${cid}(){
 
 %for cid in xrange(3):
 <%
-data = range(100,181)
+data = range(100,100+183)
 %>
 ${render_chart(cid,data)}
 %endfor
