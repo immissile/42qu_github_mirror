@@ -11,7 +11,7 @@ def host_line(host):
     )]
     for i in ormiter(Zsite):
         l.append(i.link.split("://")[-1])
-    return "".join(l)
+    return " ".join(l)
 
 
 if __name__ == "__main__":
