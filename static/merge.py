@@ -168,7 +168,7 @@ JS_INIT_TEMPLATE = """\
 from os.path import join,basename,dirname
 %>
 from config import DEBUG
-from config import STATIC_URL
+from config import FS_URL
 
 if DEBUG:
     ORG_CSS_JS = True
@@ -182,7 +182,7 @@ if ORG_CSS_JS:
 path = path.rsplit(".js",1)[0]
 name = path.replace("/","_").replace(".","_").replace("-","_")
 %>
-    ${name} = "%s/js/${path}.js"%STATIC_URL
+    ${name} = "%s/js/${path}.js"%FS_URL
 %endfor
 
 else:
@@ -194,7 +194,7 @@ pathdir = join("js",dirname(path))
 pathfile = basename(path)
 filename = join(pathdir,"~%s~%s.js"%(num,pathfile)).replace("\\\\","/")
 %>
-    ${name} = "%s/${filename}"%STATIC_URL
+    ${name} = "%s/${filename}"%FS_URL
 %endfor
 
 
@@ -223,7 +223,7 @@ CSS_INIT_TEMPLATE = """\
 from os.path import join,basename,dirname
 %>
 from config import DEBUG
-from config import STATIC_URL
+from config import FS_URL
 
 if DEBUG:
     ORG_CSS_JS = True
@@ -237,7 +237,7 @@ if ORG_CSS_JS:
 path = path.rsplit(".css",1)[0]
 name = path.replace("/","_").replace(".","_").replace("-","_")
 %>
-    ${name} = "%s/css/${path}.css"%STATIC_URL
+    ${name} = "%s/css/${path}.css"%FS_URL
 %endfor
 
 else:
@@ -249,7 +249,7 @@ pathdir = join("css",dirname(path))
 pathfile = basename(path)
 filename = join(pathdir,"~%s~%s.css"%(num,pathfile)).replace("\\\\","/")
 %>
-    ${name} = "%s/${filename}"%STATIC_URL
+    ${name} = "%s/${filename}"%FS_URL
 %endfor
 """
 merge("css", CSS_INIT_TEMPLATE)

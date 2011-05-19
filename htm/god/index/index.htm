@@ -1,6 +1,7 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from static import css,js
+from config import FS_URL 
 %>
 <%def name="htm_head()">
 <link href="${css.god_chart}" rel="stylesheet" type="text/css">\
@@ -8,8 +9,12 @@ from static import css,js
 
 <div class="C">
 <div class="ra4">
-    新增用户数 今日
+<%
+cid = 1
+%>
+    <div>新增用户数 今日</div>
     <div>
+        <script>swfobject.embedSWF('${FS_URL}/swf/open-flash-chart.swf', "chart${cid}", "972", "608", "9");</script>
     </div>
 </div>
 

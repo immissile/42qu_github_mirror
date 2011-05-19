@@ -16,7 +16,7 @@ DEBUG = False
 
 SITE_DOMAIN = '42qu.me'
 PIC_URL = 'http://p.42qu.info'
-STATIC_URL = 'http://s.42qu.info'
+FS_URL = 'http://s.42qu.info'
 FS_PATH = '/mnt/zpage'
 
 
