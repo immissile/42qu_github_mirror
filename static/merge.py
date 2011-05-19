@@ -200,10 +200,13 @@ filename = join(pathdir,"~%s~%s.js"%(num,pathfile)).replace("\\\\","/")
 
 
 """
+
+swfobject = "http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"
 jquery = "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js"
 jquery_ui_prefix="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10"
 jquery_ui = "%s/jquery-ui.min.js"%jquery_ui_prefix
 jquery_ui_date_cn = "%s/i18n/jquery.ui.datepicker-zh-CN.js"%jquery_ui_prefix
+
 
 JS_INIT_TEMPLATE += """
 jquery = '%s'
