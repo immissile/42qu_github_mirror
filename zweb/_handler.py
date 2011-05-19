@@ -5,7 +5,7 @@ from zweb._tornado import web
 from config import render
 from model.user_session import user_id_by_session
 from model.zsite import Zsite
-
+from sqlbean.metamodel import lower_name
 
 class Base(web.RequestHandler):
     def get_current_user(self):
