@@ -2,7 +2,7 @@
 #coding:utf-8
 
 import _handler
-from _urlmap import urlmap
+from zweb._urlmap import urlmap
 from model.reply import REPLY_STATE_SECRET, REPLY_STATE_ACTIVE
 from zkit.page import page_limit_offset
 
@@ -27,7 +27,7 @@ class Wall(_handler.LoginBase):
 
         return self.redirect(zsite.link)
 
-PAGE_LIMIT = 12
+PAGE_LIMIT = 42
 
 @urlmap("/wall/(\-?\d+)")
 class Page(_handler.LoginBase):
