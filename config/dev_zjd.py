@@ -2,3 +2,4 @@
 # -*- coding: utf-8 -*-
 import conf
 conf.PORT = 6666
+conf.MYSQL_MAIN = 'zpage'
