@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 #coding:utf-8
-import config.zpage_ctrl
-config.zpage_ctrl.DEBUG = False
 
 
 from zkit.errormiddleware import ErrorMiddleware
-from config.zpage_mako import render
+from config import render
 import tornado.ioloop
 import tornado.wsgi
 import tornado.httpserver
