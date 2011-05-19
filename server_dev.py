@@ -13,9 +13,6 @@ else:
     PORT = config.zpage_ctrl.PORT
 
 
-from ctrl._application import application
-from weberror.evalexception import EvalException
-application = EvalException(application, )
 
 
 import tornado.ioloop
@@ -26,6 +23,9 @@ import tornado.ioloop
 from cherrypy.wsgiserver import CherryPyWSGIServer
 
 def WSGIServer(port, application):
+    from ctrl._application import application
+    from weberror.evalexception import EvalException
+    application = EvalException(application, )
     import logging
     logging.basicConfig(
         level=logging.DEBUG,
