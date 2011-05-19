@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 import config
+import config.dev
 config.conf.DEBUG = True
 reload(config)
 
