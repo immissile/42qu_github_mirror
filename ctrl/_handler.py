@@ -32,4 +32,3 @@ class LoginBase(Base):
             return
         super(LoginBase,self).prepare()
 
-
