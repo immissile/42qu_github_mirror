@@ -8,7 +8,7 @@ from ctrl._application import application
 
 from zkit.errormiddleware import ErrorMiddleware
 from config.zpage_mako import render
-application = ErrorMiddleware(application, render ,"_error/500.htm")
+application = ErrorMiddleware(application, render ,"ctrl/_error/500.htm")
 
 
 
