@@ -13,5 +13,5 @@ import zweb._handler
 class Base(zweb._handler.Base):
     def prepare(self):
         if not self.current_user:
-            self.redirect(SITE_DOMAIN)
+            self.redirect(SITE_URL)
 

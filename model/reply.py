@@ -48,7 +48,7 @@ class ReplyMixin(object):
         return id
 
     @property
-    @mc_reply_total("{self.TID}_${self.id}")
+    @mc_reply_total("{self.TID}_{self.id}")
     def reply_total(self):
         cid = self.TID
         rid = self.id
@@ -105,7 +105,11 @@ class Reply(McModel):
 def mc_flush_reply_id_list(cid, rid):
     key = "%s_%s"%(cid, rid)
     mc_reply_id_list.delete(key)
+    print key
     mc_reply_total.delete(key)
+
+
+
 if __name__ == "__main__":
     pass
 
