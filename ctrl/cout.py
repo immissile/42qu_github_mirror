@@ -6,12 +6,12 @@ from zweb._urlmap import urlmap
 from model.mblog import mblog_word_new
 
 @urlmap("/cout/note")
-class Note(_handler.Base):
+class Note(_handler.LoginBase):
     def get(self):
         return self.render()
 
 @urlmap("/cout/word")
-class Word(_handler.Base):
+class Word(_handler.LoginBase):
     def post(self):
         current_user = self.current_user
         txt = self.get_argument('txt','')

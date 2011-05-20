@@ -7,3 +7,4 @@ import auth
 import setting
 import wall
 import cout
+import news
