@@ -4,3 +4,4 @@
 #mblog
 CID_WORD = 1
 CID_NOTE = 2
+CID_ASK = 3
