@@ -7,15 +7,14 @@ from base64 import urlsafe_b64encode, urlsafe_b64decode
 
 mc_user_session = McCache("UserSession:%s")
 
-class UserSession(McModel):
+class UserSession(Model):
     pass
 
 @mc_user_session("{user_id}")
 def user_session_by_db(user_id):
     u = UserSession.get(user_id)
     if u is not None:
-        s = u.value
-        return s
+        return u.value
 
 def user_session(user_id):
     s = user_session_by_db(user_id)
