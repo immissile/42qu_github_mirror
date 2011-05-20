@@ -4,7 +4,7 @@
 from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA
 from zkit.mc_func import mc_func_get_list
 
-mc_id_by_feed_id = McLimitA("IdByFeedId:%s", 128)
+mc_id_by_feed_id = McLimitA("IdByFeedId:%s", 256)
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
 mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
 mc_feed_id_by_for_zsite_follow = McCacheA("FeedIdForZsiteFollow:%s")
@@ -24,6 +24,13 @@ def feed_entry_new(id, zsite_id, cid):
     mc_id_by_feed_id.delete(feed_id)
     return id
 
+def feed_entry_rm(id):
+    o = FeedEntry.mc_get(id)
+    if not o:
+        return
+    feed_id = o.feed_id
+    o.delete()
+    mc_id_by_feed_id.delete(feed_id)
 
 @mc_feed_id_by_zsite_id_cid("{zsite_id}_{cid}")
 def feed_id_by_zsite_id_cid(zsite_id, cid):

@@ -45,13 +45,21 @@ def mblog_new(cid, user_id, name, state):
     m.save()
     return m
 
-def edit_name(id, name):
+def mblog_edit_name(id, name):
     m = Mblog.mc_get(id)
     if m is None:return
     name = name.strip()
     if m.name != name and name:
         m.name = name
         m.save()
+
+def mblog_rm(user_id, id):
+    m = Mblog.mc_get(id)
+    if m.user_id == user_id:
+        m.state == MBLOG_STATE_DEL
+        m.save()
+        feed_entry_rm(id)
+
 
 def mblog_word_new(user_id, name):
     if name.rstrip() and name != mblog_word_lastest(user_id):
@@ -64,6 +72,7 @@ def mblog_question_new(user_id, name , txt):
     m = mblog_new(CID_WORD, user_id, name, MBLOG_STATE_SECRET)
     txt_new(m.id, txt)
     return m
+
 
 
 
