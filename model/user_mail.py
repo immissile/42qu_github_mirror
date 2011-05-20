@@ -14,7 +14,7 @@ def user_id_by_mail(mail):
     if c:
         return c
 
-    c = UserMail.raw_sql("select id from user_mail where mail=%s", mail).fetchone()
+    c = UserMail.raw_sql("select user_id from user_mail where mail=%s", mail).fetchone()
     if c:
         c = c[0]
     if not c:
