@@ -87,7 +87,6 @@ class ReplyMixin(object):
         )
         return [i for i, in cursor]
 
-
     def reply_list(self, limit=None, offset=None):
         from model.zsite import Zsite
         r = Reply.mc_get_list(
