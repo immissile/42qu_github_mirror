@@ -31,6 +31,7 @@ def feed_id_by_zsite_id_cid(zsite_id, cid):
     if not feed.id:
         feed.save()
         mc_feed_id_list_by_zsite_id.delete(zsite_id)
+        mc_flush_zsite_follow(zsite_id)
     return feed.id
 
 @mc_id_by_feed_id("{feed_id}")
@@ -47,7 +48,6 @@ def id_by_feed_id(feed_id, limit, offset):
 def feed_id_list_by_zsite_id(zsite_id):
     return Feed.where(zsite_id=zsite_id).id_list()
 
-#TODO 清缓存
 @mc_feed_id_by_for_zsite_follow("{zsite_id}")
 def feed_id_list_for_zsite_follow(zsite_id):
     key_list = follow_id_list_by_zsite_id(zsite_id)
@@ -62,6 +62,10 @@ def feed_id_list_for_zsite_follow(zsite_id):
     for i in feed_id_list:
         r.update(i)
     return r
+
+def mc_flush_zsite_follow(zsite_id):
+    for i in follow_id_list_by_zsite_id(zsite_id):
+        mc_feed_id_by_for_zsite_follow.delete(i)
 
 if __name__ == "__main__":
     print feed_id_list_by_zsite_id(1)
