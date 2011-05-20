@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 from _db import cursor_by_table
 
 cursor = cursor_by_table('gid')

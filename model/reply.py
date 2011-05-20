@@ -108,13 +108,5 @@ def mc_flush_reply_id_list(cid, rid):
     print key
     mc_reply_total.delete(key)
 
-
-
 if __name__ == "__main__":
     pass
-
-
-
-
-
-
