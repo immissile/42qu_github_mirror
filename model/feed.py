@@ -2,9 +2,8 @@
 #coding:utf-8
 
 from _db import cursor_by_table, Model, McCache, McLimitA
-from gid import gid
 
-mc_id_by_feed_id = McCacheA("IdByFeedId:%s", 128)
+mc_id_by_feed_id = McLimitA("IdByFeedId:%s", 128)
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
 
 class Feed(Model):
@@ -12,9 +11,8 @@ class Feed(Model):
 
 cursor = cursor_by_table('feed_entry')
 
-def feed_entry_new(zsite_id, cid):
+def feed_entry_new(id, zsite_id, cid):
     feed_id = feed_id_by_zsite_id_cid(zsite_id, cid)
-    id = gid()
     cursor.execute(
         "insert into feed_entry (id, feed_id) values (%s,%s)",
         (id, feed_id)

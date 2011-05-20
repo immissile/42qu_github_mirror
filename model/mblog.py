@@ -3,6 +3,8 @@
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from time import time
 from cid import CID_WORD, CID_NOTE
+from feed import feed_entry_new
+from gid import gid
 
 class Mblog(McModel):
     pass
@@ -33,7 +35,9 @@ def mblog_word_new( user_id, name, create_time=None):
     if create_time is None:
         create_time = int(time())
     if name.rstrip() and name != mblog_word_lastest(user_id):
+        id = gid()
         m = Mblog(
+            id=id,
             name=name,
             user_id=user_id,
             create_time=create_time,
@@ -42,6 +46,7 @@ def mblog_word_new( user_id, name, create_time=None):
         )
         m.save()
         mc_mblog_word_lastest.set(user_id, name)
+        feed_entry_new(id, user_id, CID_WORD)
         return m
 
 if __name__ == "__main__":
