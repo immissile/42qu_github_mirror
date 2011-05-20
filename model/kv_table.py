@@ -24,6 +24,7 @@ class KvTable(object):
 
     def set(self, key, value):
         r = self.get(key)
+        print key,value,"!!"
         if r != value:
             mc_key = self.__mc_key__%key
             cursor = self.cursor
