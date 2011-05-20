@@ -3,6 +3,7 @@
 
 from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA
 from zkit.mc_func import mc_func_get_list
+from mq import mq_client
 
 mc_id_by_feed_id = McLimitA("IdByFeedId:%s", 128)
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
@@ -31,7 +32,7 @@ def feed_id_by_zsite_id_cid(zsite_id, cid):
     if not feed.id:
         feed.save()
         mc_feed_id_list_by_zsite_id.delete(zsite_id)
-        mc_flush_zsite_follow(zsite_id)
+        mq_mc_flush_zsite_follow(zsite_id)
     return feed.id
 
 @mc_id_by_feed_id("{feed_id}")
@@ -67,6 +68,10 @@ def mc_flush_zsite_follow(zsite_id):
     for i in follow_id_list_by_zsite_id(zsite_id):
         mc_feed_id_by_for_zsite_follow.delete(i)
 
+mq_mc_flush_zsite_follow = mq_client(mc_flush_zsite_follow)
+
 if __name__ == "__main__":
     print feed_id_list_by_zsite_id(1)
+
+
 
