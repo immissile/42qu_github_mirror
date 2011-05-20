@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-from _db import cursor_by_table, Model, McCache, McLimitA
+from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA
 
 mc_id_by_feed_id = McLimitA("IdByFeedId:%s", 128)
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
+mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
 
 class Feed(Model):
     pass
@@ -27,6 +28,7 @@ def feed_id_by_zsite_id_cid(zsite_id, cid):
     feed = Feed.get_or_create(zsite_id=zsite_id, cid=cid)
     if not feed.id:
         feed.save()
+        mc_feed_id_list_by_zsite_id.delete(zsite_id)
     return feed.id
 
 @mc_id_by_feed_id("{feed_id}")
@@ -39,5 +41,12 @@ def id_by_feed_id(feed_id, limit, offset):
         i for i, in cursor
     ]
 
+@mc_feed_id_list_by_zsite_id("{zsite_id}")
+def feed_id_list_by_zsite_id(zsite_id):
+    return Feed.where(zsite_id=zsite_id).id_list()
+
+
+
 if __name__ == "__main__":
-    pass
+    print feed_id_list_by_zsite_id(1)
+
