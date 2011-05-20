@@ -20,9 +20,9 @@ def user_id_by_mail(mail):
 
 def user_mail_new(user_id, mail):
     mail = mail.strip().lower()
-    user_id = user_id_by_mail(mail)
-    if user_id:
-        return user_id
+    id = user_id_by_mail(mail)
+    if id:
+        return id
     u = UserMail(mail=mail,user_id=user_id)
     u.save()
     mc_user_id_by_mail.set(mail, user_id)
