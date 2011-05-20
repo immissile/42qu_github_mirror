@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 import config
-config.conf.DEBUG = True
+config.DEBUG = True
 
 from ctrl._application import application
 
