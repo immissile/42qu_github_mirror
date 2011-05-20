@@ -2,10 +2,12 @@
 #coding:utf-8
 
 from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA
+from zkit.mc_func import mc_func_get_list
 
 mc_id_by_feed_id = McLimitA("IdByFeedId:%s", 128)
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
 mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
+mc_feed_id_by_for_zsite_follow = McCacheA("FeedIdForZsiteFollow:%s")
 
 class Feed(Model):
     pass
@@ -45,7 +47,21 @@ def id_by_feed_id(feed_id, limit, offset):
 def feed_id_list_by_zsite_id(zsite_id):
     return Feed.where(zsite_id=zsite_id).id_list()
 
+#TODO 清缓存
+@mc_feed_id_by_for_zsite_follow("{zsite_id}")
+def feed_id_list_for_zsite_follow(zsite_id):
+    key_list = follow_id_list_by_zsite_id(zsite_id)
+    key_list.append(zsite_id)
 
+    feed_id_list = mc_func_get_list(
+        mc_feed_id_list_by_zsite_id,
+        feed_id_list_by_zsite_id,
+        key_list
+    )
+    r = set()
+    for i in feed_id_list:
+        r.update(i)
+    return r
 
 if __name__ == "__main__":
     print feed_id_list_by_zsite_id(1)
