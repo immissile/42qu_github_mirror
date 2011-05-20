@@ -49,6 +49,9 @@ def mblog_word_new( user_id, name, create_time=None):
         feed_entry_new(id, user_id, CID_WORD)
         return m
 
+
+
+
 if __name__ == "__main__":
     print mblog_word_new( 1, "test", )
 
