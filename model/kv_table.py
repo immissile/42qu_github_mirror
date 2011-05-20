@@ -35,8 +35,34 @@ class KvTable(object):
             cursor.connection.commit()
             mc.set(mc_key, value)
 
-    def delete(key):
+    def delete(self, key):
         cursor.execute("delete from %s where id=%%s"%self.__table__, key)
         mc_key = self.__mc_key__%key
         mc.delete(mc_key)
+
+    def id_by_value(self, value):
+        cursor = self.cursor
+        cursor.execute(
+            'select id from %s where value=%%s'%(self.__table__),
+            value
+        )
+        r = cursor.fetchone()
+        if r:
+            r = r[0]
+        return r
+
+    def id_by_value_new(self, value):
+        r = self.id_by_value(value)
+        if r is None:
+            cursor = self.cursor
+            cursor.execute(
+                "insert into %s (value) values (%%s)"%self.__table__,
+                value
+            )
+            cursor.connection.commit()
+            r = cursor.lastrowid
+        return r
+
+
+
 
