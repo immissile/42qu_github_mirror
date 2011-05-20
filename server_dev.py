@@ -73,11 +73,4 @@ def run():
 
 if __name__ == '__main__':
     from zkit.reloader.reload_server import auto_reload
-    from time import sleep
-    while True:
-        auto_reload(run)
-        print '\nSleep 4 seconds'
-        for i in xrange(10, 0, -1):
-            sleep(0.4)
-            print i,
-        print ''
+    auto_reload(run)

@@ -62,11 +62,22 @@ def restart_with_monitor():
         if exit_code != 3:
             return exit_code
 
-def auto_reload(app):
+def _auto_reload(app):
     if os.environ.get("_run"):
         import reloader
         reloader.install()
         app()
     else:
         restart_with_monitor()
+
+def auto_reload(app):
+    from time import sleep
+    while True:
+        _auto_reload(app)
+        print '\nAuto Reloading After 3 seconds : '
+        for i in xrange(10, 0, -1):
+            sleep(0.3)
+            print i,
+        print ''
+
 
