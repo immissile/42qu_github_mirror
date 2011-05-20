@@ -2,7 +2,7 @@
 #coding:utf-8
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from time import time
-from cid import CID_WORD, CID_NOTE
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from feed import feed_entry_new
 from gid import gid
 from txt import txt_new
@@ -69,7 +69,12 @@ def mblog_word_new(user_id, name):
         return m
 
 def mblog_question_new(user_id, name , txt):
-    m = mblog_new(CID_WORD, user_id, name, MBLOG_STATE_SECRET)
+    m = mblog_new(CID_QUESTION, user_id, name, MBLOG_STATE_SECRET)
+    txt_new(m.id, txt)
+    return m
+
+def mblog_note_new(user_id, name, txt)
+    m = mblog_new(CID_NOTE, user_id, name, MBLOG_STATE_SECRET)
     txt_new(m.id, txt)
     return m
 
