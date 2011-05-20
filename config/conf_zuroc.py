@@ -7,3 +7,4 @@ conf.FS_URL = 'http://s.zuroc.me'
 conf.PORT = 5555
 conf.MYSQL_MAIN = 'zpage'
 conf.DEBUG = True
+conf.MQ_PORT = 54010
