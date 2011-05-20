@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
 
 import _handler
 from zweb._urlmap import urlmap
@@ -18,4 +18,3 @@ class Word(_handler.LoginBase):
         if txt.strip():
             mblog_word_new(current_user.id, txt)
         return self.redirect("/news")
-

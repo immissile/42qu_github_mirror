@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
-
+# -*- coding: utf-8 -*-
 
 import _handler
 from zweb._urlmap import urlmap
@@ -27,4 +26,3 @@ class Setting(_handler.LoginBase):
         self.render(
            error_img=error_img
         )
-

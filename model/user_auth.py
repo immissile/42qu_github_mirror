@@ -5,7 +5,6 @@ from hashlib import sha256
 from user_mail import user_mail_new, user_id_by_mail
 from zsite import zsite_new_user, Zsite
 
-
 def hash_password(id, password):
     return sha256("%s%s"%(password, id)).digest()
 

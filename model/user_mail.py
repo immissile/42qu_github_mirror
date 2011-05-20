@@ -2,25 +2,21 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache
 
-class UserMail(McModel):
+class UserMail(Model):
     pass
 
 mc_user_id_by_mail = McCache("UserIdByMail:%s")
 
+@mc_user_id_by_mail('{mail}')
+def _user_id_by_mail(mail):
+    c = UserMail.raw_sql("select user_id from user_mail where mail=%s", mail).fetchone()
+    if c:
+        return c[0]
+    return 0
+
 def user_id_by_mail(mail):
     mail = mail.strip().lower()
-
-    c = mc_user_id_by_mail.get(mail)
-    if c:
-        return c
-
-    c = UserMail.raw_sql("select id from user_mail where mail=%s", mail).fetchone()
-    if c:
-        c = c[0]
-    if not c:
-        c = 0
-    mc_user_id_by_mail.set(mail, c)
-    return c
+    return _user_id_by_mail(mail)
 
 def user_mail_new(user_id, mail):
     mail = mail.strip().lower()
@@ -29,9 +25,8 @@ def user_mail_new(user_id, mail):
         return id
     u = UserMail(mail=mail,user_id=user_id)
     u.save()
-    id = u.id
-    mc_user_id_by_mail.set(mail, id)
-    return id
+    mc_user_id_by_mail.set(mail, user_id)
+    return user_id
 
 if __name__ == "__main__":
     for i in UserMail.where():

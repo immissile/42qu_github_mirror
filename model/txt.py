@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 from _db import  Model, cursor_by_table,McCache
 from time import time
 
@@ -32,17 +31,15 @@ def txt_get(id):
         return r[0]
     return ''
 
-
 def txt_bind(o_list):
     r = mc_txt.get_multi(i.id for i in o_list)
     for i in o_list:
         iid = i.id
         txt = r[iid]
-        if txt is not None:
-            i.txt = txt
-        else:
+        if txt is None:
             i.txt = txt_get(iid)
+        else:
+            i.txt = txt
 
 if __name__ == "__main__":
     pass
-

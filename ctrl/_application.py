@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
 
 def main():
     import tornado.wsgi
@@ -16,4 +16,3 @@ def main():
     return application
 
 application = main()
-

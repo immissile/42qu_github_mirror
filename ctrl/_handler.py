@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
 
 from zweb._tornado import web
 from config import render
@@ -31,4 +31,3 @@ class LoginBase(Base):
             self.redirect(url)
             return
         super(LoginBase,self).prepare()
-

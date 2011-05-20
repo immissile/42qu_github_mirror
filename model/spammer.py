@@ -11,5 +11,5 @@ def is_spammer(user_id):
     if int(user_id) in SPAM_USER_ID:
         return True
 
-if "__main__" == __name__:
-    print is_spammer_man_id(14)
+if __name__ == '__main__':
+    print is_spammer(14)

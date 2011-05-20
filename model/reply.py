@@ -87,7 +87,6 @@ class ReplyMixin(object):
         )
         return [i for i, in cursor]
 
-
     def reply_list(self, limit=None, offset=None):
         from model.zsite import Zsite
         r = Reply.mc_get_list(
@@ -105,16 +104,7 @@ class Reply(McModel):
 def mc_flush_reply_id_list(cid, rid):
     key = "%s_%s"%(cid, rid)
     mc_reply_id_list.delete(key)
-    print key
     mc_reply_total.delete(key)
-
-
 
 if __name__ == "__main__":
     pass
-
-
-
-
-
-

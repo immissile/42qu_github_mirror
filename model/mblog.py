@@ -2,12 +2,13 @@
 #coding:utf-8
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from time import time
+from cid import CID_WORD, CID_NOTE
+from feed import feed_entry_new
+from gid import gid
 
 class Mblog(McModel):
     pass
 
-MBLOG_CID_WORD = 1
-MBLOG_CID_NOTE = 2
 
 MBLOG_STATE_DEL = 3
 MBLOG_STATE_SECRET = 7
@@ -19,7 +20,7 @@ mc_mblog_word_lastest = McCache("MblogWordLastest:%s")
 def mblog_word_lastest(user_id):
     c = Mblog.raw_sql(
             "select name from mblog where cid=%s and user_id=%s and state>=%s order by id desc limit 1",
-            MBLOG_CID_WORD,
+            CID_WORD,
             user_id,
             MBLOG_STATE_ACTIVE
         )
@@ -34,15 +35,18 @@ def mblog_word_new( user_id, name, create_time=None):
     if create_time is None:
         create_time = int(time())
     if name.rstrip() and name != mblog_word_lastest(user_id):
+        id = gid()
         m = Mblog(
+            id=id,
             name=name,
             user_id=user_id,
             create_time=create_time,
-            cid=MBLOG_CID_WORD,
+            cid=CID_WORD,
             state=MBLOG_STATE_ACTIVE
         )
         m.save()
         mc_mblog_word_lastest.set(user_id, name)
+        feed_entry_new(id, user_id, CID_WORD)
         return m
 
 if __name__ == "__main__":

@@ -28,10 +28,7 @@ class KvTable(object):
             mc_key = self.__mc_key__%key
             cursor = self.cursor
             table = self.__table__
-            if r is False:
-                cursor.execute('insert delayed into %s (id,value) values (%%s,%%s)'%table, (key, value))
-            else:
-                cursor.execute('update %s set value=%%s where id=%%s'%table, (value, key))
+            cursor.execute('insert delayed into %s (id,value) values (%%s,%%s) on duplicate key update value=%s'%table, (key, value,value))
             cursor.connection.commit()
             mc.set(mc_key, value)
 

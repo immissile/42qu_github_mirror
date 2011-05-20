@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
 
 import _handler
 from zweb._urlmap import urlmap
@@ -24,7 +24,6 @@ class Wall(_handler.LoginBase):
                 REPLY_STATE_SECRET if secret else REPLY_STATE_ACTIVE
             )
 
-
         return self.redirect(zsite.link)
 
 PAGE_LIMIT = 42
@@ -46,4 +45,3 @@ class Page(_handler.LoginBase):
             reply_list = reply_list,
             page = page
         )
-
