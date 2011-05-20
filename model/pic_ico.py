@@ -52,6 +52,3 @@ def pic_ico_url(id, size="1"):
     if f:
         url = fs_url_jpg(size, f)
         return url
-
-
-

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
 
 import _handler
 from zweb._urlmap import urlmap
@@ -9,4 +9,3 @@ from model.mblog import mblog_word_new
 class News(_handler.LoginBase):
     def get(self):
         return self.render()
-
