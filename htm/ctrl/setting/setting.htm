@@ -2,9 +2,11 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.pic import ico_url as _ico_url
+from model.zsite_link import url_by_id
 %>
 <%
 ico_url = _ico_url(current_user.id)
+url = url_by_id(current_user.id)
 %>
 %if ico_url:
 <img src="${ico_url}">
@@ -15,3 +17,8 @@ ico_url = _ico_url(current_user.id)
 </div>
 <button type="submit">上传</button>
 </%htm:form>
+%if url:
+个性域名 <a href="${current_user.link}">${current_user.link[2:]}</a>
+%else:
+<a href="/setting/url">设置个性域名</a>
+%endif
