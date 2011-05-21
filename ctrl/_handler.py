@@ -3,7 +3,7 @@
 
 from zweb._tornado import web
 from config import render
-from config import SITE_DOMAIN, SITE_URL
+from config import SITE_DOMAIN, SITE_HTTP
 from model.zsite_link import zsite_by_domain
 import urlparse
 import urllib
@@ -15,7 +15,7 @@ class Base(zweb._handler.Base):
         zsite = zsite_by_domain(host)
         self.zsite = zsite
         if zsite is None and not host.startswith(SITE_DOMAIN):
-            return self.redirect(SITE_URL)
+            return self.redirect(SITE_HTTP)
 
 class LoginBase(Base):
     def prepare(self):
