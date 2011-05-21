@@ -36,5 +36,15 @@ def _execute(self, transforms, *args, **kwargs):
             self.finish()
 
 
+
+def redirect(self, url, permanent=False):
+    """Sends a redirect to the given (optionally relative) URL."""
+    if self._headers_written:
+        raise Exception("Cannot redirect after headers have been written")
+    self.set_status(301 if permanent else 302)
+    self.set_header("Location", url)
+    self.finish()
+
 web.RequestHandler.set_cookie = set_cookie
 web.RequestHandler._execute = _execute
+web.RequestHandler.redirect = redirect
