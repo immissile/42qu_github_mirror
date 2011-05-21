@@ -5,6 +5,8 @@ from kv_table import KvTable
 from zkit.pic import pic_square, picopen, pic_zoom_inner
 from time import time
 from fs import fs_set_jpg, fs_url_jpg
+from tid import TID_ICO
+
 """
 CREATE TABLE `pic_ico_history` (
 `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -30,8 +32,9 @@ ico = KvTable('ico')
 class Pic(Model):
     pass
 
-def pic_new(zsite_id, pic):
+def pic_new(tid, zsite_id, pic):
     p = Pic(
+        tid = tid,
         zsite_id=zsite_id,
         create_time=int(time()),
     ).save()
@@ -46,7 +49,7 @@ def pic_new(zsite_id, pic):
     return pic_id
 
 def ico_new(zsite_id, pic):
-    pic_id = pic_new(zsite_id, pic)
+    pic_id = pic_new(TID_ICO, zsite_id, pic)
     ico.set(zsite_id, pic_id)
     return pic_id
 
