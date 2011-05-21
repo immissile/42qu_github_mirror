@@ -32,9 +32,19 @@ MYSQL_USER = 'zpage'
 MYSQL_PASSWD = '42qu.com'
 MYSQL_MAIN = 'zpage_main'
 
+#SMTP = "smtp.sina.com.cn"
+#SMTP_USERNAME = "zuroc"
+#SMTP_PASSWORD = "kanrss"
+#SYS_EMAIL_SENDER = "zuroc586@sina.com"
+
+def load(setting):
+    try:
+        __import__(setting, globals(), locals(), [], -1)
+    except ImportError, e:
+        print "NO SETTING FILE : %s.py"%setting
+
+import socket
+load("host_%s"%socket.gethostname())
+
 import getpass
-LOCAL_SETTINGS = 'conf_%s' % getpass.getuser()
-try:
-    __import__(LOCAL_SETTINGS, globals(), locals(), [], -1)
-except ImportError, e:
-    print e
+load('conf_%s' % getpass.getuser())
