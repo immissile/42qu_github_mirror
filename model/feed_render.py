@@ -4,6 +4,7 @@
 
 from cid import CID_WORD
 from collections import namedtuple
+from zsite import Zsite
 
 CID2FEED_ENTRY = {
     CID_WORD : ""
@@ -34,5 +35,8 @@ def render_feed_entry_list(entry_list):
         cls = CID2FEED_ENTRY[cid]
         result.append(cls(id, cid, feed_id, zsite_id, *args))
     return result
+
+if __name__ == "__main__":
+    pass
 
 
