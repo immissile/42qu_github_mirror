@@ -17,6 +17,7 @@ SMTP = "127.0.0.1"
 SMTP_USERNAME = "work"
 SMTP_PASSWORD = "kanrss"
 SENDER_MAIL = "zuroc@42qu.com"
+SENDER_NAME = "张沈鹏"
 
 SITE_DOMAIN = '42qu.me'
 PIC_URL = 'http://p.42qu.info'
