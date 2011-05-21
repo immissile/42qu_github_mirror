@@ -18,6 +18,8 @@ def set_cookie(
         path, expires_days, **kwargs
     )
 
+web.RequestHandler.set_cookie = set_cookie
+
 
 def _execute(self, transforms, *args, **kwargs):
     """Executes this request with the given output transforms."""
@@ -34,6 +36,7 @@ def _execute(self, transforms, *args, **kwargs):
         getattr(self, self.request.method.lower())(*args, **kwargs)
         if self._auto_finish and not self._finished:
             self.finish()
+web.RequestHandler._execute = _execute
 
 
 
@@ -45,6 +48,5 @@ def redirect(self, url, permanent=False):
     self.set_header("Location", url)
     self.finish()
 
-web.RequestHandler.set_cookie = set_cookie
-web.RequestHandler._execute = _execute
 web.RequestHandler.redirect = redirect
+

@@ -24,7 +24,7 @@ class Wall(_handler.LoginBase):
                 REPLY_STATE_SECRET if secret else REPLY_STATE_ACTIVE
             )
         link = zsite.link
-        return self.redirect("http://zuroc.com")
+        return self.redirect("http://zsp.com")
         return self.redirect(link)
 
 PAGE_LIMIT = 42
