@@ -3,7 +3,7 @@
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from time import time
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
-from feed import feed_entry_new
+from feed import feed_entry_new, mc_feed_entry_tuple
 from gid import gid
 from txt import txt_new
 
@@ -60,10 +60,17 @@ def mblog_rm(user_id, id):
         m.save()
         feed_entry_rm(id)
 
+@mc_feed_entry_tuple('{id}')
+def feed_tuple_word(id):
+    m = Mblog.mc_get(id)
+    if m:
+        return (m.name, )
+    return False
 
 def mblog_word_new(user_id, name):
     if name.rstrip() and name != mblog_word_lastest(user_id):
         m = mblog_new(CID_WORD, user_id, name, MBLOG_STATE_ACTIVE)
+        id = m.id
         mc_mblog_word_lastest.set(user_id, name)
         feed_entry_new(id, user_id, CID_WORD)
         return m
