@@ -14,7 +14,7 @@ class Base(zweb._handler.Base):
         host = self.request.host
         zsite = zsite_by_domain(host)
         self.zsite = zsite
-        if zsite is None and not host.startswith(SITE_DOMAIN):
+        if zsite is None and host != SITE_DOMAIN:
             return self.redirect(SITE_URL)
 
 class LoginBase(Base):
