@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, mc
+from _db import Model, McModel, McCache, mc, cursor_by_table
 from os import urandom
 from struct import pack, unpack
 from base64 import urlsafe_b64encode, urlsafe_b64decode
+from time import time
 
 mc_user_session = McCache("UserSession:%s")
 
@@ -25,6 +26,9 @@ def user_session(user_id):
             u.value = s
             u.save()
             mc_user_session.set(user_id, s)
+            cursor = cursor_by_table('user_login_time')
+            cursor.execute( 'insert delay into user_login_time (user_id, create_time) values (%s, %s)', (user_id, int(time())) )
+            cursor.connection.commit()
 
     user_id_key = pack("I", int(user_id))
     user_id_key = urlsafe_b64encode(user_id_key)[:6]
