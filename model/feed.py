@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA
+from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA, McModel
 from zkit.mc_func import mc_func_get_multi
 from follow import follow_id_list_by_zsite_id
 from zkit.algorithm.merge import imerge
@@ -12,8 +12,9 @@ mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
 mc_feed_id_by_for_zsite_follow = McCache("FeedIdForZsiteFollow.%s")
 
 
-class Feed(Model):
+class Feed(McModel):
     pass
+
 
 cursor = cursor_by_table('feed_entry')
 
@@ -142,12 +143,14 @@ class FeedMerge(object):
             feed_id_set.add(i.feed_id)
             r.append(i)
 
-        feed_dict = Feed.mc_get_mulit(feed_id_set)
-
+        feed_dict = Feed.mc_get_multi(feed_id_set)
+        for i in r:
+            feed = feed_dict[i.feed_id]
+            yield i.id, i.feed_id, feed.cid, feed.zsite_id
 
 
 
 if __name__ == "__main__":
-    for i in FeedMerge(feed_id_list_for_zsite_follow(10000000)).merge_iter():
-        print i.id, i.feed_id
+    for i in FeedMerge(feed_id_list_for_zsite_follow(10000000)).entry_iter():
+        print i
 
