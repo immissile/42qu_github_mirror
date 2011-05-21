@@ -5,8 +5,9 @@ from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA, McModel
 from zkit.mc_func import mc_func_get_multi
 from follow import follow_id_list_by_zsite_id
 from zkit.algorithm.merge import imerge
-from feed_render import render_feed_entry_list
+from _db import McCache
 
+mc_feed_entry_tuple = McCache("FeedEntryTuple:%s")
 mc_feed_entry_iter = McCacheA("FeedEntryIter:%s")
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
 mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
@@ -150,8 +151,12 @@ class FeedMerge(object):
             feed = feed_dict[i.feed_id]
             cid = feed.cid
             r2.append( ( i.id, cid, i.feed_id, feed.zsite_id ) )
+        from feed_render import render_feed_entry_list
         return render_feed_entry_list(r2)
 
 if __name__ == "__main__":
+    from cid import CID_WORD
     for i in FeedMerge(feed_id_list_for_zsite_follow(10000000)).render_iter():
-        print i.id
+        if i.cid == CID_WORD:
+            print i.zsite.name
+
