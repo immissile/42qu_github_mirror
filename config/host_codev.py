@@ -8,3 +8,4 @@ conf.SMTP = "smtp.sina.com.cn"
 conf.SMTP_USERNAME = "zuroc586"
 conf.SMTP_PASSWORD = "kanrss"
 conf.SENDER_MAIL = "zuroc586@sina.com"
+

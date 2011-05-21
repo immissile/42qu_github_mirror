@@ -117,4 +117,3 @@ if "__main__" == __name__:
     #rendermail()
     rendermail("/mail/auth/register.txt","zsp007@gmail.com","张沈鹏")
 
-

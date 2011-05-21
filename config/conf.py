@@ -13,16 +13,18 @@ if PREFIX not in sys.path:
 PORT = 5555
 DEBUG = False
 
-SMTP = "127.0.0.1"
-SMTP_USERNAME = "work"
-SMTP_PASSWORD = "kanrss"
-SENDER_MAIL = "zuroc@42qu.com"
-SENDER_NAME = "42QU.COM"
 
 SITE_DOMAIN = '42qu.me'
 PIC_URL = 'http://p.42qu.info'
 FS_URL = 'http://s.42qu.info'
 FS_PATH = '/mnt/zpage'
+
+
+SMTP = "127.0.0.1"
+SMTP_USERNAME = "work"
+SMTP_PASSWORD = "kanrss"
+SENDER_MAIL = "zuroc@42qu.com"
+SENDER_NAME = SITE_DOMAIN
 
 
 MEMCACHED_ADDR = ('127.0.0.1:11213', )
