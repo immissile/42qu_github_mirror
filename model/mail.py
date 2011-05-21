@@ -6,7 +6,7 @@ from email.Utils import parseaddr, formataddr
 from base64 import encodestring
 
 import smtplib
-from config import PREFIX, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SYS_EMAIL_SENDER, SYS_EMAIL_SENDER_NAME, DOMAIN
+from config import PREFIX, SMTP, SMTP_USERNAME, SMTP_PASSWORD, EMAIL_SENDER, EMAIL_SENDER_NAME, DOMAIN
 
 NOT_SUPPORT_UTF8_DOMAIN = set(['tom.com', 'hotmail.com', 'msn.com', 'yahoo.com'])
 
@@ -79,7 +79,7 @@ def render_template(uri, **kwds):
 
 NOEMAIL = "kanrss_noemail@googlegroups.com"
 
-def sendmail(subject, text, email, name=None, sender=SYS_EMAIL_SENDER, sender_name=SYS_EMAIL_SENDER_NAME):
+def sendmail(subject, text, email, name=None, sender=EMAIL_SENDER, sender_name=EMAIL_SENDER_NAME):
     if not email:
         email = NOEMAIL
         subject = "->%s : %s"%(name, subject)
@@ -105,7 +105,7 @@ def sendmail(subject, text, email, name=None, sender=SYS_EMAIL_SENDER, sender_na
 
 
 def rendermail(
-        uri, email, name, sender=SYS_EMAIL_SENDER, sender_name=SYS_EMAIL_SENDER_NAME, sendmethod=sendmail, **kwds
+        uri, email, name, sender=EMAIL_SENDER, sender_name=EMAIL_SENDER_NAME, sendmethod=sendmail, **kwds
     ):
     if "name" not in kwds:
         kwds['name'] = name
@@ -129,11 +129,13 @@ def rendermail(
 if "__main__" == __name__:
     #sendmail("122", "2345", "zsp007@gmail.com")
     import sys
-    from myconf.config import PREFIX, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SYS_EMAIL_SENDER, SYS_EMAIL_SENDER_NAME, DOMAIN
+    from myconf.config import PREFIX, SMTP, SMTP_USERNAME, SMTP_PASSWORD, EMAIL_SENDER, EMAIL_SENDER_NAME, DOMAIN
     print "..............", SMTP_USERNAME,SMTP_PASSWORD;   sys.stdout.flush()
     SMTP_USERNAME = "zuroc586"
     server = smtplib.SMTP(SMTP)
     server.ehlo()
     server.esmtp_features["auth"] = "LOGIN PLAIN"
     server.login(SMTP_USERNAME, SMTP_PASSWORD)
-    sendmail_imp(server, SYS_EMAIL_SENDER, "sfd", "zsp007@gmail.com", "ss", "aseweaewd的", "爱上")
+    sendmail_imp(
+server, EMAIL_SENDER, "sfd", "zsp007@gmail.com", "ss", "aseweaewd的", "爱上"
+    )

@@ -7,4 +7,4 @@ conf.MQ_PORT = 14711
 SMTP = "smtp.sina.com.cn"
 SMTP_USERNAME = "zuroc"
 SMTP_PASSWORD = "kanrss"
-SYS_EMAIL_SENDER = "zuroc586@sina.com"
+EMAIL_SENDER = "zuroc586@sina.com"
