@@ -135,7 +135,15 @@ class FeedMerge(object):
                 break
 
     def entry_iter(self, limit=MAXINT, begin_id=MAXINT):
-        pass
+        feed_id_set = set()
+
+        r = []
+        for i in self.merge_iter(limit, begin_id):
+            feed_id_set.add(i.feed_id)
+            r.append(i)
+
+        feed_dict = Feed.mc_get_mulit(feed_id_set)
+
 
 
 
