@@ -6,6 +6,6 @@ test
 test
 
 
-${datetime.now()[:10]}
+${str(datetime.now())[:10]}
 
 ttt

@@ -3,7 +3,7 @@ from _db import cursor_by_table
 from marshal import dumps, loads
 from decorator import decorator
 from config import MQ_PORT, MQ_USE
-
+import logging
 
 beanstalk = None
 NAME2FUNC = {}
@@ -47,7 +47,7 @@ def mq_server():
             exc = traceback.format_exc()
             cursor = cursor_by_table("failed_mq")
             cursor.execute("insert into failed_mq (body,exc,func) values (%s,%s,%s)", (job.body, exc, name))
-
+            logging.error(exc)
         job.delete()
 
 
