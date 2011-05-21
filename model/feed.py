@@ -68,6 +68,10 @@ def feed_id_by_zsite_id_cid(zsite_id, cid):
         mq_mc_flush_zsite_follow(zsite_id)
     return feed.id
 
+#消息流的合并
+#可以考虑用天涯的内存数据库来优化
+#http://code.google.com/p/memlink/
+
 import sys
 MAXINT = sys.maxint
 PAGE_LIMIT = 42
