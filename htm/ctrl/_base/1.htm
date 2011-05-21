@@ -1,6 +1,6 @@
 <%!
 from config import SITE_DOMAIN
-from config import SITE_HTTP
+from config import SITE_URL
 NAVURL = (
     ( '/setting' , "账号"),
     ( '/cout/word' , "微博"),
@@ -21,7 +21,7 @@ uri = request.uri
 %if host_now and uri=='/':
 class="on"\
 %endif
-><a href="${SITE_HTTP}">首页</a></li>\
+><a href="${SITE_URL}">首页</a></li>\
 %if host_now and uri in NAVURL_DICT:
 <li class="on" ><a href="${uri}">${NAVURL_DICT[uri]}</a></li>\
 %endif
@@ -54,7 +54,7 @@ link = current_user.link
 %>
 <div style="float:right">
 <a href="${link}">${current_user.name}</a>
-<a href="${SITE_HTTP}/setting">账号</a>
+<a href="${SITE_URL}/setting">账号</a>
 <a href="/news">动态</a>
 
 <div>
