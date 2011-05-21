@@ -104,7 +104,7 @@ def rendermail(
     kwds['email'] = email
     kwds['sender'] = sender
     kwds['sender_name'] = sender_name
-    kwds['site_url'] = SITE_HTTP
+    kwds['site_http'] = SITE_HTTP
     subject, text = render_template(uri, **kwds)
     subject = str(subject)
     text = str(text)

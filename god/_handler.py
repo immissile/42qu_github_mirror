@@ -3,7 +3,7 @@
 
 from zweb._tornado import web
 from config import render
-from config import SITE_DOMAIN, SITE_HTTP
+from config import SITE_DOMAIN, SITE_URL
 from model.zsite_link import zsite_by_domain
 import urlparse
 import urllib
@@ -13,5 +13,5 @@ import zweb._handler
 class Base(zweb._handler.Base):
     def prepare(self):
         if not self.current_user:
-            self.redirect(SITE_HTTP)
+            self.redirect(SITE_URL)
 
