@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-from zweb import _handler
+expires 0;
 """
 
 TO_STRING = """
-import _handler
+expires off;
 """
 
 FROM_STRING = FROM_STRING.strip()
@@ -23,7 +23,7 @@ for dirpath, dirnames, filenames in walk(dirname(FILE)):
 
     for filename in filenames:
         suffix = filename.rsplit(".", 1)[-1]
-        if suffix not in ("py", "htm", "txt"):
+        if suffix not in ("py", "htm", "txt","conf"):
             continue
         path = join(dirpath, filename)
         if path == FILE:
