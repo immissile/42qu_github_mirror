@@ -18,4 +18,4 @@ truncate zpage.zsite;
 insert into zpage.zsite (id, name, cid, state)
 select id, name, cid, state from qu.man order by id;
 
-truncate zpage.pic_ico;
+truncate zpage.pic;
