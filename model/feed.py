@@ -5,6 +5,7 @@ from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA, McModel
 from zkit.mc_func import mc_func_get_multi
 from follow import follow_id_list_by_zsite_id
 from zkit.algorithm.merge import imerge
+from feed_render import render_feed_entry_list
 
 mc_feed_entry_iter = McCacheA("FeedEntryIter:%s")
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
@@ -135,7 +136,7 @@ class FeedMerge(object):
             if count >= limit:
                 break
 
-    def entry_iter(self, limit=MAXINT, begin_id=MAXINT):
+    def render_iter(self, limit=MAXINT, begin_id=MAXINT):
         feed_id_set = set()
 
         r = []
@@ -143,19 +144,14 @@ class FeedMerge(object):
             feed_id_set.add(i.feed_id)
             r.append(i)
 
+        r2 = []
         feed_dict = Feed.mc_get_multi(feed_id_set)
         for i in r:
             feed = feed_dict[i.feed_id]
             cid = feed.cid
-            yield CID2FEED_ENTRY[cid](i.id, i.feed_id, cid, feed.zsite_id)
-
-from cid import CID_WORD
-from collections import namedtuple
-
-CID2FEED_ENTRY = {
-    CID_WORD : namedtuple('EntryWord', 'id feed_id cid zsite_id')
-}
+            r2.append( ( i.id, cid, i.feed_id, feed.zsite_id ) )
+        return render_feed_entry_list(r2)
 
 if __name__ == "__main__":
-    for i in FeedMerge(feed_id_list_for_zsite_follow(10000000)).entry_iter():
-        print i.id, i.feed_id, i.cid, i.zsite_id
+    for i in FeedMerge(feed_id_list_for_zsite_follow(10000000)).render_iter():
+        print i.id
