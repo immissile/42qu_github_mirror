@@ -1,5 +1,5 @@
 #coding:utf-8
-from init_db import McCache
+from _db import McCache
 from email.MIMEText import MIMEText
 from email.Header import Header
 from email.Utils import parseaddr, formataddr
