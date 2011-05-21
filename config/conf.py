@@ -16,7 +16,7 @@ DEBUG = False
 SMTP = "127.0.0.1"
 SMTP_USERNAME = "work"
 SMTP_PASSWORD = "kanrss"
-EMAIL_SENDER = "zuroc@42qu.com"
+SENDER_MAIL = "zuroc@42qu.com"
 
 SITE_DOMAIN = '42qu.me'
 PIC_URL = 'http://p.42qu.info'
@@ -39,7 +39,7 @@ MYSQL_MAIN = 'zpage_main'
 #SMTP = "smtp.sina.com.cn"
 #SMTP_USERNAME = "zuroc"
 #SMTP_PASSWORD = "kanrss"
-#EMAIL_SENDER = "zuroc586@sina.com"
+#SENDER_MAIL = "zuroc586@sina.com"
 
 def load(setting):
     try:
