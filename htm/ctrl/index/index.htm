@@ -17,7 +17,7 @@ reply_total = zsite.reply_total
 REPLY_LIMIT = 10
 %>
 <div>${reply_total}留言</div>
-<%htm:form action="${zsite.link}/wall">
+<%htm:form action="/wall">
 <textarea name="txt"></textarea>
 <input type="checkbox" name="secret" id="secret">\
 <label for="secret">悄悄话</label>

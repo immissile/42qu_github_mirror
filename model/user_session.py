@@ -27,7 +27,7 @@ def user_session(user_id):
             u.save()
             mc_user_session.set(user_id, s)
             cursor = cursor_by_table('user_login_time')
-            cursor.execute( 'insert delay into user_login_time (user_id, create_time) values (%s, %s)', (user_id, int(time())) )
+            cursor.execute( 'insert delayed into user_login_time (user_id, create_time) values (%s, %s)', (user_id, int(time())) )
             cursor.connection.commit()
 
     user_id_key = pack("I", int(user_id))

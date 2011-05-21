@@ -1,0 +1,11 @@
+<%!
+from datetime import datetime
+%>
+
+test
+test
+
+
+${str(datetime.now())[:10]}
+
+ttt

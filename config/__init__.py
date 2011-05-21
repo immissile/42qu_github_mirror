@@ -14,7 +14,8 @@ GOD_PORT = PORT + 11
 
 SITE_DOMAIN_SUFFIX = '.%s' % SITE_DOMAIN
 
-SITE_URL = 'http://%s' % SITE_DOMAIN
+SITE_URL = '//%s' % SITE_DOMAIN
+SITE_HTTP = 'http://%s' % SITE_DOMAIN
 
 
 HTM_PATH = join(dirname(dirname(abspath(__file__))), 'htm')
@@ -30,6 +31,7 @@ MAKOLOOKUP = TemplateLookup(
     output_encoding=''
 )
 
+SENDER_NAME = SITE_DOMAIN
 
 def render(htm, **kwds):
     mytemplate = MAKOLOOKUP.get_template(htm)

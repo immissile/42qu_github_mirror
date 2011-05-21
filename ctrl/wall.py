@@ -23,8 +23,8 @@ class Wall(_handler.LoginBase):
                 txt,
                 REPLY_STATE_SECRET if secret else REPLY_STATE_ACTIVE
             )
-
-        return self.redirect(zsite.link)
+        link = zsite.link
+        return self.redirect(link)
 
 PAGE_LIMIT = 42
 

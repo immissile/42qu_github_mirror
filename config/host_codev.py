@@ -4,7 +4,8 @@ import conf
 conf.MYSQL_MAIN = 'zpage'
 conf.MQ_PORT = 14711
 
-SMTP = "smtp.sina.com.cn"
-SMTP_USERNAME = "zuroc"
-SMTP_PASSWORD = "kanrss"
-SYS_EMAIL_SENDER = "zuroc586@sina.com"
+conf.SMTP = "smtp.sina.com.cn"
+conf.SMTP_USERNAME = "zuroc586"
+conf.SMTP_PASSWORD = "kanrss"
+conf.SENDER_MAIL = "zuroc586@sina.com"
+

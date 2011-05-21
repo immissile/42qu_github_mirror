@@ -1,12 +1,14 @@
 #coding:utf-8
-from init_db import McCache
+from _db import McCache
+from config import render, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SENDER_MAIL, SENDER_NAME, SITE_HTTP
+
 from email.MIMEText import MIMEText
 from email.Header import Header
+from os.path import join
+from decorator import decorator
 from email.Utils import parseaddr, formataddr
 from base64 import encodestring
-
 import smtplib
-from config import PREFIX, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SYS_EMAIL_SENDER, SYS_EMAIL_SENDER_NAME, DOMAIN
 
 NOT_SUPPORT_UTF8_DOMAIN = set(['tom.com', 'hotmail.com', 'msn.com', 'yahoo.com'])
 
@@ -53,21 +55,12 @@ def sendmail_imp(
     smtp.sendmail(sender, recipient, msg.as_string())
 
 
-from os.path import join
-from decorator import decorator
-from mypy.byteplay import Code, opmap
 
 
-TXT_PATH = join(PREFIX, "mysite/txt")
 
-McMailTmp = McCache("MailTmp:%s")
 
 def render_template(uri, **kwds):
-    from mypy.route_render import Render
-    G = Render("/_mail/"+uri)
-
-    txt = G(**kwds).strip()
-
+    txt = render(uri, **kwds).strip()
     r = txt.split("\n", 1)
 
     if len(r) < 2:
@@ -79,7 +72,7 @@ def render_template(uri, **kwds):
 
 NOEMAIL = "kanrss_noemail@googlegroups.com"
 
-def sendmail(subject, text, email, name=None, sender=SYS_EMAIL_SENDER, sender_name=SYS_EMAIL_SENDER_NAME):
+def sendmail(subject, text, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME):
     if not email:
         email = NOEMAIL
         subject = "->%s : %s"%(name, subject)
@@ -99,41 +92,30 @@ def sendmail(subject, text, email, name=None, sender=SYS_EMAIL_SENDER, sender_na
         subject = "%s %s %s"%(name, subject, email)
         sendmail_imp(server, sender, sender_name, "kanrss_backup@googlegroups.com", name, subject, text)
 
-    #backup
-
     server.quit()
 
 
 def rendermail(
-        uri, email, name, sender=SYS_EMAIL_SENDER, sender_name=SYS_EMAIL_SENDER_NAME, sendmethod=sendmail, **kwds
+        uri, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME, **kwds
     ):
-    if "name" not in kwds:
-        kwds['name'] = name
-
-    if "email" not in kwds:
-        kwds['email'] = email
-
-    if "sender" not in kwds:
-        kwds['sender'] = sender
-
-    if "sender_name" not in kwds:
-        kwds['sender_name'] = sender_name
-
-    kwds['domain'] = DOMAIN
+    if name is None:
+        name = email.split("@", 1)[0]
+    kwds['name'] = name
+    kwds['email'] = email
+    kwds['sender'] = sender
+    kwds['sender_name'] = sender_name
+    kwds['site_http'] = SITE_HTTP
     subject, text = render_template(uri, **kwds)
     subject = str(subject)
     text = str(text)
-    sendmethod(subject, text, email, name, sender, sender_name)
+    sendmail(subject, text, email, name, sender, sender_name)
 
+from mq import mq_client
+mq_rendermail = mq_client(rendermail)
 
 if "__main__" == __name__:
     #sendmail("122", "2345", "zsp007@gmail.com")
     import sys
-    from myconf.config import PREFIX, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SYS_EMAIL_SENDER, SYS_EMAIL_SENDER_NAME, DOMAIN
-    print "..............", SMTP_USERNAME,SMTP_PASSWORD;   sys.stdout.flush()
-    SMTP_USERNAME = "zuroc586"
-    server = smtplib.SMTP(SMTP)
-    server.ehlo()
-    server.esmtp_features["auth"] = "LOGIN PLAIN"
-    server.login(SMTP_USERNAME, SMTP_PASSWORD)
-    sendmail_imp(server, SYS_EMAIL_SENDER, "sfd", "zsp007@gmail.com", "ss", "aseweaewd的", "爱上")
+    #rendermail()
+    mq_rendermail("/mail/auth/register.txt", "zsp007@gmail.com", "张沈鹏")
+
