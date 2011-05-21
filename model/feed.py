@@ -5,6 +5,7 @@ from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA, McModel
 from zkit.mc_func import mc_func_get_list
 from follow import follow_id_list_by_zsite_id
 from zkit.algorithm.merge import imerge
+from mq import mq_client
 
 mc_feed_entry_tuple = McCache("FeedEntryTuple:%s")
 mc_feed_entry_iter = McCacheA("FeedEntryIter:%s")
@@ -60,7 +61,6 @@ def mc_flush_zsite_follow(zsite_id):
     for i in follow_id_list_by_zsite_id(zsite_id):
         mc_feed_id_by_for_zsite_follow.delete(i)
 
-from mq import mq_client
 mq_mc_flush_zsite_follow = mq_client(mc_flush_zsite_follow)
 
 
