@@ -30,6 +30,7 @@ MAKOLOOKUP = TemplateLookup(
     output_encoding=''
 )
 
+SENDER_NAME = SITE_DOMAIN
 
 def render(htm, **kwds):
     mytemplate = MAKOLOOKUP.get_template(htm)
