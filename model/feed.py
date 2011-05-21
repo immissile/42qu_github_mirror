@@ -2,12 +2,12 @@
 #coding:utf-8
 
 from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA
-from zkit.mc_func import mc_func_get_list
+from zkit.mc_func import mc_func_get_multi
 from follow import follow_id_list_by_zsite_id
 mc_id_by_feed_id = McLimitA("IdByFeedId:%s", 256)
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
 mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
-mc_feed_id_by_for_zsite_follow = McCacheA("FeedIdForZsiteFollow:%s")
+mc_feed_id_by_for_zsite_follow = McCache("FeedIdForZsiteFollow.%s")
 
 class Feed(Model):
     pass
@@ -59,15 +59,12 @@ def feed_id_list_by_zsite_id(zsite_id):
 def feed_id_list_for_zsite_follow(zsite_id):
     key_list = follow_id_list_by_zsite_id(zsite_id)
     key_list.append(zsite_id)
-    feed_id_list = mc_func_get_list(
+    feed_id_list = mc_func_get_multi(
         mc_feed_id_list_by_zsite_id,
         feed_id_list_by_zsite_id,
         key_list
     )
-    r = set()
-    for i in feed_id_list:
-        r.update(i)
-    return r
+    return feed_id_list
 
 def mc_flush_zsite_follow(zsite_id):
     for i in follow_id_list_by_zsite_id(zsite_id):
