@@ -153,7 +153,7 @@ from cid import CID_WORD
 from collections import namedtuple
 EntryWord = namedtuple('EntryWord', 'id feed_id cid zsite_id')
 CID2ENTRY = {
-        CID_WORD : EntryWord
+    CID_WORD : EntryWord
 }
 
 if __name__ == "__main__":
