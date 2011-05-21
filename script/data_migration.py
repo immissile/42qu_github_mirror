@@ -24,10 +24,10 @@ for root, dirs, files in walk(join(KV_PATH, 'pic_show', '0')):
                     makedirs(dirpath)
                 copy(opath, path)
 
-for root, dirs, files in walk(join(FS_PATH, '0')):
-    for name in files:
-        path = join(root, name)
-        id = splitext(name)[0]
-        id = int(id)
-        with open(path) as f:
-            ico_save(id, picopen(f))
+#for root, dirs, files in walk(join(FS_PATH, '0')):
+#    for name in files:
+#        path = join(root, name)
+#        id = splitext(name)[0]
+#        id = int(id)
+#        with open(path) as f:
+#            ico_save(id, picopen(f))
