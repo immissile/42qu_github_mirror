@@ -68,9 +68,6 @@ def feed_id_by_zsite_id_cid(zsite_id, cid):
         mq_mc_flush_zsite_follow(zsite_id)
     return feed.id
 
-#消息流的合并
-#可以考虑用天涯的内存数据库来优化
-#http://code.google.com/p/memlink/
 
 import sys
 MAXINT = sys.maxint
@@ -85,6 +82,8 @@ def feed_entry_id_lastest(feed_id):
         i for i, in cursor
     ]
 
+#TODO : 消息流的合并, feed_entry_id_iter 函数可以考虑用天涯的内存数据库来优化
+#http://code.google.com/p/memlink/
 def feed_entry_id_iter(id, start_id=MAXINT, ):
     if start_id == MAXINT:
         id_list = feed_entry_id_lastest(id)
@@ -103,10 +102,41 @@ def feed_entry_id_iter(id, start_id=MAXINT, ):
             yield i
         start_id = i
 
+def feed_entry_cmp_iter(id, start_id=sys.maxint):
+    for i in feed_entry_id_iter(id, start_id):
+        yield FeedEntryCmp(id, i)
+
+class FeedEntryCmp(object):
+    def __init__(self, feed_id, id):
+        self.id = id
+        self.feed_id = feed_id
+
+    def __cmp__(self, other):
+        return other.id - self.id
+
+
+class FeedMerge(object):
+    def __init__(self, feed_id_list):
+        self.feed_id_list = feed_id_list
+
+    def merge_iter(self, limit=MAXINT, begin_id=MAXINT):
+        feed_id_list = self.feed_id_list
+
+        count = 0
+        for i in imerge(
+            *[
+                feed_entry_cmp_iter(i, begin_id)
+                for i in
+                feed_id_list
+            ]
+        ):
+            yield i
+            count += 1
+            if count >= limit:
+                break
 
 
 if __name__ == "__main__":
-    print feed_id_list_for_zsite_follow(10000000)
-    for i in feed_entry_id_iter(2):
-        print i
+    for i in FeedMerge(feed_id_list_for_zsite_follow(10000000)).merge_iter():
+        print i.id, i.feed_id
 
