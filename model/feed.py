@@ -114,7 +114,6 @@ class FeedEntryCmp(object):
     def __cmp__(self, other):
         return other.id - self.id
 
-
 class FeedMerge(object):
     def __init__(self, feed_id_list):
         self.feed_id_list = feed_id_list
@@ -134,6 +133,10 @@ class FeedMerge(object):
             count += 1
             if count >= limit:
                 break
+
+    def entry_iter(self, limit=MAXINT, begin_id=MAXINT):
+        pass
+
 
 
 if __name__ == "__main__":
