@@ -43,6 +43,7 @@ MYSQL_MAIN = 'zpage_main'
 #SENDER_MAIL = "zuroc586@sina.com"
 
 def load(setting):
+    print "loading SETTING FILE : %s.py"%setting
     try:
         __import__(setting, globals(), locals(), [], -1)
     except ImportError, e:

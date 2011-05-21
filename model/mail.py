@@ -1,5 +1,7 @@
 #coding:utf-8
 from _db import McCache
+from config import render, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SENDER_MAIL, SENDER_NAME, SITE_URL
+
 from email.MIMEText import MIMEText
 from email.Header import Header
 from os.path import join
@@ -7,7 +9,6 @@ from decorator import decorator
 from email.Utils import parseaddr, formataddr
 from base64 import encodestring
 import smtplib
-from config import render, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SENDER_MAIL, SENDER_NAME, DOMAIN
 
 NOT_SUPPORT_UTF8_DOMAIN = set(['tom.com', 'hotmail.com', 'msn.com', 'yahoo.com'])
 
@@ -56,11 +57,10 @@ def sendmail_imp(
 
 
 
-TXT_PATH = join(PREFIX, "mysite/txt")
 
 
 def render_template(uri, **kwds):
-    html = render(uri, **kwds).strip()
+    txt = render(uri, **kwds).strip()
     r = txt.split("\n", 1)
 
     if len(r) < 2:
@@ -98,11 +98,13 @@ def sendmail(subject, text, email, name=None, sender=SENDER_MAIL, sender_name=SE
 def rendermail(
         uri, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME, sendmethod=sendmail, **kwds
     ):
+    if name is None:
+        name = email.split("@",1)[0]
     kwds['name'] = name
     kwds['email'] = email
     kwds['sender'] = sender
     kwds['sender_name'] = sender_name
-    kwds['domain'] = DOMAIN
+    kwds['site_url'] = SITE_URL
     subject, text = render_template(uri, **kwds)
     subject = str(subject)
     text = str(text)
@@ -113,6 +115,6 @@ if "__main__" == __name__:
     #sendmail("122", "2345", "zsp007@gmail.com")
     import sys
     #rendermail()
-    rendermail("/mail/register.txt","zsp007@gmail.com","张沈鹏")
+    rendermail("/mail/auth/register.txt","zsp007@gmail.com","张沈鹏")
 
 
