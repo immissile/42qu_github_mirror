@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #coding:utf-8
+#import config.dev
+import config.dev
 import config
-config.DEBUG = True
-
 from ctrl._application import application
 
 import sys

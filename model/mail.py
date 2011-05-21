@@ -1,0 +1,139 @@
+#coding:utf-8
+from init_db import McCache
+from email.MIMEText import MIMEText
+from email.Header import Header
+from email.Utils import parseaddr, formataddr
+from base64 import encodestring
+
+import smtplib
+from config import PREFIX, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SYS_EMAIL_SENDER, SYS_EMAIL_SENDER_NAME, DOMAIN
+
+NOT_SUPPORT_UTF8_DOMAIN = set(['tom.com', 'hotmail.com', 'msn.com', 'yahoo.com'])
+
+def ignore_encode(s, enc):
+    return s.decode('utf-8', 'ignore').encode(enc, 'ignore')
+
+
+def sendmail_imp(
+        smtp,
+        sender, sender_name,
+        recipient, recipient_name,
+        subject, body, enc='utf-8',
+        format='plain'
+    ):
+    #print subject
+    if not subject:
+        return
+
+    at = recipient.find('@')
+    if at <= 0:
+        return
+
+    domain = recipient[at+1:].strip()
+    if domain not in NOT_SUPPORT_UTF8_DOMAIN:
+        enc = 'utf-8'
+    else:
+        enc = "gb18030"
+
+    if enc.lower() != 'utf-8':
+        sender_name = ignore_encode(sender_name, enc)
+        recipient_name = ignore_encode(recipient_name, enc)
+        body = ignore_encode(body, enc)
+        subject = ignore_encode(subject, enc)
+
+    msg = MIMEText(body, format, enc)
+    msg['Subject'] = Header(subject, enc)
+
+    sender_name = str(Header(sender_name, enc))
+    msg['From'] = formataddr((sender_name, sender))
+
+    recipient_name = str(Header(recipient_name, enc))
+    msg['To'] = formataddr((recipient_name, recipient))
+
+    smtp.sendmail(sender, recipient, msg.as_string())
+
+
+from os.path import join
+from decorator import decorator
+from mypy.byteplay import Code, opmap
+
+
+TXT_PATH = join(PREFIX, "mysite/txt")
+
+McMailTmp = McCache("MailTmp:%s")
+
+def render_template(uri, **kwds):
+    from mypy.route_render import Render
+    G = Render("/_mail/"+uri)
+
+    txt = G(**kwds).strip()
+
+    r = txt.split("\n", 1)
+
+    if len(r) < 2:
+        r.append(txt[0])
+
+    if uri.endswith(".txt"):
+        r[1] = r[1].replace("\n", "\n\n")
+    return r
+
+NOEMAIL = "kanrss_noemail@googlegroups.com"
+
+def sendmail(subject, text, email, name=None, sender=SYS_EMAIL_SENDER, sender_name=SYS_EMAIL_SENDER_NAME):
+    if not email:
+        email = NOEMAIL
+        subject = "->%s : %s"%(name, subject)
+
+    if name is None:
+        name = email.rsplit("@", 1)[0]
+    server = smtplib.SMTP(SMTP)
+    server.ehlo()
+    server.esmtp_features["auth"] = "LOGIN PLAIN"
+    server.login(SMTP_USERNAME, SMTP_PASSWORD)
+
+    text = str(text)
+    subject = str(subject)
+    sendmail_imp(server, sender, sender_name, email, name, subject, text)
+
+    if email != NOEMAIL:
+        subject = "%s %s %s"%(name, subject, email)
+        sendmail_imp(server, sender, sender_name, "kanrss_backup@googlegroups.com", name, subject, text)
+
+    #backup
+
+    server.quit()
+
+
+def rendermail(
+        uri, email, name, sender=SYS_EMAIL_SENDER, sender_name=SYS_EMAIL_SENDER_NAME, sendmethod=sendmail, **kwds
+    ):
+    if "name" not in kwds:
+        kwds['name'] = name
+
+    if "email" not in kwds:
+        kwds['email'] = email
+
+    if "sender" not in kwds:
+        kwds['sender'] = sender
+
+    if "sender_name" not in kwds:
+        kwds['sender_name'] = sender_name
+
+    kwds['domain'] = DOMAIN
+    subject, text = render_template(uri, **kwds)
+    subject = str(subject)
+    text = str(text)
+    sendmethod(subject, text, email, name, sender, sender_name)
+
+
+if "__main__" == __name__:
+    #sendmail("122", "2345", "zsp007@gmail.com")
+    import sys
+    from myconf.config import PREFIX, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SYS_EMAIL_SENDER, SYS_EMAIL_SENDER_NAME, DOMAIN
+    print "..............", SMTP_USERNAME,SMTP_PASSWORD;   sys.stdout.flush()
+    SMTP_USERNAME = "zuroc586"
+    server = smtplib.SMTP(SMTP)
+    server.ehlo()
+    server.esmtp_features["auth"] = "LOGIN PLAIN"
+    server.login(SMTP_USERNAME, SMTP_PASSWORD)
+    sendmail_imp(server, SYS_EMAIL_SENDER, "sfd", "zsp007@gmail.com", "ss", "aseweaewd的", "爱上")

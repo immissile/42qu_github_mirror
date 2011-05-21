@@ -6,5 +6,5 @@ conf.PIC_URL = 'http://p.zuroc.me'
 conf.FS_URL = 'http://s.zuroc.me'
 conf.PORT = 5555
 conf.MYSQL_MAIN = 'zpage'
-conf.DEBUG = True
-conf.MQ_PORT = 54010
+#conf.DEBUG = True
+conf.MQ_PORT = 14711
