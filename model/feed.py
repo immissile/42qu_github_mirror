@@ -126,7 +126,6 @@ class FeedMerge(object):
 
     def merge_iter(self, limit=MAXINT, begin_id=MAXINT):
         feed_id_list = self.feed_id_list
-
         count = 0
         for i in imerge(
             *[
@@ -159,10 +158,9 @@ class FeedMerge(object):
 
 def feed_render_iter_for_zsite_follow(zsite_id, limit=MAXINT, begin_id=MAXINT):
     feed_id_list = feed_id_list_for_zsite_follow(zsite_id)
-    for i in FeedMerge(feed_id_list).render_iter(limit,begin_id):
-        yield i
+    return FeedMerge(feed_id_list).render_iter(limit, begin_id)
 
 if __name__ == "__main__":
     from cid import CID_WORD
     for i in feed_render_iter_for_zsite_follow( 10000000 ):
-        print i.zsite.name
+        print i.zsite.name, i.txt

@@ -70,6 +70,7 @@ def feed_tuple_word(id):
 def mblog_word_new(user_id, name):
     if name.rstrip() and name != mblog_word_lastest(user_id):
         m = mblog_new(CID_WORD, user_id, name, MBLOG_STATE_ACTIVE)
+        id = m.id
         mc_mblog_word_lastest.set(user_id, name)
         feed_entry_new(id, user_id, CID_WORD)
         return m

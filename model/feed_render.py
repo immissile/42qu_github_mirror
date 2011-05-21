@@ -34,7 +34,7 @@ __init__cid2feed_entry()
 def render_feed_entry_list(entry_list):
     result = []
     itemgetter3 = itemgetter(3)
-    zsite_dict = Zsite.mc_get_multi(set(map(itemgetter3,entry_list)))
+    zsite_dict = Zsite.mc_get_multi(set(map(itemgetter3, entry_list)))
 
     for id, cid, feed_id, zsite_id in entry_list:
         args = CID2FEEDFUNC[cid](id)
