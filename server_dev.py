@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 #coding:utf-8
-import config.conf
-config.conf.DEBUG = True
+#import config.dev
+import config.dev
 import config
-reload(config)
-
 from ctrl._application import application
 
 import sys

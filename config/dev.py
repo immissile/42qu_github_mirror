@@ -3,3 +3,5 @@
 import conf
 
 conf.DEBUG = True
+import __init__
+reload(__init__)
