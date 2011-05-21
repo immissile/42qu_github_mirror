@@ -3,7 +3,7 @@
 
 from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA
 from zkit.mc_func import mc_func_get_list
-
+from follow import follow_id_list_by_zsite_id
 mc_id_by_feed_id = McLimitA("IdByFeedId:%s", 256)
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
 mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
