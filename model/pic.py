@@ -7,26 +7,6 @@ from time import time
 from fs import fs_set_jpg, fs_url_jpg
 from tid import TID_ICO
 
-"""
-CREATE TABLE `pic_ico_history` (
-`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-`zsite_id` INTEGER UNSIGNED NOT NULL,
-`create_time` INTEGER UNSIGNED NULL,
-`admin_id` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-`state` TINYINT UNSIGNED NOT NULL DEFAULT 1,
-INDEX `AdminId`(`admin_id`),
-INDEX `State`(`state`),
-PRIMARY KEY (`id`)
-)ENGINE = MyISAM;
-
-CREATE TABLE `pic_ico` (
-`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-`value` INTEGER UNSIGNED NOT NULL,
-PRIMARY KEY (`id`)
-)
-ENGINE = MyISAM;
-"""
-
 ico = KvTable('ico')
 
 class Pic(Model):
