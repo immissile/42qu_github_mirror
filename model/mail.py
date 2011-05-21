@@ -60,10 +60,7 @@ TXT_PATH = join(PREFIX, "mysite/txt")
 
 
 def render_template(uri, **kwds):
-    G = Render("/_mail/"+uri)
-
-    txt = G(**kwds).strip()
-
+    html = render(uri, **kwds).strip()
     r = txt.split("\n", 1)
 
     if len(r) < 2:
@@ -99,20 +96,12 @@ def sendmail(subject, text, email, name=None, sender=SENDER_MAIL, sender_name=SE
 
 
 def rendermail(
-        uri, email, name, sender=SENDER_MAIL, sender_name=SENDER_NAME, sendmethod=sendmail, **kwds
+        uri, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME, sendmethod=sendmail, **kwds
     ):
-    if "name" not in kwds:
-        kwds['name'] = name
-
-    if "email" not in kwds:
-        kwds['email'] = email
-
-    if "sender" not in kwds:
-        kwds['sender'] = sender
-
-    if "sender_name" not in kwds:
-        kwds['sender_name'] = sender_name
-
+    kwds['name'] = name
+    kwds['email'] = email
+    kwds['sender'] = sender
+    kwds['sender_name'] = sender_name
     kwds['domain'] = DOMAIN
     subject, text = render_template(uri, **kwds)
     subject = str(subject)
@@ -124,4 +113,6 @@ if "__main__" == __name__:
     #sendmail("122", "2345", "zsp007@gmail.com")
     import sys
     #rendermail()
-    rendermail("")
+    rendermail("/mail/register.txt","zsp007@gmail.com","张沈鹏")
+
+
