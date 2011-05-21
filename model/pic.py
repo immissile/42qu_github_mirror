@@ -19,17 +19,19 @@ def pic_new(tid, zsite_id, pic):
         create_time=int(time()),
     ).save()
     pic_id = p.id
+
     fs_set_jpg("0", pic_id, pic)
+    return pic_id
+
+def ico_new(zsite_id, pic):
+    pic_id = pic_new(TID_ICO, zsite_id, pic)
 
     p1 = pic_zoom_inner(pic, 640, 640)
     fs_set_jpg("1", pic_id, p1)
 
     p2 = pic_zoom_inner(pic, 320, 320)
     fs_set_jpg("2", pic_id, p1)
-    return pic_id
 
-def ico_new(zsite_id, pic):
-    pic_id = pic_new(TID_ICO, zsite_id, pic)
     ico.set(zsite_id, pic_id)
     return pic_id
 
