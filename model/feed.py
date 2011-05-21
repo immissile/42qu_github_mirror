@@ -2,7 +2,7 @@
 #coding:utf-8
 
 from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA, McModel
-from zkit.mc_func import mc_func_get_multi
+from zkit.mc_func import mc_func_get_list
 from follow import follow_id_list_by_zsite_id
 from zkit.algorithm.merge import imerge
 from _db import McCache
@@ -11,7 +11,7 @@ mc_feed_entry_tuple = McCache("FeedEntryTuple:%s")
 mc_feed_entry_iter = McCacheA("FeedEntryIter:%s")
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
 mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
-mc_feed_id_by_for_zsite_follow = McCache("FeedIdForZsiteFollow.%s")
+mc_feed_id_by_for_zsite_follow = McCacheA("FeedIdForZsiteFollow<%s")
 
 
 class Feed(McModel):
@@ -47,12 +47,15 @@ def feed_id_list_by_zsite_id(zsite_id):
 def feed_id_list_for_zsite_follow(zsite_id):
     key_list = follow_id_list_by_zsite_id(zsite_id)
     key_list.append(zsite_id)
-    feed_id_list = mc_func_get_multi(
+    feed_id_list = mc_func_get_list(
         mc_feed_id_list_by_zsite_id,
         feed_id_list_by_zsite_id,
         key_list
     )
-    return feed_id_list
+    r = set()
+    for i in feed_id_list:
+        r.update(i)
+    return r
 
 def mc_flush_zsite_follow(zsite_id):
     for i in follow_id_list_by_zsite_id(zsite_id):
@@ -155,7 +158,8 @@ class FeedMerge(object):
         return render_feed_entry_list(r2)
 
 def feed_render_iter_for_zsite_follow(zsite_id, limit=MAXINT, begin_id=MAXINT):
-    for i in FeedMerge(feed_id_list_for_zsite_follow(zsite_id)).render_iter(limit,begin_id):
+    feed_id_list = feed_id_list_for_zsite_follow(zsite_id)
+    for i in FeedMerge(feed_id_list).render_iter(limit,begin_id):
         yield i
 
 if __name__ == "__main__":

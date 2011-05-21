@@ -15,7 +15,7 @@ CID2FEEDFUNC = {
 
 
 CID2FEED_ENTRY = {
-    CID_WORD : ""
+    CID_WORD : "txt"
 }
 
 
@@ -33,10 +33,12 @@ __init__cid2feed_entry()
 
 def render_feed_entry_list(entry_list):
     result = []
-    zsite_dict = Zsite.mc_get_multi(set(itemgetter(3)(entry_list)))
+    itemgetter3 = itemgetter(3)
+    zsite_dict = Zsite.mc_get_multi(set(map(itemgetter3,entry_list)))
+
     for id, cid, feed_id, zsite_id in entry_list:
         args = CID2FEEDFUNC[cid](id)
-        if args is False:
+        if not args:
             continue
         cls = CID2FEED_ENTRY[cid]
         result.append(cls(id, cid, feed_id, zsite_dict[zsite_id], zsite_id, *args))

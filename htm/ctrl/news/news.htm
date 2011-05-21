@@ -5,3 +5,19 @@
 <textarea name="txt"></textarea>
 <button type="submit">提交</button>
 </%htm:form>
+
+<%def name="render_word(i)">
+${i.txt}
+</%def>
+
+<%!
+from model.cid import CID_WORD
+%>
+%for i in entry_list:
+<%
+cid = i.cid
+%>
+%if i.cid == CID_WORD:
+${render_word(i)}
+%endif
+%endfor
