@@ -36,6 +36,8 @@ def render_feed_entry_list(entry_list):
     zsite_dict = Zsite.mc_get_multi(set(itemgetter(3)(entry_list)))
     for id, cid, feed_id, zsite_id in entry_list:
         args = CID2FEEDFUNC[cid](id)
+        if args is False:
+            continue
         cls = CID2FEED_ENTRY[cid]
         result.append(cls(id, cid, feed_id, zsite_dict[zsite_id], zsite_id, *args))
     return result
