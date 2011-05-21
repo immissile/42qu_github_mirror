@@ -154,9 +154,11 @@ class FeedMerge(object):
         from feed_render import render_feed_entry_list
         return render_feed_entry_list(r2)
 
+def feed_render_iter_for_zsite_follow(zsite_id, limit=MAXINT, begin_id=MAXINT):
+    for i in FeedMerge(feed_id_list_for_zsite_follow(zsite_id)).render_iter(limit,begin_id):
+        yield i
+
 if __name__ == "__main__":
     from cid import CID_WORD
-    for i in FeedMerge(feed_id_list_for_zsite_follow(10000000)).render_iter():
-        if i.cid == CID_WORD:
-            print i.zsite.name
-
+    for i in feed_render_iter_for_zsite_follow( 10000000 ):
+        print i.zsite.name

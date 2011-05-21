@@ -60,11 +60,11 @@ def mblog_rm(user_id, id):
         m.save()
         feed_entry_rm(id)
 
-#@mc_feed_entry_tuple('{id}')
+@mc_feed_entry_tuple('{id}')
 def feed_tuple_word(id):
     m = Mblog.mc_get(id)
     if m:
-        return (m.name)
+        return (m.name, )
     return False
 
 def mblog_word_new(user_id, name):
