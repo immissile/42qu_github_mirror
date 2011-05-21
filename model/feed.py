@@ -5,7 +5,6 @@ from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA, McModel
 from zkit.mc_func import mc_func_get_list
 from follow import follow_id_list_by_zsite_id
 from zkit.algorithm.merge import imerge
-from _db import McCache
 
 mc_feed_entry_tuple = McCache("FeedEntryTuple:%s")
 mc_feed_entry_iter = McCacheA("FeedEntryIter:%s")
