@@ -13,6 +13,10 @@ if PREFIX not in sys.path:
 PORT = 5555
 DEBUG = False
 
+SMTP = "127.0.0.1"
+SMTP_USERNAME = "work"
+SMTP_PASSWORD = "kanrss"
+SYS_EMAIL_SENDER = "zuroc@42qu.com"
 
 SITE_DOMAIN = '42qu.me'
 PIC_URL = 'http://p.42qu.info'
