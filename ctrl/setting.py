@@ -4,7 +4,7 @@
 import _handler
 from zweb._urlmap import urlmap
 from zkit.pic import picopen
-from model.pic_ico import pic_ico_new
+from model.pic import ico_new
 from tornado.web import authenticated
 
 @urlmap("/setting")
@@ -20,7 +20,7 @@ class Setting(_handler.LoginBase):
             pic = files['pic'][0]['body']
             pic = picopen(pic)
             if pic:
-                pic_ico_new(current_user.id, pic)
+                ico_new(current_user.id, pic)
             else:
                 error_img = "图片格式有误"
         self.render(

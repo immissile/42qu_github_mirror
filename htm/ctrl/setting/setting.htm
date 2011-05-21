@@ -1,10 +1,10 @@
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.pic_ico import pic_ico_url
+from model.pic import ico_url as _ico_url
 %>
 <%
-ico_url = pic_ico_url(current_user.id)
+ico_url = _ico_url(current_user.id)
 %>
 %if ico_url:
 <img src="${ico_url}">
