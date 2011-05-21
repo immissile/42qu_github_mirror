@@ -73,7 +73,7 @@ def mblog_question_new(user_id, name , txt):
     txt_new(m.id, txt)
     return m
 
-def mblog_note_new(user_id, name, txt)
+def mblog_note_new(user_id, name, txt):
     m = mblog_new(CID_NOTE, user_id, name, MBLOG_STATE_SECRET)
     txt_new(m.id, txt)
     return m
