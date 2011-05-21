@@ -3,7 +3,6 @@
 
 import _handler
 from zweb._urlmap import urlmap
-from model.mblog import mblog_word_new
 
 @urlmap("/news")
 class News(_handler.LoginBase):
