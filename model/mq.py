@@ -16,6 +16,7 @@ def mq_client(func, name=None):
         if beanstalk is None:
             beanstalk = beanstalkc.Connection(host='localhost', port=MQ_PORT, parse_yaml=True)
             beanstalk.use(MQ_USE)
+        #print (name, args, kwds)
         s = dumps((name, args, kwds))
         beanstalk.put(s)
     return decorator(_func, func)

@@ -96,10 +96,10 @@ def sendmail(subject, text, email, name=None, sender=SENDER_MAIL, sender_name=SE
 
 
 def rendermail(
-        uri, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME, sendmethod=sendmail, **kwds
+        uri, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME, **kwds
     ):
     if name is None:
-        name = email.split("@",1)[0]
+        name = email.split("@", 1)[0]
     kwds['name'] = name
     kwds['email'] = email
     kwds['sender'] = sender
@@ -108,12 +108,14 @@ def rendermail(
     subject, text = render_template(uri, **kwds)
     subject = str(subject)
     text = str(text)
-    sendmethod(subject, text, email, name, sender, sender_name)
+    sendmail(subject, text, email, name, sender, sender_name)
 
+from mq import mq_client
+mq_rendermail = mq_client(rendermail)
 
 if "__main__" == __name__:
     #sendmail("122", "2345", "zsp007@gmail.com")
     import sys
     #rendermail()
-    rendermail("/mail/auth/register.txt","zsp007@gmail.com","张沈鹏")
+    mq_rendermail("/mail/auth/register.txt", "zsp007@gmail.com", "张沈鹏")
 
