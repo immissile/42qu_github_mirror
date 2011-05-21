@@ -21,9 +21,9 @@ FS_PATH = '/mnt/zpage'
 
 
 SMTP = "127.0.0.1"
-SMTP_USERNAME = "work"
-SMTP_PASSWORD = "kanrss"
-SENDER_MAIL = "zuroc@42qu.com"
+SMTP_USERNAME = ""
+SMTP_PASSWORD = ""
+SENDER_MAIL = "test@test.com"
 
 
 MEMCACHED_ADDR = ('127.0.0.1:11213', )
