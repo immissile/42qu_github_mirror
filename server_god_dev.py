@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 #coding:utf-8
+import config.conf
+config.conf.DEBUG = True
 import config
-config.DEBUG = True
+reload(config)
 
 
 if __name__ == '__main__':
