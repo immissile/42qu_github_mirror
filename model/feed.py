@@ -146,11 +146,16 @@ class FeedMerge(object):
         feed_dict = Feed.mc_get_multi(feed_id_set)
         for i in r:
             feed = feed_dict[i.feed_id]
-            yield i.id, i.feed_id, feed.cid, feed.zsite_id
+            cid = feed.cid
+            yield CID2ENTRY[cid](i.id, i.feed_id, cid, feed.zsite_id)
 
-
+from cid import CID_WORD
+from collections import namedtuple
+EntryWord = namedtuple('EntryWord', 'id feed_id cid zsite_id')
+CID2ENTRY = {
+        CID_WORD : EntryWord
+}
 
 if __name__ == "__main__":
     for i in FeedMerge(feed_id_list_for_zsite_follow(10000000)).entry_iter():
-        print i
-
+        print i.id, i.feed_id, i.cid, i.zsite_id
