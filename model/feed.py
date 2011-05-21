@@ -147,13 +147,13 @@ class FeedMerge(object):
         for i in r:
             feed = feed_dict[i.feed_id]
             cid = feed.cid
-            yield CID2ENTRY[cid](i.id, i.feed_id, cid, feed.zsite_id)
+            yield CID2FEED_ENTRY[cid](i.id, i.feed_id, cid, feed.zsite_id)
 
 from cid import CID_WORD
 from collections import namedtuple
-EntryWord = namedtuple('EntryWord', 'id feed_id cid zsite_id')
-CID2ENTRY = {
-    CID_WORD : EntryWord
+
+CID2FEED_ENTRY = {
+    CID_WORD : namedtuple('EntryWord', 'id feed_id cid zsite_id')
 }
 
 if __name__ == "__main__":
