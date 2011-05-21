@@ -77,6 +77,6 @@ from mq import mq_client
 mq_mc_flush_zsite_follow = mq_client(mc_flush_zsite_follow)
 
 if __name__ == "__main__":
-    print feed_id_list_for_zsite_follow(1)
+    print feed_id_list_for_zsite_follow(10000000)
 
 
