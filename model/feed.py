@@ -59,7 +59,6 @@ def feed_id_list_by_zsite_id(zsite_id):
 def feed_id_list_for_zsite_follow(zsite_id):
     key_list = follow_id_list_by_zsite_id(zsite_id)
     key_list.append(zsite_id)
-
     feed_id_list = mc_func_get_list(
         mc_feed_id_list_by_zsite_id,
         feed_id_list_by_zsite_id,
