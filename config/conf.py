@@ -51,7 +51,7 @@ def load(setting):
         print "NO SETTING FILE : %s.py"%setting
 
 import socket
-load("host_%s"%socket.gethostname())
+load('host_%s' % socket.gethostname())
 
 import getpass
 load('conf_%s' % getpass.getuser())

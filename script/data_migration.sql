@@ -25,4 +25,4 @@ select id, man_id, 2 from qu.pic order by id;
 truncate zpage.ico;
 insert into zpage.ico (id, value)
 select man_id, pic_id from qu.pic_show order by id desc
-on duplicate key update zpage.ico.value=zpage.ico.value;
+on duplicate key update value=value;
