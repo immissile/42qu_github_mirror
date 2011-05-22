@@ -17,6 +17,7 @@ class Base(zweb._handler.Base):
         if zsite is None and host != SITE_DOMAIN:
             return self.redirect(SITE_URL)
 
+    @property
     def xsrf_get(self):
         return "_xsrf=%s"%self.xsrf_token
 
