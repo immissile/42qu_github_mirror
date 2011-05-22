@@ -54,3 +54,5 @@ def xsrf_form_html(self):
     return '<input type="hidden" name="_xsrf" value="%s">'%self.xsrf_token
 
 web.RequestHandler.xsrf_form_html = xsrf_form_html
+
+
