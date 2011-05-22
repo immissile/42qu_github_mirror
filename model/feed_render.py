@@ -2,20 +2,22 @@
 #coding:utf-8
 
 
-from cid import CID_WORD
+from cid import CID_WORD, CID_FOLLOW
 from collections import namedtuple
 from zsite import Zsite
 from operator import itemgetter
-
-
 from mblog import feed_tuple_word
+from follow import feed_tuple_follow
+
 CID2FEEDFUNC = {
-    CID_WORD: feed_tuple_word
+    CID_WORD: feed_tuple_word,
+    CID_FOLLOW :feed_tuple_follow
 }
 
 
 CID2FEED_ENTRY = {
-    CID_WORD : "txt"
+    CID_WORD : "txt",
+    CID_FOLLOW : "link name"
 }
 
 

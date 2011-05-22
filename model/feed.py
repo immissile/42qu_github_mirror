@@ -3,11 +3,11 @@
 
 from _db import cursor_by_table, Model, McCache, McLimitA, McCacheA, McModel
 from zkit.mc_func import mc_func_get_list
-from follow import follow_id_list_by_zsite_id
+from follow import follow_id_list_by_from_id
 from zkit.algorithm.merge import imerge
 from mq import mq_client
+from feed_mc import mc_feed_entry_tuple
 
-mc_feed_entry_tuple = McCache("FeedEntryTuple:%s")
 mc_feed_entry_iter = McCacheA("FeedEntryIter:%s")
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
 mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
@@ -45,7 +45,7 @@ def feed_id_list_by_zsite_id(zsite_id):
 
 @mc_feed_id_by_for_zsite_follow("{zsite_id}")
 def feed_id_list_for_zsite_follow(zsite_id):
-    key_list = follow_id_list_by_zsite_id(zsite_id)
+    key_list = follow_id_list_by_from_id(zsite_id)
     key_list.append(zsite_id)
     feed_id_list = mc_func_get_list(
         mc_feed_id_list_by_zsite_id,
@@ -58,8 +58,10 @@ def feed_id_list_for_zsite_follow(zsite_id):
     return r
 
 def mc_flush_zsite_follow(zsite_id):
-    for i in follow_id_list_by_zsite_id(zsite_id):
+    mc_feed_id_by_for_zsite_follow.delete(zsite_id)
+    for i in follow_id_list_by_from_id(zsite_id):
         mc_feed_id_by_for_zsite_follow.delete(i)
+
 
 mq_mc_flush_zsite_follow = mq_client(mc_flush_zsite_follow)
 
@@ -161,5 +163,5 @@ def feed_render_iter_for_zsite_follow(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
 if __name__ == "__main__":
     from cid import CID_WORD
-    for i in feed_render_iter_for_zsite_follow( 10000000 ):
-        print i.zsite.name, i.txt
+    for i in feed_render_iter_for_zsite_follow( 10024772 ):
+        print i.cid

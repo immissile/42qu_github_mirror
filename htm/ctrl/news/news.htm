@@ -10,14 +10,20 @@
 <div>${i.txt}</div>\
 </%def>
 
+<%def name="render_follow(i)">
+<div>关注了 <a href="${i.link}" target="_blank">${i.name}</a></div>\
+</%def>
+
 <%!
-from model.cid import CID_WORD
+from model.cid import CID_WORD,CID_FOLLOW
 %>
 %for i in entry_list:
 <%
 cid = i.cid
 %>
-%if i.cid == CID_WORD:
+%if cid == CID_WORD:
 ${render_word(i)}
+%elif cid == CID_FOLLOW:
+${render_follow(i)}
 %endif
 %endfor

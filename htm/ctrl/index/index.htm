@@ -10,7 +10,8 @@
     <p>Zsite ${zsite.name}</p>
     %if not is_owner and current_user:
 <%!
-from model.follow import follow_get
+from model.follow import follow_get, follow_list_by_from_id_cid
+from model.zsite import ZSITE_CID_USER
 %>
         %if follow_get(current_user.id,zsite.id):
 <a href="/unfollow?${handler.xsrf_get}">淡忘</a>
@@ -18,8 +19,14 @@ from model.follow import follow_get
 <a href="/follow?${handler.xsrf_get}">关注</a>
         %endif
     %endif
+<p>关注的人</p>
+%for i in follow_list_by_from_id_cid(zsite.id, ZSITE_CID_USER):
+<p><a href="${i.link}" target="_blank">${i.name}</a></p>
+%endfor
 ${wall_row()}
 %endif
+
+
 
 <%def name="wall_row()">
 <%
