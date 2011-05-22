@@ -1,5 +1,75 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from _db import  McCache
+import sys
+from _db import  McCache,cursor_by_table,McCacheA
+
+MAXINT = sys.maxint
+PAGE_LIMIT = 42
+FEED_ENTRY_ID_LASTEST_SQL = "select id from feed_entry where feed_id=%%s order by id desc limit %s"%PAGE_LIMIT
+FEED_ENTRY_ID_ITER_SQL = "select id from feed_entry where feed_id=%%s and id<%%s order by id desc limit %s"%PAGE_LIMIT
+
 mc_feed_entry_tuple = McCache("FeedEntryTuple:%s")
+mc_feed_entry_iter = McCacheA("FeedEntryIter:%s")
+
+cursor = cursor_by_table('feed_entry')
+
+def feed_entry_new(id, zsite_id, cid):
+    feed_id = feed_id_by_zsite_id_cid(zsite_id, cid)
+    cursor.execute(
+        "insert into feed_entry (id, feed_id) values (%s,%s)",
+        (id, feed_id)
+    )
+    cursor.connection.commit()
+    mc_feed_entry_iter.delete(feed_id)
+    return id
+
+def feed_entry_rm(id):
+    o = FeedEntry.mc_get(id)
+    if not o:
+        return
+    feed_id = o.feed_id
+    o.delete()
+    mc_feed_entry_iter.delete(feed_id)
+
+@mc_feed_entry_iter("{feed_id}")
+def feed_entry_id_lastest(feed_id):
+    cursor.execute(FEED_ENTRY_ID_LASTEST_SQL, feed_id)
+    return [
+        i for i, in cursor
+    ]
+
+
+#TODO : 消息流的合并, feed_entry_id_iter 函数可以考虑用天涯的内存数据库来优化
+#http://code.google.com/p/memlink/
+def feed_entry_id_iter(id, start_id=MAXINT, ):
+    if start_id == MAXINT:
+        id_list = feed_entry_id_lastest(id)
+        if id_list:
+            for i in id_list:
+                yield i
+            start_id = i
+        else:
+            return
+    while True:
+        cursor.execute(FEED_ENTRY_ID_ITER_SQL, (id, start_id))
+        c = cursor.fetchall()
+        if not c:
+            break
+        for i, in c:
+            yield i
+        start_id = i
+
+
+def feed_entry_cmp_iter(id, start_id=sys.maxint):
+    for i in feed_entry_id_iter(id, start_id):
+        yield FeedEntryCmp(id, i)
+
+class FeedEntryCmp(object):
+    def __init__(self, feed_id, id):
+        self.id = id
+        self.feed_id = feed_id
+
+    def __cmp__(self, other):
+        return other.id - self.id
+

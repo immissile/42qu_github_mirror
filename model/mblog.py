@@ -3,7 +3,7 @@
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from time import time
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
-from feed import feed_entry_new, mc_feed_entry_tuple
+from feed_entry import feed_entry_new, mc_feed_entry_tuple
 from gid import gid
 from txt import txt_new
 

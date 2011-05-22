@@ -4,6 +4,7 @@ from _db import Model, McModel, McCache, cursor_by_table, McCacheA
 from zsite import Zsite
 from cid import CID_FOLLOW
 from gid import gid
+from feed import feed_entry_rm,feed_entry_new
 
 mc_follow_id_list_by_from_id_cid = McCacheA("FollowIdListByFromIdCid:%s")
 mc_follow_id_list_by_from_id = McCacheA("FollowIdListByFromId:%s")
@@ -42,7 +43,6 @@ def follow_rm(from_id, to_id):
     follow_cursor.execute(
         "delete from follow where id=%s", id
     )
-    from feed import feed_entry_rm
     feed_entry_rm(id)
     to = Zsite.mc_get(to_id)
     mc_flush(from_id, to_id , to.cid)
@@ -60,7 +60,6 @@ def follow_new(from_id, to_id):
         (id, from_id, to_id, cid)
     )
     follow_cursor.connection.commit()
-    from feed import feed_entry_new
     feed_entry_new(id, from_id, CID_FOLLOW)
     mc_flush(from_id, to_id, cid)
 
