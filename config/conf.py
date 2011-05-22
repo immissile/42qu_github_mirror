@@ -34,9 +34,9 @@ MQ_USE = "zsite"
 
 MYSQL_HOST = '127.0.0.1'
 MYSQL_PORT = 3306
-MYSQL_USER = 'zpage'
-MYSQL_PASSWD = '42qu.com'
-MYSQL_MAIN = 'zpage_main'
+MYSQL_USER = 'root'
+MYSQL_PASSWD = '12345'
+MYSQL_MAIN = 'database_name'
 
 #SMTP = "smtp.sina.com.cn"
 #SMTP_USERNAME = "zuroc"
