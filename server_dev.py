@@ -3,8 +3,10 @@
 #import config.dev
 import config.dev
 import config
-from ctrl._application import application
+reload(config)
 
+
+from ctrl._application import application
 import sys
 if len(sys.argv) > 1 and sys.argv[1].isdigit():
     PORT = int(sys.argv[1])

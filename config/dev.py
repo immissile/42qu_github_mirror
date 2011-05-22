@@ -10,6 +10,4 @@ import getpass
 load('conf_dev_%s' % getpass.getuser())
 
 conf.DEBUG = True
-import __init__
-reload(__init__)
 
