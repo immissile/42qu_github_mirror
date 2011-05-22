@@ -8,8 +8,15 @@
     is_owner = zsite == current_user
 %>
     <p>Zsite ${zsite.name}</p>
-    %if not is_owner:
-<a href="/follow?${handler.xsrf_get}">关注</a> 
+    %if not is_owner and current_user:
+<%!
+from model.follow import follow_get
+%>
+        %if follow_get(current_user.id,zsite.id):
+<a href="/unfollow?${handler.xsrf_get}">淡忘</a>
+        %else:
+<a href="/follow?${handler.xsrf_get}">关注</a>
+        %endif
     %endif
 ${wall_row()}
 %endif
