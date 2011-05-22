@@ -3,8 +3,8 @@
 
 import _handler
 from zweb._urlmap import urlmap
-from model.feed import feed_render_iter_for_zsite_follow
-from model.feed_entry import PAGE_LIMIT, MAXINT
+from model.feed_merge import feed_render_iter_for_zsite_follow
+from model.feed import PAGE_LIMIT, MAXINT
 
 @urlmap("/news")
 class News(_handler.LoginBase):

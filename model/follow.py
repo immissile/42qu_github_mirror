@@ -4,13 +4,14 @@ from _db import Model, McModel, McCache, cursor_by_table, McCacheA
 from zsite import Zsite
 from cid import CID_FOLLOW
 from gid import gid
-from feed_entry import feed_entry_rm,feed_entry_new
+from feed import feed_entry_rm,feed_entry_new, mc_feed_id_by_for_zsite_follow, mc_feed_entry_tuple
 
 mc_follow_id_list_by_from_id_cid = McCacheA("FollowIdListByFromIdCid:%s")
 mc_follow_id_list_by_from_id = McCacheA("FollowIdListByFromId:%s")
 mc_follow_get = McCache("FollowGet.%s")
 
 follow_cursor = cursor_by_table("follow")
+
 
 @mc_follow_id_list_by_from_id('{from_id}')
 def follow_id_list_by_from_id(from_id):
@@ -23,7 +24,9 @@ def follow_id_list_by_from_id_cid(from_id, cid):
     return [i for i, in follow_cursor]
 
 def follow_list_by_from_id_cid(from_id, cid):
-    return Zsite.mc_get_list(follow_id_list_by_from_id_cid(from_id, cid))
+    return Zsite.mc_get_list(
+        follow_id_list_by_from_id_cid(from_id, cid)
+    )
 
 @mc_follow_get("{from_id}_{to_id}")
 def follow_get(from_id, to_id):
@@ -64,13 +67,11 @@ def follow_new(from_id, to_id):
     mc_flush(from_id, to_id, cid)
 
 def mc_flush(from_id, to_id, cid):
-    from feed import mc_feed_id_by_for_zsite_follow
     mc_feed_id_by_for_zsite_follow.delete(from_id)
     mc_follow_get.delete( "%s_%s"%(from_id, to_id))
-    mc_follow_id_list_by_from_id.delete("%s_%s"%(from_id,cid))
+    mc_follow_id_list_by_from_id_cid.delete("%s_%s"%(from_id,cid))
     mc_follow_id_list_by_from_id.delete(from_id)
 
-from feed_entry import mc_feed_entry_tuple
 
 @mc_feed_entry_tuple('{id}')
 def feed_tuple_follow(id):
