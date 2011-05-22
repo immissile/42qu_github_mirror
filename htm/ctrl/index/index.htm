@@ -8,6 +8,9 @@
     is_owner = zsite == current_user
 %>
     <p>Zsite ${zsite.name}</p>
+    %if not is_owner:
+<a href="/follow">关注</a> 
+    %endif
 ${wall_row()}
 %endif
 

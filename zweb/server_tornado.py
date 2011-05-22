@@ -12,7 +12,7 @@ import sys
 
 
 def WSGIServer(port, application):
-    application = ErrorMiddleware(application, render ,"_error/500.htm")
+    application = ErrorMiddleware(application, render ,"_error.htm")
     container = tornado.wsgi.WSGIContainer(application)
     http_server = tornado.httpserver.HTTPServer(container)
     http_server.listen(port)

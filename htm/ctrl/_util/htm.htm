@@ -11,6 +11,6 @@ attr = " ".join([
 %>\
 <form ${attr|n}>\
 ${caller.body()|n}\
-${xsrf_form_html()|n}\
+${handler.xsrf_form_html()|n}\
 </form>\
 </%def>

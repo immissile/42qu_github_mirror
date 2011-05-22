@@ -1,0 +1,18 @@
+<%!
+import httplib
+from pprint import pformat
+%>
+<%inherit file="/ctrl/_base/_base.htm" />
+<%def name="htm_title()">${status_code} : ${httplib.responses[status_code]}</%def>
+
+<h1>貌似出岔子了 ...</h1>
+%if status_code == 500:
+<div>
+<pre>${traceback}</pre>
+<pre>${pformat(environ)}</pre>
+</div>
+%else:
+<div>
+<pre>${log_message}</pre>
+</div>
+%endif

@@ -31,7 +31,7 @@ class Base(web.RequestHandler):
         current_user = self.current_user
         kwds['current_user'] = current_user
         kwds['request'] = self.request
-        kwds['xsrf_form_html'] = self.xsrf_form_html
+        kwds['handler'] = self
         if hasattr(self, "zsite"):
             kwds['zsite'] = self.zsite
         if not self._finished:

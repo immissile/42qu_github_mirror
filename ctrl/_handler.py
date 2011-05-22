@@ -17,8 +17,13 @@ class Base(zweb._handler.Base):
         if zsite is None and host != SITE_DOMAIN:
             return self.redirect(SITE_URL)
 
+    def xsrf_get(self):
+        return "_xsrf=%s"%self.xsrf_token
+
+
 class LoginBase(Base):
     def prepare(self):
+        super(LoginBase, self).prepare()
         if not self.current_user:
             url = self.get_login_url()
             if "?" not in url:
@@ -30,4 +35,9 @@ class LoginBase(Base):
                 url += "?" + urllib.urlencode(dict(next=next_url))
             self.redirect(url)
             return
-        super(LoginBase,self).prepare()
+
+class XsrfGetBase(LoginBase):
+    def prepare(self):
+        super(XsrfGetBase, self).prepare()
+        self.check_xsrf_cookie()
+
