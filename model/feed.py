@@ -7,6 +7,7 @@ from follow import follow_id_list_by_from_id
 from zkit.algorithm.merge import imerge
 from mq import mq_client
 from feed_entry import mc_feed_entry_tuple,MAXINT,feed_entry_cmp_iter
+from feed_render import render_feed_entry_list
 
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
 mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
@@ -87,7 +88,6 @@ class FeedMerge(object):
             feed = feed_dict[i.feed_id]
             cid = feed.cid
             r2.append( ( i.id, cid, i.feed_id, feed.zsite_id ) )
-        from feed_render import render_feed_entry_list
         return render_feed_entry_list(r2)
 
 def feed_render_iter_for_zsite_follow(zsite_id, limit=MAXINT, begin_id=MAXINT):

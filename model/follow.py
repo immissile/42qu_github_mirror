@@ -4,7 +4,7 @@ from _db import Model, McModel, McCache, cursor_by_table, McCacheA
 from zsite import Zsite
 from cid import CID_FOLLOW
 from gid import gid
-from feed import feed_entry_rm,feed_entry_new
+from feed_entry import feed_entry_rm,feed_entry_new
 
 mc_follow_id_list_by_from_id_cid = McCacheA("FollowIdListByFromIdCid:%s")
 mc_follow_id_list_by_from_id = McCacheA("FollowIdListByFromId:%s")
