@@ -7,11 +7,11 @@
 </%htm:form>
 
 <%def name="render_word(i)">
-<div>${i.txt}</div>\
+<div>${i.zsite.name} : ${i.txt}</div>\
 </%def>
 
 <%def name="render_follow(i)">
-<div>关注了 <a href="${i.link}" target="_blank">${i.name}</a></div>\
+<div>${i.zsite.name} 关注了 <a href="${i.link}" target="_blank">${i.name}</a></div>\
 </%def>
 
 <%!

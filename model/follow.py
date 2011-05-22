@@ -13,7 +13,7 @@ follow_cursor = cursor_by_table("follow")
 
 @mc_follow_id_list_by_from_id('{from_id}')
 def follow_id_list_by_from_id(from_id):
-    follow_cursor.execute('select to_id from follow where from_id=%s and cid=%s',(from_id))
+    follow_cursor.execute('select to_id from follow where from_id=%s',(from_id))
     return [i for i, in follow_cursor]
 
 @mc_follow_id_list_by_from_id_cid('{from_id}_{cid}')
