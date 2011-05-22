@@ -26,7 +26,9 @@ def reset_database(key, host, port, name, user, password):
 def reset():
     for key, value in DB_CONFIG.iteritems():
         host, port, name, user, password = value.get("master").split(":")
-        reset_database(key, host, port, name, user, password)
+        sure = 'reset_database_%s'%name
+        if raw_input(">>> please type '%s' to reset_db:\n"%sure).strip() == sure:
+            reset_database(key, host, port, name, user, password)
 
 reset()
 
