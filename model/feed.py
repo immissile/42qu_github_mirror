@@ -6,7 +6,7 @@ from zkit.mc_func import mc_func_get_list
 from follow import follow_id_list_by_from_id
 from zkit.algorithm.merge import imerge
 from mq import mq_client
-from feed_mc import mc_feed_entry_tuple
+from feed_entry import mc_feed_entry_tuple
 
 mc_feed_entry_iter = McCacheA("FeedEntryIter:%s")
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")

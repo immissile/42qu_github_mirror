@@ -71,7 +71,7 @@ def mc_flush(from_id, to_id, cid):
     mc_follow_id_list_by_from_id.delete("%s_%s"%(from_id,cid))
     mc_follow_id_list_by_from_id.delete(from_id)
 
-from feed_mc import mc_feed_entry_tuple
+from feed_entry import mc_feed_entry_tuple
 
 @mc_feed_entry_tuple('{id}')
 def feed_tuple_follow(id):
