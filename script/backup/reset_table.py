@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 import init_env
 from config import DB_CONFIG
+import sys
 import subprocess
-
+import time
 COMM_OPTION = " -h%s -P%s -u%s -p%s "
 def reset_database(key, host, port, name, user, password):
     comm_option = COMM_OPTION%(host, port, user, password)
@@ -28,8 +29,13 @@ def reset():
         host, port, name, user, password = value.get("master").split(":")
         sure = 'reset_database_%s'%name
         if raw_input(">>> please type '%s' to reset_db:\n"%sure).strip() == sure:
+            print "\n\nCtrl+C TO CANCEL RESET",
+            for i in range(7,-1,-1):
+                print i,
+                sys.stdout.flush()
+                time.sleep(1)
             reset_database(key, host, port, name, user, password)
-
+            print "reseted %s"%key
 reset()
 
 #from model._db import cursor_by_table
