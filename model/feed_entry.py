@@ -2,17 +2,36 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from _db import  McCache,cursor_by_table,McCacheA
+from _db import  McModel,McCache,cursor_by_table,McCacheA
+from mq import mq_client
+from zkit.mc_func import mc_func_get_list
 
 MAXINT = sys.maxint
 PAGE_LIMIT = 42
 FEED_ENTRY_ID_LASTEST_SQL = "select id from feed_entry where feed_id=%%s order by id desc limit %s"%PAGE_LIMIT
 FEED_ENTRY_ID_ITER_SQL = "select id from feed_entry where feed_id=%%s and id<%%s order by id desc limit %s"%PAGE_LIMIT
 
+mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
+mc_feed_id_by_for_zsite_follow = McCacheA("FeedIdForZsiteFollow<%s")
 mc_feed_entry_tuple = McCache("FeedEntryTuple:%s")
 mc_feed_entry_iter = McCacheA("FeedEntryIter:%s")
+mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
 
 cursor = cursor_by_table('feed_entry')
+
+class Feed(McModel):
+    pass
+
+@mc_feed_id_by_zsite_id_cid("{zsite_id}_{cid}")
+def feed_id_by_zsite_id_cid(zsite_id, cid):
+    feed = Feed.get_or_create(zsite_id=zsite_id, cid=cid)
+    if not feed.id:
+        feed.save()
+        mc_feed_id_list_by_zsite_id.delete(zsite_id)
+        mc_flush_zsite_follow(zsite_id)
+        #mq_mc_flush_zsite_follow(zsite_id)
+    return feed.id
+
 
 def feed_entry_new(id, zsite_id, cid):
     feed_id = feed_id_by_zsite_id_cid(zsite_id, cid)
@@ -73,3 +92,19 @@ class FeedEntryCmp(object):
     def __cmp__(self, other):
         return other.id - self.id
 
+
+
+
+
+@mc_feed_id_list_by_zsite_id("{zsite_id}")
+def feed_id_list_by_zsite_id(zsite_id):
+    return Feed.where(zsite_id=zsite_id).id_list()
+
+
+def mc_flush_zsite_follow(zsite_id):
+    mc_feed_id_by_for_zsite_follow.delete(zsite_id)
+    for i in follow_id_list_by_from_id(zsite_id):
+        mc_feed_id_by_for_zsite_follow.delete(i)
+
+
+mq_mc_flush_zsite_follow = mq_client(mc_flush_zsite_follow)
