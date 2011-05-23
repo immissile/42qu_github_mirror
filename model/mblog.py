@@ -10,20 +10,33 @@ from spammer import is_same_post
 from datetime import datetime
 from zkit.time_format import time_title
 
-class Mblog(McModel):
-    @property
-    def txt(self):
-        return txt_get(self.id)
 
 MBLOG_STATE_DEL = 3
 MBLOG_STATE_SECRET = 7
 MBLOG_STATE_ACTIVE = 10
 
 
+class Mblog(McModel):
+    @property
+    def txt(self):
+        return txt_get(self.id)
+
+    @property
+    def link(self):
+        id = self.id
+        if not hasattr(self, "_link"):
+            if CID_NOTE:
+                link = "/note/%s"%id
+            self._link = link
+        return self._link
+
+    def can_admin(self, user_id):
+        return self.user_id == user_id
+
 def mblog_new(cid, user_id, name, state):
     m = Mblog(
         id=gid(),
-        name=name.strip(),
+        name=name,
         user_id=user_id,
         create_time=int(time()),
         cid=cid,
@@ -35,7 +48,6 @@ def mblog_new(cid, user_id, name, state):
 def mblog_edit_name(id, name):
     m = Mblog.mc_get(id)
     if m is None:return
-    name = name.strip()
     if m.name != name and name:
         m.name = name
         m.save()
@@ -62,7 +74,6 @@ def feed_tuple_word(id):
     return False
 
 def mblog_word_new(user_id, name):
-    name = name.strip()
     if name and not is_same_post(user_id, name):
         m = mblog_new(CID_WORD, user_id, name, MBLOG_STATE_ACTIVE)
         id = m.id
@@ -87,11 +98,12 @@ def mblog_note_can_view(mblog, user_id):
     return True
 
 def mblog_note_new(user_id, name, txt, state):
-    name = name.strip() or time_title()
+    name = name or time_title()
     if is_same_post(user_id, name, txt):
         return
     m = mblog_new(CID_NOTE, user_id, name, state)
-    txt_new(m.id, txt)
+    id = m.id
+    txt_new(id, txt)
     if state > MBLOG_STATE_SECRET:
         feed_entry_new(id, user_id, CID_NOTE)
     return m
