@@ -19,7 +19,7 @@ class Note(_handler.Base):
                 "%s/note/%s"%(
                     zsite.link,
                     id
-                )
+                ), True
             )
         can_view = mblog_note_can_view(mblog, current_user_id)
         return self.render(
