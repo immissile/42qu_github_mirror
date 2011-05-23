@@ -6,26 +6,37 @@
 <button type="submit">提交</button>
 </%htm:form>
 
-<%def name="render_word(i)">
+<%def name="_style1(i)">
 <%
 news_zsite = i.zsite
 %>\
-<div>\
-<a href="${news_zsite.link}" target="_blank">${news_zsite.name}</a>
-${i.txt}</div>\
+<div style="padding:10px;margin:10px;border:1px solid #eee">\
+<a href="${news_zsite.link}" target="_blank">${news_zsite.name}</a> : \
+${caller.body()}\
+</div>\
+</%def>
+
+<%def name="render_word(i)">
+<%call expr="_style1(i)">
+${i.txt}
+</%call>
+</%def>
+
+<%def name="render_note(i)">
+<%call expr="_style1(i)">
+<a href="/note/${i.id}" target="_blank">${i.name}</a>
+<div>${i.txt}</div>
+</%call>
 </%def>
 
 <%def name="render_follow(i)">
-<%
-news_zsite = i.zsite
-%>\
-<div>
-<a href="${news_zsite.link}" target="_blank">${news_zsite.name}</a>
-关注了 <a href="${i.link}" target="_blank">${i.name}</a></div>\
+<%call expr="_style1(i)">
+关注了 <a href="${i.link}" target="_blank">${i.name}</a>
+</%call>
 </%def>
 
 <%!
-from model.cid import CID_WORD,CID_FOLLOW
+from model.cid import CID_WORD,CID_FOLLOW,CID_NOTE
 %>
 %for i in entry_list:
 <%
@@ -35,5 +46,9 @@ cid = i.cid
 ${render_word(i)}
 %elif cid == CID_FOLLOW:
 ${render_follow(i)}
+%elif cid == CID_NOTE:
+${render_note(i)}
 %endif
 %endfor
+
+

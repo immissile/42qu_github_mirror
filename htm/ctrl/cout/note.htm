@@ -2,5 +2,14 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%htm:form enctype="multipart/form-data">
-<textarea></textarea>
+<div>
+    <input type="text" name="name">
+</div>
+<textarea name="txt"></textarea>
+<div>
+    <input type="checkbox" name="secret" id="secret">\
+    <label for="secret">仅自己可见</label>\
+    <button type="submit">确定</button>\
+</div>
 </%htm:form>
+

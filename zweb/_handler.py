@@ -19,6 +19,15 @@ class Base(web.RequestHandler):
             else:
                 self.clear_cookie(key)
 
+    @property
+    def current_user_id(self):
+        if not hasattr(self, "_current_user_id"):
+            current_user = self.current_user
+            if current_user:
+                self._current_user_id = current_user.id
+            else:
+                self._current_user_id = 0
+        return self._current_user_id
 
     def render(self, template_name=None, **kwds):
         if template_name is None:

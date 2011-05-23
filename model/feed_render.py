@@ -1,26 +1,25 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-
-from cid import CID_WORD, CID_FOLLOW
+from cid import CID_WORD, CID_FOLLOW, CID_NOTE
 from collections import namedtuple
 from zsite import Zsite
 from operator import itemgetter
-from mblog import feed_tuple_word
+from mblog import feed_tuple_word, feed_tuple_note
 from follow import feed_tuple_follow
 
 CID2FEEDFUNC = {
     CID_WORD: feed_tuple_word,
-    CID_FOLLOW :feed_tuple_follow
+    CID_FOLLOW: feed_tuple_follow,
+    CID_NOTE: feed_tuple_note,
 }
 
 
 CID2FEED_ENTRY = {
     CID_WORD : "txt",
-    CID_FOLLOW : "link name"
+    CID_NOTE : "name txt",
+    CID_FOLLOW : "name link",
 }
-
-
 
 def __init__cid2feed_entry():
     for k, v in CID2FEED_ENTRY.iteritems():

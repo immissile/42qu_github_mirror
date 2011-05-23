@@ -1,0 +1,16 @@
+<%inherit file="/ctrl/_base/1.htm" />
+
+
+<%def name="htm_title()">
+%if can_view:
+${mblog.name}
+%endif
+</%def>
+
+%if can_view:
+<h1>${mblog.name}</h1>
+<pre>${mblog.txt}</pre>
+%else:
+<div>你无权阅读该文章</div>
+%endif
+
