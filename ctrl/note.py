@@ -40,11 +40,17 @@ class NoteRm(_handler.XsrfGetBase):
 
 @urlmap("/note/(\d+)/edit")
 class NoteEdit(_handler.XsrfGetBase):
-    def get(self, id=1):
-        mblog = mblog
+    def get(self, id):
+        mblog = Mblog.mc_get(id)
+        self.render(mblog=mblog)
 
     def post(self, id):
-        pass
+        mblog = Mblog.mc_get(id)
+        self.redirect(mblog.link)
+
+
+
+
 
 
 

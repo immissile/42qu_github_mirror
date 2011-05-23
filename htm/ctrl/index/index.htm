@@ -14,9 +14,9 @@ from model.follow import follow_get, follow_list_by_from_id_cid
 from model.zsite import ZSITE_CID_USER
 %>
         %if follow_get(current_user.id,zsite.id):
-<a href="/unfollow?${handler.xsrf_get}">淡忘</a>
+<a href="/unfollow?${_xsrf}">淡忘</a>
         %else:
-<a href="/follow?${handler.xsrf_get}">关注</a>
+<a href="/follow?${_xsrf}">关注</a>
         %endif
     %endif
 <p>关注的人</p>
