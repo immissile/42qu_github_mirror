@@ -6,31 +6,15 @@ from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from feed import feed_entry_new, mc_feed_entry_tuple
 from gid import gid
 from txt import txt_new
+from spammer import is_same_post
+from datetime import datetime
 
 class Mblog(McModel):
     pass
 
-
 MBLOG_STATE_DEL = 3
 MBLOG_STATE_SECRET = 7
 MBLOG_STATE_ACTIVE = 10
-
-mc_mblog_word_lastest = McCache("MblogWordLastest:%s")
-
-@mc_mblog_word_lastest("{user_id}")
-def mblog_word_lastest(user_id):
-    c = Mblog.raw_sql(
-            "select name from mblog where cid=%s and user_id=%s and state>=%s order by id desc limit 1",
-            CID_WORD,
-            user_id,
-            MBLOG_STATE_ACTIVE
-        )
-    r = c.fetchone()
-    if r:
-        r = r[0]
-    else:
-        r = ''
-    return r
 
 
 def mblog_new(cid, user_id, name, state):
@@ -68,23 +52,27 @@ def feed_tuple_word(id):
     return False
 
 def mblog_word_new(user_id, name):
-    if name.rstrip() and name != mblog_word_lastest(user_id):
+    name = name.strip()
+    if name and not is_same_post(user_id, name):
         m = mblog_new(CID_WORD, user_id, name, MBLOG_STATE_ACTIVE)
         id = m.id
-        mc_mblog_word_lastest.set(user_id, name)
         feed_entry_new(id, user_id, CID_WORD)
         return m
-
-def mblog_question_new(user_id, name , txt):
-    m = mblog_new(CID_QUESTION, user_id, name, MBLOG_STATE_SECRET)
-    txt_new(m.id, txt)
-    return m
+#
+#def mblog_question_new(user_id, name , txt):
+#    m = mblog_new(CID_QUESTION, user_id, name, MBLOG_STATE_SECRET)
+#    txt_new(m.id, txt)
+#    return m
 
 def mblog_note_new(user_id, name, txt):
+    name = name.strip()
+    if not name:
+        name = "无题 @ %s"%datetime.now()
+    if is_same_post(user_id, name, txt):
+        return
     m = mblog_new(CID_NOTE, user_id, name, MBLOG_STATE_SECRET)
     txt_new(m.id, txt)
     return m
-
 
 
 
