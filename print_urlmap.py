@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 #coding:utf-8
-import ctrl
 
 def print_urlmap(module):
     __import__(module, globals(), locals(), [], -1)
