@@ -8,7 +8,7 @@ from gid import gid
 from txt import txt_new
 from spammer import is_same_post
 from datetime import datetime
-from zkit import time_title
+from zkit.time_format import time_title
 
 class Mblog(McModel):
     pass

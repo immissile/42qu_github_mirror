@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import conf
-conf.SITE_DOMAIN = SITE_DOMAIN = 'zsp.com'
+conf.SITE_DOMAIN = SITE_DOMAIN = 'zuroc.me'
 conf.PIC_URL = 'http://p.%s'%SITE_DOMAIN
 conf.FS_URL = 'http://s.%s'%SITE_DOMAIN
 conf.PORT = 5555

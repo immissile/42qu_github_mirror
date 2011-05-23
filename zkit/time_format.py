@@ -31,5 +31,6 @@ def time_title():
         friendly_hour(now.hour, now.minute, now.second)
     )
 
+
 if __name__ == "__main__":
     print time_title()
