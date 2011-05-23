@@ -93,6 +93,7 @@ def mblog_note_new(user_id, name, txt, state):
     if is_same_post(user_id, name, txt):
         return
     m = mblog_new(CID_NOTE, user_id, name, state)
+    id = m.id
     txt_new(m.id, txt)
     if state > MBLOG_STATE_SECRET:
         feed_entry_new(id, user_id, CID_NOTE)
