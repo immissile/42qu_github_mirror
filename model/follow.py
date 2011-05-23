@@ -4,7 +4,7 @@ from _db import Model, McModel, McCache, cursor_by_table, McCacheA
 from zsite import Zsite
 from cid import CID_FOLLOW
 from gid import gid
-from feed import feed_entry_rm,feed_entry_new, mc_feed_id_by_for_zsite_follow, mc_feed_entry_tuple
+from feed import feed_entry_rm, feed_entry_new, mc_feed_id_by_for_zsite_follow, mc_feed_entry_tuple
 
 mc_follow_id_list_by_from_id_cid = McCacheA("FollowIdListByFromIdCid:%s")
 mc_follow_id_list_by_from_id = McCacheA("FollowIdListByFromId:%s")
@@ -15,12 +15,12 @@ follow_cursor = cursor_by_table("follow")
 
 @mc_follow_id_list_by_from_id('{from_id}')
 def follow_id_list_by_from_id(from_id):
-    follow_cursor.execute('select to_id from follow where from_id=%s',(from_id))
+    follow_cursor.execute('select to_id from follow where from_id=%s', (from_id))
     return [i for i, in follow_cursor]
 
 @mc_follow_id_list_by_from_id_cid('{from_id}_{cid}')
 def follow_id_list_by_from_id_cid(from_id, cid):
-    follow_cursor.execute('select to_id from follow where from_id=%s and cid=%s',(from_id, cid))
+    follow_cursor.execute('select to_id from follow where from_id=%s and cid=%s', (from_id, cid))
     return [i for i, in follow_cursor]
 
 def follow_list_by_from_id_cid(from_id, cid):
@@ -40,7 +40,7 @@ def follow_get(from_id, to_id):
     return 0
 
 def follow_rm(from_id, to_id):
-    id = follow_get(from_id,to_id)
+    id = follow_get(from_id, to_id)
     if not id:
         return
     follow_cursor.execute(
@@ -69,7 +69,7 @@ def follow_new(from_id, to_id):
 def mc_flush(from_id, to_id, cid):
     mc_feed_id_by_for_zsite_follow.delete(from_id)
     mc_follow_get.delete( "%s_%s"%(from_id, to_id))
-    mc_follow_id_list_by_from_id_cid.delete("%s_%s"%(from_id,cid))
+    mc_follow_id_list_by_from_id_cid.delete("%s_%s"%(from_id, cid))
     mc_follow_id_list_by_from_id.delete(from_id)
 
 
@@ -82,6 +82,5 @@ def feed_tuple_follow(id):
     r = follow_cursor.fetchone()
     if r:
         zsite = Zsite.mc_get(r[0])
-        return (zsite.link, zsite.name)
-
+        return (zsite.name , zsite.link)
 
