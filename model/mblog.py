@@ -9,7 +9,7 @@ from txt import txt_new, txt_get
 from spammer import is_same_post
 from datetime import datetime
 from zkit.time_format import time_title
-from state import STATE_DEL, STATE_SECRET, STATE_DEL
+from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 
 MBLOG_LINK = {
     CID_NOTE : "/note/%s",
