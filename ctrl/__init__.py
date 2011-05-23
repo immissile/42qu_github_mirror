@@ -5,7 +5,7 @@ import index
 import auth
 import i
 import wall
-import cout
+import po
 import news
 import note
 
