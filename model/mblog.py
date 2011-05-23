@@ -94,7 +94,7 @@ def mblog_note_new(user_id, name, txt, state):
         return
     m = mblog_new(CID_NOTE, user_id, name, state)
     id = m.id
-    txt_new(m.id, txt)
+    txt_new(id, txt)
     if state > MBLOG_STATE_SECRET:
         feed_entry_new(id, user_id, CID_NOTE)
     return m
