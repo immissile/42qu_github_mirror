@@ -8,6 +8,7 @@ conf.MYSQL_PORT = 3306
 conf.MYSQL_USER = 'root'
 conf.MYSQL_PASSWD = 'kanrss'
 conf.MYSQL_MAIN = 'zpage'
+conf.MEMCACHED_ADDR = ('127.0.0.1:11213', )
 
 conf.SMTP = "smtp.sina.com.cn"
 conf.SMTP_USERNAME = "zuroc586"
