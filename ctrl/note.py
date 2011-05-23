@@ -50,7 +50,7 @@ def can_edit(current_user_id, id):
         mblog = None
     return mblog or JsDict()
 
-@urlmap("/cout/note")
+@urlmap("/po/note")
 @urlmap("/note/(\d+)/edit")
 class Edit(_handler.LoginBase):
     def get(self, id=None):

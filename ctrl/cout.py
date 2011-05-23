@@ -6,7 +6,7 @@ from model.mblog import mblog_word_new
 
 
 
-@urlmap("/cout/word")
+@urlmap("/po/word")
 class Word(_handler.LoginBase):
     def post(self):
         current_user = self.current_user

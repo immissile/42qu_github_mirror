@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-from feed_entry 
+/cout/
 """
 
 TO_STRING = """
-from feed 
+/po/
 """
 
 FROM_STRING = FROM_STRING.strip()
