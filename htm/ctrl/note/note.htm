@@ -10,7 +10,10 @@ ${mblog.name}
 %if can_view:
 <h1>${mblog.name}</h1>
 <pre>${mblog.txt}</pre>
+<div>
+    <a href="/rm/mblog?${handler.xsrf_get}">删除</a>
+</div>
 %else:
-<div>你无权阅读该文章</div>
+<div>你无权浏览这里</div>
 %endif
 

@@ -10,15 +10,19 @@ from spammer import is_same_post
 from datetime import datetime
 from zkit.time_format import time_title
 
-class Mblog(McModel):
-    @property
-    def txt(self):
-        return txt_get(self.id)
 
 MBLOG_STATE_DEL = 3
 MBLOG_STATE_SECRET = 7
 MBLOG_STATE_ACTIVE = 10
 
+
+class Mblog(McModel):
+    @property
+    def txt(self):
+        return txt_get(self.id)
+
+    def can_admin(self, user_id):
+        return self.user_id == user_id
 
 def mblog_new(cid, user_id, name, state):
     m = Mblog(
