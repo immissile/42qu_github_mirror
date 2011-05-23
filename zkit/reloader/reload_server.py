@@ -1,15 +1,15 @@
 import sys, os, subprocess
 
 def quote_first_command_arg( arg):
-    """ 
-    There's a bug in Windows when running an executable that's 
-    located inside a path with a space in it.  This method handles 
-    that case, or on non-Windows systems or an executable with no 
-    spaces, it just leaves well enough alone. 
+    """
+    There's a bug in Windows when running an executable that's
+    located inside a path with a space in it.  This method handles
+    that case, or on non-Windows systems or an executable with no
+    spaces, it just leaves well enough alone.
     """
     if (sys.platform!='win32'
         or ' ' not in arg):
-        # Problem does not apply: 
+        # Problem does not apply:
         return arg
     try:
         import win32api
@@ -79,5 +79,3 @@ def auto_reload(app):
             sleep(0.3)
             print i,
         print ''
-
-
