@@ -7,7 +7,7 @@ def main():
     urlmap = tuple(_urlmap.URLMAP)
     application = tornado.wsgi.WSGIApplication(
         urlmap,
-        login_url = "/login",
+        login_url="/login",
     )
 
     from zweb._middleware import default_middleware

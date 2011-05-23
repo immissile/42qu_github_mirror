@@ -31,7 +31,7 @@ def reset():
         sure = 'reset_database_%s'%name
         if raw_input(">>> please type '%s' to reset_db:\n"%sure).strip() == sure:
             print "\n\nCtrl+C TO CANCEL RESET",
-            for i in range(7,-1,-1):
+            for i in range(7, -1, -1):
                 print i,
                 sys.stdout.flush()
                 time.sleep(1)

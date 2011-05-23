@@ -23,7 +23,7 @@ for dirpath, dirnames, filenames in walk(dirname(FILE)):
 
     for filename in filenames:
         suffix = filename.rsplit(".", 1)[-1]
-        if suffix not in ("py", "htm", "txt","conf"):
+        if suffix not in ("py", "htm", "txt", "conf"):
             continue
         path = join(dirpath, filename)
         if path == FILE:
