@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache
-from kv_table import KvTable
+from kv import Kv
 from zkit.pic import pic_square, picopen, pic_zoom_inner
 from time import time
 from fs import fs_set_jpg, fs_url_jpg
 from tid import TID_ICO
 
-ico = KvTable('ico')
+ico = Kv('ico')
 
 class Pic(Model):
     pass

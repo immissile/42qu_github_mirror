@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import mc, cursor_by_table
 
-class KvTable(object):
+class Kv(object):
     def __init__(self, table):
         self.__table__ = table
         self.cursor = cursor_by_table(table)
@@ -61,7 +61,3 @@ class KvTable(object):
             cursor.connection.commit()
             r = cursor.lastrowid
         return r
-
-
-
-
