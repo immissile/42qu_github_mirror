@@ -14,7 +14,8 @@ ${mblog.name}
 <pre>${mblog.txt}</pre>
 <div>
     %if mblog.can_admin(current_user_id):
-    <a href="/rm/mblog?${handler.xsrf_get}">删除</a>
+        <a href="/note/${}">删除</a>
+        <a href="/rm/mblog?${handler.xsrf_get}">删除</a>
     %endif
 </div>
 %else:

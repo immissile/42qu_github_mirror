@@ -21,6 +21,15 @@ class Mblog(McModel):
     def txt(self):
         return txt_get(self.id)
 
+    @property
+    def link(self):
+        id = self.id
+        if not hasattr(self, "_link"):
+            if CID_NOTE:
+                link = "/note/%s"%id
+            self._link = link
+        return self._link
+
     def can_admin(self, user_id):
         return self.user_id == user_id
 
