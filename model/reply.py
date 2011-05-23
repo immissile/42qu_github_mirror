@@ -7,16 +7,12 @@ from spammer import is_spammer
 from time import time
 from txt import txt_bind
 from zkit.txt2htm import txt_withlink
-
-REPLY_STATE_DEL = 3
-REPLY_STATE_APPLY = 5
-REPLY_STATE_SECRET = 7
-REPLY_STATE_ACTIVE = 10
+from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 
 REPLY_STATE = (
-    REPLY_STATE_DEL,
-    REPLY_STATE_APPLY,
-    REPLY_STATE_ACTIVE,
+    STATE_DEL,
+    STATE_APPLY,
+    STATE_ACTIVE,
 )
 
 mc_reply_id_list = McLimitA("ReplyIdList:%s", 512)
@@ -25,7 +21,7 @@ mc_reply_total = McCache("ReplyTotal:%s")
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
 
-    def reply_new(self, user_id, txt, state=REPLY_STATE_ACTIVE):
+    def reply_new(self, user_id, txt, state=STATE_ACTIVE):
         txt = txt.rstrip()
         if not txt or is_spammer(user_id):
             return
@@ -53,7 +49,7 @@ class ReplyMixin(object):
         tid = self.TID
         rid = self.id
         cursor = self.reply_cursor
-        cursor.execute("select count(1) from reply where rid=%s and tid=%s and state>=%s", (rid, tid, REPLY_STATE_SECRET))
+        cursor.execute("select count(1) from reply where rid=%s and tid=%s and state>=%s", (rid, tid, STATE_SECRET))
         r = cursor.fetchone()
         return r[0]
 
@@ -65,7 +61,7 @@ class ReplyMixin(object):
 
         sql = [
             "select id from reply where rid=%s and tid=%s",
-            "and state>=%s"%REPLY_STATE_SECRET
+            "and state>=%s"%STATE_SECRET
         ]
 
         para = [

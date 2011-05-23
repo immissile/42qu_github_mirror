@@ -3,7 +3,7 @@
 
 import _handler
 from zweb._urlmap import urlmap
-from model.reply import REPLY_STATE_SECRET, REPLY_STATE_ACTIVE
+from model.reply import STATE_SECRET, STATE_ACTIVE
 from zkit.page import page_limit_offset
 
 @urlmap("/wall")
@@ -21,7 +21,7 @@ class Wall(_handler.LoginBase):
             reply = zsite.reply_new(
                 current_user.id,
                 txt,
-                REPLY_STATE_SECRET if secret else REPLY_STATE_ACTIVE
+                STATE_SECRET if secret else STATE_ACTIVE
             )
         link = zsite.link
         return self.redirect(link)

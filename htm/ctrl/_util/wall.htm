@@ -1,5 +1,5 @@
 <%!
-from model.reply import REPLY_STATE_SECRET, REPLY_STATE_ACTIVE
+from model.reply import STATE_SECRET, STATE_ACTIVE
 %>
 
 <%def name="reply_render(i)">
@@ -7,7 +7,7 @@ from model.reply import REPLY_STATE_SECRET, REPLY_STATE_ACTIVE
 
 <%
 user = i.user
-is_apply = i.state==REPLY_STATE_SECRET
+is_apply = i.state==STATE_SECRET
 self_say = i.user==current_user
 %>
 

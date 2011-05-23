@@ -4,35 +4,48 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/cout/
+REPLY_STATE_DEL
+REPLY_STATE_APPLY
+REPLY_STATE_SECRET
+REPLY_STATE_ACTIVE
 """
 
 TO_STRING = """
-/po/
+STATE_DEL
+STATE_APPLY
+STATE_SECRET
+STATE_ACTIVE
 """
 
-FROM_STRING = FROM_STRING.strip()
-TO_STRING = TO_STRING.strip()
+def run():
+    from_string = FROM_STRING.strip()
+    to_string = TO_STRING.strip()
+    for from_s, to_s in zip(FROM_STRING.split("\n"), TO_STRING.split("\n")):
+        replace(from_s, to_s)
 
-FILE = abspath(__file__)
+def replace(from_string, to_string):
+    from_string = from_string.strip()
+    to_string = to_string.strip()
 
-for dirpath, dirnames, filenames in walk(dirname(FILE)):
-    dirname = basename(dirpath)
-    if dirname.startswith("."):
-        continue
+    file = abspath(__file__)
 
-    for filename in filenames:
-        suffix = filename.rsplit(".", 1)[-1]
-        if suffix not in ("py", "htm", "txt", "conf"):
+    for dirpath, dirnames, filenames in walk(dirname(file)):
+        dirbase = basename(dirpath)
+        if dirbase.startswith("."):
             continue
-        path = join(dirpath, filename)
-        if path == FILE:
-            continue
-        with open(path) as f:
-            content = f.read()
-        t = content.replace(FROM_STRING, TO_STRING)
-        if t != content:
-            with open(path, "wb") as f:
-                f.write(t)
 
+        for filename in filenames:
+            suffix = filename.rsplit(".", 1)[-1]
+            if suffix not in ("py", "htm", "txt", "conf"):
+                continue
+            path = join(dirpath, filename)
+            if path == file:
+                continue
+            with open(path) as f:
+                content = f.read()
+            t = content.replace(from_string, to_string)
+            if t != content:
+                with open(path, "wb") as f:
+                    f.write(t)
 
+run()
