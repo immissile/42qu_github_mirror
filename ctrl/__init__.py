@@ -7,3 +7,5 @@ import setting
 import wall
 import cout
 import news
+import note
+

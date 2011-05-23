@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import _handler
 from zweb._urlmap import urlmap
 from model.mblog import mblog_word_new, mblog_note_new, MBLOG_STATE_SECRET, MBLOG_STATE_ACTIVE

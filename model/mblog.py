@@ -5,13 +5,15 @@ from time import time
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from feed import feed_entry_new, mc_feed_entry_tuple
 from gid import gid
-from txt import txt_new
+from txt import txt_new, txt_get
 from spammer import is_same_post
 from datetime import datetime
 from zkit.time_format import time_title
 
 class Mblog(McModel):
-    pass
+    @property
+    def txt(self):
+        return txt_get(self.id)
 
 MBLOG_STATE_DEL = 3
 MBLOG_STATE_SECRET = 7
@@ -24,7 +26,7 @@ def mblog_new(cid, user_id, name, state):
         name=name.strip(),
         user_id=user_id,
         create_time=int(time()),
-        cid=CID_WORD,
+        cid=cid,
         state=state
     )
     m.save()
@@ -65,12 +67,26 @@ def mblog_word_new(user_id, name):
 #    txt_new(m.id, txt)
 #    return m
 
+def mblog_note_can_view(mblog, user_id):
+    if not mblog:
+        return False
+    if mblog.state <= MBLOG_STATE_DEL:
+        return False
+    if mblog.cid != CID_NOTE:
+        return False
+    if mblog.state == MBLOG_STATE_SECRET:
+        if mblog.user_id != user_id:
+            return False
+    return True
+
 def mblog_note_new(user_id, name, txt, state):
     name = name.strip() or time_title()
     if is_same_post(user_id, name, txt):
         return
     m = mblog_new(CID_NOTE, user_id, name, state)
     txt_new(m.id, txt)
+    if state > MBLOG_STATE_SECRET:
+        feed_entry_new(id, user_id, CID_NOTE)
     return m
 
 
