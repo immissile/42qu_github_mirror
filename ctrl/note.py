@@ -8,7 +8,7 @@ from model.zsite import Zsite
 
 
 @urlmap("/note/(\d+)")
-class Note(_handler.Base):
+class Index(_handler.Base):
     def get(self, id):
         mblog = Mblog.get(id)
         current_user_id = self.current_user_id
@@ -28,7 +28,7 @@ class Note(_handler.Base):
 
 
 @urlmap("/note/(\d+)/rm")
-class NoteRm(_handler.XsrfGetBase):
+class Rm(_handler.XsrfGetBase):
     def get(self, id):
         current_user = self.current_user
         current_user_id = self.current_user_id
@@ -37,15 +37,28 @@ class NoteRm(_handler.XsrfGetBase):
 
     post = get
 
+def can_edit(current_user_id, id):
+    mblog = Mblog.mc_get(id)
+    if not mblog:
+        self.redirect("/")
+        return
+    if not mblog.can_admin(current_user_id):
+        self.redirect(mblog.link)
+        return
+    return mblog
 
 @urlmap("/note/(\d+)/edit")
-class NoteEdit(_handler.XsrfGetBase):
+class Edit(_handler.LoginBase):
+
     def get(self, id):
-        mblog = Mblog.mc_get(id)
-        self.render(mblog=mblog)
+        mblog = can_edit(self.current_user_id, id)
+        if mblog:
+            self.render(mblog=mblog)
 
     def post(self, id):
-        mblog = Mblog.mc_get(id)
+        mblog = can_edit(current_user_id, id)
+        if mblog:
+            pass
         self.redirect(mblog.link)
 
 
