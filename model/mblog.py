@@ -15,6 +15,10 @@ MBLOG_STATE_DEL = 3
 MBLOG_STATE_SECRET = 7
 MBLOG_STATE_ACTIVE = 10
 
+MBLOG_LINK = {
+    CID_NOTE : "/note/%s",
+    CID_WORD : "/word/%s",
+}
 
 class Mblog(McModel):
     @property
@@ -24,10 +28,9 @@ class Mblog(McModel):
     @property
     def link(self):
         id = self.id
+        cid = self.cid
         if not hasattr(self, "_link"):
-            if CID_NOTE:
-                link = "/note/%s"%id
-            self._link = link
+            self._link = MBLOG_LINK[cid]%id
         return self._link
 
     def can_admin(self, user_id):
