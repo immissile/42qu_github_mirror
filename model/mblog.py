@@ -7,6 +7,7 @@ from feed import feed_entry_new, mc_feed_entry_tuple
 from gid import gid
 from txt import txt_new
 from spammer import is_same_post
+from datetime import datetime
 
 class Mblog(McModel):
     pass
@@ -64,6 +65,9 @@ def mblog_word_new(user_id, name):
 #    return m
 
 def mblog_note_new(user_id, name, txt):
+    name = name.strip()
+    if not name:
+        name = "无题 @ %s"%datetime.now()
     if is_same_post(user_id, name, txt):
         return
     m = mblog_new(CID_NOTE, user_id, name, MBLOG_STATE_SECRET)
