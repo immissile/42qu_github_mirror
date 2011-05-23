@@ -45,8 +45,8 @@ def feed_entry_rm(id):
     cursor.execute("select feed_id from feed_entry where id=%s", id)
     r = cursor.fetchone()
     if r:
-        r = r[0]
-        cursor.execute("delete from feed_entry where where id=%s", id)
+        feed_id = r[0]
+        cursor.execute("delete from feed_entry where id=%s", id)
         cursor.connection.commit()
         mc_feed_entry_iter.delete(feed_id)
 
