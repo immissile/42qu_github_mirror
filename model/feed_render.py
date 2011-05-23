@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-
 from cid import CID_WORD, CID_FOLLOW, CID_NOTE
 from collections import namedtuple
 from zsite import Zsite

@@ -48,6 +48,13 @@ def mblog_rm(user_id, id):
         feed_entry_rm(id)
 
 @mc_feed_entry_tuple('{id}')
+def feed_tuple_note(id):
+    m = Mblog.mc_get(id)
+    if m:
+        return (m.name, m.txt)
+    return ()
+
+@mc_feed_entry_tuple('{id}')
 def feed_tuple_word(id):
     m = Mblog.mc_get(id)
     if m:
