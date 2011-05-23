@@ -42,12 +42,13 @@ def feed_entry_new(id, zsite_id, cid):
     return id
 
 def feed_entry_rm(id):
-    o = FeedEntry.mc_get(id)
-    if not o:
-        return
-    feed_id = o.feed_id
-    o.delete()
-    mc_feed_entry_iter.delete(feed_id)
+    cursor.execute("select feed_id from feed_entry where id=%s", id)
+    r = cursor.fetchone()
+    if r:
+        r = r[0]
+        cursor.execute("delete from feed_entry where where id=%s", id)
+        cursor.connection.commit()
+        mc_feed_entry_iter.delete(feed_id)
 
 @mc_feed_entry_iter("{feed_id}")
 def feed_entry_id_lastest(feed_id):

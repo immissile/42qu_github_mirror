@@ -3,7 +3,7 @@
 
 import _handler
 from zweb._urlmap import urlmap
-from model.mblog import Mblog, mblog_note_can_view
+from model.mblog import Mblog, mblog_note_can_view, mblog_rm
 from model.zsite import Zsite
 
 
@@ -30,7 +30,8 @@ class Note(_handler.Base):
 @urlmap("/note/(\d+)/rm")
 class NoteRm(_handler.XsrfGetBase):
     def get(self, id):
-        pass
+        current_user_id = self.current_user_id
+        mblog_rm(current_user_id, id)
 
     post = get
 
