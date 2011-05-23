@@ -5,8 +5,6 @@ def main():
     import tornado.wsgi
     from zweb import _urlmap
     urlmap = tuple(_urlmap.URLMAP)
-    from pprint import pprint
-    pprint(urlmap)
     application = tornado.wsgi.WSGIApplication(
         urlmap,
         login_url = "/login",
