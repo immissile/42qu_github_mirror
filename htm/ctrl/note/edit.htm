@@ -18,6 +18,8 @@ checked
     <label for="secret">仅自己可见</label>\
     <button type="submit">确定</button>\
 </div>
+%if mblog:
 <a href="${mblog.link}/rm?${_xsrf}">删除</a>
+%endif
 </%htm:form>
 
