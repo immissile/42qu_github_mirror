@@ -22,17 +22,18 @@ def get_namecard(user_id):
     id = get_namecard_id(user_id)
     return Namecard.mc_get(id)
 
-def namecard_new(user_id, pid, phone, mail, address, state=STATE_ACTIVE):
+def namecard_new(user_id, pid, name, phone, mail, address, state=STATE_ACTIVE):
     pid = pid_hex2int(pid)
     c = get_namecard(user_id)
     if c:
-        if c.pid == pid and c.phone == phone and c.mail == mail and c.address == address:
+        if c.pid == pid and c.name == name and c.phone == phone and c.mail == mail and c.address == address:
             return c
         c.state = STATE_DEL
         c.save()
     c = Namecard(
         user_id=user_id,
         pid=pid,
+        name=name,
         phone=phone,
         mail=mail,
         address=address,

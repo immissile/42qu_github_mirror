@@ -1,0 +1,21 @@
+<%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.namecard import get_namecard
+%>
+<%
+namecard = get_namecard(current_user.id) or G
+%>
+%if url:
+个性域名 <a href="${current_user.link}">${current_user.link[2:]}</a>
+%else:
+<%htm:form>
+<p>
+个性域名 <input type="input" name="url">
+%if error_url:
+${error_url}
+%endif:
+</p>
+<button type="submit">设置</button>
+</%htm:form>
+%endif

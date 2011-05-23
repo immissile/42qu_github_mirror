@@ -7,6 +7,7 @@ from zweb._urlmap import urlmap
 from zkit.pic import picopen
 from model.pic import ico_new
 from model.zsite_link import url_by_id, url_new, url_valid
+from model.namecard import get_namecard, namecard_new
 
 @urlmap("/i")
 class Setting(_handler.LoginBase):
@@ -52,7 +53,12 @@ class Url(_handler.LoginBase):
 @urlmap('/i/namecard')
 class Namecard(_handler.LoginBase):
     def get(self):
+        namecard = get_namecard(self.current_user_id)
         self.render()
 
     def post(self):
+        pid = self.get_argument('pid', None)
         name = self.get_argument('name', None)
+        phone = self.get_argument('phone', None)
+        mail = self.get_argument('mail', None)
+        address = self.get_argument('address', None)
