@@ -35,7 +35,7 @@ class NoteRm(_handler.XsrfGetBase):
     post = get
 
 
-@urlmap("/note/(\d+)/rm")
+@urlmap("/note/(\d+)/edit")
 class NoteEdit(_handler.XsrfGetBase):
     def get(self, id):
         pass
