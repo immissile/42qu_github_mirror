@@ -34,8 +34,7 @@ class Url(_handler.LoginBase):
         self.render()
 
     def post(self):
-        current_user = self.current_user
-        user_id = current_user.id
+        user_id = self.current_user_id
         url = self.get_argument('url', None)
         if url:
             if url_by_id(user_id):
@@ -54,3 +53,6 @@ class Url(_handler.LoginBase):
 class Namecard(_handler.LoginBase):
     def get(self):
         self.render()
+
+    def post(self):
+        name = self.get_argument('name', None)
