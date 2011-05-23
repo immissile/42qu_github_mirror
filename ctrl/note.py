@@ -7,10 +7,9 @@ from model.mblog import Mblog, mblog_note_can_view
 from model.zsite import Zsite
 
 
-
 @urlmap("/note/(\d+)")
 class Note(_handler.Base):
-    def get(self, id=None):
+    def get(self, id):
         mblog = Mblog.get(id)
         current_user_id = self.current_user_id
         if mblog.user_id != self.zsite_id:
@@ -26,5 +25,27 @@ class Note(_handler.Base):
             mblog=mblog,
             can_view=can_view
         )
+
+
+@urlmap("/note/(\d+)/rm")
+class NoteRm(_handler.XsrfGetBase):
+    def get(self, id):
+        pass
+
+    post = get
+
+
+@urlmap("/note/(\d+)/rm")
+class NoteEdit(_handler.XsrfGetBase):
+    def get(self, id):
+        pass
+
+    def post(self, id):
+        pass
+
+
+
+
+
 
 
