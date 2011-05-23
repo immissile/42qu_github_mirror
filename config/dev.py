@@ -10,4 +10,3 @@ import getpass
 load('conf_dev_%s' % getpass.getuser())
 
 conf.DEBUG = True
-
