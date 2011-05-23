@@ -65,7 +65,7 @@ or is run from this .bat file (if you use Windows)::
     if %errorlevel% == 3 goto repeat
 
 or run a monitoring process in Python (``paster serve --reload`` does
-this).  
+this).
 
 Use the ``watch_file(filename)`` function to cause a reload/restart for
 other other non-Python files (e.g., configuration files).  If you have
@@ -217,4 +217,3 @@ if sys.platform.startswith('java'):
 
 watch_file = Monitor.watch_file
 add_file_callback = Monitor.add_file_callback
-

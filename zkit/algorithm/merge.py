@@ -66,7 +66,7 @@ def imerge(*iterables):
             return
 
 
-if "__main__" == __name__:
+if __name__ == '__main__':
     class O(object):
         def __init__(self, create_time):
             self.create_time = create_time
@@ -78,7 +78,3 @@ if "__main__" == __name__:
         for i in imerge(map(O, [1, 3, 5, 7]), map(O, [0, 2, 4, 8]), map(O, [5, 10, 15, 20])):
             print i.create_time
     main()
-
-
-
-
