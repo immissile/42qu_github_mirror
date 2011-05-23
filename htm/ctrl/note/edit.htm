@@ -1,5 +1,15 @@
 <%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
-<%def name="htm_title()">
-${mblog.name}
-</%def>
+<%htm:form enctype="multipart/form-data">
+<div>
+<input type="text" name="name" value="${mblog.title}">
+</div>
+<textarea name="txt"></textarea>
+<div>
+    <input type="checkbox" name="secret" id="secret">\
+    <label for="secret">仅自己可见</label>\
+    <button type="submit">确定</button>\
+</div>
+</%htm:form>
+

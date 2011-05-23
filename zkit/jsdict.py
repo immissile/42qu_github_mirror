@@ -2,7 +2,7 @@
 #coding:utf-8
 
 class JsDict(object):
-    def __init__(self, o):
+    def __init__(self, o=None):
         if o is None:
             o = {}
         self.__dict__["_JsDict__o"] = o

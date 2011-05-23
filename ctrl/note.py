@@ -5,7 +5,7 @@ import _handler
 from zweb._urlmap import urlmap
 from model.mblog import Mblog, mblog_note_can_view, mblog_rm
 from model.zsite import Zsite
-
+from zkit.jsdict import JsDict
 
 @urlmap("/note/(\d+)")
 class Index(_handler.Base):
@@ -47,21 +47,43 @@ def can_edit(current_user_id, id):
         return
     return mblog
 
+@urlmap("/cout/note")
 @urlmap("/note/(\d+)/edit")
 class Edit(_handler.LoginBase):
+    def get(self, id=None):
+        if id:
+            mblog = can_edit(self.current_user_id, id)
+        else:
+            mblog = JsDict()
+        self.render(
+            mblog=mblog
+        )
 
-    def get(self, id):
-        mblog = can_edit(self.current_user_id, id)
-        if mblog:
-            self.render(mblog=mblog)
+    def post(self, id=None):
+        if id:
+            mblog = can_edit(current_user_id, id)
 
-    def post(self, id):
-        mblog = can_edit(current_user_id, id)
-        if mblog:
-            pass
         self.redirect(mblog.link)
 
-
+#@urlmap("/cout/note")
+#class Note(_handler.LoginBase):
+#    def get(self, id=None):
+#        return self.render("/ctrl/note/edit.htm")
+#
+#    def post(self, id=None):
+#        current_user = self.current_user
+#        current_user_id = current_user.id
+#        name = self.get_argument('name', '')
+#        txt = self.get_argument('txt', '')
+#        secret = self.get_argument('secret', None)
+#        if secret:
+#            state = MBLOG_STATE_SECRET
+#        else:
+#            state = MBLOG_STATE_ACTIVE
+#        m = mblog_note_new(current_user_id, name, txt, state)
+#        if m:
+#            return self.redirect("/note/%s"%m.id)
+#
 
 
 
