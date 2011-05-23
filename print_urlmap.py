@@ -11,7 +11,7 @@ def print_urlmap(module):
     import zweb
 
     for url, cls in sorted(zweb._urlmap.URLMAP):
-        print "%s\t%s%s"%(url.ljust(32), cls.__module__.ljust(32),cls.__name__)
+        print "%s\t%s%s"%(url.ljust(32), cls.__module__.ljust(16),cls.__name__)
 
     zweb._urlmap.URLMAP = []
 
