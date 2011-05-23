@@ -57,4 +57,3 @@ if __name__ == "__main__":
     print txt_withlink('<script>''"""<--test<??><img />')
     print txt_withlink('**asdasds** ** xx **')
     print txt_withlink('@**asdasds**(asdasd)')
-

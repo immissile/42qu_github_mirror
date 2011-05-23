@@ -18,8 +18,8 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to:
 
-The Free Software Foundation, Inc., 
-51 Franklin Street, Fifth Floor, 
+The Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor,
 Boston, MA  02110-1301, USA.
 
 Luke Arno can be found at http://lukearno.com/
@@ -69,9 +69,9 @@ class StatusApp:
 
 class Cling(object):
     """A stupidly simple way to serve static content via WSGI.
-    
+
     Serve the file of the same path as PATH_INFO in self.datadir.
-    
+
     Look up the Content-type in self.content_types by extension
     or use 'text/plain' if the extension is not found.
 
@@ -178,12 +178,12 @@ def iter_and_close(file_like, block_size):
 
 def cling_wrap(package_name, dir_name, **kw):
     """Return a Cling that serves from the given package and dir_name.
-    
+
     This uses pkg_resources.resource_filename which is not the
-    recommended way, since it extracts the files. 
-    
-    I think this works fine unless you have some _very_ serious 
-    requirements for static content, in which case you probably 
+    recommended way, since it extracts the files.
+
+    I think this works fine unless you have some _very_ serious
+    requirements for static content, in which case you probably
     shouldn't be serving it through a WSGI app, IMHO. YMMV.
     """
     resource = Requirement.parse(package_name)
@@ -192,7 +192,7 @@ def cling_wrap(package_name, dir_name, **kw):
 
 class Shock(Cling):
     """A stupidly simple way to serve up mixed content.
-    
+
     Serves static content just like Cling (it's superclass)
     except that it process content with the first matching
     magic from self.magics if any apply.
@@ -202,17 +202,17 @@ class Shock(Cling):
     If you are using Shock with the StringMagic class for instance:
 
     shock = Shock('/data', magics=[StringMagic(food='cheese')])
-    
+
     Let's say you have a file called /data/foo.txt.stp containing one line:
 
     "I love to eat $food!"
-    
+
     When you do a GET on /foo.txt you will see this in your browser:
 
     "I love to eat cheese!"
 
     This is really nice if you have a color variable in your css files or
-    something trivial like that. It seems silly to create or change a 
+    something trivial like that. It seems silly to create or change a
     handful of objects for a couple of dynamic bits of text.
     """
 
@@ -276,7 +276,7 @@ class BaseMagic(object):
     """Base class for magic file handling.
 
     Really a do nothing if you were to use this directly.
-    
+
     In a strait forward case you would just override .extension and body().
     (See StringMagic in this module for a simple example of subclassing.)
 
@@ -322,7 +322,7 @@ class BaseMagic(object):
 
 class StringMagic(BaseMagic):
     """Magic to replace variables in file contents using string.Template.
-    
+
     Using this requires Python2.4.
     """
 
@@ -335,7 +335,7 @@ class StringMagic(BaseMagic):
 
     def body(self, environ, file_like):
         """Pass environ and self.variables in to template.
-        
+
         self.variables overrides environ so that suprises in environ don't
         cause unexpected output if you are passing a value in explicitly.
         """
@@ -350,7 +350,7 @@ class StringMagic(BaseMagic):
 
 class KidMagic(StringMagic):
     """Like StringMagic only using the Kid templating language.
-    
+
     Using this requires Kid: http://kid.lesscode.org/
     """
 
@@ -412,4 +412,3 @@ def test():
 
 if __name__ == '__main__':
     test()
-

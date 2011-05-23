@@ -40,4 +40,3 @@ def ErrorMiddleware(application, render, template):
                 environ=environ
             )]
     return _
-
