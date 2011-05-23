@@ -30,3 +30,7 @@ on duplicate key update value=value;
 truncate zpage.namecard;
 insert into zpage.namecard (user_id, pid, phone, mail, address, state)
 select id, pid, phone, mail, address, 10 from qu.namecard order by id;
+
+truncate zpage.motto;
+insert into zpage.motto (id, value)
+select id, title from qu.man_title where title > '' order by id;

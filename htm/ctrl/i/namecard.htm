@@ -1,11 +1,5 @@
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%!
-from model.namecard import get_namecard
-%>
-<%
-namecard = get_namecard(current_user.id) or G
-%>
 <%htm:form>
 <p>真实姓名 <input type="input" name="name" value="${name}"></p>
 <p>手机号码 <input type="input" name="phone" value="${phone}"></p>

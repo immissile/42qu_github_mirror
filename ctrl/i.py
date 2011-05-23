@@ -6,9 +6,10 @@ import _handler
 from zweb._urlmap import urlmap
 from zkit.pic import picopen
 from zkit.jsdict import JsDict
+from model.motto import motto
+from model.namecard import get_namecard, namecard_new
 from model.pic import ico_new
 from model.zsite_link import url_by_id, url_new, url_valid
-from model.namecard import get_namecard, namecard_new
 
 @urlmap("/i")
 class Setting(_handler.LoginBase):
@@ -17,15 +18,18 @@ class Setting(_handler.LoginBase):
 
     def post(self):
         files = self.request.files
-        current_user = self.current_user
+        current_user_id = self.current_user_id
         error_img = None
         if 'pic' in files:
             pic = files['pic'][0]['body']
             pic = picopen(pic)
             if pic:
-                ico_new(current_user.id, pic)
+                ico_new(current_user_id, pic)
             else:
                 error_img = "图片格式有误"
+        _motto = self.get_argument('motto', None)
+        if _motto:
+            motto.set(current_user_id, _motto)
         self.render(
            error_img=error_img
         )
