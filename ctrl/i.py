@@ -8,7 +8,7 @@ from zkit.pic import picopen
 from model.pic import ico_new
 from model.zsite_link import url_by_id, url_new, url_valid
 
-@urlmap("/setting")
+@urlmap("/i")
 class Setting(_handler.LoginBase):
     def get(self):
         self.render()
@@ -28,7 +28,7 @@ class Setting(_handler.LoginBase):
            error_img=error_img
         )
 
-@urlmap('/setting/url')
+@urlmap('/i/url')
 class Url(_handler.LoginBase):
     def get(self):
         self.render()
@@ -49,3 +49,8 @@ class Url(_handler.LoginBase):
         self.render(
             error_url=error_url
         )
+
+@urlmap('/i/namecard')
+class Namecard(_handler.LoginBase):
+    def get(self):
+        self.render()

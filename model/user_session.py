@@ -60,6 +60,5 @@ def user_id_by_session(session):
 if __name__ == "__main__":
     session = user_session(2)
     print session
-    #print session
     #print user_id_by_session(session)
     #user_session_rm(2)

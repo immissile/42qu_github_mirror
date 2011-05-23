@@ -37,7 +37,9 @@ def reset():
                 time.sleep(1)
             reset_database(key, host, port, name, user, password)
             print "reseted %s"%key
-reset()
+
+if __name__ == '__main__':
+    reset()
 
 #from model._db import cursor_by_table
 #from config import MYSQL_MAIN

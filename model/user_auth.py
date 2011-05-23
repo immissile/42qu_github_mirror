@@ -40,10 +40,5 @@ def user_new_by_mail(mail, password=None):
 
 #mail_id = user_id_by_mail_new(mail, password)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pass
-
-
-
-
-
