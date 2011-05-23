@@ -3,7 +3,7 @@
 
 import index
 import auth
-import setting
+import i
 import wall
 import cout
 import news
