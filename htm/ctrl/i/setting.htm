@@ -3,10 +3,11 @@
 <%!
 from model.pic import ico_url as _ico_url
 from model.zsite_link import url_by_id
+from model.motto import motto
 %>
 <%
-ico_url = _ico_url(current_user.id)
-url = url_by_id(current_user.id)
+ico_url = _ico_url(current_user_id)
+url = url_by_id(current_user_id)
 %>
 %if ico_url:
 <img src="${ico_url}">
@@ -22,3 +23,4 @@ url = url_by_id(current_user.id)
 %else:
 <a href="/i/url">设置个性域名</a>
 %endif
+座右铭 ${motto.get(current_user_id)}
