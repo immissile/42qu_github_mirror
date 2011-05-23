@@ -18,7 +18,7 @@ class Kv(object):
             if r:
                 r = r[0]
             if r is None:
-                r = False
+                r = ""
             mc.set(mc_key, r)
         return r
 
