@@ -3,7 +3,7 @@
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from time import time
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
-from feed import feed_entry_new, mc_feed_entry_tuple
+from feed import feed_entry_new, mc_feed_entry_tuple, feed_entry_rm
 from gid import gid
 from txt import txt_new, txt_get
 from spammer import is_same_post
@@ -57,7 +57,7 @@ def mblog_edit_name(id, name):
 
 def mblog_rm(user_id, id):
     m = Mblog.mc_get(id)
-    if m.user_id == user_id:
+    if m.can_admin(user_id):
         m.state == MBLOG_STATE_DEL
         m.save()
         feed_entry_rm(id)

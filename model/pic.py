@@ -14,7 +14,7 @@ class Pic(Model):
 
 def pic_new(tid, zsite_id):
     p = Pic(
-        tid = tid,
+        tid=tid,
         zsite_id=zsite_id,
         create_time=int(time()),
     ).save()

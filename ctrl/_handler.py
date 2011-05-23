@@ -23,9 +23,12 @@ class Base(zweb._handler.Base):
             return self.redirect(SITE_URL)
 
     @property
-    def xsrf_get(self):
+    def _xsrf(self):
         return "_xsrf=%s"%self.xsrf_token
 
+    def render(self, template_name=None, **kwds):
+        kwds['_xsrf'] = self._xsrf
+        super(Base, self).render(template_name, **kwds)
 
 class LoginBase(Base):
     def prepare(self):

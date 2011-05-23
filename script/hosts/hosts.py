@@ -15,5 +15,5 @@ def host_line(host):
 
 
 if __name__ == "__main__":
-    for name in ("zuroc.me","zjd.me","yup.me"):
+    for name in ("zuroc.me", "zjd.me", "yup.me"):
         print host_line(name)

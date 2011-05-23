@@ -25,8 +25,8 @@ class Login(_handler.Base):
         self.render()
 
     def post(self):
-        mail = self.get_argument('mail',None)
-        password = self.get_argument('password',None)
+        mail = self.get_argument('mail', None)
+        password = self.get_argument('password', None)
 
         error_mail = None
         error_password = None
@@ -41,21 +41,21 @@ class Login(_handler.Base):
         if not password:
             error_password = "请输入密码"
 
-        if not any((error_password,error_mail)):
-            user_id= user_new_by_mail(mail, password)
+        if not any((error_password, error_mail)):
+            user_id = user_new_by_mail(mail, password)
 
             if user_password_verify(user_id, password):
                 session = user_session(user_id)
-                self.set_cookie("S",session)
-                self.redirect(self.get_argument('next',"/"))
+                self.set_cookie("S", session)
+                self.redirect(self.get_argument('next', "/"))
             else:
                 error_password = """密码有误。 忘记密码了？<a href="/password/reset/%s">点此找回</a>"""%escape(mail)
 
         self.render(
-            mail = mail,
-            password = password,
-            error_mail = error_mail,
-            error_password = error_password
+            mail=mail,
+            password=password,
+            error_mail=error_mail,
+            error_password=error_password
         )
 
 @urlmap("/password/reset/(.*)")

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from tid import TID_ZSITE
 from _db import Model, McModel
-from reply import ReplyMixin,REPLY_STATE_ACTIVE,REPLY_STATE_SECRET
+from reply import ReplyMixin, REPLY_STATE_ACTIVE, REPLY_STATE_SECRET
 
 ZSITE_CID_USER = 1
 

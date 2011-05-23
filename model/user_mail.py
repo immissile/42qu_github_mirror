@@ -23,7 +23,7 @@ def user_mail_new(user_id, mail):
     id = user_id_by_mail(mail)
     if id:
         return id
-    u = UserMail(mail=mail,user_id=user_id)
+    u = UserMail(mail=mail, user_id=user_id)
     u.save()
     mc_user_id_by_mail.set(mail, user_id)
     return user_id
@@ -31,4 +31,4 @@ def user_mail_new(user_id, mail):
 if __name__ == "__main__":
     for i in UserMail.where():
         i.delete()
-    #print user_id_by_mail_new("zsp007@gmail.com")
+#print user_id_by_mail_new("zsp007@gmail.com")

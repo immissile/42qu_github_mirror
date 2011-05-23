@@ -42,6 +42,6 @@ class Page(_handler.LoginBase):
         reply_list = zsite.reply_list(limit, offset)
 
         return self.render(
-            reply_list = reply_list,
-            page = page
+            reply_list=reply_list,
+            page=page
         )

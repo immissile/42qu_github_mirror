@@ -1,7 +1,4 @@
 <%inherit file="/ctrl/_base/1.htm" />
-<%
-current_user_id = handler.current_user_id
-%>
 
 <%def name="htm_title()">
 %if can_view:
@@ -15,7 +12,7 @@ ${mblog.name}
 <div>
     %if mblog.can_admin(current_user_id):
         <a href="${mblog.link}/edit">编辑</a>
-        <a href="${mblog.link}/rm?${handler.xsrf_get}">删除</a>
+        <a href="${mblog.link}/rm?${_xsrf}">删除</a>
     %endif
 </div>
 %else:

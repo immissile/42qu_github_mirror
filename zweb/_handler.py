@@ -39,8 +39,9 @@ class Base(web.RequestHandler):
             template_name = self.template
         current_user = self.current_user
         kwds['current_user'] = current_user
+        kwds['current_user_id'] = self.current_user_id
         kwds['request'] = self.request
-        kwds['handler'] = self
+        kwds['this'] = self
         if hasattr(self, "zsite"):
             kwds['zsite'] = self.zsite
         if not self._finished:

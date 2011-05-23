@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import  Model, cursor_by_table,McCache
+from _db import  Model, cursor_by_table, McCache
 from time import time
 
 class Txt(Model):
