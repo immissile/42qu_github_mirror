@@ -7,9 +7,9 @@ def print_urlmap(module):
 
     from pprint import pprint
     import zweb
-
+    prefix = len(module)+1
     for url, cls in sorted(zweb._urlmap.URLMAP):
-        print "\t%s\t%s%s"%(url.ljust(24), cls.__module__.ljust(12),cls.__name__)
+        print "\t%s\t%s%s"%(url.ljust(24), "%s"%(cls.__module__[prefix:]+".py").ljust(16) ,cls.__name__)
 
     zweb._urlmap.URLMAP = []
 
