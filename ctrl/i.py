@@ -5,6 +5,7 @@ from tornado.web import authenticated
 import _handler
 from zweb._urlmap import urlmap
 from zkit.pic import picopen
+from zkit.jsdict import JsDict
 from model.pic import ico_new
 from model.zsite_link import url_by_id, url_new, url_valid
 from model.namecard import get_namecard, namecard_new
@@ -53,12 +54,31 @@ class Url(_handler.LoginBase):
 @urlmap('/i/namecard')
 class Namecard(_handler.LoginBase):
     def get(self):
-        namecard = get_namecard(self.current_user_id)
-        self.render()
+        current_user = self.current_user
+        current_user_id = self.current_user_id
+        c = get_namecard(current_user_id) or JsDict()
+        self.render(
+            pid=c.pid,
+            name=c.name or current_user.name,
+            phone=c.phone,
+            mail=c.mail,
+            address=c.address,
+        )
 
     def post(self):
+        current_user = self.current_user
+        current_user_id = self.current_user_id
         pid = self.get_argument('pid', None)
         name = self.get_argument('name', None)
         phone = self.get_argument('phone', None)
         mail = self.get_argument('mail', None)
         address = self.get_argument('address', None)
+        if pid and name and phone and mail and address:
+            c = namecard_new(current_user_id, pid, name, phone, mail, address)
+        self.render(
+            pid=pid,
+            name=name or current_user.name,
+            phone=phone,
+            mail=mail,
+            address=address,
+        )
