@@ -9,11 +9,7 @@ from txt import txt_new, txt_get
 from spammer import is_same_post
 from datetime import datetime
 from zkit.time_format import time_title
-
-
-MBLOG_STATE_DEL = 3
-MBLOG_STATE_SECRET = 7
-MBLOG_STATE_ACTIVE = 10
+from state import STATE_DEL, STATE_SECRET, STATE_DEL
 
 MBLOG_LINK = {
     CID_NOTE : "/note/%s",
@@ -55,9 +51,9 @@ def mblog_state_set(mblog, state):
     old_state = mblog.state
     if old_state == state:
         return
-    if old_state > MBLOG_STATE_SECRET and state == MBLOG_STATE_SECRET:
+    if old_state > STATE_SECRET and state == STATE_SECRET:
         feed_entry_rm(id)
-    elif old_state <= MBLOG_STATE_SECRET and state >= MBLOG_STATE_ACTIVE:
+    elif old_state <= STATE_SECRET and state >= STATE_ACTIVE:
         mblog.feed_entry_new()
     mblog.state = state
     mblog.save()
@@ -65,7 +61,7 @@ def mblog_state_set(mblog, state):
 def mblog_rm(user_id, id):
     m = Mblog.mc_get(id)
     if m.can_admin(user_id):
-        m.state == MBLOG_STATE_DEL
+        m.state == STATE_DEL
         m.save()
         feed_entry_rm(id)
 
@@ -85,24 +81,24 @@ def feed_tuple_word(id):
 
 def mblog_word_new(user_id, name):
     if name and not is_same_post(user_id, name):
-        m = mblog_new(CID_WORD, user_id, name, MBLOG_STATE_ACTIVE)
+        m = mblog_new(CID_WORD, user_id, name, STATE_ACTIVE)
         id = m.id
         m.feed_entry_new()
         return m
 
 #def mblog_question_new(user_id, name , txt):
-#    m = mblog_new(CID_QUESTION, user_id, name, MBLOG_STATE_SECRET)
+#    m = mblog_new(CID_QUESTION, user_id, name, STATE_SECRET)
 #    txt_new(m.id, txt)
 #    return m
 
 def mblog_note_can_view(mblog, user_id):
     if not mblog:
         return False
-    if mblog.state <= MBLOG_STATE_DEL:
+    if mblog.state <= STATE_DEL:
         return False
     if mblog.cid != CID_NOTE:
         return False
-    if mblog.state == MBLOG_STATE_SECRET:
+    if mblog.state == STATE_SECRET:
         if mblog.user_id != user_id:
             return False
     return True
@@ -114,7 +110,7 @@ def mblog_note_new(user_id, name, txt, state):
     m = mblog_new(CID_NOTE, user_id, name, state)
     id = m.id
     txt_new(id, txt)
-    if state > MBLOG_STATE_SECRET:
+    if state > STATE_SECRET:
         m.feed_entry_new()
     return m
 

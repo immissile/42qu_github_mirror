@@ -4,15 +4,13 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-REPLY_STATE_DEL
-REPLY_STATE_APPLY
-REPLY_STATE_SECRET
-REPLY_STATE_ACTIVE
+MBLOG_STATE_DEL
+MBLOG_STATE_SECRET
+MBLOG_STATE_ACTIVE
 """
 
 TO_STRING = """
 STATE_DEL
-STATE_APPLY
 STATE_SECRET
 STATE_ACTIVE
 """
@@ -21,7 +19,7 @@ def run():
     from_string = FROM_STRING.strip()
     to_string = TO_STRING.strip()
     for from_s, to_s in zip(FROM_STRING.split("\n"), TO_STRING.split("\n")):
-        replace(from_s, to_s)
+        replace(from_s.strip(), to_s.strip())
 
 def replace(from_string, to_string):
     from_string = from_string.strip()

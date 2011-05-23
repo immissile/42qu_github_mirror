@@ -1,5 +1,5 @@
 <%!
-from model.mblog import MBLOG_STATE_SECRET
+from model.mblog import STATE_SECRET
 %>
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -11,7 +11,7 @@ from model.mblog import MBLOG_STATE_SECRET
 <textarea name="txt">${mblog.txt}</textarea>
 <div>
     <input type="checkbox" name="secret" id="secret"
-%if mblog.state == MBLOG_STATE_SECRET: 
+%if mblog.state == STATE_SECRET: 
 checked
 %endif
     >\

@@ -4,7 +4,7 @@
 import _handler
 from zweb._urlmap import urlmap
 from model.mblog import Mblog, mblog_note_can_view, mblog_rm,\
-        mblog_note_new, MBLOG_STATE_SECRET, MBLOG_STATE_ACTIVE, mblog_state_set
+        mblog_note_new, STATE_SECRET, STATE_ACTIVE, mblog_state_set
 from model.zsite import Zsite
 from zkit.jsdict import JsDict
 from model.txt import txt_new
@@ -65,9 +65,9 @@ class Edit(_handler.LoginBase):
         txt = self.get_argument('txt', '')
         secret = self.get_argument('secret', None)
         if secret:
-            state = MBLOG_STATE_SECRET
+            state = STATE_SECRET
         else:
-            state = MBLOG_STATE_ACTIVE
+            state = STATE_ACTIVE
         if mblog:
             if name:
                 mblog.name = name
