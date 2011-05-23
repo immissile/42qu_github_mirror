@@ -12,7 +12,6 @@ ${mblog.name}
 <div>
     %if mblog.can_admin(current_user_id):
         <a href="${mblog.link}/edit">编辑</a>
-        <a href="${mblog.link}/rm?${_xsrf}">删除</a>
     %endif
 </div>
 %else:

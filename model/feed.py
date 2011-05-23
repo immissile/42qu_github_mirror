@@ -34,7 +34,7 @@ def feed_id_by_zsite_id_cid(zsite_id, cid):
 def feed_entry_new(id, zsite_id, cid):
     feed_id = feed_id_by_zsite_id_cid(zsite_id, cid)
     cursor.execute(
-        "insert into feed_entry (id, feed_id) values (%s,%s)",
+        "insert into feed_entry (id, feed_id) values (%s,%s) on duplicate key update id=id",
         (id, feed_id)
     )
     cursor.connection.commit()

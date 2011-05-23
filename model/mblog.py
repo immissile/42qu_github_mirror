@@ -36,6 +36,9 @@ class Mblog(McModel):
     def can_admin(self, user_id):
         return self.user_id == user_id
 
+    def feed_entry_new(self):
+        feed_entry_new(self.id, self.user_id, self.cid)
+
 def mblog_new(cid, user_id, name, state):
     m = Mblog(
         id=gid(),
@@ -48,12 +51,16 @@ def mblog_new(cid, user_id, name, state):
     m.save()
     return m
 
-def mblog_edit_name(id, name):
-    m = Mblog.mc_get(id)
-    if m is None:return
-    if m.name != name and name:
-        m.name = name
-        m.save()
+def mblog_state_set(mblog, state):
+    old_state = mblog.state
+    if old_state == state:
+        return
+    if old_state > MBLOG_STATE_SECRET and state == MBLOG_STATE_SECRET:
+        feed_entry_rm(id)
+    elif old_state <= MBLOG_STATE_SECRET and state >= MBLOG_STATE_ACTIVE:
+        mblog.feed_entry_new()
+    mblog.state = state
+    mblog.save()
 
 def mblog_rm(user_id, id):
     m = Mblog.mc_get(id)
@@ -80,7 +87,7 @@ def mblog_word_new(user_id, name):
     if name and not is_same_post(user_id, name):
         m = mblog_new(CID_WORD, user_id, name, MBLOG_STATE_ACTIVE)
         id = m.id
-        feed_entry_new(id, user_id, CID_WORD)
+        m.feed_entry_new()
         return m
 
 #def mblog_question_new(user_id, name , txt):
@@ -108,9 +115,8 @@ def mblog_note_new(user_id, name, txt, state):
     id = m.id
     txt_new(id, txt)
     if state > MBLOG_STATE_SECRET:
-        feed_entry_new(id, user_id, CID_NOTE)
+        m.feed_entry_new()
     return m
-
 
 
 if __name__ == "__main__":
