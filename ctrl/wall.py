@@ -39,7 +39,7 @@ class Page(_handler.LoginBase):
             page,
             PAGE_LIMIT
         )
-        reply_list = zsite.reply_list(limit, offset)
+        reply_list = zsite.reply_list_reversed(limit, offset)
 
         return self.render(
             reply_list=reply_list,

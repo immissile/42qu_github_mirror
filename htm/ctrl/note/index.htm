@@ -21,7 +21,7 @@ ${po.name}
         <a href="${po.link}/edit">编辑</a>
     %endif
 </div>
-%for reply in po.reply_list():
+%for reply in po.reply_list_reversed():
 <div id="rpy#{reply.id}">
     ${reply.htm|n}
 </div>
