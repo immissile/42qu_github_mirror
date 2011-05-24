@@ -1,4 +1,7 @@
 <%inherit file="/ctrl/_base/1.htm" />
+<%!
+from zkit.time_format import friendly_time
+%>
 
 <%def name="htm_title()">
 %if can_view:
@@ -9,6 +12,7 @@ ${mblog.name}
 %if can_view:
 <h1>${mblog.name}</h1>
 <pre>${mblog.txt}</pre>
+<div>${friendly_time(mblog.create_time)}</div>
 <div>
     %if mblog.can_admin(current_user_id):
         <a href="${mblog.link}/edit">编辑</a>
