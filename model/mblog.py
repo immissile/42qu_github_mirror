@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from time import time
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER

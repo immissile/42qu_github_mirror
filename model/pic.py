@@ -12,10 +12,10 @@ ico = Kv('ico')
 class Pic(Model):
     pass
 
-def pic_new(tid, zsite_id):
+def pic_new(tid, user_id):
     p = Pic(
         tid=tid,
-        zsite_id=zsite_id,
+        user_id=user_id,
         create_time=int(time()),
     ).save()
     return p.id
@@ -23,11 +23,11 @@ def pic_new(tid, zsite_id):
 def pic_save(pic_id, pic):
     fs_set_jpg('0', pic_id, pic)
 
-def ico_new(zsite_id, pic):
-    pic_id = pic_new(TID_ICO, zsite_id)
+def ico_new(user_id, pic):
+    pic_id = pic_new(TID_ICO, user_id)
     pic_save(pic_id, pic)
     ico_save(pic_id, pic)
-    ico.set(zsite_id, pic_id)
+    ico.set(user_id, pic_id)
     return pic_id
 
 def ico_save(pic_id, pic):
@@ -40,5 +40,4 @@ def ico_save(pic_id, pic):
 def ico_url(id, size='1'):
     f = ico.get(id)
     if f:
-        url = fs_url_jpg(size, f)
-        return url
+        return fs_url_jpg(size, f)
