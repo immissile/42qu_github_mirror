@@ -1,10 +1,22 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
 
-#po
-CID_WORD = 1
-CID_NOTE = 2
-CID_QUESTION = 3
-CID_ANSWER = 4
+#Zsite
+CID_USER = 1
 
-CID_FOLLOW = 5
+#Pic
+CID_ICO = 31
+
+
+#Po
+CID_WORD = 61
+CID_NOTE = 62
+CID_QUESTION = 63
+CID_ANSWER = 64
+
+
+#Follow
+CID_FOLLOW = 91
+
+
+

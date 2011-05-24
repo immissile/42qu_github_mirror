@@ -4,15 +4,15 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-MBLOG_STATE_DEL
-MBLOG_STATE_SECRET
-MBLOG_STATE_ACTIVE
+from tid import
+import tid
+TID_
 """
 
 TO_STRING = """
-STATE_DEL
-STATE_SECRET
-STATE_ACTIVE
+from cid import
+import cid
+CID_
 """
 
 def run():

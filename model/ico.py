@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 from fs import fs_set_jpg, fs_url_jpg
 from kv import Kv
-from tid import TID_ICO
+from cid import CID_ICO
 from zkit.pic import pic_square, picopen, pic_zoom_inner
 from pic import pic_new, pic_save
 
 ico = Kv('ico')
 
 def ico_new(user_id, pic):
-    pic_id = pic_new(TID_ICO, user_id)
+    pic_id = pic_new(CID_ICO, user_id)
     pic_save(pic_id, pic)
     ico_save(pic_id, pic)
     ico.set(user_id, pic_id)
