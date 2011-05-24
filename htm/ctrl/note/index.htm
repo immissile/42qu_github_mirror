@@ -2,6 +2,7 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%!
+from model.state import STATE_SECRET
 from datetime import datetime
 %>
 
@@ -20,14 +21,15 @@ ${po.name}
         <a href="${po.link}/edit">编辑</a>
     %endif
 </div>
-%else:
-<div>机密 !!! </div>
-<div>无关人士 , 禁止入内</div>
-%endif
+%if po.state > STATE_SECRET:
 <%htm:form>
 <textarea name="txt"></textarea>
 <div>
 <button type="submit">此致 , 敬礼</button>
 </div>
 </%htm:form>
-
+%endif
+%else:
+<div>机密 !!! </div>
+<div>无关人士 , 禁止入内</div>
+%endif
