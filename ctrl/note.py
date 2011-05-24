@@ -28,6 +28,8 @@ class Index(_handler.Base):
             can_view=can_view
         )
 
+    def post(self, id):
+        pass
 
 @urlmap("/note/(\d+)/rm")
 class Rm(_handler.XsrfGetBase):

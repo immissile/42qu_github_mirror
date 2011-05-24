@@ -1,4 +1,6 @@
 <%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
 <%!
 from datetime import datetime
 %>
@@ -22,4 +24,10 @@ ${mblog.name}
 <div>机密 !!! </div>
 <div>无关人士 , 禁止入内</div>
 %endif
+<%htm:form>
+<textarea name="txt"></textarea>
+<div>
+<button type="submit">此致 , 敬礼</button>
+</div>
+</%htm:form>
 
