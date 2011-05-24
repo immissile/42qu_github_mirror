@@ -25,48 +25,48 @@ class ReplyMixin(object):
         txt = txt.rstrip()
         if not txt or is_spammer(user_id):
             return
-        tid = self.TID
+        cid = self.cid
         rid = self.id
 
         id = gid()
         txt_new(id, txt)
         cursor = self.reply_cursor
         cursor.execute(
-            "insert into reply (id,tid,create_time,state,rid,user_id) values (%s,%s,%s,%%s,%%s,%%s)"%(
+            "insert into reply (id,cid,create_time,state,rid,user_id) values (%s,%s,%s,%%s,%%s,%%s)"%(
                 id,
-                tid,
+                cid,
                 int(time())
             ),
             (state, rid, user_id)
         )
         cursor.connection.commit()
-        mc_flush_reply_id_list(tid, rid)
+        mc_flush_reply_id_list(cid, rid)
         return id
 
     @property
     @mc_reply_total("{self.TID}_{self.id}")
     def reply_total(self):
-        tid = self.TID
+        cid = self.TID
         rid = self.id
         cursor = self.reply_cursor
-        cursor.execute("select count(1) from reply where rid=%s and tid=%s and state>=%s", (rid, tid, STATE_SECRET))
+        cursor.execute("select count(1) from reply where rid=%s and cid=%s and state>=%s", (rid, cid, STATE_SECRET))
         r = cursor.fetchone()
         return r[0]
 
     @mc_reply_id_list("{self.TID}_{self.id}")
     def reply_id_list(self, limit=None, offset=None):
         cursor = self.reply_cursor
-        tid = self.TID
+        cid = self.TID
         rid = self.id
 
         sql = [
-            "select id from reply where rid=%s and tid=%s",
+            "select id from reply where rid=%s and cid=%s",
             "and state>=%s"%STATE_SECRET
         ]
 
         para = [
             rid,
-            tid
+            cid
         ]
         sql.append("order by id desc")
 
@@ -97,8 +97,8 @@ class Reply(McModel):
     def htm(self):
         return txt_withlink(self.txt)
 
-def mc_flush_reply_id_list(tid, rid):
-    key = "%s_%s"%(tid, rid)
+def mc_flush_reply_id_list(cid, rid):
+    key = "%s_%s"%(cid, rid)
     mc_reply_id_list.delete(key)
     mc_reply_total.delete(key)
 
