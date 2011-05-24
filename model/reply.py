@@ -23,15 +23,6 @@ mc_reply_total = McCache("ReplyTotal:%s")
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
 
-    @property
-    def link(self):
-        cid == self.cid
-        if cid == CID_NOTE:
-            link = "/note/%s#rpy%s"%(
-                self.rid,
-                self.cid,
-            )
-        return link
 
     def reply_new(self, user_id, txt, state=STATE_ACTIVE):
         txt = txt.rstrip()
@@ -53,7 +44,7 @@ class ReplyMixin(object):
         )
         cursor.connection.commit()
         mc_flush_reply_id_list(cid, rid)
-        return self
+        return id
 
     @property
     @mc_reply_total("{self.cid}_{self.id}")
@@ -96,11 +87,11 @@ class ReplyMixin(object):
 
     @mc_reply_id_list_reversed("{self.cid}_{self.id}")
     def reply_id_list_reversed(self, limit=None, offset=None):
-        return self._reply_id_list("order by id desc")
+        return self._reply_id_list(limit, offset, "order by id desc")
 
     @mc_reply_id_list("{self.cid}_{self.id}")
     def reply_id_list(self, limit=None, offset=None):
-        return self._reply_id_list("order by id")
+        return self._reply_id_list(limit, offset, "order by id")
 
     def _reply_list(self, limit, offset, reply_id_list):
         from model.zsite import Zsite
