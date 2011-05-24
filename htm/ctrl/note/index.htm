@@ -11,7 +11,6 @@ from datetime import datetime
 ${po.name}
 %endif
 </%def>
-
 %if can_view:
 <h1>${po.name}</h1>
 <pre>${po.txt}</pre>
@@ -26,11 +25,11 @@ ${po.name}
 user = reply.user
 %>
 <div id="rpy${reply.id}" style="padding:27px">
+    <pre>${reply.htm|n}</pre>
+    %if reply.can_rm(current_user_id):
+        <a href="/note/reply/${reply.id}/rm?${_xsrf}">删除</a> 
+    %endif
     <a href="${user.link}" target="_blank">${user.name}</a> :\
-    ${reply.htm|n}
-    <p style="text-align:right">
-        <a href="${po.link}/reply/rm?${_xsrf}">删除</a> 
-    </p>
 </div>
 %endfor
 

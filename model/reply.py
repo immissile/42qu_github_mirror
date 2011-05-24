@@ -23,7 +23,6 @@ mc_reply_total = McCache("ReplyTotal:%s")
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
 
-
     def reply_new(self, user_id, txt, state=STATE_ACTIVE):
         txt = txt.rstrip()
         if not txt or is_spammer(user_id):
@@ -112,6 +111,16 @@ class Reply(McModel):
     @property
     def htm(self):
         return txt_withlink(self.txt)
+
+    def rm(self):
+        pass
+
+    def can_rm(self, user_id):
+        return self.user_id == user_id
+
+    def rm_if_can(self, user_id):
+        if self.reply_can_rm(user_id):
+            self.reply_rm()
 
 def mc_flush_reply_id_list(cid, rid):
     key = "%s_%s"%(cid, rid)

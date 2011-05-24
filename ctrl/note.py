@@ -28,6 +28,15 @@ class Index(_handler.Base):
             can_view=can_view
         )
 
+
+@urlmap("/note/reply/(\d+)/rm")
+class ReplyRm(_handler.XsrfGetBase):
+    def get(self, id):
+        pass
+
+
+@urlmap("/note/(\d+)/reply")
+class Reply(_handler.LoginBase):
     def post(self, id):
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
@@ -41,6 +50,8 @@ class Index(_handler.Base):
         if link is None:
             link = po.link
         self.redirect(link)
+
+
 
 @urlmap("/note/(\d+)/rm")
 class Rm(_handler.XsrfGetBase):
