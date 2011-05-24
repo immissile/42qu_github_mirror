@@ -22,13 +22,20 @@ ${po.name}
     %endif
 </div>
 %for reply in po.reply_list():
+<%
+user = reply.user
+%>
 <div id="rpy${reply.id}" style="padding:27px">
+    <a href="${user.link}" target="_blank">${user.name}</a> :\
     ${reply.htm|n}
+    <p style="text-align:right">
+        <a href="${po.link}/reply/rm?${_xsrf}">删除</a> 
+    </p>
 </div>
 %endfor
 
 %if po.state > STATE_SECRET:
-<%htm:form>
+<%htm:form action="${po.link}/reply">
 <textarea name="txt"></textarea>
 <div>
 <button type="submit">此致 , 敬礼</button>
