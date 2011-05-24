@@ -72,11 +72,11 @@ class Namecard(_handler.LoginBase):
     def post(self):
         current_user = self.current_user
         current_user_id = self.current_user_id
-        pid = self.get_argument('pid', None)
-        name = self.get_argument('name', None)
-        phone = self.get_argument('phone', None)
-        mail = self.get_argument('mail', None)
-        address = self.get_argument('address', None)
+        pid = self.get_argument('pid', '')
+        name = self.get_argument('name', '')
+        phone = self.get_argument('phone', '')
+        mail = self.get_argument('mail', '')
+        address = self.get_argument('address', '')
         if pid and name and phone and mail and address:
             c = namecard_new(current_user_id, pid, name, phone, mail, address)
         self.render(
