@@ -10,13 +10,14 @@ from spammer import is_same_post
 from datetime import datetime
 from zkit.time_format import time_title
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from reply import ReplyMixin
 
 MBLOG_LINK = {
     CID_NOTE : "/note/%s",
     CID_WORD : "/word/%s",
 }
 
-class Po(McModel):
+class Po(McModel, ReplyMixin):
     @property
     def txt(self):
         return txt_get(self.id)
