@@ -48,6 +48,16 @@ class Kv(object):
         r = cursor.fetchone()
         if r:
             r = r[0]
+        else:
+            r = 0
+        return r
+
+    def mc_id_by_value(self, value):
+        mc_key = ">%s"%self.__mc_key__
+        r = mc.get(mc_key)
+        if r is None:
+            r = self.id_by_value(value)
+            mc.set(mc_key, r)
         return r
 
     def id_by_value_new(self, value):

@@ -1,4 +1,9 @@
 <%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%!
+from datetime import datetime
+%>
 
 <%def name="htm_title()">
 %if can_view:
@@ -9,6 +14,7 @@ ${po.name}
 %if can_view:
 <h1>${po.name}</h1>
 <pre>${po.txt}</pre>
+<div>${datetime.fromtimestamp(po.create_time)}</div>
 <div>
     %if po.can_admin(current_user_id):
         <a href="${po.link}/edit">编辑</a>
@@ -18,4 +24,10 @@ ${po.name}
 <div>机密 !!! </div>
 <div>无关人士 , 禁止入内</div>
 %endif
+<%htm:form>
+<textarea name="txt"></textarea>
+<div>
+<button type="submit">此致 , 敬礼</button>
+</div>
+</%htm:form>
 
