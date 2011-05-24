@@ -37,7 +37,7 @@ class Index(_handler.Base):
             txt = self.get_argument('txt', '')
             m = po.reply_new(current_user_id, txt, po.state)
             if m:
-                link = m.link
+                link = "/note/%s#rpy%s"%(id,m)
         if link is None:
             link = po.link
         self.redirect(link)
