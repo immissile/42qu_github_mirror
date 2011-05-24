@@ -8,7 +8,7 @@ from zkit.pic import picopen
 from zkit.jsdict import JsDict
 from model.motto import motto
 from model.namecard import get_namecard, namecard_new
-from model.pic import ico_new
+from model.ico import ico_new
 from model.zsite_link import url_by_id, url_new, url_valid
 
 @urlmap("/i")
