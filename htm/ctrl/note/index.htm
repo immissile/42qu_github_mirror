@@ -21,6 +21,12 @@ ${po.name}
         <a href="${po.link}/edit">编辑</a>
     %endif
 </div>
+%for reply in po.reply_list():
+<div id="rpy#{reply.id}">
+    ${reply.htm|n}
+</div>
+%endfor
+
 %if po.state > STATE_SECRET:
 <%htm:form>
 <textarea name="txt"></textarea>

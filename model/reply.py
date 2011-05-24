@@ -17,6 +17,7 @@ REPLY_STATE = (
 )
 
 mc_reply_id_list = McLimitA("ReplyIdList:%s", 512)
+mc_reply_id_list_reversed = McLimitA("ReplyIdListReversed:%s", 512)
 mc_reply_total = McCache("ReplyTotal:%s")
 
 class ReplyMixin(object):
@@ -64,8 +65,7 @@ class ReplyMixin(object):
         r = cursor.fetchone()
         return r[0]
 
-    @mc_reply_id_list("{self.cid}_{self.id}")
-    def reply_id_list(self, limit=None, offset=None):
+    def _reply_id_list(self, limit, offset, order):
         cursor = self.reply_cursor
         cid = self.cid
         rid = self.id
@@ -79,7 +79,7 @@ class ReplyMixin(object):
             rid,
             cid
         ]
-        sql.append("order by id desc")
+        sql.append(order)
 
         if limit:
             sql.append("limit %s")
@@ -94,14 +94,28 @@ class ReplyMixin(object):
         )
         return [i for i, in cursor]
 
-    def reply_list(self, limit=None, offset=None):
+    @mc_reply_id_list_reversed("{self.cid}_{self.id}")
+    def reply_id_list_reversed(self, limit=None, offset=None):
+        return self._reply_id_list("order by id desc")
+
+    @mc_reply_id_list("{self.cid}_{self.id}")
+    def reply_id_list(self, limit=None, offset=None):
+        return self._reply_id_list("order by id")
+
+    def _reply_list(self, limit, offset, reply_id_list):
         from model.zsite import Zsite
         r = Reply.mc_get_list(
-            self.reply_id_list(limit, offset)
+            reply_id_list(limit, offset)
         )
         txt_bind(r)
         Zsite.mc_bind(r, "user", "user_id")
         return r
+
+    def reply_list_reversed(self, limit=None, offset=None):
+        return self._reply_list(limit, offset, self.reply_id_list_reversed)
+
+    def reply_list(self, limit=None, offset=None):
+        return self._reply_list(limit, offset, self.reply_id_list)
 
 class Reply(McModel):
     @property
@@ -111,6 +125,7 @@ class Reply(McModel):
 def mc_flush_reply_id_list(cid, rid):
     key = "%s_%s"%(cid, rid)
     mc_reply_id_list.delete(key)
+    mc_reply_id_list_reversed.delete(key)
     mc_reply_total.delete(key)
 
 if __name__ == "__main__":
