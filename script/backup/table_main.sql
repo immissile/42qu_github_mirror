@@ -70,10 +70,10 @@ CREATE TABLE `ico` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10024756 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `mblog`;
+DROP TABLE IF EXISTS `po`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `mblog` (
+CREATE TABLE `po` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(142) CHARACTER SET utf8 NOT NULL,
   `create_time` int(10) unsigned NOT NULL,

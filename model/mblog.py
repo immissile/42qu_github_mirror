@@ -16,7 +16,7 @@ MBLOG_LINK = {
     CID_WORD : "/word/%s",
 }
 
-class Mblog(McModel):
+class Po(McModel):
     @property
     def txt(self):
         return txt_get(self.id)
@@ -35,8 +35,8 @@ class Mblog(McModel):
     def feed_entry_new(self):
         feed_entry_new(self.id, self.user_id, self.cid)
 
-def mblog_new(cid, user_id, name, state):
-    m = Mblog(
+def po_new(cid, user_id, name, state):
+    m = Po(
         id=gid(),
         name=name,
         user_id=user_id,
@@ -47,19 +47,19 @@ def mblog_new(cid, user_id, name, state):
     m.save()
     return m
 
-def mblog_state_set(mblog, state):
-    old_state = mblog.state
+def po_state_set(po, state):
+    old_state = po.state
     if old_state == state:
         return
     if old_state > STATE_SECRET and state == STATE_SECRET:
         feed_entry_rm(id)
     elif old_state <= STATE_SECRET and state >= STATE_ACTIVE:
-        mblog.feed_entry_new()
-    mblog.state = state
-    mblog.save()
+        po.feed_entry_new()
+    po.state = state
+    po.save()
 
-def mblog_rm(user_id, id):
-    m = Mblog.mc_get(id)
+def po_rm(user_id, id):
+    m = Po.mc_get(id)
     if m.can_admin(user_id):
         m.state == STATE_DEL
         m.save()
@@ -67,47 +67,47 @@ def mblog_rm(user_id, id):
 
 @mc_feed_entry_tuple('{id}')
 def feed_tuple_note(id):
-    m = Mblog.mc_get(id)
+    m = Po.mc_get(id)
     if m:
         return (m.name, m.txt)
     return ()
 
 @mc_feed_entry_tuple('{id}')
 def feed_tuple_word(id):
-    m = Mblog.mc_get(id)
+    m = Po.mc_get(id)
     if m:
         return (m.name, )
     return False
 
-def mblog_word_new(user_id, name):
+def po_word_new(user_id, name):
     if name and not is_same_post(user_id, name):
-        m = mblog_new(CID_WORD, user_id, name, STATE_ACTIVE)
+        m = po_new(CID_WORD, user_id, name, STATE_ACTIVE)
         id = m.id
         m.feed_entry_new()
         return m
 
-#def mblog_question_new(user_id, name , txt):
-#    m = mblog_new(CID_QUESTION, user_id, name, STATE_SECRET)
+#def po_question_new(user_id, name , txt):
+#    m = po_new(CID_QUESTION, user_id, name, STATE_SECRET)
 #    txt_new(m.id, txt)
 #    return m
 
-def mblog_note_can_view(mblog, user_id):
-    if not mblog:
+def po_note_can_view(po, user_id):
+    if not po:
         return False
-    if mblog.state <= STATE_DEL:
+    if po.state <= STATE_DEL:
         return False
-    if mblog.cid != CID_NOTE:
+    if po.cid != CID_NOTE:
         return False
-    if mblog.state == STATE_SECRET:
-        if mblog.user_id != user_id:
+    if po.state == STATE_SECRET:
+        if po.user_id != user_id:
             return False
     return True
 
-def mblog_note_new(user_id, name, txt, state):
+def po_note_new(user_id, name, txt, state):
     name = name or time_title()
     if is_same_post(user_id, name, txt):
         return
-    m = mblog_new(CID_NOTE, user_id, name, state)
+    m = po_new(CID_NOTE, user_id, name, state)
     id = m.id
     txt_new(id, txt)
     if state > STATE_SECRET:
@@ -116,6 +116,6 @@ def mblog_note_new(user_id, name, txt, state):
 
 
 if __name__ == "__main__":
-    #print mblog_word_new( 1, "test", )
+    #print po_word_new( 1, "test", )
     name = str(datetime.now())[:16]
     print name

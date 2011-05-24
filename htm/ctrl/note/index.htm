@@ -2,16 +2,16 @@
 
 <%def name="htm_title()">
 %if can_view:
-${mblog.name}
+${po.name}
 %endif
 </%def>
 
 %if can_view:
-<h1>${mblog.name}</h1>
-<pre>${mblog.txt}</pre>
+<h1>${po.name}</h1>
+<pre>${po.txt}</pre>
 <div>
-    %if mblog.can_admin(current_user_id):
-        <a href="${mblog.link}/edit">编辑</a>
+    %if po.can_admin(current_user_id):
+        <a href="${po.link}/edit">编辑</a>
     %endif
 </div>
 %else:

@@ -5,7 +5,7 @@ from cid import CID_WORD, CID_FOLLOW, CID_NOTE
 from collections import namedtuple
 from zsite import Zsite
 from operator import itemgetter
-from mblog import feed_tuple_word, feed_tuple_note
+from po import feed_tuple_word, feed_tuple_note
 from follow import feed_tuple_follow
 
 CID2FEEDFUNC = {

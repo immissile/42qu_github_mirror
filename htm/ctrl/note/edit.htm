@@ -1,25 +1,25 @@
 <%!
-from model.mblog import STATE_SECRET
+from model.po import STATE_SECRET
 %>
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%htm:form enctype="multipart/form-data">
 <div>
-<input type="text" name="name" value="${mblog.name}">
+<input type="text" name="name" value="${po.name}">
 </div>
-<textarea name="txt">${mblog.txt}</textarea>
+<textarea name="txt">${po.txt}</textarea>
 <div>
     <input type="checkbox" name="secret" id="secret"
-%if mblog.state == STATE_SECRET: 
+%if po.state == STATE_SECRET: 
 checked
 %endif
     >\
     <label for="secret">仅自己可见</label>\
     <button type="submit">确定</button>\
 </div>
-%if mblog:
-<a href="${mblog.link}/rm?${_xsrf}">删除</a>
+%if po:
+<a href="${po.link}/rm?${_xsrf}">删除</a>
 %endif
 </%htm:form>
 

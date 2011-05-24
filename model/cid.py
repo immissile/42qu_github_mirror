@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 
-#mblog
+#po
 CID_WORD = 1
 CID_NOTE = 2
 CID_QUESTION = 3
