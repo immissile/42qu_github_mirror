@@ -1,20 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import cursor_by_table, McModel, McLimitA, McCache
 from time import time
+from _db import cursor_by_table, McModel, McLimitA, McCache
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from feed import feed_entry_new, mc_feed_entry_tuple, feed_entry_rm
 from gid import gid
-from txt import txt_new, txt_get
+from pic import pic_new, pic_save
 from spammer import is_same_post
-from datetime import datetime
+from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from reply import ReplyMixin
 
-MBLOG_LINK = {
-    CID_NOTE : "/note/%s",
-    CID_WORD : "/word/%s",
+PO_LINK = {
+    CID_NOTE : '/note/%s',
+    CID_WORD : '/word/%s',
 }
 
 class Po(McModel, ReplyMixin):
@@ -24,10 +25,8 @@ class Po(McModel, ReplyMixin):
 
     @property
     def link(self):
-        id = self.id
-        cid = self.cid
-        if not hasattr(self, "_link"):
-            self._link = MBLOG_LINK[cid]%id
+        if not hasattr(self, '_link'):
+            self._link = PO_LINK[self.cid]%self.id
         return self._link
 
     def can_admin(self, user_id):
@@ -115,11 +114,11 @@ def po_note_new(user_id, name, txt, state):
         m.feed_entry_new()
     return m
 
+def pic_id_list(po_id):
+    return PoPic.where(rid=po_id).order_by('seq desc').id_list()
 
-if __name__ == "__main__":
-    #print po_word_new( 1, "test", )
-    name = str(datetime.now())[:16]
-    print name
+def pic_new_id_list(user_id):
+    return PoPic.where(user_id=user_id, rid=0).order_by('seq desc').id_list()
 
-
-
+if __name__ == '__main__':
+    pass
