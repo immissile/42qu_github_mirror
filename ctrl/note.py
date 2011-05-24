@@ -12,7 +12,7 @@ from model.txt import txt_new
 @urlmap("/note/(\d+)")
 class Index(_handler.Base):
     def get(self, id):
-        po = Po.get(id)
+        po = Po.mc_get(id)
         current_user_id = self.current_user_id
         if po.user_id != self.zsite_id:
             zsite = Zsite.mc_get(po.user_id)
@@ -29,7 +29,18 @@ class Index(_handler.Base):
         )
 
     def post(self, id):
-        pass
+        po = Po.mc_get(id)
+        current_user_id = self.current_user_id
+        can_view = po_note_can_view(po, current_user_id)
+        link = None
+        if can_view:
+            txt = self.get_argument('txt', '')
+            m = po.reply_new(current_user_id, txt, po.state)
+            if m:
+                link = m.link
+        if link is None:
+            link = po.link
+        self.redirect(link)
 
 @urlmap("/note/(\d+)/rm")
 class Rm(_handler.XsrfGetBase):

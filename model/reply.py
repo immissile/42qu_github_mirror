@@ -8,6 +8,7 @@ from time import time
 from txt import txt_bind
 from zkit.txt2htm import txt_withlink
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
+from cid import CID_NOTE
 
 REPLY_STATE = (
     STATE_DEL,
@@ -20,6 +21,16 @@ mc_reply_total = McCache("ReplyTotal:%s")
 
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
+
+    @property
+    def link(self):
+        cid == self.cid
+        if cid == CID_NOTE:
+            link = "/note/%s#rpy%s"%(
+                self.rid,
+                self.cid,
+            )
+        return link
 
     def reply_new(self, user_id, txt, state=STATE_ACTIVE):
         txt = txt.rstrip()
@@ -41,7 +52,7 @@ class ReplyMixin(object):
         )
         cursor.connection.commit()
         mc_flush_reply_id_list(cid, rid)
-        return id
+        return self
 
     @property
     @mc_reply_total("{self.cid}_{self.id}")
