@@ -7,9 +7,9 @@ from fs import fs_set_jpg, fs_url_jpg
 class Pic(Model):
     pass
 
-def pic_new(tid, user_id):
+def pic_new(cid, user_id):
     p = Pic(
-        tid=tid,
+        cid=cid,
         user_id=user_id,
         create_time=int(time()),
     ).save()
