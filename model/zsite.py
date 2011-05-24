@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from tid import TID_ZSITE, TID_USER
+from cid import CID_USER
 from _db import Model, McModel
 from reply import ReplyMixin, STATE_ACTIVE, STATE_SECRET
 
@@ -12,8 +12,7 @@ ZSITE_STATE_DEFAULT = 20
 
 
 class Zsite(McModel, ReplyMixin):
-    TID = TID_ZSITE
-
+    pass
 
 #
 #class Zpage(McModel):
@@ -32,7 +31,7 @@ def zsite_new(name, cid):
     return zsite
 
 def zsite_new_user(name):
-    return zsite_new(name, TID_USER)
+    return zsite_new(name, CID_USER)
 
 if __name__ == "__main__":
     for i in Zsite.where():

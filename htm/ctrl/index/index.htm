@@ -11,7 +11,7 @@
     %if not is_owner and current_user:
 <%!
 from model.follow import follow_get, follow_list_by_from_id_cid
-from model.zsite import TID_USER
+from model.zsite import CID_USER
 %>
         %if follow_get(current_user.id,zsite.id):
 <a href="/unfollow?${_xsrf}">淡忘</a>
@@ -20,7 +20,7 @@ from model.zsite import TID_USER
         %endif
     %endif
 <p>关注的人</p>
-%for i in follow_list_by_from_id_cid(zsite.id, TID_USER):
+%for i in follow_list_by_from_id_cid(zsite.id, CID_USER):
 <p><a href="${i.link}" target="_blank">${i.name}</a></p>
 %endfor
 ${wall_row()}
