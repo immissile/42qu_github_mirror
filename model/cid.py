@@ -4,7 +4,6 @@
 #Zsite
 CID_USER = 1
 
-
 #Pic
 CID_ICO = 31
 
