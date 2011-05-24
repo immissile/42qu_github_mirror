@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
-from datetime import datetime
+from MySQLdb.times import mysql_timestamp_converter as timestamp_converter
+from datetime import datetime, timedelta, date
 
 def friendly_hour(hour, minute=None, second=None):
     if 0 <= hour < 6:
@@ -31,6 +32,54 @@ def time_title():
         friendly_hour(now.hour, now.minute, now.second)
     )
 
+def friendly_time(mtime):
+    mtype = type(mtime)
+    if mtype is str:
+        time = time_conv(mtime)
+    elif mtype is int or mtype is long or mtype is float:
+        time = datetime.fromtimestamp(mtime)
+    else:
+        time = mtime
+
+    if time is None:
+        return mtime
+
+    now = datetime.now()
+    diff = now-time
+    seconds = diff.seconds
+    diff_days = diff.days
+    if (time+timedelta(diff_days)).timetuple()[:3] != now.timetuple()[:3]:
+        diff_days += 1
+
+    if diff_days == 0 or (diff_days == 1 and seconds<21600):
+        if seconds < 36000:
+            if seconds < 3600:
+                f = int(seconds/60)
+                if f == 0:
+                    if seconds:
+                        return "%s秒前"%seconds
+                    else:
+                        return "刚刚"
+                else:
+                    return "%s分钟前" % f
+            else:
+                return "%s小时前" % int(seconds/3600)
+        return friendly_hour(time.hour, time.minute, time.second)
+    elif 0 < diff_days < 3:
+        cc_time = ONE_DAY + time
+        if now.day == cc_time.day:
+            return "昨天 %s "%friendly_hour(time.hour, time.minute, time.second)
+        elif now.day == (cc_time + ONE_DAY).day:
+            return "前天 %s "%friendly_hour(time.hour, time.minute, time.second)
+
+    if now.year == time.year:
+        return "%s月%s日 %s" % (time.month, time.day, friendly_hour(time.hour, time.minute, time.second))
+    else:
+        return "%s年%s月%s日"% (time.year, time.month, time.day, friendly_hour(time.hour, time.minute, time.second))
+
+
+
 
 if __name__ == "__main__":
-    print time_title()
+    from time import time
+    print friendly_time(time()-100)
