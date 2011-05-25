@@ -9,4 +9,4 @@ load('host_dev_%s' % socket.gethostname())
 import getpass
 load('conf_dev_%s' % getpass.getuser())
 
-conf.DEBUG = True
+DEBUG = True

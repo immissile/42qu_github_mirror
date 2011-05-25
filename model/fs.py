@@ -1,5 +1,5 @@
 import _env
-from config import FS_PATH, PIC_URL
+from config import PIC_PATH, PIC_URL
 from os.path import join, exists, dirname
 from os import remove, makedirs
 from cStringIO import StringIO
@@ -9,7 +9,7 @@ def fs_path(root, prefix, id, suffix):
     return path
 
 def fs_file(prefix, id, suffix):
-    return fs_path(FS_PATH, prefix, id, suffix)
+    return fs_path(PIC_PATH, prefix, id, suffix)
 
 def fs_url(prefix, id, suffix):
     return fs_path(PIC_URL, prefix, id, suffix)
