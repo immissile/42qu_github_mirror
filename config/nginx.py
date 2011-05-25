@@ -50,14 +50,7 @@ class ConfBase(object):
         return self._config
 
 def load(setting):
-    import conf_local
-    import config
-    from config import conf
-    conf_local.CONF_LOCAL['user'] = "0"
-    #setting
-    reload(conf)
-    reload(config)
-    return config
+    print config
 
 @render_conf
 class Yup(ConfBase):
