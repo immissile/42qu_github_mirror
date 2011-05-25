@@ -50,7 +50,9 @@ def load(setting):
     except ImportError, e:
         print "NO SETTING FILE : %s.py"%setting
 
-import conf_local
-for i in conf_local.CONF_LOCAL:
-    load(i)
 
+import conf_local
+for i in conf_local.CONF_LOCAL.itervalues():
+    load(i)
+print conf_local.CONF_LOCAL
+print "load conf"

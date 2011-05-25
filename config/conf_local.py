@@ -3,7 +3,8 @@
 import socket
 import getpass
 
-CONF_LOCAL = [
-    'host_%s' % socket.gethostname(),
-    'conf_%s' % getpass.getuser()
-]
+CONF_LOCAL = dict(
+    host='host_%s' % socket.gethostname(),
+    user='conf_%s' % getpass.getuser()
+)
+

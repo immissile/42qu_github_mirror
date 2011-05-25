@@ -50,12 +50,13 @@ class ConfBase(object):
         return self._config
 
 def load(setting):
+    import conf_local
     import config
-    import sys
-    mod = __import__(setting, globals(), locals(), [], -1)
-    mod.main()
+    from config import conf
+    conf_local.CONF_LOCAL['user'] = "0"
+    #setting
+    reload(conf)
     reload(config)
-    print config.SITE_DOMAIN,"2"
     return config
 
 @render_conf
