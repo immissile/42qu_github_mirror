@@ -10,7 +10,7 @@ from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from reply import ReplyMixin
-from po_pic import pichtm, pic_seq_dic, mc_htm
+from po_pic import pichtm, pic_seq_dic
 
 PO_LINK = {
     CID_NOTE : '/note/%s',
