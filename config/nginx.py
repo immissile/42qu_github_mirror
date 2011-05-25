@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 #coding:utf-8
-from __init__ import PREFIX,join
+from __init__ import PREFIX, join
 from mako.template import Template
 
-with open(join(PREFIX,"config/nginx/template.conf")) as template:
+with open(join(PREFIX, "config/nginx/template.conf")) as template:
     TEMPLATE = Template(template.read())
 
 def render_conf(cls):
     txt = TEMPLATE.render(this=cls())
-    with open(join(PREFIX,"config/nginx/%s.conf"%cls.__name__.lower()),"w") as w:
+    print cls.__name__, cls().host
+    with open(join(PREFIX, "config/nginx/%s.conf"%cls.__name__.lower()), "w") as w:
         w.write(txt)
 
 class ConfBase(object):
@@ -33,7 +34,7 @@ class ConfBase(object):
     def host(self):
         config = self.config
         host = {
-            config.SITE_DOMAIN: [config.PORT,]
+            config.SITE_DOMAIN: [config.PORT, ]
         }
         return host
 
@@ -41,29 +42,37 @@ class ConfBase(object):
     def fs_path(self):
         return "/home/%s/zpage/static"%self.__class__.__name__.lower()
 
+    @property
+    def config(self):
+        if not hasattr(self, "_config"):
+            config = load(self.config_file)
+            self._config = config
+        return self._config
+
 def load(setting):
     import __init__
-    __import__(setting, globals(), locals(), [], -1)
     reload(__init__)
+    __import__(setting, globals(), locals(), [], -1)
+    print __init__.SITE_URL
     return __init__
 
 @render_conf
 class Yup(ConfBase):
-    config = load("conf_yup")
+    config_file = "conf_yup"
 
 
 @render_conf
 class Zjd(ConfBase):
-    config = load("conf_zjd")
+    config_file = "conf_zjd"
 
 @render_conf
 class Zuroc(ConfBase):
-    config = load("conf_zuroc")
+    config_file = "conf_zuroc"
 
 
 @render_conf
 class Work(ConfBase):
-    config = load("conf_work")
+    config_file = "conf_work"
     host = {
         "42qu.me" : [
             22000,
@@ -74,6 +83,6 @@ class Work(ConfBase):
 
 @render_conf
 class WorkDev(ConfBase):
-    config = load("host_dev_nuva")
+    config_file = "host_dev_nuva"
     fs_path = "/home/work/zpage/web/static"
 
