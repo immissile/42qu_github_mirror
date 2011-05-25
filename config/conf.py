@@ -51,8 +51,11 @@ def load(setting):
         print "NO SETTING FILE : %s.py"%setting
 
 
-import conf_local
-for i in conf_local.CONF_LOCAL.itervalues():
+
+import socket
+import getpass
+for i in (
+    'host_%s' % socket.gethostname(),
+    'conf_%s' % getpass.getuser()
+):
     load(i)
-print conf_local.CONF_LOCAL
-print "load conf"

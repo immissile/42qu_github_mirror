@@ -48,4 +48,3 @@ DB_CONFIG = {
         )
     }
 }
-print "load init"
