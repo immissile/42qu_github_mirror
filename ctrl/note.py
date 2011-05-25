@@ -69,6 +69,9 @@ class Reply(_handler.LoginBase):
         self.redirect(link)
 
 
+    def get(self, id):
+        po = Po.mc_get(id)
+        self.redirect(po.link)
 
 @urlmap("/note/(\d+)/rm")
 class Rm(_handler.XsrfGetBase):
