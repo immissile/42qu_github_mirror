@@ -17,7 +17,7 @@ DEBUG = False
 SITE_DOMAIN = '42qu.me'
 PIC_URL = 'http://p.42qu.info'
 FS_URL = 'http://s.42qu.info'
-FS_PATH = '/mnt/zpage'
+PIC_PATH = '/mnt/zpage'
 
 
 SMTP = "127.0.0.1"
