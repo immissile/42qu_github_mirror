@@ -6,8 +6,7 @@ class McTotal(object):
         self.get_count = get_count
         self.timeout = timeout
 
-    def __call__(self, *key):
-        key = '_'.join(key)
+    def __call__(self, key):
         mk = self.mc_key%key
         count = mc.get(mk)
         if count is None:
@@ -17,7 +16,7 @@ class McTotal(object):
 
     def get_multi(self, keys):
         mc_key = self.mc_key
-        mc_key_list = dict([(key, mc_key%('_'.join(key))) for key in keys])
+        mc_key_list = dict([(key, mc_key%key) for key in keys])
         result = mc.get_multi(mc_key_list.itervalues())
         r = {}
         for k, mck in mc_key_list.iteritems():
@@ -28,7 +27,7 @@ class McTotal(object):
             r[k] = v
         return r
 
-    def bind(self, xxx_list, property, key='id'):
+    def bind(self, xxx_list, property, key="id"):
         d = []
         e = []
         for i in xxx_list:
@@ -43,8 +42,7 @@ class McTotal(object):
         for k, v in e:
             v.__dict__[property] = r.get(k)
 
-    def delete(self, *key):
-        key = '_'.join(key)
+    def delete(self, key):
         mk = self.mc_key%key
         mc.delete(mk)
 
@@ -55,14 +53,15 @@ class McTotal(object):
             r.get(i, 0) for i in keys
         ]
 
-    def incr(self, *key):
-        key = '_'.join(key)
+
+    def incr(self, key):
         mk = self.mc_key%key
         if mc.get(mk) is not None:
             mc.incr(mk)
 
-    def decr(self, *key):
-        key = '_'.join(key)
+    def decr(self, key):
         mk = self.mc_key%key
         if mc.get(mk) is not None:
             mc.decr(mk)
+
+

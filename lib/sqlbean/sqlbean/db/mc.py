@@ -83,13 +83,13 @@ class McCache(object):
             return id*3
 
         print  xxx("123")
-        
+
         @mc_xxx("{id}")
         def xxx(id):
             return id*3
 
         print  xxx("467")
-        print "MC GET" 
+        print "MC GET"
         print mc_xxx.get("123")
         print mc_xxx.get_multi(["123","467"])
         mc_xxx.delete("123")
@@ -215,8 +215,74 @@ class McLimitA(object):
 class McLimit(McLimitA):
     McCls = McCache
 
+
 class McLimitM(McLimitA):
     McCls = McCacheM
 
 
+class McNum(object):
+    def __init__(self, get_num, mc_key, timeout=36000):
+        self.mc_key = mc_key
+        self.get_num = get_num
+        self.timeout = timeout
 
+    def __call__(self, *key):
+        key = '_'.join(key)
+        mk = self.mc_key%key
+        num = mc.get(mk)
+        if num is None:
+            num = self.get_num(key) or 0
+            mc.set(mk, num, self.timeout)
+        return num
+
+    def get_multi(self, keys):
+        mc_key = self.mc_key
+        mc_key_list = dict([(key, mc_key%('_'.join(key))) for key in keys])
+        result = mc.get_multi(mc_key_list.itervalues())
+        r = {}
+        for k, mck in mc_key_list.iteritems():
+            v = result.get(mck)
+            if v is None:
+                v = self.get_num(k) or 0
+                mc.set(mck, v)
+            r[k] = v
+        return r
+
+    def bind(self, xxx_list, property, key='id'):
+        d = []
+        e = []
+        for i in xxx_list:
+            k = getattr(i, key)
+            if k:
+                d.append(k)
+                e.append((k, i))
+            else:
+                i.__dict__[property] = None
+
+        r = self.get_multi(set(d))
+        for k, v in e:
+            v.__dict__[property] = r.get(k)
+
+    def delete(self, *key):
+        key = '_'.join(key)
+        mk = self.mc_key%key
+        mc.delete(mk)
+
+    def get_list(self, keys):
+        r = self.get_multi(keys)
+
+        return [
+            r.get(i, 0) for i in keys
+        ]
+
+    def incr(self, *key):
+        key = '_'.join(key)
+        mk = self.mc_key%key
+        if mc.get(mk) is not None:
+            mc.incr(mk)
+
+    def decr(self, *key):
+        key = '_'.join(key)
+        mk = self.mc_key%key
+        if mc.get(mk) is not None:
+            mc.decr(mk)

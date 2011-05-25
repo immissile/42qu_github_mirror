@@ -7,15 +7,14 @@ setup(name="sqlbean",
         description="A auto maping ORM for MYSQL and can bind with memcached",
         long_description="""
 
-
 from sqlbean.db.sqlstore import SqlStore
 
 #tables can in different databases
 
 DATABASE_CONFIG = {
-    "mokodb": {
-    "master": "localhost:3306:mokodb:root:111111",
-    "tables": ["*", "user"],
+    "db": {
+        "master": "localhost:3306:mokodb:root:111111",
+        "tables": ["*", "user"],
     },
 }
 
