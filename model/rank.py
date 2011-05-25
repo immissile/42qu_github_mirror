@@ -7,7 +7,6 @@ from vote import vote_up_count, vote_down_count
 class Rank(McModel):
     pass
 
-
 mc_team_id_by_note_id = McCache("TeamIdByNoteId:%s")
 
 @mc_team_id_by_note_id("{note_id}")
