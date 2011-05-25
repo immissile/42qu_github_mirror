@@ -50,8 +50,15 @@ class ConfBase(object):
         return self._config
 
 def load(setting):
+    import conf
+    import config
     setting = __import__(setting, globals(), locals(), [], -1)
-    return setting
+    for k in vars(setting):
+        if not k.startswith("__"):
+            setattr(conf, k, getattr(setting, k))
+    print conf.SITE_DOMAIN
+    reload(config)
+    return config
 
 @render_conf
 class Yup(ConfBase):

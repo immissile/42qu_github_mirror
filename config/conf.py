@@ -64,4 +64,8 @@ for i in (
     'conf_%s' % getpass.getuser()
 ):
     load(i)
+print "load conf"
+
+
+
 
