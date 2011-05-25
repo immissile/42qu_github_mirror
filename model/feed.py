@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from _db import  McModel, McCache, cursor_by_table, McCacheA
+from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
 from mq import mq_client
 
 MAXINT = sys.maxint
@@ -12,7 +12,7 @@ FEED_ENTRY_ID_ITER_SQL = "select id from feed_entry where feed_id=%%s and id<%%s
 
 mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
 mc_feed_id_by_for_zsite_follow = McCacheA("FeedIdForZsiteFollow<%s")
-mc_feed_entry_tuple = McCache("FeedEntryTuple:%s")
+mc_feed_entry_tuple = McCacheM("FeedEntryTuple:%s")
 mc_feed_entry_iter = McCacheA("FeedEntryIter:%s")
 mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
 
@@ -114,4 +114,3 @@ mq_mc_flush_zsite_follow = mq_client(mc_flush_zsite_follow)
 
 if __name__ == "__main__":
     mq_mc_flush_zsite_follow(10024787)
-

@@ -10,8 +10,8 @@ from follow import feed_tuple_follow
 
 CID2FEEDFUNC = {
     CID_WORD: feed_tuple_word,
-    CID_FOLLOW: feed_tuple_follow,
     CID_NOTE: feed_tuple_note,
+    CID_FOLLOW: feed_tuple_follow,
 }
 
 
@@ -47,5 +47,3 @@ def render_feed_entry_list(entry_list):
 
 if __name__ == "__main__":
     pass
-
-
