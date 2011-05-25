@@ -2,12 +2,14 @@
 #coding:utf-8
 from __init__ import PREFIX,join
 from mako.template import Template
+
 with open(join(PREFIX,"config/nginx/template.conf")) as template:
     TEMPLATE = Template(template.read())
 
 def render_conf(cls):
-    print TEMPLATE.render(this=cls())
-    return cls
+    txt = TEMPLATE.render(this=cls())
+    with open(join(PREFIX,"config/nginx/%s.conf"%cls.__name__.lower()),"w") as w:
+        w.write(txt)
 
 class ConfBase(object):
     @property
@@ -28,7 +30,6 @@ class ConfBase(object):
 
     @property
     def god_port(self):
-        print dir(self.config)
         return self.config.GOD_PORT
 
     @property
