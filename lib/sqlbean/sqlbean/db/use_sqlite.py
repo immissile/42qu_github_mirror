@@ -1,7 +1,5 @@
 import sqlite3
 
-
-
 class Cursor(object):
     def __init__(self, cursor):
         self._cursor = cursor
@@ -34,4 +32,3 @@ def use_sqlite(*args, **kwds):
     from sqlbean.db import connection
     connection.get_db_by_table = get_db_by_table
     return DATABASE
-

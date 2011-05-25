@@ -293,6 +293,3 @@ class McModel(object):
         r = cls.mc_get_multi(set(d))
         for k, v in e:
             v.__dict__[property] = r.get(k)
-
-
-

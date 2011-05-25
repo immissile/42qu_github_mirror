@@ -5,71 +5,71 @@ from sqlbean.metamodel import cache, lower_name, ModelBase, get_or_create, save,
 class Model(object):
     '''
     Allows for automatic attributes based on table columns.
-    
+
     Syntax::
-    
+
         from sqlbean.model import Model
         class MyModel(Model):
             class Meta:
                 # If field is blank, this sets a default value on save
                 class default:
                     field = 1
-            
+
                 # Table name is lower-case model name by default
                 # Or we can set the table name
                 table = 'mytable'
-        
+
         # Create new instance using args based on the order of columns
         m = MyModel(1, 'A string')
-        
+
         # Or using kwargs
         m = MyModel(field=1, text='A string')
-        
+
         # Saving inserts into the database (assuming it validates [see below])
         m.save()
-        
+
         # Updating attributes
         m.field = 123
-        
+
         # Updates database record
         m.save()
-        
-        # Deleting removes from the database 
+
+        # Deleting removes from the database
         m.delete()
-        
+
         m = MyModel(field=0)
-        
+
         m.save()
-        
+
         # Retrieval is simple using Model.get
         # Returns a Query object that can be sliced
         MyModel.get(id)
-        
+
         # Returns a MyModel object with an id of 7
         m = MyModel.get(7)
-        
+
         # Limits the query results using SQL's LIMIT clause
         # Returns a list of MyModel objects
         m = MyModel.where()[:5]   # LIMIT 0, 5
         m = MyModel.where()[10:15] # LIMIT 10, 5
-        
+
         # We can get all objects by slicing, using list, or iterating
         m = MyModel.get()[:]
         m = list(MyModel.where(name="zsp").where("age<%s",18))
         for m in MyModel.where():
             # do something here...
-            
+
         # We can where our Query
         m = MyModel.where(field=1)
         m = m.where(another_field=2)
-        
+
         # This is the same as
         m = MyModel.where(field=1, another_field=2)
-        
+
         # Set the order by clause
         m = MyModel.where(field=1).order_by('-field')
         # Removing the second argument defaults the order to ASC
-        
+
     '''
     __metaclass__ = ModelBase
     __eq__ = __eq__

@@ -135,7 +135,7 @@ class LRUCache(object):
 
     def _sort_key(self):
         """Return a new integer value upon every call.
-        
+
         Cache nodes need a monotonically increasing time indicator.
         time.time() and time.clock() don't guarantee this in a
         platform-independent way.

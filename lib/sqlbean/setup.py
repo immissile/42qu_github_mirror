@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
-version = '0.601'
+version = '0.602'
 
 setup(name="sqlbean",
         version=version,
         description="A auto maping ORM for MYSQL and can bind with memcached",
-        long_description=""" 
+        long_description="""
 
 
 from sqlbean.db.sqlstore import SqlStore
@@ -33,7 +33,7 @@ from sqlbean.shortcut import Model
 
 # will auto mapping the table structure
 # class User will mapping to user
-# class UserProfile will mapping to user_profile and so on 
+# class UserProfile will mapping to user_profile and so on
 
 class User(Model):
     pass
