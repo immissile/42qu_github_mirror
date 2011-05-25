@@ -7,3 +7,5 @@ conf.FS_URL = 'http://s.yup.me'
 conf.PORT = 7777
 conf.MYSQL_MAIN = 'zpage'
 conf.DEBUG = True
+
+#print 'http://p.yup.me'[7:]
