@@ -11,36 +11,42 @@ from datetime import datetime
 ${po.name}
 %endif
 </%def>
+
+<%
+can_admin = po.can_admin(current_user_id)
+%>
+
+
 %if can_view:
 <h1>${po.name}</h1>
 <pre>${po.txt}</pre>
 <div>${datetime.fromtimestamp(po.create_time)}</div>
 <div>
-    %if po.can_admin(current_user_id):
+    %if can_admin:
         <a href="${po.link}/edit">编辑</a>
     %endif
 </div>
-%for reply in po.reply_list():
+    %for reply in po.reply_list():
 <%
 user = reply.user
 %>
 <div id="rpy${reply.id}" style="padding:27px">
     <pre>${reply.htm|n}</pre>
-    %if reply.can_rm(current_user_id):
+    %if reply.can_rm(current_user_id) or can_admin:
         <a href="/note/reply/${reply.id}/rm?${_xsrf}">删除</a> 
     %endif
     <a href="${user.link}" target="_blank">${user.name}</a> :\
 </div>
-%endfor
+    %endfor
 
-%if po.state > STATE_SECRET:
+    %if po.state > STATE_SECRET:
 <%htm:form action="${po.link}/reply">
 <textarea name="txt"></textarea>
 <div>
 <button type="submit">此致 , 敬礼</button>
 </div>
 </%htm:form>
-%endif
+    %endif
 %else:
 <div>机密 !!! </div>
 <div>无关人士 , 禁止入内</div>
