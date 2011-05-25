@@ -50,10 +50,7 @@ def load(setting):
     except ImportError, e:
         print "NO SETTING FILE : %s.py"%setting
 
-import socket
-load('host_%s' % socket.gethostname())
-
-import getpass
-load('conf_%s' % getpass.getuser())
-
+import conf_local
+for i in conf_local.CONF_LOCAL:
+    load(i)
 

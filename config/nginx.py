@@ -50,11 +50,13 @@ class ConfBase(object):
         return self._config
 
 def load(setting):
-    import __init__
-    reload(__init__)
-    __import__(setting, globals(), locals(), [], -1)
-    print __init__.SITE_URL
-    return __init__
+    import config
+    import sys
+    mod = __import__(setting, globals(), locals(), [], -1)
+    mod.main()
+    reload(config)
+    print config.SITE_DOMAIN,"2"
+    return config
 
 @render_conf
 class Yup(ConfBase):
@@ -70,19 +72,19 @@ class Zuroc(ConfBase):
     config_file = "conf_zuroc"
 
 
-@render_conf
-class Work(ConfBase):
-    config_file = "conf_work"
-    host = {
-        "42qu.me" : [
-            22000,
-            22001
-        ],
-    }
-    fs_path = "/home/work/zpage/web/static"
-
-@render_conf
-class WorkDev(ConfBase):
-    config_file = "host_dev_nuva"
-    fs_path = "/home/work/zpage/web/static"
-
+#@render_conf
+#class Work(ConfBase):
+#    config_file = "conf_work"
+#    host = {
+#        "42qu.me" : [
+#            22000,
+#            22001
+#        ],
+#    }
+#    fs_path = "/home/work/zpage/web/static"
+#
+#@render_conf
+#class WorkDev(ConfBase):
+#    config_file = "host_dev_nuva"
+#    fs_path = "/home/work/zpage/web/static"
+#
