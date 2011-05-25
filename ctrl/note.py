@@ -46,7 +46,7 @@ class Reply(_handler.LoginBase):
             txt = self.get_argument('txt', '')
             m = po.reply_new(current_user_id, txt, po.state)
             if m:
-                link = "/note/%s#rpy%s"%(id,m)
+                link = "/note/%s#rpy%s"%(id, m)
         if link is None:
             link = po.link
         self.redirect(link)
@@ -63,28 +63,30 @@ class Rm(_handler.XsrfGetBase):
 
     post = get
 
-def can_edit(current_user_id, id):
-    if id:
-        po = Po.mc_get(id)
-        if not po:
-            po = None
-        if not po.can_admin(current_user_id):
-            po = None
-    else:
-        po = None
-    return po or JsDict()
 
 @urlmap("/po/note")
 @urlmap("/note/(\d+)/edit")
 class Edit(_handler.LoginBase):
+    @staticmethod
+    def _can_edit(current_user_id, id):
+        if id:
+            po = Po.mc_get(id)
+            if not po:
+                po = None
+            if not po.can_admin(current_user_id):
+                po = None
+        else:
+            po = None
+        return po or JsDict()
+
     def get(self, id=None):
         current_user_id = self.current_user_id
-        po = can_edit(current_user_id, id)
+        po = self._can_edit(current_user_id, id)
         self.render(po=po)
 
     def post(self, id=None):
         current_user_id = self.current_user_id
-        po = can_edit(current_user_id, id)
+        po = self._can_edit(current_user_id, id)
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
         secret = self.get_argument('secret', None)
@@ -101,7 +103,11 @@ class Edit(_handler.LoginBase):
             po_state_set(po, state)
         else:
             po = po_note_new(current_user_id, name, txt, state)
-        self.redirect(po.link)
+        if po:
+            link = po.link
+        else:
+            link = "/po/note"
+        self.redirect(link)
 
 
 
