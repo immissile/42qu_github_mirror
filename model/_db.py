@@ -30,4 +30,4 @@ connection.get_db_by_table = db_by_table
 
 from sqlbean.shortcut import Query, mc, McCacheA, McCacheM, McCache, ForeignKey, OneToMany, Model, McModel, ForeignKey
 from sqlbean.db.mc import McLimit, McLimitA, McLimitM
-
+from sqlbean.mc_total import McTotal

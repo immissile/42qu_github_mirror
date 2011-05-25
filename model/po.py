@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from time import time
-from _db import cursor_by_table, McModel, McLimitA, McCache
+from _db import cursor_by_table, McModel, McLimitA, McCache, McTotal
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from feed import feed_entry_new, mc_feed_entry_tuple, feed_entry_rm
 from gid import gid
@@ -114,11 +114,24 @@ def po_note_new(user_id, name, txt, state):
         m.feed_entry_new()
     return m
 
+class PoPic(McModel):
+    pass
+
 def pic_id_list(po_id):
-    return PoPic.where(rid=po_id).order_by('seq desc').id_list()
+    return PoPic.where(po_id=po_id).order_by('seq desc').id_list()
 
 def pic_new_id_list(user_id):
-    return PoPic.where(user_id=user_id, rid=0).order_by('seq desc').id_list()
+    return PoPic.where(user_id=user_id, po_id=0).order_by('seq desc').id_list()
+
+po_pic_total = McTotal(lambda user_id, po_id: PoPic.where(user_id=user_id, po_id=po_id).count(), 'PoPicTotal.%s')
+
+def can_new_pic(user_id, po_id=0):
+    return po_pic_total(user_id, po_id) < PIC_LIMIT
+#po_pic_seq = McTotal(
+def new_pic_seq(user_id, po_id):
+    c = PoPic.raw_sql('select max(seq) from po_pic where user_id=%s and po_id=%s', user_id, po_id)
+    seq = c.fetchone()[0] or 0
+    return seq + 1
 
 if __name__ == '__main__':
     pass

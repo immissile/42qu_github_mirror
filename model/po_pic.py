@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import cursor_by_table, McModel, McLimitA, McCache
+from pic import pic_new, pic_save
 
 class PoPic(McModel):
     pass
@@ -66,6 +67,7 @@ class PicMixin(object):
     def new_pic(cls, user_id, rid, img):
         order = cls.get_pic_order(user_id, rid)
         pic_id = pic_new(user_id)
+        pic_save(pic_id, img)
         pic = PoPic(id=pic_id, user_id=user_id, rid=rid, order=order)
         pic.save()
 
