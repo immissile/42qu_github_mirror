@@ -102,8 +102,8 @@ def pic_seq_dic(user_id, po_id):
         d[i.seq] = PIC_HTM % (
             i.align,
             fs_url_jpg(i.id, 684),
-            title.replact('"', '&quot;')
-            title
+            title.replact('"', '&quot;'),
+            title,
         )
     return d
 

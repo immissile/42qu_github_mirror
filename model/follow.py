@@ -82,4 +82,4 @@ def feed_tuple_follow(id):
     r = follow_cursor.fetchone()
     if r:
         zsite = Zsite.mc_get(r[0])
-        return (zsite.name , zsite.link)
+        return (zsite.name, zsite.link)

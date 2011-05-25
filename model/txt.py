@@ -20,7 +20,7 @@ def txt_new(id, txt):
         c.connection.commit()
         t.txt = txt
         t.save()
-    mc_flush(id,txt)
+    mc_flush(id, txt)
 
 mc_txt = McCache("Txt:%s")
 
@@ -42,7 +42,7 @@ def txt_bind(o_list):
         else:
             i.txt = txt
 
-def mc_flush(id,txt=None):
+def mc_flush(id, txt=None):
     if txt is None:
         mc_txt.delete(id)
     else:
