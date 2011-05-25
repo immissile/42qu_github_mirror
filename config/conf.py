@@ -17,7 +17,7 @@ DEBUG = False
 SITE_DOMAIN = '42qu.me'
 PIC_URL = 'http://p.42qu.info'
 FS_URL = 'http://s.42qu.info'
-FS_PATH = '/mnt/zpage'
+PIC_PATH = '/mnt/zpage'
 
 
 SMTP = "127.0.0.1"
@@ -50,8 +50,12 @@ def load(setting):
     except ImportError, e:
         print "NO SETTING FILE : %s.py"%setting
 
-import socket
-load('host_%s' % socket.gethostname())
 
+
+import socket
 import getpass
-load('conf_%s' % getpass.getuser())
+for i in (
+    'host_%s' % socket.gethostname(),
+    'conf_%s' % getpass.getuser()
+):
+    load(i)
