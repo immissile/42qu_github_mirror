@@ -28,6 +28,7 @@ class ConfBase(object):
 
     @property
     def god_port(self):
+        print dir(self.config)
         return self.config.GOD_PORT
 
     @property
@@ -42,32 +43,29 @@ class ConfBase(object):
     def root(self):
         return "/home/%s/zpage/static"%self.__class__.__name__.lower()
 
+def load(setting):
+    import __init__
+    __import__(setting, globals(), locals(), [], -1)
+    reload(__init__)
+    return __init__
+
 @render_conf
 class Yup(ConfBase):
-    import conf
-    import conf_yup
-    reload(conf_yup)
-    config = conf
+    config = load("conf_yup")
+
 
 @render_conf
 class Zjd(ConfBase):
-    import conf
-    import conf_zjd
-    reload(conf_zjd)
-    config = conf
+    config = load("conf_zjd")
 
 @render_conf
 class Zuroc(ConfBase):
-    import conf
-    import conf_zuroc
-    reload(conf_zuroc)
-    config = conf
+    config = load("conf_zuroc")
 
 
 @render_conf
 class Work(ConfBase):
-    import conf
-
+    config = load("conf_work")
     host = {
         "42qu.me" : [
             22000,
@@ -78,9 +76,6 @@ class Work(ConfBase):
 
 @render_conf
 class WorkDev(ConfBase):
-    import conf
-    import host_nuva
-    reload(conf)
-    config = conf
+    config = load("host_dev_nuva")
     root = "/home/work/zpage/web/static"
 
