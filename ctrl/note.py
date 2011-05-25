@@ -5,6 +5,7 @@ import _handler
 from zweb._urlmap import urlmap
 from model.po import Po, po_note_can_view, po_rm,\
         po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
+from model import reply
 from model.zsite import Zsite
 from zkit.jsdict import JsDict
 from model.txt import txt_new
@@ -32,7 +33,23 @@ class Index(_handler.Base):
 @urlmap("/note/reply/(\d+)/rm")
 class ReplyRm(_handler.XsrfGetBase):
     def get(self, id):
-        pass
+        current_user_id = self.current_user_id
+        r = reply.Reply.mc_get(id)
+        can_rm = r.can_rm(current_user_id)
+
+        link = "/"
+        if r:
+            po = Po.mc_get(r.rid)
+            if po:
+                if can_rm is False and po.can_admin(current_user_id):
+                    can_rm = True
+
+                link = po.link
+
+        if can_rm:
+            r.rm()
+
+        self.redirect(link)
 
 
 @urlmap("/note/(\d+)/reply")

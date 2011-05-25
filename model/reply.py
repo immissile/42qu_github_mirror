@@ -113,14 +113,14 @@ class Reply(McModel):
         return txt_withlink(self.txt)
 
     def rm(self):
-        pass
+        if self.state != STATE_DEL:
+            self.state = STATE_DEL
+            self.save()
+            mc_flush_reply_id_list(self.cid, self.rid)
 
     def can_rm(self, user_id):
         return self.user_id == user_id
 
-    def rm_if_can(self, user_id):
-        if self.reply_can_rm(user_id):
-            self.reply_rm()
 
 def mc_flush_reply_id_list(cid, rid):
     key = "%s_%s"%(cid, rid)
