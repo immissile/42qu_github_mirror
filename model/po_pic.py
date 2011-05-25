@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import cursor_by_table, McModel, McLimitA, McCache
+import re
+from _db import cursor_by_table, McModel, McCache, McCacheA, McLimitA, McNum
 from pic import pic_new, pic_save
-
-class PoPic(McModel):
-    pass
+from cid import CID_PO_PIC
 
 
 PIC_LIMIT = 42
@@ -20,167 +19,110 @@ PIC_THUMB_SIZE = 219
 #PIC_LIST_SIZE = (219, 123)
 #PIC_LIST_PATH = '%s_%s' % PIC_LIST_SIZE
 
-PIC_LEFT = 1
+PIC_LEFT = -1 # 1
 PIC_CENTER = 0
-PIC_RIGHT = 2
+PIC_RIGHT = 1 # 2
 
 
-def pic_id_list(self):
-    return PoPic.where(rid=self.id).order_by('seq desc').id_list()
+class PoPic(McModel):
+    pass
 
+po_pic_total = McNum(lambda user_id, po_id: PoPic.where(user_id=user_id, po_id=po_id).count(), 'PoPicTotal.%s')
 
-def pic_new_id_list(cls, user_id):
-    return PoPic.where(rid=0, user_id=user_id).order_by('seq desc').id_list()
+def can_add(user_id, po_id=0):
+    return po_pic_total(user_id, po_id) < PIC_LIMIT
 
+def seq_gen(user_id, po_id):
+    c = PoPic.raw_sql('select max(seq) from po_pic where user_id=%s and po_id=%s', user_id, po_id)
+    seq = c.fetchone()[0] or 0
+    return seq + 1
+
+def po_pic_new(user_id, po_id, pic):
+    pic_id = pic_new(CID_PO_PIC, user_id)
+    pic_save(pic_id, pic)
+    po_pic_save(pic_id, pic)
+
+    seq = seq_gen(user_id, po_id)
+    pp = PoPic(id=pic_id, user_id=user_id, po_id=po_id, seq=seq)
+    pp.save()
+    mc_flush(user_id, po_id)
+    return pp
+
+def po_pic_save(pic_id, pic):
+    p1 = pic_fit_width_cut_height_if_large(pic, 684)
+    fs_set_jpg('684', pic_id, p1)
+
+    p2 = pic_fit_width_cut_height_if_large(pic, 219)
+    fs_set_jpg('219', pic_id, p2)
+
+def po_pic_rm(user_id, po_id, seq):
+    pp = PoPic.get(user_id=user_id, po_id=po_id, seq=seq)
+    if pp:
+        pic_id = pp.id
+        pp.delete()
+        mc_flush(user_id, po_id)
+
+def mc_flush(user_id, po_id):
+    po_pic_total.delete(user_id, po_id)
+    mc_pic_id_list.delete('%s_%s' % (user_id, po_id))
+    from po import mc_htm
+    mc_htm.delete(po_id)
+
+#mc_pic_new_id_list = McCacheA('PoPicNewIdList.%s')
+#
+#@mc_pic_new_id_list('{user_id}')
+#def pic_new_id_list(user_id):
+#    return PoPic.where(user_id=user_id, po_id=0).order_by('seq desc').id_list()
+#
+#def pic_new_list(user_id):
+#    ids = pic_new_id_list(user_id)
+#    li = PoPic.mc_get_list(ids)
+#    for i in li:
+#        i.src219 = fs_url_jpg(i.id, 219)
+#    return li
+
+mc_pic_id_list = McCacheA('PoPicIdList.%s')
+
+@mc_pic_id_list('{po_id}')
+def pic_id_list(user_id, po_id=0):
+    return PoPic.where(user_id=user_id, po_id=po_id).order_by('seq desc').id_list()
+
+def edit_pic_list(user_id, po_id=0):
+    ids = pic_id_list(user_id, po_id)
+    li = PoPic.mc_get_list(ids)
+    for i in li:
+        i.src219 = fs_url_jpg(i.id, 219)
+    return li
+
+def pic_seq_dic(user_id, po_id):
+    ids = pic_id_list(user_id, po_id)
+    d = {}
+    for i in PoPic.mc_get_multi(ids).itervalues():
+        title = escape(i.title)
+        d[i.seq] = PIC_HTM % (
+            i.align,
+            fs_url_jpg(i.id, 684),
+            title.replact('"', '&quot;')
+            title
+        )
+    return d
 
 PIC_FIND = re.compile(r'<图片([\d]+)>')
 PIC_SUB = re.compile(r'&lt;图片([\d]+)&gt;')
 PIC_HTML = '<div class="pmix np%s"><img src="%s" alt="%s"><div>%s</div></div>'
 
-def pic2html(match, d):
+#mc_htm = McCache('PoHtm.%s')
+
+#@mc_htm('{self.id}')
+#def htm(self):
+#    return pic2htm(self.txt, pic_seq_dic(self.user_id, self.id))
+
+def pic2htm(match, d):
     m = int(match.groups()[0])
     return d.get(m, match.group(0))
 
-
-def html_by_rid(self):
-    return txt_to_pic_html(self.txt, self.pic_show_dic)
-
-
-def txt_to_pic_html(txt, pic_dic):
-    return PIC_SUB.sub(lambda x: pic2html(x, pic_dic), txt_withlink(txt))
-
-
-class PicMixin(object):
-
-    @classmethod
-    def can_new_pic(cls, user_id, rid=0):
-        c = PoPic.where(user_id=user_id, rid=rid).count()
-        return c < PIC_LIMIT
-
-    @classmethod
-    def get_pic_order(cls, user_id, rid=0):
-        c = PoPic.raw_sql('select max(seq) from po_pic where user_id=%s and rid=%s', user_id, rid)
-        seq = c.fetchone()[0] or 0
-        return seq + 1
-
-    @classmethod
-    def new_pic(cls, user_id, rid, img):
-        order = cls.get_pic_order(user_id, rid)
-        pic_id = pic_new(user_id)
-        pic_save(pic_id, img)
-        pic = PoPic(id=pic_id, user_id=user_id, rid=rid, order=order)
-        pic.save()
-
-        cls.store_pic(pic_id, img)
-        cls.mc_flush_pic(user_id, rid)
-        return pic
-
-    @classmethod
-    def store_pic(cls, pic_id, img):
-        prefix = cls.Meta.table
-
-        fs_set_jpg('2', pic_id, p1)
-
-        _img = pic_fit_width_cut_height_if_large(img, PIC_SIZE)
-        fs_set_jpg('%s/%s' % (prefix, PIC_SIZE), pic_id, _img)
-
-        _img = pic_fit_width_cut_height_if_large(img, PIC_THUMB_SIZE)
-        fs_set_jpg('%s/%s' % (prefix, PIC_THUMB_SIZE), pic_id, _img)
-
-#        _img = pic_fit(img, *PIC_LIST_SIZE)
-#        fs_set_jpg('%s/%s' % (prefix, PIC_LIST_PATH), pic_id, _img)
-
-    @classmethod
-    def rm_pic(cls, user_id, rid, order):
-        PoPic.where(user_id=user_id, rid=rid, order=order).where('state>=%s', PIC_ADD).update(state=PIC_SELF_DELETE)
-        cls.mc_flush_pic(user_id, rid)
-
-    @classmethod
-    def mc_flush_pic(cls, user_id, rid=0):
-        if rid:
-            cls.mc_pic_id_by_rid.delete(rid)
-            cls.mc_html_by_rid.delete(rid)
-        else:
-            cls.mc_pic_new_by_user_id.delete(user_id)
-
-#    @classmethod
-#    def save_pics(cls, pic_list, rid, ):
-#        pass
-
-    @property
-    def pic_show_dic(self):
-        li = PoPic.mc_get_list(self.pic_id_list)
-        return dict((i.order, PIC_HTML % (
-            i.align,
-            fs_url_jpg(i.id, 684),
-            escape(i.title).replace('"', '&quot;'),
-            escape(i.title)
-        )) for i in li)
-
-    @property
-    def pic_edit_list(self):
-        li = PoPic.mc_get_list(self.pic_id_list)
-        for i in li:
-            i.src219 = fs_url_jpg(i.id, 219)
-        return li
-
-    @classmethod
-    def pic_new_list(cls, user_id):
-        li = PoPic.mc_get_list(cls.pic_new_id_list(user_id))
-        for i in li:
-            i.src219 = fs_url_jpg(i.id, 219)
-        return li
-
-
-# CREATE TABLE `xxx_pic` (
-#  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-#  `rid` int(10) unsigned NOT NULL DEFAULT '0',
-#  `user_id` int(10) unsigned NOT NULL,
-#  `order` tinyint(3) unsigned NOT NULL,
-#  `align` tinyint(3) unsigned NOT NULL DEFAULT '0',
-#  `title` varbinary(60) DEFAULT '',
-#  PRIMARY KEY (`id`),
-#  KEY `rid` (`rid`),
-#  KEY `user_id` (`user_id`)
-# ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin
-
-def mixin_pic(pic_cls):
-    '''
-class XxxPic(McModel):
-    pass
-@mixin_pic(XxxPic)
-class Xxx(McModel):
-    pass'''
-    def _(cls):
-        cls.__bases__ = tuple(list(cls.__bases__) + [PicMixin])
-        cls._PIC_CLS = pic_cls
-        table_title = cls.Meta.table.title()
-        cls.mc_pic_id_by_rid = McLimitA(
-            'PicIdBy%sId.%%s' % table_title,
-            PIC_LIMIT
-        )
-        cls.mc_pic_new_by_user_id = McCache(
-            'PicNewBy%sManId.%%s' % table_title
-        )
-        cls.mc_html_by_rid = McCache(
-            'HtmlBy%sId.%%s' % table_title
-        )
-        cls.pic_id_list = property(
-            cls.mc_pic_id_by_rid('{self.id}')(
-            pic_id_list
-        ))
-        cls.pic_new_id_list = classmethod(
-            cls.mc_pic_new_by_user_id('{user_id}')(
-            pic_new_id_list
-        ))
-        cls.html = property(
-            cls.mc_html_by_rid('{self.id}')(
-            html_by_rid
-        ))
-        cls._PIC_ORDER_SQL = 'select max(`order`) from %s where user_id=%%s and rid=%%s and state>=%%s' % pic_cls.Meta.table
-
-        return cls
-    return _
+def pichtm(htm, pic_dic):
+    return PIC_SUB.sub(lambda x: pic2htm(x, pic_dic), htm)
 
 if __name__ == '__main__':
     pass

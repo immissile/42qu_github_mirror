@@ -1,27 +1,34 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from time import time
-from _db import cursor_by_table, McModel, McLimitA, McCache, McTotal
+from _db import cursor_by_table, McModel, McLimitA, McCache
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from feed import feed_entry_new, mc_feed_entry_tuple, feed_entry_rm
 from gid import gid
-from pic import pic_new, pic_save
 from spammer import is_same_post
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 from zkit.time_format import time_title
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from reply import ReplyMixin
+from po_pic import pichtm, pic_seq_dic, mc_htm
 
 PO_LINK = {
     CID_NOTE : '/note/%s',
     CID_WORD : '/word/%s',
 }
 
+mc_htm = McCache('PoHtm.%s')
+
 class Po(McModel, ReplyMixin):
     @property
     def txt(self):
         return txt_get(self.id)
+
+    @property
+    @mc_htm('{self.id}')
+    def htm(self):
+        txt = self.txt
+        return pichtm(txt, pic_seq_dic(self.user_id, self.id))
 
     @property
     def link(self):
@@ -113,25 +120,6 @@ def po_note_new(user_id, name, txt, state):
     if state > STATE_SECRET:
         m.feed_entry_new()
     return m
-
-class PoPic(McModel):
-    pass
-
-def pic_id_list(po_id):
-    return PoPic.where(po_id=po_id).order_by('seq desc').id_list()
-
-def pic_new_id_list(user_id):
-    return PoPic.where(user_id=user_id, po_id=0).order_by('seq desc').id_list()
-
-po_pic_total = McTotal(lambda user_id, po_id: PoPic.where(user_id=user_id, po_id=po_id).count(), 'PoPicTotal.%s')
-
-def can_new_pic(user_id, po_id=0):
-    return po_pic_total(user_id, po_id) < PIC_LIMIT
-#po_pic_seq = McTotal(
-def new_pic_seq(user_id, po_id):
-    c = PoPic.raw_sql('select max(seq) from po_pic where user_id=%s and po_id=%s', user_id, po_id)
-    seq = c.fetchone()[0] or 0
-    return seq + 1
 
 if __name__ == '__main__':
     pass
