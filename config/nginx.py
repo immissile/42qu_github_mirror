@@ -50,7 +50,8 @@ class ConfBase(object):
         return self._config
 
 def load(setting):
-    print config
+    print setting
+    return setting
 
 @render_conf
 class Yup(ConfBase):

@@ -43,15 +43,18 @@ MYSQL_MAIN = 'database_name'
 #SMTP_PASSWORD = "kanrss"
 #SENDER_MAIL = "zuroc586@sina.com"
 
+LOCAL = locals()
+
 def load(setting):
     print "LOADING SETTING FILE : %s.py"%setting
     try:
-        __import__(setting, globals(), locals(), [], -1)
+        mod = __import__(setting, globals(), locals(), [], -1)
     except ImportError, e:
         print "NO SETTING FILE : %s.py"%setting
-
-
-
+    else:
+        for i in dir(mod):
+            if not i.startswith("__"):
+                LOCAL[i] = getattr(mod, i)
 import socket
 import getpass
 for i in (
@@ -59,3 +62,4 @@ for i in (
     'conf_%s' % getpass.getuser()
 ):
     load(i)
+
