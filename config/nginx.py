@@ -50,13 +50,12 @@ class ConfBase(object):
         return self._config
 
 def load(setting):
-    print setting
+    setting = __import__(setting, globals(), locals(), [], -1)
     return setting
 
 @render_conf
 class Yup(ConfBase):
     config_file = "conf_yup"
-
 
 @render_conf
 class Zjd(ConfBase):
