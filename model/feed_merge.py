@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
-
+# -*- coding: utf-8 -*-
 from feed import mc_feed_entry_tuple, MAXINT, feed_entry_cmp_iter,\
 Feed, mc_feed_id_by_for_zsite_follow, mc_feed_id_list_by_zsite_id, feed_id_list_by_zsite_id
 from feed_render import render_feed_entry_list

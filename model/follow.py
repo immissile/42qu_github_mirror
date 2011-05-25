@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, cursor_by_table, McCacheA
 from zsite import Zsite
 from cid import CID_FOLLOW
@@ -83,4 +83,3 @@ def feed_tuple_follow(id):
     if r:
         zsite = Zsite.mc_get(r[0])
         return (zsite.name , zsite.link)
-
