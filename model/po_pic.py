@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
-from _db import cursor_by_table, McModel, McCache, McCacheA, McLimitA, McNum
+from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from pic import pic_new, pic_save
 from cid import CID_PO_PIC
 
