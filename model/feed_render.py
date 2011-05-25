@@ -15,9 +15,9 @@ CID2FEEDFUNC = {
 
 
 CID2FEED_ENTRY = {
-    CID_WORD : "txt",
-    CID_NOTE : "name txt",
-    CID_FOLLOW : "name link",
+    CID_WORD: "txt",
+    CID_NOTE: "name txt",
+    CID_FOLLOW: "name link",
 }
 
 def __init__cid2feed_entry():

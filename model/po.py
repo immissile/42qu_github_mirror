@@ -13,8 +13,8 @@ from reply import ReplyMixin
 from po_pic import pichtm, pic_seq_dic
 
 PO_LINK = {
-    CID_NOTE : '/note/%s',
-    CID_WORD : '/word/%s',
+    CID_NOTE: '/note/%s',
+    CID_WORD: '/word/%s',
 }
 
 mc_htm = McCache('PoHtm.%s')
