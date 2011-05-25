@@ -19,7 +19,7 @@ insert into zpage.zsite (id, name, cid, state)
 select id, name, cid, state from qu.man order by id;
 
 truncate zpage.pic;
-insert into zpage.pic (id, zsite_id, tid)
+insert into zpage.pic (id, user_id, cid)
 select id, man_id, 2 from qu.pic order by id;
 
 truncate zpage.ico;
