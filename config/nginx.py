@@ -18,15 +18,12 @@ class ConfBase(object):
 
     @property
     def pic_path(self):
-        return self.config.FS_PATH
+        return self.config.PIC_PATH
 
     @property
     def fs_host(self):
         return self.config.FS_URL[7:]
 
-    @property
-    def fs_path(self):
-        return self.config.FS_PATH
 
     @property
     def god_port(self):
@@ -41,7 +38,7 @@ class ConfBase(object):
         return host
 
     @property
-    def root(self):
+    def fs_path(self):
         return "/home/%s/zpage/static"%self.__class__.__name__.lower()
 
 def load(setting):
@@ -73,10 +70,10 @@ class Work(ConfBase):
             22001
         ],
     }
-    root = "/home/work/zpage/web/static"
+    fs_path = "/home/work/zpage/web/static"
 
 @render_conf
 class WorkDev(ConfBase):
     config = load("host_dev_nuva")
-    root = "/home/work/zpage/web/static"
+    fs_path = "/home/work/zpage/web/static"
 
