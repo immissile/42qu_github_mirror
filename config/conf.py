@@ -55,8 +55,10 @@ def load(setting):
         for i in dir(mod):
             if not i.startswith("__"):
                 LOCAL[i] = getattr(mod, i)
+
 import socket
 import getpass
+
 for i in (
     'host_%s' % socket.gethostname(),
     'conf_%s' % getpass.getuser()
