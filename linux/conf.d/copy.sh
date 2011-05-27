@@ -1,3 +1,3 @@
-cp 256-jungle.vim /usr/share/vim/vimfiles/
-mkdir -p /usr/share/vim/vimfiles/colors
+cp vimrc /etc/vim/vimrc
+cp vim/* /usr/share/vim/vimfiles/ -R
 cp sudoers /etc/sudoers

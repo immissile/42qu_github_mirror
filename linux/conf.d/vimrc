@@ -1,3 +1,6 @@
+colorscheme 256-jungle
+set backspace=indent,eol,start
+set nocp
 set encoding=utf-8
 set tabstop=4
 set expandtab
@@ -10,9 +13,7 @@ set fileencodings=utf-8,ucs-bom,cp936
 runtime! debian.vim
 syntax on
 filetype plugin on
-set  nocompatible
 set  completeopt=preview 
-colorscheme 256-jungle 
 set mouse=r
 
 map <F12> :call FormartSrc()<CR>
