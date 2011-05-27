@@ -29,9 +29,10 @@ def render(name, host, user, port_list=None):
     o = default.load(
         JsDict(), "host.%s"%host, "user.%s"%user
     )
+    print o.SITE_DOMAIN
     render_conf(
         name,
-        "/home/%s/zpage/static"%name,
+        "/home/%s/zpage/static"%user,
         o
     )
 
@@ -51,8 +52,6 @@ work
 """)
 
 #    render_conf(1)
-
-
 #@render_conf
 #class Work(ConfBase):
 #    config_file = "conf_work"
