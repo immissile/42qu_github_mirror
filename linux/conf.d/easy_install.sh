@@ -1,3 +1,5 @@
+easy_install dbutils
+easy_install pyrex
 svn checkout http://python-libmemcached.googlecode.com/svn/trunk/ python-libmemcached-read-only 
 cd python-libmemcached-read-only 
 python setup.py install
