@@ -5,7 +5,6 @@ from config import DB_CONFIG
 import sys
 import subprocess
 import time
-print DB_CONFIG
 COMM_OPTION = " -h%s -P%s -u%s -p%s "
 def reset_database(key, host, port, name, user, password):
     comm_option = COMM_OPTION%(host, port, user, password)

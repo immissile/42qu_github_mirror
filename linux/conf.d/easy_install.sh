@@ -1,4 +1,6 @@
-easy_install http://python-libmemcached.googlecode.com/files/python-libmemcached-0.40.tar.gz
+svn checkout http://python-libmemcached.googlecode.com/svn/trunk/ python-libmemcached-read-only 
+cd python-libmemcached-read-only 
+python setup.py install
 easy_install hmako
 easy_install mako 
 easy_install cherrypy

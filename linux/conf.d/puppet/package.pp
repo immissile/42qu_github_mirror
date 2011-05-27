@@ -1,6 +1,8 @@
 
 package{
     [
+"dev-python/dbutils",
+"dev-python/pyrex",
 "cython",
 "libmemcached",
 "bsddb3",

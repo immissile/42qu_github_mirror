@@ -7,7 +7,13 @@ from os.path import join
 def prepare(o):
     o.SITE_DOMAIN = '42qu.test'
     o.PORT = 6666
+
+    o.MYSQL_HOST = "127.0.0.1"
+    o.MYSQL_PORT = "3306"
     o.MYSQL_MAIN = 'zpage'
+    o.MYSQL_USER = "root"
+    o.MYSQL_PASSWD = "42qu"
+
     o.PIC_DOMAIN = "p.%s"%o.SITE_DOMAIN
     o.FS_DOMAIN = "s.%s"%o.SITE_DOMAIN
     o.DEBUG = False
@@ -55,7 +61,7 @@ def finish(o):
 
     o.DB_CONFIG = {
         'main': {
-            'master': o.DB_HOST_MAIN,
+            'master': DB_HOST_MAIN,
             'tables': (
                 '*'
             )
@@ -84,7 +90,7 @@ def load(self, *args):
             print "NO CONFIG %s"%name
             return
         for i in name.split(".")[1:]:
-            mod = getattr(mod,i)
+            mod = getattr(mod, i)
         prepare = getattr(mod, "prepare", None)
 
         if prepare:
