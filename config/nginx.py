@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
-from init_env import PREFIX, join
+from _env import PREFIX, join
 from mako.template import Template
 import default
 import socket

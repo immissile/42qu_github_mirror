@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from init_env import PREFIX
+from _env import PREFIX
 
 from zkit.jsdict import JsDict
 import default

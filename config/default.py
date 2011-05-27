@@ -1,5 +1,5 @@
 #coding:utf-8
-import init_env
+import _env
 from hmako.lookup import TemplateLookup
 import sys
 from os.path import join
@@ -30,7 +30,7 @@ def finish(o):
 
     o.SENDER_NAME = o.SITE_DOMAIN
 
-    HTM_PATH = join(init_env.PREFIX, 'htm')
+    HTM_PATH = join(_env.PREFIX, 'htm')
     MAKOLOOKUP = TemplateLookup(
         directories=HTM_PATH,
         module_directory='/tmp/%s'%HTM_PATH.strip('/').replace('/', '.'),
