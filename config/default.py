@@ -8,8 +8,8 @@ def prepare(o):
     o.SITE_DOMAIN = '42qu.test'
     o.PORT = 6666
     o.MYSQL_MAIN = 'zpage'
-    o.PIC_URL = 'http://p.%s'%o.SITE_DOMAIN
-    o.FS_URL = 'http://s.%s'%o.SITE_DOMAIN
+    o.PIC_DOMAIN = "p.%s"%o.SITE_DOMAIN
+    o.FS_DOMAIN = "s.%s"%o.SITE_DOMAIN
     o.DEBUG = False
     return o
 
@@ -18,10 +18,12 @@ def debug(o):
 
 def finish(o):
 
+    o.PIC_PATH = "/mnt/zpage"
     o.GOD_PORT = o.PORT + 10
+    o.PIC_URL = 'http://%s'%o.PIC_DOMAIN
+    o.FS_URL = 'http://%s'%o.FS_DOMAIN
 
     o.SITE_DOMAIN_SUFFIX = '.%s' % o.SITE_DOMAIN
-
     o.SITE_URL = '//%s' % o.SITE_DOMAIN
     o.SITE_HTTP = 'http://%s' % o.SITE_DOMAIN
 
@@ -93,3 +95,5 @@ def load(self, *args):
 
     for _ in (list(reversed(PREPARE))+FINISH):
         _(self)
+    return self
+

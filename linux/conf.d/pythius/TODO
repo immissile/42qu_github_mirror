@@ -1,0 +1,18 @@
+Pythius Things To Do
+====================
+
+Copyright (c) 2001 by Jürgen Hermann <jh@web.de>
+All rights reserved, see LICENSE for details.
+
+$Id: TODO,v 1.6 2001/11/05 22:34:02 jhermann Exp $
+
+-----------------------------------------------------------------------------
+pydent:
+ * --tabsize=x
+ * --remove-trailing-spaces (it does that already anyway, via the tokenizer?)
+ * expand names containing * or ? (*.py, use fnmatch or glob)
+ * --diff mode (dryrun implied!)
+ * hose extra newlines at the end of the file?
+ * statistics (changed ## out of ## files, etc.)
+
+--- EOF ---------------------------------------------------------------------

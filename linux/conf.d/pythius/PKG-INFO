@@ -1,0 +1,16 @@
+Metadata-Version: 1.0
+Name: Pythius
+Version: 1.4
+Summary: Pythius is a set of tools to assess and improve the quality of Python code
+Home-page: http://pythius.sf.net/
+Author: Jürgen Hermann
+Author-email: jh@web.de
+License: UNKNOWN
+Description: 
+        Pythius is a set of tools to assess and improve the quality of Python
+        code. This is commonly done by applying different code metrics. Simple
+        code metrics are the ratio between comments and code lines, module and
+        function size, etc.
+        
+Keywords: python code metrics tool
+Platform: UNKNOWN

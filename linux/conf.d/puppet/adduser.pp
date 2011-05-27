@@ -9,7 +9,7 @@ define adduser($uid,$groups) {
     file {
 	 "/home/$name":
 	   owner   => $uid,
-	   mode    => 750,
+	   mode    => 755,
 	   ensure  => directory;
     }
     file {

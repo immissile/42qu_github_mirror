@@ -1,0 +1,26 @@
+Pythius Installation Instructions
+=================================
+
+Copyright (c) 2001 by Jürgen Hermann <jh@web.de>
+All rights reserved, see LICENSE for details.
+
+$Id: INSTALL,v 1.7 2002/07/08 04:00:02 ftobin Exp $
+
+
+###############
+# QUICK GUIDE #
+###############
+
+For the impatient, here are the minimal steps to install Pythius:
+
+  * Get Python 2.2.1 or higher if you do not already have it. Pythius won't
+    run with older versions.
+
+  * Unpack the distribution archive (when you are reading this, you have
+    probably already done that)
+
+  * Run "python setup.py build"
+
+  * Run "python setup.py install"
+
+Done.

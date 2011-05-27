@@ -1,76 +1,56 @@
 #!/usr/bin/env python
 #coding:utf-8
-from __init__ import PREFIX, join
+from init_env import PREFIX, join
 from mako.template import Template
+import default
+import socket
+from zkit.jsdict import JsDict
+import glob
 
-with open(join(PREFIX, "config/nginx/template.conf")) as template:
+CONFIG_DIR = join(PREFIX, "config/nginx/")
+
+with open(CONFIG_DIR+"template.conf") as template:
     TEMPLATE = Template(template.read())
 
-def render_conf(cls):
-    txt = TEMPLATE.render(this=cls())
-    print cls.__name__, cls().host
-    with open(join(PREFIX, "config/nginx/%s.conf"%cls.__name__.lower()), "w") as w:
+def render_conf(name, fs_path, o, port_list=None):
+    if not port_list:
+        port_list = [o.PORT]
+    txt = TEMPLATE.render(
+        this=o,
+        port_list=port_list,
+        fs_path=fs_path
+    )
+    with open(join(
+            PREFIX, "config/nginx/%s"%name
+        ), "w") as w:
         w.write(txt)
 
-class ConfBase(object):
-    @property
-    def pic_host(self):
-        return self.config.PIC_URL[7:]
+def render(name, host, user, port_list=None):
+    o = default.load(
+        JsDict(), "host.%s"%host, "user.%s"%user
+    )
+    render_conf(
+        name,
+        "/home/%s/zpage/static"%name,
+        o
+    )
 
-    @property
-    def pic_path(self):
-        return self.config.PIC_PATH
+def render_machine(host, name_list):
+    name_list = name_list.strip().split()
+    with open(CONFIG_DIR+"%s.conf"%host, "w") as config:
+        for name in name_list:
+            config_name = "%s_%s.conf"%(host, name)
+            render(config_name, host, name)
+            config.write("include %s;\n"%config_name)
 
-    @property
-    def fs_host(self):
-        return self.config.FS_URL[7:]
+render_machine("krios", """
+zuroc
+zjd
+yup
+work
+""")
 
-
-    @property
-    def god_port(self):
-        return self.config.GOD_PORT
-
-    @property
-    def host(self):
-        config = self.config
-        host = {
-            config.SITE_DOMAIN: [config.PORT, ]
-        }
-        return host
-
-    @property
-    def fs_path(self):
-        return "/home/%s/zpage/static"%self.__class__.__name__.lower()
-
-    @property
-    def config(self):
-        if not hasattr(self, "_config"):
-            config = load(self.config_file)
-            self._config = config
-        return self._config
-
-def load(setting):
-    import conf
-    import config
-    setting = __import__(setting, globals(), locals(), [], -1)
-    for k in vars(setting):
-        if not k.startswith("__"):
-            setattr(conf, k, getattr(setting, k))
-    print conf.SITE_DOMAIN
-    reload(config)
-    return config
-
-@render_conf
-class Yup(ConfBase):
-    config_file = "conf_yup"
-
-@render_conf
-class Zjd(ConfBase):
-    config_file = "conf_zjd"
-
-@render_conf
-class Zuroc(ConfBase):
-    config_file = "conf_zuroc"
+#    render_conf(1)
 
 
 #@render_conf
