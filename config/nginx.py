@@ -36,13 +36,12 @@ def render(name, host, user, port_list=None):
         o
     )
 
+
 def render_machine(host, name_list):
     name_list = name_list.strip().split()
-    with open(CONFIG_DIR+"%s.conf"%host, "w") as config:
-        for name in name_list:
-            config_name = "%s_%s.conf"%(host, name)
-            render(config_name, host, name)
-            config.write("include %s;\n"%config_name)
+    for name in name_list:
+        config_name = "%s/%s.conf"%(host, name)
+        render(config_name, host, name)
 
 render_machine("krios", """
 zuroc
