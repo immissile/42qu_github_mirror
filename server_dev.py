@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 #coding:utf-8
 #import config.dev
-import config.dev
 import config
-reload(config)
+import config.dev
 
 
 from ctrl._application import application
