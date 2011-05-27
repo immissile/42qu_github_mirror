@@ -1,7 +1,10 @@
 
 package{
     [
+"imaging",
 "cython",
+"pyrex",
+"decorator",
 "libmemcached",
 "bsddb3",
 "mlocate",
