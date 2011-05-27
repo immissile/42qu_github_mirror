@@ -14,7 +14,7 @@ def prepare(o):
     o.MYSQL_USER = "root"
     o.MYSQL_PASSWD = "42qu"
 
-    o.MQ_PORT = "11300"
+    o.MQ_PORT = 11300
 
     o.PIC_DOMAIN = "p.%s"%o.SITE_DOMAIN
     o.FS_DOMAIN = "s.%s"%o.SITE_DOMAIN

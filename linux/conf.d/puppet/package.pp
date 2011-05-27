@@ -1,6 +1,7 @@
 
 package{
     [
+"pyyaml",
 "imaging",
 "cython",
 "pyrex",
