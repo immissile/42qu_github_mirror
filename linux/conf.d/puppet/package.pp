@@ -1,6 +1,7 @@
 
 package{
     [
+"dos2unix",
 "paste",
 "pyyaml",
 "imaging",
