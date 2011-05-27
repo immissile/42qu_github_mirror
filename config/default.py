@@ -18,7 +18,7 @@ def debug(o):
 
 def finish(o):
 
-    o.GOD_PORT = o.PORT + 11
+    o.GOD_PORT = o.PORT + 10
 
     o.SITE_DOMAIN_SUFFIX = '.%s' % o.SITE_DOMAIN
 
@@ -58,3 +58,38 @@ def finish(o):
         }
     }
     return o
+
+def load(self, *args):
+    PREPARE = [
+        prepare
+    ]
+    FINISH = [
+        finish
+    ]
+
+    def load(name):
+        try:
+            mod = __import__(
+                name,
+                globals(),
+                locals(),
+                [],
+                -1
+            )
+        except ImportError:
+            print "NO CONFIG %s"%name
+            return
+
+        prepare = getattr(mod,"prepare",None)
+        if prepare:
+            PREPARE.append(prepare)
+
+        finish  = getattr(mod,"finish",None)
+        if finish:
+            FINISH.append(finish)
+
+    for i in args:
+        load(i)
+
+    for _ in (list(reversed(PREPARE))+FINISH):
+        _(self)

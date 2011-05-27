@@ -4,17 +4,15 @@
 #初始化python的查找路径
 #coding:utf-8
 from init_env import PREFIX
-import default
+
 from zkit.jsdict import JsDict
+import default
+import getpass
+import socket
 
-self = JsDict(locals())
-for _ in (
-    default.prepare,
-    default.finish,
-):
-    _(self)
+default.load(
+    JsDict(locals()),
+    "host.%s"%socket.gethostname(),
+    "user.%s"%getpass.getuser(),
+)
 
-del _
-del self
-del default
-del JsDict
