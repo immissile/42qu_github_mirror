@@ -1,0 +1,19 @@
+syntax: glob
+*.elc
+*.pyc
+*~
+*.swp
+*.bak
+.svn
+supervise
+nohup.out
+
+*.htm.py
+*.txt.py
+local_config.py
+my_local_config.py
+__init_file_hash__.py
+.*.js
+.*.css
+.css_hash
+.js_hash
