@@ -1,6 +1,7 @@
 
 package{
     [
+"paste",
 "pyyaml",
 "imaging",
 "cython",
