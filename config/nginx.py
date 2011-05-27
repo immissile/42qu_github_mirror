@@ -9,7 +9,7 @@ import glob
 
 CONFIG_DIR = join(PREFIX, "config/nginx/")
 
-with open(CONFIG_DIR+"template.conf") as template:
+with open(CONFIG_DIR+"../template/nginx.conf") as template:
     TEMPLATE = Template(template.read())
 
 def render_conf(name, fs_path, o, port_list=None):
