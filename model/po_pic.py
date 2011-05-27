@@ -121,7 +121,7 @@ def pic2htm(match, d):
     m = int(match.groups()[0])
     return d.get(m, match.group(0))
 
-def pichtm(htm, pic_dic):
+def pic_htm(htm, pic_dic):
     return PIC_SUB.sub(lambda x: pic2htm(x, pic_dic), htm)
 
 if __name__ == '__main__':
