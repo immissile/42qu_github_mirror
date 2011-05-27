@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
-import config.dev
 import config
-reload(config)
+import config.dev
 
 if __name__ == '__main__':
     from zkit.reloader.reload_server import auto_reload
