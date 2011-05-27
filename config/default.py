@@ -11,6 +11,7 @@ def prepare(o):
     o.PIC_DOMAIN = "p.%s"%o.SITE_DOMAIN
     o.FS_DOMAIN = "s.%s"%o.SITE_DOMAIN
     o.DEBUG = False
+    o.DISABLE_LOCAL_CACHED = False
     o.MEMCACHED_ADDR = ("127.0.0.1:11211", )
     return o
 

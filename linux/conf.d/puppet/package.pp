@@ -1,6 +1,8 @@
 
 package{
     [
+"cython",
+"libmemcached",
 "bsddb3",
 "mlocate",
 "boost",
