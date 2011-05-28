@@ -1,5 +1,5 @@
-from sqlbean.db.query import escape, Query
-from sqlbean.db.connection import get_db_by_table
+from zsql.db.query import escape, Query
+from zsql.db.connection import get_db_by_table
 
 def __ne__(self, other):
     return not (self == other)

@@ -29,6 +29,6 @@ def use_sqlite(*args, **kwds):
     def get_db_by_table(table_name):
         return DATABASE
 
-    from sqlbean.db import connection
+    from zsql.db import connection
     connection.get_db_by_table = get_db_by_table
     return DATABASE

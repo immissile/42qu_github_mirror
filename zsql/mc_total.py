@@ -1,5 +1,5 @@
 #coding:utf-8
-from sqlbean.db.mc_connection import mc
+from zsql.db.mc_connection import mc
 class McTotal(object):
     def __init__(self, get_count, mc_key, timeout=36000):
         self.mc_key = mc_key

@@ -1,5 +1,5 @@
-from sqlbean.db.query import Query
-from sqlbean.model import cache
+from zsql.db.query import Query
+from zsql.model import cache
 
 class Relation(object):
     def __init__(self, model, field=None):

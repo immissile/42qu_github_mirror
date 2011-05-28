@@ -1,10 +1,13 @@
 import MySQLdb
-DATABASE = MySQLdb.connect(
+from DBUtils.PersistentDB import PersistentDB
+persist = PersistentDB(MySQLdb,
+    db='mokodb',
     host="localhost",
     user="root",
     passwd="111111",
-    db="mokodb"
 )
+
+DATABASE = persist.connection()
 
 DATABASE.b_commit = True
 
@@ -13,11 +16,11 @@ def get_db_by_table(table_name):
     return DATABASE
 
 
-from sqlbean.db import connection
+
+from zsql.db import connection
 connection.get_db_by_table = get_db_by_table
 
-
-from sqlbean.shortcut import Model
+from zsql.shortcut import Model
 
 class User(Model):
     class Meta:
@@ -25,4 +28,6 @@ class User(Model):
 
 for i in User.where():
     print i.UserId
+
+
 

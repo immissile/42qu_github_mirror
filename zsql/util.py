@@ -1,13 +1,13 @@
-# sqlbean.util.py
+# zsql.util.py
 
 
 from threading import local as threading_local
 
 # Autumn ORM
-from sqlbean.model import Model
-from sqlbean.db.relations import ForeignKey, OneToMany
-from sqlbean.db.query import Query
-from sqlbean.db.connection import Database
+from zsql.model import Model
+from zsql.db.relations import ForeignKey, OneToMany
+from zsql.db.query import Query
+from zsql.db.connection import Database
 
 
 
@@ -70,7 +70,7 @@ class AutoConn(object):
 # examples of usage:
 #
 # class FooClass(object):
-#     db = sqlbean.util.AutoConn("foo.db")
+#     db = zsql.util.AutoConn("foo.db")
 #
 # _create_sql = "_create_sql = """\
 # DROP TABLE IF EXISTS bar;
@@ -80,7 +80,7 @@ class AutoConn(object):
 #     UNIQUE (value));
 # CREATE INDEX idx_bar0 ON bar (value);"""
 #
-# sqlbean.util.create_table_if_needed(FooClass.db, "bar", _create_sql)
+# zsql.util.create_table_if_needed(FooClass.db, "bar", _create_sql)
 #
 # class Bar(FooClass, Model):
 #    ...standard Autumn class stuff goes here...

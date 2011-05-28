@@ -1,8 +1,8 @@
-from sqlbean.db.use_sqlite import use_sqlite
+from zsql.db.use_sqlite import use_sqlite
 
 database = use_sqlite("test.sqlite")
 
-from sqlbean.shortcut import Model
+from zsql.shortcut import Model
 
 def init_table():
     c = database.cursor()

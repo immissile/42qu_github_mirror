@@ -2,16 +2,16 @@
 
 import _env
 from config import MEMCACHED_ADDR, DISABLE_LOCAL_CACHED
-from sqlbean.db.mc_connection import init_mc
+from zsql.db.mc_connection import init_mc
 
 init_mc(memcached_addr=MEMCACHED_ADDR, disable_local_cached=DISABLE_LOCAL_CACHED)
 
 
 from config import DB_CONFIG
-from sqlbean.db import connection
+from zsql.db import connection
 connection.THREAD_SAFE = False
 
-from sqlbean.db import sqlstore
+from zsql.db import sqlstore
 SQLSTORE = sqlstore.SqlStore(db_config=DB_CONFIG, charset="utf8")
 
 def db_by_table(table):
@@ -28,5 +28,5 @@ def exe_sql(sql, para=(), table="*"):
 
 connection.get_db_by_table = db_by_table
 
-from sqlbean.shortcut import Query, mc, McCacheA, McCacheM, McCache, ForeignKey, OneToMany, Model, McModel, ForeignKey
-from sqlbean.db.mc import McLimit, McLimitA, McLimitM, McNum
+from zsql.shortcut import Query, mc, McCacheA, McCacheM, McCache, ForeignKey, OneToMany, Model, McModel, ForeignKey
+from zsql.db.mc import McLimit, McLimitA, McLimitM, McNum

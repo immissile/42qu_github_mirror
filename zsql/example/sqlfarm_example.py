@@ -1,4 +1,4 @@
-from sqlbean.db.sqlstore import SqlStore
+from zsql.db.sqlstore import SqlStore
 
 DATABASE_CONFIG = {
     "mokodb": {
@@ -14,10 +14,10 @@ def get_db_by_table(table_name):
     return SQLSTORE.get_db_by_table(table_name)
 
 
-from sqlbean.db import connection
+from zsql.db import connection
 connection.get_db_by_table = get_db_by_table
 
-from sqlbean.shortcut import Model
+from zsql.shortcut import Model
 
 class User(Model):
     pass

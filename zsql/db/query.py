@@ -83,7 +83,7 @@ class Query(object):
     '''
 
     def __init__(self, query_type='SELECT *', args=(), conditions={}, model=None, db=None):
-        #from sqlbean.model import Model
+        #from zsql.model import Model
         self.type = query_type
         if args:
             self.sql_conditions_str = [args[0]]
