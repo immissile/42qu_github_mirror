@@ -118,4 +118,3 @@ def load(self, *args):
         _(self)
     print self.SITE_DOMAIN
     return self
-
