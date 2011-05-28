@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo -u work /home/work/zpage/server_god_dev.py 
