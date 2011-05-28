@@ -7,12 +7,12 @@ from zkit.jsdict import JsDict
 import default
 import getpass
 import socket
-
+import config
 def prepare(o):
     o.DEBUG = True
 
 default.load(
-    JsDict(locals()),
+    JsDict(vars(config)),
     "dev",
     "host.%s"%socket.gethostname(),
     "host.%s_dev"%socket.gethostname(),
