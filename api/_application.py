@@ -13,7 +13,6 @@ def main():
         urlmap
     )
 
-    from zweb._middleware import default_middleware
     application = default_middleware(application)
     return application
 
