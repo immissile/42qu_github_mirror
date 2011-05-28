@@ -111,7 +111,7 @@ class ModelBase(type):
        #     if mc_ver:
        #         new_class.Meta.mc_key = "%s@%s:%%s"%(name, mc_ver)
        #     else:
-        new_class.Meta.mc_key = "%s~%s"%name
+        new_class.Meta.mc_key = "%%s~%s"%name
 
         db = new_class.db = get_db_by_table(new_class.Meta.table)
 
