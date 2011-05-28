@@ -15,4 +15,3 @@ default.load(
     "host.%s"%socket.gethostname(),
     "user.%s"%getpass.getuser(),
 )
-
