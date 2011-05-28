@@ -7,7 +7,8 @@ from config import SITE_DOMAIN, SITE_URL
 from model.zsite_link import zsite_by_domain
 import urlparse
 import urllib
-import zweb._handler
+
+from zweb._handler import Base
 
 
 #class Base(zweb._handler.Base):
