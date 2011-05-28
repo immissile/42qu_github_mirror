@@ -38,7 +38,5 @@ def user_new_by_mail(mail, password=None):
         user_password_new(user_id, password)
     return user_id
 
-#mail_id = user_id_by_mail_new(mail, password)
-
 if __name__ == '__main__':
     pass
