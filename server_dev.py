@@ -4,7 +4,6 @@
 import config
 import config.dev
 
-
 from ctrl._application import application
 import sys
 if len(sys.argv) > 1 and sys.argv[1].isdigit():
