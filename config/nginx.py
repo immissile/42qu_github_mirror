@@ -50,6 +50,10 @@ yup
 work
 """)
 
+render_machine("nuva", """
+work
+""")
+
 #    render_conf(1)
 #@render_conf
 #class Work(ConfBase):
