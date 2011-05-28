@@ -8,6 +8,9 @@ import default
 import getpass
 import socket
 
+def prepare(o):
+    o.DEBUG = True
+
 default.load(
     JsDict(locals()),
     "dev",
