@@ -40,7 +40,7 @@ REPLY_LIMIT = 10
 <label for="secret">悄悄话</label>
 <button type="submit">此致 , 敬礼</button>
 </%htm:form>
-%for i in zsite.reply_list(REPLY_LIMIT,0):
+%for i in zsite.reply_list_reversed(REPLY_LIMIT,0):
     ${reply_render(i)}
 %endfor
 %if reply_total > REPLY_LIMIT:
