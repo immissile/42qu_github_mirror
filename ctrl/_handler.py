@@ -20,7 +20,8 @@ class Base(zweb._handler.Base):
             zsite_id = 0
         self.zsite_id = zsite_id
         if zsite is None and host != SITE_DOMAIN:
-            return self.redirect(SITE_URL)
+            self.redirect(SITE_URL)
+        super(Base, self).prepare()
 
     @property
     def _xsrf(self):
@@ -43,7 +44,7 @@ class LoginBase(Base):
                     next_url = self.request.uri
                 url += "?" + urllib.urlencode(dict(next=next_url))
             self.redirect(url)
-            return
+        super(LoginBase, self).prepare()
 
 class XsrfGetBase(LoginBase):
     def prepare(self):

@@ -14,4 +14,5 @@ class Base(zweb._handler.Base):
     def prepare(self):
         if not self.current_user:
             self.redirect(SITE_URL)
+        super(Base, self).prepare()
 

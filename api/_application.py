@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 #coding:utf-8
 
+
 def main():
-    import tornado.wsgi
+    import tornado.ioloop
+    import tornado.web
     from zweb import _urlmap
+
     urlmap = tuple(_urlmap.URLMAP)
-    application = tornado.wsgi.WSGIApplication(
+
+    application = tornado.web.Application(
         urlmap
     )
 

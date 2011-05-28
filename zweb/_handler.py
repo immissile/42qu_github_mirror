@@ -4,6 +4,7 @@
 from zweb._tornado import web
 from config import render
 from model.user_session import user_id_by_session
+from model._db import mc
 from model.zsite import Zsite
 from sqlbean.metamodel import lower_name
 
@@ -47,5 +48,6 @@ class Base(web.RequestHandler):
         if not self._finished:
             self.finish(render(template_name, **kwds))
 
-
-
+    def prepare(self):
+        mc.reset()
+        super(Base, self).prepare()
