@@ -7,4 +7,5 @@ def prepare(o):
     o.MYSQL_PASSWD = "42qu.com"
     o.MYSQL_HOST = "127.0.0.1"
     o.MYSQL_PORT = "3306"
+    o.MQ_PORT = 14712
     o.MEMCACHED_ADDR = ("127.0.0.1:11508", )

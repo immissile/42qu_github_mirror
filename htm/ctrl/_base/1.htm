@@ -16,7 +16,7 @@ NAVURL_DICT = dict(NAVURL)
 <%def name="top_notify()">
 %if current_user:
 %if current_user.state == STATE_APPLY:
-<p>请激活邮箱，或<a href="">点此重发确认邮件</a></p>
+<div style="text-align:center">请验证邮箱 ，<a href="/auth/user_verify/mail">点此重发验证邮件</a></div>
 %endif
 %endif
 </%def>
