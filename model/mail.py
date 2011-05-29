@@ -108,7 +108,8 @@ def rendermail(
     subject, text = render_template(uri, **kwds)
     subject = str(subject)
     text = str(text)
-    sendmail(subject, text, email, name, sender, sender_name)
+    print subject, text
+    #sendmail(subject, text, email, name, sender, sender_name)
 
 from mq import mq_client
 mq_rendermail = mq_client(rendermail)
@@ -118,4 +119,3 @@ if "__main__" == __name__:
     import sys
     #rendermail()
     mq_rendermail("/mail/auth/register.txt", "zsp007@gmail.com", "张沈鹏")
-

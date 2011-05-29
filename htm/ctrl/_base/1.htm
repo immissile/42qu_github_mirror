@@ -1,6 +1,7 @@
 <%!
 from config import SITE_DOMAIN
 from config import SITE_URL
+from model.zsite import STATE_APPLY
 NAVURL = (
     ( '/i' , "账号"),
     ( '/po/word' , "微博"),
@@ -11,6 +12,14 @@ NAVURL_DICT = dict(NAVURL)
 
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%inherit file="_base.htm" />
+
+<%def name="top_notify()">
+%if current_user:
+%if current_user.state == STATE_APPLY:
+<p>请激活邮箱，或<a href="">点此重发确认邮件</a></p>
+%endif
+%endif
+</%def>
 
 <%def name="nav_index(uri)">
 <%
@@ -29,6 +38,8 @@ class="on"\
 <li class="on"><a href="${zsite.link}">${zsite.name}</a></li>\
 %endif
 </%def>
+
+${top_notify()}
 
 <div id="container">
     <div id="header">

@@ -3,6 +3,7 @@
 
 #Zsite
 CID_USER = 1
+CID_MAIL = 2
 
 #Pic
 CID_ICO = 31
