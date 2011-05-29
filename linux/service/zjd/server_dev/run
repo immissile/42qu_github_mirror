@@ -1,2 +1,0 @@
-#!/bin/bash
-sudo -u zjd /home/zjd/zpage/server_dev.py 

@@ -1,2 +1,0 @@
-#!/bin/bash
-sudo -u yup /home/yup/zpage/server_mq_dev.py 
