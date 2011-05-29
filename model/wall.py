@@ -31,7 +31,6 @@ class Wall(McModel, ReplyMixin):
 class WallReply(McModel):
     pass
 
-
 def reply_new(user_id, txt, state=STATE_ACTIVE):
     zsite_id = self.id
     reply = WallReply.get(zsite_id=zsite_id, other_id=other_id)
@@ -39,15 +38,16 @@ def reply_new(user_id, txt, state=STATE_ACTIVE):
     if reply is None:
         wall = Wall(cid=self.cid)
         wall.save()
+        wall_id = wall.id
         reply1 = WallReply(
-            wall_id=wall.id,
+            wall_id=wall_id,
             zsite_id=zsite_id,
             other_id=user_id,
             create_time=now
         )
         reply1.save()
         reply2 = WallReply(
-            wall_id=wall.id,
+            wall_id=wall_id,
             zsite_id=user_id,
             other_id=zsite_id,
             create_time=now
@@ -57,4 +57,11 @@ def reply_new(user_id, txt, state=STATE_ACTIVE):
         pass
     wall.reply_new(current_user_id, txt, state)
 
+@property
+def reply_total(self):
+    return Wall(id=self.id, cid=self.cid).reply_total
+
 Zsite.reply_new = reply_new
+
+Zsite.reply_total = reply_total
+
