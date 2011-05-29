@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo -u yup /home/yup/zpage/server_api_dev.py 

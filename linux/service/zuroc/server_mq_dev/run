@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo -u zuroc /home/zuroc/zpage/server_mq_dev.py 
