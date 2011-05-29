@@ -31,4 +31,3 @@ def user_mail_new(user_id, mail):
 if __name__ == "__main__":
     for i in UserMail.where():
         i.delete()
-#print user_id_by_mail_new("zsp007@gmail.com")

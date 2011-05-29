@@ -1,11 +1,11 @@
-<%!
-from datetime import datetime
-%>
+欢迎注册 ${domain} , 请验证您的邮箱
 
-test
-test
+你好:
 
+${email} 在 ${domain} 申请注册，因此我们发送这封邮件进行确认。
 
-${str(datetime.now())[:10]}
+请在七天内点击下面的链接来验证你的邮箱。 
 
-ttt
+http://${domain}/auth/active/${id}/${ck}/
+
+如果无法点击上面的链接，你可以复制该地址，并粘帖在浏览器的地址栏中访问。

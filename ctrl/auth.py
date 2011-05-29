@@ -5,6 +5,7 @@ import _handler
 from zweb._urlmap import urlmap
 from zkit.txt import EMAIL_VALID
 from cgi import escape
+from model.user_mail import user_id_by_mail
 from model.user_auth import user_password_verify, user_new_by_mail
 from model.user_session import user_session, user_session_rm
 
@@ -42,7 +43,7 @@ class Login(_handler.Base):
             error_password = "请输入密码"
 
         if not any((error_password, error_mail)):
-            user_id = user_new_by_mail(mail, password)
+            user_id = user_id_by_mail(mail) or user_new_by_mail(mail, password)
 
             if user_password_verify(user_id, password):
                 session = user_session(user_id)
