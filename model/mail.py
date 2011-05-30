@@ -23,7 +23,6 @@ def sendmail_imp(
         subject, body, enc='utf-8',
         format='plain'
     ):
-    #print subject
     if not subject:
         return
 
@@ -53,10 +52,6 @@ def sendmail_imp(
     msg['To'] = formataddr((recipient_name, recipient))
 
     smtp.sendmail(sender, recipient, msg.as_string())
-
-
-
-
 
 
 def render_template(uri, **kwds):
@@ -108,7 +103,6 @@ def rendermail(
     subject, text = render_template(uri, **kwds)
     subject = str(subject)
     text = str(text)
-    #print subject, text
     sendmail(subject, text, email, name, sender, sender_name)
 
 from mq import mq_client

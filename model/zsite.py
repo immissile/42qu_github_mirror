@@ -4,15 +4,12 @@ from cid import CID_USER
 from _db import Model, McModel
 from reply import ReplyMixin, STATE_ACTIVE, STATE_SECRET
 
-STATE_BAN = 1
-STATE_DEL = 3
-STATE_TO_VERIFY = STATE_RECALLED = 4
-STATE_APPLY = 5
-STATE_APPLYED = 7
-STATE_ACTIVE = 10
-STATE_VERIFY = 15
-STATE_TODO = 17
-STATE_REAL = 20
+ZSITE_BAN = 1
+ZSITE_NO_MAIL = 5
+ZSITE_APPLY = 9
+ZSITE_SILENT = 13
+ZSITE_ACTIVE = 17
+ZSITE_VERIFY = 21
 
 #ZPAGE_NAME = "主页"
 #
@@ -27,8 +24,8 @@ class Zsite(McModel, ReplyMixin):
 #    pass
 #
 
-def zsite_new(name, cid):
-    zsite = Zsite(cid=cid, name=name, state=STATE_APPLY)
+def zsite_new(name, cid, state):
+    zsite = Zsite(cid=cid, name=name, state=state)
     zsite.save()
 #    page = Zpage(
 #        zsite_id=zsite.id,
@@ -39,7 +36,7 @@ def zsite_new(name, cid):
     return zsite
 
 def zsite_new_user(name):
-    return zsite_new(name, CID_USER)
+    return zsite_new(name, CID_USER, ZSITE_APPLY)
 
 if __name__ == "__main__":
     for i in Zsite.where():
