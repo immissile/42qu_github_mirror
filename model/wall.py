@@ -37,6 +37,10 @@ class Wall(McModel, ReplyMixin):
     def zsite_id_list(self):
         return (self.from_id, self.to_id)
 
+    @property
+    def link(self):
+        return "/wall/txt/%s"%self.id
+
 class WallReply(McModel):
     pass
 

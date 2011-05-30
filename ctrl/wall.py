@@ -7,7 +7,7 @@ from model.reply import STATE_SECRET, STATE_ACTIVE
 from model.wall import Wall
 from model.reply import Reply
 from zkit.page import page_limit_offset
-
+from json import dumps
 
 PAGE_LIMIT = 42
 
@@ -104,4 +104,22 @@ class Txt(_handler.Base):
         self.redirect("/wall/txt/%s"%id)
 
 
+@urlmap("/wall/reply/(\d+)/rm")
+class ReplyRm(_handler.Base):
+    def post(self, id):
+        current_user_id = self.current_user_id
+        r = reply.Reply.mc_get(id)
+        can_rm = r.can_rm(current_user_id)
+        zsite_id_list = wall.zsite_id_list()
 
+        if r:
+            wall = Wall.mc_get(r.rid)
+            if wall:
+                if can_rm is False and (current_user_id in zsite_id_list):
+                    can_rm = True
+
+
+        if can_rm:
+            r.rm()
+
+        self.finish(dumps({'success':can_rm}))
