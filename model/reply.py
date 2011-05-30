@@ -94,7 +94,6 @@ class ReplyMixin(object):
 
     def _reply_list(self, limit, offset, reply_id_list):
         from model.zsite import Zsite
-        print reply_id_list
         r = Reply.mc_get_list(
             reply_id_list(limit, offset)
         )
