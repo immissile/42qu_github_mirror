@@ -21,3 +21,4 @@ def print_urlmap(module):
 
 print_urlmap("ctrl")
 print_urlmap("god")
+print_urlmap("api")
