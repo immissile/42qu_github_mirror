@@ -9,6 +9,7 @@ from model import reply
 from model.zsite import Zsite
 from zkit.jsdict import JsDict
 from model.txt import txt_new
+from json import dumps
 
 @urlmap("/note/(\d+)")
 class Index(_handler.Base):
@@ -30,29 +31,25 @@ class Index(_handler.Base):
         )
 
 
-@urlmap("/note/reply/(\d+)/rm")
+@urlmap("/note/reply/rm/(\d+)")
 class ReplyRm(_handler.XsrfGetBase):
-    def get(self, id):
+    def post(self, id):
         current_user_id = self.current_user_id
         r = reply.Reply.mc_get(id)
         can_rm = r.can_rm(current_user_id)
 
-        link = "/"
         if r:
             po = Po.mc_get(r.rid)
             if po:
                 if can_rm is False and po.can_admin(current_user_id):
                     can_rm = True
 
-                link = po.link
-
         if can_rm:
             r.rm()
 
-        self.redirect(link)
+        self.finish(dumps({'success' : can_rm}))
 
-
-@urlmap("/note/(\d+)/reply")
+@urlmap("/note/reply/(\d+)")
 class Reply(_handler.LoginBase):
     def post(self, id):
         po = Po.mc_get(id)
@@ -63,7 +60,7 @@ class Reply(_handler.LoginBase):
             txt = self.get_argument('txt', '')
             m = po.reply_new(current_user_id, txt, po.state)
             if m:
-                link = "/note/%s#rpy%s"%(id, m)
+                link = "/note/%s#reply%s"%(id, m)
         if link is None:
             link = po.link
         self.redirect(link)
@@ -73,7 +70,7 @@ class Reply(_handler.LoginBase):
         po = Po.mc_get(id)
         self.redirect(po.link)
 
-@urlmap("/note/(\d+)/rm")
+@urlmap("/note/rm/(\d+)")
 class Rm(_handler.XsrfGetBase):
     def get(self, id):
         current_user = self.current_user
@@ -85,7 +82,7 @@ class Rm(_handler.XsrfGetBase):
 
 
 @urlmap("/po/note")
-@urlmap("/note/(\d+)/edit")
+@urlmap("/note/edit/(\d+)")
 class Edit(_handler.LoginBase):
     @staticmethod
     def _can_edit(current_user_id, id):

@@ -4,6 +4,7 @@
 <%!
 from model.state import STATE_SECRET
 from datetime import datetime
+from static import css, js
 %>
 
 <%def name="htm_title()">
@@ -11,9 +12,12 @@ from datetime import datetime
 ${po.name}
 %endif
 </%def>
-
+<%def name="htm_head()">
+<script src="${js.note}"></script>
+</%def>
 <%
 can_admin = po.can_admin(current_user_id)
+po_id = str(po.id)
 %>
 
 
@@ -23,24 +27,24 @@ can_admin = po.can_admin(current_user_id)
 <div>${datetime.fromtimestamp(po.create_time)}</div>
 <div>
     %if can_admin:
-        <a href="${po.link}/edit">编辑</a>
+        <a href="/note/edit/${po.id}">编辑</a>
     %endif
 </div>
     %for reply in po.reply_list():
 <%
 user = reply.user
 %>
-<div id="rpy${reply.id}" style="padding:27px">
+<div id="reply${reply.id}" style="padding:27px">
     <pre>${reply.htm|n}</pre>
     %if can_admin or reply.can_rm(current_user_id):
-        <a href="/note/reply/${reply.id}/rm?${_xsrf}">删除</a> 
+        <a href="javascript:rm(${reply.id});void(0)">删除</a> 
     %endif
     <a href="${user.link}" target="_blank">${user.name}</a> :\
 </div>
     %endfor
 
     %if po.state > STATE_SECRET:
-<%htm:form action="${po.link}/reply">
+<%htm:form action="/note/reply/${po_id}">
 <textarea name="txt"></textarea>
 <div>
 <button type="submit">此致 , 敬礼</button>

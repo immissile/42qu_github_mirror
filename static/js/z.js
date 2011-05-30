@@ -25,6 +25,16 @@ $(function(){
     },0)
 });
 
+
+function _rm(prefix, url){
+    return function(id){ 
+        if(confirm('删除 , 是吗?')){
+            $("#"+prefix+id).fadeOut()
+            $.postJSON(url+id)
+        }
+    }
+}
+
 $.postJSON = function(url, data, callback) {
     data = data||{};
     if ( $.isFunction( data ) ) {

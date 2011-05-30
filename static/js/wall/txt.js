@@ -1,4 +1,1 @@
-function rm(id){
-    $("#reply"+id).fadeOut()
-    $.postJSON("/wall/reply/rm/"+id)
-}
+rm = _rm("reply","/wall/reply/rm/")
