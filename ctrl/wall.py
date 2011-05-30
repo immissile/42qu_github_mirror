@@ -74,6 +74,9 @@ class Txt(_handler.Base):
         wall = Wall.mc_get(id)
 
         zsite_id_list = wall.zsite_id_list()
+        if zsite_id not in self.zsite_id_list:
+            return self.redirect("/")
+
 
         page, limit, offset = page_limit_offset(
             "%s/wall/txt/%s/%%s"%(zsite_link, id),
