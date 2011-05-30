@@ -48,7 +48,6 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     else:
         reply2 = WallReply.get(zsite_id=user_id, from_id=zsite_id)
 
-
     if reply1 is None and reply2 is None:
         wall = Wall(cid=self.cid, from_id=user_id, to_id=zsite_id)
         wall.save()
@@ -66,12 +65,12 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
 
     now = int(time())
 
-    def wall_reply_new(wall_id, zsite_id, from_id, last_reply_id, wall_reply):
+    def wall_reply_new(wall_id, aid, bid, last_reply_id, wall_reply):
         if wall_reply is None:
             wall_reply = WallReply(
                 wall_id=wall_id,
-                zsite_id=zsite_id,
-                from_id=user_id,
+                zsite_id=aid,
+                from_id=bid,
                 last_reply_id=reply_id
             )
         else:
