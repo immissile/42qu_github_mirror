@@ -1,4 +1,5 @@
-#coding:utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import _env
 from hmako.lookup import TemplateLookup
 import sys
@@ -6,6 +7,7 @@ from os.path import join
 
 def prepare(o):
     o.SITE_DOMAIN = '42qu.test'
+    o.SITE_NAME = '42区'
     o.PORT = 6666
 
     o.MYSQL_HOST = "127.0.0.1"

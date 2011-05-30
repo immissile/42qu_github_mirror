@@ -1,6 +1,6 @@
 #coding:utf-8
 from _db import McCache
-from config import render, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SENDER_MAIL, SENDER_NAME, SITE_HTTP
+from config import render, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SENDER_MAIL, SENDER_NAME, SITE_HTTP, SITE_NAME
 
 from email.MIMEText import MIMEText
 from email.Header import Header
@@ -99,6 +99,7 @@ def rendermail(
     kwds['email'] = email
     kwds['sender'] = sender
     kwds['sender_name'] = sender_name
+    kwds['site_name'] = SITE_NAME
     kwds['site_http'] = SITE_HTTP
     subject, text = render_template(uri, **kwds)
     subject = str(subject)
