@@ -16,7 +16,6 @@ VERIFY_TEMPLATE = {
 class UserVerify(Model):
     pass
 
-
 def _user_verify_new(user_id, cid):
     v = UserVerify(user_id=user_id, cid=cid)
     v.create_time = time()

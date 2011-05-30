@@ -5,10 +5,12 @@ import _handler
 from zweb._urlmap import urlmap
 from zkit.txt import EMAIL_VALID, mail2link
 from cgi import escape
-from model.zsite import ZSITE_APPLY
-from model.user_mail import mail_by_user_id, user_id_by_mail
+from model.cid import CID_VERIFY_MAIL
 from model.user_auth import user_password_verify, user_new_by_mail
+from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.user_session import user_session, user_session_rm
+from model.user_verify import user_verify_new, user_verify
+from model.zsite import ZSITE_APPLY
 
 @urlmap('/logout')
 class Logout(_handler.Base):
@@ -65,9 +67,6 @@ class Login(_handler.Base):
             error_password=error_password,
         )
 
-from model.cid import CID_VERIFY_MAIL
-from model.user_verify import user_verify_new
-
 @urlmap('/auth/user_verify/mail')
 class UserVerifyMail(_handler.LoginBase):
     def get(self):
@@ -82,6 +81,17 @@ class UserVerifyMail(_handler.LoginBase):
         else:
             self.redirect('/')
 
-@urlmap('/password/reset/(.*)')
+@urlmap('/auth/verify/(\d+)/(.+)')
+class UserVerify(_handler.Base):
+    def get(self, id, ck):
+        user_id, cid = user_verify(id, ck)
+        if user_id:
+            session = user_session(user_id)
+            self.set_cookie('S', session)
+            self.render(cid=cid)
+        else:
+            self.redirect('/')
+
+@urlmap('/password/reset/(.+)')
 class PasswordReset(_handler.Base):
     pass
