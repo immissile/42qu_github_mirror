@@ -1,6 +1,7 @@
 
 package{
     [
+"ntp",
 "dos2unix",
 "paste",
 "pyyaml",
