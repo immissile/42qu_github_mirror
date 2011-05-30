@@ -3,7 +3,6 @@
 
 #Zsite
 CID_USER = 1
-CID_MAIL = 2
 
 #Pic
 CID_ICO = 31
@@ -15,8 +14,8 @@ CID_NOTE = 62
 CID_QUESTION = 63
 CID_ANSWER = 64
 
-
 #Follow
 CID_FOLLOW = 91
 
-
+#User_verify
+CID_VERIFY_MAIL = 121

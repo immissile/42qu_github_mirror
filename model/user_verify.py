@@ -5,12 +5,12 @@ from os import urandom
 from time import time
 from _db import Model, McModel, McCache, mc, cursor_by_table
 from mail import mq_rendermail
-from cid import CID_MAIL
+from cid import CID_VERIFY_MAIL
 
 TIME_LIMIT = 3600 * 24 * 7
 
 VERIFY_TEMPLATE = {
-    CID_MAIL: '/mail/auth/register.txt',
+    CID_VERIFY_MAIL: '/mail/auth/register.txt',
 }
 
 class UserVerify(Model):
@@ -36,3 +36,4 @@ def user_verify(id, value):
     if v:
         if v.value == value and v.create_time + TIME_LIMIT > time():
             return v.user_id, v.cid
+    return 0, 0
