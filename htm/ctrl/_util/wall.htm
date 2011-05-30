@@ -15,6 +15,8 @@ elif i.user_id == current_user_id:
 %>
 %if secret:
 悄悄说
+%else:
+说
 %endif
 :
 %if can_see:
@@ -46,7 +48,7 @@ else:
 <%
 other = Zsite.mc_get(other_id)
 %>
-@<a href="${other.link}">${other.name}</a>\
+对 <a href="${other.link}">${other.name}</a>\
 %else:
 <a href="${user.link}">${user.name}</a>\
 %endif
