@@ -46,7 +46,7 @@ else:
 <%
 other = Zsite.mc_get(other_id)
 %>
-对 <a href="${other.link}">${other.name}</a>\
+@<a href="${other.link}">${other.name}</a>\
 %else:
 <a href="${user.link}">${user.name}</a>\
 %endif

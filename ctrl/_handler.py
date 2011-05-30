@@ -29,6 +29,8 @@ class Base(zweb._handler.Base):
 
     def render(self, template_name=None, **kwds):
         kwds['_xsrf'] = self._xsrf
+        kwds['zsite_id'] = self.zsite_id
+        kwds['zsite'] = self.zsite
         super(Base, self).render(template_name, **kwds)
 
 class LoginBase(Base):
