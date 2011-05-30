@@ -9,7 +9,7 @@ from model.reply import Reply
 from zkit.page import page_limit_offset
 
 
-PAGE_LIMIT = 42
+PAGE_LIMIT = 2
 
 def post(self):
     zsite = self.zsite
@@ -77,11 +77,11 @@ class Txt(_handler.Base):
 
         page, limit, offset = page_limit_offset(
             "%s/wall/txt/%s/%%s"%(zsite_link,id),
-            zsite.reply_total,
+            wall.reply_total,
             page,
             PAGE_LIMIT
         )
-        
+         
         reply_list = wall.reply_list_reversed(limit, offset)
 
         self.render(
