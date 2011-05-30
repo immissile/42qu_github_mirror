@@ -46,4 +46,3 @@ def user_verify(id, value):
             user.state = ZSITE_STATE_ACTIVE
             user.save()
     return user_id, cid
-        if Zsite.state
