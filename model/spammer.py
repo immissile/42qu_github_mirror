@@ -19,6 +19,8 @@ mc_lastest_hash = McCache("LastestHash:%s")
 def is_same_post(user_id, *args):
     m = md5()
     for i in args:
+        if type(i) is not str:
+            i = str(i)
         m.update(i)
     h = m.digest()
     user_id = str(user_id)

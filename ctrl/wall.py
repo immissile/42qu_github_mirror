@@ -11,7 +11,7 @@ from zkit.page import page_limit_offset
 
 PAGE_LIMIT = 42
 
-def post(self):
+def post_reply(self):
     zsite = self.zsite
     txt = self.get_argument('txt', None)
     if txt:
@@ -30,8 +30,9 @@ class Index(_handler.LoginBase):
         self.redirect(zsite.link)
 
     def post(self):
+        zsite = self.zsite
         link = zsite.link
-        post(self)
+        post_reply(self)
         self.redirect(link)
 
 
@@ -97,7 +98,9 @@ class Txt(_handler.Base):
         zsite_id_list = wall.zsite_id_list()
         current_user_id = self.current_user_id
         if current_user_id in zsite_id_list:
-            post(self)
+            post_reply(self)
+        else:
+            pass
         self.redirect("/wall/txt/%s"%id)
 
 

@@ -5,6 +5,7 @@ from reply import ReplyMixin, STATE_ACTIVE, STATE_SECRET
 from model.zsite import Zsite
 from time import time
 from operator import itemgetter
+from spammer import is_same_post, mc_lastest_hash
 
 """
 CREATE TABLE `wall` (
@@ -41,6 +42,8 @@ class WallReply(McModel):
 
 def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     zsite_id = self.id
+    if is_same_post(user_id, zsite_id, txt, state):
+        return
     is_self = (zsite_id == user_id)
     reply1 = WallReply.get(zsite_id=zsite_id, from_id=user_id)
     if is_self:
