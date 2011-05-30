@@ -10,7 +10,7 @@ from model.user_auth import user_password_verify, user_new_by_mail
 from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.user_session import user_session, user_session_rm
 from model.user_verify import user_verify_new, user_verify
-from model.zsite import ZSITE_APPLY
+from model.zsite import ZSITE_STATE_APPLY
 
 @urlmap('/logout')
 class Logout(_handler.Base):
@@ -72,7 +72,7 @@ class UserVerifyMail(_handler.LoginBase):
     def get(self):
         current_user = self.current_user
         current_user_id = self.current_user_id
-        if current_user.state == ZSITE_APPLY:
+        if current_user.state == ZSITE_STATE_APPLY:
             mail = mail_by_user_id(current_user_id)
             user_verify_new(current_user_id, current_user.name, mail, CID_VERIFY_MAIL)
             link = mail2link(mail)
