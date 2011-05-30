@@ -19,6 +19,7 @@ def zsite_list_by_po_id(po_id):
     ids = zsite_id_list_by_po_id(po_id)
     return Zsite.mc_get_list(ids)
 
+#TODO 日记分类tag实现
 def team_note_new(man_id, zsite_id, cid, title, txt, repaste=None):
     subject_state = NOTE_SUBJECT_STATE_FAV if repaste else NOTE_SUBJECT_STATE_REVIEW
     subject_id = man_note_subject_id_state(man_id, subject_state).id
@@ -100,8 +101,8 @@ def team_note_list(zsite_id, cid, order, offset=0, limit=3):
 
 def _team_note_total_by_cid(cid, title):
     if cid:
-        return McTotal(lambda zsite_id: TeamNote.where(zsite_id=zsite_id, cid=cid).count(), 'TeamNote%sSum.%%s' % title)
-    return McTotal(lambda zsite_id: TeamNote.where(zsite_id=zsite_id).count(), 'TeamNoteAllSum.%s')
+        return McNum(lambda zsite_id: TeamNote.where(zsite_id=zsite_id, cid=cid).count(), 'TeamNote%sSum.%%s' % title)
+    return McNum(lambda zsite_id: TeamNote.where(zsite_id=zsite_id).count(), 'TeamNoteAllSum.%s')
 
 TEAM_NOTE_TOTAL_DIC = dict((k, _team_note_total_by_cid(k, v)) for k, v in CID_TITLE_TUPLE)
 

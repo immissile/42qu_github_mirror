@@ -66,4 +66,3 @@ class XsrfGetBase(LoginBase):
     def prepare(self):
         super(XsrfGetBase, self).prepare()
         self.check_xsrf_cookie()
-
