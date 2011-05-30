@@ -90,5 +90,6 @@ class Txt(_handler.Base):
             page = page
         )
 
-    def post(self):
+    @_handler.login
+    def post(self, id):
         pass
