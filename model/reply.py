@@ -3,7 +3,7 @@
 from gid import gid
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from txt import txt_new
-from spammer import is_spammer, mc_lastest_hash 
+from spammer import is_same_post, is_spammer, mc_lastest_hash 
 from time import time
 from txt import txt_bind
 from zkit.txt2htm import txt_withlink
@@ -25,10 +25,10 @@ class ReplyMixin(object):
 
     def reply_new(self, user_id, txt, state=STATE_ACTIVE):
         txt = txt.rstrip()
-        if not txt or is_spammer(user_id):
-            return
         cid = self.cid
         rid = self.id
+        if not txt or is_spammer(user_id) or is_same_post(cid, rid, user_id, txt, state):
+            return
 
         id = gid()
         txt_new(id, txt)
