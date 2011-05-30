@@ -27,7 +27,7 @@ def prepare(o):
     o.MEMCACHED_ADDR = ("127.0.0.1:11211", )
 
     o.SMTP = "smtp.sina.com.cn"
-    o.SMTP_USERNAME = "zuroc"
+    o.SMTP_USERNAME = "zuroc586"
     o.SMTP_PASSWORD = "kanrss"
     o.SENDER_MAIL = "zuroc586@sina.com"
 

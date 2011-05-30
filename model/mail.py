@@ -113,4 +113,7 @@ if "__main__" == __name__:
     #sendmail("122", "2345", "zsp007@gmail.com")
     import sys
     #rendermail()
-    mq_rendermail("/mail/auth/register.txt", "zsp007@gmail.com", "张沈鹏")
+    rendermail(
+        "/mail/auth/register.txt", "zsp007@gmail.com", "张沈鹏",
+        id="1", ck="2"
+    )

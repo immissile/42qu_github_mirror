@@ -9,3 +9,7 @@ def prepare(o):
     o.MYSQL_PORT = "3306"
     o.MQ_PORT = 14712
     o.MEMCACHED_ADDR = ("127.0.0.1:11508", )
+    o.SMTP = "127.0.0.1"
+    o.SMTP_USERNAME = ""
+    o.SMTP_PASSWORD = ""
+    o.SENDER_MAIL = "42qu@42qu.com"
