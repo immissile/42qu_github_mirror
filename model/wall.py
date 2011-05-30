@@ -41,7 +41,6 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     else:
         reply2 = WallReply.get(zsite_id=user_id, from_id=zsite_id)
 
-    now = int(time())
 
     if reply1 is None and reply2 is None:
         wall = Wall(cid=self.cid)
@@ -52,40 +51,39 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
         elif reply2:
             reply = reply2
         wall = Wall.mc_get(reply.wall_id)
-    
+
     wall_id = wall.id
     reply_id = wall.reply_new(user_id, txt, state)
     if not reply_id:
         return
 
-    if reply1 is None: 
-        reply1 = WallReply(
-            wall_id=wall_id,
-            zsite_id=zsite_id,
-            from_id=user_id,
-            last_reply_id=reply_id
-        )
-    else:
-        reply1.last_reply_id = reply_id
-    reply1.update_time = now 
-    reply1.save()
+    now = int(time())
 
-    if not is_self:
-        if reply2 is None:
-            reply2 = WallReply(
+    def wall_reply_new(wall_id, zsite_id, from_id, last_reply_id, wall_reply):
+        if wall_reply is None:
+            wall_reply = WallReply(
                 wall_id=wall_id,
-                zsite_id=user_id,
-                from_id=zsite_id,
-                create_time=now,
+                zsite_id=zsite_id,
+                from_id=user_id,
                 last_reply_id=reply_id
             )
         else:
-            reply2.last_reply_id = reply_id
-        reply2.update_time = now
-        reply2.save()
+            wall_reply.reply_count += 1
+            wall_reply.last_reply_id = reply_id
+        wall_reply.update_time = now
+        wall_reply.save()
+
+
+    wall_reply_new(wall_id, zsite_id, user_id, reply_id, reply1)
+    if not is_self:
+        wall_reply_new(wall_id, user_id, zsite_id, reply_id, reply2)
+
+
+
+
 
 def reply_list_id_reversed(self, limit=None, offset=None):
-    id_list = WallReply.where(zsite_id=self.id).where("last_reply_id>0").order_by("update_time desc").id_list(limit,offset)
+    id_list = WallReply.where(zsite_id=self.id).where("last_reply_id>0").order_by("update_time desc").id_list(limit, offset, "last_reply_id")
     return id_list
 
 def reply_list_reversed(self, limit=None, offset=None):
