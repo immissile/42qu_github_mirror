@@ -6,6 +6,8 @@ import default
 import socket
 from zkit.jsdict import JsDict
 import glob
+from os import makedirs
+from os.path import exists, dirname
 
 CONFIG_DIR = join(PREFIX, "config/nginx/")
 
@@ -20,9 +22,14 @@ def render_conf(name, fs_path, o, port_list=None):
         port_list=port_list,
         fs_path=fs_path
     )
-    with open(join(
+    path = join(
             PREFIX, "config/nginx/%s"%name
-        ), "w") as w:
+        )
+    dirpath = dirname(path)
+    if not exists(dirpath):
+        makedirs(dirpath)
+
+    with open(path, "w") as w:
         w.write(txt)
 
 def render(name, host, user, port_list=None):
