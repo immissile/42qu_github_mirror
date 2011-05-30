@@ -55,6 +55,7 @@ class ReplyMixin(object):
         r = cursor.fetchone()
         return r[0]
 
+
     def _reply_id_list(self, limit, offset, order):
         cursor = self.reply_cursor
         cid = self.cid

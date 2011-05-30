@@ -40,6 +40,34 @@ class Wall(McModel, ReplyMixin):
     @property
     def link(self):
         return "/wall/txt/%s"%self.id
+   
+
+     
+    def reply_rm(self, reply):
+        reply.rm()
+        id = self.id 
+        reply_cursor = self.reply_cursor
+        reply_cursor.execute(
+"select id from reply where rid=%s and cid=%s and state>=%s and (user_id=%s or user_id=%s) order by id desc limit 1",
+            (
+                id,
+                self.cid,
+                STATE_SECRET,
+                self.from_id,
+                self.to_id
+            )
+        )
+        r = reply_cursor.fetchone()
+        if r:
+            last_reply_id = r[0]
+        else:
+            last_reply_id = 0
+        for i in WallReply.where(wall_id=id):
+            i.last_reply_id = last_reply_id
+            i.save()
+            mc_reply_id_list.delete(i.zsite_id)
+
+
 
 class WallReply(McModel):
     pass
@@ -107,6 +135,8 @@ def reply_list_reversed(self, limit=None, offset=None):
 @property
 def reply_total(self):
     return Wall(id=self.id, cid=self.cid).reply_total
+
+
 
 Zsite.reply_new = reply_new
 Zsite.reply_total = reply_total

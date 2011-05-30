@@ -111,8 +111,8 @@ class ReplyRm(_handler.Base):
         r = Reply.mc_get(id)
         can_rm = r.can_rm(current_user_id)
 
+        wall = Wall.mc_get(r.rid)
         if r:
-            wall = Wall.mc_get(r.rid)
             zsite_id_list = wall.zsite_id_list()
             if wall:
                 if can_rm is False and (current_user_id in zsite_id_list):
@@ -120,6 +120,5 @@ class ReplyRm(_handler.Base):
 
 
         if can_rm:
-            r.rm()
-
+            wall.reply_rm(r)
         self.finish(dumps({'success':can_rm}))
