@@ -79,9 +79,9 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
         wall_reply_new(wall_id, user_id, zsite_id, reply_id, reply2)
 
 
-mc_reply_id_list = McLimitA("ReplyIdListReversed:%s", 512)
+mc_reply_id_list = McLimitA("WallReplyIdListReversed:%s", 512)
 
-@mc_reply_id_list("{self.id}_{self.cid}")
+@mc_reply_id_list("{self.id}")
 def reply_list_id_reversed(self, limit=None, offset=None):
     id_list = WallReply.where(zsite_id=self.id).where("last_reply_id>0").order_by("update_time desc").id_list(limit, offset, "last_reply_id")
     return id_list
