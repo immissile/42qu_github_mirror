@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from cid import CID_USER
 from _db import Model, McModel
-from reply import ReplyMixin, STATE_ACTIVE, STATE_SECRET
 
 STATE_BAN = 1
 STATE_DEL = 3
@@ -19,7 +18,7 @@ STATE_REAL = 20
 #ZPAGE_STATE_INDEX = 10
 
 
-class Zsite(McModel, ReplyMixin):
+class Zsite(McModel):
     pass
 
 #

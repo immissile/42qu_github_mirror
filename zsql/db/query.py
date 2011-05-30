@@ -289,8 +289,8 @@ class Query(object):
         #print "values:", values
         return cursor
 
-    def id_list(self, limit=None, offset=None):
-        self.type = "SELECT id"
+    def id_list(self, limit=None, offset=None, type="id"):
+        self.type = "SELECT %s"%type
         self.limit = _limit = []
         if limit is not None:
             if offset is not None:
