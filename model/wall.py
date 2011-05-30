@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#last_!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel
 from reply import ReplyMixin, STATE_ACTIVE, STATE_SECRET
-from model import Zsite
+from model.zsite import Zsite
 from time import time
 """
 CREATE TABLE `wall` (
@@ -11,57 +11,95 @@ CREATE TABLE `wall` (
   PRIMARY KEY (`id`),
 )
 
-CREATE TABLE `wall_reply` (
-  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  `wall_id` INTEGER UNSIGNED NOT NULL,
-  `zsite_id` INTEGER UNSIGNED NOT NULL,
-  `other_id` INTEGER UNSIGNED NOT NULL,
-  `reply_count` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-  `last_reply_id` INTEGER UNSIGNED NOT NULL 0,
-  `create_time` INTEGER UNSIGNED NOT NULL,
-  INDEX `zsite_id`(`zsite_id`, `last_reply_id`, `create_time`),
-  UNIQUE INDEX `zw`(`zsite_id`, `wall_id`)
-)
+DROP TABLE IF EXISTS `zpage`.`wall_reply`;
+CREATE TABLE  `zpage`.`wall_reply` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `wall_id` int(10) unsigned NOT NULL,
+  `zsite_id` int(10) unsigned NOT NULL,
+  `from_id` int(10) unsigned NOT NULL,
+  `reply_count` int(10) unsigned NOT NULL default '1',
+  `last_reply_id` int(10) unsigned NOT NULL default '0',
+  `update_time` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `Index_3` (`zsite_id`,`from_id`),
+  KEY `zsite_id` (`zsite_id`,`last_reply_id`,`update_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
 """
 
 class Wall(McModel, ReplyMixin):
     pass
 
-
 class WallReply(McModel):
     pass
 
-def reply_new(user_id, txt, state=STATE_ACTIVE):
+def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     zsite_id = self.id
-    reply = WallReply.get(zsite_id=zsite_id, other_id=other_id)
+    is_self = (zsite_id == user_id)
+    reply1 = WallReply.get(zsite_id=zsite_id, from_id=user_id)
+    if is_self:
+        reply2 = reply1
+    else:
+        reply2 = WallReply.get(zsite_id=user_id, from_id=zsite_id)
+
     now = int(time())
-    if reply is None:
+
+    if reply1 is None and reply2 is None:
         wall = Wall(cid=self.cid)
         wall.save()
-        wall_id = wall.id
+    else:
+        if reply1:
+            reply = reply1
+        elif reply2:
+            reply = reply2
+        wall = Wall.mc_get(reply.wall_id)
+    
+    wall_id = wall.id
+    reply_id = wall.reply_new(user_id, txt, state)
+    if not reply_id:
+        return
+
+    if reply1 is None: 
         reply1 = WallReply(
             wall_id=wall_id,
             zsite_id=zsite_id,
-            other_id=user_id,
-            create_time=now
+            from_id=user_id,
+            last_reply_id=reply_id
         )
-        reply1.save()
-        reply2 = WallReply(
-            wall_id=wall_id,
-            zsite_id=user_id,
-            other_id=zsite_id,
-            create_time=now
-        )
-        reply2.save()
     else:
-        pass
-    wall.reply_new(current_user_id, txt, state)
+        reply1.last_reply_id = reply_id
+    reply1.update_time = now 
+    reply1.save()
+
+    if not is_self:
+        if reply2 is None:
+            reply2 = WallReply(
+                wall_id=wall_id,
+                zsite_id=user_id,
+                from_id=zsite_id,
+                create_time=now,
+                last_reply_id=reply_id
+            )
+        else:
+            reply2.last_reply_id = reply_id
+        reply2.update_time = now
+        reply2.save()
+
+def reply_list_id_reversed(self, limit=None, offset=None):
+    id_list = WallReply.where(zsite_id=self.id).where("last_reply_id>0").order_by("update_time desc").id_list(limit,offset)
+    return id_list
+
+def reply_list_reversed(self, limit=None, offset=None):
+    return Wall(id=self.id, cid=self.cid)._reply_list(
+        limit, offset, self.reply_list_id_reversed
+    )
 
 @property
 def reply_total(self):
     return Wall(id=self.id, cid=self.cid).reply_total
 
 Zsite.reply_new = reply_new
-
 Zsite.reply_total = reply_total
+Zsite.reply_list_id_reversed = reply_list_id_reversed
+Zsite.reply_list_reversed = reply_list_reversed
+
 
