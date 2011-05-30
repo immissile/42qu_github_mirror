@@ -3,26 +3,27 @@
 
 import _handler
 from zweb._urlmap import urlmap
-from zkit.txt import EMAIL_VALID
+from zkit.txt import EMAIL_VALID, mail2link
 from cgi import escape
-from model.user_mail import user_id_by_mail
+from model.zsite import ZSITE_APPLY
+from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.user_auth import user_password_verify, user_new_by_mail
 from model.user_session import user_session, user_session_rm
 
-@urlmap("/logout")
+@urlmap('/logout')
 class Logout(_handler.Base):
     def get(self):
-        self.clear_cookie("S")
+        self.clear_cookie('S')
         current_user = self.current_user
         if current_user:
             user_session_rm(current_user.id)
-        self.redirect("/")
+        self.redirect('/')
 
-@urlmap("/login")
+@urlmap('/login')
 class Login(_handler.Base):
     def get(self):
         if self.current_user:
-            return self.redirect("/")
+            return self.redirect('/')
         self.render()
 
     def post(self):
@@ -33,32 +34,54 @@ class Login(_handler.Base):
         error_password = None
 
         if mail:
-            mail = mail.strip().lower()
+            mail = mail.lower()
         if not mail:
-            error_mail = "请输入邮箱"
+            error_mail = '请输入邮箱'
         elif not EMAIL_VALID.match(mail):
-            error_mail = "邮箱格式有误"
+            error_mail = '邮箱格式有误'
 
         if not password:
-            error_password = "请输入密码"
+            error_password = '请输入密码'
 
         if not any((error_password, error_mail)):
-            user_id = user_id_by_mail(mail) or user_new_by_mail(mail, password)
-
-            if user_password_verify(user_id, password):
-                session = user_session(user_id)
-                self.set_cookie("S", session)
-                self.redirect(self.get_argument('next', "/"))
+            user_id = user_id_by_mail(mail)
+            if user_id:
+                if user_password_verify(user_id, password):
+                    session = user_session(user_id)
+                    self.set_cookie('S', session)
+                    self.redirect(self.get_argument('next', '/'))
+                else:
+                    error_password = '密码有误。忘记密码了？<a href="/password/reset/%s">点此找回</a>' % escape(mail)
             else:
-                error_password = """密码有误。 忘记密码了？<a href="/password/reset/%s">点此找回</a>"""%escape(mail)
+                user_id = user_new_by_mail(mail, password)
+                session = user_session(user_id)
+                self.set_cookie('S', session)
+                self.redirect('/auth/user_verify/mail')
 
         self.render(
             mail=mail,
             password=password,
             error_mail=error_mail,
-            error_password=error_password
+            error_password=error_password,
         )
 
-@urlmap("/password/reset/(.*)")
+from model.cid import CID_VERIFY_MAIL
+from model.user_verify import user_verify_new
+
+@urlmap('/auth/user_verify/mail')
+class UserVerifyMail(_handler.LoginBase):
+    def get(self):
+        if current_user.state == ZSITE_APPLY:
+            mail = mail_by_user_id(current_user_id)
+            user_verify_new(current_user_id, current_user.name, mail, CID_VERIFY_MAIL)
+            link = mail2link(mail)
+            self.render(
+                mail=mail,
+                link=link,
+            )
+        else:
+            self.redirect('/')
+
+@urlmap('/password/reset/(.*)')
 class PasswordReset(_handler.Base):
     pass

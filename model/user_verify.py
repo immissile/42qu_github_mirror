@@ -18,7 +18,7 @@ class UserVerify(Model):
 
 
 def _user_verify_new(user_id, cid):
-    v = UserVerify.get_or_create(user_id=user_id, cid=cid)
+    v = UserVerify(user_id=user_id, cid=cid)
     v.create_time = time()
     value = urlsafe_b64encode(urandom(12))[:12]
     v.value = value
