@@ -1,10 +1,7 @@
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%def name="info_box()">
-<div id="logo"><a href="/" title="Home"></a></div>
-</%def>
 %if link:
-<p>请认证邮箱：${link|n}</p>
+<p>验证邮件已发送 , 请到 ${link|n} 查收</p>
 %else:
-<p>您的注册邮箱是${mail}，请验证邮箱后发言</p>
+<p>验证邮件已发送到 ${mail}，请激活账号后再发言</p>
 %endif
