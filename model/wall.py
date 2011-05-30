@@ -1,6 +1,6 @@
-#last_!/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McLimitA
+from _db import Model, McModel, McCacheA, McLimitA
 from reply import ReplyMixin, STATE_ACTIVE, STATE_SECRET
 from model.zsite import Zsite
 from time import time
@@ -9,12 +9,15 @@ from operator import itemgetter
 """
 CREATE TABLE `wall` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  `cid` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cid` TINYINT UNSIGNED NOT NULL ,
+  `from_id` INTEGER UNSIGNED NOT NULL, 
+  `to_id` INTEGER UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`),
+  KEY `from_id` (`from_id`),
+  KEY `to_id` (`to_id)
 )
 
-DROP TABLE IF EXISTS `zpage`.`wall_reply`;
-CREATE TABLE  `zpage`.`wall_reply` (
+CREATE TABLE  `wall_reply` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `wall_id` int(10) unsigned NOT NULL,
   `zsite_id` int(10) unsigned NOT NULL,
@@ -26,9 +29,9 @@ CREATE TABLE  `zpage`.`wall_reply` (
   KEY `zsite_id` (`zsite_id`,`last_reply_id`,`update_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 """
-
 class Wall(McModel, ReplyMixin):
-    pass
+    def zsite_id_list(self):
+        return (self.from_id, self.to_id)
 
 class WallReply(McModel):
     pass
@@ -44,7 +47,7 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
 
 
     if reply1 is None and reply2 is None:
-        wall = Wall(cid=self.cid)
+        wall = Wall(cid=self.cid, from_id=user_id, to_id=zsite_id)
         wall.save()
     else:
         if reply1:
