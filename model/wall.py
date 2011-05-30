@@ -1,9 +1,11 @@
 #last_!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel
+from _db import Model, McModel, McLimitA
 from reply import ReplyMixin, STATE_ACTIVE, STATE_SECRET
 from model.zsite import Zsite
 from time import time
+from operator import itemgetter
+
 """
 CREATE TABLE `wall` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -17,7 +19,6 @@ CREATE TABLE  `zpage`.`wall_reply` (
   `wall_id` int(10) unsigned NOT NULL,
   `zsite_id` int(10) unsigned NOT NULL,
   `from_id` int(10) unsigned NOT NULL,
-  `reply_count` int(10) unsigned NOT NULL default '1',
   `last_reply_id` int(10) unsigned NOT NULL default '0',
   `update_time` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
@@ -68,7 +69,6 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
                 last_reply_id=reply_id
             )
         else:
-            wall_reply.reply_count += 1
             wall_reply.last_reply_id = reply_id
         wall_reply.update_time = now
         wall_reply.save()
@@ -79,9 +79,9 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
         wall_reply_new(wall_id, user_id, zsite_id, reply_id, reply2)
 
 
+mc_reply_id_list = McLimitA("ReplyIdListReversed:%s", 512)
 
-
-
+@mc_reply_id_list("{self.id}_{self.cid}")
 def reply_list_id_reversed(self, limit=None, offset=None):
     id_list = WallReply.where(zsite_id=self.id).where("last_reply_id>0").order_by("update_time desc").id_list(limit, offset, "last_reply_id")
     return id_list
