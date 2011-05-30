@@ -1,5 +1,6 @@
 <%!
 from model.reply import STATE_SECRET, STATE_ACTIVE
+from zkit.time_format import friendly_time
 %>
 
 <%def name="reply_render(i)">
@@ -22,6 +23,10 @@ self_say = i.user==current_user
 %else:
 <span style="color:#999">省略 ${len(i.txt.decode('utf-8','ignore'))} 字 ...</span>
 %endif
+<div>
+${friendly_time(i.create_time)}
+<a target="_blank" href="/wall/txt/${i.id}">回复</a>
+</div>
 </div>
 
 </%def>

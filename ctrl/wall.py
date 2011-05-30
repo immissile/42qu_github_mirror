@@ -5,13 +5,13 @@ import _handler
 from zweb._urlmap import urlmap
 from model.reply import STATE_SECRET, STATE_ACTIVE
 from zkit.page import page_limit_offset
-import model.wall
+from model.wall import Wall
 
 @urlmap("/wall")
 class Wall(_handler.LoginBase):
     def get(self):
         zsite = self.zsite
-        return self.redirect(zsite.link)
+        self.redirect(zsite.link)
 
     def post(self):
         zsite = self.zsite
@@ -25,7 +25,7 @@ class Wall(_handler.LoginBase):
                 STATE_SECRET if secret else STATE_ACTIVE
             )
         link = zsite.link
-        return self.redirect(link)
+        self.redirect(link)
 
 PAGE_LIMIT = 42
 
@@ -42,7 +42,27 @@ class Page(_handler.LoginBase):
         )
         reply_list = zsite.reply_list_reversed(limit, offset)
 
-        return self.render(
+        self.render(
             reply_list=reply_list,
             page=page
         )
+
+@urlmap("/wall/txt/(\d+)")
+@urlmap("/wall/txt/(\d+)/(\d+)")
+class Txt(_handler.LoginBase):
+    def get(self, id, page=1):
+        zsite = self.zsite
+        zsite_link = zsite.link
+        page, limit, offset = page_limit_offset(
+            "%s/wall/%%s"%zsite_link,
+            zsite.reply_total,
+            page,
+            PAGE_LIMIT
+        )
+        wall = Wall.mc_get(id)
+        self.render(
+            wall = wall
+        )
+
+
+

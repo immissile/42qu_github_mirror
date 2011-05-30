@@ -1,0 +1,3 @@
+python static/merge.py
+ps x -u $USER|ack server_zpage|ack python|awk  '{print $1}'|xargs kill
+./server_zpage_dev.py
