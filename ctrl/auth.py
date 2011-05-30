@@ -84,7 +84,7 @@ class UserVerifyMail(_handler.LoginBase):
         else:
             self.redirect('/')
 
-@urlmap('/auth/user_verify/(\d+)/(.+)')
+@urlmap('/auth/verify/(\d+)/(.+)')
 class UserVerify(_handler.Base):
     def get(self, id, ck):
         user_id, cid = user_verify(id, ck)
