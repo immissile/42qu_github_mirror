@@ -1,6 +1,9 @@
 
 package{
     [
+"trac-mercurial",
+"dstat",
+"ntp",
 "dos2unix",
 "paste",
 "pyyaml",

@@ -29,10 +29,10 @@ ${wall_row()}
 
 <%def name="wall_row()">
 <%
-reply_total = zsite.reply_total
 REPLY_LIMIT = 10
+reply_total = zsite.reply_total
 %>
-<div>${reply_total}留言</div>
+<div>留言</div>
 ${reply_textarea('/wall')}
 %for i in zsite.reply_list_reversed(REPLY_LIMIT,0):
     ${reply_render(i)}

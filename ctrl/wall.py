@@ -11,13 +11,12 @@ from json import dumps
 
 PAGE_LIMIT = 42
 
-def post_reply(self):
-    zsite = self.zsite
+def post_reply(self, reply_new=None):
     txt = self.get_argument('txt', None)
     if txt:
         secret = self.get_argument('secret', None)
         current_user = self.current_user
-        reply = zsite.reply_new(
+        reply = reply_new(
             current_user.id,
             txt,
             STATE_SECRET if secret else STATE_ACTIVE
@@ -32,7 +31,7 @@ class Index(_handler.LoginBase):
     def post(self):
         zsite = self.zsite
         link = zsite.link
-        post_reply(self)
+        post_reply(self, zsite.reply_new)
         self.redirect(link)
 
 
@@ -61,8 +60,8 @@ class Reply2Txt(_handler.Base):
         reply = Reply.mc_get(id)
         if reply:
             link = "/wall/txt/%s"%reply.rid
-        
-        self.redirect(link,True)
+
+        self.redirect(link, True)
 
 @urlmap("/wall/txt/(\d+)")
 @urlmap("/wall/txt/(\d+)/(\d+)")
@@ -75,32 +74,37 @@ class Txt(_handler.Base):
         wall = Wall.mc_get(id)
 
         zsite_id_list = wall.zsite_id_list()
+        if zsite_id not in self.zsite_id_list:
+            return self.redirect("/")
+
 
         page, limit, offset = page_limit_offset(
-            "%s/wall/txt/%s/%%s"%(zsite_link,id),
+            "%s/wall/txt/%s/%%s"%(zsite_link, id),
             wall.reply_total,
             page,
             PAGE_LIMIT
         )
-         
+
         reply_list = wall.reply_list_reversed(limit, offset)
 
         self.render(
-            wall = wall,
-            zsite_id_list = zsite_id_list,
-            reply_list = reply_list,
-            page = page
+            wall=wall,
+            zsite_id_list=zsite_id_list,
+            reply_list=reply_list,
+            page=page
         )
 
     @_handler.login
     def post(self, id):
+        zsite = self.zsite
         wall = Wall.mc_get(id)
         zsite_id_list = wall.zsite_id_list()
         current_user_id = self.current_user_id
         if current_user_id in zsite_id_list:
-            post_reply(self)
+            reply_new = zsite.reply_new
         else:
-            pass
+            reply_new = wall.reply_new
+        post_reply(self, reply_new)
         self.redirect("/wall/txt/%s"%id)
 
 

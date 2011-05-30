@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCacheA, McLimitA
+from _db import Model, McModel, McCacheA, McLimitA, McCache
 from reply import ReplyMixin, STATE_ACTIVE, STATE_SECRET
 from model.zsite import Zsite
 from time import time
 from operator import itemgetter
-from spammer import is_same_post, mc_lastest_hash
 
 """
 CREATE TABLE `wall` (
@@ -32,6 +31,7 @@ CREATE TABLE  `wall_reply` (
 """
 
 mc_reply_id_list = McLimitA("WallReplyIdListReversed:%s", 512)
+mc_reply_total = McCache("Zsite.reply_total:%s")
 
 class Wall(McModel, ReplyMixin):
     def zsite_id_list(self):
@@ -40,8 +40,6 @@ class Wall(McModel, ReplyMixin):
     @property
     def link(self):
         return "/wall/txt/%s"%self.id
-   
-
      
     def reply_rm(self, reply):
         reply.rm()
@@ -65,7 +63,7 @@ class Wall(McModel, ReplyMixin):
         for i in WallReply.where(wall_id=id):
             i.last_reply_id = last_reply_id
             i.save()
-            mc_reply_id_list.delete(i.zsite_id)
+            mc_flush(i.zsite_id)
 
 
 
@@ -74,8 +72,6 @@ class WallReply(McModel):
 
 def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     zsite_id = self.id
-    if is_same_post(user_id, zsite_id, txt, state):
-        return
     is_self = (zsite_id == user_id)
     reply1 = WallReply.get(zsite_id=zsite_id, from_id=user_id)
     if is_self:
@@ -117,9 +113,12 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     wall_reply_new(wall_id, zsite_id, user_id, reply_id, reply1)
     if not is_self:
         wall_reply_new(wall_id, user_id, zsite_id, reply_id, reply2)
-    mc_reply_id_list.delete(user_id)
-    mc_reply_id_list.delete(zsite_id)
+    mc_flush(user_id)
+    mc_flush(zsite_id)
 
+def mc_flush(zsite_id):
+    mc_reply_id_list.delete(zsite_id)
+    mc_reply_total.delete(zsite_id)
 
 @mc_reply_id_list("{self.id}")
 def reply_list_id_reversed(self, limit=None, offset=None):
@@ -133,9 +132,9 @@ def reply_list_reversed(self, limit=None, offset=None):
     return reply_list
 
 @property
+@mc_reply_total('{self.id}')
 def reply_total(self):
-    return Wall(id=self.id, cid=self.cid).reply_total
-
+    return WallReply.where(zsite_id=self.id).count()
 
 
 Zsite.reply_new = reply_new

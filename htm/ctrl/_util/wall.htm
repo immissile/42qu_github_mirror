@@ -13,6 +13,8 @@ if not secret:
     can_see = True
 elif i.user_id == current_user_id:
     can_see = True
+elif zsite_id == current_user_id:
+    can_see = True
 %>
 %if secret:
 悄悄说
@@ -26,6 +28,8 @@ elif i.user_id == current_user_id:
 <span style="color:#999">省略 ${len(i.txt.decode('utf-8','ignore'))} 字 ...</span>
 %endif
 </%def>
+
+
 
 <%def name="reply_render(i)">
 <%
