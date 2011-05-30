@@ -5,11 +5,20 @@ from _db import Model, McModel, McCache
 class UserMail(Model):
     pass
 
-mc_user_id_by_mail = McCache("UserIdByMail:%s")
+mc_mail_by_user_id = McCache('MailByUserId.%s')
+
+@mc_mail_by_user_id('{user_id}')
+def mail_by_user_id(user_id):
+    c = UserMail.raw_sql('select mail from user_mail where user_id=%s', user_id).fetchone()
+    if c:
+        return c[0]
+    return ''
+
+mc_user_id_by_mail = McCache('UserIdByMail:%s')
 
 @mc_user_id_by_mail('{mail}')
 def _user_id_by_mail(mail):
-    c = UserMail.raw_sql("select user_id from user_mail where mail=%s", mail).fetchone()
+    c = UserMail.raw_sql('select user_id from user_mail where mail=%s', mail).fetchone()
     if c:
         return c[0]
     return 0
@@ -25,9 +34,10 @@ def user_mail_new(user_id, mail):
         return id
     u = UserMail(mail=mail, user_id=user_id)
     u.save()
+    mc_mail_by_user_id.set(user_id, mail)
     mc_user_id_by_mail.set(mail, user_id)
     return user_id
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     for i in UserMail.where():
         i.delete()
