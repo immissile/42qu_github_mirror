@@ -62,16 +62,6 @@ ${friendly_time(i.create_time)}\
 </%def>
 
 
-<%def name="reply_render_wall_txt(i)">\
-<%
-user = i.user
-%>\
-<div>\
-<a href="${user.link}">${user.name}</a>\
-${reply_render_body(i)}\
-<div>${friendly_time(i.create_time)}</div>\
-</div>\
-</%def>
 
 
 <%def name="reply_textarea(action)">

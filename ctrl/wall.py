@@ -104,16 +104,16 @@ class Txt(_handler.Base):
         self.redirect("/wall/txt/%s"%id)
 
 
-@urlmap("/wall/reply/(\d+)/rm")
+@urlmap("/wall/reply/rm/(\d+)")
 class ReplyRm(_handler.Base):
     def post(self, id):
         current_user_id = self.current_user_id
-        r = reply.Reply.mc_get(id)
+        r = Reply.mc_get(id)
         can_rm = r.can_rm(current_user_id)
-        zsite_id_list = wall.zsite_id_list()
 
         if r:
             wall = Wall.mc_get(r.rid)
+            zsite_id_list = wall.zsite_id_list()
             if wall:
                 if can_rm is False and (current_user_id in zsite_id_list):
                     can_rm = True

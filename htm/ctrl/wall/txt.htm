@@ -1,10 +1,33 @@
+<%!
+from zkit.time_format import friendly_time
+from static import css,js
+%>
 <%inherit file="/ctrl/_base/1.htm" />
-<%namespace file="/ctrl/_util/wall.htm" import="reply_render_wall_txt, reply_render, reply_textarea"/>
+<%namespace file="/ctrl/_util/wall.htm" import="reply_render_body,reply_textarea"/>
+<%def name="htm_head()">
+<script src="${js.wall_txt}"></script>
+</%def>
 
 ${reply_textarea('/wall/txt/%s'%wall.id)}
-
+<%
+can_rm = current_user_id in zsite_id_list
+%>
 %for i in reply_list:
-<div style="border:1px solid #eee">    ${reply_render_wall_txt(i)}</div>
+<%
+id = i.id
+user = i.user
+%>\
+<div id="reply${id}" style="border:1px solid #eee">    
+<div>\
+<a href="${user.link}">${user.name}</a>\
+${reply_render_body(i)}\
+<div>${friendly_time(i.create_time)}
+%if can_rm or i.can_rm(current_user_id):
+<a href="javascript:rm(${id});void(0)">删除</a>
+%endif
+</div>\
+</div>\
+</div>
 %endfor
 
 ${page|n}

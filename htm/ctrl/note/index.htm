@@ -32,7 +32,7 @@ user = reply.user
 %>
 <div id="rpy${reply.id}" style="padding:27px">
     <pre>${reply.htm|n}</pre>
-    %if reply.can_rm(current_user_id) or can_admin:
+    %if can_admin or reply.can_rm(current_user_id):
         <a href="/note/reply/${reply.id}/rm?${_xsrf}">删除</a> 
     %endif
     <a href="${user.link}" target="_blank">${user.name}</a> :\

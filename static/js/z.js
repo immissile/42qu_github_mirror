@@ -25,15 +25,18 @@ $(function(){
     },0)
 });
 
-$.postJSON = function(url, args, callback) {
-    args._xsrf = cookie.get("_xsrf");
+$.postJSON = function(url, data, callback) {
+    data = data||{};
+    if ( $.isFunction( data ) ) {
+        callback = data;
+    }
+    data._xsrf = cookie.get("_xsrf");
     $.ajax({
-        url: url, data: $.param(args), 
-        dataType: "text", 
+        url: url,
+        data: data, 
+        dataType: "json", 
         type: "POST",
-        success: function(response) {
-            callback(eval("(" + response + ")"));
-        }
+        success: callback 
     });
 };
 
