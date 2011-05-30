@@ -9,7 +9,6 @@ CID_MAIL = 2
 CID_ICO = 31
 CID_PO_PIC = 32
 
-
 #Po
 CID_WORD = 61
 CID_NOTE = 62
@@ -19,6 +18,5 @@ CID_ANSWER = 64
 
 #Follow
 CID_FOLLOW = 91
-
 
 

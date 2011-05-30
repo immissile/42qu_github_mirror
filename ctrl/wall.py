@@ -5,6 +5,7 @@ import _handler
 from zweb._urlmap import urlmap
 from model.reply import STATE_SECRET, STATE_ACTIVE
 from zkit.page import page_limit_offset
+import model.wall
 
 @urlmap("/wall")
 class Wall(_handler.LoginBase):
