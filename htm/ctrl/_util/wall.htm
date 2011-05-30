@@ -2,31 +2,59 @@
 from model.reply import STATE_SECRET, STATE_ACTIVE
 from zkit.time_format import friendly_time
 %>
-
-<%def name="reply_render(i)">
-
-
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="reply_render_body(i)">
 <%
-user = i.user
-is_apply = i.state==STATE_SECRET
-self_say = i.user==current_user
+secret = i.state==STATE_SECRET
+if not secret:
+    can_see = True
+elif i.user_id == current_user_id:
+    can_see = True
 %>
-
-<div>
-<a href="${user.link}">${user.name}</a>
-%if is_apply:
+%if secret:
 悄悄说
 %endif
 :
-%if is_owner or not is_apply or (is_apply and self_say):
+%if can_see:
 <pre>${i.htm|n}</pre>
 %else:
 <span style="color:#999">省略 ${len(i.txt.decode('utf-8','ignore'))} 字 ...</span>
 %endif
-<div>
-${friendly_time(i.create_time)}
-<a target="_blank" href="/wall/txt/${i.id}">回复</a>
-</div>
-</div>
-
 </%def>
+
+<%def name="reply_render(i)">
+<%
+user = i.user
+%>\
+<div>\
+<a href="${user.link}">${user.name}</a>\
+${reply_render_body(i)}\
+<div>\
+${friendly_time(i.create_time)}\
+<a target="_blank" href="/wall/reply2txt/${i.id}">回复</a>\
+</div>\
+</div>\
+</%def>
+
+
+<%def name="reply_render_wall_txt(i)">\
+<%
+user = i.user
+%>\
+<div>\
+<a href="${user.link}">${user.name}</a>\
+${reply_render_body(i)}\
+<div>${friendly_time(i.create_time)}</div>\
+</div>\
+</%def>
+
+
+<%def name="reply_textarea(action)">
+<%htm:form action="${action}">\
+<textarea name="txt"></textarea>\
+<input type="checkbox" name="secret" id="secret">\
+<label for="secret">悄悄话</label>\
+<button type="submit">此致 , 敬礼</button>\
+</%htm:form>\
+</%def>
+

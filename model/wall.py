@@ -29,6 +29,9 @@ CREATE TABLE  `wall_reply` (
   KEY `zsite_id` (`zsite_id`,`last_reply_id`,`update_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 """
+
+mc_reply_id_list = McLimitA("WallReplyIdListReversed:%s", 512)
+
 class Wall(McModel, ReplyMixin):
     def zsite_id_list(self):
         return (self.from_id, self.to_id)
@@ -80,9 +83,9 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     wall_reply_new(wall_id, zsite_id, user_id, reply_id, reply1)
     if not is_self:
         wall_reply_new(wall_id, user_id, zsite_id, reply_id, reply2)
+    mc_reply_id_list.delete(user_id)
+    mc_reply_id_list.delete(zsite_id)
 
-
-mc_reply_id_list = McLimitA("WallReplyIdListReversed:%s", 512)
 
 @mc_reply_id_list("{self.id}")
 def reply_list_id_reversed(self, limit=None, offset=None):
@@ -102,5 +105,7 @@ Zsite.reply_new = reply_new
 Zsite.reply_total = reply_total
 Zsite.reply_list_id_reversed = reply_list_id_reversed
 Zsite.reply_list_reversed = reply_list_reversed
+
+
 
 

@@ -1,0 +1,10 @@
+<%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/wall.htm" import="reply_render_wall_txt, reply_render, reply_textarea"/>
+
+${reply_textarea('/wall/txt/%s'%wall.id)}
+
+%for i in reply_list:
+<div style="border:1px solid #eee">    ${reply_render_wall_txt(i)}</div>
+%endfor
+
+${page|n}
