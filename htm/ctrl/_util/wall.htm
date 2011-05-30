@@ -1,6 +1,8 @@
 <%!
 from model.reply import STATE_SECRET, STATE_ACTIVE
 from zkit.time_format import friendly_time
+from model.zsite import Zsite
+from model.wall import Wall
 %>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="reply_render_body(i)">
@@ -10,7 +12,6 @@ if not secret:
     can_see = True
 elif i.user_id == current_user_id:
     can_see = True
-
 %>
 %if secret:
 悄悄说
@@ -26,9 +27,29 @@ elif i.user_id == current_user_id:
 <%def name="reply_render(i)">
 <%
 user = i.user
+user_id = user.id
+if zsite_id == user_id:
+    wall = Wall.mc_get(i.rid)
+    from_id = wall.from_id
+    to_id = wall.to_id
+    if zsite_id == from_id:
+        other_id = to_id
+    else:
+        other_id = from_id
+    if other_id == zsite_id:
+        other_id = None
+else:
+    other_id = None
 %>\
 <div>\
+%if other_id:
+<%
+other = Zsite.mc_get(other_id)
+%>
+对 <a href="${other.link}">${other.name}</a>\
+%else:
 <a href="${user.link}">${user.name}</a>\
+%endif
 ${reply_render_body(i)}\
 <div>\
 ${friendly_time(i.create_time)}\

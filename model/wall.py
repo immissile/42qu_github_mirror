@@ -93,9 +93,10 @@ def reply_list_id_reversed(self, limit=None, offset=None):
     return id_list
 
 def reply_list_reversed(self, limit=None, offset=None):
-    return Wall(id=self.id, cid=self.cid)._reply_list(
+    reply_list = Wall(id=self.id, cid=self.cid)._reply_list(
         limit, offset, self.reply_list_id_reversed
     )
+    return reply_list
 
 @property
 def reply_total(self):
