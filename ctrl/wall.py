@@ -11,6 +11,17 @@ from zkit.page import page_limit_offset
 
 PAGE_LIMIT = 42
 
+def post(self):
+    zsite = self.zsite
+    txt = self.get_argument('txt', None)
+    if txt:
+        secret = self.get_argument('secret', None)
+        current_user = self.current_user
+        reply = zsite.reply_new(
+            current_user.id,
+            txt,
+            STATE_SECRET if secret else STATE_ACTIVE
+        )
 
 @urlmap("/wall")
 class Index(_handler.LoginBase):
@@ -19,17 +30,8 @@ class Index(_handler.LoginBase):
         self.redirect(zsite.link)
 
     def post(self):
-        zsite = self.zsite
-        txt = self.get_argument('txt', None)
-        if txt:
-            secret = self.get_argument('secret', None)
-            current_user = self.current_user
-            reply = zsite.reply_new(
-                current_user.id,
-                txt,
-                STATE_SECRET if secret else STATE_ACTIVE
-            )
         link = zsite.link
+        post(self)
         self.redirect(link)
 
 
@@ -69,7 +71,6 @@ class Txt(_handler.Base):
         zsite_id = zsite.id
         zsite_link = zsite.link
 
-
         wall = Wall.mc_get(id)
 
         zsite_id_list = wall.zsite_id_list()
@@ -92,4 +93,12 @@ class Txt(_handler.Base):
 
     @_handler.login
     def post(self, id):
-        pass
+        wall = Wall.mc_get(id)
+        zsite_id_list = wall.zsite_id_list()
+        current_user_id = self.current_user_id
+        if current_user_id in zsite_id_list:
+            post(self)
+        self.redirect("/wall/txt/%s"%id)
+
+
+
