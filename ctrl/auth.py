@@ -70,6 +70,8 @@ class Login(_handler.Base):
 @urlmap('/auth/user_verify/mail')
 class UserVerifyMail(_handler.LoginBase):
     def get(self):
+        current_user = self.current_user
+        current_user_id = self.current_user_id
         if current_user.state == ZSITE_APPLY:
             mail = mail_by_user_id(current_user_id)
             user_verify_new(current_user_id, current_user.name, mail, CID_VERIFY_MAIL)
@@ -81,7 +83,7 @@ class UserVerifyMail(_handler.LoginBase):
         else:
             self.redirect('/')
 
-@urlmap('/auth/verify/(\d+)/(.+)')
+@urlmap('/auth/user_verify/(\d+)/(.+)')
 class UserVerify(_handler.Base):
     def get(self, id, ck):
         user_id, cid = user_verify(id, ck)
