@@ -90,4 +90,5 @@ class Txt(_handler.Base):
             page = page
         )
 
-
+    def post(self):
+        pass
