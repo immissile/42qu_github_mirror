@@ -5,15 +5,21 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-from tid import
-import tid
-TID_
+ZSITE_BAN 
+ZSITE_NO_MAIL 
+ZSITE_APPLY 
+ZSITE_SILENT 
+ZSITE_ACTIVE 
+ZSITE_VERIFY 
 """
 
 TO_STRING = """
-from cid import
-import cid
-CID_
+ZSITE_STATE_BAN 
+ZSITE_STATE_NO_MAIL 
+ZSITE_STATE_APPLY 
+ZSITE_STATE_SILENT 
+ZSITE_STATE_ACTIVE 
+ZSITE_STATE_VERIFY 
 """
 
 def run():

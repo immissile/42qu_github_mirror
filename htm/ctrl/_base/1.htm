@@ -1,7 +1,7 @@
 <%!
 from config import SITE_DOMAIN
 from config import SITE_URL
-from model.zsite import ZSITE_APPLY
+from model.zsite import ZSITE_STATE_APPLY
 NAVURL = (
     ( '/i' , "账号"),
     ( '/po/word' , "微博"),
@@ -15,7 +15,7 @@ NAVURL_DICT = dict(NAVURL)
 
 <%def name="top_notify()">
 %if current_user:
-%if current_user.state == ZSITE_APPLY:
+%if current_user.state == ZSITE_STATE_APPLY:
 <div style="text-align:center">请验证邮箱 ，<a href="/auth/user_verify/mail">点此重发验证邮件</a></div>
 %endif
 %endif
