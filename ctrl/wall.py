@@ -9,7 +9,7 @@ from model.reply import Reply
 from zkit.page import page_limit_offset
 
 
-PAGE_LIMIT = 24
+PAGE_LIMIT = 42
 
 def post(self):
     zsite = self.zsite
