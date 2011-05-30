@@ -100,7 +100,7 @@ class Txt(_handler.Base):
         if current_user_id in zsite_id_list:
             reply_new = zsite.reply_new
         else:
-            reply_new = Wall.reply_new
+            reply_new = wall.reply_new
         post_reply(self, reply_new)
         self.redirect("/wall/txt/%s"%id)
 
