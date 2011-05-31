@@ -38,6 +38,7 @@ class Base(web.RequestHandler):
                     lower_name(self.__class__.__name__)
                 )
             template_name = self.template
+
         current_user = self.current_user
         kwds['current_user'] = current_user
         kwds['current_user_id'] = self.current_user_id
