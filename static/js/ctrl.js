@@ -88,5 +88,3 @@ _gaq=[['_setAccount', 'UA-23361634-1'],['_trackPageview'],['_trackPageLoadTime']
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     /*google 百度 统计*/
 })()
-
-
