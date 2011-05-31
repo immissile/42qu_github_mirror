@@ -3,8 +3,8 @@
 
 import _handler
 from zweb._urlmap import urlmap
-from model.po import Po, po.can_view, po_rm,\
-        po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set, CID_NOTE
+from model.po import Po, po_rm, \
+po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set, CID_NOTE
 from model import reply
 from model.zsite import Zsite
 from zkit.jsdict import JsDict
