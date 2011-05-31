@@ -1,3 +1,6 @@
+<%!
+from datetime import datetime
+%>
 <%inherit file="/ctrl/_util/po.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
@@ -8,7 +11,7 @@
 <div>${datetime.fromtimestamp(po.create_time)}</div>
 <div>
     %if can_admin:
-        <a href="/po/edit/${po.id}">编辑</a>
+        <a href="/note/edit/${po.id}">编辑</a>
     %endif
 </div>
 

@@ -2,10 +2,47 @@
 # -*- coding: utf-8 -*-
 import _handler
 from zweb._urlmap import urlmap
-from model.po import po_word_new
+from model.po import po_word_new,Po
 from model import reply
+from model.zsite import Zsite
 
 
+class IndexBase(_handler.Base):
+    def po(self, id):
+        po = Po.mc_get(id)
+        current_user_id = self.current_user_id
+        if not po:
+            return self.redirect("/")
+        if po.user_id != self.zsite_id:
+            zsite = Zsite.mc_get(po.user_id)
+            return self.redirect(
+                "%s%s"%(zsite.link, po.link), True
+            )
+        return po
+
+
+@urlmap("/note/(\d+)", template="ctrl/note/index.htm")
+@urlmap("/word/(\d+)", template="ctrl/word/index.htm")
+class Index(IndexBase):
+    def initialize(self, template):
+        self.template = template
+
+    def get(self, id):
+        po = self.po(id)
+        current_user_id = self.current_user_id
+        if po:
+            can_view = po.can_view(current_user_id)
+            return self.render(
+                po=po,
+                can_view=can_view
+            )
+
+@urlmap("/po/(\d+)")
+class PoIndex(IndexBase):
+    def get(self, id):
+        po = self.po(id)
+        if po:
+            return self.redirect(po.link)
 
 @urlmap("/po/word")
 class Word(_handler.LoginBase):
