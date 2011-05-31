@@ -1,3 +1,4 @@
+sudo emerge -C libmemcached
 wget -c http://launchpad.net/libmemcached/1.0/0.40/+download/libmemcached-0.40.tar.gz
 tar zxf libmemcached-0.40.tar.gz
 
