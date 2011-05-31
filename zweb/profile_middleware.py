@@ -9,6 +9,7 @@ import re
 import time
 from os.path import abspath, dirname, join
 from tempfile import gettempdir
+import sys
 tempdir = gettempdir()
 PROFILE_LOG_FILENAME_PATTERN = join(tempdir, 'profile-%s.prof')
 PROFILE_PICKLE_FILENAME_PATTERN = join(tempdir, 'profile-%s.pickle')
@@ -93,6 +94,10 @@ def format_stats(stats, strip_dirs=None, sort='time'):
             dirname(abspath(__file__))
         ).lower()+os.sep
         r = r.replace(rootdir, "")
+        for i in sys.path:
+            if "/site-packages/" in i:
+                r = r.replace(i.rsplit("/",1)[0],"")
+
     return r
 
 normalize_re = re.compile(r'\d+')
