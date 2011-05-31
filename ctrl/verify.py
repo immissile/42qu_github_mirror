@@ -8,6 +8,7 @@ from model.user_auth import user_password_new
 from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.verify import verify_new, verify
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
+from model.user_session import user_session
 
 @urlmap('/verify/mail')
 class Mail(LoginBase):
