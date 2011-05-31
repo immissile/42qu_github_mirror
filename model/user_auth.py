@@ -28,7 +28,6 @@ def user_password_verify(user_id, password):
     if p.password == hash_password(user_id, password):
         return True
 
-
 def user_new_by_mail(mail, password=None):
     name = mail.split('@', 1)[0].split('+', 1)[0]
     zsite = zsite_new_user(name)
