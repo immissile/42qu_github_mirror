@@ -1,19 +1,15 @@
 #!/usr/bin/env python
-#coding:utf-8
-from __future__ import with_statement
-import re
-from os.path import dirname, join, abspath, basename
-import subprocess
-from os import makedirs
-from os.path import exists
-from hashlib import md5
-from os import walk
-from glob import glob
-from struct import unpack
-from zlib import crc32
-from shutil  import copyfile
-from struct import pack
+# -*- coding: utf-8 -*-
 from base64 import urlsafe_b64encode
+from glob import glob
+from hashlib import md5
+from os import makedirs, walk
+from os.path import dirname, join, abspath, basename, exists
+from shutil  import copyfile
+from struct import pack, unpack
+from zlib import crc32
+import re
+import subprocess
 import make_js
 
 prefix = dirname(abspath(__file__))
@@ -281,7 +277,4 @@ def merge_css_import(path):
         with open(join(pathdir, "."+filename), "w") as g:
             g.write(new)
 
-#merge_css_import(join(prefix, "css", "v.css"))
 merge_css_import(join(prefix, "css", "z.css"))
-
-

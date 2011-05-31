@@ -3,10 +3,11 @@
 from _db import mc, cursor_by_table
 
 class Kv(object):
-    def __init__(self, table):
+    def __init__(self, table, NULL=''):
         self.__table__ = table
         self.cursor = cursor_by_table(table)
-        self.__mc_key__ = "%s.%%s"%table
+        self.__mc_key__ = '%s.%%s'%table
+        self.NULL = NULL
 
     def get(self, key):
         mc_key = self.__mc_key__%key
@@ -18,7 +19,7 @@ class Kv(object):
             if r:
                 r = r[0]
             if r is None:
-                r = ""
+                r = self.NULL
             mc.set(mc_key, r)
         return r
 
@@ -29,13 +30,14 @@ class Kv(object):
             cursor = self.cursor
             table = self.__table__
             cursor.execute(
-                'insert delayed into %s (id,value) values (%%s,%%s) on duplicate key update value=%%s'%table, (key, value, value)
+                'insert delayed into %s (id,value) values (%%s,%%s) on duplicate key update value=%%s'%table,
+                (key, value, value)
             )
             cursor.connection.commit()
             mc.set(mc_key, value)
 
     def delete(self, key):
-        cursor.execute("delete from %s where id=%%s"%self.__table__, key)
+        cursor.execute('delete from %s where id=%%s'%self.__table__, key)
         mc_key = self.__mc_key__%key
         mc.delete(mc_key)
 
@@ -53,7 +55,7 @@ class Kv(object):
         return r
 
     def mc_id_by_value(self, value):
-        mc_key = ">%s"%self.__mc_key__
+        mc_key = '>%s'%self.__mc_key__
         r = mc.get(mc_key)
         if r is None:
             r = self.id_by_value(value)
@@ -65,7 +67,7 @@ class Kv(object):
         if r is None:
             cursor = self.cursor
             cursor.execute(
-                "insert into %s (value) values (%%s)"%self.__table__,
+                'insert into %s (value) values (%%s)'%self.__table__,
                 value
             )
             cursor.connection.commit()
