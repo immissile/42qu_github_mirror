@@ -1,0 +1,59 @@
+<%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%!
+from model.state import STATE_SECRET, STATE_DEL
+from datetime import datetime
+from static import css, js
+%>
+
+<%def name="htm_title()">
+%if can_view:
+${po.name}
+%endif
+</%def>
+<%def name="htm_head()">
+<script src="${js.po}"></script>
+</%def>
+<%
+can_admin = po.can_admin(current_user_id)
+po_id = str(po.id)
+po_state = po.state
+%>
+
+
+%if can_view:
+    ${next.po()}
+    %for reply in po.reply_list():
+<%
+user = reply.user
+%>
+<div id="reply${reply.id}" style="padding:27px">
+    <pre>${reply.htm|n}</pre>
+    %if can_admin or reply.can_rm(current_user_id):
+        <a href="javascript:rm(${reply.id});void(0)">删除</a> 
+    %endif
+    <a href="${user.link}" target="_blank">${user.name}</a> :\
+</div>
+    %endfor
+
+    %if po.state > STATE_SECRET:
+<%htm:form action="/po/reply/${po_id}">
+<textarea name="txt"></textarea>
+<div>
+<button type="submit">此致 , 敬礼</button>
+</div>
+</%htm:form>
+    %endif
+%else:
+<div>
+    %if po_state == STATE_DEL:
+啊 , 被删除了 !!! 
+    %elif po_state == STATE_SECRET:
+机密文件 , 无关人士 , 禁止入内
+    %elif po_state == STATE_SECRET:
+不可见的状态 ${po_state}
+    %endif
+</div>
+%endif
+

@@ -10,9 +10,12 @@ from static import css,js
 
 ${reply_textarea('/wall/txt/%s'%wall.id)}
 <%
-can_rm = current_user_id in zsite_id_list
+_can_rm = current_user_id in zsite_id_list
 %>
 %for i in reply_list:
+<%
+can_rm = _can_rm or i.can_rm(current_user_id)
+%>
 <%
 id = i.id
 user = i.user
@@ -20,9 +23,9 @@ user = i.user
 <div id="reply${id}" style="border:1px solid #eee">    
 <div>\
 <a href="${user.link}">${user.name}</a>\
-${reply_render_body(i)}\
+${reply_render_body(i, can_rm)}\
 <div>${friendly_time(i.create_time)}
-%if can_rm or i.can_rm(current_user_id):
+%if can_rm:
 <a href="javascript:rm(${id});void(0)">删除</a>
 %endif
 </div>\

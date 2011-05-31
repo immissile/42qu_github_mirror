@@ -5,16 +5,16 @@ from model.zsite import Zsite
 from model.wall import Wall
 %>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%def name="reply_render_body(i)">
+<%def name="reply_render_body(i, can_see=False)">
 <%
-secret = i.state==STATE_SECRET
-can_see = False
-if not secret:
-    can_see = True
-elif i.user_id == current_user_id:
-    can_see = True
-elif zsite_id == current_user_id:
-    can_see = True
+if can_see is False:
+    if i.state==STATE_SECRET:
+        if i.user_id == current_user_id:
+            can_see = True
+        elif zsite_id == current_user_id:
+            can_see = True
+    else:
+        can_see = True
 %>
 %if secret:
 悄悄说

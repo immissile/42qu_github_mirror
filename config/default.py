@@ -26,10 +26,10 @@ def prepare(o):
     o.DISABLE_LOCAL_CACHED = False
     o.MEMCACHED_ADDR = ("127.0.0.1:11211", )
 
-    o.SMTP = "smtp.sina.com.cn"
-    o.SMTP_USERNAME = "zuroc586"
-    o.SMTP_PASSWORD = "kanrss"
-    o.SENDER_MAIL = "zuroc586@sina.com"
+    o.SMTP = "smtp.163.com"
+    o.SMTP_USERNAME = "zpagedev"
+    o.SMTP_PASSWORD = "42qu_com"
+    o.SENDER_MAIL = "zpagedev@163.com"
 
     return o
 

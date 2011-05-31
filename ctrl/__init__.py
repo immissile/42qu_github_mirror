@@ -6,6 +6,6 @@ import auth
 import i
 import wall
 import po
-import news
+import feed
 import note
 import verify
