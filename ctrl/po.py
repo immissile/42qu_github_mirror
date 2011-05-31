@@ -70,7 +70,7 @@ class ReplyRm(_handler.LoginBase):
         if can_rm:
             r.rm()
 
-        self.finish(dumps({'success' : can_rm}))
+        self.finish({'success' : can_rm})
 
 
 @urlmap("/po/reply/(\d+)")
