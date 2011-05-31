@@ -7,7 +7,6 @@ from model.reply import STATE_SECRET, STATE_ACTIVE
 from model.wall import Wall
 from model.reply import Reply
 from zkit.page import page_limit_offset
-from json import dumps
 
 PAGE_LIMIT = 42
 
@@ -124,4 +123,4 @@ class ReplyRm(_handler.Base):
 
         if can_rm:
             wall.reply_rm(r)
-        self.finish(dumps({'success':can_rm}))
+        self.finish({'success':can_rm})
