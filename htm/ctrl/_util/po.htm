@@ -23,7 +23,7 @@ po_state = po.state
 
 
 %if can_view:
-    ${next.po()}
+    ${next.po_body()}
     %for reply in po.reply_list():
 <%
 user = reply.user
