@@ -16,4 +16,5 @@ __init_file_hash__.py
 .*.css
 .css_hash
 .js_hash
+static/js/z.js
 config/nginx
