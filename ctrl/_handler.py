@@ -35,7 +35,7 @@ class Base(zweb._handler.Base):
         super(Base, self).render(template_name, **kwds)
 
 
-def _login_redirect(self): 
+def _login_redirect(self):
     if not self.current_user:
         url = self.get_login_url()
         if "?" not in url:
