@@ -40,10 +40,10 @@ class Po(McModel, ReplyMixin):
         feed_entry_new(self.id, self.user_id, self.cid)
 
     def can_view(self, user_id):
-        if po.state <= STATE_DEL:
+        if self.state <= STATE_DEL:
             return False
-        if po.state == STATE_SECRET:
-            if po.user_id != user_id:
+        if self.state == STATE_SECRET:
+            if self.user_id != user_id:
                 return False
         return True
 
