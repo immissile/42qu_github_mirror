@@ -8,10 +8,10 @@
 
 <%def name="_style1(i)">
 <%
-news_zsite = i.zsite
+feed_zsite = i.zsite
 %>\
 <div style="padding:10px;margin:10px;border:1px solid #eee">\
-<a href="${news_zsite.link}" target="_blank">${news_zsite.name}</a> : \
+<a href="${feed_zsite.link}" target="_blank">${feed_zsite.name}</a> : \
 ${caller.body()}\
 </div>\
 </%def>
