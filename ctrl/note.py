@@ -11,32 +11,10 @@ from zkit.jsdict import JsDict
 from model.txt import txt_new
 from json import dumps
 
-@urlmap("/po/(\d+)")
-class Index(_handler.Base):
-    def get(self, id):
-        po = Po.mc_get(id)
-        current_user_id = self.current_user_id
-        if not po or po.cid != CID_NOTE:
-            return self.redirect("/")
-        if po.user_id != self.zsite_id:
-            zsite = Zsite.mc_get(po.user_id)
-            return self.redirect(
-                "%s/po/%s"%(
-                    zsite.link,
-                    id
-                ), True
-            )
-        can_view = po.can_view(current_user_id)
-        return self.render(
-            po=po,
-            can_view=can_view
-        )
-
-
 
 
 @urlmap("/po/note")
-@urlmap("/po/edit/(\d+)")
+@urlmap("/note/edit/(\d+)")
 class Edit(_handler.LoginBase):
     @staticmethod
     def _can_edit(current_user_id, id):

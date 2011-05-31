@@ -3,8 +3,10 @@
 
 URLMAP = []
 
-def urlmap(url):
+def urlmap(url,**kwds):
     def _(cls):
-        URLMAP.append((url, cls))
+        URLMAP.append(
+            (url, cls, kwds)
+        )
         return cls
     return _

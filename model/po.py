@@ -13,7 +13,7 @@ from reply import ReplyMixin
 from po_pic import pic_htm, pic_seq_dic
 
 PO_LINK = {
-    CID_NOTE: '/po/%s',
+    CID_NOTE: '/note/%s',
     CID_WORD: '/word/%s',
 }
 
