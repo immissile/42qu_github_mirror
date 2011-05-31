@@ -66,3 +66,13 @@ class Reply(_handler.LoginBase):
 
 
 
+@urlmap("/po/rm/(\d+)")
+class Rm(_handler.XsrfGetBase):
+    def get(self, id):
+        current_user = self.current_user
+        current_user_id = self.current_user_id
+        po_rm(current_user_id, id)
+        self.redirect(current_user.link)
+
+    post = get
+

@@ -3,12 +3,11 @@
 
 <%def name="po()">
 
-<h1>${po.name}</h1>
-<pre>${po.txt}</pre>
+<pre>${po.name}</pre>
 <div>${datetime.fromtimestamp(po.create_time)}</div>
 <div>
     %if can_admin:
-        <a href="/po/edit/${po.id}">编辑</a>
+        <a href="/po/rm/${po.id}?${_xsrf}">删除</a>
     %endif
 </div>
 
