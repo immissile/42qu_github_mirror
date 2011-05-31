@@ -13,7 +13,7 @@ from reply import ReplyMixin
 from po_pic import pic_htm, pic_seq_dic
 
 PO_LINK = {
-    CID_NOTE: '/note/%s',
+    CID_NOTE: '/po/%s',
     CID_WORD: '/word/%s',
 }
 
@@ -36,11 +36,19 @@ class Po(McModel, ReplyMixin):
             self._link = PO_LINK[self.cid]%self.id
         return self._link
 
-    def can_admin(self, user_id):
-        return self.user_id == user_id
-
     def feed_entry_new(self):
         feed_entry_new(self.id, self.user_id, self.cid)
+
+    def can_view(self, user_id):
+        if po.state <= STATE_DEL:
+            return False
+        if po.state == STATE_SECRET:
+            if po.user_id != user_id:
+                return False
+        return True
+
+    def can_admin(self, user_id):
+        return self.user_id == user_id
 
 def po_new(cid, user_id, name, state):
     m = Po(
@@ -98,17 +106,6 @@ def po_word_new(user_id, name):
 #    txt_new(m.id, txt)
 #    return m
 
-def po_note_can_view(po, user_id):
-    if not po:
-        return False
-    if po.state <= STATE_DEL:
-        return False
-    if po.cid != CID_NOTE:
-        return False
-    if po.state == STATE_SECRET:
-        if po.user_id != user_id:
-            return False
-    return True
 
 def po_note_new(user_id, name, txt, state):
     name = name or time_title()

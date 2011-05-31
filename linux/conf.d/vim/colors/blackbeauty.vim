@@ -24,7 +24,7 @@ hi LineNr		  term=underline  cterm=bold  ctermfg=darkcyan	guibg=brown guifg=whit
 hi Question		  term=standout  cterm=bold  ctermfg=darkgreen	gui=bold  guifg=Green
 hi Title		  term=bold  cterm=bold  ctermfg=darkmagenta  gui=bold	guifg=Magenta
 hi Visual		  term=reverse	cterm=reverse  gui=reverse
-hi WarningMsg	  term=standout  cterm=bold  ctermfg=darkblue  gui=bold guifg=cyan guibg=Black
+"hi WarningMsg	  term=standout  cterm=bold  ctermfg=darkblue  gui=bold guifg=cyan guibg=Black
 hi Cursor		  guifg=bg	guibg=cyan
 hi Comment		  term=bold  cterm=bold ctermfg=cyan  guifg=#80a0ff
 hi Constant		  term=underline  cterm=bold ctermfg=magenta  guifg=#ffa0a0
@@ -35,7 +35,7 @@ hi Identifier	  term=underline   ctermfg=brown  guifg=#40ffff
 hi Statement	  term=bold  cterm=bold ctermfg=yellow	gui=bold  guifg=#ffff60
 hi PreProc		  term=underline  ctermfg=darkblue	guifg=#ff80ff
 hi Type			  term=underline  cterm=bold ctermfg=lightgreen  gui=bold  guifg=#60ff60
-hi Error		    gui=bold guifg=Yellow	guibg=Black
+"hi Error		    gui=bold guifg=Yellow	guibg=Black
 hi Todo			  term=standout  ctermfg=black	ctermbg=darkcyan  guifg=Blue  guibg=Yellow
 "hi VertSplit	guifg=#00FFFF guibg=#000000 gui=bold
 hi link IncSearch		Visual

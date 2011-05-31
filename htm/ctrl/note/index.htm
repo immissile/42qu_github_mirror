@@ -27,7 +27,7 @@ po_id = str(po.id)
 <div>${datetime.fromtimestamp(po.create_time)}</div>
 <div>
     %if can_admin:
-        <a href="/note/edit/${po.id}">编辑</a>
+        <a href="/po/edit/${po.id}">编辑</a>
     %endif
 </div>
     %for reply in po.reply_list():
@@ -44,7 +44,7 @@ user = reply.user
     %endfor
 
     %if po.state > STATE_SECRET:
-<%htm:form action="/note/reply/${po_id}">
+<%htm:form action="/po/reply/${po_id}">
 <textarea name="txt"></textarea>
 <div>
 <button type="submit">此致 , 敬礼</button>

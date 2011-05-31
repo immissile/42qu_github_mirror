@@ -1,1 +1,1 @@
-rm = _rm("reply","/note/reply/rm/")
+rm = _rm("reply","/po/reply/rm/")
