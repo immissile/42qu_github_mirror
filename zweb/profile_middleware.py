@@ -90,7 +90,7 @@ def format_stats(stats, strip_dirs=None, sort='time'):
     r = so.getvalue()
     if not strip_dirs:
         rootdir = dirname(
-            dirname(dirname(dirname(abspath(__file__))))
+            dirname(abspath(__file__))
         ).lower()+os.sep
         r = r.replace(rootdir, "")
     return r
