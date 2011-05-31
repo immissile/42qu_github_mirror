@@ -6,10 +6,9 @@ from zweb._urlmap import urlmap
 from zkit.txt import EMAIL_VALID, mail2link
 from cgi import escape
 from model.cid import CID_VERIFY_MAIL
-from model.user_auth import user_password_verify, user_new_by_mail
-from model.user_mail import mail_by_user_id, user_id_by_mail
+from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
+from model.user_mail import user_id_by_mail
 from model.user_session import user_session, user_session_rm
-from model.user_verify import user_verify_new, user_verify
 from model.zsite import ZSITE_STATE_APPLY
 
 @urlmap('/logout')
@@ -56,10 +55,10 @@ class Login(_handler.Base):
                 if user_password_verify(user_id, password):
                     return self._login(user_id, self.get_argument('next', '/'))
                 else:
-                    error_password = '密码有误。忘记密码了？<a href="/password/reset/%s">点此找回</a>' % user_id
+                    error_password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
             else:
                 user_id = user_new_by_mail(mail, password)
-                return self._login(user_id, '/auth/user_verify/mail')
+                return self._login(user_id, '/verify/mail')
 
         self.render(
             mail=mail,
@@ -68,33 +67,21 @@ class Login(_handler.Base):
             error_password=error_password,
         )
 
-@urlmap('/auth/user_verify/mail')
-class UserVerifyMail(_handler.LoginBase):
+@urlmap('/password')
+class Password(_handler.LoginBase):
     def get(self):
-        current_user = self.current_user
-        current_user_id = self.current_user_id
-        if current_user.state == ZSITE_STATE_APPLY:
-            mail = mail_by_user_id(current_user_id)
-            user_verify_new(current_user_id, current_user.name, mail, CID_VERIFY_MAIL)
-            link = mail2link(mail)
-            self.render(
-                mail=mail,
-                link=link,
-            )
-        else:
-            self.redirect('/')
+        self.render()
 
-@urlmap('/auth/verify/(\d+)/(.+)')
-class UserVerify(_handler.Base):
-    def get(self, id, ck):
-        user_id, cid = user_verify(id, ck)
-        if user_id:
-            session = user_session(user_id)
-            self.set_cookie('S', session)
-            self.render(cid=cid)
-        else:
-            self.redirect('/')
+    def post(self):
+        user_id = self.current_user_id
+        password0 = self.get_argument('password0', None)
+        password = self.get_argument('password', None)
+        password2 = self.get_argument('password2', None)
 
-@urlmap('/password/reset/(.+)')
-class PasswordReset(_handler.Base):
-    pass
+        if all((password0, password, password2)) and password == password2:
+            if user_password_verify(user_id, password0):
+                user_password_new(user_id, password)
+                success = True
+            else:
+                error_password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
+        self.render(success=success)

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from tornado.web import authenticated
 import _handler
 from zweb._urlmap import urlmap
 from zkit.pic import picopen

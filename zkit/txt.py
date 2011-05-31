@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
-EMAIL_VALID = re.compile(r"^\w+[-+.\w]*@\w+([-.]\w+)*\.\w+([-.]\w+)*$")
+EMAIL_VALID = re.compile(r'^\w+[-+.\w]*@\w+([-.]\w+)*\.\w+([-.]\w+)*$')
 
 EMAIL_DICT = {
     'msn.com': ('MSN', 'http://login.live.com/'),

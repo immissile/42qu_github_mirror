@@ -8,4 +8,4 @@ import wall
 import po
 import news
 import note
-
+import verify
