@@ -5,6 +5,7 @@
 from tornado import web
 from tornado.web import HTTPError
 from config import SITE_DOMAIN_SUFFIX
+from profile_middleware import profile_middleware
 
 _set_cookie = web.RequestHandler.set_cookie
 
@@ -36,7 +37,8 @@ def _execute(self, transforms, *args, **kwargs):
         getattr(self, self.request.method.lower())(*args, **kwargs)
         if self._auto_finish and not self._finished:
             self.finish()
-web.RequestHandler._execute = _execute
+
+web.RequestHandler._execute = profile_middleware(_execute)
 
 
 

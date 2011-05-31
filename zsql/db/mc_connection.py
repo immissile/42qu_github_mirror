@@ -43,11 +43,11 @@ class LocalCached:
         self.dataset_marshal = {}
 
     def start_log(self):
-        from mypy.profile_middleware import CallLogger
+        from zweb.profile_middleware import CallLogger
         self.mc = CallLogger(self.mc)
 
     def stop_log(self):
-        from mypy.profile_middleware import CallLogger
+        from zweb.profile_middleware import CallLogger
         if isinstance(self.mc, CallLogger):
             self.mc = self.mc.obj
 
