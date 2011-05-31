@@ -19,7 +19,7 @@ def render(htm, **kwds):
     return mytemplate.render(**kwds)
 
 
-for filename in glob("*.template"):
+for filename in glob(join(PATH,"*.template")):
     prefix = filename.rsplit(".", 1)[0]
     with open("%s.js"%prefix,"w") as out:
-        out.write(render(filename))
+        out.write(render(filename[len(PATH):]))
