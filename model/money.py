@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
-STATE_OPEN = 1
-STATE_CLOSE = 0
+from kv import Kv
+
+bank = Kv('bank')
+
+TRADE_STATE_OPEN = 1
+TRADE_STATE_CANCEL = 5
+TRADE_STATE_FINISH = 9
 
 mc_bank_price = McCache('BankPrice:%s')
 mc_pay_on_way_to_total = McCache('PayOnwayTo:%s')
@@ -35,8 +40,6 @@ class PayOrder(Model):
 class Payed(Model):
     pass
 
-class Bank(Model):
-    pass
 
 class PayLog(Model):
     pass
