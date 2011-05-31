@@ -1,8 +1,8 @@
 from mako.lookup import TemplateLookup
-from os.path import abspath, dirname
+from os.path import abspath, dirname,join
 from glob import glob
 
-PATH = dirname(abspath(__file__))
+PATH = join(dirname(abspath(__file__)),"js")
 
 MAKOLOOKUP = TemplateLookup(
     directories=PATH,

@@ -14,7 +14,7 @@ from zlib import crc32
 from shutil  import copyfile
 from struct import pack
 from base64 import urlsafe_b64encode
-import js.make
+import make_js
 
 prefix = dirname(abspath(__file__))
 merge_prefix = prefix

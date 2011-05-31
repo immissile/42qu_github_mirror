@@ -10,13 +10,14 @@ if exists("syntax_on")
 endif
 
 let g:colors_name = "koehler"
+hi WarningMsg guibg=bg guifg=#f07070 gui=none
 hi Normal		  guifg=white  guibg=black
 hi Scrollbar	  guibg=darkgray guifg=darkgray
 hi Menu			  guifg=black guibg=gray
 hi SpecialKey	  term=bold  cterm=bold  ctermfg=darkred  guifg=Blue
 hi NonText		  term=bold  cterm=bold  ctermfg=darkred  gui=bold	guifg=Blue
 hi Directory	  term=bold  cterm=bold  ctermfg=brown	guifg=Blue
-hi ErrorMsg		  term=standout  cterm=bold  ctermfg=grey  ctermbg=blue  gui=bold guifg=White  guibg=brown
+hi ErrorMsg guibg=bg guifg=#f07070 gui=bold
 hi Search		  term=reverse	ctermfg=white  ctermbg=red	gui=bold guifg=#000000 guibg=Magenta
 hi MoreMsg		  term=bold  cterm=bold  ctermfg=darkgreen	gui=bold  guifg=SeaGreen
 hi ModeMsg		  term=bold  cterm=bold  gui=bold  guifg=White	guibg=Blue
@@ -24,7 +25,6 @@ hi LineNr		  term=underline  cterm=bold  ctermfg=darkcyan	guibg=brown guifg=whit
 hi Question		  term=standout  cterm=bold  ctermfg=darkgreen	gui=bold  guifg=Green
 hi Title		  term=bold  cterm=bold  ctermfg=darkmagenta  gui=bold	guifg=Magenta
 hi Visual		  term=reverse	cterm=reverse  gui=reverse
-"hi WarningMsg	  term=standout  cterm=bold  ctermfg=darkblue  gui=bold guifg=cyan guibg=Black
 hi Cursor		  guifg=bg	guibg=cyan
 hi Comment		  term=bold  cterm=bold ctermfg=cyan  guifg=#80a0ff
 hi Constant		  term=underline  cterm=bold ctermfg=magenta  guifg=#ffa0a0
@@ -35,7 +35,7 @@ hi Identifier	  term=underline   ctermfg=brown  guifg=#40ffff
 hi Statement	  term=bold  cterm=bold ctermfg=yellow	gui=bold  guifg=#ffff60
 hi PreProc		  term=underline  ctermfg=darkblue	guifg=#ff80ff
 hi Type			  term=underline  cterm=bold ctermfg=lightgreen  gui=bold  guifg=#60ff60
-"hi Error		    gui=bold guifg=Yellow	guibg=Black
+hi Error		    gui=bold guifg=Yellow	guibg=Black
 hi Todo			  term=standout  ctermfg=black	ctermbg=darkcyan  guifg=Blue  guibg=Yellow
 "hi VertSplit	guifg=#00FFFF guibg=#000000 gui=bold
 hi link IncSearch		Visual
