@@ -297,6 +297,7 @@ TLD_NAME = (
 "web.id",
 "wroc.pl",
 "ws",
+"xxx",
 "za",
 "za.net",
 "za.org",
@@ -316,6 +317,7 @@ def tld_name(domain):
         return m.groups()[0]
 
 if __name__ == "__main__":
+    print tld_name("www.work.com")
     print tld_name("zsp.com")
     print tld_name("www.zsp.com")
     print tld_name("www.zsp.edu.cn")
