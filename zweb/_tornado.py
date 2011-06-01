@@ -4,7 +4,7 @@
 
 from tornado import web
 from tornado.web import HTTPError,_utf8
-from zkit.tld_domain import tld_domain
+from zkit.tld_name import tld_name
 from profile_middleware import profile_middleware
 
 import Cookie
@@ -48,7 +48,7 @@ def set_cookie(self, name, value, domain=None, expires=None, path="/",
     for available attributes.
     """
     if domain is None:
-        domain =  ".%s"%tld_domain(self.request.host)
+        domain =  ".%s"%tld_name(self.request.host)
     name = _utf8(name)
     value = _utf8(value)
     if re.search(r"[\x00-\x20]", name + value):
