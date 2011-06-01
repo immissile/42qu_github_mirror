@@ -1,7 +1,7 @@
 #coding:utf-8
 import re
 
-TLD_NAME= (
+TLD_NAME = (
 "ac",
 "com.ac",
 "edu.ac",
@@ -3682,19 +3682,19 @@ TLD_NAME= (
 "or.ug",
 "uk",
 "sch.uk",
-"!bl.uk",
-"!british-library.uk",
-"!icnet.uk",
-"!gov.uk",
-"!jet.uk",
-"!mod.uk",
-"!nel.uk",
-"!nhs.uk",
-"!nic.uk",
-"!nls.uk",
-"!national-library-scotland.uk",
-"!parliament.uk",
-"!police.uk",
+"bl.uk",
+"british-library.uk",
+"icnet.uk",
+"gov.uk",
+"jet.uk",
+"mod.uk",
+"nel.uk",
+"nhs.uk",
+"nic.uk",
+"nls.uk",
+"national-library-scotland.uk",
+"parliament.uk",
+"police.uk",
 "us",
 "dni.us",
 "fed.us",
@@ -4015,7 +4015,7 @@ TLD_NAME= (
 
 RE_TLD_NAME = re.compile(
     r".*?((?:[^\.]+\.)(%s))$"%(
-        "|".join([i.replace(".","\\.") for i in TLD_NAME])
+        "|".join([i.replace(".", "\\.") for i in TLD_NAME])
     )
 )
 
