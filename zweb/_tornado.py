@@ -3,7 +3,7 @@
 
 
 from tornado import web
-from tornado.web import HTTPError,_utf8
+from tornado.web import HTTPError,utf8
 from zkit.tld_name import tld_name
 from profile_middleware import profile_middleware
 
