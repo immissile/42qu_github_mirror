@@ -6,15 +6,18 @@
 
 <%htm:form>
 <div class="input-wrapper">
-    <input placeholder="邮箱" id="mail" name="mail" value="${mail or ''}" type="text">
+    <label for="mail">邮箱</label>
+    <input id="mail" name="mail" value="${mail or ''}" type="text">
 </div>
 %if error_mail:
 <div>${error_mail}</div>
 %endif
 
 <div class="input-wrapper">
-    <input placeholder="密码" id="password" name="password" value="" type="password">
+    <label for="password">密码</label>
+    <input id="password" name="password" value="" type="password">
 </div>
+
 %if error_password:
 <div>${error_password|n}</div>
 %endif
