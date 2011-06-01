@@ -96,7 +96,7 @@ def format_stats(stats, strip_dirs=None, sort='time'):
         r = r.replace(rootdir, "")
         for i in sys.path:
             if "/site-packages/" in i:
-                r = r.replace(i.rsplit("/",1)[0],"")
+                r = r.replace(i.rsplit("/", 1)[0], "")
 
     return r
 
@@ -142,15 +142,16 @@ def profile_middleware(execute):
     PROFILE_FUNC_LIST = [SQLSTORE, mc]
     def _(self, transforms, *args, **kwargs):
         profile = self.get_argument('profile', None)
-
+        profile_cookie = self.get_cookie('profile')
         if profile == "0":
             self.clear_cookie('profile')
             profile = None
+            profile_cookie = None
         elif profile is not None:
             self.set_cookie("profile", "1")
 
 
-        if profile or self.get_cookie("profile"):
+        if profile or profile_cookie:
 
             prof = start_profile()
             for i in PROFILE_FUNC_LIST:
@@ -164,6 +165,8 @@ def profile_middleware(execute):
 
             def finish(self, chunk=None):
                 if chunk is not None: self.write(chunk)
+                if self._status_code != 200:
+                    _finish(self)
 
             cls.finish = finish
             try:
@@ -190,7 +193,8 @@ def profile_middleware(execute):
                         so = """<pre style="clear:both;padding:1em;background:#ffffde;color:#033;font-size:12px;font-family:fixedsys;white-space: pre-wrap;white-space: -moz-pre-wrap;white-space: -pre-wrap;white-space: -o-pre-wrap;word-wrap:break-word;line-height:18px">\n%s\n</pre>"""%so
                         _write_buffer.append(so)
                     _finish(self)
-                finish(self, so)
+                if self._status_code == 200:
+                    finish(self, so)
                 cls.finish = _finish
 
             return result

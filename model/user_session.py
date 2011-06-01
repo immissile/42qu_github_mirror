@@ -15,11 +15,12 @@ class UserSession(Model):
 def user_session_by_db(user_id):
     u = UserSession.get(user_id)
     if u is not None:
-        return u.value
+        return u.value or False
+    return False
 
 def user_session(user_id):
     s = user_session_by_db(user_id)
-    if s is None:
+    if not s:
         u = UserSession.get_or_create(id=user_id)
         if u.value is None:
             s = urandom(12)

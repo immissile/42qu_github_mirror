@@ -11,6 +11,9 @@ import urllib
 import zweb._handler
 
 class Base(zweb._handler.Base):
+    def get(self):
+        self.redirect("/")
+
     def prepare(self):
         host = self.request.host
         zsite = zsite_by_domain(host)

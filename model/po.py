@@ -50,6 +50,11 @@ class Po(McModel, ReplyMixin):
     def can_admin(self, user_id):
         return self.user_id == user_id
 
+    def reply_new(self, user_id, txt, state=STATE_ACTIVE):
+        result = super(Po, self).reply_new(user_id, txt, state)
+        mc_feed_entry_tuple.delete(self.id)
+        return result
+
 def po_new(cid, user_id, name, state):
     m = Po(
         id=gid(),
@@ -84,14 +89,14 @@ def po_rm(user_id, id):
 def feed_tuple_note(id):
     m = Po.mc_get(id)
     if m:
-        return (m.name, m.txt)
+        return (m.name, m.txt, m.reply_total)
     return ()
 
 @mc_feed_entry_tuple('{id}')
 def feed_tuple_word(id):
     m = Po.mc_get(id)
     if m:
-        return (m.name, )
+        return (m.name, m.reply_total)
     return False
 
 def po_word_new(user_id, name):
