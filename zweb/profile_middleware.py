@@ -97,7 +97,7 @@ def format_stats(stats, strip_dirs=None, sort='time'):
         r = r.replace(rootdir, "")
         for i in sys.path:
             if "/site-packages/" in i:
-                r = r.replace(i.rsplit("/",1)[0],"")
+                r = r.replace(i.rsplit("/", 1)[0], "")
 
     return r
 
@@ -166,6 +166,8 @@ def profile_middleware(execute):
 
             def finish(self, chunk=None):
                 if chunk is not None: self.write(chunk)
+                if self._status_code != 200:
+                    _finish(self)
 
             cls.finish = finish
             try:
@@ -179,9 +181,7 @@ def profile_middleware(execute):
 
                 def finish(self, so):
                     _write_buffer = self._write_buffer
-                    if "".join(_write_buffer).lstrip().startswith("<") or (
-                            _write_buffer and profile 
-                        ):
+                    if "".join(_write_buffer).lstrip().startswith("<") or profile:
                         #disable output for json
                         stats = load_stats()
 
@@ -194,7 +194,8 @@ def profile_middleware(execute):
                         so = """<pre style="clear:both;padding:1em;background:#ffffde;color:#033;font-size:12px;font-family:fixedsys;white-space: pre-wrap;white-space: -moz-pre-wrap;white-space: -pre-wrap;white-space: -o-pre-wrap;word-wrap:break-word;line-height:18px">\n%s\n</pre>"""%so
                         _write_buffer.append(so)
                     _finish(self)
-                finish(self, so)
+                if self._status_code == 200:
+                    finish(self, so)
                 cls.finish = _finish
 
             return result
