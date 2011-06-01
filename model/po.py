@@ -51,9 +51,9 @@ class Po(McModel, ReplyMixin):
         return self.user_id == user_id
 
     def reply_new(self, user_id, txt, state=STATE_ACTIVE):
-        super(Po, self).reply_new(user_id, txt, state)
+        result = super(Po, self).reply_new(user_id, txt, state)
         mc_feed_entry_tuple.delete(self.id)
-
+        return result
 
 def po_new(cid, user_id, name, state):
     m = Po(
