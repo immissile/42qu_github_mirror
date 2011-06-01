@@ -49,8 +49,8 @@ def set_cookie(self, name, value, domain=None, expires=None, path="/",
     """
     if domain is None:
         domain =  ".%s"%tld_name(self.request.host)
-    name = _utf8(name)
-    value = _utf8(value)
+    name = utf8(name)
+    value = utf8(value)
     if re.search(r"[\x00-\x20]", name + value):
         # Don't let us accidentally inject bad stuff
         raise ValueError("Invalid cookie %r: %r" % (name, value))
