@@ -1,4 +1,3 @@
 <%include file="jquery-1.6.1.min.js.template"/>
-<%include file="jquery.fancybox-1.3.4.js.template"/>
 <%include file="ctrl.js"/>
 
