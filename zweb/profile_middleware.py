@@ -8,7 +8,6 @@ import os
 import re
 import time
 from os.path import abspath, dirname, join
-from config import SITE_DOMAIN_SUFFIX
 from tempfile import gettempdir
 import sys
 tempdir = gettempdir()
