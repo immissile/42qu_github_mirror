@@ -8,6 +8,7 @@ import os
 import re
 import time
 from os.path import abspath, dirname, join
+from config import SITE_DOMAIN_SUFFIX
 from tempfile import gettempdir
 import sys
 tempdir = gettempdir()
@@ -144,7 +145,7 @@ def profile_middleware(execute):
         profile = self.get_argument('profile', None)
 
         if profile == "0":
-            self.clear_cookie('profile')
+            self.clear_cookie('profile', domain=SITE_DOMAIN_SUFFIX)
             profile = None
         elif profile is not None:
             self.set_cookie("profile", "1")
