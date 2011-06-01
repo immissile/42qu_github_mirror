@@ -89,4 +89,4 @@ def _link(self):
 Zsite.link = _link
 
 if __name__ == '__main__':
-    pass
+    print url_by_id(10024789)
