@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
 import config
 import tornado.ioloop
 
@@ -14,6 +14,5 @@ def run():
     application.listen(port)
     tornado.ioloop.IOLoop.instance().start()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     run()

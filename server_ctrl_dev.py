@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 #coding:utf-8
-#import config.dev
 import config
 import config.dev
 
@@ -63,7 +62,6 @@ def WSGIServer(port, application):
 #################
 
 def run():
-
     print 'server on port %s'%PORT
     server = WSGIServer(PORT, application)
     try:
