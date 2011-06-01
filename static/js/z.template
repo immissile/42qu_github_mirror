@@ -1,3 +1,5 @@
 <%include file="jquery-1.6.1.min.js.template"/>
+<%include file="jquery.defaultvalue.source.js.template"/>
+<%include file="zpage.js"/>
 <%include file="ctrl.js"/>
 
