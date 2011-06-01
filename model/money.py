@@ -1,13 +1,94 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from time import time
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from kv import Kv
+from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL, CID_TRADE_REWARD
 
-bank = Kv('bank')
+bank = Kv('bank', 0)
+
+def bank_view(user_id):
+    return '%.2f' % (bank.get(user_id) / 100.)
+
+def bank_change(user_id, cent):
+    gold = bank.get(user_id)
+    bank.set(user_id, gold + cent)
+
+def bank_can_pay(user_id, cent):
+    assert cent > 0
+    return bank.get(user_id) >= cent
+
+TRADE_CID_DIC = {
+    CID_TRADE_CHARDE: '充值',
+    CID_TRADE_WITHDRAW: '体现',
+    CID_TRADE_DEAL: '交易',
+    CID_TRADE_REWARD: '奖励',
+}
 
 TRADE_STATE_OPEN = 1
 TRADE_STATE_CANCEL = 5
 TRADE_STATE_FINISH = 9
+
+class Trade(McModel):
+    @property
+    def view(self):
+        return '%.2f' % self.value
+
+mc_frozen_bank = McCache('FrozenBank.%s')
+
+@mc_frozen_bank('{user_id}')
+def frozen_bank(user_id):
+    c = Trade.raw_sql('select sum(cent) from trade where from_id=%s and state=%s', user_id, STATE_OPEN)
+    return c.fetchone()[0] or 0
+
+def frozen_view(user_id):
+    return '%.2f' % (frozen_bank(user_id) / 100.)
+
+def _trade_new(cent, from_id, to_id, cid, rid, state):
+    t = int(time())
+    t = Trade(
+        value=cent,
+        from_id=from_id,
+        to_id=to_id,
+        cid=cid,
+        rid=rid,
+        state=state,
+        create_time=t,
+        update_time=t,
+    )
+    t.save()
+    return t
+
+def trade_new(price, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN):
+    assert yuan > 0
+    cent = int(100 * price)
+    t = _trade_new(cent, from_id, to_id, cid, rid, state)
+    bank_change(from_id, -cent)
+    if state == TRADE_STATE_FINISH:
+        bank_change(to_id, cent)
+    return t
+
+def trade_finish(id):
+    t = Trade.mc_get(id)
+    if t and t.state == TRADE_STATE_OPEN:
+        bank_change(t.to_id, t.cent)
+        t.update_time = int(time())
+        t.state = TRADE_STATE_FINISH
+        t.save()
+        mc_frozen_bank.delete(t.from_id)
+
+def trade_cancel(id):
+    t = Trade.mc_get(id)
+    if t and t.state == TRADE_STATE_OPEN:
+        from_id = t.from_id
+        bank_change(from_id, t.cent)
+        t.update_time = int(time())
+        t.state = TRADE_STATE_CANCEL
+        t.save()
+        mc_frozen_bank.delete(from_id)
+
+
+class PayAccount(Model):
 
 mc_bank_price = McCache('BankPrice:%s')
 mc_pay_on_way_to_total = McCache('PayOnwayTo:%s')

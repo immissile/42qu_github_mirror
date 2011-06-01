@@ -76,10 +76,12 @@ class VerifyPassword(VerifyBase):
     def post(self, id, ck):
         current_user_id = self.current_user_id
         if current_user_id:
-            user_id = self.handler_verify(id, ck, True)
-            if current_user_id == user_id:
-                password = self.get_argument('password', None)
-                if password:
+            password = self.get_argument('password', None)
+            if password:
+                user_id = self.handler_verify(id, ck, True)
+                if current_user_id == user_id:
                     user_password_new(user_id, password)
-                return self.render(password=password)
+                    return self.render(password=password)
+            else:
+                return self.get(id, ck)
         self.redirect('/')
