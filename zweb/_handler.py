@@ -15,7 +15,7 @@ class Base(web.RequestHandler):
         if session:
             user_id = user_id_by_session(session)
             if user_id:
-                user = Zsite.get(user_id)
+                user = Zsite.mc_get(user_id)
                 return user
             else:
                 self.clear_cookie(key)
