@@ -145,7 +145,7 @@ def profile_middleware(execute):
         profile = self.get_argument('profile', None)
         profile_cookie = self.get_cookie('profile')
         if profile == "0":
-            self.clear_cookie('profile', domain=SITE_DOMAIN_SUFFIX)
+            self.clear_cookie('profile')
             profile = None
             profile_cookie = None
         elif profile is not None:
@@ -179,7 +179,9 @@ def profile_middleware(execute):
 
                 def finish(self, so):
                     _write_buffer = self._write_buffer
-                    if "".join(_write_buffer).lstrip().startswith("<") or profile:
+                    if "".join(_write_buffer).lstrip().startswith("<") or (
+                            _write_buffer and profile 
+                        ):
                         #disable output for json
                         stats = load_stats()
 
