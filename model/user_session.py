@@ -20,7 +20,7 @@ def user_session_by_db(user_id):
 
 def user_session(user_id):
     s = user_session_by_db(user_id)
-    if s is None:
+    if not s:
         u = UserSession.get_or_create(id=user_id)
         if u.value is None:
             s = urandom(12)
