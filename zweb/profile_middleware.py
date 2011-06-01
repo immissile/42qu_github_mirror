@@ -143,15 +143,16 @@ def profile_middleware(execute):
     PROFILE_FUNC_LIST = [SQLSTORE, mc]
     def _(self, transforms, *args, **kwargs):
         profile = self.get_argument('profile', None)
-
+        profile_cookie = self.get_cookie('profile')
         if profile == "0":
             self.clear_cookie('profile', domain=SITE_DOMAIN_SUFFIX)
             profile = None
+            profile_cookie = None
         elif profile is not None:
             self.set_cookie("profile", "1")
 
 
-        if profile or self.get_cookie("profile"):
+        if profile or profile_cookie:
 
             prof = start_profile()
             for i in PROFILE_FUNC_LIST:
