@@ -1,4 +1,6 @@
-<%htm:form>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%htm:form action="/login">
 <div>
     <label for="mail">邮箱</label>
     <input id="mail" name="mail" value="${mail or ''}" type="text">
@@ -15,6 +17,6 @@
 %if error_password:
 <div>${error_password|n}</div>
 %endif
-<input type="hidden" value="/" name="redirect">\
+<input id="login_next" type="hidden" value="/" name="next">\
 <button type="submit"><span>开始使用！</span></button>\
 </%htm:form>

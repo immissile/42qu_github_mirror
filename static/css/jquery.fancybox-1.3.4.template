@@ -109,9 +109,10 @@ from config import FS_URL
 }
 
 #fancybox-error {
-	color: #444;
-	font: normal 12px/20px Arial;
+	color:#000;
+	font-size:16px;
 	padding: 14px;
+    line-height:18px;
 	margin: 0;
 }
 

@@ -20,8 +20,8 @@ from model.zsite import CID_USER
     %endif
 
     %if not current_user:
-<a id="follow" href="/">关注</a>
-<script>$("#follow").fancybox({hideOnContentClick: true});</script>
+<a id="follow" href="/j/login">关注</a>
+<script>$("#follow").fancybox();</script>
     %endif
 
 <p>关注的人</p>

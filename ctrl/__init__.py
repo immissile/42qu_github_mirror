@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import j
+import i
 import index
 import auth
-import i
 import wall
 import po
 import feed
