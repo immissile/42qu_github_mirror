@@ -8,7 +8,7 @@ class Txt(Model):
     pass
 
 def txt_new(id, txt):
-    txt = txt.rstrip()
+    txt = txt.replace("\r\n","\n").replace("\r","\n").rstrip()
     t = Txt.get(id)
     if t is None:
         Txt(id=id, txt=txt).save()
