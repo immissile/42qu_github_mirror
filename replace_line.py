@@ -5,11 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/note/
+http://s.zuroc.xxx/css
 """
 
 TO_STRING = """
-/po/
+${FS_URL}
 """
 
 def run():
@@ -31,7 +31,7 @@ def replace(from_string, to_string):
 
         for filename in filenames:
             suffix = filename.rsplit(".", 1)[-1]
-            if suffix not in ("py", "htm", "txt", "conf"):
+            if suffix not in ("py", "htm", "txt", "conf", "css", "h", "template"):
                 continue
             path = join(dirpath, filename)
             if path == file:
