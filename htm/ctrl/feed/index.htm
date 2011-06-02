@@ -13,20 +13,24 @@ feed_zsite = i.zsite
 <div style="padding:10px;margin:10px;border:1px solid #eee">\
 <a href="${feed_zsite.link}" target="_blank">${feed_zsite.name}</a> : \
 ${caller.body()}\
+</div>\
+</%def>
+<%def name="_style1_1(i)">
+<%call expr="_style1(i)">
 <div>
     <a href="/po/${i.id}" target="_blank">${i.reply_total or ''}回复</a>
 </div>
-</div>\
+</%call>
 </%def>
 
 <%def name="render_word(i)">
-<%call expr="_style1(i)">
+<%call expr="_style1_1(i)">
 ${i.txt}
 </%call>
 </%def>
 
 <%def name="render_note(i)">
-<%call expr="_style1(i)">
+<%call expr="_style1_1(i)">
 <a href="/po/${i.id}" target="_blank">${i.name}</a>
 <div>${i.txt}</div>
 </%call>
