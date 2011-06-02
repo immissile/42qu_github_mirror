@@ -1,0 +1,20 @@
+<%htm:form>
+<div>
+    <label for="mail">邮箱</label>
+    <input id="mail" name="mail" value="${mail or ''}" type="text">
+</div>
+%if error_mail:
+<div>${error_mail}</div>
+%endif
+
+<div>
+    <label for="password">密码</label>
+    <input id="password" name="password" value="" type="password">
+</div>
+
+%if error_password:
+<div>${error_password|n}</div>
+%endif
+<input type="hidden" value="/" name="redirect">\
+<button type="submit"><span>开始使用！</span></button>\
+</%htm:form>

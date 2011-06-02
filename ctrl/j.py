@@ -10,3 +10,7 @@ class Txt(_handler.Base):
     def get(self):
         self.render()
 
+@urlmap("/j/login")
+class Login(_handler.Base):
+    def get(self):
+        self.render()
