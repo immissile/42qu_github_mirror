@@ -28,4 +28,4 @@ def make(suffix):
 
 make("js")
 make("css")
-
+import merge

@@ -10,7 +10,6 @@ from struct import pack, unpack
 from zlib import crc32
 import re
 import subprocess
-import make
 
 prefix = dirname(abspath(__file__))
 merge_prefix = prefix
