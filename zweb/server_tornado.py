@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 #coding:utf-8
-
-
-from zkit.errormiddleware import ErrorMiddleware
-from config import render
-import tornado.ioloop
-import tornado.wsgi
+import sys
 import tornado.httpserver
 import tornado.ioloop
-import sys
+import tornado.wsgi
+from zkit.errormiddleware import ErrorMiddleware
+from config import render
 
 
 def WSGIServer(port, application):
@@ -17,4 +14,3 @@ def WSGIServer(port, application):
     http_server = tornado.httpserver.HTTPServer(container)
     http_server.listen(port)
     tornado.ioloop.IOLoop.instance().start()
-

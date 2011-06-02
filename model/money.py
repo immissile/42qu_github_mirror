@@ -3,8 +3,11 @@
 from time import time
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from kv import Kv
-from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL, CID_TRADE_REWARD
+from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_TRADE_TAX
+from zsite import Zsite
+from user_mail import mail_by_user_id
 
+# Bank
 bank = Kv('bank', 0)
 
 def bank_view(user_id):
@@ -18,18 +21,23 @@ def bank_can_pay(user_id, cent):
     assert cent > 0
     return bank.get(user_id) >= cent
 
+# Trade
 TRADE_CID_DIC = {
     CID_TRADE_CHARDE: '充值',
     CID_TRADE_WITHDRAW: '体现',
     CID_TRADE_DEAL: '交易',
-    CID_TRADE_REWARD: '奖励',
+#    CID_TRADE_REWARD: '奖励',
+#    CID_TRADE_TAX: '税收',
 }
 
 TRADE_STATE_OPEN = 1
 TRADE_STATE_CANCEL = 5
 TRADE_STATE_FINISH = 9
 
-class Trade(McModel):
+class Trade(Model):
+    finish = trade_finish
+    cancel = trade_cancel
+
     @property
     def view(self):
         return '%.2f' % self.value
@@ -68,18 +76,16 @@ def trade_new(price, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN):
         bank_change(to_id, cent)
     return t
 
-def trade_finish(id):
-    t = Trade.mc_get(id)
-    if t and t.state == TRADE_STATE_OPEN:
+def trade_finish(t):
+    if t.state == TRADE_STATE_OPEN:
         bank_change(t.to_id, t.cent)
         t.update_time = int(time())
         t.state = TRADE_STATE_FINISH
         t.save()
         mc_frozen_bank.delete(t.from_id)
 
-def trade_cancel(id):
-    t = Trade.mc_get(id)
-    if t and t.state == TRADE_STATE_OPEN:
+def trade_cancel(t):
+    if t.state == TRADE_STATE_OPEN:
         from_id = t.from_id
         bank_change(from_id, t.cent)
         t.update_time = int(time())
@@ -87,8 +93,34 @@ def trade_cancel(id):
         t.save()
         mc_frozen_bank.delete(from_id)
 
+def trade_history(user_id):
+    pass
 
+# TradeLog
+trade_log = Kv('trade_log')
+#class TradeLog(Model):
+#    pass
+
+
+# PayAccount
 class PayAccount(Model):
+    pass
+
+def pay_account_new(user_id, account, name, cid):
+    a = DrawAccount.get_or_create(user_id=user_id, cid=cid)
+    if account:
+        a.account = account
+    if name:
+        a.name = name
+    a.save()
+    return a
+
+def pay_account_get(user_id, cid):
+    a = DrawAccount.get(user_id=user_id, cid=cid)
+    if a:
+        return account, name
+    return mail_by_user_id(user_id), Zsite.mc_get(user_id).name
+
 
 mc_bank_price = McCache('BankPrice:%s')
 mc_pay_on_way_to_total = McCache('PayOnwayTo:%s')

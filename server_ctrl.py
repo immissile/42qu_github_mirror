@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
 import config
 from zweb.server_tornado import WSGIServer
 from ctrl._application import application

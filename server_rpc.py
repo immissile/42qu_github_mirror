@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import config
+import tornado.ioloop
 
 def run():
-    from zweb.server_tornado import WSGIServer
-    from god._application import application
+    from rpc._application import application
     import sys
     if len(sys.argv) > 1 and sys.argv[1].isdigit():
         port = int(sys.argv[1])
     else:
-        port = config.GOD_PORT
+        port = config.RPC_PORT
     print 'server on port %s'%port
-    WSGIServer(port, application)
+    application.listen(port)
+    tornado.ioloop.IOLoop.instance().start()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     run()

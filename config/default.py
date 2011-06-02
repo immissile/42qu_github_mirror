@@ -42,6 +42,7 @@ def finish(o):
     o.PIC_PATH = "/mnt/zpage"
     o.GOD_PORT = o.PORT + 10
     o.API_PORT = o.PORT + 20
+    o.RPC_PORT = o.PORT + 30
     o.PIC_URL = 'http://%s'%o.PIC_DOMAIN
     o.FS_URL = 'http://%s'%o.FS_DOMAIN
 
