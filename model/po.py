@@ -30,6 +30,11 @@ class Po(McModel, ReplyMixin):
         txt = self.txt
         return pic_htm(txt, pic_seq_dic(self.user_id, self.id))
 
+    def txt_set(self, txt):
+        id = self.id
+        txt_new(id, txt)
+        mc_htm.delete(id)
+
     @property
     def link(self):
         if not hasattr(self, '_link'):

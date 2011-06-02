@@ -8,7 +8,6 @@ from model.po import Po, po_rm,\
 from model import reply
 from model.zsite import Zsite
 from zkit.jsdict import JsDict
-from model.txt import txt_new
 
 
 
@@ -47,7 +46,7 @@ class Edit(_handler.LoginBase):
                 po.name = name
                 po.save()
             if txt:
-                txt_new(id, txt)
+                po.txt_set(id, txt)
             po_state_set(po, state)
         else:
             po = po_note_new(current_user_id, name, txt, state)

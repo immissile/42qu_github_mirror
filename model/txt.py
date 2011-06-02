@@ -3,6 +3,7 @@
 from _db import  Model, cursor_by_table, McCache
 from time import time
 
+
 class Txt(Model):
     pass
 

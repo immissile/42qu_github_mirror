@@ -7,7 +7,7 @@ from datetime import datetime
 <%def name="po_body()">
 
 <h1>${po.name}</h1>
-<pre>${po.txt}</pre>
+<pre>${po.htm|n}</pre>
 <div>${datetime.fromtimestamp(po.create_time)}</div>
 <div>
     %if can_admin:
