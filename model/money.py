@@ -3,9 +3,11 @@
 from time import time
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from kv import Kv
-from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_TRADE_TAX
+from cid import CID_TRADE_CHARDE, CID_TRADE_DRAW, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_TRADE_TAX
+from cid import CID_VERIFY_MONEY, CID_CHARGE_ALIPAY
 from zsite import Zsite
 from user_mail import mail_by_user_id
+from verify import verify_new, verifyed
 
 # Bank
 bank = Kv('bank', 0)
@@ -24,7 +26,7 @@ def bank_can_pay(user_id, cent):
 # Trade
 TRADE_CID_DIC = {
     CID_TRADE_CHARDE: '充值',
-    CID_TRADE_WITHDRAW: '体现',
+    CID_TRADE_WITHDRAW: '提现',
     CID_TRADE_DEAL: '交易',
 #    CID_TRADE_REWARD: '奖励',
 #    CID_TRADE_TAX: '税收',
@@ -52,7 +54,7 @@ def frozen_bank(user_id):
 def frozen_view(user_id):
     return '%.2f' % (frozen_bank(user_id) / 100.)
 
-def _trade_new(cent, from_id, to_id, cid, rid, state):
+def trade_new(cent, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN):
     t = int(time())
     t = Trade(
         value=cent,
@@ -65,16 +67,25 @@ def _trade_new(cent, from_id, to_id, cid, rid, state):
         update_time=t,
     )
     t.save()
-    return t
-
-def trade_new(price, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN):
-    assert yuan > 0
-    cent = int(100 * price)
-    t = _trade_new(cent, from_id, to_id, cid, rid, state)
     bank_change(from_id, -cent)
     if state == TRADE_STATE_FINISH:
         bank_change(to_id, cent)
     return t
+
+def charge_new(price, user_id, cid):
+    assert price > 0
+    cent = int(price * 100)
+    t = trade_new(cent, 0, user_id, CID_TRADE_CHARDE, cid, TRADE_STATE_OPEN)
+    vid, ck = verify_new(user_id, CID_VERIFY_MONEY)
+    return '%s_%s_%s' % (t.id, vid, ck)
+
+def draw_new(price, user_id, aid):
+    assert price > 0
+    cent = int(price * 100)
+    t = trade_new(cent, user_id, 0, CID_TRADE_CHARDE, aid, TRADE_STATE_OPEN)
+    return t
+
+deal_new = trade_new
 
 def trade_finish(t):
     if t.state == TRADE_STATE_OPEN:

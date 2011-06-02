@@ -5,7 +5,7 @@ from os import urandom
 from time import time
 from _db import Model, McModel, McCache, mc, cursor_by_table
 from mail import mq_rendermail
-from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD
+from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY
 
 TIME_LIMIT = 3600 * 24 * 7
 
@@ -17,7 +17,7 @@ VERIFY_TEMPLATE = {
 class Verify(Model):
     pass
 
-def _verify_new(user_id, cid):
+def verify_new(user_id, cid):
     v = Verify(user_id=user_id, cid=cid)
     v.create_time = time()
     value = urlsafe_b64encode(urandom(12))
@@ -26,12 +26,12 @@ def _verify_new(user_id, cid):
     id = v.id
     return id, value
 
-def verify_new(user_id, name, mail, cid):
-    id, ck = _verify_new(user_id, cid)
+def verify_mail_new(user_id, name, mail, cid):
+    id, ck = verify_new(user_id, cid)
     template = VERIFY_TEMPLATE[cid]
     mq_rendermail(template, mail, name, id=id, ck=ck)
 
-def verify(id, value, delete):
+def verifyed(id, value, delete=False):
     v = Verify.get(id)
     if v:
         if delete:

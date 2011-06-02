@@ -6,7 +6,7 @@ from zkit.txt import EMAIL_VALID, mail2link
 from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD
 from model.user_auth import user_password_new
 from model.user_mail import mail_by_user_id, user_id_by_mail
-from model.verify import verify_new, verify
+from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from model.user_session import user_session
 
@@ -18,7 +18,7 @@ class Mail(LoginBase):
         current_user_id = self.current_user_id
         if current_user.state == ZSITE_STATE_APPLY:
             mail = mail_by_user_id(current_user_id)
-            verify_new(current_user_id, current_user.name, mail, self.cid)
+            verify_mail_new(current_user_id, current_user.name, mail, self.cid)
             link = mail2link(mail)
             return self.render(
                 mail=mail,
@@ -29,7 +29,7 @@ class Mail(LoginBase):
 class VerifyBase(Base):
     cid = None
     def handler_verify(self, id, ck, delete=False):
-        user_id, cid = verify(id, ck, delete)
+        user_id, cid = verifyed(id, ck, delete)
         if user_id and self.cid == cid:
             session = user_session(user_id)
             self.set_cookie('S', session)
@@ -57,7 +57,7 @@ class Password(Base):
             user_id = user_id_by_mail(mail)
             if user_id:
                 user = Zsite.mc_get(user_id)
-                verify_new(user_id, user.name, mail, self.cid)
+                verify_mail_new(user_id, user.name, mail, self.cid)
                 link = mail2link(mail)
                 return self.render(
                     mail=mail,

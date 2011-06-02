@@ -8,7 +8,7 @@ from zkit.txt import EMAIL_VALID, mail2link
 from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD
 from model.user_auth import user_password_new
 from model.user_mail import mail_by_user_id, user_id_by_mail
-from model.verify import verify_new, verify
+from model.verify import verify_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from model.user_session import user_session
 
@@ -21,6 +21,7 @@ class Money(LoginBase):
 @urlmap('/money/charge/(\d{1,8}(?:\.\d{1,2})?)')
 class Charge(LoginBase):
     def get(self, price='42'):
+        return self.finish(vars(self.request))
         return self.finish(price)
         self.render(price=price)
 
