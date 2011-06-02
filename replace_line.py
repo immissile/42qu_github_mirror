@@ -5,11 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-http://s.zuroc.xxx/css
+${FS_URL}/fancybox/
 """
 
 TO_STRING = """
-${FS_URL}
+${FS_URL}/css/fancybox/
 """
 
 def run():
