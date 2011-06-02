@@ -23,6 +23,9 @@ url = url_by_id(current_user_id)
 %else:
 <a href="/i/url">设置个性域名</a>
 %endif
+<p>
+<a href="/password">修改密码</a>
+</p>
 <p><a href="/i/namecard">名片设置</a></p>
 <%htm:form>
 座右铭 <input type="input" name="motto" value="${motto.get(current_user_id)}">
