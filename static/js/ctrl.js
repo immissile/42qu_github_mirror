@@ -6,6 +6,17 @@ function _rm(prefix, url){
         }
     }
 }
+jQuery.fn.extend({  
+    elastic_login: function(){
+        return this.elastic().focus(function(){
+            if(!cookie.get('S')){
+                login()
+            }
+        })
+    }
+})
+
+
 
 
 _gaq=[['_setAccount', 'UA-23361634-1'],['_trackPageview'],['_trackPageLoadTime']];
