@@ -65,8 +65,6 @@ def po_pic_rm(user_id, po_id, seq):
 def mc_flush(user_id, po_id):
     po_pic_total.delete(user_id, po_id)
     mc_pic_id_list.delete('%s_%s' % (user_id, po_id))
-    from po import mc_htm
-    mc_htm.delete(po_id)
 
 #mc_pic_new_id_list = McCacheA('PoPicNewIdList.%s')
 #

@@ -11,6 +11,7 @@ from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from reply import ReplyMixin
 from po_pic import pic_htm, pic_seq_dic
+from zkit.txt import txt_withlink
 
 PO_LINK = {
     CID_NOTE: '/note/%s',
@@ -27,7 +28,7 @@ class Po(McModel, ReplyMixin):
     @property
     @mc_htm('{self.id}')
     def htm(self):
-        txt = self.txt
+        txt = txt_withlink(self.txt)
         return pic_htm(txt, pic_seq_dic(self.user_id, self.id))
 
     def txt_set(self, txt):
