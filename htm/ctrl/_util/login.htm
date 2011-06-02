@@ -1,22 +1,25 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
+
+<%def name="login_form(id='')">
 <%htm:form action="/login">
 <div>
-    <label for="mail">邮箱</label>
-    <input id="mail" name="mail" value="${mail or ''}" type="text">
+    <label for="login_mail${id}">邮箱</label>
+    <input id="login_mail${id}" name="mail" value="${mail or ''}" type="text">
 </div>
 %if error_mail:
 <div>${error_mail}</div>
 %endif
 
 <div>
-    <label for="password">密码</label>
-    <input id="password" name="password" value="" type="password">
+    <label for="login_password${id}">密码</label>
+    <input id="login_password${id}" name="password" value="" type="password">
 </div>
 
 %if error_password:
 <div>${error_password|n}</div>
 %endif
-<input id="login_next" type="hidden" value="/" name="next">\
+<input id="login_next${id}" type="hidden" value="/" name="next">\
 <button type="submit"><span>开始使用！</span></button>\
 </%htm:form>
+</%def>

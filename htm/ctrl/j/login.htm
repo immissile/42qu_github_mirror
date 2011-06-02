@@ -1,4 +1,2 @@
-<%include file="/ctrl/_util/login.htm"/>
-<script>
-$("#login_next").val(location.href)
-</script>
+<%namespace file="/ctrl/_util/login.htm" import="login_form"/>
+${login_form('_pop')}\
