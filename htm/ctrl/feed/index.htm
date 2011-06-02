@@ -15,12 +15,14 @@ feed_zsite = i.zsite
 ${caller.body()}\
 </div>\
 </%def>
+
 <%def name="_style1_1(i)">
 <%call expr="_style1(i)">
-<div>
-    <a href="/po/${i.id}" target="_blank">${i.reply_total or ''}回复</a>
-</div>
-</%call>
+${caller.body()}\
+<div>\
+<a href="/po/${i.id}" target="_blank">${i.reply_total or ''}回复</a>\
+</div>\
+</%call>\
 </%def>
 
 <%def name="render_word(i)">
