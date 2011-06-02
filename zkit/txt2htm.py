@@ -36,7 +36,7 @@ def replace_bold(match):
 def txt_withlink(s):
     s = escape(s)
     if s:
-        s = s.replace("\n","</p><p>\n")
+        s = s.replace("\n","</p><p>")
         s = "<p>%s</p>"%s 
     s = RE_BOLD.sub(replace_bold, s)
     s = RE_LINK.sub(replace_link, s)

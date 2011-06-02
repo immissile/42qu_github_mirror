@@ -11,7 +11,7 @@ from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from reply import ReplyMixin
 from po_pic import pic_htm, pic_seq_dic
-from zkit.txt import txt_withlink
+from zkit.txt2htm import txt_withlink
 
 PO_LINK = {
     CID_NOTE: '/note/%s',
