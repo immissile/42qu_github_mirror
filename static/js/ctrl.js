@@ -20,10 +20,14 @@ _gaq=[['_setAccount', 'UA-23361634-1'],['_trackPageview'],['_trackPageLoadTime']
 
 function login(){
     $.fancybox({
-    href:'/j/login',
-    onComplete:function(){ 
-        $("#login_next_pop").val(location.href);
-        $("#login_mail_pop").focus();
-    }
+        href:'/j/login',
+        onComplete:function(){ 
+            $("#login_next_pop").val(location.href);
+            var mail = $("#login_mail_pop").focus(), password = $("#login_mail_password"), mail_val = cookie.get("E");
+            if(mail_val){
+                mail.val(mail_val);
+                password.focus()
+            }
+        }
     });
 }

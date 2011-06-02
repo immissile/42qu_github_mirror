@@ -27,9 +27,10 @@ class Login(_handler.Base):
             return self.redirect('/')
         self.render()
 
-    def _login(self, user_id, redirect):
+    def _login(self, user_id, mail, redirect):
         session = user_session(user_id)
         self.set_cookie('S', session)
+        self.set_cookie('E', mail)
         self.redirect(redirect)
 
     def post(self):
@@ -53,12 +54,12 @@ class Login(_handler.Base):
             user_id = user_id_by_mail(mail)
             if user_id:
                 if user_password_verify(user_id, password):
-                    return self._login(user_id, self.get_argument('next', '/'))
+                    return self._login(user_id, mail, self.get_argument('next', '/'))
                 else:
                     error_password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
             else:
                 user_id = user_new_by_mail(mail, password)
-                return self._login(user_id, '/verify/mail')
+                return self._login(user_id, mail, '/verify/mail')
 
         self.render(
             mail=mail,
