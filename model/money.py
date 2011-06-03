@@ -41,8 +41,11 @@ TRADE_STATE_CANCEL = 5
 TRADE_STATE_FINISH = 9
 
 class Trade(Model):
-    finish = trade_finish
-    cancel = trade_cancel
+    def finish(self):
+        trade_finish(self)
+
+    def cancel(self):
+        trade_cancel(self)
 
     @property
     def got(self):
@@ -70,7 +73,7 @@ def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN):
     t = int(time())
     t = Trade(
         value=cent,
-        tax=tax
+        tax=tax,
         from_id=from_id,
         to_id=to_id,
         cid=cid,
