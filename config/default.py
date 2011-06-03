@@ -30,6 +30,10 @@ def prepare(o):
     o.SMTP_USERNAME = "zpagedev"
     o.SMTP_PASSWORD = "42qu_com"
     o.SENDER_MAIL = "zpagedev@163.com"
+    
+    o.ALIPAY_ID = ""
+    o.ALIPAY_SALT = ""
+    o.ALIPAY_EMAIL = ""
 
     return o
 
