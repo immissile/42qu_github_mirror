@@ -288,15 +288,18 @@ def merge_js(path, filename, filetuple):
 
 def merge_js_import(path, filename, filetuple):
     filepath = join(path, filename)
-    txt = []
+    txt = ["""
+function LOAD(filename){
+    var headID = document.getElementsByTagName("head")[0];
+    var newScript = document.createElement('script');
+    newScript.type = 'text/javascript';
+    newScript.src = filename;
+    headID.appendChild(newScript);
+}
+"""]
 
-    with open(join(path, "lazyload.js"), "r") as infile:
-        txt.append(infile.read()) 
-
-    txt.append("""LazyLoad.js([""")
     for i in filetuple:
-        txt.append("'%s/js/%s',"%(FS_URL,i))
-    txt.append("])")
+        txt.append("LOAD('%s/js/%s')"%(FS_URL,i))
  
     with open(filepath, "w") as out:
         out.write("\n".join(txt))
@@ -313,3 +316,4 @@ print "JS Merge Game Over"
 
 merge_css_import(join(prefix, "css", "z.css"))
 merge_js_import(join(prefix, "js"), "z.js", js.z.JS)
+
