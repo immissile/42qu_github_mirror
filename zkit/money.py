@@ -24,14 +24,14 @@ def alipay_sign(salt, param):
     return md5(param+salt).hexdigest()
 
 def alipay_url_parse(url):
-    url = url.split('?', 1)[-1]
-    r = parse_qsl(url)
-    return r
+    qs = url.split('?', 1)[-1]
+    t = parse_qsl(qs)
+    return dict(t)
 
 def alipay_recall_valid(salt, d):
     sign = None
     r = []
-    for k, v in  sorted(d):
+    for k, v in sorted(d):
         if k == 'sign':
             sign = v
         elif k == 'sign_type':

@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import _handler
+from _handler import Base
 from zweb._urlmap import urlmap
+from config import SITE_URL
 
 @urlmap('/')
-class Index(_handler.Base):
+class Index(Base):
     def get(self):
-        self.render()
+        self.redirect(SITE_URL)

@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from zkit.money import Alipay
+from zkit.money import Alipay, alipay_url_parse
 from config import ALIPAY_ID, ALIPAY_SALT, ALIPAY_EMAIL
+from money import charge_new, charged
+from cid import CID_PAY_ALIPAY
+from user_mail import mail_by_user_id
 
 ALIPAY = Alipay(ALIPAY_SALT, ALIPAY_ID, ALIPAY_EMAIL)
 
@@ -9,9 +12,9 @@ def _alipay_payurl(
         user_id, total_fee, return_url, notify_url, subject, buyer_email=None
     ):
     if buyer_email is None:
-        buyer_email = user_mail_get(user_id) or ''
-    out_trade_no = pay_new(man_id, total_fee)
-    body = "%s -付款-> %s -跳转-> %s"%(buyer_email, man_id, return_url)
+        buyer_email = mail_by_user_id(user_id)
+    out_trade_no = charge_new(total_fee, user_id, CID_PAY_ALIPAY)
+    body = '%s 付款> %s 跳转> %s' % (buyer_email, user_id, return_url)
     return ALIPAY.payurl(
         total_fee,
         out_trade_no,
@@ -23,11 +26,11 @@ def _alipay_payurl(
     )
 
 def alipay_payurl(
-        man_id, total_fee, return_url, notify_url, subject, buyer_email=None
+        user_id, total_fee, return_url, notify_url, subject, buyer_email=None
     ):
-    total_fee = int(float(total_fee)*100)/100.0
+    total_fee = int(float(total_fee)*100)/100.
     return _alipay_payurl(
-        man_id,
+        user_id,
         total_fee,
         return_url,
         notify_url,
@@ -35,22 +38,22 @@ def alipay_payurl(
         buyer_email
     )
 
-def alipay_payurl_with_tax(
-        man_id, total_fee, return_url, notify_url, subject, buyer_email=None
-    ):
-    total_fee = int(float(total_fee)*100)/100.0
-    _total_fee = int(int(float(total_fee)*100+0.5)/ALIPAY_TAX)/100.0
-    alipay_tax = _total_fee - total_fee
-    if alipay_tax:
-        subject += ' (支付宝手续费%s)' % alipay_tax
-    return _alipay_payurl(
-        man_id,
-        _total_fee,
-        return_url,
-        notify_url,
-        subject,
-        buyer_email
-    )
+#def alipay_payurl_with_tax(
+#        user_id, total_fee, return_url, notify_url, subject, buyer_email=None
+#    ):
+#    total_fee = int(float(total_fee)*100)/100.
+#    _total_fee = int(int(float(total_fee)*100+0.5)/ALIPAY_TAX)/100.
+#    alipay_tax = _total_fee - total_fee
+#    if alipay_tax:
+#        subject += ' (支付宝手续费%s)' % alipay_tax
+#    return _alipay_payurl(
+#        user_id,
+#        _total_fee,
+#        return_url,
+#        notify_url,
+#        subject,
+#        buyer_email
+#    )
 
 def alipay_url_recall(url):
     #'WAIT_BUYER_PAY':'等待买家付款',
@@ -62,19 +65,18 @@ def alipay_url_recall(url):
     #'TRADE_FINISHED':'交易成功结束',
     #'TRADE_CLOSED':'交易中途关闭（未完成）',
     d = alipay_url_parse(url)
-    dd = dict(d)
-    return alipay_recall(dd)
+    return alipay_recall(d)
 
-def alipay_recall(dd):
-    if dd.get('trade_status') not in ("TRADE_FINISHED", "TRADE_SUCCESS"):
+def alipay_recall(d):
+    if d.get('trade_status') not in ('TRADE_FINISHED', 'TRADE_SUCCESS'):
         return
 
-    result = ALIPAY.recall_valid(dd)
+    result = ALIPAY.recall_valid(d)
     if not result:
         return False
 
     #如果验证有效 , 下面的参数肯定有
-    trade_no = dd['trade_no']
-    out_trade_no = dd['out_trade_no']
-    total_fee = dd['total_fee']
-    return pay_charged(trade_no, out_trade_no, total_fee, CID_BANK_ALIPAY)
+    trade_no = d['trade_no']
+    out_trade_no = d['out_trade_no']
+    total_fee = d['total_fee']
+    return charged(out_trade_no, total_fee, CID_PAY_ALIPAY, d)

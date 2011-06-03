@@ -1,11 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
-
-
-from tornado import web
-from tornado.web import HTTPError,utf8
-from zkit.tld_name import tld_name
-from profile_middleware import profile_middleware
+# -*- coding: utf-8 -*-
 
 import Cookie
 import base64
@@ -27,11 +21,15 @@ import re
 import stat
 import sys
 import time
-import tornado
 import types
 import urllib
 import urlparse
 import uuid
+
+from tornado import web
+from tornado.web import HTTPError, utf8
+from zkit.tld_name import tld_name
+from profile_middleware import profile_middleware
 
 from tornado import escape
 from tornado import locale
@@ -76,8 +74,8 @@ def set_cookie(self, name, value, domain=None, expires=None, path="/",
     for k, v in kwargs.iteritems():
         new_cookie[name][k] = v
 
-
 web.RequestHandler.set_cookie = set_cookie
+
 
 def clear_cookie(self, name, path="/", domain=None):
     """Deletes the cookie with the given name."""
@@ -94,8 +92,7 @@ def _execute(self, transforms, *args, **kwargs):
         raise HTTPError(405)
     # If XSRF cookies are turned on, reject form submissions without
     # the proper cookie
-    if self.request.method not in ("GET", "HEAD") and \
-       self.application.settings.get("xsrf_cookies"):
+    if self.request.method not in ("GET", "HEAD") and self.application.settings.get("xsrf_cookies"):
         self.check_xsrf_cookie()
     self.prepare()
     if not self._finished:
@@ -104,7 +101,6 @@ def _execute(self, transforms, *args, **kwargs):
             self.finish()
 
 web.RequestHandler._execute = profile_middleware(_execute)
-
 
 
 def redirect(self, url, permanent=False):
@@ -117,9 +113,8 @@ def redirect(self, url, permanent=False):
 
 web.RequestHandler.redirect = redirect
 
+
 def xsrf_form_html(self):
     return '<input type="hidden" name="_xsrf" value="%s">'%self.xsrf_token
 
 web.RequestHandler.xsrf_form_html = xsrf_form_html
-
-
