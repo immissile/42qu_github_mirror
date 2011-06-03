@@ -9,7 +9,7 @@ from model.money_alipay import alipay_payurl
 from model.user_auth import user_password_verify
 
 @urlmap('/money')
-class Money(LoginBase):
+class Index(LoginBase):
     def get(self):
         self.render()
 
