@@ -51,7 +51,7 @@ class Charge(LoginBase):
                 )
 
 @urlmap('/money/charged/(\d+)/(\d+)')
-class Charged(LoginBase):
+class Charged(Base):
     def get(self, tid, uid):
         uid = int(uid)
         t = Trade.get(tid)
