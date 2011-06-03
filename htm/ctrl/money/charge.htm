@@ -2,4 +2,8 @@
 from model.money import read_cent, bank
 %>
 <%inherit file="/ctrl/_base/1.htm" />
-
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%htm:form>
+<input type="input" name="price">
+<button type="submit">充值</button>
+</%htm:form>
