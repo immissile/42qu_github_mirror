@@ -10,6 +10,7 @@ from model.po import STATE_SECRET
 </div>
 <textarea name="txt">${po.txt}</textarea>
 <div>
+    <a href="javascript:upload();void(0)">传图</a>
     <input type="checkbox" name="secret" id="secret"
 %if po.state == STATE_SECRET: 
 checked
@@ -18,6 +19,8 @@ checked
     <label for="secret">仅自己可见</label>\
     <button type="submit">确定</button>\
 </div>
+
+
 %if po:
 <a href="/po/rm/${po.id}?${_xsrf}">删除</a>
 %endif
