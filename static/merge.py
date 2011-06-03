@@ -295,7 +295,7 @@ def merge_js_import(path, filename, filetuple):
 
     txt.append("""LazyLoad.js([""")
     for i in filetuple:
-        txt.append("'/js/%s',"%i)
+        txt.append("'%s/js/%s',"%(FS_URL,i))
     txt.append("])")
  
     with open(filepath, "w") as out:
