@@ -31,7 +31,7 @@ class Charge(LoginBase):
             price_max = 100000000
             if price < price_min:
                 error = '单笔充值最少为%s' % price_min
-            elif price > charge_max:
+            elif price > price_max:
                 error = '单笔充值最多为%s' % price_max
             else:
                 return_url = '%s/money/alipay_sync' % RPC_HTTP
