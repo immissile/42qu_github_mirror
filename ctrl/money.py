@@ -50,6 +50,8 @@ class Charge(LoginBase):
                     )
                 )
 
+        self.render(price=price,error=error)
+
 @urlmap('/money/charged/(\d+)/(\d+)')
 class Charged(Base):
     def get(self, tid, uid):
