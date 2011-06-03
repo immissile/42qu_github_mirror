@@ -30,7 +30,7 @@ def prepare(o):
     o.SMTP_USERNAME = "zpagedev"
     o.SMTP_PASSWORD = "42qu_com"
     o.SENDER_MAIL = "zpagedev@163.com"
-    
+
     o.ALIPAY_ID = ""
     o.ALIPAY_SALT = ""
     o.ALIPAY_EMAIL = ""
@@ -54,10 +54,10 @@ def finish(o):
     o.SITE_URL = '//%s' % o.SITE_DOMAIN
     o.SITE_HTTP = 'http://%s' % o.SITE_DOMAIN
 
-    o.API_URL = '//api.%s' %s o.SITE_DOMAIN
-    o.API_HTTP = 'http:%s' %s o.API_URL
-    o.RPC_URL = '//RPC.%s' %s o.SITE_DOMAIN
-    o.RPC_HTTP = 'http:%s' %s o.RPC_URL
+    o.API_URL = '//api.%s' % o.SITE_DOMAIN
+    o.API_HTTP = 'http:%s' % o.API_URL
+    o.RPC_URL = '//RPC.%s' % o.SITE_DOMAIN
+    o.RPC_HTTP = 'http:%s' % o.RPC_URL
 
     o.SENDER_NAME = o.SITE_DOMAIN
 
