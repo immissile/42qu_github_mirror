@@ -13,18 +13,12 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from model.user_session import user_session
 
 @urlmap('/money')
-@urlmap('/money/(\d+)')
 class Money(LoginBase):
-    def get(self, n=1):
-        page, limit, offset = page_limit_offset(
-            '/money/%s',
-            zsite.reply_total,
-            page,
-            PAGE_LIMIT
-        )
+    def get(self):
+        self.render()
 
-@urlmap('/charge')
-@urlmap('/charge/(\d{1,8}(?:\.\d{1,2})?)')
+@urlmap('/money/charge')
+@urlmap('/money/charge/(\d{1,8}(?:\.\d{1,2})?)')
 class Charge(LoginBase):
     def get(self, price='42'):
         self.render(price=price)
@@ -56,7 +50,7 @@ class Charge(LoginBase):
                     )
                 )
 
-@urlmap('/charged/(\d+)/(\d+)')
+@urlmap('/money/charged/(\d+)/(\d+)')
 class Charged(LoginBase):
     def get(self, tid, uid):
         uid = int(uid)
@@ -66,19 +60,21 @@ class Charged(LoginBase):
         else:
             self.redirect('/money')
 
-@urlmap('/withdraw')
-class Withdraw(LoginBase):
+@urlmap('/money/draw')
+class Draw(LoginBase):
     def get(self):
         pass
 
     def post(self):
         pass
 
-@urlmap('/withdrawed/(\d+)')
-class Withdrawed(LoginBase):
+@urlmap('/money/drawed/(\d+)')
+class Drawed(LoginBase):
     def get(self, tid):
         t = Trade.get(tid)
         if t and t.from_id == self.current_user_id:
             self.render(trade=t)
         else:
             self.redirect('/money')
+
+
