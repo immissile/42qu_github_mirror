@@ -50,6 +50,11 @@ def finish(o):
     o.SITE_URL = '//%s' % o.SITE_DOMAIN
     o.SITE_HTTP = 'http://%s' % o.SITE_DOMAIN
 
+    o.API_URL = '//api.%s' %s o.SITE_DOMAIN
+    o.API_HTTP = 'http:%s' %s o.API_URL
+    o.RPC_URL = '//RPC.%s' %s o.SITE_DOMAIN
+    o.RPC_HTTP = 'http:%s' %s o.RPC_URL
+
     o.SENDER_NAME = o.SITE_DOMAIN
 
     HTM_PATH = join(_env.PREFIX, 'htm')

@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
 from zweb._urlmap import urlmap
-from config import SITE_HTTP
-from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW
-from model.money import pay_account_new, pay_account_get, withdraw_new, TRADE_STATE_FINISH
+from config import RPC_HTTP
+from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_PAY_ALIPAY
+from model.money import bank, pay_account_new, pay_account_get, withdraw_new, TRADE_STATE_FINISH
 from model.money_alipay import alipay_payurl
 from model.user_auth import user_password_verify
 
@@ -27,15 +27,15 @@ class Charge(LoginBase):
         except ValueError:
             error = '金额输入错误'
         else:
-            charge_min = 0.42
-            charge_max = 100000000
+            price_min = 0.42
+            price_max = 100000000
             if price < charge_min:
-                error = '单笔充值最少为%s' % charge_min
+                error = '单笔充值最少为%s' % price_min
             elif price > charge_max:
-                error = '单笔充值最多为%s' % charge_max
+                error = '单笔充值最多为%s' % price_max
             else:
-                return_url = '%s/rpc/money/alipay_sync' % SITE_HTTP
-                notify_url = '%s/rpc/money/alipay_async' % SITE_HTTP
+                return_url = '%s/money/alipay_sync' % RPC_HTTP
+                notify_url = '%s/money/alipay_async' % RPC_HTTP
                 return self.redirect(
                     alipay_payurl(
                         self.current_user_id,
@@ -46,7 +46,10 @@ class Charge(LoginBase):
                     )
                 )
 
-        self.render(price=price,error=error)
+        self.render(
+            price=price,
+            error=error,
+        )
 
 @urlmap('/money/charged/(\d+)/(\d+)')
 class Charged(Base):
@@ -76,7 +79,32 @@ class Draw(LoginBase):
         price = self.get_argument('price', '')
 
         if user_password_verify(user_id, password):
-            pass
+            a = pay_account_new(user_id, account, name, CID_PAY_ALIPAY)
+            price = float(price)
+            try:
+                price = float(price)
+            except ValueError:
+                error = '金额输入错误'
+            else:
+                price_min = 4.2
+                price_max = bank.get(user_id) / 100.
+
+                if price > price_max:
+                    error = '当前提现的金额上限是%s元' % price_max
+                elif price < price_min:
+                    error = '单笔提现的最低金额是%s元' % price_min
+                else:
+                    t = withdraw_new(price, user_id, a.id)
+                    return self.redirect('/money/drawed/%s' % t.id)
+        else:
+            error = '密码不对'
+
+        self.render(
+            price=price,
+            account=account,
+            name=name,
+            error=error,
+        )
 
 @urlmap('/money/drawed/(\d+)')
 class Drawed(LoginBase):
@@ -86,5 +114,3 @@ class Drawed(LoginBase):
             self.render(trade=t)
         else:
             self.redirect('/money')
-
-
