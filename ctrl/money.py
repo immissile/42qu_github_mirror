@@ -4,13 +4,9 @@ from _handler import Base, LoginBase, XsrfGetBase
 from zweb._urlmap import urlmap
 from config import SITE_HTTP
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW
-from model.money import charged, withdraw_new, TRADE_STATE_FINISH
-from zkit.page import page_limit_offset
-
-from model.user_mail import mail_by_user_id, user_id_by_mail
-from model.verify import verify_new, verifyed
-from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
-from model.user_session import user_session
+from model.money import pay_account_new, pay_account_get, withdraw_new, TRADE_STATE_FINISH
+from model.money_alipay import alipay_payurl
+from model.user_auth import user_password_verify
 
 @urlmap('/money')
 class Money(LoginBase):
@@ -41,7 +37,7 @@ class Charge(LoginBase):
                 return_url = '%s/rpc/money/alipay_sync' % SITE_HTTP
                 notify_url = '%s/rpc/money/alipay_async' % SITE_HTTP
                 return self.redirect(
-                    alipay_charge(
+                    alipay_payurl(
                         self.current_user_id,
                         price,
                         return_url,
@@ -65,10 +61,22 @@ class Charged(Base):
 @urlmap('/money/draw')
 class Draw(LoginBase):
     def get(self):
-        pass
+        user_id = self.current_user_id
+        account, name = pay_account_get(user_id)
+        self.render(
+            account=account,
+            name=name,
+        )
 
     def post(self):
-        pass
+        user_id = self.current_user_id
+        password = self.get_argument('password', '')
+        account = self.get_argument('account', '')
+        name = self.get_argument('name', '')
+        price = self.get_argument('price', '')
+
+        if user_password_verify(user_id, password):
+            pass
 
 @urlmap('/money/drawed/(\d+)')
 class Drawed(LoginBase):

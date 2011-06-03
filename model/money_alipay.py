@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from zkit.money import Alipay, alipay_url_parse
-from config import ALIPAY_ID, ALIPAY_SALT, ALIPAY_EMAIL
 from money import charge_new, charged
 from cid import CID_PAY_ALIPAY
 from user_mail import mail_by_user_id
+from zkit.money import Alipay, alipay_url_parse
+from config import ALIPAY_ID, ALIPAY_SALT, ALIPAY_EMAIL
 
 ALIPAY = Alipay(ALIPAY_SALT, ALIPAY_ID, ALIPAY_EMAIL)
 
