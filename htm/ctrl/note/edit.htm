@@ -1,8 +1,23 @@
 <%!
 from model.po import STATE_SECRET
+from static import js
 %>
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="htm_head()">
+<%
+if po:
+    suffix = "/%s"%po.id
+else:
+    suffix = ""
+%>
+<script src="${js.upload}"></script>
+<script>
+UPLOADURL = "/j/note/upload${suffix}"
+DELETEURL = "/j/note/upload/rm${suffix}"
+</script>
+</%def>
 
 <%htm:form enctype="multipart/form-data">
 <div>
