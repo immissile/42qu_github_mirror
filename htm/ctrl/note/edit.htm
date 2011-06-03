@@ -1,8 +1,23 @@
 <%!
 from model.po import STATE_SECRET
+from static import js
 %>
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="htm_head()">
+<%
+if po:
+    suffix = "/%s"%po.id
+else:
+    suffix = ""
+%>
+<script src="${js.upload}"></script>
+<script>
+UPLOADURL = "/j/note/upload${suffix}"
+DELETEURL = "/j/note/upload/rm${suffix}"
+</script>
+</%def>
 
 <%htm:form enctype="multipart/form-data">
 <div>
@@ -10,6 +25,7 @@ from model.po import STATE_SECRET
 </div>
 <textarea name="txt">${po.txt}</textarea>
 <div>
+    <a href="javascript:upload();void(0)">传图</a>
     <input type="checkbox" name="secret" id="secret"
 %if po.state == STATE_SECRET: 
 checked
@@ -18,6 +34,8 @@ checked
     <label for="secret">仅自己可见</label>\
     <button type="submit">确定</button>\
 </div>
+
+
 %if po:
 <a href="/po/rm/${po.id}?${_xsrf}">删除</a>
 %endif
