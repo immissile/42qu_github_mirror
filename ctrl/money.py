@@ -3,26 +3,30 @@
 from _handler import Base, LoginBase, XsrfGetBase
 from zweb._urlmap import urlmap
 from config import SITE_HTTP
-#from model.money import *
-from zkit.txt import EMAIL_VALID, mail2link
-from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD
-from model.user_auth import user_password_new
+from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW
+from model.money import charged, withdraw_new, TRADE_STATE_FINISH
+from zkit.page import page_limit_offset
+
 from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.verify import verify_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from model.user_session import user_session
 
 @urlmap('/money')
+@urlmap('/money/(\d+)')
 class Money(LoginBase):
-    def get(self):
-        pass
+    def get(self, n=1):
+        page, limit, offset = page_limit_offset(
+            '/money/%s',
+            zsite.reply_total,
+            page,
+            PAGE_LIMIT
+        )
 
-@urlmap('/money/charge')
-@urlmap('/money/charge/(\d{1,8}(?:\.\d{1,2})?)')
+@urlmap('/charge')
+@urlmap('/charge/(\d{1,8}(?:\.\d{1,2})?)')
 class Charge(LoginBase):
     def get(self, price='42'):
-        return self.finish(vars(self.request))
-        return self.finish(price)
         self.render(price=price)
 
     def post(self, price=None):
@@ -48,14 +52,33 @@ class Charge(LoginBase):
                         price,
                         return_url,
                         notify_url,
-                        '%s充值' % self.current_user.name,
+                        '%s 充值' % self.current_user.name,
                     )
                 )
 
-@urlmap('/money/draw')
-class Draw(LoginBase):
+@urlmap('/charged/(\d+)/(\d+)')
+class Charged(LoginBase):
+    def get(self, tid, uid):
+        uid = int(uid)
+        t = Trade.get(tid)
+        if t and t.cid == CID_TRADE_CHARDE and t.state == TRADE_STATE_FINISH and t.to_id == uid:
+            self.render(trade=t)
+        else:
+            self.redirect('/money')
+
+@urlmap('/withdraw')
+class Withdraw(LoginBase):
     def get(self):
         pass
 
     def post(self):
         pass
+
+@urlmap('/withdrawed/(\d+)')
+class Withdrawed(LoginBase):
+    def get(self, tid):
+        t = Trade.get(tid)
+        if t and t.from_id == self.current_user_id:
+            self.render(trade=t)
+        else:
+            self.redirect('/money')
