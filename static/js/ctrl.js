@@ -11,8 +11,8 @@ jQuery.fn.extend({
         function _(){
             if(!cookie.get('S')){
                 login()
+                return false
             }
-            return false
         }
         this.find('textarea,input').elastic().focus(_)
         return this.submit(_) 
