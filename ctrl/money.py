@@ -13,7 +13,7 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from model.user_session import user_session
 
 @urlmap('/money')
-class Money(LoginBase):
+class Index(LoginBase):
     def get(self):
         self.render()
 
