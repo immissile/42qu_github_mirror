@@ -8,11 +8,14 @@ function _rm(prefix, url){
 }
 jQuery.fn.extend({  
     elastic_login: function(){
-        return this.elastic().focus(function(){
+        function _(){
             if(!cookie.get('S')){
                 login()
             }
-        })
+            return false
+        }
+        this.find('textarea,input').elastic().focus(_)
+        return this.submit(_) 
     }
 })
 

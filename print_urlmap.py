@@ -9,7 +9,8 @@ def print_urlmap(module):
     import zweb
     prefix = len(module)+1
     premn = None
-    for url, cls in sorted(zweb._urlmap.URLMAP):
+    for i in sorted(zweb._urlmap.URLMAP):
+        url, cls = i[:2]
         mn = cls.__module__[prefix:]+".py"
         if mn == premn:
             mn = ""
