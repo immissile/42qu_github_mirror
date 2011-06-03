@@ -20,7 +20,7 @@ class Money(LoginBase):
 @urlmap('/money/charge')
 @urlmap('/money/charge/(\d{1,8}(?:\.\d{1,2})?)')
 class Charge(LoginBase):
-    def get(self, price='42'):
+    def get(self, price='4.2'):
         self.render(price=price)
 
     def post(self, price=None):

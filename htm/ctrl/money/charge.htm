@@ -5,7 +5,7 @@ from model.money import read_cent, bank
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%htm:form>
 <div>
-    金额 <input type="text" name="price" value="price">
+    金额 <input type="text" name="price" value="${price or ''}">元
 </div>
 %if error:
 ${error}
