@@ -1,1 +1,1 @@
-zpage_private_config/nuva.py
+../zpage_private_config/nuva.py

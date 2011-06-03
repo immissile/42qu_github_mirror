@@ -1,1 +1,1 @@
-zpage_private_config/krios_dev.py
+../zpage_private_config/krios_dev.py
