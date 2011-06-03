@@ -1,7 +1,0 @@
-<%include file="jquery-1.6.1.min.js.h"/>
-<%include file="jquery.defaultvalue.source.js.h"/>
-<%include file="jquery.fancybox-1.3.4.js.h"/>
-<%include file="jquery.elastic.source.js.h"/>
-<%include file="zpage.js"/>
-<%include file="ctrl.js"/>
-

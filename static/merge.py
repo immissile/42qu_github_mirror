@@ -13,6 +13,9 @@ import subprocess
 
 prefix = dirname(abspath(__file__))
 merge_prefix = prefix
+import sys
+sys.path.append(dirname(prefix))
+from config import FS_URL
 
 def walk_filter(basedir, dirfilter=None, filefilter=None):
     for dirpath, dirnames, filenames in walk(basedir):
@@ -249,11 +252,6 @@ filename = join(pathdir,"~%s~%s.css"%(num,pathfile)).replace("\\\\","/")
     ${name} = "%s/${filename}"%FS_URL
 %endfor
 """
-merge("css", CSS_INIT_TEMPLATE)
-print "CSS Merge Game Over"
-
-merge("js", JS_INIT_TEMPLATE)
-print "JS Merge Game Over"
 
 
 def merge_css_import(path):
@@ -276,4 +274,42 @@ def merge_css_import(path):
         with open(join(pathdir, "."+filename), "w") as g:
             g.write(new)
 
+def merge_js(path, filename, filetuple):
+    filepath = join(path, filename)
+    txt = []
+
+
+    for i in filetuple:
+        with open(join(path, i), "r") as infile:
+            txt.append(infile.read()) 
+ 
+    with open(filepath, "w") as out:
+        out.write("\n".join(txt))
+
+def merge_js_import(path, filename, filetuple):
+    filepath = join(path, filename)
+    txt = []
+
+    with open(join(path, "lazyload.js"), "r") as infile:
+        txt.append(infile.read()) 
+
+    txt.append("""LazyLoad.js([""")
+    for i in filetuple:
+        txt.append("'/js/%s',"%i)
+    txt.append("])")
+ 
+    with open(filepath, "w") as out:
+        out.write("\n".join(txt))
+
+
+import js.z
+merge("css", CSS_INIT_TEMPLATE)
+print "CSS Merge Game Over"
+
+merge_js(join(prefix, "js"), "z.js", js.z.JS)
+
+merge("js", JS_INIT_TEMPLATE)
+print "JS Merge Game Over"
+
 merge_css_import(join(prefix, "css", "z.css"))
+merge_js_import(join(prefix, "js"), "z.js", js.z.JS)
