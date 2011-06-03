@@ -29,7 +29,7 @@ class Charge(LoginBase):
         else:
             price_min = 0.42
             price_max = 100000000
-            if price < charge_min:
+            if price < price_min:
                 error = '单笔充值最少为%s' % price_min
             elif price > charge_max:
                 error = '单笔充值最多为%s' % price_max
