@@ -227,11 +227,10 @@ class McNum(object):
         self.timeout = timeout
 
     def __call__(self, *key):
-        key = '_'.join(map(str, key))
-        mk = self.mc_key%key
+        mk = self.mc_key % '_'.join(map(str, key))
         num = mc.get(mk)
         if num is None:
-            num = self.get_num(key) or 0
+            num = self.get_num(*key) or 0
             mc.set(mk, num, self.timeout)
         return num
 
@@ -243,7 +242,7 @@ class McNum(object):
         for k, mck in mc_key_list.iteritems():
             v = result.get(mck)
             if v is None:
-                v = self.get_num(k) or 0
+                v = self.get_num(k.split('_')) or 0
                 mc.set(mck, v)
             r[k] = v
         return r
@@ -264,8 +263,7 @@ class McNum(object):
             v.__dict__[property] = r.get(k)
 
     def delete(self, *key):
-        key = '_'.join(map(str, key))
-        mk = self.mc_key%key
+        mk = self.mc_key % '_'.join(map(str, key))
         mc.delete(mk)
 
     def get_list(self, keys):
@@ -276,13 +274,11 @@ class McNum(object):
         ]
 
     def incr(self, *key):
-        key = '_'.join(map(str, key))
-        mk = self.mc_key%key
+        mk = self.mc_key % '_'.join(map(str, key))
         if mc.get(mk) is not None:
             mc.incr(mk)
 
     def decr(self, *key):
-        key = '_'.join(map(str, key))
-        mk = self.mc_key%key
+        mk = self.mc_key % '_'.join(map(str, key))
         if mc.get(mk) is not None:
             mc.decr(mk)
