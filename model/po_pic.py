@@ -29,7 +29,7 @@ class PoPic(McModel):
 
 po_pic_total = McNum(lambda user_id, po_id: PoPic.where(user_id=user_id, po_id=po_id).count(), 'PoPicTotal.%s')
 
-def can_add(user_id, po_id=0):
+def pic_can_add(user_id, po_id=0):
     return po_pic_total(user_id, po_id) < PIC_LIMIT
 
 def seq_gen(user_id, po_id):

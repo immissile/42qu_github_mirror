@@ -14,8 +14,7 @@ function paras(d) {
 }
 
 jQuery.extend({
-    createUploadIframe: function(id, uri)
-    {
+    createUploadIframe: function(id, uri){
       var frameId = 'jUploadFrame' + id, src = "";
       if(window.ActiveXObject) {
         if(typeof uri== 'boolean'){
@@ -25,7 +24,8 @@ jQuery.extend({
             src = uri; 
         }   
       }   
-      return $('<iframe src="' + src + '" id="' + frameId + '" name="' + frameId + '" style="position:absolute;top:-1000em;left:-1000em;"></iframe>').appendTo('body');               }, 
+      return $('<iframe src="' + src + '" id="' + frameId + '" name="' + frameId + '" style="position:absolute;top:-9999px;left:-9999px;"></iframe>').appendTo('body'); 
+    }, 
     createUploadForm: function(id, fileElementId,extra)
     {
         var formId = 'jUploadForm' + id;
@@ -51,11 +51,7 @@ jQuery.extend({
         var ename = $('#'+s.fileElementId)[0].value.split('.');
         ename = ename[ename.length-1].toLowerCase();
         if(! new RegExp(s.allowType).test(ename)){
-            if(s.begin){
-                s.begin(12);
-            }else{
-                s.error(null,'error',12);
-            }
+            s.begin(12);
             return false;
         }
         var id = new Date().getTime()
@@ -165,6 +161,7 @@ jQuery.extend({
 
     uploadHttpData: function( r, type ) {
         var data = r.responseText
+        alert(data)
         if(data.indexOf(">")>0){
             data=data.substring(data.indexOf(">")+1)
             data=data.substring(0,data.indexOf("<"))
