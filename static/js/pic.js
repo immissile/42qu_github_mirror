@@ -40,14 +40,12 @@ function start_upload() {
             _xsrf : cookie.get("_xsrf")
         },
         success: function(data, status) {
-            var data_status = data.status;
+            var data_status = data.status, src=data.src;
             if (typeof(data_status) != 'undefined') {
                 if (data_status) {
                     alert(errdetail[data_status]);
                 } else {
-                    if(data_status!=0){
-                        add_thumb(data.src, data.seqid)
-                    }
+                    src&&add_thumb(src, data.seqid)
                 }
             } else {
                 alert('无法得到服务器返回');
@@ -72,7 +70,7 @@ function start_upload() {
 };
 
 function add_thumb(src, id) {
-    $("#addpic_wait").after('<div class="cl imgblock"><img class="picsrc"><div><p>&lt;图片<span class="seqid"></span>&gt; 标题:<input class="titpic itx" value=""></p><p class="tc mt21"><input type="radio" value="1" class="radio"><label>居左</label><input type="radio" value="0" checked="checked" class="radio"><label>居中</label><input type="radio" value="2" class="radio"><label>居右</label></p><p style="margin-top:10px;"><a href="javascript:void(0)" class="rmpic">删除</a></p></div></div>')
+    $("#upload_wait").after('<div class="cl imgblock"><img class="picsrc"><div><p>&lt;图片<span class="seqid"></span>&gt; 标题:<input class="titpic itx" value=""></p><p class="tc mt21"><input type="radio" value="1" class="radio"><label>居左</label><input type="radio" value="0" checked="checked" class="radio"><label>居中</label><input type="radio" value="2" class="radio"><label>居右</label></p><p style="margin-top:10px;"><a href="javascript:void(0)" class="rmpic">删除</a></p></div></div>')
     var imgblock = $(".imgblock:first").attr("id", "pic" + id),
     p = "pos" + id;
     imgblock.find('.picsrc').attr("src", src);
@@ -96,9 +94,7 @@ $('.rmpic').live("click", function() {
     var t = $("#txt"),
     id = this.rel;
     if (confirm("确定要删除?")) {
-        $.post(DELETEURL, {
-            seqid: id
-        },
+        $.post(DELETEURL, {seqid: id},
         function(data) {
             t.val(t.val().replace(eval('/<图片' + id + '>/g'), ''));
             $("#pic" + id).remove();
@@ -109,3 +105,26 @@ function cancel_uploading() {
     uphandler.abort()
     hide_uploading()
 }
+$.fn.extend({
+    insert_caret: function(t) {
+        var self = this,
+        o = self[0];
+        if (document.all && o.createTextRange && o.p) {
+            var p = o.p;
+            p.text = p.text.charAt(p.text.length - 1) == '' ? t + '': t;
+        } else if (o.setSelectionRange) {
+            var s = o.selectionStart;
+            var e = o.selectionEnd;
+            var t1 = o.value.substring(0, s);
+            var t2 = o.value.substring(e);
+            o.value = t1 + t + t2;
+            o.focus();
+            var len = t.length;
+            o.setSelectionRange(s + len, s + len);
+            o.blur();
+        } else {
+            o.value += t;
+        }
+        self.focus()
+    }
+})
