@@ -159,11 +159,11 @@ def charged(out_trade_no, total_fee, rid, d):
             return t
 
 # Withdraw
-def withdraw_new(price, user_id, aid):
+def withdraw_new(price, user_id, cid):
     assert price > 0
     cent = int(price * 100)
     tax = int(round(cent * CHARGE_TAX[cid]))
-    return trade_new(cent, tax, user_id, BANK_SYS, CID_TRADE_WITHDRAW, aid, TRADE_STATE_OPEN)
+    return trade_new(cent, tax, user_id, BANK_SYS, CID_TRADE_WITHDRAW, cid, TRADE_STATE_OPEN)
 
 def withdraw_fail(id, txt):
     t = Trade.get(id)

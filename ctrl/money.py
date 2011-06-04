@@ -106,7 +106,7 @@ class Draw(LoginBase):
                 elif price < price_min:
                     error = '单笔提现的最低金额是%s元' % price_min
                 else:
-                    t = withdraw_new(price, user_id, a.id)
+                    t = withdraw_new(price, user_id, CID_PAY_ALIPAY)
                     return self.redirect('/money/drawed/%s' % t.id)
         else:
             error = '密码不对'
