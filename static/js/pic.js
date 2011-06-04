@@ -1,4 +1,3 @@
-
 uphandler = {
     abort: function() {}
 };
@@ -43,7 +42,6 @@ function start_upload() {
             _xsrf : cookie.get("_xsrf")
         },
         success: function(data, status) {
-            alert(1)
             if (typeof(data.status) != 'undefined') {
                 if (data.status) {
                     alert(errdetail[parseInt(data.status)]);
@@ -67,6 +65,7 @@ function start_upload() {
             }
         }
     })
+    return false
 };
 
 function add_thumb(src, id) {

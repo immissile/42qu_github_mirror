@@ -14,8 +14,7 @@ function paras(d) {
 }
 
 jQuery.extend({
-    createUploadIframe: function(id, uri)
-    {
+    createUploadIframe: function(id, uri){
       var frameId = 'jUploadFrame' + id, src = "";
       if(window.ActiveXObject) {
         if(typeof uri== 'boolean'){
@@ -25,7 +24,8 @@ jQuery.extend({
             src = uri; 
         }   
       }   
-      return $('<iframe src="' + src + '" id="' + frameId + '" name="' + frameId + '" style="position:absolute;top:-1000em;left:-1000em;"></iframe>').appendTo('body');               }, 
+      return $('<iframe src="' + src + '" id="' + frameId + '" name="' + frameId + '" style="position:absolute;top:-9999px;left:-9999px;"></iframe>').appendTo('body'); 
+    }, 
     createUploadForm: function(id, fileElementId,extra)
     {
         var formId = 'jUploadForm' + id;

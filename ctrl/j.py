@@ -4,7 +4,7 @@
 import _handler
 from zweb._urlmap import urlmap
 from model.follow import follow_rm, follow_new
-
+from json import dumps
 @urlmap("/j/txt")
 class Txt(_handler.Base):
     def get(self):
@@ -28,6 +28,10 @@ class NoteUpload(_handler.Base):
         r = self._post(id)
         if isinstance(r,(int,long)):
             r = {'status':r}
+
+        #USER DUMPS FIX HEADER FOR FIREFOX
+        r = dumps(r)
+
         self.finish(r)
 
     get = post
