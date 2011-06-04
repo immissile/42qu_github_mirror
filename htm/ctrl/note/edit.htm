@@ -43,6 +43,19 @@ checked
 <div id="upload_wait">图片上传中 ...
 <a href="javascript:cancel_uploading();void(0)">取消</a>
 </div>
+${pic_list}
+%for pic in pic_list:
+<%
+pic_order = pic.order
+pic_pos = pic.align%>\<div id="pic${pic_order}" class="cl imgblock">\
+<img class="picsrc" src="${pic.src219}">\
+<div><p>&lt;图片<span class="seqid">${pic.order}</span>&gt; \
+标题:<input class="itx titpic" name="tit${pic_order}" value="${pic.title}"></p>\
+<p class="tc mt21">\
+<input id="pos${pic_order}_1" name="pos${pic_order}" type="radio" value="1" class="radio"${' checked="checked"' if pic_pos == 1 else ''}><label for="pos${pic_order}_1">居左</label>\
+<input id="pos${pic_order}_0" name="pos${pic_order}" type="radio" value="0" class="radio"${' checked="checked"' if pic_pos == 0 else ''}><label for="pos${pic_order}_0">居中</label>\
+<input id="pos${pic_order}_2" name="pos${pic_order}" type="radio" value="2" class="radio"${' checked="checked"' if pic_pos == 2 else ''}><label for="pos${pic_order}_2">居右</label>\</p>\<p style="margin-top:10px;"><a href="javascript:void(0)" rel="${pic.order}" class="rmpic">删除</a></p></div></div>\
+%endfor
 
 
 </%htm:form>
