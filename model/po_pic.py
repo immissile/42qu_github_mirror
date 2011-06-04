@@ -87,7 +87,7 @@ def pic_id_list(user_id, po_id=0):
     return PoPic.where(user_id=user_id, po_id=po_id).order_by('seq desc').id_list()
 
 def pic_list(user_id, po_id):
-
+    return PoPic.mc_get_list(pic_id_list(user_id, po_id))
 
 def pic_list_edit(user_id, po_id=0):
     ids = pic_id_list(user_id, po_id)
@@ -96,7 +96,7 @@ def pic_list_edit(user_id, po_id=0):
         i.src219 = fs_url_jpg(i.id, 219)
     return li
 
-def pic_seq_dictt(user_id, po_id):
+def pic_seq_dict(user_id, po_id):
     ids = pic_id_list(user_id, po_id)
     d = {}
     for i in PoPic.mc_get_multi(ids).itervalues():

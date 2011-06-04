@@ -161,7 +161,6 @@ jQuery.extend({
 
     uploadHttpData: function( r, type ) {
         var data = r.responseText
-        alert(data)
         if(data.indexOf(">")>0){
             data=data.substring(data.indexOf(">")+1)
             data=data.substring(0,data.indexOf("<"))

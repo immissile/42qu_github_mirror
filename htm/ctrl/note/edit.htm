@@ -33,13 +33,16 @@ DELETEURL = "/j/note/upload/rm${suffix}"
 checked
 %endif
     >\
-    <label for="secret">仅自己可见</label>\
-    <button type="submit">确定</button>\
-</div>
-<div id="upload_wait">图片上传中 ...</div>
-
-
 %if po:
 <a href="/po/rm/${po.id}?${_xsrf}">删除</a>
 %endif
+    <label for="secret">仅自己可见</label>\
+    <button type="submit">确定</button>\
+</div>
+
+<div id="upload_wait">图片上传中 ...
+<a href="javascript:cancel_uploading();void(0)">取消</a>
+</div>
+
+
 </%htm:form>

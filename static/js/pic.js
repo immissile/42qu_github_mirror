@@ -91,3 +91,21 @@ function add_thumb(src, id) {
     $(r[1]).attr("id", p + 0)
     $(r[2]).attr("id", p + 2)
 };
+
+$('.rmpic').live("click", function() {
+    var t = $("#txt"),
+    id = this.rel;
+    if (confirm("确定要删除?")) {
+        $.post(DELETEURL, {
+            seqid: id
+        },
+        function(data) {
+            t.val(t.val().replace(eval('/<图片' + id + '>/g'), ''));
+            $("#pic" + id).remove();
+        })
+    }
+})
+function cancel_uploading() {
+    uphandler.abort()
+    hide_uploading()
+}
