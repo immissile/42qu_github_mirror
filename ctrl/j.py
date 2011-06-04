@@ -7,7 +7,8 @@ from model.follow import follow_rm, follow_new
 from model.po import Po, CID_NOTE
 from json import dumps
 from zkit.pic import picopen
-from model.po_pic import pic_can_add, fs_url_jpg, fs_url_jpg
+from model.po_pic import pic_can_add
+from model.fs import fs_url_jpg
 
 @urlmap("/j/txt")
 class Txt(_handler.Base):
@@ -53,9 +54,6 @@ class NoteUpload(_handler.Base):
         img = picopen(img)
         if not img:
             return 10
-
-        if not Note.can_new_pic(man_id, note_id):
-            return 16
 
         if id:
             po = Po.mc_get(id)
