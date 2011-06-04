@@ -23,15 +23,12 @@ class Login(_handler.Base):
 @urlmap("/j/note/upload")
 @urlmap("/j/note/upload/(\d+)")
 class NoteUpload(_handler.Base):
-    def post(self, id=None):
+    def post(self, id=0):
         #USER DUMPS FIX HEADER FOR FIREFOX
         if id:
-            try:
-                id = int(id)
-            except ValueError:
-                id = 0
+            id = int(id)
         r = self._post(id)
-        if isinstance(r,(int,long)):
+        if isinstance(r, (int, long)):
             r = {'status':r}
         r = dumps(r)
         self.finish(r)
@@ -40,14 +37,14 @@ class NoteUpload(_handler.Base):
         user_id = self.current_user_id
         if not user_id:
             return 1
-        
+
         files = self.request.files
         img = files.get('img')
         if img:
             img = img[0]['body']
         else:
             return 0
-        
+
         if len(img) > 1024*1024*12:
             return 2
 
@@ -58,7 +55,7 @@ class NoteUpload(_handler.Base):
         if id:
             po = Po.mc_get(id)
             if not (
-                po 
+                po
                 and po.user_id == user_id
                 and po.cid == CID_NOTE
             ):
@@ -69,8 +66,8 @@ class NoteUpload(_handler.Base):
 
         pic = po_pic_new(user_id, id, img)
         if not pic:
-            return 14        
- 
+            return 14
+
         r = {
             "status": 0,
             "src": fs_url_jpg(pic.id, 219),
