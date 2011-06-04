@@ -3,7 +3,7 @@ uphandler = {
 };
 errdetail = {
     1: '请登录',
-    2: '照片太大(每张照片的大小不应超过3M)',
+    2: '照片太大(每张照片的大小不应超过12M)',
     10: '不支持的图片格式',
     12: '照片格式有误(仅支持JPG,JPEG,GIF,PNG或BMP)',
     14: '添加图片出错',
@@ -12,20 +12,19 @@ errdetail = {
 
 function upload(){
     $.fancybox({
-        content : '<h2>上传图片</h2><div><p><input id="file" type="file" name="img"></p><p><button onclick="start_upload()">上传</button></p></div>',
-        onClosed : show_uploading
+        content : '<h2>上传图片</h2><div><p><input id="file" type="file" name="img"></p><p><button onclick="start_upload()">上传</button></p></div>'
     });
     return false
 }
 
 function show_uploading() {
-    $('#upload_wait').hide();
-    $('#upload').show();
+    $('#upload_wait').show();
+    $('#upload').hide();
 }
 
 function hide_uploading() {
-    $('#upload_wait').show();
-    $('#upload').hide();
+    $('#upload_wait').hide();
+    $('#upload').show();
 }
 
 function start_upload() {
@@ -41,15 +40,19 @@ function start_upload() {
             _xsrf : cookie.get("_xsrf")
         },
         success: function(data, status) {
-            if (typeof(data.status) != 'undefined') {
-                if (data.status) {
-                    alert(errdetail[parseInt(data.status)]);
+            var data_status = data.status;
+            if (typeof(data_status) != 'undefined') {
+                if (data_status) {
+                    alert(errdetail[data_status]);
                 } else {
-                    add_thumb(data.src, data.seqid);
+                    if(data_status!=0){
+                        add_thumb(data.src, data.seqid)
+                    }
                 }
             } else {
                 alert('无法得到服务器返回');
             }
+            hide_uploading()
         },
         error: function(data, status, e) {
             hide_uploading();
@@ -61,8 +64,8 @@ function start_upload() {
             } else {
                 $.fancybox.close();
                 location.href = '#loading';
+                show_uploading()
             }
-            show_uploading()
         }
     })
     return false
