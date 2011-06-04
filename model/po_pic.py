@@ -82,15 +82,11 @@ def mc_flush(user_id, po_id):
 
 mc_pic_id_list = McCacheA('PoPicIdList.%s')
 
-@mc_pic_id_list('{po_id}')
-def pic_id_list(user_id, po_id=0):
-    po_id = po_id or 0 
+@mc_pic_id_list('{user_id}_{po_id}')
+def pic_id_list(user_id, po_id):
     return PoPic.where(user_id=user_id, po_id=po_id).order_by('seq desc').id_list()
 
-def pic_list(user_id, po_id):
-    return PoPic.mc_get_list(pic_id_list(user_id, po_id))
-
-def pic_list_edit(user_id, po_id=0):
+def pic_list_edit(user_id, po_id):
     ids = pic_id_list(user_id, po_id)
     li = PoPic.mc_get_list(ids)
     for i in li:
