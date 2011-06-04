@@ -73,7 +73,7 @@ class NoteUpload(_handler.Base):
  
         r = {
             "status": 0,
-            "src": fs_url_jpg(pic.id, 219),
+            "src": fs_url_jpg(219, pic.id),
             "seqid": pic.seq,
         }
 
