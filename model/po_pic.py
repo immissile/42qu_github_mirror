@@ -115,17 +115,17 @@ PIC_SUB = re.compile(r'&lt;图片([\d]+)&gt;')
 PIC_HTML = '<div class="pmix np%s"><img src="%s" alt="%s"><div>%s</div></div>'
 
 #mc_htm = McCache('PoHtm.%s')
-
 #@mc_htm('{self.id}')
 #def htm(self):
 #    return pic2htm(self.txt, pic_seq_dict(self.user_id, self.id))
 
-def pic2htm(match, d):
+def re_pic2htm(match, d):
     m = int(match.groups()[0])
     return d.get(m, match.group(0))
 
-def pic_htm(htm, pic_dic):
-    return PIC_SUB.sub(lambda x: pic2htm(x, pic_dic), htm)
+def pic_htm(htm, user_id, po_id):
+    pic_dict = pic_seq_dict(user_id, po_id)
+    return PIC_SUB.sub(lambda x: re_pic2htm(x, pic_dict), htm)
 
 if __name__ == '__main__':
     pass

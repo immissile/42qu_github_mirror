@@ -28,8 +28,14 @@ class Po(McModel, ReplyMixin):
     @property
     @mc_htm('{self.id}')
     def htm(self):
-        txt = txt_withlink(self.txt)
-        return pic_htm(txt, pic_seq_dict(self.user_id, self.id))
+        cid = self.cid
+        id = self.id
+        h = txt_withlink(self.txt)
+        if cid == CID_NOTE:
+            from po_pic import pic_htm
+            user_id = self.user_id
+            h = pic_htm(h, user_id, id)
+        return h
 
     def txt_set(self, txt):
         id = self.id
