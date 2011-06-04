@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import re
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
+from zkit.pic import pic_fit_width_cut_height_if_large
 from pic import pic_new, pic_save
 from cid import CID_PO_PIC
 
