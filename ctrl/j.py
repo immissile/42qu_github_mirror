@@ -7,7 +7,7 @@ from model.follow import follow_rm, follow_new
 from model.po import Po, CID_NOTE
 from json import dumps
 from zkit.pic import picopen
-from model.po_pic import pic_can_add
+from model.po_pic import pic_can_add, po_pic_new
 from model.fs import fs_url_jpg
 
 @urlmap("/j/txt")
