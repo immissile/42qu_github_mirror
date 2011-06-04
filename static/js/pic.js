@@ -3,6 +3,7 @@ uphandler = {
     abort: function() {}
 };
 errdetail = {
+    1: '请登录',
     2: '照片太大(每张照片的大小不应超过3M)',
     10: '不支持的图片格式',
     12: '照片格式有误(仅支持JPG,JPEG,GIF,PNG或BMP)',
@@ -42,8 +43,9 @@ function start_upload() {
             _xsrf : cookie.get("_xsrf")
         },
         success: function(data, status) {
+            alert(1)
             if (typeof(data.status) != 'undefined') {
-                if (data.status != '0') {
+                if (data.status) {
                     alert(errdetail[parseInt(data.status)]);
                 } else {
                     add_thumb(data.src, data.seqid);
@@ -65,7 +67,7 @@ function start_upload() {
             }
         }
     })
-}
+};
 
 function add_thumb(src, id) {
     $("#addpic_wait").after('<div class="cl imgblock"><img class="picsrc"><div><p>&lt;图片<span class="seqid"></span>&gt; 标题:<input class="titpic itx" value=""></p><p class="tc mt21"><input type="radio" value="1" class="radio"><label>居左</label><input type="radio" value="0" checked="checked" class="radio"><label>居中</label><input type="radio" value="2" class="radio"><label>居右</label></p><p style="margin-top:10px;"><a href="javascript:void(0)" class="rmpic">删除</a></p></div></div>')
@@ -86,5 +88,4 @@ function add_thumb(src, id) {
     $(r[0]).attr("id", p + 1)
     $(r[1]).attr("id", p + 0)
     $(r[2]).attr("id", p + 2)
-}
-
+};

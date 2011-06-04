@@ -1,5 +1,6 @@
 #coding:utf-8
 import sys
+from config import DEBUG
 
 def escape(string):
     return '`%s`' % string
@@ -285,8 +286,8 @@ class Query(object):
             print "raw_sql: exception: ", ex
             sys.stdout.flush()
             raise
-        #print "sql:", sql
-        #print "values:", values
+        if DEBUG: 
+            print "SQL :", sql%values
         return cursor
 
     def id_list(self, limit=None, offset=None, type="id"):

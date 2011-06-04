@@ -15,12 +15,23 @@ class Login(_handler.Base):
     def get(self):
         self.render()
 
-@urlmap("/j/note/pic")
-@urlmap("/j/note/pic/(\d+)")
-def NotePic(_handler.Base):
-    def post(self):
+@urlmap("/j/note/upload")
+@urlmap("/j/note/upload/(\d+)")
+class NoteUpload(_handler.Base):
+    def _post(self, id=None):
         user_id = self.current_user_id
-        
+        if not user_id:
+            return 1
+        return 2
+    
+    def post(self, id=None):
+        r = self._post(id)
+        if isinstance(r,(int,long)):
+            r = {'status':r}
+        self.finish(r)
+
+    get = post
+
    #     form = request.form
    #     img = form.img
 
