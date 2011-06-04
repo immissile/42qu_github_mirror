@@ -86,11 +86,15 @@ mc_pic_id_list = McCacheA('PoPicIdList.%s')
 def pic_id_list(user_id, po_id):
     return PoPic.where(user_id=user_id, po_id=po_id).order_by('seq desc').id_list()
 
-def pic_list_edit(user_id, po_id):
+def pic_list(user_id, po_id):
     ids = pic_id_list(user_id, po_id)
     li = PoPic.mc_get_list(ids)
+    return li
+
+def pic_list_edit(user_id, po_id):
+    li = pic_list(user_id, po_id)
     for i in li:
-        i.src219 = fs_url_jpg(i.id, 219)
+        i.src219 = fs_url_jpg(219, i.id)
     return li
 
 def pic_seq_dict(user_id, po_id):
