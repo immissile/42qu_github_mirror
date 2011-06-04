@@ -10,7 +10,7 @@ from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from reply import ReplyMixin
-from po_pic import pic_htm, pic_seq_dic
+from po_pic import pic_htm, pic_seq_dict
 from zkit.txt2htm import txt_withlink
 
 PO_LINK = {
@@ -29,7 +29,7 @@ class Po(McModel, ReplyMixin):
     @mc_htm('{self.id}')
     def htm(self):
         txt = txt_withlink(self.txt)
-        return pic_htm(txt, pic_seq_dic(self.user_id, self.id))
+        return pic_htm(txt, pic_seq_dict(self.user_id, self.id))
 
     def txt_set(self, txt):
         id = self.id

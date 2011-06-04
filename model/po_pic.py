@@ -86,14 +86,17 @@ mc_pic_id_list = McCacheA('PoPicIdList.%s')
 def pic_id_list(user_id, po_id=0):
     return PoPic.where(user_id=user_id, po_id=po_id).order_by('seq desc').id_list()
 
-def edit_pic_list(user_id, po_id=0):
+def pic_list(user_id, po_id):
+
+
+def pic_list_edit(user_id, po_id=0):
     ids = pic_id_list(user_id, po_id)
     li = PoPic.mc_get_list(ids)
     for i in li:
         i.src219 = fs_url_jpg(i.id, 219)
     return li
 
-def pic_seq_dic(user_id, po_id):
+def pic_seq_dictt(user_id, po_id):
     ids = pic_id_list(user_id, po_id)
     d = {}
     for i in PoPic.mc_get_multi(ids).itervalues():
@@ -114,7 +117,7 @@ PIC_HTML = '<div class="pmix np%s"><img src="%s" alt="%s"><div>%s</div></div>'
 
 #@mc_htm('{self.id}')
 #def htm(self):
-#    return pic2htm(self.txt, pic_seq_dic(self.user_id, self.id))
+#    return pic2htm(self.txt, pic_seq_dict(self.user_id, self.id))
 
 def pic2htm(match, d):
     m = int(match.groups()[0])
