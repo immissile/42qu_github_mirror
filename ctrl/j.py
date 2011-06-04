@@ -7,7 +7,7 @@ from model.follow import follow_rm, follow_new
 from model.po import Po, CID_NOTE
 from json import dumps
 from zkit.pic import picopen
-from model.po_pic import pic_can_add, po_pic_new
+from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
 
 @urlmap("/j/txt")
@@ -19,6 +19,15 @@ class Txt(_handler.Base):
 class Login(_handler.Base):
     def get(self):
         self.render()
+
+@urlmap("/j/note/upload/rm")
+@urlmap("/j/note/upload/rm/(\d+)")
+class NoteUploadRm(_handler.Base):
+    def post(self, id=0):
+        seq = self.get_argument('seq')
+        user_id = self.current_user_id
+        po_pic_rm(user_id, id, seq)
+        self.finish('{}')        
 
 @urlmap("/j/note/upload")
 @urlmap("/j/note/upload/(\d+)")

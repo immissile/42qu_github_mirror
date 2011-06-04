@@ -94,10 +94,12 @@ $('.rmpic').live("click", function() {
     var t = $("#txt"),
     id = this.rel;
     if (confirm("确定要删除?")) {
-        $.post(DELETEURL, {seqid: id},
-        function(data) {
+        $.postJSON(
+        DELETEURL, 
+        {seq: id},
+        function(data){
             t.val(t.val().replace(eval('/<图片' + id + '>/g'), ''));
-            $("#pic" + id).remove();
+            $("#pic" + id).fadeOut();
         })
     }
 })
