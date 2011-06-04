@@ -5,7 +5,7 @@ from os import remove, makedirs
 from cStringIO import StringIO
 
 def fs_path(root, prefix, id, suffix):
-    path = join(root, prefix, str(id%1024), "%s.%s"%(id, suffix))
+    path = join(root, str(prefix), str(id%1024), "%s.%s"%(id, suffix))
     return path
 
 def fs_file(prefix, id, suffix):

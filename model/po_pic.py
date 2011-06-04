@@ -5,7 +5,7 @@ from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from zkit.pic import pic_fit_width_cut_height_if_large
 from pic import pic_new, pic_save
 from cid import CID_PO_PIC
-
+from fs import fs_set_jpg, fs_url_jpg
 
 PIC_LIMIT = 42
 
