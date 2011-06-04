@@ -4,7 +4,7 @@ from model.money import read_cent, bank
 <%inherit file="/ctrl/_base/1.htm" />
 充值成功
 
-支付现金 ${trade.payed} 元
+支付现金 ${read_cent(trade.value + trade.tax)} 元
 到账金额 ${trade.got} 元
 手续费用 ${trade.taxes} 元
 

@@ -37,15 +37,15 @@ TRADE_CID_DIC = {
 }
 
 TRADE_STATE_OPEN = 1
-TRADE_STATE_CANCEL = 5
+TRADE_STATE_FAIL = 5
 TRADE_STATE_FINISH = 9
 
 class Trade(Model):
     def finish(self):
         trade_finish(self)
 
-    def cancel(self):
-        trade_cancel(self)
+    def fail(self):
+        trade_fail(self)
 
     @property
     def got(self):
@@ -54,10 +54,6 @@ class Trade(Model):
     @property
     def taxes(self):
         return read_cent(self.tax)
-
-    @property
-    def payed(self):
-        return read_cent(self.value + self.tax)
 
 mc_frozen_bank = McCache('FrozenBank.%s')
 
@@ -96,12 +92,12 @@ def trade_finish(t):
         t.save()
         mc_frozen_bank.delete(t.from_id)
 
-def trade_cancel(t):
+def trade_fail(t):
     if t.state == TRADE_STATE_OPEN:
         from_id = t.from_id
         bank_change(from_id, t.value)
         t.update_time = int(time())
-        t.state = TRADE_STATE_CANCEL
+        t.state = TRADE_STATE_FAIL
         t.save()
         mc_frozen_bank.delete(from_id)
 
@@ -166,7 +162,14 @@ def charged(out_trade_no, total_fee, rid, d):
 def withdraw_new(price, user_id, aid):
     assert price > 0
     cent = int(price * 100)
-    return trade_new(cent, 0, user_id, BANK_SYS, CID_TRADE_WITHDRAW, aid, TRADE_STATE_OPEN)
+    tax = int(round(cent * CHARGE_TAX[cid]))
+    return trade_new(cent, tax, user_id, BANK_SYS, CID_TRADE_WITHDRAW, aid, TRADE_STATE_OPEN)
+
+def withdraw_fail(id, txt):
+    t = Trade.get(id)
+    if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_OPEN:
+        trade_fail(t)
+        trade_log.set(id, txt)
 
 def withdraw_open_count():
     return Trade.where(cid=CID_TRADE_WITHDRAW, to_id=BANK_SYS, state=TRADE_STATE_OPEN).count()

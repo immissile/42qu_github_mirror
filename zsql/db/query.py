@@ -286,7 +286,7 @@ class Query(object):
             print "raw_sql: exception: ", ex
             sys.stdout.flush()
             raise
-        if DEBUG: 
+        if DEBUG:
             print "\t%s ; %s"%(sql.strip(), values)
         return cursor
 
