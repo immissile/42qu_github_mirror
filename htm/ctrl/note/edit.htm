@@ -26,7 +26,7 @@ DELETEURL = "/j/note/upload/rm${suffix}"
 </div>
 <textarea name="txt">${po.txt}</textarea>
 <div>
-    <a href="javascript:upload();void(0)">传图</a>
+    <a id="upload" href="javascript:upload();void(0)">传图</a>
     <input type="checkbox" name="secret" id="secret"
 %if po.state == STATE_SECRET: 
 checked
