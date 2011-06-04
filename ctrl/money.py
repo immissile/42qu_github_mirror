@@ -4,14 +4,26 @@ from _handler import Base, LoginBase, XsrfGetBase
 from zweb._urlmap import urlmap
 from config import RPC_HTTP
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_PAY_ALIPAY
-from model.money import bank, pay_account_new, pay_account_get, withdraw_new, TRADE_STATE_FINISH
+from model.money import bank, Trade, trade_history, pay_account_new, pay_account_get, withdraw_new, TRADE_STATE_FINISH
 from model.money_alipay import alipay_payurl
 from model.user_auth import user_password_verify
+from model.zsite import Zsite
 
 @urlmap('/money')
 class Index(LoginBase):
     def get(self):
-        self.render()
+        user_id = self.current_user_id
+        trade_list = trade_history(user_id)
+        user_ids = set([i.from_id if i.to_id == user_id else i.to_id for i in trade_list])
+        if 0 in user_ids:
+            user_ids.remove(0)
+        user_dic = Zsite.mc_get_multi(list(user_ids))
+        user_dic[user_id] = self.current_user
+        user_dic[0] = None
+        for t in trade_list:
+            t.from_user = user_dic[t.from_id]
+            t.to_user = user_dic[t.to_id]
+        self.render(trade_list=trade_list)
 
 @urlmap('/money/charge')
 @urlmap('/money/charge/(\d{1,8}(?:\.\d{1,2})?)')

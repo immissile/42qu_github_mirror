@@ -90,7 +90,7 @@ def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN):
 
 def trade_finish(t):
     if t.state == TRADE_STATE_OPEN:
-        bank_change(t.to_id, t.cent)
+        bank_change(t.to_id, t.value)
         t.update_time = int(time())
         t.state = TRADE_STATE_FINISH
         t.save()
@@ -99,14 +99,15 @@ def trade_finish(t):
 def trade_cancel(t):
     if t.state == TRADE_STATE_OPEN:
         from_id = t.from_id
-        bank_change(from_id, t.cent)
+        bank_change(from_id, t.value)
         t.update_time = int(time())
         t.state = TRADE_STATE_CANCEL
         t.save()
         mc_frozen_bank.delete(from_id)
 
-def trade_history(user_id, offset, limit):
-    return Trade.where('from_id=%s or to_id=%s' % (user_id, user_id))[offset:offset+limit]
+def trade_history(user_id):
+    qs = Trade.where('(to_id=%%s and not (cid=%s and state<%s)) or from_id=%%s' % (CID_TRADE_CHARDE, TRADE_STATE_FINISH), user_id, user_id).order_by('update_time desc')
+    return list(qs)
 
 # TradeLog
 trade_log = Kv('trade_log')
@@ -139,7 +140,7 @@ def pay_account_get(user_id, cid):
 
 # Charge
 CHARGE_TAX = {
-    CID_PAY_ALIPAY: 1.5,
+    CID_PAY_ALIPAY: 1.5 / 100,
 }
 
 def charge_new(price, user_id, cid):
@@ -151,13 +152,15 @@ def charge_new(price, user_id, cid):
     return '%s_%s_%s' % (t.id, vid, ck)
 
 def charged(out_trade_no, total_fee, rid, d):
-    id, vid, ck = out_trade_no.split('_')
+    id, vid, ck = out_trade_no.split('_', 2)
     user_id, vcid = verifyed(vid, ck)
     if vcid == CID_VERIFY_MONEY:
         t = Trade.get(id)
-        if t and t.to_id == user_id and t.rid == rid and t.state == TRADE_STATE_OPEN and t.value + t.tax == int(float(total_fee)*100):
-            t.finish()
-            trade_log.set(user_id, dumps(d))
+        if t and t.to_id == user_id and t.rid == rid  and t.value + t.tax == int(float(total_fee)*100):
+            if t.state == TRADE_STATE_OPEN:
+                t.finish()
+                trade_log.set(user_id, dumps(d))
+            return t
 
 # Withdraw
 def withdraw_new(price, user_id, aid):

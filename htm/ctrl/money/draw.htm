@@ -1,1 +1,27 @@
+<%!
+from model.money import read_cent, bank
+%>
 <%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%htm:form>
+<div>
+    密码确认
+    <input type="password" name="price" value="${price or ''}">元
+</div>
+<div>
+    支付宝账户
+    <input type="text" name="price" value="${price or ''}">元
+</div>
+<div>
+    支付宝真实姓名
+    <input type="text" name="price" value="${price or ''}">元
+</div>
+<div>
+    金额
+    <input type="text" name="price" value="${price or ''}">元
+</div>
+%if error:
+${error}
+%endif
+<button type="submit">支付宝充值</button>
+</%htm:form>

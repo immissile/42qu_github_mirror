@@ -3,6 +3,7 @@
 from _handler import Base
 from zweb._urlmap import urlmap
 from config import SITE_URL
+from model.money_alipay import alipay_url_recall
 
 @urlmap('/money/alipay_async')
 class AlipayAsync(Base):
@@ -15,8 +16,8 @@ class AlipayAsync(Base):
 class AlipaySync(Base):
     def get(self):
         query = self.request.query
-        payed = alipay_url_recall(query)
+        t = alipay_url_recall(query)
         url = '%s/money' % SITE_URL
-        if payed:
-            url = '%s/charged/%s/%s'%(url, payed.id, payed.man_id)
+        if t:
+            url = '%s/charged/%s/%s'%(url, t.id, t.to_id)
         return self.redirect(url)
