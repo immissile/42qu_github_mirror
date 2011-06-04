@@ -12,19 +12,21 @@ errdetail = {
 
 function upload(){
     $.fancybox({
-        content : '<h2>上传图片</h2><div><p><input id="file" type="file" name="img"></p><p><button onclick="start_upload()">上传</button></p></div>'
+        content : '<h2>上传图片</h2><div><p><input id="file" type="file" name="img"></p><p><button onclick="start_upload()">上传</button></p></div>',
+        onClosed : show_uploading,
+        onStart : hide_uploading 
     });
     return false
 }
 
 function show_uploading() {
-    $('#upload_wait').show();
-    $('#upload').hide();
+    $('#upload_wait').hide();
+    $('#upload').show();
 }
 
 function hide_uploading() {
-    $('#upload_wait').hide();
-    $('#upload').show();
+    $('#upload_wait').show();
+    $('#upload').hide();
 }
 
 function start_upload() {
@@ -40,7 +42,6 @@ function start_upload() {
             _xsrf : cookie.get("_xsrf")
         },
         success: function(data, status) {
-            hide_uploading();
             if (typeof(data.status) != 'undefined') {
                 if (data.status != '0') {
                     alert(errdetail[parseInt(data.status)]);
@@ -60,7 +61,6 @@ function start_upload() {
                 alert(errdetail[e]);
             } else {
                 $.fancybox.close();
-                show_uploading();
                 location.href = '#loading';
             }
         }
