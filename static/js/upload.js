@@ -51,11 +51,7 @@ jQuery.extend({
         var ename = $('#'+s.fileElementId)[0].value.split('.');
         ename = ename[ename.length-1].toLowerCase();
         if(! new RegExp(s.allowType).test(ename)){
-            if(s.begin){
-                s.begin(12);
-            }else{
-                s.error(null,'error',12);
-            }
+            s.begin(12);
             return false;
         }
         var id = new Date().getTime()
