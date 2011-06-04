@@ -227,7 +227,7 @@ class McNum(object):
         self.timeout = timeout
 
     def __call__(self, *key):
-        key = '_'.join(key)
+        key = '_'.join(map(str, key))
         mk = self.mc_key%key
         num = mc.get(mk)
         if num is None:
@@ -264,7 +264,7 @@ class McNum(object):
             v.__dict__[property] = r.get(k)
 
     def delete(self, *key):
-        key = '_'.join(key)
+        key = '_'.join(map(str, key))
         mk = self.mc_key%key
         mc.delete(mk)
 
@@ -276,13 +276,13 @@ class McNum(object):
         ]
 
     def incr(self, *key):
-        key = '_'.join(key)
+        key = '_'.join(map(str, key))
         mk = self.mc_key%key
         if mc.get(mk) is not None:
             mc.incr(mk)
 
     def decr(self, *key):
-        key = '_'.join(key)
+        key = '_'.join(map(str, key))
         mk = self.mc_key%key
         if mc.get(mk) is not None:
             mc.decr(mk)
