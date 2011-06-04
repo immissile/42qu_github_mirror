@@ -4,6 +4,11 @@
 import _handler
 from zweb._urlmap import urlmap
 from model.follow import follow_rm, follow_new
+from model.po import Po, CID_NOTE
+from json import dumps
+from zkit.pic import picopen
+from model.po_pic import pic_can_add
+from model.fs import fs_url_jpg
 
 @urlmap("/j/txt")
 class Txt(_handler.Base):
@@ -18,55 +23,58 @@ class Login(_handler.Base):
 @urlmap("/j/note/upload")
 @urlmap("/j/note/upload/(\d+)")
 class NoteUpload(_handler.Base):
-    def _post(self, id=None):
-        user_id = self.current_user_id
-        if not user_id:
-            return 1
-        return 2
-    
     def post(self, id=None):
+        #USER DUMPS FIX HEADER FOR FIREFOX
+        if id:
+            try:
+                id = int(id)
+            except ValueError:
+                id = 0
         r = self._post(id)
         if isinstance(r,(int,long)):
             r = {'status':r}
+        r = dumps(r)
         self.finish(r)
 
-    get = post
+    def _post(self, id):
+        user_id = self.current_user_id
+        if not user_id:
+            return 1
+        
+        files = self.request.files
+        img = files.get('img')
+        if img:
+            img = img[0]['body']
+        else:
+            return 0
+        
+        if len(img) > 1024*1024*12:
+            return 2
 
-   #     form = request.form
-   #     img = form.img
+        img = picopen(img)
+        if not img:
+            return 10
 
-   #     try:
-   #         note_id = int(note_id)
-   #     except ValueError:
-   #         note_id = 0
+        if id:
+            po = Po.mc_get(id)
+            if not (
+                po 
+                and po.user_id == user_id
+                and po.cid == CID_NOTE
+            ):
+                return 0
 
-   #     if not (man_id and request.is_post and 'img' in form and img is not None and img.filename):
-   #         return ''
+        if not pic_can_add(user_id, id):
+            return 16
 
-   #     if note_id:
-   #         note = Note.mc_get(note_id)
-   #         if not (note and note.man_id==man_id and note.txt_len):
-   #             return ''
+        pic = po_pic_new(user_id, id, img)
+        if not pic:
+            return 14        
+ 
+        r = {
+            "status": 0,
+            "src": fs_url_jpg(pic.id, 219),
+            "seqid": pic.seq,
+        }
 
-   #     img = img.file.read()
-   #     if len(img) > 1024*1024*3:
-   #         r = '{"status": 2}'
-   #     else: 
-   #         img = picopen(img)
-   #         if not img:
-   #             r =  '{"status":10})'
-
-   #         elif not Note.can_new_pic(man_id, note_id):
-   #             '{"status":16}'
-   #         else:
-   #             pic = Note.new_pic(man_id, note_id, img)
-   #             if not pic:
-   #                 r = '{"status":14}'
-   #             else:
-   #                 r = {
-   #                     "status": 0,
-   #                     "src": Note.pic_url_by_id(pic.id, 219),
-   #                     "seqid": pic.order,
-   #                 }
-   #     self.finish(r)
-
+        return r

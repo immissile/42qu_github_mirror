@@ -1,6 +1,6 @@
 <%!
 from model.po import STATE_SECRET
-from static import js
+from static import js, css
 %>
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -18,6 +18,7 @@ else:
 UPLOADURL = "/j/note/upload${suffix}"
 DELETEURL = "/j/note/upload/rm${suffix}"
 </script>
+<link href="${css.po_note}" rel="stylesheet" type="text/css">
 </%def>
 
 <%htm:form enctype="multipart/form-data">
@@ -35,6 +36,7 @@ checked
     <label for="secret">仅自己可见</label>\
     <button type="submit">确定</button>\
 </div>
+<div id="upload_wait">图片上传中 ...</div>
 
 
 %if po:
