@@ -32,11 +32,13 @@ def time_title():
         friendly_hour(now.hour, now.minute, now.second)
     )
 
+ONE_DAY = timedelta(days=1)
+
 def friendly_time(mtime):
     mtype = type(mtime)
-    if mtype is str:
-        time = time_conv(mtime)
-    elif mtype is int or mtype is long or mtype is float:
+#    if mtype is str:
+#        time = time_conv(mtime)
+    if mtype is int or mtype is long or mtype is float:
         time = datetime.fromtimestamp(mtime)
     else:
         time = mtime
