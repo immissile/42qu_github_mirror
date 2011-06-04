@@ -287,7 +287,7 @@ class Query(object):
             sys.stdout.flush()
             raise
         if DEBUG: 
-            print "\t%s;%s"%(sql, values)
+            print "\t%s ; %s"%(sql.strip(), values)
         return cursor
 
     def id_list(self, limit=None, offset=None, type="id"):
