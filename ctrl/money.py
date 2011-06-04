@@ -77,7 +77,7 @@ class Charged(Base):
 class Draw(LoginBase):
     def get(self):
         user_id = self.current_user_id
-        account, name = pay_account_get(user_id)
+        account, name = pay_account_get(user_id, CID_PAY_ALIPAY)
         self.render(
             account=account,
             name=name,
