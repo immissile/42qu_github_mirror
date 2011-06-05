@@ -118,3 +118,62 @@ def xsrf_form_html(self):
     return '<input type="hidden" name="_xsrf" value="%s">'%self.xsrf_token
 
 web.RequestHandler.xsrf_form_html = xsrf_form_html
+
+
+from tornado import wsgi
+
+import cStringIO
+import cgi
+import httplib
+import logging
+import sys
+import time
+import tornado
+import urllib
+
+from tornado import escape
+from tornado import httputil
+from tornado import web
+
+def _parse_mime_body(self, boundary):
+    if boundary.startswith('"') and boundary.endswith('"'):
+        boundary = boundary[1:-1]
+    if self.body.endswith("\r\n"):
+        footer_length = len(boundary) + 6
+    else:
+        footer_length = len(boundary) + 4
+    if type(boundary) is unicode:
+        boundary = str(boundary)
+    parts = self.body[:-footer_length]
+    parts = parts.split("--" + boundary + "\r\n")
+    for part in parts:
+        if not part: continue
+        eoh = part.find("\r\n\r\n")
+        if eoh == -1:
+            logging.warning("multipart/form-data missing headers")
+            continue
+        headers = httputil.HTTPHeaders.parse(part[:eoh])
+        name_header = headers.get("Content-Disposition", "")
+        if not name_header.startswith("form-data;") or \
+           not part.endswith("\r\n"):
+            logging.warning("Invalid multipart/form-data")
+            continue
+        value = part[eoh + 4:-2]
+        name_values = {}
+        for name_part in name_header[10:].split(";"):
+            name, name_value = name_part.strip().split("=", 1)
+            name_values[name] = name_value.strip('"').decode("utf-8")
+        if not name_values.get("name"):
+            logging.warning("multipart/form-data value missing name")
+            continue
+        name = name_values["name"]
+        if name_values.get("filename"):
+            ctype = headers.get("Content-Type", "application/unknown")
+            self.files.setdefault(name, []).append(dict(
+                filename=name_values["filename"], body=value,
+                content_type=ctype))
+        else:
+            self.arguments.setdefault(name, []).append(value)
+
+wsgi.HTTPRequest._parse_mime_body = _parse_mime_body
+
