@@ -1,3 +1,26 @@
+$.fn.extend({
+    insert_caret: function(t) {
+        var self = this,
+        o = self[0];
+        if (document.all && o.createTextRange && o.p) {
+            var p = o.p;
+            p.text = p.text.charAt(p.text.length - 1) == '' ? t + '': t;
+        } else if (o.setSelectionRange) {
+            var s = o.selectionStart;
+            var e = o.selectionEnd;
+            var t1 = o.value.substring(0, s);
+            var t2 = o.value.substring(e);
+            o.value = t1 + t + t2;
+            o.focus();
+            var len = t.length;
+            o.setSelectionRange(s + len, s + len);
+            o.blur();
+        } else {
+            o.value += t;
+        }
+        self.focus()
+    }
+})
 uphandler = {
     abort: function() {}
 };
@@ -107,26 +130,3 @@ function cancel_uploading() {
     uphandler.abort()
     hide_uploading()
 }
-$.fn.extend({
-    insert_caret: function(t) {
-        var self = this,
-        o = self[0];
-        if (document.all && o.createTextRange && o.p) {
-            var p = o.p;
-            p.text = p.text.charAt(p.text.length - 1) == '' ? t + '': t;
-        } else if (o.setSelectionRange) {
-            var s = o.selectionStart;
-            var e = o.selectionEnd;
-            var t1 = o.value.substring(0, s);
-            var t2 = o.value.substring(e);
-            o.value = t1 + t + t2;
-            o.focus();
-            var len = t.length;
-            o.setSelectionRange(s + len, s + len);
-            o.blur();
-        } else {
-            o.value += t;
-        }
-        self.focus()
-    }
-})
