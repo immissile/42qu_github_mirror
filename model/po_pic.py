@@ -99,10 +99,10 @@ def pic_list_edit(user_id, po_id):
 
 def pic_seq_dict(user_id, po_id):
     ids = pic_id_list(user_id, po_id)
-    d = {}
     return PoPic.mc_get_multi(ids)
 
 def pic_seq_dict_html(user_id, po_id):
+    d = {}
     for i in pic_seq_dict(user_id, po_id):
         title = escape(i.title)
         d[i.seq] = PIC_HTM % (

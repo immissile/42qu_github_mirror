@@ -5,22 +5,22 @@ import _handler
 from zweb._urlmap import urlmap
 from model.po import Po, po_rm,\
         po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set, CID_NOTE
-from model.po_pic import  pic_list, pic_list_edit, pic_seq_dict
+from model.po_pic import  pic_list, pic_list_edit, mc_pic_id_list
 from model import reply
 from model.zsite import Zsite
 from zkit.jsdict import JsDict
 
 def update_pic(form, user_id, id):
-    pic_dict = pic_seq_dict(user_id, id)
-    for order, pic in pic_dict.iteritems():
-        title = form['tit%s' % order][0]
-        align = form['pos%s' % order][0]
+    for pic in pic_list(user_id, id):
+        seq = pic.seq 
+        title = form['tit%s' % seq][0]
+        align = form['pos%s' % seq][0]
         pic.title = title.strip()
         align = int(align) 
         if align not in (-1,0,1):
             align = 0
         pic.align = align
-        pic.rid = id
+        pic.po_id = id
         pic.save()
 
 
@@ -44,14 +44,13 @@ class Edit(_handler.LoginBase):
         po = self._can_edit(current_user_id, id)
         self.render(po=po, pic_list = pic_list_edit(current_user_id, id))
 
-    def post(self, id=None):
+    def post(self, id=0):
         current_user_id = self.current_user_id
         po = self._can_edit(current_user_id, id)
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
         secret = self.get_argument('secret', None)
         arguments = self.request.arguments
-        update_pic(arguments, current_user_id, id)
         if secret:
             state = STATE_SECRET
         else:
@@ -65,8 +64,12 @@ class Edit(_handler.LoginBase):
             po_state_set(po, state)
         else:
             po = po_note_new(current_user_id, name, txt, state)
+
         if po:
+            update_pic(arguments, current_user_id, po.id)
             link = po.link
+            if id == 0:
+                mc_pic_id_list.delete("%s_%s"%(current_user_id, id))
         else:
             link = "/po/note"
         self.redirect(link)
