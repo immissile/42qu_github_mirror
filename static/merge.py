@@ -281,8 +281,8 @@ def merge_js(path, filename, filetuple):
 
     for i in filetuple:
         with open(join(path, i), "r") as infile:
-            txt.append(infile.read()) 
- 
+            txt.append(infile.read())
+
     with open(filepath, "w") as out:
         out.write("\n".join(txt))
 
@@ -299,8 +299,8 @@ function LOAD(filename){
 """]
 
     for i in filetuple:
-        txt.append("LOAD('%s/js/%s')"%(FS_URL,i))
- 
+        txt.append("LOAD('%s/js/%s')"%(FS_URL, i))
+
     with open(filepath, "w") as out:
         out.write("\n".join(txt))
 

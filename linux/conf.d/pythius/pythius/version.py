@@ -18,7 +18,7 @@
 
 project = "Pythius"
 revision = '$Revision: 1.4 $'[11:-2]
-release       = '0.3'
+release = '0.3'
 
 if __name__ == "__main__":
     # Bump own revision

@@ -106,11 +106,11 @@ class ModelBase(type):
         # Assume id is the default
         #if not getattr(new_class.Meta, 'pk', None):
         new_class.Meta.pk = 'id'
-       # if not getattr(new_class.Meta, 'mc_key', None):
-       #     mc_ver = getattr(new_class.Meta, "mc_ver", "")
-       #     if mc_ver:
-       #         new_class.Meta.mc_key = "%s@%s:%%s"%(name, mc_ver)
-       #     else:
+        # if not getattr(new_class.Meta, 'mc_key', None):
+        #     mc_ver = getattr(new_class.Meta, "mc_ver", "")
+        #     if mc_ver:
+        #         new_class.Meta.mc_key = "%s@%s:%%s"%(name, mc_ver)
+        #     else:
         new_class.Meta.mc_key = "%%s~%s"%name
 
         db = new_class.db = get_db_by_table(new_class.Meta.table)

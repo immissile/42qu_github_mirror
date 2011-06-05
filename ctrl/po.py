@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import _handler
 from zweb._urlmap import urlmap
-from model.po import po_word_new,Po
+from model.po import po_word_new, Po
 from model import reply
 from model.zsite import Zsite
 
@@ -30,8 +30,8 @@ class Index(IndexBase):
     def get(self, id):
         po = self.po(id)
         current_user_id = self.current_user_id
-        can_admin = po.can_admin(current_user_id)
         if po:
+            can_admin = po.can_admin(current_user_id)
             can_view = po.can_view(current_user_id)
             return self.render(
                 po=po,

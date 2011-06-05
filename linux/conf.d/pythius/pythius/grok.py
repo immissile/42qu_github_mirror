@@ -26,20 +26,20 @@ import keyword, token, tokenize
 #############################################################################
 
 # our token types
-KEYWORD          = token.NT_OFFSET + 1
-TEXT             = token.NT_OFFSET + 2
-WS               = token.NT_OFFSET + 3
-NUMBER           = token.NUMBER
-OP               = token.OP
-STRING           = token.STRING
-COMMENT          = tokenize.COMMENT
-NAME             = token.NAME
-ERRORTOKEN       = token.ERRORTOKEN
-ENDMARKER        = token.ENDMARKER
-INDENT           = token.INDENT
-DEDENT           = token.DEDENT
-NEWLINE          = token.NEWLINE
-EMPTY            = tokenize.NL
+KEYWORD = token.NT_OFFSET + 1
+TEXT = token.NT_OFFSET + 2
+WS = token.NT_OFFSET + 3
+NUMBER = token.NUMBER
+OP = token.OP
+STRING = token.STRING
+COMMENT = tokenize.COMMENT
+NAME = token.NAME
+ERRORTOKEN = token.ERRORTOKEN
+ENDMARKER = token.ENDMARKER
+INDENT = token.INDENT
+DEDENT = token.DEDENT
+NEWLINE = token.NEWLINE
+EMPTY = tokenize.NL
 
 tokentext = {
     KEYWORD: 'KEYWORD',
@@ -165,7 +165,7 @@ if __name__ == "__main__":
     def _stats(label, *args):
         print string.ljust(label, 20), string.join(map(str, args), '')
 
-    def _count(toktype, p = parser):
+    def _count(toktype, p=parser):
         return len(filter(lambda x, t=toktype: x.type == t, p.tokenlist))
 
     _stats("Characters", len(parser.source))

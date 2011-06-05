@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import cmemcached
 
-mc=cmemcached.Client(["127.0.0.1:11211","127.0.0.1:11212","127.0.0.1:11213", "127.0.0.1:11214"])
+mc = cmemcached.Client(["127.0.0.1:11211", "127.0.0.1:11212", "127.0.0.1:11213", "127.0.0.1:11214"])
 
 num = 10000
 keys = ["key%d" % k for k in xrange(num)]
@@ -21,9 +21,9 @@ while True:
         mc.set(key, "aa")
     for key in keys:
         if mc.get(key) == "aa":
-                success_counter += 1
+            success_counter += 1
         else:
-                failure_counter += 1
+            failure_counter += 1
     print_counter()
     success_counter = 0
     failure_counter = 0

@@ -46,7 +46,7 @@ def set_cookie(self, name, value, domain=None, expires=None, path="/",
     for available attributes.
     """
     if domain is None:
-        domain =  ".%s"%tld_name(self.request.host)
+        domain = ".%s"%tld_name(self.request.host)
     name = utf8(name)
     value = utf8(value)
     if re.search(r"[\x00-\x20]", name + value):

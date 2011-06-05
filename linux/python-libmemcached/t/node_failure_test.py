@@ -4,12 +4,12 @@ import cmemcached
 print cmemcached
 
 mc = Client([
-#	'192.163.1.222:11211',
-#	'192.163.1.2:11211',
-#	'192.163.1.5:11211',
+#       '192.163.1.222:11211',
+#       '192.163.1.2:11211',
+#       '192.163.1.5:11211',
 #    'localhost:7902'
     'theoden:11400',
-	], do_split=0)
+        ], do_split=0)
 print mc.set_behavior(BEHAVIOR_NO_BLOCK, 0)
 #print mc.set_behavior(BEHAVIOR_TCP_NODELAY, 1)
 mc.set_behavior(BEHAVIOR_CONNECT_TIMEOUT, 50)
