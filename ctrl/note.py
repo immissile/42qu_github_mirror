@@ -10,18 +10,20 @@ from model import reply
 from model.zsite import Zsite
 from zkit.jsdict import JsDict
 
-def update_pic(form, user_id, id):
-    pl = pic_list(user_id, 0)
+def update_pic(form, user_id, po_id, id):
+    pl = pic_list(user_id, id)
     for pic in pl:
-        seq = pic.seq 
+        seq = pic.seq
         title = form['tit%s' % seq][0]
         align = form['pos%s' % seq][0]
         pic.title = title.strip()
-        align = int(align) 
-        if align not in (-1,0,1):
+        align = int(align)
+
+        if align not in (-1, 0, 1):
             align = 0
+
         pic.align = align
-        pic.po_id = id
+        pic.po_id = po_id
         pic.save()
 
 
@@ -43,7 +45,7 @@ class Edit(_handler.LoginBase):
     def get(self, id=0):
         current_user_id = self.current_user_id
         po = self._can_edit(current_user_id, id)
-        self.render(po=po, pic_list = pic_list_edit(current_user_id, id))
+        self.render(po=po, pic_list=pic_list_edit(current_user_id, id))
 
     def post(self, id=0):
         current_user_id = self.current_user_id
@@ -69,8 +71,8 @@ class Edit(_handler.LoginBase):
         if po:
             link = po.link
             if id == 0:
-                update_pic(arguments, current_user_id, po.id)
                 mc_pic_id_list.delete("%s_%s"%(current_user_id, id))
+            update_pic(arguments, current_user_id, po.id, id)
         else:
             link = "/po/note"
         self.redirect(link)
