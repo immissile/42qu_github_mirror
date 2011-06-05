@@ -11,7 +11,8 @@ from model.zsite import Zsite
 from zkit.jsdict import JsDict
 
 def update_pic(form, user_id, id):
-    for pic in pic_list(user_id, id):
+    pl = pic_list(user_id, 0)
+    for pic in pl:
         seq = pic.seq 
         title = form['tit%s' % seq][0]
         align = form['pos%s' % seq][0]
@@ -66,9 +67,9 @@ class Edit(_handler.LoginBase):
             po = po_note_new(current_user_id, name, txt, state)
 
         if po:
-            update_pic(arguments, current_user_id, po.id)
             link = po.link
             if id == 0:
+                update_pic(arguments, current_user_id, po.id)
                 mc_pic_id_list.delete("%s_%s"%(current_user_id, id))
         else:
             link = "/po/note"

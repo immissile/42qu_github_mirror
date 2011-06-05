@@ -2,10 +2,13 @@
 # -*- coding: utf-8 -*-
 import re
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
+from cgi import escape
 from zkit.pic import pic_fit_width_cut_height_if_large
 from pic import pic_new, pic_save
 from cid import CID_PO_PIC
 from fs import fs_set_jpg, fs_url_jpg
+
+PIC_HTM = '<div class="PIC FLOAT%s"><img src="%s" alt="%s"><div>%s</div></div>'
 
 PIC_LIMIT = 42
 
@@ -103,12 +106,12 @@ def pic_seq_dict(user_id, po_id):
 
 def pic_seq_dict_html(user_id, po_id):
     d = {}
-    for i in pic_seq_dict(user_id, po_id):
+    for i in pic_seq_dict(user_id, po_id).itervalues():
         title = escape(i.title)
         d[i.seq] = PIC_HTM % (
             i.align,
-            fs_url_jpg(i.id, 684),
-            title.replact('"', '&quot;'),
+            fs_url_jpg(684, i.id),
+            title.replace('"', '&quot;'),
             title,
         )
     return d
