@@ -30,10 +30,12 @@ class Index(IndexBase):
     def get(self, id):
         po = self.po(id)
         current_user_id = self.current_user_id
+        can_admin = po.can_admin(current_user_id)
         if po:
             can_view = po.can_view(current_user_id)
             return self.render(
                 po=po,
+                can_admin=can_admin,
                 can_view=can_view
             )
 

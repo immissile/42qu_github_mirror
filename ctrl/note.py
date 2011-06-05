@@ -61,7 +61,7 @@ class Edit(_handler.LoginBase):
                 po.name = name
                 po.save()
             if txt:
-                po.txt_set(id, txt)
+                po.txt_set(txt)
             po_state_set(po, state)
         else:
             po = po_note_new(current_user_id, name, txt, state)
