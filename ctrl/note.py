@@ -5,11 +5,23 @@ import _handler
 from zweb._urlmap import urlmap
 from model.po import Po, po_rm,\
         po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set, CID_NOTE
-from model.po_pic import  pic_list, pic_list_edit
+from model.po_pic import  pic_list, pic_list_edit, pic_seq_dict
 from model import reply
 from model.zsite import Zsite
 from zkit.jsdict import JsDict
 
+def update_pic(form, user_id, id):
+    pic_dict = pic_seq_dict(user_id, id)
+    for order, pic in pic_dict.iteritems():
+        title = form['tit%s' % order][0]
+        align = form['pos%s' % order][0]
+        pic.title = title.strip()
+        align = int(align) 
+        if align not in (-1,0,1):
+            align = 0
+        pic.align = align
+        pic.rid = id
+        pic.save()
 
 
 @urlmap("/po/note")
@@ -38,6 +50,8 @@ class Edit(_handler.LoginBase):
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
         secret = self.get_argument('secret', None)
+        arguments = self.request.arguments
+        update_pic(arguments, current_user_id, id)
         if secret:
             state = STATE_SECRET
         else:

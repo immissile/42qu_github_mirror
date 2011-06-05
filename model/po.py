@@ -10,7 +10,7 @@ from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from reply import ReplyMixin
-from po_pic import pic_htm, pic_seq_dict
+from po_pic import pic_htm, pic_seq_dict_html
 from zkit.txt2htm import txt_withlink
 
 PO_LINK = {

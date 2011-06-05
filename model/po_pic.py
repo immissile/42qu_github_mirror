@@ -100,7 +100,10 @@ def pic_list_edit(user_id, po_id):
 def pic_seq_dict(user_id, po_id):
     ids = pic_id_list(user_id, po_id)
     d = {}
-    for i in PoPic.mc_get_multi(ids).itervalues():
+    return PoPic.mc_get_multi(ids)
+
+def pic_seq_dict_html(user_id, po_id):
+    for i in pic_seq_dict(user_id, po_id):
         title = escape(i.title)
         d[i.seq] = PIC_HTM % (
             i.align,
@@ -117,14 +120,14 @@ PIC_HTML = '<div class="pmix np%s"><img src="%s" alt="%s"><div>%s</div></div>'
 #mc_htm = McCache('PoHtm.%s')
 #@mc_htm('{self.id}')
 #def htm(self):
-#    return pic2htm(self.txt, pic_seq_dict(self.user_id, self.id))
+#    return pic2htm(self.txt, pic_seq_dict_html(self.user_id, self.id))
 
 def re_pic2htm(match, d):
     m = int(match.groups()[0])
     return d.get(m, match.group(0))
 
 def pic_htm(htm, user_id, po_id):
-    pic_dict = pic_seq_dict(user_id, po_id)
+    pic_dict = pic_seq_dict_html(user_id, po_id)
     return PIC_SUB.sub(lambda x: re_pic2htm(x, pic_dict), htm)
 
 if __name__ == '__main__':
