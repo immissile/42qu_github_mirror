@@ -70,9 +70,8 @@ class Edit(_handler.LoginBase):
 
         if po:
             link = po.link
-            if id == 0:
-                mc_pic_id_list.delete("%s_%s"%(current_user_id, id))
             update_pic(arguments, current_user_id, po.id, id)
+            mc_pic_id_list.delete("%s_%s"%(current_user_id, id))
         else:
             link = "/po/note"
         self.redirect(link)
