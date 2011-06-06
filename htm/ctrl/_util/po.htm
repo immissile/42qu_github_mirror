@@ -29,11 +29,11 @@ po_state = po.state
 user = reply.user
 %>
 <div id="reply${reply.id}" style="padding:27px">
+    <a href="${user.link}" target="_blank">${user.name}</a> :\
     <pre>${reply.htm|n}</pre>
     %if can_admin or reply.can_rm(current_user_id):
         <a href="javascript:rm(${reply.id});void(0)">删除</a> 
     %endif
-    <a href="${user.link}" target="_blank">${user.name}</a> :\
 </div>
     %endfor
 
