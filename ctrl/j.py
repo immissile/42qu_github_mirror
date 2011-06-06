@@ -27,7 +27,7 @@ class NoteUploadRm(_handler.Base):
         seq = self.get_argument('seq')
         user_id = self.current_user_id
         po_pic_rm(user_id, id, seq)
-        self.finish('{}')        
+        self.finish('{}')
 
 @urlmap("/j/note/upload")
 @urlmap("/j/note/upload/(\d+)")

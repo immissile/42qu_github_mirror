@@ -40,10 +40,10 @@ class Wall(McModel, ReplyMixin):
     @property
     def link(self):
         return "/wall/txt/%s"%self.id
-     
+
     def reply_rm(self, reply):
         reply.rm()
-        id = self.id 
+        id = self.id
         reply_cursor = self.reply_cursor
         reply_cursor.execute(
 "select id from reply where rid=%s and cid=%s and state>=%s and (user_id=%s or user_id=%s) order by id desc limit 1",

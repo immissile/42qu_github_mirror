@@ -290,7 +290,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 or see http://www.gnu.org/copyleft/lesser.html
 """
 
-__author__         = "Frank J. Tobin, ftobin@neverending.org"
+__author__ = "Frank J. Tobin, ftobin@neverending.org"
 __revision__ = "$Id: aop.py,v 1.35 2002/07/08 03:52:09 ftobin Exp $"
 
 
@@ -336,7 +336,7 @@ class Metaclass(type):
 class Aspect(object):
     __slots__ = ['_pc_advice', '__locked', '_affected_getattrs']
     pc_timeframes = ('after', 'before', 'around')
-    pc_types            = ('getattr', 'setattr', 'method_call', 'init')
+    pc_types = ('getattr', 'setattr', 'method_call', 'init')
 
     def __init__(self):
         self._pc_advice = {}
@@ -448,9 +448,9 @@ class Aspect(object):
         has defined as wanting to be run at PointcuContext cxt.
         """
 
-        type            = cxt['type']
+        type = cxt['type']
         timeframe = cxt['timeframe']
-        name            = cxt['name']
+        name = cxt['name']
 
         return self._pc_advice[type][timeframe].get(name, [])
 
@@ -521,7 +521,7 @@ class Instance(object):
                               self.__getattr_core, (name, ), {}).proceed()
 
         cxt['timeframe'] = 'after'
-        cxt['value']           = value
+        cxt['value'] = value
         self._aspect.apply_routines(cxt)
         return value
 
@@ -585,10 +585,10 @@ class BoundMethod(object):
 
     def __init__(self, instance, method, aspect):
         self.im_class = method.im_class
-        self.im_self        = instance
-        self.im_func        = method.im_func
+        self.im_self = instance
+        self.im_func = method.im_func
         self.__name__ = method.__name__
-        self._aspect        = aspect
+        self._aspect = aspect
 
     def __call__(self, *varargs, **kwargs):
         cxt = PointcutContext({ 'timeframe': 'before',
@@ -622,9 +622,9 @@ class AroundContext(PointcutContext):
     def __init__(self, routines_dict, aspect, core, varargs, kwargs):
         PointcutContext.__init__(self, routines_dict)
         self.routines = aspect._routines(routines_dict)
-        self.core          = core
+        self.core = core
         self.varargs = varargs
-        self.kwargs        = kwargs
+        self.kwargs = kwargs
 
     def proceed(self):
         """Execute the next 'layer' of 'around' wrapping,

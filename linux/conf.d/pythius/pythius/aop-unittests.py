@@ -132,7 +132,7 @@ class MethodCallTest(PointcutTest):
     def test_before(self):
         method_name = 'add'
         varargs = (2, 3)
-        kwargs       = {}
+        kwargs = {}
 
         self.logger.before(self.type, method_name, self.logger.log)
 
@@ -148,7 +148,7 @@ class MethodCallTest(PointcutTest):
         # note: we also test the kwargs here
         method_name = 'sub'
         varargs = ()
-        kwargs       = {'b': 2, 'a': 3}
+        kwargs = {'b': 2, 'a': 3}
 
         self.logger.after(self.type, method_name, self.logger.log)
 
@@ -279,7 +279,7 @@ def make_aspected_student(aspect, get_sub=False):
 
         # NOTE: if you change any of these, change
         # Student_defaults
-        age        = 16
+        age = 16
         grade = 11
 
         def __init__(self):

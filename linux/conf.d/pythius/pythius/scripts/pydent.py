@@ -41,7 +41,7 @@ class Indenter:
         self.newline = 1
         self.lastws = (0, "")
         self.spacing = " " * self.spaces
-        self.space_token = set(("=", "==", "<", ">", "!=", "<=", ">=","+=","-=","*=","/=","<<",">>"))
+        self.space_token = set(("=", "==", "<", ">", "!=", "<=", ">=", "+=", "-=", "*=", "/=", "<<", ">>"))
 
     def __emit(self, text):
         """ Write a piece of source code.
@@ -61,7 +61,7 @@ class Indenter:
         while idx < len(self.parser.tokenlist):
             token = self.parser.tokenlist[idx]
             if token.type == grok.INDENT:
-                result +=1
+                result += 1
             elif token.type == grok.DEDENT:
                 result -= 1
             elif token.type not in [grok.EMPTY, grok.WS, grok.COMMENT] or result:
@@ -91,19 +91,19 @@ class Indenter:
             # following any token _before_ the end marker
             token = self.parser.tokenlist[idx]
             token_next = self.parser.tokenlist[idx+1] if idx < tokenlist_len-1 else None
-            
+
             token_txt = token.text
             if token_txt == "(":
-                call_depth+=1
+                call_depth += 1
             elif token_txt == ")":
-                call_depth-=1
-            
+                call_depth -= 1
+
 #            print "%s|"%token.text
 
 
             if _debug:
                 import string, sys
-                print >>sys.stderr, string.rjust(str(token.row), 5), string.rjust(str(token.col), 5), string.ljust(grok.tokentext[token.type], 10), repr(token.text)
+                print >> sys.stderr, string.rjust(str(token.row), 5), string.rjust(str(token.col), 5), string.ljust(grok.tokentext[token.type], 10), repr(token.text)
 
             # end processing on ENDMARKER
             if token.type == grok.ENDMARKER: break
@@ -133,7 +133,7 @@ class Indenter:
             elif isNewline and token.type == grok.WS:
                 if _debug:
                     import string, sys
-                    print >>sys.stderr, "***", self.indent, self.__adjustIndent(idx)
+                    print >> sys.stderr, "***", self.indent, self.__adjustIndent(idx)
 
                 # check for adjustment if indenting seems fishy
                 indent = self.indent
@@ -145,7 +145,7 @@ class Indenter:
                     if adjust < 0 and self.parser.tokenlist[idx+1].type == grok.COMMENT:
                         if _debug:
                             import string, sys
-                            print >>sys.stderr, self.parser.tokenlist[idx+1].text, "   ", indent, len(token.text), wslevel
+                            print >> sys.stderr, self.parser.tokenlist[idx+1].text, "   ", indent, len(token.text), wslevel
                 #while len(token.text) > wslevel[indent+cmadjust] and indent+cmadjust < self.indent:
                 #    cmadjust += 1
 
@@ -155,7 +155,7 @@ class Indenter:
                 # keep manual additional indent of continued lines
                 if _debug:
                     import string, sys
-                    print >>sys.stderr, self.lastws[0], indent, len(self.lastws[1]), len(token.text), self.parser.tokenlist[idx+1].text
+                    print >> sys.stderr, self.lastws[0], indent, len(self.lastws[1]), len(token.text), self.parser.tokenlist[idx+1].text
                 if self.lastws[0] == indent and self.lastws[1] != token.text:
                     self.__emit(token.text[len(self.lastws[1]):])
                 else:
@@ -172,7 +172,7 @@ class Indenter:
                         else:
                             token_next.text = token_next.text.lstrip()
                     else:
-                        token.text+=" "
+                        token.text += " "
                 self.__emit(token.text)
             else:
 
@@ -184,7 +184,7 @@ class Indenter:
 
                 if token_txt:
                     self.__emit(token_txt)
-            
+
             token_pre = token
 #############################################################################
 ### Main program
@@ -232,7 +232,7 @@ def main():
     try:
         optlist, args = getopt.getopt(sys.argv[1:], 'cnq', ['compile', 'dry-run', 'help', 'quiet', 'no-backup', 'version'])
     except:
-        util.fatal("Invalid parameters!", usage = 1)
+        util.fatal("Invalid parameters!", usage=1)
 
     if util.haveOptions(optlist, ["--version"]): version()
     if not args or util.haveOptions(optlist, ["--help"]): usage()
@@ -257,7 +257,7 @@ def main():
     for filename in files:
         # load source
         util.log("Formatting '%s'..." % (filename, ))
-        file = util.FileMorpher(filename, backup = flag_backup, dryrun = flag_dryrun)
+        file = util.FileMorpher(filename, backup=flag_backup, dryrun=flag_dryrun)
         source = file.load()
 
         # check source

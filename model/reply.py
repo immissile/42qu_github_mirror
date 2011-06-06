@@ -3,7 +3,7 @@
 from gid import gid
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from txt import txt_new
-from spammer import is_same_post, is_spammer, mc_lastest_hash 
+from spammer import is_same_post, is_spammer, mc_lastest_hash
 from time import time
 from txt import txt_bind
 from zkit.txt2htm import txt_withlink
@@ -118,7 +118,7 @@ class Reply(McModel):
             self.state = STATE_DEL
             self.save()
             mc_flush_reply_id_list(self.cid, self.rid)
-        
+
         user_id = self.user_id
         mc_lastest_hash.delete(user_id)
 

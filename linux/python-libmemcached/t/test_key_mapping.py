@@ -18,9 +18,9 @@ if len(arguments) != 1 or arguments[0] not in parameters:
 print arguments[0]
 
 if arguments[0] == 'remove_server':
-    mc =  cmemcached.Client(["127.0.0.1:11211","127.0.0.1:11212","127.0.0.1:11213"])
+    mc = cmemcached.Client(["127.0.0.1:11211", "127.0.0.1:11212", "127.0.0.1:11213"])
 else:
-    mc =  cmemcached.Client(["127.0.0.1:11211","127.0.0.1:11212","127.0.0.1:11213", "127.0.0.1:11214"])
+    mc = cmemcached.Client(["127.0.0.1:11211", "127.0.0.1:11212", "127.0.0.1:11213", "127.0.0.1:11214"])
 
 num_tests = 10000
 count = 0

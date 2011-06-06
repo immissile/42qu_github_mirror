@@ -8,7 +8,7 @@ from pic import pic_new, pic_save
 from cid import CID_PO_PIC
 from fs import fs_set_jpg, fs_url_jpg
 
-PIC_HTM = '<div class="PIC FLOAT%s"><img src="%s" alt="%s"><div>%s</div></div>'
+PIC_HTM = '<div class="PIC%s"><img src="%s"%s>%s</div>'
 
 PIC_LIMIT = 42
 
@@ -108,11 +108,27 @@ def pic_seq_dict_html(user_id, po_id):
     d = {}
     for i in pic_seq_dict(user_id, po_id).itervalues():
         title = escape(i.title)
+        align = i.align
+
+        if align == -1:
+            align = " L"
+        elif align == 1:
+            align = " R"
+        else:
+            align = ""
+
+        if title:
+            alt = ' alt="%s"'%title.replace('"', '&quot;')
+            div = "<div>%s</div>"%title
+        else:
+            alt = ""
+            div = ""
+
         d[i.seq] = PIC_HTM % (
-            i.align,
+            align,
             fs_url_jpg(684, i.id),
-            title.replace('"', '&quot;'),
-            title,
+            alt,
+            div,
         )
     return d
 

@@ -1,10 +1,10 @@
 import _env
 from mako.lookup import TemplateLookup
-from os.path import abspath, dirname,join
+from os.path import abspath, dirname, join
 from glob import glob
 
 def make(suffix):
-    PATH = join(dirname(abspath(__file__)),suffix)
+    PATH = join(dirname(abspath(__file__)), suffix)
 
     MAKOLOOKUP = TemplateLookup(
         directories=PATH,
@@ -21,9 +21,9 @@ def make(suffix):
         return mytemplate.render(**kwds)
 
 
-    for filename in glob(join(PATH,"*.template")):
+    for filename in glob(join(PATH, "*.template")):
         prefix = filename.rsplit(".", 1)[0]
-        with open("%s.%s"%(prefix,suffix),"w") as out:
+        with open("%s.%s"%(prefix, suffix), "w") as out:
             out.write(render(filename[len(PATH):]))
 
 make("js")

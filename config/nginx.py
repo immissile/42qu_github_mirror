@@ -11,7 +11,7 @@ from os.path import exists, dirname
 
 CONFIG_DIR = join(PREFIX, "config/nginx")
 
-with open(join(dirname(CONFIG_DIR),"template/nginx.conf")) as template:
+with open(join(dirname(CONFIG_DIR), "template/nginx.conf")) as template:
     TEMPLATE = Template(template.read())
 
 def render_conf(name, fs_path, o, port_list=None):

@@ -26,7 +26,7 @@ def test_pickle():
             #assert value_t == t
 
 from time import time
-t=time()
+t = time()
 for i in xrange(10):
     test_pickle()
 print time()-t
