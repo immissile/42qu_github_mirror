@@ -20,6 +20,25 @@ class Login(_handler.Base):
     def get(self):
         self.render()
 
+
+@urlmap("/j/feed/incr/(\d+)")
+def feed_incr(id):
+    pass
+
+@urlmap("/j/feed/incr_x/(\d+)")
+def feed_incr_x(id):
+    pass
+
+@urlmap("/j/feed/decr/(\d+)")
+def feed_decr(id):
+    pass
+
+@urlmap("/j/feed/decr_x/(\d+)")
+def feed_decr_x(id):
+    pass
+
+
+
 @urlmap("/j/note/upload/rm")
 @urlmap("/j/note/upload/rm/(\d+)")
 class NoteUploadRm(_handler.Base):
