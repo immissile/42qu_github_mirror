@@ -9,6 +9,7 @@ from json import dumps
 from zkit.pic import picopen
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
+from model.vote import vote_decr_x, vote_decr, vote_incr_x, vote_incr
 
 @urlmap("/j/txt")
 class Txt(_handler.Base):
@@ -20,26 +21,39 @@ class Login(_handler.Base):
     def get(self):
         self.render()
 
+
+
+
 @urlmap("/j/feed/incr/(\d+)")
 class FeedIncr(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
+        vote_incr(current_user_id, id)
         self.finish('{}')
 
 @urlmap("/j/feed/incr_x/(\d+)")
 class FeedIncrX(_handler.JLoginBase):
     def post(self, id):
+        current_user_id = self.current_user_id
+        vote_incr_x(current_user_id, id)
         self.finish('{}')
 
 @urlmap("/j/feed/decr/(\d+)")
 class FeedDecr(_handler.JLoginBase):
     def post(self, id):
+        current_user_id = self.current_user_id
+        vote_decr(current_user_id, id)
         self.finish('{}')
 
 @urlmap("/j/feed/decr_x/(\d+)")
 class FeedDecrX(_handler.JLoginBase):
     def post(self, id):
+        current_user_id = self.current_user_id
+        vote_decr_x(current_user_id, id)
         self.finish('{}')
+
+
+
 
 @urlmap("/j/note/upload/rm")
 @urlmap("/j/note/upload/rm/(\d+)")

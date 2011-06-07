@@ -56,6 +56,7 @@ function $id(id){return document.getElementById(id)}
             c.className=b;
             v+=v
         }
+        $.postJSON("/j/feed/"+a+"/"+id)
         if(e.className==a){
             a += "_x"
         }else{
@@ -63,7 +64,6 @@ function $id(id){return document.getElementById(id)}
         }
         e.className = a
         n.text(t-v)
-        $.postJSON("/j/feed/"+a+"/"+id)
     }
     vote_incr = function(id){
         _(incr,decr,id,-1)

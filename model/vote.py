@@ -11,6 +11,7 @@ class Vote(Model):
 
 vote_incr_count = McNum(lambda feed_id: Vote.where(feed_id=feed_id, state=STATE_INCR).count(), 'VoteIncrCount.%s')
 vote_decr_count = McNum(lambda feed_id: Vote.where(feed_id=feed_id, state=STATE_DECR).count(), 'VoteDecrCount.%s')
+vote_count = McNum(lambda feed_id:vote_incr_count(feed_id)-vote_decr_count(feed_id) , 'VoteCount.%s')
 
 mc_vote_state = McCache('VoteState.%s')
 
@@ -58,6 +59,7 @@ def vote_mc_flush(user_id, feed_id):
     mc_vote_state.delete('%s_%s' % (user_id, feed_id))
     vote_incr_count.delete(feed_id)
     vote_decr_count.delete(feed_id)
+    vote_count.delete(feed_id)
 
 if __name__ == '__main__':
     pass

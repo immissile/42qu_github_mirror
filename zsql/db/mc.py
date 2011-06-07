@@ -236,13 +236,13 @@ class McNum(object):
 
     def get_multi(self, keys):
         mc_key = self.mc_key
-        mc_key_list = dict([(key, mc_key%('_'.join(key))) for key in keys])
+        mc_key_list = dict([(key, mc_key%key) for key in keys])
         result = mc.get_multi(mc_key_list.itervalues())
         r = {}
         for k, mck in mc_key_list.iteritems():
             v = result.get(mck)
             if v is None:
-                v = self.get_num(k.split('_')) or 0
+                v = self.get_num(k) or 0
                 mc.set(mck, v)
             r[k] = v
         return r
