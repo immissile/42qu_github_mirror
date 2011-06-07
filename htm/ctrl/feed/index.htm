@@ -28,10 +28,11 @@ state = vote_state(current_user_id, iid)
 ${caller.body()}\
 <div>\
 <a href="/po/${iid}" target="_blank">${i.reply_total or ''}回复</a>
-<a id="decr${iid}" class="decr${'_x' if state==-1 else ''}" href="javascript:vote_decr(${iid});void(0)">-</a>
-<span id="vote${iid}">${i.vote}</span>
-<a id="incr${iid}" class="incr${'_x' if state==1 else ''}" href="javascript:vote_incr(${iid});void(0)">+</a>
-
+<span class="vote${state}" id="vote${iid}">
+<a class="decr" href="javascript:vote_decr(${iid});void(0)">-</a>
+<span class="num">${i.vote}</span>
+<a class="incr" href="javascript:vote_incr(${iid});void(0)">+</a>
+</span>
 </div>\
 </%call>\
 </%def>

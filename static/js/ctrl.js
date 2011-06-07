@@ -46,32 +46,38 @@ function login_autofill(suffix){
         mail.val(mail_val).select();
     }
 }
-function $id(id){return document.getElementById(id)}
+
+/*
+ 0 -1 -1
+ 1 -1 -2
+-1 -1  1
+ 0  1  1
+ 1  1 -1
+-1  1  2
+*/
 
 (function(){
-    var decr="decr",incr="incr";
+    var decr="decr",incr="incr",vote="vote";
     function _(a,b,id,v){
-        var e=$id(a+id),n=$("#vote"+id),t=n.text(),c=$id(b+id);
-        if(c.className!=b){
-            c.className=b;
-            v+=v
-        }
-        if(e.className==a){
-            a += "_x"
+        var wj=$("#"+vote+id), w=wj[0],
+            state=w.className.slice(4)-0,
+            num=wj.find('.num'),
+            numv=num.text()-0,
+            c=v;
+        //$.postJSON("/j/feed/"+a+"/"+id)
+        if(v==state){
+            c=0;
+            v=-v
         }else{
-            v = -v
+            v-=state
         }
-        $.postJSON("/j/feed/"+a+"/"+id)
-        e.className = a
-        n.text(t-v)
+        w.className = vote+c;
+        num.text(numv+v)
     }
     vote_incr = function(id){
-        _(incr,decr,id,-1)
+        _(incr,decr,id,1)
     }
     vote_decr = function (id){
-        _(decr,incr,id,1)
+        _(decr,incr,id,-1)
     }
 })()
-
-
-
