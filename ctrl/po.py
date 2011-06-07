@@ -3,6 +3,7 @@
 import _handler
 from zweb._urlmap import urlmap
 from model.po import po_word_new, Po
+from model.po_pos import po_pos_set
 from model import reply
 from model.zsite import Zsite
 
@@ -33,6 +34,8 @@ class Index(IndexBase):
         if po:
             can_admin = po.can_admin(current_user_id)
             can_view = po.can_view(current_user_id)
+            if can_view and current_user_id:
+                po_pos_set(current_user_id, id)
             return self.render(
                 po=po,
                 can_admin=can_admin,
@@ -114,4 +117,3 @@ class Rm(_handler.XsrfGetBase):
         self.redirect(current_user.link)
 
     post = get
-

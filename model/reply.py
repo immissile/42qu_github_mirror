@@ -85,6 +85,13 @@ class ReplyMixin(object):
         )
         return [i for i, in cursor]
 
+    @property
+    def reply_id_last(self):
+        li = self.reply_id_list_reversed(1)
+        if li:
+            return li[0]
+        return 0
+
     @mc_reply_id_list_reversed("{self.cid}_{self.id}")
     def reply_id_list_reversed(self, limit=None, offset=None):
         return self._reply_id_list(limit, offset, "order by id desc")

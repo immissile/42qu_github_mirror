@@ -9,8 +9,6 @@ from zsite import Zsite
 from user_mail import mail_by_user_id
 from verify import verify_new, verifyed
 
-BANK_SYS = 0
-
 def read_cent(cent):
     return '%.2f' % (cent / 100.)
 
@@ -143,7 +141,7 @@ def charge_new(price, user_id, cid):
     assert price > 0
     cent = int(price * 100)
     tax = int(round(cent * CHARGE_TAX[cid]))
-    t = trade_new(cent-tax, tax, BANK_SYS, user_id, CID_TRADE_CHARDE, cid, TRADE_STATE_OPEN)
+    t = trade_new(cent-tax, tax, 0, user_id, CID_TRADE_CHARDE, cid, TRADE_STATE_OPEN)
     vid, ck = verify_new(user_id, CID_VERIFY_MONEY)
     return '%s_%s_%s' % (t.id, vid, ck)
 
@@ -163,7 +161,7 @@ def withdraw_new(price, user_id, cid):
     assert price > 0
     cent = int(price * 100)
     tax = int(round(cent * CHARGE_TAX[cid]))
-    return trade_new(cent, tax, user_id, BANK_SYS, CID_TRADE_WITHDRAW, cid, TRADE_STATE_OPEN)
+    return trade_new(cent, tax, user_id, 0, CID_TRADE_WITHDRAW, cid, TRADE_STATE_OPEN)
 
 def withdraw_fail(id, txt):
     t = Trade.get(id)
@@ -172,14 +170,14 @@ def withdraw_fail(id, txt):
         trade_log.set(id, txt)
 
 def withdraw_open_count():
-    return Trade.where(cid=CID_TRADE_WITHDRAW, to_id=BANK_SYS, state=TRADE_STATE_OPEN).count()
+    return Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_OPEN).count()
 
 def withdraw_max():
-    c = Trade.raw_sql('select max(id) from trade where cid=%s and to_id=%s', CID_TRADE_WITHDRAW, BANK_SYS)
+    c = Trade.raw_sql('select max(id) from trade where cid=%s and to_id=%s', CID_TRADE_WITHDRAW, 0)
     return c.fetchone()[0] or 0
 
 def withdraw_list():
-    qs = Trade.where(cid=CID_TRADE_WITHDRAW, to_id=BANK_SYS, state=TRADE_STATE_OPEN).order_by('id desc')
+    qs = Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_OPEN).order_by('id desc')
     for t in qs:
         i.account, i.name = pay_account_get(i.from_id, i.rid)
     return qs

@@ -10,7 +10,7 @@ from operator import itemgetter
 CREATE TABLE `wall` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `cid` TINYINT UNSIGNED NOT NULL ,
-  `from_id` INTEGER UNSIGNED NOT NULL, 
+  `from_id` INTEGER UNSIGNED NOT NULL,
   `to_id` INTEGER UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`),
   KEY `from_id` (`from_id`),
@@ -82,6 +82,8 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     if reply1 is None and reply2 is None:
         wall = Wall(cid=self.cid, from_id=user_id, to_id=zsite_id)
         wall.save()
+        from buzz import buzz_wall_new
+        buzz_wall_new(user_id, zsite_id)
     else:
         if reply1:
             reply = reply1
@@ -141,7 +143,3 @@ Zsite.reply_new = reply_new
 Zsite.reply_total = reply_total
 Zsite.reply_list_id_reversed = reply_list_id_reversed
 Zsite.reply_list_reversed = reply_list_reversed
-
-
-
-
