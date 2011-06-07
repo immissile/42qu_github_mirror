@@ -10,7 +10,12 @@ $.postJSON = function(url, data, callback) {
         data: data, 
         dataType: "json", 
         type: "POST",
-        success: callback 
+        success: function(data, textStatus, jqXHR){
+            if(data.login)
+                login();
+            else
+                callback(data, textStatus, jqXHR);
+        }
     });
 };
 
