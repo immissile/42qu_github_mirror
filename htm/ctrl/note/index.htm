@@ -1,11 +1,14 @@
 <%!
+from model.vote import vote_state, vote_count
 from datetime import datetime
 %>
 <%inherit file="/ctrl/_util/po.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%def name="po_body()">
-
+<%
+po_id = po.id
+%>
 <h1>${po.name}</h1>
 <pre>${po.htm|n}</pre>
 <div>${datetime.fromtimestamp(po.create_time)}</div>
@@ -14,5 +17,11 @@ from datetime import datetime
         <a href="/note/edit/${po.id}">编辑</a>
     %endif
 </div>
+
+<span class="vote${vote_state(current_user_id, po_id)}" id="vote${po_id}">
+<a class="decr" href="javascript:vote_decr(${po_id});void(0)">-</a>
+<span class="num">${vote_count(po_id)}</span>
+<a class="incr" href="javascript:vote_incr(${po_id});void(0)">+</a>
+</span>
 
 </%def>
