@@ -1,14 +1,24 @@
 <%inherit file="/god/_base.htm" />
 <%!
+from model.zsite_list_0 import ZSITE_LIST_0_CID, zsite_list_get
 %>
 <%def name="htm_head()">
 </%def>
-
+<%
+zsite_id = zsite.id
+%>
 <div style="width:972px;margin:16px auto">
 <p>${zsite.name}</p>
 <p>${zsite.id}</p>
 <p><a target="_blank" href="${zsite.link}">${zsite.link.strip("/")}</a></p>
-</div>
 
+
+%if zsite_list_get(zsite_id):
+    <a href="/zsite/show/${zsite_id}">移出秀</a>
+%else:
+    <a href="/zsite/show/rm/${zsite_id}">加入秀</a>
+%endif
+
+</div>
 
 
