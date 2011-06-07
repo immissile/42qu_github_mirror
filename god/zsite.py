@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
+import _handler
 from model.zsite import Zsite
 from zweb._urlmap import urlmap
 
