@@ -60,6 +60,14 @@ def login(method):
         return method(self, *args, **kwargs)
     return wrapper
 
+
+class JLoginBase(Base):
+    def prepare(self):
+        super(LoginBase, self).prepare()
+        if not self.current_user:
+            self.finish("{login:1}")
+
+
 class LoginBase(Base):
     def prepare(self):
         super(LoginBase, self).prepare()

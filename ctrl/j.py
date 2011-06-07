@@ -53,32 +53,32 @@ class Login(_handler.Base):
 #    return 'Y'
 
 
-#@urlmap("/j/feed/incr/(\d+)")
-#class feed_incr(id):
-#    def post(self):
-#        current_user_id = self.current_user_id
-#        if current_user_id:
-#            pass
-#        self.finish({})
-#
-#@urlmap("/j/feed/incr_x/(\d+)")
-#class feed_incr_x(id):
-#    def post(self):
-#        self.finish({})
-#
-#@urlmap("/j/feed/decr/(\d+)")
-#class feed_decr(id):
-#    def post(self):
-#        self.finish({})
-#
-#@urlmap("/j/feed/decr_x/(\d+)")
-#class feed_decr_x(id):
-#    def post(self):
-#        self.finish({})
+@urlmap("/j/feed/incr/(\d+)")
+class FeedIncr(_handler.JLoginBase):
+    def post(self):
+        current_user_id = self.current_user_id
+        if current_user_id:
+            pass
+        self.finish('{}')
+
+@urlmap("/j/feed/incr_x/(\d+)")
+class FeedIncrX(_handler.JLoginBase):
+    def post(self):
+        self.finish('{}')
+
+@urlmap("/j/feed/decr/(\d+)")
+class FeedDecr(_handler.JLoginBase):
+    def post(self):
+        self.finish('{}')
+
+@urlmap("/j/feed/decr_x/(\d+)")
+class FeedDecrX(_handler.JLoginBase):
+    def post(self):
+        self.finish('{}')
 
 @urlmap("/j/note/upload/rm")
 @urlmap("/j/note/upload/rm/(\d+)")
-class NoteUploadRm(_handler.Base):
+class NoteUploadRm(_handler.JLoginBase):
     def post(self, id=0):
         seq = self.get_argument('seq')
         user_id = self.current_user_id
@@ -87,7 +87,7 @@ class NoteUploadRm(_handler.Base):
 
 @urlmap("/j/note/upload")
 @urlmap("/j/note/upload/(\d+)")
-class NoteUpload(_handler.Base):
+class NoteUpload(_handler.JLoginBase):
     def post(self, id=0):
         #USER DUMPS FIX HEADER FOR FIREFOX
         if id:
@@ -100,8 +100,6 @@ class NoteUpload(_handler.Base):
 
     def _post(self, id):
         user_id = self.current_user_id
-        if not user_id:
-            return 1
 
         files = self.request.files
         img = files.get('img')
