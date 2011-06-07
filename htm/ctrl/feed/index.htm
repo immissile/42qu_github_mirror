@@ -27,7 +27,7 @@ state = vote_state(current_user_id, iid)
 <%call expr="_style1(i)">
 ${caller.body()}\
 <div>\
-<a href="/po/${iid}" target="_blank">${i.reply_total or ''}回复</a>\
+<a href="/po/${iid}" target="_blank">${i.reply_total or ''}回复</a>
 <a id="decr${iid}" class="decr${'_x' if state==-1 else ''}" href="javascript:vote_decr(${iid});void(0)">-</a>
 <span id="vote${iid}">${i.vote}</span>
 <a id="incr${iid}" class="incr${'_x' if state==1 else ''}" href="javascript:vote_incr(${iid});void(0)">+</a>
