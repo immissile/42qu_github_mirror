@@ -21,57 +21,60 @@ class Login(_handler.Base):
         self.render()
 
 
-@route
-def btnuph(note_id):
-    man_id = request.man_id
-    if man_id and request.is_post:
-        note_fav_new(note_id, man_id)
-    return 'Y'
+#@route
+#def btnuph(note_id):
+#    man_id = request.man_id
+#    if man_id and request.is_post:
+#        note_fav_new(note_id, man_id)
+#    return 'Y'
+#
+#
+#@route
+#def btnup(note_id):
+#    man_id = request.man_id
+#    if man_id and request.is_post:
+#        note_fav_rm(note_id, man_id)
+#    return 'Y'
+#
+#
+#@route
+#def btndownh(note_id):
+#    man_id = request.man_id
+#    if man_id and request.is_post:
+#        note_hate_new(note_id, man_id)
+#    return 'Y'
+#
+#
+#@route
+#def btndown(note_id):
+#    man_id = request.man_id
+#    if man_id and request.is_post:
+#        note_hate_rm(note_id, man_id)
+#    return 'Y'
 
 
-@route
-def btnup(note_id):
-    man_id = request.man_id
-    if man_id and request.is_post:
-        note_fav_rm(note_id, man_id)
-    return 'Y'
-
-
-@route
-def btndownh(note_id):
-    man_id = request.man_id
-    if man_id and request.is_post:
-        note_hate_new(note_id, man_id)
-    return 'Y'
-
-
-@route
-def btndown(note_id):
-    man_id = request.man_id
-    if man_id and request.is_post:
-        note_hate_rm(note_id, man_id)
-    return 'Y'
-
-
-@urlmap("/j/feed/incr/(\d+)")
-class feed_incr(id):
-    def post(self):
-        self.finish({})
-
-@urlmap("/j/feed/incr_x/(\d+)")
-class feed_incr_x(id):
-    def post(self):
-        self.finish({})
-
-@urlmap("/j/feed/decr/(\d+)")
-class feed_decr(id):
-    def post(self):
-        self.finish({})
-
-@urlmap("/j/feed/decr_x/(\d+)")
-class feed_decr_x(id):
-    def post(self):
-        self.finish({})
+#@urlmap("/j/feed/incr/(\d+)")
+#class feed_incr(id):
+#    def post(self):
+#        current_user_id = self.current_user_id
+#        if current_user_id:
+#            pass
+#        self.finish({})
+#
+#@urlmap("/j/feed/incr_x/(\d+)")
+#class feed_incr_x(id):
+#    def post(self):
+#        self.finish({})
+#
+#@urlmap("/j/feed/decr/(\d+)")
+#class feed_decr(id):
+#    def post(self):
+#        self.finish({})
+#
+#@urlmap("/j/feed/decr_x/(\d+)")
+#class feed_decr_x(id):
+#    def post(self):
+#        self.finish({})
 
 @urlmap("/j/note/upload/rm")
 @urlmap("/j/note/upload/rm/(\d+)")
