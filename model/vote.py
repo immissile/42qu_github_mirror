@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 
-INCR_STATE = 1
-MID_STATE = 0
-DECR_STATE = -1
+STATE_INCR = 1
+STATE_0 = 0
+STATE_DECR = -1
 
 class Vote(Model):
     pass
 
-vote_incr_count = McNum(lambda feed_id: Vote.where(feed_id=feed_id, state=INCR_STATE).count(), 'VoteUpCount.%s')
-vote_decr_count = McNum(lambda feed_id: Vote.where(feed_id=feed_id, state=DECR_STATE).count(), 'VoteDownCount.%s')
+vote_incr_count = McNum(lambda feed_id: Vote.where(feed_id=feed_id, state=STATE_INCR).count(), 'VoteIncrCount.%s')
+vote_decr_count = McNum(lambda feed_id: Vote.where(feed_id=feed_id, state=STATE_DECR).count(), 'VoteDecrCount.%s')
 
 mc_vote_state = McCache('VoteState.%s')
 
@@ -32,25 +32,25 @@ def _vote_decr(user_id, feed_id):
 
 def vote_incr(user_id, feed_id):
     state = vote_state(user_id, feed_id)
-    if state != 1:
+    if state != STATE_INCR:
         _vote_incr(user_id, feed_id)
         vote_mc_flush(user_id, feed_id)
 
 def vote_incr_x(user_id, feed_id):
     state = vote_state(user_id, feed_id)
-    if state == 1:
+    if state == STATE_INCR:
         _vote_0(user_id, feed_id)
         vote_mc_flush(user_id, feed_id)
 
 def vote_decr(user_id, feed_id):
     state = vote_state(user_id, feed_id)
-    if state != -1:
+    if state != STATE_DECR:
         _vote_decr(user_id, feed_id)
         vote_mc_flush(user_id, feed_id)
 
 def vote_decr_x(user_id, feed_id):
     state = vote_state(user_id, feed_id)
-    if state == -1:
+    if state == STATE_DECR:
         _vote_0(user_id, feed_id)
         vote_mc_flush(user_id, feed_id)
 
