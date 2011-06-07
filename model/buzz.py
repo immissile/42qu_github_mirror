@@ -8,6 +8,7 @@ from zsite import Zsite
 from state import STATE_ACTIVE
 from follow import Follow
 from po_pos import PoPos, STATE_BUZZ
+from kv import Kv
 from zweb.orm import ormiter
 
 class Buzz(Model):
@@ -49,5 +50,8 @@ def buzz_po_reply_new(from_id, po_id):
     for user_id in set(follow_list) | set(buzz_list):
         buzz_new(from_id, user_id, CID_BUZZ_PO_REPLY, po_id)
 
-def buzz_list(user_id, limit, offset):
-    pass
+buzz_pos = Kv('buzz_pos', 0)
+
+def buzz_list(user_id, limit=10, offset=0):
+    c = Buzz.raw_sql('select from_id, cid, rid from buzz where to_id=%s and id>%s order by id limit %s offset %s', user_id, buzz_pos.get(user_id), limit, offset)
+    return c.fetchall()
