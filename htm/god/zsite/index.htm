@@ -12,11 +12,14 @@ zsite_id = zsite.id
 <p>${zsite.id}</p>
 <p><a target="_blank" href="${zsite.link}">${zsite.link.strip("/")}</a></p>
 
-
-%if zsite_list_get(zsite_id):
-    <a href="/zsite/show/${zsite_id}">移出秀</a>
+<%
+zsite_show = zsite_list_get(zsite_id)
+%>
+%if zsite_show:
+    <a href="/zsite/show/rm/${zsite_id}">移出秀</a>
+    权重 ${zsite_show.rank}
 %else:
-    <a href="/zsite/show/rm/${zsite_id}">加入秀</a>
+    <a href="/zsite/show/${zsite_id}">加入秀</a>
 %endif
 
 </div>
