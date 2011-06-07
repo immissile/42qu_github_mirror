@@ -47,6 +47,8 @@ function login_autofill(suffix){
     }
 }
 
+
+(function(){
 /*
  0 -1 -1
  1 -1 -2
@@ -55,22 +57,21 @@ function login_autofill(suffix){
  1  1 -1
 -1  1  2
 */
-
-(function(){
     var decr="decr",incr="incr",vote="vote";
     function _(a,b,id,v){
         var wj=$("#"+vote+id), w=wj[0],
             state=w.className.slice(4)-0,
             num=wj.find('.num'),
             numv=num.text()-0,
-            c=v;
-        //$.postJSON("/j/feed/"+a+"/"+id)
-        if(v==state){
+            c=v, 
+            notsame=(v!=state)-0;
+        if(notsame){
+            v-=state
+        }else{
             c=0;
             v=-v
-        }else{
-            v-=state
         }
+        $.postJSON("/j/feed/"+a+notsame+"/"+id)
         w.className = vote+c;
         num.text(numv+v)
     }

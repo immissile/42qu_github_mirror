@@ -22,32 +22,32 @@ class Login(_handler.Base):
         self.render()
 
 
-@urlmap("/j/feed/incr/(\d+)")
+@urlmap("/j/feed/incr1/(\d+)")
 class FeedIncr(_handler.JLoginBase):
-    def post(self, id):
-        current_user_id = self.current_user_id
-        vote_incr_x(current_user_id, id)
-        self.finish('{}')
-
-@urlmap("/j/feed/incr_x/(\d+)")
-class FeedIncrX(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         vote_incr(current_user_id, id)
         self.finish('{}')
 
-@urlmap("/j/feed/decr/(\d+)")
+@urlmap("/j/feed/incr0/(\d+)")
+class FeedIncrX(_handler.JLoginBase):
+    def post(self, id):
+        current_user_id = self.current_user_id
+        vote_incr_x(current_user_id, id)
+        self.finish('{}')
+
+@urlmap("/j/feed/decr1/(\d+)")
 class FeedDecr(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
-        vote_decr_x(current_user_id, id)
+        vote_decr(current_user_id, id)
         self.finish('{}')
 
-@urlmap("/j/feed/decr_x/(\d+)")
+@urlmap("/j/feed/decr0/(\d+)")
 class FeedDecrX(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
-        vote_decr(current_user_id, id)
+        vote_decr_x(current_user_id, id)
         self.finish('{}')
 
 
