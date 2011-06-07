@@ -20,9 +20,6 @@ class Login(_handler.Base):
     def get(self):
         self.render()
 
-
-
-
 @urlmap("/j/feed/incr/(\d+)")
 class FeedIncr(_handler.JLoginBase):
     def post(self, id):

@@ -1,4 +1,3 @@
-
 $.postJSON = function(url, data, callback) {
     data = data||{};
     if ( $.isFunction( data ) ) {
