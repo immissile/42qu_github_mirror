@@ -30,3 +30,7 @@ CID_TRADE_REWARD = 154
 
 #Pay Type
 CID_PAY_ALIPAY = 181
+
+
+
+
