@@ -16,11 +16,16 @@ vote_count = McNum(lambda feed_id: vote_incr_count(feed_id)-vote_decr_count(feed
 mc_vote_state = McCache('VoteState.%s')
 
 @mc_vote_state('{user_id}_{feed_id}')
-def vote_state(user_id, feed_id):
+def _vote_state(user_id, feed_id):
     v = Vote.get(user_id=user_id, feed_id=feed_id)
     if v:
         return v.state
     return 0
+
+def vote_state(user_id, feed_id):
+    if not user_id:
+        return 0
+    return _vote_state(user_id, feed_id)
 
 def _vote_incr(user_id, feed_id):
     Vote.raw_sql('insert into vote (user_id, feed_id, state) values (%s, %s, 1) on duplicate key update state=1', user_id, feed_id)
