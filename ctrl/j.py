@@ -25,25 +25,23 @@ class Login(_handler.Base):
 
 @urlmap("/j/feed/incr/(\d+)")
 class FeedIncr(_handler.JLoginBase):
-    def post(self):
+    def post(self, id):
         current_user_id = self.current_user_id
-        if current_user_id:
-            pass
         self.finish('{}')
 
 @urlmap("/j/feed/incr_x/(\d+)")
 class FeedIncrX(_handler.JLoginBase):
-    def post(self):
+    def post(self, id):
         self.finish('{}')
 
 @urlmap("/j/feed/decr/(\d+)")
 class FeedDecr(_handler.JLoginBase):
-    def post(self):
+    def post(self, id):
         self.finish('{}')
 
 @urlmap("/j/feed/decr_x/(\d+)")
 class FeedDecrX(_handler.JLoginBase):
-    def post(self):
+    def post(self, id):
         self.finish('{}')
 
 @urlmap("/j/note/upload/rm")

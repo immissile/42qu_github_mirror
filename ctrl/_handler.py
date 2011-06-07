@@ -63,9 +63,9 @@ def login(method):
 
 class JLoginBase(Base):
     def prepare(self):
-        super(LoginBase, self).prepare()
+        super(JLoginBase, self).prepare()
         if not self.current_user:
-            self.finish("{login:1}")
+            self.finish('{"login":1}')
 
 
 class LoginBase(Base):
