@@ -31,10 +31,10 @@ PIC_RIGHT = 1 # 2
 class PoPic(McModel):
     pass
 
-po_pic_total = McNum(lambda user_id, po_id: PoPic.where(user_id=user_id, po_id=po_id).count(), 'PoPicTotal.%s')
+po_pic_sum = McNum(lambda user_id, po_id: PoPic.where(user_id=user_id, po_id=po_id).count(), 'PoPicTotal.%s')
 
 def pic_can_add(user_id, po_id=0):
-    return po_pic_total(user_id, po_id) < PIC_LIMIT
+    return po_pic_sum(user_id, po_id) < PIC_LIMIT
 
 def seq_gen(user_id, po_id):
     c = PoPic.raw_sql('select max(seq) from po_pic where user_id=%s and po_id=%s', user_id, po_id)
@@ -67,7 +67,7 @@ def po_pic_rm(user_id, po_id, seq):
         mc_flush(user_id, po_id)
 
 def mc_flush(user_id, po_id):
-    po_pic_total.delete(user_id, po_id)
+    po_pic_sum.delete(user_id, po_id)
     mc_pic_id_list.delete('%s_%s' % (user_id, po_id))
 
 #mc_pic_new_id_list = McCacheA('PoPicNewIdList.%s')
