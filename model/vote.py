@@ -2,6 +2,66 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 
+INCR_STATE = 1
+MID_STATE = 0
+DECR_STATE = -1
+
+class Vote(Model):
+    pass
+
+vote_incr_count = McNum(lambda feed_id: Vote.where(feed_id=feed_id, state=INCR_STATE).count(), 'VoteUpCount.%s')
+vote_decr_count = McNum(lambda feed_id: Vote.where(feed_id=feed_id, state=DECR_STATE).count(), 'VoteDownCount.%s')
+
+mc_vote_state = McCache('VoteState.%s')
+
+@mc_vote_state('{user_id}_{feed_id}')
+def vote_state(user_id, feed_id):
+    v = Vote.get(user_id=user_id, feed_id=feed_id)
+    if v:
+        return v.state
+    return 0
+
+def _vote_incr(user_id, feed_id):
+    Vote.raw_sql('insert into vote (user_id, feed_id, state) values (%s, %s, 1) on duplicate key update state=1', user_id, feed_id)
+
+def _vote_0(user_id, feed_id):
+    Vote.raw_sql('update vote set state=0 where user_id=%s and feed_id=%s', user_id, feed_id)
+
+def _vote_decr(user_id, feed_id):
+    Vote.raw_sql('insert into vote (user_id, feed_id, state) values (%s, %s, -1) on duplicate key update state=-1', user_id, feed_id)
+
+def vote_incr(user_id, feed_id):
+    state = vote_state(user_id, feed_id)
+    if state != 1:
+        _vote_incr(user_id, feed_id)
+        vote_mc_flush(user_id, feed_id)
+
+def vote_incr_x(user_id, feed_id):
+    state = vote_state(user_id, feed_id)
+    if state == 1:
+        _vote_0(user_id, feed_id)
+        vote_mc_flush(user_id, feed_id)
+
+def vote_decr(user_id, feed_id):
+    state = vote_state(user_id, feed_id)
+    if state != -1:
+        _vote_decr(user_id, feed_id)
+        vote_mc_flush(user_id, feed_id)
+
+def vote_decr_x(user_id, feed_id):
+    state = vote_state(user_id, feed_id)
+    if state == -1:
+        _vote_0(user_id, feed_id)
+        vote_mc_flush(user_id, feed_id)
+
+def vote_mc_flush(user_id, feed_id):
+    mc_vote_state.delete('%s_%s' % (user_id, feed_id))
+    vote_incr_count.delete(feed_id)
+    vote_decr_count.delete(feed_id)
+
+if __name__ == '__main__':
+    pass
+
 #class Rate(Model):
 #    pass
 #
@@ -32,78 +92,3 @@ from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 #def rate_decr2up(feed_id):
 #    Rate.raw_sql('update rate set up=up+1 and down=down-1 where id=%s', feed_id)
 
-INCR_STATE = 1
-MID_STATE = 0
-DECR_STATE = -1
-
-class Vote(Model):
-    pass
-
-vote_incr_count = McNum(lambda feed_id: Vote.where(feed_id=feed_id, state=INCR_STATE).count(), 'VoteUpCount.%s')
-vote_decr_count = McNum(lambda feed_id: Vote.where(feed_id=feed_id, state=DECR_STATE).count(), 'VoteDownCount.%s')
-
-mc_vote_state = McCache('VoteState.%s')
-
-@mc_vote_state('{user_id}_{feed_id}')
-def vote_state(user_id, feed_id):
-    v = Vote.get(user_id=user_id, feed_id=feed_id)
-    if v:
-        return v.state
-    return 0
-
-def _vote_incr(user_id, feed_id):
-    Vote.raw_sql('insert into vote (user_id, feed_id, state) values (%s, %s, 1) on duplicate key update state=1', user_id, feed_id)
-
-def _vote_mid(user_id, feed_id):
-    Vote.raw_sql('update vote set state=0 where user_id=%s and feed_id=%s', user_id, feed_id)
-
-def _vote_decr(user_id, feed_id):
-    Vote.raw_sql('insert into vote (user_id, feed_id, state) values (%s, %s, -1) on duplicate key update state=-1', user_id, feed_id)
-
-def vote_incr(user_id, feed_id):
-    state = vote_state(user_id, feed_id)
-    if state != 1:
-        _vote_incr(user_id, feed_id)
-        vote_mc_flush(user_id, feed_id)
-#    if state == 1:
-#        return
-#    elif state == 0:
-#        rate_incr_incr(feed_id)
-#    else:
-#        rate_decr2up(feed_id)
-#    _vote_incr(user_id, feed_id)
-
-def vote_unup(user_id, feed_id):
-    state = vote_state(user_id, feed_id)
-    if state == 1:
-        #rate_incr_decr(feed_id)
-        _vote_mid(user_id, feed_id)
-        vote_mc_flush(user_id, feed_id)
-
-def vote_decr(user_id, feed_id):
-    state = vote_state(user_id, feed_id)
-    if state != -1:
-        _vote_decr(user_id, feed_id)
-        vote_mc_flush(user_id, feed_id)
-#    if state == -1:
-#        return
-#    elif state == 0:
-#        rate_decr_incr(feed_id)
-#    else:
-#        rate_incr2down(feed_id)
-#    _vote_decr(user_id, feed_id)
-
-def vote_undown(user_id, feed_id):
-    state = vote_state(user_id, feed_id)
-    if state == -1:
-        #rate_decr_decr(feed_id)
-        _vote_mid(user_id, feed_id)
-        vote_mc_flush(user_id, feed_id)
-
-def vote_mc_flush(user_id, feed_id):
-    mc_vote_state.delete('%s_%s' % (user_id, feed_id))
-    vote_incr_count.delete(feed_id)
-    vote_decr_count.delete(feed_id)
-
-if __name__ == '__main__':
-    pass
