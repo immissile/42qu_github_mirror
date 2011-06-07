@@ -56,12 +56,12 @@ function $id(id){return document.getElementById(id)}
             c.className=b;
             v+=v
         }
-        $.postJSON("/j/feed/"+a+"/"+id)
         if(e.className==a){
             a += "_x"
         }else{
-            v=-v
+            v = -v
         }
+        $.postJSON("/j/feed/"+a+"/"+id)
         e.className = a
         n.text(t-v)
     }
