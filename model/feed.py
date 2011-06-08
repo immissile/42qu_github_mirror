@@ -97,7 +97,7 @@ class FeedEntryCmp(object):
 
 @mc_feed_id_list_by_zsite_id("{zsite_id}")
 def feed_id_list_by_zsite_id(zsite_id):
-    return Feed.where(zsite_id=zsite_id).id_list()
+    return Feed.where(zsite_id=zsite_id).field_list()
 
 
 def mc_flush_zsite_follow(zsite_id):

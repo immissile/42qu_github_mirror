@@ -124,7 +124,7 @@ def mc_flush(zsite_id):
 
 @mc_reply_id_list("{self.id}")
 def reply_list_id_reversed(self, limit=None, offset=None):
-    id_list = WallReply.where(zsite_id=self.id).where("last_reply_id>0").order_by("update_time desc").id_list(limit, offset, "last_reply_id")
+    id_list = WallReply.where(zsite_id=self.id).where("last_reply_id>0").order_by("update_time desc").field_list(limit, offset, "last_reply_id")
     return id_list
 
 def reply_list_reversed(self, limit=None, offset=None):
