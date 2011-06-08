@@ -15,8 +15,7 @@ from zweb.orm import ormiter
 from zkit.orderedset import OrderedSet
 from zkit.ordereddict import OrderedDict
 from itertools import chain
-from collections import defaultdict, namedtuple
-#from zkit.algorithm.unique import unique
+from collections import defaultdict
 
 class Buzz(Model):
     pass
@@ -85,8 +84,6 @@ class BuzzEntry(object):
         self.rid = rid
         self.from_id_list = OrderedSet([from_id])
 
-#BuzzEntry = namedtuple('Buzz', 'id, cid, rid, from_id_list')
-
 def buzz_list(user_id, limit, offset):
     c = Buzz.raw_sql('select id, from_id, cid, rid from buzz where to_id=%s order by id desc limit %s offset %s', user_id, limit, offset)
     dic = OrderedDict()
@@ -106,13 +103,6 @@ def buzz_list(user_id, limit, offset):
         be.from_list = [cls_dic[Zsite][i] for i in be.from_id_list]
         be.entry = cls_dic[BUZZ_DIC[be.cid]][be.rid]
     return buzz_list
-
-def buzz_list(user_id, limit, offset):
-    from_ids = []
-    for (cid, rid), fids in buzz_iter(user_id, limit, offset):
-        from_ids.extend(fids)
-        entry = BUZZ_DIC[cid].mc_get(rid)
-    from_dic = Zsite.mc_get_multi(from_ids)
 
 def buzz_show(user_id, limit=10):
     c = Buzz.raw_sql('select from_id, cid, rid from buzz where to_id=%s and id>%s order by id limit %s', user_id, buzz_pos.get(user_id), limit)
