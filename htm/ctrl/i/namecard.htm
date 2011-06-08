@@ -19,7 +19,7 @@ from static import js
 <p>家乡 <script>select_pid("pid_home",${pid_home})</script> </p>
 <p>现居 <script>select_pid("pid_now",${pid_now})</script> </p>
 <p>地址 <input type="text" name="address" value="${address}"></p>
-<p>生日 <script>select_date('${birthday}')</script></p>
+<p>生日 <script>select_birthday("birthday",'${birthday or ""}')</script></p>
 <button type="submit">保存</button>
 </%htm:form>
 
