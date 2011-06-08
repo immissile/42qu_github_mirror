@@ -60,9 +60,11 @@ class Namecard(_handler.LoginBase):
         current_user = self.current_user
         current_user_id = self.current_user_id
         c = namecard_get(current_user_id) or JsDict()
+        pid_now = c.pid_now
+        pid_home = c.pid_home
         self.render(
-            pid_now=c.pid_now or 0,
-            pid_home=c.pid_home or 0,
+            pid_now=pid_now or 0,
+            pid_home=pid_home or 0,
             name=c.name or current_user.name,
             phone=c.phone,
             mail=c.mail,
