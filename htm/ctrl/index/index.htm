@@ -1,6 +1,7 @@
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/wall.htm" import="reply_render, reply_textarea"/>
 
+<%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 
 %if zsite:
 <%
@@ -28,6 +29,8 @@ from model.zsite import CID_USER
 <p><a href="${i.link}" target="_blank">${i.name}</a></p>
 %endfor
 ${wall_row()}
+%else:
+${buzz_show(current_user_id)}
 %endif
 
 

@@ -1,5 +1,7 @@
 <%!
 from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_PO_REPLY
+from model.zsite import Zsite
+from model.buzz import buzz_show_binded, buzz_unread_count
 %>
 
 <%def name="entry_link(entry)">
@@ -31,7 +33,14 @@ ${user_link_list(from_list)}
     ${user_link(entry)}
     %endif
 %elif cid == CID_BUZZ_WALL:
-
+${user_link_list(from_list)}
+<%
+to = Zsite.mc_get(entry.to_id)
+%>
+${user_link_list(from_list)}
+给
+${entry_link(to)}
+<a href="${to.link}${entry.link}">留言</a>
 %elif cid == CID_BUZZ_PO_REPLY:
 ${user_link_list(from_list)}
 回复了
@@ -40,4 +49,15 @@ ${user_link_list(from_list)}
     %endif:
 ${entry_link(entry)}
 %endif
+</%def>
+
+<%def name="buzz_show(user_id)">
+<%
+buzz_list = buzz_show_binded(user_id, 3)
+unread = buzz_unread_count(user_id)
+%>
+%for i in buzz_list:
+    ${buzz_render(i)}
+%endfor
+<a href="/buzz">未读${unread}条</a>
 </%def>

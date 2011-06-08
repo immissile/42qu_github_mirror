@@ -29,7 +29,7 @@ BUZZ_DIC = {
     CID_BUZZ_SYS: Po,
     CID_BUZZ_SHOW: None,
     CID_BUZZ_FOLLOW: Zsite,
-    CID_BUZZ_WALL: Zsite,
+    CID_BUZZ_WALL: Wall,
     CID_BUZZ_PO_REPLY: Po,
 }
 
@@ -138,7 +138,7 @@ def buzz_show(user_id, limit):
     buzz_pos_update(user_id, li[:1])
     return li
 
-def buzz_show_bind(user_id, limit):
+def buzz_show_binded(user_id, limit):
     li = []
     dic = OrderedDict()
     cls_dic = defaultdict(set)
