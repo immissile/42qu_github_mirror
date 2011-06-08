@@ -9,6 +9,7 @@ from model.motto import motto
 from model.namecard import namecard_get, namecard_new
 from model.ico import ico_new
 from model.zsite_link import url_by_id, url_new, url_valid
+from model.user_mail import mail_by_user_id
 
 @urlmap("/i")
 class Setting(_handler.LoginBase):
@@ -67,7 +68,7 @@ class Namecard(_handler.LoginBase):
             pid_home=pid_home or 0,
             name=c.name or current_user.name,
             phone=c.phone,
-            mail=c.mail,
+            mail=c.mail or mail_by_user_id(current_user_id),
             address=c.address,
         )
 
