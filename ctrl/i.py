@@ -19,6 +19,8 @@ class Setting(_handler.LoginBase):
     def post(self):
         files = self.request.files
         current_user_id = self.current_user_id
+        current_user = self.current_user
+
         error_img = None
         if 'pic' in files:
             pic = files['pic'][0]['body']
@@ -29,8 +31,9 @@ class Setting(_handler.LoginBase):
                 error_img = "图片格式有误"
 
         _name = self.get_argument('name', None)
-        current_user.name = _name
-        current_user.save()
+        if _name:
+            current_user.name = _name
+            current_user.save()
 
         _motto = self.get_argument('motto', None)
         if _motto:
