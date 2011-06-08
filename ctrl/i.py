@@ -27,9 +27,15 @@ class Setting(_handler.LoginBase):
                 ico_new(current_user_id, pic)
             else:
                 error_img = "图片格式有误"
+
+        _name = self.get_argument('name', None)
+        current_user.name = _name
+        current_user.save()
+
         _motto = self.get_argument('motto', None)
         if _motto:
             motto.set(current_user_id, _motto)
+
         self.render(
            error_img=error_img
         )
