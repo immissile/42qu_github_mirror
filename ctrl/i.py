@@ -91,7 +91,7 @@ class Namecard(_handler.LoginBase):
         phone = self.get_argument('phone', '')
         mail = self.get_argument('mail', '')
         address = self.get_argument('address', '')
-        birthday = self.get_argument('birthday', None)
+        birthday = self.get_argument('birthday', '')
         
         pid_now = int(pid_now)
         pid_home = int(pid_home)
