@@ -48,6 +48,12 @@ function select_date(id, value, year_begin, year_end){
     month.change(_)
     year.change(_)
     span.find('select').change(input)
+    value=value-0
+    if(value){
+       year.val(parseInt(value/10000));
+       month.val(parseInt(value/100)%100).change(); 
+       day.val(value%100);
+    }
 }
 
 
