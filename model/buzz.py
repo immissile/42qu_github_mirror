@@ -52,6 +52,9 @@ def buzz_po_reply_new(from_id, po_id):
 
 buzz_pos = Kv('buzz_pos', 0)
 
-def buzz_list(user_id, limit=10, offset=0):
-    c = Buzz.raw_sql('select from_id, cid, rid from buzz where to_id=%s and id>%s order by id limit %s offset %s', user_id, buzz_pos.get(user_id), limit, offset)
-    return c.fetchall()
+def buzz_list(user_id, limit=100, offset=0):
+    c = Buzz.raw_sql('select from_id, cid, rid from buzz where to_id=%s order by id desc limit %s offset %s', user_id, limit, offset)
+
+def buzz_show(user_id, limit=10):
+    c = Buzz.raw_sql('select from_id, cid, rid from buzz where to_id=%s and id>%s order by id limit %s', user_id, buzz_pos.get(user_id), limit)
+    return c.fetchall()[::-1]
