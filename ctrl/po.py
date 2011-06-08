@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import _handler
 from zweb._urlmap import urlmap
-from model.po import po_word_new, Po
+from model.po import po_rm, po_word_new, Po
 from model import reply
 from model.zsite import Zsite
 
