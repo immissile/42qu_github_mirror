@@ -24,10 +24,14 @@ def namecard_get(user_id):
 def namecard_new(user_id, birthday, pid_home, pid_now, name, phone, mail, address, state=STATE_ACTIVE):
     c = namecard_get(user_id)
     if c:
-        if c.pid_now == pid_now and \
-           c.pid_home == pid_home and \
-           c.name == name and c.phone == phone \
-           and c.mail == mail and c.address == address:
+        if \
+            c.birthday == birthday and \
+            c.pid_now == pid_now and \
+            c.pid_home == pid_home and \
+            c.name == name and \
+            c.phone == phone and \
+            c.mail == mail and \
+            c.address == address:
             return c
         c.state = STATE_DEL
         c.save()
