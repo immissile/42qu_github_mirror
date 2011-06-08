@@ -83,7 +83,8 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
         wall = Wall(cid=self.cid, from_id=user_id, to_id=zsite_id)
         wall.save()
         from buzz import buzz_wall_new
-        buzz_wall_new(user_id, zsite_id)
+        if state == STATE_ACTIVE:
+            buzz_wall_new(user_id, zsite_id)
     else:
         if reply1:
             reply = reply1
