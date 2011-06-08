@@ -57,9 +57,11 @@ function select_pid(id){
         town_loc.hide();
 
         pid.find('select').change(function(){
-            if(this.value!='0'){
-                pid.find('input[name='+id+']').val(this.value)
+            var self=this,v=self.value;
+            if(v!='0'){
+                pid.find('input[name='+id+']').val(v)
             }
+            $(self).blur()
         })
         
         country.change(function(){
