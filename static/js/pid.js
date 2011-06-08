@@ -52,6 +52,7 @@ function option_loc(pid){
 }
 
 function select_pid(id,now){
+    document.write('<span id="'+id+'"/>')
     function select(name){
         return pid.find("select[name="+name+"]")
     }
