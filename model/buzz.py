@@ -19,7 +19,7 @@ def buzz_new(from_id, to_id, cid, rid):
     b.save()
     return b
 
-def buzz_sys_new(use_id, po_id):
+def buzz_sys_new(user_id, po_id):
     buzz_new(0, user_id, CID_BUZZ_SYS, po_id)
 
 def buzz_sys_new_all(po_id):

@@ -30,8 +30,7 @@ def po_buzz_list(po_id):
     qs = PoPos.where(po_id=po_id, state=STATE_BUZZ)
     return [i.user_id for i in qs]
 
-def po_pos_set(user_id, po_id):
-    po = Po.mc_get(po_id)
+def po_pos_set(user_id, po):
     pos = po.reply_id_last
     pos_old = po_pos_get(user_id, po_id)
     if pos > pos_old:
@@ -39,6 +38,12 @@ def po_pos_set(user_id, po_id):
         mc_po_pos.set('%s_%s' % (user_id, po_id), pos)
     if pos_old == -1:
         mc_po_viewed_list.delete(po_id)
+
+def po_pos_set_by_po_id(user_id, po_id):
+    if user_id:
+        po = Po.mc_get(po_id)
+        if po:
+            po_pos_set(user_id, po)
 
 def po_pos_state(user_id, po_id, state):
     pos = po_pos_get(user_id, po_id)
