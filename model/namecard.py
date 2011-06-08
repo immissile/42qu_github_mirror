@@ -13,18 +13,18 @@ class Namecard(McModel):
 mc_namecard_id = McCache('NamecardId.%s')
 
 @mc_namecard_id('{user_id}')
-def get_namecard_id(user_id):
+def namecard_get_id(user_id):
     for i in Namecard.where(user_id=user_id, state=STATE_ACTIVE):
         return i.id
     return 0
 
-def get_namecard(user_id):
-    id = get_namecard_id(user_id)
+def namecard_get(user_id):
+    id = namecard_get_id(user_id)
     return Namecard.mc_get(id)
 
 def namecard_new(user_id, pid, name, phone, mail, address, state=STATE_ACTIVE):
     pid = pid_hex2int(pid)
-    c = get_namecard(user_id)
+    c = namecard_get(user_id)
     if c:
         if c.pid == pid and c.name == name and c.phone == phone and c.mail == mail and c.address == address:
             return c

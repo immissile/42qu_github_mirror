@@ -6,7 +6,7 @@ from zweb._urlmap import urlmap
 from zkit.pic import picopen
 from zkit.jsdict import JsDict
 from model.motto import motto
-from model.namecard import get_namecard, namecard_new
+from model.namecard import namecard_get, namecard_new
 from model.ico import ico_new
 from model.zsite_link import url_by_id, url_new, url_valid
 
@@ -59,7 +59,7 @@ class Namecard(_handler.LoginBase):
     def get(self):
         current_user = self.current_user
         current_user_id = self.current_user_id
-        c = get_namecard(current_user_id) or JsDict()
+        c = namecard_get(current_user_id) or JsDict()
         self.render(
             pid=c.pid,
             name=c.name or current_user.name,
