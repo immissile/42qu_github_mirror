@@ -11,7 +11,7 @@ url = url_by_id(current_user.id)
 %else:
 <%htm:form>
 <p>
-个性域名 <input type="input" name="url">
+个性域名 <input type="text" name="url">
 %if error_url:
 ${error_url}
 %endif:
