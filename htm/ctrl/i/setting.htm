@@ -9,27 +9,27 @@ from model.motto import motto
 ico_url = _ico_url(current_user_id)
 url = url_by_id(current_user_id)
 %>
-%if ico_url:
-<img src="${ico_url}">
-%endif
 <%htm:form enctype="multipart/form-data">
+    <div>
+        %if ico_url:
+            <img src="${ico_url}">
+        %endif
+        <div>
+            上传头像 <input type="file" name="pic"> 
+            <button type="submit">上传</button>
+        </div>
+    </div>
+    <div>昵称 <input type="text" name="name" value="${current_user.name}"></div>
+    <div>座右铭 <input type="text" name="motto" value="${motto.get(current_user_id)}"></div>
+    <button type="submit">保存</button>
+</%htm:form>
 <div>
-上传头像 <input type="file" name="pic">
-</div>
-<button type="submit">上传</button>
-</%htm:form>
 %if url:
-个性域名 <a href="${current_user.link}">${current_user.link[2:]}</a>
+    个性域名 <a href="${current_user.link}">${current_user.link[2:]}</a>
 %else:
-<a href="/i/url">设置个性域名</a>
+    <a href="/i/url">设置个性域名</a>
 %endif
-<p>
-<a href="/password">修改密码</a>
-</p>
-<p><a href="/i/namecard">个人资料</a></p>
-<p><a href="/money">账户</a></p>
-<%htm:form>
-昵称 <input type="text" name="motto" value="${motto.get(current_user_id)}">
-座右铭 <input type="text" name="motto" value="${motto.get(current_user_id)}">
-<button type="submit">保存</button>
-</%htm:form>
+</div>
+<div><a href="/password">修改密码</a></div>
+<div><a href="/i/namecard">个人资料</a></div>
+<div><a href="/money">账户</a></div>
