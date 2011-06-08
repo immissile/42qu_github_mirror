@@ -50,10 +50,12 @@ function select_pid(id){
         ),
         country=select('country'), 
         city=select('city').val('0'), 
-        town=select('town').hide(),
-        loc=select('loc').hide(),
-        town_loc=$(town,loc);
-        
+        town=select('town'),
+        loc=select('loc'),
+        town_loc=$(town);
+        town_loc.push(loc[0])
+        town_loc.hide();
+
         pid.find('select').change(function(){
             if(this.value!='0'){
                 pid.find('input[name='+id+']').val(this.value)
