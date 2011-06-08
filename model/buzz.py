@@ -66,17 +66,6 @@ def buzz_po_reply_new(from_id, po_id):
 
 buzz_pos = Kv('buzz_pos', 0)
 
-def buzz_iter(user_id, limit, offset):
-    c = Buzz.raw_sql('select from_id, cid, rid from buzz where to_id=%s order by id desc limit %s offset %s', user_id, limit, offset)
-    order = OrderedSet()
-    dic = defaultdict(OrderedSet)
-    for from_id, cid, rid in c:
-        key = (cid, rid)
-        order.add(key)
-        dic[key].add(from_id)
-    for key in order:
-        yield key, dic[key]
-
 class BuzzEntry(object):
     def __init__(self, id, cid, rid, from_id):
         self.id = id
