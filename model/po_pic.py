@@ -111,18 +111,18 @@ def pic_seq_dict_html(user_id, po_id):
         align = i.align
 
         if align == -1:
-            align = " L"
+            align = ' L'
         elif align == 1:
-            align = " R"
+            align = ' R'
         else:
-            align = ""
+            align = ''
 
         if title:
-            alt = ' alt="%s"'%title.replace('"', '&quot;')
-            div = "<div>%s</div>"%title
+            alt = ' alt="%s"' % title.replace('"', '&quot;')
+            div = '<div>%s</div>' % title
         else:
-            alt = ""
-            div = ""
+            alt = ''
+            div = ''
 
         d[i.seq] = PIC_HTM % (
             align,
