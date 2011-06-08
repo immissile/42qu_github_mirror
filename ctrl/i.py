@@ -79,6 +79,7 @@ class Namecard(_handler.LoginBase):
             phone=c.phone,
             mail=c.mail or mail_by_user_id(current_user_id),
             address=c.address,
+            birthday=c.birthday
         )
 
     def post(self):
@@ -90,12 +91,13 @@ class Namecard(_handler.LoginBase):
         phone = self.get_argument('phone', '')
         mail = self.get_argument('mail', '')
         address = self.get_argument('address', '')
-
+        birthday = self.get_argument('birthday', None)
+        
         pid_now = int(pid_now)
         pid_home = int(pid_home)
 
-        if pid_now or pid_home or name or phone or mail or address:
-            c = namecard_new(current_user_id, pid_home,pid_now, name, phone, mail, address)
+        if pid_now or pid_home or name or phone or mail or address or birthday:
+            c = namecard_new(current_user_id, pid_home, pid_now, name, phone, mail, address)
 
         self.render(
             pid_now=pid_now,
@@ -104,5 +106,6 @@ class Namecard(_handler.LoginBase):
             phone=phone,
             mail=mail,
             address=address,
+            birthday=birthday
         )
 

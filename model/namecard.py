@@ -21,18 +21,19 @@ def namecard_get(user_id):
     id = namecard_get_id(user_id)
     return Namecard.mc_get(id)
 
-def namecard_new(user_id, pid_home, pid_now, name, phone, mail, address, state=STATE_ACTIVE):
+def namecard_new(user_id, birthday, pid_home, pid_now, name, phone, mail, address, state=STATE_ACTIVE):
     c = namecard_get(user_id)
     if c:
         if c.pid_now == pid_now and \
            c.pid_home == pid_home and \
            c.name == name and c.phone == phone \
            and c.mail == mail and c.address == address:
-           return c
+            return c
         c.state = STATE_DEL
         c.save()
 
     c = Namecard(
+        birthday=birthday or None,
         user_id=user_id,
         pid_now=pid_now,
         pid_home=pid_home,
