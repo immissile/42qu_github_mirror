@@ -1,10 +1,57 @@
 <%inherit file="/ctrl/_base/1.htm" />
+<%!
+from static import js
+%>
+<%def name="htm_head()">
+<script src="${js.pid}"></script>
+<style>
+.select_city_namecard{
+display:none
+}
+.select_town_namecard{
+display:none
+}
+</style>
+</%def>
+
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+
 <%htm:form>
-<p>真实姓名 <input type="input" name="name" value="${name}"></p>
-<p>手机号码 <input type="input" name="phone" value="${phone}"></p>
-<p>电子邮件 <input type="input" name="mail" value="${mail}"></p>
-<p>国家城市 <input type="input" name="pid" value="${pid}"></p>
-<p>具体地址 <input type="input" name="address" value="${address}"></p>
+<p>真实姓名 <input type="text" name="name" value="${name}"></p>
+<p>手机号码 <input type="text" name="phone" value="${phone}"></p>
+<p>电子邮件 <input type="text" name="mail" value="${mail}"></p>
+<p>国家城市 
+<select name="pid">
+<script>option_conutry()</script>
+</select>
+<script>option_city("namecard");
+$("#country").change(function(){
+    $("#city,#town,#loc").hide()
+    if('1'==this.value){
+        $("#city").show()
+    } 
+}).val('1')
+$("#city").change(function(){
+    $("#town,#loc").hide()
+    var town=$("#town"),self=this,p=option_town(self.value);
+    if(p!=''){
+        town.html('<option value="0"></option>'+p).show()
+        $("#txt").height('37px')
+    }
+}).val('0')
+
+$("#town").change(function(){
+    $("#loc").hide()
+    var t=$("#loc"),self=this,p=option_loc(self.value);
+    if(p!=''){
+        t.html('<option value="0"></option>'+p).show()
+    }
+}).val('0') 
+
+</script>
+</p>
+<p>具体地址 <input type="text" name="address" value="${address}"></p>
 <button type="submit">保存</button>
 </%htm:form>
+
