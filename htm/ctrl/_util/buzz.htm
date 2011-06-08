@@ -1,0 +1,43 @@
+<%!
+from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_PO_REPLY
+%>
+
+<%def name="entry_link(entry)">
+<a href="${entry.link}">${entry.name}</a>\
+</%def>
+
+<%def name="user_link_list(user_list)">
+${','.join([entry_link(i) for i in user_list])}
+</%def>
+
+<%def name="buzz_render(i)">
+<%
+cid = i.cid
+rid = i.rid
+from_list = i.from_list
+entry = i.entry
+%>
+%if cid == CID_BUZZ_SYS:
+系统通知
+${entry_link(entry)}
+%elif cid == CID_BUZZ_SHOW:
+
+%elif cid == CID_BUZZ_FOLLOW:
+${user_link_list(from_list)}
+关注了
+    %if rid == current_user_id:
+    您
+    %else:
+    ${user_link(entry)}
+    %endif
+%elif cid == CID_BUZZ_WALL:
+
+%elif cid == CID_BUZZ_PO_REPLY:
+${user_link_list(from_list)}
+回复了
+    %if entry.user_id == current_user_id:
+    你的
+    %endif:
+${entry_link(entry)}
+%endif
+</%def>

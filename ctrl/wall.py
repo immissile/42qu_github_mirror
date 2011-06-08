@@ -36,13 +36,13 @@ class Index(_handler.LoginBase):
 
 @urlmap("/wall/(\-?\d+)")
 class Page(_handler.Base):
-    def get(self, page):
+    def get(self, n):
         zsite = self.zsite
         zsite_link = zsite.link
         page, limit, offset = page_limit_offset(
             "%s/wall/%%s"%zsite_link,
             zsite.reply_total,
-            page,
+            n,
             PAGE_LIMIT
         )
         reply_list = zsite.reply_list_reversed(limit, offset)
@@ -65,7 +65,7 @@ class Reply2Txt(_handler.Base):
 @urlmap("/wall/txt/(\d+)")
 @urlmap("/wall/txt/(\d+)/(\d+)")
 class Txt(_handler.Base):
-    def get(self, id, page=1):
+    def get(self, id, n=1):
         zsite = self.zsite
         zsite_id = zsite.id
         zsite_link = zsite.link
@@ -79,7 +79,7 @@ class Txt(_handler.Base):
         page, limit, offset = page_limit_offset(
             "%s/wall/txt/%s/%%s"%(zsite_link, id),
             wall.reply_total,
-            page,
+            n,
             PAGE_LIMIT
         )
 
