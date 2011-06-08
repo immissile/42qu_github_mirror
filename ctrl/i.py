@@ -61,7 +61,8 @@ class Namecard(_handler.LoginBase):
         current_user_id = self.current_user_id
         c = namecard_get(current_user_id) or JsDict()
         self.render(
-            pid=c.pid,
+            pid_now=c.pid_now or 0,
+            pid_home=c.pid_home or 0,
             name=c.name or current_user.name,
             phone=c.phone,
             mail=c.mail,
@@ -71,17 +72,19 @@ class Namecard(_handler.LoginBase):
     def post(self):
         current_user = self.current_user
         current_user_id = self.current_user_id
-        pid = self.get_argument('pid', '')
+        pid_now = self.get_argument('pid_now', '1')
         name = self.get_argument('name', '')
         phone = self.get_argument('phone', '')
         mail = self.get_argument('mail', '')
         address = self.get_argument('address', '')
+        pid_now = int(pid_now)
         if pid and name and phone and mail and address:
-            c = namecard_new(current_user_id, pid, name, phone, mail, address)
+            c = namecard_new(current_user_id, pid_now, name, phone, mail, address)
         self.render(
-            pid=pid,
+            pid_now=pid_now,
             name=name or current_user.name,
             phone=phone,
             mail=mail,
             address=address,
         )
+

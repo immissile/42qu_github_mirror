@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache
-from zkit.city import pid_hex2int
 
 STATE_DEL = 3
 STATE_APPLY = 5
@@ -22,17 +21,21 @@ def namecard_get(user_id):
     id = namecard_get_id(user_id)
     return Namecard.mc_get(id)
 
-def namecard_new(user_id, pid, name, phone, mail, address, state=STATE_ACTIVE):
-    pid = pid_hex2int(pid)
+def namecard_new(user_id, place_home, place_now, name, phone, mail, address, state=STATE_ACTIVE):
     c = namecard_get(user_id)
     if c:
-        if c.pid == pid and c.name == name and c.phone == phone and c.mail == mail and c.address == address:
-            return c
+        if c.place_now == place_now and \
+           c.place_home == place_home and \
+           c.name == name and c.phone == phone \
+           and c.mail == mail and c.address == address:
+           return c
         c.state = STATE_DEL
         c.save()
+
     c = Namecard(
         user_id=user_id,
-        pid=pid,
+        place_now=place_now,
+        place_home=place_home,
         name=name,
         phone=phone,
         mail=mail,

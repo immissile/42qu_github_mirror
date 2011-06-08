@@ -12,13 +12,12 @@ from static import js
 
 
 <%htm:form>
-<p>真实姓名 <input type="text" name="name" value="${name}"></p>
-<p>手机号码 <input type="text" name="phone" value="${phone}"></p>
-<p>电子邮件 <input type="text" name="mail" value="${mail}"></p>
-<p>所在城市 <span id="pid"></span></p>
-<p>具体地址 <input type="text" name="address" value="${address}"></p>
+<p>姓名 <input type="text" name="name" value="${name}"></p>
+<p>手机 <input type="text" name="phone" value="${phone}"></p>
+<p>邮件 <input type="text" name="mail" value="${mail}"></p>
+<p>家乡 <span id="pid_home"></span><script>select_pid("pid_home",${pid_home})</script> </p>
+<p>现居 <span id="pid_now"></span><script>select_pid("pid_now",${pid_now})</script> </p>
+<p>地址 <input type="text" name="address" value="${address}"></p>
 <button type="submit">保存</button>
 </%htm:form>
-<script>
-select_pid("pid")
-</script> 
+
