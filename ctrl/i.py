@@ -75,15 +75,17 @@ class Namecard(_handler.LoginBase):
         current_user = self.current_user
         current_user_id = self.current_user_id
         pid_now = self.get_argument('pid_now', '1')
+        pid_home = self.get_argument('pid_home', '1')
         name = self.get_argument('name', '')
         phone = self.get_argument('phone', '')
         mail = self.get_argument('mail', '')
         address = self.get_argument('address', '')
         pid_now = int(pid_now)
-        if pid and name and phone and mail and address:
+        if pid_now and pid_home and name and phone and mail and address:
             c = namecard_new(current_user_id, pid_now, name, phone, mail, address)
         self.render(
             pid_now=pid_now,
+            pid_home=pid_home,
             name=name or current_user.name,
             phone=phone,
             mail=mail,

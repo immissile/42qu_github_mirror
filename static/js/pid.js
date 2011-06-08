@@ -35,6 +35,7 @@ function option_loc(pid){
 }
 
 function select_pid(id,now){
+    if(now)alert(now);
     function select(name){
         return pid.find("select[name="+name+"]")
     }
