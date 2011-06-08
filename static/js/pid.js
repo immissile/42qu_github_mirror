@@ -34,7 +34,7 @@ function option_loc(pid){
     return _option2(PLACE_L2L3,pid)
 }
 
-function select_pid(id){
+function select_pid(id,now){
     function select(name){
         return pid.find("select[name="+name+"]")
     }
