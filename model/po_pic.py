@@ -142,7 +142,7 @@ PIC_HTML = '<div class="pmix np%s"><img src="%s" alt="%s"><div>%s</div></div>'
 #    return pic2htm(self.txt, pic_seq_dict_html(self.user_id, self.id))
 
 def re_pic2htm(match, d):
-    m = int(match.groups()[0])
+    m = int(match.group(1))
     return d.get(m, match.group(0))
 
 def pic_htm(htm, user_id, po_id):
