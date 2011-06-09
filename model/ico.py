@@ -8,6 +8,24 @@ from pic import pic_new, pic_save
 
 ico = Kv('ico')
 ico_pos = Kv('ico_pos')
+    
+#show = PicShow.mc_get(id)
+#if x is not None and y is not None and size and show:
+#    pic_id = show.pic_id
+#    img = picopen(fs_get(PIC_SHOW_PREFIX+"721", "%s.jpg"%pic_id))
+#    if img is None:
+#        return
+#    img = pic_square(img, size, top_left=(x, y), size=size)
+#    ver = show.ver + 1
+#    pic_show_set_jpg_square(pic_id, img, ver)
+#    show.ver = ver
+#    show.save()
+#
+#    p = PicShowPos.get_or_create(id=id)
+#    p.txt = "%s_%s_%s"%(x, y, size)
+#    p.save()
+#
+#    mc_flush(show.man_id)
 
 def ico_pos_new(user_id, pos):
     ico_pos.set(user_id, pos)
