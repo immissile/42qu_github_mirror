@@ -51,7 +51,6 @@ def ico_pos_new(id, pos):
             pic = pic_square(pic, size, top_left=(x, y), size=size)
 
     pic = pic_square(pic, 96, size=96)
-
     fs_set_jpg('96', pic_id, pic)
     ico_pos.set(id, pos)
     ico96.set(id, pic_id)
@@ -85,7 +84,7 @@ def pic_url(id, size='1'):
 def ico_url(id):
     pic_id = ico96.get(id)
     if pic_id:
-        return fs_url_jpg('96', id)
+        return fs_url_jpg('96', pic_id)
 
 if __name__ == "__main__":
     print ico_url(10024803)
