@@ -286,20 +286,14 @@ def merge_js(path, filename, filetuple):
     with open(filepath, "w") as out:
         out.write("\n".join(txt))
 
+from lab import LAB_JS
+
 def merge_js_import(path, filename, filetuple):
     filepath = join(path, filename)
-    txt = ["""
-function LOAD(filename){
-    var headID = document.getElementsByTagName("head")[0];
-    var newScript = document.createElement('script');
-    newScript.type = 'text/javascript';
-    newScript.src = filename;
-    headID.appendChild(newScript);
-}
-"""]
+    txt = [LAB_JS,"$LAB"]
 
     for i in filetuple:
-        txt.append("LOAD('%s/js/%s')"%(FS_URL, i))
+        txt.append(".script('%s/js/%s').wait()"%(FS_URL, i))
 
     with open(filepath, "w") as out:
         out.write("\n".join(txt))
