@@ -10,6 +10,7 @@ from model.namecard import namecard_get, namecard_new
 from model.ico import ico_new, ico_pos, ico_pos_new
 from model.zsite_link import url_by_id, url_new, url_valid
 from model.user_mail import mail_by_user_id
+from model.txt import txt_get, txt_new
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -44,7 +45,9 @@ class Pic(_handler.LoginBase):
 @urlmap("/i")
 class Index(_handler.LoginBase):
     def get(self):
-        self.render()
+        current_user_id = self.current_user_id
+        txt = txt_get(current_user_id)
+        self.render(txt=txt)
 
     def post(self):
         files = self.request.files
@@ -64,9 +67,16 @@ class Index(_handler.LoginBase):
         if error_pic is False:
             return self.redirect("/i/pic")
 
+        txt = self.get_argument('txt', '')
+        if txt:
+            txt_new(current_user_id, txt)
+
         self.render(
-           error_pic=error_pic
+            error_pic = error_pic,
+            txt = txt
         )
+
+
 
 @urlmap('/i/url')
 class Url(_handler.LoginBase):

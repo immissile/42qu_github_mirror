@@ -22,8 +22,11 @@ url = url_by_id(current_user_id)
             %endif
         %endif
     </div>
-    <div>昵称 <input type="text" name="name" value="${current_user.name}"></div>
-    <div>座右铭 <input type="text" name="motto" value="${motto.get(current_user_id)}"></div>
+<div>昵称 <input type="text" name="name" value="${current_user.name}"></div>
+<div>座右铭 <input type="text" name="motto" value="${motto.get(current_user_id)}"></div>
+<div>自我介绍
+<textarea name="txt">${txt}</textarea>
+</div>
     <button type="submit">保存</button>
 </%htm:form>
 <div>

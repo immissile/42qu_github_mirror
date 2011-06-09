@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from cid import CID_USER
 from _db import Model, McModel
+from gid import gid
 
 ZSITE_STATE_BAN = 1
 ZSITE_STATE_NO_MAIL = 5
@@ -24,7 +25,7 @@ class Zsite(McModel):
 #
 
 def zsite_new(name, cid, state):
-    zsite = Zsite(cid=cid, name=name, state=state)
+    zsite = Zsite(id=gid(), cid=cid, name=name, state=state)
     zsite.save()
 #    page = Zpage(
 #        zsite_id=zsite.id,
@@ -41,3 +42,6 @@ if __name__ == "__main__":
     for i in Zsite.where():
         for reply in i.reply_list():
             print reply.html
+
+
+
