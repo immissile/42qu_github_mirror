@@ -16,7 +16,7 @@
 
     $Id: util.py,v 1.1 2001/11/05 22:34:03 jhermann Exp $
 """
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = '$Revision: 1.1 $'[11:-2]
 
 # Imports
 import os, sys
@@ -42,7 +42,7 @@ def containsAny(str, set):
 def fatal(msgtext, **kw):
     """ Print error msg to stderr and exit.
     """
-    sys.stderr.write("FATAL ERROR: " + msgtext + "\n")
+    sys.stderr.write('FATAL ERROR: ' + msgtext + '\n')
     if kw.get('usage', 0):
         maindict = vars(sys.modules['__main__'])
         if maindict.has_key('usage'):
@@ -54,7 +54,7 @@ def log(msgtext):
     """ Optionally print error msg to stderr.
     """
     if not flag_quiet:
-        sys.stderr.write(msgtext + "\n")
+        sys.stderr.write(msgtext + '\n')
 
 
 #############################################################################
@@ -79,7 +79,7 @@ def runMain(mainloop):
             cmdInit()
             mainloop()
         except KeyboardInterrupt:
-            log("*** Interrupted by user!")
+            log('*** Interrupted by user!')
         except SystemExit:
             showtime = 0
             raise
@@ -91,7 +91,7 @@ def logRuntime():
     """ Print the total command run time.
     """
     import time
-    log("Needed %.3f secs." % (time.clock() - _start_time, ))
+    log('Needed %.3f secs.' % (time.clock() - _start_time, ))
 
 
 def haveOptions(optlist, options):
@@ -109,7 +109,7 @@ def getOption(optlist, options):
     if match:
         return match[-1][1]
     else:
-        return ""
+        return ''
 
 
 def getOptionList(optlist, options):
@@ -169,7 +169,7 @@ class FileMorpher:
 
 
     def __tempfile(self):
-        return self.basename + ".tmp"
+        return self.basename + '.tmp'
 
 
     def __close(self):
@@ -184,7 +184,7 @@ class FileMorpher:
         """ Load the content of the original file into a string and
             return it. All I/O exceptions are passed through.
         """
-        file = open(self.filename, "r")
+        file = open(self.filename, 'r')
         try:
             content = file.read()
         finally:
@@ -204,13 +204,13 @@ class FileMorpher:
     def opentemp(self):
         """ Open a temporary file for writing and return an open stream.
         """
-        assert not self.stream, "Write stream already open"
+        assert not self.stream, 'Write stream already open'
 
         if self.dryrun:
             import cStringIO
             self.stream = cStringIO.StringIO()
         else:
-            self.stream = open(self.__tempfile(), "w")
+            self.stream = open(self.__tempfile(), 'w')
 
         return self.stream
 
@@ -222,7 +222,7 @@ class FileMorpher:
             Options:
                 getcontent -- return new file content, if true
         """
-        assert self.stream, "Write stream not open"
+        assert self.stream, 'Write stream not open'
 
         # dryrun mode?
         if self.dryrun:
@@ -237,7 +237,7 @@ class FileMorpher:
 
         # do optional backup and rename temp file to the correct name
         if self.do_backup:
-            replaceFile(self.filename, self.basename + ".bak")
+            replaceFile(self.filename, self.basename + '.bak')
         replaceFile(self.__tempfile(), self.filename)
 
         # optionally return new content
@@ -255,8 +255,8 @@ def checkSource(codestring):
         Return true for valid source, false otherwise.
     """
     # canonicalize the line ends
-    codestring = codestring.replace("\r\n", "\n")
-    codestring = codestring.replace("\r", "\n")
+    codestring = codestring.replace('\r\n', '\n')
+    codestring = codestring.replace('\r', '\n')
     if codestring and codestring[-1] != '\n':
         codestring = codestring + '\n'
 
@@ -336,7 +336,7 @@ def getFilesForName(name):
 
     if not os.path.exists(name):
         # check for glob chars
-        if containsAny(name, "*?[]"):
+        if containsAny(name, '*?[]'):
             import glob
             files = glob.glob(name)
             list = []
@@ -364,7 +364,7 @@ def getFilesForName(name):
 #
 # Test code
 #
-if __name__ == "__main__":
+if __name__ == '__main__':
     print 'exceptions =', _get_modpkg_path('exceptions')
     print 'spam =', _get_modpkg_path('spam')
     print 'httplib =', _get_modpkg_path('httplib')

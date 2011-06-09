@@ -6,7 +6,7 @@ class BigObject(object):
     def __eq__(self, other):
         return self.object == other.object
 
-mc = cmemcached.Client(["127.0.0.1:11211", "127.0.0.1:11212", "127.0.0.1:11213", "127.0.0.1:11214"])
+mc = cmemcached.Client(['127.0.0.1:11211', '127.0.0.1:11212', '127.0.0.1:11213', '127.0.0.1:11214'])
 
 num = 200
 keyss = []

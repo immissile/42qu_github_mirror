@@ -1,7 +1,7 @@
 import sys, os
 import marshal
 class SimpleCached:
-    " cache obj in local process, wrapper for memcache "
+    ' cache obj in local process, wrapper for memcache '
     def __init__(self, mc):
         self.mc = mc
 
@@ -33,7 +33,7 @@ class SimpleCached:
         pass
 
 class LocalCached:
-    " cache obj in local process, wrapper for memcache "
+    ' cache obj in local process, wrapper for memcache '
     def __init__(self, mc):
         self.mc = mc
         self.reset()
@@ -60,18 +60,18 @@ class LocalCached:
             x = nd[ncall]
             x[0] += 1
             x[1] += cost
-        return "Memcache access (%s/%s calls):\n\n%s\nDetail:\n\n%s\n" % \
+        return 'Memcache access (%s/%s calls):\n\n%s\nDetail:\n\n%s\n' % \
                         (len(d), sum(d.itervalues()),
-                         ''.join("%s: %d times, %f seconds\n" % (
+                         ''.join('%s: %d times, %f seconds\n' % (
                                                 ncall, times, cost)
                                  for ncall, (times, cost)
                                  in sorted(nd.iteritems())),
-                         ''.join("%s: %d times\n" % (key, n)
+                         ''.join('%s: %d times\n' % (key, n)
                                  for key, n in sorted(d.iteritems())))
 
 
     def __repr__(self):
-        return "Locally Cached " + str(self.mc)
+        return 'Locally Cached ' + str(self.mc)
 
     def set(self, key, val, time=0):
         self.dataset[key] = val

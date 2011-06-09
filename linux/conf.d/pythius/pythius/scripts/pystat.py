@@ -16,7 +16,7 @@ GNU General Public License for more details.
 
 """
 # $Id: pystat.py,v 1.2 2001/11/05 22:59:57 jhermann Exp $
-__version__ = "$Revision: 1.2 $"[11:-2]
+__version__ = '$Revision: 1.2 $'[11:-2]
 
 # Globals
 spacer = '  '
@@ -39,7 +39,7 @@ class SourceStat:
     def dedent(self, tok):
         self.indent_level -= 1
         if self.indent_level < 0:
-            raise ValueError("INTERNAL ERROR: Negative indent level")
+            raise ValueError('INTERNAL ERROR: Negative indent level')
 
         # remove identifiers of a higher indentation
         while self.active and self.active[-1][1] >= self.indent_level:
@@ -64,8 +64,8 @@ class SourceStat:
 
     def dump(self):
         label_len = 79 - len(spacer) - 6 * 6
-        util.log(spacer + "FUNCTION / CLASS".ljust(label_len) +
-            " START   END LINES  NLOC  COMM EMPTY")
+        util.log(spacer + 'FUNCTION / CLASS'.ljust(label_len) +
+            ' START   END LINES  NLOC  COMM EMPTY')
         for id in self.identifiers + ['TOTAL ']:
             if id.count('.') >= list_depth: continue
 
@@ -75,9 +75,9 @@ class SourceStat:
 
             for key in ('start', 'end', 'lines', 'nloc', 'comments', 'empty'):
                 if counters.get(key, 0):
-                    msg += " %5d" % (counters[key], )
+                    msg += ' %5d' % (counters[key], )
                 else:
-                    msg += " " * 6
+                    msg += ' ' * 6
 
             util.log(msg)
 
@@ -104,7 +104,7 @@ def analyze(filename, total):
     parser = grok.Parser()
     parser.parse(source)
 
-    util.log("\n%s (%d lines, %d bytes)" % (
+    util.log('\n%s (%d lines, %d bytes)' % (
         filename,
         summarize(total, 'lines', parser.lines),
         summarize(total, 'bytes', len(source)),
@@ -129,7 +129,7 @@ def analyze(filename, total):
         if tok.type == grok.DEDENT: stats.dedent(tok)
 
         if tok.type == grok.KEYWORD:
-            if tok.text in ("class", "def"):
+            if tok.text in ('class', 'def'):
                 stats.push(parser.tokenlist[idx+2].text, tok.row)
 
     stats.dump()
@@ -167,7 +167,7 @@ def version():
     """
     import os, sys
     from pythius import version
-    sys.stderr.write("%s (%s %s [%s])\n" %
+    sys.stderr.write('%s (%s %s [%s])\n' %
         (__version__, version.project, version.release, version.revision))
     sys.exit(1)
 
@@ -185,20 +185,20 @@ def main():
             'd:q',
             ['depth=', 'full', 'help', 'quiet', 'version'])
     except:
-        util.fatal("Invalid parameters!", usage=1)
+        util.fatal('Invalid parameters!', usage=1)
 
-    if util.haveOptions(optlist, ["--version"]): version()
-    if not args or util.haveOptions(optlist, ["--help"]): usage()
+    if util.haveOptions(optlist, ['--version']): version()
+    if not args or util.haveOptions(optlist, ['--help']): usage()
 
-    util.flag_quiet = util.haveOptions(optlist, ["-q", "--quiet"])
+    util.flag_quiet = util.haveOptions(optlist, ['-q', '--quiet'])
 
     global flag_full, list_depth
 
-    flag_full = util.haveOptions(optlist, ["--full"])
+    flag_full = util.haveOptions(optlist, ['--full'])
     if flag_full: list_depth = 9999
     else: list_depth = 1
 
-    depth = util.getOption(optlist, ["-d", "--depth"])
+    depth = util.getOption(optlist, ['-d', '--depth'])
     if depth: list_depth = int(depth)
 
     #
@@ -207,7 +207,7 @@ def main():
     files = []
     for name in args:
         files.extend(util.getFilesForName(name))
-    util.log("Found %d file%s." % (len(files), ("", "s")[len(files) != 1], ))
+    util.log('Found %d file%s.' % (len(files), ('', 's')[len(files) != 1], ))
 
     if not files: return
 
@@ -224,11 +224,11 @@ def main():
     #
     util.flag_quiet = 0 # always print summary
     title = 'Summary on "%s"' % (' '.join(args))
-    util.log("\n%s\n%s" % (title, "=" * len(title), ))
+    util.log('\n%s\n%s' % (title, '=' * len(title), ))
     for key in ['files', 'lines', 'bytes', 'comments',
                 'empty lines', 'non-commentary lines']:
-        util.log(key.ljust(20) + "%6d" % total[key])
-    util.log("")
+        util.log(key.ljust(20) + '%6d' % total[key])
+    util.log('')
 
 
 def run():
@@ -237,5 +237,5 @@ def run():
     util.runMain(main)
 
 
-if __name__ == "__main__": run()
+if __name__ == '__main__': run()
 

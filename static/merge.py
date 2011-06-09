@@ -32,7 +32,7 @@ class ChangeFilter():
         self.filename2num = dict()
         self.filename2hash = dict()
         self.buffer_file = buffer_file
-        self.salt = ""
+        self.salt = ''
 
     def __call__(self, basedir, filelist):
         filelist = list(filelist)
@@ -82,7 +82,7 @@ class ChangeFilter():
                 yield i
 
         if has_change:
-            for k in ("g.css", "v.css"):
+            for k in ('g.css', 'v.css'):
                 if k in self.filename2num:
                     self.filename2num[k] += 1
 
@@ -94,32 +94,32 @@ class ChangeFilter():
 
 
     def flush(self):
-        with open(self.buffer_file, "w") as inf:
-            inf.write("%s\n"%self.salt)
+        with open(self.buffer_file, 'w') as inf:
+            inf.write('%s\n'%self.salt)
             #print self.filename2hash
             for filename, hash in self.filename2hash.iteritems():
                 inf.write(
-                    "%s\t%s\t%s\n"%(hash, self.filename2num[filename], filename)
+                    '%s\t%s\t%s\n'%(hash, self.filename2num[filename], filename)
                 )
 
 def merge(subdir, template):
     file_hash_version = ChangeFilter(
-        join(prefix, ".%s_hash"%subdir)
+        join(prefix, '.%s_hash'%subdir)
     )
     subdir = join(prefix, subdir)
     for i in file_hash_version(
         subdir,
-        walk_filter(subdir, lambda x:x.find(".svn")==-1, lambda x:(x.endswith(".css") or x.endswith(".js")) and not x.startswith("."))
+        walk_filter(subdir, lambda x:x.find('.svn')==-1, lambda x:(x.endswith('.css') or x.endswith('.js')) and not x.startswith('.'))
     ):
         infile = join(subdir, i)
         bi = basename(i)
-        outfile = join(subdir, i[:-len(bi)]+"."+bi)
-        if infile.endswith(".js"):
-            filetype = "js"
+        outfile = join(subdir, i[:-len(bi)]+'.'+bi)
+        if infile.endswith('.js'):
+            filetype = 'js'
         else:
-            filetype = "css"
+            filetype = 'css'
         cmd = [
-                "java", "-jar", join(prefix, "yuicompressor.jar"), "--charset=utf-8", "--type", filetype, infile, "-o", outfile
+                'java', '-jar', join(prefix, 'yuicompressor.jar'), '--charset=utf-8', '--type', filetype, infile, '-o', outfile
         ]
         try:
             returncode = subprocess.call(cmd)
@@ -127,32 +127,32 @@ def merge(subdir, template):
                 raise
         except:
             file_hash_version.filename2num[i] -= 1
-            file_hash_version.filename2hash[i] = "0"
-            print "yuicompressor error : %s"%infile
+            file_hash_version.filename2hash[i] = '0'
+            print 'yuicompressor error : %s'%infile
             copyfile(infile, outfile)
         s = ''
-        with open(outfile, "r") as input:
+        with open(outfile, 'r') as input:
             s = input.read()
-            s = s.replace(";}", "}")
-        with open(outfile, "w") as output:
+            s = s.replace(';}', '}')
+        with open(outfile, 'w') as output:
             output.write(s)
 
     file_hash_version.flush()
     from mako.template import Template
     init_template = Template(template)
-    init_py_file = join(subdir, "__init_file_hash__.py")
-    with open(init_py_file, "w") as init_py:
+    init_py_file = join(subdir, '__init_file_hash__.py')
+    with open(init_py_file, 'w') as init_py:
         filenum = file_hash_version.filename2num.iteritems()
         init_py.write(
-            "#coding:utf-8\n\n"+init_template.render(
+            '#coding:utf-8\n\n'+init_template.render(
                 filename2num=dict(
                     (
                         k,
-                         "%s%s"%(
+                         '%s%s'%(
                             file_hash_version.salt,
                             urlsafe_b64encode(
-                                pack("Q", v).rstrip("\x00")
-                            ).rstrip("=")
+                                pack('Q', v).rstrip('\x00')
+                            ).rstrip('=')
                         )
                     )
                     for k, v in
@@ -199,11 +199,11 @@ filename = join(pathdir,"~%s~%s.js"%(num,pathfile)).replace("\\\\","/")
 
 """
 
-swf = "http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"
-jquery = "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js"
-jquery_ui_prefix = "http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10"
-jquery_ui = "%s/jquery-ui.min.js"%jquery_ui_prefix
-jquery_ui_date_cn = "%s/i18n/jquery.ui.datepicker-zh-CN.js"%jquery_ui_prefix
+swf = 'http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js'
+jquery = 'http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js'
+jquery_ui_prefix = 'http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10'
+jquery_ui = '%s/jquery-ui.min.js'%jquery_ui_prefix
+jquery_ui_date_cn = '%s/i18n/jquery.ui.datepicker-zh-CN.js'%jquery_ui_prefix
 
 
 JS_INIT_TEMPLATE += """
@@ -257,21 +257,21 @@ filename = join(pathdir,"~%s~%s.css"%(num,pathfile)).replace("\\\\","/")
 def merge_css_import(path):
     pathdir = dirname(path)
     filename = basename(path)
-    txt = ""
+    txt = ''
     with open(path) as f:
         txt = f.read()
     def sub(match):
         t = n = match.groups()[0]
         t = t[t.find('(')+1:t.find(')')]
-        if "://" in t:
+        if '://' in t:
             return n
-        path = join(pathdir, dirname(t), "."+basename(t))
+        path = join(pathdir, dirname(t), '.'+basename(t))
         if exists(path):
             with open(path) as r:
                 return r.read()
-    new = re.sub("(@import\s+?url\([^)]+?\)\s*;)", sub, txt)
+    new = re.sub('(@import\s+?url\([^)]+?\)\s*;)', sub, txt)
     if txt != new:
-        with open(join(pathdir, "."+filename), "w") as g:
+        with open(join(pathdir, '.'+filename), 'w') as g:
             g.write(new)
 
 def merge_js(path, filename, filetuple):
@@ -280,11 +280,11 @@ def merge_js(path, filename, filetuple):
 
 
     for i in filetuple:
-        with open(join(path, i), "r") as infile:
+        with open(join(path, i), 'r') as infile:
             txt.append(infile.read())
 
-    with open(filepath, "w") as out:
-        out.write("\n".join(txt))
+    with open(filepath, 'w') as out:
+        out.write('\n'.join(txt))
 
 
 def merge_js_import(path, filename, filetuple):
@@ -298,19 +298,19 @@ function LOAD(js){
     for i in filetuple:
         txt.append("LOAD('%s/js/%s')"%(FS_URL, i))
 
-    with open(filepath, "w") as out:
-        out.write("\n".join(txt))
+    with open(filepath, 'w') as out:
+        out.write('\n'.join(txt))
 
 
 import js.z
-merge("css", CSS_INIT_TEMPLATE)
-print "CSS Merge Game Over"
+merge('css', CSS_INIT_TEMPLATE)
+print 'CSS Merge Game Over'
 
-merge_js(join(prefix, "js"), "z.js", js.z.JS)
+merge_js(join(prefix, 'js'), 'z.js', js.z.JS)
 
-merge("js", JS_INIT_TEMPLATE)
-print "JS Merge Game Over"
+merge('js', JS_INIT_TEMPLATE)
+print 'JS Merge Game Over'
 
-merge_css_import(join(prefix, "css", "z.css"))
-merge_js_import(join(prefix, "js"), "z.js", js.z.JS)
+merge_css_import(join(prefix, 'css', 'z.css'))
+merge_js_import(join(prefix, 'js'), 'z.js', js.z.JS)
 

@@ -84,12 +84,12 @@ class Model(object):
             self.__dict__[self._fields[i]] = arg
         for i in self._fields[len(args):]:
             self.__dict__[i] = kwargs.get(i)
-        self.__dict__["_changed"] = set()
+        self.__dict__['_changed'] = set()
 
     def __setattr__(self, name, value):
         'Records when fields have changed'
         dc = self.__dict__
-        if name[0] != "_":
+        if name[0] != '_':
             fields = self._fields
             if name in fields:
                 dc_value = dc[name]
@@ -146,7 +146,7 @@ class Model(object):
                 values.append(v)
         query = 'INSERT INTO %s (%s) VALUES (%s)' % (self.Meta.table_safe,
                 ', '.join(used_fields),
-                ', '.join(["%s"] * len(used_fields))
+                ', '.join(['%s'] * len(used_fields))
         )
         cursor = Query.raw_sql(query, values, self.db)
 
@@ -180,7 +180,7 @@ class Model(object):
 
     def update(self, **kwds):
         set_what = ','.join(
-            "%s=%%s"%(
+            '%s=%%s'%(
                 escape(k)
             )
             for k in kwds.keys()

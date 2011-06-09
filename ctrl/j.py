@@ -11,39 +11,39 @@ from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
 from model.vote import vote_decr_x, vote_decr, vote_incr_x, vote_incr
 
-@urlmap("/j/txt")
+@urlmap('/j/txt')
 class Txt(_handler.Base):
     def get(self):
         self.render()
 
-@urlmap("/j/login")
+@urlmap('/j/login')
 class Login(_handler.Base):
     def get(self):
         self.render()
 
 
-@urlmap("/j/feed/incr1/(\d+)")
+@urlmap('/j/feed/incr1/(\d+)')
 class FeedIncr(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         vote_incr(current_user_id, id)
         self.finish('{}')
 
-@urlmap("/j/feed/incr0/(\d+)")
+@urlmap('/j/feed/incr0/(\d+)')
 class FeedIncrX(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         vote_incr_x(current_user_id, id)
         self.finish('{}')
 
-@urlmap("/j/feed/decr1/(\d+)")
+@urlmap('/j/feed/decr1/(\d+)')
 class FeedDecr(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         vote_decr(current_user_id, id)
         self.finish('{}')
 
-@urlmap("/j/feed/decr0/(\d+)")
+@urlmap('/j/feed/decr0/(\d+)')
 class FeedDecrX(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
@@ -53,8 +53,8 @@ class FeedDecrX(_handler.JLoginBase):
 
 
 
-@urlmap("/j/note/upload/rm")
-@urlmap("/j/note/upload/rm/(\d+)")
+@urlmap('/j/note/upload/rm')
+@urlmap('/j/note/upload/rm/(\d+)')
 class NoteUploadRm(_handler.JLoginBase):
     def post(self, id=0):
         seq = self.get_argument('seq')
@@ -62,8 +62,8 @@ class NoteUploadRm(_handler.JLoginBase):
         po_pic_rm(user_id, id, seq)
         self.finish('{}')
 
-@urlmap("/j/note/upload")
-@urlmap("/j/note/upload/(\d+)")
+@urlmap('/j/note/upload')
+@urlmap('/j/note/upload/(\d+)')
 class NoteUpload(_handler.JLoginBase):
     def post(self, id=0):
         #USER DUMPS FIX HEADER FOR FIREFOX
@@ -109,9 +109,9 @@ class NoteUpload(_handler.JLoginBase):
             return 14
 
         r = {
-            "status": 0,
-            "src": fs_url_jpg(219, pic.id),
-            "seqid": pic.seq,
+            'status': 0,
+            'src': fs_url_jpg(219, pic.id),
+            'seqid': pic.seq,
         }
 
         return r

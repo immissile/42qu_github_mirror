@@ -2,9 +2,9 @@ import MySQLdb
 from DBUtils.PersistentDB import PersistentDB
 persist = PersistentDB(MySQLdb,
     db='mokodb',
-    host="localhost",
-    user="root",
-    passwd="111111",
+    host='localhost',
+    user='root',
+    passwd='111111',
 )
 
 DATABASE = persist.connection()
@@ -24,7 +24,7 @@ from zsql.shortcut import Model
 
 class User(Model):
     class Meta:
-        pk = "UserId"
+        pk = 'UserId'
 
 for i in User.where():
     print i.UserId

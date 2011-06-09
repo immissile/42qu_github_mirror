@@ -26,7 +26,7 @@ class _methodwrapper(object):
     def __call__(self, *args, **kw):
         assert not kw.has_key('self') and not kw.has_key('cls'), (
             "You cannot use 'self' or 'cls' arguments to a "
-            "classinstancemethod")
+            'classinstancemethod')
         return self.func(*((self.obj, self.type) + args), **kw)
 
     def __repr__(self):
@@ -132,7 +132,7 @@ class Monitor(object):
             try:
                 filenames.extend(file_callback())
             except:
-                print >> sys.stderr, "Error calling paste.reloader callback %r:" % file_callback
+                print >> sys.stderr, 'Error calling paste.reloader callback %r:' % file_callback
                 traceback.print_exc()
         for module in sys.modules.values():
             try:
@@ -160,7 +160,7 @@ class Monitor(object):
             elif self.module_mtimes[filename] < mtime:
                 from datetime import datetime
                 print >> sys.stderr, (
-                    "\n%s changed\n%s\nreloading..." % (datetime.now(), filename)
+                    '\n%s changed\n%s\nreloading...' % (datetime.now(), filename)
                 )
                 return False
         return True

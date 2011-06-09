@@ -12,7 +12,7 @@ from zsql.db import connection
 connection.THREAD_SAFE = False
 
 from zsql.db import sqlstore
-SQLSTORE = sqlstore.SqlStore(db_config=DB_CONFIG, charset="utf8")
+SQLSTORE = sqlstore.SqlStore(db_config=DB_CONFIG, charset='utf8')
 
 def db_by_table(table):
     return SQLSTORE.get_db_by_table(table)
@@ -20,7 +20,7 @@ def db_by_table(table):
 def cursor_by_table(table):
     return db_by_table(table).cursor()
 
-def exe_sql(sql, para=(), table="*"):
+def exe_sql(sql, para=(), table='*'):
     cursor = cursor_by_table(table)
     cursor.execute(sql, para)
     cursor.connection.commit()

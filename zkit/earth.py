@@ -7414,17 +7414,17 @@ def place_name(place_id):
         if (place_id>>(i+7))&0b11111111 and t in PID2NAME:
             r.append(PID2NAME[t])
         p += (0b11111111<<i)
-    return " ".join(r)
+    return ' '.join(r)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     def test():
         def print_city():
             for i in PLACE_L1:
-                print PID2NAME[i].decode("utf-8")
+                print PID2NAME[i].decode('utf-8')
                 for j in PLACE_L1L2.get(i, []):
-                    print "     ", place_name(j).decode("utf-8")
+                    print '     ', place_name(j).decode('utf-8')
                     for k in PLACE_L2L3.get(j, []):
-                        print "         ", place_name(k).decode("utf-8")
+                        print '         ', place_name(k).decode('utf-8')
 
         print_city()
 

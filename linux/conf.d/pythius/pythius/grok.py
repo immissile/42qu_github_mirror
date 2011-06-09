@@ -14,7 +14,7 @@
 
     $Id: grok.py,v 1.1 2001/11/05 22:34:03 jhermann Exp $
 """
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = '$Revision: 1.1 $'[11:-2]
 
 # Imports
 import string, sys, cStringIO
@@ -98,7 +98,7 @@ class Parser:
         except tokenize.TokenError, ex:
             msg = ex[0]
             line = ex[1][0]
-            raise ParseError("ERROR %s\n%s" % (
+            raise ParseError('ERROR %s\n%s' % (
                 msg, self.source[self.offset[line]:]))
 
 
@@ -109,8 +109,8 @@ class Parser:
     def __call__(self, toktype, toktext, (srow, scol), (erow, ecol), line):
         """ Token handler.
         """
-        if 0: print "type", toktype, token.tok_name[toktype], "text", toktext,\
-                    "start", srow, scol, "end", erow, ecol, "<br>"
+        if 0: print 'type', toktype, token.tok_name[toktype], 'text', toktext,\
+                    'start', srow, scol, 'end', erow, ecol, '<br>'
 
         # calculate new positions
         oldpos = self.pos
@@ -145,7 +145,7 @@ class Parser:
         self.__push(toktype, toktext, srow, scol, line)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     import os, sys
 
     # open own source
@@ -168,9 +168,9 @@ if __name__ == "__main__":
     def _count(toktype, p=parser):
         return len(filter(lambda x, t=toktype: x.type == t, p.tokenlist))
 
-    _stats("Characters", len(parser.source))
-    _stats("Lines", parser.lines)
-    _stats("Comments", _count(COMMENT))
-    _stats("Empty lines", _count(EMPTY))
-    _stats("Classes", len(filter(lambda t: t.type == KEYWORD and t.text == "class", parser.tokenlist)))
+    _stats('Characters', len(parser.source))
+    _stats('Lines', parser.lines)
+    _stats('Comments', _count(COMMENT))
+    _stats('Empty lines', _count(EMPTY))
+    _stats('Classes', len(filter(lambda t: t.type == KEYWORD and t.text == 'class', parser.tokenlist)))
 

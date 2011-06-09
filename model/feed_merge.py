@@ -8,7 +8,7 @@ from follow import follow_id_list_by_from_id
 from zkit.algorithm.merge import imerge
 
 
-@mc_feed_id_by_for_zsite_follow("{zsite_id}")
+@mc_feed_id_by_for_zsite_follow('{zsite_id}')
 def feed_id_list_for_zsite_follow(zsite_id):
     key_list = follow_id_list_by_from_id(zsite_id)
     key_list.append(zsite_id)
@@ -63,7 +63,7 @@ def feed_render_iter_for_zsite_follow(zsite_id, limit=MAXINT, begin_id=MAXINT):
     feed_id_list = feed_id_list_for_zsite_follow(zsite_id)
     return FeedMerge(feed_id_list).render_iter(limit, begin_id)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pass
 # from cid import CID_WORD
 # for i in feed_render_iter_for_zsite_follow( 10024772 ):

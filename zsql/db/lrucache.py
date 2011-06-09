@@ -44,7 +44,7 @@ from heapq import heappush, heappop, heapify
 
 # the suffix after the hyphen denotes modifications by the
 #  ftputil project with respect to the original version
-__version__ = "0.2-1"
+__version__ = '0.2-1'
 __all__ = ['CacheKeyError', 'LRUCache', 'DEFAULT_SIZE']
 __docformat__ = 'reStructuredText en'
 
@@ -114,7 +114,7 @@ class LRUCache(object):
             return cmp(self._sort_key, other._sort_key)
 
         def __repr__(self):
-            return "<%s %s => %s (%s)>" % \
+            return '<%s %s => %s (%s)>' % \
                    (self.__class__, self.key, self.obj,\
                     time.asctime(time.localtime(self.atime)))
 
@@ -211,7 +211,7 @@ class LRUCache(object):
                 del self.__dict[lru.key]
 
     def __repr__(self):
-        return "<%s (%d elements)>" % (str(self.__class__), len(self.__heap))
+        return '<%s (%d elements)>' % (str(self.__class__), len(self.__heap))
 
     def mtime(self, key):
         """Return the last modification time for the cache record with key.
@@ -223,7 +223,7 @@ class LRUCache(object):
             node = self.__dict[key]
             return node.mtime
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     cache = LRUCache(25)
     print cache
     for i in range(50):

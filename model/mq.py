@@ -29,7 +29,7 @@ def mq_server():
         parse_yaml=True
     )
     beanstalk.watch(MQ_USE)
-    beanstalk.ignore("default")
+    beanstalk.ignore('default')
     while True:
         job = beanstalk.reserve()
         try:
@@ -45,8 +45,8 @@ def mq_server():
         except:
             import traceback
             exc = traceback.format_exc()
-            cursor = cursor_by_table("failed_mq")
-            cursor.execute("insert into failed_mq (body,exc,func) values (%s,%s,%s)", (job.body, exc, name))
+            cursor = cursor_by_table('failed_mq')
+            cursor.execute('insert into failed_mq (body,exc,func) values (%s,%s,%s)', (job.body, exc, name))
             logging.error(exc)
         job.delete()
 

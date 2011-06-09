@@ -20,11 +20,11 @@ def _upload_pic(files, current_user_id):
             ico_new(current_user_id, pic)
             error_pic = False
         else:
-            error_pic = "图片格式有误"
+            error_pic = '图片格式有误'
     return error_pic
 
 
-@urlmap("/i/pic")
+@urlmap('/i/pic')
 class Pic(_handler.LoginBase):
     def get(self):
         current_user_id = self.current_user_id
@@ -41,7 +41,7 @@ class Pic(_handler.LoginBase):
         self.render(error_pic=error_pic, pos=pos)
 
 
-@urlmap("/i")
+@urlmap('/i')
 class Index(_handler.LoginBase):
     def get(self):
         self.render()
@@ -62,7 +62,7 @@ class Index(_handler.LoginBase):
 
         error_pic = _upload_pic(files, current_user_id)
         if error_pic is False:
-            return self.redirect("/i/pic")
+            return self.redirect('/i/pic')
 
         self.render(
            error_pic=error_pic

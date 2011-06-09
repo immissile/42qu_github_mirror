@@ -3,11 +3,11 @@
 from setuptools import setup, Extension
 
 setup(
-        name="python-libmemcached",
-                version="0.40",
-                description="python memcached client wrapped on libmemcached",
-                maintainer="davies",
-                maintainer_email="davies.liu@gmail.com",
+        name='python-libmemcached',
+                version='0.40',
+                description='python memcached client wrapped on libmemcached',
+                maintainer='davies',
+                maintainer_email='davies.liu@gmail.com',
 
         requires=['pyrex'],
         ext_modules=[Extension('cmemcached_imp',
@@ -19,5 +19,5 @@ setup(
         )],
 
         py_modules=['cmemcached'],
-        test_suite="cmemcached_test",
+        test_suite='cmemcached_test',
 )

@@ -16,11 +16,11 @@
     $Id: version.py,v 1.4 2002/07/08 04:09:35 ftobin Exp $
 """
 
-project = "Pythius"
+project = 'Pythius'
 revision = '$Revision: 1.4 $'[11:-2]
 release = '0.3'
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # Bump own revision
     import os
     os.system('cvs ci -f -m "Bumped revision" version.py')

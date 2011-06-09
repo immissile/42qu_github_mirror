@@ -90,14 +90,14 @@ class Page(object):
             links = []
             if now > 1:
                 links.append(
-                    PAGE_NO_TEMPLATE%(href%(now-1), "上一页")
+                    PAGE_NO_TEMPLATE%(href%(now-1), '上一页')
                 )
             else:
-                links.append("<span>上一页</span>")
+                links.append('<span>上一页</span>')
 
             if merge_begin:
                 links.append(
-                    PAGE_NO_TEMPLATE%(href%1, 1)+" ... "
+                    PAGE_NO_TEMPLATE%(href%1, 1)+' ... '
                 )
 
                 show_begin_mid = False
@@ -107,7 +107,7 @@ class Page(object):
 
                 if show_begin_mid:
                     links.append(
-                        PAGE_NO_TEMPLATE%(href%show_begin_mid, show_begin_mid) + "..."
+                        PAGE_NO_TEMPLATE%(href%show_begin_mid, show_begin_mid) + '...'
                     )
 
             for i in xrange(begin, now):
@@ -135,20 +135,20 @@ class Page(object):
                 #              )
 
                 links.append(
-                    " ... " #+ PAGE_NO_TEMPLATE%(href%total, total)
+                    ' ... ' #+ PAGE_NO_TEMPLATE%(href%total, total)
                 )
 
             if now < total:
                 links.append(
-                    PAGE_NO_TEMPLATE%(href%(now+1), "下一页")
+                    PAGE_NO_TEMPLATE%(href%(now+1), '下一页')
                 )
             else:
                 links.append(
                     """<span>下一页</span>"""
                 )
-            htm = "".join(links)
+            htm = ''.join(links)
             return htm
-        return ""
+        return ''
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pass

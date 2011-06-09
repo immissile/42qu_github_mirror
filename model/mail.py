@@ -34,7 +34,7 @@ def sendmail_imp(
     if domain not in NOT_SUPPORT_UTF8_DOMAIN:
         enc = 'utf-8'
     else:
-        enc = "gb18030"
+        enc = 'gb18030'
 
     if enc.lower() != 'utf-8':
         sender_name = ignore_encode(sender_name, enc)
@@ -56,27 +56,27 @@ def sendmail_imp(
 
 def render_template(uri, **kwds):
     txt = render(uri, **kwds).strip()
-    r = txt.split("\n", 1)
+    r = txt.split('\n', 1)
 
     if len(r) < 2:
         r.append(txt[0])
 
-    if uri.endswith(".txt"):
-        r[1] = r[1].replace("\n", "\n\n")
+    if uri.endswith('.txt'):
+        r[1] = r[1].replace('\n', '\n\n')
     return r
 
-NOEMAIL = "kanrss_noemail@googlegroups.com"
+NOEMAIL = 'kanrss_noemail@googlegroups.com'
 
 def sendmail(subject, text, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME):
     if not email:
         email = NOEMAIL
-        subject = "->%s : %s"%(name, subject)
+        subject = '->%s : %s'%(name, subject)
 
     if name is None:
-        name = email.rsplit("@", 1)[0]
+        name = email.rsplit('@', 1)[0]
     server = smtplib.SMTP(SMTP)
     server.ehlo()
-    server.esmtp_features["auth"] = "LOGIN PLAIN"
+    server.esmtp_features['auth'] = 'LOGIN PLAIN'
     server.login(SMTP_USERNAME, SMTP_PASSWORD)
 
     text = str(text)
@@ -84,8 +84,8 @@ def sendmail(subject, text, email, name=None, sender=SENDER_MAIL, sender_name=SE
     sendmail_imp(server, sender, sender_name, email, name, subject, text)
 
     if email != NOEMAIL:
-        subject = "%s %s %s"%(name, subject, email)
-        sendmail_imp(server, sender, sender_name, "kanrss_backup@googlegroups.com", name, subject, text)
+        subject = '%s %s %s'%(name, subject, email)
+        sendmail_imp(server, sender, sender_name, 'kanrss_backup@googlegroups.com', name, subject, text)
 
     server.quit()
 
@@ -94,7 +94,7 @@ def rendermail(
         uri, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME, **kwds
     ):
     if name is None:
-        name = email.split("@", 1)[0]
+        name = email.split('@', 1)[0]
     kwds['name'] = name
     kwds['email'] = email
     kwds['sender'] = sender
@@ -109,11 +109,11 @@ def rendermail(
 from mq import mq_client
 mq_rendermail = mq_client(rendermail)
 
-if "__main__" == __name__:
+if '__main__' == __name__:
     #sendmail("122", "2345", "zsp007@gmail.com")
     import sys
     #rendermail()
     rendermail(
-        "/mail/auth/register.txt", "zsp007@gmail.com", "张沈鹏",
-        id="1", ck="2"
+        '/mail/auth/register.txt', 'zsp007@gmail.com', '张沈鹏',
+        id='1', ck='2'
     )

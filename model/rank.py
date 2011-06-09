@@ -8,9 +8,9 @@ from zsite import Zsite
 class Rank(McModel):
     pass
 
-mc_zsite_id_list_by_po_id = McCacheA("ZsiteIdListByPoId:%s")
+mc_zsite_id_list_by_po_id = McCacheA('ZsiteIdListByPoId:%s')
 
-@mc_zsite_id_list_by_po_id("{po_id}")
+@mc_zsite_id_list_by_po_id('{po_id}')
 def zsite_id_list_by_po_id(po_id):
     qs = Rank.where(po_id=po_id)
     return [i.zsite_id for i in qs]

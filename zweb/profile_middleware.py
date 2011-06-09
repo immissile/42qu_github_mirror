@@ -93,10 +93,10 @@ def format_stats(stats, strip_dirs=None, sort='time'):
         rootdir = dirname(
             dirname(abspath(__file__))
         ).lower()+os.sep
-        r = r.replace(rootdir, "")
+        r = r.replace(rootdir, '')
         for i in sys.path:
-            if "/site-packages/" in i:
-                r = r.replace(i.rsplit("/", 1)[0], "")
+            if '/site-packages/' in i:
+                r = r.replace(i.rsplit('/', 1)[0], '')
 
     return r
 
@@ -125,17 +125,17 @@ def format_call(funcname, *a, **kw):
     for v in a:
         v = repr(v)
         if len(v) > 70:
-            v = v[:70]+"..."
+            v = v[:70]+'...'
         arglist.append(v)
 
     r = []
     for k, v in kw.iteritems():
         if len(v) > 70:
-            v = v[:70]+"..."
+            v = v[:70]+'...'
         r.append((k, v))
 
-    arglist += ["%s=%r" % (k, v) for k, v in r]
-    return "%s(%s)" % (funcname, ", ".join(arglist))
+    arglist += ['%s=%r' % (k, v) for k, v in r]
+    return '%s(%s)' % (funcname, ', '.join(arglist))
 
 def profile_middleware(execute):
     from model._db import SQLSTORE, mc
@@ -143,12 +143,12 @@ def profile_middleware(execute):
     def _(self, transforms, *args, **kwargs):
         profile = self.get_argument('profile', None)
         profile_cookie = self.get_cookie('profile')
-        if profile == "0":
+        if profile == '0':
             self.clear_cookie('profile')
             profile = None
             profile_cookie = None
         elif profile is not None:
-            self.set_cookie("profile", "1")
+            self.set_cookie('profile', '1')
 
 
         if profile or profile_cookie:
@@ -180,7 +180,7 @@ def profile_middleware(execute):
 
                 def finish(self, so):
                     _write_buffer = self._write_buffer
-                    if "".join(_write_buffer).lstrip().startswith("<") or profile:
+                    if ''.join(_write_buffer).lstrip().startswith('<') or profile:
                         #disable output for json
                         stats = load_stats()
 

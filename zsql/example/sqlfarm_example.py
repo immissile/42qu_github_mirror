@@ -1,9 +1,9 @@
 from zsql.db.sqlstore import SqlStore
 
 DATABASE_CONFIG = {
-    "mokodb": {
-    "master": "localhost:3306:mokodb:root:111111",
-    "tables": ["*", "user"],
+    'mokodb': {
+    'master': 'localhost:3306:mokodb:root:111111',
+    'tables': ['*', 'user'],
     },
 }
 

@@ -1,4 +1,4 @@
-__revision__ = "$Id: aop-unittests.py,v 1.18 2002/07/07 07:39:43 ftobin Exp $"
+__revision__ = '$Id: aop-unittests.py,v 1.18 2002/07/07 07:39:43 ftobin Exp $'
 
 import unittest
 import aop
@@ -252,7 +252,7 @@ class Noting(aop.Aspect):
     and slightly different behaviour, so we
     can test things like aspect addition"""
 
-    note_prefix = "note: "
+    note_prefix = 'note: '
 
     def __init__(self):
         self.note_cxt = {}
@@ -311,5 +311,5 @@ def make_aspected_student(aspect, get_sub=False):
 
 ########################################################################
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

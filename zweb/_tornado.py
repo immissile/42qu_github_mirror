@@ -36,7 +36,7 @@ from tornado import locale
 from tornado import stack_context
 from tornado import template
 
-def set_cookie(self, name, value, domain=None, expires=None, path="/",
+def set_cookie(self, name, value, domain=None, expires=None, path='/',
                expires_days=None, **kwargs):
     """Sets the given cookie name/value with the given options.
 
@@ -46,19 +46,19 @@ def set_cookie(self, name, value, domain=None, expires=None, path="/",
     for available attributes.
     """
     if domain is None:
-        domain = ".%s"%tld_name(self.request.host)
+        domain = '.%s'%tld_name(self.request.host)
     name = utf8(name)
     value = utf8(value)
     if re.search(r"[\x00-\x20]", name + value):
         # Don't let us accidentally inject bad stuff
-        raise ValueError("Invalid cookie %r: %r" % (name, value))
-    if not hasattr(self, "_new_cookies"):
+        raise ValueError('Invalid cookie %r: %r' % (name, value))
+    if not hasattr(self, '_new_cookies'):
         self._new_cookies = []
     new_cookie = Cookie.BaseCookie()
     self._new_cookies.append(new_cookie)
     new_cookie[name] = value
     if domain:
-        new_cookie[name]["domain"] = domain
+        new_cookie[name]['domain'] = domain
     if expires_days is not None and not expires:
         expires = datetime.datetime.utcnow() + datetime.timedelta(
             days=expires_days)
@@ -68,19 +68,19 @@ def set_cookie(self, name, value, domain=None, expires=None, path="/",
             expires = email.utils.formatdate(
                 timestamp, localtime=False, usegmt=True
             )
-        new_cookie[name]["expires"] = expires
+        new_cookie[name]['expires'] = expires
     if path:
-        new_cookie[name]["path"] = path
+        new_cookie[name]['path'] = path
     for k, v in kwargs.iteritems():
         new_cookie[name][k] = v
 
 web.RequestHandler.set_cookie = set_cookie
 
 
-def clear_cookie(self, name, path="/", domain=None):
+def clear_cookie(self, name, path='/', domain=None):
     """Deletes the cookie with the given name."""
-    expires = "Tue, 01 Jun 2000 00:00:00 GMT"
-    self.set_cookie(name, value="", path=path, expires=expires, domain=domain)
+    expires = 'Tue, 01 Jun 2000 00:00:00 GMT'
+    self.set_cookie(name, value='', path=path, expires=expires, domain=domain)
 
 web.RequestHandler.clear_cookie = clear_cookie
 
@@ -92,7 +92,7 @@ def _execute(self, transforms, *args, **kwargs):
         raise HTTPError(405)
     # If XSRF cookies are turned on, reject form submissions without
     # the proper cookie
-    if self.request.method not in ("GET", "HEAD") and self.application.settings.get("xsrf_cookies"):
+    if self.request.method not in ('GET', 'HEAD') and self.application.settings.get('xsrf_cookies'):
         self.check_xsrf_cookie()
     self.prepare()
     if not self._finished:
@@ -106,9 +106,9 @@ web.RequestHandler._execute = profile_middleware(_execute)
 def redirect(self, url, permanent=False):
     """Sends a redirect to the given (optionally relative) URL."""
     if self._headers_written:
-        raise Exception("Cannot redirect after headers have been written")
+        raise Exception('Cannot redirect after headers have been written')
     self.set_status(301 if permanent else 302)
-    self.set_header("Location", url)
+    self.set_header('Location', url)
     self.finish()
 
 web.RequestHandler.redirect = redirect

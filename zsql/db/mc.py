@@ -23,7 +23,7 @@ def _mc_decorator(self, key, expire=0):
         arg_names, varargs, varkw, defaults = inspect.getargspec(func)
 
         if varargs or varkw:
-            raise Exception("do not support varargs")
+            raise Exception('do not support varargs')
 
         defaults = defaults or {}
         if defaults:
@@ -177,7 +177,7 @@ class McLimitA(object):
             arg_names, varargs, varkw, defaults = inspect.getargspec(func)
 
             if varargs or varkw:
-                raise Exception("do not support varargs")
+                raise Exception('do not support varargs')
 
             defaults = defaults or {}
             if defaults:

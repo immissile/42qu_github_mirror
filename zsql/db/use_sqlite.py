@@ -8,7 +8,7 @@ class Cursor(object):
         return getattr(self._cursor, name)
 
     def execute(self, sql, *arg, **kwds):
-        sql = sql.replace("%s", "?")
+        sql = sql.replace('%s', '?')
         return self._cursor.execute(sql, *arg, **kwds)
 
 class Database(object):

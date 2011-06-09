@@ -12,6 +12,6 @@ import socket
 
 default.load(
     JsDict(locals()),
-    "host.%s"%socket.gethostname(),
-    "user.%s"%getpass.getuser(),
+    'host.%s'%socket.gethostname(),
+    'user.%s'%getpass.getuser(),
 )

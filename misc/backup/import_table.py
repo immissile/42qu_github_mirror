@@ -3,13 +3,13 @@
 
 import sys
 reload(sys)
-sys.setdefaultencoding("utf-8")
+sys.setdefaultencoding('utf-8')
 
 
 def main():
     pass
 
 
-if "__main__" == __name__:
+if '__main__' == __name__:
     main()
 

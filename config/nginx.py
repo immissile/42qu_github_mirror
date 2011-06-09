@@ -9,9 +9,9 @@ import glob
 from os import makedirs
 from os.path import exists, dirname
 
-CONFIG_DIR = join(PREFIX, "config/nginx")
+CONFIG_DIR = join(PREFIX, 'config/nginx')
 
-with open(join(dirname(CONFIG_DIR), "template/nginx.conf")) as template:
+with open(join(dirname(CONFIG_DIR), 'template/nginx.conf')) as template:
     TEMPLATE = Template(template.read())
 
 def render_conf(name, fs_path, o, port_list=None):
@@ -23,23 +23,23 @@ def render_conf(name, fs_path, o, port_list=None):
         fs_path=fs_path
     )
     path = join(
-            PREFIX, "config/nginx/%s"%name
+            PREFIX, 'config/nginx/%s'%name
         )
     dirpath = dirname(path)
     if not exists(dirpath):
         makedirs(dirpath)
 
-    with open(path, "w") as w:
+    with open(path, 'w') as w:
         w.write(txt)
 
 def render(name, host, user, port_list=None):
     o = default.load(
-        JsDict(), "host.%s"%host, "user.%s"%user
+        JsDict(), 'host.%s'%host, 'user.%s'%user
     )
     print o.SITE_DOMAIN
     render_conf(
         name,
-        "/home/%s/zpage/static"%user,
+        '/home/%s/zpage/static'%user,
         o
     )
 
@@ -47,17 +47,17 @@ def render(name, host, user, port_list=None):
 def render_machine(host, name_list):
     name_list = name_list.strip().split()
     for name in name_list:
-        config_name = "%s/%s.conf"%(host, name)
+        config_name = '%s/%s.conf'%(host, name)
         render(config_name, host, name)
 
-render_machine("krios", """
+render_machine('krios', """
 zuroc
 zjd
 yup
 work
 """)
 
-render_machine("nuva", """
+render_machine('nuva', """
 work
 """)
 

@@ -7,21 +7,21 @@ from mq import mq_client
 
 MAXINT = sys.maxint
 PAGE_LIMIT = 42
-FEED_ENTRY_ID_LASTEST_SQL = "select id from feed_entry where feed_id=%%s order by id desc limit %s"%PAGE_LIMIT
-FEED_ENTRY_ID_ITER_SQL = "select id from feed_entry where feed_id=%%s and id<%%s order by id desc limit %s"%PAGE_LIMIT
+FEED_ENTRY_ID_LASTEST_SQL = 'select id from feed_entry where feed_id=%%s order by id desc limit %s'%PAGE_LIMIT
+FEED_ENTRY_ID_ITER_SQL = 'select id from feed_entry where feed_id=%%s and id<%%s order by id desc limit %s'%PAGE_LIMIT
 
-mc_feed_id_list_by_zsite_id = McCacheA("FeedIdByZsiteId:%s")
-mc_feed_id_by_for_zsite_follow = McCacheA("FeedIdForZsiteFollow<%s")
-mc_feed_entry_tuple = McCacheM("FeedEntryTuple:%s")
-mc_feed_entry_iter = McCacheA("FeedEntryIter:%s")
-mc_feed_id_by_zsite_id_cid = McCache("FeedIdByZsiteIdCid:%s")
+mc_feed_id_list_by_zsite_id = McCacheA('FeedIdByZsiteId:%s')
+mc_feed_id_by_for_zsite_follow = McCacheA('FeedIdForZsiteFollow<%s')
+mc_feed_entry_tuple = McCacheM('FeedEntryTuple:%s')
+mc_feed_entry_iter = McCacheA('FeedEntryIter:%s')
+mc_feed_id_by_zsite_id_cid = McCache('FeedIdByZsiteIdCid:%s')
 
 cursor = cursor_by_table('feed_entry')
 
 class Feed(McModel):
     pass
 
-@mc_feed_id_by_zsite_id_cid("{zsite_id}_{cid}")
+@mc_feed_id_by_zsite_id_cid('{zsite_id}_{cid}')
 def feed_id_by_zsite_id_cid(zsite_id, cid):
     feed = Feed.get_or_create(zsite_id=zsite_id, cid=cid)
     if not feed.id:
@@ -34,7 +34,7 @@ def feed_id_by_zsite_id_cid(zsite_id, cid):
 def feed_entry_new(id, zsite_id, cid):
     feed_id = feed_id_by_zsite_id_cid(zsite_id, cid)
     cursor.execute(
-        "insert into feed_entry (id, feed_id) values (%s,%s) on duplicate key update id=id",
+        'insert into feed_entry (id, feed_id) values (%s,%s) on duplicate key update id=id',
         (id, feed_id)
     )
     cursor.connection.commit()
@@ -42,15 +42,15 @@ def feed_entry_new(id, zsite_id, cid):
     return id
 
 def feed_entry_rm(id):
-    cursor.execute("select feed_id from feed_entry where id=%s", id)
+    cursor.execute('select feed_id from feed_entry where id=%s', id)
     r = cursor.fetchone()
     if r:
         feed_id = r[0]
-        cursor.execute("delete from feed_entry where id=%s", id)
+        cursor.execute('delete from feed_entry where id=%s', id)
         cursor.connection.commit()
         mc_feed_entry_iter.delete(feed_id)
 
-@mc_feed_entry_iter("{feed_id}")
+@mc_feed_entry_iter('{feed_id}')
 def feed_entry_id_lastest(feed_id):
     cursor.execute(FEED_ENTRY_ID_LASTEST_SQL, feed_id)
     return [
@@ -95,7 +95,7 @@ class FeedEntryCmp(object):
 
 
 
-@mc_feed_id_list_by_zsite_id("{zsite_id}")
+@mc_feed_id_list_by_zsite_id('{zsite_id}')
 def feed_id_list_by_zsite_id(zsite_id):
     return Feed.where(zsite_id=zsite_id).field_list()
 
@@ -104,7 +104,7 @@ def mc_flush_zsite_follow(zsite_id):
     from follow import follow_cursor
     mc_feed_id_by_for_zsite_follow.delete(zsite_id)
     follow_cursor.execute(
-        "select from_id from follow where to_id=%s", zsite_id
+        'select from_id from follow where to_id=%s', zsite_id
     )
     for i, in follow_cursor:
         mc_feed_id_by_for_zsite_follow.delete(i)
@@ -112,5 +112,5 @@ def mc_flush_zsite_follow(zsite_id):
 
 mq_mc_flush_zsite_follow = mq_client(mc_flush_zsite_follow)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     mq_mc_flush_zsite_follow(10024787)

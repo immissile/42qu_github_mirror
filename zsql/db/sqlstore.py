@@ -53,8 +53,8 @@ class WarningCursor(object):
         self._cursor = cursor
 
     def __getattr__(self, attr):
-        warn("store.farm and store.farmr are deprecated interface, please "
-                "use store.cursor() instead", DeprecationWarning,
+        warn('store.farm and store.farmr are deprecated interface, please '
+                'use store.cursor() instead', DeprecationWarning,
                 stacklevel=2)
         return getattr(self._cursor, attr)
 
@@ -67,7 +67,7 @@ class SqlFarm:
 
     def connect(self, host, user, passwd, db, **kwargs):
         conn_params = dict(host=host, user=user,
-                db=db, init_command="set names utf8",
+                db=db, init_command='set names utf8',
                 **kwargs)
         if passwd :
             conn_params['passwd'] = passwd
@@ -83,7 +83,7 @@ class SqlFarm:
         conn = connection(**conn_params)
 
         if not conn:
-            raise DatabaseError("can not connect to database: %s %s %s"
+            raise DatabaseError('can not connect to database: %s %s %s'
                          % (host, user, db))
         cursor = conn.cursor()
         #cursor.execute('set sort_buffer_size=2000000')
@@ -111,12 +111,12 @@ class SqlFarm:
     def get_log(self, name):
         def sql_log(name, log):
             if log:
-                return "%s: %d SQL statements (%s seconds):\n%s\n\n" % (
+                return '%s: %d SQL statements (%s seconds):\n%s\n\n' % (
                         name, len(log), sum(x[2] for x in log),
-                        "\n".join(["%8.6fsec %s" % (timecost, a)
+                        '\n'.join(['%8.6fsec %s' % (timecost, a)
                                   for a, kw, timecost in log]))
             else:
-                return "%s No Sql Log\n\n"%name
+                return '%s No Sql Log\n\n'%name
         so = sql_log(name, self._cursor.log)
         return so
 
@@ -145,12 +145,12 @@ class SqlStore:
                 for table in f['tables']:
                     self.tables[table] = farm
             if db_config and '*' not in self.tables:
-                raise DatabaseError("No default farm specified")
+                raise DatabaseError('No default farm specified')
 
         else:
-            warn("SqlStore now has new interface, please use db_config as "
-                    "paramater to create SqlStore object", DeprecationWarning)
-            farm = SqlFarm(":".join([host, db, user, password]))
+            warn('SqlStore now has new interface, please use db_config as '
+                    'paramater to create SqlStore object', DeprecationWarning)
+            farm = SqlFarm(':'.join([host, db, user, password]))
             self.farms[db] = farm
             self.tables['*'] = farm
 
@@ -165,7 +165,7 @@ class SqlStore:
     def get_farm(self, farm_name):
         farm = self.farms.get(farm_name)
         if farm is None:
-            warn("Farm %r is not configured, use default farm" % farm_name,
+            warn('Farm %r is not configured, use default farm' % farm_name,
                     stacklevel=3)
             return self.tables['*']
         else:
@@ -193,7 +193,7 @@ class SqlStore:
         elif tables:
             farms = set(self.get_db_by_table(table) for table in tables)
             if len(farms) > 1:
-                raise DatabaseError("%s are not in the same farm" % (tables, ))
+                raise DatabaseError('%s are not in the same farm' % (tables, ))
             farm = farms.pop()
         else:
             farm = self.get_db_by_table(table)
@@ -231,21 +231,21 @@ class SqlStore:
         cols, vals = zip(*conditions.items())
         from_cursor = self.cursor(farm=from_farm)
         to_cursor = self.cursor(farm=to_farm)
-        where_clause = "where " + ' and '.join([col+'=%s' for col in cols])
+        where_clause = 'where ' + ' and '.join([col+'=%s' for col in cols])
 
         # acquire lock
         from_cursor.connection.commit()
-        sql = "update %s set %s %s" % (from_table,
-                ",".join(["%s=%s"%(col, col) for col in cols]),
+        sql = 'update %s set %s %s' % (from_table,
+                ','.join(['%s=%s'%(col, col) for col in cols]),
                 where_clause)
         from_cursor.execute(sql, vals)
 
-        from_cursor.execute("select * from "+from_table+" " + where_clause, vals)
+        from_cursor.execute('select * from '+from_table+' ' + where_clause, vals)
         rows = from_cursor.fetchall()
 
-        to_cursor.execute("delete from "+to_table+" " + where_clause, vals)
+        to_cursor.execute('delete from '+to_table+' ' + where_clause, vals)
         if rows:
-            sql = "insert into %s values (%s)" % (to_table,
+            sql = 'insert into %s values (%s)' % (to_table,
                     ','.join(['%s'] * len(rows[0])))
             to_cursor.executemany(sql, rows)
         to_cursor.connection.commit()

@@ -15,9 +15,9 @@ def quote_first_command_arg( arg):
         import win32api
     except ImportError:
         raise ValueError(
-            "The executable %r contains a space, and in order to "
-            "handle this issue you must have the win32api module "
-            "installed" % arg)
+            'The executable %r contains a space, and in order to '
+            'handle this issue you must have the win32api module '
+            'installed' % arg)
     arg = win32api.GetShortPathName(arg)
     return arg
 
@@ -37,7 +37,7 @@ def restart_with_monitor():
     while 1:
         args = [quote_first_command_arg(sys.executable)] + sys.argv
         new_environ = os.environ.copy()
-        new_environ['_run'] = "1"
+        new_environ['_run'] = '1'
         proc = None
         try:
             try:
@@ -63,7 +63,7 @@ def restart_with_monitor():
             return exit_code
 
 def _auto_reload(app):
-    if os.environ.get("_run"):
+    if os.environ.get('_run'):
         import reloader
         reloader.install()
         app()

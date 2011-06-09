@@ -10,7 +10,7 @@ _FLAG_BOOL = 1 << 3
 _FLAG_COMPRESS = 1 << 4
 _FLAG_MARSHAL = 1 << 5
 
-VERSION = "0.40"
+VERSION = '0.40'
 
 def prepare(val, comp_threshold):
     val, flag = cmemcached_imp.prepare(val)
@@ -33,7 +33,7 @@ def restore(val, flag):
     return cmemcached_imp.restore(val, flag)
 
 class Client(cmemcached_imp.Client):
-    "a wraper around cmemcached_imp"
+    'a wraper around cmemcached_imp'
 
     def __init__(self, servers, do_split=1, comp_threshold=0, *a, **kw):
         cmemcached_imp.Client.__init__(self)

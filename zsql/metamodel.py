@@ -61,11 +61,11 @@ def lower_name(class_name):
         if 65 <= i <= 90:
             if result:
                 if not 48 <= ord(result[-1]) <= 57:
-                    result.append("_")
+                    result.append('_')
             i += 32
             c = chr(i)
         result.append(c)
-    return "".join(result)
+    return ''.join(result)
 
 class ModelCache(object):
     models = {}
@@ -89,7 +89,7 @@ class ModelBase(type):
     '''
     def __new__(cls, name, bases, attrs):
         #print "init",name
-        if name == 'Model' or name == "McModel":
+        if name == 'Model' or name == 'McModel':
             return super(ModelBase, cls).__new__(cls, name, bases, attrs)
 
         new_class = type.__new__(cls, name, bases, attrs)
@@ -111,7 +111,7 @@ class ModelBase(type):
         #     if mc_ver:
         #         new_class.Meta.mc_key = "%s@%s:%%s"%(name, mc_ver)
         #     else:
-        new_class.Meta.mc_key = "%%s~%s"%name
+        new_class.Meta.mc_key = '%%s~%s'%name
 
         db = new_class.db = get_db_by_table(new_class.Meta.table)
 

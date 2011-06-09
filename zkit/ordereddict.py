@@ -149,7 +149,7 @@ class OrderedDict(dict):
         '''
         if len(args) > 2:
             raise TypeError('update() takes at most 2 positional '
-                            'arguments (%d given)' % (len(args),))
+                            'arguments (%d given)' % (len(args), ))
         elif not args:
             raise TypeError('update() takes at least 1 argument (0 given)')
         self = args[0]
@@ -201,7 +201,7 @@ class OrderedDict(dict):
         _repr_running[call_key] = 1
         try:
             if not self:
-                return '%s()' % (self.__class__.__name__,)
+                return '%s()' % (self.__class__.__name__, )
             return '%s(%r)' % (self.__class__.__name__, self.items())
         finally:
             del _repr_running[call_key]
@@ -213,8 +213,8 @@ class OrderedDict(dict):
         for k in vars(OrderedDict()):
             inst_dict.pop(k, None)
         if inst_dict:
-            return (self.__class__, (items,), inst_dict)
-        return self.__class__, (items,)
+            return (self.__class__, (items, ), inst_dict)
+        return self.__class__, (items, )
 
     def copy(self):
         'od.copy() -> a shallow copy of od'
@@ -237,7 +237,7 @@ class OrderedDict(dict):
 
         '''
         if isinstance(other, OrderedDict):
-            return len(self)==len(other) and self.items() == other.items()
+            return len(self) == len(other) and self.items() == other.items()
         return dict.__eq__(self, other)
 
     def __ne__(self, other):
