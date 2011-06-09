@@ -6,10 +6,11 @@ from model.ico import ico_url as _ico_url
 <%
 ico_url = _ico_url(current_user_id)
 %>
+<%htm:form enctype="multipart/form-data">
 %if ico_url:
     <img src="${ico_url}">
+    <button>修改</button>
 %endif
-<%htm:form enctype="multipart/form-data">
 <div>
     上传头像 <input type="file" name="pic"> 
     <button type="submit">上传</button>
@@ -18,3 +19,4 @@ ico_url = _ico_url(current_user_id)
     %endif
 </div>
 </%htm:form>
+
