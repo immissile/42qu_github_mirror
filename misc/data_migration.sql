@@ -22,6 +22,8 @@ truncate zpage.pic;
 insert into zpage.pic (id, user_id, cid)
 select id, man_id, 2 from qu.pic order by id;
 
+
+#缩略图
 truncate zpage.ico;
 insert into zpage.ico (id, value)
 select man_id, pic_id from qu.pic_show order by id desc
