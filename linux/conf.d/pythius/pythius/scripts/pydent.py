@@ -183,7 +183,19 @@ class Indenter:
                         token_txt = ' '
 
                 if token_txt:
-                    self.__emit(token_txt)
+                    replace_q = False
+                    if token_txt.startswith('"') and not token_txt.startswith('"""') and token.type == grok.STRING:
+                        replace_q = True
+
+                    if replace_q:
+                        token_txt_in = token_txt[1:-1]
+                        if '"' not in token_txt_in and "'" not in token_txt_in:
+                            self.__emit("'%s'"%token_txt_in)
+                        else:
+                            replace_q = False
+
+                    if replace_q is False:
+                        self.__emit(token_txt)
 
             token_pre = token
 #############################################################################

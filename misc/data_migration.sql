@@ -1,3 +1,4 @@
+#修改gid为
 truncate zpage.user_mail;
 insert into zpage.user_mail (user_id, mail)
 select man_id, mail from qu.man_mail where man_id > 0 order by id;
@@ -22,6 +23,8 @@ truncate zpage.pic;
 insert into zpage.pic (id, user_id, cid)
 select id, man_id, 2 from qu.pic order by id;
 
+
+#缩略图
 truncate zpage.ico;
 insert into zpage.ico (id, value)
 select man_id, pic_id from qu.pic_show order by id desc
