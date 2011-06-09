@@ -15,7 +15,7 @@
 
     $Id: pydent.py,v 1.2 2001/11/05 22:59:57 jhermann Exp $
 """
-__version__ = "$Revision: 1.2 $"[11:-2]
+__version__ = '$Revision: 1.2 $'[11:-2]
 
 # Globals
 _debug = 0
@@ -39,9 +39,9 @@ class Indenter:
         self.out = out
         self.indent = 0
         self.newline = 1
-        self.lastws = (0, "")
-        self.spacing = " " * self.spaces
-        self.space_token = set(("=", "==", "<", ">", "!=", "<=", ">=", "+=", "-=", "*=", "/=", "<<", ">>"))
+        self.lastws = (0, '')
+        self.spacing = ' ' * self.spaces
+        self.space_token = set(('=', '==', '<', '>', '!=', '<=', '>=', '+=', '-=', '*=', '/=', '<<', '>>'))
 
     def __emit(self, text):
         """ Write a piece of source code.
@@ -93,9 +93,9 @@ class Indenter:
             token_next = self.parser.tokenlist[idx+1] if idx < tokenlist_len-1 else None
 
             token_txt = token.text
-            if token_txt == "(":
+            if token_txt == '(':
                 call_depth += 1
-            elif token_txt == ")":
+            elif token_txt == ')':
                 call_depth -= 1
 
 #            print "%s|"%token.text
@@ -133,7 +133,7 @@ class Indenter:
             elif isNewline and token.type == grok.WS:
                 if _debug:
                     import string, sys
-                    print >> sys.stderr, "***", self.indent, self.__adjustIndent(idx)
+                    print >> sys.stderr, '***', self.indent, self.__adjustIndent(idx)
 
                 # check for adjustment if indenting seems fishy
                 indent = self.indent
@@ -145,7 +145,7 @@ class Indenter:
                     if adjust < 0 and self.parser.tokenlist[idx+1].type == grok.COMMENT:
                         if _debug:
                             import string, sys
-                            print >> sys.stderr, self.parser.tokenlist[idx+1].text, "   ", indent, len(token.text), wslevel
+                            print >> sys.stderr, self.parser.tokenlist[idx+1].text, '   ', indent, len(token.text), wslevel
                 #while len(token.text) > wslevel[indent+cmadjust] and indent+cmadjust < self.indent:
                 #    cmadjust += 1
 
@@ -161,18 +161,18 @@ class Indenter:
                 else:
                     self.lastws = (indent, token.text)
             elif token_next.text in self.space_token and token.text[-1] != ' ' and not call_depth:
-                self.__emit(token.text+" ")
+                self.__emit(token.text+' ')
             elif token.text in self.space_token and token_next.text[0] != ' ' and not call_depth:
-                self.__emit(token.text+" ")
-            elif token.text == ",":
+                self.__emit(token.text+' ')
+            elif token.text == ',':
                 if token_next.type != grok.NEWLINE and token_next.type != grok.EMPTY:
                     if token_next.type == grok.WS:
                         if token_next.text.isspace():
-                            token_next.text = " "
+                            token_next.text = ' '
                         else:
                             token_next.text = token_next.text.lstrip()
                     else:
-                        token.text += " "
+                        token.text += ' '
                 self.__emit(token.text)
             else:
 
@@ -180,10 +180,22 @@ class Indenter:
                     if call_depth and ((token_pre and token_pre.text == '=') or (token_next and token_next.text == '=')):
                         token_txt = ''
                     elif ((token_pre and token_pre.text in self.space_token) or (token_next and token_next.text in self.space_token)):
-                        token_txt = " "
+                        token_txt = ' '
 
                 if token_txt:
-                    self.__emit(token_txt)
+                    replace_q = False
+                    if token_txt.startswith('"') and not token_txt.startswith('"""') and token.type == grok.STRING:
+                        replace_q = True
+
+                    if replace_q:
+                        token_txt_in = token_txt[1:-1]
+                        if '"' not in token_txt_in and "'" not in token_txt_in:
+                            self.__emit("'%s'"%token_txt_in)
+                        else:
+                            replace_q = False
+
+                    if replace_q is False:
+                        self.__emit(token_txt)
 
             token_pre = token
 #############################################################################
@@ -216,7 +228,7 @@ def version():
     """
     import os, sys
     from pythius import version
-    sys.stderr.write("%s (%s %s [%s])\n" %
+    sys.stderr.write('%s (%s %s [%s])\n' %
         (__version__, version.project, version.release, version.revision))
     sys.exit(1)
 
@@ -232,16 +244,16 @@ def main():
     try:
         optlist, args = getopt.getopt(sys.argv[1:], 'cnq', ['compile', 'dry-run', 'help', 'quiet', 'no-backup', 'version'])
     except:
-        util.fatal("Invalid parameters!", usage=1)
+        util.fatal('Invalid parameters!', usage=1)
 
-    if util.haveOptions(optlist, ["--version"]): version()
-    if not args or util.haveOptions(optlist, ["--help"]): usage()
+    if util.haveOptions(optlist, ['--version']): version()
+    if not args or util.haveOptions(optlist, ['--help']): usage()
 
     global flag_backup, flag_compile, flag_dryrun
-    flag_backup = not util.haveOptions(optlist, ["--no-backup"])
-    flag_compile = util.haveOptions(optlist, ["-c", "--compile"])
-    flag_dryrun = util.haveOptions(optlist, ["-n", "--dry-run"])
-    util.flag_quiet = util.haveOptions(optlist, ["-q", "--quiet"])
+    flag_backup = not util.haveOptions(optlist, ['--no-backup'])
+    flag_compile = util.haveOptions(optlist, ['-c', '--compile'])
+    flag_dryrun = util.haveOptions(optlist, ['-n', '--dry-run'])
+    util.flag_quiet = util.haveOptions(optlist, ['-q', '--quiet'])
 
     #
     # Collect file names
@@ -249,7 +261,7 @@ def main():
     files = []
     for name in args:
         files.extend(util.getFilesForName(name))
-    util.log("Found %d file%s." % (len(files), ("", "s")[len(files) != 1], ))
+    util.log('Found %d file%s.' % (len(files), ('', 's')[len(files) != 1], ))
 
     #
     # Process the files
@@ -280,7 +292,7 @@ def main():
                 open('error.dat', 'wt').write(newsource)
                 util.fatal("INTERNAL ERROR: Bad formatting, see file 'error.dat'!")
             elif flag_dryrun:
-                util.log("Would write %(new)d bytes (previously %(old)d bytes)." % {
+                util.log('Would write %(new)d bytes (previously %(old)d bytes).' % {
                     'old': len(source), 'new': len(newsource), })
             else:
                 # save new source
@@ -300,5 +312,5 @@ def run():
     util.runMain(main)
 
 
-if __name__ == "__main__": run()
+if __name__ == '__main__': run()
 

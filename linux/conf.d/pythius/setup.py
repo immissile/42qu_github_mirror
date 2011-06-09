@@ -40,8 +40,8 @@ class build_scripts_create(build_scripts):
         """ Create each script listed in 'self.scripts'
         """
         if not self.package_name:
-            raise Exception("You have to inherit build_scripts_create and"
-                " provide a package name")
+            raise Exception('You have to inherit build_scripts_create and'
+                ' provide a package name')
 
         to_module = string.maketrans('-/', '_.')
 
@@ -54,7 +54,7 @@ class build_scripts_create(build_scripts):
             #    continue
 
             if self.dry_run:
-                self.announce("would create %s" % outfile)
+                self.announce('would create %s' % outfile)
                 continue
 
             module = os.path.splitext(os.path.basename(script))[0]
@@ -65,11 +65,11 @@ class build_scripts_create(build_scripts):
                 'module': module,
             }
 
-            self.announce("creating %s" % outfile)
+            self.announce('creating %s' % outfile)
             file = open(outfile, 'w')
 
             try:
-                if sys.platform == "win32":
+                if sys.platform == 'win32':
                     file.write('@echo off\n'
                         '%(python)s -c "from %(package)s.scripts.%(module)s import run; run()" %%$\n'
                         % script_vars)
@@ -92,8 +92,8 @@ def scriptname(path):
     """
     script = os.path.splitext(os.path.basename(path))[0]
     script = string.replace(script, '_', '-')
-    if sys.platform == "win32":
-        script = script + ".bat"
+    if sys.platform == 'win32':
+        script = script + '.bat'
     return script
 
 # build list of scripts from their implementation modules
@@ -105,12 +105,12 @@ pythius_scripts = map(scriptname, glob.glob('pythius/scripts/[!_]*.py'))
 #############################################################################
 
 setup_args = {
-    'name': "Pythius",
+    'name': 'Pythius',
     'version': version.revision,
-    'description': "Pythius is a set of tools to assess and improve the quality of Python code",
-    'author_email': "jh@web.de",
-    'url': "http://pythius.sf.net/",
-    'licence': "GPL",
+    'description': 'Pythius is a set of tools to assess and improve the quality of Python code',
+    'author_email': 'jh@web.de',
+    'url': 'http://pythius.sf.net/',
+    'licence': 'GPL',
     'long_description': """
 Pythius is a set of tools to assess and improve the quality of Python
 code. This is commonly done by applying different code metrics. Simple
@@ -131,7 +131,7 @@ function size, etc.
 }
 
 if hasattr(distutils.dist.DistributionMetadata, 'get_keywords'):
-    setup_args['keywords'] = "python code metrics tool"
+    setup_args['keywords'] = 'python code metrics tool'
 
 apply(setup, (), setup_args)
 

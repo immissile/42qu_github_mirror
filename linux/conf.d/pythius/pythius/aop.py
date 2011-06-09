@@ -290,8 +290,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 or see http://www.gnu.org/copyleft/lesser.html
 """
 
-__author__ = "Frank J. Tobin, ftobin@neverending.org"
-__revision__ = "$Id: aop.py,v 1.35 2002/07/08 03:52:09 ftobin Exp $"
+__author__ = 'Frank J. Tobin, ftobin@neverending.org'
+__revision__ = '$Id: aop.py,v 1.35 2002/07/08 03:52:09 ftobin Exp $'
 
 
 import new
@@ -376,12 +376,12 @@ class Aspect(object):
         """
         if self.__locked:
             raise RuntimeError,\
-                  "cannot modify an Aspect after used for a Metaclass"""
+                  'cannot modify an Aspect after used for a Metaclass'''
 
         if type not in self.pc_types:
-            raise ValueError, "invalid pointcut type: %s" % type
+            raise ValueError, 'invalid pointcut type: %s' % type
         if timeframe not in self.pc_timeframes:
-            raise ValueError, "invalid pointcut timeframe: %s" % type
+            raise ValueError, 'invalid pointcut timeframe: %s' % type
 
         self._pc_advice[type][timeframe].setdefault(name, []).append(routine)
 
@@ -427,7 +427,7 @@ class Aspect(object):
 
     def __set_affected_getattrs(self):
         if self.__locked:
-            raise RuntimeError, "cannot modify Aspect while locked"
+            raise RuntimeError, 'cannot modify Aspect while locked'
 
         names = []
         for type in ('getattr', 'method_call'):
@@ -439,7 +439,7 @@ class Aspect(object):
 
     def affected_getattrs(self):
         if not self.__locked:
-            raise RuntimeError, "affected getattrs not settled until locked"
+            raise RuntimeError, 'affected getattrs not settled until locked'
         return self._affected_getattrs
 
 

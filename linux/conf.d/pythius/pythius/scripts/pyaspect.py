@@ -16,7 +16,7 @@
 
     $Id: pyaspect.py,v 1.1 2001/11/05 22:35:30 jhermann Exp $
 """
-__version__ = "$Revision: 1.1 $"[11:-2]
+__version__ = '$Revision: 1.1 $'[11:-2]
 
 # Imports
 import string, sys
@@ -29,4 +29,4 @@ from pythius import grok
 def run():
     pass
 
-if __name__ == "__main__": run()
+if __name__ == '__main__': run()
