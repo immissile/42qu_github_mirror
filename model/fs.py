@@ -29,6 +29,12 @@ def fs_set(prefix, id, suffix, data):
     f.write(data)
     f.close()
 
+def fs_get_jpg(prefix, key):
+    f = fs_file_jpg(prefix, key)
+    if exists(f):
+        with open(f) as infile:
+            return infile.read()
+
 def fs_set_jpg(prefix, key, image, quality=95):
     fs_set(prefix, key, "jpg", img2str(image, quality))
 

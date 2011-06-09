@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from fs import fs_set_jpg, fs_url_jpg, fs_file_jpg
+from fs import fs_set_jpg, fs_url_jpg, fs_file_jpg, fs_get_jpg
 from kv import Kv
 from cid import CID_ICO, CID_ICO96
 from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high
@@ -28,43 +28,43 @@ ico_pos = Kv('ico_pos')
 #    p.save()
 #
 #    mc_flush(show.man_id)
-
 #fs_file_jpg
 
-def ico_pos_new(user_id, pos):
-    if pos == ico_pos.get(user_id):
+def ico_pos_new(id, pos):
+    if pos == ico_pos.get(id):
         return
+    
     f = ico.get(id)
     if not f:
         return
-    
-    pic = picopen(fs_file_jpg("1", f))
+
+    pic = picopen(fs_get_jpg("1", f))
     if not pic:
         return
     
-    pic_id = pic_new(CID_ICO96, user_id)
-    pos = pos.split("-")
+    pic_id = pic_new(CID_ICO96, id)
+    pos_tuple = pos.split("-")
 
-    if len(pos) == 3:
-        x, y, size = map(int, pos)
+    if len(pos_tuple) == 3:
+        x, y, size = map(int, pos_tuple)
         if size:
             pic = pic_square(pic, size, top_left=(x, y), size=size)
 
     pic = pic_square(pic, 96, size=96)
 
     fs_set_jpg('96', pic_id, pic)
-    ico_pos.set(user_id, pos)
-    ico96.set(user_id, pic_id)
+    ico_pos.set(id, pos)
+    ico96.set(id, pic_id)
 
-def ico_new(user_id, pic):
-    pic_id = pic_new(CID_ICO, user_id)
+def ico_new(id, pic):
+    pic_id = pic_new(CID_ICO, id)
     pic_save(pic_id, pic)
     ico_save(pic_id, pic)
-    ico.set(user_id, pic_id)
-    if not ico_pos.get(user_id):
-        ico_pos_new(user_id, "")
+    ico.set(id, pic_id)
+    if not ico_pos.get(id):
+        ico_pos_new(id, "")
     else:
-        ico_pos.set(user_id,"0-0-0")
+        ico_pos.set(id,"0-0-0")
     return pic_id
 
 def ico_save(pic_id, pic):
@@ -88,6 +88,6 @@ def ico_url(id):
         return fs_url_jpg('96', id)
 
 if __name__ == "__main__":
-    pass
+    print ico_url(10024803)
 
 
