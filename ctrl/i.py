@@ -11,6 +11,26 @@ from model.ico import ico_new
 from model.zsite_link import url_by_id, url_new, url_valid
 from model.user_mail import mail_by_user_id
 
+def _upload_pic(files, current_user_id):
+    error_img = None
+    if 'pic' in files:
+        pic = files['pic'][0]['body']
+        pic = picopen(pic)
+        if pic:
+            ico_new(current_user_id, pic)
+            error_img = False
+        else:
+            error_img = "图片格式有误"
+    return error_img 
+
+
+
+@urlmap("/i/pic")
+class Index(_handler.LoginBase):
+    def get(self):
+        pass
+
+
 @urlmap("/i")
 class Index(_handler.LoginBase):
     def get(self):
@@ -21,15 +41,6 @@ class Index(_handler.LoginBase):
         current_user_id = self.current_user_id
         current_user = self.current_user
 
-        error_img = None
-        if 'pic' in files:
-            pic = files['pic'][0]['body']
-            pic = picopen(pic)
-            if pic:
-                ico_new(current_user_id, pic)
-            else:
-                error_img = "图片格式有误"
-
         _name = self.get_argument('name', None)
         if _name:
             current_user.name = _name
@@ -38,6 +49,10 @@ class Index(_handler.LoginBase):
         _motto = self.get_argument('motto', None)
         if _motto:
             motto.set(current_user_id, _motto)
+        
+        error_img = _upload_pic(files, current_user_id)
+        if error_img is False: 
+            return self.redirect("/i/pic")
 
         self.render(
            error_img=error_img
