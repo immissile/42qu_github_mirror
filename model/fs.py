@@ -32,6 +32,9 @@ def fs_set(prefix, id, suffix, data):
 def fs_set_jpg(prefix, key, image, quality=95):
     fs_set(prefix, key, "jpg", img2str(image, quality))
 
+def fs_file_jpg(prefix, key):
+    return fs_file(prefix, key, "jpg")
+
 def fs_url_jpg(prefix, key):
     return fs_url(prefix, key, "jpg")
 

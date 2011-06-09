@@ -6,7 +6,8 @@ CID_USER = 1
 
 #Pic
 CID_ICO = 31
-CID_PO_PIC = 32
+CID_ICO96 = 32
+CID_PO_PIC = 35
 
 #Po
 CID_WORD = 61
