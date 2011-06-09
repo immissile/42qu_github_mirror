@@ -1,3 +1,5 @@
+
+#修改gid为
 truncate zpage.user_mail;
 insert into zpage.user_mail (user_id, mail)
 select man_id, mail from qu.man_mail where man_id > 0 order by id;
