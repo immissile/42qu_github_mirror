@@ -1,18 +1,18 @@
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.ico import ico_url as _ico_url
+from model.ico import pic_url as _pic_url
 from model.zsite_link import url_by_id
 from model.motto import motto
 %>
 <%
-ico_url = _ico_url(current_user_id)
+pic_url = _pic_url(current_user_id)
 url = url_by_id(current_user_id)
 %>
 <%htm:form enctype="multipart/form-data">
     <div>
-        %if ico_url:
-            <img src="${ico_url}">
+        %if pic_url:
+            <img src="${pic_url}">
             <a href="/i/pic">编辑头像</a>
         %else:
             上传头像 <input type="file" name="pic"> 

@@ -22,7 +22,7 @@ def ico_save(pic_id, pic):
     p2 = pic_zoom_inner(pic, 320, 320)
     fs_set_jpg('2', pic_id, p1)
 
-def ico_url(id, size='1'):
+def pic_url(id, size='1'):
     f = ico.get(id)
     if f:
         return fs_url_jpg(size, f)

@@ -1,7 +1,7 @@
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.ico import ico_url as _ico_url
+from model.ico import pic_url as _pic_url
 from static import css, js
 %>
 <%def name="htm_head()">
@@ -19,14 +19,14 @@ width:96px;height:96px;overflow:hidden;display:none
 </%def>
 
 <%
-ico_url = _ico_url(current_user_id)
+pic_url = _pic_url(current_user_id)
 %>
 <%htm:form enctype="multipart/form-data">
 <input type="hidden" id="pos" name="pos" value="${pos}">
-%if ico_url:
-    <div><img id="photo" src="${ico_url}"></div>
+%if pic_url:
+    <div><img id="photo" src="${pic_url}"></div>
     <div id="preview">
-    <img src="${ico_url}" id="preview_pic" onload="setTimeout(init_preview,100)">
+    <img src="${pic_url}" id="preview_pic" onload="setTimeout(init_preview,100)">
     </div>
     <div><button type="submit">修改缩略图</button></div>
 %endif
