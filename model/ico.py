@@ -7,6 +7,10 @@ from zkit.pic import pic_square, picopen, pic_zoom_inner
 from pic import pic_new, pic_save
 
 ico = Kv('ico')
+ico_pos = Kv('ico_pos')
+
+def ico_pos_new(user_id, pos):
+    ico_pos.set(user_id, pos)
 
 def ico_new(user_id, pic):
     pic_id = pic_new(CID_ICO, user_id)
@@ -26,3 +30,5 @@ def pic_url(id, size='1'):
     f = ico.get(id)
     if f:
         return fs_url_jpg(size, f)
+
+

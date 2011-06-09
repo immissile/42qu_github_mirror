@@ -7,7 +7,7 @@ from zkit.pic import picopen
 from zkit.jsdict import JsDict
 from model.motto import motto
 from model.namecard import namecard_get, namecard_new
-from model.ico import ico_new
+from model.ico import ico_new, ico_pos, ico_pos_new
 from model.zsite_link import url_by_id, url_new, url_valid
 from model.user_mail import mail_by_user_id
 
@@ -24,17 +24,19 @@ def _upload_pic(files, current_user_id):
     return error_pic
 
 
-
 @urlmap("/i/pic")
 class Pic(_handler.LoginBase):
     def get(self):
-        pos = ""
+        current_user_id = self.current_user_id
+        pos = ico_pos.get(current_user_id)
         self.render(pos=pos)
 
     def post(self):
         current_user_id = self.current_user_id
         files = self.request.files
         pos = self.get_argument('pos', '')
+        if pos:
+            ico_pos_new(current_user_id, pos)
         error_pic = _upload_pic(files, current_user_id)
         self.render(error_pic=error_pic, pos=pos)
 
