@@ -12,7 +12,7 @@ from model.zsite_link import url_by_id, url_new, url_valid
 from model.user_mail import mail_by_user_id
 
 @urlmap("/i")
-class Setting(_handler.LoginBase):
+class Index(_handler.LoginBase):
     def get(self):
         self.render()
 
