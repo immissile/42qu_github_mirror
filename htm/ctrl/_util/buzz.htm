@@ -45,8 +45,8 @@ ${user_link_list(from_list)}
 回复了
     %if entry.user_id == current_user_id:
     你的
-    %endif:
-${entry_link(entry)}
+    %endif
+<a href="/po/${entry.id}">${entry.name}</a>
 %endif
 </%def>
 
