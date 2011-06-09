@@ -9,7 +9,6 @@ from txt import txt_bind
 from zkit.txt2htm import txt_withlink
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from cid import CID_NOTE
-from model.buzz import mq_buzz_po_reply_new
 
 REPLY_STATE = (
     STATE_DEL,
@@ -48,6 +47,7 @@ class ReplyMixin(object):
         if cid == CID_NOTE:
             key = '%s_%s' % (rid, user_id)
             if mc_reply_in_1h.get(key) is None:
+                from buzz import mq_buzz_po_reply_new
                 mq_buzz_po_reply_new(user_id, id)
                 mc_reply_in_1h.set(key, True, 3600)
         return id
