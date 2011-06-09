@@ -1,4 +1,3 @@
-
 #修改gid为
 truncate zpage.user_mail;
 insert into zpage.user_mail (user_id, mail)
