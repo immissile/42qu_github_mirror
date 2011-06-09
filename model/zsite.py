@@ -38,7 +38,7 @@ def zsite_new(name, cid, state):
 def zsite_new_user(name):
     return zsite_new(name, CID_USER, ZSITE_STATE_APPLY)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     for i in Zsite.where():
         for reply in i.reply_list():
             print reply.html

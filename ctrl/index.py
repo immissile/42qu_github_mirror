@@ -5,12 +5,12 @@ import _handler
 from zweb._urlmap import urlmap
 from model.follow import follow_rm, follow_new
 
-@urlmap("/")
+@urlmap('/')
 class Index(_handler.Base):
     def get(self):
         self.render()
 
-@urlmap("/follow")
+@urlmap('/follow')
 class Follow(_handler.XsrfGetBase):
     def get(self):
         current_user = self.current_user
@@ -20,10 +20,10 @@ class Follow(_handler.XsrfGetBase):
 
 
 
-@urlmap("/unfollow")
+@urlmap('/unfollow')
 class Unfollow(_handler.XsrfGetBase):
     def get(self):
         current_user = self.current_user
         zsite = self.zsite
         follow_rm(current_user.id, zsite.id)
-        self.redirect("/")
+        self.redirect('/')

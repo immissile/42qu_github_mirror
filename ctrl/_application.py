@@ -5,7 +5,7 @@ import tornado.wsgi
 from zweb import _urlmap
 application = tornado.wsgi.WSGIApplication(
     tuple(_urlmap.URLMAP),
-    login_url="/login",
+    login_url='/login',
     xsrf_cookies=True,
 )
 

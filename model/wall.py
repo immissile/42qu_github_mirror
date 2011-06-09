@@ -10,7 +10,7 @@ from operator import itemgetter
 CREATE TABLE `wall` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `cid` TINYINT UNSIGNED NOT NULL ,
-  `from_id` INTEGER UNSIGNED NOT NULL, 
+  `from_id` INTEGER UNSIGNED NOT NULL,
   `to_id` INTEGER UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`),
   KEY `from_id` (`from_id`),
@@ -30,8 +30,8 @@ CREATE TABLE  `wall_reply` (
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 """
 
-mc_reply_id_list = McLimitA("WallReplyIdListReversed:%s", 512)
-mc_reply_total = McCache("Zsite.reply_total:%s")
+mc_reply_id_list = McLimitA('WallReplyIdListReversed:%s', 512)
+mc_reply_total = McCache('Zsite.reply_total:%s')
 
 class Wall(McModel, ReplyMixin):
     def zsite_id_list(self):
@@ -39,14 +39,14 @@ class Wall(McModel, ReplyMixin):
 
     @property
     def link(self):
-        return "/wall/txt/%s"%self.id
+        return '/wall/txt/%s'%self.id
 
     def reply_rm(self, reply):
         reply.rm()
         id = self.id
         reply_cursor = self.reply_cursor
         reply_cursor.execute(
-"select id from reply where rid=%s and cid=%s and state>=%s and (user_id=%s or user_id=%s) order by id desc limit 1",
+'select id from reply where rid=%s and cid=%s and state>=%s and (user_id=%s or user_id=%s) order by id desc limit 1',
             (
                 id,
                 self.cid,
@@ -82,6 +82,9 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     if reply1 is None and reply2 is None:
         wall = Wall(cid=self.cid, from_id=user_id, to_id=zsite_id)
         wall.save()
+        from buzz import mq_buzz_wall_new
+        if state == STATE_ACTIVE and user_id != zsite_id:
+            mq_buzz_wall_new(user_id, zsite_id, wall.id)
     else:
         if reply1:
             reply = reply1
@@ -120,9 +123,9 @@ def mc_flush(zsite_id):
     mc_reply_id_list.delete(zsite_id)
     mc_reply_total.delete(zsite_id)
 
-@mc_reply_id_list("{self.id}")
+@mc_reply_id_list('{self.id}')
 def reply_list_id_reversed(self, limit=None, offset=None):
-    id_list = WallReply.where(zsite_id=self.id).where("last_reply_id>0").order_by("update_time desc").id_list(limit, offset, "last_reply_id")
+    id_list = WallReply.where(zsite_id=self.id).where('last_reply_id>0').order_by('update_time desc').field_list(limit, offset, 'last_reply_id')
     return id_list
 
 def reply_list_reversed(self, limit=None, offset=None):
@@ -141,7 +144,3 @@ Zsite.reply_new = reply_new
 Zsite.reply_total = reply_total
 Zsite.reply_list_id_reversed = reply_list_id_reversed
 Zsite.reply_list_reversed = reply_list_reversed
-
-
-
-

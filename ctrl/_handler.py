@@ -12,7 +12,7 @@ import zweb._handler
 
 class Base(zweb._handler.Base):
     def get(self):
-        self.redirect("/")
+        self.redirect('/')
 
     def prepare(self):
         host = self.request.host
@@ -29,7 +29,7 @@ class Base(zweb._handler.Base):
 
     @property
     def _xsrf(self):
-        return "_xsrf=%s"%self.xsrf_token
+        return '_xsrf=%s'%self.xsrf_token
 
     def render(self, template_name=None, **kwds):
         kwds['_xsrf'] = self._xsrf
@@ -41,13 +41,13 @@ class Base(zweb._handler.Base):
 def _login_redirect(self):
     if not self.current_user:
         url = self.get_login_url()
-        if "?" not in url:
+        if '?' not in url:
             if urlparse.urlsplit(url).scheme:
                 # if login url is absolute, make next absolute too
                 next_url = self.request.full_url()
             else:
                 next_url = self.request.uri
-            url += "?" + urllib.urlencode(dict(next=next_url))
+            url += '?' + urllib.urlencode(dict(next=next_url))
         self.redirect(url)
         return True
 

@@ -5,7 +5,7 @@ from os import remove, makedirs
 from cStringIO import StringIO
 
 def fs_path(root, prefix, id, suffix):
-    path = join(root, str(prefix), str(id%1024), "%s.%s"%(id, suffix))
+    path = join(root, str(prefix), str(id%1024), '%s.%s'%(id, suffix))
     return path
 
 def fs_file(prefix, id, suffix):
@@ -25,7 +25,7 @@ def fs_set(prefix, id, suffix, data):
     dirpath = dirname(path)
     if not exists(dirpath):
         makedirs(dirpath)
-    f = open(path, "wb")
+    f = open(path, 'wb')
     f.write(data)
     f.close()
 
@@ -36,13 +36,13 @@ def fs_get_jpg(prefix, key):
             return infile.read()
 
 def fs_set_jpg(prefix, key, image, quality=95):
-    fs_set(prefix, key, "jpg", img2str(image, quality))
+    fs_set(prefix, key, 'jpg', img2str(image, quality))
 
 def fs_file_jpg(prefix, key):
-    return fs_file(prefix, key, "jpg")
+    return fs_file(prefix, key, 'jpg')
 
 def fs_url_jpg(prefix, key):
-    return fs_url(prefix, key, "jpg")
+    return fs_url(prefix, key, 'jpg')
 
 #print fs_file("test", 1, "jpg")
 #print fs_link("test", 1, "jpg")

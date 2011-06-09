@@ -27,8 +27,8 @@ def update_pic(form, user_id, po_id, id):
         pic.save()
 
 
-@urlmap("/po/note")
-@urlmap("/note/edit/(\d+)")
+@urlmap('/po/note')
+@urlmap('/note/edit/(\d+)')
 class Edit(_handler.LoginBase):
     @staticmethod
     def _can_edit(current_user_id, id):
@@ -71,9 +71,9 @@ class Edit(_handler.LoginBase):
         if po:
             link = po.link
             update_pic(arguments, current_user_id, po.id, id)
-            mc_pic_id_list.delete("%s_%s"%(current_user_id, id))
+            mc_pic_id_list.delete('%s_%s'%(current_user_id, id))
         else:
-            link = "/po/note"
+            link = '/po/note'
         self.redirect(link)
 
 

@@ -1,9 +1,9 @@
 import MySQLdb
 DATABASE = MySQLdb.connect(
-    host="localhost",
-    user="root",
-    passwd="111111",
-    db="mokodb"
+    host='localhost',
+    user='root',
+    passwd='111111',
+    db='mokodb'
 )
 
 DATABASE.b_commit = True
@@ -21,7 +21,7 @@ from zsql.shortcut import Model
 
 class User(Model):
     class Meta:
-        pk = "UserId"
+        pk = 'UserId'
 
 for i in User.where():
     print i.UserId

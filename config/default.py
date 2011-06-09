@@ -10,30 +10,30 @@ def prepare(o):
     o.SITE_NAME = '42区'
     o.PORT = 6666
 
-    o.MYSQL_HOST = "127.0.0.1"
-    o.MYSQL_PORT = "3306"
+    o.MYSQL_HOST = '127.0.0.1'
+    o.MYSQL_PORT = '3306'
     o.MYSQL_MAIN = 'zpage'
-    o.MYSQL_USER = "root"
-    o.MYSQL_PASSWD = "42qu"
+    o.MYSQL_USER = 'root'
+    o.MYSQL_PASSWD = '42qu'
 
     o.MQ_PORT = 11300
 
-    o.PIC_DOMAIN = "p.%s"%o.SITE_DOMAIN
-    o.FS_DOMAIN = "s.%s"%o.SITE_DOMAIN
+    o.PIC_DOMAIN = 'p.%s'%o.SITE_DOMAIN
+    o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
 
     o.DEBUG = False
 
     o.DISABLE_LOCAL_CACHED = False
-    o.MEMCACHED_ADDR = ("127.0.0.1:11211", )
+    o.MEMCACHED_ADDR = ('127.0.0.1:11211', )
 
-    o.SMTP = "smtp.163.com"
-    o.SMTP_USERNAME = "zpagedev"
-    o.SMTP_PASSWORD = "42qu_com"
-    o.SENDER_MAIL = "zpagedev@163.com"
+    o.SMTP = 'smtp.163.com'
+    o.SMTP_USERNAME = 'zpagedev'
+    o.SMTP_PASSWORD = '42qu_com'
+    o.SENDER_MAIL = 'zpagedev@163.com'
 
-    o.ALIPAY_ID = ""
-    o.ALIPAY_SALT = ""
-    o.ALIPAY_EMAIL = ""
+    o.ALIPAY_ID = ''
+    o.ALIPAY_SALT = ''
+    o.ALIPAY_EMAIL = ''
 
     return o
 
@@ -43,7 +43,7 @@ def debug(o):
 def finish(o):
     o.MQ_USE = o.MYSQL_MAIN
 
-    o.PIC_PATH = "/mnt/zpage"
+    o.PIC_PATH = '/mnt/zpage'
     o.GOD_PORT = o.PORT + 10
     o.API_PORT = o.PORT + 20
     o.RPC_PORT = o.PORT + 30
@@ -111,16 +111,16 @@ def load(self, *args):
                 -1
             )
         except ImportError:
-            print "NO CONFIG %s"%name
+            print 'NO CONFIG %s'%name
             return
-        for i in name.split(".")[1:]:
+        for i in name.split('.')[1:]:
             mod = getattr(mod, i)
-        prepare = getattr(mod, "prepare", None)
+        prepare = getattr(mod, 'prepare', None)
 
         if prepare:
             PREPARE.append(prepare)
 
-        finish = getattr(mod, "finish", None)
+        finish = getattr(mod, 'finish', None)
         if finish:
             FINISH.append(finish)
     for i in args:

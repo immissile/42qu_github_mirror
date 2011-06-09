@@ -14,7 +14,7 @@ def is_spammer(user_id):
     if int(user_id) in SPAM_USER_ID:
         return True
 
-mc_lastest_hash = McCache("LastestHash:%s")
+mc_lastest_hash = McCache('LastestHash:%s')
 
 def is_same_post(user_id, *args):
     m = md5()

@@ -74,7 +74,7 @@ def mc_flush(user_id, po_id):
 #
 #@mc_pic_new_id_list('{user_id}')
 #def pic_new_id_list(user_id):
-#    return PoPic.where(user_id=user_id, po_id=0).order_by('seq desc').id_list()
+#    return PoPic.where(user_id=user_id, po_id=0).order_by('seq desc').field_list()
 #
 #def pic_new_list(user_id):
 #    ids = pic_new_id_list(user_id)
@@ -87,7 +87,7 @@ mc_pic_id_list = McCacheA('PoPicIdList.%s')
 
 @mc_pic_id_list('{user_id}_{po_id}')
 def pic_id_list(user_id, po_id):
-    return PoPic.where(user_id=user_id, po_id=po_id).order_by('seq desc').id_list()
+    return PoPic.where(user_id=user_id, po_id=po_id).order_by('seq desc').field_list()
 
 def pic_list(user_id, po_id):
     ids = pic_id_list(user_id, po_id)
@@ -111,18 +111,18 @@ def pic_seq_dict_html(user_id, po_id):
         align = i.align
 
         if align == -1:
-            align = " L"
+            align = ' L'
         elif align == 1:
-            align = " R"
+            align = ' R'
         else:
-            align = ""
+            align = ''
 
         if title:
-            alt = ' alt="%s"'%title.replace('"', '&quot;')
-            div = "<div>%s</div>"%title
+            alt = ' alt="%s"' % title.replace('"', '&quot;')
+            div = '<div>%s</div>' % title
         else:
-            alt = ""
-            div = ""
+            alt = ''
+            div = ''
 
         d[i.seq] = PIC_HTM % (
             align,
@@ -142,7 +142,7 @@ PIC_HTML = '<div class="pmix np%s"><img src="%s" alt="%s"><div>%s</div></div>'
 #    return pic2htm(self.txt, pic_seq_dict_html(self.user_id, self.id))
 
 def re_pic2htm(match, d):
-    m = int(match.groups()[0])
+    m = int(match.group(1))
     return d.get(m, match.group(0))
 
 def pic_htm(htm, user_id, po_id):

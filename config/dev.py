@@ -13,9 +13,9 @@ def prepare(o):
 
 default.load(
     JsDict(vars(config)),
-    "dev",
-    "host.%s"%socket.gethostname(),
-    "host.%s_dev"%socket.gethostname(),
-    "user.%s"%getpass.getuser(),
-    "user.%s_dev"%getpass.getuser(),
+    'dev',
+    'host.%s'%socket.gethostname(),
+    'host.%s_dev'%socket.gethostname(),
+    'user.%s'%getpass.getuser(),
+    'user.%s_dev'%getpass.getuser(),
 )

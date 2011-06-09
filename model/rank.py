@@ -8,9 +8,9 @@ from zsite import Zsite
 class Rank(McModel):
     pass
 
-mc_zsite_id_list_by_po_id = McCacheA("ZsiteIdListByPoId:%s")
+mc_zsite_id_list_by_po_id = McCacheA('ZsiteIdListByPoId:%s')
 
-@mc_zsite_id_list_by_po_id("{po_id}")
+@mc_zsite_id_list_by_po_id('{po_id}')
 def zsite_id_list_by_po_id(po_id):
     qs = Rank.where(po_id=po_id)
     return [i.zsite_id for i in qs]
@@ -93,7 +93,7 @@ def team_note_id_list(zsite_id, cid, order, offset, limit):
     if cid:
         qs = qs.where(cid=cid)
     order = ORDER_DIC[order]
-    return qs.order_by('%s desc' % order).id_list(limit, offset)
+    return qs.order_by('%s desc' % order).field_list(limit, offset)
 
 def team_note_list(zsite_id, cid, order, offset=0, limit=3):
     ids = team_note_id_list(zsite_id, cid, order, offset, limit)

@@ -16,7 +16,7 @@ def run_test(func, name):
     try:
         func()
     except:
-        print "failed or not supported"
+        print 'failed or not supported'
         global options
         if options.verbose:
             traceback.print_exc()
@@ -24,7 +24,7 @@ def run_test(func, name):
         end_time = time.time()
         global total_time
         total_time += end_time - start_time
-        print "%f seconds" % (end_time - start_time)
+        print '%f seconds' % (end_time - start_time)
 
 
 class BigObject(object):
@@ -55,8 +55,8 @@ class Benchmark(object):
 
     def init_server(self):
         #self.mc = self.module.Client([self.options.server_address])
-        self.mc = self.module.Client(["127.0.0.1:11211", "127.0.0.1:11212", "127.0.0.1:11213", "127.0.0.1:11214", "127.0.0.1:11215"])
-        self.mc.set('bench_key', "E" * 50)
+        self.mc = self.module.Client(['127.0.0.1:11211', '127.0.0.1:11212', '127.0.0.1:11213', '127.0.0.1:11214', '127.0.0.1:11215'])
+        self.mc.set('bench_key', 'E' * 50)
 
         num_tests = self.options.num_tests
         self.keys = ['key%d' % i for i in xrange(num_tests)]
@@ -99,7 +99,7 @@ class Benchmark(object):
         get_ = self.mc.get
         set_ = self.mc.set
 
-        value = "chenyin"
+        value = 'chenyin'
 
         def test():
             index = 0
@@ -260,24 +260,24 @@ def main():
     parser = OptionParser()
     parser.add_option('-a', '--server-address', dest='server_address',
             default='127.0.0.1:11211',
-            help="address:port of memcached [default: 127.0.0.1:11211]")
+            help='address:port of memcached [default: 127.0.0.1:11211]')
     parser.add_option('-n', '--num-tests', dest='num_tests', type='int',
             default=1000,
-            help="repeat counts of each test [default: 1000]")
+            help='repeat counts of each test [default: 1000]')
     parser.add_option('-v', '--verbose', dest='verbose',
             action='store_true', default=False,
-            help="show traceback infomation if a test fails")
+            help='show traceback infomation if a test fails')
     global options
     options, args = parser.parse_args()
 
 
     options.verbose = 1
-    print "verbose", options.verbose
+    print 'verbose', options.verbose
 
     global total_time
     total_time = 0
 
-    print "Benchmarking cmemcached..."
+    print 'Benchmarking cmemcached...'
     import cmemcached
     Benchmark(cmemcached, options)
 
@@ -285,4 +285,4 @@ def main():
 if __name__ == '__main__':
     main()
     global total_time
-    print "total_time is %f" % total_time
+    print 'total_time is %f' % total_time

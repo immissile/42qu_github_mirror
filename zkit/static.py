@@ -62,7 +62,7 @@ class StatusApp:
             Headers(headers).add_header('Content-type', 'text/plain')
         start_response(self.status, headers)
         if environ['REQUEST_METHOD'] == 'HEAD':
-            return [""]
+            return ['']
         else:
             return [self.message]
 
@@ -81,7 +81,7 @@ class Cling(object):
     block_size = 16 * 4096
     index_file = 'index.html'
     not_found = StatusApp('404 Not Found')
-    not_modified = StatusApp('304 Not Modified', "")
+    not_modified = StatusApp('304 Not Modified', '')
     moved_permanently = StatusApp('301 Moved Permanently')
     method_not_allowed = StatusApp('405 Method Not Allowed')
 
@@ -124,7 +124,7 @@ class Cling(object):
                 return self.not_modified(environ, start_response, headers)
             file_like = self._file_like(full_path)
             headers.append(('Content-Type', content_type))
-            start_response("200 OK", headers)
+            start_response('200 OK', headers)
             if environ['REQUEST_METHOD'] == 'GET':
                 return self._body(full_path, environ, file_like)
             else:
@@ -299,7 +299,7 @@ class BaseMagic(object):
         if self.matches(full_path):
             return full_path[:-len(self.extension)]
         else:
-            raise MagicError, "Path does not match this magic."
+            raise MagicError, 'Path does not match this magic.'
 
     def matches(self, full_path):
         """Check that path ends with self.extension."""
@@ -365,19 +365,19 @@ class KidMagic(StringMagic):
 
 
 def command():
-    parser = OptionParser(usage="%prog DIR [HOST][:][PORT]",
-                          version="static 0.3.6")
+    parser = OptionParser(usage='%prog DIR [HOST][:][PORT]',
+                          version='static 0.3.6')
     options, args = parser.parse_args()
     if len(args) in (1, 2):
         if len(args) == 2:
-            parts = args[1].split(":")
+            parts = args[1].split(':')
             if len(parts) == 1:
                 host = parts[0]
                 port = None
             elif len(parts) == 2:
                 host, port = parts
             else:
-                sys.exit("Invalid host:port specification.")
+                sys.exit('Invalid host:port specification.')
         elif len(args) == 1:
             host, port = None, None
         if not host:
@@ -387,14 +387,14 @@ def command():
         try:
             port = int(port)
         except:
-            sys.exit("Invalid host:port specification.")
+            sys.exit('Invalid host:port specification.')
         app = Cling(args[0])
         try:
             make_server(host, port, app).serve_forever()
         except KeyboardInterrupt, ki:
-            print "Cio, baby!"
+            print 'Cio, baby!'
         except:
-            sys.exit("Problem initializing server.")
+            sys.exit('Problem initializing server.')
     else:
         parser.print_help(sys.stderr)
         sys.exit(1)
@@ -402,12 +402,12 @@ def command():
 
 def test():
     from wsgiref.validate import validator
-    magics = StringMagic(title="String Test"), KidMagic(title="Kid Test")
+    magics = StringMagic(title='String Test'), KidMagic(title='Kid Test')
     app = Shock('testdata/pub', magics=magics)
     try:
         make_server('localhost', 9999, validator(app)).serve_forever()
     except KeyboardInterrupt, ki:
-        print "Ciao, baby!"
+        print 'Ciao, baby!'
 
 
 if __name__ == '__main__':

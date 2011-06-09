@@ -16,16 +16,16 @@ CID2FEEDFUNC = {
 
 
 CID2FEED_ENTRY = {
-    CID_WORD: "txt reply_total",
-    CID_NOTE: "name txt reply_total",
-    CID_FOLLOW: "name link",
+    CID_WORD: 'txt reply_total',
+    CID_NOTE: 'name txt reply_total',
+    CID_FOLLOW: 'name link',
 }
 
 def __init__cid2feed_entry():
     for k, v in CID2FEED_ENTRY.iteritems():
         CID2FEED_ENTRY[k] = namedtuple(
             'Entry%s'%k,
-            " ".join(('id vote cid feed_id zsite zsite_id', v))
+            ' '.join(('id vote cid feed_id zsite zsite_id', v))
         )
 
 __init__cid2feed_entry()
@@ -46,5 +46,5 @@ def render_feed_entry_list(entry_list):
         )
     return result
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pass

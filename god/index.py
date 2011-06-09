@@ -5,12 +5,12 @@
 import _handler
 from zweb._urlmap import urlmap
 
-@urlmap("/")
+@urlmap('/')
 class Index(_handler.Base):
     def get(self):
         self.render()
 
-@urlmap("/chart")
+@urlmap('/chart')
 class Chart(_handler.Base):
     def get(self):
         self.render()

@@ -1,0 +1,11 @@
+<%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+
+<%namespace file="/ctrl/_util/buzz.htm" import="buzz_render"/>
+
+%for i in buzz_list:
+<p>${buzz_render(i)}</p>
+%endfor
+
+${page|n}

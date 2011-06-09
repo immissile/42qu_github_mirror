@@ -33,17 +33,17 @@ ico_pos = Kv('ico_pos')
 def ico_pos_new(id, pos):
     if pos == ico_pos.get(id):
         return
-    
+
     f = ico.get(id)
     if not f:
         return
 
-    pic = picopen(fs_get_jpg("1", f))
+    pic = picopen(fs_get_jpg('1', f))
     if not pic:
         return
-    
+
     pic_id = pic_new(CID_ICO96, id)
-    pos_tuple = pos.split("-")
+    pos_tuple = pos.split('-')
 
     if len(pos_tuple) == 3:
         x, y, size = map(int, pos_tuple)
@@ -61,9 +61,9 @@ def ico_new(id, pic):
     ico_save(pic_id, pic)
     ico.set(id, pic_id)
     if not ico_pos.get(id):
-        ico_pos_new(id, "")
+        ico_pos_new(id, '')
     else:
-        ico_pos.set(id,"0-0-0")
+        ico_pos.set(id, '0-0-0')
     return pic_id
 
 def ico_save(pic_id, pic):
@@ -86,7 +86,7 @@ def ico_url(id):
     if pic_id:
         return fs_url_jpg('96', pic_id)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print ico_url(10024803)
 
 

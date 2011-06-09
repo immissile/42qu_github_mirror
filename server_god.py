@@ -13,5 +13,5 @@ def run():
     print 'server on port %s'%port
     WSGIServer(port, application)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     run()

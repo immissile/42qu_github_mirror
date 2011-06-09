@@ -20,7 +20,7 @@ def table_exists(db, table_name):
     Given an Autumn model, check to see if its table exists.
     """
     try:
-        s_sql = "SELECT * FROM %s LIMIT 1;" % table_name
+        s_sql = 'SELECT * FROM %s LIMIT 1;' % table_name
         Query.raw_sql(s_sql, db=db)
     except Exception:
         return False
@@ -58,7 +58,7 @@ class AutoConn(object):
         self.container = threading_local()
     def __getattr__(self, name):
         try:
-            if "conn" == name:
+            if 'conn' == name:
                 return self.container.conn
         except BaseException:
             self.container.conn = Database()

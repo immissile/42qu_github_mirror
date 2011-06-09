@@ -24,17 +24,17 @@ def retry(func):
         return func(*args, **kwargs)
     return _
 
-URL = "https://www.googleapis.com/buzz/v1/activities/%s/@public?alt=json&max-result=100"
+URL = 'https://www.googleapis.com/buzz/v1/activities/%s/@public?alt=json&max-result=100'
 #TODO YOUR KEY
-key = "&key="
+key = '&key='
 
 URL = URL+key
 
 @retry
 def urlopen(url):
     sys.stdout.flush()
-    url = url.replace("&max-results=20","&max-results=100")
-    if "&key" not in url:
+    url = url.replace('&max-results=20', '&max-results=100')
+    if '&key' not in url:
         url += key
     print url
     return _urlopen(url, timeout=60).read()
@@ -44,8 +44,8 @@ import Queue
 import threading
 import urllib2
 import time
-input = open("1.txt")
-output = open("buzz.txt","w")
+input = open('1.txt')
+output = open('buzz.txt', 'w')
 
 
 
@@ -59,7 +59,7 @@ class Write(threading.Thread):
         while True:
             line = self.write_queue.get()
             if line:
-                output.write(line+"\n")
+                output.write(line+'\n')
                 output.flush()
                 data = loads(line)
                 links = data['data']['links']
@@ -94,11 +94,11 @@ write_queue = Queue.Queue()
 THREAD_NUM = 20
 
 def main():
-    t = Write(queue,write_queue)
+    t = Write(queue, write_queue)
     t.setDaemon(True)
     t.start()
     for i in range(THREAD_NUM):
-        t = ThreadUrl(queue,write_queue)
+        t = ThreadUrl(queue, write_queue)
         t.setDaemon(True)
         t.start()
 
@@ -113,7 +113,7 @@ def main():
     write_queue.join()
 
 main()
-print "dump"
+print 'dump'
 sys.stdout.flush()
 sleep(60)
 output.close()

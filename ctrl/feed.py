@@ -6,7 +6,7 @@ from zweb._urlmap import urlmap
 from model.feed_merge import feed_render_iter_for_zsite_follow
 from model.feed import PAGE_LIMIT, MAXINT
 
-@urlmap("/feed")
+@urlmap('/feed')
 class Index(_handler.LoginBase):
     def get(self):
         begin_id = MAXINT

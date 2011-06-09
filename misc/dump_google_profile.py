@@ -7,7 +7,7 @@ from bsddb3 import hashopen
 from time import sleep
 from random import choice
 
-db = hashopen("google.db")
+db = hashopen('google.db')
 
 def retry(func):
     def _(*args, **kwargs):
@@ -26,7 +26,7 @@ def retry(func):
         return func(*args, **kwargs)
     return _
 
-URL = "https://www.googleapis.com/buzz/v1/people/%s/@self?alt=json&key=%s"
+URL = 'https://www.googleapis.com/buzz/v1/people/%s/@self?alt=json&key=%s'
 API_KEY = (
 )
 
@@ -34,7 +34,7 @@ API_KEY = (
 def urlopen(id):
     key = choice(API_KEY)
 
-    url = URL%(id.strip(),key)
+    url = URL%(id.strip(), key)
     return _urlopen(url, timeout=60).read()
 
 
@@ -42,8 +42,8 @@ import Queue
 import threading
 import urllib2
 import time
-input = open("1.txt")
-output = open("data.txt","w")
+input = open('1.txt')
+output = open('data.txt', 'w')
 
 class Write(threading.Thread):
     def __init__(self, queue, write_queue):
@@ -58,7 +58,7 @@ class Write(threading.Thread):
                 self.queue.put(id)
                 break
             if line:
-                output.write(line+"\n")
+                output.write(line+'\n')
                 output.flush()
             self.write_queue.task_done()
 
@@ -87,11 +87,11 @@ write_queue = Queue.Queue()
 THREAD_NUM = 20
 
 def main():
-    t = Write(queue,write_queue)
+    t = Write(queue, write_queue)
     t.setDaemon(True)
     t.start()
     for i in range(THREAD_NUM):
-        t = ThreadUrl(queue,write_queue)
+        t = ThreadUrl(queue, write_queue)
         t.setDaemon(True)
         t.start()
 
@@ -105,7 +105,7 @@ def main():
     write_queue.join()
 
 main()
-print "done"
+print 'done'
 sys.stdout.flush()
 sleep(60)
 output.close()

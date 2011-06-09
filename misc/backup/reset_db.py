@@ -5,16 +5,16 @@ from config import DB_CONFIG
 import sys
 import subprocess
 import time
-COMM_OPTION = " -h%s -P%s -u%s -p%s "
+COMM_OPTION = ' -h%s -P%s -u%s -p%s '
 def reset_database(key, host, port, name, user, password):
     comm_option = COMM_OPTION%(host, port, user, password)
-    cmd = "mysql "+comm_option
+    cmd = 'mysql '+comm_option
     cmd = cmd.split()
-    with open("table_%s.sql"%key) as input:
+    with open('table_%s.sql'%key) as input:
         table = input.read()
     sql = [
         cmd + [
-'-e' , "drop database %s;create database %s character set binary;"%(name, name)
+'-e' , 'drop database %s;create database %s character set binary;'%(name, name)
         ],
         cmd + [
             name, '-e', table
@@ -27,16 +27,16 @@ def reset_database(key, host, port, name, user, password):
 
 def reset():
     for key, value in DB_CONFIG.iteritems():
-        host, port, name, user, password = value.get("master").split(":")
+        host, port, name, user, password = value.get('master').split(':')
         sure = 'reset'
         if raw_input(">>> please type '%s' to reset database:\n"%sure).strip() == sure:
-            print "\n\nCtrl+C TO CANCEL RESET",
+            print '\n\nCtrl+C TO CANCEL RESET',
             for i in range(3, -1, -1):
                 print i,
                 sys.stdout.flush()
                 time.sleep(1)
             reset_database(key, host, port, name, user, password)
-            print "\nreset %s"%key
+            print '\nreset %s'%key
 
 if __name__ == '__main__':
     reset()

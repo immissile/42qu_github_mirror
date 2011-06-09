@@ -21,11 +21,11 @@ def make(suffix):
         return mytemplate.render(**kwds)
 
 
-    for filename in glob(join(PATH, "*.template")):
-        prefix = filename.rsplit(".", 1)[0]
-        with open("%s.%s"%(prefix, suffix), "w") as out:
+    for filename in glob(join(PATH, '*.template')):
+        prefix = filename.rsplit('.', 1)[0]
+        with open('%s.%s'%(prefix, suffix), 'w') as out:
             out.write(render(filename[len(PATH):]))
 
-make("js")
-make("css")
+make('js')
+make('css')
 import merge

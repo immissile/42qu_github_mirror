@@ -14,7 +14,7 @@ def ErrorMiddleware(application, render, template):
             status_code = e.status_code
             log_message = e.log_message
             start_response(
-                "%s %s"%(status_code, httplib.responses[status_code]),
+                '%s %s'%(status_code, httplib.responses[status_code]),
                 [('content-type', 'text/html')]
             )
             return [render(

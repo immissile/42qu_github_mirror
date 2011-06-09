@@ -84,7 +84,7 @@ def wsample_k2(wlist, k, key=None):
         return [wlist[p[0]] for p in popped]
     return _
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     z = wsample_k2(
         [2, 3, 4], 2
     )

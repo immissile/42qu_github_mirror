@@ -1,6 +1,6 @@
 from zsql.db.use_sqlite import use_sqlite
 
-database = use_sqlite("test.sqlite")
+database = use_sqlite('test.sqlite')
 
 from zsql.shortcut import Model
 

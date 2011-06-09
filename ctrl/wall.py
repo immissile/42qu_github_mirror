@@ -21,7 +21,7 @@ def post_reply(self, reply_new=None):
             STATE_SECRET if secret else STATE_ACTIVE
         )
 
-@urlmap("/wall")
+@urlmap('/wall')
 class Index(_handler.LoginBase):
     def get(self):
         zsite = self.zsite
@@ -34,15 +34,15 @@ class Index(_handler.LoginBase):
         self.redirect(link)
 
 
-@urlmap("/wall/(\-?\d+)")
+@urlmap('/wall/(\-?\d+)')
 class Page(_handler.Base):
-    def get(self, page):
+    def get(self, n):
         zsite = self.zsite
         zsite_link = zsite.link
         page, limit, offset = page_limit_offset(
-            "%s/wall/%%s"%zsite_link,
+            '%s/wall/%%s'%zsite_link,
             zsite.reply_total,
-            page,
+            n,
             PAGE_LIMIT
         )
         reply_list = zsite.reply_list_reversed(limit, offset)
@@ -52,20 +52,20 @@ class Page(_handler.Base):
             page=page
         )
 
-@urlmap("/wall/reply2txt/(\d+)")
+@urlmap('/wall/reply2txt/(\d+)')
 class Reply2Txt(_handler.Base):
     def get(self, id):
-        link = "/"
+        link = '/'
         reply = Reply.mc_get(id)
         if reply:
-            link = "/wall/txt/%s"%reply.rid
+            link = '/wall/txt/%s'%reply.rid
 
         self.redirect(link, True)
 
-@urlmap("/wall/txt/(\d+)")
-@urlmap("/wall/txt/(\d+)/(\d+)")
+@urlmap('/wall/txt/(\d+)')
+@urlmap('/wall/txt/(\d+)/(\d+)')
 class Txt(_handler.Base):
-    def get(self, id, page=1):
+    def get(self, id, n=1):
         zsite = self.zsite
         zsite_id = zsite.id
         zsite_link = zsite.link
@@ -74,12 +74,12 @@ class Txt(_handler.Base):
 
         zsite_id_list = wall.zsite_id_list()
         if zsite_id not in zsite_id_list:
-            return self.redirect("/")
+            return self.redirect('/')
 
         page, limit, offset = page_limit_offset(
-            "%s/wall/txt/%s/%%s"%(zsite_link, id),
+            '%s/wall/txt/%s/%%s'%(zsite_link, id),
             wall.reply_total,
-            page,
+            n,
             PAGE_LIMIT
         )
 
@@ -103,10 +103,10 @@ class Txt(_handler.Base):
         else:
             reply_new = wall.reply_new
         post_reply(self, reply_new)
-        self.redirect("/wall/txt/%s"%id)
+        self.redirect('/wall/txt/%s'%id)
 
 
-@urlmap("/wall/reply/rm/(\d+)")
+@urlmap('/wall/reply/rm/(\d+)')
 class ReplyRm(_handler.Base):
     def post(self, id):
         current_user_id = self.current_user_id

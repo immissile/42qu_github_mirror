@@ -15,7 +15,7 @@ YOUKU = """<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&is
 
 
 def replace_space(match):
-    return " "+len(match.groups()[0])*"&nbsp;"
+    return ' '+len(match.groups()[0])*'&nbsp;'
 
 def replace_link(match):
     #p, g = match.groups()
@@ -24,7 +24,7 @@ def replace_link(match):
     #else:
     g = match.groups()[0]
     if g.startswith('http://v.youku.com/v_show/id_'):
-        g = g[29:g.rfind(".")]
+        g = g[29:g.rfind('.')]
         return YOUKU%g
     else:
         return """<a target="_blank" href="%s" rel="nofollow">%s</a>""" %(g, g)
@@ -36,8 +36,8 @@ def replace_bold(match):
 def txt_withlink(s):
     s = escape(s)
     if s:
-        s = s.replace("\n\n", "</p><p>")
-        s = "<p>%s</p>"%s
+        s = s.replace('\n\n', '</p><p>')
+        s = '<p>%s</p>'%s
     s = RE_BOLD.sub(replace_bold, s)
     s = RE_LINK.sub(replace_link, s)
     s = RE_AT.sub(replace_at, s)
@@ -45,7 +45,7 @@ def txt_withlink(s):
 
 def txt2htm_withlink(s):
     s = escape(s)
-    s = s.replace("\n", "\n<br>")
+    s = s.replace('\n', '\n<br>')
     s = RE_LINK.sub(replace_link, s)
     s = RE_SPACE.sub(replace_space, s)
     return s
@@ -55,7 +55,7 @@ def replace_at(match):
     return '%s@<a target="_blank" href="/%s">%s</a>' % (prefix , url, name)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print txt_withlink('x http://v.youku.com/v_show/id_XMjIwOTI4MDk2.html x')
     print txt_withlink('<script>''"""<--test<??><img />')
     print txt_withlink('**asdasds** ** xx **')
