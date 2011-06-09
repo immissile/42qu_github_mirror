@@ -30,10 +30,9 @@ ${user_link_list(from_list)}
     %if rid == current_user_id:
     您
     %else:
-    ${user_link(entry)}
+    ${entry_link(entry)}
     %endif
 %elif cid == CID_BUZZ_WALL:
-${user_link_list(from_list)}
 <%
 to = Zsite.mc_get(entry.to_id)
 %>
@@ -57,7 +56,7 @@ buzz_list = _buzz_show(user_id, 3)
 unread = buzz_unread_count(user_id)
 %>
 %for i in buzz_list:
-    ${buzz_render(i)}
+<p>${buzz_render(i)}</p>
 %endfor
 <a href="/buzz">未读${unread}条</a>
 </%def>

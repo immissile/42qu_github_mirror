@@ -58,16 +58,14 @@ def buzz_show_new_all(show_id):
     for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, STATE_ACTIVE)):
         buzz_show_new(i.id, show_id)
 
-def buzz_new_to_follow(from_id, to_id, cid):
-    for i in ormiter(Follow, 'to_id=%s and from_id !=%s' % (from_id, to_id)):
-        buzz_new(from_id, i.from_id, cid, to_id)
-
 def buzz_follow_new(from_id, to_id):
     buzz_new(from_id, to_id, CID_BUZZ_FOLLOW, to_id)
-    buzz_new_to_follow(from_id, to_id, CID_BUZZ_FOLLOW)
+    for i in ormiter(Follow, 'to_id=%s and from_id !=%s' % (from_id, to_id)):
+        buzz_new(from_id, i.from_id, CID_BUZZ_FOLLOW, to_id)
 
-def buzz_wall_new(from_id, to_id):
-    buzz_new_to_follow(from_id, to_id, CID_BUZZ_WALL)
+def buzz_wall_new(from_id, to_id, wall_id):
+    for i in ormiter(Follow, 'to_id=%s and from_id !=%s' % (from_id, to_id)):
+        buzz_new(from_id, i.from_id, CID_BUZZ_WALL, to_id)
 
 def buzz_po_reply_new(from_id, po_id):
     followed = [i.from_id for i in ormiter(Follow, 'to_id=%s and from_id !=%s' % (from_id, to_id))]
