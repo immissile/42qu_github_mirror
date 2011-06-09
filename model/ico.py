@@ -3,7 +3,7 @@
 from fs import fs_set_jpg, fs_url_jpg
 from kv import Kv
 from cid import CID_ICO
-from zkit.pic import pic_square, picopen, pic_zoom_inner
+from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high
 from pic import pic_new, pic_save
 
 ico = Kv('ico')
@@ -20,11 +20,14 @@ def ico_new(user_id, pic):
     return pic_id
 
 def ico_save(pic_id, pic):
-    p1 = pic_zoom_inner(pic, 640, 640)
+    p1 = pic_fit_height_if_high(pic, 721, 406)
     fs_set_jpg('1', pic_id, p1)
 
-    p2 = pic_zoom_inner(pic, 320, 320)
-    fs_set_jpg('2', pic_id, p1)
+    p2 = pic_fit_height_if_high(pic, 470, 264)
+    fs_set_jpg('2', pic_id, p2)
+
+    p3 = pic_fit_height_if_high(pic, 219, 123)
+    fs_set_jpg('3', pic_id, p3)
 
 def pic_url(id, size='1'):
     f = ico.get(id)
