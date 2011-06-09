@@ -28,7 +28,7 @@ class ReplyMixin(object):
         txt = txt.rstrip()
         cid = self.cid
         rid = self.id
-        if not txt or is_spammer(user_id) or is_same_post(cid, rid, user_id, txt, state):
+        if not txt or is_spammer(user_id) or is_same_post(user_id, cid, rid, txt, state):
             return
 
         id = gid()
