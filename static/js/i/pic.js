@@ -14,13 +14,13 @@ function init_preview() {
             marginTop: -Math.round(scaleY * selection.y1)
         });
      
-        $('#imgpos').val(selection.x1+'_'+selection.y1+'_'+(selection.x2-selection.x1))
+        $('#pos').val(selection.x1+'_'+selection.y1+'_'+(selection.x2-selection.x1))
     }
-    if($('#imgpos').length){
+    if($('#pos').length){
 
         imgw = $('#photo').width();
         imgh = $('#photo').height();
-        var _ = $('#imgpos').attr('value').split('_');
+        var _ = $('#pos').attr('value').split('_');
         var pos = _[2]?  { 
             x1: parseInt(_[0]), 
             y1: parseInt(_[1]), 
@@ -48,5 +48,5 @@ function init_preview() {
         );
     }
 
-    $("#previewimg").show()
+    $("#preview_pic").show()
 };

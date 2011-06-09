@@ -21,21 +21,22 @@ def _upload_pic(files, current_user_id):
             error_pic = False
         else:
             error_pic = "图片格式有误"
-    return error_pic 
+    return error_pic
 
 
 
 @urlmap("/i/pic")
 class Pic(_handler.LoginBase):
     def get(self):
-        self.render()
+        pos = ""
+        self.render(pos=pos)
 
     def post(self):
         current_user_id = self.current_user_id
         files = self.request.files
-        
+        pos = self.get_argument('pos', '')
         error_pic = _upload_pic(files, current_user_id)
-        self.render(error_pic=error_pic)
+        self.render(error_pic=error_pic, pos=pos)
 
 
 @urlmap("/i")
@@ -56,9 +57,9 @@ class Index(_handler.LoginBase):
         _motto = self.get_argument('motto', None)
         if _motto:
             motto.set(current_user_id, _motto)
-        
+
         error_pic = _upload_pic(files, current_user_id)
-        if error_pic is False: 
+        if error_pic is False:
             return self.redirect("/i/pic")
 
         self.render(
@@ -115,7 +116,7 @@ class Namecard(_handler.LoginBase):
         mail = self.get_argument('mail', '')
         address = self.get_argument('address', '')
         birthday = self.get_argument('birthday', '00000000')
-        
+
         pid_now = int(pid_now)
         pid_home = int(pid_home)
         birthday = int(birthday)
