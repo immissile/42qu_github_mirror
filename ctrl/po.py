@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import _handler
+from _handler import Base, LoginBase, XsrfGetBase
 from zweb._urlmap import urlmap
 from model.po import po_rm, po_word_new, Po
-from model.po_pos import po_pos_set
+from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite
 
 
-class IndexBase(_handler.Base):
+class IndexBase(Base):
     def po(self, id):
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
@@ -16,9 +16,11 @@ class IndexBase(_handler.Base):
             return self.redirect('/')
         if po.user_id != self.zsite_id:
             zsite = Zsite.mc_get(po.user_id)
-            return self.redirect(
-                '%s%s'%(zsite.link, po.link), True
-            )
+            link = '%s%s' % (zsite.link, po.link)
+            pos, _ = po_pos_get(current_user_id, id)
+            if pos > 0:
+                link = '%s#reply%s' % (link, pos)
+            return self.redirect(link)
         return po
 
 
@@ -50,7 +52,7 @@ class PoIndex(IndexBase):
             return self.redirect(po.link)
 
 @urlmap('/po/word')
-class Word(_handler.LoginBase):
+class Word(LoginBase):
     def post(self):
         current_user = self.current_user
         txt = self.get_argument('txt', '')
@@ -60,7 +62,7 @@ class Word(_handler.LoginBase):
 
 
 @urlmap('/po/reply/rm/(\d+)')
-class ReplyRm(_handler.LoginBase):
+class ReplyRm(LoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         r = reply.Reply.mc_get(id)
@@ -79,7 +81,7 @@ class ReplyRm(_handler.LoginBase):
 
 
 @urlmap('/po/reply/(\d+)')
-class Reply(_handler.LoginBase):
+class Reply(LoginBase):
     def post(self, id):
         po = Po.mc_get(id)
         if po:
@@ -107,7 +109,7 @@ class Reply(_handler.LoginBase):
 
 
 @urlmap('/po/rm/(\d+)')
-class Rm(_handler.XsrfGetBase):
+class Rm(XsrfGetBase):
     def get(self, id):
         current_user = self.current_user
         current_user_id = self.current_user_id

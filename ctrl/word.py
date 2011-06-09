@@ -1,2 +1,0 @@
-from po import IndexBase
-

@@ -8,7 +8,7 @@ from time import time
 from txt import txt_bind
 from zkit.txt2htm import txt_withlink
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
-from cid import CID_NOTE
+from cid import CID_PO
 
 REPLY_STATE = (
     STATE_DEL,
@@ -44,10 +44,12 @@ class ReplyMixin(object):
         )
         cursor.connection.commit()
         mc_flush_reply_id_list(cid, rid)
-        if cid == CID_NOTE:
+        if cid in CID_PO:
+            from buzz import mq_buzz_po_reply_new
+            from po_pos import po_pos_state, STATE_BUZZ
+            po_pos_state(user_id, rid, STATE_BUZZ)
             key = '%s_%s' % (rid, user_id)
             if mc_reply_in_1h.get(key) is None:
-                from buzz import mq_buzz_po_reply_new
                 mq_buzz_po_reply_new(user_id, rid)
                 mc_reply_in_1h.set(key, True, 3600)
         return id
