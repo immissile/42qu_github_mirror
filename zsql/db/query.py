@@ -9,7 +9,7 @@ def conditions_null(kwargs, sql_conditions_str):
     kwds = {}
     for k, v in kwargs.iteritems():
         if v is None:
-            sql_conditions_str.append("%s is NULL"%escape(k))
+            sql_conditions_str.append('%s is NULL'%escape(k))
         else:
             kwds[k] = v
     return kwds
@@ -120,8 +120,8 @@ class Query(object):
             if k.start == 0 and  k.stop is None:
                 self.limit = ()
             elif k.start is not None:
-                assert k.stop is not None, "Limit must be set when an offset is present"
-                assert k.stop >= k.start, "Limit must be greater than or equal to offset"
+                assert k.stop is not None, 'Limit must be set when an offset is present'
+                assert k.stop >= k.start, 'Limit must be greater than or equal to offset'
                 self.limit = k.start, (k.stop - k.start)
             elif k.stop is not None:
                 self.limit = 0, k.stop
@@ -178,7 +178,7 @@ class Query(object):
     def extract_condition_keys(self):
         if len(self.conditions) or len(self.sql_conditions_str):
             return 'WHERE %s' % ' AND '.join(
-                ["%s=%%s" % escape(k) for k in self.conditions]+self.sql_conditions_str
+                ['%s=%%s' % escape(k) for k in self.conditions]+self.sql_conditions_str
             )
 
     def extract_condition_values(self):
@@ -223,7 +223,7 @@ class Query(object):
         if kwds:
             update_set.append(
                 ','.join(
-                    "%s=%%s"%(
+                    '%s=%%s'%(
                         escape(k)
                     )
                     for k in kwds.keys()
@@ -281,17 +281,17 @@ class Query(object):
             if db.b_commit:
                 cls.commit(db)
         except Exception, ex:
-            print "sql:", sql
-            print "values:", values
-            print "raw_sql: exception: ", ex
+            print 'sql:', sql
+            print 'values:', values
+            print 'raw_sql: exception: ', ex
             sys.stdout.flush()
             raise
         if DEBUG:
-            print "\t%s ; %s"%(sql.strip(), values)
+            print '\t%s ; %s'%(sql.strip(), values)
         return cursor
 
-    def id_list(self, limit=None, offset=None, type="id"):
-        self.type = "SELECT %s"%type
+    def field_list(self, limit=None, offset=None, field='id'):
+        self.type = 'SELECT %s' % field
         self.limit = _limit = []
         if limit is not None:
             if offset is not None:
@@ -308,8 +308,8 @@ class Query(object):
             if db.b_commit:
                 cls.commit(db)
         except BaseException, ex:
-            print "raw_sqlscript: exception: ", ex
-            print "sql:", sql
+            print 'raw_sqlscript: exception: ', ex
+            print 'sql:', sql
         return cursor
 
 
@@ -320,10 +320,10 @@ class Query(object):
 
     @classmethod
     def begin(cls, db=None):
-        """
+        '''
         begin() and commit() let you explicitly specify an SQL transaction.
         Be sure to call commit() after you call begin().
-        """
+        '''
         db = db or cls.get_db()
         db.b_commit = False
 
@@ -336,10 +336,10 @@ class Query(object):
 
     @classmethod
     def commit(cls, db=None):
-        """
+        '''
         begin() and commit() let you explicitly specify an SQL transaction.
         Be sure to call commit() after you call begin().
-        """
+        '''
         cursor = db.cursor()
         try:
             db = db or cls.get_db()

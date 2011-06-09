@@ -93,7 +93,7 @@ def team_note_id_list(zsite_id, cid, order, offset, limit):
     if cid:
         qs = qs.where(cid=cid)
     order = ORDER_DIC[order]
-    return qs.order_by('%s desc' % order).id_list(limit, offset)
+    return qs.order_by('%s desc' % order).field_list(limit, offset)
 
 def team_note_list(zsite_id, cid, order, offset=0, limit=3):
     ids = team_note_id_list(zsite_id, cid, order, offset, limit)

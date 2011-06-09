@@ -51,5 +51,3 @@ def mc_flush(id, txt=None):
 
 if __name__ == "__main__":
     pass
-
-

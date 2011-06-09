@@ -24,8 +24,8 @@ def limit_offset(n, limit):
         list_limit = limit
     return n, list_limit, offset
 
-def page_limit_offset(href, total, page, limit=PAGE_LIMIT):
-    now, list_limit, offset = limit_offset(page, limit)
+def page_limit_offset(href, total, n, limit=PAGE_LIMIT):
+    now, list_limit, offset = limit_offset(n, limit)
     page = str(Page(
         href, total, now, limit
     ))
