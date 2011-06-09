@@ -24,7 +24,7 @@ pic_url = _pic_url(current_user_id)
 <%htm:form enctype="multipart/form-data">
 <input type="hidden" id="pos" name="pos" value="${pos}">
 %if pic_url:
-    <div><img id="photo" src="${pic_url}"></div>
+    <div><img id="pic" src="${pic_url}"></div>
     <div id="preview"><img src="${pic_url}" id="preview_pic" onload="setTimeout(init_preview,100)"></div>
     <div><button type="submit">修改缩略图</button></div>
 %endif

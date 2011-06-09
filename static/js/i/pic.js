@@ -1,5 +1,5 @@
 function init_preview() {
-    var imgw,imgh;
+    var imgw,imgh,pic=$('#pic');
     function preview(img, selection) {
         if (!selection.width || !selection.height)
             return;
@@ -17,9 +17,8 @@ function init_preview() {
         $('#pos').val(selection.x1+'_'+selection.y1+'_'+(selection.x2-selection.x1))
     }
     if($('#pos').length){
-
-        imgw = $('#photo').width();
-        imgh = $('#photo').height();
+        imgw = pic.width();
+        imgh = pic.height();
         var _ = $('#pos').attr('value').split('_');
         var pos = _[2]?  { 
             x1: parseInt(_[0]), 
@@ -32,14 +31,14 @@ function init_preview() {
             y1: imgw>imgh?10:(imgh-imgw)/2+10, 
             y2: imgw>imgh?imgh-10:(imgh+imgw)/2-10 
         };
-        $('#photo').imgAreaSelect(
+        pic.imgAreaSelect(
             $.extend(pos,{
             aspectRatio : '1:1' ,
             onSelectChange : preview,
             onSelectBegin : preview,
             onSelectEnd:preview,
             show:true,
-            fadeSpeed:222,
+            persistent:true,
             onInit:preview,
             handles:true,
             minHeight:96,
