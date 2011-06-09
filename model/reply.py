@@ -9,6 +9,7 @@ from txt import txt_bind
 from zkit.txt2htm import txt_withlink
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from cid import CID_NOTE
+from model.buzz import mq_buzz_po_reply_new
 
 REPLY_STATE = (
     STATE_DEL,
@@ -16,9 +17,10 @@ REPLY_STATE = (
     STATE_ACTIVE,
 )
 
-mc_reply_id_list = McLimitA("ReplyIdList:%s", 512)
-mc_reply_id_list_reversed = McLimitA("ReplyIdListReversed:%s", 512)
-mc_reply_total = McCache("ReplyTotal:%s")
+mc_reply_id_list = McLimitA('ReplyIdList:%s', 512)
+mc_reply_id_list_reversed = McLimitA('ReplyIdListReversed:%s', 512)
+mc_reply_total = McCache('ReplyTotal:%s')
+mc_reply_in_1h = McCache('ReplyInOneHour.%s')
 
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
@@ -34,7 +36,7 @@ class ReplyMixin(object):
         txt_new(id, txt)
         cursor = self.reply_cursor
         cursor.execute(
-            "insert into reply (id,cid,create_time,state,rid,user_id) values (%s,%s,%s,%%s,%%s,%%s)"%(
+            'insert into reply (id,cid,create_time,state,rid,user_id) values (%s,%s,%s,%%s,%%s,%%s)' % (
                 id,
                 cid,
                 int(time())
@@ -43,15 +45,20 @@ class ReplyMixin(object):
         )
         cursor.connection.commit()
         mc_flush_reply_id_list(cid, rid)
+        if cid == CID_NOTE:
+            key = '%s_%s' % (rid, user_id)
+            if mc_reply_in_1h.get(key) is None:
+                mq_buzz_po_reply_new(user_id, id)
+                mc_reply_in_1h.set(key, True, 3600)
         return id
 
     @property
-    @mc_reply_total("{self.cid}_{self.id}")
+    @mc_reply_total('{self.cid}_{self.id}')
     def reply_total(self):
         cid = self.cid
         rid = self.id
         cursor = self.reply_cursor
-        cursor.execute("select count(1) from reply where rid=%s and cid=%s and state>=%s", (rid, cid, STATE_SECRET))
+        cursor.execute('select count(1) from reply where rid=%s and cid=%s and state>=%s', (rid, cid, STATE_SECRET))
         r = cursor.fetchone()
         return r[0]
 
@@ -62,8 +69,8 @@ class ReplyMixin(object):
         rid = self.id
 
         sql = [
-            "select id from reply where rid=%s and cid=%s",
-            "and state>=%s"%STATE_SECRET
+            'select id from reply where rid=%s and cid=%s',
+            'and state>=%s'%STATE_SECRET
         ]
 
         para = [
@@ -73,32 +80,32 @@ class ReplyMixin(object):
         sql.append(order)
 
         if limit:
-            sql.append("limit %s")
+            sql.append('limit %s')
             para.append(limit)
 
         if offset:
-            sql.append("offset %s")
+            sql.append('offset %s')
             para.append(offset)
 
         cursor.execute(
-            " ".join(sql), para
+            ' '.join(sql), para
         )
         return [i for i, in cursor]
 
     @property
     def reply_id_last(self):
-        li = self.reply_id_list_reversed(1)
+        li = self.reply_id_list_reversed(1, 0)
         if li:
             return li[0]
         return 0
 
-    @mc_reply_id_list_reversed("{self.cid}_{self.id}")
+    @mc_reply_id_list_reversed('{self.cid}_{self.id}')
     def reply_id_list_reversed(self, limit=None, offset=None):
-        return self._reply_id_list(limit, offset, "order by id desc")
+        return self._reply_id_list(limit, offset, 'order by id desc')
 
-    @mc_reply_id_list("{self.cid}_{self.id}")
+    @mc_reply_id_list('{self.cid}_{self.id}')
     def reply_id_list(self, limit=None, offset=None):
-        return self._reply_id_list(limit, offset, "order by id")
+        return self._reply_id_list(limit, offset, 'order by id')
 
     def _reply_list(self, limit, offset, reply_id_list):
         from model.zsite import Zsite
@@ -106,7 +113,7 @@ class ReplyMixin(object):
             reply_id_list(limit, offset)
         )
         txt_bind(r)
-        Zsite.mc_bind(r, "user", "user_id")
+        Zsite.mc_bind(r, 'user', 'user_id')
         return r
 
     def reply_list_reversed(self, limit=None, offset=None):
@@ -134,10 +141,10 @@ class Reply(McModel):
 
 
 def mc_flush_reply_id_list(cid, rid):
-    key = "%s_%s"%(cid, rid)
+    key = '%s_%s' % (cid, rid)
     mc_reply_id_list.delete(key)
     mc_reply_id_list_reversed.delete(key)
     mc_reply_total.delete(key)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pass

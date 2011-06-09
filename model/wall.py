@@ -82,9 +82,9 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     if reply1 is None and reply2 is None:
         wall = Wall(cid=self.cid, from_id=user_id, to_id=zsite_id)
         wall.save()
-        from buzz import buzz_wall_new
+        from buzz import mq_buzz_wall_new
         if state == STATE_ACTIVE and user_id != zsite_id:
-            buzz_wall_new(user_id, zsite_id, wall.id)
+            mq_buzz_wall_new(user_id, zsite_id, wall.id)
     else:
         if reply1:
             reply = reply1

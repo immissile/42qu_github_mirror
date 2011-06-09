@@ -32,6 +32,7 @@ def po_buzz_list(po_id):
 
 def po_pos_set(user_id, po):
     pos = po.reply_id_last
+    po_id = po.id
     pos_old = po_pos_get(user_id, po_id)
     if pos > pos_old:
         PoPos.raw_sql('insert delayed into po_pos (user_id, po_id, pos, state) values (%s, %s, %s, %s) on duplicate key update pos=values(pos)', user_id, po_id, pos, STATE_MUTE)

@@ -13,17 +13,17 @@ class IndexBase(_handler.Base):
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
         if not po:
-            return self.redirect("/")
+            return self.redirect('/')
         if po.user_id != self.zsite_id:
             zsite = Zsite.mc_get(po.user_id)
             return self.redirect(
-                "%s%s"%(zsite.link, po.link), True
+                '%s%s'%(zsite.link, po.link), True
             )
         return po
 
 
-@urlmap("/note/(\d+)", template="ctrl/note/index.htm")
-@urlmap("/word/(\d+)", template="ctrl/word/index.htm")
+@urlmap('/note/(\d+)', template='ctrl/note/index.htm')
+@urlmap('/word/(\d+)', template='ctrl/word/index.htm')
 class Index(IndexBase):
     def initialize(self, template):
         self.template = template
@@ -35,31 +35,31 @@ class Index(IndexBase):
             can_admin = po.can_admin(current_user_id)
             can_view = po.can_view(current_user_id)
             if can_view and current_user_id:
-                po_pos_set(current_user_id, id)
+                po_pos_set(current_user_id, po)
             return self.render(
                 po=po,
                 can_admin=can_admin,
                 can_view=can_view
             )
 
-@urlmap("/po/(\d+)")
+@urlmap('/po/(\d+)')
 class PoIndex(IndexBase):
     def get(self, id):
         po = self.po(id)
         if po:
             return self.redirect(po.link)
 
-@urlmap("/po/word")
+@urlmap('/po/word')
 class Word(_handler.LoginBase):
     def post(self):
         current_user = self.current_user
         txt = self.get_argument('txt', '')
         if txt.strip():
             po_word_new(current_user.id, txt)
-        return self.redirect("/feed")
+        return self.redirect('/feed')
 
 
-@urlmap("/po/reply/rm/(\d+)")
+@urlmap('/po/reply/rm/(\d+)')
 class ReplyRm(_handler.LoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
@@ -78,23 +78,21 @@ class ReplyRm(_handler.LoginBase):
         self.finish({'success' : can_rm})
 
 
-@urlmap("/po/reply/(\d+)")
+@urlmap('/po/reply/(\d+)')
 class Reply(_handler.LoginBase):
     def post(self, id):
         po = Po.mc_get(id)
         if po:
             current_user_id = self.current_user_id
             can_view = po.can_view(current_user_id)
-            link = None
+            link = po.link
             if can_view:
                 txt = self.get_argument('txt', '')
                 m = po.reply_new(current_user_id, txt, po.state)
                 if m:
-                    link = "%s#reply%s"%(po.link, m)
-            if link is None:
-                link = po.link
+                    link = '%s#reply%s' % (link, m)
         else:
-            link = "/"
+            link = '/'
         self.redirect(link)
 
 
@@ -103,12 +101,12 @@ class Reply(_handler.LoginBase):
         if po:
             link = po.link
         else:
-            link = "/"
+            link = '/'
         self.redirect(link)
 
 
 
-@urlmap("/po/rm/(\d+)")
+@urlmap('/po/rm/(\d+)')
 class Rm(_handler.XsrfGetBase):
     def get(self, id):
         current_user = self.current_user

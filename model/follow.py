@@ -72,8 +72,8 @@ def follow_new(from_id, to_id):
     )
     follow_cursor.connection.commit()
     feed_entry_new(id, from_id, CID_FOLLOW)
-    from buzz import buzz_follow_new
-    buzz_follow_new(from_id, to_id)
+    from buzz import mq_buzz_follow_new
+    mq_buzz_follow_new(from_id, to_id)
     mc_flush(from_id, to_id, cid)
 
 def mc_flush(from_id, to_id, cid):
