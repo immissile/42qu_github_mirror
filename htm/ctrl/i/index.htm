@@ -17,6 +17,9 @@ url = url_by_id(current_user_id)
         %else:
             上传头像 <input type="file" name="pic"> 
             <button type="submit">上传</button>
+            %if error_pic:
+                ${error_pic}
+            %endif
         %endif
     </div>
     <div>昵称 <input type="text" name="name" value="${current_user.name}"></div>

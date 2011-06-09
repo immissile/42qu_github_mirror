@@ -1,0 +1,20 @@
+<%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.ico import ico_url as _ico_url
+%>
+<%
+ico_url = _ico_url(current_user_id)
+%>
+%if ico_url:
+    <img src="${ico_url}">
+%endif
+<%htm:form enctype="multipart/form-data">
+<div>
+    上传头像 <input type="file" name="pic"> 
+    <button type="submit">上传</button>
+    %if error_pic:
+        ${error_pic}
+    %endif
+</div>
+</%htm:form>
