@@ -29,6 +29,8 @@ def reset():
     for key, value in DB_CONFIG.iteritems():
         host, port, name, user, password = value.get('master').split(':')
         sure = 'reset'
+        if raw_input(">>> table backuped ??? entry 'y' to continue ...\n").strip() != 'y':
+            return
         if raw_input(">>> please type '%s' to reset database:\n"%sure).strip() == sure:
             print '\n\nCtrl+C TO CANCEL RESET',
             for i in range(3, -1, -1):
