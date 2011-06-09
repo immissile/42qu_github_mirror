@@ -82,6 +82,13 @@ class BuzzEntry(object):
         self.rid = rid
         self.from_id_list = OrderedSet([from_id])
 
+def buzz_pos_update(user_id, li):
+    if buzz_unread_count(user_id) and li:
+        id = li[0][0]
+        if id > buzz_pos.get(user_id):
+            buzz_pos.set(user_id, id)
+            buzz_unread_count.delete(user_id)
+
 CACHE_LIMIT = 256
 
 mc_buzz_list = McLimitM('BuzzList.%s', CACHE_LIMIT)
@@ -91,16 +98,9 @@ def _buzz_list(user_id, limit, offset):
     c = Buzz.raw_sql('select id, from_id, cid, rid from buzz where to_id=%s order by id desc limit %s offset %s', user_id, limit, offset)
     return c.fetchall()
 
-def buzz_pos_update(user_id, li):
-    if buzz_unread_count(user_id) and li:
-        id = li[0][0]
-        if id > buzz_pos.get(user_id):
-            buzz_pos.set(use_id, id)
-            buzz_unread_count.delete(use_id)
-
 def buzz_list(user_id, limit, offset):
     li = _buzz_list(user_id, limit, offset)
-    buzz_pos_update(user_id, li[:1])
+    buzz_pos_update(user_id, li)
     dic = OrderedDict()
     cls_dic = defaultdict(set)
     for id, from_id, cid, rid in li:
@@ -120,29 +120,18 @@ def buzz_list(user_id, limit, offset):
     return li
 
 def _buzz_show(user_id, limit):
-    c = Buzz.raw_sql('select id, from_id, cid, rid from buzz where to_id=%s and id>%s order by id limit %s', user_id, buzz_pos.get(user_id), limit)
-    return c.fetchall()
-
-def buzz_show(user_id, limit):
     unread = buzz_unread_count(user_id)
-    if unread == 0:
-        return reversed(_buzz_list(user_id, limit, 0))
-    elif unread <= CACHE_LIMIT:
-        pos = buzz_pos.get(user_id)
-        _li = reversed(_buzz_list(user_id, CACHE_LIMIT, 0))
-        li = filter(lambda x: x[0] > pos, _li)[:limit]
-        if len(li) < limit:
-            li = _li[-limit:]
-    else:
-        li = _buzz_show(user_id, limit)
-    buzz_pos_update(user_id, li[:1])
+    offset = max(unread - limit, 0)
+    li = _buzz_list(user_id, limit, offset)
     return li
 
-def buzz_show_binded(user_id, limit):
+def buzz_show(user_id, limit):
+    _li = _buzz_show(user_id, limit)
+    buzz_pos_update(user_id, _li)
     li = []
     dic = OrderedDict()
     cls_dic = defaultdict(set)
-    for id, from_id, cid, rid in buzz_show(user_id, limit):
+    for id, from_id, cid, rid in _li:
         cls_dic[Zsite].add(from_id)
         cls_dic[BUZZ_DIC[cid]].add(rid)
         li.append(BuzzEntry(id, cid, rid, from_id))

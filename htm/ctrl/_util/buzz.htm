@@ -1,7 +1,7 @@
 <%!
 from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_PO_REPLY
 from model.zsite import Zsite
-from model.buzz import buzz_show_binded, buzz_unread_count
+from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 %>
 
 <%def name="entry_link(entry)">
@@ -53,7 +53,7 @@ ${entry_link(entry)}
 
 <%def name="buzz_show(user_id)">
 <%
-buzz_list = buzz_show_binded(user_id, 3)
+buzz_list = _buzz_show(user_id, 3)
 unread = buzz_unread_count(user_id)
 %>
 %for i in buzz_list:
