@@ -13,11 +13,11 @@ url = url_by_id(current_user_id)
     <div>
         %if ico_url:
             <img src="${ico_url}">
-        %endif
-        <div>
+            <a href="/i/pic">编辑头像</a>
+        %else:
             上传头像 <input type="file" name="pic"> 
             <button type="submit">上传</button>
-        </div>
+        %endif
     </div>
     <div>昵称 <input type="text" name="name" value="${current_user.name}"></div>
     <div>座右铭 <input type="text" name="motto" value="${motto.get(current_user_id)}"></div>
