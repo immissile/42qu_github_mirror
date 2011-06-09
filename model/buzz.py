@@ -65,7 +65,7 @@ def buzz_follow_new(from_id, to_id):
 
 def buzz_wall_new(from_id, to_id, wall_id):
     for i in ormiter(Follow, 'to_id=%s and from_id !=%s' % (from_id, to_id)):
-        buzz_new(from_id, i.from_id, CID_BUZZ_WALL, to_id)
+        buzz_new(from_id, i.from_id, CID_BUZZ_WALL, wall_id)
 
 def buzz_po_reply_new(from_id, po_id):
     followed = [i.from_id for i in ormiter(Follow, 'to_id=%s and from_id !=%s' % (from_id, to_id))]
