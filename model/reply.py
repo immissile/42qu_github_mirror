@@ -48,7 +48,7 @@ class ReplyMixin(object):
             key = '%s_%s' % (rid, user_id)
             if mc_reply_in_1h.get(key) is None:
                 from buzz import mq_buzz_po_reply_new
-                mq_buzz_po_reply_new(user_id, id)
+                mq_buzz_po_reply_new(user_id, rid)
                 mc_reply_in_1h.set(key, True, 3600)
         return id
 
