@@ -286,14 +286,17 @@ def merge_js(path, filename, filetuple):
     with open(filepath, "w") as out:
         out.write("\n".join(txt))
 
-from lab import LAB_JS
 
 def merge_js_import(path, filename, filetuple):
     filepath = join(path, filename)
-    txt = [LAB_JS,"$LAB"]
+    txt = ["""
+function LOAD(js){
+    document.write('<script src="'+js+'"></'+"script>")
+}
+"""]
 
     for i in filetuple:
-        txt.append(".script('%s/js/%s').wait()"%(FS_URL, i))
+        txt.append("LOAD('%s/js/%s')"%(FS_URL, i))
 
     with open(filepath, "w") as out:
         out.write("\n".join(txt))
