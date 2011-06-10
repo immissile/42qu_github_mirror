@@ -1,3 +1,4 @@
+
 PYTHONLIBPATH=/usr/lib/python2.6/site-packages/ 
 mkdir -p memlink
 touch memlink/__init__.py
