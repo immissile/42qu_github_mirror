@@ -14,7 +14,7 @@ def zsite_show_rm(zsite_id):
     zsite_list_rm(zsite_id, 0)
 
 def zsite_show_get(zsite_id):
-    zsite_list_get(zsite_id, 0)
+    return zsite_list_get(zsite_id, 0, 0)
 
 def zsite_show_rank(zsite_id, rank):
     zsite_list_rank(zsite_id, 0, rank)
