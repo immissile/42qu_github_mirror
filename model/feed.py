@@ -80,9 +80,9 @@ def feed_entry_cmp_iter(id, start_id=sys.maxint):
         yield FeedEntryCmp(id, i)
 
 class FeedEntryCmp(object):
-    def __init__(self, feed_id, id):
+    def __init__(self, zsite_id, id):
         self.id = id
-        self.feed_id = feed_id
+        self.zsite_id = zsite_id 
 
     def __cmp__(self, other):
         return other.id - self.id
