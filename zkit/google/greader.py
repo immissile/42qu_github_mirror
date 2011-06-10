@@ -4,13 +4,16 @@ import urllib2, time, urllib
 from json import loads
 from urlparse import unquote
 from urllib import quote
+from urllib2 import HTTPError
+
+
 GOOGLE_URL_PREFIX = (
 "http://www.google.com/reader/shared/",
 "http://www.google.com/reader/public/atom/",
 "https://www.google.com/reader/shared/",
 "https://www.google.com/reader/public/atom/",
-
 )
+
 def google_url_parse(url):
     for prefix in GOOGLE_URL_PREFIX:
         if url.startswith(prefix):
@@ -180,14 +183,22 @@ class Reader(object):
         return r
 
     def unread(self,feed):
-        url = "%s?xt=user/-/state/com.google/read"%quote(feed)
+        url = "%s?xt=user/-/state/com.google/read"%feed
         return self.feed(url) 
         
     def subscription_item_dump(self):
         for subscription in self.subscription_list():
-            for i in self.feed(quote(subscription)):
-                yield i
-
+            if not subscription.startswith("feed/"):
+                continue
+            if "?" in subscription:
+                subscription = quote(subscription)
+            try:
+                for i in self.feed(subscription):
+                    yield i
+            except HTTPError, e:
+                if e.code == 404:
+                    print subscription
+                    continue
 
 
 

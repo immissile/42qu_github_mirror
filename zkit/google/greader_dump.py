@@ -34,8 +34,8 @@ for i in reader.subscription_item_dump():
 
     with open(join(dirpath,"%s.html"%id),"w") as outfile:
         outfile.write("""<!doctype html><html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>%s</title></head>
-<body style="width:720px;font-family:Verdana;margin:auto;font-size:16px;line-height:28px">
-<h1 style="font-weight:48px;font-family:Georgia;text-align:center;font-weight:normal;margin:0 48px">%s</h1>
+<body style="width:720px;font-family:Verdana;margin:auto;font-size:16px;line-height:28px;padding-bottom:64px">
+<h1 style="font-family:微软雅黑;font-size:32px;line-height:48px;font-family:Georgia;text-align:center;font-weight:normal;margin:48px 0">%s</h1>
 %s
 </body>
 """%(
