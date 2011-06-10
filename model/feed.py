@@ -7,48 +7,38 @@ from mq import mq_client
 
 MAXINT = sys.maxint
 PAGE_LIMIT = 42
-FEED_ENTRY_ID_LASTEST_SQL = 'select id from feed_entry where feed_id=%%s order by id desc limit %s'%PAGE_LIMIT
-FEED_ENTRY_ID_ITER_SQL = 'select id from feed_entry where feed_id=%%s and id<%%s order by id desc limit %s'%PAGE_LIMIT
+FEED_ENTRY_ID_LASTEST_SQL = 'select id from feed_entry where zsite_id=%%s order by id desc limit %s'%PAGE_LIMIT
+FEED_ENTRY_ID_ITER_SQL = 'select id from feed_entry where zsite_id=%%s and id<%%s order by id desc limit %s'%PAGE_LIMIT
 
 mc_feed_id_list_by_zsite_id = McCacheA('FeedIdByZsiteId:%s')
 mc_feed_id_by_for_zsite_follow = McCacheA('FeedIdForZsiteFollow<%s')
 mc_feed_entry_tuple = McCacheM('FeedEntryTuple:%s')
 mc_feed_entry_iter = McCacheA('FeedEntryIter:%s')
-mc_feed_id_by_zsite_id_cid = McCache('FeedIdByZsiteIdCid:%s')
 
 cursor = cursor_by_table('feed_entry')
 
-class Feed(McModel):
-    pass
-
-@mc_feed_id_by_zsite_id_cid('{zsite_id}_{cid}')
-def feed_id_by_zsite_id_cid(zsite_id, cid):
-    feed = Feed.get_or_create(zsite_id=zsite_id, cid=cid)
-    if not feed.id:
-        feed.save()
-        mc_feed_id_list_by_zsite_id.delete(zsite_id)
-        mq_mc_flush_zsite_follow(zsite_id)
-    return feed.id
-
-
-def feed_entry_new(id, zsite_id, cid):
-    feed_id = feed_id_by_zsite_id_cid(zsite_id, cid)
+def feed_entry_new(id, zsite_id, cid, rid=0):
     cursor.execute(
-        'insert into feed_entry (id, feed_id) values (%s,%s) on duplicate key update id=id',
-        (id, feed_id)
+        'insert into feed_entry (id, zsite_id, cid, rid) values (%s,%s,%s,%s) on duplicate key update id=id',
+        (id, zsite_id, cid, rid)
     )
     cursor.connection.commit()
-    mc_feed_entry_iter.delete(feed_id)
+    mc_feed_entry_iter.delete(zsite_id)
     return id
 
 def feed_entry_rm(id):
-    cursor.execute('select feed_id from feed_entry where id=%s', id)
+    cursor.execute('select zsite_id from feed_entry where id=%s', id)
     r = cursor.fetchone()
     if r:
-        feed_id = r[0]
+        zsite_id = r[0]
         cursor.execute('delete from feed_entry where id=%s', id)
         cursor.connection.commit()
-        mc_feed_entry_iter.delete(feed_id)
+        mc_feed_entry_iter.delete(zsite_id)
+    feed_entry_rm_rt(id)
+
+#TODO MQ
+def feed_entry_rm_rt(id):
+    pass
 
 @mc_feed_entry_iter('{feed_id}')
 def feed_entry_id_lastest(feed_id):
