@@ -1,6 +1,6 @@
 <%inherit file="/god/_base.htm" />
 <%!
-from model.zsite_list_0 import  zsite_list_get
+from model.zsite_list_0 import zsite_list_get
 %>
 <%def name="htm_head()">
 </%def>
@@ -21,7 +21,4 @@ zsite_show = zsite_list_get(zsite_id)
 %else:
     <a href="/zsite/show/${zsite_id}">加入秀</a>
 %endif
-
 </div>
-
-

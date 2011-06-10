@@ -7,5 +7,3 @@ application = tornado.wsgi.WSGIApplication(
     tuple(_urlmap.URLMAP) ,
     login_url='/login',
 )
-
-
