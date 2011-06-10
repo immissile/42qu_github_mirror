@@ -44,9 +44,10 @@ def finish(o):
     o.MQ_USE = o.MYSQL_MAIN
 
     o.PIC_PATH = '/mnt/zpage'
-    o.GOD_PORT = o.PORT + 10
-    o.API_PORT = o.PORT + 20
-    o.RPC_PORT = o.PORT + 30
+    o.ZSITE_PORT = o.PORT + 10
+    o.GOD_PORT = o.PORT + 20
+    o.API_PORT = o.PORT + 30
+    o.RPC_PORT = o.PORT + 40
     o.PIC_URL = 'http://%s'%o.PIC_DOMAIN
     o.FS_URL = 'http://%s'%o.FS_DOMAIN
 
@@ -85,7 +86,7 @@ def finish(o):
     DB_HOST_FEED = '%s:%s:%s:%s:%s' % (
         o.MYSQL_HOST, o.MYSQL_PORT, "%s_feed"%o.MYSQL_MAIN, o.MYSQL_USER, o.MYSQL_PASSWD
     )
-    
+
     o.DB_CONFIG = {
         'main': {
             'master': DB_HOST_MAIN,

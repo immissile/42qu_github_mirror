@@ -14,13 +14,16 @@ CONFIG_DIR = join(PREFIX, 'config/nginx')
 with open(join(dirname(CONFIG_DIR), 'template/nginx.conf')) as template:
     TEMPLATE = Template(template.read())
 
-def render_conf(name, fs_path, o, port_list=None):
+def render_conf(name, fs_path, o, port_list=[], zsite_port_list=[]):
     if not port_list:
         port_list = [o.PORT]
+    if not zsite_port_list:
+        zsite_port_list = [o.ZSITE_PORT]
     txt = TEMPLATE.render(
         this=o,
         port_list=port_list,
-        fs_path=fs_path
+        zsite_port_list=zsite_port_list,
+        fs_path=fs_path,
     )
     path = join(
             PREFIX, 'config/nginx/%s'%name
