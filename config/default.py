@@ -82,10 +82,19 @@ def finish(o):
     DB_HOST_MAIN = '%s:%s:%s:%s:%s' % (
         o.MYSQL_HOST, o.MYSQL_PORT, o.MYSQL_MAIN, o.MYSQL_USER, o.MYSQL_PASSWD
     )
-
+    DB_HOST_FEED = '%s:%s:%s:%s:%s' % (
+        o.MYSQL_HOST, o.MYSQL_PORT, "%s_feed"%o.MYSQL_MAIN, o.MYSQL_USER, o.MYSQL_PASSWD
+    )
+    
     o.DB_CONFIG = {
         'main': {
             'master': DB_HOST_MAIN,
+            'tables': (
+                '*'
+            )
+        },
+        'feed':{
+            'master': DB_HOST_FEED,
             'tables': (
                 '*'
             )
