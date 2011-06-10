@@ -4,8 +4,7 @@ from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
 from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_PO_REPLY
 from cid import CID_USER
-from zsite import Zsite
-from state import STATE_ACTIVE
+from zsite import Zsite, ZSITE_STATE_APPLY
 from follow import Follow
 from po import Po
 from po_pos import PoPos, STATE_BUZZ
@@ -28,7 +27,7 @@ buzz_unread_count = McNum(lambda user_id: Buzz.where('id>%s', buzz_pos.get(user_
 
 BUZZ_DIC = {
     CID_BUZZ_SYS: Po,
-    CID_BUZZ_SHOW: None,
+    CID_BUZZ_SHOW: Zsite,
     CID_BUZZ_FOLLOW: Zsite,
     CID_BUZZ_WALL: Wall,
     CID_BUZZ_PO_REPLY: Po,
@@ -49,15 +48,16 @@ def buzz_sys_new(user_id, po_id):
     buzz_new(0, user_id, CID_BUZZ_SYS, po_id)
 
 def buzz_sys_new_all(po_id):
-    for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, STATE_ACTIVE)):
+    for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_APPLY)):
         buzz_sys_new(i.id, po_id)
 
-def buzz_show_new(user_id, show_id):
-    buzz_new(0, user_id, CID_BUZZ_SHOW, show_id)
+def buzz_show_new(user_id, zsite_id):
+    buzz_new(0, user_id, CID_BUZZ_SHOW, zsite_id)
 
-def buzz_show_new_all(show_id):
-    for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, STATE_ACTIVE)):
-        buzz_show_new(i.id, show_id)
+def buzz_show_new_all(zsite_id):
+    for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_APPLY)):
+        print i.id, zsite_id
+        buzz_show_new(i.id, zsite_id)
 
 def buzz_follow_new(from_id, to_id):
     buzz_new(from_id, to_id, CID_BUZZ_FOLLOW, to_id)
@@ -148,3 +148,6 @@ def buzz_show(user_id, limit):
         be.from_list = [cls_dic[Zsite][i] for i in be.from_id_list]
         be.entry = cls_dic[BUZZ_DIC[be.cid]][be.rid]
     return li
+
+if __name__ == '__main__':
+    buzz_show_new_all(10024800)
