@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from os.path import abspath, dirname, join, normpath
 import sys

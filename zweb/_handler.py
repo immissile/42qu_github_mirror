@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
+import functools
+import urllib
+import urlparse
 from zsql.metamodel import lower_name
 from zweb._tornado import web
 from config import render
@@ -43,11 +46,35 @@ class Base(web.RequestHandler):
         kwds['current_user_id'] = self.current_user_id
         kwds['request'] = self.request
         kwds['this'] = self
-        if hasattr(self, 'zsite'):
-            kwds['zsite'] = self.zsite
+#        if hasattr(self, 'zsite'):
+#            kwds['zsite'] = self.zsite
         if not self._finished:
             self.finish(render(template_name, **kwds))
 
     def prepare(self):
         mc.reset()
         super(Base, self).prepare()
+
+
+def _login_redirect(self):
+    if not self.current_user:
+        url = self.get_login_url()
+        if '?' not in url:
+            if urlparse.urlsplit(url).scheme:
+                # if login url is absolute, make next absolute too
+                next_url = self.request.full_url()
+            else:
+                next_url = self.request.uri
+            url += '?' + urllib.urlencode(dict(next=next_url))
+        self.redirect(url)
+        return True
+
+
+def login(method):
+    """Decorate methods with this to require that the user be logged in."""
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        if _login_redirect(self):
+            return
+        return method(self, *args, **kwargs)
+    return wrapper

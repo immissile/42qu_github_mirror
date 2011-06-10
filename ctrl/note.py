@@ -3,11 +3,9 @@
 
 import _handler
 from zweb._urlmap import urlmap
-from model.po import Po, po_rm,\
-        po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set, CID_NOTE
+from model.po import Po, po_rm, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set, CID_NOTE
 from model.po_pic import  pic_list, pic_list_edit, mc_pic_id_list
 from model import reply
-from model.zsite import Zsite
 from zkit.jsdict import JsDict
 
 def update_pic(form, user_id, po_id, id):

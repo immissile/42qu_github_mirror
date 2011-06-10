@@ -1,12 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from config import render
-import model._db
+from config import SITE_DOMAIN, SITE_URL
+from model.zsite_link import zsite_by_domain
 from zweb._handler import Base as _Base, _login_redirect, login
 
 class Base(_Base):
     def get(self):
         self.redirect('/')
+
+    def prepare(self):
+        host = self.request.host
+        zsite = zsite_by_domain(host)
+        self.zsite = zsite
+        if zsite:
+            zsite_id = zsite.id
+        else:
+            zsite_id = 0
+        self.zsite_id = zsite_id
+        if zsite is None:
+            return self.redirect(SITE_URL)
+        super(Base, self).prepare()
 
     @property
     def _xsrf(self):
@@ -14,6 +28,8 @@ class Base(_Base):
 
     def render(self, template_name=None, **kwds):
         kwds['_xsrf'] = self._xsrf
+        kwds['zsite_id'] = self.zsite_id
+        kwds['zsite'] = self.zsite
         super(Base, self).render(template_name, **kwds)
 
 class JLoginBase(Base):
