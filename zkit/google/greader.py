@@ -183,6 +183,12 @@ class Reader(object):
         url = "%s?xt=user/-/state/com.google/read"%quote(feed)
         return self.feed(url) 
         
+    def subscription_item_dump(self):
+        for subscription in self.subscription_list():
+            for i in self.feed(quote(subscription)):
+                yield i
+
+
 
 
         

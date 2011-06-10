@@ -8,7 +8,7 @@ from private import password
 from os.path import exists, abspath, dirname, join
 from os import makedirs as _makedirs
 
-DUMP_DIR = join(dirname(abspath(__file__)), "dump")
+DUMP_DIR = join("/mnt/share", "zsp_google_reader")
 
 def makedirs(dirpath):
     if not exists(dirpath):
@@ -16,7 +16,7 @@ def makedirs(dirpath):
 
 reader = Reader('zsp007@gmail.com', password)
 
-for i in reader.feed():
+for i in reader.subscription_item_dump():
 #    print i.keys()
     if u'content' in i:
         content = i['content']
@@ -34,8 +34,8 @@ for i in reader.feed():
 
     with open(join(dirpath,"%s.html"%id),"w") as outfile:
         outfile.write("""<!doctype html><html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>%s</title></head>
-<body style="width:720px;margin:auto;font-size:16px;line-height:28px">
-<h1 style="font-weight::16px;text-align:center">%s</h1>
+<body style="width:720px;font-family:Verdana;margin:auto;font-size:16px;line-height:28px">
+<h1 style="font-weight:48px;font-family:Georgia;text-align:center;font-weight:normal;margin:0 48px">%s</h1>
 %s
 </body>
 """%(
