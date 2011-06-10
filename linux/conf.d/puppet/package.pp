@@ -1,6 +1,7 @@
 
 package{
     [
+"scons",
 "dstat",
 "ntp",
 "dos2unix",
