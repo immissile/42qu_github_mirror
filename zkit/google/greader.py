@@ -58,22 +58,23 @@ class Reader(object):
 
         auth = auth_resp_dict["Auth"].strip()
 
-        sid = auth_resp_dict["SID"].strip()
-        lsid = auth_resp_dict["LSID"].strip()
+        #sid = auth_resp_dict["SID"].strip()
+        #lsid = auth_resp_dict["LSID"].strip()
         self.auth = auth
-        self.lsid = lsid
-        self.sid = sid
+        #self.lsid = lsid
+        #self.sid = sid
         self.get_token()
         self.ts = str(int(1000*time.time()))
 
     def get_token(self):
-        sid = self.sid
-        headers = {'Cookie': 'SID=%s; LSID=%s; Auth=%s;'%(sid, self.lsid, self.auth)}
-
+        #sid = self.sid
+        #headers = {'Cookie': 'SID=%s; LSID=%s; Auth=%s;'%(sid, self.lsid, self.auth)}
+        headers = {}
+        headers["Authorization"] = "GoogleLogin auth=" + self.auth
         r = urllib2.Request("https://www.google.com/reader/api/0/token", headers=headers)
 
         token = urllib2.urlopen(r, timeout=20).read()
-        headers = {'Cookie': 'SID=%s; T=%s'%(sid, token)}
+        #headers = {'Cookie': 'SID=%s; T=%s'%(sid, token)}
         self.headers = headers
         self.token = token
 
