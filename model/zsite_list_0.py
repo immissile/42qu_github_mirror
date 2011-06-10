@@ -4,9 +4,9 @@ from zsite_list import ZsiteList
 from zsite import Zsite
 
 
-mc_reply_id_list = McLimitA('ZsiteListId0:%s', 1024)
+mc_zsite_list_id0 = McLimitA('ZsiteListId0:%s', 1024)
 
-@mc_reply_id_list('{cid}')
+@mc_zsite_list_id0('{cid}')
 def zsite_list_id_0(cid=0, limit=None, offset=None):
     zsite_list = ZsiteList.where().order_by('rank desc')
     if cid:
@@ -19,11 +19,11 @@ def zsite_list_new(zsite_id, cid=0, rank=1000):
     )
     zsite.rank = rank
     zsite.save()
-    mc_reply_id_list.delete(cid)
+    mc_zsite_list_id0.delete(cid)
 
 def zsite_list_rm(zsite_id):
     for i in ZsiteList.where(zsite_id=zsite_id, owner_id=0):
-        mc_reply_id_list.delete(i.cid)
+        mc_zsite_list_id0.delete(i.cid)
         i.delete()
 
 def zsite_list_get(zsite_id):
