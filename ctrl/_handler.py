@@ -9,9 +9,9 @@ from model.zsite_link import zsite_by_domain
 import urlparse
 import urllib
 import zweb._handler
+from zweb._handler import Base as _Base, _login_redirect, login
 
-
-class Base(zweb._handler.Base):
+class Base(_Base):
     def get(self):
         self.redirect('/')
 
@@ -24,36 +24,11 @@ class Base(zweb._handler.Base):
         super(Base, self).render(template_name, **kwds)
 
 
-def _login_redirect(self):
-    if not self.current_user:
-        url = self.get_login_url()
-        if '?' not in url:
-            if urlparse.urlsplit(url).scheme:
-                # if login url is absolute, make next absolute too
-                next_url = self.request.full_url()
-            else:
-                next_url = self.request.uri
-            url += '?' + urllib.urlencode(dict(next=next_url))
-        self.redirect(url)
-        return True
-
-
-def login(method):
-    """Decorate methods with this to require that the user be logged in."""
-    @functools.wraps(method)
-    def wrapper(self, *args, **kwargs):
-        if _login_redirect(self):
-            return
-        return method(self, *args, **kwargs)
-    return wrapper
-
-
 class JLoginBase(Base):
     def prepare(self):
         super(JLoginBase, self).prepare()
         if not self.current_user:
             self.finish('{"login":1}')
-
 
 class LoginBase(Base):
     def prepare(self):

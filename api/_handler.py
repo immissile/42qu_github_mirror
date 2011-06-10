@@ -9,8 +9,3 @@ import urlparse
 import urllib
 
 from zweb._handler import Base
-
-
-#class Base(zweb._handler.Base):
-#    def prepare(self):
-#        pass
