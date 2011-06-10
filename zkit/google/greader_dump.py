@@ -3,6 +3,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
+from urlparse import urlparse
 from greader import Reader
 from private import password
 from os.path import exists, abspath, dirname, join
@@ -16,7 +17,7 @@ def makedirs(dirpath):
 
 reader = Reader('zsp007@gmail.com', password)
 
-for i in reader.subscription_item_dump():
+for subscription,i in reader.subscription_item_dump():
 #    print i.keys()
     if u'content' in i:
         content = i['content']
@@ -24,12 +25,14 @@ for i in reader.subscription_item_dump():
         content = i['summary']
     else:
         continue
+    dirpath = urlparse(subscription[5:]).netloc.split(":")[0]
 
     if u'title' not in i:
         continue
+
     id = i['id'][len('tag:google.com,2005:reader/item/'):]
 
-    dirpath = join(DUMP_DIR,id[:2],id[2:4])
+    dirpath = join(DUMP_DIR,dirpath or "0")
     title = i['title']
 
     makedirs(dirpath)
