@@ -75,7 +75,7 @@ mq_buzz_wall_new = mq_client(buzz_wall_new)
 def buzz_po_reply_new(from_id, po_id):
     followed = [i.from_id for i in ormiter(Follow, 'to_id=%s' % from_id)]
     buzz_to = [i.user_id for i in ormiter(PoPos, 'po_id=%s and state=%s' % (po_id, STATE_BUZZ))]
-    for user_id in set(followed) | set(buzz_to):
+    for user_id in (set(followed) | set(buzz_to)) - set([from_id]):
         buzz_new(from_id, user_id, CID_BUZZ_PO_REPLY, po_id)
 
 mq_buzz_po_reply_new = mq_client(buzz_po_reply_new)
