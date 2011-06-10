@@ -1,14 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-from zweb._tornado import web
-import functools
 from config import render
-from config import SITE_DOMAIN, SITE_URL
-from model.zsite_link import zsite_by_domain
-import urlparse
-import urllib
-import zweb._handler
 from zweb._handler import Base as _Base, _login_redirect, login
 
 class Base(_Base):
@@ -22,7 +14,6 @@ class Base(_Base):
     def render(self, template_name=None, **kwds):
         kwds['_xsrf'] = self._xsrf
         super(Base, self).render(template_name, **kwds)
-
 
 class JLoginBase(Base):
     def prepare(self):

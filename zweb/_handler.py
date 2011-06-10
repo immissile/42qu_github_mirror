@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
+import functools
+import urllib
+import urlparse
 from zsql.metamodel import lower_name
 from zweb._tornado import web
 from config import render
