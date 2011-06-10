@@ -191,10 +191,10 @@ class Reader(object):
             if not subscription.startswith("feed/"):
                 continue
             if "?" in subscription:
-                subscription = quote(subscription)
+                q_subscription = quote(subscription)
             try:
-                for i in self.feed(subscription):
-                    yield i
+                for i in self.feed(q_subscription):
+                    yield subscription, i
             except HTTPError, e:
                 if e.code == 404:
                     print subscription
