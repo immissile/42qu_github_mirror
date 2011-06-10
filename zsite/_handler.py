@@ -10,10 +10,22 @@ import urlparse
 import urllib
 import zweb._handler
 
-
 class Base(zweb._handler.Base):
     def get(self):
         self.redirect('/')
+
+    def prepare(self):
+        host = self.request.host
+        zsite = zsite_by_domain(host)
+        self.zsite = zsite
+        if zsite:
+            zsite_id = zsite.id
+        else:
+            zsite_id = 0
+        self.zsite_id = zsite_id
+        if zsite is None:
+            return self.redirect(SITE_URL)
+        super(Base, self).prepare()
 
     @property
     def _xsrf(self):
@@ -21,6 +33,8 @@ class Base(zweb._handler.Base):
 
     def render(self, template_name=None, **kwds):
         kwds['_xsrf'] = self._xsrf
+        kwds['zsite_id'] = self.zsite_id
+        kwds['zsite'] = self.zsite
         super(Base, self).render(template_name, **kwds)
 
 
@@ -36,7 +50,6 @@ def _login_redirect(self):
             url += '?' + urllib.urlencode(dict(next=next_url))
         self.redirect(url)
         return True
-
 
 def login(method):
     """Decorate methods with this to require that the user be logged in."""
