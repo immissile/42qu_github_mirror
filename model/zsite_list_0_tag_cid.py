@@ -1,4 +1,5 @@
-#coding:utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 ZSITE_LIST_0_CID = (
     (1, '创业'),
     (2, '程序'),

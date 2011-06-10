@@ -14,5 +14,3 @@ class Index(_handler.Base):
 class Chart(_handler.Base):
     def get(self):
         self.render()
-
-
