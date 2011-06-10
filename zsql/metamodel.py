@@ -13,6 +13,15 @@ def __eq__(self, other):
     return False
 
 @classmethod
+def max_id(cls):
+    c = cls.raw_sql("select max(id) from %s", cls.Meta.table)
+    id = c.fetchone()
+    if id:
+        return id[0]
+    return 0
+
+
+@classmethod
 def get(cls, __obj_pk=None, **kwargs):
     if __obj_pk is None:
         if not kwargs:

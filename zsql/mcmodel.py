@@ -2,7 +2,7 @@
 from zsql.db.query import Query, escape
 from zsql.db.mc_connection import mc
 from marshal import dumps, loads
-from zsql.metamodel import cache, lower_name, ModelBase, get_or_create, save, get, __eq__, __ne__
+from zsql.metamodel import cache, lower_name, ModelBase, get_or_create, save, get, __eq__, __ne__, max_id
 from array import array
 from datetime import datetime
 
@@ -26,10 +26,10 @@ class McModel(object):
 
     __metaclass__ = ModelBase
 
-    debug = False
     get_or_create = get_or_create
     __eq__ = __eq__
     __ne__ = __ne__
+    max_id = max_id
 
     def __init__(self, *args, **kwargs):
         'Allows setting of fields using kwargs'

@@ -1,6 +1,6 @@
 #coding:utf-8
 from zsql.db.query import Query, escape
-from zsql.metamodel import cache, lower_name, ModelBase, get_or_create, save, get , __eq__, __ne__
+from zsql.metamodel import cache, lower_name, ModelBase, get_or_create, save, get , __eq__, __ne__, max_id
 
 class Model(object):
     '''
@@ -74,7 +74,7 @@ class Model(object):
     __metaclass__ = ModelBase
     __eq__ = __eq__
     __ne__ = __ne__
-    debug = False
+    max_id = max_id
 
     def __init__(self, *args, **kwargs):
         'Allows setting of fields using kwargs'
