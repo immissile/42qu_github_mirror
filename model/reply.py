@@ -120,6 +120,7 @@ class Reply(McModel):
             mc_flush_reply_id_list(self.cid, self.rid)
 
         user_id = self.user_id
+        print "!!!",user_id
         mc_lastest_hash.delete(user_id)
 
     def can_rm(self, user_id):

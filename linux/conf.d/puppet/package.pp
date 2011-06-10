@@ -1,6 +1,7 @@
 
 package{
     [
+"tokyocabinet",
 "dstat",
 "ntp",
 "dos2unix",
