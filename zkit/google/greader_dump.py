@@ -18,7 +18,6 @@ reader = Reader('zsp007@gmail.com', password)
 
 for i in reader.feed():
 #    print i.keys()
-    print i['title']
     if u'content' in i:
         content = i['content']
     elif u'summary' in i:
@@ -28,11 +27,12 @@ for i in reader.feed():
 
     id = i['id'][len('tag:google.com,2005:reader/item/'):]
 
-    dirpath = open(join(DUMP_DIR,id[:2],id[2:4]))
+    dirpath = join(DUMP_DIR,id[:2],id[2:4])
+    title = i['title']
 
     makedirs(dirpath)
 
-    with open(join(dirpath,"%s.html"%id)) as outfile:
+    with open(join(dirpath,"%s.html"%id),"w") as outfile:
         outfile.write("""<!doctype html><html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>%s</title></head>
 <body style="width:720px;margin:auto;font-size:16px;line-height:28px">
 <h1 style="font-weight::16px;text-align:center">%s</h1>
