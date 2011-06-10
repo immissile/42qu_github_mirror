@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from config import render
+import model._db
 from zweb._handler import Base as _Base, _login_redirect, login
 
 class Base(_Base):
