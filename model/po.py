@@ -97,19 +97,6 @@ def po_rm(user_id, id):
         m.save()
         feed_rm(id)
 
-@mc_feed_tuple('{id}')
-def feed_tuple_note(id):
-    m = Po.mc_get(id)
-    if m:
-        return (m.name, m.txt, m.reply_total)
-    return ()
-
-@mc_feed_tuple('{id}')
-def feed_tuple_word(id):
-    m = Po.mc_get(id)
-    if m:
-        return (m.name, m.reply_total)
-    return False
 
 def po_word_new(user_id, name):
     if name and not is_same_post(user_id, name):

@@ -9,6 +9,20 @@ from feed import FeedMerge, MAXINT
 from follow import follow_id_list_by_from_id
 from model.vote import vote_count
 
+@mc_feed_tuple('{id}')
+def feed_tuple_note(id):
+    m = Po.mc_get(id)
+    if m:
+        return (m.name, m.txt, m.reply_total)
+    return ()
+
+@mc_feed_tuple('{id}')
+def feed_tuple_word(id):
+    m = Po.mc_get(id)
+    if m:
+        return (m.name, m.reply_total)
+    return False
+
 CID2FEEDFUNC = {
     CID_WORD: feed_tuple_word,
     CID_NOTE: feed_tuple_note,

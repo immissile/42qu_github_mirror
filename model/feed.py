@@ -9,8 +9,8 @@ from zkit.algorithm.merge import imerge
 MAXINT = sys.maxint 
 PAGE_LIMIT = 42
 
-mc_feed_tuple = McCacheM('FeedTuple:%s')
 mc_feed_iter = McCacheM('FeedIter:%s')
+mc_feed_tuple = McCacheM('FeedTuple:%s')
 
 cursor = cursor_by_table('feed')
 
