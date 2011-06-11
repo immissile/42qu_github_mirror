@@ -1,47 +1,40 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from _db import McCacheM
 from cid import CID_WORD, CID_NOTE
 from collections import namedtuple
 from zsite import Zsite
 from operator import itemgetter
 from po import feed_tuple_word, feed_tuple_note
-from feed import FeedMerge, MAXINT
 from follow import follow_id_list_by_from_id
 from model.vote import vote_count
+from feed import FeedMerge, MAXINT, Feed
 
-@mc_feed_tuple('{id}')
-def feed_tuple_note(id):
+mc_feed_render = McCacheM("F%s")
+
+def feed_note(id):
     m = Po.mc_get(id)
     if m:
         return (m.name, m.txt, m.reply_total)
     return ()
 
-@mc_feed_tuple('{id}')
-def feed_tuple_word(id):
+def feed_word(id):
     m = Po.mc_get(id)
     if m:
         return (m.name, m.reply_total)
     return False
 
+
+Word = namedtuple('Word',
+    ('id cid zsite zsite_id vote rt_total rt_list reply_total txt')
+)
+Note = namedtuple('Note',
+    ('id cid zsite zsite_id vote rt_total rt_list reply_total txt name')
+)
 CID2FEEDFUNC = {
-    CID_WORD: feed_tuple_word,
-    CID_NOTE: feed_tuple_note,
+    CID_WORD: Word,
+    CID_NOTE: Note,
 }
-
-
-CID2FEED_ENTRY = {
-    CID_WORD: 'txt reply_total',
-    CID_NOTE: 'name txt reply_total',
-}
-
-def __init__cid2feed_entry():
-    for k, v in CID2FEED_ENTRY.iteritems():
-        CID2FEED_ENTRY[k] = namedtuple(
-            'Entry%s'%k,
-            ' '.join(('id vote cid feed_id zsite zsite_id', v))
-        )
-
-__init__cid2feed_entry()
 
 def zsite_id_list_by_follow(zsite_id):
     r = follow_id_list_by_from_id(zsite_id)
@@ -65,7 +58,9 @@ def render_iter(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
     return render_feed_list(id_list, rt_dict)
 
+
 def render_feed_list(id_list, rt_dict):
+    pass
 #    result = []
 #    zsite_dict = Zsite.mc_get_multi(set(map(itemgetter(3), entry_list)))
 #    vote_count_list = vote_count.get_list(map(itemgetter(0), entry_list))

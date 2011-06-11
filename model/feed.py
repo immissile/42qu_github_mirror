@@ -6,6 +6,9 @@ from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
 from mq import mq_client
 from zkit.algorithm.merge import imerge
 
+class Feed(McModel):
+    pass
+
 MAXINT = sys.maxint 
 PAGE_LIMIT = 42
 
