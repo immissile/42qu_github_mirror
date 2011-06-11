@@ -19,21 +19,22 @@ def cidmap(cid):
     return _
 
 class FeedBase(object):
-    def __init__(self, id, cid, reply_total, zsite_id, name):
+    def __init__(self, id, rt_id_list, cid, reply_total, zsite_id, name):
         self.id = id
+        self.rt_id_list = rt_id_list
         self.cid = cid
+        self.reply_total = reply_total
         self.zsite_id = zsite_id
         self.name = name
-        self.reply_total = reply_total
 
 @cidmap(CID_NOTE)
 class FeedNote(FeedBase):
-    def __init__(self, id, cid, reply_total, zsite_id, name):
+    def __init__(self, id, rt_id_list, cid, reply_total, zsite_id, name):
         FeedBase.__init__(self, id, cid, zsite_id, name)
 
 @cidmap(CID_WORD)
 class FeedWord(FeedBase):
-    def __init__(self, id, cid, reply_total, zsite_id, name, txt):
+    def __init__(self, id, rt_id_list, cid, reply_total, zsite_id, name, txt):
         FeedBase.__init__(self, id, cid, zsite_id, name)
         self.txt = txt
 
@@ -43,7 +44,6 @@ class FeedWord(FeedBase):
 #Note = namedtuple('Note',
 #    ('id cid zsite zsite_id vote rt_total rt_list reply_total txt name')
 #)
-
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
@@ -73,9 +73,9 @@ def feed_bind(feed_list):
 
 def render_feed_list(id_list, rt_dict):
     r = []
-    for i in zip(id_list, feed_tuple_list(id_list)):
+    for id, i in zip(id_list, feed_tuple_list(id_list)):
         cid = i[0]
-        c = CIDMAP[cid](rt_dict[id], *i)
+        c = CIDMAP[cid](id, rt_dict[id], *i)
         r.append(c)
     feed_bind(r)    
     return r
