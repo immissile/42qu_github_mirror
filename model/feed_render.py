@@ -64,17 +64,20 @@ def feed_tuple_list(id_list):
         if result is None:
             result = feed_render_by_db(i)
             mc_feed_tuple.set(id, result)
-        result.insert(id, 0)
         k.append(result)
 
     return k
 
+def feed_bind(feed_list):
+    pass
+
 def render_feed_list(id_list, rt_dict):
     r = []
-    for i in feed_tuple_list(id_list):
-        id, cid = i[:2]
-        c = CIDMAP[cid](*i)
+    for i in zip(id_list, feed_tuple_list(id_list)):
+        cid = i[0]
+        c = CIDMAP[cid](rt_dict[id], *i)
         r.append(c)
+    feed_bind(r)    
     return r
 
 def zsite_id_list_by_follow(zsite_id):
