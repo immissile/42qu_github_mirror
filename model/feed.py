@@ -86,6 +86,5 @@ class FeedCmp(object):
         return other.id - self.id
 
 
-
 if __name__ == '__main__':
     pass
