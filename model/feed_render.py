@@ -10,19 +10,34 @@ from follow import follow_id_list_by_from_id
 from model.vote import vote_count
 from feed import FeedMerge, MAXINT, Feed
 
-mc_feed_render = McCacheM("F%s")
+mc_feed_render = McCacheM('F%s')
 
-def feed_note(id):
-    m = Po.mc_get(id)
-    if m:
-        return (m.name, m.txt, m.reply_total)
-    return ()
+def feed_render_by_db(id):
+    return
 
-def feed_word(id):
-    m = Po.mc_get(id)
-    if m:
-        return (m.name, m.reply_total)
-    return False
+def feed_render(id_list):
+    r = mc_feed_render.get_multi(id_list)
+    k = []
+    for i in id_list:
+        result = r[i]
+        if result is None:
+            result = feed_render_by_db(i)
+            mc_feed_render.set(id, result)
+        
+    return k[i]  
+
+
+#    m = Po.mc_get(id)
+#    if m:
+#        return (m.name, m.txt, m.reply_total)
+#    return ()
+#
+#@mc_feed_render("{id}")
+#def feed_word(id):
+#    m = Po.mc_get(id)
+#    if m:
+#        return (m.name, m.reply_total)
+#    return False
 
 
 Word = namedtuple('Word',
