@@ -44,7 +44,6 @@ def finish(o):
     o.MQ_USE = o.MYSQL_MAIN
 
     o.PIC_PATH = '/mnt/zpage'
-    o.ZSITE_PORT = o.PORT + 10
     o.GOD_PORT = o.PORT + 20
     o.API_PORT = o.PORT + 30
     o.RPC_PORT = o.PORT + 40
