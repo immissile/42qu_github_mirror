@@ -3,49 +3,4 @@
 
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 
-%if zsite:
-<%
-    is_owner = zsite == current_user
-%>
-    <p>Zsite ${zsite.name}</p>
-    %if not is_owner and current_user:
-<%!
-from model.follow import follow_get, follow_list_by_from_id_cid
-from model.zsite import CID_USER
-%>
-        %if follow_get(current_user.id,zsite.id):
-<a href="/unfollow?${_xsrf}">淡忘</a>
-        %else:
-<a href="/follow?${_xsrf}">关注</a>
-        %endif
-    %endif
-
-    %if not current_user:
-<a id="follow" href="javascript:login();void(0)">关注</a>
-    %endif
-
-<p>关注的人</p>
-%for i in follow_list_by_from_id_cid(zsite.id, CID_USER):
-<p><a href="${i.link}" target="_blank">${i.name}</a></p>
-%endfor
-${wall_row()}
-%else:
 ${buzz_show(current_user_id)}
-%endif
-
-
-
-<%def name="wall_row()">
-<%
-REPLY_LIMIT = 10
-reply_total = zsite.reply_total
-%>
-<div>留言</div>
-${reply_textarea('/wall')}
-%for i in zsite.reply_list_reversed(REPLY_LIMIT,0):
-    ${reply_render(i)}
-%endfor
-%if reply_total > REPLY_LIMIT:
-    <a href="/wall/-${REPLY_LIMIT}">等等等 ...</a>
-%endif
-</%def>
