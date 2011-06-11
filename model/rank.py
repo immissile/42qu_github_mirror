@@ -69,7 +69,7 @@ def team_note_rm(note_id):
 
 def team_note_fav_rm(note_id, zsite_id):
     for i in NoteFav.where(man_id=zsite_id, rid=note_id):
-        feed_entry_rm(i.id)
+        feed_rm(i.id)
         i.delete()
 
 def team_note_rank(note_id):

@@ -3,7 +3,7 @@
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
-from feed import feed_new, mc_feed_tuple, feed_entry_rm
+from feed import feed_new, mc_feed_tuple, feed_rm
 from gid import gid
 from spammer import is_same_post
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
@@ -84,7 +84,7 @@ def po_state_set(po, state):
     if old_state == state:
         return
     if old_state > STATE_SECRET and state == STATE_SECRET:
-        feed_entry_rm(id)
+        feed_rm(id)
     elif old_state <= STATE_SECRET and state >= STATE_ACTIVE:
         po.feed_new()
     po.state = state
@@ -95,7 +95,7 @@ def po_rm(user_id, id):
     if m.can_admin(user_id):
         m.state == STATE_DEL
         m.save()
-        feed_entry_rm(id)
+        feed_rm(id)
 
 @mc_feed_tuple('{id}')
 def feed_tuple_note(id):
