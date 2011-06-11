@@ -5,10 +5,6 @@ import _handler
 from zweb._urlmap import urlmap
 from model.follow import follow_rm, follow_new
 
-@urlmap('/')
-class Index(_handler.Base):
-    def get(self):
-        self.render()
 
 @urlmap('/follow')
 class Follow(_handler.XsrfGetBase):

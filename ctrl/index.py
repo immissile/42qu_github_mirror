@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import _handler
+import zsite._handler
 from zweb._urlmap import urlmap
 from model.follow import follow_rm, follow_new
 
@@ -9,3 +9,6 @@ from model.follow import follow_rm, follow_new
 class Index(_handler.Base):
     def get(self):
         self.render()
+
+
+
