@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from feed import mc_feed_entry_tuple, MAXINT, feed_entry_cmp_iter
+from feed import mc_feed_tuple, MAXINT, feed_cmp_iter
 from feed_render import render_feed_entry_list
 from zkit.mc_func import mc_func_get_list
 from follow import follow_id_list_by_from_id
@@ -15,7 +15,7 @@ class FeedMerge(object):
         count = 0
         for i in imerge(
             *[
-                feed_entry_cmp_iter(i, begin_id)
+                feed_cmp_iter(i, begin_id)
                 for i in
                 zsite_id_list
             ]

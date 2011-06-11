@@ -3,7 +3,7 @@
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
-from feed import feed_new, mc_feed_entry_tuple, feed_entry_rm
+from feed import feed_new, mc_feed_tuple, feed_entry_rm
 from gid import gid
 from spammer import is_same_post
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
@@ -64,7 +64,7 @@ class Po(McModel, ReplyMixin):
 
     def reply_new(self, user_id, txt, state=STATE_ACTIVE):
         result = super(Po, self).reply_new(user_id, txt, state)
-        mc_feed_entry_tuple.delete(self.id)
+        mc_feed_tuple.delete(self.id)
         return result
 
 def po_new(cid, user_id, name, state):
@@ -97,14 +97,14 @@ def po_rm(user_id, id):
         m.save()
         feed_entry_rm(id)
 
-@mc_feed_entry_tuple('{id}')
+@mc_feed_tuple('{id}')
 def feed_tuple_note(id):
     m = Po.mc_get(id)
     if m:
         return (m.name, m.txt, m.reply_total)
     return ()
 
-@mc_feed_entry_tuple('{id}')
+@mc_feed_tuple('{id}')
 def feed_tuple_word(id):
     m = Po.mc_get(id)
     if m:
