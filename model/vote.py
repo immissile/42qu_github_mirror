@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
+from feed import mc_feed_tuple
 
 STATE_INCR = 1
 STATE_0 = 0
@@ -36,6 +37,7 @@ def _vote_0(user_id, feed_id):
 def _vote_decr(user_id, feed_id):
     Vote.raw_sql('insert into vote (user_id, feed_id, state) values (%s, %s, -1) on duplicate key update state=-1', user_id, feed_id)
 
+
 def vote_incr(user_id, feed_id):
     state = vote_state(user_id, feed_id)
     if state != STATE_INCR:
@@ -65,6 +67,7 @@ def vote_mc_flush(user_id, feed_id):
     vote_incr_count.delete(feed_id)
     vote_decr_count.delete(feed_id)
     vote_count.delete(feed_id)
+    mc_feed_tuple.delete(feed_id)
 
 if __name__ == '__main__':
     pass
