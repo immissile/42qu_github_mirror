@@ -10,48 +10,71 @@ from model.vote import vote_count
 from feed import FeedMerge, MAXINT, Feed
 from zsite import Zsite 
 
-mc_feed_render = McCacheM('F%s')
+CIDMAP = {}
 
-def feed_render_by_db(id):
-    return
+def cidmap(cid):
+    def _(cls):
+        CIDMAP[cid] = cls
+        return cls
+    return _
+ 
+class FeedBase(object):
+    def __init__(self, id, cid, zsite_id, name):
+        self.id = id
+        self.cid = cid
+        self.zsite_id = zsite_id
+        self.name = name
 
-def feed_render(id_list):
-    r = mc_feed_render.get_multi(id_list)
+@cidmap(CID_NOTE)
+class FeedNote(FeedBase):
+    def __init__(self, id, cid, zsite_id, name):
+        FeedBase.__init__(self, id, cid, zsite_id, name)
+
+@cidmap(CID_WORD)
+class FeedWord(FeedBase):
+    def __init__(self, id, cid, zsite_id, name, txt):
+        FeedBase.__init__(self, id, cid, zsite_id, name)
+        self.txt = txt
+
+#Word = namedtuple('Word',
+#    ('id cid zsite zsite_id vote rt_total rt_list reply_total txt')
+#)
+#Note = namedtuple('Note',
+#    ('id cid zsite zsite_id vote rt_total rt_list reply_total txt name')
+#)
+
+
+def feed_tuple_by_db(id):
+    m = Po.mc_get(id)
+    cid = m.cid
+    result = [cid, m.reply_total, m.user_id]
+    if cid == CID_WORD:
+         result.append(m.name)
+    elif cid == CID_NOTE:
+         result.append(m.name, m.txt)
+    
+
+def feed_tuple_list(id_list):
+    r = mc_feed_tuple.get_multi(id_list)
     k = []
 
     for i in id_list:
         result = r[i]
         if result is None:
             result = feed_render_by_db(i)
-            mc_feed_render.set(id, result)
-        k.append(i)
+            mc_feed_tuple.set(id, result)
+        result.insert(id, 0)
+        k.append(result)
 
     return k 
 
-
-#    m = Po.mc_get(id)
-#    if m:
-#        return (m.name, m.txt, m.reply_total)
-#    return ()
-#
-#@mc_feed_render("{id}")
-#def feed_word(id):
-#    m = Po.mc_get(id)
-#    if m:
-#        return (m.name, m.reply_total)
-#    return False
-
-
-Word = namedtuple('Word',
-    ('id cid zsite zsite_id vote rt_total rt_list reply_total txt')
-)
-Note = namedtuple('Note',
-    ('id cid zsite zsite_id vote rt_total rt_list reply_total txt name')
-)
-CID2FEEDFUNC = {
-    CID_WORD: Word,
-    CID_NOTE: Note,
-}
+def render_feed_list(id_list, rt_dict):
+    r = []
+    for i in feed_tuple_list(id_list):
+        id, cid = i[:2]
+        c = CIDMAP[cid](*i)
+        r.append(c)
+    return r
 
 def zsite_id_list_by_follow(zsite_id):
     r = follow_id_list_by_from_id(zsite_id)
@@ -76,8 +99,6 @@ def render_iter(zsite_id, limit=MAXINT, begin_id=MAXINT):
     return render_feed_list(id_list, rt_dict)
 
 
-def render_feed_list(id_list, rt_dict):
-    pass
 #    result = []
 #    zsite_dict = Zsite.mc_get_multi(set(map(itemgetter(3), entry_list)))
 #    vote_count_list = vote_count.get_list(map(itemgetter(0), entry_list))
