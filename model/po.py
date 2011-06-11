@@ -3,7 +3,7 @@
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
-from feed import feed_entry_new, mc_feed_entry_tuple, feed_entry_rm
+from feed import feed_new, mc_feed_entry_tuple, feed_entry_rm
 from gid import gid
 from spammer import is_same_post
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
@@ -48,8 +48,8 @@ class Po(McModel, ReplyMixin):
             self._link = PO_LINK[self.cid]%self.id
         return self._link
 
-    def feed_entry_new(self):
-        feed_entry_new(self.id, self.user_id, self.cid)
+    def feed_new(self):
+        feed_new(self.id, self.user_id, self.cid)
 
     def can_view(self, user_id):
         if self.state <= STATE_DEL:
@@ -86,7 +86,7 @@ def po_state_set(po, state):
     if old_state > STATE_SECRET and state == STATE_SECRET:
         feed_entry_rm(id)
     elif old_state <= STATE_SECRET and state >= STATE_ACTIVE:
-        po.feed_entry_new()
+        po.feed_new()
     po.state = state
     po.save()
 
@@ -115,7 +115,7 @@ def po_word_new(user_id, name):
     if name and not is_same_post(user_id, name):
         m = po_new(CID_WORD, user_id, name, STATE_ACTIVE)
         id = m.id
-        m.feed_entry_new()
+        m.feed_new()
         return m
 
 #def po_question_new(user_id, name , txt):
@@ -132,7 +132,7 @@ def po_note_new(user_id, name, txt, state):
     id = m.id
     txt_new(id, txt)
     if state > STATE_SECRET:
-        m.feed_entry_new()
+        m.feed_new()
     return m
 
 if __name__ == '__main__':

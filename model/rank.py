@@ -43,7 +43,7 @@ def _team_note_new(note_id, zsite_id, cid):
     return t
 
 def team_note_fav_new(note_id, zsite_id):
-    id = feed_entry_new_id(FEED_CID_NOTE_FAV, zsite_id)
+    id = feed_new_id(FEED_CID_NOTE_FAV, zsite_id)
     NoteFav.raw_sql('insert into note_fav (id, man_id, rid, reply_id) values (%s, %s, %s, null)', id, zsite_id, note_id)
 
 def team_note_mv(note_id, cid):
