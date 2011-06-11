@@ -28,7 +28,7 @@ def __init__cid2feed_entry():
 __init__cid2feed_entry()
 
 
-def render_feed_entry_list(entry_list):
+def render_feed_list(entry_list):
     result = []
     zsite_dict = Zsite.mc_get_multi(set(map(itemgetter(3), entry_list)))
     vote_count_list = vote_count.get_list(map(itemgetter(0), entry_list))
