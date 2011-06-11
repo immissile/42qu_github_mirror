@@ -8,8 +8,6 @@ from zkit.algorithm.merge import imerge
 
 MAXINT = sys.maxint 
 PAGE_LIMIT = 42
-FEED_ID_LASTEST_SQL = 'select id, rid from feed where zsite_id=%%s order by id desc limit %s'%PAGE_LIMIT
-FEED_ID_ITER_SQL = 'select id, rid from feed where zsite_id=%%s and id<%%s order by id desc limit %s'%PAGE_LIMIT
 
 mc_feed_tuple = McCacheM('FeedTuple:%s')
 mc_feed_iter = McCacheM('FeedIter:%s')
@@ -37,7 +35,6 @@ def feed_rm(id):
     #TODO MQ
     #mq_feed_rm_rt(id)
 
-
 def feed_rm_rt(rid):
     cursor.execute('select id, zsite_id from feed where rid=%s', rid)
     for id, zsite_id in cursor:
@@ -46,6 +43,9 @@ def feed_rm_rt(rid):
         mc_feed_iter.delete(zsite_id)
 
 mq_feed_rm_rt = mq_client(feed_rm_rt)
+
+FEED_ID_LASTEST_SQL = 'select id, rid from feed where zsite_id=%%s order by id desc limit %s'%PAGE_LIMIT
+FEED_ID_ITER_SQL = 'select id, rid from feed where zsite_id=%%s and id<%%s order by id desc limit %s'%PAGE_LIMIT
 
 @mc_feed_iter('{feed_id}')
 def feed_id_lastest(feed_id):
