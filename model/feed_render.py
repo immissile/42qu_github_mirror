@@ -18,13 +18,15 @@ def feed_render_by_db(id):
 def feed_render(id_list):
     r = mc_feed_render.get_multi(id_list)
     k = []
+
     for i in id_list:
         result = r[i]
         if result is None:
             result = feed_render_by_db(i)
             mc_feed_render.set(id, result)
-        
-    return k[i]  
+        k.append(i)
+
+    return k 
 
 
 #    m = Po.mc_get(id)
