@@ -8,7 +8,7 @@ from po import Po
 from follow import follow_id_list_by_from_id
 from model.vote import vote_count
 from feed import FeedMerge, MAXINT, Feed
-from zsite import Zsite 
+from zsite import Zsite
 
 CIDMAP = {}
 
@@ -17,22 +17,23 @@ def cidmap(cid):
         CIDMAP[cid] = cls
         return cls
     return _
- 
+
 class FeedBase(object):
-    def __init__(self, id, cid, zsite_id, name):
+    def __init__(self, id, cid, reply_total, zsite_id, name):
         self.id = id
         self.cid = cid
         self.zsite_id = zsite_id
         self.name = name
+        self.reply_total = reply_total
 
 @cidmap(CID_NOTE)
 class FeedNote(FeedBase):
-    def __init__(self, id, cid, zsite_id, name):
+    def __init__(self, id, cid, reply_total, zsite_id, name):
         FeedBase.__init__(self, id, cid, zsite_id, name)
 
 @cidmap(CID_WORD)
 class FeedWord(FeedBase):
-    def __init__(self, id, cid, zsite_id, name, txt):
+    def __init__(self, id, cid, reply_total, zsite_id, name, txt):
         FeedBase.__init__(self, id, cid, zsite_id, name)
         self.txt = txt
 
@@ -49,10 +50,10 @@ def feed_tuple_by_db(id):
     cid = m.cid
     result = [cid, m.reply_total, m.user_id]
     if cid == CID_WORD:
-         result.append(m.name)
+        result.append(m.name)
     elif cid == CID_NOTE:
-         result.append(m.name, m.txt)
-    
+        result.append(m.name, m.txt)
+
 
 def feed_tuple_list(id_list):
     r = mc_feed_tuple.get_multi(id_list)
@@ -66,7 +67,7 @@ def feed_tuple_list(id_list):
         result.insert(id, 0)
         k.append(result)
 
-    return k 
+    return k
 
 def render_feed_list(id_list, rt_dict):
     r = []
