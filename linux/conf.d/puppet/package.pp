@@ -2,6 +2,7 @@
 package{
     [
 "scons",
+"astyle",
 "dstat",
 "ntp",
 "dos2unix",
