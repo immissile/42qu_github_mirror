@@ -58,7 +58,7 @@ function login_autofill(suffix){
 -1  1  2
 */
 
-    $(".votei,.voted,.voten,.rt,.rted").poshytip({
+    $(".decr,.incr,.num,.rt,.rted").poshytip({
         className: 'tip-twitter',
         showTimeout: 100,
         alignTo: 'target',
