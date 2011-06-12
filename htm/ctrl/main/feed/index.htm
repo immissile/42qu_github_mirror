@@ -6,8 +6,9 @@ from static import css, js
 
 <%def name="htm_head()">
 <script>script("${js.ctrl_feed}")</script>
-<script id="feed" type="text/x-jquery-tmpl">
+<script id="feed" type="text/template">
 <div>
+${cid}
 </div>
 </script>
 </%def>
@@ -82,5 +83,7 @@ from static import css, js
 ##${render_note(i)}
 ##%endif
 ##%endfor
-
-
+<div id="body"></div>
+<script>
+$("#feed").tmpl([{cid:1}]).appendTo("#body")
+</script>
