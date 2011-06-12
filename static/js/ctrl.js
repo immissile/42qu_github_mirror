@@ -57,6 +57,19 @@ function login_autofill(suffix){
  1  1 -1
 -1  1  2
 */
+
+    $(".votei,.voted,.voten,.rt,.rted").poshytip({
+        className: 'tip-twitter',
+        showTimeout: 100,
+        alignTo: 'target',
+        alignX: 'center',
+        offsetY: 5,
+        allowTipHover: false,
+        fade: false,
+        slide: false,
+        liveEvents: true
+    });
+
     var decr="decr",incr="incr",vote="vote";
     function _(a,b,id,v){
         var wj=$("#"+vote+id), w=wj[0],
