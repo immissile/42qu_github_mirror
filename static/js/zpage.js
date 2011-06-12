@@ -59,3 +59,17 @@ function script(src,callback){
     });    
 
 }
+
+(function(){
+var BUFFER={}
+render = function (id, view, partials, send_fun){
+    var html;
+    if(!(id in BUFFER)){
+         BUFFER[id] = $("#"+id).html() 
+    }
+    html = BUFFER[id]
+    return $.mustache(html, view, partials, send_fun)
+}
+
+})()
+

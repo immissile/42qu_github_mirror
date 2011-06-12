@@ -333,8 +333,8 @@ var Mustache = function() {
   });
 }();
 
-  $.mustache = function(template, view, partials) {
-    return Mustache.to_html(template, view, partials);
+  $.mustache = function(template, view, partials, send_fun) {
+    return Mustache.to_html(template, view, partials, send_fun);
   };
 
 })(jQuery);
