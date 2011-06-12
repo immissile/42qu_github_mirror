@@ -31,4 +31,3 @@ connection.get_db_by_table = db_by_table
 from zsql.shortcut import Query, mc, McCacheA, McCacheM, McCache, ForeignKey, OneToMany, Model, McModel, ForeignKey
 from zsql.db.mc import McLimit, McLimitA, McLimitM, McNum
 
-feed_cursor = SQLSTORE.get_farm('feed').cursor()

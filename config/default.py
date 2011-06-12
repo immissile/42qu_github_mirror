@@ -123,6 +123,7 @@ def finish(o):
 'pay_account',
 'buzz',
 'buzz_pos',
+'zsite_list',
             )
         },
     }
