@@ -25,7 +25,7 @@ CREATE TABLE `buzz` (
   `create_time` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `index2` (`to_id`,`create_time`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `buzz_pos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -48,7 +48,7 @@ CREATE TABLE `failed_mq` (
   PRIMARY KEY  (`id`),
   KEY `func` (`func`),
   KEY `time` (`time`)
-) ENGINE=MyISAM AUTO_INCREMENT=66 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=67 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `feed`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -57,18 +57,11 @@ CREATE TABLE `feed` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `zsite_id` int(10) unsigned NOT NULL,
   `cid` tinyint(3) unsigned NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `feed_entry`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `feed_entry` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `feed_id` int(10) unsigned NOT NULL,
+  `rid` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  KEY `feed_id` (`feed_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=933 DEFAULT CHARSET=utf8;
+  KEY `rid` (`rid`),
+  KEY `zsite_id` USING BTREE (`zsite_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=964 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=FIXED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `follow`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -83,7 +76,7 @@ CREATE TABLE `follow` (
   KEY `from_id` (`from_id`,`cid`),
   KEY `to_id` (`to_id`,`cid`),
   KEY `cid` (`cid`)
-) ENGINE=MyISAM AUTO_INCREMENT=904 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=934 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `gid`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -91,7 +84,7 @@ DROP TABLE IF EXISTS `gid`;
 CREATE TABLE `gid` (
   `id` int(10) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=933 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=964 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `ico`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -211,7 +204,7 @@ CREATE TABLE `po` (
   PRIMARY KEY  (`id`),
   KEY `Index_2` (`user_id`,`cid`,`state`,`create_time`),
   KEY `Index_3` USING BTREE (`user_id`,`state`,`create_time`)
-) ENGINE=MyISAM AUTO_INCREMENT=933 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=964 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `po_pic`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -239,7 +232,7 @@ CREATE TABLE `po_pos` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `index2` (`po_id`,`user_id`),
   KEY `index3` (`po_id`,`state`)
-) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rank`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -282,7 +275,7 @@ CREATE TABLE `reply` (
   PRIMARY KEY  (`id`),
   KEY `rs` (`cid`,`rid`,`state`),
   KEY `Index_3` (`user_id`,`state`)
-) ENGINE=MyISAM AUTO_INCREMENT=932 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=935 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -332,7 +325,7 @@ CREATE TABLE `txt` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `txt` mediumblob NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=933 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=948 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `txt_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -364,7 +357,7 @@ CREATE TABLE `user_login_time` (
   `user_id` int(10) unsigned NOT NULL,
   `create_time` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_mail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -376,7 +369,7 @@ CREATE TABLE `user_mail` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `Index_2` (`user_id`,`mail`),
   KEY `mail` (`mail`)
-) ENGINE=MyISAM AUTO_INCREMENT=24220 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=24221 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_password`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -418,7 +411,7 @@ CREATE TABLE `verify` (
   `create_time` int(10) unsigned NOT NULL,
   `cid` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=63 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=64 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `vote`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -431,7 +424,7 @@ CREATE TABLE `vote` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `user_id` USING BTREE (`user_id`,`feed_id`),
   KEY `po_id` USING BTREE (`feed_id`,`state`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `wall`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -444,7 +437,7 @@ CREATE TABLE `wall` (
   PRIMARY KEY  (`id`),
   KEY `from_id` (`from_id`),
   KEY `to_id` (`to_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `wall_reply`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -459,7 +452,7 @@ CREATE TABLE `wall_reply` (
   PRIMARY KEY  (`id`),
   KEY `zsite_id` (`zsite_id`,`last_reply_id`,`update_time`),
   KEY `Index_3` USING BTREE (`zsite_id`,`from_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `zsite`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -485,7 +478,7 @@ CREATE TABLE `zsite_list` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `zsite` (`zsite_id`,`owner_id`,`cid`),
   KEY `cid_rank` (`owner_id`,`cid`,`state`,`rank`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
