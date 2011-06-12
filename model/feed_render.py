@@ -43,7 +43,7 @@ def feed_tuple_by_db(id):
     result = [cid, m.reply_total, m.user_id, vote_count(id), m.name]
     if cid == CID_NOTE:
         result.append(m.txt)
-
+    return result
 
 def feed_tuple_list(id_list):
     r = mc_feed_tuple.get_multi(id_list)
