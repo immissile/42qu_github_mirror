@@ -1,0 +1,7 @@
+.rt,.rted{
+background: url("/img/gif/rt.gif") no-repeat scroll 0 5px transparent;
+display: inline-block; height: 14px; width: 16px; margin-left: 24px;
+}
+.rted{
+background-position:0 -16px;
+}
