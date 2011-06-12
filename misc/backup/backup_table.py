@@ -21,7 +21,7 @@ def backup_table(key, host, port, name, user, password):
     cmd = 'mysqldump '+create_table_option
     #print cmd
 
-    with open(join(PREFIX, 'table_%s.sql'%key), 'w') as backfile:
+    with open(join(PREFIX, 'table_%s'%key), 'w') as backfile:
         subprocess.Popen(
             cmd.split(),
             stdout=backfile
