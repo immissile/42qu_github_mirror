@@ -7,7 +7,7 @@ from operator import itemgetter
 from po import Po
 from follow import follow_id_list_by_from_id
 from model.vote import vote_count
-from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple
+from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT
 from zsite import Zsite
 
 CIDMAP = {}
@@ -27,6 +27,8 @@ class FeedBase(object):
         self.zsite_id = zsite_id
         self.vote = vote
         self.name = name
+
+   
 
 @cidmap(CID_NOTE)
 class FeedNote(FeedBase):

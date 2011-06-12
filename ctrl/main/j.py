@@ -10,6 +10,7 @@ from zkit.pic import picopen
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
 from model.vote import vote_decr_x, vote_decr, vote_incr_x, vote_incr
+from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id
 
 @urlmap('/j/txt')
 class Txt(_handler.Base):
@@ -51,6 +52,15 @@ class FeedDecrX(_handler.JLoginBase):
         self.finish('{}')
 
 
+@urlmap('j/feed')
+class Feed(_handler.JLoginBase):
+    def get(self, id=MAXINT):
+        current_user_id = self.current_user_id
+        self.finish({
+            "item": [
+                render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id) 
+            ]
+        })
 
 
 @urlmap('/j/note/upload/rm')
