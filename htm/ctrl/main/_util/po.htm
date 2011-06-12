@@ -13,7 +13,6 @@ ${po.name}
 %endif
 </%def>
 <%def name="htm_head()">
-<script src="${js.po}"></script>
 </%def>
 <%
 po_id = str(po.id)
@@ -55,3 +54,5 @@ user = reply.user
     %endif
 </div>
 %endif
+
+<script>script("${js.po} ${js.ctrl_feed}")</script>
