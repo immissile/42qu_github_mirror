@@ -12,10 +12,15 @@ class Base(_Base):
     def prepare(self):
         host = self.request.host
         zsite = zsite_by_domain(host)
+        print self.request.path
         if zsite is None:
-            return self.redirect(SITE_URL)
+            if self.request.path.rstrip("/"):
+                return self.redirect(SITE_URL)
+            else:
+                self.zsite_id = 0
+        else:
+            self.zsite_id = zsite.id
         self.zsite = zsite
-        self.zsite_id = zsite_id
         super(Base, self).prepare()
 
     @property
