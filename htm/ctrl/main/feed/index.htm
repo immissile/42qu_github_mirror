@@ -82,11 +82,11 @@ from static import css, js
 <div id="body"></div>
 <script id="feed" type="text/template">
 <div>
-${cid}
+{{cid}}
 </div>
 </script>
 <script>
 $("#body").append(
-    render('feed',[{cid:1}])
+    render('feed',{cid:1})
 )
 </script>
