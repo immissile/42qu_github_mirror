@@ -20,6 +20,7 @@ def print_urlmap(module):
 
     zweb._urlmap.URLMAP = []
 
-print_urlmap('ctrl')
+print_urlmap('ctrl.main')
+print_urlmap('ctrl.zsite')
 print_urlmap('god')
 print_urlmap('api')
