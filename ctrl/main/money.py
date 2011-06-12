@@ -17,7 +17,7 @@ class Index(LoginBase):
         user_ids = set([i.from_id if i.to_id == user_id else i.to_id for i in trade_list])
         if 0 in user_ids:
             user_ids.remove(0)
-        user_dic = Zsite.mc_get_multi(list(user_ids))
+        user_dic = Zsite.mc_get_dict(list(user_ids))
         user_dic[user_id] = self.current_user
         user_dic[0] = None
         for t in trade_list:

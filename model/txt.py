@@ -34,7 +34,7 @@ def txt_get(id):
     return ''
 
 def txt_bind(o_list):
-    r = mc_txt.get_multi(i.id for i in o_list)
+    r = mc_txt.get_dict(i.id for i in o_list)
     for i in o_list:
         iid = i.id
         txt = r[iid]

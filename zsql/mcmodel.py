@@ -55,15 +55,15 @@ class McModel(object):
     @classmethod
     def mc_flush_multi(cls, id_list):
         mc_key = cls.Meta.mc_key
-        result = mc.get_multi_marshal([mc_key%i for i in id_list], cls._loads)
+        result = mc.get_dict_marshal([mc_key%i for i in id_list], cls._loads)
         return result
 
     @classmethod
-    def mc_get_multi(cls, id_list):
+    def mc_get_dict(cls, id_list):
         if type(id_list) not in (array, list, tuple, dict):
             id_list = tuple(id_list)
         mc_key = cls.Meta.mc_key
-        result = mc.get_multi_marshal([mc_key%i for i in id_list], cls._loads)
+        result = mc.get_dict_marshal([mc_key%i for i in id_list], cls._loads)
         r = {}
         for i in id_list:
             t = result.get(mc_key%i)
@@ -78,7 +78,7 @@ class McModel(object):
     def mc_get_list(cls, id_list):
         id_list = tuple(id_list)
         mc_key = cls.Meta.mc_key
-        result = mc.get_multi_marshal([mc_key%i for i in id_list], cls._loads)
+        result = mc.get_dict_marshal([mc_key%i for i in id_list], cls._loads)
         r = []
         for i in id_list:
             t = result.get(mc_key%i)
@@ -290,6 +290,6 @@ class McModel(object):
             else:
                 i.__dict__[property] = None
 
-        r = cls.mc_get_multi(set(d))
+        r = cls.mc_get_dict(set(d))
         for k, v in e:
             v.__dict__[property] = r.get(k)

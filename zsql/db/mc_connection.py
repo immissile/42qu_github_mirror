@@ -15,13 +15,13 @@ class SimpleCached:
             r = loads(r)
         return r
 
-    def get_multi_marshal(self, keys, loads=marshal.loads):
+    def get_dict_marshal(self, keys, loads=marshal.loads):
         rs = self.mc.get_multi(keys)
         rs = dict((k, loads(v)) for k, v in rs.iteritems())
         return rs
 
     def get_list_marshal(self, keys, loads=marshal.loads):
-        rs = self.get_multi_marshal(keys, loads)
+        rs = self.get_dict_marshal(keys, loads)
         return [rs.get(k) for k in keys]
 
     def __getattr__(self, name):
@@ -99,31 +99,36 @@ class LocalCached:
                 self.dataset_marshal[key] = r
         return r
 
-    def get_multi(self, keys):
-        rs = [(k, self.dataset.get(k)) for k in keys]
-        r = dict((k, v) for k, v in rs if v is not None)
-        rs = self.mc.get_multi([k for k, v in rs if v is None])
-        r.update(rs)
-        self.dataset.update(rs)
-        return r
+    def get_dict(self, keys):
+        if keys:
+            rs = [(k, self.dataset.get(k)) for k in keys]
+            r = dict((k, v) for k, v in rs if v is not None)
+            rs = self.mc.get_multi([k for k, v in rs if v is None])
+            r.update(rs)
+            self.dataset.update(rs)
+            return r
+        else:
+            return {}
 
-    def get_multi_marshal(self, keys, loads=marshal.loads):
+    def get_dict_marshal(self, keys, loads=marshal.loads):
         rs = [(k, self.dataset_marshal.get(k)) for k in keys]
         r = dict((k, v) for k, v in rs if v is not None)
-        rs = self.mc.get_multi([k for k, v in rs if v is None])
+        rs = self.mc.get_dict([k for k, v in rs if v is None])
         rs = dict((k, loads(v)) for k, v in rs.iteritems())
         r.update(rs)
         self.dataset_marshal.update(rs)
         return r
 
     def get_list_marshal(self, keys, loads=marshal.loads):
-        rs = self.get_multi_marshal(keys, loads)
+        rs = self.get_dict_marshal(keys, loads)
         return [rs.get(k) for k in keys]
 
     def get_list(self, keys):
-        rs = self.get_multi(keys)
-        return [rs.get(k) for k in keys]
-
+        if keys:
+            rs = self.get_dict(keys)
+            return [rs.get(k) for k in keys]
+        else:
+            return []
     def append(self, key, val):
         self.dataset.pop(key, None)
         return self.mc.append(key, val)
@@ -190,7 +195,7 @@ def init_mc(memcached_addr=None, disable_local_cached=False):
             def get_raw(self, key):
                 return None
 
-            def get_multi(self, keys):
+            def get_dict(self, keys):
                 keys = tuple(keys)
                 return dict(zip(keys, self.get_list(keys)))
 

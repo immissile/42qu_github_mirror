@@ -102,7 +102,7 @@ def pic_list_edit(user_id, po_id):
 
 def pic_seq_dict(user_id, po_id):
     ids = pic_id_list(user_id, po_id)
-    return PoPic.mc_get_multi(ids)
+    return PoPic.mc_get_dict(ids)
 
 def pic_seq_dict_html(user_id, po_id):
     d = {}

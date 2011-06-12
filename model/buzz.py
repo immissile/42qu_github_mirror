@@ -120,7 +120,7 @@ def buzz_list(user_id, limit, offset):
             cls_dic[BUZZ_DIC[cid]].add(rid)
     li = dic.values()
     for cls, id_list in cls_dic.items():
-        cls_dic[cls] = cls.mc_get_multi(id_list)
+        cls_dic[cls] = cls.mc_get_dict(id_list)
     for be in li:
         be.from_list = [cls_dic[Zsite][i] for i in be.from_id_list]
         be.entry = cls_dic[BUZZ_DIC[be.cid]][be.rid]
@@ -143,7 +143,7 @@ def buzz_show(user_id, limit):
         cls_dic[BUZZ_DIC[cid]].add(rid)
         li.append(BuzzEntry(id, cid, rid, from_id))
     for cls, id_list in cls_dic.items():
-        cls_dic[cls] = cls.mc_get_multi(id_list)
+        cls_dic[cls] = cls.mc_get_dict(id_list)
     for be in li:
         be.from_list = [cls_dic[Zsite][i] for i in be.from_id_list]
         be.entry = cls_dic[BUZZ_DIC[be.cid]][be.rid]

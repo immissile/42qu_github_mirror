@@ -47,7 +47,7 @@ def feed_tuple_by_db(id):
     return result
 
 def feed_tuple_list(id_list):
-    r = mc_feed_tuple.get_multi(id_list)
+    r = mc_feed_tuple.get_dict(id_list)
     k = []
 
     for i in id_list:
@@ -95,7 +95,7 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
 
 #    result = []
-#    zsite_dict = Zsite.mc_get_multi(set(map(itemgetter(3), entry_list)))
+#    zsite_dict = Zsite.mc_get_dict(set(map(itemgetter(3), entry_list)))
 #    vote_count_list = vote_count.get_list(map(itemgetter(0), entry_list))
 #    for (id, cid, feed_id, zsite_id), vote in zip(entry_list, vote_count_list):
 #        args = CID2FEEDFUNC[cid](id)

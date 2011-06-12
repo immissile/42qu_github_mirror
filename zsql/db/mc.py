@@ -6,7 +6,7 @@ from array import array
 from struct import pack
 from mc_connection import mc
 
-def _mc_get_multi(self, args_list):
+def _mc_get_dict(self, args_list):
     if not isinstance(args_list, (list, tuple, dict, set)):
         args_list = tuple(args_list)
     if args_list:
@@ -69,7 +69,7 @@ class McCacheM(object):
         result = mc.get_list_marshal(key_list)
         return result
 
-    get_multi = _mc_get_multi
+    get_dict = _mc_get_dict
     __call__ = _mc_decorator
     delete = _mc_delete
 
@@ -91,7 +91,7 @@ class McCache(object):
         print  xxx("467")
         print "MC GET"
         print mc_xxx.get("123")
-        print mc_xxx.get_multi(["123","467"])
+        print mc_xxx.get_dict(["123","467"])
         mc_xxx.delete("123")
     """
     def __init__(self, key_pattern):
@@ -119,7 +119,7 @@ class McCache(object):
         return mc.incr(key)
 
     __call__ = _mc_decorator
-    get_multi = _mc_get_multi
+    get_dict = _mc_get_dict
     delete = _mc_delete
 
 
@@ -157,7 +157,7 @@ class McCacheA(object):
             return []
 
     __call__ = _mc_decorator
-    get_multi = _mc_get_multi
+    get_dict = _mc_get_dict
     delete = _mc_delete
 
 
@@ -234,10 +234,10 @@ class McNum(object):
             mc.set(mk, num, self.timeout)
         return num
 
-    def get_multi(self, keys):
+    def get_dict(self, keys):
         mc_key = self.mc_key
         mc_key_list = dict([(key, mc_key%key) for key in keys])
-        result = mc.get_multi(mc_key_list.itervalues())
+        result = mc.get_dict(mc_key_list.itervalues())
         r = {}
         for k, mck in mc_key_list.iteritems():
             v = result.get(mck)
@@ -258,7 +258,7 @@ class McNum(object):
             else:
                 i.__dict__[property] = None
 
-        r = self.get_multi(set(d))
+        r = self.get_dict(set(d))
         for k, v in e:
             v.__dict__[property] = r.get(k)
 
@@ -267,7 +267,7 @@ class McNum(object):
         mc.delete(mk)
 
     def get_list(self, keys):
-        r = self.get_multi(keys)
+        r = self.get_dict(keys)
 
         return [
             r.get(i, 0) for i in keys

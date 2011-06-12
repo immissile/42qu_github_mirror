@@ -49,7 +49,7 @@ class Benchmark(object):
         self.test_set_get_big_string()
         self.test_get()
         self.test_get_big_object()
-        self.test_get_multi()
+        self.test_get_dict()
         self.test_get_list()
 
     def init_server(self):
@@ -222,7 +222,7 @@ class Benchmark(object):
         for key, value in pairs:
             self.mc.delete(key)
 
-    def test_get_multi(self):
+    def test_get_dict(self):
         pairs = zip(self.keys, self.values)
         for key, value in pairs:
             self.mc.set(key, value)
@@ -231,9 +231,9 @@ class Benchmark(object):
         expected_result = dict(pairs)
 
         def test():
-            result = self.mc.get_multi(keys)
+            result = self.mc.get_dict(keys)
             assert result == expected_result
-        run_test(test, 'test_get_multi')
+        run_test(test, 'test_get_dict')
 
         for key, value in pairs:
             self.mc.delete(key)
