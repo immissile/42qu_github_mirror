@@ -64,11 +64,24 @@ var dnav = $("#dnav").show(), dmore = $("#dmore").addClass('dmore').hide(),body=
     })
 */
 function init_D(){
+    var body=$('html,body')
     $("#H .D").hide()
-    $("#H .DA").click(function(){
-        var t=this;
-        $(t).addClass("now").blur()
-        $("#D"+t.rel).show()
+    $("#H .DA").click(function(e){
+        var t=this, drop=$("#D"+t.rel), self=$(t).blur(), cls;
+        function _(){
+            drop.hide()
+            body.unbind('click',_)
+        }
+        if(drop.is(":hidden")){
+            drop.show()
+            e.stopPropagation()
+            body.click(_)
+            cls=self.addClass
+        }else{
+            _()
+            cls=self.removeClass
+        }
+        cls("now")
     })
 }
 
