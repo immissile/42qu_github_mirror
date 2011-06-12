@@ -40,10 +40,14 @@ class="on"\
 </%def>
 
 ${top_notify()}
+<div id="H"><div class="H">
+${self.info_box()}
+<a href="${SITE_URL}" class="site">${SITE_DOMAIN}</a>
+</div></div>
+
 
 <div id="container">
     <div id="header">
-        <div id="info-box" class="wrap">${self.info_box()}</div>
         <div id="nav">
             <ul>${nav_index(request.uri)}</ul>
             <div class="ornament">

@@ -1,0 +1,22 @@
+#H{
+    border-bottom:1px dotted #ccc;
+    padding: 22px 0 27px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+#H .H{
+    width: 972px;
+    margin: auto;
+    text-align: left;
+}
+#H a{
+    color:#999;
+    text-decoration:none;
+    color:#444;
+}
+#H .site{
+    font-size: 23px;
+    font-family: Trebuchet MS;
+    color: #a10;
+    margin-top: -6px;
+}
