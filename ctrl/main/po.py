@@ -8,42 +8,6 @@ from model import reply
 from model.zsite import Zsite
 
 
-class IndexBase(Base):
-    def po(self, id):
-        po = Po.mc_get(id)
-        current_user_id = self.current_user_id
-        if not po:
-            return self.redirect('/')
-        if po.user_id != self.zsite_id:
-            zsite = Zsite.mc_get(po.user_id)
-            link = '%s%s' % (zsite.link, po.link)
-            pos, _ = po_pos_get(current_user_id, id)
-            if pos > 0:
-                link = '%s#reply%s' % (link, pos)
-            return self.redirect(link)
-        return po
-
-
-@urlmap('/note/(\d+)', template='ctrl/note/index.htm')
-@urlmap('/word/(\d+)', template='ctrl/word/index.htm')
-class Index(IndexBase):
-    def initialize(self, template):
-        self.template = template
-
-    def get(self, id):
-        po = self.po(id)
-        current_user_id = self.current_user_id
-        if po:
-            can_admin = po.can_admin(current_user_id)
-            can_view = po.can_view(current_user_id)
-            if can_view and current_user_id:
-                po_pos_set(current_user_id, po)
-            return self.render(
-                po=po,
-                can_admin=can_admin,
-                can_view=can_view
-            )
-
 @urlmap('/po/(\d+)')
 class PoIndex(IndexBase):
     def get(self, id):

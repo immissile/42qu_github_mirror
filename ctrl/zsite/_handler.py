@@ -14,8 +14,14 @@ class Base(_Base):
         zsite = zsite_by_domain(host)
         print self.request.path
         if zsite is None:
-            if self.request.path.rstrip("/"):
-                return self.redirect(SITE_URL)
+            path = self.request.path.rstrip("/")
+            if path:
+                current_user = self.current_user
+                if current_user:
+                    link = "%s/%s"%(current_user.link, path)
+                else:
+                    link = SITE_URL
+                return self.redirect(link)
             else:
                 self.zsite_id = 0
         else:
