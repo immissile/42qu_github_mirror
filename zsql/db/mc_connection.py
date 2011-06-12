@@ -20,6 +20,9 @@ class SimpleCached:
         rs = dict((k, loads(v)) for k, v in rs.iteritems())
         return rs
 
+    def get_dict(self, keys):
+        return self.mc.get_multi(keys)
+
     def get_list_marshal(self, keys, loads=marshal.loads):
         rs = self.get_dict_marshal(keys, loads)
         return [rs.get(k) for k in keys]
@@ -113,7 +116,7 @@ class LocalCached:
     def get_dict_marshal(self, keys, loads=marshal.loads):
         rs = [(k, self.dataset_marshal.get(k)) for k in keys]
         r = dict((k, v) for k, v in rs if v is not None)
-        rs = self.mc.get_dict([k for k, v in rs if v is None])
+        rs = self.mc.get_multi([k for k, v in rs if v is None])
         rs = dict((k, loads(v)) for k, v in rs.iteritems())
         r.update(rs)
         self.dataset_marshal.update(rs)
