@@ -28,8 +28,6 @@ class FeedBase(object):
         self.vote = vote
         self.name = name
 
-note = id, rt_id_list, cid, reply_total, zsite_id, vote, name, txt
-word = id, rt_id_list, cid, reply_total, zsite_id, vote, name
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
@@ -52,6 +50,13 @@ def feed_tuple_list(id_list):
 
     return k
 
+#note = id, rt_id_list, cid, reply_total, zsite_id, vote, name, txt
+#word = id, rt_id_list, cid, reply_total, zsite_id, vote, name
+def dump_zsite(zsite_id , zsite_dict):
+    if zsite_id:
+        return {name:zsite.name, }
+    else:
+        return {}
 
 def render_feed_list(id_list, rt_dict):
     r = []
@@ -63,13 +68,16 @@ def render_feed_list(id_list, rt_dict):
         zsite_id = i[2]
         zsite_id_list.append(zsite_id)
         #c = CIDMAP[cid](id, rt_dict[id], *i)
-        result = [id, rt_dict[id],]
+        rt_id_list = rt_dict[id]
+        zsite_id_list.extend(rt_id_list)
+
+        result = [id,]
         result.extend(i)
         r.append(result)
 
-    zsite_dict = Zsite.mc_dict(zsite_id_list)
+    zsite_dict = Zsite.mc_dict(filter(zsite_id_list))
     for i in r:
-        i.insert(0)    
+        i.insert(0)
 
     return r
 
