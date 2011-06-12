@@ -32,7 +32,7 @@ class FeedBase(object):
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
     cid = m.cid
-    result = [cid, m.reply_total, m.user_id, vote_count(id), m.name]
+    result = [m.user_id, cid, m.reply_total, vote_count(id), m.name]
     if cid == CID_NOTE:
         result.append(m.txt)
     return result
@@ -50,35 +50,36 @@ def feed_tuple_list(id_list):
 
     return k
 
-#note = id, rt_id_list, cid, reply_total, zsite_id, vote, name, txt
-#word = id, rt_id_list, cid, reply_total, zsite_id, vote, name
-def dump_zsite(zsite_id , zsite_dict):
-    if zsite_id:
-        return {name:zsite.name, }
-    else:
-        return {}
+#note = zsite_id, cid, reply_total, vote, name, txt
+#word = zsite_id, cid, reply_total, vote, name
+def dump_zsite(zsite):
+    if zsite:
+        return (zsite.name, zsite.link)
+    return (0, 0)
 
 def render_feed_list(id_list, rt_dict):
-    r = []
     zsite_id_list = []
     for i in rt_dict.itervalues():
-        zsite_id_list.extend(i) 
+        zsite_id_list.extend(i)
     for id, i in zip(id_list, feed_tuple_list(id_list)):
-        cid = i[0]
-        zsite_id = i[2]
+        zsite_id = i[0]
         zsite_id_list.append(zsite_id)
-        #c = CIDMAP[cid](id, rt_dict[id], *i)
+
         rt_id_list = rt_dict[id]
         zsite_id_list.extend(rt_id_list)
 
-        result = [id,]
+    zsite_dict = Zsite.mc_get_dict(filter(bool, zsite_id_list))
+    r = []
+    for id, i in zip(id_list, feed_tuple_list(id_list)):
+        zsite_id = i[0]
+        zsite = zsite_dict[zsite_id]
+        result = [
+            id,
+            dump_zsite(zsite),
+            map(dump_zsite, map(zsite_dict.get, rt_id_list))
+        ]
         result.extend(i)
         r.append(result)
-
-    zsite_dict = Zsite.mc_dict(filter(zsite_id_list))
-    for i in r:
-        i.insert(0)
-
     return r
 
 def zsite_id_list_by_follow(zsite_id):

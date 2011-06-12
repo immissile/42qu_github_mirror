@@ -5,10 +5,6 @@ from config import FS_URL
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/main/_util/htm.htm" name="htm"/>
 
-<%def name="htm_head()">
-<script>script("${js.ctrl_feed}")</script>
-</%def>
-
 <%htm:form enctype="multipart/form-data" action="/po/word">
 <textarea name="txt"></textarea>
 <button type="submit">提交</button>
@@ -89,7 +85,9 @@ from config import FS_URL
 </div>
 </script>
 <script>
-$("#body").append(
-    render('feed',{cid:1})
-)
+script(
+"${js.ctrl_feed_render}",function(){
+    render_feed()
+    script("${js.ctrl_feed}")
+})
 </script>

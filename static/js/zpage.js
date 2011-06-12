@@ -47,6 +47,15 @@ get:function(name) {
     return null;
 }
 }
+$.getScript = function(url, callback, cache){
+    $.ajax({
+           type: "GET",
+           url: url,
+           success: callback,
+           dataType: "script",
+           cache: cache||true
+   });
+};
 
 function script(src,callback){
     src = src.split(" ")

@@ -52,15 +52,13 @@ class FeedDecrX(_handler.JLoginBase):
         self.finish('{}')
 
 
-@urlmap('j/feed')
+@urlmap('/j/feed')
 class Feed(_handler.JLoginBase):
     def get(self, id=MAXINT):
         current_user_id = self.current_user_id
-        self.finish({
-            "item": [
-                render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id) 
-            ]
-        })
+        self.finish(dumps(
+            render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id) 
+        ))
 
 
 @urlmap('/j/note/upload/rm')
