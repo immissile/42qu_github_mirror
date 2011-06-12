@@ -47,3 +47,15 @@ get:function(name) {
     return null;
 }
 }
+
+function script(src,callback){
+    src = src.split(" ")
+    var r=[],i=0;
+    for(;i<src.length;++i){
+        r.push($.getScript(src[i]))
+    }
+    $.when(r).then(function(){
+        callback&&callback()
+    });    
+
+}

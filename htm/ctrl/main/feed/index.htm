@@ -6,7 +6,7 @@ from model.vote import vote_state
 <%namespace file="/ctrl/main/_util/htm.htm" name="htm"/>
 
 <%def name="htm_head()">
-<script>$.getScript("${js.ctrl_feed}")</script>
+<script>script("${js.ctrl_feed}")</script>
 </%def>
 
 <%htm:form enctype="multipart/form-data" action="/po/word">
