@@ -25,6 +25,7 @@ class FeedBase(object):
         self.cid = cid
         self.reply_total = reply_total
         self.zsite_id = zsite_id
+        self.vote = vote
         self.name = name
 
 @cidmap(CID_NOTE)
@@ -53,7 +54,7 @@ def feed_tuple_list(id_list):
         result = r[i]
         if result is None:
             result = feed_tuple_by_db(i)
-            mc_feed_tuple.set(id, result)
+            mc_feed_tuple.set(i, result)
         k.append(result)
 
     return k
