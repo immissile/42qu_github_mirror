@@ -92,13 +92,13 @@ class TestCmemcached(unittest.TestCase):
             self.assertEqual(self.mc.set(K%i, 'before\n'), 1)
         keys = [K%i for i in range(N)]
         self.assertEqual(self.mc.append_multi(keys, data), 1)
-        self.assertEqual(self.mc.get_dict(keys), dict(zip(keys, ['before\n'+data] * N)))
+        self.assertEqual(self.mc.get_multi(keys), dict(zip(keys, ['before\n'+data] * N)))
         # prepend
         self.assertEqual(self.mc.prepend_multi(keys, data), 1)
-        self.assertEqual(self.mc.get_dict(keys), dict(zip(keys, [data+'before\n'+data] * N)))
+        self.assertEqual(self.mc.get_multi(keys), dict(zip(keys, [data+'before\n'+data] * N)))
         # delete
         self.assertEqual(self.mc.delete_multi(keys), 1)
-        self.assertEqual(self.mc.get_dict(keys), {})
+        self.assertEqual(self.mc.get_multi(keys), {})
 
     def test_append_multi_performance(self):
         N = 100000
@@ -115,7 +115,7 @@ class TestCmemcached(unittest.TestCase):
         values.update({' ':''})
         self.assertEqual(self.mc.set_multi(values), 1)
         del values[' ']
-        self.assertEqual(self.mc.get_dict(values.keys()), values)
+        self.assertEqual(self.mc.get_multi(values.keys()), values)
         mc = cmemcached.Client(['localhost:11999'], comp_threshold=1024)
         self.assertEqual(mc.set_multi(values), 0)
 
@@ -148,31 +148,31 @@ class TestCmemcached(unittest.TestCase):
         self.mc.set(key, 2009)
         self.assertEqual(self.mc.decr(key), 2008)
 
-    def test_get_dict(self):
+    def test_get_multi(self):
         keys = ['hello1', 'hello2', 'hello3']
         values = ['vhello1', 'vhello2', 'vhello3']
         for x in xrange(3):
             self.mc.set(keys[x], values[x])
             self.assertEqual(self.mc.get(keys[x]) , values[x])
-        result = self.mc.get_dict(keys)
+        result = self.mc.get_multi(keys)
         for x in xrange(3):
             self.assertEqual(result[keys[x]] , values[x])
 
-    def test_get_dict_big(self):
+    def test_get_multi_big(self):
         keys = ['hello1', 'hello2', 'hello3']
         values = [BigObject(str(i), 1000001) for i in xrange(3)]
         for x in xrange(3):
             self.mc.set(keys[x], values[x])
             self.assertEqual(self.mc.get(keys[x]) , values[x])
-        result = self.mc.get_dict(keys)
+        result = self.mc.get_multi(keys)
         for x in xrange(3):
             self.assertEqual(result[keys[x]] , values[x])
 
-    def test_get_dict_with_empty_string(self):
+    def test_get_multi_with_empty_string(self):
         keys = ['hello1', 'hello2', 'hello3']
         for k in keys:
             self.mc.set(k, '')
-        self.assertEqual(self.mc.get_dict(keys), dict(zip(keys, ['']*3)))
+        self.assertEqual(self.mc.get_multi(keys), dict(zip(keys, ['']*3)))
 
     def testBool(self):
         self.mc.set('bool', True)
