@@ -1,15 +1,23 @@
-function init(result){
-console.info(result)
-var rt_list=[],
-    data = {},
-    attr = "id zsite rt_list zsite_id cid reply_total vote name", i=0, cid=result[4];
-    switch(cid){
+(function (){
 /*
-62 : note
+61 word
+62 note
 */
-        case 62:attr+=" txt";
+var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total vote name",
+    FEED_ATTR = {
+        61:FEED_ATTR_BASE,
+        62:FEED_ATTR_BASE+" txt"
     }
-    attr = attr.split(" ")
+    for(var i in FEED_ATTR){
+        FEED_ATTR[i]=FEED_ATTR[i].split(' ')
+    }
+
+function init(result){
+    var rt_list=[],
+    data = {},
+    i=0,
+    attr=FEED_ATTR[result[4]];
+
     for(;i<attr.length;++i){
         data[attr[i]] = result[i]
     }
@@ -20,17 +28,32 @@ var rt_list=[],
     }
     return data
 }
+function init_result(result){
+    var data = {},length = result.length, item=[], i=0;
+
+    if(result.length){
+        data.next = result[length-1][0]
+        for(;i<length;++i){
+            item.push(init(result[i]))
+        }
+        data.item = item
+    }else{
+        data.next = 0
+    }
+    return data
+}
 
 function render_feed(){
     $.postJSON(
     "/j/feed",
     function(result){
-        console.info(init(result[0]))
-/*
         $("#body").append(
-            render('feed',{cid:1})
+            render(
+                'feed',
+                init_result(result)
+            )
         )
-*/
     })
 }
 render_feed()
+})()

@@ -80,9 +80,12 @@ from config import FS_URL
 <div id="feed_loading"></div>
 </div>
 <script id="feed" type="text/template">
-<div>
-{{cid}}
+{{#item}}
+<div style="border:1px solid #eee;padding:10px">
+{{name}}
 </div>
+{{/item}}
+<input type="hidden" value="{{next}}">
 </script>
 <script>
 script(
