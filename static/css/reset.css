@@ -1,0 +1,57 @@
+input,pre,body,button,select,textarea{font:14px/1 \5b8b\4f53,tahoma,arial;}
+body,img,a,div,span,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,textarea,th,td,tr,input{margin:0;padding:0;}
+
+h1,h2,h3,h4,h5,h6,p{
+font-size:100%;
+font-weight:normal;
+line-height:22px;
+}
+code{font-family:courier new,courier,monospace;}
+small{font-size:12px;}
+a{text-decoration:none;color:#01a}
+a:hover{text-decoration:none;color:#a10}
+sup{vertical-align:text-top;}
+sub{vertical-align:text-bottom;}
+textarea{overflow:auto}
+input,button,select,textarea{font-size:14px;line-height:22px}
+div{cursor:default;}
+a div,a p{cursor:pointer;}
+pre{
+line-height:22px;
+word-wrap:break-word;
+overflow:hidden;
+word-break:break-all;
+white-space: pre-wrap;
+white-space:-moz-pre-wrap;
+*white-space: pre;
+*word-wrap: break-word;
+}
+table{
+border-collapse:collapse;
+border-spacing:0;
+border:0;
+}
+.table td,.table th{padding:6px;border-bottom:1px solid #eee;}
+.table th{border-bottom:1px solid #eee;}
+.table{
+margin:auto;
+border:1px solid #f3f3f3;
+}
+fieldset,img {border:0;}
+address,caption,cite,code,dfn,em,strong,var {font-style:normal;font-weight:normal;}
+ul {list-style:none;}
+caption,th {text-align:left;}
+q:before,q:after {content:'';}
+
+/*清除浮动*/
+.c{
+ clear:both;
+ margin:0px !important;
+ padding:0px !important;
+ height:0;
+ font-size:0;
+ line-height:0; 
+ display:block;
+}
+.L{float:left}
+.R{float:right}
