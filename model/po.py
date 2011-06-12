@@ -14,9 +14,9 @@ from po_pic import pic_htm, pic_seq_dict_html
 from zkit.txt2htm import txt_withlink
 from zsite import Zsite
 
-PO_LINK = {
-    CID_NOTE: '/note/%s',
-    CID_WORD: '/word/%s',
+PO_EN = {
+    CID_NOTE: 'note',
+    CID_WORD: 'word',
 }
 
 mc_htm = McCache('PoHtm.%s')
@@ -47,9 +47,9 @@ class Po(McModel, ReplyMixin):
     @property
     def link(self):
         if not hasattr(self, '_link'):
-            link = PO_LINK[self.cid]%self.id
+            en = PO_EN[self.cid]
             zsite = Zsite.mc_get(self.user_id)
-            link = '%s/%s'%(zsite.link, link)
+            link = '%s/%s/%s'%(zsite.link, en, self.id)
             self._link = link
         return self._link
 

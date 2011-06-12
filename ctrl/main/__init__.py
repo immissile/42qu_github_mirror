@@ -3,7 +3,6 @@
 import j
 import i
 import auth
-import wall
 import po
 import feed
 import note
