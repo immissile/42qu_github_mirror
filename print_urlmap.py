@@ -11,7 +11,10 @@ def print_urlmap(module):
     premn = None
     for i in sorted(zweb._urlmap.URLMAP):
         url, cls = i[:2]
-        mn = cls.__module__[prefix:]+'.py'
+        mn = cls.__module__
+        if mn.startswith(module):    
+            mn = mn[prefix:]
+        mn = mn +'.py'
         if mn == premn:
             mn = ''
         else:
@@ -20,7 +23,7 @@ def print_urlmap(module):
 
     zweb._urlmap.URLMAP = []
 
-print_urlmap('ctrl.main')
 print_urlmap('ctrl.zsite')
+print_urlmap('ctrl.main')
 print_urlmap('god')
 print_urlmap('api')

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import zsite._handler
+from zsite import  _handler
 from zweb._urlmap import urlmap
 from model.follow import follow_rm, follow_new
 
