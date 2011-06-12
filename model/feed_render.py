@@ -29,13 +29,13 @@ class FeedBase(object):
 
 @cidmap(CID_NOTE)
 class FeedNote(FeedBase):
-    pass
-
-@cidmap(CID_WORD)
-class FeedWord(FeedBase):
     def __init__(self, id, rt_id_list, cid, reply_total, zsite_id, vote, name, txt):
         FeedBase.__init__(self, id, rt_id_list, cid, reply_total, zsite_id, vote, name)
         self.txt = txt
+
+@cidmap(CID_WORD)
+class FeedWord(FeedBase):
+    pass
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
