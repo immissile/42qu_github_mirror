@@ -33,14 +33,13 @@
     font-size: 23px;
     font-family: Trebuchet MS;
     color: #a10;
-    margin-top: -6px;
 }
-.D a:hover{
+#H .D a:hover{
     text-decoration:none;
     background:#f9f9f9;
     color:#444;
 }
-.D a{
+#H .D a{
     display:block;
     color:#999;
     width:60px;
@@ -49,3 +48,14 @@
     padding:7px 0;
     background:#fff;
 }
+#H .DA{
+    margin-right: 32px;
+}
+#H .D{
+    padding-bottom:1px;
+    position:absolute;
+    margin-top:7px;
+    border:1px solid #eee;
+    background:#fafafa;  
+}
+

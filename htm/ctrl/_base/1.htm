@@ -67,18 +67,24 @@ ${self.info_box()}
 <%
 link = current_user.link
 %>
-<div style="float:right">
-<a href="${link}">${current_user.name}</a>
-<a href="${SITE_URL}/i">账号</a>
-<a href="/feed">动态</a>
-
-<div>
-发布
-<a href="/po/note">文章</a>
+<div class="R">
+<a class="DA" href="javascript:void(0)">发布</a>
+    <div class="D">
+        <a href="/po/note">文章</a>
+    </div>
+<a class="DA" href="javascript:void(0)">版块</a>
+<a class="DA" href="/notice">提醒</a>
+<a class="DA" href="javascript:void(0)" style="">更多</a>
+    <div class="D" id="DMORE">
+        <a href="${link}">${current_user.name}</a>
+        <a href="${SITE_URL}/i">账号</a>
+        <a href="/feed">动态</a>
+        <a href="/logout">退出</a>
+    </div>
 </div>
 
 
-<a href="/logout">退出</a></div>
+
 %else:
 <%htm:form action="/login" id="register-form" className="register" >
     <div class="input-wrapper">
@@ -92,5 +98,4 @@ link = current_user.link
     <button type="submit"><span>开始使用！</span></button>
 </%htm:form>
 %endif
-<div id="logo"><a href="/"></a></div>
 </%def>
