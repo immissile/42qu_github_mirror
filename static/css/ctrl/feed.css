@@ -9,3 +9,9 @@ background-position:0 -16px;
 font-family:Verdana,"BitStream vera Sans",Arial,Helvetica,'Lucida Grande','Lucida Sans Unicode',Sans-serif;
 outline:0;
 }
+#feed_loading{
+outline:0;
+display:block;
+height:8px;
+background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
+}

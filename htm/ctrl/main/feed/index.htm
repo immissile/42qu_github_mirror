@@ -1,5 +1,6 @@
 <%!
 from static import css, js
+from config import FS_URL
 %>
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/main/_util/htm.htm" name="htm"/>
@@ -80,7 +81,7 @@ from static import css, js
 ##%endfor
 
 <div id="body">
-<a id="loading" href="javascript:void(0)"></a>
+<div id="feed_loading"></div>
 </div>
 <script id="feed" type="text/template">
 <div>
