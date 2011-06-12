@@ -110,4 +110,7 @@ class FeedMerge(object):
                 break
 
 if __name__ == '__main__':
-    pass
+    for i in feed_iter(935):
+        print i
+
+
