@@ -63,7 +63,7 @@ def feed_iter(zsite_id, start_id=MAXINT):
         if id_list:
             for i in id_list:
                 yield i
-            start_id = i
+            start_id = i[0]
         else:
             return
     while True:
@@ -73,7 +73,7 @@ def feed_iter(zsite_id, start_id=MAXINT):
             break
         for i, in c:
             yield i
-        start_id = i
+        start_id = i[0]
 
 
 def feed_cmp_iter(zsite_id, start_id=MAXINT):

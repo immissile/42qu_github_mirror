@@ -40,11 +40,9 @@ class FeedWord(FeedBase):
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
     cid = m.cid
-    result = [cid, m.reply_total, m.user_id, vote_count(id)]
-    if cid == CID_WORD:
-        result.append(m.name)
-    elif cid == CID_NOTE:
-        result.append(m.name, m.txt)
+    result = [cid, m.reply_total, m.user_id, vote_count(id), m.name]
+    if cid == CID_NOTE:
+        result.append(m.txt)
 
 
 def feed_tuple_list(id_list):
@@ -54,7 +52,7 @@ def feed_tuple_list(id_list):
     for i in id_list:
         result = r[i]
         if result is None:
-            result = feed_render_by_db(i)
+            result = feed_tuple_by_db(i)
             mc_feed_tuple.set(id, result)
         k.append(result)
 
