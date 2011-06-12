@@ -12,6 +12,7 @@ from zkit.time_format import time_title
 from reply import ReplyMixin
 from po_pic import pic_htm, pic_seq_dict_html
 from zkit.txt2htm import txt_withlink
+from zsite import Zsite
 
 PO_LINK = {
     CID_NOTE: '/note/%s',
@@ -42,10 +43,14 @@ class Po(McModel, ReplyMixin):
         txt_new(id, txt)
         mc_htm.delete(id)
 
+
     @property
     def link(self):
         if not hasattr(self, '_link'):
-            self._link = PO_LINK[self.cid]%self.id
+            link = PO_LINK[self.cid]%self.id
+            zsite = Zsite.mc_get(self.user_id)
+            link = '%s/%s'%(zsite.link, link)
+            self._link = link
         return self._link
 
     def feed_new(self):

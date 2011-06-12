@@ -9,11 +9,14 @@ from model.zsite import Zsite
 
 
 @urlmap('/po/(\d+)')
-class PoIndex(IndexBase):
+class PoIndex(Base):
     def get(self, id):
-        po = self.po(id)
+        po = Po.mc_get(id)
         if po:
-            return self.redirect(po.link)
+            link = po.link
+        else:
+            link = "/"
+        self.redirect(link)
 
 @urlmap('/po/word')
 class Word(LoginBase):
