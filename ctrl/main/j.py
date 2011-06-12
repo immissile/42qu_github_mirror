@@ -60,6 +60,7 @@ class Feed(_handler.JLoginBase):
             render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id) 
         ))
 
+    post = get
 
 @urlmap('/j/note/upload/rm')
 @urlmap('/j/note/upload/rm/(\d+)')

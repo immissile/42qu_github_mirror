@@ -86,8 +86,6 @@ from config import FS_URL
 </script>
 <script>
 script(
-"${js.ctrl_feed_render}",function(){
-    render_feed()
-    script("${js.ctrl_feed}")
-})
+"${js.ctrl_feed_render} ${js.ctrl_feed}"
+)
 </script>
