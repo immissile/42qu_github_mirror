@@ -35,3 +35,17 @@
     color: #a10;
     margin-top: -6px;
 }
+.D a:hover{
+    text-decoration:none;
+    background:#f9f9f9;
+    color:#444;
+}
+.D a{
+    display:block;
+    color:#999;
+    width:60px;
+    text-align:center;
+    border-bottom:1px dotted #eee;
+    padding:7px 0;
+    background:#fff;
+}
