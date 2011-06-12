@@ -1,6 +1,5 @@
 <%!
 from static import css, js
-from model.vote import vote_state
 %>
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/main/_util/htm.htm" name="htm"/>
@@ -24,21 +23,30 @@ ${caller.body()}\
 </div>\
 </%def>
 
+<%!
+from model.vote import vote_state
+%>
+<%def name="vote(id, num)">
+<%
+state = vote_state(current_user_id, id)
+%>
+<span class="vote${state}" id="vote${id}">
+<a title="厌倦" class="decr" href="javascript:vote_decr(${id});void(0)">-</a>
+<span title="好评度" class="num">${num}</span>
+<a title="喜欢" class="incr" href="javascript:vote_incr(${id});void(0)">+</a>
+<a title="转发" id="rt${id}" class="rt" href="javascript:rt(${id});void(0)"></a>
+</span>
+</%def>
+
 <%def name="_style1_1(i)">
 <%
 iid = i.id
-state = vote_state(current_user_id, iid)
 %>
 <%call expr="_style1(i)">
 ${caller.body()}\
 <div>\
 <a href="/po/${iid}" target="_blank">${i.reply_total or ''}回复</a>
-<span class="vote${state}" id="vote${iid}">
-<a title="厌倦" class="decr" href="javascript:vote_decr(${iid});void(0)">-</a>
-<span title="好评度" class="num">${i.vote}</span>
-<a title="喜欢" class="incr" href="javascript:vote_incr(${iid});void(0)">+</a>
-<a title="转发" id="rt${iid}" class="rt" href="javascript:rt(${iid});void(0)"></a>
-</span>
+${vote(iid, i.vote)}
 </div>\
 </%call>\
 </%def>
