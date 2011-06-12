@@ -1,6 +1,7 @@
 
 package{
     [
+"rake",
 "scons",
 "astyle",
 "dstat",
