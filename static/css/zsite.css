@@ -51,6 +51,13 @@
 }
 #H .DA{
     margin-left: 32px;
+    color:#999;
+}
+#H .now{
+color:#000
+}
+#H .DA:hover{
+color:#00f;
 }
 #H .D{
     padding-bottom:1px;

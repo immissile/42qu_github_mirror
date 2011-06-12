@@ -66,7 +66,9 @@ var dnav = $("#dnav").show(), dmore = $("#dmore").addClass('dmore').hide(),body=
 function init_D(){
     $("#H .D").hide()
     $("#H .DA").click(function(){
-        
+        var t=this;
+        $(t).addClass("now").blur()
+        $("#D"+t.rel).show()
     })
 }
 
