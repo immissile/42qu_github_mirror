@@ -46,5 +46,28 @@ function login_autofill(suffix){
         mail.val(mail_val).select();
     }
 }
+/*
+var dnav = $("#dnav").show(), dmore = $("#dmore").addClass('dmore').hide(),body=$('html,body');
+    function _(){
+        dmore.hide()
+        body.unbind('click',_)
+    }
+    dnav.click(function(e){
+        dnav.blur()
+        if(dmore.is(":hidden")){
+            dmore.show()
+            e.stopPropagation()
+            body.click(_)
+        }else{
+            _()
+        }
+    })
+*/
+function init_D(){
+    $("#H .D").hide()
+    $("#H .DA").click(function(){
+        
+    })
+}
 
 
