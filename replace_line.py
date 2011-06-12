@@ -5,11 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/unfollow
+tip-twitter_arrows.gif
 """
 
 TO_STRING = """
-/follow/rm
+/img/gif/qtip.gif
 """
 
 def run():
