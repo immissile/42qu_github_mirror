@@ -50,14 +50,9 @@ ${i.txt}
 </%call>
 </%def>
 
-<%def name="render_follow(i)">
-<%call expr="_style1(i)">
-关注了 <a href="${i.link}" target="_blank">${i.name}</a>
-</%call>
-</%def>
 
 <%!
-from model.cid import CID_WORD,CID_FOLLOW,CID_NOTE
+from model.cid import CID_WORD,CID_NOTE
 %>
 %for i in entry_list:
 <%
@@ -65,8 +60,6 @@ cid = i.cid
 %>
 %if cid == CID_WORD:
 ${render_word(i)}
-%elif cid == CID_FOLLOW:
-${render_follow(i)}
 %elif cid == CID_NOTE:
 ${render_note(i)}
 %endif

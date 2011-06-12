@@ -59,7 +59,7 @@ def feed_id_lastest(feed_id):
 #http://code.google.com/p/memlink/
 def feed_iter(zsite_id, start_id=MAXINT):
     if start_id == MAXINT:
-        id_list = feed_id_lastest(id)
+        id_list = feed_id_lastest(zsite_id)
         if id_list:
             for i in id_list:
                 yield i
@@ -67,7 +67,7 @@ def feed_iter(zsite_id, start_id=MAXINT):
         else:
             return
     while True:
-        cursor.execute(FEED_ID_ITER_SQL, (id, start_id))
+        cursor.execute(FEED_ID_ITER_SQL, (zsite_id, start_id))
         c = cursor.fetchall()
         if not c:
             break
@@ -78,7 +78,7 @@ def feed_iter(zsite_id, start_id=MAXINT):
 
 def feed_cmp_iter(zsite_id, start_id=MAXINT):
     for id, rid in feed_iter(zsite_id, start_id):
-        yield FeedEntryCmp(id, rid, zsite_id)
+        yield FeedCmp(id, rid, zsite_id)
 
 class FeedCmp(object):
     def __init__(self, id, rid, zsite_id):

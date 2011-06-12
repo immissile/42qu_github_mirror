@@ -86,8 +86,8 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     for i in feed_merge.merge_iter(limit, begin_id):
         rid = i.rid
         id = rid or i.id
-        if id not in rt:
-            rt[id] = []
+        if id not in rt_dict:
+            rt_dict[id] = []
             id_list.append(id)
         if rid:
             rt_dict[id].append(i.zsite_id)
