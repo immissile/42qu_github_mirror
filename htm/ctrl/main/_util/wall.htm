@@ -4,7 +4,7 @@ from zkit.time_format import friendly_time
 from model.zsite import Zsite
 from model.wall import Wall
 %>
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/main/_util/htm.htm" name="htm"/>
 <%def name="reply_render_body(i, can_see=False)">
 <%
 secret = i.state==STATE_SECRET
