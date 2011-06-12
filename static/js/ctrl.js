@@ -67,7 +67,8 @@ function init_D(){
     var body=$('html,body')
     $("#H .D").hide()
     $("#H .DA").click(function(e){
-        var t=this, drop=$("#D"+t.rel), self=$(t).blur(), cls;
+        var t=this, drop=$("#D"+t.rel);
+        t.blur();
         function _(){
             drop.hide()
             body.unbind('click',_)
@@ -76,12 +77,9 @@ function init_D(){
             drop.show()
             e.stopPropagation()
             body.click(_)
-            cls=self.addClass
         }else{
             _()
-            cls=self.removeClass
         }
-        cls("now")
     })
 }
 
