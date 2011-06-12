@@ -78,7 +78,7 @@ def zsite_id_list_by_follow(zsite_id):
     r.append(zsite_id)
     return r
 
-def render_iter(zsite_id, limit=MAXINT, begin_id=MAXINT):
+def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     feed_merge = FeedMerge(zsite_id_list_by_follow(zsite_id))
     rt_dict = {}
     id_list = []
