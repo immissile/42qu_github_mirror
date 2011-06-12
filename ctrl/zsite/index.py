@@ -14,7 +14,7 @@ class Follow(_handler.XsrfGetBase):
         follow_new(current_user.id, zsite.id)
         self.render()
 
-@urlmap('/unfollow')
+@urlmap('/follow/rm')
 class Unfollow(_handler.XsrfGetBase):
     def get(self):
         current_user = self.current_user
