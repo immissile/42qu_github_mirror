@@ -65,11 +65,11 @@ class Client(cmemcached_imp.Client):
         val, flag = cmemcached_imp.Client.get_raw(self, key)
         return restore(val, flag)
 
-    def get_dict(self, keys):
-        result = cmemcached_imp.Client.get_dict_raw(self, keys)
+    def get_multi(self, keys):
+        result = cmemcached_imp.Client.get_multi_raw(self, keys)
         return dict((k, restore(v, flag))
                     for k, (v, flag) in result.iteritems())
 
     def get_list(self, keys):
-        result = self.get_dict(keys)
+        result = self.get_multi(keys)
         return [result.get(key) for key in keys]
