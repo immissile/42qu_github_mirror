@@ -12,7 +12,7 @@ from model.zsite import Zsite
 
 @urlmap('/note/(\d+)', template='ctrl/note/index.htm')
 @urlmap('/word/(\d+)', template='ctrl/word/index.htm')
-class Index(IndexBase):
+class Index(Base):
     def initialize(self, template):
         self.template = template
 
@@ -23,11 +23,7 @@ class Index(IndexBase):
             return self.redirect('/')
 
         if po.user_id != self.zsite_id:
-            zsite = Zsite.mc_get(po.user_id)
-            link = '%s%s' % (zsite.link, po.link)
-            pos, _ = po_pos_get(current_user_id, id)
-            if pos > 0:
-                link = '%s#reply%s' % (link, pos)
+            link = po.link
             return self.redirect(link)
         
         current_user_id = self.current_user_id
