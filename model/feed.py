@@ -7,12 +7,9 @@ from mq import mq_client
 from zkit.algorithm.merge import imerge
 from gid import gid
 
-<<<<<<< local
 class Feed(McModel):
     pass
 
-=======
->>>>>>> other
 MAXINT = sys.maxint
 PAGE_LIMIT = 42
 
