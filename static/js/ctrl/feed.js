@@ -57,7 +57,7 @@ $(".rt").live("click", function(){
 $(".rted").live("click",function(){
     var t=this, self=$(t);
     t.className="rted"
-    $.postJSON('/j/rt/rm'+t.rel)
+    $.postJSON('/j/rt/rm/'+t.rel)
     self.poshytip('update','已转发').poshytip('show').poshytip('update','转发被取消',true)
 })
 
