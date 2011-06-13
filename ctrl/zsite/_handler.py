@@ -12,18 +12,8 @@ class Base(_Base):
     def prepare(self):
         host = self.request.host
         zsite = zsite_by_domain(host)
-        print self.request.path
         if zsite is None:
-            path = self.request.path.rstrip('/')
-            if path:
-                current_user = self.current_user
-                if current_user:
-                    link = '%s/%s'%(current_user.link, path)
-                else:
-                    link = SITE_URL
-                return self.redirect(link)
-            else:
-                self.zsite_id = 0
+            self.zsite_id = 0
         else:
             self.zsite_id = zsite.id
         self.zsite = zsite
@@ -39,13 +29,24 @@ class Base(_Base):
         kwds['zsite'] = self.zsite
         super(Base, self).render(template_name, **kwds)
 
+class ZsiteBase(Base):
+    def prepare(self):
+        super(ZsiteBase, self).prepare()
+        if self.zsite_id == 0:
+            current_user = self.current_user
+            if current_user:
+                link = "%s/%s"%(current_user.link, path)
+            else:
+                link = SITE_URL
+            return self.redirect(link)
+
 class JLoginBase(Base):
     def prepare(self):
         super(JLoginBase, self).prepare()
         if not self.current_user:
             self.finish('{"login":1}')
 
-class LoginBase(Base):
+class LoginBase(ZsiteBase):
     def prepare(self):
         super(LoginBase, self).prepare()
         _login_redirect(self)

@@ -10,7 +10,7 @@
 -1  1  2
 */
 
-    $(".decr,.incr,.num,.rt,.rted").poshytip({
+    $(".reply,.decr,.incr,.num,.rt,.rted").poshytip({
         className: 'tip-twitter',
         showTimeout: 100,
         alignTo: 'target',
@@ -47,3 +47,17 @@
         _(decr,incr,id,-1)
     }
 })()
+
+$(".rt").live("click", function(){
+    this.className="rted"
+    var self=$(this);
+    $()
+    self.poshytip('show').poshytip('update','转发成功',true)
+})
+$(".rted").live("click",function(){
+    this.className="rt"
+    var self=$(this);    
+    self.poshytip('update','已转发').poshytip('show').poshytip('update','转发被取消',true)
+})
+
+

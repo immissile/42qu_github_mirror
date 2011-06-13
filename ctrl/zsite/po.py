@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base, LoginBase, XsrfGetBase, ZsiteBase
 from zweb._urlmap import urlmap
 from model.po import po_rm, po_word_new, Po
 from model.po_pos import po_pos_get, po_pos_set
@@ -12,7 +12,7 @@ from model.zsite import Zsite
 @urlmap('/word/(\d+)', template='word')
 @urlmap('/question/(\d+)', template='question')
 @urlmap('/answer/(\d+)', template='answer')
-class Index(Base):
+class Index(ZsiteBase):
     def initialize(self, template):
         self.template = 'ctrl/zsite/po/%s.htm' % template
 

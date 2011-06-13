@@ -3,7 +3,7 @@
 61 word
 62 note
 */
-var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total vote name",
+var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total name vote_state vote",
     FEED_ATTR = {
         61:FEED_ATTR_BASE,
         62:FEED_ATTR_BASE+" txt"
@@ -26,33 +26,24 @@ function init(result){
         name: zsite[0],
         link: zsite[1]
     }
+    data.link = "/po/"+data.id
     return data
 }
-function init_result(result){
-    var data = {},length = result.length, item=[], i=0;
 
-    if(result.length){
-        data.next = result[length-1][0]
-        for(;i<length;++i){
-            item.push(init(result[i]))
-        }
-        data.item = item
-    }else{
-        data.next = 0
+function init_result(result){
+    var length = result.length, item=[], i=0;
+
+    for(;i<length;++i){
+        item.push(init(result[i]))
     }
-    return data
+    return item 
 }
 
 function render_feed(){
     $.postJSON(
     "/j/feed",
     function(result){
-        $("#body").append(
-            render(
-                'feed',
-                init_result(result)
-            )
-        )
+        $('#feed').tmpl(init_result(result)).appendTo("#feeds")
     })
 }
 render_feed()
