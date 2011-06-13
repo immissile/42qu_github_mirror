@@ -3,7 +3,7 @@
 61 word
 62 note
 */
-var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total vote name",
+var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total name vote_state vote",
     FEED_ATTR = {
         61:FEED_ATTR_BASE,
         62:FEED_ATTR_BASE+" txt"
@@ -29,6 +29,7 @@ function init(result){
     data.link = "/po/"+data.id
     return data
 }
+
 function init_result(result){
     var length = result.length, item=[], i=0;
 
