@@ -14,7 +14,7 @@ background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
 .feedbar a, .vote0 .num{
 color:#B2B2B2;
 outline:0;
-font-family: "Times New Roman", serif 
+font-family: Verdana, Arial, Helvetica, sans-serif 
 }
 .vote-1 .num,.vote0 .num,.vote1 .num{
 padding:0 3px;
@@ -22,5 +22,5 @@ padding:0 3px;
 .vote-1 a,.vote0 a,.vote1 a{
 padding:0 3px;
 }
- .vote1 .num,.vote1 .incr{color:#FF4500}
- .vote-1 .num,.vote-1 .decr{color:#0045ff}
+.vote1 .num,.vote1 .incr{color:#FF4500}
+.vote-1 .num,.vote-1 .decr{color:#0045ff}
