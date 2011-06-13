@@ -87,14 +87,10 @@ from config import FS_URL
     {{if txt}}
         <div>${txt}</div>
     {{/if}}
-    <div>
+    <div class="feedbar">
         <a target="_blank" href="${link}#txt">${reply_total}回复</a>
-        <span class="vote${vote_state}" id="vote${id}">
-            <a title="厌倦" class="decr" href="javascript:vote_decr(${id});void(0)">-</a>
-            <span title="好评度" class="num">${vote}</span>
-            <a title="喜欢" class="incr" href="javascript:vote_incr(${id});void(0)">+</a>
-            <a title="转发" id="rt${id}" class="rt" href="javascript:rt(${id});void(0)"></a>
-        </span>
+        <span class="vote${vote_state}" id="vote${id}"><a title="厌倦" class="decr" href="javascript:vote_decr(${id});void(0)">-</a><span title="好评度" class="num">${vote}</span><a title="喜欢" class="incr" href="javascript:vote_incr(${id});void(0)">+</a></span>
+<a title="转发" id="rt${id}" class="rt" href="javascript:rt(${id});void(0)"></a>
     </div>
     <div>
         <a target="_blank" href="${zsite.link}">${zsite.name}</a>
