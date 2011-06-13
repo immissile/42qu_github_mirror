@@ -83,13 +83,22 @@ from config import FS_URL
 
 <script id="feed" type="text/x-jquery-tmpl"><%text>
 <div style="border:1px solid #eee;padding:10px">
-<a href="${link}">${name}</a>
-{{if txt}}
-<div>${txt}</div>
-{{/if}}
-<div>
-<a href="${link}#txt">${reply_total}回复</a>
-</div>
+    <a target="_blank" href="${link}">${name}</a>
+    {{if txt}}
+        <div>${txt}</div>
+    {{/if}}
+    <div>
+        <a target="_blank" href="${link}#txt">${reply_total}回复</a>
+        <span class="vote${state}" id="vote${id}">
+            <a title="厌倦" class="decr" href="javascript:vote_decr(${id});void(0)">-</a>
+            <span title="好评度" class="num">${num}</span>
+            <a title="喜欢" class="incr" href="javascript:vote_incr(${id});void(0)">+</a>
+            <a title="转发" id="rt${id}" class="rt" href="javascript:rt(${id});void(0)"></a>
+        </span>
+    </div>
+    <div>
+        <a target="_blank" href="${zsite.link}">${zsite.name}</a>
+    </div>
 </div>
 </%text></script>
 
