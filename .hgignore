@@ -19,3 +19,4 @@ __init_file_hash__.py
 static/js/z.js
 static/css/jquery.fancybox-1.3.4.css
 config/nginx
+UglifyJS
