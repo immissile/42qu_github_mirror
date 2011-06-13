@@ -10,7 +10,7 @@
 -1  1  2
 */
 
-    $(".decr,.incr,.num,.rt,.rted").poshytip({
+    $(".reply,.decr,.incr,.num,.rt,.rted").poshytip({
         className: 'tip-twitter',
         showTimeout: 100,
         alignTo: 'target',
