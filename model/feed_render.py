@@ -28,7 +28,6 @@ class FeedBase(object):
         self.vote = vote
         self.name = name
 
-
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
     cid = m.cid
