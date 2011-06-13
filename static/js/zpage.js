@@ -101,7 +101,7 @@ jQuery.extend({
             }else{
                 ago = parseInt(minute/60)
                 if(ago<23){
-                    return ago+"小时"+minute%60+"分前"
+                    return ago+"小时前"
                 }
             }
         }
