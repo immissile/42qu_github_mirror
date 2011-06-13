@@ -279,15 +279,14 @@ def merge_css_import(path):
 
 def merge_js(path, filename, filetuple):
     filepath = join(path, filename)
-    txt = []
+    txt = [';'] #不加开头的;uglifyjs 不压缩开头的注释
 
 
     for i in filetuple:
         with open(join(path, i), 'r') as infile:
             txt.append(infile.read())
-
     with open(filepath, 'w') as out:
-        out.write('\n'.join(txt))
+        out.write('\n;\n'.join(txt))
 
 
 def merge_js_import(path, filename, filetuple):
