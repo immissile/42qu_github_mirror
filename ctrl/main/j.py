@@ -57,7 +57,7 @@ class Feed(_handler.JLoginBase):
     def get(self, id=MAXINT):
         current_user_id = self.current_user_id
         self.finish(dumps(
-            render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id) 
+            render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
         ))
 
     post = get

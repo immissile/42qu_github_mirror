@@ -19,7 +19,7 @@ class PoIndex(Base):
             if pos > 0:
                 link = '%s#reply%s' % (link, pos)
         else:
-            link = "/"
+            link = '/'
         self.redirect(link)
 
 @urlmap('/po/word')

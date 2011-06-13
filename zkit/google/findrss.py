@@ -3,13 +3,13 @@ import sgmllib, urlparse, re, sys
 import urllib, urllib2
 import xmlrpclib
 
-API_KEY = "ABQIAAAApDjU7EwhyOJaBrF_GABYnRTWDsCWafW7AFWlPKY2v-OqDNyoWBQpqdnJzqgW6ZK_WJKFfDpuoJNifw"
+API_KEY = 'ABQIAAAApDjU7EwhyOJaBrF_GABYnRTWDsCWafW7AFWlPKY2v-OqDNyoWBQpqdnJzqgW6ZK_WJKFfDpuoJNifw'
 
-GOOGLE_RSS_TEMPLATE = "https://www.google.com/reader/api/0/feed-finder?key=%s&output=json&q=%%s"%API_KEY
+GOOGLE_RSS_TEMPLATE = 'https://www.google.com/reader/api/0/feed-finder?key=%s&output=json&q=%%s'%API_KEY
 
-GOOGLE_AJAX_RSS = "https://ajax.googleapis.com/ajax/services/feed/lookup?v=1.0&key=%s&q=%%s"%API_KEY
+GOOGLE_AJAX_RSS = 'https://ajax.googleapis.com/ajax/services/feed/lookup?v=1.0&key=%s&q=%%s'%API_KEY
 
-RSS_DETAIL = "https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=0&hl=zh-CN&q="
+RSS_DETAIL = 'https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=0&hl=zh-CN&q='
 
 class URLGatekeeper:
     """a class to track robots.txt rules across multiple servers"""
@@ -100,9 +100,9 @@ def couldBeFeedData(data):
 from yajl import loads
 from traceback import print_exc
 def feeds(uri, all=False, _recurs=None):
-    if uri.startswith("https://www.google.com/reader/") or uri.startswith("http://www.google.com/reader/"):
-        if uri.startswith("http://"):
-            uri = "https"+uri[4:]
+    if uri.startswith('https://www.google.com/reader/') or uri.startswith('http://www.google.com/reader/'):
+        if uri.startswith('http://'):
+            uri = 'https'+uri[4:]
         quri = uri
     else:
         quri = urllib.quote(uri)
@@ -116,10 +116,10 @@ def feeds(uri, all=False, _recurs=None):
     except:
         print_exc()
     else:
-        if body.get("responseStatus") == 200:
-            url = body["responseData"]["url"]
+        if body.get('responseStatus') == 200:
+            url = body['responseData']['url']
             if url:
-                url = url.encode("utf-8", "ignore")
+                url = url.encode('utf-8', 'ignore')
                 #print "!!",type(url)
                 return [url]
 
@@ -132,11 +132,11 @@ def feeds(uri, all=False, _recurs=None):
     except:
         print_exc()
     else:
-        f = body.get("feed", [])
+        f = body.get('feed', [])
         if f:
             result = []
             for i in f:
-                href = i.get("href")
+                href = i.get('href')
                 if href:
                     result.append(href)
             if result:
@@ -187,9 +187,9 @@ import re
 
 
 def get_rss_basic_json(url):
-    if url.startswith("https://www.google.com/reader/") or url.startswith("http://www.google.com/reader/"):
-        if url.startswith("http://"):
-            url = "https"+url[4:]
+    if url.startswith('https://www.google.com/reader/') or url.startswith('http://www.google.com/reader/'):
+        if url.startswith('http://'):
+            url = 'https'+url[4:]
         url = unquote(url)
 
     detail_url = RSS_DETAIL+quote(url)
@@ -204,14 +204,14 @@ def get_rss_basic_json(url):
 
 def parse_rss_baisc_json(r):
     feed = r['responseData']['feed']
-    title = feed.get("title", "")
-    link = feed.get("link", "")
+    title = feed.get('title', '')
+    link = feed.get('link', '')
 
-    if title.startswith("Twitter / "):
-        title = title[10:]+"说"
-    title = title.replace("'s shared items in Google Reader", " Google阅读器 共享条目")
-    title = title.replace("'s starred items in Google Reader", " Google阅读器 加星条目")
-    description = feed.get("description", "")
+    if title.startswith('Twitter / '):
+        title = title[10:]+'说'
+    title = title.replace("'s shared items in Google Reader", ' Google阅读器 共享条目')
+    title = title.replace("'s starred items in Google Reader", ' Google阅读器 加星条目')
+    description = feed.get('description', '')
 
     return feed['feedUrl'], link, title
 
@@ -230,7 +230,7 @@ def get_rss_link_title_by_url(url):
 if __name__ == '__main__':
     import sys
     reload(sys)
-    sys.setdefaultencoding("utf-8")
+    sys.setdefaultencoding('utf-8')
     uri = 'http://zsp.javaeye.com'
 
     for i in get_rss_link_title_by_url(uri):

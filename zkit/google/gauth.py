@@ -16,7 +16,7 @@ import urllib
 import cgi
 import logging
 
-SERVICE_AUTH = "https://www.google.com/accounts/ServiceLoginAuth?"
+SERVICE_AUTH = 'https://www.google.com/accounts/ServiceLoginAuth?'
 
 class ParsedURL(object):
     """
@@ -62,17 +62,17 @@ class GoogleAuthHandler(urllib2.HTTPRedirectHandler):
 
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         pu = ParsedURL(newurl)
-        if pu.netloc.endswith("google.com"):
-            if pu.path == "/accounts/ServiceLogin":
-                cont = pu.query["continue"]
-                service = pu.query["service"]
-                urlparam = urllib.urlencode({"Email" : self.email,
-                                             "Passwd" : self.passwd,
-                                             "PersistentCookie" : "yes",
-                                             "continue" : cont,
-                                             "service" : service})
+        if pu.netloc.endswith('google.com'):
+            if pu.path == '/accounts/ServiceLogin':
+                cont = pu.query['continue']
+                service = pu.query['service']
+                urlparam = urllib.urlencode({'Email' : self.email,
+                                             'Passwd' : self.passwd,
+                                             'PersistentCookie' : 'yes',
+                                             'continue' : cont,
+                                             'service' : service})
                 self.urlparam = urlparam
-            elif pu.path == "/accounts/CheckCookie":
+            elif pu.path == '/accounts/CheckCookie':
                 """ The CheckCookie page will uses some javascript to set
                the page location to the value of the continue param
 
@@ -83,7 +83,7 @@ class GoogleAuthHandler(urllib2.HTTPRedirectHandler):
                sure how to to handle both at once in the context of
                a handler like this.
                """
-                newurl = pu.query["continue"]
+                newurl = pu.query['continue']
             return urllib2.HTTPRedirectHandler.redirect_request(self, req,
                                                                 fp, code,
                                                                 msg, headers,
@@ -111,23 +111,23 @@ def build_opener(username, passwd):
 
     handler = GoogleAuthHandler(username, passwd)
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookies), handler)
-    res = opener.open("https://reader.google.com/").read()
+    res = opener.open('https://reader.google.com/').read()
     #print cookies._cookies
     res = res.split('<')
     para = {}
     for i in res:
-        if i.startswith("input"):
-            i = i.replace("'", '"').replace("\n", " ")
+        if i.startswith('input'):
+            i = i.replace("'", '"').replace('\n', ' ')
             #print i
             name = None
             value = None
-            for j in i.split(" "):
+            for j in i.split(' '):
                 j = j.strip('"')
-                if j.startswith("name"):
+                if j.startswith('name'):
                     name = j.split('"')[-1].strip()
-                elif j.startswith("value"):
+                elif j.startswith('value'):
                     value = j.split('"', )[-1].strip()
-            if name and value and name != "name" and value != "value":
+            if name and value and name != 'name' and value != 'value':
                 #print name, value
                 para[name] = value
     para['Email'] = username

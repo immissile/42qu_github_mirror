@@ -72,8 +72,8 @@ class Index(_handler.LoginBase):
             txt_new(current_user_id, txt)
 
         self.render(
-            error_pic = error_pic,
-            txt = txt
+            error_pic=error_pic,
+            txt=txt
         )
 
 

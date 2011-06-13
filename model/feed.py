@@ -9,7 +9,7 @@ from zkit.algorithm.merge import imerge
 class Feed(McModel):
     pass
 
-MAXINT = sys.maxint 
+MAXINT = sys.maxint
 PAGE_LIMIT = 42
 
 mc_feed_iter = McCacheM('FeedIter:%s')

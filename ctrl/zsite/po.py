@@ -10,9 +10,11 @@ from model.zsite import Zsite
 
 @urlmap('/note/(\d+)', template='note')
 @urlmap('/word/(\d+)', template='word')
+@urlmap('/question/(\d+)', template='question')
+@urlmap('/answer/(\d+)', template='answer')
 class Index(Base):
     def initialize(self, template):
-        self.template = "ctrl/zsite/po/%s.htm"%template
+        self.template = 'ctrl/zsite/po/%s.htm' % template
 
     def get(self, id):
         po = Po.mc_get(id)

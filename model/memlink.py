@@ -45,14 +45,14 @@ class MemLinkIntList(object):
         result_list = result.list()
         print repr(result_list[0][0])
         print result_list
-        result = array('I').fromstring("".join([i[0] for i in result_list]))
+        result = array('I').fromstring(''.join([i[0] for i in result_list]))
         return result
 
 memlink_zsite_feed = MemLinkIntList('ZsiteFeed:%s')
 key = 8
 memlink_zsite_feed.create_list(key)
 memlink_zsite_feed.insert(key, 321344)
-for i in memlink_zsite_feed.range(key,32):
+for i in memlink_zsite_feed.range(key, 32):
     print i
 
 raise

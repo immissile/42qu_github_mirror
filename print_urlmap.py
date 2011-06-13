@@ -12,7 +12,7 @@ def print_urlmap(module):
     for i in sorted(zweb._urlmap.URLMAP):
         url, cls = i[:2]
         mn = cls.__module__
-        if mn.startswith(module):    
+        if mn.startswith(module):
             mn = mn[prefix:]
         mn = mn +'.py'
         if mn == premn:

@@ -71,7 +71,7 @@ class LocalCached:
                                  in sorted(nd.iteritems())),
                          ''.join('%s: %d times\n' % (key, n)
                                  for key, n in sorted(d.iteritems())))
-        result = result.replace('get_multi','get_dict')
+        result = result.replace('get_multi', 'get_dict')
         return result
 
     def __repr__(self):
