@@ -1,24 +1,3 @@
-$.postJSON = function(url, data, callback) {
-    data = data||{};
-    if ( $.isFunction( data ) ) {
-        callback = data;
-    }
-    data._xsrf = cookie.get("_xsrf");
-    $.ajax({
-        url: url,
-        data: data, 
-        dataType: "json", 
-        type: "POST",
-        success: function(data, textStatus, jqXHR){
-            if(data.login){
-                login()
-            }else if(callback){
-                callback(data, textStatus, jqXHR)
-            }
-        }
-    });
-};
-
 cookie = {
 set:function(dict, days, path){
     if(typeof(days)=='string'){
@@ -47,19 +26,43 @@ get:function(name) {
     return null;
 }
 }
-$.getScript = function(url, callback, cache){
-    $.holdReady(false);
-    $.ajax({
-       type: "GET",
-       url: url,
-       success: function(){
-           $.holdReady(false);
-           callback&&callback();
-       },
-       dataType: "script",
-       cache: cache||true
-   });
-};
+(function( jQuery ){
+
+jQuery.extend({
+    postJSON : function(url, data, callback) {
+        data = data||{};
+        if ( jQuery.isFunction( data ) ) {
+            callback = data;
+        }
+        data._xsrf = cookie.get("_xsrf");
+        jQuery.ajax({
+            url: url,
+            data: data, 
+            dataType: "json", 
+            type: "POST",
+            success: function(data, textStatus, jqXHR){
+                if(data.login){
+                    login()
+                }else if(callback){
+                    callback(data, textStatus, jqXHR)
+                }
+            }
+        });
+    },
+    getScript : function(url, callback, cache){
+        jQuery.holdReady(false);
+        jQuery.ajax({
+           type: "GET",
+           url: url,
+           success: function(){
+               jQuery.holdReady(false);
+               callback&&callback();
+           },
+           dataType: "script",
+           cache: cache||true
+        })
+    }
+})(jQuery)
 
 function script(src,callback){
     src = src.split(" ")
