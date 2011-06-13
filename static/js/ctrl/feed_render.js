@@ -30,8 +30,8 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total name is_rt vote_
         }
         data.zsite = array2zsite(data.zsite);
         data.link = "/po/"+data.id;
+        data.rt_list = $.map(data.rt_list, array2zsite);
         
-        data.rt_list = $.map(data.rt_list, array2zsite)
         return data
     }
 
