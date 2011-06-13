@@ -21,18 +21,6 @@ NAVURL_DICT = dict(NAVURL)
 %endif
 </%def>
 
-<%def name="nav_index(uri)">
-<%
-host_now = request.host==SITE_DOMAIN 
-uri = request.uri
-%>
-%if host_now and uri in NAVURL_DICT:
-<li class="on" ><a href="${uri}">${NAVURL_DICT[uri]}</a></li>\
-%endif
-%if zsite:
-<li class="on"><a href="${zsite.link}">${zsite.name}</a></li>\
-%endif
-</%def>
 
 ${top_notify()}
 <div id="H"><div class="H">
@@ -45,7 +33,6 @@ ${self.info_box()}
     <div class="G">
     <div class="G4">
         <div id="nav">
-            <ul>${nav_index(request.uri)}</ul>
             <div class="ornament">
                 <div class="ornament-left"></div>
                 <div class="ornament-right"><div class="ornament-blank"></div></div>
@@ -69,7 +56,10 @@ link = current_user.link
 <div class="D" id="DPO">
     <a href="/po/note">文章</a>
 </div>
-<a class="DA" href="javascript:void(0)">版块</a>
+<a class="DA" rel="BLK" href="javascript:void(0)">版块</a>
+<div class="D" id="DBLK">
+    <a href="/feed">动态</a>
+</div>
 <a class="DA" href="/notice">提醒\
 <span style="">32</span>\
 </a>
