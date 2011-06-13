@@ -76,19 +76,26 @@ from config import FS_URL
 ##%endif
 ##%endfor
 
-<div id="body">
+<div id="feeds">
 <div id="feed_loading"></div>
+<input id="begin_id" type="hidden">
 </div>
-<script id="feed" type="text/template">
-{{#item}}
+
+<script id="feed" type="text/x-jquery-tmpl"><%text>
 <div style="border:1px solid #eee;padding:10px">
-{{name}}
+<a href="${link}">${name}</a>
+{{if txt}}
+<div>${txt}</div>
+{{/if}}
+<div>
+<a href="${link}#txt">${reply_total}回复</a>
 </div>
-{{/item}}
-<input type="hidden" value="{{next}}">
-</script>
+</div>
+</%text></script>
+
 <script>
 script(
 "${js.ctrl_feed_render} ${js.ctrl_feed}"
 )
 </script>
+

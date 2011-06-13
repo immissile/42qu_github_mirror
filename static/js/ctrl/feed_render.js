@@ -26,34 +26,23 @@ function init(result){
         name: zsite[0],
         link: zsite[1]
     }
+    data.link = "/po/"+data.id
     return data
 }
 function init_result(result){
-    var data = {},length = result.length, item=[], i=0;
+    var length = result.length, item=[], i=0;
 
-    if(result.length){
-        data.next = result[length-1][0]
-        for(;i<length;++i){
-            item.push(init(result[i]))
-        }
-        data.item = item
-    }else{
-        data.next = 0
+    for(;i<length;++i){
+        item.push(init(result[i]))
     }
-    console.info(data)
-    return data
+    return item 
 }
 
 function render_feed(){
     $.postJSON(
     "/j/feed",
     function(result){
-        $("#body").append(
-            render(
-                'feed',
-                init_result(result)
-            )
-        )
+        $('#feed').tmpl(init_result(result)).appendTo("#feeds")
     })
 }
 render_feed()
