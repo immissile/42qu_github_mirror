@@ -40,6 +40,7 @@ function init_result(result){
     }else{
         data.next = 0
     }
+    console.info(data)
     return data
 }
 
