@@ -1,0 +1,9 @@
+.C{
+    width: 1004px;
+}
+.R1,.R2,.R3,.R4 {padding-left:32px; float:left; position:relative;}
+.R1{width: 219px;}
+.R2{width: 470px;}
+.R3{width: 721px;}
+.R4{width: 972px;}
+
