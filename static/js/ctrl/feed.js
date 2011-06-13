@@ -50,7 +50,8 @@
 
 $(".rt").live("click", function(){
     this.className="rted"
-    var self=$(this);    
+    var self=$(this);
+    $()
     self.poshytip('show').poshytip('update','转发成功',true)
 })
 $(".rted").live("click",function(){
