@@ -71,7 +71,42 @@ jQuery.extend({
             callback&&callback()
         });    
 
-    }
+    },
+    isotime : function(timestamp){
+        var date = new Date(timestamp*1000),hour=date.getHours(),minute=date.getMinutes();
+        if(hour<9){
+            hour = "0"+hour
+        }
+        if(minute<9){
+            minute = "0"+minute
+        }
+        return [
+            date.getFullYear(), date.getMonth() + 1, date.getDate()
+        ].join("-")+" "+[
+            hour,minute 
+        ].join(":") 
+    },
+    timeago : function(timestamp){
+        var date = new Date(timestamp*1000);
+        var ago = parseInt((new Date().getTime() - date.getTime())/1000);
+        var minute;
+        if(ago>-60&&ago<=0){
+            return "刚刚"
+        }else if(ago<60){
+            return ago+"秒前"
+        }else{
+            minute = parseInt(ago/60)
+            if(minute<60){
+                return minute+"分钟前"
+            }else{
+                ago = parseInt(minute/60)
+                if(ago<12){
+                    return ago+"小时"+minute%60+"分前"
+                }
+            }
+        }
+        return jQuery.isotime(timestamp)
+    } 
 })
 })(jQuery)
 
