@@ -1,0 +1,14 @@
+.C{
+margin:auto;
+width: 972px;
+}
+.G{
+width:1004px;
+margin-left:-32px
+}
+.G1,.G2,.G3,.G4 {padding-left:32px; float:left; position:relative;}
+.G1{width: 219px;}
+.G2{width: 470px;}
+.G3{width: 721px;}
+.G4{width: 972px;}
+
