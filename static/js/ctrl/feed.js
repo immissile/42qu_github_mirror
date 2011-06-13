@@ -51,12 +51,12 @@
 $(".rt").live("click", function(){
     this.className="rted"
     var self=$(this);    
-    self.poshytip('show').poshytip('update','已转发',true)
+    self.poshytip('show').poshytip('update','转发成功',true)
 })
 $(".rted").live("click",function(){
     this.className="rt"
     var self=$(this);    
-    self.poshytip('show').poshytip('update','转发已取消',true)
+    self.poshytip('update','已转发').poshytip('show').poshytip('update','转发被取消',true)
 })
 
 
