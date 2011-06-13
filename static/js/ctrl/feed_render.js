@@ -31,7 +31,7 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total create_time name
         data.zsite = array2zsite(data.zsite);
         data.link = "/po/"+data.id;
         data.rt_list = $.map(data.rt_list, array2zsite);
-        
+        data.create_time = new Date(data.create_time*1000) 
         return data
     }
 
