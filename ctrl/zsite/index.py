@@ -21,3 +21,5 @@ class FollowRm(_handler.XsrfGetBase):
         zsite = self.zsite
         follow_rm(current_user.id, zsite.id)
         self.redirect('/')
+
+
