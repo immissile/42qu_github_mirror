@@ -6,7 +6,7 @@ from model.zsite_link import zsite_by_domain
 from zweb._handler import Base as _Base, _login_redirect, login
 
 class Base(_Base):
-    def get(self):
+    def get(self, *args):
         self.redirect('/')
 
     def prepare(self):
