@@ -44,7 +44,7 @@ class JLoginBase(Base):
     def prepare(self):
         super(JLoginBase, self).prepare()
         if not self.current_user:
-            self.finish('{"login":1}')
+            self.finish({'login': 1})
 
 class LoginBase(ZsiteBase):
     def prepare(self):
