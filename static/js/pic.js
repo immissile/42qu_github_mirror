@@ -60,7 +60,7 @@ function start_upload() {
         timeout: 120000,
         allowType: 'jpg|png|bmp|gif|jpeg',
         extra: {
-            _xsrf : cookie.get("_xsrf")
+            _xsrf : $.cookie.get("_xsrf")
         },
         success: function(data, status) {
             var data_status = data.status, src=data.src;
