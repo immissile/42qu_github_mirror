@@ -27,13 +27,13 @@ jQuery.extend({
             }
             return null;
         }
-    }
+    },
     postJSON : function(url, data, callback) {
         data = data||{};
         if ( jQuery.isFunction( data ) ) {
             callback = data;
         }
-        data._xsrf = cookie.get("_xsrf");
+        data._xsrf = jQuery.cookie.get("_xsrf");
         jQuery.ajax({
             url: url,
             data: data, 
@@ -60,17 +60,18 @@ jQuery.extend({
            dataType: "script",
            cache: cache||true
         })
+    },
+    script : function (src,callback){
+        src = src.split(" ")
+        var r=[],i=0;
+        for(;i<src.length;++i){
+            r.push($.getScript(src[i]))
+        }
+        $.when(r).then(function(){
+            callback&&callback()
+        });    
+
     }
+})
 })(jQuery)
 
-function script(src,callback){
-    src = src.split(" ")
-    var r=[],i=0;
-    for(;i<src.length;++i){
-        r.push($.getScript(src[i]))
-    }
-    $.when(r).then(function(){
-        callback&&callback()
-    });    
-
-}
