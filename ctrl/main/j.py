@@ -84,7 +84,7 @@ class Feed(_handler.JLoginBase):
         for i in result:
             id = i[0]
             i.insert(7, vote_state(current_user_id, id))
-            i.insert(7, is_rt(current_user_id, id))
+            i.insert(7, feed_rt_id(current_user_id, id))
              
         self.finish(dumps(result))
 
