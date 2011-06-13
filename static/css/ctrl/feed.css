@@ -14,6 +14,7 @@ padding:0 3px;
 }
 .vote-1 a,.vote0 a,.vote1 a{
 padding:0 3px;
+color:#B2B2B2;
 }
 .vote1 .num,.vote1 .incr{color:#FF4500}
 .vote-1 .num,.vote-1 .decr{color:#0045ff}
