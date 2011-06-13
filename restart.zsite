@@ -1,3 +1,0 @@
-python static/make.py
-ps x -u $USER|ack server_zsite|ack python|awk  '{print $1}'|xargs kill
-./server_zsite_dev.py
