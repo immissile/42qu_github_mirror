@@ -116,11 +116,14 @@ def merge(subdir, template):
         outfile = join(subdir, i[:-len(bi)]+'.'+bi)
         if infile.endswith('.js'):
             filetype = 'js'
+            cmd = [
+                    'uglifyjs',  '-o', outfile, infile ,
+            ]
         else:
             filetype = 'css'
-        cmd = [
-                'java', '-jar', join(prefix, 'yuicompressor.jar'), '--charset=utf-8', '--type', filetype, infile, '-o', outfile
-        ]
+            cmd = [
+                    'java', '-jar', join(prefix, 'yuicompressor.jar'), '--charset=utf-8', '--type', filetype, infile, '-o', outfile
+            ]
         try:
             returncode = subprocess.call(cmd)
             if returncode:
