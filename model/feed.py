@@ -5,6 +5,7 @@ import sys
 from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
 from mq import mq_client
 from zkit.algorithm.merge import imerge
+from gid import gid
 
 MAXINT = sys.maxint
 PAGE_LIMIT = 42
@@ -27,6 +28,7 @@ def feed_new(id, zsite_id, cid, rid=0):
     return id
 
 
+
 def feed_rm(id):
     cursor.execute('select zsite_id, rid from feed where id=%s', id)
     r = cursor.fetchone()
@@ -40,6 +42,7 @@ def feed_rm(id):
             #TODO MQ
             #mq_feed_rm_rt_by_rid(id)
 
+
 def feed_rm_rt_by_rid(rid):
     cursor.execute('select id, zsite_id from feed where rid=%s', rid)
     for id, zsite_id in cursor:
@@ -49,10 +52,19 @@ def feed_rm_rt_by_rid(rid):
 
 mq_feed_rm_rt_by_rid = mq_client(feed_rm_rt_by_rid)
 
-def feed_rm_rt_if_can(id, zsite_id):
-    feed = Feed.mc_get(id)
-    if feed.zsite_id == zsite_id:
-        feed_rm(id)
+def feed_rm_rt(zsite_id, id):
+    cursor.execute(
+        'delete from feed where zsite_id=%s and rid=%s', (zsite_id, id)
+    )
+    cursor.connection.commit()
+    mc_feed_iter.delete(zsite_id)
+
+def feed_rt(zsite_id, rid):
+    feed = Feed.mc_get(rid)    
+    if feed and  not feed.rid:
+        feed_new(gid(), zsite_id, feed.cid, rid)
+        mc_feed_iter.delete(zsite_id)
+
 
 FEED_ID_LASTEST_SQL = 'select id, rid from feed where zsite_id=%%s order by id desc limit %s'%PAGE_LIMIT
 FEED_ID_ITER_SQL = 'select id, rid from feed where zsite_id=%%s and id<%%s order by id desc limit %s'%PAGE_LIMIT
