@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, cursor_by_table, McCacheA, McLimitA
+from _db import Model, McModel, McCache, cursor_by_table, McCacheA, McLimitA, McNum
 from zsite import Zsite
 from gid import gid
 
+follow_count_by_to_id = McNum(lambda to_id: Follow.where(to_id=to_id).count(), 'FollowCountByToId.%s')
 mc_follow_id_list_by_to_id = McLimitA('FollowIdListByToId.%s', 128)
 mc_follow_id_list_by_from_id_cid = McCacheA('FollowIdListByFromIdCid.%s')
 mc_follow_id_list_by_from_id = McCacheA('FollowIdListByFromId.%s')
@@ -73,8 +74,8 @@ def follow_new(from_id, to_id):
     mc_flush(from_id, to_id, cid)
 
 def mc_flush(from_id, to_id, cid):
-    mc_follow_get.delete( '%s_%s'%(from_id, to_id))
+    mc_follow_get.delete('%s_%s'%(from_id, to_id))
     mc_follow_id_list_by_from_id_cid.delete('%s_%s'%(from_id, cid))
     mc_follow_id_list_by_from_id.delete(from_id)
-
-
+    mc_follow_id_list_by_to_id.delete(to_id)
+    follow_count_by_to_id.delete(to_id)

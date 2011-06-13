@@ -1,0 +1,8 @@
+<%inherit file="/ctrl/_base/1.htm" />
+关注${zsite.name}的
+
+%for i in follower:
+<p><a href="${i.link}">${i.name}</a></p>
+%endfor
+
+${page|n}

@@ -1,0 +1,16 @@
+<%!
+from model.cid import CID_USER
+%>
+<%inherit file="/ctrl/_base/1.htm" />
+<%
+CID_DIC = {
+    CID_USER: '人',
+}
+%>
+${zsite.name}关注的${CID_DIC[cid]}
+
+%for i in following:
+<p><a href="${i.link}">${i.name}</a></p>
+%endfor
+
+${page|n}

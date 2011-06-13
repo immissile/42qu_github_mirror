@@ -8,8 +8,6 @@ from model import reply
 from model.zsite import Zsite
 
 
-
-
 @urlmap('/note/(\d+)', template='note')
 @urlmap('/word/(\d+)', template='word')
 class Index(Base):
@@ -25,7 +23,7 @@ class Index(Base):
         if po.user_id != self.zsite_id:
             link = po.link
             return self.redirect(link)
-        
+
         current_user_id = self.current_user_id
         can_admin = po.can_admin(current_user_id)
         can_view = po.can_view(current_user_id)

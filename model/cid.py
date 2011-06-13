@@ -4,6 +4,8 @@
 #Zsite
 CID_USER = 1
 
+CID_ZSITE = (CID_USER, )
+
 #Pic
 CID_ICO = 31
 CID_ICO96 = 32
