@@ -92,10 +92,12 @@ from config import FS_URL
     {{/if}}
     <div class="feedbar">
 <a title="回复" target="_blank" class="reply" href="${link}#txt">${reply_total}</a>
-<a title="转发"
+<a
 {{if is_rt}}
+title="已转发"
 class="rtrm"
 {{else}}
+title="转发"
 class="rt"
 {{/if}}
 rel="${id}" href="javascript:void(0)"></a>
