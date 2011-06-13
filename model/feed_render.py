@@ -32,7 +32,7 @@ class FeedBase(object):
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
     cid = m.cid
-    result = [m.user_id, cid, m.reply_total, vote_count(id), m.name]
+    result = [m.user_id, cid, m.reply_total, m.name, vote_count(id)]
     if cid == CID_NOTE:
         result.append(m.txt)
     return result
