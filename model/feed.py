@@ -12,6 +12,7 @@ PAGE_LIMIT = 42
 
 mc_feed_iter = McCacheM('FeedIter:%s')
 mc_feed_tuple = McCacheM('F%s')
+mc_feed_rt_id = McCache('R%s')
 
 cursor = cursor_by_table('feed')
 
@@ -52,19 +53,31 @@ def feed_rm_rt_by_rid(rid):
 
 mq_feed_rm_rt_by_rid = mq_client(feed_rm_rt_by_rid)
 
-def feed_rm_rt(zsite_id, id):
-    cursor.execute(
-        'delete from feed where zsite_id=%s and rid=%s', (zsite_id, id)
-    )
-    cursor.connection.commit()
-    mc_feed_iter.delete(zsite_id)
+def feed_rm_rt(zsite_id, rid):
+    id = feed_rt_id(zsite_id, rid)
+    if id:
+        cursor.execute('delete from feed where id=%s', id)
+        cursor.connection.commit()
+        mc_feed_iter.delete(zsite_id)
+        mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
 
 def feed_rt(zsite_id, rid):
-    feed = Feed.mc_get(rid)    
+    feed = Feed.mc_get(rid)
     if feed and  not feed.rid:
         feed_new(gid(), zsite_id, feed.cid, rid)
         mc_feed_iter.delete(zsite_id)
+        mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
 
+@mc_feed_rt_id('{zsite_id}_{rid}')
+def feed_rt_id(zsite_id, rid):
+    cursor.execute(
+        'select id from feed where zsite_id=%s and rid=%s',
+        (zsite_id, rid)
+    )
+    result = cursor.fetchone()
+    if result:
+        return result[0]
+    return 0
 
 FEED_ID_LASTEST_SQL = 'select id, rid from feed where zsite_id=%%s order by id desc limit %s'%PAGE_LIMIT
 FEED_ID_ITER_SQL = 'select id, rid from feed where zsite_id=%%s and id<%%s order by id desc limit %s'%PAGE_LIMIT
