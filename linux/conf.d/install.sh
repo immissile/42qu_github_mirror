@@ -1,4 +1,4 @@
-./install/uglify_js.sh
+sudo ./install/uglify_js.sh
 ./copy.sh
 ./easy_install.sh
 ./rc-update.sh
