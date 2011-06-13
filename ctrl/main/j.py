@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _handler
+from model.vote import vote_state
 from zweb._urlmap import urlmap
 from model.follow import follow_rm, follow_new
 from model.po import Po, CID_NOTE
@@ -56,9 +57,12 @@ class FeedDecrX(_handler.JLoginBase):
 class Feed(_handler.JLoginBase):
     def get(self, id=MAXINT):
         current_user_id = self.current_user_id
-        self.finish(dumps(
-            render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id) 
-        ))
+
+        result = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
+        for i in result:
+            id = i[0]
+            i.insert(7, vote_state(current_user_id, id)) 
+        self.finish(dumps(result))
 
     post = get
 

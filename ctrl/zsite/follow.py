@@ -18,7 +18,7 @@ class Follow(XsrfGetBase):
         self.render()
 
 @urlmap('/follow/rm')
-class Unfollow(XsrfGetBase):
+class FollowRm(XsrfGetBase):
     def get(self):
         current_user = self.current_user
         zsite_id = self.zsite_id
@@ -72,3 +72,5 @@ class Following(Base):
             following=following,
             page=page,
         )
+
+

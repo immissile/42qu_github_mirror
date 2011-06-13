@@ -34,7 +34,7 @@ class Index(_handler.LoginBase):
 
 
 @urlmap('/wall/(\-?\d+)')
-class Page(_handler.Base):
+class Page(_handler.ZsiteBase):
     def get(self, n):
         zsite = self.zsite
         zsite_link = zsite.link
@@ -52,7 +52,7 @@ class Page(_handler.Base):
         )
 
 @urlmap('/wall/reply2txt/(\d+)')
-class Reply2Txt(_handler.Base):
+class Reply2Txt(_handler.ZsiteBase):
     def get(self, id):
         link = '/'
         reply = Reply.mc_get(id)
@@ -63,7 +63,7 @@ class Reply2Txt(_handler.Base):
 
 @urlmap('/wall/txt/(\d+)')
 @urlmap('/wall/txt/(\d+)/(\d+)')
-class Txt(_handler.Base):
+class Txt(_handler.ZsiteBase):
     def get(self, id, n=1):
         zsite = self.zsite
         zsite_id = zsite.id
@@ -106,7 +106,7 @@ class Txt(_handler.Base):
 
 
 @urlmap('/wall/reply/rm/(\d+)')
-class ReplyRm(_handler.Base):
+class ReplyRm(_handler.ZsiteBase):
     def post(self, id):
         current_user_id = self.current_user_id
         r = Reply.mc_get(id)
