@@ -39,21 +39,21 @@ def feed_rm(id):
         cursor.connection.commit()
         mc_feed_iter.delete(zsite_id)
         if not rid:
-            feed_rm_rt_by_rid(id)
+            feed_rt_rm_by_rid(id)
             #TODO MQ
-            #mq_feed_rm_rt_by_rid(id)
+            #mq_feed_rt_rm_by_rid(id)
 
 
-def feed_rm_rt_by_rid(rid):
+def feed_rt_rm_by_rid(rid):
     cursor.execute('select id, zsite_id from feed where rid=%s', rid)
     for id, zsite_id in cursor:
         cursor.execute('delete from feed where id=%s', id)
         cursor.connection.commit()
         mc_feed_iter.delete(zsite_id)
 
-mq_feed_rm_rt_by_rid = mq_client(feed_rm_rt_by_rid)
+mq_feed_rt_rm_by_rid = mq_client(feed_rt_rm_by_rid)
 
-def feed_rm_rt(zsite_id, rid):
+def feed_rt_rm(zsite_id, rid):
     id = feed_rt_id(zsite_id, rid)
     if id:
         cursor.execute('delete from feed where id=%s', id)
@@ -63,7 +63,7 @@ def feed_rm_rt(zsite_id, rid):
 
 def feed_rt(zsite_id, rid):
     feed = Feed.mc_get(rid)
-    if feed and  not feed.rid:
+    if feed and  not feed.rid and not feed_rt_id(zsite_id, rid):
         feed_new(gid(), zsite_id, feed.cid, rid)
         mc_feed_iter.delete(zsite_id)
         mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
@@ -142,7 +142,7 @@ class FeedMerge(object):
                 break
 
 if __name__ == '__main__':
-    for i in feed_iter(935):
-        print i
-
-
+#    for i in feed_iter(935):
+#        print i
+    #print feed_rt_rm(24,121)
+    print feed_rt_id(24,121)

@@ -12,7 +12,7 @@ from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
 from model.vote import vote_decr_x, vote_decr, vote_incr_x, vote_incr
 from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id
-from model.feed import feed_rt, feed_rm_rt, feed_rt_id
+from model.feed import feed_rt, feed_rt_rm, feed_rt_id
 
 
 @urlmap('/j/rt/(\d+)')
@@ -29,7 +29,7 @@ class RtRm(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         if current_user_id:
-            feed_rm_rt(current_user_id, id)
+            feed_rt_rm(current_user_id, id)
         self.finish("{}")
 
 
