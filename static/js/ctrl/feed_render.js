@@ -21,8 +21,7 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total name is_rt vote_
     }
 
     function init(result){
-        var rt_list=[],
-        data = {},
+        var data = {},
         i=0,
         attr=FEED_ATTR[result[4]];
 
@@ -32,10 +31,7 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total name is_rt vote_
         data.zsite = array2zsite(data.zsite);
         data.link = "/po/"+data.id;
         
-        $.each(data.rt_list, function(){
-            rt_list.push(array2zsite(this))
-        })
-        data.rt_list = rt_list
+        data.rt_list = $.map(data.rt_list, array2zsite)
         return data
     }
 
