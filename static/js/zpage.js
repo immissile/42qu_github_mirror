@@ -48,12 +48,16 @@ get:function(name) {
 }
 }
 $.getScript = function(url, callback, cache){
+    $.holdReady(false);
     $.ajax({
-           type: "GET",
-           url: url,
-           success: callback,
-           dataType: "script",
-           cache: cache||true
+       type: "GET",
+       url: url,
+       success: function(){
+           $.holdReady(false);
+           callback&&callback();
+       },
+       dataType: "script",
+       cache: cache||true
    });
 };
 
