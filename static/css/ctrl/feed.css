@@ -1,10 +1,3 @@
-.rt,.rted{
-background: url("/img/gif/rt.gif") no-repeat scroll 0 5px transparent;
-display: inline-block; height: 14px; width: 16px; margin-left: 24px;
-}
-.rted{
-background-position:-16px 5px;
-}
 #feed_loading{
 outline:0;
 display:block;
@@ -24,3 +17,15 @@ padding:0 3px;
 }
 .vote1 .num,.vote1 .incr{color:#FF4500}
 .vote-1 .num,.vote-1 .decr{color:#0045ff}
+.reply{
+padding-right:13px;
+background:url(/img/gif/reply.gif) 100% 4px no-repeat;
+}
+.rt,.rted{
+background: url("/img/gif/rt.gif") no-repeat scroll 0 6px transparent;
+display: inline-block; height: 14px; width: 16px; margin-left: 24px;
+}
+.rted{
+background-position:-16px 6px;
+}
+
