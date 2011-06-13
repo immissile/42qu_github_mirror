@@ -59,6 +59,7 @@ def dump_zsite(zsite):
 
 def render_feed_list(id_list, rt_dict):
     zsite_id_list = []
+    print rt_dict
     for i in rt_dict.itervalues():
         zsite_id_list.extend(i)
     for id, i in zip(id_list, feed_tuple_list(id_list)):
