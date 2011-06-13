@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base, LoginBase, XsrfGetBase, ZsiteBase
 from zweb._urlmap import urlmap
 from model.po import po_rm, po_word_new, Po
 from model.po_pos import po_pos_get, po_pos_set
@@ -12,9 +12,9 @@ from model.zsite import Zsite
 
 @urlmap('/note/(\d+)', template='note')
 @urlmap('/word/(\d+)', template='word')
-class Index(Base):
+class Index(ZsiteBase):
     def initialize(self, template):
-        self.template = "ctrl/zsite/po/%s.htm"%template
+        self.template = 'ctrl/zsite/po/%s.htm'%template
 
     def get(self, id):
         po = Po.mc_get(id)
@@ -25,7 +25,7 @@ class Index(Base):
         if po.user_id != self.zsite_id:
             link = po.link
             return self.redirect(link)
-        
+
         current_user_id = self.current_user_id
         can_admin = po.can_admin(current_user_id)
         can_view = po.can_view(current_user_id)

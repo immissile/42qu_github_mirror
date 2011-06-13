@@ -33,12 +33,12 @@ class ZsiteBase(Base):
     def prepare(self):
         super(ZsiteBase, self).prepare()
         if self.zsite_id == 0:
-        current_user = self.current_user
-        if current_user:
-            link = "%s/%s"%(current_user.link, path)
-        else:
-            link = SITE_URL
-        return self.redirect(link)
+            current_user = self.current_user
+            if current_user:
+                link = "%s/%s"%(current_user.link, path)
+            else:
+                link = SITE_URL
+            return self.redirect(link)
 
 class JLoginBase(Base):
     def prepare(self):
