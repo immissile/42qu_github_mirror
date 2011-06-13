@@ -11,7 +11,7 @@ from zkit.pic import picopen
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
 from model.vote import vote_decr_x, vote_decr, vote_incr_x, vote_incr
-from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id
+from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN
 from model.feed import feed_rt, feed_rt_rm, feed_rt_id
 
 
@@ -83,8 +83,8 @@ class Feed(_handler.JLoginBase):
         result = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
         for i in result:
             id = i[0]
-            i.insert(7, vote_state(current_user_id, id))
-            i.insert(7, feed_rt_id(current_user_id, id))
+            i.insert(FEED_TUPLE_DEFAULT_LEN, vote_state(current_user_id, id))
+            i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
              
         self.finish(dumps(result))
 

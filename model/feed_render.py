@@ -12,6 +12,17 @@ from zsite import Zsite
 
 CIDMAP = {}
 
+
+FEED_TUPLE_DEFAULT_LEN = 8 
+
+def feed_tuple_by_db(id):
+    m = Po.mc_get(id)
+    cid = m.cid
+    result = [m.user_id, cid, m.reply_total, m.create_time, m.name, vote_count(id)]
+    if cid == CID_NOTE:
+        result.append(m.txt)
+    return result
+
 def cidmap(cid):
     def _(cls):
         CIDMAP[cid] = cls
@@ -27,14 +38,6 @@ class FeedBase(object):
         self.zsite_id = zsite_id
         self.vote = vote
         self.name = name
-
-def feed_tuple_by_db(id):
-    m = Po.mc_get(id)
-    cid = m.cid
-    result = [m.user_id, cid, m.reply_total, m.name, vote_count(id)]
-    if cid == CID_NOTE:
-        result.append(m.txt)
-    return result
 
 def feed_tuple_list(id_list):
     r = mc_feed_tuple.get_dict(id_list)

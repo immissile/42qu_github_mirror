@@ -31,8 +31,6 @@ def feed_new(id, zsite_id, cid, rid=0):
     mc_feed_iter.delete(zsite_id)
     return id
 
-
-
 def feed_rm(id):
     cursor.execute('select zsite_id, rid from feed where id=%s', id)
     r = cursor.fetchone()
