@@ -49,15 +49,15 @@
 })()
 
 $(".rt").live("click", function(){
-    this.className="rted"
-    var self=$(this);
-    $()
+    var t=this, self=$(t);
+    t.className="rted"
+    $.postJSON('/j/rt/'+t.rel)
     self.poshytip('show').poshytip('update','转发成功',true)
 })
 $(".rted").live("click",function(){
-    this.className="rt"
-    var self=$(this);    
+    var t=this, self=$(t);
+    t.className="rted"
+    $.postJSON('/j/rt/rm'+t.rel)
     self.poshytip('update','已转发').poshytip('show').poshytip('update','转发被取消',true)
 })
-
 
