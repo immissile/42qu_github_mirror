@@ -84,11 +84,8 @@ class Feed(_handler.JLoginBase):
         for i in result:
             id = i[0]
             i.insert(7, vote_state(current_user_id, id))
-<<<<<<< local
-=======
             i.insert(7, feed_rt_id(current_user_id, id))
              
->>>>>>> other
         self.finish(dumps(result))
 
     post = get
