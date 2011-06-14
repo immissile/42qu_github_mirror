@@ -20,4 +20,4 @@ def po_answer_new(user_id, question_id, name, txt):
         return m
 
 def po_answer_list(question_id):
-    return po_id_list(question_id, CID_ANSWER, 'confidence')
+    return rank_po_id_list(question_id, CID_ANSWER, 'confidence')

@@ -1,0 +1,11 @@
+# _sorts.pyx is the origin module in reddit
+#
+# manual compile command
+# cython zrank_sort.pyx
+# gcc -c -fPIC -I /usr/include/python2.6/ zrank_sort.c
+# gcc -shared zrank_sort.o -o zrank_sort.so
+
+python setup.py build_ext --inplace
+rm zrank_sort.c
+rm -rf build
+rm *.pyc
