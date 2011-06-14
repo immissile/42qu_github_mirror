@@ -7,7 +7,6 @@ from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id
-from model.zsite_tag import ZSITE_TAG
 
 
 @urlmap('/note/(\d+)', template='note')
@@ -107,7 +106,7 @@ class Tag(LoginBase):
             return self.redirect('/')
         tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
         po_id = po.id
-        tag_id = tag_id_by_po_id(current_user_id, po_id) or ZSITE_TAG[-1]
+        tag_id = tag_id_by_po_id(current_user_id, po_id) or 1
         self.render(tag_list=tag_list, po=po, tag_id=tag_id)
 
     def post(self, id):
