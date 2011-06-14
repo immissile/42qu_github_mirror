@@ -3,7 +3,7 @@ from model.vote import vote_state, vote_count
 from datetime import datetime
 %>
 <%inherit file="/ctrl/_base/1.htm" />
-<%namespace file="/ctrl/main/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <p><a href="/note/edit/${po.id}">${po.name}</a></p>
 %for tag_id, tag in tag_list.iteritems():
 <div> <input name="tag" type="checkbox" value="${tag_id}" >${tag}</div>
