@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel
+from tag import Tag
 
 #CREATE TABLE  `zpage`.`zpage_tag` (
 #  `id` int(10) unsigned NOT NULL auto_increment,
@@ -28,6 +29,14 @@ class ZsiteTag(object):
 
 class ZsiteTagPo(object):
     pass
+
+
+def zsite_tag_init(zsite_id):
+    pass
+
+def zsite_tag_list_by_zsite_id(zsite_id):
+    pass
+
 
 
 
