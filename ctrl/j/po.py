@@ -9,8 +9,8 @@ from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
 
 
-@urlmap('/j/note/upload/rm')
-@urlmap('/j/note/upload/rm/(\d+)')
+@urlmap('/j/po/note/upload/rm')
+@urlmap('/j/po/note/upload/rm/(\d+)')
 class NoteUploadRm(_handler.JLoginBase):
     def post(self, id=0):
         seq = self.get_argument('seq')
@@ -18,8 +18,8 @@ class NoteUploadRm(_handler.JLoginBase):
         po_pic_rm(user_id, id, seq)
         self.finish('{}')
 
-@urlmap('/j/note/upload')
-@urlmap('/j/note/upload/(\d+)')
+@urlmap('/j/po/note/upload')
+@urlmap('/j/po/note/upload/(\d+)')
 class NoteUpload(_handler.JLoginBase):
     def post(self, id=0):
         #USER DUMPS FIX HEADER FOR FIREFOX
