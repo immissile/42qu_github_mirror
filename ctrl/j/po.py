@@ -7,10 +7,15 @@ from model.po import Po, CID_NOTE
 from zkit.pic import picopen
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
+from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id,\
+zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name
 
 @urlmap('/j/po/tag')
 class Tag(_handler.JLoginBase):
-    pass
+    def get(self, id):
+        current_user_id = self.current_user_id
+        tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
+        self.finish(dumps(tag_list))
 
 @urlmap('/j/po/note/upload/rm')
 @urlmap('/j/po/note/upload/rm/(\d+)')
