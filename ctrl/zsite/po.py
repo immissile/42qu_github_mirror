@@ -37,6 +37,7 @@ class Index(ZsiteBase):
             can_view=can_view
         )
 
+
 @urlmap('/po/reply/rm/(\d+)')
 class ReplyRm(LoginBase):
     def post(self, id):
@@ -98,11 +99,14 @@ class Rm(XsrfGetBase):
 class Tag(LoginBase):
     def get(self, id):
         current_user = self.current_user
-        current_user_id = self.current_user
+        current_user_id = self.current_user_id
         po = Po.mc_get(id)
         if not (po and po.can_admin(current_user_id)):
             return self.redirect(link)
         tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
         self.render(tag_list=tag_list) 
         
+    def post(self, id):
+        pass
+
 

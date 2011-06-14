@@ -91,7 +91,7 @@ class Note(LoginBase):
             po = po_note_new(current_user_id, name, txt, state)
 
         if po:
-            link = po.link
+            link = '/po/tag/%s'%id
             update_pic(arguments, current_user_id, po.id, id)
             mc_pic_id_list.delete('%s_%s'%(current_user_id, id))
         else:
