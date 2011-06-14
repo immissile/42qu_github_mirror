@@ -5,7 +5,7 @@ from hmako.lookup import TemplateLookup
 import sys
 from os.path import join
 import yajl
-import yajl
+import json
 json.dump = yajl.dump
 json.dumps = yajl.dumps
 json.loads = yajl.loads
