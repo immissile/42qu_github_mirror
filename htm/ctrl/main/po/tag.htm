@@ -9,7 +9,7 @@ from static import js, css
 
 <%htm:form>
 <div><a href="/po/edit/${po.id}">${po.name}</a></div>
-<div>分类 <a href="/po/tag">管理</a></div>
+<div>分类 <a href="javascript:tag();void(0)">管理</a></div>
 <div> <input name="tag" type="radio" value="0" id="tag0"> <input placeholder="新建分类" name="name" value="" autocomplete="off"></div>
 %for id, tag in tag_list.iteritems():
 <div>
