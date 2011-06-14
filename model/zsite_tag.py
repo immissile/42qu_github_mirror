@@ -22,3 +22,12 @@ from _db import Model, McModel
 #  INDEX `po_id` ( `po_id`,`zsite_id`)
 #)ENGINE = MyISAM;
 
+
+class ZsiteTag(object):
+    pass
+
+class ZsiteTagPo(object):
+    pass
+
+
+
