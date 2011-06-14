@@ -6,3 +6,5 @@ Tag = Kv('tag')
 
 if __name__ == '__main__':
     print Tag.id_by_value_new('test2')
+
+
