@@ -14,14 +14,14 @@ def print_urlmap(module):
     for i in sorted(zweb._urlmap.URLMAP):
         url, cls = i[:2]
         mn = cls.__module__
-    
+
         mddict = pyclbr.readmodule(mn)
         cls_name = cls.__name__
         mn = mn.replace('.', '/') +'.py'
         print '\t%s\t%s%s'%(
-            ('%s +%s'%(mn, mddict[cls_name].lineno)).ljust(42) , 
-            url.ljust(42), 
-            cls_name 
+            ('%s +%s;'%(mn, mddict[cls_name].lineno)).ljust(42),
+            url.ljust(42),
+            cls_name
         )
 
     zweb._urlmap.URLMAP = []
