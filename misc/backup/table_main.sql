@@ -60,7 +60,8 @@ CREATE TABLE `feed` (
   `rid` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `rid` (`rid`),
-  KEY `zsite_id` USING BTREE (`zsite_id`)
+  KEY `zsite_id` USING BTREE (`zsite_id`,`rid`),
+  KEY `zcr` (`zsite_id`,`cid`,`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=FIXED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `follow`;
@@ -110,6 +111,20 @@ DROP TABLE IF EXISTS `ico_pos`;
 CREATE TABLE `ico_pos` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `value` binary(16) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `invite`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invite` (
+  `id` int(10) unsigned NOT NULL,
+  `from_id` int(10) unsigned NOT NULL,
+  `to_id` int(10) unsigned NOT NULL,
+  `cid` tinyint(3) unsigned NOT NULL,
+  `rid` int(10) unsigned NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL,
+  `create_time` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -240,16 +255,18 @@ DROP TABLE IF EXISTS `rank`;
 CREATE TABLE `rank` (
   `id` int(10) unsigned NOT NULL,
   `po_id` int(10) unsigned NOT NULL,
-  `zsite_id` int(10) unsigned NOT NULL,
+  `from_id` int(10) unsigned NOT NULL,
+  `to_id` int(10) unsigned NOT NULL,
   `cid` tinyint(3) unsigned NOT NULL,
   `confidence` smallint(5) unsigned NOT NULL default '0',
   `hot` mediumint(9) NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `po_id` (`po_id`,`zsite_id`),
-  KEY `zsite_id` (`zsite_id`,`confidence`),
-  KEY `zsite_id_2` (`zsite_id`,`cid`,`confidence`),
-  KEY `zsite_id_3` (`zsite_id`,`hot`),
-  KEY `zsite_id_4` (`zsite_id`,`cid`,`hot`)
+  UNIQUE KEY `po_id` (`po_id`,`to_id`),
+  KEY `to_id` (`to_id`,`confidence`),
+  KEY `to_id_2` (`to_id`,`cid`,`confidence`),
+  KEY `to_id_3` (`to_id`,`hot`),
+  KEY `to_id_4` (`to_id`,`cid`,`hot`),
+  KEY `index7` (`from_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rate`;
@@ -275,6 +292,15 @@ CREATE TABLE `reply` (
   PRIMARY KEY  (`id`),
   KEY `rs` (`cid`,`rid`,`state`),
   KEY `Index_3` (`user_id`,`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `reply_vote`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reply_vote` (
+  `id` int(10) unsigned NOT NULL,
+  `state` tinyint(4) NOT NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `tag`;
@@ -478,6 +504,32 @@ CREATE TABLE `zsite_list` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `zsite` (`zsite_id`,`owner_id`,`cid`),
   KEY `cid_rank` (`owner_id`,`cid`,`state`,`rank`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `zsite_tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `zsite_tag` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `zsite_id` int(10) unsigned NOT NULL,
+  `tag_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `tag_id` USING BTREE (`tag_id`),
+  KEY `zsite_id` (`zsite_id`,`tag_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `zsite_tag_po`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `zsite_tag_po` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `zsite_tag_id` int(10) unsigned NOT NULL default '0',
+  `po_id` int(10) unsigned NOT NULL,
+  `zsite_id` int(10) unsigned NOT NULL,
+  `state` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `po_id` USING BTREE (`po_id`,`zsite_id`),
+  KEY `zsite_tag_id` (`zsite_tag_id`,`po_id`,`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
