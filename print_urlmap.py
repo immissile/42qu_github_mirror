@@ -18,7 +18,11 @@ def print_urlmap(module):
         mddict = pyclbr.readmodule(mn)
         cls_name = cls.__name__
         mn = mn.replace('.', '/') +'.py'
-        print '\t%s\t%s%s'%(url.ljust(42), ('%s +%s'%(mn, mddict[cls_name].lineno)).ljust(42) , cls_name )
+        print '\t%s\t%s%s'%(
+            ('%s +%s'%(mn, mddict[cls_name].lineno)).ljust(42) , 
+            url.ljust(42), 
+            cls_name 
+        )
 
     zweb._urlmap.URLMAP = []
 
