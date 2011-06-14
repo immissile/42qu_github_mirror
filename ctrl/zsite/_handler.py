@@ -36,7 +36,7 @@ class ZsiteBase(Base):
             current_user = self.current_user
             if current_user:
                 path = self.request.path
-                link = "%s/%s"%(current_user.link, path)
+                link = "%s%s"%(current_user.link, path)
             else:
                 link = SITE_URL
             return self.redirect(link)

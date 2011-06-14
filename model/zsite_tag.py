@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCacheA
+from _db import Model, McModel, McCacheA, McCache
 from tag import Tag
 
 #CREATE TABLE  `zpage`.`zpage_tag` (
@@ -34,9 +34,10 @@ TAG = (
 
 
 mc_zsite_tag_id_list = McCacheA("ZsiteTagIdListByZsiteId:%s")
+mc_tag_id_by_po_id = McCache("TagIdByPoId:%s")
 
 
-class ZsiteTag(Model):
+class ZsiteTag(McModel):
     pass
 
 class ZsiteTagPo(McModel):
@@ -66,6 +67,21 @@ def zsite_tag_list_by_zsite_id_with_init(zsite_id):
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
     #print tag_id_list        
     return Tag.value_by_id_list(tag_id_list)    
+
+@mc_tag_id_by_po_id("{zsite_id}_{po_id}")
+def tag_id_by_po_id(zsite_id, po_id):
+    c = ZsiteTagPo.raw_sql(
+        "select zsite_tag_id from zsite_tag_po where zsite_id=%s and po_id=%s",
+        zsite_id, po_id
+    )
+    r = c.fetchone()
+    if r:
+        r = r[0]
+        tag = ZsiteTag.mc_get(zsite_tag_id)
+        r = tag.tag_id
+    else:
+        r = 0
+    return r
 
 if __name__ == "__main__":
     for k,v in zsite_tag_list_by_zsite_id_with_init(1).iteritems():
