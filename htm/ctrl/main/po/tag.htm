@@ -26,13 +26,21 @@ from static import js, css
 </div>
 <script src="${js.ctrl_po_tag}"></script>
 </%htm:form>
+<style>
+.x{
+background:url(/img/gif/x.gif) no-repeat;
+display:inline-block;
+height:9px;
+width:9px;
+}
+</style>
 <%text>
 <script id="tag" type="text/x-jquery-tmpl">
 <div>
 <input type="hidden" value="${$data[0]}">
 <input type="text" value="${$data[1]}">
 {{if $data[0]!=1}}
-<a href="#">x</a>
+<a class="x" href="#">x</a>
 {{/if}}
 </div>
 </script>
