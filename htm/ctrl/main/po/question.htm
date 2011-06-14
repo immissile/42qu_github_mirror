@@ -1,0 +1,58 @@
+<%!
+from model.po import STATE_SECRET
+from static import js, css
+%>
+<%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/main/_util/htm.htm" name="htm"/>
+
+<%def name="htm_head()">
+<%
+if po:
+    suffix = "/%s"%po.id
+else:
+    suffix = ""
+%>
+<script src="${js.upload}"></script>\
+<script src="${js.pic}"></script>\
+<script>
+UPLOADURL = "/j/note/upload${suffix}"
+DELETEURL = "/j/note/upload/rm${suffix}"
+</script>
+<link href="${css.po_note}" rel="stylesheet" type="text/css">
+</%def>
+
+<%htm:form enctype="multipart/form-data">
+<div>
+<input type="text" name="name" value="${po.name}">
+</div>
+<textarea id="txt" name="txt">${po.txt}</textarea>
+<div>
+    <a id="upload" href="javascript:upload();void(0)">传图</a>
+%if po:
+<a href="/po/rm/${po.id}?${_xsrf}">删除</a>
+%endif
+    <button type="submit">确定</button>\
+</div>
+
+<div id="upload_wait">图片上传中 ...
+<a href="javascript:cancel_uploading();void(0)">取消</a>
+</div>
+%for pic in pic_list:
+<%
+pic_seq = pic.seq
+pic_pos = pic.align
+%>\
+<div id="pic${pic_seq}" class="cl imgblock">\
+<img class="picsrc" src="${pic.src219}">\
+<div><p>&lt;图片<span class="seqid">${pic.seq}</span>&gt; \
+标题:<input class="itx titpic" name="tit${pic_seq}" value="${pic.title}"></p>\
+<p class="tc mt21">\
+<input id="pos${pic_seq}_-1" name="pos${pic_seq}" type="radio" value="-1" class="radio"${' checked="checked"' if pic_pos == -1 else ''}><label for="pos${pic_seq}_-1">居左</label>\
+<input id="pos${pic_seq}_0" name="pos${pic_seq}" type="radio" value="0" class="radio"${' checked="checked"' if pic_pos == 0 else ''}><label for="pos${pic_seq}_0">居中</label>\
+<input id="pos${pic_seq}_1" name="pos${pic_seq}" type="radio" value="1" class="radio"${' checked="checked"' if pic_pos == 1 else ''}><label for="pos${pic_seq}_1">居右</label>\
+</p>\
+<p style="margin-top:10px;"><a href="javascript:void(0)" rel="${pic.seq}" class="rmpic">删除</a></p></div></div>\
+%endfor
+
+
+</%htm:form>
