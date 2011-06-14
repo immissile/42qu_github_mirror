@@ -109,9 +109,16 @@ def po_word_new(user_id, name):
         m.feed_new()
         return m
 
-def po_question_new(user_id, name , txt):
+def po_question_new(user_id, name, txt):
     if not is_same_post(user_id, name, txt):
-        m = po_new(CID_QUESTION, user_id, name, STATE_SECRET)
+        m = po_new(CID_QUESTION, user_id, name, STATE_ACTIVE)
+        txt_new(m.id, txt)
+        m.feed_new()
+        return m
+
+def po_answer_new(user_id, name, txt):
+    if not is_same_post(user_id, name, txt):
+        m = po_new(CID_ANSWER, user_id, name, STATE_ACTIVE)
         txt_new(m.id, txt)
         m.feed_new()
         return m
