@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import mc, cursor_by_table
+from zkit.ordereddict import OrderedDict
 
 class Kv(object):
     def __init__(self, table, NULL=''):
@@ -73,3 +74,17 @@ class Kv(object):
             cursor.connection.commit()
             r = cursor.lastrowid
         return r
+
+    def value_by_id_list(self, id_list):
+        mc_key = self.__mc_key__
+        keydict = dict((i, mc_key%i) for i in id_list)
+        mcdict = mc.get_dict(keydict.itervalues())
+        r = OrderedDict()
+        for i in id_list:
+            value = mcdict[keydict[i]]
+            if value is None:
+                value = self.get(i)
+            r[i] = value
+        return r
+
+

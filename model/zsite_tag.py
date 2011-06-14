@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel
+from _db import Model, McModel, McCacheA
 from tag import Tag
 
 #CREATE TABLE  `zpage`.`zpage_tag` (
@@ -23,20 +23,32 @@ from tag import Tag
 #  INDEX `po_id` ( `po_id`,`zsite_id`)
 #)ENGINE = MyISAM;
 
+mc_zsite_tag_id_list = McCacheA("ZsiteTagIdListByZsiteId:%s")
 
-class ZsiteTag(object):
+
+class ZsiteTag(Model):
     pass
 
-class ZsiteTagPo(object):
+class ZsiteTagPo(McModel):
     pass
-
 
 def zsite_tag_init(zsite_id):
     pass
 
+
+
+
+@mc_zsite_tag_id_list("{zsite_id}")
+def zsite_tag_id_list_by_zsite_id(zsite_id):
+    return ZsiteTag.where(zsite_id=zsite_id).field_list(field='tag_id')
+
 def zsite_tag_list_by_zsite_id(zsite_id):
-    pass
+    return Tag.value_by_id_list(
+        zsite_tag_id_list_by_zsite_id(zsite_id)
+    )    
 
 
+if __name__ == "__main__":
+    print zsite_tag_list_by_zsite_id(1)
 
 
