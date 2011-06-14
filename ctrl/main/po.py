@@ -139,6 +139,12 @@ class Question(LoginBase):
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id,\
 zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name
 
+@urlmap('/po/tag')
+class Tag(LoginBase):
+    def get(self):
+        current_user_id = self.current_user_id
+        self.render(tag_list=tag_list, po=po, tag_id=tag_id)
+
 @urlmap('/po/tag/(\d+)')
 class Tag(LoginBase):
     def _po(self, id):
