@@ -7,12 +7,12 @@ class Kv(object):
     def __init__(self, table, NULL=''):
         self.__table__ = table
         self.cursor = cursor_by_table(table)
-        self.__mc_key__ = '%s.%%s'%table
-        self.__mc_id__ = '-%s'%self.__mc_key__
+        self.__mc_id__ = '%s.%%s'%table
+        self.__mc_value__ = '-%s'%self.__mc_id__
         self.NULL = NULL
 
     def get(self, key):
-        mc_key = self.__mc_key__%key
+        mc_key = self.__mc_id__%key
         r = mc.get(mc_key)
         if r is None:
             cursor = self.cursor
@@ -40,7 +40,7 @@ class Kv(object):
     def set(self, key, value):
         r = self.get(key)
         if r != value:
-            mc_key = self.__mc_key__%key
+            mc_key = self.__mc_id__%key
             cursor = self.cursor
             table = self.__table__
             cursor.execute(
@@ -53,7 +53,7 @@ class Kv(object):
     def delete(self, key):
         cursor = self.cursor
         cursor.execute('delete from %s where id=%%s'%self.__table__, key)
-        mc_key = self.__mc_key__%key
+        mc_key = self.__mc_id__%key
         mc.delete(mc_key)
 
 
@@ -71,7 +71,7 @@ class Kv(object):
         return r
 
     def mc_id_by_value(self, value):
-        mc_key = self.__mc_id__
+        mc_key = self.__mc_value__
         mc_key = mc_key%value
         r = mc.get(mc_key)
         if r is None:
@@ -88,6 +88,12 @@ class Kv(object):
         )
         cursor.connection.commit()
         r = cursor.lastrowid
+        mc_key = self.__mc_value__
+        mc_key = mc_key%value
+        mc.delete(mc_key)
+        mc_key = self.__mc_id__
+        mc_key = mc_key%id
+        mc.set(mc_key, r)
         return r
 
     def id_by_value_new(self, value):
@@ -97,7 +103,7 @@ class Kv(object):
         return self.mc_id_by_value(value) or self.insert(value)
 
     def value_by_id_list(self, id_list):
-        mc_key = self.__mc_key__
+        mc_key = self.__mc_id__
         keydict = dict((i, mc_key%i) for i in id_list)
         mcdict = mc.get_dict(keydict.itervalues())
         r = OrderedDict()

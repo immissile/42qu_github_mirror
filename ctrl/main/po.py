@@ -165,7 +165,7 @@ class Tag(LoginBase):
     def post(self, id):
         po = self._po(id)
         if po:
-            tag_id = self.get_argument('tag_id')
+            tag_id = int(self.get_argument('tag'))
             name = self.get_argument('name',None)
             if not name and not tag_id:
                 tag_id = 1
