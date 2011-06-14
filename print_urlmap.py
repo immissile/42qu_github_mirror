@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
+import pyclbr
 
 def print_urlmap(module):
     __import__(module, globals(), locals(), [], -1)
@@ -8,11 +9,16 @@ def print_urlmap(module):
     from pprint import pprint
     import zweb
     prefix = len(module)+1
+    #pyclbr.readmodule("ctrl.index")
+
     for i in sorted(zweb._urlmap.URLMAP):
         url, cls = i[:2]
         mn = cls.__module__
-        mn = mn.replace(".","/") +'.py'
-        print '\t%s\t%s%s'%(url.ljust(32), '%s'%(mn).ljust(32) , cls.__name__)
+    
+        mddict = pyclbr.readmodule(mn)
+        cls_name = cls.__name__
+        mn = mn.replace('.', '/') +'.py'
+        print '\t%s\t%s%s'%(url.ljust(42), ('%s : %s'%(mn, mddict[cls_name].lineno)).ljust(42) , cls_name )
 
     zweb._urlmap.URLMAP = []
 
