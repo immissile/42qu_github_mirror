@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCacheA, McCache
-from tag import Tag
+from tag import Tag, tag_new
 
 #CREATE TABLE  `zpage`.`zpage_tag` (
 #  `id` int(10) unsigned NOT NULL auto_increment,
@@ -43,9 +43,6 @@ class ZsiteTag(McModel):
 class ZsiteTagPo(McModel):
     pass
 
-def zsite_tag_init(zsite_id):
-    pass
-
 @mc_zsite_tag_id_list("{zsite_id}")
 def zsite_tag_id_list_by_zsite_id(zsite_id):
     return ZsiteTag.where(zsite_id=zsite_id).order_by("id desc").field_list(field='tag_id')
@@ -56,7 +53,7 @@ def zsite_tag_list_by_zsite_id(zsite_id):
 
 def zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id):
     zsite_tag = ZsiteTag.get_or_create(zsite_id=zsite_id,tag_id=tag_id)
-    if not zsite_id:
+    if not zsite_tag.id:
         zsite_tag.save()
         mc_zsite_tag_id_list.delete(zsite_id)
     return zsite_tag.id
@@ -65,7 +62,7 @@ def zsite_tag_list_by_zsite_id_with_init(zsite_id):
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
     if not tag_id_list:
         for tag_id in ZSITE_TAG:
-            id = zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
+            zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
     #print tag_id_list        
     return Tag.value_by_id_list(tag_id_list)    
@@ -100,11 +97,11 @@ def zsite_tag_new_by_tag_id(po, tag_id):
 
 
 def zsite_tag_new_by_tag_name(po, name):
-    tag_id = Tag.mc_id_by_value_new(name)
+    tag_id = tag_new(name)
     return zsite_tag_new_by_tag_id(po, tag_id)
 
 
 if __name__ == "__main__":
-    for k,v in zsite_tag_list_by_zsite_id_with_init(1).iteritems():
+    for k,v in zsite_tag_list_by_zsite_id_with_init(7).iteritems():
         print k,v
 
