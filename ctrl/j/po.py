@@ -15,7 +15,7 @@ class Tag(_handler.JLoginBase):
     def get(self):
         current_user_id = self.current_user_id
         tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
-        self.finish(dumps(tag_list))
+        self.finish(dumps(tag_list.iteritems()))
 
 
 @urlmap('/j/po/note/upload/rm')

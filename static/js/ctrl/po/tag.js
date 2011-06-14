@@ -6,9 +6,10 @@ function tag(){
     var fancybox = $.fancybox
     fancybox.showActivity();
     $.postJSON("/j/po/tag",function(o){
-        fancybox.hideActivity()
+        var _tag=$("#_tag")
+        $("#tag").tmpl(o).prependTo(_tag)
         $.fancybox({
-            content:o
+            content:_tag.html()
         })
     })
 }

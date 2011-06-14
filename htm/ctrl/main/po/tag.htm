@@ -9,7 +9,7 @@ from static import js, css
 
 <%htm:form>
 <div><a href="/po/edit/${po.id}">${po.name}</a></div>
-<div>分类 <a href="javascript:tag();void(0)">管理</a></div>
+<div>分类 <a href="javascript:tag(this);void(0)">管理</a></div>
 <div> <input name="tag" type="radio" value="0" id="tag0"> <input placeholder="新建分类" name="name" value="" autocomplete="off"></div>
 %for id, tag in tag_list.iteritems():
 <div>
@@ -26,3 +26,19 @@ from static import js, css
 </div>
 <script src="${js.ctrl_po_tag}"></script>
 </%htm:form>
+<%text>
+<script id="tag" type="text/x-jquery-tmpl">
+<div>
+<input type="hidden" value="${$data[0]}">
+<input type="text" value="${$data[1]}">
+{{if $data[0]!=1}}
+<a href="#">x</a>
+{{/if}}
+</div>
+</script>
+</%text>
+<div id="_tag" style="display:none">
+
+<button>保存</button>
+</div>
+
