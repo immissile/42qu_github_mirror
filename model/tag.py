@@ -5,4 +5,6 @@ from kv import Kv
 Tag = Kv('tag')
 
 if __name__ == '__main__':
-    print Tag.id_by_value_new('test2')
+    for k, v in Tag.iteritems():
+        print k, v
+

@@ -24,6 +24,19 @@ class Kv(object):
             mc.set(mc_key, r)
         return r
 
+    def iteritems(self):
+        id = 0
+        cursor = self.cursor
+        while True:
+            cursor.execute('select id,value from %s where id>%%s order by id limit 128'%self.__table__, id)
+            result = cursor.fetchall()
+            if not result:
+                break
+            for id, value in result:
+                yield id, value
+            print result
+           
+
     def set(self, key, value):
         r = self.get(key)
         if r != value:
@@ -48,7 +61,7 @@ class Kv(object):
         if not id:
             cursor = self.cursor
             cursor.execute(
-"""insert into %s (value) values (%%s)"""%self.__table__, 
+"""insert into %s (value) values (%%s)"""%self.__table__,
                 value
             )
             cursor.connection.commit()
