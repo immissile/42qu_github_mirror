@@ -4,6 +4,7 @@ import init_env
 def init_tag():
     from model.tag import tag_new, Tag
     from model.kv import mc
+    print 'TAG = ('
     for tag in (
         '随笔杂记',
         '愿景计划',
@@ -17,7 +18,8 @@ def init_tag():
         mc_key = Tag.__mc_id__%id
         mc.delete(mc_key)
         id = tag_new(tag)
-        print id, mc_key
+        print '    %s, # %s'%(id, tag)
+    print ')'
 
 def init_db():
     init_tag()
