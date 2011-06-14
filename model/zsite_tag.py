@@ -24,12 +24,12 @@ from tag import Tag
 #)ENGINE = MyISAM;
 
 ZSITE_TAG = (
-    1, # 随笔杂记
-    2, # 愿景计划
-    3, # 职业感悟
-    4, # 知识整理
-    5, # 指点江山
     6, # 转载收藏
+    5, # 指点江山
+    4, # 知识整理
+    3, # 职业感悟
+    2, # 愿景计划
+    1, # 随笔杂记
 )
 
 
@@ -48,15 +48,17 @@ def zsite_tag_init(zsite_id):
 
 @mc_zsite_tag_id_list("{zsite_id}")
 def zsite_tag_id_list_by_zsite_id(zsite_id):
-    return ZsiteTag.where(zsite_id=zsite_id).field_list(field='tag_id')
+    return ZsiteTag.where(zsite_id=zsite_id).order_by("id desc").field_list(field='tag_id')
 
 def zsite_tag_list_by_zsite_id(zsite_id):
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
     return Tag.value_by_id_list(tag_id_list)    
 
 def zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id):
-    zsite_tag = ZsiteTag(zsite_id=zsite_id,tag_id=tag_id).save()
-    mc_zsite_tag_id_list.delete(zsite_id)
+    zsite_tag = ZsiteTag.get_or_create(zsite_id=zsite_id,tag_id=tag_id)
+    if not zsite.id:
+        zsite_tag.save()
+        mc_zsite_tag_id_list.delete(zsite_id)
     return zsite_tag.id
 
 def zsite_tag_list_by_zsite_id_with_init(zsite_id):
@@ -82,6 +84,26 @@ def tag_id_by_po_id(zsite_id, po_id):
     else:
         r = 0
     return r
+
+def zsite_tag_new_by_tag_id(po, tag_id):
+    if not Tag.get(tag_id):
+        tag_id = 1
+    user_id = po.user_id
+    id = zsite_tag_new_by_zsite_id_tag_id(zsite_id, user_id) 
+    tag_po = ZsiteTagPo.get_or_create(
+        po_id=po.id, 
+        zsite_id=po.user_id
+    )
+    tag_po.zsite_tag_id = id
+    tag_po.save()
+
+
+def zsite_tag_new_by_tag_name(po, name):
+#  `zsite_tag_id` INTEGER UNSIGNED NOT NULL DEFAULT 0,
+#  `po_id` INTEGER UNSIGNED NOT NULL,
+#  `zsite_id` INTEGER UNSIGNED NOT NULL,
+#  `state` INTEGER UNSIGNED NOT NULL,
+    pass
 
 if __name__ == "__main__":
     for k,v in zsite_tag_list_by_zsite_id_with_init(1).iteritems():

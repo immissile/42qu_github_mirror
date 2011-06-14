@@ -134,3 +134,47 @@ class Question(LoginBase):
         else:
             link = '/po/question'
         self.redirect(link)
+
+
+from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id,\
+zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name
+
+@urlmap('/po/tag/(\d+)')
+class Tag(LoginBase):
+    def _po(self, id):
+        current_user = self.current_user
+        current_user_id = self.current_user_id
+        po = Po.mc_get(id)
+        if not po:
+            self.redirect('/')
+            return 
+        if not po.can_admin(current_user_id):
+            self.redirect(po.link)
+            return 
+        return po
+
+    def get(self, id):
+        po = self._po(id)
+        if po:
+            current_user_id = self.current_user_id
+            tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
+            po_id = po.id
+            tag_id = tag_id_by_po_id(current_user_id, po_id) or 1
+            self.render(tag_list=tag_list, po=po, tag_id=tag_id)
+
+    def post(self, id):
+        po = self._po(id)
+        if po:
+            tag_id = self.get_argument('tag_id')
+            name = self.get_argument('name',None)
+            if not name and not tag_id:
+                tag_id = 1
+
+            if tag_id:
+                zsite_tag_new_by_tag_id(po, tag_id)
+            else:
+                zsite_tag_new_by_tag_name(po, name)
+
+            self.redirect(po.link)
+
+
