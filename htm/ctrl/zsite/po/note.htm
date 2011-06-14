@@ -19,9 +19,9 @@ po_id = po.id
 </div>
 
 <span class="vote${vote_state(current_user_id, po_id)}" id="vote${po_id}">
-<a class="decr" href="javascript:vote_decr(${po_id});void(0)">-</a>
+<a class="down" href="javascript:vote_down(${po_id});void(0)">-</a>
 <span class="num">${vote_count(po_id)}</span>
-<a class="incr" href="javascript:vote_incr(${po_id});void(0)">+</a>
+<a class="up" href="javascript:vote_up(${po_id});void(0)">+</a>
 </span>
 
 </%def>

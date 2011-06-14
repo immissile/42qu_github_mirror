@@ -28,9 +28,9 @@ from config import FS_URL
 ##state = vote_state(current_user_id, id)
 ##%>
 ##<span class="vote${state}" id="vote${id}">
-##<a title="厌倦" class="decr" href="javascript:vote_decr(${id});void(0)">-</a>
+##<a title="厌倦" class="down" href="javascript:vote_down(${id});void(0)">-</a>
 ##<span title="好评度" class="num">${num}</span>
-##<a title="喜欢" class="incr" href="javascript:vote_incr(${id});void(0)">+</a>
+##<a title="喜欢" class="up" href="javascript:vote_up(${id});void(0)">+</a>
 ##<a title="转发" id="rt${id}" class="rt" href="javascript:rt(${id});void(0)"></a>
 ##</span>
 ##</%def>
@@ -84,7 +84,7 @@ from config import FS_URL
 <script id="feed" type="text/x-jquery-tmpl"><%text>
 <div style="border:1px solid #eee;padding:10px">
     <a target="_blank" href="${link}">${name}</a>
-    <div class="vote${vote_state}" id="vote${id}"><a title="厌倦" class="decr" href="javascript:vote_decr(${id});void(0)">-</a><span title="好评度" class="num">${vote}</span><a title="喜欢" class="incr" href="javascript:vote_incr(${id});void(0)">+</a></div>
+    <div class="vote${vote_state}" id="vote${id}"><a title="厌倦" class="down" href="javascript:vote_down(${id});void(0)">-</a><span title="好评度" class="num">${vote}</span><a title="喜欢" class="up" href="javascript:vote_up(${id});void(0)">+</a></div>
     {{if txt}}
         <div>${txt}</div>
     {{/if}}

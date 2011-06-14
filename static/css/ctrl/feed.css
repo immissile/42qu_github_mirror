@@ -16,8 +16,8 @@ padding:0 3px;
 padding:0 3px;
 color:#B2B2B2;
 }
-.vote1 .num,.vote1 .incr{color:#FF4500}
-.vote-1 .num,.vote-1 .decr{color:#0045ff}
+.vote1 .num,.vote1 .up{color:#FF4500}
+.vote-1 .num,.vote-1 .down{color:#0045ff}
 .reply{
 padding-right:13px;
 background:url(/img/gif/reply.gif) 100% 4px no-repeat;
