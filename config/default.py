@@ -4,6 +4,12 @@ import _env
 from hmako.lookup import TemplateLookup
 import sys
 from os.path import join
+import json
+import yajl
+json.dump = yajl.dump
+json.dumps = yajl.dumps
+json.loads = yajl.loads
+json.load = yajl.load
 
 def prepare(o):
     o.SITE_DOMAIN = '42qu.test'

@@ -1,0 +1,3 @@
+git clone https://github.com/teepark/py-yajl.git /tmp/py-yajl
+cd /tmp/py-yajl
+python setup.py install
