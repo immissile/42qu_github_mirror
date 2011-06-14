@@ -88,6 +88,7 @@ class Feed(_handler.JLoginBase):
 
     post = get
 
+
 @urlmap('/j/note/upload/rm')
 @urlmap('/j/note/upload/rm/(\d+)')
 class NoteUploadRm(_handler.JLoginBase):
