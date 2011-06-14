@@ -106,23 +106,22 @@ def po_rm(user_id, id):
 def po_word_new(user_id, name):
     if name and not is_same_post(user_id, name):
         m = po_new(CID_WORD, user_id, name, STATE_ACTIVE)
-        id = m.id
         m.feed_new()
         return m
 
-#def po_question_new(user_id, name , txt):
-#    m = po_new(CID_QUESTION, user_id, name, STATE_SECRET)
-#    txt_new(m.id, txt)
-#    return m
-
+def po_question_new(user_id, name , txt):
+    if not is_same_post(user_id, name, txt):
+        m = po_new(CID_QUESTION, user_id, name, STATE_SECRET)
+        txt_new(m.id, txt)
+        m.feed_new()
+        return m
 
 def po_note_new(user_id, name, txt, state):
     name = name or time_title()
     if is_same_post(user_id, name, txt):
         return
     m = po_new(CID_NOTE, user_id, name, state)
-    id = m.id
-    txt_new(id, txt)
+    txt_new(m.id, txt)
     if state > STATE_SECRET:
         m.feed_new()
     return m
