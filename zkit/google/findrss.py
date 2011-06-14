@@ -181,7 +181,7 @@ from urlparse import unquote
 import urllib2
 import urllib
 import traceback
-from json import loads
+from yajl import loads
 import re
 
 

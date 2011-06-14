@@ -1,7 +1,7 @@
 #coding:utf-8
 #coding:utf-8
 import urllib2, time, urllib
-from json import loads
+from yajl import loads
 from urlparse import unquote
 from urllib import quote
 from urllib2 import HTTPError

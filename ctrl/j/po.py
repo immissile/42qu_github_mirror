@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from json import dumps
+from yajl import dumps
 import _handler
 from zweb._urlmap import urlmap
 from model.po import Po, CID_NOTE

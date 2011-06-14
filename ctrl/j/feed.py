@@ -5,7 +5,7 @@ import _handler
 from zweb._urlmap import urlmap
 from model.vote import vote_state
 from model.po import Po, CID_NOTE
-from json import dumps
+from yajl import dumps
 from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
 from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN
 from model.feed import feed_rt, feed_rt_rm, feed_rt_id
