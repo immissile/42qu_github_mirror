@@ -98,11 +98,6 @@ jQuery.extend({
             minute = parseInt(ago/60)
             if(minute<60){
                 return minute+"分钟前"
-            }else{
-                ago = parseInt(minute/60)
-                if(ago<23){
-                    return ago+"小时前"
-                }
             }
         }
         return jQuery.isotime(timestamp)
