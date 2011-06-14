@@ -5,10 +5,14 @@ from static import js, css
 %>
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<p><a href="/note/edit/${po.id}">${po.name}</a></p>
+<p><a href="/po/edit/${po.id}">${po.name}</a></p>
 <div> <input name="tag" type="radio" value="0" id="tag0"> <input placeholder="新建分类" name="name" value="" autocomplete="off"></div>
 %for id, tag in tag_list.iteritems():
-<div> <input name="tag" type="radio" value="${id}" id="tag${id}"> <label for="tag${id}">${tag}</label></div>
+<div> <input
+%if tag_id == id:
+checked
+%endif
+name="tag" type="radio" value="${id}" id="tag${id}"> <label for="tag${id}">${tag}</label></div>
 %endfor
 <div>
 <button>确定</button>

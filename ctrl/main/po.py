@@ -60,6 +60,11 @@ def po_can_edit(current_user_id, id):
                 return po
     return JsDict()
 
+@urlmap("/po/edit/(\d+)")
+class Edit(LoginBase):
+    def get(self, id=0):
+        self.redirect("/note/edit/%s"%id)        
+
 
 @urlmap('/po/note')
 @urlmap('/note/edit/(\d+)')
