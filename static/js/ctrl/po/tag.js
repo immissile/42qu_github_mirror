@@ -3,7 +3,12 @@ $("input[name=name]").focus(function(){
 }).defaultValue();
 
 function tag(){
-    $.fancybox({
-        content:''
+    var fancybox = $.fancybox
+    fancybox.showActivity();
+    $.postJSON("/j/po/tag",function(o){
+        fancybox.hideActivity()
+        $.fancybox({
+            content:o
+        })
     })
 }

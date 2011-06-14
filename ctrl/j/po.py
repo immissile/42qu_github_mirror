@@ -17,6 +17,7 @@ class Tag(_handler.JLoginBase):
         tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
         self.finish(dumps(tag_list))
 
+
 @urlmap('/j/po/note/upload/rm')
 @urlmap('/j/po/note/upload/rm/(\d+)')
 class NoteUploadRm(_handler.JLoginBase):
