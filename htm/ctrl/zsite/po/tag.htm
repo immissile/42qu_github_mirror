@@ -9,7 +9,7 @@ from static import js, css
 %for tag_id, tag in tag_list.iteritems():
 <div> <input name="tag" type="radio" value="${tag_id}" id="tag${tag_id}"> <label for="tag${tag_id}">${tag}</label></div>
 %endfor
-<div> <input name="tag" type="radio" value="0" id="tag0"> <input name="name" value="" autocomplete="off"></div>
+<div> <input name="tag" type="radio" value="0" id="tag0"> <input placeholder="新建分类" name="name" value="" autocomplete="off"></div>
 <div>
 <button>确定</button>
 </div>
