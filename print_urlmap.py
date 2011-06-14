@@ -19,5 +19,5 @@ def print_urlmap(module):
 print_urlmap('ctrl._urlmap')
 print_urlmap('ctrl.zsite._urlmap')
 print_urlmap('ctrl.main._urlmap')
-print_urlmap('god')
-print_urlmap('api')
+print_urlmap('god._urlmap')
+print_urlmap('api._urlmap')
