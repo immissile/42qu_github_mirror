@@ -19,7 +19,7 @@ def print_urlmap(module):
         cls_name = cls.__name__
         mn = mn.replace('.', '/') +'.py'
         print '\t%s\t%s%s'%(
-            ('%s +%s;'%(mn, mddict[cls_name].lineno)).ljust(42),
+            ('vi %s +%s#'%(mn, mddict[cls_name].lineno)).ljust(42),
             url.ljust(42),
             cls_name
         )
