@@ -10,7 +10,7 @@ from json import dumps
 from zkit.pic import picopen
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
-from model.vote import vote_decr_x, vote_decr, vote_incr_x, vote_incr
+from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
 from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN
 from model.feed import feed_rt, feed_rt_rm, feed_rt_id
 
@@ -45,35 +45,33 @@ class Login(_handler.Base):
         self.render()
 
 
-@urlmap('/j/feed/incr1/(\d+)')
-class FeedIncr(_handler.JLoginBase):
+@urlmap('/j/feed/up1/(\d+)')
+class FeedUp(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
-        vote_incr(current_user_id, id)
+        vote_up(current_user_id, id)
         self.finish('{}')
 
-
-@urlmap('/j/feed/incr0/(\d+)')
-class FeedIncrX(_handler.JLoginBase):
+@urlmap('/j/feed/up0/(\d+)')
+class FeedUpX(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
-        vote_incr_x(current_user_id, id)
+        vote_up_x(current_user_id, id)
         self.finish('{}')
 
-@urlmap('/j/feed/decr1/(\d+)')
-class FeedDecr(_handler.JLoginBase):
+@urlmap('/j/feed/down1/(\d+)')
+class FeedDown(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
-        vote_decr(current_user_id, id)
+        vote_down(current_user_id, id)
         self.finish('{}')
 
-@urlmap('/j/feed/decr0/(\d+)')
-class FeedDecrX(_handler.JLoginBase):
+@urlmap('/j/feed/down0/(\d+)')
+class FeedDownX(_handler.JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
-        vote_decr_x(current_user_id, id)
+        vote_down_x(current_user_id, id)
         self.finish('{}')
-
 
 @urlmap('/j/feed')
 class Feed(_handler.JLoginBase):
@@ -85,7 +83,7 @@ class Feed(_handler.JLoginBase):
             id = i[0]
             i.insert(FEED_TUPLE_DEFAULT_LEN, vote_state(current_user_id, id))
             i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
-             
+
         self.finish(dumps(result))
 
     post = get
