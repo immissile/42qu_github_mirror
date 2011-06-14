@@ -79,17 +79,22 @@ class Kv(object):
             mc.set(mc_key, r)
         return r
 
-    def id_by_value_new(self, value):
-        r = self.id_by_value(value)
-        if not r:
-            cursor = self.cursor
-            cursor.execute(
-                'insert into %s (value) values (%%s)'%self.__table__,
-                value
-            )
-            cursor.connection.commit()
-            r = cursor.lastrowid
+
+    def insert(self, value): 
+        cursor = self.cursor
+        cursor.execute(
+            'insert into %s (value) values (%%s)'%self.__table__,
+            value
+        )
+        cursor.connection.commit()
+        r = cursor.lastrowid
         return r
+
+    def id_by_value_new(self, value):
+        return self.id_by_value(value) or self.insert(value)
+    
+    def mc_id_by_value_new(self, value):
+        return self.mc_id_by_value(value) or self.insert(value)
 
     def value_by_id_list(self, id_list):
         mc_key = self.__mc_key__
