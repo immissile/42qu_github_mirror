@@ -83,7 +83,6 @@ class Reply(LoginBase):
         self.redirect(link)
 
 
-
 @urlmap('/po/rm/(\d+)')
 class Rm(XsrfGetBase):
     def get(self, id):
@@ -93,3 +92,11 @@ class Rm(XsrfGetBase):
         self.redirect(current_user.link)
 
     post = get
+
+
+@urlmap('/po/tag/(\d+)')
+class Tag(LoginBase):
+    def get(self, id):
+        current_user = self.current_user
+        
+
