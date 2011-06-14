@@ -5,7 +5,9 @@ from static import js, css
 %>
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-
+<%def name="htm_head()">
+<link href="${css.po_tag}" rel="stylesheet" type="text/css">
+</%def>
 
 <%htm:form>
 <div><a href="/po/edit/${po.id}">${po.name}</a></div>
@@ -26,21 +28,13 @@ from static import js, css
 </div>
 <script src="${js.ctrl_po_tag}"></script>
 </%htm:form>
-<style>
-.x{
-background:url(/img/gif/x.gif) no-repeat;
-display:inline-block;
-height:9px;
-width:9px;
-}
-</style>
 <%text>
 <script id="tag" type="text/x-jquery-tmpl">
 <div>
 <input type="hidden" value="${$data[0]}">
 <input type="text" value="${$data[1]}">
 {{if $data[0]!=1}}
-<a class="x" href="#"></a>
+<a title="删除" class="x" href="#"></a>
 {{/if}}
 </div>
 </script>
