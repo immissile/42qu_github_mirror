@@ -23,7 +23,7 @@ from tag import Tag
 #  INDEX `po_id` ( `po_id`,`zsite_id`)
 #)ENGINE = MyISAM;
 
-TAG = (
+ZSITE_TAG = (
     1, # 随笔杂记
     2, # 愿景计划
     3, # 职业感悟
@@ -62,7 +62,7 @@ def zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id):
 def zsite_tag_list_by_zsite_id_with_init(zsite_id):
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
     if not tag_id_list:
-        for tag_id in TAG:
+        for tag_id in ZSITE_TAG:
             id = zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
     #print tag_id_list        
