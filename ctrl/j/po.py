@@ -8,6 +8,9 @@ from zkit.pic import picopen
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
 
+@urlmap('/j/po/tag')
+class Tag(_handler.JLoginBase):
+    pass
 
 @urlmap('/j/po/note/upload/rm')
 @urlmap('/j/po/note/upload/rm/(\d+)')
