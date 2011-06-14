@@ -23,13 +23,13 @@ from tag import Tag
 #  INDEX `po_id` ( `po_id`,`zsite_id`)
 #)ENGINE = MyISAM;
 
-"随笔杂记",
-"愿景计划",
-"职业感悟",
-"知识整理",
-"指点江山",
-"思绪飘零",
-"转载收藏",
+#"随笔杂记",
+#"愿景计划",
+#"职业感悟",
+#"知识整理",
+#"指点江山",
+#"思绪飘零",
+#"转载收藏",
 
 
 mc_zsite_tag_id_list = McCacheA("ZsiteTagIdListByZsiteId:%s")
@@ -52,7 +52,6 @@ def zsite_tag_list_by_zsite_id(zsite_id):
     return Tag.value_by_id_list(
         zsite_tag_id_list_by_zsite_id(zsite_id)
     )    
-
 
 if __name__ == "__main__":
     print zsite_tag_list_by_zsite_id(1)
