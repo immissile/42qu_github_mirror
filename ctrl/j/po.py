@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+from json import dumps
 import _handler
+from zweb._urlmap import urlmap
+from model.po import Po, CID_NOTE
+from zkit.pic import picopen
+from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
+from model.fs import fs_url_jpg
+
 
 @urlmap('/j/note/upload/rm')
 @urlmap('/j/note/upload/rm/(\d+)')
