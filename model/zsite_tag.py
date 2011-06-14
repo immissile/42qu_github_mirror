@@ -87,13 +87,16 @@ def zsite_tag_new_by_tag_id(po, tag_id):
     if not Tag.get(tag_id):
         tag_id = 1
     zsite_id = po.user_id
+    po_id = po.id
+
     id = zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id) 
     tag_po = ZsiteTagPo.get_or_create(
-        po_id=po.id, 
+        po_id=po_id, 
         zsite_id=zsite_id
     )
     tag_po.zsite_tag_id = id
     tag_po.save()
+    mc_tag_id_by_po_id.set("%s_%s"%(zsite_id,po_id), tag_id) 
 
 
 def zsite_tag_new_by_tag_name(po, name):
@@ -102,6 +105,4 @@ def zsite_tag_new_by_tag_name(po, name):
 
 
 if __name__ == "__main__":
-    for k,v in zsite_tag_list_by_zsite_id_with_init(7).iteritems():
-        print k,v
-
+    print tag_id_by_po_id(11,12)
