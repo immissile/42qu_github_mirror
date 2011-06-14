@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import main
-import zsite
-import index
-import j
-
+import main._urlmap
+import zsite._urlmap
+import _urlmap
 from zweb._urlmap import URLMAP
 import tornado.wsgi
 

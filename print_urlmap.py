@@ -8,22 +8,16 @@ def print_urlmap(module):
     from pprint import pprint
     import zweb
     prefix = len(module)+1
-    premn = None
     for i in sorted(zweb._urlmap.URLMAP):
         url, cls = i[:2]
         mn = cls.__module__
-        if mn.startswith(module):
-            mn = mn[prefix:]
-        mn = mn +'.py'
-        if mn == premn:
-            mn = ''
-        else:
-            premn = mn
-        print '\t%s\t%s%s'%(url.ljust(24), '%s'%(mn).ljust(16) , cls.__name__)
+        mn = mn.replace(".","/") +'.py'
+        print '\t%s\t%s%s'%(url.ljust(32), '%s'%(mn).ljust(32) , cls.__name__)
 
     zweb._urlmap.URLMAP = []
 
-print_urlmap('ctrl.zsite')
-print_urlmap('ctrl.main')
+print_urlmap('ctrl._urlmap')
+print_urlmap('ctrl.zsite._urlmap')
+print_urlmap('ctrl.main._urlmap')
 print_urlmap('god')
 print_urlmap('api')

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import _handler
+from main import _handler
 from model.vote import vote_state
 from zweb._urlmap import urlmap
 from model.follow import follow_rm, follow_new
