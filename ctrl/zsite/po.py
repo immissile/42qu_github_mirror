@@ -6,7 +6,7 @@ from model.po import po_rm, po_word_new, Po
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite
-
+from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init
 
 @urlmap('/note/(\d+)', template='note')
 @urlmap('/word/(\d+)', template='word')
@@ -98,5 +98,11 @@ class Rm(XsrfGetBase):
 class Tag(LoginBase):
     def get(self, id):
         current_user = self.current_user
+        current_user_id = self.current_user
+        po = Po.mc_get(id)
+        if not (po and po.can_admin(current_user_id)):
+            return self.redirect(link)
+        tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
+        self.render(tag_list=tag_list) 
         
 
