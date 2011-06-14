@@ -104,8 +104,8 @@ class Tag(LoginBase):
         if not (po and po.can_admin(current_user_id)):
             return self.redirect(link)
         tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
-        self.render(tag_list=tag_list) 
-        
+        self.render(tag_list=tag_list, po=po)
+
     def post(self, id):
         pass
 
