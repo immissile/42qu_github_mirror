@@ -12,7 +12,7 @@ zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name
 
 @urlmap('/j/po/tag')
 class Tag(_handler.JLoginBase):
-    def get(self, id):
+    def get(self):
         current_user_id = self.current_user_id
         tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
         self.finish(dumps(tag_list))
