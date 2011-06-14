@@ -6,20 +6,16 @@ from model.po import po_rm, po_word_new, Po
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
 
 
-@urlmap('/note/(\d+)', template='note')
-@urlmap('/word/(\d+)', template='word')
-@urlmap('/question/(\d+)', template='question')
-@urlmap('/answer/(\d+)', template='answer')
 class Index(ZsiteBase):
-    def initialize(self, template):
-        self.template = 'ctrl/zsite/po/%s.htm' % template
+    cid = None
 
     def get(self, id):
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
-        if not po:
+        if not po or po.cid != self.cid:
             return self.redirect('/')
 
         if po.user_id != self.zsite_id:
@@ -36,6 +32,22 @@ class Index(ZsiteBase):
             can_admin=can_admin,
             can_view=can_view
         )
+
+
+@urlmap('/word/(\d+)')
+class Word(Index):
+    cid = CID_WORD
+
+
+@urlmap('/note/(\d+)')
+class Note(Index):
+    cid = CID_NOTE
+
+
+@urlmap('/question/(\d+)')
+class Question(Index):
+    cid = CID_QUESTION
+
 
 @urlmap('/po/reply/rm/(\d+)')
 class ReplyRm(LoginBase):

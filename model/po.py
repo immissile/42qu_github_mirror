@@ -47,6 +47,8 @@ class Po(McModel, ReplyMixin):
 
     @property
     def link(self):
+        if self.cid not in PO_EN:
+            return ''
         if not hasattr(self, '_link'):
             en = PO_EN[self.cid]
             zsite = Zsite.mc_get(self.user_id)
