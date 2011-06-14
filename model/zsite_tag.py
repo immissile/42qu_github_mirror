@@ -65,7 +65,7 @@ def zsite_tag_list_by_zsite_id_with_init(zsite_id):
         for tag_id in TAG:
             id = zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
-    print tag_id_list        
+    #print tag_id_list        
     return Tag.value_by_id_list(tag_id_list)    
 
 if __name__ == "__main__":
