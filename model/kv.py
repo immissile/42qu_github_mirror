@@ -2,13 +2,15 @@
 # -*- coding: utf-8 -*-
 from _db import mc, cursor_by_table
 from zkit.ordereddict import OrderedDict
+from hashlib import md5
+
 
 class Kv(object):
     def __init__(self, table, NULL=''):
         self.__table__ = table
         self.cursor = cursor_by_table(table)
         self.__mc_id__ = '%s.%%s'%table
-        self.__mc_value__ = '-%s'%self.__mc_id__
+        #self.__mc_value__ = '-%s'%self.__mc_id__
         self.NULL = NULL
 
     def get(self, key):
@@ -37,6 +39,10 @@ class Kv(object):
                 yield id, value
            
 
+    def mc_value_id_set(self, value, id): 
+        h = md5(value).hexdigest()
+        mc.set("KV:%s"%h, id)
+        
     def set(self, key, value):
         r = self.get(key)
         if r != value:
@@ -71,8 +77,8 @@ class Kv(object):
         return r
 
     def mc_id_by_value(self, value):
-        mc_key = self.__mc_value__
-        mc_key = mc_key%value
+        h = md5(value).hexdigest()
+        mc_key = "KV:%s"%h
         r = mc.get(mc_key)
         if r is None:
             r = self.id_by_value(value)
@@ -88,9 +94,7 @@ class Kv(object):
         )
         cursor.connection.commit()
         r = cursor.lastrowid
-        mc_key = self.__mc_value__
-        mc_key = mc_key%value
-        mc.delete(mc_key)
+        self.mc_value_id_set(value, id)
         mc_key = self.__mc_id__
         mc_key = mc_key%id
         mc.set(mc_key, r)
