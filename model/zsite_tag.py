@@ -23,13 +23,6 @@ from tag import Tag
 #  INDEX `po_id` ( `po_id`,`zsite_id`)
 #)ENGINE = MyISAM;
 
-#"随笔杂记",
-#"愿景计划",
-#"职业感悟",
-#"知识整理",
-#"指点江山",
-#"思绪飘零",
-#"转载收藏",
 
 
 mc_zsite_tag_id_list = McCacheA("ZsiteTagIdListByZsiteId:%s")
