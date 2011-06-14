@@ -8,6 +8,3 @@ from zweb._urlmap import urlmap
 class Index(_handler.Base):
     def get(self):
         self.render()
-
-
-
