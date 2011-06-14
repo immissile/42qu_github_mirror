@@ -17,6 +17,7 @@ from zsite import Zsite
 PO_EN = {
     CID_NOTE: 'note',
     CID_WORD: 'word',
+    CID_QUESTION: 'question',
 }
 
 mc_htm = McCache('PoHtm.%s')
@@ -102,24 +103,9 @@ def po_rm(user_id, id):
         m.save()
         feed_rm(id)
 
-
 def po_word_new(user_id, name):
     if name and not is_same_post(user_id, name):
         m = po_new(CID_WORD, user_id, name, STATE_ACTIVE)
-        m.feed_new()
-        return m
-
-def po_question_new(user_id, name, txt):
-    if not is_same_post(user_id, name, txt):
-        m = po_new(CID_QUESTION, user_id, name, STATE_ACTIVE)
-        txt_new(m.id, txt)
-        m.feed_new()
-        return m
-
-def po_answer_new(user_id, name, txt):
-    if not is_same_post(user_id, name, txt):
-        m = po_new(CID_ANSWER, user_id, name, STATE_ACTIVE)
-        txt_new(m.id, txt)
         m.feed_new()
         return m
 
