@@ -139,15 +139,9 @@ class Question(LoginBase):
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id,\
 zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name
 
-@urlmap('/po/tag')
-class Tag(LoginBase):
-    def get(self):
-        current_user_id = self.current_user_id
-        tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
-        self.render(tag_list=tag_list)
 
 @urlmap('/po/tag/(\d+)')
-class TagEdit(LoginBase):
+class Tag(LoginBase):
     def _po(self, id):
         current_user = self.current_user
         current_user_id = self.current_user_id
