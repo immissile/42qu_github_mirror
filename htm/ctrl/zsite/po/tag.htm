@@ -6,5 +6,11 @@ from datetime import datetime
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <p><a href="/note/edit/${po.id}">${po.name}</a></p>
 %for tag_id, tag in tag_list.iteritems():
-<div> <input name="tag" type="checkbox" value="${tag_id}" >${tag}</div>
+<div> <input name="tag" type="radio" value="${tag_id}" id="tag${tag_id}"> <label for="tag${tag_id}">${tag}</label></div>
 %endfor
+<div> <input name="tag" type="radio" value="0" id="tag0"> <input name="name" value="" autocomplete="off"></div>
+<script>
+$("input[name=name]").focus(function(){
+    $('#tag0').attr('checked',true)
+})
+</script>
