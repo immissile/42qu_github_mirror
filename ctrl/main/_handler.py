@@ -16,12 +16,6 @@ class Base(_Base):
         kwds['_xsrf'] = self._xsrf
         super(Base, self).render(template_name, **kwds)
 
-class JLoginBase(Base):
-    def prepare(self):
-        super(JLoginBase, self).prepare()
-        if not self.current_user:
-            self.finish('{"login":1}')
-
 class LoginBase(Base):
     def prepare(self):
         super(LoginBase, self).prepare()

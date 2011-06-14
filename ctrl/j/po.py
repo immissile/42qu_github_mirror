@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from main import _handler
+import _handler
 
 @urlmap('/j/note/upload/rm')
 @urlmap('/j/note/upload/rm/(\d+)')
