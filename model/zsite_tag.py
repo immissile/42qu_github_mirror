@@ -79,7 +79,7 @@ def tag_id_by_po_id(zsite_id, po_id):
     r = c.fetchone()
     if r:
         r = r[0]
-        tag = ZsiteTag.mc_get(zsite_tag_id)
+        tag = ZsiteTag.mc_get(r)
         r = tag.tag_id
     else:
         r = 0
