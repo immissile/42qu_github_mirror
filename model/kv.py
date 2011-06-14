@@ -97,7 +97,7 @@ class Kv(object):
         mcdict = mc.get_dict(keydict.itervalues())
         r = OrderedDict()
         for i in id_list:
-            value = mcdict[keydict[i]]
+            value = mcdict.get(keydict[i])
             if value is None:
                 value = self.get(i)
             r[i] = value

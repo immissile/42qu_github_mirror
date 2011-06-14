@@ -54,6 +54,21 @@ def zsite_tag_list_by_zsite_id(zsite_id):
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
     return Tag.value_by_id_list(tag_id_list)    
 
+def zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id):
+    zsite_tag = ZsiteTag(zsite_id=zsite_id,tag_id=tag_id).save()
+    mc_zsite_tag_id_list.delete(zsite_id)
+    return zsite_tag.id
+
+def zsite_tag_list_by_zsite_id_with_init(zsite_id):
+    tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
+    if not tag_id_list:
+        for tag_id in TAG:
+            id = zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
+    tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
+    print tag_id_list        
+    return Tag.value_by_id_list(tag_id_list)    
+
 if __name__ == "__main__":
-    print zsite_tag_list_by_zsite_id(1)
+    for k,v in zsite_tag_list_by_zsite_id_with_init(1).iteritems():
+        print k,v
 
