@@ -8,6 +8,7 @@ class Kv(object):
         self.__table__ = table
         self.cursor = cursor_by_table(table)
         self.__mc_key__ = '%s.%%s'%table
+        self.__mc_id__ = '-%s'%self.__mc_key__
         self.NULL = NULL
 
     def get(self, key):
@@ -34,7 +35,6 @@ class Kv(object):
                 break
             for id, value in result:
                 yield id, value
-            print result
            
 
     def set(self, key, value):
@@ -56,20 +56,6 @@ class Kv(object):
         mc_key = self.__mc_key__%key
         mc.delete(mc_key)
 
-    def get_or_create_id_by_value(self, value):
-        id = self.mc_id_by_value(value)
-        if not id:
-            cursor = self.cursor
-            cursor.execute(
-"""insert into %s (value) values (%%s)"""%self.__table__,
-                value
-            )
-            cursor.connection.commit()
-            id = cursor.lastrowid
-            mc_key = '-%s'%self.__mc_key__
-            mc_key = mc_key%value
-            mc.set(mc_key, id)
-        return id
 
     def id_by_value(self, value):
         cursor = self.cursor
@@ -85,7 +71,7 @@ class Kv(object):
         return r
 
     def mc_id_by_value(self, value):
-        mc_key = '-%s'%self.__mc_key__
+        mc_key = self.__mc_id__
         mc_key = mc_key%value
         r = mc.get(mc_key)
         if r is None:
@@ -95,7 +81,7 @@ class Kv(object):
 
     def id_by_value_new(self, value):
         r = self.id_by_value(value)
-        if r is None:
+        if not r:
             cursor = self.cursor
             cursor.execute(
                 'insert into %s (value) values (%%s)'%self.__table__,
