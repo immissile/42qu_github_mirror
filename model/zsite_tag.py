@@ -59,13 +59,16 @@ def zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id):
         mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
     return zsite_tag.id
 
-def zsite_tag_list_by_zsite_id_with_init(zsite_id):
+def zsite_tag_id_list_with_init(zsite_id):
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
-    if not tag_id_list or len(tag_id_list)==1:
+    if not tag_id_list:
         for tag_id in ZSITE_TAG:
             zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
-    tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
-    #print tag_id_list        
+        tag_id_list = list(reversed(ZSITE_TAG))
+    return tag_id_list
+
+def zsite_tag_list_by_zsite_id_with_init(zsite_id):
+    tag_id_list = zsite_tag_id_list_with_init(zsite_id)
     return Tag.value_by_id_list(tag_id_list)
 
 
@@ -75,6 +78,9 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
         tag_id = 1
     zsite_id = po.user_id
     po_id = po.id
+
+    if tag_id == 1: #初始化
+        zsite_tag_id_list_with_init(zsite_id) 
 
     id = zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
     tag_po = ZsiteTagPo.get_or_create(
