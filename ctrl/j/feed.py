@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-import _handler
+from _handler import JLoginBase
 from ctrl.j._urlmap import urlmap
 from model.vote import vote_state
 from model.po import Po, CID_NOTE
@@ -12,35 +11,35 @@ from model.feed import feed_rt, feed_rt_rm, feed_rt_id
 
 
 @urlmap('/j/feed/up1/(\d+)')
-class FeedUp(_handler.JLoginBase):
+class FeedUp(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         vote_up(current_user_id, id)
         self.finish('{}')
 
 @urlmap('/j/feed/up0/(\d+)')
-class FeedUpX(_handler.JLoginBase):
+class FeedUpX(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         vote_up_x(current_user_id, id)
         self.finish('{}')
 
 @urlmap('/j/feed/down1/(\d+)')
-class FeedDown(_handler.JLoginBase):
+class FeedDown(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         vote_down(current_user_id, id)
         self.finish('{}')
 
 @urlmap('/j/feed/down0/(\d+)')
-class FeedDownX(_handler.JLoginBase):
+class FeedDownX(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         vote_down_x(current_user_id, id)
         self.finish('{}')
 
 @urlmap('/j/feed')
-class Feed(_handler.JLoginBase):
+class Feed(JLoginBase):
     def get(self, id=MAXINT):
         current_user_id = self.current_user_id
 
@@ -53,4 +52,3 @@ class Feed(_handler.JLoginBase):
         self.finish(dumps(result))
 
     post = get
-

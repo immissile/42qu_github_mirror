@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from yajl import dumps
-import _handler
 from ctrl.j._urlmap import urlmap
-from model.po import Po, CID_NOTE
+from _handler import JLoginBase
+from model.po import Po, CID_WORD
 from zkit.pic import picopen
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
@@ -12,7 +12,7 @@ zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsit
 
 
 @urlmap('/j/po/tag/edit')
-class TagEdit(_handler.JLoginBase):
+class TagEdit(JLoginBase):
     def post(self):
         current_user_id = self.current_user_id
         tag_list = self.get_arguments('tag')
@@ -22,22 +22,22 @@ class TagEdit(_handler.JLoginBase):
         self.finish('{}')
 
 @urlmap('/j/po/tag')
-class Tag(_handler.JLoginBase):
+class Tag(JLoginBase):
     def get(self):
         current_user_id = self.current_user_id
         tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
         self.finish(dumps(tag_list.iteritems()))
 
 @urlmap('/j/po/tag/rm/(\d+)')
-class TagRm(_handler.JLoginBase):
+class TagRm(JLoginBase):
     def get(self, id):
-        current_user_id = self.current_user_id 
-        zsite_tag_rm_by_tag_id(current_user_id, id)    
+        current_user_id = self.current_user_id
+        zsite_tag_rm_by_tag_id(current_user_id, id)
         self.finish("{}")
 
 @urlmap('/j/po/note/upload/rm')
 @urlmap('/j/po/note/upload/rm/(\d+)')
-class NoteUploadRm(_handler.JLoginBase):
+class NoteUploadRm(JLoginBase):
     def post(self, id=0):
         seq = self.get_argument('seq')
         user_id = self.current_user_id
@@ -46,7 +46,7 @@ class NoteUploadRm(_handler.JLoginBase):
 
 @urlmap('/j/po/note/upload')
 @urlmap('/j/po/note/upload/(\d+)')
-class NoteUpload(_handler.JLoginBase):
+class NoteUpload(JLoginBase):
     def post(self, id=0):
         #USER DUMPS FIX HEADER FOR FIREFOX
         if id:
@@ -79,7 +79,7 @@ class NoteUpload(_handler.JLoginBase):
             if not (
                 po
                 and po.user_id == user_id
-                and po.cid == CID_NOTE
+                and po.cid != CID_WORD
             ):
                 return 0
 
