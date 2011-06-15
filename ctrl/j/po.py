@@ -16,7 +16,9 @@ class TagEdit(_handler.JLoginBase):
     def post(self):
         tag_list = self.get_arguments('tag')
         name_list = self.get_arguments('name')
-
+        print tag_list
+        print name_list
+        self.finish('{}')
 
 @urlmap('/j/po/tag')
 class Tag(_handler.JLoginBase):
