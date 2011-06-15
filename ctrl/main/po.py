@@ -64,7 +64,7 @@ def po_can_edit(current_user_id, id):
 @urlmap("/po/edit/(\d+)")
 class Edit(LoginBase):
     def get(self, id=0):
-        self.redirect("/note/edit/%s"%id)        
+        self.redirect("/note/edit/%s"%id)
 
 
 @urlmap('/po/note')
@@ -149,10 +149,10 @@ class Tag(LoginBase):
         po = Po.mc_get(id)
         if not po:
             self.redirect('/')
-            return 
+            return
         if not po.can_admin(current_user_id):
             self.redirect(po.link)
-            return 
+            return
         return po
 
     def get(self, id):
@@ -178,5 +178,3 @@ class Tag(LoginBase):
                 zsite_tag_new_by_tag_name(po, name)
 
             self.redirect(po.link)
-
-
