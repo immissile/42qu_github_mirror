@@ -11,3 +11,4 @@ application = tornado.wsgi.WSGIApplication(
     login_url='/login',
     xsrf_cookies=True,
 )
+
