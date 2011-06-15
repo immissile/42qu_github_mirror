@@ -7,6 +7,17 @@ from static import js, css
 
 <%def name="htm_head()">
 ${css.ctrl_po_note|n}
+<script>
+<%
+if po:
+    suffix = "/%s"%po.id
+else:
+    suffix = ""
+%>
+UPLOADURL = "/j/po/note/upload${suffix}"
+DELETEURL = "/j/po/note/upload/rm${suffix}"
+$.script("${js.ctrl_po_note} ${js.upload} ${js.pic}")
+</script>
 </%def>
 
 <%htm:form enctype="multipart/form-data">
@@ -50,14 +61,3 @@ pic_pos = pic.align
 
 
 </%htm:form>
-<script>
-<%
-if po:
-    suffix = "/%s"%po.id
-else:
-    suffix = ""
-%>
-UPLOADURL = "/j/po/note/upload${suffix}"
-DELETEURL = "/j/po/note/upload/rm${suffix}"
-$.script("${js.ctrl_po_note} ${js.upload} ${js.pic}")
-</script>
