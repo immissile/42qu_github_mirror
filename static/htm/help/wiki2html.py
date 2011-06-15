@@ -17,11 +17,7 @@ HTML_TEMPLATE = """
 <!doctype html>
 <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js"></script>
-<script>
-$(function(){
-    $("a[href='/']").attr("href","//"+location.hostname.split(".").slice(1).join("."))
-})
-</script>
+<script src="/help.js"></script>
 <link href="/help.css" rel="stylesheet" type="text/css">
 </head>
 <body>
