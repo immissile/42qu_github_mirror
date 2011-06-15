@@ -13,10 +13,11 @@ function tag(){
         })
         _tag=$("#_tag")
         _tag.find('button').click(function(){
-            alert(_tag.serialize())
+            $.postJSON("/j/po/tag/edit",_tag.serialize()); 
             return false
         }).find('input[type=text]').attr('autocomplete','off') 
     })
 }
 
 rm_tag=_rm(".tag","/j/po/tag/rm/")
+

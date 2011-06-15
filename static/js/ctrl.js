@@ -12,7 +12,7 @@ function _rm(prefix, url){
     return function(id){ 
         if(confirm('删除 , 确定 ?')){
             var t=$(prefix+id)
-            t.fadeOut(t.remove)
+            t.fadeOut(function(){t.remove()})
             $.postJSON(url+id)
         }
     }
