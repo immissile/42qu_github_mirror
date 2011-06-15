@@ -111,9 +111,9 @@ def pic_seq_dict_html(user_id, po_id):
         align = i.align
 
         if align == -1:
-            align = ' L'
+            align = 'L'
         elif align == 1:
-            align = ' R'
+            align = 'R'
         else:
             align = ''
 
