@@ -34,7 +34,7 @@ from static import js, css
 <input type="hidden" value="${$data[0]}">
 <input type="text" value="${$data[1]}">
 {{if $data[0]!=1}}
-<a title="删除" class="x" href="#"></a>
+<a title="删除" class="x" href="javascript:rm_tag($data[0]);void(0)"></a>
 {{/if}}
 </div>
 </script>
