@@ -22,73 +22,7 @@ $(function(){
     $("a[href='/']").attr("href","//"+location.hostname.split(".").slice(1).join("."))
 })
 </script>
-<style>
-a{text-decoration:none;color:#01c}
-a:hover{text-decoration:none;color:#a10}
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 16px;
-    font: inherit;
-    vertical-align: baseline;
-    font-family:Tahoma,Geneva,sans-serif;
-}
-b{font-weight:bold}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-    display: block;
-}
-body {
-    line-height: 1;
-}
-.content{
-font-size:14px;
-padding:14px 0;
-width:721px;
-margin:auto;
-line-height:32px;
-}
-h1{
-text-align:center;
-border:1px dotted #ccc;
-margin:14px 0;
-padding:14px 0;
-}
-h2{
-margin:48px 0 16px;
-padding:8px 0;
-border-bottom:1px dotted #ccc;
-border-top:1px dotted #ccc;
-text-align:center;
-}
-h3{
-margin:24px 0 8px;
-line-height:18px;
-padding-left:8px;
-border-left:4px solid #ccc;
-}
-pre{
-padding:14px;
-border:1px dotted #ccc;
-background:#fefefe;
-word-wrap:break-word;overflow:hidden;word-break:break-all;white-space:pre-wrap;white-space:-moz-pre-wrap;*white-space:pre;*word-wrap:break-word;
-margin:14px 0;
-}
-</style>
+<link href="/help.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div style="border-bottom:1px dotted #ccc;padding:22px 0 27px;margin-bottom:14px;text-align:center">
