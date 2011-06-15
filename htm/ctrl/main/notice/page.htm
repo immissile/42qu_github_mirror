@@ -1,0 +1,9 @@
+<%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/main/_util/notice.htm" import="notice_render"/>
+
+%for i in notice_list:
+<p>${notice_render(i)}</p>
+%endfor
+
+${page|n}

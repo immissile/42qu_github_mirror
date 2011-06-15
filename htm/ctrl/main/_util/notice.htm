@@ -1,0 +1,22 @@
+<%!
+from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_INVITE_QUESTION, CID_NOTICE_QUESTION
+%>
+
+<%def name="notice_render(i)">
+<%
+cid = i.cid
+rid = i.rid
+from_user = i.from_user
+entry = i.entry
+%>
+<a href="${from_user.link}">${from_user.name}</a>
+%if cid == CID_INVITE_REGISTER:
+邀请你注册
+%elif cid == CID_NOTICE_REGISTER:
+接受你的邀请注册了
+%elif cid == CID_INVITE_QUESTION:
+邀请你回答<a href="${entry.link}">${entry.name}</a>
+%elif cid == CID_NOTICE_QUESTION:
+接受你的邀请回答了<a href="${entry.link}">${entry.name}</a>
+%endif
+</%def>
