@@ -5,11 +5,13 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-tip-twitter_arrows.gif
+from json
+import json
 """
 
 TO_STRING = """
-/img/gif/qtip.gif
+from yajl
+import yajl
 """
 
 def run():

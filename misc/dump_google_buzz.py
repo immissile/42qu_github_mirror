@@ -5,7 +5,7 @@ import sys
 import time
 from time import sleep
 from random import choice
-from json import loads
+from yajl import loads
 
 def retry(func):
     def _(*args, **kwargs):

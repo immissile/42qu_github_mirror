@@ -58,4 +58,18 @@ exec "!astyle --style=java --suffix=none %"
 endif
 exec "e! %"
 endfunc
-"结束定义FormartSrc   
+"结束定义FormartSrc  
+
+" 激活ncc
+"let g:neocomplcache_enable_at_startup = 1
+""let g:NeoComplCache_DisableAutoComplete = 1
+"let g:SuperTabDefaultCompletionType="context"
+"
+"
+"" Enable omni completion.
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags 
+

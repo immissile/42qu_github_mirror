@@ -125,7 +125,7 @@ def range(*args):
         if kind.startswith('vis'):
             kind = MEMLINK_VALUE_VISIBLE
         elif kind.startswith('tag'):
-            kind = MEMLINK_VALUE_TAGDEL
+            kind = MEMLINK_VALUE_ZSITE_TAGDEL
         elif kind.startswith('all'):
             kind = MEMLINK_VALUE_ALL
         else:
@@ -146,7 +146,7 @@ def range(*args):
     except:
         mask = ''
 
-    print 'ALL:%d, VISIBLE:%d, TAGDEL:%d' % (MEMLINK_VALUE_ALL, MEMLINK_VALUE_VISIBLE, MEMLINK_VALUE_TAGDEL)
+    print 'ALL:%d, VISIBLE:%d, ZSITE_TAGDEL:%d' % (MEMLINK_VALUE_ALL, MEMLINK_VALUE_VISIBLE, MEMLINK_VALUE_ZSITE_TAGDEL)
     print 'range kind:%d, from:%d, len:%d, mask:%s' % (kind, frompos, slen, mask)
 
     m = MemLinkClient('127.0.0.1', READ_PORT, WRITE_PORT, 10)

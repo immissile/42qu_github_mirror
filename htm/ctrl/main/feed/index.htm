@@ -3,7 +3,7 @@ from static import css, js
 from config import FS_URL
 %>
 <%inherit file="/ctrl/_base/1.htm" />
-<%namespace file="/ctrl/main/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%htm:form enctype="multipart/form-data" action="/po/word">
 <textarea name="txt"></textarea>

@@ -37,6 +37,7 @@
 		}
 		$.postJSON("/j/feed/" + a + notsame + "/" + id)
 		w.className = vote + c;
+        wj.find('a').blur()
 		num.text(numv + v)
 	}
 	vote_up = function(id) {

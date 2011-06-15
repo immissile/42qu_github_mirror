@@ -4,6 +4,7 @@ package{
 "rake",
 "scons",
 "astyle",
+"tokyocabinet",
 "dstat",
 "ntp",
 "dos2unix",

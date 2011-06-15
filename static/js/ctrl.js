@@ -1,42 +1,42 @@
 _gaq=[['_setAccount', 'UA-23361634-1'],['_trackPageview'],['_trackPageLoadTime']];
 (function(){
-    var ga = document.createElement('script');
-    ga.type = 'text/javascript';
-    ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    /*google 百度 统计*/
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        /*google 百度 统计*/
 })()
 
 function _rm(prefix, url){
     return function(id){ 
-        if(confirm('删除 , 是吗?')){
+        if(confirm('删除 , 不后悔 ?')){
             $("#"+prefix+id).fadeOut()
             $.postJSON(url+id)
         }
     }
 }
 jQuery.fn.extend({  
-    elastic_login: function(){
-        function _(){
-            if(!$.cookie.get('S')){
-                login()
-                return false
+        elastic_login: function(){
+            function _(){
+                if(!$.cookie.get('S')){
+                    login()
+                    return false
+                }
             }
+            this.find('textarea,input').elastic().focus(_)
+            return this.submit(_) 
         }
-        this.find('textarea,input').elastic().focus(_)
-        return this.submit(_) 
-    }
 })
 
 
 function login(){
     $.fancybox({
-        href:'/j/login',
-        onComplete:function(){ 
-            $("#login_next_pop").val(location.href);
-            login_autofill("_pop")
-        }
+            href:'/j/login',
+            onComplete:function(){ 
+                $("#login_next_pop").val(location.href);
+                login_autofill("_pop")
+            }
     });
 }
 function login_autofill(suffix){
@@ -47,39 +47,39 @@ function login_autofill(suffix){
     }
 }
 /*
-var dnav = $("#dnav").show(), dmore = $("#dmore").addClass('dmore').hide(),body=$('html,body');
-    function _(){
-        dmore.hide()
-        body.unbind('click',_)
-    }
-    dnav.click(function(e){
-        dnav.blur()
-        if(dmore.is(":hidden")){
-            dmore.show()
-            e.stopPropagation()
-            body.click(_)
-        }else{
-            _()
-        }
-    })
-*/
+ var dnav = $("#dnav").show(), dmore = $("#dmore").addClass('dmore').hide(),body=$('html,body');
+ function _(){
+     dmore.hide()
+     body.unbind('click',_)
+ }
+ dnav.click(function(e){
+         dnav.blur()
+         if(dmore.is(":hidden")){
+             dmore.show()
+             e.stopPropagation()
+             body.click(_)
+         }else{
+             _()
+         }
+ })
+ */
 function init_D(){
     var body=$('html,body')
     $("#H .D").hide()
     $("#H .DA").click(function(e){
-        var t=this, drop=$("#D"+t.rel);
-        t.blur();
-        function _(){
-            drop.hide()
-            body.unbind('click',_)
-        }
-        if(drop.is(":hidden")){
-            drop.show()
-            e.stopPropagation()
-            body.click(_)
-        }else{
-            _()
-        }
+            var t=this, drop=$("#D"+t.rel);
+            t.blur();
+            function _(){
+                drop.hide()
+                body.unbind('click',_)
+            }
+            if(drop.is(":hidden")){
+                drop.show()
+                e.stopPropagation()
+                body.click(_)
+            }else{
+                _()
+            }
     })
 }
 

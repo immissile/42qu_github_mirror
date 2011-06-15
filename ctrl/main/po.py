@@ -61,6 +61,11 @@ def po_can_edit(current_user_id, id):
                 return po
     return JsDict()
 
+@urlmap("/po/edit/(\d+)")
+class Edit(LoginBase):
+    def get(self, id=0):
+        self.redirect("/note/edit/%s"%id)        
+
 
 @urlmap('/po/note')
 @urlmap('/note/edit/(\d+)')
@@ -92,8 +97,9 @@ class Note(LoginBase):
             po = po_note_new(current_user_id, name, txt, state)
 
         if po:
-            link = po.link
-            update_pic(arguments, current_user_id, po.id, id)
+            po_id = po.id
+            link = '/po/tag/%s'%po_id
+            update_pic(arguments, current_user_id, po_id, id)
             mc_pic_id_list.delete('%s_%s'%(current_user_id, id))
         else:
             link = '/po/note'
@@ -129,3 +135,48 @@ class Question(LoginBase):
         else:
             link = '/po/question'
         self.redirect(link)
+
+
+from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id,\
+zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name
+
+
+@urlmap('/po/tag/(\d+)')
+class Tag(LoginBase):
+    def _po(self, id):
+        current_user = self.current_user
+        current_user_id = self.current_user_id
+        po = Po.mc_get(id)
+        if not po:
+            self.redirect('/')
+            return 
+        if not po.can_admin(current_user_id):
+            self.redirect(po.link)
+            return 
+        return po
+
+    def get(self, id):
+        po = self._po(id)
+        if po:
+            current_user_id = self.current_user_id
+            tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
+            po_id = po.id
+            tag_id = tag_id_by_po_id(current_user_id, po_id) or 1
+            self.render(tag_list=tag_list, po=po, tag_id=tag_id)
+
+    def post(self, id):
+        po = self._po(id)
+        if po:
+            tag_id = int(self.get_argument('tag'))
+            name = self.get_argument('name',None)
+            if not name and not tag_id:
+                tag_id = 1
+
+            if tag_id:
+                zsite_tag_new_by_tag_id(po, tag_id)
+            else:
+                zsite_tag_new_by_tag_name(po, name)
+
+            self.redirect(po.link)
+
+
