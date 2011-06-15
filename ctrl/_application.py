@@ -13,11 +13,6 @@ application = tornado.wsgi.WSGIApplication(
     xsrf_cookies=True,
 )
 
-#from zweb._urlmap import URLMAP
-#tuple(URLMAP)
-#        application.add_handlers(r"www\.myhost\.com", [
-#            (r"/article/([0-9]+)", ArticleHandler),
-#        ])
 
 application.add_handlers(
     SITE_DOMAIN.replace(".",r"\."), 
@@ -25,6 +20,6 @@ application.add_handlers(
 )
 
 application.add_handlers(
-    "",
-    handlers(main._urlmap, j._urlmap)
+    ".*",
+    handlers(zsite._urlmap, j._urlmap)
 )
