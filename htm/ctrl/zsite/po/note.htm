@@ -10,8 +10,11 @@ from datetime import datetime
 po_id = po.id
 %>
 <h1>${po.name}</h1>
-<pre>${po.htm|n}</pre>
-<div>${datetime.fromtimestamp(po.create_time)}</div>
+<pre>${po.htm|n}\
+<p class="tr"><a href="${zsite.link}">${zsite.name}</a></p>\
+<p class="tr">${datetime.fromtimestamp(po.create_time)}</p>\
+</pre>
+
 <div>
     %if can_admin:
         <a href="/note/edit/${po.id}">编辑</a>
@@ -25,3 +28,6 @@ po_id = po.id
 </span>
 
 </%def>
+
+
+
