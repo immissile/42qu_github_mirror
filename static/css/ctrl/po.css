@@ -4,10 +4,10 @@
     margin:48px 0;
 }
 #main pre{
-    width:700px;
+    width:721px;
     margin:auto;
 }
 #main pre p{
     line-height:28px;
-    margin:7px 0;
+    padding-bottom:14px;
 }
