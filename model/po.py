@@ -46,12 +46,16 @@ class Po(McModel, ReplyMixin):
 
     @property
     def link(self):
-        if self.cid not in PO_EN:
-            return ''
         if not hasattr(self, '_link'):
-            en = PO_EN[self.cid]
-            zsite = Zsite.mc_get(self.user_id)
-            link = '%s/%s/%s'%(zsite.link, en, self.id)
+            if self.cid == CID_ANSWER:
+                from po_question import question_id_by_answer_id
+                id = self.id
+                q = Po.mc_get(question_id_by_answer_id(id))
+                link = '%s#answer%s' % (q.link, id)
+            else:
+                en = PO_EN[self.cid]
+                zsite = Zsite.mc_get(self.user_id)
+                link = '%s/%s/%s'%(zsite.link, en, self.id)
             self._link = link
         return self._link
 

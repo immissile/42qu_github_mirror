@@ -66,9 +66,14 @@ class Wall(McModel, ReplyMixin):
             mc_flush(i.zsite_id)
 
 
-
 class WallReply(McModel):
-    pass
+    @property
+    def link(self):
+        if not hasattr(self, '_link'):
+            wall = Wall.mc_get(self.wall_id)
+            self._link = wall.link
+        return self._link
+
 
 def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     zsite_id = self.id

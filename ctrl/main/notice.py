@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
 from zweb._urlmap import urlmap
-from model.notice import notice_list, notice_count, notice_unread
+from model.notice import notice_list, notice_count, notice_unread, Notice as N
+from model.state import STATE_APPLY
 from zkit.page import page_limit_offset
 
-PAGE_LIMIT = 100
+PAGE_LIMIT = 20
 
 @urlmap('/notice')
 @urlmap('/notice-(\d+)')
@@ -28,3 +29,11 @@ class Page(LoginBase):
             notice_list=notice_list(user_id, limit, offset),
             page=page,
         )
+
+@urlmap('/notice/(\d+)')
+class Notice(LoginBase):
+    def get(self, id):
+        user_id = self.current_user_id
+        n = N.mc_get(id)
+        if not (n and n.to_id == user_id and n.state >= STATE_APPLY):
+            return self.redirect('/')

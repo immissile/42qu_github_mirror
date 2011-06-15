@@ -17,6 +17,14 @@ def rank_po_id_list(to_id, cid, order, offset=None, limit=None):
     qs = Rank.where(to_id=to_id, cid=cid).order_by('%s desc' % order)
     return qs.field_list(limit, offset, 'po_id')
 
+mc_rank_to_id_by_po_id_cid = McCache('RankToIdByPoIdCid.%s')
+
+@mc_rank_to_id_by_po_id_cid('{po_id}_{cid}')
+def rank_to_id_by_po_id_cid(po_id, cid):
+    for to_id in Rank.where(po_id=po_id, cid=cid).field_list(field='to_id'):
+        return to_id
+    return 0
+
 def rank_new(po, to_id, cid=None):
     po_id = po.id
     if cid is None:
@@ -28,6 +36,7 @@ def rank_new(po, to_id, cid=None):
     r.confidence = confidence(up, down)
     r.save()
     mc_flush_cid(to_id, cid)
+    mc_rank_to_id_by_po_id_cid.set('%s_%s' % (po_id, cid), to_id)
     return r
 
 def mc_flush_cid(to_id, cid):

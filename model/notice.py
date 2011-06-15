@@ -6,6 +6,7 @@ from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_N
 from state import STATE_DEL, STATE_APPLY, STATE_ACTIVE
 from po import Po
 from zsite import Zsite
+from wall import Wall, WallReply
 from kv import Kv
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
@@ -13,6 +14,8 @@ from collections import defaultdict
 STATE_GTE_APPLY = 'state>=%s' % STATE_APPLY
 
 NOTICE_DIC = {
+    CID_NOTICE_WALL: Wall,
+    CID_NOTICE_WALL_REPLY: WallReply,
     CID_INVITE_QUESTION: Po,
     CID_NOTICE_QUESTION: Po,
 }
@@ -28,6 +31,17 @@ def notice_unread_decr(user_id):
     notice_unread.set(user_id, max(unread - 1, 0))
 
 class Notice(McModel):
+    @property
+    def link(self):
+        if not hasattr(self, '_link'):
+            cls = NOTICE_DIC.get(self.cid)
+            if cls:
+                link = cls.mc_get(self.rid).link
+            else:
+                link = None
+            self._link = link
+        return self._link
+
     def rm(self, to_id):
         if self.to_id == to_id:
             state = self.state
