@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase, ZsiteBase
+from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from zweb._urlmap import urlmap
 from model.po import po_rm, po_word_new, Po
 from model.po_pos import po_pos_get, po_pos_set
@@ -13,6 +14,7 @@ class Index(ZsiteBase):
     cid = None
 
     def get(self, id):
+
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
         if not po or po.cid != self.cid:
@@ -27,10 +29,15 @@ class Index(ZsiteBase):
         can_view = po.can_view(current_user_id)
         if can_view and current_user_id:
             po_pos_set(current_user_id, po)
+
+        zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(current_user_id, id)
+
         return self.render(
             po=po,
             can_admin=can_admin,
-            can_view=can_view
+            can_view=can_view,
+            zsite_tag_id=zsite_tag_id,
+            tag_name=tag_name
         )
 
 

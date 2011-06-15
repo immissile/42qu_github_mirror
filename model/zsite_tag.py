@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCacheA, McCache
+from _db import Model, McModel, McCacheA, McCache, McCacheM
 from tag import Tag, tag_new
 from zweb.orm import ormiter
 
@@ -137,12 +137,12 @@ def tag_by_po_id(zsite_id, po_id):
     )
     r = c.fetchone()
     if r:
-        r = r[0]
-        tag = ZsiteTag.mc_get(r)
-        r = tag.tag_id
+        zsite_tag_id = r[0]
+        tag = ZsiteTag.mc_get(zsite_tag_id)
+        tag_id = tag.tag_id
     else:
         return 0, 0, None
-    return r, zsite_tag_id, Tag.get(r)
+    return tag_id, zsite_tag_id, Tag.get(tag_id)
 
 def zsite_tag_id_tag_name_by_po_id(zsite_id, po_id):
     return tag_by_po_id(zsite_id, po_id)[1:]
