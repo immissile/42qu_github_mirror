@@ -5,7 +5,7 @@ from static import css,js
 <head>\
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">\
 <script src="${js.z}"></script>\
-<link href="${css.z}" rel="stylesheet" type="text/css">\
+${css.z|n}
 ${self.htm_head()}\
 <title>${self.htm_title()}</title>\
 </head>\

@@ -18,7 +18,7 @@ else:
 UPLOADURL = "/j/po/note/upload${suffix}"
 DELETEURL = "/j/po/note/upload/rm${suffix}"
 </script>
-<link href="${css.po_note}" rel="stylesheet" type="text/css">
+${css.po_note|n}
 </%def>
 
 <%htm:form enctype="multipart/form-data">
