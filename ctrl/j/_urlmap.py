@@ -1,7 +1,5 @@
-#coding:utf-8
+# -*- coding: utf-8 -*-
 
 from zweb.urlmap import Urlmap
 
-urlmap = Urlmap() 
-
-
+urlmap = Urlmap()

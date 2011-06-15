@@ -1,11 +1,11 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from config import render
 import model._db
 from zweb._handler import Base as _Base, _login_redirect, login
 
+
 class Base(_Base):
-    def get(self , *args):
+    def get(self, *args):
         self.redirect('/')
 
     @property
@@ -16,10 +16,12 @@ class Base(_Base):
         kwds['_xsrf'] = self._xsrf
         super(Base, self).render(template_name, **kwds)
 
+
 class LoginBase(Base):
     def prepare(self):
         super(LoginBase, self).prepare()
         _login_redirect(self)
+
 
 class XsrfGetBase(LoginBase):
     def prepare(self):

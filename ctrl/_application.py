@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _url
 import main._urlmap
@@ -13,9 +12,8 @@ application = tornado.wsgi.WSGIApplication(
     xsrf_cookies=True,
 )
 
-
 application.add_handlers(
-    SITE_DOMAIN.replace(".",r"\."), 
+    SITE_DOMAIN.replace(".",r"\."),
     handlers(main._urlmap, j._urlmap)
 )
 

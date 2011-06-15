@@ -1,9 +1,9 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from config import render
 from config import SITE_DOMAIN, SITE_URL
 from model.zsite_link import zsite_by_domain
 from zweb._handler import Base as _Base, _login_redirect, login
+
 
 class Base(_Base):
     def get(self, *args):
@@ -29,6 +29,7 @@ class Base(_Base):
         kwds['zsite'] = self.zsite
         super(Base, self).render(template_name, **kwds)
 
+
 class ZsiteBase(Base):
     def prepare(self):
         super(ZsiteBase, self).prepare()
@@ -41,16 +42,12 @@ class ZsiteBase(Base):
                 link = SITE_URL
             return self.redirect(link)
 
-class JLoginBase(Base):
-    def prepare(self):
-        super(JLoginBase, self).prepare()
-        if not self.current_user:
-            self.finish({'login': 1})
 
 class LoginBase(ZsiteBase):
     def prepare(self):
         super(LoginBase, self).prepare()
         _login_redirect(self)
+
 
 class XsrfGetBase(LoginBase):
     def prepare(self):
