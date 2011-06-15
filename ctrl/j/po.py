@@ -10,6 +10,14 @@ from model.fs import fs_url_jpg
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id,\
 zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id
 
+
+@urlmap('/j/po/tag/edit')
+class TagEdit(_handler.JLoginBase):
+    def post(self):
+        tag_list = self.get_arguments('tag')
+        name_list = self.get_arguments('name')
+
+
 @urlmap('/j/po/tag')
 class Tag(_handler.JLoginBase):
     def get(self):
