@@ -14,7 +14,6 @@ from mq import mq_client
 from zweb.orm import ormiter
 from zkit.orderedset import OrderedSet
 from zkit.ordereddict import OrderedDict
-from itertools import chain
 from collections import defaultdict
 
 class Buzz(Model):
