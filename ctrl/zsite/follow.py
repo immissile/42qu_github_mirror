@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
 from zkit.page import page_limit_offset
-from zweb._urlmap import urlmap
+from ctrl.zsite._urlmap import urlmap
 from model.cid import CID_ZSITE
 from model.follow import follow_rm, follow_new, follow_count_by_to_id, follow_id_list_by_to_id, follow_id_list_by_from_id_cid
 from model.zsite import Zsite
