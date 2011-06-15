@@ -16,7 +16,7 @@ function tag(){
             $.fancybox.showActivity() 
             $.postJSON("/j/po/tag/edit",_tag.serialize(),location.reload);
             return false
-        }).find('input[type=text]').attr('autocomplete','off') 
+        })
     })
 }
 

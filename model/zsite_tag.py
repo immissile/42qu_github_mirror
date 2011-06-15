@@ -112,7 +112,7 @@ def zsite_tag_id_mv(zsite_id, from_tag_id, to_tag_id=1):
         i.save()
         po_id = i.po_id
         mc_tag_id_by_po_id.set('%s_%s'%(zsite_id, po_id), to_tag_id)
-    
+    #print "delete zsite", zsite_id, from_tag_id 
     ZsiteTag.where(zsite_id=zsite_id, tag_id=from_tag_id).delete()
     mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
 
@@ -135,7 +135,8 @@ def zsite_tag_rename(zsite_id, tag_id, tag_name):
     tag_id_new = tag_new(tag_name)
     ztn = ZsiteTag.get(zsite_id=zsite_id, tag_id=tag_id_new)
     if ztn:
-        zsite_tag_id_mv(zsite_id, tag_id, tag_id_new)
+        if ztn.tag_id!=tag_id:
+            zsite_tag_id_mv(zsite_id, tag_id, tag_id_new)
     else:
         tag.tag_id = tag_id_new
         tag.save()
@@ -144,7 +145,6 @@ def zsite_tag_rename(zsite_id, tag_id, tag_name):
 
 
 if __name__ == '__main__':
-
-    for i in ZsiteTag.where(zsite_id=21):
+    for i in ZsiteTag.where(zsite_id=1):
         print i.tag_id
 

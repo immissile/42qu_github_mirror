@@ -80,6 +80,8 @@ class Note(LoginBase):
         po = po_can_edit(current_user_id, id)
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
+        if not (name or txt):
+            return self.get(id)
         secret = self.get_argument('secret', None)
         arguments = self.request.arguments
         if secret:
