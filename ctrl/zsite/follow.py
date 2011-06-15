@@ -26,12 +26,12 @@ class FollowRm(XsrfGetBase):
         self.redirect('/')
 
 @urlmap('/follower')
-@urlmap('/follower/(\d+)')
+@urlmap('/follower-(\d+)')
 class Follower(Base):
     def get(self, n=1):
         zsite_id = self.zsite_id
         page, limit, offset = page_limit_offset(
-            '/follower/%s',
+            '/follower-%s',
             follow_count_by_to_id(zsite_id),
             n,
             PAGE_LIMIT

@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from time import time
-from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_INVITE_QUESTION, CID_NOTICE_QUESTION
+from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION
 from state import STATE_DEL, STATE_APPLY, STATE_ACTIVE
 from po import Po
+from zsite import Zsite
+from kv import Kv
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
 
@@ -15,8 +17,36 @@ NOTICE_DIC = {
     CID_NOTICE_QUESTION: Po,
 }
 
+notice_unread = Kv('notice_unread', 0)
+
+def notice_unread_incr(user_id):
+    unread = notice_unread.get(user_id)
+    notice_unread.set(user_id, unread + 1)
+
+def notice_unread_decr(user_id):
+    unread = notice_unread.get(user_id)
+    notice_unread.set(user_id, max(unread - 1, 0))
+
 class Notice(McModel):
-    pass
+    def rm(self, to_id):
+        if self.to_id == to_id:
+            state = self.state
+            if state > STATE_DEL:
+                self.state = STATE_DEL
+                self.save()
+                mc_flush(to_id)
+                if state == STATE_APPLY:
+                    notice_unread_decr(to_id)
+                return True
+
+    def read(self, to_id):
+        if self.to_id == to_id:
+            state = self.state
+            if self.state == STATE_APPLY:
+                self.state = STATE_ACTIVE
+                self.save()
+                notice_unread_decr(to_id)
+                return True
 
 def notice_new(from_id, to_id, cid, rid=0, state=STATE_APPLY):
     n = Notice(
@@ -29,13 +59,13 @@ def notice_new(from_id, to_id, cid, rid=0, state=STATE_APPLY):
     )
     n.save()
     mc_flush(to_id)
+    notice_unread_incr(to_id)
     return n
 
 def invite_question(from_id, to_id, qid):
     n = notice_new(from_id, to_id, CID_INVITE_QUESTION, qid)
     return n
 
-notice_unread_count = McNum(lambda to_id: Notice.where(to_id=to_id, state=STATE_APPLY).count(), 'NoticeUnreadCount.%s')
 notice_count = McNum(lambda to_id: Notice.where(to_id=to_id).where(STATE_GTE_APPLY).count(), 'NoticeCount.%s')
 
 mc_notice_id_list = McLimitA('NoticeIdList.%s', 256)
@@ -61,16 +91,7 @@ def notice_list(to_id, limit, offset):
         i.entry = cls_dic[NOTICE_DIC.get(i.cid)].get(i.rid)
     return li
 
-def notice_rm(to_id, notice_id):
-    n = Notice.mc_get(notice_id)
-    if n and n.to_id == to_id and n.state > STATE_DEL:
-        n.state = STATE_DEL
-        n.save()
-        mc_flush(to_id)
-        return True
-
 def mc_flush(to_id):
     to_id = str(to_id)
     mc_notice_id_list.delete(to_id)
-    notice_unread_count.delete(to_id)
     notice_count.delete(to_id)

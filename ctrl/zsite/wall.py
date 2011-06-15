@@ -33,13 +33,13 @@ class Index(_handler.LoginBase):
         self.redirect(link)
 
 
-@urlmap('/wall/(\-?\d+)')
+@urlmap('/wall-(\-?\d+)')
 class Page(_handler.ZsiteBase):
     def get(self, n):
         zsite = self.zsite
         zsite_link = zsite.link
         page, limit, offset = page_limit_offset(
-            '%s/wall/%%s'%zsite_link,
+            '%s/wall-%%s'%zsite_link,
             zsite.reply_total,
             n,
             PAGE_LIMIT
@@ -62,7 +62,7 @@ class Reply2Txt(_handler.ZsiteBase):
         self.redirect(link, True)
 
 @urlmap('/wall/txt/(\d+)')
-@urlmap('/wall/txt/(\d+)/(\d+)')
+@urlmap('/wall/txt/(\d+)-(\d+)')
 class Txt(_handler.ZsiteBase):
     def get(self, id, n=1):
         zsite = self.zsite
@@ -76,7 +76,7 @@ class Txt(_handler.ZsiteBase):
             return self.redirect('/')
 
         page, limit, offset = page_limit_offset(
-            '%s/wall/txt/%s/%%s'%(zsite_link, id),
+            '%s/wall/txt/%s-%%s'%(zsite_link, id),
             wall.reply_total,
             n,
             PAGE_LIMIT
