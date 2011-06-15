@@ -2,7 +2,7 @@
 #coding:utf-8
 import _handler
 from model.zsite import Zsite
-from zweb._urlmap import urlmap
+from _urlmap import urlmap
 from model.zsite_list_0 import zsite_show_new, zsite_show_rm
 
 @urlmap('/zsite/(\d+)')
