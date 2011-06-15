@@ -10,7 +10,7 @@ STATE_GTE_APPLY = 'state>=%s' % STATE_APPLY
 
 NOTICE_DIC = {
     CID_INVITE_QUESTION: Po,
-    CID_notice_QUESTION: Po,
+    CID_NOTICE_QUESTION: Po,
 }
 
 class Notice(McModel):
@@ -36,7 +36,7 @@ def invite_question(from_id, to_id, qid):
 notice_unread_count = McNum(lambda to_id: Notice.where(to_id=to_id, state=STATE_APPLY).count(), 'NoticeUnreadCount.%s')
 notice_count = McNum(lambda to_id: Notice.where(to_id=to_id).where(STATE_GTE_APPLY).count(), 'NoticeCount.%s')
 
-mc_notice_id_list = McLimitA('NoticeIdList.%s')
+mc_notice_id_list = McLimitA('NoticeIdList.%s', 256)
 
 @mc_notice_id_list('{to_id}')
 def notice_id_list(to_id, limit, offset):
@@ -61,7 +61,7 @@ def notice_list(to_id, limit, offset):
 
 def notice_rm(to_id, notice_id):
     n = Notice.mc_get(notice_id)
-    if n and n.to_id = to_id and n.state > STATE_DEL:
+    if n and n.to_id == to_id and n.state > STATE_DEL:
         n.state = STATE_DEL
         n.save()
         mc_flush(to_id)

@@ -7,3 +7,4 @@ import feed
 import verify
 import money
 import buzz
+import notice
