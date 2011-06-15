@@ -1,1 +1,1 @@
-$("#name").defaultValue()
+$("#name").focus().defaultValue()
