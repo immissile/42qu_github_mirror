@@ -1,5 +1,5 @@
 <%!
-from model.cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_INVITE_QUESTION, CID_NOTICE_QUESTION
+from model.cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION
 %>
 
 <%def name="notice_render(i)">
@@ -14,9 +14,14 @@ entry = i.entry
 邀请你注册
 %elif cid == CID_NOTICE_REGISTER:
 接受你的邀请注册了
+%elif cid == CID_NOTICE_WALL:
+给你留言了
+%elif cid == CID_NOTICE_WALL_REPLY:
+回复了你的留言
 %elif cid == CID_INVITE_QUESTION:
 邀请你回答<a href="${entry.link}">${entry.name}</a>
 %elif cid == CID_NOTICE_QUESTION:
 接受你的邀请回答了<a href="${entry.link}">${entry.name}</a>
 %endif
+<a href="${i.link}">点我呀</a>
 </%def>

@@ -35,5 +35,8 @@ class Notice(LoginBase):
     def get(self, id):
         user_id = self.current_user_id
         n = N.mc_get(id)
-        if not (n and n.to_id == user_id and n.state >= STATE_APPLY):
-            return self.redirect('/')
+        if n and n.to_id == user_id and n.state >= STATE_APPLY:
+            link = n.link
+            if link:
+                return self.redirect(link)
+        return self.redirect('/notice')

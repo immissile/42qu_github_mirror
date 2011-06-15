@@ -33,14 +33,18 @@ def notice_unread_decr(user_id):
 class Notice(McModel):
     @property
     def link(self):
-        if not hasattr(self, '_link'):
+        return '/notice/%s' % self.id
+
+    @property
+    def link_to(self):
+        if not hasattr(self, '_link_to'):
             cls = NOTICE_DIC.get(self.cid)
             if cls:
                 link = cls.mc_get(self.rid).link
             else:
                 link = None
-            self._link = link
-        return self._link
+            self._link_to = link
+        return self._link_to
 
     def rm(self, to_id):
         if self.to_id == to_id:
