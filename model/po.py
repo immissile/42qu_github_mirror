@@ -10,7 +10,7 @@ from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from reply import ReplyMixin
-from po_pic import pic_htm, pic_seq_dict_html
+from po_pic import pic_htm
 from zkit.txt2htm import txt_withlink
 from zsite import Zsite
 
@@ -33,7 +33,7 @@ class Po(McModel, ReplyMixin):
         cid = self.cid
         id = self.id
         h = txt_withlink(self.txt)
-        if cid == CID_NOTE:
+        if cid != CID_WORD:
             from po_pic import pic_htm
             user_id = self.user_id
             h = pic_htm(h, user_id, id)
@@ -43,7 +43,6 @@ class Po(McModel, ReplyMixin):
         id = self.id
         txt_new(id, txt)
         mc_htm.delete(id)
-
 
     @property
     def link(self):

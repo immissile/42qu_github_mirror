@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from cid import CID_QUESTION, CID_ANSWER
+from spammer import is_same_post
 from po import po_new, po_rm, CID_QUESTION, CID_ANSWER
 from rank import rank_po_id_list, rank_new
+from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from txt import txt_new, txt_get
 
 def po_question_new(user_id, name, txt):
     if not is_same_post(user_id, name, txt):

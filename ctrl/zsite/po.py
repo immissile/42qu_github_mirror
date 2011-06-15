@@ -95,7 +95,6 @@ class Reply(LoginBase):
         self.redirect(link)
 
 
-
 @urlmap('/po/rm/(\d+)')
 class Rm(XsrfGetBase):
     def get(self, id):
