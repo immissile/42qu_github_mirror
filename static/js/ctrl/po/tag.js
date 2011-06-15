@@ -6,7 +6,7 @@ function tag(){
     var fancybox = $.fancybox
     fancybox.showActivity();
     $.postJSON("/j/po/tag",function(o){
-        var _tag=$("#_tag")
+        var _tag=$("<div><button>保存</button></div>")
         $("#tag").tmpl(o).prependTo(_tag)
         $.fancybox({
             content:_tag.html()

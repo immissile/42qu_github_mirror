@@ -22,7 +22,8 @@ class TagRm(_handler.JLoginBase):
     def get(self, id):
         current_user_id = self.current_user_id 
         zsite_tag_rm_by_tag_id(current_user_id, id)    
-    
+        self.finish("{}")
+
 @urlmap('/j/po/note/upload/rm')
 @urlmap('/j/po/note/upload/rm/(\d+)')
 class NoteUploadRm(_handler.JLoginBase):

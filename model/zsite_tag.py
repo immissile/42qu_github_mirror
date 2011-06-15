@@ -105,9 +105,9 @@ def zsite_tag_new_by_tag_name(po, name):
     return zsite_tag_new_by_tag_id(po, tag_id)
 
 def zsite_tag_id_mv(zsite_id, from_tag_id, to_tag_id=1):
-    tag = ZsiteTag.get(zsite_id=zsite_id, from_tag_id=from_tag_id)
+    tag = ZsiteTag.get(zsite_id=zsite_id, tag_id=from_tag_id)
 
-    for i in ormiter(ZsiteTagPo, 'zsite_tag_id=%s'%from_tag_id):
+    for i in ormiter(ZsiteTagPo, 'zsite_tag_id=%s'%tag.id):
         i.zsite_tag_id = to_tag_id
         i.save()
         po_id = i.po_id
@@ -119,6 +119,7 @@ def zsite_tag_rm_by_tag_id(zsite_id, tag_id):
     if tag_id == 1 or tag_id not in zsite_tag_id_list_by_zsite_id(zsite_id):
         return
     zsite_tag_id_mv(zsite_id, tag_id , 1)
+    ZsiteTag.where(zsite_id=zsite_id,tag_id=tag_id).delete()
     mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
 
 

@@ -8,6 +8,6 @@ class JLoginBase(Base):
         super(JLoginBase, self).prepare()
         if not self.current_user:
             self.finish('{"login":1}')
-    
-    def post(self):
-        return self.get()
+
+    def post(self, *args, **kwargs):
+        return self.get(*args, **kwargs)
