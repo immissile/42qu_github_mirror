@@ -1,7 +1,8 @@
 #main h1{
     text-align:center;
     font-size:32px;
-    margin:48px 0;
+    margin:64px 0;
+    font-family: "Trebuchet MS", sans-serif;
 }
 #main pre{
     width:721px;
