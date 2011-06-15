@@ -107,6 +107,7 @@ class Note(LoginBase):
 
 
 @urlmap('/po/question')
+@urlmap('/question/edit/(\d+)')
 class Question(LoginBase):
     def get(self, id=0):
         current_user_id = self.current_user_id
