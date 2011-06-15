@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _handler
-from zweb._urlmap import urlmap
+from ctrl.main._urlmap import urlmap
 from zkit.pic import picopen
 from zkit.jsdict import JsDict
 from model.motto import motto

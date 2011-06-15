@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
-from zweb._urlmap import urlmap
+from ctrl.main._urlmap import urlmap
 from zkit.txt import EMAIL_VALID, mail2link
 from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD
 from model.user_auth import user_password_new

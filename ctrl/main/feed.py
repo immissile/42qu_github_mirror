@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _handler
-from zweb._urlmap import urlmap
+from ctrl.main._urlmap import urlmap
 from model.feed_render import render_feed_by_zsite_id
 from model.feed import PAGE_LIMIT, MAXINT
 
