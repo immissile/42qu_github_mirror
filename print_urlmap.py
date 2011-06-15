@@ -23,15 +23,17 @@ def print_urlmap(module):
             cls_name
         )
 
-from ctrl import _url
+import ctrl._url
 print_urlmap('ctrl.j')
 print_urlmap('ctrl.zsite')
 print_urlmap('ctrl.main')
 
-from god import _url
+import god._url
 print_urlmap('god')
 
-from api import _url
+import api._url
 print_urlmap('api')
-#print_urlmap('api._urlmap')
+
+import rpc._url
+print_urlmap('rpc')
 
