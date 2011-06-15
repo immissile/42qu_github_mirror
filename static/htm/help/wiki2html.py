@@ -40,6 +40,7 @@ time, mark, audio, video {
     vertical-align: baseline;
     font-family:Georgia;
 }
+b{font-weight:bold}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
@@ -49,9 +50,9 @@ body {
     line-height: 1;
 }
 .content{
-font-size:16px;
+font-size:14px;
 padding:14px 0;
-width:700px;
+width:721px;
 margin:auto;
 line-height:32px;
 font-family:Georgia;
@@ -81,7 +82,7 @@ padding:14px;
 border:1px dotted #ccc;
 background:#fefefe;
 word-wrap:break-word;overflow:hidden;word-break:break-all;white-space:pre-wrap;white-space:-moz-pre-wrap;*white-space:pre;*word-wrap:break-word;
-margin-bottom:14px;
+margin:14px 0;
 }
 </style>
 </head>

@@ -1,60 +1,7 @@
-= z page =
-Zen Programming App. for Grace Engineering
+== 问答录 ==
 
-== [[ http://doc.42qu.me | 美化版WIKI文档 ]] ==
-
-== 前言 ==
-
-前两天看了 [[http://42qu.com/video/play/1|吉米·威尔士关于维基百科诞生的演讲 ]] ,再一次被开源的力量所震撼
-,我觉得, 我应该也去搞一个NB的开源项目
-
-
-因为发现很多初学者用python写网站没经验, 写出来的网站比较卡, 让我很痛心,于是这一次, 我又开始了一个坑 ,打算基于Python的Tornado, 打造一套可以抗千万PV的SNS/微博/轻博客的开源基础框架
-
-让以后Python程序员写SNS, 省去很重复开发的工作 - 比如登录, 比如头像, 比如相册, 比如日记, 比如等等等...
-,现在项目从零开始,  欢迎参与, 前端, 美工, 程序员, 都可以!
-
-项目的
- 
-* GOOGLE GROUP [[ https://groups.google.com/group/kanrss_pyer ]]
-* 代码 [[ https://bitbucket.org/zuroc/zpage ]]
-* Trac [[ http://trac.42qu.me ]]
-
-希望大家来不断督促我, 每天都填一点儿坑
-
-
-== 说明 ==
-
-* 开始体验 zpage
-** [[vmware|vmware虚拟机 -- 配好的开发环境]]
-** [[HgUsge|HG的用法]]
-** [[0day|初始化开发环境]]
-** [[cygwin|在windows下搭建开发环境(cygwin)]]
-** [[1day|配置nginx]]
-** [[dns|配置开发服务器的泛域名解析]]
-** [[zpage_config|Zpage的配置文件]]
-** [[step|开发流程]]
-
-=== 前端 ===
- * [[RuleCss|CSS开发规则]]
- * [[js|Javascript/Flash库]]
-
-=== 后端 ===
- * [[UserTable|用户表设计]]
-
-=== 排期 ===
- * [[todo1 | 一期工程]]
-
-=== 手册 ===
- * [[http://www.w3.org/TR/html4/index/elements.html|HTML4元素手册]]
- * [[http://www.codestyle.org/css/font-family/sampler-CombinedResults.shtml|Windows, Mac, Linux预装字体]]
-
-
-== TODO ==
-欢迎参与开源项目, 贡献自己的力量
-
-
-
-
-
-
+* 如何给字体**加粗** ?
+请以下面的格式来录入文本:
+{{{
+**待加粗的内容**
+}}}
