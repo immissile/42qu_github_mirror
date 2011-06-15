@@ -38,7 +38,7 @@ time, mark, audio, video {
     font-size: 16px;
     font: inherit;
     vertical-align: baseline;
-    font-family:Georgia;
+    font-family:Tahoma,Geneva,sans-serif;
 }
 b{font-weight:bold}
 /* HTML5 display-role reset for older browsers */
@@ -55,7 +55,6 @@ padding:14px 0;
 width:721px;
 margin:auto;
 line-height:32px;
-font-family:Georgia;
 }
 h1{
 text-align:center;
@@ -71,13 +70,12 @@ border-top:1px dotted #ccc;
 text-align:center;
 }
 h3{
-margin:7px 0;
+margin:24px 0 8px;
 line-height:18px;
 padding-left:8px;
 border-left:4px solid #ccc;
 }
 pre{
-font-family:Consolas,Verdana;
 padding:14px;
 border:1px dotted #ccc;
 background:#fefefe;
