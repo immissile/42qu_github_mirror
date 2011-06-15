@@ -1,1 +1,1 @@
-rm = _rm("reply","/wall/reply/rm/")
+rm = _rm("#reply","/wall/reply/rm/")

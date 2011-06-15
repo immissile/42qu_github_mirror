@@ -14,7 +14,7 @@ from static import js, css
 <div>分类 <a href="javascript:tag(this);void(0)">管理</a></div>
 <div> <input name="tag" type="radio" value="0" id="tag0"> <input placeholder="新建分类" name="name" value="" autocomplete="off"></div>
 %for id, tag in tag_list.iteritems():
-<div>
+<div class="tag">
     <input
     %if tag_id == id:
     checked
@@ -30,7 +30,7 @@ from static import js, css
 </%htm:form>
 <%text>
 <script id="tag" type="text/x-jquery-tmpl">
-<div id="tag_rm${$data[0]}">
+<div class="tag${$data[0]}">
 <input name="tag" type="hidden" value="${$data[0]}">
 <input name="name" type="text" value="${$data[1]}">
 {{if $data[0]!=1}}
