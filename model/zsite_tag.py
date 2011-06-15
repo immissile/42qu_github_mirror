@@ -83,7 +83,7 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
     )
     tag_po.zsite_tag_id = id
     tag_po.save()
-    mc_tag_by_po_id.set('%s_%s'%(zsite_id, po_id), tag_id)
+    mc_tag_by_po_id.delete('%s_%s'%(zsite_id, po_id))
 
 
 def zsite_tag_new_by_tag_name(po, name):
@@ -97,7 +97,7 @@ def zsite_tag_id_mv(zsite_id, from_tag_id, to_tag_id=1):
         i.zsite_tag_id = to_tag_id
         i.save()
         po_id = i.po_id
-        mc_tag_by_po_id.set('%s_%s'%(zsite_id, po_id), to_tag_id)
+        mc_tag_by_po_id.delete('%s_%s'%(zsite_id, po_id))
     #print "delete zsite", zsite_id, from_tag_id 
     ZsiteTag.where(zsite_id=zsite_id, tag_id=from_tag_id).delete()
     mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
