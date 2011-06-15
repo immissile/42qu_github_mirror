@@ -13,7 +13,10 @@ function tag(){
         })
         _tag=$("#_tag")
         _tag.find('button').click(function(){
-            $.postJSON("/j/po/tag/edit",_tag.serialize()); 
+            $.fancybox.showActivity() 
+            $.postJSON("/j/po/tag/edit",_tag.serialize(),function(){
+                $.fancybox.close()
+            });
             return false
         }).find('input[type=text]').attr('autocomplete','off') 
     })
