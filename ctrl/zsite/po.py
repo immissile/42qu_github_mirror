@@ -30,7 +30,7 @@ class Index(ZsiteBase):
         if can_view and current_user_id:
             po_pos_set(current_user_id, po)
 
-        zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(current_user_id, id)
+        zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
 
         return self.render(
             po=po,
