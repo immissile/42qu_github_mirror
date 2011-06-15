@@ -27,6 +27,8 @@ from ctrl import _url
 print_urlmap('ctrl.j')
 print_urlmap('ctrl.zsite')
 print_urlmap('ctrl.main')
-#print_urlmap('god._urlmap')
+
+from god import _url
+print_urlmap('god')
 #print_urlmap('api._urlmap')
 
