@@ -61,7 +61,7 @@ def zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id):
 
 def zsite_tag_list_by_zsite_id_with_init(zsite_id):
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
-    if not tag_id_list:
+    if not tag_id_list or len(tag_id_list)==1:
         for tag_id in ZSITE_TAG:
             zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
@@ -70,7 +70,7 @@ def zsite_tag_list_by_zsite_id_with_init(zsite_id):
 
 
 
-def zsite_tag_new_by_tag_id(po, tag_id):
+def zsite_tag_new_by_tag_id(po, tag_id=1):
     if not Tag.get(tag_id):
         tag_id = 1
     zsite_id = po.user_id

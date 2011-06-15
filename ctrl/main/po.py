@@ -101,6 +101,7 @@ class Note(LoginBase):
         if po:
             po_id = po.id
             link = '/po/tag/%s'%po_id
+            zsite_tag_new_by_tag_id(po)
             update_pic(arguments, current_user_id, po_id, id)
             mc_pic_id_list.delete('%s_%s'%(current_user_id, id))
         else:
