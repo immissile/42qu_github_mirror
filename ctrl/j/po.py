@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from yajl import dumps
 import _handler
-from zweb._urlmap import urlmap
+from ctrl.j._urlmap import urlmap
 from model.po import Po, CID_NOTE
 from zkit.pic import picopen
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm

@@ -1,9 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-import i
-import auth
-import po
-import feed
-import verify
-import money
-import buzz
+#coding:utf-8
+
+from zweb.urlmap import Urlmap
+
+urlmap = Urlmap() 
+
+

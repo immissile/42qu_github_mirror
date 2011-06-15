@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _handler
-from zweb._urlmap import urlmap
+from ctrl.j._urlmap import urlmap
 from model.vote import vote_state
 from model.po import Po, CID_NOTE
 from yajl import dumps

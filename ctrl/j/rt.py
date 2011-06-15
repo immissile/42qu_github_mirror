@@ -4,7 +4,7 @@
 
 import _handler
 from model.feed import feed_rt, feed_rt_rm, feed_rt_id
-from zweb._urlmap import urlmap
+from ctrl.j._urlmap import urlmap
 
 @urlmap('/j/rt/(\d+)')
 class Rt(_handler.JLoginBase):
