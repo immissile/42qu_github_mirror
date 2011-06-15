@@ -33,7 +33,12 @@ jQuery.extend({
         if ( jQuery.isFunction( data ) ) {
             callback = data;
         }
-        data._xsrf = jQuery.cookie.get("_xsrf");
+        var _xsrf = jQuery.cookie.get("_xsrf");
+        if(typeof data=="string"){
+            data+="&_xsrf="+_xsrf
+        }else{
+            data._xsrf = _xsrf;
+        }
         jQuery.ajax({
             url: url,
             data: data, 
