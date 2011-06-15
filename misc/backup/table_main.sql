@@ -189,8 +189,16 @@ CREATE TABLE `notice` (
   `state` tinyint(3) unsigned NOT NULL,
   `create_time` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `index2` (`to_id`,`create_time`),
-  KEY `index3` (`to_id`,`state`)
+  KEY `index2` (`to_id`,`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `notice_unread`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notice_unread` (
+  `id` int(10) unsigned NOT NULL,
+  `value` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pay_account`;
