@@ -35,7 +35,7 @@ ZSITE_TAG = (
 
 
 mc_zsite_tag_id_list_by_zsite_id = McCacheA('ZsiteTagIdListByZsiteId:%s')
-mc_tag_id_by_po_id = McCache('TagIdByPoId:%s')
+mc_tag_id_by_po_id = McCacheM('TagIdByPoId:%s')
 
 
 class ZsiteTag(McModel):
@@ -68,20 +68,6 @@ def zsite_tag_list_by_zsite_id_with_init(zsite_id):
     #print tag_id_list        
     return Tag.value_by_id_list(tag_id_list)
 
-@mc_tag_id_by_po_id('{zsite_id}_{po_id}')
-def tag_id_by_po_id(zsite_id, po_id):
-    c = ZsiteTagPo.raw_sql(
-        'select zsite_tag_id from zsite_tag_po where zsite_id=%s and po_id=%s',
-        zsite_id, po_id
-    )
-    r = c.fetchone()
-    if r:
-        r = r[0]
-        tag = ZsiteTag.mc_get(r)
-        r = tag.tag_id
-    else:
-        r = 0
-    return r
 
 
 def zsite_tag_new_by_tag_id(po, tag_id):
@@ -142,6 +128,22 @@ def zsite_tag_rename(zsite_id, tag_id, tag_name):
         tag.save()
         mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
     
+
+
+@mc_tag_id_by_po_id('{zsite_id}_{po_id}')
+def tag_id_by_po_id(zsite_id, po_id):
+    c = ZsiteTagPo.raw_sql(
+        'select zsite_tag_id from zsite_tag_po where zsite_id=%s and po_id=%s',
+        zsite_id, po_id
+    )
+    r = c.fetchone()
+    if r:
+        r = r[0]
+        tag = ZsiteTag.mc_get(r)
+        r = tag.tag_id
+    else:
+        r = 0
+    return r
 
 
 if __name__ == '__main__':
