@@ -23,7 +23,7 @@ def print_urlmap(module):
             cls_name
         )
 
-
+from ctrl import _url
 print_urlmap('ctrl.j')
 print_urlmap('ctrl.zsite')
 print_urlmap('ctrl.main')

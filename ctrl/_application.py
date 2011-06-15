@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import _url
 import main._urlmap
 import zsite._urlmap
 import j._urlmap

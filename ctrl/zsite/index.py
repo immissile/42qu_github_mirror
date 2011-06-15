@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from zsite import  _handler
+import  _handler
 from _urlmap import urlmap
 
 @urlmap('/')
