@@ -8,16 +8,17 @@ from zkit.pic import picopen
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id,\
-zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id
+zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 
 
 @urlmap('/j/po/tag/edit')
 class TagEdit(_handler.JLoginBase):
     def post(self):
+        current_user_id = self.current_user_id
         tag_list = self.get_arguments('tag')
         name_list = self.get_arguments('name')
-        print tag_list
-        print name_list
+        for tag_id, tag_name in tag_list:
+            zsite_tag_rename(current_user_id, tag_id, tag_name) 
         self.finish('{}')
 
 @urlmap('/j/po/tag')

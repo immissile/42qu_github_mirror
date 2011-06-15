@@ -119,8 +119,20 @@ def zsite_tag_rm_by_tag_id(zsite_id, tag_id):
     if tag_id == 1 or tag_id not in zsite_tag_id_list_by_zsite_id(zsite_id):
         return
     zsite_tag_id_mv(zsite_id, tag_id , 1)
-    ZsiteTag.where(zsite_id=zsite_id,tag_id=tag_id).delete()
+    ZsiteTag.where(zsite_id=zsite_id, tag_id=tag_id).delete()
     mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
+
+
+def zsite_tag_rename(zsite_id, tag_id, tag_name):
+    tag_id = int(tag_id)
+    tag_name = tag_name.strip()
+    if not tag_name:
+        continue
+    tag = ZsiteTag.get(zsite_id=zsite_id, tag_id=tag_id)
+    if tag:
+        tag.tag_id = tag_new(tag_name)
+        tag.save()
+    
 
 
 if __name__ == '__main__':
