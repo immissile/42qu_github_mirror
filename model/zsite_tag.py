@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCacheA, McCache
 from tag import Tag, tag_new
+from zweb.orm import ormiter
 
 #CREATE TABLE  `zpage`.`zpage_tag` (
 #  `id` int(10) unsigned NOT NULL auto_increment,
@@ -33,8 +34,8 @@ ZSITE_TAG = (
 )
 
 
-mc_zsite_tag_id_list = McCacheA("ZsiteTagIdListByZsiteId:%s")
-mc_tag_id_by_po_id = McCache("TagIdByPoId:%s")
+mc_zsite_tag_id_list_by_zsite_id = McCacheA('ZsiteTagIdListByZsiteId:%s')
+mc_tag_id_by_po_id = McCache('TagIdByPoId:%s')
 
 
 class ZsiteTag(McModel):
@@ -43,16 +44,16 @@ class ZsiteTag(McModel):
 class ZsiteTagPo(McModel):
     pass
 
-@mc_zsite_tag_id_list("{zsite_id}")
+@mc_zsite_tag_id_list_by_zsite_id('{zsite_id}')
 def zsite_tag_id_list_by_zsite_id(zsite_id):
-    return ZsiteTag.where(zsite_id=zsite_id).order_by("id desc").field_list(field='tag_id')
+    return ZsiteTag.where(zsite_id=zsite_id).order_by('id desc').field_list(field='tag_id')
 
 def zsite_tag_list_by_zsite_id(zsite_id):
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
-    return Tag.value_by_id_list(tag_id_list)    
+    return Tag.value_by_id_list(tag_id_list)
 
 def zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id):
-    zsite_tag = ZsiteTag.get_or_create(zsite_id=zsite_id,tag_id=tag_id)
+    zsite_tag = ZsiteTag.get_or_create(zsite_id=zsite_id, tag_id=tag_id)
     if not zsite_tag.id:
         zsite_tag.save()
         mc_zsite_tag_id_list.delete(zsite_id)
@@ -65,12 +66,12 @@ def zsite_tag_list_by_zsite_id_with_init(zsite_id):
             zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
     #print tag_id_list        
-    return Tag.value_by_id_list(tag_id_list)    
+    return Tag.value_by_id_list(tag_id_list)
 
-@mc_tag_id_by_po_id("{zsite_id}_{po_id}")
+@mc_tag_id_by_po_id('{zsite_id}_{po_id}')
 def tag_id_by_po_id(zsite_id, po_id):
     c = ZsiteTagPo.raw_sql(
-        "select zsite_tag_id from zsite_tag_po where zsite_id=%s and po_id=%s",
+        'select zsite_tag_id from zsite_tag_po where zsite_id=%s and po_id=%s',
         zsite_id, po_id
     )
     r = c.fetchone()
@@ -89,20 +90,39 @@ def zsite_tag_new_by_tag_id(po, tag_id):
     zsite_id = po.user_id
     po_id = po.id
 
-    id = zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id) 
+    id = zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
     tag_po = ZsiteTagPo.get_or_create(
-        po_id=po_id, 
+        po_id=po_id,
         zsite_id=zsite_id
     )
     tag_po.zsite_tag_id = id
     tag_po.save()
-    mc_tag_id_by_po_id.set("%s_%s"%(zsite_id,po_id), tag_id) 
+    mc_tag_id_by_po_id.set('%s_%s'%(zsite_id, po_id), tag_id)
 
 
 def zsite_tag_new_by_tag_name(po, name):
     tag_id = tag_new(name)
     return zsite_tag_new_by_tag_id(po, tag_id)
 
+def zsite_tag_id_mv(zsite_id, from_tag_id, to_tag_id=1):
+    tag = ZsiteTag.get(zsite_id=zsite_id, from_tag_id=from_tag_id)
 
-if __name__ == "__main__":
-    print tag_id_by_po_id(11,12)
+    for i in ormiter(ZsiteTagPo, 'zsite_tag_id=%s'%from_tag_id):
+        i.zsite_tag_id = to_tag_id
+        i.save()
+        po_id = i.po_id
+        mc_tag_id_by_po_id.set('%s_%s'%(zsite_id, po_id), to_tag_id)
+
+
+def zsite_tag_rm_by_tag_id(zsite_id, tag_id):
+    tag_id = int(tag_id)
+    if tag_id == 1 or tag_id not in zsite_tag_id_list_by_zsite_id(zsite_id):
+        return
+    zsite_tag_id_mv(zsite_id, tag_id , 1)
+    mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
+
+
+if __name__ == '__main__':
+    print tag_id_by_po_id(11, 12)
+
+

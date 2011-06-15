@@ -13,3 +13,5 @@ function tag(){
         })
     })
 }
+
+rm_tag=_rm("tag_rm","/j/po/tag/rm/")

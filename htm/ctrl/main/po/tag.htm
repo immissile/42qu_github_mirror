@@ -30,11 +30,12 @@ from static import js, css
 </%htm:form>
 <%text>
 <script id="tag" type="text/x-jquery-tmpl">
-<div>
+<div id="tag_rm${$data[0]}">
 <input type="hidden" value="${$data[0]}">
 <input type="text" value="${$data[1]}">
 {{if $data[0]!=1}}
-<a title="删除" class="x" href="javascript:rm_tag($data[0]);void(0)"></a>
+<a title="删除" class="x"
+href="javascript:rm_tag(${$data[0]});void(0)"></a>
 {{/if}}
 </div>
 </script>

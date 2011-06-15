@@ -8,7 +8,7 @@ from zkit.pic import picopen
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id,\
-zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name
+zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id
 
 @urlmap('/j/po/tag')
 class Tag(_handler.JLoginBase):
@@ -17,7 +17,12 @@ class Tag(_handler.JLoginBase):
         tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
         self.finish(dumps(tag_list.iteritems()))
 
-
+@urlmap('/j/po/tag/rm/(\d+)')
+class TagRm(_handler.JLoginBase):
+    def get(self, id):
+        current_user_id = self.current_user_id 
+        zsite_tag_rm_by_tag_id(current_user_id, id)    
+    
 @urlmap('/j/po/note/upload/rm')
 @urlmap('/j/po/note/upload/rm/(\d+)')
 class NoteUploadRm(_handler.JLoginBase):
@@ -80,5 +85,3 @@ class NoteUpload(_handler.JLoginBase):
         }
 
         return r
-
-
