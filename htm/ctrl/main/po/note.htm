@@ -6,25 +6,13 @@ from static import js, css
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%def name="htm_head()">
-<%
-if po:
-    suffix = "/%s"%po.id
-else:
-    suffix = ""
-%>
-<script src="${js.upload}"></script>\
-<script src="${js.pic}"></script>\
-<script>
-UPLOADURL = "/j/po/note/upload${suffix}"
-DELETEURL = "/j/po/note/upload/rm${suffix}"
-</script>
 ${css.ctrl_po_note|n}
 </%def>
 
 <%htm:form enctype="multipart/form-data">
-<div>
-<input type="text" name="name" value="${po.name}">
-</div>
+<input
+placeholder="请输入标题 ..."
+id="name" type="text" autocomplete="off" name="name" value="${po.name}">
 <textarea id="txt" name="txt">${po.txt}</textarea>
 <div>
     <a id="upload" href="javascript:upload();void(0)">传图</a>
@@ -62,3 +50,14 @@ pic_pos = pic.align
 
 
 </%htm:form>
+<script>
+<%
+if po:
+    suffix = "/%s"%po.id
+else:
+    suffix = ""
+%>
+UPLOADURL = "/j/po/note/upload${suffix}"
+DELETEURL = "/j/po/note/upload/rm${suffix}"
+$.script("${js.ctrl_po_note} ${js.upload} ${js.pic}")
+</script>
