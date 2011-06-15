@@ -14,7 +14,7 @@ from static import js, css
 <div>分类 <a href="javascript:tag(this);void(0)">管理</a></div>
 <div> <input name="tag" type="radio" value="0" id="tag0"> <input placeholder="新建分类" name="name" value="" autocomplete="off"></div>
 %for id, tag in tag_list.iteritems():
-<div class="tag">
+<div class="tag${id}">
     <input
     %if tag_id == id:
     checked
