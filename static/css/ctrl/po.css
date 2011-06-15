@@ -1,0 +1,15 @@
+#main h1{
+    text-align:center;
+    font-size:32px;
+    margin:48px 0;
+    line-height:48px;
+    font-family: "Trebuchet MS", sans-serif;
+}
+#main pre{
+    width:721px;
+    margin:auto;
+}
+#main pre p{
+    line-height:28px;
+    padding-bottom:14px;
+}

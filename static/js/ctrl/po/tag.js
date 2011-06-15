@@ -13,10 +13,12 @@ function tag(){
         })
         _tag=$("#_tag")
         _tag.find('button').click(function(){
-            alert(_tag.serialize())
+            $.fancybox.showActivity() 
+            $.postJSON("/j/po/tag/edit",_tag.serialize(),location.reload);
             return false
-        }).find('input[type=text]').attr('autocomplete','off') 
+        })
     })
 }
 
-rm_tag=_rm(".tag_rm","/j/po/tag/rm/")
+rm_tag=_rm(".tag","/j/po/tag/rm/")
+

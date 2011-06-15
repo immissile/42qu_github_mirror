@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _handler
-from zweb._urlmap import urlmap
+from ctrl.main._urlmap import urlmap
 from zkit.txt import EMAIL_VALID, mail2link
 from cgi import escape
 from model.cid import CID_VERIFY_MAIL

@@ -240,7 +240,7 @@ if ORG_CSS_JS:
 path = path.rsplit(".css",1)[0]
 name = path.replace("/","_").replace(".","_").replace("-","_")
 %>
-    ${name} = "%s/css/${path}.css"%FS_URL
+    ${name} = '<link href="%s/css/${path}.css" rel="stylesheet" type="text/css">'%FS_URL
 %endfor
 
 else:
@@ -252,7 +252,7 @@ pathdir = join("css",dirname(path))
 pathfile = basename(path)
 filename = join(pathdir,"~%s~%s.css"%(num,pathfile)).replace("\\\\","/")
 %>
-    ${name} = "%s/${filename}"%FS_URL
+    ${name} = '<link href="%s/${filename}" rel="stylesheet" type="text/css">'%FS_URL
 %endfor
 """
 

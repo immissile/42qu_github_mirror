@@ -3,15 +3,14 @@
 import pyclbr
 
 def print_urlmap(module):
-    __import__(module, globals(), locals(), [], -1)
+    mod = __import__(module, globals(), locals(), ['_urlmap'], -1)
     print '\n%s :'%module
-
     from pprint import pprint
     import zweb
     prefix = len(module)+1
     #pyclbr.readmodule("ctrl.index")
 
-    for i in sorted(zweb._urlmap.URLMAP):
+    for i in sorted(mod._urlmap.urlmap.handlers):
         url, cls = i[:2]
         mn = cls.__module__
 
@@ -24,11 +23,17 @@ def print_urlmap(module):
             cls_name
         )
 
-    zweb._urlmap.URLMAP = []
+import ctrl._url
+print_urlmap('ctrl.j')
+print_urlmap('ctrl.zsite')
+print_urlmap('ctrl.main')
 
-print_urlmap('ctrl._urlmap')
-print_urlmap('ctrl.zsite._urlmap')
-print_urlmap('ctrl.main._urlmap')
-print_urlmap('god._urlmap')
-print_urlmap('api._urlmap')
+import god._url
+print_urlmap('god')
+
+import api._url
+print_urlmap('api')
+
+import rpc._url
+print_urlmap('rpc')
 

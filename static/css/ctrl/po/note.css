@@ -1,0 +1,23 @@
+#upload_wait{
+    display:none;
+}
+#txt,#name{
+margin:auto;
+display:block;
+padding:7px;
+width:721px;
+border:1px dotted #ccc;
+}
+#name{
+font-size:16px;
+margin:0 auto;
+border-bottom:0;
+border-top:0;
+padding:14px 7px;
+text-align:center;
+}
+#txt{
+height:350px;
+border-top:1px #ccc dotted;
+}
+

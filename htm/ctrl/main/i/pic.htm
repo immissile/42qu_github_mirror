@@ -5,7 +5,7 @@ from model.ico import pic_url as _pic_url
 from static import css, js
 %>
 <%def name="htm_head()">
-<link href="${css.imgselect}" rel="stylesheet" type="text/css">\
+${css.imgselect|n}
 <script src="${js.imgselect}"></script>\
 <script src="${js.i_pic}"></script>\
 <style>

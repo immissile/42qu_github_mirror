@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 import _handler
-from zweb._urlmap import urlmap
+from ctrl.j._urlmap import urlmap
 
 
 @urlmap('/j/login')

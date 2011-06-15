@@ -6,6 +6,7 @@ import sys
 import subprocess
 import time
 from init_db import init_db
+from os.path import join, dirname, abspath
 
 COMM_OPTION = ' -h%s -P%s -u%s -p%s '
 def reset_database(key, host, port, name, user, password):
@@ -31,8 +32,13 @@ def reset():
     for key, value in DB_CONFIG.iteritems():
         host, port, name, user, password = value.get('master').split(':')
         sure = 'reset'
-        if raw_input(">>> table backuped ??? entry 'y' to continue ...\n").strip() != 'y':
+        path = join(dirname(abspath(__file__)),'backup_table.sh')
+        print path
+        backup = raw_input(">>> backup table ? entry y or n...\n").strip().lower()
+        if backup not in ('y','n'):
             return
+        if backup == 'y':
+            subprocess.Popen(path)
         if raw_input(">>> please type '%s' to reset database:\n"%sure).strip() == sure:
             print '\n\nCtrl+C TO CANCEL RESET',
             for i in range(3, -1, -1):

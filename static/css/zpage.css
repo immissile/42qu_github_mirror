@@ -1,0 +1,14 @@
+.PIC{
+text-align:center;
+}
+.PICL{
+float:left;
+margin-right:14px;
+}
+.PICR{
+float:right;
+margin-left:14px;
+}
+.PIC div,.PICR div,.PICL div{
+margin-top:7px;
+}

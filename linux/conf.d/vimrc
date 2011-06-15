@@ -73,3 +73,5 @@ endfunc
 "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 "autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags 
 
+filetype indent off
+let MRU_Max_Entries = 42

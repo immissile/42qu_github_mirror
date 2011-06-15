@@ -1,7 +1,6 @@
 #T{
     text-align:center;
-    font-size:16px;
-    padding:10px;
+    padding:7px;
     background:#000;
     color:#fff;
     font-size:14px;
@@ -16,8 +15,8 @@
 #H{
     font-size:16px;
     border-bottom:1px dotted #ccc;
-    padding: 22px 0 27px;
-    margin-bottom: 14px;
+    padding:18px 0 22px;
+    margin-bottom:0;
     text-align:center;
 }
 #H .H{
@@ -54,7 +53,7 @@
     color:#999;
 }
 #H .DA:hover{
-color:#00f;
+color:#000;
 }
 #H .D{
     padding-bottom:1px;
@@ -76,8 +75,9 @@ margin-left:17px
 .DA span{
 line-height:12px;background:#a10;
 position:absolute;
-color:#fff;margin-left:3px;font-family:Tahoma;
+color:#fff;margin-left:3px;
 font-size:10px;padding:3px 6px;margin-top: -4px;
+font-family:Tahoma,Geneva,sans-serif;;
 }
 
 

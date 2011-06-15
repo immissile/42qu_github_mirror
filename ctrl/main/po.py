@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
-from zweb._urlmap import urlmap
+from ctrl.main._urlmap import urlmap
 from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
 from model.po_question import po_question_new, po_answer_new
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
@@ -80,6 +80,8 @@ class Note(LoginBase):
         po = po_can_edit(current_user_id, id)
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
+        if not (name or txt):
+            return self.get(id)
         secret = self.get_argument('secret', None)
         arguments = self.request.arguments
         if secret:
@@ -99,6 +101,7 @@ class Note(LoginBase):
         if po:
             po_id = po.id
             link = '/po/tag/%s'%po_id
+            zsite_tag_new_by_tag_id(po)
             update_pic(arguments, current_user_id, po_id, id)
             mc_pic_id_list.delete('%s_%s'%(current_user_id, id))
         else:

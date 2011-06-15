@@ -22,6 +22,9 @@ class Base(web.RequestHandler):
             else:
                 self.clear_cookie(key)
 
+    def decode_argument(self, value, name=None):
+        return value
+
     @property
     def current_user_id(self):
         if not hasattr(self, '_current_user_id'):
