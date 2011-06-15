@@ -17,7 +17,7 @@ class TagEdit(_handler.JLoginBase):
         current_user_id = self.current_user_id
         tag_list = self.get_arguments('tag')
         name_list = self.get_arguments('name')
-        for tag_id, tag_name in tag_list:
+        for tag_id, tag_name in zip(tag_list, name_list):
             zsite_tag_rename(current_user_id, tag_id, tag_name) 
         self.finish('{}')
 

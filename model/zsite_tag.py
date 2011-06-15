@@ -127,11 +127,13 @@ def zsite_tag_rename(zsite_id, tag_id, tag_name):
     tag_id = int(tag_id)
     tag_name = tag_name.strip()
     if not tag_name:
-        continue
+        return
     tag = ZsiteTag.get(zsite_id=zsite_id, tag_id=tag_id)
-    if tag:
-        tag.tag_id = tag_new(tag_name)
-        tag.save()
+    if not tag:
+        return
+    tag.tag_id = tag_new(tag_name)
+    mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
+    tag.save()
     
 
 
