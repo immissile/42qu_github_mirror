@@ -12,11 +12,11 @@ class Urlmap(object):
         return _
 
 
-def host_handlers(host, *args):
+def handlers(*args):
     handlers = []
     for i in args:
-        handlers.extend(i)
-    return (host, handlers)
+        handlers.extend(i.handlers)
+    return handlers
 
 
 
