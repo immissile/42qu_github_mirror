@@ -56,7 +56,7 @@ def zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id):
     zsite_tag = ZsiteTag.get_or_create(zsite_id=zsite_id, tag_id=tag_id)
     if not zsite_tag.id:
         zsite_tag.save()
-        mc_zsite_tag_id_list.delete(zsite_id)
+        mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
     return zsite_tag.id
 
 def zsite_tag_list_by_zsite_id_with_init(zsite_id):
