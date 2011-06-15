@@ -58,4 +58,9 @@ exec "!astyle --style=java --suffix=none %"
 endif
 exec "e! %"
 endfunc
-"结束定义FormartSrc   
+"结束定义FormartSrc  
+
+" 激活ncc
+let g:neocomplcache_enable_at_startup = 1
+"let g:NeoComplCache_DisableAutoComplete = 1
+let g:SuperTabDefaultCompletionType="context"
