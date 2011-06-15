@@ -93,11 +93,10 @@ class Kv(object):
             value
         )
         cursor.connection.commit()
-        r = cursor.lastrowid
+        id = cursor.lastrowid
         self.mc_value_id_set(value, id)
-        mc_key = self.__mc_id__
-        mc_key = mc_key%id
-        mc.set(mc_key, r)
+        mc_key = self.__mc_id__%id
+        mc.set(mc_key, value)
         return r
 
     def id_by_value_new(self, value):

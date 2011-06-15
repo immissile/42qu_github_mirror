@@ -124,6 +124,4 @@ def zsite_tag_rm_by_tag_id(zsite_id, tag_id):
 
 
 if __name__ == '__main__':
-    print tag_id_by_po_id(11, 12)
-
-
+    print tag_new('a')
