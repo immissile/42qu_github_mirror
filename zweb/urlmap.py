@@ -15,7 +15,7 @@ class Urlmap(object):
 def handlers(*args):
     handlers = []
     for i in args:
-        handlers.extend(i.handlers)
+        handlers.extend(i.urlmap.handlers)
     return handlers
 
 

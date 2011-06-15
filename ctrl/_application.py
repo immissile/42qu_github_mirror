@@ -5,6 +5,7 @@ import zsite._urlmap
 import j._urlmap
 import tornado.wsgi
 from config import SITE_DOMAIN
+from zweb.urlmap import handlers
 
 application = tornado.wsgi.WSGIApplication(
     login_url='/login',
