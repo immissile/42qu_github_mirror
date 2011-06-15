@@ -2,6 +2,7 @@
 from config import SITE_DOMAIN
 from config import SITE_URL
 from model.zsite import ZSITE_STATE_APPLY
+from model.notice import notice_unread_count
 NAVURL = (
     ( '/i' , "账号"),
     ( '/po/word' , "微博"),
@@ -62,7 +63,12 @@ link = current_user.link
     <a href="/feed">动态</a>
 </div>
 <a class="DA" href="/notice">提醒\
-<span style="">32</span>\
+<%
+unread_notice = notice_unread_count(current_user_id)
+%>\
+%if unread_notice:
+<span style="">${unread_notice}</span>\
+%endif
 </a>
 <a class="DA" href="javascript:void(0)" rel="MORE">更多</a>\
 <div class="D" id="DMORE">
