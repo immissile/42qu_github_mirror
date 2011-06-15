@@ -112,6 +112,9 @@ def zsite_tag_id_mv(zsite_id, from_tag_id, to_tag_id=1):
         i.save()
         po_id = i.po_id
         mc_tag_id_by_po_id.set('%s_%s'%(zsite_id, po_id), to_tag_id)
+    
+    ZsiteTag.where(zsite_id=zsite_id, tag_id=from_tag_id).delete()
+    mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
 
 
 def zsite_tag_rm_by_tag_id(zsite_id, tag_id):
@@ -119,8 +122,6 @@ def zsite_tag_rm_by_tag_id(zsite_id, tag_id):
     if tag_id == 1 or tag_id not in zsite_tag_id_list_by_zsite_id(zsite_id):
         return
     zsite_tag_id_mv(zsite_id, tag_id , 1)
-    ZsiteTag.where(zsite_id=zsite_id, tag_id=tag_id).delete()
-    mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
 
 
 def zsite_tag_rename(zsite_id, tag_id, tag_name):
@@ -131,11 +132,19 @@ def zsite_tag_rename(zsite_id, tag_id, tag_name):
     tag = ZsiteTag.get(zsite_id=zsite_id, tag_id=tag_id)
     if not tag:
         return
-    tag.tag_id = tag_new(tag_name)
-    mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
-    tag.save()
+    tag_id_new = tag_new(tag_name)
+    ztn = ZsiteTag.get(zsite_id=zsite_id, tag_id=tag_id_new)
+    if ztn:
+        zsite_tag_id_mv(zsite_id, tag_id, tag_id_new)
+    else:
+        tag.tag_id = tag_id_new
+        tag.save()
+        mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
     
 
 
 if __name__ == '__main__':
-    print tag_new('a')
+
+    for i in ZsiteTag.where(zsite_id=21):
+        print i.tag_id
+

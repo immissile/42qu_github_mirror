@@ -262,11 +262,9 @@ CREATE TABLE `rank` (
   `hot` mediumint(9) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `po_id` (`po_id`,`to_id`),
-  KEY `to_id` (`to_id`,`confidence`),
-  KEY `to_id_2` (`to_id`,`cid`,`confidence`),
-  KEY `to_id_3` (`to_id`,`hot`),
-  KEY `to_id_4` (`to_id`,`cid`,`hot`),
-  KEY `index7` (`from_id`)
+  KEY `to_id` (`to_id`,`cid`,`confidence`),
+  KEY `from_id` (`from_id`),
+  KEY `to_id_hot` (`to_id`,`cid`,`hot`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rate`;
@@ -308,7 +306,7 @@ DROP TABLE IF EXISTS `tag`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tag` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `value` varbinary(45) NOT NULL,
+  `value` varchar(21) collate utf8_bin NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `Index_2` (`value`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -514,8 +512,8 @@ CREATE TABLE `zsite_tag` (
   `zsite_id` int(10) unsigned NOT NULL,
   `tag_id` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `tag_id` USING BTREE (`tag_id`),
-  KEY `zsite_id` (`zsite_id`,`tag_id`)
+  UNIQUE KEY `zsite_id` USING BTREE (`zsite_id`,`tag_id`),
+  KEY `tag_id` USING BTREE (`tag_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `zsite_tag_po`;
@@ -526,7 +524,7 @@ CREATE TABLE `zsite_tag_po` (
   `zsite_tag_id` int(10) unsigned NOT NULL default '0',
   `po_id` int(10) unsigned NOT NULL,
   `zsite_id` int(10) unsigned NOT NULL,
-  `state` int(10) unsigned NOT NULL,
+  `state` int(10) unsigned NOT NULL default '10',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `po_id` USING BTREE (`po_id`,`zsite_id`),
   KEY `zsite_tag_id` (`zsite_tag_id`,`po_id`,`state`)

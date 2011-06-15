@@ -14,9 +14,7 @@ function tag(){
         _tag=$("#_tag")
         _tag.find('button').click(function(){
             $.fancybox.showActivity() 
-            $.postJSON("/j/po/tag/edit",_tag.serialize(),function(){
-                $.fancybox.close()
-            });
+            $.postJSON("/j/po/tag/edit",_tag.serialize(),location.reload);
             return false
         }).find('input[type=text]').attr('autocomplete','off') 
     })
