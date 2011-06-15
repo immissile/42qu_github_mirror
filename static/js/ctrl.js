@@ -10,7 +10,7 @@ _gaq=[['_setAccount', 'UA-23361634-1'],['_trackPageview'],['_trackPageLoadTime']
 
 function _rm(prefix, url){
     return function(id){ 
-        if(confirm('删除 , 是吗?')){
+        if(confirm('删除 , 不后悔 ?')){
             $("#"+prefix+id).fadeOut()
             $.postJSON(url+id)
         }

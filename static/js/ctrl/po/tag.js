@@ -6,11 +6,16 @@ function tag(){
     var fancybox = $.fancybox
     fancybox.showActivity();
     $.postJSON("/j/po/tag",function(o){
-        var _tag=$("<form><button>保存</button></form>")
+        var _tag=$('<div><button>保存</button></div>')
         $("#tag").tmpl(o).prependTo(_tag)
         $.fancybox({
-            content:_tag.html()
+            content:'<form id="_tag">'+_tag.html()+'</form>'
         })
+        _tag=$("#_tag")
+        _tag.find('button').click(function(){
+            alert(_tag.serialize())
+            return false
+        }).find('input[type=text]').attr('autocomplete','off') 
     })
 }
 
