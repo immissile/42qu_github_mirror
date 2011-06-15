@@ -30,5 +30,8 @@ print_urlmap('ctrl.main')
 
 from god import _url
 print_urlmap('god')
+
+from api import _url
+print_urlmap('api')
 #print_urlmap('api._urlmap')
 
