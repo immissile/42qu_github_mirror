@@ -51,14 +51,14 @@ class="site">${request_host}</a>
 </%def>
 
 <%def name="H()" filter="trim,_H">
-${self.info_box()}
+${self.h_nav()}
 </%def>
 
 
 
 
 
-<%def name="info_box()">
+<%def name="h_nav()">
 <div class="R">
 %if current_user: 
 <%
