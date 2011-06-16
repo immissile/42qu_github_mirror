@@ -38,7 +38,7 @@ class Wall(McModel, ReplyMixin):
         return set([self.from_id, self.to_id])
 
     def reply_user_id_list(self):
-        reply_id_list = self.reply_id_list_reversed(42)
+        reply_id_list = self.reply_id_list_reversed(42, 0)
         user_id_list = [i.user_id for i in Reply.mc_get_list(reply_id_list)]
         return set(user_id_list) - self.zsite_id_list()
 
@@ -53,19 +53,11 @@ class Wall(McModel, ReplyMixin):
         id = self.id
         reply_id = super(Wall, self).reply_new(user_id, txt, state)
         if reply_id:
-            now = int(time())
-#            for i in WallReply.where(wall_id=id):
-#                i.last_reply_id = reply_id
-#                i.update_time = now
-#                i.save()
-#                mc_flush(i.zsite_id)
-
             zsite_id_list = self.zsite_id_list()
-            WallReply.raw_sql('update wall_reply set last_reply_id=%s and update_time=%s where wall_id=%s', reply_id, now)
-            for zsite_id in zsite_id_list:
-                mc_flush(zsite_id)
 
             if user_id in zsite_id_list:
+                wall_reply_new(id, self.from_id, self.to_id, reply_id)
+
                 zsite_id_list.remove(user_id)
                 for zsite_id in zsite_id_list:
                     notice_new(user_id, zsite_id, CID_NOTICE_WALL, id)
@@ -113,42 +105,58 @@ class WallReply(McModel):
         return self._link
 
 
+def wall_reply_new(wall_id, from_id, to_id, reply_id):
+    now = int(time())
+    WallReply.raw_sql(
+        'insert into wall_reply '
+        '(wall_id, zsite_id, from_id, last_reply_id, update_time) '
+        'values (%s, %s, %s, %s, %s) '
+        'on duplicate key update '
+        'last_reply_id=values(last_reply_id) and update_time=values(update_time)',
+        wall_id, to_id, from_id, reply_id, now
+    )
+    mc_flush(to_id)
+    if from_id != to_id:
+        WallReply.raw_sql(
+            'insert into wall_reply '
+            '(wall_id, zsite_id, from_id, last_reply_id, update_time) '
+            'values (%s, %s, %s, %s, %s) '
+            'on duplicate key update '
+            'last_reply_id=values(last_reply_id) and update_time=values(update_time)',
+            wall_id, from_id, to_id, reply_id, now
+        )
+        mc_flush(from_id)
+
+
+def wall_id_by_from_id_to_id(from_id, to_id):
+    w = Wall.get(from_id=from_id, to_id=to_id)
+    if w is None and from_id != to_id:
+        w = Wall.get(from_id=to_id, to_id=from_id)
+    if w:
+        return w.id
+    return 0
+
+
 def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     zsite_id = self.id
     not_self = zsite_id != user_id
-    wall_reply = WallReply.get(zsite_id=zsite_id, from_id=user_id)
-    if not_self:
-        wall_reply = wall_reply or WallReply.get(zsite_id=user_id, from_id=zsite_id)
 
-    if wall_reply is None:
+    wall_id = wall_id_by_from_id_to_id(user_id, zsite_id)
+    if not wall_id:
         wall = Wall(cid=self.cid, from_id=user_id, to_id=zsite_id)
         wall.save()
-        wall_id = wall.id
-
-        def wall_reply_new(wall_id, aid, bid):
-            wall_reply = WallReply(
-                wall_id=wall_id,
-                zsite_id=aid,
-                from_id=bid,
-            )
-            wall_reply.save()
-
-        wall_reply_new(wall_id, zsite_id, user_id)
-        if not_self:
-            wall_reply_new(wall_id, user_id, zsite_id)
     else:
-        wall_id = wall_reply.wall_id
         wall = Wall.mc_get(wall_id)
 
     reply_id = wall.reply_new(user_id, txt, state)
     if not reply_id:
         return
 
-    if wall_reply is None:
+    if not wall_id:
         if not_self:
             from buzz import mq_buzz_wall_new
             if state == STATE_ACTIVE:
-                mq_buzz_wall_new(user_id, zsite_id, wall_id)
+                mq_buzz_wall_new(user_id, zsite_id, wall.id)
 
 
 def mc_flush(zsite_id):
