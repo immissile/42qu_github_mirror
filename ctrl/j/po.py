@@ -35,8 +35,8 @@ class TagRm(JLoginBase):
         zsite_tag_rm_by_tag_id(current_user_id, id)
         self.finish('{}')
 
-@urlmap('/j/po/note/upload/rm')
-@urlmap('/j/po/note/upload/rm/(\d+)')
+@urlmap('/j/po/upload/rm')
+@urlmap('/j/po/upload/rm/(\d+)')
 class NoteUploadRm(JLoginBase):
     def post(self, id=0):
         seq = self.get_argument('seq')
@@ -44,8 +44,8 @@ class NoteUploadRm(JLoginBase):
         po_pic_rm(user_id, id, seq)
         self.finish('{}')
 
-@urlmap('/j/po/note/upload')
-@urlmap('/j/po/note/upload/(\d+)')
+@urlmap('/j/po/upload')
+@urlmap('/j/po/upload/(\d+)')
 class NoteUpload(JLoginBase):
     def post(self, id=0):
         #USER DUMPS FIX HEADER FOR FIREFOX

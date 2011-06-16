@@ -10,12 +10,12 @@ ${css.ctrl_po_note|n}
 <script>
 <%
 if po:
-    suffix = "/%s"%po.id
+    suffix = '/%s' % po.id
 else:
-    suffix = ""
+    suffix = ''
 %>
-UPLOADURL = "/j/po/note/upload${suffix}"
-DELETEURL = "/j/po/note/upload/rm${suffix}"
+UPLOADURL = "/j/po/upload${suffix}"
+DELETEURL = "/j/po/upload/rm${suffix}"
 $.script("${js.ctrl_po_note} ${js.upload} ${js.pic}")
 </script>
 </%def>

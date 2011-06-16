@@ -18,6 +18,7 @@ PO_EN = {
     CID_NOTE: 'note',
     CID_WORD: 'word',
     CID_QUESTION: 'question',
+    CID_ANSWER: 'answer',
 }
 
 mc_htm = McCache('PoHtm.%s')
@@ -47,17 +48,32 @@ class Po(McModel, ReplyMixin):
     @property
     def link(self):
         if not hasattr(self, '_link'):
-            if self.cid == CID_ANSWER:
+            cid = self.cid
+            if cid == CID_ANSWER:
                 from po_question import question_id_by_answer_id
                 id = self.id
                 q = Po.mc_get(question_id_by_answer_id(id))
                 link = '%s#answer%s' % (q.link, id)
             else:
-                en = PO_EN[self.cid]
+                en = PO_EN[cid]
                 zsite = Zsite.mc_get(self.user_id)
-                link = '%s/%s/%s'%(zsite.link, en, self.id)
+                link = '%s/%s/%s' % (zsite.link, en, self.id)
             self._link = link
         return self._link
+
+    @property
+    def link_edit(self):
+        if not hasattr(self, '_link_edit'):
+            cid = self.cid
+            zsite = Zsite.mc_get(self.user_id)
+            zsite_link = zsite.link
+            if cid == CID_WORD:
+                link = zsite_link
+            else:
+                en = PO_EN[cid]
+                link = '%s/%s/edit/%s' % (zsite_link, en, self.id)
+            self._link_edit = link
+        return self._link_edit
 
     def feed_new(self):
         feed_new(self.id, self.user_id, self.cid)

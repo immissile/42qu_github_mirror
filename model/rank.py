@@ -21,7 +21,7 @@ mc_rank_to_id_by_po_id_cid = McCache('RankToIdByPoIdCid.%s')
 
 @mc_rank_to_id_by_po_id_cid('{po_id}_{cid}')
 def rank_to_id_by_po_id_cid(po_id, cid):
-    for to_id in Rank.where(po_id=po_id, cid=cid).field_list(field='to_id'):
+    for to_id in Rank.where(po_id=po_id, cid=cid).field_list(1, 0, 'to_id'):
         return to_id
     return 0
 
