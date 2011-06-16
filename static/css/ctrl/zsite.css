@@ -29,6 +29,9 @@
     text-decoration:none;
     color:#444;
 }
+#H .site:hover{
+    text-decoration:underline
+}
 #H .site{
     font-size: 24px;
     font-family: Trebuchet MS;
