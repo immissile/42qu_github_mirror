@@ -21,15 +21,17 @@ class Logout(Base):
 @urlmap('/login')
 class Login(Base):
     def get(self):
-        if self.current_user:
-            return self.redirect('/')
+        current_user = self.current_user
+        if current_user:
+            return self.redirect('%s/live'%current_user.link)
         self.render()
 
     def _login(self, user_id, mail, redirect):
         session = user_session(user_id)
         self.set_cookie('S', session)
         self.set_cookie('E', mail)
-        self.redirect(redirect)
+        if redirect:
+            self.redirect(redirect)
 
     def post(self):
         mail = self.get_argument('mail', None)
@@ -52,7 +54,7 @@ class Login(Base):
             user_id = user_id_by_mail(mail)
             if user_id:
                 if user_password_verify(user_id, password):
-                    return self._login(user_id, mail, self.get_argument('next', '/'))
+                    return self._login(user_id, mail, self.get_argument('next', None))
                 else:
                     error_password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
             else:
