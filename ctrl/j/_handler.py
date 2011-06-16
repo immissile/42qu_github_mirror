@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ctrl.main._handler import Base
+from ctrl.me._handler import Base
 
 
 class JLoginBase(Base):
