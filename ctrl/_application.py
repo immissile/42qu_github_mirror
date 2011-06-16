@@ -10,16 +10,19 @@ application = tornado.wsgi.WSGIApplication(
 )
 
 
-import main._urlmap
+import _urlmap.main
+import _urlmap.auth
 application.add_handlers(
     SITE_DOMAIN.replace(".",r"\."),
-    handlers(main._urlmap)
+    handlers(_urlmap.main, _urlmap.auth)
 )
 
-import me._urlmap
-import zsite._urlmap
-import j._urlmap
+import _urlmap.auth
+import _urlmap.me
+import _urlmap.zsite
+import _urlmap.j
+
 application.add_handlers(
     ".*",
-    handlers(zsite._urlmap, j._urlmap, me._urlmap)
+    handlers(_urlmap.auth, _urlmap.me, _urlmap.zsite, _urlmap.j)
 )
