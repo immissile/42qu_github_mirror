@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase, ZsiteBase
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
-from ctrl.zsite._urlmap import urlmap
+from ctrl._urlmap.zsite import urlmap
 from model.po import po_rm, po_word_new, Po
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply

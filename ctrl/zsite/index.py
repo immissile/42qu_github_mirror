@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import  _handler
-from _urlmap import urlmap
+from ctrl._urlmap.zsite import urlmap
 
 @urlmap('/')
 class Index(_handler.Base):

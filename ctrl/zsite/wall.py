@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _handler
-from ctrl.zsite._urlmap import urlmap
+from ctrl._urlmap.zsite import urlmap
 from model.reply import STATE_SECRET, STATE_ACTIVE
 from model.wall import Wall
 from model.reply import Reply
