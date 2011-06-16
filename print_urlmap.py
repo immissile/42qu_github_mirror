@@ -10,7 +10,7 @@ def print_urlmap(module):
     prefix = len(module)+1
     #pyclbr.readmodule("ctrl.index")
 
-    for i in sorted(mod._urlmap.urlmap.handlers):
+    for i in sorted(mod.urlmap.handlers):
         url, cls = i[:2]
         mn = cls.__module__
 
@@ -24,17 +24,18 @@ def print_urlmap(module):
         )
 
 import ctrl._url
-print_urlmap('ctrl.main')
-print_urlmap('ctrl.j')
-print_urlmap('ctrl.zsite')
-print_urlmap('ctrl.me')
+print_urlmap('ctrl._urlmap.main')
+print_urlmap('ctrl._urlmap.j')
+print_urlmap('ctrl._urlmap.zsite')
+print_urlmap('ctrl._urlmap.me')
+print_urlmap('ctrl._urlmap.auth')
 
 import god._url
-print_urlmap('god')
+print_urlmap('god._urlmap')
 
 import api._url
-print_urlmap('api')
+print_urlmap('api._urlmap')
 
 import rpc._url
-print_urlmap('rpc')
+print_urlmap('rpc._urlmap')
 
