@@ -5,13 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-from json
-import json
+/ctrl/main/_util/wall.htm
 """
 
 TO_STRING = """
-from yajl
-import yajl
+/ctrl/zsite/_util/wall.htm
 """
 
 def run():
