@@ -15,12 +15,8 @@ from static import js
 #form_reg input,#form_reg select{
 padding:8px;
 }
-#form_reg{
-width:721px;
-margin:48px auto;
-}
 #form_reg p{
-padding:8px 0;
+padding:16px 0;
 }
 #pid_now select,#birthday select{
 margin-right:8px;
@@ -29,25 +25,39 @@ margin-right:8px;
 font-size:16px;
 line-height:28px;
 }
-#mail{
+#mail, #password{
 width:324px
 }
 #birthday select{
 width:168px;
 text-align:center;
 }
-#pid_now_span{
-float:left;
-}
 .label{
 margin-right:16px;
 }
 #form_btn{
-margin-top:8px
+margin-top:16px
 }
 #form_btn button{
 margin-right:8px;
 margin-left:47px;
+}
+
+#form_reg{
+float: left;
+position: relative;
+left: 50%;
+margin-top:0;
+}
+#_form_reg{
+position: relative;
+left: -50%;
+}
+.sex input{
+margin-left:83px;
+}
+.sex label{
+padding:0 6px;
 }
 
 </style>
@@ -57,10 +67,11 @@ margin-left:47px;
 
 <%def name="h_nav()"></%def>
 
-
-
-<%htm:form id="form_reg">
-<p><label class="label">性别</label><input type="radio"
+<div>
+<%htm:form id="form_reg"><div id="_form_reg">
+<h1 style="text-align:center;border-bottom:1px dotted #ccc;margin-bottom:16px;padding:16px">欢迎莅临指导 !</h1>
+<p><label class="label">性别</label>
+<span class="sex"><input type="radio"
 %if sex==1:
 checked
 %endif
@@ -70,12 +81,15 @@ name="sex" value="1" id="sex1"><label for="sex1">男</label>
 checked
 %endif
 type="radio" name="sex" value="2" id="sex2"><label for="sex2">女</label>
+</span>
 </p>
 <p><label class="label" for="mail">邮箱</label><input id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
+<p><label class="label" for="password">密码</label><input id="password" autocomplete="off" type="password" name="mail" value=""></p>
 <p><label class="label" for="birthday">出生</label><script>select_birthday("birthday",'${birthday or ""}')</script></p>
-<p class="c"><span id="pid_now_span"><label class="label" for="pid_now">现居</label><script>select_pid("pid_now",${pid_now})</script></span></p>
-<div class="btns" id="form_btn">
-<button class="btn" type="submit">注册</button> 或 <a href="/login">登录</a>
+<div class="btns cl" id="form_btn">
+<span class="R">已有账号 ? <a href="/login">点此登录</a></span>
+<button class="btn" type="submit">注册</button> 
+</div>
 </div>
 </%htm:form>
-
+</div>
