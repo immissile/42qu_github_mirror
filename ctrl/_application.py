@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 import _url
-import main._urlmap
-import zsite._urlmap
-import j._urlmap
 import tornado.wsgi
 from config import SITE_DOMAIN
 from zweb.urlmap import handlers
@@ -12,12 +9,17 @@ application = tornado.wsgi.WSGIApplication(
     xsrf_cookies=True,
 )
 
+
+import main._urlmap
 application.add_handlers(
     SITE_DOMAIN.replace(".",r"\."),
-    handlers(main._urlmap, j._urlmap)
+    handlers(main._urlmap)
 )
 
+import me._urlmap
+import zsite._urlmap
+import j._urlmap
 application.add_handlers(
     ".*",
-    handlers(zsite._urlmap, j._urlmap)
+    handlers(zsite._urlmap, j._urlmap, me._urlmap)
 )
