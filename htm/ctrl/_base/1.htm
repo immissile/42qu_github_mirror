@@ -59,20 +59,20 @@ class="site">${request_host}</a>
 </div>
 
 <%def name="info_box()">
+<div class="R">
 %if current_user: 
 <%
 link = current_user.link
 %>
-<div class="R">
 <a class="DA" rel="PO" href="javascript:void(0)">发布</a>\
 <div class="D" id="DPO">
     <a href="${link}/po/note">文章</a>
     <a href="${link}/po/question">问题</a>
-</div>
-<a class="DA" rel="BLK" href="javascript:void(0)">版块</a>
+</div>\
+<a class="DA" rel="BLK" href="javascript:void(0)">版块</a>\
 <div class="D" id="DBLK">
-    <a href="${link}/live">动态</a>
-</div>
+    <a href="${link}/live">动态</a>\
+</div>\
 <a class="DA" href="${link}/notice">提醒\
 <%
 notice_unread = _notice_unread.get(current_user_id)
@@ -80,7 +80,7 @@ notice_unread = _notice_unread.get(current_user_id)
 %if notice_unread:
 <span style="">${notice_unread}</span>\
 %endif
-</a>
+</a>\
 <a class="DA" href="javascript:void(0)" rel="MORE">更多</a>\
 <div class="D" id="DMORE">
     <a href="${link}">个人</a>
@@ -88,8 +88,10 @@ notice_unread = _notice_unread.get(current_user_id)
     <a href="//help.${SITE_DOMAIN}">帮助</a>
     <a href="/logout">退出</a>
 </div>
-</div>
 <script>init_D()</script>
-
+%else:
+<a href="/wall" class="DA">留言</a>\
+<a href="/login" class="DA">登录</a>\
 %endif
+</div>
 </%def>
