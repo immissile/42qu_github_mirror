@@ -30,24 +30,26 @@ class FollowRm(XsrfGetBase):
 class Follower(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
+        total = follow_count_by_to_id(zsite_id)
         page, limit, offset = page_limit_offset(
             '/follower-%s',
-            follow_count_by_to_id(zsite_id),
+            total,
             n,
             PAGE_LIMIT
         )
-        ids = follow_id_list_by_to_id(zsite_id, limit, offset)
-        if type(n) == str and not ids:
+        if type(n) == str and offset >= total:
             return self.redirect('/follower')
 
+        ids = follow_id_list_by_to_id(zsite_id, limit, offset)
         follower = Zsite.mc_get_list(ids)
+
         self.render(
             follower=follower,
             page=page,
         )
 
-@urlmap('/following/(\d)')
-@urlmap('/following/(\d)-(\d+)')
+@urlmap('/following(\d)')
+@urlmap('/following(\d)-(\d+)')
 class Following(ZsiteBase):
     def get(self, cid, n=1):
         cid = int(cid)
@@ -56,17 +58,19 @@ class Following(ZsiteBase):
 
         zsite_id = self.zsite_id
         ids = follow_id_list_by_from_id_cid(zsite_id, cid)
+        total = len(ids)
         page, limit, offset = page_limit_offset(
-            '/following/%s-%%s' % cid,
-            len(ids),
+            '/following%s-%%s' % cid,
+            total,
             n,
             PAGE_LIMIT
         )
-        ids = ids[offset: offset + limit]
-        if type(n) == str and not ids:
-            return self.redirect('/following/%s' % cid)
+        if type(n) == str and offset >= total:
+            return self.redirect('/following%s' % cid)
 
+        ids = ids[offset: offset + limit]
         following = Zsite.mc_get_list(ids)
+
         self.render(
             cid=cid,
             following=following,

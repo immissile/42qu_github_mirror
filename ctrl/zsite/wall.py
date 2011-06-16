@@ -39,12 +39,16 @@ class Page(ZsiteBase):
     def get(self, n):
         zsite = self.zsite
         zsite_link = zsite.link
+        total = zsite.reply_total
         page, limit, offset = page_limit_offset(
             '%s/wall-%%s' % zsite_link,
-            zsite.reply_total,
+            total,
             n,
             PAGE_LIMIT
         )
+        if offset >= total:
+            return self.redirect(zsite_link)
+
         reply_list = zsite.reply_list_reversed(limit, offset)
 
         self.render(
@@ -81,12 +85,15 @@ class Txt(ZsiteBase):
         if zsite_id not in zsite_id_list:
             return self.redirect('/')
 
+        total = wall.reply_total
         page, limit, offset = page_limit_offset(
             '%s/wall/%s-%%s' % (zsite_link, id),
-            wall.reply_total,
+            total,
             n,
             PAGE_LIMIT
         )
+        if type(n) == str and offset >= total:
+            return self.redirect(zsite_link)
 
         reply_list = wall.reply_list_reversed(limit, offset)
 
