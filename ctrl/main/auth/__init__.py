@@ -35,8 +35,8 @@ class Reg(NoLoginBase):
         self.render(
             mail = "",
             sex = 0,
-            pid_now = 0,
-            birthday = "00000000" 
+            birthday = "00000000",
+            name = ""
         )
 
 
