@@ -14,7 +14,6 @@ NAVURL_DICT = dict(NAVURL)
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%inherit file="_base.htm" />
 
-<%def name="top_notify()">
 %if current_user:
 %if current_user.state == ZSITE_STATE_APPLY:
 <div id="T">请验证邮箱 ，<a href="/auth/verify/mail">点此重发验证邮件</a></div>
@@ -22,10 +21,7 @@ NAVURL_DICT = dict(NAVURL)
 %elif zsite_id:
 <div id="T">你想关注我吗 ? <a href="/auth/reg" style="text-decoration:underline;">点此注册</a> , 仅需一步</div>
 %endif
-</%def>
 
-
-${top_notify()}
 <div id="H"><div class="H">
 ${self.info_box()}
 <%
@@ -42,20 +38,7 @@ class="site">${request_host}</a>
 
 
 <div class="C">
-    <div class="G">
-    <div class="G4">
-        <div id="nav">
-            <div class="ornament">
-                <div class="ornament-left"></div>
-                <div class="ornament-right"><div class="ornament-blank"></div></div>
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <div id="main" class="wrap" style="min-height:100px;">
-    ${next.body()}
-    </div>
+    <div class="G"><div class="G4">${next.body()}</div></div>
 </div>
 
 <%def name="info_box()">
