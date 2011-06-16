@@ -23,6 +23,10 @@ class Logout(Base):
         self.redirect('/')
 
 @urlmap('/auth/reg')
+class Reg(Base):
+    def get(self):
+        self.render()
+
 @urlmap('/login')
 class Login(Base):
     def get(self):
