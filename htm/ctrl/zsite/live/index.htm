@@ -1,0 +1,130 @@
+<%!
+from static import css, js
+from config import FS_URL
+%>
+<%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/main/_util/wall.htm" import="reply_render, reply_textarea"/>
+<%namespace file="/ctrl/main/_util/buzz.htm" import="buzz_show"/>
+
+
+<%htm:form enctype="multipart/form-data" action="/po/word">
+<textarea name="txt"></textarea>
+<button type="submit">提交</button>
+</%htm:form>
+
+%if current_user_id == zsite_id:
+${buzz_show(zsite_id)}
+%endif
+
+<div id="feeds">
+<div id="feed_loading"></div>
+<input id="begin_id" type="hidden">
+</div>
+
+<%text>
+<script id="feed" type="text/x-jquery-tmpl">
+<div style="border:1px solid #eee;padding:10px">
+    <div class="vote${vote_state}" id="vote${id}"><a title="厌倦" class="down" href="javascript:vote_down(${id});void(0)">-</a><span title="好评度" class="num">${vote}</span><a title="喜欢" class="up" href="javascript:vote_up(${id});void(0)">+</a></div>
+    <a target="_blank" href="${link}">${name}</a>
+    <a target="_blank" href="${zsite.link}">${zsite.name}</a>
+    {{if txt}}
+        <div>${txt}</div>
+    {{/if}}
+    <div class="feedbar">
+<a title="回复" target="_blank" class="reply" href="${link}#txt">${reply_total}</a>
+<a
+{{if is_rt}}
+title="已转发"
+class="rtrm"
+{{else}}
+title="转发"
+class="rt"
+{{/if}}
+rel="${id}" href="javascript:void(0)"></a>
+    </div>
+    <div>
+        ${create_time}
+        {{if rt_list.length}} ,
+        <span>
+            {{each rt_list}}
+                <a href="${$value.link}" target="_blank">${$value.name}</a>
+            {{/each}}
+        </span>转发
+        {{/if}}
+    </div>
+</div>
+</script>
+</%text>
+
+<script>
+$.script("${js.ctrl_feed_render} ${js.ctrl_feed}")
+</script>
+
+
+
+##<%def name="_style1(i)">
+##<%
+##feed_zsite = i.zsite
+##%>\
+##<div style="padding:10px;margin:10px;border:1px solid #eee">\
+##<a href="${feed_zsite.link}" target="_blank">${feed_zsite.name}</a> : \
+##${caller.body()}\
+##</div>\
+##</%def>
+##
+##<%!
+##from model.vote import vote_state
+##%>
+##<%def name="vote(id, num)">
+##<%
+##state = vote_state(current_user_id, id)
+##%>
+##<span class="vote${state}" id="vote${id}">
+##<a title="厌倦" class="down" href="javascript:vote_down(${id});void(0)">-</a>
+##<span title="好评度" class="num">${num}</span>
+##<a title="喜欢" class="up" href="javascript:vote_up(${id});void(0)">+</a>
+##<a title="转发" id="rt${id}" class="rt" href="javascript:rt(${id});void(0)"></a>
+##</span>
+##</%def>
+##
+##<%def name="_style1_1(i)">
+##<%
+##iid = i.id
+##%>
+##<%call expr="_style1(i)">
+##${caller.body()}\
+##<div>\
+##<a href="/po/${iid}" target="_blank">${i.reply_total or ''}回复</a>
+##${vote(iid, i.vote)}
+##</div>\
+##</%call>\
+##</%def>
+##
+##<%def name="render_word(i)">
+##<%call expr="_style1_1(i)">
+##${i.name}
+##</%call>
+##</%def>
+##
+##<%def name="render_note(i)">
+##<%call expr="_style1_1(i)">
+##<a href="/po/${i.id}" target="_blank">${i.name}</a>
+##<div>${i.txt}</div>
+##</%call>
+##</%def>
+##
+##
+##<%!
+##from model.cid import CID_WORD,CID_NOTE
+##%>
+##%for i in entry_list:
+##<%
+##cid = i.cid
+##%>
+##%if cid == CID_WORD:
+##${render_word(i)}
+##%elif cid == CID_NOTE:
+##${render_note(i)}
+##%endif
+##%endfor
