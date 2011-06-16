@@ -8,7 +8,7 @@ from static import css,js
 <script src="${js.wall_txt}"></script>
 </%def>
 
-${reply_textarea('/wall/txt/%s'%wall.id)}
+${reply_textarea('/wall/%s' % wall.id)}
 <%
 _can_rm = current_user_id in zsite_id_list
 %>
