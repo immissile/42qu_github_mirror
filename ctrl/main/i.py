@@ -1,8 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-import _handler
-from ctrl.main._urlmap import urlmap
+from _handler import Base, LoginBase, XsrfGetBase
+from _urlmap import urlmap
 from zkit.pic import picopen
 from zkit.jsdict import JsDict
 from model.motto import motto
@@ -26,7 +24,7 @@ def _upload_pic(files, current_user_id):
 
 
 @urlmap('/i/pic')
-class Pic(_handler.LoginBase):
+class Pic(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
         pos = ico_pos.get(current_user_id)
@@ -43,7 +41,7 @@ class Pic(_handler.LoginBase):
 
 
 @urlmap('/i')
-class Index(_handler.LoginBase):
+class Index(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
         txt = txt_get(current_user_id)
@@ -79,7 +77,7 @@ class Index(_handler.LoginBase):
 
 
 @urlmap('/i/url')
-class Url(_handler.LoginBase):
+class Url(LoginBase):
     def get(self):
         self.render()
 
@@ -100,7 +98,7 @@ class Url(_handler.LoginBase):
         )
 
 @urlmap('/i/namecard')
-class Namecard(_handler.LoginBase):
+class Namecard(LoginBase):
     def get(self):
         current_user = self.current_user
         current_user_id = self.current_user_id
@@ -148,4 +146,3 @@ class Namecard(_handler.LoginBase):
             address=address,
             birthday=birthday
         )
-

@@ -1,8 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-import _handler
-from ctrl.main._urlmap import urlmap
+from _handler import Base, LoginBase, XsrfGetBase
+from _urlmap import urlmap
 from zkit.txt import EMAIL_VALID, mail2link
 from cgi import escape
 from model.cid import CID_VERIFY_MAIL
@@ -12,7 +10,7 @@ from model.user_session import user_session, user_session_rm
 from model.zsite import ZSITE_STATE_APPLY
 
 @urlmap('/logout')
-class Logout(_handler.Base):
+class Logout(Base):
     def get(self):
         self.clear_cookie('S')
         current_user = self.current_user
@@ -21,7 +19,7 @@ class Logout(_handler.Base):
         self.redirect('/')
 
 @urlmap('/login')
-class Login(_handler.Base):
+class Login(Base):
     def get(self):
         if self.current_user:
             return self.redirect('/')
@@ -69,7 +67,7 @@ class Login(_handler.Base):
         )
 
 @urlmap('/password')
-class Password(_handler.LoginBase):
+class Password(LoginBase):
     def get(self):
         self.render()
 

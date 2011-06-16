@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
-from ctrl.main._urlmap import urlmap
+from _urlmap import urlmap
 from zkit.page import page_limit_offset
 from model.buzz import buzz_list, buzz_count
 

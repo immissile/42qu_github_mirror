@@ -1,13 +1,11 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-import _handler
-from ctrl.main._urlmap import urlmap
+from _handler import Base, LoginBase, XsrfGetBase
+from _urlmap import urlmap
 from model.feed_render import render_feed_by_zsite_id
 from model.feed import PAGE_LIMIT, MAXINT
 
 @urlmap('/feed')
-class Index(_handler.LoginBase):
+class Index(LoginBase):
     def get(self):
         begin_id = MAXINT
         current_user = self.current_user

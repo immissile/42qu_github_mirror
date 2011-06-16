@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-#coding:utf-8
+# -*- coding: utf-8 -*-
 
 class Urlmap(object):
     def __init__(self):
@@ -17,6 +16,3 @@ def handlers(*args):
     for i in args:
         handlers.extend(i.urlmap.handlers)
     return handlers
-
-
-
