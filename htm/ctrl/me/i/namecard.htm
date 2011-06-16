@@ -19,6 +19,19 @@ from static import js
 <p>家乡 <script>select_pid("pid_home",${pid_home})</script> </p>
 <p>现居 <script>select_pid("pid_now",${pid_now})</script> </p>
 <p>地址 <input type="text" name="address" value="${address}"></p>
+<p>性别 
+
+<input type="radio"
+%if sex==1:
+checked
+%endif
+name="sex" value="1" id="sex1"><label for="sex1">男</label>
+<input
+%if sex==2:
+checked
+%endif
+type="radio" name="sex" value="2" id="sex2"><label for="sex2">女</label>
+</p>
 <p>生日 <script>select_birthday("birthday",'${birthday or ""}')</script></p>
 <button type="submit">保存</button>
 </%htm:form>
