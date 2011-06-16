@@ -21,7 +21,9 @@ def namecard_get(user_id):
     id = namecard_get_id(user_id)
     return Namecard.mc_get(id)
 
-def namecard_new(user_id, birthday, pid_home, pid_now, name, phone, mail, address, state=STATE_ACTIVE):
+def namecard_new(
+    user_id, sex, birthday, pid_home, pid_now, name, phone, mail, address, state=STATE_ACTIVE
+):
     c = namecard_get(user_id)
     if c:
         if \
@@ -53,3 +55,4 @@ def namecard_new(user_id, birthday, pid_home, pid_now, name, phone, mail, addres
 
 if __name__ == '__main__':
     pass
+
