@@ -10,5 +10,5 @@ class Index(Base):
             self.redirect(
                 "%s/live"%current_user.link
             )
-            return
-        self.render()
+        else:
+            self.redirect("/auth/reg")
