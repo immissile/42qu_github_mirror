@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import _handler
+from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model.reply import STATE_SECRET, STATE_ACTIVE
 from model.wall import Wall
@@ -13,15 +13,16 @@ def post_reply(self, reply_new=None):
     txt = self.get_argument('txt', None)
     if txt:
         secret = self.get_argument('secret', None)
-        current_user = self.current_user
+        user_id = self.current_user_id
         reply = reply_new(
-            current_user.id,
+            user_id,
             txt,
             STATE_SECRET if secret else STATE_ACTIVE
         )
 
+
 @urlmap('/wall')
-class Index(_handler.LoginBase):
+class Index(LoginBase):
     def get(self):
         zsite = self.zsite
         self.redirect(zsite.link)
@@ -34,12 +35,12 @@ class Index(_handler.LoginBase):
 
 
 @urlmap('/wall-(\-?\d+)')
-class Page(_handler.ZsiteBase):
+class Page(ZsiteBase):
     def get(self, n):
         zsite = self.zsite
         zsite_link = zsite.link
         page, limit, offset = page_limit_offset(
-            '%s/wall-%%s'%zsite_link,
+            '%s/wall-%%s' % zsite_link,
             zsite.reply_total,
             n,
             PAGE_LIMIT
@@ -51,19 +52,21 @@ class Page(_handler.ZsiteBase):
             page=page
         )
 
+
 @urlmap('/wall/reply2txt/(\d+)')
-class Reply2Txt(_handler.ZsiteBase):
+class Reply2Txt(ZsiteBase):
     def get(self, id):
         link = '/'
         reply = Reply.mc_get(id)
         if reply:
-            link = '/wall/txt/%s'%reply.rid
+            link = '/wall/%s'%reply.rid
 
         self.redirect(link, True)
 
-@urlmap('/wall/txt/(\d+)')
-@urlmap('/wall/txt/(\d+)-(\d+)')
-class Txt(_handler.ZsiteBase):
+
+@urlmap('/wall/(\d+)')
+@urlmap('/wall/(\d+)-(\d+)')
+class Txt(ZsiteBase):
     def get(self, id, n=1):
         zsite = self.zsite
         zsite_id = zsite.id
@@ -71,12 +74,15 @@ class Txt(_handler.ZsiteBase):
 
         wall = Wall.mc_get(id)
 
+        if not wall:
+            return self.redirect('/')
+
         zsite_id_list = wall.zsite_id_list()
         if zsite_id not in zsite_id_list:
             return self.redirect('/')
 
         page, limit, offset = page_limit_offset(
-            '%s/wall/txt/%s-%%s'%(zsite_link, id),
+            '%s/wall/%s-%%s' % (zsite_link, id),
             wall.reply_total,
             n,
             PAGE_LIMIT
@@ -91,22 +97,15 @@ class Txt(_handler.ZsiteBase):
             page=page
         )
 
-    @_handler.login
+    @login
     def post(self, id):
-        zsite = self.zsite
         wall = Wall.mc_get(id)
-        zsite_id_list = wall.zsite_id_list()
-        current_user_id = self.current_user_id
-        if current_user_id in zsite_id_list:
-            reply_new = zsite.reply_new
-        else:
-            reply_new = wall.reply_new
-        post_reply(self, reply_new)
-        self.redirect('/wall/txt/%s'%id)
+        post_reply(self, wall.reply_new)
+        self.redirect('/wall/%s' % id)
 
 
 @urlmap('/wall/reply/rm/(\d+)')
-class ReplyRm(_handler.ZsiteBase):
+class ReplyRm(ZsiteBase):
     def post(self, id):
         current_user_id = self.current_user_id
         r = Reply.mc_get(id)
