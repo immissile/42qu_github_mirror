@@ -49,7 +49,7 @@ class Word(LoginBase):
         txt = self.get_argument('txt', '')
         if txt.strip():
             po_word_new(current_user.id, txt)
-        return self.redirect('/feed')
+        return self.redirect('/live')
 
 
 def po_can_edit(current_user_id, id):
