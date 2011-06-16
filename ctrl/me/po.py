@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
 from ctrl._urlmap.me import urlmap
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
 from model.po_question import po_question_new, po_answer_new
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
@@ -52,31 +53,48 @@ class Word(LoginBase):
         return self.redirect('/live')
 
 
-def po_can_edit(current_user_id, id):
-    if id:
-        po = Po.mc_get(id)
-        if po:
-            if po.can_admin(current_user_id):
-                return po
-    return JsDict()
-
 @urlmap('/po/edit/(\d+)')
 class Edit(LoginBase):
     def get(self, id=0):
         self.redirect('/note/edit/%s'%id)
 
+class PoBase(LoginBase):
+    cid = None
+    po_link = None
+
+    def po(self, user_id, id):
+        if id:
+            po = Po.mc_get(id)
+            if po:
+                if po.can_admin(user_id):
+                    if po.cid == self.cid:
+                        return po
+                    return self.redirect(po.link_edit)
+                return self.redirect(po.link)
+            return self.redirect(self.po_link)
+        return JsDict()
+
+    def get(self, id=0):
+        user_id = self.current_user_id
+        po = self.po(user_id, id)
+        if po is None:
+            return
+        user_id = self.current_user_id
+        self.render(po=po, pic_list=pic_list_edit(user_id, id))
+
 
 @urlmap('/po/note')
 @urlmap('/note/edit/(\d+)')
-class Note(LoginBase):
-    def get(self, id=0):
-        current_user_id = self.current_user_id
-        po = po_can_edit(current_user_id, id)
-        self.render(po=po, pic_list=pic_list_edit(current_user_id, id))
+class Note(PoBase):
+    cid = CID_NOTE
+    po_link = '/po/note'
 
     def post(self, id=0):
-        current_user_id = self.current_user_id
-        po = po_can_edit(current_user_id, id)
+        user_id = self.current_user_id
+        po = self.po(user_id, id)
+        if po is None:
+            return
+
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
         if not (name or txt):
@@ -95,32 +113,35 @@ class Note(LoginBase):
                 po.txt_set(txt)
             po_state_set(po, state)
         else:
-            po = po_note_new(current_user_id, name, txt, state)
+            po = po_note_new(user_id, name, txt, state)
 
         if po:
             po_id = po.id
-            link = '/po/tag/%s'%po_id
+            link = '/po/tag/%s' % po_id
             zsite_tag_new_by_tag_id(po)
-            update_pic(arguments, current_user_id, po_id, id)
-            mc_pic_id_list.delete('%s_%s'%(current_user_id, id))
+            update_pic(arguments, user_id, po_id, id)
+            mc_pic_id_list.delete('%s_%s' % (user_id, id))
         else:
-            link = '/po/note'
+            link = self.po_link
         self.redirect(link)
 
 
 @urlmap('/po/question')
 @urlmap('/question/edit/(\d+)')
-class Question(LoginBase):
-    def get(self, id=0):
-        current_user_id = self.current_user_id
-        po = po_can_edit(current_user_id, id)
-        self.render(po=po, pic_list=pic_list_edit(current_user_id, id))
+class Question(PoBase):
+    cid = CID_QUESTION
+    po_link = '/po/question'
 
     def post(self, id=0):
-        current_user_id = self.current_user_id
-        po = po_can_edit(current_user_id, id)
+        user_id = self.current_user_id
+        po = self.po(user_id, id)
+        if po is None:
+            return
+
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
+        if not (name or txt):
+            return self.get(id)
         arguments = self.request.arguments
         if po:
             if name:
@@ -129,14 +150,42 @@ class Question(LoginBase):
             if txt:
                 po.txt_set(txt)
         else:
-            po = po_question_new(current_user_id, name, txt)
+            po = po_question_new(user_id, name, txt)
 
         if po:
             link = po.link
-            update_pic(arguments, current_user_id, po.id, id)
-            mc_pic_id_list.delete('%s_%s'%(current_user_id, id))
+            update_pic(arguments, user_id, po.id, id)
+            mc_pic_id_list.delete('%s_%s' % (user_id, id))
         else:
-            link = '/po/question'
+            link = self.po_link
+        self.redirect(link)
+
+
+@urlmap('/answer/edit/(\d+)')
+class Answer(PoBase):
+    cid = CID_ANSWER
+    po_link = '/'
+
+    def post(self, id):
+        user_id = self.current_user_id
+        po = self.po(user_id, id)
+        if po is None:
+            return
+
+        name = self.get_argument('name', '')
+        txt = self.get_argument('txt', '')
+        if not (name or txt):
+            return self.get(id)
+        arguments = self.request.arguments
+        if name:
+            po.name = name
+            po.save()
+        if txt:
+            po.txt_set(txt)
+
+        link = po.link
+        update_pic(arguments, user_id, id, id)
+        mc_pic_id_list.delete('%s_%s' % (user_id, id))
         self.redirect(link)
 
 
