@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_PO_REPLY
+from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY
 from cid import CID_USER
 from zsite import Zsite, ZSITE_STATE_APPLY
 from follow import Follow
@@ -29,6 +29,7 @@ BUZZ_DIC = {
     CID_BUZZ_SHOW: Zsite,
     CID_BUZZ_FOLLOW: Zsite,
     CID_BUZZ_WALL: Wall,
+    CID_BUZZ_WALL_REPLY: Wall,
     CID_BUZZ_PO_REPLY: Po,
 }
 
@@ -70,6 +71,9 @@ def buzz_wall_new(from_id, to_id, wall_id):
         buzz_new(from_id, i.from_id, CID_BUZZ_WALL, wall_id)
 
 mq_buzz_wall_new = mq_client(buzz_wall_new)
+
+def buzz_wall_reply_new(from_id, to_id, wall_id):
+    buzz_new(from_id, to_id, CID_BUZZ_WALL_REPLY, wall_id)
 
 def buzz_po_reply_new(from_id, po_id):
     followed = [i.from_id for i in ormiter(Follow, 'to_id=%s' % from_id)]

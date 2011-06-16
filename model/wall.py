@@ -38,7 +38,7 @@ class Wall(McModel, ReplyMixin):
         return set([self.from_id, self.to_id])
 
     def reply_user_id_list(self):
-        reply_id_list = self.reply_id_list_reversed(10)
+        reply_id_list = self.reply_id_list_reversed(42)
         user_id_list = [i.user_id for i in Reply.mc_get_list(reply_id_list)]
         return set(user_id_list) - self.zsite_id_list()
 
@@ -49,16 +49,33 @@ class Wall(McModel, ReplyMixin):
     def reply_new(self, user_id, txt, state):
         from cid import CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY
         from notice import notice_new
+        from buzz import buzz_wall_reply_new
+        id = self.id
         reply_id = super(Wall, self).reply_new(user_id, txt, state)
         if reply_id:
+            now = int(time())
+#            for i in WallReply.where(wall_id=id):
+#                i.last_reply_id = reply_id
+#                i.update_time = now
+#                i.save()
+#                mc_flush(i.zsite_id)
+
             zsite_id_list = self.zsite_id_list()
+            WallReply.raw_sql('update wall_reply set last_reply_id=%s and update_time=%s where wall_id=%s', reply_id, now)
+            for zsite_id in zsite_id_list:
+                mc_flush(zsite_id)
+
             if user_id in zsite_id_list:
                 zsite_id_list.remove(user_id)
                 for zsite_id in zsite_id_list:
-                    notice_new(user_id, zsite_id, CID_NOTICE_WALL, self.id)
+                    notice_new(user_id, zsite_id, CID_NOTICE_WALL, id)
             else:
                 for zsite_id in zsite_id_list:
-                    notice_new(user_id, zsite_id, CID_NOTICE_WALL_REPLY, self.id)
+                    notice_new(user_id, zsite_id, CID_NOTICE_WALL_REPLY, id)
+
+            for i in self.reply_user_id_list():
+                buzz_wall_reply_new(user_id, i, id)
+
             return reply_id
 
     def reply_rm(self, reply):
@@ -99,49 +116,39 @@ class WallReply(McModel):
 def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     zsite_id = self.id
     not_self = zsite_id != user_id
-    wall_reply = reply1 = WallReply.get(zsite_id=zsite_id, from_id=user_id)
+    wall_reply = WallReply.get(zsite_id=zsite_id, from_id=user_id)
     if not_self:
-        reply2 = WallReply.get(zsite_id=user_id, from_id=zsite_id)
-        wall_reply = reply1 or reply2
+        wall_reply = wall_reply or WallReply.get(zsite_id=user_id, from_id=zsite_id)
 
     if wall_reply is None:
         wall = Wall(cid=self.cid, from_id=user_id, to_id=zsite_id)
         wall.save()
+        wall_id = wall.id
+
+        def wall_reply_new(wall_id, aid, bid):
+            wall_reply = WallReply(
+                wall_id=wall_id,
+                zsite_id=aid,
+                from_id=bid,
+            )
+            wall_reply.save()
+
+        wall_reply_new(wall_id, zsite_id, user_id)
+        if not_self:
+            wall_reply_new(wall_id, user_id, zsite_id)
     else:
-        wall = Wall.mc_get(wall_reply.wall_id)
+        wall_id = wall_reply.wall_id
+        wall = Wall.mc_get(wall_id)
 
     reply_id = wall.reply_new(user_id, txt, state)
     if not reply_id:
         return
 
-    wall_id = wall.id
-
-    if not_self:
-        from buzz import mq_buzz_wall_new
-        if wall_reply is None:
+    if wall_reply is None:
+        if not_self:
+            from buzz import mq_buzz_wall_new
             if state == STATE_ACTIVE:
                 mq_buzz_wall_new(user_id, zsite_id, wall_id)
-
-    now = int(time())
-
-    def wall_reply_new(wall_id, aid, bid, last_reply_id, wall_reply):
-        if wall_reply is None:
-            wall_reply = WallReply(
-                wall_id=wall_id,
-                zsite_id=aid,
-                from_id=bid,
-                last_reply_id=reply_id
-            )
-        else:
-            wall_reply.last_reply_id = reply_id
-        wall_reply.update_time = now
-        wall_reply.save()
-
-    wall_reply_new(wall_id, zsite_id, user_id, reply_id, reply1)
-    if not_self:
-        wall_reply_new(wall_id, user_id, zsite_id, reply_id, reply2)
-    mc_flush(user_id)
-    mc_flush(zsite_id)
 
 
 def mc_flush(zsite_id):
