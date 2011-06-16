@@ -22,7 +22,7 @@ def namecard_get(user_id):
     return Namecard.mc_get(id)
 
 def namecard_new(
-    user_id, sex, birthday, pid_home, pid_now, name, phone, mail, address, state=STATE_ACTIVE
+    user_id, sex, marry, birthday, pid_home, pid_now, name, phone, mail, address, state=STATE_ACTIVE
 ):
     c = namecard_get(user_id)
     if c:
@@ -34,6 +34,7 @@ def namecard_new(
             c.phone == phone and \
             c.mail == mail and \
             c.address == address and\
+            c.marry == marry and\
             c.sex == sex:
             return c
         c.state = STATE_DEL
@@ -49,7 +50,8 @@ def namecard_new(
         mail=mail,
         address=address,
         state=state,
-        sex=sex
+        sex=sex,
+        marry=marry
     )
     c.save()
     mc_namecard_id.set(user_id, c.id)
