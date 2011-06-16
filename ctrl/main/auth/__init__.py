@@ -22,8 +22,15 @@ class Logout(Base):
             user_session_rm(current_user.id)
         self.redirect('/')
 
+class NoLoginBase(Base):
+    def prepare(self):
+        super(NoLoginBase, self).prepare()
+        current_user = self.current_user
+        if current_user:
+            self.redirect(LOGIN_REDIRECT%current_user.link)
+
 @urlmap('/auth/reg')
-class Reg(Base):
+class Reg(NoLoginBase):
     def get(self):
         self.render(
             mail = "",
@@ -32,12 +39,11 @@ class Reg(Base):
             birthday = "00000000" 
         )
 
+
 @urlmap('/login')
-class Login(Base):
+class Login(NoLoginBase):
+
     def get(self):
-        current_user = self.current_user
-        if current_user:
-            return self.redirect(LOGIN_REDIRECT%current_user.link)
         self.render()
 
     def _login(self, user_id, mail, redirect):
