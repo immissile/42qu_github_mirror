@@ -10,6 +10,5 @@ def tag_new(tag):
 
 
 if __name__ == '__main__':
-    for k, v in Tag.iteritems():
-        print k, v
+    pass
 

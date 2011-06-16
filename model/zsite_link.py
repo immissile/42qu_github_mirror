@@ -80,10 +80,13 @@ def zsite_by_domain(domain):
             zsite_id = id_by_url(domain)
         return Zsite.mc_get(zsite_id)
 
+def link(id):
+    return '//%s.%s' % (url_by_id(id) or id, SITE_DOMAIN)
+
 @property
 def _link(self):
     if not hasattr(self, '_link'):
-        self._link = '//%s.%s' % (url_by_id(self.id) or self.id, SITE_DOMAIN)
+        self._link = link(self.id)
     return self._link
 
 Zsite.link = _link

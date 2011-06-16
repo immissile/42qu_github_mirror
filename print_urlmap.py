@@ -4,11 +4,8 @@ import pyclbr
 
 def print_urlmap(module):
     mod = __import__(module, globals(), locals(), ['_urlmap'], -1)
-    print '\n%s :'%module
-    from pprint import pprint
-    import zweb
-    prefix = len(module)+1
-    #pyclbr.readmodule("ctrl.index")
+    print '\n%s :' % module.replace('._urlmap', '')
+    prefix = len(module) + 1
 
     for i in sorted(mod.urlmap.handlers):
         url, cls = i[:2]
@@ -22,6 +19,7 @@ def print_urlmap(module):
             url.ljust(42),
             cls_name
         )
+
 
 import ctrl._url
 print_urlmap('ctrl._urlmap.main')
@@ -38,4 +36,3 @@ print_urlmap('api._urlmap')
 
 import rpc._url
 print_urlmap('rpc._urlmap')
-
