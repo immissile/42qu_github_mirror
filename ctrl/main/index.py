@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
-from _urlmap import urlmap
+from ctrl._urlmap.main import urlmap
 
 @urlmap('/')
 class Index(Base):
