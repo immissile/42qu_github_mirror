@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
-from _urlmap import urlmap
+from ctrl._urlmap.me import urlmap
 from zkit.pic import picopen
 from zkit.jsdict import JsDict
 from model.motto import motto

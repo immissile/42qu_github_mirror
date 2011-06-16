@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
-from _urlmap import urlmap
+from ctrl._urlmap.me import urlmap
 from model.notice import notice_list, notice_count, notice_unread, Notice as N
 from model.state import STATE_APPLY
 from zkit.page import page_limit_offset

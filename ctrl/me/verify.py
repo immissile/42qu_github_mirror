@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
-from _urlmap import urlmap
+from ctrl._urlmap.me import urlmap
 from zkit.txt import EMAIL_VALID, mail2link
 from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD
 from model.user_auth import user_password_new

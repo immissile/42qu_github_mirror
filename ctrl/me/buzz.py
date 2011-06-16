@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
-from _urlmap import urlmap
+from ctrl._urlmap.me import urlmap
 from zkit.page import page_limit_offset
 from model.buzz import buzz_list, buzz_count
 

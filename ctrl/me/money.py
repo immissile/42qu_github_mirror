@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
-from _urlmap import urlmap
+from ctrl._urlmap.me import urlmap
 from config import RPC_HTTP
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_PAY_ALIPAY
 from model.money import bank, Trade, trade_history, pay_account_new, pay_account_get, withdraw_new, TRADE_STATE_FINISH
