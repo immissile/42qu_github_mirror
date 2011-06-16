@@ -39,6 +39,9 @@ class Reg(NoLoginBase):
             name = ""
         )
 
+    def post(self):
+        request = self.request
+        return self.redirect("//%s"%request.host)
 
 @urlmap('/login')
 class Login(NoLoginBase):
