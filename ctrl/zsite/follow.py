@@ -47,7 +47,7 @@ class Follower(ZsiteBase):
         )
 
 @urlmap('/following/(\d)')
-@urlmap('/following/(\d)/(\d+)')
+@urlmap('/following/(\d)-(\d+)')
 class Following(ZsiteBase):
     def get(self, cid, n=1):
         cid = int(cid)
@@ -57,7 +57,7 @@ class Following(ZsiteBase):
         zsite_id = self.zsite_id
         ids = follow_id_list_by_from_id_cid(zsite_id, cid)
         page, limit, offset = page_limit_offset(
-            '/following/%s/%%s' % cid,
+            '/following/%s-%%s' % cid,
             len(ids),
             n,
             PAGE_LIMIT
