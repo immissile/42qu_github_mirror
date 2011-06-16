@@ -24,9 +24,10 @@ def print_urlmap(module):
         )
 
 import ctrl._url
+print_urlmap('ctrl.main')
 print_urlmap('ctrl.j')
 print_urlmap('ctrl.zsite')
-print_urlmap('ctrl.main')
+print_urlmap('ctrl.me')
 
 import god._url
 print_urlmap('god')
