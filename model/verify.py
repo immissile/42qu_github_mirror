@@ -10,8 +10,8 @@ from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY
 TIME_LIMIT = 3600 * 24 * 7
 
 VERIFY_TEMPLATE = {
-    CID_VERIFY_MAIL: '/mail/verify/mail.txt',
-    CID_VERIFY_PASSWORD: '/mail/verify/password.txt',
+    CID_VERIFY_MAIL: '/mail/auth/verify/mail.txt',
+    CID_VERIFY_PASSWORD: '/mail/auth/verify/password.txt',
 }
 
 class Verify(Model):

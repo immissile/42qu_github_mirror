@@ -9,7 +9,7 @@ from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from model.user_session import user_session
 
-@urlmap('/verify/mail')
+@urlmap('/auth/verify/mail')
 class Mail(LoginBase):
     cid = CID_VERIFY_MAIL
     def get(self):
@@ -36,7 +36,7 @@ class VerifyBase(Base):
         else:
             self.redirect('/')
 
-@urlmap('/verify/mail/(\d+)/(.+)')
+@urlmap('/auth/verify/mail/(\d+)/(.+)')
 class VerifyMail(VerifyBase):
     cid = CID_VERIFY_MAIL
     def get(self, id, ck):
@@ -64,7 +64,7 @@ class Password(Base):
                 )
         self.redirect('/')
 
-@urlmap('/verify/password/(\d+)/(.+)')
+@urlmap('/auth/verify/password/(\d+)/(.+)')
 class VerifyPassword(VerifyBase):
     cid = CID_VERIFY_PASSWORD
     def get(self, id, ck):

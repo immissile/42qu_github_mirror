@@ -59,7 +59,7 @@ class Login(Base):
                     error_password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
             else:
                 user_id = user_new_by_mail(mail, password)
-                return self._login(user_id, mail, '/verify/mail')
+                return self._login(user_id, mail, '/auth/verify/mail')
 
         self.render(
             mail=mail,
