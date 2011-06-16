@@ -169,19 +169,21 @@ CREATE TABLE `namecard` (
   `state` int(10) unsigned NOT NULL,
   `pid_home` bigint(20) unsigned NOT NULL default '0',
   `birthday` int(10) unsigned NOT NULL default '0',
+  `sex` tinyint(3) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `user_id` (`user_id`,`state`),
   KEY `mail` (`mail`),
   KEY `name` (`name`),
   KEY `pid` USING BTREE (`pid_now`),
-  KEY `birthday` USING BTREE (`birthday`)
+  KEY `birthday` USING BTREE (`birthday`),
+  KEY `sex` (`sex`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `notice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `notice` (
-  `id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL auto_increment,
   `from_id` int(10) unsigned NOT NULL,
   `to_id` int(10) unsigned NOT NULL,
   `cid` tinyint(3) unsigned NOT NULL,
@@ -498,8 +500,8 @@ CREATE TABLE `wall_reply` (
   `last_reply_id` int(10) unsigned NOT NULL default '0',
   `update_time` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `zsite_id` (`zsite_id`,`last_reply_id`,`update_time`),
-  KEY `Index_3` USING BTREE (`zsite_id`,`from_id`)
+  UNIQUE KEY `Index_3` USING BTREE (`zsite_id`,`from_id`),
+  KEY `zsite_id` (`zsite_id`,`last_reply_id`,`update_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `zsite`;
