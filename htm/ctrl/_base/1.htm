@@ -22,8 +22,21 @@ NAVURL_DICT = dict(NAVURL)
 <div id="T">你想关注我吗 ? <a href="/auth/reg" style="text-decoration:underline;">点此注册</a> , 仅需一步</div>
 %endif
 
-<div id="H"><div class="H">
-${self.info_box()}
+${self.H()}
+<div class="C">
+    <div class="G"><div class="G4">${next.body()}</div></div>
+</div>
+
+
+
+
+<%def name="_H(htm)">
+<div id="H"><div class="H\
+%if htm:
+">${htm|n}
+%else:
+ tc">\
+%endif
 <%
 request_host = request.host
 %>
@@ -35,11 +48,15 @@ href="//${request_host}\
 "
 class="site">${request_host}</a>
 </div></div>
+</%def>
+
+<%def name="H()" filter="trim,_H">
+${self.info_box()}
+</%def>
 
 
-<div class="C">
-    <div class="G"><div class="G4">${next.body()}</div></div>
-</div>
+
+
 
 <%def name="info_box()">
 <div class="R">

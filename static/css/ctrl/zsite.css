@@ -24,6 +24,9 @@
     margin: auto;
     text-align: left;
 }
+#H .tc{
+    text-align: center;
+}
 #H a{
     color:#999;
     text-decoration:none;
