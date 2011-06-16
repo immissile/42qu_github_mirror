@@ -80,8 +80,16 @@ text-align:center;
 <input id="name" autocomplete="off" type="text" name="name" value="${name}">
 </p>
 <p style="margin-left:36px"><script>select_birthday("birthday",'${birthday or ""}')</script><label class="label" for="birthday">生</label></p>
+<p>如今 <select>
+<option>单身一人</option>
+<option>正在恋爱</option>
+<option>已经结婚</option>
+</select></p>
 <p>住在
 <script>select_pid("pid_home",0)</script>
+</p>
+<p>家乡
+<script>select_pid("pid_now",0)</script>
 </p>
 
 <p><label class="label" for="mail">邮箱</label>
