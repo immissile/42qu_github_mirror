@@ -26,7 +26,10 @@ NAVURL_DICT = dict(NAVURL)
 ${top_notify()}
 <div id="H"><div class="H">
 ${self.info_box()}
-<a href="${SITE_URL}" class="site">${SITE_DOMAIN}</a>
+<%
+request_host = request.host
+%>
+<a href="//${request_host}" class="site">${request_host}</a>
 </div></div>
 
 
