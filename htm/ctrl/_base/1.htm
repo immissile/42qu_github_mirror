@@ -29,7 +29,13 @@ ${self.info_box()}
 <%
 request_host = request.host
 %>
-<a href="//${request_host}" class="site">${request_host}</a>
+<a
+href="//${request_host}\
+%if zsite_id==current_user_id:
+/live\
+%endif
+"
+class="site">${request_host}</a>
 </div></div>
 
 
