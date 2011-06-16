@@ -10,6 +10,9 @@ from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 
+
+LOGIN_REDIRECT = "%s/live"
+
 @urlmap('/logout')
 class Logout(Base):
     def get(self):
@@ -19,7 +22,6 @@ class Logout(Base):
             user_session_rm(current_user.id)
         self.redirect('/')
 
-LOGIN_REDIRECT = "%s/live"
 
 @urlmap('/login')
 class Login(Base):
