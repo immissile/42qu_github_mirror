@@ -22,7 +22,7 @@ class Logout(Base):
             user_session_rm(current_user.id)
         self.redirect('/')
 
-
+@urlmap('/auth/reg')
 @urlmap('/login')
 class Login(Base):
     def get(self):
