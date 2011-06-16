@@ -85,42 +85,33 @@ color:#fff;margin-left:3px;
 font-size:10px;padding:3px 6px;margin-top: -4px;
 font-family:Tahoma,Geneva,sans-serif;;
 }
-
 .btns{
-line-height:43px
+line-height:40px;
 }
-.btns .btn{
-    display:block;
-    float:left;
-    background-color:#fefefe;
-    border:1px solid #ccc;
-    font-family:Verdana, sans-serif;
-    font-size:100%;
-    line-height:130%;
-    text-decoration:none;
-    background:#fff;
-    font-weight:normal;
-    color:#000;
-    cursor:pointer;
-    padding:10px 27px; /* Links */
+.btn{
+display:block;
+float:left;
+background-color:#fefefe;
+border:1px solid #ddd;
+font-family:Verdana, sans-serif;
+font-size:100%;
+line-height:130%;
+text-decoration:none;
+background:#fff;
+font-weight:normal;
+color:#000;
+cursor:pointer;
+color:#666;
+padding:10px 27px; /* Links */
+background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#f3f3f3));
+background:-moz-linear-gradient(0% 90% 90deg,#f3f3f3, #fff);
 }
-.btns .btn{
-    width:auto;
-    overflow:visible;
-    padding:9px 26px 6px; /* IE6 */
+.btn:hover{
+color:#333;
 }
-.btns .btn[type]{
-    line-height:20px; /* Safari */
-    padding:10px 27px;
-    margin:0;
-    padding:10px 27px 11px 27px\9; /* Links */
-}
-@-moz-document url-prefix() {
-.btns .btn[type]{
-padding:11px  24px 10px; /* Firefox */
-}
-
-}
-*:first-child+html .btns .btn[type]{
-    padding:10px 26px 6px 26px; /* IE7 */
+.btn:active{
+background:#f3f3f3;
+background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#f3f3f3), to(#fff));
+background:-moz-linear-gradient(0% 90% 90deg,#FFF, #f3f3f3);
+color:#999;
 }
