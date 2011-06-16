@@ -73,7 +73,7 @@ link = current_user.link
 </div>
 <a class="DA" href="/notice">提醒\
 <%
-notice_unread = _notice_unread.get(current_user_id)
+notice_unread = min(_notice_unread.get(current_user_id), 99)
 %>\
 %if notice_unread:
 <span style="">${notice_unread}</span>\
