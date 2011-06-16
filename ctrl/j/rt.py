@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import JLoginBase
 from model.feed import feed_rt, feed_rt_rm, feed_rt_id
-from ctrl.j._urlmap import urlmap
+from ctrl._urlmap.j import urlmap
 
 @urlmap('/j/rt/(\d+)')
 class Rt(JLoginBase):

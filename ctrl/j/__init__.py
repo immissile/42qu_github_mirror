@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 import _handler
-from ctrl.j._urlmap import urlmap
+from ctrl._urlmap.j import urlmap
 
 
 @urlmap('/j/login')

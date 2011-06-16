@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from yajl import dumps
-from ctrl.j._urlmap import urlmap
+from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
 from model.po import Po, CID_WORD
 from zkit.pic import picopen

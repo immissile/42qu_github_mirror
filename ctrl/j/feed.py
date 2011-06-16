@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _handler import JLoginBase
-from ctrl.j._urlmap import urlmap
+from ctrl._urlmap.j import urlmap
 from model.vote import vote_state
 from model.po import Po, CID_NOTE
 from yajl import dumps
