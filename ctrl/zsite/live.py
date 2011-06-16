@@ -1,8 +1,12 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+
+import  _handler
 from _urlmap import urlmap
 
-@urlmap('/')
-class Index(Base):
+@urlmap('/live')
+class Index(_handler.Base):
     def get(self):
         self.render()
+
+
