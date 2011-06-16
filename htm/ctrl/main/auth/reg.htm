@@ -42,6 +42,14 @@ float:left;
 .label{
 margin-right:16px;
 }
+#form_btn{
+margin-top:8px
+}
+#form_btn button{
+margin-right:8px;
+margin-left:47px;
+}
+
 </style>
 </%def>
 
@@ -52,9 +60,6 @@ margin-right:16px;
 
 
 <%htm:form id="form_reg">
-<p><label class="label" for="mail">邮箱</label><input id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
-<p><label class="label" for="birthday">出生</label><script>select_birthday("birthday",'${birthday or ""}')</script></p>
-<p class="c"><span id="pid_now_span"><label class="label" for="pid_now">现居</label><script>select_pid("pid_now",${pid_now})</script></span></p>
 <p><label class="label">性别</label><input type="radio"
 %if sex==1:
 checked
@@ -66,8 +71,11 @@ checked
 %endif
 type="radio" name="sex" value="2" id="sex2"><label for="sex2">女</label>
 </p>
-<div class="buttons">
-    <button type="submit">注册</button> 或 <a href="/login">登录</a>
+<p><label class="label" for="mail">邮箱</label><input id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
+<p><label class="label" for="birthday">出生</label><script>select_birthday("birthday",'${birthday or ""}')</script></p>
+<p class="c"><span id="pid_now_span"><label class="label" for="pid_now">现居</label><script>select_pid("pid_now",${pid_now})</script></span></p>
+<div class="btns" id="form_btn">
+<button class="btn" type="submit">注册</button> 或 <a href="/login">登录</a>
 </div>
 </%htm:form>
 
