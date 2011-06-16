@@ -92,7 +92,7 @@ class Parser(object):
 
         target = groups.get('image_target', '').strip()
         text = (groups.get('image_text', '') or '').strip()
-        node = DocNode("image", self.cur, target)
+        node = DocNode('image', self.cur, target)
         DocNode('text', node, text or node.content)
         self.text = None
 

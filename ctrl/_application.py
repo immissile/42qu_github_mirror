@@ -13,11 +13,11 @@ application = tornado.wsgi.WSGIApplication(
 )
 
 application.add_handlers(
-    SITE_DOMAIN.replace(".",r"\."),
+    SITE_DOMAIN.replace('.', r"\."),
     handlers(main._urlmap, j._urlmap)
 )
 
 application.add_handlers(
-    ".*",
+    '.*',
     handlers(zsite._urlmap, j._urlmap)
 )

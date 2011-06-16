@@ -10,7 +10,7 @@ class Rt(JLoginBase):
         current_user_id = self.current_user_id
         if current_user_id:
             feed_rt(current_user_id, id)
-        self.finish("{}")
+        self.finish('{}')
 
 
 @urlmap('/j/rt/rm/(\d+)')
@@ -19,4 +19,4 @@ class RtRm(JLoginBase):
         current_user_id = self.current_user_id
         if current_user_id:
             feed_rt_rm(current_user_id, id)
-        self.finish("{}")
+        self.finish('{}')

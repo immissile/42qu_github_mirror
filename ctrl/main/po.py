@@ -60,10 +60,10 @@ def po_can_edit(current_user_id, id):
                 return po
     return JsDict()
 
-@urlmap("/po/edit/(\d+)")
+@urlmap('/po/edit/(\d+)')
 class Edit(LoginBase):
     def get(self, id=0):
-        self.redirect("/note/edit/%s"%id)
+        self.redirect('/note/edit/%s'%id)
 
 
 @urlmap('/po/note')
@@ -171,7 +171,7 @@ class Tag(LoginBase):
         po = self._po(id)
         if po:
             tag_id = int(self.get_argument('tag'))
-            name = self.get_argument('name',None)
+            name = self.get_argument('name', None)
             if not name and not tag_id:
                 tag_id = 1
 

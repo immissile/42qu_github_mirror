@@ -25,7 +25,7 @@ HTML_TEMPLATE = """
 <a style="font-size:23px;font-family:Trebuchet MS;color:#a10" href="/">42qu.com</a></div>
 <div class="content">%s</div>
 <div style="border-top:1px dotted #ccc;padding:27px;margin-top:27px;text-align:center">
-<a href="/" style="font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 28px">42qu.com</a> 
+<a href="/" style="font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 28px">42qu.com</a>
 </div>
 <div style="margin:32px 0 64px;text-align:center;">
 <a href="http://42qu.com/zuroc" target="_blank">Powered by 张沈鹏 !</a>
@@ -37,15 +37,15 @@ BASE = dirname(abspath(__file__))
 
 for base, dirs, files in os.walk(BASE):
     for file in files:
-        if not file.endswith(".wiki"):
+        if not file.endswith('.wiki'):
             continue
         wiki = join(base, file)
-        if file == "Home.wiki" :
-            html_name = "index.html"
+        if file == 'Home.wiki':
+            html_name = 'index.html'
         else:
-            html_name = wiki[:-5]+".html"
+            html_name = wiki[:-5] + '.html'
 
         with open(wiki) as file:
             html = wiki2html(file.read().decode('utf-8', 'ignore'))
-            with open(html_name, "w") as out:
+            with open(html_name, 'w') as out:
                 out.write(HTML_TEMPLATE%html)

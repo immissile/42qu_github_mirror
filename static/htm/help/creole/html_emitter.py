@@ -232,7 +232,7 @@ class HtmlEmitter(object):
             elif m.group('inter_wiki'):
                 raise NotImplementedError
         link = self.attr_escape(target)
-        if "://" in link:
+        if '://' in link:
             return u'<a target="_blank" href="%s">%s</a>' % (link, inside)
         else:
             return u'<a href="/%s.html">%s</a>' % (link, inside)
@@ -280,7 +280,7 @@ class HtmlEmitter(object):
 
         return self.emit_node(self.root)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     import sys
     document = Parser(unicode(sys.stdin.read(), 'utf-8', 'ignore')).parse()
     sys.stdout.write(HtmlEmitter(document).emit().encode('utf-8', 'ignore'))

@@ -77,27 +77,24 @@ class WallReply(McModel):
 
 def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     zsite_id = self.id
-    is_self = (zsite_id == user_id)
-    reply1 = WallReply.get(zsite_id=zsite_id, from_id=user_id)
-    if is_self:
-        reply2 = reply1
-    else:
+    not_self = zsite_id != user_id
+    reply = reply1 = WallReply.get(zsite_id=zsite_id, from_id=user_id)
+    if not_self:
         reply2 = WallReply.get(zsite_id=user_id, from_id=zsite_id)
+        reply = reply1 or reply2
 
-    if reply1 is None and reply2 is None:
+    if reply is None:
         wall = Wall(cid=self.cid, from_id=user_id, to_id=zsite_id)
         wall.save()
-        from buzz import mq_buzz_wall_new
-        if state == STATE_ACTIVE and user_id != zsite_id:
-            mq_buzz_wall_new(user_id, zsite_id, wall.id)
+        wall_id = wall.id
+        if not_self:
+            from buzz import mq_buzz_wall_new
+            if state == STATE_ACTIVE:
+                mq_buzz_wall_new(user_id, zsite_id, wall_id)
     else:
-        if reply1:
-            reply = reply1
-        elif reply2:
-            reply = reply2
-        wall = Wall.mc_get(reply.wall_id)
+        wall_id = reply.wall_id
+        wall = Wall.mc_get(wall_id)
 
-    wall_id = wall.id
     reply_id = wall.reply_new(user_id, txt, state)
     if not reply_id:
         return
@@ -117,21 +114,23 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
         wall_reply.update_time = now
         wall_reply.save()
 
-
     wall_reply_new(wall_id, zsite_id, user_id, reply_id, reply1)
-    if not is_self:
+    if not_self:
         wall_reply_new(wall_id, user_id, zsite_id, reply_id, reply2)
     mc_flush(user_id)
     mc_flush(zsite_id)
+
 
 def mc_flush(zsite_id):
     mc_reply_id_list.delete(zsite_id)
     mc_reply_total.delete(zsite_id)
 
+
 @mc_reply_id_list('{self.id}')
 def reply_list_id_reversed(self, limit=None, offset=None):
     id_list = WallReply.where(zsite_id=self.id).where('last_reply_id>0').order_by('update_time desc').field_list(limit, offset, 'last_reply_id')
     return id_list
+
 
 def reply_list_reversed(self, limit=None, offset=None):
     reply_list = Wall(id=self.id, cid=self.cid)._reply_list(

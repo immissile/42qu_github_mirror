@@ -2,6 +2,6 @@
 
 from zweb.urlmap import Urlmap
 
-urlmap = Urlmap() 
+urlmap = Urlmap()
 
 

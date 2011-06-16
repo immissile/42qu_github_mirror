@@ -80,7 +80,7 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
     po_id = po.id
 
     if tag_id == 1: #初始化
-        zsite_tag_id_list_with_init(zsite_id) 
+        zsite_tag_id_list_with_init(zsite_id)
 
     id = zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
     tag_po = ZsiteTagPo.get_or_create(
@@ -127,13 +127,13 @@ def zsite_tag_rename(zsite_id, tag_id, tag_name):
     tag_id_new = tag_new(tag_name)
     ztn = ZsiteTag.get(zsite_id=zsite_id, tag_id=tag_id_new)
     if ztn:
-        if ztn.tag_id!=tag_id:
+        if ztn.tag_id != tag_id:
             zsite_tag_id_mv(zsite_id, tag_id, tag_id_new)
     else:
         tag.tag_id = tag_id_new
         tag.save()
         mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
-    
+
 
 @mc_tag_by_po_id('{zsite_id}_{po_id}')
 def tag_by_po_id(zsite_id, po_id):

@@ -218,11 +218,11 @@ class GenshiEmitter(object):
 
     def link_emit(self, node):
         target = node.content
-        class_ = "internal"
+        class_ = 'internal'
         m = self.link_rules.addr_re.match(target)
         if m:
             if m.group('extern_addr'):
-                class_ = "external"
+                class_ = 'external'
             elif m.group('inter_wiki'):
                 raise NotImplementedError
         yield START, (QName('a'),
@@ -240,11 +240,11 @@ class GenshiEmitter(object):
     def image_emit(self, node):
         target = node.content
         text = self.get_text(node)
-        class_ = "internal"
+        class_ = 'internal'
         m = self.link_rules.addr_re.match(target)
         if m:
             if m.group('extern_addr'):
-                class_ = "external"
+                class_ = 'external'
             elif m.group('inter_wiki'):
                 raise NotImplementedError
         yield START, (QName('img'),
