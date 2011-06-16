@@ -25,7 +25,12 @@ class Logout(Base):
 @urlmap('/auth/reg')
 class Reg(Base):
     def get(self):
-        self.render()
+        self.render(
+            mail = "",
+            sex = 0,
+            pid_now = 0,
+            birthday = "00000000" 
+        )
 
 @urlmap('/login')
 class Login(Base):

@@ -23,7 +23,7 @@ function select_date(id, value, year_begin, year_end){
     for(i=1;i<13;++i){
         r.push('<option value="'+i+'">'+i+'</option>')
     }
-    r.push('</select><select name="day">'+day_option+'</select>')
+    r.push('</select><select class="'+id+'_day" name="day">'+day_option+'</select>')
     function select(name){
         return span.find("select[name="+name+"]")
     }
@@ -61,5 +61,6 @@ function select_birthday(id, value){
     var date=new Date(), year=date.getFullYear();
     select_date(id, value, year, year-128)
 }
+
 
 

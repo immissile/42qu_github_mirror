@@ -1,7 +1,43 @@
-<%inherit file="/ctrl/_base/1.htm" />
+<%!
+from static import js
+%>
 
-<%namespace file="/ctrl/_util/login.htm" import="login_form"/>
+
+<%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+
+<%def name="htm_head()">
+<script src="${js.pid}"></script>
+<script src="${js.date}"></script>
+<style>
+.birthday_day{display:none}
+</style>
+</%def>
+
+
+
 <%def name="h_nav()"></%def>
-<script>\
-</script>\
+
+
+
+<%htm:form>
+<p>邮箱 <input autocomplete="off" type="text" name="mail" value="${mail}"></p>
+<p>现居 <script>select_pid("pid_now",${pid_now})</script> </p>
+<p>性别 
+
+<input type="radio"
+%if sex==1:
+checked
+%endif
+name="sex" value="1" id="sex1"><label for="sex1">男</label>
+<input
+%if sex==2:
+checked
+%endif
+type="radio" name="sex" value="2" id="sex2"><label for="sex2">女</label>
+</p>
+<p>出生 <script>select_birthday("birthday",'${birthday or ""}')</script></p>
+<button type="submit">注册</button> 或 <a href="/login">登录</a>
+</%htm:form>
 

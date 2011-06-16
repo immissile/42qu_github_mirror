@@ -1,15 +1,12 @@
 <%inherit file="/ctrl/_base/1.htm" />
-<%!
-from static import js
-%>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+
 <%def name="htm_head()">
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
-<style>
-</style>
 </%def>
 
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 
 <%htm:form>
