@@ -13,7 +13,7 @@ from zsite import Zsite
 CIDMAP = {}
 
 
-FEED_TUPLE_DEFAULT_LEN = 8 
+FEED_TUPLE_DEFAULT_LEN = 8
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
@@ -61,10 +61,10 @@ def dump_zsite(zsite):
 
 def render_feed_list(id_list, rt_dict):
     zsite_id_list = []
-    
+
     for i in rt_dict.itervalues():
         zsite_id_list.extend(i)
-    
+
     for id, i in zip(id_list, feed_tuple_list(id_list)):
         zsite_id = i[0]
         zsite_id_list.append(zsite_id)

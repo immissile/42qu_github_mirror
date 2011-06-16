@@ -18,7 +18,7 @@ class TagEdit(JLoginBase):
         tag_list = self.get_arguments('tag')
         name_list = self.get_arguments('name')
         for tag_id, tag_name in zip(tag_list, name_list):
-            zsite_tag_rename(current_user_id, tag_id, tag_name) 
+            zsite_tag_rename(current_user_id, tag_id, tag_name)
         self.finish('{}')
 
 @urlmap('/j/po/tag')
@@ -33,7 +33,7 @@ class TagRm(JLoginBase):
     def get(self, id):
         current_user_id = self.current_user_id
         zsite_tag_rm_by_tag_id(current_user_id, id)
-        self.finish("{}")
+        self.finish('{}')
 
 @urlmap('/j/po/note/upload/rm')
 @urlmap('/j/po/note/upload/rm/(\d+)')

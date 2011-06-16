@@ -117,7 +117,7 @@ def merge(subdir, template):
         if infile.endswith('.js'):
             filetype = 'js'
             cmd = [
-                    'uglifyjs',  '-o', outfile, infile ,
+                    'uglifyjs', '-o', outfile, infile ,
             ]
         else:
             filetype = 'css'

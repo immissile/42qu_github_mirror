@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import ZsiteBase, LoginBase, XsrfGetBase
 from zkit.page import page_limit_offset
 from ctrl._urlmap.zsite import urlmap
 from model.cid import CID_ZSITE
@@ -27,7 +27,7 @@ class FollowRm(XsrfGetBase):
 
 @urlmap('/follower')
 @urlmap('/follower-(\d+)')
-class Follower(Base):
+class Follower(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
         page, limit, offset = page_limit_offset(
@@ -48,7 +48,7 @@ class Follower(Base):
 
 @urlmap('/following/(\d)')
 @urlmap('/following/(\d)/(\d+)')
-class Following(Base):
+class Following(ZsiteBase):
     def get(self, cid, n=1):
         cid = int(cid)
         if cid not in CID_ZSITE:
@@ -72,5 +72,3 @@ class Following(Base):
             following=following,
             page=page,
         )
-
-

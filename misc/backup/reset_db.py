@@ -32,10 +32,10 @@ def reset():
     for key, value in DB_CONFIG.iteritems():
         host, port, name, user, password = value.get('master').split(':')
         sure = 'reset'
-        path = join(dirname(abspath(__file__)),'backup_table.sh')
+        path = join(dirname(abspath(__file__)), 'backup_table.sh')
         print path
-        backup = raw_input(">>> backup table ? entry y or n...\n").strip().lower()
-        if backup not in ('y','n'):
+        backup = raw_input('>>> backup table ? entry y or n...\n').strip().lower()
+        if backup not in ('y', 'n'):
             return
         if backup == 'y':
             subprocess.Popen(path)

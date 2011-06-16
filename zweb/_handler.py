@@ -49,8 +49,6 @@ class Base(web.RequestHandler):
         kwds['current_user_id'] = self.current_user_id
         kwds['request'] = self.request
         kwds['this'] = self
-#        if hasattr(self, 'zsite'):
-#            kwds['zsite'] = self.zsite
         if not self._finished:
             self.finish(render(template_name, **kwds))
 
