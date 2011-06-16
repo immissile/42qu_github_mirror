@@ -10,81 +10,23 @@ from static import js
 <%def name="htm_head()">
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
-<style>
-.birthday_day{display:none}
-#form_reg{
-font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
-line-height:36px;
-}
-#form_reg p{
-padding:16px 0;
-}
-#pid_now select,#birthday select,#pid_home select{
-margin-right:8px;
-}
-#form_reg input, #form_reg, #form_reg select{
-font-size:16px;
-line-height:18px;
-}
-#form_reg input,#form_reg select{
-padding:8px
-}
-#name{
-width:96px;
-text-align:center
-}
-#mail, #password {
-width:334px;
-margin-left:1px;
-text-align:center;
-}
-#form_btn{
-width:389px;
-margin:auto;
-margin-top:8px;
-}
-#form_btn .btn{
-margin-left:37px;
-}
-#form_reg{
-float: left;
-position: relative;
-left: 50%;
-margin-top:16px;
-}
-#_form_reg{
-position: relative;
-left: -50%;
-}
-.sex input{
-margin-left:83px;
-}
-.sex label{
-padding:0 6px;
-}
-select{
-text-align:center;
-}
-#birthday select{width:120px;margin-right:16px;}
-#sex{width:108px;margin-right:16px;}
-</style>
+${css.ctrl_auth_reg|n}
 </%def>
-
 
 
 <%def name="h_nav()"></%def>
 
 <div>
-<%htm:form id="form_reg"><div id="_form_reg">
+<%htm:form id="form_reg">
 <p class="tc">
-<label class="label" for="name">我名叫</label>
+<label class="label_input label" for="name">我名叫</label>
 <input id="name" autocomplete="off" type="text" name="name" value="${name}">
 </p>
 <p class="tc">
 <script>select_birthday("birthday",'${birthday or ""}')</script>
 <label class="label" for="birthday">出生</label></p>
 <p class="tc">
-性别 <select id="sex"><option>- ?? -</option><option>男</option><option>女</option></select>
+性别 <select id="sex"><option>-</option><option>男</option><option>女</option></select>
 
 如今 <select>
 <option>尚是单身</option>
@@ -100,16 +42,17 @@ text-align:center;
 <script>select_pid("pid_now",0)</script>
 </p>
 
-<p class="tc"><label class="label" for="mail">邮箱</label>
+<p class="tc"><label class="label label_input" for="mail">邮箱</label>
 <input id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
 
-<p class="tc"><label class="label" for="password">密码</label>
+<p class="tc"><label class="label label_input" for="password">密码</label>
 <input id="password" autocomplete="off" type="password" name="password" value="">
 </p>
 <div class="cl btns" id="form_btn">
 <span class="R">已有账号 ? <a href="/login">点此登录</a></span>
-<a class="btn" href="javascript:void(0)">注册</a> 
-</div>
+
+<span class="btnspan"><button type="submit" class="btn">注册</button></span>
+ 
 </div>
 </%htm:form>
 </div>

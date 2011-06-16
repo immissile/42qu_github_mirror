@@ -13,7 +13,7 @@ a:hover{text-decoration:none;color:#a10}
 sup{vertical-align:text-top;}
 sub{vertical-align:text-bottom;}
 textarea{overflow:auto;resize:none;}
-input,button,select,textarea{font-size:14px;line-height:28px;border:1px solid #ccc}
+input,button,select,textarea{font-size:14px;line-height:28px;}
 textarea,input,a{outline: none;}
 div{cursor:default;}
 a div,a p{cursor:pointer;}
