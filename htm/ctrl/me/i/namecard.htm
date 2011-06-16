@@ -17,6 +17,7 @@ from static import css, js
 <p>邮件 <input autocomplete="off" type="text" name="mail" value="${mail}"></p>
 <p>家乡 <script>select_pid("pid_home",${pid_home})</script> </p>
 <p>现居 <script>select_pid("pid_now",${pid_now})</script> </p>
+<p>生日 <script>select_birthday("birthday",'${birthday or ""}')</script></p>
 <p>地址 <input type="text" name="address" value="${address}"></p>
 <p>性别 
 
@@ -31,7 +32,13 @@ checked
 %endif
 type="radio" name="sex" value="2" id="sex2"><label for="sex2">女</label>
 </p>
-<p>生日 <script>select_birthday("birthday",'${birthday or ""}')</script></p>
+<p>
+<select id="marry" name="marry">
+    <option ${'selected' if marry==1 else ''} value="1">尚是单身</option>
+    <option ${'selected' if marry==2 else ''} value="2">正在恋爱</option>
+    <option ${'selected' if marry==3 else ''} value="3">已经结婚</option>
+</select>
+</p>
 <button type="submit">保存</button>
 </%htm:form>
 
