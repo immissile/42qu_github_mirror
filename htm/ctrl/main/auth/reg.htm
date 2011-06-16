@@ -12,6 +12,33 @@ from static import js
 <script src="${js.date}"></script>
 <style>
 .birthday_day{display:none}
+#form_reg input,#form_reg select{
+padding:8px;
+}
+#form_reg{
+width:721px;
+margin:48px auto;
+}
+#form_reg p{
+padding:8px 0;
+}
+#pid_now select,#birthday select{
+margin-right:8px;
+}
+#form_reg input, #form_reg, #form_reg select{
+font-size:16px;
+line-height:28px;
+}
+#mail{
+width:324px
+}
+#birthday select{
+width:168px;
+text-align:center;
+}
+.label{
+margin-right:16px;
+}
 </style>
 </%def>
 
@@ -21,12 +48,11 @@ from static import js
 
 
 
-<%htm:form>
-<p>邮箱 <input autocomplete="off" type="text" name="mail" value="${mail}"></p>
-<p>现居 <script>select_pid("pid_now",${pid_now})</script> </p>
-<p>性别 
-
-<input type="radio"
+<%htm:form id="form_reg">
+<p><label class="label" for="mail">邮箱</label><input id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
+<p><label class="label" for="birthday">出生</label><script>select_birthday("birthday",'${birthday or ""}')</script></p>
+<p><label class="label" for="pid_now">现居</label><script>select_pid("pid_now",${pid_now})</script> </p>
+<p><label class="label">性别</label><input type="radio"
 %if sex==1:
 checked
 %endif
@@ -37,7 +63,8 @@ checked
 %endif
 type="radio" name="sex" value="2" id="sex2"><label for="sex2">女</label>
 </p>
-<p>出生 <script>select_birthday("birthday",'${birthday or ""}')</script></p>
-<button type="submit">注册</button> 或 <a href="/login">登录</a>
+<div class="buttons">
+    <button type="submit">注册</button> 或 <a href="/login">登录</a>
+</div>
 </%htm:form>
 
