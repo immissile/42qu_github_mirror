@@ -33,7 +33,8 @@ def namecard_new(
             c.name == name and \
             c.phone == phone and \
             c.mail == mail and \
-            c.address == address:
+            c.address == address and\
+            c.sex == sex:
             return c
         c.state = STATE_DEL
         c.save()
@@ -48,6 +49,7 @@ def namecard_new(
         mail=mail,
         address=address,
         state=state,
+        sex=sex
     )
     c.save()
     mc_namecard_id.set(user_id, c.id)
