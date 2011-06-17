@@ -47,10 +47,10 @@ EMAIL_DICT = {
 
 import cgi
 def mail2link(mail):
+    mail = cgi.escape(mail)
     if mail and mail.find('@') > 0:
-        mail = cgi.escape(mail)
         e_domain = mail.split(str('@'))[1]
         link = EMAIL_DICT.get(e_domain)
         if link:
             return '<a href="%s" target="_blank">%s</a>' % (link[1], mail)
-    return cgi.escape(mail)
+    return '<a href="http://%s" target="_blank">%s</a>' % (mail.rsplit("@",1)[-1], mail)
