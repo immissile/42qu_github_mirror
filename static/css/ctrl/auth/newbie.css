@@ -18,10 +18,17 @@
     padding:8px
 }
 #job,#name{
-    width:96px;
     text-align:center;
+    width:96px;
+}
+#com{
+    width:128px
+}
+#com_state{
+   margin-right:8px;
 }
 #name{
+    width:64px;
     margin-right:8px;
 }
 .label_input{
