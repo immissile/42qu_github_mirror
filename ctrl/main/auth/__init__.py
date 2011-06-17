@@ -29,18 +29,33 @@ class NoLoginBase(Base):
         if current_user:
             self.redirect(LOGIN_REDIRECT%current_user.link)
 
-@urlmap('/auth/reg')
+@urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
-    def get(self):
+    def get(self, mail=""):
         self.render(
-            mail = "",
-            sex = 0,
-            birthday = "00000000",
-            name = ""
+            mail = mail,
+            sex = 0
         )
 
     def post(self):
-        request = self.request
+        mail = self.get_argument('mail', None)
+        password = self.get_argument('password', None)
+        sex = self.get_argument('sex', None)
+        if sex:
+            sex = int(sex)
+            if sex not in (1,2):
+                sex = 0
+        if not sex:
+            error_sex = "请选择性别"
+        
+        if not error_sex and not error_mail and not error_password:
+            pass
+           # if 
+           # user_id = user_new_by_mail(mail, password)
+           # return self._login(user_id, mail, '/auth/verify/mail')
+ 
+
+        #request = self.request
         return self.redirect("//%s"%request.host)
 
 @urlmap('/login')
@@ -83,8 +98,9 @@ class Login(NoLoginBase):
                 else:
                     error_password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
             else:
-                user_id = user_new_by_mail(mail, password)
-                return self._login(user_id, mail, '/auth/verify/mail')
+                error_mail = """此账号不存在 , <a href="/auth/reg/%s">点此注册</a>"""%escape(mail)
+                #user_id = user_new_by_mail(mail, password)
+                #return self._login(user_id, mail, '/auth/verify/mail')
 
         self.render(
             mail=mail,

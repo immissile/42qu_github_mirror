@@ -8,7 +8,7 @@
 <input class="login_mail" id="login_mail${id}" name="mail" value="${mail or ''}" type="text">
 </p>
 %if error_mail:
-<p class="error">${error_mail}</p>
+<p class="error">${error_mail|n}</p>
 %endif
 
 <p>

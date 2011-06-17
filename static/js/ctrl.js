@@ -42,9 +42,13 @@ function login(){
 }
 function login_autofill(suffix){
     suffix = suffix||''
-    var mail = $("#login_mail"+suffix).focus(), password = $("#login_mail"+suffix), mail_val = $.cookie.get("E");
-    if(mail_val){
+    var mail = $("#login_mail"+suffix).focus(), password = $("#login_password"+suffix), mail_val = $.cookie.get("E");
+    if(mail_val&&mail.val()==''){
         mail.val(mail_val).select();
+    }
+    mail_val = mail.val();
+    if(mail_val&&mail_val.length){
+        password.focus()
     }
 }
 /*
