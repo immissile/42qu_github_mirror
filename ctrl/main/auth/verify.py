@@ -80,11 +80,15 @@ class VerifyPassword(VerifyBase):
 
     def post(self, id, ck):
         current_user_id = self.current_user_id
+        current_user = self.current_user
         if current_user_id:
             password = self.get_argument('password', None)
             if password:
                 user_id = self.handler_verify(id, ck, True)
                 if current_user_id == user_id:
+                    if current_user.state == ZSITE_STATE_APPLY:
+                        current_user.state = ZSITE_STATE_ACTIVE
+                        current_user.save()
                     user_password_new(user_id, password)
                     return self.render(password=password)
                 else:
