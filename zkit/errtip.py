@@ -34,6 +34,8 @@ class Errtip(object):
         else:
             self.__dict__['_error'][name] = value
 
+    def __contains__(self, name):
+        return name in self._error
 
 if __name__ == '__main__':
     errtip = Errtip()
@@ -41,4 +43,5 @@ if __name__ == '__main__':
     errtip.name = '程序'
     print bool(errtip)
     print errtip.name
-
+    print 'name' in errtip
+    print 'x' in errtip
