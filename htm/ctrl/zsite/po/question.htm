@@ -41,18 +41,21 @@ po_state = po.state
 %for answer in po_answer_list(po_id):
 <%
 answer_id = answer.id
+user = answer.user
 %>
 <div id="answer${answer_id}">
-%if answer.can_view(current_user_id):
-
 <h1>${answer.name}</h1>
 %if answer.cid == CID_NOTE:
 <pre>${answer.htm|n}</pre>
 %endif
 
+%if answer.can_view(current_user_id):
+<a href="${answer.link}">${user.name}</a>
 %if answer.can_admin(current_user_id):
 <a href="${answer.link_edit}">编辑</a>
 %endif
+%else:
+匿名回答
 %endif
 </div>
 %endfor

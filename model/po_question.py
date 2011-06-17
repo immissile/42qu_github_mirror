@@ -7,6 +7,7 @@ from po import Po, po_new, po_word_new, po_note_new, po_rm, CID_QUESTION
 from rank import rank_po_id_list, rank_new
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
+from zsite import Zsite
 
 def po_question_new(user_id, name, txt, state):
     if not is_same_post(user_id, name, txt):
@@ -36,4 +37,6 @@ def po_answer_new(user_id, question_id, name, txt, state):
 
 def po_answer_list(question_id):
     ids = rank_po_id_list(question_id, CID_QUESTION, 'confidence')
-    return Po.mc_get_list(ids)
+    li = Po.mc_get_list(ids)
+    Zsite.mc_bind(li, 'user', 'user_id')
+    return li
