@@ -54,17 +54,21 @@ class VerifyMail(VerifyBase):
 class PasswordReset(Base):
     cid = CID_VERIFY_PASSWORD
     def get(self, mail):
-        if EMAIL_VALID.match(mail):
+        if mail.isdigit():
+            user_id = mail
+            user = Zsite.mc_get(user_id)
+            if user:
+                mail = mail_by_user_id(user_id)
+                link = mail2link(mail)
+                if user:
+                    return self.render(mail=mail,link=link)
+        elif EMAIL_VALID.match(mail):
             user_id = user_id_by_mail(mail)
             if user_id:
                 user = Zsite.mc_get(user_id)
                 verify_mail_new(user_id, user.name, mail, self.cid)
-                link = mail2link(mail)
-                return self.render(
-                    mail=mail,
-                    link=link,
-                )
-        self.redirect('/')
+                return self.redirect("/auth/password/reset/%s"%user_id)
+        self.redirect('/login')
 
 @urlmap('/auth/verify/password/(\d+)/(.+)')
 class VerifyPassword(VerifyBase):
