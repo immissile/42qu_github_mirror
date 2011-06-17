@@ -170,6 +170,7 @@ CREATE TABLE `namecard` (
   `pid_home` bigint(20) unsigned NOT NULL default '0',
   `birthday` int(10) unsigned NOT NULL default '0',
   `sex` tinyint(3) unsigned NOT NULL default '0',
+  `marry` tinyint(3) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `user_id` (`user_id`,`state`),
   KEY `mail` (`mail`),
@@ -238,13 +239,14 @@ DROP TABLE IF EXISTS `po`;
 CREATE TABLE `po` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(142) character set utf8 NOT NULL,
-  `create_time` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `cid` tinyint(3) unsigned NOT NULL,
+  `rid` int(10) unsigned NOT NULL default '0',
   `state` int(10) unsigned NOT NULL,
+  `create_time` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `Index_2` (`user_id`,`cid`,`state`,`create_time`),
-  KEY `Index_3` USING BTREE (`user_id`,`state`,`create_time`)
+  KEY `Index_3` (`user_id`,`state`,`create_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `po_pic`;
@@ -279,7 +281,7 @@ DROP TABLE IF EXISTS `rank`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rank` (
-  `id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL auto_increment,
   `po_id` int(10) unsigned NOT NULL,
   `from_id` int(10) unsigned NOT NULL,
   `to_id` int(10) unsigned NOT NULL,
@@ -485,8 +487,8 @@ CREATE TABLE `wall` (
   `from_id` int(10) unsigned NOT NULL,
   `to_id` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `from_id` (`from_id`),
-  KEY `to_id` (`to_id`)
+  KEY `to_id` (`to_id`),
+  KEY `from_id` (`from_id`,`to_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `wall_reply`;
@@ -498,7 +500,7 @@ CREATE TABLE `wall_reply` (
   `zsite_id` int(10) unsigned NOT NULL,
   `from_id` int(10) unsigned NOT NULL,
   `last_reply_id` int(10) unsigned NOT NULL default '0',
-  `update_time` int(10) unsigned NOT NULL,
+  `update_time` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `Index_3` USING BTREE (`zsite_id`,`from_id`),
   KEY `zsite_id` (`zsite_id`,`last_reply_id`,`update_time`)
