@@ -20,7 +20,7 @@
 	// idea from March Gortz https://gist.github.com/373672
 	$.extend($.support, { placeholder: !!('placeholder' in document.createElement('input')) });
 
-	$.fn.addPlaceholder = function(options){
+	$.fn.placeholder = function(options){
 		var settings = {
 			'class': 'placeholder',		// name of the class you want to use for placeholder styles
 			'allowspaces': false,		// if true doesn't trim value strings so "  " input would NOT be replaced by placeholder (i.e. it's considered valid)
