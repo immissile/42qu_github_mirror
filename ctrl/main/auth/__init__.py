@@ -29,6 +29,15 @@ class NoLoginBase(Base):
         if current_user:
             self.redirect(LOGIN_REDIRECT%current_user.link)
 
+    def _login(self, user_id, mail, redirect):
+        session = user_session(user_id)
+        self.set_cookie('S', session)
+        self.set_cookie('E', mail)
+        if not redirect:
+            current_user = Zsite.mc_get(user_id)
+            redirect = LOGIN_REDIRECT%current_user.link
+        self.redirect(redirect)
+
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
     def get(self, mail=""):
@@ -79,14 +88,6 @@ class Login(NoLoginBase):
             errtip = Errtip()
         )
 
-    def _login(self, user_id, mail, redirect):
-        session = user_session(user_id)
-        self.set_cookie('S', session)
-        self.set_cookie('E', mail)
-        if not redirect:
-            current_user = Zsite.mc_get(user_id)
-            redirect = LOGIN_REDIRECT%current_user.link
-        self.redirect(redirect)
 
     def post(self):
         mail = self.get_argument('mail', None)
