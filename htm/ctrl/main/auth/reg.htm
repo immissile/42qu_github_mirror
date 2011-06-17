@@ -40,5 +40,14 @@ ${css.ctrl_auth_reg|n}
 </%htm:form>
 </div>
 <script>
-$("#mail").focus()
+(function(){
+var mail=$("#mail");
+if(mail.val()=='')mail.focus();
+else $('#password').focus();
+
+$("#form_reg").submit(function(){
+    alert($("#sex1").attr('selected'))
+    return false
+})
+})
 </script>
