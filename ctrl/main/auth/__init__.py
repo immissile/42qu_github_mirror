@@ -38,6 +38,13 @@ class NoLoginBase(Base):
             redirect = LOGIN_REDIRECT%current_user.link
         self.redirect(redirect)
 
+@urlmap("/auth/newbie")
+class Newbie(LoginBase):
+    def get(self):
+        self.render(
+            name = "",
+        )
+
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
     def get(self, mail=""):
