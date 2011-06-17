@@ -107,6 +107,8 @@ class Namecard(LoginBase):
         pid_home = c.pid_home
         birthday = str(c.birthday).zfill(8)
         self.render(
+            sex=c.sex,
+            marry=c.marry,
             pid_now=pid_now or 0,
             pid_home=pid_home or 0,
             name=c.name or current_user.name,
@@ -122,6 +124,8 @@ class Namecard(LoginBase):
         pid_now = self.get_argument('pid_now', '1')
         pid_home = self.get_argument('pid_home', '1')
         name = self.get_argument('name', '')
+        sex = self.get_argument('sex', '')
+        marry = self.get_argument('marry', '')
         phone = self.get_argument('phone', '')
         mail = self.get_argument('mail', '')
         address = self.get_argument('address', '')
@@ -130,19 +134,29 @@ class Namecard(LoginBase):
         pid_now = int(pid_now)
         pid_home = int(pid_home)
         birthday = int(birthday)
+        sex = int(sex)
+        if sex not in (1, 2):
+            sex = 0
+        marry = int(marry)
+        if marry not in (1, 2, 3):
+            marry = 0
 
-        if pid_now or pid_home or name or phone or mail or address or birthday:
+        if pid_now or pid_home or name or \
+            phone or mail or address or birthday \
+            or sex or marry:
             c = namecard_new(
-                current_user_id, birthday,
+                current_user_id, sex, marry, birthday,
                 pid_home, pid_now, name, phone, mail, address
             )
 
         self.render(
+            marry=marry,
             pid_now=pid_now,
             pid_home=pid_home,
             name=name or current_user.name,
             phone=phone,
             mail=mail,
             address=address,
-            birthday=birthday
+            birthday=birthday,
+            sex=sex
         )

@@ -9,6 +9,9 @@ from model.user_session import user_session, user_session_rm
 from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
+from zkit.errtip import Errtip
+
+LOGIN_REDIRECT = "%s/live"
 
 @urlmap('/logout')
 class Logout(Base):
@@ -19,56 +22,107 @@ class Logout(Base):
             user_session_rm(current_user.id)
         self.redirect('/')
 
-@urlmap('/login')
-class Login(Base):
-    def get(self):
+class NoLoginBase(Base):
+    def prepare(self):
+        super(NoLoginBase, self).prepare()
         current_user = self.current_user
         if current_user:
-            return self.redirect('%s/live'%current_user.link)
-        self.render()
+            self.redirect(LOGIN_REDIRECT%current_user.link)
+
+@urlmap('/auth/reg/?(.*)')
+class Reg(NoLoginBase):
+    def get(self, mail=""):
+        self.render(
+            mail = mail,
+            sex = 0,
+            password = '',
+            errtip = Errtip()
+        )
+
+    def post(self, mail=None):
+        mail = self.get_argument('mail', '')
+        password = self.get_argument('password', '')
+        sex = self.get_argument('sex', '0')
+        errtip = Errtip()
+        if sex:
+            sex = int(sex)
+            if sex not in (1,2):
+                sex = 0
+
+        if not sex:
+            errtip.sex = "请选择性别"
+
+        if mail:
+            mail = mail.lower()
+        if not mail:
+            errtip.mail = '请输入邮箱'
+        elif not EMAIL_VALID.match(mail):
+            errtip.mail = '邮箱格式有误'
+
+        if not password:
+            errtip.password = '请输入密码'
+        
+        if not errtip:
+            # if 
+            # user_id = user_new_by_mail(mail, password)
+            # return self._login(user_id, mail, '/auth/verify/mail')
+            request = self.request
+            return self.redirect("//%s"%request.host)
+
+        self.render(
+            sex=sex, password=password, mail=mail,
+            errtip=errtip
+        )
+
+@urlmap('/login')
+class Login(NoLoginBase):
+
+    def get(self):
+        self.render(
+            errtip = Errtip()
+        )
 
     def _login(self, user_id, mail, redirect):
         session = user_session(user_id)
         self.set_cookie('S', session)
         self.set_cookie('E', mail)
-        if redirect:
-            self.redirect(redirect)
-        else:
-            self.get()
+        if not redirect:
+            current_user = Zsite.mc_get(user_id)
+            redirect = LOGIN_REDIRECT%current_user.link
+        self.redirect(redirect)
 
     def post(self):
         mail = self.get_argument('mail', None)
         password = self.get_argument('password', None)
-
-        error_mail = None
-        error_password = None
+        
+        errtip = Errtip()
 
         if mail:
             mail = mail.lower()
         if not mail:
-            error_mail = '请输入邮箱'
+            errtip.mail = '请输入邮箱'
         elif not EMAIL_VALID.match(mail):
-            error_mail = '邮箱格式有误'
+            errtip.mail = '邮箱格式有误'
 
         if not password:
-            error_password = '请输入密码'
+            errtip.password = '请输入密码'
 
-        if not any((error_password, error_mail)):
+        if not errtip:
             user_id = user_id_by_mail(mail)
             if user_id:
                 if user_password_verify(user_id, password):
                     return self._login(user_id, mail, self.get_argument('next', None))
                 else:
-                    error_password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
+                    errtip.password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
             else:
-                user_id = user_new_by_mail(mail, password)
-                return self._login(user_id, mail, '/auth/verify/mail')
+                errtip.mail = """此账号不存在 , <a href="/auth/reg/%s">点此注册</a>"""%escape(mail)
+                #user_id = user_new_by_mail(mail, password)
+                #return self._login(user_id, mail, '/auth/verify/mail')
 
         self.render(
             mail=mail,
             password=password,
-            error_mail=error_mail,
-            error_password=error_password,
+            errtip=errtip
         )
 
 @urlmap('/password')

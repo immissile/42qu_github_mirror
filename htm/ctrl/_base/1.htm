@@ -14,18 +14,29 @@ NAVURL_DICT = dict(NAVURL)
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%inherit file="_base.htm" />
 
-<%def name="top_notify()">
 %if current_user:
 %if current_user.state == ZSITE_STATE_APPLY:
 <div id="T">请验证邮箱 ，<a href="/auth/verify/mail">点此重发验证邮件</a></div>
 %endif
+%elif zsite_id:
+<div id="T">你想关注我吗 ? <a href="/auth/reg" style="text-decoration:underline;">点此注册</a> , 仅需一步</div>
 %endif
-</%def>
+
+${self.H()}
+<div class="C">
+    <div class="G"><div class="G4">${next.body()}</div></div>
+</div>
 
 
-${top_notify()}
-<div id="H"><div class="H">
-${self.info_box()}
+
+
+<%def name="_H(htm)">
+<div id="H"><div class="H\
+%if htm:
+">${htm|n}
+%else:
+ tc">\
+%endif
 <%
 request_host = request.host
 %>
@@ -37,69 +48,50 @@ href="//${request_host}\
 "
 class="site">${request_host}</a>
 </div></div>
+</%def>
+
+<%def name="H()" filter="trim,_H">
+${self.h_nav()}
+</%def>
 
 
-<div class="C">
-    <div class="G">
-    <div class="G4">
-        <div id="nav">
-            <div class="ornament">
-                <div class="ornament-left"></div>
-                <div class="ornament-right"><div class="ornament-blank"></div></div>
-            </div>
-        </div>
-    </div>
-    </div>
 
-    <div id="main" class="wrap" style="min-height:100px;">
-    ${next.body()}
-    </div>
-</div>
 
-<%def name="info_box()">
+
+<%def name="h_nav()">
+<div class="R">
 %if current_user: 
 <%
 link = current_user.link
 %>
-<div class="R">
 <a class="DA" rel="PO" href="javascript:void(0)">发布</a>\
 <div class="D" id="DPO">
-    <a href="/po/note">文章</a>
-    <a href="/po/question">问题</a>
-</div>
-<a class="DA" rel="BLK" href="javascript:void(0)">版块</a>
+    <a href="${link}/po/note">文章</a>
+    <a href="${link}/po/question">问题</a>
+</div>\
+<a class="DA" rel="BLK" href="javascript:void(0)">版块</a>\
 <div class="D" id="DBLK">
-    <a href="/live">动态</a>
-</div>
-<a class="DA" href="/notice">提醒\
+    <a href="${link}/live">动态</a>\
+</div>\
+<a class="DA" href="${link}/notice">提醒\
 <%
 notice_unread = min(_notice_unread.get(current_user_id), 99)
 %>\
 %if notice_unread:
 <span style="">${notice_unread}</span>\
 %endif
-</a>
+</a>\
 <a class="DA" href="javascript:void(0)" rel="MORE">更多</a>\
 <div class="D" id="DMORE">
     <a href="${link}">个人</a>
-    <a href="/i">账号</a>
+    <a href="${link}/i">账号</a>
     <a href="//help.${SITE_DOMAIN}">帮助</a>
     <a href="/logout">退出</a>
 </div>
-</div>
 <script>init_D()</script>
-
 %else:
-<%htm:form action="/login" id="register-form" className="register" >
-    <div class="input-wrapper">
-        <label for="mail">邮箱 ...</label>
-        <input id="mail" name="mail"  value="" type="text">
-    </div>
-    <div class="input-wrapper">
-        <label for="password">密码 ...</label>
-        <input id="password" name="password" value="" type="password">
-    </div>
-    <button type="submit"><span>开始使用！</span></button>
-</%htm:form>
+<a href="javascript:login();void(0);" class="DA">留言</a>\
+<a href="/login" class="DA">登录</a>\
 %endif
+</div>
 </%def>

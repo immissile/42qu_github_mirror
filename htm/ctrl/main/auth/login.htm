@@ -1,10 +1,14 @@
 <%inherit file="/ctrl/_base/1.htm" />
 
 <%namespace file="/ctrl/_util/login.htm" import="login_form"/>
-<%def name="info_box()">
-<div id="logo"><a href="/" title="Home"></a></div>
+<%def name="h_nav()"></%def>
+<%def name="htm_head()">
+${css.ctrl_auth_reg|n}
 </%def>
+<div id="form_reg" class="btns">
+<h1>欢迎莅临指导 !</h1>
 ${login_form()}\
+</div>
 <script>\
 login_autofill()\
 </script>\

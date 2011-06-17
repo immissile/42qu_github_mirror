@@ -1,0 +1,64 @@
+
+
+<%inherit file="/ctrl/_base/1.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+
+<%def name="htm_head()">
+<script src="${js.pid}"></script>
+<script src="${js.date}"></script>
+${css.ctrl_auth_reg|n}
+</%def>
+
+
+<%def name="h_nav()"></%def>
+
+<div>
+<%htm:form id="form_reg" action="/auth/reg">
+<h1>欢迎莅临指导 !</h1>
+<p class="line">
+性别
+<span class="sex"><input
+%if sex==1:
+checked
+%endif
+type="radio" name="sex" id="sex1" value="1"><label for="sex1">男</label></span>
+<span class="sex"><input
+%if sex==2:
+checked
+%endif
+type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></span>
+</p>
+${errtip.sex|n}
+
+<p class="line">
+<label class="label_input" for="mail">邮箱</label>\
+<input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
+${errtip.mail|n}
+
+<p class="line">
+<label class="label_input" for="password">密码</label>\
+<input class="login_password" id="password" autocomplete="off" type="password" name="password" value="${password}">
+</p>
+${errtip.password|n}
+
+
+<div class="cl btns" id="form_btn">
+<span class="R">已有账号 ? <a href="/login">点此登录</a></span>
+
+<span class="btnspan"><button type="submit" class="btn">注册</button></span>
+ 
+</div>
+</%htm:form>
+</div>
+<script>
+(function(){
+    var mail=$("#mail");
+    if(mail.val()==''){
+        mail.focus();
+    }else{
+        $('#password').focus();
+    }
+
+})()
+</script>

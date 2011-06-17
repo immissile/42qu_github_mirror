@@ -13,17 +13,17 @@ function select_date(id, value, year_begin, year_end){
     ], i, span=$("#"+id),day_option='<option value="0">- 日 -</option>';
     if(year_begin>year_end){
         i=year_begin; 
-        r.push('<select name="year"><option value="0000">- 年 -</option>')
+        r.push('<select class="'+id+'_year" name="year"><option value="0000">- 年 -</option>')
         for(;i>year_end;--i){
             r.push('<option value="'+i+'">'+i+'</option>')
         }
         r.push('</select>')
     }
-    r.push('<select name="month"><option value="0">- 月 -</option>')
+    r.push('<select class="'+id+'_month" name="month"><option value="0">- 月 -</option>')
     for(i=1;i<13;++i){
         r.push('<option value="'+i+'">'+i+'</option>')
     }
-    r.push('</select><select name="day">'+day_option+'</select>')
+    r.push('</select><select class="'+id+'_day" name="day">'+day_option+'</select>')
     function select(name){
         return span.find("select[name="+name+"]")
     }
@@ -61,5 +61,6 @@ function select_birthday(id, value){
     var date=new Date(), year=date.getFullYear();
     select_date(id, value, year, year-128)
 }
+
 
 

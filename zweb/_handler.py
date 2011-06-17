@@ -9,6 +9,12 @@ from config import render
 from model._db import mc
 from model.user_session import user_id_by_session
 from model.zsite import Zsite
+from static import css,js
+
+RENDER_KWDS = {
+    "css":css,
+    "js":js
+}
 
 class Base(web.RequestHandler):
     def get_current_user(self):
@@ -49,6 +55,7 @@ class Base(web.RequestHandler):
         kwds['current_user_id'] = self.current_user_id
         kwds['request'] = self.request
         kwds['this'] = self
+        kwds.update(RENDER_KWDS)
         if not self._finished:
             self.finish(render(template_name, **kwds))
 
