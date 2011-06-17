@@ -2,24 +2,31 @@
 
 
 <%def name="login_form(id='')">
-<%htm:form action="/login">
-<div>
-    <label for="login_mail${id}">邮箱</label>
-    <input id="login_mail${id}" name="mail" value="${mail or ''}" type="text">
-</div>
+<%htm:form action="/login" id="login">
+<p>
+<label for="login_mail${id}">邮箱</label>\
+<input class="login_mail" id="login_mail${id}" name="mail" value="${mail or ''}" type="text">
+</p>
 %if error_mail:
-<div>${error_mail}</div>
+<p class="error">${error_mail}</p>
 %endif
 
-<div>
-    <label for="login_password${id}">密码</label>
-    <input id="login_password${id}" name="password" value="" type="password">
-</div>
+<p>
+<label for="login_password${id}">密码</label>\
+<input class="login_password" id="login_password${id}" name="password" value="" type="password">
+</p>
 
 %if error_password:
-<div>${error_password|n}</div>
+<p class="error">${error_password|n}</p>
 %endif
+<div class="cl" id="form_btn">\
+<span class="btnspan"><button type="submit" class="btn">登录</button></span>
+
+<span class="R">
+没有账号 ?
+<a href="/auth/reg">点此注册</a>
+</span>
+</div>
 <input id="login_next${id}" type="hidden" value="/" name="next">\
-<button type="submit"><span>登录</span></button> 或 <a href="/auth/reg">点此注册</a>
 </%htm:form>
 </%def>
