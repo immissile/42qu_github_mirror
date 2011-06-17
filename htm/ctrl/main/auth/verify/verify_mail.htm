@@ -11,6 +11,19 @@ text-align:center;
 line-height:64px;
 }
 </style>
+<%def name="H()">
+<div id="H"><div class="H tc">
+<div style="color:#a10">
+账号激活成功 ! 
+</div>
+</div></div>
+</%def>
 <div class="fullscreen_line">
-账号激活成功 , <a href="/auth/newbie">点此继续我的旅程 ...</a>
-</style>
+<a id="next" href="/auth/newbie">点此继续我的旅程 ...</a>
+</div>
+<script>
+setTimeout(function(){
+    location.href=$("#next").attr('href');
+},3000)
+</script>
+
