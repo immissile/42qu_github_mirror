@@ -18,10 +18,17 @@
     padding:8px
 }
 #job,#name{
-    width:96px;
     text-align:center;
+    width:96px;
+}
+#com{
+    width:128px
+}
+#com_state{
+   margin-right:8px;
 }
 #name{
+    width:64px;
     margin-right:8px;
 }
 .label_input{
@@ -33,12 +40,9 @@
     text-align:center;
 }
 #form_btn{
-    width:389px;
     margin:auto;
     margin-top:8px;
-}
-#form_btn .btnw{
-    margin-left:37px;
+    text-align:center
 }
 .sex input{
     margin-left:83px;

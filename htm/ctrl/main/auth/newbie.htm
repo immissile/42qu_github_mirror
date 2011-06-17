@@ -18,6 +18,9 @@ ${css.ctrl_auth_newbie|n}
 <p class="tc">
 <label class="label_input label" for="name">我名叫</label>
 <input id="name" autocomplete="off" type="text" name="name" value="${name}">
+在
+<input type="text" name="com" id="com">
+<select id="com_state" name="com_state"><option>工作</option><option>读书</option></select>
 <label class="label_input label" for="name">职业是</label>
 <input type="text" id="job" autocomplete="off" name="job" value="">
 </p>
@@ -41,9 +44,8 @@ ${css.ctrl_auth_newbie|n}
 </p>
 
 <div class="cl btns" id="form_btn">
-<span class="R">已有账号 ? <a href="/login">点此登录</a></span>
 
-<span class="btnw"><button type="submit" class="btn">注册</button></span>
+<span class="btnw"><button type="submit" class="btn">保存 , 继续</button></span>
  
 </div>
 </%htm:form>

@@ -1,5 +1,5 @@
 $(function(){
-    $("#name").focus().defaultValue()
+    $("#name").focus().placeholder()
     $("#txt").elastic()
 })
 
