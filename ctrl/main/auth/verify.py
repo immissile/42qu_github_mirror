@@ -11,8 +11,8 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 
 
-@urlmap('/auth/verify/mail')
-class Mail(LoginBase):
+@urlmap('/auth/verify/send')
+class Send(LoginBase):
     cid = CID_VERIFY_MAIL
     def get(self):
         current_user = self.current_user
@@ -20,12 +20,12 @@ class Mail(LoginBase):
         if current_user.state == ZSITE_STATE_APPLY:
             mail = mail_by_user_id(current_user_id)
             verify_mail_new(current_user_id, current_user.name, mail, self.cid)
-            link = mail2link(mail)
-            return self.render(
-                mail=mail,
-                link=link,
-            )
-        self.redirect('/')
+        self.redirect('/auth/verify/sended')
+
+@urlmap('/auth/verify/sended')
+class Sended(LoginBase):
+    def get(self):
+        return self.render()
 
 class VerifyBase(Base):
     cid = None

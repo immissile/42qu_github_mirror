@@ -29,6 +29,15 @@ class NoLoginBase(Base):
         if current_user:
             self.redirect(LOGIN_REDIRECT%current_user.link)
 
+    def _login(self, user_id, mail, redirect=None):
+        session = user_session(user_id)
+        self.set_cookie('S', session)
+        self.set_cookie('E', mail)
+        if not redirect:
+            current_user = Zsite.mc_get(user_id)
+            redirect = LOGIN_REDIRECT%current_user.link
+        self.redirect(redirect)
+
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
     def get(self, mail=""):
@@ -63,11 +72,15 @@ class Reg(NoLoginBase):
             errtip.password = '请输入密码'
         
         if not errtip:
-            # if 
-            # user_id = user_new_by_mail(mail, password)
-            # return self._login(user_id, mail, '/auth/verify/mail')
-            request = self.request
-            return self.redirect("//%s"%request.host)
+            user_id = user_id_by_mail(mail)
+            if user_id:
+                if user_password_verify(user_id, password):
+                    return self._login(user_id, mail)
+                else:
+                    errtip.password = '邮箱已注册。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
+            else:
+                user_id = user_new_by_mail(mail, password)
+                return self._login(user_id, mail, '/auth/verify/mail')
 
         self.render(
             sex=sex, password=password, mail=mail,
@@ -82,14 +95,6 @@ class Login(NoLoginBase):
             errtip = Errtip()
         )
 
-    def _login(self, user_id, mail, redirect):
-        session = user_session(user_id)
-        self.set_cookie('S', session)
-        self.set_cookie('E', mail)
-        if not redirect:
-            current_user = Zsite.mc_get(user_id)
-            redirect = LOGIN_REDIRECT%current_user.link
-        self.redirect(redirect)
 
     def post(self):
         mail = self.get_argument('mail', None)
@@ -116,8 +121,6 @@ class Login(NoLoginBase):
                     errtip.password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
             else:
                 errtip.mail = """此账号不存在 , <a href="/auth/reg/%s">点此注册</a>"""%escape(mail)
-                #user_id = user_new_by_mail(mail, password)
-                #return self._login(user_id, mail, '/auth/verify/mail')
 
         self.render(
             mail=mail,
