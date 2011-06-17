@@ -1,0 +1,82 @@
+#form_reg{
+font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
+line-height:36px;
+padding:32px 0 48px;
+}
+#form_reg p{
+padding:16px 0;
+}
+#form_reg input, #form_reg, #form_reg select{
+font-size:16px;
+line-height:18px;
+}
+#form_reg .label_input{
+margin-right:8px;
+*vertical-align:8px;
+}
+.login_mail, .login_password, #sex {
+width:334px;
+text-align:center;
+padding:8px;
+}
+#form_btn{
+width:389px;
+margin:auto;
+margin-top:16px;
+}
+.btnw{
+margin-left:38px;
+}
+#login .btnw{
+margin-left:40px;
+}
+#form_reg .line{
+text-align:center;
+}
+#form_reg h1{
+margin:32px 0 48px;
+text-align:center;
+}
+#login{
+width:399px;
+margin:auto;
+}
+#login #form_btn{
+width:auto;
+}
+#form_btn{
+line-height:46px;
+_line-height:44px;
+}
+#form_reg .errtip{
+width:334px;
+margin:auto;
+}
+#form_reg .errtip{
+color:#f00;
+padding:0 0 16px 21px;
+}
+#login .errtip{
+color:#f00;
+padding:0 0 16px 14px;
+}
+#sex{
+margin-left:63px;
+}
+.sex input{
+vertical-align:0;
+}
+.sex label{
+padding:0 8px;
+}
+.sex{
+width:175px;
+text-align:left;
+display:inline-block;
+}
+#sex1{
+margin-left:104px
+}
+#errtip_sex{
+text-align:center;
+}
