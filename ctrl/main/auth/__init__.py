@@ -34,10 +34,11 @@ class Reg(NoLoginBase):
     def get(self, mail=""):
         self.render(
             mail = mail,
-            sex = 0
+            sex = 0,
+            password = ''
         )
 
-    def post(self):
+    def post(self, mail=None):
         mail = self.get_argument('mail', None)
         password = self.get_argument('password', None)
         sex = self.get_argument('sex', None)
@@ -47,16 +48,22 @@ class Reg(NoLoginBase):
                 sex = 0
         if not sex:
             error_sex = "请选择性别"
-        
+        error_mail = None
+        error_password = None 
         if not error_sex and not error_mail and not error_password:
-            pass
-           # if 
-           # user_id = user_new_by_mail(mail, password)
-           # return self._login(user_id, mail, '/auth/verify/mail')
+# if 
+# user_id = user_new_by_mail(mail, password)
+# return self._login(user_id, mail, '/auth/verify/mail')
  
-
-        #request = self.request
-        return self.redirect("//%s"%request.host)
+        
+            request = self.request
+            return self.redirect("//%s"%request.host)
+        self.render(
+            sex=sex, password=password, mail=mail,
+            error_sex=error_sex,
+            error_mail=error_mail,
+            error_password=error_password
+        )
 
 @urlmap('/login')
 class Login(NoLoginBase):

@@ -21,13 +21,16 @@ ${css.ctrl_auth_reg|n}
 <span class="sex"><input type="radio" name="sex" id="sex1" value="1"><label for="sex1">男</label></span>
 <span class="sex"><input type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></span>
 </p>
+%if error_sex:
+<p class="error">error_sex</p>
+%endif
 <p class="line">
 <label class="label_input" for="mail">邮箱</label>\
 <input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
 
 <p class="line">
 <label class="label_input" for="password">密码</label>\
-<input class="login_password" id="password" autocomplete="off" type="password" name="password" value="">
+<input class="login_password" id="password" autocomplete="off" type="password" name="password" value="${password}">
 </p>
 
 
@@ -46,8 +49,11 @@ if(mail.val()=='')mail.focus();
 else $('#password').focus();
 
 $("#form_reg").submit(function(){
-    alert($("#sex1").attr('selected'))
-    return false
+    if(!($("#sex1").attr('checked')||$("#sex2").attr('checked'))){
+        alert('请选择性别')
+        return false
+    }
+    alert(1)
 })
 })
 </script>
