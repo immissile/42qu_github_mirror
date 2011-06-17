@@ -4,7 +4,6 @@
 <%!
 from model.state import STATE_SECRET, STATE_DEL
 from datetime import datetime
-
 %>
 
 <%def name="htm_title()">
@@ -47,10 +46,10 @@ user = reply.user
 %else:
 <div>
     %if po_state == STATE_DEL:
-啊 , 被删除了 !!! 
+啊 , 被删除了 !!!
     %elif po_state == STATE_SECRET:
 机密文件 , 无关人士 , 禁止入内
-    %elif po_state == STATE_SECRET:
+    %else:
 不可见的状态 ${po_state}
     %endif
 </div>

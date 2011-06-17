@@ -1,20 +1,33 @@
 <%!
 from model.vote import vote_state, vote_count
 from datetime import datetime
+from model.po_question import answer_id_get, po_answer_list
+from model.state import STATE_SECRET, STATE_DEL
 %>
-<%inherit file="_po.htm" />
+<%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
-<%def name="po_body()">
+<%def name="htm_title()">
+%if can_view:
+${po.name}
+%endif
+</%def>
+<%def name="htm_head()">
+${css.ctrl_po|n}
+</%def>
+
 <%
-po_id = po.id
+po_id = str(po.id)
+po_state = po.state
 %>
+
+%if can_view:
 <h1>${po.name}</h1>
 <pre>${po.htm|n}</pre>
 <div>${datetime.fromtimestamp(po.create_time)}</div>
 <div>
     %if can_admin:
-        <a href="/question/edit/${po.id}">编辑</a>
+        <a href="/question/edit/${po_id}">编辑</a>
     %endif
 </div>
 
@@ -24,4 +37,40 @@ po_id = po.id
 <a class="up" href="javascript:vote_up(${po_id});void(0)">+</a>
 </span>
 
-</%def>
+%for answer in po_answer_list(po_id):
+%if answer.can_view(current_user_id):
+
+<h1>${po.name}</h1>
+%if answer.cid == CID_NOTE:
+<pre>${po.htm|n}</pre>
+%endif
+
+%if answer.can_admin(current_user_id):
+<a href="${answer.link_edit}">编辑</a>
+%endif
+%endif
+%endfor
+
+    %if po_state > STATE_SECRET and not answer_id_get(current_user_id, po_id):
+<%htm:form id="txt_form">
+<input type="text" name="name" id="name">
+<hr>
+<textarea id="txt" name="txt"></textarea>
+<div>
+<button type="submit">此致 , 敬礼</button>
+</div>
+</%htm:form>
+    %endif
+%else:
+<div>
+    %if po_state == STATE_DEL:
+啊 , 被删除了 !!!
+    %elif po_state == STATE_SECRET:
+机密文件 , 无关人士 , 禁止入内
+    %else:
+不可见的状态 ${po_state}
+    %endif
+</div>
+%endif
+
+<script>$.script("${js.ctrl_po_po} ${js.ctrl_feed}")</script>

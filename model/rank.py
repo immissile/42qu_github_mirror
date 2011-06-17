@@ -15,7 +15,9 @@ rank_po_id_count = McNum(lambda to_id, cid: Rank.where(to_id=to_id, cid=cid).cou
 @mc_rank_po_id_list('{to_id}_{cid}_{order}')
 def rank_po_id_list(to_id, cid, order, offset=None, limit=None):
     qs = Rank.where(to_id=to_id, cid=cid).order_by('%s desc' % order)
-    return qs.field_list(limit, offset, 'po_id')
+    ids = qs.field_list(limit, offset, 'po_id')
+    print ids
+    return ids
 
 #mc_rank_to_id_by_po_id_cid = McCache('RankToIdByPoIdCid.%s')
 #
