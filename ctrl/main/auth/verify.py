@@ -87,6 +87,11 @@ class VerifyPassword(VerifyBase):
                 if current_user_id == user_id:
                     user_password_new(user_id, password)
                     return self.render(password=password)
+                else:
+                    return
             else:
                 return self.get(id, ck)
         self.redirect('/')
+
+
+
