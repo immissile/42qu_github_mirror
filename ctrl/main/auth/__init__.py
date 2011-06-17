@@ -77,7 +77,7 @@ class Reg(NoLoginBase):
                 if user_password_verify(user_id, password):
                     return self._login(user_id, mail)
                 else:
-                    errtip.password = '邮箱已注册。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
+                    errtip.password = '邮箱已注册。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
             else:
                 user_id = user_new_by_mail(mail, password)
                 return self._login(user_id, mail, '/auth/verify/mail')
@@ -118,7 +118,7 @@ class Login(NoLoginBase):
                 if user_password_verify(user_id, password):
                     return self._login(user_id, mail, self.get_argument('next', None))
                 else:
-                    errtip.password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
+                    errtip.password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
             else:
                 errtip.mail = """此账号不存在 , <a href="/auth/reg/%s">点此注册</a>"""%escape(mail)
 
@@ -144,6 +144,6 @@ class Password(LoginBase):
                 user_password_new(user_id, password)
                 success = True
             else:
-                error_password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
+                error_password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
         self.render(success=success)
 

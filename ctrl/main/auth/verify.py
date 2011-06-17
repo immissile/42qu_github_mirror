@@ -50,8 +50,8 @@ class VerifyMail(VerifyBase):
                 user.save()
             self.render()
 
-@urlmap('/password/(.+)')
-class Password(Base):
+@urlmap('/auth/password/reset/(.+)')
+class PasswordReset(Base):
     cid = CID_VERIFY_PASSWORD
     def get(self, mail):
         if EMAIL_VALID.match(mail):
