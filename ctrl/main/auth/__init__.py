@@ -46,6 +46,9 @@ class Newbie(LoginBase):
             name = "",
         )
 
+    def post(self):
+        self.redirect("/i/pic")
+
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
     def get(self, mail=""):
