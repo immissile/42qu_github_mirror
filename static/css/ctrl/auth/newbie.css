@@ -1,0 +1,54 @@
+.birthday_day{display:none}
+#form_reg{
+    font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
+    line-height:36px;
+    padding:16px 0 64px;
+}
+#form_reg p{
+    padding:16px 0;
+}
+#pid_now select,#birthday select,#pid_home select{
+    margin-right:8px;
+}
+#form_reg input, #form_reg, #form_reg select{
+    font-size:16px;
+    line-height:18px;
+}
+#form_reg input,#form_reg select{
+    padding:8px
+}
+#job,#name{
+    width:96px;
+    text-align:center;
+}
+#name{
+    margin-right:8px;
+}
+.label_input{
+    *vertical-align:8px;
+}
+#mail, #password {
+    width:334px;
+    margin-left:1px;
+    text-align:center;
+}
+#form_btn{
+    width:389px;
+    margin:auto;
+    margin-top:8px;
+}
+#form_btn .btnspan{
+    margin-left:37px;
+}
+.sex input{
+    margin-left:83px;
+}
+.sex label{
+    padding:0 6px;
+}
+select , input{
+    text-align:center;
+    border:1px solid #ccc
+}
+#birthday select{width:120px;margin-right:16px;}
+#sex{width:108px;margin-right:16px;}
