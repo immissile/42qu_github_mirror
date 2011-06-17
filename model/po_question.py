@@ -2,27 +2,26 @@
 # -*- coding: utf-8 -*-
 from cid import CID_QUESTION, CID_ANSWER
 from spammer import is_same_post
-from po import po_new, po_rm, CID_QUESTION, CID_ANSWER
-from rank import rank_po_id_list, rank_new, rank_to_id_by_po_id_cid
+from po import po_new, po_word_new, po_note_new, po_rm, CID_QUESTION
+from rank import rank_po_id_list, rank_new
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 
-def po_question_new(user_id, name, txt):
+def po_question_new(user_id, name, txt, state):
     if not is_same_post(user_id, name, txt):
-        m = po_new(CID_QUESTION, user_id, name, STATE_ACTIVE)
+        m = po_new(CID_QUESTION, user_id, name, 0, state)
         txt_new(m.id, txt)
         m.feed_new()
         return m
 
-def po_answer_new(user_id, question_id, name, txt):
+def po_answer_new(user_id, question_id, name, txt, state):
     if not is_same_post(user_id, name, txt):
-        m = po_new(CID_ANSWER, user_id, name, STATE_ACTIVE)
-        txt_new(m.id, txt)
-        rank_new(m, question_id, CID_ANSWER)
-        m.feed_new()
+        if txt:
+            m = po_note_new(user_id, name, txt, state, question_id)
+        else:
+            m = po_word_new(user_id, name, state, question_id)
+        rank_new(m, question_id, CID_QUESTION)
         return m
 
 def po_answer_list(question_id):
-    return rank_po_id_list(question_id, CID_ANSWER, 'confidence')
-
-question_id_by_answer_id = lambda answer_id: rank_to_id_by_po_id_cid(answer_id, CID_ANSWER)
+    return rank_po_id_list(question_id, CID_QUESTION, 'confidence')

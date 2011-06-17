@@ -18,7 +18,6 @@ PO_EN = {
     CID_NOTE: 'note',
     CID_WORD: 'word',
     CID_QUESTION: 'question',
-    CID_ANSWER: 'answer',
 }
 
 mc_htm = McCache('PoHtm.%s')
@@ -48,32 +47,14 @@ class Po(McModel, ReplyMixin):
     @property
     def link(self):
         if not hasattr(self, '_link'):
-            cid = self.cid
-            if cid == CID_ANSWER:
-                from po_question import question_id_by_answer_id
-                id = self.id
-                q = Po.mc_get(question_id_by_answer_id(id))
-                link = '%s#answer%s' % (q.link, id)
-            else:
-                en = PO_EN[cid]
-                zsite = Zsite.mc_get(self.user_id)
-                link = '%s/%s/%s' % (zsite.link, en, self.id)
-            self._link = link
+            en = PO_EN[self.cid]
+            zsite = Zsite.mc_get(self.user_id)
+            self._link = '%s/%s/%s' % (zsite.link, en, self.id)
         return self._link
 
     @property
     def link_edit(self):
-        if not hasattr(self, '_link_edit'):
-            cid = self.cid
-            zsite = Zsite.mc_get(self.user_id)
-            zsite_link = zsite.link
-            if cid == CID_WORD:
-                link = zsite_link
-            else:
-                en = PO_EN[cid]
-                link = '%s/%s/edit/%s' % (zsite_link, en, self.id)
-            self._link_edit = link
-        return self._link_edit
+        return '/edit/'.join(self.link.rsplit('/', 1))
 
     def feed_new(self):
         feed_new(self.id, self.user_id, self.cid)
@@ -94,14 +75,15 @@ class Po(McModel, ReplyMixin):
         mc_feed_tuple.delete(self.id)
         return result
 
-def po_new(cid, user_id, name, state):
+def po_new(cid, user_id, name, rid, state):
     m = Po(
         id=gid(),
         name=name,
         user_id=user_id,
-        create_time=int(time()),
         cid=cid,
-        state=state
+        rid=rid,
+        state=state,
+        create_time=int(time()),
     )
     m.save()
     return m
@@ -124,21 +106,21 @@ def po_rm(user_id, id):
         m.save()
         feed_rm(id)
 
-def po_word_new(user_id, name):
+def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
     if name and not is_same_post(user_id, name):
-        m = po_new(CID_WORD, user_id, name, STATE_ACTIVE)
-        m.feed_new()
+        m = po_new(CID_WORD, user_id, name, rid, state)
+        if state > STATE_SECRET:
+            m.feed_new()
         return m
 
-def po_note_new(user_id, name, txt, state):
+def po_note_new(user_id, name, txt, state, rid=0):
     name = name or time_title()
-    if is_same_post(user_id, name, txt):
-        return
-    m = po_new(CID_NOTE, user_id, name, state)
-    txt_new(m.id, txt)
-    if state > STATE_SECRET:
-        m.feed_new()
-    return m
+    if not is_same_post(user_id, name, txt):
+        m = po_new(CID_NOTE, user_id, name, rid, state)
+        txt_new(m.id, txt)
+        if state > STATE_SECRET:
+            m.feed_new()
+        return m
 
 if __name__ == '__main__':
     pass

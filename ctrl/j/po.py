@@ -76,11 +76,7 @@ class NoteUpload(JLoginBase):
 
         if id:
             po = Po.mc_get(id)
-            if not (
-                po
-                and po.user_id == user_id
-                and po.cid != CID_WORD
-            ):
+            if not po or po.user_id != user_id or (po.cid == CID_WORD and po.rid == 0):
                 return 0
 
         if not pic_can_add(user_id, id):

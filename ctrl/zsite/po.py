@@ -7,13 +7,13 @@ from model.po import po_rm, po_word_new, Po
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
 
 
 class PoBase(ZsiteBase):
     cid = None
 
-    def get(self, id):
+    def po(self, id):
         po = Po.mc_get(id)
         if not po:
             return self.redirect('/')
@@ -21,6 +21,12 @@ class PoBase(ZsiteBase):
         if po.user_id != self.zsite_id or po.cid != self.cid:
             link = po.link
             return self.redirect(link)
+        return po
+
+    def get(self, id):
+        po = self.po(id)
+        if po is None:
+            return
 
         user_id = self.current_user_id
         can_admin = po.can_admin(user_id)
@@ -55,17 +61,18 @@ class Question(PoBase):
 
     @login
     def post(self, id):
-        po = Po.mc_get(id)
-        if not po or po.cid != self.cid:
-            return self.redirect('/')
-
-        if po.user_id != self.zsite_id:
-            link = po.link
-            return self.redirect(link)
+        po = self.po(id)
+        if po is None:
+            return
 
         user_id = self.current_user_id
-        if po.can_view(user_id):
-            pass
+        if not po.can_view(user_id):
+            return self.get(id)
+
+        name = self.get_argument('name', '')
+        txt = self.get_argument('txt', '')
+        if not (name or txt):
+            return self.get(id)
 
 
 @urlmap('/po/reply/rm/(\d+)')
