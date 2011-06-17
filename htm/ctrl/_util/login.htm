@@ -7,18 +7,15 @@
 <label class="label_input" for="login_mail${id}">邮箱</label>\
 <input class="login_mail" id="login_mail${id}" name="mail" value="${mail or ''}" type="text">
 </p>
-%if error_mail:
-<p class="error">${error_mail|n}</p>
-%endif
+${errtip.mail|n}
 
 <p>
 <label class="label_input" for="login_password${id}">密码</label>\
 <input class="login_password" id="login_password${id}" name="password" value="" type="password">
 </p>
 
-%if error_password:
-<p class="error">${error_password|n}</p>
-%endif
+${errtip.password|n}
+
 <div class="cl" id="form_btn">\
 
 <span class="R">

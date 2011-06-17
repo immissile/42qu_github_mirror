@@ -2,15 +2,15 @@
 #coding=utf-8
 
 class Errtip(object):
-    def __init__(self, template="""<p class="error" id="error_%s">%s</p>"""):
-        self._error = {}
+    def __init__(self, template="""<p class="errtip" id="errtip_%s">%s</p>"""):
+        self._errtip = {}
         self._template = template
 
     def __getattr__(self, name):
         if name.startswith("_"):
             return self.__dict__[name]
-        if self._error and name in self._error:
-            v = self._error[name]
+        if self._errtip and name in self._errtip:
+            v = self._errtip[name]
         else:
             v = ''
 
@@ -26,16 +26,16 @@ class Errtip(object):
         return self.__getattr__(name)
 
     def __nonzero__(self):
-        return bool(self._error)
+        return bool(self._errtip)
 
     def __setattr__(self, name, value):
         if name.startswith("_"):
             self.__dict__[name] = value
         else:
-            self.__dict__['_error'][name] = value
+            self.__dict__['_errtip'][name] = value
 
     def __contains__(self, name):
-        return name in self._error
+        return name in self._errtip
 
 if __name__ == '__main__':
     errtip = Errtip()
