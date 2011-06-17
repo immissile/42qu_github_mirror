@@ -16,19 +16,20 @@ NAVURL_DICT = dict(NAVURL)
 
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%inherit file="_base.htm" />
-
+<%def name="T()">
 %if current_user:
 %if current_user.state == ZSITE_STATE_APPLY:
-<div id="T">验证邮件已发送到 ${mail2link(mail_by_user_id(current_user_id))|n} 。 若没收到 , <a href="/auth/verify/mail">点此重发</a> 。 注意 : 可能被误判为垃圾邮件。 </div>
+<div id="T">验证邮件已发送至 ${mail2link(mail_by_user_id(current_user_id))|n} 。 若没收到 , <a href="/auth/verify/mail">点此重发</a> 。 注意 : 可能被误判为垃圾邮件 。 </div>
 %endif
 %elif zsite_id:
 <div id="T">你想关注我吗 ? <a href="/auth/reg" style="text-decoration:underline;">点此注册</a> , 仅需一步</div>
 %endif
+</%def>
 
-${self.H()}
-<div class="C">
-    <div class="G"><div class="G4">${next.body()}</div></div>
-</div>
+${self.T()}${self.H()}\
+<div class="C">\
+<div class="G"><div class="G4">${next.body()}</div></div>\
+</div>\
 
 
 
