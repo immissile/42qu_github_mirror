@@ -33,12 +33,9 @@
     text-align:center;
 }
 #form_btn{
-    width:389px;
     margin:auto;
     margin-top:8px;
-}
-#form_btn .btnw{
-    margin-left:37px;
+    text-align:center
 }
 .sex input{
     margin-left:83px;
