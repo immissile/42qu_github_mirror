@@ -3,6 +3,7 @@ from ctrl.main._handler import Base, LoginBase, XsrfGetBase
 from cgi import escape
 from ctrl._urlmap.auth import urlmap
 from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD
+from model.namecard import namecard_get, namecard_new
 from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
 from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.user_session import user_session, user_session_rm
@@ -28,6 +29,22 @@ class NoLoginBase(Base):
         current_user = self.current_user
         if current_user:
             self.redirect(LOGIN_REDIRECT%current_user.link)
+
+    def _login(self, user_id, mail, redirect=None):
+        session = user_session(user_id)
+        self.set_cookie('S', session)
+        self.set_cookie('E', mail)
+        if not redirect:
+            current_user = Zsite.mc_get(user_id)
+            redirect = LOGIN_REDIRECT%current_user.link
+        self.redirect(redirect)
+
+@urlmap("/auth/newbie")
+class Newbie(LoginBase):
+    def get(self):
+        self.render(
+            name = "",
+        )
 
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
@@ -63,12 +80,20 @@ class Reg(NoLoginBase):
             errtip.password = '请输入密码'
         
         if not errtip:
-            # if 
-            # user_id = user_new_by_mail(mail, password)
-            # return self._login(user_id, mail, '/auth/verify/mail')
-            request = self.request
-            return self.redirect("//%s"%request.host)
-
+            user_id = user_id_by_mail(mail)
+            if user_id:
+                if user_password_verify(user_id, password):
+                    return self._login(user_id, mail)
+                else:
+                    errtip.password = '邮箱已注册。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
+            else:
+                user_id = user_new_by_mail(mail, password)
+                namecard_new(
+                    user_id,
+                    sex=sex
+                )
+                return self._login(user_id, mail, '/auth/verify/send')
+            
         self.render(
             sex=sex, password=password, mail=mail,
             errtip=errtip
@@ -82,14 +107,6 @@ class Login(NoLoginBase):
             errtip = Errtip()
         )
 
-    def _login(self, user_id, mail, redirect):
-        session = user_session(user_id)
-        self.set_cookie('S', session)
-        self.set_cookie('E', mail)
-        if not redirect:
-            current_user = Zsite.mc_get(user_id)
-            redirect = LOGIN_REDIRECT%current_user.link
-        self.redirect(redirect)
 
     def post(self):
         mail = self.get_argument('mail', None)
@@ -113,11 +130,9 @@ class Login(NoLoginBase):
                 if user_password_verify(user_id, password):
                     return self._login(user_id, mail, self.get_argument('next', None))
                 else:
-                    errtip.password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
+                    errtip.password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
             else:
                 errtip.mail = """此账号不存在 , <a href="/auth/reg/%s">点此注册</a>"""%escape(mail)
-                #user_id = user_new_by_mail(mail, password)
-                #return self._login(user_id, mail, '/auth/verify/mail')
 
         self.render(
             mail=mail,
@@ -141,6 +156,6 @@ class Password(LoginBase):
                 user_password_new(user_id, password)
                 success = True
             else:
-                error_password = '密码有误。忘记密码了？<a href="/password/%s">点此找回</a>' % escape(mail)
+                error_password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
         self.render(success=success)
 

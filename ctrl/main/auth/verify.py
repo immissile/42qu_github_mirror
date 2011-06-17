@@ -11,8 +11,8 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 
 
-@urlmap('/auth/verify/mail')
-class Mail(LoginBase):
+@urlmap('/auth/verify/send')
+class Send(LoginBase):
     cid = CID_VERIFY_MAIL
     def get(self):
         current_user = self.current_user
@@ -20,12 +20,12 @@ class Mail(LoginBase):
         if current_user.state == ZSITE_STATE_APPLY:
             mail = mail_by_user_id(current_user_id)
             verify_mail_new(current_user_id, current_user.name, mail, self.cid)
-            link = mail2link(mail)
-            return self.render(
-                mail=mail,
-                link=link,
-            )
-        self.redirect('/')
+        self.redirect('/auth/verify/sended')
+
+@urlmap('/auth/verify/sended')
+class Sended(LoginBase):
+    def get(self):
+        return self.render()
 
 class VerifyBase(Base):
     cid = None
@@ -50,21 +50,25 @@ class VerifyMail(VerifyBase):
                 user.save()
             self.render()
 
-@urlmap('/password/(.+)')
-class Password(Base):
+@urlmap('/auth/password/reset/(.+)')
+class PasswordReset(Base):
     cid = CID_VERIFY_PASSWORD
     def get(self, mail):
-        if EMAIL_VALID.match(mail):
+        if mail.isdigit():
+            user_id = mail
+            user = Zsite.mc_get(user_id)
+            if user:
+                mail = mail_by_user_id(user_id)
+                link = mail2link(mail)
+                if user:
+                    return self.render(mail=mail,link=link)
+        elif EMAIL_VALID.match(mail):
             user_id = user_id_by_mail(mail)
             if user_id:
                 user = Zsite.mc_get(user_id)
                 verify_mail_new(user_id, user.name, mail, self.cid)
-                link = mail2link(mail)
-                return self.render(
-                    mail=mail,
-                    link=link,
-                )
-        self.redirect('/')
+                return self.redirect("/auth/password/reset/%s"%user_id)
+        self.redirect('/login')
 
 @urlmap('/auth/verify/password/(\d+)/(.+)')
 class VerifyPassword(VerifyBase):
@@ -76,13 +80,22 @@ class VerifyPassword(VerifyBase):
 
     def post(self, id, ck):
         current_user_id = self.current_user_id
+        current_user = self.current_user
         if current_user_id:
             password = self.get_argument('password', None)
             if password:
                 user_id = self.handler_verify(id, ck, True)
                 if current_user_id == user_id:
+                    if current_user.state == ZSITE_STATE_APPLY:
+                        current_user.state = ZSITE_STATE_ACTIVE
+                        current_user.save()
                     user_password_new(user_id, password)
                     return self.render(password=password)
+                else:
+                    return
             else:
                 return self.get(id, ck)
         self.redirect('/')
+
+
+

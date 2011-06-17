@@ -7,7 +7,7 @@
 <%def name="htm_head()">
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
-${css.ctrl_auth_reg|n}
+${css.ctrl_auth_newbie|n}
 </%def>
 
 
@@ -40,16 +40,10 @@ ${css.ctrl_auth_reg|n}
 <script>select_pid("pid_now",0)</script>
 </p>
 
-<p class="tc"><label class="label label_input" for="mail">邮箱</label>
-<input id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
-
-<p class="tc"><label class="label label_input" for="password">密码</label>
-<input id="password" autocomplete="off" type="password" name="password" value="">
-</p>
 <div class="cl btns" id="form_btn">
 <span class="R">已有账号 ? <a href="/login">点此登录</a></span>
 
-<span class="btnspan"><button type="submit" class="btn">注册</button></span>
+<span class="btnw"><button type="submit" class="btn">注册</button></span>
  
 </div>
 </%htm:form>
