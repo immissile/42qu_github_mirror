@@ -4,7 +4,7 @@
 <%def name="login_form(id='')">
 <%htm:form action="/login" id="login">
 <p>
-<label for="login_mail${id}">邮箱</label>\
+<label class="label_input" for="login_mail${id}">邮箱</label>\
 <input class="login_mail" id="login_mail${id}" name="mail" value="${mail or ''}" type="text">
 </p>
 %if error_mail:
@@ -12,7 +12,7 @@
 %endif
 
 <p>
-<label for="login_password${id}">密码</label>\
+<label class="label_input" for="login_password${id}">密码</label>\
 <input class="login_password" id="login_password${id}" name="password" value="" type="password">
 </p>
 
@@ -20,12 +20,12 @@
 <p class="error">${error_password|n}</p>
 %endif
 <div class="cl" id="form_btn">\
-<span class="btnspan"><button type="submit" class="btn">登录</button></span>
 
 <span class="R">
 没有账号 ?
 <a href="/auth/reg">点此注册</a>
 </span>
+<span class="btnspan"><button type="submit" class="btn">登录</button></span>
 </div>
 <input id="login_next${id}" type="hidden" value="/" name="next">\
 </%htm:form>
