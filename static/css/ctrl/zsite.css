@@ -122,7 +122,7 @@ height:42px; /* select在12px的状态下，IE浏览器中的默认高度为21px
 padding:0 28px;
 *padding:0 27px; /* IE6、IE7中，会在紧贴边框的位置产生1px的与背景相同的内边框，其实际宽度会比其他浏览器多出1px */
 line-height:42px;
-padding-bottom:3px;
+padding-bottom:2px;
 line-height:43px\9; 
 _padding-top:5px; 
 _line-height:16px; /* 微调IE6与IE7中文字在按钮中显示的位置 */
@@ -148,6 +148,6 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f3f3f3', EndC
 }
 }
 .btns{
-line-height:42px;
+line-height:46px;
 _line-height:44px;
 }
