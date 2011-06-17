@@ -40,22 +40,35 @@ class Reg(NoLoginBase):
         )
 
     def post(self, mail=None):
-        mail = self.get_argument('mail', None)
-        password = self.get_argument('password', None)
-        sex = self.get_argument('sex', None)
+        mail = self.get_argument('mail', '')
+        password = self.get_argument('password', '')
+        sex = self.get_argument('sex', '0')
         errtip = Errtip()
         if sex:
             sex = int(sex)
             if sex not in (1,2):
                 sex = 0
+
         if not sex:
             errtip.sex = "请选择性别"
+
+        if mail:
+            mail = mail.lower()
+        if not mail:
+            errtip.mail = '请输入邮箱'
+        elif not EMAIL_VALID.match(mail):
+            errtip.mail = '邮箱格式有误'
+
+        if not password:
+            errtip.password = '请输入密码'
+        
         if not errtip:
             # if 
             # user_id = user_new_by_mail(mail, password)
             # return self._login(user_id, mail, '/auth/verify/mail')
             request = self.request
             return self.redirect("//%s"%request.host)
+
         self.render(
             sex=sex, password=password, mail=mail,
             errtip=errtip

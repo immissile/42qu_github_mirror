@@ -2,7 +2,7 @@
 #coding=utf-8
 
 class Errtip(object):
-    def __init__(self, template="""<p class="errtip" id="errtip_%s">%s</p>"""):
+    def __init__(self, template="""<div class="errtip" id="errtip_%s">%s</div>"""):
         self._errtip = {}
         self._template = template
 
