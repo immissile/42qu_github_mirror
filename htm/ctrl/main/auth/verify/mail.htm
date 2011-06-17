@@ -1,5 +1,21 @@
 <%!
 from cgi import escape
 %>
+<%namespace file="/ctrl/_util/base.htm" import="verify_sended"/>\
 <%inherit file="/ctrl/_base/1.htm" />
-<p>验证邮件已发送 , 请到 ${link or escape(mail)|n} 查收</p>
+<%def name="T()"></%def>
+<%def name="h_nav()"></%def>
+<style>
+.fullscreen_line span{
+display:block;
+}
+.fullscreen_line{
+margin-top:20%;
+line-height:32px;
+font-size:16px;
+text-align:center;
+}
+</style>
+<div class="fullscreen_line">
+${verify_sended()}
+</div>
