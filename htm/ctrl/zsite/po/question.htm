@@ -1,8 +1,9 @@
 <%!
-from model.vote import vote_state, vote_count
 from datetime import datetime
+from model.vote import vote_state, vote_count
 from model.po_question import answer_id_get, po_answer_list
 from model.state import STATE_SECRET, STATE_DEL
+from model.cid import CID_NOTE
 %>
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -38,21 +39,26 @@ po_state = po.state
 </span>
 
 %for answer in po_answer_list(po_id):
+<%
+answer_id = answer.id
+%>
+<div id="answer${answer_id}">
 %if answer.can_view(current_user_id):
 
-<h1>${po.name}</h1>
+<h1>${answer.name}</h1>
 %if answer.cid == CID_NOTE:
-<pre>${po.htm|n}</pre>
+<pre>${answer.htm|n}</pre>
 %endif
 
 %if answer.can_admin(current_user_id):
 <a href="${answer.link_edit}">编辑</a>
 %endif
 %endif
+</div>
 %endfor
 
     %if po_state > STATE_SECRET and not answer_id_get(current_user_id, po_id):
-<%htm:form id="txt_form">
+<%htm:form id="answer">
 <input type="text" name="name" id="name">
 <hr>
 <textarea id="txt" name="txt"></textarea>

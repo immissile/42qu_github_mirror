@@ -110,7 +110,7 @@ class Edit(LoginBase):
         self.redirect('/note/edit/%s' % id)
 
 
-class EditBase(PoBase):
+class EditBase(LoginBase):
     cid = None
 
     def po(self, user_id, id):

@@ -13,11 +13,9 @@ mc_rank_po_id_list = McLimitA('RankPoIdList.%s', 512)
 rank_po_id_count = McNum(lambda to_id, cid: Rank.where(to_id=to_id, cid=cid).count(), 'RankPoIdCount.%s')
 
 @mc_rank_po_id_list('{to_id}_{cid}_{order}')
-def rank_po_id_list(to_id, cid, order, offset=None, limit=None):
+def rank_po_id_list(to_id, cid, order, offset=0, limit=512):
     qs = Rank.where(to_id=to_id, cid=cid).order_by('%s desc' % order)
-    ids = qs.field_list(limit, offset, 'po_id')
-    print ids
-    return ids
+    return qs.field_list(limit, offset, 'po_id')
 
 #mc_rank_to_id_by_po_id_cid = McCache('RankToIdByPoIdCid.%s')
 #

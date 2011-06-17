@@ -31,6 +31,7 @@ def po_answer_new(user_id, question_id, name, txt, state):
             m = po_word_new(user_id, name, state, question_id)
         if m:
             rank_new(m, question_id, CID_QUESTION)
+            mc_answer_id_get.set('%s_%s' % (user_id, question_id), m.id)
             return m
 
 def po_answer_list(question_id):
