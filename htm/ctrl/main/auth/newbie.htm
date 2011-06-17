@@ -11,7 +11,13 @@ ${css.ctrl_auth_newbie|n}
 </%def>
 
 
-<%def name="h_nav()"></%def>
+<%def name="H()">
+
+<div id="H"><div class="H tc">
+<div style="color:#a10">这不是虚无缥缈的网络 , 在此 , 每个人都将以真实来存在 ...</div>
+</div></div>
+
+</%def>
 
 <div>
 <%htm:form id="form_reg">
@@ -23,6 +29,7 @@ ${css.ctrl_auth_newbie|n}
 <select id="com_state" name="com_state"><option>工作 , 职业是</option><option>读书 , 专业是</option></select>
 <input type="text" id="job" autocomplete="off" name="job" value="">
 </p>
+<p class="tc">每天勤勤恳恳地 <input type="text" name="work" id="work" placeholder="干着什么活 ?" style="width:500px"></p>
 <p class="tc">我的座右铭是 <input type="text" autocomplete="off" name="motto" style="width:400px"></p>
 <p class="tc">
 <script>select_birthday("birthday",'${birthday or ""}')</script>
@@ -34,14 +41,14 @@ ${css.ctrl_auth_newbie|n}
 </select>
 
 </p>
-<p class="tc">住在
+<p class="tc">现居
 <script>select_pid("pid_home",0)</script>
 </p>
 <p class="tc">家乡
 <script>select_pid("pid_now",0)</script>
 </p>
 <div class="tc">
-<textarea style="border:1px solid #ccc;font-size:16px;padding:3px;width:500px;margin-bottom:16px;" placeholder="最后, 我喜欢这样向初次见面的人描述自己 ..."></textarea>
+<textarea id="txt" style="height:28px;border:1px solid #ccc;font-size:16px;padding:3px;width:703px;margin-bottom:16px;" placeholder="最后, 我喜欢这样向初次见面的人描述自己 : 喜欢什么 , 偶像是谁 , 欣赏的品牌 , 人生的理想 ,  ..."></textarea>
 </div>
 <div class="cl btns" id="form_btn">
 
@@ -52,5 +59,6 @@ ${css.ctrl_auth_newbie|n}
 </div>
 <script>
 $("#name").focus()
-$("#com").placeholder()
+$("#txt").elastic().blur()
+$("#com,#txt").placeholder()
 </script>
