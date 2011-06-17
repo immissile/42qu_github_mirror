@@ -10,6 +10,7 @@ from datetime import datetime
 po_id = po.id
 zsite_link = zsite.link
 %>
+<div class="note_page">
 <h1>${po.name}</h1>
 <pre>${po.htm|n}\
 <p class="tr">\
@@ -29,7 +30,7 @@ zsite_link = zsite.link
 <span class="num">${vote_count(po_id)}</span>
 <a class="up" href="javascript:vote_up(${po_id});void(0)">+</a>
 </span>
-
+</div>
 </%def>
 
 
