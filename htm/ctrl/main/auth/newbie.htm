@@ -19,9 +19,8 @@ ${css.ctrl_auth_newbie|n}
 <label class="label_input label" for="name">我名叫</label>
 <input id="name" autocomplete="off" type="text" name="name" value="${name}">
 在
-<input type="text" name="com" id="com">
-<select id="com_state" name="com_state"><option>工作</option><option>读书</option></select>
-<label class="label_input label" for="name">职业是</label>
+<input type="text" name="com" id="com" placeholder="请填写当下的单位">
+<select id="com_state" name="com_state"><option>工作 , 职业是</option><option>读书 , 专业是</option></select>
 <input type="text" id="job" autocomplete="off" name="job" value="">
 </p>
 <p class="tc">
@@ -52,4 +51,5 @@ ${css.ctrl_auth_newbie|n}
 </div>
 <script>
 $("#name").focus()
+$("#com").placeholder()
 </script>

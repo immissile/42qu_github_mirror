@@ -12,7 +12,7 @@
  * don't support it natively (like Firefox 3.6 or lower, or IE naturally)
  * 
  * Usage:
- * $(selector).addPlaceholder(options);
+ * $(selector).placeholder(options);
  */
 (function($){
 
