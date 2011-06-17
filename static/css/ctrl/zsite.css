@@ -151,3 +151,6 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f3f3f3', EndC
 line-height:46px;
 _line-height:44px;
 }
+.placeholder{
+color:#999;
+}

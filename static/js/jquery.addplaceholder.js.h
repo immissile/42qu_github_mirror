@@ -18,8 +18,8 @@
 
 	// add placeholder support check to jQuery.support
 	// idea from March Gortz https://gist.github.com/373672
-	$.extend($.support, { placeholder: !!('placeholder' in document.createElement('input')) });
-
+	$.browser.chrome = /chrome/.test(navigator.userAgent.toLowerCase()); 
+	$.extend($.support, { placeholder: !$.browser.chrome&!!('placeholder' in document.createElement('input')) });
 	$.fn.placeholder = function(options){
 		var settings = {
 			'class': 'placeholder',		// name of the class you want to use for placeholder styles
