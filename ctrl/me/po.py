@@ -54,6 +54,10 @@ class PoWord(LoginBase):
 
 
 class PoBase(LoginBase):
+    cid = None
+    template = None
+    po_new = None
+
     def get(self):
         user_id = self.current_user_id
         self.render(
@@ -107,6 +111,8 @@ class Edit(LoginBase):
 
 
 class EditBase(PoBase):
+    cid = None
+
     def po(self, user_id, id):
         po = Po.mc_get(id)
         if po:
@@ -176,8 +182,7 @@ class Question(EditBase):
     cid = CID_QUESTION
 
 
-from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id,\
-zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name
+from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 
 
 @urlmap('/po/tag/(\d+)')

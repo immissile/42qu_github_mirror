@@ -7,13 +7,13 @@ from model.po import STATE_SECRET
 
 <%def name="htm_head()">
 ${css.ctrl_po_note|n}
-<script>
 <%
 if po:
     suffix = '/%s' % po.id
 else:
     suffix = ''
 %>
+<script>
 UPLOADURL = "/j/po/upload${suffix}"
 DELETEURL = "/j/po/upload/rm${suffix}"
 $.script("${js.ctrl_po_note} ${js.upload} ${js.pic}")

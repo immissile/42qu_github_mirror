@@ -1,34 +1,41 @@
 <%!
+from model.po import STATE_SECRET
+
 %>
 <%inherit file="/ctrl/_base/1.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%def name="htm_head()">
+${css.ctrl_po_note|n}
 <%
 if po:
     suffix = '/%s' % po.id
 else:
     suffix = ''
 %>
-<script src="${js.upload}"></script>\
-<script src="${js.pic}"></script>\
 <script>
 UPLOADURL = "/j/po/upload${suffix}"
 DELETEURL = "/j/po/upload/rm${suffix}"
+$.script("${js.ctrl_po_note} ${js.upload} ${js.pic}")
 </script>
-${css.ctrl_po_note|n}
 </%def>
 
 <%htm:form enctype="multipart/form-data">
-<div>
-<input type="text" name="name" value="${po.name}">
-</div>
+<input
+placeholder="请输入标题 ..."
+id="name" type="text" autocomplete="off" name="name" value="${po.name}">
 <textarea id="txt" name="txt">${po.txt}</textarea>
 <div>
     <a id="upload" href="javascript:upload();void(0)">传图</a>
 %if po:
 <a href="/po/rm/${po.id}?${_xsrf}">删除</a>
 %endif
+    <input type="checkbox" name="secret" id="secret"
+%if po.state == STATE_SECRET: 
+checked
+%endif
+    >\
+    <label for="secret">草稿</label>\
     <button type="submit">确定</button>\
 </div>
 

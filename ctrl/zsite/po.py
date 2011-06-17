@@ -3,10 +3,12 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from ctrl._urlmap.zsite import urlmap
-from model.po import po_rm, po_word_new, Po
+from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE
+from model.po_question import po_answer_new
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite
+from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
 
 
@@ -15,13 +17,11 @@ class PoBase(ZsiteBase):
 
     def po(self, id):
         po = Po.mc_get(id)
-        if not po:
-            return self.redirect('/')
-
-        if po.user_id != self.zsite_id or po.cid != self.cid:
-            link = po.link
-            return self.redirect(link)
-        return po
+        if po:
+            if po.user_id == self.zsite_id and po.cid == self.cid:
+                return po
+            return self.redirect(po.link)
+        return self.redirect('/')
 
     def get(self, id):
         po = self.po(id)
@@ -61,18 +61,41 @@ class Question(PoBase):
 
     @login
     def post(self, id):
-        po = self.po(id)
-        if po is None:
+        question = self.po(id)
+        if question is None:
             return
 
         user_id = self.current_user_id
-        if not po.can_view(user_id):
+        if not question.can_view(user_id):
             return self.get(id)
 
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
         if not (name or txt):
             return self.get(id)
+
+        secret = self.get_argument('secret', None)
+        arguments = self.request.arguments
+        if secret:
+            state = STATE_SECRET
+        else:
+            state = STATE_ACTIVE
+
+        name = name or '回复%s' % question.name
+        po = po_answer_new(user_id, id, name, txt, state)
+
+        if po:
+            if po.cid == CID_NOTE:
+                answer_id = po.id
+                link = '/po/tag/%s' % answer_id
+                zsite_tag_new_by_tag_id(po)
+#                update_pic(arguments, user_id, po_id, 0)
+#                mc_pic_id_list.delete('%s_%s' % (user_id, 0))
+            else:
+                link = '%s#answer%s' % (question.link, po.id)
+        else:
+            link = '%s#answer' % question.link
+        self.redirect(link)
 
 
 @urlmap('/po/reply/rm/(\d+)')
