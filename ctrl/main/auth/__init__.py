@@ -29,7 +29,7 @@ class NoLoginBase(Base):
         if current_user:
             self.redirect(LOGIN_REDIRECT%current_user.link)
 
-    def _login(self, user_id, mail, redirect):
+    def _login(self, user_id, mail, redirect=None):
         session = user_session(user_id)
         self.set_cookie('S', session)
         self.set_cookie('E', mail)
