@@ -16,7 +16,7 @@
 
 (function($){
      $.fn.extend({
-         defaultValue: function(callback) {
+         placeholder: function(callback) {
 
 			var nativePlaceholderSupport = (function(){
 				var i = document.createElement('input');
@@ -32,16 +32,16 @@
             return this.each(function(index, element) {
 				
 				// Executing Default Value twice on an element will lead to trouble
-				if($(this).data('defaultValued')){
+				if($(this).data('placeholderd')){
 					return false;
 				}
 				
 				var $input				=	$(this),
-					defaultValue		=	$input.attr('placeholder');
+					placeholder		=	$input.attr('placeholder');
 				var	callbackArguments 	=	{'input':$input};
 				
 				// Mark as defaultvalued
-				$input.data('defaultValued', true);
+				$input.data('placeholderd', true);
 					
 				// Create clone and switch
 				var $clone = createClone();
@@ -80,7 +80,7 @@
 					}
 					
 					$el.attr({
-						'value'		: defaultValue,
+						'value'		: placeholder,
 						'class'		: $input.attr('class')+' empty',
 						'size'		: $input.attr('size'),
 						'style'		: $input.attr('style'),
