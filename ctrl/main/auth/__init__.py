@@ -87,8 +87,12 @@ class Reg(NoLoginBase):
                     errtip.password = '邮箱已注册。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
             else:
                 user_id = user_new_by_mail(mail, password)
+                namecard_new(
+                    user_id,
+                    sex=sex
+                )
                 return self._login(user_id, mail, '/auth/verify/send')
-
+            
         self.render(
             sex=sex, password=password, mail=mail,
             errtip=errtip
