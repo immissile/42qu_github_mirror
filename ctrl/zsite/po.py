@@ -41,7 +41,7 @@ class PoBase(ZsiteBase):
             can_admin=can_admin,
             can_view=can_view,
             zsite_tag_id=zsite_tag_id,
-            tag_name=tag_name
+            tag_name=tag_name,
         )
 
 

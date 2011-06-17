@@ -62,6 +62,7 @@ class PoBase(LoginBase):
         )
 
     def post(self):
+        user_id = self.current_user_id
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
         if not (name or txt):
@@ -89,14 +90,14 @@ class PoBase(LoginBase):
 class PoNote(PoBase):
     cid = CID_NOTE
     template = 'ctrl/me/po/note.htm'
-    po_new = po_note_new
+    po_new = staticmethod(po_note_new)
 
 
 @urlmap('/po/question')
 class PoQuestion(PoBase):
     cid = CID_QUESTION
     template = 'ctrl/me/po/question.htm'
-    po_new = po_question_new
+    po_new = staticmethod(po_question_new)
 
 
 @urlmap('/po/edit/(\d+)')
