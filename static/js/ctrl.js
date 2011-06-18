@@ -72,7 +72,7 @@ function init_D(){
     var body=$('html,body')
     $("#H .D div").hide()
     $("#H .DA").click(function(e){
-        var t=this, drop=$("#D"+t.rel);
+        var t=this, drop=$(this.parentNode).find('div');
         t.blur();
         function _(){
             drop.hide()
