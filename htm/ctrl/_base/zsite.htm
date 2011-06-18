@@ -1,13 +1,13 @@
 <%!
-from config import SITE_DOMAIN
-from config import SITE_URL
+from config import SITE_DOMAIN, SITE_URL
 %>
 
 <%inherit file="_style_1.htm" />\
+<%namespace file="_h_nav.htm" import="_h_nav"/>
+
 
 <%def name="h_nav()">
-<div class="R">
-%if current_user: 
+<%call expr="_h_nav()">
 <%
 link = current_user.link
 %>
@@ -20,20 +20,7 @@ link = current_user.link
 <div class="D" id="DBLK">
     <a href="${link}/live">动态</a>\
 </div>\
-<%include file="_a_notice.htm"/>\
-<a class="DA" href="javascript:void(0)" rel="MORE">更多</a>\
-<div class="D" id="DMORE">
-    <a href="${link}">个人</a>
-    <a href="${link}/i">账号</a>
-    <a href="//help.${SITE_DOMAIN}">帮助</a>
-    <a href="/logout">退出</a>
-</div>
-<script>init_D()</script>
-%else:
-<a href="javascript:login();void(0);" class="DA">留言</a>\
-<a href="/login" class="DA">登录</a>\
-%endif
-</div>
+</%call>
 </%def>
 
 ${next.body()}
