@@ -15,9 +15,15 @@
 #H{
     font-size:16px;
     border-bottom:1px dotted #ccc;
-    padding:18px 0 22px;
+    padding:18px 0 20px;
     margin-bottom:0;
+    *height:30px;
+    _padding:18px 0 0;
     text-align:center;
+}
+.HN{
+float:right;
+margin-top:1px;
 }
 #H .H{
     width: 972px;
@@ -39,7 +45,13 @@
     font-size: 24px;
     font-family: Trebuchet MS;
     color: #a10;
+    *position:relative;
+    *top:-28px;
 }
+#H .tc .site{
+    *position:static;
+}
+
 #H .D div a:hover{
     text-decoration:none;
     background:#f9f9f9;
@@ -68,7 +80,8 @@ color:#000;
 #H .D div{
     padding-bottom:1px;
     position:absolute;
-    margin-top:7px;
+    margin-top:5px;
+    *margin-top:28px;
     right:-16px;
     border:1px solid #eee;
     background:#fafafa; 
