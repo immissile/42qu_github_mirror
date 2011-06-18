@@ -15,15 +15,13 @@ ${self.T()}${self.H()}\
 
 <%def name="T()">
 %if current_user:
-%if current_user.state == ZSITE_STATE_APPLY:
+    %if current_user.state == ZSITE_STATE_APPLY:
 <div id="T">${verify_sended()}</div>
-%endif
+    %endif
 %elif zsite_id:
 <div id="T">你想关注我吗 ? <a href="/auth/reg" style="text-decoration:underline;">点此注册</a> , 仅需一步</div>
 %endif
 </%def>
-
-
 
 <%def name="_H(htm)">
 <div id="H"><div class="H\
