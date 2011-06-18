@@ -90,10 +90,7 @@ class Reg(NoLoginBase):
 
         if not errtip:
             user_id = user_new_by_mail(mail, password)
-            namecard_new(
-                user_id,
-                sex=sex
-            )
+            namecard_new(user_id, sex=sex)
             return self._login(user_id, mail, '/auth/verify/send')
 
         self.render(
