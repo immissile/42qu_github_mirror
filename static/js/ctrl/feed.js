@@ -1,4 +1,3 @@
-(function() {
 /*
  0 -1 -1
  1 -1 -2
@@ -7,6 +6,7 @@
  1  1 -1
 -1  1  2
 */
+(function() {
 
 	$(".reply,.down,.up,.num,.rt,.rted").poshytip({
 		className: 'tip-twitter',
@@ -60,3 +60,4 @@ $(".rtrm").live("click", function() {
 	$.postJSON('/j/rt/rm/' + t.rel);
 	self.poshytip('update', '已转发').poshytip('show').poshytip('update', '转发被取消', true)
 })
+

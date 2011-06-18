@@ -66,17 +66,6 @@ jQuery.extend({
            cache: cache||true
         })
     },
-    script : function (src,callback){
-        src = src.split(" ")
-        var r=[],i=0;
-        for(;i<src.length;++i){
-            r.push($.getScript(src[i]))
-        }
-        $.when(r).then(function(){
-            callback&&callback()
-        });    
-
-    },
     isotime : function(timestamp){
         var date = new Date(timestamp*1000),hour=date.getHours(),minute=date.getMinutes();
         if(hour<9){

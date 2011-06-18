@@ -1,8 +1,8 @@
-(function (){
 /*
 61 word
 62 note
 */
+(function (){
 var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total create_time name is_rt vote_state vote",
     FEED_ATTR = {
         61:FEED_ATTR_BASE,

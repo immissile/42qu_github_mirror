@@ -7,7 +7,7 @@ from model.notice import notice_unread as _notice_unread
 <%
     link = current_user.link
 %>\
-<a class="DA" href="${link}/notice">提醒\
+<a class="DA R" href="${link}/notice">提醒\
 <%
 notice_unread = _notice_unread.get(current_user_id)
 %>\
