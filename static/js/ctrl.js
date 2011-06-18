@@ -70,7 +70,6 @@ function login_autofill(suffix){
  */
 function init_D(){
     var body=$('html,body')
-    $("#H .D div").hide()
     $("#H .DA").click(function(e){
         var t=this, drop=$(this.parentNode).find('div');
         t.blur();
