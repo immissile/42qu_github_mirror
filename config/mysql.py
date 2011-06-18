@@ -1,9 +1,7 @@
 #coding:utf-8
 
-DB_CONFIG = {
-    'main': {
-        'master': DB_HOST_MAIN,
-        'tables': (
+DB_MAIN_TABLE = (
+
 '*',
 'tag',
 'zsite_tag',
@@ -44,6 +42,6 @@ DB_CONFIG = {
 'buzz',
 'buzz_pos',
 'zsite_list',
-        )
-    },
-}
+
+)
+

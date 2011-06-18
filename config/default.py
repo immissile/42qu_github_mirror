@@ -6,7 +6,7 @@ import sys
 from os.path import join
 import yajl
 import json
-from mysql import DB_CONFIG
+from mysql import DB_MAIN_TABLE
 
 json.dump = yajl.dump
 json.dumps = yajl.dumps
@@ -94,7 +94,13 @@ def finish(o):
         o.MYSQL_HOST, o.MYSQL_PORT, '%s_feed'%o.MYSQL_MAIN, o.MYSQL_USER, o.MYSQL_PASSWD
     )
 
-    o.DB_CONFIG = DB_CONFIG
+    o.DB_CONFIG = {
+
+        DB_CONFIG = {
+            'main': {
+                'master': DB_HOST_MAIN,
+                'tables': DB_MAIN_TABLE
+    }
     return o
 
 def load(self, *args):
