@@ -1,11 +1,18 @@
 <%!
 from model.notice import notice_unread as _notice_unread
 %>
+
+<%def name="h_nav_more()">
 <a class="DA" href="${link}/notice">提醒\
 <%
-notice_unread = min(_notice_unread.get(current_user_id), 99)
+notice_unread = _notice_unread.get(current_user_id)
 %>\
 %if notice_unread:
+<%
+if notice_unread > 99:
+    notice_unread = "99+"
+%>\
 <span>${notice_unread}</span>\
 %endif
 </a>\
+</%def>
