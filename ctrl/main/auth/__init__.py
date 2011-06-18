@@ -43,17 +43,17 @@ class NoLoginBase(Base):
 class Newbie(LoginBase):
     def get(self):
         self.render(
-            name = "",
+            name="",
         )
 
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
     def get(self, mail=""):
         self.render(
-            mail = mail,
-            sex = 0,
-            password = '',
-            errtip = Errtip()
+            mail=mail,
+            sex=0,
+            password='',
+            errtip=Errtip()
         )
 
     def post(self, mail=None):
@@ -63,11 +63,9 @@ class Reg(NoLoginBase):
         errtip = Errtip()
         if sex:
             sex = int(sex)
-            if sex not in (1,2):
+            if sex not in (1, 2):
                 sex = 0
 
-        if not sex:
-            errtip.sex = "请选择性别"
 
         if mail:
             mail = mail.lower()
@@ -78,7 +76,7 @@ class Reg(NoLoginBase):
 
         if not password:
             errtip.password = '请输入密码'
-        
+
         if not errtip:
             user_id = user_id_by_mail(mail)
             if user_id:
@@ -86,14 +84,18 @@ class Reg(NoLoginBase):
                     return self._login(user_id, mail)
                 else:
                     errtip.password = '邮箱已注册。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
-            else:
-                user_id = user_new_by_mail(mail, password)
-                namecard_new(
-                    user_id,
-                    sex=sex
-                )
-                return self._login(user_id, mail, '/auth/verify/send')
-            
+
+        if not sex:
+            errtip.sex = "请选择性别"
+
+        if not errtip:
+            user_id = user_new_by_mail(mail, password)
+            namecard_new(
+                user_id,
+                sex=sex
+            )
+            return self._login(user_id, mail, '/auth/verify/send')
+
         self.render(
             sex=sex, password=password, mail=mail,
             errtip=errtip
@@ -104,14 +106,14 @@ class Login(NoLoginBase):
 
     def get(self):
         self.render(
-            errtip = Errtip()
+            errtip=Errtip()
         )
 
 
     def post(self):
         mail = self.get_argument('mail', None)
         password = self.get_argument('password', None)
-        
+
         errtip = Errtip()
 
         if mail:
