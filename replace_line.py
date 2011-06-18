@@ -5,11 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/password/reset/
+/ctrl/_base/1.htm
 """
 
 TO_STRING = """
-/auth/password/reset/
+/ctrl/_base/zsite.htm
 """
 
 def run():
