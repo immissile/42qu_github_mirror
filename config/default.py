@@ -6,6 +6,8 @@ import sys
 from os.path import join
 import yajl
 import json
+from mysql import DB_CONFIG
+
 json.dump = yajl.dump
 json.dumps = yajl.dumps
 json.loads = yajl.loads
@@ -92,47 +94,7 @@ def finish(o):
         o.MYSQL_HOST, o.MYSQL_PORT, '%s_feed'%o.MYSQL_MAIN, o.MYSQL_USER, o.MYSQL_PASSWD
     )
 
-    o.DB_CONFIG = {
-        'main': {
-            'master': DB_HOST_MAIN,
-            'tables': (
-                '*',
-'user_session',
-'gid',
-'zsite',
-'follow',
-'follow',
-'feed',
-'feed',
-'txt',
-'reply',
-'reply',
-'pic',
-'po_pic',
-'po',
-'vote',
-'motto',
-'namecard',
-'ico',
-'ico96',
-'ico_pos',
-'url',
-'user_mail',
-'user_password',
-'wall',
-'wall_reply',
-'po_pos',
-'verify',
-'bank',
-'trade',
-'trade_log',
-'pay_account',
-'buzz',
-'buzz_pos',
-'zsite_list',
-            )
-        },
-    }
+    o.DB_CONFIG = DB_CONFIG
     return o
 
 def load(self, *args):
