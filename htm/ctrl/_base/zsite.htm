@@ -3,24 +3,66 @@ from config import SITE_DOMAIN, SITE_URL
 %>
 
 <%inherit file="_style_1.htm" />\
-<%namespace file="_h_nav.htm" import="_h_nav"/>
+<%namespace file="_h_nav.htm" import="_h_nav_notice,_h_nav_logout, _h_nav_account, _h_nav_main, _h_nav_self, _h_nav_zsite"/>
+
 
 
 <%def name="h_nav()">
-<%call expr="_h_nav()">
+<div class="R">\
 <%
+if current_user_id:
+
+    path = request.path[1:]+"/"
+
+    if zsite_id:
+        nav_main = False
+        if path.startswith("i/"):
+            nav_account = True
+            nav_self = nav_zsite = False
+        else:
+            nav_account = False
+            if zsite_id == current_user_id:
+                nav_self = True
+            else:
+                nav_self = False
+            nav_zsite = not nav_self
+    else:
+        nav_main = True
+        nav_account = nav_self = nav_zsite = False
+
 link = current_user.link
-%>
-<a class="DA" rel="PO" href="javascript:void(0)">发布</a>\
-<div class="D" id="DPO">
-    <a href="${link}/po/note">文章</a>
-    <a href="${link}/po/question">问题</a>
+%>\
+%if current_user: 
+    %if nav_self:
+${_h_nav_self()}\
+    %elif nav_account:
+${_h_nav_account()}\
+    %elif nav_zsite:
+${_h_nav_zsite()}\
+    %elif nav_main:
+${_h_nav_main()}\
+    %endif
+${_h_nav_notice()}\
+<a class="DA" href="javascript:void(0)" rel="MORE">更多</a>\
+<div class="D" id="DMORE">\
+    %if not nav_self:
+<a href="${link}">主页</a>\
+    %endif
+    %if not nav_main:
+<a href="${SITE_URL}">全站</a>\
+    %endif
+    %if not nav_account:
+<a href="${link}/i">账号</a>\
+    %endif
+<a href="//help.${SITE_DOMAIN}">帮助</a>\
+<a href="/logout?${_xsrf}">退出</a>\
 </div>\
-<a class="DA" rel="BLK" href="javascript:void(0)">版块</a>\
-<div class="D" id="DBLK">
-    <a href="${link}/live">动态</a>\
+<script>init_D()</script>\
+%else:
+${_h_nav_logout()}
+%endif
 </div>\
-</%call>
 </%def>
+
 
 ${next.body()}

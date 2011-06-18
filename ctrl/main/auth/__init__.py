@@ -15,7 +15,7 @@ from zkit.errtip import Errtip
 LOGIN_REDIRECT = "%s/live"
 
 @urlmap('/logout')
-class Logout(Base):
+class Logout(XsrfGetBase):
     def get(self):
         self.clear_cookie('S')
         current_user = self.current_user

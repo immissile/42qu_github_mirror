@@ -5,52 +5,60 @@ from model.notice import notice_unread as _notice_unread
 
 <%def name="_h_nav_notice()">
 <%
-link = current_user.link
+    link = current_user.link
 %>\
 <a class="DA" href="${link}/notice">提醒\
 <%
 notice_unread = _notice_unread.get(current_user_id)
 %>\
-%if notice_unread:
+    %if notice_unread:
 <%
 if notice_unread > 99:
     notice_unread = "99+"
 %>\
 <span>${notice_unread}</span>\
-%endif
+    %endif
 </a>\
 </%def>
 
-##(current_user.link , "主页"),
-##(, "全站"),
-##(,"账号"),
-##(,"帮助"),
-##(,"退出"),
-<%def name="_h_nav()">
-<%
-link = current_user.link
-%>\
-<div class="R">
-%if current_user: 
-${caller.body()}\
-${_h_nav_notice()}\
-<a class="DA" href="javascript:void(0)" rel="MORE">更多</a>\
-<div class="D" id="DMORE">
-    <a href="${link}">个人</a>
-    <a href="${link}/i">账号</a>
-    <a href="//help.${SITE_DOMAIN}">帮助</a>
-    <a href="/logout">退出</a>
-</div>
-<script>init_D()</script>
-%else:
+
+
+<%def name="_h_nav_logout()">
     %if zsite_id:
 <a href="javascript:login();void(0);" class="DA">留言</a>\
     %else:
 <a href="/auth/reg" class="DA">注册</a>\
     %endif
 <a href="/login" class="DA">登录</a>\
-%endif
-</div>
 </%def>
 
+
+
+<%def name="_h_nav_self()">
+<%
+link = current_user.link
+%>\
+<a class="DA" rel="PO" href="javascript:void(0)">发布</a>\
+<div class="D" id="DPO">
+    <a href="${link}/po/note">文章</a>
+    <a href="${link}/po/question">问题</a>
+</div>\
+<a class="DA" rel="BLK" href="javascript:void(0)">版块</a>\
+<div class="D" id="DBLK">
+    <a href="${link}/live">动态</a>\
+</div>\
+</%def>
+
+
+<%def name="_h_nav_zsite()">
+
+</%def>
+
+<%def name="_h_nav_main()">
+
+</%def>
+
+<%def name="_h_nav_self()">
+
+</%def>
 
