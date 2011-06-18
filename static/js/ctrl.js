@@ -70,21 +70,21 @@ function login_autofill(suffix){
  */
 function init_D(){
     var body=$('html,body')
-    $("#H .D").hide()
+    $("#H .D div").hide()
     $("#H .DA").click(function(e){
-            var t=this, drop=$("#D"+t.rel);
-            t.blur();
-            function _(){
-                drop.hide()
-                body.unbind('click',_)
-            }
-            if(drop.is(":hidden")){
-                drop.show()
-                e.stopPropagation()
-                body.click(_)
-            }else{
-                _()
-            }
+        var t=this, drop=$("#D"+t.rel);
+        t.blur();
+        function _(){
+            drop.hide()
+            body.unbind('click',_)
+        }
+        if(drop.is(":hidden")){
+            drop.show()
+            e.stopPropagation()
+            body.click(_)
+        }else{
+            _()
+        }
     })
 }
 

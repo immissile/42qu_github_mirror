@@ -40,12 +40,12 @@
     font-family: Trebuchet MS;
     color: #a10;
 }
-#H .D a:hover{
+#H .D div a:hover{
     text-decoration:none;
     background:#f9f9f9;
     color:#444;
 }
-#H .D a{
+#H .D div a{
     display:block;
     color:#999;
     width:60px;
@@ -63,11 +63,13 @@ color:#000;
 }
 #H .D{
     position:relative;
+    float:right;
 }
 #H .D div{
     padding-bottom:1px;
     position:absolute;
     margin-top:7px;
+    right:-16px;
     border:1px solid #eee;
     background:#fafafa; 
     z-index:9; 
