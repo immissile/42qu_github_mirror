@@ -26,12 +26,12 @@ if notice_unread > 99:
 
 
 <%def name="_h_nav_logout()">
+<div class="D"><a href="/login" class="DA">登录</a></div>\
     %if zsite_id:
-<a href="javascript:login();void(0);" class="DA">留言</a>\
+<div class="D"><a href="javascript:login();void(0);" class="DA">留言</a></div>\
     %else:
-<a href="/auth/reg" class="DA">注册</a>\
+<div class="D"><a href="/auth/reg" class="DA">注册</a></div>\
     %endif
-<a href="/login" class="DA">登录</a>\
 </%def>
 
 

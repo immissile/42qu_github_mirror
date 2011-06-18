@@ -32,6 +32,7 @@ margin-top:1px;
 }
 #H .tc{
     text-align: center;
+    padding-bottom:22px;
 }
 #H a{
     color:#999;
@@ -74,6 +75,7 @@ margin-top:1px;
 color:#000;
 }
 #H .D{
+    _z-index:999;
     position:relative;
     float:right;
 }
@@ -85,7 +87,7 @@ color:#000;
     right:-16px;
     border:1px solid #eee;
     background:#fafafa; 
-    z-index:9; 
+    z-index:998; 
 }
 .DA span{
     line-height:12px;background:#a10;
