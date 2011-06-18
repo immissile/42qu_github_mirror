@@ -95,11 +95,10 @@ def finish(o):
     )
 
     o.DB_CONFIG = {
-
-        DB_CONFIG = {
-            'main': {
-                'master': DB_HOST_MAIN,
-                'tables': DB_MAIN_TABLE
+        'main': {
+            'master': DB_HOST_MAIN,
+            'tables': DB_MAIN_TABLE
+        }
     }
     return o
 
