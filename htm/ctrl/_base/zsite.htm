@@ -43,8 +43,9 @@ ${_h_nav_zsite()}\
 ${_h_nav_main()}\
     %endif
 ${_h_nav_notice()}\
+<div class="D">\
 <a class="DA" href="javascript:void(0)" rel="MORE">更多</a>\
-<div class="D" id="DMORE">\
+<div id="DMORE">\
     %if not nav_self:
 <a href="${link}">主页</a>\
     %endif
@@ -56,6 +57,7 @@ ${_h_nav_notice()}\
     %endif
 <a href="//help.${SITE_DOMAIN}">帮助</a>\
 <a href="/logout?${_xsrf}">退出</a>\
+</div>\
 </div>\
 <script>init_D()</script>\
 %else:
