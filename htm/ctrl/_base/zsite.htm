@@ -12,14 +12,14 @@ from config import SITE_DOMAIN, SITE_URL
 <%
 if current_user_id:
 
-    path = request.path[1:]+"/"
+    path = request.path[1:].split("/",1)[0]
 
     nav_main = nav_self = nav_zsite = nav_account = False
 
     if path.startswith("i/"):
         nav_account = True
     else:
-        if zsite_id:
+        if request.host != SITE_DOMAIN:
             if zsite_id == current_user_id:
                 nav_self = True
             nav_zsite = not nav_self
