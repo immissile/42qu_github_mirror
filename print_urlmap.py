@@ -23,10 +23,10 @@ def print_urlmap(module):
 
 import ctrl._url
 print_urlmap('ctrl._urlmap.main')
+print_urlmap('ctrl._urlmap.auth')
 print_urlmap('ctrl._urlmap.j')
 print_urlmap('ctrl._urlmap.zsite')
 print_urlmap('ctrl._urlmap.me')
-print_urlmap('ctrl._urlmap.auth')
 
 import god._url
 print_urlmap('god._urlmap')
