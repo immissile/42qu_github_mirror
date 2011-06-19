@@ -14,6 +14,9 @@ class UserPassword(Model):
 def user_new_session(user_id):
     return
 
+def user_password_sha256(user_id):
+    return 
+
 def user_password_new(user_id, password):
     if password is not None:
         o = UserPassword.get_or_create(id=user_id)
