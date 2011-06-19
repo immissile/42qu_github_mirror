@@ -10,6 +10,7 @@ from model import reply
 from model.zsite import Zsite
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
+from model.notice import mq_notice_question
 
 
 class PoBase(ZsiteBase):
@@ -85,6 +86,7 @@ class Question(PoBase):
         po = po_answer_new(user_id, id, name, txt, state)
 
         if po:
+            mq_notice_question(user_id, id)
             if po.cid == CID_NOTE:
                 answer_id = po.id
                 link = '/po/tag/%s' % answer_id

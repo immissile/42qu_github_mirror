@@ -1,0 +1,11 @@
+${name}回答了你邀请的问题${entry.name}
+
+您好，${from_name}
+
+${entry.name}
+${entry.txt}
+
+${site_http}${notice.link}
+
+该邮件由系统发送，如果您不想接到此类信件，
+点此设置 ${site_http}/i/notice

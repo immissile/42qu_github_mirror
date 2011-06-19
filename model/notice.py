@@ -10,15 +10,21 @@ from wall import Wall, WallReply
 from kv import Kv
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
+from model.user_mail import mail_by_user_id
+from model.mail import rendermail
 
 STATE_GTE_APPLY = 'state>=%s' % STATE_APPLY
 
-NOTICE_DIC = {
-    CID_NOTICE_WALL: Wall,
-    CID_NOTICE_WALL_REPLY: Wall,
-    CID_INVITE_QUESTION: Po,
-    CID_NOTICE_QUESTION: Po,
-}
+NOTICE_TUPLE = (
+    (CID_NOTICE_WALL, Wall, None),
+    (CID_NOTICE_WALL_REPLY, Wall, None),
+    (CID_INVITE_QUESTION, Po, '/mail/notice/invite_question.txt'),
+    (CID_NOTICE_QUESTION, Po, '/mail/notice/notice_question.txt'),
+)
+
+NOTICE_CLS = dict(i[:2] for i in NOTICE_TUPLE)
+
+NOTICE_MAIL_CLS = dict((i[0], (i[1], i[2])) for i in filter(lambda x: x[2], NOTICE_TUPLE))
 
 notice_unread = Kv('notice_unread', 0)
 
@@ -38,7 +44,7 @@ class Notice(McModel):
     @property
     def link_to(self):
         if not hasattr(self, '_link_to'):
-            cls = NOTICE_DIC.get(self.cid)
+            cls = NOTICE_CLS.get(self.cid)
             if cls:
                 link = cls.mc_get(self.rid).link
             else:
@@ -90,26 +96,38 @@ def notice_id_get(from_id, to_id, cid, rid):
     return 0
 
 def invite_question(from_id, to_id, qid):
-    nid = notice_id_get(from_id, to_id, CID_INVITE_QUESTION, qid)
-    if not nid:
-        n = notice_new(from_id, to_id, CID_INVITE_QUESTION, qid)
-        return n
+    from po_question import answer_id_get
+    if not answer_id_get(to_id, qid):
+        nid = notice_id_get(from_id, to_id, CID_INVITE_QUESTION, qid)
+        if not nid:
+            n = notice_new(from_id, to_id, CID_INVITE_QUESTION, qid)
+            return n
 
-def invite_question_mail(notice):
-    from model.user_mail import mail_by_user_id
-    from model.mail import rendermail
+def notice_question(to_id, qid):
+    for from_id in Notice.where(cid=CID_INVITE_QUESTION, rid=qid, to_id=to_id).where(STATE_GTE_APPLY):
+        n = notice_new(to_id, from_id, CID_NOTICE_QUESTION, qid)
+
+from mq import mq_client
+mq_notice_question = mq_client(notice_question)
+
+def notice_mail(notice):
+    state = notice.state
+    from_id = notice.from_id
     to_id = notice.to_id
-    to_user = Zsite.mc_get(to_id)
-    if to_user and notice_with_mail(to_id, CID_INVITE_QUESTION):
-        mail = mail_by_user_id(to_id)
-        name = to_user.name
-        question = Po.mc_get(notice.rid)
-        from_name = Zsite.mc_get(notice.from_id).name
-        rendermail('/mail/notice/invite_question.txt', mail, name,
-                   question=question,
-                   from_name=from_name,
-                   notice=notice,
-                  )
+    cid = notice.cid
+    rid = notice.rid
+    if state == STATE_APPLY and cid in NOTICE_MAIL_CLS:
+        if notice_with_mail(to_id, cid):
+            mail = mail_by_user_id(to_id)
+            name = Zsite.mc_get(to_id).name
+            from_name = Zsite.mc_get(from_id).name
+            cls, template = NOTICE_MAIL_CLS[cid]
+            entry = cls.mc_get(rid)
+            rendermail(template, mail, name,
+                       entry=entry,
+                       from_name=from_name,
+                       notice=notice,
+                      )
 
 notice_count = McNum(lambda to_id: Notice.where(to_id=to_id).where(STATE_GTE_APPLY).count(), 'NoticeCount.%s')
 
@@ -125,7 +143,7 @@ def notice_list(to_id, limit, offset):
     cls_dic = defaultdict(set)
     for i in li:
         cls_dic[Zsite].add(i.from_id)
-        cls_dic[NOTICE_DIC.get(i.cid)].add(i.rid)
+        cls_dic[NOTICE_CLS.get(i.cid)].add(i.rid)
     for cls, id_list in cls_dic.items():
         if cls:
             cls_dic[cls] = cls.mc_get_dict(id_list)
@@ -133,7 +151,7 @@ def notice_list(to_id, limit, offset):
             cls_dic[cls] = {}
     for i in li:
         i.from_user = cls_dic[Zsite][i.from_id]
-        i.entry = cls_dic[NOTICE_DIC.get(i.cid)].get(i.rid)
+        i.entry = cls_dic[NOTICE_CLS.get(i.cid)].get(i.rid)
     return li
 
 def mc_flush(to_id):
