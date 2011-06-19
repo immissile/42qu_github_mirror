@@ -160,4 +160,3 @@ class Password(LoginBase):
             else:
                 error_password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
         self.render(success=success)
-
