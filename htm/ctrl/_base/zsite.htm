@@ -7,7 +7,7 @@ from config import SITE_DOMAIN, SITE_URL
 
 
 <%def name="h_nav()">\
-<%call expr="_h_nav()">\
+<%call expr="_h_nav(nav_zsite=True)">\
 <%
 link = current_user.link
 %>\
@@ -28,5 +28,5 @@ link = current_user.link
 </div>\
 </div>\
 </%call>\
-</%def>
+</%def>\
 ${next.body()}
