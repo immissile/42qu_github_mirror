@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from time import time
-from _db import cursor_by_table, McModel, McLimitA, McCache
+from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from feed import feed_new, mc_feed_tuple, feed_rm
 from gid import gid
@@ -86,6 +86,7 @@ def po_new(cid, user_id, name, rid, state):
         create_time=int(time()),
     )
     m.save()
+    mc_flush(user_id)
     return m
 
 def po_state_set(po, state):
@@ -98,6 +99,7 @@ def po_state_set(po, state):
         po.feed_new()
     po.state = state
     po.save()
+    mc_flush_other(user_id)
 
 def po_rm(user_id, id):
     m = Po.mc_get(id)
@@ -105,6 +107,7 @@ def po_rm(user_id, id):
         m.state == STATE_DEL
         m.save()
         feed_rm(id)
+        mc_flush(user_id)
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
     if name and not is_same_post(user_id, name):
@@ -121,6 +124,37 @@ def po_note_new(user_id, name, txt, state, rid=0):
         if state > STATE_SECRET:
             m.feed_new()
         return m
+
+PO_LIST_STATE = {
+    True: 'state>%s' % STATE_DEL,
+    False: 'state>%s' % STATE_SECRET,
+}
+
+po_list_count = McNum(lambda user_id, is_self: Po.where(user_id=user_id).where(PO_LIST_STATE[is_self]).count(), 'PoListCount.%s')
+
+mc_po_id_list = McLimitA('PoIdList.%s', 512)
+
+@mc_po_id_list('{user_id}_{is_self}')
+def po_id_list(user_id, is_self, limit, offset):
+    return Po.where(user_id=user_id).where(PO_LIST_STATE[is_self]).order_by('id desc').field_list(limit, offset)
+
+def po_view_list(user_id, is_self, limit, offset):
+    return Po.mc_get_list(po_id_list(user_id, is_self, limit, offset))
+
+def mc_flush(user_id):
+    mc_flush_other(user_id)
+    mc_flush_self(user_id)
+
+def _mc_flush(user_id, is_self):
+    key = '%s_%s' % (user_id, is_self)
+    po_list_count.delete(key)
+    mc_po_id_list.delete(key)
+
+def mc_flush_self(user_id):
+    _mc_flush(user_id, True)
+
+def mc_flush_other(user_id):
+    _mc_flush(user_id, False)
 
 if __name__ == '__main__':
     pass

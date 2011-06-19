@@ -1,0 +1,14 @@
+<%!
+from model.cid import CID_WORD
+%>
+<ol>
+    % for po in po_list:
+    <li>
+        <p>${po.name}</p>
+        % if po.cid != CID_WORD:
+        <pre>${po.htm|n}</pre>
+        % endif
+    </li>
+    % endfor
+</ol>
+${page|n}

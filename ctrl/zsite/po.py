@@ -3,7 +3,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from ctrl._urlmap.zsite import urlmap
-from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE
+from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list
 from model.po_question import po_answer_new
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply
@@ -11,6 +11,35 @@ from model.zsite import Zsite
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
 from model.notice import mq_notice_question
+from zkit.page import page_limit_offset
+
+PAGE_LIMIT = 42
+
+@urlmap('/po')
+@urlmap('/po-(\d+)')
+class PoPage(ZsiteBase):
+    def get(self, n=1):
+        zsite_id = self.zsite_id
+        user_id = self.current_user_id
+        is_self = zsite_id == user_id
+        total = po_list_count(zsite_id, is_self)
+
+        page, limit, offset = page_limit_offset(
+            '/po-%s',
+            total,
+            n,
+            PAGE_LIMIT
+        )
+
+        if type(n) == str and offset >= total:
+            return self.redirect('/po')
+
+        po_list = po_view_list(zsite_id, is_self, limit, offset)
+        self.render(
+            is_self=is_self,
+            po_list=po_list,
+            page=page,
+        )
 
 
 class PoBase(ZsiteBase):
