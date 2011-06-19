@@ -71,3 +71,46 @@ link = current_user.link
 
 </%def>
 
+<%def name="_h_nav(
+    nav_main = False, nav_self = False, nav_zsite = False, nav_account = False
+)">
+<div class="HN">\
+<%
+%>\
+%if current_user:
+<%
+    link = current_user.link
+%> 
+<div class="D">\
+<a class="DA" href="javascript:void(0)">更多</a>\
+<div>\
+    %if not nav_self:
+<a href="${link}/live">主页</a>\
+    %endif
+    %if not nav_main:
+<a href="${SITE_URL}">全站</a>\
+    %endif
+    %if not nav_account:
+<a href="${link}/i">账号</a>\
+    %endif
+<a href="//help.${SITE_DOMAIN}">帮助</a>\
+<a href="/logout?${_xsrf}">退出</a>\
+</div>\
+</div>\
+${_h_nav_notice()}\
+    %if nav_self:
+${_h_nav_self()}\
+    %elif nav_account:
+${_h_nav_account()}\
+    %elif nav_zsite:
+${_h_nav_zsite()}\
+    %elif nav_main:
+${_h_nav_main()}\
+    %endif
+<script>init_D()</script>\
+%else:
+${_h_nav_logout()}\
+%endif
+</div>\
+</%def>
+
