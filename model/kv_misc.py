@@ -5,5 +5,6 @@ from kv import Kv
 kv_int = Kv('kv_int', 0)
 kv_txt = Kv('kv_txt')
 
-#Key
+# Key
 KV_SHOW_BUZZ_POS = 1 # 加入Show的非重要通知
+KV_INVITE_QUESTION_POS = 2 # 邀请回答问题
