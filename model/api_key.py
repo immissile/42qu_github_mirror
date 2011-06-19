@@ -8,7 +8,9 @@ from txt import txt_property, txt_new
 from gid import gid
 from uuid import uuid4
 from _db import McCache
+from urllib import urlencode
 import binascii
+
 
 mc_api_serect = McCache('ApiSerect:%s')
 
@@ -37,6 +39,10 @@ def app_serect(id):
     if app:
         return binascii.hexlify(app.serect)
     return 0
+
+
+def api_sign(key, serect):
+    pass
 
 
 if __name__ == '__main__':
