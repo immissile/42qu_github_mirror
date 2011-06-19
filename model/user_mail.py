@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache
+from model.zsite import Zsite
 
 class UserMail(Model):
     pass
@@ -23,9 +24,14 @@ def _user_id_by_mail(mail):
         return c[0]
     return 0
 
+def user_by_mail(mail):
+    user_id = user_id_by_mail(mail)
+    return Zsite.mc_get(user_id)
+
 def user_id_by_mail(mail):
-    mail = mail.strip().lower()
-    return _user_id_by_mail(mail)
+    if mail:
+        mail = mail.strip().lower()
+        return _user_id_by_mail(mail)
 
 def user_mail_new(user_id, mail):
     mail = mail.strip().lower()

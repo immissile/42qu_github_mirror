@@ -49,5 +49,11 @@ def mc_flush(id, txt=None):
     else:
         mc_txt.set(id, txt)
 
+
+@property
+def txt_property(self):
+    return txt_get(self.id)
+
+
 if __name__ == '__main__':
     pass

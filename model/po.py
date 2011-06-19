@@ -7,7 +7,7 @@ from feed import feed_new, mc_feed_tuple, feed_rm
 from gid import gid
 from spammer import is_same_post
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
-from txt import txt_new, txt_get
+from txt import txt_new, txt_get, txt_property
 from zkit.time_format import time_title
 from reply import ReplyMixin
 from po_pic import pic_htm
@@ -23,9 +23,7 @@ PO_EN = {
 mc_htm = McCache('PoHtm.%s')
 
 class Po(McModel, ReplyMixin):
-    @property
-    def txt(self):
-        return txt_get(self.id)
+    txt = txt_property
 
     @property
     @mc_htm('{self.id}')
