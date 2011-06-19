@@ -12,7 +12,7 @@ def buzz_show():
     c = ZsiteList.raw_sql('select max(id) from zsite_list')
     pos = c.fetchone()[0]
     if pos > prev_pos:
-        c = ZsiteList.raw_sql('select zsite_id from zsite_list where owner_id=0 and cid=0 and state=1 and %s<id<%s order by id', prev_pos, pos)
+        c = ZsiteList.raw_sql('select zsite_id from zsite_list where owner_id=0 and cid=0 and state=1 and %s<id<=%s order by id', prev_pos, pos)
         for zsite_id, in c.fetchall():
             buzz_show_new_all(zsite_id)
         kv_int.set(KV_SHOW_BUZZ_POS, pos)

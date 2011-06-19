@@ -80,9 +80,36 @@ def notice_new(from_id, to_id, cid, rid=0, state=STATE_APPLY):
     notice_unread_incr(to_id)
     return n
 
+mc_notice_id_get = McCache('NoticeIdGet.%s')
+
+@mc_notice_id_get('{from_id}_{to_id}_{cid}_{rid}')
+def notice_id_get(from_id, to_id, cid, rid):
+    n = Notice.get(from_id=from_id, to_id=to_id, cid=CID_INVITE_QUESTION, rid=qid)
+    if n:
+        return n.id
+    return 0
+
 def invite_question(from_id, to_id, qid):
-    n = notice_new(from_id, to_id, CID_INVITE_QUESTION, qid)
-    return n
+    nid = notice_id_get(from_id, to_id, CID_INVITE_QUESTION, qid)
+    if not nid:
+        n = notice_new(from_id, to_id, CID_INVITE_QUESTION, qid)
+        return n
+
+def invite_question_mail(notice):
+    from model.user_mail import mail_by_user_id
+    from model.mail import rendermail
+    to_id = notice.to_id
+    to_user = Zsite.mc_get(to_id)
+    if to_user and notice_with_mail(to_id, CID_INVITE_QUESTION):
+        mail = mail_by_user_id(to_id)
+        name = to_user.name
+        question = Po.mc_get(notice.rid)
+        from_name = Zsite.mc_get(notice.from_id).name
+        rendermail('/mail/notice/invite_question.txt', mail, name,
+                   question=question,
+                   from_name=from_name,
+                   notice=notice,
+                  )
 
 notice_count = McNum(lambda to_id: Notice.where(to_id=to_id).where(STATE_GTE_APPLY).count(), 'NoticeCount.%s')
 
@@ -113,3 +140,22 @@ def mc_flush(to_id):
     to_id = str(to_id)
     mc_notice_id_list.delete(to_id)
     notice_count.delete(to_id)
+
+
+class NoticeMail(Model):
+    pass
+
+mc_notice_with_mail = McCache('NoticeWithMail.%s')
+
+@mc_notice_with_mail('{user_id}_{cid}')
+def notice_with_mail(user_id, cid):
+    m = NoticeMail.get(user_id=user_id, cid=cid)
+    if not m:
+        m = NoticeMail(user_id=user_id, cid=cid, state=1)
+        m.save()
+    return m.state
+
+def notice_mail_set(user_id, cid, state):
+    state = int(bool(state))
+    NoticeMail.where(user_id=user_id, cid=cid).update(state=state)
+    mc_notice_with_mail.set('%s_%s' % (user_id, cid), state)

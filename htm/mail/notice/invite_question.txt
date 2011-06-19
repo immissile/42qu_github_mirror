@@ -1,0 +1,15 @@
+${question.title}，想听听您的看法
+
+您好，我是${from_name}
+
+在网上看到了下面的这个话题:
+${question.title}
+${question.txt}
+
+很想请教您对它的见解 (下面是回复的网址)
+
+${site_http}${notice.link}
+
+该邮件由系统发送，如果您不想接到此类信件，
+${site_http}/i/notice
+点此设置

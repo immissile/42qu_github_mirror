@@ -195,6 +195,18 @@ CREATE TABLE `notice` (
   KEY `index2` (`to_id`,`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `notice_mail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notice_mail` (
+  `id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `cid` tinyint(3) unsigned NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `index2` (`user_id`,`cid`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `notice_unread`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
