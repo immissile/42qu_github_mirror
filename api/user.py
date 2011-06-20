@@ -7,7 +7,7 @@ from _urlmap import urlmap
 from model.user_mail import user_by_mail, mail_by_user_id
 from model.ico import ico96
 from model.user_auth import user_password_sha256, sha256
-from model.api_key import api_session_new
+from model.api_client import api_session_new
 
 @urlmap('/user/info/mail')
 class Index(_handler.ApiBase):

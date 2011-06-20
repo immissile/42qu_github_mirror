@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import model._db
 from zweb._handler import Base
-from model.api_key import api_sign_verify
+from model.api_client import api_sign_verify
 from model.api_error import API_ERROR_SIGN
 
 class ApiBase(Base):
