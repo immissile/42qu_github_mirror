@@ -11,9 +11,12 @@ class ApiBase(Base):
 class ApiSignBase(ApiBase):
     def prepare(self):
         arguments = self.request.arguments
+        arguments = dict([
+            (k,v[0]) for k,v in arguments.iteritems()
+        ])
         if api_sign_verify(arguments):
-            self.finish(API_ERROR_SIGN)
-        else:
             super(ApiBase, self).prepare()
+        else:
+            self.finish(API_ERROR_SIGN)
 
 

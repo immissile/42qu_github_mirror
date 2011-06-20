@@ -41,5 +41,5 @@ def user_new_by_mail(mail, password=None):
 
 if __name__ == '__main__':
     print user_password_sha256(1)
-    
+
 

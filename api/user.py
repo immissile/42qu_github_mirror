@@ -23,10 +23,10 @@ class Index(_handler.ApiBase):
 
 
 @urlmap('/user/auth/login')
-def Login(_handler.ApiSignBase):
+class Login(_handler.ApiSignBase):
     def get(self):
         user_id = self.get_argument("user_id")
-        auth = self.get_argument("auth")
+        auth = self.get_argument("token")
         client_id = self.get_argument('client_id')
         password = user_password_sha256(user_id)
         if not password:
