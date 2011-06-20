@@ -19,7 +19,7 @@ API_URL = 'http://api.%s'%SITE_DOMAIN
 
 mc_api_serect = McCache('ApiSerect:%s')
 mc_api_session = McCache('ApiSession:%s')
-mc_api_client_by_user_id = McCacheA('ApiClientIdByUserId:%s')
+mc_api_client_id_by_user_id = McCacheA('ApiClientIdByUserId:%s')
 
 class ApiSession(Model):
     pass
@@ -31,9 +31,9 @@ class ApiClient(McModel):
     def hex_serect(self):
         return binascii.hexlify(self.serect)
 
-@mc_api_client_by_user_id('{user_id}')
+@mc_api_client_id_by_user_id('{user_id}')
 def api_client_id_by_user_id(user_id):
-    return ApiClient.where(user_id=user_id).order_by('id desc').col_list(user_id)
+    return ApiClient.where(user_id=user_id).order_by('id desc').col_list()
 
 
 def api_client_by_user_id(user_id):
@@ -49,7 +49,7 @@ def api_client_new(user_id, name, txt):
     api_client.save()
     hex_serect = binascii.hexlify(serect)
     mc_api_serect.set(id, hex_serect)
-    mc_api_client_by_user_id.delete(user_id)
+    mc_api_client_id_by_user_id.delete(user_id)
     return api_client
 
 @mc_api_serect('{id}')
@@ -159,16 +159,20 @@ if __name__ == '__main__':
     #  api_sign_verify(arguments)
 
 
-
-
-    client_id = 73
-    serect = 'beafcff6034e4b26b914241235e66da4'
-    user_id = 74
-    mail = 'test@42qu.com'
-    password = '123456'
-
-    print api_s_url(
-        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA' , '/po/word'
-    )
-
-    print api_session_new(client_id, user_id)
+    print api_client_id_by_user_id(1)
+    for i in ApiClient.where(user_id=1):
+        print i
+    print ApiClient.where(user_id=1).order_by('id desc').col_list()
+    print api_client_by_user_id(1)
+    mc_api_client_id_by_user_id.delete(1)
+#    client_id = 73
+#    serect = 'beafcff6034e4b26b914241235e66da4'
+#    user_id = 74
+#    mail = 'test@42qu.com'
+#    password = '123456'
+#
+#    print api_s_url(
+#        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA' , '/po/word'
+#    )
+#
+#    print api_session_new(client_id, user_id)
