@@ -9,6 +9,7 @@ from model.ico import ico_new, ico_pos, ico_pos_new
 from model.zsite_link import url_by_id, url_new, url_valid
 from model.user_mail import mail_by_user_id
 from model.txt import txt_get, txt_new
+from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -75,7 +76,6 @@ class Index(LoginBase):
         )
 
 
-
 @urlmap('/i/url')
 class Url(LoginBase):
     def get(self):
@@ -96,6 +96,7 @@ class Url(LoginBase):
         self.render(
             error_url=error_url
         )
+
 
 @urlmap('/i/namecard')
 class Namecard(LoginBase):
@@ -160,3 +161,19 @@ class Namecard(LoginBase):
             birthday=birthday,
             sex=sex
         )
+
+
+@urlmap('/i/notice')
+class MailNotice(LoginBase):
+    def get(self):
+        user_id = self.current_user_id
+        self.render(
+            mail_notice_all=mail_notice_all(user_id)
+        )
+
+    def post(self):
+        user_id = self.current_user_id
+        for cid in CID_MAIL_NOTICE_ALL:
+            state = self.get_argument('mn%s' % cid, None)
+            mail_notice_set(user_id, cid, state)
+        self.redirect('/i/notice')
