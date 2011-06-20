@@ -17,6 +17,6 @@ class Index(_handler.Base):
             user_id = user.id
             data['user_id'] = user_id
             data['name'] = user.name
-            data['ico96'] = ico96.get(user_id) 
+            data['ico96'] = ico96.get(user_id)
         self.finish(data)
 

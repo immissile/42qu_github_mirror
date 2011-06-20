@@ -70,7 +70,7 @@ def api_sign_verify(arguments):
 
 def auth_token(mail, password_sha256):
     mail = mail.strip().lower()
-    password    
+    password
 
 
 if __name__ == '__main__':
