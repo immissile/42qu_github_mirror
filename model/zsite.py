@@ -21,7 +21,7 @@ class Zsite(McModel):
 
 def user_slient(user_id):
     user = Zsite.mc_get(user_id)
-    return user.state <= ZSITE_STATE_SILENT:
+    return user.state <= ZSITE_STATE_SILENT
 #
 #class Zpage(McModel):
 #    pass
