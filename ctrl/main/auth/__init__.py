@@ -12,7 +12,7 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 from zkit.errtip import Errtip
 
-LOGIN_REDIRECT = "%s/live"
+LOGIN_REDIRECT = '%s/live'
 
 @urlmap('/logout')
 class Logout(XsrfGetBase):
@@ -39,19 +39,19 @@ class NoLoginBase(Base):
             redirect = LOGIN_REDIRECT%current_user.link
         self.redirect(redirect)
 
-@urlmap("/auth/newbie")
+@urlmap('/auth/newbie')
 class Newbie(LoginBase):
     def get(self):
         self.render(
-            name="",
+            name='',
         )
 
     def post(self):
-        self.redirect("/i/pic")
+        self.redirect('/i/pic')
 
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
-    def get(self, mail=""):
+    def get(self, mail=''):
         self.render(
             mail=mail,
             sex=0,
@@ -89,7 +89,7 @@ class Reg(NoLoginBase):
                     errtip.password = '邮箱已注册。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
 
         if not sex:
-            errtip.sex = "请选择性别"
+            errtip.sex = '请选择性别'
 
         if not errtip:
             user_id = user_new_by_mail(mail, password)

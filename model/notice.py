@@ -10,8 +10,9 @@ from wall import Wall, WallReply
 from kv import Kv
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
-from model.user_mail import mail_by_user_id
-from model.mail import rendermail
+from user_mail import mail_by_user_id
+from mail import rendermail
+from mail_notice import mail_notice_state
 
 STATE_GTE_APPLY = 'state>=%s' % STATE_APPLY
 
@@ -117,7 +118,7 @@ def notice_mail(notice):
     cid = notice.cid
     rid = notice.rid
     if state == STATE_APPLY and cid in NOTICE_MAIL_CLS:
-        if notice_with_mail(to_id, cid):
+        if mail_notice_state(to_id, cid):
             mail = mail_by_user_id(to_id)
             name = Zsite.mc_get(to_id).name
             from_name = Zsite.mc_get(from_id).name
@@ -135,7 +136,7 @@ mc_notice_id_list = McLimitA('NoticeIdList.%s', 256)
 
 @mc_notice_id_list('{to_id}')
 def notice_id_list(to_id, limit, offset):
-    return Notice.where(to_id=to_id).where('state>=%s' % STATE_APPLY).order_by('id desc').field_list(limit, offset)
+    return Notice.where(to_id=to_id).where('state>=%s' % STATE_APPLY).order_by('id desc').col_list(limit, offset)
 
 def notice_list(to_id, limit, offset):
     li = Notice.mc_get_list(notice_id_list(to_id, limit, offset))
@@ -158,22 +159,3 @@ def mc_flush(to_id):
     to_id = str(to_id)
     mc_notice_id_list.delete(to_id)
     notice_count.delete(to_id)
-
-
-class NoticeMail(Model):
-    pass
-
-mc_notice_with_mail = McCache('NoticeWithMail.%s')
-
-@mc_notice_with_mail('{user_id}_{cid}')
-def notice_with_mail(user_id, cid):
-    m = NoticeMail.get(user_id=user_id, cid=cid)
-    if not m:
-        m = NoticeMail(user_id=user_id, cid=cid, state=1)
-        m.save()
-    return m.state
-
-def notice_mail_set(user_id, cid, state):
-    state = int(bool(state))
-    NoticeMail.where(user_id=user_id, cid=cid).update(state=state)
-    mc_notice_with_mail.set('%s_%s' % (user_id, cid), state)

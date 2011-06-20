@@ -46,7 +46,7 @@ class ZsiteTagPo(McModel):
 
 @mc_zsite_tag_id_list_by_zsite_id('{zsite_id}')
 def zsite_tag_id_list_by_zsite_id(zsite_id):
-    return ZsiteTag.where(zsite_id=zsite_id).order_by('id desc').field_list(field='tag_id')
+    return ZsiteTag.where(zsite_id=zsite_id).order_by('id desc').col_list(col='tag_id')
 
 def zsite_tag_list_by_zsite_id(zsite_id):
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)

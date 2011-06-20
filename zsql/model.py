@@ -23,7 +23,7 @@ class Model(object):
         m = MyModel(1, 'A string')
 
         # Or using kwargs
-        m = MyModel(field=1, text='A string')
+        m = MyModel(col=1, text='A string')
 
         # Saving inserts into the database (assuming it validates [see below])
         m.save()
@@ -37,7 +37,7 @@ class Model(object):
         # Deleting removes from the database
         m.delete()
 
-        m = MyModel(field=0)
+        m = MyModel(col=0)
 
         m.save()
 
@@ -60,14 +60,14 @@ class Model(object):
             # do something here...
 
         # We can where our Query
-        m = MyModel.where(field=1)
-        m = m.where(another_field=2)
+        m = MyModel.where(col=1)
+        m = m.where(another_col=2)
 
         # This is the same as
-        m = MyModel.where(field=1, another_field=2)
+        m = MyModel.where(col=1, another_col=2)
 
         # Set the order by clause
-        m = MyModel.where(field=1).order_by('-field')
+        m = MyModel.where(col=1).order_by('-field')
         # Removing the second argument defaults the order to ASC
 
     '''

@@ -22,14 +22,14 @@ def namecard_get(user_id):
     return Namecard.mc_get(id)
 
 def namecard_new(
-    user_id, sex=0, marry=0, 
-    birthday="00000000",
+    user_id, sex=0, marry=0,
+    birthday='00000000',
     pid_home=0,
     pid_now=0,
-    name="",
-    phone="", 
-    mail="",
-    address="",
+    name='',
+    phone='',
+    mail='',
+    address='',
     state=STATE_ACTIVE
 ):
     c = namecard_get(user_id)

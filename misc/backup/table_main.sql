@@ -15,6 +15,18 @@ CREATE TABLE `api_app` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `api_session`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `api_session` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `value` binary(12) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `client_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `Index_2` USING BTREE (`user_id`,`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `bank`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -157,6 +169,18 @@ CREATE TABLE `kv_txt` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `mail_notice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mail_notice` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `user_id` int(10) unsigned NOT NULL,
+  `cid` tinyint(3) unsigned NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `index2` (`user_id`,`cid`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `motto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -205,18 +229,6 @@ CREATE TABLE `notice` (
   PRIMARY KEY  (`id`),
   KEY `index2` (`to_id`,`state`),
   KEY `index3` (`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=binary;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `notice_mail`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `notice_mail` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `user_id` int(10) unsigned NOT NULL,
-  `cid` tinyint(3) unsigned NOT NULL,
-  `state` tinyint(3) unsigned NOT NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `index2` (`user_id`,`cid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `notice_unread`;

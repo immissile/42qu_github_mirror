@@ -27,7 +27,7 @@ mc_zsite_list = McLimitA('ZsiteList%s', 1024)
 @mc_zsite_list('{owner_id}_{cid}')
 def zsite_list(owner_id, cid, limit=None, offset=None):
     qs = ZsiteList.where(owner_id=owner_id, cid=cid, state=1).order_by('rank desc')
-    return qs.field_list(limit, offset, 'zsite_id')
+    return qs.col_list(limit, offset, 'zsite_id')
 
 def _zsite_list_new(zsite_id, owner_id, cid, rank=1000):
     zsite = ZsiteList.get_or_create(
@@ -47,7 +47,7 @@ def zsite_list_new(zsite_id, owner_id, cid_list=[], rank=1000):
         _zsite_list_new(zsite_id, owner_id, cid, rank)
 
 def zsite_list_rm(zsite_id, owner_id):
-    cid_list = ZsiteList.where(zsite_id=zsite_id, owner_id=owner_id, state=1).field_list(field='cid')
+    cid_list = ZsiteList.where(zsite_id=zsite_id, owner_id=owner_id, state=1).col_list(col='cid')
     ZsiteList.raw_sql('update zsite_list state=0 where zsite_id=%s and owner_id=%s', zsite_id, owner_id)
     for cid in cid_list:
         mc_zsite_list_id_0.delete('%s_%s' % (owner_id, cid))
@@ -56,7 +56,7 @@ def zsite_list_get(zsite_id, owner_id, cid=0):
     return ZsiteList.get(zsite_id=zsite_id, owner_id=owner_id, cid=cid, state=1)
 
 def zsite_list_rank(zsite_id, owner_id, rank):
-    cid_list = ZsiteList.where(zsite_id=zsite_id, owner_id=owner_id, state=1).field_list(field='cid')
+    cid_list = ZsiteList.where(zsite_id=zsite_id, owner_id=owner_id, state=1).col_list(col='cid')
     ZsiteList.raw_sql('update zsite_list rank=%s where zsite_id=%s and owner_id=%s', rank, zsite_id, owner_id)
     for cid in cid_list:
         mc_zsite_list_id_0.delete('%s_%s' % (owner_id, cid))

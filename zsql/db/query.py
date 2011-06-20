@@ -290,8 +290,8 @@ class Query(object):
             print '\t%s ; %s'%(sql.strip(), values)
         return cursor
 
-    def field_list(self, limit=None, offset=None, field='id'):
-        self.type = 'SELECT %s' % field
+    def col_list(self, limit=None, offset=None, col='id'):
+        self.type = 'SELECT %s' % col
         self.limit = _limit = []
         if limit is not None:
             if offset is not None:
