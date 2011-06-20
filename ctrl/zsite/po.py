@@ -15,6 +15,7 @@ from zkit.page import page_limit_offset
 
 PAGE_LIMIT = 42
 
+
 @urlmap('/po')
 @urlmap('/po-(\d+)')
 class PoPage(ZsiteBase):
@@ -41,14 +42,18 @@ class PoPage(ZsiteBase):
             page=page,
         )
 
+CID2TEMPLATE = {
+    CID_WORD:"/ctrl/zsite/po/word.htm",
+    CID_NOTE:"/ctrl/zsite/po/note.htm",
+    CID_QUESTION:"/ctrl/zsite/po/question.htm",
+}
 
-class PoBase(ZsiteBase):
-    cid = None
-
+@urlmap("/(\d+)")
+class PoOne(ZsiteBase):
     def po(self, id):
         po = Po.mc_get(id)
         if po:
-            if po.user_id == self.zsite_id and po.cid == self.cid:
+            if po.user_id == self.zsite_id:
                 return po
             return self.redirect(po.link)
         return self.redirect('/')
@@ -67,6 +72,7 @@ class PoBase(ZsiteBase):
         zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
 
         return self.render(
+            CID2TEMPLATE[po.cid],
             po=po,
             can_admin=can_admin,
             can_view=can_view,
@@ -75,21 +81,8 @@ class PoBase(ZsiteBase):
         )
 
 
-@urlmap('/word/(\d+)')
-class Word(PoBase):
-    cid = CID_WORD
-
-
-@urlmap('/note/(\d+)')
-class Note(PoBase):
-    cid = CID_NOTE
-
-
-@urlmap('/question/(\d+)')
-class Question(PoBase):
-    cid = CID_QUESTION
-
-    @login
+@urlmap("/question/(\d+)")
+class Question(LoginBase):
     def post(self, id):
         question = self.po(id)
         if question is None:
