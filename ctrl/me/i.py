@@ -163,7 +163,7 @@ class Namecard(LoginBase):
         )
 
 
-@urlmap('/i/notice')
+@urlmap('/i/mail_notice')
 class MailNotice(LoginBase):
     def get(self):
         user_id = self.current_user_id
