@@ -24,6 +24,7 @@ def render_conf(name, fs_path, o, port_list=[], zsite_port_list=[]):
         port_list=port_list,
         zsite_port_list=zsite_port_list,
         fs_path=fs_path,
+        base_path = PREFIX
     )
     path = join(
             PREFIX, 'config/nginx/%s'%name
