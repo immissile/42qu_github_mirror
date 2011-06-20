@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel
+from os import urandom
 from user_mail import user_mail_new, user_id_by_mail
 from zsite import zsite_new_user, Zsite
 from txt import txt_property, txt_new
@@ -12,10 +13,15 @@ from hashlib import sha256
 import binascii
 from operator import itemgetter
 from config import SITE_DOMAIN
+from user_session import password_encode
 
 API_URL = 'http://api.%s'%SITE_DOMAIN
 
 mc_api_serect = McCache('ApiSerect:%s')
+mc_api_session = McCache('ApiSession:%s')
+
+class ApiSession(Model):
+    pass
 
 class ApiApp(Model):
     txt = txt_property
@@ -44,6 +50,21 @@ def api_serect(id):
     return 0
 
 
+@mc_api_session('{user_id}_{client_id}')
+def api_session(user_id, client_id):
+    u = ApiSession.get(user_id=user_id, client_id=client_id)
+    if u is not None:
+        return u.value or False
+    return False
+
+def api_session_new(user_id, client_id):
+    value = api_session(user_id, client_id)
+    if not value:
+        ApiSession.get_or_create(user_id=user_id, client_id=client_id)
+        session.value = value = urandom(12)
+        session.save()
+        mc_api_session.set('%s_%s'%(user_id, client_id), session.value)
+    return password_encode(user_id, value)
 
 #生成的url
 def app_url_encode(arguments):
@@ -96,7 +117,7 @@ def api_login_url(
         token=api_login_token(user_id, mail, password)
     )
     url = api_sign_arguments(arguments, serect)
-    return "%s/user/auth/login?%s"%(API_URL,url)
+    return '%s/user/auth/login?%s'%(API_URL, url)
 
 if __name__ == '__main__':
     api_app = ApiApp.get(73)
@@ -126,4 +147,4 @@ if __name__ == '__main__':
         client_id, serect, user_id, mail, password
     )
 
-
+    print api_session_new(user_id, client_id)

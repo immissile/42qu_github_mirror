@@ -8,6 +8,12 @@ from time import time
 
 mc_user_session = McCache('UserSession:%s')
 
+def password_encode(user_id, session):
+    user_id_key = pack('I', int(user_id))
+    user_id_key = urlsafe_b64encode(user_id_key)[:6]
+    ck_key = urlsafe_b64encode(session)
+    return '%s%s'%(user_id_key, ck_key)
+
 class UserSession(Model):
     pass
 
@@ -31,11 +37,7 @@ def user_session(user_id):
             cursor.execute( 'insert delayed into user_login_time (user_id, create_time) values (%s, %s)', (user_id, int(time())) )
             cursor.connection.commit()
 
-    user_id_key = pack('I', int(user_id))
-    user_id_key = urlsafe_b64encode(user_id_key)[:6]
-    ck_key = urlsafe_b64encode(s)
-    return '%s%s'%(user_id_key, ck_key)
-
+    return password_encode(user_id, s)
 
 def user_session_rm(user_id):
     u = UserSession.where(id=user_id).update(value=None)
