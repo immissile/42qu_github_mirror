@@ -50,8 +50,10 @@ class Feed(JLoginBase):
             i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
         #self.finish(result)
         result = dumps(result)
-        result = """
-[[107,["zsp007","//80.zuroc.xxx"],[],80,61,0,1308585944,"PO_EN sss",0,0,0],[106,["zsp007","//80.zuroc.xxx"],[],80,61,0,1308585871,"zzzzzzzzzzzzzz",0,0,0],[105,["zsp007","//80.zuroc.xxx"],[],80,61,0,1308585844,"PO_EN",0,0,0],[104,["zsp007","//80.zuroc.xxx"],[],80,61,0,1308585832,"ssssssssssssssssssssss",0,0,0],[103,["zsp007","//80.zuroc.xxx"],[],80,61,0,1308585828,"PO_EN",0,0,0],[102,["zsp007","//80.zuroc.xxx"],[],80,61,0,1308585805,"ssssssssssssss",0,0,0],[101,["zsp007","//80.zuroc.xxx"],[],80,61,0,1308585802,"PO_ENPO_EN",0,0,0],[98,["zsp007","//80.zuroc.xxx"],[],80,61,0,1308585776,"PO_EN",0,0,0],[97,["zsp007","//80.zuroc.xxx"],[],80,61,0,1308585766,"PO_ENPO_ENPO_EN",0,0,0],[96,["zsp007","//80.zuroc.xxx"],[],80,61,0,1308585763,"http://3.zuroc.xxx/",0,0,0],[95,["zsp007","//80.zuroc.xxx"],[],80,63,0,1308585749,"PO_EN",0,0,0],[94,["zsp007","//80.zuroc.xxx"],[],80,62,0,1308585733,"PO_EN",0,0,0,"PO_ENPO_ENPO_ENPO_ENPO_ENPO_ENPO_EN"],[87,["zsp007","//80.zuroc.xxx"],[],80,62,0,1308574197,"** \u6240\u6709\u6587\u7ae0\u7684\u6d4f\u89c8\u9875\u9762",0,0,0,"** 所有文章的浏览页面"]]"""
         self.finish(result)
 
     post = get
+
+"""
+,[87,["zsp007","//80.zuroc.xxx"],[],80,62,0,1308574197,"** \u6240\u6709\u6587\u7ae0\u7684\u6d4f\u89c8\u9875\u9762",0,0,0,"** 所有文章的浏览页面"]
+"""
