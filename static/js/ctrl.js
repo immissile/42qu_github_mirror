@@ -35,8 +35,7 @@ function login(){
     $.fancybox({
             href:'/j/login',
             onComplete:function(){ 
-                $("#login_next_pop").val(location.href);
-                $("#login").attr('action',"/login")
+                $("#login").attr('action',"/login?next="+encodeURIComponent(location.href))
                 login_autofill("_pop")
             }
     });
