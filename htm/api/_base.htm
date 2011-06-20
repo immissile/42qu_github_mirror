@@ -1,5 +1,5 @@
 <%!
-from config import SITE_URL
+from config import SITE_URL, SITE_DOMAIN
 
 %>\
 
@@ -8,12 +8,15 @@ from config import SITE_URL
 ${css.api_0|n}
 </head>
 <body>
-<div id="head"><a href="/">Zpage API</a></div>
+<div id="head"><a href="/">${SITE_DOMAIN} API</a></div>
 <div class="content">
 <h1>z page</h1>
+<div>
+${next.body()}
+</div>
 </div>
 <div id="foot">\
-<a href="/" style="">Zpage API</a> </div>
+<a href="/">${SITE_DOMAIN} API</a> </div>
 <div id="copyright">
 <a href="http://42qu.com/zuroc" target="_blank">Powered by 张沈鹏 & 42qu.com !</a>
 </div>

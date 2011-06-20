@@ -20,7 +20,7 @@ mc_answer_id_get = McCache('AnswerIdGet.%s')
 
 @mc_answer_id_get('{user_id}_{question_id}')
 def answer_id_get(user_id, question_id):
-    for i in Po.where(user_id=user_id, rid=question_id).field_list(1, 0):
+    for i in Po.where(user_id=user_id, rid=question_id).col_list(1, 0):
         return i
     return 0
 

@@ -61,13 +61,13 @@ class PasswordReset(Base):
                 mail = mail_by_user_id(user_id)
                 link = mail2link(mail)
                 if user:
-                    return self.render(mail=mail,link=link)
+                    return self.render(mail=mail, link=link)
         elif EMAIL_VALID.match(mail):
             user_id = user_id_by_mail(mail)
             if user_id:
                 user = Zsite.mc_get(user_id)
                 verify_mail_new(user_id, user.name, mail, self.cid)
-                return self.redirect("/auth/password/reset/%s"%user_id)
+                return self.redirect('/auth/password/reset/%s'%user_id)
         self.redirect('/login')
 
 @urlmap('/auth/verify/password/(\d+)/(.+)')
