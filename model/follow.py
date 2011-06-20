@@ -5,6 +5,7 @@ from zsite import Zsite
 from gid import gid
 
 follow_count_by_to_id = McNum(lambda to_id: Follow.where(to_id=to_id).count(), 'FollowCountByToId.%s')
+follow_count_by_from_id = McNum(lambda from_id: Follow.where(from_id=from_id).count(), 'FollowCountByFromId.%s')
 mc_follow_id_list_by_to_id = McLimitA('FollowIdListByToId.%s', 128)
 mc_follow_id_list_by_from_id_cid = McCacheA('FollowIdListByFromIdCid.%s')
 mc_follow_id_list_by_from_id = McCacheA('FollowIdListByFromId.%s')
@@ -79,3 +80,4 @@ def mc_flush(from_id, to_id, cid):
     mc_follow_id_list_by_from_id.delete(from_id)
     mc_follow_id_list_by_to_id.delete(to_id)
     follow_count_by_to_id.delete(to_id)
+    follow_count_by_from_id.delete(from_id)
