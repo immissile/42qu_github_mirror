@@ -4,6 +4,7 @@ from _db import Model, McModel
 from hashlib import sha256
 from user_mail import user_mail_new, user_id_by_mail
 from zsite import zsite_new_user, Zsite
+from binascii import hexlify
 
 def hash_password(id, password):
     return sha256('%s%s'%(password, id)).digest()
@@ -11,11 +12,9 @@ def hash_password(id, password):
 class UserPassword(Model):
     pass
 
-def user_new_session(user_id):
-    return
-
 def user_password_sha256(user_id):
-    return 
+    password = UserPassword.get(id=user_id)
+    return hexlify(password.password)
 
 def user_password_new(user_id, password):
     if password is not None:
@@ -40,4 +39,6 @@ def user_new_by_mail(mail, password=None):
     return user_id
 
 if __name__ == '__main__':
-    pass
+    print user_password_sha256(1)
+    
+
