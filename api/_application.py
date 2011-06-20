@@ -3,7 +3,9 @@
 import tornado.web
 import _url
 from _urlmap import urlmap
+from config import SITE_URL
 
 application = tornado.web.Application(
-    tuple(urlmap.handlers)
+    tuple(urlmap.handlers),
+    login_url='%s/login'%SITE_URL
 )
