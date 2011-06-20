@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from _handler import Base
+from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
 from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set

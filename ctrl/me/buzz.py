@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from _handler import Base
+from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from zkit.page import page_limit_offset
 from model.buzz import buzz_list, buzz_count

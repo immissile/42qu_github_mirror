@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from _handler import Base
+from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from config import RPC_HTTP
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_PAY_ALIPAY
