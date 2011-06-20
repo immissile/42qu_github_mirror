@@ -49,7 +49,6 @@ def api_serect(id):
         return binascii.hexlify(client.serect)
     return 0
 
-
 @mc_api_session('{client_id}_{user_id}')
 def api_session(client_id, user_id):
     u = ApiSession.get(user_id=user_id, client_id=client_id)
@@ -72,12 +71,10 @@ def client_url_encode(arguments):
     items.sort(key=itemgetter(0))
     return urlencode(items)
 
-
 def _api_sign(arguments, serect):
     _url = client_url_encode(arguments)
     url = '&'.join((_url, 'client_serect=%s'%serect))
     return sha256(url).hexdigest(), _url
-
 
 #生成签名
 def api_sign(arguments, serect):
