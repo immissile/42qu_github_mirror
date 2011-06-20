@@ -5,7 +5,7 @@ from pprint import pformat
 <%inherit file="/ctrl/_base/_base.htm" />
 <%def name="htm_title()">${status_code} : ${httplib.responses[status_code]}</%def>
 
-<h1>貌似出岔子了 ...</h1>
+<h1>貌似出岔子了 , <a href="/">点此返回首页</a>...</h1>
 %if status_code == 500:
 <div>
 <pre>${traceback}</pre>
