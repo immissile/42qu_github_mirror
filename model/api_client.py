@@ -13,7 +13,7 @@ from hashlib import sha256
 import binascii
 from operator import itemgetter
 from config import SITE_DOMAIN
-from user_session import password_encode
+from user_session import password_encode, user_id_value_by_session
 
 API_URL = 'http://api.%s'%SITE_DOMAIN
 
@@ -104,6 +104,14 @@ def api_sign_verify(arguments):
 def api_sign_arguments(arguments, serect):
     sign , url = _api_sign(arguments, serect)
     return '%s&sign=%s'%(url, sign)
+
+def api_login_verify(client_id, s):
+    user_id, session = user_id_value_by_session(s)
+    if not user_id:
+        return
+    if session!=api_session(client_id, user_id):
+        return
+    return True
 
 ######## 以下为客户端生成URL的演示部分 #########
 

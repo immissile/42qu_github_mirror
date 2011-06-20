@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 import model._db
 from zweb._handler import Base
-from model.api_client import api_sign_verify
-from model.api_error import API_ERROR_SIGN
+from model.api_client import api_sign_verify, api_login_verify
+from model.api_error import API_ERROR_SIGN, API_ERROR_LOGIN
 
 class ApiBase(Base):
     pass
@@ -24,5 +24,7 @@ class ApiLoginBase(ApiSignBase):
         super(ApiBase, self).prepare()
         if self._finished:
             return
-        argument = self.get_argument("S")
-        
+        S = self.get_argument("S")
+        client_id = self.get_argument('client_id')
+        if not api_login_verify(client_id, S):
+            self.finish(API_ERROR_LOGIN)
