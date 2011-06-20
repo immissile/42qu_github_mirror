@@ -11,7 +11,7 @@ from model.notice import notice_unread as _notice_unread
     link = current_user.link
 %>\
 <%
-notice_unread = _notice_unread.get(current_user_id) or 1
+notice_unread = _notice_unread.get(current_user_id)
 %>\
     %if notice_unread:
 <%
