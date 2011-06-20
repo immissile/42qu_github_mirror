@@ -15,13 +15,13 @@ rank_po_id_count = McNum(lambda to_id, cid: Rank.where(to_id=to_id, cid=cid).cou
 @mc_rank_po_id_list('{to_id}_{cid}_{order}')
 def rank_po_id_list(to_id, cid, order, offset=0, limit=512):
     qs = Rank.where(to_id=to_id, cid=cid).order_by('%s desc' % order)
-    return qs.field_list(limit, offset, 'po_id')
+    return qs.col_list(limit, offset, 'po_id')
 
 #mc_rank_to_id_by_po_id_cid = McCache('RankToIdByPoIdCid.%s')
 #
 #@mc_rank_to_id_by_po_id_cid('{po_id}_{cid}')
 #def rank_to_id_by_po_id_cid(po_id, cid):
-#    for to_id in Rank.where(po_id=po_id, cid=cid).field_list(1, 0, 'to_id'):
+#    for to_id in Rank.where(po_id=po_id, cid=cid).col_list(1, 0, 'to_id'):
 #        return to_id
 #    return 0
 
@@ -49,7 +49,7 @@ def mc_flush_cid(to_id, cid):
 #
 #@mc_rid_list_by_po_id('{po_id}')
 #def rid_list_by_po_id(po_id):
-#    return Rank.where(po_id=po_id).field_list(field='rid')
+#    return Rank.where(po_id=po_id).col_list(col='rid')
 #
 #def zsite_list_by_po_id(po_id):
 #    ids = zsite_id_list_by_po_id(po_id)
@@ -129,7 +129,7 @@ def mc_flush_cid(to_id, cid):
 #    if cid:
 #        qs = qs.where(cid=cid)
 #    order = ORDER_DIC[order]
-#    return qs.order_by('%s desc' % order).field_list(limit, offset)
+#    return qs.order_by('%s desc' % order).col_list(limit, offset)
 #
 #def team_note_list(zsite_id, cid, order, offset=0, limit=3):
 #    ids = team_note_id_list(zsite_id, cid, order, offset, limit)

@@ -2,7 +2,7 @@ from zsql.db.query import Query
 from zsql.model import cache
 
 class Relation(object):
-    def __init__(self, model, field=None):
+    def __init__(self, model, col=None):
         self.model = model
         self.field = field
     def _set_up(self, instance, owner):

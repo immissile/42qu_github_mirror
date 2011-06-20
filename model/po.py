@@ -134,7 +134,7 @@ mc_po_id_list = McLimitA('PoIdList.%s', 512)
 
 @mc_po_id_list('{user_id}_{is_self}')
 def po_id_list(user_id, is_self, limit, offset):
-    return Po.where(user_id=user_id).where(PO_LIST_STATE[is_self]).order_by('id desc').field_list(limit, offset)
+    return Po.where(user_id=user_id).where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
 
 def po_view_list(user_id, is_self, limit, offset):
     return Po.mc_get_list(po_id_list(user_id, is_self, limit, offset))

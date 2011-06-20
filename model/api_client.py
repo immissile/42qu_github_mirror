@@ -19,6 +19,7 @@ API_URL = 'http://api.%s'%SITE_DOMAIN
 
 mc_api_serect = McCache('ApiSerect:%s')
 mc_api_session = McCache('ApiSession:%s')
+mc_api_client_by_user_id = McCacheA('ApiClientByUserId:%s')
 
 class ApiSession(Model):
     pass
@@ -29,6 +30,11 @@ class ApiClient(Model):
     @property
     def hex_serect(self):
         return binascii.hexlify(self.serect)
+
+@mc_api_client_by_user_id(user_id)
+def api_client_by_user_id(user_id):
+    return ApiClient.where(user_id=user_id).col_list(user_id)
+
 
 def api_client_new(user_id, name, txt):
     serect = uuid4().bytes

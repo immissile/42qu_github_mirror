@@ -136,7 +136,7 @@ mc_notice_id_list = McLimitA('NoticeIdList.%s', 256)
 
 @mc_notice_id_list('{to_id}')
 def notice_id_list(to_id, limit, offset):
-    return Notice.where(to_id=to_id).where('state>=%s' % STATE_APPLY).order_by('id desc').field_list(limit, offset)
+    return Notice.where(to_id=to_id).where('state>=%s' % STATE_APPLY).order_by('id desc').col_list(limit, offset)
 
 def notice_list(to_id, limit, offset):
     li = Notice.mc_get_list(notice_id_list(to_id, limit, offset))
