@@ -1,4 +1,5 @@
-#coding:utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from zsite_list import ZsiteList, zsite_list, zsite_list_new, zsite_list_rm, zsite_list_get, zsite_list_rank
 
 OWNER_ID = 0
