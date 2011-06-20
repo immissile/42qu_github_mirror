@@ -49,6 +49,11 @@ class Feed(JLoginBase):
             i.insert(FEED_TUPLE_DEFAULT_LEN, vote_state(current_user_id, id))
             i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
         #self.finish(result)
-        self.finish(dumps(result))
+        result = dumps(result)
+        self.finish(result)
 
     post = get
+
+"""
+,[87,["zsp007","//80.zuroc.xxx"],[],80,62,0,1308574197,"** \u6240\u6709\u6587\u7ae0\u7684\u6d4f\u89c8\u9875\u9762",0,0,0,"** 所有文章的浏览页面"]
+"""

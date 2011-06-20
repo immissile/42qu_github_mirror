@@ -61,7 +61,7 @@ user = answer.user
 %endfor
 
     %if po_state > STATE_SECRET and not answer_id_get(current_user_id, po_id):
-<%htm:form id="answer">
+<%htm:form id="answer" action="/question/${po_id}">
 <input type="text" name="name" id="name">
 <hr>
 <textarea id="txt" name="txt"></textarea>
