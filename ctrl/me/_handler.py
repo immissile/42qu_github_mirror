@@ -8,7 +8,7 @@ class LoginBase(_LoginBase):
     def prepare(self):
         super(LoginBase, self).prepare()
         if self.zsite_id != self.current_user_id:
-            current_user_link = current_user.link
+            current_user_link = self.current_user.link
             path = self.request.path
             link = '%s%s'%(current_user_link, path)
             return self.redirect(link)
