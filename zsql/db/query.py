@@ -291,7 +291,7 @@ class Query(object):
         return cursor
 
     def col_list(self, limit=None, offset=None, col='id'):
-        self.type = 'SELECT %s' % field
+        self.type = 'SELECT %s' % col
         self.limit = _limit = []
         if limit is not None:
             if offset is not None:

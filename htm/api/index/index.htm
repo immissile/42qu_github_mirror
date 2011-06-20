@@ -1,7 +1,25 @@
 <%inherit file="/api/_base.htm" />
 <%!
+from model.api_client import api_client_by_user_id
 %>
 <%def name="htm_head()">
 </%def>
 
 <a href="/apply">申请 API KEY</a>
+%for client in api_client_by_user_id(current_user_id):
+<%
+txt = client.txt
+%>
+<div style="margin:10px 0;padding:27px;border:1px solid #eee">
+<div>${client.name}</div>
+%if txt:
+<pre>${txt}</pre>
+%endif
+<div>
+API KEY : ${client.id}
+</div>
+<div>
+API SERECT : ${client.hex_serect}
+</div>
+</div>
+%endfor

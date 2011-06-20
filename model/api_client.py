@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel
+from _db import Model, McModel, McCacheA
 from os import urandom
 from user_mail import user_mail_new, user_id_by_mail
 from zsite import zsite_new_user, Zsite
@@ -19,22 +19,25 @@ API_URL = 'http://api.%s'%SITE_DOMAIN
 
 mc_api_serect = McCache('ApiSerect:%s')
 mc_api_session = McCache('ApiSession:%s')
-mc_api_client_by_user_id = McCacheA('ApiClientByUserId:%s')
+mc_api_client_by_user_id = McCacheA('ApiClientIdByUserId:%s')
 
 class ApiSession(Model):
     pass
 
-class ApiClient(Model):
+class ApiClient(McModel):
     txt = txt_property
 
     @property
     def hex_serect(self):
         return binascii.hexlify(self.serect)
 
-@mc_api_client_by_user_id(user_id)
-def api_client_by_user_id(user_id):
-    return ApiClient.where(user_id=user_id).col_list(user_id)
+@mc_api_client_by_user_id("{user_id}")
+def api_client_id_by_user_id(user_id):
+    return ApiClient.where(user_id=user_id).order_by("id desc").col_list(user_id)
 
+
+def api_client_by_user_id(user_id):
+    return ApiClient.mc_get_list(api_client_id_by_user_id(user_id))
 
 def api_client_new(user_id, name, txt):
     serect = uuid4().bytes
@@ -46,6 +49,7 @@ def api_client_new(user_id, name, txt):
     api_client.save()
     hex_serect = binascii.hexlify(serect)
     mc_api_serect.set(id, hex_serect)
+    mc_api_client_by_user_id.delete(user_id)
     return api_client
 
 @mc_api_serect('{id}')
