@@ -57,7 +57,6 @@ def user_session_rm(user_id):
     u = UserSession.where(id=user_id).update(value=None)
     mc_user_session.delete(user_id)
 
-
 def user_id_by_session(session):
     user_id, value = user_id_value_by_session(session)
     if not user_id:
@@ -72,3 +71,5 @@ if __name__ == '__main__':
     print session
     #print user_id_by_session(session)
     #user_session_rm(2)
+
+

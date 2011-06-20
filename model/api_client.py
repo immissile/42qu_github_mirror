@@ -67,9 +67,9 @@ def api_session(client_id, user_id):
     return False
 
 def api_session_new(client_id, user_id):
-    value = api_session(user_id, client_id)
+    value = api_session(client_id, user_id)
     if not value:
-        ApiSession.get_or_create(user_id=user_id, client_id=client_id)
+        session = ApiSession.get_or_create(user_id=user_id, client_id=client_id)
         session.value = value = urandom(12)
         session.save()
         mc_api_session.set('%s_%s'%(client_id, user_id), session.value)
@@ -109,7 +109,9 @@ def api_login_verify(client_id, s):
     user_id, session = user_id_value_by_session(s)
     if not user_id:
         return
-    if session != api_session(client_id, user_id):
+    session2 = api_session(client_id, user_id)
+    #print session2,"!!!", client_id, user_id
+    if session != session2:
         return
     return True
 
@@ -166,7 +168,7 @@ if __name__ == '__main__':
     password = '123456'
 
     print api_s_url(
-        client_id, serect, 'SQAAAA7QQDfo6x7oUPcjSA' , '/po/word'
+        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA' , '/po/word'
     )
 
-    print api_session_new(user_id, client_id)
+    print api_session_new(client_id, user_id)
