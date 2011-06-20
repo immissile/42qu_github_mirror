@@ -2,17 +2,17 @@
 #coding:utf-8
 
 
-import _handler
+from zweb._handler.me import Base, LoginBase
 from _urlmap import urlmap
 
 
 @urlmap('/')
-class Index(_handler.Base):
+class Index(Base):
     def get(self):
         self.render()
 
 
 @urlmap("/apply")
-def Apply(_handler.Base):
+def Apply(LoginBase):
     def get(self):
         self.render()
