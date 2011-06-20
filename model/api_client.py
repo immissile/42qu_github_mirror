@@ -31,9 +31,9 @@ class ApiClient(McModel):
     def hex_serect(self):
         return binascii.hexlify(self.serect)
 
-@mc_api_client_by_user_id("{user_id}")
+@mc_api_client_by_user_id('{user_id}')
 def api_client_id_by_user_id(user_id):
-    return ApiClient.where(user_id=user_id).order_by("id desc").col_list(user_id)
+    return ApiClient.where(user_id=user_id).order_by('id desc').col_list(user_id)
 
 
 def api_client_by_user_id(user_id):
@@ -109,7 +109,7 @@ def api_login_verify(client_id, s):
     user_id, session = user_id_value_by_session(s)
     if not user_id:
         return
-    if session!=api_session(client_id, user_id):
+    if session != api_session(client_id, user_id):
         return
     return True
 
@@ -134,21 +134,27 @@ def api_login_url(
     url = api_sign_arguments(arguments, serect)
     return '%s/user/auth/login?%s'%(API_URL, url)
 
+def api_s_url(client_id, serect, s, url, **kwds):
+    arguments = kwds
+    kwds['client_id'] = client_id
+    kwds['S'] = s
+    return '%s%s?%s'%(API_URL, url, api_sign_arguments(arguments, serect))
+
 if __name__ == '__main__':
     api_client = ApiClient.get(73)
-    serect = api_client.hex_serect
-    print 'client_id', api_client.id
-    print 'client_serect', serect
-    arguments = {
-        'client_id': api_client.id,
-        'test':'abc',
-        'test2':'123'
-    }
-    print 'arguments', arguments
-    sign = api_sign(arguments, serect)
-    print 'sign', sign
-    arguments['sign'] = sign
-    api_sign_verify(arguments)
+    #  serect = api_client.hex_serect
+    #  print 'client_id', api_client.id
+    #  print 'client_serect', serect
+    #  arguments = {
+    #      'client_id': api_client.id,
+    #      'test':'abc',
+    #      'test2':'123'
+    #  }
+    #  print 'arguments', arguments
+    #  sign = api_sign(arguments, serect)
+    #  print 'sign', sign
+    #  arguments['sign'] = sign
+    #  api_sign_verify(arguments)
 
 
 
@@ -158,8 +164,9 @@ if __name__ == '__main__':
     user_id = 74
     mail = 'test@42qu.com'
     password = '123456'
-    print api_login_url(
-        client_id, serect, user_id, mail, password
+
+    print api_s_url(
+        client_id, serect, 'SQAAAA7QQDfo6x7oUPcjSA' , '/po/word'
     )
 
     print api_session_new(user_id, client_id)

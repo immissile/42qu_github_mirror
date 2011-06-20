@@ -3,6 +3,7 @@
 
 
 import _handler
+from _urlmap import urlmap
 
 @urlmap('/po/word')
 class Index(_handler.ApiLoginBase):
