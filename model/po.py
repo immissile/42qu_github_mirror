@@ -51,11 +51,11 @@ class Po(McModel, ReplyMixin):
 
     @property
     def link_edit(self):
-        if not hasattr(self, '_link'):
+        if not hasattr(self, '_link_edit'):
             en = PO_EN[self.cid]
             zsite = Zsite.mc_get(self.user_id)
-            self._link = '%s/%s/%s/edit' % (zsite.link, en, self.id)
-        return self._link
+            self._link_edit = '%s/%s/edit/%s' % (zsite.link, en, self.id)
+        return self._link_edit
 
     def feed_new(self):
         feed_new(self.id, self.user_id, self.cid)
