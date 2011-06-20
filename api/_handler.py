@@ -19,4 +19,10 @@ class ApiSignBase(ApiBase):
         else:
             self.finish(API_ERROR_SIGN)
 
-
+class ApiLoginBase(ApiSignBase):
+    def prepare(self):
+        super(ApiBase, self).prepare()
+        if self._finished:
+            return
+        argument = self.get_argument("S")
+        
