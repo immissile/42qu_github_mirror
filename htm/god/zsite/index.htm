@@ -11,6 +11,7 @@ zsite_id = zsite.id
 <p>${zsite.name}</p>
 <p>${zsite.id}</p>
 <p><a target="_blank" href="${zsite.link}">${zsite.link.strip("/")}</a></p>
+<p><a target="_blank" href="/zsite/mail/${zsite_id}">发邮件</a></p>
 
 <%
 zsite_show = zsite_show_get(zsite_id)
