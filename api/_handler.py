@@ -12,7 +12,7 @@ class ApiSignBase(ApiBase):
     def prepare(self):
         arguments = self.request.arguments
         arguments = dict([
-            (k,v[0]) for k,v in arguments.iteritems()
+            (k, v[0]) for k, v in arguments.iteritems()
         ])
         if api_sign_verify(arguments):
             super(ApiBase, self).prepare()

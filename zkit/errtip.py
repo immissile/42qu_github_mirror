@@ -7,7 +7,7 @@ class Errtip(object):
         self._template = template
 
     def __getattr__(self, name):
-        if name.startswith("_"):
+        if name.startswith('_'):
             return self.__dict__[name]
         if self._errtip and name in self._errtip:
             v = self._errtip[name]
@@ -29,7 +29,7 @@ class Errtip(object):
         return bool(self._errtip)
 
     def __setattr__(self, name, value):
-        if name.startswith("_"):
+        if name.startswith('_'):
             self.__dict__[name] = value
         else:
             self.__dict__['_errtip'][name] = value

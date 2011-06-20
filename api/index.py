@@ -23,5 +23,5 @@ class Apply(LoginBase):
         name = self.get_argument('name', current_user.name)
         txt = self.get_argument('txt', '')
         api_client_new(user_id, name, txt)
-        return self.redirect("/")
+        return self.redirect('/')
 
