@@ -20,9 +20,9 @@ notice_unread = _notice_unread.get(current_user_id) or 1
 if notice_unread > 99:
     notice_unread = "99+"
 %>\
-<span>${notice_unread}</span>\
     %endif
 </a>\
+<a class="notice" href="${link}/notice">${notice_unread}</span>\
 </div>\
 </%def>
 
