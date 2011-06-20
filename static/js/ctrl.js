@@ -36,6 +36,7 @@ function login(){
             href:'/j/login',
             onComplete:function(){ 
                 $("#login_next_pop").val(location.href);
+                $("#login").attr('action',"/login")
                 login_autofill("_pop")
             }
     });

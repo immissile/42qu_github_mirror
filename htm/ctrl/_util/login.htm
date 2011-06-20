@@ -2,7 +2,7 @@
 
 
 <%def name="login_form(id='')">
-<%htm:form action="/login" id="login">
+<%htm:form id="login">
 <p>
 <label class="label_input" for="login_mail${id}">邮箱</label>\
 <input class="login_mail" id="login_mail${id}" name="mail" value="${mail or ''}" type="text">
