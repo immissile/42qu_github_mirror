@@ -50,20 +50,20 @@ def api_serect(id):
     return 0
 
 
-@mc_api_session('{user_id}_{client_id}')
-def api_session(user_id, client_id):
+@mc_api_session('{client_id}_{user_id}')
+def api_session(client_id, user_id):
     u = ApiSession.get(user_id=user_id, client_id=client_id)
     if u is not None:
         return u.value or False
     return False
 
-def api_session_new(user_id, client_id):
+def api_session_new(client_id, user_id):
     value = api_session(user_id, client_id)
     if not value:
         ApiSession.get_or_create(user_id=user_id, client_id=client_id)
         session.value = value = urandom(12)
         session.save()
-        mc_api_session.set('%s_%s'%(user_id, client_id), session.value)
+        mc_api_session.set('%s_%s'%(client_id, user_id), session.value)
     return password_encode(user_id, value)
 
 #生成的url
