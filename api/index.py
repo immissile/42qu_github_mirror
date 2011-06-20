@@ -13,6 +13,7 @@ class Index(Base):
 
 
 @urlmap("/apply")
-def Apply(LoginBase):
+class Apply(LoginBase):
     def get(self):
         self.render()
+
