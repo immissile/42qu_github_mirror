@@ -88,5 +88,3 @@ def ico_url(id):
 
 if __name__ == '__main__':
     print ico_url(10024803)
-
-

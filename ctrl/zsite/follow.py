@@ -48,13 +48,13 @@ class Follower(ZsiteBase):
             page=page,
         )
 
-@urlmap('/following(\d)')
-@urlmap('/following(\d)-(\d+)')
+@urlmap('/following(\d)?')
+@urlmap('/following(\d)?-(\d+)')
 class Following(ZsiteBase):
-    def get(self, cid, n=1):
+    def get(self, cid=0, n=1):
         cid = int(cid)
         if cid not in CID_ZSITE:
-            return self.redirect('/')
+            cid = 0
 
         zsite_id = self.zsite_id
         ids = follow_id_list_by_from_id_cid(zsite_id, cid)
@@ -66,7 +66,7 @@ class Following(ZsiteBase):
             PAGE_LIMIT
         )
         if type(n) == str and offset >= total:
-            return self.redirect('/following%s' % cid)
+            return self.redirect('/following%s' % (cid or ''))
 
         ids = ids[offset: offset + limit]
         following = Zsite.mc_get_list(ids)
