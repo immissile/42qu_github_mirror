@@ -5,7 +5,7 @@ import urllib
 import urlparse
 from zsql.metamodel import lower_name
 from zweb._tornado import web
-from config import render
+from config import render, SITE_DOMAIN
 from model._db import mc
 from model.user_session import user_id_by_session
 from model.zsite import Zsite
@@ -73,6 +73,10 @@ def _login_redirect(self):
                 next_url = self.request.full_url()
             else:
                 next_url = self.request.uri
+            request = self.request
+            host = request.host
+            if host!=SITE_DOMAIN and next_url.startswith("/") and not next_url.startswith("//"):
+                next_url = "//%s%s"%(host,next_url)
             url += '?' + urllib.urlencode(dict(next=next_url))
         self.redirect(url)
         return True
