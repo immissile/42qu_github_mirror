@@ -18,10 +18,14 @@ class Base(_Base):
         kwds['_xsrf'] = self._xsrf
         super(Base, self).render(template_name, **kwds)
 
+class LoginBase(Base):
+    def prepare(self):
+        super(LoginBase, self).prepare()
+        _login_redirect(self)
 
-class ApiBase(Base):
+
+class ApiBase(_Base):
     pass
-
 
 class ApiSignBase(ApiBase):
     def prepare(self):
