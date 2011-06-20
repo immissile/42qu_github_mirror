@@ -24,9 +24,9 @@ def json_info(user_id):
             data['verify_state'] = user.state
             data['pic'] = ico.get(user_id)
             if namecard.pid_now:
-                data['place_now_name'] = place_name(pid_now)
+                data['place_now_name'] = place_name(namecard.pid_now)
                 data['place_now'] = namecard.pid_now
             if namecard.pid_home:
-                data['place_home_name'] = place_name(pid_home)
+                data['place_home_name'] = place_name(namecard.pid_home)
                 data['place_home'] = namecard.pid_home
         return data
