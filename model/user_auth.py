@@ -14,7 +14,8 @@ class UserPassword(Model):
 
 def user_password_sha256(user_id):
     password = UserPassword.get(id=user_id)
-    return hexlify(password.password)
+    if password:
+        return hexlify(password.password)
 
 def user_password_new(user_id, password):
     if password is not None:

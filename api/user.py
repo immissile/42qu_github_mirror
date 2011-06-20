@@ -4,13 +4,14 @@
 
 import _handler
 from _urlmap import urlmap
-from model.user_mail import user_by_mail
+from model.user_mail import user_by_mail, mail_by_user_id
 from model.ico import ico96
+from model.user_auth import user_password_sha256, sha256
 
 @urlmap('/user/info/mail')
 class Index(_handler.ApiBase):
     def get(self):
-        mail = self.get_argument('mail',0)
+        mail = self.get_argument('mail')
         user = user_by_mail(mail)
         data = {}
         if user:
@@ -24,8 +25,18 @@ class Index(_handler.ApiBase):
 @urlmap('/user/auth/login')
 def Login(_handler.ApiSignBase):
     def get(self):
-        user_id = self.get_argument(user_id,0)
-        auth = self.get_argument(auth)
+        user_id = self.get_argument("user_id")
+        auth = self.get_argument("auth")
+        client_id = self.get_argument('client_id')
+        password = user_password_sha256(user_id)
+        if not password:
+            return self.finish('{}') 
+
+        if auth != sha256(mail_by_user_id(user_id)+password).hexdigest():
+            return self.finish('{}') 
+             
+
+        
         
         
 
