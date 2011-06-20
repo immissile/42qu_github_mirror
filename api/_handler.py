@@ -23,9 +23,9 @@ class LoginBase(Base):
         super(LoginBase, self).prepare()
         _login_redirect(self)
 
-
 class ApiBase(_Base):
-    pass
+    def post(self, *args, **kwds):
+        return self.get(*args, **kwds)
 
 class ApiSignBase(ApiBase):
     def prepare(self):
@@ -37,8 +37,6 @@ class ApiSignBase(ApiBase):
             super(ApiBase, self).prepare()
         else:
             self.finish(API_ERROR_SIGN)
-
-
 
 class ApiLoginBase(ApiSignBase):
     def prepare(self):
