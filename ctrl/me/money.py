@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base
 from ctrl._urlmap.me import urlmap
 from config import RPC_HTTP
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_PAY_ALIPAY
@@ -63,7 +63,7 @@ class Charge(LoginBase):
         )
 
 @urlmap('/money/charged/(\d+)/(\d+)')
-class Charged(Base):
+class Charged(LoginBase):
     def get(self, tid, uid):
         uid = int(uid)
         t = Trade.get(tid)

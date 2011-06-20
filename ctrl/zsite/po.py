@@ -16,6 +16,21 @@ from zkit.page import page_limit_offset
 PAGE_LIMIT = 42
 
 
+@urlmap('/po/(\d+)')
+class PoIndex(ZsiteBase):
+    def get(self, id):
+        po = Po.mc_get(id)
+        current_user_id = self.current_user_id
+        if po:
+            link = po.link
+            pos, state = po_pos_get(current_user_id, id)
+            if pos > 0:
+                link = '%s#reply%s' % (link, pos)
+        else:
+            link = '/'
+        self.redirect(link)
+
+
 @urlmap('/po')
 @urlmap('/po-(\d+)')
 class PoPage(ZsiteBase):

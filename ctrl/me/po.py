@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base
 from ctrl._urlmap.me import urlmap
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
 from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
@@ -28,19 +28,6 @@ def update_pic(form, user_id, po_id, id):
         pic.save()
 
 
-@urlmap('/po/(\d+)')
-class PoIndex(Base):
-    def get(self, id):
-        po = Po.mc_get(id)
-        current_user_id = self.current_user_id
-        if po:
-            link = po.link
-            pos, state = po_pos_get(current_user_id, id)
-            if pos > 0:
-                link = '%s#reply%s' % (link, pos)
-        else:
-            link = '/'
-        self.redirect(link)
 
 
 @urlmap('/po/word')
