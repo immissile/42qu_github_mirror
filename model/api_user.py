@@ -5,7 +5,7 @@ from model.txt import txt_get
 from model.ico import ico96, ico
 from model.namecard import namecard_get
 from model.follow import follow_count_by_to_id, follow_count_by_from_id
-
+from zkit.earth import place_name
 def json_info(user_id):
         user = Zsite.mc_get(user_id)
         namecard = namecard_get(user_id)
@@ -19,10 +19,14 @@ def json_info(user_id):
             data['user_link'] = url_by_id(user_id)
             data['sex'] = namecard.sex
             data['marry'] = namecard.marry
-            data['place_home'] = namecard.pid_home
-            data['place_now'] = namecard.pid_now
             data['follower_num'] = follow_count_by_to_id(user_id)
             data['following_num'] = follow_count_by_from_id(user_id)
             data['verify_state'] = user.state
             data['pic'] = ico.get(user_id)
+            if namecard.pid_now:
+                data['place_now_name'] = place_name(pid_now)
+                data['place_now'] = namecard.pid_now
+            if namecard.pid_home:
+                data['place_home_name'] = place_name(pid_home)
+                data['place_home'] = namecard.pid_home
         return data

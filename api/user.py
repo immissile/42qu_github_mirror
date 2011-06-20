@@ -4,7 +4,7 @@
 
 import _handler
 from _urlmap import urlmap
-from model.user_mail import user_by_mail, mail_by_user_id
+from model.user_mail import user_id_by_mail, mail_by_user_id
 from model.user_auth import user_password_sha256, sha256
 from model.api_client import api_session_new
 from model.api_user import json_info
@@ -13,8 +13,8 @@ from model.api_user import json_info
 class InfoMail(_handler.ApiBase):
     def get(self):
         mail = self.get_argument('mail')
-        user = user_by_mail(mail)
-        data = json_info(user.id) 
+        user_id = user_id_by_mail(mail)
+        data = json_info(user_id) 
         self.finish(data)
 
 
