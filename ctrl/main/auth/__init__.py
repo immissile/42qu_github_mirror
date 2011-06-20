@@ -69,7 +69,6 @@ class Reg(NoLoginBase):
             if sex not in (1, 2):
                 sex = 0
 
-
         if mail:
             mail = mail.lower()
         if not mail:
