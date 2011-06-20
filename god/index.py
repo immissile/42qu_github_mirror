@@ -1,16 +1,14 @@
 #!/usr/bin/env python
-#coding:utf-8
-
-
-import _handler
+# -*- coding: utf-8 -*-
+from _handler import Base
 from _urlmap import urlmap
 
 @urlmap('/')
-class Index(_handler.Base):
+class Index(Base):
     def get(self):
         self.render()
 
 @urlmap('/chart')
-class Chart(_handler.Base):
+class Chart(Base):
     def get(self):
         self.render()
