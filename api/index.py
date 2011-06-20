@@ -2,7 +2,7 @@
 #coding:utf-8
 
 
-from zweb._handler.me import Base, LoginBase
+from _handler import Base, LoginBase
 from _urlmap import urlmap
 from model.api_client import api_client_new
 

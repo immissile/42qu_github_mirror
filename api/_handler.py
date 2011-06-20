@@ -3,7 +3,7 @@ from config import render
 import model._db
 from model.api_client import api_sign_verify, api_login_verify
 from model.api_error import API_ERROR_SIGN, API_ERROR_LOGIN
-from zweb._handler import Base as _Base, _login_redirect, login, LoginBase
+from zweb._handler import Base as _Base, _login_redirect, login
 
 
 class Base(_Base):
