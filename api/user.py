@@ -57,6 +57,18 @@ class UserFollower(_handler.ApiBase):
         data['follower_list'] = list(ids)
         data['total_num'] = total_num
         self.finish(data)
+
+@urlmap('/user/following')
+class UserFollowing(_handler.ApiBase):
+    def get(self):
+        user_id = self.get_argument('user_id')
+        ids = follow_id_list_by_from_id(user_id)
+        total_num = follow_count_by_from_id(user_id)
+        data = {}
+        data['total_num'] = total_num
+        data['following_list'] = list(ids)
+        self.finish(data)
+
 @urlmap('/user/following')
 class UserFollowing(_handler.ApiBase):
     def get(self):
