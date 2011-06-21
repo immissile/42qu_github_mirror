@@ -7,8 +7,8 @@ from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high
 from pic import pic_new, pic_save
 import Image
 
-ico = Kv('ico')
-ico96 = Kv('ico96')
+ico = Kv('ico', 0)
+ico96 = Kv('ico96', 0)
 ico_pos = Kv('ico_pos')
 
 #show = PicShow.mc_get(id)
