@@ -6,16 +6,28 @@ from model.zsite_link import url_by_id
 <%
     url = url_by_id(current_user.id)
 %>
-%if url:
-个性域名 <a href="${current_user.link}">${current_user.link[2:]}</a>\
-%else:
-<%htm:form className="btns">
+<style>
+.fullscreen_line{
+margin-top:20%;
+font-size:16px;
+text-align:center;
+}
+.fullscreen_line p{
+line-height:64px;
+}
+.fullscreen_line input{
+font-size:16px;
+padding:7px;
+width:10em;
+margin-right:3px;
+}
+</style>
+<%htm:form className="btns fullscreen_line">
 <p>
-个性域名 <input type="text" name="url">\
+<input value="${url}" autocomplete="off" type="text" name="url">.42qu.me\
 %if error_url:
-${error_url}\
+<div style="color:#f00">${error_url}</div>\
 %endif
 </p>
-<button class="btn" type="submit">设置</button>
+<div><span class="btnw"><button class="btn" type="submit">设置个性域名</button></span></div>
 </%htm:form>
-%endif
