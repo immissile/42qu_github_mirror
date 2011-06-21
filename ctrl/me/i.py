@@ -84,9 +84,9 @@ class Url(LoginBase):
         user = self.current_user
         user_id = self.current_user_id
         link = self.current_user.link
-        if url_by_id(user_id):
-            self.redirect(link)
-        if user_can_reply(user):
+        if not user_can_reply(user):
+            self.redirect(link+"/i/verify")
+        elif url_by_id(user_id):
             self.redirect(link)
 
     def get(self):
