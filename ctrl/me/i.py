@@ -10,7 +10,7 @@ from model.zsite_link import url_by_id, url_new, url_valid
 from model.user_mail import mail_by_user_id
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
-from model.zsite import user_can_reply, ZSITE_STATE_VERIFY
+from model.zsite import user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -115,8 +115,11 @@ class Verify(LoginBase):
     def prepare(self):
         super(Verify, self).prepare()
         current_user = self.current_user
-        if current_user.state >= ZSITE_STATE_VERIFY:
+        state = current_user.state
+        if state >= ZSITE_STATE_VERIFY:
             return self.redirect('/')
+        elif state < ZSITE_STATE_ACTIVE: 
+            return self.redirect("/auth/verify/sended")
 
     def post(self):
         pass
