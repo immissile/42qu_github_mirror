@@ -82,7 +82,7 @@ class Url(LoginBase):
         user_id = self.current_user_id
         if url_by_id(user_id):
             return self.redirect(self.current_user.link)
-        self.render()
+        self.render(url="")
 
     def post(self):
         user_id = self.current_user_id
