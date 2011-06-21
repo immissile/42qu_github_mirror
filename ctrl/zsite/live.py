@@ -7,7 +7,7 @@ from model.feed_render import render_feed_by_zsite_id
 from model.feed import PAGE_LIMIT, MAXINT
 
 @urlmap('/live')
-class Index(Base):
+class Index(LoginBase):
     def get(self):
         begin_id = MAXINT
         zsite = self.zsite
