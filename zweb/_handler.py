@@ -11,21 +11,19 @@ from model.user_session import user_id_by_session
 from model.zsite import Zsite
 from static import css, js
 
-class BaseBase(web.RequestHandler):
 
+RENDER_KWDS = {
+    'css':css,
+    'js':js
+}
+
+class BaseBase(web.RequestHandler):
     def decode_argument(self, value, name=None):
         return value
 
     def prepare(self):
         mc.reset()
         super(BaseBase, self).prepare()
-
-
-
-RENDER_KWDS = {
-    'css':css,
-    'js':js
-}
 
 
 class Base(BaseBase):

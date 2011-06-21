@@ -159,20 +159,20 @@ if __name__ == '__main__':
     #  api_sign_verify(arguments)
 
 
-    print api_client_id_by_user_id(1)
-    for i in ApiClient.where(user_id=1):
-        print i
-    print ApiClient.where(user_id=1).order_by('id desc').col_list()
-    print api_client_by_user_id(1)
-    mc_api_client_id_by_user_id.delete(1)
-#    client_id = 73
-#    serect = 'beafcff6034e4b26b914241235e66da4'
-#    user_id = 74
-#    mail = 'test@42qu.com'
-#    password = '123456'
-#
-#    print api_s_url(
-#        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA' , '/po/word'
-#    )
+#    print api_client_id_by_user_id(1)
+#    for i in ApiClient.where(user_id=1):
+#        print i
+#    print ApiClient.where(user_id=1).order_by('id desc').col_list()
+#    print api_client_by_user_id(1)
+#    mc_api_client_id_by_user_id.delete(1)
+    client_id = 73
+    serect = 'beafcff6034e4b26b914241235e66da4'
+    user_id = 74
+    mail = 'test@42qu.com'
+    password = '123456'
+
+    print api_s_url(
+        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA' , '/po/word', txt="test"
+    )
 #
 #    print api_session_new(client_id, user_id)
