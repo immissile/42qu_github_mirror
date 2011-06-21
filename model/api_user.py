@@ -13,6 +13,7 @@ def json_info(user_id):
         namecard = namecard_get(user_id)
         data = {}
         if user:
+            data['cid'] = user.cid
             data['user_id'] = user_id
             data['self_intro'] = txt_get(user_id)
             data['name'] = user.name
