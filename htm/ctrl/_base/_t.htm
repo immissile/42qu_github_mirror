@@ -2,6 +2,7 @@
 from model.zsite_link import url_by_id
 from model.zsite import ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY
 %>
+<%namespace file="/ctrl/_util/base.htm" import="verify_sended"/>\
 %if current_user:
 <%
 state = current_user.state
