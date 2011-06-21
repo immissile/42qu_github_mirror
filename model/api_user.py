@@ -2,7 +2,7 @@ from model.zsite import Zsite
 from model.motto import motto
 from model.zsite_link import url_by_id
 from model.txt import txt_get
-from model.ico import ico96, ico
+from model.ico import ico96, ico, ico_url
 from model.namecard import namecard_get
 from model.follow import follow_count_by_to_id, follow_count_by_from_id
 from zkit.earth import place_name
@@ -17,7 +17,7 @@ def json_info(user_id):
             data['user_id'] = user_id
             data['self_intro'] = txt_get(user_id)
             data['name'] = user.name
-            data['ico'] = ico96.get(user_id)
+            data['ico'] = ico_url(user_id) or ''
             data['moto'] = motto.get(user_id)
             data['user_link'] = "http:%s"%user.link
             data['sex'] = namecard.sex
