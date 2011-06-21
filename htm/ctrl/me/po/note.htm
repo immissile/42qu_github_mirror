@@ -22,7 +22,7 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 <script src="${js.pic}"></script>
 </%def>
 
-<%htm:form enctype="multipart/form-data">
+<%htm:form enctype="multipart/form-data" id="po_form">
 <input
 placeholder="请输入标题 ..."
 id="name" type="text" autocomplete="off" name="name" value="${po.name}">
