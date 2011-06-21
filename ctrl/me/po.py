@@ -73,7 +73,7 @@ class PoBase(LoginBase):
             update_pic(arguments, user_id, po_id, 0)
             mc_pic_id_list.delete('%s_%s' % (user_id, 0))
         else:
-            link = self.po_link
+            link = self.link
         self.redirect(link)
 
 
