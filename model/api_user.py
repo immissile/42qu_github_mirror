@@ -17,7 +17,7 @@ def json_info(user_id):
             data['name'] = user.name
             data['ico'] = ico96.get(user_id)
             data['moto'] = motto.get(user_id)
-            data['user_link'] = url_by_id(user_id)
+            data['user_link'] = user.link 
             data['sex'] = namecard.sex
             data['marry'] = namecard.marry
             data['follower_num'] = follow_count_by_to_id(user_id)
