@@ -8,4 +8,3 @@ kv_txt = Kv('kv_txt')
 # Key
 KV_SHOW_BUZZ_POS = 1 # 加入Show的非重要通知
 KV_NOTICE_POS = 2 # 重要通知
-KV_PIC_POS = 3 # 照片删除
