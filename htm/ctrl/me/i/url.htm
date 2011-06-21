@@ -20,6 +20,12 @@ text-align:right;
 margin-right:3px;
 }
 </style>
+<%
+current_user_url = url_by_id(current_user_id)
+%>
+%if current_user_url:
+<div class="fullscreen_line">域名设置成功 , <a href="//${current_user.link}">点这里看看吧</a></div>
+%else:
 <%htm:form className="btns fullscreen_line">
 <p>
 <input value="${url}" id="url" autocomplete="off" type="text" name="url">.${SITE_DOMAIN}\
@@ -39,3 +45,4 @@ margin-right:3px;
 <script>
 $("#url").focus()
 </script>
+%endif
