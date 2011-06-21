@@ -6,7 +6,7 @@ from model.kv_misc import kv_int, KV_NOTICE_POS
 from model.cid import CID_INVITE_QUESTION
 from model.state import STATE_APPLY
 from model.notice import Notice, notice_mail
-from time import time
+from time import time, sleep
 
 @single_process
 def notice_me():
@@ -16,6 +16,7 @@ def notice_me():
     if pos > prev_pos:
         for i in Notice.where(state=STATE_APPLY).where('%s<id<=%s', prev_pos, pos):
             notice_mail(i)
+            sleep(1)
         kv_int.set(KV_NOTICE_POS, pos)
 
 if __name__ == '__main__':

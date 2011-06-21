@@ -10,7 +10,6 @@ from wall import Wall, WallReply
 from kv import Kv
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
-from user_mail import mail_by_user_id
 from mail import rendermail
 from mail_notice import mail_notice_state
 
@@ -25,7 +24,7 @@ NOTICE_TUPLE = (
 
 NOTICE_CLS = dict(i[:2] for i in NOTICE_TUPLE)
 
-NOTICE_MAIL_CLS = dict((i[0], (i[1], i[2])) for i in filter(lambda x: x[2], NOTICE_TUPLE))
+NOTICE_MAIL_DIC = dict((i[0], (i[1], i[2])) for i in filter(lambda x: x[2], NOTICE_TUPLE))
 
 notice_unread = Kv('notice_unread', 0)
 
@@ -112,17 +111,18 @@ from mq import mq_client
 mq_notice_question = mq_client(notice_question)
 
 def notice_mail(notice):
+    from user_mail import mail_by_user_id
     state = notice.state
     from_id = notice.from_id
     to_id = notice.to_id
     cid = notice.cid
     rid = notice.rid
-    if state == STATE_APPLY and cid in NOTICE_MAIL_CLS:
+    if state == STATE_APPLY and cid in NOTICE_MAIL_DIC:
         if mail_notice_state(to_id, cid):
             mail = mail_by_user_id(to_id)
             name = Zsite.mc_get(to_id).name
             from_name = Zsite.mc_get(from_id).name
-            cls, template = NOTICE_MAIL_CLS[cid]
+            cls, template = NOTICE_MAIL_DIC[cid]
             entry = cls.mc_get(rid)
             rendermail(template, mail, name,
                        entry=entry,
