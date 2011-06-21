@@ -79,6 +79,9 @@ class Index(LoginBase):
 @urlmap('/i/url')
 class Url(LoginBase):
     def get(self):
+        user_id = self.current_user_id
+        if url_by_id(user_id):
+            return self.redirect(self.current_user.link)
         self.render()
 
     def post(self):
