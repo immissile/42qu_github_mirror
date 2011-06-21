@@ -10,7 +10,7 @@ from model.zsite_link import url_by_id, url_new, url_valid
 from model.user_mail import mail_by_user_id
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
-from model.zsite import user_can_reply
+from model.zsite import user_can_reply, ZSITE_STATE_VERIFY
 
 def _upload_pic(files, current_user_id):
     error_pic = None

@@ -1,7 +1,7 @@
 <%!
 from config import SITE_DOMAIN
 from config import SITE_URL
-from model.zsite import ZSITE_STATE_APPLY
+from model.zsite import ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from model.notice import notice_unread as _notice_unread
 %>
 
@@ -16,8 +16,16 @@ ${self.H()}\
 
 <%def name="T()">
 %if current_user:
-    %if current_user.state == ZSITE_STATE_APPLY:
+<%
+state = current_user.state
+%>
+    %if state == ZSITE_STATE_APPLY:
 <div id="T">${verify_sended()}</div>
+    %elif state == ZSITE_STATE_ACTIVE:
+<div id="T">\
+想有个性域名吗 ? 
+<a href="/i/verify">点此申请认证吧</a>
+</div>\
     %endif
 %elif zsite_id:
 <div id="T">你想关注我吗 ? <a href="/auth/reg" style="text-decoration:underline;">点此注册</a> , 仅需一步</div>
