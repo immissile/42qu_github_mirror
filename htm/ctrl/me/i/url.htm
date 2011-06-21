@@ -4,18 +4,18 @@
 from model.zsite_link import url_by_id
 %>
 <%
-url = url_by_id(current_user.id)
+    url = url_by_id(current_user.id)
 %>
 %if url:
-个性域名 <a href="${current_user.link}">${current_user.link[2:]}</a>
+个性域名 <a href="${current_user.link}">${current_user.link[2:]}</a>\
 %else:
-<%htm:form>
+<%htm:form className="btns">
 <p>
-个性域名 <input type="text" name="url">
+个性域名 <input type="text" name="url">\
 %if error_url:
-${error_url}
-%endif:
+${error_url}\
+%endif
 </p>
-<button type="submit">设置</button>
+<button class="btn" type="submit">设置</button>
 </%htm:form>
 %endif
