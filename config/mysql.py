@@ -43,4 +43,3 @@ DB_MAIN_TABLE = (
 'zsite_tag',
 'zsite_tag_po',
 )
-
