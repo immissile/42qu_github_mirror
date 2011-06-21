@@ -105,9 +105,9 @@ class Reg(NoLoginBase):
 class Login(NoLoginBase):
     def get(self):
         if self.get_cookie("E"):
-            url = "/auth/reg"
-        else:
             url = "/auth/login"
+        else:
+            url = "/auth/reg"
         self.redirect(url)
 
 
