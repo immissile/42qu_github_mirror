@@ -110,6 +110,10 @@ class Url(LoginBase):
             url=url
         )
 
+@urlmap('/i/verify')
+class Verify(LoginBase):
+    def get(self):
+        pass
 
 @urlmap('/i/namecard')
 class Namecard(LoginBase):
