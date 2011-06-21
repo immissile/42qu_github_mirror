@@ -63,3 +63,7 @@ q:before,q:after {content:'';}
 .tc{text-align:center}
 .L{float:left}
 .R{float:right}
+.f16{
+font-size:16px;
+}
+.pd16{padding:16px}

@@ -37,7 +37,7 @@ user = reply.user
 
     %if po.state > STATE_SECRET:
 <%htm:form id="txt_form" action="/po/reply/${po_id}">
-<textarea id="txt" name="txt"></textarea>
+${htm.reply_textarea()}
 <div>
 <button type="submit">此致 , 敬礼</button>
 </div>
