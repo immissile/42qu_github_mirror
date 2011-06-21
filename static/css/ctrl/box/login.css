@@ -6,6 +6,8 @@ font-size:16px;
 }
 #box_login{
 padding:32px 46px 0 32px;
+*width:361px;
+*padding-bottom:15px;
 }
 #box_login #form_btn{
 padding-bottom:12px;
