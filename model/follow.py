@@ -23,12 +23,12 @@ def follow_id_list_by_to_id(to_id, limit, offset):
 
 @mc_follow_id_list_by_from_id('{from_id}')
 def follow_id_list_by_from_id(from_id):
-    follow_cursor.execute('select to_id from follow where from_id=%s', (from_id))
+    follow_cursor.execute('select to_id from follow where from_id=%s order by id desc', (from_id))
     return [i for i, in follow_cursor]
 
 @mc_follow_id_list_by_from_id_cid('{from_id}_{cid}')
 def follow_id_list_by_from_id_cid(from_id, cid):
-    follow_cursor.execute('select to_id from follow where from_id=%s and cid=%s', (from_id, cid))
+    follow_cursor.execute('select to_id from follow where from_id=%s and cid=%s order by id desc', (from_id, cid))
     return [i for i, in follow_cursor]
 
 def follow_list_by_from_id_cid(from_id, cid):

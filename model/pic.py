@@ -27,7 +27,7 @@ def pic_need_review(cid):
     return len(qs)
 
 def pic_list_to_review_by_cid(cid, limit):
-    return Pic.where(cid=cid, admin_id=0).order_by('id')[:limit]
+    return Pic.where(cid=cid, state=0, admin_id=0).order_by('id')[:limit]
 
 def pic_list_reviewed_by_cid_state(cid, state, limit, offset):
     return Pic.where(cid=cid, state=state).where('admin_id>0').order_by('id desc')[offset: offset + limit]
