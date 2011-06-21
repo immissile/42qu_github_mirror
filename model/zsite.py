@@ -19,7 +19,7 @@ ZSITE_STATE_VERIFY = 21
 class Zsite(McModel):
     pass
 
-def user_slient(user_id):
+def user_can_reply(user_id):
     user = Zsite.mc_get(user_id)
     return user.state <= ZSITE_STATE_SILENT
 #

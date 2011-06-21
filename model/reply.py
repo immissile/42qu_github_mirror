@@ -25,8 +25,8 @@ class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
 
     def reply_new(self, user_id, txt, state=STATE_ACTIVE):
-        from zsite import user_slient
-        if user_slient(user_id):
+        from zsite import user_can_reply
+        if user_can_reply(user_id):
             return
 
         txt = txt.rstrip()
