@@ -97,7 +97,8 @@ class Url(LoginBase):
         else:
             error_url = '个性域名不能为空'
         self.render(
-            error_url=error_url
+            error_url=error_url,
+            url = url
         )
 
 
