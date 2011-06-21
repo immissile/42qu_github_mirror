@@ -113,7 +113,7 @@ def api_login_verify(client_id, s):
     #print session2,"!!!", client_id, user_id
     if session != session2:
         return
-    return True
+    return user_id
 
 ######## 以下为客户端生成URL的演示部分 #########
 

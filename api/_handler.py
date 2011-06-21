@@ -3,7 +3,8 @@ from config import render
 import model._db
 from model.api_client import api_sign_verify, api_login_verify
 from model.api_error import API_ERROR_SIGN, API_ERROR_LOGIN
-from zweb._handler import Base as _Base, _login_redirect, login
+from zweb._handler import Base as _Base, _login_redirect, login, BaseBase
+from model.zsite import Zsite
 
 def post(self, *args, **kwds):
     return self.get(*args, **kwds)
@@ -27,7 +28,7 @@ class LoginBase(Base):
         super(LoginBase, self).prepare()
         _login_redirect(self)
 
-class ApiBase(_Base):
+class ApiBase(BaseBase):
     post = post
 
 class ApiSignBase(ApiBase):
@@ -48,7 +49,11 @@ class ApiLoginBase(ApiSignBase):
             return
         S = self.get_argument("S")
         client_id = self.get_argument('client_id')
-        if not api_login_verify(client_id, S):
+        user_id = api_login_verify(client_id, S)
+        if not user_id:
             self.finish(API_ERROR_LOGIN)
+        self.current_user_id = user_id
 
+    def get_current_user(self):
+        return Zsite.mc_get(self.current_user_id)
 

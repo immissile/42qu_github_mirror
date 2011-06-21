@@ -11,26 +11,24 @@ from model.user_session import user_id_by_session
 from model.zsite import Zsite
 from static import css, js
 
+class BaseBase(web.RequestHandler):
+
+    def decode_argument(self, value, name=None):
+        return value
+
+    def prepare(self):
+        mc.reset()
+        super(BaseBase, self).prepare()
+
+
+
 RENDER_KWDS = {
     'css':css,
     'js':js
 }
 
-class Base(web.RequestHandler):
-    def get_current_user(self):
-        key = 'S'
-        session = self.get_cookie(key)
-        if session:
-            user_id = user_id_by_session(session)
-            if user_id:
-                user = Zsite.mc_get(user_id)
-                return user
-            else:
-                self.clear_cookie(key)
 
-    def decode_argument(self, value, name=None):
-        return value
-
+class Base(BaseBase):
     @property
     def current_user_id(self):
         if not hasattr(self, '_current_user_id'):
@@ -59,9 +57,17 @@ class Base(web.RequestHandler):
         if not self._finished:
             self.finish(render(template_name, **kwds))
 
-    def prepare(self):
-        mc.reset()
-        super(Base, self).prepare()
+    def get_current_user(self):
+        key = 'S'
+        session = self.get_cookie(key)
+        if session:
+            user_id = user_id_by_session(session)
+            if user_id:
+                user = Zsite.mc_get(user_id)
+                return user
+            else:
+                self.clear_cookie(key)
+
 
 
 def _login_redirect(self):
