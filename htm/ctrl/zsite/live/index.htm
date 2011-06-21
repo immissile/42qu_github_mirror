@@ -13,6 +13,14 @@ from config import FS_URL
 <button type="submit">提交</button>
 </%htm:form>
 
+<%def name="htm_foot()">
+<a id="feed_load" href="javascript:void(0)">加载更多</a>
+<div id="feed_loading"></div>
+<script src="${js.ctrl_feed_render}"></script>
+<script src="${js.ctrl_feed}"></script>
+
+</%def>
+
 %if current_user_id == zsite_id:
 ${buzz_show(zsite_id)}
 %endif
@@ -20,8 +28,6 @@ ${buzz_show(zsite_id)}
 <div id="feeds">
 <input id="begin_id" type="hidden">
 </div>
-<a id="feed_load" href="javascript:void(0)">加载更多</a>
-<div id="feed_loading"></div>
 </div>
 
 <%text>
@@ -58,9 +64,6 @@ rel="${id}" href="javascript:void(0)"></a>
 </div>
 </script>
 </%text>
-
-<script src="${js.ctrl_feed_render}"></script>
-<script src="${js.ctrl_feed}"></script>
 
 
 
