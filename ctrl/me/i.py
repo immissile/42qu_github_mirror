@@ -118,6 +118,9 @@ class Verify(LoginBase):
         if current_user.state >= ZSITE_STATE_VERIFY:
             return self.redirect('/')
 
+    def post(self):
+        pass
+
     def get(self):
         self.render()
 
