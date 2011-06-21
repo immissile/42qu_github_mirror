@@ -7,6 +7,7 @@ from model.namecard import namecard_get
 from model.follow import follow_count_by_to_id, follow_count_by_from_id
 from zkit.earth import place_name
 def json_info(user_id):
+        user_id = int(user_id)
         user = Zsite.mc_get(user_id)
         namecard = namecard_get(user_id)
         data = {}
