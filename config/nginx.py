@@ -58,6 +58,7 @@ render_machine('krios', """
 zuroc
 zjd
 yup
+zwtaoo
 work
 """)
 
