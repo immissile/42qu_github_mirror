@@ -5,6 +5,8 @@ from model.api_client import api_sign_verify, api_login_verify
 from model.api_error import API_ERROR_SIGN, API_ERROR_LOGIN
 from zweb._handler import Base as _Base, _login_redirect, login
 
+def post(self, *args, **kwds):
+    return self.get(*args, **kwds)
 
 class Base(_Base):
     def get(self, *args):
@@ -18,14 +20,15 @@ class Base(_Base):
         kwds['_xsrf'] = self._xsrf
         super(Base, self).render(template_name, **kwds)
 
+    post = post
+
 class LoginBase(Base):
     def prepare(self):
         super(LoginBase, self).prepare()
         _login_redirect(self)
 
 class ApiBase(_Base):
-    def post(self, *args, **kwds):
-        return self.get(*args, **kwds)
+    post = post
 
 class ApiSignBase(ApiBase):
     def prepare(self):
