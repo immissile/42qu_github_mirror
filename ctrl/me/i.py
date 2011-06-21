@@ -10,6 +10,7 @@ from model.zsite_link import url_by_id, url_new, url_valid
 from model.user_mail import mail_by_user_id
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
+from model.zsite import user_can_reply
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -78,13 +79,21 @@ class Index(LoginBase):
 
 @urlmap('/i/url')
 class Url(LoginBase):
-    def get(self):
+    def prepare(self):
+        super(Url, self).prepare()
+        user = self.current_user
         user_id = self.current_user_id
+        link = self.current_user.link
         if url_by_id(user_id):
-            return self.redirect(self.current_user.link)
-        self.render(url="")
+            self.redirect(link)
+        if user_can_reply(user):
+            self.redirect(link)
+
+    def get(self):
+        self.render(url='')
 
     def post(self):
+
         user_id = self.current_user_id
         url = self.get_argument('url', None)
         if url:
@@ -98,7 +107,7 @@ class Url(LoginBase):
             error_url = '个性域名不能为空'
         self.render(
             error_url=error_url,
-            url = url
+            url=url
         )
 
 
