@@ -172,7 +172,7 @@ if __name__ == '__main__':
     password = '123456'
 
     print api_s_url(
-        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA' , '/po/word', txt="test"
+        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA' , '/po/word', txt="testxs"
     )
 #
 #    print api_session_new(client_id, user_id)
