@@ -6,12 +6,18 @@ from fs import fs_set_jpg, fs_url_jpg
 from cid import CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 from mail import rendermail
 
-class Pic(Model):
+
+class PicMixin(object):
     def __getattr__(self, name):
-        if name.startswith('ico'):
+        if name.startswith('src'):
             size = name[3:]
             if size.isdigit():
                 return fs_url_jpg(size, self.id)
+
+
+class Pic(Model, PicMixin):
+    pass
+
 
 def pic_new(cid, user_id):
     pic = Pic(
@@ -29,7 +35,7 @@ def pic_need_review(cid):
     return len(qs)
 
 def _pic_list_to_review_by_cid(cid, start_id, limit):
-    return Pic.where(cid=cid, state=0, admin_id=0).where('id>%s' % start_id).order_by('id')[:limit]
+    return Pic.where(cid=cid, state=1, admin_id=0).where('id>%s' % start_id).order_by('id')[:limit]
 
 def pic_ico_to_review_iter(limit):
     from ico import ico
@@ -46,10 +52,8 @@ def pic_ico_to_review_iter(limit):
                 yield i
                 if count == limit:
                     return
-            elif not user_pic_id:
-                ico.set(user_id, id)
             else:
-                i.state = 1
+                i.state = 0
                 i.save()
         if len(li) < limit:
             return
@@ -70,7 +74,7 @@ def pic_list_to_review_by_cid(cid, limit):
 def pic_list_reviewed_by_cid_state(cid, state, limit, offset):
     return Pic.where(cid=cid, state=state).where('admin_id>0').order_by('id desc')[offset: offset + limit]
 
-def pic_reviewed_count_by_cid(cid, state):
+def pic_reviewed_count_by_cid_state(cid, state):
     return Pic.where(cid=cid, state=state).where('admin_id>0').count()
 
 def pic_yes(id, admin_id):
