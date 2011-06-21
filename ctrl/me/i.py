@@ -85,7 +85,7 @@ class Url(LoginBase):
         user_id = self.current_user_id
         link = self.current_user.link
         if not user_can_reply(user):
-            self.redirect(link+"/i/verify")
+            self.redirect(link+'/i/verify')
         elif url_by_id(user_id):
             self.redirect(link)
 
@@ -112,8 +112,14 @@ class Url(LoginBase):
 
 @urlmap('/i/verify')
 class Verify(LoginBase):
+    def prepare(self):
+        super(Verify, self).prepare()
+        current_user = self.current_user
+        if current_user.state >= ZSITE_STATE_VERIFY:
+            return self.redirect('/')
+
     def get(self):
-        pass
+        self.render()
 
 @urlmap('/i/namecard')
 class Namecard(LoginBase):
