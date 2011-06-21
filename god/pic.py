@@ -6,6 +6,7 @@ from _urlmap import urlmap
 from model.cid import CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 from model.pic import Pic, pic_list_to_review_by_cid, pic_to_review_count_by_cid, pic_list_reviewed_by_cid_state, pic_yes, pic_no, pic_reviewed_count_by_cid
 from model.zsite import Zsite
+from zkit.page import page_limit_offset
 
 CID_PIC = '|'.join(map(str, (CID_ICO, CID_PO_PIC)))
 
@@ -14,22 +15,24 @@ PAGE_LIMIT = 16
 @urlmap('/pic/review(%s)' % CID_PIC)
 class Review(Base):
     def get(self, cid):
-        pic_list = pic_list_to_review_by_cid(int(cid), PAGE_LIMIT)
+        cid = int(cid)
+        pic_list = pic_list_to_review_by_cid(cid, PAGE_LIMIT)
         Zsite.mc_bind(pic_list, 'user', 'user_id')
         self.render(
+            cid=cid,
             pic_list=pic_list,
             total=pic_to_review_count_by_cid(cid),
         )
 
-    def post(self):
+    def post(self, cid):
         current_user_id = self.current_user_id
-        id_list_all = self.get_arguments('pic_all')
-        id_list = set(self.get_arguments('pic_yes'))
-        for i in id_list_all:
-            if i in id_list:
-                pic_yes(i, current_user_id)
-            else:
+        ids_all = self.get_arguments('pic_all')
+        ids_no = set(self.get_arguments('pic_no'))
+        for i in ids_all:
+            if i in ids_no:
                 pic_no(i, current_user_id)
+            else:
+                pic_yes(i, current_user_id)
         self.redirect(self.request.path)
 
 
@@ -47,9 +50,12 @@ class Reviewed(Base):
         )
         if type(n) == str and offset >= total:
             return self.redirect(path_base)
-        pic_list = pic_list_reviewed_by_cid_state(cid, state)
+        pic_list = pic_list_reviewed_by_cid_state(cid, state, limit, offset)
         Zsite.mc_bind(pic_list, 'user', 'user_id')
         self.render(
+            cid=int(cid),
+            state=int(state),
             pic_list=pic_list,
+            total=total,
             page=page,
         )

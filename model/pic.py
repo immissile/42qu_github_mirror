@@ -73,18 +73,24 @@ def pic_reviewed_count_by_cid(cid, state):
     return Pic.where(cid=cid, state=state).where('admin_id>0').count()
 
 def pic_yes(id, admin_id):
-    p = Pic.mc_get(id)
+    p = Pic.get(id)
     if p:
         p.admin_id = admin_id
         p.state = 1
         p.save()
 
 def pic_no(id, admin_id):
-    p = Pic.mc_get(id)
+    from ico import ico
+    p = Pic.get(id)
     if p:
         p.admin_id = admin_id
         p.state = 0
         p.save()
+        cid = p.cid
+        if cid == CID_ICO:
+            user_id = p.user_id
+            if ico.get(user_id) == p.id:
+                ico.set(user_id, 0)
 
 if __name__ == '__main__':
     print pic_list_to_review_by_cid(31, 2)
