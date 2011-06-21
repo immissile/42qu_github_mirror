@@ -67,3 +67,6 @@ q:before,q:after {content:'';}
 font-size:16px;
 }
 .pd16{padding:16px}
+.mt32{
+margin-top:32px;
+}
