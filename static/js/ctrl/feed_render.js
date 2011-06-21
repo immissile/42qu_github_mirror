@@ -45,14 +45,16 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total create_time name
         return item 
     }
 
-    var feed_load=$("#feed_load"), feed_loading=$("#feed_loading"), begin_id = $("#begin_id").val(0);
+    var feed_load=$("#feed_load"), feed_loading=$("#feed_loading"), begin_id = $("#begin_id").val(0),feed_finish;
     function render_feed(){
+        if(feed_finish)return;
         feed_load.hide()
         feed_loading.show()
         $.postJSON(
         "/j/feed/"+begin_id.val(),
         function(result){
             if(!result.length){
+                feed_finish = true;
                 feed_load.hide()
                 feed_loading.hide()
                 return
