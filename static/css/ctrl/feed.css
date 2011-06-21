@@ -29,4 +29,11 @@ display: inline-block; height: 14px; width: 16px; margin-left: 24px;
 .rtrm{
 background-position:-16px 6px;
 }
-
+#feed_load{
+display:block;
+background:#fff;
+border:1px solid #ccc;
+font-size:14px;
+text-align:center;
+}
+#main{padding-bottom:64px;}

@@ -45,12 +45,24 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total create_time name
         return item 
     }
 
+    var feed_load=$("#feed_load"), feed_loading=$("#feed_loading"), begin_id = $("#begin_id")
     function render_feed(){
+    alert(begin_id.val())
+        feed_load.hide()
+        feed_loading.show()
         $.postJSON(
-        "/j/feed",
+        "/j/feed/"+begin_id.val(),
         function(result){
-            $('#feed').tmpl(init_result(result)).appendTo("#feeds")
+            $('#feed').tmpl(init_result(result)).appendTo("#feeds");
+            feed_loading.slideUp(function(){
+                feed_load.show()
+            });
+            begin_id.val(result[result.length-1][0])
         })
     }
     render_feed()
+    $("#feed_load").click(render_feed)
 })()
+function feed_load(){
+
+}
