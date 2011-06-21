@@ -1,5 +1,25 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.zsite import ZSITE_STATE_WAIT_VERIFY
+%>
+%if current_user.state == ZSITE_STATE_WAIT_VERIFY:
+<style>
+.fullscreen{
+margin-top:20%;
+}
+.fullscreen p{
+line-height:32px;
+margin:16px 0;
+font-size:16px;
+text-align:center;
+}
+</style>
+<div class="fullscreen">
+<p>认证申请已提交 , 请等管理员审批</p>
+<p><a href="/">点此返回首页</a></p>
+</div>
+%else:
 <style>
 .fullscreen p{
 line-height:32px;
@@ -21,3 +41,4 @@ margin:32px 0;
 </p>
 </div>
 </%htm:form>
+%endif
