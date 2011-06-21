@@ -14,7 +14,7 @@ class InfoMail(_handler.ApiBase):
     def get(self):
         mail = self.get_argument('mail')
         user_id = user_id_by_mail(mail)
-        data = json_info(user_id) 
+        data = json_info(user_id)
         self.finish(data)
 
 
@@ -39,7 +39,7 @@ class Login(_handler.ApiSignBase):
 class InfoId(_handler.ApiBase):
     def get(self):
         user_id = self.get_argument('user_id')
-        data = json_info(user_id) 
+        data = json_info(user_id)
         self.finish(data)
 
 
