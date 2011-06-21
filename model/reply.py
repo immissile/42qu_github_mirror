@@ -24,9 +24,10 @@ mc_reply_in_1h = McCache('ReplyInOneHour.%s')
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
 
-    def reply_new(self, user_id, txt, state=STATE_ACTIVE):
+    def reply_new(self, user, txt, state=STATE_ACTIVE):
         from zsite import user_can_reply
-        if user_can_reply(user_id):
+        user_id = user.id
+        if not user_can_reply(user):
             return
 
         txt = txt.rstrip()

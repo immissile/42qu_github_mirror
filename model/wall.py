@@ -46,12 +46,13 @@ class Wall(McModel, ReplyMixin):
     def link(self):
         return '/wall/%s' % self.id
 
-    def reply_new(self, user_id, txt, state):
+    def reply_new(self, user, txt, state):
+        user_id = user.id
         from cid import CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY
         from notice import notice_new
         from buzz import buzz_wall_reply_new
         id = self.id
-        reply_id = super(Wall, self).reply_new(user_id, txt, state)
+        reply_id = super(Wall, self).reply_new(user, txt, state)
         if reply_id:
             zsite_id_list = self.zsite_id_list()
 
@@ -148,7 +149,8 @@ def wall_id_by_from_id_to_id(from_id, to_id):
         return w.id
     return 0
 
-def reply_new(self, user_id, txt, state=STATE_ACTIVE):
+def reply_new(self, user, txt, state=STATE_ACTIVE):
+    user_id = user.id
     zsite_id = self.id
     not_self = zsite_id != user_id
 
@@ -176,7 +178,7 @@ def reply_new(self, user_id, txt, state=STATE_ACTIVE):
     else:
         wall = Wall.mc_get(wall_id)
 
-    reply_id = wall.reply_new(user_id, txt, state)
+    reply_id = wall.reply_new(user, txt, state)
     if not reply_id:
         return
 

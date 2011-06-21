@@ -71,8 +71,8 @@ class Po(McModel, ReplyMixin):
     def can_admin(self, user_id):
         return self.user_id == user_id
 
-    def reply_new(self, user_id, txt, state=STATE_ACTIVE):
-        result = super(Po, self).reply_new(user_id, txt, state)
+    def reply_new(self, user, txt, state=STATE_ACTIVE):
+        result = super(Po, self).reply_new(user, txt, state)
         mc_feed_tuple.delete(self.id)
         return result
 
