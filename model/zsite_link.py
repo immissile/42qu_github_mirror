@@ -48,25 +48,25 @@ RE_URL = re.compile(r'^[a-zA-Z0-9\-]*$')
 
 def url_valid_base(url):
     if len(url) < 3:
-        return '个性网址至少有3个字符'
+        return '个性域名至少有3个字符'
     if len(url) > 32:
-        return '个性网址最多有32个字符'
+        return '个性域名最多有32个字符'
     if url in NO_URL:
         return '该网址是我们的保留网址'
     if url.isdigit():
-        return '个性网址不能是纯数字'
+        return '个性域名不能是纯数字'
     if url.startswith('-'):
-        return '个性网址不能以-开头'
+        return '个性域名不能以-开头'
     if url.endswith('-'):
-        return '个性网址不能以-结尾'
+        return '个性域名不能以-结尾'
     if not RE_URL.match(url):
-        return '个性网址格式不正确，请参阅下面说明'
+        return '个性域名格式不正确，请参阅下面说明'
     if id_by_url(url):
         return '该网址已经被占用'
 
 def url_valid(url):
     if len(url) < 5:
-        return '个性网址至少有5个字符'
+        return '个性域名至少有5个字符'
     if url in RESERVED_URL:
         return '该网址是我们的保留网址'
     return url_valid_base(url)

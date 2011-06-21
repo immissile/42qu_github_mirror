@@ -79,7 +79,10 @@ class Index(LoginBase):
 @urlmap('/i/url')
 class Url(LoginBase):
     def get(self):
-        self.render()
+        user_id = self.current_user_id
+        if url_by_id(user_id):
+            return self.redirect(self.current_user.link)
+        self.render(url="")
 
     def post(self):
         user_id = self.current_user_id
@@ -94,7 +97,8 @@ class Url(LoginBase):
         else:
             error_url = '个性域名不能为空'
         self.render(
-            error_url=error_url
+            error_url=error_url,
+            url = url
         )
 
 

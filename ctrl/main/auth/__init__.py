@@ -100,8 +100,19 @@ class Reg(NoLoginBase):
             errtip=errtip
         )
 
+
 @urlmap('/login')
 class Login(NoLoginBase):
+    def get(self):
+        if self.get_cookie("E"):
+            url = "/auth/login"
+        else:
+            url = "/auth/reg"
+        self.redirect(url)
+
+
+@urlmap('/auth/login')
+class AuthLogin(NoLoginBase):
 
     def get(self):
         self.render(
