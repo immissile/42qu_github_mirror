@@ -74,6 +74,7 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total create_time name
     render_feed()
     var win = $(window)
     win.scroll(function() {
+        return
         if (
            autocount < 5 && !is_loading && win.scrollTop() > ($(document).height() - win.height() * 2)
         ){
