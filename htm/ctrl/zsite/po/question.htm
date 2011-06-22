@@ -30,7 +30,7 @@ po_state = po.state
     %if can_admin:
         <a href="/question/edit/${po_id}">编辑</a>
     %endif
-    
+    <a href="/question/reply">${po.reply_count}评注</a> 
 </div>
 
 <span class="vote${vote_state(current_user_id, po_id)}" id="vote${po_id}">
