@@ -54,11 +54,23 @@ checked
 <label for="tit${$data[0]}">标题:</label>
 <input id="tit${$data[0]}" class="itx titpic" name="tit${$data[0]}" value="${$data[3]}"></p>
 <p class="tc mt21">
-<input id="pos${seq}_-1" name="data${$data[0]}" type="radio" value="-1" class="radio">
+<input 
+{{if $data[1]==-1}}
+checked
+{{/if}}
+id="pos${$data[0]}_-1" name="pos${$data[0]}" type="radio" value="-1" class="radio">
 <label for="pos${$data[0]}_-1">居左</label>
-<input id="pos${$data[0]}_0" name="pos${$data[0]}" type="radio" value="0" class="radio">
+<input
+{{if $data[1]==0}}
+checked
+{{/if}}
+id="pos${$data[0]}_0" name="pos${$data[0]}" type="radio" value="0" class="radio">
 <label for="pos${$data[0]}_0">居中</label>
-<input id="pos${$data[0]}_1" name="pos${$data[0]}" type="radio" value="1" class="radio">
+<input
+{{if $data[1]==1}}
+checked
+{{/if}}
+id="pos${$data[0]}_1" name="pos${$data[0]}" type="radio" value="1" class="radio">
 <label for="pos${$data[0]}_1">居右</label>
 </p>
 <p style="margin-top:10px;"><a href="javascript:void(0)" rel="${$data[0]}" class="rmpic">删除</a></p></div>
@@ -66,7 +78,6 @@ checked
 </script>
 </%text>
 
-${' checked="checked"' if pic_pos == 1 else ''}
 <%
 pic_json_list = []
 for pic in pic_list:

@@ -18,7 +18,7 @@ def update_pic(form, user_id, po_id, id):
         title = form['tit%s' % seq][0]
         align = 'pos%s' % seq
         if align in form:
-            align = int(form[align])
+            align = int(form[align][0])
             if align not in (-1, 0, 1):
                 align = 0
         else:
