@@ -137,6 +137,7 @@ class Question(PoOne):
         self.redirect(link)
 
 
+
 @urlmap('/po/reply/rm/(\d+)')
 class ReplyRm(LoginBase):
     def post(self, id):
