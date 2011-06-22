@@ -29,6 +29,9 @@ id="name" type="text" autocomplete="off" name="name" value="${po.name}">
 <textarea id="txt" name="txt">${po.txt}</textarea>
 <div class="btns" id="po_btn">
     <a id="upload" href="javascript:upload();void(0)">传图</a>
+    <span id="upload_wait">图片上传中 ...
+    <a href="javascript:cancel_uploading();void(0)">取消</a>
+    </span>
 %if po:
 <a href="/po/rm/${po.id}?${_xsrf}">删除</a>
 %endif
@@ -41,9 +44,6 @@ checked
     <span class="btnw"><button class="btn" type="submit">确定</button></span>\
 </div>
 
-<div id="upload_wait">图片上传中 ...
-<a href="javascript:cancel_uploading();void(0)">取消</a>
-</div>
 %for pic in pic_list:
 <%
 pic_seq = pic.seq

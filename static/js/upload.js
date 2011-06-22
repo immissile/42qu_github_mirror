@@ -158,7 +158,6 @@ jQuery.extend({
         }}; 
 
     },
-
     uploadHttpData: function( r, type ) {
         var data = r.responseText
         if(data.indexOf(">")>0){
