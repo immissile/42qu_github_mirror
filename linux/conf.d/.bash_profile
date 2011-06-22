@@ -4,3 +4,10 @@
 # runs your .bashrc and is recommended by the bash info pages.
 export PATH=$HOME/bin:$HOME/sbin:$PATH:/usr/sbin:/sbin
 [[ -f ~/.bashrc ]] && . ~/.bashrc
+
+
+
+HISTFILE=$HISTFILE/.bash_history
+HISTFILESIZE=99999
+HISTSIZE=99999
+

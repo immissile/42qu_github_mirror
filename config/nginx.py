@@ -14,7 +14,8 @@ CONFIG_DIR = join(PREFIX, 'config/nginx')
 with open(join(dirname(CONFIG_DIR), 'template/nginx.conf')) as template:
     TEMPLATE = Template(template.read())
 
-def render_conf(name, fs_path, o, port_list=[], zsite_port_list=[]):
+def render_conf(name, base_path, o, port_list=[], zsite_port_list=[]):
+    fs_path = base_path+"/static"
     if not port_list:
         port_list = [o.PORT]
     if not zsite_port_list:
@@ -24,7 +25,7 @@ def render_conf(name, fs_path, o, port_list=[], zsite_port_list=[]):
         port_list=port_list,
         zsite_port_list=zsite_port_list,
         fs_path=fs_path,
-        base_path = PREFIX
+        base_path = base_path
     )
     path = join(
             PREFIX, 'config/nginx/%s'%name
@@ -43,7 +44,7 @@ def render(name, host, user, port_list=None):
     print o.SITE_DOMAIN
     render_conf(
         name,
-        '/home/%s/zpage/static'%user,
+        '/home/%s/zpage'%user,
         o
     )
 
@@ -58,6 +59,7 @@ render_machine('krios', """
 zuroc
 zjd
 yup
+zwtaoo
 work
 """)
 

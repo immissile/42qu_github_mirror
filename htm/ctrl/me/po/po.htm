@@ -1,0 +1,99 @@
+<%!
+from model.po import STATE_SECRET
+from model.cid import CID_QUESTION
+from yajl import dumps
+%>
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="htm_head()">
+${css.ctrl_po_note|n}
+<%
+if po:
+    suffix = '/%s' % po.id
+else:
+    suffix = ''
+%>
+<script>
+UPLOADURL = "/j/po/upload${suffix}"
+DELETEURL = "/j/po/upload/rm${suffix}"
+</script>
+<script src="${js.ctrl_po_note}"></script>
+<script src="${js.upload}"></script>
+<script src="${js.pic}"></script>
+</%def>
+
+<%htm:form enctype="multipart/form-data" id="po_form">
+<input
+placeholder="请输入标题 ..."
+id="name" type="text" autocomplete="off" name="name" value="${po.name}">
+<textarea id="txt" name="txt">${po.txt}</textarea>
+<div class="btns" id="po_btn">
+    <a id="upload" href="javascript:upload();void(0)">传图</a>
+    <span id="upload_wait">图片上传中 ...
+    <a href="javascript:cancel_uploading();void(0)">取消</a>
+    </span>
+%if po:
+<a class="rmpo" href="/po/rm/${po.id}?${_xsrf}">删除</a>
+%endif
+    <input type="checkbox" name="secret" id="secret"
+%if po.state == STATE_SECRET: 
+checked
+%endif
+    >\
+    <label for="secret" id="secret_label">\
+%if cid == CID_QUESTION:
+草稿\
+%else:
+私密\
+%endif
+</label>\
+    <span class="btnw"><button class="btn" type="submit">确定</button></span>\
+</div>
+<div id="uploaded"></div>
+
+</%htm:form>
+<%text>
+<script id="update_item" type="text/x-jquery-tmpl">
+<div id="pic${$data[0]}" class="c imgblock">
+<img class="picsrc" src="${$data[2]}">
+<div class="picimg">
+<p>
+&lt;图片<span class="seqid">${$data[0]}</span>&gt; 
+<label for="tit${$data[0]}">标题:</label>
+<input id="tit${$data[0]}" class="title" name="tit${$data[0]}" value="${$data[3]}"></p>
+<p class="align">
+<a href="javascript:void(0)" rel="${$data[0]}" class="rmpic">删除</a>
+<input 
+{{if $data[1]==-1}}
+checked
+{{/if}}
+id="pos${$data[0]}_-1" name="pos${$data[0]}" type="radio" value="-1" class="radio">
+<label for="pos${$data[0]}_-1">居左</label>
+<input
+{{if $data[1]==0}}
+checked
+{{/if}}
+id="pos${$data[0]}_0" name="pos${$data[0]}" type="radio" value="0" class="radio">
+<label for="pos${$data[0]}_0">居中</label>
+<input
+{{if $data[1]==1}}
+checked
+{{/if}}
+id="pos${$data[0]}_1" name="pos${$data[0]}" type="radio" value="1" class="radio">
+<label for="pos${$data[0]}_1">居右</label>
+</p>
+</div>
+</div>
+</script>
+</%text>
+
+<%
+pic_json_list = []
+for pic in pic_list:
+    pic_json_list.append(( pic.seq ,pic.align ,pic.src219, pic.title))
+%>\
+<script>
+$('#update_item').tmpl(${dumps(pic_json_list)|n}).appendTo("#uploaded")
+</script>
+

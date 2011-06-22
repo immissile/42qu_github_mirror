@@ -12,6 +12,8 @@ DB_MAIN_TABLE = (
 'ico',
 'ico96',
 'ico_pos',
+'kv_int',
+'kv_txt',
 'mail_notice',
 'motto',
 'namecard',
@@ -41,4 +43,3 @@ DB_MAIN_TABLE = (
 'zsite_tag',
 'zsite_tag_po',
 )
-

@@ -61,6 +61,7 @@ class Po(McModel, ReplyMixin):
         feed_new(self.id, self.user_id, self.cid)
 
     def can_view(self, user_id):
+        #print self.state , STATE_DEL, "!!!"
         if self.state <= STATE_DEL:
             return False
         if self.state == STATE_SECRET:
@@ -71,8 +72,8 @@ class Po(McModel, ReplyMixin):
     def can_admin(self, user_id):
         return self.user_id == user_id
 
-    def reply_new(self, user_id, txt, state=STATE_ACTIVE):
-        result = super(Po, self).reply_new(user_id, txt, state)
+    def reply_new(self, user, txt, state=STATE_ACTIVE):
+        result = super(Po, self).reply_new(user, txt, state)
         mc_feed_tuple.delete(self.id)
         return result
 
@@ -105,7 +106,7 @@ def po_state_set(po, state):
 def po_rm(user_id, id):
     m = Po.mc_get(id)
     if m.can_admin(user_id):
-        m.state == STATE_DEL
+        m.state = STATE_DEL
         m.save()
         feed_rm(id)
         mc_flush(user_id)
@@ -118,6 +119,8 @@ def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
         return m
 
 def po_note_new(user_id, name, txt, state, rid=0):
+    if not txt and not name:
+        return
     name = name or time_title()
     if not is_same_post(user_id, name, txt):
         m = po_new(CID_NOTE, user_id, name, rid, state)

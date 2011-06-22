@@ -4,7 +4,7 @@ import re
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from cgi import escape
 from zkit.pic import pic_fit_width_cut_height_if_large
-from pic import pic_new, pic_save
+from pic import pic_new, pic_save, PicMixin
 from cid import CID_PO_PIC
 from fs import fs_set_jpg, fs_url_jpg
 
@@ -18,7 +18,7 @@ PIC_LIMIT = 42
 #PIC_UNSAFE = 5
 #PIC_ANTI = 0
 
-PIC_SIZE = 684
+PIC_SIZE = 721
 PIC_THUMB_SIZE = 219
 #PIC_LIST_SIZE = (219, 123)
 #PIC_LIST_PATH = '%s_%s' % PIC_LIST_SIZE
@@ -28,7 +28,7 @@ PIC_CENTER = 0
 PIC_RIGHT = 1 # 2
 
 
-class PoPic(McModel):
+class PoPic(McModel, PicMixin):
     pass
 
 po_pic_sum = McNum(lambda user_id, po_id: PoPic.where(user_id=user_id, po_id=po_id).count(), 'PoPicTotal.%s')
@@ -53,8 +53,8 @@ def po_pic_new(user_id, po_id, pic):
     return pp
 
 def po_pic_save(pic_id, pic):
-    p1 = pic_fit_width_cut_height_if_large(pic, 684)
-    fs_set_jpg('684', pic_id, p1)
+    p1 = pic_fit_width_cut_height_if_large(pic, 721)
+    fs_set_jpg('721', pic_id, p1)
 
     p2 = pic_fit_width_cut_height_if_large(pic, 219)
     fs_set_jpg('219', pic_id, p2)
@@ -96,8 +96,8 @@ def pic_list(user_id, po_id):
 
 def pic_list_edit(user_id, po_id):
     li = pic_list(user_id, po_id)
-    for i in li:
-        i.src219 = fs_url_jpg(219, i.id)
+#    for i in li:
+#        i.src219 = fs_url_jpg(219, i.id)
     return li
 
 def pic_seq_dict(user_id, po_id):
@@ -126,7 +126,8 @@ def pic_seq_dict_html(user_id, po_id):
 
         d[i.seq] = PIC_HTM % (
             align,
-            fs_url_jpg(684, i.id),
+            i.src721,
+#            fs_url_jpg(684, i.id),
             alt,
             div,
         )

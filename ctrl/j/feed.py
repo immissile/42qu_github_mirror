@@ -38,9 +38,12 @@ class FeedDownX(JLoginBase):
         vote_down_x(current_user_id, id)
         self.finish('{}')
 
-@urlmap('/j/feed')
+@urlmap('/j/feed/(\d+)')
 class Feed(JLoginBase):
-    def get(self, id=MAXINT):
+    def get(self, id):
+        id = int(id)
+        if id == 0:
+            id = MAXINT
         current_user_id = self.current_user_id
 
         result = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
@@ -54,6 +57,4 @@ class Feed(JLoginBase):
 
     post = get
 
-"""
-,[87,["zsp007","//80.zuroc.xxx"],[],80,62,0,1308574197,"** \u6240\u6709\u6587\u7ae0\u7684\u6d4f\u89c8\u9875\u9762",0,0,0,"** 所有文章的浏览页面"]
-"""
+

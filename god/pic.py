@@ -2,27 +2,60 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite
-from model.zsite_list_0 import zsite_show_new, zsite_show_rm
-from model.zsite_link import url_new
-from model.user_mail import mail_by_user_id
-from model.mail import sendmail
 
-from model.cid import CID_ICO, CID_ICO96, CID_PIC
-from model.pic import Pic, pic_need_review, pic_list_to_review_by_cid, pic_list_reviewed_by_cid_state
-from model.ico import ico
+from model.cid import CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
+from model.pic import Pic, pic_list_to_review_by_cid, pic_to_review_count_by_cid, pic_list_reviewed_by_cid_state, pic_yes, pic_no, pic_reviewed_count_by_cid_state
+from model.zsite import Zsite
+from zkit.page import page_limit_offset
+
+CID_PIC = '|'.join(map(str, (CID_ICO, CID_PO_PIC)))
 
 PAGE_LIMIT = 16
 
-@urlmap('/pic/review/ico')
-class ReviewIco(Base):
+@urlmap('/pic/review(%s)' % CID_PIC)
+class Review(Base):
     def get(self, cid):
+        cid = int(cid)
+        pic_list = pic_list_to_review_by_cid(cid, PAGE_LIMIT)
+        Zsite.mc_bind(pic_list, 'user', 'user_id')
+        self.render(
+            cid=cid,
+            pic_list=pic_list,
+            total=pic_to_review_count_by_cid(cid),
+        )
+
+    def post(self, cid):
         current_user_id = self.current_user_id
-        pic_list = pic_list_to_review_by_cid(CID_ICO, PAGE_LIMIT)
-        li = []
-        for i in pic_list:
-            if i.id == ico.get(i.user_id):
-                li.append(i)
+        ids_all = self.get_arguments('pic_all')
+        ids_no = set(self.get_arguments('pic_no'))
+        for i in ids_all:
+            if i in ids_no:
+                pic_no(i, current_user_id)
             else:
-                i.state = 1
-                i.save()
+                pic_yes(i, current_user_id)
+        self.redirect(self.request.path)
+
+
+@urlmap('/pic/reviewed(%s)/(0|1)' % CID_PIC)
+@urlmap('/pic/reviewed(%s)/(0|1)-(\d+)' % CID_PIC)
+class Reviewed(Base):
+    def get(self, cid, state, n=1):
+        path_base = self.request.path.split('-', 1)[0]
+        total = pic_reviewed_count_by_cid_state(cid, state)
+        page, limit, offset = page_limit_offset(
+            '%s-%%s' % path_base,
+            total,
+            n,
+            PAGE_LIMIT,
+        )
+        if type(n) == str and offset >= total:
+            return self.redirect(path_base)
+        pic_list = pic_list_reviewed_by_cid_state(cid, state, limit, offset)
+        Zsite.mc_bind(pic_list, 'user', 'user_id')
+        self.render(
+            cid=int(cid),
+            state=int(state),
+            pic_list=pic_list,
+            total=total,
+            page=page,
+        )

@@ -35,7 +35,8 @@ errdetail = {
 
 function upload(){
     $.fancybox({
-        content : '<h2>上传图片</h2><div><p><input id="file" type="file" name="img"></p><p><button onclick="start_upload()">上传</button></p></div>'
+        content : '<div style="width:220px;padding:8px 16px 16px;font-size:16px"><div class="btns"><p><input style="margin:16px 0;width:200px;" id="file" type="file" name="img"></p><p><span class="btnw"><button class="btn" onclick="start_upload()">上传图片</button></span></p></div></div>',
+        hideOnOverlayClick: false
     });
     return false
 }
@@ -93,24 +94,7 @@ function start_upload() {
 };
 
 function add_thumb(src, id) {
-    $("#upload_wait").after('<div class="cl imgblock"><img class="picsrc"><div><p>&lt;图片<span class="seqid"></span>&gt; 标题:<input class="titpic itx" value=""></p><p class="tc mt21"><input type="radio" value="1" class="radio"><label>居左</label><input type="radio" value="0" checked="checked" class="radio"><label>居中</label><input type="radio" value="2" class="radio"><label>居右</label></p><p style="margin-top:10px;"><a href="javascript:void(0)" class="rmpic">删除</a></p></div></div>')
-    var imgblock = $(".imgblock:first").attr("id", "pic" + id),
-    p = "pos" + id;
-    imgblock.find('.picsrc').attr("src", src);
-    imgblock.find('.seqid').text(id)
-    var r = imgblock.find('.radio').attr('name', p)
-    imgblock.find('.rmpic').attr('rel', id)
-
-    imgblock.find(".titpic").attr('name', "tit" + id)
-    $('#txt').insert_caret('<图片' + id + '>');
-    var l = imgblock.find("label")
-    p += "_"
-    $(l[0]).attr("for", p + 1)
-    $(l[1]).attr("for", p + 0)
-    $(l[2]).attr("for", p + 2)
-    $(r[0]).attr("id", p + 1)
-    $(r[1]).attr("id", p + 0)
-    $(r[2]).attr("id", p + 2)
+    $('#update_item').tmpl([[id,0,src,""]]).prependTo("#uploaded")
 };
 
 $('.rmpic').live("click", function() {

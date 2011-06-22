@@ -6,10 +6,13 @@ from gid import gid
 
 ZSITE_STATE_BAN = 1
 ZSITE_STATE_NO_MAIL = 5
-ZSITE_STATE_APPLY = 9
-ZSITE_STATE_SILENT = 13
-ZSITE_STATE_ACTIVE = 17
-ZSITE_STATE_VERIFY = 21
+ZSITE_STATE_APPLY = 10
+ZSITE_STATE_ACTIVE = 15
+ZSITE_STATE_FAILED_VERIFY = 20
+ZSITE_STATE_WAIT_VERIFY = 25
+ZSITE_STATE_VERIFY_CANNOT_REPLY = 30
+ZSITE_STATE_CAN_REPLY = 35
+ZSITE_STATE_VERIFY = 40
 
 #ZPAGE_NAME = "主页"
 #
@@ -19,9 +22,8 @@ ZSITE_STATE_VERIFY = 21
 class Zsite(McModel):
     pass
 
-def user_slient(user_id):
-    user = Zsite.mc_get(user_id)
-    return user.state <= ZSITE_STATE_SILENT
+def user_can_reply(user):
+    return user.state >= ZSITE_STATE_CAN_REPLY
 #
 #class Zpage(McModel):
 #    pass

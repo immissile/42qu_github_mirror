@@ -1,3 +1,7 @@
+<%!
+from model.zsite import user_can_reply
+%>
+
 <%def name='form(method="POST",className=None,**kwds)' filter="trim">
 <%
 attr=[("method",method)]
@@ -13,4 +17,11 @@ attr = " ".join([
 ${caller.body()|n}\
 ${this.xsrf_form_html()|n}\
 </form>\
+</%def>
+
+<%def name="reply_textarea()">\
+<textarea id="reply_txt" name="txt"></textarea>\
+%if current_user and not user_can_reply(current_user):
+<script src="${js.ctrl_can_not_reply}"></script>\
+%endif
 </%def>
