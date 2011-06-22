@@ -54,6 +54,7 @@ class Mail(Base):
 @urlmap('/zsite/verify/(0|1)/(\d+)')
 class Verify(Base):
     def post(self, state, id):
+        state = int(state)
         txt = self.get_argument('txt', '')
         zsite = Zsite.mc_get(id)
         if zsite and zsite.state == ZSITE_STATE_WAIT_VERIFY:
