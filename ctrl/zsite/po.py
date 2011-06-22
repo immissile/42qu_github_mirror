@@ -160,14 +160,15 @@ class Reply(LoginBase):
         po = Po.mc_get(id)
         if po:
             user = self.current_user
-            user_id = self.current_user_id
-            can_view = po.can_view(user_id)
-            link = po.link
-            if can_view:
-                txt = self.get_argument('txt', '')
-                m = po.reply_new(user, txt, po.state)
-                if m:
-                    link = '%s#reply%s' % (link, m)
+            if user_can_reply(user):
+                user_id = self.current_user_id
+                can_view = po.can_view(user_id)
+                link = po.link
+                if can_view:
+                    txt = self.get_argument('txt', '')
+                    m = po.reply_new(user, txt, po.state)
+                    if m:
+                        link = '%s#reply%s' % (link, m)
         else:
             link = '/'
         self.redirect(link)
