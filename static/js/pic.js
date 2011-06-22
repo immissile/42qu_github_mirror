@@ -93,7 +93,7 @@ function start_upload() {
 };
 
 function add_thumb(src, id) {
-    $("#upload_wait").after('<div class="cl imgblock"><img class="picsrc"><div><p>&lt;图片<span class="seqid"></span>&gt; 标题:<input class="titpic itx" value=""></p><p class="tc mt21"><input type="radio" value="1" class="radio"><label>居左</label><input type="radio" value="0" checked="checked" class="radio"><label>居中</label><input type="radio" value="2" class="radio"><label>居右</label></p><p style="margin-top:10px;"><a href="javascript:void(0)" class="rmpic">删除</a></p></div></div>')
+    $("#uploaded").append('<div class="cl imgblock"><img class="picsrc"><div><p>&lt;图片<span class="seqid"></span>&gt; 标题:<input class="titpic itx" value=""></p><p class="tc mt21"><input type="radio" value="1" class="radio"><label>居左</label><input type="radio" value="0" checked="checked" class="radio"><label>居中</label><input type="radio" value="2" class="radio"><label>居右</label></p><p style="margin-top:10px;"><a href="javascript:void(0)" class="rmpic">删除</a></p></div></div>')
     var imgblock = $(".imgblock:first").attr("id", "pic" + id),
     p = "pos" + id;
     imgblock.find('.picsrc').attr("src", src);
