@@ -22,12 +22,14 @@ text-align:center;
 height:350px;
 border-top:1px #ccc dotted;
 }
-#po_btn{
+#po_btn,#uploaded{
     padding-top:16px;
-    text-align:right;
     width:737px;
     margin:auto;
     font-size:14px;
+}
+#po_btn{
+    text-align:right;
 }
 #upload,#upload_wait{
 float:left;

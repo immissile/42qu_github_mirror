@@ -1,6 +1,6 @@
 <%!
 from model.po import STATE_SECRET
-
+from yajl import dumps
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -44,22 +44,36 @@ checked
     <span class="btnw"><button class="btn" type="submit">确定</button></span>\
 </div>
 <div id="uploaded">
-%for pic in pic_list:
-<%
-pic_seq = pic.seq
-pic_pos = pic.align
-%>\
-<div id="pic${pic_seq}" class="cl imgblock">\
-<img class="picsrc" src="${pic.src219}">\
-<div><p>&lt;图片<span class="seqid">${pic.seq}</span>&gt; \
-标题:<input class="itx titpic" name="tit${pic_seq}" value="${pic.title}"></p>\
-<p class="tc mt21">\
-<input id="pos${pic_seq}_-1" name="pos${pic_seq}" type="radio" value="-1" class="radio"${' checked="checked"' if pic_pos == -1 else ''}><label for="pos${pic_seq}_-1">居左</label>\
-<input id="pos${pic_seq}_0" name="pos${pic_seq}" type="radio" value="0" class="radio"${' checked="checked"' if pic_pos == 0 else ''}><label for="pos${pic_seq}_0">居中</label>\
-<input id="pos${pic_seq}_1" name="pos${pic_seq}" type="radio" value="1" class="radio"${' checked="checked"' if pic_pos == 1 else ''}><label for="pos${pic_seq}_1">居右</label>\
-</p>\
-<p style="margin-top:10px;"><a href="javascript:void(0)" rel="${pic.seq}" class="rmpic">删除</a></p></div></div>\
-%endfor
 </div>
 
 </%htm:form>
+<%text>
+<script id="update_item" type="text/x-jquery-tmpl">
+<div id="pic${$data[0]}" class="cl imgblock">
+<img class="picsrc" src="${$data[2]}">
+<div><p>&lt;图片<span class="seqid">${$data[0]}</span>&gt; 
+<label for="tit${$data[0]}">标题:</label>
+<input id="tit${$data[0]}" class="itx titpic" name="tit${$data[0]}" value="${title}"></p>
+<p class="tc mt21">
+<input id="pos${seq}_-1" name="data${$data[0]}" type="radio" value="-1" class="radio">
+<label for="pos${$data[0]}_-1">居左</label>
+<input id="pos${$data[0]}_0" name="pos${$data[0]}" type="radio" value="0" class="radio">
+<label for="pos${$data[0]}_0">居中</label>
+<input id="pos${$data[0]}_1" name="pos${$data[0]}" type="radio" value="1" class="radio">
+<label for="pos${$data[0]}_1">居右</label>
+</p>
+<p style="margin-top:10px;"><a href="javascript:void(0)" rel="${seq}" class="rmpic">删除</a></p></div>
+</div>
+</script>
+</%text>
+
+${' checked="checked"' if pic_pos == 1 else ''}
+<%
+pic_json_list = []
+for pic in pic_list:
+    pic_json_list.append(( pic.seq ,pic.align ,pic.src219))
+%>\
+<script>
+$('#update_item').tmpl(${dumps(pic_json_list)|n}).appendTo("#uploaded")
+</script>
+
