@@ -40,7 +40,7 @@
         wj.find('a').blur()
 		num.text(numv + v)
         $.fancybox({
-            content:'<form id="vote_reply" style="width:470px;padding:8px 16px 0 14px"><h3 style="font-size:16px;margin-bottom:7px">留下你的看法吧 ...</h3><textarea style="width:461px;height:200px;font-size:16px;padding:2px 3px" name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">确定</button></span></div></form>',
+            content:'<form id="vote_reply" style="width:470px;padding:8px 16px 0 14px"><h3 style="font-size:16px;margin-bottom:7px">留下你的看法吧 ...</h3><textarea style="width:461px;height:200px;font-size:16px;padding:2px 3px;margin:5px 0 10px" name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">确定</button></span></div></form>',
             onComplete:function(){
                 $("#vote_reply").submit(function(){
                     var self=$(this), textarea=self.find("textarea");

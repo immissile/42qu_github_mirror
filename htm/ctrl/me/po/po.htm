@@ -5,6 +5,14 @@ from yajl import dumps
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="htm_title()">
+%if cid == CID_QUESTION:
+发布 - 问题
+%else:
+发布 - 文章
+%endif
+</%def>
+
 
 <%def name="htm_head()">
 ${css.ctrl_po_note|n}
