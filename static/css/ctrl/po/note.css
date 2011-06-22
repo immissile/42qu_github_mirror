@@ -22,4 +22,21 @@ text-align:center;
 height:350px;
 border-top:1px #ccc dotted;
 }
-
+#po_btn{
+    padding-top:16px;
+    text-align:right;
+    width:737px;
+    margin:auto;
+    font-size:14px;
+}
+#upload{
+float:left;
+}
+#secret{
+    vertical-align:-1px;
+}
+#po_btn .btnw{
+    margin-top:-2px;
+    margin-left:16px;
+    float:right; 
+}

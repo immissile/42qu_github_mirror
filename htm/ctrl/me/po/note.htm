@@ -27,7 +27,7 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 placeholder="请输入标题 ..."
 id="name" type="text" autocomplete="off" name="name" value="${po.name}">
 <textarea id="txt" name="txt">${po.txt}</textarea>
-<div>
+<div class="btns" id="po_btn">
     <a id="upload" href="javascript:upload();void(0)">传图</a>
 %if po:
 <a href="/po/rm/${po.id}?${_xsrf}">删除</a>
@@ -37,8 +37,8 @@ id="name" type="text" autocomplete="off" name="name" value="${po.name}">
 checked
 %endif
     >\
-    <label for="secret">仅自己可见</label>\
-    <button type="submit">确定</button>\
+    <label for="secret">私密</label>\
+    <span class="btnw"><button class="btn" type="submit">确定</button></span>\
 </div>
 
 <div id="upload_wait">图片上传中 ...
