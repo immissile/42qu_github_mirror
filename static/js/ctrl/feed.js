@@ -39,6 +39,7 @@
 		w.className = vote + c;
         wj.find('a').blur()
 		num.text(numv + v)
+        
 	}
 	vote_up = function(id) {
 		_(up, down, id, 1)
