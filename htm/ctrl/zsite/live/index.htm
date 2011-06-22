@@ -40,7 +40,7 @@ ${buzz_show(zsite_id)}
         <div>${txt}</div>
     {{/if}}
     <div class="feedbar">
-<a title="回复" target="_blank" class="reply" href="${link}#txt">${reply_total}</a>
+<a title="回复" target="_blank" class="reply" href="${link}#txt">${reply_count}</a>
 <a
 {{if is_rt}}
 title="已转发"
@@ -99,7 +99,7 @@ rel="${id}" href="javascript:void(0)"></a>
 ##<%call expr="_style1(i)">
 ##${caller.body()}\
 ##<div>\
-##<a href="/po/${iid}" target="_blank">${i.reply_total or ''}回复</a>
+##<a href="/po/${iid}" target="_blank">${i.reply_count or ''}回复</a>
 ##${vote(iid, i.vote)}
 ##</div>\
 ##</%call>\

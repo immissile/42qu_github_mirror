@@ -18,7 +18,7 @@ FEED_TUPLE_DEFAULT_LEN = 8
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
     cid = m.cid
-    result = [m.user_id, cid, m.reply_total, m.create_time, m.name, vote_count(id)]
+    result = [m.user_id, cid, m.reply_count, m.create_time, m.name, vote_count(id)]
     if cid == CID_NOTE:
         result.append(m.txt)
     return result
@@ -30,11 +30,11 @@ def cidmap(cid):
     return _
 
 class FeedBase(object):
-    def __init__(self, id, rt_id_list, cid, reply_total, zsite_id, vote, name):
+    def __init__(self, id, rt_id_list, cid, reply_count, zsite_id, vote, name):
         self.id = id
         self.rt_id_list = rt_id_list
         self.cid = cid
-        self.reply_total = reply_total
+        self.reply_count = reply_count
         self.zsite_id = zsite_id
         self.vote = vote
         self.name = name
@@ -52,8 +52,8 @@ def feed_tuple_list(id_list):
 
     return k
 
-#note = zsite_id, cid, reply_total, vote, name, txt
-#word = zsite_id, cid, reply_total, vote, name
+#note = zsite_id, cid, reply_count, vote, name, txt
+#word = zsite_id, cid, reply_count, vote, name
 def dump_zsite(zsite):
     if zsite:
         return (zsite.name, zsite.link)

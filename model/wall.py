@@ -31,7 +31,7 @@ CREATE TABLE  `wall_reply` (
 """
 
 mc_reply_id_list = McLimitA('WallReplyIdListReversed:%s', 512)
-mc_reply_total = McCache('Zsite.reply_total:%s')
+mc_reply_count = McCache('Zsite.reply_count:%s')
 
 class Wall(McModel, ReplyMixin):
     def zsite_id_list(self):
@@ -191,7 +191,7 @@ def reply_new(self, user, txt, state=STATE_ACTIVE):
 
 def mc_flush(zsite_id):
     mc_reply_id_list.delete(zsite_id)
-    mc_reply_total.delete(zsite_id)
+    mc_reply_count.delete(zsite_id)
 
 
 @mc_reply_id_list('{self.id}')
@@ -207,12 +207,12 @@ def reply_list_reversed(self, limit=None, offset=None):
     return reply_list
 
 @property
-@mc_reply_total('{self.id}')
-def reply_total(self):
+@mc_reply_count('{self.id}')
+def reply_count(self):
     return WallReply.where(zsite_id=self.id).count()
 
 
 Zsite.reply_new = reply_new
-Zsite.reply_total = reply_total
+Zsite.reply_count = reply_count
 Zsite.reply_list_id_reversed = reply_list_id_reversed
 Zsite.reply_list_reversed = reply_list_reversed

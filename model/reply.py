@@ -18,7 +18,7 @@ REPLY_STATE = (
 
 mc_reply_id_list = McLimitA('ReplyIdList:%s', 512)
 mc_reply_id_list_reversed = McLimitA('ReplyIdListReversed:%s', 512)
-mc_reply_total = McCache('ReplyTotal:%s')
+mc_reply_count = McCache('ReplyCount:%s')
 mc_reply_in_1h = McCache('ReplyInOneHour.%s')
 
 class ReplyMixin(object):
@@ -63,8 +63,8 @@ class ReplyMixin(object):
         return id
 
     @property
-    @mc_reply_total('{self.cid}_{self.id}')
-    def reply_total(self):
+    @mc_reply_count('{self.cid}_{self.id}')
+    def reply_count(self):
         cid = self.cid
         rid = self.id
         cursor = self.reply_cursor
@@ -155,7 +155,7 @@ def mc_flush_reply_id_list(cid, rid):
     key = '%s_%s' % (cid, rid)
     mc_reply_id_list.delete(key)
     mc_reply_id_list_reversed.delete(key)
-    mc_reply_total.delete(key)
+    mc_reply_count.delete(key)
 
 if __name__ == '__main__':
     pass

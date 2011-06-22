@@ -34,14 +34,14 @@ ${wall_row()}
 <%def name="wall_row()">
 <%
 REPLY_LIMIT = 10
-reply_total = zsite.reply_total
+reply_count = zsite.reply_count
 %>
 <div>留言</div>
 ${reply_textarea('/wall')}
 %for i in zsite.reply_list_reversed(REPLY_LIMIT,0):
     ${reply_render(i)}
 %endfor
-%if reply_total > REPLY_LIMIT:
+%if reply_count > REPLY_LIMIT:
     <a href="/wall/-${REPLY_LIMIT}">等等等 ...</a>
 %endif
 </%def>
