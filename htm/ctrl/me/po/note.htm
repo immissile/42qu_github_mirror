@@ -43,7 +43,7 @@ checked
     <label for="secret">私密</label>\
     <span class="btnw"><button class="btn" type="submit">确定</button></span>\
 </div>
-
+<div id="uploaded">
 %for pic in pic_list:
 <%
 pic_seq = pic.seq
@@ -60,6 +60,6 @@ pic_pos = pic.align
 </p>\
 <p style="margin-top:10px;"><a href="javascript:void(0)" rel="${pic.seq}" class="rmpic">删除</a></p></div></div>\
 %endfor
-
+</div>
 
 </%htm:form>
