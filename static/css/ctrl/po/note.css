@@ -71,6 +71,10 @@ margin:16px 0;
 .imgblock .align label{
 margin-right:32px;
 }
-.rmpo{
-margin-right:64px
+#secret_label{
+margin-right:32px
 }
+.rmpo{
+margin-right:42px
+}
+
