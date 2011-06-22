@@ -94,24 +94,7 @@ function start_upload() {
 };
 
 function add_thumb(src, id) {
-    $("#uploaded").append('<div class="cl imgblock"><img class="picsrc"><div><p>&lt;图片<span class="seqid"></span>&gt; 标题:<input class="titpic itx" value=""></p><p class="tc mt21"><input type="radio" value="1" class="radio"><label>居左</label><input type="radio" value="0" checked="checked" class="radio"><label>居中</label><input type="radio" value="2" class="radio"><label>居右</label></p><p style="margin-top:10px;"><a href="javascript:void(0)" class="rmpic">删除</a></p></div></div>')
-    var imgblock = $(".imgblock:first").attr("id", "pic" + id),
-    p = "pos" + id;
-    imgblock.find('.picsrc').attr("src", src);
-    imgblock.find('.seqid').text(id)
-    var r = imgblock.find('.radio').attr('name', p)
-    imgblock.find('.rmpic').attr('rel', id)
-
-    imgblock.find(".titpic").attr('name', "tit" + id)
-    $('#txt').insert_caret('<图片' + id + '>');
-    var l = imgblock.find("label")
-    p += "_"
-    $(l[0]).attr("for", p + 1)
-    $(l[1]).attr("for", p + 0)
-    $(l[2]).attr("for", p + 2)
-    $(r[0]).attr("id", p + 1)
-    $(r[1]).attr("id", p + 0)
-    $(r[2]).attr("id", p + 2)
+    $('#update_item').tmpl([[id,0,src,""]]).prependTo("#uploaded")
 };
 
 $('.rmpic').live("click", function() {
