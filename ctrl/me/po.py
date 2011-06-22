@@ -128,6 +128,8 @@ class PoBase(LoginBase):
     def get(self):
         user_id = self.current_user_id
         self.render(
+            'ctrl/me/po/po.htm',
+            cid = self.cid,
             po=JsDict(),
             pic_list=pic_list_edit(user_id, 0),
         )
@@ -145,14 +147,12 @@ class PoBase(LoginBase):
 @urlmap('/po/note')
 class PoNote(PoBase):
     cid = CID_NOTE
-    template = 'ctrl/me/po/note.htm'
     po_save = staticmethod(po_note_new)
 
 
 @urlmap('/po/question')
 class PoQuestion(PoBase):
     cid = CID_QUESTION
-    template = 'ctrl/me/po/question.htm'
     po_save = staticmethod(po_question_new)
 
 

@@ -1,5 +1,6 @@
 <%!
 from model.po import STATE_SECRET
+from model.cid import CID_QUESTION
 from yajl import dumps
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
@@ -40,7 +41,13 @@ id="name" type="text" autocomplete="off" name="name" value="${po.name}">
 checked
 %endif
     >\
-    <label for="secret" id="secret_label">私密</label>\
+    <label for="secret" id="secret_label">\
+%if cid == CID_QUESTION:
+草稿\
+%else:
+私密\
+%endif
+</label>\
     <span class="btnw"><button class="btn" type="submit">确定</button></span>\
 </div>
 <div id="uploaded"></div>
