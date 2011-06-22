@@ -5,31 +5,36 @@ from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 <%def name="htm_head()">
 </%def>
 <script>
+var fancybox = $.fancybox
 $('a.yes').live('click', function() {
+    fancybox.showActivity()
     var id = this.rel
-    $.post('/zsite/verify/1/' + id, function(data) {
+    $.postJSON('/zsite/verify/1/' + id, function(data) {
         if (data.state == true) {
+            fancybox('通过成功')
             $('#zsite' + id).remove()
         }
     })
     return false
 })
 $('a.no').live('click', function() {
-    var fancybox = $.fancybox
-    fancybox.showActivity()
-    $.fancybox({
-        content:'adsasdasdsad'
-    })
-    return false
-    return false
     var id = this.rel
-//    $.post('/zsite/verify/0/' + id, function(data) {
-//        if (data.state == true) {
-//            $('#zsite' + id).remove()
-//            return false
-//        }
-//        return false
-//    })
+    var txt = $('#txt' + id)
+    if (!txt.length) {
+        $(this).after('<p><textarea id="txt' + id + '"></textarea><a class="nono" rel="' + id + '" href="">拒绝</a></p>')
+    }
+    return false
+})
+$('a.nono').live('click', function() {
+    fancybox.showActivity()
+    var id = this.rel
+    var txt = $('#txt' + id).val()
+    $.postJSON('/zsite/verify/0/' + id, {"txt":txt}, function(data) {
+        if (data.state == true) {
+            fancybox('已拒绝')
+            $('#zsite' + id).remove()
+        }
+    })
     return false
 })
 </script>
@@ -37,11 +42,11 @@ $('a.no').live('click', function() {
 <%
 id = i.id
 %>
-<p class="zsite" id="zsite${id}">
-<a href="${i.link}">${i.name}</a>
+<div class="zsite" id="zsite${id}">
+<a href="${i.link}" target="_blank">${i.name}</a>
 <a class="yes" rel="${id}" href="">通过</a>
-<a class="no" rel="${id}" href="javascript:void(0)">拒绝</a>
-</p>
+<a class="no" rel="${id}" href="">拒绝(填写理由)</a>
+</div>
 % endfor
 % if extra:
 <a href="?">还有${extra}未审核</a>
