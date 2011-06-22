@@ -16,12 +16,17 @@ def update_pic(form, user_id, po_id, id):
     for pic in pl:
         seq = pic.seq
         title = form['tit%s' % seq][0]
-        align = form['pos%s' % seq][0]
+        align = 'pos%s' % seq
+        if align in form:
+            align = int(form[align])
+            if align not in (-1, 0, 1):
+                align = 0
+        else:
+            align = 0
+
         pic.title = title.strip()
         align = int(align)
 
-        if align not in (-1, 0, 1):
-            align = 0
 
         pic.align = align
         pic.po_id = po_id
@@ -133,7 +138,7 @@ class PoBase(LoginBase):
             po_id = po.id
             link = '/po/tag/%s' % po_id
         else:
-            link = self.link
+            link = self.request.uri
         self.redirect(link)
 
 
