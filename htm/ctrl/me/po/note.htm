@@ -53,7 +53,7 @@ checked
 <img class="picsrc" src="${$data[2]}">
 <div><p>&lt;图片<span class="seqid">${$data[0]}</span>&gt; 
 <label for="tit${$data[0]}">标题:</label>
-<input id="tit${$data[0]}" class="itx titpic" name="tit${$data[0]}" value="${title}"></p>
+<input id="tit${$data[0]}" class="itx titpic" name="tit${$data[0]}" value="${$data[3]}"></p>
 <p class="tc mt21">
 <input id="pos${seq}_-1" name="data${$data[0]}" type="radio" value="-1" class="radio">
 <label for="pos${$data[0]}_-1">居左</label>
@@ -71,7 +71,7 @@ ${' checked="checked"' if pic_pos == 1 else ''}
 <%
 pic_json_list = []
 for pic in pic_list:
-    pic_json_list.append(( pic.seq ,pic.align ,pic.src219))
+    pic_json_list.append(( pic.seq ,pic.align ,pic.src219, pic.title))
 %>\
 <script>
 $('#update_item').tmpl(${dumps(pic_json_list)|n}).appendTo("#uploaded")
