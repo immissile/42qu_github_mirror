@@ -9,6 +9,15 @@ from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 
+@urlmap('/j/po/reply/(\d+)')
+class Reply(JLoginBase):
+    def get(self, id):
+        self.get_argument('txt')
+        result = {}
+        result['can_not_reply'] = True
+        self.finish(result)
+
+    post = get
 
 @urlmap('/j/po/tag/edit')
 class TagEdit(JLoginBase):
