@@ -15,7 +15,13 @@ def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
     for pic in pl:
         seq = pic.seq
-        title = form['tit%s' % seq][0]
+
+        title = 'tit%s' % seq
+        if title in form:
+            title = form[title][0]
+        else:
+            title = ""
+
         align = 'pos%s' % seq
         if align in form:
             align = int(form[align][0])
