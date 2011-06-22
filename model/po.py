@@ -118,6 +118,8 @@ def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
         return m
 
 def po_note_new(user_id, name, txt, state, rid=0):
+    if not txt and not title:
+        return
     name = name or time_title()
     if not is_same_post(user_id, name, txt):
         m = po_new(CID_NOTE, user_id, name, rid, state)

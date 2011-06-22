@@ -39,63 +39,28 @@ class PoWord(LoginBase):
             po_word_new(current_user.id, txt)
         return self.redirect('/live')
 
-
-class PoBase(LoginBase):
-    cid = None
-    template = None
-    po_new = None
-
-    def get(self):
-        user_id = self.current_user_id
-        self.render(
-            po=JsDict(),
-            pic_list=pic_list_edit(user_id, 0),
-        )
-
-    def post(self):
-        user_id = self.current_user_id
-        name = self.get_argument('name', '')
-        txt = self.get_argument('txt', '')
-        if not (name or txt):
-            return self.get()
-        secret = self.get_argument('secret', None)
-        arguments = self.request.arguments
-        if secret:
-            state = STATE_SECRET
-        else:
-            state = STATE_ACTIVE
-        po = self.po_new(user_id, name, txt, state)
-
-        if po:
-            po_id = po.id
-            link = '/po/tag/%s' % po_id
-            zsite_tag_new_by_tag_id(po)
-            update_pic(arguments, user_id, po_id, 0)
-            mc_pic_id_list.delete('%s_%s' % (user_id, 0))
-        else:
-            link = self.link
-        self.redirect(link)
-
-
-@urlmap('/po/note')
-class PoNote(PoBase):
-    cid = CID_NOTE
-    template = 'ctrl/me/po/note.htm'
-    po_new = staticmethod(po_note_new)
-
-
-@urlmap('/po/question')
-class PoQuestion(PoBase):
-    cid = CID_QUESTION
-    template = 'ctrl/me/po/question.htm'
-    po_new = staticmethod(po_question_new)
-
-
-@urlmap('/po/edit/(\d+)')
-class Edit(LoginBase):
-    def get(self, id=0):
-        self.redirect('/note/edit/%s' % id)
-
+def po_post(self):
+    user_id = self.current_user_id
+    name = self.get_argument('name', '')
+    txt = self.get_argument('txt', '')
+    secret = self.get_argument('secret', None)
+    arguments = self.request.arguments
+    if secret:
+        state = STATE_SECRET
+    else:
+        state = STATE_ACTIVE
+    
+    po = self.po_save(user_id, name, txt, state)
+    self_id = self.id
+    if po:
+        po_id = po.id
+        zsite_tag_new_by_tag_id(po)
+    else:
+        po_id = 0
+    if po or self_id == 0:
+        update_pic(arguments, user_id, po_id, self_id)
+        mc_pic_id_list.delete('%s_%s' % (user_id, self_id))
+    return po
 
 class EditBase(LoginBase):
     cid = None
@@ -124,22 +89,10 @@ class EditBase(LoginBase):
             pic_list=pic_list_edit(user_id, id)
         )
 
-    def post(self, id):
-        user_id = self.current_user_id
-        po = self.po(user_id, id)
+    def po_save(self, user_id, name, txt, state):
+        po = self.po(user_id, self.id)
         if po is None:
             return
-
-        name = self.get_argument('name', '')
-        txt = self.get_argument('txt', '')
-        if not (name or txt):
-            return self.get(id)
-        secret = self.get_argument('secret', None)
-        arguments = self.request.arguments
-        if secret:
-            state = STATE_SECRET
-        else:
-            state = STATE_ACTIVE
         if name:
             po.name = name
             po.save()
@@ -147,11 +100,63 @@ class EditBase(LoginBase):
             po.txt_set(txt)
         if not (po.cid == CID_QUESTION and po.state == STATE_ACTIVE):
             po_state_set(po, state)
+        return po
+
+    po_post = po_post
+
+    def post(self, id):
+        user_id = self.current_user_id
+        self.id = id
+
+        po = self.po_post()
 
         link = '/po/tag/%s' % id
-        zsite_tag_new_by_tag_id(po)
-        update_pic(arguments, user_id, id, id)
         self.redirect(link)
+
+class PoBase(LoginBase):
+    id = 0
+    cid = None
+    template = None
+    po_save = None
+    po_post = po_post
+
+    def get(self):
+        user_id = self.current_user_id
+        self.render(
+            po=JsDict(),
+            pic_list=pic_list_edit(user_id, 0),
+        )
+
+    def post(self):
+        po = self.po_post()
+        if po:
+            po_id = po.id
+            link = '/po/tag/%s' % po_id
+        else:
+            link = self.link
+        self.redirect(link)
+
+
+@urlmap('/po/note')
+class PoNote(PoBase):
+    cid = CID_NOTE
+    template = 'ctrl/me/po/note.htm'
+    po_save = staticmethod(po_note_new)
+
+
+@urlmap('/po/question')
+class PoQuestion(PoBase):
+    cid = CID_QUESTION
+    template = 'ctrl/me/po/question.htm'
+    po_save = staticmethod(po_question_new)
+
+
+@urlmap('/po/edit/(\d+)')
+class Edit(LoginBase):
+    def get(self, id=0):
+        self.redirect('/note/edit/%s' % id)
+
+
 
 
 @urlmap('/word/edit/(\d+)')
