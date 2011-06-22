@@ -90,6 +90,7 @@ class EditBase(LoginBase):
             return
 
         self.render(
+            'ctrl/me/po/po.htm',
             po=po,
             pic_list=pic_list_edit(user_id, id)
         )
