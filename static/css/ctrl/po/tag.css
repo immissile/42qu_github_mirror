@@ -1,7 +1,25 @@
+.tag_form{
+width:219px;margin:auto;margin-top:32px;font-size:16px
+}
+.tag_title{
+text-align:center;
+font-size:16px;
+margin-top:32px;
+}
 .x{
 background:url(/img/gif/x.gif) no-repeat;
 display:inline-block;
 height:9px;
 width:9px;
 outline:0;
+}
+.tag_new{
+font-size:16px;padding:2px;
+}
+.tag_line{
+padding:6px 0;
+}
+.tag_admin{
+margin:16px 0;
+text-align:right
 }
