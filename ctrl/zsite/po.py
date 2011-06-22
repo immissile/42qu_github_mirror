@@ -97,7 +97,7 @@ class PoOne(ZsiteBase):
 
 
 @urlmap("/question/(\d+)")
-class Question(LoginBase):
+class Question(PoOne):
     def post(self, id):
         question = self.po(id)
         if question is None:
