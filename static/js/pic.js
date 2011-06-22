@@ -35,7 +35,8 @@ errdetail = {
 
 function upload(){
     $.fancybox({
-        content : '<h2>上传图片</h2><div><p><input id="file" type="file" name="img"></p><p><button onclick="start_upload()">上传</button></p></div>'
+        content : '<h2>上传图片</h2><div><p><input id="file" type="file" name="img"></p><p><button onclick="start_upload()">上传</button></p></div>',
+        hideOnOverlayClick: false
     });
     return false
 }
