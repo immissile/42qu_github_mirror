@@ -1,0 +1,48 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
+%>
+<%def name="htm_head()">
+</%def>
+<script>
+$('a.yes').live('click', function() {
+    var id = this.rel
+    $.post('/zsite/verify/1/' + id, function(data) {
+        if (data.state == true) {
+            $('#zsite' + id).remove()
+        }
+    })
+    return false
+})
+$('a.no').live('click', function() {
+    var fancybox = $.fancybox
+    fancybox.showActivity()
+    $.fancybox({
+        content:'adsasdasdsad'
+    })
+    return false
+    return false
+    var id = this.rel
+//    $.post('/zsite/verify/0/' + id, function(data) {
+//        if (data.state == true) {
+//            $('#zsite' + id).remove()
+//            return false
+//        }
+//        return false
+//    })
+    return false
+})
+</script>
+% for i in zsite_list:
+<%
+id = i.id
+%>
+<p class="zsite" id="zsite${id}">
+<a href="${i.link}">${i.name}</a>
+<a class="yes" rel="${id}" href="">通过</a>
+<a class="no" rel="${id}" href="javascript:void(0)">拒绝</a>
+</p>
+% endfor
+% if extra:
+<a href="?">还有${extra}未审核</a>
+% endif

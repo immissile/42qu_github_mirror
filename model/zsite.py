@@ -43,11 +43,42 @@ def zsite_new(name, cid, state):
 def zsite_new_user(name):
     return zsite_new(name, CID_USER, ZSITE_STATE_APPLY)
 
-if __name__ == '__main__':
-    pass
-# for i in Zsite.where():
-#     for reply in i.reply_list():
-#         print reply.html
+#def zsite_to_verify_by_cid(cid, limit, offset):
+#    return Zsite.where(cid=cid, state=ZSITE_STATE_WAIT_VERIFY).order_by('id')[offset: limit+offset]
+#
+#def zsite_to_verify_count_by_cid(cid):
+#    return Zsite.where(cid=cid, state=ZSITE_STATE_WAIT_VERIFY).count()
 
 
+ZSITE_VERIFY_TEMPLATE = {
+    CID_USER: {
+        ZSITE_STATE_VERIFY: '/mail/verify/user_yes.txt',
+        ZSITE_STATE_FAILED_VERIFY: '/mail/verify/user_no.txt',
+    }
+}
 
+def zsite_verify_yes(zsite):
+    if zsite.state == ZSITE_STATE_WAIT_VERIFY:
+        zsite.state = ZSITE_STATE_VERIFY
+        zsite.save()
+        mq_zsite_verify_mail(zsite.id, zsite.cid, zsite.state)
+
+def zsite_verify_no(zsite, txt):
+    if zsite.state == ZSITE_STATE_WAIT_VERIFY:
+        zsite.state = ZSITE_STATE_FAILED_VERIFY
+        zsite.save()
+        mq_zsite_verify_mail(zsite.id, zsite.cid, zsite.state, txt)
+
+def zsite_verify_mail(zsite_id, cid, state, txt=''):
+    from mail import rendermail
+    from user_mail import mail_by_user_id
+    template = ZSITE_VERIFY_TEMPLATE.get(cid, {}).get(state)
+    if template:
+        name = Zsite.mc_get(user_id).name
+        mail = mail_by_user_id(user_id)
+        rendermail(template, mail, name,
+                   txt=txt,
+                  )
+
+from mq import mq_client
+mq_zsite_verify_mail = mq_client(zsite_verify_mail)

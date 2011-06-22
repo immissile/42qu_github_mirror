@@ -110,6 +110,7 @@ class Url(LoginBase):
             url=url
         )
 
+
 @urlmap('/i/verify')
 class Verify(LoginBase):
     def prepare(self):
@@ -118,17 +119,18 @@ class Verify(LoginBase):
         state = current_user.state
         if state >= ZSITE_STATE_VERIFY:
             return self.redirect('/')
-        elif state <= ZSITE_STATE_APPLY: 
+        elif state <= ZSITE_STATE_APPLY:
             return self.redirect("/auth/verify/sended")
 
     def post(self):
         current_user = self.current_user
         current_user.state = ZSITE_STATE_WAIT_VERIFY
-        current_user.save() 
-        return self.get() 
+        current_user.save()
+        return self.get()
 
     def get(self):
         self.render()
+
 
 @urlmap('/i/namecard')
 class Namecard(LoginBase):
