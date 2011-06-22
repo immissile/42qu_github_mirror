@@ -1,0 +1,44 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.zsite import ZSITE_STATE_WAIT_VERIFY
+%>
+%if current_user.state == ZSITE_STATE_WAIT_VERIFY:
+<style>
+.fullscreen{
+margin-top:20%;
+}
+.fullscreen p{
+line-height:32px;
+margin:16px 0;
+font-size:16px;
+text-align:center;
+}
+</style>
+<div class="fullscreen">
+<p>认证申请已提交 , 请等管理员审批</p>
+<p><a href="/">点此返回首页</a></p>
+</div>
+%else:
+<style>
+.fullscreen p{
+line-height:32px;
+margin:16px 0;
+}
+.content{
+margin:32px 0;
+}
+</style>
+<%htm:form>
+<div class="tc f16 mt32 fullscreen">
+<h1>请阅读以下文字, 确认完成后, 再提交认证申请</h1>
+<div class="content">
+<p>1. 填写个人资料, 内容丰富准确, 真实可信</p>
+<p>2. 上传本人照片, 图像清晰雅观, 可以辨认</p>
+</div>
+<p class="btns">
+    <span class="btnw"><button class="btn">确认无误 , 申请认证</button></span>
+</p>
+</div>
+</%htm:form>
+%endif

@@ -4,7 +4,7 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase
 from zkit.page import page_limit_offset
 from ctrl._urlmap.zsite import urlmap
 from model.cid import CID_ZSITE
-from model.follow import follow_rm, follow_new, follow_count_by_to_id, follow_id_list_by_to_id, follow_id_list_by_from_id_cid
+from model.follow import follow_rm, follow_new, follow_count_by_to_id, follow_id_list_by_to_id, follow_id_list_by_from_id, follow_id_list_by_from_id_cid
 from model.zsite import Zsite
 
 PAGE_LIMIT = 42
@@ -57,7 +57,10 @@ class Following(ZsiteBase):
             cid = 0
 
         zsite_id = self.zsite_id
-        ids = follow_id_list_by_from_id_cid(zsite_id, cid)
+        if cid:
+            ids = follow_id_list_by_from_id_cid(zsite_id, cid)
+        else:
+            ids = follow_id_list_by_from_id(zsite_id)
         total = len(ids)
         page, limit, offset = page_limit_offset(
             '/following%s-%%s' % cid,

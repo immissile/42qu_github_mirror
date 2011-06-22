@@ -37,14 +37,23 @@ user = reply.user
 
     %if po.state > STATE_SECRET:
 <%htm:form id="txt_form" action="/po/reply/${po_id}">
-<textarea id="txt" name="txt"></textarea>
+${htm.reply_textarea()}
 <div>
 <button type="submit">此致 , 敬礼</button>
 </div>
 </%htm:form>
     %endif
 %else:
-<div>
+<style>
+.fullscreen p{
+line-height:64px
+}
+.fullscreen{
+font-size:16px;text-align:center;margin-top:10%;
+}
+</style>
+<div class="fullscreen">
+<p>
     %if po_state == STATE_DEL:
 啊 , 被删除了 !!!
     %elif po_state == STATE_SECRET:
@@ -52,6 +61,10 @@ user = reply.user
     %else:
 不可见的状态 ${po_state}
     %endif
+</p>
+<p>
+<a href="/">点此返回</a>
+</p>
 </div>
 %endif
 

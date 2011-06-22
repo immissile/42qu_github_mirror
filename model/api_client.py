@@ -54,8 +54,8 @@ def api_client_new(user_id, name, txt):
 
 @mc_api_serect('{id}')
 def api_serect(id):
-    api = ApiClient.get(id)
-    if api:
+    client = ApiClient.get(id)
+    if client:
         return binascii.hexlify(client.serect)
     return 0
 
@@ -161,18 +161,20 @@ if __name__ == '__main__':
 
 #    print api_client_id_by_user_id(1)
 #    for i in ApiClient.where(user_id=1):
+#    print api_session_new(client_id, user_id)
 #        print i
 #    print ApiClient.where(user_id=1).order_by('id desc').col_list()
 #    print api_client_by_user_id(1)
 #    mc_api_client_id_by_user_id.delete(1)
-    client_id = 73
-    serect = 'beafcff6034e4b26b914241235e66da4'
-    user_id = 74
-    mail = 'test@42qu.com'
-    password = '123456'
-
-    print api_s_url(
-        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA' , '/po/word', txt="testxs"
-    )
+#    client_id = 73
+#    serect = 'beafcff6034e4b26b914241235e66da4'
+#    user_id = 74
+#    mail = 'test@42qu.com'
+#    password = '123456'
 #
-#    print api_session_new(client_id, user_id)
+#    print api_s_url(
+#        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA' , '/po/word', txt="testxs"
+#    )
+#  http://api.42qu.me/user/auth/login?client_id=6&mail=yuri.ted%40gmail.com&sign=6a09d455ca8f739940ae70786b2126587a62524ca5ab2dcfbf4d53e76c1fc6f0&token=f8d9fd667733d97be073350f7df4a3dd77eb414ef355277d4f504dbce3dbedc0
+
+

@@ -1,5 +1,12 @@
 $(function(){
-    $("#name").focus().placeholder()
+    $("#name").placeholder()
     $("#txt").elastic()
+    $("#po_form").submit(function(){
+        $("[placeholder]").each(function(){
+            if(this.value==this.placeholder){
+                this.value='';
+            }
+        })
+    })
 })
 

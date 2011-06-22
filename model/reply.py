@@ -24,15 +24,19 @@ mc_reply_in_1h = McCache('ReplyInOneHour.%s')
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
 
-    def reply_new(self, user_id, txt, state=STATE_ACTIVE):
-        from zsite import user_slient
-        if user_slient(user_id):
+    def reply_new(self, user, txt, state=STATE_ACTIVE):
+        from zsite import user_can_reply
+        user_id = user.id
+
+        if not user_can_reply(user):
+            return
+        if is_spammer(user_id):
             return
 
         txt = txt.rstrip()
         cid = self.cid
         rid = self.id
-        if not txt or is_spammer(user_id) or is_same_post(user_id, cid, rid, txt, state):
+        if not txt or is_same_post(user_id, cid, rid, txt, state):
             return
 
         id = gid()

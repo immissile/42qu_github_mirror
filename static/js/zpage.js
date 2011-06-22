@@ -53,6 +53,7 @@ jQuery.extend({
             }
         });
     },
+/*
     getScript : function(url, callback, cache){
         jQuery.holdReady(false);
         jQuery.ajax({
@@ -66,6 +67,7 @@ jQuery.extend({
            cache: cache||true
         })
     },
+*/
     isotime : function(timestamp){
         var date = new Date(timestamp*1000),hour=date.getHours(),minute=date.getMinutes();
         if(hour<9){

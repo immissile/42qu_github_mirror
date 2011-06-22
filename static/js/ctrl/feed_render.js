@@ -45,12 +45,41 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_total create_time name
         return item 
     }
 
+    var feed_load=$("#feed_load").click(function(){
+        render_feed()
+        feed_load.hide()
+        autocount=0;
+    }), feed_loading=$("#feed_loading"), begin_id = $("#begin_id").val(0),is_loading=0, autocount=0;
     function render_feed(){
+        if(is_loading)return;
+        is_loading = 1;
+        feed_load.hide()
+        feed_loading.show()
         $.postJSON(
-        "/j/feed",
+        "/j/feed/"+begin_id.val(),
         function(result){
-            $('#feed').tmpl(init_result(result)).appendTo("#feeds")
+            if(!result.length){
+                feed_load.hide()
+                feed_loading.hide()
+                return
+            }
+            is_loading=0;
+            $('#feed').tmpl(init_result(result)).appendTo("#feeds");
+            feed_loading.slideUp(function(){
+                feed_load.show()
+            });
+            begin_id.val(result[result.length-1][0])
         })
     }
     render_feed()
+    var win = $(window)
+    win.scroll(function() {
+        if (
+           autocount < 5 && !is_loading && win.scrollTop() > ($(document).height() - win.height() * 2)
+        ){
+            autocount += 1;
+            render_feed();
+        }
+
+    });
 })()

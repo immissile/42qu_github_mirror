@@ -1,8 +1,11 @@
 <%inherit file="/god/_base.htm" />
 <%!
+from model.cid import CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 %>
 <%def name="htm_head()">
 </%def>
 
-<a href="/zsite/${current_user_id}">自我管理</a>
-
+<p><a href="/zsite/${current_user_id}">自我管理</a></p>
+<p><a href="/pic/review${CID_ICO}">头像审查</a></p>
+<p><a href="/pic/reviewed${CID_ICO}/1">通过认证头像</a>
+<a href="/pic/reviewed${CID_ICO}/0">已删除头像</a></p>

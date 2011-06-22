@@ -1,0 +1,50 @@
+<%!
+from model.cid import CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
+CID_PIC_NAME = {
+    CID_ICO: '头像',
+}
+%>
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="htm_head()">
+</%def>
+<style>
+label {
+    display:block
+}
+img {
+    display:block
+}
+</style>
+<h2 class="tc">${CID_PIC_NAME[cid]}审核 - ${total} ${'通过' if stataa else '删除'}</h2>
+<div class="ra">
+<%
+pic_list.extend([None] * 3)
+pic_iter = [iter(pic_list)] * 4
+%>
+% for row in zip(*pic_iter):
+<div>
+    % for pic in row:
+        % if pic:
+<%
+pic_id = pic.id
+user = pic.user
+user_id = user.id
+%>
+<div class="ra1">
+    <label for="pic${pic_id}" class="b1e">
+        <img src="${pic.src219}">
+        <input id="pic${pic_id}" name="pic_yes" type="checkbox" value="${pic_id}">
+        <input name="pic_all" type="hidden" value="${pic_id}">
+        通过
+    </label>
+    <span class="L">
+        <a href="${user.link}" target="_blank">${user.name}</a>
+    </span>
+</div>
+        % endif
+    % endfor
+</div>
+<hr>
+% endfor
+</div>

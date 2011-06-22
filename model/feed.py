@@ -104,7 +104,7 @@ def feed_iter(zsite_id, start_id=MAXINT):
         c = cursor.fetchall()
         if not c:
             break
-        for i, in c:
+        for i in c:
             yield i
         start_id = i[0]
 

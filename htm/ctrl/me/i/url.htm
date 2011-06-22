@@ -2,20 +2,47 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.zsite_link import url_by_id
+from config import SITE_DOMAIN
 %>
+<style>
+.fullscreen_line{
+margin-top:7%;
+font-size:16px;
+}
+.fullscreen_line p{
+line-height:64px;
+}
+.fullscreen_line input{
+font-size:16px;
+padding:10px;
+width:135px;
+text-align:right;
+margin-right:3px;
+}
+</style>
 <%
-url = url_by_id(current_user.id)
+current_user_url = url_by_id(current_user_id)
 %>
-%if url:
-个性域名 <a href="${current_user.link}">${current_user.link[2:]}</a>
+%if current_user_url:
+<div class="fullscreen_line">域名设置成功 , <a href="//${current_user.link}">点这里看看吧</a></div>
 %else:
-<%htm:form>
+<%htm:form className="btns fullscreen_line">
 <p>
-个性域名 <input type="text" name="url">
+<input value="${url}" id="url" autocomplete="off" type="text" name="url">.${SITE_DOMAIN}\
 %if error_url:
-${error_url}
-%endif:
+<div style="line-height:18px;margin-bottom:10px;color:#f00">${error_url}</div>\
+%endif
 </p>
-<button type="submit">设置</button>
+<div><span class="btnw"><button class="btn" type="submit">设置个性域名</button></span></div>
+<div style="margin-right:7px">说明 :</div>\
+<div style="text-align:left;float:left">
+<p>设置个性网址后，就拥有独一无二的网络身份标识了</p>
+<p>个性网址由英语字母，数字，和 - 构成，长度在5-32个字符</p>
+<p><span style="color:#f00">一经设置, 无法修改<span></p>
+<p>你还可以在邮件签名档中附上你的主页地址哦 :)</p>
+</div>
 </%htm:form>
+<script>
+$("#url").focus()
+</script>
 %endif

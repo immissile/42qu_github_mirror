@@ -7,8 +7,8 @@ from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high
 from pic import pic_new, pic_save
 import Image
 
-ico = Kv('ico')
-ico96 = Kv('ico96')
+ico = Kv('ico', 0)
+ico96 = Kv('ico96', 0)
 ico_pos = Kv('ico_pos')
 
 #show = PicShow.mc_get(id)
@@ -68,15 +68,15 @@ def ico_new(id, pic):
 
 def ico_save(pic_id, pic):
     p1 = pic_fit_height_if_high(pic, 721, 406)
-    fs_set_jpg('1', pic_id, p1)
+    fs_set_jpg('721', pic_id, p1)
 
     p2 = p1.resize((470, 264), Image.ANTIALIAS)
-    fs_set_jpg('2', pic_id, p2)
+    fs_set_jpg('470', pic_id, p2)
 
     p3 = p2.resize((219, 123), Image.ANTIALIAS)
-    fs_set_jpg('3', pic_id, p3)
+    fs_set_jpg('219', pic_id, p3)
 
-def pic_url(id, size='1'):
+def pic_url(id, size='721'):
     f = ico.get(id)
     if f:
         return fs_url_jpg(size, f)
