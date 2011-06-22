@@ -61,6 +61,7 @@ class Po(McModel, ReplyMixin):
         feed_new(self.id, self.user_id, self.cid)
 
     def can_view(self, user_id):
+        #print self.state , STATE_DEL, "!!!"
         if self.state <= STATE_DEL:
             return False
         if self.state == STATE_SECRET:
@@ -105,7 +106,7 @@ def po_state_set(po, state):
 def po_rm(user_id, id):
     m = Po.mc_get(id)
     if m.can_admin(user_id):
-        m.state == STATE_DEL
+        m.state = STATE_DEL
         m.save()
         feed_rm(id)
         mc_flush(user_id)
