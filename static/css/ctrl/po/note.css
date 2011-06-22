@@ -62,7 +62,8 @@ float:left;
 padding:14px;
 }
 .imgblock .rmpic{
-color:#999;margin-right:72px;
+color:#999;
+margin-right:72px;
 }
 .imgblock .align{
 text-align:left;
@@ -75,6 +76,6 @@ margin-right:32px;
 margin-right:32px
 }
 .rmpo{
-margin-right:42px
+margin-right:46px;
 }
 
