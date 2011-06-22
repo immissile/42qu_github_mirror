@@ -54,8 +54,8 @@ def api_client_new(user_id, name, txt):
 
 @mc_api_serect('{id}')
 def api_serect(id):
-    api = ApiClient.get(id)
-    if api:
+    client = ApiClient.get(id)
+    if client:
         return binascii.hexlify(client.serect)
     return 0
 
