@@ -1,5 +1,5 @@
 #upload_wait{
-    display:none;
+display:none;
 }
 #txt,#name{
 margin:auto;
@@ -21,5 +21,61 @@ text-align:center;
 #txt{
 height:350px;
 border-top:1px #ccc dotted;
+}
+#po_btn,#uploaded{
+    padding-top:16px;
+    width:737px;
+    margin:auto;
+    font-size:14px;
+}
+#po_btn{
+    text-align:right;
+}
+#upload,#upload_wait{
+float:left;
+}
+#secret{
+    vertical-align:-1px;
+}
+#po_btn .btnw{
+    margin-top:-1px;
+    margin-left:16px;
+    float:right; 
+}
+.imgblock{
+border:1px dotted #ccc;
+margin-bottom:20px;
+}
+.imgblock img{
+float:right;
+}
+.imgblock p{
+line-height:32px;
+}
+.imgblock .title{
+font-size:14px;
+width:200px;
+padding:7px;
+}
+.imgblock .picimg{
+float:left;
+padding:14px;
+}
+.imgblock .rmpic{
+color:#999;
+margin-right:72px;
+}
+.imgblock .align{
+text-align:left;
+margin:16px 0;
+}
+.imgblock .align label{
+margin-right:32px;
+}
+#secret_label{
+margin-right:32px
+}
+.rmpo{
+margin-right:46px;
 }
 

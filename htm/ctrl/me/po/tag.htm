@@ -9,12 +9,13 @@ from datetime import datetime
 ${css.ctrl_po_tag|n}
 </%def>
 
-<%htm:form>
-<div><a href="/po/edit/${po.id}">${po.name}</a></div>
-<div>分类 <a href="javascript:tag(this);void(0)">管理</a></div>
-<div> <input name="tag" type="radio" value="0" id="tag0"> <input placeholder="新建分类" name="name" value="" autocomplete="off"></div>
+<div class="tag_title"><a href="/po/edit/${po.id}">${po.name}</a></div>
+<%htm:form className="tag_form">
+<div class="tag_admin"><span class="L">请选择分类</span> <a href="javascript:tag(this);void(0)">管理</a></div>
+<div class="tag_line"> <input name="tag" type="radio" value="0" id="tag0">
+<input class="tag_new" placeholder="新建 ..." name="name" value="" autocomplete="off"></div>
 %for id, tag in tag_list.iteritems():
-<div class="tag${id}">
+<div class="tag${id} tag_line">
     <input
     %if tag_id == id:
     checked
@@ -23,8 +24,8 @@ ${css.ctrl_po_tag|n}
     <label for="tag${id}">${tag}</label>
 </div>
 %endfor
-<div>
-<button type="submit">确定</button>
+<div class="btns" style="margin-top:16px">
+<span class="btnw"><button class="btn" type="submit">确定</button></span>
 </div>
 <script src="${js.ctrl_po_tag}"></script>
 </%htm:form>

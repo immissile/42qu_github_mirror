@@ -15,7 +15,7 @@ state = current_user.state
 </div>\
     %elif state == ZSITE_STATE_FAILED_VERIFY:
 <div id="T">\
-认证未通过 , 原因见邮件 。 补全资料以后 , <a href="/i/verify">点此重新认证</a>\
+认证未通过 , 原因见邮件 。 修正资料以后 , <a href="/i/verify">点此重新认证</a>\
 </div>\
     %elif state == ZSITE_STATE_VERIFY and not url_by_id(current_user_id):
 <div id="T">\

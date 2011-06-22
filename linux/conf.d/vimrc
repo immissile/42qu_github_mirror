@@ -2,6 +2,7 @@ colorscheme blackbeauty
 set backspace=indent,eol,start
 set nocp
 set encoding=utf-8
+set hlsearch 
 set tabstop=4
 set expandtab
 set fileformat=unix

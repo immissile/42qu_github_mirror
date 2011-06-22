@@ -10,6 +10,8 @@ from txt import txt_new, txt_get
 from zsite import Zsite
 
 def po_question_new(user_id, name, txt, state):
+    if not name and not txt:
+        return
     if not is_same_post(user_id, name, txt):
         m = po_new(CID_QUESTION, user_id, name, 0, state)
         txt_new(m.id, txt)
