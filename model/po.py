@@ -49,6 +49,7 @@ class Po(McModel, ReplyMixin):
             self._link = '%s/%s' % (zsite.link, self.id)
         return self._link
 
+
     @property
     def link_edit(self):
         if not hasattr(self, '_link_edit'):
