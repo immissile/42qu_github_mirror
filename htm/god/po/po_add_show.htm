@@ -1,0 +1,26 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
+%>
+<%def name="htm_head()">
+</%def>
+<%
+PO_SHOW_CAT = (
+    (1, '12321'),
+    (2, '231231'),
+)
+%>
+<%htm:form>
+<ol>
+    % for cid, name in PO_SHOW_CAT:
+    <li>
+        <input type="radio" name="cid" value="${cid}" id="cid${cid}">
+        <input type="hidden" name="next" value="${next}">
+        <label for="cid${cid}">${name}</label>
+    </li>
+% endfor
+</ol>
+<button type="submit">提交</button>
+</%htm:form>

@@ -68,7 +68,6 @@ class Verify(Base):
 
 PAGE_LIMIT = 100
 
-#@urlmap('/zsite/verify(%s)(?:-(\d+))?' % '|'.join(map(str, CID_ZSITE)))
 @urlmap('/zsite/verify(%s)' % '|'.join(map(str, CID_ZSITE)))
 class VerifyList(Base):
     def get(self, cid):

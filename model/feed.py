@@ -64,7 +64,7 @@ def feed_rt_rm(zsite_id, rid):
 
 def feed_rt(zsite_id, rid):
     feed = Feed.mc_get(rid)
-    if feed and  not feed.rid and not feed_rt_id(zsite_id, rid):
+    if feed and not feed.rid and not feed_rt_id(zsite_id, rid):
         feed_new(gid(), zsite_id, feed.cid, rid)
         mc_feed_iter.delete(zsite_id)
         mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))

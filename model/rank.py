@@ -14,8 +14,10 @@ rank_po_id_count = McNum(lambda to_id, cid: Rank.where(to_id=to_id, cid=cid).cou
 
 @mc_rank_po_id_list('{to_id}_{cid}_{order}')
 def rank_po_id_list(to_id, cid, order, offset=0, limit=512):
-    qs = Rank.where(to_id=to_id, cid=cid).order_by('%s desc' % order)
-    return qs.col_list(limit, offset, 'po_id')
+    qs = Rank.where(to_id=to_id)
+    if int(cid):
+        qs = qs.(cid=cid)
+    return qs.order_by('%s desc' % order).col_list(limit, offset, 'po_id')
 
 #mc_rank_to_id_by_po_id_cid = McCache('RankToIdByPoIdCid.%s')
 #
@@ -25,10 +27,8 @@ def rank_po_id_list(to_id, cid, order, offset=0, limit=512):
 #        return to_id
 #    return 0
 
-def rank_new(po, to_id, cid=None):
+def rank_new(po, to_id, cid):
     po_id = po.id
-    if cid is None:
-        cid = po.cid
     r = Rank(po_id=po_id, from_id=po.user_id, to_id=to_id, cid=cid)
     up = vote_up_count(po_id)
     down = vote_down_count(po_id)
@@ -44,6 +44,8 @@ def mc_flush_cid(to_id, cid):
         mc_rank_po_id_list.delete('%s_%s_%s' % (to_id, cid, order))
     rank_po_id_count.delete('%s_%s' % (to_id, cid))
 
+if __name__ == '__main__':
+    pass
 ################################################################################
 #mc_rid_list_by_po_id = McCacheA('RIdListByPoId:%s')
 #
@@ -153,6 +155,3 @@ def mc_flush_cid(to_id, cid):
 #    TEAM_NOTE_TOTAL_DIC[int(cid)].delete(zsite_id)
 #    for order in ORDER_DIC:
 #        mc_team_note_id_list.delete('%s_%s_%s' % (zsite_id, cid, order))
-
-if __name__ == '__main__':
-    pass

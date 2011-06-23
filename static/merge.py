@@ -164,7 +164,7 @@ def merge(subdir, template):
             )
         )
 
-JS_INIT_TEMPLATE = """\
+JS_INIT_TEMPLATE = '''\
 <%!
 from os.path import join,basename,dirname
 %>
@@ -180,27 +180,24 @@ else:
 if ORG_CSS_JS:
 %for path,num in filename2num.iteritems():
 <%
-path = path.rsplit(".js",1)[0]
-name = path.replace("/","_").replace(".","_").replace("-","_")
+path = path.rsplit('.js', 1)[0]
+name = path.replace('/', '_').replace('.', '_').replace('-', '_')
 %>
-    ${name} = "%s/js/${path}.js"%FS_URL
+    ${name} = '%s/js/${path}.js' % FS_URL
 %endfor
 
 else:
 %for path,num in filename2num.iteritems():
 <%
-path = path.rsplit(".js",1)[0]
-name = path.replace("/","_").replace(".","_").replace("-","_")
-pathdir = join("js",dirname(path))
+path = path.rsplit('.js',1)[0]
+name = path.replace('/', '_').replace('.', '_').replace('-', '_')
+pathdir = join('js', dirname(path))
 pathfile = basename(path)
-filename = join(pathdir,"~%s~%s.js"%(num,pathfile)).replace("\\\\","/")
+filename = join(pathdir, '~%s~%s.js' % (num, pathfile)).replace('\\\\', '/')
 %>
-    ${name} = "%s/${filename}"%FS_URL
+    ${name} = '%s/${filename}' % FS_URL
 %endfor
-
-
-
-"""
+'''
 
 swf = 'http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js'
 jquery = 'http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js'
@@ -209,19 +206,19 @@ jquery_ui = '%s/jquery-ui.min.js'%jquery_ui_prefix
 jquery_ui_date_cn = '%s/i18n/jquery.ui.datepicker-zh-CN.js'%jquery_ui_prefix
 
 
-JS_INIT_TEMPLATE += """
+JS_INIT_TEMPLATE += '''
 jquery = '%s'
 jquery_ui = '%s'
 jquery_ui_date_cn = '%s'
 swf = '%s'
-"""%(
+''' % (
     jquery,
     jquery_ui,
     jquery_ui_date_cn,
     swf
 )
 
-CSS_INIT_TEMPLATE = """\
+CSS_INIT_TEMPLATE = '''\
 <%!
 from os.path import join,basename,dirname
 %>
@@ -237,24 +234,24 @@ else:
 if ORG_CSS_JS:
 %for path,num in filename2num.iteritems():
 <%
-path = path.rsplit(".css",1)[0]
-name = path.replace("/","_").replace(".","_").replace("-","_")
+path = path.rsplit('.css', 1)[0]
+name = path.replace('/', '_').replace('.', '_').replace('-', '_')
 %>
-    ${name} = '<link href="%s/css/${path}.css" rel="stylesheet" type="text/css">'%FS_URL
+    ${name} = '<link href="%s/css/${path}.css" rel="stylesheet" type="text/css">' % FS_URL
 %endfor
 
 else:
 %for path,num in filename2num.iteritems():
 <%
-path = path.rsplit(".css",1)[0]
-name = path.replace("/","_").replace(".","_").replace("-","_")
-pathdir = join("css",dirname(path))
+path = path.rsplit('.css', 1)[0]
+name = path.replace('/', '_').replace('.', '_').replace('-', '_')
+pathdir = join('css', dirname(path))
 pathfile = basename(path)
-filename = join(pathdir,"~%s~%s.css"%(num,pathfile)).replace("\\\\","/")
+filename = join(pathdir, '~%s~%s.css' % (num,pathfile)).replace('\\\\','/')
 %>
     ${name} = '<link href="%s/${filename}" rel="stylesheet" type="text/css">'%FS_URL
 %endfor
-"""
+'''
 
 
 def merge_css_import(path):
@@ -291,11 +288,11 @@ def merge_js(path, filename, filetuple):
 
 def merge_js_import(path, filename, filetuple):
     filepath = join(path, filename)
-    txt = ["""
+    txt = ['''
 function LOAD(js){
     document.write('<script src="'+js+'"></'+"script>")
 }
-"""]
+''']
 
     for i in filetuple:
         txt.append("LOAD('%s/js/%s')"%(FS_URL, i))
@@ -315,4 +312,3 @@ print 'JS Merge Game Over'
 
 merge_css_import(join(prefix, 'css', 'z.css'))
 merge_js_import(join(prefix, 'js'), 'z.js', js.z.JS)
-
