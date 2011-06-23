@@ -8,7 +8,7 @@ from model.user_mail import user_id_by_mail, mail_by_user_id
 from model.user_auth import user_password_sha256, sha256
 from model.api_client import api_session_new
 from model.api_user import json_info
-from model.follow import follow_id_list_by_from_id, follow_id_list_by_to_id, follow_count_by_to_id, follow_count_by_from_id
+from model.follow import follow_id_list_by_from_id, follow_id_list_by_to_id, follow_count_by_to_id, follow_count_by_from_id, follow_rm, follow_new
 
 @urlmap('/user/info/mail')
 class InfoMail(_handler.ApiBase):
@@ -79,6 +79,17 @@ class UserFollowing(_handler.ApiBase):
         data['total_num'] = total_num
         data['following_list'] = list(ids)
         self.finish(data)
+
+@urlmap('/user/follow')
+class UserFollow(_handler.ApiBase):
+    def get(self):
+        #user_id = self.current_user_id
+        user_id = 79
+        follow_id = self.get_argument('follow_id')
+        res = follow_new(user_id, follow_id)
+        self.finish({
+                'status':res
+                })
 
 
 
