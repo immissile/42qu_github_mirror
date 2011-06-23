@@ -19,6 +19,10 @@ def url_by_id(id):
         return ''
     return u.url
 
+
+def url_or_id(id):
+    return url_by_id(id) or id
+
 @mc_id_by_url('{url}')
 def _id_by_url(url):
     u = Url.get(url=url)

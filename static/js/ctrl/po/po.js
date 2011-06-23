@@ -4,14 +4,9 @@ $("#txt_form").elastic_login()
 $(".reply_at").live("click", function(){
     var txt=$("#reply_txt").focus(),
         val=txt.val(),
-        id=this.rel,
-        aname=$('#reply_name'+id),
-        href=aname[0].parentNode.href,
-        name=aname.text(),
+        name=$(this.parentNode).find(".replyer").text(),
         add;
-    href = href.split("/");
-    href = href[href.length-1];
-    add =  "@"+name+'('+href+') '
+    add =  "@"+name+'('+this.rel+') '
     if(val.length){
         if($.trim(val)==val){
             val+=" "
