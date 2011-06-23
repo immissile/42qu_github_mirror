@@ -63,11 +63,9 @@ user = answer.user
 
     %if po_state > STATE_SECRET and not answer_id_get(current_user_id, po_id):
 <%htm:form id="answer" action="/question/${po_id}">
-<input type="text" name="name" id="name">
-<hr>
 <textarea id="txt" name="txt"></textarea>
-<div>
-<button type="submit">此致 , 敬礼</button>
+<div class="btns">
+<span class="btnw"><button class="btn" type="submit">回答</button></span>
 </div>
 </%htm:form>
     %endif
