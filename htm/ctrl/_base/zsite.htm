@@ -87,8 +87,10 @@ ${_h_nav_notice()}\
 <a href="/logout?${_xsrf}">退出</a>\
 </div>\
 </div>\
+%if zsite_id:
 <div class="D"><a class="DA" href="/wall">留言</a></div>\
 <div class="D"><a class="DA" href="/follow?${_xsrf}">关注</a></div>\
+%endif
 %endif
 <script>init_D()</script>\
 %else:
