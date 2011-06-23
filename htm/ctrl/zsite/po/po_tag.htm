@@ -4,10 +4,12 @@ from datetime import datetime
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 
-<h1>${tag_name}</h1>
-
+<div style="width:721px;margin:auto;">
+<h1 style="border:1px dotted #ccc;border-left:0;border-right:0;text-align:center;padding:16px;font-size:16px;margin:64px 0;">${tag_name}</h1>
+<ul>
 %for po in po_list:
-<p><a href="${po.link}">${po.name}</a></p>
+<li><a href="${po.link}">${po.name}</a></li>
 %endfor
+</ul>
 ${page|n}
-
+</div>
