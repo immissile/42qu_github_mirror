@@ -33,12 +33,11 @@ if notice_unread > 99:
 ##</div>\
 ##</div>\
 
-
+<%def name="h_nav_more()"></%def>
 
 <%def name="h_nav()">
 <div class="HN">\
-<%
-%>\
+${self.h_nav_more()}\
 %if current_user:
 <%
     link = current_user.link
@@ -87,8 +86,10 @@ ${_h_nav_notice()}\
 <a href="/logout?${_xsrf}">退出</a>\
 </div>\
 </div>\
+%if zsite_id:
 <div class="D"><a class="DA" href="/wall">留言</a></div>\
 <div class="D"><a class="DA" href="/follow?${_xsrf}">关注</a></div>\
+%endif
 %endif
 <script>init_D()</script>\
 %else:

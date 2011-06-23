@@ -4,8 +4,8 @@ from zsite_list import ZsiteList, zsite_list, zsite_list_new, zsite_list_rm, zsi
 
 OWNER_ID = 0
 
-def zsite_show(cid, limit=None, offset=None):
-    return zsite_list(0, cid, limit, offset)
+def zsite_show(limit=None, offset=None):
+    return zsite_list(0, 0, limit, offset)
 
 def zsite_show_new(zsite_id, rank=1000):
     cid_list = [] # TODO
@@ -19,3 +19,7 @@ def zsite_show_get(zsite_id):
 
 def zsite_show_rank(zsite_id, rank):
     zsite_list_rank(zsite_id, 0, rank)
+
+if __name__ == '__main__':
+    from model.cid import CID_USER
+    print zsite_show(CID_USER)

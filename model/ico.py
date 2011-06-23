@@ -70,10 +70,10 @@ def ico_save(pic_id, pic):
     p1 = pic_fit_height_if_high(pic, 721, 406)
     fs_set_jpg('721', pic_id, p1)
 
-    p2 = p1.resize((470, 264), Image.ANTIALIAS)
+    p2 = pic_fit_height_if_high(pic, 470, 264)
     fs_set_jpg('470', pic_id, p2)
 
-    p3 = p2.resize((219, 123), Image.ANTIALIAS)
+    p3 = pic_fit_height_if_high(pic, 219, 123)
     fs_set_jpg('219', pic_id, p3)
 
 def pic_url(id, size='721'):

@@ -1,0 +1,16 @@
+
+.search{
+margin:32px auto;
+}
+.search input{
+height:26px;
+line-height:26px;
+padding:1px 3px;
+vertical-align:middle;
+border:1px solid #ddd;
+width:300px;
+}
+.search .search_btn{
+background:url(/img/png/search_btn.png) no-repeat;
+width:31px;height:30px;border:none;cursor:pointer;
+} 
