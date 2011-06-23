@@ -32,6 +32,7 @@ user = reply.user
     %if can_admin or reply.can_rm(current_user_id):
         <a href="javascript:rm(${reply.id});void(0)">删除</a> 
     %endif
+<a class="reply_at" rel="${user.id}" href="javascript:void(0)">x</a>
 </div>
     %endfor
 
