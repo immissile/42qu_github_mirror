@@ -12,6 +12,8 @@ from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_i
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
 from model.notice import mq_notice_question
 from zkit.page import page_limit_offset
+from model.zsite_tag import ZsiteTag
+
 
 PAGE_LIMIT = 42
 
@@ -156,6 +158,14 @@ class Question(PoOne):
         else:
             link = '%s#answer' % question.link
         self.redirect(link)
+
+
+@urlmap("/po/tag/(\d+)")
+def PoTag(ZsiteBase):
+    def get(self, id):
+        tag = ZsiteTag.mc_get(id)
+        if tag is None or tag.zsite_id != self.zsite_id:
+            self.redirect("/")
 
 
 

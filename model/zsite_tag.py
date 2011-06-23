@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCacheA, McCache, McCacheM
+from _db import Model, McModel, McCacheA, McCache, McCacheM, McLimitA, McNum
 from tag import Tag, tag_new
 from zweb.orm import ormiter
+
 
 #CREATE TABLE  `zpage`.`zpage_tag` (
 #  `id` int(10) unsigned NOT NULL auto_increment,
@@ -18,9 +19,8 @@ from zweb.orm import ormiter
 #  `zsite_tag_id` INTEGER UNSIGNED NOT NULL DEFAULT 0,
 #  `po_id` INTEGER UNSIGNED NOT NULL,
 #  `zsite_id` INTEGER UNSIGNED NOT NULL,
-#  `state` INTEGER UNSIGNED NOT NULL,
 #  PRIMARY KEY (`id`),
-#  INDEX `zsite_tag_id`(`zsite_tag_id`, `po_id`,`state`),
+#  INDEX `zsite_tag_id`(`zsite_tag_id`, `po_id`),
 #  INDEX `po_id` ( `po_id`,`zsite_id`)
 #)ENGINE = MyISAM;
 
@@ -36,7 +36,8 @@ ZSITE_TAG = (
 
 mc_zsite_tag_id_list_by_zsite_id = McCacheA('ZsiteTagIdListByZsiteId:%s')
 mc_tag_by_po_id = McCacheM('TagIdByPoId:%s')
-
+mc_po_id_list_by_zsite_tag_id = McLimitA('PoIdListByZsiteTagId:%s', 128)
+zsite_tag_count = McNum(lambda id: ZsiteTagPo.where(zsite_tag_id=id).count(), 'ZsiteTagCount:%s')
 
 class ZsiteTag(McModel):
     pass
@@ -90,7 +91,7 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
     tag_po.zsite_tag_id = id
     tag_po.save()
     mc_tag_by_po_id.delete('%s_%s'%(zsite_id, po_id))
-
+    mc_po_id_list_by_zsite_tag_id.delete(id)
 
 def zsite_tag_new_by_tag_name(po, name):
     tag_id = tag_new(name)
@@ -107,7 +108,8 @@ def zsite_tag_id_mv(zsite_id, from_tag_id, to_tag_id=1):
     #print "delete zsite", zsite_id, from_tag_id 
     ZsiteTag.where(zsite_id=zsite_id, tag_id=from_tag_id).delete()
     mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
-
+    mc_flush_zsite_tag_id(from_tag_id)
+    mc_flush_zsite_tag_id(to_tag_id)
 
 def zsite_tag_rm_by_tag_id(zsite_id, tag_id):
     tag_id = int(tag_id)
@@ -132,7 +134,12 @@ def zsite_tag_rename(zsite_id, tag_id, tag_name):
     else:
         tag.tag_id = tag_id_new
         tag.save()
-        mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
+        mc_flush_zsite_tag_id(zsite_id)
+
+def mc_flush_zsite_tag_id(id):
+    zsite_tag_count.delete(id)
+    mc_zsite_tag_id_list_by_zsite_id.delete(id)
+    
 
 
 @mc_tag_by_po_id('{zsite_id}_{po_id}')
@@ -156,7 +163,16 @@ def zsite_tag_id_tag_name_by_po_id(zsite_id, po_id):
 def tag_id_by_po_id(zsite_id, po_id):
     return tag_by_po_id(zsite_id, po_id)[0]
 
+
+@mc_po_id_list_by_zsite_tag_id('{zsite_tag_id}')
+def po_id_list_by_zsite_tag_id(zsite_tag_id, limit=None, offset=0):
+    id_list = ZsiteTagPo.where(zsite_tag_id=zsite_tag_id).order_by('id desc').col_list(limit, offset, 'po_id')
+    return id_list
+
+
 if __name__ == '__main__':
-    for i in ZsiteTag.where(zsite_id=1):
-        print i.tag_id
+    #for i in ZsiteTag.where(zsite_id=24):
+    #print i.tag_id
+    print po_id_list_by_zsite_tag_id(24, 25)
+
 
