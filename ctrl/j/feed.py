@@ -50,7 +50,7 @@ class Feed(JLoginBase):
         for i in result:
             id = i[0]
             i.insert(FEED_TUPLE_DEFAULT_LEN, vote_state(current_user_id, id))
-            i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
+            #i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
         #self.finish(result)
         result = dumps(result)
         self.finish(result)
