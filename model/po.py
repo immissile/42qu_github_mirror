@@ -49,6 +49,12 @@ class Po(McModel, ReplyMixin):
             self._link = '%s/%s' % (zsite.link, self.id)
         return self._link
 
+    @property
+    def link_reply(self):
+        if self.cid == CID_QUESTION:
+            zsite = Zsite.mc_get(self.user_id)
+            return  '%s/question/%s' % (zsite.link, self.id)
+        return self.link
 
     @property
     def link_edit(self):

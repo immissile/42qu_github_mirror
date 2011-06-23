@@ -3,7 +3,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from ctrl._urlmap.zsite import urlmap
-from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list
+from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list , CID_QUESTION
 from model.po_question import po_answer_new
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply
@@ -22,7 +22,7 @@ class PoIndex(ZsiteBase):
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
         if po:
-            link = po.link
+            link = po.link_reply
             pos, state = po_pos_get(current_user_id, id)
             if pos > 0:
                 link = '%s#reply%s' % (link, pos)
@@ -57,21 +57,34 @@ class PoPage(ZsiteBase):
             page=page,
         )
 
+PO_TEMPLATE = '/ctrl/zsite/po/po.htm'
 CID2TEMPLATE = {
-    CID_WORD:"/ctrl/zsite/po/word.htm",
-    CID_NOTE:"/ctrl/zsite/po/note.htm",
-    CID_QUESTION:"/ctrl/zsite/po/question.htm",
+    CID_WORD:'/ctrl/zsite/po/word.htm',
+    CID_NOTE:PO_TEMPLATE,
+    CID_QUESTION:'/ctrl/zsite/po/question.htm',
 }
 
-@urlmap("/(\d+)")
+@urlmap('/(\d+)')
 class PoOne(ZsiteBase):
     def po(self, id):
         po = Po.mc_get(id)
         if po:
+            self._po = po
             if po.user_id == self.zsite_id:
                 return po
             return self.redirect(po.link)
         return self.redirect('/')
+
+    @property
+    def template(self):
+        return CID2TEMPLATE[self._po.cid]
+
+    def mark(self):
+        po = self._po
+        user_id = self.current_user_id
+        cid = po.cid
+        if cid != CID_QUESTION:
+            po_pos_set(user_id, po)
 
     def get(self, id):
         po = self.po(id)
@@ -81,13 +94,14 @@ class PoOne(ZsiteBase):
         user_id = self.current_user_id
         can_admin = po.can_admin(user_id)
         can_view = po.can_view(user_id)
+
         if can_view and user_id:
-            po_pos_set(user_id, po)
+            self.mark()
 
         zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
 
         return self.render(
-            CID2TEMPLATE[po.cid],
+            self.template,
             po=po,
             can_admin=can_admin,
             can_view=can_view,
@@ -96,8 +110,15 @@ class PoOne(ZsiteBase):
         )
 
 
-@urlmap("/question/(\d+)")
+@urlmap('/question/(\d+)')
 class Question(PoOne):
+    template = PO_TEMPLATE
+    
+    def mark(self):
+        po = self._po
+        user_id = self.current_user_id
+        po_pos_set(user_id, po)
+
     def post(self, id):
         question = self.po(id)
         if question is None:
@@ -163,7 +184,7 @@ class Reply(LoginBase):
             if user_can_reply(user):
                 user_id = self.current_user_id
                 can_view = po.can_view(user_id)
-                link = po.link
+                link = po.link_reply
                 if can_view:
                     txt = self.get_argument('txt', '')
                     m = po.reply_new(user, txt, po.state)
