@@ -6,7 +6,6 @@ import _handler
 from _urlmap import urlmap
 from model.vote import vote_state
 from model.feed_render import render_feed_by_zsite_id, MAXINT, PAGE_LIMIT, FEED_TUPLE_DEFAULT_LEN
-from model.feed import feed_rt_id
 from model.cid import CID_NOTE ,CID_QUESTION
 from yajl import dumps
 
@@ -22,9 +21,6 @@ class UserFeed(_handler.ApiBase):
             weibo = {}
 
 
-            rt_id = feed_rt_id(user_id, id)
-            if rt_id:
-                weibo['rt_id'] = rt_id
             weibo['vote_state'] = vote_state(user_id, id)
 
 
