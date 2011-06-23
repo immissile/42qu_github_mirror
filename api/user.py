@@ -19,6 +19,7 @@ class InfoMail(_handler.ApiBase):
         self.finish(data)
 
 
+
 @urlmap('/user/auth/login')
 class Login(_handler.ApiSignBase):
     def get(self):
@@ -36,6 +37,8 @@ class Login(_handler.ApiSignBase):
             'S':api_session_new(client_id, user_id)
         })
 
+
+
 @urlmap('/user/info/id')
 class InfoId(_handler.ApiBase):
     def get(self):
@@ -43,31 +46,24 @@ class InfoId(_handler.ApiBase):
         data = json_info(user_id)
         self.finish(data)
 
+
+
 @urlmap('/user/follower')
 class UserFollower(_handler.ApiBase):
     def get(self):
         user_id = self.get_argument('user_id')
-        limit = int(self.get_argument('limit',25))
-        offset = int(self.get_argument('offset',0))
+        limit = int(self.get_argument('limit', 25))
+        offset = int(self.get_argument('offset', 0))
         if limit > 100:
             limit = 100
-        ids = follow_id_list_by_to_id(user_id,limit,offset)
+        ids = follow_id_list_by_to_id(user_id, limit, offset)
         total_num = follow_count_by_to_id(user_id)
         data = {}
         data['follower_list'] = list(ids)
         data['total_num'] = total_num
         self.finish(data)
 
-@urlmap('/user/following')
-class UserFollowing(_handler.ApiBase):
-    def get(self):
-        user_id = self.get_argument('user_id')
-        ids = follow_id_list_by_from_id(user_id)
-        total_num = follow_count_by_from_id(user_id)
-        data = {}
-        data['total_num'] = total_num
-        data['following_list'] = list(ids)
-        self.finish(data)
+
 
 @urlmap('/user/following')
 class UserFollowing(_handler.ApiBase):
@@ -79,6 +75,21 @@ class UserFollowing(_handler.ApiBase):
         data['total_num'] = total_num
         data['following_list'] = list(ids)
         self.finish(data)
+
+
+
+@urlmap('/user/following')
+class UserFollowing(_handler.ApiBase):
+    def get(self):
+        user_id = self.get_argument('user_id')
+        ids = follow_id_list_by_from_id(user_id)
+        total_num = follow_count_by_from_id(user_id)
+        data = {}
+        data['total_num'] = total_num
+        data['following_list'] = list(ids)
+        self.finish(data)
+
+
 
 @urlmap('/user/follow')
 class UserFollow(_handler.LoginBase):
@@ -87,8 +98,11 @@ class UserFollow(_handler.LoginBase):
         follow_id = self.get_argument('to_id')
         res = follow_new(user_id, follow_id)
         self.finish({
-                'status':res
-                })
+            'status':res
+        })
+
+
+
 @urlmap('/user/follow/rm')
 class UserFollowRm(_handler.LoginBase):
     def get(self):
@@ -96,8 +110,8 @@ class UserFollowRm(_handler.LoginBase):
         unfollow_id = self.get_argument('to_id')
         res = follow_rm(user_id, unfollow_id)
         self.finish({
-                'status':res
-                })
+            'status':res
+        })
 
 
 
