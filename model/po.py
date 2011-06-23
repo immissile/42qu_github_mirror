@@ -116,6 +116,8 @@ def po_rm(user_id, id):
         m.state = STATE_DEL
         m.save()
         feed_rm(id)
+        from zsite_tag import zsite_tag_rm_by_po_id
+        zsite_tag_rm_by_po_id(id)
         mc_flush(user_id)
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
