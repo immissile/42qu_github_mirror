@@ -4,8 +4,10 @@ from datetime import datetime
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 
-%for feed in feed_tuple_list:
-${feed}
+<h1>${tag_name}</h1>
+
+%for po in po_list:
+<p><a href="${po.link}">${po.name}</a></p>
 %endfor
 ${page|n}
 
