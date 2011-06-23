@@ -8,7 +8,7 @@ ${css.ctrl_tag|n}
 </%def>
 
 <div class="po_tag">
-<h1 style="border-bottom:1px dotted #ccc;text-align:center;padding:16px;font-size:16px;margin-top:0;">${tag_name}</h1>
+<h1><a class="c0" href="${current_user.link}">${tag_name}</a></h1>
 <ul class="po_ul">
 %for po in po_list:
 <li><a href="${po.link}">${po.name}</a></li>

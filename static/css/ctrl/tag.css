@@ -11,3 +11,8 @@ margin-bottom:64px;
 .po_tag{
 width:470px;margin:auto;
 }
+
+.po_tag h1{
+border-bottom:1px dotted #ccc;
+text-align:center;padding:16px;font-size:16px;margin-top:0;
+}
