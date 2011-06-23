@@ -14,6 +14,8 @@ from model.notice import mq_notice_question
 from zkit.page import page_limit_offset
 from model.zsite_tag import ZsiteTag
 from model.feed_render import feed_tuple_list
+from model.tag import Tag
+
 
 PAGE_LIMIT = 42
 
@@ -176,7 +178,8 @@ class PoTag(ZsiteBase):
         )
         id_list = po_id_list_by_zsite_tag_id(id)
         self.render(
-            feed_tuple_list = feed_tuple_list(id_list),
+            tag_name = Tag.get(tag.tag_id),
+            po_list = Po.mc_get_list(id_list),
             count = count,
             page = page
         )
