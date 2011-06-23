@@ -73,6 +73,7 @@ def follow_new(from_id, to_id):
     from buzz import mq_buzz_follow_new
     mq_buzz_follow_new(from_id, to_id)
     mc_flush(from_id, to_id, cid)
+    return True
 
 def mc_flush(from_id, to_id, cid):
     mc_follow_get.delete('%s_%s'%(from_id, to_id))
