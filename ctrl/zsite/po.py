@@ -8,12 +8,12 @@ from model.po_question import po_answer_new
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite
-from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
+from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename, po_id_list_by_zsite_tag_id, zsite_tag_count
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
 from model.notice import mq_notice_question
 from zkit.page import page_limit_offset
 from model.zsite_tag import ZsiteTag
-
+from model.feed_render import feed_tuple_list
 
 PAGE_LIMIT = 42
 
@@ -115,7 +115,7 @@ class PoOne(ZsiteBase):
 @urlmap('/question/(\d+)')
 class Question(PoOne):
     template = PO_TEMPLATE
-    
+
     def mark(self):
         po = self._po
         user_id = self.current_user_id
@@ -160,14 +160,26 @@ class Question(PoOne):
         self.redirect(link)
 
 
-@urlmap("/po/tag/(\d+)")
-def PoTag(ZsiteBase):
-    def get(self, id):
+@urlmap('/tag/(\d+)')
+@urlmap('/tag/(\d+)-(\d+)')
+class PoTag(ZsiteBase):
+    def get(self, id, n=1):
         tag = ZsiteTag.mc_get(id)
         if tag is None or tag.zsite_id != self.zsite_id:
-            self.redirect("/")
-
-
+            self.redirect('/')
+        count = zsite_tag_count(id)
+        page, limit, offset = page_limit_offset(
+            '/po/tag/%s-%%s'%id,
+            count,
+            n,
+            PAGE_LIMIT
+        )
+        id_list = po_id_list_by_zsite_tag_id(id)
+        self.render(
+            feed_tuple_list = feed_tuple_list(id_list),
+            count = count,
+            page = page
+        )
 
 @urlmap('/po/reply/rm/(\d+)')
 class ReplyRm(LoginBase):

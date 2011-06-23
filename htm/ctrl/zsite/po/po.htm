@@ -14,7 +14,7 @@ zsite_link = zsite.link
 <h1><a href="${po.link}" class="c0">${po.name}</a></h1>
 <pre>${po.htm|n}\
 <p class="tr">\
-<a href="${zsite_link}">${zsite.name}</a> : <a href="${zsite_link}/po/tag/${zsite_tag_id}">${tag_name}</a>\
+<a href="${zsite_link}">${zsite.name}</a> : <a href="${zsite_link}/tag/${zsite_tag_id}">${tag_name}</a>\
 </p>\
 <p class="tr">${str(datetime.fromtimestamp(po.create_time))[:-3]}</p>\
 </pre>
