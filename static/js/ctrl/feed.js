@@ -75,7 +75,7 @@
 		_(down, up, id, - 1)
 	}
 })()
-
+/*
 $(".rt").live("click", function() {
 	var t = this, self = $(t);
 	t.className = "rtrm";
@@ -88,4 +88,4 @@ $(".rtrm").live("click", function() {
 	$.postJSON('/j/rt/rm/' + t.rel);
 	self.poshytip('update', '已转发').poshytip('show').poshytip('update', '转发被取消', true)
 })
-
+*/
