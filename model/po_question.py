@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import McCache
-from cid import CID_QUESTION, CID_ANSWER
+from cid import CID_QUESTION
 from spammer import is_same_post
 from po import Po, po_new, po_word_new, po_note_new, po_rm, CID_QUESTION
 from rank import rank_po_id_list, rank_new

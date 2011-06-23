@@ -5,13 +5,11 @@ from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 <%def name="htm_head()">
 </%def>
 <script>
-var fancybox = $.fancybox
 $('a.yes').live('click', function() {
-    fancybox.showActivity()
     var id = this.rel
     $.postJSON('/zsite/verify/1/' + id, function(data) {
         if (data.state == true) {
-            fancybox('通过成功')
+            alert('通过成功')
             $('#zsite' + id).remove()
         }
     })
@@ -26,28 +24,29 @@ $('a.no').live('click', function() {
     return false
 })
 $('a.nono').live('click', function() {
-    fancybox.showActivity()
     var id = this.rel
     var txt = $('#txt' + id).val()
     $.postJSON('/zsite/verify/0/' + id, {"txt":txt}, function(data) {
         if (data.state == true) {
-            fancybox('已拒绝')
+            alert('已拒绝')
             $('#zsite' + id).remove()
         }
     })
     return false
 })
 </script>
+<ol>
 % for i in zsite_list:
 <%
 id = i.id
 %>
-<div class="zsite" id="zsite${id}">
+<li class="zsite" id="zsite${id}">
 <a href="${i.link}" target="_blank">${i.name}</a>
 <a class="yes" rel="${id}" href="">通过</a>
 <a class="no" rel="${id}" href="">拒绝(填写理由)</a>
-</div>
+</li>
 % endfor
+</ol>
 % if extra:
 <a href="?">还有${extra}未审核</a>
 % endif

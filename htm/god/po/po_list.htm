@@ -1,0 +1,35 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
+%>
+<%def name="htm_head()">
+</%def>
+<ol>
+% for po in po_list:
+<li>
+<p>
+<%
+cid = po.cid
+%>\
+% if cid == CID_WORD:
+[微博]\
+% elif cid == CID_QUESTION:
+[问题]\
+% else:
+[日记]\
+% endif
+% if po.rid:
+[答案]\
+% endif
+    <a href="${po.link}">${po.name or '[无标题]'}</a>
+</p>
+% if cid != CID_WORD:
+<p><a href="/po/add_show/${po.id}">全站转播</a></p>
+% endif
+<hr>
+</li>
+% endfor
+</ol>
+
+${page|n}

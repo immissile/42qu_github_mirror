@@ -17,7 +17,7 @@ img {
 }
 </style>
 <h2 class="tc">${CID_PIC_NAME[cid]}审核 - ${total}</h2>
-<div class="ra">
+<div>
 % if total:
 <%
 pic_list.extend([None] * 3)
@@ -33,7 +33,7 @@ pic_id = pic.id
 user = pic.user
 user_id = user.id
 %>
-<div class="ra1">
+<div style="display: inline-block">
     <label for="pic${pic_id}" class="b1e">
         <img src="${pic.src219}">
         <input id="pic${pic_id}" name="pic_no" type="checkbox" value="${pic_id}">
