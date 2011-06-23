@@ -7,7 +7,7 @@ from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION
 from model.po import Po
-from model.po_show import po_show_new, po_show_count, po_show_list
+from model.po_show import po_show_set, po_show_count, po_show_list, po_show_rm
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from zkit.page import page_limit_offset
 
@@ -34,6 +34,8 @@ class PoList(Base):
 
 @urlmap('/po/show(?:-(\d+))?')
 class PoShow(Base):
+    template = '/god/po/po_list.htm'
+
     def get(self, n):
         page, limit, offset = page_limit_offset(
             '/po/show-%s',
@@ -48,8 +50,8 @@ class PoShow(Base):
         )
 
 
-@urlmap('/po/add_show/(\d+)')
-class PoAddShow(Base):
+@urlmap('/po/set_show/(\d+)')
+class PoShowSet(Base):
     def get(self, id):
         next = self.request.headers.get('Referer', '')
         po = Po.mc_get(id)
@@ -64,7 +66,7 @@ class PoAddShow(Base):
         cid = self.get_argument('cid', None)
         next = self.get_argument('next', '/po')
         if po and cid:
-            po_show_new(po, cid)
+            po_show_set(po, int(cid))
             return self.redirect(next)
         self.render(
             po=po,
