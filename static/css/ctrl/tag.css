@@ -1,0 +1,13 @@
+
+.po_ul{
+margin-bottom: auto;
+line-height: 48px;
+padding-left: 3px; 
+margin-top: 16px;
+list-style:circle;
+list-style-position:inside;
+margin-bottom:64px;
+}
+.po_tag{
+width:470px;margin:auto;
+}
