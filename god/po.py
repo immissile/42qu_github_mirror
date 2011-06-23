@@ -7,7 +7,7 @@ from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION
 from model.po import Po
-from model.po_show import po_show_new
+from model.po_show import po_show_new, po_show_count, po_show_list
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from zkit.page import page_limit_offset
 
@@ -37,9 +37,14 @@ class PoShow(Base):
     def get(self, n):
         page, limit, offset = page_limit_offset(
             '/po/show-%s',
-            total,
+            po_show_count(0),
             n,
             PAGE_LIMIT,
+        )
+        li = po_show_list(0, 'id', limit, offset)
+        self.render(
+            po_list=li,
+            page=page,
         )
 
 

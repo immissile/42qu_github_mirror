@@ -1,13 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from _db import McCache
+from feed import feed_rt, feed_rt_rm
 from po import Po, po_new, po_word_new, po_note_new, po_rm, CID_QUESTION
-from rank import rank_po_id_list, rank_new
+from rank import rank_po_id_list, rank_new, rank_rm
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 
 def po_show_new(po, cid):
-    from feed import feed_rt
-    rank_new(po, 0, cid)
+    r = rank_new(po, 0, cid)
     feed_rt(0, po.id)
+    mc_po_show_rank_id.set(po.id, r.id)
+
+def po_show_rm(po_id):
+    feed_rt_rm(0, po_id)
+    rank_rm(po_id, 0)
+
+ORDER = 'id', 'hot', 'confidence'
+
+CID_PO_SHOW = (
+    (1, '12321'),
+    (2, '231231'),
+)
 
 def po_show_list(cid, order, limit, offset):
     ids = rank_po_id_list(0, cid, order, limit, offset)
@@ -15,8 +28,19 @@ def po_show_list(cid, order, limit, offset):
     Zsite.mc_bind(li, 'user', 'user_id')
     return li
 
-def po_show_hot(cid, limit, offset):
-    return po_show_list(cid, 'hot', limit, offset)
+def po_show_count(cid=0):
+    return rank_po_id_count(0, cid)
 
-def po_show_confidence(cid, limit, offset):
-    return po_show_list(cid, 'confidence', limit, offset)
+mc_po_show_rank_id = McCache('PoShowRankId.%s')
+
+@mc_po_show_rank_id('{po_id}')
+def po_show_rank_id(po_id):
+    r = Rank.where(po_id=po.id, to_id=0)
+    if r:
+        return r.id
+    return 0
+
+def po_is_show(po):
+    return bool(po_show_rank_id(po.id))
+
+Po.is_show = po_is_show

@@ -117,6 +117,8 @@ def po_rm(user_id, id):
         feed_rm(id)
         from zsite_tag import zsite_tag_rm_by_po_id
         zsite_tag_rm_by_po_id(id)
+        from rank import rank_rm_all
+        rank_rm_all(id)
         mc_flush(user_id)
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
