@@ -14,7 +14,7 @@ RE_SITE_DOMAIN = SITE_DOMAIN.replace('.', r"\.")
 
 import _urlmap.hero
 application.add_handlers(
-    "hero\.%s"%RE_SITE_DOMAIN,
+    'hero\.%s'%RE_SITE_DOMAIN,
     handlers(_urlmap.hero)
 )
 

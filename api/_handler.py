@@ -47,7 +47,7 @@ class ApiLoginBase(ApiSignBase):
         super(ApiBase, self).prepare()
         if self._finished:
             return
-        S = self.get_argument("S")
+        S = self.get_argument('S')
         client_id = self.get_argument('client_id')
         user_id = api_login_verify(client_id, S)
         if not user_id:

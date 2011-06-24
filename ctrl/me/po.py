@@ -20,7 +20,7 @@ def update_pic(form, user_id, po_id, id):
         if title in form:
             title = form[title][0]
         else:
-            title = ""
+            title = ''
 
         align = 'pos%s' % seq
         if align in form:
@@ -60,7 +60,7 @@ def po_post(self):
         state = STATE_SECRET
     else:
         state = STATE_ACTIVE
-    
+
     po = self.po_save(user_id, name, txt, state)
     self_id = self.id
     if po:
@@ -136,7 +136,7 @@ class PoBase(LoginBase):
         user_id = self.current_user_id
         self.render(
             'ctrl/me/po/po.htm',
-            cid = self.cid,
+            cid=self.cid,
             po=JsDict(),
             pic_list=pic_list_edit(user_id, 0),
         )

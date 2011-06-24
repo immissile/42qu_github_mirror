@@ -22,7 +22,7 @@ STATE_ACTIVE = 1
 STATE_DEL = 0
 
 mc_zsite_list = McLimitA('ZsiteList%s', 1024)
-zsite_list_count = McNum(lambda owner_id,cid:ZsiteList.where(cid=cid,owner_id=owner_id).count(),"ZsiteListCount%s")
+zsite_list_count = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id).count(), 'ZsiteListCount%s')
 
 
 @mc_zsite_list('{owner_id}_{cid}')

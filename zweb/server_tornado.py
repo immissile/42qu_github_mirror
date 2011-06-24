@@ -9,7 +9,7 @@ from config import render
 
 
 def WSGIServer(port, application):
-    application = ErrorMiddleware(application, render , '_error.htm')
+    application = ErrorMiddleware(application, render, '_error.htm')
     container = WSGIContainer(application)
     http_server = tornado.httpserver.HTTPServer(container)
     http_server.listen(port)

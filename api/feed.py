@@ -6,7 +6,7 @@ import _handler
 from _urlmap import urlmap
 from model.vote import vote_state
 from model.feed_render import render_feed_by_zsite_id, MAXINT, PAGE_LIMIT, FEED_TUPLE_DEFAULT_LEN
-from model.cid import CID_NOTE ,CID_QUESTION
+from model.cid import CID_NOTE, CID_QUESTION
 from yajl import dumps
 
 @urlmap('/user/live')
@@ -44,9 +44,9 @@ class UserFeed(_handler.ApiBase):
 
 
             data.append(weibo)
-        
+
         self.finish({
-            "item":data
+            'item':data
         })
 
 

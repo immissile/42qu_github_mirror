@@ -55,7 +55,7 @@ def follow_rm(from_id, to_id):
         'delete from follow where id=%s', id
     )
     to = Zsite.mc_get(to_id)
-    mc_flush(from_id, to_id , to.cid)
+    mc_flush(from_id, to_id, to.cid)
     return True
 
 def follow_new(from_id, to_id):

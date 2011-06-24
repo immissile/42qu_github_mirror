@@ -13,7 +13,7 @@ from model.zsite import Zsite
 class Index(Base):
     def get(self, n=1):
         n = int(n)
-        count = zsite_list_count(0,0)
-        page , limit , offset = page_limit_offset("/-%s",count,n,64)
+        count = zsite_list_count(0, 0)
+        page, limit, offset = page_limit_offset('/-%s', count, n, 64)
         zsite_list = Zsite.mc_get_list(zsite_show(limit, offset))
         self.render(zsite_list=zsite_list, page=page)

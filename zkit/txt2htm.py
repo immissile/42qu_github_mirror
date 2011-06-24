@@ -52,7 +52,7 @@ def txt2htm_withlink(s):
 
 def replace_at(match):
     prefix, name, _, url = match.groups()
-    return '%s@<a target="_blank" href="/%s">%s</a>' % (prefix , url, name)
+    return '%s@<a target="_blank" href="/%s">%s</a>' % (prefix, url, name)
 
 
 if __name__ == '__main__':
