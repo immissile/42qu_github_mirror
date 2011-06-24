@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-from  zweb._handler.main import *
+from zweb._handler.main import *
