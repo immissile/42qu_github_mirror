@@ -1,16 +1,16 @@
 <%!
-from model.vote import vote_state, vote_count
 from datetime import datetime
 %>
 <%inherit file="_po.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="_vote.htm" import="_vote"/>
 
 <%def name="po_body()">
 <%
 po_id = po.id
 zsite_link = zsite.link
 %>
-<div class="note_page">
+<div class="po_page">
 <h1><a href="${po.link}" class="c0">${po.name}</a></h1>
 <pre>${po.htm|n}\
 <p class="tr">\
@@ -20,11 +20,7 @@ zsite_link = zsite.link
 <a href="${zsite_link}">${zsite.name}</a> : <a href="${zsite_link}/tag/${zsite_tag_id}">${tag_name}</a>\
 </p>\
 <p class="tr">\
-<span class="L"><span class="vote${vote_state(current_user_id, po_id)}" id="vote${po_id}">\
-<a title="厌倦" class="down" href="javascript:vote_down(${po_id});void(0)">-</a>\
-<span title="好评率" class="num">${vote_count(po_id)}</span>\
-<a title="喜欢" class="up" href="javascript:vote_up(${po_id});void(0)">+</a>\
-</span></span>\
+<span class="L">${_vote(po_id)}</span>\
 ${str(datetime.fromtimestamp(po.create_time))[:-3]}</p>\
 </pre>
 

@@ -1,15 +1,15 @@
-.note_page h1{
+.po_page h1{
     text-align:center;
     font-size:32px;
     margin:48px 0;
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
 }
-.note_page pre{
+.po_page pre{
     width:721px;
     margin:auto;
 }
-.note_page pre p{
+.po_page pre p{
     line-height:28px;
     padding-bottom:14px;
 }
@@ -61,4 +61,6 @@ vertical-align:0px;
 *vertical-align:2px;
 background:url(/img/gif/reply.gif) no-repeat;
 }
+.btns a{
 
+}
