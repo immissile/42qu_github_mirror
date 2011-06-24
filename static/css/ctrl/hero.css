@@ -15,4 +15,10 @@ width:31px;height:30px;border:none;cursor:pointer;
 }
 .mtb32{
 margin:32px 0;
+}
+.zsite_list a{
+color:#000;
 } 
+.zsite_mb64{
+padding-bottom:64px;
+}
