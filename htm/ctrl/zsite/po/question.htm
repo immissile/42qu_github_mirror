@@ -31,10 +31,10 @@ zsite_link = zsite.link
 <a href="${zsite_link}/tag/${zsite_tag_id}">${tag_name}</a>\
 </p>\
 ${po.htm|n}\
-<p class="tr c">\
+<p class="po_bar">\
 <span class="L">${_vote(po_id)}</span>\
 ${datetime.fromtimestamp(po.create_time)}</p>\
-<p class="tr c">\
+<p class="po_bar">\
 <span class="L">\
 <a href="${po.link_reply}#reply_txt">${po.reply_count or ''}评注</a></span>\
 %if can_admin:
