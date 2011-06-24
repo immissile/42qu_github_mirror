@@ -41,6 +41,8 @@ id="name" type="text" autocomplete="off" name="name" value="${po.name}">
     <span id="upload_wait">图片上传中 ...
     <a href="javascript:cancel_uploading();void(0)">取消</a>
     </span>
+    <span class="btnw"><button class="btn" type="submit">确定</button></span>\
+    <span class="po_edit">
 %if po:
 <a class="rmpo" href="/po/rm/${po.id}?${_xsrf}">删除</a>
 %endif
@@ -55,8 +57,7 @@ checked
 %else:
 私密\
 %endif
-</label>\
-    <span class="btnw"><button class="btn" type="submit">确定</button></span>\
+</label></span>\
 </div>
 <div id="uploaded"></div>
 
