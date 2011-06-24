@@ -25,7 +25,13 @@ cid = po.cid
     <a href="${po.link}">${po.name or '[无标题]'}</a>
 </p>
 % if cid != CID_WORD:
-<p><a href="/po/add_show/${po.id}">全站转播</a></p>
+<p><a href="/po/set_show/${po.id}">
+    % if po.is_show:
+    设置转播
+    % else:
+    全站转播
+    % endif
+</a></p>
 % endif
 <hr>
 </li>

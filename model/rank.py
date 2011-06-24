@@ -5,12 +5,21 @@ from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from vote import vote_up_count, vote_down_count
 from zsite import Zsite
 
+
 class Rank(McModel):
     pass
 
-mc_rank_po_id_list = McLimitA('RankPoIdList.%s', 512)
 
-rank_po_id_count = McNum(lambda to_id, cid: Rank.where(to_id=to_id, cid=cid).count(), 'RankPoIdCount.%s')
+mc_rank_po_id_count = McCache('RankPoIdCount.%s')
+
+@mc_rank_po_id_count('{to_id}_{cid}')
+def rank_po_id_count(to_id, cid):
+    qs = Rank.where(to_id=to_id)
+    if int(cid):
+        qs = qs.where(cid=cid)
+    return qs.count()
+
+mc_rank_po_id_list = McLimitA('RankPoIdList.%s', 512)
 
 @mc_rank_po_id_list('{to_id}_{cid}_{order}')
 def rank_po_id_list(to_id, cid, order, offset=0, limit=512):
@@ -27,6 +36,15 @@ def rank_po_id_list(to_id, cid, order, offset=0, limit=512):
 #        return to_id
 #    return 0
 
+mc_rank_id_by_po_id_to_id = McCache('RankIdByPoIdToId.%s')
+
+@mc_rank_id_by_po_id_to_id('{po_id}_{to_id}')
+def rank_id_by_po_id_to_id(po_id, to_id):
+    r = Rank.get(po_id=po_id, to_id=to_id)
+    if r:
+        return r.id
+    return 0
+
 def rank_new(po, to_id, cid):
     po_id = po.id
     r = Rank(po_id=po_id, from_id=po.user_id, to_id=to_id, cid=cid)
@@ -36,13 +54,45 @@ def rank_new(po, to_id, cid):
     r.confidence = confidence(up, down)
     r.save()
     mc_flush_cid(to_id, cid)
+    mc_rank_id_by_po_id_to_id.set('%s_%s' % (po_id, to_id), r.id)
 #    mc_rank_to_id_by_po_id_cid.set('%s_%s' % (po_id, cid), to_id)
     return r
 
-def mc_flush_cid(to_id, cid):
+def rank_rm_all(po_id):
+    for r in Rank.where(po_id=po_id):
+        r.delete()
+        mc_flush_cid(t.to_id, r.cid)
+        mc_rank_id_by_po_id_to_id.set('%s_%s' % (po_id, r.to_id), 0)
+
+def rank_rm(po_id, to_id):
+    for r in Rank.where(po_id=po_id, to_id=to_id):
+        r.delete()
+        mc_flush_cid(to_id, r.cid)
+    mc_rank_id_by_po_id_to_id.set('%s_%s' % (po_id, to_id), 0)
+
+def _rank_mv(r, cid):
+    o_cid = r.cid
+    to_id = r.to_id
+    if o_cid != cid:
+        r.cid = cid
+        r.save()
+        _mc_flush_cid(to_id, o_cid)
+        _mc_flush_cid(to_id, cid)
+
+def rank_mv(po_id, to_id, cid):
+    id = rank_id_by_po_id_to_id(po_id, to_id)
+    r = Rank.mc_get(id)
+    if r:
+        _rank_mv(r, cid)
+
+def _mc_flush_cid(to_id, cid):
     for order in ('hot', 'confidence'):
         mc_rank_po_id_list.delete('%s_%s_%s' % (to_id, cid, order))
-    rank_po_id_count.delete('%s_%s' % (to_id, cid))
+    mc_rank_po_id_count.delete('%s_%s' % (to_id, cid))
+
+def mc_flush_cid(to_id, cid):
+    for i in set([0, cid]):
+        _mc_flush_cid(to_id, i)
 
 if __name__ == '__main__':
     pass
