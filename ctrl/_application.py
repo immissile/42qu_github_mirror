@@ -22,7 +22,7 @@ application.add_handlers(
 import _urlmap.main
 import _urlmap.auth
 application.add_handlers(
-    RE_SITE_DOMAIN.replace('.', r"\."),
+    RE_SITE_DOMAIN,
     handlers(_urlmap.main, _urlmap.auth)
 )
 
