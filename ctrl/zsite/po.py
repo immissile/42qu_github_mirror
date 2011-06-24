@@ -144,7 +144,7 @@ class Question(PoOne):
         else:
             state = STATE_ACTIVE
 
-        name = name or '回复%s' % question.name
+        name = name or '答 %s' % question.name
         po = po_answer_new(user_id, id, name, txt, state)
 
         if po:
