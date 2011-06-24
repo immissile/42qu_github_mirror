@@ -26,7 +26,7 @@ border:1px solid #ccc;
 }
 #reply_list, #txt_form{
 width:721px;
-margin:auto;
+margin:0 auto 32px;
 }
 .reply_s{
 box-shadow: -1px 2px 2px #f3f3f3;
@@ -54,11 +54,11 @@ color:#999;
 }
 .reply_at{
 display:inline-block;
-width:20px;
-height:16px;
+width:12px;
+height:11px;
 margin-left:3px;
-vertical-align:-5px;
-*vertical-align:-2px;
+vertical-align:0px;
+*vertical-align:2px;
 background:url(/img/gif/reply.gif) no-repeat;
 }
 
