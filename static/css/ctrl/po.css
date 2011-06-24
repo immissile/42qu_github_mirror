@@ -52,3 +52,13 @@ color:#999;
 float:left;
 color:#999;
 }
+.reply_at{
+display:inline-block;
+width:20px;
+height:16px;
+margin-left:3px;
+vertical-align:-5px;
+*vertical-align:-2px;
+background:url(/img/gif/reply.gif) no-repeat;
+}
+
