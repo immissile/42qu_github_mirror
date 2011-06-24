@@ -17,3 +17,6 @@ $(".reply_at").live("click", function(){
     txt.val(val)
 
 })
+$("#reply_txt").elastic()
+
+
