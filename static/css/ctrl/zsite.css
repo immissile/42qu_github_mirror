@@ -75,7 +75,7 @@ margin-top:1px;
 color:#000;
 }
 #H .D{
-    _z-index:999;
+    *z-index:999;
     position:relative;
     float:right;
 }
