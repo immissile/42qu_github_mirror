@@ -36,6 +36,8 @@ float:left;
 }
 #secret{
     vertical-align:-1px;
+    _vertical-align:1px;
+    _margin-right:-4px;
 }
 #po_btn .btnw{
     margin-top:-1px;
@@ -79,9 +81,15 @@ margin-right:32px
 margin-right:46px;
 }
 #po_edit_span{
-*float:left;
-*margin-left:-272px;
-*margin-top:12px;
+*margin-right:114px;
 }
-
-.
+#po_submit{
+*top:-46px;
+_top:-31px;
+*float:right;
+*position:relative;
+}
+#po_edit_wrap{
+_top:12px;
+_position:relative;
+}
