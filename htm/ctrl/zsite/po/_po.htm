@@ -30,14 +30,16 @@ po_state = po.state
 user = reply.user
 user_id = user.id
 %>
-<div id="reply${reply.id}" class="reply_div">
-    <a href="${user.link}" class="replyer" target="_blank">${user.name}</a> :\
+<div class="reply_s"><div id="reply${reply.id}" class="reply_div">
     <pre>${reply.htm|n}</pre>
-    %if can_admin or reply.can_rm(current_user_id):
-        <a href="javascript:rm(${reply.id});void(0)" class="rm">删除</a> 
-    %endif
+    <div class="bar">
+%if can_admin or reply.can_rm(current_user_id):
+    <a href="javascript:rm(${reply.id});void(0)" class="rm">删除</a> 
+%endif
+<a href="${user.link}" class="replyer">${user.name}</a> 
 <a class="reply_at" rel="${url_or_id(user_id)}" href="javascript:void(0)">@</a>
-</div>
+    </div>
+</div></div>
     %endfor
 </div>
 

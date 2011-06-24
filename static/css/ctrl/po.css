@@ -20,16 +20,35 @@ text-align:right;
 text-align:left;
 width:701px;
 padding:6px 8px;
-margin:16px auto 8px;
+margin:0 auto 8px;
 height:100px;
+border:1px solid #ccc;
 }
 #reply_list, #txt_form{
 width:721px;
 margin:auto;
 }
+.reply_s{
+box-shadow: -1px 2px 2px #f3f3f3;
+margin:32px 0;
+background:#fafafa;
+padding:1px;
+}
 #reply_list .reply_div{
-margin:16px 0;
+background:#fff;
+border:1px solid #EDEFF0;
+padding:16px 20px 12px;
+}
+#reply_list .bar{
+text-align:right;
+padding-top:10px;
+border-top:1px solid #eee;
+margin-top:14px;
+}
+#reply_list .bar a{
+color:#999;
 }
 .rm{
+float:left;
 color:#999;
 }
