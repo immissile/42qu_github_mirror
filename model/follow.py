@@ -59,6 +59,8 @@ def follow_rm(from_id, to_id):
     return True
 
 def follow_new(from_id, to_id):
+    if from_id == to_id:
+        return
     to = Zsite.mc_get(to_id)
     if not to:
         return
