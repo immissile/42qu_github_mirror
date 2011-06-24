@@ -13,3 +13,16 @@
     line-height:28px;
     padding-bottom:14px;
 }
+#txt_form{
+width:721px;
+margin:auto;
+text-align:right;
+}
+#reply_txt{
+text-align:left;
+width:701px;
+padding:4px 8px;
+margin:16px auto 8px;
+height:100px;
+}
+
