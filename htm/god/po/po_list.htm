@@ -24,7 +24,6 @@ cid = po.cid
 % endif
     <a href="${po.link}">${po.name or '[无标题]'}</a>
 </p>
-% if cid != CID_WORD:
 <p><a href="/po/set_show/${po.id}">
     % if po.is_show:
     设置转播
@@ -32,7 +31,6 @@ cid = po.cid
     全站转播
     % endif
 </a></p>
-% endif
 <hr>
 </li>
 % endfor
