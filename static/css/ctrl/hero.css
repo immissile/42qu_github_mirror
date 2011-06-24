@@ -12,4 +12,7 @@ width:100px;
 .search .search_btn{
 background:url(/img/png/search_btn.png) no-repeat;
 width:31px;height:30px;border:none;cursor:pointer;
+}
+.mtb32{
+margin:32px 0;
 } 
