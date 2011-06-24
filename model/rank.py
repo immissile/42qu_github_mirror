@@ -22,7 +22,7 @@ def rank_po_id_count(to_id, cid):
 mc_rank_po_id_list = McLimitA('RankPoIdList.%s', 512)
 
 @mc_rank_po_id_list('{to_id}_{cid}_{order}')
-def rank_po_id_list(to_id, cid, order, offset=0, limit=512):
+def rank_po_id_list(to_id, cid, order, limit=512, offset=0):
     qs = Rank.where(to_id=to_id)
     if int(cid):
         qs = qs.where(cid=cid)
