@@ -57,8 +57,9 @@ def zsite_list_new(zsite_id, owner_id, cid_list=[], rank=1000):
 
 def zsite_list_rm(zsite_id, owner_id):
     cid_list = ZsiteList.where(zsite_id=zsite_id, owner_id=owner_id, state=1).col_list(col='cid')
-    ZsiteList.raw_sql('update zsite_list state=0 where zsite_id=%s and owner_id=%s', zsite_id, owner_id)
-    mc_flush_owner_id_cid(owner_id, cid)
+    ZsiteList.raw_sql('update zsite_list set state=0 where zsite_id=%s and owner_id=%s', zsite_id, owner_id)
+    for cid in cid_list:
+        mc_flush_owner_id_cid(owner_id, cid)
 
 
 def zsite_list_get(zsite_id, owner_id, cid=0):
@@ -67,6 +68,6 @@ def zsite_list_get(zsite_id, owner_id, cid=0):
 
 def zsite_list_rank(zsite_id, owner_id, rank):
     cid_list = ZsiteList.where(zsite_id=zsite_id, owner_id=owner_id, state=1).col_list(col='cid')
-    ZsiteList.raw_sql('update zsite_list rank=%s where zsite_id=%s and owner_id=%s', rank, zsite_id, owner_id)
-    mc_flush_owner_id_cid(owner_id, cid)
-
+    ZsiteList.raw_sql('update zsite_list set rank=%s where zsite_id=%s and owner_id=%s', rank, zsite_id, owner_id)
+    for cid in cid_list:
+        mc_flush_owner_id_cid(owner_id, cid)
