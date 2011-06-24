@@ -14,22 +14,20 @@ zsite_link = zsite.link
 <h1><a href="${po.link}" class="c0">${po.name}</a></h1>
 <pre>${po.htm|n}\
 <p class="tr">\
+%if can_admin:
+    <a class="L" href="${po.link_edit}">编辑</a>\
+%endif
 <a href="${zsite_link}">${zsite.name}</a> : <a href="${zsite_link}/tag/${zsite_tag_id}">${tag_name}</a>\
 </p>\
-<p class="tr">${str(datetime.fromtimestamp(po.create_time))[:-3]}</p>\
+<p class="tr">\
+<span class="L"><span class="vote${vote_state(current_user_id, po_id)}" id="vote${po_id}">\
+<a title="厌倦" class="down" href="javascript:vote_down(${po_id});void(0)">-</a>\
+<span title="好评率" class="num">${vote_count(po_id)}</span>\
+<a title="喜欢" class="up" href="javascript:vote_up(${po_id});void(0)">+</a>\
+</span></span>\
+${str(datetime.fromtimestamp(po.create_time))[:-3]}</p>\
 </pre>
 
-<div>
-    %if can_admin:
-        <a href="${po.link_edit}">编辑</a>
-    %endif
-</div>
-
-<span class="vote${vote_state(current_user_id, po_id)}" id="vote${po_id}">
-<a class="down" href="javascript:vote_down(${po_id});void(0)">-</a>
-<span class="num">${vote_count(po_id)}</span>
-<a class="up" href="javascript:vote_up(${po_id});void(0)">+</a>
-</span>
 </div>
 </%def>
 

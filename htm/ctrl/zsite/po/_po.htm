@@ -39,10 +39,10 @@ user_id = user.id
     %endfor
 
     %if po.state > STATE_SECRET:
-<%htm:form id="txt_form" action="/po/reply/${po_id}">
+<%htm:form id="txt_form" action="/po/reply/${po_id}" style="width:721px;margin:auto">
 ${htm.reply_textarea()}
-<div>
-<button type="submit">此致 , 敬礼</button>
+<div class="btns">
+<span class="btnw"><button class="btn" type="submit">此致 , 敬礼</button></span>
 </div>
 </%htm:form>
     %endif
