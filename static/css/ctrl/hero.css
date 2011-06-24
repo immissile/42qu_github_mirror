@@ -14,11 +14,12 @@ background:url(/img/png/search_btn.png) no-repeat;
 width:31px;height:30px;border:none;cursor:pointer;
 }
 .mtb32{
-margin:32px 0;
+margin:0 0 32px;
 }
 .zsite_list a{
 color:#000;
 } 
 .zsite_mb64{
+margin-top:32px;
 padding-bottom:64px;
 }
