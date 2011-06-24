@@ -74,3 +74,23 @@ margin-top:32px;
 .c0{
 color:#000;
 }
+.sd{
+background:#fff;
+border:1px solid #EDEFF0;
+padding:16px 20px 12px;
+}
+.sdw{
+box-shadow: -1px 2px 2px #f3f3f3;
+margin:32px 0;
+background:#fafafa;
+padding:1px;
+}
+.sd .bar{
+text-align:right;
+padding-top:10px;
+border-top:1px solid #eee;
+margin-top:14px;
+}
+.sd .bar a{
+color:#999;
+}
