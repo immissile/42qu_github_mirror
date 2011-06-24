@@ -44,14 +44,14 @@ user_id = user.id
 </div>
 
     %if po.state > STATE_SECRET:
-<%htm:form id="txt_form" action="/po/reply/${po_id}">
+<%htm:form id="txt_form" action="/po/reply/${po_id}">\
 ${htm.reply_textarea()}
-<div class="btns">
+<div class="btns">\
 %if cid == CID_QUESTION:
-<a href="${po.link}">回答</a>
-<span class="btnw"><button class="btn" type="submit">评注</button></span>
+<a class="reply_a" href="${po.link}">回答</a>\
+<span class="btnw"><button class="btn" type="submit">评注</button></span>\
 %else:
-<span class="btnw"><button class="btn" type="submit">此致 , 敬礼</button></span>
+<span class="btnw"><button class="btn" type="submit">此致 , 敬礼</button></span>\
 %endif
 </div>
 </%htm:form>

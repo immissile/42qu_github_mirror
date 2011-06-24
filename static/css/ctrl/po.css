@@ -27,6 +27,10 @@ border:1px solid #ccc;
 #reply_list, #txt_form{
 width:721px;
 margin:0 auto 32px;
+*margin:0 auto;;
+}
+#reply_list{
+*margin-top:-32px;
 }
 .reply_s{
 box-shadow: -1px 2px 2px #f3f3f3;
@@ -61,6 +65,8 @@ vertical-align:0px;
 *vertical-align:2px;
 background:url(/img/gif/reply.gif) no-repeat;
 }
-.btns a{
-
+.reply_a{
+margin-right:48px;
+vertical-align:10px;
+font-size:16px;
 }
