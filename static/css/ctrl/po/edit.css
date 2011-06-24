@@ -78,7 +78,10 @@ margin-right:32px
 .rmpo{
 margin-right:46px;
 }
-.po_edit{
-float:right;
+#po_edit_span{
+*float:left;
+*margin-left:-272px;
+*margin-top:12px;
 }
+
 .
