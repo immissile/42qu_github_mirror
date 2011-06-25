@@ -132,9 +132,8 @@ class Question(PoOne):
         if not question.can_view(user_id):
             return self.get(id)
 
-        name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
-        if not (name or txt):
+        if not txt:
             return self.get(id)
 
         secret = self.get_argument('secret', None)
@@ -144,7 +143,8 @@ class Question(PoOne):
         else:
             state = STATE_ACTIVE
 
-        name = name or '回复%s' % question.name
+        if len(txt) > 140:
+            name = '回复%s' % question.name
         po = po_answer_new(user_id, id, name, txt, state)
 
         if po:
