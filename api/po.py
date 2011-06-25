@@ -28,7 +28,7 @@ class PoWord(_handler.ApiLoginBase):
 class PoAll(_handler.ApiLoginBase):
     def get(self):
         user_id = self.current_user_id
-        po_id = int(self.get_argument('iterm_id'))
+        po_id = int(self.get_argument('id'))
         po = Po.mc_get(po_id)
         itr = []
         if po.user_id == user_id:
@@ -48,7 +48,7 @@ class PoAll(_handler.ApiLoginBase):
 @urlmap('/po/rm')
 class PoRm(_handler.ApiLoginBase):
     def get(self):
-        id = int(self.get_argument('po_id'))
+        id = int(self.get_argument('id'))
         user = self.current_user
         user_id = self.current_user_id
         m = po_rm(user_id, id)
@@ -60,7 +60,7 @@ class PoRm(_handler.ApiLoginBase):
 @urlmap('/po/reply')
 class PoReply(_handler.ApiLoginBase):
     def get(self):
-        id = int(self.get_argument('po_id'))
+        id = int(self.get_argument('id'))
         po = Po.mc_get(id)
         if po:
             user = self.current_user
@@ -79,7 +79,7 @@ class PoReply(_handler.ApiLoginBase):
 @urlmap('/po/reply/rm')
 class PoReplyRm(_handler.ApiLoginBase):
     def get(self):
-        id = int(self.get_argument('po_id'))
+        id = int(self.get_argument('id'))
         user_id = self.current_user_id
         r = reply.Reply.mc_get(id)
 

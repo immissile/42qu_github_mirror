@@ -27,15 +27,18 @@ ${css.ctrl_live|n}
 <%
 _ico = ico_url(zsite_id) 
 %>\
+<a id="po_word_ico"
 %if _ico:
-<a href="${current_user.link}"><img src="${_ico|n}"></a>\
+href="${current_user.link}"><img src="${_ico|n}"></a>\
 %else:
-<a href="/i/pic"><img src="${ICO96_DEFAULT|n}"></a>\
+href="/i/pic"><img src="${ICO96_DEFAULT|n}"></a>\
 %endif
 <div class="po_word_out2"><div class="po_word_out1"><div class="po_word">\
-<textarea id="po_word_txt" name="txt"></textarea>\
+<textarea 
+class="po_word_txt"
+id="po_word_txt" name="txt"></textarea>\
 </div></div></div>\
-<div class="btns tr">\
+<div id="po_word_btn" class="btns">\
 <span id="po_word_tip"></span>\
 <span class="btnw"><button class="btn" type="submit">输出</button></span>\
 </div>

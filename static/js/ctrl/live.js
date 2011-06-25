@@ -83,7 +83,7 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
 
     });
     /*************/
-    var po_word_tip = $("#po_word_tip"), po_word_txt = $("#po_word_txt"), po_word_max = 142;
+    var po_word_tip = $("#po_word_tip"), po_word_txt = $("#po_word_txt"), po_word_max = 142, po_word_txt_bg="po_word_txt_bg";
     function po_word_update(value){
         var len = cnenlen(value),
             html, diff=0;
@@ -92,7 +92,8 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
             if(diff>0){
     html = '<span style="color:red">超出<span>'+diff+"</span>字</span>"
             }else{
-    html = "<span>"+len+"</span>字"
+    html = "<span><span>"+len+"</span>字</span>"
+    //为了ie6 多加一层span
             }
         }else{
     html = ''
@@ -101,17 +102,18 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
         return diff
     }
     po_word_txt.blur().val('').focus(function(){
-        var self=$(this), background="background";
-        self.css({
-            background:"transparent"
-        }).blur(function(){
-            if(self.val()==''){
-                this.style.background = null
-            }
-        })
-    }).input(function(){
+        $(this).removeClass(po_word_txt_bg)
+    }).input(function po_word_change(){
         po_word_update(this.value)
+    }).blur(function(){
+        var self=$(this), val=self.val();
+        if(!val||!val.length){
+            self.addClass(po_word_txt_bg)
+        }
     })
+    .addClass(po_word_txt_bg)
+    ;
+
     $("#po_word_form").submit(function(){
         if(po_word_update(po_word_txt.val())>0){
             po_word_txt.focus()
