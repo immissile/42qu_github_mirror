@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from zsite_list import ZsiteList, zsite_list, zsite_list_new, zsite_list_rm, zsite_list_get, zsite_list_rank
+from functools import partial
 
 OWNER_ID = 0
 
-def zsite_show(limit=None, offset=None):
-    return zsite_list(0, 0, limit, offset)
+zsite_show = partial(zsite_list, 0, 0)
+#def zsite_show(limit=None, offset=None):
+#    return zsite_list(0, 0, limit, offset)
 
 def zsite_show_new(zsite_id, rank=1000):
     cid_list = [] # TODO
@@ -22,4 +24,4 @@ def zsite_show_rank(zsite_id, rank):
 
 if __name__ == '__main__':
     from model.cid import CID_USER
-    print zsite_show(CID_USER)
+    print zsite_show()
