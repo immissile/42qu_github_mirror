@@ -10,6 +10,7 @@ border-width:6px 7px 7px 6px;
 }
 .po_word{
 border:1px solid #ccc;
+height:81px;
 border-width:1px 0 0 1px;
 }
 .po_word textarea{
@@ -23,5 +24,7 @@ border-width:1px 0 0 1px;
 width: 323px; 
 height: 80px; 
 line-height: 80px;
-
+}
+.live_top{
+margin-top:36px;
 }
