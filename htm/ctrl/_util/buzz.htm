@@ -67,6 +67,6 @@ unread = buzz_unread_count(user_id)
 %for i in buzz_list:
 <p>${buzz_render(i)}</p>
 %endfor
-<p class="tr"><a href="/buzz">未读${unread}条</a></p>
+<p class="tr"><a href="/buzz">未读<span class="mg03">${unread}</span>条</a></p>
 </div>
 </%def>
