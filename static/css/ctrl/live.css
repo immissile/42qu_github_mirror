@@ -29,4 +29,11 @@ line-height:26px;
 .live_top,#main{
 margin-top:36px;
 }
-
+#po_word_tip span{
+margin:3px;
+}
+#po_word_tip{
+margin-right:16px;
+color:#f00;
+vertical-align:top;
+}
