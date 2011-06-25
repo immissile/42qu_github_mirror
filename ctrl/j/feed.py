@@ -55,7 +55,7 @@ class Feed(JLoginBase):
             id = i[0]
             zsite_id = i[3]
             i.insert(FEED_TUPLE_DEFAULT_LEN, vote_state(current_user_id, id))
-            i.insert(FEED_TUPLE_DEFAULT_LEN, pic_url_with_default(zsite_id))
+            i.insert(FEED_TUPLE_DEFAULT_LEN, pic_url_with_default(zsite_id, "219"))
             #i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
         #self.finish(result)
         result = dumps(result)
