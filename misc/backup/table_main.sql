@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS `api_client`;
 CREATE TABLE `api_client` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL,
-  `serect` binary(16) NOT NULL,
+  `secret` binary(16) NOT NULL,
   `name` varbinary(255) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=binary;

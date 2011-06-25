@@ -1,5 +1,5 @@
 <%!
-from model.ico import ico_url_with_default
+from model.ico import ico_url, ICO96_DEFAULT
 from config import FS_URL
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
@@ -23,14 +23,24 @@ ${css.ctrl_live|n}
 
 %if zsite_id == current_user_id:
 <div class="live_top G c">
-<%htm:form className="G2" action="/po/word">
-<a href="${current_user.link}"><img src="${ico_url_with_default(zsite.id)}"></a>\
+<%htm:form className="G2" action="/po/word" id="po_word_form">
+<%
+_ico = ico_url(zsite_id) 
+%>\
+<a id="po_word_ico"
+%if _ico:
+href="${current_user.link}"><img src="${_ico|n}"></a>\
+%else:
+href="/i/pic"><img src="${ICO96_DEFAULT|n}"></a>\
+%endif
 <div class="po_word_out2"><div class="po_word_out1"><div class="po_word">\
-<textarea id="po_word_txt" name="txt"></textarea>\
+<textarea 
+class="po_word_txt"
+id="po_word_txt" name="txt"></textarea>\
 </div></div></div>\
-<div class="btns tr">\
-<span id="po_word_tip">超出<span>3</span>字</span>\
-<span class="btnw"><button class="btn" type="submit">记载</button></span>\
+<div id="po_word_btn" class="btns">\
+<span id="po_word_tip"></span>\
+<span class="btnw"><button class="btn" type="submit">输出</button></span>\
 </div>
 </%htm:form>
 <div class="G2">${buzz_show(zsite_id)}</div>

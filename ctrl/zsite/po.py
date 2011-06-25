@@ -10,8 +10,8 @@ from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename, po_id_list_by_zsite_tag_id, zsite_tag_count
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
-from model.notice import mq_notice_question
 from zkit.page import page_limit_offset
+from zkit.txt import cnenlen
 from model.zsite_tag import ZsiteTag
 from model.feed_render import feed_tuple_list
 from model.tag import Tag
@@ -129,11 +129,8 @@ class Question(PoOne):
             return
 
         user_id = self.current_user_id
-        if not question.can_view(user_id):
-            return self.get(id)
-
         txt = self.get_argument('txt', '')
-        if not txt:
+        if not question.can_view(user_id) or not txt:
             return self.get(id)
 
         secret = self.get_argument('secret', None)
@@ -143,21 +140,17 @@ class Question(PoOne):
         else:
             state = STATE_ACTIVE
 
-        if len(txt) > 140:
+        if cnenlen(txt) > 140:
             name = '回复%s' % question.name
         else:
-            name, txt = txt, None
-
-        po = po_answer_new(user_id, id, name, txt, state)
+            name, txt = txt, ''
+        po = po_answer_new(user_id, question, txt, state)
 
         if po:
-            mq_notice_question(user_id, id)
             if po.cid == CID_NOTE:
                 answer_id = po.id
                 link = '/po/tag/%s' % answer_id
                 zsite_tag_new_by_tag_id(po)
-#                update_pic(arguments, user_id, po_id, 0)
-#                mc_pic_id_list.delete('%s_%s' % (user_id, 0))
             else:
                 link = '%s#answer%s' % (question.link, po.id)
         else:

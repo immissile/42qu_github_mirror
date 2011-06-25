@@ -8,6 +8,7 @@ from rank import rank_po_id_list, rank_new
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 from zsite import Zsite
+from model.notice import mq_notice_question
 
 def po_question_new(user_id, name, txt, state):
     if not name and not txt:
@@ -33,8 +34,10 @@ def po_answer_new(user_id, question_id, name, txt, state):
         else:
             m = po_word_new(user_id, name, state, question_id)
         if m:
+            id = m.id
             rank_new(m, question_id, CID_QUESTION)
-            mc_answer_id_get.set('%s_%s' % (user_id, question_id), m.id)
+            mq_notice_question(user_id, id)
+            mc_answer_id_get.set('%s_%s' % (user_id, question_id), id)
             return m
 
 def po_answer_list(question_id):
