@@ -58,7 +58,12 @@ id="po_word_txt" name="txt"></textarea>\
 <div class="G3"><div class="sdw"><div class="sd">
     <pre class="fdh"><a class="c0" target="_blank" href="${link}">${name}</a></pre>
     {{if txt}}
-        <div class="fdtxt">${txt}</div>
+        <div class="fdtxt">
+            ${txt}
+            {{if txt_more}}
+                <span class="fdall"><a href="javascript:void(0)">显示全部</a></span>
+            {{/if}}
+        </div>
     {{/if}}
     <div class="fdbar">
     <span class="L">
