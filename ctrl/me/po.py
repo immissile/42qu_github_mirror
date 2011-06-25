@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
+from model import reply
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
 from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
-from model.po_question import po_question_new
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.po_pos import po_pos_get, po_pos_set
-from model import reply
+from model.po_question import po_question_new
 from model.zsite import Zsite
+from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from zkit.jsdict import JsDict
+from zkit.txt import cnenlen
 
 
 def update_pic(form, user_id, po_id, id):
@@ -189,20 +191,18 @@ class Word(EditBase):
 
         if cnenlen(txt) > 140:
             po.name = '回复%s' % po.question.name
+            po.cid = CID_NOTE
             po.save()
             po.txt_set(txt)
-        else:
-            po.name = txt
-            po.save()
-        po_state_set(po, state)
-
-        if po.cid == CID_NOTE:
             link = '/po/tag/%s' % id
             zsite_tag_new_by_tag_id(po)
         else:
+            po.name = txt
+            po.save()
             link = po.link
-        self.redirect(link)
+        po_state_set(po, state)
 
+        self.redirect(link)
 
 
 @urlmap('/note/edit/(\d+)')
@@ -215,7 +215,6 @@ class Question(EditBase):
     cid = CID_QUESTION
 
 
-from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 
 
 @urlmap('/po/tag/(\d+)')
