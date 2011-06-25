@@ -83,7 +83,7 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
 
     });
 
-
+    var po_word_tip = $("#po_word_tip");
     $("#po_word_txt").blur().val('').focus(function(){
         var self=$(this), background="background";
         self.css({
@@ -93,12 +93,17 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
                 this.style.background = null
             }
         })
+    }).input(function(){
+        var len = cnenlen(this.value),
+            html,
+            max = 140;
+
+        if(len>max){
+html = '<span style="color:red">超出<span>'+(len-max)+"</span>字</span>"
+        }else{
+html = "<span>"+len+"</span>字"
+        }
+        po_word_tip.html(html);
     })
-/*
- * .bind(
-        'input',function(){
-            alert(1)
-        })
-    )
-*/
+
 })()
