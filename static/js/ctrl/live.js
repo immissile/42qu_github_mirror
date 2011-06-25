@@ -92,7 +92,8 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
             if(diff>0){
     html = '<span style="color:red">超出<span>'+diff+"</span>字</span>"
             }else{
-    html = "<span>"+len+"</span>字"
+    html = "<span><span>"+len+"</span>字</span>"
+    //为了ie6 多加一层span
             }
         }else{
     html = ''
