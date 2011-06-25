@@ -9,6 +9,7 @@ from follow import follow_id_list_by_from_id
 from model.vote import vote_count
 from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT
 from zsite import Zsite
+from zkit.txt import cnenoverflow
 
 CIDMAP = {}
 
@@ -20,7 +21,7 @@ def feed_tuple_by_db(id):
     cid = m.cid
     result = [m.user_id, cid, m.reply_count, m.create_time, m.name, vote_count(id)]
     if cid == CID_NOTE:
-        result.append(m.txt)
+        result.extend(cnenoverflow(m.txt))
     return result
 
 def cidmap(cid):

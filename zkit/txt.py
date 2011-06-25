@@ -68,3 +68,16 @@ def cnencut(s, length):
     if ts is str:
         s = s.encode('utf-8', 'ignore')
     return  s
+
+def cnenoverflow(s, length):
+    txt = cnencut(s , length)
+    if txt != s:
+        txt = "%s ..."%txt.rstrip()
+        is_same = False
+    else:
+        is_same = True
+    return txt , is_same
+
+#<span style="margin-left:4px"><a href="#">显示全部</a></span>
+
+
