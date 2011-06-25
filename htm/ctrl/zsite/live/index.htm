@@ -1,5 +1,5 @@
 <%!
-from model.ico import ico_url_with_default
+from model.ico import ico_url, ICO96_DEFAULT
 from config import FS_URL
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
@@ -24,7 +24,14 @@ ${css.ctrl_live|n}
 %if zsite_id == current_user_id:
 <div class="live_top G c">
 <%htm:form className="G2" action="/po/word">
-<a href="${current_user.link}"><img src="${ico_url_with_default(zsite.id)}"></a>\
+<%
+_ico = ico_url(zsite_id) 
+%>\
+%if _ico:
+<a href="${current_user.link}"><img src="${_ico|n}"></a>\
+%else:
+<a href="/i/pic"><img src="${ICO96_DEFAULT|n}"></a>\
+%endif
 <div class="po_word_out2"><div class="po_word_out1"><div class="po_word">\
 <textarea id="po_word_txt" name="txt"></textarea>\
 </div></div></div>\

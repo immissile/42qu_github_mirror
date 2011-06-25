@@ -13,6 +13,7 @@ ico96 = Kv('ico96', 0)
 ico_pos = Kv('ico_pos')
 
 PIC_FULL_SIZE = 721
+ICO96_DEFAULT = "%s/img/jpg/u/96.jpg"%FS_URL
 
 #show = PicShow.mc_get(id)
 #if x is not None and y is not None and size and show:
@@ -90,8 +91,7 @@ def ico_url(id):
 
 def ico_url_with_default(id):
     url = ico_url(id)
-    return url or "%s/img/jpg/u/96.jpg"%FS_URL
-
+    return url or  ICO96_DEFAULT
 
 if __name__ == '__main__':
     print ico_url(399)
