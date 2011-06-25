@@ -96,12 +96,16 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
     }).input(function(){
         var len = cnenlen(this.value),
             html,
-            max = 140;
-
-        if(len>max){
-html = '<span style="color:red">超出<span>'+(len-max)+"</span>字</span>"
+            max = 142;
+        if(len){
+    
+            if(len>max){
+    html = '<span style="color:red">超出<span>'+(len-max)+"</span>字</span>"
+            }else{
+    html = "<span>"+len+"</span>字"
+            }
         }else{
-html = "<span>"+len+"</span>字"
+    html = ''
         }
         po_word_tip.html(html);
     })
