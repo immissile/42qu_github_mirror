@@ -58,13 +58,13 @@ def mail2link(mail):
 def cnenlen(s):
     if type(s) is str:
         s = s.decode('utf-8', 'ignore')
-    return len(s.encode('gb18030', 'ignore'))
+    return len(s.encode('gb18030', 'ignore')) / 2.0
 
 def cnencut(s, length):
     ts = type(s)
     if ts is str:
         s = s.decode('utf-8', 'ignore')
-    s = s.encode('gb18030', 'ignore')[:length].decode('gb18030', 'ignore')
+    s = s.encode('gb18030', 'ignore')[:length*2].decode('gb18030', 'ignore')
     if ts is str:
         s = s.encode('utf-8', 'ignore')
     return  s

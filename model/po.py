@@ -13,6 +13,7 @@ from reply import ReplyMixin
 from po_pic import pic_htm
 from zkit.txt2htm import txt_withlink
 from zsite import Zsite
+from zkit.txt import cnencut
 
 PO_EN = {
     CID_NOTE: 'note',
@@ -92,7 +93,7 @@ class Po(McModel, ReplyMixin):
 def po_new(cid, user_id, name, rid, state):
     m = Po(
         id=gid(),
-        name=name,
+        name=cnencut(name, 140),
         user_id=user_id,
         cid=cid,
         rid=rid,

@@ -174,6 +174,17 @@ class Edit(LoginBase):
 @urlmap('/word/edit/(\d+)')
 class Word(EditBase):
     cid = CID_WORD
+
+    def get(self, id):
+        user_id = self.current_user_id
+        po = self.po(user_id, id)
+        if po is None:
+            return
+
+        self.render(
+            po=po,
+        )
+
     def post(self, id):
         user_id = self.current_user_id
         po = self.po(user_id, id)
@@ -194,7 +205,7 @@ class Word(EditBase):
             po.cid = CID_NOTE
             po.save()
             po.txt_set(txt)
-            link = '/po/tag/%s' % id
+            link = '/po/title/%s' % id
             zsite_tag_new_by_tag_id(po)
         else:
             po.name = txt
@@ -215,10 +226,12 @@ class Question(EditBase):
     cid = CID_QUESTION
 
 
-
-
+@urlmap('/po/title/(\d+)', title=True)
 @urlmap('/po/tag/(\d+)')
 class Tag(LoginBase):
+    def initialize(self, title=False):
+        self.title = title
+
     def _po(self, id):
         current_user = self.current_user
         current_user_id = self.current_user_id
@@ -238,13 +251,24 @@ class Tag(LoginBase):
             tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
             po_id = po.id
             tag_id = tag_id_by_po_id(current_user_id, po_id) or 1
-            self.render(tag_list=tag_list, po=po, tag_id=tag_id)
+            self.render(
+                tag_list=tag_list,
+                po=po,
+                tag_id=tag_id,
+                title=self.title,
+            )
 
     def post(self, id):
         po = self._po(id)
         if po:
+            title = self.get_argument('title', None)
+            if title:
+                po.name = title
+                po.save()
+
             tag_id = int(self.get_argument('tag'))
             name = self.get_argument('name', None)
+
             if not name and not tag_id:
                 tag_id = 1
 
