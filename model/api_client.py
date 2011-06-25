@@ -178,9 +178,9 @@ if __name__ == '__main__':
 
 
 
-#    print api_s_url(
-#        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA', '/po/word', test='abc', test2='123'
-#    )
+    print api_s_url(
+        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA', '/po/rm', po_id='abc', test2='123'
+    )
 #  http://api.42qu.me/user/auth/login?client_id=6&mail=yuri.ted%40gmail.com&sign=6a09d455ca8f739940ae70786b2126587a62524ca5ab2dcfbf4d53e76c1fc6f0&token=f8d9fd667733d97be073350f7df4a3dd77eb414ef355277d4f504dbce3dbedc0
 
 

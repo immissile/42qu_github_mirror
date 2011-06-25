@@ -48,6 +48,7 @@ class PoAll(_handler.ApiLoginBase):
 @urlmap('/po/rm')
 class PoRm(_handler.ApiLoginBase):
     def get(self):
+        id = int(self.get_argument('po_id'))
         user = self.current_user
         user_id = self.current_user_id
         m = po_rm(user_id, id)
@@ -78,7 +79,7 @@ class PoReply(_handler.ApiLoginBase):
 @urlmap('/po/reply/rm')
 class PoReplyRm(_handler.ApiLoginBase):
     def get(self):
-        id = int(self.get_argument('rm_id'))
+        id = int(self.get_argument('po_id'))
         user_id = self.current_user_id
         r = reply.Reply.mc_get(id)
 
@@ -89,6 +90,6 @@ class PoReplyRm(_handler.ApiLoginBase):
                 if can_rm:
                     r.rm()
 
-        self.finish({'success': can_rm})
+        self.finish({'status': can_rm})
 
 
