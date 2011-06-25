@@ -82,4 +82,16 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
         }
 
     });
+
+
+    $("#po_word_txt").blur().focus(function(){
+        var self=$(this), background="background";
+        self.css({
+            background:"transparent"
+        }).blur(function(){
+            if(self.val()==''){
+                this.style.background = null
+            }
+        })
+    })
 })()

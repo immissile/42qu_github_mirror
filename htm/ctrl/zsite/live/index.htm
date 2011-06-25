@@ -15,7 +15,7 @@ ${css.ctrl_live|n}
 <%htm:form enctype="multipart/form-data" action="/po/word">
 <img src="${ico_url_with_default(zsite.id)}">
 <div class="po_word_out2"><div class="po_word_out1"><div class="po_word">\
-<textarea name="txt"></textarea>\
+<textarea id="po_word_txt" name="txt"></textarea>\
 </div></div></div>\
 <button type="submit">发布</button>
 </%htm:form>
@@ -24,7 +24,7 @@ ${css.ctrl_live|n}
 <%def name="htm_foot()">
 <a id="feed_load" href="javascript:void(0)">加载更多</a>
 <div id="feed_loading"></div>
-<script src="${js.ctrl_feed_render}"></script>
+<script src="${js.ctrl_live}"></script>
 <script src="${js.ctrl_feed}"></script>
 </%def>
 
