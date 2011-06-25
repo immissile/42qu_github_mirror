@@ -3,15 +3,20 @@ from datetime import datetime
 %>
 <%inherit file="_po.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="_vote.htm" import="_vote"/>
 
 <%def name="po_body()">
-
-<pre>${po.name}</pre>
-<div>${datetime.fromtimestamp(po.create_time)}</div>
-<div>
+<div class="po_page">
+<pre><p>${po.name}</p>\
+<p class="po_bar">\
+<span class="L">${_vote(po.id)}</span>\
+${datetime.fromtimestamp(po.create_time)}\
+</p>\
+<p class="po_bar">\
     %if can_admin:
-        <a href="/po/rm/${po.id}?${_xsrf}">删除</a>
+<a href="/po/rm/${po.id}?${_xsrf}">删除</a>\
     %endif
-</div>
-
+</p>\
+</div>\
+</pre>
 </%def>
