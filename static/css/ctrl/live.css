@@ -13,17 +13,30 @@ border:1px solid #ccc;
 height:82px;
 border-width:1px 0 0 1px;
 }
-#po_word_txt{
-background: url(/img/gif/today.gif) no-repeat 50% 50%;
-resize: none;
+.po_word_txt{
+background:transparent;
+resize:none;
 outline:0;
 display: inline; 
 color: #000; 
 padding:0 4px;
 border:1px solid #EFEFEF;
-width: 323px; 
+*border:0;
 height:81px;
 line-height:26px; 
+}
+.po_word_out3{
+width: 323px; 
+}
+#po_word_ico{
+float:left;
+}
+#po_word_btn{
+float:right;
+margin-top:10px;
+}
+.po_word_txt_bg{
+background: url(/img/gif/today.gif) no-repeat 50% 50%;
 }
 .live_top,#main{
 margin-top:36px;
