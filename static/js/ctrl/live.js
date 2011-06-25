@@ -82,9 +82,25 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
         }
 
     });
-
-    var po_word_tip = $("#po_word_tip");
-    $("#po_word_txt").blur().val('').focus(function(){
+    /*************/
+    var po_word_tip = $("#po_word_tip"), po_word_txt = $("#po_word_txt"), po_word_max = 142;
+    function po_word_update(value){
+        var len = cnenlen(value),
+            html, diff=0;
+        if(len){
+            diff = len-po_word_max; 
+            if(diff>0){
+    html = '<span style="color:red">超出<span>'+diff+"</span>字</span>"
+            }else{
+    html = "<span>"+len+"</span>字"
+            }
+        }else{
+    html = ''
+        }
+        po_word_tip.html(html);
+        return diff
+    }
+    po_word_txt.blur().val('').focus(function(){
         var self=$(this), background="background";
         self.css({
             background:"transparent"
@@ -94,20 +110,13 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
             }
         })
     }).input(function(){
-        var len = cnenlen(this.value),
-            html,
-            max = 142;
-        if(len){
-    
-            if(len>max){
-    html = '<span style="color:red">超出<span>'+(len-max)+"</span>字</span>"
-            }else{
-    html = "<span>"+len+"</span>字"
-            }
-        }else{
-    html = ''
+        po_word_update(this.value)
+    })
+    $("#po_word_form").submit(function(){
+        if(po_word_update(po_word_txt.val())>0){
+            po_word_txt.focus()
+            return false
         }
-        po_word_tip.html(html);
     })
 
 })()
