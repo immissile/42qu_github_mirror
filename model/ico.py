@@ -6,6 +6,7 @@ from cid import CID_ICO, CID_ICO96
 from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high
 from pic import pic_new, pic_save
 import Image
+from config import FS_URL
 
 ico = Kv('ico', 0)
 ico96 = Kv('ico96', 0)
@@ -85,6 +86,7 @@ def ico_url(id):
     pic_id = ico96.get(id)
     if pic_id:
         return fs_url_jpg('96', pic_id)
+    return "%s/img/jpg/u/96.jpg"%FS_URL
 
 if __name__ == '__main__':
     print ico_url(10024803)
