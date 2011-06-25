@@ -31,7 +31,7 @@ float:left;
 }
 #po_word_btn{
 text-align:right;
-margin-top:10px;
+margin-top:9px;
 float:right;
 _clear:both;
 _width:323px;
@@ -85,4 +85,20 @@ margin-top:-6px;
 }
 #feeds .fdh{
 margin-bottom:14px;
+}
+.buzz{
+border:1px dotted #ccc;
+}
+.buzz p{
+padding:4px 14px;
+border-bottom:1px dotted #ccc;
+}
+.buzz .tr{
+border-bottom:0;
+}
+.buzz a{
+color:#2970A6;
+}
+.buzz{
+color:#999;
 }
