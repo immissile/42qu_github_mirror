@@ -1,0 +1,27 @@
+.po_word_out2{
+background: url(/img/png/comment.png) no-repeat scroll -178px 19px;
+padding-left: 19px;
+width: 341px; 
+float: right;
+}
+.po_word_out1{
+border:7px solid #eee;
+border-width:6px 7px 7px 6px;
+}
+.po_word{
+border:1px solid #ccc;
+border-width:1px 0 0 1px;
+}
+.po_word textarea{
+resize: none;
+outline:0;
+display: inline; 
+text-align: center; 
+color: #ccc; 
+border:1px solid #EFEFEF;
+border-width:1px 0 0 1px;
+width: 323px; 
+height: 80px; 
+line-height: 80px;
+
+}

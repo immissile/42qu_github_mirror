@@ -7,12 +7,19 @@ from config import FS_URL
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render, reply_textarea"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 
+<%def name="htm_head()">
+${css.ctrl_live|n}
+</%def>
 
+<div class="live_top">
 <%htm:form enctype="multipart/form-data" action="/po/word">
 <img src="${ico_url_with_default(zsite.id)}">
-<textarea name="txt"></textarea>
+<div class="po_word_out2"><div class="po_word_out1"><div class="po_word">\
+<textarea name="txt"></textarea>\
+</div></div></div>\
 <button type="submit">发布</button>
 </%htm:form>
+</div>
 
 <%def name="htm_foot()">
 <a id="feed_load" href="javascript:void(0)">加载更多</a>
