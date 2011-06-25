@@ -84,12 +84,13 @@ def client_url_encode(arguments):
 def _api_sign(arguments, secret):
     _url = client_url_encode(arguments)
     url = '&'.join((_url, 'client_secret=%s'%secret))
-#    print url
+    #print url
     return sha256(url).hexdigest(), _url
 
 #生成签名
 def api_sign(arguments, secret):
-    return _api_sign(arguments, secret)[0]
+    url = _api_sign(arguments, secret)[0]
+    return url
 
 #服务器效验URL
 def api_sign_verify(arguments):
@@ -158,7 +159,8 @@ if __name__ == '__main__':
 #    print api_client_by_user_id(1)
 #    mc_api_client_id_by_user_id.delete(1)
     client_id = 422
-    secret = '0c8bce6c05ae4f85a54d07230db1720a'
+    #secret = '0c8bce6c05ae4f85a54d07230db1720a'
+    secret = 'beafcff6034e4b26b914241235e66da4'
     user_id = 79
     mail = 'yupbank@qq.com'
     password = '6171446'
@@ -169,7 +171,8 @@ if __name__ == '__main__':
         'test':'abc',
         'test2':'123'
     }
-    #print api_sign(arguments, secret)
+
+    print api_sign_arguments(arguments,secret)
     #print 'arguments', arguments
     #sign = api_sign(arguments, secret)
     #print 'sign', sign
@@ -179,9 +182,9 @@ if __name__ == '__main__':
 
 
 
-    print api_s_url(
-        client_id, secret, 'TwAAAAJLXJwwusxtJBjpAK', '/po/rm', po_id='427'
-    )
+#    print api_s_url(
+#        client_id, secret, 'TwAAAAJLXJwwusxtJBjpAK', '/po/rm', po_id='427'
+#    )
 #  http://api.42qu.me/user/auth/login?client_id=6&mail=yuri.ted%40gmail.com&sign=6a09d455ca8f739940ae70786b2126587a62524ca5ab2dcfbf4d53e76c1fc6f0&token=f8d9fd667733d97be073350f7df4a3dd77eb414ef355277d4f504dbce3dbedc0
 
 

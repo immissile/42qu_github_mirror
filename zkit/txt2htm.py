@@ -2,13 +2,14 @@
 #coding:utf-8
 import re
 from cgi import escape
+from config import SITE_DOMAIN
 RE_LINK = re.compile(
 r'((?:https?://[\w\-]+\.)'
 r'[\w\-.%/=+#:~!,\'\*\^@]+'
 r'(?:\?[\w\-.%/=+#:~!,\'\*&$@]*)?)'
 )
 RE_SPACE = re.compile(""" ( +)""")
-RE_AT = re.compile(r'(\s|^)@([^@\(\)\s]+(\s+[^@\(\)\s]+)*)\(([a-zA-Z0-9][a-zA-A0-9\-]{,31}|-\d{8,10})\)(?=\s|$)')
+RE_AT = re.compile(r'(\s|^)@([^@\(\)\s]+(?:\s+[^@\(\)\s]+)*)\(([a-zA-Z0-9][a-zA-A0-9\-]{,31}|-\d{8,10})\)(?=\s|$)')
 RE_BOLD = re.compile(r'\*{2}([^\*].*?)\*{2}')
 
 YOUKU = """<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior" quality="high" class="vedio" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>"""
@@ -35,12 +36,12 @@ def replace_bold(match):
 
 def txt_withlink(s):
     s = escape(s)
-    if s:
-        s = s.replace('\n\n', '</p><p>')
-        s = '<p>%s</p>'%s
     s = RE_BOLD.sub(replace_bold, s)
     s = RE_LINK.sub(replace_link, s)
     s = RE_AT.sub(replace_at, s)
+    if s:
+        s = s.replace('\n\n', '</p><p>')
+        s = '<p>%s</p>'%s
     return s
 
 def txt2htm_withlink(s):
@@ -51,8 +52,8 @@ def txt2htm_withlink(s):
     return s
 
 def replace_at(match):
-    prefix, name, _, url = match.groups()
-    return '%s@<a target="_blank" href="/%s">%s</a>' % (prefix, url, name)
+    prefix, name, url = match.groups()
+    return '%s@<a target="_blank" href="//%s.%s">%s</a>' % (prefix, url, SITE_DOMAIN, name)
 
 
 if __name__ == '__main__':

@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS `api_client`;
 CREATE TABLE `api_client` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL,
-  `secret` binary(16) NOT NULL,
+  `serect` binary(16) NOT NULL,
   `name` varbinary(255) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=binary;
@@ -274,7 +274,7 @@ DROP TABLE IF EXISTS `po`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `po` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `name` varchar(142) character set utf8 NOT NULL,
+  `name` varchar(512) character set utf8 collate utf8_bin NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `cid` tinyint(3) unsigned NOT NULL,
   `rid` int(10) unsigned NOT NULL default '0',
@@ -283,7 +283,7 @@ CREATE TABLE `po` (
   PRIMARY KEY  (`id`),
   KEY `Index_2` (`user_id`,`cid`,`state`,`create_time`),
   KEY `Index_3` (`user_id`,`state`,`create_time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `po_pic`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

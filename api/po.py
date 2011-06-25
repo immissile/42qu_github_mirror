@@ -28,7 +28,7 @@ class PoWord(_handler.ApiLoginBase):
 class PoAll(_handler.ApiLoginBase):
     def get(self):
         user_id = self.current_user_id
-        po_id = int(self.get_argument('iterm_id'))
+        po_id = int(self.get_argument('id'))
         po = Po.mc_get(po_id)
         itr = []
         if po.user_id == user_id:
@@ -41,14 +41,14 @@ class PoAll(_handler.ApiLoginBase):
                 re['timestamp'] = reply.create_time
                 itr.append(re)
         self.finish({
-                'iterm':itr    
+                'items':itr    
             })
 
 
 @urlmap('/po/rm')
 class PoRm(_handler.ApiLoginBase):
     def get(self):
-        id = int(self.get_argument('po_id'))
+        id = int(self.get_argument('id'))
         user = self.current_user
         user_id = self.current_user_id
         m = po_rm(user_id, id)
@@ -60,8 +60,9 @@ class PoRm(_handler.ApiLoginBase):
 @urlmap('/po/reply')
 class PoReply(_handler.ApiLoginBase):
     def get(self):
-        id = int(self.get_argument('po_id'))
+        id = int(self.get_argument('id'))
         po = Po.mc_get(id)
+        m = None
         if po:
             user = self.current_user
             if user_can_reply(user):
@@ -79,17 +80,16 @@ class PoReply(_handler.ApiLoginBase):
 @urlmap('/po/reply/rm')
 class PoReplyRm(_handler.ApiLoginBase):
     def get(self):
-        id = int(self.get_argument('po_id'))
+        id = int(self.get_argument('id'))
         user_id = self.current_user_id
         r = reply.Reply.mc_get(id)
-
+        can_rm = None
         if r:
             po = Po.mc_get(r.rid)
             if po:
                 can_rm = r.can_rm(user_id) or po.can_admin(user_id)
                 if can_rm:
                     r.rm()
-
         self.finish({'status': can_rm})
 
 
