@@ -41,7 +41,7 @@ class PoAll(_handler.ApiLoginBase):
                 re['timestamp'] = reply.create_time
                 itr.append(re)
         self.finish({
-                'items':itr    
+                'items':itr
             })
 
 
@@ -56,7 +56,7 @@ class PoRm(_handler.ApiLoginBase):
                 'status':m
             })
 
-        
+
 @urlmap('/po/reply')
 class PoReply(_handler.ApiLoginBase):
     def get(self):
