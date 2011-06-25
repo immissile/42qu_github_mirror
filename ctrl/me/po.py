@@ -46,7 +46,7 @@ class PoWord(LoginBase):
     def post(self):
         current_user = self.current_user
         txt = self.get_argument('txt', '')
-        if txt.strip():
+        if txt:
             po_word_new(current_user.id, txt)
         return self.redirect('/live')
 
@@ -169,11 +169,40 @@ class Edit(LoginBase):
         self.redirect('/note/edit/%s' % id)
 
 
-
-
 @urlmap('/word/edit/(\d+)')
 class Word(EditBase):
     cid = CID_WORD
+    def post(self, id):
+        user_id = self.current_user_id
+        po = self.po(user_id, id)
+        if po is None:
+            return
+        txt = self.get_argument('txt', '')
+        if not txt:
+            return self.get(id)
+
+        secret = self.get_argument('secret', None)
+        if secret:
+            state = STATE_SECRET
+        else:
+            state = STATE_ACTIVE
+
+        if cnenlen(txt) > 140:
+            po.name = '回复%s' % po.question.name
+            po.save()
+            po.txt_set(txt)
+        else:
+            po.name = txt
+            po.save()
+        po_state_set(po, state)
+
+        if po.cid == CID_NOTE:
+            link = '/po/tag/%s' % id
+            zsite_tag_new_by_tag_id(po)
+        else:
+            link = po.link
+        self.redirect(link)
+
 
 
 @urlmap('/note/edit/(\d+)')

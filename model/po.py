@@ -37,6 +37,12 @@ class Po(McModel, ReplyMixin):
             h = pic_htm(h, user_id, id)
         return h
 
+    @property
+    def question(self):
+        rid = self.rid
+        if rid:
+            return Po.mc_get(rid)
+
     def txt_set(self, txt):
         id = self.id
         txt_new(id, txt)
