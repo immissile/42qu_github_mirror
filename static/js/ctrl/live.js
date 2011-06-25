@@ -94,4 +94,11 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
             }
         })
     })
+/*
+ * .bind(
+        'input',function(){
+            alert(1)
+        })
+    )
+*/
 })()

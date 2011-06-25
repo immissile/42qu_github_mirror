@@ -99,7 +99,7 @@ jQuery.extend({
         return jQuery.isotime(timestamp)
     } 
 })
-})(jQuery)
+})(jQuery);
 (function (){
 var RE_CNCHAR = /[^\x00-\x80]/g;
 
@@ -114,5 +114,4 @@ function _cnenlen(str) {
 cnenlen = function(str) {  
         return Math.ceil(_cnenlen($.trim(str)) / 2)  
 } 
-})()
-
+})();
