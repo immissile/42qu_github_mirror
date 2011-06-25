@@ -7,22 +7,31 @@ from config import FS_URL
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render, reply_textarea"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 
+<%def name="htm_head()">
+${css.ctrl_live|n}
+</%def>
 
-<%htm:form enctype="multipart/form-data" action="/po/word">
-<img src="${ico_url_with_default(zsite.id)}">
-<textarea name="txt"></textarea>
-<button type="submit">发布</button>
-</%htm:form>
 
 <%def name="htm_foot()">
 <a id="feed_load" href="javascript:void(0)">加载更多</a>
 <div id="feed_loading"></div>
-<script src="${js.ctrl_feed_render}"></script>
+<script src="${js.ctrl_live}"></script>
 <script src="${js.ctrl_feed}"></script>
 </%def>
 
-%if current_user_id == zsite_id:
-${buzz_show(zsite_id)}
+
+
+%if zsite_id == current_user_id:
+<div class="live_top G c">
+<%htm:form className="G2" action="/po/word">
+<a href="${current_user.link}"><img src="${ico_url_with_default(zsite.id)}"></a>\
+<div class="po_word_out2"><div class="po_word_out1"><div class="po_word">\
+<textarea id="po_word_txt" name="txt"></textarea>\
+</div></div></div>\
+<span class="btnw R"><button class="btn" type="submit">输出</button></span>
+</%htm:form>
+<div class="G2">${buzz_show(zsite_id)}</div>
+</div>
 %endif
 <div id="main">
 <div id="feeds">

@@ -1,0 +1,31 @@
+.po_word_out2{
+background: url(/img/png/comment.png) no-repeat scroll -178px 19px;
+padding-left: 19px;
+width: 341px; 
+float: right;
+}
+.po_word_out1{
+border:7px solid #eee;
+border-width:6px 7px 7px 6px;
+}
+.po_word{
+border:1px solid #ccc;
+height:82px;
+border-width:1px 0 0 1px;
+}
+#po_word_txt{
+background: url(/img/gif/today.gif) no-repeat 50% 50%;
+resize: none;
+outline:0;
+display: inline; 
+color: #000; 
+padding:0 4px;
+border:1px solid #EFEFEF;
+width: 323px; 
+height:81px;
+line-height:26px; 
+}
+.live_top{
+margin-top:36px;
+margin-bottom:36px;
+}
