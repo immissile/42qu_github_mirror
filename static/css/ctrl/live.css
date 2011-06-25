@@ -25,7 +25,6 @@ width: 323px;
 height:81px;
 line-height:26px; 
 }
-.live_top{
+.live_top,#main{
 margin-top:36px;
-margin-bottom:36px;
 }
