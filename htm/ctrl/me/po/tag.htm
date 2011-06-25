@@ -8,8 +8,15 @@ from datetime import datetime
 ${css.ctrl_po_tag|n}
 </%def>
 
-<div class="tag_title"><a href="/po/edit/${po.id}">${po.name}</a></div>
 <%htm:form className="tag_form">
+<div class="tag_title">
+    % if title:
+    <a href="/po/edit/${po.id}">编辑</a>
+    <input type="text" name="title" value="${po.name}">
+    % else:
+    <a href="/po/edit/${po.id}">${po.name}</a>
+    % endif
+</div>
 <div class="tag_admin"><span class="L">请选择分类</span> <a href="javascript:tag(this);void(0)">管理</a></div>
 <div class="tag_line"> <input name="tag" type="radio" value="0" id="tag0">
 <input class="tag_new" placeholder="新建 ..." name="name" value="" autocomplete="off"></div>
