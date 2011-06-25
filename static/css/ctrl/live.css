@@ -58,3 +58,8 @@ padding-bottom:48px;
 #feeds .G3{
 overflow:hidden;
 }
+#feeds .G1{
+background:url(/img/gif/comment.gif) no-repeat -52px 28px;
+margin-left:-2px;
+padding-left:34px;
+}
