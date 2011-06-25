@@ -37,7 +37,7 @@ class UserFeed(_handler.ApiBase):
                 pass
             data.append(weibo)
         self.finish({
-            'item':data
+            'items':data
         })
 
 
