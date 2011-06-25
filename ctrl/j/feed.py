@@ -8,6 +8,7 @@ from yajl import dumps
 from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
 from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN
 from model.feed import feed_rt, feed_rt_rm, feed_rt_id
+from model.ico import pic_url_with_default
 
 
 @urlmap('/j/feed/up1/(\d+)')
@@ -52,7 +53,9 @@ class Feed(JLoginBase):
         result = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
         for i in result:
             id = i[0]
+            zsite_id = i[3]
             i.insert(FEED_TUPLE_DEFAULT_LEN, vote_state(current_user_id, id))
+            i.insert(FEED_TUPLE_DEFAULT_LEN, pic_url_with_default(zsite_id, "219"))
             #i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
         #self.finish(result)
         result = dumps(result)
