@@ -157,11 +157,11 @@ if __name__ == '__main__':
 #    print ApiClient.where(user_id=1).order_by('id desc').col_list()
 #    print api_client_by_user_id(1)
 #    mc_api_client_id_by_user_id.delete(1)
-    client_id = 73
-    serect = 'beafcff6034e4b26b914241235e66da4'
-    user_id = 74
-    mail = 'test@42qu.com'
-    password = '123456'
+    client_id = 422
+    serect = '0c8bce6c05ae4f85a54d07230db1720a'
+    user_id = 79
+    mail = 'yupbank@qq.com'
+    password = '6171446'
 
 
     arguments = {
@@ -169,17 +169,18 @@ if __name__ == '__main__':
         'test':'abc',
         'test2':'123'
     }
-#    print api_sign(arguments, serect)
+    #print api_sign(arguments, serect)
     #print 'arguments', arguments
     #sign = api_sign(arguments, serect)
     #print 'sign', sign
     #arguments['sign'] = sign
     #api_sign_verify(arguments)
+    #print api_session_new(client_id, user_id)
 
 
 
     print api_s_url(
-        client_id, serect, 'SgAAAA7QQDfo6x7oUPcjSA', '/po/rm', po_id='abc', test2='123'
+        client_id, serect, 'TwAAAAJLXJwwusxtJBjpAK', '/po/rm', po_id='427'
     )
 #  http://api.42qu.me/user/auth/login?client_id=6&mail=yuri.ted%40gmail.com&sign=6a09d455ca8f739940ae70786b2126587a62524ca5ab2dcfbf4d53e76c1fc6f0&token=f8d9fd667733d97be073350f7df4a3dd77eb414ef355277d4f504dbce3dbedc0
 
