@@ -7,7 +7,7 @@ from datetime import datetime
 
 <%def name="po_body()">
 <div class="po_page">
-<pre><p>${po.name}</p>\
+<pre><p><a href="${zsite.link}">${zsite.name}</a> : ${po.name}</p>\
 <p class="po_bar">\
 <span class="L">${_vote(po.id)}</span>\
 ${datetime.fromtimestamp(po.create_time)}\
