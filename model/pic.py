@@ -30,10 +30,6 @@ def pic_new(cid, user_id):
 def pic_save(pic_id, pic):
     fs_set_jpg('0', pic_id, pic)
 
-def pic_need_review(cid):
-    qs = Pic.where(cid=cid, state=0, admin_id=0)[:1]
-    return len(qs)
-
 def _pic_list_to_review_by_cid(cid, start_id, limit):
     return Pic.where(cid=cid, state=1, admin_id=0).where('id>%s' % start_id).order_by('id')[:limit]
 
@@ -64,7 +60,7 @@ def pic_ico_to_review(limit):
     return list(pic_ico_to_review_iter(limit))
 
 def pic_to_review_count_by_cid(cid):
-    return Pic.where(cid=cid, state=0, admin_id=0).count()
+    return Pic.where(cid=cid, state=1, admin_id=0).count()
 
 def pic_list_to_review_by_cid(cid, limit):
     if cid == CID_ICO:

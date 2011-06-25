@@ -5,17 +5,28 @@ from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from vote import vote_up_count, vote_down_count
 from zsite import Zsite
 
+
 class Rank(McModel):
     pass
 
+
+mc_rank_po_id_count = McCache('RankPoIdCount.%s')
+
+@mc_rank_po_id_count('{to_id}_{cid}')
+def rank_po_id_count(to_id, cid):
+    qs = Rank.where(to_id=to_id)
+    if int(cid):
+        qs = qs.where(cid=cid)
+    return qs.count()
+
 mc_rank_po_id_list = McLimitA('RankPoIdList.%s', 512)
 
-rank_po_id_count = McNum(lambda to_id, cid: Rank.where(to_id=to_id, cid=cid).count(), 'RankPoIdCount.%s')
-
 @mc_rank_po_id_list('{to_id}_{cid}_{order}')
-def rank_po_id_list(to_id, cid, order, offset=0, limit=512):
-    qs = Rank.where(to_id=to_id, cid=cid).order_by('%s desc' % order)
-    return qs.col_list(limit, offset, 'po_id')
+def rank_po_id_list(to_id, cid, order, limit=512, offset=0):
+    qs = Rank.where(to_id=to_id)
+    if int(cid):
+        qs = qs.where(cid=cid)
+    return qs.order_by('%s desc' % order).col_list(limit, offset, 'po_id')
 
 #mc_rank_to_id_by_po_id_cid = McCache('RankToIdByPoIdCid.%s')
 #
@@ -25,10 +36,17 @@ def rank_po_id_list(to_id, cid, order, offset=0, limit=512):
 #        return to_id
 #    return 0
 
-def rank_new(po, to_id, cid=None):
+mc_rank_id_by_po_id_to_id = McCache('RankIdByPoIdToId.%s')
+
+@mc_rank_id_by_po_id_to_id('{po_id}_{to_id}')
+def rank_id_by_po_id_to_id(po_id, to_id):
+    r = Rank.get(po_id=po_id, to_id=to_id)
+    if r:
+        return r.id
+    return 0
+
+def rank_new(po, to_id, cid):
     po_id = po.id
-    if cid is None:
-        cid = po.cid
     r = Rank(po_id=po_id, from_id=po.user_id, to_id=to_id, cid=cid)
     up = vote_up_count(po_id)
     down = vote_down_count(po_id)
@@ -36,14 +54,48 @@ def rank_new(po, to_id, cid=None):
     r.confidence = confidence(up, down)
     r.save()
     mc_flush_cid(to_id, cid)
+    mc_rank_id_by_po_id_to_id.set('%s_%s' % (po_id, to_id), r.id)
 #    mc_rank_to_id_by_po_id_cid.set('%s_%s' % (po_id, cid), to_id)
     return r
 
-def mc_flush_cid(to_id, cid):
+def rank_rm_all(po_id):
+    for r in Rank.where(po_id=po_id):
+        r.delete()
+        mc_flush_cid(t.to_id, r.cid)
+        mc_rank_id_by_po_id_to_id.set('%s_%s' % (po_id, r.to_id), 0)
+
+def rank_rm(po_id, to_id):
+    for r in Rank.where(po_id=po_id, to_id=to_id):
+        r.delete()
+        mc_flush_cid(to_id, r.cid)
+    mc_rank_id_by_po_id_to_id.set('%s_%s' % (po_id, to_id), 0)
+
+def _rank_mv(r, cid):
+    o_cid = r.cid
+    to_id = r.to_id
+    if o_cid != cid:
+        r.cid = cid
+        r.save()
+        _mc_flush_cid(to_id, o_cid)
+        _mc_flush_cid(to_id, cid)
+
+def rank_mv(po_id, to_id, cid):
+    id = rank_id_by_po_id_to_id(po_id, to_id)
+    r = Rank.mc_get(id)
+    if r:
+        _rank_mv(r, cid)
+
+def _mc_flush_cid(to_id, cid):
     for order in ('hot', 'confidence'):
         mc_rank_po_id_list.delete('%s_%s_%s' % (to_id, cid, order))
-    rank_po_id_count.delete('%s_%s' % (to_id, cid))
+    mc_rank_po_id_count.delete('%s_%s' % (to_id, cid))
 
+def mc_flush_cid(to_id, cid):
+    for i in set([0, cid]):
+        _mc_flush_cid(to_id, i)
+
+if __name__ == '__main__':
+    pass
 ################################################################################
 #mc_rid_list_by_po_id = McCacheA('RIdListByPoId:%s')
 #
@@ -153,6 +205,3 @@ def mc_flush_cid(to_id, cid):
 #    TEAM_NOTE_TOTAL_DIC[int(cid)].delete(zsite_id)
 #    for order in ORDER_DIC:
 #        mc_team_note_id_list.delete('%s_%s_%s' % (zsite_id, cid, order))
-
-if __name__ == '__main__':
-    pass

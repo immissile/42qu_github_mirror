@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
+from cid import CID_WORD, CID_NOTE, CID_QUESTION
 from feed import feed_new, mc_feed_tuple, feed_rm
 from gid import gid
 from spammer import is_same_post
@@ -37,6 +37,12 @@ class Po(McModel, ReplyMixin):
             h = pic_htm(h, user_id, id)
         return h
 
+    @property
+    def question(self):
+        rid = self.rid
+        if rid:
+            return Po.mc_get(rid)
+
     def txt_set(self, txt):
         id = self.id
         txt_new(id, txt)
@@ -68,7 +74,6 @@ class Po(McModel, ReplyMixin):
         feed_new(self.id, self.user_id, self.cid)
 
     def can_view(self, user_id):
-        #print self.state , STATE_DEL, "!!!"
         if self.state <= STATE_DEL:
             return False
         if self.state == STATE_SECRET:
@@ -118,7 +123,10 @@ def po_rm(user_id, id):
         feed_rm(id)
         from zsite_tag import zsite_tag_rm_by_po_id
         zsite_tag_rm_by_po_id(id)
+        from rank import rank_rm_all
+        rank_rm_all(id)
         mc_flush(user_id)
+        return True
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
     if name and not is_same_post(user_id, name):

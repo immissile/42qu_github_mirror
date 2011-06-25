@@ -72,9 +72,11 @@ ${friendly_time(i.create_time)}\
 <%def name="reply_textarea(action)">
 <%htm:form id="reply_form" action="${action}">\
 ${htm.reply_textarea()}\
+<div class="btns">\
 <input type="checkbox" name="secret" id="secret">\
 <label for="secret">悄悄话</label>\
-<button type="submit">此致 , 敬礼</button>\
+<span class="btnw"><button class="btn" type="submit">此致 , 敬礼</button></span>\
+</div>\
 </%htm:form>\
 <script>$("#reply_form").elastic_login()</script>\
 </%def>

@@ -17,7 +17,7 @@ def reset_database(key, host, port, name, user, password):
         table = input.read()
     sql = [
         cmd + [
-'-e' , 'drop database %s;create database %s character set binary;'%(name, name)
+'-e', 'drop database %s;create database %s character set binary;'%(name, name)
         ],
         cmd + [
             name, '-e', table

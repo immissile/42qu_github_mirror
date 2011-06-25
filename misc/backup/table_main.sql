@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS `api_client`;
 CREATE TABLE `api_client` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL,
-  `serect` binary(16) NOT NULL,
+  `secret` binary(16) NOT NULL,
   `name` varbinary(255) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=binary;
@@ -326,9 +326,11 @@ CREATE TABLE `rank` (
   `hot` mediumint(9) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `po_id` (`po_id`,`to_id`),
-  KEY `to_id` (`to_id`,`cid`,`confidence`),
   KEY `from_id` (`from_id`),
-  KEY `to_id_hot` (`to_id`,`cid`,`hot`)
+  KEY `index4` (`to_id`,`confidence`),
+  KEY `index5` (`to_id`,`hot`),
+  KEY `index6` (`to_id`,`cid`,`confidence`),
+  KEY `index7` (`to_id`,`cid`,`hot`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rate`;
@@ -588,10 +590,9 @@ CREATE TABLE `zsite_tag_po` (
   `zsite_tag_id` int(10) unsigned NOT NULL default '0',
   `po_id` int(10) unsigned NOT NULL,
   `zsite_id` int(10) unsigned NOT NULL,
-  `state` int(10) unsigned NOT NULL default '10',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `po_id` USING BTREE (`po_id`,`zsite_id`),
-  KEY `zsite_tag_id` (`zsite_tag_id`,`po_id`,`state`)
+  UNIQUE KEY `po_id` USING BTREE (`po_id`),
+  KEY `zsite_tag_id` USING BTREE (`zsite_tag_id`,`po_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

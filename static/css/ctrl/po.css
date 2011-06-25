@@ -1,15 +1,56 @@
-.note_page h1{
+.po_page h1{
     text-align:center;
     font-size:32px;
     margin:48px 0;
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
 }
-.note_page pre{
+.po_page pre{
     width:721px;
     margin:auto;
 }
-.note_page pre p{
+.po_page pre p{
     line-height:28px;
     padding-bottom:14px;
+}
+#txt_form{
+text-align:right;
+}
+#reply_txt{
+text-align:left;
+width:701px;
+padding:6px 8px;
+margin:0 auto 8px;
+height:100px;
+border:1px solid #ccc;
+}
+#reply_list, #txt_form{
+width:721px;
+margin:0 auto 32px;
+*margin:0 auto;;
+}
+#reply_list{
+*margin-top:-32px;
+}
+.rm{
+float:left;
+color:#999;
+}
+.reply_at{
+display:inline-block;
+width:12px;
+height:11px;
+margin-left:3px;
+vertical-align:0px;
+*vertical-align:2px;
+background:url(/img/gif/reply.gif) no-repeat;
+}
+.reply_a{
+margin-right:48px;
+vertical-align:10px;
+font-size:16px;
+}
+.po_bar{
+text-align:right;
+*zoom:1;
 }

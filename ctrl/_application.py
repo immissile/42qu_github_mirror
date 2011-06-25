@@ -9,11 +9,20 @@ application = tornado.wsgi.WSGIApplication(
     xsrf_cookies=True,
 )
 
+RE_SITE_DOMAIN = SITE_DOMAIN.replace('.', r"\.")
+
+
+import _urlmap.hero
+application.add_handlers(
+    'hero\.%s'%RE_SITE_DOMAIN,
+    handlers(_urlmap.hero)
+)
+
 
 import _urlmap.main
 import _urlmap.auth
 application.add_handlers(
-    SITE_DOMAIN.replace('.', r"\."),
+    RE_SITE_DOMAIN,
     handlers(_urlmap.main, _urlmap.auth)
 )
 

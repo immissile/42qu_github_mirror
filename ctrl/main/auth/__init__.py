@@ -104,10 +104,10 @@ class Reg(NoLoginBase):
 @urlmap('/login')
 class Login(NoLoginBase):
     def get(self):
-        if self.get_cookie("E"):
-            url = "/auth/login"
+        if self.get_cookie('E'):
+            url = '/auth/login'
         else:
-            url = "/auth/reg"
+            url = '/auth/reg'
         self.redirect(url)
 
 

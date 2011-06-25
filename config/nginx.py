@@ -15,7 +15,7 @@ with open(join(dirname(CONFIG_DIR), 'template/nginx.conf')) as template:
     TEMPLATE = Template(template.read())
 
 def render_conf(name, base_path, o, port_list=[], zsite_port_list=[]):
-    fs_path = base_path+"/static"
+    fs_path = base_path+'/static'
     if not port_list:
         port_list = [o.PORT]
     if not zsite_port_list:
@@ -25,7 +25,7 @@ def render_conf(name, base_path, o, port_list=[], zsite_port_list=[]):
         port_list=port_list,
         zsite_port_list=zsite_port_list,
         fs_path=fs_path,
-        base_path = base_path
+        base_path=base_path
     )
     path = join(
             PREFIX, 'config/nginx/%s'%name

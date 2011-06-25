@@ -23,7 +23,7 @@ class Reply(JLoginBase):
                 result['can_not_reply'] = True
             po = Po.mc_get(id)
             if po.can_view(user_id):
-                po.reply_new(user, txt, po.state)    
+                po.reply_new(user, txt, po.state)
         self.finish(result)
 
     post = get
