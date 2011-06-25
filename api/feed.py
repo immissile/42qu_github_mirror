@@ -19,32 +19,23 @@ class UserFeed(_handler.ApiBase):
             id = i[0]
             cid = i[4]
             weibo = {}
-
-
             weibo['vote_state'] = vote_state(user_id, id)
-
-
             weibo['id'] = i[0]
             weibo['user_name'] = i[1][0]
             weibo['user_link'] = 'http:%s'%i[1][1]
             if i[2]:
                 weibo['rt_list'] = i[2]
-
             weibo['user_id'] = i[3]
             weibo['cid'] = i[4]
             weibo['reply_count'] = i[5]
             weibo['timestamp'] = i[6]
             weibo['name'] = i[7]
             weibo['vote'] = i[8]
-
             if cid == CID_NOTE:
                 weibo['txt'] = i[9]
             elif cid == CID_QUESTION:
                 pass
-
-
             data.append(weibo)
-
         self.finish({
             'item':data
         })

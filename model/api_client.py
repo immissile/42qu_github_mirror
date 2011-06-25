@@ -169,7 +169,7 @@ if __name__ == '__main__':
         'test':'abc',
         'test2':'123'
     }
-    print api_sign(arguments, serect)
+#    print api_sign(arguments, serect)
     #print 'arguments', arguments
     #sign = api_sign(arguments, serect)
     #print 'sign', sign

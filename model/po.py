@@ -120,6 +120,7 @@ def po_rm(user_id, id):
         from rank import rank_rm_all
         rank_rm_all(id)
         mc_flush(user_id)
+        return True
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
     if name and not is_same_post(user_id, name):
