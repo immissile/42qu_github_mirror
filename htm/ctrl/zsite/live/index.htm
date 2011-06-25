@@ -11,13 +11,13 @@ from config import FS_URL
 ${css.ctrl_live|n}
 </%def>
 
-<div class="live_top">
-<%htm:form enctype="multipart/form-data" action="/po/word">
+<div class="live_top G c">
+<%htm:form className="G2" action="/po/word">
 <img src="${ico_url_with_default(zsite.id)}">
 <div class="po_word_out2"><div class="po_word_out1"><div class="po_word">\
 <textarea id="po_word_txt" name="txt"></textarea>\
 </div></div></div>\
-<button type="submit">发布</button>
+<span class="btnw R"><button class="btn" type="submit">输出</button></span>
 </%htm:form>
 </div>
 
