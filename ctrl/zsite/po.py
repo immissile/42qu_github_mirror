@@ -145,6 +145,9 @@ class Question(PoOne):
 
         if len(txt) > 140:
             name = '回复%s' % question.name
+        else:
+            name, txt = txt, None
+
         po = po_answer_new(user_id, id, name, txt, state)
 
         if po:

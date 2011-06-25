@@ -1,5 +1,5 @@
 <%!
-
+from model.ico import ico_url_with_default
 from config import FS_URL
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
@@ -9,8 +9,9 @@ from config import FS_URL
 
 
 <%htm:form enctype="multipart/form-data" action="/po/word">
+<img src="${ico_url_with_default(zsite.id)}">
 <textarea name="txt"></textarea>
-<button type="submit">提交</button>
+<button type="submit">发布</button>
 </%htm:form>
 
 <%def name="htm_foot()">
@@ -18,7 +19,6 @@ from config import FS_URL
 <div id="feed_loading"></div>
 <script src="${js.ctrl_feed_render}"></script>
 <script src="${js.ctrl_feed}"></script>
-
 </%def>
 
 %if current_user_id == zsite_id:

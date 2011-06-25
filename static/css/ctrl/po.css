@@ -1,15 +1,15 @@
-.note_page h1{
+.po_page h1{
     text-align:center;
     font-size:32px;
     margin:48px 0;
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
 }
-.note_page pre{
+.po_page pre{
     width:721px;
     margin:auto;
 }
-.note_page pre p{
+.po_page pre p{
     line-height:28px;
     padding-bottom:14px;
 }
@@ -27,26 +27,10 @@ border:1px solid #ccc;
 #reply_list, #txt_form{
 width:721px;
 margin:0 auto 32px;
+*margin:0 auto;;
 }
-.reply_s{
-box-shadow: -1px 2px 2px #f3f3f3;
-margin:32px 0;
-background:#fafafa;
-padding:1px;
-}
-#reply_list .reply_div{
-background:#fff;
-border:1px solid #EDEFF0;
-padding:16px 20px 12px;
-}
-#reply_list .bar{
-text-align:right;
-padding-top:10px;
-border-top:1px solid #eee;
-margin-top:14px;
-}
-#reply_list .bar a{
-color:#999;
+#reply_list{
+*margin-top:-32px;
 }
 .rm{
 float:left;
@@ -61,4 +45,12 @@ vertical-align:0px;
 *vertical-align:2px;
 background:url(/img/gif/reply.gif) no-repeat;
 }
-
+.reply_a{
+margin-right:48px;
+vertical-align:10px;
+font-size:16px;
+}
+.po_bar{
+text-align:right;
+*zoom:1;
+}

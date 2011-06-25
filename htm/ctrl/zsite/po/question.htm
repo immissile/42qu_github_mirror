@@ -1,11 +1,11 @@
 <%!
 from datetime import datetime
-from model.vote import vote_state, vote_count
 from model.po_question import answer_id_get, po_answer_list
 from model.state import STATE_SECRET, STATE_DEL
 from model.cid import CID_NOTE
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="_vote.htm" import="_vote"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%def name="htm_title()">
@@ -20,25 +20,32 @@ ${css.ctrl_po|n}
 <%
 po_id = str(po.id)
 po_state = po.state
+zsite_link = zsite.link
 %>
-
+<div class="po_page">
 %if can_view:
 <h1>${po.name}</h1>
-<pre>${po.htm|n}</pre>
-<div>${datetime.fromtimestamp(po.create_time)}</div>
-<div>
-    %if can_admin:
-        <a href="/question/edit/${po_id}">编辑</a>
-    %endif
-    <a href="${po.link_reply}">${po.reply_count or ''}评注</a> 
+<pre>\
+<p class="tr">\
+<span class="L"><a href="${zsite_link}">${zsite.name}</a> 问:</span>\
+<a class="c9" href="${zsite_link}/tag/${zsite_tag_id}">${tag_name}</a>\
+</p>\
+${po.htm|n}\
+<p class="po_bar">\
+<span class="L">${_vote(po_id)}</span>\
+${datetime.fromtimestamp(po.create_time)}</p>\
+<p class="po_bar">\
+<span class="L">\
+<a href="${po.link_reply}#reply_txt">${po.reply_count or ''}评注</a></span>\
+%if can_admin:
+<a href="/question/edit/${po_id}">编辑</a>\
+%endif
+ </p>\
+</pre>\
 </div>
 
-<span class="vote${vote_state(current_user_id, po_id)}" id="vote${po_id}">
-<a class="down" href="javascript:vote_down(${po_id});void(0)">-</a>
-<span class="num">${vote_count(po_id)}</span>
-<a class="up" href="javascript:vote_up(${po_id});void(0)">+</a>
-</span>
 
+<div id="reply_list">
 %for answer in po_answer_list(po_id):
 <%
 answer_id = answer.id
@@ -60,10 +67,10 @@ user = answer.user
 %endif
 </div>
 %endfor
-
+</div>
     %if po_state > STATE_SECRET and not answer_id_get(current_user_id, po_id):
-<%htm:form id="answer" action="/question/${po_id}">
-<textarea id="txt" name="txt"></textarea>
+<%htm:form id="txt_form" action="/question/${po_id}">
+${htm.reply_textarea()}
 <div class="btns">
 <span class="btnw"><button class="btn" type="submit">回答</button></span>
 </div>
@@ -80,6 +87,6 @@ user = answer.user
     %endif
 </div>
 %endif
-
+</div>
 <script src="${js.ctrl_po_po}"></script>
 <script src="${js.ctrl_feed}"></script>

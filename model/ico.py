@@ -6,10 +6,13 @@ from cid import CID_ICO, CID_ICO96
 from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high
 from pic import pic_new, pic_save
 import Image
+from config import FS_URL
 
 ico = Kv('ico', 0)
 ico96 = Kv('ico96', 0)
 ico_pos = Kv('ico_pos')
+
+PIC_FULL_SIZE = 721
 
 #show = PicShow.mc_get(id)
 #if x is not None and y is not None and size and show:
@@ -38,13 +41,12 @@ def ico_pos_new(id, pos):
     if not f:
         return
 
-    pic = picopen(fs_get_jpg('1', f))
+    pic = picopen(fs_get_jpg(PIC_FULL_SIZE, f))
     if not pic:
         return
 
     pic_id = pic_new(CID_ICO96, id)
-    pos_tuple = pos.split('-')
-
+    pos_tuple = pos.split('_')
     if len(pos_tuple) == 3:
         x, y, size = map(int, pos_tuple)
         if size:
@@ -67,8 +69,8 @@ def ico_new(id, pic):
     return pic_id
 
 def ico_save(pic_id, pic):
-    p1 = pic_fit_height_if_high(pic, 721, 406)
-    fs_set_jpg('721', pic_id, p1)
+    p1 = pic_fit_height_if_high(pic, PIC_FULL_SIZE, 406)
+    fs_set_jpg(PIC_FULL_SIZE, pic_id, p1)
 
     p2 = pic_fit_height_if_high(pic, 470, 264)
     fs_set_jpg('470', pic_id, p2)
@@ -86,5 +88,11 @@ def ico_url(id):
     if pic_id:
         return fs_url_jpg('96', pic_id)
 
+def ico_url_with_default(id):
+    url = ico_url(id)
+    return url or "%s/img/jpg/u/96.jpg"%FS_URL
+
+
 if __name__ == '__main__':
-    print ico_url(10024803)
+    print ico_url(399)
+    print pic_url(399)
