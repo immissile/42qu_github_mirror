@@ -20,8 +20,7 @@ display: inline;
 text-align: center; 
 color: #ccc; 
 border:1px solid #EFEFEF;
-border-width:1px 0 0 1px;
-width: 323px; 
+width: 325px; 
 height: 80px; 
 line-height: 80px;
 }
