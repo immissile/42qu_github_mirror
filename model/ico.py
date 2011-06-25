@@ -13,7 +13,7 @@ ico96 = Kv('ico96', 0)
 ico_pos = Kv('ico_pos')
 
 PIC_FULL_SIZE = 721
-ICO96_DEFAULT = "%s/img/jpg/u/96.jpg"%FS_URL
+ICO96_DEFAULT = '%s/img/jpg/u/96.jpg'%FS_URL
 
 #show = PicShow.mc_get(id)
 #if x is not None and y is not None and size and show:

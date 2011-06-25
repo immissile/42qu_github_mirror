@@ -172,7 +172,7 @@ if __name__ == '__main__':
         'test2':'123'
     }
 
-    print api_sign_arguments(arguments,secret)
+    print api_sign_arguments(arguments, secret)
     #print 'arguments', arguments
     #sign = api_sign(arguments, secret)
     #print 'sign', sign
