@@ -95,7 +95,7 @@ class UserFollowing(_handler.ApiBase):
 class UserFollow(_handler.LoginBase):
     def get(self):
         user_id = self.current_user_id
-        follow_id = int(self.get_argument('to_id'))
+        follow_id = int(self.get_argument('id'))
         res = follow_new(user_id, follow_id)
         self.finish({
             'status':res
@@ -107,7 +107,7 @@ class UserFollow(_handler.LoginBase):
 class UserFollowRm(_handler.LoginBase):
     def get(self):
         user_id = self.current_user_id
-        unfollow_id = int(self.get_argument('to_id'))
+        unfollow_id = int(self.get_argument('id'))
         res = follow_rm(user_id, unfollow_id)
         self.finish({
             'status':res
