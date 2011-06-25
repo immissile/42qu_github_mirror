@@ -46,8 +46,7 @@ def ico_pos_new(id, pos):
         return
 
     pic_id = pic_new(CID_ICO96, id)
-    pos_tuple = pos.split('-')
-
+    pos_tuple = pos.split('_')
     if len(pos_tuple) == 3:
         x, y, size = map(int, pos_tuple)
         if size:
