@@ -34,7 +34,7 @@ ICO96_DEFAULT = "%s/img/jpg/u/96.jpg"%FS_URL
 #    mc_flush(show.man_id)
 #fs_file_jpg
 
-def ico_pos_new(id, pos):
+def ico_pos_new(id, pos=None):
     if pos == ico_pos.get(id):
         return
 
@@ -47,15 +47,16 @@ def ico_pos_new(id, pos):
         return
 
     pic_id = pic_new(CID_ICO96, id)
-    pos_tuple = pos.split('_')
-    if len(pos_tuple) == 3:
-        x, y, size = map(int, pos_tuple)
-        if size:
-            pic = pic_square(pic, size, top_left=(x, y), size=size)
+    if pos:
+        pos_tuple = pos.split('_')
+        if len(pos_tuple) == 3:
+            x, y, size = map(int, pos_tuple)
+            if size:
+                pic = pic_square(pic, size, top_left=(x, y), size=size)
 
     pic = pic_square(pic, 96, size=96)
     fs_set_jpg('96', pic_id, pic)
-    ico_pos.set(id, pos)
+    ico_pos.set(id, pos or '')
     ico96.set(id, pic_id)
 
 def ico_new(id, pic):
@@ -63,10 +64,7 @@ def ico_new(id, pic):
     pic_save(pic_id, pic)
     ico_save(pic_id, pic)
     ico.set(id, pic_id)
-    if not ico_pos.get(id):
-        ico_pos_new(id, '')
-    else:
-        ico_pos.set(id, '0-0-0')
+    ico_pos_new(id)
     return pic_id
 
 def ico_save(pic_id, pic):
