@@ -54,3 +54,17 @@ def mail2link(mail):
         if link:
             return '<a href="%s" target="_blank">%s</a>' % (link[1], mail)
     return '<a href="http://%s" target="_blank">%s</a>' % (mail.rsplit('@', 1)[-1], mail)
+
+def cnenlen(s):
+    if type(s) is str:
+        s = s.decode('utf-8', 'ignore')
+    return len(s.encode('gb18030', 'ignore'))
+
+def cnencut(s, length):
+    ts = type(s)
+    if ts is str:
+        s = s.decode('utf-8', 'ignore')
+    s = s.encode('gb18030', 'ignore')[:length].decode('gb18030', 'ignore')
+    if ts is str:
+        s = s.encode('utf-8', 'ignore')
+    return  s
