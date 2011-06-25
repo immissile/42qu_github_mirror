@@ -110,7 +110,9 @@ color:#000;
     height:42px;
     display:inline-block;
 }
-
+.btn::-moz-focus-inner {
+  border: 0;
+}
 .btns .btn{
 z-index: 1;
 overflow: visible; 
