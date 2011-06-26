@@ -141,8 +141,8 @@ XXX This might be considered a bug, but it's impossible to detect in general.
 
 import re
 
-from creole.parser import Parser
-from creole.rules import LinkRules
+from parser import Parser
+from rules import LinkRules
 
 
 class HtmlEmitter(object):

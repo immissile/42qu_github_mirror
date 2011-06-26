@@ -4,8 +4,8 @@
 import re
 import sys
 
-from creole.rules import Rules
-from creole.document import DocNode
+from rules import Rules
+from document import DocNode
 
 
 class Parser(object):

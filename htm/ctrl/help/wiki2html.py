@@ -9,8 +9,8 @@ sys.path.append( dirname(dirname(dirname(dirname(abspath(__file__))))) )
 
 from static import js
 
-from creole import Parser
-from creole.html_emitter import HtmlEmitter
+from zkit.creole import Parser
+from zkit.creole.html_emitter import HtmlEmitter
 
 def wiki2html(wiki):
     document = Parser(wiki).parse()
