@@ -301,14 +301,14 @@ function LOAD(js){
         out.write('\n'.join(txt))
 
 
-import js.z
+import js_z
 merge('css', CSS_INIT_TEMPLATE)
 print 'CSS Merge Game Over'
 
-merge_js(join(prefix, 'js'), 'z.js', js.z.JS)
+merge_js(join(prefix, 'js'), 'z.js', js_z.JS)
 
 merge('js', JS_INIT_TEMPLATE)
 print 'JS Merge Game Over'
 
 merge_css_import(join(prefix, 'css', 'z.css'))
-merge_js_import(join(prefix, 'js'), 'z.js', js.z.JS)
+merge_js_import(join(prefix, 'js'), 'z.js', js_z.JS)
