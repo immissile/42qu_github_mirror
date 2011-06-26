@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import McCacheM
 from collections import namedtuple
-from cid import CID_WORD, CID_NOTE
+from cid import CID_WORD, CID_NOTE, CID_QUESTION
 from operator import itemgetter
 from po import Po
 from follow import follow_id_list_by_from_id
@@ -20,7 +20,7 @@ def feed_tuple_by_db(id):
     m = Po.mc_get(id)
     cid = m.cid
     result = [m.user_id, cid, m.reply_count, m.create_time, m.name, vote_count(id)]
-    if cid == CID_NOTE:
+    if cid == CID_NOTE or cid == CID_QUESTION:
         result.extend(cnenoverflow(m.txt, 164))
     return result
 
