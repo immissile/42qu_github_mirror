@@ -69,11 +69,17 @@ id="po_word_txt" name="txt"></textarea>\
     <span class="L">
         ${create_time}
         {{if rt_list.length}} ,
+            {{if rt_list.length == 1 && rt_list[0].link == 0}}
+            全站广播
+            {{else}}
         <span>
             {{each rt_list}}
-                <a href="${$value.link}" target="_blank">${$value.name}</a>
+                {{if $value.link}}
+            <a href="${$value.link}" target="_blank">${$value.name}</a>
+                {{/if}}
             {{/each}}
         </span>喜欢
+            {{/if}}
         {{/if}}
     </span>
 <span class="vote${vote_state}" id="vote${id}"><a title="厌倦" class="down" href="javascript:vote_down(${id});void(0)">-</a><span title="好评度" class="num">${vote}</span><a title="喜欢" class="up" href="javascript:vote_up(${id});void(0)">+</a></span><a title="回复" target="_blank" class="reply" href="${link}#txt">${reply_count}</a>
