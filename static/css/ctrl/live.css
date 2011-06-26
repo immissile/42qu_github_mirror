@@ -108,7 +108,10 @@ margin:0 3px;
 .fdall{
 margin-left:3px;
 }
-.fdtxt pre p{
+.fdpre p{
 line-height:28px;
 padding-bottom:14px;
+}
+.fdpre{
+margin-bottom:-12px;
 }

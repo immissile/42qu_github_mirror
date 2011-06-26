@@ -126,7 +126,7 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
         var txt=$("#fdtxt"+id),all=txt.find(".fdall");
         all.html('').addClass("fdloading")
         $.get("/j/fdtxt/"+id,function(htm){
-            txt.html("<pre>"+htm+"</pre>")
+            txt.html('<pre class="fdpre">'+htm+"</pre>")
         }) 
     }
 })()
