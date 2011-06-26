@@ -20,7 +20,7 @@ HTML_TEMPLATE = "".join(['''
 <!doctype html>
 <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <script src="''',
-js.jquery,
+"http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.6.1.min.js",
 '''"></script>
 <script src="/help.js"></script>
 <link href="/help.css" rel="stylesheet" type="text/css">
