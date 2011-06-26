@@ -3,8 +3,11 @@
 import os
 from os.path import join, abspath, dirname
 
-
 import sys
+
+sys.path.append( dirname(dirname(dirname(dirname(abspath(__file__))))) )
+
+from static import js
 
 from creole import Parser
 from creole.html_emitter import HtmlEmitter
@@ -13,10 +16,12 @@ def wiki2html(wiki):
     document = Parser(wiki).parse()
     return HtmlEmitter(document).emit().encode('utf-8', 'ignore')
 
-HTML_TEMPLATE = """
+HTML_TEMPLATE = "".join(['''
 <!doctype html>
 <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js"></script>
+<script src="''',
+js.jquery,
+'''"></script>
 <script src="/help.js"></script>
 <link href="/help.css" rel="stylesheet" type="text/css">
 </head>
@@ -31,7 +36,7 @@ HTML_TEMPLATE = """
 <a href="http://42qu.com/zuroc" target="_blank">Powered by 张沈鹏 !</a>
 </div>
 </body>
-"""
+'''])
 
 BASE = dirname(abspath(__file__))
 
