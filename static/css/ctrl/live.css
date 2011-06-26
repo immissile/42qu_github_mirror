@@ -108,3 +108,7 @@ margin:0 3px;
 .fdall{
 margin-left:3px;
 }
+.fdtxt pre p{
+line-height:28px;
+padding-bottom:14px;
+}
