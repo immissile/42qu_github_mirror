@@ -78,7 +78,7 @@ class Po(McModel, ReplyMixin):
         if self.state <= STATE_DEL:
             return False
         if self.state == STATE_SECRET:
-            if self.user_id != user_id:
+            if (not user_id) or ( self.user_id != user_id ):
                 return False
         return True
 

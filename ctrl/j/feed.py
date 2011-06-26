@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import JLoginBase
+from _handler import JLoginBase, Base
 from ctrl._urlmap.j import urlmap
 from model.vote import vote_state
 from model.po import Po, CID_NOTE
@@ -55,12 +55,23 @@ class Feed(JLoginBase):
             id = i[0]
             zsite_id = i[3]
             i.insert(FEED_TUPLE_DEFAULT_LEN, vote_state(current_user_id, id))
-            i.insert(FEED_TUPLE_DEFAULT_LEN, pic_url_with_default(zsite_id, "219"))
+            i.insert(FEED_TUPLE_DEFAULT_LEN, pic_url_with_default(zsite_id, '219'))
             #i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
         #self.finish(result)
         result = dumps(result)
         self.finish(result)
 
-    post = get
+
+@urlmap('/j/fdtxt/(\d+)')
+class FdTxt(Base):
+    def get(self, id):
+        po = Po.mc_get(id)
+        current_user_id = self.current_user_id
+        if po.can_view(current_user_id):
+            result = po.htm
+        else:
+            result = ''
+        self.finish(result)
+
 
 

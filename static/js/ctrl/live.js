@@ -124,6 +124,9 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
     /* 显示全部 */
     fdtxt = function(id){
         var txt=$("#fdtxt"+id),all=txt.find(".fdall");
-        all.html('').addClass("fdloading") 
+        all.html('').addClass("fdloading")
+        $.get("/j/fdtxt/"+id,function(htm){
+            txt.html(htm)
+        }) 
     }
 })()
