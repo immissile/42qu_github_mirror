@@ -82,7 +82,7 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
         }
 
     });
-    /*************/
+    /* 发微博 */
     var po_word_tip = $("#po_word_tip"), po_word_txt = $("#po_word_txt"), po_word_max = 142, po_word_txt_bg="po_word_txt_bg";
     function po_word_update(value){
         var len = cnenlen(value),
@@ -120,5 +120,10 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
             return false
         }
     })
-
+    
+    /* 显示全部 */
+    fdtxt = function(id){
+        var txt=$("#fdtxt"+id),all=txt.find(".fdall");
+        all.html('').addClass("fdloading") 
+    }
 })()
