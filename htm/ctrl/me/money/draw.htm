@@ -6,15 +6,15 @@ from model.money import read_cent, bank
 <%htm:form>
 <div>
     密码确认
-    <input type="password" name="price" value="${price or ''}">元
+    <input type="password" name="password" autocomplete="off">元
 </div>
 <div>
     支付宝账户
-    <input type="text" name="price" value="${price or ''}">元
+    <input type="text" name="account" value="${account or ''}">元
 </div>
 <div>
     支付宝真实姓名
-    <input type="text" name="price" value="${price or ''}">元
+    <input type="text" name="name" value="${name or ''}">元
 </div>
 <div>
     金额
