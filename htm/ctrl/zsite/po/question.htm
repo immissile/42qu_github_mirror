@@ -78,7 +78,7 @@ user_id = user.id
 </div>
     %if po_state > STATE_SECRET and not answer_id_get(current_user_id, po_id):
 <%htm:form id="txt_form" action="/question/${po_id}">
-${htm.reply_textarea()}
+<textarea id="reply_txt" name="txt"></textarea>\
 <div class="btns">
 <span class="btnw"><button class="btn" type="submit">回答</button></span>
 </div>
