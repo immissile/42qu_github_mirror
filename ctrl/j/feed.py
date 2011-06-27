@@ -10,6 +10,7 @@ from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_
 from model.feed import feed_rt, feed_rt_rm, feed_rt_id
 from model.ico import pic_url_with_default
 from model.cid import CID_NOTE, CID_QUESTION
+from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 
 @urlmap('/j/feed/up1/(\d+)')
 class FeedUp(JLoginBase):
@@ -59,8 +60,7 @@ class Feed(JLoginBase):
             i.insert(FEED_TUPLE_DEFAULT_LEN, pic_url_with_default(zsite_id, '219'))
 
             if cid == CID_QUESTION and cid == CID_NOTE:
-                pass
-    
+                i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))    
             #i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
         #self.finish(result)
         result = dumps(result)
