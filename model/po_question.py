@@ -40,8 +40,22 @@ def po_answer_new(user_id, question_id, name, txt, state):
             mc_answer_id_get.set('%s_%s' % (user_id, question_id), id)
             return m
 
-def po_answer_list(question_id):
+def po_answer_list(question_id, user_id = 0):
+    user_answer_id = answer_id_get(user_id, question_id)
     ids = rank_po_id_list(question_id, CID_QUESTION, 'confidence')
+    if user_answer_id:
+        _ids = [user_answer_id]
+        for i in ids:
+            if i!=user_answer_id:
+                _ids.append(i) 
+        ids = _ids
     li = Po.mc_get_list(ids)
     Zsite.mc_bind(li, 'user', 'user_id')
     return li
+
+        
+
+
+
+
+
