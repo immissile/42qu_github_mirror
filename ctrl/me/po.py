@@ -55,14 +55,13 @@ class PoWord(LoginBase):
 def po_post(self):
     user_id = self.current_user_id
     name = self.get_argument('name', '')
-    txt = self.get_argument('txt', '')
+    txt = self.get_argument('txt', '',strip=False).rstrip()
     secret = self.get_argument('secret', None)
     arguments = self.request.arguments
     if secret:
         state = STATE_SECRET
     else:
         state = STATE_ACTIVE
-
     po = self.po_save(user_id, name, txt, state)
     self_id = self.id
     if po:

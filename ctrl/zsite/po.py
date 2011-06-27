@@ -163,8 +163,11 @@ class Question(PoOne):
 class PoTag(ZsiteBase):
     def get(self, id, n=1):
         tag = ZsiteTag.mc_get(id)
-        if tag is None or tag.zsite_id != self.zsite_id:
-            self.redirect('/')
+        if tag is None:
+            return self.redirect('/')
+        if tag.zsite_id != self.zsite_id:
+            tag_zsite = Zsite.mc_get(tag.zsite_id)
+            return self.redirect("%s/tag/%s"%(tag_zsite.link, id))
         count = zsite_tag_count(id)
         page, limit, offset = page_limit_offset(
             '/po/tag/%s-%%s'%id,

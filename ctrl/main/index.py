@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
 from ctrl._urlmap.main import urlmap
+from model.zsite_tag import ZsiteTag
+from model.zsite import Zsite
 
 @urlmap('/')
 class Index(Base):
@@ -12,3 +14,11 @@ class Index(Base):
             )
         else:
             self.redirect('/auth/reg')
+
+
+@urlmap('/tag/(\d+)')
+class Tag(Base):
+    def get(self, id, n=1):
+        tag = ZsiteTag.mc_get(id)
+        tag_zsite = Zsite.mc_get(tag.zsite_id)
+        return self.redirect("%s/tag/%s"%(tag_zsite.link, id))

@@ -4,7 +4,7 @@
 */
 (function (){
 var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name pic vote_state vote",
-    FEED_ATTR_TXT_BASE = FEED_ATTR_BASE+" txt txt_more",
+    FEED_ATTR_TXT_BASE = FEED_ATTR_BASE+" txt txt_more tag_id tag_name",
     FEED_ATTR = {
         61:FEED_ATTR_BASE,
         62:FEED_ATTR_TXT_BASE,
