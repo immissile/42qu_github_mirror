@@ -23,6 +23,7 @@ po_id = str(po.id)
 po_state = po.state
 zsite_link = zsite.link
 %>
+<div class="po_body">
 <div class="po_page">
 %if can_view:
 <h1>${po.name}</h1>
@@ -95,6 +96,7 @@ user_id = user.id
     %endif
 </div>
 %endif
+</div>
 </div>
 <script src="${js.ctrl_po_po}"></script>\
 <script src="${js.ctrl_feed}"></script>
