@@ -2,6 +2,7 @@
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
+from model.money import withdraw_open_count, withdraw_max
 %>
 <%def name="htm_head()">
 </%def>
@@ -17,3 +18,9 @@ from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
 <hr>
 <p>购物导航</p>
 <p><a href="http://t.cn/aCOG3v">京东</a></p>
+<hr>
+<%!
+print withdraw_max()
+%>
+${withdraw_max()}withdraw_max
+${withdraw_open_count()} withdraw_open_count
