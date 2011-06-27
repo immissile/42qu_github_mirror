@@ -1,0 +1,13 @@
+<%inherit file="/god/_base.htm" />
+<ol>
+% for i in li:
+<%
+id = i.id
+%>
+<li>
+${i.htm|n}
+<a href="/buzz/sys/${id}">编辑</a>
+</li>
+% endfor
+</ol>
+${page|n}

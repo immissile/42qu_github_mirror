@@ -1,11 +1,18 @@
 <%inherit file="/god/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%htm:form>
+<ol>
 % for i in li:
 <%
 id = i.id
 %>
-{i.htm}
+<li>
+${i.htm|n}
 <a href="/buzz/sys${id}">编辑</a>
 顺序
-<input name="seq${id)}" value="${i.seq}>
+<input name="seq${id}" value="${i.seq}">
+</li>
 % endfor
+</ol>
+<button type="submit">调整顺序</button>
+</%htm:form>

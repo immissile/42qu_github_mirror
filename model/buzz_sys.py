@@ -6,14 +6,15 @@ from gid import gid
 class BuzzSys(McModel):
     pass
 
-mc_buzz_sys_id_list = McCacheA('BuzzSysIdList.%s')
+mc_buzz_sys_init_id_list = McCacheA('BuzzSysInitIdList.%s')
 
-@mc_buzz_sys_id_list('')
-def buzz_sys_id_list():
+@mc_buzz_sys_init_id_list('')
+def buzz_sys_init_id_list():
     return BuzzSys.where('seq>0').order_by('seq').col_list()
 
 def buzz_sys_init_list():
-    return BuzzSys.mc_get_list(buzz_sys_id_list())
+    id_list = buzz_sys_init_id_list()
+    return BuzzSys.mc_get_list(id_list)
 
 def buzz_sys_list(limit, offset):
     return BuzzSys.where().order_by('id desc')[offset: limit+offset]
@@ -43,4 +44,4 @@ def buzz_sys_edit(id, htm, seq):
             bs.seq = seq
         bs.save()
         if seqchange:
-            mc_buzz_sys_id_list.delete('')
+            mc_buzz_sys_init_id_list.delete('')
