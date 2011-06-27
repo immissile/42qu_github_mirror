@@ -72,11 +72,11 @@ def cnencut(s, length):
 def cnenoverflow(s, length):
     txt = cnencut(s , length)
     if txt != s:
-        txt = "%s ..."%txt.rstrip()
+        txt = '%s ...' % txt.rstrip()
         has_more = True
     else:
         has_more = False
-    return txt , has_more
+    return txt, has_more
 
 #<span style="margin-left:4px"><a href="#">显示全部</a></span>
 
