@@ -66,9 +66,9 @@ user_id = user.id
 %if answer.can_view(current_user_id):
 <a href="${user.link}" class="replyer">${user.name}</a> 
 <a class="reply_at" href="${answer.link}#reply_txt"></a>
-%if answer.can_admin(current_user_id):
-<a href="${answer.link_edit}">编辑</a>
-%endif
+    %if answer.can_admin(current_user_id):
+<a href="${answer.link_edit}" class="edit">编辑</a>
+    %endif
 %else:
 匿名回答
 %endif
