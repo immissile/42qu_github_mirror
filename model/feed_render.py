@@ -53,8 +53,6 @@ def feed_tuple_list(id_list):
 
     return k
 
-#note = zsite_id, cid, reply_count, vote, name, txt
-#word = zsite_id, cid, reply_count, vote, name
 def dump_zsite(zsite):
     if zsite:
         return (zsite.name, zsite.link)
