@@ -38,10 +38,16 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
     }
 
     function init_result(result){
-        var length = result.length, item=[], i=0;
+        var length = result.length, item=[], i=0, data, pre_zsite_id;
 
         for(;i<length;++i){
-            item.push(init(result[i]))
+            data = init(result[i])
+            if(data.zsite_id == pre_zsite_id){
+                data.zsite_same_as_pre = true
+            }else{
+                pre_zsite_id = data.zsite_id
+            }
+            item.push(data)
         }
         return item 
     }
