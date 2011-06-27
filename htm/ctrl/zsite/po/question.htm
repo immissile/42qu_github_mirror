@@ -43,23 +43,23 @@ po_id = str(po.id)
 %for answer in po_answer_list(po_id, zsite_id, current_user_id):
 <%
 answer_id = answer.id
+answer_link = answer.link
 user = answer.user
 user_id = user.id
 %>
 <div class="sdw"><div id="answer${answer.id}" class="sd">
-<h1>${answer.name}</h1>
+<h2><a href="${user.link}" class="replyer">${user.name}</a> : ${answer.name}</h2>
     %if answer.cid == CID_NOTE:
 <pre>${answer.htm|n}</pre>
     %endif
 
     <div class="bar">
     %if answer.can_view(current_user_id):
-<a href="${user.link}" class="replyer">${user.name}</a> 
-<a class="reply_at" href="${answer.link}#reply_txt"></a>
+<a class="reply" href="${answer_link}#reply_txt" title="回复">${answer.reply_count}</a>
         %if answer.can_admin(current_user_id):
 <a href="${answer.link_edit}" class="edit">编辑</a>
         %else:
-<span class="L">${_vote(po_id)}</span>\
+<span class="L">${_vote(answer_id)}</span>\
         %endif
     %else:
 无名氏
