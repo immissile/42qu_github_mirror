@@ -18,14 +18,49 @@ ${css.ctrl_po|n}
 </%def>
 <%
 cid = po.cid
-po_id = str(po.id)
 po_state = po.state
 %>
 
 
 %if can_view:
-    ${next.po_body()}
+<div class="po_page">
+<div class="po_body">
+${next.po_body()}\
+</div>
+${self.reply_list()}\
+</div>
+%else:
+<style>
+.fullscreen p{
+line-height:64px
+}
+.fullscreen{
+font-size:16px;text-align:center;margin-top:10%;
+}
+</style>
+<div class="fullscreen">
+<p>
+    %if po_state == STATE_DEL:
+啊 , 被删除了 !!!
+    %elif po_state == STATE_SECRET:
+机密文件 , 无关人士 , 禁止入内
+    %else:
+不可见的状态 ${po_state}
+    %endif
+</p>
+<p>
+<a href="/">点此返回</a>
+</p>
+</div>
+%endif
 
+<script src="${js.ctrl_po_po}"></script>\
+<script src="${js.ctrl_feed}")></script>
+
+<%def name="reply_list()">
+<%
+po_id = str(po.id)
+%>
 <div id="reply_list">
     %for reply in po.reply_list():
 <%
@@ -58,31 +93,4 @@ ${htm.reply_textarea()}
 </div>
 </%htm:form>
     %endif
-%else:
-<style>
-.fullscreen p{
-line-height:64px
-}
-.fullscreen{
-font-size:16px;text-align:center;margin-top:10%;
-}
-</style>
-<div class="fullscreen">
-<p>
-    %if po_state == STATE_DEL:
-啊 , 被删除了 !!!
-    %elif po_state == STATE_SECRET:
-机密文件 , 无关人士 , 禁止入内
-    %else:
-不可见的状态 ${po_state}
-    %endif
-</p>
-<p>
-<a href="/">点此返回</a>
-</p>
-</div>
-%endif
-
-<script src="${js.ctrl_po_po}"></script>\
-<script src="${js.ctrl_feed}")></script>
-
+</%def>

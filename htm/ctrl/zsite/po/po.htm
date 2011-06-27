@@ -10,7 +10,6 @@ from datetime import datetime
 po_id = po.id
 zsite_link = zsite.link
 %>
-<div class="po_page">
 <h1><a href="${po.link}" class="c0">${po.name}</a></h1>
 <pre>${po.htm|n}\
 <p class="po_bar">\
@@ -24,7 +23,6 @@ zsite_link = zsite.link
 ${str(datetime.fromtimestamp(po.create_time))[:-3]}</p>\
 </pre>
 
-</div>
 </%def>
 
 
