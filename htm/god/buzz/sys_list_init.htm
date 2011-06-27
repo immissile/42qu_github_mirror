@@ -1,0 +1,11 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+% for i in li:
+<%
+id = i.id
+%>
+{i.htm}
+<a href="/buzz/sys${id}">编辑</a>
+顺序
+<input name="seq${id)}" value="${i.seq}>
+% endfor
