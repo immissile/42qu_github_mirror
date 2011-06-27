@@ -178,7 +178,7 @@ def withdraw_max():
 
 def withdraw_list():
     qs = Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_OPEN).order_by('id desc')
-    for t in qs:
+    for i in qs:
         i.account, i.name = pay_account_get(i.from_id, i.rid)
     return qs
 
@@ -187,3 +187,6 @@ def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN):
     assert price > 0
     cent = int(price * 100)
     return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)
+
+if __name__ == "__main__":
+    bank_change(79,790)
