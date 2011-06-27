@@ -58,6 +58,8 @@ user_id = user.id
 <a class="reply_at" href="${answer.link}#reply_txt"></a>
         %if answer.can_admin(current_user_id):
 <a href="${answer.link_edit}" class="edit">编辑</a>
+        %else:
+<span class="L">${_vote(po_id)}</span>\
         %endif
     %else:
 无名氏
