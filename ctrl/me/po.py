@@ -55,7 +55,7 @@ class PoWord(LoginBase):
 def po_post(self):
     user_id = self.current_user_id
     name = self.get_argument('name', '')
-    txt = self.get_argument('txt', '')
+    txt = self.get_argument('txt', '',strip=True).rstrip()
     secret = self.get_argument('secret', None)
     arguments = self.request.arguments
     if secret:
