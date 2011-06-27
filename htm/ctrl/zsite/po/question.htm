@@ -40,7 +40,7 @@ ${datetime.fromtimestamp(po.create_time)} , \
 po_id = str(po.id)
 %>
 <div id="reply_list">
-%for answer in po_answer_list(po_id):
+%for answer in po_answer_list(po_id, current_user_id):
 <%
 answer_id = answer.id
 user = answer.user
