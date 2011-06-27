@@ -1,18 +1,18 @@
-.po_page{
+.po_body{
     margin-top:32px;
 }
-.po_page h1{
+.po_body h1{
     text-align:center;
     font-size:32px;
     margin:48px 0;
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
 }
-.po_page pre{
+.po_body pre{
     width:721px;
     margin:auto;
 }
-.po_page pre p{
+.po_body pre p{
     line-height:28px;
     padding-bottom:14px;
 }
@@ -64,6 +64,6 @@ margin-bottom:16px
 .bar .edit{
 float:left;
 }
-.po_body{
+.po_page{
 padding-bottom:32px;
 }

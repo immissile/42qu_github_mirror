@@ -5,32 +5,19 @@ from model.state import STATE_SECRET, STATE_DEL
 from model.cid import CID_NOTE
 from model.zsite_link import url_or_id
 %>
-<%inherit file="/ctrl/_base/zsite.htm" />
+<%inherit file="_po.htm" />
 <%namespace file="_vote.htm" import="_vote"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
-<%def name="htm_title()">
-%if can_view:
-${po.name}
-%endif
-</%def>
-<%def name="htm_head()">
-${css.ctrl_po|n}
-</%def>
-
+<%def name="po_body()">
 <%
 po_id = str(po.id)
 po_state = po.state
 zsite_link = zsite.link
 %>
-<div class="po_body">
-<div class="po_page">
-%if can_view:
 <h1>${po.name}</h1>
 <pre>\
-<p>\
-<span><a href="${zsite_link}">${zsite.name}</a> 问: </span>\
-</p>\
+<p><span><a href="${zsite_link}">${zsite.name}</a> 问: </span></p>\
 ${po.htm|n}\
 <p class="po_bar">\
 <span class="L">${_vote(po_id)}</span>\
@@ -45,9 +32,13 @@ ${datetime.fromtimestamp(po.create_time)} , \
 %endif
  </p>\
 </pre>\
-</div>
+</%def>
 
 
+<%def name="reply_list()">
+<%
+po_id = str(po.id)
+%>
 <div id="reply_list">
 %for answer in po_answer_list(po_id):
 <%
@@ -57,46 +48,31 @@ user_id = user.id
 %>
 <div class="sdw"><div id="answer${answer.id}" class="sd">
 <h1>${answer.name}</h1>
-%if answer.cid == CID_NOTE:
+    %if answer.cid == CID_NOTE:
 <pre>${answer.htm|n}</pre>
-%endif
+    %endif
 
     <div class="bar">
-
-
-%if answer.can_view(current_user_id):
+    %if answer.can_view(current_user_id):
 <a href="${user.link}" class="replyer">${user.name}</a> 
 <a class="reply_at" href="${answer.link}#reply_txt"></a>
-    %if answer.can_admin(current_user_id):
+        %if answer.can_admin(current_user_id):
 <a href="${answer.link_edit}" class="edit">编辑</a>
+        %endif
+    %else:
+无名氏
     %endif
-%else:
-匿名回答
-%endif
     </div>
 </div></div>
 %endfor
 </div>
+
     %if po_state > STATE_SECRET and not answer_id_get(current_user_id, po_id):
-<%htm:form id="txt_form" action="/question/${po_id}">
+<%htm:form id="txt_form" action="/question/${po_id}">\
 <textarea id="reply_txt" name="txt"></textarea>\
-<div class="btns">
-<span class="btnw"><button class="btn" type="submit">回答</button></span>
-</div>
-</%htm:form>
+<div class="btns">\
+<span class="btnw"><button class="btn" type="submit">回答</button></span>\
+</div>\
+</%htm:form>\
     %endif
-%else:
-<div>
-    %if po_state == STATE_DEL:
-啊 , 被删除了 !!!
-    %elif po_state == STATE_SECRET:
-机密文件 , 无关人士 , 禁止入内
-    %else:
-不可见的状态 ${po_state}
-    %endif
-</div>
-%endif
-</div>
-</div>
-<script src="${js.ctrl_po_po}"></script>\
-<script src="${js.ctrl_feed}"></script>
+</%def>
