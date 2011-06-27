@@ -24,6 +24,9 @@ buzz_pos = Kv('buzz_pos', 0)
 buzz_count = McNum(lambda user_id: Buzz.where(to_id=user_id).count(), 'BuzzCount.%s')
 buzz_unread_count = McNum(lambda user_id: Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count(), 'BuzzUnreadCount.%s')
 
+class BuzzSys(McModel):
+    pass
+
 BUZZ_DIC = {
     CID_BUZZ_SYS: Po,
     CID_BUZZ_SHOW: Zsite,
