@@ -48,9 +48,11 @@ user = answer.user
 user_id = user.id
 %>
 <div class="sdw"><div id="answer${answer.id}" class="sd">
-<h2><a href="${user.link}" class="replyer">${user.name}</a> : ${answer.name}</h2>
     %if answer.cid == CID_NOTE:
-<pre>${answer.htm|n}</pre>
+<pre><a href="${user.link}" class="replyer">${user.name}</a> :
+${answer.htm|n}</pre>
+    %else:
+<h2><a href="${user.link}" class="replyer">${user.name}</a> : ${answer.name}</h2>
     %endif
 
     <div class="bar">
