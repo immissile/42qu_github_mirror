@@ -58,9 +58,8 @@ class Feed(JLoginBase):
             cid = i[4]
             i.insert(FEED_TUPLE_DEFAULT_LEN, vote_state(current_user_id, id))
             i.insert(FEED_TUPLE_DEFAULT_LEN, pic_url_with_default(zsite_id, '219'))
-
-            if cid == CID_QUESTION and cid == CID_NOTE:
-                i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))    
+            if cid == CID_QUESTION or cid == CID_NOTE:
+                i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))   
             #i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
         #self.finish(result)
         result = dumps(result)
