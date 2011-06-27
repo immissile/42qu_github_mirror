@@ -1,4 +1,5 @@
-#coding:utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import _env
 from config import MEMCACHED_ADDR, DISABLE_LOCAL_CACHED

@@ -126,5 +126,3 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
 if __name__ == '__main__':
     pass
-
-
