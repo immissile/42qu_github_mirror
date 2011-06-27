@@ -4,6 +4,7 @@ import init_env
 def init_tag():
     from model.tag import tag_new, Tag
     from model.kv import mc
+    print "#model/zsite_tag.py"
     print 'ZSITE_TAG = ('
     for tag in (
         '随笔杂记',
