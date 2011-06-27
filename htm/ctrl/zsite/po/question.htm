@@ -16,20 +16,21 @@ po_state = po.state
 zsite_link = zsite.link
 %>
 <h1>${po.name}</h1>
-<pre>\
-<p><span><a href="${zsite_link}">${zsite.name}</a> : </span></p>\
-${po.htm|n}\
+<pre>${po.htm|n}\
+<p class="po_bar">\
+%if can_admin:
+<span class="L"><a href="/question/edit/${po_id}">编辑</a></span>\
+%endif
+<span><a href="${zsite_link}">${zsite.name}</a> : \
+<a href="${zsite_link}/tag/${zsite_tag_id}">${tag_name}</a>\
+</p>\
 <p class="po_bar">\
 <span class="L">${_vote(po_id)}</span>\
-${datetime.fromtimestamp(po.create_time)} , \
-<a class="c0" href="${zsite_link}/tag/${zsite_tag_id}">${tag_name}</a>\
+${datetime.fromtimestamp(po.create_time)}\
 </p>\
 <p class="po_bar">\
 <span class="L">\
 <a href="${po.link_reply}#reply_txt">${po.reply_count or ''}评注</a></span>\
-%if can_admin:
-<a href="/question/edit/${po_id}">编辑</a>\
-%endif
  </p>\
 </pre>\
 </%def>
@@ -48,19 +49,31 @@ user = answer.user
 user_id = user.id
 %>
 <div class="sdw"><div id="answer${answer.id}" class="sd">
+<p>
+%if answer.state != STATE_SECRET:
+<a href="${user.link}" class="replyer">${user.name}</a>
+%else:
+匿名
+%endif
+ :
+</p>
     %if answer.cid == CID_NOTE:
-<pre><p><a href="${user.link}" class="replyer">${user.name}</a> :</p>\
-${answer.htm|n}</pre>
+<pre>${answer.htm|n}</pre>
     %else:
-<p><a href="${user.link}" class="replyer">${user.name}</a> :</p>
 <p>${answer.name}</p>
     %endif
 
     <div class="bar">
     %if answer.can_view(current_user_id):
-<a class="reply" href="${answer_link}#reply_txt" title="回复">${answer.reply_count}</a>
+        %if answer.state != STATE_SECRET:
+            <a class="reply" href="${answer_link}#reply_txt" title="回复">${answer.reply_count}</a>
+        %endif
         %if answer.can_admin(current_user_id):
-<a href="${answer.link_edit}" class="edit">编辑</a>
+<a
+%if answer.state == STATE_SECRET:
+style="float:none"
+%endif
+href="${answer.link_edit}" class="edit">编辑</a>
         %else:
 <span class="L">${_vote(answer_id)}</span>\
         %endif
