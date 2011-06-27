@@ -1,0 +1,19 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<script src="${js.jwysiwyg_jquery_wysiwyg}"></script>
+<script>
+$(function() {
+    $('textarea').wysiwyg({
+##        css: '${css.jwysiwyg_jquery_wysiwyg}',
+        rmUnusedControls: true,
+        controls: {
+            bold: {visible: true},
+//            createLink: {visible: true},
+        }
+    })
+})
+</script>
+<%htm:form>
+<textarea name="htm"></textarea>
+<button type="submit">发布</button>
+</%htm:form>
