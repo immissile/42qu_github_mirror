@@ -6,15 +6,15 @@ from model.money import read_cent, bank
 <%htm:form>
 <div>
     密码确认
-    <input type="password" name="password" autocomplete="off">元
+    <input type="password" name="password" autocomplete="off">
 </div>
 <div>
     支付宝账户
-    <input type="text" name="account" value="${account or ''}">元
+    <input type="text" name="account" value="${account or ''}">
 </div>
 <div>
     支付宝真实姓名
-    <input type="text" name="name" value="${name or ''}">元
+    <input type="text" name="name" value="${name or ''}">
 </div>
 <div>
     金额
@@ -23,5 +23,5 @@ from model.money import read_cent, bank
 %if error:
 ${error}
 %endif
-<button type="submit">支付宝充值</button>
+<button type="submit">支付宝提现</button>
 </%htm:form>

@@ -91,7 +91,6 @@ class Draw(LoginBase):
 
         if user_password_verify(user_id, password):
             a = pay_account_new(user_id, account, name, CID_PAY_ALIPAY)
-            price = float(price)
             try:
                 price = float(price)
             except ValueError:
