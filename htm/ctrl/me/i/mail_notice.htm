@@ -26,7 +26,6 @@ margin-bottom:16px
 }
 </style>
 <%htm:form className="fullscreen">
-<h2>请勾选要订阅的邮件</h2>
 % for cid, state in mail_notice_all:
 <p>
 <input type="checkbox"
@@ -38,6 +37,6 @@ name="mn${cid}" id="mn${cid}">
 </p>
 % endfor
 <p>
-    <span class="btnw"><button type="submit">保存</button></span>
+    <span class="btnw"><button type="submit">邮件订阅选中项</button></span>
 </p>
 </%htm:form>
