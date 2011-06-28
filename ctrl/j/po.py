@@ -3,7 +3,7 @@
 from yajl import dumps
 from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
-from model.po import Po, CID_WORD
+from model.po import Po, CID_WORD, CID_NOTE
 from zkit.pic import picopen
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
@@ -95,6 +95,9 @@ class NoteUpload(JLoginBase):
             po = Po.mc_get(id)
             if not po or po.user_id != user_id or (po.cid == CID_WORD and po.rid == 0):
                 return 0
+            if po.cid == CID_WORD:
+                po.cid = CID_NOTE
+                po.save()
 
         if not pic_can_add(user_id, id):
             return 16
