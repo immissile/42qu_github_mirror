@@ -1,23 +1,44 @@
 <%!
 from model.cid import CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_MAIL_MONTH, CID_MAIL_YEAR
 CID_NAME_DICT = {
-    CID_INVITE_QUESTION: '话题邀请邮件',
-    CID_NOTICE_QUESTION: '话题回答提醒',
-    CID_MAIL_MONTH: '月度小结',
-    CID_MAIL_YEAR: '年度总结',
+    CID_INVITE_QUESTION: '话题 - 邀请邮件',
+    CID_NOTICE_QUESTION: '话题 - 回答提醒',
+    CID_MAIL_MONTH: '网站 - 每月精选',
+    CID_MAIL_YEAR: '网站 - 年度总结',
 }
 %>
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%htm:form>
+<style>
+.fullscreen{
+font-size:16px;
+width:300px;
+margin:auto;
+margin-top:32px;
+}
+.btnw{
+margin-top:16px;
+}
+.fullscreen p{
+padding:7px 0;
+}
+.fullscreen h2{
+margin-bottom:16px
+}
+</style>
+<%htm:form className="fullscreen">
+<h2>请勾选要订阅的邮件</h2>
 % for cid, state in mail_notice_all:
+<p>
 <input type="checkbox"
 % if state == 1:
 checked
 % endif
 name="mn${cid}" id="mn${cid}">
 <label for="mn${cid}">${CID_NAME_DICT[cid]}</label>
-<hr>
+</p>
 % endfor
-<button type="submit">保存</button>
+<p>
+    <span class="btnw"><button type="submit">保存</button></span>
+</p>
 </%htm:form>
