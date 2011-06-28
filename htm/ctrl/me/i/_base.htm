@@ -1,0 +1,100 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.ico import ico_url as _ico_url
+from model.zsite_link import url_by_id
+from model.motto import motto
+%>
+<%
+ico_url = _ico_url(current_user_id)
+url = url_by_id(current_user_id)
+%>
+<%def name="head()"></%def>
+
+<%def name="htm_head()">
+${self.head()}
+<style>
+#form_btn{
+text-align:left;
+}
+.i_nav a:hover{
+color:#01f;
+}
+.i_nav a{
+margin-right:48px;
+color:#999;
+}
+.i_nav{
+text-align:right;
+font-size:16px;
+}
+#form_reg .tc{
+text-align:left;
+}
+.i_nav .now{
+color:#000;
+}
+.i_div{
+margin-top:36px;
+}
+.img{
+text-align:center;
+}
+.img img{
+padding-bottom:12px;
+}
+.img a{
+font-size:16px;
+display:block;
+}
+</style>
+</%def>
+
+<div class="G i_div">
+<%htm:form enctype="multipart/form-data">
+        %if ico_url:
+            <div class="img G1">
+            <a href="/i/pic">
+                <img src="${ico_url}">
+                <div>编辑头像</div>
+            </a>
+            </div>
+        %else:
+            <div>
+            上传头像 <input type="file" name="pic"> 
+            <button type="submit">上传</button>
+            %if error_pic:
+                ${error_pic}
+            %endif
+            </div>
+        %endif
+</%htm:form>
+
+<%
+path = request.path
+path_name = (
+   ('/i',"基本信息"), 
+   ('/i/namecard',"个人名片"), 
+   ('/i/mail_notice',"邮件提醒"), 
+   ('/i/password',"修改密码"), 
+)
+
+%>
+
+<div class="G3">
+<div class="i_nav">
+%for nav_path, nav_name in path_name:
+<a
+%if nav_path == path:
+class="now"
+%endif
+href="${nav_path}">${nav_name}</a>\
+%endfor
+</div>
+
+${next.body()}
+
+</div>
+
+</div>
+<%namespace file="/ctrl/_util/info.htm" name="info"/>

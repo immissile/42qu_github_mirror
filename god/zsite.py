@@ -10,13 +10,42 @@ from model.mail import sendmail
 from model.cid import CID_ZSITE
 from zkit.page import page_limit_offset
 
+from model.txt import txt_get, txt_new
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
     def get(self, id):
         zsite = Zsite.mc_get(id)
-        self.render(zsite=zsite)
+        current_user_id = self.current_user_id
+        txt = txt_get(current_user_id)
+        self.render(txt=txt, zsite=zsite)
 
+    def post(self):
+        files = self.request.files
+        current_user_id = self.current_user_id
+        current_user = self.current_user
+
+        _name = self.get_argument('name', None)
+        if _name:
+            current_user.name = _name
+            current_user.save()
+
+        _motto = self.get_argument('motto', None)
+        if _motto:
+            motto.set(current_user_id, _motto)
+
+        error_pic = _upload_pic(files, current_user_id)
+        if error_pic is False:
+            return self.redirect('/i/pic')
+
+        txt = self.get_argument('txt', '')
+        if txt:
+            txt_new(current_user_id, txt)
+
+        self.render(
+            error_pic=error_pic,
+            txt=txt
+        )
 
 @urlmap('/zsite/show/(\d+)')
 class Show(Base):
