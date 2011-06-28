@@ -36,7 +36,7 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 rid = po.rid
 %>
 % if rid:
-${po.name_htm|n}
+##<p>${po.name_htm|n}</p>
 <textarea style="border-top:0" id="txt" name="txt">${po.name if cid == CID_WORD else po.txt}</textarea>
 % else:
 <input

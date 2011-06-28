@@ -118,6 +118,9 @@ class PoOne(ZsiteBase):
 class Question(PoOne):
     template = PO_TEMPLATE
 
+    def get(self, id):
+        self.redirect('/%s' % id)
+
     def mark(self):
         po = self._po
         user_id = self.current_user_id

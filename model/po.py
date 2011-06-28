@@ -47,9 +47,10 @@ class Po(McModel, ReplyMixin):
 
     @property
     def name(self):
-        q = self.question
-        if q:
-            return '答：%s' % q.name
+        if self.cid == CID_NOTE:
+            q = self.question
+            if q:
+                return '答：%s' % q.name
         return self.name_
 
     @property
