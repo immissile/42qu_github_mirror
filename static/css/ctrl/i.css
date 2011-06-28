@@ -1,0 +1,38 @@
+
+#form_btn{
+text-align:left;
+}
+.i_nav a:hover{
+color:#01f;
+}
+.i_nav a{
+margin:0 16px;
+color:#999;
+}
+.i_nav{
+text-align:right;
+font-size:16px;
+text-align:center;
+border-bottom:1px dotted #ccc;
+padding-bottom:16px;
+}
+#form_reg .tc{
+text-align:left;
+}
+.i_nav .now{
+color:#000;
+}
+.i_div{
+margin-top:16px;
+}
+.img{
+text-align:center;
+margin-top:44px;
+}
+.img img{
+padding-bottom:12px;
+}
+.img a{
+font-size:16px;
+display:block;
+}
