@@ -68,9 +68,10 @@ class McModel(object):
         for i in id_list:
             t = result.get(mc_key%i)
             if t is None:
-                t = cls.get(i)
-                if t:
-                    t.mc_set()
+                if i:
+                    t = cls.get(i)
+                    if t:
+                        t.mc_set()
             r[i] = t
         return r
 
@@ -83,9 +84,10 @@ class McModel(object):
         for i in id_list:
             t = result.get(mc_key%i)
             if t is None:
-                t = cls.get(i)
-                if t:
-                    t.mc_set()
+                if i:
+                    t = cls.get(i)
+                    if t:
+                        t.mc_set()
             r.append(t)
 
         return r
