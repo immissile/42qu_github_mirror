@@ -70,15 +70,26 @@ display:block;
         %endif
 </%htm:form>
 
+<%
+path = request.path
+path_name = (
+   ('/i',"基本信息"), 
+   ('/i/namecard',"个人名片"), 
+   ('/i/mail_notice',"邮件提醒"), 
+   ('/i/password',"修改密码"), 
+)
+
+%>
+
 <div class="G3">
 <div class="i_nav">
-<a class="now" href="/i">基本信息</a>
-<a href="/i/namecard">个人名片</a>
-<a href="/i/mail_notice">邮件提醒</a>
-<a href="/password">修改密码</a>
-%if not url:
-    <a href="/i/url">个性域名</a>
+%for nav_path, nav_name in path_name:
+<a
+%if nav_path == path:
+class="now"
 %endif
+href="${nav_path}">${nav_name}</a>\
+%endfor
 </div>
 
 ${next.body()}
