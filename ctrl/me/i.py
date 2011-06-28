@@ -11,6 +11,7 @@ from model.user_mail import mail_by_user_id
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
 from model.zsite import user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_APPLY
+from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -226,7 +227,7 @@ class Password(LoginBase):
         password0 = self.get_argument('password0', None)
         password = self.get_argument('password', None)
         password2 = self.get_argument('password2', None)
-
+        success = None
         if all((password0, password, password2)) and password == password2:
             if user_password_verify(user_id, password0):
                 user_password_new(user_id, password)
