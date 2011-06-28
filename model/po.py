@@ -71,6 +71,11 @@ class Po(McModel, ReplyMixin):
             zsite = Zsite.mc_get(self.user_id)
             self._link = '%s/%s' % (zsite.link, self.id)
         return self._link
+    
+    @property
+    def user(self):
+        self.__dict__['user'] = user = Zsite.mc_get(self.user_id)
+        return user
 
     @property
     def link_reply(self):
