@@ -15,10 +15,10 @@ margin-right:32px
 }
 </style>
 
-
+<div class="G">
 <%htm:form enctype="multipart/form-data" style="margin-top:32px">
         %if ico_url:
-            <div class="tc" style="float:left;">
+            <div class="tc G1">
             <img src="${ico_url}">
             <div><a href="/i/pic">编辑头像</a></div>
             </div>
@@ -32,7 +32,7 @@ margin-right:32px
             </div>
         %endif
 
-<div style="float:left;margin-left:32px;">
+<div class="G3">
 <div class="i_nav">
 <a href="/i/namecard">基本信息</a>
 <a href="/i/namecard">个人资料</a>
@@ -51,6 +51,7 @@ margin-right:32px
 </%htm:form>
 <div>
 %if not url:
-    <a href="/i/url">设置我的域名</a>
+    <a href="/i/url">个性域名</a>
 %endif
+</div>
 </div>
