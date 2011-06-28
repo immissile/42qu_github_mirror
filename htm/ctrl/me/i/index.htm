@@ -11,12 +11,51 @@ url = url_by_id(current_user_id)
 %>
 <style>
 .i_nav a{
-margin-right:32px
+margin-right:48px;
+color:#999;
+}
+.i_nav{
+margin-bottom:48px;
+}
+.i_nav .now{
+color:#000;
+}
+.i_div{
+margin-top:48px;
+}
+input{
+padding:8px;
+font-size:14px;
+line-height:16px;
+}
+input,textarea{
+width:400px;
+}
+.btns{
+margin-left:80px;
+margin-top:16px;
+}
+#name{
+width:60px
+}
+textarea{
+padding:4px 8px;
+height:150px;
+}
+label{
+display:inline-block;
+width:64px;
+vertical-align:top;
+margin-right:16px;
+}
+.label_div{
+margin-bottom:16px;
+line-height:38px;
 }
 </style>
 
-<div class="G">
-<%htm:form enctype="multipart/form-data" style="margin-top:32px">
+<div class="G i_div">
+<%htm:form enctype="multipart/form-data">
         %if ico_url:
             <div class="tc G1">
             <img src="${ico_url}">
@@ -34,15 +73,22 @@ margin-right:32px
 
 <div class="G3">
 <div class="i_nav">
-<a href="/i/namecard">基本信息</a>
+<a class="now" href="/i/namecard">基本信息</a>
 <a href="/i/namecard">个人资料</a>
 <a href="/i/mail_notice">邮件提醒</a>
 <a href="/password">修改密码</a>
 </div>
-<div>昵称 <input type="text" autocomplete="off" name="name" value="${current_user.name}"></div>
-<div>座右铭 <input type="text" autocomplete="off" name="motto" value="${motto.get(current_user_id)}"></div>
-<div>自我介绍
-<textarea name="txt">${txt}</textarea>
+<div class="label_div">
+<label for="name">昵称</label>\
+<input id="name" type="text" autocomplete="off" name="name" value="${current_user.name}">
+</div>
+<div class="label_div">
+<label for="motto">座右铭</label>\
+<input id="motto" type="text" autocomplete="off" name="motto" value="${motto.get(current_user_id)}">\
+</div>
+<div class="label_div">
+<label for="txt">介绍</label>\
+<textarea id="txt" name="txt">${txt}</textarea>
 </div>
 <div class="btns">
 <span class="btnw"><button type="submit">保存</button></span>
