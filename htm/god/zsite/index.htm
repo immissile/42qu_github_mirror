@@ -1,7 +1,16 @@
 <%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.zsite_list_0 import zsite_show_get
+from model.ico import ico_url as _ico_url
+from model.zsite_link import url_by_id
+from model.motto import motto
 %>
+<%
+ico_url = _ico_url(current_user_id)
+url = url_by_id(current_user_id)
+%>
+
 <%def name="htm_head()">
 </%def>
 <%
@@ -10,6 +19,30 @@ zsite_id = zsite.id
 <div style="width:972px;margin:16px auto">
 <p>${zsite.name}</p>
 <p>${zsite.id}</p>
+
+
+<%htm:form enctype="multipart/form-data">
+    <div>
+        %if ico_url:
+            <img src="${ico_url}">
+            <a href="/i/pic">编辑头像</a>
+        %else:
+            上传头像 <input type="file" name="pic"> 
+            <button type="submit">上传</button>
+            %if error_pic:
+                ${error_pic}
+            %endif
+        %endif
+    </div>
+<div>昵称 <input type="text" name="name" value="${current_user.name}"></div>
+<div>座右铭 <input type="text" name="motto" value="${motto.get(current_user_id)}"></div>
+<div>自我介绍
+<textarea name="txt">${txt}</textarea>
+</div>
+    <button type="submit">保存</button>
+<div>
+</%htm:form>
+
 <p><a target="_blank" href="${zsite.link}">${zsite.link.strip("/")}</a></p>
 <p><a target="_blank" href="/zsite/mail/${zsite_id}">发邮件</a></p>
 
