@@ -46,8 +46,9 @@ class Pic(LoginBase):
 class Index(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
+        current_user = self.current_user
         txt = txt_get(current_user_id)
-        self.render(txt=txt)
+        self.render(txt=txt, name=current_user.name)
 
     def post(self):
         files = self.request.files
@@ -73,7 +74,8 @@ class Index(LoginBase):
 
         self.render(
             error_pic=error_pic,
-            txt=txt
+            txt=txt, 
+            name=current_user.name
         )
 
 
