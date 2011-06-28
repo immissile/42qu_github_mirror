@@ -56,14 +56,15 @@ id="po_word_txt" name="txt"></textarea>\
 <script id="feed" type="text/x-jquery-tmpl">
 <div class="G c">
 <div class="G3"><div class="sdw"><div class="sd">
-    <pre
+{{if cid!=61 || rid}}    
+<pre
 class="fdh">{{if rid}}答 <a
-href="${question_user_link}">${question_user}</a> 问 : {{/if}}<a
-{{if cid == 61}}
-class="c0"
+href="${question_user_link}">${question_user}</a> 问 : {{/if}}{{if name}}<a
+target="_blank" href="{{if rid}}${question_link}{{else}}${link}{{/if}}">${name}</a>{{/if}}{{if tag_id}}<a class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}
-target="_blank" href="{{if rid}}${question_link}{{else}}${link}{{/if}}">${name}</a>{{if tag_id}}<a class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
-    {{if txt}}
+    {{if cid==61}}
+    <pre class="fdtxt"><a href="${link}" class="c0">${txt}</a></pre>
+    {{else}}
         <div class="fdtxt" id="fdtxt${id}">
             ${txt}
             {{if txt_more}}

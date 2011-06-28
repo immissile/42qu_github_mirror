@@ -25,7 +25,13 @@ PO_EN = {
 mc_htm = McCache('PoHtm.%s')
 
 class Po(McModel, ReplyMixin):
-    txt = txt_property
+
+    @property
+    def txt(self):
+        if self.cid == CID_WORD:
+            return self.name_
+        else:
+            return txt_get(self.id)
 
     @property
     @mc_htm('{self.id}')

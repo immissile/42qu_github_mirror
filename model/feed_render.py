@@ -24,8 +24,10 @@ def feed_tuple_by_db(id):
     if rid:
         question = m.question
         name = question.name
-    else:
+    elif cid != CID_WORD:
         name = m.name
+    else:
+        name = None
 
     result = [
         m.user_id,
@@ -36,10 +38,13 @@ def feed_tuple_by_db(id):
         name,
         vote_count(id)
     ]
-    
+   
+    txt = m.txt 
     if cid == CID_NOTE or cid == CID_QUESTION:
-        result.extend(cnenoverflow(m.txt, 164))
-        
+        result.extend(cnenoverflow(txt, 164))
+    else:
+        result.extend((txt, False))
+ 
 #    if rid: 
 #        user = question.user
 #        result.extend((question.link, user.name, user.link))
