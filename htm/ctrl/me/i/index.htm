@@ -9,26 +9,44 @@ from model.motto import motto
 ico_url = _ico_url(current_user_id)
 url = url_by_id(current_user_id)
 %>
-<%htm:form enctype="multipart/form-data">
-    <div>
+<style>
+.i_nav a{
+margin-right:32px
+}
+</style>
+
+
+<%htm:form enctype="multipart/form-data" style="margin-top:32px">
         %if ico_url:
+            <div class="tc" style="float:left;">
             <img src="${ico_url}">
-            <a href="/i/pic">编辑头像</a>
+            <div><a href="/i/pic">编辑头像</a></div>
+            </div>
         %else:
+            <div>
             上传头像 <input type="file" name="pic"> 
             <button type="submit">上传</button>
             %if error_pic:
                 ${error_pic}
             %endif
+            </div>
         %endif
-    </div>
-<div>昵称 <input type="text" name="name" value="${current_user.name}"></div>
-<div>座右铭 <input type="text" name="motto" value="${motto.get(current_user_id)}"></div>
+
+<div style="float:left;margin-left:32px;">
+<div class="i_nav">
+<a href="/i/namecard">基本信息</a>
+<a href="/i/namecard">个人资料</a>
+<a href="/i/mail_notice">邮件提醒</a>
+<a href="/password">修改密码</a>
+</div>
+<div>昵称 <input type="text" autocomplete="off" name="name" value="${current_user.name}"></div>
+<div>座右铭 <input type="text" autocomplete="off" name="motto" value="${motto.get(current_user_id)}"></div>
 <div>自我介绍
 <textarea name="txt">${txt}</textarea>
 </div>
 <div class="btns">
 <span class="btnw"><button type="submit">保存</button></span>
+</div>
 </div>
 </%htm:form>
 <div>
@@ -36,6 +54,3 @@ url = url_by_id(current_user_id)
     <a href="/i/url">设置我的域名</a>
 %endif
 </div>
-<div><a href="/i/namecard">个人资料</a></div>
-<div><a href="/i/mail_notice">邮件提醒</a></div>
-<div><a href="/password">修改密码</a></div>
