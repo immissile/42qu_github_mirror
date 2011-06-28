@@ -50,7 +50,7 @@ class Po(McModel, ReplyMixin):
         q = self.question
         if q:
             return '答：<a href="%s">%s</a>' % (q.link, escape(q.name))
-        return escape(self.name)
+        #return escape(self.name)
 
     def txt_set(self, txt):
         id = self.id
