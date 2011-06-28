@@ -26,13 +26,16 @@ class Review(Base):
 
     def post(self, cid):
         current_user_id = self.current_user_id
+
         ids_yes = map(int,self.get_argument('yes','').split(' '))
         ids_no = map(int,self.get_argument('no','').split(' '))
-        for i in ids_all:
-            if i in ids_no:
-                pic_no(i, current_user_id)
-            else:
-                pic_yes(i, current_user_id)
+
+        for i in ids_yes:
+            pic_yes(i, current_user_id)
+
+        for i in ids_no:
+            pic_no(i, current_user_id)
+
         self.redirect(self.request.path)
 
 
