@@ -7,7 +7,7 @@ CID_NAME_DICT = {
     CID_MAIL_YEAR: '年度总结',
 }
 %>
-<%inherit file="/ctrl/_base/zsite.htm" />
+<%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%htm:form>
 % for cid, state in mail_notice_all:
