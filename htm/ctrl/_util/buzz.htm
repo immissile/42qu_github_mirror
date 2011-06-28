@@ -21,7 +21,7 @@ entry = i.entry
 %>
 %if cid == CID_BUZZ_SYS:
 系统通知
-${entry_link(entry)}
+${entry.htm|n}
 %elif cid == CID_BUZZ_SHOW:
 ${entry_link(entry)}通过认证
 %elif cid == CID_BUZZ_FOLLOW:
