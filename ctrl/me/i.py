@@ -216,7 +216,7 @@ class MailNotice(LoginBase):
         for cid in CID_MAIL_NOTICE_ALL:
             state = self.get_argument('mn%s' % cid, None)
             mail_notice_set(user_id, cid, state)
-        self.redirect('/i/notice')
+        self.redirect('/i/mail_notice')
 
 
 

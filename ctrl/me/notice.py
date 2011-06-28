@@ -29,6 +29,7 @@ class Page(LoginBase):
             page=page,
         )
 
+
 @urlmap('/notice/(\d+)')
 class Notice(LoginBase):
     def get(self, id):
@@ -40,3 +41,4 @@ class Notice(LoginBase):
             if link:
                 return self.redirect(link)
         return self.redirect('/notice')
+
