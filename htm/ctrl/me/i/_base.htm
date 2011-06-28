@@ -1,5 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/_i_nav.htm" import="i_nav"/>
+
 <%!
 from model.ico import ico_url_with_default 
 from model.zsite_link import url_by_id
@@ -24,31 +26,12 @@ ${css.ctrl_i|n}
     </a>
     </div>
 
-<%
-path = request.path
-path_name = (
-   ('/i',"基本信息"), 
-   ('/i/namecard',"个人名片"), 
-   ('/i/mail_notice',"邮件提醒"), 
-   ('/i/password',"修改密码"), 
-)
-
-%>
 
 <div class="G3">
-<div class="i_nav">
-%for nav_path, nav_name in path_name:
-<a
-%if nav_path == path:
-class="now"
-%endif
-href="${nav_path}">${nav_name}</a>\
-%endfor
-</div>
-
+${i_nav()}
 ${next.body()}
-
 </div>
 
 </div>
 <%namespace file="/ctrl/_util/info.htm" name="info"/>
+
