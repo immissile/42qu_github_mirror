@@ -1,5 +1,5 @@
 <%!
-from model.po import STATE_SECRET
+from model.po import Po, STATE_SECRET
 from model.cid import CID_QUESTION
 from yajl import dumps
 %>
@@ -32,9 +32,17 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 </%def>
 
 <%htm:form enctype="multipart/form-data" id="po_form">
+<%
+rid = po.rid
+question = Po.mc_get(rid)
+%>
+% if rid:
+答：<a href="${question.link}">${question.name}</a>
+% else:
 <input
 placeholder="请输入标题 ..."
 id="name" type="text" autocomplete="off" name="name" value="${po.name}">
+% endif
 <textarea id="txt" name="txt">${po.txt}</textarea>
 <div class="btns" id="po_btn">
     <a id="upload" href="javascript:upload();void(0)">传图</a>
