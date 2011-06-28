@@ -87,13 +87,14 @@ class Index(LoginBase):
 class Url(LoginBase):
     def prepare(self):
         super(Url, self).prepare()
-        user = self.current_user
-        user_id = self.current_user_id
-        link = self.current_user.link
-        if not user_can_reply(user):
-            self.redirect(link+'/i/verify')
-        elif url_by_id(user_id):
-            self.redirect(link)
+        if not self._finished:
+            user = self.current_user
+            user_id = self.current_user_id
+            link = self.current_user.link
+            if not user.state <= ZSITE_STATE_APPLY:
+                self.redirect(link+'/i/verify')
+            elif url_by_id(user_id):
+                self.redirect(link)
 
     def get(self):
         self.render(url='')

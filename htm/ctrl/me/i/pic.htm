@@ -1,8 +1,8 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="_i_nav.htm" import="i_nav"/>
 <%!
 from model.ico import pic_url as _pic_url
-
 %>
 <%def name="htm_head()">
 ${css.imgselect|n}
@@ -15,25 +15,59 @@ margin:auto;width:96px;height:96px; overflow: hidden;
 #preview_pic{
 width:96px;height:96px;overflow:hidden;display:none
 }
+.G1{
+font-size:16px
+}
+.i_nav a{
+font-size:16px;
+padding:0 16px;
+color:#999;
+}
+.i_nav .now{
+color:#000;
+}
+.i_nav{
+border-bottom:1px dotted #ccc;
+text-align:center;
+padding:16px 0;
+margin-bottom:32px;
+}
 </style>
 </%def>
 
 <%
 pic_url = _pic_url(current_user_id)
 %>
-<%htm:form enctype="multipart/form-data">
+${i_nav("/i/pic", "修改头像")}
+<%htm:form enctype="multipart/form-data" className="G">
 <input type="hidden" id="pos" name="pos" value="${pos}">
 %if pic_url:
-    <div><img id="pic" src="${pic_url}"></div>
-    <div id="preview"><img src="${pic_url}" id="preview_pic" onload="setTimeout(init_preview,100)"></div>
-    <div><button type="submit">修改缩略图</button></div>
-%endif
-<div>
-    上传头像 <input type="file" name="pic"> 
-    <button type="submit">上传</button>
+    <div class="G3"><img id="pic" src="${pic_url}"></div>
+    <div class="G1">
+        <div id="preview">\
+        <img src="${pic_url}" id="preview_pic" onload="setTimeout(init_preview,100)">\
+        </div>
+        <div class="tc" style="margin-top:16px;">\
+            <span class="btnw"><button type="submit">更新缩略图</button></span>\
+        </div>
+        <div style="margin-top:112px">
+            <p>上传新头像 </p>
+            <p style="margin-top:16px"><input type="file" name="pic"></p> 
+            <p style="margin-top:16px;"><span class="btnw"><button type="submit">确定</button></span></p>
+            %if error_pic:
+                ${error_pic}
+            %endif
+        </div>
+    </div>
+%else:
+<div class="tc" style="margin-top:64px">
+    <p>上传新头像 </p>
+    <p style="margin-top:16px"><input type="file" name="pic"></p> 
+    <p style="margin-top:16px;"><span class="btnw"><button type="submit">确定</button></span></p>
     %if error_pic:
         ${error_pic}
     %endif
 </div>
+%endif
 </%htm:form>
 
