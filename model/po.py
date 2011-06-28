@@ -14,6 +14,7 @@ from po_pic import pic_htm
 from zkit.txt2htm import txt_withlink
 from zsite import Zsite
 from zkit.txt import cnencut
+from cgi import escape
 
 PO_EN = {
     CID_NOTE: 'note',
@@ -43,6 +44,13 @@ class Po(McModel, ReplyMixin):
         rid = self.rid
         if rid:
             return Po.mc_get(rid)
+
+    @property
+    def name_htm(self):
+        q = self.question
+        if q:
+            return '答：<a href="%s">%s</a>' % (q.link, escape(q.name))
+        return escape(self.name)
 
     def txt_set(self, txt):
         id = self.id
