@@ -1,15 +1,15 @@
 .photo {
-margin: 20px;
-position:  relative;
-width:  229px;
-height: 173px;
+margin:32px 10px 0;
 float: left;
+}
+.photo div{
+line-height:16px;
 }
 .whiteblock {
 border: 10px solid #F2F2E9;
 }
 .blackblock {
-border:  10px solid #000;
+border: 10px solid #000;
 }
 .name {
 line-height: 4em;   
@@ -24,6 +24,8 @@ width: 580px;
 font-size: 16px;
 }
 body {text-align: center}
-.kuang {
-height: 400px;
+.row{
+margin-bottom:32px;
+border-bottom:1px dotted #ccc;
+padding-bottom:32px;
 }

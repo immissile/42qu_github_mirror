@@ -11,37 +11,30 @@ ${css.god_review|n}
 </%def>
 <h2 class="tc">${CID_PIC_NAME[cid]}审核 - ${total}</h2>
  <hr />
-<div class="kuang">
+<div class="c">
 % if total:
-<%
-pic_list.extend([None] * 3)
-pic_iter = [iter(pic_list)] * 4
-%>
-% for row in zip(*pic_iter):
-<div >
-    % for pic in row:
+    % for pic in pic_list:
         % if pic:
 <%
 pic_id = pic.id
 user = pic.user
 user_id = user.id
 %>
-<div  class="photo" id=${user.id}>
+<div  class="photo c" id=${user.id}>
         <img id="${user.id}"src="${pic.src219}" class="whiteblock"/>
-    <span class="L">
+    <div>
         <a class="name"href="${user.link}" target="_blank">${user.name}</a>
-    </span>
+    </div>
 </div>
         % endif
     % endfor
 </div>
-% endfor
 % else:
 没有新上传头像
 % endif
 </div>
 <div>
-<%htm:form id="pic">
+<%htm:form id="pic" className="c">
         <input id="yes" type="hidden" name="yes">
         <input id="no" type="hidden" name="no">
         <button id="footer" type="submit">删除选中</button>
