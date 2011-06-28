@@ -7,25 +7,29 @@ CID_PIC_NAME = {
 <%inherit file="/god/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_head()">
+${css.god_review|n}
 </%def>
-<style>
-label {
-    display:block
-}
-img {
-    display:block
-}
-</style>
+
+        
+        <script>
+            $(document).ready(function(){
+                $(".photo img").click(function(){
+                    $(this).toggleClass("whiteblock").toggleClass("blackblock")
+                })
+            })
+        </script>
+
+
 <h2 class="tc">${CID_PIC_NAME[cid]}审核 - ${total}</h2>
-<div>
+ <hr />
+<div class="kuang">
 % if total:
 <%
 pic_list.extend([None] * 3)
 pic_iter = [iter(pic_list)] * 4
 %>
-<%htm:form>
 % for row in zip(*pic_iter):
-<div>
+<div >
     % for pic in row:
         % if pic:
 <%
@@ -33,26 +37,42 @@ pic_id = pic.id
 user = pic.user
 user_id = user.id
 %>
-<div style="display: inline-block">
-    <label for="pic${pic_id}" class="b1e">
-        <img src="${pic.src219}">
-        <input id="pic${pic_id}" name="pic_no" type="checkbox" value="${pic_id}">
-        <input name="pic_all" type="hidden" value="${pic_id}">
-        删除
-    </label>
+<div  class="photo" id=${user.id}>
+        <img id="${user.id}"src="${pic.src219}" class="whiteblock"/>
     <span class="L">
-        <a href="${user.link}" target="_blank">${user.name}</a>
+        <a class="name"href="${user.link}" target="_blank">${user.name}</a>
     </span>
 </div>
         % endif
     % endfor
 </div>
-<hr>
 % endfor
-<button type="submit">删除选中</button>
-</%htm:form>
-
 % else:
 没有新上传头像
 % endif
 </div>
+<div>
+<%htm:form id="pic">
+        <input id="yes" type="hidden" name="yes">
+        <input id="no" type="hidden" name="no">
+        <button id="footer" type="submit">删除选中</button>
+</%htm:form>
+        <script>
+            $("#pic").submit(function(){
+                var idyes, idno
+                $("#no").val(function(){
+                    idyes = $(".blackblock").map(function(){
+                        return this.id
+                    }).get().join(" ")
+                    return idyes
+                })
+                $("#yes").val(function(){
+                    idno = $(".whiteblock").map(function(){
+                        return this.id
+                    }).get().join(" ")
+                    return idno
+                })
+            })
+        </script>
+</div>
+

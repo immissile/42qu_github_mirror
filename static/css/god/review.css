@@ -1,0 +1,29 @@
+.photo {
+margin: 20px;
+position:  relative;
+width:  229px;
+height: 173px;
+float: left;
+}
+.whiteblock {
+border: 10px solid #F2F2E9;
+}
+.blackblock {
+border:  10px solid #000;
+}
+.name {
+line-height: 4em;   
+}
+#footer {
+margin: 60px;
+background: none repeat scroll 0 0 #CCD2DE;
+clear: both;
+height: 40px;
+padding: 10px; 
+width: 580px;
+font-size: 16px;
+}
+body {text-align: center}
+.kuang {
+height: 400px;
+}

@@ -26,8 +26,8 @@ class Review(Base):
 
     def post(self, cid):
         current_user_id = self.current_user_id
-        ids_all = self.get_arguments('pic_all')
-        ids_no = set(self.get_arguments('pic_no'))
+        ids_yes = map(int,self.get_argument('yes','').split(' '))
+        ids_no = map(int,self.get_argument('no','').split(' '))
         for i in ids_all:
             if i in ids_no:
                 pic_no(i, current_user_id)
