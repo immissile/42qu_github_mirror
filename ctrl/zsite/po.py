@@ -64,7 +64,7 @@ class PoPage(ZsiteBase):
 PO_TEMPLATE = '/ctrl/zsite/po/po.htm'
 CID2TEMPLATE = {
     CID_WORD:'/ctrl/zsite/po/word.htm',
-    CID_NOTE:PO_TEMPLATE,
+    CID_NOTE: PO_TEMPLATE,
     CID_QUESTION:'/ctrl/zsite/po/question.htm',
 }
 
@@ -141,7 +141,7 @@ class Question(PoOne):
             state = STATE_ACTIVE
 
         if cnenlen(txt) > 140:
-            name = '回复%s' % question.name
+            name = ''
         else:
             name, txt = txt, ''
         po = po_answer_new(user_id, id, name, txt, state)
@@ -149,7 +149,7 @@ class Question(PoOne):
         if po:
             if po.cid == CID_NOTE:
                 answer_id = po.id
-                link = '/po/title/%s' % answer_id
+                link = '/po/tag/%s' % answer_id
                 zsite_tag_new_by_tag_id(po)
             else:
                 link = '%s#answer%s' % (question.link, po.id)
