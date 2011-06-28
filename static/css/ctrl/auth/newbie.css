@@ -16,15 +16,9 @@
 #form_reg input,#form_reg select{
     padding:8px
 }
-#job,#name{
+#name{
     text-align:center;
     width:96px;
-}
-#com{
-    width:128px
-}
-#com_state{
-   margin-right:8px;
 }
 #name{
     width:64px;
