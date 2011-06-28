@@ -14,7 +14,7 @@ ${css.ctrl_po_edit|n}
 </%def>
 
 <%htm:form id="po_form">
-<textarea id="txt" name="txt">${po.name}</textarea>
+<textarea style="border-top:0" id="txt" name="txt">${po.name}</textarea>
 <div class="btns" id="po_btn">
     <span id="po_edit_wrap">
     <span id="po_edit_span">
@@ -28,6 +28,6 @@ checked
     >\
     <label for="secret" id="secret_label">匿名</label></span>\
 <span id="po_submit" class="btnw">\
-<button class="btn" type="submit">确定</button></span></span>\
+<button  type="submit">确定</button></span></span>\
 </div>
 </%htm:form>

@@ -3,90 +3,94 @@ from datetime import datetime
 from model.po_question import answer_id_get, po_answer_list
 from model.state import STATE_SECRET, STATE_DEL
 from model.cid import CID_NOTE
+from model.zsite_link import url_or_id
 %>
-<%inherit file="/ctrl/_base/zsite.htm" />
+<%inherit file="_po.htm" />
 <%namespace file="_vote.htm" import="_vote"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
-<%def name="htm_title()">
-%if can_view:
-${po.name}
-%endif
-</%def>
-<%def name="htm_head()">
-${css.ctrl_po|n}
-</%def>
-
+<%def name="po_body()">
 <%
 po_id = str(po.id)
 po_state = po.state
 zsite_link = zsite.link
 %>
-<div class="po_page">
-%if can_view:
 <h1>${po.name}</h1>
-<pre>\
-<p class="tr">\
-<span class="L"><a href="${zsite_link}">${zsite.name}</a> 问:</span>\
-<a class="c9" href="${zsite_link}/tag/${zsite_tag_id}">${tag_name}</a>\
+<pre>${po.htm|n}\
+<p class="po_bar">\
+%if can_admin:
+<span class="L"><a href="${po.link_edit}">编辑</a></span>\
+%endif
+<span><a href="${zsite_link}">${zsite.name}</a> : \
+<a href="${zsite_link}/tag/${zsite_tag_id}">${tag_name}</a>\
 </p>\
-${po.htm|n}\
 <p class="po_bar">\
 <span class="L">${_vote(po_id)}</span>\
-${datetime.fromtimestamp(po.create_time)}</p>\
+${datetime.fromtimestamp(po.create_time)}\
+</p>\
 <p class="po_bar">\
 <span class="L">\
 <a href="${po.link_reply}#reply_txt">${po.reply_count or ''}评注</a></span>\
-%if can_admin:
-<a href="/question/edit/${po_id}">编辑</a>\
-%endif
  </p>\
 </pre>\
-</div>
+</%def>
 
 
+<%def name="reply_list()">
+<%
+po_id = str(po.id)
+%>
 <div id="reply_list">
-%for answer in po_answer_list(po_id):
+%for answer in po_answer_list(po_id, zsite_id, current_user_id):
 <%
 answer_id = answer.id
+answer_link = answer.link
 user = answer.user
+user_id = user.id
 %>
-<div id="answer${answer_id}">
-<h1>${answer.name}</h1>
-%if answer.cid == CID_NOTE:
-<pre>${answer.htm|n}</pre>
-%endif
-
-%if answer.can_view(current_user_id):
-<a href="${answer.link}">${user.name}</a>
-%if answer.can_admin(current_user_id):
-<a href="${answer.link_edit}">编辑</a>
-%endif
+<div class="sdw"><div id="answer${answer.id}" class="sd">
+<p>
+%if answer.state != STATE_SECRET:
+<a href="${user.link}" class="replyer">${user.name}</a>
 %else:
-匿名回答
+匿名
 %endif
-</div>
+ :
+</p>
+    %if answer.cid == CID_NOTE:
+<pre>${answer.htm|n}</pre>
+    %else:
+<p>${answer.name}</p>
+    %endif
+
+    <div class="bar">
+    %if answer.can_view(current_user_id):
+        %if answer.state != STATE_SECRET:
+            <a class="reply" href="${answer_link}#reply_txt" title="回复">${answer.reply_count}</a>
+        %endif
+        %if answer.can_admin(current_user_id):
+<a
+%if answer.state == STATE_SECRET:
+style="float:none"
+%endif
+href="${answer.link_edit}" class="edit">编辑</a>
+        %else:
+<span class="L">${_vote(answer_id)}</span>\
+        %endif
+    %else:
+无名氏
+    %endif
+    </div>
+</div></div>
 %endfor
 </div>
+
     %if po_state > STATE_SECRET and not answer_id_get(current_user_id, po_id):
-<%htm:form id="txt_form" action="/question/${po_id}">
-${htm.reply_textarea()}
-<div class="btns">
-<span class="btnw"><button class="btn" type="submit">回答</button></span>
-</div>
-</%htm:form>
+<%htm:form id="txt_form" action="/question/${po_id}">\
+<textarea id="reply_txt" name="txt"></textarea>\
+<div class="btns">\
+<span class="btnw"><button  type="submit">回答</button></span>\
+</div>\
+</%htm:form>\
     %endif
-%else:
-<div>
-    %if po_state == STATE_DEL:
-啊 , 被删除了 !!!
-    %elif po_state == STATE_SECRET:
-机密文件 , 无关人士 , 禁止入内
-    %else:
-不可见的状态 ${po_state}
-    %endif
-</div>
-%endif
-</div>
-<script src="${js.ctrl_po_po}"></script>\
-<script src="${js.ctrl_feed}"></script>
+</%def>

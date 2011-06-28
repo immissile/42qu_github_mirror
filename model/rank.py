@@ -61,7 +61,7 @@ def rank_new(po, to_id, cid):
 def rank_rm_all(po_id):
     for r in Rank.where(po_id=po_id):
         r.delete()
-        mc_flush_cid(t.to_id, r.cid)
+        mc_flush_cid(r.to_id, r.cid)
         mc_rank_id_by_po_id_to_id.set('%s_%s' % (po_id, r.to_id), 0)
 
 def rank_rm(po_id, to_id):

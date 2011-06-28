@@ -1,40 +1,9 @@
-<%inherit file="/ctrl/_base/zsite.htm" />
+<%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%!
-from model.ico import ico_url as _ico_url
-from model.zsite_link import url_by_id
-from model.motto import motto
-%>
-<%
-ico_url = _ico_url(current_user_id)
-url = url_by_id(current_user_id)
-%>
-<%htm:form enctype="multipart/form-data">
-    <div>
-        %if ico_url:
-            <img src="${ico_url}">
-            <a href="/i/pic">编辑头像</a>
-        %else:
-            上传头像 <input type="file" name="pic"> 
-            <button type="submit">上传</button>
-            %if error_pic:
-                ${error_pic}
-            %endif
-        %endif
-    </div>
-<div>昵称 <input type="text" name="name" value="${current_user.name}"></div>
-<div>座右铭 <input type="text" name="motto" value="${motto.get(current_user_id)}"></div>
-<div>自我介绍
-<textarea name="txt">${txt}</textarea>
-</div>
-    <button type="submit">保存</button>
-</%htm:form>
-<div>
-%if not url:
-    <a href="/i/url">设置我的域名</a>
-%endif
-</div>
-<div><a href="/i/namecard">个人资料</a></div>
-<div><a href="/i/mail_notice">邮件提醒设置</a></div>
-<div><a href="/money">现金账户</a></div>
-<div><a href="/password">修改密码</a></div>
+<%namespace file="/ctrl/_util/info.htm" name="info"/>
+<%def name="head()">
+${info.css_js()}
+</%def>
+
+${info.body()}
+

@@ -10,12 +10,7 @@ ${css.ctrl_po_tag|n}
 
 <%htm:form className="tag_form">
 <div class="tag_title">
-    % if title:
-    <a href="/po/edit/${po.id}">编辑</a>
-    <input type="text" name="title" value="${po.name}">
-    % else:
     <a href="/po/edit/${po.id}">${po.name}</a>
-    % endif
 </div>
 <div class="tag_admin"><span class="L">请选择分类</span> <a href="javascript:tag(this);void(0)">管理</a></div>
 <div class="tag_line"> <input name="tag" type="radio" value="0" id="tag0">
@@ -31,7 +26,7 @@ ${css.ctrl_po_tag|n}
 </div>
 %endfor
 <div class="btns" style="margin-top:16px">
-<span class="btnw"><button class="btn" type="submit">确定</button></span>
+<span class="btnw"><button  type="submit">确定</button></span>
 </div>
 <script src="${js.ctrl_po_tag}"></script>
 </%htm:form>

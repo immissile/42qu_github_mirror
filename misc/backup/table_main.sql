@@ -59,6 +59,17 @@ CREATE TABLE `buzz_pos` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `buzz_sys`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `buzz_sys` (
+  `id` int(10) unsigned NOT NULL,
+  `htm` blob NOT NULL,
+  `seq` tinyint(3) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `index2` (`seq`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `failed_mq`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

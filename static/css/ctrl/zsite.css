@@ -113,7 +113,7 @@ color:#000;
 .btn::-moz-focus-inner {
   border: 0;
 }
-.btns .btn{
+.btnw button{
 z-index: 1;
 overflow: visible; 
 display: inline-block; 
@@ -147,10 +147,10 @@ _line-height:16px; /* 微调IE6与IE7中文字在按钮中显示的位置 */
 vertical-align:text-bottom; /* 解决IE8中，Arial字体设置时，纯中文按钮与非纯中文按钮对齐的话题，这个对齐的方式可以根据需要自行改变。 */
 *vertical-align:auto; /* IE6的按钮中文字会受到vertical-align:middle;影响，IE7vertical-align:middle;并且字符集为gb系列时会向上向下分别产生1px的边距。 */
 }
-.btns .btn:hover{
+.btnw button:hover{
 color:#000;
 }
-.btns .btn:active{
+.btnw button:active{
 color:#666;
 background-color: #f3f3f3;
 background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3f3f3), to(#ffffff));
@@ -161,7 +161,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f3f3f3', EndC
 }
 
 @-moz-document domain(){
-.btns .btn  {
+.btnw button  {
     padding:0 27px 0 27px; /* FF3很奇怪，左右比一般浏览器都多出2px */
 }
 }

@@ -1,4 +1,6 @@
-.birthday_day{display:none}
+#form_reg .birthday_day{
+margin-right:3px;
+}
 #form_reg{
     font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
     line-height:36px;
@@ -17,18 +19,12 @@
 #form_reg input,#form_reg select{
     padding:8px
 }
-#job,#name{
+#name{
     text-align:center;
     width:96px;
 }
-#com{
-    width:128px
-}
-#com_state{
-   margin-right:8px;
-}
 #name{
-    width:64px;
+    width:128px;
     margin-right:8px;
 }
 .label_input{
@@ -56,3 +52,8 @@ select , input{
 }
 #birthday select{width:120px;margin-right:16px;}
 #sex{width:108px;margin-right:16px;}
+#txt{
+height:56px;border:1px solid #ccc;font-size:16px;
+padding:3px 5px;width:620px;margin:0 0 16px;
+}
+

@@ -14,6 +14,7 @@ from po_pic import pic_htm
 from zkit.txt2htm import txt_withlink
 from zsite import Zsite
 from zkit.txt import cnencut
+from cgi import escape
 
 PO_EN = {
     CID_NOTE: 'note',
@@ -40,9 +41,23 @@ class Po(McModel, ReplyMixin):
 
     @property
     def question(self):
-        rid = self.rid
-        if rid:
-            return Po.mc_get(rid)
+        if not hasattr(self, '_question'):
+            self._question = Po.mc_get(self.rid)
+        return self._question
+
+    @property
+    def name(self):
+        q = self.question
+        if q:
+            return '答：%s' % q.name
+        return self.name_
+
+    @property
+    def name_htm(self):
+        q = self.question
+        if q:
+            return '答：<a href="%s">%s</a>' % (q.link, escape(q.name))
+        return escape(self.name)
 
     def txt_set(self, txt):
         id = self.id
@@ -66,9 +81,9 @@ class Po(McModel, ReplyMixin):
     @property
     def link_edit(self):
         if not hasattr(self, '_link_edit'):
-            en = PO_EN[self.cid]
+#            en = PO_EN[self.cid]
             zsite = Zsite.mc_get(self.user_id)
-            self._link_edit = '%s/%s/edit/%s' % (zsite.link, en, self.id)
+            self._link_edit = '%s/po/edit/%s' % (zsite.link, self.id)
         return self._link_edit
 
     def feed_new(self):
@@ -78,7 +93,7 @@ class Po(McModel, ReplyMixin):
         if self.state <= STATE_DEL:
             return False
         if self.state == STATE_SECRET:
-            if self.user_id != user_id:
+            if (not user_id) or ( self.user_id != user_id ):
                 return False
         return True
 
@@ -93,7 +108,7 @@ class Po(McModel, ReplyMixin):
 def po_new(cid, user_id, name, rid, state):
     m = Po(
         id=gid(),
-        name=cnencut(name, 140),
+        name_=cnencut(name, 140),
         user_id=user_id,
         cid=cid,
         rid=rid,
@@ -114,7 +129,7 @@ def po_state_set(po, state):
         po.feed_new()
     po.state = state
     po.save()
-    mc_flush_other(user_id)
+    mc_flush_other(po.user_id)
 
 def po_rm(user_id, id):
     m = Po.mc_get(id)
@@ -126,6 +141,10 @@ def po_rm(user_id, id):
         zsite_tag_rm_by_po_id(id)
         from rank import rank_rm_all
         rank_rm_all(id)
+        from po_question import mc_answer_id_get
+        rid = m.rid
+        if rid:
+            mc_answer_id_get.delete('%s_%s' % (user_id, rid))
         mc_flush(user_id)
         return True
 

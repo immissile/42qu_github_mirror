@@ -40,7 +40,7 @@ id="po_word_txt" name="txt"></textarea>\
 </div></div></div>\
 <div id="po_word_btn" class="btns">\
 <span id="po_word_tip"></span>\
-<span class="btnw"><button class="btn" type="submit">输出</button></span>\
+<span class="btnw"><button  type="submit">输出</button></span>\
 </div>
 </%htm:form>
 <div class="G2">${buzz_show(zsite_id)}</div>
@@ -56,7 +56,9 @@ id="po_word_txt" name="txt"></textarea>\
 <script id="feed" type="text/x-jquery-tmpl">
 <div class="G c">
 <div class="G3"><div class="sdw"><div class="sd">
-    <pre class="fdh"><a class="c0" target="_blank" href="${link}">${name}</a></pre>
+    <pre class="fdh"><a
+class="c0"
+target="_blank" href="${link}">${name}</a>{{if tag_id}}<a class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
     {{if txt}}
         <div class="fdtxt" id="fdtxt${id}">
             ${txt}
@@ -69,22 +71,31 @@ id="po_word_txt" name="txt"></textarea>\
     <span class="L">
         ${create_time}
         {{if rt_list.length}} ,
+            {{if rt_list.length == 1 && rt_list[0].link == 0}}
+            全站广播
+            {{else}}
         <span>
             {{each rt_list}}
-                <a href="${$value.link}" target="_blank">${$value.name}</a>
+                {{if $value.link}}
+            <a href="${$value.link}" target="_blank">${$value.name}</a>
+                {{/if}}
             {{/each}}
         </span>喜欢
+            {{/if}}
         {{/if}}
     </span>
 <span class="vote${vote_state}" id="vote${id}"><a title="厌倦" class="down" href="javascript:vote_down(${id});void(0)">-</a><span title="好评度" class="num">${vote}</span><a title="喜欢" class="up" href="javascript:vote_up(${id});void(0)">+</a></span><a title="回复" target="_blank" class="reply" href="${link}#txt">${reply_count}</a>
     </div>
 </div></div></div>
+{{if zsite_same_as_pre}}
+{{else}}
 <div class="G1">
     <a class="c0" target="_blank" href="${zsite.link}">
     <div><img src="${pic}"></div>
     <div>${zsite.name}</div>
     </a>
 </div>
+{{/if}}
 </div>
 </script>
 </%text>

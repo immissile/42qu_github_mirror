@@ -11,6 +11,10 @@ from model.user_mail import mail_by_user_id
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
 from model.zsite import user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_APPLY
+from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
+from model.user_mail import mail_by_user_id
+from cgi import escape
+
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -46,8 +50,9 @@ class Pic(LoginBase):
 class Index(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
+        current_user = self.current_user
         txt = txt_get(current_user_id)
-        self.render(txt=txt)
+        self.render(txt=txt, name=current_user.name)
 
     def post(self):
         files = self.request.files
@@ -73,7 +78,8 @@ class Index(LoginBase):
 
         self.render(
             error_pic=error_pic,
-            txt=txt
+            txt=txt, 
+            name=current_user.name
         )
 
 
@@ -210,6 +216,35 @@ class MailNotice(LoginBase):
         for cid in CID_MAIL_NOTICE_ALL:
             state = self.get_argument('mn%s' % cid, None)
             mail_notice_set(user_id, cid, state)
-        self.redirect('/i/notice')
+        self.redirect('/i/mail_notice')
 
+
+
+@urlmap('/i/password')
+class Password(LoginBase):
+    def get(self):
+        self.render()
+
+    def post(self):
+        user_id = self.current_user_id
+        password0 = self.get_argument('password0', None)
+        password = self.get_argument('password', None)
+        password2 = self.get_argument('password2', None)
+        success = None
+        error_password = None
+        if all((password0, password, password2)):
+            if password == password2:
+                if user_password_verify(user_id, password0):
+                    user_password_new(user_id, password)
+                    success = True
+                else:
+                    error_password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail_by_user_id(user_id))
+            else:
+                error_password = "两次输入密码不一致"
+        else:
+            error_password = "请输入密码"
+        self.render(
+            success=success,
+            error_password = error_password
+        )
 

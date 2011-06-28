@@ -55,14 +55,13 @@ class PoWord(LoginBase):
 def po_post(self):
     user_id = self.current_user_id
     name = self.get_argument('name', '')
-    txt = self.get_argument('txt', '')
+    txt = self.get_argument('txt', '', strip=False).rstrip()
     secret = self.get_argument('secret', None)
     arguments = self.request.arguments
     if secret:
         state = STATE_SECRET
     else:
         state = STATE_ACTIVE
-
     po = self.po_save(user_id, name, txt, state)
     self_id = self.id
     if po:
@@ -75,57 +74,6 @@ def po_post(self):
         mc_pic_id_list.delete('%s_%s' % (user_id, self_id))
     return po
 
-class EditBase(LoginBase):
-    cid = None
-
-    def po(self, user_id, id):
-        po = Po.mc_get(id)
-        if po:
-            if po.can_admin(user_id):
-                cid = po.cid
-                if cid == CID_WORD and po.rid == 0:
-                    return self.redirect(po.link)
-                if cid == self.cid:
-                    return po
-                return self.redirect(po.link_edit)
-            return self.redirect(po.link)
-        return self.redirect('/')
-
-    def get(self, id):
-        user_id = self.current_user_id
-        po = self.po(user_id, id)
-        if po is None:
-            return
-
-        self.render(
-            'ctrl/me/po/po.htm',
-            po=po,
-            pic_list=pic_list_edit(user_id, id)
-        )
-
-    def po_save(self, user_id, name, txt, state):
-        po = self.po(user_id, self.id)
-        if po is None:
-            return
-        if name:
-            po.name = name
-            po.save()
-        if txt:
-            po.txt_set(txt)
-        if not (po.cid == CID_QUESTION and po.state == STATE_ACTIVE):
-            po_state_set(po, state)
-        return po
-
-    po_post = po_post
-
-    def post(self, id):
-        user_id = self.current_user_id
-        self.id = id
-
-        po = self.po_post()
-
-        link = '/po/tag/%s' % id
-        self.redirect(link)
 
 class PoBase(LoginBase):
     id = 0
@@ -167,13 +115,16 @@ class PoQuestion(PoBase):
 
 @urlmap('/po/edit/(\d+)')
 class Edit(LoginBase):
-    def get(self, id=0):
-        self.redirect('/note/edit/%s' % id)
-
-
-@urlmap('/word/edit/(\d+)')
-class Word(EditBase):
-    cid = CID_WORD
+    def po(self, user_id, id):
+        po = Po.mc_get(id)
+        if po:
+            if po.can_admin(user_id):
+                cid = po.cid
+                if cid == CID_WORD and po.rid == 0:
+                    return self.redirect(po.link)
+                return po
+            return self.redirect(po.link)
+        return self.redirect('/')
 
     def get(self, id):
         user_id = self.current_user_id
@@ -182,56 +133,52 @@ class Word(EditBase):
             return
 
         self.render(
+            'ctrl/me/po/po.htm',
             po=po,
+            pic_list=pic_list_edit(user_id, id)
         )
+
+    def po_save(self, user_id, name, txt, state):
+        po = self.po(user_id, self.id)
+        if po is None:
+            return
+        if po.cid == CID_WORD:
+            if cnenlen(txt) > 140:
+                #留在做备份。虽然没用
+                #po.name_ = ''
+                po.cid = CID_NOTE
+                po.save()
+                po.txt_set(txt)
+            else:
+                po.name_ = txt
+                po.save()
+        else:
+            if not po.rid and name:
+                po.name_ = name
+                po.save()
+            if txt:
+                po.txt_set(txt)
+        if not (po.cid == CID_QUESTION and po.state == STATE_ACTIVE):
+            po_state_set(po, state)
+        return po
+
+    po_post = po_post
 
     def post(self, id):
         user_id = self.current_user_id
-        po = self.po(user_id, id)
-        if po is None:
-            return
-        txt = self.get_argument('txt', '')
-        if not txt:
-            return self.get(id)
+        self.id = id
 
-        secret = self.get_argument('secret', None)
-        if secret:
-            state = STATE_SECRET
-        else:
-            state = STATE_ACTIVE
+        po = self.po_post()
 
-        if cnenlen(txt) > 140:
-            po.name = '回复%s' % po.question.name
-            po.cid = CID_NOTE
-            po.save()
-            po.txt_set(txt)
-            link = '/po/title/%s' % id
-            zsite_tag_new_by_tag_id(po)
-        else:
-            po.name = txt
-            po.save()
+        if po.cid == CID_WORD:
             link = po.link
-        po_state_set(po, state)
-
+        else:
+            link = '/po/tag/%s' % id
         self.redirect(link)
 
 
-@urlmap('/note/edit/(\d+)')
-class Note(EditBase):
-    cid = CID_NOTE
-
-
-@urlmap('/question/edit/(\d+)')
-class Question(EditBase):
-    cid = CID_QUESTION
-
-
-@urlmap('/po/title/(\d+)', title=True)
 @urlmap('/po/tag/(\d+)')
 class Tag(LoginBase):
-    def initialize(self, title=False):
-        self.title = title
-
     def _po(self, id):
         current_user = self.current_user
         current_user_id = self.current_user_id
@@ -255,17 +202,11 @@ class Tag(LoginBase):
                 tag_list=tag_list,
                 po=po,
                 tag_id=tag_id,
-                title=self.title,
             )
 
     def post(self, id):
         po = self._po(id)
         if po:
-            title = self.get_argument('title', None)
-            if title:
-                po.name = title
-                po.save()
-
             tag_id = int(self.get_argument('tag'))
             name = self.get_argument('name', None)
 

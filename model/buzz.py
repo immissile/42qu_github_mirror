@@ -8,6 +8,7 @@ from zsite import Zsite, ZSITE_STATE_APPLY
 from follow import Follow
 from po import Po
 from po_pos import PoPos, STATE_BUZZ
+from buzz_sys import BuzzSys
 from wall import Wall
 from kv import Kv
 from mq import mq_client
@@ -25,7 +26,7 @@ buzz_count = McNum(lambda user_id: Buzz.where(to_id=user_id).count(), 'BuzzCount
 buzz_unread_count = McNum(lambda user_id: Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count(), 'BuzzUnreadCount.%s')
 
 BUZZ_DIC = {
-    CID_BUZZ_SYS: Po,
+    CID_BUZZ_SYS: BuzzSys,
     CID_BUZZ_SHOW: Zsite,
     CID_BUZZ_FOLLOW: Zsite,
     CID_BUZZ_WALL: Wall,
@@ -44,12 +45,14 @@ def buzz_new(from_id, to_id, cid, rid):
     mc_flush(to_id)
     return b
 
-def buzz_sys_new(user_id, po_id):
-    buzz_new(0, user_id, CID_BUZZ_SYS, po_id)
+def buzz_sys_new(user_id, rid):
+    buzz_new(0, user_id, CID_BUZZ_SYS, rid)
 
-def buzz_sys_new_all(po_id):
+def buzz_sys_new_all(rid):
     for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_APPLY)):
-        buzz_sys_new(i.id, po_id)
+        buzz_sys_new(i.id, rid)
+
+mq_buzz_sys_new_all = mq_client(buzz_sys_new_all)
 
 def buzz_show_new(user_id, zsite_id):
     buzz_new(0, user_id, CID_BUZZ_SHOW, zsite_id)

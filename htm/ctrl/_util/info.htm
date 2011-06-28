@@ -1,0 +1,59 @@
+<%!
+from model.motto import motto
+%>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="css_js()">
+<script src="${js.pid}"></script>
+<script src="${js.date}"></script>
+${css.ctrl_auth_newbie|n}
+</%def>
+
+
+<div>
+<%htm:form id="form_reg">
+<p class="tc">
+<label class="label_input label" for="name">我名叫</label>
+<input id="name" autocomplete="off" type="text" name="name" value="${name or ''}">
+</p>
+<p class="tc">我的座右铭是 \
+<input type="text" autocomplete="off" name="motto" style="width:400px"
+value="${motto.get(current_user_id)}"
+></p>
+<p class="tc">
+<script>select_birthday("birthday",'${birthday or ""}')</script>
+<label class="label" for="birthday">出生</label> , 
+如今 <select>
+<option>尚是单身</option>
+<option>正在恋爱</option>
+<option>已经结婚</option>
+</select>
+
+</p>
+<p class="tc">现居
+<script>select_pid("pid_home",0)</script>
+</p>
+<p class="tc">家乡
+<script>select_pid("pid_now",0)</script>
+</p>
+<div class="tc">
+<p>我会这样向别人介绍自己 </p>
+<textarea id="txt" style="" placeholder="爱吃什么 , 偶像是谁 , 想去的地方 , 追逐的理想 。 人生是一场旅行 ..."></textarea>
+</div>
+<div class="cl btns" id="form_btn">
+
+<span class="btnw"><button type="submit" >保存</button></span>
+ 
+</div>
+</%htm:form>
+</div>
+<script>
+$("#name").focus()
+$("#txt").elastic().blur()
+$("#com,#txt").placeholder()
+</script>
+##在
+##<input type="text" name="com" id="com" placeholder="请填写当下的单位">
+##<select id="com_state" name="com_state"><option>工作 , 职业是</option><option>读书 , 专业是</option></select>
+##<input type="text" id="job" autocomplete="off" name="job" value="">
+</p>
+##<p class="tc">每天勤勤恳恳地 <input type="text" name="work" id="work" placeholder="干着什么活 ?" style="width:500px"></p>

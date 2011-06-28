@@ -18,46 +18,17 @@ ${css.ctrl_po|n}
 </%def>
 <%
 cid = po.cid
-po_id = str(po.id)
 po_state = po.state
 %>
 
 
 %if can_view:
-    ${next.po_body()}
-
-<div id="reply_list">
-    %for reply in po.reply_list():
-<%
-user = reply.user
-user_id = user.id
-%>
-<div class="sdw"><div id="reply${reply.id}" class="sd">
-    <pre>${reply.htm|n}</pre>
-    <div class="bar">
-%if can_admin or reply.can_rm(current_user_id):
-    <a href="javascript:rm(${reply.id});void(0)" class="rm">删除</a> 
-%endif
-<a href="${user.link}" class="replyer">${user.name}</a> 
-<a class="reply_at" rel="${url_or_id(user_id)}" href="javascript:void(0)"></a>
-    </div>
-</div></div>
-    %endfor
+<div class="po_page">
+<div class="po_body">
+${next.po_body()}\
 </div>
-
-    %if po.state > STATE_SECRET:
-<%htm:form id="txt_form" action="/po/reply/${po_id}">\
-${htm.reply_textarea()}
-<div class="btns">\
-%if cid == CID_QUESTION:
-<a class="reply_a" href="${po.link}">回答</a>\
-<span class="btnw"><button class="btn" type="submit">评注</button></span>\
-%else:
-<span class="btnw"><button class="btn" type="submit">此致 , 敬礼</button></span>\
-%endif
+${self.reply_list()}\
 </div>
-</%htm:form>
-    %endif
 %else:
 <style>
 .fullscreen p{
@@ -86,3 +57,40 @@ font-size:16px;text-align:center;margin-top:10%;
 <script src="${js.ctrl_po_po}"></script>\
 <script src="${js.ctrl_feed}")></script>
 
+<%def name="reply_list()">
+<%
+po_id = str(po.id)
+%>
+<div id="reply_list">
+    %for reply in po.reply_list():
+<%
+user = reply.user
+user_id = user.id
+%>
+<div class="sdw"><div id="reply${reply.id}" class="sd">
+    <pre>${reply.htm|n}</pre>
+    <div class="bar">
+%if can_admin or reply.can_rm(current_user_id):
+    <a href="javascript:rm(${reply.id});void(0)" class="rm">删除</a> 
+%endif
+<a href="${user.link}" class="replyer">${user.name}</a> 
+<a class="reply_at" rel="${url_or_id(user_id)}" href="javascript:void(0)"></a>
+    </div>
+</div></div>
+    %endfor
+</div>
+
+    %if po.state > STATE_SECRET:
+<%htm:form id="txt_form" action="/po/reply/${po_id}">\
+${htm.reply_textarea()}
+<div class="btns">\
+%if cid == CID_QUESTION:
+<a class="reply_a" href="${po.link}">回答</a>\
+<span class="btnw"><button  type="submit">评注</button></span>\
+%else:
+<span class="btnw"><button  type="submit">此致 , 敬礼</button></span>\
+%endif
+</div>
+</%htm:form>
+    %endif
+</%def>

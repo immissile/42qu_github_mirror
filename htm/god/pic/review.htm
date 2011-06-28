@@ -9,17 +9,6 @@ CID_PIC_NAME = {
 <%def name="htm_head()">
 ${css.god_review|n}
 </%def>
-
-        
-        <script>
-            $(document).ready(function(){
-                $(".photo img").click(function(){
-                    $(this).toggleClass("whiteblock").toggleClass("blackblock")
-                })
-            })
-        </script>
-
-
 <h2 class="tc">${CID_PIC_NAME[cid]}审核 - ${total}</h2>
  <hr />
 <div class="kuang">
