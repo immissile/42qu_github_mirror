@@ -51,6 +51,6 @@ select , input{
 #sex{width:108px;margin-right:16px;}
 #txt{
 height:56px;border:1px solid #ccc;font-size:16px;
-padding:3px;width:620px;margin:0 0 16px;
+padding:3px 5px;width:620px;margin:0 0 16px;
 }
 
