@@ -52,14 +52,25 @@ margin-right:16px;
 margin-bottom:16px;
 line-height:38px;
 }
+.img{
+text-align:center;
+}
+.img img{
+padding-bottom:8px;
+}
+.img a{
+display:block;
+}
 </style>
 
 <div class="G i_div">
 <%htm:form enctype="multipart/form-data">
         %if ico_url:
-            <div class="tc G1">
-            <img src="${ico_url}">
-            <div><a href="/i/pic">编辑头像</a></div>
+            <div class="img G1">
+            <a href="/i/pic">
+                <img src="${ico_url}">
+                <div>编辑头像</div>
+            </a>
             </div>
         %else:
             <div>
