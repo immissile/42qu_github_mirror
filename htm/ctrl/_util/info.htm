@@ -1,3 +1,6 @@
+<%!
+from model.motto import motto
+%>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="css_js()">
 <script src="${js.pid}"></script>
@@ -12,7 +15,10 @@ ${css.ctrl_auth_newbie|n}
 <label class="label_input label" for="name">我名叫</label>
 <input id="name" autocomplete="off" type="text" name="name" value="${name or ''}">
 </p>
-<p class="tc">我的座右铭是 <input type="text" autocomplete="off" name="motto" style="width:400px"></p>
+<p class="tc">我的座右铭是 \
+<input type="text" autocomplete="off" name="motto" style="width:400px"
+value="${motto.get(current_user_id)}"
+></p>
 <p class="tc">
 <script>select_birthday("birthday",'${birthday or ""}')</script>
 <label class="label" for="birthday">出生</label> , 
