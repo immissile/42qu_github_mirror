@@ -166,7 +166,7 @@ def withdraw_new(price, user_id, cid):
 def withdraw_fail(id, txt):
     t = Trade.get(id)
     if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_OPEN:
-        trade_fail(t)
+        t.fail()
         trade_log.set(id, txt)
 
 def withdraw_open_count():
