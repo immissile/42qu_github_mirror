@@ -13,6 +13,7 @@ from zkit.page import page_limit_offset
 from model.txt import txt_get, txt_new
 from model.motto import motto
 from ctrl.me.i import _upload_pic
+from model.user_mail import user_id_by_mail
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -20,7 +21,8 @@ class Index(Base):
         zsite = Zsite.mc_get(id)
         if zsite:
             txt = txt_get(id)
-            self.render(txt=txt, zsite=zsite)
+            query_id = None
+            self.render(txt=txt, zsite=zsite, query_id=query_id)
         else:
             self.redirect('/')
 
@@ -28,6 +30,16 @@ class Index(Base):
     def post(self, id):
         zsite = Zsite.mc_get(id)
         files = self.request.files
+
+        _mail = self.get_argument('mail', None)
+        if _mail:
+            data = user_id_by_mail(_mail)
+            if data:
+                query_id = data
+            else:
+                query_id = None
+
+
 
         _name = self.get_argument('name', None)
         if _name:
@@ -38,18 +50,15 @@ class Index(Base):
         if _motto:
             motto.set(zsite.id, _motto)
 
-        #error_pic = _upload_pic(files, current_user_id)
-        #if error_pic is False:
-        #    return self.redirect('/i/pic')
-
         txt = self.get_argument('txt', '')
         if txt:
             txt_new(zsite.id, txt)
 
         self.render(
-            #error_pic=error_pic,
             zsite=zsite,
-            txt=txt
+            txt=txt,
+            query_id=query_id,
+            _mail=_mail,
         )
 
 @urlmap('/zsite/show/(\d+)')
