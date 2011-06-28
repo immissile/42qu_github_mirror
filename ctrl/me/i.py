@@ -12,6 +12,7 @@ from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
 from model.zsite import user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_APPLY
 from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
+from model.user_mail import mail_by_user_id
 from cgi import escape
 
 
@@ -237,7 +238,7 @@ class Password(LoginBase):
                     user_password_new(user_id, password)
                     success = True
                 else:
-                    error_password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % user_id
+                    error_password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail_by_user_id(user_id))
             else:
                 error_password = "两次输入密码不一致"
         else:
