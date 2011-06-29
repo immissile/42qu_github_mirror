@@ -49,7 +49,7 @@ if zsite_id == user_id:
 else:
     other_id = None
 %>\
-<div>\
+<div class="sdw"><div class="sd">\
 %if other_id:
 <%
 other = Zsite.mc_get(other_id)
@@ -63,7 +63,7 @@ ${reply_render_body(i)}\
 ${friendly_time(i.create_time)}\
 <a target="_blank" href="/wall/reply2txt/${i.id}">回复</a>\
 </div>\
-</div>\
+</div></div>\
 </%def>
 
 
@@ -73,8 +73,8 @@ ${friendly_time(i.create_time)}\
 <%htm:form id="reply_form" action="${action}">\
 ${htm.reply_textarea()}\
 <div class="btns">\
-<input type="checkbox" name="secret" id="secret">\
-<label for="secret">悄悄话</label>\
+<span id="secret_span"><input type="checkbox" name="secret" id="secret">\
+<label for="secret">私语</label></span>\
 <span class="btnw"><button  type="submit">此致 , 敬礼</button></span>\
 </div>\
 </%htm:form>\
