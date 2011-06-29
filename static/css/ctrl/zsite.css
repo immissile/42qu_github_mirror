@@ -174,19 +174,19 @@ color:#999;
 }
 .sd{
 background:#fff;
-border:1px solid #EDEFF0;
+border:1px solid #e9e9e9;
 padding:16px 20px 12px;
 }
 .sdw{
 box-shadow: -1px 2px 2px #f3f3f3;
-background:#fafafa;
+background:#f6f6f6;
 padding:1px;
 margin-bottom:16px;
 }
 .sd .bar{
 text-align:right;
 padding-top:10px;
-border-top:1px solid #eee;
+border-top:1px solid #e9e9e9;
 margin-top:14px;
 }
 .sd .bar a{
