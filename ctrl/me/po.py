@@ -171,7 +171,7 @@ class Edit(LoginBase):
         po = self.po_post()
 
         if po.cid == CID_WORD:
-            link = po.link
+            link = po.link_question
         else:
             link = '/po/tag/%s' % id
         self.redirect(link)
@@ -218,4 +218,4 @@ class Tag(LoginBase):
             else:
                 zsite_tag_new_by_tag_name(po, name)
 
-            self.redirect(po.link)
+            self.redirect(po.link_question)

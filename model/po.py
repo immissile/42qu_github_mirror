@@ -65,6 +65,8 @@ class Po(McModel, ReplyMixin):
         if q:
             u = q.user
             return '答%s问：%s' % (u.name, q.name)
+        if self.cid == CID_WORD:
+            return ''
         return self.name_
 
     @lazyprop
@@ -73,6 +75,8 @@ class Po(McModel, ReplyMixin):
         if q:
             u = q.user
             return '答<a href="%s">%s</a>问：<a href="%s">%s</a>' % (u.link, escape(u.name), q.link, escape(q.name))
+        if self.cid == CID_WORD:
+            return ''
         return escape(self.name)
 
     @lazyprop
