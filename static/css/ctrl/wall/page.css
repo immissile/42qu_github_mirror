@@ -1,0 +1,40 @@
+
+#wall{
+width:721px;
+margin:auto
+}
+#reply_list{
+margin-bottom:64px;
+}
+#reply_list .sdw{
+margin-bottom:16px;
+}
+#reply_txt{
+padding:6px 8px 8px;
+width:701px;
+border:1px solid #ccc;
+font-size:14px;
+line-height:28px;
+height:100px;
+margin-top:48px;
+}
+#secret_span{
+vertical-align:top;
+}
+#secret{
+vertical-align:-1px
+}
+#reply_form label{
+margin-right:32px;
+margin-left:5px;
+}
+#reply_form .btns{
+text-align:right;
+margin-bottom:4px;
+margin-top:10px;
+}
+.reply{
+padding-right:13px;
+background:url(/img/gif/reply.gif) 100% 4px no-repeat;
+}
+

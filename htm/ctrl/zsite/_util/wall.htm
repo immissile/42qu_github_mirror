@@ -18,15 +18,13 @@ if can_see is False:
         can_see = True
 %>
 %if secret:
-悄悄说
-%else:
-说
+私语
 %endif
 :
 %if can_see:
 <pre>${i.htm|n}</pre>
 %else:
-<span style="color:#999">省略 ${len(i.txt.decode('utf-8','ignore'))} 字 ...</span>
+<span class="c9">省略 ${len(i.txt.decode('utf-8','ignore'))} 字 ...</span>
 %endif
 </%def>
 
@@ -54,14 +52,14 @@ else:
 <%
 other = Zsite.mc_get(other_id)
 %>
-对 <a href="${other.link}">${other.name}</a>\
+@<a href="${other.link}">${other.name}</a>\
 %else:
 <a href="${user.link}">${user.name}</a>\
 %endif
 ${reply_render_body(i)}\
-<div>\
-${friendly_time(i.create_time)}\
-<a target="_blank" href="/wall/reply2txt/${i.id}">回复</a>\
+<div class="bar">\
+<span class="L">${friendly_time(i.create_time)}</span>\
+<a class="reply" target="_blank" href="/wall/reply2txt/${i.id}"></a>\
 </div>\
 </div></div>\
 </%def>

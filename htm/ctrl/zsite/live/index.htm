@@ -62,16 +62,12 @@ class="fdh">{{if rid}}答 <a
 href="${question_user_link}">${question_user}</a> 问 : {{/if}}{{if name}}<a
 target="_blank" href="{{if rid}}${question_link}{{else}}${link}{{/if}}">${name}</a>{{/if}}{{if tag_id}}<a class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}
-    {{if cid==61}}
-    <pre class="fdtxt"><a href="${link}" class="c0">${txt}</a></pre>
-    {{else}}
-        <div class="fdtxt" id="fdtxt${id}">
-            ${txt}
-            {{if txt_more}}
+    <div class="fdtxt" id="fdtxt${id}">
+        ${txt}
+        {{if txt_more}}
 <span class="fdall"><a href="javascript:fdtxt(${id});void(0)">显示全部</a></span>
-            {{/if}}
-        </div>
-    {{/if}}
+        {{/if}}
+    </div>
     <div class="fdbar">
     <span class="L">
         ${create_time}
