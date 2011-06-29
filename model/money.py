@@ -187,6 +187,3 @@ def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN):
     assert price > 0
     cent = int(price * 100)
     return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)
-
-if __name__ == "__main__":
-    bank_change(79,790)

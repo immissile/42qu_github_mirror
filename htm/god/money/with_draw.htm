@@ -1,33 +1,26 @@
 <%inherit file="/god/_base.htm" />
-<%!
-from static import css,js
-from config import FS_URL 
-from json import dumps
-%>
 <%def name="htm_head()">
 <link href="${css.god_chart}" rel="stylesheet" type="text/css">\
 </%def>
 
 %for i in withdraw_list:
-<form method="POST">                                           
-<div class="order cl btns">                                    
-<div class="L">                                                
-<p>提现方式: ${i.cid}                                  
-<span style="margin-left:64px">                                
-到账金额: ${(i.value-i.tax)/100.0}元                                      
-</span>                                                        
-</p>                                                           
-<p>提现账号: ${i.account}                                      
-<span style="margin-left:64px">名字: ${i.name}</span></p>      
-</div>                                                         
-<p class="mb10">                                               
+<form method="POST">
+<div class="order cl btns">
+<div class="L">
+<p>提现方式: ${i.cid}
+<span style="margin-left:64px">
+到账金额: ${(i.value-i.tax)/100.0}元
+</span>
+</p>
+<p>提现账号: ${i.account}
+<span style="margin-left:64px">名字: ${i.name}</span></p>
+</div>
+<p class="mb10">
 交易号<input type="text" class="itx" value="" name="trade_no" autocomplete="off">
- </p>
- <p>
-%if i.state != Null:                                     
-<button type="sumbit">已兑现</button>                          
+</p>
+<p>
+<button type="sumbit">已兑现</button>
 <button type="sumbit" name="reject">支付账号有误,无法支付</button>
-%endif
 </p>
 </div>
 <input type="hidden" value="${i.id}" name="id">
