@@ -22,22 +22,13 @@ def post_reply(self, reply_new=None):
         )
 
 
+
+
+
 @urlmap('/wall')
-class Index(LoginBase):
-    def get(self):
-        zsite = self.zsite
-        return self.render()
-
-    def post(self):
-        zsite = self.zsite
-        link = zsite.link
-        post_reply(self, zsite.reply_new)
-        self.redirect(link)
-
-
 @urlmap('/wall-(\-?\d+)')
 class Page(ZsiteBase):
-    def get(self, n):
+    def get(self, n=1):
         zsite = self.zsite
         zsite_link = zsite.link
         total = zsite.reply_count
@@ -56,6 +47,12 @@ class Page(ZsiteBase):
             reply_list=reply_list,
             page=page
         )
+    
+    def post(self):
+        zsite = self.zsite
+        link = zsite.link
+        post_reply(self, zsite.reply_new)
+        self.redirect(link)
 
 
 @urlmap('/wall/reply2txt/(\d+)')
