@@ -78,7 +78,7 @@ class Index(LoginBase):
 
         self.render(
             error_pic=error_pic,
-            txt=txt, 
+            txt=txt,
             name=current_user.name
         )
 

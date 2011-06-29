@@ -11,7 +11,7 @@ from model.cid import CID_ZSITE
 from zkit.page import page_limit_offset
 
 from model.txt import txt_get, txt_new
-from model.motto import motto
+from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
 
 @urlmap('/zsite/(\d+)')
@@ -20,33 +20,30 @@ class Index(Base):
         zsite = Zsite.mc_get(id)
         if zsite:
             txt = txt_get(id)
-            query_id = None
-            self.render(txt=txt, zsite=zsite, query_id=query_id)
+            self.render(txt=txt, zsite=zsite)
         else:
             self.redirect('/')
 
 
     def post(self, id):
         zsite = Zsite.mc_get(id)
-        files = self.request.files
 
-        _name = self.get_argument('name', None)
-        if _name:
-            zsite.name = _name
+        name = self.get_argument('name', None)
+        motto = self.get_argument('motto', None)
+        txt = self.get_argument('txt', '')
+
+        if name:
+            zsite.name = name
             zsite.save()
 
-        _motto = self.get_argument('motto', None)
-        if _motto:
-            motto.set(zsite.id, _motto)
+        if motto:
+            _motto.set(id, motto)
 
-        txt = self.get_argument('txt', '')
         if txt:
-            txt_new(zsite.id, txt)
+            txt_new(id, txt)
 
-        self.render(
-            zsite=zsite,
-            txt=txt,
-        )
+        self.redirect('/zsite/%s' % id)
+
 
 @urlmap('/zsite/show/(\d+)')
 class Show(Base):
@@ -112,7 +109,7 @@ class VerifyList(Base):
         )
 
 @urlmap('/zsite/user_search')
-class User_search(Base):
+class UserSearch(Base):
     def get(self):
         query_id=None
         self.render(
@@ -129,10 +126,8 @@ class User_search(Base):
                 query_id = data
                 url = 'zsite/%s'%(query_id)
                 self.redirect('../%s'%(url))
-        
+
         self.render(
             query_id=query_id,
             mail=_mail,
             )
-
-       
