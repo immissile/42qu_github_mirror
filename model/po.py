@@ -64,7 +64,7 @@ class Po(McModel, ReplyMixin):
         q = self.question
         if q:
             u = q.user
-            return '答%s问：%s' % (u.name, q.name)
+            return '答 : %s' % q.name
         if self.cid == CID_WORD:
             return ''
         return self.name_
@@ -74,7 +74,7 @@ class Po(McModel, ReplyMixin):
         q = self.question
         if q:
             u = q.user
-            return '答<a href="%s">%s</a>问：<a href="%s">%s</a>' % (u.link, escape(u.name), q.link, escape(q.name))
+            return '答 <a href="%s">%s</a> 问 : <a href="%s">%s</a>' % (u.link, escape(u.name), q.link, escape(q.name))
         if self.cid == CID_WORD:
             return ''
         return escape(self.name)
