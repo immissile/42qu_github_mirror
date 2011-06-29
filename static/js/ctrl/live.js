@@ -3,11 +3,12 @@
 62 note
 */
 (function (){
-var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name pic vote_state vote",
-    FEED_ATTR_TXT_BASE = FEED_ATTR_BASE+" txt txt_more tag_id tag_name",
+var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time name pic vote_state vote txt txt_more",
+    FEED_ATTR_TXT_BASE = FEED_ATTR_BASE+" tag_id tag_name",
+    QUESTION_ATTR_BASE = " question_link question_user question_user_link",
     FEED_ATTR = {
-        61:FEED_ATTR_BASE,
-        62:FEED_ATTR_TXT_BASE,
+        61:FEED_ATTR_BASE+QUESTION_ATTR_BASE,
+        62:FEED_ATTR_TXT_BASE+QUESTION_ATTR_BASE,
         63:FEED_ATTR_TXT_BASE
     };
 
@@ -25,9 +26,10 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid reply_count create_time name
     function init(result){
         var data = {},
         i=0,
-        attr=FEED_ATTR[result[4]];
+        attr=FEED_ATTR[result[4]],
+        result_length = result.length;
 
-        for(;i<attr.length;++i){
+        for(;i<result_length;++i){
             data[attr[i]] = result[i]
         }
         data.zsite = array2zsite(data.zsite);

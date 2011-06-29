@@ -1,5 +1,4 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-<%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render, reply_textarea"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 
 <%
@@ -26,22 +25,7 @@ from model.zsite import CID_USER
 %for i in follow_list_by_from_id_cid(zsite.id, CID_USER):
 <p><a href="${i.link}" target="_blank">${i.name}</a></p>
 %endfor
-${wall_row()}
 
 <p><a href="/follower">被**关注</a></p>
 <p><a href="/po">文章</a></p>
 
-<%def name="wall_row()">
-<%
-REPLY_LIMIT = 10
-reply_count = zsite.reply_count
-%>
-<div>留言</div>
-${reply_textarea('/wall')}
-%for i in zsite.reply_list_reversed(REPLY_LIMIT,0):
-    ${reply_render(i)}
-%endfor
-%if reply_count > REPLY_LIMIT:
-    <a href="/wall/-${REPLY_LIMIT}">等等等 ...</a>
-%endif
-</%def>

@@ -17,16 +17,10 @@ if can_see is False:
     else:
         can_see = True
 %>
-%if secret:
-悄悄说
-%else:
-说
-%endif
-:
 %if can_see:
 <pre>${i.htm|n}</pre>
 %else:
-<span style="color:#999">省略 ${len(i.txt.decode('utf-8','ignore'))} 字 ...</span>
+<span class="c9">私语 , 省略 ${len(i.txt.decode('utf-8','ignore'))} 字 ...</span>
 %endif
 </%def>
 
@@ -49,21 +43,22 @@ if zsite_id == user_id:
 else:
     other_id = None
 %>\
-<div>\
+<div class="sdw"><div class="sd">\
+${reply_render_body(i)}\
+<div class="bar">\
+<span class="L">
 %if other_id:
 <%
 other = Zsite.mc_get(other_id)
 %>
-对 <a href="${other.link}">${other.name}</a>\
+@<a href="${other.link}">${other.name}</a>\
 %else:
 <a href="${user.link}">${user.name}</a>\
 %endif
-${reply_render_body(i)}\
-<div>\
-${friendly_time(i.create_time)}\
-<a target="_blank" href="/wall/reply2txt/${i.id}">回复</a>\
+ , ${friendly_time(i.create_time)}</span>\
+<a class="reply" href="/wall/reply2txt/${i.id}"></a>\
 </div>\
-</div>\
+</div></div>\
 </%def>
 
 
@@ -73,8 +68,8 @@ ${friendly_time(i.create_time)}\
 <%htm:form id="reply_form" action="${action}">\
 ${htm.reply_textarea()}\
 <div class="btns">\
-<input type="checkbox" name="secret" id="secret">\
-<label for="secret">悄悄话</label>\
+<span id="secret_span"><input type="checkbox" name="secret" id="secret">\
+<label for="secret">私语</label></span>\
 <span class="btnw"><button  type="submit">此致 , 敬礼</button></span>\
 </div>\
 </%htm:form>\

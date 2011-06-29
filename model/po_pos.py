@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from time import time
-from _db import cursor_by_table, Model, McModel, McLimitA, McCache, McCacheA
+from _db import cursor_by_table, Model, McModel, McLimitA, McCache, McCacheA, McCacheM
 from po import Po
 
 STATE_BUZZ = 1
@@ -10,7 +10,7 @@ STATE_MUTE = 0
 class PoPos(Model):
     pass
 
-mc_po_pos = McCacheA('PoPos.%s')
+mc_po_pos = McCacheM('PoPos.%s')
 
 @mc_po_pos('{user_id}_{po_id}')
 def po_pos_get(user_id, po_id):

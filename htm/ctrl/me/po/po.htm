@@ -36,11 +36,17 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 rid = po.rid
 %>
 % if rid:
-${po.name_htm|n}
-<textarea style="border-top:0" id="txt" name="txt">${po.name if cid == CID_WORD else po.txt}</textarea>
+<p class="rid_title">${po.name_htm|n}</p>
+<textarea id="txt" name="txt">${po.name if cid == CID_WORD else po.txt}</textarea>
 % else:
 <input
-placeholder="请输入标题 ..."
+placeholder="请输入\
+%if cid == CID_QUESTION:
+话题\
+%else:
+标题\
+%endif
+ ..."
 id="name" type="text" autocomplete="off" name="name" value="${po.name}">
 <textarea id="txt" name="txt">${po.txt}</textarea>
 % endif

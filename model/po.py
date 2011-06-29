@@ -14,6 +14,7 @@ from po_pic import pic_htm
 from zkit.txt2htm import txt_withlink
 from zsite import Zsite
 from zkit.txt import cnencut
+from zkit.lazyprop import lazyprop
 from cgi import escape
 
 PO_EN = {
@@ -25,7 +26,13 @@ PO_EN = {
 mc_htm = McCache('PoHtm.%s')
 
 class Po(McModel, ReplyMixin):
-    txt = txt_property
+
+    @property
+    def txt(self):
+        if self.cid == CID_WORD:
+            return self.name_
+        else:
+            return txt_get(self.id)
 
     @property
     @mc_htm('{self.id}')
@@ -39,52 +46,62 @@ class Po(McModel, ReplyMixin):
             h = pic_htm(h, user_id, id)
         return h
 
-    @property
-    def question(self):
-        if not hasattr(self, '_question'):
-            self._question = Po.mc_get(self.rid)
-        return self._question
-
-    @property
-    def name(self):
-        q = self.question
-        if q:
-            return '答：%s' % q.name
-        return self.name_
-
-    @property
-    def name_htm(self):
-        q = self.question
-        if q:
-            return '答：<a href="%s">%s</a>' % (q.link, escape(q.name))
-        return escape(self.name)
-
     def txt_set(self, txt):
         id = self.id
         txt_new(id, txt)
         mc_htm.delete(id)
 
-    @property
-    def link(self):
-        if not hasattr(self, '_link'):
-            zsite = Zsite.mc_get(self.user_id)
-            self._link = '%s/%s' % (zsite.link, self.id)
-        return self._link
+    @lazyprop
+    def user(self):
+        return Zsite.mc_get(self.user_id)
 
-    @property
-    def link_reply(self):
-        if self.cid == CID_QUESTION:
-            zsite = Zsite.mc_get(self.user_id)
-            return  '%s/question/%s' % (zsite.link, self.id)
+    @lazyprop
+    def question(self):
+        return Po.mc_get(self.rid)
+
+    @lazyprop
+    def name(self):
+        q = self.question
+        if q:
+            u = q.user
+            return '答 : %s' % q.name
+        if self.cid == CID_WORD:
+            return ''
+        return self.name_
+
+    @lazyprop
+    def name_htm(self):
+        q = self.question
+        if q:
+            u = q.user
+            return '答 <a href="%s">%s</a> 问 : <a href="%s">%s</a>' % (u.link, escape(u.name), q.link, escape(q.name))
+        if self.cid == CID_WORD:
+            return ''
+        return escape(self.name)
+
+    @lazyprop
+    def link(self):
+        u = self.user
+        return '%s/%s' % (u.link, self.id)
+
+    @lazyprop
+    def link_question(self):
+        q = self.question
+        if q:
+            return '%s#reply%s' % (q.link, self.id)
         return self.link
 
-    @property
+    @lazyprop
+    def link_reply(self):
+        if self.cid == CID_QUESTION:
+            u = self.user
+            return '%s/question/%s' % (u.link, self.id)
+        return self.link
+
+    @lazyprop
     def link_edit(self):
-        if not hasattr(self, '_link_edit'):
-#            en = PO_EN[self.cid]
-            zsite = Zsite.mc_get(self.user_id)
-            self._link_edit = '%s/po/edit/%s' % (zsite.link, self.id)
-        return self._link_edit
+        u = self.user
+        return '%s/po/edit/%s' % (u.link, self.id)
 
     def feed_new(self):
         feed_new(self.id, self.user_id, self.cid)

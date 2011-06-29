@@ -1,11 +1,24 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render, reply_textarea"/>
 
+<%def name="htm_head()">
+${css.ctrl_wall_page|n}
+</%def>
 
-<%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render"/>
+%if current_user_id != zsite_id:
+<div id="wall">
+${reply_textarea('/wall')}
+%else:
+<div id="wall" style="margin-top:36px">
+%endif
 
+<div id="reply_list">
 %for i in reply_list:
     ${reply_render(i)}
 %endfor
+</div>
 
 ${page|n}
+
+</div>

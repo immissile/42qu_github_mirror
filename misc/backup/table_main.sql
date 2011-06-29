@@ -285,7 +285,7 @@ DROP TABLE IF EXISTS `po`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `po` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `name` varchar(512) character set utf8 collate utf8_bin NOT NULL,
+  `name_` varchar(512) character set utf8 collate utf8_bin NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `cid` tinyint(3) unsigned NOT NULL,
   `rid` int(10) unsigned NOT NULL default '0',

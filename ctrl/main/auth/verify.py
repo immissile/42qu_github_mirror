@@ -26,7 +26,7 @@ class Send(LoginBase):
 class Sended(LoginBase):
     def get(self):
         current_user = self.current_user
-        if current_user.state >= ZSITE_STATE_APPLY:
+        if current_user.state > ZSITE_STATE_APPLY:
             return self.redirect("/i/url")
         return self.render()
 

@@ -2,8 +2,9 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_render"/>
 
-%for i in buzz_list:
-<p>${buzz_render(i)}</p>
+<div style="margin:36px auto;width:721px">
+%for i in buzz_list*3:
+<div class="sdw"><div class="sd">${buzz_render(i)}</div></div>
 %endfor
-
+</div>
 ${page|n}

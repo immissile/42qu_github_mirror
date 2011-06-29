@@ -58,12 +58,18 @@ font-size:16px;
 text-align:right;
 *zoom:1;
 }
-.sdw{
-margin-bottom:16px
-}
 .bar .edit{
 float:left;
 }
 .po_page{
 padding-bottom:32px;
+}
+#secret_span{
+vertical-align:top;
+}
+#secret{
+vertical-align:-1px
+}
+#secret_label{
+margin-right:32px;
 }

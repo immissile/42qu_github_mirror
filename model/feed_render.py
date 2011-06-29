@@ -14,14 +14,41 @@ from zkit.txt import cnenoverflow
 CIDMAP = {}
 
 
-FEED_TUPLE_DEFAULT_LEN = 8
+FEED_TUPLE_DEFAULT_LEN = 9
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
     cid = m.cid
-    result = [m.user_id, cid, m.reply_count, m.create_time, m.name, vote_count(id)]
+    rid = m.rid
+
+    if rid:
+        question = m.question
+        name = question.name
+    elif cid != CID_WORD:
+        name = m.name
+    else:
+        name = None
+
+    result = [
+        m.user_id,
+        cid,
+        rid,
+        m.reply_count,
+        m.create_time,
+        name,
+        vote_count(id)
+    ]
+   
+    txt = m.txt 
     if cid == CID_NOTE or cid == CID_QUESTION:
-        result.extend(cnenoverflow(m.txt, 164))
+        result.extend(cnenoverflow(txt, 164))
+    else:
+        result.extend((txt, False))
+ 
+#    if rid: 
+#        user = question.user
+#        result.extend((question.link, user.name, user.link))
+    
     return result
 
 def cidmap(cid):

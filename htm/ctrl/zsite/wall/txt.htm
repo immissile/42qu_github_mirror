@@ -6,12 +6,15 @@ from zkit.time_format import friendly_time
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render_body,reply_textarea"/>
 <%def name="htm_head()">
 <script src="${js.wall_txt}"></script>
+${css.ctrl_wall_page|n}
 </%def>
 
+<div id="wall">
 ${reply_textarea('/wall/%s' % wall.id)}
 <%
 _can_rm = current_user_id in zsite_id_list
 %>
+<div id="reply_list">
 %for i in reply_list:
 <%
 can_rm = _can_rm or i.can_rm(current_user_id)
@@ -20,17 +23,21 @@ can_rm = _can_rm or i.can_rm(current_user_id)
 id = i.id
 user = i.user
 %>\
-<div id="reply${id}" style="border:1px solid #eee">    
+<div id="reply${id}" class="sdw"><div class="sd"> 
 <div>\
-<a href="${user.link}">${user.name}</a>\
 ${reply_render_body(i, can_rm)}\
-<div>${friendly_time(i.create_time)}
+<div class="bar">
+<span class="L">
+<a href="${user.link}">${user.name}</a> , ${friendly_time(i.create_time)}
+</span>
 %if can_rm:
 <a href="javascript:rm(${id});void(0)">删除</a>
 %endif
 </div>\
 </div>\
-</div>
+</div></div>\
 %endfor
+</div>
 
 ${page|n}
+</div>

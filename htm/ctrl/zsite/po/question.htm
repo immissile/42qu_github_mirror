@@ -57,11 +57,7 @@ user_id = user.id
 %endif
  :
 </p>
-    %if answer.cid == CID_NOTE:
 <pre>${answer.htm|n}</pre>
-    %else:
-<p>${answer.name}</p>
-    %endif
 
     <div class="bar">
     %if answer.can_view(current_user_id):
@@ -89,7 +85,11 @@ href="${answer.link_edit}" class="edit">编辑</a>
 <%htm:form id="txt_form" action="/question/${po_id}">\
 <textarea id="reply_txt" name="txt"></textarea>\
 <div class="btns">\
-<span class="btnw"><button  type="submit">回答</button></span>\
+<span id="secret_span">\
+<input type="checkbox" name="secret" id="secret">
+<label for="secret" id="secret_label">匿名</label>\
+</span>\
+<span class="btnw"><button type="submit">回答</button></span>\
 </div>\
 </%htm:form>\
     %endif

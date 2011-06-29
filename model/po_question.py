@@ -41,11 +41,9 @@ def po_answer_new(user_id, question_id, name, txt, state):
             return m
 
 
-
 def po_answer_list(question_id, zsite_id=0, user_id=0):
     ids = rank_po_id_list(question_id, CID_QUESTION, 'confidence')
 
-    
     if zsite_id == user_id:
         zsite_id = 0
 
@@ -64,10 +62,3 @@ def po_answer_list(question_id, zsite_id=0, user_id=0):
     li = Po.mc_get_list(ids)
     Zsite.mc_bind(li, 'user', 'user_id')
     return li
-
-
-
-
-
-
-
