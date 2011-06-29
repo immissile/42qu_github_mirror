@@ -2,6 +2,7 @@
 from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
+from cgi import escape
 %>
 
 
@@ -10,7 +11,7 @@ from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 </%def>
 
 <%def name="user_link_list(user_list)">
-${','.join([entry_link(i) for i in user_list])}
+${' , '.join(['<a href="%s">%s</a>'%(i.link, escape(i.name)) for i in user_list])|n}
 </%def>
 
 <%def name="buzz_render(i)">
