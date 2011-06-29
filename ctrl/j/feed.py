@@ -60,12 +60,11 @@ class Feed(JLoginBase):
             i.insert(FEED_TUPLE_DEFAULT_LEN, vote_state(current_user_id, id))
             i.insert(FEED_TUPLE_DEFAULT_LEN, pic_url_with_default(zsite_id, '219'))
             if cid == CID_QUESTION or cid == CID_NOTE:
-                i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))   
+                i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
             if rid:
                 question = Po.mc_get(rid)
-                if question:
-                    user = question.user
-                    i.extend((question.link, user.name, user.link))
+                user = question.user
+                i.extend((question.link, user.name, user.link))
         #i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
         #self.finish(result)
         result = dumps(result)
@@ -82,6 +81,3 @@ class FdTxt(Base):
         else:
             result = ''
         self.finish(result)
-
-
-
