@@ -17,16 +17,6 @@ url = url_by_id(zsite_id)
 <%def name="htm_head()">
 </%def>
 <div style="width:972px;margin:16px auto">
-<%htm:form enctype="multipart/form-data">
-<div>
-<p>
-    用户邮箱 <input type="text" name="mail" value="${_mail}">
-    <button type="submit">查询</button>
-</p>
-    <p>用户id ${query_id}</p>
-</div>
-</%htm:form>
-<hr>
 <p>${zsite.name}</p>
 <p>${zsite.id}</p>
 

@@ -13,7 +13,6 @@ from zkit.page import page_limit_offset
 from model.txt import txt_get, txt_new
 from model.motto import motto
 from ctrl.me.i import _upload_pic
-from model.user_mail import user_id_by_mail
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -30,14 +29,6 @@ class Index(Base):
     def post(self, id):
         zsite = Zsite.mc_get(id)
         files = self.request.files
-
-        _mail = self.get_argument('mail', None)
-        if _mail:
-            data = user_id_by_mail(_mail)
-            if data:
-                query_id = data
-            else:
-                query_id = None
 
 
 
@@ -57,8 +48,6 @@ class Index(Base):
         self.render(
             zsite=zsite,
             txt=txt,
-            query_id=query_id,
-            _mail=_mail,
         )
 
 @urlmap('/zsite/show/(\d+)')
