@@ -63,8 +63,9 @@ class Feed(JLoginBase):
                 i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
             if rid:
                 question = Po.mc_get(rid)
-                user = question.user
-                i.extend((question.link, user.name, user.link))
+                if question:
+                    user = question.user
+                    i.extend((question.link, user.name, user.link))
         #i.insert(FEED_TUPLE_DEFAULT_LEN, feed_rt_id(current_user_id, id))
         #self.finish(result)
         result = dumps(result)
