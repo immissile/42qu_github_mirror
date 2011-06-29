@@ -24,7 +24,7 @@ class WithDraw(Base):
             txt = '%s 提现失败'%cid
             withdraw_fail(id, txt)
             mail = mail_by_user_id(id)
-            rendermail('/mail/notice/with_draw.txt', mail, i.name, cid=i.cid, name=i.name, account=i.account, value=i.value/100.0)
+            rendermail('/mail/notice/with_draw.txt', mail, i.name, cid=i.cid, account=i.account, value=i.value/100.0)
         else:
             trade_no = self.get_argument('trade_no', '').strip()
             if trade_no:
