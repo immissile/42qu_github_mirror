@@ -233,6 +233,6 @@ class Rm(XsrfGetBase):
         user = self.current_user
         user_id = self.current_user_id
         po_rm(user_id, id)
-        self.redirect(user.link)
+        self.redirect("%s/live"%user.link)
 
     post = get
