@@ -6,8 +6,12 @@
 ${css.ctrl_wall_page|n}
 </%def>
 
+%if current_user_id != zsite_id:
 <div id="wall">
 ${reply_textarea('/wall')}
+%else:
+<div id="wall" style="margin-top:36px">
+%endif
 
 <div id="reply_list">
 %for i in reply_list:
