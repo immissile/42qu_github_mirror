@@ -13,10 +13,10 @@ margin-left:14px;
 margin-top:7px;
 }
 .buzz_sys{
-background:url(/img/gif/sys.gif) no-repeat 0 3px;
-padding-left:16px;
+background:url(/img/gif/icons/gif/light_gray/to_size/wifi2.gif) no-repeat 0 5px;
+padding-left:18px;
 }
 .buzz_user{
-background:url(/img/gif/sys.gif) no-repeat 0 3px;
-padding-left:16px;
+background:url(/img/gif/icons/gif/light_gray/to_size/user.gif) no-repeat 0 4px;
+padding-left:18px;
 }
