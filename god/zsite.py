@@ -111,23 +111,20 @@ class VerifyList(Base):
 @urlmap('/zsite/user_search')
 class UserSearch(Base):
     def get(self):
-        query_id=None
         self.render(
-            query_id=query_id,
             mail='',
-            )
+        )
 
     def post(self):
-        query_id = None
-        _mail = self.get_argument('mail', None)
-        if _mail:
-            data = user_id_by_mail(_mail)
-            if data:
-                query_id = data
-                url = 'zsite/%s'%(query_id)
-                self.redirect('../%s'%(url))
+        user_id = None
+        mail = self.get_argument('mail', None)
+        if mail:
+            user_id = user_id_by_mail(mail)
+            if user_id:
+                url = '/zsite/%s' % user_id
+                return self.redirect(url)
 
         self.render(
-            query_id=query_id,
-            mail=_mail,
-            )
+            user_id=user_id,
+            mail=mail,
+        )
