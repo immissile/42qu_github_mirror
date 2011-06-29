@@ -11,41 +11,39 @@ from model.cid import CID_ZSITE
 from zkit.page import page_limit_offset
 
 from model.txt import txt_get, txt_new
+from model.motto import motto as _motto
+from model.user_mail import user_id_by_mail
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
     def get(self, id):
         zsite = Zsite.mc_get(id)
-        current_user_id = self.current_user_id
-        txt = txt_get(current_user_id)
-        self.render(txt=txt, zsite=zsite)
+        if zsite:
+            txt = txt_get(id)
+            self.render(txt=txt, zsite=zsite)
+        else:
+            self.redirect('/')
 
-    def post(self):
-        files = self.request.files
-        current_user_id = self.current_user_id
-        current_user = self.current_user
 
-        _name = self.get_argument('name', None)
-        if _name:
-            current_user.name = _name
-            current_user.save()
+    def post(self, id):
+        zsite = Zsite.mc_get(id)
 
-        _motto = self.get_argument('motto', None)
-        if _motto:
-            motto.set(current_user_id, _motto)
-
-        error_pic = _upload_pic(files, current_user_id)
-        if error_pic is False:
-            return self.redirect('/i/pic')
-
+        name = self.get_argument('name', None)
+        motto = self.get_argument('motto', None)
         txt = self.get_argument('txt', '')
-        if txt:
-            txt_new(current_user_id, txt)
 
-        self.render(
-            error_pic=error_pic,
-            txt=txt
-        )
+        if name:
+            zsite.name = name
+            zsite.save()
+
+        if motto:
+            _motto.set(id, motto)
+
+        if txt:
+            txt_new(id, txt)
+
+        self.redirect('/zsite/%s' % id)
+
 
 @urlmap('/zsite/show/(\d+)')
 class Show(Base):
@@ -108,4 +106,25 @@ class VerifyList(Base):
             zsite_list=li,
             total=total,
             extra=extra,
+        )
+
+@urlmap('/zsite/user_search')
+class UserSearch(Base):
+    def get(self):
+        self.render(
+            mail='',
+        )
+
+    def post(self):
+        user_id = None
+        mail = self.get_argument('mail', None)
+        if mail:
+            user_id = user_id_by_mail(mail)
+            if user_id:
+                url = '/zsite/%s' % user_id
+                return self.redirect(url)
+
+        self.render(
+            user_id=user_id,
+            mail=mail,
         )

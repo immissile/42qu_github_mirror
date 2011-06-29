@@ -1,0 +1,11 @@
+<%inherit file="/god/_base.htm" />
+<form method="POST">
+<p>
+用户邮箱 <input type="text" name="mail" value="${mail}">
+    <button type="submit">查询</button>
+</p>
+</form>
+
+%if not user_id:
+没查到
+%endif

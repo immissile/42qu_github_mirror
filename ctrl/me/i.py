@@ -237,4 +237,3 @@ class Password(LoginBase):
             success=success,
             error_password = error_password
         )
-
