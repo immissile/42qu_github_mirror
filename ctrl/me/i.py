@@ -3,7 +3,7 @@ from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from zkit.pic import picopen
 from zkit.jsdict import JsDict
-from model.motto import motto
+from model.motto import motto as _motto
 from model.namecard import namecard_get, namecard_new
 from model.ico import ico_new, ico_pos, ico_pos_new
 from model.zsite_link import url_by_id, url_new, url_valid
@@ -44,43 +44,6 @@ class Pic(LoginBase):
             ico_pos_new(current_user_id, pos)
         error_pic = _upload_pic(files, current_user_id)
         self.render(error_pic=error_pic, pos=pos)
-
-
-@urlmap('/i')
-class Index(LoginBase):
-    def get(self):
-        current_user_id = self.current_user_id
-        current_user = self.current_user
-        txt = txt_get(current_user_id)
-        self.render(txt=txt, name=current_user.name)
-
-    def post(self):
-        files = self.request.files
-        current_user_id = self.current_user_id
-        current_user = self.current_user
-
-        _name = self.get_argument('name', None)
-        if _name:
-            current_user.name = _name
-            current_user.save()
-
-        _motto = self.get_argument('motto', None)
-        if _motto:
-            motto.set(current_user_id, _motto)
-
-        error_pic = _upload_pic(files, current_user_id)
-        if error_pic is False:
-            return self.redirect('/i/pic')
-
-        txt = self.get_argument('txt', '')
-        if txt:
-            txt_new(current_user_id, txt)
-
-        self.render(
-            error_pic=error_pic,
-            txt=txt,
-            name=current_user.name,
-        )
 
 
 @urlmap('/i/url')
@@ -139,22 +102,66 @@ class Verify(LoginBase):
         self.render()
 
 
+@urlmap('/i')
+class Index(LoginBase):
+    def get(self):
+        current_user_id = self.current_user_id
+        current_user = self.current_user
+        motto = _motto.get(current_user_id),
+        txt = txt_get(current_user_id)
+        c = namecard_get(current_user_id) or JsDict()
+        self.render(
+            name=current_user.name,
+            motto=motto,
+            txt=txt,
+            birthday=str(c.birthday).zfill(8),
+            pid_now=c.pid_now or 0,
+            pid_home=c.pid_home or 0,
+        )
+
+
+    def post(self):
+        files = self.request.files
+        current_user_id = self.current_user_id
+        current_user = self.current_user
+
+        name = self.get_argument('name', None)
+        if name:
+            current_user.name = name
+            current_user.save()
+
+        motto = self.get_argument('motto', None)
+        if motto:
+            _motto.set(current_user_id, motto)
+
+        error_pic = _upload_pic(files, current_user_id)
+        if error_pic is False:
+            return self.redirect('/i/pic')
+
+        txt = self.get_argument('txt', '')
+        if txt:
+            txt_new(current_user_id, txt)
+
+        self.render(
+            error_pic=error_pic,
+            txt=txt,
+            name=current_user.name,
+        )
+
+
 @urlmap('/i/namecard')
 class Namecard(LoginBase):
     def get(self):
         current_user = self.current_user
         current_user_id = self.current_user_id
         c = namecard_get(current_user_id) or JsDict()
-        pid_now = c.pid_now
-        pid_home = c.pid_home
-        birthday = str(c.birthday).zfill(8)
         self.render(
-            sex=c.sex,
-            pid_now=pid_now or 0,
             name=c.name or current_user.name,
             phone=c.phone,
             mail=c.mail or mail_by_user_id(current_user_id),
+            pid_now=c.pid_now or 0,
             address=c.address,
+            sex=c.sex,
         )
 
     def post(self):
@@ -230,10 +237,10 @@ class Password(LoginBase):
                 else:
                     error_password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail_by_user_id(user_id))
             else:
-                error_password = "两次输入密码不一致"
+                error_password = '两次输入密码不一致'
         else:
-            error_password = "请输入密码"
+            error_password = '请输入密码'
         self.render(
             success=success,
-            error_password = error_password
+            error_password=error_password
         )
