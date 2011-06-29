@@ -12,7 +12,11 @@ margin-left:14px;
 .PIC div,.PICR div,.PICL div{
 margin-top:7px;
 }
-.sys{
+.buzz_sys{
+background:url(/img/gif/sys.gif) no-repeat 0 3px;
+padding-left:16px;
+}
+.buzz_user{
 background:url(/img/gif/sys.gif) no-repeat 0 3px;
 padding-left:16px;
 }

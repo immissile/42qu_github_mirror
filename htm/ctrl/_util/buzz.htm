@@ -21,9 +21,9 @@ from_list = i.from_list
 entry = i.entry
 %>\
 %if cid == CID_BUZZ_SYS:
-    <span class="sys">${entry.htm|n}</span>
+    <span class="buzz_sys">${entry.htm|n}</span>
 %elif cid == CID_BUZZ_SHOW:
-${entry_link(entry)}通过认证
+    <span class="buzz_user">${entry_link(entry)}</span>
 %elif cid == CID_BUZZ_FOLLOW:
 ${user_link_list(from_list)}
 关注了
