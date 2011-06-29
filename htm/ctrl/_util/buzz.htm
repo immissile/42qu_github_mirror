@@ -25,36 +25,24 @@ entry = i.entry
 %elif cid == CID_BUZZ_SHOW:
     <span class="buzz_user">${entry_link(entry)}</span>
 %elif cid == CID_BUZZ_FOLLOW:
-${user_link_list(from_list)}
-关注了
+${user_link_list(from_list)} 关注了\
     %if rid == current_user_id:
-    您
+我
     %else:
-    ${entry_link(entry)}
+ ${entry_link(entry)}
     %endif
 %elif cid == CID_BUZZ_WALL:
 <%
 to = Zsite.mc_get(entry.to_id)
 %>
-${user_link_list(from_list)}
-给
-${entry_link(to)}
-<a href="${to.link}${entry.link}">留言</a>
+${user_link_list(from_list)} 给 ${entry_link(to)} <a href="${to.link}${entry.link}">留言</a>
 %elif cid == CID_BUZZ_WALL_REPLY:
 <%
 to = Zsite.mc_get(entry.to_id)
 %>
-${user_link_list(from_list)}
-回复了
-${entry_link(to)}
-<a href="${to.link}${entry.link}">留言</a>
+${user_link_list(from_list)} 回复 ${entry_link(to)} 的 <a href="${to.link}${entry.link}">留言</a>
 %elif cid == CID_BUZZ_PO_REPLY:
-${user_link_list(from_list)}
-回复了
-    %if entry.user_id == current_user_id:
-    你的
-    %endif
-<a href="/po/${entry.id}">${entry.name}</a>
+${user_link_list(from_list)} 回复  <a href="/po/${entry.id}">${entry.name}</a> 
 %endif
 </%def>
 
