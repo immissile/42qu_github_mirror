@@ -99,6 +99,9 @@ border-bottom:0;
 .buzz a{
 color:#2970A6;
 }
+.buzz .unread{
+color:#999;
+}
 .buzz{
 color:#999;
 }
