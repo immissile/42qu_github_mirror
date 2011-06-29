@@ -20,7 +20,7 @@ def post_reply(self, reply_new=None):
             txt,
             STATE_SECRET if secret else STATE_ACTIVE
         )
-
+        return reply
 
 
 
@@ -52,7 +52,7 @@ class Page(ZsiteBase):
         zsite = self.zsite
         link = zsite.link
         post_reply(self, zsite.reply_new)
-        self.redirect(link)
+        self.redirect("%s/wall"%link)
 
 
 @urlmap('/wall/reply2txt/(\d+)')
