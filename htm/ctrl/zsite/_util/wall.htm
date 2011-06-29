@@ -17,14 +17,10 @@ if can_see is False:
     else:
         can_see = True
 %>
-%if secret:
-私语
-%endif
-:
 %if can_see:
 <pre>${i.htm|n}</pre>
 %else:
-<span class="c9">省略 ${len(i.txt.decode('utf-8','ignore'))} 字 ...</span>
+<span class="c9">私语 , 省略 ${len(i.txt.decode('utf-8','ignore'))} 字 ...</span>
 %endif
 </%def>
 
@@ -48,6 +44,9 @@ else:
     other_id = None
 %>\
 <div class="sdw"><div class="sd">\
+${reply_render_body(i)}\
+<div class="bar">\
+<span class="L">
 %if other_id:
 <%
 other = Zsite.mc_get(other_id)
@@ -56,9 +55,7 @@ other = Zsite.mc_get(other_id)
 %else:
 <a href="${user.link}">${user.name}</a>\
 %endif
-${reply_render_body(i)}\
-<div class="bar">\
-<span class="L">${friendly_time(i.create_time)}</span>\
+ , ${friendly_time(i.create_time)}</span>\
 <a class="reply" target="_blank" href="/wall/reply2txt/${i.id}"></a>\
 </div>\
 </div></div>\
