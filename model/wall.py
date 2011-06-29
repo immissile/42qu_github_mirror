@@ -37,6 +37,16 @@ class Wall(McModel, ReplyMixin):
     def zsite_id_list(self):
         return set([self.from_id, self.to_id])
 
+    def zsite_id_other(self,id):
+        if id == self.from_id:
+            return self.to_id
+        if id == self.to_id:
+            return self.from_id
+        return 0
+
+    def zsite_other(self, id):
+        return Zsite.mc_get(self.zsite_id_other(id))
+
     def reply_user_id_list(self):
         reply_id_list = self.reply_id_list_reversed(42, 0)
         user_id_list = [i.user_id for i in Reply.mc_get_list(reply_id_list)]

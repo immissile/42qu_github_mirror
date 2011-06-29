@@ -15,6 +15,7 @@ entry = i.entry
 %if cid == CID_NOTICE_WALL:
 给你留了言 , <a href="${i.link}">点此浏览</a> 
 %elif cid == CID_NOTICE_WALL_REPLY:
+${entry.zsite_other(current_user_id).name}
 回复了留言 , <a href="${i.link}">点此浏览</a>
 %endif
 
