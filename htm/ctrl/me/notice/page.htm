@@ -2,8 +2,12 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/me/_util/notice.htm" import="notice_render"/>
 
+<div style="width:721px;margin:36px auto">
 %for i in notice_list:
-<p>${notice_render(i)}</p>
+<div class="sdw"><div class="sd">\
+${notice_render(i)}\
+</div></div>
 %endfor
+</div>
 
 ${page|n}
