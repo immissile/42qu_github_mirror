@@ -12,7 +12,7 @@ from zkit.page import page_limit_offset
 
 from model.txt import txt_get, txt_new
 from model.motto import motto
-from ctrl.me.i import _upload_pic
+from model.user_mail import user_id_by_mail
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -29,8 +29,6 @@ class Index(Base):
     def post(self, id):
         zsite = Zsite.mc_get(id)
         files = self.request.files
-
-
 
         _name = self.get_argument('name', None)
         if _name:
@@ -112,3 +110,29 @@ class VerifyList(Base):
             total=total,
             extra=extra,
         )
+
+@urlmap('/zsite/user_search')
+class User_search(Base):
+    def get(self):
+        query_id=None
+        self.render(
+            query_id=query_id,
+            mail='',
+            )
+
+    def post(self):
+        query_id = None
+        _mail = self.get_argument('mail', None)
+        if _mail:
+            data = user_id_by_mail(_mail)
+            if data:
+                query_id = data
+                url = 'zsite/%s'%(query_id)
+                self.redirect('../%s'%(url))
+        
+        self.render(
+            query_id=query_id,
+            mail=_mail,
+            )
+
+       
