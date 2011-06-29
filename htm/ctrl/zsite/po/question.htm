@@ -57,11 +57,7 @@ user_id = user.id
 %endif
  :
 </p>
-    %if answer.cid == CID_NOTE:
 <pre>${answer.htm|n}</pre>
-    %else:
-<p>${answer.name}</p>
-    %endif
 
     <div class="bar">
     %if answer.can_view(current_user_id):

@@ -10,7 +10,7 @@ from datetime import datetime
 po_id = po.id
 zsite_link = zsite.link
 %>
-<h1><a href="${po.link}" class="c0">${po.name}</a></h1>
+<h1><a href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
 <pre>${po.htm|n}\
 <p class="po_bar">\
 %if can_admin:
@@ -22,8 +22,4 @@ zsite_link = zsite.link
 <span class="L">${_vote(po_id)}</span>\
 ${str(datetime.fromtimestamp(po.create_time))[:-3]}</p>\
 </pre>
-
 </%def>
-
-
-

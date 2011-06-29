@@ -6,7 +6,7 @@ from datetime import datetime
 <%namespace file="_vote.htm" import="_vote"/>
 
 <%def name="po_body()">
-<pre><p><a href="${zsite.link}">${zsite.name}</a> : ${po.name}</p>\
+<pre><p><a href="${zsite.link}">${zsite.name}</a>${po.name_htm|n}${po.htm|n}</p>\
 <p class="po_bar">\
 <span class="L">${_vote(po.id)}</span>\
 ${datetime.fromtimestamp(po.create_time)}\
