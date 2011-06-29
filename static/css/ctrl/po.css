@@ -64,3 +64,12 @@ float:left;
 .po_page{
 padding-bottom:32px;
 }
+#secret_span{
+vertical-align:top;
+}
+#secret{
+vertical-align:-1px
+}
+#secret_label{
+margin-right:32px;
+}
