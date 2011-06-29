@@ -26,7 +26,7 @@ def post_reply(self, reply_new=None):
 class Index(LoginBase):
     def get(self):
         zsite = self.zsite
-        self.redirect(zsite.link)
+        return self.render()
 
     def post(self):
         zsite = self.zsite
