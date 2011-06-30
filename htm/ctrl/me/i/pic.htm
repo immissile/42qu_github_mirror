@@ -1,10 +1,9 @@
-<%inherit file="/ctrl/_base/zsite.htm" />
+<%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%namespace file="_i_nav.htm" import="i_nav"/>
 <%!
 from model.ico import pic_url as _pic_url
 %>
-<%def name="htm_head()">
+<%def name="head()">
 ${css.imgselect|n}
 <script src="${js.imgselect}"></script>\
 <script src="${js.i_pic}"></script>\
@@ -15,22 +14,9 @@ margin:auto;width:96px;height:96px; overflow: hidden;
 #preview_pic{
 width:96px;height:96px;overflow:hidden;display:none
 }
-.G1{
-font-size:16px
-}
-.i_nav a{
+form{
 font-size:16px;
-padding:0 16px;
-color:#999;
-}
-.i_nav .now{
-color:#000;
-}
-.i_nav{
-border-bottom:1px dotted #ccc;
-text-align:center;
-padding:16px 0;
-margin-bottom:32px;
+margin-top:32px
 }
 </style>
 </%def>
@@ -38,7 +24,8 @@ margin-bottom:32px;
 <%
 pic_url = _pic_url(current_user_id)
 %>
-${i_nav("/i/pic", "编辑头像")}
+
+
 <%htm:form enctype="multipart/form-data" className="G">
 <input type="hidden" id="pos" name="pos" value="${pos}">
 %if pic_url:
