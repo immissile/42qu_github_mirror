@@ -27,7 +27,8 @@ margin-top:16px;
 }
 .img{
 text-align:center;
-margin-top:44px;
+float:right;
+margin-top:16px;
 }
 .img img{
 padding-bottom:12px;
