@@ -13,6 +13,7 @@ from zkit.page import page_limit_offset
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
+from model.zsite_link import id_by_url
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -107,24 +108,52 @@ class VerifyList(Base):
             total=total,
             extra=extra,
         )
+##########
+import urllib
+from config import SITE_DOMAIN
+from urlparse import urlparse
 
 @urlmap('/zsite/user_search')
 class UserSearch(Base):
     def get(self):
         self.render(
-            mail='',
+            input='',
         )
 
     def post(self):
-        user_id = None
-        mail = self.get_argument('mail', None)
-        if mail:
-            user_id = user_id_by_mail(mail)
+        input = self.get_argument('input', None)
+        input = urllib.unquote(input).strip()
+
+        def sjump(user_id):
             if user_id:
                 url = '/zsite/%s' % user_id
                 return self.redirect(url)
+            else:
+                miss()
+        
+        def miss(x=input):
+            self.render(
+                input=x,
+            )
 
-        self.render(
-            user_id=user_id,
-            mail=mail,
-        )
+        if '@' in input:
+            user_id = user_id_by_mail(input)
+            sjump(user_id)
+
+        elif SITE_DOMAIN in input:
+            key = urlparse(input).netloc.split('.')[0]
+            user_id = id_by_url(key)
+            sjump(user_id)
+
+        elif input.isalpha():
+            user_id = id_by_url(input) 
+            sjump(user_id)
+
+        elif input.isdigit():
+            validate = Zsite.mc_get(input)
+            if validate:
+                sjump(input)
+            else:
+                miss()
+        else:
+            miss()

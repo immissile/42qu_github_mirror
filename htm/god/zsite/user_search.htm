@@ -1,11 +1,10 @@
 <%inherit file="/god/_base.htm" />
 <form method="POST">
 <p>
-用户邮箱 <input type="text" name="mail" value="${mail}">
+用户邮箱 <input type="text" name="input" value="${input}">
     <button type="submit">查询</button>
 </p>
 </form>
 
-%if not user_id:
-没查到
-%endif
+<p>您输入的信息没有找到相关联的账号</p>
+<p>请输入账号相关的 用户名，用户ID，用户邮箱，用户网址 以便查找。</p>
