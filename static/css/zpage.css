@@ -20,3 +20,25 @@ padding-left:18px;
 background:url(/img/gif/icons/gif/light_gray/to_size/user.gif) no-repeat 0 4px;
 padding-left:18px;
 }
+.page{
+font-size:14px;
+color: #aaa;
+line-height:150%;
+text-align:center;
+}
+.page a,.page span{
+padding:2px 5px;
+line-height:27px;
+margin:1px 3px;
+text-decoration:none;
+}
+.page a:hover{
+text-decoration:underline;
+}
+.page span{
+color:#ccc;
+}
+.page .now{
+background:#33609B;
+color:#fff;
+}
