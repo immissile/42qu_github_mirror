@@ -74,9 +74,9 @@ class Po(McModel, ReplyMixin):
         q = self.question
         if q:
             u = q.user
-            link =  '<a href="%s">%s</a>'%(q.link, escape(q.name))
-            if q.user_id ==  self.user_id:
-                return "自问自答 : %s"%link 
+            link = '<a href="%s">%s</a>' % (q.link, escape(q.name))
+            if q.user_id == self.user_id:
+                return '自问自答 : %s' % link
             return '答 <a href="%s">%s</a> 问 :' % (u.link, escape(u.name), link)
         if self.cid == CID_WORD:
             return ''
@@ -176,7 +176,7 @@ def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
         return m
 
 def po_note_new(user_id, name, txt, state, rid=0):
-    if not txt and not name:
+    if not name and not txt:
         return
     name = name or time_title()
     if not is_same_post(user_id, name, txt):
