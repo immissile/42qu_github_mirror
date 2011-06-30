@@ -21,12 +21,19 @@ class WithDraw(Base):
         if 'reject=' in body:
             cid = i.cid
             i.account, i.name = pay_account_get(i.from_id, i.rid)
-            txt = '%s 提现失败'%cid
+        CID2CN={
+                '152': "支付宝"
+            }
+            txt = '%s 提现失败'%CID2CN[cid]
             withdraw_fail(id, txt)
             mail = mail_by_user_id(id)
-            rendermail('/mail/notice/with_draw.txt', mail, i.name, cid=i.cid, account=i.account, value=i.value/100.0)
+            rendermail(
+                '/mail/notice/with_draw.txt', mail,
+                i.name, cid=i.cid, account=i.account,
+                value=i.value/100.0
+            )
         else:
             trade_no = self.get_argument('trade_no', '').strip()
             if trade_no:
                 i.finish()
-        return self.redirect('withdraw')
+        return self.redirect('/withdraw')
