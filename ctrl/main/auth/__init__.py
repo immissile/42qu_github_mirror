@@ -122,7 +122,6 @@ class AuthLogin(NoLoginBase):
     def post(self):
         mail = self.get_argument('mail', None)
         password = self.get_argument('password', None)
-
         errtip = Errtip()
 
         if mail:
