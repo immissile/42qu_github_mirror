@@ -178,7 +178,7 @@ def withdraw_max():
 
 def withdraw_list():
     qs = Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_OPEN).order_by('id desc')
-    for t in qs:
+    for i in qs:
         i.account, i.name = pay_account_get(i.from_id, i.rid)
     return qs
 
