@@ -102,6 +102,10 @@ class Verify(LoginBase):
     def get(self):
         self.render()
 
+@urlmap('/i/history')
+class History(LoginBase):
+    def get(self):
+        return self.render()
 
 class UserInfoEdit(object):
     def get(self):

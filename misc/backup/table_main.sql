@@ -567,7 +567,7 @@ DROP TABLE IF EXISTS `work`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `work` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `title` int(10) unsigned NOT NULL,
+  `work` int(10) unsigned NOT NULL,
   `tag_id` int(10) unsigned NOT NULL,
   `begin_time` int(11) NOT NULL,
   `end_time` int(11) NOT NULL,

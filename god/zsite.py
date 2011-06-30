@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import urllib
 from _handler import Base
 from _urlmap import urlmap
 from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no
@@ -13,6 +14,7 @@ from zkit.page import page_limit_offset
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
+from model.zsite_link import id_by_url
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -107,24 +109,25 @@ class VerifyList(Base):
             total=total,
             extra=extra,
         )
+##########
+from model.search import zsite_by_query
 
 @urlmap('/zsite/user_search')
 class UserSearch(Base):
     def get(self):
         self.render(
-            mail='',
+            input='',
         )
 
     def post(self):
-        user_id = None
-        mail = self.get_argument('mail', None)
-        if mail:
-            user_id = user_id_by_mail(mail)
-            if user_id:
-                url = '/zsite/%s' % user_id
-                return self.redirect(url)
+        query = self.get_argument('input', None)
+        query = urllib.unquote(query).strip()
 
-        self.render(
-            user_id=user_id,
-            mail=mail,
-        )
+        user_id = zsite_by_query(query)
+       
+        
+        if user_id:
+            url = '/zsite/%s' % user_id
+            return self.redirect(url)
+        else:
+            self.render(input=query)
