@@ -4,6 +4,7 @@ from ctrl._urlmap.me import urlmap
 from zkit.pic import picopen
 from zkit.jsdict import JsDict
 from model.motto import motto as _motto
+from model.user_info import UserInfo, user_info_new
 from model.namecard import namecard_get, namecard_new
 from model.ico import ico_new, ico_pos, ico_pos_new
 from model.zsite_link import url_by_id, url_new, url_valid
@@ -102,26 +103,25 @@ class Verify(LoginBase):
         self.render()
 
 
-@urlmap('/i')
-class Index(LoginBase):
+class UserInfoEdit(object):
     def get(self):
         current_user_id = self.current_user_id
         current_user = self.current_user
-        motto = _motto.get(current_user_id),
+        motto = _motto.get(current_user_id)
         txt = txt_get(current_user_id)
+        o = UserInfo.mc_get(current_user_id) or JsDict()
         c = namecard_get(current_user_id) or JsDict()
         self.render(
             name=current_user.name,
             motto=motto,
             txt=txt,
-            birthday=str(c.birthday).zfill(8),
+            birthday='%08d' % o.birthday,
+            marry=o.marry,
+            pid_home=o.pid_home or 0,
             pid_now=c.pid_now or 0,
-            pid_home=c.pid_home or 0,
         )
 
-
-    def post(self):
-        files = self.request.files
+    def save(self):
         current_user_id = self.current_user_id
         current_user = self.current_user
 
@@ -134,19 +134,42 @@ class Index(LoginBase):
         if motto:
             _motto.set(current_user_id, motto)
 
-        error_pic = _upload_pic(files, current_user_id)
-        if error_pic is False:
-            return self.redirect('/i/pic')
-
         txt = self.get_argument('txt', '')
         if txt:
             txt_new(current_user_id, txt)
 
-        self.render(
-            error_pic=error_pic,
-            txt=txt,
-            name=current_user.name,
-        )
+        birthday = self.get_argument('birthday', '')
+        marry = self.get_argument('marry', '')
+        pid_home = self.get_argument('pid_home', '1')
+        pid_now = self.get_argument('pid_now', '1')
+
+        marry = int(marry)
+        if marry not in (1, 2, 3):
+            marry = 0
+
+        o = user_info_new(current_user_id, birthday, marry, pid_home)
+        if pid_now:
+            c = namecard_get(current_user_id)
+            if c:
+                c.pid_now = pid_now
+                c.save()
+            else:
+                c = namecard_new(current_user_id, pid_now=pid_now)
+
+
+@urlmap('/i')
+class Index(UserInfoEdit, LoginBase):
+    def post(self):
+        files = self.request.files
+        current_user_id = self.current_user_id
+
+        error_pic = _upload_pic(files, current_user_id)
+        if error_pic is False:
+            return self.redirect('/i/pic')
+
+        self.save()
+
+        self.redirect('/i')
 
 
 @urlmap('/i/namecard')
@@ -155,13 +178,14 @@ class Namecard(LoginBase):
         current_user = self.current_user
         current_user_id = self.current_user_id
         c = namecard_get(current_user_id) or JsDict()
+        o = UserInfo.mc_get(current_user_id) or JsDict()
         self.render(
             name=c.name or current_user.name,
             phone=c.phone,
             mail=c.mail or mail_by_user_id(current_user_id),
             pid_now=c.pid_now or 0,
             address=c.address,
-            sex=c.sex,
+            sex=o.sex,
         )
 
     def post(self):
@@ -176,28 +200,21 @@ class Namecard(LoginBase):
 
         pid_now = int(pid_now)
 
-        c = namecard_get(current_user_id) or JsDict()
-        sex = c.sex
-        if not sex:
+        o = UserInfo.mc_get(current_user_id) or JsDict()
+        if not o.sex:
             sex = int(sex)
             if sex not in (1, 2):
                 sex = 0
+            if sex:
+                o.sex = sex
+                o.save()
 
-        if pid_now or name or phone or mail or address or sex:
+        if pid_now or name or phone or mail or address:
             c = namecard_new(
-                current_user_id, sex, marry, birthday,
-                pid_home, pid_now, name, phone, mail, address
+                current_user_id, pid_now, name, phone, mail, address
             )
 
-        self.render(
-            pid_now=pid_now,
-            name=name or current_user.name,
-            phone=phone,
-            mail=mail,
-            address=address,
-            birthday=birthday,
-            sex=sex,
-        )
+        self.redirect('/i/namecard')
 
 
 @urlmap('/i/mail_notice')
