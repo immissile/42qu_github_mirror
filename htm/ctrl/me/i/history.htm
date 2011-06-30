@@ -37,13 +37,11 @@ margin-left:-120px;
 <%htm:form className="fullscreen">
 <p class="tl">工作经历</p>
 <p>
-    <label for="password0">单位</label><input name="password0" type="password">
-</p>
-<p>
-    <label for="password2">职位</label><input name="password2" type="password">
-</p>
-<p>
+    <label for="password0">单位</label><input name="password0" type="password" style="width:100px">
+    <label for="password2">职位</label><input name="password2" type="password" style="width:100px">
     <label for="password2">简述</label><input name="password2" type="password">
+</p>
+<p>
 </p>
 <p>
     <label>开始</label><script>select_workday("begin_time",'${begin_time or ""}')</script>
