@@ -1,0 +1,36 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<style>
+.fullscreen{
+margin-top:32px;
+font-size:16px;
+text-align:center;
+}
+.fullscreen input{
+padding:8px;
+width:300px
+}
+.fullscreen p{
+margin-bottom:32px;
+text-align:left;
+}
+.fullscreen label{
+margin-right:8px
+}
+.btnw{
+margin-left:-120px;
+}
+</style>
+
+<%htm:form className="fullscreen">
+<p class="tl">工作经历</p>
+<p>
+    <label for="password0">单位</label><input name="password0" type="password">
+</p>
+<p>
+    <label for="password2">职位</label><input name="password2" type="password">
+</p>
+<p>
+    <label for="password2">简述</label><input name="password2" type="password">
+</p>
+</%htm:form>
