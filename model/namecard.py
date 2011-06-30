@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache
+from state import STATE_DEL, STATE_ACTIVE
 
-STATE_DEL = 3
-STATE_APPLY = 5
-STATE_ACTIVE = 10
 
 class Namecard(McModel):
     pass
+
 
 mc_namecard_id = McCache('NamecardId.%s')
 
