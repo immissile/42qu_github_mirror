@@ -1,13 +1,22 @@
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="head()">
+<script src="${js.date}"></script>
+</%def>
+
 <style>
 .fullscreen{
 margin-top:32px;
 font-size:16px;
 text-align:center;
 }
-.fullscreen input{
+.fullscreen input, .fullscreen select{
 padding:8px;
+}
+.fullscreen select{
+margin-right:16px;
+}
+.fullscreen input{
 width:300px
 }
 .fullscreen p{
@@ -33,4 +42,27 @@ margin-left:-120px;
 <p>
     <label for="password2">简述</label><input name="password2" type="password">
 </p>
+<p>
+    <label>开始</label><script>select_workday("begin_time",'${begin_time or ""}')</script>
+</p>
+<p>
+    <input name="now" type="checkbox" style="width:auto;vertical-align:-1px;margin-left:38px" id="now"> <label for="now">当前</label>
+</p>
+<p id="end_time_p">
+    <label>结束</label><script>select_workday("end_time",'${end_time or ""}')</script>
+</p>
 </%htm:form>
+
+<script>
+$("#now").change(function(){
+    var p=$("#end_time_p");
+    if(this.checked){
+        p.fadeOut()
+    }else{
+        p.fadeIn()
+    }
+})
+</script>
+
+
+
