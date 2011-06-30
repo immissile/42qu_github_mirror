@@ -1,0 +1,91 @@
+.colmask {
+    position:relative;      /* This fixes the IE7 overflow hidden bug and stops the layout jumping out of place */
+    clear:both;
+    float:left;
+    width:100%;         /* width of whole page */
+    overflow:hidden;    /* This chops off any overhanging divs */
+}
+/* 2 column left menu settings */
+.leftmenu .colright {
+    float:left;
+    width:200%;
+    position:relative;
+    left:200px;
+    background:#fff;
+}
+.leftmenu .col1wrap {
+    float:right;
+    width:50%;
+    position:relative;
+    right:200px;
+    padding-bottom:1em;
+}
+.leftmenu .col1 {
+    margin:0 15px 0 215px;
+    position:relative;
+    right:100%;
+    overflow:hidden;
+}
+.leftmenu .col2 {
+    float:left;
+    width:170px;
+    position:relative;
+    right:185px;
+}
+/*******************/
+.leftmenu{
+background:#F6F5F6;
+}
+.leftmenu a{
+color:#fff;
+}
+.col1 a{
+color:#01a;
+}
+.leftmenu h1{
+text-align:center;
+padding:16px;
+}
+.leftmenu h1 a:hover{
+text-decoration:underline
+}
+.leftmenu h1 a{
+font-size: 24px;
+font-family: Trebuchet MS;
+color: #000;
+}
+
+.search{
+text-align:center;
+}
+.search input{
+height:26px;
+line-height:26px;
+padding:1px 3px;
+vertical-align:middle;
+border:1px solid #ddd;
+width:130px;
+}
+.search .search_btn{
+background:url(/img/png/search_btn.png) no-repeat;
+width:31px;height:30px;border:none;cursor:pointer;
+}
+.leftmenu .cola{
+display:block;
+color:#000;
+padding:7px;
+border:1px solid #eee;
+background:#fff;
+}
+.leftmenu .cola:visited{
+color:#999;
+}
+.coltitle{
+margin:16px 0 8px;
+}
+.col2{
+padding-bottom:32px;
+}
+.colblock{
+margin-bottom:8px
+}
