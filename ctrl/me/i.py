@@ -101,6 +101,10 @@ class Verify(LoginBase):
     def get(self):
         self.render()
 
+@urlmap('/i/history')
+class History(LoginBase):
+    def get(self):
+        return self.render()
 
 @urlmap('/i')
 class Index(LoginBase):
