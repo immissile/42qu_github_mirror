@@ -6,7 +6,7 @@ from model.cid import CID_NOTE
 from model.zsite_link import url_or_id
 %>
 <%inherit file="_po.htm" />
-<%namespace file="_vote.htm" import="_vote"/>
+<%namespace file="_vote.htm" import="_vote, po_bar_vote"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%def name="po_body()">
@@ -24,10 +24,7 @@ zsite_link = zsite.link
 <span><a href="${zsite_link}">${zsite.name}</a> : \
 <a href="${zsite_link}/tag/${zsite_tag_id}">${tag_name}</a>\
 </p>\
-<p class="po_bar">\
-<span class="L">${_vote(po_id)}</span>\
-${datetime.fromtimestamp(po.create_time)}\
-</p>\
+${po_bar_vote(po)}\
 <p class="po_bar">\
 <span class="L">\
 <a href="${po.link_reply}#reply_txt">${po.reply_count or ''}评注</a></span>\
