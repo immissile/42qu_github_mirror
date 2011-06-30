@@ -32,9 +32,9 @@ def user_id_value_by_session(session):
         value = urlsafe_b64decode(value+'=')
     except (binascii.Error, exceptions.TypeError):
         return None, None
-    
+
     user_id = user_id_by_base64(user_id)
-    
+
     return user_id, value
 
 class UserSession(Model):
@@ -81,5 +81,3 @@ if __name__ == '__main__':
     #print user_id_by_session(session)
     #user_session_rm(2)
     print user_id_by_base64('UAAAAA')
-
-
