@@ -15,6 +15,8 @@ from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
 from model.zsite_link import id_by_url
+from model.user_session import user_session
+
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -133,16 +135,12 @@ class UserSearch(Base):
             self.render(input=query)
 
 
-from ctrl.main.auth.__init__ import LOGIN_REDIRECT
-from model.user_session import user_session
 @urlmap('/zsite/avatar/(\d+)')
 class Avatar(Base):
     def get(self, avatar_id):
         session = user_session(avatar_id)
         self.set_cookie('S', session)
-        self.set_cookie('E', mail_by_user_id(avatar_id))
         current_user = Zsite.mc_get(avatar_id)
-        redirect = LOGIN_REDIRECT%current_user.link
-        self.redirect(redirect)
+        self.redirect('%s\live'%current_user.link)
 
 
