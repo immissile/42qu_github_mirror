@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-def lazyprop(fn):
+def attrcache(fn):
     attr_name = '_lazy_' + fn.__name__
     @property
-    def _lazyprop(self):
+    def _attrcache(self):
         if not hasattr(self, attr_name):
             setattr(self, attr_name, fn(self))
         return getattr(self, attr_name)
-    return _lazyprop
+    return _attrcache

@@ -14,7 +14,7 @@ from po_pic import pic_htm
 from zkit.txt2htm import txt_withlink
 from zsite import Zsite
 from zkit.txt import cnencut
-from zkit.lazyprop import lazyprop
+from zkit.attrcache import attrcache
 from cgi import escape
 
 PO_EN = {
@@ -51,15 +51,15 @@ class Po(McModel, ReplyMixin):
         txt_new(id, txt)
         mc_htm.delete(id)
 
-    @lazyprop
+    @attrcache
     def user(self):
         return Zsite.mc_get(self.user_id)
 
-    @lazyprop
+    @attrcache
     def question(self):
         return Po.mc_get(self.rid)
 
-    @lazyprop
+    @attrcache
     def name(self):
         q = self.question
         if q:
@@ -69,7 +69,7 @@ class Po(McModel, ReplyMixin):
             return ''
         return self.name_
 
-    @lazyprop
+    @attrcache
     def name_htm(self):
         q = self.question
         if q:
@@ -79,26 +79,26 @@ class Po(McModel, ReplyMixin):
             return ''
         return escape(self.name)
 
-    @lazyprop
+    @attrcache
     def link(self):
         u = self.user
         return '%s/%s' % (u.link, self.id)
 
-    @lazyprop
+    @attrcache
     def link_question(self):
         q = self.question
         if q:
             return '%s#reply%s' % (q.link, self.id)
         return self.link
 
-    @lazyprop
+    @attrcache
     def link_reply(self):
         if self.cid == CID_QUESTION:
             u = self.user
             return '%s/question/%s' % (u.link, self.id)
         return self.link
 
-    @lazyprop
+    @attrcache
     def link_edit(self):
         u = self.user
         return '%s/po/edit/%s' % (u.link, self.id)
