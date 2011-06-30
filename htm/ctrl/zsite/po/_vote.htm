@@ -1,5 +1,6 @@
 <%!
 from datetime import datetime
+from zkit.time_format import friendly_time
 from model.vote import vote_state, vote_count
 %>
 <%def name="_vote(po_id)">\
@@ -15,6 +16,6 @@ from model.vote import vote_state, vote_count
 <%def name="po_bar_vote(po)">\
 <p class="po_bar">\
 <span class="L">${_vote(po.id)}</span>\
-${str(datetime.fromtimestamp(po.create_time))[:-3]}</p>\
+${friendly_time(datetime.fromtimestamp(po.create_time))}</p>\
 </%def>
 
