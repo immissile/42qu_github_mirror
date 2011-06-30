@@ -56,10 +56,13 @@ function select_date(id, value, year_begin, year_end){
     }
 }
 
-
 function select_birthday(id, value){
     var date=new Date(), year=date.getFullYear();
     select_date(id, value, year, year-128)
+}
+function select_workday(id, value){
+    var date=new Date(), year=date.getFullYear();
+    select_date(id, value, year, year-64)
 }
 
 
