@@ -131,3 +131,18 @@ class UserSearch(Base):
             return self.redirect(url)
         else:
             self.render(input=query)
+
+
+from ctrl.main.auth.__init__ import LOGIN_REDIRECT
+from model.user_session import user_session
+@urlmap('/zsite/avatar/(\d+)')
+class Avatar(Base):
+    def get(self, avatar_id):
+        session = user_session(avatar_id)
+        self.set_cookie('S', session)
+        self.set_cookie('E', mail_by_user_id(avatar_id))
+        current_user = Zsite.mc_get(avatar_id)
+        redirect = LOGIN_REDIRECT%current_user.link
+        self.redirect(redirect)
+
+

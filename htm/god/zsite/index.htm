@@ -12,6 +12,7 @@ zsite_id = zsite.id
 <%
 ico_url = _ico_url(zsite_id)
 url = url_by_id(zsite_id)
+avatar_url = "/zsite/avatar/%s"%zsite_id
 %>
 
 <%def name="htm_head()">
@@ -19,6 +20,7 @@ url = url_by_id(zsite_id)
 <div style="width:972px;margin:16px auto">
 <p>${zsite.name}</p>
 <p>${zsite.id}</p>
+<a href="${avatar_url}">变身</a>
 
 <%htm:form enctype="multipart/form-data">
     <div>

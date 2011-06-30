@@ -21,7 +21,7 @@ class WithDraw(Base):
         if 'reject=' in body:
             cid = i.cid
             i.account, i.name = pay_account_get(i.from_id, i.rid)
-        CID2CN={
+            CID2CN={
                 '152': "支付宝"
             }
             txt = '%s 提现失败'%CID2CN[cid]
