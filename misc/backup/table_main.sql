@@ -555,6 +555,18 @@ CREATE TABLE `wall_reply` (
   KEY `zsite_id` (`zsite_id`,`last_reply_id`,`update_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `work`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `work` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `work` int(10) unsigned NOT NULL,
+  `tag_id` int(10) unsigned NOT NULL,
+  `begin_time` int(11) NOT NULL,
+  `end_time` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `zsite`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
