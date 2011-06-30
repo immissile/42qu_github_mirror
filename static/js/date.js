@@ -7,7 +7,7 @@ function month_days(year, month) {
 } 
 
 function select_date(id, value, year_begin, year_end){
-    document.write('<span id="'+id+'"/>')
+    document.write('<span id="'+id+'"></span>')
     var r=[
         '<input type="hidden" value="0" name="'+id+'">'
     ], i, span=$("#"+id),day_option='<option value="0">- 日 -</option>';
@@ -56,10 +56,13 @@ function select_date(id, value, year_begin, year_end){
     }
 }
 
-
 function select_birthday(id, value){
     var date=new Date(), year=date.getFullYear();
     select_date(id, value, year, year-128)
+}
+function select_workday(id, value){
+    var date=new Date(), year=date.getFullYear();
+    select_date(id, value, year, year-64)
 }
 
 

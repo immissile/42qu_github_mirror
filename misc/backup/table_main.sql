@@ -213,17 +213,11 @@ CREATE TABLE `namecard` (
   `mail` varbinary(64) NOT NULL,
   `address` varbinary(255) NOT NULL default '',
   `state` int(10) unsigned NOT NULL,
-  `pid_home` bigint(20) unsigned NOT NULL default '0',
-  `birthday` int(10) unsigned NOT NULL default '0',
-  `sex` tinyint(3) unsigned NOT NULL default '0',
-  `marry` tinyint(3) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `user_id` (`user_id`,`state`),
   KEY `mail` (`mail`),
   KEY `name` (`name`),
-  KEY `pid` USING BTREE (`pid_now`),
-  KEY `birthday` USING BTREE (`birthday`),
-  KEY `sex` (`sex`)
+  KEY `pid` USING BTREE (`pid_now`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `notice`;
@@ -450,6 +444,19 @@ CREATE TABLE `url` (
   UNIQUE KEY `url` (`url`)
 ) ENGINE=MyISAM DEFAULT CHARSET=ascii;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `user_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_info` (
+  `id` int(10) unsigned NOT NULL,
+  `birthday` int(10) unsigned NOT NULL default '0',
+  `sex` tinyint(3) unsigned NOT NULL default '0',
+  `marry` tinyint(3) unsigned NOT NULL default '0',
+  `pid_home` bigint(20) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `index2` (`birthday`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_login_time`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -554,6 +561,18 @@ CREATE TABLE `wall_reply` (
   UNIQUE KEY `Index_3` USING BTREE (`zsite_id`,`from_id`),
   KEY `zsite_id` (`zsite_id`,`last_reply_id`,`update_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `work`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `work` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `title` int(10) unsigned NOT NULL,
+  `tag_id` int(10) unsigned NOT NULL,
+  `begin_time` int(11) NOT NULL,
+  `end_time` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `zsite`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

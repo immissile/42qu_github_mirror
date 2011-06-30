@@ -1,6 +1,3 @@
-<%!
-from model.motto import motto
-%>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="css_js()">
 <script src="${js.pid}"></script>
@@ -16,28 +13,26 @@ ${css.ctrl_auth_newbie|n}
 <input id="name" autocomplete="off" type="text" name="name" value="${name or ''}">
 </p>
 <p class="tc">我的座右铭是 \
-<input type="text" autocomplete="off" name="motto" style="width:400px"
-value="${motto.get(current_user_id)}"
-></p>
+<input type="text" autocomplete="off" name="motto" style="width:400px" value="${motto}"></p>
 <p class="tc">
 <script>select_birthday("birthday",'${birthday or ""}')</script>
 <label class="label" for="birthday">出生</label> , 
-如今 <select>
-<option>尚是单身</option>
-<option>正在恋爱</option>
-<option>已经结婚</option>
+如今 <select id="marry" name="marry">
+<option ${'selected' if marry==1 else ''} value="1">尚是单身</option>
+<option ${'selected' if marry==2 else ''} value="2">正在恋爱</option>
+<option ${'selected' if marry==3 else ''} value="3">已经结婚</option>
 </select>
 
 </p>
 <p class="tc">现居
-<script>select_pid("pid_home",0)</script>
+<script>select_pid("pid_now", ${pid_now})</script>
 </p>
 <p class="tc">家乡
-<script>select_pid("pid_now",0)</script>
+<script>select_pid("pid_home", ${pid_home})</script>
 </p>
 <div class="tc">
-<p>我会这样向别人介绍自己 </p>
-<textarea id="txt" style="" placeholder="爱吃什么 , 偶像是谁 , 想去的地方 , 追逐的理想 。 人生是一场旅行 ..."></textarea>
+<p>我会这样向别人介绍自己</p>
+<textarea id="txt" name="txt" style="" placeholder="爱吃什么 , 偶像是谁 , 想去的地方 , 追逐的理想 。 人生是一场旅行 ...">${txt}</textarea>
 </div>
 <div class="cl btns" id="form_btn">
 

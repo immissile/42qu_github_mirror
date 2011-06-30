@@ -55,20 +55,20 @@ class SysList(Base):
         )
 
 
-@urlmap('/buzz/sys/init')
-class SysListInit(Base):
-    def get(self):
-        li = buzz_sys_init_list()
-        self.render(li=li)
-
-    def post(self):
-        id_list = buzz_sys_init_id_list()
-        li = [(id, int(self.get_argument('seq%s' % id, 0))) for id in id_list]
-        li = filter(bool, li)
-        li.sort(key=lambda x:x[1])
-        for seq, (id, _) in enumerate(li, 1):
-            s = BuzzSys.mc_get(id)
-            s.seq = seq
-            s.save()
-            mc_buzz_sys_init_id_list.delete('')
-        self.redirect('/buzz/sys/init')
+#@urlmap('/buzz/sys/init')
+#class SysListInit(Base):
+#    def get(self):
+#        li = buzz_sys_init_list()
+#        self.render(li=li)
+#
+#    def post(self):
+#        id_list = buzz_sys_init_id_list()
+#        li = [(id, int(self.get_argument('seq%s' % id, 0))) for id in id_list]
+#        li = filter(bool, li)
+#        li.sort(key=lambda x:x[1])
+#        for seq, (id, _) in enumerate(li, 1):
+#            s = BuzzSys.mc_get(id)
+#            s.seq = seq
+#            s.save()
+#            mc_buzz_sys_init_id_list.delete('')
+#        self.redirect('/buzz/sys/init')
