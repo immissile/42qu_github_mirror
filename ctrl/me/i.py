@@ -119,7 +119,7 @@ class UserInfoEdit(object):
             name=current_user.name,
             motto=motto,
             txt=txt,
-            birthday='%08d' % o.birthday,
+            birthday='%08d' % o.birthday or 0,
             marry=o.marry,
             pid_home=o.pid_home or 0,
             pid_now=c.pid_now or 0,
