@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import urllib
 from _handler import Base
 from _urlmap import urlmap
 from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no
@@ -109,9 +110,7 @@ class VerifyList(Base):
             extra=extra,
         )
 ##########
-import urllib
-from config import SITE_DOMAIN
-from urlparse import urlparse
+from model.search import zsite_by_query
 
 @urlmap('/zsite/user_search')
 class UserSearch(Base):
@@ -121,39 +120,14 @@ class UserSearch(Base):
         )
 
     def post(self):
-        input = self.get_argument('input', None)
-        input = urllib.unquote(input).strip()
+        query = self.get_argument('input', None)
+        query = urllib.unquote(query).strip()
 
-        def sjump(user_id):
-            if user_id:
-                url = '/zsite/%s' % user_id
-                return self.redirect(url)
-            else:
-                miss()
+        user_id = zsite_by_query(query)
+       
         
-        def miss(x=input):
-            self.render(
-                input=x,
-            )
-
-        if '@' in input:
-            user_id = user_id_by_mail(input)
-            sjump(user_id)
-
-        elif SITE_DOMAIN in input:
-            key = urlparse(input).netloc.split('.')[0]
-            user_id = id_by_url(key)
-            sjump(user_id)
-
-        elif input.isalpha():
-            user_id = id_by_url(input) 
-            sjump(user_id)
-
-        elif input.isdigit():
-            validate = Zsite.mc_get(input)
-            if validate:
-                sjump(input)
-            else:
-                miss()
+        if user_id:
+            url = '/zsite/%s' % user_id
+            return self.redirect(url)
         else:
-            miss()
+            self.render(input=query)
