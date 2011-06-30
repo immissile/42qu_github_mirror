@@ -16,8 +16,10 @@ margin-left:6px;
 }
 .down{
 margin-right:4px;
-background-image:url(/img/gif/icons/gif/light_gray/to_size/arrow3_sw.gif)
+background-image:url(/img/gif/icons/gif/light_gray/to_size/arrow3_sw.gif);
+margin-left:0;
 }
+
 .vote1 .num{color:#FF4500;}
 .vote1 .up{
 background-image:url(/img/gif/icons/gif/black/to_size/arrow3_ne.gif)
