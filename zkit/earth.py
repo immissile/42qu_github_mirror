@@ -7403,6 +7403,8 @@ def place_name_by_int(pid):
 
 
 def place_name(place_id):
+    if not place_id:
+        return ''
 
     r = []
     country = (place_id&BIT_COUNTRY) >> BIT_COUNTRY_LEN

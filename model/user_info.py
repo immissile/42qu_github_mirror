@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache
+from zkit.earth import place_name
+from zkit.attrcache import attrcache
 
 
 class UserInfo(McModel):
-    pass
+    @attrcache
+    def place_home(self):
+        return place_name(self.pid_home)
 
 
 def user_info_new(

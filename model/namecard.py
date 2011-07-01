@@ -2,10 +2,14 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache
 from state import STATE_DEL, STATE_ACTIVE
+from zkit.earth import place_name
+from zkit.attrcache import attrcache
 
 
 class Namecard(McModel):
-    pass
+    @attrcache
+    def place_now(self):
+        return place_name(self.pid_now)
 
 
 mc_namecard_id = McCache('NamecardId.%s')
