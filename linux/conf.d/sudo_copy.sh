@@ -6,4 +6,5 @@ cp j2 /etc/bash/ -R
 cp bashrc /etc/bash/bashrc
 cp dnsmasq.conf /etc/dnsmasq.conf
 mkdir -p /var/log/nginx_backup/
-cp logrotate.d/* /etc/logrotate.d/ 
+cp logrotate.d/* /etc/logrotate.d/
+ 
