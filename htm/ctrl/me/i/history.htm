@@ -21,7 +21,15 @@ ${css.ctrl_history|n}
 </div>
 %endfor
 <p class="tl career" style="border-top:1px dotted #ccc;margin-top:32px">教育背景</p>
-%for i in range(2):
+<div id="history_edu"></div>
+<div class="btns">
+    <span class="btnw"><button class="btn">保存</button></span>
+</div>
+</%htm:form>
+
+
+<%text>
+<script id="history" type="text/x-jquery-tmpl">
 <div class="line c">
 <span class="L">
     <input placeholder="学校" name="edu_unit" class="unit">
@@ -32,11 +40,8 @@ ${css.ctrl_history|n}
 </span>
 <a href="javascript:void(0)" title="删除" class="rm"></a>
 </div>
-%endfor
-<div class="btns">
-    <span class="btnw"><button class="btn">保存</button></span>
-</div>
-</%htm:form>
+</script>
+</%text>
 
 
 <script>
