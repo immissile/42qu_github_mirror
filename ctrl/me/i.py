@@ -113,15 +113,15 @@ class History(LoginBase):
         arguments = parse_qs(self.request.body, True)
 
         def _(prefix):
+            id = arguments.get('%s_id'%prefix, [])
             title = arguments.get('%s_title'%prefix, [])
             unit = arguments.get('%s_unit'%prefix, [])
             txt = arguments.get('%s_txt'%prefix, [])
-            now = arguments.get('%s_now'%prefix, [])
             begin = arguments.get('%s_begin'%prefix, [])
             end = arguments.get('%s_end'%prefix, [])
+            print id
             print title
             print unit
-            print now
             print begin
             print end
 

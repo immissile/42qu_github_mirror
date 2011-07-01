@@ -23,6 +23,7 @@ ${css.ctrl_history|n}
 <script id="history_tmpl" type="text/x-jquery-tmpl">
 <div class="line">
 <span class="L">
+    <input type="hidden" name="${name}_id" value="${id}">
     <input placeholder="${unit_placeholder}" name="${name}_unit" class="unit" autocomplete="off">
     <input placeholder="${title_placeholder}" name="${name}_title" class="title" autocomplete="off">
     <input placeholder="经历简述 ... ..." name="${name}_txt" class="txt">
@@ -59,6 +60,7 @@ function history(id , result){
             }else{
                 end.fadeIn()
             }
+            end.find("input[type=hidden]").val("-1")
         }).attr('checked',false)
 
         history.find('.rm').click(function(){
@@ -97,7 +99,7 @@ $("#history_form").submit(function(){
         if(this.value==this.placeholder){
             this.value=''
         }
-    })  
+    })
 })
 history_edu()
 history_job()
