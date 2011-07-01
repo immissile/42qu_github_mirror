@@ -89,10 +89,13 @@ margin-bottom:14px;
 }
 .buzz{
 border:1px dotted #ccc;
+_border:1px solid #e0e0e0;
 }
 .buzz p{
 padding:4px 14px;
 border-bottom:1px dotted #ccc;
+_border-bottom:1px solid #e0e0e0;
+_zoom:1;
 }
 .buzz .tr{
 border-bottom:0;
