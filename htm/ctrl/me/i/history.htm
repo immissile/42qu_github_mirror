@@ -35,75 +35,7 @@ ${css.ctrl_history|n}
 </script>
 </%text>
 
-<script>
 
-function select_workday(prefix, elem, val){
-    val = val||0;
-    var date=new Date(), year=date.getFullYear();
-    select_span(elem, prefix+"_"+elem[0].className, val, year, year-99)
-}
-
-function history(id , result){
-    result.name = id
-    var div = $("#history_"+id),
-        history = $('#history_tmpl').tmpl(result).appendTo(div),
-        end = history.find("span.end"),
-        begin = history.find("span.begin"),
-        uid = uuid(),
-        now = history.find('input.now').attr("id",uid),
-        label = history.find(".label_now").attr("for",uid);
-        history.find('[placeholder]').placeholder();
-
-        now.change(function(){
-            if(this.checked){
-                end.fadeOut()
-            }else{
-                end.fadeIn()
-            }
-            end.find("input[type=hidden]").val("-1")
-        }).attr('checked',false)
-
-        history.find('.rm').click(function(){
-            history.fadeOut(function(){
-                history.remove()
-            })
-        });
-
-        div.find(".rm").show();
-        div.find(".rm:last").hide(); 
-        select_workday(id, begin)
-        select_workday(id, end)
-}
-function history_job(unit, title){
-    var result = {
-        "unit_placeholder"  : "单位",
-        "title_placeholder" : "头衔"        
-    }
-    history("job" , result)
-}
-function history_edu(unit, title){
-    var result = {
-        "unit_placeholder"  : "学校",
-        "title_placeholder" : "专业"        
-    }
-    history("edu" , result)
-}
-$(".history").delegate('.unit:last,.title:last', "change", function(){
-    var val = $.trim(this.value);
-    if(val.length&&val!=this.placeholder){
-        window['history_'+(this.name.split("_")[0])]()
-    }
-})
-$("#history_form").submit(function(){
-    $("input[placeholder]").each(function(){
-        if(this.value==this.placeholder){
-            this.value=''
-        }
-    })
-})
-history_edu()
-history_job()
-</script>
-
+<script src="${js.ctrl_i_history}"></script>
 
 
