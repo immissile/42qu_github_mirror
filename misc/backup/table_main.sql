@@ -624,8 +624,8 @@ DROP TABLE IF EXISTS `zsite_uv_daily`;
 CREATE TABLE `zsite_uv_daily` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `zsite_id` int(10) unsigned NOT NULL,
-  `uv` int(10) unsigned NOT NULL,
   `days` int(10) unsigned NOT NULL,
+  `uv` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `Index_3` (`zsite_id`,`days`),
   KEY `z` (`zsite_id`,`days`,`uv`)

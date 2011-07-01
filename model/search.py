@@ -5,24 +5,11 @@ from collections import defaultdict
 from config import SEARCH_DB_PATH
 from mmseg.search import seg_txt_search, seg_title_search, seg_txt_2_dict
 from model.zsite import Zsite
-from mysite.model.about_me_htm import about_me_txt
+from model.txt import txt_get
+from model.motto import motto_get
 from os.path import join
 from time import sleep
 import xapian
-
-
-def retry(func):
-    def _(*args, **kwargs):
-        n = 2
-        while n:
-            try:
-                return func(*args, **kwargs)
-            except :
-                sleep(0.1)
-                n -= 1
-                reload_db()
-        return func(*args, **kwargs)
-    return _
 
 
 DATEBASE = None
@@ -38,6 +25,20 @@ def reload_db():
         ENQUIRE.set_sort_by_value_then_relevance(1)
 
 reload_db()
+
+
+def retry(func):
+    def _(*args, **kwargs):
+        n = 2
+        while n:
+            try:
+                return func(*args, **kwargs)
+            except :
+                sleep(0.1)
+                n -= 1
+                reload_db()
+        return func(*args, **kwargs)
+    return _
 
 
 def make_query(keywords):
@@ -77,7 +78,7 @@ def make_query(keywords):
                 query = kt
             and_query_list.append(query)
     #for i in and_query_list:
-        #print "!!!",i
+    #print "!!!",i
     if len(and_query_list) > 1:
         query = xapian.Query(xapian.Query.OP_AND, and_query_list)
     else:
@@ -85,7 +86,9 @@ def make_query(keywords):
 
     return query
 
-def _search_(enquire, keywords, offset=0, limit=50):
+
+@retry
+def _search(enquire, keywords, offset=0, limit=50):
     if type(keywords) is xapian.Query:
         query = keywords
     else:
@@ -93,14 +96,6 @@ def _search_(enquire, keywords, offset=0, limit=50):
     enquire.set_query(query)
     matches = enquire.get_mset(offset, limit, None)
     return matches, matches.get_matches_estimated()
-
-
-def _search(enquire, keywords, offset=0, limit=50):
-    try:
-        return _search_(enquire, keywords, offset, limit)
-    except:
-        reload_db()
-    return _search_(enquire, keywords, offset, limit)
 
 
 @retry
