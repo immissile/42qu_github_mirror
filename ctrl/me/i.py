@@ -111,8 +111,10 @@ class History(LoginBase):
     def post(self):
         #Tornado会忽略掉默认为空的参数
         arguments = parse_qs(self.request.body, True)
-        print arguments
-
+        edu_title = self.get_arguments('edu_title',[])
+        job_title = self.get_arguments('job_title',[])
+        print edu_title
+        print job_title
         return self.render()
 
 class UserInfoEdit(object):

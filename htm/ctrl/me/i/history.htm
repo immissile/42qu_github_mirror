@@ -39,7 +39,7 @@ ${css.ctrl_history|n}
 function select_workday(prefix, elem, val){
     val = val||0;
     var date=new Date(), year=date.getFullYear();
-    select_span(elem, prefix+elem[0].className, val, year, year-99)
+    select_span(elem, prefix+"_"+elem[0].className, val, year, year-99)
 }
 
 function history(id , result){
