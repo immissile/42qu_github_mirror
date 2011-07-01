@@ -1,17 +1,18 @@
 
 (function(){
 var edu = "edu", job = "job";
-function select_workday(prefix, elem, val){
+function select_workday(prefix, elem, val, year_end){
     val = val||0;
     var date=new Date(), year=date.getFullYear();
-    select_span(elem, prefix+"_"+elem[0].className, val, year, year-99)
+    year_end=year_end||year-99
+    select_span(elem, prefix+"_"+elem[0].className, val, year, year_end)
 }
 
 function history(
     name,
-    unit, title, txt, begin, end, id
+    unit, title, txt, begin_val, end_val, id
 ){
-    var unit_placeholder, title_placeholder;
+    var unit_placeholder, title_placeholder, date_year = '.date_year';
     if(name == edu){
         unit_placeholder = "学校"
         title_placeholder = "专业"
@@ -60,12 +61,14 @@ function history(
                 history.remove()
             })
         });
+        
 
         div.find(".rm").show();
         div.find(".rm:last").hide(); 
-        select_workday(name, begin)
-        select_workday(name, end)
-        if(end==-1){
+        select_workday(name, begin, begin_val)
+        select_workday(name, end, end_val)
+
+        if(end_val==-1){
             now.click()
         }
 }
