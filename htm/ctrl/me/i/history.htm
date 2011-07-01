@@ -86,7 +86,7 @@ function history_edu(unit, title){
     }
     history("edu" , result)
 }
-$(".history").delegate('.unit:last', "change", function(){
+$(".history").delegate('.unit:last,.title:last', "change", function(){
     var val = $.trim(this.value);
     if(val.length&&val!=this.placeholder){
         window['history_'+(this.name.split("_")[0])]()
