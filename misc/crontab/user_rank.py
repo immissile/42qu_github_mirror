@@ -1,0 +1,35 @@
+#from model.user_session import user_id_by_base64
+#from config import SITE_DOMAIN
+#import re
+SITE_DOMAIN='silegon.xxx'
+
+def txt_wrap_by(start_str, end, html):
+    start = html.find(start_str)
+    if start >= 0:
+        start += len(start_str)
+        end = html.find(end, start)
+        if end >= 0:
+            return html[start:end].strip()
+
+def erank():
+    LOG_FILE_PATH = '/var/log/nginx/silegon_xxx_main.access_log'
+    f = open(LOG_FILE_PATH, 'rb')
+    file_content = f.read()
+    f.close()
+    access_result = []
+
+    log_lines = file_content.split('\n')
+    for log in log_lines:
+        elements = log.split()
+        print len(elements)
+        site_url = elements[6]
+        user_id_base64 = elements[-1]
+        person_url = txt_wrap_by('"http://', SITE_DOMAIN, site_url)
+        if person_url and user_id_base64 != '-':
+            access_result.append("".join([person_url,user_id_base64]))
+    return access_result
+
+
+if __name__ == '__main__':
+    result = erank()
+    print result
