@@ -39,9 +39,8 @@ def txt_bind(o_list):
         iid = i.id
         txt = r[iid]
         if txt is None:
-            i.txt = txt_get(iid)
-        else:
-            i.txt = txt
+            txt = txt_get(iid)
+        i.__dict__['txt'] = txt
 
 def mc_flush(id, txt=None):
     if txt is None:
