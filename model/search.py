@@ -1,51 +1,51 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import init_db
-from myconf.config import PREFIX, SEARCH_DB_PATH
-from mmseg.search import seg_txt_search, seg_title_search, seg_txt_2_dict
-from os.path import join
-import xapian
+import _db
 from collections import defaultdict
-import time
-from mysite.util.pager import Pager, page_offset_limit
-from mysite.model.man import Man
+from config import SEARCH_DB_PATH
+from mmseg.search import seg_txt_search, seg_title_search, seg_txt_2_dict
+from model.zsite import Zsite
 from mysite.model.about_me_htm import about_me_txt
+from os.path import join
+from time import sleep
+import xapian
+
 
 def retry(func):
     def _(*args, **kwargs):
-        tries = 2
-        while tries:
+        n = 2
+        while n:
             try:
                 return func(*args, **kwargs)
             except :
-                time.sleep(0.1)
-                tries -= 1
+                sleep(0.1)
+                n -= 1
                 reload_db()
         return func(*args, **kwargs)
     return _
 
+
 DATEBASE = None
 ENQUIRE = None
+
 def reload_db():
     global DATEBASE, ENQUIRE
     if DATEBASE:
         DATEBASE.reopen()
     else:
-        DATEBASE = xapian.Database(join(SEARCH_DB_PATH, "man"))
+        DATEBASE = xapian.Database(join(SEARCH_DB_PATH, 'zsite'))
         ENQUIRE = xapian.Enquire(DATEBASE)
         ENQUIRE.set_sort_by_value_then_relevance(1)
 
 reload_db()
 
 
-
-
 def make_query(keywords):
     if type(keywords) is unicode:
-        keywords = keywords.encode("utf-8","ignore")
+        keywords = keywords.encode('utf-8', 'ignore')
 
     and_query_list = []
-    keywords = keywords.split(" ")
+    keywords = keywords.split(' ')
 
     for keyword in keywords:
         if len(keyword) > 2 and keyword.startswith('"') and keyword.endswith('"'):
@@ -115,4 +115,4 @@ def search(keywords, offset, limit):
         rss_id = doc.get_value(0)
         r.append(rss_id)
 
-    return Man.mc_get_list(r), count
+    return Zsite.mc_get_list(r), count
