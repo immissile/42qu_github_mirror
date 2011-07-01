@@ -21,8 +21,8 @@ def flush_db():
 
 
 def index():
-    from zsite_iter import man_keyword_iter
-    for id, rank, kw in man_keyword_iter():
+    from zsite_iter import zsite_keyword_iter
+    for id, rank, kw in zsite_keyword_iter():
 
         doc = xapian.Document()
         doc.add_value(0, id)
