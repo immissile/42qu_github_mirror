@@ -10,7 +10,7 @@ PAGE_LIMIT = 50
 
 @urlmap('/reply_lsit/(\d+)(?:-(\d+))?')
 class ReplyList(Base):
-    def get(self,cid,n=1,limit=25, offset=0):
+    def get(self,cid,n=1):
         if cid:
             qs = Reply.where('cid = %s',cid)
             total = qs.count()
