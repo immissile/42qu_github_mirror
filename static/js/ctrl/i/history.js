@@ -90,8 +90,8 @@ $("#history_form").submit(function(){
     })
 })
 
+$("#history_data_job").
 history(job, "测试", "ccx", "zzbw", 0, 20091010, 12)
-
 
 history(edu)
 history(job)
