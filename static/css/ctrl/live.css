@@ -60,6 +60,7 @@ overflow:hidden;
 }
 #feeds .G1{
 background:url(/img/gif/comment.gif) no-repeat -51px 28px;
+*background-position: -50px 28px;
 margin-left:-2px;
 padding-left:34px;
 }
