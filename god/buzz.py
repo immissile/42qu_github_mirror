@@ -8,9 +8,6 @@ from zkit.page import page_limit_offset
 
 @urlmap('/buzz/sys/new')
 class SysNew(Base):
-    def get(self):
-        self.render()
-
     def post(self):
         htm = self.get_argument('htm', None)
         if not htm:
