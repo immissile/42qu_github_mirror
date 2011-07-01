@@ -15,6 +15,7 @@ from model.zsite import user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, 
 from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
 from model.user_mail import mail_by_user_id
 from cgi import escape
+from urlparse import parse_qs
 
 
 def _upload_pic(files, current_user_id):
@@ -108,7 +109,10 @@ class History(LoginBase):
         return self.render()
 
     def post(self):
-        print self.request.arguments
+        #Tornado会忽略掉默认为空的参数
+        arguments = parse_qs(self.request.body, True)
+        print arguments
+
         return self.render()
 
 class UserInfoEdit(object):
