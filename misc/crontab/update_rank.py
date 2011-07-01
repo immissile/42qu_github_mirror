@@ -3,22 +3,18 @@ from zweb.orm import ormiter
 from model._db import Model
 from user_rank import ZsiteUvDaily
 from model.days import today_days
+from model.kv_misc import kv_int , KV_ZSITE_RANK_POWER
 
-class KvInt(Model):
+def ZsiteRank(Model):
     pass
 
 def update_user_rank():
-    for i in ormiter(ZsiteUvDaily,"days=%s"%(today_days()-1)):
-        today_rank = i.uv*power
-        value = KvInt.raw_sql("select value from kv_int\
-                                  where id=%s"%i.zsite_id).fetchone()[0]
-        if value_item: 
-            value_item = data_item * power + today_rank
-            KvInt.raw_sql("update kv_int set value=%s where\
-                      zsite_id = %s;"%(value_rank, i.zsite_id))
-        else:
-            KvInt.raw_sql("insert into kv_int (id, value) values\
-                        (%s, %s)"%(i.zsite_id, value_rank))
+    power = kv_int.get(KV_ZSITE_RANK_POWER) or 1
+    for i in ormiter(
+        ZsiteUvDaily,"days=%s"%(today_days()-1)
+    ):
+        value_rank = i.uv*power
+        i.raw_sql(" insert into zsite_rank (id, rank) values (%s, %s) on duplicate key update rank=rank+%s;"%(i.zsite_id, value_rank, value_rank))
 
 if __name__=="__main__":
     update_user_rank()
