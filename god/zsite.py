@@ -15,6 +15,7 @@ from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
 from model.zsite_link import id_by_url
+from model.search import zsite_by_query
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -109,8 +110,6 @@ class VerifyList(Base):
             total=total,
             extra=extra,
         )
-##########
-from model.search import zsite_by_query
 
 @urlmap('/zsite/user_search')
 class UserSearch(Base):
