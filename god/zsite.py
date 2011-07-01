@@ -133,7 +133,7 @@ class UserSearch(Base):
             self.render(input=query)
 
 @urlmap('/zsite/avatar/(\d+)')
-class avatar(base):
+class avatar(Base):
     def get(self, avatar_id):
         session = user_session(avatar_id)
         self.set_cookie('s', session)
