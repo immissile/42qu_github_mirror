@@ -1,28 +1,51 @@
 
 (function(){
-function select_workday(prefix, elem, val){
+var edu = "edu", job = "job";
+function select_workday(prefix, elem, val, year_end){
     val = val||0;
     var date=new Date(), year=date.getFullYear();
-    select_span(elem, prefix+"_"+elem[0].className, val, year, year-99)
+    year_end=year_end||year-99
+    select_span(elem, prefix+"_"+elem[0].className, val, year, year_end)
 }
 
 function history(
-    name, unit_placeholder, title_placeholder,
-    unit, title, txt, begin, end
+    name,
+    unit, title, txt, begin_val, end_val, id
 ){
+    var unit_placeholder, title_placeholder, date_year = '.date_year';
+    if(name == edu){
+        unit_placeholder = "学校"
+        title_placeholder = "专业"
+    }else{
+        unit_placeholder = "单位"
+        title_placeholder = "头衔"
+    }
+
     var result = {
-            "unit_placeholder"  : unit_placeholder,
-            "title_placeholder" : title_placeholder,  
-            "name" : name 
+            "name" : name, 
+            "unit_placeholder" : unit_placeholder,
+            "title_placeholder" : title_placeholder,
+            "unit":unit,
+            "title":title,
+            "txt":txt,
+            "id":id
         },
-        div = $("#history_"+name),
+        div = $("#history_"+name);
+    
+     data = []
+
+     var
         history = $('#history_tmpl').tmpl(result).appendTo(div),
         end = history.find("span.end"),
         begin = history.find("span.begin"),
         uid = uuid(),
         now = history.find('input.now').attr("id",uid),
-        label = history.find(".label_now").attr("for",uid);
-        history.find('[placeholder]').placeholder();
+        label = history.find(".label_now").attr("for",uid),
+        unit_placeholder ,
+        title_placeholder;
+
+
+        history.find('[placeholder]').placeholder()
 
         now.change(function(){
             if(this.checked){
@@ -38,38 +61,26 @@ function history(
                 history.remove()
             })
         });
+        
 
         div.find(".rm").show();
         div.find(".rm:last").hide(); 
-        select_workday(name, begin)
-        select_workday(name, end)
+        select_workday(name, begin, begin_val)
+        select_workday(name, end, end_val)
+        if(end_val==-1){
+            end.hide()
+            now.click()
+        }
 }
-function history_job( 
-    unit, title, txt, begin, end
-){
-    history(
-        "job",
-        "单位",
-        "头衔",
-        unit, title, txt, begin, end
-    )
-}
-function history_edu(
-    unit, title, txt, begin, end
-){
-    history(
-        "edu",
-        "学校",
-        "专业",
-         unit, title, txt, begin, end
-    )
-}
+
+
 $(".history").delegate('.unit:last,.title:last', "change", function(){
     var val = $.trim(this.value);
     if(val.length&&val!=this.placeholder){
-        window['history_'+(this.name.split("_")[0])]()
+        history(this.name.split("_")[0]);
     }
 })
+
 
 $("#history_form").submit(function(){
     $("input[placeholder]").each(function(){
@@ -78,6 +89,18 @@ $("#history_form").submit(function(){
         }
     })
 })
-history_edu()
-history_job()
+
+function loads(name){
+    var data = $.parseJSON($("#history_data_job").text()),i=0,t;
+    for(;i<data.length;++i){
+        t=data[i];
+        t.unshift(name)
+        history.apply(this,t)
+    }
+    history(name)
+}
+
+loads(edu)
+loads(job)
+
 })()
