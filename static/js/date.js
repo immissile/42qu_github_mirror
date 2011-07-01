@@ -5,25 +5,24 @@ function month_days(year, month) {
         case 2: return ((year%4 == 0) && (year%100 != 0) || (year%400 == 0)) ? 29 : 28; case 4: case 6: case 9: case 11: return 30; default: return 31; 
     } 
 } 
-
-function select_date(id, value, year_begin, year_end){
-    document.write('<span id="'+id+'"></span>')
+    
+function select_span(id, value, year_begin, year_end){
     var r=[
         '<input type="hidden" value="0" name="'+id+'">'
     ], i, span=$("#"+id),day_option='<option value="0">- 日 -</option>';
     if(year_begin>year_end){
         i=year_begin; 
-        r.push('<select class="'+id+'_year" name="year"><option value="0000">- 年 -</option>')
+        r.push('<select class="'+id+'_year date_year" name="year"><option value="0000">- 年 -</option>')
         for(;i>year_end;--i){
             r.push('<option value="'+i+'">'+i+'</option>')
         }
         r.push('</select>')
     }
-    r.push('<select class="'+id+'_month" name="month"><option value="0">- 月 -</option>')
+    r.push('<select class="'+id+'_month date_month" name="month"><option value="0">- 月 -</option>')
     for(i=1;i<13;++i){
         r.push('<option value="'+i+'">'+i+'</option>')
     }
-    r.push('</select><select class="'+id+'_day" name="day">'+day_option+'</select>')
+    r.push('</select><select class="'+id+'_day date_day" name="day">'+day_option+'</select>')
     function select(name){
         return span.find("select[name="+name+"]")
     }
@@ -54,6 +53,11 @@ function select_date(id, value, year_begin, year_end){
        month.val(parseInt(value/100)%100).change(); 
        day.val(value%100);
     }
+}
+
+function select_date(id, value, year_begin, year_end){
+    document.write('<span id="'+id+'"></span>');
+    select_span(id, value, year_begin, year_end)
 }
 
 function select_birthday(id, value){

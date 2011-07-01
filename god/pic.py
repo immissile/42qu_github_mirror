@@ -3,7 +3,7 @@
 from _handler import Base
 from _urlmap import urlmap
 
-from model.cid import CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
+from model.cid import CID_ICO, CID_ICO96, CID_PO_PIC
 from model.pic import Pic, pic_list_to_review_by_cid, pic_to_review_count_by_cid, pic_list_reviewed_by_cid_state, pic_yes, pic_no, pic_reviewed_count_by_cid_state
 from model.zsite import Zsite
 from zkit.page import page_limit_offset

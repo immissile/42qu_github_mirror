@@ -22,3 +22,5 @@ config/nginx
 UglifyJS
 table_main
 .git*
+*.vim
+*.orig

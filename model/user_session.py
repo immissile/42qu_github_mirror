@@ -14,6 +14,15 @@ def password_encode(user_id, session):
     ck_key = urlsafe_b64encode(session)
     return '%s%s'%(user_id_key, ck_key)
 
+
+def user_id_by_base64(string):
+    try:
+        user_id = urlsafe_b64decode(string+'==')
+    except (binascii.Error, exceptions.TypeError):
+        return 0
+    else:
+        return unpack('I', user_id)[0]
+
 def user_id_value_by_session(session):
     if not session:
         return
@@ -21,11 +30,11 @@ def user_id_value_by_session(session):
     value = session[6:]
     try:
         value = urlsafe_b64decode(value+'=')
-        user_id = urlsafe_b64decode(user_id+'==')
     except (binascii.Error, exceptions.TypeError):
         return None, None
-    if user_id:
-        user_id = unpack('I', user_id)[0]
+
+    user_id = user_id_by_base64(user_id)
+
     return user_id, value
 
 class UserSession(Model):
@@ -71,5 +80,4 @@ if __name__ == '__main__':
     print session
     #print user_id_by_session(session)
     #user_session_rm(2)
-
-
+    print user_id_by_base64('UAAAAA')

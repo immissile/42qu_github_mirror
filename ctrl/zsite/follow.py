@@ -8,6 +8,8 @@ from model.follow import follow_rm, follow_new, follow_count_by_to_id, follow_id
 from model.zsite import Zsite
 
 PAGE_LIMIT = 42
+#PAGE_LIMIT = 1 
+
 
 @urlmap('/follow')
 class Follow(XsrfGetBase):

@@ -31,6 +31,7 @@ DB_MAIN_TABLE = (
     'trade_log',
     'txt',
     'url',
+    'user_info',
     'user_mail',
     'user_password',
     'user_session',

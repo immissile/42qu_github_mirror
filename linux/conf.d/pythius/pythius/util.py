@@ -20,6 +20,7 @@ __version__ = '$Revision: 1.1 $'[11:-2]
 
 # Imports
 import os, sys
+from os.path import islink
 
 # Globals
 flag_quiet = 0
