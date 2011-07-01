@@ -16,12 +16,13 @@ ${css.ctrl_history|n}
     <input placeholder="单位" name="job_unit" class="unit">
     <input placeholder="职位" name="job_title" class="title">
     <input placeholder="经历简述" name="job_txt" class="txt">
-    <script>select_workday("begin_time${i}",'${begin_time or ""}')</script>-<script>select_workday("end_job${i}",'${end_time or ""}')</script>
+   ## <script>select_workday("begin_time${i}",'${begin_time or ""}')</script>-<script>select_workday("end_job${i}",'${end_time or ""}')</script>
     <input name="now" type="checkbox" class="now" id="job${i}"><label for="job${i}" class="label_now">当前</label>
 </span>
 <a href="javascript:void(0)" class="rm"></a>
 </div>
 %endfor
+<div id="history_job"></div>
 <p class="tl career" style="border-top:1px dotted #ccc;margin-top:32px">教育背景</p>
 <div id="history_edu"></div>
 <div class="btns">
@@ -34,10 +35,10 @@ ${css.ctrl_history|n}
 <script id="history" type="text/x-jquery-tmpl">
 <div class="line c">
 <span class="L">
-    <input placeholder="学校" name="edu_unit" class="unit">
-    <input placeholder="专业" name="edu_title" class="title">
-    <input placeholder="经历简述" name="edu_txt" class="txt">
-    <span></span>
+    <input placeholder="${unit_placeholder}" name="edu_unit" class="unit" autocomplete="off">
+    <input placeholder="${title_placeholder}" name="edu_title" class="title" autocomplete="off">
+    <input placeholder="经历简述 ... ..." name="edu_txt" class="txt">
+    <span class="begin"></span> - <span class="end"></span>
     <input name="now" type="checkbox" class="now" id="edu${i}"><label for="edu${i}" class="label_now">当前</label>
 </span>
 <a href="javascript:void(0)" title="删除" class="rm"></a>
@@ -57,13 +58,36 @@ $(".now").change(function(){
     }
 }).attr('checked',false)
 $("[placeholder]").placeholder()
-function history(id, unit, title){
-    var result = {
-        
-    }
-    $('#history').tmpl(result).appendTo("#history_edu")
+
+function select_workday(elem, val){
+    val = val||0;
+    var date=new Date(), year=date.getFullYear();
+    select_span(elem, elem[0].name, val, year, year-99)
 }
-history("edu","")
+function history(id , result){
+    var history = $('#history').tmpl(result).appendTo("#history_"+id),
+        end = history.find("span.end"),
+        begin = history.find("span.begin");
+
+    select_workday(begin)
+    select_workday(end)
+}
+function history_job(unit, title){
+    var result = {
+        "unit_placeholder"  : "单位",
+        "title_placeholder" : "头衔"        
+    }
+    history("job" , result)
+}
+function history_edu(unit, title){
+    var result = {
+        "unit_placeholder"  : "学校",
+        "title_placeholder" : "专业"        
+    }
+    history("edu" , result)
+}
+history_edu()
+history_job()
 </script>
 
 
