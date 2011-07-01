@@ -5,7 +5,7 @@ from user_rank import ZsiteUvDaily
 from model.days import today_days
 from model.kv_misc import kv_int , KV_ZSITE_RANK_POWER
 
-def ZsiteRank(Model):
+class ZsiteRank(Model):
     pass
 
 def update_user_rank():
