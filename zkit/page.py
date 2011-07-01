@@ -34,13 +34,15 @@ def page_limit_offset(href, total, n, limit=PAGE_LIMIT):
 
 class Page(object):
     limit = PAGE_LIMIT
-    def __init__(self, href, count, now, limit=PAGE_LIMIT):
+    def __init__(self, href, count, now, limit=PAGE_LIMIT, template='<div class="page">%s</div>'):
         now = int(now)
         if now <= 0:
             now = 1
         self.now = now
         self.total = (count+limit-1)//limit
         self.href = href
+        self.template = template
+
 
     def __str__(self):
         href = self.href
@@ -147,7 +149,7 @@ class Page(object):
                     """<span>下一页</span>"""
                 )
             htm = ''.join(links)
-            return htm
+            return self.template%htm
         return ''
 
 if __name__ == '__main__':

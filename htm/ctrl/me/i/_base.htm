@@ -3,12 +3,10 @@
 <%namespace file="_i_nav.htm" import="i_nav"/>
 
 <%!
-from model.ico import ico_url_with_default 
 from model.zsite_link import url_by_id
 from model.motto import motto
 %>
 <%
-ico_url = ico_url_with_default(current_user_id)
 url = url_by_id(current_user_id)
 %>
 <%def name="head()"></%def>
@@ -19,15 +17,9 @@ ${css.ctrl_i|n}
 </%def>
 
 <div class="G i_div">
-    <div class="img G1">
-    <a href="/i/pic">
-        <img src="${ico_url}">
-        <div>编辑头像</div>
-    </a>
-    </div>
 
 
-<div class="G3">
+<div class="G4">
 ${i_nav()}
 ${next.body()}
 </div>

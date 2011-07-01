@@ -1,5 +1,5 @@
 <%!
-from config import SITE_URL
+from config import SITE_URL, SITE_DOMAIN
 %>\
 <!doctype html>\
 <head>\
@@ -12,14 +12,57 @@ ${self.htm_head()}\
 </head>\
 <body>\
 
-<div id="HD">
-<div id="HDI">
-<span class="L"><a href="${SITE_URL}">首页</a></span>
-<a href="/">管理</a>
-<a href="/chart">图表</a>
+
+<div class="colmask leftmenu">
+    <div class="colright">
+        <div class="col1wrap">
+            <div class="col1">${next.body()}</div>
+        </div>
+        <div class="col2">${self.col2()}</div>
+    </div>
 </div>
-</div>
-${next.body()}\
+
 </body>\
+
+<%def name="col2()">
+<h1><a href="${SITE_URL}">${SITE_DOMAIN}</a></h1>
+<form class="search" action="/">\
+<input id="search" type="text" name="q" value="${value or ''}">\
+<input class="search_btn" type="submit" value="">\
+</form>\
+<p class="coltitle">请求</p>
+
+
+<div>
+<a class="cola" href="#"><span class="R">32</span>认证</a>
+<a class="cola" href="#"><span class="R">32</span>提现</a>
+</div>
+
+
+
+<p class="coltitle">浏览</p>
+<a class="cola" href="#"><span class="R">32</span>用户</a>
+<a class="cola" href="#"><span class="R">32</span>文章</a>
+<a class="cola" href="#"><span class="R">32</span>全站广播</a>
+
+
+
+
+<p class="coltitle">头像</p>
+<a class="cola" href="#"><span class="R">32</span>待审核</a>
+<a class="cola tc" href="#">已通过</a>
+<a class="cola tc" href="#3">被删除</a>
+
+<p class="coltitle">公告</p>
+<a class="cola tc" href="#">发布</a>
+<a class="cola tc" href="#">历史</a>
+
+
+<p class="coltitle">其它</p>
+<a class="cola tc" href="/chart">网站报表</a>
+<a class="cola tc" href="#">京东返点</a>
+
+</%def>
+
 <%def name="htm_title()">42区, 找到给你答案的人</%def>\
 <%def name="htm_head()"></%def>\

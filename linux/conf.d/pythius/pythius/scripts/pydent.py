@@ -23,7 +23,7 @@ _debug = 0
 flag_backup = 1
 flag_compile = 0
 flag_dryrun = 0
-
+from os.path import islink
 #############################################################################
 ### Indent and detab Python source
 #############################################################################
@@ -269,6 +269,8 @@ def main():
     for filename in files:
         # load source
         util.log("Formatting '%s'..." % (filename, ))
+        if islink(filename):
+            continue
         file = util.FileMorpher(filename, backup=flag_backup, dryrun=flag_dryrun)
         source = file.load()
 

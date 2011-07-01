@@ -1,9 +1,10 @@
-<%def name="i_nav(url=None,name=None)">
+<%def name="i_nav()">
 <%
 path = request.path
 path_name = (
    ('/i',"基本信息"), 
-   ('/i/namecard',"个人名片"), 
+   ('/i/namecard',"名片资料"), 
+   ('/i/history',"个人经历"), 
    ('/i/mail_notice',"邮件提醒"), 
    ('/i/password',"修改密码"), 
 )
@@ -16,8 +17,8 @@ class="now"
 %endif
 href="${nav_path}">${nav_name}</a>\
 %endfor
-%if url:
-<a class="now" href="${url}">${name}</a>\
+%if path == "/i/pic":
+<a class="now" href="${nav_path}">编辑头像</a>\
 %endif
 </div>
 </%def>

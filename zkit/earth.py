@@ -7428,10 +7428,6 @@ if __name__ == '__main__':
 
         print_city()
 
-
-
-
-
         def next_id(prefix, prefixlen):
             max = 0
             bits = BIT_ALL - (2<<(prefixlen-1)) + 1
@@ -7446,4 +7442,3 @@ if __name__ == '__main__':
 
     test()
     print place_name(4295230208)
-

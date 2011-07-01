@@ -1,0 +1,27 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from model.txt import txt_get
+from model.motto import motto
+from model.ico import ico_url as _ico_url
+%>
+
+${page|n}
+
+<hr>
+%for user in user_list:
+<%
+ico_url = _ico_url(user.id)
+%>
+<p>
+%if ico_url:
+    <img src="${ico_url}">
+%endif
+<a href="../zsite/${user.id}">管理</a> ID:${user.id}  昵称: ${user.name}  座右铭: ${motto.get(user.id)}</p>
+<p>自我介绍: ${txt_get(user.id)}</p>
+
+%endfor
+<hr>
+   
+${page|n}
+
+

@@ -39,15 +39,14 @@ class NoLoginBase(Base):
             redirect = LOGIN_REDIRECT%current_user.link
         self.redirect(redirect)
 
-@urlmap('/auth/newbie')
-class Newbie(LoginBase):
-    def get(self):
-        self.render(
-            name='',
-        )
+from ctrl.me.i import UserInfoEdit
 
+@urlmap('/auth/newbie')
+class Newbie(UserInfoEdit, LoginBase):
     def post(self):
+        self.save()
         self.redirect('/i/pic')
+
 
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
@@ -123,7 +122,6 @@ class AuthLogin(NoLoginBase):
     def post(self):
         mail = self.get_argument('mail', None)
         password = self.get_argument('password', None)
-
         errtip = Errtip()
 
         if mail:
