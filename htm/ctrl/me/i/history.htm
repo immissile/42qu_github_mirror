@@ -23,7 +23,8 @@ margin-bottom:32px;
 text-align:left;
 }
 .fullscreen .now{
-width:auto;margin-left:16px;margin-right:5px;
+width:auto;margin-left:5px;margin-right:5px;
+
 }
 .fullscreen label{
 margin-right:8px
@@ -37,6 +38,12 @@ display:none;
 .career{
 border-bottom:1px dotted #ccc;text-align:center;padding:14px;font-size:16px
 }
+.fullscreen .label_now{
+margin:0;
+}
+.fullscreen .txt{
+width:232px;
+}
 </style>
 
 <%htm:form>
@@ -45,9 +52,9 @@ border-bottom:1px dotted #ccc;text-align:center;padding:14px;font-size:16px
 <div class="fullscreen">
     <input placeholder="单位" name="password0" type="password" style="width:100px">
     <input placeholder="职位" name="password2" type="password" style="width:100px">
-    <input placeholder="经历简述" name="password2" type="password" style="width:205px;">
-    <script>select_workday("begin_time${i}",'${begin_time or ""}')</script> -  <script>select_workday("end_time${i}",'${end_time or ""}')</script>
-    <input name="now" type="checkbox" class="now" id="now${i}"><label for="now${i}">当前</label>
+    <input placeholder="经历简述" name="txt" class="txt">
+    <script>select_workday("begin_time${i}",'${begin_time or ""}')</script>-<script>select_workday("end_job${i}",'${end_time or ""}')</script>
+    <input name="now" type="checkbox" class="now" id="job${i}"><label for="job${i}" class="label_now">当前</label>
 </div>
 %endfor
 <p class="tl career" style="border-top:1px dotted #ccc;margin-top:32px">教育背景</p>
@@ -55,9 +62,9 @@ border-bottom:1px dotted #ccc;text-align:center;padding:14px;font-size:16px
 <div class="fullscreen">
     <input placeholder="单位" name="password0" type="password" style="width:100px">
     <input placeholder="职位" name="password2" type="password" style="width:100px">
-    <input placeholder="经历简述" name="password2" type="password" style="width:205px;">
-    <script>select_workday("edu_begin${i}",'${begin_time or ""}')</script> -  <script>select_workday("edu_end${i}",'${end_time or ""}')</script>
-    <input name="now" type="checkbox" class="now" id="now${i}"><label for="now${i}">当前</label>
+    <input placeholder="经历简述" name="txt" class="txt">
+    <script>select_workday("edu_begin${i}",'${begin_time or ""}')</script>-<script>select_workday("end_edu${i}",'${end_time or ""}')</script>
+    <input name="now" type="checkbox" class="now" id="edu${i}"><label for="edu${i}" class="label_now">当前</label>
 </div>
 %endfor
 </%htm:form>
@@ -65,13 +72,14 @@ border-bottom:1px dotted #ccc;text-align:center;padding:14px;font-size:16px
 
 <script>
 $(".now").change(function(){
-    var p=$("#end_time"+this.id.slice(3));
+    var p=$("#end_"+this.id);
     if(this.checked){
         p.fadeOut()
     }else{
         p.fadeIn()
     }
 }).attr('checked',false)
+$("[placeholder]").placeholder()
 </script>
 
 
