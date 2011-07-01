@@ -117,5 +117,5 @@ cnenlen = function(str) {
 })();
 
 function uuid(){
-    return (""+ Math.random()).replace( /\D/g,"")
+    return (""+ Math.random()).replace(/\D/g,"").slice(1)
 }
