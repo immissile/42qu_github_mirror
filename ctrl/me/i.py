@@ -107,6 +107,10 @@ class History(LoginBase):
     def get(self):
         return self.render()
 
+    def post(self):
+        print self.request.arguments
+        return self.render()
+
 class UserInfoEdit(object):
     def get(self):
         current_user_id = self.current_user_id
