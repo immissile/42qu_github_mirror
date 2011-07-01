@@ -21,7 +21,7 @@ def zsite2keyword(z):
             t[mail] += 2
             t[mail.split('@')[0]] += 2
 
-    name = z.mame
+    name = z.name
     if name:
         for word in seg_title_search(name):
             t[word] += 2
