@@ -22,6 +22,8 @@ def erank():
     for log in log_lines:
         elements = log.split()
         print len(elements)
+        if len(elements) = 0:
+            continu
         site_url = elements[6]
         user_id_base64 = elements[-1]
         person_url = txt_wrap_by('"http://', SITE_DOMAIN, site_url)
