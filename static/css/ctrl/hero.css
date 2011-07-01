@@ -1,5 +1,5 @@
 .search{
-float:left;
+float:right;
 }
 .search input{
 height:26px;
@@ -22,4 +22,7 @@ color:#000;
 .zsite_mb64{
 margin-top:32px;
 padding-bottom:64px;
+}
+.HN{
+margin-top:12px;
 }
