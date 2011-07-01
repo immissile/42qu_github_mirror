@@ -9,7 +9,7 @@ function select_workday(prefix, elem, val){
 
 function history(
     name,
-    unit, title, txt, begin, end
+    unit, title, txt, begin, end, id
 ){
     var unit_placeholder, title_placeholder;
     if(name == edu){
@@ -23,9 +23,17 @@ function history(
     var result = {
             "name" : name, 
             "unit_placeholder" : unit_placeholder,
-            "title_placeholder" : title_placeholder
+            "title_placeholder" : title_placeholder,
+            "unit":unit,
+            "title":title,
+            "txt":txt,
+            "id":id
         },
-        div = $("#history_"+name),
+        div = $("#history_"+name);
+    
+     data = []
+
+     var
         history = $('#history_tmpl').tmpl(result).appendTo(div),
         end = history.find("span.end"),
         begin = history.find("span.begin"),
@@ -57,16 +65,16 @@ function history(
         div.find(".rm:last").hide(); 
         select_workday(name, begin)
         select_workday(name, end)
+        if(end==-1){
+            now.click()
+        }
 }
 
 
 $(".history").delegate('.unit:last,.title:last', "change", function(){
     var val = $.trim(this.value);
     if(val.length&&val!=this.placeholder){
-        history( 
-            this.name.split("_")[0], 
-            "", 0, 0
-        );
+        history(this.name.split("_")[0]);
     }
 })
 
@@ -79,8 +87,10 @@ $("#history_form").submit(function(){
     })
 })
 
+history(job, "测试", "ccx", "zzbw", 0, 20091010, 12)
 
-history( edu, "", 0, 0)
-history( job, "", 0, 0)
+
+history(edu)
+history(job)
 
 })()
