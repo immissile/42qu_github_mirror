@@ -618,6 +618,19 @@ CREATE TABLE `zsite_tag_po` (
   KEY `zsite_tag_id` USING BTREE (`zsite_tag_id`,`po_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `zsite_uv_daily`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `zsite_uv_daily` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `zsite_id` int(10) unsigned NOT NULL,
+  `uv` int(10) unsigned NOT NULL,
+  `days` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `Index_3` (`zsite_id`,`days`),
+  KEY `z` (`zsite_id`,`days`,`uv`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

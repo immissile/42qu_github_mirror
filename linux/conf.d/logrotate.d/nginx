@@ -1,0 +1,8 @@
+/var/log/nginx/*_log {
+    missingok
+    sharedscripts
+    olddir /var/log/nginx_backup/
+    postrotate
+        kill -USR1 `cat /var/run/nginx.pid`
+    endscript
+}
