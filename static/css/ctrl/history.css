@@ -34,13 +34,13 @@ text-align:left;
 margin:0;
 }
 .line .txt{
-width:200px;
+width:180px;
 }
 .btns{
 margin-top:32px
 }
 .rm{
-float:right;
+display:inline-block;
 background:url(/img/gif/x.gif) no-repeat 100% 50%;
 height:18px;
 width:9px;
