@@ -1,4 +1,15 @@
 <%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%htm:form action="/buzz/sys/new">
+<p>请手写HTML</p>
+<textarea name="htm"></textarea>
+<div>
+<span class="btnw"><button type="submit">发布</button></span>
+</div>
+</%htm:form>
+
+
 <ol>
 % for i in li:
 <%
@@ -11,8 +22,8 @@ id = i.id
 % endfor
 </ol>
 ${page|n}
-<br/>
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+
 ##<link rel="stylesheet" href="${css.FS_URL}/css/jwysiwyg/jquery.wysiwyg.css" type="text/css"/>
 ##<script src="${js.jwysiwyg_jquery_wysiwyg}"></script>
 ##<script src="${js.jwysiwyg_controls_wysiwyg_link}"></script>
@@ -27,7 +38,3 @@ ${page|n}
 ##    })
 ##})
 ##</script>
-<%htm:form>
-<textarea name="htm"></textarea>
-<button type="submit">发布</button>
-</%htm:form>
