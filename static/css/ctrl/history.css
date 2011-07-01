@@ -41,10 +41,12 @@ margin-top:32px
 }
 .rm{
 float:right;
-background:url(/img/gif/x.gif);
-height:9px;
+background:url(/img/gif/x.gif) no-repeat 100% 50%;
+height:18px;
 width:9px;
-margin-top:12px;
+padding:5px;
+margin-top:4px;
+*margin-top:13px;
 }
 .unit,.title{
 width:100px;
