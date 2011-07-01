@@ -205,13 +205,16 @@ class Namecard(LoginBase):
         pid_now = int(pid_now)
 
         o = UserInfo.mc_get(current_user_id) or JsDict()
-        if not o.sex:
+        if sex and not o.sex:
             sex = int(sex)
             if sex not in (1, 2):
                 sex = 0
             if sex:
-                o.sex = sex
-                o.save()
+                if o:
+                    o.sex = sex
+                    o.save()
+                else:
+                    user_info_new(current_user_id, sex=sex)
 
         if pid_now or name or phone or mail or address:
             c = namecard_new(

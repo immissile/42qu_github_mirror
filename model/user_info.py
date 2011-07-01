@@ -16,7 +16,7 @@ def user_info_new(
 ):
     o = UserInfo.get_or_create(id=user_id)
     if birthday:
-        o.birthday = birthday or '00000000'
+        o.birthday = birthday
     if sex:
         o.sex = sex
     o.marry = marry
