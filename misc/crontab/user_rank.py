@@ -17,21 +17,31 @@ def erank():
     file_content = f.read()
     f.close()
     access_result = []
-
-    log_lines = file_content.split('\n')
+    log_lines = file_content.split('\n')[0:-1]
     for log in log_lines:
         elements = log.split()
-        print len(elements)
-        if len(elements) = 0:
-            continu
-        site_url = elements[6]
+        site_url = elements[7]
         user_id_base64 = elements[-1]
         person_url = txt_wrap_by('"http://', SITE_DOMAIN, site_url)
-        if person_url and user_id_base64 != '-':
-            access_result.append("".join([person_url,user_id_base64]))
+        if person_url and user_id_base64 != '-' and person_url != 'god.':
+            access_result.append(person_url+user_id_base64)
     return access_result
 
 
+def single_sort(result):
+    pre_value = None
+    presult = []
+    result.sort()
+    for value in result:
+        if value == pre_value:
+            continue
+        pre_value = value
+        presult.append(value)
+    return presult
+    
+
 if __name__ == '__main__':
     result = erank()
-    print result
+    presult = single_sort(result)
+    print presult
+
