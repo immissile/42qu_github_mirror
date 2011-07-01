@@ -58,9 +58,6 @@ user_id = user.id
 
     <div class="bar">
     %if answer.can_view(current_user_id):
-        %if answer.state != STATE_SECRET:
-            <a class="reply" href="${answer_link}#reply_txt" title="回复">${answer.reply_count}</a>
-        %endif
         %if answer.can_admin(current_user_id):
 <a
 %if answer.state == STATE_SECRET:
@@ -70,8 +67,11 @@ href="${answer.link_edit}" class="edit">编辑</a>
         %else:
 <span class="L">${_vote(answer_id)}</span>\
         %endif
+        %if answer.state != STATE_SECRET:
+<a class="reply" href="${answer_link}#reply_txt" title="回复">${answer.reply_count}</a>
+        %endif
     %else:
-无名氏
+匿名
     %endif
     </div>
 </div></div>
@@ -86,7 +86,7 @@ href="${answer.link_edit}" class="edit">编辑</a>
 <input type="checkbox" name="secret" id="secret">
 <label for="secret" id="secret_label">匿名</label>\
 </span>\
-<span class="btnw"><button type="submit">回答</button></span>\
+<span id="question_submit" class="btnw"><button type="submit">回答</button></span>\
 </div>\
 </%htm:form>\
     %endif

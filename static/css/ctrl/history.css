@@ -1,0 +1,51 @@
+.line{
+margin-top:32px;
+font-size:16px;
+text-align:right;
+}
+.line input, .line select{
+padding:8px;
+}
+.line select{
+margin:0 8px;
+}
+.line input{
+line-height:20px;
+}
+.line p{
+margin-bottom:32px;
+text-align:left;
+}
+.line .now{
+margin-left:5px;
+margin-right:3px;
+}
+.line label{
+margin-right:8px
+}
+.date_day{
+display:none;
+}
+.career{
+border-bottom:1px dotted #ccc;text-align:center;padding:14px 0;font-size:16px;
+text-align:left;
+}
+.line .label_now{
+margin:0;
+}
+.line .txt{
+width:200px;
+}
+.btns{
+margin-top:32px
+}
+.rm{
+float:right;
+background:url(/img/gif/x.gif);
+height:9px;
+width:9px;
+margin-top:12px;
+}
+.unit,.title{
+width:100px;
+}

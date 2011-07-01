@@ -79,7 +79,6 @@ if notice_unread > 99:
 
 <%def name="h_nav()">
 <div class="HN">\
-${self.h_nav_more()}\
 %if current_user:
 <%
     link = current_user.link
@@ -105,6 +104,7 @@ ${self.h_nav_inner()}\
 <div class="D"><a href="/auth/reg" class="DA">注册</a></div>\
     %endif
 %endif
+${self.h_nav_more()}\
 </div>\
 </%def>
 

@@ -117,7 +117,7 @@ function select_pid(id,now){
         if(now){
             var hexnow = now.toString(16), now=now-0;
             if(hexnow in COUNTRY_DICT)select_country(now);
-            else if(PLACE_L1.indexOf(hexnow)+1)select_city(now);
+            else if($.inArray(hexnow, PLACE_L1)+1)select_city(now);
             else if(now in PLACE_L2L1)select_town(now);
             else if(now in PLACE_L3L2)select_loc(now);
         }
