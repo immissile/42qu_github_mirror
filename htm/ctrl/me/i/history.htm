@@ -8,6 +8,7 @@
 .fullscreen{
 margin-top:32px;
 font-size:16px;
+text-align:right;
 }
 .fullscreen input, .fullscreen select{
 padding:8px;
@@ -40,7 +41,7 @@ text-align:left;
 margin:0;
 }
 .fullscreen .txt{
-width:220px;
+width:200px;
 }
 .btns{
 margin-top:32px
@@ -50,22 +51,28 @@ margin-top:32px
 <%htm:form>
 <p class="tl career">职业生涯</p>
 %for i in range(1):
-<div class="fullscreen">
+<div class="fullscreen c">
+<span class="L">
     <input placeholder="单位" name="password0" style="width:100px">
     <input placeholder="职位" name="password2" style="width:100px">
     <input placeholder="经历简述" name="txt" class="txt">
     <script>select_workday("begin_time${i}",'${begin_time or ""}')</script>-<script>select_workday("end_job${i}",'${end_time or ""}')</script>
     <input name="now" type="checkbox" class="now" id="job${i}"><label for="job${i}" class="label_now">当前</label>
+</span>
+<a href="javascript:void(0)" class="rm"></a>
 </div>
 %endfor
 <p class="tl career" style="border-top:1px dotted #ccc;margin-top:32px">教育背景</p>
 %for i in range(2):
-<div class="fullscreen">
+<div class="fullscreen c">
+<span class="L">
     <input placeholder="学校" name="password0" style="width:100px">
     <input placeholder="专业" name="password2" style="width:100px">
     <input placeholder="经历简述" name="txt" class="txt">
     <script>select_workday("edu_begin${i}",'${begin_time or ""}')</script>-<script>select_workday("end_edu${i}",'${end_time or ""}')</script>
     <input name="now" type="checkbox" class="now" id="edu${i}"><label for="edu${i}" class="label_now">当前</label>
+</span>
+<a href="javascript:void(0)" class="rm"></a>
 </div>
 %endfor
 <div class="btns">
