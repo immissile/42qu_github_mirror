@@ -51,13 +51,26 @@ ${css.ctrl_history|n}
 </div>
 </script>
 </%text>
-<script type="text/x-json" id="history_data_job">
-[
-    ['蔡文胜', '测试title', '玩', 20091010, -1, 1],
-    ['蔡文胜', '测试title', '玩', 20091010, 201010, 1],
-    ['蔡文胜', '测试title', '玩', 20091010, -1, 1],
+
+
+<%
+# unit, title, txt, begin_val, end_val, id
+data = [
+     ['蔡文胜', '测试title', '玩', 20091010, -1, 1],
+     ['蔡文胜', '测试title', '玩', 20091010, 20101000,2],
+     ['蔡文胜', '测试title', '玩', 20091010, -1,3 ]
 ]
+%>
+
+<script type="text/x-json" id="history_data_edu">
+${dumps(data)|n}
 </script>
+
+
+<script type="text/x-json" id="history_data_job">
+${dumps(data)|n}
+</script>
+
 <script src="${js.ctrl_i_history}"></script>
 
 
