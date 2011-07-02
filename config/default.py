@@ -38,6 +38,8 @@ def prepare(o):
     o.SMTP_USERNAME = 'zpagedev'
     o.SMTP_PASSWORD = '42qu_com'
     o.SENDER_MAIL = 'zpagedev@163.com'
+    
+    o.LOGO_TEXT = "找到给你答案的人"
 
     o.ALIPAY_ID = ''
     o.ALIPAY_SALT = ''
