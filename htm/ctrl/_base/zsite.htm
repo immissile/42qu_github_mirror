@@ -6,7 +6,11 @@ from model.notice import notice_unread as _notice_unread
 <%inherit file="_style_1.htm" />
 
 <%def name="htm_title()">
+%if zsite:
 ${zsite.name}
+%else:
+${SITE_DOMAIN}
+%endif
 </%def>
 
 <%def name="_h_nav_notice()">
