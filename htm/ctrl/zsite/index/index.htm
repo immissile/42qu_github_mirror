@@ -1,6 +1,8 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
-
+<%!
+from model.ico import pic_url as _pic_url
+%>
 
 <%def name="htm_title()">
 ${zsite.name}
@@ -10,7 +12,8 @@ ${zsite.name}
 </%def>
 
 <%
-    is_owner = zsite == current_user
+is_owner = zsite_id == current_user_id
+pic_url = _pic_url(zsite_id)
 %>
 <h1 class="zsite_title">\
 ${zsite.name}\
@@ -18,6 +21,37 @@ ${zsite.name}\
  - ${motto}\
 %endif
 </h1>
+
+<%
+has_g1 = ico_txt or is_owner
+%>
+<div class="G">
+%if has_g1:
+<div class="G1">
+%if ico_txt:
+    <pre>${ico_txt|n}</pre>\
+%elif is_owner:
+    <a href="/i/history">编辑自己的经历</a>
+%endif
+</div>
+%endif
+%if pic_url:
+    %if has_g1:
+<div class="G3"><img src="${pic_url}"></div>\
+    %else:
+<div class="G3" style="margin:auto;float:none"><img src="${pic_url}" ></div>\
+    %endif
+%elif is_owner:
+<div class="G3">\
+<a href="/i/pic" style="font-size:16px;display:block;text-align:center;width:707px;padding:194px 0;border:7px solid #000">点此上传本人头像 ,  我们将人工审核</a>
+</div>
+%endif
+
+</div>
+
+
+
+
     %if not is_owner and current_user:
 <%!
 from model.follow import follow_get, follow_list_by_from_id_cid
