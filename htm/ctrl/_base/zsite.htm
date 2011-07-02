@@ -1,5 +1,5 @@
 <%!
-from config import SITE_DOMAIN, SITE_URL
+from config import SITE_DOMAIN, SITE_URL, LOGO_TEXT
 from model.notice import notice_unread as _notice_unread
 %>
 
@@ -9,7 +9,7 @@ from model.notice import notice_unread as _notice_unread
 %if zsite:
 ${zsite.name}
 %else:
-${SITE_DOMAIN}
+${SITE_DOMAIN} - ${LOGO_TEXT}
 %endif
 </%def>
 
