@@ -1,10 +1,23 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 
+
+<%def name="htm_title()">
+${zsite.name}
+%if motto:
+ - ${motto}
+%endif
+</%def>
+
 <%
     is_owner = zsite == current_user
 %>
-    <p>Zsite ${zsite.name}</p>
+<h1 class="title">\
+${zsite.name}\
+%if motto:
+ - ${motto}\
+%endif
+</h1>
     %if not is_owner and current_user:
 <%!
 from model.follow import follow_get, follow_list_by_from_id_cid
