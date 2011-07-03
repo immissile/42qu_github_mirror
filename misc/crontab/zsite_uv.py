@@ -16,6 +16,8 @@ SUFFIX_LEN = len(SITE_DOMAIN)+1
 class ZsiteUvDaily(Model):
     pass
 
+class ZsiteRank(Model):
+    pass
 
 def log2zsite_id_user_id(pipe):
     with pipe as infile:
@@ -63,12 +65,14 @@ def update_user_rank():
 
 
 def rebase_rank():
-    power = kv_int.get(KV_ZSITE_RANK_POWER) or 1
-    ratio = power**30
-    for i in ormiter(
-        ZsiteRank
-    ):
-        i.raw_sql(" update zsite_rank set rank = rank/%s;"%ratio)
+    max_rank = UserRank.raw_sql("select max(rank) from user_rank").fetchone()[0]
+    if max_rank > 99:
+        power = kv_int.get(KV_ZSITE_RANK_POWER) or 1
+        ratio = power**30
+        for i in ormiter(
+            ZsiteRank
+        ):
+            i.raw_sql(" update zsite_rank set rank = rank/%s;"%ratio)
 
 
 if __name__ == '__main__':
@@ -77,8 +81,6 @@ if __name__ == '__main__':
     log2zsite_uv_daliy(TODAY_DAYS, pipe)
     pipe.close()
     update_user_rank()
-    power = kv_int.get(KV_ZSITE_RANK_POWER) or 1
-    if kv_int.value > 99:
-        rebase_rank()
+    rebase_rank()
 
 
