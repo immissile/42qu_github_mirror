@@ -6,6 +6,13 @@ from yajl import dumps
 <%def name="head()">
 <script src="${js.date}"></script>
 ${css.ctrl_history|n}
+<style>
+    .begin select, .end select {
+    border: 1px solid #CCCCCC;
+    margin-right: 8px;
+    padding: 8px;
+    }
+</style>
 </%def>
 
 <%htm:form id="history_form">
