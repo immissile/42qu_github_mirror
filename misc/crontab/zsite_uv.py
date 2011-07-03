@@ -1,11 +1,15 @@
 import init_env
+import subprocess
+from zweb.orm import ormiter
 from config import SITE_DOMAIN
 from collections import defaultdict
 #from model.zsite import Zsite
+from model.zsite import Zsite
 from model.user_session import user_id_by_base64
 from model.zsite_link import id_by_url as _id_by_url
 from model.days import  today_days
 from model._db import Model
+from model.kv_misc import kv_int , KV_ZSITE_RANK_POWER
 
 SUFFIX_LEN = len(SITE_DOMAIN)+1
 
@@ -32,7 +36,7 @@ def id_by_url(url):
 
 def log2zsite_id_uv(path):
     zsite_uv = defaultdict(set)
-    for uid, zid in log2zsite_id_user_id(LOG_FILE_PATH):
+    for uid, zid in log2zsite_id_user_id(path):
         zsite_uv[zid].add(uid)
     return (
                (k, len(v)) for k, v in zsite_uv.iteritems()
@@ -48,10 +52,32 @@ def log2zsite_uv_daliy(days, path):
             uv,
             uv,
         )
+####
+def update_user_rank():
+    power = kv_int.get(KV_ZSITE_RANK_POWER) or 1
+    for i in ormiter(
+        ZsiteUvDaily,"days=%s"%(today_days()-1)
+    ):
+        value_rank = i.uv*power
+        i.raw_sql(" insert into zsite_rank (id, rank) values (%s, %s) on duplicate key update rank=rank+%s;"%(i.zsite_id, value_rank, value_rank))
+
+
+def rebase_rank():
+    power = kv_int.get(KV_ZSITE_RANK_POWER) or 1
+    ratio = power**30
+    for i in ormiter(
+        ZsiteRank
+    ):
+        i.raw_sql(" update zsite_rank set rank = rank/%s;"%ratio)
 
 
 if __name__ == '__main__':
-    LOG_FILE_PATH = '/var/log/nginx_backup/silegon_xxx_main.access_log.lzma'
     TODAY_DAYS = today_days()
     log2zsite_uv_daliy(TODAY_DAYS, LOG_FILE_PATH)
-
+    pipe = subprocess.Popen(['cat'], stdout=subprocess.PIPE,).stdout
+    log2zsite_uv_daliy(TODAY_DAYS, pipe)
+    pipe.close()
+    update_user_rank()
+    power = kv_int.get(KV_ZSITE_RANK_POWER) or 1
+    if kv_int.value > 99:
+        rebase_rank()
