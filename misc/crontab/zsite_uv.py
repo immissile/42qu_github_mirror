@@ -58,7 +58,7 @@ def log2zsite_uv_daliy(days, path):
 def update_user_rank():
     power = kv_int.get(KV_ZSITE_RANK_POWER) or 1
     for i in ormiter(
-        ZsiteUvDaily,"days=%s"%(today_days()-1)
+        ZsiteUvDaily, "days=%s"%(today_days()-1)
     ):
         value_rank = i.uv*power
         i.raw_sql(" insert into zsite_rank (id, rank) values (%s, %s) on duplicate key update rank=rank+%s;"%(i.zsite_id, value_rank, value_rank))
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     LOG_FILE_PATH = '/var/log/nginx_backup/silegon_xxx_main.access_log.lzma'
     TODAY_DAYS = today_days()
     log2zsite_uv_daliy(TODAY_DAYS, LOG_FILE_PATH)
-    pipe = subprocess.Popen(['cat'], stdout=subprocess.PIPE,).stdout
+    pipe = subprocess.Popen(['cat'], stdout=subprocess.PIPE, ).stdout
     log2zsite_uv_daliy(TODAY_DAYS, pipe)
     pipe.close()
     update_user_rank()
