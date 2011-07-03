@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache
+from zkit.earth import place_name
+from zkit.attrcache import attrcache
 
 
 class UserInfo(McModel):
-    pass
+    @attrcache
+    def place_home(self):
+        return place_name(self.pid_home)
 
 
 def user_info_new(
@@ -16,7 +20,7 @@ def user_info_new(
 ):
     o = UserInfo.get_or_create(id=user_id)
     if birthday:
-        o.birthday = birthday or '00000000'
+        o.birthday = birthday
     if sex:
         o.sex = sex
     o.marry = marry
