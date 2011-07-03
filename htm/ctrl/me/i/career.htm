@@ -15,11 +15,11 @@ ${css.ctrl_i_career|n}
 </style>
 </%def>
 
-<%htm:form id="history_form">
+<%htm:form id="career_form">
 <p class="tl career">职业生涯</p>
-<div class="history c" id="history_job"></div>
+<div class="career c" id="career_job"></div>
 <p class="tl career career_edu">教育背景</p>
-<div class="history c" id="history_edu"></div>
+<div class="career c" id="career_edu"></div>
 <div class="btns">
     <span class="btnw"><button class="btn">保存</button></span>
 </div>
@@ -27,7 +27,7 @@ ${css.ctrl_i_career|n}
 
 
 <%text>
-<script id="history_tmpl" type="text/x-jquery-tmpl">
+<script id="career_tmpl" type="text/x-jquery-tmpl">
 <div class="line">
 <span class="L">
     <input type="hidden" name="${name}_id" value="${id}">
@@ -69,16 +69,16 @@ data = [
 ]
 %>
 
-<script type="text/x-json" id="history_data_edu">
+<script type="text/x-json" id="career_data_edu">
 ${dumps(data)|n}
 </script>
 
 
-<script type="text/x-json" id="history_data_job">
+<script type="text/x-json" id="career_data_job">
 ${dumps(data)|n}
 </script>
 
-<script src="${js.ctrl_i_history}"></script>
+<script src="${js.ctrl_i_career}"></script>
 
 
 <%!
