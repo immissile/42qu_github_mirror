@@ -51,7 +51,7 @@ def log2zsite_uv_daliy(days, path):
 
 
 if __name__ == '__main__':
-    LOG_FILE_PATH = '/var/log/nginx/silegon_xxx_main.access_log'
+    LOG_FILE_PATH = '/var/log/nginx_backup/silegon_xxx_main.access_log.lzma'
     TODAY_DAYS = today_days()
     log2zsite_uv_daliy(TODAY_DAYS, LOG_FILE_PATH)
 
