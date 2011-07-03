@@ -8,7 +8,7 @@ function select_workday(prefix, elem, val, year_end){
     select_span(elem, prefix+"_"+elem[0].className, val, year, year_end)
 }
 
-function history(
+function career(
     name,
     unit, title, txt, begin_val, end_val, id
 ){
@@ -30,22 +30,22 @@ function history(
             "txt":txt,
             "id":id
         },
-        div = $("#history_"+name);
+        div = $("#career_"+name);
     
      data = []
 
      var
-        history = $('#history_tmpl').tmpl(result).appendTo(div),
-        end = history.find("span.end"),
-        begin = history.find("span.begin"),
+        career = $('#career_tmpl').tmpl(result).appendTo(div),
+        end = career.find("span.end"),
+        begin = career.find("span.begin"),
         uid = uuid(),
-        now = history.find('input.now').attr("id",uid),
-        label = history.find(".label_now").attr("for",uid),
+        now = career.find('input.now').attr("id",uid),
+        label = career.find(".label_now").attr("for",uid),
         unit_placeholder ,
         title_placeholder;
 
 
-        history.find('[placeholder]').placeholder()
+        career.find('[placeholder]').placeholder()
 
         now.change(function(){
             if(this.checked){
@@ -56,9 +56,9 @@ function history(
             end.find("input[type=hidden]").val("-1")
         }).attr('checked',false)
 
-        history.find('.rm').click(function(){
-            history.fadeOut(function(){
-                history.remove()
+        career.find('.rm').click(function(){
+            career.fadeOut(function(){
+                career.remove()
             })
         });
         
@@ -74,15 +74,15 @@ function history(
 }
 
 
-$(".history").delegate('.unit:last,.title:last', "change", function(){
+$(".career").delegate('.unit:last,.title:last', "change", function(){
     var val = $.trim(this.value);
     if(val.length&&val!=this.placeholder){
-        history(this.name.split("_")[0]);
+        career(this.name.split("_")[0]);
     }
 })
 
 
-$("#history_form").submit(function(){
+$("#career_form").submit(function(){
     $("input[placeholder]").each(function(){
         if(this.value==this.placeholder){
             this.value=''
@@ -91,13 +91,13 @@ $("#history_form").submit(function(){
 })
 
 function loads(name){
-    var data = $.parseJSON($("#history_data_job").text()),i=0,t;
+    var data = $.parseJSON($("#career_data_job").text()),i=0,t;
     for(;i<data.length;++i){
         t=data[i];
         t.unshift(name)
-        history.apply(this,t)
+        career.apply(this,t)
     }
-    history(name)
+    career(name)
 }
 
 loads(edu)
