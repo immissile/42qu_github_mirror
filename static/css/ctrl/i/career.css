@@ -27,8 +27,11 @@ margin-right:8px
 display:none;
 }
 .career{
-border-bottom:1px dotted #ccc;text-align:center;padding:14px 0;font-size:16px;
+text-align:center;padding:14px 0;font-size:16px;
 text-align:left;
+}
+.career_edu,.career_job{
+border-bottom:1px dotted #ccc;
 }
 .line .label_now{
 margin:0;
@@ -53,4 +56,14 @@ width:100px;
 }
 .career_edu{
 border-top:1px dotted #ccc;margin-top:32px
+}
+
+.begin select, .end select {
+border: 1px solid #CCC;
+margin-right: 8px;
+padding: 8px;
+}
+
+.unit,.title,.txt{
+border: 1px solid #CCC;
 }
