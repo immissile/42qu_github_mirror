@@ -28,4 +28,12 @@ class ReplyList(Base):
                     page=page,
                     )
 
-
+@urlmap('/reply/rm/(\d+)')
+class ReplyRm(Base):
+    def get(self, id):
+        r = Reply.mc_get(id)
+        if r: 
+            r.rm()
+            self.finish('Y')
+        else:
+            self.finish('N')
