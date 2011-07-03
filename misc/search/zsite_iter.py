@@ -8,7 +8,7 @@ from model.zsite_list_0 import zsite_show_get
 from zweb.orm import ormiter
 from mmseg.search import seg_txt_search, seg_title_search, seg_txt_2_dict
 from collections import defaultdict
-
+from model.zsite_link import url_by_id
 
 def zsite2keyword(z):
     rank = 0
@@ -19,7 +19,11 @@ def zsite2keyword(z):
         mail = mail_by_user_id(id)
         if mail:
             t[mail] += 2
-            t[mail.split('@')[0]] += 2
+            t[mail.split('@', 1)[0]] += 2
+
+    url = url_by_id(id)
+    if url:
+        t[url] += 2
 
     name = z.name
     if name:
@@ -41,7 +45,7 @@ def zsite2keyword(z):
     return rank, t
 
 
-def man_keyword_iter():
+def zsite_keyword_iter():
     for i in ormiter(Zsite):
         id = i.id
         rk = zsite2keyword(i)

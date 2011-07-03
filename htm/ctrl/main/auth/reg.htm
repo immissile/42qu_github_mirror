@@ -1,4 +1,7 @@
 
+<%!
+from config import LOGO_TEXT
+%>
 
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -15,7 +18,7 @@ ${css.ctrl_auth_reg|n}
 
 <div>
 <%htm:form id="form_reg" action="/auth/reg">
-<h1>欢迎莅临指导 !</h1>
+<h1>${LOGO_TEXT|n}</h1>
 <p class="line">
 性别
 <span class="sex"><input

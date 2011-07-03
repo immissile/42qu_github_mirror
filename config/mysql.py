@@ -41,6 +41,8 @@ DB_MAIN_TABLE = (
     'wall_reply',
     'zsite',
     'zsite_list',
+    'zsite_rank',
     'zsite_tag',
     'zsite_tag_po',
+    'zsite_uv_daily',
 )
