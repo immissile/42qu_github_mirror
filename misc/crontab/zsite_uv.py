@@ -3,6 +3,7 @@ import subprocess
 from zweb.orm import ormiter
 from config import SITE_DOMAIN
 from collections import defaultdict
+#from model.zsite import Zsite
 from model.zsite import Zsite
 from model.user_session import user_id_by_base64
 from model.zsite_link import id_by_url as _id_by_url
@@ -12,15 +13,14 @@ from model.kv_misc import kv_int , KV_ZSITE_RANK_POWER
 
 SUFFIX_LEN = len(SITE_DOMAIN)+1
 
-
 class ZsiteUvDaily(Model):
     pass
 
 class ZsiteRank(Model):
     pass
 
-def log2zsite_id_user_id(pipe):
-    with pipe as infile:
+def log2zsite_id_user_id(path):
+    with open(path) as infile:
         for log in infile:
             user_id_base64, domain, other = log.split(' ', 2)
             url = domain[:-SUFFIX_LEN]
@@ -77,10 +77,12 @@ def rebase_rank():
 
 if __name__ == '__main__':
     TODAY_DAYS = today_days()
+    log2zsite_uv_daliy(TODAY_DAYS, LOG_FILE_PATH)
     pipe = subprocess.Popen(['cat'], stdout=subprocess.PIPE,).stdout
     log2zsite_uv_daliy(TODAY_DAYS, pipe)
     pipe.close()
     update_user_rank()
-    rebase_rank()
-
+    power = kv_int.get(KV_ZSITE_RANK_POWER) or 1
+    if kv_int.value > 99:
+        rebase_rank()
 

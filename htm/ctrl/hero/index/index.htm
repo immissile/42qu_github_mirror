@@ -1,8 +1,6 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.ico import pic_url
-
 %>
 
 <%def name="htm_head()">
@@ -10,7 +8,7 @@ ${css.ctrl_hero|n}
 </%def>
 
 <%def name="h_nav_more()">\
-<form class="search" action="/">\
+<form class="search" action="/q">\
 <input id="search" type="text" name="q" value="${value or ''}">\
 <input class="search_btn" type="submit" value="">\
 </form>\

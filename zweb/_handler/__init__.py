@@ -25,6 +25,10 @@ class BaseBase(web.RequestHandler):
         mc.reset()
         super(BaseBase, self).prepare()
 
+#    def redirect(self, url, permanent=False):
+#        if self._finished:
+#            return
+#        super(BaseBase,self).redirect(url, permanent)
 
 class Base(BaseBase):
     @property
@@ -69,6 +73,8 @@ class Base(BaseBase):
 
 
 def _login_redirect(self):
+    if self._finished:
+        return
     if not self.current_user:
         url = self.get_login_url()
         if '?' not in url:

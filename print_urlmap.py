@@ -23,6 +23,7 @@ def print_urlmap(module):
 
 import ctrl._url
 print_urlmap('ctrl._urlmap.main')
+print_urlmap('ctrl._urlmap.hero')
 print_urlmap('ctrl._urlmap.auth')
 print_urlmap('ctrl._urlmap.j')
 print_urlmap('ctrl._urlmap.zsite')

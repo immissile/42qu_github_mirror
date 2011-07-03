@@ -60,6 +60,7 @@ overflow:hidden;
 }
 #feeds .G1{
 background:url(/img/gif/comment.gif) no-repeat -51px 28px;
+*background-position: -50px 28px;
 margin-left:-2px;
 padding-left:34px;
 }
@@ -88,10 +89,13 @@ margin-bottom:14px;
 }
 .buzz{
 border:1px dotted #ccc;
+_border:1px solid #e0e0e0;
 }
 .buzz p{
 padding:4px 14px;
 border-bottom:1px dotted #ccc;
+_border-bottom:1px solid #e0e0e0;
+_zoom:1;
 }
 .buzz .tr{
 border-bottom:0;
