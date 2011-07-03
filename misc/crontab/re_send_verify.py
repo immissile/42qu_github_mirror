@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 import init_env
 from time import time
-from model._db import Model, McModel, McCache, mc, cursor_by_table
+from model._db import Model
 from model.mail import rendermail
-from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY
+from model.cid import CID_VERIFY_MAIL
 from model.user_mail import mail_by_user_id
 
 
@@ -28,8 +28,7 @@ def re_send_verify():
         id = item.user_id
         template = VERIFY_TEMPLATE[CID_VERIFY_MAIL]
         rendermail(template, mail, name, id=id, ck=ck)
-        item.create_time = now
-        item.save()
+        item.update(create_time = now)
         
 
 
