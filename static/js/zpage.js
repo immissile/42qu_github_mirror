@@ -115,3 +115,7 @@ cnenlen = function(str) {
         return Math.ceil(_cnenlen($.trim(str)) / 2)  
 } 
 })();
+
+function uuid(){
+    return (""+ Math.random()).slice(2)
+}

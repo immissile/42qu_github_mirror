@@ -38,6 +38,8 @@ def prepare(o):
     o.SMTP_USERNAME = 'zpagedev'
     o.SMTP_PASSWORD = '42qu_com'
     o.SENDER_MAIL = 'zpagedev@163.com'
+    
+    o.LOGO_TEXT = "找到给你答案的人"
 
     o.ALIPAY_ID = ''
     o.ALIPAY_SALT = ''
@@ -52,6 +54,7 @@ def finish(o):
     o.MQ_USE = o.MYSQL_MAIN
 
     o.PIC_PATH = '/mnt/zpage'
+    o.SEARCH_DB_PATH = '/mnt/zpage_searchdb'
     o.GOD_PORT = o.PORT + 20
     o.API_PORT = o.PORT + 30
     o.RPC_PORT = o.PORT + 40

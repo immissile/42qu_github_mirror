@@ -33,6 +33,10 @@ class Base(_Base):
 class ZsiteBase(Base):
     def prepare(self):
         super(ZsiteBase, self).prepare()
+
+        if self._finished:
+            return
+
         if self.zsite_id == 0:
             current_user = self.current_user
             if current_user:

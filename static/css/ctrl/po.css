@@ -30,11 +30,13 @@ border:1px solid #ccc;
 #reply_list, #txt_form{
 width:721px;
 margin:0 auto 32px;
-*margin:0 auto;;
+*margin:0 auto;
+}
+#txt_form{
+*margin-top:-32px;
 }
 #reply_list{
 margin-top:16px;
-*margin-top:-32px;
 }
 .rm{
 float:left;
@@ -64,12 +66,19 @@ float:left;
 .po_page{
 padding-bottom:32px;
 }
+#secret_span label{
+*vertical-align:-1px;
+}
 #secret_span{
 vertical-align:top;
+*vertical-align:9px;
 }
 #secret{
 vertical-align:-1px
 }
 #secret_label{
 margin-right:32px;
+}
+.btns{
+line-height:46px;
 }
