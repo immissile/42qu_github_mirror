@@ -6,21 +6,28 @@
 
 <%def name="head()">
 <script src="${js.pid}"></script>
+${css.ctrl_i_namecard|n}
 </%def>
 
 
 
 <%htm:form>
-<p>姓名 <input autocomplete="off" type="text" name="name" value="${name}"></p>
-<p>手机 <input autocomplete="off" type="text" name="phone" value="${phone}"></p>
-<p>邮件 <input autocomplete="off" type="text" name="mail" value="${mail}"></p>
-<p>现居 <script>select_pid("pid_now",${pid_now})</script> </p>
-<p>地址 <input type="text" name="address" value="${address}"></p>
-% if not sex:
-<p>性别
+<p>姓名 <input class="ti" autocomplete="off" type="text" name="name" value="${name}"></p>
+<p>手机 <input class="ti" autocomplete="off" type="text" name="phone" value="${phone}"></p>
+<p>邮件 <input class="ti" autocomplete="off" type="text" name="mail" value="${mail}"></p>
+<p class="tc" style="text-align:left">现居
+<script>select_pid("pid_now", ${pid_now})</script>
+</p>
+<p>地址 <input class="ti "type="text" name="address" value="${address}"></p>
+%if not sex:
+<p id="sex">性别
 <input type="radio" name="sex" value="1" id="sex1"><label for="sex1">男</label>
 <input type="radio" name="sex" value="2" id="sex2"><label for="sex2">女</label>
 </p>
 %endif
+<div class="btns">
+<span class="btnw">
 <button type="submit">保存</button>
+</span>
+</div>
 </%htm:form>

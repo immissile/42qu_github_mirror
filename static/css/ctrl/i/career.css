@@ -1,0 +1,69 @@
+.line{
+margin-top:32px;
+font-size:16px;
+text-align:right;
+}
+.line input, .line select{
+padding:8px;
+}
+.line select{
+margin:0 8px;
+}
+.line input{
+line-height:20px;
+}
+.line p{
+margin-bottom:32px;
+text-align:left;
+}
+.line .now{
+margin-left:5px;
+margin-right:3px;
+}
+.line label{
+margin-right:8px
+}
+.date_day{
+display:none;
+}
+.career{
+text-align:center;padding:14px 0;font-size:16px;
+text-align:left;
+}
+.career_edu,.career_job{
+border-bottom:1px dotted #ccc;
+}
+.line .label_now{
+margin:0;
+}
+.line .txt{
+width:180px;
+}
+.btns{
+margin-top:32px
+}
+.rm{
+display:inline-block;
+background:url(/img/gif/x.gif) no-repeat 100% 50%;
+height:18px;
+width:9px;
+padding:5px;
+margin-top:4px;
+*margin-top:13px;
+}
+.unit,.title{
+width:100px;
+}
+.career_edu{
+border-top:1px dotted #ccc;margin-top:32px
+}
+
+.begin select, .end select {
+border: 1px solid #CCC;
+margin-right: 8px;
+padding: 8px;
+}
+
+.unit,.title,.txt{
+border: 1px solid #CCC;
+}
