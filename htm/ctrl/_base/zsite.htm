@@ -1,10 +1,17 @@
 <%!
-from config import SITE_DOMAIN, SITE_URL
+from config import SITE_DOMAIN, SITE_URL, LOGO_TEXT
 from model.notice import notice_unread as _notice_unread
 %>
 
-<%inherit file="_style_1.htm" />\
+<%inherit file="_style_1.htm" />
 
+<%def name="htm_title()">
+%if zsite:
+${zsite.name}
+%else:
+${SITE_DOMAIN} - ${LOGO_TEXT}
+%endif
+</%def>
 
 <%def name="_h_nav_notice()">
 <%

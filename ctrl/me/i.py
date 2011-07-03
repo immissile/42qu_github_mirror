@@ -103,8 +103,8 @@ class Verify(LoginBase):
     def get(self):
         self.render()
 
-@urlmap('/i/history')
-class History(LoginBase):
+@urlmap('/i/career')
+class Career(LoginBase):
     def get(self):
         return self.render()
 

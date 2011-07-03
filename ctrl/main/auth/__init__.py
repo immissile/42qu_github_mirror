@@ -6,6 +6,7 @@ from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD
 from model.namecard import namecard_get, namecard_new
 from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
 from model.user_mail import mail_by_user_id, user_id_by_mail
+from model.user_info import user_info_new
 from model.user_session import user_session, user_session_rm
 from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
@@ -91,7 +92,7 @@ class Reg(NoLoginBase):
 
         if not errtip:
             user_id = user_new_by_mail(mail, password)
-            namecard_new(user_id, sex=sex)
+            user_info_new(user_id, sex=sex)
             return self._login(user_id, mail, '/auth/verify/send')
 
         self.render(
