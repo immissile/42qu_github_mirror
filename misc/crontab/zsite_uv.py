@@ -76,6 +76,7 @@ def rebase_rank():
 
 
 if __name__ == '__main__':
+    LOG_FILE_PATH = '/var/log/nginx_backup/silegon_xxx_main.access_log.lzma'
     TODAY_DAYS = today_days()
     log2zsite_uv_daliy(TODAY_DAYS, LOG_FILE_PATH)
     pipe = subprocess.Popen(['cat'], stdout=subprocess.PIPE,).stdout

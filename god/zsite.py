@@ -111,7 +111,6 @@ class VerifyList(Base):
             total=total,
             extra=extra,
         )
-<<<<<<< local
 
 ##########
 from config import SITE_DOMAIN
