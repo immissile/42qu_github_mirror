@@ -3,7 +3,6 @@ import subprocess
 from zweb.orm import ormiter
 from config import SITE_DOMAIN
 from collections import defaultdict
-#from model.zsite import Zsite
 from model.zsite import Zsite
 from model.user_session import user_id_by_base64
 from model.zsite_link import id_by_url as _id_by_url
