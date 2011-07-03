@@ -19,7 +19,8 @@ class Verify(Model):
 
 def re_send_verify():
     import time
-    week_ago = int(time.time()) - TIME_LIMIT
+    now = int(time.time())
+    week_ago = now - TIME_LIMIT
     for item in Verify.where('create_time<%s'%week_ago):
         mail = mail_by_user_id(item.user_id)
         name = mail
@@ -27,6 +28,9 @@ def re_send_verify():
         id = item.user_id
         template = VERIFY_TEMPLATE[CID_VERIFY_MAIL]
         rendermail(template, mail, name, id=id, ck=ck)
+        item.create_time = now
+        item.save()
+        
 
 
 if __name__=='__main__':
