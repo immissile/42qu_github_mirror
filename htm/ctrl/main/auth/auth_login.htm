@@ -1,12 +1,14 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-
+<%!
+from config import LOGO_TEXT
+%>
 <%namespace file="/ctrl/_util/login.htm" import="login_form"/>
 <%def name="h_nav()"></%def>
 <%def name="htm_head()">
 ${css.ctrl_auth_reg|n}
 </%def>
 <div id="form_reg" class="btns">
-<h1>欢迎莅临指导 !</h1>
+<h1>${LOGO_TEXT|n}</h1>
 ${login_form()}\
 </div>
 <script>\

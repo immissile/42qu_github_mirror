@@ -13,6 +13,7 @@ height:5px;
 width:5px;
 padding:3px 6px;
 margin-left:6px;
+*margin-bottom:-12px;
 }
 .down{
 margin-right:4px;

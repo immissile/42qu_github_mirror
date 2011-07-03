@@ -9,7 +9,6 @@ CID_PIC_NAME = {
 <%def name="htm_head()">
 ${css.god_review|n}
 </%def>
-<h2 class="tc">${CID_PIC_NAME[cid]}审核 - ${total}</h2>
  <hr />
 <div class="c">
 % if total:
@@ -28,7 +27,6 @@ user_id = user.id
 </div>
         % endif
     % endfor
-</div>
 % else:
 没有新上传头像
 % endif

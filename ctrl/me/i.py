@@ -15,6 +15,7 @@ from model.zsite import user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, 
 from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
 from model.user_mail import mail_by_user_id
 from cgi import escape
+from urlparse import parse_qs
 
 
 def _upload_pic(files, current_user_id):
@@ -102,9 +103,31 @@ class Verify(LoginBase):
     def get(self):
         self.render()
 
-@urlmap('/i/history')
-class History(LoginBase):
+@urlmap('/i/career')
+class Career(LoginBase):
     def get(self):
+        return self.render()
+
+    def post(self):
+        #Tornado会忽略掉默认为空的参数
+        arguments = parse_qs(self.request.body, True)
+
+        def _(prefix):
+            id = arguments.get('%s_id'%prefix, [])
+            title = arguments.get('%s_title'%prefix, [])
+            unit = arguments.get('%s_unit'%prefix, [])
+            txt = arguments.get('%s_txt'%prefix, [])
+            begin = arguments.get('%s_begin'%prefix, [])
+            end = arguments.get('%s_end'%prefix, [])
+            print id
+            print title
+            print unit
+            print begin
+            print end
+
+        _('edu')
+        _('job')
+
         return self.render()
 
 class UserInfoEdit(object):
@@ -205,13 +228,16 @@ class Namecard(LoginBase):
         pid_now = int(pid_now)
 
         o = UserInfo.mc_get(current_user_id) or JsDict()
-        if not o.sex:
+        if sex and not o.sex:
             sex = int(sex)
             if sex not in (1, 2):
                 sex = 0
             if sex:
-                o.sex = sex
-                o.save()
+                if o:
+                    o.sex = sex
+                    o.save()
+                else:
+                    user_info_new(current_user_id, sex=sex)
 
         if pid_now or name or phone or mail or address:
             c = namecard_new(

@@ -92,27 +92,29 @@ def pic_no(id, admin_id):
             user_id = pic.user_id
             if ico.get(user_id) == pic.id:
                 ico.set(user_id, 0)
-        mq_pic_rm_mail(pic)
+        mq_pic_rm_mail(id)
 
 PIC_RM_TEMPLATE = {
     CID_ICO: '/mail/pic/rm_ico.txt',
 }
 
-def pic_rm_mail(pic):
+def pic_rm_mail(id):
     from ico import ico
     from user_mail import mail_by_user_id
     from zsite import Zsite
-    cid = pic.cid
-    user_id = pic.user_id
-    template = PIC_RM_TEMPLATE.get(cid)
-    if template:
-        name = Zsite.mc_get(user_id).name
-        mail = mail_by_user_id(user_id)
-        if cid == CID_ICO:
-            if not ico.get(user_id):
-                rendermail(template, mail, name,
-                           user=user,
-                          )
+    pic = Pic.get(id)
+    if pic:
+        cid = pic.cid
+        user_id = pic.user_id
+        template = PIC_RM_TEMPLATE.get(cid)
+        if template:
+            name = Zsite.mc_get(user_id).name
+            mail = mail_by_user_id(user_id)
+            if cid == CID_ICO:
+                if not ico.get(user_id):
+                    rendermail(template, mail, name,
+                               user=user,
+                              )
 
 from mq import mq_client
 mq_pic_rm_mail = mq_client(pic_rm_mail)

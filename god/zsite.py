@@ -15,8 +15,8 @@ from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
 from model.zsite_link import id_by_url
-from model.search import zsite_by_query
 from model.user_session import user_session
+
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -112,6 +112,29 @@ class VerifyList(Base):
             extra=extra,
         )
 
+##########
+from config import SITE_DOMAIN
+from urlparse import urlparse
+from model.zsite_link import id_by_url
+from model.zsite import Zsite
+from model.user_mail import user_id_by_mail
+
+def zsite_by_query(query):
+    user_id = None
+
+    if '@' in query:
+        user_id = user_id_by_mail(query)
+    elif SITE_DOMAIN in query:
+        key = urlparse(query).netloc.split('.', 1)[0]
+        user_id = id_by_url(key)
+    elif query.isdigit():
+        if Zsite.mc_get(query):
+            user_id = query
+    else:
+        user_id = id_by_url(query)
+    return user_id
+
+
 @urlmap('/zsite/user_search')
 class UserSearch(Base):
     def get(self):
@@ -124,18 +147,20 @@ class UserSearch(Base):
         query = urllib.unquote(query).strip()
 
         user_id = zsite_by_query(query)
-       
-        
+
         if user_id:
             url = '/zsite/%s' % user_id
             return self.redirect(url)
         else:
             self.render(input=query)
 
+
 @urlmap('/zsite/avatar/(\d+)')
-class avatar(Base):
+class Avatar(Base):
     def get(self, avatar_id):
         session = user_session(avatar_id)
-        self.set_cookie('s', session)
-        current_user = zsite.mc_get(avatar_id)
+        self.set_cookie('S', session)
+        current_user = Zsite.mc_get(avatar_id)
         self.redirect(current_user.link)
+
+
