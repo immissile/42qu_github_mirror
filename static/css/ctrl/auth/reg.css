@@ -34,7 +34,12 @@ margin-left:40px;
 text-align:center;
 }
 #form_reg h1{
-margin:32px 0 48px;
+background:url(/img/gif/logo.gif) no-repeat;
+margin:30px auto 48px;
+height:54px;
+width:467px;
+text-indent:-999px;
+overflow:hidden;
 text-align:center;
 }
 #login{
