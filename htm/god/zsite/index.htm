@@ -17,7 +17,6 @@ url = url_by_id(zsite_id)
 
 <%def name="htm_head()">
 </%def>
-<div style="width:972px;margin:16px auto">
 <p>${zsite.name}</p>
 <p>${zsite.id}</p>
 <a href="/zsite/avatar/${zsite_id}">变身</a>
@@ -34,7 +33,6 @@ url = url_by_id(zsite_id)
 <textarea name="txt">${txt}</textarea>
 </div>
     <button type="submit">保存</button>
-<div>
 </%htm:form>
 
 <p><a target="_blank" href="${zsite.link}">${zsite.link.strip("/")}</a></p>
@@ -52,4 +50,3 @@ zsite_show = zsite_show_get(zsite_id)
         <button type="submit">加入秀</button>
     </form>
 %endif
-</div>
