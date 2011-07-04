@@ -3,21 +3,19 @@ text-align:center;
 font-size:16px;
 margin:48px 0;
 }
-.zsite_link a{
-text-align:center;
-font-size:16px;
-padding-right:32px;
-}
 .zsite_txt{
 width:721px;
-margin:auto;
+margin:0 auto 48px;
 }
 .zsite_pic_center{
 margin:auto;
 float:none;
 }
+.zsite_pic{
+line-height:32px;
+}
 .zsite_pic img{
-padding-bottom:27px
+padding-bottom:32px
 }
 .zsite_txt img{
 float:left;margin-right:27px
@@ -36,4 +34,22 @@ padding-bottom:20px;
 padding-right:40px;
 padding-left:20px;
 background:url(/img/gif/rq.gif) no-repeat 100% 100%;
+}
+.zsite_link{
+display:block;
+background:#fff;
+border:1px dotted #ccc;
+font-size:16px;
+text-align:center;
+color:#999;
+padding:8px;
+margin-bottom:32px
+}
+.zsite_link a{
+text-align:center;
+font-size:14px;
+padding-right:32px;
+}
+.zsite_link{
+padding:14px 0;
 }

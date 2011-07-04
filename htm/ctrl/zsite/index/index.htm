@@ -47,17 +47,24 @@ has_g1 = ico_txt or is_owner
 <a href="/i/pic" style="font-size:16px;display:block;text-align:center;width:707px;padding:194px 0;border:7px solid #000">点此上传本人头像 ,  我们将人工审核</a>
 </div>
 %endif
+<%
+txt = zsite.txt
+%>
 
+%if txt:
 <div class="zsite_txt c">
-<img src=${ico_url_with_default(zsite_id)}>
-<div class="qgif"></div>
-<div class="zsite_txt_div">\
-<pre>${zsite.txt}</pre>\
-</div>\
+    <img src=${ico_url_with_default(zsite_id)}>
+    <div class="qgif"></div>
+    <div class="zsite_txt_div">\
+        <pre>${txt}</pre>\
+    </div>\
+</div>
+%endif
 
 </div>
 
-</div>
+</div></div></div>
+<div><div><div>
 
 <div class="zsite_link">
 %for id, name in link_id_name_by_zsite_id(zsite_id):
