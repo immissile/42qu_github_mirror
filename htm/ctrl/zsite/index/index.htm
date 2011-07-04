@@ -1,7 +1,8 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 <%!
-from model.ico import pic_url as _pic_url
+from model.ico import pic_url as _pic_url, ico_url_with_default
+from model.zsite_link import link_id_name_by_zsite_id
 %>
 
 <%def name="htm_title()">
@@ -37,9 +38,9 @@ has_g1 = ico_txt or is_owner
 %endif
 %if pic_url:
     %if has_g1:
-<div class="G3"><img src="${pic_url}"></div>\
+<div class="G3 zsite_pic"><img src="${pic_url}"></div>\
     %else:
-<div class="G3" style="margin:auto;float:none"><img src="${pic_url}" ></div>\
+<div class="G3 zsite_pic zsite_pic_center"><img src="${pic_url}" ></div>\
     %endif
 %elif is_owner:
 <div class="G3">\
@@ -47,9 +48,17 @@ has_g1 = ico_txt or is_owner
 </div>
 %endif
 
+<div class="zsite_txt">
+<img src=${ico_url_with_default(zsite_id)}>
 </div>
 
+</div>
 
+<div class="zsite_link">
+%for id, name in link_id_name_by_zsite_id(zsite_id):
+<a href="/link/${id}">${name}</a>\
+%endfor
+</div>
 
 
     %if not is_owner and current_user:

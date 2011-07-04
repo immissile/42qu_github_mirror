@@ -3,3 +3,20 @@ text-align:center;
 font-size:16px;
 margin:48px 0;
 }
+.zsite_link a{
+text-align:center;
+font-size:16px;
+padding-right:32px;
+}
+.zsite_txt{
+width:721px;
+margin:auto;
+}
+.zsite_pic_center{
+margin:auto;
+float:none;
+}
+.zsite_pic img{
+padding-bottom:27px
+}
+
