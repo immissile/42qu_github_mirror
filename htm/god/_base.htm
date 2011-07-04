@@ -69,9 +69,9 @@ ${self.htm_head()}\
 <a class="cola tc" href="/pic/reviewed${CID_ICO}/0">被删除</a>
 
 <p class="coltite">回复</p>
-<a class="cola" href="/reply_lsit/${CID_NOTE}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_NOTE).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_NOTE).count()}</span>文章</a>
-<a class="cola" href="/reply_lsit/${CID_WORD}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_WORD).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_WORD).count()}</span>微博</a>
-<a class="cola" href="/reply_lsit/${CID_QUESTION}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_QUESTION).count()}</span>评论</a>
+<a class="cola" href="/reply_list/${CID_NOTE}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_NOTE).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_NOTE).count()}</span>文章</a>
+<a class="cola" href="/reply_list/${CID_WORD}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_WORD).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_WORD).count()}</span>微博</a>
+<a class="cola" href="/reply_list/${CID_QUESTION}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_QUESTION).count()}</span>评论</a>
 
 
 <p class="coltitle">公告</p>
