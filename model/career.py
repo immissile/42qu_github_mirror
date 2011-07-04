@@ -3,6 +3,9 @@
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA
 from tag import tag_new
 
+CID_WORK = 1
+CID_EDU = 2
+
 class Career(McModel):
     pass
 
