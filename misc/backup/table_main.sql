@@ -75,6 +75,7 @@ DROP TABLE IF EXISTS `career`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `career` (
   `id` int(10) unsigned NOT NULL auto_increment,
+  `user_id` int(10) unsigned NOT NULL,
   `title` int(10) unsigned NOT NULL,
   `tag_id` int(10) unsigned NOT NULL,
   `begin_time` int(11) NOT NULL,
