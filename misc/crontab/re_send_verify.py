@@ -10,8 +10,7 @@ from model.verify import VERIFY_TEMPLATE, Verify
 TIME_LIMIT = 3600 * 24 * 7
 
 def re_send_verify():
-    import time
-    now = int(time.time())
+    now = int(time())
     week_ago = now - TIME_LIMIT
     for item in Verify.where('create_time<%s'%week_ago):
         mail = mail_by_user_id(item.user_id)
