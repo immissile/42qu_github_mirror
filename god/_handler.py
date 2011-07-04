@@ -8,3 +8,6 @@ class Base(zweb._handler.Base):
         if not self.current_user:
             self.redirect(SITE_URL)
         super(Base, self).prepare()
+
+    def post(self, *arg, **kwds):
+        return self.get(*arg, **kwds)

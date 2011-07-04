@@ -1,31 +1,21 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
+from model.state import STATE_DEL
 %>
 <%def name="htm_head()">
 </%def>
 <script>
-function wall_rm(id) {
-    if (confirm("你确认?")) {
-        var wall=$('#wall'+id)
-        wall.text('通讯中')
-        $.get('/reply/rm/' + id, function(data) {
-            if(data == 'Y'){
-                wall.html('删除成功')
-            }
-            else{
-                wall.html('出问题啦！')
-            }
-        })
-    }
-}
+rm = _rm("#reply","/reply/rm/")
 </script>
 <ol>
 % for reply in reply_list:
 <%
 cid = reply.cid
+user = reply.user
+id = reply.id
 %>\
-<li id ='wall${cid}'>
+<li id ='reply${id}'>
 <p>
 
 % if cid == CID_WORD:
@@ -38,19 +28,22 @@ cid = reply.cid
 ##% if reply.rid:
 ##[答案]\
 ##% endif
-
+ <a href="${user.link}" target="_blank">${user.name}</a> :
 <a 
+    target="_blank"
     %if reply.po:
     href="${reply.po.link}"
     %endif
 >${reply.txt or '[]'}</a>
 </p>
-<p><a href="javascript:rm(${reply.id});void(0)">
-##    % if reply.is_show:
-    删除
-##    % else:  po/set_show/${reply.id}
-##   % endif
-</a></p>
+<p>
+%if reply.state == STATE_DEL:
+已删除
+%else:
+<a href="javascript:rm(${id});void(0)">删除</a>
+%endif
+</p>
+
 <hr>
 </li>
 % endfor
