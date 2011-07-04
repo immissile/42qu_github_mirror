@@ -95,7 +95,7 @@ function start_upload() {
 
 function add_thumb(src, id) {
     $('#update_item').tmpl([[id,0,src,""]]).prependTo("#uploaded")
-    $('#txt').insert_caret(' 图-' + id + " ");
+    $('#txt').insert_caret(' 图:' + id + " ");
 };
 
 $('.rmpic').live("click", function() {
