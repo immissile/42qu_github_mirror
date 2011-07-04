@@ -49,19 +49,23 @@ def link_by_id(id):
     link = ZsiteLink.get(id)
     return link.link 
 
-def link_cid_id(id):
-    c = ZsiteLink.raw_sql('select id, cid from zsite_link where zsite_id=%s', zsite_id)
+@mc_link_id_cid("{id}")
+def link_id_cid(id):
+    c = ZsiteLink.raw_sql(
+        'select id, cid from zsite_link where zsite_id=%s', zsite_id
+    )
     return c.fetchall()
 
 def link_list_save(zsite_id, link_list):
-    for link, cid in link_list:
-        link = ZsiteLink.get_or_create(zsite_id=zsite_id, cid=cid)
-        link.link = link
-        link.name = OAUTH2NAME_DICT[cid]  
-        link_id = link.id
-        link.save()
-        if link_id:
-            mc_link_by_id.delete(link.id)
+    for cid, name, link in link_list:
+        if cid:
+            link = ZsiteLink.get_or_create(zsite_id=zsite_id, cid=cid)
+            link.link = link
+            link.name = name 
+            link_id = link.id
+            link.save()
+            if link_id:
+                mc_link_by_id.delete(link.id)
     mc_flush(zsite_id)
 
 

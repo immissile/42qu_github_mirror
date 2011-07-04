@@ -16,6 +16,7 @@ from model.user_auth import user_password_new, user_password_verify, user_new_by
 from model.user_mail import mail_by_user_id
 from cgi import escape
 from urlparse import parse_qs
+from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id
 
 
 def _upload_pic(files, current_user_id):
@@ -216,6 +217,17 @@ class Index(UserInfoEdit, LoginBase):
 @urlmap('/i/link')
 class Link(LoginBase):
     def get(self):
+        zsite_id = self.zsite_id
+        id_name = link_id_name_by_zsite_id(zsite_id)
+        id_cid = dict(link_id_cid(zsite_id)) 
+        
+        for id, name in id_name:
+            link = link_by_id(id)
+            if id in id_cid:
+                link_cid[cid] = 
+            else:
+                link_cid[cid] = 
+_
         link_list = []
         link_cid = {}
         return self.render(
@@ -224,7 +236,22 @@ class Link(LoginBase):
         ) 
 
     def post(self):
+        arguments = parse_qs(self.request.body, True)
+        link_list = []
+
+        for cid, link in zip(arguments.get("cid"), arguments.get("link")):
+            name = OAUTH2NAME_DICT[cid]  
+            link_list.append((int(cid), name, link))
+
+        for key, value in zip(arguments.get("key"), arguments.get("value")):
+            link_list.append((0, key, value))
+
+        zsite_id = self.zsite_id
+ 
+        link_list_save(zsite_id, link_list)
+ 
         return self.get()
+
 
 @urlmap('/i/namecard')
 class Namecard(LoginBase):
