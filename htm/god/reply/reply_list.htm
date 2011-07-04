@@ -12,6 +12,7 @@ rm = _rm("#reply","/reply/rm/")
 % for reply in reply_list:
 <%
 cid = reply.cid
+user = reply.user
 id = reply.id
 %>\
 <li id ='reply${id}'>
@@ -27,7 +28,7 @@ id = reply.id
 ##% if reply.rid:
 ##[答案]\
 ##% endif
-
+ <a href="${user.link}" target="_blank">${user.name}</a> :
 <a 
     target="_blank"
     %if reply.po:
@@ -42,6 +43,7 @@ id = reply.id
 <a href="javascript:rm(${id});void(0)">删除</a>
 %endif
 </p>
+
 <hr>
 </li>
 % endfor

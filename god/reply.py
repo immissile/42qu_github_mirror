@@ -4,6 +4,7 @@ from _handler import Base
 from _urlmap import urlmap
 from model.reply import Reply
 from zkit.page import page_limit_offset
+from model.zsite import Zsite
 from model.txt import txt_bind
 from model.po import Po
 PAGE_LIMIT = 50
@@ -22,6 +23,7 @@ class ReplyList(Base):
         li = qs.order_by('id desc')[offset: offset + limit]
         txt_bind(li)
         Po.mc_bind(li, 'po', 'rid')
+        Zsite.mc_bind(li, 'user', 'user_id')
         self.render(
             reply_list=li,
             page=page,
