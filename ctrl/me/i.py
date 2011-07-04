@@ -17,7 +17,7 @@ from model.user_mail import mail_by_user_id
 from cgi import escape
 from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id
-
+from urlparse import urlparse
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -261,7 +261,9 @@ class Link(LoginBase):
             arguments.get("value")
         ):
             id = int(id)
-            link_kv.append((id, key.strip(), self._linkify(value)))
+            link = self._linkify(value)
+            
+            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
 
         link_list_save(zsite_id, link_cid, link_kv)
  
