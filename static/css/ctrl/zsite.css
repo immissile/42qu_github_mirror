@@ -48,7 +48,8 @@ margin-bottom:32px
 .zsite_link a{
 text-align:center;
 font-size:14px;
-padding-right:32px;
+padding:14px;
+margin:14px;
 }
 .zsite_link{
 padding:14px 0;
