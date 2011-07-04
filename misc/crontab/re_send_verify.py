@@ -13,8 +13,6 @@ def re_send_verify():
     today = today_days() * DAY_SECOND
     ago = today - DAY_SECOND * 6
     week_ago = ago - DAY_SECOND
-    print ago, week_ago
-    li = []
     for i in Verify.where('create_time>%s and create_time<%s', week_ago, ago):
         user_id = i.user_id
         user = Zsite.mc_get(user_id)
@@ -24,7 +22,7 @@ def re_send_verify():
             id = i.id
             ck = i.value
             template = '/mail/auth/verify/miss.txt'
-            #rendermail(template, mail, name, id=id, ck=ck)
+            rendermail(template, mail, name, id=id, ck=ck)
 
 
 if __name__=='__main__':
