@@ -1,4 +1,6 @@
-from time import time, mktime, strptime
+from time import time, mktime, strptime, strftime 
+import datetime
+
 
 DAY_SECOND = 3600*24
 TIMEZONE_OFFSET = mktime((1970, 1, 1, 0, 0, 0, 0, 0, 0))
@@ -11,6 +13,10 @@ def date_to_days(s):
     seconds = mktime(n) - TIMEZONE_OFFSET
     return int(seconds / DAY_SECOND)
 
+def yestoday():
+    r = datetime.date.today()- datetime.timedelta(1)
+    return r.strftime('%Y%m%d') 
 
 if __name__ == '__main__':
-    print date_to_days('20110704')
+    #print date_to_days('20110704')
+    print yestoday()
