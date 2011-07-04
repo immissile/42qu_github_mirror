@@ -1,0 +1,44 @@
+<%!
+from yajl import dumps
+from model.link import OAUTH2NAME 
+%>
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="head()">
+</%def>
+
+<%htm:form class="link">
+##<a href="/"></a>
+%for oauth_id, name in OAUTH2NAME:
+<p>
+    <label for="cid${oauth_id}">${name}</label>
+    <input
+        id="cid${oauth_id}"
+        class="value"
+        value="${link_cid.get(cid, '')}"
+        type="text"
+        name="link">
+    <input type="hidden" value="${oauth_id}" name="cid">
+</p>
+%endfor
+%for i in range(4):
+<%
+if i<len(link_list):
+    k,v = link_list[i]
+else:
+    if i==0:
+        k = 'Blog'
+    else:
+        k = ''
+    v = ''
+%>
+<p>
+<input class="link" type="text" name="name" value="${k}" >\
+<input class="value" type="text" name="link" value="${v}">\
+</p>
+%endfor
+
+<div class="btns">
+    <span class="btnw"><button class="btn">保存</button></span>
+</div>
+</%htm:form>

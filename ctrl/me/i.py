@@ -213,6 +213,19 @@ class Index(UserInfoEdit, LoginBase):
 
         self.redirect('/i')
 
+@urlmap('/i/link')
+class Link(LoginBase):
+    def get(self):
+        link_list = []
+        link_cid = {}
+        return self.render(
+            link_list = link_list,
+            link_cid = link_cid
+        ) 
+
+    def post(self):
+
+        return self.render()
 
 @urlmap('/i/namecard')
 class Namecard(LoginBase):
