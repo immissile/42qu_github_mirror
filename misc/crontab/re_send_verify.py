@@ -3,7 +3,6 @@
 import init_env
 from time import time
 from model.mail import rendermail
-from model.cid import CID_VERIFY_MISS
 from model.user_mail import mail_by_user_id
 from model.verify import VERIFY_TEMPLATE, Verify
 
@@ -19,7 +18,7 @@ def re_send_verify():
         name = mail
         ck = item.value
         id = item.user_id
-        template = VERIFY_TEMPLATE[CID_VERIFY_MISS]
+        template = '/mail/auth/verify/miss.txt'
         rendermail(template, mail, name, id=id, ck=ck)
 
 

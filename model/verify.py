@@ -5,14 +5,13 @@ from os import urandom
 from time import time
 from _db import Model, McModel, McCache, mc, cursor_by_table
 from mail import mq_rendermail
-from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY, CID_VERIFY_MISS
+from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY
 
 TIME_LIMIT = 3600 * 24 * 7
 
 VERIFY_TEMPLATE = {
     CID_VERIFY_MAIL: '/mail/auth/verify/mail.txt',
     CID_VERIFY_PASSWORD: '/mail/auth/verify/password.txt',
-    CID_VERIFY_MISS: '/mail/auth/verify/miss.txt',
 }
 
 class Verify(Model):
