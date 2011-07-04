@@ -56,9 +56,9 @@ class Kv(object):
             cursor.connection.commit()
             mc.set(mc_key, value)
 
-            h = md5(r).hexdigest()
-            mc_key2 = self.__mc_value__ % h
-            mc.delete(mc_key2)
+        #    h = md5(r).hexdigest()
+        #    mc_key2 = self.__mc_value__ % h
+        #    mc.delete(mc_key2)
 
     def delete(self, id):
         cursor = self.cursor
