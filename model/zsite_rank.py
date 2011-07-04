@@ -32,6 +32,6 @@ def zsite_rank_update(days):
 
     for i in ormiter(ZsiteUvDaily, 'days=%s' % days):
         value_rank = i.uv*n
-        i.raw_sql('insert into zsite_rank (id, rank) values (%s, %s) on duplicate key update rank=rank+%s;'%(i.zsite_id, value_rank, value_rank))
+        i.raw_sql('insert into zsite_rank (id, rank) values (%s, %s) on duplicate key update rank=rank+%s', i.zsite_id, value_rank, value_rank)
 
     kv_int.set(KV_ZSITE_RANK_POWER, n*1.1)
