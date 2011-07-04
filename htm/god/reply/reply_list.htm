@@ -1,0 +1,59 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
+%>
+<%def name="htm_head()">
+</%def>
+<script>
+function wall_rm(id) {
+    if (confirm("你确认?")) {
+        var wall=$('#wall'+id)
+        wall.text('通讯中')
+        $.get('/reply/rm/' + id, function(data) {
+            if(data == 'Y'){
+                wall.html('删除成功')
+            }
+            else{
+                wall.html('出问题啦！')
+            }
+        })
+    }
+}
+</script>
+<ol>
+% for reply in reply_list:
+<%
+cid = reply.cid
+%>\
+<li id ='wall${cid}'>
+<p>
+
+% if cid == CID_WORD:
+[微博]\
+% elif cid == CID_QUESTION:
+[问题]\
+% else:
+[日记]\
+% endif
+##% if reply.rid:
+##[答案]\
+##% endif
+
+<a 
+    %if reply.po:
+    href="${reply.po.link}"
+    %endif
+>${reply.txt or '[]'}</a>
+</p>
+<p><a href="javascript:rm(${reply.id});void(0)">
+##    % if reply.is_show:
+    删除
+##    % else:  po/set_show/${reply.id}
+##   % endif
+</a></p>
+<hr>
+</li>
+% endfor
+</ol>
+
+${page|n}
