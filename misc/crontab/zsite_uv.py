@@ -3,6 +3,7 @@ import subprocess
 from zweb.orm import ormiter
 from config import SITE_DOMAIN
 from collections import defaultdict
+#from model.zsite import Zsite
 from model.zsite import Zsite
 from model.user_session import user_id_by_base64
 from model.zsite_link import id_by_url as _id_by_url
@@ -15,9 +16,9 @@ SUFFIX_LEN = len(SITE_DOMAIN)+1
 class ZsiteUvDaily(Model):
     pass
 
-
 class ZsiteRank(Model):
     pass
+
 def log2zsite_id_user_id(path):
     with open(path) as infile:
         for log in infile:
@@ -37,7 +38,7 @@ def id_by_url(url):
 
 def log2zsite_id_uv(path):
     zsite_uv = defaultdict(set)
-    for uid, zid in log2zsite_id_user_id(PATH):
+    for uid, zid in log2zsite_id_user_id(path):
         zsite_uv[zid].add(uid)
     return (
                (k, len(v)) for k, v in zsite_uv.iteritems()
@@ -53,7 +54,7 @@ def log2zsite_uv_daliy(days, path):
             uv,
             uv,
         )
-
+####
 def update_user_rank():
     power = kv_int.get(KV_ZSITE_RANK_POWER) or 1
     for i in ormiter(
@@ -73,6 +74,7 @@ def rebase_rank():
         ):
             i.raw_sql(" update zsite_rank set rank = rank/%s;"%ratio)
 
+
 if __name__ == '__main__':
     LOG_FILE_PATH = '/var/log/nginx_backup/silegon_xxx_main.access_log.lzma'
     TODAY_DAYS = today_days()
@@ -84,5 +86,3 @@ if __name__ == '__main__':
     power = kv_int.get(KV_ZSITE_RANK_POWER) or 1
     if kv_int.value > 99:
         rebase_rank()
-
-

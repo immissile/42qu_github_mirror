@@ -15,7 +15,6 @@ from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
 from model.zsite_link import id_by_url
-from model.search import zsite_by_query
 from model.user_session import user_session
 
 @urlmap('/zsite/(\d+)')
@@ -111,7 +110,6 @@ class VerifyList(Base):
             total=total,
             extra=extra,
         )
-<<<<<<< local
 
 ##########
 from config import SITE_DOMAIN
