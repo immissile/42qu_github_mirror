@@ -146,6 +146,7 @@ class UserInfoEdit(object):
             marry=o.marry,
             pid_home=o.pid_home or 0,
             pid_now=c.pid_now or 0,
+            sex = o.sex
         )
 
     def save(self):
@@ -182,6 +183,20 @@ class UserInfoEdit(object):
                 c.save()
             else:
                 c = namecard_new(current_user_id, pid_now=pid_now)
+        
+
+        if not o.sex:
+            sex = self.get_argument('sex', 0)
+            if sex and not o.sex:
+                sex = int(sex)
+                if sex not in (1, 2):
+                    sex = 0
+                if sex:
+                    if o:
+                        o.sex = sex
+                        o.save()
+                    else:
+                        user_info_new(current_user_id, sex=sex)
 
 
 @urlmap('/i')
@@ -220,24 +235,12 @@ class Namecard(LoginBase):
         current_user_id = self.current_user_id
         pid_now = self.get_argument('pid_now', '1')
         name = self.get_argument('name', '')
-        sex = self.get_argument('sex', '')
         phone = self.get_argument('phone', '')
         mail = self.get_argument('mail', '')
         address = self.get_argument('address', '')
 
         pid_now = int(pid_now)
 
-        o = UserInfo.mc_get(current_user_id) or JsDict()
-        if sex and not o.sex:
-            sex = int(sex)
-            if sex not in (1, 2):
-                sex = 0
-            if sex:
-                if o:
-                    o.sex = sex
-                    o.save()
-                else:
-                    user_info_new(current_user_id, sex=sex)
 
         if pid_now or name or phone or mail or address:
             c = namecard_new(
