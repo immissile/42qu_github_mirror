@@ -290,7 +290,7 @@ class Query(object):
             sys.stdout.flush()
             raise
         if DEBUG:
-            print "%.2fms\t%s ; %s"%(
+            print "%.2fms\t%s ;\n\t%s\n"%(
                 1000*(time() - begin_time),
                 sql.strip(), values
             )
