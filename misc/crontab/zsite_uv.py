@@ -14,13 +14,13 @@ from model.days import date_to_days
 SUFFIX_LEN = len(SITE_DOMAIN)+1
 
 
-
 def log2zsite_id_user_id(f):
     for log in f:
         user_id_base64, domain, other = log.split(' ', 2)
         url = domain[:-SUFFIX_LEN]
         if url and user_id_base64 != '-':
             yield id_by_url(url), user_id_by_base64(user_id_base64),
+
 
 cache = {}
 def id_by_url(url):
@@ -51,7 +51,7 @@ def log2zsite_uv_daliy(days, f):
 
 def log_parser(date):
     from model.zsite_rank import zsite_rank_rebase, zsite_rank_update
-    from model.zsite_list_0 import zsite_show_update 
+    from model.zsite_list_0 import zsite_show_update
     pipe = subprocess.Popen(['lzcat','/var/log/nginx_backup/%s_main.access_log-%s.lzma' %(SITE_DOMAIN.replace('.','_'), date)], stdout=subprocess.PIPE, ).stdout
     days = date_to_days(date)
     log2zsite_uv_daliy(days, pipe)
@@ -59,7 +59,6 @@ def log_parser(date):
     zsite_rank_update(days)
     zsite_rank_rebase()
     zsite_show_update()
-
 
 
 if __name__ == '__main__':
