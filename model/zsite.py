@@ -3,6 +3,7 @@
 from cid import CID_USER
 from _db import Model, McModel
 from gid import gid
+from txt import txt_property
 
 ZSITE_STATE_BAN = 1
 ZSITE_STATE_NO_MAIL = 5
@@ -21,7 +22,7 @@ ZSITE_STATE_VERIFY = 40
 
 
 class Zsite(McModel):
-    pass
+    txt = txt_property
 
 def user_can_reply(user):
     return user.state >= ZSITE_STATE_CAN_REPLY

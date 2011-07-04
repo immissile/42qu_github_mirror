@@ -1,6 +1,7 @@
 #coding:utf-8
 import sys
 from config import DEBUG
+from time import time
 
 def escape(string):
     return '`%s`' % string
@@ -273,6 +274,8 @@ class Query(object):
     def raw_sql(cls, sql, values=(), db=None):
         db = db or cls.get_db()
         cursor = db.cursor()
+        if DEBUG:
+            begin_time = time()
         try:
             if values:
                 cursor.execute(sql, values)
@@ -287,7 +290,10 @@ class Query(object):
             sys.stdout.flush()
             raise
         if DEBUG:
-            print '\t%s ; %s'%(sql.strip(), values)
+            print "%.2fms\t%s ;\n\t%s\n"%(
+                1000*(time() - begin_time),
+                sql.strip(), values
+            )
         return cursor
 
     def col_list(self, limit=None, offset=None, col='id'):
