@@ -65,12 +65,16 @@ txt = zsite.txt
 
 </div></div></div>
 <div><div><div>
-
-<div class="zsite_link">
-%for id, name in link_id_name_by_zsite_id(zsite_id):
+<%
+zsite_link = link_id_name_by_zsite_id(zsite_id)
+%>
+%if zsite_link:
+<div id="zsite_link" class="zsite_link">
+%for id, name in zsite_link:
 <a href="/link/${id}">${name}</a>\
 %endfor
 </div>
+%endif
 
 
     %if not is_owner and current_user:
@@ -97,3 +101,4 @@ from model.zsite import CID_USER
 <p><a href="/follower">被**关注</a></p>
 <p><a href="/po">文章</a></p>
 
+<script src="${js.ctrl_zsite|n}"></script>
