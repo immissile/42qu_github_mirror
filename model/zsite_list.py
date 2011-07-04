@@ -21,12 +21,12 @@ class ZsiteList(Model):
 STATE_ACTIVE = 1
 STATE_DEL = 0
 
-mc_zsite_list = McLimitA('ZsiteList%s', 1024)
+mc_zsite_id_list = McLimitA('ZsiteIdList%s', 1024)
 zsite_list_count = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id).count(), 'ZsiteListCount%s')
 
 
-@mc_zsite_list('{owner_id}_{cid}')
-def zsite_list(owner_id, cid, limit=None, offset=None):
+@mc_zsite_id_list('{owner_id}_{cid}')
+def zsite_id_list(owner_id, cid, limit=None, offset=None):
     qs = ZsiteList.where(owner_id=owner_id, cid=cid, state=1).order_by('rank desc')
     return qs.col_list(limit, offset, 'zsite_id')
 
@@ -44,7 +44,7 @@ def _zsite_list_new(zsite_id, owner_id, cid, rank=1000):
 
 def mc_flush_owner_id_cid(owner_id, cid):
     key = '%s_%s' % (owner_id, cid)
-    mc_zsite_list.delete(key)
+    mc_zsite_id_list.delete(key)
     zsite_list_count.delete(key)
 
 
