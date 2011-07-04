@@ -214,41 +214,57 @@ class Index(UserInfoEdit, LoginBase):
 
         self.redirect('/i')
 
+
+
 @urlmap('/i/link')
 class Link(LoginBase):
+    def _linkify(self, link):
+        link = link.strip().split(" ",1)[0]
+        if link and not link.startswith("http://") and not link.startswith("https://"):
+            link = "http://%s"%link
+            return link
+
     def get(self):
         zsite_id = self.zsite_id
         id_name = link_id_name_by_zsite_id(zsite_id)
         id_cid = dict(link_id_cid(zsite_id)) 
         
+        link_list = []
+        link_cid = {}
         for id, name in id_name:
             link = link_by_id(id)
             if id in id_cid:
-                link_cid[cid] = 
+                link_cid[id_cid[id]] = link 
             else:
-                link_cid[cid] = 
-_
-        link_list = []
-        link_cid = {}
+                link_list.append((id, name, link))
+        
         return self.render(
             link_list = link_list,
             link_cid = link_cid
         ) 
 
     def post(self):
+        zsite_id = self.zsite_id
+
         arguments = parse_qs(self.request.body, True)
-        link_list = []
+        link_cid = []
+        link_kv = []
 
         for cid, link in zip(arguments.get("cid"), arguments.get("link")):
+            cid = int(cid)
             name = OAUTH2NAME_DICT[cid]  
-            link_list.append((int(cid), name, link))
+            link_cid.append((cid, name, self._linkify(link)))
+        
 
-        for key, value in zip(arguments.get("key"), arguments.get("value")):
-            link_list.append((0, key, value))
+        for id, key, value in zip(
+            arguments.get("id"),
+            arguments.get("key"),
+            arguments.get("value")
+        ):
+            id = int(id)
+            link_kv.append((id, key.strip(), self._linkify(value)))
 
-        zsite_id = self.zsite_id
- 
-        link_list_save(zsite_id, link_list)
+        link_list_save(zsite_id, link_cid, link_kv)
  
         return self.get()
 

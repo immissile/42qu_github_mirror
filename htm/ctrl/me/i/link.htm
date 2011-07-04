@@ -18,7 +18,7 @@ ${css.ctrl_i_link|n}
     <label for="cid${oauth_id}">${name}</label><input
         id="cid${oauth_id}"
         class="value"
-        value="${link_cid.get(cid, '')}"
+        value="${link_cid.get(oauth_id, '')}"
         type="text"
         name="link">
     <input type="hidden" value="${oauth_id}" name="cid">
@@ -27,15 +27,17 @@ ${css.ctrl_i_link|n}
 %for i in range(4):
 <%
 if i<len(link_list):
-    k,v = link_list[i]
+    id, k, v = link_list[i]
 else:
     if i==0:
         k = 'Blog'
     else:
         k = ''
     v = ''
+    id = 0
 %>
 <p>
+<input type="hidden" name="id" value="${id}">\
 <input class="key" type="text" name="key" value="${k}" >\
 <input class="value" type="text" name="value" value="${v}">\
 </p>

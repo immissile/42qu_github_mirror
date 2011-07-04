@@ -29,48 +29,68 @@ OAUTH2NAME = (
 OAUTH2NAME_DICT = dict(OAUTH2NAME)
 
 
-mc_link_id_name = McCache("LinkIdName:%s")
-mc_link_id_cid = McCache("LinkIdCid:%s")
-mc_link_by_id = McCache("LinkById:%s")
+mc_link_id_name = McCache('LinkIdName:%s')
+mc_link_id_cid = McCache('LinkIdCid:%s')
+mc_link_by_id = McCache('LinkById:%s')
+
 
 def mc_flush(zsite_id):
     mc_link_id_name.delete(zsite_id)
+    mc_link_id_cid.delete(zsite_id)
 
 class ZsiteLink(Model):
     pass
 
-@mc_link_id_name("{zsite_id}")
+
+@mc_link_id_name('{zsite_id}')
 def link_id_name_by_zsite_id(zsite_id):
     c = ZsiteLink.raw_sql('select id, name from zsite_link where zsite_id=%s', zsite_id)
     return c.fetchall()
 
-@mc_link_by_id("{id}")
+
+@mc_link_by_id('{id}')
 def link_by_id(id):
     link = ZsiteLink.get(id)
-    return link.link 
+    return link.link
 
-@mc_link_id_cid("{id}")
+
+@mc_link_id_cid('{id}')
 def link_id_cid(id):
     c = ZsiteLink.raw_sql(
-        'select id, cid from zsite_link where zsite_id=%s', zsite_id
+        'select id, cid from zsite_link where zsite_id=%s', id
     )
     return c.fetchall()
 
-def link_list_save(zsite_id, link_list):
-    for cid, name, link in link_list:
-        if cid:
-            link = ZsiteLink.get_or_create(zsite_id=zsite_id, cid=cid)
-            link.link = link
-            link.name = name 
-            link_id = link.id
-            link.save()
-            if link_id:
-                mc_link_by_id.delete(link.id)
+
+def link_list_save(zsite_id, link_cid, link_kv):
+    for cid, name, link in link_cid:
+        zsite_link = ZsiteLink.get_or_create(zsite_id=zsite_id, cid=cid)
+        if not link:
+            if zsite_link.id:
+                zsite_link.delete()
+            continue
+        zsite_link.link = link
+        zsite_link.name = name
+        link_id = zsite_link.id
+        zsite_link.save()
+        if link_id:
+            mc_link_by_id.delete(link_id)
+
+    for id, name, link in link_kv:
+        if id:
+            if not name or not link:
+                ZsiteLink.where(id=id, zsite_id=zsite_id).delete()
+            else:
+                ZsiteLink.where(id=id, zsite_id=zsite_id).update(name=name, link=link)
+            mc_link_by_id.delete(id)
+        elif name and link:
+            zsite_link = ZsiteLink(zsite_id=zsite_id, name=name, link=link).save()
+            zsite_link.save()
+
     mc_flush(zsite_id)
 
 
 
-if __name__ == "__main__":
-    print link_id_name_by_zsite_id(1)
-
+if __name__ == '__main__':
+    print link_id_cid(1)
 
