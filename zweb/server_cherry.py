@@ -10,7 +10,7 @@ def timeit_middleware(func):
         begin = time()
         result = func(environ, start_response)
         logging.info(
-            '\n%.2f\t%s //%s%s'%(
+            '\n%.2f\t%s //%s%s\n\n------------------------------------------'%(
                     (1000*(time() - begin)),
                     environ.get('REQUEST_METHOD'),
                     environ.get('HTTP_HOST'),

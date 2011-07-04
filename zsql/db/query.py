@@ -2,6 +2,7 @@
 import sys
 from config import DEBUG
 from time import time
+import logging
 
 def escape(string):
     return '`%s`' % string
@@ -284,15 +285,18 @@ class Query(object):
             if db.b_commit:
                 cls.commit(db)
         except Exception, ex:
-            print 'sql:', sql
-            print 'values:', values
-            print 'raw_sql: exception: ', ex
-            sys.stdout.flush()
+            logging.error(
+                '%s\n%s\nException: %s'%(
+                    sql, values, ex
+                )
+            )
             raise
         if DEBUG:
-            print "\n%.2f\t%s ;\n\t%s"%(
-                1000*(time() - begin_time),
-                sql.strip(), values
+            logging.info(
+                 "%.2f\t%s ;\n\t%s"%(
+                    1000*(time() - begin_time),
+                    sql.strip(), values
+                )
             )
         return cursor
 
