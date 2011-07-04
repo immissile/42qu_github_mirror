@@ -5,6 +5,7 @@ from model.zsite_list_0 import zsite_show_get
 from model.ico import ico_url as _ico_url
 from model.zsite_url import url_by_id
 from model.motto import motto
+from model.zsite_rank import zsite_rank_max
 %>
 <%
 zsite_id = zsite.id
@@ -46,6 +47,9 @@ zsite_show = zsite_show_get(zsite_id)
     <a href="/zsite/show/rm/${zsite_id}">移出秀</a>
     权重 ${zsite_show.rank}
 %else:
-    <a href="/zsite/show/${zsite_id}">加入秀</a>
+    <form action="/zsite/show/${zsite_id}">
+        <input type="text" name="rank" value="${zsite_rank_max()}">
+        <button type="submit">加入秀</button>
+    </form>
 %endif
 </div>

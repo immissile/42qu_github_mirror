@@ -52,8 +52,10 @@ class Index(Base):
 class Show(Base):
     def get(self, id):
         zsite = Zsite.mc_get(id)
+        rank = self.get_argument('rank', 0)
+        rank = int(rank)
         if zsite:
-            zsite_show_new(id)
+            zsite_show_new(id, rank)
         self.redirect('/zsite/%s'%id)
 
 

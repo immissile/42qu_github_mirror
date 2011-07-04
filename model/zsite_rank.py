@@ -1,17 +1,25 @@
-from model._db import Model
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from _db import Model
 from zweb.orm import ormiter
 from zsite_uv_daily import ZsiteUvDaily
-from model.days import today_days
-from model.kv_misc import kv_int , KV_ZSITE_RANK_POWER
+from days import today_days
+from kv_misc import kv_int, KV_ZSITE_RANK_POWER
+
 
 class ZsiteRank(Model):
     pass
 
+
 def zsite_rank_get(id):
-    n = ZsiteRank.get(id)
-    if n:
-        return n.rank
+    o = ZsiteRank.get(id)
+    if o:
+        return o.rank
     return 0
+
+def zsite_rank_max():
+    c = ZsiteRank.raw_sql('select max(rank) from zsite_rank')
+    return c.fetchone()[0]
 
 def zsite_rank_rebase():
     n = kv_int.get(KV_ZSITE_RANK_POWER) or 100
