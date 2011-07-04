@@ -35,7 +35,6 @@ def begin_end_cmp(a, b):
     return cmp(a, b)
 
 
-
 class Career(McModel):
     @attrcache
     def unit(self):
@@ -47,8 +46,13 @@ class Career(McModel):
             return begin_cmp(self.begin_time, other.begin_time)
         return end
 
+
 def career_new(user_id, unit, title, txt, begin, end, cid):
     tag_id = tag_new(unit)
+    begin = int(begin)
+    end = int(end)
+    if begin_end_cmp(begin, end) < 0:
+        begin, end = end, begin
     c = Career(
         user_id=user_id,
         tag_id=tag_id,
