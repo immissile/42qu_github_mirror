@@ -3,23 +3,26 @@
 import init_env
 from time import time
 from model.mail import rendermail
-from model.cid import CID_VERIFY_MAIL
 from model.user_mail import mail_by_user_id
-from model.verify import VERIFY_TEMPLATE, Verify
+from model.verify import Verify
+from model.days import today_days, DAY_SECOND
+from model.zsite import Zsite, ZSITE_STATE_APPLY
 
-TIME_LIMIT = 3600 * 24 * 7
 
 def re_send_verify():
-    now = int(time())
-    week_ago = now - TIME_LIMIT
-    for item in Verify.where('create_time<%s'%week_ago):
-        mail = mail_by_user_id(item.user_id)
-        name = mail
-        ck = item.value
-        id = item.user_id
-        template = VERIFY_TEMPLATE[CID_VERIFY_MAIL]
-        rendermail(template, mail, name, id=id, ck=ck)
-        item.update(create_time = now)
+    today = today_days() * DAY_SECOND
+    ago = today - DAY_SECOND * 6
+    week_ago = ago - DAY_SECOND
+    for i in Verify.where('create_time>%s and create_time<%s', week_ago, ago):
+        user_id = i.user_id
+        user = Zsite.mc_get(user_id)
+        if user and user.state == ZSITE_STATE_APPLY:
+            name = user.name
+            mail = mail_by_user_id(user_id)
+            id = i.id
+            ck = i.value
+            template = '/mail/auth/verify/miss.txt'
+            rendermail(template, mail, name, id=id, ck=ck)
 
 
 if __name__=='__main__':

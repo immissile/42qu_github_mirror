@@ -6,6 +6,7 @@ from time import time
 from _db import Model, McModel, McCache, mc, cursor_by_table
 from mail import mq_rendermail
 from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY
+from days import DAY_SECOND
 
 TIME_LIMIT = 3600 * 24 * 7
 
@@ -18,12 +19,14 @@ class Verify(Model):
     pass
 
 def verify_new(user_id, cid):
-    v = Verify(user_id=user_id, cid=cid)
-    v.create_time = time()
-    value = urlsafe_b64encode(urandom(12))
-    v.value = value
-    v.save()
+    v = Verify.get_or_create(user_id=user_id, cid=cid)
     id = v.id
+    v.create_time = time()
+    if not id:
+        value = urlsafe_b64encode(urandom(12))
+        v.value = value
+        v.save()
+        id = v.id
     return id, value
 
 def verify_mail_new(user_id, name, mail, cid):
