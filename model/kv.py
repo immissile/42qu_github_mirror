@@ -10,15 +10,15 @@ class Kv(object):
         self.__table__ = table
         self.cursor = cursor_by_table(table)
         self.__mc_id__ = '%s.%%s' % table
-        #self.__mc_value__ = '-%s' % self.__mc_id__
+        self.__mc_value__ = '-%s' % self.__mc_id__
         self.NULL = NULL
 
-    def get(self, key):
-        mc_key = self.__mc_id__ % key
+    def get(self, id):
+        mc_key = self.__mc_id__ % id
         r = mc.get(mc_key)
         if r is None:
             cursor = self.cursor
-            cursor.execute('select value from %s where id=%%s' % self.__table__, key)
+            cursor.execute('select value from %s where id=%%s' % self.__table__, id)
             r = cursor.fetchone()
             if r:
                 r = r[0]
@@ -40,25 +40,30 @@ class Kv(object):
 
     def mc_value_id_set(self, value, id):
         h = md5(value).hexdigest()
-        mc.set('KV:%s' % h, id)
+        mc_key = self.__mc_value__ % h
+        mc.set(mc_key, id)
 
-    def set(self, key, value):
-        r = self.get(key)
+    def set(self, id, value):
+        r = self.get(id)
         if r != value:
-            mc_key = self.__mc_id__ % key
+            mc_key = self.__mc_id__ % id
             cursor = self.cursor
             table = self.__table__
             cursor.execute(
                 'insert delayed into %s (id,value) values (%%s,%%s) on duplicate key update value=%%s' % table,
-                (key, value, value)
+                (id, value, value)
             )
             cursor.connection.commit()
             mc.set(mc_key, value)
 
-    def delete(self, key):
+            h = md5(r).hexdigest()
+            mc_key2 = self.__mc_value__ % h
+            mc.delete(mc_key2)
+
+    def delete(self, id):
         cursor = self.cursor
-        cursor.execute('delete from %s where id=%%s' % self.__table__, key)
-        mc_key = self.__mc_id__ % key
+        cursor.execute('delete from %s where id=%%s' % self.__table__, id)
+        mc_key = self.__mc_id__ % id
         mc.delete(mc_key)
 
     def id_by_value(self, value):
@@ -76,7 +81,7 @@ class Kv(object):
 
     def mc_id_by_value(self, value):
         h = md5(value).hexdigest()
-        mc_key = 'KV:%s' % h
+        mc_key = self.__mc_value__ % h
         r = mc.get(mc_key)
         if r is None:
             r = self.id_by_value(value)
