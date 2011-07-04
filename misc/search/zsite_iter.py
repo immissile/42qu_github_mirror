@@ -8,7 +8,7 @@ from model.zsite_list_0 import zsite_show_get
 from zweb.orm import ormiter
 from mmseg.search import seg_txt_search, seg_title_search, seg_txt_2_dict
 from collections import defaultdict
-from model.zsite_link import url_by_id
+from model.zsite_url import url_by_id
 
 def zsite2keyword(z):
     rank = 0

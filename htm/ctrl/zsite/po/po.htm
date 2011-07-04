@@ -8,7 +8,7 @@ from datetime import datetime
 <%def name="po_body()">
 <%
 po_id = po.id
-zsite_link = zsite.link
+zsite_url = zsite.link
 %>
 <h1><a href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
 <pre>${po.htm|n}\
@@ -16,7 +16,7 @@ zsite_link = zsite.link
 %if can_admin:
     <a class="L" href="${po.link_edit}">编辑</a>\
 %endif
-<a href="${zsite_link}">${zsite.name}</a> : <a href="${zsite_link}/tag/${zsite_tag_id}">${tag_name}</a>\
+<a href="${zsite_url}">${zsite.name}</a> : <a href="${zsite_url}/tag/${zsite_tag_id}">${tag_name}</a>\
 </p>\
 ${po_bar_vote(po)}\
 </pre>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from config import render
 from config import SITE_DOMAIN, SITE_URL
-from model.zsite_link import zsite_by_domain
+from model.zsite_url import zsite_by_domain
 from zweb._handler import Base as _Base, _login_redirect, login
 
 

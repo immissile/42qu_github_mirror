@@ -5,7 +5,7 @@ from _handler import Base
 from _urlmap import urlmap
 from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no
 from model.zsite_list_0 import zsite_show_new, zsite_show_rm
-from model.zsite_link import url_new
+from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_ZSITE
@@ -14,7 +14,7 @@ from zkit.page import page_limit_offset
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
-from model.zsite_link import id_by_url
+from model.zsite_url import id_by_url
 from model.user_session import user_session
 
 @urlmap('/zsite/(\d+)')
@@ -114,7 +114,7 @@ class VerifyList(Base):
 ##########
 from config import SITE_DOMAIN
 from urlparse import urlparse
-from model.zsite_link import id_by_url
+from model.zsite_url import id_by_url
 from model.zsite import Zsite
 from model.user_mail import user_id_by_mail
 

@@ -6,7 +6,7 @@ from collections import defaultdict
 #from model.zsite import Zsite
 from model.zsite import Zsite
 from model.user_session import user_id_by_base64
-from model.zsite_link import id_by_url as _id_by_url
+from model.zsite_url import id_by_url as _id_by_url
 from model.days import  today_days
 from model._db import Model
 from model.kv_misc import kv_int , KV_ZSITE_RANK_POWER

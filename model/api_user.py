@@ -1,6 +1,6 @@
 from model.zsite import Zsite
 from model.motto import motto
-from model.zsite_link import url_by_id
+from model.zsite_url import url_by_id
 from model.txt import txt_get
 from model.ico import ico96, ico, ico_url
 from model.namecard import namecard_get
