@@ -57,7 +57,7 @@ def link_by_id(id):
 @mc_link_id_cid('{id}')
 def link_id_cid(id):
     c = ZsiteLink.raw_sql(
-        'select id, cid from zsite_link where zsite_id=%s', id
+        'select id, cid from zsite_link where zsite_id=%s and cid>0', id
     )
     return c.fetchall()
 
@@ -93,4 +93,4 @@ def link_list_save(zsite_id, link_cid, link_kv):
 
 if __name__ == '__main__':
     print link_id_cid(1)
-
+    print link_id_name_by_zsite_id(1)

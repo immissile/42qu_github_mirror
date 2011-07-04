@@ -222,7 +222,7 @@ class Link(LoginBase):
         link = link.strip().split(" ",1)[0]
         if link and not link.startswith("http://") and not link.startswith("https://"):
             link = "http://%s"%link
-            return link
+        return link
 
     def get(self):
         zsite_id = self.zsite_id
@@ -249,10 +249,9 @@ class Link(LoginBase):
         arguments = parse_qs(self.request.body, True)
         link_cid = []
         link_kv = []
-
         for cid, link in zip(arguments.get("cid"), arguments.get("link")):
             cid = int(cid)
-            name = OAUTH2NAME_DICT[cid]  
+            name = OAUTH2NAME_DICT[cid] 
             link_cid.append((cid, name, self._linkify(link)))
         
 
