@@ -41,12 +41,6 @@ margin-right:3px;
     margin-top:8px;
     text-align:center
 }
-.sex input{
-    margin-left:83px;
-}
-.sex label{
-    padding:0 6px;
-}
 select , input{
     text-align:center;
     border:1px solid #ccc

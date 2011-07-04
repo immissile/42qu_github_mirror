@@ -23,6 +23,13 @@ ico_url = pic_url_with_default(current_user_id, 219)
 <p class="tc">
 <label class="label_input label" for="name">我名叫</label>
 <input id="name" autocomplete="off" type="text" name="name" value="${name or ''}">
+##%if not sex:
+性别
+<select name="sex">
+<option value="1">男</option>
+<option value="2">女</option>
+</select>
+##%endif
 </p>
 <p class="tc">我的座右铭是 \
 <input type="text" autocomplete="off" name="motto" style="width:400px" value="${motto}"></p>

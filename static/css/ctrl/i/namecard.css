@@ -15,9 +15,6 @@ form {
 form p {
     padding: 16px 0;
 }
-#sex {
-    margin-bottom: 20px;
-}
 select {
     border: 1px solid #CCC;
     padding: 8px;
@@ -29,18 +26,6 @@ select {
 }
 .btns{
     margin-top:17px
-}
-#sex label{
-    margin-left:7px;
-}
-#sex input{
-    vertical-align:-1px
-}
-#sex1{
-    margin-left:8px
-}
-#sex2{
-    margin-left:50px
 }
 .address{
     width:296px;

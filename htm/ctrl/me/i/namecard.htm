@@ -19,12 +19,6 @@ ${css.ctrl_i_namecard|n}
 <script>select_pid("pid_now", ${pid_now})</script>
 </p>
 <p>详细地址 <input class="ti address" type="text" name="address" value="${address}"></p>
-%if not sex:
-<p id="sex">真实性别
-<input type="radio" name="sex" value="1" id="sex1"><label for="sex1">男</label>
-<input type="radio" name="sex" value="2" id="sex2"><label for="sex2">女</label>
-</p>
-%endif
 <div class="btns">
 <span class="btnw">
 <button type="submit">保存</button>
