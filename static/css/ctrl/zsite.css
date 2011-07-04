@@ -19,4 +19,21 @@ float:none;
 .zsite_pic img{
 padding-bottom:27px
 }
-
+.zsite_txt img{
+float:left;margin-right:27px
+}
+.qgif{
+background:url(/img/gif/q.gif) no-repeat;
+float:left;
+height:20px;
+width:26px;
+}
+.zsite_txt_div{
+float:left;
+width:512px;
+margin-top:14px;
+padding-bottom:20px;
+padding-right:40px;
+padding-left:20px;
+background:url(/img/gif/rq.gif) no-repeat 100% 100%;
+}
