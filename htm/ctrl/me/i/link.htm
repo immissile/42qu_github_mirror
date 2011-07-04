@@ -5,14 +5,14 @@ from model.link import OAUTH2NAME
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="head()">
+${css.ctrl_i_link|n}
 </%def>
 
-<%htm:form className="link">
+<%htm:form className="link_form">
 ##<a href="/"></a>
 %for oauth_id, name in OAUTH2NAME:
 <p>
-    <label for="cid${oauth_id}">${name}</label>
-    <input
+    <label for="cid${oauth_id}">${name}</label><input
         id="cid${oauth_id}"
         class="value"
         value="${link_cid.get(cid, '')}"
@@ -33,8 +33,8 @@ else:
     v = ''
 %>
 <p>
-<input class="link" type="text" name="name" value="${k}" >\
-<input class="value" type="text" name="link" value="${v}">\
+<input class="key" type="text" name="key" value="${k}" >\
+<input class="value" type="text" name="value" value="${v}">\
 </p>
 %endfor
 

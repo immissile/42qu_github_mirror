@@ -1,0 +1,27 @@
+.link_form{
+    margin:32px auto;
+    width:512px;
+}
+.value{
+    width:340px;
+    margin-left:14px;
+}
+.key{
+    width:120px;
+    text-align:center;
+}
+.value, .key{
+    padding:8px;
+    border:1px solid #ccc;
+}
+.link_form p{
+    margin-bottom:16px;
+}
+label{
+    width:138px;
+    text-align:center;
+    display:inline-block;
+}
+.btns{
+    padding-left:152px;
+}
