@@ -95,7 +95,7 @@ function start_upload() {
 
 function add_thumb(src, id) {
     $('#update_item').tmpl([[id,0,src,""]]).prependTo("#uploaded")
-    $('#txt').insert_caret('<图片' + id + '>');
+    $('#txt').insert_caret(' 图-' + id + " ");
 };
 
 $('.rmpic').live("click", function() {
@@ -106,7 +106,7 @@ $('.rmpic').live("click", function() {
         DELETEURL, 
         {seq: id},
         function(data){
-            t.val(t.val().replace(eval('/<图片' + id + '>/g'), ''));
+            t.val(t.val().replace(eval('/图-' + id + '/g'), ''));
             $("#pic" + id).fadeOut();
         })
     }

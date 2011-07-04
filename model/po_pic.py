@@ -133,8 +133,8 @@ def pic_seq_dict_html(user_id, po_id):
         )
     return d
 
-PIC_FIND = re.compile(r'<图片([\d]+)>')
-PIC_SUB = re.compile(r'&lt;图片([\d]+)&gt;')
+PIC_FIND = re.compile(r'图-([\d]+)')
+PIC_SUB = re.compile(r'图-([\d]+)')
 PIC_HTML = '<div class="pmix np%s"><img src="%s" alt="%s"><div>%s</div></div>'
 
 #mc_htm = McCache('PoHtm.%s')
