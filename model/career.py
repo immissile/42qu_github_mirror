@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA
+from tag import tag_new
 
 class Career(McModel):
     pass
 
 def career_new(user_id, unit, title, txt, begin, end, cid):
-    tag_id = unit
+    tag_id = tag_new(unit)
     c = Career(
         user_id=user_id,
         tag_id=tag_id,

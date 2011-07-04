@@ -179,5 +179,3 @@ if __name__ == '__main__':
     #for i in ZsiteTag.where(zsite_id=24):
     #print i.tag_id
     print po_id_list_by_zsite_tag_id(24, 25)
-
-
