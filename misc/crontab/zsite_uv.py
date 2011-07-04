@@ -9,7 +9,7 @@ from model.zsite import Zsite
 from model.zsite_uv_daily import ZsiteUvDaily
 from model.user_session import user_id_by_base64
 from model.zsite_url import id_by_url as _id_by_url
-from model.days import date_to_days, yestoday
+from model.days import date_to_days, yesterday
 
 SUFFIX_LEN = len(SITE_DOMAIN)+1
 
@@ -66,5 +66,5 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         date = sys.argv[1]
     else:
-        date = yestoday()
+        date = yesterday()
     log_parser(date)
