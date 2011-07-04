@@ -224,8 +224,7 @@ class Link(LoginBase):
         ) 
 
     def post(self):
-
-        return self.render()
+        return self.get()
 
 @urlmap('/i/namecard')
 class Namecard(LoginBase):

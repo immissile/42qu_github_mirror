@@ -10,6 +10,9 @@ ${css.ctrl_i_link|n}
 
 <%htm:form className="link_form">
 ##<a href="/"></a>
+%if request.method == "POST":
+<div class="h1">保存成功 !</div>
+%endif
 %for oauth_id, name in OAUTH2NAME:
 <p>
     <label for="cid${oauth_id}">${name}</label><input
