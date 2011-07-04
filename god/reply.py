@@ -35,6 +35,5 @@ class ReplyRm(Base):
         r = Reply.mc_get(id)
         if r:
             r.rm()
-            self.finish('Y')
-        else:
-            self.finish('N')
+        self.finish('{}')
+    
