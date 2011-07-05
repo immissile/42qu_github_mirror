@@ -6,7 +6,7 @@ import sys
 from os.path import join
 import yajl
 import json
-from mysql import DB_MAIN_TABLE
+from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 
 json.dump = yajl.dump
 json.dumps = yajl.dumps
@@ -127,6 +127,10 @@ def finish(o):
         'main': {
             'master': DB_HOST_MAIN,
             'tables': DB_MAIN_TABLE
+        },
+        'google': {
+            'master': DB_HOST_MAIN,
+            'tables': DB_GOOGLE_TABLE
         }
     }
     return o

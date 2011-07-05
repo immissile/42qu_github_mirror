@@ -46,3 +46,9 @@ DB_MAIN_TABLE = (
     'zsite_tag_po',
     'zsite_uv_daily',
 )
+
+DB_GOOGLE_TABLE = (
+    'google_rank',
+)
+
+
