@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from money import charge_new, charged
+from money import charge_new, charged, donate_new
 from cid import CID_PAY_ALIPAY
 from user_mail import mail_by_user_id
 from zkit.money import Alipay, alipay_url_parse
@@ -36,6 +36,28 @@ def alipay_payurl(
         notify_url,
         subject,
         buyer_email
+    )
+
+####
+#def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN):
+ #   assert price > 0
+ #   cent = int(price * 100)
+ #   return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)
+def donate_alipay_payurl(
+        from_user_id, to_user_id, total_fee, return_url, notify_url, subject, buyer_email=None
+    ):
+    if buyer_email is None:
+        buyer_email = mail_by_user_id(to_user_id)
+    out_trade_no = donate_new(price=total_fee, from_id=from_user_id, to_id=to_user_id, rid=CID_PAY_ALIPAY, next_id=to_user_id)
+    body = '%s 捐赠> %s 跳转> %s' % (buyer_email, to_user_id, return_url)
+    return ALIPAY.payurl(
+        total_fee,
+        out_trade_no,
+        subject,
+        return_url,
+        notify_url,
+        buyer_email,
+        body,
     )
 
 #def alipay_payurl_with_tax(

@@ -2,7 +2,7 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%htm:form enctype="multipart/form-data">
-<p>向<a href="${by_donar_link}">${by_donar_name}</a>捐赠:
+<p>向<a href="${to_user_link}">${to_user_name}</a>捐赠:
 <input type="text" name="amount" value=${amount}>元</p>
 <button type="submit">支付</button>
 %if error:

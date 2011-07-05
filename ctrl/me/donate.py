@@ -4,27 +4,28 @@ from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model.zsite import Zsite
 from config import RPC_HTTP
-from model.money_alipay import alipay_payurl
+from model.money_alipay import alipay_payurl, donate_alipay_payurl
+from model.user_mail import mail_by_user_id
 
 @urlmap('/donate/(\w+)')
 class Index(LoginBase):
     def get(self, id):
-        by_donar_id = id
-        by_donar = Zsite.get(id=by_donar_id)
-        by_donar_name = by_donar.name
-        self.render(by_donar_name=by_donar_name,
-                    by_donar_link=by_donar.link,
+        to_user_id = id
+        to_user = Zsite.get(id=to_user_id)
+        to_user_name = to_user.name
+        self.render(to_user_name=to_user_name,
+                    to_user_link=to_user.link,
                     amount=0.42,
         )
     
     def post(self, id):
-        by_donar_id = id
-        by_donar = Zsite.get(id=by_donar_id)
-        by_donar_name = by_donar.name
-        donar_id = self.current_user_id
+        to_user_id = id
+        to_user = Zsite.get(id=to_user_id)
+        to_user_name = to_user.name
+        from_user = self.current_user
+        from_user_mail = mail_by_user_id(from_user.id)
 
         amount = self.get_argument('amount', 0) 
-####
         error = None
         try:
             amount = float(amount)
@@ -41,30 +42,20 @@ class Index(LoginBase):
                 return_url = '%s/money/alipay_sync' % RPC_HTTP
                 notify_url = '%s/money/alipay_async' % RPC_HTTP
                 return self.redirect(
-                    alipay_payurl(
-                        by_donar_id,
+                    donate_alipay_payurl(
+                        from_user.id,
+                        to_user_id,
                         amount,
                         return_url,
                         notify_url,
-                        '%s 捐赠' % self.current_user.name,
-                        self.current_user.name,
+                        '%s 向 %s 捐赠' %(from_user.name, to_user_name),
+                        from_user_mail,
                     )
                 )
 
         self.render(amount=amount,
-                    by_donar_name=by_donar_name,
-                    by_donar_link=user.link,
+                    to_user_name=to_user_name,
+                    to_user_link=to_user.link,
                     error=error,
         )
-
         
-
-
-##@urlmap('/donate')
-#def Index(LoginBase):
-#    def get(self):
-#        user_id = self.current_user_id
-#        user = Zsite.get(id=user_id)
-#        user_name = user.name
-#        self.render(user_name=usr_name)
-#        
