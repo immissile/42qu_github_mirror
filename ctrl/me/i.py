@@ -16,8 +16,9 @@ from model.user_auth import user_password_new, user_password_verify, user_new_by
 from model.user_mail import mail_by_user_id
 from cgi import escape
 from urlparse import parse_qs
-from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id
+from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
+
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -230,13 +231,20 @@ class Link(LoginBase):
         id_cid = dict(link_id_cid(zsite_id))
 
         link_list = []
-        link_cid = {}
+        link_cid = []
+        exist_cid = set()
+
         for id, name in id_name:
             link = link_by_id(id)
             if id in id_cid:
-                link_cid[id_cid[id]] = link
+                cid = id_cid[id]
+                link_cid.append((cid, name , link))
+                exist_cid.add(cid)
             else:
                 link_list.append((id, name, link))
+
+        for cid in (set(OAUTH_LINK_DEFAULT) - exist_cid):
+            link_cid.append((cid, OAUTH2NAME_DICT[cid], ""))
 
         return self.render(
             link_list=link_list,
