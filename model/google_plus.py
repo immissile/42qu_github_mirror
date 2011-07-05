@@ -7,5 +7,12 @@ class GoogleRank(Model):
 
 
 if __name__ == '__main__':
-    print urlopen("https://plus.google.com/115113322964276305188").read()
-
+    from urllib2 import urlopen
+    url = 'https://plus.google.com/%s?hl=zh-CN'
+    id = 115113322964276305188
+    html = urlopen(url%id).read()
+    from zkit.bot_txt import txt_wrap_by
+    follower = txt_wrap_by(
+        '（', '）</h4>', html
+    )
+    print follower
