@@ -81,7 +81,7 @@ CREATE TABLE `career` (
   `begin_time` int(10) unsigned NOT NULL,
   `end_time` int(10) unsigned NOT NULL,
   `cid` tinyint(3) unsigned NOT NULL,
-  `txt` varbinary(1024) NOT NULL default '',
+  `txt` varchar(256) character set utf8 collate utf8_bin NOT NULL default '',
   PRIMARY KEY  (`id`),
   KEY `index2` (`user_id`,`cid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=binary;
