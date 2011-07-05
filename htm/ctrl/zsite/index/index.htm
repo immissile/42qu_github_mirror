@@ -1,7 +1,8 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 <%!
-from model.ico import pic_url as _pic_url
+from model.ico import pic_url as _pic_url, ico_url_with_default
+from model.zsite_link import link_id_name_by_zsite_id
 %>
 
 <%def name="htm_title()">
@@ -37,19 +38,43 @@ has_g1 = ico_txt or is_owner
 %endif
 %if pic_url:
     %if has_g1:
-<div class="G3"><img src="${pic_url}"></div>\
+<div class="G3 zsite_pic"><img src="${pic_url}"></div>\
     %else:
-<div class="G3" style="margin:auto;float:none"><img src="${pic_url}" ></div>\
+<div class="G3 zsite_pic zsite_pic_center"><img src="${pic_url}" ></div>\
     %endif
 %elif is_owner:
 <div class="G3">\
 <a href="/i/pic" style="font-size:16px;display:block;text-align:center;width:707px;padding:194px 0;border:7px solid #000">点此上传本人头像 ,  我们将人工审核</a>
 </div>
 %endif
+<%
+txt = zsite.txt
+%>
+
+%if txt:
+<div class="zsite_txt c">
+    <img src=${ico_url_with_default(zsite_id)}>
+    <div class="qgif"></div>
+    <div class="zsite_txt_div">\
+        <pre>${txt}</pre>\
+    </div>\
+</div>
+%endif
 
 </div>
 
-
+</div></div></div>
+<div><div><div>
+<%
+zsite_link = link_id_name_by_zsite_id(zsite_id)
+%>
+%if zsite_link:
+<div id="zsite_link" class="zsite_link">
+%for id, name in zsite_link:
+<a href="/link/${id}">${name}</a>\
+%endfor
+</div>
+%endif
 
 
     %if not is_owner and current_user:
@@ -76,3 +101,4 @@ from model.zsite import CID_USER
 <p><a href="/follower">被**关注</a></p>
 <p><a href="/po">文章</a></p>
 
+<script src="${js.ctrl_zsite|n}"></script>

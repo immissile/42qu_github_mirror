@@ -76,7 +76,7 @@ def _login_redirect(self):
     if self._finished:
         return
     if not self.current_user:
-        url = self.get_login_url()
+        url = "/auth/login"
         if '?' not in url:
             if urlparse.urlsplit(url).scheme:
                 # if login url is absolute, make next absolute too

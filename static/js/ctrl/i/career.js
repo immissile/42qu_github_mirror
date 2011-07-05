@@ -53,7 +53,7 @@ function career(
             }else{
                 end.fadeIn()
             }
-            end.find("input[type=hidden]").val("-1")
+            end.find("input[type=hidden]").val("0")
         }).attr('checked',false)
 
         career.find('.rm').click(function(){
@@ -67,7 +67,7 @@ function career(
         div.find(".rm:last").hide(); 
         select_workday(name, begin, begin_val)
         select_workday(name, end, end_val)
-        if(end_val==-1){
+        if(end_val==0){
             end.hide()
             now.click()
         }

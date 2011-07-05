@@ -1,6 +1,8 @@
 #coding:utf-8
 import sys
 from config import DEBUG
+from time import time
+import logging
 
 def escape(string):
     return '`%s`' % string
@@ -273,6 +275,8 @@ class Query(object):
     def raw_sql(cls, sql, values=(), db=None):
         db = db or cls.get_db()
         cursor = db.cursor()
+        if DEBUG:
+            begin_time = time()
         try:
             if values:
                 cursor.execute(sql, values)
@@ -281,13 +285,19 @@ class Query(object):
             if db.b_commit:
                 cls.commit(db)
         except Exception, ex:
-            print 'sql:', sql
-            print 'values:', values
-            print 'raw_sql: exception: ', ex
-            sys.stdout.flush()
+            logging.error(
+                '%s\n%s\nException: %s'%(
+                    sql, values, ex
+                )
+            )
             raise
         if DEBUG:
-            print '\t%s ; %s'%(sql.strip(), values)
+            logging.info(
+                 "%.2f\t%s ;\n\t%s"%(
+                    1000*(time() - begin_time),
+                    sql.strip(), values
+                )
+            )
         return cursor
 
     def col_list(self, limit=None, offset=None, col='id'):
