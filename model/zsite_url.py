@@ -5,6 +5,7 @@ from _db import Model, McModel, McCache
 from hashlib import sha256
 from zsite import zsite_new_user, Zsite
 from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
+from zkit.attrcache import attrcache
 
 class Url(Model):
     pass
@@ -87,11 +88,9 @@ def zsite_by_domain(domain):
 def link(id):
     return '//%s.%s' % (url_by_id(id) or id, SITE_DOMAIN)
 
-@property
+@attrcache
 def _link(self):
-    if not hasattr(self, '_link'):
-        self._link = link(self.id)
-    return self._link
+    return link(self.id)
 
 Zsite.link = _link
 
