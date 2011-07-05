@@ -107,7 +107,12 @@ class Verify(LoginBase):
 @urlmap('/i/career')
 class Career(LoginBase):
     def get(self):
-        return self.render()
+        from model.career import CID_JOB, CID_EDU, career_list
+        current_user_id = self.current_user_id
+        self.render(
+            job_list=career_list(current_user_id, CID_JOB),
+            edu_list=career_list(current_user_id, CID_EDU),
+        )
 
     def post(self):
         from model.career import CID_TUPLE, career_list_set

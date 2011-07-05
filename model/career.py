@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA
+from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from tag import tag_new, tag_get
 from zkit.attrcache import attrcache
 
@@ -141,7 +141,7 @@ from cid import CID_USER
 
 @attrcache
 def user_career(self):
-    if self.cid = CID_USER:
+    if self.cid == CID_USER:
         return career_current(self.id)
 
 Zsite.career = user_career
