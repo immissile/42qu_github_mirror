@@ -64,7 +64,11 @@ href="${question_user_link}">${question_user}</a> 问{{/if}} : {{/if}}{{if name}
 target="_blank" href="{{if rid}}${question_link}{{else}}${link}{{/if}}">${name}</a>{{/if}}{{if tag_id}}<a class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}
     <div class="fdtxt" id="fdtxt${id}">
-        ${txt}
+        {{if cid==61}}
+            {{html txt}}
+        {{else}} 
+            ${txt}
+        {{/if}}
         {{if txt_more}}
 <span class="fdall"><a href="javascript:fdtxt(${id});void(0)">显示全部</a></span>
         {{/if}}

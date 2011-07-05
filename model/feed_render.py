@@ -10,6 +10,7 @@ from model.vote import vote_count
 from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT
 from zsite import Zsite
 from zkit.txt import cnenoverflow
+from zkit.txt2htm import txt_withlink
 
 CIDMAP = {}
 
@@ -43,6 +44,8 @@ def feed_tuple_by_db(id):
     if cid == CID_NOTE or cid == CID_QUESTION:
         result.extend(cnenoverflow(txt, 164))
     else:
+        if cid == CID_WORD:
+            txt = txt_withlink(txt)
         result.extend((txt, False))
  
 #    if rid: 
