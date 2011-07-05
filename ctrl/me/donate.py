@@ -7,9 +7,9 @@ from ctrl._urlmap.me import urlmap
 from model.zsite import Zsite
 from config import RPC_HTTP
 from model.money_alipay import alipay_payurl, donate_alipay_payurl
-from model.user_mail import mail_by_user_id, user_id_by_mail
+from model.user_mail import mail_by_user_id, user_id_by_mail, user_mail_new
 from model.money import bank_can_pay, bank_change
-from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD
+from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID
 from model.cid import CID_USER
 
@@ -59,6 +59,7 @@ class Index(ZsiteBase):
         )
 
     def post(self, id):
+        NO_LOGIN = None
         to_user_id = id
         to_user = Zsite.get(id=to_user_id)
         to_user_name = to_user.name
@@ -72,12 +73,19 @@ class Index(ZsiteBase):
             alipay_account = self.get_argument('alipay_account', '')
             alipay_account, error = check_account(alipay_account)
             from_user_id = user_id_by_mail(alipay_account)
+            <<<<<
             if from_user_id:
-                #有账号但是没登录
+                from_user = Zsite.get(id=from_user_id)
+                from_user_state = from_user.state
+            if from_user_state == ZSITE_STATE_ACTIVE:
+                #有激活账号但是没登录
+                NO_LOGIN = True
                 from_user = Zsite.get(id=from_user_id)
             else:
-                #没账号也没登录
+                #没激活账号也没登录
                 from_user = zsite_new(name=alipay_account, cid=CID_USER, state=ZSITE_STATE_NO_PASSWORD)
+                user_mail_new(from_user.id, alipay_account)
+            <<<<<
         else:
             from_user = self.current_user
 
@@ -103,7 +111,7 @@ class Index(ZsiteBase):
                     '%s 向 %s 捐赠' %(from_user.name, to_user_name),
                     from_user_mail,
             )
-            if not self.current_user:
+            if NO_LOGIN:
                 return self.redirect('/auth/login?next=' + alipay_url)
 
             return self.redirect(alipay_url)
