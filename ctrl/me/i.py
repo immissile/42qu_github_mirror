@@ -110,27 +110,21 @@ class Career(LoginBase):
         return self.render()
 
     def post(self):
+        from model.career import CID_TUPLE, career_list_set
+        current_user_id = self.current_user_id
         #Tornado会忽略掉默认为空的参数
         arguments = parse_qs(self.request.body, True)
 
-        def _(prefix):
-            id = arguments.get('%s_id'%prefix, [])
-            title = arguments.get('%s_title'%prefix, [])
-            unit = arguments.get('%s_unit'%prefix, [])
-            txt = arguments.get('%s_txt'%prefix, [])
-            begin = arguments.get('%s_begin'%prefix, [])
-            end = arguments.get('%s_end'%prefix, [])
-            print id
-            print title
-            print unit
-            print begin
-            print end
-            print zip(id, title, unit, txt, begin, end)
+        for cid, prefix in CID_TUPLE:
+            id = arguments.get('%s_id' % prefix, [])
+            unit = arguments.get('%s_unit' % prefix, [])
+            title = arguments.get('%s_title' % prefix, [])
+            txt = arguments.get('%s_txt' % prefix, [])
+            begin = arguments.get('%s_begin' % prefix, [])
+            end = arguments.get('%s_end' % prefix, [])
+            career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
 
-        _('edu')
-        _('job')
-
-        return self.render()
+        self.redirect('/i/career')
 
 class UserInfoEdit(object):
     def get(self):
@@ -148,7 +142,7 @@ class UserInfoEdit(object):
             marry=o.marry,
             pid_home=o.pid_home or 0,
             pid_now=c.pid_now or 0,
-            sex = o.sex
+            sex=o.sex
         )
 
     def save(self):
@@ -220,9 +214,9 @@ class Index(UserInfoEdit, LoginBase):
 @urlmap('/i/link')
 class Link(LoginBase):
     def _linkify(self, link):
-        link = link.strip().split(" ",1)[0]
-        if link and not link.startswith("http://") and not link.startswith("https://"):
-            link = "http://%s"%link
+        link = link.strip().split(' ', 1)[0]
+        if link and not link.startswith('http://') and not link.startswith('https://'):
+            link = 'http://%s'%link
         return link
 
     def get(self):
@@ -240,8 +234,8 @@ class Link(LoginBase):
                 link_list.append((id, name, link))
 
         return self.render(
-            link_list = link_list,
-            link_cid = link_cid
+            link_list=link_list,
+            link_cid=link_cid
         )
 
     def post(self):
@@ -250,16 +244,16 @@ class Link(LoginBase):
         arguments = parse_qs(self.request.body, True)
         link_cid = []
         link_kv = []
-        for cid, link in zip(arguments.get("cid"), arguments.get("link")):
+        for cid, link in zip(arguments.get('cid'), arguments.get('link')):
             cid = int(cid)
             name = OAUTH2NAME_DICT[cid]
             link_cid.append((cid, name, self._linkify(link)))
 
 
         for id, key, value in zip(
-            arguments.get("id"),
-            arguments.get("key"),
-            arguments.get("value")
+            arguments.get('id'),
+            arguments.get('key'),
+            arguments.get('value')
         ):
             id = int(id)
             link = self._linkify(value)
