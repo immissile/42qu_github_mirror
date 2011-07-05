@@ -160,6 +160,6 @@ def user_career(self):
 Zsite.career = user_career
 
 if __name__ == '__main__':
-    from json import dumps
+    from yajl import dumps
     print dumps(career_list(16, 1))
     print dumps(career_list(16, 2))
