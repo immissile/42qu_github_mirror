@@ -43,11 +43,11 @@ def google_rank_new_by_html(uid, html):
     )
     name = txt_wrap_by('<title>', '</title>', html).rsplit(' - ')[0]
     txt = txt_wrap_by(
-        '>',
-        '<',
+        ' note">',
+        '</div',
         txt_wrap_by(
             """介绍</h2><div """,
-            """/div>""",
+            """></div>""",
             html
         )
     )
@@ -68,11 +68,11 @@ if __name__ == '__main__':
     html = urlopen(url%id).read()
 
     txt = txt_wrap_by(
-        '>',
-        '<',
+        ' note">',
+        '</div',
         txt_wrap_by(
             """介绍</h2><div """,
-            """/div>""",
+            """></div>""",
             html
         )
     )
