@@ -63,7 +63,7 @@ def frozen_bank(user_id):
 def frozen_view(user_id):
     return read_cent(frozen_bank(user_id))
 
-def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, for_id=None):
+def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, for_id=0):
     t = int(time())
     t = Trade(
         value=cent,
@@ -155,6 +155,10 @@ def charged(out_trade_no, total_fee, rid, d):
             if t.state == TRADE_STATE_OPEN:
                 t.finish()
                 trade_log.set(user_id, dumps(d))
+                if t.for_id:
+                    donar_t = Trade.get(t.for_id)
+                    donar_t.finish()
+                    return donar_t
             return t
 
 # Withdraw
@@ -183,7 +187,7 @@ def withdraw_list():
         i.account, i.name = pay_account_get(i.from_id, i.rid)
     return qs
 
-def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN, for_id=None):
+def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN, for_id=0):
     assert price > 0
     cent = int(price * 100)
     tax = int(round(cent * CHARGE_TAX[rid]))

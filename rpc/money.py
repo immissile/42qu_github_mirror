@@ -19,5 +19,8 @@ class AlipaySync(Base):
         t = alipay_url_recall(query)
         url = '%s/money' % SITE_URL
         if t:
-            url = '%s/charged/%s/%s'%(url, t.id, t.to_id)
+            if t.id:
+                url = "/donate/result"
+            else:
+                url = '%s/charged/%s/%s'%(url, t.id, t.to_id)
         return self.redirect(url)

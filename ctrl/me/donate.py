@@ -6,6 +6,12 @@ from model.zsite import Zsite
 from config import RPC_HTTP
 from model.money_alipay import alipay_payurl, donate_alipay_payurl
 from model.user_mail import mail_by_user_id
+from model.money import bank_can_pay, bank_change
+
+@urlmap('/donate/result')
+class Result(LoginBase):
+    def get(self):
+        self.render()
 
 @urlmap('/donate/(\w+)')
 class Index(LoginBase):
@@ -23,13 +29,15 @@ class Index(LoginBase):
         to_user = Zsite.get(id=to_user_id)
         to_user_name = to_user.name
         from_user = self.current_user
-        from_user_mail = mail_by_user_id(from_user.id)
+        from_user_id = from_user.id
+        from_user_mail = mail_by_user_id(from_user_id)
 
         amount = self.get_argument('amount', 0) 
         error = None
         try:
             amount = float(amount)
-            amount = amount*1.015
+            amount_cent = amount * 100
+            #amount = amount * 1.015
         except ValueError:
             error = '金额输入错误'
         else:
@@ -40,19 +48,25 @@ class Index(LoginBase):
             elif amount > amount_max:
                 error = '捐赠最多为%s' % amount_max
             else:
-                return_url = '%s/money/alipay_sync' % RPC_HTTP
-                notify_url = '%s/money/alipay_async' % RPC_HTTP
-                return self.redirect(
-                    donate_alipay_payurl(
-                        from_user.id,
-                        to_user_id,
-                        amount,
-                        return_url,
-                        notify_url,
-                        '%s 向 %s 捐赠' %(from_user.name, to_user_name),
-                        from_user_mail,
+                if bank_can_pay(from_user_id, amount_cent):
+                    bank_change(from_user_id, -amount_cent)
+                    bank_change(to_user_id, amount_cent)
+                    url = "/donate/result"
+                    return self.redirect(url)
+                else:
+                    return_url = '%s/money/alipay_sync' % RPC_HTTP
+                    notify_url = '%s/money/alipay_async' % RPC_HTTP
+                    return self.redirect(
+                        donate_alipay_payurl(
+                            from_user_id,
+                            to_user_id,
+                            amount,
+                            return_url,
+                            notify_url,
+                            '%s 向 %s 捐赠' %(from_user.name, to_user_name),
+                            from_user_mail,
+                        )
                     )
-                )
 
         self.render(amount=amount,
                     to_user_name=to_user_name,
