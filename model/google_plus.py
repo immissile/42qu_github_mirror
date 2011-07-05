@@ -4,7 +4,8 @@ from _db import Model, McModel
 from time import time
 from zkit.bot_txt import txt_wrap_by
 
-GOOGLE_PLUS_URL = 'https://plus.google.com/%s/about?hl=zh-CN'
+GOOGLE_PLUS_URL = 'http://gplus.com/%s/about?hl=zh-CN'
+#GOOGLE_PLUS_URL = 'https://plus.google.com/%s/about?hl=zh-CN'
 
 class GoogleRank(McModel):
     @property
