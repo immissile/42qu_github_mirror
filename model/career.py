@@ -81,7 +81,7 @@ def career_edit(id, user_id, tag_id, title, txt, begin, end, cid):
         o.title = title
         o.txt = txt
         o.begin_time = begin
-        o.end_time = end_time
+        o.end_time = end
         o.save()
 
 def career_rm(id, user_id):
