@@ -47,7 +47,7 @@ def google_rank_new_by_html(uid, html):
         )
     )
 
-    google_rank_new(uid, follower, jpg, name, txt)
+    return google_rank_new(uid, follower, jpg, name, txt)
 
 def google_uid_by_link(uid):
     uid = uid.strip()
