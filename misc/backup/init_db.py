@@ -23,14 +23,14 @@ def init_tag():
     print ')'
 
 def init_buzz_sys():
-    from model.buzz_sys import buzz_sys_new
+    from model.buzz_sys import buzz_sys_htm
     BUZZ_SYS_INIT = (
         '不要恐慌 , 欢迎漫游42区 ... ...',
         '江山如画 , 一时多少豪杰 , <a href="http://hero.%s">点此浏览</a>' % SITE_DOMAIN,
         '欢迎讲述自己的人生故事 , <a href="/po/note">点此动笔</a>',
     )
     for seq, htm in enumerate(BUZZ_SYS_INIT, 1):
-        buzz_sys_new(htm, seq)
+        buzz_sys_htm(htm, seq)
 
 def init_db():
     init_tag()

@@ -27,7 +27,7 @@ def buzz_sys_new_user(user_id):
     for i in buzz_sys_init_id_list():
         buzz_sys_new(user_id, i)
 
-def buzz_sys_new(htm, seq=0):
+def buzz_sys_htm(htm, seq=0):
     id = gid()
     bs = BuzzSys(id=id, htm=htm, seq=seq)
     bs.save()

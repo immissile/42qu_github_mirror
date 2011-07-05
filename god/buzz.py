@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.buzz_sys import BuzzSys, buzz_sys_init_id_list, buzz_sys_init_list, buzz_sys_list, buzz_sys_count, buzz_sys_new, buzz_sys_edit, mc_buzz_sys_init_id_list
+from model.buzz_sys import BuzzSys, buzz_sys_init_id_list, buzz_sys_init_list, buzz_sys_list, buzz_sys_count, buzz_sys_htm, buzz_sys_edit, mc_buzz_sys_init_id_list
 from zkit.page import page_limit_offset
 
 
@@ -12,7 +12,7 @@ class SysNew(Base):
         htm = self.get_argument('htm', None)
         if not htm:
             return self.get()
-        buzz_sys_new(htm)
+        buzz_sys_htm(htm)
         self.redirect('/buzz/sys')
 
 @urlmap('/buzz/sys/(\d+)')
