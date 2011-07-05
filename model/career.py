@@ -43,7 +43,7 @@ def begin_end_cmp(a, b):
         return 1
     if b == 0:
         return 1
-    return cmp(a, b)
+    return -cmp(a, b)
 
 
 class Career(McModel):
