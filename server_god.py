@@ -9,7 +9,7 @@ def run():
     if len(sys.argv) > 1 and sys.argv[1].isdigit():
         port = int(sys.argv[1])
     else:
-        port = config.RPC_PORT
+        port = config.GOD_PORT
     print 'server on port %s'%port
     application.listen(port)
     tornado.ioloop.IOLoop.instance().start()

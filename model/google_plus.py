@@ -4,16 +4,26 @@ from _db import Model, McModel
 from time import time
 from zkit.bot_txt import txt_wrap_by
 
-class GoogleRank(Model):
-    pass
+GOOGLE_PLUS_URL = 'https://plus.google.com/%s/about?hl=zh-CN'
 
-def google_rank_new(uid, follower, ico, name):
+class GoogleRank(Model):
+    @property
+    def follower_rank(self):
+        return self.where("follower>%s",self.follower).count()+1
+    
+
+def google_rank_by_uid(uid):
+    return GoogleRank.get(uid=uid)
+
+def google_rank_new(uid, follower, ico, name, txt):
     rank = GoogleRank.get_or_create(uid=uid)
-    rank.follower=follower
-    rank.ico=ico
-    rank.name=name
+    rank.follower = follower
+    rank.ico = ico
+    rank.name = name
+    rank.txt = txt
     rank.update_time = time()
     rank.save()
+    return rank
 
 def google_rank_new_by_html(uid, html):
     jpg = txt_wrap_by(
@@ -22,18 +32,27 @@ def google_rank_new_by_html(uid, html):
         html
     )
     jpg = 'http://%sphoto.jpg'%jpg #?sz=200
-    
+
     follower = txt_wrap_by(
         '（', '）</h4>', html
     )
     name = txt_wrap_by('<title>', '</title>', html).rsplit(' - ')[0]
+    txt = txt_wrap_by(
+        '>',
+        '<',
+        txt_wrap_by(
+            """介绍</h2><div """,
+            """/div>""",
+            html
+        )
+    )
 
-    google_rank_new(uid, follower, jpg, name)
+    google_rank_new(uid, follower, jpg, name, txt)
 
 def google_uid_by_link(uid):
     uid = uid.strip()
-    if "://" in uid:
-        uid = uid[uid.find('://')+3:].split("/",2)[1]
+    if '://' in uid:
+        uid = uid[uid.find('://')+3:].split('/', 2)[1]
     return uid
 
 

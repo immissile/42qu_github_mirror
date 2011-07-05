@@ -1,13 +1,19 @@
-<%def name="render_user(link)">
+<%!
+from model.google_plus import GOOGLE_PLUS_URL 
+%>
 
-    <div class="c" style="margin-bottom:32px;padding-bottom:32px;border-bottom:1px dotted #ccc">
+<%def name="render_user(rank)">
+<%
+link = GOOGLE_PLUS_URL%rank.uid
+%>
+    <div class="c gline">
 <a href="${link}" target="_blank">\
-<img src="http://lh5.googleusercontent.com/-1HdQioCGIM4/AAAAAAAAAAI/AAAAAAAAMKQ/iL7ZE4PV2SI/photo.jpg?sz=96" style="float:left;margin-right:32px;">\
+<img src="${rank.ico}?sz=96" class="ico">\
 </a>\
     <div>
-        <div>1 - <a href="${link}" target="_blank"> 洪波</a></div>
-        <div>943 关注</div>
-        <div>我本楚狂人</div>
+        <div>第 ${rank.follower_rank} 名 : <a href="${link}" target="_blank"> ${rank.name|n}</a></div>
+        <div>${rank.follower} 关注</div>
+        <div>${rank.txt|n}</div>
     </div>
     </div>
 </%def>
@@ -16,7 +22,12 @@
 <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.6.1.min.js"></script>
 <style>
-
+.ico{
+float:left;margin-right:32px;
+}
+.gline{
+margin-bottom:32px;padding-bottom:32px;border-bottom:1px dotted #ccc
+}
 .btnw{
     border: 1px solid #ccc;
     -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eee;
@@ -195,7 +206,11 @@ margin:7px 0;
     <form style="border-bottom:1px dotted #ccc;margin-bottom:1px dotted #ccc;padding-bottom:32px;margin-bottom:32px">
 
 %if q:
-    ${render_user("#")}
+    %if rank:
+        ${render_user(rank)}
+    %else:
+        找不到 ${q}
+    %endif
 %else:
     <p><a href="https://plus.google.com/me" target="_blank">点此找到自己的Google+链接</a> , 粘贴到下方输入框</p>
     <p>链接格式形如 : <a href="https://plus.google.com/108902385228996324856" target="_blank" style="color:#000">https://plus.google.com/108902385228996324856</a></p>
@@ -217,12 +232,6 @@ name="q" type="text" style="padding:7px;border:1px solid #999;width:454px;margin
         </div>
     </form>
 
-%for i in range(10):
-<%
-link = "#"
-%>
-${render_user(link)}
-%endfor
 
 </div>
 
