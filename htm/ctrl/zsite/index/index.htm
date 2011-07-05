@@ -93,10 +93,16 @@ from model.zsite import CID_USER
 <a id="follow" href="javascript:login();void(0)">关注</a>
     %endif
 
+<div style="width:470px;border-bottom:1px dotted #ccc;margin:auto;padding:16px 0 32px">
+<pre style="font-size:14px;line-height:32px">金陵城有个老翁，拿着几文碎银子到北门桥的钱店换钱，交易间比论成色，计较辎铢，真可以说得上是呶呶不休了，店门口已经围上了好几个看热闹的闲人。就在几乎要争执起来的时候，有个年轻人打从店外经过，一见老翁在这厢与人讲论著，连忙跨进店头，执礼甚恭地说：「小侄是令郎的伙计，这里有银一封，小侄正准备送往尊府去呢，没料到在这里遇见。」说着，将银、信一一从囊中取出、一揖而去<a href="javascript:void(0)" style="height: 16px; width: 20px; background: url(&quot;http://s.zuroc.xxx/img/gif/reply2.gif&quot;) repeat scroll 0% 0% transparent; display: inline-block; margin-left: 8px; vertical-align: -3px;"></a></pre>
+<div style="text-align: right;  font-family: Tahoma; font-size:14px;margin-top:16px;;"><span style="margin-right: 3px;">323</span> ...</div>
+</div>
+
 <p><a href="/following${CID_USER}">关注的人</a></p>
 %for i in follow_list_by_from_id_cid(zsite.id, CID_USER):
 <p><a href="${i.link}" target="_blank">${i.name}</a></p>
 %endfor
+
 
 <p><a href="/follower">被**关注</a></p>
 <p><a href="/po">文章</a></p>
