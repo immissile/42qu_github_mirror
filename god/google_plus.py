@@ -34,9 +34,12 @@ class Index(Base):
         if response.error:
             print "Error:", response.error
         else:
-            uid = self.uid
-            rank = google_rank_new_by_html(uid, response.body)
-            return self._page(1, rank, uid)
+            html = response.body
+            if html:
+                uid = self.uid
+                rank = google_rank_new_by_html(uid, html)
+                return self._page(1, rank, uid)
+            return self.get()
 
     def _page(self, n, rank, q):
         page, limit, offset = page_limit_offset(
@@ -45,7 +48,7 @@ class Index(Base):
             n,
             50,
         )
-        rank_list = GoogleRank.mc_get_list(GoogleRank.where().col_list(limit, offset))
+        rank_list = GoogleRank.mc_get_list(GoogleRank.where().order_by("follower desc").col_list(limit, offset))
 
         return self.render(
             q=q, rank=rank, page=page, rank_list=rank_list, offset=offset
