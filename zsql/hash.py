@@ -5,19 +5,13 @@ from mmhash import get_hash
 
 # USEAGE :
 # 
-# class RssSource(Model):
-#     _by_source_hash = by_hash("source")
-# 
-#     @classmethod
-#     def by_source_hash(cls, source):
-#         if source.startswith("http://www.google.com/reader"):
-#             source = "https"+source[4:]
-#         return cls._by_source_hash(source)
-# 
-#     def save(self):
-#         source = self.source
-#         save_hash(self, "source")
-#         super(RssSource, self).save()
+#class Shorturl(Model):
+#    by_url_hash = by_hash("url")
+#    
+#    def save(self):
+#        url = self.url
+#        save_hash(self,"url")
+#        super(Shorturl,self).save()
 
 
 def by_hash(name):
