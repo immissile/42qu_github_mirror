@@ -44,33 +44,30 @@ def prepare(o):
     o.ALIPAY_ID = ''
     o.ALIPAY_SALT = ''
     o.ALIPAY_EMAIL = ''
+
+    o.TWITTER_CONSUMER_KEY = ""
+    o.TWITTER_CONSUMER_SECRET = ""
     
-    o.TWITTER_CONSUMER_KEY = ""
-    o.TWITTER_CONSUMER_SECRET = ""
-
-    o.TWITTER_CONSUMER_KEY = ""
-    o.TWITTER_CONSUMER_SECRET = ""
-
     o.WWW163_CONSUMER_KEY = ""
     o.WWW163_CONSUMER_SECRET = ""
-
+    
     o.SINA_CONSUMER_KEY = ""
     o.SINA_CONSUMER_SECRET = ""
-
+    
     o.SOHU_CONSUMER_KEY = ""
     o.SOHU_CONSUMER_SECRET = ""
+    
+    o.QQ_CONSUMER_KEY = ""
+    o.QQ_CONSUMER_SECRET = ""
+     
+    o.RENREN_CONSUMER_KEY = ""
+    o.RENREN_CONSUMER_SECRET = ""
+
+    o.GOOGLE_CONSUMER_REAL_SECRET = ""
+    o.GOOGLE_CONSUMER_SECRET = ""
 
     o.DOUBAN_CONSUMER_KEY = ""
     o.DOUBAN_CONSUMER_SECRET = ""
-
-    o.QQ_CONSUMER_KEY = ""
-    o.QQ_CONSUMER_SECRET = ""
-
-    o.GOOGLE_CONSUMER_KEY = ""
-    o.GOOGLE_CONSUMER_REAL_SECRET = ""
-
-    o.RENREN_CONSUMER_KEY = ""
-    o.RENREN_CONSUMER_SECRET = ""
 
     return o
 
