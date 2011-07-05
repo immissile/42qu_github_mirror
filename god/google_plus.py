@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.google_plus import google_uid_by_link, GOOGLE_PLUS_URL, google_rank_new_by_html, google_rank_by_uid, GoogleRank
+from model.google_plus import google_uid_by_link, GOOGLE_PLUS_URL, google_rank_new_by_html, google_rank_by_uid, GoogleRank, GOOGLE_PLUS_URL_PROXY
 from zkit.page import page_limit_offset
 from tornado import httpclient
 import tornado.web
@@ -23,8 +23,8 @@ class Index(Base):
                 if not rank: 
                     self.uid = uid
                     client = httpclient.AsyncHTTPClient()
-                    url = GOOGLE_PLUS_URL%uid
-                    logging.info(url)
+                    url = GOOGLE_PLUS_URL_PROXY%uid
+                    #logging.info(url)
                     client.fetch(url, self._callback)
                     return
         

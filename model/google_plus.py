@@ -4,8 +4,8 @@ from _db import Model, McModel
 from time import time
 from zkit.bot_txt import txt_wrap_by
 
-GOOGLE_PLUS_URL = 'http://gplus.com/%s/about?hl=zh-CN'
-#GOOGLE_PLUS_URL = 'https://plus.google.com/%s/about?hl=zh-CN'
+GOOGLE_PLUS_URL_PROXY = 'http://gplus.com/%s/about?hl=zh-CN'
+GOOGLE_PLUS_URL = 'https://plus.google.com/%s/about?hl=zh-CN'
 
 class GoogleRank(McModel):
     @property
@@ -35,7 +35,11 @@ def google_rank_new_by_html(uid, html):
     jpg = '//%sphoto.jpg'%jpg #?sz=200
 
     follower = txt_wrap_by(
-        '（', '）</h4>', html
+        "（",
+        "）",
+        txt_wrap_by(
+            '>圈子中有', '</h4>', html
+        )
     )
     name = txt_wrap_by('<title>', '</title>', html).rsplit(' - ')[0]
     txt = txt_wrap_by(
@@ -60,12 +64,8 @@ def google_uid_by_link(uid):
 if __name__ == '__main__':
     from urllib2 import urlopen
     url = 'https://plus.google.com/%s/about?hl=zh-CN'
-    id = 115113322964276305188
+    id = '102678339976587419170' 
     html = urlopen(url%id).read()
-
-    google_rank_new_by_html(id, html)
-
-
 
     txt = txt_wrap_by(
         '>',
@@ -76,32 +76,53 @@ if __name__ == '__main__':
             html
         )
     )
-    career = txt_wrap_by(
-            """工作经历</h2><div """,
-            """</ul>""",
-            html
-        )
-    career = career[career.find('<ul '):]+'</ul>'
+    print txt
+    #google_rank_new_by_html(id, html)
 
-    marry = txt_wrap_by(
-        '>',
-        '<',
-        txt_wrap_by(
-            """婚恋</h2><div """,
-            """/div>""",
-            html
-        )
-    )
-    sex = txt_wrap_by(
-        '>',
-        '<',
-        txt_wrap_by(
-            """性别</h2><div """,
-            """/div>""",
-            html
-        )
-    )
-    name = txt_wrap_by('<title>', '</title>', html).rsplit(' - ')[0]
+   # follower = txt_wrap_by(
+   #     "（",
+   #     "）",
+   #     txt_wrap_by(
+   #         '>圈子中有', '</h4>', html
+   #     )
+   # )
+   # print follower
+#
+#    txt = txt_wrap_by(
+#        '>',
+#        '<',
+#        txt_wrap_by(
+#            """介绍</h2><div """,
+#            """/div>""",
+#            html
+#        )
+#    )
+#    career = txt_wrap_by(
+#            """工作经历</h2><div """,
+#            """</ul>""",
+#            html
+#        )
+#    career = career[career.find('<ul '):]+'</ul>'
+#
+#    marry = txt_wrap_by(
+#        '>',
+#        '<',
+#        txt_wrap_by(
+#            """婚恋</h2><div """,
+#            """/div>""",
+#            html
+#        )
+#    )
+#    sex = txt_wrap_by(
+#        '>',
+#        '<',
+#        txt_wrap_by(
+#            """性别</h2><div """,
+#            """/div>""",
+#            html
+#        )
+#    )
+#    name = txt_wrap_by('<title>', '</title>', html).rsplit(' - ')[0]
 
     #  print txt
     #  print career
