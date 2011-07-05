@@ -19,18 +19,23 @@ class Verify(Model):
     pass
 
 def verify_new(user_id, cid):
-    v = Verify.get_or_create(user_id=user_id, cid=cid)
-    id = v.id
+    v = Verify(user_id=user_id, cid=cid)
     v.create_time = time()
-    if not id:
-        value = urlsafe_b64encode(urandom(12))
-        v.value = value
-        v.save()
-        id = v.id
+    value = urlsafe_b64encode(urandom(12))
+    v.value = value
+    v.save()
+    id = v.id
     return id, value
 
+
+def verify_new_one(user_id, cid):
+    v = Verify.get(user_id=user_id, cid=cid)
+    if not v:
+        return verify_new(user_id, cid)
+    return v.id, v.value
+
 def verify_mail_new(user_id, name, mail, cid):
-    id, ck = verify_new(user_id, cid)
+    id, ck = verify_new_one(user_id, cid)
     template = VERIFY_TEMPLATE[cid]
     mq_rendermail(template, mail, name, id=id, ck=ck)
 
