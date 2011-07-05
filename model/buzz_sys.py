@@ -27,10 +27,12 @@ def buzz_sys_new_user(user_id):
     for i in buzz_sys_id_list():
         buzz_sys_new(user_id, i)
 
-def buzz_sys_new(htm):
+def buzz_sys_new(htm, seq=0):
     id = gid()
-    bs = BuzzSys(id=id, htm=htm)
+    bs = BuzzSys(id=id, htm=htm, seq=seq)
     bs.save()
+    if seq:
+        mc_buzz_sys_init_id_list.delete('')
     from buzz import mq_buzz_sys_new_all
     mq_buzz_sys_new_all(id)
 

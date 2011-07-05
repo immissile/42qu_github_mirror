@@ -1,6 +1,6 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%!
-from model.ico import pic_url
+from model.ico import pic_url_with_default
 %>
 
 <%def name="htm_head()">
@@ -21,7 +21,7 @@ $("#search").focus()\
 %for i in zsite_list*20:
 <a href="${i.link}">
 <div class="G1 mtb32">
-<img src="${pic_url(i.id,'219')}">
+<img src="${pic_url_with_default(i.id,'219')}">
 <div>${i.name}</div>
 </div>
 </a>

@@ -242,7 +242,7 @@ class Link(LoginBase):
                 exist_cid.add(cid)
             else:
                 link_list.append((id, name, link))
-            
+
         for cid in (set(OAUTH_LINK_DEFAULT) - exist_cid):
             link_cid.append((cid, OAUTH2NAME_DICT[cid], ""))
 

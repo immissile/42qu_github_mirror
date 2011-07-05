@@ -1,6 +1,6 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%!
-from model.ico import pic_url
+from model.ico import pic_url_with_default
 %>
 
 <%def name="htm_head()">
@@ -17,16 +17,20 @@ $("#search").focus()\
 </script>\
 </%def>
 <div class="G zsite_mb64 c">
+% if q:
 搜索 ${q} , 共有 ${total} 个结果
 <div class="zsite_list">
-%for i in zsite_list*20:
+%for i in zsite_list:
 <a href="${i.link}">
 <div class="G1 mtb32">
-<img src="${pic_url(i.id,'219')}">
+<img src="${pic_url_with_default(i.id,'219')}">
 <div>${i.name}</div>
 </div>
 </a>
 %endfor
 </div>
 ${page|n}
+% else:
+空白页
+% endif
 </div>
