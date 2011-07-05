@@ -2,11 +2,15 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%htm:form enctype="multipart/form-data">
+%if no_login:
+<p>支付宝邮箱账号:<input type="text" name="alipay_account" value=""></p>
+<br>
+%endif
 <p>向<a href="${to_user_link}">${to_user_name}</a>捐赠:
 <input type="text" name="amount" value=${amount}>元</p>
 <button type="submit">支付</button>
+</%htm:form>
 <p>因为支付宝会收取1.5%的税，所以捐赠将会被取收1.5%的税</p>
 %if error:
 <p> ${error}</p>
 %endif
-</%htm:form>

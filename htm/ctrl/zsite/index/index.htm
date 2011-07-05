@@ -76,13 +76,15 @@ zsite_link = link_id_name_by_zsite_id(zsite_id)
 </div>
 %endif
 
+%if not is_owner:
+<p><a href="/donate/${zsite.id}">捐赠</a></p>
+%endif
 
     %if not is_owner and current_user:
 <%!
 from model.follow import follow_get, follow_list_by_from_id_cid
 from model.zsite import CID_USER
 %>
-<p><a href="/donate/${zsite.id}">捐赠</a></p>
         %if follow_get(current_user.id,zsite.id):
 <a href="/follow/rm?${_xsrf}">淡忘</a>
         %else:
