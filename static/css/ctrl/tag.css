@@ -1,10 +1,18 @@
 
+.po_ul a{
+color:#000
+}
+.po_ul a:hover{
+color:#000;
+text-decoration:underline;
+}
 .po_ul{
 margin-bottom: auto;
 line-height: 48px;
 padding-left: 3px; 
 margin-top: 16px;
-list-style:circle;
+list-style:square;
+color:#666;
 list-style-position:inside;
 margin-bottom:64px;
 }
