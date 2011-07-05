@@ -60,6 +60,9 @@ function career(
             career.fadeOut(function(){
                 career.remove()
             })
+            if(id){
+                $.postJSON("/j/career/rm/"+id);
+            }
         });
         
 
