@@ -84,6 +84,13 @@ def career_edit(id, user_id, tag_id, title, txt, begin, end, cid):
         o.end_time = end_time
         o.save()
 
+def career_rm(id, user_id):
+    o = Career.mc_get(id)
+    if o.user_id == user_id:
+        o.delete()
+        mc_career_current.delete(user_id)
+        mc_career_id_list.delete('%s_%s' % (user_id, o.cid))
+
 def career_set(id, user_id, unit, title, txt, begin, end, cid):
     user_id = int(user_id)
     tag_id = tag_new(unit)
