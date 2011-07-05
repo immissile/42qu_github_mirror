@@ -49,7 +49,11 @@ def begin_end_cmp(a, b):
 class Career(McModel):
     @attrcache
     def unit(self):
-        return tag_get(self.tag_id)
+        return tag_get(self.unit_id)
+
+    @attrcache
+    def title(self):
+        return tag_get(self.title_id)
 
     def __cmp__(self, other):
         end = end_cmp(self.end_time, other.end_time)
@@ -62,11 +66,11 @@ class Career(McModel):
         return self.unit, self.title, self.txt, self.begin_time, self.end_time, self.id
 
 
-def career_new(user_id, tag_id, title, txt, begin, end, cid):
+def career_new(user_id, unit_id, title_id, txt, begin, end, cid):
     o = Career(
         user_id=user_id,
-        tag_id=tag_id,
-        title=title,
+        unit_id=unit_id,
+        title_id=title_id,
         txt=txt,
         begin_time=begin,
         end_time=end,
@@ -74,11 +78,11 @@ def career_new(user_id, tag_id, title, txt, begin, end, cid):
     )
     o.save()
 
-def career_edit(id, user_id, tag_id, title, txt, begin, end, cid):
+def career_edit(id, user_id, unit_id, title_id, txt, begin, end, cid):
     o = Career.mc_get(id)
     if o and o.user_id == user_id and o.cid == cid:
-        o.tag_id = tag_id
-        o.title = title
+        o.unit_id = unit_id
+        o.title_id = title_id
         o.txt = txt
         o.begin_time = begin
         o.end_time = end
@@ -93,15 +97,16 @@ def career_rm(id, user_id):
 
 def career_set(id, user_id, unit, title, txt, begin, end, cid):
     user_id = int(user_id)
-    tag_id = tag_new(unit)
+    unit_id = tag_new(unit)
+    title_id = tag_new(title)
     begin = int(begin)
     end = int(end)
     if begin_end_cmp(begin, end) < 0:
         begin, end = end, begin
     if id:
-        career_edit(id, user_id, tag_id, title, txt, begin, end, cid)
+        career_edit(id, user_id, unit_id, title_id, txt, begin, end, cid)
     else:
-        career_new(user_id, tag_id, title, txt, begin, end, cid)
+        career_new(user_id, unit_id, title_id, txt, begin, end, cid)
 
 def career_list_set(id, user_id, unit, title, txt, begin, end, cid):
     for id, unit, title, txt, begin, end in zip(id, unit, title, txt, begin, end)[:-1]:
