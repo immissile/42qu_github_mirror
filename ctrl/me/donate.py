@@ -73,19 +73,16 @@ class Index(ZsiteBase):
             alipay_account = self.get_argument('alipay_account', '')
             alipay_account, error = check_account(alipay_account)
             from_user_id = user_id_by_mail(alipay_account)
-            <<<<<
             if from_user_id:
                 from_user = Zsite.get(id=from_user_id)
                 from_user_state = from_user.state
-            if from_user_state == ZSITE_STATE_ACTIVE:
-                #有激活账号但是没登录
-                NO_LOGIN = True
-                from_user = Zsite.get(id=from_user_id)
+                if from_user_state == ZSITE_STATE_ACTIVE:
+                    #有激活账号但是没登录
+                    NO_LOGIN = True
             else:
                 #没激活账号也没登录
                 from_user = zsite_new(name=alipay_account, cid=CID_USER, state=ZSITE_STATE_NO_PASSWORD)
                 user_mail_new(from_user.id, alipay_account)
-            <<<<<
         else:
             from_user = self.current_user
 
