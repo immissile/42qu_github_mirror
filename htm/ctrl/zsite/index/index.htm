@@ -67,6 +67,7 @@ from model.zsite import CID_USER
     %if not current_user:
 <a id="follow" href="javascript:login();void(0)">关注</a>
     %endif
+    <p><a href="/donate/${zsite.id}">捐赠</a></p>
 
 <p><a href="/following${CID_USER}">关注的人</a></p>
 %for i in follow_list_by_from_id_cid(zsite.id, CID_USER):
