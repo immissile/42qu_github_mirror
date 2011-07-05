@@ -19,6 +19,7 @@ ${css.ctrl_i_link|n}
     <label for="cid${cid}">${name}</label><input
         id="cid${cid}"
         class="value"
+        autocomplete="off"
         value="${link}"
         type="text"
         name="link">
@@ -40,8 +41,12 @@ else:
 %>
 <p>
 <input type="hidden" name="id" value="${id}">\
-<input class="key" type="text" name="key" value="${k}" >\
-<input class="value" type="text" name="value" value="${v}">\
+<input 
+autocomplete="off"
+class="key" type="text" name="key" value="${k}" >\
+<input
+autocomplete="off"
+class="value" type="text" name="value" value="${v}">\
 </p>
 %endfor
 
