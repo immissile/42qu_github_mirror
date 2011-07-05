@@ -5,6 +5,7 @@
 <p>向<a href="${to_user_link}">${to_user_name}</a>捐赠:
 <input type="text" name="amount" value=${amount}>元</p>
 <button type="submit">支付</button>
+<p>因为支付宝会收取1.5%的税，所以捐赠将会被取收1.5%的税</p>
 %if error:
 <p> ${error}</p>
 %endif

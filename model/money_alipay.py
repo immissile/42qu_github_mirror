@@ -48,7 +48,7 @@ def donate_alipay_payurl(
     ):
     if buyer_email is None:
         buyer_email = mail_by_user_id(to_user_id)
-    out_trade_no = donate_new(price=total_fee, from_id=from_user_id, to_id=to_user_id, rid=CID_PAY_ALIPAY, next_id=to_user_id)
+    out_trade_no = donate_new(price=total_fee, from_id=from_user_id, to_id=to_user_id, rid=CID_PAY_ALIPAY, for_id=to_user_id)
     body = '%s 捐赠> %s 跳转> %s' % (buyer_email, to_user_id, return_url)
     return ALIPAY.payurl(
         total_fee,

@@ -29,6 +29,7 @@ class Index(LoginBase):
         error = None
         try:
             amount = float(amount)
+            amount = amount*1.015
         except ValueError:
             error = '金额输入错误'
         else:

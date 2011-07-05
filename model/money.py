@@ -63,7 +63,7 @@ def frozen_bank(user_id):
 def frozen_view(user_id):
     return read_cent(frozen_bank(user_id))
 
-def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, next_id=None):
+def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, for_id=None):
     t = int(time())
     t = Trade(
         value=cent,
@@ -75,7 +75,7 @@ def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, next_
         state=state,
         create_time=t,
         update_time=t,
-        next_id=next_id
+        for_id=for_id
     )
     t.save()
     bank_change(from_id, -cent)
@@ -183,10 +183,12 @@ def withdraw_list():
         i.account, i.name = pay_account_get(i.from_id, i.rid)
     return qs
 
-def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN, next_id=None):
+def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN, for_id=None):
     assert price > 0
     cent = int(price * 100)
-    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_CHARDE, rid, TRADE_STATE_OPEN, next_id)
+    tax = int(round(cent * CHARGE_TAX[rid]))
+    t = trade_new(cent-tax, 0, from_id, to_id, CID_TRADE_CHARDE, rid, TRADE_STATE_OPEN)
+    t = trade_new(cent-tax, tax, 0, from_id, CID_TRADE_CHARDE, rid, TRADE_STATE_OPEN, for_id=t.id)
     vid, ck = verify_new(from_id, CID_VERIFY_MONEY)
     return '%s_%s_%s' % (t.id, vid, ck)
 
