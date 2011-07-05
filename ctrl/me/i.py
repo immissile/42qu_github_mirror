@@ -125,6 +125,7 @@ class Career(LoginBase):
             print unit
             print begin
             print end
+            print zip(id, title, unit, txt, begin, end)
 
         _('edu')
         _('job')
@@ -184,7 +185,7 @@ class UserInfoEdit(object):
                 c.save()
             else:
                 c = namecard_new(current_user_id, pid_now=pid_now)
-        
+
 
         if not o.sex:
             sex = self.get_argument('sex', 0)
@@ -227,21 +228,21 @@ class Link(LoginBase):
     def get(self):
         zsite_id = self.zsite_id
         id_name = link_id_name_by_zsite_id(zsite_id)
-        id_cid = dict(link_id_cid(zsite_id)) 
-        
+        id_cid = dict(link_id_cid(zsite_id))
+
         link_list = []
         link_cid = {}
         for id, name in id_name:
             link = link_by_id(id)
             if id in id_cid:
-                link_cid[id_cid[id]] = link 
+                link_cid[id_cid[id]] = link
             else:
                 link_list.append((id, name, link))
-        
+
         return self.render(
             link_list = link_list,
             link_cid = link_cid
-        ) 
+        )
 
     def post(self):
         zsite_id = self.zsite_id
@@ -251,9 +252,9 @@ class Link(LoginBase):
         link_kv = []
         for cid, link in zip(arguments.get("cid"), arguments.get("link")):
             cid = int(cid)
-            name = OAUTH2NAME_DICT[cid] 
+            name = OAUTH2NAME_DICT[cid]
             link_cid.append((cid, name, self._linkify(link)))
-        
+
 
         for id, key, value in zip(
             arguments.get("id"),
@@ -262,11 +263,11 @@ class Link(LoginBase):
         ):
             id = int(id)
             link = self._linkify(value)
-            
+
             link_kv.append((id, key.strip() or urlparse(link).netloc, link))
 
         link_list_save(zsite_id, link_cid, link_kv)
- 
+
         return self.get()
 
 
