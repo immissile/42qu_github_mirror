@@ -30,16 +30,17 @@ OAUTH2NAME_DICT = {
     OAUTH_TWITTER   : 'Twitter'     ,
     OAUTH_LINKEDIN  : 'LinkedIn'    ,
 }
+OAUTH_LINK_DEFAULT = (
+    OAUTH_DOUBAN    ,
+    OAUTH_SINA      ,
+    OAUTH_QQ        ,
+    OAUTH_BUZZ      ,
+    OAUTH_TWITTER   ,
+    OAUTH_LINKEDIN  ,
+)
 
-OAUTH2NAME = (
-    (k, OAUTH2NAME_DICT[k]) for k in (
-        OAUTH_DOUBAN    ,
-        OAUTH_SINA      ,
-        OAUTH_QQ        ,
-        OAUTH_BUZZ      ,
-        OAUTH_TWITTER   ,
-        OAUTH_LINKEDIN  ,
-    )
+OAUTH2NAME = tuple(
+    (k, OAUTH2NAME_DICT[k]) for k in OAUTH_LINK_DEFAULT 
 )
 
 
