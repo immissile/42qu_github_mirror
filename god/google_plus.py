@@ -6,7 +6,7 @@ from model.google_plus import google_uid_by_link, GOOGLE_PLUS_URL, google_rank_n
 from zkit.page import page_limit_offset
 from tornado import httpclient
 import tornado.web
-
+import logging
 
 
 @urlmap('/google_plus')
@@ -20,11 +20,12 @@ class Index(Base):
             uid = google_uid_by_link(q)
             if uid:
                 rank = google_rank_by_uid(uid)
-                print rank
                 if not rank: 
                     self.uid = uid
                     client = httpclient.AsyncHTTPClient()
-                    client.fetch(GOOGLE_PLUS_URL%q, self._callback)
+                    url = GOOGLE_PLUS_URL%uid
+                    logging.info(url)
+                    client.fetch(url, self._callback)
                     return
         
         self._page(n,rank, q)
@@ -35,7 +36,7 @@ class Index(Base):
         else:
             uid = self.uid
             rank = google_rank_new_by_html(uid, response.body)
-            return self.render(1, rank, uid)
+            return self._page(1, rank, uid)
 
     def _page(self, n, rank, q):
         page, limit, offset = page_limit_offset(
