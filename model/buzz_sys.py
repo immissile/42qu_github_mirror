@@ -24,7 +24,7 @@ def buzz_sys_count():
 
 def buzz_sys_new_user(user_id):
     from buzz import buzz_sys_new
-    for i in buzz_sys_id_list():
+    for i in buzz_sys_init_id_list():
         buzz_sys_new(user_id, i)
 
 def buzz_sys_new(htm, seq=0):
