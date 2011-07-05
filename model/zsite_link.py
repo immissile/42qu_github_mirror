@@ -6,7 +6,7 @@ from hashlib import sha256
 from zsite import zsite_new_user, Zsite
 from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
 
-OAUTH_GOOGLE = 1
+OAUTH_GOOGLE = 1 
 OAUTH_DOUBAN = 2
 OAUTH_SINA = 3
 OAUTH_TWITTER = 4
@@ -17,16 +17,31 @@ OAUTH_QQ = 8
 OAUTH_RENREN = 9
 OAUTH_LINKEDIN = 10
 
-OAUTH2NAME = (
-    (OAUTH_DOUBAN, '豆瓣'),
-    (OAUTH_SINA, '新浪微博'),
-    (OAUTH_QQ, '腾讯微博'),
-    (OAUTH_BUZZ, 'Google+'),
-    (OAUTH_TWITTER, 'Twitter'),
-    (OAUTH_LINKEDIN, 'LinkedIn'),
-
+OAUTH2NAME_DICT = {
+    OAUTH_GOOGLE    : "Google"       , 
+    OAUTH_WWW163    : "网易微博"    ,
+    OAUTH_SOHU      : "搜狐微博"    ,
+    OAUTH_QQ        : "腾讯微博"    ,
+    OAUTH_RENREN    : "人人网"      ,
+    OAUTH_DOUBAN    : '豆瓣'        ,
+    OAUTH_SINA      : '新浪微博'    ,
+    OAUTH_QQ        : '腾讯微博'    ,
+    OAUTH_BUZZ      : 'Buzz'     ,
+    OAUTH_TWITTER   : 'Twitter'     ,
+    OAUTH_LINKEDIN  : 'LinkedIn'    ,
+}
+OAUTH_LINK_DEFAULT = (
+    OAUTH_DOUBAN    ,
+    OAUTH_SINA      ,
+    OAUTH_QQ        ,
+    OAUTH_BUZZ      ,
+    OAUTH_TWITTER   ,
+    OAUTH_LINKEDIN  ,
 )
-OAUTH2NAME_DICT = dict(OAUTH2NAME)
+
+OAUTH2NAME = tuple(
+    (k, OAUTH2NAME_DICT[k]) for k in OAUTH_LINK_DEFAULT 
+)
 
 
 mc_link_id_name = McCache('LinkIdName:%s')
@@ -89,8 +104,25 @@ def link_list_save(zsite_id, link_cid, link_kv):
 
     mc_flush(zsite_id)
 
+def link_cid_new(zsite_id, cid, link):
+    link = link.strip()
+    
+    if link:
+        zsite_link = ZsiteLink.get_or_create(zsite_id=zsite_id, cid=cid)
+        zsite_link.link = link
+        zsite_link.name = OAUTH2NAME_DICT[cid]
+        zsite_link.save()
+        mc_link_by_id.delete(zsite_link.id)
+    
+    mc_flush(zsite_id)
 
 
 if __name__ == '__main__':
-    print link_id_cid(1)
+    #print link_id_cid(1)
+    #print link_id_name_by_zsite_id(1)
+
+
+    link_cid_new(1, OAUTH_RENREN, "http://1.zuroc.xxx/i/link")
     print link_id_name_by_zsite_id(1)
+    print link_id_cid(1)
+
