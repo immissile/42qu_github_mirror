@@ -46,6 +46,9 @@ class Career(McModel):
             return begin_cmp(self.begin_time, other.begin_time)
         return end
 
+    def value_list(self):
+        return self.unit, self.title, self.txt, self.begin_time, self.end_time, self.id
+
 
 def career_new(user_id, unit, title, txt, begin, end, cid):
     tag_id = tag_new(unit)
@@ -71,14 +74,31 @@ mc_career_id_list = McCacheA('CareerIdListCid.%s')
 
 @mc_career_id_list('{user_id}_{cid}')
 def career_id_list(user_id, cid):
-    return Career.where(user_id=user_id, cid=cid).order_by('end_time desc').col_list()
+    li = Career.where(user_id=user_id, cid=cid)
+    li = list(li)
+    li.sort(reverse=True)
+    return [i.id for i in li]
+
+mc_career_id_current = McCache('CareerIdCurrent.%s')
+
+@mc_career_id_current('{user_id}')
+def career_id_current(user_id):
+    li = Career.where(user_id=user_id)
+    li = list(li)
+    li.sort(reverse=True)
+    li = li[:1]
+    if li:
+        return li[0].id
+    return 0
+
+def career_current(user_id):
+    id = career_id_current(user_id)
+    return Career.mc_get(id)
 
 def career_list(user_id, cid):
     id_list = career_id_list(user_id, cid)
     li = Career.mc_get_list(id_list)
-    return [(
-        i.unit, i.title, i.txt, i.begin_time, i.end_time, i.id
-    ) for i in li]
+    return [i.value_list for i in li]
 
 if __name__ == '__main__':
     from json import dumps
