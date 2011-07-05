@@ -508,7 +508,7 @@ CREATE TABLE `trade` (
   `state` tinyint(3) unsigned NOT NULL,
   `create_time` int(10) unsigned NOT NULL,
   `update_time` int(10) unsigned NOT NULL,
-  `for_id` int(10) unsigned default NULL,
+  `for_id` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `index2` (`from_id`,`state`),
   KEY `index3` (`to_id`,`state`),
