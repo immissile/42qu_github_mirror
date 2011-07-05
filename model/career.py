@@ -57,6 +57,7 @@ class Career(McModel):
             return begin_cmp(self.begin_time, other.begin_time)
         return end
 
+    @attrcache
     def value_list(self):
         return self.unit, self.title, self.txt, self.begin_time, self.end_time, self.id
 
@@ -148,4 +149,5 @@ Zsite.career = user_career
 
 if __name__ == '__main__':
     from json import dumps
-    dumps(career_list(2, 1))
+    print dumps(career_list(16, 1))
+    print dumps(career_list(16, 2))
