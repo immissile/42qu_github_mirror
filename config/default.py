@@ -38,7 +38,7 @@ def prepare(o):
     o.SMTP_USERNAME = 'zpagedev'
     o.SMTP_PASSWORD = '42qu_com'
     o.SENDER_MAIL = 'zpagedev@163.com'
-    
+
     o.LOGO_TEXT = "找到给你答案的人"
 
     o.ALIPAY_ID = ''
@@ -47,19 +47,19 @@ def prepare(o):
 
     o.TWITTER_CONSUMER_KEY = ""
     o.TWITTER_CONSUMER_SECRET = ""
-    
+
     o.WWW163_CONSUMER_KEY = ""
     o.WWW163_CONSUMER_SECRET = ""
-    
+
     o.SINA_CONSUMER_KEY = ""
     o.SINA_CONSUMER_SECRET = ""
-    
+
     o.SOHU_CONSUMER_KEY = ""
     o.SOHU_CONSUMER_SECRET = ""
-    
+
     o.QQ_CONSUMER_KEY = ""
     o.QQ_CONSUMER_SECRET = ""
-     
+
     o.RENREN_CONSUMER_KEY = ""
     o.RENREN_CONSUMER_SECRET = ""
 
@@ -166,5 +166,5 @@ def load(self, *args):
     funclist = PREPARE+list(reversed(FINISH))
     for _ in funclist:
         _(self)
-    
+
     return self
