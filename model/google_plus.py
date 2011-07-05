@@ -45,15 +45,11 @@ def google_rank_new_by_html(uid, html):
     )
     name = txt_wrap_by('<title>', '</title>', html).rsplit(' - ')[0]
     txt = txt_wrap_by(
-        ' note">',
-        '</div',
-        txt_wrap_by(
             """介绍</h2><div """,
-            """></div>""",
+            """</div>""",
             html
         )
-    )
-
+    txt = txt[txt.find('note">')+6:] 
     return google_rank_new(uid, follower, jpg, name, txt)
 
 def google_uid_by_link(uid):
@@ -66,20 +62,10 @@ def google_uid_by_link(uid):
 if __name__ == '__main__':
     from urllib2 import urlopen
     url = 'https://plus.google.com/%s/about?hl=zh-CN'
-    id = '102678339976587419170' 
+    id = '106207080329016565093' 
     html = urlopen(url%id).read()
 
-    txt = txt_wrap_by(
-        ' note">',
-        '</div',
-        txt_wrap_by(
-            """介绍</h2><div """,
-            """></div>""",
-            html
-        )
-    )
-    print txt
-    #google_rank_new_by_html(id, html)
+    google_rank_new_by_html(id, html)
 
    # follower = txt_wrap_by(
    #     "（",
