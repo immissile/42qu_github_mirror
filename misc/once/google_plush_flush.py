@@ -1,3 +1,4 @@
+import _env
 from urllib2 import urlopen
 from zkit.bot_txt import txt_wrap_by_all
 from zkit.cn import has_cn
@@ -9,6 +10,7 @@ touch = "http://42qu.com/google_plus?q="
 
 while buffer:
     uid = buffer.pop()
+    passed.add(uid)
     html = urlopen("https://plus.google.com/%s/posts?hl=en"%uid).read()
     if not has_cn(html):
         continue
