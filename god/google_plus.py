@@ -3,12 +3,11 @@
 from _handler import Base
 from _urlmap import urlmap
 
-@urlmap('/')
+@urlmap('/google_plus')
 class Index(Base):
     def get(self):
-        self.redirect("/chart",permanent=True)
+        q = self.get_argument('q', None)
+        if q:
+            print q
+        return self.render(q=q)
 
-@urlmap('/chart')
-class Chart(Base):
-    def get(self):
-        self.render()
