@@ -1,7 +1,6 @@
 <%!
 from model.google_plus import GOOGLE_PLUS_URL 
 %>
-
 <%def name="render_user(rank , follow_rank=0)">
 <%
 link = GOOGLE_PLUS_URL%rank.uid
@@ -20,6 +19,7 @@ link = GOOGLE_PLUS_URL%rank.uid
 
 <!doctype html>
 <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Google + 关注数排行榜</title>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.6.1.min.js"></script>
 <style>
 
