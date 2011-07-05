@@ -71,7 +71,14 @@ mc_career_id_list = McCacheA('CareerIdListCid.%s')
 
 @mc_career_id_list('{user_id}_{cid}')
 def career_id_list(user_id, cid):
-    return Career.where(user_id=user_id, cid=cid).order_by('end_time desc').col_list()
+    li = Career.where(user_id=user_id, cid=cid)
+    li = list(li)
+    li.sort(reverse=True)
+    return [i.id for i in li]
+
+def career_current(user_id):
+    jobs = career_id_list(user_id, CID_JOB)
+    edus = career_id_list(user_id, CID_EDU)
 
 def career_list(user_id, cid):
     id_list = career_id_list(user_id, cid)
