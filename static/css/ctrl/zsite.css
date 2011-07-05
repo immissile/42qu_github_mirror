@@ -95,3 +95,20 @@ color:#fff;padding:7px;
 .zsite_num_div{
 margin-top: 32px; margin-bottom: 16px; 
 }
+.zsite_note li{
+margin-top:22px;
+}
+.zsite_note li a{
+margin-left:3px
+}
+.zsite_note ol{
+    color: #666;
+    list-style-position: inside;
+    list-style-type: square;
+}
+.zsite_note a{
+color:#000;
+}
+.zsite_note a:hover{
+text-decoration:underline
+}

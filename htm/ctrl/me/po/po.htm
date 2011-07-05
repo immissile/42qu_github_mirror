@@ -7,7 +7,7 @@ from yajl import dumps
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_title()">
 %if cid == CID_QUESTION:
-发布 - 话题
+发布 - 问题
 %else:
 发布 - 文章
 %endif
@@ -42,7 +42,7 @@ rid = po.rid
 <input
 placeholder="请输入\
 %if cid == CID_QUESTION:
-话题\
+问题\
 %else:
 标题\
 %endif
