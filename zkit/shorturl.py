@@ -34,7 +34,7 @@ def urlfetch(url):
     c = r.read()
     return c
 
-def shorturl(url):
+def t_cn(url):
     url = urllib.quote(url)
     url = SINA_SHORT_URL%url
     result = urlfetch(url)
@@ -44,5 +44,5 @@ def shorturl(url):
 
 if "__main__" == __name__:
     url = "http://baidu.com"
-    print shorturl(url)
+    print t_cn(url)
 
