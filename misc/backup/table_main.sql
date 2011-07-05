@@ -76,14 +76,14 @@ DROP TABLE IF EXISTS `career`;
 CREATE TABLE `career` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL,
-  `title` int(10) unsigned NOT NULL,
-  `tag_id` int(10) unsigned NOT NULL,
+  `unit_id` int(10) unsigned NOT NULL,
+  `title_id` int(10) unsigned NOT NULL,
   `begin_time` int(10) unsigned NOT NULL,
   `end_time` int(10) unsigned NOT NULL,
   `cid` tinyint(3) unsigned NOT NULL,
   `txt` varbinary(1024) NOT NULL default '',
   PRIMARY KEY  (`id`),
-  KEY `index2` (`user_id`,`cid`,`end_time`)
+  KEY `index2` (`user_id`,`cid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `failed_mq`;
@@ -508,7 +508,7 @@ CREATE TABLE `trade` (
   `state` tinyint(3) unsigned NOT NULL,
   `create_time` int(10) unsigned NOT NULL,
   `update_time` int(10) unsigned NOT NULL,
-  `next_id` int(10) unsigned default NULL,
+  `for_id` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`),
   KEY `index2` (`from_id`,`state`),
   KEY `index3` (`to_id`,`state`),
