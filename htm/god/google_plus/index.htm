@@ -2,7 +2,7 @@
 from model.google_plus import GOOGLE_PLUS_URL 
 %>
 
-<%def name="render_user(rank)">
+<%def name="render_user(rank , follow_rank=0)">
 <%
 link = GOOGLE_PLUS_URL%rank.uid
 %>
@@ -11,7 +11,7 @@ link = GOOGLE_PLUS_URL%rank.uid
 <img src="${rank.ico}?sz=96" class="ico">\
 </a>\
     <div>
-        <div>第 ${rank.follower_rank} 名 : <a href="${link}" target="_blank"> ${rank.name|n}</a></div>
+        <div>第 ${follow_rank or rank.follower_rank} 名 : <a href="${link}" target="_blank"> ${rank.name|n}</a></div>
         <div>${rank.follower} 关注</div>
         <div>${rank.txt|n}</div>
     </div>
@@ -22,6 +22,29 @@ link = GOOGLE_PLUS_URL%rank.uid
 <head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.6.1.min.js"></script>
 <style>
+
+.page{
+font-size:14px;
+color: #aaa;
+line-height:150%;
+text-align:center;
+}
+.page a,.page span{
+padding:2px 5px;
+line-height:27px;
+margin:1px 3px;
+text-decoration:none;
+}
+.page a:hover{
+text-decoration:underline;
+}
+.page span{
+color:#ccc;
+}
+.page .now{
+background:#33609B;
+color:#fff;
+}
 .ico{
 float:left;margin-right:32px;
 }
@@ -232,10 +255,14 @@ name="q" type="text" style="padding:7px;border:1px solid #999;width:454px;margin
         </div>
     </form>
 
+%for pos, i in enumerate(rank_list, offset+1 ):
+${render_user(i, pos)}
+%endfor
+
+${page|n}
+
 
 </div>
-
-
 
 
 

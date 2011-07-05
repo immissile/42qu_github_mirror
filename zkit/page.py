@@ -42,7 +42,7 @@ class Page(object):
         self.total = (count+limit-1)//limit
         self.href = href
         self.template = template
-
+        self.limit = limit
 
     def __str__(self):
         href = self.href

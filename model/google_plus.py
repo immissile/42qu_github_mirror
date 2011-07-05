@@ -6,7 +6,7 @@ from zkit.bot_txt import txt_wrap_by
 
 GOOGLE_PLUS_URL = 'https://plus.google.com/%s/about?hl=zh-CN'
 
-class GoogleRank(Model):
+class GoogleRank(McModel):
     @property
     def follower_rank(self):
         return self.where("follower>%s",self.follower).count()+1
@@ -31,7 +31,7 @@ def google_rank_new_by_html(uid, html):
         'photo.jpg?sz=200',
         html
     )
-    jpg = 'http://%sphoto.jpg'%jpg #?sz=200
+    jpg = '//%sphoto.jpg'%jpg #?sz=200
 
     follower = txt_wrap_by(
         '（', '）</h4>', html
