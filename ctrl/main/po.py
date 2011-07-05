@@ -7,5 +7,4 @@ from ctrl._urlmap.main import urlmap
 class Po(LoginBase):
     def get(self):
         current_user = self.current_user
-        print vars(self.request)
-        self.redirect(current_user.link + self.request.uri)
+        self.redirect(current_user.link + self.request.path)
