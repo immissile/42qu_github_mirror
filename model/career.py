@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA
+from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from tag import tag_new, tag_get
 from zkit.attrcache import attrcache
 
@@ -16,7 +16,7 @@ CID_NAME = dict(CID_TUPLE)
 CID_BY_STR = dict((v, k) for k, v in CID_TUPLE)
 
 mc_career_id_list = McCacheA('CareerIdListCid.%s')
-mc_career_id_current = McCache('CareerIdCurrent.%s')
+mc_career_current = McCacheM('CareerCurrent.%s')
 
 def end_cmp(a, b):
     if a == 0:
@@ -57,6 +57,7 @@ class Career(McModel):
             return begin_cmp(self.begin_time, other.begin_time)
         return end
 
+    @attrcache
     def value_list(self):
         return self.unit, self.title, self.txt, self.begin_time, self.end_time, self.id
 
@@ -98,7 +99,7 @@ def career_set(id, user_id, unit, title, txt, begin, end, cid):
 def career_list_set(id, user_id, unit, title, txt, begin, end, cid):
     for id, unit, title, txt, begin, end in zip(id, unit, title, txt, begin, end)[:-1]:
         career_set(id, user_id, unit, title, txt, begin, end, cid)
-    mc_career_id_current.delete(user_id)
+    mc_career_current.delete(user_id)
     mc_career_id_list.delete('%s_%s' % (user_id, cid))
 
 @mc_career_id_list('{user_id}_{cid}')
@@ -113,31 +114,27 @@ def career_list(user_id, cid):
     li = Career.mc_get_list(id_list)
     return [i.value_list for i in li]
 
-@mc_career_id_current('{user_id}')
-def career_id_current(user_id):
+@mc_career_current('{user_id}')
+def career_current(user_id):
     li = Career.where(user_id=user_id)
     li = list(li)
     li.sort(reverse=True)
-    li = li[:1]
     if li:
-        return li[0].id
-    return 0
-
-def career_current(user_id):
-    id = career_id_current(user_id)
-    return Career.mc_get(id)
+        o = li[0]
+        return o.unit, o.title
+    return '', ''
 
 from zkit.mc_func import mc_func_get_list, mc_func_get_dict
 
 def career_bind(user_list):
     id_list = set([i.id for i in user_list])
     o_dict = mc_func_get_dict(
-        mc_career_id_current,
-        career_id_list,
+        mc_career_current,
+        career_current,
         id_list,
     )
     for i in user_list:
-        i.career = o_dict.get(i.id)
+        i.career = o_dict[i.id]
     return user_list
 
 from zsite import Zsite
@@ -145,11 +142,12 @@ from cid import CID_USER
 
 @attrcache
 def user_career(self):
-    if self.cid = CID_USER:
+    if self.cid == CID_USER:
         return career_current(self.id)
 
 Zsite.career = user_career
 
 if __name__ == '__main__':
     from json import dumps
-    dumps(career_list(2, 1))
+    print dumps(career_list(16, 1))
+    print dumps(career_list(16, 2))
