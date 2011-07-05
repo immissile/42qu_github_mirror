@@ -135,7 +135,7 @@ zoom: 1;
 *display: inline; 
 font-size:16px;
 text-align:center;
-overflow:visible; /* IE6/IE7中，根据内容的多少将自动产生一定程度类似padding-left与padding-right的值，此处用以解决该话题 */
+overflow:visible; /* IE6/IE7中，根据内容的多少将自动产生一定程度类似padding-left与padding-right的值，此处用以解决该问题 */
 height:42px; /* select在12px的状态下，IE浏览器中的默认高度为21px，并且height属性在select上于IE6是无效的，于IE7，在外观上是无效的，如需考虑与select垂直对齐的情况，21px的高度是合适的选择 */
 padding:0 28px;
 *padding:0 27px; /* IE6、IE7中，会在紧贴边框的位置产生1px的与背景相同的内边框，其实际宽度会比其他浏览器多出1px */
@@ -144,7 +144,7 @@ padding-bottom:2px;
 line-height:43px\9; 
 _padding-top:5px; 
 _line-height:16px; /* 微调IE6与IE7中文字在按钮中显示的位置 */
-vertical-align:text-bottom; /* 解决IE8中，Arial字体设置时，纯中文按钮与非纯中文按钮对齐的话题，这个对齐的方式可以根据需要自行改变。 */
+vertical-align:text-bottom; /* 解决IE8中，Arial字体设置时，纯中文按钮与非纯中文按钮对齐的问题，这个对齐的方式可以根据需要自行改变。 */
 *vertical-align:auto; /* IE6的按钮中文字会受到vertical-align:middle;影响，IE7vertical-align:middle;并且字符集为gb系列时会向上向下分别产生1px的边距。 */
 }
 .btnw button:hover{

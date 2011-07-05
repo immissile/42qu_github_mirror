@@ -93,10 +93,88 @@ from model.zsite import CID_USER
 <a id="follow" href="javascript:login();void(0)">关注</a>
     %endif
 
+
+
+<div class="zsite_block">\
+<pre class="zsite_word">\
+金陵城有个老翁，说着，将银、信一一从囊中取出、一揖而去\
+<a href="javascript:void(0)" class="zsite_reply"></a>\
+</pre>\
+<div class="zsite_num_div">\
+<a href="#" class="num">\
+    <span style=" " href="#" class="now">33243</span><b>句微博</b>
+</a>
+</div>
+</div>
+
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+<li><a href="#">通过System Center Advisor进行基于云的服务器管理和故障排解</a></li>\
+<li><a href="#">构建高性能的微博系统——再谈新浪微博架构</a></li>\
+<li><a href="#">Janova和EdgeCase编写测试工具只需七个月</a></li>\
+<li><a href="#">使用Xbase定义通用的图形化视图</a></li>\
+<li><a href="#">快乐与自组织团队</a></li>\
+<li><a href="#">REST API还有新麻烦？</a></li>\
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="#" class="num">\
+    <span style=" " href="#" class="now">3</span><b>篇文章</b>
+</a>
+</div>
+</div>
+
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+<li><a href="#">通过System Center Advisor进行基于云的服务器管理和故障排解</a></li>\
+<li><a href="#">构建高性能的微博系统——再谈新浪微博架构</a></li>\
+<li><a href="#">Janova和EdgeCase编写测试工具只需七个月</a></li>\
+<li><a href="#">使用Xbase定义通用的图形化视图</a></li>\
+<li><a href="#">快乐与自组织团队</a></li>\
+<li><a href="#">REST API还有新麻烦？</a></li>\
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="#" class="num">\
+    <span style=" " href="#" class="now">7</span><b>条问题</b>
+</a>
+</div>
+</div>
+
+
+
+
+<div class="zsite_block">\
+
+
+<div class="zsite_ol">\
+<ol>
+<li><a href="#">张沈鹏 , 42区 , 程序员</a></li>\
+<li><a href="#">LucLan , PE.VC 投资</a></li>\
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="#" class="num">\
+<span style=" " href="#" class="now">7</span><b>关注</b>
+</a> & <a href="#" class="num_normal"><span >13</span>粉丝</a>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
 <p><a href="/following${CID_USER}">关注的人</a></p>
 %for i in follow_list_by_from_id_cid(zsite.id, CID_USER):
 <p><a href="${i.link}" target="_blank">${i.name}</a></p>
 %endfor
+
 
 <p><a href="/follower">被**关注</a></p>
 <p><a href="/po">文章</a></p>
