@@ -43,6 +43,6 @@ def t_cn(url):
 
 
 if "__main__" == __name__:
-    url = "http://baidu.com"
+    url = "http://open.weibo.com/wiki/index.php/Short_url/shorten"
     print t_cn(url)
 
