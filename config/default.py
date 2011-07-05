@@ -166,5 +166,5 @@ def load(self, *args):
     funclist = PREPARE+list(reversed(FINISH))
     for _ in funclist:
         _(self)
-    print self.SITE_DOMAIN
+    
     return self
