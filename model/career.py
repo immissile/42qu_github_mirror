@@ -126,11 +126,15 @@ def career_list(user_id, cid):
     li = Career.mc_get_list(id_list)
     return [i.value_list for i in li]
 
-@mc_career_current('{user_id}')
-def career_current(user_id):
+def career_list_all(user_id):
     li = Career.where(user_id=user_id)
     li = list(li)
     li.sort(reverse=True)
+    return li
+
+@mc_career_current('{user_id}')
+def career_current(user_id):
+    li = career_list_all(user_id)
     if li:
         o = li[0]
         return o.unit, o.title
