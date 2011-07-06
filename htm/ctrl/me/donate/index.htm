@@ -2,8 +2,8 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%htm:form enctype="multipart/form-data">
-%if no_login:
-<p>支付宝邮箱账号:<input type="text" name="alipay_account" value=""></p>
+%if not current_user:
+<p>支付宝邮箱账号:<input type="text" name="alipay_account" value="${alipay_account}"></p>
 <br>
 %endif
 <p>向<a href="${to_user_link}">${to_user_name}</a>捐赠:

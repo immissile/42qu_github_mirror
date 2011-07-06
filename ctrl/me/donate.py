@@ -16,7 +16,7 @@ from model.cid import CID_USER, CID_PAY_STATION
 def check_account(alipay_account):
     error = None
     if not EMAIL_VALID.match(alipay_account):
-        error = '邮箱格式错误'
+        error = '请输入正确的支付宝邮箱'
     return alipay_account, error
 
 def check_amount(amount):
@@ -26,7 +26,7 @@ def check_amount(amount):
         amount_cent = amount * 100
         #amount = amount * 1.015
     except ValueError:
-        error = '金额输入错误'
+        error = '请输入金额数值'
     else:
         amount_min = 0.1
         amount_max = 100000000
@@ -34,8 +34,8 @@ def check_amount(amount):
             error = '捐赠最少为%s' % amount_min
         elif amount > amount_max:
             error = '捐赠最多为%s' % amount_max
-        else:
-            return amount, error
+    return amount, error
+
 
 @urlmap('/donate/result')
 class Result(LoginBase):
@@ -52,10 +52,12 @@ class Index(ZsiteBase):
         no_login=False
         if not self.current_user:
             no_login=True
-        self.render(to_user_name=to_user_name,
-                    to_user_link=to_user.link,
-                    no_login=no_login,
-                    amount=0.42,
+        self.render(
+                alipay_account='',
+                to_user_name=to_user_name,
+                to_user_link=to_user.link,
+                no_login=no_login,
+                amount=0.42,
         )
 
     def post(self, id):
@@ -64,54 +66,60 @@ class Index(ZsiteBase):
         to_user = Zsite.get(id=to_user_id)
         to_user_name = to_user.name
         amount = self.get_argument('amount', 0)
+        if not self.current_user:
+            alipay_account = self.get_argument('alipay_account', '')
+        else:
+            alipay_account = mail_by_user_id(self.current_user.id)
         amount, error = check_amount(amount)
         amount_cent = amount * 100
 
         #逻辑有些混乱
-        if not self.current_user:
-            # 通过current_user 判断是否为登陆状态
-            alipay_account = self.get_argument('alipay_account', '')
-            alipay_account, error = check_account(alipay_account)
-            from_user_id = user_id_by_mail(alipay_account)
-            if from_user_id:
-                from_user = Zsite.get(id=from_user_id)
-                from_user_state = from_user.state
-                if from_user_state == ZSITE_STATE_ACTIVE:
-                    #有激活账号但是没登录
-                    NO_LOGIN = True
+        if not error:
+            if not self.current_user:
+                # 通过current_user 判断是否为登陆状态
+                alipay_account, error = check_account(alipay_account)
+                from_user_id = user_id_by_mail(alipay_account)
+                if from_user_id:
+                    from_user = Zsite.get(id=from_user_id)
+                    from_user_state = from_user.state
+                    if from_user_state == ZSITE_STATE_ACTIVE:
+                        #有激活账号但是没登录
+                        NO_LOGIN = True
+                elif not error:
+                    #没激活账号也没登录
+                    from_user = zsite_new(name=alipay_account, cid=CID_USER, state=ZSITE_STATE_NO_PASSWORD)
+                    user_mail_new(from_user.id, alipay_account)
             else:
-                #没激活账号也没登录
-                from_user = zsite_new(name=alipay_account, cid=CID_USER, state=ZSITE_STATE_NO_PASSWORD)
-                user_mail_new(from_user.id, alipay_account)
-        else:
-            from_user = self.current_user
+                from_user = self.current_user
 
-        from_user_id = from_user.id
-        from_user_mail = mail_by_user_id(from_user_id)
+        if not error:
+            from_user_id = from_user.id
+            from_user_mail = mail_by_user_id(from_user_id)
 
-        if self.current_user and bank_can_pay(from_user_id, amount_cent):
-            #如果zpage账户有余额
-            deal_new(amount, from_user_id, to_user_id, rid=CID_PAY_STATION,state=TRADE_STATE_FINISH)
-            return self.redirect('/donate/result')
-        else:
-            #跳转到支付宝链接
-            return_url = '%s/money/alipay_sync' % RPC_HTTP
-            notify_url = '%s/money/alipay_async' % RPC_HTTP
-            alipay_url = donate_alipay_payurl(
-                    from_user_id,
-                    to_user_id,
-                    amount,
-                    return_url,
-                    notify_url,
-                    '%s 向 %s 捐赠' %(from_user.name, to_user_name),
-                    from_user_mail,
-            )
-            if NO_LOGIN:
-                return self.redirect('/auth/login?next=' + alipay_url)
+            if self.current_user and bank_can_pay(from_user_id, amount_cent):
+                #如果zpage账户有余额
+                deal_new(amount, from_user_id, to_user_id, rid=CID_PAY_STATION,state=TRADE_STATE_FINISH)
+                return self.redirect('/donate/result')
+            else:
+                #跳转到支付宝链接
+                return_url = '%s/money/alipay_sync' % RPC_HTTP
+                notify_url = '%s/money/alipay_async' % RPC_HTTP
+                alipay_url = donate_alipay_payurl(
+                        from_user_id,
+                        to_user_id,
+                        amount,
+                        return_url,
+                        notify_url,
+                        '%s 向 %s 捐赠' %(from_user.name, to_user_name),
+                        from_user_mail,
+                )
+                if NO_LOGIN:
+                    return self.redirect('/auth/login?next=' + alipay_url)
 
-            return self.redirect(alipay_url)
+                return self.redirect(alipay_url)
 
         self.render(amount=amount,
+                alipay_account=alipay_account,
                 to_user_name=to_user_name,
                 to_user_link=to_user.link,
                 error=error,
