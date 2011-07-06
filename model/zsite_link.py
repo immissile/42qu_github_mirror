@@ -61,6 +61,12 @@ def link_id_cid(id):
     )
     return c.fetchall()
 
+def zsite_link_new(zsite_id, name, link):
+    z = ZsiteLink.get_or_create(ziste_id=zsite_id, name=name)
+    z.link = link
+    z.save()
+    mc_flush(zsite_id)
+    return z
 
 def link_list_save(zsite_id, link_cid, link_kv):
     for cid, name, link in link_cid:
