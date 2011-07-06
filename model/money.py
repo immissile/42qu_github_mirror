@@ -34,9 +34,10 @@ TRADE_CID_DIC = {
 #    CID_TRADE_REWARD: '奖励',
 }
 
-TRADE_STATE_OPEN = 1
-TRADE_STATE_FAIL = 5
-TRADE_STATE_FINISH = 9
+TRADE_STATE_NEW = 5
+TRADE_STATE_OPEN = 10
+TRADE_STATE_FAIL = 15
+TRADE_STATE_FINISH = 20
 
 class Trade(Model):
     def finish(self):
@@ -65,7 +66,7 @@ def frozen_view(user_id):
 
 def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, for_id=0):
     t = int(time())
-    t = Trade(
+    o = Trade(
         value=cent,
         tax=tax,
         from_id=from_id,
@@ -77,11 +78,22 @@ def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, for_i
         update_time=t,
         for_id=for_id
     )
-    t.save()
-    bank_change(from_id, -cent)
-    if state == TRADE_STATE_FINISH:
+    o.save()
+    if state == TRADE_STATE_OPEN:
+        bank_change(from_id, -cent)
+        mc_frozen_bank.delete(t.from_id)
+    elif state == TRADE_STATE_FINISH:
+        bank_change(from_id, -cent)
         bank_change(to_id, cent)
-    return t
+    return o
+
+def trade_open(t):
+    if t.state == TRADE_STATE_NEW
+        bank_change(t.from_id, -t.value)
+        t.update_time = int(time())
+        t.state = TRADE_STATE_OPEN
+        t.save()
+        mc_frozen_bank.delete(t.from_id)
 
 def trade_finish(t):
     if t.state == TRADE_STATE_OPEN:
@@ -138,11 +150,11 @@ CHARGE_TAX = {
     CID_PAY_ALIPAY: 1.5 / 100,
 }
 
-def charge_new(price, user_id, cid):
+def charge_new(price, user_id, cid, for_id=0):
     assert price > 0
     cent = int(price * 100)
     tax = int(round(cent * CHARGE_TAX[cid]))
-    t = trade_new(cent-tax, tax, 0, user_id, CID_TRADE_CHARDE, cid, TRADE_STATE_OPEN)
+    t = trade_new(cent-tax, tax, 0, user_id, CID_TRADE_CHARDE, cid, TRADE_STATE_OPEN, for_id)
     vid, ck = verify_new(user_id, CID_VERIFY_MONEY)
     return '%s_%s_%s' % (t.id, vid, ck)
 
@@ -187,14 +199,12 @@ def withdraw_list():
         i.account, i.name = pay_account_get(i.from_id, i.rid)
     return qs
 
-def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN, for_id=0):
+def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN):
     assert price > 0
     cent = int(price * 100)
-    tax = int(round(cent * CHARGE_TAX[rid]))
-    t = trade_new(cent-tax, 0, from_id, to_id, CID_TRADE_CHARDE, rid, TRADE_STATE_OPEN)
-    t = trade_new(cent-tax, tax, 0, from_id, CID_TRADE_CHARDE, rid, TRADE_STATE_OPEN, for_id=t.id)
+    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_CHARDE, rid, TRADE_STATE_OPEN)
     vid, ck = verify_new(from_id, CID_VERIFY_MONEY)
-    return '%s_%s_%s' % (t.id, vid, ck)
+    return '%s_%s_%s' % (t.id, vid, ck), t.id
 
 # Deal
 def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN):
