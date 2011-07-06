@@ -61,19 +61,14 @@ if info:
 
 %>
 
-%if line1 or line2 or line3:
+%if line1:
 <div class="zsite_item">
 %if line1:
 <p>${line1|n}</p>
 %endif
-%if line2:
-<p>${line2|n}</p>
-%endif
-%if line3:
-<p>${line3|n}</p>
-%endif
 </div>
 %endif
+
 
 %for career in career_list_all(zsite_id):
 <%
@@ -99,6 +94,16 @@ end_time = career.end_time
 </div>
 %endfor
 
+%if line2 or line3:
+<div class="zsite_item">
+%if line2:
+<p>${line2|n}</p>
+%endif
+%if line3:
+<p>${line3|n}</p>
+%endif
+</div>
+%endif
 </div>
 </div>
 
