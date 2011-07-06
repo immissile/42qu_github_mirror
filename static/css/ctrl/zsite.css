@@ -3,23 +3,27 @@ text-align:center;
 font-size:16px;
 margin:48px 0;
 }
-.zsite_txt{
-width:721px;
-margin:0 auto 48px;
-float:none;
+.zsite_career{
+padding-bottom:48px
 }
-.zsite_pic_center{
-margin:auto;
+.zsite_txt{
+margin:0 auto;
+padding-bottom:48px;
 float:none;
+_float:left;
 }
 .zsite_pic{
+margin:auto;
+float:none;
 line-height:32px;
+_float:right;
 }
 .zsite_pic img{
 padding-bottom:32px
 }
 .zsite_txt img{
-float:left;margin-right:27px
+float:left;
+margin-right:27px
 }
 .qgif{
 background:url(/img/gif/q.gif) no-repeat;
@@ -135,6 +139,7 @@ font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 
 
 .zsite_ico_div{
 margin-top:-16px;
+*margin-top:0;
 padding-bottom:16px;
 }
 .zsite_ico{
@@ -145,6 +150,6 @@ margin-top:32px;
 float:left;
 margin-right:32px
 }
-.zsite_block{
+.zsite_follow{
 border-bottom:0;
 }
