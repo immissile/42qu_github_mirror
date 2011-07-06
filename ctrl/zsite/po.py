@@ -36,8 +36,8 @@ class PoIndex(ZsiteBase):
         self.redirect(link)
 
 
-@urlmap('/po')
-@urlmap('/po-(\d+)')
+#@urlmap('/po')
+#@urlmap('/po-(\d+)')
 class PoPage(ZsiteBase):
     cid = 0
     template = '/ctrl/zsite/po/po_page.htm'
