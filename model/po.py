@@ -223,8 +223,8 @@ mc_po_id_list_by_cid = McLimitA('PoIdListByCid.%s', 512)
 def po_id_list_by_cid(user_id, cid, is_self, limit, offset):
     return Po.where(user_id=user_id).where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
 
-def po_view_list(user_id, cid, is_self, limit, offset):
-    return Po.mc_get_list(po_id_list(user_id, cid, is_self, limit, offset))
+def po_list_by_cid(user_id, cid, is_self, limit, offset):
+    return Po.mc_get_list(po_id_list_by_cid(user_id, cid, is_self, limit, offset))
 
 def mc_flush_all(user_id):
     for is_self in (True, False):
