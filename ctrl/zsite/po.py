@@ -68,6 +68,7 @@ CID2TEMPLATE = {
     CID_WORD:'/ctrl/zsite/po/word.htm',
     CID_NOTE: PO_TEMPLATE,
     CID_QUESTION:'/ctrl/zsite/po/question.htm',
+    CID_ANSWER: PO_TEMPLATE,
 }
 
 @urlmap('/(\d+)')
@@ -149,7 +150,7 @@ class Question(PoOne):
         po = po_answer_new(user_id, id, name, txt, state)
 
         if po:
-            if po.cid == CID_NOTE:
+            if po.cid == CID_ANSWER:
                 answer_id = po.id
                 link = '/po/tag/%s' % answer_id
                 zsite_tag_new_by_tag_id(po)
