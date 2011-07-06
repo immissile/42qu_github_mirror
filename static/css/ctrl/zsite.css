@@ -4,7 +4,11 @@ font-size:16px;
 margin:48px 0;
 }
 .zsite_career{
-padding-bottom:48px
+text-align:right;
+padding-bottom:34px
+}
+.zsite_item{
+padding-bottom:14px
 }
 .zsite_txt{
 margin:0 auto;
