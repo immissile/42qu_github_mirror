@@ -67,7 +67,9 @@ height:8px;
 background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
 }
 #feed_loading, #feed_load{
-margin-bottom:64px
+margin-bottom:64px;
+margin-top:64px;
+clear:both;
 }
 
 
