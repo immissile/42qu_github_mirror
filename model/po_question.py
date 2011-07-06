@@ -35,7 +35,7 @@ def answer_id_get(user_id, question_id):
 def answer_word2note(po):
     rid = po.rid
     if rid and po.cid == CID_WORD:
-        po_cid_set(CID_ANSWER)
+        po_cid_set(po, CID_ANSWER)
         answer_count.delete(rid)
 
 def po_answer_new(user_id, question_id, name, txt, state):

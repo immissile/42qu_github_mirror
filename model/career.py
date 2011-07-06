@@ -153,16 +153,6 @@ def career_bind(user_list):
         i.career = o_dict[i.id]
     return user_list
 
-from zsite import Zsite
-from cid import CID_USER
-
-@attrcache
-def user_career(self):
-    if self.cid == CID_USER:
-        return career_current(self.id)
-
-Zsite.career = user_career
-
 if __name__ == '__main__':
     from yajl import dumps
     print dumps(career_list(16, 1))

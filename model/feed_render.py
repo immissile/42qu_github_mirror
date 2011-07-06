@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import McCacheM
 from collections import namedtuple
-from cid import CID_WORD, CID_NOTE, CID_QUESTION
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from operator import itemgetter
 from po import Po
 from po_question import answer_count
@@ -45,19 +45,19 @@ def feed_tuple_by_db(id):
         name,
         vote_count(id)
     ]
-   
-    txt = m.txt 
-    if cid == CID_NOTE or cid == CID_QUESTION:
+
+    txt = m.txt
+    if cid == CID_NOTE or cid == CID_QUESTION or cid == CID_ANSWER:
         result.extend(cnenoverflow(txt, 164))
     else:
         if cid == CID_WORD:
             txt = txt_withlink(txt)
         result.extend((txt, False))
- 
-#    if rid: 
+
+#    if rid:
 #        user = question.user
 #        result.extend((question.link, user.name, user.link))
-    
+
     return result
 
 def cidmap(cid):

@@ -8,7 +8,7 @@ from model.follow import follow_rm, follow_new, follow_count_by_to_id, follow_id
 from model.zsite import Zsite
 
 PAGE_LIMIT = 42
-#PAGE_LIMIT = 1 
+#PAGE_LIMIT = 1
 
 
 @urlmap('/follow')
@@ -54,18 +54,19 @@ class Follower(ZsiteBase):
 @urlmap('/following(\d)?-(\d+)')
 class Following(ZsiteBase):
     def get(self, cid=0, n=1):
-        cid = int(cid)
-        if cid not in CID_ZSITE:
-            cid = 0
+        if cid:
+            cid = int(cid)
+            if cid not in CID_ZSITE:
+                cid = 0
 
         zsite_id = self.zsite_id
         if cid:
-            ids = follow_id_list_by_from_id_cid(zsite_id, cid)
+            id_list = follow_id_list_by_from_id_cid(zsite_id, cid)
         else:
-            ids = follow_id_list_by_from_id(zsite_id)
-        total = len(ids)
+            id_list = follow_id_list_by_from_id(zsite_id)
+        total = len(id_list)
         page, limit, offset = page_limit_offset(
-            '/following%s-%%s' % cid,
+            '/following%s-%%s' % (cid or ''),
             total,
             n,
             PAGE_LIMIT
@@ -73,8 +74,8 @@ class Following(ZsiteBase):
         if type(n) == str and offset >= total:
             return self.redirect('/following%s' % (cid or ''))
 
-        ids = ids[offset: offset + limit]
-        following = Zsite.mc_get_list(ids)
+        id_list = id_list[offset: offset + limit]
+        following = Zsite.mc_get_list(id_list)
 
         self.render(
             cid=cid,

@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from cgi import escape
 from cid import CID_USER
 from _db import Model, McModel
 from gid import gid
 from txt import txt_property
+from zkit.attrcache import attrcache
 
 ZSITE_STATE_BAN = 1
 ZSITE_STATE_NO_MAIL = 5
@@ -23,6 +25,27 @@ ZSITE_STATE_VERIFY = 40
 
 class Zsite(McModel):
     txt = txt_property
+
+    @attrcache
+    def link(self):
+        from zsite_url import link
+        return link(self.id)
+
+    @attrcache
+    def link_html(self):
+        return '<a href="%s">%s</a>' % (self.link, escape(self.name))
+
+    @attrcache
+    def ico96(self):
+        from ico import ico_url_with_default
+        return ico_url_with_default(self.id)
+
+    @attrcache
+    def career(self):
+        from career import career_current
+        if self.cid == CID_USER:
+            return career_current(self.id)
+
 
 def user_can_reply(user):
     return user.state >= ZSITE_STATE_CAN_REPLY
@@ -87,6 +110,6 @@ mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 
 if __name__ == "__main__":
     zsite = Zsite.mc_get(1)
-    zsite.state = ZSITE_STATE_WAIT_VERIFY 
+    zsite.state = ZSITE_STATE_WAIT_VERIFY
     zsite_verify_yes(zsite)
 

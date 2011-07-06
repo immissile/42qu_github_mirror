@@ -47,12 +47,14 @@ class Po(McModel, ReplyMixin):
     def htm(self):
         cid = self.cid
         id = self.id
-        h = txt_withlink(self.txt)
+        s = txt_withlink(self.txt)
         if cid != CID_WORD:
             from po_pic import pic_htm
             user_id = self.user_id
-            h = pic_htm(h, user_id, id)
-        return h
+            s = pic_htm(s, user_id, id)
+            s = s.replace('\n\n', '</p><p>')
+            s = '<p>%s</p>' % s
+        return s
 
     def txt_set(self, txt):
         id = self.id
@@ -226,7 +228,7 @@ def po_id_list(user_id, cid, is_self, limit, offset):
         qs = qs.where(cid=cid)
     return qs.where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
 
-def po_view_list(user_id, cid, is_self, limit, offset):
+def po_view_list(user_id, cid, is_self, limit, offset=0):
     id_list = po_id_list(user_id, cid, is_self, limit, offset)
     return Po.mc_get_list(id_list)
 
