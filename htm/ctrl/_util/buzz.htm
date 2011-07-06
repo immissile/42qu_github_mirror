@@ -52,11 +52,14 @@ ${user_link_list(from_list)} 回复  <a href="/po/${entry.id}">${entry.name}</a>
 buzz_list = _buzz_show(user_id, 3)
 unread = buzz_unread_count(user_id)
 %>
+<div class="c" style="padding-bottom:36px" id="buzz"><div class="G2">
 <div class="buzz">
 %for i in buzz_list:
 <p>${buzz_render(i)}</p>
 %endfor
 <p class="tr">
+<a href="javascript:$('#buzz').fadeOut();void(0)" id="buzzrm"></a>
+
 <a class="unread" href="/buzz">
 %if unread:
 未读<span class="mg03">${unread}</span>条
@@ -66,4 +69,5 @@ unread = buzz_unread_count(user_id)
 </a>
 </p>
 </div>
+</div></div>
 </%def>

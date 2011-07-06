@@ -23,7 +23,10 @@ ${css.ctrl_live|n}
 
 
 %if zsite_id == current_user_id:
-<div class="live_top G c">
+<div class="live_top G c" style="margin-left:219px">
+
+${buzz_show(zsite_id)}
+
 <%htm:form className="G2" action="/po/word" id="po_word_form">
 <%
 _ico = ico_url(zsite_id) 
@@ -44,8 +47,8 @@ id="po_word_txt" name="txt"></textarea>\
 <span id="po_word_tip">&nbsp;</span>\
 </div>
 </%htm:form>
-<div class="G2">${buzz_show(zsite_id)}</div>
 </div>
+
 %endif
 <div id="main">
 <div id="feeds">

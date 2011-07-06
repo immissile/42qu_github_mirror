@@ -35,7 +35,7 @@ margin-top:-3px;
 }
 #po_word_btn{
 text-align:right;
-margin-top:12px;
+margin-top:16px;
 float:right;
 _clear:both;
 _width:323px;
@@ -136,4 +136,12 @@ color:#a10;
 }
 .fdtxtin{
 margin-bottom:6px;
+}
+#buzzrm{
+float:left;
+display:inline-block;
+background:url(/img/gif/x.gif) no-repeat 0 50%;
+height:28px;
+width:9px;
+padding-right:5px;
 }
