@@ -84,20 +84,16 @@ end_time = career.end_time
 %>
 <div class="zsite_item">
 %if unit:
-<p class="tr">${unit}
-%if title and unit:
-, 
+<p>${unit}</p>
 %endif
-${title}
-</p>
+%if title:
+<p>${title}</p>
+%endif
+%if txt:
+<p>${txt}</p>
 %endif
 %if end_time:
 <p>${year_month_begin_end(career.begin_time, career.end_time)}</p>
-%endif
-
-
-%if txt:
-<p>${txt}</p>
 %endif
 
 </div>
