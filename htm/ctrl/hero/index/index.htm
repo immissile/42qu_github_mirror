@@ -1,48 +1,8 @@
-<%inherit file="/ctrl/_base/zsite.htm" />
-<%!
-from zkit.itertools import chunkiter
-from model.ico import pic_url_with_default
-%>
+<%inherit file="../base.htm" />
+<%namespace file="/ctrl/_util/hero.htm" import="hero_list"/>
 
-<%def name="htm_head()">
-${css.ctrl_hero|n}
-</%def>
 
-<%def name="h_nav_more()">\
-<form class="search" action="/q">\
-<input id="search" type="text" name="q" value="${value or ''}">\
-<input class="search_btn" type="submit" value="">\
-</form>\
-<script>\
-$("#search").focus()\
-</script>\
-</%def>
 <div class="G zsite_mb64 c">
-<div class="zsite_list">
-    %for chunk in chunkiter(zsite_list,4):
-<div class="hero_line c">
-        %for i in chunk:
-<a href="${i.link}">
-<div class="G1">
-<img src="${pic_url_with_default(i.id,'219')}">
-<div>${i.name}</div>
-<%
-unit, title = i.career
-%>
-%if unit:
-<div class="tr">${unit}</div>
-%endif
-%if title:
-<div class="tr">${title}</div>
-%endif
-</div>
-</a>
-        %endfor
-</div>
-    %endfor
-
-</div>
-
+${hero_list(zsite_list)}
 </div>
 ${page|n}
-</div>
