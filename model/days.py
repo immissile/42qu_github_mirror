@@ -39,8 +39,9 @@ def year_month_begin_end(begin, end):
     r = []
     if begin:
         r.append(begin)
-    if end:
+    if end and end!=begin:
         r.append(end)
+    
     return " - ".join(map(year_month_str,r))
 
 
