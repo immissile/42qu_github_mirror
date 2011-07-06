@@ -107,10 +107,10 @@ margin-left:3px
     list-style-position: inside;
     list-style-type: square;
 }
-.zsite_ol a{
+.zsite_ol a, .zsite_ico a{
 color:#000;
 }
-.zsite_ol a:hover{
+.zsite_ol a:hover , .zsite_ico a:hover{
 text-decoration:underline
 }
 .mr3{
@@ -120,7 +120,8 @@ margin-right:3px;
 color:#666;
 }
 .num_normal:hover{
-text-decoration:underline
+text-decoration:underline;
+color:#000;
 }
 .num_normal span{
 margin-right:3px;
