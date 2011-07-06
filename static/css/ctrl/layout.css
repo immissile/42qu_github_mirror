@@ -3,7 +3,7 @@ margin:auto;
 width: 972px;
 }
 .c:after,.G:after{
-	cear: both;
+	clear: both;
 	content: ' ';
 	display: block;
 	font-size: 0;
@@ -38,3 +38,4 @@ padding-left:32px;
 .G2{width: 470px;}
 .G3{width: 721px;}
 .G4{width: 972px;}
+
