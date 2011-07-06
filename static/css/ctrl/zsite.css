@@ -107,10 +107,10 @@ margin-left:3px
     list-style-position: inside;
     list-style-type: square;
 }
-.zsite_ol a{
+.zsite_ol a, .zsite_ico a{
 color:#000;
 }
-.zsite_ol a:hover{
+.zsite_ol a:hover , .zsite_ico a:hover{
 text-decoration:underline
 }
 .mr3{
@@ -136,9 +136,6 @@ font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 
 .zsite_ico_div{
 margin-top:-16px;
 padding-bottom:16px;
-}
-.zsite_ico a{
-color:#000
 }
 .zsite_ico{
 line-height: 32px; padding-bottom: 32px; border-bottom: 1px dotted #ccc;
