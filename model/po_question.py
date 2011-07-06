@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import McCache
-from cid import CID_QUESTION
+from cid import CID_WORD, CID_NOTE, CID_QUESTION
 from spammer import is_same_post
 from po import Po, po_new, po_word_new, po_note_new, po_rm, CID_QUESTION
 from rank import rank_po_id_list, rank_new
@@ -29,6 +29,12 @@ def answer_id_get(user_id, question_id):
     for i in Po.where(user_id=user_id, rid=question_id).where('state>%s', STATE_DEL).col_list(1, 0):
         return i
     return 0
+
+def answer_word2note(po):
+    # XXX CACHE
+    if po.rid and po.cid == CID_WORD:
+        po.cid == CID_NOTE
+        po.save()
 
 def po_answer_new(user_id, question_id, name, txt, state):
     if not answer_id_get(user_id, question_id):

@@ -217,5 +217,47 @@ def mc_flush_self(user_id):
 def mc_flush_other(user_id):
     _mc_flush(user_id, False)
 
+
+po_word_count = McNum(lambda user_id, is_self: Po.where(user_id=user_id, cid=CID_WORD).where(PO_LIST_STATE[is_self]).count(), 'PoWordCount.%s')
+
+mc_po_word_id_list = McLimitA('PoWordIdList.%s', 512)
+
+@mc_po_word_id_list('{user_id}_{is_self}')
+def po_word_id_list(user_id, is_self, limit, offset):
+    return Po.where(user_id=user_id, cid=CID_WORD).where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
+
+def po_word_list(user_id, is_self, limit, offset):
+    return Po.mc_get_list(po_word_id_list(user_id, is_self, limit, offset))
+
+
+po_list_cid_count = McNum(lambda user_id, cid, is_self: Po.where(user_id=user_id, cid=cid).where(PO_LIST_STATE[is_self]).count(), 'PoListCount.%s')
+
+mc_po_id_list_by_cid = McLimitA('PoIdListByCid.%s', 512)
+
+@mc_po_id_list_by_cid('{user_id}_{cid}_{is_self}')
+def po_id_list_by_cid(user_id, cid, is_self, limit, offset):
+    return Po.where(user_id=user_id).where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
+
+def po_view_list(user_id, cid, is_self, limit, offset):
+    return Po.mc_get_list(po_id_list(user_id, cid, is_self, limit, offset))
+
+def mc_flush(user_id, cid):
+    mc_flush_other(user_id, cid)
+    mc_flush_self(user_id, cid)
+
+def _mc_flush(user_id, cid, is_self):
+    key = '%s_%s' % (user_id, cid, is_self)
+    po_list_count.delete(key)
+    mc_po_id_list.delete(key)
+
+def mc_flush_self(user_id, cid):
+    _mc_flush(user_id, cid, True)
+
+def mc_flush_other(user_id, cid):
+    _mc_flush(user_id, cid, False)
+
+
+
+
 if __name__ == '__main__':
     pass
