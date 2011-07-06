@@ -43,13 +43,20 @@ def google_rank_new_by_html(uid, html):
             '>圈子中有', '</h4>', html
         )
     )
+    if follower:
+        follower = follower.replace(",","")
+        if not follower.isdigit():
+            follower = 0
+    else:
+        follower = 0
     name = txt_wrap_by('<title>', '</title>', html).rsplit(' - ')[0]
     txt = txt_wrap_by(
             """介绍</h2><div """,
-            """</div>""",
+            '''</div></div><div class="''',
             html
         )
-    txt = txt[txt.find('note">')+6:] 
+    if txt:
+        txt = txt[txt.find('note">')+6:].replace("</div>"," ").replace("<div>"," ").replace("<span>","").replace("</span>","").strip()
     return google_rank_new(uid, follower, jpg, name, txt)
 
 def google_uid_by_link(uid):
@@ -62,10 +69,18 @@ def google_uid_by_link(uid):
 if __name__ == '__main__':
     from urllib2 import urlopen
     url = 'https://plus.google.com/%s/about?hl=zh-CN'
-    id = '106207080329016565093' 
+    id = "107234826207633309420" 
     html = urlopen(url%id).read()
-
     google_rank_new_by_html(id, html)
+
+    for id in GoogleRank.where().order_by("follower desc").col_list(None, None, 'uid'):
+        print id
+        try:
+            html = urlopen(url%id).read()
+        except:
+            print id
+            continue
+        google_rank_new_by_html(id, html)
 
    # follower = txt_wrap_by(
    #     "（",

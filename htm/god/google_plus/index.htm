@@ -6,14 +6,14 @@ from model.google_plus import GOOGLE_PLUS_URL
 link = GOOGLE_PLUS_URL%rank.uid
 %>
     <div class="c gline">
-<a href="${link}" target="_blank">\
-<img src="${rank.ico}?sz=96" class="ico">\
-</a>\
-    <div>
-        <div>第 ${follow_rank or rank.follower_rank} 名 : <a href="${link}" target="_blank"> ${rank.name|n}</a></div>
-        <div>${rank.follower} 关注</div>
-        <div>${rank.txt|n}</div>
-    </div>
+        <a href="${link}" target="_blank"><img src="${rank.ico}?sz=96" class="ico"></a>\
+        <div>
+            <div>第 ${follow_rank or rank.follower_rank} 名 : <a href="${link}" target="_blank"> ${rank.name|n}</a></div>
+            <div>${rank.follower} 关注</div>
+            %if rank.txt:        
+            <div>${rank.txt|n}</div>
+            %endif
+        </div>
     </div>
 </%def>
 
@@ -217,62 +217,60 @@ margin:7px 0;
 </head>
 <body>
 <div style="border-bottom:1px dotted #ccc;padding:22px 0 27px;margin-bottom:7px;text-align:center">
-<a style="font-size:23px;font-family:Trebuchet MS;color:#a10" href="http://42qu.com">42qu.com</a></div>
+    <a style="font-size:23px;font-family:Trebuchet MS;color:#a10" href="http://42qu.com">42qu.com</a>
+</div>
 <div class="content c btns">
-<h2 style="font-size:16px;;margin-top:0;border-top:0;padding-top:0;">
-<a href="/google_plus" style="color:#000">Google + 关注数排行榜</a>
+    <h2 style="font-size:16px;;margin-top:0;border-top:0;padding-top:0;">
+        <a href="/google_plus" style="color:#000">Google + 关注数排行榜</a>
+    </h2>
 
-</h2>
 
+    <div style="width:470px;margin:32px auto 32px">
+        <form style="border-bottom:1px dotted #ccc;margin-bottom:1px dotted #ccc;padding-bottom:32px;margin-bottom:32px">
 
-<div style="width:470px;margin:32px auto 32px">
-    <form style="border-bottom:1px dotted #ccc;margin-bottom:1px dotted #ccc;padding-bottom:32px;margin-bottom:32px">
-
-%if q:
-    %if rank:
-        ${render_user(rank)}
+    %if q:
+        %if rank:
+            ${render_user(rank)}
+        %else:
+            找不到 ${q}
+        %endif
     %else:
-        找不到 ${q}
+        <p><a href="https://plus.google.com/me" target="_blank">点此找到自己的Google+链接</a> , 粘贴到下方输入框</p>
+        <p>链接格式形如 : <a href="https://plus.google.com/108902385228996324856" target="_blank" style="color:#000">https://plus.google.com/108902385228996324856</a></p>
+
     %endif
-%else:
-    <p><a href="https://plus.google.com/me" target="_blank">点此找到自己的Google+链接</a> , 粘贴到下方输入框</p>
-    <p>链接格式形如 : <a href="https://plus.google.com/108902385228996324856" target="_blank" style="color:#000">https://plus.google.com/108902385228996324856</a></p>
-
-%endif
 
 
-        <input 
-%if q:
-value="${q}"
-%endif
-name="q" type="text" style="padding:7px;border:1px solid #999;width:454px;margin-bottom:14px;margin-top:14px" autocomplete="off">
-        <div style="text-align:right;">
-        <span style="float:left;margin-top:12px"><g:plusone></g:plusone></span>
+            <input 
+    %if q:
+    value="${q}"
+    %endif
+    name="q" type="text" style="padding:7px;border:1px solid #999;width:454px;margin-bottom:14px;margin-top:14px" autocomplete="off">
+            <div style="text-align:right;">
+            <span style="float:left;margin-top:12px"><g:plusone></g:plusone></span>
 
-        <span class="btnw">
-            <button class="btn" type="submit">查排名</button>
-        </span>
-        </div>
-    </form>
+            <span class="btnw">
+                <button class="btn" type="submit">查排名</button>
+            </span>
+            </div>
+        </form>
 
-%for pos, i in enumerate(rank_list, offset+1 ):
-${render_user(i, pos)}
-%endfor
+        %for pos, i in enumerate(rank_list, offset+1 ):
+        ${render_user(i, pos)}
+        %endfor
 
-${page|n}
+        ${page|n}
 
-
+    </div>
 </div>
 
-
-
-</div>
 <div style="border-top:1px dotted #ccc;padding:27px;margin-top:27px;text-align:center">
-<a href="http://42qu.com" style="font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 28px">42qu.com</a>
+    <a href="http://42qu.com" style="font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 28px">42qu.com</a>
 </div>
 <div style="margin:32px 0 64px;text-align:center;">
-<a href="http://42qu.com/zuroc" target="_blank">Powered by 张沈鹏 !</a>
+    <a href="http://42qu.com/zuroc" target="_blank">Powered by 张沈鹏 !</a>
 </div>
+
 <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
   {lang: 'zh-CN'}
 </script>
