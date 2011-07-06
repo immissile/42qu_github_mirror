@@ -41,8 +41,6 @@ def update_pic(form, user_id, po_id, id):
         pic.save()
 
 
-
-
 @urlmap('/po/word')
 class PoWord(LoginBase):
     def post(self):
@@ -51,6 +49,7 @@ class PoWord(LoginBase):
         if txt:
             po_word_new(current_user.id, txt)
         return self.redirect('/live')
+
 
 def po_post(self):
     user_id = self.current_user_id

@@ -52,11 +52,17 @@ def zsite2keyword(z):
 
         unit = career.unit
         title = career.title
+        txt = career.txt
+
         if unit:
-            for word in seg_txt_search(unit):
+            for word in seg_title_search(unit):
                 t[word] += add
+        
         if title:
-            for word in seg_txt_search(title):
+            for word in seg_title_search(title):
+                t[word] += add
+        if txt:        
+            for word in seg_txt_search(txt):
                 t[word] += add
 
     return rank, t

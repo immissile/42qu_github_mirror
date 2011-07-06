@@ -2,13 +2,39 @@
 margin:auto;
 width: 972px;
 }
-.G{
-width:1004px;
-margin-left:-32px
+.c:after,.G:after{
+	cear: both;
+	content: ' ';
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+	width: 0;
+	height: 0;
 }
-.G1,.G2,.G3,.G4 {padding-left:32px; float:left; position:relative;}
+
+* html .c,* html .G{
+	height: 0;
+}
+.c,.G{
+	display: block;
+}
+
+.G {position:relative; _height:0;}
+.G {margin-left:-32px;}
+
+.C .G,.G4 .G {width: 1004px;}
+.G3 .G {width: 753px;}
+.G2 .G {width: 502px;}
+.G1 .G {width: 251px;}
+
+.G1,.G2,.G3,.G4{
+float:left;
+position:relative;
+overflow:hidden;
+padding-left:32px; 
+}
 .G1{width: 219px;}
 .G2{width: 470px;}
 .G3{width: 721px;}
 .G4{width: 972px;}
-

@@ -23,19 +23,39 @@ ${zsite.name}\
 %endif
 </h1>
 
-<%
-has_g1 = ico_txt or is_owner
-%>
 <div class="G">
-%if has_g1:
-<div class="G1">
-%if ico_txt:
-    <pre>${ico_txt|n}</pre>\
-%elif is_owner:
-    <a href="/i/career">编辑自己的经历</a>
-%endif
+<div class="G1" style="margin-bottom:48px">
+
+<p>85后 ,  魔蝎座 ,  单身 </p>
+<p>江苏南通人士 , 现居北京</p>
+<div style="margin-top:14px">
+ <p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
 </div>
-%endif
+<div style="margin-top:14px">
+ <p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
+</div>
+<div style="margin-top:14px">
+<p>2008.6 - 至今 </p><p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
+</div>
+<div style="margin-top:14px">
+<p>2008.6 - 至今 </p><p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
+</div>
+
+<div style="margin-top:14px">
+<p>2008.6 - 2008.7 </p><p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
+</div>
+<div style="margin-top:14px">
+<p>2008.6 - 2008.7 </p><p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
+</div>
+
+</div>
+
 %if pic_url:
     %if has_g1:
 <div class="G3 zsite_pic"><img src="${pic_url}"></div>\
@@ -52,7 +72,7 @@ txt = zsite.txt
 %>
 
 %if txt:
-<div class="zsite_txt c">
+<div class="zsite_txt G3 c">
     <img src=${ico_url_with_default(zsite_id)}>
     <div class="qgif"></div>
     <div class="zsite_txt_div">\

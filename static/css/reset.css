@@ -54,9 +54,6 @@ q:before,q:after {content:'';}
 }
 .c {zoom:1;}
 */
-.c:before, .c:after {content:"";display:table;}
-.c:after{clear:both}
-.c{zoom:1}
 .c9{color:#999}
 .tr{text-align:right}
 .tl{text-align:left}
