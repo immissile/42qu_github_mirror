@@ -16,7 +16,7 @@ def po_question_new(user_id, name, txt, state):
         return
     name = name or time_title()
     if not is_same_post(user_id, name, txt):
-        m = po_new(CID_QUESTION, user_id, name, 0, state)
+        m = po_new(CID_QUESTION, user_id, name, state)
         txt_new(m.id, txt)
         if state > STATE_SECRET:
             m.feed_new()
@@ -41,7 +41,7 @@ def answer_word2note(po):
 def po_answer_new(user_id, question_id, name, txt, state):
     if not answer_id_get(user_id, question_id):
         if txt:
-            m = po_note_new(user_id, name, txt, state, question_id)
+            m = _po_answer_new(user_id, name, txt, state, question_id)
         else:
             m = po_word_new(user_id, name, state, question_id)
         if m:
@@ -52,6 +52,15 @@ def po_answer_new(user_id, question_id, name, txt, state):
             answer_count.delete(question_id)
             return m
 
+def _po_answer_new(user_id, name, txt, state, rid):
+    if not name and not txt:
+        return
+    if not is_same_post(user_id, name, txt):
+        m = po_new(CID_ANSWER, user_id, name, state, rid)
+        txt_new(m.id, txt)
+        if state > STATE_SECRET:
+            m.feed_new()
+        return m
 
 def po_answer_list(question_id, zsite_id=0, user_id=0):
     ids = rank_po_id_list(question_id, CID_QUESTION, 'confidence')

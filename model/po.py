@@ -128,7 +128,7 @@ class Po(McModel, ReplyMixin):
         mc_feed_tuple.delete(self.id)
         return result
 
-def po_new(cid, user_id, name, rid, state):
+def po_new(cid, user_id, name, state, rid=0):
     m = Po(
         id=gid(),
         name_=cnencut(name, 140),
@@ -181,17 +181,17 @@ def po_rm(user_id, id):
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
     if name and not is_same_post(user_id, name):
-        m = po_new(CID_WORD, user_id, name, rid, state)
+        m = po_new(CID_WORD, user_id, name, state, rid)
         if state > STATE_SECRET:
             m.feed_new()
         return m
 
-def po_note_new(user_id, name, txt, state, rid=0):
+def po_note_new(user_id, name, txt, state):
     if not name and not txt:
         return
     name = name or time_title()
     if not is_same_post(user_id, name, txt):
-        m = po_new(CID_NOTE, user_id, name, rid, state)
+        m = po_new(CID_NOTE, user_id, name, state)
         txt_new(m.id, txt)
         if state > STATE_SECRET:
             m.feed_new()
