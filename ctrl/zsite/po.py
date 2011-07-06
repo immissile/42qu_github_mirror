@@ -27,7 +27,7 @@ class PoIndex(ZsiteBase):
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
         if po:
-            link = po.reply_link
+            link = po.link_reply
             pos, state = po_pos_get(current_user_id, id)
             if pos > 0:
                 link = '%s#reply%s' % (link, pos)
