@@ -18,6 +18,10 @@ def yesterday():
     r = datetime.date.today()- datetime.timedelta(1)
     return r.strftime('%Y%m%d')
 
+def today_year():
+    return datetime.date.today().year
+
 if __name__ == '__main__':
-    print date_to_days('20110704')
-    print yesterday()
+    #print date_to_days('20110704')
+    #print yesterday()
+    print today_year()
