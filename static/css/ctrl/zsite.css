@@ -38,6 +38,7 @@ background:url(/img/gif/rq.gif) no-repeat 100% 100%;
 }
 .zsite_link{
 display:block;
+clear:both;
 background:#fff;
 border:1px dotted #ccc;
 font-size:16px;
