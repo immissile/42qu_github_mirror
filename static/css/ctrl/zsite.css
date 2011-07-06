@@ -145,4 +145,6 @@ margin-top:32px;
 float:left;
 margin-right:32px
 }
-
+.zsite_block{
+border-bottom:0;
+}
