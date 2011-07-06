@@ -1,7 +1,8 @@
 <%!
 from model.user_info import UserInfo, MARRY_ONE
-from model.career import Career
+from model.career import career_list_all
 from model.namecard import namecard_get
+from model.days import year_month_begin_end
 %>
 
 <%
@@ -60,6 +61,8 @@ if info:
 
 %>
 
+%if line1 or line2 or line3:
+<div class="zsite_item">
 %if line1:
 <p>${line1|n}</p>
 %endif
@@ -69,31 +72,37 @@ if info:
 %if line3:
 <p>${line3|n}</p>
 %endif
-<div style="margin-top:14px">
- <p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
 </div>
-<div style="margin-top:14px">
- <p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
-</div>
-<div style="margin-top:14px">
-<p>2008.6 - 至今 </p><p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
-</div>
-<div style="margin-top:14px">
-<p>2008.6 - 至今 </p><p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
-</div>
+%endif
 
-<div style="margin-top:14px">
-<p>2008.6 - 2008.7 </p><p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
+%for career in career_list_all(zsite_id):
+<%
+unit = career.unit
+title = career.title
+txt = career.txt 
+end_time = career.end_time
+%>
+<div class="zsite_item">
+%if unit:
+<p class="tr">${unit}
+%if title and unit:
+, 
+%endif
+${title}
+</p>
+%endif
+%if end_time:
+<p>${year_month_begin_end(career.begin_time, career.end_time)}</p>
+%endif
+
+
+%if txt:
+<p>${txt}</p>
+%endif
+
 </div>
-<div style="margin-top:14px">
-<p>2008.6 - 2008.7 </p><p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
-</div>
+%endfor
+
 </div>
 </div>
 
