@@ -65,12 +65,12 @@ target="_blank" href="{{if rid}}${question_link}{{else}}/${id}{{/if}}">${name}</
 {{/if}}
     <div class="fdtxt" id="fdtxt${id}">
         {{if cid==61}}
-            {{html txt}}
+{{html txt}}
         {{else}} 
-            <div class="fdtxtin">${txt}</div>
-        {{/if}}
-        {{if txt_more}}
-<span class="fdall"><a href="javascript:fdtxt(${id});void(0)">显示全部</a></span>
+<div class="fdtxtin">${txt}</div>
+            {{if txt_more}}
+<div class="fdall"><a href="javascript:fdtxt(${id});void(0)">显示全部</a></div>
+            {{/if}}
         {{/if}}
     </div>
     <div class="fdbar">
@@ -90,7 +90,7 @@ target="_blank" href="{{if rid}}${question_link}{{else}}/${id}{{/if}}">${name}</
             {{/if}}
         {{/if}}
     </span>
-<span class="vote${vote_state}" id="vote${id}"><a title="厌倦" class="down" href="javascript:vote_down(${id});void(0)"></a><span title="好评度" class="num">${vote}</span><a title="喜欢" class="up" href="javascript:vote_up(${id});void(0)"></a></span><a title="回复" target="_blank" class="reply" href="/${id}#txt_form">${reply_count}</a>
+<span class="vote${vote_state}" id="vote${id}"><a title="厌倦" class="down" href="javascript:vote_down(${id});void(0)"></a><span title="好评度" class="num">${vote}</span><a title="喜欢" class="up" href="javascript:vote_up(${id});void(0)"></a></span><a title="回应" target="_blank" class="reply" href="/${id}#txt_form">${reply_count}</a>
     </div>
 </div></div></div>
 {{if zsite_same_as_pre}}
