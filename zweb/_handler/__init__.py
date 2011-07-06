@@ -5,7 +5,7 @@ import urllib
 import urlparse
 from zsql.metamodel import lower_name
 from zweb._tornado import web
-from config import render, SITE_DOMAIN
+from config import render, SITE_DOMAIN, SITE_URL
 from model._db import mc
 from model.user_session import user_id_by_session
 from model.zsite import Zsite
@@ -76,7 +76,7 @@ def _login_redirect(self):
     if self._finished:
         return
     if not self.current_user:
-        url = "/auth/login"
+        url = self.get_login_url()
         if '?' not in url:
             if urlparse.urlsplit(url).scheme:
                 # if login url is absolute, make next absolute too

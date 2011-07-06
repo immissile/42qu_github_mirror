@@ -29,9 +29,13 @@ width: 323px;
 #po_word_ico{
 float:left;
 }
+#po_word_btn .btnw{
+float:right;
+margin-top:-3px;
+}
 #po_word_btn{
 text-align:right;
-margin-top:9px;
+margin-top:12px;
 float:right;
 _clear:both;
 _width:323px;
@@ -51,6 +55,7 @@ margin-right:24px;
 color:#999;
 vertical-align:top;
 #vertical-align:7px;
+float:right;
 }
 #feeds .G{
 padding-bottom:8px;

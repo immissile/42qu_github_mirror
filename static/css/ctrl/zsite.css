@@ -5,8 +5,8 @@ margin:48px 0;
 }
 .zsite_txt{
 width:721px;
-padding-left:32px;
 margin:0 auto 48px;
+float:none;
 }
 .zsite_pic_center{
 margin:auto;
@@ -38,6 +38,7 @@ background:url(/img/gif/rq.gif) no-repeat 100% 100%;
 }
 .zsite_link{
 display:block;
+clear:both;
 background:#fff;
 border:1px dotted #ccc;
 font-size:16px;
@@ -116,7 +117,7 @@ text-decoration:underline
 margin-right:3px;
 }
 .num_normal{
-color:#000;
+color:#666;
 }
 .num_normal:hover{
 text-decoration:underline
@@ -124,3 +125,23 @@ text-decoration:underline
 .num_normal span{
 margin-right:3px;
 }
+.zsite_foot{
+border-top:1px dotted #ccc;padding:32px;margin-top:-1px;text-align:center
+}
+.zsite_foot a{
+font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 28px
+}
+
+.zsite_ico_div{
+margin-top:-16px;
+padding-bottom:16px;
+}
+.zsite_ico{
+line-height: 32px; padding-bottom: 32px; border-bottom: 1px dotted #ccc;
+margin-top:32px;
+}
+.zsite_ico img{
+float:left;
+margin-right:32px
+}
+

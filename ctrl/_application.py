@@ -5,7 +5,7 @@ from config import SITE_DOMAIN
 from zweb.urlmap import handlers
 
 application = tornado.wsgi.WSGIApplication(
-    login_url='/login',
+    login_url='/auth/login',
     xsrf_cookies=True,
 )
 
