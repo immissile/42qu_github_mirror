@@ -13,9 +13,6 @@ width: 972px;
 	height: 0;
 }
 
-* html .c,* html .G{
-	height: 0;
-}
 .c,.G{
 	display: block;
 }

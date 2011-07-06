@@ -12,29 +12,9 @@ ${zsite.name}
 %endif
 </%def>
 
-<%
-is_owner = zsite_id == current_user_id
-pic_url = _pic_url(zsite_id)
-%>
-<h1 class="zsite_title">\
-${zsite.name}\
-%if motto:
- - ${motto}\
-%endif
-</h1>
-
-##<p><a href="/following${CID_USER}">关注的人</a></p>
-##%for i in follow_list_by_from_id_cid(zsite.id, CID_USER):
-##<p><a href="${i.link}" target="_blank">${i.name}</a></p>
-##%endfor
-##
-##
-##<p><a href="/follower">被**关注</a></p>
-##<p><a href="/po">文章</a></p>
-
-<div class="G">
-<div class="G1" style="margin-bottom:48px">
-
+<%def name="g1()">
+<div class="G1">
+<div class="zsite_career">
 <p>85后 ,  魔蝎座 ,  单身 </p>
 <p>江苏南通人士 , 现居北京</p>
 <div style="margin-top:14px">
@@ -62,15 +42,37 @@ ${zsite.name}\
 <p>2008.6 - 2008.7 </p><p> 电子科技大学, 生物医学工程</p>
 <p>不断的补考</p>
 </div>
-
+</div>
 </div>
 
+</%def>
+
+<%
+is_owner = zsite_id == current_user_id
+pic_url = _pic_url(zsite_id)
+%>
+<h1 class="zsite_title">\
+${zsite.name}\
+%if motto:
+ - ${motto}\
+%endif
+</h1>
+
+##<p><a href="/following${CID_USER}">关注的人</a></p>
+##%for i in follow_list_by_from_id_cid(zsite.id, CID_USER):
+##<p><a href="${i.link}" target="_blank">${i.name}</a></p>
+##%endfor
+##
+##
+##<p><a href="/follower">被**关注</a></p>
+##<p><a href="/po">文章</a></p>
+
+<div class="G">
+
+${g1()}
+
 %if pic_url:
-    %if has_g1:
-<div class="G3 zsite_pic"><img src="${pic_url}"></div>\
-    %else:
-<div class="G3 zsite_pic zsite_pic_center"><img src="${pic_url}" ></div>\
-    %endif
+<div class="G3 zsite_pic"><img src="${pic_url}" ></div>\
 %elif is_owner:
 <div class="G3">\
 <a href="/i/pic" style="font-size:16px;display:block;text-align:center;width:707px;padding:194px 0;border:7px solid #000">点此上传本人头像 ,  我们将人工审核</a>
@@ -193,7 +195,7 @@ from model.zsite import CID_USER
 
 
 
-<div class="zsite_block">\
+<div class="zsite_block zsite_follow">\
 
 
 <%
