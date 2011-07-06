@@ -5,6 +5,7 @@ from collections import namedtuple
 from cid import CID_WORD, CID_NOTE, CID_QUESTION
 from operator import itemgetter
 from po import Po
+from po_question import answer_count
 from follow import follow_id_list_by_from_id
 from model.vote import vote_count
 from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT
@@ -30,11 +31,16 @@ def feed_tuple_by_db(id):
     else:
         name = None
 
+    if cid == CID_QUESTION:
+        reply_count = answer_count(id)
+    else:
+        reply_count = m.reply_count
+
     result = [
         m.user_id,
         cid,
         rid,
-        m.reply_count,
+        reply_count,
         m.create_time,
         name,
         vote_count(id)

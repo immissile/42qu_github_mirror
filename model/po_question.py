@@ -23,6 +23,8 @@ def po_question_new(user_id, name, txt, state):
         return m
 
 mc_answer_id_get = McCache('AnswerIdGet.%s')
+answer_count = McNum(lambda id:Po.where(rid=id).where("state>%s", STATE_DEL).count(), "AnswerCount:%s")
+
 
 @mc_answer_id_get('{user_id}_{question_id}')
 def answer_id_get(user_id, question_id):
@@ -47,6 +49,7 @@ def po_answer_new(user_id, question_id, name, txt, state):
             rank_new(m, question_id, CID_QUESTION)
             mq_notice_question(user_id, id)
             mc_answer_id_get.set('%s_%s' % (user_id, question_id), id)
+            answer_count.delete(question_id)
             return m
 
 
