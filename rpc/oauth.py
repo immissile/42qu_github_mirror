@@ -12,7 +12,6 @@ class DoubanOauthHandler(LoginBase, DoubanMixin):
     @tornado.web.asynchronous
     def get(self):
         zsite = self.get_current_user()
-        print zsite,'!!!'
         if self.get_argument("oauth_token", None):
             self.get_authenticated_user(self.async_callback(self._on_auth))
             return
@@ -30,12 +29,12 @@ class DoubanOauthHandler(LoginBase, DoubanMixin):
 
             if access_token:
                 oauth_save_douban(
-                        zsite.id,
-                        access_token['key'],
-                        access_token['secret'],
-                        zsite['name'],
-                        zsite['uid'],
-                        )
+                    zsite.id,
+                    access_token['key'],
+                    access_token['secret'],
+                    zsite['name'],
+                    zsite['uid'],
+                )
             #back = "%s/%s"%(back, OAUTH_DOUBAN)
         return self.redirect(back)
 

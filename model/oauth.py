@@ -1,8 +1,8 @@
 #coding:utf-8
 from _db import cursor_by_table, cursor_by_table, McNum, Model
-from model.zsite_link import  link_cid_new
 
-OAUTH_GOOGLE = 1
+
+OAUTH_GOOGLE = 1 
 OAUTH_DOUBAN = 2
 OAUTH_SINA = 3
 OAUTH_TWITTER = 4
@@ -11,15 +11,21 @@ OAUTH_BUZZ = 6
 OAUTH_SOHU = 7
 OAUTH_QQ = 8
 OAUTH_RENREN = 9
+OAUTH_LINKEDIN = 10
 
-OAUTH2NAME = (
-    (OAUTH_DOUBAN, "豆瓣"),
-    (OAUTH_SINA, "新浪微博"),
-    (OAUTH_QQ, "腾讯微博"),
-    (OAUTH_WWW163, "网易微博"),
-    (OAUTH_TWITTER, "Twitter"),
-    #(OAUTH_BUZZ, "Buzz"),
-)
+OAUTH2NAME_DICT = {
+    OAUTH_GOOGLE    : "Google"      , 
+    OAUTH_WWW163    : "网易微博"    ,
+    OAUTH_SOHU      : "搜狐微博"    ,
+    OAUTH_QQ        : "腾讯微博"    ,
+    OAUTH_RENREN    : "人人网"      ,
+    OAUTH_DOUBAN    : '豆瓣'        ,
+    OAUTH_SINA      : '新浪微博'    ,
+    OAUTH_QQ        : '腾讯微博'    ,
+#    OAUTH_BUZZ      : 'Buzz'        ,
+    OAUTH_TWITTER   : 'Twitter'     ,
+    OAUTH_LINKEDIN  : 'LinkedIn'    ,
+}
 
 OAUTH2URL = {
     OAUTH_DOUBAN:"http://www.douban.com/people/%s/",
@@ -27,12 +33,12 @@ OAUTH2URL = {
     OAUTH_TWITTER:"http://twitter.com/%s",
     OAUTH_WWW163:"http://t.163.com/%s",
     OAUTH_SOHU:"http://t.sohu.com/%s",
-    OAUTH_BUZZ:"%s",
+#    OAUTH_BUZZ:"%s",
     OAUTH_QQ:"http://t.qq.com/%s",
 }
 
 OAUTH2TABLE = {
-    OAUTH_BUZZ:"oauth_token_buzz",
+    #OAUTH_BUZZ:"oauth_token_buzz",
     OAUTH_TWITTER:"oauth_token_twitter",
     OAUTH_SOHU:"oauth_token_sohu",
     OAUTH_SINA:"oauth_token_sina",
@@ -41,11 +47,11 @@ OAUTH2TABLE = {
     OAUTH_QQ:"oauth_token_qq",
 }
 
-OAUTH2NAME_DICT = dict(OAUTH2NAME)
 
 OAUTH_SYNC_CID = set(
-    i[0] for i in OAUTH2NAME
+    OAUTH2NAME.iterkeys()
 )
+
 OAUTH_SYNC_SQL = "app_id in (%s)"%(",".join(map(str, OAUTH_SYNC_CID)))
 
 class OauthToken(Model):
@@ -96,10 +102,11 @@ def oauth_save_renren(zsite_id, token_key, token_secret):
 def oauth_save_with_uid(app_id, zsite_id, token_key, token_secret, name, uid):
     id = oauth_save(app_id, zsite_id, token_key, token_secret)
     name_uid_set(id, name, uid, OAUTH2TABLE[app_id])
+    from model.zsite_link import  link_cid_new
     link_cid_new(zsite_id, app_id, (OAUTH2URL[app_id])%uid)
 
-def oauth_save_buzz(zsite_id, token_key, token_secret, name, uid):
-    oauth_save_with_uid(OAUTH_BUZZ, zsite_id, token_key, token_secret, name, uid)
+#def oauth_save_buzz(zsite_id, token_key, token_secret, name, uid):
+#    oauth_save_with_uid(OAUTH_BUZZ, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_save_twitter(zsite_id, token_key, token_secret, name, uid):
     oauth_save_with_uid(OAUTH_TWITTER, zsite_id, token_key, token_secret, name, uid)
@@ -120,7 +127,9 @@ def oauth_save_www163(zsite_id, token_key, token_secret, name, uid):
     oauth_save_with_uid(OAUTH_WWW163, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_by_zsite_id(zsite_id):
-    cursor = OauthToken.raw_sql("select app_id,id from oauth_token where zsite_id=%s", zsite_id)
+    cursor = OauthToken.raw_sql(
+        "select app_id,id from oauth_token where zsite_id=%s", zsite_id
+    )
     return dict(cursor.fetchall())
 
 def name_uid_get(id, table, url):
@@ -141,24 +150,24 @@ def oauth_name_link(app_id, id):
     return r
 
 
-from binascii import crc32
-from hashlib import md5
-
-
-def renren_mail_hash(s):
-    s = s.strip().lower()
-    c = crc32(s) & 0xffffffff
-    m = md5(s).hexdigest()
-    return '%08d_%s' % (c, m)
-
-
-def renren_mail_by_hash(s):
-    db = cursor_by_table("renren_mail_hash")
-    c = db.cursor()
-    c.execute('select mail from renren_mail_hash where hash=%s', s)
-    r = c.fetchone()
-    if r:
-        return c[0]
+#from binascii import crc32
+#from hashlib import md5
+#
+#
+#def renren_mail_hash(s):
+#    s = s.strip().lower()
+#    c = crc32(s) & 0xffffffff
+#    m = md5(s).hexdigest()
+#    return '%08d_%s' % (c, m)
+#
+#
+#def renren_mail_by_hash(s):
+#    db = cursor_by_table("renren_mail_hash")
+#    c = db.cursor()
+#    c.execute('select mail from renren_mail_hash where hash=%s', s)
+#    r = c.fetchone()
+#    if r:
+#        return c[0]
 
 
 if __name__ == "__main__":
