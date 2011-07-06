@@ -105,7 +105,7 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time 
     //为了ie6 多加一层span
             }
         }else{
-    html = ''
+    html = '&nbsp;'
         }
         po_word_tip.html(html);
         return diff
