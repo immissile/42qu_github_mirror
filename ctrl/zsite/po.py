@@ -61,6 +61,7 @@ class PoPage(ZsiteBase):
             page=page,
         )
 
+
 PO_TEMPLATE = '/ctrl/zsite/po/po.htm'
 CID2TEMPLATE = {
     CID_WORD:'/ctrl/zsite/po/word.htm',
@@ -182,6 +183,7 @@ class PoTag(ZsiteBase):
             count=count,
             page=page
         )
+
 
 @urlmap('/po/reply/rm/(\d+)')
 class ReplyRm(LoginBase):

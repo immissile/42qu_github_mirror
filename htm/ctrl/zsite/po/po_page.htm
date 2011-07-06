@@ -4,8 +4,10 @@ from model.cid import CID_WORD
 <ol>
     % for po in po_list:
     <li>
+        % if po.cid == CID_WORD:
+        ${po.htm|n}
+        % else:
         <p>${po.name}</p>
-        % if po.cid != CID_WORD:
         <pre>${po.htm|n}</pre>
         % endif
     </li>
