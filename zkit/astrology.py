@@ -8,7 +8,6 @@ ASTROLOGY = (
 )
 
 
-
 def astrology(date):
     return ASTROLOGY[astrology_int(date)]
 
@@ -21,7 +20,9 @@ def astrology_int(date):
     if not (date_day and date_mon):
         return 0
 
-    if 120 < date < 219:
+    if date < 121:
+        return 12
+    elif date < 219:
         return 1
     elif date < 320:
         return 2
