@@ -112,14 +112,12 @@ def link_list_save(zsite_id, link_cid, link_kv):
 
 def link_cid_new(zsite_id, cid, link):
     link = link.strip()
-    
     if link:
         zsite_link = ZsiteLink.get_or_create(zsite_id=zsite_id, cid=cid)
         zsite_link.link = link
         zsite_link.name = OAUTH2NAME_DICT[cid]
         zsite_link.save()
         mc_link_by_id.delete(zsite_link.id)
-    
     mc_flush(zsite_id)
 
 
