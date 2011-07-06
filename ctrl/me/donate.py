@@ -95,8 +95,6 @@ class Index(ZsiteBase):
         if not error:
             from_user_id = from_user.id
             from_user_mail = mail_by_user_id(from_user_id)
-            import pdb; pdb.set_trace()
-
             if self.current_user and bank_can_pay(from_user_id, amount_cent):
                 #如果zpage账户有余额
                 deal_new(amount, from_user_id, to_user_id, rid=CID_PAY_STATION,state=TRADE_STATE_FINISH)

@@ -40,6 +40,9 @@ TRADE_STATE_FAIL = 15
 TRADE_STATE_FINISH = 20
 
 class Trade(Model):
+    def open(self):
+        trade_open(self)
+
     def finish(self):
         trade_finish(self)
 
@@ -81,15 +84,17 @@ def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, for_i
     o.save()
     if state == TRADE_STATE_OPEN:
         bank_change(from_id, -cent)
-        mc_frozen_bank.delete(t.from_id)
+        mc_frozen_bank.delete(o.from_id)
     elif state == TRADE_STATE_FINISH:
         bank_change(from_id, -cent)
         bank_change(to_id, cent)
+        mc_frozen_bank.delete(from_id)
+        mc_frozen_bank.delete(to_id)
     return o
 
 def trade_open(t):
-    if t.state == TRADE_STATE_NEW
-        bank_change(t.from_id, -t.value)
+    if t.state == TRADE_STATE_NEW:
+        #bank_change(t.from_id, -t.value)
         t.update_time = int(time())
         t.state = TRADE_STATE_OPEN
         t.save()
@@ -169,6 +174,7 @@ def charged(out_trade_no, total_fee, rid, d):
                 trade_log.set(user_id, dumps(d))
                 if t.for_id:
                     donar_t = Trade.get(t.for_id)
+                    donat_t.open()
                     donar_t.finish()
                     return donar_t
             return t
@@ -199,12 +205,11 @@ def withdraw_list():
         i.account, i.name = pay_account_get(i.from_id, i.rid)
     return qs
 
-def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN):
+def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     assert price > 0
     cent = int(price * 100)
-    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_CHARDE, rid, TRADE_STATE_OPEN)
-    vid, ck = verify_new(from_id, CID_VERIFY_MONEY)
-    return '%s_%s_%s' % (t.id, vid, ck), t.id
+    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_CHARDE, rid, state)
+    return t.id
 
 # Deal
 def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN):
