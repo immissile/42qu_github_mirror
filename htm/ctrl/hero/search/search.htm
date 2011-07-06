@@ -9,7 +9,7 @@ ${css.ctrl_hero|n}
 
 <%def name="h_nav_more()">\
 <form class="search" action="/q">\
-<input id="search" type="text" name="q" value="${value or ''}">\
+<input autocomplete="off" id="search" type="text" name="q" value="${value or ''}">\
 <input class="search_btn" type="submit" value="">\
 </form>\
 <script>\
