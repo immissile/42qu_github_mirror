@@ -31,11 +31,8 @@ def astrology(date):
         return 10
     elif date < 1221:
         return 11
-
-    return 12
+    else:
+        return 12
 
 if __name__ == '__main__':
-    print ASTROLOGY[get_astrology(19900929)]
-
-
-
+    print ASTROLOGY[astrology(19900929)]
