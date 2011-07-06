@@ -63,7 +63,8 @@ def po_answer_list(question_id, zsite_id=0, user_id=0):
             user_answer_id = answer_id_get(i, question_id)
             if user_answer_id:
                 _ids.append(user_answer_id)
-                ids.remove(user_answer_id)
+                if user_answer_id in ids:
+                    ids.remove(user_answer_id)
         if _ids:
             _ids.extend(ids)
             ids = _ids
