@@ -6,7 +6,6 @@ from model.zsite_list import zsite_list_count
 from model.cid import CID_USER
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
-from model.career import career_bind
 
 @urlmap('/')
 @urlmap('/-(\d+)')
@@ -16,7 +15,6 @@ class Index(Base):
         count = zsite_list_count(0, 0)
         page, limit, offset = page_limit_offset('/-%s', count, n, 64)
         zsite_list = Zsite.mc_get_list(zsite_show(limit, offset))
-        career_bind(zsite_list)
         self.render(zsite_list=zsite_list, page=page)
 
 

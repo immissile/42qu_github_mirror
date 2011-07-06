@@ -116,6 +116,8 @@ def pic_rm_mail(id):
                                user=user,
                               )
 
+
+
 from mq import mq_client
 mq_pic_rm_mail = mq_client(pic_rm_mail)
 
