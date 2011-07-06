@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import McCache
+from _db import McCache, McNum
 from cid import CID_WORD, CID_NOTE, CID_QUESTION
 from spammer import is_same_post
 from po import Po, po_new, po_word_new, po_note_new, po_rm, CID_QUESTION
@@ -23,6 +23,8 @@ def po_question_new(user_id, name, txt, state):
         return m
 
 mc_answer_id_get = McCache('AnswerIdGet.%s')
+answer_count = McNum(lambda id:Po.where(rid=id).where("state>%s", STATE_DEL).count(), "AnswerCount:%s")
+
 
 @mc_answer_id_get('{user_id}_{question_id}')
 def answer_id_get(user_id, question_id):
@@ -47,6 +49,7 @@ def po_answer_new(user_id, question_id, name, txt, state):
             rank_new(m, question_id, CID_QUESTION)
             mq_notice_question(user_id, id)
             mc_answer_id_get.set('%s_%s' % (user_id, question_id), id)
+            answer_count.delete(question_id)
             return m
 
 
@@ -63,7 +66,8 @@ def po_answer_list(question_id, zsite_id=0, user_id=0):
             user_answer_id = answer_id_get(i, question_id)
             if user_answer_id:
                 _ids.append(user_answer_id)
-                ids.remove(user_answer_id)
+                if user_answer_id in ids:
+                    ids.remove(user_answer_id)
         if _ids:
             _ids.extend(ids)
             ids = _ids
