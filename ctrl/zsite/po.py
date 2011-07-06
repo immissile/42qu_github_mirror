@@ -43,7 +43,7 @@ class PoPage(ZsiteBase):
         zsite_id = self.zsite_id
         user_id = self.current_user_id
         is_self = zsite_id == user_id
-        total = po_list_count(zsite_id, is_self)
+        total = po_list_count(zsite_id, self.cid, is_self)
 
         page, limit, offset = page_limit_offset(
             '/po-%s',
