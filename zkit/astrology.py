@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ASTROLOGY = ('', '水瓶', '双鱼', '白羊', '金牛', '双子', '巨蟹', '狮子', '处女', '天秤', '天蝎', '射手', '魔羯')
 
-def get_astrology(date):
+def astrology(date):
     date = date%10000
     date_mon = date//100
     date_day = date%100
@@ -31,9 +31,8 @@ def get_astrology(date):
         return 10
     elif date < 1221:
         return 11
-    elif 0 < date < 120:
+    else:
         return 12
-    return 0
 
 if __name__ == '__main__':
-    print ASTROLOGY[get_astrology(19900929)]
+    print ASTROLOGY[astrology(19900929)]
