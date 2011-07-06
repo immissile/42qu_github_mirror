@@ -12,40 +12,6 @@ ${zsite.name}
 %endif
 </%def>
 
-<%def name="g1()">
-<div class="G1">
-<div class="zsite_career">
-<p>85后 ,  魔蝎座 ,  单身 </p>
-<p>江苏南通人士 , 现居北京</p>
-<div style="margin-top:14px">
- <p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
-</div>
-<div style="margin-top:14px">
- <p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
-</div>
-<div style="margin-top:14px">
-<p>2008.6 - 至今 </p><p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
-</div>
-<div style="margin-top:14px">
-<p>2008.6 - 至今 </p><p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
-</div>
-
-<div style="margin-top:14px">
-<p>2008.6 - 2008.7 </p><p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
-</div>
-<div style="margin-top:14px">
-<p>2008.6 - 2008.7 </p><p> 电子科技大学, 生物医学工程</p>
-<p>不断的补考</p>
-</div>
-</div>
-</div>
-
-</%def>
 
 <%
 is_owner = zsite_id == current_user_id
@@ -68,8 +34,7 @@ ${zsite.name}\
 ##<p><a href="/po">文章</a></p>
 
 <div class="G">
-
-${g1()}
+<%include file="_g1.htm"/>
 
 %if pic_url:
 <div class="G3 zsite_pic"><img src="${pic_url}" ></div>\

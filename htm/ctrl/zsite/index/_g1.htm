@@ -1,0 +1,99 @@
+<%!
+from model.user_info import UserInfo, MARRY_ONE
+from model.career import Career
+from model.namecard import namecard_get
+%>
+
+<%
+%>
+
+<div class="G1">
+<div class="zsite_career">
+<%
+info = UserInfo.mc_get(zsite_id)
+namecard = namecard_get(zsite_id)
+
+line2 = None 
+line3 = None 
+
+if namecard:
+    if namecard.pid_now and namecard.pid_now>1:
+        line2  = "现居 : "+namecard.place_now
+ 
+if info:
+    line1 = []
+    sex = info.sex
+    age = info.age
+    astrology = info.astrology
+    marry = info.marry
+ 
+    if age:
+        line1.append("%s岁"%age)
+
+    s = None
+
+    if sex:
+        if sex==1:
+            s = "男"
+        else:
+            s = "女"
+
+    if astrology:
+        if s:
+            s = astrology+s
+        else:
+            s = astrology+"座"
+    if s:
+        line1.append(s)
+
+    if marry == MARRY_ONE:
+        line1.append("单身")
+
+    line1 = " , ".join(line1)
+    
+    if info.pid_home and info.pid_home>1:
+        if namecard and info.pid_home == namecard.pid_now:
+            line2 = "家乡 & "+line2
+        else:
+            line3 = "家乡 : "+info.place_home
+    
+
+%>
+
+%if line1:
+<p>${line1|n}</p>
+%endif
+%if line2:
+<p>${line2|n}</p>
+%endif
+%if line3:
+<p>${line3|n}</p>
+%endif
+<div style="margin-top:14px">
+ <p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
+</div>
+<div style="margin-top:14px">
+ <p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
+</div>
+<div style="margin-top:14px">
+<p>2008.6 - 至今 </p><p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
+</div>
+<div style="margin-top:14px">
+<p>2008.6 - 至今 </p><p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
+</div>
+
+<div style="margin-top:14px">
+<p>2008.6 - 2008.7 </p><p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
+</div>
+<div style="margin-top:14px">
+<p>2008.6 - 2008.7 </p><p> 电子科技大学, 生物医学工程</p>
+<p>不断的补考</p>
+</div>
+</div>
+</div>
+
