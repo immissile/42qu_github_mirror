@@ -13,9 +13,9 @@ def astrology(date):
 
 
 def astrology_int(date):
-    date = date%10000
-    date_mon = date//100
-    date_day = date%100
+    date = date % 10000
+    date_mon = date // 100
+    date_day = date % 100
 
     if not (date_day and date_mon):
         return 0
