@@ -29,8 +29,11 @@ class Po(McModel, ReplyMixin):
 
     @property
     def txt(self):
-        if self.cid == CID_WORD:
+        cid = self.cid
+        if cid == CID_WORD:
             return self.name_
+        elif cid == CID_ANSWER:
+            return txt_get(self.id) or self.name_
         else:
             return txt_get(self.id)
 
@@ -151,6 +154,13 @@ def po_state_set(po, state):
     po.save()
     mc_flush_other(po.user_id)
 
+def po_cid_set(po, cid):
+    o_cid = po.cid
+    if cid != o_cid:
+        po.cid = cid
+        po.save()
+        mc_flush_cid_mv(po.user_id, o_cid, cid)
+
 def po_rm(user_id, id):
     m = Po.mc_get(id)
     if m.can_admin(user_id):
@@ -245,6 +255,11 @@ def _mc_flush_cid(user_id, is_self):
     key2 = '%s_%s_%s' % (user_id, cid, is_self)
     po_list_cid_count.delete(key2)
     mc_po_id_list_by_cid.delete(key2)
+
+def mc_flush_cid_mv(user_id, cid1, cid2):
+    for is_self in (True, False):
+        _mc_flush_cid(user_id, cid1, is_self)
+        _mc_flush_cid(user_id, cid2, is_self)
 
 if __name__ == '__main__':
     pass
