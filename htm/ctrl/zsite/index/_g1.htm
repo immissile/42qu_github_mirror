@@ -16,13 +16,13 @@ namecard = namecard_get(zsite_id)
 
 line2 = None 
 line3 = None 
+line1 = []
 
 if namecard:
     if namecard.pid_now and namecard.pid_now>1:
         line2  = "现居 : "+namecard.place_now
  
 if info:
-    line1 = []
     sex = info.sex
     age = info.age
     astrology = info.astrology
