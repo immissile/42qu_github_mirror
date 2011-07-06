@@ -152,14 +152,14 @@ def po_state_set(po, state):
         po.feed_new()
     po.state = state
     po.save()
-    mc_flush_other(po.user_id)
+    mc_flush_other(po.user_id, po.cid)
 
 def po_cid_set(po, cid):
     o_cid = po.cid
     if cid != o_cid:
         po.cid = cid
         po.save()
-        mc_flush_cid_mv(po.user_id, o_cid, cid)
+        mc_flush_cid_list_all(po.user_id, [o_cid, cid])
 
 def po_rm(user_id, id):
     m = Po.mc_get(id)
@@ -203,63 +203,50 @@ PO_LIST_STATE = {
     False: 'state>%s' % STATE_SECRET,
 }
 
-po_list_count = McNum(lambda user_id, is_self: Po.where(user_id=user_id).where(PO_LIST_STATE[is_self]).count(), 'PoListCount.%s')
+
+def _po_list_count(user_id, cid, is_self):
+    qs = Po.where(user_id=user_id)
+    if cid:
+        qs = qs.where(cid=cid)
+    return qs.where(PO_LIST_STATE[is_self]).count()
+
+po_list_count = McNum(_po_list_count, 'PoListCount.%s')
 
 mc_po_id_list = McLimitA('PoIdList.%s', 512)
 
-@mc_po_id_list('{user_id}_{is_self}')
-def po_id_list(user_id, is_self, limit, offset):
-    return Po.where(user_id=user_id).where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
+@mc_po_id_list('{user_id}_{cid}_{is_self}')
+def po_id_list(user_id, cid, is_self, limit, offset):
+    qs = Po.where(user_id=user_id)
+    if cid:
+        qs = qs.where(cid=cid)
+    return qs.where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
 
-def po_view_list(user_id, is_self, limit, offset):
-    return Po.mc_get_list(po_id_list(user_id, is_self, limit, offset))
-
-
-po_list_cid_count = McNum(lambda user_id, cid, is_self: Po.where(user_id=user_id, cid=cid).where(PO_LIST_STATE[is_self]).count(), 'PoListCount.%s')
-
-mc_po_id_list_by_cid = McLimitA('PoIdListByCid.%s', 512)
-
-@mc_po_id_list_by_cid('{user_id}_{cid}_{is_self}')
-def po_id_list_by_cid(user_id, cid, is_self, limit, offset):
-    return Po.where(user_id=user_id).where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
-
-def po_list_by_cid(user_id, cid, is_self, limit, offset):
-    return Po.mc_get_list(po_id_list_by_cid(user_id, cid, is_self, limit, offset))
+def po_view_list(user_id, cid, is_self, limit, offset):
+    id_list = po_id_list(user_id, cid, is_self, limit, offset)
+    return Po.mc_get_list(id_list)
 
 def mc_flush_all(user_id):
     for is_self in (True, False):
         for cid in CID_PO:
-            _mc_flush_cid(user_id, cid, is_self)
-        _mc_flush_all(user_id, cid)
+            mc_flush_cid(user_id, cid, is_self)
+        mc_flush_cid(user_id, 0, is_self)
 
 def mc_flush(user_id, cid):
-    mc_flush_other(user_id, cid)
-    mc_flush_self(user_id, cid)
-
-def mc_flush_self(user_id, cid):
-    _mc_flush(user_id, cid, True)
+    mc_flush_cid_list_all(user_id, [0, cid])
 
 def mc_flush_other(user_id, cid):
-    _mc_flush(user_id, cid, False)
+    mc_flush_cid(user_id, 0, False)
+    mc_flush_cid(user_id, cid, False)
 
-def _mc_flush(user_id, cid, is_self):
-    _mc_flush_all(user_id, is_self)
-    _mc_flush_cid(user_id, cid, is_self)
-
-def _mc_flush_all(user_id, is_self):
-    key = '%s_%s' % (user_id, is_self)
+def mc_flush_cid(user_id, cid, is_self):
+    key2 = '%s_%s_%s' % (user_id, cid, is_self)
     po_list_count.delete(key)
     mc_po_id_list.delete(key)
 
-def _mc_flush_cid(user_id, is_self):
-    key2 = '%s_%s_%s' % (user_id, cid, is_self)
-    po_list_cid_count.delete(key2)
-    mc_po_id_list_by_cid.delete(key2)
-
-def mc_flush_cid_mv(user_id, cid1, cid2):
+def mc_flush_cid_list_all(user_id, cid_list):
     for is_self in (True, False):
-        _mc_flush_cid(user_id, cid1, is_self)
-        _mc_flush_cid(user_id, cid2, is_self)
+        for cid in cid_list:
+            mc_flush_cid(user_id, cid, is_self)
 
 if __name__ == '__main__':
     pass
