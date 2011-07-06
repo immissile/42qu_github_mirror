@@ -161,10 +161,11 @@ def po_rm(user_id, id):
         zsite_tag_rm_by_po_id(id)
         from rank import rank_rm_all
         rank_rm_all(id)
-        from po_question import mc_answer_id_get
+        from po_question import mc_answer_id_get, answer_count
         rid = m.rid
         if rid:
             mc_answer_id_get.delete('%s_%s' % (user_id, rid))
+            answer_count.delete(rid)
         mc_flush(user_id, m.cid)
         return True
 
