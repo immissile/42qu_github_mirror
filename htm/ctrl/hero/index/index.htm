@@ -1,5 +1,6 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%!
+from zkit.itertools import chunkiter
 from model.ico import pic_url_with_default
 %>
 
@@ -18,14 +19,30 @@ $("#search").focus()\
 </%def>
 <div class="G zsite_mb64 c">
 <div class="zsite_list">
-%for i in zsite_list*20:
+    %for chunk in chunkiter(zsite_list,4):
+<div class="hero_line c">
+        %for i in chunk:
 <a href="${i.link}">
-<div class="G1 mtb32">
+<div class="G1">
 <img src="${pic_url_with_default(i.id,'219')}">
 <div>${i.name}</div>
+<%
+unit, title = i.career
+%>
+%if unit:
+<div class="tr">${unit}</div>
+%endif
+%if title:
+<div class="tr">${title}</div>
+%endif
 </div>
 </a>
-%endfor
+        %endfor
+</div>
+    %endfor
+
+</div>
+
 </div>
 ${page|n}
 </div>
