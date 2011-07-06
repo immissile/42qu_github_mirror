@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
 from feed import feed_new, mc_feed_tuple, feed_rm
 from gid import gid
 from spammer import is_same_post
