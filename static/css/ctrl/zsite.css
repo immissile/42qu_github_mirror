@@ -117,11 +117,17 @@ text-decoration:underline
 margin-right:3px;
 }
 .num_normal{
-color:#000;
+color:#666;
 }
 .num_normal:hover{
 text-decoration:underline
 }
 .num_normal span{
 margin-right:3px;
+}
+.zsite_foot{
+border-top:1px dotted #ccc;padding:27px;margin-top:27px;text-align:center
+}
+.zsite_foot a{
+font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 28px
 }
