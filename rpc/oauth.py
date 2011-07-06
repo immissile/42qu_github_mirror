@@ -20,20 +20,20 @@ class DoubanOauthHandler(LoginBase, DoubanMixin):
                 )
     
     def _on_auth(self,user):
-        zsite = self.get_current_user()
+        zsite = self.current_user
 
         back = "/"
 
-        if zsite:
-            access_token = zsite.get('access_token')
+        if user:
+            access_token = user.get('access_token')
 
             if access_token:
                 oauth_save_douban(
                     zsite.id,
                     access_token['key'],
                     access_token['secret'],
-                    zsite['name'],
-                    zsite['uid'],
+                    user['name'],
+                    user['uid'],
                 )
             #back = "%s/%s"%(back, OAUTH_DOUBAN)
         return self.redirect(back)

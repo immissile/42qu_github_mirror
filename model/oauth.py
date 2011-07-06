@@ -49,7 +49,7 @@ OAUTH2TABLE = {
 
 
 OAUTH_SYNC_CID = set(
-    OAUTH2NAME.iterkeys()
+    OAUTH2NAME_DICT.iterkeys()
 )
 
 OAUTH_SYNC_SQL = "app_id in (%s)"%(",".join(map(str, OAUTH_SYNC_CID)))
@@ -71,16 +71,19 @@ def name_uid_set( id, name, uid, table):
     cursor = OauthToken.raw_sql("select id from %s where id=%%s"%table, id)
     sql_tuple = (name, uid, id)
     if cursor.fetchone():
-        OauthToken.raw_sql("update %s set name=%%s,uid=%%s where id=%%s"%table, sql_tuple)
+        OauthToken.raw_sql("update %s set name=%%s,uid=%%s where id=%%s"%table, *sql_tuple)
     else:
         OauthToken.raw_sql(
             "insert into %s (name,uid,id) values (%%s,%%s,%%s)"%table,
-            sql_tuple
+            *sql_tuple
         )
 
 
 def oauth_save(app_id, zsite_id, token_key, token_secret):
-    id = OauthToken.raw_sql("select id from oauth_token where zsite_id=%s and app_id=%s", zsite_id, app_id).fetchone()[0]
+    cursor = OauthToken.raw_sql("select id from oauth_token where zsite_id=%s and app_id=%s", zsite_id, app_id)
+    id = cursor.fetchone()
+    id = id and id[0]
+
     if id:
         rid = OauthToken.raw_sql("update oauth_token set token_key=%s , token_secret=%s where id=%s", token_key, token_secret, id)
     else:
