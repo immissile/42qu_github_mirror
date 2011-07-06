@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import McCache
+from _db import McCache, McNum
 from cid import CID_WORD, CID_NOTE, CID_QUESTION
 from spammer import is_same_post
 from po import Po, po_new, po_word_new, po_note_new, po_rm, CID_QUESTION
