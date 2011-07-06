@@ -126,8 +126,22 @@ text-decoration:underline
 margin-right:3px;
 }
 .zsite_foot{
-border-top:1px dotted #ccc;padding:27px;margin-top:27px;text-align:center
+border-top:1px dotted #ccc;padding:32px;margin-top:-1px;text-align:center
 }
 .zsite_foot a{
 font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 28px
 }
+
+.zsite_ico_div{
+margin-top:-16px;
+padding-bottom:16px;
+}
+.zsite_ico{
+line-height: 32px; padding-bottom: 32px; border-bottom: 1px dotted #ccc;
+margin-top:32px;
+}
+.zsite_ico img{
+float:left;
+margin-right:32px
+}
+
