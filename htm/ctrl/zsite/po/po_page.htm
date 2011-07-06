@@ -1,16 +1,27 @@
 <%!
 from model.cid import CID_WORD
+from model.po import PO_COUNT_CN
 %>
-<ol>
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%def name="htm_head()">
+${css.ctrl_tag|n}
+</%def>
+
+<div class="po_tag">
+<h1><a class="c0" href="${zsite.link}">${zsite.name}</a> : 共 ${total} ${PO_COUNT_CN.get(cid, '个')}</h1>
+<ul class="po_ul">
     % for po in po_list:
     <li>
+        <a href="${po.link}">
         % if po.cid == CID_WORD:
         ${po.htm|n}
         % else:
         <p>${po.name}</p>
         <pre>${po.htm|n}</pre>
         % endif
+        </a>
     </li>
     % endfor
-</ol>
-${page|n}
+</ul>
+<div class="tc">${page|n}</div>
+</div>
