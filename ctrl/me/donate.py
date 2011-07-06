@@ -8,10 +8,10 @@ from model.zsite import Zsite
 from config import RPC_HTTP
 from model.money_alipay import alipay_payurl, donate_alipay_payurl
 from model.user_mail import mail_by_user_id, user_id_by_mail, user_mail_new
-from model.money import bank_can_pay, bank_change
+from model.money import bank_can_pay, bank_change, deal_new
 from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID
-from model.cid import CID_USER
+from model.cid import CID_USER, CID_PAY_STATION
 
 def check_account(alipay_account):
     error = None
@@ -89,11 +89,9 @@ class Index(ZsiteBase):
         from_user_id = from_user.id
         from_user_mail = mail_by_user_id(from_user_id)
 
-        if bank_can_pay(from_user_id, amount_cent):
+        if self.current_user and bank_can_pay(from_user_id, amount_cent):
             #如果zpage账户有余额
-            bank_change(from_user_id, -amount_cent)
-            bank_change(to_user_id, amount_cent)
-            url = "/donate/result"
+            deal_new(amount, from_user_id, to_user_id, rid=CID_PAY_STATION,state=TRADE_STATE_OPEN)
             return self.redirect(url)
         else:
             #跳转到支付宝链接
