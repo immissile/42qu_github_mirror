@@ -39,11 +39,15 @@ class PoIndex(ZsiteBase):
 @urlmap('/po')
 @urlmap('/po-(\d+)')
 class PoPage(ZsiteBase):
+    cid = 0
+    template = '/ctrl/zsite/po/po_page.htm'
+
     def get(self, n=1):
         zsite_id = self.zsite_id
         user_id = self.current_user_id
+        cid = self.cid
         is_self = zsite_id == user_id
-        total = po_list_count(zsite_id, self.cid, is_self)
+        total = po_list_count(zsite_id, cid, is_self)
 
         page, limit, offset = page_limit_offset(
             '/po-%s',
@@ -55,12 +59,38 @@ class PoPage(ZsiteBase):
         if type(n) == str and offset >= total:
             return self.redirect('/po')
 
-        po_list = po_view_list(zsite_id, is_self, limit, offset)
+        po_list = po_view_list(zsite_id, cid, is_self, limit, offset)
         self.render(
+            cid=cid,
             is_self=is_self,
+            total=total,
             po_list=po_list,
             page=page,
         )
+
+
+@urlmap('/word')
+@urlmap('/word-(\d+)')
+class WordPage(PoPage):
+    cid = CID_WORD
+
+
+@urlmap('/note')
+@urlmap('/note-(\d+)')
+class NotePage(PoPage):
+    cid = CID_NOTE
+
+
+@urlmap('/question')
+@urlmap('/question-(\d+)')
+class QuestionPage(PoPage):
+    cid = CID_QUESTION
+
+
+@urlmap('/answer')
+@urlmap('/answer-(\d+)')
+class AnswerPage(PoPage):
+    cid = CID_ANSWER
 
 
 PO_TEMPLATE = '/ctrl/zsite/po/po.htm'

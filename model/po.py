@@ -17,11 +17,16 @@ from zkit.txt import cnencut
 from zkit.attrcache import attrcache
 from cgi import escape
 
-PO_EN = {
-    CID_NOTE: 'note',
-    CID_WORD: 'word',
-    CID_QUESTION: 'question',
-}
+PO_CN_EN = (
+    (CID_WORD, 'word', '微薄', '句'),
+    (CID_NOTE, 'note', '文章', '篇'),
+    (CID_QUESTION, 'question', '问题', '条'),
+    (CID_ANSWER, 'answer', '回答', '次'),
+)
+PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
+PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
+PO_COUNT_CN = dict((i[0], i[3]+i[2]) for i in PO_CN_EN)
+
 
 mc_htm = McCache('PoHtm.%s')
 
@@ -239,7 +244,7 @@ def mc_flush_other(user_id, cid):
     mc_flush_cid(user_id, cid, False)
 
 def mc_flush_cid(user_id, cid, is_self):
-    key2 = '%s_%s_%s' % (user_id, cid, is_self)
+    key = '%s_%s_%s' % (user_id, cid, is_self)
     po_list_count.delete(key)
     mc_po_id_list.delete(key)
 
