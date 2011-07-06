@@ -20,13 +20,14 @@ from model.tag import Tag
 PAGE_LIMIT = 42
 
 
+
 @urlmap('/po/(\d+)')
 class PoIndex(ZsiteBase):
     def get(self, id):
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
         if po:
-            link = po.link
+            link = po.reply_link
             pos, state = po_pos_get(current_user_id, id)
             if pos > 0:
                 link = '%s#reply%s' % (link, pos)
