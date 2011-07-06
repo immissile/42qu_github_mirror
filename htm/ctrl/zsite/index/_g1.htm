@@ -14,9 +14,9 @@ from model.days import year_month_begin_end
 info = UserInfo.mc_get(zsite_id)
 namecard = namecard_get(zsite_id)
 
+line1 = []
 line2 = None 
 line3 = None 
-line1 = []
 
 if namecard:
     if namecard.pid_now and namecard.pid_now>1:
