@@ -1,6 +1,6 @@
 
 .btns{
-    margin-left:69px
+    margin-left:78px
 }
 .ti {
     margin: 0 8px;
@@ -10,6 +10,7 @@
     width:177px
 } 
 form {
+    font-size:16px;
     padding: 16px 0 64px;
 }
 form p {
