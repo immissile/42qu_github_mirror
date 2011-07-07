@@ -3,6 +3,7 @@ from zkit.itertools import chunkiter
 from model.ico import pic_url_bind_with_default
 from model.career import career_bind
 %>
+
 <%def name="hero_list(zsite_list)">
 <%
 career_bind(zsite_list)
@@ -33,3 +34,4 @@ unit, title = i.career
 
 </div>
 </%def>
+
