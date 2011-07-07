@@ -107,11 +107,11 @@ po_question_count = po_list_count(zsite_id, CID_QUESTION, is_owner)
 % if po_note_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
-<ol>
+<ol>\
 % for po in po_question_list:
 <li><a href="/${po.id}">${po.name}</a></li>\
 % endfor
-</ol>
+</ol>\
 </div>\
 <div class="zsite_num_div">\
 <a href="/note" class="num">\
