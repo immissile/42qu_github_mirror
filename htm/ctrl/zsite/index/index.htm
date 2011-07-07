@@ -183,7 +183,7 @@ follow_list = follow_list_show_by_from_id(zsite_id, 3)
 i_career = i.career
 %>
 <div class="zsite_ico c">
-    <img src="${i.ico96}">
+    <a href="${i.link}"><img src="${i.ico96}"></a>
     <div><a href="${i.link}" target="_blank">${i.name}</a></div>
     <div>${i_career[0]}</div>
     <div>${i_career[1]}</div>
@@ -191,11 +191,25 @@ i_career = i.career
 %endfor
 </div>\
 %endif
+%if follow_count or follower_count:
 <div class="zsite_num_div">\
+%if following_count:
 <a href="/following" class="num"><span class="now">${following_count}</span><b>关注</b></a>
+%endif
+%if following_count and follower_count:
 &
-<a href="/follower" class="num_normal"><span>${follower_count}</span>粉丝</a>
+%endif
+%if follower_count:
+<a href="/follower"
+%if following_count:
+class="num_normal"><span>\
+%else:
+class="num"><span class="now">\
+%endif
+${follower_count}</span>粉丝</a>
+%endif
 </div>
+%endif
 </div>
 
 
