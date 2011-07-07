@@ -27,6 +27,96 @@ class Kv(object):
             mc.set(mc_key, r)
         return r
 
+    def get_dict(self, id_list):
+        if type(id_list) not in (array, list, tuple, dict):
+            id_list = tuple(id_list)
+        mc_key = self.__mc_id__
+        result = mc.get_dict([mc_key%i for i in id_list])
+        r = {}
+        for i in id_list:
+            t = result.get(mc_key%i)
+            if t is None:
+                t = self.get(i)
+            r[i] = t
+        return r
+
+    def get_list(self, id_list):
+        if type(id_list) not in (array, list, tuple, dict):
+            id_list = tuple(id_list)
+        mc_key = self.__mc_id__
+        result = mc.get_dict([mc_key%i for i in id_list])
+        r = []
+        for i in id_list:
+            t = result.get(mc_key%i)
+            if t is None:
+                t = self.get(i)
+            r.append(t)
+        return r
+
+    def iteritems(self):
+        id = 0
+        cursor = self.cursor
+        while True:
+            cursor.execute('select id,value from %s where id>%%s order by id limit 128' % self.__table__, id)
+            result = cursor.fetchall()
+            if not result:
+                break
+            for id, value in result:
+                yield id, value
+
+    def mc_value_id_set(self, value, id):
+        h = md5(value).hexdigest()
+        mc_key = self.__mc_value__ % h
+        mc.set(mc_key, id)
+
+    def set(self, id, value):
+        r = self.get(id)
+        if r != value:
+            mc_key = self.__mc_id__ % id
+            cursor = self.cursor
+            table = self.__table__
+            cursor.execute(
+                'insert delayed into %s (id,value) values (%%s,%%s) on duplicate key update value=%%s' % table,
+                (id, value, value)
+            )
+            cursor.connection.commit()
+            mc.set(mc_key, value)
+
+        #    h = md5(r).hexdigest()
+        #    mc_key2 = self.__mc_value__ % h
+
+    def iteritems(self):
+        id = 0
+        cursor = self.cursor
+        while True:
+            cursor.execute('select id,value from %s where id>%%s order by id limit 128' % self.__table__, id)
+            result = cursor.fetchall()
+            if not result:
+                break
+            for id, value in result:
+                yield id, value
+
+    def mc_value_id_set(self, value, id):
+        h = md5(value).hexdigest()
+        mc_key = self.__mc_value__ % h
+        mc.set(mc_key, id)
+
+    def set(self, id, value):
+        r = self.get(id)
+        if r != value:
+            mc_key = self.__mc_id__ % id
+            cursor = self.cursor
+            table = self.__table__
+            cursor.execute(
+                'insert delayed into %s (id,value) values (%%s,%%s) on duplicate key update value=%%s' % table,
+                (id, value, value)
+            )
+            cursor.connection.commit()
+            mc.set(mc_key, value)
+
+        #    h = md5(r).hexdigest()
+        #    mc_key2 = self.__mc_value__ % h
+
     def iteritems(self):
         id = 0
         cursor = self.cursor
@@ -59,6 +149,10 @@ class Kv(object):
         #    h = md5(r).hexdigest()
         #    mc_key2 = self.__mc_value__ % h
         #    mc.delete(mc_key2)
+
+    def mc_flush(self, id):
+        mc_key = self.__mc_id__ % id
+        mc.delete(mc_key)
 
     def delete(self, id):
         cursor = self.cursor

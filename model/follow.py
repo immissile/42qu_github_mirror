@@ -26,7 +26,15 @@ def follow_id_list_by_from_id(from_id):
     follow_cursor.execute('select to_id from follow where from_id=%s order by id desc', (from_id))
     return [i for i, in follow_cursor]
 
+def following_id_list_by_rank(user_id, limit):
+    from model.zsite_rank import zsite_rank
+    id_list = follow_id_list_by_from_id(from_id)
+    rank_list = zsite_rank.get_list(id_list)
+    t = zip(id_list, rank_list)[:limit]
+    return t
+
 def follow_list_show_by_from_id(from_id, limit):
+    from zkit.algorithm.wrandom import wsample_k2
     id_list = follow_id_list_by_from_id(from_id)[:limit]
     return Zsite.mc_get_list(id_list)
 
