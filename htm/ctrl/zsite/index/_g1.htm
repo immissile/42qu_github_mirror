@@ -6,6 +6,7 @@ from model.days import year_month_begin_end
 %>
 
 <%
+career_list = career_list_all(zsite_id)
 is_owner = zsite_id == current_user_id
 %>
 
@@ -61,6 +62,11 @@ if info:
     
 
 %>
+%if is_owner and not career_list:
+<div class="zsite_item">
+<a style="color:#00f" href="/i/career">点击这里 , 补充履历</a>
+</div>
+%endif
 
 %if line1:
 <div class="zsite_item">
@@ -68,9 +74,6 @@ if info:
 </div>
 %endif
 
-<%
-career_list = career_list_all(zsite_id)
-%>
 %if career_list:
 %for career in career_list_all:
 <%
@@ -94,10 +97,6 @@ end_time = career.end_time
 %endif
 </div>
 %endfor
-%elif is_owner:
-<div class="zsite_item">
-<a style="color:#00f" href="/i/career">点击这里 , 补充履历</a>
-</div>
 %endif
 
 
