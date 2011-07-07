@@ -7,7 +7,7 @@ import urllib
 from tornado import httpclient
 import logging
 import json
-from config import DOUBAN_CONSUMER_KEY, DOUBAN_CONSUMER_SECRET
+from config import DOUBAN_CONSUMER_KEY, DOUBAN_CONSUMER_SECRET, WWW163_CONSUMER_KEY, WWW163_CONSUMER_SECRET, QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY, SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY, SOHU_CONSUMER_SECRET, SOHU_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY
 
 def callback_url(self):
     redirect_url = self.get_argument("path", None)
@@ -111,3 +111,158 @@ class DoubanMixin(tornado.auth.OAuthMixin):
         else:
             user = None
         callback(user)
+
+
+class GoogleMixin(tornado.auth.GoogleMixin):
+    """
+    http://openid.net.cn/specs/openid-authentication-2_0-zh_CN.html
+    OpenID认证2.0——最终版
+
+    http://code.google.com/apis/accounts/docs/OpenID.html
+    Federated Login for Google Account Users
+
+    https://www.google.com/accounts/ManageDomains
+    Google openid api key
+
+    http://code.google.com/intl/zh-CN/apis/contacts/
+
+    http://code.google.com/intl/zh-CN/apis/contacts/docs/1.0/developers_guide_python.html
+    """
+    _OAUTH_VERSION = "1.0"
+    callback_url = callback_url
+
+
+class Www163Mixin(tornado.auth.OAuthMixin):
+    _OAUTH_REQUEST_TOKEN_URL = "http://api.t.163.com/oauth/request_token"
+    _OAUTH_ACCESS_TOKEN_URL = "http://api.t.163.com/oauth/access_token"
+    _OAUTH_AUTHORIZE_URL = "http://api.t.163.com/oauth/authenticate"
+    _OAUTH_VERSION = "1.0"
+    _OAUTH_NO_CALLBACKS = False
+    _API_URL = "http://api.t.163.com%s.json"
+
+    callback_url = callback_url
+    _parse_user_response = _parse_user_response
+    _on_request = _on_request
+
+    def www163_request(self, path, callback, access_token=None,
+                           post_args=None, **args):
+        return xxx_request(
+            self, path, callback, access_token, post_args, **args
+        )
+
+    def _oauth_consumer_token(self):
+        return dict(
+            key= WWW163_CONSUMER_KEY,
+            secret= WWW163_CONSUMER_SECRET)
+
+    def _oauth_get_user(self, access_token, callback):
+        callback = self.async_callback(self._parse_user_response, callback)
+        self.www163_request(
+            "/account/verify_credentials",
+            access_token=access_token, callback=callback
+        )
+
+        
+class QqMixin(tornado.auth.OAuthMixin):
+    _OAUTH_REQUEST_TOKEN_URL = "https://open.t.qq.com/cgi-bin/request_token"
+    _OAUTH_ACCESS_TOKEN_URL = "https://open.t.qq.com/cgi-bin/access_token"
+    _OAUTH_AUTHORIZE_URL = "https://open.t.qq.com/cgi-bin/authorize"
+    _OAUTH_VERSION = "1.0a"
+    _OAUTH_NO_CALLBACKS = False
+    _API_URL = "http://open.t.qq.com/api%s"
+
+    callback_url = callback_url
+    _parse_user_response = _parse_user_response
+    _on_request = _on_request
+
+    def _qq_request(self, path, callback, access_token=None,
+                           post_args=None, **args):
+        return xxx_request(
+            self, path, callback, access_token, post_args, **args
+        )
+
+
+    def _oauth_consumer_token(self):
+        return dict(
+            key=QQ_CONSUMER_KEY,
+            secret=QQ_CONSUMER_SECRET
+        )
+
+    def _oauth_get_user(self, access_token, callback):
+        callback = self.async_callback(self._parse_user_response, callback)
+        #sina_user_id = access_token['user_id']
+        self._qq_request(
+            "/user/info?format=json",
+            access_token=access_token,
+            callback=callback
+        )
+
+        
+class SinaMixin(tornado.auth.OAuthMixin):
+    _OAUTH_REQUEST_TOKEN_URL = "http://api.t.sina.com.cn/oauth/request_token"
+    _OAUTH_ACCESS_TOKEN_URL = "http://api.t.sina.com.cn/oauth/access_token"
+    _OAUTH_AUTHORIZE_URL = "http://api.t.sina.com.cn/oauth/authorize"
+    _OAUTH_VERSION = "1.0a"
+    _OAUTH_NO_CALLBACKS = False
+    _API_URL = "http://api.t.sina.com.cn%s.json"
+
+    callback_url = callback_url
+    _parse_user_response = _parse_user_response
+    _on_request = _on_request
+
+    def sina_request(self, path, callback, access_token=None,
+                           post_args=None, **args):
+        return xxx_request(
+            self, path, callback, access_token, post_args, **args
+        )
+
+
+    def _oauth_consumer_token(self):
+        return dict(
+            key= SINA_CONSUMER_KEY,
+            secret=SINA_CONSUMER_SECRET)
+
+    def _oauth_get_user(self, access_token, callback):
+        callback = self.async_callback(self._parse_user_response, callback)
+        sina_user_id = access_token['user_id']
+        self.sina_request(
+            "/users/show/%s"%sina_user_id,
+            access_token=access_token, callback=callback
+        )
+
+        
+#class SohuMixin(tornado.auth.OAuthMixin):
+#    _OAUTH_REQUEST_TOKEN_URL = "http://api.t.sohu.com/oauth/request_token"
+#    _OAUTH_ACCESS_TOKEN_URL = "http://api.t.sohu.com/oauth/access_token"
+#    _OAUTH_AUTHORIZE_URL = "http://api.t.sohu.com/oauth/authorize"
+#    _OAUTH_VERSION = "1.0"
+#    _OAUTH_NO_CALLBACKS = False
+#    _API_URL = "http://api.t.sohu.com%s.json"
+#
+#    callback_url = callback_url
+#    _parse_user_response = _parse_user_response
+#    _on_request = _on_request
+#
+#    def sohu_request(self, path, callback, access_token=None,
+#                           post_args=None, **args):
+#        return xxx_request(
+#            self, path, callback, access_token, post_args, **args
+#        )
+#
+#
+#    def _oauth_consumer_token(self):
+#        return dict(
+#            key=SOHU_CONSUMER_KEY,
+#            secret=SOHU_CONSUMER_SECRET)
+#
+#    def _oauth_get_user(self, access_token, callback):
+#        callback = self.async_callback(self._parse_user_response, callback)
+#        sohu_user_id = access_token['user_id']
+#        self.sohu_request(
+#            "/users/show/%s"%sohu_user_id,
+#            access_token=access_token, callback=callback
+#        )
+
+        
+class TwitterMixin(tornado.auth.TwitterMixin):
+    callback_url = callback_url

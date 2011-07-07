@@ -85,15 +85,15 @@ def oauth_save(app_id, zsite_id, token_key, token_secret):
     id = id and id[0]
 
     if id:
-        rid = OauthToken.raw_sql("update oauth_token set token_key=%s , token_secret=%s where id=%s", token_key, token_secret, id)
+        OauthToken.raw_sql("update oauth_token set token_key=%s , token_secret=%s where id=%s", token_key, token_secret, id)
     else:
-        rid = OauthToken.raw_sql(
+        id = OauthToken.raw_sql(
             "insert into oauth_token (app_id,zsite_id,token_key,token_secret) values (%s,%s,%s,%s)",
             app_id, zsite_id, token_key, token_secret
         ).lastrowid
     if app_id in OAUTH_SYNC_CID:
         oauth_sync_sum.delete(zsite_id)
-    return rid
+    return id
 
 
 def oauth_save_google(zsite_id, token_key, token_secret):
