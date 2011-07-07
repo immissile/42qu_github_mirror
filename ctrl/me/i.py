@@ -58,7 +58,7 @@ class Url(LoginBase):
             user = self.current_user
             user_id = self.current_user_id
             link = self.current_user.link
-            if not user.state <= ZSITE_STATE_APPLY:
+            if user.state <= ZSITE_STATE_APPLY:
                 self.redirect(link+'/i/verify')
             elif url_by_id(user_id):
                 self.redirect(link)
