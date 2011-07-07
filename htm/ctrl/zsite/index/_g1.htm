@@ -23,7 +23,7 @@ line3 = None
 if namecard:
     if namecard.pid_now and namecard.pid_now>1:
         line2  = "现居 : "+namecard.place_now
- 
+sex = None 
 if info:
     sex = info.sex
     age = info.age
@@ -63,11 +63,11 @@ if info:
 
 %>
 %if is_owner and not career_list:
-<div class="zsite_item">
-<a class="c00f" href="/i/career">点击这里 , 补充履历</a>
-</div>
+<div class="zsite_item"><a class="c00f" href="/i/career">点击这里 , 补充履历</a></div>
 %endif
-
+%if not sex:
+<div class="zsite_item"><a class="c00f" href="/i">点击设置性别</a></div>
+%endif
 %if line1:
 <div class="zsite_item">
 <p>${line1|n}</p>
