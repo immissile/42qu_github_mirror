@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-#coding:utf-8
-
+# -*- coding: utf-8 -*-
 from random import random
 from bisect import bisect, insort
 
@@ -54,7 +53,6 @@ def wsample2(wlist):
         idx = bisect(lst, r)
         return wlist[idx]
     return sample
-
 
 def wsample_k2(wlist, k, key=None):
     L = len(wlist)
