@@ -18,7 +18,7 @@ from cgi import escape
 from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
-
+from config import SITE_URL
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -77,6 +77,7 @@ class Url(LoginBase):
                 error_url = url_valid(url)
             if error_url is None:
                 url_new(user_id, url)
+                self.redirect(SITE_URL)
         else:
             error_url = '个性域名不能为空'
         self.render(
