@@ -21,6 +21,8 @@ pic_url = _pic_url(zsite_id)
 ${zsite.name}\
 %if motto:
  - ${motto}\
+%elif is_owner:
+ - <a href="/i" style="color:#00f">点击这里 , 添加座右铭</a>\
 %endif
 </h1>
 
@@ -47,12 +49,16 @@ ${zsite.name}\
 txt = zsite.txt
 %>
 
-%if txt:
+%if txt or is_owner:
 <div class="zsite_txt G3 c">
     <img src=${ico_url_with_default(zsite_id)}>
     <div class="qgif"></div>
     <div class="zsite_txt_div">\
+%if txt:
         <pre>${txt}</pre>\
+%else:
+        <pre style="text-align:center;margin-top:14px"><a style="color:#00f" href="/i#txt">点击这里 , 补充简介</a></pre>
+%endif
     </div>\
 </div>
 %endif
@@ -71,7 +77,7 @@ zsite_link = link_id_name_by_zsite_id(zsite_id)
 %endfor
 </div>
 %elif is_owner:
-<a href="/i/link" style="color:#00f" id="zsite_link" class="zsite_link">
+<a href="/i/link" style="color:#00f;font-size:14px" id="zsite_link" class="zsite_link">
 点击这里 , 添加链接
 </a>
 %endif
