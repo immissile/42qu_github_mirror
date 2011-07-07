@@ -70,6 +70,10 @@ zsite_link = link_id_name_by_zsite_id(zsite_id)
 <a href="/link/${id}">${name}</a>\
 %endfor
 </div>
+%elif is_owner:
+<a href="/i/link" style="color:#00f" id="zsite_link" class="zsite_link">
+点击这里 , 添加链接
+</a>
 %endif
 
 
