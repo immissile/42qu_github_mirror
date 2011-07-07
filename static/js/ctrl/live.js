@@ -8,12 +8,14 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time 
     QUESTION_ATTR_BASE = " question_link question_user question_user_link",
     FEED_ATTR = {
         61:FEED_ATTR_BASE+QUESTION_ATTR_BASE,
-        62:FEED_ATTR_TXT_BASE+QUESTION_ATTR_BASE,
-        63:FEED_ATTR_TXT_BASE
+        62:FEED_ATTR_TXT_BASE,
+        63:FEED_ATTR_TXT_BASE,
+        64:FEED_ATTR_TXT_BASE+QUESTION_ATTR_BASE
     };
-
     for(var i in FEED_ATTR){
-        FEED_ATTR[i]=FEED_ATTR[i].split(' ')
+        FEED_ATTR[i]=(
+            FEED_ATTR[i]+""
+        ).split(' ')
     }
 
     function array2zsite(a){
@@ -34,7 +36,8 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time 
         }
         data.zsite = array2zsite(data.zsite);
         data.rt_list = $.map(data.rt_list, array2zsite);
-        data.create_time = $.timeago(data.create_time) 
+        data.create_time = $.timeago(data.create_time);
+        //console.info(data)
         return data
     }
 
