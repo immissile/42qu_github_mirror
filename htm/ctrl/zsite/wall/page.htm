@@ -1,6 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render, reply_textarea"/>
+<%def name="htm_title()">${zsite.name} - 留言</%def>
 
 <%def name="htm_head()">
 ${css.ctrl_wall_page|n}
