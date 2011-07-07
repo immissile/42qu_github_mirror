@@ -4,15 +4,24 @@
 <%def name="htm_title()">
 ${zsite.name} 的 ${title}
 </%def>
+<%def name="htm_head()">
+<style>
+h1{
+padding:16px;border-bottom:1px dotted #ccc;text-align:center
+}
+</style>
+</%def>
 
-<h1 class="tc" style="padding:16px;border-bottom:1px dotted #ccc">
-<a href="${zsite.link}">${zsite.name}</a> : <a href="${path}">${title}</a>
-</h1>
+<%def name="_h1()">
+<h1><a href="${zsite.link}">${zsite.name}</a> : <a href="${path}">${title}</a></h1>
+</%def>
+
+<%def name="h1()">${self._h1()}</%def>
+
+${self.h1()}
 
 <div class="G">
-
 ${hero_list(zsite_list)}
-
 </div>
 
 

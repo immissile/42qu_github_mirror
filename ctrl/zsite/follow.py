@@ -81,7 +81,6 @@ class Following(ZsiteBase):
         following = Zsite.mc_get_list(id_list)
 
         self.render(
-            "/ctrl/zsite/follow/_base.htm",
             zsite_list=following,
             page=page,
             title="关注",

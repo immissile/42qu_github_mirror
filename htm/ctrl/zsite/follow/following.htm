@@ -1,0 +1,7 @@
+<%inherit file="_base.htm" />
+
+<%def name="h1()">
+%if current_user_id != zsite_id:
+${self._h1()}
+%endif
+</%def>
