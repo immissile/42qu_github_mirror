@@ -4,7 +4,7 @@ from yajl import dumps, loads
 from time import time
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from kv import Kv
-from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY
+from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DONATE, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY
 from zsite import Zsite
 from user_mail import mail_by_user_id
 from verify import verify_new, verifyed
@@ -68,8 +68,8 @@ def frozen_view(user_id):
     return read_cent(frozen_bank(user_id))
 
 def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, for_id=0):
-    t = int(time())
-    o = Trade(
+    create_time = int(time())
+    t = Trade(
         value=cent,
         tax=tax,
         from_id=from_id,
@@ -77,42 +77,58 @@ def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, for_i
         cid=cid,
         rid=rid,
         state=state,
-        create_time=t,
-        update_time=t,
+        create_time=create_time,
+        update_time=create_time,
         for_id=for_id
     )
-    o.save()
+    t.save()
     if state == TRADE_STATE_OPEN:
         bank_change(from_id, -cent)
-        mc_frozen_bank.delete(o.from_id)
+        mc_frozen_bank.delete(t.from_id)
     elif state == TRADE_STATE_FINISH:
         bank_change(from_id, -cent)
         bank_change(to_id, cent)
-        mc_frozen_bank.delete(from_id)
-        mc_frozen_bank.delete(to_id)
-    return o
+    return t
 
 def trade_open(t):
     if t.state == TRADE_STATE_NEW:
-        #bank_change(t.from_id, -t.value)
+        bank_change(t.from_id, -t.value)
         t.update_time = int(time())
         t.state = TRADE_STATE_OPEN
         t.save()
         mc_frozen_bank.delete(t.from_id)
 
 def trade_finish(t):
-    if t.state == TRADE_STATE_OPEN:
-        bank_change(t.to_id, t.value)
-        t.update_time = int(time())
+    from_id = t.from_id
+    to_id = t.to_id
+    value = t.value
+    state = t.state
+    update_time = int(time())
+    if state == TRADE_STATE_NEW:
+        bank_change(from_id, -value)
+        bank_change(to_id, value)
+        t.update_time = update_time
         t.state = TRADE_STATE_FINISH
         t.save()
-        mc_frozen_bank.delete(t.from_id)
+    elif state == TRADE_STATE_OPEN:
+        bank_change(to_id, value)
+        t.update_time = update_time
+        t.state = TRADE_STATE_FINISH
+        t.save()
+        mc_frozen_bank.delete(from_id)
 
 def trade_fail(t):
-    if t.state == TRADE_STATE_OPEN:
-        from_id = t.from_id
-        bank_change(from_id, t.value)
-        t.update_time = int(time())
+    from_id = t.from_id
+    value = t.value
+    state = t.state
+    update_time = int(time())
+    if state == TRADE_STATE_NEW:
+        t.update_time = update_time
+        t.state = TRADE_STATE_FAIL
+        t.save()
+    elif state == TRADE_STATE_OPEN:
+        bank_change(from_id, value)
+        t.update_time = update_time
         t.state = TRADE_STATE_FAIL
         t.save()
         mc_frozen_bank.delete(from_id)
@@ -176,10 +192,10 @@ def charged(out_trade_no, total_fee, rid, d):
                 t.finish()
                 trade_log.set(user_id, dumps(d))
                 if t.for_id:
-                    donar_t = Trade.get(t.for_id)
-                    donat_t.open()
-                    donar_t.finish()
-                    return donar_t
+                    for_t = Trade.get(t.for_id)
+                    for_t.open()
+                    for_t.finish()
+                    return for_t
             return t
 
 # Withdraw
@@ -208,13 +224,13 @@ def withdraw_list():
         i.account, i.name = pay_account_name_get(i.from_id, i.rid)
     return qs
 
+# Deal
 def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     assert price > 0
     cent = int(price * 100)
-    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_CHARDE, rid, state)
+    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_DONATE, rid, state)
     return t.id
 
-# Deal
 def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN):
     assert price > 0
     cent = int(price * 100)

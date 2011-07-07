@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from money import charge_new, charged, donate_new, CHARGE_TAX
-from cid import CID_PAY_ALIPAY, CID_PAY_DONATE
+from cid import CID_PAY_ALIPAY
 from user_mail import mail_by_user_id
 from zkit.money import Alipay, alipay_url_parse
 from config import ALIPAY_ID, ALIPAY_SALT, ALIPAY_EMAIL
@@ -10,7 +10,7 @@ ALIPAY = Alipay(ALIPAY_SALT, ALIPAY_ID, ALIPAY_EMAIL)
 
 def _alipay_payurl(
         user_id, total_fee, return_url, notify_url, subject, buyer_email=None,
-        for_id=0, body = '' 
+        for_id=0, body = ''
     ):
     if buyer_email is None:
         buyer_email = mail_by_user_id(user_id)
@@ -60,7 +60,7 @@ def alipay_payurl(
         subject,
         buyer_email,
         for_id,
-        "%s"%buyer_email 
+        "%s"%buyer_email
     )
 
 ####

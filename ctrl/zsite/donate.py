@@ -9,11 +9,11 @@ from model.zsite import Zsite
 from config import RPC_HTTP
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax
 from model.money import pay_account_get
-from model.user_mail import mail_by_user_id,  user_by_mail
-from model.money import bank_can_pay, bank_change, deal_new, TRADE_STATE_FINISH, TRADE_STATE_OPEN
+from model.user_mail import mail_by_user_id, user_by_mail
+from model.money import bank_can_pay, bank_change, donate_new, deal_new, TRADE_STATE_NEW, TRADE_STATE_OPEN, TRADE_STATE_FINISH
 from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
 from zkit.txt import EMAIL_VALID
-from model.cid import CID_USER, CID_PAY_DONATE, CID_PAY_ALIPAY
+from model.cid import CID_USER, CID_PAY_ALIPAY
 from model.user_auth import user_new_by_mail
 
 
@@ -37,20 +37,21 @@ class Index(ZsiteBase):
         current_user_id = self.current_user_id
         url, title = self._arguments()
         price = self.get_argument('price', 4.2)
-        
+
         if current_user:
             alipay_account = pay_account_get(
                 current_user_id,
                 CID_PAY_ALIPAY
             )
         else:
-            alipay_account = ""
-        
+            alipay_account = ''
+
         self.render(
-            url=url, 
-            title=title, amount=price, 
-            errtip = Errtip(), 
-            alipay_account = alipay_account
+            url=url,
+            title=title,
+            amount=price,
+            errtip=Errtip(),
+            alipay_account=alipay_account
         )
 
     def post(self):
@@ -72,13 +73,13 @@ class Index(ZsiteBase):
             except ValueError:
                 errtip.amount = '%s 不是有效的金额'%amount
             else:
-                if amount<=0:
-                    errtip.amount = "金额须大于零"
-                elif amount>=9999999:
-                    errtip.amount = "金额超出上限"
+                if amount <= 0:
+                    errtip.amount = '金额须大于零'
+                elif amount >= 9999999:
+                    errtip.amount = '金额超出上限'
                 else:
                     amount_cent = amount * 100
-        
+
         if not current_user:
             mail = self.get_argument('mail', '')
             if not mail:
@@ -92,20 +93,20 @@ class Index(ZsiteBase):
                     user = user_new_by_mail(mail)
                 elif user.state >= ZSITE_STATE_APPLY:
                     return self.redirect(
-                              "/auth/login?next=%s"%request.uri
+                              '/auth/login?next=%s'%request.uri
                            )
                 current_user = user
 
-        if not errtip:
+        if current_user and not errtip:
             current_user_id = current_user.id
-            _deal_new = lambda state : deal_new(amount, current_user_id, zsite_id, CID_PAY_DONATE, state)
-            if current_user and bank_can_pay(current_user_id, amount_cent):
-                o = _deal_new(TRADE_STATE_FINISH)
+            _donate_new = lambda state : donate_new(amount, current_user_id, zsite_id, CID_PAY_DONATE, state)
+            if bank_can_pay(current_user_id, amount_cent):
+                o = _donate_new(TRADE_STATE_FINISH)
                 return self.redirect('/donate/result/%s'%o.id)
-            
-            o = _deal_new(TRADE_STATE_OPEN)
 
-            return_url = 'http:%s/money/alipay_sync' % current_user.link 
+            o = _donate_new(TRADE_STATE_NEW)
+
+            return_url = 'http:%s/money/alipay_sync' % current_user.link
 
             alipay_url = alipay_payurl_with_tax(
                     current_user_id,
@@ -124,9 +125,7 @@ class Index(ZsiteBase):
 
         self.render(
             url=url, title=title,
-            amount=amount, 
-            errtip=errtip, 
-            alipay_account = alipay_account
+            amount=amount,
+            errtip=errtip,
+            alipay_account=alipay_account
         )
-
-
