@@ -35,15 +35,14 @@ def following_id_rank_tuple(from_id):
     id_list = follow_id_list_by_from_id(from_id)
     rank_list = zsite_rank.get_list(id_list)
     t = zip(id_list, rank_list)[:128]
-    return t
-
-print following_id_rank_tuple(5)
+    return tuple(t)
 
 def follow_list_show_by_from_id(from_id, limit):
     from operator import itemgetter
     from zkit.algorithm.wrandom import wsample_k2
     following_tuple = following_id_rank_tuple(from_id)
-    id_list = follow_id_list_by_from_id(from_id)[:limit]
+    t = wsample_k2(following_tuple, limit, key=itemgetter(1))
+    id_list = [i[0] for i in t()]
     return Zsite.mc_get_list(id_list)
 
 @mc_follow_id_list_by_from_id_cid('{from_id}_{cid}')
