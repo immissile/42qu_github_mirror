@@ -10,9 +10,6 @@ ${css.ctrl_i_link|n}
 
 <%htm:form className="link_form">
 ##<a href="/"></a>
-%if request.method == "POST":
-<div class="h1">保存成功 !</div>
-%endif
 
 %for cid, name, link in link_cid:
 <p>
