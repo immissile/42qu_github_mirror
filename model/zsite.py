@@ -42,8 +42,8 @@ def zsite_new(name, cid, state):
 #    page.save()
     return zsite
 
-def zsite_new_user(name):
-    return zsite_new(name, CID_USER, ZSITE_STATE_APPLY)
+def zsite_new_user(name, state=ZSITE_STATE_APPLY):
+    return zsite_new(name, CID_USER, state)
 
 #def zsite_to_verify_by_cid(cid, limit, offset):
 #    return Zsite.where(cid=cid, state=ZSITE_STATE_WAIT_VERIFY).order_by('id')[offset: limit+offset]

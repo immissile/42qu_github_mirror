@@ -3,3 +3,4 @@ import wall
 import follow
 import index
 import live
+import donate

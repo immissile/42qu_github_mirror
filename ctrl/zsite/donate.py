@@ -1,0 +1,111 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from _handler import LoginBase
+#TEMP ZsiteBase
+from zkit.errtip import Errtip
+from ctrl.zsite._handler import ZsiteBase
+from ctrl._urlmap.me import urlmap
+from model.zsite import Zsite
+from config import RPC_HTTP
+from model.money_alipay import alipay_payurl, alipay_payurl_with_tax
+from model.user_mail import mail_by_user_id,  user_by_mail
+from model.money import bank_can_pay, bank_change, deal_new, TRADE_STATE_FINISH
+from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
+from zkit.txt import EMAIL_VALID
+from model.cid import CID_USER, CID_PAY_DONATE
+from model.user_auth import user_new_by_mail
+
+
+@urlmap('/donate/result/(\d+)')
+class Result(LoginBase):
+    def get(self, id):
+        self.render()
+
+@urlmap('/donate')
+class Index(ZsiteBase):
+
+    NOTIFY_URL = '%s/money/alipay_async/%%s' % RPC_HTTP
+
+    def _arguments(self):
+        url = self.get_argument('url', '')
+        title = self.get_argument('title', '')
+        return url, title
+
+    def get(self):
+        url, title = self._arguments()
+        price = self.get_argument('price', 4.2)
+        self.render(
+            url=url, title=title, amount=price , errtip = Errtip()
+        )
+
+    def post(self):
+        url, title = self._arguments()
+        amount = self.get_argument('amount', 0)
+        alipay_account = self.get_argument('alipay_account', '')
+        current_user = self.current_user
+        errtip = Errtip()
+        zsite_id = self.zsite_id
+
+        if not amount:
+            errtip.amount = '请输入金额'
+        else:
+            try:
+                amount = float(amount)
+            except ValueError:
+                errtip.amount = '%s 不是有效的金额'%amount
+            else:
+                if amount<=0:
+                    errtip.amount = "金额须大于零"
+                elif amount>=9999999:
+                    errtip.amount = "金额超出上限"
+                else:
+                    amount_cent = amount * 100
+        
+        if not current_user:
+            mail = self.get_argument('mail', '')
+            if not mail:
+                errtip.mail = '请输入联系邮箱'
+            elif not EMAIL_VALID.match(mail):
+                errtip.mail = '邮箱无效'
+            else:
+                user = user_by_mail(mail)
+                if not user:
+                    user = user_new_by_mail(mail)
+                elif user.state >= ZSITE_STATE_APPLY:
+                    return self.redirect(
+                              "/auth/login?next=%s"%request.uri
+                           )
+                current_user = user
+
+        current_user_id = current_user.id
+
+        if not errtip:
+            _deal_new = lambda state : deal_new(amount, current_user_id, zsite_id, CID_PAY_DONATE, state)
+            if current_user and bank_can_pay(current_user_id, amount_cent):
+                o = _deal_new(TRADE_STATE_FINISH)
+                return self.redirect('/donate/result/%s'%o.id)
+            
+            o = _deal_new(TRADE_STATE_OPEN)
+
+            return_url = 'http:%s/money/alipay_sync' % current_user.link 
+
+            alipay_url = alipay_payurl_with_tax(
+                    current_user_id,
+                    zsite_id,
+                    amount,
+                    return_url,
+                    NOTIFY_URL,
+                    '%s 向 %s 捐赠' %(
+                        current_user.name,
+                        zsite.name,
+                    ),
+                    alipay_account,
+            )
+
+            return self.redirect(alipay_url)
+
+        self.render(
+            url=url, title=title, amount=amount , errtip=errtip
+        )
+
+

@@ -3,7 +3,7 @@
 from _db import Model, McModel
 from hashlib import sha256
 from user_mail import user_mail_new, user_id_by_mail
-from zsite import zsite_new_user, Zsite
+from zsite import zsite_new_user, Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_NO_PASSWORD
 from binascii import hexlify
 
 def hash_password(id, password):
@@ -33,10 +33,15 @@ def user_password_verify(user_id, password):
 
 def user_new_by_mail(mail, password=None):
     name = mail.split('@', 1)[0].split('+', 1)[0]
-    zsite = zsite_new_user(name)
+    if password:
+        state = ZSITE_STATE_APPLY
+    else:
+        state = ZSITE_STATE_NO_PASSWORD
+    zsite = zsite_new_user(name, state)
     user_id = zsite.id
     user_mail_new(user_id, mail)
-    user_password_new(user_id, password)
+    if password:
+        user_password_new(user_id, password)
     return user_id
 
 if __name__ == '__main__':
