@@ -16,7 +16,7 @@ from zkit.txt2htm import txt_withlink
 CIDMAP = {}
 
 
-FEED_TUPLE_DEFAULT_LEN = 13
+FEED_TUPLE_DEFAULT_LEN = 12
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)

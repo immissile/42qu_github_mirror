@@ -37,6 +37,7 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time 
         data.zsite = array2zsite(data.zsite);
         data.rt_list = $.map(data.rt_list, array2zsite);
         data.create_time = $.timeago(data.create_time);
+        //console.info(result)
         //console.info(data)
         return data
     }
