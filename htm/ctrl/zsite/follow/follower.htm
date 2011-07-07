@@ -1,8 +1,15 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-关注${zsite.name}的
+<%namespace file="/ctrl/_util/hero.htm" import="hero_list"/>
 
-%for i in follower:
-<p><a href="${i.link}">${i.name}</a></p>
-%endfor
+<%def name="htm_title">
+</%def>
 
+<h1 class="tc" style="padding:16px;border-bottom:1px dotted #ccc">
+<a href="${zsite.link}">${zsite.name}</a> 的 关注
+</h1>
+
+<div class="G">
+
+${hero_list(follower)}
+</div>
 ${page|n}
