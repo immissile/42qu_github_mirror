@@ -393,8 +393,8 @@ CREATE TABLE `po` (
   `state` int(10) unsigned NOT NULL,
   `create_time` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `Index_2` (`user_id`,`cid`,`state`,`create_time`),
-  KEY `Index_3` (`user_id`,`state`,`create_time`)
+  KEY `Index_2` (`user_id`,`cid`,`state`),
+  KEY `index3` (`user_id`,`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `po_pic`;
