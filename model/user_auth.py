@@ -42,7 +42,7 @@ def user_new_by_mail(mail, password=None):
     user_mail_new(user_id, mail)
     if password:
         user_password_new(user_id, password)
-    return user_id
+    return zsite
 
 if __name__ == '__main__':
     print user_password_sha256(1)

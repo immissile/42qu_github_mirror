@@ -91,7 +91,8 @@ class Reg(NoLoginBase):
             errtip.sex = '请选择性别'
 
         if not errtip:
-            user_id = user_new_by_mail(mail, password)
+            user = user_new_by_mail(mail, password)
+            user_id = user.id
             user_info_new(user_id, sex=sex)
             return self._login(user_id, mail, '/auth/verify/send')
 

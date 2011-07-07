@@ -7,7 +7,7 @@ from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.user_session import user_session, user_session_rm
 from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
-from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
+from model.user_auth import user_password_new, user_password_verify
 from zkit.txt import EMAIL_VALID, mail2link
 
 
