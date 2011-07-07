@@ -21,14 +21,14 @@ mc_zsite_rank_max = McCache('ZsiteRankMax.%s')
 
 @mc_zsite_rank_max('')
 def zsite_rank_max():
-    c = ZsiteRank.raw_sql('select max(rank) from zsite_rank')
+    c = ZsiteRank.raw_sql('select max(value) from zsite_rank')
     return c.fetchone()[0]
 
 def zsite_rank_rebase():
     n = kv_int.get(KV_ZSITE_RANK_POWER) or 100
     if n > 9999:
         kv_int.set(KV_ZSITE_RANK_POWER, 100)
-        ZsiteRank.raw_sql('update zsite_rank set rank=rank*100/%s', n)
+        ZsiteRank.raw_sql('update zsite_rank set value=value*100/%s', n)
         for i in ormiter(ZsiteRank):
             zsite_rank.mc_flush(i.id)
         mc_zsite_rank_max.delete('')
@@ -39,7 +39,7 @@ def zsite_rank_update(days):
     for i in ormiter(ZsiteUvDaily, 'days=%s' % days):
         zsite_id = i.zsite_id
         value_rank = i.uv * n
-        i.raw_sql('insert into zsite_rank (id, rank) values (%s, %s) on duplicate key update rank=rank+%s', zsite_id, value_rank, value_rank)
+        i.raw_sql('insert into zsite_rank (id, value) values (%s, %s) on duplicate key update value=value+%s', zsite_id, value_rank, value_rank)
         zsite_rank.mc_flush(zsite_id)
 
     mc_zsite_rank_max.delete('')
