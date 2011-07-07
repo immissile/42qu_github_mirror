@@ -46,7 +46,6 @@ def alipay_payurl_with_tax(
     )
 
 
-
 def alipay_payurl(
         user_id, total_fee, return_url, notify_url, subject, buyer_email=None,
         for_id=0
