@@ -130,7 +130,7 @@ class Career(LoginBase):
             end = arguments.get('%s_end' % prefix, [])
             career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
 
-        self.redirect('/i/career')
+        self.get()
 
 class UserInfoEdit(object):
     def get(self):
@@ -213,7 +213,7 @@ class Index(UserInfoEdit, LoginBase):
 
         self.save()
 
-        self.redirect('/i')
+        self.get()
 
 
 
@@ -311,8 +311,7 @@ class Namecard(LoginBase):
                 current_user_id, pid_now, name, phone, mail, address
             )
 
-        self.redirect('/i/namecard')
-
+        self.get()
 
 @urlmap('/i/mail_notice')
 class MailNotice(LoginBase):
@@ -327,7 +326,7 @@ class MailNotice(LoginBase):
         for cid in CID_MAIL_NOTICE_ALL:
             state = self.get_argument('mn%s' % cid, None)
             mail_notice_set(user_id, cid, state)
-        self.redirect('/i/mail_notice')
+        self.get()
 
 
 
