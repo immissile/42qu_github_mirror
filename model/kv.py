@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import mc, cursor_by_table
-from zkit.ordereddict import OrderedDict
+from array import array
 from hashlib import md5
+from zkit.ordereddict import OrderedDict
+from _db import mc, cursor_by_table
 
 
 class Kv(object):

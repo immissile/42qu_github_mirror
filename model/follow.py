@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, cursor_by_table, McCacheA, McLimitA, McNum
+from _db import Model, McModel, McCache, cursor_by_table, McCacheA, McLimitA, McNum, McCacheM
 from zsite import Zsite
 from gid import gid
 from days import ONE_DAY
@@ -29,17 +29,20 @@ def follow_id_list_by_from_id(from_id):
 
 mc_following_id_rank_tuple = McCacheM('FollowingIdRankTuple.%s')
 
-@mc_following_id_rank_tuple('{user_id}', ONE_DAY)
-def following_id_rank_tuple(user_id):
+@mc_following_id_rank_tuple('{from_id}', ONE_DAY)
+def following_id_rank_tuple(from_id):
     from model.zsite_rank import zsite_rank
-    from operator import itemgetter
     id_list = follow_id_list_by_from_id(from_id)
     rank_list = zsite_rank.get_list(id_list)
     t = zip(id_list, rank_list)[:128]
     return t
 
+print following_id_rank_tuple(5)
+
 def follow_list_show_by_from_id(from_id, limit):
+    from operator import itemgetter
     from zkit.algorithm.wrandom import wsample_k2
+    following_tuple = following_id_rank_tuple(from_id)
     id_list = follow_id_list_by_from_id(from_id)[:limit]
     return Zsite.mc_get_list(id_list)
 
