@@ -49,8 +49,11 @@ ${user_link_list(from_list)} 回复  <a href="/po/${entry.id}">${entry.name}</a>
 
 <%def name="buzz_show(user_id)">
 <%
-buzz_list = _buzz_show(user_id, 3)
 unread = buzz_unread_count(user_id)
+%>
+%if unread:
+<%
+buzz_list = _buzz_show(user_id, 3)
 %>
 <div class="c" style="padding-bottom:36px" id="buzz"><div class="G2">
 <div class="buzz">
@@ -58,7 +61,7 @@ unread = buzz_unread_count(user_id)
 <p>${buzz_render(i)}</p>
 %endfor
 <p class="tr">
-<a href="javascript:$('#buzz').fadeOut();void(0)" id="buzzrm"></a>
+<a href="javascript:$('#buzz').slideUp();void(0)" id="buzzrm"></a>
 
 <a class="unread" href="/buzz">
 %if unread:
@@ -70,4 +73,5 @@ unread = buzz_unread_count(user_id)
 </p>
 </div>
 </div></div>
+%endif
 </%def>
