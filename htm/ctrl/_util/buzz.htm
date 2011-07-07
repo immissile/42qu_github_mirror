@@ -49,8 +49,8 @@ ${user_link_list(from_list)} 回复  <a href="/po/${entry.id}">${entry.name}</a>
 
 <%def name="buzz_show(user_id)">
 <%
-unread = buzz_unread_count(user_id)
 buzz_list = _buzz_show(user_id, 3)
+unread = buzz_unread_count(user_id)
 %>
 %if buzz_list:
 <div class="c" style="padding-bottom:36px" id="buzz"><div class="G2">
