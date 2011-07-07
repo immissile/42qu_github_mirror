@@ -8,11 +8,12 @@ from ctrl._urlmap.me import urlmap
 from model.zsite import Zsite
 from config import RPC_HTTP
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax
+from model.money import pay_account_get
 from model.user_mail import mail_by_user_id,  user_by_mail
-from model.money import bank_can_pay, bank_change, deal_new, TRADE_STATE_FINISH
+from model.money import bank_can_pay, bank_change, deal_new, TRADE_STATE_FINISH, TRADE_STATE_OPEN
 from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
 from zkit.txt import EMAIL_VALID
-from model.cid import CID_USER, CID_PAY_DONATE
+from model.cid import CID_USER, CID_PAY_DONATE, CID_PAY_ALIPAY
 from model.user_auth import user_new_by_mail
 
 
@@ -32,19 +33,36 @@ class Index(ZsiteBase):
         return url, title
 
     def get(self):
+        current_user = self.current_user
+        current_user_id = self.current_user_id
         url, title = self._arguments()
         price = self.get_argument('price', 4.2)
+        
+        if current_user:
+            alipay_account = pay_account_get(
+                current_user_id,
+                CID_PAY_ALIPAY
+            )
+        else:
+            alipay_account = ""
+        
         self.render(
-            url=url, title=title, amount=price , errtip = Errtip()
+            url=url, 
+            title=title, amount=price, 
+            errtip = Errtip(), 
+            alipay_account = alipay_account
         )
 
     def post(self):
+        current_user = self.current_user
+        zsite = self.zsite
+        request = self.request
+        errtip = Errtip()
+        zsite_id = self.zsite_id
+
         url, title = self._arguments()
         amount = self.get_argument('amount', 0)
         alipay_account = self.get_argument('alipay_account', '')
-        current_user = self.current_user
-        errtip = Errtip()
-        zsite_id = self.zsite_id
 
         if not amount:
             errtip.amount = '请输入金额'
@@ -69,6 +87,7 @@ class Index(ZsiteBase):
                 errtip.mail = '邮箱无效'
             else:
                 user = user_by_mail(mail)
+                self.set_cookie('E', mail.strip().lower())
                 if not user:
                     user = user_new_by_mail(mail)
                 elif user.state >= ZSITE_STATE_APPLY:
@@ -77,9 +96,8 @@ class Index(ZsiteBase):
                            )
                 current_user = user
 
-        current_user_id = current_user.id
-
         if not errtip:
+            current_user_id = current_user.id
             _deal_new = lambda state : deal_new(amount, current_user_id, zsite_id, CID_PAY_DONATE, state)
             if current_user and bank_can_pay(current_user_id, amount_cent):
                 o = _deal_new(TRADE_STATE_FINISH)
@@ -94,7 +112,7 @@ class Index(ZsiteBase):
                     zsite_id,
                     amount,
                     return_url,
-                    NOTIFY_URL,
+                    self.NOTIFY_URL,
                     '%s 向 %s 捐赠' %(
                         current_user.name,
                         zsite.name,
@@ -105,7 +123,10 @@ class Index(ZsiteBase):
             return self.redirect(alipay_url)
 
         self.render(
-            url=url, title=title, amount=amount , errtip=errtip
+            url=url, title=title,
+            amount=amount, 
+            errtip=errtip, 
+            alipay_account = alipay_account
         )
 
 

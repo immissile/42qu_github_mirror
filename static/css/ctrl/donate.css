@@ -1,0 +1,48 @@
+.fullscreen{
+    width:470px;
+    font-size:16px;
+    margin:auto;
+}
+.fullscreen label{
+    width:100px;
+    display:inline-block;
+    text-align:right;
+    margin-right:7px
+}
+#amount{
+    margin-right:14px;
+    width:258px;
+}
+.fullscreen input{
+    width:300px;
+    padding:7px;
+}
+.btns{
+    padding-top:7px;
+}
+#amount{
+    text-align:right;
+    width:50px
+}
+.btns,#tax,.errtip{
+    margin-left:107px;
+}
+#tax,.item{
+    margin-bottom:28px;
+}
+#tax{
+    color:#999;
+}
+#account_item{
+    margin-bottom:3px;
+}
+.errtip{
+    margin-top:3px;
+    color:#a10;
+}
+.fullscreen h1{ 
+    border-bottom:1px dotted #ccc;
+    text-align:center;
+    margin-bottom:48px;
+    padding: 16px;
+}

@@ -138,6 +138,9 @@ def pay_account_new(user_id, account, name, cid):
     return a
 
 def pay_account_get(user_id, cid):
+    return pay_account_name_get(user_id, cid)[0]
+
+def pay_account_name_get(user_id, cid):
     a = PayAccount.get(user_id=user_id, cid=cid)
     account = None
     name = None
@@ -202,7 +205,7 @@ def withdraw_max():
 def withdraw_list():
     qs = Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_OPEN).order_by('id desc')
     for i in qs:
-        i.account, i.name = pay_account_get(i.from_id, i.rid)
+        i.account, i.name = pay_account_name_get(i.from_id, i.rid)
     return qs
 
 def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):

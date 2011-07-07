@@ -3,7 +3,7 @@ from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from config import RPC_HTTP
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_PAY_ALIPAY
-from model.money import bank, Trade, trade_history, pay_account_new, pay_account_get, withdraw_new, TRADE_STATE_FINISH
+from model.money import bank, Trade, trade_history, pay_account_new, pay_account_name_get, withdraw_new, TRADE_STATE_FINISH
 from model.money_alipay import alipay_payurl
 from model.user_auth import user_password_verify
 from model.zsite import Zsite
@@ -76,7 +76,7 @@ class Charged(LoginBase):
 class Draw(LoginBase):
     def get(self):
         user_id = self.current_user_id
-        account, name = pay_account_get(user_id, CID_PAY_ALIPAY)
+        account, name = pay_account_name_get(user_id, CID_PAY_ALIPAY)
         self.render(
             account=account,
             name=name,

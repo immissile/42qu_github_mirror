@@ -8,7 +8,11 @@ from config import LOGO_TEXT
 ${css.ctrl_auth_reg|n}
 </%def>
 <div id="form_reg" class="btns">
-<h1>${LOGO_TEXT|n}</h1>
+%if this.get_argument('next',None):
+    <h1>登录 ， 然后 ， 继续 。。。</h1>
+%else:
+    <h1 class="logo">${LOGO_TEXT|n}</h1>
+%endif
 ${login_form()}\
 </div>
 <script>\
