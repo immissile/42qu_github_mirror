@@ -22,7 +22,7 @@ ${zsite.name}\
 %if motto:
  - ${motto}\
 %elif is_owner:
- - <a href="/i" style="color:#00f">点击这里 , 添加座右铭</a>\
+ - <a href="/i" class="c00f">点击这里 , 设置座右铭</a>\
 %endif
 </h1>
 
@@ -57,7 +57,7 @@ txt = zsite.txt
 %if txt:
         <pre>${txt}</pre>\
 %else:
-        <pre style="text-align:center;margin-top:14px"><a style="color:#00f" href="/i#txt">点击这里 , 补充简介</a></pre>
+        <pre style="text-align:center;margin-top:14px"><a class="c00f" href="/i#txt">点击这里 , 补充简介</a></pre>
 %endif
     </div>\
 </div>
