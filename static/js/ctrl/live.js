@@ -3,7 +3,7 @@
 62 note
 */
 (function (){
-var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time name pic vote_state vote txt txt_more",
+var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time name vote txt txt_more pic zsite_unit zsite_title vote_state",
     FEED_ATTR_TXT_BASE = FEED_ATTR_BASE+" tag_id tag_name",
     QUESTION_ATTR_BASE = " question_link question_user question_user_link",
     FEED_ATTR = {

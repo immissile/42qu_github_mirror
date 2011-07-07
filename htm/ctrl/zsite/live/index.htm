@@ -102,6 +102,12 @@ target="_blank" href="{{if rid}}${question_link}{{else}}/${id}{{/if}}">${name}</
     <a class="c0" target="_blank" href="${zsite.link}">
     <div><img src="${pic}"></div>
     <div>${zsite.name}</div>
+{{if zsite_unit}}
+    <div class="tr">${zsite_unit}</div>
+{{/if}}
+{{if zsite_title}}
+    <div class="tr">${zsite_title}</div>
+{{/if}}
     </a>
 </div>
 {{/if}}
