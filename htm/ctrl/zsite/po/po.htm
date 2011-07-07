@@ -23,8 +23,15 @@ zsite_url = zsite.link
 </p>\
 ${po_bar_vote(po)}\
 %if cid == CID_QUESTION:
+<%
+count = answer_count(po.id)
+%>\
 <p>\
-<a href="${po.link}"><span class="qsnum">${answer_count(po.id)}</span>回答</a>
+<a href="${po.link}">\
+%if count:
+<span class="qsnum">${count}</span>\
+%endif
+回答</a>
 </p>\
 %endif
 </pre>
