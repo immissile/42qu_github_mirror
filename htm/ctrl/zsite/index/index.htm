@@ -73,17 +73,6 @@ zsite_link = link_id_name_by_zsite_id(zsite_id)
 %endif
 
 
-    %if not is_owner and current_user:
-<%!
-from model.follow import follow_get
-from model.zsite import CID_USER
-%>
-        %if follow_get(current_user.id,zsite.id):
-<a href="/follow/rm?${_xsrf}">淡忘</a>
-        %else:
-<a href="/follow?${_xsrf}">关注</a>
-        %endif
-    %endif
 
 
 
@@ -183,7 +172,7 @@ follow_list = follow_list_show_by_from_id(zsite_id, 3)
 <%
 i_career = i.career
 %>
-<div class="zsite_ico">
+<div class="zsite_ico c">
     <img src="${i.ico96}">
     <div><a href="${i.link}" target="_blank">${i.name}</a></div>
     <div>${i_career[0]}</div>
