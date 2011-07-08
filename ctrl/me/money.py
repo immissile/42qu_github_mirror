@@ -45,7 +45,7 @@ class Charge(LoginBase):
         except ValueError:
             error = '金额输入错误'
         else:
-            price_min = 0.42
+            price_min = 0.01
             price_max = 100000000
             if price < price_min:
                 error = '充值下限为 %s 元' % price_min
@@ -103,7 +103,7 @@ class Draw(LoginBase):
             except ValueError:
                 error = '金额输入错误'
             else:
-                price_min = 4.2
+                price_min = 0.01
                 price_max = bank.get(user_id) / 100.
 
                 if price > price_max:
