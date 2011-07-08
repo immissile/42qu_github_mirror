@@ -21,6 +21,9 @@ font-size:16px;
 margin-top:32px;
 padding-bottom:64px;
 }
+.pic_new{
+margin:64px 0
+}
 </style>
 </%def>
 
@@ -50,7 +53,7 @@ pic_url = _pic_url(current_user_id)
         </div>
     </div>
 %else:
-<div class="tc" style="margin-top:64px">
+<div class="tc pic_new">
     <p>请上传本人照片</p>
     <p>我们将人工审核</p>
     <p style="margin-top:16px"><input type="file" name="pic"></p> 

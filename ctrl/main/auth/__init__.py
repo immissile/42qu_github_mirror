@@ -63,6 +63,7 @@ class Newbie2(PicEdit):
 class Newbie3(UserInfoEdit):
     def post(self):
         self.save()
+        current_user = self.current_user
         self.redirect("%s/live"%current_user.link)
 
 
