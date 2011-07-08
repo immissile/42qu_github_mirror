@@ -40,31 +40,6 @@ class NoLoginBase(Base):
             redirect = LOGIN_REDIRECT%current_user.link
         self.redirect(redirect)
 
-from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit
-
-@urlmap('/auth/newbie/1')
-class Newbie1(CareerEdit):
-    def post(self):
-        self.save()
-        self.redirect('/auth/newbie/2')
-
-
-@urlmap('/auth/newbie/2')
-class Newbie2(PicEdit):
-    def post(self):
-        error_pic = self.save()
-        if error_pic is None:
-            if self.get_argument('pos', ''):
-                self.redirect('/auth/newbie/3')
-        self.render(error_pic=error_pic, pos='')
-
-@urlmap('/auth/newbie/3')
-class Newbie3(UserInfoEdit):
-    def post(self):
-        self.save()
-        current_user = self.current_user
-        self.redirect("%s/live"%current_user.link)
-
 
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
