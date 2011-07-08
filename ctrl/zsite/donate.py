@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import LoginBase
-#TEMP ZsiteBase
+from _handler import ZsiteBase, LoginBase
 from zkit.errtip import Errtip
-from ctrl.zsite._handler import ZsiteBase
-from ctrl._urlmap.me import urlmap
+from ctrl._urlmap.zsite import urlmap
 from model.zsite import Zsite
 from config import RPC_HTTP
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax
@@ -109,7 +107,6 @@ class Index(ZsiteBase):
 
             alipay_url = alipay_payurl_with_tax(
                     current_user_id,
-                    zsite_id,
                     amount,
                     return_url,
                     self.NOTIFY_URL,
@@ -118,6 +115,7 @@ class Index(ZsiteBase):
                         zsite.name,
                     ),
                     alipay_account,
+                    o.id
             )
 
             return self.redirect(alipay_url)
