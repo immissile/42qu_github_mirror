@@ -1,7 +1,7 @@
 <%!
 from datetime import datetime
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL
-from model.money import trade_log, bank_view, frozen_view
+from model.money import trade_log, bank_view, frozen_view, frozen_get
 %>
 <%inherit file="_base.htm" />
 <style>
@@ -19,12 +19,19 @@ border-bottom:1px dotted #ccc;
 padding:32px 0;
 margin:0
 }
+.zsite_div p{
+margin: auto; text-align: left; width: 150px;
+}
 .zsite_div{
 width:auto;border-bottom:1px dotted #ccc;text-align:center;padding:32px 0
 }
 </style>
 <div class="zsite_ol">
-<div class="zsite_div"><p>余额 : ${bank_view(zsite_id)} 元</p><p> 冻结 : ${frozen_view(zsite_id)} 元</p></div>
+<div class="zsite_div"><p>余额 : ${bank_view(zsite_id)}</p>
+%if frozen_get(zsite_id):
+<p> 冻结 : ${frozen_view(zsite_id)}</p>
+%endif
+</div>
 <ol>
 %for t in trade_list:
 <li>
@@ -41,9 +48,9 @@ got = t.got
 update_time = datetime.fromtimestamp(t.update_time)
 %>
 %if cid == CID_TRADE_CHARDE:
-充值 ${got} 元
+充值 ${got} 
 %elif cid == CID_TRADE_WITHDRAW:
-提现 ${got} 元 
+提现 ${got} 
 
     %if state == TRADE_STATE_OPEN:
     等待
@@ -54,13 +61,13 @@ update_time = datetime.fromtimestamp(t.update_time)
     %endif
 %elif cid == CID_TRADE_DEAL:
     %if from_id == current_user_id:
-    付给 <a href="${to_user.link}">${to_user.name}</a> ${got} 元
+    付给 <a href="${to_user.link}">${to_user.name}</a> ${got} 
     %else:
-    收到 <a href="${to_user.link}">${to_user.name}</a> ${got} 元
+    收到 <a href="${to_user.link}">${to_user.name}</a> ${got} 
     %endif
 %endif
 %if tax:
- , 交易费 ${taxes} 元
+ , 交易费 ${taxes} 
 %endif
 <p>
 ${update_time}
