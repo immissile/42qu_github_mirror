@@ -29,5 +29,11 @@ def is_same_post(user_id, *args):
     mc_lastest_hash.set(user_id, h, 60)
     return False
 
+def anti_same_post(f):
+    def _(*a):
+        if not is_same_post(*a):
+            return f(*a)
+    return _
+
 if __name__ == '__main__':
     print is_spammer(14)
