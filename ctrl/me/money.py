@@ -7,12 +7,17 @@ from model.money import bank, Trade, trade_history, pay_account_new, pay_account
 from model.money_alipay import alipay_payurl
 from model.user_auth import user_password_verify
 from model.zsite import Zsite
+from zkit.errtip import Errtip
 
-@urlmap('/money')
-class Index(LoginBase):
+@urlmap('/money/bill')
+class Bill(LoginBase):
     def get(self):
         user_id = self.current_user_id
         trade_list = trade_history(user_id)
+
+        if not trade_list:
+            return self.redirect("/money/charge")
+
         user_ids = set([i.from_id if i.to_id == user_id else i.to_id for i in trade_list])
         if 0 in user_ids:
             user_ids.remove(0)
@@ -23,6 +28,8 @@ class Index(LoginBase):
             t.from_user = user_dic[t.from_id]
             t.to_user = user_dic[t.to_id]
         self.render(trade_list=trade_list)
+
+
 
 @urlmap('/money/charge')
 @urlmap('/money/charge/(\d{1,8}(?:\.\d{1,2})?)')
@@ -41,9 +48,9 @@ class Charge(LoginBase):
             price_min = 0.01
             price_max = 100000000
             if price < price_min:
-                error = '单笔充值最少为%s' % price_min
+                error = '充值下限为 %s 元' % price_min
             elif price > price_max:
-                error = '单笔充值最多为%s' % price_max
+                error = '充值上限为 %s 元' % price_max
             else:
                 return_url = '%s/money/alipay_sync' % RPC_HTTP
                 notify_url = '%s/money/alipay_async' % RPC_HTTP
@@ -62,11 +69,13 @@ class Charge(LoginBase):
             error=error,
         )
 
+@urlmap('/money/charged/(\d+)')
 @urlmap('/money/charged/(\d+)/(\d+)')
 class Charged(LoginBase):
-    def get(self, tid, uid):
+    def get(self, tid, uid=0):
         uid = int(uid)
         t = Trade.get(tid)
+        return self.render(trade=t)
         if t and t.cid == CID_TRADE_CHARDE and t.state == TRADE_STATE_FINISH and t.to_id == uid:
             self.render(trade=t)
         else:
@@ -100,14 +109,14 @@ class Draw(LoginBase):
                 price_max = bank.get(user_id) / 100.
 
                 if price > price_max:
-                    error = '当前提现的金额上限是%s元' % price_max
+                    error = '提现超出余额' 
                 elif price < price_min:
-                    error = '单笔提现的最低金额是%s元' % price_min
+                    error = '提现下限为 %s 元' % price_min
                 else:
                     t = withdraw_new(price, user_id, CID_PAY_ALIPAY)
                     return self.redirect('/money/drawed/%s' % t.id)
         else:
-            error = '密码不对'
+            error = '密码有误'
 
         self.render(
             price=price,

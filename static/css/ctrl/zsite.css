@@ -167,3 +167,23 @@ line-height:0
 .hero_line{
 margin-top:48px
 }
+.i_nav a:hover{
+color:#01f;
+}
+.i_nav a{
+margin:0 16px;
+color:#999;
+}
+.i_nav{
+text-align:right;
+font-size:16px;
+text-align:center;
+border-bottom:1px dotted #ccc;
+padding-bottom:16px;
+margin-top:16px;
+}
+.i_nav .now{
+color:#000;
+}
+
+
