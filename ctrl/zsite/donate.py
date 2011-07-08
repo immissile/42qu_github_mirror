@@ -6,7 +6,7 @@ from ctrl._urlmap.zsite import urlmap
 from model.zsite import Zsite
 from config import RPC_HTTP
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax
-from model.money import pay_account_get
+from model.money import pay_account_get, bank_view
 from model.user_mail import mail_by_user_id, user_by_mail
 from model.money import bank_can_pay, bank_change, donate_new, deal_new, TRADE_STATE_NEW, TRADE_STATE_OPEN, TRADE_STATE_FINISH
 from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
@@ -101,6 +101,8 @@ class Index(ZsiteBase):
             if bank_can_pay(current_user_id, amount_cent):
                 o_id = _donate_new(TRADE_STATE_FINISH)
                 return self.redirect('/donate/result/%s'%o_id)
+            else:
+                amount -= bank_view(current_user_id)
 
             o_id = _donate_new(TRADE_STATE_NEW)
 
