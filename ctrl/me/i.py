@@ -149,7 +149,10 @@ class UserInfoEdit(LoginBase):
 class Pic(PicEdit):
     def post(self):
         error_pic = self.save()
-        self.render(error_pic=error_pic, pos=pos)
+        if error_pic:
+            self.render(error_pic=error_pic)
+        else:
+            self.get()
 
 @urlmap('/i/url')
 class Url(LoginBase):

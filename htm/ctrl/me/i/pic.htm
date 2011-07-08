@@ -1,61 +1,10 @@
 <%inherit file="_base.htm" />
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%!
-from model.ico import pic_url as _pic_url
-%>
+
+
+<%namespace file="/ctrl/_util/i/pic.htm" name="pic"/>
+
 <%def name="head()">
-${css.imgselect|n}
-<script src="${js.imgselect}"></script>\
-<script src="${js.i_pic}"></script>\
-<style>
-#preview{
-margin:auto;width:96px;height:96px; overflow: hidden;
-}
-#preview_pic{
-width:96px;height:96px;overflow:hidden;display:none
-}
-form{
-font-size:16px;
-margin-top:32px
-}
-</style>
+${pic.css_js()}
 </%def>
 
-<%
-pic_url = _pic_url(current_user_id)
-%>
-
-
-<%htm:form enctype="multipart/form-data" className="G">
-<input type="hidden" id="pos" name="pos" value="${pos}">
-%if pic_url:
-    <div class="G3"><img id="pic" src="${pic_url}"></div>
-    <div class="G1">
-        <div id="preview">\
-        <img src="${pic_url}" id="preview_pic" onload="setTimeout(init_preview,100)">\
-        </div>
-        <div class="tc" style="margin-top:16px;">\
-            <span class="btnw"><button type="submit">更新缩略图</button></span>\
-        </div>
-        <div style="margin-top:112px">
-            <p>上传我的照片 </p>
-            <p style="margin-top:16px"><input type="file" name="pic"></p> 
-            <p style="margin-top:16px;"><span class="btnw"><button type="submit">确定</button></span></p>
-            %if error_pic:
-                ${error_pic}
-            %endif
-        </div>
-    </div>
-%else:
-<div class="tc" style="margin-top:64px">
-    <p>请上传本人照片</p>
-    <p>我们将人工审核</p>
-    <p style="margin-top:16px"><input type="file" name="pic"></p> 
-    <p style="margin-top:16px;"><span class="btnw"><button type="submit">确定</button></span></p>
-    %if error_pic:
-        ${error_pic}
-    %endif
-</div>
-%endif
-</%htm:form>
-
+${pic.body()}
