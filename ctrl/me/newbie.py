@@ -2,14 +2,14 @@
 from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit
 
 @urlmap('/auth/newbie/1')
-class Newbie1(CareerEdit):
+class Career(CareerEdit):
     def post(self):
         self.save()
         self.redirect('/auth/newbie/2')
 
 
 @urlmap('/auth/newbie/2')
-class Newbie2(PicEdit):
+class Pic(PicEdit):
     def post(self):
         error_pic = self.save()
         if error_pic is None:
@@ -18,7 +18,7 @@ class Newbie2(PicEdit):
         self.render(error_pic=error_pic, pos='')
 
 @urlmap('/auth/newbie/3')
-class Newbie3(UserInfoEdit):
+class UserInfo(UserInfoEdit):
     def post(self):
         self.save()
         current_user = self.current_user
