@@ -31,5 +31,4 @@ def zsite_show_rank(zsite_id, rank):
     zsite_list_rank(zsite_id, 0, rank)
 
 if __name__ == '__main__':
-    from model.cid import CID_USER
     print zsite_show()
