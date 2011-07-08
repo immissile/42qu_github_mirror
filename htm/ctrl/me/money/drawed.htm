@@ -13,7 +13,8 @@ margin-bottom:16px;
 }
 </style>
 <div class="fullscreen">
-%if 1:
+
+
 <p>提现处理中</p>
 <p>资金将于九日内到账</p>
 <p>
@@ -26,10 +27,11 @@ pre = now + trade.value
 ${read_cent(pre)} - ${trade.got} = ${read_cent(now)} 元
 %endif
 </p>
-%else:
+
 <p>提现已完成</p>
 <p>交易号 : 12345678</p>
-%endif
+
+
 </div>
 
 
