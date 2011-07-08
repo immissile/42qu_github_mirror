@@ -67,8 +67,7 @@ class Career(McModel):
         return self.unit, self.title, self.txt, self.begin_time, self.end_time, self.id
 
 
-@anti_same_post
-def career_new(user_id, unit_id, title_id, txt, begin, end, cid):
+def _career_new(user_id, unit_id, title_id, txt, begin, end, cid):
     o = Career(
         user_id=user_id,
         unit_id=unit_id,
@@ -79,6 +78,9 @@ def career_new(user_id, unit_id, title_id, txt, begin, end, cid):
         cid=cid,
     )
     o.save()
+
+career_new = anti_same_post(_career_new)
+
 
 def career_edit(id, user_id, unit_id, title_id, txt, begin, end, cid):
     o = Career.mc_get(id)
