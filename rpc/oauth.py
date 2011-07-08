@@ -12,7 +12,6 @@ BACK_URL = '/'
 class DoubanOauthHandler(LoginBase, DoubanMixin):
     @tornado.web.asynchronous
     def get(self):
-        zsite = self.get_current_user()
         if self.get_argument("oauth_token", None):
             self.get_authenticated_user(self.async_callback(self._on_auth))
             return
@@ -115,6 +114,8 @@ class QqOauthHandler(LoginBase, QqMixin):
         self.authorize_redirect(
             self.callback_url()
                 )
+    
+    
     def _on_auth(self,user):
         zsite = self.current_user
         back = BACK_URL
