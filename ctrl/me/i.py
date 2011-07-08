@@ -33,79 +33,6 @@ def _upload_pic(files, current_user_id):
     return error_pic
 
 
-@urlmap('/i/pic')
-class Pic(LoginBase):
-    def get(self):
-        current_user_id = self.current_user_id
-        pos = ico_pos.get(current_user_id)
-        self.render(pos=pos)
-
-    def post(self):
-        current_user_id = self.current_user_id
-        files = self.request.files
-        pos = self.get_argument('pos', '')
-        if pos:
-            ico_pos_new(current_user_id, pos)
-        error_pic = _upload_pic(files, current_user_id)
-        self.render(error_pic=error_pic, pos=pos)
-
-
-@urlmap('/i/url')
-class Url(LoginBase):
-    def prepare(self):
-        super(Url, self).prepare()
-        if not self._finished:
-            user = self.current_user
-            user_id = self.current_user_id
-            link = self.current_user.link
-            if user.state <= ZSITE_STATE_APPLY:
-                self.redirect(link+'/i/verify')
-            elif url_by_id(user_id):
-                self.redirect(link)
-
-    def get(self):
-        self.render(url='')
-
-    def post(self):
-
-        user_id = self.current_user_id
-        url = self.get_argument('url', None)
-        if url:
-            if url_by_id(user_id):
-                error_url = '个性域名设置后不能修改'
-            else:
-                error_url = url_valid(url)
-            if error_url is None:
-                url_new(user_id, url)
-                self.redirect(SITE_URL)
-        else:
-            error_url = '个性域名不能为空'
-        self.render(
-            error_url=error_url,
-            url=url
-        )
-
-
-@urlmap('/i/verify')
-class Verify(LoginBase):
-    def prepare(self):
-        super(Verify, self).prepare()
-        current_user = self.current_user
-        state = current_user.state
-        if state >= ZSITE_STATE_VERIFY:
-            return self.redirect('/')
-        elif state <= ZSITE_STATE_APPLY:
-            return self.redirect('/auth/verify/sended')
-
-    def post(self):
-        current_user = self.current_user
-        current_user.state = ZSITE_STATE_WAIT_VERIFY
-        current_user.save()
-        return self.get()
-
-    def get(self):
-        self.render()
-
 class CareerEdit(LoginBase):
     def get(self):
         from model.career import CID_JOB, CID_EDU, career_list
@@ -131,13 +58,20 @@ class CareerEdit(LoginBase):
             career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
 
 
-@urlmap('/i/career')
-class Career(CareerEdit):
-    def post(self):
-        self.save()
-        self.get()
+class PicEdit(LoginBase):
+    def get(self):
+        current_user_id = self.current_user_id
+        pos = ico_pos.get(current_user_id)
+        self.render(pos=pos)
 
-
+    def save(self):
+        current_user_id = self.current_user_id
+        files = self.request.files
+        pos = self.get_argument('pos', '')
+        if pos:
+            ico_pos_new(current_user_id, pos)
+        error_pic = _upload_pic(files, current_user_id)
+        return error_pic
 
 
 
@@ -208,6 +142,77 @@ class UserInfoEdit(LoginBase):
                         o.save()
                     else:
                         user_info_new(current_user_id, sex=sex)
+
+
+
+@urlmap('/i/pic')
+class Pic(PicEdit):
+    def post(self):
+        error_pic = self.save()
+        self.render(error_pic=error_pic, pos=pos)
+
+@urlmap('/i/url')
+class Url(LoginBase):
+    def prepare(self):
+        super(Url, self).prepare()
+        if not self._finished:
+            user = self.current_user
+            user_id = self.current_user_id
+            link = self.current_user.link
+            if user.state <= ZSITE_STATE_APPLY:
+                self.redirect(link+'/i/verify')
+            elif url_by_id(user_id):
+                self.redirect(link)
+
+    def get(self):
+        self.render(url='')
+
+    def post(self):
+
+        user_id = self.current_user_id
+        url = self.get_argument('url', None)
+        if url:
+            if url_by_id(user_id):
+                error_url = '个性域名设置后不能修改'
+            else:
+                error_url = url_valid(url)
+            if error_url is None:
+                url_new(user_id, url)
+                self.redirect(SITE_URL)
+        else:
+            error_url = '个性域名不能为空'
+        self.render(
+            error_url=error_url,
+            url=url
+        )
+
+
+@urlmap('/i/verify')
+class Verify(LoginBase):
+    def prepare(self):
+        super(Verify, self).prepare()
+        current_user = self.current_user
+        state = current_user.state
+        if state >= ZSITE_STATE_VERIFY:
+            return self.redirect('/')
+        elif state <= ZSITE_STATE_APPLY:
+            return self.redirect('/auth/verify/sended')
+
+    def post(self):
+        current_user = self.current_user
+        current_user.state = ZSITE_STATE_WAIT_VERIFY
+        current_user.save()
+        return self.get()
+
+    def get(self):
+        self.render()
+
+
+@urlmap('/i/career')
+class Career(CareerEdit):
+    def post(self):
+        self.save()
+        self.get()
 
 
 @urlmap('/i')

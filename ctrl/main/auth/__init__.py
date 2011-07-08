@@ -40,7 +40,7 @@ class NoLoginBase(Base):
             redirect = LOGIN_REDIRECT%current_user.link
         self.redirect(redirect)
 
-from ctrl.me.i import UserInfoEdit, CareerEdit
+from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit
 
 @urlmap('/auth/newbie/1')
 class Newbie1(CareerEdit):
@@ -50,10 +50,14 @@ class Newbie1(CareerEdit):
 
 
 @urlmap('/auth/newbie/2')
-class Newbie2(LoginBase):
+class Newbie2(PicEdit):
     def post(self):
-        self.redirect('/auth/newbie/3')
-
+        error_pic = self.save()
+        if error_pic is None:
+            if self.get_argument('pos', ''):
+                self.redirect('/auth/newbie/3')
+        else:
+            self.render(error_pic=error_pic, pos='')
 
 @urlmap('/auth/newbie/3')
 class Newbie3(UserInfoEdit):
