@@ -69,11 +69,13 @@ class Charge(LoginBase):
             error=error,
         )
 
+@urlmap('/money/charged/(\d+)')
 @urlmap('/money/charged/(\d+)/(\d+)')
 class Charged(LoginBase):
-    def get(self, tid, uid):
+    def get(self, tid, uid=0):
         uid = int(uid)
         t = Trade.get(tid)
+        return self.render(trade=t)
         if t and t.cid == CID_TRADE_CHARDE and t.state == TRADE_STATE_FINISH and t.to_id == uid:
             self.render(trade=t)
         else:

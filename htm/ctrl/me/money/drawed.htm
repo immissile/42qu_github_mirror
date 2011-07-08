@@ -2,14 +2,37 @@
 from model.money import read_cent, bank
 %>
 <%inherit file="_base.htm" />
-提现请求处理中
-资金将于九个工作日内到账
+<style>
+.fullscreen{
+font-size:16px;
+margin-top:64px;
+text-align:center;
+}
+.fullscreen p{
+margin-bottom:16px;
+}
+</style>
+<div class="fullscreen">
 
+
+<p>提现处理中</p>
+<p>资金将于九日内到账</p>
+<p>
 %if trade.to_id == current_user_id:
 <%
 now = bank.get(current_user_id)
 pre = now + trade.value
 %>
-账号余额
+余额
 ${read_cent(pre)} - ${trade.got} = ${read_cent(now)} 元
 %endif
+</p>
+
+<p>提现已完成</p>
+<p>交易号 : 12345678</p>
+
+
+</div>
+
+
+
