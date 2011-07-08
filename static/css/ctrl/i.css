@@ -4,12 +4,6 @@ text-align:left;
 #form_reg .tc{
 text-align:left;
 }
-.i_nav .now{
-color:#000;
-}
-.i_div{
-margin-top:16px;
-}
 .img{
 text-align:center;
 float:right;
@@ -34,3 +28,5 @@ font-size:16px;
 margin-bottom:32px;
 border-bottom:1px dotted #ccc;
 }
+
+

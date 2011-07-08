@@ -8,11 +8,15 @@ from model.money_alipay import alipay_payurl
 from model.user_auth import user_password_verify
 from model.zsite import Zsite
 
-@urlmap('/money')
-class Index(LoginBase):
+@urlmap('/money/bill')
+class Bill(LoginBase):
     def get(self):
         user_id = self.current_user_id
         trade_list = trade_history(user_id)
+
+        if not trade_list:
+            return self.redirect("/money/charge")
+
         user_ids = set([i.from_id if i.to_id == user_id else i.to_id for i in trade_list])
         if 0 in user_ids:
             user_ids.remove(0)
@@ -23,6 +27,8 @@ class Index(LoginBase):
             t.from_user = user_dic[t.from_id]
             t.to_user = user_dic[t.to_id]
         self.render(trade_list=trade_list)
+
+
 
 @urlmap('/money/charge')
 @urlmap('/money/charge/(\d{1,8}(?:\.\d{1,2})?)')
