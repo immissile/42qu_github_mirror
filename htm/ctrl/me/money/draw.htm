@@ -3,20 +3,46 @@ from model.money import read_cent, bank
 %>
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%htm:form>
-<div>
-    密码确认
+<style>
+.fullscreen{
+width:470px;
+margin:64px auto 0;
+font-size:16px;
+text-align:center;
+}
+#price{
+width:65px;
+text-align:right;
+margin:0 7px;
+padding:7px;
+}
+.btns{
+margin-top:27px;
+}
+.item{
+margin:16px;
+}
+.item input{
+padding:7px;
+width:200px;
+}
+</style>
+
+
+<%htm:form className="fullscreen">
+<div class="item">
+    42区登录密码
     <input type="password" name="password" autocomplete="off">
 </div>
-<div>
+<div class="item">
     支付宝账户
     <input type="text" name="account" value="${account or ''}">
 </div>
-<div>
+<div class="item">
     支付宝真实姓名
     <input type="text" name="name" value="${name or ''}">
 </div>
-<div>
+<div class="item">
     金额
     <input type="text" name="price" value="${price or ''}">元
 </div>
