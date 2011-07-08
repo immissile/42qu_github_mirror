@@ -56,8 +56,7 @@ class Newbie2(PicEdit):
         if error_pic is None:
             if self.get_argument('pos', ''):
                 self.redirect('/auth/newbie/3')
-        else:
-            self.render(error_pic=error_pic, pos='')
+        self.render(error_pic=error_pic, pos='')
 
 @urlmap('/auth/newbie/3')
 class Newbie3(UserInfoEdit):
