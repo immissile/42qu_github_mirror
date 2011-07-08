@@ -15,8 +15,13 @@ class InfoMail(_handler.ApiBase):
     def get(self):
         mail = self.get_argument('mail')
         user_id = user_id_by_mail(mail)
-        data = json_info(user_id)
-        self.finish(data)
+        if user_id:
+            data = json_info(user_id)
+            self.finish(data)
+        else:
+            self.finish({
+                'error':'user_dont_exist!'
+                })
 
 
 
