@@ -2,17 +2,41 @@
 from model.money import read_cent, bank
 %>
 <%inherit file="_base.htm" />
-充值成功
+<style>
+.fullscreen{
+font-size:16px;
+margin:48px auto 0;
+text-align:center;
+width:470px;
+}
+.fullscreen p{
+margin-bottom:16px;
+}
+h2{
+margin-bottom:32px;
+}
+</style>
 
-支付现金 ${read_cent(trade.value + trade.tax)} 元
-到账金额 ${trade.got} 元
-手续费用 ${trade.taxes} 元
+<%
+taxes = trade.taxes
+%>
+
+<div class="fullscreen">
+
+<h2>充值成功</h2>
+
+<p>金额 ${trade.got} 元</p>
+
+%if taxes:
+<p>费用 ${taxes} 元</p>
+%endif
 
 %if trade.to_id == current_user_id:
 <%
 now = bank.get(current_user_id)
 pre = now - trade.value
 %>
-账号余额
+余额
 ${read_cent(pre)} + ${trade.got} = ${read_cent(now)} 元
 %endif
+</div>
