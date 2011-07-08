@@ -12,6 +12,7 @@ from buzz_sys import BuzzSys
 from wall import Wall
 from kv import Kv
 from mq import mq_client
+from career import career_dict
 from zweb.orm import ormiter
 from zkit.orderedset import OrderedSet
 from zkit.ordereddict import OrderedDict
@@ -59,7 +60,6 @@ def buzz_show_new(user_id, zsite_id):
 
 def buzz_show_new_all(zsite_id):
     for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_APPLY)):
-        print i.id, zsite_id
         buzz_show_new(i.id, zsite_id)
 
 def buzz_follow_new(from_id, to_id):
@@ -130,6 +130,17 @@ def buzz_list(user_id, limit, offset):
     for be in li:
         be.from_list = [cls_dic[Zsite][i] for i in be.from_id_list]
         be.entry = cls_dic[BUZZ_DIC[be.cid]][be.rid]
+    return buzz_career_bind(li)
+
+def buzz_career_bind(li):
+    id_list = []
+    for i in li:
+        if i.cid == CID_BUZZ_SHOW:
+            id_list.append(i.rid)
+    c_dict = career_dict(id_list)
+    for i in li:
+        if i.cid == CID_BUZZ_SHOW:
+            i.entry.career = c_dict[i.rid]
     return li
 
 def _buzz_show(user_id, limit):
@@ -158,7 +169,7 @@ def buzz_show(user_id, limit):
     for be in li:
         be.from_list = [cls_dic[Zsite][i] for i in be.from_id_list]
         be.entry = cls_dic[BUZZ_DIC[be.cid]][be.rid]
-    return li
+    return buzz_career_bind(li)
 
 if __name__ == '__main__':
     buzz_show_new_all(10024800)

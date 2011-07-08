@@ -22,7 +22,7 @@ mc_zsite_rank_max = McCache('ZsiteRankMax.%s')
 @mc_zsite_rank_max('')
 def zsite_rank_max():
     c = ZsiteRank.raw_sql('select max(value) from zsite_rank')
-    return c.fetchone()[0]
+    return c.fetchone()[0] or 0
 
 def zsite_rank_rebase():
     n = kv_int.get(KV_ZSITE_RANK_POWER) or 100
