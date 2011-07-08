@@ -22,9 +22,9 @@ class Send(LoginBase):
             verify_mail_new(current_user_id, current_user.name, mail, self.cid)
         self.redirect('/auth/verify/sended')
 
-@urlmap('/auth/verify/sended')
-class Sended(LoginBase):
-    def get(self):
+@urlmap('/auth/verify/sended/(\d+)')
+class Sended(Base):
+    def get(self, id):
         current_user = self.current_user
         if current_user.state > ZSITE_STATE_APPLY:
             return self.redirect("/i/url")

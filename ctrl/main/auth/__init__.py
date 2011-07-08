@@ -85,7 +85,7 @@ class Reg(NoLoginBase):
         if not errtip:
             user_id = user_new_by_mail(mail, password)
             user_info_new(user_id, sex=sex)
-            return self._login(user_id, mail, '/auth/verify/send')
+            return self.redirect('/auth/verify/send')
 
         self.render(
             sex=sex, password=password, mail=mail,
