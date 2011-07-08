@@ -17,7 +17,7 @@ def print_urlmap(module):
 
         mn = mn.replace('.', '/') 
         if isdir(mn):
-            mn += "__init__"
+            mn += "/__init__"
         mn += '.py'
 
         print '\t%s\t%s%s'%(

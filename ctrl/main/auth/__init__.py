@@ -40,10 +40,10 @@ class NoLoginBase(Base):
             redirect = LOGIN_REDIRECT%current_user.link
         self.redirect(redirect)
 
-from ctrl.me.i import UserInfoEdit
+from ctrl.me.i import UserInfoEdit, CareerEdit
 
 @urlmap('/auth/newbie/1')
-class Newbie1(LoginBase):
+class Newbie1(CareerEdit):
     def post(self):
         self.redirect('/auth/newbie/2')
 
@@ -55,7 +55,7 @@ class Newbie2(LoginBase):
 
 
 @urlmap('/auth/newbie/3')
-class Newbie3(UserInfoEdit, LoginBase):
+class Newbie3(UserInfoEdit):
     def post(self):
         self.save()
         self.redirect("%s/live"%current_user.link)

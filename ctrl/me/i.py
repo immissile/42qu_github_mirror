@@ -141,7 +141,7 @@ class Career(CareerEdit):
 
 
 
-class UserInfoEdit(object):
+class UserInfoEdit(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
         current_user = self.current_user
@@ -211,7 +211,7 @@ class UserInfoEdit(object):
 
 
 @urlmap('/i')
-class Index(UserInfoEdit, LoginBase):
+class Index(UserInfoEdit):
     def post(self):
         files = self.request.files
         current_user_id = self.current_user_id
