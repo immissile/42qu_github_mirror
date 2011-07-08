@@ -1,5 +1,5 @@
 #coding:utf-8
-from _db import cursor_by_table, cursor_by_table, McNum, Model
+from _db import cursor_by_table, McNum, Model
 
 
 OAUTH_GOOGLE = 1 
@@ -81,6 +81,18 @@ def name_uid_set( id, name, uid, table):
 def oauth_token_by_oauth_id(oauth_id):
     s = OauthToken.raw_sql('select app_id, token_key, token_secret from oauth_token where id =%s',oauth_id).fetchone()
     return s
+
+
+def oauth_rm_by_oauth_id(oauth_id):
+    cursor = cursor_by_table('oauth_token')
+    cursor_new = cursor_by_table('oauth_token_backup')
+    cursor.execute('select id,app_id,zsite_id,token_key,token_secret from oauth_token where id=%s',oauth_id)
+    item = cursor.fetchone()
+    if item:
+        cursor_new.execute('insert into oauth_token_backup (id,app_id,zsite_id,token_key,token_secret) values (%s,%s,%s,%s,%s)',item)
+        cursor.execute('delete from oauth_token where id =%s',oauth_id)
+
+
 
 def oauth_save(app_id, zsite_id, token_key, token_secret):
     cursor = OauthToken.raw_sql("select id from oauth_token where zsite_id=%s and app_id=%s", zsite_id, app_id)

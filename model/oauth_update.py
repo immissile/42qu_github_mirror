@@ -3,9 +3,10 @@ from urllib2 import urlopen, HTTPError
 import urllib
 from urllib import urlencode
 import _db
+import json
 import traceback
 import httplib
-from zkit.txt import cnencut
+from zkit.txt import cnenoverflow
 from xml.sax.saxutils import escape, quoteattr
 from oauth_util import oauth_url, oauth_request_parameters, oauth_header, _oauth_escape
 from shorturl import shorturl
@@ -23,9 +24,7 @@ OAUTH_SOHU, OAUTH_QQ, \
 OAUTH_RENREN,OAUTH_LINKEDIN 
 
 from collections import defaultdict
-
-DICT_DEFAULT = defaultdict(lambda:140)
-
+from oauth import oauth_rm_by_oauth_id
 
 def api_xxx(
         api_key, api_secret,
@@ -143,7 +142,6 @@ def api_sina(netloc, parameters, key, secret, method="POST"):
     host = "api.t.sina.com.cn"
     api_key = SINA_CONSUMER_KEY
     api_secret = SINA_CONSUMER_SECRET
-    print api_secret,api_key,'密码'
     return api_xxx(api_key, api_secret,
         host,
         netloc,
@@ -259,15 +257,33 @@ DICT_API_SAY = {
         OAUTH_DOUBAN:api_douban_say
         }
 
+def oauth_txt_cat(cid,txt,url):
+    url_len = len(str(url))
+    if cid == OAUTH_DOUBAN:
+        txt = str(txt).decode('utf-8')
+        tword = txt[:140-url_len]
+        if tword != txt:
+            txt = txt[:137-url_len]+'...'
+        txt = str(txt)+url
+        return txt
+    else:
+        txt = cnenoverflow(str(txt),139-url_len)[0]+' '+url
+        return txt
+
 
 def sync_by_oauth_id(oauth_id, txt, url=None):
     out = oauth_token_by_oauth_id(oauth_id)
     url = shorturl(url)
-    txt = cnencut(txt,DICT_DEFAULT[out[0]]-len(url))
-    txt = txt+url
+    txt = oauth_txt_cat(out[0],txt,url)
     re = DICT_API_SAY[out[0]](out[1],out[2],txt)
-    print '!!!!!!!',out[0],out[1],out[2]
-    return re
+    mes = api_network_http(*re)
+    if mes.startswith('Signature does not match'):
+        oauth_rm_by_oauth_id(oauth_id)
+    elif json.loads(mes):
+        m = json.loads(mes)
+        if m.get('error') or m.get('errcode'):
+            oauth_rm_by_oauth_id(oauth_id)
+    return mes
 
 def api_network_http(host, netloc, headers, body, method, connection=httplib.HTTPConnection):
     conn = connection(host)
@@ -280,5 +296,5 @@ def api_network_http(host, netloc, headers, body, method, connection=httplib.HTT
     return r
 
 if __name__ == "__main__":
-    p = sync_by_oauth_id(1,'我很牛逼哟','http://42qu.com/zhendi')
-    print api_network_http(*p)
+    p = sync_by_oauth_id(3,'''42qu.com : 人来人往 , 这是我们相遇的地方关注42qu的官方微博
+            我很牛逼哟''','http://42qu.com/zhendi')
