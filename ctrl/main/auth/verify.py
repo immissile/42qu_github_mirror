@@ -20,7 +20,7 @@ class Send(Base):
         if user.state == ZSITE_STATE_APPLY and user.cid == CID_USER:
             mail = mail_by_user_id(user_id)
             verify_mail_new(user_id, user.name, mail, self.cid)
-            path = '/auth/verify/sended'
+            path = '/auth/verify/sended/%s'%user_id
         else:
             path = "/login"
 
