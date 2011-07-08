@@ -20,15 +20,22 @@ padding:7px;
 .btns{
 margin-top:27px;
 }
+.error{
+color:#f00;
+margin-top:-32px;
+margin-bottom:32px;
+}
 </style>
 
 <%htm:form className="fullscreen">
+    %if error:
+    <div class="error">${error}</div>
+    %endif
 <div>
-    金额<input id="price" type="text" name="price" value="${price or ''}">元
+    金额<input 
+autocomplete="off"
+id="price" type="text" name="price" value="${price or ''}">元
 </div>
-%if error:
-${error}
-%endif
 <div class="btns">
 <span class="btnw"><button type="submit">支付宝充值</button></span>
 </div>

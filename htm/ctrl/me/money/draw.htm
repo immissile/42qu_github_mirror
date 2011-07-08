@@ -1,9 +1,20 @@
 <%!
-from model.money import read_cent, bank
+from model.money import read_cent, bank, bank_view
+from config import SITE_DOMAIN
 %>
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <style>
+.bank_view{
+color:#999;
+text-align:left;
+margin-left:178px;
+margin-top:7px;
+}
+.error,.btns{
+text-align:left;
+margin-left:196px;
+}
 .fullscreen{
 width:470px;
 margin:64px auto 0;
@@ -25,29 +36,49 @@ margin:16px;
 .item input{
 padding:7px;
 width:200px;
+margin:0 7px;
+}
+#price{
+width:184px;
+}
+.fullscreen label{
+width:140px;
+display:inline-block;
+text-align:right;
+}
+.error{
+color:#f00;
+margin-top:-32px;
+margin-bottom:32px;
 }
 </style>
 
 
 <%htm:form className="fullscreen">
+    %if error:
+    <div class="error">${error}</div>
+    %endif
 <div class="item">
-    42区登录密码
-    <input type="password" name="password" autocomplete="off">
+    <label for="password">${SITE_DOMAIN} 密码</label><input
+     id="password" type="password" name="password" autocomplete="off">
 </div>
 <div class="item">
-    支付宝账户
-    <input type="text" name="account" value="${account or ''}">
+    <label for="account">支付宝 账户</label><input
+     type="text" id="account" name="account" value="${account or ''}">
 </div>
 <div class="item">
-    支付宝真实姓名
-    <input type="text" name="name" value="${name or ''}">
+    <label for="name">支付宝 姓名</label><input
+    id="name" type="text" name="name" value="${name or ''}">
 </div>
 <div class="item">
-    金额
-    <input type="text" name="price" value="${price or ''}">元
+    <label for="price">提现</label><input
+    autocomplete="off"
+    id="price" type="text" name="price" value="${price or ''}">元
+    <div class="bank_view">
+当前余额 ${bank_view(current_user_id)} 元
+    </div>
 </div>
-%if error:
-${error}
-%endif
-<button type="submit">支付宝提现</button>
+<div class="btns">
+<span class="btnw"><button type="submit">确认</button></span>
+</div>
 </%htm:form>
