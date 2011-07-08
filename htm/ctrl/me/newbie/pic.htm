@@ -1,0 +1,31 @@
+
+
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/i/info.htm" name="info"/>
+
+<%def name="T()"></%def>
+
+
+
+<%def name="H()">
+
+<div id="H"><div class="H tc">
+<div style="color:#a10">注意 : 照片要横版的哦 ...</div>
+</div></div>
+
+</%def>
+
+<%namespace file="/ctrl/_util/i/pic.htm" name="pic"/>
+
+<%def name="htm_head()">
+${pic.css_js()}
+<style>
+form{
+padding-bottom:32px;
+}
+</style>
+</%def>
+
+
+${pic.body()}
+<a href="/me/newbie/3" style="text-align:center;display:block;font-size:16px;border-top:1px dotted #ccc;padding-top:16px">下一步 </a>
