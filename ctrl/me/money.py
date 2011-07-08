@@ -38,7 +38,7 @@ class Charge(LoginBase):
         except ValueError:
             error = '金额输入错误'
         else:
-            price_min = 0.42
+            price_min = 0.01
             price_max = 100000000
             if price < price_min:
                 error = '单笔充值最少为%s' % price_min

@@ -78,6 +78,9 @@ def name_uid_set( id, name, uid, table):
             *sql_tuple
         )
 
+def oauth_token_by_oauth_id(oauth_id):
+    s = OauthToken.raw_sql('select app_id, token_key, token_secret from oauth_token where id =%s',oauth_id).fetchone()
+    return s
 
 def oauth_save(app_id, zsite_id, token_key, token_secret):
     cursor = OauthToken.raw_sql("select id from oauth_token where zsite_id=%s and app_id=%s", zsite_id, app_id)
