@@ -96,10 +96,12 @@ padding-top:4px;
 margin-top:20px;
 }
 #form_reg .logo_txt a:hover{
-border-bottom:1px solid #000;
+border-bottom:1px dotted #000;
 }
 #form_reg .logo_txt a{
+border-bottom:1px solid #000;
 color:#000;
+margin-left:8px;
 padding-bottom:3px
 }
 #form_reg .logo_txt p{
@@ -107,5 +109,5 @@ line-height:32px;
 padding:0;
 }
 #form_reg .logo_txt .tr{
-padding-top:5px;
+padding-top:4px;
 }
