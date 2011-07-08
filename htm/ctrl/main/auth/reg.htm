@@ -11,30 +11,6 @@ from config import LOGO_TEXT, SITE_DOMAIN
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
 ${css.ctrl_auth_reg|n}
-<style>
-.logo_txt{
-font-size: 16px; text-align: right; width:300px;margin-right:64px;padding-right:64px; margin-top:-10px; border-right:1px dotted #ccc;
-padding-bottom:26px;
-padding-top:4px;
-}
-.logo_txt div{
-margin-top:20px;
-}
-#form_reg .logo_txt a:hover{
-border-bottom:1px solid #000;
-}
-#form_reg .logo_txt a{
-color:#000;
-padding-bottom:3px
-}
-#form_reg .logo_txt p{
-line-height:32px;
-padding:0;
-}
-#form_reg .logo_txt .tr{
-padding-top:5px;
-}
-</style>
 </%def>
 
 
@@ -44,7 +20,7 @@ padding-top:5px;
 <%htm:form id="form_reg" action="/auth/reg">
 <h1>${LOGO_TEXT|n}</h1>
 
-<div style="float:left">
+<div class="L">
 <div class="logo_txt">
 <div >
 <p>
@@ -60,7 +36,7 @@ padding-top:5px;
 <p>我们有权选择各种生活</p>
 </div>
 <div >
-<p class="tr"><del>&nbsp;&nbsp;&nbsp;</del> <a href="//help.${SITE_DOMAIN}/china_sun.html">中国太阳</a></p>
+<p class="tr"><del>　</del> <a href="//help.${SITE_DOMAIN}/china_sun.html">中国太阳</a></p>
 </div>
 </div>
 
@@ -96,9 +72,9 @@ ${errtip.password|n}
 
 
 <div class="cl btns" id="form_btn">
-<span class="R">已有账号 ? <a href="/auth/login">点此登录</a></span>
+<span id="login_link">已有账号 ? <a href="/auth/login">点此登录</a></span>
 
-<span class="btnw"><button type="submit" >注册</button></span>
+<span class="R btnw"><button type="submit" >注册</button></span>
  
 </div>
 </div>
