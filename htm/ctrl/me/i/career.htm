@@ -1,66 +1,10 @@
-<%!
-from yajl import dumps
-%>
 <%inherit file="_base.htm" />
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%namespace file="/ctrl/_util/i/career.htm" name="career"/>
+
+
 <%def name="head()">
-<script src="${js.date}"></script>
-${css.ctrl_i_career|n}
+${career.css_js()}
 </%def>
 
-<%htm:form id="career_form">
-<p class="tl career career_job">职业生涯</p>
-<div class="career c" id="career_job"></div>
-<p class="tl career career_edu">教育背景</p>
-<div class="career c" id="career_edu"></div>
-<div class="btns">
-    <span class="btnw"><button class="btn">保存</button></span>
-</div>
-</%htm:form>
-
-
-<%text>
-<script id="career_tmpl" type="text/x-jquery-tmpl">
-<div class="line">
-<span class="L">
-    <input type="hidden" name="${name}_id" value="${id}">
-    <input
-        placeholder="${unit_placeholder}"
-        name="${name}_unit"
-        class="unit"
-        value="${unit}"
-        autocomplete="off">
-    <input
-        value="${title}" 
-        placeholder="${title_placeholder}" 
-        name="${name}_title"
-        class="title"
-        autocomplete="off">
-    <input
-        value="${txt}"
-        placeholder="经历简述 ... ..."
-        name="${name}_txt"
-        class="txt">
-    <span class="begin"></span> - <span class="end"></span>
-    <input
-        name="${name}_now"
-        type="checkbox"
-        class="now"><label class="label_now">当前</label>
-</span>
-<a href="javascript:void(0)" title="删除" class="rm"></a>
-</div>
-</script>
-</%text>
-
-
-<%
-# unit, title, txt, begin_val, end_val, id
-%>
-
-<script type="text/x-json" id="career_data_edu">
-${dumps(edu_list)|n}
-</script>
-<script type="text/x-json" id="career_data_job">
-${dumps(job_list)|n}
-</script>
-<script src="${js.ctrl_i_career}"></script>
+${career.body()}
