@@ -42,23 +42,22 @@ class NoLoginBase(Base):
 
 from ctrl.me.i import UserInfoEdit
 
-@urlmap('/auth/newbie/1')
-class Newbie1(UserInfoEdit, LoginBase):
+@urlmap('/auth/newbie/2')
+class Newbie1(LoginBase):
     def post(self):
-        self.save()
         self.redirect('/auth/newbie/2')
 
 
-@urlmap('/auth/newbie/2')
+@urlmap('/auth/newbie/3')
 class Newbie2(LoginBase):
     def post(self):
         self.redirect('/auth/newbie/3')
 
 
-@urlmap('/auth/newbie/3')
-class Newbie3(LoginBase):
+@urlmap('/auth/newbie/1')
+class Newbie3(UserInfoEdit, LoginBase):
     def post(self):
-        current_user = self.current_user
+        self.save()
         self.redirect("%s/live"%current_user.link)
 
 
