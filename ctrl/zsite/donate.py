@@ -11,7 +11,7 @@ from model.user_mail import mail_by_user_id, user_by_mail
 from model.money import bank_can_pay, bank_change, donate_new, deal_new, TRADE_STATE_NEW, TRADE_STATE_OPEN, TRADE_STATE_FINISH
 from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
 from zkit.txt import EMAIL_VALID
-from model.cid import CID_USER, CID_PAY_ALIPAY
+from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_DONATE
 from model.user_auth import user_new_by_mail
 
 
@@ -97,12 +97,12 @@ class Index(ZsiteBase):
 
         if current_user and not errtip:
             current_user_id = current_user.id
-            _donate_new = lambda state : donate_new(amount, current_user_id, zsite_id, CID_PAY_DONATE, state)
+            _donate_new = lambda state : donate_new(amount, current_user_id, zsite_id, CID_TRADE_DONATE, state)
             if bank_can_pay(current_user_id, amount_cent):
-                o = _donate_new(TRADE_STATE_FINISH)
-                return self.redirect('/donate/result/%s'%o.id)
+                o_id = _donate_new(TRADE_STATE_FINISH)
+                return self.redirect('/donate/result/%s'%o_id)
 
-            o = _donate_new(TRADE_STATE_NEW)
+            o_id = _donate_new(TRADE_STATE_NEW)
 
             return_url = 'http:%s/money/alipay_sync' % current_user.link
 
@@ -116,7 +116,7 @@ class Index(ZsiteBase):
                         zsite.name,
                     ),
                     alipay_account,
-                    o.id
+                    o_id
             )
 
             return self.redirect(alipay_url)
