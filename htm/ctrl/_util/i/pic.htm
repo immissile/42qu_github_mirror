@@ -32,9 +32,10 @@ pic_url = _pic_url(current_user_id)
 %>
 
 
-<%htm:form enctype="multipart/form-data" className="G">
+<%htm:form enctype="multipart/form-data">
 <input type="hidden" id="pos" name="pos" value="${pos}">
 %if pic_url:
+    <div class="G">
     <div class="G3"><img id="pic" src="${pic_url}"></div>
     <div class="G1">
         <div id="preview">\
@@ -51,6 +52,7 @@ pic_url = _pic_url(current_user_id)
                 ${error_pic}
             %endif
         </div>
+    </div>
     </div>
 %else:
 <div class="tc pic_new">

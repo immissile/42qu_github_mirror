@@ -1,24 +1,35 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import init_env
+from zpage.config import DB_CONFIG
+import subprocess
+import time
 
-from qu.myconf.config import KV_PATH
+host, port, name, user, password = DB_CONFIG['main'].get('master').split(':')
+print host, port, name, user, password
+SQL = 'mysql -h%s -P%s -u%s -p%s' % (host, port, user, password)
 
-from zpage.model.fs import fs_file
+subprocess.Popen('%s < data_migration.sql' % SQL, shell=True)
+time.sleep(2)
 
-from os import walk, makedirs
-from os.path import join, getsize, splitext, exists, dirname
-from shutil import copy
+from qu.mysite.model.const import man
+from qu.mysite.model.const.man import CID_MAN, STATE_APPLY, STATE_APPLYED, STATE_BAN, STATE_ACTIVE, A_STATE, STATE_DEL, STATE_VERIFY, STATE_RECALLED
 
-for prefix in ('0', '721', '470', '219'):
-    for root, dirs, files in walk(join(KV_PATH, 'pic_show', prefix)):
-        for name in files:
-            opath = join(root, name)
-            id = splitext(name)[0]
-            if id.isdigit():
-                id = int(id)
-                path = fs_file(prefix, id, 'jpg')
-                if not exists(path):
-                    dirpath = dirname(path)
-                    if not exists(dirpath):
-                        makedirs(dirpath)
-                    copy(opath, path)
+
+from qu.mysite.model.const.man import STATE_BAN, STATE_DEL, STATE_TO_VERIFY, STATE_APPLY, STATE_APPLYED, STATE_ACTIVE, STATE_VERIFY, STATE_TODO, STATE_REAL
+
+from zpage.model.zsite import Zsite, ZSITE_STATE_BAN, ZSITE_STATE_NO_MAIL, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_VERIFY_CANNOT_REPLY, ZSITE_STATE_CAN_REPLY, ZSITE_STATE_VERIFY
+
+ZSITE_STATE_TUPLE = (
+    (STATE_REAL, ZSITE_STATE_VERIFY),
+    (STATE_ACTIVE, ZSITE_STATE_ACTIVE),
+    (STATE_APPLY, ZSITE_STATE_APPLY),
+    (STATE_TO_VERIFY, ZSITE_STATE_APPLY),
+)
+
+for old, new in ZSITE_STATE_TUPLE:
+    sql = 'update zpage.zsite set state=%s where state=%s;' % (new, old)
+    sql = '%s -e "%s"' % (SQL, sql)
+    print sql
+    subprocess.Popen(sql, shell=True)
+    time.sleep(2)

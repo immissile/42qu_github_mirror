@@ -2,7 +2,7 @@
 from ctrl.main._handler import Base, LoginBase, XsrfGetBase
 from cgi import escape
 from ctrl._urlmap.auth import urlmap
-from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD
+from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_USER
 from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.user_session import user_session, user_session_rm
 from model.verify import verify_mail_new, verifyed
@@ -11,24 +11,29 @@ from model.user_auth import user_password_new, user_password_verify, user_new_by
 from zkit.txt import EMAIL_VALID, mail2link
 
 
-@urlmap('/auth/verify/send')
-class Send(LoginBase):
+@urlmap('/auth/verify/send/(\d+)')
+class Send(Base):
     cid = CID_VERIFY_MAIL
-    def get(self):
-        current_user = self.current_user
-        current_user_id = self.current_user_id
-        if current_user.state == ZSITE_STATE_APPLY:
-            mail = mail_by_user_id(current_user_id)
-            verify_mail_new(current_user_id, current_user.name, mail, self.cid)
-        self.redirect('/auth/verify/sended')
+    def get(self, id):
+        user_id = int(id)
+        user = Zsite.mc_get(id)
+        if user.state == ZSITE_STATE_APPLY and user.cid == CID_USER:
+            mail = mail_by_user_id(user_id)
+            verify_mail_new(user_id, user.name, mail, self.cid)
+            path = '/auth/verify/sended/%s'%user_id
+        else:
+            path = "/login"
 
-@urlmap('/auth/verify/sended')
-class Sended(LoginBase):
-    def get(self):
-        current_user = self.current_user
-        if current_user.state > ZSITE_STATE_APPLY:
-            return self.redirect("/i/url")
-        return self.render()
+        self.redirect(path)
+
+@urlmap('/auth/verify/sended/(\d+)')
+class Sended(Base):
+    def get(self, id):
+        user_id = int(id)
+        user = Zsite.mc_get(id)
+        if user.state > ZSITE_STATE_APPLY or user.cid != CID_USER:
+            return self.redirect("/login")
+        return self.render(user_id=user_id)
 
 class VerifyBase(Base):
     cid = None
