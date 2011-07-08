@@ -1,7 +1,7 @@
 <%!
 from datetime import datetime
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL
-from model.money import trade_log
+from model.money import trade_log, bank_view, frozen_view
 %>
 <%inherit file="_base.htm" />
 <style>
@@ -19,8 +19,12 @@ border-bottom:1px dotted #ccc;
 padding:32px 0;
 margin:0
 }
+.zsite_div{
+width:auto;border-bottom:1px dotted #ccc;text-align:center;padding:32px 0
+}
 </style>
 <div class="zsite_ol">
+<div class="zsite_div"><p>余额 : ${bank_view(zsite_id)} 元</p><p> 冻结 : ${frozen_view(zsite_id)} 元</p></div>
 <ol>
 %for t in trade_list:
 <li>
