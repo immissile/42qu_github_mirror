@@ -111,7 +111,8 @@ class UserInfoEdit(LoginBase):
         if txt:
             txt_new(current_user_id, txt)
 
-        birthday = self.get_argument('birthday', '')
+        birthday = self.get_argument('birthday', '0')
+        birthday = int(birthday)
         marry = self.get_argument('marry', '')
         pid_home = self.get_argument('pid_home', '1')
         pid_now = self.get_argument('pid_now', '1')
@@ -225,7 +226,6 @@ class Index(UserInfoEdit):
         current_user_id = self.current_user_id
         self.save()
         self.get()
-
 
 
 @urlmap('/i/link')
