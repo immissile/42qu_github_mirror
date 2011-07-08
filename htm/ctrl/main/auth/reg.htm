@@ -1,6 +1,6 @@
 
 <%!
-from config import LOGO_TEXT
+from config import LOGO_TEXT, SITE_DOMAIN
 %>
 
 <%inherit file="/ctrl/_base/zsite.htm" />
@@ -11,6 +11,30 @@ from config import LOGO_TEXT
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
 ${css.ctrl_auth_reg|n}
+<style>
+.logo_txt{
+font-size: 16px; text-align: right; width:300px;margin-right:64px;padding-right:64px; margin-top:-10px; border-right:1px dotted #ccc;
+padding-bottom:26px;
+padding-top:4px;
+}
+.logo_txt div{
+margin-top:20px;
+}
+#form_reg .logo_txt a:hover{
+border-bottom:1px solid #000;
+}
+#form_reg .logo_txt a{
+color:#000;
+padding-bottom:3px
+}
+#form_reg .logo_txt p{
+line-height:32px;
+padding:0;
+}
+#form_reg .logo_txt .tr{
+padding-top:5px;
+}
+</style>
 </%def>
 
 
@@ -19,6 +43,31 @@ ${css.ctrl_auth_reg|n}
 <div>
 <%htm:form id="form_reg" action="/auth/reg">
 <h1>${LOGO_TEXT|n}</h1>
+
+<div style="float:left">
+<div class="logo_txt">
+<div >
+<p>
+有人满足于老婆孩子热炕头</p>
+<p>从不向与已无关的尘世之外扫一眼</p>
+</div>
+<div >
+<p>有的人则用尽全部生命</p>
+<p>只为一睹人类从未见过的事物</p>
+</div>
+<div >
+<p>这两种人我都做过</p>
+<p>我们有权选择各种生活</p>
+</div>
+<div >
+<p class="tr"><del>&nbsp;&nbsp;&nbsp;</del> <a href="//help.${SITE_DOMAIN}/china_sun.html">中国太阳</a></p>
+</div>
+</div>
+
+</div>
+
+
+<div class="L">
 <p class="line">
 性别
 <span class="sex"><input
@@ -51,6 +100,7 @@ ${errtip.password|n}
 
 <span class="btnw"><button type="submit" >注册</button></span>
  
+</div>
 </div>
 </%htm:form>
 </div>
