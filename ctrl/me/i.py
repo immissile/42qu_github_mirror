@@ -33,6 +33,65 @@ def _upload_pic(files, current_user_id):
     return error_pic
 
 
+class LoginEdit(LoginBase):
+    def _linkify(self, link):
+        link = link.strip().split(' ', 1)[0]
+        if link and not link.startswith('http://') and not link.startswith('https://'):
+            link = 'http://%s'%link
+        return link
+
+    def get(self):
+        zsite_id = self.zsite_id
+        id_name = link_id_name_by_zsite_id(zsite_id)
+        id_cid = dict(link_id_cid(zsite_id))
+
+        link_list = []
+        link_cid = []
+        exist_cid = set()
+
+        for id, name in id_name:
+            link = link_by_id(id)
+            if id in id_cid:
+                cid = id_cid[id]
+                link_cid.append((cid, name , link))
+                exist_cid.add(cid)
+            else:
+                link_list.append((id, name, link))
+
+        for cid in (set(OAUTH_LINK_DEFAULT) - exist_cid):
+            link_cid.append((cid, OAUTH2NAME_DICT[cid], ""))
+
+        return self.render(
+            link_list=link_list,
+            link_cid=link_cid
+        )
+
+    def save(self):
+        zsite_id = self.zsite_id
+
+        arguments = parse_qs(self.request.body, True)
+        link_cid = []
+        link_kv = []
+        for cid, link in zip(arguments.get('cid'), arguments.get('link')):
+            cid = int(cid)
+            name = OAUTH2NAME_DICT[cid]
+            link_cid.append((cid, name, self._linkify(link)))
+
+
+        for id, key, value in zip(
+            arguments.get('id'),
+            arguments.get('key'),
+            arguments.get('value')
+        ):
+            id = int(id)
+            link = self._linkify(value)
+
+            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
+
+        link_list_save(zsite_id, link_cid, link_kv)
+
+
+
 class CareerEdit(LoginBase):
     def get(self):
         from model.career import CID_JOB, CID_EDU, career_list
@@ -226,69 +285,12 @@ class Index(UserInfoEdit):
         self.save()
         self.get()
 
-
-
 @urlmap('/i/link')
 class Link(LoginBase):
-    def _linkify(self, link):
-        link = link.strip().split(' ', 1)[0]
-        if link and not link.startswith('http://') and not link.startswith('https://'):
-            link = 'http://%s'%link
-        return link
-
-    def get(self):
-        zsite_id = self.zsite_id
-        id_name = link_id_name_by_zsite_id(zsite_id)
-        id_cid = dict(link_id_cid(zsite_id))
-
-        link_list = []
-        link_cid = []
-        exist_cid = set()
-
-        for id, name in id_name:
-            link = link_by_id(id)
-            if id in id_cid:
-                cid = id_cid[id]
-                link_cid.append((cid, name , link))
-                exist_cid.add(cid)
-            else:
-                link_list.append((id, name, link))
-
-        for cid in (set(OAUTH_LINK_DEFAULT) - exist_cid):
-            link_cid.append((cid, OAUTH2NAME_DICT[cid], ""))
-
-        return self.render(
-            link_list=link_list,
-            link_cid=link_cid
-        )
-
     def post(self):
-        zsite_id = self.zsite_id
-
-        arguments = parse_qs(self.request.body, True)
-        link_cid = []
-        link_kv = []
-        for cid, link in zip(arguments.get('cid'), arguments.get('link')):
-            cid = int(cid)
-            name = OAUTH2NAME_DICT[cid]
-            link_cid.append((cid, name, self._linkify(link)))
-
-
-        for id, key, value in zip(
-            arguments.get('id'),
-            arguments.get('key'),
-            arguments.get('value')
-        ):
-            id = int(id)
-            link = self._linkify(value)
-
-            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
-
-        link_list_save(zsite_id, link_cid, link_kv)
-
-        return self.get()
-
-
+        self.save()
+        self.get()
+    
 @urlmap('/i/namecard')
 class Namecard(LoginBase):
     def get(self):

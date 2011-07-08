@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from ctrl._urlmap.me import urlmap
-from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit
+from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit, LinkEdit
 
 @urlmap('/auth/newbie/1')
 class Career(CareerEdit):
@@ -18,8 +18,16 @@ class Pic(PicEdit):
                 self.redirect('/auth/newbie/3')
         self.render(error_pic=error_pic, pos='')
 
+
 @urlmap('/auth/newbie/3')
 class UserInfo(UserInfoEdit):
+    def post(self):
+        self.save()
+        self.redirect("/auth/newbie/4")
+
+
+@urlmap('/auth/newbie/4')
+class Link(LinkEdit):
     def post(self):
         self.save()
         current_user = self.current_user
