@@ -51,7 +51,6 @@ update_time = datetime.fromtimestamp(t.update_time)
 充值 ${got} 
 %elif cid == CID_TRADE_WITHDRAW:
 提现 ${got} 
-
     %if state == TRADE_STATE_OPEN:
     等待
     %elif state == TRADE_STATE_FINISH:
@@ -61,15 +60,18 @@ update_time = datetime.fromtimestamp(t.update_time)
     %endif
 %elif cid == CID_TRADE_DEAL:
     %if from_id == current_user_id:
-    付给 <a href="${to_user.link}">${to_user.name}</a> ${got} 
+    支付 ${got} 
     %else:
-    收到 <a href="${to_user.link}">${to_user.name}</a> ${got} 
+    收到 ${got} 
     %endif
 %endif
 %if tax:
  , 交易费 ${taxes} 
 %endif
 <p>
+%if cid == CID_TRADE_DEAL:
+<a href="${to_user.link}">${to_user.name}</a> , 
+%endif 
 ${update_time}
 </p>
 </li>
