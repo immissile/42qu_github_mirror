@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 import pyclbr
+from os.path import isdir, abspath
 
 def print_urlmap(module):
     mod = __import__(module, globals(), locals(), ['_urlmap'], -1)
@@ -13,7 +14,12 @@ def print_urlmap(module):
 
         mddict = pyclbr.readmodule(mn)
         cls_name = cls.__name__
-        mn = mn.replace('.', '/') +'.py'
+
+        mn = mn.replace('.', '/') 
+        if isdir(mn):
+            mn += "__init__"
+        mn += '.py'
+
         print '\t%s\t%s%s'%(
             ('%s +%s;'%(mn, mddict[cls_name].lineno)).ljust(42),
             url.ljust(42),
