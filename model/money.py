@@ -193,9 +193,10 @@ def charged(out_trade_no, total_fee, rid, d):
                 trade_log.set(user_id, dumps(d))
                 if t.for_id:
                     for_t = Trade.get(t.for_id)
-                    for_t.open()
-                    for_t.finish()
-                    return for_t
+                    if bank_can_pay(for_t.from_id, for_t.value):
+                        for_t.open()
+                        for_t.finish()
+                        return for_t
             return t
 
 # Withdraw

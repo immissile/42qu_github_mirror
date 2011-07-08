@@ -96,27 +96,27 @@ class Index(ZsiteBase):
                 current_user = user
 
         if current_user and not errtip:
+            subject = '%s 向 %s 捐赠 %.2f 元' % (current_user.name, zsite.name, amount)
             current_user_id = current_user.id
             _donate_new = lambda state : donate_new(amount, current_user_id, zsite_id, CID_TRADE_DONATE, state)
             if bank_can_pay(current_user_id, amount_cent):
                 o_id = _donate_new(TRADE_STATE_FINISH)
                 return self.redirect('/donate/result/%s'%o_id)
             else:
-                amount -= bank_view(current_user_id)
+                balance = float(bank_view(current_user_id))
+                subject += '(站内原余 %.2f 元)'%balance
+                o_id = _donate_new(TRADE_STATE_NEW)
+                amount -= balance
 
-            o_id = _donate_new(TRADE_STATE_NEW)
-
+            if not o_id:
+                o_id = _donate_new(TRADE_STATE_NEW)
             return_url = 'http:%s/money/alipay_sync' % current_user.link
-
             alipay_url = alipay_payurl_with_tax(
                     current_user_id,
                     amount,
                     return_url,
                     self.NOTIFY_URL,
-                    '%s 向 %s 捐赠' %(
-                        current_user.name,
-                        zsite.name,
-                    ),
+                    subject,
                     alipay_account,
                     o_id
             )
