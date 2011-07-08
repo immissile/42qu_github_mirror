@@ -1,11 +1,30 @@
 <%!
 from datetime import datetime
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL
-from model.money import trade_log
+from model.money import trade_log, bank_view, frozen_view
 %>
-
 <%inherit file="_base.htm" />
-
+<style>
+.zsite_ol{
+padding-bottom:64px;width:470px;margin:auto
+}
+.zsite_ol li p{
+margin-left:19px;text-align:right;
+}
+.zsite_ol li a{
+color:#01a
+}
+.zsite_ol li{
+border-bottom:1px dotted #ccc;
+padding:32px 0;
+margin:0
+}
+.zsite_div{
+width:auto;border-bottom:1px dotted #ccc;text-align:center;padding:32px 0
+}
+</style>
+<div class="zsite_ol">
+<div class="zsite_div"><p>余额 : ${bank_view(zsite_id)} 元</p><p> 冻结 : ${frozen_view(zsite_id)} 元</p></div>
 <ol>
 %for t in trade_list:
 <li>
@@ -17,20 +36,21 @@ to_id = t.to_id
 from_user = t.from_user
 to_user = t.to_user
 taxes = t.taxes
+tax = t.tax
 got = t.got
 update_time = datetime.fromtimestamp(t.update_time)
 %>
 %if cid == CID_TRADE_CHARDE:
-充值 ${got} 元，手续费 ${taxes} 元
+充值 ${got} 元
 %elif cid == CID_TRADE_WITHDRAW:
-提现 ${got} 元，手续费 ${taxes} 元
+提现 ${got} 元 
+
     %if state == TRADE_STATE_OPEN:
     等待
     %elif state == TRADE_STATE_FINISH:
     成功
     %elif state == TRADE_STATE_CANCEL:
-    失败：
-    ${trade_log.get(t.id)}
+    失败: ${trade_log.get(t.id)}
     %endif
 %elif cid == CID_TRADE_DEAL:
     %if from_id == current_user_id:
@@ -39,7 +59,13 @@ update_time = datetime.fromtimestamp(t.update_time)
     收到 <a href="${to_user.link}">${to_user.name}</a> ${got} 元
     %endif
 %endif
-交易日期 ${update_time}
+%if tax:
+ , 交易费 ${taxes} 元
+%endif
+<p>
+${update_time}
+</p>
 </li>
 %endfor
-</ul>
+</ol>
+</div>

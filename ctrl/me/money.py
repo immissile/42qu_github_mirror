@@ -45,7 +45,7 @@ class Charge(LoginBase):
         except ValueError:
             error = '金额输入错误'
         else:
-            price_min = 0.42
+            price_min = 0.05
             price_max = 100000000
             if price < price_min:
                 error = '充值下限为 %s 元' % price_min
@@ -69,13 +69,11 @@ class Charge(LoginBase):
             error=error,
         )
 
-@urlmap('/money/charged/(\d+)')
 @urlmap('/money/charged/(\d+)/(\d+)')
 class Charged(LoginBase):
     def get(self, tid, uid=0):
         uid = int(uid)
         t = Trade.get(tid)
-        return self.render(trade=t)
         if t and t.cid == CID_TRADE_CHARDE and t.state == TRADE_STATE_FINISH and t.to_id == uid:
             self.render(trade=t)
         else:
@@ -105,7 +103,7 @@ class Draw(LoginBase):
             except ValueError:
                 error = '金额输入错误'
             else:
-                price_min = 4.2
+                price_min = 0.05
                 price_max = bank.get(user_id) / 100.
 
                 if price > price_max:
@@ -133,3 +131,4 @@ class Drawed(LoginBase):
             self.render(trade=t)
         else:
             self.redirect('/money')
+

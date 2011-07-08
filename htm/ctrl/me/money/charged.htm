@@ -15,28 +15,35 @@ margin-bottom:16px;
 h2{
 margin-bottom:32px;
 }
+.back{
+margin-top:32px
+}
 </style>
 
-<%
-taxes = trade.taxes
-%>
 
 <div class="fullscreen">
 
 <h2>充值成功</h2>
-
 <p>金额 ${trade.got} 元</p>
 
-%if taxes:
-<p>费用 ${taxes} 元</p>
+%if trade.tax:
+<p>费用 ${trade.taxes} 元</p>
 %endif
 
 %if trade.to_id == current_user_id:
+
+
+<p>
 <%
 now = bank.get(current_user_id)
 pre = now - trade.value
 %>
 余额
 ${read_cent(pre)} + ${trade.got} = ${read_cent(now)} 元
+</p>
+
 %endif
+
+<p class="back"><a href="/live">点击这里</a> , 返回首页</p>
+
 </div>
