@@ -106,8 +106,7 @@ class Verify(LoginBase):
     def get(self):
         self.render()
 
-@urlmap('/i/career')
-class Career(LoginBase):
+class CareerEdit(LoginBase):
     def get(self):
         from model.career import CID_JOB, CID_EDU, career_list
         current_user_id = self.current_user_id
@@ -116,7 +115,7 @@ class Career(LoginBase):
             edu_list=career_list(current_user_id, CID_EDU),
         )
 
-    def post(self):
+    def save(self):
         from model.career import CID_TUPLE, career_list_set
         current_user_id = self.current_user_id
         #Tornado会忽略掉默认为空的参数
@@ -131,9 +130,18 @@ class Career(LoginBase):
             end = arguments.get('%s_end' % prefix, [])
             career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
 
+
+@urlmap('/i/career')
+class Career(CareerEdit):
+    def post(self):
+        self.save()
         self.get()
 
-class UserInfoEdit(object):
+
+
+
+
+class UserInfoEdit(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
         current_user = self.current_user
@@ -203,17 +211,11 @@ class UserInfoEdit(object):
 
 
 @urlmap('/i')
-class Index(UserInfoEdit, LoginBase):
+class Index(UserInfoEdit):
     def post(self):
         files = self.request.files
         current_user_id = self.current_user_id
-
-        error_pic = _upload_pic(files, current_user_id)
-        if error_pic is False:
-            return self.redirect('/i/pic')
-
         self.save()
-
         self.get()
 
 

@@ -1,0 +1,27 @@
+
+
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/i/info.htm" name="info"/>
+
+<%def name="T()"></%def>
+
+
+
+<%def name="H()">
+
+<div id="H"><div class="H tc">
+<div style="color:#a10">这不是虚无缥缈的网络 , 在此 , 每个人都将以真实来存在 ...</div>
+</div></div>
+
+</%def>
+
+
+<%def name="htm_head()">
+${info.css_js()}
+</%def>
+
+${info.body()}
+
+<script>
+$("#name").val('')
+</script>
