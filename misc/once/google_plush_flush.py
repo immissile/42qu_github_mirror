@@ -3,7 +3,7 @@ from urllib2 import urlopen
 from zkit.bot_txt import txt_wrap_by_all
 from zkit.cn import has_cn
 import sys
-import traceback 
+import traceback
 import datetime
 
 passed = set()
@@ -15,7 +15,7 @@ while buffer:
     uid = buffer.pop()
     passed.add(uid)
     url = "https://plus.google.com/%s/posts?hl=en"%uid
-    print url 
+    print url
     try:
         html = urlopen(url, timeout=60).read()
     except:
@@ -33,7 +33,7 @@ while buffer:
                 continue
             buffer.add(i)
             print i, datetime.datetime.now()
-            sys.stdout.flush() 
+            sys.stdout.flush()
             try:
                 urlopen(touch + str(i), timeout=30)
             except:
