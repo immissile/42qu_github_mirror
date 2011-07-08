@@ -5,4 +5,3 @@ def prepare(o):
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
     import _private
     _private.prepare(o)
-        
