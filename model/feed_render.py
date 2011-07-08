@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 from _db import McCacheM
 from collections import namedtuple
-from cid import CID_WORD, CID_NOTE, CID_QUESTION
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from operator import itemgetter
 from po import Po
+from po_question import answer_count
 from follow import follow_id_list_by_from_id
 from model.vote import vote_count
 from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT
@@ -15,7 +16,7 @@ from zkit.txt2htm import txt_withlink
 CIDMAP = {}
 
 
-FEED_TUPLE_DEFAULT_LEN = 9
+FEED_TUPLE_DEFAULT_LEN = 12
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
@@ -30,28 +31,35 @@ def feed_tuple_by_db(id):
     else:
         name = None
 
+    if cid == CID_QUESTION:
+        reply_count = answer_count(id)
+    else:
+        reply_count = m.reply_count
+
     result = [
         m.user_id,
         cid,
         rid,
-        m.reply_count,
+        reply_count,
         m.create_time,
         name,
         vote_count(id)
     ]
-   
-    txt = m.txt 
-    if cid == CID_NOTE or cid == CID_QUESTION:
+
+    txt = m.txt
+    if cid in (CID_NOTE, CID_QUESTION,  CID_ANSWER):
         result.extend(cnenoverflow(txt, 164))
     else:
         if cid == CID_WORD:
             txt = txt_withlink(txt)
         result.extend((txt, False))
- 
-#    if rid: 
-#        user = question.user
-#        result.extend((question.link, user.name, user.link))
-    
+    if rid:
+        user = question.user
+        result.extend(
+            (question.link, user.name, user.link)
+        )
+
+
     return result
 
 def cidmap(cid):

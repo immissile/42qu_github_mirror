@@ -1,16 +1,36 @@
 <%!
 from model.cid import CID_WORD
+from model.po import PO_COUNT_CN
 %>
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%def name="htm_head()">
+${css.ctrl_tag|n}
+</%def>
+
+<div class="po_tag">
+<h1><a class="c0" href="${zsite.link}">${zsite.name}</a> : ${total} ${PO_COUNT_CN[cid]}</h1>
+<div class="zsite_ol">\
 <ol>
     % for po in po_list:
-    <li>
+        %if po.cid == CID_WORD:
+<pre class="zsite_word">${po.htm|n}\
+<a href="/${po.id}" class="zsite_reply"></a>\
+</pre>\
+        %else:
+    <li>\
+        <a href="${po.link}">\
         % if po.cid == CID_WORD:
-        ${po.htm|n}
+${po.htm|n}\
         % else:
-        <p>${po.name}</p>
-        <pre>${po.htm|n}</pre>
+${po.name}\
         % endif
-    </li>
+        </a>\
+    </li>\
+        %endif
     % endfor
 </ol>
+</div>
+
 ${page|n}
+
+</div>

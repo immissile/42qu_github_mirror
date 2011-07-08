@@ -7,7 +7,6 @@ from model.cid import CID_USER
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
 
-
 @urlmap('/')
 @urlmap('/-(\d+)')
 class Index(Base):
@@ -17,3 +16,5 @@ class Index(Base):
         page, limit, offset = page_limit_offset('/-%s', count, n, 64)
         zsite_list = Zsite.mc_get_list(zsite_show(limit, offset))
         self.render(zsite_list=zsite_list, page=page)
+
+

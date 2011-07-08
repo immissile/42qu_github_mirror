@@ -352,6 +352,17 @@ CREATE TABLE `oauth_token_www163` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `oauthsyn`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauthsyn` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `oauth_id` int(10) unsigned NOT NULL,
+  `cid` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `Index_2` (`oauth_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pay_account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -393,8 +404,8 @@ CREATE TABLE `po` (
   `state` int(10) unsigned NOT NULL,
   `create_time` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `Index_2` (`user_id`,`cid`,`state`,`create_time`),
-  KEY `Index_3` (`user_id`,`state`,`create_time`)
+  KEY `Index_2` (`user_id`,`cid`,`state`),
+  KEY `index3` (`user_id`,`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `po_pic`;
@@ -720,9 +731,9 @@ DROP TABLE IF EXISTS `zsite_rank`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `zsite_rank` (
   `id` int(11) NOT NULL,
-  `rank` int(11) NOT NULL,
+  `value` int(11) NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `index2` (`rank`)
+  KEY `index2` (`value`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `zsite_tag`;

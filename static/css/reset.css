@@ -54,9 +54,6 @@ q:before,q:after {content:'';}
 }
 .c {zoom:1;}
 */
-.c:before, .c:after {content:"";display:table;}
-.c:after{clear:both}
-.c{zoom:1}
 .c9{color:#999}
 .tr{text-align:right}
 .tl{text-align:left}
@@ -73,3 +70,10 @@ margin-top:32px;
 .c0{
 color:#000;
 }
+.c00f{
+color:#00f
+}
+.f12{font-size:12px}
+.f13{font-size:13px}
+.f14{font-size:14px}
+.f16{font-size:16px}

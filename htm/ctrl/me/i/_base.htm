@@ -21,9 +21,15 @@ ${css.ctrl_i|n}
 
 <div class="G4">
 ${i_nav()}
+${self.saved()}
 ${next.body()}
 </div>
 
 </div>
 <%namespace file="/ctrl/_util/info.htm" name="info"/>
 
+<%def name="saved()">
+%if request.method == "POST":
+<div class="saved">提交成功了 ! <a href="/">点返回首页</a></div>
+%endif
+</%def>

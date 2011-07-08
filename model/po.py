@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
 from feed import feed_new, mc_feed_tuple, feed_rm
 from gid import gid
 from spammer import is_same_post
@@ -17,11 +17,16 @@ from zkit.txt import cnencut
 from zkit.attrcache import attrcache
 from cgi import escape
 
-PO_EN = {
-    CID_NOTE: 'note',
-    CID_WORD: 'word',
-    CID_QUESTION: 'question',
-}
+PO_CN_EN = (
+    (CID_WORD, 'word', '微薄', '句'),
+    (CID_NOTE, 'note', '文章', '篇'),
+    (CID_QUESTION, 'question', '问题', '条'),
+    (CID_ANSWER, 'answer', '回答', '次'),
+)
+PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
+PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
+PO_COUNT_CN = dict((i[0], i[3]+i[2]) for i in PO_CN_EN)
+
 
 mc_htm = McCache('PoHtm.%s')
 
@@ -29,8 +34,11 @@ class Po(McModel, ReplyMixin):
 
     @property
     def txt(self):
-        if self.cid == CID_WORD:
+        cid = self.cid
+        if cid == CID_WORD:
             return self.name_
+        elif cid == CID_ANSWER:
+            return txt_get(self.id) or self.name_
         else:
             return txt_get(self.id)
 
@@ -39,12 +47,14 @@ class Po(McModel, ReplyMixin):
     def htm(self):
         cid = self.cid
         id = self.id
-        h = txt_withlink(self.txt)
+        s = txt_withlink(self.txt)
         if cid != CID_WORD:
             from po_pic import pic_htm
             user_id = self.user_id
-            h = pic_htm(h, user_id, id)
-        return h
+            s = pic_htm(s, user_id, id)
+            s = s.replace('\n\n', '</p><p>')
+            s = '<p>%s</p>' % s
+        return s
 
     def txt_set(self, txt):
         id = self.id
@@ -125,7 +135,7 @@ class Po(McModel, ReplyMixin):
         mc_feed_tuple.delete(self.id)
         return result
 
-def po_new(cid, user_id, name, rid, state):
+def po_new(cid, user_id, name, state, rid=0):
     m = Po(
         id=gid(),
         name_=cnencut(name, 140),
@@ -136,7 +146,7 @@ def po_new(cid, user_id, name, rid, state):
         create_time=int(time()),
     )
     m.save()
-    mc_flush(user_id)
+    mc_flush(user_id, cid)
     return m
 
 def po_state_set(po, state):
@@ -149,7 +159,14 @@ def po_state_set(po, state):
         po.feed_new()
     po.state = state
     po.save()
-    mc_flush_other(po.user_id)
+    mc_flush_other(po.user_id, po.cid)
+
+def po_cid_set(po, cid):
+    o_cid = po.cid
+    if cid != o_cid:
+        po.cid = cid
+        po.save()
+        mc_flush_cid_list_all(po.user_id, [o_cid, cid])
 
 def po_rm(user_id, id):
     m = Po.mc_get(id)
@@ -161,61 +178,82 @@ def po_rm(user_id, id):
         zsite_tag_rm_by_po_id(id)
         from rank import rank_rm_all
         rank_rm_all(id)
-        from po_question import mc_answer_id_get
+        from po_question import mc_answer_id_get, answer_count
         rid = m.rid
         if rid:
             mc_answer_id_get.delete('%s_%s' % (user_id, rid))
-        mc_flush(user_id)
+            answer_count.delete(rid)
+        mc_flush(user_id, m.cid)
         return True
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
     if name and not is_same_post(user_id, name):
-        m = po_new(CID_WORD, user_id, name, rid, state)
+        m = po_new(CID_WORD, user_id, name, state, rid)
         if state > STATE_SECRET:
             m.feed_new()
         return m
 
-def po_note_new(user_id, name, txt, state, rid=0):
+def po_note_new(user_id, name, txt, state):
     if not name and not txt:
         return
     name = name or time_title()
     if not is_same_post(user_id, name, txt):
-        m = po_new(CID_NOTE, user_id, name, rid, state)
+        m = po_new(CID_NOTE, user_id, name, state)
         txt_new(m.id, txt)
         if state > STATE_SECRET:
             m.feed_new()
         return m
+
 
 PO_LIST_STATE = {
     True: 'state>%s' % STATE_DEL,
     False: 'state>%s' % STATE_SECRET,
 }
 
-po_list_count = McNum(lambda user_id, is_self: Po.where(user_id=user_id).where(PO_LIST_STATE[is_self]).count(), 'PoListCount.%s')
+
+def _po_list_count(user_id, cid, is_self):
+    qs = Po.where(user_id=user_id)
+    if cid:
+        qs = qs.where(cid=cid)
+    return qs.where(PO_LIST_STATE[is_self]).count()
+
+po_list_count = McNum(_po_list_count, 'PoListCount.%s')
 
 mc_po_id_list = McLimitA('PoIdList.%s', 512)
 
-@mc_po_id_list('{user_id}_{is_self}')
-def po_id_list(user_id, is_self, limit, offset):
-    return Po.where(user_id=user_id).where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
+@mc_po_id_list('{user_id}_{cid}_{is_self}')
+def po_id_list(user_id, cid, is_self, limit, offset):
+    qs = Po.where(user_id=user_id)
+    if cid:
+        qs = qs.where(cid=cid)
+    return qs.where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
 
-def po_view_list(user_id, is_self, limit, offset):
-    return Po.mc_get_list(po_id_list(user_id, is_self, limit, offset))
+def po_view_list(user_id, cid, is_self, limit, offset=0):
+    id_list = po_id_list(user_id, cid, is_self, limit, offset)
+    return Po.mc_get_list(id_list)
 
-def mc_flush(user_id):
-    mc_flush_other(user_id)
-    mc_flush_self(user_id)
+def mc_flush_all(user_id):
+    for is_self in (True, False):
+        for cid in CID_PO:
+            mc_flush_cid(user_id, cid, is_self)
+        mc_flush_cid(user_id, 0, is_self)
 
-def _mc_flush(user_id, is_self):
-    key = '%s_%s' % (user_id, is_self)
+def mc_flush(user_id, cid):
+    mc_flush_cid_list_all(user_id, [0, cid])
+
+def mc_flush_other(user_id, cid):
+    mc_flush_cid(user_id, 0, False)
+    mc_flush_cid(user_id, cid, False)
+
+def mc_flush_cid(user_id, cid, is_self):
+    key = '%s_%s_%s' % (user_id, cid, is_self)
     po_list_count.delete(key)
     mc_po_id_list.delete(key)
 
-def mc_flush_self(user_id):
-    _mc_flush(user_id, True)
-
-def mc_flush_other(user_id):
-    _mc_flush(user_id, False)
+def mc_flush_cid_list_all(user_id, cid_list):
+    for is_self in (True, False):
+        for cid in cid_list:
+            mc_flush_cid(user_id, cid, is_self)
 
 if __name__ == '__main__':
     pass

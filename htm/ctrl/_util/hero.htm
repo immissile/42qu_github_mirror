@@ -1,0 +1,37 @@
+<%!
+from zkit.itertools import chunkiter
+from model.ico import pic_url_bind_with_default
+from model.career import career_bind
+%>
+
+<%def name="hero_list(zsite_list)">
+<%
+career_bind(zsite_list)
+pic_url_bind_with_default(zsite_list, "219")
+%>
+<div class="zsite_list">
+    %for chunk in chunkiter(zsite_list,4):
+<div class="hero_line c">
+        %for i in chunk:
+<a href="${i.link}">
+<div class="G1">
+<img src="${i.pic219}">
+<div>${i.name}</div>
+<%
+unit, title = i.career
+%>
+%if unit:
+<div class="tr">${unit}</div>
+%endif
+%if title:
+<div class="tr">${title}</div>
+%endif
+</div>
+</a>
+        %endfor
+</div>
+    %endfor
+
+</div>
+</%def>
+

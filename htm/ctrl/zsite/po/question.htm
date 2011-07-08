@@ -27,7 +27,14 @@ zsite_url = zsite.link
 ${po_bar_vote(po)}\
 <p class="po_bar">\
 <span class="L">\
-<a href="${po.link_reply}#reply_txt">${po.reply_count or ''}评注</a></span>\
+<%
+count = po.reply_count
+%>\
+<a href="${po.link_reply}#reply_txt">\
+%if count:
+<span class="qsnum">${count}</span>\
+%endif
+评注</a></span>\
  </p>\
 </pre>\
 </%def>
@@ -82,11 +89,11 @@ href="${answer.link_edit}" class="edit">编辑</a>
 <%htm:form id="txt_form" action="/question/${po_id}">\
 <textarea id="reply_txt" name="txt"></textarea>\
 <div class="btns">\
+<span id="question_submit" class="btnw"><button type="submit">回答</button></span>\
 <span id="secret_span">\
 <input type="checkbox" name="secret" id="secret">
 <label for="secret" id="secret_label">匿名</label>\
 </span>\
-<span id="question_submit" class="btnw"><button type="submit">回答</button></span>\
 </div>\
 </%htm:form>\
     %endif

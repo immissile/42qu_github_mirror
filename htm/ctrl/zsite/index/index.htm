@@ -1,8 +1,8 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-<%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 <%!
 from model.ico import pic_url as _pic_url, ico_url_with_default
 from model.zsite_link import link_id_name_by_zsite_id
+from model.career import career_list_all
 %>
 
 <%def name="htm_title()">
@@ -12,6 +12,7 @@ ${zsite.name}
 %endif
 </%def>
 
+
 <%
 is_owner = zsite_id == current_user_id
 pic_url = _pic_url(zsite_id)
@@ -20,43 +21,44 @@ pic_url = _pic_url(zsite_id)
 ${zsite.name}\
 %if motto:
  - ${motto}\
+%elif is_owner:
+ - <a href="/i" class="c00f">点击这里 , 设置座右铭</a>\
 %endif
 </h1>
 
-<%
-has_g1 = ico_txt or is_owner
-%>
+##<p><a href="/following${CID_USER}">关注的人</a></p>
+##%for i in follow_list_by_from_id_cid(zsite.id, CID_USER):
+##<p><a href="${i.link}" target="_blank">${i.name}</a></p>
+##%endfor
+##
+##
+##<p><a href="/follower">被**关注</a></p>
+##<p><a href="/po">文章</a></p>
+
 <div class="G">
-%if has_g1:
-<div class="G1">
-%if ico_txt:
-    <pre>${ico_txt|n}</pre>\
-%elif is_owner:
-    <a href="/i/career">编辑自己的经历</a>
-%endif
-</div>
-%endif
+<%include file="_g1.htm"/>
+
 %if pic_url:
-    %if has_g1:
-<div class="G3 zsite_pic"><img src="${pic_url}"></div>\
-    %else:
-<div class="G3 zsite_pic zsite_pic_center"><img src="${pic_url}" ></div>\
-    %endif
+<div class="G3 zsite_pic"><img src="${pic_url}" ></div>\
 %elif is_owner:
 <div class="G3">\
-<a href="/i/pic" style="font-size:16px;display:block;text-align:center;width:707px;padding:194px 0;border:7px solid #000">点此上传本人头像 ,  我们将人工审核</a>
+<a href="/i/pic" style="margin-bottom:36px;font-size:16px;display:block;text-align:center;width:707px;padding:194px 0;border:7px solid #000">点此上传本人头像 ,  我们将人工审核</a>
 </div>
 %endif
 <%
 txt = zsite.txt
 %>
 
-%if txt:
-<div class="zsite_txt c">
+%if txt or is_owner:
+<div class="zsite_txt G3 c">
     <img src=${ico_url_with_default(zsite_id)}>
     <div class="qgif"></div>
     <div class="zsite_txt_div">\
+%if txt:
         <pre>${txt}</pre>\
+%else:
+        <pre style="text-align:center;margin-top:14px"><a class="c00f" href="/i#txt">点击这里 , 补充简介</a></pre>
+%endif
     </div>\
 </div>
 %endif
@@ -74,109 +76,160 @@ zsite_link = link_id_name_by_zsite_id(zsite_id)
 <a href="/link/${id}">${name}</a>\
 %endfor
 </div>
+%elif is_owner:
+<a href="/i/link" style="color:#00f;font-size:14px" id="zsite_link" class="zsite_link">
+点击这里 , 添加链接
+</a>
 %endif
 
 
-    %if not is_owner and current_user:
-<%!
-from model.follow import follow_get, follow_list_by_from_id_cid
-from model.zsite import CID_USER
+
+
+
+
+<%
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from model.po import po_list_count, po_view_list
+po_word_list = po_view_list(zsite_id, CID_WORD, is_owner, 1)
+po_word_count = po_list_count(zsite_id, CID_WORD, is_owner)
+po_note_list = po_view_list(zsite_id, CID_NOTE, is_owner, 6)
+po_note_count = po_list_count(zsite_id, CID_NOTE, is_owner)
+po_answer_list = po_view_list(zsite_id, CID_ANSWER, is_owner, 6)
+po_answer_count = po_list_count(zsite_id, CID_ANSWER, is_owner)
+po_question_list = po_view_list(zsite_id, CID_QUESTION, is_owner, 6)
+po_question_count = po_list_count(zsite_id, CID_QUESTION, is_owner)
 %>
-        %if follow_get(current_user.id,zsite.id):
-<a href="/follow/rm?${_xsrf}">淡忘</a>
-        %else:
-<a href="/follow?${_xsrf}">关注</a>
-        %endif
-    %endif
 
-    %if not current_user:
-<a id="follow" href="javascript:login();void(0)">关注</a>
-    %endif
-
-
-
+% if po_word_count:
 <div class="zsite_block">\
-<pre class="zsite_word">\
-金陵城有个老翁，说着，将银、信一一从囊中取出、一揖而去\
-<a href="javascript:void(0)" class="zsite_reply"></a>\
+% for po in po_word_list:
+<pre class="zsite_word">${po.htm|n}<a href="/${po.id}" class="zsite_reply"></a>\
 </pre>\
+% endfor
 <div class="zsite_num_div">\
-<a href="#" class="num">\
-    <span style=" " href="#" class="now">33243</span><b>句微博</b>
+<a href="/word" class="num">\
+    <span class="now">${po_word_count}</span><b>句微博</b>
 </a>
 </div>
 </div>
-
+% elif is_owner:
 <div class="zsite_block">\
-<div class="zsite_ol">\
-<ol>
-<li><a href="#">通过System Center Advisor进行基于云的服务器管理和故障排解</a></li>\
-<li><a href="#">构建高性能的微博系统——再谈新浪微博架构</a></li>\
-<li><a href="#">Janova和EdgeCase编写测试工具只需七个月</a></li>\
-<li><a href="#">使用Xbase定义通用的图形化视图</a></li>\
-<li><a href="#">快乐与自组织团队</a></li>\
-<li><a href="#">REST API还有新麻烦？</a></li>\
-</ol>
-</div>\
 <div class="zsite_num_div">\
-<a href="#" class="num">\
-    <span style=" " href="#" class="now">3</span><b>篇文章</b>
+<a href="/live" class="num">\
+    <span class="now">点击这里</span><b>思绪飘零</b>
 </a>
 </div>
 </div>
+% endif
 
+% if po_note_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
 <ol>
-<li><a href="#">通过System Center Advisor进行基于云的服务器管理和故障排解</a></li>\
-<li><a href="#">构建高性能的微博系统——再谈新浪微博架构</a></li>\
-<li><a href="#">Janova和EdgeCase编写测试工具只需七个月</a></li>\
-<li><a href="#">使用Xbase定义通用的图形化视图</a></li>\
-<li><a href="#">快乐与自组织团队</a></li>\
-<li><a href="#">REST API还有新麻烦？</a></li>\
-</ol>
+% for po in po_note_list:
+<li><a href="/${po.id}">${po.name}</a></li>\
+% endfor
+</ol>\
 </div>\
 <div class="zsite_num_div">\
-<a href="#" class="num">\
-    <span style=" " href="#" class="now">7</span><b>条问题</b>
+<a href="/note" class="num">\
+    <span class="now">${po_note_count}</span><b>篇文章</b>
 </a>
 </div>
 </div>
+% endif
 
-
-
-
+% if po_answer_count:
 <div class="zsite_block">\
-
-
 <div class="zsite_ol">\
 <ol>
-<li><a href="#">张沈鹏 , 42区 , 程序员</a></li>\
-<li><a href="#">LucLan , PE.VC 投资</a></li>\
+% for po in po_answer_list:
+<li>${po.question.user.link_html|n} : <a href="/${po.id}">${po.question.name}</a></li>\
+% endfor
 </ol>
 </div>\
 <div class="zsite_num_div">\
-<a href="#" class="num">\
-<span style=" " href="#" class="now">7</span><b>关注</b>
-</a> & <a href="#" class="num_normal"><span >13</span>粉丝</a>
+<a href="/answer" class="num">\
+    <span class="now">${po_answer_count}</span><b>次回答</b>
+</a>
 </div>
 </div>
+% endif
+
+% if po_question_count:
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+% for po in po_question_list:
+<li><a href="/${po.id}">${po.name}</a></li>\
+% endfor
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="/question" class="num">\
+    <span class="now">${po_question_count}</span><b>条问题</b>
+</a>
+</div>
+</div>
+% endif
 
 
 
+<div class="zsite_block zsite_follow">\
 
 
-
-
-
-
-<p><a href="/following${CID_USER}">关注的人</a></p>
-%for i in follow_list_by_from_id_cid(zsite.id, CID_USER):
-<p><a href="${i.link}" target="_blank">${i.name}</a></p>
+<%
+from model.follow import follow_count_by_to_id, follow_count_by_from_id, follow_list_show_by_from_id
+following_count = follow_count_by_from_id(zsite_id)
+follower_count = follow_count_by_to_id(zsite_id)
+follow_list = follow_list_show_by_from_id(zsite_id, 3)
+%>
+%if follow_list:
+<div class="zsite_ico_div">\
+%for i in follow_list:
+<%
+i_career = i.career
+%>
+<div class="zsite_ico c">
+    <a href="${i.link}"><img src="${i.ico96}"></a>
+    <div><a href="${i.link}" target="_blank">${i.name}</a></div>
+    <div>${i_career[0]}</div>
+    <div>${i_career[1]}</div>
+ </div>
 %endfor
+</div>\
+%endif
+%if following_count or follower_count:
+<div class="zsite_num_div">\
+%if following_count:
+<a href="/following" class="num"><span class="now">${following_count}</span><b>关注</b></a>
+%endif
+%if following_count and follower_count:
+&
+%endif
+%if follower_count:
+<a href="/follower"
+%if following_count:
+class="num_normal"><span>\
+%else:
+class="num"><span class="now">\
+%endif
+${follower_count}</span>粉丝</a>
+%endif
+</div>
+%endif
+</div>
 
 
-<p><a href="/follower">被**关注</a></p>
-<p><a href="/po">文章</a></p>
+
+
+
+
+
+
+
+<div class="zsite_foot">
+<a href="#H">${request.host}</a>
+</div>
 
 <script src="${js.ctrl_zsite|n}"></script>

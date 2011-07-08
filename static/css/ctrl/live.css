@@ -29,9 +29,13 @@ width: 323px;
 #po_word_ico{
 float:left;
 }
+#po_word_btn .btnw{
+float:right;
+margin-top:-3px;
+}
 #po_word_btn{
 text-align:right;
-margin-top:9px;
+margin-top:16px;
 float:right;
 _clear:both;
 _width:323px;
@@ -51,6 +55,7 @@ margin-right:24px;
 color:#999;
 vertical-align:top;
 #vertical-align:7px;
+float:right;
 }
 #feeds .G{
 padding-bottom:8px;
@@ -112,9 +117,6 @@ color:#999;
 .mg03{
 margin:0 3px;
 }
-.fdall{
-margin-left:3px;
-}
 .fdpre p{
 line-height:28px;
 padding-bottom:14px;
@@ -134,4 +136,12 @@ color:#a10;
 }
 .fdtxtin{
 margin-bottom:6px;
+}
+#buzzrm{
+float:left;
+display:inline-block;
+background:url(/img/gif/x.gif) no-repeat 0 50%;
+height:28px;
+width:9px;
+padding-right:5px;
 }

@@ -1,5 +1,5 @@
 $(function(){
-    $("#name").placeholder()
+    $("#name").focus()
     $("#txt").elastic()
     $("#po_form").submit(function(){
         $("[placeholder]").each(function(){

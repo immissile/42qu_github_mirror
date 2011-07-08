@@ -3,6 +3,7 @@
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from tag import tag_new, tag_get
 from zkit.attrcache import attrcache
+from spammer import anti_same_post
 
 CID_JOB = 1
 CID_EDU = 2
@@ -66,7 +67,7 @@ class Career(McModel):
         return self.unit, self.title, self.txt, self.begin_time, self.end_time, self.id
 
 
-def career_new(user_id, unit_id, title_id, txt, begin, end, cid):
+def _career_new(user_id, unit_id, title_id, txt, begin, end, cid):
     o = Career(
         user_id=user_id,
         unit_id=unit_id,
@@ -77,6 +78,9 @@ def career_new(user_id, unit_id, title_id, txt, begin, end, cid):
         cid=cid,
     )
     o.save()
+
+career_new = anti_same_post(_career_new)
+
 
 def career_edit(id, user_id, unit_id, title_id, txt, begin, end, cid):
     o = Career.mc_get(id)
@@ -142,6 +146,14 @@ def career_current(user_id):
 
 from zkit.mc_func import mc_func_get_list, mc_func_get_dict
 
+def career_dict(id_list):
+    o_dict = mc_func_get_dict(
+        mc_career_current,
+        career_current,
+        id_list,
+    )
+    return o_dict
+
 def career_bind(user_list):
     id_list = set([i.id for i in user_list])
     o_dict = mc_func_get_dict(
@@ -153,17 +165,10 @@ def career_bind(user_list):
         i.career = o_dict[i.id]
     return user_list
 
-from zsite import Zsite
-from cid import CID_USER
-
-@attrcache
-def user_career(self):
-    if self.cid == CID_USER:
-        return career_current(self.id)
-
-Zsite.career = user_career
-
 if __name__ == '__main__':
     from yajl import dumps
     print dumps(career_list(16, 1))
     print dumps(career_list(16, 2))
+
+
+

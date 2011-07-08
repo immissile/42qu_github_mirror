@@ -96,6 +96,16 @@ def ico_url_with_default(id):
     url = ico_url(id)
     return url or ICO96_DEFAULT
 
+def pic_url_bind_with_default(zsite_list, size):
+    key = 'pic%s' % size
+    for i in zsite_list:
+        setattr(
+            i,
+            key,
+            pic_url_with_default(i.id, size)
+        )
+
+
 if __name__ == '__main__':
     print ico_url(399)
     print pic_url(399)

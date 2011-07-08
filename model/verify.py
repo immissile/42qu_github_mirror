@@ -6,9 +6,9 @@ from time import time
 from _db import Model, McModel, McCache, mc, cursor_by_table
 from mail import mq_rendermail
 from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY
-from days import DAY_SECOND
+from days import ONE_DAY
 
-TIME_LIMIT = 3600 * 24 * 7
+TIME_LIMIT = ONE_DAY * 7
 
 VERIFY_TEMPLATE = {
     CID_VERIFY_MAIL: '/mail/auth/verify/mail.txt',

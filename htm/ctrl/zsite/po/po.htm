@@ -1,4 +1,6 @@
 <%!
+from model.po import CID_QUESTION
+from model.po_question import answer_count
 from datetime import datetime
 %>
 <%inherit file="_po.htm" />
@@ -8,6 +10,7 @@ from datetime import datetime
 <%def name="po_body()">
 <%
 po_id = po.id
+cid = po.cid
 zsite_url = zsite.link
 %>
 <h1><a href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
@@ -19,5 +22,17 @@ zsite_url = zsite.link
 <a href="${zsite_url}">${zsite.name}</a> : <a href="${zsite_url}/tag/${zsite_tag_id}">${tag_name}</a>\
 </p>\
 ${po_bar_vote(po)}\
+%if cid == CID_QUESTION:
+<%
+count = answer_count(po.id)
+%>\
+<p>\
+<a href="${po.link}">\
+%if count:
+<span class="qsnum">${count}</span>\
+%endif
+回答</a>
+</p>\
+%endif
 </pre>
 </%def>
