@@ -1,7 +1,5 @@
-
-
 <%inherit file="/ctrl/_base/zsite.htm" />
-<%namespace file="/ctrl/_util/i/info.htm" name="info"/>
+<%namespace file="/ctrl/_util/i/career.htm" name="career"/>
 
 <%def name="T()"></%def>
 
@@ -17,11 +15,7 @@
 
 
 <%def name="htm_head()">
-${info.css_js()}
+${career.css_js()}
 </%def>
 
-${info.body()}
-
-<script>
-$("#name").val('')
-</script>
+${career.body()}
