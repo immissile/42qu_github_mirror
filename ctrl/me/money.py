@@ -107,7 +107,7 @@ class Draw(LoginBase):
                 price_max = bank.get(user_id) / 100.
 
                 if price > price_max:
-                    error = '提现超出余额' 
+                    error = '提现超出余额'
                 elif price < price_min:
                     error = '提现下限为 %s 元' % price_min
                 else:
@@ -130,5 +130,4 @@ class Drawed(LoginBase):
         if t and t.from_id == self.current_user_id:
             self.render(trade=t)
         else:
-            self.redirect('/money')
-
+            self.redirect('/money/bill')
