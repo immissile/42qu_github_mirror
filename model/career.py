@@ -3,6 +3,7 @@
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from tag import tag_new, tag_get
 from zkit.attrcache import attrcache
+from spammer import anti_same_post
 
 CID_JOB = 1
 CID_EDU = 2
@@ -66,6 +67,7 @@ class Career(McModel):
         return self.unit, self.title, self.txt, self.begin_time, self.end_time, self.id
 
 
+@anti_same_post
 def career_new(user_id, unit_id, title_id, txt, begin, end, cid):
     o = Career(
         user_id=user_id,
