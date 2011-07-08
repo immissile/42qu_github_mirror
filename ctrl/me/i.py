@@ -33,7 +33,7 @@ def _upload_pic(files, current_user_id):
     return error_pic
 
 
-class LoginEdit(LoginBase):
+class LinkEdit(LoginBase):
     def _linkify(self, link):
         link = link.strip().split(' ', 1)[0]
         if link and not link.startswith('http://') and not link.startswith('https://'):
@@ -286,7 +286,7 @@ class Index(UserInfoEdit):
         self.get()
 
 @urlmap('/i/link')
-class Link(LoginBase):
+class Link(LinkEdit):
     def post(self):
         self.save()
         self.get()
