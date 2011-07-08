@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from ctrl._urlmap.me import urlmap
 from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit
 
 @urlmap('/auth/newbie/1')
