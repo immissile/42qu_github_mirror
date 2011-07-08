@@ -45,6 +45,7 @@ from ctrl.me.i import UserInfoEdit, CareerEdit
 @urlmap('/auth/newbie/1')
 class Newbie1(CareerEdit):
     def post(self):
+        self.save()
         self.redirect('/auth/newbie/2')
 
 
