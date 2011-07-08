@@ -16,7 +16,7 @@ from zkit.txt2htm import txt_withlink
 CIDMAP = {}
 
 
-FEED_TUPLE_DEFAULT_LEN = 9
+FEED_TUPLE_DEFAULT_LEN = 12
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
@@ -47,16 +47,18 @@ def feed_tuple_by_db(id):
     ]
 
     txt = m.txt
-    if cid == CID_NOTE or cid == CID_QUESTION or cid == CID_ANSWER:
+    if cid in (CID_NOTE, CID_QUESTION,  CID_ANSWER):
         result.extend(cnenoverflow(txt, 164))
     else:
         if cid == CID_WORD:
             txt = txt_withlink(txt)
         result.extend((txt, False))
+    if rid:
+        user = question.user
+        result.extend(
+            (question.link, user.name, user.link)
+        )
 
-#    if rid:
-#        user = question.user
-#        result.extend((question.link, user.name, user.link))
 
     return result
 

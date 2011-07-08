@@ -158,3 +158,12 @@ margin-right:32px
 .zsite_follow{
 border-bottom:0;
 }
+.zsite_list a{
+color:#000;
+} 
+.hero_line img{
+line-height:0
+}
+.hero_line{
+margin-top:48px
+}

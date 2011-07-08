@@ -18,7 +18,7 @@ from cgi import escape
 from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
-
+from config import SITE_URL
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -58,7 +58,7 @@ class Url(LoginBase):
             user = self.current_user
             user_id = self.current_user_id
             link = self.current_user.link
-            if not user.state <= ZSITE_STATE_APPLY:
+            if user.state <= ZSITE_STATE_APPLY:
                 self.redirect(link+'/i/verify')
             elif url_by_id(user_id):
                 self.redirect(link)
@@ -77,6 +77,7 @@ class Url(LoginBase):
                 error_url = url_valid(url)
             if error_url is None:
                 url_new(user_id, url)
+                self.redirect(SITE_URL)
         else:
             error_url = '个性域名不能为空'
         self.render(
@@ -130,7 +131,7 @@ class Career(LoginBase):
             end = arguments.get('%s_end' % prefix, [])
             career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
 
-        self.redirect('/i/career')
+        self.get()
 
 class UserInfoEdit(object):
     def get(self):
@@ -213,7 +214,7 @@ class Index(UserInfoEdit, LoginBase):
 
         self.save()
 
-        self.redirect('/i')
+        self.get()
 
 
 
@@ -311,10 +312,9 @@ class Namecard(LoginBase):
                 current_user_id, pid_now, name, phone, mail, address
             )
 
-        self.redirect('/i/namecard')
+        self.get()
 
-
-@urlmap('/i/mail_notice')
+@urlmap('/i/mail/notice')
 class MailNotice(LoginBase):
     def get(self):
         user_id = self.current_user_id
@@ -327,7 +327,7 @@ class MailNotice(LoginBase):
         for cid in CID_MAIL_NOTICE_ALL:
             state = self.get_argument('mn%s' % cid, None)
             mail_notice_set(user_id, cid, state)
-        self.redirect('/i/mail_notice')
+        self.get()
 
 
 

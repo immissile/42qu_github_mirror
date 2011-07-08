@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-#coding:utf-8
-
+# -*- coding: utf-8 -*-
 from random import random
 from bisect import bisect, insort
+
 
 def wsample(wlist, key=None):
     lst = []
@@ -17,6 +17,7 @@ def wsample(wlist, key=None):
     r = random() * s
     idx = bisect(lst, r)
     return wlist[idx]
+
 
 def wsample_k(wlist, k, key=None):
     L = len(wlist)
@@ -43,6 +44,7 @@ def wsample_k(wlist, k, key=None):
         s -= vlist[idx]
     return [wlist[p[0]] for p in popped]
 
+
 def wsample2(wlist):
     lst = []
     s = 0
@@ -59,7 +61,7 @@ def wsample2(wlist):
 def wsample_k2(wlist, k, key=None):
     L = len(wlist)
     if k >= L:
-        return wlist
+        return lambda:wlist
     lst = []
     s = 0
     if key is not None:
@@ -83,6 +85,7 @@ def wsample_k2(wlist, k, key=None):
             t -= vlist[idx]
         return [wlist[p[0]] for p in popped]
     return _
+
 
 if __name__ == '__main__':
     z = wsample_k2(

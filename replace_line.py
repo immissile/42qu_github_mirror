@@ -5,12 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-图-
+style="color:#00f"
 """
 
 TO_STRING = """
-图:
-
+class="c00f"
 """
 
 def run():

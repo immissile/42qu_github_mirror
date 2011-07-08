@@ -8,20 +8,29 @@ ${css.ctrl_tag|n}
 </%def>
 
 <div class="po_tag">
-<h1><a class="c0" href="${zsite.link}">${zsite.name}</a> : 共 ${total} ${PO_COUNT_CN.get(cid, '个')}</h1>
-<ul class="po_ul">
+<h1><a class="c0" href="${zsite.link}">${zsite.name}</a> : ${total} ${PO_COUNT_CN[cid]}</h1>
+<div class="zsite_ol">\
+<ol>
     % for po in po_list:
-    <li>
-        <a href="${po.link}">
+        %if po.cid == CID_WORD:
+<pre class="zsite_word">${po.htm|n}\
+<a href="/${po.id}" class="zsite_reply"></a>\
+</pre>\
+        %else:
+    <li>\
+        <a href="${po.link}">\
         % if po.cid == CID_WORD:
-        ${po.htm|n}
+${po.htm|n}\
         % else:
-        <p>${po.name}</p>
-        <pre>${po.htm|n}</pre>
+${po.name}\
         % endif
-        </a>
-    </li>
+        </a>\
+    </li>\
+        %endif
     % endfor
-</ul>
-<div class="tc">${page|n}</div>
+</ol>
+</div>
+
+${page|n}
+
 </div>

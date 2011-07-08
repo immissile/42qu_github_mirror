@@ -46,8 +46,11 @@ class Follower(ZsiteBase):
         follower = Zsite.mc_get_list(ids)
 
         self.render(
-            follower=follower,
+            "/ctrl/zsite/follow/_base.htm",
+            zsite_list=follower,
             page=page,
+            title="粉丝",
+            path="/follower"
         )
 
 @urlmap('/following(\d)?')
@@ -78,7 +81,9 @@ class Following(ZsiteBase):
         following = Zsite.mc_get_list(id_list)
 
         self.render(
-            cid=cid,
-            following=following,
+            zsite_list=following,
             page=page,
+            title="关注",
+            path="/following%s"%(cid or '')
         )
+

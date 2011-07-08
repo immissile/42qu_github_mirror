@@ -1,0 +1,28 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/hero.htm" import="hero_list"/>
+
+<%def name="htm_title()">
+${zsite.name} - ${title}
+</%def>
+<%def name="htm_head()">
+<style>
+h1{
+padding:16px;border-bottom:1px dotted #ccc;text-align:center
+}
+</style>
+</%def>
+
+<%def name="_h1()">
+<h1><a href="${zsite.link}">${zsite.name}</a> : <a href="${path}">${title}</a></h1>
+</%def>
+
+<%def name="h1()">${self._h1()}</%def>
+
+${self.h1()}
+
+<div class="G">
+${hero_list(zsite_list)}
+</div>
+
+
+${page|n}

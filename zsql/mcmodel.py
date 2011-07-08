@@ -52,11 +52,11 @@ class McModel(object):
                     value.mc_set()
             return value
 
-    @classmethod
-    def mc_flush_multi(cls, id_list):
-        mc_key = cls.Meta.mc_key
-        result = mc.get_dict_marshal([mc_key%i for i in id_list], cls._loads)
-        return result
+#    @classmethod
+#    def mc_flush_multi(cls, id_list):
+#        mc_key = cls.Meta.mc_key
+#        result = mc.get_dict_marshal([mc_key%i for i in id_list], cls._loads)
+#        return result
 
     @classmethod
     def mc_get_dict(cls, id_list):

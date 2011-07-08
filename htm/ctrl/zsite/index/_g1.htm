@@ -6,6 +6,8 @@ from model.days import year_month_begin_end
 %>
 
 <%
+career_list = career_list_all(zsite_id)
+is_owner = zsite_id == current_user_id
 %>
 
 <div class="G1">
@@ -21,7 +23,7 @@ line3 = None
 if namecard:
     if namecard.pid_now and namecard.pid_now>1:
         line2  = "现居 : "+namecard.place_now
- 
+sex = None 
 if info:
     sex = info.sex
     age = info.age
@@ -60,15 +62,20 @@ if info:
     
 
 %>
-
+%if is_owner and not career_list:
+<div class="zsite_item"><a class="c00f" href="/i/career">点击这里 , 补充履历</a></div>
+%endif
+%if not sex and is_owner:
+<div class="zsite_item"><a class="c00f" href="/i">点击这里 , 设置性别</a></div>
+%endif
 %if line1:
 <div class="zsite_item">
 <p>${line1|n}</p>
 </div>
 %endif
 
-
-%for career in career_list_all(zsite_id):
+%if career_list:
+%for career in career_list:
 <%
 unit = career.unit
 title = career.title
@@ -88,9 +95,10 @@ end_time = career.end_time
 %if end_time:
 <p>${year_month_begin_end(career.begin_time, career.end_time)}</p>
 %endif
-
 </div>
 %endfor
+%endif
+
 
 %if line2 or line3:
 <div class="zsite_item">

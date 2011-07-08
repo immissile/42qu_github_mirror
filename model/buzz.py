@@ -134,12 +134,17 @@ def buzz_list(user_id, limit, offset):
 
 def _buzz_show(user_id, limit):
     unread = buzz_unread_count(user_id)
+    if not unread:
+        return []
+    limit = min(unread, limit)
     offset = max(unread - limit, 0)
     li = _buzz_list(user_id, limit, offset)
     return li
 
 def buzz_show(user_id, limit):
     _li = _buzz_show(user_id, limit)
+    if not _li:
+        return []
     buzz_pos_update(user_id, _li)
     li = []
     dic = OrderedDict()
