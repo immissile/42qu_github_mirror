@@ -11,6 +11,8 @@ mc_follow_id_list_by_to_id = McLimitA('FollowIdListByToId.%s', 128)
 mc_follow_id_list_by_from_id_cid = McCacheA('FollowIdListByFromIdCid.%s')
 mc_follow_id_list_by_from_id = McCacheA('FollowIdListByFromId.%s')
 mc_follow_get = McCache('FollowGet.%s')
+mc_following_id_rank_tuple = McCacheM('FollowingIdRankTuple.%s')
+
 
 class Follow(Model):
     pass
@@ -26,8 +28,6 @@ def follow_id_list_by_to_id(to_id, limit, offset):
 def follow_id_list_by_from_id(from_id):
     follow_cursor.execute('select to_id from follow where from_id=%s order by id desc', (from_id))
     return [i for i, in follow_cursor]
-
-mc_following_id_rank_tuple = McCacheM('FollowingIdRankTuple.%s')
 
 @mc_following_id_rank_tuple('{from_id}', ONE_DAY)
 def following_id_rank_tuple(from_id):
@@ -100,6 +100,7 @@ def mc_flush(from_id, to_id, cid):
     mc_follow_get.delete('%s_%s'%(from_id, to_id))
     mc_follow_id_list_by_from_id_cid.delete('%s_%s'%(from_id, cid))
     mc_follow_id_list_by_from_id.delete(from_id)
+    mc_following_id_rank_tuple.delete(from_id)
     mc_follow_id_list_by_to_id.delete(to_id)
     follow_count_by_to_id.delete(to_id)
     follow_count_by_from_id.delete(from_id)
