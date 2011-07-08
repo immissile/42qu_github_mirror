@@ -2,9 +2,9 @@
 <%!
 
 NAV = (
-    ( "/money/bill", "账目"),
-    ( "/money/charge", "充值"),
-    ( "/money/draw", "提现"),
+    ( "/money/bill", "账目", False),
+    ( "/money/charge", "充值", True),
+    ( "/money/draw", "提现", False),
 )
 
 %>
@@ -14,10 +14,13 @@ path = request.path
 
 
 <div class="i_nav">
-%for link,name in NAV:
+%for link,name,blank in NAV:
 <a
 %if path.startswith(link): 
 class="now"
+%endif
+%if blank:
+target="_blank"
 %endif
 href="${link|n}">${name|n}</a>
 %endfor
