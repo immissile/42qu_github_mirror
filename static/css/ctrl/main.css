@@ -206,5 +206,14 @@ width:461px;
 height:200px;
 font-size:16px;padding:2px 3px;margin:5px 0 10px;
 }
+.fancyban a{
+color:#00f;
+}
+.fancyban{
+padding:16px;
+width:225px;
+text-align:center;
+font-size:16px;
+}
 
 

@@ -87,7 +87,7 @@ function init_D(){
     })
 }
 
-CANNOT_REPLY = '<div class="tc f16 pd16" style="width:225px"><p>啊 , 出错了 !</p><p>为了维护一本正经的讨论气氛</p><p>未认证用户不能发表看法哦</p><p><a href="/i/verify">点此申请认证吧</a></p></div>'
+CANNOT_REPLY = '<div class="fancyban"><p>啊 , 出错了 !</p><p>为了假装一本正经的讨论气氛</p><p>未认证用户没有发言权</p><p><a href="/i/verify">点此申请认证吧</a></p></div>'
 
 function follow_a(id){
     var a=$("#follow_a"+id),
@@ -108,8 +108,20 @@ function follow_a(id){
                     var txt = $.trim(textarea.val());
                     if(txt&&txt.length){
                         fancybox.showActivity()
+                        $.postJSON(
+                            "/j/follow/reply/"+id,
+                            {'txt':txt},
+                            function(r){
+                                if(r.can_not_reply){
+                                    fancybox({
+                                        content:CANNOT_REPLY  
+                                    }) 
+                                }else{
+                                    fancybox.close()
+                                }
+                        })
                     }else{
-
+                        fancybox.close()
                     }
                     return false
                 })

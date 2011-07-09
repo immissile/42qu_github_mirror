@@ -22,7 +22,10 @@ class Follow(JLoginBase):
         if zsite:
             follow_new(current_user_id, id)
 
-
+@urlmap('/j/follow/reply/(\d+)')
+class FollowRm(JLoginBase):
+    def get(self, id):
+        self.finish('{"can_not_reply":1}')
 
 @urlmap('/j/follow/rm/(\d+)')
 class FollowRm(JLoginBase):
