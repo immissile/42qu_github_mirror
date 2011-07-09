@@ -40,6 +40,7 @@ height:54px;
 width:467px;
 overflow:hidden;
 text-align:center;
+text-indent:-999px;
 }
 #form_reg .logo{
 background:url(/img/gif/logo.gif) no-repeat;
