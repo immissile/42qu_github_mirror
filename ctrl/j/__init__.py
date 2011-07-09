@@ -18,7 +18,7 @@ class Follow(JLoginBase):
         current_user_id = self.current_user_id
 
         zsite = Zsite.mc_get(id)
-        print "current_user_id",current_user_id, zsite
+        
         if zsite:
             follow_new(current_user_id, id)
 
