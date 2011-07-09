@@ -4,7 +4,7 @@ from yajl import dumps, loads
 from time import time
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from kv import Kv
-from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY
+from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DONATE, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY
 from zsite import Zsite
 from user_mail import mail_by_user_id
 from verify import verify_new, verifyed
@@ -34,37 +34,32 @@ TRADE_CID_DIC = {
 #    CID_TRADE_REWARD: '奖励',
 }
 
-TRADE_STATE_OPEN = 1
-TRADE_STATE_FAIL = 5
-TRADE_STATE_FINISH = 9
+TRADE_STATE_NEW = 5
+TRADE_STATE_ONWAY = 10
+TRADE_STATE_ROLLBACK = 15
+TRADE_STATE_FINISH = 20
 
 class Trade(Model):
-    def finish(self):
-        trade_finish(self)
-
-    def fail(self):
-        trade_fail(self)
-
     @property
-    def got(self):
+    def read_value(self):
         return read_cent(self.value)
 
     @property
-    def taxes(self):
+    def read_tax(self):
         return read_cent(self.tax)
 
 mc_frozen_get = McCache('FrozenBank.%s')
 
-@mc_frozen_get('{user_id}')
-def frozen_get(user_id):
-    c = Trade.raw_sql('select sum(value) from trade where from_id=%s and state=%s', user_id, TRADE_STATE_OPEN)
+@mc_frozen_bank('{user_id}')
+def frozen_bank(user_id):
+    c = Trade.raw_sql('select sum(value) from trade where from_id=%s and state=%s', user_id, TRADE_STATE_ONWAY)
     return c.fetchone()[0] or 0
 
 def frozen_view(user_id):
     return read_cent(frozen_get(user_id))
 
-def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN):
-    t = int(time())
+def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_ONWAY, for_id=0):
+    create_time = int(time())
     t = Trade(
         value=cent,
         tax=tax,
@@ -73,29 +68,59 @@ def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN):
         cid=cid,
         rid=rid,
         state=state,
-        create_time=t,
-        update_time=t,
+        create_time=create_time,
+        update_time=create_time,
+        for_id=for_id
     )
     t.save()
-    bank_change(from_id, -cent)
-    if state == TRADE_STATE_FINISH:
+    if state == TRADE_STATE_ONWAY:
+        bank_change(from_id, -cent)
+        mc_frozen_bank.delete(t.from_id)
+    elif state == TRADE_STATE_FINISH:
+        bank_change(from_id, -cent)
         bank_change(to_id, cent)
     return t
 
-def trade_finish(t):
-    if t.state == TRADE_STATE_OPEN:
-        bank_change(t.to_id, t.value)
+def trade_open(t):
+    if t.state == TRADE_STATE_NEW:
+        bank_change(t.from_id, -t.value)
         t.update_time = int(time())
-        t.state = TRADE_STATE_FINISH
+        t.state = TRADE_STATE_ONWAY
         t.save()
         mc_frozen_get.delete(t.from_id)
 
+def trade_finish(t):
+    from_id = t.from_id
+    to_id = t.to_id
+    value = t.value
+    state = t.state
+    update_time = int(time())
+
+    is_new = (state == TRADE_STATE_NEW)
+    is_onway = (state == TRADE_STATE_ONWAY)
+    if is_new:
+        bank_change(from_id, -value)
+    if is_new or is_onway:
+        bank_change(to_id, value)
+        t.update_time = update_time
+        t.state = TRADE_STATE_FINISH
+        t.save()
+        if is_onway:
+            mc_frozen_bank.delete(from_id)
+
 def trade_fail(t):
-    if t.state == TRADE_STATE_OPEN:
-        from_id = t.from_id
-        bank_change(from_id, t.value)
-        t.update_time = int(time())
-        t.state = TRADE_STATE_FAIL
+    from_id = t.from_id
+    value = t.value
+    state = t.state
+    update_time = int(time())
+    if state == TRADE_STATE_NEW:
+        t.update_time = update_time
+        t.state = TRADE_STATE_ROLLBACK
+        t.save()
+    elif state == TRADE_STATE_ONWAY:
+        bank_change(from_id, value)
+        t.update_time = update_time
+        t.state = TRADE_STATE_ROLLBACK
         t.save()
         mc_frozen_get.delete(from_id)
 
@@ -120,6 +145,9 @@ def pay_account_new(user_id, account, name, cid):
     return a
 
 def pay_account_get(user_id, cid):
+    return pay_account_name_get(user_id, cid)[0]
+
+def pay_account_name_get(user_id, cid):
     a = PayAccount.get(user_id=user_id, cid=cid)
     account = None
     name = None
@@ -137,11 +165,11 @@ CHARGE_TAX = {
     CID_PAY_ALIPAY: 1.5 / 100,
 }
 
-def charge_new(price, user_id, cid):
+def charge_new(price, user_id, cid, for_id=0):
     assert price > 0
     cent = int(price * 100)
     tax = int(round(cent * CHARGE_TAX[cid]))
-    t = trade_new(cent-tax, tax, 0, user_id, CID_TRADE_CHARDE, cid, TRADE_STATE_OPEN)
+    t = trade_new(cent-tax, tax, 0, user_id, CID_TRADE_CHARDE, cid, TRADE_STATE_ONWAY, for_id)
     vid, ck = verify_new(user_id, CID_VERIFY_MONEY)
     return '%s_%s_%s' % (t.id, vid, ck)
 
@@ -151,9 +179,14 @@ def charged(out_trade_no, total_fee, rid, d):
     if vcid == CID_VERIFY_MONEY:
         t = Trade.get(id)
         if t and t.to_id == user_id and t.rid == rid  and t.value + t.tax == int(float(total_fee)*100):
-            if t.state == TRADE_STATE_OPEN:
-                t.finish()
+            if t.state == TRADE_STATE_ONWAY:
+                trade_finish(t)
                 trade_log.set(user_id, dumps(d))
+                if t.for_id:
+                    for_t = Trade.get(t.for_id)
+                    if bank_can_pay(for_t.from_id, for_t.value):
+                        trade_finish(for_t)
+                        return for_t
             return t
 
 # Withdraw
@@ -161,29 +194,35 @@ def withdraw_new(price, user_id, cid):
     assert price > 0
     cent = int(price * 100)
     tax = int(round(cent * CHARGE_TAX[cid]))
-    return trade_new(cent, tax, user_id, 0, CID_TRADE_WITHDRAW, cid, TRADE_STATE_OPEN)
+    return trade_new(cent, tax, user_id, 0, CID_TRADE_WITHDRAW, cid, TRADE_STATE_ONWAY)
 
 def withdraw_fail(id, txt):
     t = Trade.get(id)
-    if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_OPEN:
-        t.fail()
+    if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_ONWAY:
+        trade_fail(t)
         trade_log.set(id, txt)
 
 def withdraw_open_count():
-    return Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_OPEN).count()
+    return Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_ONWAY).count()
 
 def withdraw_max():
     c = Trade.raw_sql('select max(id) from trade where cid=%s and to_id=%s', CID_TRADE_WITHDRAW, 0)
     return c.fetchone()[0] or 0
 
 def withdraw_list():
-    qs = Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_OPEN).order_by('id desc')
+    qs = Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_ONWAY).order_by('id desc')
     for i in qs:
-        i.account, i.name = pay_account_get(i.from_id, i.rid)
+        i.account, i.name = pay_account_name_get(i.from_id, i.rid)
     return qs
 
 # Deal
-def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN):
+def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
+    assert price > 0
+    cent = int(price * 100)
+    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_DONATE, rid, state)
+    return t.id
+
+def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
     assert price > 0
     cent = int(price * 100)
     return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)

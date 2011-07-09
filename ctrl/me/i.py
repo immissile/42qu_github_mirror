@@ -12,7 +12,7 @@ from model.user_mail import mail_by_user_id
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
 from model.zsite import user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_APPLY
-from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
+from model.user_auth import user_password_new, user_password_verify
 from model.user_mail import mail_by_user_id
 from cgi import escape
 from urlparse import parse_qs

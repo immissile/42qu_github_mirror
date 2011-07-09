@@ -38,9 +38,13 @@ background:url(/img/gif/logo.gif) no-repeat;
 margin:30px auto 72px;
 height:54px;
 width:467px;
-text-indent:-999px;
 overflow:hidden;
 text-align:center;
+}
+#form_reg .logo{
+background:url(/img/gif/logo.gif) no-repeat;
+text-indent:-999px;
+height:54px;
 }
 #login{
 width:399px;

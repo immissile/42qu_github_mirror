@@ -1,0 +1,30 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+%>
+
+<%def name="htm_head()">
+${css.ctrl_donate|n}
+</%def>
+
+<%htm:form id="donate" className="fullscreen" enctype="multipart/form-data">
+
+<h1>捐赠</h1>
+<div class="item"><label>收款</label><a
+    target="_blank"
+    href="${zsite.link}">${zsite.name}</a></div>
+<div class="item"><label for="amount">金额</label><input id="amount" type="text" name="amount" value=${amount or '4.2'}>元${errtip.amount|n}</div>
+
+<div id="account_item" class="item"><label for="alipay_account">支付宝账号</label><input id="alipay_account" type="text" name="alipay_account" value="${alipay_account}">${errtip.alipay_account|n}</div>
+
+<div id="tax">注 : 支付宝交易费为1.5%</div>
+
+%if not current_user:
+<div class="item"><label for="mail">联系邮箱</label><input id="mail" type="text" name="mail" value="${mail or ''}">${errtip.mail|n}</div>
+%endif
+
+<div class="btns">
+    <span class="btnw"><button type="submit">支付</button></span>
+</div>
+</%htm:form>
+<script src="${js.ctrl_donate|n}"></script>

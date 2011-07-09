@@ -24,3 +24,4 @@ table_main
 .git*
 *.vim
 *.orig
+zpage_private_config

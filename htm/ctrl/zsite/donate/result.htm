@@ -1,0 +1,34 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%!
+from time import gmtime, strftime
+from model.money import TRADE_STATE_FINISH
+%>
+<%def name="struct_time(trade_time)">
+${strftime("%Y/%m/%d %H:%M:%S", gmtime(trade_time))}
+</%def>
+<%
+result_url = 'http:%s%s' % (to_user.link, request.uri)
+%>
+<style>
+    p.bill{
+        font-size: 300%;
+        text-align: center;
+        padding: 100px;
+    }
+    p.bill_time{
+        text-align: center;
+    }
+    #amount{
+        color:#A10;
+    }
+</style>
+%if t.state == TRADE_STATE_FINISH: 
+<p class='bill'><a href="${from_user.link}">${from_user.name}</a>支付给<a href="${to_user.link}"> ${to_user.name}</a><span id="amount"> ${float(t.value)/100}</span> 元。</p>
+
+<p>交易创建时间${struct_time(t.create_time)}，交易完成时间${struct_time(t.update_time)}。</p>
+<p>交易号:${t.id}</p>
+<p>查询链接:${result_url}</p>
+
+%else:
+    <p class='bill'>该支付未完成</p>
+%endif

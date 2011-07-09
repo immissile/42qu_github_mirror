@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from money import charge_new, charged
+from money import charge_new, charged, donate_new, CHARGE_TAX
 from cid import CID_PAY_ALIPAY
 from user_mail import mail_by_user_id
 from zkit.money import Alipay, alipay_url_parse
@@ -9,12 +9,12 @@ from config import ALIPAY_ID, ALIPAY_SALT, ALIPAY_EMAIL
 ALIPAY = Alipay(ALIPAY_SALT, ALIPAY_ID, ALIPAY_EMAIL)
 
 def _alipay_payurl(
-        user_id, total_fee, return_url, notify_url, subject, buyer_email=None
+        user_id, total_fee, return_url, notify_url, subject, buyer_email=None,
+        for_id=0, body = ''
     ):
     if buyer_email is None:
         buyer_email = mail_by_user_id(user_id)
-    out_trade_no = charge_new(total_fee, user_id, CID_PAY_ALIPAY)
-    body = '%s 付款> %s 跳转> %s' % (buyer_email, user_id, return_url)
+    out_trade_no = charge_new(total_fee, user_id, CID_PAY_ALIPAY, for_id)
     return ALIPAY.payurl(
         total_fee,
         out_trade_no,
@@ -25,19 +25,67 @@ def _alipay_payurl(
         body
     )
 
-def alipay_payurl(
-        user_id, total_fee, return_url, notify_url, subject, buyer_email=None
+
+def alipay_payurl_with_tax(
+        user_id, total_fee, return_url, notify_url, subject, buyer_email=None,
+        for_id=0
     ):
-    total_fee = int(float(total_fee)*100)/100.
+    total_fee = float(total_fee)
+    tax = int(
+        (total_fee*100+1)*CHARGE_TAX[CID_PAY_ALIPAY]
+    )/100.0
+    return _alipay_payurl(
+        user_id,
+        total_fee+tax,
+        return_url,
+        notify_url,
+        subject,
+        buyer_email,
+        for_id,
+        "支付宝手续费 %.2f 元"%tax
+    )
+
+
+def alipay_payurl(
+        user_id, total_fee, return_url, notify_url, subject, buyer_email=None,
+        for_id=0
+    ):
+    total_fee = float(total_fee)
     return _alipay_payurl(
         user_id,
         total_fee,
         return_url,
         notify_url,
         subject,
-        buyer_email
+        buyer_email,
+        for_id,
+        "%s"%buyer_email
     )
 
+####
+#def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
+#   assert price > 0
+#   cent = int(price * 100)
+#   return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)
+#def alipay_payurl_donate(
+#        from_user_id, to_user_id, total_fee, return_url, notify_url, subject, buyer_email
+#    ):
+#    cent = float(total_fee * 100)
+#    tax = float(round(cent * CHARGE_TAX[CID_PAY_ALIPAY]))
+#    after_tax = (cent-tax)/100
+#    for_id = trade_id
+#    out_trade_no = charge_new(total_fee, from_user_id, CID_PAY_ALIPAY, for_id)
+#    body = '%s 捐赠> %s 跳转> %s' % (buyer_email, to_user_id, return_url)
+#    return ALIPAY.payurl(
+#        total_fee,
+#        out_trade_no,
+#        subject,
+#        return_url,
+#        notify_url,
+#        buyer_email,
+#        body,
+#    )
+#
 #def alipay_payurl_with_tax(
 #        user_id, total_fee, return_url, notify_url, subject, buyer_email=None
 #    ):

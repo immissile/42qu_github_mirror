@@ -43,16 +43,16 @@ from_id = t.from_id
 to_id = t.to_id
 from_user = t.from_user
 to_user = t.to_user
-taxes = t.taxes
 tax = t.tax
-got = t.got
+read_tax = t.read_tax
+got = t.read_value
 update_time = datetime.fromtimestamp(t.update_time)
 %>
 %if cid == CID_TRADE_CHARDE:
 充值 ${got} 
 %elif cid == CID_TRADE_WITHDRAW:
 提现 ${got} 
-    %if state == TRADE_STATE_OPEN:
+    %if state == TRADE_STATE_ONWAY:
     等待
     %elif state == TRADE_STATE_FINISH:
     成功
