@@ -1,20 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
+from qu.myconf.config import DB_HOST_ONLINE
 from zpage.config import DB_CONFIG
 import subprocess
 import time
-
-host, port, name, user, password = DB_CONFIG['main'].get('master').split(':')
-print host, port, name, user, password
-SQL = 'mysql -h%s -P%s -u%s -p%s' % (host, port, user, password)
-
-subprocess.Popen('%s < data_migration.sql' % SQL, shell=True)
-time.sleep(2)
-
-from qu.mysite.model.const import man
-from qu.mysite.model.const.man import CID_MAN, STATE_APPLY, STATE_APPLYED, STATE_BAN, STATE_ACTIVE, A_STATE, STATE_DEL, STATE_VERIFY, STATE_RECALLED
-
 
 from qu.mysite.model.const.man import STATE_BAN, STATE_DEL, STATE_TO_VERIFY, STATE_APPLY, STATE_APPLYED, STATE_ACTIVE, STATE_VERIFY, STATE_TODO, STATE_REAL
 
@@ -27,9 +17,27 @@ ZSITE_STATE_TUPLE = (
     (STATE_TO_VERIFY, ZSITE_STATE_APPLY),
 )
 
-for old, new in ZSITE_STATE_TUPLE:
-    sql = 'update zpage.zsite set state=%s where state=%s;' % (new, old)
-    sql = '%s -e "%s"' % (SQL, sql)
-    print sql
-    subprocess.Popen(sql, shell=True)
-    time.sleep(2)
+oldname = DB_HOST_ONLINE.split(':')[2]
+
+host, port, name, user, password = DB_CONFIG['main'].get('master').split(':')
+print host, port, name, user, password
+SQL = 'mysql -h%s -P%s -u%s -p%s' % (host, port, user, password)
+
+with open('data.sql', 'w') as f:
+    with open('data_migration.sql') as f2:
+        s = f2.read()
+        f.write(s.replace('qu', oldname))
+        for old, new in ZSITE_STATE_TUPLE:
+            sql = 'update zpage.zsite set state=%s where state=%s;' % (new, old)
+            f.write(sql)
+
+subprocess.Popen('%s < data.sql' % SQL, shell=True)
+time.sleep(2)
+#
+#
+#for old, new in ZSITE_STATE_TUPLE:
+#    sql = 'update zpage.zsite set state=%s where state=%s;' % (new, old)
+#    sql = '%s -e "%s"' % (SQL, sql)
+#    print sql
+#    subprocess.Popen(sql, shell=True)
+#    time.sleep(2)
