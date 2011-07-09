@@ -5,17 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-TRADE_STATE_NEW
-TRADE_STATE_OPEN
-TRADE_STATE_FAIL
-TRADE_STATE_FINISH
+.got
 """
 
 TO_STRING = """
-TRADE_STATE_NEW
-TRADE_STATE_ONWAY
-TRADE_STATE_ROLLBACK
-TRADE_STATE_FINISH
+.read_value
 """
 
 def run():

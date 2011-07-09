@@ -40,17 +40,17 @@ TRADE_STATE_ROLLBACK = 15
 TRADE_STATE_FINISH = 20
 
 class Trade(Model):
-    def open(self):
-        trade_open(self)
+    #def open(self):
+    #    trade_open(self)
 
-    def finish(self):
-        trade_finish(self)
+    #def finish(self):
+    #    trade_finish(self)
 
     def fail(self):
         trade_fail(self)
 
     @property
-    def got(self):
+    def read_value(self):
         return read_cent(self.value)
 
     @property
@@ -104,18 +104,18 @@ def trade_finish(t):
     value = t.value
     state = t.state
     update_time = int(time())
-    if state == TRADE_STATE_NEW:
+
+    is_new = (state == TRADE_STATE_NEW)
+    is_onway = (state == TRADE_STATE_ONWAY)
+    if is_new:
         bank_change(from_id, -value)
+    if is_new or is_onway:
         bank_change(to_id, value)
         t.update_time = update_time
         t.state = TRADE_STATE_FINISH
         t.save()
-    elif state == TRADE_STATE_ONWAY:
-        bank_change(to_id, value)
-        t.update_time = update_time
-        t.state = TRADE_STATE_FINISH
-        t.save()
-        mc_frozen_bank.delete(from_id)
+        if is_onway:
+            mc_frozen_bank.delete(from_id)
 
 def trade_fail(t):
     from_id = t.from_id
@@ -189,13 +189,12 @@ def charged(out_trade_no, total_fee, rid, d):
         t = Trade.get(id)
         if t and t.to_id == user_id and t.rid == rid  and t.value + t.tax == int(float(total_fee)*100):
             if t.state == TRADE_STATE_ONWAY:
-                t.finish()
+                trade_finish(t)
                 trade_log.set(user_id, dumps(d))
                 if t.for_id:
                     for_t = Trade.get(t.for_id)
                     if bank_can_pay(for_t.from_id, for_t.value):
-                        for_t.open()
-                        for_t.finish()
+                        trade_finish(for_t)
                         return for_t
             return t
 
