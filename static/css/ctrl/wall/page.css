@@ -40,3 +40,6 @@ background:url(/img/gif/reply.gif) 100% 4px no-repeat;
 #reply_submit{
 float:right;
 }
+#reply_form{
+margin-bottom:32px;
+}
