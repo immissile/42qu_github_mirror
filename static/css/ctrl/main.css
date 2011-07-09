@@ -212,8 +212,16 @@ color:#00f;
 .fancyban{
 padding:16px;
 width:225px;
-text-align:center;
+text-align:ter;
 font-size:16px;
 }
-
+#follow_secret_span{
+float:left;
+margin-right:14px;
+margin-left:252px
+}
+#follow_reply_secret{
+margin-right:7px;
+vertical-align:-1px;
+}
 
