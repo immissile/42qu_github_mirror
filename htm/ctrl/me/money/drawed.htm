@@ -18,7 +18,7 @@ margin-bottom:16px;
 <p>提现处理中</p>
 <p>资金将于九日内到账</p>
 <p>
-%if trade.to_id == current_user_id:
+%if trade.from_id == current_user_id:
 <%
 now = bank.get(current_user_id)
 pre = now + trade.value

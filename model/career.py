@@ -156,11 +156,7 @@ def career_dict(id_list):
 
 def career_bind(user_list):
     id_list = set([i.id for i in user_list])
-    o_dict = mc_func_get_dict(
-        mc_career_current,
-        career_current,
-        id_list,
-    )
+    o_dict = career_dict(id_list)
     for i in user_list:
         i.career = o_dict[i.id]
     return user_list
@@ -169,6 +165,3 @@ if __name__ == '__main__':
     from yajl import dumps
     print dumps(career_list(16, 1))
     print dumps(career_list(16, 2))
-
-
-

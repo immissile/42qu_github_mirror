@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import init_env
 
 from qu.myconf.config import KV_PATH
 

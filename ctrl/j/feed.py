@@ -11,7 +11,8 @@ from model.feed import feed_rt, feed_rt_rm, feed_rt_id
 from model.ico import pic_url_with_default
 from model.cid import CID_NOTE, CID_QUESTION, CID_ANSWER
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
-from model.career import career_bind, career_dict
+from model.career import career_dict
+
 
 @urlmap('/j/feed/up1/(\d+)')
 class FeedUp(JLoginBase):
@@ -21,6 +22,7 @@ class FeedUp(JLoginBase):
         feed_rt(current_user_id, id)
         self.finish('{}')
 
+
 @urlmap('/j/feed/up0/(\d+)')
 class FeedUpX(JLoginBase):
     def post(self, id):
@@ -28,6 +30,7 @@ class FeedUpX(JLoginBase):
         vote_up_x(current_user_id, id)
         feed_rt_rm(current_user_id, id)
         self.finish('{}')
+
 
 @urlmap('/j/feed/down1/(\d+)')
 class FeedDown(JLoginBase):
@@ -37,12 +40,14 @@ class FeedDown(JLoginBase):
         feed_rt_rm(current_user_id, id)
         self.finish('{}')
 
+
 @urlmap('/j/feed/down0/(\d+)')
 class FeedDownX(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         vote_down_x(current_user_id, id)
         self.finish('{}')
+
 
 @urlmap('/j/feed/(\d+)')
 class Feed(JLoginBase):
@@ -57,7 +62,7 @@ class Feed(JLoginBase):
         zsite_id_set = set(
             i[3] for i in result
         )
-        
+
         c_dict = career_dict(zsite_id_set)
 
         r = []
@@ -73,20 +78,18 @@ class Feed(JLoginBase):
                 i = i[:FEED_TUPLE_DEFAULT_LEN]
             else:
                 after = None
-            
+
             i.extend([
                 pic_url_with_default(zsite_id, '219'),
                 unit,
                 title,
                 vote_state(current_user_id, id),
             ])
- 
- 
+
             if cid in (CID_QUESTION, CID_NOTE, CID_ANSWER):
                 i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
-            
-            
-            #print after 
+
+            #print after
             if after:
                 i.extend(after)
             r.append(i)
@@ -105,6 +108,3 @@ class FdTxt(Base):
         else:
             result = ''
         self.finish(result)
-
-
-

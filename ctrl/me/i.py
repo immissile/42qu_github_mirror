@@ -33,22 +33,186 @@ def _upload_pic(files, current_user_id):
     return error_pic
 
 
-@urlmap('/i/pic')
-class Pic(LoginBase):
+class LinkEdit(LoginBase):
+    def _linkify(self, link):
+        link = link.strip().split(' ', 1)[0]
+        if link and not link.startswith('http://') and not link.startswith('https://'):
+            link = 'http://%s'%link
+        return link
+
+    def get(self):
+        zsite_id = self.zsite_id
+        id_name = link_id_name_by_zsite_id(zsite_id)
+        id_cid = dict(link_id_cid(zsite_id))
+
+        link_list = []
+        link_cid = []
+        exist_cid = set()
+
+        for id, name in id_name:
+            link = link_by_id(id)
+            if id in id_cid:
+                cid = id_cid[id]
+                link_cid.append((cid, name , link))
+                exist_cid.add(cid)
+            else:
+                link_list.append((id, name, link))
+
+        for cid in (set(OAUTH_LINK_DEFAULT) - exist_cid):
+            link_cid.append((cid, OAUTH2NAME_DICT[cid], ""))
+
+        return self.render(
+            link_list=link_list,
+            link_cid=link_cid
+        )
+
+    def save(self):
+        zsite_id = self.zsite_id
+
+        arguments = parse_qs(self.request.body, True)
+        link_cid = []
+        link_kv = []
+        for cid, link in zip(arguments.get('cid'), arguments.get('link')):
+            cid = int(cid)
+            name = OAUTH2NAME_DICT[cid]
+            link_cid.append((cid, name, self._linkify(link)))
+
+
+        for id, key, value in zip(
+            arguments.get('id'),
+            arguments.get('key'),
+            arguments.get('value')
+        ):
+            id = int(id)
+            link = self._linkify(value)
+
+            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
+
+        link_list_save(zsite_id, link_cid, link_kv)
+
+
+
+class CareerEdit(LoginBase):
+    def get(self):
+        from model.career import CID_JOB, CID_EDU, career_list
+        current_user_id = self.current_user_id
+        self.render(
+            job_list=career_list(current_user_id, CID_JOB),
+            edu_list=career_list(current_user_id, CID_EDU),
+        )
+
+    def save(self):
+        from model.career import CID_TUPLE, career_list_set
+        current_user_id = self.current_user_id
+        #Tornado会忽略掉默认为空的参数
+        arguments = parse_qs(self.request.body, True)
+
+        for cid, prefix in CID_TUPLE:
+            id = arguments.get('%s_id' % prefix, [])
+            unit = arguments.get('%s_unit' % prefix, [])
+            title = arguments.get('%s_title' % prefix, [])
+            txt = arguments.get('%s_txt' % prefix, [])
+            begin = arguments.get('%s_begin' % prefix, [])
+            end = arguments.get('%s_end' % prefix, [])
+            career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
+
+
+class PicEdit(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
         pos = ico_pos.get(current_user_id)
         self.render(pos=pos)
 
-    def post(self):
+    def save(self):
         current_user_id = self.current_user_id
         files = self.request.files
         pos = self.get_argument('pos', '')
         if pos:
             ico_pos_new(current_user_id, pos)
         error_pic = _upload_pic(files, current_user_id)
-        self.render(error_pic=error_pic, pos=pos)
+        return error_pic
 
+
+
+class UserInfoEdit(LoginBase):
+    def get(self):
+        current_user_id = self.current_user_id
+        current_user = self.current_user
+        motto = _motto.get(current_user_id)
+        txt = txt_get(current_user_id)
+        o = UserInfo.mc_get(current_user_id) or JsDict()
+        c = namecard_get(current_user_id) or JsDict()
+        self.render(
+            name=current_user.name,
+            motto=motto,
+            txt=txt,
+            birthday='%08d' % (o.birthday or 0),
+            marry=o.marry,
+            pid_home=o.pid_home or 0,
+            pid_now=c.pid_now or 0,
+            sex=o.sex
+        )
+
+    def save(self):
+        current_user_id = self.current_user_id
+        current_user = self.current_user
+
+        name = self.get_argument('name', None)
+        if name:
+            current_user.name = name
+            current_user.save()
+
+        motto = self.get_argument('motto', None)
+        if motto:
+            _motto.set(current_user_id, motto)
+
+        txt = self.get_argument('txt', '')
+        if txt:
+            txt_new(current_user_id, txt)
+
+        birthday = self.get_argument('birthday', '0')
+        birthday = int(birthday)
+        marry = self.get_argument('marry', '')
+        pid_home = self.get_argument('pid_home', '1')
+        pid_now = self.get_argument('pid_now', '1')
+
+        marry = int(marry)
+        if marry not in (1, 2, 3):
+            marry = 0
+
+        o = user_info_new(current_user_id, birthday, marry, pid_home)
+        if pid_now:
+            c = namecard_get(current_user_id)
+            if c:
+                c.pid_now = pid_now
+                c.save()
+            else:
+                c = namecard_new(current_user_id, pid_now=pid_now)
+
+
+        if not o.sex:
+            sex = self.get_argument('sex', 0)
+            if sex and not o.sex:
+                sex = int(sex)
+                if sex not in (1, 2):
+                    sex = 0
+                if sex:
+                    if o:
+                        o.sex = sex
+                        o.save()
+                    else:
+                        user_info_new(current_user_id, sex=sex)
+
+
+
+@urlmap('/i/pic')
+class Pic(PicEdit):
+    def post(self):
+        error_pic = self.save()
+        if error_pic:
+            self.render(error_pic=error_pic)
+        else:
+            self.get()
 
 @urlmap('/i/url')
 class Url(LoginBase):
@@ -106,177 +270,28 @@ class Verify(LoginBase):
     def get(self):
         self.render()
 
+
 @urlmap('/i/career')
-class Career(LoginBase):
-    def get(self):
-        from model.career import CID_JOB, CID_EDU, career_list
-        current_user_id = self.current_user_id
-        self.render(
-            job_list=career_list(current_user_id, CID_JOB),
-            edu_list=career_list(current_user_id, CID_EDU),
-        )
-
+class Career(CareerEdit):
     def post(self):
-        from model.career import CID_TUPLE, career_list_set
-        current_user_id = self.current_user_id
-        #Tornado会忽略掉默认为空的参数
-        arguments = parse_qs(self.request.body, True)
-
-        for cid, prefix in CID_TUPLE:
-            id = arguments.get('%s_id' % prefix, [])
-            unit = arguments.get('%s_unit' % prefix, [])
-            title = arguments.get('%s_title' % prefix, [])
-            txt = arguments.get('%s_txt' % prefix, [])
-            begin = arguments.get('%s_begin' % prefix, [])
-            end = arguments.get('%s_end' % prefix, [])
-            career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
-
+        self.save()
         self.get()
-
-class UserInfoEdit(object):
-    def get(self):
-        current_user_id = self.current_user_id
-        current_user = self.current_user
-        motto = _motto.get(current_user_id)
-        txt = txt_get(current_user_id)
-        o = UserInfo.mc_get(current_user_id) or JsDict()
-        c = namecard_get(current_user_id) or JsDict()
-        self.render(
-            name=current_user.name,
-            motto=motto,
-            txt=txt,
-            birthday='%08d' % (o.birthday or 0),
-            marry=o.marry,
-            pid_home=o.pid_home or 0,
-            pid_now=c.pid_now or 0,
-            sex=o.sex
-        )
-
-    def save(self):
-        current_user_id = self.current_user_id
-        current_user = self.current_user
-
-        name = self.get_argument('name', None)
-        if name:
-            current_user.name = name
-            current_user.save()
-
-        motto = self.get_argument('motto', None)
-        if motto:
-            _motto.set(current_user_id, motto)
-
-        txt = self.get_argument('txt', '')
-        if txt:
-            txt_new(current_user_id, txt)
-
-        birthday = self.get_argument('birthday', '')
-        marry = self.get_argument('marry', '')
-        pid_home = self.get_argument('pid_home', '1')
-        pid_now = self.get_argument('pid_now', '1')
-
-        marry = int(marry)
-        if marry not in (1, 2, 3):
-            marry = 0
-
-        o = user_info_new(current_user_id, birthday, marry, pid_home)
-        if pid_now:
-            c = namecard_get(current_user_id)
-            if c:
-                c.pid_now = pid_now
-                c.save()
-            else:
-                c = namecard_new(current_user_id, pid_now=pid_now)
-
-
-        if not o.sex:
-            sex = self.get_argument('sex', 0)
-            if sex and not o.sex:
-                sex = int(sex)
-                if sex not in (1, 2):
-                    sex = 0
-                if sex:
-                    if o:
-                        o.sex = sex
-                        o.save()
-                    else:
-                        user_info_new(current_user_id, sex=sex)
 
 
 @urlmap('/i')
-class Index(UserInfoEdit, LoginBase):
+class Index(UserInfoEdit):
     def post(self):
         files = self.request.files
         current_user_id = self.current_user_id
-
-        error_pic = _upload_pic(files, current_user_id)
-        if error_pic is False:
-            return self.redirect('/i/pic')
-
         self.save()
-
         self.get()
 
 
-
 @urlmap('/i/link')
-class Link(LoginBase):
-    def _linkify(self, link):
-        link = link.strip().split(' ', 1)[0]
-        if link and not link.startswith('http://') and not link.startswith('https://'):
-            link = 'http://%s'%link
-        return link
-
-    def get(self):
-        zsite_id = self.zsite_id
-        id_name = link_id_name_by_zsite_id(zsite_id)
-        id_cid = dict(link_id_cid(zsite_id))
-
-        link_list = []
-        link_cid = []
-        exist_cid = set()
-
-        for id, name in id_name:
-            link = link_by_id(id)
-            if id in id_cid:
-                cid = id_cid[id]
-                link_cid.append((cid, name , link))
-                exist_cid.add(cid)
-            else:
-                link_list.append((id, name, link))
-
-        for cid in (set(OAUTH_LINK_DEFAULT) - exist_cid):
-            link_cid.append((cid, OAUTH2NAME_DICT[cid], ""))
-
-        return self.render(
-            link_list=link_list,
-            link_cid=link_cid
-        )
-
+class Link(LinkEdit):
     def post(self):
-        zsite_id = self.zsite_id
-
-        arguments = parse_qs(self.request.body, True)
-        link_cid = []
-        link_kv = []
-        for cid, link in zip(arguments.get('cid'), arguments.get('link')):
-            cid = int(cid)
-            name = OAUTH2NAME_DICT[cid]
-            link_cid.append((cid, name, self._linkify(link)))
-
-
-        for id, key, value in zip(
-            arguments.get('id'),
-            arguments.get('key'),
-            arguments.get('value')
-        ):
-            id = int(id)
-            link = self._linkify(value)
-
-            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
-
-        link_list_save(zsite_id, link_cid, link_kv)
-
-        return self.get()
+        self.save()
+        self.get()
 
 
 @urlmap('/i/namecard')
