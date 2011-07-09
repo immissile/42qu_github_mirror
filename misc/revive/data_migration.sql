@@ -19,16 +19,23 @@ truncate zpage.zsite;
 insert into zpage.zsite (id, name, cid, state)
 select id, name, cid, state from qu.man where qu.man.cid=1 order by id;
 
+truncate zpage.gid;
+insert into zpage.gid (id)
+select id from qu.man where cid=1 order by id;
+
 truncate zpage.pic;
 insert into zpage.pic (id, user_id, cid)
 select id, man_id, 2 from qu.pic order by id;
 
-
--- thumb ico
 truncate zpage.ico;
 insert into zpage.ico (id, value)
-select man_id, pic_id from qu.pic_show order by id desc
-on duplicate key update value=value;
+select man_id, pic_id from qu.pic_show order by id
+on duplicate key update value=values(value);
+
+truncate zpage.ico_pos;
+insert into zpage.ico_pos (id, value)
+select pic_show.man_id, pic_show_pos.txt from qu.pic_show, qu.pic_show_pos where pic_show.pic_id = pic_show_pos.id order by pic_show.id
+on duplicate key update value=values(value);
 
 -- truncate zpage.namecard;
 -- insert into zpage.namecard (user_id, pid, phone, mail, address, state)
