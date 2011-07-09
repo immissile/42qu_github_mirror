@@ -9,6 +9,8 @@ from zsite import Zsite
 from user_mail import mail_by_user_id
 from verify import verify_new, verifyed
 
+mc_frozen_get = McCache('FrozenBank.%s')
+
 def read_cent(cent):
     return '%.2f' % (cent / 100.)
 
@@ -50,8 +52,8 @@ class Trade(Model):
 
 mc_frozen_get = McCache('FrozenBank.%s')
 
-@mc_frozen_bank('{user_id}')
-def frozen_bank(user_id):
+@mc_frozen_get('{user_id}')
+def frozen_get(user_id):
     c = Trade.raw_sql('select sum(value) from trade where from_id=%s and state=%s', user_id, TRADE_STATE_ONWAY)
     return c.fetchone()[0] or 0
 
@@ -75,7 +77,7 @@ def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_ONWAY, for_
     t.save()
     if state == TRADE_STATE_ONWAY:
         bank_change(from_id, -cent)
-        mc_frozen_bank.delete(t.from_id)
+        mc_frozen_get.delete(t.from_id)
     elif state == TRADE_STATE_FINISH:
         bank_change(from_id, -cent)
         bank_change(to_id, cent)
@@ -106,7 +108,7 @@ def trade_finish(t):
         t.state = TRADE_STATE_FINISH
         t.save()
         if is_onway:
-            mc_frozen_bank.delete(from_id)
+            mc_frozen_get.delete(from_id)
 
 def trade_fail(t):
     from_id = t.from_id
