@@ -25,11 +25,9 @@ result_url = 'http:%s%s' % (to_user.link, request.uri)
 %if t.state == TRADE_STATE_FINISH: 
 <p class='bill'><a href="${from_user.link}">${from_user.name}</a>支付给<a href="${to_user.link}"> ${to_user.name}</a><span id="amount"> ${float(t.value)/100}</span> 元。</p>
 
-<p class='bill_time'>交易创建时间${struct_time(t.create_time)}，交易完成时间${struct_time(t.update_time)}。</p>
-<p>相关信息:</p>
+<p>交易创建时间${struct_time(t.create_time)}，交易完成时间${struct_time(t.update_time)}。</p>
 <p>交易号:${t.id}</p>
-<p>查询链接:</p>
-<p>${result_url}</p>
+<p>查询链接:${result_url}</p>
 
 %else:
     <p class='bill'>该支付未完成</p>
