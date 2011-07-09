@@ -34,7 +34,7 @@ def ico96_regen():
 
         pic_id = pic_new(CID_ICO96, id)
 
-        pos == ico_pos.get(id)
+        pos = ico_pos.get(id)
 
         if pos:
             pos_tuple = pos.split('_')
