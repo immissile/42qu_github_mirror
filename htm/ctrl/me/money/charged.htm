@@ -6,7 +6,7 @@ from model.money import read_cent, bank
 
 支付现金 ${read_cent(trade.value + trade.tax)} 元
 到账金额 ${trade.read_value} 元
-手续费用 ${trade.taxes} 元
+手续费用 ${trade.read_tax} 元
 
 %if trade.to_id == current_user_id:
 <%

@@ -5,11 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-.got
+taxes
 """
 
 TO_STRING = """
-.read_value
+read_tax
 """
 
 def run():

@@ -54,7 +54,7 @@ class Trade(Model):
         return read_cent(self.value)
 
     @property
-    def taxes(self):
+    def read_tax(self):
         return read_cent(self.tax)
 
 mc_frozen_bank = McCache('FrozenBank.%s')
