@@ -253,12 +253,13 @@ class Url(LoginBase):
 class Verify(LoginBase):
     def prepare(self):
         super(Verify, self).prepare()
-        current_user = self.current_user
-        state = current_user.state
-        if state >= ZSITE_STATE_VERIFY:
-            return self.redirect('/')
-        elif state <= ZSITE_STATE_APPLY:
-            return self.redirect('/auth/verify/sended')
+        if not self._finished:
+            current_user = self.current_user
+            state = current_user.state
+            if state >= ZSITE_STATE_VERIFY:
+                return self.redirect('/')
+            elif state <= ZSITE_STATE_APPLY:
+                return self.redirect('/auth/verify/sended')
 
     def post(self):
         current_user = self.current_user

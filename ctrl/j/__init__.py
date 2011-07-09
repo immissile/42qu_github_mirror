@@ -6,6 +6,8 @@ from ctrl._urlmap.j import urlmap
 from zkit.errtip import Errtip
 from model.follow import follow_rm, follow_new
 from model.zsite import Zsite
+from model.zsite import user_can_reply
+from ctrl.zsite.wall import post_reply
 
 @urlmap('/j/login')
 class Login(Base):
@@ -25,7 +27,15 @@ class Follow(JLoginBase):
 @urlmap('/j/follow/reply/(\d+)')
 class FollowRm(JLoginBase):
     def get(self, id):
-        self.finish('{"can_not_reply":1}')
+        current_user = self.current_user
+        if not user_can_reply(current_user):
+            self.finish('{"can_not_reply":1}')
+        else:
+            zsite = Zsite.mc_get(id)
+            if zsite:
+                post_reply(self, zsite.reply_new)
+            self.finish('{}')
+
 
 @urlmap('/j/follow/rm/(\d+)')
 class FollowRm(JLoginBase):
