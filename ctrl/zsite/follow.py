@@ -4,28 +4,13 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase
 from zkit.page import page_limit_offset
 from ctrl._urlmap.zsite import urlmap
 from model.cid import CID_ZSITE
-from model.follow import follow_rm, follow_new, follow_count_by_to_id, follow_id_list_by_to_id, follow_id_list_by_from_id, follow_id_list_by_from_id_cid
+from model.follow import follow_count_by_to_id, follow_id_list_by_to_id, follow_id_list_by_from_id, follow_id_list_by_from_id_cid
 from model.zsite import Zsite
 
 PAGE_LIMIT = 42
 #PAGE_LIMIT = 1
 
 
-@urlmap('/follow')
-class Follow(XsrfGetBase):
-    def get(self):
-        current_user = self.current_user
-        zsite_id = self.zsite_id
-        follow_new(current_user.id, zsite_id)
-        self.render()
-
-@urlmap('/follow/rm')
-class FollowRm(XsrfGetBase):
-    def get(self):
-        current_user = self.current_user
-        zsite_id = self.zsite_id
-        follow_rm(current_user.id, zsite_id)
-        self.redirect('/')
 
 @urlmap('/follower')
 @urlmap('/follower-(\d+)')
