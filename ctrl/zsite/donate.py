@@ -117,14 +117,14 @@ class Index(ZsiteBase):
             subject = '%s 向 %s 捐赠 %.2f 元' % (current_user.name, zsite.name, amount)
             current_user_id = current_user.id
             _donate_new = lambda state : donate_new(amount, current_user_id, zsite_id, CID_TRADE_DONATE, state)
-            balance = float(bank_view(current_user_id))
-            if balance > amount_cent:
+            balance_cent = float(bank_view(current_user_id)) * 100
+            if balance_cent >= amount_cent:
                 o_id = _donate_new(TRADE_STATE_FINISH)
                 return self.redirect('/donate/result/%s'%o_id)
-            elif balance > 0:
-                subject += '(站内原余 %.2f 元)'%balance
+            elif balance_cent > 0:
+                subject += '(站内原余 %.2f 元)' % (balance_cent/100)
                 o_id = _donate_new(TRADE_STATE_NEW)
-                amount -= balance
+                amount_cent -= balance_cent
             else: 
                 o_id = _donate_new(TRADE_STATE_NEW)
 
@@ -132,7 +132,7 @@ class Index(ZsiteBase):
 
             alipay_url = alipay_payurl_with_tax(
                     current_user_id,
-                    amount,
+                    amount_cent/100,
                     return_url,
                     self.NOTIFY_URL,
                     subject,
