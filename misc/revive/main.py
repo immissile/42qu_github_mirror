@@ -28,6 +28,9 @@ def ico_file_mv():
 from zpage.model.ico import *
 def ico96_regen():
     for id, value in ico.iteritems():
+        if ico96.get(id):
+            return
+
         pic = picopen(fs_get_jpg(PIC_FULL_SIZE, value))
         if not pic:
             return
@@ -39,9 +42,14 @@ def ico96_regen():
         if pos:
             pos_tuple = pos.split('_')
             if len(pos_tuple) == 3:
-                x, y, size = map(int, pos_tuple)
-                if size:
-                    pic = pic_square(pic, size, top_left=(x, y), size=size)
+                try:
+                    x, y, size = map(int, pos_tuple)
+                except:
+                    print pos_tuple
+                    raise
+                else:
+                    if size:
+                        pic = pic_square(pic, size, top_left=(x, y), size=size)
 
         pic = pic_square(pic, 96, size=96)
         fs_set_jpg('96', pic_id, pic)
