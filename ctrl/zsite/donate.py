@@ -4,9 +4,10 @@ from _handler import ZsiteBase, LoginBase
 from zkit.errtip import Errtip
 from ctrl._urlmap.zsite import urlmap
 from model.zsite import Zsite
-from config import RPC_HTTP
+from config import RPC_HTTP, SITE_DOMAIN
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax
 from model.money import pay_account_get, bank_view
+from model.money import pay_account_get, Trade
 from model.user_mail import mail_by_user_id, user_by_mail
 from model.money import bank_can_pay, bank_change, donate_new, deal_new, TRADE_STATE_NEW, TRADE_STATE_OPEN, TRADE_STATE_FINISH
 from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
@@ -18,7 +19,24 @@ from model.user_auth import user_new_by_mail
 @urlmap('/donate/result/(\d+)')
 class Result(LoginBase):
     def get(self, id):
-        self.render()
+        t = Trade.get(id=id)
+        if t.for_id:
+            t = Trade.get(id=t.for_id)
+        from_user = Zsite.get(t.from_id)
+        to_user = Zsite.get(t.to_id)
+        # zsite_id is 0 
+        if not from_user:
+            from_user = Zsite
+            from_user.name = '系统银行'
+        if not to_user:
+            to_user = Zsite
+            to_user.name = '系统银行'
+            
+        self.render(
+            from_user=from_user,
+            to_user=to_user,
+            t=t,
+        )
 
 @urlmap('/donate')
 class Index(ZsiteBase):
@@ -110,7 +128,8 @@ class Index(ZsiteBase):
             else: 
                 o_id = _donate_new(TRADE_STATE_NEW)
 
-            return_url = 'http:%s/money/alipay_sync' % current_user.link
+            return_url = 'http://%s/money/alipay_sync' % SITE_DOMAIN
+
             alipay_url = alipay_payurl_with_tax(
                     current_user_id,
                     amount,

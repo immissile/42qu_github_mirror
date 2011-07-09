@@ -1,2 +1,25 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-<p>支付成功</p>
+<%!
+from time import gmtime, strftime
+%>
+<%def name="struct_time(trade_time)">
+${strftime("%Y/%m/%d %H:%M:%S", gmtime(trade_time))}
+</%def>
+<style>
+    p.bill{
+        font-size: 300%;
+        text-align: center;
+        padding: 100px;
+    }
+    p.bill_time{
+        text-align: center;
+    }
+    #amount{
+        color:#A10;
+    }
+</style>
+
+<p class='bill'><a href="${from_user.link}">${from_user.name}</a>支付给<a href="${to_user.link}"> ${to_user.name}</a><span id="amount"> ${float(t.value)/100}</span> 元。</p>
+
+<p class='bill_time'>交易创建时间${struct_time(t.create_time)}，交易完成时间${struct_time(t.update_time)}。</p>
+

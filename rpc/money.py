@@ -11,5 +11,3 @@ class AlipayAsync(Base):
         data = self.request.body
         alipay_url_recall(data)
         self.finish('success')
-
-
