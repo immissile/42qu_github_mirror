@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import init_env
+import _env
 from zpage.config import DB_CONFIG
 import subprocess
 import time

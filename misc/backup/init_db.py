@@ -1,5 +1,5 @@
 #coding:utf-8
-import init_env
+import _env
 from config import SITE_DOMAIN
 
 def init_tag():

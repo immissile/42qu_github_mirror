@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import init_env
+import _env
 from collections import defaultdict
 from mmseg.search import seg_txt_search, seg_title_search, seg_txt_2_dict
 from zweb.orm import ormiter

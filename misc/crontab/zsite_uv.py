@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import init_env
+import _env
 import subprocess
 from zweb.orm import ormiter
 from config import SITE_DOMAIN

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import init_env
+import _env
 from zkit.single_process import single_process
 from model.kv_misc import kv_int, KV_NOTICE_POS
 from model.cid import CID_INVITE_QUESTION

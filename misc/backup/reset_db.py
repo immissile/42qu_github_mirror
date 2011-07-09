@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import init_env
+import _env
 from config import DB_CONFIG
 import sys
 import subprocess

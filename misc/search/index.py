@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import init_env
+import _env
 from config import SEARCH_DB_PATH
 from mmseg.search import seg_txt_search, seg_title_search, seg_txt_2_dict
 from os import makedirs
