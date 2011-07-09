@@ -35,8 +35,8 @@ TRADE_CID_DIC = {
 }
 
 TRADE_STATE_NEW = 5
-TRADE_STATE_OPEN = 10
-TRADE_STATE_FAIL = 15
+TRADE_STATE_ONWAY = 10
+TRADE_STATE_ROLLBACK = 15
 TRADE_STATE_FINISH = 20
 
 class Trade(Model):
@@ -61,13 +61,13 @@ mc_frozen_bank = McCache('FrozenBank.%s')
 
 @mc_frozen_bank('{user_id}')
 def frozen_bank(user_id):
-    c = Trade.raw_sql('select sum(cent) from trade where from_id=%s and state=%s', user_id, TRADE_STATE_OPEN)
+    c = Trade.raw_sql('select sum(cent) from trade where from_id=%s and state=%s', user_id, TRADE_STATE_ONWAY)
     return c.fetchone()[0] or 0
 
 def frozen_view(user_id):
     return read_cent(frozen_bank(user_id))
 
-def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, for_id=0):
+def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_ONWAY, for_id=0):
     create_time = int(time())
     t = Trade(
         value=cent,
@@ -82,7 +82,7 @@ def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_OPEN, for_i
         for_id=for_id
     )
     t.save()
-    if state == TRADE_STATE_OPEN:
+    if state == TRADE_STATE_ONWAY:
         bank_change(from_id, -cent)
         mc_frozen_bank.delete(t.from_id)
     elif state == TRADE_STATE_FINISH:
@@ -94,7 +94,7 @@ def trade_open(t):
     if t.state == TRADE_STATE_NEW:
         bank_change(t.from_id, -t.value)
         t.update_time = int(time())
-        t.state = TRADE_STATE_OPEN
+        t.state = TRADE_STATE_ONWAY
         t.save()
         mc_frozen_bank.delete(t.from_id)
 
@@ -110,7 +110,7 @@ def trade_finish(t):
         t.update_time = update_time
         t.state = TRADE_STATE_FINISH
         t.save()
-    elif state == TRADE_STATE_OPEN:
+    elif state == TRADE_STATE_ONWAY:
         bank_change(to_id, value)
         t.update_time = update_time
         t.state = TRADE_STATE_FINISH
@@ -124,12 +124,12 @@ def trade_fail(t):
     update_time = int(time())
     if state == TRADE_STATE_NEW:
         t.update_time = update_time
-        t.state = TRADE_STATE_FAIL
+        t.state = TRADE_STATE_ROLLBACK
         t.save()
-    elif state == TRADE_STATE_OPEN:
+    elif state == TRADE_STATE_ONWAY:
         bank_change(from_id, value)
         t.update_time = update_time
-        t.state = TRADE_STATE_FAIL
+        t.state = TRADE_STATE_ROLLBACK
         t.save()
         mc_frozen_bank.delete(from_id)
 
@@ -178,7 +178,7 @@ def charge_new(price, user_id, cid, for_id=0):
     assert price > 0
     cent = int(price * 100)
     tax = int(round(cent * CHARGE_TAX[cid]))
-    t = trade_new(cent-tax, tax, 0, user_id, CID_TRADE_CHARDE, cid, TRADE_STATE_OPEN, for_id)
+    t = trade_new(cent-tax, tax, 0, user_id, CID_TRADE_CHARDE, cid, TRADE_STATE_ONWAY, for_id)
     vid, ck = verify_new(user_id, CID_VERIFY_MONEY)
     return '%s_%s_%s' % (t.id, vid, ck)
 
@@ -188,7 +188,7 @@ def charged(out_trade_no, total_fee, rid, d):
     if vcid == CID_VERIFY_MONEY:
         t = Trade.get(id)
         if t and t.to_id == user_id and t.rid == rid  and t.value + t.tax == int(float(total_fee)*100):
-            if t.state == TRADE_STATE_OPEN:
+            if t.state == TRADE_STATE_ONWAY:
                 t.finish()
                 trade_log.set(user_id, dumps(d))
                 if t.for_id:
@@ -204,23 +204,23 @@ def withdraw_new(price, user_id, cid):
     assert price > 0
     cent = int(price * 100)
     tax = int(round(cent * CHARGE_TAX[cid]))
-    return trade_new(cent, tax, user_id, 0, CID_TRADE_WITHDRAW, cid, TRADE_STATE_OPEN)
+    return trade_new(cent, tax, user_id, 0, CID_TRADE_WITHDRAW, cid, TRADE_STATE_ONWAY)
 
 def withdraw_fail(id, txt):
     t = Trade.get(id)
-    if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_OPEN:
+    if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_ONWAY:
         t.fail()
         trade_log.set(id, txt)
 
 def withdraw_open_count():
-    return Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_OPEN).count()
+    return Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_ONWAY).count()
 
 def withdraw_max():
     c = Trade.raw_sql('select max(id) from trade where cid=%s and to_id=%s', CID_TRADE_WITHDRAW, 0)
     return c.fetchone()[0] or 0
 
 def withdraw_list():
-    qs = Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_OPEN).order_by('id desc')
+    qs = Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_ONWAY).order_by('id desc')
     for i in qs:
         i.account, i.name = pay_account_name_get(i.from_id, i.rid)
     return qs
@@ -232,7 +232,7 @@ def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     t = trade_new(cent, 0, from_id, to_id, CID_TRADE_DONATE, rid, state)
     return t.id
 
-def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN):
+def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
     assert price > 0
     cent = int(price * 100)
     return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)

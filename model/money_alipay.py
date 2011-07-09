@@ -63,7 +63,7 @@ def alipay_payurl(
     )
 
 ####
-#def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_OPEN):
+#def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
 #   assert price > 0
 #   cent = int(price * 100)
 #   return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)
