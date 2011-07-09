@@ -12,7 +12,7 @@ class Login(Base):
     def get(self):
         self.render(errtip=Errtip())
 
-@urlmap('/follow/(\d+)')
+@urlmap('/j/follow/(\d+)')
 class Follow(JLoginBase):
     def get(self, id):
         current_user_id = self.current_user_id
@@ -21,7 +21,7 @@ class Follow(JLoginBase):
         if zsite:
             follow_new(current_user_id, id)
 
-@urlmap('/follow/rm/(\d+)')
+@urlmap('/j/follow/rm/(\d+)')
 class FollowRm(JLoginBase):
     def get(self, id):
         current_user_id = self.current_user_id
@@ -29,4 +29,3 @@ class FollowRm(JLoginBase):
         zsite = Zsite.mc_get(id)
         if zsite:
             follow_rm(current_user_id, id)
-
