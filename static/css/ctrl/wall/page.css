@@ -19,6 +19,7 @@ margin-top:48px;
 }
 #secret_span{
 vertical-align:top;
+float:right;
 }
 #secret{
 vertical-align:-1px
@@ -36,4 +37,6 @@ margin-top:10px;
 padding-right:13px;
 background:url(/img/gif/reply.gif) 100% 4px no-repeat;
 }
-
+#reply_submit{
+float:right;
+}
