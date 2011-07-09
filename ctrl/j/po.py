@@ -3,28 +3,30 @@
 from yajl import dumps
 from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
-from model.po import Po, CID_WORD, CID_NOTE
-from zkit.pic import picopen
-from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.fs import fs_url_jpg
-from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
+from model.po import Po, CID_WORD, CID_NOTE
+from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
+from model.po_question import answer_word2note
 from model.zsite import user_can_reply
+from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
+from zkit.pic import picopen
 
 
 @urlmap('/j/po/reply/(\d+)')
 class Reply(JLoginBase):
     def get(self, id):
-        result = {}
-        txt = self.get_argument('txt')
-        if txt:
-            user = self.current_user
-            user_id = self.current_user_id
-            if not user_can_reply(user):
-                result['can_not_reply'] = True
-            po = Po.mc_get(id)
-            if po.can_view(user_id):
-                po.reply_new(user, txt, po.state)
-        self.finish(result)
+        if not user_can_reply(user):
+            self.finish('{"can_not_reply":1}')
+        else:
+            result = {}
+            txt = self.get_argument('txt')
+            if txt:
+                user = self.current_user
+                user_id = self.current_user_id
+                po = Po.mc_get(id)
+                if po.can_view(user_id):
+                    po.reply_new(user, txt, po.state)
+            self.finish(result)
 
     post = get
 
@@ -96,8 +98,7 @@ class NoteUpload(JLoginBase):
             if not po or po.user_id != user_id or (po.cid == CID_WORD and po.rid == 0):
                 return 0
             if po.cid == CID_WORD:
-                po.cid = CID_NOTE
-                po.save()
+                answer_word2note(po)
 
         if not pic_can_add(user_id, id):
             return 16

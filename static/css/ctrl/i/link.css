@@ -1,6 +1,7 @@
 .link_form{
     margin:32px auto;
     width:512px;
+    font-size:16px;
 }
 .value{
     width:340px;
@@ -24,9 +25,4 @@ label{
 }
 .btns{
     padding-left:152px;
-}
-.h1{
-margin-left:153px;
-margin-bottom:32px;
-font-size:16px;
 }

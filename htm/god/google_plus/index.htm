@@ -1,0 +1,279 @@
+<%!
+from model.google_plus import GOOGLE_PLUS_URL 
+%>
+<%def name="render_user(rank , follow_rank=0)">
+<%
+link = GOOGLE_PLUS_URL%rank.uid
+%>
+    <div class="c gline">
+        <a href="${link}" target="_blank"><img src="${rank.ico}?sz=96" class="ico"></a>\
+        <div>
+            <div>第 ${follow_rank or rank.follower_rank} 名 : <a href="${link}" target="_blank"> ${rank.name|n}</a></div>
+            <div>${rank.follower} 关注</div>
+            %if rank.txt:        
+            <div>${rank.txt|n}</div>
+            %endif
+        </div>
+    </div>
+</%def>
+
+<!doctype html>
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Google + 关注数排行榜</title>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.6.1.min.js"></script>
+<style>
+
+.page{
+font-size:14px;
+color: #aaa;
+line-height:150%;
+text-align:center;
+}
+.page a,.page span{
+padding:2px 5px;
+line-height:27px;
+margin:1px 3px;
+text-decoration:none;
+}
+.page a:hover{
+text-decoration:underline;
+}
+.page span{
+color:#ccc;
+}
+.page .now{
+background:#33609B;
+color:#fff;
+}
+.ico{
+float:left;margin-right:32px;
+}
+.gline{
+margin-bottom:32px;padding-bottom:32px;border-bottom:1px dotted #ccc
+}
+.btnw{
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eee;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eee;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eee;
+    height:42px;
+    display:inline-block;
+}
+.btn::-moz-focus-inner {
+  border: 0;
+}
+.btnw button{
+z-index: 1;
+overflow: visible; 
+display: inline-block; 
+border:0;
+margin: 0;
+text-align: center;
+white-space: nowrap; 
+cursor: pointer; 
+/* outline: none; */
+color: #555; 
+background-color: #fff;
+background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f3f3f3));
+background-image: -moz-linear-gradient(#ffffff, #f3f3f3);
+background-image: -o-linear-gradient(#ffffff, #f3f3f3);
+background-image: linear-gradient(#ffffff, #f3f3f3);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#f3f3f3'); /* for IE 6 - 9 */
+/* IE hacks */
+zoom: 1; 
+*display: inline; 
+font-size:16px;
+text-align:center;
+overflow:visible; /* IE6/IE7中，根据内容的多少将自动产生一定程度类似padding-left与padding-right的值，此处用以解决该问题 */
+height:42px; /* select在12px的状态下，IE浏览器中的默认高度为21px，并且height属性在select上于IE6是无效的，于IE7，在外观上是无效的，如需考虑与select垂直对齐的情况，21px的高度是合适的选择 */
+padding:0 28px;
+*padding:0 27px; /* IE6、IE7中，会在紧贴边框的位置产生1px的与背景相同的内边框，其实际宽度会比其他浏览器多出1px */
+line-height:42px;
+padding-bottom:2px;
+line-height:43px\9; 
+_padding-top:5px; 
+_line-height:16px; /* 微调IE6与IE7中文字在按钮中显示的位置 */
+vertical-align:text-bottom; /* 解决IE8中，Arial字体设置时，纯中文按钮与非纯中文按钮对齐的问题，这个对齐的方式可以根据需要自行改变。 */
+*vertical-align:auto; /* IE6的按钮中文字会受到vertical-align:middle;影响，IE7vertical-align:middle;并且字符集为gb系列时会向上向下分别产生1px的边距。 */
+}
+.btnw button:hover{
+color:#000;
+}
+.btnw button:active{
+color:#666;
+background-color: #f3f3f3;
+background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f3f3f3), to(#ffffff));
+background-image: -moz-linear-gradient(#f3f3f3, #ffffff);
+background-image: -o-linear-gradient(#f3f3f3, #ffffff);
+background-image: linear-gradient(#f3f3f3, #ffffff);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#f3f3f3', EndColorStr='#ffffff'); /* for IE 6 - 9 */
+}
+
+@-moz-document domain(){
+.btnw button  {
+    padding:0 27px 0 27px; /* FF3很奇怪，左右比一般浏览器都多出2px */
+}
+}
+.btns{
+line-height:46px;
+_line-height:44px;
+}
+.placeholder{
+color:#999;
+}
+.sd{
+background:#fff;
+border:1px solid #e9e9e9;
+*border:0;
+padding:16px 20px 12px;
+}
+.sdw{
+box-shadow: -1px 2px 2px #f3f3f3;
+background:#f6f6f6;
+*background:#fff;
+*border:1px solid #e9e9e9;
+padding:1px;
+margin-bottom:32px;
+}
+.sd .bar{
+text-align:right;
+padding-top:10px;
+border-top:1px solid #e9e9e9;
+margin-top:14px;
+}
+.sd .bar a{
+color:#999;
+}
+
+a{text-decoration:none;color:#01c}
+a:hover{text-decoration:none;color:#a10}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 16px;
+    font: inherit;
+    vertical-align: baseline;
+    font-family:Tahoma,Geneva,sans-serif;
+}
+b{font-weight:bold}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+.content{
+font-size:14px;
+padding:0;
+width:721px;
+margin:auto;
+line-height:32px;
+}
+h1{
+text-align:center;
+border:1px dotted #ccc;
+margin: 0;
+padding:14px 0;
+}
+h2{
+text-align:center;
+margin:16px 0 16px;
+padding:8px 0;
+border-bottom:1px dotted #ccc;
+border-top:1px dotted #ccc;
+}
+h3{
+margin:24px 0 8px;
+line-height:18px;
+padding-left:8px;
+border-left:4px solid #ccc;
+}
+pre{
+padding:7px 14px;
+border:1px dotted #ccc;
+background:#fefefe;
+word-wrap:break-word;overflow:hidden;word-break:break-all;white-space:pre-wrap;white-space:-moz-pre-wrap;*white-space:pre;*word-wrap:break-word;
+margin:7px 0;
+}
+.c:before, .c:after {content:"";display:table;}
+.c:after{clear:both}
+.c{zoom:1}
+</style>
+</head>
+<body>
+<div style="border-bottom:1px dotted #ccc;padding:22px 0 27px;margin-bottom:7px;text-align:center">
+    <a style="font-size:23px;font-family:Trebuchet MS;color:#a10" href="http://42qu.com">42qu.com</a>
+</div>
+<div class="content c btns">
+    <h2 style="font-size:16px;;margin-top:0;border-top:0;padding-top:0;">
+        <a href="/google_plus" style="color:#000">Google + 关注数排行榜</a>
+    </h2>
+
+
+    <div style="width:470px;margin:32px auto 32px">
+        <form style="border-bottom:1px dotted #ccc;margin-bottom:1px dotted #ccc;padding-bottom:32px;margin-bottom:32px">
+
+    %if q:
+        %if rank:
+            ${render_user(rank)}
+        %else:
+            找不到 ${q}
+        %endif
+    %else:
+        <p><a href="https://plus.google.com/me" target="_blank">点此找到自己的Google+链接</a> , 粘贴到下方输入框</p>
+        <p>链接格式形如 : <a href="https://plus.google.com/108902385228996324856" target="_blank" style="color:#000">https://plus.google.com/108902385228996324856</a></p>
+
+    %endif
+
+
+            <input 
+    %if q:
+    value="${q}"
+    %endif
+    name="q" type="text" style="padding:7px;border:1px solid #999;width:454px;margin-bottom:14px;margin-top:14px" autocomplete="off">
+            <div style="text-align:right;">
+            <span style="float:left;margin-top:12px"><g:plusone></g:plusone></span>
+
+            <span class="btnw">
+                <button class="btn" type="submit">查排名</button>
+            </span>
+            </div>
+        </form>
+
+        %for pos, i in enumerate(rank_list, offset+1 ):
+        ${render_user(i, pos)}
+        %endfor
+
+        ${page|n}
+
+    </div>
+</div>
+
+<div style="border-top:1px dotted #ccc;padding:27px;margin-top:27px;text-align:center">
+    <a href="http://42qu.com" style="font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 28px">42qu.com</a>
+</div>
+<div style="margin:32px 0 64px;text-align:center;">
+    <a href="http://42qu.com/zuroc" target="_blank">Powered by 张沈鹏 !</a>
+</div>
+
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+  {lang: 'zh-CN'}
+</script>
+<script type="text/javascript" src="http://v2.jiathis.com/code/jiathis_r.js?move=0&amp;btn=r2.gif" charset="utf-8"></script>
+</body>
+

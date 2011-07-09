@@ -17,13 +17,13 @@ width:31px;height:30px;border:none;cursor:pointer;
 .mtb32{
 margin:0 0 32px;
 }
-.zsite_list a{
-color:#000;
-} 
 .zsite_mb64{
 margin-top:32px;
 padding-bottom:64px;
 }
 .HN{
 _margin-top:12px;
+}
+.C{
+padding-bottom:64px;
 }

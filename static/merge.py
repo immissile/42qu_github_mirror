@@ -128,10 +128,10 @@ def merge(subdir, template):
             returncode = subprocess.call(cmd)
             if returncode:
                 raise
-        except:
+        except Exception, e:
             file_hash_version.filename2num[i] -= 1
             file_hash_version.filename2hash[i] = '0'
-            print 'yuicompressor error : %s'%infile
+            print 'compressor error : %s , %s'%(infile, e)
             copyfile(infile, outfile)
         s = ''
         with open(outfile, 'r') as input:

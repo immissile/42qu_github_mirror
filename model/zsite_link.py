@@ -5,28 +5,20 @@ from _db import Model, McModel, McCache
 from hashlib import sha256
 from zsite import zsite_new_user, Zsite
 from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
+from oauth import OAUTH2NAME_DICT, OAUTH_DOUBAN, OAUTH_SINA,\
+OAUTH_QQ, OAUTH_TWITTER
 
-OAUTH_GOOGLE = 1
-OAUTH_DOUBAN = 2
-OAUTH_SINA = 3
-OAUTH_TWITTER = 4
-OAUTH_WWW163 = 5
-OAUTH_BUZZ = 6
-OAUTH_SOHU = 7
-OAUTH_QQ = 8
-OAUTH_RENREN = 9
-OAUTH_LINKEDIN = 10
 
-OAUTH2NAME = (
-    (OAUTH_DOUBAN, '豆瓣'),
-    (OAUTH_SINA, '新浪微博'),
-    (OAUTH_QQ, '腾讯微博'),
-    (OAUTH_BUZZ, 'Google+'),
-    (OAUTH_TWITTER, 'Twitter'),
-    (OAUTH_LINKEDIN, 'LinkedIn'),
-
+OAUTH_LINK_DEFAULT = (
+    OAUTH_DOUBAN    ,
+    OAUTH_SINA      ,
+    OAUTH_QQ        ,
+    OAUTH_TWITTER   ,
 )
-OAUTH2NAME_DICT = dict(OAUTH2NAME)
+
+OAUTH2NAME = tuple(
+    (k, OAUTH2NAME_DICT[k]) for k in OAUTH_LINK_DEFAULT 
+)
 
 
 mc_link_id_name = McCache('LinkIdName:%s')
@@ -61,7 +53,13 @@ def link_id_cid(id):
     )
     return c.fetchall()
 
-
+#def link_cid_new(zsite_id, name, link):
+#    z = ZsiteLink.get_or_create(ziste_id=zsite_id, name=name)
+#    z.link = link
+#    z.save()
+#    mc_flush(zsite_id)
+#    return z
+#
 def link_list_save(zsite_id, link_cid, link_kv):
     for cid, name, link in link_cid:
         zsite_link = ZsiteLink.get_or_create(zsite_id=zsite_id, cid=cid)
@@ -89,8 +87,23 @@ def link_list_save(zsite_id, link_cid, link_kv):
 
     mc_flush(zsite_id)
 
+def link_cid_new(zsite_id, cid, link):
+    link = link.strip()
+    if link:
+        zsite_link = ZsiteLink.get_or_create(zsite_id=zsite_id, cid=cid)
+        zsite_link.link = link
+        zsite_link.name = OAUTH2NAME_DICT[cid]
+        zsite_link.save()
+        mc_link_by_id.delete(zsite_link.id)
+    mc_flush(zsite_id)
 
 
 if __name__ == '__main__':
-    print link_id_cid(1)
-    print link_id_name_by_zsite_id(1)
+    #print link_id_cid(1)
+    #print link_id_name_by_zsite_id(1)
+
+
+    link_cid_new(1, OAUTH_RENREN, "http://1.zuroc.xxx/i/link")
+    #print link_id_name_by_zsite_id(1)
+    #print link_id_cid(1)
+

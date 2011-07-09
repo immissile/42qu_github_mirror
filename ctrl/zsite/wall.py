@@ -38,8 +38,6 @@ class Page(ZsiteBase):
             n,
             PAGE_LIMIT
         )
-        if offset >= total:
-            return self.redirect(zsite_url)
 
         reply_list = zsite.reply_list_reversed(limit, offset)
 

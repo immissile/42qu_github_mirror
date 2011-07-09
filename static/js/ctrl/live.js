@@ -3,17 +3,19 @@
 62 note
 */
 (function (){
-var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time name pic vote_state vote txt txt_more",
+var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time name vote txt txt_more pic zsite_unit zsite_title vote_state",
     FEED_ATTR_TXT_BASE = FEED_ATTR_BASE+" tag_id tag_name",
     QUESTION_ATTR_BASE = " question_link question_user question_user_link",
     FEED_ATTR = {
         61:FEED_ATTR_BASE+QUESTION_ATTR_BASE,
-        62:FEED_ATTR_TXT_BASE+QUESTION_ATTR_BASE,
-        63:FEED_ATTR_TXT_BASE
+        62:FEED_ATTR_TXT_BASE,
+        63:FEED_ATTR_TXT_BASE,
+        64:FEED_ATTR_TXT_BASE+QUESTION_ATTR_BASE
     };
-
     for(var i in FEED_ATTR){
-        FEED_ATTR[i]=FEED_ATTR[i].split(' ')
+        FEED_ATTR[i]=(
+            FEED_ATTR[i]+""
+        ).split(' ')
     }
 
     function array2zsite(a){
@@ -33,9 +35,10 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time 
             data[attr[i]] = result[i]
         }
         data.zsite = array2zsite(data.zsite);
-        data.link = "/po/"+data.id;
         data.rt_list = $.map(data.rt_list, array2zsite);
-        data.create_time = $.timeago(data.create_time) 
+        data.create_time = $.timeago(data.create_time);
+        //console.info(result)
+        //console.info(data)
         return data
     }
 
@@ -105,7 +108,7 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time 
     //为了ie6 多加一层span
             }
         }else{
-    html = ''
+    html = '&nbsp;'
         }
         po_word_tip.html(html);
         return diff

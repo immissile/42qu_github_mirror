@@ -4,6 +4,10 @@ from zkit.time_format import friendly_time
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render_body,reply_textarea"/>
+
+<%def name="htm_title()">${zsite.name} - 留言</%def>
+
+
 <%def name="htm_head()">
 <script src="${js.wall_txt}"></script>
 ${css.ctrl_wall_page|n}
@@ -23,7 +27,7 @@ can_rm = _can_rm or i.can_rm(current_user_id)
 id = i.id
 user = i.user
 %>\
-<div id="reply${id}" class="sdw"><div class="sd"> 
+<div id="reply${id}" class="sdw"><div class="sd c"> 
 <div>\
 ${reply_render_body(i, can_rm)}\
 <div class="bar">

@@ -31,7 +31,7 @@ r.push('<option value="'+i+'">'+i+'</option>')
         return span.find("select[name="+name+"]")
     }
     span.html(r.join(''))
-    var year=select('year'), month=select('month'), day=select('day');
+    var year=select('year'), month=select('month'), day=select('day'), hidden=span.find('input');
     function _(){
         var dv=day.val(), 
             days=month_days(year.val(),month.val()), 
@@ -44,7 +44,7 @@ r.push('<option value="'+i+'">'+i+'</option>')
     }
     function input(){
         var mv=month.val(),dv=day.val();
-        span.find('input').val(
+        hidden.val(
             year.val()+(mv.length<2?"0":"")+mv+(dv.length<2?"0":"")+dv
         )
     }
@@ -56,6 +56,7 @@ r.push('<option value="'+i+'">'+i+'</option>')
        year.val(parseInt(value/10000));
        month.val(parseInt(value/100)%100).change(); 
        day.val(value%100);
+       hidden.val(value)
     }
 }
 

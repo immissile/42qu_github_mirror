@@ -48,15 +48,15 @@ class Trade(Model):
     def read_tax(self):
         return read_cent(self.tax)
 
-mc_frozen_bank = McCache('FrozenBank.%s')
+mc_frozen_get = McCache('FrozenBank.%s')
 
 @mc_frozen_bank('{user_id}')
 def frozen_bank(user_id):
-    c = Trade.raw_sql('select sum(cent) from trade where from_id=%s and state=%s', user_id, TRADE_STATE_ONWAY)
+    c = Trade.raw_sql('select sum(value) from trade where from_id=%s and state=%s', user_id, TRADE_STATE_ONWAY)
     return c.fetchone()[0] or 0
 
 def frozen_view(user_id):
-    return read_cent(frozen_bank(user_id))
+    return read_cent(frozen_get(user_id))
 
 def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_ONWAY, for_id=0):
     create_time = int(time())
@@ -87,7 +87,7 @@ def trade_open(t):
         t.update_time = int(time())
         t.state = TRADE_STATE_ONWAY
         t.save()
-        mc_frozen_bank.delete(t.from_id)
+        mc_frozen_get.delete(t.from_id)
 
 def trade_finish(t):
     from_id = t.from_id
@@ -122,7 +122,7 @@ def trade_fail(t):
         t.update_time = update_time
         t.state = TRADE_STATE_ROLLBACK
         t.save()
-        mc_frozen_bank.delete(from_id)
+        mc_frozen_get.delete(from_id)
 
 def trade_history(user_id):
     qs = Trade.where('(to_id=%%s and not (cid=%s and state<%s)) or from_id=%%s' % (CID_TRADE_CHARDE, TRADE_STATE_FINISH), user_id, user_id).order_by('update_time desc')

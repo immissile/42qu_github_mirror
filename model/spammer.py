@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from hashlib import md5
 from _db import McCache
+from decorator import decorator
 
 SPAM_USER_ID = set((
     10009078, #欲望清单 www.desirelist.nst
@@ -28,6 +29,14 @@ def is_same_post(user_id, *args):
         return True
     mc_lastest_hash.set(user_id, h, 60)
     return False
+
+@decorator
+def anti_same_post(func, user_id, *args, **kwds):
+    values = kwds.values()
+    values.extend(args)
+    if is_same_post(user_id, *values):
+        return
+    return func(user_id, *args, **kwds)
 
 if __name__ == '__main__':
     print is_spammer(14)

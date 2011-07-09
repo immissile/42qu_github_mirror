@@ -6,7 +6,7 @@ import sys
 from os.path import join
 import yajl
 import json
-from mysql import DB_MAIN_TABLE
+from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 
 json.dump = yajl.dump
 json.dumps = yajl.dumps
@@ -38,17 +38,43 @@ def prepare(o):
     o.SMTP_USERNAME = 'zpagedev'
     o.SMTP_PASSWORD = '42qu_com'
     o.SENDER_MAIL = 'zpagedev@163.com'
-    
-    o.LOGO_TEXT = "找到给你答案的人"
+
+    o.LOGO_TEXT = '找到给你答案的人'
 
     o.ALIPAY_ID = ''
     o.ALIPAY_SALT = ''
     o.ALIPAY_EMAIL = ''
 
+    o.TWITTER_CONSUMER_KEY = ''
+    o.TWITTER_CONSUMER_SECRET = ''
+
+    o.WWW163_CONSUMER_KEY = ''
+    o.WWW163_CONSUMER_SECRET = ''
+
+    o.SINA_CONSUMER_KEY = ''
+    o.SINA_CONSUMER_SECRET = ''
+
+    o.SOHU_CONSUMER_KEY = ''
+    o.SOHU_CONSUMER_SECRET = ''
+
+    o.QQ_CONSUMER_KEY = ''
+    o.QQ_CONSUMER_SECRET = ''
+
+    o.RENREN_CONSUMER_KEY = ''
+    o.RENREN_CONSUMER_SECRET = ''
+
+    o.GOOGLE_CONSUMER_REAL_SECRET = ''
+    o.GOOGLE_CONSUMER_SECRET = ''
+
+    o.DOUBAN_CONSUMER_KEY = ''
+    o.DOUBAN_CONSUMER_SECRET = ''
+
     return o
+
 
 def debug(o):
     o.DEBUG = True
+
 
 def finish(o):
     o.MQ_USE = o.MYSQL_MAIN
@@ -93,14 +119,19 @@ def finish(o):
     DB_HOST_MAIN = '%s:%s:%s:%s:%s' % (
         o.MYSQL_HOST, o.MYSQL_PORT, o.MYSQL_MAIN, o.MYSQL_USER, o.MYSQL_PASSWD
     )
-    DB_HOST_FEED = '%s:%s:%s:%s:%s' % (
-        o.MYSQL_HOST, o.MYSQL_PORT, '%s_feed'%o.MYSQL_MAIN, o.MYSQL_USER, o.MYSQL_PASSWD
+    DB_HOST_GOOGLE = '%s:%s:%s:%s:%s' % (
+        o.MYSQL_HOST, o.MYSQL_PORT, '%s_google'%o.MYSQL_MAIN, o.MYSQL_USER, o.MYSQL_PASSWD
     )
+
 
     o.DB_CONFIG = {
         'main': {
             'master': DB_HOST_MAIN,
             'tables': DB_MAIN_TABLE
+        },
+        'google': {
+            'master': DB_HOST_GOOGLE,
+            'tables': DB_GOOGLE_TABLE
         }
     }
     return o
@@ -140,5 +171,5 @@ def load(self, *args):
     funclist = PREPARE+list(reversed(FINISH))
     for _ in funclist:
         _(self)
-    print self.SITE_DOMAIN
+
     return self

@@ -9,7 +9,7 @@ from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename, po_id_list_by_zsite_tag_id, zsite_tag_count
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
 from zkit.page import page_limit_offset
 from zkit.txt import cnenlen
 from model.zsite_tag import ZsiteTag
@@ -18,6 +18,7 @@ from model.tag import Tag
 
 
 PAGE_LIMIT = 42
+
 
 
 @urlmap('/po/(\d+)')
@@ -35,14 +36,18 @@ class PoIndex(ZsiteBase):
         self.redirect(link)
 
 
-@urlmap('/po')
-@urlmap('/po-(\d+)')
+#@urlmap('/po')
+#@urlmap('/po-(\d+)')
 class PoPage(ZsiteBase):
+    cid = 0
+    template = '/ctrl/zsite/po/po_page.htm'
+
     def get(self, n=1):
         zsite_id = self.zsite_id
         user_id = self.current_user_id
+        cid = self.cid
         is_self = zsite_id == user_id
-        total = po_list_count(zsite_id, is_self)
+        total = po_list_count(zsite_id, cid, is_self)
 
         page, limit, offset = page_limit_offset(
             '/po-%s',
@@ -54,18 +59,46 @@ class PoPage(ZsiteBase):
         if type(n) == str and offset >= total:
             return self.redirect('/po')
 
-        po_list = po_view_list(zsite_id, is_self, limit, offset)
+        po_list = po_view_list(zsite_id, cid, is_self, limit, offset)
         self.render(
+            cid=cid,
             is_self=is_self,
+            total=total,
             po_list=po_list,
             page=page,
         )
+
+
+@urlmap('/word')
+@urlmap('/word-(\d+)')
+class WordPage(PoPage):
+    cid = CID_WORD
+
+
+@urlmap('/note')
+@urlmap('/note-(\d+)')
+class NotePage(PoPage):
+    cid = CID_NOTE
+
+
+@urlmap('/question')
+@urlmap('/question-(\d+)')
+class QuestionPage(PoPage):
+    cid = CID_QUESTION
+
+
+@urlmap('/answer')
+@urlmap('/answer-(\d+)')
+class AnswerPage(PoPage):
+    cid = CID_ANSWER
+
 
 PO_TEMPLATE = '/ctrl/zsite/po/po.htm'
 CID2TEMPLATE = {
     CID_WORD:'/ctrl/zsite/po/word.htm',
     CID_NOTE: PO_TEMPLATE,
     CID_QUESTION:'/ctrl/zsite/po/question.htm',
+    CID_ANSWER: PO_TEMPLATE,
 }
 
 @urlmap('/(\d+)')
@@ -147,7 +180,7 @@ class Question(PoOne):
         po = po_answer_new(user_id, id, name, txt, state)
 
         if po:
-            if po.cid == CID_NOTE:
+            if po.cid == CID_ANSWER:
                 answer_id = po.id
                 link = '/po/tag/%s' % answer_id
                 zsite_tag_new_by_tag_id(po)
@@ -182,6 +215,7 @@ class PoTag(ZsiteBase):
             count=count,
             page=page
         )
+
 
 @urlmap('/po/reply/rm/(\d+)')
 class ReplyRm(LoginBase):

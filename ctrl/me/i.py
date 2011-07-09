@@ -16,8 +16,9 @@ from model.user_auth import user_password_new, user_password_verify
 from model.user_mail import mail_by_user_id
 from cgi import escape
 from urlparse import parse_qs
-from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id
+from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
+from config import SITE_URL
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -32,106 +33,108 @@ def _upload_pic(files, current_user_id):
     return error_pic
 
 
-@urlmap('/i/pic')
-class Pic(LoginBase):
+class LinkEdit(LoginBase):
+    def _linkify(self, link):
+        link = link.strip().split(' ', 1)[0]
+        if link and not link.startswith('http://') and not link.startswith('https://'):
+            link = 'http://%s'%link
+        return link
+
+    def get(self):
+        zsite_id = self.zsite_id
+        id_name = link_id_name_by_zsite_id(zsite_id)
+        id_cid = dict(link_id_cid(zsite_id))
+
+        link_list = []
+        link_cid = []
+        exist_cid = set()
+
+        for id, name in id_name:
+            link = link_by_id(id)
+            if id in id_cid:
+                cid = id_cid[id]
+                link_cid.append((cid, name , link))
+                exist_cid.add(cid)
+            else:
+                link_list.append((id, name, link))
+
+        for cid in (set(OAUTH_LINK_DEFAULT) - exist_cid):
+            link_cid.append((cid, OAUTH2NAME_DICT[cid], ""))
+
+        return self.render(
+            link_list=link_list,
+            link_cid=link_cid
+        )
+
+    def save(self):
+        zsite_id = self.zsite_id
+
+        arguments = parse_qs(self.request.body, True)
+        link_cid = []
+        link_kv = []
+        for cid, link in zip(arguments.get('cid'), arguments.get('link')):
+            cid = int(cid)
+            name = OAUTH2NAME_DICT[cid]
+            link_cid.append((cid, name, self._linkify(link)))
+
+
+        for id, key, value in zip(
+            arguments.get('id'),
+            arguments.get('key'),
+            arguments.get('value')
+        ):
+            id = int(id)
+            link = self._linkify(value)
+
+            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
+
+        link_list_save(zsite_id, link_cid, link_kv)
+
+
+
+class CareerEdit(LoginBase):
+    def get(self):
+        from model.career import CID_JOB, CID_EDU, career_list
+        current_user_id = self.current_user_id
+        self.render(
+            job_list=career_list(current_user_id, CID_JOB),
+            edu_list=career_list(current_user_id, CID_EDU),
+        )
+
+    def save(self):
+        from model.career import CID_TUPLE, career_list_set
+        current_user_id = self.current_user_id
+        #Tornado会忽略掉默认为空的参数
+        arguments = parse_qs(self.request.body, True)
+
+        for cid, prefix in CID_TUPLE:
+            id = arguments.get('%s_id' % prefix, [])
+            unit = arguments.get('%s_unit' % prefix, [])
+            title = arguments.get('%s_title' % prefix, [])
+            txt = arguments.get('%s_txt' % prefix, [])
+            begin = arguments.get('%s_begin' % prefix, [])
+            end = arguments.get('%s_end' % prefix, [])
+            career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
+
+
+class PicEdit(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
         pos = ico_pos.get(current_user_id)
         self.render(pos=pos)
 
-    def post(self):
+    def save(self):
         current_user_id = self.current_user_id
         files = self.request.files
         pos = self.get_argument('pos', '')
         if pos:
             ico_pos_new(current_user_id, pos)
         error_pic = _upload_pic(files, current_user_id)
-        self.render(error_pic=error_pic, pos=pos)
+        return error_pic
 
 
-@urlmap('/i/url')
-class Url(LoginBase):
-    def prepare(self):
-        super(Url, self).prepare()
-        if not self._finished:
-            user = self.current_user
-            user_id = self.current_user_id
-            link = self.current_user.link
-            if not user.state <= ZSITE_STATE_APPLY:
-                self.redirect(link+'/i/verify')
-            elif url_by_id(user_id):
-                self.redirect(link)
 
-    def get(self):
-        self.render(url='')
-
-    def post(self):
-
-        user_id = self.current_user_id
-        url = self.get_argument('url', None)
-        if url:
-            if url_by_id(user_id):
-                error_url = '个性域名设置后不能修改'
-            else:
-                error_url = url_valid(url)
-            if error_url is None:
-                url_new(user_id, url)
-        else:
-            error_url = '个性域名不能为空'
-        self.render(
-            error_url=error_url,
-            url=url
-        )
-
-
-@urlmap('/i/verify')
-class Verify(LoginBase):
-    def prepare(self):
-        super(Verify, self).prepare()
-        current_user = self.current_user
-        state = current_user.state
-        if state >= ZSITE_STATE_VERIFY:
-            return self.redirect('/')
-        elif state <= ZSITE_STATE_APPLY:
-            return self.redirect('/auth/verify/sended')
-
-    def post(self):
-        current_user = self.current_user
-        current_user.state = ZSITE_STATE_WAIT_VERIFY
-        current_user.save()
-        return self.get()
-
-    def get(self):
-        self.render()
-
-@urlmap('/i/career')
-class Career(LoginBase):
-    def get(self):
-        return self.render()
-
-    def post(self):
-        #Tornado会忽略掉默认为空的参数
-        arguments = parse_qs(self.request.body, True)
-
-        def _(prefix):
-            id = arguments.get('%s_id'%prefix, [])
-            title = arguments.get('%s_title'%prefix, [])
-            unit = arguments.get('%s_unit'%prefix, [])
-            txt = arguments.get('%s_txt'%prefix, [])
-            begin = arguments.get('%s_begin'%prefix, [])
-            end = arguments.get('%s_end'%prefix, [])
-            print id
-            print title
-            print unit
-            print begin
-            print end
-
-        _('edu')
-        _('job')
-
-        return self.render()
-
-class UserInfoEdit(object):
+class UserInfoEdit(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
         current_user = self.current_user
@@ -147,7 +150,7 @@ class UserInfoEdit(object):
             marry=o.marry,
             pid_home=o.pid_home or 0,
             pid_now=c.pid_now or 0,
-            sex = o.sex
+            sex=o.sex
         )
 
     def save(self):
@@ -167,7 +170,8 @@ class UserInfoEdit(object):
         if txt:
             txt_new(current_user_id, txt)
 
-        birthday = self.get_argument('birthday', '')
+        birthday = self.get_argument('birthday', '0')
+        birthday = int(birthday)
         marry = self.get_argument('marry', '')
         pid_home = self.get_argument('pid_home', '1')
         pid_now = self.get_argument('pid_now', '1')
@@ -184,7 +188,7 @@ class UserInfoEdit(object):
                 c.save()
             else:
                 c = namecard_new(current_user_id, pid_now=pid_now)
-        
+
 
         if not o.sex:
             sex = self.get_argument('sex', 0)
@@ -200,74 +204,95 @@ class UserInfoEdit(object):
                         user_info_new(current_user_id, sex=sex)
 
 
+
+@urlmap('/i/pic')
+class Pic(PicEdit):
+    def post(self):
+        error_pic = self.save()
+        if error_pic:
+            self.render(error_pic=error_pic)
+        else:
+            self.get()
+
+@urlmap('/i/url')
+class Url(LoginBase):
+    def prepare(self):
+        super(Url, self).prepare()
+        if not self._finished:
+            user = self.current_user
+            user_id = self.current_user_id
+            link = self.current_user.link
+            if user.state <= ZSITE_STATE_APPLY:
+                self.redirect(link+'/i/verify')
+            elif url_by_id(user_id):
+                self.redirect(link)
+
+    def get(self):
+        self.render(url='')
+
+    def post(self):
+
+        user_id = self.current_user_id
+        url = self.get_argument('url', None)
+        if url:
+            if url_by_id(user_id):
+                error_url = '个性域名设置后不能修改'
+            else:
+                error_url = url_valid(url)
+            if error_url is None:
+                url_new(user_id, url)
+                self.redirect(SITE_URL)
+        else:
+            error_url = '个性域名不能为空'
+        self.render(
+            error_url=error_url,
+            url=url
+        )
+
+
+@urlmap('/i/verify')
+class Verify(LoginBase):
+    def prepare(self):
+        super(Verify, self).prepare()
+        if not self._finished:
+            current_user = self.current_user
+            state = current_user.state
+            if state >= ZSITE_STATE_VERIFY:
+                return self.redirect('/')
+            elif state <= ZSITE_STATE_APPLY:
+                return self.redirect('/auth/verify/sended')
+
+    def post(self):
+        current_user = self.current_user
+        current_user.state = ZSITE_STATE_WAIT_VERIFY
+        current_user.save()
+        return self.get()
+
+    def get(self):
+        self.render()
+
+
+@urlmap('/i/career')
+class Career(CareerEdit):
+    def post(self):
+        self.save()
+        self.get()
+
+
 @urlmap('/i')
-class Index(UserInfoEdit, LoginBase):
+class Index(UserInfoEdit):
     def post(self):
         files = self.request.files
         current_user_id = self.current_user_id
-
-        error_pic = _upload_pic(files, current_user_id)
-        if error_pic is False:
-            return self.redirect('/i/pic')
-
         self.save()
-
-        self.redirect('/i')
-
+        self.get()
 
 
 @urlmap('/i/link')
-class Link(LoginBase):
-    def _linkify(self, link):
-        link = link.strip().split(" ",1)[0]
-        if link and not link.startswith("http://") and not link.startswith("https://"):
-            link = "http://%s"%link
-        return link
-
-    def get(self):
-        zsite_id = self.zsite_id
-        id_name = link_id_name_by_zsite_id(zsite_id)
-        id_cid = dict(link_id_cid(zsite_id)) 
-        
-        link_list = []
-        link_cid = {}
-        for id, name in id_name:
-            link = link_by_id(id)
-            if id in id_cid:
-                link_cid[id_cid[id]] = link 
-            else:
-                link_list.append((id, name, link))
-        
-        return self.render(
-            link_list = link_list,
-            link_cid = link_cid
-        ) 
-
+class Link(LinkEdit):
     def post(self):
-        zsite_id = self.zsite_id
-
-        arguments = parse_qs(self.request.body, True)
-        link_cid = []
-        link_kv = []
-        for cid, link in zip(arguments.get("cid"), arguments.get("link")):
-            cid = int(cid)
-            name = OAUTH2NAME_DICT[cid] 
-            link_cid.append((cid, name, self._linkify(link)))
-        
-
-        for id, key, value in zip(
-            arguments.get("id"),
-            arguments.get("key"),
-            arguments.get("value")
-        ):
-            id = int(id)
-            link = self._linkify(value)
-            
-            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
-
-        link_list_save(zsite_id, link_cid, link_kv)
- 
-        return self.get()
+        self.save()
+        self.get()
 
 
 @urlmap('/i/namecard')
@@ -303,10 +328,9 @@ class Namecard(LoginBase):
                 current_user_id, pid_now, name, phone, mail, address
             )
 
-        self.redirect('/i/namecard')
+        self.get()
 
-
-@urlmap('/i/mail_notice')
+@urlmap('/i/mail/notice')
 class MailNotice(LoginBase):
     def get(self):
         user_id = self.current_user_id
@@ -319,7 +343,7 @@ class MailNotice(LoginBase):
         for cid in CID_MAIL_NOTICE_ALL:
             state = self.get_argument('mn%s' % cid, None)
             mail_notice_set(user_id, cid, state)
-        self.redirect('/i/mail_notice')
+        self.get()
 
 
 

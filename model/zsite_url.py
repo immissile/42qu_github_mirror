@@ -3,7 +3,6 @@
 import re
 from _db import Model, McModel, McCache
 from hashlib import sha256
-from zsite import zsite_new_user, Zsite
 from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
 
 class Url(Model):
@@ -76,6 +75,7 @@ def url_valid(url):
     return url_valid_base(url)
 
 def zsite_by_domain(domain):
+    from zsite import Zsite
     if domain.endswith(SITE_DOMAIN_SUFFIX):
         domain = domain[:-len(SITE_DOMAIN_SUFFIX)]
         if domain.isdigit():
@@ -87,13 +87,5 @@ def zsite_by_domain(domain):
 def link(id):
     return '//%s.%s' % (url_by_id(id) or id, SITE_DOMAIN)
 
-@property
-def _link(self):
-    if not hasattr(self, '_link'):
-        self._link = link(self.id)
-    return self._link
-
-Zsite.link = _link
-
 if __name__ == '__main__':
-    print url_by_id(10024789)
+    print url_by_id(4)

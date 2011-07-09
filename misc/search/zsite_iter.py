@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import init_env
-from model.zsite import Zsite, CID_USER, ZSITE_STATE_CAN_REPLY
+import _env
+from collections import defaultdict
+from mmseg.search import seg_txt_search, seg_title_search, seg_txt_2_dict
+from zweb.orm import ormiter
+from model.career import career_list_all
 from model.txt import txt_get
 from model.user_mail import mail_by_user_id
+from model.zsite import Zsite, CID_USER, ZSITE_STATE_CAN_REPLY
 from model.zsite_list_0 import zsite_show_get
-from zweb.orm import ormiter
-from mmseg.search import seg_txt_search, seg_title_search, seg_txt_2_dict
-from collections import defaultdict
 from model.zsite_url import url_by_id
 
 def zsite2keyword(z):
@@ -39,8 +40,30 @@ def zsite2keyword(z):
         else:
             rank += 1
 
-        for word in seg_title_search(txt):
+        for word in seg_txt_search(txt):
             t[word] += 1
+
+    for seq, career in enumerate(career_list_all(id)):
+        if seq:
+            add = 1
+        else:
+            add = 2
+            rank += 1
+
+        unit = career.unit
+        title = career.title
+        txt = career.txt
+
+        if unit:
+            for word in seg_title_search(unit):
+                t[word] += add
+        
+        if title:
+            for word in seg_title_search(title):
+                t[word] += add
+        if txt:        
+            for word in seg_txt_search(txt):
+                t[word] += add
 
     return rank, t
 
@@ -62,7 +85,7 @@ def zsite_keyword_iter():
 
 
 if __name__ == '__main__':
-    z = Zsite.mc_get(10000187)
+    z = Zsite.mc_get(16)
     if z:
         for k, v in zsite2keyword(z)[1].iteritems():
             print k, v

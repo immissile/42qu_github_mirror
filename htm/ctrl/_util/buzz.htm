@@ -24,7 +24,14 @@ entry = i.entry
 %if cid == CID_BUZZ_SYS:
     <span class="buzz_sys">${entry.htm|n}</span>
 %elif cid == CID_BUZZ_SHOW:
-    <span class="buzz_user">${entry_link(entry)}</span>
+<%
+career = ' , '.join(filter(bool, entry.career))
+%>
+    <span class="buzz_user"><a href="${entry.link}">${entry.name}
+    % if career:
+    (${career})
+    % endif
+    </a></span> 加入了哦
 %elif cid == CID_BUZZ_FOLLOW:
 ${user_link_list(from_list)} 关注了\
     %if rid == current_user_id:
@@ -52,18 +59,24 @@ ${user_link_list(from_list)} 回复  <a href="/po/${entry.id}">${entry.name}</a>
 buzz_list = _buzz_show(user_id, 3)
 unread = buzz_unread_count(user_id)
 %>
+%if buzz_list:
+<div class="c" style="padding-bottom:36px" id="buzz"><div class="G2">
 <div class="buzz">
-%for i in buzz_list:
+    %for i in buzz_list:
 <p>${buzz_render(i)}</p>
-%endfor
+    %endfor
 <p class="tr">
+<a href="javascript:$('#buzz').slideUp();void(0)" id="buzzrm"></a>
+
 <a class="unread" href="/buzz">
-%if unread:
+    %if unread:
 未读<span class="mg03">${unread}</span>条
-%else:
+    %else:
 浏览全部</a>
-%endif
+    %endif
 </a>
 </p>
 </div>
+</div></div>
+%endif
 </%def>

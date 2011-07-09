@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import mc, cursor_by_table
-from zkit.ordereddict import OrderedDict
+from array import array
 from hashlib import md5
+from zkit.ordereddict import OrderedDict
+from _db import mc, cursor_by_table
 
 
 class Kv(object):
@@ -25,6 +26,32 @@ class Kv(object):
             if r is None:
                 r = self.NULL
             mc.set(mc_key, r)
+        return r
+
+    def get_dict(self, id_list):
+        if type(id_list) not in (array, list, tuple, dict):
+            id_list = tuple(id_list)
+        mc_key = self.__mc_id__
+        result = mc.get_dict([mc_key%i for i in id_list])
+        r = {}
+        for i in id_list:
+            t = result.get(mc_key%i)
+            if t is None:
+                t = self.get(i)
+            r[i] = t
+        return r
+
+    def get_list(self, id_list):
+        if type(id_list) not in (array, list, tuple, dict):
+            id_list = tuple(id_list)
+        mc_key = self.__mc_id__
+        result = mc.get_dict([mc_key%i for i in id_list])
+        r = []
+        for i in id_list:
+            t = result.get(mc_key%i)
+            if t is None:
+                t = self.get(i)
+            r.append(t)
         return r
 
     def iteritems(self):
@@ -56,9 +83,9 @@ class Kv(object):
             cursor.connection.commit()
             mc.set(mc_key, value)
 
-        #    h = md5(r).hexdigest()
-        #    mc_key2 = self.__mc_value__ % h
-        #    mc.delete(mc_key2)
+    def mc_flush(self, id):
+        mc_key = self.__mc_id__ % id
+        mc.delete(mc_key)
 
     def delete(self, id):
         cursor = self.cursor

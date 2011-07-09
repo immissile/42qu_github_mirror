@@ -43,7 +43,7 @@ if zsite_id == user_id:
 else:
     other_id = None
 %>\
-<div class="sdw"><div class="sd">\
+<div class="c sdw"><div class="sd">\
 ${reply_render_body(i)}\
 <div class="bar">\
 <span class="L">
@@ -65,12 +65,12 @@ other = Zsite.mc_get(other_id)
 
 
 <%def name="reply_textarea(action)">
-<%htm:form id="reply_form" action="${action}">\
+<%htm:form id="reply_form" className="c" action="${action}">\
 ${htm.reply_textarea()}\
-<div class="btns">\
+<div class="btns c">\
+<span id="reply_submit" class="btnw"><button type="submit">此致 , 敬礼</button></span>\
 <span id="secret_span"><input type="checkbox" name="secret" id="secret">\
 <label for="secret">私语</label></span>\
-<span class="btnw"><button  type="submit">此致 , 敬礼</button></span>\
 </div>\
 </%htm:form>\
 <script>$("#reply_form").elastic_login()</script>\

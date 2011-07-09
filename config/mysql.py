@@ -6,6 +6,7 @@ DB_MAIN_TABLE = (
     'buzz',
     'buzz_pos',
     'buzz_sys',
+    'career',
     'feed',
     'follow',
     'gid',
@@ -19,6 +20,7 @@ DB_MAIN_TABLE = (
     'namecard',
     'notice',
     'notice_unread',
+    'oauth_token',
     'pay_account',
     'pic',
     'po',
@@ -40,9 +42,16 @@ DB_MAIN_TABLE = (
     'wall',
     'wall_reply',
     'zsite',
+    'zsite_link',
     'zsite_list',
     'zsite_rank',
     'zsite_tag',
     'zsite_tag_po',
     'zsite_uv_daily',
 )
+
+DB_GOOGLE_TABLE = (
+    'google_rank',
+)
+
+

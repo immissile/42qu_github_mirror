@@ -1,16 +1,12 @@
+<%inherit file="_base.htm" />
 <%!
-from model.cid import CID_USER
+from config import SITE_DOMAIN
 %>
-<%inherit file="/ctrl/_base/zsite.htm" />
-<%
-CID_DIC = {
-    CID_USER: '人',
-}
-%>
-${zsite.name}关注的${CID_DIC[cid]}
-
-%for i in following:
-<p><a href="${i.link}">${i.name}</a></p>
-%endfor
-
-${page|n}
+<%def name="h1()">
+%if current_user_id != zsite_id:
+${self._h1()}
+%endif
+%if not zsite_list:
+<div style="font-size:16px;margin-top:10%;text-align:center">你还没有关注 , <a href="//hero.${SITE_DOMAIN}">点这里逛逛吧</a></div>
+%endif
+</%def>

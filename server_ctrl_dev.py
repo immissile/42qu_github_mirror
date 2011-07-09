@@ -27,15 +27,22 @@ else:
 def run():
     from zweb.server_cherry import WSGIServer
     from ctrl._application import application
-    
-    print 'server on port %s'%PORT
-    
+
+    from config import SITE_DOMAIN
+    print "\nhttp://%s"%SITE_DOMAIN
+    print 'SERVE ON PORT %s'%PORT
+
     server = WSGIServer(PORT, application)
     try:
         server.start()
     except KeyboardInterrupt:
         server.stop()
 
+
+
+
+
 if __name__ == '__main__':
+
     from zkit.reloader.reload_server import auto_reload
     auto_reload(run)

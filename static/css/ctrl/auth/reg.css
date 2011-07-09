@@ -24,8 +24,8 @@ width:389px;
 margin:auto;
 margin-top:16px;
 }
-.btnw{
-margin-left:38px;
+#login_link{
+margin-left:36px;
 }
 #login .btnw{
 margin-left:40px;
@@ -34,7 +34,9 @@ margin-left:40px;
 text-align:center;
 }
 #form_reg h1{
-margin:30px auto 48px;
+background:url(/img/gif/logo.gif) no-repeat;
+margin:30px auto 72px;
+height:54px;
 width:467px;
 overflow:hidden;
 text-align:center;
@@ -86,4 +88,30 @@ margin-left:104px
 }
 #errtip_sex{
 text-align:center;
+}
+.logo_txt{
+font-size: 16px; text-align: right;
+width:304px;
+margin-right:64px;padding-right:64px; margin-top:-10px; border-right:1px dotted #ccc;
+padding-bottom:30px;
+padding-top:4px;
+}
+.logo_txt div{
+margin-top:20px;
+}
+#form_reg .logo_txt a:hover{
+border-bottom:1px dotted #000;
+}
+#form_reg .logo_txt a{
+border-bottom:1px solid #000;
+color:#000;
+margin-left:8px;
+padding-bottom:3px
+}
+#form_reg .logo_txt p{
+line-height:32px;
+padding:0;
+}
+#form_reg .logo_txt .tr{
+padding-top:5px;
 }

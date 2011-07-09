@@ -2,14 +2,27 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache
 from zkit.earth import place_name
+from zkit.astrology import astrology
 from zkit.attrcache import attrcache
+from days import today_year
 
+MARRY_ONE = 1
 
 class UserInfo(McModel):
     @attrcache
     def place_home(self):
         return place_name(self.pid_home)
 
+    @property
+    def age(self):
+        birthday = self.birthday
+        year = birthday//10000
+        if year:
+            return today_year() - year
+
+    @property
+    def astrology(self):
+        return astrology(self.birthday)
 
 def user_info_new(
     user_id,

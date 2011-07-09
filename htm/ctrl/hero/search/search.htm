@@ -1,32 +1,38 @@
-<%inherit file="/ctrl/_base/zsite.htm" />
-<%!
-from model.ico import pic_url
-%>
+<%inherit file="../base.htm" />
+<%namespace file="/ctrl/_util/hero.htm" import="hero_list"/>
 
-<%def name="htm_head()">
-${css.ctrl_hero|n}
+<%def name="htm_title()">
+人物 - 搜索
 </%def>
 
-<%def name="h_nav_more()">\
-<form class="search" action="/q">\
-<input id="search" type="text" name="q" value="${value or ''}">\
-<input class="search_btn" type="submit" value="">\
-</form>\
-<script>\
-$("#search").focus()\
-</script>\
-</%def>
+
+
+
+%if q and total:
 <div class="G zsite_mb64 c">
-搜索 ${q} , 共有 ${total} 个结果
-<div class="zsite_list">
-%for i in zsite_list*20:
-<a href="${i.link}">
-<div class="G1 mtb32">
-<img src="${pic_url(i.id,'219')}">
-<div>${i.name}</div>
-</div>
-</a>
-%endfor
+${hero_list(zsite_list)}
 </div>
 ${page|n}
-</div>
+%else:
+<p class="tc f16" style="margin-top:20%;">查无结果</p>
+%endif
+
+
+##<div class="G zsite_mb64 c">
+##% if q:
+##搜索 ${q} , 共有 ${total} 个结果
+##<div class="zsite_list">
+##%for i in zsite_list:
+##<a href="${i.link}">
+##<div class="G1 mtb32">
+##<img src="${pic_url_with_default(i.id,'219')}">
+##<div>${i.name}</div>
+##</div>
+##</a>
+##%endfor
+##</div>
+##${page|n}
+##% else:
+##空白页
+##% endif
+##</div>

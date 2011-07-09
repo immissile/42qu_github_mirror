@@ -60,6 +60,9 @@ function career(
             career.fadeOut(function(){
                 career.remove()
             })
+            if(id){
+                $.postJSON("/j/career/rm/"+id);
+            }
         });
         
 
@@ -91,7 +94,7 @@ $("#career_form").submit(function(){
 })
 
 function loads(name){
-    var data = $.parseJSON($("#career_data_job").text()),i=0,t;
+    var data = $.parseJSON($("#career_data_"+name).text()),i=0,t;
     for(;i<data.length;++i){
         t=data[i];
         t.unshift(name)

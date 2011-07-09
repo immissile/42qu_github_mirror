@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import init_env
+import _env
 from config import DB_CONFIG
 import sys
 import subprocess
@@ -29,12 +29,13 @@ def reset_database(key, host, port, name, user, password):
         time.sleep(2)
 
 def reset():
+    reset = False
     for key, value in DB_CONFIG.iteritems():
         host, port, name, user, password = value.get('master').split(':')
         sure = 'reset'
         path = join(dirname(abspath(__file__)), 'backup_table.sh')
         print path
-        backup = raw_input('>>> backup table ? entry y or n...\n').strip().lower()
+        backup = raw_input('\n>>> backup table %s ? entry y or n...\n'%name).strip().lower()
         if backup not in ('y', 'n'):
             return
         if backup == 'y':
@@ -46,9 +47,10 @@ def reset():
                 sys.stdout.flush()
                 time.sleep(1)
             reset_database(key, host, port, name, user, password)
-            init_db()
             print '\nreset %s'%key
-
+            reset = True
+    if reset:
+        init_db()
 
 if __name__ == '__main__':
     reset()

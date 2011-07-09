@@ -40,7 +40,7 @@ line-height:32px;
 h1{
 text-align:center;
 border:1px dotted #ccc;
-margin:14px 0;
+margin:14px 0 32px;
 padding:14px 0;
 }
 h2{
@@ -62,4 +62,7 @@ border:1px dotted #ccc;
 background:#fefefe;
 word-wrap:break-word;overflow:hidden;word-break:break-all;white-space:pre-wrap;white-space:-moz-pre-wrap;*white-space:pre;*word-wrap:break-word;
 margin:7px 0;
+}
+p{
+margin-bottom:14px
 }
