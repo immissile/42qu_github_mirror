@@ -195,4 +195,16 @@ margin-top:14px;
 .sd .bar a{
 color:#999;
 }
+.fancyreply{
+width:470px;padding:8px 16px 0 14px
+}
+.fancyreply h3{
+font-size:16px;margin-bottom:7px
+}
+.fancyreply textarea{
+width:461px;
+height:200px;
+font-size:16px;padding:2px 3px;margin:5px 0 10px;
+}
+
 

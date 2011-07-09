@@ -87,6 +87,8 @@ function init_D(){
     })
 }
 
+CANNOT_REPLY = '<div class="tc f16 pd16" style="width:225px"><p>啊 , 出错了 !</p><p>为了维护一本正经的讨论气氛</p><p>未认证用户不能发表看法哦</p><p><a href="/i/verify">点此申请认证吧</a></p></div>'
+
 function follow_a(id){
     var a=$("#follow_a"+id),
         text=a.html(),
@@ -96,6 +98,24 @@ function follow_a(id){
 
     if(text==follow){
         text = follow_rm;
+        fancybox = $.fancybox;
+        fancybox({
+            content:'<form id="follow_reply" class="fancyreply"><h3>人过留名 , 雁过留声 ...</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">此致 , 敬礼 !</button></span></div></form>',
+            onComplete:function(){
+                var reply = $("#follow_reply"),
+                    textarea = reply.find('textarea');
+                reply.submit(function(){
+                    var txt = $.trim(textarea.val());
+                    if(txt&&txt.length){
+                        fancybox.showActivity()
+                    }else{
+
+                    }
+                    return false
+                })
+                textarea.focus()
+            }
+       })
     }else{
         text = follow;
         url += "/rm"
