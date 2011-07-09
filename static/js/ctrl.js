@@ -87,4 +87,19 @@ function init_D(){
     })
 }
 
+function follow_a(id){
+    var a=$("#follow_a"+id),
+        text=a.html(),
+        url="/j/follow",
+        follow="关注", 
+        follow_rm="淡忘";
 
+    if(text==follow){
+        text = follow_rm;
+    }else{
+        text = follow;
+        url += "/rm"
+    }
+    $.postJSON(url+"/"+id)
+    a.html(text)
+}

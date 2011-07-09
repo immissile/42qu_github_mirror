@@ -104,7 +104,7 @@ ${self.h_nav_inner()}\
 
 
     %if not is_owner and current_user:
-<div class="D"><a class="DA" class="follow_a" rel="${zsite_id}" href="javascript:void(0)">\
+<div class="D"><a class="DA" id="follow_a${zsite_id}" href="javascript:follow_a(${zsite_id});void(0)">\
         %if follow_get(current_user.id,zsite_id):
 关注\
         %else:
