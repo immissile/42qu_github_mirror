@@ -40,15 +40,6 @@ TRADE_STATE_ROLLBACK = 15
 TRADE_STATE_FINISH = 20
 
 class Trade(Model):
-    #def open(self):
-    #    trade_open(self)
-
-    #def finish(self):
-    #    trade_finish(self)
-
-    def fail(self):
-        trade_fail(self)
-
     @property
     def read_value(self):
         return read_cent(self.value)
@@ -208,7 +199,7 @@ def withdraw_new(price, user_id, cid):
 def withdraw_fail(id, txt):
     t = Trade.get(id)
     if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_ONWAY:
-        t.fail()
+        trade_fail(t)
         trade_log.set(id, txt)
 
 def withdraw_open_count():
