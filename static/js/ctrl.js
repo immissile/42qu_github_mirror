@@ -87,4 +87,51 @@ function init_D(){
     })
 }
 
+CANNOT_REPLY = '<div class="fancyban"><p>啊 , 出错了 !</p><p>为了假装一本正经的讨论气氛</p><p>未认证用户没有发言权</p><p><a href="/i/verify">点此申请认证吧</a></p></div>'
 
+function follow_a(id){
+    var a=$("#follow_a"+id),
+        text=a.html(),
+        url="/j/follow",
+        follow="关注", 
+        follow_rm="淡忘";
+
+    if(text==follow){
+        text = follow_rm;
+        fancybox = $.fancybox;
+        fancybox({
+            content:'<form id="follow_reply" class="fancyreply"><h3>人过留名 , 雁过留声 ...</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">此致 , 敬礼 !</button></span><span id="follow_secret_span"><input type="checkbox" name="secret" id="follow_reply_secret"><label for="follow_reply_secret">私语</label></span></div></form>',
+            onComplete:function(){
+                var reply = $("#follow_reply"),
+                    textarea = reply.find('textarea');
+                reply.submit(function(){
+                    var txt = $.trim(textarea.val());
+                    if(txt&&txt.length){
+                        fancybox.showActivity()
+                        $.postJSON(
+                            "/j/follow/reply/"+id,
+                            {'txt':txt},
+                            function(r){
+                                if(r.can_not_reply){
+                                    fancybox({
+                                        content:CANNOT_REPLY  
+                                    }) 
+                                }else{
+                                    fancybox.close()
+                                }
+                        })
+                    }else{
+                        fancybox.close()
+                    }
+                    return false
+                })
+                textarea.focus()
+            }
+       })
+    }else{
+        text = follow;
+        url += "/rm"
+    }
+    $.postJSON(url+"/"+id)
+    a.html(text)
+}

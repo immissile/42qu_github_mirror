@@ -15,8 +15,6 @@ class Bill(LoginBase):
         user_id = self.current_user_id
         trade_list = trade_history(user_id)
 
-        if not trade_list:
-            return self.redirect("/money/charge")
 
         user_ids = set([i.from_id if i.to_id == user_id else i.to_id for i in trade_list])
         if 0 in user_ids:

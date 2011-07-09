@@ -104,11 +104,11 @@ ${self.h_nav_inner()}\
 
 
     %if not is_owner and current_user:
-<div class="D"><a class="DA" href="/\
-        %if follow_get(current_user.id,zsite.id):
-touch">互动\
+<div class="D"><a class="DA" id="follow_a${zsite_id}" href="javascript:follow_a(${zsite_id});void(0)">\
+        %if follow_get(current_user_id, zsite_id):
+淡忘\
         %else:
-follow?${_xsrf}">关注\
+关注\
         %endif
 </a></div>\
     %endif

@@ -42,10 +42,13 @@
 
         var fancybox=$.fancybox;
         fancybox({
-            content:'<form id="vote_reply" style="width:470px;padding:8px 16px 0 14px"><h3 style="font-size:16px;margin-bottom:7px">理由如下 ...</h3><textarea style="width:461px;height:200px;font-size:16px;padding:2px 3px;margin:5px 0 10px" name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">输出</button></span></div></form>',
+            content:'<form id="vote_reply" class="fancyreply"><h3>理由如下 ...</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">输出</button></span></div></form>',
             onComplete:function(){
-                $("#vote_reply").submit(function(){
-                    var self=$(this), textarea=self.find("textarea"), txt = $.trim(textarea.val());
+                var reply = $("#vote_reply"),
+                    textarea=reply.find("textarea");
+
+                reply.submit(function(){
+                    var txt = $.trim(textarea.val());
                     if(txt&&txt.length){
                         fancybox.showActivity()
                         $.postJSON(
@@ -53,7 +56,7 @@
                             function(r){
                                 if(r.can_not_reply){
                                     fancybox({
-                                        content:'<div class="tc f16 pd16" style="width:225px"><p>啊 , 出错了 !</p><p>为了维护一本正经的讨论气氛</p><p>未认证用户不能发表看法哦</p><p><a href="/i/verify">点此申请认证吧</a></p></div>'  
+                                        content:CANNOT_REPLY  
                                     }) 
                                 }else{
                                     fancybox.close()
@@ -63,7 +66,8 @@
                         fancybox.close()
                     }
                     return false;
-                }).find('textarea').focus()
+                })
+                textarea.focus()
             }
         })
         
