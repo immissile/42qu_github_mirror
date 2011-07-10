@@ -17,25 +17,16 @@ from model.user_auth import user_new_by_mail
 
 
 @urlmap('/donate/result/(\d+)')
-class Result(LoginBase):
+class Result(ZsiteBase):
     def get(self, id):
-        t = Trade.get(id=id)
-        if t.for_id:
-            t = Trade.get(id=t.for_id)
-        from_user = Zsite.get(t.from_id)
-        to_user = Zsite.get(t.to_id)
-        # zsite_id is 0 
-        if not from_user:
-            from_user = Zsite
-            from_user.name = '系统银行'
-        if not to_user:
-            to_user = Zsite
-            to_user.name = '系统银行'
+        t = Trade.get(id)
+        from_user = Zsite.mc_get(t.from_id)
+        to_user = Zsite.mc_get(t.to_id)
             
         self.render(
             from_user=from_user,
             to_user=to_user,
-            t=t,
+            trade=t,
         )
 
 @urlmap('/donate')
