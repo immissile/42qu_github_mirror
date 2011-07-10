@@ -66,6 +66,9 @@ class Feed(JLoginBase):
         c_dict = career_dict(zsite_id_set)
 
         r = []
+        #zsite_info = []
+        #item = []
+
         for i in result:
             id = i[0]
             zsite_id = i[3]
