@@ -47,7 +47,7 @@ def feed_tuple_by_db(id):
     ]
 
     txt = m.txt
-    if cid in (CID_NOTE, CID_QUESTION,  CID_ANSWER):
+    if cid in (CID_NOTE, CID_QUESTION, CID_ANSWER):
         result.extend(cnenoverflow(txt, 164))
     else:
         if cid == CID_WORD:

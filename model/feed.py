@@ -11,7 +11,7 @@ class Feed(McModel):
     pass
 
 MAXINT = sys.maxint
-PAGE_LIMIT = 42
+PAGE_LIMIT = 50
 
 mc_feed_iter = McCacheM('FeedIter:%s')
 mc_feed_tuple = McCacheM('F%s')
@@ -139,6 +139,7 @@ class FeedMerge(object):
         ):
             yield i
             count += 1
+            #print count
             if count >= limit:
                 break
 
