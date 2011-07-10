@@ -21,6 +21,11 @@ from model.god_po_show import  po_show_zsite_channel
         <input type="radio" name="cid" value="0" id="cid0">
         <label for="cid0">删除</label>
     </li>
+##    %else:
+##    <li>
+##        <input type="radio" name="cid" value="0" id="cid0">
+##        <label for="cid0">新建 </label><input name="name" type="text" value="" onfocus="$('#cid0').attr('checked',true)" autocomplete="off"> 
+##    </li>
     % endif
 </ol>
 <input type="hidden" name="next" value="${next}">
