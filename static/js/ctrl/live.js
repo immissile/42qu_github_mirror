@@ -50,7 +50,7 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
             t.rt_list = $.map(t.rt_list, array2zsite);
             t.create_time = $.timeago(t.create_time);
             data.item.push(t)
-            console.info(t)
+            //console.info(t)
         }
     
         return data
@@ -167,8 +167,8 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
     })
     
     /* 显示全部 */
-    fdtxt = function(id){
-        var txt=$("#fdtxt"+id),all=txt.find(".fdall");
+    fdtxt = function(e,id){
+        var txt=$(e).parents('.fdtxt'),all=txt.find(".fdall");
         all.html('').addClass("fdloading")
         $.get("/j/fdtxt/"+id,function(htm){
             txt.html('<pre class="fdpre">'+htm+"</pre>")

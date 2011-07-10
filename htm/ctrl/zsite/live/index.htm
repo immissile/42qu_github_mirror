@@ -71,7 +71,7 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
         {{else}} 
 <div class="fdtxtin">${txt}</div>
             {{if txt_more}}
-<div class="fdall"><a href="javascript:fdtxt(${id});void(0)">显示全部</a></div>
+<div class="fdall"><a href="javascript:void(0)" onclick="fdtxt(this,${id});">显示全部</a></div>
             {{/if}}
         {{/if}}
     </div>
