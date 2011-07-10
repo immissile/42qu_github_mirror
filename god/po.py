@@ -67,7 +67,7 @@ class PoShowSet(Base):
         next = self.get_argument('next', '/po')
         if po and cid:
             cid = int(cid)
-            name = self.get_argument('name', '')
+#            name = self.get_argument('name', '')
             po_show_set(po, cid)
             return self.redirect(next)
         self.render(
