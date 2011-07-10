@@ -61,6 +61,7 @@ class Po(McModel, ReplyMixin):
         txt_new(id, txt)
         mc_htm.delete(id)
 
+
     @attrcache
     def user(self):
         return Zsite.mc_get(self.user_id)

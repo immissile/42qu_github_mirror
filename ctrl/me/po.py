@@ -3,7 +3,7 @@ from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model import reply
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
-from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
+from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set, mc_htm
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.po_pos import po_pos_get, po_pos_set
 from model.po_question import po_question_new, answer_word2note
@@ -148,6 +148,7 @@ class Edit(LoginBase):
             else:
                 po.name_ = txt
                 po.save()
+                mc_htm.delete(po.id)
         else:
             if not po.rid and name:
                 po.name_ = name
