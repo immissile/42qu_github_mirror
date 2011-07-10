@@ -11,6 +11,8 @@ from model.feed import feed_rt, feed_rt_rm, feed_rt_id
 from model.ico import pic_url_with_default
 from model.cid import CID_NOTE, CID_QUESTION, CID_ANSWER
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
+from itertools import groupby
+from operator import itemgetter
 from model.career import career_dict
 
 
@@ -58,45 +60,49 @@ class Feed(JLoginBase):
         current_user_id = self.current_user_id
 
         result = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
-
+        result = tuple(
+            groupby(result,itemgetter(3))
+        )
         zsite_id_set = set(
-            i[3] for i in result
+            i[0] for i in result
         )
 
         c_dict = career_dict(zsite_id_set)
 
         r = []
-        #zsite_info = []
-        #item = []
+        for zsite_id, item_list in result:
+            t = []
+            for i in item_list:
+                id = i[0]
+                cid = i[4]
+                rid = i[5]
 
-        for i in result:
-            id = i[0]
-            zsite_id = i[3]
-            cid = i[4]
-            rid = i[5]
+                if len(i) >= FEED_TUPLE_DEFAULT_LEN:
+                    after = i[FEED_TUPLE_DEFAULT_LEN:]
+                    i = i[:FEED_TUPLE_DEFAULT_LEN]
+                else:
+                    after = None
 
-            unit , title = c_dict[zsite_id]
-            if len(i) >= FEED_TUPLE_DEFAULT_LEN:
-                after = i[FEED_TUPLE_DEFAULT_LEN:]
-                i = i[:FEED_TUPLE_DEFAULT_LEN]
-            else:
-                after = None
+                i.extend([
+                    vote_state(current_user_id, id),
+                ])
 
-            i.extend([
-                pic_url_with_default(zsite_id, '219'),
+                if cid in (CID_QUESTION, CID_NOTE, CID_ANSWER):
+                    i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
+
+                if after:
+                    i.extend(after)
+                t.append(i)
+
+            unit, title = c_dict[zsite_id]
+            print zsite_id, unit, title
+            r.append((
                 unit,
                 title,
-                vote_state(current_user_id, id),
-            ])
-
-            if cid in (CID_QUESTION, CID_NOTE, CID_ANSWER):
-                i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
-
-            #print after
-            if after:
-                i.extend(after)
-            r.append(i)
-
+                pic_url_with_default(zsite_id, '219'),
+                t
+            ))
+        print c_dict
         result = dumps(r)
         self.finish(result)
 
