@@ -95,6 +95,7 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
                 feed_load.show()
             });
             var last_id = result[result.length-1][5];
+            console.info(result.length)
             begin_id.val(
                 last_id=last_id[last_id.length-1][0]
             )

@@ -104,6 +104,7 @@ class Feed(JLoginBase):
                 t
             ))
         #print c_dict
+        print r
         result = dumps(r)
         self.finish(result)
 

@@ -94,7 +94,9 @@ def feed_iter(zsite_id, start_id=MAXINT):
     if start_id == MAXINT:
         id_list = feed_id_lastest(zsite_id)
         if id_list:
+            count = 0
             for i in id_list:
+                count += 1
                 yield i
             start_id = i[0]
         else:
@@ -139,7 +141,6 @@ class FeedMerge(object):
         ):
             yield i
             count += 1
-            #print count
             if count >= limit:
                 break
 
