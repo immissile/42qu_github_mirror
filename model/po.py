@@ -95,8 +95,10 @@ class Po(McModel, ReplyMixin):
     @attrcache
     def link(self):
         u = self.user
-        return '%s/%s' % (u.link, self.id)
-
+        #TODO REMOVE
+        if u:
+            return '%s/%s' % (u.link, self.id)
+    
     @attrcache
     def link_question(self):
         q = self.question
