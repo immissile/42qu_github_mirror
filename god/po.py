@@ -7,7 +7,7 @@ from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION
 from model.po import Po
-from model.po_show import po_show_set, po_show_count, po_show_list, po_show_rm, PO_SHOW_ZSITE_CHANNEL 
+from model.po_show import po_show_set, po_show_count, po_show_list, po_show_rm
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from zkit.page import page_limit_offset
 

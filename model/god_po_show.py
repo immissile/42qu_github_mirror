@@ -1,5 +1,5 @@
 #coding:utf-8
-import _db
+from _db import McCache
 from zsite import Zsite
 
 PO_SHOW_ZSITE_CHANNEL = (
@@ -13,5 +13,14 @@ PO_SHOW_ZSITE_CHANNEL = (
 10033953 ,
 )
 
+mc_po_show_zsite_channel = McCache("PoShowZsiteChannel:%s")
+
+@mc_po_show_zsite_channel("")
 def po_show_zsite_channel():
-    return Zsite.mc_get_list(PO_SHOW_ZSITE_CHANNEL)
+    return tuple(zip(
+        PO_SHOW_ZSITE_CHANNEL,
+        [
+            i.name for i in
+            Zsite.mc_get_list(PO_SHOW_ZSITE_CHANNEL)
+        ]
+    ))
