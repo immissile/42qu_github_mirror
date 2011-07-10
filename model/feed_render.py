@@ -116,11 +116,11 @@ def render_feed_list(id_list, rt_dict):
         zsite = zsite_dict[zsite_id]
         rt_id_list = rt_dict[id]
         result = [
+            zsite_id,
             id,
-            dump_zsite(zsite),
             map(dump_zsite, map(zsite_dict.get, rt_id_list))
         ]
-        result.extend(i)
+        result.extend(i[1:])
         r.append(result)
     return r
 

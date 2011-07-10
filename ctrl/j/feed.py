@@ -6,7 +6,7 @@ from model.vote import vote_state
 from model.po import Po
 from yajl import dumps
 from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
-from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN
+from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN, dump_zsite
 from model.feed import feed_rt, feed_rt_rm, feed_rt_id
 from model.ico import pic_url_with_default
 from model.cid import CID_NOTE, CID_QUESTION, CID_ANSWER
@@ -14,7 +14,7 @@ from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from itertools import groupby
 from operator import itemgetter
 from model.career import career_dict
-
+from model.zsite import Zsite
 
 @urlmap('/j/feed/up1/(\d+)')
 class FeedUp(JLoginBase):
@@ -61,21 +61,21 @@ class Feed(JLoginBase):
 
         result = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
         result = tuple(
-            groupby(result,itemgetter(3))
+            (i,tuple(g)) for i,g in groupby(result,itemgetter(0))
         )
         zsite_id_set = set(
             i[0] for i in result
         )
-
+        zsite_list = Zsite.mc_get_list(zsite_id_set)
         c_dict = career_dict(zsite_id_set)
 
         r = []
-        for zsite_id, item_list in result:
+        for zsite, (zsite_id, item_list) in zip(zsite_list , result):
             t = []
             for i in item_list:
-                id = i[0]
-                cid = i[4]
-                rid = i[5]
+                id = i[1]
+                cid = i[3]
+                rid = i[4]
 
                 if len(i) >= FEED_TUPLE_DEFAULT_LEN:
                     after = i[FEED_TUPLE_DEFAULT_LEN:]
@@ -92,17 +92,18 @@ class Feed(JLoginBase):
 
                 if after:
                     i.extend(after)
-                t.append(i)
+                t.append(i[1:])
 
             unit, title = c_dict[zsite_id]
-            print zsite_id, unit, title
             r.append((
+                zsite.name,
+                zsite.link,
                 unit,
                 title,
                 pic_url_with_default(zsite_id, '219'),
                 t
             ))
-        print c_dict
+        #print c_dict
         result = dumps(r)
         self.finish(result)
 

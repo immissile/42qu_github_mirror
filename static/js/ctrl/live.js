@@ -2,8 +2,9 @@
 61 word
 62 note
 */
+
 (function (){
-var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time name vote txt txt_more pic zsite_unit zsite_title vote_state",
+var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt txt_more vote_state",
     FEED_ATTR_TXT_BASE = FEED_ATTR_BASE+" tag_id tag_name",
     QUESTION_ATTR_BASE = " question_link question_user question_user_link",
     FEED_ATTR = {
@@ -11,7 +12,8 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time 
         62:FEED_ATTR_TXT_BASE,
         63:FEED_ATTR_TXT_BASE,
         64:FEED_ATTR_TXT_BASE+QUESTION_ATTR_BASE
-    };
+    },
+    DATE_ATTR = "name link unit title pic".split(' ');
     for(var i in FEED_ATTR){
         FEED_ATTR[i]=(
             FEED_ATTR[i]+""
@@ -26,19 +28,31 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time 
     }
 
     function init(result){
-        var data = {},
+        var data = {
+            "item":[]
+        },
         i=0,
-        attr=FEED_ATTR[result[4]],
-        result_length = result.length;
-
-        for(;i<result_length;++i){
-            data[attr[i]] = result[i]
+        j,
+        attr,
+        item=result[5],
+        t;
+        for(;i<DATE_ATTR.length;++i){
+            data[DATE_ATTR[i]]=result[i]
         }
-        data.zsite = array2zsite(data.zsite);
-        data.rt_list = $.map(data.rt_list, array2zsite);
-        data.create_time = $.timeago(data.create_time);
-        //console.info(result)
-        //console.info(data)
+        for(i=0;i<item.length;++i){
+            result=item[i];
+            t={};
+            attr=FEED_ATTR[result[2]];
+            result_length = result.length;
+            for(j=0;j<result_length;++j){
+                t[attr[j]] = result[j]
+            }
+            t.rt_list = $.map(t.rt_list, array2zsite);
+            t.create_time = $.timeago(t.create_time);
+            data.item.push(t)
+            console.info(t)
+        }
+    
         return data
     }
 
@@ -80,7 +94,10 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time 
             feed_loading.slideUp(function(){
                 feed_load.show()
             });
-            begin_id.val(result[result.length-1][0])
+            var last_id = result[result.length-1][5];
+            begin_id.val(
+                last_id=last_id[last_id.length-1][0]
+            )
 
             var prebottom,top,diff,self;
             $("#feeds .G3").each(function(){
