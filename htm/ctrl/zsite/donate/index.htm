@@ -9,7 +9,7 @@ ${css.ctrl_donate|n}
 
 <%htm:form id="donate" className="fullscreen" enctype="multipart/form-data">
 
-<h1>捐赠</h1>
+<h1>捐赠 <a href="#">文章标题 123456</a></h1>
 <div class="item"><label>收款</label><a
     href="${zsite.link}">${zsite.name}</a></div>
 <div class="item"><label for="amount">金额</label><input id="amount" type="text" name="amount" value=${amount or '4.2'}>元${errtip.amount|n}</div>
@@ -21,7 +21,10 @@ ${css.ctrl_donate|n}
 %if not current_user:
 <div class="item"><label for="mail">联系邮箱</label><input id="mail" type="text" name="mail" value="${mail or ''}">${errtip.mail|n}</div>
 %endif
-
+<div class="item" id="txt_item"><label for="txt" class="L">留言</label><textarea id="txt" name="txt"></textarea></div>
+<div class="item" id="secret_item">
+    <label for="secret"><input type="checkbox" id="secret">私语</label>
+</div>
 <div class="btns">
     <span class="btnw"><button type="submit">支付</button></span>
 </div>
