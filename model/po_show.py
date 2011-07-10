@@ -19,10 +19,10 @@ def po_show_rm(po_id):
     rank_rm(po_id, 0)
 
 
-CID_PO_SHOW = (
-    (1, '12321'),
-    (2, '231231'),
-)
+#CID_PO_SHOW = (
+#    (1, '12321'),
+#    (2, '231231'),
+#)
 
 def po_show_list(cid, order, limit, offset):
     ids = rank_po_id_list(0, cid, order, limit, offset)

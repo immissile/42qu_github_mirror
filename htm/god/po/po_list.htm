@@ -25,7 +25,7 @@ cid = po.cid
 % endif
     <a href="${po.link}">${po.name or '[无标题]'}</a>
 </p>
-<p><a href="/po/set_show/${po.id}">
+<p><a href="/po/show/set/${po.id}">
     % if po_is_show(po):
     设置
     % else:

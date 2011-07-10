@@ -5,7 +5,7 @@ from config import SITE_DOMAIN
 def init_tag():
     from model.tag import tag_new, Tag
     from model.kv import mc
-    print "#model/zsite_tag.py"
+    print "vi model/zsite_tag.py"
     print 'ZSITE_TAG = ('
     for tag in (
         '随笔杂记',
@@ -21,6 +21,33 @@ def init_tag():
         id = tag_new(tag)
         print '    %s, # %s'%(id, tag)
     print ')'
+    print "-"*20
+
+def init_zsite_channel():
+    from model.cid import CID_CHANNEL
+    from model.zsite import zsite_new, ZSITE_STATE_ACTIVE
+    print "vi model/god_po_show.py"
+    print 'PO_SHOW_ZSITE_CHANNEL = ('
+    for name in (
+        '产品',
+        '公司',
+        '文化',
+        '招聘',
+        '思考',
+        '随笔',
+        '传奇',
+        '技术',
+    ):
+        zsite = zsite_new(
+            name,
+            CID_CHANNEL,
+            ZSITE_STATE_ACTIVE
+        )
+        print zsite.id, ","
+
+    print ')'
+    print "-"*20
+
 
 def init_buzz_sys():
     from model.buzz_sys import buzz_sys_htm
@@ -35,6 +62,7 @@ def init_buzz_sys():
 def init_db():
     init_tag()
     init_buzz_sys()
+    init_zsite_channel()
 
 if __name__ == '__main__':
     init_db()

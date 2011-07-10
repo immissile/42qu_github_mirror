@@ -5,9 +5,12 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
+set_show
+
 """
 
 TO_STRING = """
+show/set
 """
 
 def run():
