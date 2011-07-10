@@ -57,11 +57,11 @@ vertical-align:top;
 #vertical-align:7px;
 float:right;
 }
-#feeds .G{
-padding-bottom:8px;
-}
 #feeds .G3{
 overflow:hidden;
+}
+#feeds .sdw{
+margin-bottom:36px;
 }
 #feeds .G1{
 background:url(/img/gif/comment.gif) no-repeat -51px 28px;

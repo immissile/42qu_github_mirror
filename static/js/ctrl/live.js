@@ -81,6 +81,22 @@ var FEED_ATTR_BASE = "id zsite rt_list zsite_id cid rid reply_count create_time 
                 feed_load.show()
             });
             begin_id.val(result[result.length-1][0])
+
+            var prebottom,top,diff,self;
+            $("#feeds .G3").each(function(){
+                self=$(this)
+                top=self.offset().top;
+                if(self.hasClass('G3_AS_PRE')&&prebottom!==undefined){
+                    diff=prebottom-top
+                    if(diff){
+                        this.style.marginTop=diff+"px"
+                    }
+                }
+                prebottom = self.offset().top+this.offsetHeight;
+            })
+
+
+
         })
     }
     render_feed()
