@@ -84,21 +84,20 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
         $.postJSON(
         "/j/feed/"+begin_id.val(),
         function(result){
-            if(!result.length){
+            if(result.length==1){
                 feed_load.hide()
                 feed_loading.hide()
                 return
             }
             is_loading=0;
+            begin_id.val(
+                result.pop()
+            )
             $('#feed').tmpl(init_result(result)).appendTo("#feeds");
             feed_loading.slideUp(function(){
                 feed_load.show()
             });
-            var last_id = result[result.length-1][5];
-            console.info(result.length)
-            begin_id.val(
-                last_id=last_id[last_id.length-1][0]
-            )
+            //console.info(result.length)
 
             var prebottom,top,diff,self;
             $("#feeds .G3").each(function(){

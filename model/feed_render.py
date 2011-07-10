@@ -122,6 +122,8 @@ def render_feed_list(id_list, rt_dict):
         ]
         result.extend(i[1:])
         r.append(result)
+
+
     return r
 
 def zsite_id_list_by_follow(zsite_id):
@@ -134,7 +136,7 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     feed_merge = FeedMerge(zsite_id_list_by_follow(zsite_id))
     rt_dict = {}
     id_list = []
-
+    id = 0
     for i in feed_merge.merge_iter(limit, begin_id):
         rid = i.rid
         id = rid or i.id
@@ -143,8 +145,7 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
             id_list.append(id)
         if rid:
             rt_dict[id].append(i.zsite_id)
-
-    return render_feed_list(id_list, rt_dict)
+    return render_feed_list(id_list, rt_dict), id
 
 
 #    result = []

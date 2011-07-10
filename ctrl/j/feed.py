@@ -59,18 +59,18 @@ class Feed(JLoginBase):
             id = MAXINT
         current_user_id = self.current_user_id
 
-        result = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
+        result , last_id = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
         result = tuple(
             (i,tuple(g)) for i,g in groupby(result,itemgetter(0))
         )
         zsite_id_set = set(
             i[0] for i in result
         )
-        zsite_list = Zsite.mc_get_list(zsite_id_set)
         c_dict = career_dict(zsite_id_set)
 
         r = []
-        for zsite, (zsite_id, item_list) in zip(zsite_list , result):
+        for zsite_id, item_list in result:
+            zsite = Zsite.mc_get(zsite_id)
             t = []
             for i in item_list:
                 id = i[1]
@@ -103,8 +103,7 @@ class Feed(JLoginBase):
                 pic_url_with_default(zsite_id, '219'),
                 t
             ))
-        #print c_dict
-        print r
+        r.append(last_id)
         result = dumps(r)
         self.finish(result)
 
