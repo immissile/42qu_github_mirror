@@ -77,6 +77,7 @@ def namecard():
 
 def career():
     from qu.mysite.model.career import Career, CareerOther
+    from qu.mysite.model.company import CompanyMan, CompanyManTxt
     from zpage.model.career import career_new
     for i in ormiter(Career):
 
