@@ -38,6 +38,8 @@ select pic_show.man_id, pic_show_pos.txt from qu.pic_show, qu.pic_show_pos where
 on duplicate key update value=values(value);
 
 truncate zpage.ico96;
+truncate zpage.namecard;
+truncate zpage.career;
 
 -- truncate zpage.namecard;
 -- insert into zpage.namecard (user_id, pid, phone, mail, address, state)
