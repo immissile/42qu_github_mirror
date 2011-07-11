@@ -158,6 +158,6 @@ class UserSearch(Base):
 class avatar(Base):
     def get(self, avatar_id):
         session = user_session(avatar_id)
-        self.set_cookie('s', session)
+        self.set_cookie('S', session)
         current_user = Zsite.mc_get(avatar_id)
         self.redirect(current_user.link)

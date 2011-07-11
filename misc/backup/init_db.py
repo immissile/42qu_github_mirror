@@ -63,6 +63,7 @@ def init_db():
     init_zsite_channel()
 
 if __name__ == '__main__':
-    init_db()
+#    init_db()
 
 
+    init_buzz_sys()
