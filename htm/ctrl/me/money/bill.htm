@@ -5,6 +5,8 @@ from model.money import trade_log, bank_view, frozen_view, frozen_get
 from yajl import loads
 %>
 <%inherit file="_base.htm" />
+<%namespace file="/ctrl/me/_util/notice.htm" import="trade_log_render"/>
+
 <style>
 .zsite_ol{
 padding-bottom:64px;width:470px;margin:auto
@@ -49,11 +51,6 @@ tax = t.tax
 read_tax = t.read_tax
 got = t.read_value
 update_time = datetime.fromtimestamp(t.update_time)
-message = loads(trade_log.get(t.id))
-
-
-title = message.get('title')
-url = message.get('url')
 
 %>
 
@@ -80,16 +77,8 @@ url = message.get('url')
 %else:
 <a href="${from_user.link}">${from_user.name}</a> 捐赠 ${got} 元 
 %endif
-%if title or url:
-//
-    %if url:
-<a href="${url}" target="_blank">
-    %endif
-${title or url}
-    %if url:
-</a>
-    %endif
-%endif
+
+${trade_log_render(t.id)}
 
 %endif
 %if tax:

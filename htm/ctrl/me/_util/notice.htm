@@ -5,6 +5,24 @@ from model.money import Trade, trade_log
 from yajl import loads
 %>
 
+<%def name="trade_log_render(rid)">
+<%
+message = loads(trade_log.get(rid))
+title = message.get('title')
+url = message.get('url')
+%>
+%if title or url:
+//
+    %if url:
+<a href="${url}" target="_blank">
+    %endif
+${title or url}
+    %if url:
+</a>
+    %endif
+
+</%def>
+
 <%def name="notice_render(i)">
 <%
 cid = i.cid
@@ -25,20 +43,9 @@ entry_zsite = entry.zsite_other(current_user_id)
 %elif cid == CID_NOTICE_PAY:
 <%
 trade = Trade.get(rid)
-message = loads(trade_log.get(rid))
-title = message.get('title')
-url = message.get('url')
 %>
 捐赠 ${float(trade.value)/100.0} 元
-%if title or url:
-//
-    %if url:
-<a href="${url}" target="_blank">
-    %endif
-${title or url}
-    %if url:
-</a>
-    %endif
+${trade_log_render(rid)}
 %endif
 %endif
 
