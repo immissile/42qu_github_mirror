@@ -43,10 +43,11 @@ def user_info_new(
     return o
 
 if __name__ == "__main__":
-    n = UserInfo.get(10011475)
-    n.sex=2
-    n.marry=0
-    n.save()
+    pass
+#    n = UserInfo.get(10011475)
+#    n.sex=2
+#    n.marry=0
+#    n.save()
 
 
 
