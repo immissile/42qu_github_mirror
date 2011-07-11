@@ -28,16 +28,14 @@ def init_zsite_channel():
     from model.zsite import zsite_new, ZSITE_STATE_ACTIVE
     print "vi model/god_po_show.py"
     print 'PO_SHOW_ZSITE_CHANNEL = ('
-    for name in (
-        '产品',
-        '公司',
-        '文化',
-        '招聘',
-        '思考',
-        '随笔',
-        '传奇',
-        '技术',
-    ):
+    for name in """产品
+公司
+招聘
+思考
+随笔
+传奇
+技术 
+创业""".strip().split("\n"):
         zsite = zsite_new(
             name,
             CID_CHANNEL,
@@ -66,3 +64,5 @@ def init_db():
 
 if __name__ == '__main__':
     init_db()
+
+
