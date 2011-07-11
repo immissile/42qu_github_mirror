@@ -50,14 +50,14 @@ class PoPage(ZsiteBase):
         total = po_list_count(zsite_id, cid, is_self)
 
         page, limit, offset = page_limit_offset(
-            '/po-%s',
+            self.page_template,
             total,
             n,
             PAGE_LIMIT
         )
 
-        if type(n) == str and offset >= total:
-            return self.redirect('/po')
+        if offset >= total:
+            return self.redirect(self.page_template%1)
 
         po_list = po_view_list(zsite_id, cid, is_self, limit, offset)
         self.render(
@@ -73,24 +73,28 @@ class PoPage(ZsiteBase):
 @urlmap('/word-(\d+)')
 class WordPage(PoPage):
     cid = CID_WORD
-
+    page_template = '/word-%s'
 
 @urlmap('/note')
 @urlmap('/note-(\d+)')
 class NotePage(PoPage):
     cid = CID_NOTE
+    page_template = '/note-%s'
 
 
 @urlmap('/question')
 @urlmap('/question-(\d+)')
 class QuestionPage(PoPage):
     cid = CID_QUESTION
+    page_template = '/question-%s'
+
 
 
 @urlmap('/answer')
 @urlmap('/answer-(\d+)')
 class AnswerPage(PoPage):
     cid = CID_ANSWER
+    page_template = '/answer-%s'
 
 
 PO_TEMPLATE = '/ctrl/zsite/po/po.htm'

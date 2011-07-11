@@ -34,7 +34,7 @@ def following_id_rank_tuple(from_id):
     from model.zsite_rank import zsite_rank
     id_list = follow_id_list_by_from_id(from_id)
     rank_list = zsite_rank.get_list(id_list)
-    t = zip(id_list, rank_list)[:128]
+    t = zip(id_list, rank_list)[:256]
     return tuple(t)
 
 def follow_list_show_by_from_id(from_id, limit):
@@ -77,6 +77,16 @@ def follow_rm(from_id, to_id):
     return True
 
 def follow_new(from_id, to_id):
+    if not _follow_new(from_id, to_id):
+        return
+    from buzz import mq_buzz_follow_new
+    mq_buzz_follow_new(from_id, to_id)
+    mc_flush(from_id, to_id, cid)
+    return True
+
+def _follow_new(from_id, to_id):
+    if follow_get(from_id, to_id):
+        return True
     if from_id == to_id:
         return
     to = Zsite.mc_get(to_id)
@@ -91,9 +101,6 @@ def follow_new(from_id, to_id):
         (id, from_id, to_id, cid)
     )
     follow_cursor.connection.commit()
-    from buzz import mq_buzz_follow_new
-    mq_buzz_follow_new(from_id, to_id)
-    mc_flush(from_id, to_id, cid)
     return True
 
 def mc_flush(from_id, to_id, cid):

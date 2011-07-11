@@ -9,10 +9,12 @@ ${css.ctrl_tag|n}
 
 <div class="po_tag">
 <h1><a class="c0" href="${zsite.link}">${zsite.name}</a> : ${tag_name}</h1>
-<ul class="po_ul">
+<div class="zsite_ol">
+<ol>
 %for po in po_list:
 <li><a href="${po.link}">${po.name}</a></li>
 %endfor
 </ul>
-<div class="tc">${page|n}</div>
+${page|n}
+</div>
 </div>

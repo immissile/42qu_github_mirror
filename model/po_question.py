@@ -39,7 +39,10 @@ def answer_word2note(po):
         answer_count.delete(rid)
 
 def po_answer_new(user_id, question_id, name, txt, state):
-    if not answer_id_get(user_id, question_id):
+    id = answer_id_get(user_id, question_id)
+    if id:
+        return Po.mc_get(id) 
+    else:
         if txt:
             m = _po_answer_new(user_id, name, txt, state, question_id)
         else:
@@ -51,6 +54,8 @@ def po_answer_new(user_id, question_id, name, txt, state):
             mc_answer_id_get.set('%s_%s' % (user_id, question_id), id)
             answer_count.delete(question_id)
             return m
+
+
 
 def _po_answer_new(user_id, name, txt, state, rid):
     if not name and not txt:
