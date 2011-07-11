@@ -10,7 +10,7 @@ follow_count_by_from_id = McNum(lambda from_id: Follow.where(from_id=from_id).co
 mc_follow_id_list_by_to_id = McLimitA('FollowIdListByToId.%s', 128)
 mc_follow_id_list_by_from_id_cid = McCacheA('FollowIdListByFromIdCid.%s')
 mc_follow_id_list_by_from_id = McCacheA('FollowIdListByFromId.%s')
-mc_follow_get = McCache('FollowGet.%s')
+mc_follow_get = McCache('FollowGet<%s')
 mc_following_id_rank_tuple = McCacheM('FollowingIdRankTuple.%s')
 
 
@@ -34,7 +34,7 @@ def following_id_rank_tuple(from_id):
     from model.zsite_rank import zsite_rank
     id_list = follow_id_list_by_from_id(from_id)
     rank_list = zsite_rank.get_list(id_list)
-    t = zip(id_list, rank_list)[:256]
+    t = zip(id_list, rank_list)[:512]
     return tuple(t)
 
 def follow_list_show_by_from_id(from_id, limit):
@@ -81,7 +81,6 @@ def follow_new(from_id, to_id):
         return
     from buzz import mq_buzz_follow_new
     mq_buzz_follow_new(from_id, to_id)
-    mc_flush(from_id, to_id, cid)
     return True
 
 def _follow_new(from_id, to_id):
@@ -101,6 +100,7 @@ def _follow_new(from_id, to_id):
         (id, from_id, to_id, cid)
     )
     follow_cursor.connection.commit()
+    mc_flush(from_id, to_id, cid)
     return True
 
 def mc_flush(from_id, to_id, cid):
@@ -111,3 +111,9 @@ def mc_flush(from_id, to_id, cid):
     mc_follow_id_list_by_to_id.delete(to_id)
     follow_count_by_to_id.delete(to_id)
     follow_count_by_from_id.delete(from_id)
+
+
+if __name__ == '__main__':
+    print follow_get(10001955, 10000217)
+
+

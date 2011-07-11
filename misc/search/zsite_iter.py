@@ -8,11 +8,10 @@ from model.career import career_list_all
 from model.txt import txt_get
 from model.user_mail import mail_by_user_id
 from model.zsite import Zsite, CID_USER, ZSITE_STATE_CAN_REPLY
-from model.zsite_list_0 import zsite_show_get
 from model.zsite_url import url_by_id
+from model.zsite_rank import zsite_rank_by_zsite_id
 
 def zsite2keyword(z):
-    rank = 0
     r = []
     t = defaultdict(int)
     id = z.id
@@ -35,10 +34,6 @@ def zsite2keyword(z):
 
     if txt:
         man_txt_len = len(txt)
-        if man_txt_len > 100:
-            rank += 5
-        else:
-            rank += 1
 
         for word in seg_txt_search(txt):
             t[word] += 1
@@ -48,7 +43,6 @@ def zsite2keyword(z):
             add = 1
         else:
             add = 2
-            rank += 1
 
         unit = career.unit
         title = career.title
@@ -65,23 +59,20 @@ def zsite2keyword(z):
             for word in seg_txt_search(txt):
                 t[word] += add
 
-    return rank, t
+    return t
 
 
 def zsite_keyword_iter():
     for i in ormiter(Zsite):
         id = i.id
-        rk = zsite2keyword(i)
-        if not rk:
+        kw = zsite2keyword(i)
+        if not kw:
             continue
-        rank, kw = rk
-        if i.state > ZSITE_STATE_CAN_REPLY:
-            rank += 100
-        show = zsite_show_get(id)
-        if show:
-            rank += 100 * show.rank
+        
+        yield str(id), zsite_rank_by_zsite_id(id), kw.items()
 
-        yield str(id), rank, kw.items()
+
+
 
 
 if __name__ == '__main__':
