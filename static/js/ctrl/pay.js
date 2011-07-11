@@ -9,6 +9,6 @@ if(!$.cookie.get('S')){
         }
     }
     $("#mail").focus()
-    $("#donate").submit(_)
+    $("#pay").submit(_)
 }
 })()

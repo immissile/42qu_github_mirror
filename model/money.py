@@ -4,10 +4,12 @@ from yajl import dumps, loads
 from time import time
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from kv import Kv
-from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DONATE, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY
+from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY, CID_NOTICE_PAY
 from zsite import Zsite
 from user_mail import mail_by_user_id
 from verify import verify_new, verifyed
+from notice import notice_new
+from state import STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 
 mc_frozen_get = McCache('FrozenBank.%s')
 
@@ -162,6 +164,20 @@ def pay_account_name_get(user_id, cid):
         name = Zsite.mc_get(user_id).name
     return account, name
 
+def pay_notice(pay_id):
+    trade = Trade.get(pay_id)
+    message = loads(trade_log.get(pay_id))
+    if 'txt' in message:
+        if 'secret' in message:
+            state = STATE_SECRET
+        else:
+            state = STATE_ACTIVE
+        to_user = Zsite.mc_get(trade.to_id)
+        from_user = Zsite.mc_get(trade.from_id)
+        to_user.reply_new(from_user, message['txt'], state)
+
+    notice_new(trade.from_id, trade.to_id, CID_NOTICE_PAY, pay_id)
+
 # Charge
 CHARGE_TAX = {
     CID_PAY_ALIPAY: 1.5 / 100,
@@ -183,11 +199,13 @@ def charged(out_trade_no, total_fee, rid, d):
         if t and t.to_id == user_id and t.rid == rid  and t.value + t.tax == int(float(total_fee)*100):
             if t.state == TRADE_STATE_ONWAY:
                 trade_finish(t)
+                for_t = Trade.get(t.for_id)
                 trade_log.set(id, dumps(d))
                 if t.for_id:
-                    for_t = Trade.get(t.for_id)
                     if bank_can_pay(for_t.from_id, for_t.value):
                         trade_finish(for_t)
+                        #send message and notice
+                        pay_notice(for_t.id)
                         return for_t
             return t
 
@@ -218,10 +236,10 @@ def withdraw_list():
     return qs
 
 # Deal
-def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
+def pay_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     assert price > 0
     cent = int(price * 100)
-    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_DONATE, rid, state)
+    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_PAY, rid, state)
     return t.id
 
 def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):

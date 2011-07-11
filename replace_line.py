@@ -5,12 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-set_show
-
+donate
 """
 
 TO_STRING = """
-show/set
+pay
 """
 
 def run():
