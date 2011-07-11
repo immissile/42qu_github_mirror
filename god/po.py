@@ -2,14 +2,15 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no
+from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, zsite_new
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
-from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION
+from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION, CID_CHANNEL
 from model.po import Po
 from model.po_show import po_show_set, po_show_count, po_show_list, po_show_rm
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from zkit.page import page_limit_offset
+from model.god_po_show import mc_po_show_zsite_channel
 
 PAGE_LIMIT = 50
 
@@ -49,8 +50,7 @@ class PoShow(Base):
             page=page,
         )
 
-
-@urlmap('/po/set_show/(\d+)')
+@urlmap('/po/show/set/(\d+)')
 class PoShowSet(Base):
     def get(self, id):
         next = self.request.headers.get('Referer', '')
@@ -66,7 +66,9 @@ class PoShowSet(Base):
         cid = self.get_argument('cid', None)
         next = self.get_argument('next', '/po')
         if po and cid:
-            po_show_set(po, int(cid))
+            cid = int(cid)
+#            name = self.get_argument('name', '')
+            po_show_set(po, cid)
             return self.redirect(next)
         self.render(
             po=po,

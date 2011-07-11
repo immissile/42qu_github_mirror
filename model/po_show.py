@@ -7,6 +7,9 @@ from rank import Rank, rank_po_id_list, rank_new, rank_rm, rank_po_id_count, ran
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from zsite import Zsite
 
+ORDER = ( 'id', 'hot', 'confidence' )
+
+
 def po_show_new(po, cid):
     r = rank_new(po, 0, cid)
     feed_rt(0, po.id)
@@ -15,12 +18,11 @@ def po_show_rm(po_id):
     feed_rt_rm(0, po_id)
     rank_rm(po_id, 0)
 
-ORDER = 'id', 'hot', 'confidence'
 
-CID_PO_SHOW = (
-    (1, '12321'),
-    (2, '231231'),
-)
+#CID_PO_SHOW = (
+#    (1, '12321'),
+#    (2, '231231'),
+#)
 
 def po_show_list(cid, order, limit, offset):
     ids = rank_po_id_list(0, cid, order, limit, offset)
@@ -46,4 +48,5 @@ def po_show_set(po, cid):
     else:
         po_show_new(po, cid)
 
-Po.is_show = property(po_is_show)
+#Po.is_show = property(po_is_show)
+

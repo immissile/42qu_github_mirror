@@ -1,7 +1,8 @@
 <%inherit file="/god/_base.htm" />
 <%!
-from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC, \
+CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from model.po_show import po_is_show
 %>
 <%def name="htm_head()">
 </%def>
@@ -24,11 +25,11 @@ cid = po.cid
 % endif
     <a href="${po.link}">${po.name or '[无标题]'}</a>
 </p>
-<p><a href="/po/set_show/${po.id}">
-    % if po.is_show:
+<p><a href="/po/show/set/${po.id}">
+    % if po_is_show(po):
     设置
     % else:
-    推荐
+    转发
     % endif
 </a></p>
 <hr>

@@ -61,6 +61,7 @@ class Po(McModel, ReplyMixin):
         txt_new(id, txt)
         mc_htm.delete(id)
 
+
     @attrcache
     def user(self):
         return Zsite.mc_get(self.user_id)
@@ -87,7 +88,9 @@ class Po(McModel, ReplyMixin):
             link = '<a href="%s">%s</a>' % (q.link, escape(q.name))
             if q.user_id == self.user_id:
                 return '自问自答 : %s' % link
-            return '答 <a href="%s">%s</a> 问 :' % (u.link, escape(u.name), link)
+            return '答 <a href="%s">%s</a> 问 : %s' % (
+                u.link, escape(u.name), link
+            )
         if self.cid == CID_WORD:
             return ''
         return escape(self.name)
@@ -95,8 +98,10 @@ class Po(McModel, ReplyMixin):
     @attrcache
     def link(self):
         u = self.user
-        return '%s/%s' % (u.link, self.id)
-
+        #TODO REMOVE
+        if u:
+            return '%s/%s' % (u.link, self.id)
+ 
     @attrcache
     def link_question(self):
         q = self.question

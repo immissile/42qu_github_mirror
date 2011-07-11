@@ -40,7 +40,7 @@ def ico96_regen():
         pos = ico_pos.get(id)
 
         if pos:
-            pos_tuple = pos.split('_')
+            pos_tuple = pos.strip('\x00').split('_')
             if len(pos_tuple) == 3:
                 try:
                     x, y, size = map(int, pos_tuple)

@@ -27,11 +27,13 @@ entry = i.entry
 <%
 career = ' , '.join(filter(bool, entry.career))
 %>
-    <span class="buzz_user"><a href="${entry.link}">${entry.name}
+<span class="buzz_user">
+
+<a href="${entry.link}">${entry.name}\
     % if career:
-    (${career})
+ - ${career}
     % endif
-    </a></span> 加入了哦
+ </a></span> 入驻
 %elif cid == CID_BUZZ_FOLLOW:
 ${user_link_list(from_list)} 关注了\
     %if rid == current_user_id:

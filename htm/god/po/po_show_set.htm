@@ -3,25 +3,32 @@
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
-from model.po_show import CID_PO_SHOW
+from model.po_show import  po_is_show
+from model.god_po_show import  po_show_zsite_channel
 %>
 <%def name="htm_head()">
 </%def>
 <%htm:form>
 <ol>
-    % for cid, name in CID_PO_SHOW:
+    % for cid, name in po_show_zsite_channel():
     <li>
         <input type="radio" name="cid" value="${cid}" id="cid${cid}">
         <label for="cid${cid}">${name}</label>
     </li>
     % endfor
-    % if po.is_show:
+    % if po_is_show(po):
     <li>
         <input type="radio" name="cid" value="0" id="cid0">
         <label for="cid0">删除</label>
     </li>
+##    %else:
+##    <li>
+##        <input type="radio" name="cid" value="0" id="cid0">
+##        <label for="cid0">新建 </label><input name="name" type="text" value="" onfocus="$('#cid0').attr('checked',true)" autocomplete="off"> 
+##    </li>
     % endif
 </ol>
 <input type="hidden" name="next" value="${next}">
-<button type="submit">提交</button>
+
+<span class="btnw"><button type="submit">提交</button></span>
 </%htm:form>

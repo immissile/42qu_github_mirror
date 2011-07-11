@@ -11,7 +11,7 @@ class Feed(McModel):
     pass
 
 MAXINT = sys.maxint
-PAGE_LIMIT = 42
+PAGE_LIMIT = 50
 
 mc_feed_iter = McCacheM('FeedIter:%s')
 mc_feed_tuple = McCacheM('F%s')
@@ -94,7 +94,9 @@ def feed_iter(zsite_id, start_id=MAXINT):
     if start_id == MAXINT:
         id_list = feed_id_lastest(zsite_id)
         if id_list:
+            count = 0
             for i in id_list:
+                count += 1
                 yield i
             start_id = i[0]
         else:
@@ -141,6 +143,7 @@ class FeedMerge(object):
             count += 1
             if count >= limit:
                 break
+
 
 if __name__ == '__main__':
 #    for i in feed_iter(935):

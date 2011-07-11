@@ -42,7 +42,7 @@
 
         var fancybox=$.fancybox;
         fancybox({
-            content:'<form id="vote_reply" class="fancyreply"><h3>理由如下 ...</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">输出</button></span></div></form>',
+            content:'<form id="vote_reply" class="fancyreply"><h3>我认为 ...</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">表态</button></span></div></form>',
             onComplete:function(){
                 var reply = $("#vote_reply"),
                     textarea=reply.find("textarea");
