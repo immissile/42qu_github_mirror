@@ -132,7 +132,13 @@ class Kv(object):
         return self.id_by_value(value) or self.insert(value)
 
     def mc_id_by_value_new(self, value):
-        return self.mc_id_by_value(value) or self.insert(value)
+        id = self.mc_id_by_value(value)
+        if not id:
+            id = self.insert(value)
+            h = md5(value).hexdigest()
+            mc_key = self.__mc_value__ % h
+            mc.set(mc_key, id)
+        return id
 
     def value_by_id_list(self, id_list):
         mc_key = self.__mc_id__

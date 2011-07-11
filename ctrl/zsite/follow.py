@@ -7,7 +7,7 @@ from model.cid import CID_ZSITE
 from model.follow import follow_count_by_to_id, follow_id_list_by_to_id, follow_id_list_by_from_id, follow_id_list_by_from_id_cid
 from model.zsite import Zsite
 
-PAGE_LIMIT = 42
+PAGE_LIMIT = 64
 #PAGE_LIMIT = 1
 
 
