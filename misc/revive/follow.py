@@ -8,10 +8,9 @@ from model.zsite_rank import zsite_rank_by_zsite_id, zsite_rank_update_by_zsite_
 
 def main():
     for i in Zsite.where().col_list():
-        zsite_rank_update_by_zsite_id(
-            i,
-            zsite_rank_by_zsite_id(i)
-        )
+        rank = zsite_rank_by_zsite_id(i)
+        zsite_rank_update_by_zsite_id(i, rank)
+        #print i, rank
         
     for i in Follow.where(cid=CID_MAN):
         _follow_new(i.from_id, i.to_id)
