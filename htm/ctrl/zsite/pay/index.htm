@@ -4,10 +4,10 @@
 %>
 
 <%def name="htm_head()">
-${css.ctrl_donate|n}
+${css.ctrl_pay|n}
 </%def>
 
-<%htm:form id="donate" className="fullscreen">
+<%htm:form id="pay" className="fullscreen">
 %if title:
 <h1>捐赠 <a href="${url}">${title}</a></h1>
 %else:
@@ -32,4 +32,4 @@ ${css.ctrl_donate|n}
     <span class="btnw"><button type="submit">确定</button></span>
 </div>
 </%htm:form>
-<script src="${js.ctrl_donate|n}"></script>
+<script src="${js.ctrl_pay|n}"></script>
