@@ -160,7 +160,7 @@ DROP TABLE IF EXISTS `ico_pos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ico_pos` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `value` binary(16) NOT NULL,
+  `value` varbinary(16) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -261,6 +261,17 @@ CREATE TABLE `notice_unread` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `oauth_sync`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_sync` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `oauth_id` int(10) unsigned NOT NULL,
+  `cid` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `Index_2` (`oauth_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `oauth_token`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -273,6 +284,20 @@ CREATE TABLE `oauth_token` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `app_id` USING BTREE (`app_id`,`zsite_id`),
   KEY `index` USING BTREE (`zsite_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `oauth_token_backup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_token_backup` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `app_id` int(10) unsigned NOT NULL,
+  `zsite_id` int(10) unsigned NOT NULL,
+  `token_key` varbinary(45) NOT NULL,
+  `token_secret` varbinary(45) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `app_id` USING BTREE (`app_id`,`zsite_id`),
+  KEY `Index` USING BTREE (`zsite_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `oauth_token_buzz`;
@@ -352,17 +377,6 @@ CREATE TABLE `oauth_token_www163` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `oauthsyn`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `oauthsyn` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `oauth_id` int(10) unsigned NOT NULL,
-  `cid` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `Index_2` (`oauth_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=binary;
-/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pay_account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -435,6 +449,14 @@ CREATE TABLE `po_pos` (
   UNIQUE KEY `index2` (`po_id`,`user_id`),
   KEY `index3` (`po_id`,`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `po_show_channel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `po_show_channel` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rank`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
