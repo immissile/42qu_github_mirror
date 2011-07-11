@@ -82,7 +82,7 @@ def career():
         id = i.id
         c_li = company_man_by_man_id(id)
         for c in c_li:
-            career_set(0, id, c.com_name, c.title, c.txt, c.time.begin_time, c.time.end_time, c.cid or 1)
+            career_set(0, id, c.com_name, c.title, c.txt, c.time.begin_time * 10000, c.time.end_time * 10000, c.cid or 1)
 
 if __name__ == '__main__':
     ico_file_mv()
