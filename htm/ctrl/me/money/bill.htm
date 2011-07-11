@@ -1,6 +1,6 @@
 <%!
 from datetime import datetime
-from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL, CID_TRADE_DONATE
+from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL, CID_TRADE_PAY
 from model.money import trade_log, bank_view, frozen_view, frozen_get
 %>
 <%inherit file="_base.htm" />
@@ -65,7 +65,7 @@ update_time = datetime.fromtimestamp(t.update_time)
     %else:
     收到 ${got} 
     %endif
-%elif cid == CID_TRADE_DONATE:
+%elif cid == CID_TRADE_PAY:
 <a href="${from_user.link}">${from_user.name}</a>捐赠 ${got} 元给<a href="${to_user.link}">${to_user.name}</a>
 %endif
 %if tax:

@@ -4,7 +4,7 @@ from yajl import dumps, loads
 from time import time
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from kv import Kv
-from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DONATE, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY
+from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY
 from zsite import Zsite
 from user_mail import mail_by_user_id
 from verify import verify_new, verifyed
@@ -185,6 +185,7 @@ def charged(out_trade_no, total_fee, rid, d):
         if t and t.to_id == user_id and t.rid == rid  and t.value + t.tax == int(float(total_fee)*100):
             if t.state == TRADE_STATE_ONWAY:
                 trade_finish(t)
+                for_t = Trade.get(t.for_id)
                 trade_log.set(id, dumps(d))
                 if t.for_id:
                     if bank_can_pay(for_t.from_id, for_t.value):
@@ -225,7 +226,7 @@ def withdraw_list():
 def pay_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     assert price > 0
     cent = int(price * 100)
-    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_DONATE, rid, state)
+    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_PAY, rid, state)
     return t.id
 
 def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
