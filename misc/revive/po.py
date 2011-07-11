@@ -15,4 +15,6 @@ def init_po():
         id, state = note_subject_note_id_id_state(subject_id, id)
         subject = NoteSubject.get(subject_id)
         if id and state:
+            if i.txt:
+                m = i.po_note_new(user_id, i.title, i.txt)
             name = subject.name
