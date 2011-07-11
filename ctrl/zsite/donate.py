@@ -6,14 +6,13 @@ from ctrl._urlmap.zsite import urlmap
 from model.zsite import Zsite
 from config import RPC_HTTP, SITE_DOMAIN
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax
-from model.money import pay_account_get, bank_view
-from model.money import pay_account_get, Trade
 from model.user_mail import mail_by_user_id, user_by_mail
-from model.money import bank_can_pay, bank_change, donate_new, deal_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH
+from model.money import bank_can_pay, bank_change, donate_new, deal_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank_view, Trade, trade_log
 from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
 from zkit.txt import EMAIL_VALID
 from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_DONATE
 from model.user_auth import user_new_by_mail
+from yajl import dumps
 
 
 @urlmap('/donate/result/(\d+)')
@@ -120,6 +119,11 @@ class Index(ZsiteBase):
                 o_id = _donate_new(TRADE_STATE_NEW)
 
             return_url = 'http://%s/money/alipay_sync' % SITE_DOMAIN
+
+            txt = self.get_argument('txt', None) 
+            secret = self.get_argument('secret', None)
+            message = {'txt':txt, 'secret':secret}
+            trade_log.set(o_id, dumps(message))
 
             alipay_url = alipay_payurl_with_tax(
                     current_user_id,

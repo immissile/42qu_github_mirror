@@ -28,9 +28,9 @@ width:auto;border-bottom:1px dotted #ccc;text-align:center;padding:32px 0
 }
 </style>
 <div class="zsite_ol">
-<div class="zsite_div"><p>余额 : ${float(bank_view(zsite_id))/100} 元</p>
+<div class="zsite_div"><p>余额 : ${bank_view(zsite_id)} 元</p>
 %if frozen_get(zsite_id):
-<p> 冻结 : ${float(frozen_view(zsite_id))/100} 元</p>
+<p> 冻结 : ${frozen_view(zsite_id)} 元</p>
 %endif
 </div>
 <ol>
@@ -66,7 +66,7 @@ update_time = datetime.fromtimestamp(t.update_time)
     收到 ${got} 
     %endif
 %elif cid == CID_TRADE_DONATE:
-捐赠 ${got} 元给<a href="${to_user.link}">${to_user.name}</a>
+<a href="${from_user.link}">${from_user.name}</a>捐赠 ${got} 元给<a href="${to_user.link}">${to_user.name}</a>
 %endif
 %if tax:
  , 交易费 ${taxes} 
