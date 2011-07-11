@@ -37,6 +37,8 @@ insert into zpage.ico_pos (id, value)
 select pic_show.man_id, pic_show_pos.txt from qu.pic_show, qu.pic_show_pos where pic_show.pic_id = pic_show_pos.id order by pic_show.id
 on duplicate key update value=values(value);
 
+truncate zpage.ico96;
+
 -- truncate zpage.namecard;
 -- insert into zpage.namecard (user_id, pid, phone, mail, address, state)
 -- select id, pid, phone, mail, address, 10 from qu.namecard order by id;
