@@ -44,7 +44,7 @@ def user_new_by_mail(mail, password=None):
         user_password_new(user_id, password)
     from buzz_sys import buzz_sys_new_user
     buzz_sys_new_user(user_id)
-    return user
+    return zsite
 
 if __name__ == '__main__':
     print user_password_sha256(1)

@@ -5,14 +5,21 @@ from pprint import pformat
 <%inherit file="/ctrl/_base/_base.htm" />
 <%def name="htm_title()">${status_code} : ${httplib.responses[status_code]}</%def>
 
-<h1>貌似出岔子了 , <a href="/">点此返回首页</a>...</h1>
-%if status_code == 500:
-<div>
-<pre>${traceback}</pre>
-<pre>${pformat(environ)}</pre>
+%if status_code == 404:
+<div style="text-align:center;margin-top:10%">
+<p>这是一个不存在的地方</p>
+<p><a href="/">点击这里 , 返回首页</a><p>
 </div>
 %else:
-<div>
-<pre>${log_message}</pre>
-</div>
+    <h1>貌似出岔子了 , <a href="/">点此返回首页</a>...</h1>
+    %if status_code == 500:
+    <div>
+    <pre>${traceback}</pre>
+    <pre>${pformat(environ)}</pre>
+    </div>
+    %else:
+    <div>
+    <pre>${log_message}</pre>
+    </div>
+    %endif
 %endif

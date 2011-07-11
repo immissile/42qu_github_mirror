@@ -7,7 +7,7 @@ from zsite import zsite_new_user, Zsite
 from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
 from oauth import OAUTH2NAME_DICT, OAUTH_DOUBAN, OAUTH_SINA,\
 OAUTH_QQ, OAUTH_TWITTER
-
+from model.zsite_url import link
 
 OAUTH_LINK_DEFAULT = (
     OAUTH_DOUBAN    ,
@@ -39,6 +39,16 @@ def link_id_name_by_zsite_id(zsite_id):
     c = ZsiteLink.raw_sql('select id, name from zsite_link where zsite_id=%s', zsite_id)
     return c.fetchall()
 
+
+def name_link_by_zsite_id(zsite_id, prefix=""):
+    r = []
+    _link = link(zsite_id)
+    for id, name in link_id_name_by_zsite_id(zsite_id):
+        r.append((
+            name,
+            "%s%s/link/%s"%(prefix,_link, id),
+        ))
+    return r
 
 @mc_link_by_id('{id}')
 def link_by_id(id):
@@ -102,8 +112,10 @@ if __name__ == '__main__':
     #print link_id_cid(1)
     #print link_id_name_by_zsite_id(1)
 
-
-    link_cid_new(1, OAUTH_RENREN, "http://1.zuroc.xxx/i/link")
+    pass
+    #link_cid_new(1, OAUTH_RENREN, "http://1.zuroc.xxx/i/link")
     #print link_id_name_by_zsite_id(1)
     #print link_id_cid(1)
-
+    print link_id_name_by_zsite_id(10000000)
+    print link_name_by_zsite_id(10000000)
+    #http://zuroc.zuroc.xxx/link/8
