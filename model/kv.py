@@ -133,7 +133,7 @@ class Kv(object):
 
     def mc_id_by_value_new(self, value):
         id = self.mc_id_by_value(value)
-        if not r:
+        if not id:
             id = self.insert(value)
             h = md5(value).hexdigest()
             mc_key = self.__mc_value__ % h
