@@ -84,3 +84,7 @@ def init_po():
                     po_show_set(m, PO_SHOW_DIC[id])
             else:
                 m = po_word_new(user_id, i.title)
+
+
+if __name__ == '__main__':
+    init_po()
