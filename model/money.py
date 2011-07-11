@@ -183,7 +183,7 @@ def charged(out_trade_no, total_fee, rid, d):
         if t and t.to_id == user_id and t.rid == rid  and t.value + t.tax == int(float(total_fee)*100):
             if t.state == TRADE_STATE_ONWAY:
                 trade_finish(t)
-                trade_log.set(user_id, dumps(d))
+                trade_log.set(id, dumps(d))
                 if t.for_id:
                     for_t = Trade.get(t.for_id)
                     if bank_can_pay(for_t.from_id, for_t.value):
