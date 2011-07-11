@@ -58,6 +58,17 @@ def rank_new(po, to_id, cid):
 #    mc_rank_to_id_by_po_id_cid.set('%s_%s' % (po_id, cid), to_id)
     return r
 
+def rank_update(po_id):
+    up = vote_up_count(po_id)
+    down = vote_down_count(po_id)
+    hot = hot(up, down, po.create_time)
+    confidence = confidence(up, down)
+    for r in Rank.where(po_id=po_id):
+        r.hot = hot
+        r.confidence = confidence
+        r.save()
+        mc_flush_cid(r.to_id, r.cid)
+
 def rank_rm_all(po_id):
     for r in Rank.where(po_id=po_id):
         r.delete()
