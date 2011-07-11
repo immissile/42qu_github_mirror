@@ -24,7 +24,7 @@ def ErrorMiddleware(application, render, template):
                     else:
                         url = url[0]
                         path = ''
-                    path = 'http://%s.%s/%s'%(url, SITE_DOMAIN, path)
+                    path = '//%s.%s/%s'%(url, SITE_DOMAIN, path)
                     start_response('301 Redirect', [('Location', path), ])
                     return []
 
