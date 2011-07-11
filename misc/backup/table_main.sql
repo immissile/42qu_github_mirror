@@ -673,11 +673,11 @@ DROP TABLE IF EXISTS `vote`;
 CREATE TABLE `vote` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `user_id` int(10) unsigned NOT NULL,
-  `feed_id` int(10) unsigned NOT NULL,
+  `po_id` int(10) unsigned NOT NULL,
   `state` tinyint(4) NOT NULL,
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `user_id` USING BTREE (`user_id`,`feed_id`),
-  KEY `po_id` USING BTREE (`feed_id`,`state`)
+  UNIQUE KEY `user_id` USING BTREE (`user_id`,`po_id`),
+  KEY `po_id` USING BTREE (`po_id`,`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `wall`;
