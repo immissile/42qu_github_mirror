@@ -3,7 +3,7 @@ from zkit.txt import EMAIL_VALID, mail2link
 from model.user_mail import mail_by_user_id
 %>
 <%def name="verify_sended()">
-<span>激活邮件已发送至 ${mail2link(mail_by_user_id(user_id))|n} , 请查阅 。</span>
+<span>激活邮件已发送至 ${mail2link(mail_by_user_id(current_user_id))|n} , 请查阅 。</span>
 <span>
 若没收到 , <a href="/auth/verify/send/${user_id}">点此重发</a> 。 
 </span>

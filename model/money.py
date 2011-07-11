@@ -164,6 +164,20 @@ def pay_account_name_get(user_id, cid):
         name = Zsite.mc_get(user_id).name
     return account, name
 
+def pay_notice(pay_id):
+    trade = Trade.get(pay_id)
+    message = loads(trade_log.get(pay_id))
+    if 'txt' in message:
+        if 'secret' in message:
+            state = STATE_SECRET
+        else:
+            state = STATE_ACTIVE
+        to_user = Zsite.mc_get(trade.to_id)
+        from_user = Zsite.mc_get(trade.from_id)
+        from_user.reply_new(to_user, message['txt'], state)
+
+    notice_new(trade.from_id, trade.to_id, CID_NOTICE_PAY, pay_id)
+
 # Charge
 CHARGE_TAX = {
     CID_PAY_ALIPAY: 1.5 / 100,
@@ -191,7 +205,6 @@ def charged(out_trade_no, total_fee, rid, d):
                     if bank_can_pay(for_t.from_id, for_t.value):
                         trade_finish(for_t)
                         #send message and notice
-                        from ctrl.zsite.pay import pay_notice
                         pay_notice(for_t.id)
                         return for_t
             return t

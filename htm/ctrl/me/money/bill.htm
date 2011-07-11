@@ -2,6 +2,7 @@
 from datetime import datetime
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL, CID_TRADE_PAY
 from model.money import trade_log, bank_view, frozen_view, frozen_get
+from yajl import loads
 %>
 <%inherit file="_base.htm" />
 <style>
@@ -47,6 +48,7 @@ tax = t.tax
 read_tax = t.read_tax
 got = t.read_value
 update_time = datetime.fromtimestamp(t.update_time)
+message = loads(trade_log.get(t.id))
 %>
 %if cid == CID_TRADE_CHARDE:
 充值 ${got} 
@@ -66,7 +68,11 @@ update_time = datetime.fromtimestamp(t.update_time)
     收到 ${got} 
     %endif
 %elif cid == CID_TRADE_PAY:
-<a href="${from_user.link}">${from_user.name}</a>捐赠 ${got} 元给<a href="${to_user.link}">${to_user.name}</a>
+%if current_user:
+向 <a href="${to_user.link}">${to_user.name}</a>捐赠 ${got} 元 //<a href="${message['url'] or '#'}">${message['title'] or ''}</a>
+%else:
+<a href="${from_user.link}">${from_user.name}</a>捐赠 ${got} 元 //<a href="${message['url'] or '#'}">${message['title'] or ''}</a>
+%endif
 %endif
 %if tax:
  , 交易费 ${taxes} 
