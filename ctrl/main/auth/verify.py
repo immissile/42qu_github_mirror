@@ -56,7 +56,9 @@ class VerifyMail(VerifyBase):
             if user.state == ZSITE_STATE_APPLY:
                 user.state = ZSITE_STATE_ACTIVE
                 user.save()
+            self.__dict__['_current_user'] = user
             self.render()
+
 
 @urlmap('/auth/password/reset/(.+)')
 class PasswordReset(Base):

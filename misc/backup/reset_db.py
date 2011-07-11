@@ -49,8 +49,8 @@ def reset():
             reset_database(key, host, port, name, user, password)
             print '\nreset %s'%key
             reset = True
-    if reset:
-        init_db()
+#    if reset:
+#        init_db()
 
 if __name__ == '__main__':
     reset()

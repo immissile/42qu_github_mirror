@@ -8,7 +8,7 @@ from model.zsite import ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIF
 state = current_user.state
 %>
     %if state == ZSITE_STATE_APPLY:
-<div id="T">${verify_sended()}</div>
+<div id="T">${verify_sended(current_user_id)}</div>
     %elif state == ZSITE_STATE_ACTIVE:
 <div id="T">\
 想要个性域名吗 ? <a href="/i/verify">点此申请认证吧</a>\
