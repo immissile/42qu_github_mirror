@@ -53,6 +53,12 @@ PO_SHOW_DIC = dict((v, PO_SHOW[k]) for k, v in SITE_RT)
 
 from model.po_show import po_show_set
 
+import re
+PIC_SUB = re.compile(r'<图片([\d]+)>')
+def pic2pic(match):
+    m = int(match.groups()[0])
+    return ' 图:%s ' % m
+
 def init_po():
     for i in Note.where():
         id = i.id
@@ -62,7 +68,8 @@ def init_po():
         subject = NoteSubject.get(subject_id)
         if id and state:
             if i.txt:
-                m = po_note_new(user_id, i.title, i.txt)
+                txt = PIC_SUB.sub(pic2pic, i.txt)
+                m = po_note_new(user_id, i.title, txt)
                 name = subject.name
                 zsite_tag_new_by_tag_name(m, name)
                 if id in PO_SHOW_DIC:

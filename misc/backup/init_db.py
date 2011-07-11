@@ -48,6 +48,10 @@ def init_zsite_channel():
 
 
 def init_buzz_sys():
+    from model.buzz import Buzz
+    from model.buzz_sys import BuzzSys
+    BuzzSys.where().delete()
+    Buzz.where().delete()
     from model.buzz_sys import buzz_sys_htm
     BUZZ_SYS_INIT = (
         '不要恐慌 , 欢迎漫游42区 ... ...',
@@ -64,6 +68,6 @@ def init_db():
 
 if __name__ == '__main__':
 #    init_db()
+    pass
 
-
-    init_buzz_sys()
+    #init_buzz_sys()
