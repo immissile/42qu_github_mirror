@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from qu.mysite.model.note import Note, NoteSubject
-from model.po import po_new, po_note_new, po_word_new, note_subject_id_by_man_id_note_id, note_subject_note_id_id_state
+from qu.mysite.model.note import Note, NoteSubject, note_subject_id_by_man_id_note_id, note_subject_note_id_id_state
+from model.po import po_new, po_note_new, po_word_new
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from model.zsite_tag import zsite_tag_new_by_tag_name
 from model.zsite import Zsite
@@ -47,7 +47,8 @@ SITE_RT = (
 )
 
 from model.god_po_show import po_show_zsite_channel
-PO_SHOW = dict((v, k) for k, v in po_show_zsite_channel())
+PO_SHOW = dict((v.strip(), k) for k, v in po_show_zsite_channel())
+print PO_SHOW
 
 PO_SHOW_DIC = dict((v, PO_SHOW[k]) for k, v in SITE_RT)
 
@@ -84,6 +85,9 @@ def init_po():
                     po_show_set(m, PO_SHOW_DIC[id])
             else:
                 m = po_word_new(user_id, i.title)
+            for r in i.reply_list():
+                from_user = Zsite.get(r.man_id)
+                m.reply_new(from_user, r.txt, r.state)
 
 
 if __name__ == '__main__':
