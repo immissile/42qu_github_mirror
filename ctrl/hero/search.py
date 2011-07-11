@@ -8,7 +8,7 @@ from model.search import search
 from model.zsite import Zsite
 from zkit.page import limit_offset, Page
 
-PAGE_LIMIT = 1
+PAGE_LIMIT = 64
 SAFE_TABLE = maketrans('/,. ', '++++')
 
 @urlmap('/q')
@@ -37,7 +37,7 @@ class Search(Base):
             now, list_limit, offset = limit_offset(n, PAGE_LIMIT)
             zsite_list, total = search(q, offset, list_limit)
             page = str(Page(
-                '/q-%%s/%s' % quote(q),
+                '/q-%%s/%s' % quote(q).replace("%","%%"),
                 total,
                 now,
                 PAGE_LIMIT
