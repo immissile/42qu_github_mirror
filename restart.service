@@ -3,5 +3,9 @@ ps x -u work|ack server_god\.py|ack python|awk '{print $1}'|xargs kill
 
 ps x -u work|ack server_mq\.py|ack python|awk '{print $1}'|xargs kill
 
+ps x -u work|ack server_ctrl\.py|ack python|awk '{print $1}'|xargs kill
 
+ps x -u work|ack server_rpc\.py|ack python|awk '{print $1}'|xargs kill
+
+ps x -u work|ack server_api\.py|ack python|awk '{print $1}'|xargs kill
 
