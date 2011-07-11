@@ -6,7 +6,7 @@
 (function (){
 var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt txt_more vote_state",
     FEED_ATTR_TXT_BASE = FEED_ATTR_BASE+" tag_id tag_name",
-    QUESTION_ATTR_BASE = " question_link question_user question_user_link",
+    QUESTION_ATTR_BASE = " question_id question_user question_user_link",
     FEED_ATTR = {
         61:FEED_ATTR_BASE+QUESTION_ATTR_BASE,
         62:FEED_ATTR_TXT_BASE,
@@ -50,7 +50,7 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
             t.rt_list = $.map(t.rt_list, array2zsite);
             t.create_time = $.timeago(t.create_time);
             data.item.push(t)
-            //console.info(t)
+           // console.info(t)
         }
     
         return data

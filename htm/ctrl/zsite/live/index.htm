@@ -62,7 +62,7 @@ id="po_word_txt" name="txt"></textarea>\
 <pre class="fdh">{{if cid==63}}问 : {{/if}}{{if rid}}{{if question_user_link==link}}自问自答{{else}}答 <a
 href="${question_user_link}">${question_user}</a> 问{{/if}} : {{/if}}{{if name}}<a
 target="_blank"
-href="{{if rid}}${question_link}{{else}}/${id}{{/if}}">${name}</a>{{/if}}{{if tag_id && tag_name}}<a
+href="/{{if rid}}${question_id}{{else}}${id}{{/if}}">${name}</a>{{/if}}{{if tag_id && tag_name}}<a
 class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}
 <div class="fdtxt" id="fdtxt${id}">

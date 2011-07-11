@@ -5,10 +5,12 @@ import config.dev
 import logging
 import sys
 if len(sys.argv) > 1 and sys.argv[1].isdigit():
-    PORT = int(sys.argv[1])
+    port = int(sys.argv[1])
     config.PORT = PORT
 else:
-    PORT = config.PORT
+    port = config.PORT
+    if type(port) in (list,tuple):
+        port = port[0]
 
 
 #################
@@ -30,9 +32,9 @@ def run():
 
     from config import SITE_DOMAIN
     print "\nhttp://%s"%SITE_DOMAIN
-    print 'SERVE ON PORT %s'%PORT
+    print 'SERVE ON PORT %s'%port
 
-    server = WSGIServer(PORT, application)
+    server = WSGIServer(port, application)
     try:
         server.start()
     except KeyboardInterrupt:

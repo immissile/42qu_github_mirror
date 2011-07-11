@@ -53,12 +53,13 @@ def feed_tuple_by_db(id):
         if cid == CID_WORD:
             txt = txt_withlink(txt)
         result.extend((txt, False))
+
     if rid:
         user = question.user
         result.extend(
-            (question.link, user.name, user.link)
+            (question.id, user.name, user.link)
         )
-
+        #print (question.link, user.name, user.link)
 
     return result
 
@@ -163,3 +164,5 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
 if __name__ == '__main__':
     pass
+    m = Po.mc_get(10044641)
+    print m.question.link
