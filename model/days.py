@@ -45,6 +45,11 @@ def year_month_begin_end(begin, end):
     return " - ".join(map(year_month_str,r))
 
 
+TIMESTAMP_FORMAT = '%Y-%m-%d %H:%M:%S'
+
+def epoch_seconds(timestr):
+    return int(mktime(strptime(timestr, TIMESTAMP_FORMAT)))
+
 
 if __name__ == '__main__':
     #print date_to_days('')
