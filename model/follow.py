@@ -116,4 +116,3 @@ def mc_flush(from_id, to_id, cid):
 if __name__ == '__main__':
     print follow_get(10001955, 10000217)
 
-
