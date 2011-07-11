@@ -77,7 +77,7 @@ def friendly_time(mtime):
     if now.year == time.year:
         return '%s月%s日 %s' % (time.month, time.day, friendly_hour(time.hour, time.minute, time.second))
     else:
-        return '%s年%s月%s日'% (time.year, time.month, time.day, friendly_hour(time.hour, time.minute, time.second))
+        return '%s年%s月%s日 %s'% (time.year, time.month, time.day, friendly_hour(time.hour, time.minute, time.second))
 
 
 

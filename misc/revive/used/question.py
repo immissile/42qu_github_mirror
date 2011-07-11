@@ -13,6 +13,7 @@ from model.vote import vote_up
 USER_ID = 10000000
 
 def init_question():
+    
     question_id_dict = {}
     for question in reversed(Question.mc_get_list(question_id_list())):
         m = po_new(CID_QUESTION, USER_ID, question.title, STATE_ACTIVE)
@@ -33,7 +34,17 @@ def init_question():
 
 
 if __name__ == '__main__':
+   # from model.po import Po
+   # from model.feed import Feed
+   # from model.notice import Notice
+   # from model.buzz import Buzz
+   # from model.vote import Vote
+   # Po.where().delete()
+   # Feed.where().delete()
+   # Notice.where().delete()
+   # Buzz.where().delete()
+   # Vote.where().delete()
     init_question()
-
+    
     pass
 

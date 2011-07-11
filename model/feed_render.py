@@ -16,7 +16,7 @@ from zkit.txt2htm import txt_withlink
 CIDMAP = {}
 
 
-FEED_TUPLE_DEFAULT_LEN = 12
+FEED_TUPLE_DEFAULT_LEN = 11
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
@@ -53,12 +53,13 @@ def feed_tuple_by_db(id):
         if cid == CID_WORD:
             txt = txt_withlink(txt)
         result.extend((txt, False))
+
     if rid:
         user = question.user
         result.extend(
-            (question.link, user.name, user.link)
+            (question.id, user.name, user.link)
         )
-
+        #print (question.link, user.name, user.link)
 
     return result
 
@@ -163,3 +164,5 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
 if __name__ == '__main__':
     pass
+    m = Po.mc_get(10044641)
+    print m.question.link
