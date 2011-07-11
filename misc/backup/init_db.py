@@ -34,7 +34,7 @@ def init_zsite_channel():
 思考
 随笔
 传奇
-技术 
+技术
 创业""".strip().split("\n"):
         zsite = zsite_new(
             name,
