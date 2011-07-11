@@ -59,6 +59,8 @@ def pic2pic(match):
     m = int(match.groups()[0])
     return ' 图:%s ' % m
 
+from qu.mysite.util.pic import picopen
+
 def init_po():
     for i in Note.where():
         id = i.id
@@ -72,6 +74,7 @@ def init_po():
                 m = po_note_new(user_id, i.title, txt)
                 name = subject.name
                 zsite_tag_new_by_tag_name(m, name)
+                for pic in m.pic_edit_list:
                 if id in PO_SHOW_DIC:
                     po_show_set(m, PO_SHOW_DIC[id])
             else:
