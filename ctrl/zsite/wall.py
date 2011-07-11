@@ -13,7 +13,6 @@ def post_reply(self, reply_new=None):
     txt = self.get_argument('txt', None)
     if txt:
         secret = self.get_argument('secret', None)
-        user_id = self.current_user_id
         user = self.current_user
         reply = reply_new(
             user,

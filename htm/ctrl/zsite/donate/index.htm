@@ -8,8 +8,11 @@ ${css.ctrl_donate|n}
 </%def>
 
 <%htm:form id="donate" className="fullscreen" enctype="multipart/form-data">
-
-<h1>捐赠 <a href="#">文章标题 123456</a></h1>
+%if title:
+<h1>捐赠 <a href="${url}">${title}</a></h1>
+%else:
+<h1>向 ${zsite.name} 捐赠</h1>
+%endif
 <div class="item"><label>收款</label><a
     href="${zsite.link}">${zsite.name}</a></div>
 <div class="item"><label for="amount">金额</label><input id="amount" type="text" name="amount" value=${amount or '4.2'}>元${errtip.amount|n}</div>
