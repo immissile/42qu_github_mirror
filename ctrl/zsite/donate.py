@@ -123,7 +123,6 @@ class Index(ZsiteBase):
             txt = self.get_argument('txt', None) 
             secret = self.get_argument('secret', None)
             message = {'txt':txt, 'secret':secret}
-            import pdb;pdb.set_trace()
             trade_log.set(o_id, dumps(message))
 
             alipay_url = alipay_payurl_with_tax(
