@@ -12,27 +12,15 @@ def init_wall():
     for o in ormiter(ManWall, 'state>3'):
         from_id = o.from_id
         to_id = o.to_id
-        from_ = Zsite.mc_get(from_id)
-        to = Zsite.mc_get(to_id)
+        from_ = Zsite.get(from_id)
+        to = Zsite.get(to_id)
         if from_ and to:
             to.reply_new(from_, o.txt, o.state, epoch_seconds(o.create_time))
-    question_id_dict = {}
-    for question in reversed(Question.mc_get_list(question_id_list())):
-        m = po_new(CID_QUESTION, USER_ID, question.title, STATE_ACTIVE)
-        txt_new(m.id, question.txt)
-        zsite_tag_new_by_tag_name(m, "沉思录")
- 
-        question_id_dict[question.id] = m.id
-
-    for i in review.Review.where("state>%s"%review.STATE_DEL):
-        if i.to_id in question_id_dict:
-            question_id = question_id_dict[i.to_id]
-
-            q = po_answer_new(i.from_id, question_id, i.title, i.txt, STATE_ACTIVE)
-            
-            for i in VoteReview.where(review_id=i.id):
-                print i.man_id, q.id
-                vote_up(i.man_id, q.id)
+            wall_id = wall_id_by_from_id_to_id(from_id, to_id)
+            wall = Wall.get(wall_id)
+            for r in o.reply_list:
+                user = Zsite.get(r.user_id)
+                wall.reply_new(user, r.txt, r.state, epoch_seconds(o.create_time))
 
 
 if __name__ == '__main__':
