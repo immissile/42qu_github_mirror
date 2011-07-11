@@ -35,7 +35,7 @@ def init_zsite_channel():
 随笔
 传奇
 技术 
-创业""".strip().split():
+创业""".strip().split("\n"):
         zsite = zsite_new(
             name,
             CID_CHANNEL,
@@ -64,3 +64,5 @@ def init_db():
 
 if __name__ == '__main__':
     init_db()
+
+
