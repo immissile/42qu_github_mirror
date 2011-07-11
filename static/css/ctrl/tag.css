@@ -1,7 +1,16 @@
 .po_tag{
 width:470px;margin:auto;
+padding-bottom:48px;
 }
-
+.po_tag .zsite_ol{
+margin-left:3px;
+margin-top:32px;
+}
+.page{
+border-top:1px dotted #ccc;
+padding-top:32px;
+margin-top:32px;
+}
 .po_tag h1{
 border-bottom:1px dotted #ccc;
 text-align:center;padding:16px;font-size:16px;margin-top:0;
@@ -11,3 +20,4 @@ border-bottom:1px dotted #ccc;
 margin-bottom:16px;
 padding:16px 0
 }
+
