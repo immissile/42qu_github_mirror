@@ -12,16 +12,23 @@ def ErrorMiddleware(application, render, template):
             return application(environ, start_response)
         except HTTPError, e:
             status_code = e.status_code
-            
+
             if status_code == 404:
                 from config import SITE_DOMAIN
                 if environ['HTTP_HOST'] == SITE_DOMAIN:
-                    url, path = environ['PATH_INFO'].split("/",1)
-                    path = "http://%s.%s/%s"%(url, SITE_DOMAIN, path)
-                    start_response('301 Redirect', [('Location', path),])
-                    return []
- 
-            
+                    url = environ['PATH_INFO']
+                    if len(url) > 3:
+                        url = url[1:].split('/', 1)
+                        if len(url) == 2:
+                            url, path = url
+                        else:
+                            url = url[0]
+                            path = ''
+                        path = 'http://%s.%s/%s'%(url, SITE_DOMAIN, path)
+                        start_response('301 Redirect', [('Location', path), ])
+                        return []
+
+
             log_message = e.log_message
             start_response(
                 '%s %s'%(status_code, httplib.responses[status_code]),
