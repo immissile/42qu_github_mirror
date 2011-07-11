@@ -28,6 +28,7 @@ def ico_file_mv():
 from zpage.model.ico import *
 def ico96_regen():
     for id, value in ico.iteritems():
+        print id
         if ico96.get(id):
             return
 
@@ -83,6 +84,17 @@ def career():
         c_li = company_man_by_man_id(id)
         for c in c_li:
             career_set(0, id, c.com_name, c.title, c.txt, c.time.begin_time * 10000, c.time.end_time * 10000, c.cid or 1)
+
+def zsite_txt():
+    from qu.mysite.model.kvtxt import ManTxt
+    from zpage.model.txt import txt_new
+    for i in ormiter(Zsite):
+        id = i.id
+        mt = ManTxt.get(id)
+        if mt:
+            txt = mt.txt
+            if Zsite.get(id):
+                txt_new(id, txt)
 
 if __name__ == '__main__':
     ico_file_mv()

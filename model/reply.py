@@ -24,7 +24,7 @@ mc_reply_in_1h = McCache('ReplyInOneHour.%s')
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
 
-    def reply_new(self, user, txt, state=STATE_ACTIVE):
+    def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
         from zsite import user_can_reply
         user_id = user.id
 
@@ -40,13 +40,15 @@ class ReplyMixin(object):
             return
 
         id = gid()
+        if not create_time:
+            create_time = int(time())
         txt_new(id, txt)
         cursor = self.reply_cursor
         cursor.execute(
             'insert into reply (id,cid,create_time,state,rid,user_id) values (%s,%s,%s,%%s,%%s,%%s)' % (
                 id,
                 cid,
-                int(time())
+                create_time,
             ),
             (state, rid, user_id)
         )
