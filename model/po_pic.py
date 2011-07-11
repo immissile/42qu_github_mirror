@@ -41,12 +41,13 @@ def seq_gen(user_id, po_id):
     seq = c.fetchone()[0] or 0
     return seq + 1
 
-def po_pic_new(user_id, po_id, pic):
+def po_pic_new(user_id, po_id, pic, seq=None):
     pic_id = pic_new(CID_PO_PIC, user_id)
     pic_save(pic_id, pic)
     po_pic_save(pic_id, pic)
 
-    seq = seq_gen(user_id, po_id)
+    if seq is None:
+        seq = seq_gen(user_id, po_id)
     pp = PoPic(id=pic_id, user_id=user_id, po_id=po_id, seq=seq)
     pp.save()
     mc_flush(user_id, po_id)
