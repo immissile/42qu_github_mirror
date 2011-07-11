@@ -522,7 +522,7 @@ DROP TABLE IF EXISTS `tag`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tag` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `value` varchar(21) collate utf8_bin NOT NULL,
+  `value` varchar(64) collate utf8_bin NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `Index_2` (`value`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
