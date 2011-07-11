@@ -76,7 +76,9 @@ def namecard():
             namecard_new(i.id, i.pid, u.name, i.phone, i.mail, i.address)
 
 def career():
+    from qu.mysite.model.career import Career, CareerOther
     from zpage.model.career import career_new
+    for i in ormiter(Career):
 
 if __name__ == '__main__':
     ico_file_mv()
