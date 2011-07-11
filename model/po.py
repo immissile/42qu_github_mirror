@@ -101,7 +101,7 @@ class Po(McModel, ReplyMixin):
         #TODO REMOVE
         if u:
             return '%s/%s' % (u.link, self.id)
- 
+
     @attrcache
     def link_question(self):
         q = self.question
@@ -198,7 +198,7 @@ def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
             m.feed_new()
         return m
 
-def po_note_new(user_id, name, txt, state):
+def po_note_new(user_id, name, txt, state=STATE_ACTIVE):
     if not name and not txt:
         return
     name = name or time_title()
