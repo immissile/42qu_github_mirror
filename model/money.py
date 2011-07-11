@@ -174,7 +174,7 @@ def pay_notice(pay_id):
             state = STATE_ACTIVE
         to_user = Zsite.mc_get(trade.to_id)
         from_user = Zsite.mc_get(trade.from_id)
-        from_user.reply_new(to_user, message['txt'], state)
+        to_user.reply_new(from_user, message['txt'], state)
 
     notice_new(trade.from_id, trade.to_id, CID_NOTICE_PAY, pay_id)
 

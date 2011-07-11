@@ -82,9 +82,9 @@ else:
     %endif
 %elif cid == CID_TRADE_PAY:
 %if current_user.id == from_user.id:
-向 <a href="${to_user.link}">${to_user.name}</a>捐赠 ${got} 元 ${article}
+向 <a href="${to_user.link}">${to_user.name}</a>捐赠 ${got} 元 ${article | n}
 %else:
-<a href="${from_user.link}">${from_user.name}</a>捐赠 ${got} 元 ${article}
+<a href="${from_user.link}">${from_user.name}</a>捐赠 ${got} 元 ${article | n}
 %endif
 %endif
 %if tax:
