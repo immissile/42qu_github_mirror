@@ -137,7 +137,7 @@ class Kv(object):
             id = self.insert(value)
             h = md5(value).hexdigest()
             mc_key = self.__mc_value__ % h
-            mc.get(mc_key, id)
+            mc.set(mc_key, id)
         return id
 
     def value_by_id_list(self, id_list):
