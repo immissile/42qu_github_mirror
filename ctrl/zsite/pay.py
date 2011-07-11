@@ -15,7 +15,6 @@ from model.user_auth import user_new_by_mail
 from yajl import dumps, loads
 from model.state import STATE_SECRET, STATE_ACTIVE
 from model.notice import notice_new
-from model.cid import CID_NOTICE_PAY
 
 
 @urlmap('/pay/result/(\d+)')
@@ -128,9 +127,7 @@ class Index(ZsiteBase):
                 if secret:
                     message['secret'] = secret
 
-            trade_log.set(o_id, dumps(message))
             
-
 
 
             if balance_cent >= amount_cent:
@@ -147,6 +144,7 @@ class Index(ZsiteBase):
             else: 
                 o_id = _pay_new(TRADE_STATE_NEW)
 
+            trade_log.set(o_id, dumps(message))
 
             return_url = 'http://%s/money/alipay_sync' % SITE_DOMAIN
 
