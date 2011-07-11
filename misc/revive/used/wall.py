@@ -7,6 +7,9 @@ from model.zsite import Zsite
 from model.wall import Wall, wall_id_by_from_id_to_id
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from model.days import epoch_seconds
+from model.zsite import Zsite
+
+
 
 def init_wall():
     for o in ormiter(ManWall, 'state>3'):
@@ -18,8 +21,8 @@ def init_wall():
             to.reply_new(from_, o.txt, o.state, epoch_seconds(o.create_time))
             wall_id = wall_id_by_from_id_to_id(from_id, to_id)
             wall = Wall.get(wall_id)
-            for r in o.reply_list:
-                user = Zsite.get(r.user_id)
+            for r in o.reply_list():
+                user = Zsite.get(r.man_id)
                 wall.reply_new(user, r.txt, r.state, epoch_seconds(o.create_time))
 
 

@@ -4,7 +4,7 @@ from zrank import hot, confidence
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from vote import vote_up_count, vote_down_count
 from zsite import Zsite
-
+from model.po import Po
 
 class Rank(McModel):
     pass
@@ -61,11 +61,12 @@ def rank_new(po, to_id, cid):
 def rank_update(po_id):
     up = vote_up_count(po_id)
     down = vote_down_count(po_id)
-    hot = hot(up, down, po.create_time)
-    confidence = confidence(up, down)
+    po = Po.mc_get(po_id)
+    _hot = hot(up, down, po.create_time)
+    _confidence = confidence(up, down)
     for r in Rank.where(po_id=po_id):
-        r.hot = hot
-        r.confidence = confidence
+        r.hot = _hot
+        r.confidence = _confidence
         r.save()
         mc_flush_cid(r.to_id, r.cid)
 

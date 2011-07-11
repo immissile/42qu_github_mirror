@@ -30,5 +30,11 @@ def zsite_show_get(zsite_id):
 def zsite_show_rank(zsite_id, rank):
     zsite_list_rank(zsite_id, 0, rank)
 
+
 if __name__ == '__main__':
-    print zsite_show()
+#    print zsite_show()
+    from model.zsite import Zsite
+    for i in ormiter(ZsiteList, 'owner_id=0 and cid=0'):
+        if not Zsite.get(i.zsite_id):
+            print i.zsite_id
+            i.delete() 

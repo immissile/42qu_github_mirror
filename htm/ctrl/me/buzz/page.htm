@@ -1,9 +1,11 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_render"/>
 
-<div style="margin:36px auto;width:721px">
+<div class="page721">
+<div>
 %for i in buzz_list:
 <div class="sdw"><div class="sd">${buzz_render(i)}</div></div>
 %endfor
 </div>
 ${page|n}
+</div>
