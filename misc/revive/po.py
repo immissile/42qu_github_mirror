@@ -51,7 +51,7 @@ PO_SHOW = dict((v, k) for k, v in po_show_zsite_channel())
 
 PO_SHOW_DIC = dict((v, PO_SHOW[k]) for k, v in SITE_RT)
 
-
+from model.po_show import po_show_set
 
 def init_po():
     for i in Note.where():
@@ -65,5 +65,7 @@ def init_po():
                 m = po_note_new(user_id, i.title, i.txt)
                 name = subject.name
                 zsite_tag_new_by_tag_name(m, name)
+                if id in PO_SHOW_DIC:
+                    po_show_set(m, PO_SHOW_DIC[id])
             else:
                 m = po_word_new(user_id, i.title)
