@@ -75,6 +75,10 @@ def namecard():
         if u:
             namecard_new(i.id, i.pid, u.name, i.phone, i.mail, i.address)
 
+def career():
+    from zpage.model.career import career_new
+
 if __name__ == '__main__':
     ico_file_mv()
     ico96_regen()
+    namecard()
