@@ -110,6 +110,7 @@ mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 
 if __name__ == "__main__":
     pass
+    print Zsite.where().count()
    # for i in Zsite.where():
    #     i.name = i.name.strip()
    #     i.save()
