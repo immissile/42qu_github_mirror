@@ -34,7 +34,7 @@ on duplicate key update value=values(value);
 
 truncate zpage.ico_pos;
 insert into zpage.ico_pos (id, value)
-select pic_show.man_id, pic_show_pos.txt from qu.pic_show, qu.pic_show_pos where pic_show.pic_id = pic_show_pos.id order by pic_show.id
+select pic_show.man_id, pic_show_pos.txt from qu.pic_show, qu.pic_show_pos where pic_show.id = pic_show_pos.id order by pic_show.id
 on duplicate key update value=values(value);
 
 truncate zpage.ico96;
