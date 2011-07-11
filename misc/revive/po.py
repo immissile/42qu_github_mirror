@@ -84,8 +84,8 @@ def init_po():
                         img = picopen(fs_get('note/0', '%s.jpg' % pic.id))
                         if img:
                             po_pic_new(user_id, m.id, img, pic.order)
-                    if id in PO_SHOW_DIC:
-                        po_show_set(m, PO_SHOW_DIC[id])
+                    #if id in PO_SHOW_DIC:
+                    #    po_show_set(m, PO_SHOW_DIC[id])
             else:
                 m = po_word_new(user_id, i.title)
             if m:
