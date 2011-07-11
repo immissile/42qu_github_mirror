@@ -111,8 +111,9 @@ def mc_flush(from_id, to_id, cid):
     mc_follow_id_list_by_to_id.delete(to_id)
     follow_count_by_to_id.delete(to_id)
     follow_count_by_from_id.delete(from_id)
-    mc_following_id_rank_tuple.delete(from_id)
 
 if __name__ == '__main__':
-    print follow_get(10001955, 10000217)
-
+    #print follow_get(10001955, 10000217)
+    #print mc_follow_id_list_by_to_id
+    print following_id_rank_tuple(10000000)
+    print follow_list_show_by_from_id(10000000, 1)
