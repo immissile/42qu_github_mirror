@@ -14,6 +14,7 @@ def ErrorMiddleware(application, render, template):
             status_code = e.status_code
 
             if status_code == 404:
+                #兼容旧版本 , 将来应该去掉
                 from config import SITE_DOMAIN
                 if environ['HTTP_HOST'] == SITE_DOMAIN:
                     url = environ['PATH_INFO']
