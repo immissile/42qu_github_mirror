@@ -59,8 +59,7 @@ def wsample2(wlist):
 
 
 def wsample_k2(wlist, k, key=None):
-    L = len(wlist)
-    if k >= L:
+    if k >= len(wlist):
         return lambda:wlist
     lst = []
     s = 0
@@ -68,12 +67,25 @@ def wsample_k2(wlist, k, key=None):
         vlist = map(key, wlist)
     else:
         vlist = wlist
-    vlist = [
-        max(i,1) for i in vlist
-    ]
+    
+    _wlist = []
+    _vlist = []
+    for w,v in zip(_wlist, _vlist):
+        if v:
+            _wlist.append(w)
+            _vlist.append(v)
+    wlist = _wlist
+    vlist = _vlist
+    
+    if k >= len(wlist):
+        return lambda:wlist
+
+
     for w in vlist:
         s += w
         lst.append(s)
+
+
     def _():
         popped = []
         rs = []
