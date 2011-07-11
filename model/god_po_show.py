@@ -3,14 +3,14 @@ from _db import McCache
 from zsite import Zsite
 
 PO_SHOW_ZSITE_CHANNEL = (
-10033946 ,
-10033947 ,
-10033948 ,
-10033949 ,
-10033950 ,
-10033951 ,
-10033952 ,
-10033953 ,
+10045702 ,
+10045703 ,
+10045704 ,
+10045705 ,
+10045706 ,
+10045707 ,
+10045708 ,
+10045709 ,
 )
 
 mc_po_show_zsite_channel = McCache("PoShowZsiteChannel:%s")
