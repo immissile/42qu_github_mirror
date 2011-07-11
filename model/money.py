@@ -8,6 +8,7 @@ from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DONATE, CID_TRAD
 from zsite import Zsite
 from user_mail import mail_by_user_id
 from verify import verify_new, verifyed
+from notice import notice_new
 
 mc_frozen_get = McCache('FrozenBank.%s')
 
@@ -188,6 +189,18 @@ def charged(out_trade_no, total_fee, rid, d):
                     for_t = Trade.get(t.for_id)
                     if bank_can_pay(for_t.from_id, for_t.value):
                         trade_finish(for_t)
+                        dumps_message = trade_log.get(for_t.id)
+                        if dumps_message:
+                            message = loads(dumps_message)
+                            #TODO left the message and notions to the by_donar
+                            #wall
+                            from wall import reply_new
+                            Zsite.reply_new = reply_new
+                            user = Zsite.get(for_id.to_id)
+                            Zsite.reply_new(user, message['txt'], message['secret'])
+                            #notice
+                            notice_new(for_t.from_id, for_t.to_id, CID_NOTICE_DONATE) 
+                            
                         return for_t
             return t
 
