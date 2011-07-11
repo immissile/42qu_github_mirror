@@ -55,7 +55,7 @@ def ico96_regen():
         fs_set_jpg('96', pic_id, pic)
         ico96.set(id, pic_id)
 
-from zpage.model.zpage import Zsite
+from zpage.model.zsite import Zsite
 from zpage.zweb.orm import ormiter
 
 #def user_info():
