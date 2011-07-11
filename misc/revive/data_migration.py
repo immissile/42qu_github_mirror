@@ -5,6 +5,7 @@ from qu.myconf.config import DB_HOST_ONLINE
 from zpage.config import DB_CONFIG
 import subprocess
 import time
+from getpass import getpass
 
 from qu.mysite.model.const.man import STATE_BAN, STATE_DEL, STATE_TO_VERIFY, STATE_APPLY, STATE_APPLYED, STATE_ACTIVE, STATE_VERIFY, STATE_TODO, STATE_REAL
 
@@ -21,6 +22,8 @@ oldname = DB_HOST_ONLINE.split(':')[2]
 
 host, port, name, user, password = DB_CONFIG['main'].get('master').split(':')
 print host, port, name, user, password
+user = 'root'
+password = getpass()
 SQL = 'mysql -h%s -P%s -u%s -p%s' % (host, port, user, password)
 
 with open('data.sql', 'w') as f:
