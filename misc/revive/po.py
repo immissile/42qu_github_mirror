@@ -46,6 +46,12 @@ SITE_RT = (
     ('随笔', 7823),
 )
 
+from model.god_po_show import po_show_zsite_channel
+PO_SHOW = dict((v, k) for k, v in po_show_zsite_channel())
+
+PO_SHOW_DIC = dict((v, PO_SHOW[k]) for k, v in SITE_RT)
+
+
 
 def init_po():
     for i in Note.where():
