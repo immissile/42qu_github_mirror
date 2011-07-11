@@ -11,9 +11,10 @@ def init_bank():
         b0 = bank_price_by_man_id(zsite_id)
         b1 = pay_onway_from_total(zsite_id)
         b2 = pay_onway_to_total(zsite_id)
-        if b0 or b1 or b2:
-            print zsite_id
-            print b0, b1, b2
+        if b0 or b1:
+            b = int(100 * (float(b0) + float(b1)))
+            bank.set(zsite_id, b)
+
 
 if __name__ == '__main__':
     init_bank()
