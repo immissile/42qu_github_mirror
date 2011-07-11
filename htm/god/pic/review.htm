@@ -19,8 +19,8 @@ pic_id = pic.id
 user = pic.user
 user_id = user.id
 %>
-<div  class="photo c" id=${user.id}>
-        <img id="${user.id}"src="${pic.src219}" class="whiteblock"/>
+<div  class="photo c" id=${pic_id}>
+        <img alt="${pic_id}" src="${pic.src219}" class="whiteblock"/>
     <div>
         <a class="name"href="${user.link}" target="_blank">${user.name}</a>
     </div>
@@ -42,13 +42,13 @@ user_id = user.id
                 var idyes, idno
                 $("#no").val(function(){
                     idyes = $(".blackblock").map(function(){
-                        return this.id
+                        return this.alt
                     }).get().join(" ")
                     return idyes
                 })
                 $("#yes").val(function(){
                     idno = $(".whiteblock").map(function(){
-                        return this.id
+                        return this.alt
                     }).get().join(" ")
                     return idno
                 })
