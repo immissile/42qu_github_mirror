@@ -68,8 +68,8 @@ def man_show_api(man_id):
 
 
 
-@urlmap("/api/search/man(\.+)")
-@urlmap(r"/api/man/(\d+)/show")
+@urlmap("/search/man(\.+)")
+@urlmap(r"/man/(\d+)/show")
 class ApiMan(Base):
     def get(self, id):
         if not id.isdigit():
@@ -84,7 +84,7 @@ class ApiMan(Base):
     post = get
 
 
-@urlmap(r"/api/man/blog_bind")
+@urlmap(r"/man/blog_bind")
 class BlogBind(Base):
     def get(self, id):
         _blog_ping(self)
