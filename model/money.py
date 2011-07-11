@@ -9,6 +9,7 @@ from zsite import Zsite
 from user_mail import mail_by_user_id
 from verify import verify_new, verifyed
 from notice import notice_new
+from state import STATE_APPLY, STATE_SECRET
 
 mc_frozen_get = McCache('FrozenBank.%s')
 
@@ -186,21 +187,11 @@ def charged(out_trade_no, total_fee, rid, d):
                 trade_finish(t)
                 trade_log.set(id, dumps(d))
                 if t.for_id:
-                    for_t = Trade.get(t.for_id)
                     if bank_can_pay(for_t.from_id, for_t.value):
                         trade_finish(for_t)
-                        dumps_message = trade_log.get(for_t.id)
-                        if dumps_message:
-                            message = loads(dumps_message)
-                            #TODO left the message and notions to the by_donar
-                            #wall
-                            from wall import reply_new
-                            Zsite.reply_new = reply_new
-                            user = Zsite.get(for_id.to_id)
-                            Zsite.reply_new(user, message['txt'], message['secret'])
-                            #notice
-                            notice_new(for_t.from_id, for_t.to_id, CID_NOTICE_DONATE) 
-                            
+                        #send message and notice
+                        from ctrl.zsite.pay import pay_notice
+                        pay_notice(for_t.id)
                         return for_t
             return t
 
@@ -231,7 +222,7 @@ def withdraw_list():
     return qs
 
 # Deal
-def donate_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
+def pay_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     assert price > 0
     cent = int(price * 100)
     t = trade_new(cent, 0, from_id, to_id, CID_TRADE_DONATE, rid, state)
