@@ -50,17 +50,11 @@ read_tax = t.read_tax
 got = t.read_value
 update_time = datetime.fromtimestamp(t.update_time)
 message = loads(trade_log.get(t.id))
-title = None
-if 'title' in message:
-    title = message['title']
-if 'url' in message:
-    url = message['url']
-else:
-    url = '#'
-if title:
-    article = "//<a href='%s'>%s</a>" % (url, title)
-else:
-    article = ''
+
+
+title = message.get('title')
+url = message.get('url')
+
 %>
 
 %if cid == CID_TRADE_CHARDE:
@@ -81,11 +75,22 @@ else:
     收到 ${got} 
     %endif
 %elif cid == CID_TRADE_PAY:
-%if current_user.id == from_user.id:
-向 <a href="${to_user.link}">${to_user.name}</a>捐赠 ${got} 元 ${article | n}
+%if current_user_id == from_user.id:
+向 <a href="${to_user.link}">${to_user.name}</a> 捐赠 ${got} 元 
 %else:
-<a href="${from_user.link}">${from_user.name}</a>捐赠 ${got} 元 ${article | n}
+<a href="${from_user.link}">${from_user.name}</a> 捐赠 ${got} 元 
 %endif
+%if title or url:
+//
+    %if url:
+<a href="${url}" target="_blank">
+    %endif
+${title or url}
+    %if url:
+</a>
+    %endif
+%endif
+
 %endif
 %if tax:
  , 交易费 ${taxes} 

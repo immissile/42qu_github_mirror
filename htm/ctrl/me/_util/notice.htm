@@ -1,6 +1,8 @@
 <%!
 from model.cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY
 from zkit.time_format import friendly_time
+from model.money import Trade, trade_log
+from yajl import loads
 %>
 
 <%def name="notice_render(i)">
@@ -21,7 +23,23 @@ entry_zsite = entry.zsite_other(current_user_id)
 参与了 你 与 <a href="${entry_zsite.link}">${entry_zsite.name}</a> 的
 对话 , <a href="${i.link}">点此浏览</a>
 %elif cid == CID_NOTICE_PAY:
-投资你了，<a href="/money/bill">点此浏览</a>
+<%
+trade = Trade.get(rid)
+message = loads(trade_log.get(rid))
+title = message.get('title')
+url = message.get('url')
+%>
+捐赠 ${float(trade.value)/100.0} 元
+%if title or url:
+//
+    %if url:
+<a href="${url}" target="_blank">
+    %endif
+${title or url}
+    %if url:
+</a>
+    %endif
+%endif
 %endif
 
 ##%if cid == CID_INVITE_REGISTER:
