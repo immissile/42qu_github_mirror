@@ -69,6 +69,9 @@ def prepare(o):
     o.DOUBAN_CONSUMER_KEY = ''
     o.DOUBAN_CONSUMER_SECRET = ''
 
+    o.GOD_PORT = None
+    o.RPC_PORT = None
+    o.API_PORT = None
     return o
 
 
@@ -81,9 +84,18 @@ def finish(o):
 
     o.PIC_PATH = '/mnt/zpage'
     o.SEARCH_DB_PATH = '/mnt/zpage_searchdb'
-    o.GOD_PORT = o.PORT + 20
-    o.API_PORT = o.PORT + 30
-    o.RPC_PORT = o.PORT + 40
+
+
+    if not o.GOD_PORT:
+        o.GOD_PORT = o.PORT + 20
+
+    if not o.API_PORT:
+        o.API_PORT = o.PORT + 30
+
+    if not o.RPC_PORT:
+        o.RPC_PORT = o.PORT + 40
+
+
     o.PIC_URL = 'http://%s'%o.PIC_DOMAIN
     o.FS_URL = 'http://%s'%o.FS_DOMAIN
 

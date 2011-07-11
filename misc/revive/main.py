@@ -28,6 +28,7 @@ def ico_file_mv():
 from zpage.model.ico import *
 def ico96_regen():
     for id, value in ico.iteritems():
+        print id
         if ico96.get(id):
             return
 

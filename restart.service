@@ -1,0 +1,13 @@
+PROCESS="ps x -u work"
+
+$PROCESS|ack server_god\.py|ack python|awk '{print $1}'|xargs kill
+
+$PROCESS|ack server_mq\.py|ack python|awk '{print $1}'|xargs kill
+
+$PROCESS|ack server_ctrl\.py|ack python|awk '{print $1}'|xargs kill
+
+$PROCESS|ack server_rpc\.py|ack python|awk '{print $1}'|xargs kill
+
+$PROCESS|ack server_api\.py|ack python|awk '{print $1}'|xargs kill
+
+
