@@ -68,6 +68,9 @@ def wsample_k2(wlist, k, key=None):
         vlist = map(key, wlist)
     else:
         vlist = wlist
+    vlist = [
+        max(i,1) for i in vlist
+    ]
     for w in vlist:
         s += w
         lst.append(s)

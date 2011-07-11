@@ -77,6 +77,16 @@ def follow_rm(from_id, to_id):
     return True
 
 def follow_new(from_id, to_id):
+    if not _follow_new(from_id, to_id):
+        return
+    from buzz import mq_buzz_follow_new
+    mq_buzz_follow_new(from_id, to_id)
+    mc_flush(from_id, to_id, cid)
+    return True
+
+def _follow_new(from_id, to_id):
+    if follow_get(from_id, to_id):
+        return True
     if from_id == to_id:
         return
     to = Zsite.mc_get(to_id)
@@ -91,9 +101,6 @@ def follow_new(from_id, to_id):
         (id, from_id, to_id, cid)
     )
     follow_cursor.connection.commit()
-    from buzz import mq_buzz_follow_new
-    mq_buzz_follow_new(from_id, to_id)
-    mc_flush(from_id, to_id, cid)
     return True
 
 def mc_flush(from_id, to_id, cid):
