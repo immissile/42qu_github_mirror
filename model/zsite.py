@@ -109,7 +109,7 @@ from mq import mq_client
 mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 
 if __name__ == "__main__":
-    zsite = Zsite.mc_get(1)
-    zsite.state = ZSITE_STATE_WAIT_VERIFY
-    zsite_verify_yes(zsite)
-
+    pass
+   # for i in Zsite.where():
+   #     i.name = i.name.strip()
+   #     i.save()

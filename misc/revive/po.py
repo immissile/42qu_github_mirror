@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from qu.mysite.model.note import Note, NoteSubject
-from model.po import po_new, po_note_new, po_word_new, note_subject_id_by_man_id_note_id, note_subject_note_id_id_state
+from qu.mysite.model.note import Note, NoteSubject, note_subject_id_by_man_id_note_id, note_subject_note_id_id_state
+from model.po import po_new, po_note_new, po_word_new
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from model.zsite_tag import zsite_tag_new_by_tag_name
 from model.zsite import Zsite
@@ -36,7 +36,7 @@ SITE_RT = (
     ('招聘', 11291),
     ('招聘', 910),
     ('招聘', 945),
-    ('故事', 11409),
+    ('传奇', 11409),
     ('随笔', 113),
     ('随笔', 12371),
     ('随笔', 13434),
@@ -60,30 +60,38 @@ def pic2pic(match):
     return ' 图:%s ' % m
 
 from qu.mysite.util.pic import picopen
-from kvfs import fs_set_jpg, fs_url, fs_get
+from qu.mysite.model.kvfs import fs_set_jpg, fs_url, fs_get
 from model.po_pic import po_pic_new
 
 def init_po():
     for i in Note.where():
         id = i.id
         user_id = i.man_id
-        subject_id = note_subject_id_by_man_id_note_id(id)
+        subject_id = note_subject_id_by_man_id_note_id(user_id, id)
         id, state = note_subject_note_id_id_state(subject_id, id)
         subject = NoteSubject.get(subject_id)
         if id and state:
+            m = None
             if i.txt:
+                title = i.title
                 txt = PIC_SUB.sub(pic2pic, i.txt)
-                m = po_note_new(user_id, i.title, txt)
-                name = subject.name
-                zsite_tag_new_by_tag_name(m, name)
-                for pic in m.pic_edit_list:
-                    img = picopen(fs_get('note/0', '%s.jpg' % pic.id))
-                    if img:
-                        po_pic_new(user_id, m.id, img, pic.seq)
-                if id in PO_SHOW_DIC:
-                    po_show_set(m, PO_SHOW_DIC[id])
+                print title, txt
+                m = po_note_new(user_id, title, txt)
+                if m:
+                    name = subject.name
+                    zsite_tag_new_by_tag_name(m, name)
+                    for pic in i.pic_edit_list:
+                        img = picopen(fs_get('note/0', '%s.jpg' % pic.id))
+                        if img:
+                            po_pic_new(user_id, m.id, img, pic.order)
+                    if id in PO_SHOW_DIC:
+                        po_show_set(m, PO_SHOW_DIC[id])
             else:
                 m = po_word_new(user_id, i.title)
+            if m:
+                for r in i.reply_list():
+                    from_user = Zsite.get(r.man_id)
+                    m.reply_new(from_user, r.txt, r.state)
 
 
 if __name__ == '__main__':
