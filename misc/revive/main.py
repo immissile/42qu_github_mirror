@@ -55,7 +55,7 @@ def ico96_regen():
         fs_set_jpg('96', pic_id, pic)
         ico96.set(id, pic_id)
 
-from zpage.model.zpage import Zsite
+from zpage.model.zsite import Zsite
 from zpage.zweb.orm import ormiter
 
 #def user_info():
@@ -76,9 +76,16 @@ def namecard():
             namecard_new(i.id, i.pid, u.name, i.phone, i.mail, i.address)
 
 def career():
-    from zpage.model.career import career_new
+    from qu.mysite.model.company import CompanyMan, CompanyBeginEnd, CompanyManTxt, company_man_by_man_id
+    from zpage.model.career import career_set
+    for i in ormiter(Zsite):
+        id = i.id
+        c_li = company_man_by_man_id
+        for c in c_li:
+            career_set(0, id, c.com, c.title, c.txt, c.time.begin_time, c.time.end_time, c.cid or 1)
 
 if __name__ == '__main__':
     ico_file_mv()
     ico96_regen()
     namecard()
+    career()
