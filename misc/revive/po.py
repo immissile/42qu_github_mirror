@@ -60,6 +60,8 @@ def pic2pic(match):
     return ' 图:%s ' % m
 
 from qu.mysite.util.pic import picopen
+from kvfs import fs_set_jpg, fs_url, fs_get
+from model.po_pic import po_pic_new
 
 def init_po():
     for i in Note.where():
@@ -75,6 +77,9 @@ def init_po():
                 name = subject.name
                 zsite_tag_new_by_tag_name(m, name)
                 for pic in m.pic_edit_list:
+                    img = picopen(fs_get('note/0', '%s.jpg' % pic.id))
+                    if img:
+                        po_pic_new(user_id, m.id, img, pic.seq)
                 if id in PO_SHOW_DIC:
                     po_show_set(m, PO_SHOW_DIC[id])
             else:
