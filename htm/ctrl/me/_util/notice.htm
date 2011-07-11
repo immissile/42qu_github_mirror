@@ -20,6 +20,7 @@ ${title or url}
     %if url:
 </a>
     %endif
+%endif
 
 </%def>
 
@@ -46,7 +47,6 @@ trade = Trade.get(rid)
 %>
 捐赠 ${float(trade.value)/100.0} 元
 ${trade_log_render(rid)}
-%endif
 %endif
 
 ##%if cid == CID_INVITE_REGISTER:
