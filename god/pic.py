@@ -26,9 +26,18 @@ class Review(Base):
 
     def post(self, cid):
         current_user_id = self.current_user_id
+        
+        yes = self.get_argument('yes','')
+        if yes:
+            ids_yes = map(int,yes.split(' '))
+        else:
+            ids_yes = []
 
-        ids_yes = map(int,self.get_argument('yes','').split(' '))
-        ids_no = map(int,self.get_argument('no','').split(' '))
+        no = self.get_argument('no','')
+        if no:
+            ids_no = map(int,no.split(' '))
+        else:
+            ids_no = []
 
         for i in ids_yes:
             pic_yes(i, current_user_id)
