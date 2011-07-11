@@ -40,13 +40,13 @@ def link_id_name_by_zsite_id(zsite_id):
     return c.fetchall()
 
 
-def link_name_by_zsite_id(zsite_id, prefix=""):
+def name_link_by_zsite_id(zsite_id, prefix=""):
     r = []
     _link = link(zsite_id)
     for id, name in link_id_name_by_zsite_id(zsite_id):
         r.append((
+            name,
             "%s%s/link/%s"%(prefix,_link, id),
-            name
         ))
     return r
 
