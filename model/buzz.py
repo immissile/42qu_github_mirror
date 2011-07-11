@@ -174,7 +174,6 @@ def buzz_show(user_id, limit):
 if __name__ == '__main__':
     #buzz_show_new_all(10024800)
     pass
-    #Buzz.where().delete()
 #    for i in buzz_show(10008640,3):
 #        print i.id
 #        print i.cid

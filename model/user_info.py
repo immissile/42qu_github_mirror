@@ -41,3 +41,13 @@ def user_info_new(
         o.pid_home = pid_home
     o.save()
     return o
+
+if __name__ == "__main__":
+    pass
+#    n = UserInfo.get(10011475)
+#    n.sex=2
+#    n.marry=0
+#    n.save()
+
+
+

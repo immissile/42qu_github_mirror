@@ -159,3 +159,9 @@ def mc_flush(to_id):
     to_id = str(to_id)
     mc_notice_id_list.delete(to_id)
     notice_count.delete(to_id)
+
+if __name__ == "__main__":
+    pass
+   # for i,v in notice_unread.iteritems():
+   #     if v:
+   #         notice_unread.set(i, 0)
