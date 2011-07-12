@@ -165,4 +165,5 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
 if __name__ == '__main__':
     pass
     m = Po.mc_get(10044641)
-    print m.question.link
+    print feed_tuple_by_db(10033928)
+    print feed_tuple_list([10033927])
