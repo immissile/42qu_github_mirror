@@ -4,7 +4,7 @@ from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
 from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY
 from cid import CID_USER
-from zsite import Zsite, ZSITE_STATE_APPLY
+from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
 from po import Po
 from po_pos import PoPos, STATE_BUZZ
@@ -50,16 +50,16 @@ def buzz_sys_new(user_id, rid):
     buzz_new(0, user_id, CID_BUZZ_SYS, rid)
 
 def buzz_sys_new_all(rid):
-    for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_APPLY)):
+    for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_ACTIVE)):
         buzz_sys_new(i.id, rid)
 
-mq_buzz_sys_new_all = mq_client(buzz_sys_new_all)
+#mq_buzz_sys_new_all = mq_client(buzz_sys_new_all)
 
 def buzz_show_new(user_id, zsite_id):
     buzz_new(0, user_id, CID_BUZZ_SHOW, zsite_id)
 
 def buzz_show_new_all(zsite_id):
-    for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_APPLY)):
+    for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_ACTIVE)):
         buzz_show_new(i.id, zsite_id)
 
 def buzz_follow_new(from_id, to_id):

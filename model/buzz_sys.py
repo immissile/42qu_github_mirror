@@ -33,8 +33,8 @@ def buzz_sys_htm(htm, seq=0):
     bs.save()
     if seq:
         mc_buzz_sys_init_id_list.delete('')
-    from buzz import mq_buzz_sys_new_all
-    mq_buzz_sys_new_all(id)
+#    from buzz import mq_buzz_sys_new_all
+#    mq_buzz_sys_new_all(id)
 
 def buzz_sys_edit(id, htm, seq):
     bs = BuzzSys.mc_get(id)
