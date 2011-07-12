@@ -42,6 +42,17 @@ class Po(McModel, ReplyMixin):
         else:
             return txt_get(self.id)
 
+    def mc_flush(self):
+        if not hasattr(self, "_mc_flush"):
+            id = self.id
+            mc_htm.delete(id)
+            mc_feed_tuple.delete(id)
+            self._mc_flush = True
+
+    def save(self):
+        self.mc_flush()
+        super(Po, self).save()
+
     @property
     @mc_htm('{self.id}')
     def htm(self):
@@ -59,8 +70,7 @@ class Po(McModel, ReplyMixin):
     def txt_set(self, txt):
         id = self.id
         txt_new(id, txt)
-        mc_htm.delete(id)
-
+        self.mc_flush()
 
     @attrcache
     def user(self):
