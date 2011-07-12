@@ -3,7 +3,7 @@
 import urllib
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no
+from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY
 from model.zsite_list_0 import zsite_show_new, zsite_show_rm
 from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
@@ -89,7 +89,11 @@ class Verify(Base):
         state = int(state)
         txt = self.get_argument('txt', '')
         zsite = Zsite.mc_get(id)
-        if zsite and zsite.state == ZSITE_STATE_WAIT_VERIFY:
+        if zsite and zsite.state in (
+            ZSITE_STATE_WAIT_VERIFY,
+            ZSITE_STATE_ACTIVE,
+            ZSITE_STATE_FAILED_VERIFY,
+        ):
             if state:
                 zsite_verify_yes(zsite)
             else:

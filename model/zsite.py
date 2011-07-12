@@ -83,16 +83,14 @@ ZSITE_VERIFY_TEMPLATE = {
 }
 
 def zsite_verify_yes(zsite):
-    if zsite.state == ZSITE_STATE_WAIT_VERIFY:
-        zsite.state = ZSITE_STATE_VERIFY
-        zsite.save()
-        mq_zsite_verify_mail(zsite.id, zsite.cid, zsite.state)
+    zsite.state = ZSITE_STATE_VERIFY
+    zsite.save()
+    zsite_verify_mail(zsite.id, zsite.cid, zsite.state)
 
 def zsite_verify_no(zsite, txt):
-    if zsite.state == ZSITE_STATE_WAIT_VERIFY:
-        zsite.state = ZSITE_STATE_FAILED_VERIFY
-        zsite.save()
-        mq_zsite_verify_mail(zsite.id, zsite.cid, zsite.state, txt)
+    zsite.state = ZSITE_STATE_FAILED_VERIFY
+    zsite.save()
+    zsite_verify_mail(zsite.id, zsite.cid, zsite.state, txt)
 
 def zsite_verify_mail(zsite_id, cid, state, txt=''):
     from mail import rendermail

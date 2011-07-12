@@ -37,7 +37,7 @@ $('a.no').live('click', function() {
     var txt = $('#txt' + id).val()
     $.postJSON('/zsite/verify/0/' + id, {"txt":txt}, function(data) {
         if (data.state == true) {
-            $('#zsite' + id+" a").css("color","#ccc")
+            $('#zsite' + id+" a").css("color","#ccc").css("font-size","14px")
         }
     })
     return false
