@@ -1,6 +1,7 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
+from model.ico import pic_url_with_default
 %>
 <%def name="htm_head()">
 <script>
@@ -8,10 +9,10 @@ function txt(id, cid){
 var template = [
     ]
     if(cid==1||cid==3){
-        template.push('职业信息/个人资料不完整')
+        template.push('本人照片 未上传/不清晰/不雅观')
     }
     if(cid==2||cid==3){
-        template.push('本人照片 未上传/不清晰/不雅观')
+        template.push('职业信息/个人资料 不完整')
     }
     if(cid==4){
         template.push("个人资料含有不雅词汇")
@@ -74,14 +75,20 @@ float:right;
 display:block;
 padding-right:14px;
 }
+.ico{
+float:left;
+margin-right:16px
+}
 </style>
 </%def>
 % for i in zsite_list:
 <%
 id = i.id
+_pic_url = pic_url_with_default(id,"219") 
 %>
 <div class="sdw" id="zsite${id}">
 <div class="sd c">
+<img class="ico" src="${_pic_url}">
 <h1><a href="${i.link}" target="_blank">${i.name}</a></h1>
 <div class="bar">
 <a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
