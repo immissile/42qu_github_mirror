@@ -7,7 +7,8 @@ from model.txt import txt_new
 def main():
     for i in Zsite.where().col_list():
         man = Man.get(i)
-        txt_new(i, man.txt)
+       # if man:
+       #     txt_new(i, man.txt)
 
 
 if __name__ == '__main__':

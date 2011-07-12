@@ -1,4 +1,6 @@
 hg commit -m"update on line"
 hg fetch
-./restart.online
+./restart.service
+
+hg commit -m"update on line"
 hg push

@@ -56,8 +56,8 @@ ${self.htm_head()}\
 
 
 <p class="coltitle">浏览</p>
-<a class="cola" href="/user_list_verify"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_VERIFY ).count()}</span>认证用户</a>
-<a class="cola" href="/user_list"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_ACTIVE).count()}</span>用户</a>
+<a class="cola" href="/user_list_verify"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_VERIFY ).where(cid=CID_USER).count()}</span>认证用户</a>
+<a class="cola" href="/user_list"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_ACTIVE).where(cid=CID_USER).count()}</span>用户</a>
 <a class="cola" href="/po"><span class="R">${Po.where('state>%s', STATE_DEL).count()}</span>文章</a>
 <a class="cola" href="/po/show"><span class="R">${po_show_count(0)}</span>全站广播</a>
 

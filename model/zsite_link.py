@@ -116,6 +116,9 @@ if __name__ == '__main__':
     #link_cid_new(1, OAUTH_RENREN, "http://1.zuroc.xxx/i/link")
     #print link_id_name_by_zsite_id(1)
     #print link_id_cid(1)
-    print link_id_name_by_zsite_id(10000000)
-    print link_name_by_zsite_id(10000000)
+    #print link_id_name_by_zsite_id(10000000)
+    #print link_name_by_zsite_id(10000000)
     #http://zuroc.zuroc.xxx/link/8
+
+    #print zhendi
+

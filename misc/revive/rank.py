@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-#from qu.mysite.model.follow import Follow, CID_MAN
+from qu.mysite.model.follow import Follow, CID_MAN
 from model.follow import _follow_new, Follow
 from model.zsite import Zsite
 from model.zsite_rank import zsite_rank_by_zsite_id, zsite_rank_update_by_zsite_id

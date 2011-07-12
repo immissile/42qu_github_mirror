@@ -14,6 +14,7 @@ class Kv(object):
         self.__mc_value__ = '-%s' % self.__mc_id__
         self.NULL = NULL
 
+
     def get(self, id):
         mc_key = self.__mc_id__ % id
         r = mc.get(mc_key)

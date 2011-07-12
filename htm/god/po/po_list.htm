@@ -3,6 +3,7 @@
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC, \
 CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
 from model.po_show import po_is_show
+from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
 from model.zsite import Zsite
 %>
@@ -15,6 +16,7 @@ from model.zsite import Zsite
 <li>
 <%
 cid = po.cid
+name_ = po.name_
 ico_url = _ico_url(po.user_id)
 user = Zsite.get(po.user_id)
 user_name = user.name
@@ -34,7 +36,16 @@ ${user_name}
 % if po.rid:
 [答案]\
 % endif
-    <a href="${po.link}">${po.name or '[无标题]'}</a>
+    <a target="_blank" href="${po.link}">${name_}</a>
+</p>
+<p>
+<%
+user = po.user
+%>
+<a href="${user.link}" target="_blank">${user.name}</a>
+${friendly_time(po.create_time)}
+</p>
+    <a href="${po.link}">${name_}</a>
 </div>
 <p><a href="/po/show/set/${po.id}">
     % if po_is_show(po):
@@ -43,7 +54,6 @@ ${user_name}
     转发
     % endif
 </a></p>
-<hr>
 </li>
 % endfor
 </ol>

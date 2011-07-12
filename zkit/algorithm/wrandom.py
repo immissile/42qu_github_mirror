@@ -61,6 +61,7 @@ def wsample2(wlist):
 def wsample_k2(wlist, k, key=None):
     if k >= len(wlist):
         return lambda:wlist
+    
     lst = []
     s = 0
     if key is not None:
@@ -70,10 +71,11 @@ def wsample_k2(wlist, k, key=None):
     
     _wlist = []
     _vlist = []
-    for w,v in zip(_wlist, _vlist):
+    for w,v in zip(wlist, vlist):
         if v:
             _wlist.append(w)
             _vlist.append(v)
+    
     wlist = _wlist
     vlist = _vlist
     

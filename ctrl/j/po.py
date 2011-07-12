@@ -15,13 +15,14 @@ from zkit.pic import picopen
 @urlmap('/j/po/reply/(\d+)')
 class Reply(JLoginBase):
     def get(self, id):
+        user = self.current_user
+        
         if not user_can_reply(user):
             self.finish('{"can_not_reply":1}')
         else:
             result = {}
             txt = self.get_argument('txt')
             if txt:
-                user = self.current_user
                 user_id = self.current_user_id
                 po = Po.mc_get(id)
                 if po.can_view(user_id):

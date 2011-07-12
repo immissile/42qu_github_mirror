@@ -1,12 +1,14 @@
 <%!
 from model.zsite_url import url_by_id
-from model.zsite import ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY
+from model.zsite import ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY, ZSITE_STATE_FAILED_VERIFY
 %>
 <%namespace file="/ctrl/_util/base.htm" import="verify_sended"/>\
 %if current_user:
 <%
 state = current_user.state
 %>
+
+
     %if state == ZSITE_STATE_APPLY:
 <div id="T">${verify_sended(current_user_id)}</div>
     %elif state == ZSITE_STATE_ACTIVE:
