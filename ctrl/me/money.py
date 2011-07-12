@@ -9,6 +9,11 @@ from model.user_auth import user_password_verify
 from model.zsite import Zsite
 from zkit.errtip import Errtip
 
+@urlmap('/money/pay')
+class Pay(LoginBase):
+    def get(self):
+        return self.render()
+
 @urlmap('/money/bill')
 class Bill(LoginBase):
     def get(self):
