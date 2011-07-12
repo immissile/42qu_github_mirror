@@ -161,6 +161,8 @@ def po_new(cid, user_id, name, state, rid=0):
         create_time=int(time()),
     )
     m.save()
+    from po_pos import po_pos_set
+    po_pos_set(user_id, m)
     mc_flush(user_id, cid)
     return m
 
