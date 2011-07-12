@@ -16,3 +16,6 @@ class AlipaySync(Base):
         else:
             url = '%s/charged/%s/%s'%(url, t.id, t.to_id)
         return self.redirect(url)
+
+
+

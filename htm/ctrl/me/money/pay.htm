@@ -1,0 +1,25 @@
+<%!
+from model.money import read_cent, bank
+%>
+<%inherit file="_base.htm" />
+<style>
+.fullscreen{
+font-size:16px;
+margin-top:64px;
+text-align:center;
+}
+.fullscreen p{
+margin-bottom:16px;
+}
+</style>
+<div class="fullscreen">
+<p>将以下链接告诉对方就可以了</p>
+<p>
+http:${current_user.link}/pay
+</p>
+
+
+</div>
+
+
+
