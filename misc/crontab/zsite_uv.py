@@ -41,6 +41,8 @@ def log2zsite_id_uv(f):
 
 def log2zsite_uv_daliy(days, f):
     for zsite_id, uv in log2zsite_id_uv(f):
+        if not Zsite.mc_get(zsite_id):
+            continue
         ZsiteUvDaily.raw_sql(
             'insert into zsite_uv_daily (zsite_id, days, uv) values (%s, %s, %s) on duplicate key update uv=%s',
             zsite_id,
