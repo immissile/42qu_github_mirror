@@ -48,6 +48,7 @@ class Po(McModel, ReplyMixin):
             mc_htm.delete(id)
             mc_feed_tuple.delete(id)
             self._mc_flush = True
+        #raise
 
     def save(self):
         self.mc_flush()
