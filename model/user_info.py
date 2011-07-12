@@ -16,8 +16,8 @@ class UserInfo(McModel):
     @property
     def age(self):
         birthday = self.birthday
-        year = birthday//10000
-        if year:
+        if birthday:
+            year = birthday//10000
             return today_year() - year
 
     @property

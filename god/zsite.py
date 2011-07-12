@@ -16,24 +16,32 @@ from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
 from model.zsite_url import id_by_url
 from model.user_session import user_session
+from model.user_info import UserInfo
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
     def get(self, id):
         zsite = Zsite.mc_get(id)
         if zsite:
+            info = UserInfo.get(id)
+            if info:
+                sex = info.sex
+            else:
+                sex = ''
             txt = txt_get(id)
-            self.render(txt=txt, zsite=zsite)
+            self.render(txt=txt, zsite=zsite, sex=sex)
         else:
             self.redirect('/')
 
 
     def post(self, id):
         zsite = Zsite.mc_get(id)
+        user_info = UserInfo.get(id)
 
         name = self.get_argument('name', None)
         motto = self.get_argument('motto', None)
         txt = self.get_argument('txt', '')
+        sex = self.get_argument('sex', 0)
 
         if name:
             zsite.name = name
@@ -44,6 +52,10 @@ class Index(Base):
 
         if txt:
             txt_new(id, txt)
+
+        if sex:
+            user_info.sex = sex
+            user_info.save()
 
         self.redirect('/zsite/%s' % id)
 
@@ -159,5 +171,10 @@ class avatar(Base):
     def get(self, avatar_id):
         session = user_session(avatar_id)
         self.set_cookie('S', session)
+        next = self.get_argument('next', None)
         current_user = Zsite.mc_get(avatar_id)
-        self.redirect(current_user.link)
+        if next: 
+            self.redirect(next)
+        else:
+            self.redirect(current_user.link)
+

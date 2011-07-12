@@ -1,7 +1,7 @@
 <%!
 from config import SITE_URL, SITE_DOMAIN
 from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION 
-from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY
+from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY 
 from model.money import withdraw_open_count, withdraw_max
 from model.po import Po
 from model.state import STATE_DEL
@@ -56,7 +56,8 @@ ${self.htm_head()}\
 
 
 <p class="coltitle">浏览</p>
-<a class="cola" href="/user_list"><span class="R">32</span>用户</a>
+<a class="cola" href="/user_list"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_VERIFY ).count()}</span>认证用户</a>
+<a class="cola" href="/user_list"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_ACTIVE).count()}</span>用户</a>
 <a class="cola" href="/po"><span class="R">${Po.where('state>%s', STATE_DEL).count()}</span>文章</a>
 <a class="cola" href="/po/show"><span class="R">${po_show_count(0)}</span>全站广播</a>
 

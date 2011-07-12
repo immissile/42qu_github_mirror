@@ -6,6 +6,7 @@ from model.ico import ico_url as _ico_url
 from model.zsite_url import url_by_id
 from model.motto import motto
 from model.zsite_rank import zsite_rank_max
+from model.career import career_list_all
 %>
 <%
 zsite_id = zsite.id
@@ -14,27 +15,66 @@ zsite_id = zsite.id
 ico_url = _ico_url(zsite_id)
 url = url_by_id(zsite_id)
 %>
+<%def name="check_sex(sex,value)">
+%if int(sex) == value:
+    checked
+%endif
+</%def>
 
 <%def name="htm_head()">
 </%def>
-<p>${zsite.name}</p>
-<p>${zsite.id}</p>
-<a href="/zsite/avatar/${zsite_id}">变身</a>
+<style>
+    #txt {
+        width:50%;
+        height:10%;
+    }
+    #motto {
+        width:30%;
+    }
+    #ico {
+        float: left;
+        display: block;
+        border:1px solid;
+        margin:10px;
+        text-align:center;
+    }
+    table ,tr ,th {
+        border: 3px solid #bbb;
+    }
+</style>
+<p>姓名:${zsite.name}  id:${zsite.id}
+<a target="_blank" href="/zsite/avatar/${zsite_id}">变身</a>
+</p>
 
 <%htm:form enctype="multipart/form-data">
     <div>
         %if ico_url:
-            <img src="${ico_url}">
+            <img id="ico" src="${ico_url}">
         %endif
     </div>
-<div>昵称 <input type="text" name="name" value="${zsite.name}"></div>
-<div>座右铭 <input type="text" name="motto" value="${motto.get(zsite.id)}"></div>
-<div>自我介绍
-<textarea name="txt">${txt}</textarea>
+<div>昵称 <input type="text" name="name" value="${zsite.name}">  座右铭 <input id="motto" type="text" name="motto" value="${motto.get(zsite.id)}"></div>
+%if not sex:
+<div id='sex'>性别: 
+    &nbsp&nbsp&nbsp没填<input type="radio" name="sex" value="0" check_sex(${sex},0)>
+    &nbsp&nbsp&nbsp男<input type="radio" name="sex" value="1" check_sex(${sex},1)>
+    &nbsp&nbsp&nbsp女<input type="radio" name="sex" value="2" check_sex(${sex},2)><br>
 </div>
+%endif
+<div>自我介绍
+<textarea id="txt" name="txt">${txt}</textarea>
+</div>
+sex:${sex}
     <button type="submit">保存</button>
 </%htm:form>
-
+<table>
+%for i in career_list_all(zsite_id):
+<tr>
+    <th>${i.unit}</th><th>${i.title}</th><th>${i.txt}</th><th>${i.begin_time//100} ~ ${i.end_time//100}</th>
+</tr>
+%endfor
+</table>
+<p>
+<a target="_blank" href="/zsite/avatar/${zsite_id}?next=http://${zsite.link}/i/career">修改个人履历</a></p><br>
 <p><a target="_blank" href="${zsite.link}">${zsite.link.strip("/")}</a></p>
 <p><a target="_blank" href="/zsite/mail/${zsite_id}">发邮件</a></p>
 
