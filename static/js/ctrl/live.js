@@ -50,7 +50,7 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
             t.rt_list = $.map(t.rt_list, array2zsite);
             t.create_time = $.timeago(t.create_time);
             data.item.push(t)
-           // console.info(t)
+            //console.info(t)
         }
     
         return data
