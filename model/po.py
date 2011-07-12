@@ -86,8 +86,8 @@ class Po(McModel, ReplyMixin):
         if q:
             u = q.user
             return '答 : %s' % q.name
-        if self.cid == CID_WORD:
-            return ''
+        #if self.cid == CID_WORD:
+        #    return ''
         return self.name_
 
     @attrcache
@@ -102,7 +102,7 @@ class Po(McModel, ReplyMixin):
                 u.link, escape(u.name), link
             )
         if self.cid == CID_WORD:
-            return ''
+            return txt_withlink(self.name)
         return escape(self.name)
 
     @attrcache
