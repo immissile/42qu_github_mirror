@@ -97,8 +97,8 @@ def zsite_verify_mail(zsite_id, cid, state, txt=''):
     from user_mail import mail_by_user_id
     template = ZSITE_VERIFY_TEMPLATE.get(cid, {}).get(state)
     if template:
-        name = Zsite.mc_get(user_id).name
-        mail = mail_by_user_id(user_id)
+        name = Zsite.mc_get(zsite_id).name
+        mail = mail_by_user_id(zsite_id)
         rendermail(template, mail, name,
                    txt=txt,
                   )
@@ -109,7 +109,7 @@ mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 if __name__ == "__main__":
     pass
     zsite = Zsite.mc_get(10043090)
-    print zsite.state == ZSITE_STATE_FAILED_VERIFY 
+    zsite_verify_no(zsite,"te")
     #print Zsite.where().count()
    # for i in Zsite.where():
    #     i.name = i.name.strip()

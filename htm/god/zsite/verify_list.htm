@@ -6,7 +6,6 @@ from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 <script>
 function txt(id, cid){
 var template = [
-        "您好，由于您的:\n"
     ]
     if(cid==1||cid==3){
         template.push('职业信息/个人资料不完整')
@@ -17,7 +16,6 @@ var template = [
     if(cid==4){
         template.push("个人资料含有不雅词汇")
     }
-    template.push("\n为了42qu.com网站内容风格的统一, \n还请修正后再次申请认证\n感谢您的支持!!!\n如果有问题，请回复本邮件\n\n")
 
     $("#txt"+id).val(template.join('\n'))
 
