@@ -10,7 +10,7 @@ from model.zsite import Zsite
 from zkit.errtip import Errtip
 
 @urlmap('/money/pay')
-def Pay(LoginBase):
+class Pay(LoginBase):
     def get(self):
         return self.render()
 
