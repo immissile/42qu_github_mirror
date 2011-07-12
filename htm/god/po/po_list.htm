@@ -3,6 +3,7 @@
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC, \
 CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
 from model.po_show import po_is_show
+from zkit.time_format import friendly_time
 %>
 <%def name="htm_head()">
 </%def>
@@ -12,6 +13,7 @@ from model.po_show import po_is_show
 <p>
 <%
 cid = po.cid
+name_ = po.name_
 %>\
 % if cid == CID_WORD:
 [微博]\
@@ -23,7 +25,14 @@ cid = po.cid
 % if po.rid:
 [答案]\
 % endif
-    <a href="${po.link}">${po.name or '[无标题]'}</a>
+    <a target="_blank" href="${po.link}">${name_}</a>
+</p>
+<p>
+<%
+user = po.user
+%>
+<a href="${user.link}" target="_blank">${user.name}</a>
+${friendly_time(po.create_time)}
 </p>
 <p><a href="/po/show/set/${po.id}">
     % if po_is_show(po):
