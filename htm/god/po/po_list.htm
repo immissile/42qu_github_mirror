@@ -10,6 +10,10 @@ from model.zsite import Zsite
 <%def name="htm_head()">
 </%def>
 <style>
+.ico {
+float:left;
+margin-right:32px
+}
 </style>
 <ol>
 % for po in po_list:
@@ -18,43 +22,43 @@ from model.zsite import Zsite
 cid = po.cid
 name_ = po.name_
 ico_url = _ico_url(po.user_id)
-user = Zsite.get(po.user_id)
-user_name = user.name
+user = po.user
 %>\
+<div class="sdw">
+<div class="sd c">
 %if ico_url:
     <img class="ico" src="${ico_url}">
 %endif
 <div id="list_txt">
-${user_name}
+<span class="c9">
 % if cid == CID_WORD:
-[微博]\
+微博\
 % elif cid == CID_QUESTION:
-[问题]\
+问题\
 % else:
-[日记]\
+日记\
 % endif
 % if po.rid:
-[答案]\
+答案\
 % endif
-    <a target="_blank" href="${po.link}">${name_}</a>
+</span>
+<a class="c0" href="${po.link}" target="_blank">${name_}</a>
 </p>
 <p>
-<%
-user = po.user
-%>
-<a href="${user.link}" target="_blank">${user.name}</a>
+<a class="c0" href="${user.link}" target="_blank">${user.name}</a>
 ${friendly_time(po.create_time)}
 </p>
-    <a href="${po.link}">${name_}</a>
 </div>
-<p><a href="/po/show/set/${po.id}">
+<p>
+<a href="/po/show/set/${po.id}">
     % if po_is_show(po):
     设置
     % else:
     转发
     % endif
 </a></p>
-</li>
+</div>
+</div>
 % endfor
 </ol>
 
