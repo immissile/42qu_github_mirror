@@ -32,7 +32,11 @@ $('a.yes').live('click', function() {
 })
 $('a.no').live('click', function() {
     var id = this.rel
-    var txt = $('#txt' + id).val()
+    var _txt = $('#txt' + id),txt = _txt.val(), _txt.val('');
+    if(!(txt&&txt.length)){
+        alert("请选择理由")
+        return
+    }
     $.postJSON('/zsite/verify/0/' + id, {"txt":txt}, function(data) {
         if (data.state == true) {
             $('#zsite' + id+" a").css("color","#ccc").css("font-size","14px")
