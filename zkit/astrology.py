@@ -13,6 +13,8 @@ def astrology(date):
 
 
 def astrology_int(date):
+    if not date:
+        return 0
     date = date % 10000
     date_mon = date // 100
     date_day = date % 100
