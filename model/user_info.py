@@ -45,7 +45,8 @@ def user_info_new(
 
 if __name__ == "__main__":
     pass
-#    n = UserInfo.get(10011475)
+    n = UserInfo.mc_get(10001299)
+    print type(n.pid_home)
 #    n.sex=2
 #    n.marry=0
 #    n.save()

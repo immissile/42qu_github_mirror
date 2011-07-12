@@ -175,6 +175,14 @@ class UserInfoEdit(LoginBase):
         marry = self.get_argument('marry', '')
         pid_home = self.get_argument('pid_home', '1')
         pid_now = self.get_argument('pid_now', '1')
+        try:
+            pid_now = int(pid_now)
+        except ValueError:
+            pid_now = 0
+        try:
+            pid_home = int(pid_home)
+        except ValueError:
+            pid_home = 0
 
         marry = int(marry)
         if marry not in (1, 2, 3):
