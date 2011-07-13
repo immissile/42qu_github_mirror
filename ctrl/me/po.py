@@ -3,7 +3,7 @@ from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model import reply
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
-from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set 
+from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.po_pos import po_pos_get, po_pos_set
 from model.po_question import po_question_new, answer_word2note
@@ -11,7 +11,6 @@ from model.zsite import Zsite
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from zkit.jsdict import JsDict
 from zkit.txt import cnenlen
-
 
 def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
