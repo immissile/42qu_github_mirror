@@ -26,6 +26,7 @@ class Send(Base):
 
         self.redirect(path)
 
+
 @urlmap('/auth/verify/sended/(\d+)')
 class Sended(Base):
     def get(self, id):
@@ -34,6 +35,7 @@ class Sended(Base):
         if user.state > ZSITE_STATE_APPLY or user.cid != CID_USER:
             return self.redirect("/login")
         return self.render(user_id=user_id)
+
 
 class VerifyBase(Base):
     cid = None
@@ -45,6 +47,7 @@ class VerifyBase(Base):
             return user_id
         else:
             self.redirect('/')
+
 
 @urlmap('/auth/verify/mail/(\d+)/(.+)')
 class VerifyMail(VerifyBase):
@@ -80,6 +83,7 @@ class PasswordReset(Base):
                 return self.redirect('/auth/password/reset/%s'%user_id)
         self.redirect('/login')
 
+
 @urlmap('/auth/verify/password/(\d+)/(.+)')
 class VerifyPassword(VerifyBase):
     cid = CID_VERIFY_PASSWORD
@@ -106,6 +110,3 @@ class VerifyPassword(VerifyBase):
             else:
                 return self.get(id, ck)
         self.redirect('/')
-
-
-

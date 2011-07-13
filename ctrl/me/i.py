@@ -264,11 +264,12 @@ class Verify(LoginBase):
         super(Verify, self).prepare()
         if not self._finished:
             current_user = self.current_user
+            current_user_id = self.current_user_id
             state = current_user.state
             if state >= ZSITE_STATE_VERIFY:
                 return self.redirect('/')
             elif state <= ZSITE_STATE_APPLY:
-                return self.redirect('/auth/verify/sended')
+                return self.redirect('/auth/verify/sended/%s' % current_user_id)
 
     def post(self):
         current_user = self.current_user
