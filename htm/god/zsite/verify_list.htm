@@ -25,8 +25,7 @@ $('a.show').live('click', function() {
     var id = this.rel
     $.postJSON('/zsite/verify/2/' + id, function(data) {
         if (data.state == true) {
-            alert('通过 & 展示 成功')
-            $('#zsite' + id).remove()
+            pass(id)
         }
     })
     return false
@@ -35,8 +34,7 @@ $('a.yes').live('click', function() {
     var id = this.rel
     $.postJSON('/zsite/verify/1/' + id, function(data) {
         if (data.state == true) {
-            alert('通过成功')
-            $('#zsite' + id).remove()
+            pass(id)
         }
     })
     return false
@@ -51,17 +49,20 @@ $('a.no').live('click', function() {
     }
     $.postJSON('/zsite/verify/0/' + id, {"txt":txt}, function(data) {
         if (data.state == true) {
-            $('#zsite' + id+" a").css("color","#ccc").css("font-size","14px")
+            pass(id)
         }
     })
     return false
 })
+function pass(id){
+    $('#zsite' + id+" a").css("color","#ccc").css("font-size","14px")
+}
 </script>
 <style>
 .bar{
 border-top:1px solid #ccc;
 }
-.bar .yes{
+.bar .yes, .bar .show{
 float:left
 }
 .bar .no{
@@ -98,7 +99,7 @@ _pic_url = pic_url_with_default(id,"219")
 %>
 <div class="sdw" id="zsite${id}">
 <div class="sd c">
-<img class="ico" src="${_pic_url}">
+<a href="${i.link}"><img class="ico" src="${_pic_url}"></a>
 <h1><a href="${i.link}" target="_blank">${i.name}</a></h1>
 <div class="bar">
 <a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
