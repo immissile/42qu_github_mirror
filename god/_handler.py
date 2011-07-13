@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from config import SITE_DOMAIN, SITE_URL
-import zweb._handler
+from zweb._handler.main import LoginBase
 
-class Base(zweb._handler.Base):
+class Base(LoginBase):
     def prepare(self):
         super(Base, self).prepare()
 

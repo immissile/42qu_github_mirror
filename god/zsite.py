@@ -17,6 +17,7 @@ from model.user_mail import user_id_by_mail
 from model.zsite_url import id_by_url
 from model.user_session import user_session
 from model.user_info import UserInfo
+from model.zsite_rank import zsite_rank_max
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -95,7 +96,7 @@ class Mail(Base):
         self.redirect('/zsite/%s' % id)
 
 
-@urlmap('/zsite/verify/(0|1)/(\d+)')
+@urlmap('/zsite/verify/(0|1|2)/(\d+)')
 class Verify(Base):
     def post(self, state, id):
         state = int(state)
@@ -108,6 +109,8 @@ class Verify(Base):
         ):
             if state:
                 zsite_verify_yes(zsite)
+                if state == 2:
+                    zsite_show_new(id, zsite_rank_max())
             else:
                 zsite_verify_no(zsite, txt)
             self.finish({'state': True})
@@ -177,7 +180,7 @@ class avatar(Base):
         self.set_cookie('S', session)
         next = self.get_argument('next', None)
         current_user = Zsite.mc_get(avatar_id)
-        if next: 
+        if next:
             self.redirect(next)
         else:
             self.redirect(current_user.link)

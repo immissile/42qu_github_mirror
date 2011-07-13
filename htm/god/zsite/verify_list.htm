@@ -21,6 +21,16 @@ var template = [
     $("#txt"+id).val(template.join('\n'))
 
 }
+$('a.show').live('click', function() {
+    var id = this.rel
+    $.postJSON('/zsite/verify/2/' + id, function(data) {
+        if (data.state == true) {
+            alert('通过 & 展示 成功')
+            $('#zsite' + id).remove()
+        }
+    })
+    return false
+})
 $('a.yes').live('click', function() {
     var id = this.rel
     $.postJSON('/zsite/verify/1/' + id, function(data) {
@@ -92,6 +102,7 @@ _pic_url = pic_url_with_default(id,"219")
 <h1><a href="${i.link}" target="_blank">${i.name}</a></h1>
 <div class="bar">
 <a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
+<a class="show" rel="${id}" href="javascript:void(0)">通过 & 展示</a>
 <a class="no" rel="${id}" href="javascript:void(0)">拒绝</a>
 <textarea class="txt" id="txt${id}"></textarea>
 <div class="txtdefault">
