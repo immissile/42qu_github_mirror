@@ -24,99 +24,104 @@ url = url_by_id(zsite_id)
 <%def name="htm_head()">
 </%def>
 <style>
-    div#left {
-        width:100px;
-        float:left;
+    input#name {
+        width:150px;
     }
-    div#middle {
-        width:600px;
-        float:left;
+    input#motto {
+        width:500px;
     }
-    div#info {
-        float:left;
-    }
-    div#buttom{
-        width:600px;
-    }
-    #txt{
+    textarea#intoduce {
         width:500px;
         height:300px;
     }
-    #name{
-        width:150px;
+    button#save {
+        width:75px;
+        height:75px;
     }
-    #motto{
-        width:520px;
+    div#left{
+        float:left;
+        width:100px;
     }
-    input{
-        margin:10px;
+    img#ico{
+        border:2px dashed gray;
+        margin-top:5px;
+    }
+    th#experience {
+        width:400px;
     }
     table,tr,th {
         border:3px solid #bbb;
     }
-    #lable{
-        margin:20px;
+    li {
+        text-align:right;
+        margin:0 30px 0 0;
     }
-    button#save{
-        height:50px;
-        width:100px;
-        margin:30px 0px 0px 0px;
+    span.lable {
+        float:left;
+        display:inline-block;
+        text-align:right;
+        width:75px;
+        padding:0 10px 0 0;
+    }
+    input {
+        margin-top:5px;
     }
 </style>
-<p>姓名:${zsite.name}  id:${zsite.id}
-<a target="_blank" href="/zsite/avatar/${zsite_id}">变身</a>
-</p>
 
 <%htm:form enctype="multipart/form-data">
-<div id="left">
-    <div id="ico">
-        %if ico_url:
-            <img src="${ico_url}">
-        %endif
-    </div>
-    <div id='sex'><span class="lable">性别:</span>
+<div id="top">
+    <div id="left">
+        <div id="ico">
+            %if ico_url:
+                <img id="ico" src="${ico_url}">
+            %endif
+        </div>
+        <p><a target="_blank" href="/zsite/avatar/${zsite_id}">变身</a>
+        </p>
+        <div id='sex'><span class="lable">性别:</span>
         <ul>
-        <li> 没填<input type="radio" name="sex" value="0" ${check_sex(0)}>  </li> 
-        <li> 男<input type="radio" name="sex" value="1" ${check_sex(1)}>    </li>
-        <li> 女<input type="radio" name="sex" value="2" ${check_sex(2)}><br></li>
-    </ul>
+            <li>没填<input type="radio" name="sex" value="0" ${check_sex(0)}></li> 
+            <li>男<input type="radio" name="sex" value="1" ${check_sex(1)}></li>
+            <li>女<input type="radio" name="sex" value="2" ${check_sex(2)}></li>
+        </ul>
+        </div>
+        <div>
+            <button id="save" type="submit">保存</button>
+        </div>
     </div>
-    <div>
-        <button id="save" type="submit">保存</button>
+
+    <div id="middle">
+        <div id="info"><p><span class="lable">昵称:</span><input type="text" name="name" id="name" value="${zsite.name}"></p><p><span class="lable">座右铭:</span><input id="motto" type="text" name="motto" value="${motto.get(zsite.id)}"></p>
+        </div>
+        <div id="introduce"><span class="lable">自我介绍:</span><textarea id="intoduce" name="txt">${txt}</textarea>
+        </div>
     </div>
 </div>
-
-<div id="middle">
-    <div id="info"><p><span class="lable">昵称:</span><input type="text" name="name" id="name" value="${zsite.name}"><span class="lable"></p><p>座右铭:</span><input id="motto" type="text" name="motto" value="${motto.get(zsite.id)}"></p>
-    </div>
-    <div id="introduce">自我介绍:<textarea id="txt" name="txt">${txt}</textarea>
-    </div>
-</div>
-
 </%htm:form>
+
 <div id="buttom">
-<table>
-%for i in career_list_all(zsite_id):
-<tr>
-    <th>${i.unit}</th><th>${i.title}</th><th>${i.txt}</th><th>${i.begin_time//100} ~ ${i.end_time//100}</th>
-</tr>
-%endfor
-</table>
+    <table>
+    %for i in career_list_all(zsite_id):
+    <tr>
+        <th>${i.unit}</th><th>${i.title}</th><th id="experience">${i.txt}</th><th>${i.begin_time//100} ~ ${i.end_time//100}</th>
+    </tr>
+    %endfor
+    </table>
 
-<p><a target="_blank" href="/zsite/avatar/${zsite_id}?next=http://${zsite.link}/i/career">修改个人履历</a></p><br>
-<p><a target="_blank" href="${zsite.link}">${zsite.link.strip("/")}</a></p>
-<p><a target="_blank" href="/zsite/mail/${zsite_id}">发邮件</a></p>
+    <p><a target="_blank" href="/zsite/avatar/${zsite_id}?next=http://${zsite.link}/i/career">修改个人履历</a></p><br>
+    <p><a target="_blank" href="${zsite.link}">${zsite.link.strip("/")}</a></p>
+    <p><a target="_blank" href="/zsite/mail/${zsite_id}">发邮件</a></p>
 
-<%
-zsite_show = zsite_show_get(zsite_id)
-%>
-%if zsite_show:
-    <a href="/zsite/show/rm/${zsite_id}">移出秀</a>
-    权重 ${zsite_show.rank}
-%else:
-    <form action="/zsite/show/${zsite_id}">
-        <input type="text" name="rank" value="${zsite_rank_max()}">
-        <button type="submit">加入秀</button>
-    </form>
-%endif
+    <%
+    zsite_show = zsite_show_get(zsite_id)
+    %>
+    %if zsite_show:
+        <a href="/zsite/show/rm/${zsite_id}">移出秀</a>
+        权重 ${zsite_show.rank}
+    %else:
+        <form action="/zsite/show/${zsite_id}">
+            <input type="text" name="rank" value="${zsite_rank_max()}">
+            <button type="submit">加入秀</button>
+        </form>
+    %endif
 </div>
