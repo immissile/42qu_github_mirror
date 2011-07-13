@@ -89,8 +89,8 @@ mq_buzz_po_reply_new = mq_client(buzz_po_reply_new)
 
 
 def buzz_answer_new(from_id, po_id):
-    from rank import po_user_id_list
-    for user_id in rank_po_id_list(po_id):
+    from po_question import po_user_id_list
+    for user_id in po_user_id_list(po_id):
         if user_id != from_id:
             buzz_new(from_id, user_id, CID_BUZZ_ANSWER, po_id)
 
