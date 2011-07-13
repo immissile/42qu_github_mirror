@@ -2,7 +2,7 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.zsite_list_0 import zsite_show_get
-from model.ico import ico_url as _ico_url
+from model.ico import ico_url as _ico_url, pic_url_with_default
 from model.zsite_url import url_by_id
 from model.motto import motto
 from model.zsite_rank import zsite_rank_max
@@ -24,94 +24,51 @@ url = url_by_id(zsite_id)
 <%def name="htm_head()">
 </%def>
 <style>
-    input#name {
-        width:150px;
-    }
-    input#motto {
-        width:500px;
-    }
-    textarea#intoduce {
-        width:500px;
-        height:300px;
-    }
-    button#save {
-        width:75px;
-        height:75px;
-    }
-    div#left{
-        float:left;
-        width:100px;
-    }
-    img#ico{
-        border:2px dashed gray;
-        margin-top:5px;
-    }
-    th#experience {
-        width:400px;
-    }
-    table,tr,th {
-        border:3px solid #bbb;
-    }
-    li {
-        text-align:right;
-        margin:0 30px 0 0;
-    }
-    span.lable {
-        float:left;
-        display:inline-block;
-        text-align:right;
-        width:75px;
-        padding:0 10px 0 0;
-    }
-    input {
-        margin-top:5px;
-    }
+.item{
+margin-bottom:32px
+}
+#name, #motto{
+    padding:8px;
+    width:380px;
+}
+#intoduce{
+    margin-top:8px;
+    width:460px;
+    height:300px;
+}
+.lable{
+    width:64px;
+    display:inline-block;
+}
+#rank{
+    width:100px;
+    padding:3px;
+}
+.mid, .left{
+float:left;width:219px;
+margin-right:14px;
+padding-right:14px;
+}
+.main{
+margin-top:14px;
+}
+.mid{
+border-left:1px dotted #ccc;
+border-right:1px dotted #ccc;
+}
+.right{
+float:left;
+}
 </style>
 
-<%htm:form enctype="multipart/form-data">
-<div id="top">
-    <div id="left">
-        <div id="ico">
-            %if ico_url:
-                <img id="ico" src="${ico_url}">
-            %endif
-        </div>
-        <p><a target="_blank" href="/zsite/avatar/${zsite_id}">变身</a>
-        </p>
-        <div id='sex'><span class="lable">性别:</span>
-        <ul>
-            <li>没填<input type="radio" name="sex" value="0" ${check_sex(0)}></li> 
-            <li>男<input type="radio" name="sex" value="1" ${check_sex(1)}></li>
-            <li>女<input type="radio" name="sex" value="2" ${check_sex(2)}></li>
-        </ul>
-        </div>
-        <div>
-            <button id="save" type="submit">保存</button>
-        </div>
-    </div>
-
-    <div id="middle">
-        <div id="info"><p><span class="lable">昵称:</span><input type="text" name="name" id="name" value="${zsite.name}"></p><p><span class="lable">座右铭:</span><input id="motto" type="text" name="motto" value="${motto.get(zsite.id)}"></p>
-        </div>
-        <div id="introduce"><span class="lable">自我介绍:</span><textarea id="intoduce" name="txt">${txt}</textarea>
-        </div>
-    </div>
-</div>
-</%htm:form>
-
-<div id="buttom">
-    <table>
-    %for i in career_list_all(zsite_id):
-    <tr>
-        <th>${i.unit}</th><th>${i.title}</th><th id="experience">${i.txt}</th><th>${i.begin_time//100} ~ ${i.end_time//100}</th>
-    </tr>
-    %endfor
-    </table>
-
-    <p><a target="_blank" href="/zsite/avatar/${zsite_id}?next=http://${zsite.link}/i/career">修改个人履历</a></p><br>
-    <p><a target="_blank" href="${zsite.link}">${zsite.link.strip("/")}</a></p>
-    <p><a target="_blank" href="/zsite/mail/${zsite_id}">发邮件</a></p>
-
+<div class="main">
+<div class="left">
+    
+    <div class="item"><a href="${zsite.link}"><img src="${pic_url_with_default(zsite_id,'219')}"></a></div>
+    <div class="item"><a target="_blank" href="/zsite/avatar/${zsite_id}">变身</a></div>
+    <div class="item"><a target="_blank" href="/zsite/avatar/${zsite_id}?next=http://${zsite.link}/i/career">修改个人履历</a></div>
+    <div class="item"><a target="_blank" href="/zsite/mail/${zsite_id}">发邮件</a></div>
+    <div class="item">
     <%
     zsite_show = zsite_show_get(zsite_id)
     %>
@@ -120,8 +77,35 @@ url = url_by_id(zsite_id)
         权重 ${zsite_show.rank}
     %else:
         <form action="/zsite/show/${zsite_id}">
-            <input type="text" name="rank" value="${zsite_rank_max()}">
+            <input id="rank" type="text" name="rank" value="${zsite_rank_max()}">
             <button type="submit">加入秀</button>
         </form>
-    %endif
+        %endif
+    </div>
+    <div class="item"><a target="_blank" href="${zsite.link}">${zsite.link.strip("/")}</a></div>
+</div>
+<div class="mid">
+<%namespace file="/ctrl/zsite/index/_g1.htm" import="about_me"/>
+${about_me(zsite_id,False)}
+</div>
+
+<div class="right">
+<%htm:form>
+        <div class="item"><span class="lable">昵称</span><input type="text" name="name" id="name" value="${zsite.name}"></div>
+        <div class="item"><span class="lable">座右铭</span><input id="motto" type="text" name="motto" value="${motto.get(zsite.id)}"></div>
+        
+        <div class="item"><p>介绍</p><textarea id="intoduce" name="txt">${txt}</textarea></div>
+    <div class="item">
+        <span class="lable">性别</span>
+        <ul>
+            <li>无<input type="radio" name="sex" value="0" ${check_sex(0)}></li> 
+            <li>男<input type="radio" name="sex" value="1" ${check_sex(1)}></li>
+            <li>女<input type="radio" name="sex" value="2" ${check_sex(2)}></li>
+        </ul>
+    </div>
+
+<div><span class="btnw"><button id="save" type="submit">保存</button></span></div>
+</div>
+</%htm:form>
+
 </div>

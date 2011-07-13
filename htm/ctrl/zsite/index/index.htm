@@ -1,4 +1,5 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="_g1.htm" import="about_me"/>
 <%!
 from model.ico import pic_url as _pic_url, ico_url_with_default
 from model.zsite_link import link_id_name_by_zsite_id
@@ -36,8 +37,7 @@ ${zsite.name}\
 ##<p><a href="/po">文章</a></p>
 
 <div class="G">
-<%include file="_g1.htm"/>
-
+<div class="G1">${about_me(zsite_id, is_owner)}</div>
 %if pic_url:
 <div class="G3 zsite_pic"><img src="${pic_url}" ></div>\
 %elif is_owner:
