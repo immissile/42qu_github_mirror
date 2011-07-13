@@ -52,6 +52,7 @@ class Po(McModel, ReplyMixin):
                 rid = self.rid
                 if rid:
                     answer_count.delete(rid)
+                    mc_feed_tuple.delete(rid)
             self._mc_flush = True
 
     def save(self):
