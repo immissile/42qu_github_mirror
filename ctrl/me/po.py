@@ -64,7 +64,8 @@ def po_post(self):
     self_id = self.id
     if po:
         po_id = po.id
-        zsite_tag_new_by_tag_id(po)
+        if not tag_id_by_po_id(user_id, po_id):
+            zsite_tag_new_by_tag_id(po)
     else:
         po_id = 0
     if po or self_id == 0:
