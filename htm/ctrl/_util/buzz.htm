@@ -56,7 +56,7 @@ ${user_link_list(from_list)} 回复 <a href="/po/${entry.id}">${entry.name}</a>
 %elif cid == CID_BUZZ_ANSWER:
 ${user_link_list(from_list)} 回答
 % if entry.user_id == current_user_id:
-我
+我\
 % else:
 ${entry_link(entry.user)}
 %endif
