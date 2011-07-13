@@ -18,7 +18,7 @@ from zkit.attrcache import attrcache
 from cgi import escape
 
 PO_CN_EN = (
-    (CID_WORD, 'word', '微薄', '句'),
+    (CID_WORD, 'word', '微博', '句'),
     (CID_NOTE, 'note', '文章', '篇'),
     (CID_QUESTION, 'question', '问题', '条'),
     (CID_ANSWER, 'answer', '回答', '次'),
@@ -48,6 +48,7 @@ class Po(McModel, ReplyMixin):
             mc_htm.delete(id)
             mc_feed_tuple.delete(id)
             self._mc_flush = True
+        #raise
 
     def save(self):
         self.mc_flush()
