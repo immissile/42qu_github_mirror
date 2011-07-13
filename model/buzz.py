@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY
+from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER
 from cid import CID_USER
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -33,6 +33,7 @@ BUZZ_DIC = {
     CID_BUZZ_WALL: Wall,
     CID_BUZZ_WALL_REPLY: Wall,
     CID_BUZZ_PO_REPLY: Po,
+    CID_BUZZ_ANSWER: Po,
 }
 
 def mc_flush(user_id):
@@ -85,6 +86,10 @@ def buzz_po_reply_new(from_id, po_id):
         buzz_new(from_id, user_id, CID_BUZZ_PO_REPLY, po_id)
 
 mq_buzz_po_reply_new = mq_client(buzz_po_reply_new)
+
+
+def buzz_answer_new(from_id, po_id):
+    pass
 
 class BuzzEntry(object):
     def __init__(self, id, cid, rid, from_id):
