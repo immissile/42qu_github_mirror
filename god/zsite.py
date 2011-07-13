@@ -114,23 +114,29 @@ class Verify(Base):
             else:
                 zsite_verify_no(zsite, txt)
             self.finish({'state': True})
+            self.redirect('/zsite/verify1')
         else:
             self.finish({'state': False})
+            self.redirect('/zsite/verify1')
 
 PAGE_LIMIT = 100
 
 @urlmap('/zsite/verify(%s)' % '|'.join(map(str, CID_ZSITE)))
 class VerifyList(Base):
     def get(self, cid):
-        qs = Zsite.where(cid=cid, state=ZSITE_STATE_WAIT_VERIFY)
-        total = qs.count()
-        li = qs.order_by('id')[:PAGE_LIMIT]
-        extra = total - len(li)
-        self.render(
-            zsite_list=li,
-            total=total,
-            extra=extra,
-        )
+        qs = Zsite.where(cid=cid, state=ZSITE_STATE_WAIT_VERIFY)[0]
+        if qs:
+            self.render(i=qs)
+        else:
+            self.redirect('/')
+        ##total = qs.count()
+        ##li = qs.order_by('id')[:PAGE_LIMIT]
+        ##extra = total - len(li)
+        ##self.render(
+        ##    zsite_list=li,
+        ##    total=total,
+        ##    extra=extra,
+        ##)
 
 ##########
 from config import SITE_DOMAIN

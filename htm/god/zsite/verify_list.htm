@@ -1,3 +1,4 @@
+<%namespace file="/god/_user_index.htm" import="user_index"/>
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
@@ -28,6 +29,7 @@ $('a.show').live('click', function() {
             pass(id)
         }
     })
+    self.location='/zsite/verify1'
     return false
 })
 $('a.yes').live('click', function() {
@@ -37,6 +39,7 @@ $('a.yes').live('click', function() {
             pass(id)
         }
     })
+    self.location='/zsite/verify1'
     return false
 })
 $('a.no').live('click', function() {
@@ -52,6 +55,7 @@ $('a.no').live('click', function() {
             pass(id)
         }
     })
+    self.location='/zsite/verify1'
     return false
 })
 function pass(id){
@@ -93,15 +97,17 @@ margin-right:16px
 }
 </style>
 </%def>
-% for i in zsite_list:
 <%
 id = i.id
 _pic_url = pic_url_with_default(id,"219") 
 %>
 <div class="sdw" id="zsite${id}">
 <div class="sd c">
-<a href="${i.link}"><img class="ico" src="${_pic_url}"></a>
-<h1><a href="${i.link}" target="_blank">${i.name}</a></h1>
+##<a href="${i.link}"><img class="ico" src="${_pic_url}"></a>
+##<h1><a href="${i.link}" target="_blank">${i.name}</a></h1>
+<div id="user_info">
+${user_index(id)}
+</div>
 <div class="bar">
 <div class="L">
 <a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
@@ -118,7 +124,3 @@ _pic_url = pic_url_with_default(id,"219")
 </div>
 </div>
 </div>
-% endfor
-% if extra:
-<a href="?">还有${extra}未审核</a>
-% endif
