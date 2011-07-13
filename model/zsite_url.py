@@ -88,4 +88,4 @@ def link(id):
     return '//%s.%s' % (url_by_id(id) or id, SITE_DOMAIN)
 
 if __name__ == '__main__':
-    print id_by_url("zhendi")
+    print id_by_url("i000000")

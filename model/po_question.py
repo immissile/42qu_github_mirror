@@ -39,9 +39,10 @@ def answer_word2note(po):
         answer_count.delete(rid)
 
 def po_answer_new(user_id, question_id, name, txt, state):
+    from buzz import buzz_answer_new
     id = answer_id_get(user_id, question_id)
     if id:
-        return Po.mc_get(id) 
+        return Po.mc_get(id)
     else:
         if txt:
             m = _po_answer_new(user_id, name, txt, state, question_id)
@@ -49,6 +50,7 @@ def po_answer_new(user_id, question_id, name, txt, state):
             m = po_word_new(user_id, name, state, question_id)
         if m:
             id = m.id
+            buzz_answer_new(user_id, question_id)
             rank_new(m, question_id, CID_QUESTION)
             mq_notice_question(user_id, id)
             mc_answer_id_get.set('%s_%s' % (user_id, question_id), id)
@@ -66,6 +68,15 @@ def _po_answer_new(user_id, name, txt, state, rid):
         if state > STATE_SECRET:
             m.feed_new()
         return m
+
+def po_user_id_list(question_id):
+    question = Po.mc_get(question_id)
+    user_id = question.user_id
+    po_id_list = rank_po_id_list(question_id, CID_QUESTION, 'confidence')
+    po_list = Po.mc_get_list(po_id_list)
+    user_id_list = [i.user_id for i in po_list]
+    user_id_list.append(user_id)
+    return set(user_id_list)
 
 def po_answer_list(question_id, zsite_id=0, user_id=0):
     ids = rank_po_id_list(question_id, CID_QUESTION, 'confidence')

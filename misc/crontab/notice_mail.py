@@ -14,7 +14,7 @@ def notice_me():
     c = Notice.raw_sql('select max(id) from notice where create_time<%s', int(time()) - 3600 * 12)
     pos = c.fetchone()[0]
     if pos > prev_pos:
-        for i in Notice.where(state=STATE_APPLY).where('%s<id<=%s', prev_pos, pos):
+        for i in Notice.where(state=STATE_APPLY).where('id>%s and id<=%s', prev_pos, pos):
             notice_mail(i)
             sleep(1)
         kv_int.set(KV_NOTICE_POS, pos)

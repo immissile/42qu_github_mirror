@@ -1,5 +1,5 @@
 <%!
-from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY
+from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 from cgi import escape
@@ -52,7 +52,9 @@ to = Zsite.mc_get(entry.to_id)
 %>
 ${user_link_list(from_list)} 回复 ${entry_link(to)} 的 <a href="${to.link}${entry.link}">留言</a>
 %elif cid == CID_BUZZ_PO_REPLY:
-${user_link_list(from_list)} 回复  <a href="/po/${entry.id}">${entry.name}</a> 
+${user_link_list(from_list)} 回复 <a href="/po/${entry.id}">${entry.name}</a> 
+%elif cid == CID_BUZZ_ANSWER:
+${user_link_list(from_list)} 回答 ${entry_link(entry)}
 %endif
 </%def>
 
@@ -63,7 +65,7 @@ unread = buzz_unread_count(user_id)
 %>
 %if buzz_list:
 <div class="c" style="padding-bottom:36px" id="buzz"><div class="G2">
-<div class="buzz">
+<div class="buzz" id="buzz">
     %for i in buzz_list:
 <p>${buzz_render(i)}</p>
     %endfor
@@ -80,5 +82,8 @@ unread = buzz_unread_count(user_id)
 </p>
 </div>
 </div></div>
+<script>
+$("#buzz a").attr('target','_blank')
+</script>
 %endif
 </%def>

@@ -18,7 +18,7 @@ from zkit.attrcache import attrcache
 from cgi import escape
 
 PO_CN_EN = (
-    (CID_WORD, 'word', '微薄', '句'),
+    (CID_WORD, 'word', '微博', '句'),
     (CID_NOTE, 'note', '文章', '篇'),
     (CID_QUESTION, 'question', '问题', '条'),
     (CID_ANSWER, 'answer', '回答', '次'),
@@ -44,9 +44,16 @@ class Po(McModel, ReplyMixin):
 
     def mc_flush(self):
         if not hasattr(self, "_mc_flush"):
-            id = self.id
-            mc_htm.delete(id)
-            mc_feed_tuple.delete(id)
+            if self._new_record:
+                rid = self.rid
+                if rid:
+                    from model.po_question import answer_count
+                    answer_count.delete(rid)
+                    mc_feed_tuple.delete(rid)
+            else:
+                id = self.id
+                mc_htm.delete(id)
+                mc_feed_tuple.delete(id)
             self._mc_flush = True
 
     def save(self):

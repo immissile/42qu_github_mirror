@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY
+from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER
 from cid import CID_USER
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -33,6 +33,7 @@ BUZZ_DIC = {
     CID_BUZZ_WALL: Wall,
     CID_BUZZ_WALL_REPLY: Wall,
     CID_BUZZ_PO_REPLY: Po,
+    CID_BUZZ_ANSWER: Po,
 }
 
 def mc_flush(user_id):
@@ -85,6 +86,16 @@ def buzz_po_reply_new(from_id, po_id):
         buzz_new(from_id, user_id, CID_BUZZ_PO_REPLY, po_id)
 
 mq_buzz_po_reply_new = mq_client(buzz_po_reply_new)
+
+
+def buzz_answer_new(from_id, po_id):
+    from po_question import po_user_id_list
+    for user_id in po_user_id_list(po_id):
+        if user_id != from_id:
+            buzz_new(from_id, user_id, CID_BUZZ_ANSWER, po_id)
+
+mq_buzz_answer_new = mq_client(buzz_answer_new)
+
 
 class BuzzEntry(object):
     def __init__(self, id, cid, rid, from_id):
@@ -174,8 +185,8 @@ def buzz_show(user_id, limit):
 if __name__ == '__main__':
     #buzz_show_new_all(10024800)
     pass
-    buzz_to = [i.user_id for i in ormiter(PoPos, 'po_id=%s and state=%s' % (10043344, STATE_BUZZ))]
-    print buzz_to
+    #buzz_to = [i.user_id for i in ormiter(PoPos, 'po_id=%s and state=%s' % (10043344, STATE_BUZZ))]
+    #print buzz_to
 #    for i in buzz_list(10000000, 100, 0):
 #        pass
 #        print i.id
@@ -186,6 +197,12 @@ if __name__ == '__main__':
   #  for i, in c:
   #      zsite = Zsite.mc_get(i)
   #      if not zsite:
-    #Buzz.raw_sql("delete from buzz where cid=%s and rid=%s", CID_BUZZ_SHOW, 10000000)
+    #Buzz.raw_sql("delete from buzz where cid=%s", CID_BUZZ_SHOW)
+    from zweb.orm import ormiter
+
+    for i in ormiter(Buzz,"cid=%s"%CID_BUZZ_SHOW):
+        print i.id
+        i.delete()
+
 
     #Buzz.where(rid=10003473,cid=CID_BUZZ_SHOW).delete()
