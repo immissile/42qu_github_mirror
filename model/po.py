@@ -44,15 +44,15 @@ class Po(McModel, ReplyMixin):
 
     def mc_flush(self):
         if not hasattr(self, "_mc_flush"):
-            id = self.id
-            if id:
-                mc_htm.delete(id)
-                mc_feed_tuple.delete(id)
-            else:
+            if self._new_record:
                 rid = self.rid
                 if rid:
                     answer_count.delete(rid)
                     mc_feed_tuple.delete(rid)
+            else:
+                id = self.id
+                mc_htm.delete(id)
+                mc_feed_tuple.delete(id)
             self._mc_flush = True
 
     def save(self):
