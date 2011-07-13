@@ -58,7 +58,7 @@ user_id = user.id
 <div class="sdw"><div id="reply${answer.id}" class="sd">
 <p>
 %if answer.state != STATE_SECRET:
-<a href="${user.link}" class="replyer">${user.name}</a>
+<a href="${user.link}" id="replyer${user.id}" class="replyer">${user.name}</a>
 %else:
 匿名
 %endif
