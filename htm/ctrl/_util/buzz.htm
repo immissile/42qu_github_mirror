@@ -64,25 +64,27 @@ buzz_list = _buzz_show(user_id, 3)
 unread = buzz_unread_count(user_id)
 %>
 %if buzz_list:
-<div class="c" style="padding-bottom:36px" id="buzz"><div class="G2">
-<div class="buzz" id="buzz">
+<div class="c" style="padding-bottom:36px" id="buzz"><div class="G2">\
+<div class="buzz">\
+<div id="buzz">\
     %for i in buzz_list:
-<p>${buzz_render(i)}</p>
+<p>${buzz_render(i)}</p>\
     %endfor
-<p class="tr">
-<a href="javascript:$('#buzz').slideUp();void(0)" id="buzzrm"></a>
+</div>\
+<p class="tr">\
+<a href="javascript:$('#buzz').slideUp();void(0)" id="buzzrm"></a>\
 
-<a class="unread" href="/buzz">
+<a class="unread" href="/buzz">\
     %if unread:
-未读<span class="mg03">${unread}</span>条
+未读<span class="mg03">${unread}</span>条\
     %else:
-浏览全部</a>
+浏览全部\
     %endif
-</a>
-</p>
-</div>
-</div></div>
-<script>
+</a>\
+</p>\
+</div>\
+</div></div>\
+<script>\
 $("#buzz a").attr('target','_blank')
 </script>
 %endif
