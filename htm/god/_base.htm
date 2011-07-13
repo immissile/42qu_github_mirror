@@ -57,10 +57,15 @@ ${self.htm_head()}\
 
 <p class="coltitle">浏览</p>
 <a class="cola" href="/user_list_verify"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_VERIFY ).where(cid=CID_USER).count()}</span>认证用户</a>
-<a class="cola" href="/user_list"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_ACTIVE).where(cid=CID_USER).count()}</span>用户</a>
-<a class="cola" href="/po"><span class="R">${Po.where('state>%s', STATE_DEL).count()}</span>文章</a>
+<a class="cola" href="/user_list#{Zsite.raw_sql('select max(id) from zsite where cid=%s',CID_USER).fetchone()[0] or ''}"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_ACTIVE).where(cid=CID_USER).count()}</span>用户</a>
+<a class="cola" href="/po#${Po.raw_sql('select max(id) from po').fetchone()[0] or ''}"><span class="R">${Po.where('state>%s', STATE_DEL).count()}</span>文章</a>
 <a class="cola" href="/po/show"><span class="R">${po_show_count(0)}</span>全站广播</a>
 
+
+<p class="coltite">回复</p>
+<a class="cola" href="/reply_list/${CID_NOTE}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_NOTE).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_NOTE).count()}</span>文章</a>
+<a class="cola" href="/reply_list/${CID_WORD}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_WORD).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_WORD).count()}</span>微博</a>
+<a class="cola" href="/reply_list/${CID_QUESTION}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_QUESTION).count()}</span>评论</a>
 
 
 
@@ -68,11 +73,6 @@ ${self.htm_head()}\
 <a class="cola" href="/pic/review${CID_ICO}"><span class="R">${pic_to_review_count_by_cid(CID_ICO)}</span>待审核</a>
 <a class="cola tc" href="/pic/reviewed${CID_ICO}/1">已通过</a>
 <a class="cola tc" href="/pic/reviewed${CID_ICO}/0">被删除</a>
-
-<p class="coltite">回复</p>
-<a class="cola" href="/reply_list/${CID_NOTE}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_NOTE).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_NOTE).count()}</span>文章</a>
-<a class="cola" href="/reply_list/${CID_WORD}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_WORD).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_WORD).count()}</span>微博</a>
-<a class="cola" href="/reply_list/${CID_QUESTION}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_QUESTION).count()}</span>评论</a>
 
 
 <p class="coltitle">公告</p>
