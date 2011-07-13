@@ -12,7 +12,7 @@ def buzz_sys():
     c = BuzzSys.raw_sql('select max(id) from buzz_sys')
     pos = c.fetchone()[0]
     if pos > prev_pos:
-        c = BuzzSys.raw_sql('select id from buzz_sys where seq=0 and %s<id<=%s order by id', prev_pos, pos)
+        c = BuzzSys.raw_sql('select id from buzz_sys where seq=0 and id>%s and id<=%s order by id', prev_pos, pos)
         for id, in c.fetchall():
             buzz_sys_new_all(id)
         kv_int.set(KV_BUZZ_SYS_POS, pos)
