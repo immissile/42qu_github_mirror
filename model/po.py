@@ -47,6 +47,7 @@ class Po(McModel, ReplyMixin):
             if self._new_record:
                 rid = self.rid
                 if rid:
+                    from model.po_question import answer_count
                     answer_count.delete(rid)
                     mc_feed_tuple.delete(rid)
             else:
