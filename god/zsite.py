@@ -173,7 +173,7 @@ class UserSearch(Base):
         else:
             self.render(input=query)
 
-@urlmap('/zsite/avatar/(\d+)')
+@urlmap('/sudo/(\d+)')
 class avatar(Base):
     def get(self, avatar_id):
         session = user_session(avatar_id)
