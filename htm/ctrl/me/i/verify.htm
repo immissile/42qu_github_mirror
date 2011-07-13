@@ -2,6 +2,7 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.zsite import ZSITE_STATE_WAIT_VERIFY
+from model.ico import ico 
 %>
 %if current_user.state == ZSITE_STATE_WAIT_VERIFY:
 <style>
@@ -38,17 +39,17 @@ margin:32px 0;
 <div class="tc f16 mt32 fullscreen">
 <%
 need_career = not any(current_user.career)
-need_pic = not current_user.ico96
+need_pic = not ico.get(current_user_id)
 need_info = need_career or need_pic
 %>
 % if need_info:
-<h1>资料不全,  请您补充</h1>
+<h1>资料不全 , 请您补充</h1>
 <div class="content">
 % if need_career:
-<p>1. <a href="/i/career">请点击这里</a>, 完善个人履历</p>
+<p><a href="/i/career">点击这里</a> , 完善履历</p>
 % endif
 % if need_pic:
-<p>2. <a href="/i/pic">请点击这里</a>, 上传本人照片</a>
+<p><a href="/i/pic">点击这里</a> , 上传照片</a>
 % endif
 </div>
 %else:
