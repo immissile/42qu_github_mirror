@@ -54,13 +54,7 @@ ${user_link_list(from_list)} 回复 ${entry_link(to)} 的 <a href="${to.link}${e
 %elif cid == CID_BUZZ_PO_REPLY:
 ${user_link_list(from_list)} 回复 <a href="/po/${entry.id}">${entry.name}</a> 
 %elif cid == CID_BUZZ_ANSWER:
-${user_link_list(from_list)} 回答
-% if entry.user_id == current_user_id:
-我\
-% else:
-${entry_link(entry.user)}
-%endif
-的 ${entry_link(entry)}
+${user_link_list(from_list)} 回答 ${entry_link(entry)}
 %endif
 </%def>
 
