@@ -5,7 +5,7 @@ from kv import Kv
 Tag = Kv('tag')
 
 def tag_new(tag):
-    tag = tag.strip().replace(' ', '_')
+    tag = tag.strip()
     return Tag.mc_id_by_value_new(tag)
 
 def tag_get(id):
