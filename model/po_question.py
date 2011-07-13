@@ -41,7 +41,7 @@ def answer_word2note(po):
 def po_answer_new(user_id, question_id, name, txt, state):
     id = answer_id_get(user_id, question_id)
     if id:
-        return Po.mc_get(id) 
+        return Po.mc_get(id)
     else:
         if txt:
             m = _po_answer_new(user_id, name, txt, state, question_id)
