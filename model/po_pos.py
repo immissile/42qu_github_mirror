@@ -35,7 +35,10 @@ def po_pos_set(user_id, po):
     po_id = po.id
     pos_old, _ = po_pos_get(user_id, po_id)
     if pos > pos_old:
-        PoPos.raw_sql('insert delayed into po_pos (user_id, po_id, pos, state) values (%s, %s, %s, %s) on duplicate key update pos=values(pos)', user_id, po_id, pos, STATE_MUTE)
+        PoPos.raw_sql(
+            'insert delayed into po_pos (user_id, po_id, pos, state) values (%s, %s, %s, %s) on duplicate key update pos=values(pos), state=values(state)', 
+            user_id, po_id, pos, STATE_BUZZ
+        )
         mc_po_pos.delete('%s_%s' % (user_id, po_id))
     if pos_old == -1:
         mc_po_viewed_list.delete(po_id)
