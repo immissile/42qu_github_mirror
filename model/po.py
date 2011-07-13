@@ -204,6 +204,7 @@ def po_rm(user_id, id):
 def _po_rm(user_id, po):
     po.state = STATE_DEL
     po.save()
+    id = po.id
     feed_rm(id)
     from zsite_tag import zsite_tag_rm_by_po_id
     zsite_tag_rm_by_po_id(id)
