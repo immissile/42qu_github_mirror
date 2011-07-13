@@ -100,7 +100,7 @@ function follow_a(id){
         text = follow_rm;
         fancybox = $.fancybox;
         fancybox({
-            content:'<form id="follow_reply" class="fancyreply"><h3>人过留名 , 雁过留声 ...</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">此致 , 敬礼 !</button></span><span id="follow_secret_span"><input type="checkbox" name="secret" id="follow_reply_secret"><label for="follow_reply_secret">私语</label></span></div></form>',
+            content:'<form id="follow_reply" class="fancyreply"><h3>您好 , 因为 ...</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">此致 , 敬礼 !</button></span><span id="follow_secret_span"><input type="checkbox" name="secret" id="follow_reply_secret"><label for="follow_reply_secret">私语</label></span></div></form>',
             onComplete:function(){
                 var reply = $("#follow_reply"),
                     textarea = reply.find('textarea');
