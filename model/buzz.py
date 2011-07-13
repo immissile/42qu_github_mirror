@@ -192,17 +192,17 @@ if __name__ == '__main__':
 #        print i.id
 #        print i.cid
 #
-  #  from model.zsite import Zsite
-  #  c = Buzz.raw_sql("select distinct rid from buzz where cid=%s",CID_BUZZ_SHOW)
-  #  for i, in c:
-  #      zsite = Zsite.mc_get(i)
-  #      if not zsite:
-    #Buzz.raw_sql("delete from buzz where cid=%s", CID_BUZZ_SHOW)
-    from zweb.orm import ormiter
+    #  from model.zsite import Zsite
+    #  c = Buzz.raw_sql("select distinct rid from buzz where cid=%s",CID_BUZZ_SHOW)
+    #  for i, in c:
+    #      zsite = Zsite.mc_get(i)
+    #      if not zsite:
+    Buzz.raw_sql('delete from buzz where cid=%s and rid=%s', CID_BUZZ_SHOW, 10028551)
+#  from zweb.orm import ormiter
 
-    for i in ormiter(Buzz,"cid=%s"%CID_BUZZ_SHOW):
-        print i.id
-        i.delete()
+#  for i in ormiter(Buzz,"cid=%s"%CID_BUZZ_SHOW):
+#      print i.id
+#      i.delete()
 
 
     #Buzz.where(rid=10003473,cid=CID_BUZZ_SHOW).delete()
