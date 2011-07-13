@@ -193,22 +193,29 @@ def po_cid_set(po, cid):
         mc_flush_cid_list_all(po.user_id, [o_cid, cid])
 
 def po_rm(user_id, id):
-    m = Po.mc_get(id)
-    if m.can_admin(user_id):
-        m.state = STATE_DEL
-        m.save()
-        feed_rm(id)
-        from zsite_tag import zsite_tag_rm_by_po_id
-        zsite_tag_rm_by_po_id(id)
-        from rank import rank_rm_all
-        rank_rm_all(id)
-        from po_question import mc_answer_id_get, answer_count
-        rid = m.rid
-        if rid:
-            mc_answer_id_get.delete('%s_%s' % (user_id, rid))
-            answer_count.delete(rid)
-        mc_flush(user_id, m.cid)
-        return True
+    po = Po.mc_get(id)
+    if po.can_admin(user_id):
+        from po_question import answer_count
+        if po.cid == CID_QUESTION: 
+            if answer_count(id):
+                return
+        return _po_rm(user_id, po)
+
+def _po_rm(user_id, po):
+    po.state = STATE_DEL
+    po.save()
+    feed_rm(id)
+    from zsite_tag import zsite_tag_rm_by_po_id
+    zsite_tag_rm_by_po_id(id)
+    from rank import rank_rm_all
+    rank_rm_all(id)
+    from po_question import mc_answer_id_get, answer_count
+    rid = po.rid
+    if rid:
+        mc_answer_id_get.delete('%s_%s' % (user_id, rid))
+        answer_count.delete(rid)
+    mc_flush(user_id, po.cid)
+    return True
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
     if name and not is_same_post(user_id, name):

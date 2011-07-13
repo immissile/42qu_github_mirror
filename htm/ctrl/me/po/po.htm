@@ -2,14 +2,17 @@
 from model.po import STATE_SECRET
 from model.cid import CID_QUESTION, CID_WORD
 from yajl import dumps
+from model.po_question import answer_count
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_title()">
-%if cid == CID_QUESTION:
+%if po:
+    %if po.cid == CID_QUESTION:
 提交 - 问题
-%else:
+    %else:
 提交 - 文章
+    %endif
 %endif
 </%def>
 
@@ -50,7 +53,9 @@ rid = po.rid
     <span id="po_edit_wrap">
     <span id="po_edit_span">
 % if po:
+    % if po.cid != CID_QUESTION or not answer_count(po.id):
 <a class="rmpo" href="/po/rm/${po.id}?${_xsrf}">删除</a>
+    % endif
 % endif
     <input type="checkbox" name="secret" id="secret"
 %if po.state == STATE_SECRET: 
