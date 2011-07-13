@@ -8,8 +8,8 @@ from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
 class Url(Model):
     pass
 
-mc_url_by_id = McCache('UrlById.%s')
-mc_id_by_url = McCache('IdByUrl.%s')
+mc_url_by_id = McCache('UrlById<%s')
+mc_id_by_url = McCache('IdByUrl<%s')
 
 @mc_url_by_id('{id}')
 def url_by_id(id):
@@ -38,8 +38,6 @@ def url_new(id, url):
     if id_by_url(url):
         return
     u = Url.get_or_create(id=id)
-    if u.url:
-        mc_id_by_url.set(u.url, 0)
     u.url = url
     u.save()
     mc_id_by_url.set(url, id)
@@ -89,3 +87,4 @@ def link(id):
 
 if __name__ == '__main__':
     print id_by_url("i000000")
+    print id_by_url("mr-tang")

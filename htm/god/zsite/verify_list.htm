@@ -2,6 +2,8 @@
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 from model.ico import pic_url_with_default
+from model.zsite_list_0 import zsite_show_get
+from model.zsite_rank import zsite_rank_max
 %>
 <%def name="htm_head()">
 <script>
@@ -96,6 +98,7 @@ margin-right:16px
 % for i in zsite_list:
 <%
 id = i.id
+zsite_show = zsite_show_get(id)
 _pic_url = pic_url_with_default(id,"219") 
 %>
 <div class="sdw" id="zsite${id}">
@@ -117,6 +120,7 @@ _pic_url = pic_url_with_default(id,"219")
 </div>
 </div>
 </div>
+
 </div>
 % endfor
 % if extra:
