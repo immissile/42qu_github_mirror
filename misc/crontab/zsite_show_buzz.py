@@ -9,13 +9,13 @@ from model.buzz import buzz_show_new_all
 @single_process
 def buzz_show():
     prev_pos = kv_int.get(KV_SHOW_BUZZ_POS)
-    c = ZsiteList.raw_sql('select max(id) from zsite_list where owner_id=0 and cid=0 and state=1')
+    c = ZsiteList.raw_sql('select max(id) from zsite_list')
     pos = c.fetchone()[0]
+    #print pos
     if pos > prev_pos:
-        c = ZsiteList.raw_sql('select zsite_id from zsite_list where owner_id=0 and cid=0 and state=1 and %s<id<=%s order by id', prev_pos, pos)
+        c = ZsiteList.raw_sql('select zsite_id from zsite_list where owner_id=0 and cid=0 and state=1 and %s<id and id<=%s order by id', prev_pos, pos)
         for zsite_id, in c.fetchall():
-            #buzz_show_new_all(zsite_id)
-            pass
+            buzz_show_new_all(zsite_id)
         kv_int.set(KV_SHOW_BUZZ_POS, pos)
 
 if __name__ == '__main__':
