@@ -21,6 +21,11 @@ text-align:center;
 </div>
 %else:
 <style>
+.btnw #disabled{
+background:#fff;
+border:0;
+color:#ccc;
+}
 .fullscreen p{
 line-height:32px;
 margin:16px 0;
@@ -31,18 +36,13 @@ margin:32px 0;
 </style>
 <%htm:form>
 <div class="tc f16 mt32 fullscreen">
-<h1>请阅读以下文字, 确认完成后, 再提交认证申请</h1>
-<div class="content">
-<p>1. 填写个人资料, 内容丰富准确, 真实可信</p>
-<p>2. 上传本人照片, 图像清晰雅观, 可以辨认</p>
-</div>
 <%
 need_career = not any(current_user.career)
 need_pic = not current_user.ico96
 need_info = need_career or need_pic
 %>
 % if need_info:
-<h1>请补充以下资料, 确认完成后, 再提交认证申请</h1>
+<h1>资料不全,  请您补充</h1>
 <div class="content">
 % if need_career:
 <p>1. <a href="/i/career">请点击这里</a>, 完善个人履历</p>
@@ -51,10 +51,22 @@ need_info = need_career or need_pic
 <p>2. <a href="/i/pic">请点击这里</a>, 上传本人照片</a>
 % endif
 </div>
+%else:
+<h1>请阅读以下文字, 确认完成后, 再提交认证申请</h1>
+<div class="content">
+<p>1. 填写个人资料, 内容丰富准确, 真实可信</p>
+<p>2. 上传本人照片, 图像清晰雅观, 可以辨认</p>
+</div>
 % endif
 <p class="btns">
-    <span class="btnw"><button${' disabled="disabled"' if need_info else ''}>确认无误 , 申请认证</button></span>
+    <span class="btnw"><button${' id="disabled"' if need_info else ''|n}>补充完成 , 刷新页面</button></span>
 </p>
 </div>
 </%htm:form>
+<script>
+$("#disabled").click(function(){
+    location.reload()    
+    return false
+})
+</script>
 %endif
