@@ -4,7 +4,7 @@ from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from cid import CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_MAIL_MONTH, CID_MAIL_YEAR
 
 CID_MAIL_NOTICE_ALL = (
-    #CID_INVITE_QUESTION, CID_NOTICE_QUESTION, 
+    #CID_INVITE_QUESTION, CID_NOTICE_QUESTION,
     CID_MAIL_MONTH, CID_MAIL_YEAR
 )
 
@@ -17,8 +17,7 @@ mc_mail_notice_state = McCache('MailNoticeState.%s')
 def mail_notice_state(user_id, cid):
     m = MailNotice.get(user_id=user_id, cid=cid)
     if not m:
-        m = MailNotice(user_id=user_id, cid=cid, state=1)
-        m.save()
+        MailNotice.raw_sql('insert into mail_notice (user_id, cid, state) values (%s, %s, 1) on duplicate key update state=state', user_id, cid)
     return m.state
 
 def mail_notice_all(user_id):
