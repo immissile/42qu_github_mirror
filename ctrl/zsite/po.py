@@ -275,3 +275,5 @@ class Rm(XsrfGetBase):
         self.redirect("%s/live"%user.link)
 
     post = get
+
+
