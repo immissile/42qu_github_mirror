@@ -89,7 +89,13 @@ mq_buzz_po_reply_new = mq_client(buzz_po_reply_new)
 
 
 def buzz_answer_new(from_id, po_id):
-    pass
+    from rank import po_user_id_list
+    for user_id in rank_po_id_list(po_id):
+        if user_id != from_id:
+            buzz_new(from_id, user_id, CID_BUZZ_ANSWER, po_id)
+
+mq_buzz_answer_new = mq_client(buzz_answer_new)
+
 
 class BuzzEntry(object):
     def __init__(self, id, cid, rid, from_id):
