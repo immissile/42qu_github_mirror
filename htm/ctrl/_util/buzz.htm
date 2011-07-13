@@ -66,7 +66,7 @@ unread = buzz_unread_count(user_id)
 %if buzz_list:
 <div class="c" style="padding-bottom:36px" id="buzz"><div class="G2">\
 <div class="buzz">\
-<div id="buzz">\
+<div id="buzz_p">\
     %for i in buzz_list:
 <p>${buzz_render(i)}</p>\
     %endfor
@@ -85,7 +85,7 @@ unread = buzz_unread_count(user_id)
 </div>\
 </div></div>\
 <script>\
-$("#buzz a").attr('target','_blank')
+$("#buzz_p a").attr('target','_blank')
 </script>
 %endif
 </%def>
