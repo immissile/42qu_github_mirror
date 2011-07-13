@@ -63,7 +63,8 @@ function pass(id){
 border-top:1px solid #ccc;
 }
 .bar .yes, .bar .show{
-float:left
+display:block;
+margin-bottom:14px;
 }
 .bar .no{
 float:right;
@@ -102,8 +103,10 @@ _pic_url = pic_url_with_default(id,"219")
 <a href="${i.link}"><img class="ico" src="${_pic_url}"></a>
 <h1><a href="${i.link}" target="_blank">${i.name}</a></h1>
 <div class="bar">
+<div class="L">
 <a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
 <a class="show" rel="${id}" href="javascript:void(0)">通过 & 展示</a>
+</div>
 <a class="no" rel="${id}" href="javascript:void(0)">拒绝</a>
 <textarea class="txt" id="txt${id}"></textarea>
 <div class="txtdefault">
