@@ -16,7 +16,7 @@ ico_url = _ico_url(zsite_id)
 url = url_by_id(zsite_id)
 %>
 <%def name="check_sex(value)">
-%if int(sex) == value:
+%if sex and int(sex) == value:
     checked
 %endif
 </%def>
