@@ -51,16 +51,16 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
             }
             rt_list = t.rt_list;
             if(rt_list.length){
-                t.rt_list = []
-                if(rt_list.length==1&&rt_list[0]==0){
-                    t.rt_list = [0]
-                }else{
+                if(!(rt_list.length==1&&rt_list[0][0]==0)){
+                    t.rt_list = []
                     for(j=0;j<rt_list.length;++j){
                         if(rt_list[j][0]){
                             t.rt_list.push(rt_list[j])
                         }
                     }
                     t.rt_list = $.map(t.rt_list, array2zsite);
+                }else{
+                    t.rt_list = [0]
                 }
             }
 
