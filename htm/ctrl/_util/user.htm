@@ -1,0 +1,10 @@
+<%def name="user_career_link(user)">
+<%
+career = ' , '.join(filter(bool, user.career))
+%>
+<a href="${user.link}">${user.name}\
+% if career:
+ - ${career}\
+% endif
+</a>
+</%def>
