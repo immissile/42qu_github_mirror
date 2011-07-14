@@ -81,7 +81,7 @@ def pic_yes(id, admin_id):
         pic.save()
 
 def pic_no(id, admin_id):
-    from ico import ico
+    from ico import ico, ico96
     pic = Pic.get(id)
     if pic:
         pic.admin_id = admin_id
@@ -92,6 +92,7 @@ def pic_no(id, admin_id):
             user_id = pic.user_id
             if ico.get(user_id) == pic.id:
                 ico.set(user_id, 0)
+                ico96.set(user_id, 0)
         mq_pic_rm_mail(id)
 
 PIC_RM_TEMPLATE = {
