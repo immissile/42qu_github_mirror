@@ -3,19 +3,45 @@
 from model.txt import txt_get
 from model.motto import motto
 from model.ico import ico_url as _ico_url
+from model.career import career_current
 %>
+<style>
+    div#img{
+        display:block;
+        height:100px;
+        width:100px;
+    }
+    img{
+        border:2px dashed #bbb;
+        height:96px;
+        width:96px;
+    }
+    div#career{
+        display:block;
+        height:100px;
+        float:left;
+    }
+</style>
 
 ${page|n}
 
 %for user in user_list:
 <%
 ico_url = _ico_url(user.id)
+user_career = career_current(user.id)
 %>
 <div class="sdw"><div class="sd">
-%if ico_url:
-    <img src="${ico_url}">
+<div id="img">
+    <a href="http:${user.link}/" target="_blank"><img src="${ico_url}"></a>
+</div>
+<div id="career">
+<p><a href="../zsite/${user.id}">  管理  </a>ID:${user.id}  昵称: ${user.name}  座右铭: ${motto.get(user.id)}
+%if user_career:
+公司:${user_career[0]}  头衔:${user_career[1]}
 %endif
-<a href="../zsite/${user.id}">管理</a> ID:${user.id}  昵称: ${user.name}  座右铭: ${motto.get(user.id)}</p>
+</p>
+</div>
+
 <p>自我介绍: ${txt_get(user.id)}</p>
 </div></div>
 %endfor

@@ -21,7 +21,7 @@ from model.career import career_list_all
     %if motto:
      - ${motto}\
     %else:
-     - <p class="c00f">无座右铭</a>\
+     - <p class="c00f">无座右铭</p>\
     %endif
     </h1>
 
@@ -31,7 +31,7 @@ from model.career import career_list_all
     <div class="G3 zsite_pic"><img src="${pic_url}" ></div>\
     %else:
     <div class="G3">\
-    <a style="margin-bottom:36px;font-size:16px;display:block;text-align:center;width:707px;padding:194px 0;border:7px solid #000">无头像</p>
+    <p style="margin-bottom:36px;font-size:16px;display:block;text-align:center;width:707px;padding:194px 0;border:7px solid #000">无头像</p>
     </div>
     %endif
 
@@ -43,7 +43,7 @@ from model.career import career_list_all
     %if txt:
             <pre>${txt}</pre>\
     %else:
-            <pre style="text-align:center;margin-top:14px"><p class="c00f">无简介</a></pre>
+            <pre style="text-align:center;margin-top:14px"><p class="c00f">无简介</p></pre>
     %endif
         </div>\
     </div>
@@ -56,7 +56,7 @@ from model.career import career_list_all
     %if zsite_link:
     <div id="zsite_link" class="zsite_link">
     %for id, name in zsite_link:
-    <a href="/link/${id}">${name}</a>\
+    <p href="/link/${id}">${name}</p>\
     %endfor
     </div>
     %else:

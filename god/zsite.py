@@ -120,21 +120,15 @@ class Verify(Base):
             self.redirect('/zsite/verify1')
 
 PAGE_LIMIT = 100
-def user_generator(cid):
-    qs = Zsite.where(cid=cid, state=ZSITE_STATE_WAIT_VERIFY)
-    for i in qs:
-        yield i
 
 @urlmap('/zsite/verify(%s)' % '|'.join(map(str, CID_ZSITE)))
 class VerifyList(Base):
-
     def get(self, cid):
-        for i in user_generator(cid): 
-            print i 
-            if i:
-                self.render(i=i)
-            else:
-                self.redirect('/')
+        qs = Zsite.where(cid=cid, state=ZSITE_STATE_WAIT_VERIFY)[0]
+        if qs:
+            self.render(i=qs)
+        else:
+            self.redirect('/')
 
 
 from config import SITE_DOMAIN
