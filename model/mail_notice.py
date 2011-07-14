@@ -16,11 +16,10 @@ mc_mail_notice_state = McCache('MailNoticeState.%s')
 @mc_mail_notice_state('{user_id}_{cid}')
 def mail_notice_state(user_id, cid):
     m = MailNotice.get(user_id=user_id, cid=cid)
-    if m:
-        return m.state
-    else:
+    if not m:
         MailNotice.raw_sql('insert into mail_notice (user_id, cid, state) values (%s, %s, 1) on duplicate key update state=state', user_id, cid)
-        return 1
+        m = MailNotice.get(user_id=user_id, cid=cid)
+    return m.state
 
 def mail_notice_all(user_id):
     return [(cid, mail_notice_state(user_id, cid)) for cid in CID_MAIL_NOTICE_ALL]
