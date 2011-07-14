@@ -85,7 +85,7 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
         <span>
             {{each rt_list}}
                 {{if $value.link}}
-            <a href="${$value.link}" target="_blank">${$value.name}</a>
+            <a href="${$value.link}" target="_blank">${$value.name}</a> {{if $index < rt_list.length-1}},{{/if}}
                 {{/if}}
             {{/each}}
         </span>喜欢
