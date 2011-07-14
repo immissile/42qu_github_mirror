@@ -16,19 +16,19 @@ info = UserInfo.mc_get(zsite_id)
 namecard = namecard_get(zsite_id)
 
 line1 = []
-line2 = None 
-line3 = None 
+line2 = None
+line3 = None
 
 if namecard:
     if namecard.pid_now and namecard.pid_now>1:
         line2  = "现居 : "+namecard.place_now
-sex = None 
+sex = None
 if info:
     sex = info.sex
     age = info.age
     astrology = info.astrology
     marry = info.marry
- 
+
     if age:
         line1.append("%s岁"%age)
 
@@ -52,13 +52,13 @@ if info:
         line1.append("单身")
 
     line1 = " , ".join(line1)
-    
+
     if info.pid_home and info.pid_home>1:
         if namecard and info.pid_home == namecard.pid_now:
             line2 = "家乡 & "+line2
         else:
             line3 = "家乡 : "+info.place_home
-    
+
 
 %>
 %if is_owner and not career_list:
@@ -78,7 +78,7 @@ if info:
 <%
 unit = career.unit
 title = career.title
-txt = career.txt 
+txt = career.txt
 end_time = career.end_time
 %>
 <div class="zsite_item">

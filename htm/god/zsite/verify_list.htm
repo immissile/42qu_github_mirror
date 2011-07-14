@@ -1,4 +1,4 @@
-<%namespace file="/ctrl/_util/god_user_index.htm" import="user_index"/>
+<%namespace file="/_util/user_index.htm" import="user_index"/>
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
@@ -106,7 +106,7 @@ _pic_url = pic_url_with_default(id,"219")
 ##<a href="${i.link}"><img class="ico" src="${_pic_url}"></a>
 ##<h1><a href="${i.link}" target="_blank">${i.name}</a></h1>
 <div id="user_info">
-${user_index(id)}
+${user_index(id, True)}
 </div>
 <div class="bar">
 <div class="L">
