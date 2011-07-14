@@ -12,7 +12,7 @@ from model.reply import Reply
 <!doctype html>\
 <head>\
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">\
-<script src="${js.god}"></script>\
+<script src="${js.z}"></script>\
 ${css.z|n}
 ${css.god_god|n}
 ${self.htm_head()}\
@@ -44,7 +44,7 @@ ${self.htm_head()}\
 <div>
 <a
     class="cola" 
-    href="/zsite/verify${CID_USER}?${Zsite.raw_sql('select max(id) from zsite where state = %s and cid = %s',ZSITE_STATE_WAIT_VERIFY,CID_USER).fetchone()[0] or ''}">
+    href="/zsite/verify${CID_USER}#${Zsite.raw_sql('select max(id) from zsite where state = %s and cid = %s',ZSITE_STATE_WAIT_VERIFY,CID_USER).fetchone()[0] or ''}">
     <span class="R">
         ${Zsite.where(cid=CID_USER, state=ZSITE_STATE_WAIT_VERIFY).count()}
     </span>
