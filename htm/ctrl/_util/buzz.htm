@@ -10,6 +10,17 @@ from cgi import escape
 <a href="${entry.link}">${entry.name}</a>\
 </%def>
 
+<%def name="user_link_list_with_career(user_list)">
+<%
+l = len(user_list)
+%>
+%if l>1:
+${user_link_list(user_list)}\
+%elif l:
+${user_career_link(user_list[0])}\
+%endif
+</%def>
+
 <%def name="user_link_list(user_list)">
 ${' , '.join(['<a href="%s">%s</a>'%(i.link, escape(i.name)) for i in user_list])|n}
 </%def>
@@ -26,11 +37,10 @@ entry = i.entry
 %elif cid == CID_BUZZ_SHOW:
 <span class="buzz_user">${user_career_link(entry)}</span> 入驻
 %elif cid == CID_BUZZ_FOLLOW:
-${user_link_list(from_list)} 关注了\
     %if rid == current_user_id:
-我
+${user_link_list_with_career(from_list)} 关注了我
     %else:
- ${user_career_link(entry)}
+${user_link_list(from_list)} 关注了 ${user_career_link(entry)}
     %endif
 %elif cid == CID_BUZZ_WALL:
 <%
