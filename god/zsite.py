@@ -114,10 +114,8 @@ class Verify(Base):
             else:
                 zsite_verify_no(zsite, txt)
             self.finish({'state': True})
-            self.redirect('/zsite/verify1')
         else:
             self.finish({'state': False})
-            self.redirect('/zsite/verify1')
 
 PAGE_LIMIT = 100
 
