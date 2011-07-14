@@ -35,19 +35,28 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
         j,
         attr,
         item=result[5],
-        t;
+        t,
+        rt_list = [],
+        m;
         for(;i<DATE_ATTR.length;++i){
             data[DATE_ATTR[i]]=result[i]
         }
         for(i=0;i<item.length;++i){
             result=item[i];
-            t={};
+            t={
+                "rt_list":[]
+            };
             attr=FEED_ATTR[result[2]];
             result_length = result.length;
             for(j=0;j<result_length;++j){
                 t[attr[j]] = result[j]
             }
-            t.rt_list = $.map(t.rt_list, array2zsite);
+            rt_list = $.map(t.rt_list, array2zsite);
+            for(j=0;j<rt_list.length;++j){
+                m=rt_list[j];
+                if(m.link)t.rt_list.push(m);
+            }
+            t.rt_list = rt_list;
             t.create_time = $.timeago(t.create_time);
             data.item.push(t)
             //console.info(t)
