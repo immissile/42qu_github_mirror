@@ -41,7 +41,7 @@ def year_month_begin_end(begin, end):
         r.append(begin)
     if end and end!=begin:
         r.append(end)
-    
+
     return " - ".join(map(year_month_str,r))
 
 
@@ -57,6 +57,3 @@ if __name__ == '__main__':
     #print today_year()
     date = 20110704
     print year_month_begin_end(date, date)
-
-
-
