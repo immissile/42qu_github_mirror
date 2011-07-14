@@ -43,7 +43,6 @@ $('a.yes').live('click', function() {
     return false
 })
 $('a.no').live('click', function() {
-    $.fancybox.showActivity();
     var id = this.rel
     var _txt = $('#txt' + id), txt = _txt.val();
     _txt.val('');
@@ -51,6 +50,7 @@ $('a.no').live('click', function() {
         alert("请选择理由")
         return
     }
+    $.fancybox.showActivity();
     $.postJSON('/zsite/verify/0/' + id, {"txt":txt}, function(data) {
         if (data.state == true) {
             pass(id)
