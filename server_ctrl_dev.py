@@ -6,7 +6,7 @@ import logging
 import sys
 if len(sys.argv) > 1 and sys.argv[1].isdigit():
     port = int(sys.argv[1])
-    config.PORT = PORT
+    config.PORT = port
 else:
     port = config.PORT
     if type(port) in (list,tuple):

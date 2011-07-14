@@ -146,11 +146,11 @@ def buzz_list(user_id, limit, offset):
 def buzz_career_bind(li):
     id_list = []
     for i in li:
-        if i.cid == CID_BUZZ_SHOW:
+        if i.cid in (CID_BUZZ_SHOW, CID_BUZZ_FOLLOW):
             id_list.append(i.rid)
     c_dict = career_dict(id_list)
     for i in li:
-        if i.cid == CID_BUZZ_SHOW:
+        if i.cid in (CID_BUZZ_SHOW, CID_BUZZ_FOLLOW):
             i.entry.career = c_dict[i.rid]
     return li
 
@@ -183,26 +183,4 @@ def buzz_show(user_id, limit):
     return buzz_career_bind(li)
 
 if __name__ == '__main__':
-    #buzz_show_new_all(10024800)
     pass
-    #buzz_to = [i.user_id for i in ormiter(PoPos, 'po_id=%s and state=%s' % (10043344, STATE_BUZZ))]
-    #print buzz_to
-#    for i in buzz_list(10000000, 100, 0):
-#        pass
-#        print i.id
-#        print i.cid
-#
-    #  from model.zsite import Zsite
-    #  c = Buzz.raw_sql("select distinct rid from buzz where cid=%s",CID_BUZZ_SHOW)
-    #  for i, in c:
-    #      zsite = Zsite.mc_get(i)
-    #      if not zsite:
-    Buzz.raw_sql('delete from buzz where cid=%s and rid=%s', CID_BUZZ_SHOW, 10028551)
-#  from zweb.orm import ormiter
-
-#  for i in ormiter(Buzz,"cid=%s"%CID_BUZZ_SHOW):
-#      print i.id
-#      i.delete()
-
-
-    #Buzz.where(rid=10003473,cid=CID_BUZZ_SHOW).delete()
