@@ -156,7 +156,7 @@ def notice_list(to_id, limit, offset):
     for i in li:
         from_id = i.from_id
         i.from_user = cls_dic[Zsite][from_id]
-        i.from_user.career = career_dic(from_id)
+        i.from_user.career = career_dic[from_id]
         i.entry = cls_dic[NOTICE_CLS.get(i.cid)].get(i.rid)
     return li
 
