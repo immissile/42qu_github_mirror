@@ -6,6 +6,7 @@ from model.po_show import po_is_show
 from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
 from model.zsite import Zsite
+from zkit.txt import cnenoverflow
 %>
 <%def name="htm_head()">
 </%def>
@@ -20,7 +21,7 @@ margin-right:32px
 <li>
 <%
 cid = po.cid
-name_ = po.name_
+name = po.name
 ico_url = _ico_url(po.user_id)
 user = po.user
 %>\
@@ -42,8 +43,9 @@ user = po.user
 答案\
 % endif
 </span>
-<a class="c0" href="${po.link}" target="_blank">${name_}</a>
+<a class="c0" href="${po.link}" target="_blank">${name}</a>
 </p>
+<p>${cnenoverflow(po.txt, 60)[0]|n}</p>
 <p>
 <a class="c0" href="${user.link}" target="_blank">${user.name}</a>
 ${friendly_time(po.create_time)}
