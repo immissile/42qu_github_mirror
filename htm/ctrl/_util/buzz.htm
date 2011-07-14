@@ -14,6 +14,17 @@ from cgi import escape
 ${' , '.join(['<a href="%s">%s</a>'%(i.link, escape(i.name)) for i in user_list])|n}
 </%def>
 
+<%def name="user_career_link(entry)">
+<%
+career = ' , '.join(filter(bool, entry.career))
+%>
+<a href="${entry.link}">${entry.name}\
+% if career:
+ - ${career}\
+% endif
+</a>
+</%def>
+
 <%def name="buzz_render(i)">
 <%
 cid = i.cid
@@ -24,22 +35,13 @@ entry = i.entry
 %if cid == CID_BUZZ_SYS:
     <span class="buzz_sys">${entry.htm|n}</span>
 %elif cid == CID_BUZZ_SHOW:
-<%
-career = ' , '.join(filter(bool, entry.career))
-%>
-<span class="buzz_user">
-
-<a href="${entry.link}">${entry.name}\
-    % if career:
- - ${career}
-    % endif
- </a></span> 入驻
+<span class="buzz_user">${user_career_link(entry)}</span> 入驻
 %elif cid == CID_BUZZ_FOLLOW:
 ${user_link_list(from_list)} 关注了\
     %if rid == current_user_id:
 我
     %else:
- ${entry_link(entry)}
+ ${user_career_link(entry)}
     %endif
 %elif cid == CID_BUZZ_WALL:
 <%
