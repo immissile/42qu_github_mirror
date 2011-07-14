@@ -94,13 +94,11 @@ $("#career_form").submit(function(){
 })
 
 function loads(name){
-    var data = $.parseJSON($("#career_data_"+name).text()),i=0,t;
-    if(data){
-        for(;i<data.length;++i){
-            t=data[i];
-            t.unshift(name)
-            career.apply(this,t)
-        }
+    var data = $.parseJSON($("#career_data_"+name).html()),i=0,t;
+    for(;i<data.length;++i){
+        t=data[i];
+        t.unshift(name)
+        career.apply(this,t)
     }
     career(name)
 }
