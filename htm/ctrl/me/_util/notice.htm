@@ -4,6 +4,7 @@ from zkit.time_format import friendly_time
 from model.money import Trade, trade_log
 from yajl import loads
 %>
+<%namespace file="/ctrl/_util/user.htm" import="user_career_link"/>
 
 <%def name="trade_log_render(rid)">
 <%
@@ -32,7 +33,7 @@ from_user = i.from_user
 entry = i.entry
 %>
 <span class="R c9">${friendly_time(i.create_time)}</span>
-<a href="${from_user.link}">${from_user.name}</a>
+${user_career_link(from_user)}
 %if cid == CID_NOTICE_WALL:
 给你留了言 , <a href="${i.link}">点此浏览</a> 
 %elif cid == CID_NOTICE_WALL_REPLY:

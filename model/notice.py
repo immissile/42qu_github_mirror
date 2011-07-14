@@ -12,6 +12,7 @@ from zkit.ordereddict import OrderedDict
 from collections import defaultdict
 from mail import rendermail
 from mail_notice import mail_notice_state
+from career import career_dict
 
 STATE_GTE_APPLY = 'state>=%s' % STATE_APPLY
 
@@ -145,13 +146,17 @@ def notice_list(to_id, limit, offset):
     for i in li:
         cls_dic[Zsite].add(i.from_id)
         cls_dic[NOTICE_CLS.get(i.cid)].add(i.rid)
+    from_list = cls_dic[Zsite]
     for cls, id_list in cls_dic.items():
         if cls:
             cls_dic[cls] = cls.mc_get_dict(id_list)
         else:
             cls_dic[cls] = {}
+    career_dic = career_dict(from_list)
     for i in li:
-        i.from_user = cls_dic[Zsite][i.from_id]
+        from_id = i.from_id
+        i.from_user = cls_dic[Zsite][from_id]
+        i.from_user.career = career_dic(from_id)
         i.entry = cls_dic[NOTICE_CLS.get(i.cid)].get(i.rid)
     return li
 
