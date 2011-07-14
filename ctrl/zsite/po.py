@@ -190,9 +190,9 @@ class Question(PoOne):
                 link = '/po/tag/%s' % answer_id
                 zsite_tag_new_by_tag_id(po)
             else:
-                link = '%s#answer%s' % (question.link, po.id)
+                link = '%s#reply%s' % (question.link, po.id)
         else:
-            link = '%s#answer' % question.link
+            link = '%s#reply_txt' % question.link
         self.redirect(link)
 
 
