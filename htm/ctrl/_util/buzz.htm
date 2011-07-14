@@ -4,7 +4,7 @@ from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 from cgi import escape
 %>
-
+<%namespace file="/ctrl/_util/user.htm" import="user_career_link"/>
 
 <%def name="entry_link(entry)">
 <a href="${entry.link}">${entry.name}</a>\
@@ -12,17 +12,6 @@ from cgi import escape
 
 <%def name="user_link_list(user_list)">
 ${' , '.join(['<a href="%s">%s</a>'%(i.link, escape(i.name)) for i in user_list])|n}
-</%def>
-
-<%def name="user_career_link(entry)">
-<%
-career = ' , '.join(filter(bool, entry.career))
-%>
-<a href="${entry.link}">${entry.name}\
-% if career:
- - ${career}\
-% endif
-</a>
 </%def>
 
 <%def name="buzz_render(i)">
