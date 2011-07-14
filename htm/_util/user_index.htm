@@ -1,0 +1,74 @@
+<%namespace file="/_util/_g1.htm" import="about_me"/>
+
+<%!
+from model.ico import pic_url as _pic_url, ico_url_with_default
+from model.zsite_link import link_id_name_by_zsite_id
+from model.zsite import Zsite
+from model.career import career_list_all
+%>
+
+<%def name="user_index(zsite, is_owner)">
+    <%
+    zsite_id = zsite.id
+    pic_url = _pic_url(zsite_id)
+    zsite = Zsite.mc_get(zsite_id)
+    %>
+    <h1 class="zsite_title">\
+    ${zsite.name}\
+    %if motto:
+     - ${motto}\
+    %elif is_owner:
+     - <a href="/i" class="c00f">点击这里 , 设置座右铭</a>\
+    %endif
+    </h1>
+
+    <div class="G">
+    <div class="G1">${about_me(zsite_id, is_owner)}</div>
+    %if pic_url:
+    <div class="G3 zsite_pic"><img src="${pic_url}" ></div>\
+    %elif is_owner:
+    <div class="G3">\
+    <a href="/i/pic" style="margin-bottom:36px;font-size:16px;display:block;text-align:center;width:707px;padding:194px 0;border:7px solid #000">点此上传本人头像 ,  我们将人工审核</a>
+    </div>
+    %endif
+    <%
+    txt = zsite.txt
+    %>
+
+    %if txt or is_owner:
+    <div class="zsite_txt G3 c">
+        <img src=${ico_url_with_default(zsite_id)}>
+        <div class="qgif"></div>
+        <div class="zsite_txt_div">\
+    %if txt:
+            <pre>${txt}</pre>\
+    %else:
+            <pre style="text-align:center;margin-top:14px"><a class="c00f" href="/i#txt">点击这里 , 补充简介</a></pre>
+    %endif
+        </div>\
+    </div>
+    %endif
+
+    </div>
+
+    </div></div></div>
+    <div><div><div>
+    <%
+    zsite_link = link_id_name_by_zsite_id(zsite_id)
+    %>
+    %if zsite_link:
+    <div id="zsite_link" class="zsite_link">
+    %for id, name in zsite_link:
+    <a href="/link/${id}">${name}</a>\
+    %endfor
+    </div>
+    %elif is_owner:
+    <a href="/i/link" style="color:#00f;font-size:14px" id="zsite_link" class="zsite_link">
+    点击这里 , 添加链接
+    </a>
+    %endif
+
+    ##%if not is_owner:
+    ##<p><a href="/pay">捐赠</a></p>
+    ##%endif
+</%def>

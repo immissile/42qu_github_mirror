@@ -62,9 +62,20 @@ ico_url = pic_url_with_default(current_user_id, 219)
 </%htm:form>
 </div>
 <script>
+(function(){
+var com_txt = $("#com,#txt")
+com_txt.placeholder()
+$("#form_reg").submit(function(){
+    com_txt.each(function(){
+        if(this.value==this.placeholder){
+            this.value='';
+        }
+    })
+})
 $("#name").focus()
 $("#txt").elastic().blur()
-$("#com,#txt").placeholder()
+
+})()
 </script>
 ##在
 ##<input type="text" name="com" id="com" placeholder="请填写当下的单位">
