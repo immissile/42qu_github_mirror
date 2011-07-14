@@ -16,9 +16,6 @@
     line-height:28px;
     padding-bottom:14px;
 }
-#txt_form{
-text-align:right;
-}
 #reply_txt{
 text-align:left;
 width:701px;
@@ -33,7 +30,7 @@ margin:0 auto 32px;
 *margin:0 auto;
 }
 #txt_form{
-*margin-top:-32px;
+text-align:right;
 }
 #reply_list{
 margin-top:16px;
