@@ -12,7 +12,6 @@ class Index(ZsiteBase):
         zsite_id = self.zsite_id
         self.render(
             motto=motto.get(zsite_id)
-
         )
 
 @urlmap('/link/(\d+)')

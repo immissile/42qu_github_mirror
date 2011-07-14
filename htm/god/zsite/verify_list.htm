@@ -97,16 +97,10 @@ margin-right:16px
 }
 </style>
 </%def>
-<%
-id = i.id
-_pic_url = pic_url_with_default(id,"219") 
-%>
 <div class="sdw" id="zsite${id}">
 <div class="sd c">
-##<a href="${i.link}"><img class="ico" src="${_pic_url}"></a>
-##<h1><a href="${i.link}" target="_blank">${i.name}</a></h1>
 <div id="user_info">
-${user_index(id, True)}
+${user_index(zsite, False)}
 </div>
 <div class="bar">
 <div class="L">

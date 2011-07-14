@@ -7,13 +7,6 @@ from model.zsite import Zsite
 from model.career import career_list_all
 %>
 
-<%def name="htm_title()">
-${zsite.name}
-%if motto:
- - ${motto}
-%endif
-</%def>
-
 <%def name="user_index(zsite_id, is_owner)">
     <%
     pic_url = _pic_url(zsite_id)
