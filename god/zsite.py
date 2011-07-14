@@ -124,9 +124,9 @@ PAGE_LIMIT = 100
 @urlmap('/zsite/verify(%s)' % '|'.join(map(str, CID_ZSITE)))
 class VerifyList(Base):
     def get(self, cid):
-        qs = Zsite.where(cid=cid, state=ZSITE_STATE_WAIT_VERIFY)[0]
+        qs = Zsite.where(cid=cid, state=ZSITE_STATE_WAIT_VERIFY).order_by('id')[:1]
         if qs:
-            self.render(i=qs)
+            self.render(i=qs[0])
         else:
             self.redirect('/')
 

@@ -23,26 +23,27 @@ var template = [
 
 }
 $('a.show').live('click', function() {
+    $.fancybox.showActivity();
     var id = this.rel
     $.postJSON('/zsite/verify/2/' + id, function(data) {
         if (data.state == true) {
             pass(id)
         }
     })
-    self.location='/zsite/verify1'
     return false
 })
 $('a.yes').live('click', function() {
+    $.fancybox.showActivity();
     var id = this.rel
     $.postJSON('/zsite/verify/1/' + id, function(data) {
         if (data.state == true) {
             pass(id)
         }
     })
-    self.location='/zsite/verify1'
     return false
 })
 $('a.no').live('click', function() {
+    $.fancybox.showActivity();
     var id = this.rel
     var _txt = $('#txt' + id), txt = _txt.val();
     _txt.val('');
@@ -55,11 +56,10 @@ $('a.no').live('click', function() {
             pass(id)
         }
     })
-    self.location='/zsite/verify1'
     return false
 })
 function pass(id){
-    $('#zsite' + id+" a").css("color","#ccc").css("font-size","14px")
+    location='/zsite/verify1'
 }
 </script>
 <style>
