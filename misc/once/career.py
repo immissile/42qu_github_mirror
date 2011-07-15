@@ -14,7 +14,7 @@ for i in id_list:
             n += 1
             print n,' ',z.name
             print "http://god.42qu.com/zsite/%s"%i
-            print "http://god.42qu.com/zsite/avatar/%s?next=%s/i/career"%(i,z.link)
+            print "http://god.42qu.com/sudo/%s?next=%s/i/career"%(i,z.link)
             print ""
         else:
             print "----",title, unit

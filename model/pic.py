@@ -123,4 +123,4 @@ from mq import mq_client
 mq_pic_rm_mail = mq_client(pic_rm_mail)
 
 if __name__ == '__main__':
-    print pic_list_to_review_by_cid(31, 2)
+    print  Pic.get(25763)
