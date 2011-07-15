@@ -3,7 +3,7 @@
 }
 .po_body h1{
     text-align:center;
-    font-size:32px;
+    font-size:27px;
     margin:48px 0;
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
@@ -11,10 +11,6 @@
 .po_body pre{
     width:721px;
     margin:auto;
-}
-.po_body pre p{
-    line-height:28px;
-    padding-bottom:14px;
 }
 #reply_txt{
 text-align:left;

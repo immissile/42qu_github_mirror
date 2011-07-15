@@ -3,7 +3,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from ctrl._urlmap.zsite import urlmap
-from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION
+from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION,PO_EN
 from model.po_question import po_answer_new
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply
@@ -19,7 +19,15 @@ from model.tag import Tag
 
 PAGE_LIMIT = 42
 
-
+@urlmap('/po/cid/(\d+)')
+class PoCid(ZsiteBase):
+    def get(self, cid):
+        cid = int(cid)
+        if cid in PO_EN:
+            link = "/%s"%PO_EN[cid]
+        else:
+            link = "/"
+        return self.redirect(link)
 
 @urlmap('/po/(\d+)')
 class PoIndex(ZsiteBase):
@@ -68,6 +76,7 @@ class PoPage(ZsiteBase):
             po_list=po_list,
             page=page,
         )
+
 
 
 @urlmap('/word')

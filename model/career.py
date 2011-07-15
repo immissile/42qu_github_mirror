@@ -100,6 +100,9 @@ def career_rm(id, user_id):
         mc_career_id_list.delete('%s_%s' % (user_id, o.cid))
 
 def career_set(id, user_id, unit, title, txt, begin, end, cid):
+    if not any((txt, title , unit)):
+        career_rm(id, user_id)
+        return
     user_id = int(user_id)
     unit_id = tag_new(unit)
     title_id = tag_new(title)
@@ -163,5 +166,4 @@ def career_bind(user_list):
 
 if __name__ == '__main__':
     from yajl import dumps
-    print dumps(career_list(16, 1))
-    print dumps(career_list(16, 2))
+    print career_list_all(10026433)[0].unit

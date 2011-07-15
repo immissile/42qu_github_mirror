@@ -30,6 +30,7 @@ def pic_new(cid, user_id):
 def pic_save(pic_id, pic):
     fs_set_jpg('0', pic_id, pic)
 
+
 def _pic_list_to_review_by_cid(cid, start_id, limit):
     return Pic.where(cid=cid, state=1, admin_id=0).where('id>%s' % start_id).order_by('id')[:limit]
 
@@ -123,4 +124,4 @@ from mq import mq_client
 mq_pic_rm_mail = mq_client(pic_rm_mail)
 
 if __name__ == '__main__':
-    print pic_list_to_review_by_cid(31, 2)
+    print pic_no_by_uid(10017321,1),'!!'
