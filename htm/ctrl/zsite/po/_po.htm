@@ -20,7 +20,14 @@ ${css.ctrl_po|n}
 cid = po.cid
 po_state = po.state
 %>
-<a class="back_a" href="/po/cid/${cid}"></a>
+<a
+class="back_a"
+%if zsite_tag_id:
+href="${zsite.link}/tag/${zsite_tag_id}"\
+%else:
+href="${zsite.link}/po/cid/${cid}"
+%endif
+></a>
 
 %if can_view:
 <div class="po_page">
