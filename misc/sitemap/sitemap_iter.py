@@ -8,3 +8,11 @@ def sitemap_zsite():
         yield "http:%s"%(
             i.link
         )
+
+def sitemap_po():
+    from model.po import Po
+    for i in ormiter(Po):
+        yield "http:%s"%(
+            i.link
+        )
+

@@ -4,6 +4,7 @@ from _env import PWD
 from os.path import join
 import types
 from datetime import datetime
+from config import SITE_DOMAIN
 import gzip
 from zkit.single_process import single_process
 
@@ -15,7 +16,7 @@ SITEMAP_INDEX = """<?xml version="1.0" encoding="UTF-8"?>
 """
 SITEMAP_INDEX_ITEM = """
    <sitemap>
-      <loc>http://%s/misc/sitemap/%s.gz</loc>
+      <loc>http://file.%s/sitemap/%s.gz</loc>
       <lastmod>%s+08:00</lastmod>
    </sitemap>
 """
@@ -60,7 +61,7 @@ def run():
     with open(join(PWD, "file", "sitemap.xml"), "w") as index:
         index.write(
             SITEMAP_INDEX%(
-                "".join(SITEMAP_INDEX_ITEM%(DOMAIN, i, NOW) for i in SITEMAP_FILE)
+                "".join(SITEMAP_INDEX_ITEM%(SITE_DOMAIN, i, NOW) for i in SITEMAP_FILE)
             )
         )
 
