@@ -43,9 +43,11 @@ user = po.user
 答案\
 % endif
 </span>
-<a class="c0" href="${po.link}" target="_blank">${name}</a>
+${po.name_htm|n}
 </p>
+%if cid!=CID_WORD:
 <p>${cnenoverflow(po.txt, 60)[0]|n}</p>
+%endif
 <p>
 <a class="c0" href="${user.link}" target="_blank">${user.name}</a>
 ${friendly_time(po.create_time)}
