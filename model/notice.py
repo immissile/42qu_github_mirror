@@ -113,6 +113,11 @@ mq_notice_question = mq_client(notice_question)
 
 def notice_mail_day(to_id, li):
     from user_mail import mail_by_user_id
+    count = len(li)
+    title = li[0]
+
+def notice_mail(notice):
+    from user_mail import mail_by_user_id
     state = notice.state
     from_id = notice.from_id
     to_id = notice.to_id
