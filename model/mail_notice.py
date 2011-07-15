@@ -30,3 +30,19 @@ def mail_notice_set(user_id, cid, state):
     if state != mail_notice_state(user_id, cid):
         MailNotice.where(user_id=user_id, cid=cid).update(state=state)
         mc_mail_notice_state.set('%s_%s' % (user_id, cid), state)
+
+if __name__ == "__main__":
+    with open("1") as infile:
+        for i in infile:
+            cid , user_id = map(int,i.strip().split())
+            if cid == 0:
+                cid = CID_MAIL_MONTH
+            else:
+                cid = CID_MAIL_YEAR
+            print cid, user_id
+            from zsite import Zsite
+            if Zsite.mc_get(user_id):
+                mail_notice_set(user_id, cid, False)
+                pass
+
+
