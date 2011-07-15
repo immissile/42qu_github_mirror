@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 from cgi import escape
 from cid import CID_USER
 from _db import Model, McModel
