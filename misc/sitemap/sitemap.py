@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 #coding:utf-8
-from init_env import PWD
+from _env import PWD
 from os.path import join
-from myconf.config import DOMAIN
 import types
 from datetime import datetime
 import gzip
-from mysite.util.single_process import single_process
+from zkit.single_process import single_process
 
 
 SITEMAP_INDEX = """<?xml version="1.0" encoding="UTF-8"?>
@@ -23,19 +22,19 @@ SITEMAP_INDEX_ITEM = """
 
 SITEMAP_FILE = []
 
-import sitemap
+import sitemap_iter
 
 def save(filename, ormiter, seq=1):
     f = "%s_%s"%(filename, seq)
     SITEMAP_FILE.append(f)
 
-    f = join(PWD, "sitemap", f)
+    f = join(PWD, "file", f)
     ft = f+".txt"
 
     is_over = True
     with open(ft, "w") as output:
         for c, i in enumerate(ormiter):
-            output.write("http://%s%s\n"%(DOMAIN, i))
+            output.write("%s\n"%(i))
             if c > 49990:
                 is_over = False
                 break
@@ -51,15 +50,21 @@ def save(filename, ormiter, seq=1):
 
 @single_process
 def run():
-    for k, v in vars(sitemap).iteritems():
+    for k, v in vars(sitemap_iter).iteritems():
         if type(v) is types.FunctionType and k.startswith("sitemap_"):
             k = k[8:]
             save(k, v())
 
 
     NOW = datetime.now().isoformat()[:19]
-    with open(join(PWD, "sitemap", "sitemap.xml"), "w") as index:
-        index.write(SITEMAP_INDEX%("".join(SITEMAP_INDEX_ITEM%(DOMAIN, i, NOW) for i in SITEMAP_FILE)))
+    with open(join(PWD, "file", "sitemap.xml"), "w") as index:
+        index.write(
+            SITEMAP_INDEX%(
+                "".join(SITEMAP_INDEX_ITEM%(DOMAIN, i, NOW) for i in SITEMAP_FILE)
+            )
+        )
 
 if __name__ == "__main__":
     run()
+
+
