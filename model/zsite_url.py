@@ -16,7 +16,9 @@ def url_by_id(id):
     u = Url.get(id)
     if u is None:
         return ''
-    return u.url
+    url = u.url
+    mc_id_by_url.set(url, u.id)
+    return url
 
 
 def url_or_id(id):
@@ -88,3 +90,4 @@ def link(id):
 if __name__ == '__main__':
     print id_by_url("i000000")
     print id_by_url("mr-tang")
+    print url_by_id(10008333)
