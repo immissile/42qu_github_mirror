@@ -107,12 +107,14 @@ class VerifyNew(Base):
     def get(self,state,id):
         state = int(state)
         zsite = Zsite.mc_get(id)
-        if zsite and state:
-            zsite_verify_yes(zsite)
-            self.redirect('/zsite/%s'%id)
-        elif zsite and state == 0:
-            zsite_verify_no_without_notify(zsite)
-            self.redirect('/zsite/%s'%id)
+        
+        if zsite:
+            if state:
+                zsite_verify_yes(zsite)
+            else:
+                zsite_verify_no_without_notify(zsite)
+        
+        self.redirect('/zsite/%s'%id)
     
 
 @urlmap('/zsite/verify/(0|1|2)/(\d+)')

@@ -54,12 +54,9 @@ def user_can_reply(user):
 #    pass
 #
 
-def zsite_is_verify(zid):
-    zsite_state = Zsite.where(id = zid).col_list(col='state')[0]
-    if zsite_state == ZSITE_STATE_VERIFY:
-        return True
-    else:
-        return False
+def zsite_is_verify(id):
+    zsite = Zsite.mc_get(id)
+    return zsite.state >= ZSITE_STATE_VERIFY
 
 def zsite_new(name, cid, state):
     zsite = Zsite(id=gid(), cid=cid, name=name, state=state)
@@ -102,6 +99,8 @@ def zsite_verify_no(zsite, txt):
 def zsite_verify_no_without_notify(zsite):
     zsite.state = ZSITE_STATE_FAILED_VERIFY
     zsite.save()
+
+
 def zsite_verify_mail(zsite_id, cid, state, txt=''):
     from mail import rendermail
     from user_mail import mail_by_user_id
