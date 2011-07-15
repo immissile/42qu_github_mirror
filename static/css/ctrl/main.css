@@ -235,3 +235,13 @@ pre p{
     line-height:28px;
     padding-bottom:14px;
 }
+
+.back_a{
+float:left;
+width:52px;
+height:62px;
+margin-top: 82px;
+background:url(/img/gif/p.gif);
+}
+
+
