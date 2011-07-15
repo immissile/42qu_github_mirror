@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
-from cid import CID_MAIL_DAY, CID_MAIL_MONTH, CID_MAIL_YEAR
+from cid import CID_INVITE_QUESTION, CID_MAIL_DAY, CID_MAIL_MONTH, CID_MAIL_YEAR
 
 CID_MAIL_NOTICE_ALL = (
-    #CID_MAIL_DAY,
+#    CID_INVITE_QUESTION,
+    CID_MAIL_DAY,
     CID_MAIL_MONTH,
     CID_MAIL_YEAR,
 )

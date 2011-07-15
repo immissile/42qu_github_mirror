@@ -104,6 +104,9 @@ def rendermail(
     subject, text = render_template(uri, **kwds)
     subject = str(subject)
     text = str(text)
+    print subject
+    print text
+    return
     sendmail(subject, text, email, name, sender, sender_name)
 
 from mq import mq_client

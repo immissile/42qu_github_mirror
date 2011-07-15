@@ -13,6 +13,7 @@ from collections import defaultdict
 from mail import rendermail
 from mail_notice import mail_notice_state
 from career import career_dict
+from user_mail import mail_by_user_id
 
 STATE_GTE_APPLY = 'state>=%s' % STATE_APPLY
 
@@ -25,7 +26,8 @@ NOTICE_TUPLE = (
 
 NOTICE_CLS = dict(i[:2] for i in NOTICE_TUPLE)
 
-NOTICE_MAIL_DIC = dict((i[0], (i[1], i[2])) for i in filter(lambda x: x[2], NOTICE_TUPLE))
+NOTICE_MAIL_DAY = dict(i[:2] for i in NOTICE_TUPLE[:2])
+NOTICE_MAIL_DIC = dict((i[0], (i[1], i[2])) for i in NOTICE_TUPLE[2:])
 
 notice_unread = Kv('notice_unread', 0)
 
@@ -102,39 +104,76 @@ def invite_question(from_id, to_id, qid):
         nid = notice_id_get(from_id, to_id, CID_INVITE_QUESTION, qid)
         if not nid:
             n = notice_new(from_id, to_id, CID_INVITE_QUESTION, qid)
+            if mail_notice_state(to_id, CID_INVITE_QUESTION):
+                mq_invite_question_mail(n)
             return n
 
 def notice_question(to_id, qid):
     for from_id in Notice.where(cid=CID_INVITE_QUESTION, rid=qid, to_id=to_id).where(STATE_GTE_APPLY):
         n = notice_new(to_id, from_id, CID_NOTICE_QUESTION, qid)
+        notice_question_mail(n)
 
 from mq import mq_client
 mq_notice_question = mq_client(notice_question)
 
-def notice_mail_day(to_id, li):
-    from user_mail import mail_by_user_id
-    count = len(li)
-    title = li[0]
-
-def notice_mail(notice):
-    from user_mail import mail_by_user_id
-    state = notice.state
+def invite_question_mail(notice):
     from_id = notice.from_id
     to_id = notice.to_id
-    cid = notice.cid
     rid = notice.rid
-    if state == STATE_APPLY and cid in NOTICE_MAIL_DIC:
-        if mail_notice_state(to_id, cid):
-            mail = mail_by_user_id(to_id)
-            name = Zsite.mc_get(to_id).name
-            from_name = Zsite.mc_get(from_id).name
-            cls, template = NOTICE_MAIL_DIC[cid]
-            entry = cls.mc_get(rid)
-            rendermail(template, mail, name,
-                       entry=entry,
-                       from_name=from_name,
-                       notice=notice,
-                      )
+    mail = mail_by_user_id(to_id)
+    name = Zsite.mc_get(to_id).name
+    from_name = Zsite.mc_get(from_id).name
+    question = Po.mc_get(rid)
+    rendermail('/mail/notice/invite_question.txt', mail, name,
+               entry=question,
+               from_name=from_name,
+               notice=notice,
+              )
+
+mq_invite_question_mail = mq_client(invite_question_mail)
+
+
+def notice_question_mail(notice):
+    from_id = notice.from_id
+    to_id = notice.to_id
+    rid = notice.rid
+    mail = mail_by_user_id(to_id)
+    name = Zsite.mc_get(to_id).name
+    from_name = Zsite.mc_get(from_id).name
+    question = Po.mc_get(rid)
+    rendermail('/mail/notice/notice_question.txt', mail, name,
+               entry=question,
+               from_name=from_name,
+               notice=notice,
+              )
+
+
+def notice_mail_day(to_id, li):
+    from user_mail import mail_by_user_id
+    to_user = Zsite.mc_get(to_id)
+    mail = mail_by_user_id(to_id)
+    name = Zsite.mc_get(to_id).name
+    count = len(li)
+    li_wall = []
+    _li_wall_reply = defaultdict(list)
+    for from_id, cid, rid in li:
+        from_user = Zsite.mc_get(from_id)
+        if cid == CID_NOTICE_WALL:
+            li_wall.append(from_user)
+        elif cid == CID_NOTICE_WALL_REPLY:
+            o = Wall.mc_get(rid)
+            _li_wall_reply[rid].append(from_user)
+    li_wall_reply = {}
+    for rid, from_list in _li_wall_reply:
+        o = Wall.mc_get(rid)
+        li_wall_reply[o] = from_list
+    rendermail('/mail/notice/day_total.txt', mail, name,
+               to_user=to_user,
+               count=count,
+               li_wall=li_wall,
+               li_wall_reply=li_wall_reply,
+              )
+
 
 notice_count = McNum(lambda to_id: Notice.where(to_id=to_id).where(STATE_GTE_APPLY).count(), 'NoticeCount.%s')
 
@@ -170,8 +209,9 @@ def mc_flush(to_id):
     mc_notice_id_list.delete(to_id)
     notice_count.delete(to_id)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pass
-   # for i,v in notice_unread.iteritems():
-   #     if v:
-   #         notice_unread.set(i, 0)
+    notice_mail_day(10000212, ((10033909, 93, 1), (10033921, 93, 2)))
+# for i,v in notice_unread.iteritems():
+#     if v:
+#         notice_unread.set(i, 0)
