@@ -186,14 +186,18 @@ class UserSearch(Base):
 
     def post(self):
         query = self.get_argument('input', None)
-        query = urllib.unquote(query).strip()
+        if query:
+            query = urllib.unquote(query).strip()
 
-        user_id = zsite_by_query(query)
-        if user_id:
-            url = '/zsite/%s' % user_id
-            return self.redirect(url)
+            user_id = zsite_by_query(query)
+            if user_id:
+                url = '/zsite/%s' % user_id
+                return self.redirect(url)
+            else:
+                self.render(input=query)
         else:
-            self.render(input=query)
+            self.get()
+
 
 @urlmap('/sudo/(\d+)')
 class avatar(Base):
