@@ -54,6 +54,13 @@ def user_can_reply(user):
 #    pass
 #
 
+def zsite_is_verify(zid):
+    zsite_state = Zsite.where(id = zid).col_list(col='state')[0]
+    if zsite_state == ZSITE_STATE_VERIFY:
+        return True
+    else:
+        return False
+
 def zsite_new(name, cid, state):
     zsite = Zsite(id=gid(), cid=cid, name=name, state=state)
     zsite.save()
@@ -92,6 +99,9 @@ def zsite_verify_no(zsite, txt):
     zsite.save()
     zsite_verify_mail(zsite.id, zsite.cid, zsite.state, txt)
 
+def zsite_verify_no_without_notify(zsite):
+    zsite.state = ZSITE_STATE_FAILED_VERIFY
+    zsite.save()
 def zsite_verify_mail(zsite_id, cid, state, txt=''):
     from mail import rendermail
     from user_mail import mail_by_user_id
@@ -107,9 +117,10 @@ from mq import mq_client
 mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 
 if __name__ == "__main__":
+    zsite_is_verify(10000000)
     pass
-    zsite = Zsite.mc_get(10043090)
-    zsite_verify_no(zsite,"te")
+  #  zsite = Zsite.mc_get(10043090)
+  #  zsite_verify_no(zsite,"te")
     #print Zsite.where().count()
    # for i in Zsite.where():
    #     i.name = i.name.strip()

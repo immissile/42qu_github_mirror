@@ -3,7 +3,7 @@
 import urllib
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY
+from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, zsite_verify_no_without_notify, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY
 from model.zsite_list_0 import zsite_show_new, zsite_show_rm
 from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
@@ -11,6 +11,7 @@ from model.mail import sendmail
 from model.cid import CID_ZSITE
 from zkit.page import page_limit_offset
 
+from model.pic import pic_no
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
@@ -60,6 +61,12 @@ class Index(Base):
 
         self.redirect('/zsite/%s' % id)
 
+@urlmap('/zsite/pic/rm/(\d+)')
+class PicRm(Base):
+    def get(self, id):
+        admin_id = self.current_user.id
+        pic_no(id,admin_id)
+        self.redirect('/zsite/%s' % id)
 
 @urlmap('/zsite/show/(\d+)')
 class Show(Base):
@@ -95,6 +102,18 @@ class Mail(Base):
             sendmail(title, txt, mail, name)
         self.redirect('/zsite/%s' % id)
 
+@urlmap('/zsite/verify/new/(0|1)/(\d+)')
+class VerifyNew(Base):
+    def get(self,state,id):
+        state = int(state)
+        zsite = Zsite.mc_get(id)
+        if zsite and state:
+            zsite_verify_yes(zsite)
+            self.redirect('/zsite/%s'%id)
+        elif zsite and state == 0:
+            zsite_verify_no_without_notify(zsite)
+            self.redirect('/zsite/%s'%id)
+    
 
 @urlmap('/zsite/verify/(0|1|2)/(\d+)')
 class Verify(Base):
@@ -184,4 +203,5 @@ class avatar(Base):
             self.redirect(next)
         else:
             self.redirect(current_user.link)
+
 
