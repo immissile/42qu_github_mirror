@@ -91,3 +91,4 @@ if __name__ == '__main__':
     print id_by_url("i000000")
     print id_by_url("mr-tang")
     print url_by_id(10008333)
+    print mc_id_by_url.get("I000000") 
