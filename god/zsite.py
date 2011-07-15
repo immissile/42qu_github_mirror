@@ -61,12 +61,12 @@ class Index(Base):
 
         self.redirect('/zsite/%s' % id)
 
-@urlmap('/zsite/pic/rm/(\d+)')
+@urlmap('/zsite/pic/rm/(\d+)/(\d+)')
 class PicRm(Base):
-    def get(self, id):
+    def get(self, id, uid):
         admin_id = self.current_user.id
         pic_no(id,admin_id)
-        self.redirect('/zsite/%s' % id)
+        self.redirect('/zsite/%s'%uid)
 
 @urlmap('/zsite/show/(\d+)')
 class Show(Base):
