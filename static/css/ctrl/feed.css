@@ -58,6 +58,7 @@ outline:0;
 display:block;
 height:8px;
 background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
+margin-bottom:32px;
 }
 .fdloading{
 outline:0;
