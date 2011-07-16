@@ -1,0 +1,19 @@
+<%!
+from model.cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY
+%>
+<%namespace file="/ctrl/_util/user.htm" import="user_career, user_list_with_career"/>
+<%
+to_id = to_user.id
+first_user = li_wall[0]
+%>\
+提醒 : ${user_career(first_user)} ${'等%s人' % count if count > 1 else ''} 给你留言
+
+${user_list_with_career(li_wall)} 给你留了言
+% for wall, from_list in li_wall_reply.iteritems():
+<%
+other = zsite_other(to_id)
+%>\
+${user_list_with_career(from_list)} 参与了 你 与 ${other.name} 的对话
+% endfor
+详情见 : 
+http:${to_user.link}/notice
