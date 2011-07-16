@@ -168,7 +168,7 @@ def notice_mail_day(to_id, li):
 
     li_wall_reply = {}
 
-    for rid, from_list in _li_wall_reply:
+    for rid, from_list in _li_wall_reply.iteritems():
         o = Wall.mc_get(rid)
         li_wall_reply[o] = from_list
 
