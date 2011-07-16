@@ -139,12 +139,12 @@ def finish(o):
     o.DB_CONFIG = {
         'main': {
             'master': DB_HOST_MAIN,
-            'tables': DB_MAIN_TABLE
+            'tables': DB_MAIN_TABLE,
         },
         'google': {
             'master': DB_HOST_GOOGLE,
-            'tables': DB_GOOGLE_TABLE
-        }
+            'tables': DB_GOOGLE_TABLE,
+        },
     }
     return o
 
