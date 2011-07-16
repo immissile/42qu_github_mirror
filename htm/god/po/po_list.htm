@@ -32,6 +32,9 @@ user = po.user
 %endif
 <div id="list_txt">
 <a href="${po.link}" target="_blank">
+% if po.rid:
+答案\
+%else:
 % if cid == CID_WORD:
 微博\
 % elif cid == CID_QUESTION:
@@ -39,8 +42,6 @@ user = po.user
 % else:
 日记\
 % endif
-% if po.rid:
-答案\
 % endif
 </a>
 ${po.name_htm|n}
