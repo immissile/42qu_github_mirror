@@ -1,3 +1,4 @@
+<%inherit file="/mail/_base/mail.txt" />
 <%!
 from model.cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY
 %>
@@ -51,10 +52,7 @@ other = wall.zsite_other(to_id)
 %>\
 ${user_list_with_career(from_list)} 参与了 你 与 ${other.name|n} 的对话
 % endfor
+
 详情请见 : 
 http:${to_user.link}/notice
-
-
-若想退订 , 在此设置 :
-${site_http}/i/notice
 

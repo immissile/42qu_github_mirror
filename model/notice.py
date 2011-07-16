@@ -219,7 +219,12 @@ def mc_flush(to_id):
 
 if __name__ == '__main__':
     pass
-    notice_mail_day(10000212, ((10033909, 93, 1), (10033921, 93, 2)))
-# for i,v in notice_unread.iteritems():
-#     if v:
-#         notice_unread.set(i, 0)
+    to_user = Zsite.mc_get(10000000)
+    rendermail(
+        '/mail/notice/day_total.txt',
+        "zsp007@gmail.com",
+        "x",
+        to_user=to_user,
+        count=3,
+        li_wall_reply={},
+    )
