@@ -88,4 +88,5 @@ def link(id):
 
 if __name__ == '__main__':
     print id_by_url("Jarod")
+    print url_by_id("10006522")
     #print mc_id_by_url.get("I000000") 
