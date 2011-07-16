@@ -32,6 +32,7 @@ def log_new_po():
     num_today = Po.raw_sql('select count(1) from po').fetchone()[0]
     today = today_int()
     num_pre = LogHistory.where(day = today-1,cid = LOG_HISTORY_NEW_PO_CID).col_list(col='num')
+    print num_pre
     if num_pre:
         LogHistory.raw_sql('insert into log_history (day,num,incr,cid) values(%s,%s,%s,%s)',today,num_today,num_today-num_pre,LOG_HISTORY_NEW_PO_CID)
     else:
@@ -39,9 +40,13 @@ def log_new_po():
 
 def log_new_po_user():
     num_today = Po.raw_sql('select count(distinct(user_id)) from po').fetchone()[0]
+    print num_today
     today = today_int()
-    num_pre = LogHistory.where(day = today-1, cid = LOG_HISTORY_NEW_USER_CID).col_list(col='num')[:1] 
+    print today
+    num_pre = LogHistory.where(day = today-1, cid = LOG_HISTORY_NEW_USER_CID).col_list(col='num')[:1]
+    print num_pre
     if num_pre:
+        print num_today - num_pre[0]
         LogHistory.raw_sql('insert into log_history (day,num,incr,cid) values(%s,%s,%s,%s)',today,num_today,num_today-num_pre[0],LOG_HISTORY_NEW_PO_USER_CID)
     else:
         LogHistory.raw_sql('insert into log_history (day,num,incr,cid) values(%s,%s,%s,%s)',today,num_today,0,LOG_HISTORY_NEW_PO_USER_CID)
