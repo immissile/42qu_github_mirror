@@ -15,7 +15,7 @@ $(function(){
     function txtresize() {
         var inpo = $("#po_btn"),
         h = Math.max(win.height() - inpo.height() - txt.offset().top - 50, 250);
-        txt.focus().height(h)
+        txt.height(h)
     }
     txtresize()
     win.resize(txtresize)
