@@ -51,9 +51,10 @@ other = wall.zsite_other(to_id)
 %>\
 ${user_list_with_career(from_list)} 参与了 你 与 ${other.name|n} 的对话
 % endfor
-详情见 : 
+详情请见 : 
 http:${to_user.link}/notice
 
 
-若想退订 , 在此设置 ${site_http}/i/notice
+若想退订 , 在此设置 :
+${site_http}/i/notice
 
