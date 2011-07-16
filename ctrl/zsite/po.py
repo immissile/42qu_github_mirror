@@ -9,7 +9,7 @@ from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename, po_id_list_by_zsite_tag_id, zsite_tag_count
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_PO
 from zkit.page import page_limit_offset
 from zkit.txt import cnenlen
 from model.zsite_tag import ZsiteTag
@@ -104,6 +104,7 @@ CID2TEMPLATE = {
     CID_NOTE: PO_TEMPLATE,
     CID_QUESTION:'/ctrl/zsite/po/question.htm',
     CID_ANSWER: PO_TEMPLATE,
+    CID_PHOTO: '/ctrl/zsite/po/photo.htm',
 }
 
 @urlmap('/(\d+)')

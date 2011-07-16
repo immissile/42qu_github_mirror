@@ -2,11 +2,12 @@
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model import reply
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_PO
 from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.po_pos import po_pos_get, po_pos_set
 from model.po_question import po_question_new, answer_word2note
+from model.po_photo import po_photo_new
 from model.zsite import Zsite
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from zkit.jsdict import JsDict
@@ -110,6 +111,11 @@ class PoNote(PoBase):
 class PoQuestion(PoBase):
     cid = CID_QUESTION
     po_save = staticmethod(po_question_new)
+
+@urlmap('/po/photo')
+class PoPhoto(PoBase):
+    cid = CID_PHOTO
+    po_save = staticmethod(po_photo_new)
 
 
 @urlmap('/po/edit/(\d+)')
