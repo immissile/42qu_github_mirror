@@ -67,8 +67,11 @@ def log_parser(date):
 
 if __name__ == '__main__':
     import sys
+
     if len(sys.argv) > 1:
         date = sys.argv[1]
     else:
         date = yesterday()
+    
     log_parser(date)
+
