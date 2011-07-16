@@ -6,10 +6,15 @@ import datetime
 ONE_DAY = 3600 * 24
 TIMEZONE_OFFSET = mktime((1970, 1, 1, 0, 0, 0, 0, 0, 0))
 
+def today_seconds():
+    return int(time()/ONE_DAY)*ONE_DAY
 
 def today_days():
     return int(time()/ONE_DAY)
 
+
+def yesterday_seconds():
+    return today_days() - ONE_DAY
 
 def date_to_days(s):
     n = strptime(s, '%Y%m%d')
@@ -55,5 +60,6 @@ if __name__ == '__main__':
     #print date_to_days('')
     #print yesterday()
     #print today_year()
-    date = 20110704
-    print year_month_begin_end(date, date)
+    #date = 20110704
+    #print year_month_begin_end(date, date)
+    print today_seconds()
