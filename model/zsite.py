@@ -116,12 +116,16 @@ def zsite_verify_mail(zsite_id, cid, state, txt=''):
 from mq import mq_client
 mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     #print zsite_is_verify(jarod)
     pass
-  #  zsite = Zsite.mc_get(10043090)
-  #  zsite_verify_no(zsite,"te")
+    zsite = Zsite.mc_get(10023730)
+    zsite.state = ZSITE_STATE_VERIFY
+    zsite.save()
+    print zsite.state , ZSITE_STATE_VERIFY
+    print Zsite.where(state=ZSITE_STATE_WAIT_VERIFY).col_list()
+#  zsite_verify_no(zsite,"te")
     #print Zsite.where().count()
-   # for i in Zsite.where():
-   #     i.name = i.name.strip()
-   #     i.save()
+# for i in Zsite.where():
+#     i.name = i.name.strip()
+#     i.save()
