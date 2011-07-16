@@ -17,7 +17,6 @@ def url_by_id(id):
     if u is None:
         return ''
     url = u.url
-    mc_id_by_url.set(url, u.id)
     return url
 
 
@@ -81,12 +80,12 @@ def zsite_by_domain(domain):
         if domain.isdigit():
             zsite_id = domain
         else:
-            zsite_id = id_by_url(domain)
+            zsite_id = id_by_url(domain.lower())
         return Zsite.mc_get(zsite_id)
 
 def link(id):
     return '//%s.%s' % (url_by_id(id) or id, SITE_DOMAIN)
 
 if __name__ == '__main__':
-    print url_by_id(id_by_url("jarod"))
-    print mc_id_by_url.get("I000000") 
+    print id_by_url("Jarod")
+    #print mc_id_by_url.get("I000000") 

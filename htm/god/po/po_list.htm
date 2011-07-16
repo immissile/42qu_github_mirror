@@ -31,7 +31,7 @@ user = po.user
     <a href="${user.link}" target="_blank"><img class="ico" src="${ico_url}"></a>
 %endif
 <div id="list_txt">
-<span class="c9">
+<a href="${po.link}" target="_blank">
 % if cid == CID_WORD:
 微博\
 % elif cid == CID_QUESTION:
@@ -42,7 +42,7 @@ user = po.user
 % if po.rid:
 答案\
 % endif
-</span>
+</a>
 ${po.name_htm|n}
 </p>
 %if cid!=CID_WORD:
