@@ -41,6 +41,7 @@ def url_new(id, url):
     u = Url.get_or_create(id=id)
     u.url = url
     u.save()
+    url = url.lower()
     mc_id_by_url.set(url, id)
     mc_url_by_id.set(id, url)
 
@@ -91,5 +92,5 @@ def link(id):
 
 if __name__ == '__main__':
     print id_by_url('Jarod')
-    print host('10006522')
+    print host('10006523')
     #print mc_id_by_url.get("I000000") 
