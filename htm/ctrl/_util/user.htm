@@ -9,21 +9,21 @@ career = ' , '.join(filter(bool, user.career))
 </a>
 </%def>
 
-<%def name="user_career(user)">
+<%def name="user_career(user)">\
 <%
 career = ' , '.join(filter(bool, user.career))
-%>
+%>\
 ${user.name}\
 % if career:
  - ${career}\
 % endif
 </%def>
 
-<%def name="user_name_list(user_list)">
+<%def name="user_name_list(user_list)">\
 ${' , '.join([i.name for i in user_list])}\
 </%def>
 
-<%def name="user_list_with_career(user_list)">
+<%def name="user_list_with_career(user_list)">\
 <%
 l = len(user_list)
 %>\

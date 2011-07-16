@@ -150,12 +150,14 @@ def notice_question_mail(notice):
 
 def notice_mail_day(to_id, li):
     from user_mail import mail_by_user_id
+
     to_user = Zsite.mc_get(to_id)
+    name = to_user.name
     mail = mail_by_user_id(to_id)
-    name = Zsite.mc_get(to_id).name
     count = len(li)
     li_wall = []
     _li_wall_reply = defaultdict(list)
+
     for from_id, cid, rid in li:
         from_user = Zsite.mc_get(from_id)
         if cid == CID_NOTICE_WALL:
@@ -163,16 +165,22 @@ def notice_mail_day(to_id, li):
         elif cid == CID_NOTICE_WALL_REPLY:
             o = Wall.mc_get(rid)
             _li_wall_reply[rid].append(from_user)
+
     li_wall_reply = {}
-    for rid, from_list in _li_wall_reply:
+
+    for rid, from_list in _li_wall_reply.iteritems():
         o = Wall.mc_get(rid)
         li_wall_reply[o] = from_list
-    rendermail('/mail/notice/day_total.txt', mail, name,
-               to_user=to_user,
-               count=count,
-               li_wall=li_wall,
-               li_wall_reply=li_wall_reply,
-              )
+
+    rendermail(
+        '/mail/notice/day_total.txt',
+        mail,
+        name,
+        to_user=to_user,
+        count=count,
+        li_wall=li_wall,
+        li_wall_reply=li_wall_reply,
+    )
 
 
 notice_count = McNum(lambda to_id: Notice.where(to_id=to_id).where(STATE_GTE_APPLY).count(), 'NoticeCount.%s')
