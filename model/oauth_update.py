@@ -15,13 +15,13 @@ SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY,\
 QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY,\
 TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY,\
 WWW163_CONSUMER_SECRET, WWW163_CONSUMER_KEY,\
-GOOGLE_CONSUMER_SECRET 
+GOOGLE_CONSUMER_SECRET
 from oauth import oauth_token_by_oauth_id,\
 OAUTH_GOOGLE, OAUTH_DOUBAN, \
 OAUTH_SINA, OAUTH_TWITTER,\
 OAUTH_WWW163, OAUTH_BUZZ,\
 OAUTH_SOHU, OAUTH_QQ, \
-OAUTH_RENREN,OAUTH_LINKEDIN 
+OAUTH_RENREN,OAUTH_LINKEDIN
 
 from collections import defaultdict
 from oauth import oauth_rm_by_oauth_id
@@ -166,9 +166,9 @@ def api_douban(netloc, parameters, key, secret, method="POST", data=None):
         "application/atom+xml"
     )
 
-    
+
 def api_twitter_say(key, secret, word):
-    return 
+    return
     #TODO
     return api_twitter(
         "/statuses/update.json",
