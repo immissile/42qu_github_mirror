@@ -41,8 +41,7 @@ def url_new(id, url):
     u = Url.get_or_create(id=id)
     u.url = url
     u.save()
-    url = url.lower()
-    mc_id_by_url.set(url, id)
+    mc_id_by_url.set(url.lower(), id)
     mc_url_by_id.set(id, url)
 
 NO_URL = set(('god', 'admin', 'review', 'lolicon', 'lolita', 'loli', 'risako', 'lara', 'luna', 'nuva'))
