@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model
 from zsite import Zsite
+from po import Po
 import time
 
 LOG_HISTORY_NEW_USER_CID = 1
@@ -26,8 +27,14 @@ def log_new_user():
     else:
         LogHistory.raw_sql('insert into log_history (day,num,incr,cid) values(%s,%s,%s,%s)',today,num_today,0,LOG_HISTORY_NEW_USER_CID)
 
+def log_po():
+    po_num = Po.raw_sql('select count(1) from po').fetchone()[0]
+    po_peo = Po.raw_sql('select count(distinct(user_id)) from po').fetchone()[0]
+    return po_num,po_peo
 
-
-
-
+def reply():
+    pass
 if __name__ == '__main__':
+    print log_po()
+
+
