@@ -187,7 +187,6 @@ class UserSearch(Base):
     def post(self):
         query = self.get_argument('input', None)
         if query:
-            query = urllib.unquote(query).strip()
 
             user_id = zsite_by_query(query)
             if user_id:
