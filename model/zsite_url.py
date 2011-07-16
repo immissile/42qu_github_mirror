@@ -83,10 +83,13 @@ def zsite_by_domain(domain):
             zsite_id = id_by_url(domain.lower())
         return Zsite.mc_get(zsite_id)
 
+def host(id):
+    return '%s.%s' % (url_by_id(id) or id, SITE_DOMAIN)
+
 def link(id):
-    return '//%s.%s' % (url_by_id(id) or id, SITE_DOMAIN)
+    return '//%s' % host(id)
 
 if __name__ == '__main__':
-    print id_by_url("Jarod")
-    print url_by_id("10006522")
+    print id_by_url('Jarod')
+    print host('10006522')
     #print mc_id_by_url.get("I000000") 
