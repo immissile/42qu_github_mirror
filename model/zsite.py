@@ -117,7 +117,7 @@ from mq import mq_client
 mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 
 if __name__ == "__main__":
-    zsite_is_verify(10000000)
+    #print zsite_is_verify(jarod)
     pass
   #  zsite = Zsite.mc_get(10043090)
   #  zsite_verify_no(zsite,"te")
