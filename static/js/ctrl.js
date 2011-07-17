@@ -69,20 +69,26 @@ function login_autofill(suffix){
  })
  */
 function init_D(){
-    var body=$('html,body')
+    var html=$('html,body'), body=$('body');
     $("#H .DA").click(function(e){
         var t=this, drop=$(this.parentNode).find('div');
         t.blur();
         function _(){
             drop.hide()
-            body.unbind('click',_)
+            html.unbind('click',_)
         }
         if(drop.is(":hidden")){
             drop.show()
             e.stopPropagation()
-            body.click(_)
+            html.click(_)
         }else{
             _()
+        }
+    })
+    $(function(){
+        if(body.height()>$(window).height()){
+            body.append('<div class="zsite_foot"><a href="#H"></a></div>')
+            $(".zsite_foot a").html($(".site").html())
         }
     })
 }
