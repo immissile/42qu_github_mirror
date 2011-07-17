@@ -68,8 +68,16 @@ function login_autofill(suffix){
          }
  })
  */
-function init_D(){
-    var html=$('html,body'), body=$('body');
+function init_none(){
+$(function(){
+    var body=$('body');
+    if(body.height()>$(window).height()){
+        body.append($('<a class="zsite_foot" href="#H"></a>').html($(".site").html()))
+    }
+})
+}
+function init_user(){
+    var html=$('html,body');
     $("#H .DA").click(function(e){
         var t=this, drop=$(this.parentNode).find('div');
         t.blur();
@@ -85,11 +93,7 @@ function init_D(){
             _()
         }
     })
-    $(function(){
-        if(body.height()>$(window).height()){
-            body.append($('<a class="zsite_foot" href="#H"></a>').html($(".site").html()))
-        }
-    })
+    init_none()
 }
 
 CANNOT_REPLY = '<div class="fancyban"><p>啊 , 出错了 !</p><p>为了假装一本正经的讨论气氛</p><p>未认证用户没有发言权</p><p><a href="/i/verify">点此申请认证吧</a></p></div>'
