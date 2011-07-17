@@ -17,8 +17,11 @@ rm = _rm("#reply","/reply/rm/")
         margin:10px;
         text-align:center;
     }
-
+    .reply_list{
+        padding:14px 0;
+    }
 </style>
+<div class="reply_list">
 % for reply in reply_list:
 <%
 cid = reply.cid
@@ -33,7 +36,7 @@ else:
     po = reply.po
 %>\
 <div id ='reply${id}' class="sdw"><div class="sd">
-<p>
+<p class="tr">
 %if cid!=CID_USER:
 <a href="${po.link}" target="_blank">${po.name}</a>
 %else:
@@ -55,5 +58,5 @@ ${reply.txt or '[]'}
 </p>
 </div></div>
 % endfor
-
+</div>
 ${page|n}
