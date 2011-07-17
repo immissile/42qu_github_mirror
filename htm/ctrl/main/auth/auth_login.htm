@@ -1,6 +1,6 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%!
-from config import LOGO_TEXT
+from config import LOGO_TEXT,SITE_DOMAIN
 %>
 <%namespace file="/ctrl/_util/login.htm" import="login_form"/>
 <%def name="h_nav()"></%def>
@@ -12,7 +12,7 @@ ${css.ctrl_auth_reg|n}
 %if this.get_argument('next',None):
     <h1>登录 ， 然后 ， 继续 。。。</h1>
 %else:
-    <h1 class="logo">${LOGO_TEXT|n}</h1>
+    <a href="//hero.${SITE_DOMAIN}"><h1 class="logo">${LOGO_TEXT|n}</h1></a>
 %endif
 ${login_form()}\
 </div>
