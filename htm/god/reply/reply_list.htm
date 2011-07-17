@@ -28,21 +28,21 @@ state = reply.state
 if cid == CID_USER:
     wall = reply.wall
     wall_from_user = wall.from_user
+    wall_to_user = wall.to_user
+else:
+    po = reply.po
 %>\
 <div id ='reply${id}' class="sdw"><div class="sd">
 <p>
-
+%if cid!=CID_USER:
+<a href="${po.link}" target="_blank">${po.name}</a>
+%else:
+<a href="${wall_from_user.link}${wall.link}" target="_blank">${wall_from_user.name} - ${wall_to_user.name}</a>
+%endif
+</p>
+<p>
 <a href="${user.link}" target="_blank">${user.name}</a> :
-<a 
-    target="_blank"
-    %if cid == CID_USER:
-        href="${wall_from_user.link}${wall.link}"
-    %else:
-        %if reply.po:
-        href="${reply.po.link}"
-        %endif
-    %endif
->${reply.txt or '[]'}</a>
+${reply.txt or '[]'}
 </p>
 <p>
 %if state == STATE_DEL:
