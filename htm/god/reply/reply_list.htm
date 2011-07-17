@@ -1,7 +1,8 @@
 <%inherit file="/god/_base.htm" />
 <%!
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_USER
 from model.state import STATE_DEL,STATE_SECRET
+from config import SITE_URL
 %>
 <%def name="htm_head()">
 </%def>
@@ -24,25 +25,22 @@ cid = reply.cid
 user = reply.user
 id = reply.id
 state = reply.state
+if cid == CID_USER:
+    wall = reply.wall
+    wall_from_user = wall.from_user
 %>\
 <div id ='reply${id}' class="sdw"><div class="sd">
 <p>
 
-% if cid == CID_WORD:
-[微博]\
-% elif cid == CID_QUESTION:
-[问题]\
-% else:
-[日记]\
-% endif
-##% if reply.rid:
-##[答案]\
-##% endif
- <a href="${user.link}" target="_blank">${user.name}</a> :
+<a href="${user.link}" target="_blank">${user.name}</a> :
 <a 
     target="_blank"
-    %if reply.po:
-    href="${reply.po.link}"
+    %if cid == CID_USER:
+        href="${wall_from_user.link}${wall.link}"
+    %else:
+        %if reply.po:
+        href="${reply.po.link}"
+        %endif
     %endif
 >${reply.txt or '[]'}</a>
 </p>
