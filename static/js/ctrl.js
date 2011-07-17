@@ -72,7 +72,9 @@ function init_none(){
 $(function(){
     var body=$('body');
     if(body.height()>$(window).height()){
-        body.append($('<a class="zsite_foot" href="#H"></a>').html($(".site").html()))
+        body.append($('<a class="zsite_foot" href="#B"></a>').html(
+            $(".site").html()||location.host
+        ))
     }
 })
 }
