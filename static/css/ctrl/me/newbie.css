@@ -5,7 +5,7 @@ margin-right:3px;
 #form_reg{
     font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
     line-height:36px;
-    padding:16px 0 64px;
+    padding:16px 0 0;
 }
 #form_reg p{
     padding:16px 0;
