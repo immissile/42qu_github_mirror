@@ -1,7 +1,7 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
-from model.state import STATE_DEL
+from model.state import STATE_DEL,STATE_SECRET
 %>
 <%def name="htm_head()">
 </%def>
@@ -18,14 +18,14 @@ rm = _rm("#reply","/reply/rm/")
     }
 
 </style>
-<ol>
 % for reply in reply_list:
 <%
 cid = reply.cid
 user = reply.user
 id = reply.id
+state = reply.state
 %>\
-<li id ='reply${id}'>
+<div id ='reply${id}' class="sdw"><div class="sd">
 <p>
 
 % if cid == CID_WORD:
@@ -47,16 +47,15 @@ id = reply.id
 >${reply.txt or '[]'}</a>
 </p>
 <p>
-%if reply.state == STATE_DEL:
-已删除
+%if state == STATE_DEL:
+已删
+%elif state == STATE_SECRET:
+私密
 %else:
 <a href="javascript:rm(${id});void(0)">删除</a>
 %endif
 </p>
-
-<hr>
-</li>
+</div></div>
 % endfor
-</ol>
 
 ${page|n}
