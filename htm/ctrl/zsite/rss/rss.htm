@@ -18,7 +18,7 @@
                 %if 'author' in i:
                 <dc:creator>${i['author']}</dc:creator>\
                 %endif
-                <description>${i['desc']|n}</description>\
+                <description><![CDATA[${i['desc']|n}]]></description>\
                 <pubDate>${i['pubdate']}</pubDate>\
                 <guid isPermaLink="true">${i['link']}</guid>\
             </item>\

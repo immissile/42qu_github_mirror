@@ -6,6 +6,8 @@ from model.user_mail import mail_by_user_id
 from model.zsite_tag import tag_by_po_id
 from model.career import career_current
 from model.po_pic import pic_list
+from model.cid import CID_NOTE
+from model.ico import ico_url
 from config import SITE_DOMAIN
 from model.txt import txt_get
 from ctrl._urlmap.zsite import urlmap
@@ -64,11 +66,9 @@ class Rss(ZsiteBase):
         rss_link = 'http:%s/rss' % zsite.link
         pubdate = time()
         rss_desc = '%s 的文章 | 42qu.com %s' % (zsite.name, format_rfc822_data(pubdate))
-        cid = 0
         limit = 25
         offset = 0
-        po_list = po_view_list(zsite.id, cid, False, limit, offset)
-
+        po_list = po_view_list(zsite.id, CID_NOTE, False, limit, offset)
         for po in po_list:
             d = {}
             author = Zsite.get(po.user_id)
@@ -84,7 +84,8 @@ class Rss(ZsiteBase):
             """<font face="Verdana,sans-serif" size="3"><pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;">%s</pre><div style="margin:27px 0;padding:27px 0;text-align:left;font-size:16px;">"""%(po.htm)
             ]
             unit, title = career_current(zsite.id)
-            desc.append("""<a href="%s">%s</a>, %s, %s"""%(author.link, author.name, unit, title))
+            tail = """ <div style="margin:27px 0;padding:27px 0;text-align:left;font-size:14px;float:left"><a target="_blank" href="%s"><img style="float:left;margin-right:28px" src="%s"></a><div style="line-height:32px;float:left"><div>%s</div><div style="color:#000"><div>%s<div>%s</div></div></div></div>"""
+            desc.append(tail %(author.link, ico_url(zsite.id),author.name, unit, title))
             desc.append("</br></div></font>")
             d['desc'] = ''.join(desc)
             d['pubdate'] = format_rfc822_data(po.create_time)
