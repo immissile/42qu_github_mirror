@@ -61,7 +61,7 @@ class Feed(JLoginBase):
 
         result , last_id = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
         result = tuple(
-            (i,tuple(g)) for i,g in groupby(result,itemgetter(0))
+            (i, tuple(g)) for i, g in groupby(result, itemgetter(0))
         )
         zsite_id_set = set(
             i[0] for i in result

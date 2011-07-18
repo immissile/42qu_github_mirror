@@ -6,7 +6,7 @@ from _urlmap import urlmap
 @urlmap('/')
 class Index(Base):
     def get(self):
-        self.redirect("/chart",permanent=True)
+        self.redirect('/chart', permanent=True)
 
 @urlmap('/chart')
 class Chart(Base):

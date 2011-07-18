@@ -65,7 +65,7 @@ class Index(Base):
 class PicRm(Base):
     def get(self, id, uid):
         admin_id = self.current_user.id
-        pic_no(id,admin_id)
+        pic_no(id, admin_id)
         self.redirect('/zsite/%s'%uid)
 
 @urlmap('/zsite/show/(\d+)')
@@ -104,18 +104,18 @@ class Mail(Base):
 
 @urlmap('/zsite/verify/new/(0|1)/(\d+)')
 class VerifyNew(Base):
-    def get(self,state,id):
+    def get(self, state, id):
         state = int(state)
         zsite = Zsite.mc_get(id)
-        
+
         if zsite:
             if state:
                 zsite_verify_yes(zsite)
             else:
                 zsite_verify_no_without_notify(zsite)
-        
+
         self.redirect('/zsite/%s'%id)
-    
+
 
 @urlmap('/zsite/verify/(0|1|2)/(\d+)')
 class Verify(Base):

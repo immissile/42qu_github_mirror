@@ -2635,9 +2635,9 @@ jdict = dict((k.decode('utf8'), v.decode('utf8')) for k, v in zh_dict.iteritems(
 fdict = dict((v.decode('utf8'), k.decode('utf8')) for k, v in zh_dict.iteritems())
 
 def utf8_ftoj(d):
-    d = d.decode("utf-8", 'ignore')
+    d = d.decode('utf-8', 'ignore')
     d = ftoj(d)
-    d = d.encode("utf-8")
+    d = d.encode('utf-8')
     return d
 
 

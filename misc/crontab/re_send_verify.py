@@ -25,5 +25,5 @@ def re_send_verify():
             rendermail(template, mail, name, id=id, ck=ck)
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     re_send_verify()

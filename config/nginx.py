@@ -16,19 +16,19 @@ with open(join(dirname(CONFIG_DIR), 'template/nginx.conf')) as template:
 
 def render_conf(name, base_path, o):
     fs_path = base_path+'/static'
-    
+
     port_list = o.PORT
     if type(port_list) not in (list, tuple):
         port_list = [port_list]
-    
+
     god_port_list = o.GOD_PORT
     if type(god_port_list) not in (list, tuple):
         god_port_list = [god_port_list]
-    
+
     api_port_list = o.API_PORT
     if type(api_port_list) not in (list, tuple):
         api_port_list = [api_port_list]
-    
+
     rpc_port_list = o.RPC_PORT
     if type(rpc_port_list) not in (list, tuple):
         rpc_port_list = [rpc_port_list]

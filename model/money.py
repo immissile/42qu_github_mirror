@@ -263,6 +263,6 @@ def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
     return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     for i in trade_history(10000000):
         print i.cid, i.state, i.from_id

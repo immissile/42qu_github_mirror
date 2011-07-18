@@ -43,7 +43,7 @@ class Po(McModel, ReplyMixin):
             return txt_get(self.id)
 
     def mc_flush(self):
-        if not hasattr(self, "_mc_flush"):
+        if not hasattr(self, '_mc_flush'):
             if self._new_record:
                 rid = self.rid
                 if rid:
@@ -296,7 +296,7 @@ def mc_flush_cid_list_all(user_id, cid_list):
 
 if __name__ == '__main__':
     #for i in Po.where("rid!=0"):
-        #print i.id , po_rm(i.user_id, i.id)
+    #print i.id , po_rm(i.user_id, i.id)
     po_view_list()
 
 

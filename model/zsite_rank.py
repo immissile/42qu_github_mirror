@@ -72,7 +72,7 @@ def zsite_rank_by_zsite_id(id):
 
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     #ZsiteRank.where().update(value=0)
     pass
 

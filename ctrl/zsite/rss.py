@@ -17,13 +17,13 @@ from model.cid import CID_NOTE
 from cgi import escape
 
 def format_rfc822_data(sec):
-    return strftime("%a, %d %b %Y %H:%M:%S +0800", gmtime(sec))
+    return strftime('%a, %d %b %Y %H:%M:%S +0800', gmtime(sec))
 
 
 @urlmap('/rss')
 class Rss(ZsiteBase):
     def get(self):
-        self.set_header("Content-Type", "text/xml; charset=utf-8")
+        self.set_header('Content-Type', 'text/xml; charset=utf-8')
 
         items = []
         zsite = self.zsite
@@ -41,7 +41,7 @@ class Rss(ZsiteBase):
             po_title = po.name
             po_link = 'http:%s/%s' % (zsite.link, po.id)
             tag = tag_by_po_id(zsite.id, po.id)[2]
-            d['title'] = "%s #%s" % (po_title, tag)
+            d['title'] = '%s #%s' % (po_title, tag)
             d['author'] = mail_by_user_id(po.user_id)
             d['link'] = po_link
             desc = [
@@ -53,23 +53,23 @@ class Rss(ZsiteBase):
             desc.append(
                 """ <div style="margin:27px 0;padding:27px 0;text-align:left;font-size:14px;float:left"><a target="_blank" href="%s">"""%author.link
             )
-            
-            ico  = ico_url(zsite.id)
+
+            ico = ico_url(zsite.id)
             if ico:
                 desc.append(
-                    """<img style="float:left;margin-right:28px" src="%s">"""%ico 
+                    """<img style="float:left;margin-right:28px" src="%s">"""%ico
                 )
-            
+
             desc.append("""<div style="line-height:32px;float:left"><div>%s</div><div style="color:#000">"""%escape(author.name))
-            
-            if unit: 
+
+            if unit:
                 desc.append("""<div>%s<div>"""%escape(unit))
 
-            if title: 
+            if title:
                 desc.append("""<div>%s<div>"""%escape(title))
 
             desc.append("""</div></div></a></div>""")
-            desc.append("</br></div></font>")
+            desc.append('</br></div></font>')
             d['desc'] = ''.join(desc)
             d['pubdate'] = format_rfc822_data(po.create_time)
             items.append(d)

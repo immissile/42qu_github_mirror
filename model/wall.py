@@ -37,7 +37,7 @@ class Wall(McModel, ReplyMixin):
     def zsite_id_list(self):
         return set([self.from_id, self.to_id])
 
-    def zsite_id_other(self,id):
+    def zsite_id_other(self, id):
         if id == self.from_id:
             return self.to_id
         if id == self.to_id:

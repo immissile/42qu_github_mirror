@@ -14,8 +14,8 @@ def buzz_show():
     #print pos
     if pos > prev_pos:
         c = ZsiteList.raw_sql(
-            'select zsite_id from zsite_list where owner_id=0 and cid=0 and state=1 and id>%s and id<=%s order by id', 
-            prev_pos, 
+            'select zsite_id from zsite_list where owner_id=0 and cid=0 and state=1 and id>%s and id<=%s order by id',
+            prev_pos,
             pos
         )
         for zsite_id, in c.fetchall():

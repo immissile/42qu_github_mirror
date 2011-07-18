@@ -26,16 +26,16 @@ class Review(Base):
 
     def post(self, cid):
         current_user_id = self.current_user_id
-        
-        yes = self.get_argument('yes','')
+
+        yes = self.get_argument('yes', '')
         if yes:
-            ids_yes = map(int,yes.split(' '))
+            ids_yes = map(int, yes.split(' '))
         else:
             ids_yes = []
 
-        no = self.get_argument('no','')
+        no = self.get_argument('no', '')
         if no:
-            ids_no = map(int,no.split(' '))
+            ids_no = map(int, no.split(' '))
         else:
             ids_no = []
 

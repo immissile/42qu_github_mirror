@@ -2,7 +2,7 @@
 import re
 def txt_wrap_by(begin, end, html):
     if not html:
-        return ""
+        return ''
     start = html.find(begin)
     if start >= 0:
         start += len(begin)
@@ -12,7 +12,7 @@ def txt_wrap_by(begin, end, html):
 
 def txt_wrap_by_all(begin, end, html):
     if not html:
-        return ""
+        return ''
     result = []
     from_pos = 0
     while True:
@@ -29,13 +29,13 @@ def txt_wrap_by_all(begin, end, html):
 
 def strip_line(txt):
     if not txt:
-        return ""
-    txt = txt.replace("　", " ").split("\n")
-    return "\n".join(i for i in [i.strip() for i in txt] if i)
+        return ''
+    txt = txt.replace('　', ' ').split('\n')
+    return '\n'.join(i for i in [i.strip() for i in txt] if i)
 
 def strip_txt_wrap_by(begin, end, html):
     if not html:
-        return ""
+        return ''
     t = txt_wrap_by(begin, end, html)
     if t:
         return strip_line(t)
