@@ -129,7 +129,15 @@ def trade_fail(t):
         mc_frozen_get.delete(from_id)
 
 def trade_history(user_id):
-    qs = Trade.where('(to_id=%%s and not (cid=%s and state<%s)) or from_id=%%s' % (CID_TRADE_CHARDE, TRADE_STATE_FINISH), user_id, user_id).order_by('update_time desc')
+    qs = Trade.where(
+        '(to_id=%%s and state>%s) or (to_id=%%s and cid=%s) or from_id=%%s' % (
+            TRADE_STATE_FINISH,
+            CID_TRADE_WITHDRAW,
+        ), 
+        user_id, 
+        user_id,
+        user_id,
+    ).order_by('update_time desc')
     return list(qs)
 
 # TradeLog
@@ -246,3 +254,11 @@ def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
     assert price > 0
     cent = int(price * 100)
     return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)
+
+
+if __name__ == "__main__":
+    for i in trade_history(10000000):
+        print i.cid, i.state, i.from_id
+
+
+
