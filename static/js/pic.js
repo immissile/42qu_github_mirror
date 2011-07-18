@@ -60,7 +60,7 @@ function start_upload() {
         fileElementId: 'file',
         dataType: 'json',
         timeout: 120000,
-        allowType: 'jpg|png|bmp|gif|jpeg',
+        allowType: '\\.(jpg|png|bmp|gif|jpeg)$',
         extra: {
             _xsrf : $.cookie.get("_xsrf")
         },
