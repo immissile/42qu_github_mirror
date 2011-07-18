@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #The file is copy from po_question
 from _db import McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
 from spammer import is_same_post
 from po import Po, po_new, po_word_new, po_note_new, po_rm, po_cid_set
 from rank import rank_po_id_list, rank_new
