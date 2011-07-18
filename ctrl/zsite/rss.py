@@ -14,6 +14,7 @@ from ctrl._urlmap.zsite import urlmap
 from _handler import ZsiteBase
 from time import gmtime, strftime, time
 from model.cid import CID_NOTE
+from cgi import escape
 
 def format_rfc822_data(sec):
     return strftime("%a, %d %b %Y %H:%M:%S +0800", gmtime(sec))
@@ -49,8 +50,25 @@ class Rss(ZsiteBase):
 <div style="margin:27px 0;padding:27px 0;text-align:left;font-size:14px;">""" % po.htm
             ]
             unit, title = career_current(zsite.id)
-            tail = """ <div style="margin:27px 0;padding:27px 0;text-align:left;font-size:14px;float:left"><a target="_blank" href="%s"><img style="float:left;margin-right:28px" src="%s"></a><div style="line-height:32px;float:left"><div>%s</div><div style="color:#000"><div>%s<div>%s</div></div></div></div>"""
-            desc.append(tail %(author.link, ico_url(zsite.id),author.name, unit, title))
+            desc.append(
+                """ <div style="margin:27px 0;padding:27px 0;text-align:left;font-size:14px;float:left"><a target="_blank" href="%s">"""%author.link
+            )
+            
+            ico  = ico_url(zsite.id)
+            if ico:
+                desc.append(
+                    """<img style="float:left;margin-right:28px" src="%s">"""%ico 
+                )
+            
+            desc.append("""<div style="line-height:32px;float:left"><div>%s</div><div style="color:#000">"""%escape(author.name))
+            
+            if unit: 
+                desc.append("""<div>%s<div>"""%escape(unit))
+
+            if title: 
+                desc.append("""<div>%s<div>"""%escape(title))
+
+            desc.append("""</div></div></a></div>""")
             desc.append("</br></div></font>")
             d['desc'] = ''.join(desc)
             d['pubdate'] = format_rfc822_data(po.create_time)
