@@ -9,6 +9,7 @@ from zsite import Zsite
 from user_mail import mail_by_user_id
 from verify import verify_new, verifyed
 from state import STATE_APPLY, STATE_SECRET, STATE_ACTIVE
+from zkit.attrcache import attrcache
 
 mc_frozen_get = McCache('FrozenBank.%s')
 
@@ -44,6 +45,10 @@ TRADE_STATE_FINISH = 20
 
 class Trade(Model):
     link = '/money/bill'
+
+    @property
+    def log(self):
+        return trade_log.get(self.id)
 
     @property
     def read_value(self):
