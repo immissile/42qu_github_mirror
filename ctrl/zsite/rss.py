@@ -42,11 +42,13 @@ class Rss(ZsiteBase):
             d['author'] = mail_by_user_id(po.user_id)
             d['link'] = po_link
             desc = [
-            """<font face="Verdana,sans-serif" size="3"><pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;">%s</pre><div style="margin:27px 0;padding:27px 0;text-align:left;font-size:16px;">""" % po.htm
+            """<font face="Verdana,sans-serif" size="3">
+<pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;">%s</pre>
+<div style="margin:27px 0;padding:27px 0;text-align:left;font-size:14px;">""" % po.htm
             ]
             unit, title = career_current(zsite.id)
             desc.append("""<a href="%s">%s</a>, %s, %s""" % (author.link, author.name, unit, title))
-            desc.append("</br></div></font>")
+            desc.append("</div></font>")
             d['desc'] = ''.join(desc)
             d['pubdate'] = format_rfc822_data(po.create_time)
             items.append(d)

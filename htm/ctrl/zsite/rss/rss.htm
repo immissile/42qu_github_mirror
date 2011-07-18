@@ -10,7 +10,6 @@
 %if pubdate:
 <pubDate>${pubdate}</pubDate>\
 %endif
-%if items:
 %for i in items:
 <item>\
 <title>${i['title']}</title>\
@@ -18,11 +17,10 @@
 %if 'author' in i:
 <dc:creator>${i['author']}</dc:creator>\
 %endif
-<description>${i['desc']|n}</description>\
+<description><![CDATA[${i['desc']|n}]]></description>\
 <pubDate>${i['pubdate']}</pubDate>\
 <guid isPermaLink="true">${i['link']}</guid>\
 </item>\
 %endfor
-%endif
 </channel>\
 </rss>
