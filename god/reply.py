@@ -41,7 +41,6 @@ class ReplyList(Base):
         )
 
 
-
 @urlmap('/reply/rm/(\d+)')
 class ReplyRm(Base):
     def get(self, id):
@@ -49,4 +48,3 @@ class ReplyRm(Base):
         if r:
             r.rm()
         self.finish('{}')
-    
