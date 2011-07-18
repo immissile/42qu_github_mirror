@@ -10,7 +10,7 @@ from zkit.page import page_limit_offset
 
 CID_PIC = '|'.join(map(str, (CID_ICO, CID_PO_PIC)))
 
-PAGE_LIMIT = 16
+PAGE_LIMIT = 64
 
 @urlmap('/pic/review(%s)' % CID_PIC)
 class Review(Base):
