@@ -3,7 +3,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from ctrl._urlmap.zsite import urlmap
-from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION,PO_EN
+from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN
 from model.po_question import po_answer_new
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply
@@ -24,9 +24,9 @@ class PoCid(ZsiteBase):
     def get(self, cid):
         cid = int(cid)
         if cid in PO_EN:
-            link = "/%s"%PO_EN[cid]
+            link = '/%s'%PO_EN[cid]
         else:
-            link = "/"
+            link = '/'
         return self.redirect(link)
 
 @urlmap('/po/(\d+)')
@@ -214,7 +214,7 @@ class PoTag(ZsiteBase):
             return self.redirect('/')
         if tag.zsite_id != self.zsite_id:
             tag_zsite = Zsite.mc_get(tag.zsite_id)
-            return self.redirect("%s/tag/%s"%(tag_zsite.link, id))
+            return self.redirect('%s/tag/%s'%(tag_zsite.link, id))
         count = zsite_tag_count(id)
         page, limit, offset = page_limit_offset(
             '/po/tag/%s-%%s'%id,
@@ -281,7 +281,7 @@ class Rm(XsrfGetBase):
         user = self.current_user
         user_id = self.current_user_id
         po_rm(user_id, id)
-        self.redirect("%s/live"%user.link)
+        self.redirect('%s/live'%user.link)
 
     post = get
 

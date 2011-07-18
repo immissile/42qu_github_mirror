@@ -15,9 +15,9 @@ PO_SHOW_ZSITE_CHANNEL = (
 )
 
 
-mc_po_show_zsite_channel = McCache("PoShowZsiteChannel:%s")
+mc_po_show_zsite_channel = McCache('PoShowZsiteChannel:%s')
 
-@mc_po_show_zsite_channel("")
+@mc_po_show_zsite_channel('')
 def po_show_zsite_channel():
     return tuple(zip(
         PO_SHOW_ZSITE_CHANNEL,

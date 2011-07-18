@@ -59,7 +59,7 @@ class LinkEdit(LoginBase):
                 link_list.append((id, name, link))
 
         for cid in (set(OAUTH_LINK_DEFAULT) - exist_cid):
-            link_cid.append((cid, OAUTH2NAME_DICT[cid], ""))
+            link_cid.append((cid, OAUTH2NAME_DICT[cid], ''))
 
         return self.render(
             link_list=link_list,

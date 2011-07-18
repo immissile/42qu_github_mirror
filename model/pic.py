@@ -125,7 +125,7 @@ from mq import mq_client
 mq_pic_rm_mail = mq_client(pic_rm_mail)
 
 if __name__ == '__main__':
-    from ico import ico,ico96
+    from ico import ico, ico96
     from zweb.orm import ormiter
     from zsite import Zsite
     for i in ormiter(Zsite):
@@ -134,11 +134,11 @@ if __name__ == '__main__':
         if ico_id:
             pic = Pic.get(ico_id)
             print pic.state
-   #         pic.cid = CID_ICO
-   #         pic.save()
-   #     if ico96_id:
-   #         pic = Pic.get(ico96_id)
-   #         pic.cid = CID_ICO96
-   #         pic.save()
+#         pic.cid = CID_ICO
+#         pic.save()
+#     if ico96_id:
+#         pic = Pic.get(ico96_id)
+#         pic.cid = CID_ICO96
+#         pic.save()
 
 

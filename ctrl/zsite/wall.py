@@ -44,12 +44,12 @@ class Page(ZsiteBase):
             reply_list=reply_list,
             page=page
         )
-    
+
     def post(self):
         zsite = self.zsite
         link = zsite.link
         post_reply(self, zsite.reply_new)
-        self.redirect("%s/wall"%link)
+        self.redirect('%s/wall'%link)
 
 
 @urlmap('/wall/reply2txt/(\d+)')

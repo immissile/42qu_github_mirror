@@ -36,4 +36,4 @@ class IndexV(Base):
         count = zsite_list_count(0, 0)
         page, limit, offset = page_limit_offset('/user_list_verify-%s', count, n, 64)
         zsite_list = Zsite.mc_get_list(zsite_show(limit, offset))
-        self.render(zsite_list=zsite_list,page=page)
+        self.render(zsite_list=zsite_list, page=page)

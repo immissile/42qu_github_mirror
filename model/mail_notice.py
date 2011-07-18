@@ -32,10 +32,10 @@ def mail_notice_set(user_id, cid, state):
         MailNotice.where(user_id=user_id, cid=cid).update(state=state)
         mc_mail_notice_state.set('%s_%s' % (user_id, cid), state)
 
-if __name__ == "__main__":
-    with open("1") as infile:
+if __name__ == '__main__':
+    with open('1') as infile:
         for i in infile:
-            cid , user_id = map(int,i.strip().split())
+            cid , user_id = map(int, i.strip().split())
             if cid == 0:
                 cid = CID_MAIL_MONTH
             else:

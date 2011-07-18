@@ -37,17 +37,17 @@ def year_month_str(date):
     month = date%10000//100
     if month:
         result.append(month)
-    return ".".join(map(str,result))
+    return '.'.join(map(str, result))
 
 
 def year_month_begin_end(begin, end):
     r = []
     if begin:
         r.append(begin)
-    if end and end!=begin:
+    if end and end != begin:
         r.append(end)
 
-    return " - ".join(map(year_month_str,r))
+    return ' - '.join(map(year_month_str, r))
 
 
 TIMESTAMP_FORMAT = '%Y-%m-%d %H:%M:%S'

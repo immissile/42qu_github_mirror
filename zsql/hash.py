@@ -15,7 +15,7 @@ from mmhash import get_hash
 
 
 def by_hash(name):
-    hk = name+"_hash"
+    hk = name+'_hash'
     @classmethod
     def _by_hash(cls, key):
         for i in cls.where(
@@ -31,5 +31,5 @@ def by_hash(name):
 def save_hash(self, name):
     if self._new_record or (name in self._changed):
         h = get_hash( getattr(self, name) )
-        setattr(self, name+"_hash", h)
+        setattr(self, name+'_hash', h)
 

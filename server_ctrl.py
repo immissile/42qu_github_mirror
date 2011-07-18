@@ -8,7 +8,7 @@ if len(sys.argv) > 1 and sys.argv[1].isdigit():
     port = int(sys.argv[1])
 else:
     port = config.PORT
-    if type(port) in (list,tuple):
+    if type(port) in (list, tuple):
         port = port[0]
 
 print 'server on port %s'%port

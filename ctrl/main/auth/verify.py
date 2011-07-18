@@ -22,7 +22,7 @@ class Send(Base):
             verify_mail_new(user_id, user.name, mail, self.cid)
             path = '/auth/verify/sended/%s'%user_id
         else:
-            path = "/login"
+            path = '/login'
 
         self.redirect(path)
 
@@ -33,7 +33,7 @@ class Sended(Base):
         user_id = int(id)
         user = Zsite.mc_get(id)
         if user.state > ZSITE_STATE_APPLY or user.cid != CID_USER:
-            return self.redirect("/login")
+            return self.redirect('/login')
         return self.render(user_id=user_id)
 
 

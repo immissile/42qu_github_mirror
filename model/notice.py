@@ -235,8 +235,8 @@ if __name__ == '__main__':
     to_user = Zsite.mc_get(10000000)
     rendermail(
         '/mail/notice/day_total.txt',
-        "zsp007@gmail.com",
-        "x",
+        'zsp007@gmail.com',
+        'x',
         to_user=to_user,
         count=3,
         li_wall_reply={},

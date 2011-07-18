@@ -35,4 +35,4 @@ class AttrCache(object):
 
 class ReadOnlyAttrCache(AttrCache):
     def __set__(self, inst, value):
-        raise AttributeError("This property is read-only")
+        raise AttributeError('This property is read-only')

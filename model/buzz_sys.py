@@ -48,5 +48,5 @@ def buzz_sys_edit(id, htm, seq):
         if seqchange:
             mc_buzz_sys_init_id_list.delete('')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pass

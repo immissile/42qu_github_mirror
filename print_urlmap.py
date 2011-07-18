@@ -15,9 +15,9 @@ def print_urlmap(module):
         mddict = pyclbr.readmodule(mn)
         cls_name = cls.__name__
 
-        mn = mn.replace('.', '/') 
+        mn = mn.replace('.', '/')
         if isdir(mn):
-            mn += "/__init__"
+            mn += '/__init__'
         mn += '.py'
 
         print '\t%s\t%s%s'%(

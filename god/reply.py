@@ -29,8 +29,8 @@ class ReplyList(Base):
         if cid == CID_USER:
             Wall.mc_bind(li, 'wall', 'rid')
             wall_list = [i.wall for i in li]
-            Zsite.mc_bind(wall_list,"from_user","from_id")
-            Zsite.mc_bind(wall_list,"to_user","to_id")
+            Zsite.mc_bind(wall_list, 'from_user', 'from_id')
+            Zsite.mc_bind(wall_list, 'to_user', 'to_id')
         else:
             Po.mc_bind(li, 'po', 'rid')
 

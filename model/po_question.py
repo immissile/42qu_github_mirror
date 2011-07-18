@@ -23,7 +23,7 @@ def po_question_new(user_id, name, txt, state):
         return m
 
 mc_answer_id_get = McCache('AnswerIdGet.%s')
-answer_count = McNum(lambda id:Po.where(rid=id).where("state>%s", STATE_DEL).count(), "AnswerCount:%s")
+answer_count = McNum(lambda id:Po.where(rid=id).where('state>%s', STATE_DEL).count(), 'AnswerCount:%s')
 
 
 @mc_answer_id_get('{user_id}_{question_id}')
