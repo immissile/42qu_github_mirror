@@ -32,7 +32,7 @@ def pic_save(pic_id, pic):
 
 
 def _pic_list_to_review_by_cid(cid, start_id, limit):
-    return Pic.where(cid=cid, state=1, admin_id=0).where('id>%s' % start_id).order_by('id')[:limit]
+    return Pic.where(cid=cid, state=1, admin_id=0).where('id>%s' % start_id).order_by('id desc')[:limit]
 
 def pic_ico_to_review_iter(limit):
     from ico import ico
