@@ -13,7 +13,7 @@ class Index(Base):
                 '%s/live'%current_user.link
             )
         else:
-            self.redirect('/auth/reg')
+            self.redirect('/login')
 
 
 @urlmap('/tag/(\d+)')

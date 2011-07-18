@@ -67,8 +67,8 @@ from_id = from_user.id
 % else:
 回复 ${entry_link(e_from)} 给 ${entry_link(e_to)} 的 \
 % endif
-% elif set(i.from_id_list) & entry.zsite_id_list:
-相互\
+% elif set(i.from_id_list) & entry.zsite_id_list():
+相互 \
 % else:
 回复 ${entry_link(e_from)} 给 ${entry_link(e_to)} 的 \
 % endif

@@ -1,7 +1,8 @@
 <%inherit file="/god/_base.htm" />
 <%!
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
-from model.state import STATE_DEL
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_USER
+from model.state import STATE_DEL,STATE_SECRET
+from config import SITE_URL
 %>
 <%def name="htm_head()">
 </%def>
@@ -16,47 +17,46 @@ rm = _rm("#reply","/reply/rm/")
         margin:10px;
         text-align:center;
     }
-
+    .reply_list{
+        padding:14px 0;
+    }
 </style>
-<ol>
+<div class="reply_list">
 % for reply in reply_list:
 <%
 cid = reply.cid
 user = reply.user
 id = reply.id
+state = reply.state
+if cid == CID_USER:
+    wall = reply.wall
+    wall_from_user = wall.from_user
+    wall_to_user = wall.to_user
+else:
+    po = reply.po
 %>\
-<li id ='reply${id}'>
-<p>
-
-% if cid == CID_WORD:
-[微博]\
-% elif cid == CID_QUESTION:
-[问题]\
-% else:
-[日记]\
-% endif
-##% if reply.rid:
-##[答案]\
-##% endif
- <a href="${user.link}" target="_blank">${user.name}</a> :
-<a 
-    target="_blank"
-    %if reply.po:
-    href="${reply.po.link}"
-    %endif
->${reply.txt or '[]'}</a>
+<div id ='reply${id}' class="sdw"><div class="sd">
+<p class="tr">
+%if cid!=CID_USER:
+<a href="${po.link}" target="_blank">${po.name}</a>
+%else:
+<a href="${wall_from_user.link}${wall.link}" target="_blank">${wall_from_user.name} - ${wall_to_user.name}</a>
+%endif
 </p>
 <p>
-%if reply.state == STATE_DEL:
-已删除
+<a href="${user.link}" target="_blank">${user.name}</a> :
+${reply.txt or '[]'}
+</p>
+<p>
+%if state == STATE_DEL:
+已删
+%elif state == STATE_SECRET:
+私密
 %else:
 <a href="javascript:rm(${id});void(0)">删除</a>
 %endif
 </p>
-
-<hr>
-</li>
+</div></div>
 % endfor
-</ol>
-
+</div>
 ${page|n}

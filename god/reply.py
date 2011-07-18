@@ -7,11 +7,14 @@ from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from model.txt import txt_bind
 from model.po import Po
+from model.cid import CID_USER
+from model.wall import Wall
 PAGE_LIMIT = 50
 
 @urlmap('/reply_list/(\d+)(?:-(\d+))?')
 class ReplyList(Base):
     def get(self, cid, n=1):
+        cid = int(cid)
         qs = Reply.where('cid = %s', cid)
         total = qs.count()
         page, limit, offset = page_limit_offset(
@@ -22,13 +25,20 @@ class ReplyList(Base):
         )
         li = qs.order_by('id desc')[offset: offset + limit]
         txt_bind(li)
-        Po.mc_bind(li, 'po', 'rid')
+        #print cid == CID_USER
+        if cid == CID_USER:
+            Wall.mc_bind(li, 'wall', 'rid')
+            wall_list = [i.wall for i in li]
+            Zsite.mc_bind(wall_list,"from_user","from_id")
+            Zsite.mc_bind(wall_list,"to_user","to_id")
+        else:
+            Po.mc_bind(li, 'po', 'rid')
+
         Zsite.mc_bind(li, 'user', 'user_id')
         self.render(
             reply_list=li,
             page=page,
         )
-
 
 
 @urlmap('/reply/rm/(\d+)')
@@ -38,4 +48,3 @@ class ReplyRm(Base):
         if r:
             r.rm()
         self.finish('{}')
-    

@@ -48,7 +48,10 @@ def feed_tuple_by_db(id):
 
     txt = m.txt
     if cid in (CID_NOTE, CID_QUESTION, CID_ANSWER):
-        result.extend(cnenoverflow(txt, 164))
+        txt , has_more = cnenoverflow(txt, 164)
+        if not has_more:
+            txt = m.htm
+        result.extend((txt, has_more))
     else:
         if cid == CID_WORD:
             txt = txt_withlink(txt)
