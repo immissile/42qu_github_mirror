@@ -20,6 +20,8 @@ def format_rfc822_data(sec):
 @urlmap('/rss')
 class Rss(ZsiteBase):
     def get(self):
+        self.set_header("Content-Type", "text/xml; charset=utf-8")
+
         items = []
         zsite = self.zsite
         rss_title = '%s - 文章 42qu.com' % zsite.name
