@@ -11,6 +11,7 @@ from model.txt import txt_get
 from ctrl._urlmap.zsite import urlmap
 from _handler import ZsiteBase
 from time import gmtime, strftime, time
+from model.cid import CID_NOTE
 
 def format_rfc822_data(sec):
     return strftime("%a, %d %b %Y %H:%M:%S +0800", gmtime(sec))
@@ -21,19 +22,18 @@ class Rss(ZsiteBase):
     def get(self):
         items = []
         zsite = self.zsite
-        rss_title = '%s的文章 | 42qu.com' % zsite.name
+        rss_title = '%s - 文章 42qu.com' % zsite.name
         rss_link = 'http:%s/rss' % zsite.link
         pubdate = time()
-        rss_desc = '%s 的文章 | 42qu.com %s' % (zsite.name, format_rfc822_data(pubdate))
-        cid = 0
+        rss_desc = '%s - 文章 42qu.com %s' % (zsite.name, format_rfc822_data(pubdate))
         limit = 25
         offset = 0
-        po_list = po_view_list(zsite.id, cid, False, limit, offset)
+        po_list = po_view_list(zsite.id, CID_NOTE, False, limit, offset)
 
         for po in po_list:
             d = {}
             author = Zsite.get(po.user_id)
-            po_title = po.name_
+            po_title = po.name
             po_link = 'http:%s/%s' % (zsite.link, po.id)
             tag = tag_by_po_id(zsite.id, po.id)[2]
             d['title'] = "%s #%s" % (po_title, tag)
