@@ -16,7 +16,7 @@ from time import gmtime, strftime, time
 from model.cid import CID_NOTE
 from cgi import escape
 from model.motto import motto_get
-
+from model.zsite_url import host
 
 def format_rfc822_data(sec):
     return strftime('%a, %d %b %Y %H:%M:%S +0800', gmtime(sec))
@@ -29,21 +29,22 @@ class Rss(ZsiteBase):
 
         items = []
         zsite = self.zsite
-        rss_title = '%s - 文章 42qu.com' % zsite.name
+        id = zsite.id
+        rss_title = '%s %s' % (zsite.name, host(id)
         rss_link = 'http:%s/rss' % zsite.link
         pubdate = time()
-        rss_desc = motto_get(zsite.id)
+        rss_desc = motto_get(id)
 
         limit = 25
         offset = 0
-        po_list = po_view_list(zsite.id, CID_NOTE, False, limit, offset)
+        po_list = po_view_list(id, CID_NOTE, False, limit, offset)
 
         for po in po_list:
             d = {}
             author = Zsite.get(po.user_id)
             po_title = po.name
             po_link = 'http:%s/%s' % (zsite.link, po.id)
-            tag = tag_by_po_id(zsite.id, po.id)[2]
+            tag = tag_by_po_id(id, po.id)[2]
             d['title'] = '%s #%s#' % (po_title, tag)
             d['author'] = mail_by_user_id(po.user_id)
             d['link'] = po_link
@@ -58,12 +59,12 @@ class Rss(ZsiteBase):
 <pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;">%s</pre>
 """ % htm 
             ]
-            unit, title = career_current(zsite.id)
+            unit, title = career_current(id)
             desc.append(
                 """ <div style="padding:0 0 27px;text-align:left;font-size:14px;float:right"><a target="_blank" href="%s">"""%author.link
             )
 
-            ico = ico_url(zsite.id)
+            ico = ico_url(id)
             if ico:
                 desc.append(
                     """<img style="float:left;margin-right:28px" src="%s">"""%ico
