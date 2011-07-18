@@ -17,11 +17,20 @@ def user_password_sha256(user_id):
     if password:
         return hexlify(password.password)
 
+def mail_password_verify(mail, password):
+    user_id = user_id_by_mail(mail)
+    if user_id:
+        p = UserPassword.get(user_id)
+        if p.password == hash_password(user_id,password):
+            return True
+
+
 def user_password_new(user_id, password):
     if password is not None:
         o = UserPassword.get_or_create(id=user_id)
         o.password = hash_password(user_id, password)
         o.save()
+
 
 def user_password_verify(user_id, password):
     p = UserPassword.get(user_id)

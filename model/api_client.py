@@ -13,7 +13,7 @@ from hashlib import sha256
 import binascii
 from operator import itemgetter
 from config import SITE_DOMAIN
-from user_session import password_encode, user_id_value_by_session
+from user_session import id_binary_encode, id_binary_decode
 
 API_URL = 'http://api.%s'%SITE_DOMAIN
 
@@ -73,7 +73,7 @@ def api_session_new(client_id, user_id):
         session.value = value = urandom(12)
         session.save()
         mc_api_session.set('%s_%s'%(client_id, user_id), session.value)
-    return password_encode(user_id, value)
+    return id_binary_encode(user_id, value)
 
 #生成的url
 def client_url_encode(arguments):
@@ -108,7 +108,7 @@ def api_sign_arguments(arguments, secret):
     return '%s&sign=%s'%(url, sign)
 
 def api_login_verify(client_id, s):
-    user_id, session = user_id_value_by_session(s)
+    user_id, session = id_binary_decode(s)
     if not user_id:
         return
     session2 = api_session(client_id, user_id)

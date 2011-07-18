@@ -5,10 +5,13 @@ from os import urandom
 from struct import pack, unpack
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 from time import time
+import binascii
+
+
 
 mc_user_session = McCache('UserSession:%s')
 
-def password_encode(user_id, session):
+def id_binary_encode(user_id, session):
     user_id_key = pack('I', int(user_id))
     user_id_key = urlsafe_b64encode(user_id_key)[:6]
     ck_key = urlsafe_b64encode(session)
@@ -18,19 +21,19 @@ def password_encode(user_id, session):
 def user_id_by_base64(string):
     try:
         user_id = urlsafe_b64decode(string+'==')
-    except (binascii.Error, exceptions.TypeError):
+    except (binascii.Error, TypeError):
         return 0
     else:
         return unpack('I', user_id)[0]
 
-def user_id_value_by_session(session):
+def id_binary_decode(session):
     if not session:
         return
     user_id = session[:6]
     value = session[6:]
     try:
         value = urlsafe_b64decode(value+'=')
-    except (binascii.Error, exceptions.TypeError):
+    except (binascii.Error, TypeError):
         return None, None
 
     user_id = user_id_by_base64(user_id)
@@ -60,14 +63,14 @@ def user_session(user_id):
             cursor.execute( 'insert delayed into user_login_time (user_id, create_time) values (%s, %s)', (user_id, int(time())) )
             cursor.connection.commit()
 
-    return password_encode(user_id, s)
+    return id_binary_encode(user_id, s)
 
 def user_session_rm(user_id):
     u = UserSession.where(id=user_id).update(value=None)
     mc_user_session.delete(user_id)
 
 def user_id_by_session(session):
-    user_id, value = user_id_value_by_session(session)
+    user_id, value = id_binary_decode(session)
     if not user_id:
         return
 

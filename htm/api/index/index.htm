@@ -1,5 +1,6 @@
 <%inherit file="/api/_base.htm" />
 <%!
+from model.oauth2 import oauth_client_by_user_id
 from model.api_client import api_client_by_user_id
 %>
 <%def name="htm_head()">
@@ -7,6 +8,24 @@ from model.api_client import api_client_by_user_id
 
 <a href="/apply">申请 API KEY</a>
 %for client in api_client_by_user_id(current_user_id):
+<%
+txt = client.txt
+%>
+<div style="margin:10px 0;padding:27px;border:1px solid #eee">
+<div>${client.name}</div>
+%if txt:
+<pre>${txt}</pre>
+%endif
+<div>
+client_id : ${client.id}
+</div>
+<div>
+client_secret : ${client.hex_secret}
+</div>
+</div>
+%endfor
+
+%for client in oauth_client_by_user_id(current_user_id):
 <%
 txt = client.txt
 %>

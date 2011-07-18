@@ -64,7 +64,7 @@ def man_show_api(man_id):
 
 @urlmap("/search/man/(.+)")
 @urlmap(r"/man/(\d+)/show")
-class ApiMan(_handler.ApiBase):
+class ApiMan(_handler.OauthBase):
     def get(self, id):
         if not id.isdigit():
             _blog_ping(self)
@@ -79,7 +79,7 @@ class ApiMan(_handler.ApiBase):
 
 
 @urlmap(r"/man/blog_bind")
-class BlogBind(_handler.ApiBase):
+class BlogBind(_handler.OauthBase):
     def get(self):
         _blog_ping(self)
 

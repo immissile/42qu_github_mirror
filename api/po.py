@@ -11,7 +11,7 @@ from model import reply
 
 
 @urlmap('/po/word')
-class PoWord(_handler.ApiLoginBase):
+class PoWord(_handler.OauthAccessBase):
     def get(self):
         user_id = self.current_user_id
         txt = self.get_argument('txt')
@@ -25,7 +25,7 @@ class PoWord(_handler.ApiLoginBase):
 
 
 @urlmap('/po')
-class PoAll(_handler.ApiLoginBase):
+class PoAll(_handler.OauthAccessBase):
     def get(self):
         user_id = self.current_user_id
         po_id = int(self.get_argument('id'))
@@ -46,7 +46,7 @@ class PoAll(_handler.ApiLoginBase):
 
 
 @urlmap('/po/rm')
-class PoRm(_handler.ApiLoginBase):
+class PoRm(_handler.OauthAccessBase):
     def get(self):
         id = int(self.get_argument('id'))
         user = self.current_user
@@ -58,7 +58,7 @@ class PoRm(_handler.ApiLoginBase):
 
 
 @urlmap('/po/reply')
-class PoReply(_handler.ApiLoginBase):
+class PoReply(_handler.OauthAccessBase):
     def get(self):
         id = int(self.get_argument('id'))
         po = Po.mc_get(id)
@@ -78,7 +78,7 @@ class PoReply(_handler.ApiLoginBase):
 
 
 @urlmap('/po/reply/rm')
-class PoReplyRm(_handler.ApiLoginBase):
+class PoReplyRm(_handler.OauthAccessBase):
     def get(self):
         id = int(self.get_argument('id'))
         user_id = self.current_user_id

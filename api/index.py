@@ -4,7 +4,7 @@
 
 from _handler import Base, LoginBase
 from _urlmap import urlmap
-from model.api_client import api_client_new
+from model.oauth2 import oauth_client_new
 
 @urlmap('/')
 class Index(Base):
@@ -22,6 +22,6 @@ class Apply(LoginBase):
         user_id = self.current_user_id
         name = self.get_argument('name', current_user.name)
         txt = self.get_argument('txt', '')
-        api_client_new(user_id, name, txt)
+        oauth_client_new(user_id,name,txt)
         return self.redirect('/')
 

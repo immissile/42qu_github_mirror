@@ -5,6 +5,8 @@ from model.api_client import api_sign_verify, api_login_verify
 from model.api_error import API_ERROR_SIGN, API_ERROR_LOGIN
 from zweb._handler import Base as _Base, BaseBase, _login_redirect, login
 from model.zsite import Zsite
+from model.oauth2 import oauth_access_token_verify
+from model.user_auth import mail_password_verify
 
 def post(self, *args, **kwds):
     return self.get(*args, **kwds)
@@ -13,6 +15,8 @@ class Base(_Base):
     def get(self, *args):
         self.redirect('/')
 
+
+class LoginBase(Base):
     @property
     def _xsrf(self):
         return '_xsrf=%s'%self.xsrf_token
@@ -23,33 +27,19 @@ class Base(_Base):
 
     post = post
 
-class LoginBase(Base):
-    def prepare(self):
-        super(LoginBase, self).prepare()
-        _login_redirect(self)
 
-class ApiBase(BaseBase):
+class OauthBase(BaseBase):
     post = post
 
-class ApiSignBase(ApiBase):
-    def prepare(self):
-        arguments = self.request.arguments
-        arguments = dict([
-            (k, v[0]) for k, v in arguments.iteritems()
-        ])
-        if api_sign_verify(arguments):
-            super(ApiBase, self).prepare()
-        else:
-            self.finish(API_ERROR_SIGN)
 
-class ApiLoginBase(ApiSignBase):
+class OauthAccessBase(OauthBase):
     def prepare(self):
-        super(ApiBase, self).prepare()
+        super(OauthBase, self).prepare()
         if self._finished:
             return
-        S = self.get_argument('S')
+        access_token = self.get_argument('access_token')
         client_id = self.get_argument('client_id')
-        user_id = api_login_verify(client_id, S)
+        user_id = oauth_access_token_verify(client_id,access_token)
         if not user_id:
             self.finish(API_ERROR_LOGIN)
         self.current_user_id = user_id
