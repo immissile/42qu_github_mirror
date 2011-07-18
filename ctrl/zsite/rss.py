@@ -30,7 +30,7 @@ class Rss(ZsiteBase):
         items = []
         zsite = self.zsite
         id = zsite.id
-        rss_title = '%s %s' % (zsite.name, host(id)
+        rss_title = '%s %s' % (zsite.name, host(id))
         rss_link = 'http:%s/rss' % zsite.link
         pubdate = time()
         rss_desc = motto_get(id)
