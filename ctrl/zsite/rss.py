@@ -44,10 +44,17 @@ class Rss(ZsiteBase):
             d['title'] = '%s #%s' % (po_title, tag)
             d['author'] = mail_by_user_id(po.user_id)
             d['link'] = po_link
+            htm = po.htm
+
+            htm.replace('class="PICR"', 'style="float:right;margin-right:14px"')
+            htm.replace('class="PICL"', 'style="float:left;margin-left:14px"')
+            htm.replace('class="PIC"', 'style="margin:14px auto"')
+
+
             desc = [
             """<font face="Verdana,sans-serif" size="3">
 <pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;">%s</pre>
-""" % po.htm
+""" % htm 
             ]
             unit, title = career_current(zsite.id)
             desc.append(
