@@ -47,11 +47,11 @@ class Rss(ZsiteBase):
             desc = [
             """<font face="Verdana,sans-serif" size="3">
 <pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;">%s</pre>
-<div style="margin:27px 0;padding:27px 0;text-align:left;font-size:14px;">""" % po.htm
+<div style="padding:27px 0;text-align:left;font-size:14px;">""" % po.htm
             ]
             unit, title = career_current(zsite.id)
             desc.append(
-                """ <div style="padding:27px 0;text-align:left;font-size:14px;float:left"><a target="_blank" href="%s">"""%author.link
+                """ <div style="padding:0 0 27px;text-align:left;font-size:14px;float:right"><a target="_blank" href="%s">"""%author.link
             )
 
             ico = ico_url(zsite.id)
