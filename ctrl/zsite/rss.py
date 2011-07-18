@@ -47,7 +47,7 @@ class Rss(ZsiteBase):
             desc = [
             """<font face="Verdana,sans-serif" size="3">
 <pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;">%s</pre>
-<div style="padding:27px 0;text-align:left;font-size:14px;">""" % po.htm
+""" % po.htm
             ]
             unit, title = career_current(zsite.id)
             desc.append(
@@ -63,13 +63,13 @@ class Rss(ZsiteBase):
             desc.append("""<div style="line-height:32px;float:left"><div>%s</div><div style="color:#000">"""%escape(author.name))
 
             if unit:
-                desc.append("""<div>%s<div>"""%escape(unit))
+                desc.append("""<div>%s</div>"""%escape(unit))
 
             if title:
-                desc.append("""<div>%s<div>"""%escape(title))
+                desc.append("""<div>%s</div>"""%escape(title))
 
             desc.append("""</div></div></a></div>""")
-            desc.append('</br></div></font>')
+            desc.append('</font>')
             d['desc'] = ''.join(desc)
             d['pubdate'] = format_rfc822_data(po.create_time)
             items.append(d)
