@@ -15,7 +15,7 @@ from model.days import today_seconds
 
 @single_process
 def notice_day():
-    prev_pos = kv_int.get(KV_NOTICE_POS) 
+    prev_pos = kv_int.get(KV_NOTICE_POS)
     c = Notice.raw_sql(
         'select max(id) from notice where create_time<%s', today_seconds()
     )

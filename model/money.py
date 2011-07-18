@@ -8,8 +8,8 @@ from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_D
 from zsite import Zsite
 from user_mail import mail_by_user_id
 from verify import verify_new, verifyed
-from notice import notice_new
 from state import STATE_APPLY, STATE_SECRET, STATE_ACTIVE
+from zkit.attrcache import attrcache
 
 mc_frozen_get = McCache('FrozenBank.%s')
 
@@ -44,6 +44,12 @@ TRADE_STATE_ROLLBACK = 15
 TRADE_STATE_FINISH = 20
 
 class Trade(Model):
+    link = '/money/bill'
+
+    @property
+    def log(self):
+        return trade_log.get(self.id)
+
     @property
     def read_value(self):
         return read_cent(self.value)
@@ -129,7 +135,15 @@ def trade_fail(t):
         mc_frozen_get.delete(from_id)
 
 def trade_history(user_id):
-    qs = Trade.where('(to_id=%%s and not (cid=%s and state<%s)) or from_id=%%s' % (CID_TRADE_CHARDE, TRADE_STATE_FINISH), user_id, user_id).order_by('update_time desc')
+    qs = Trade.where(
+        '(to_id=%%s and state>%s) or (to_id=%%s and cid=%s) or from_id=%%s' % (
+            TRADE_STATE_FINISH,
+            CID_TRADE_WITHDRAW,
+        ),
+        user_id,
+        user_id,
+        user_id,
+    ).order_by('update_time desc')
     return list(qs)
 
 # TradeLog
@@ -165,6 +179,7 @@ def pay_account_name_get(user_id, cid):
     return account, name
 
 def pay_notice(pay_id):
+    from notice import notice_new
     trade = Trade.get(pay_id)
     message = loads(trade_log.get(pay_id))
     if 'txt' in message:
@@ -246,3 +261,8 @@ def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
     assert price > 0
     cent = int(price * 100)
     return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)
+
+
+if __name__ == "__main__":
+    for i in trade_history(10000000):
+        print i.cid, i.state, i.from_id

@@ -11,77 +11,42 @@ from model.ico import ico_url
 from config import SITE_DOMAIN
 from model.txt import txt_get
 from ctrl._urlmap.zsite import urlmap
-from _handler import ZsiteBase 
+from _handler import ZsiteBase
 from time import gmtime, strftime, time
+from model.cid import CID_NOTE
 
-def format_rfc822_data(sec): 
+def format_rfc822_data(sec):
     return strftime("%a, %d %b %Y %H:%M:%S +0800", gmtime(sec))
 
-#@urlmap('/rss/human')
-#class RssHuman(ZsiteBase):
-#    def get(self):
-#        items = []
-#        rss_title = '42区资讯'
-#        rss_link = 'http://%s/rss/human' % SITE_DOMAIN
-#        pubdate = time()
-#        rss_desc = '42qu %s 资讯' % format_rfc822_data(pubdate)
-#
-#        for po in po_show_list(0, 'id', 25, 0):
-#            d = {}
-#            author = Zsite.get(po.user_id)
-#            po_title = po.name_
-#            po_link = 'http://%s/%s' % (SITE_DOMAIN, po.id)
-#            tag = tag_by_po_id(zsite.id, po.id)
-#            d['title'] = "%s | %s" % (tag, po_title)
-#            d['author'] = mail_by_user_id(po.user_id)
-#            d['link'] = po_link
-#            txt = txt_get(po.id)
-#            if len(txt) > 100:
-#                txt = txt.decode('utf8')[:100] + "......"
-#            desc = [
-#                """<font face="Verdana,sans-serif" size="3"><pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;">%s</pre><div style="margin:27px 0;padding:27px 0;border-top:1px dotted #ddd;border-bottom:1px solid #ddd;text-align:right;font-size:16px;">"""%(txt)
-#            ]
-#
-#            desc.append("""<p><a href="%s">%s</a></p>"""%(author.link, author.name))
-#            desc.append("""</div></font>""")
-#            d['desc'] = ''.join(desc)
-#            d['pubdate'] = format_rfc822_data(po.create_time)
-#            items.append(d)
-#
-#        self.template = "_util/rss_human.htm"
-#        self.render(
-#            rss_title=rss_title,
-#            rss_link=rss_link,
-#            rss_desc=rss_desc,
-#            pubdate=format_rfc822_data(pubdate),
-#            items=items,
-#        )
 
 @urlmap('/rss')
 class Rss(ZsiteBase):
     def get(self):
+        self.set_header("Content-Type", "text/xml; charset=utf-8")
+
         items = []
         zsite = self.zsite
-        rss_title = '%s的文章 | 42qu.com' % zsite.name
+        rss_title = '%s - 文章 42qu.com' % zsite.name
         rss_link = 'http:%s/rss' % zsite.link
         pubdate = time()
         rss_desc = '%s 的文章 | 42qu.com %s' % (zsite.name, format_rfc822_data(pubdate))
         limit = 25
         offset = 0
         po_list = po_view_list(zsite.id, CID_NOTE, False, limit, offset)
+
         for po in po_list:
             d = {}
             author = Zsite.get(po.user_id)
-            po_title = po.name_
+            po_title = po.name
             po_link = 'http:%s/%s' % (zsite.link, po.id)
             tag = tag_by_po_id(zsite.id, po.id)[2]
             d['title'] = "%s #%s" % (po_title, tag)
             d['author'] = mail_by_user_id(po.user_id)
             d['link'] = po_link
-            #if len(txt) > 100:
-            #    txt = txt.decode('utf8')[:100] + "......"
             desc = [
-            """<font face="Verdana,sans-serif" size="3"><pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;">%s</pre><div style="margin:27px 0;padding:27px 0;text-align:left;font-size:16px;">"""%(po.htm)
+            """<font face="Verdana,sans-serif" size="3">
+<pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;">%s</pre>
+<div style="margin:27px 0;padding:27px 0;text-align:left;font-size:14px;">""" % po.htm
             ]
             unit, title = career_current(zsite.id)
             tail = """ <div style="margin:27px 0;padding:27px 0;text-align:left;font-size:14px;float:left"><a target="_blank" href="%s"><img style="float:left;margin-right:28px" src="%s"></a><div style="line-height:32px;float:left"><div>%s</div><div style="color:#000"><div>%s<div>%s</div></div></div></div>"""
@@ -98,4 +63,3 @@ class Rss(ZsiteBase):
             pubdate=format_rfc822_data(pubdate),
             items=items,
         )
-

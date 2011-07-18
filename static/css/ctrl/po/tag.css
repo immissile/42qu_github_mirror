@@ -16,6 +16,7 @@ outline:0;
 .tag_new{
 font-size:16px;padding:2px;
 line-height:18px;
+width:192px;
 *vertical-align:-3px;
 }
 .tag_line{
@@ -24,4 +25,16 @@ padding:6px 0;
 .tag_admin{
 margin:16px 0;
 text-align:right
+}
+#_tag{
+width:200px;
+padding:7px;
+}
+#_tag .tag input{
+padding:7px;
+width:160px;
+margin-right:8px;
+}
+#_tag .tag div{
+margin-bottom:7px;
 }

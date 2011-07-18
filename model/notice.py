@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from time import time
-from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION
+from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY
 from state import STATE_DEL, STATE_APPLY, STATE_ACTIVE
 from po import Po
 from zsite import Zsite
@@ -14,6 +14,8 @@ from mail import rendermail
 from mail_notice import mail_notice_state
 from career import career_dict
 from user_mail import mail_by_user_id
+from money import Trade
+from zkit.attrcache import attrcache
 
 STATE_GTE_APPLY = 'state>=%s' % STATE_APPLY
 
@@ -22,6 +24,7 @@ NOTICE_TUPLE = (
     (CID_NOTICE_WALL_REPLY, Wall, None),
     (CID_INVITE_QUESTION, Po, '/mail/notice/invite_question.txt'),
     (CID_NOTICE_QUESTION, Po, '/mail/notice/notice_question.txt'),
+    (CID_NOTICE_PAY, Trade, None),
 )
 
 NOTICE_CLS = dict(i[:2] for i in NOTICE_TUPLE)
@@ -44,16 +47,12 @@ class Notice(McModel):
     def link(self):
         return '/notice/%s' % self.id
 
-    @property
+    @attrcache
     def link_to(self):
-        if not hasattr(self, '_link_to'):
-            cls = NOTICE_CLS.get(self.cid)
-            if cls:
-                link = cls.mc_get(self.rid).link
-            else:
-                link = None
-            self._link_to = link
-        return self._link_to
+        cls = NOTICE_CLS.get(self.cid)
+        if cls:
+            link = cls.mc_get(self.rid).link
+            return link
 
     def rm(self, to_id):
         if self.to_id == to_id:
@@ -75,7 +74,12 @@ class Notice(McModel):
                 notice_unread_decr(to_id)
                 return True
 
-def notice_new(from_id, to_id, cid, rid=0, state=STATE_APPLY):
+    @attrcache
+    def seq(self):
+        return notice_id_count(self.from_id, self.to_id, self.cid, self.rid)
+
+
+def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY):
     n = Notice(
         from_id=from_id,
         to_id=to_id,
@@ -87,22 +91,31 @@ def notice_new(from_id, to_id, cid, rid=0, state=STATE_APPLY):
     n.save()
     mc_flush(to_id)
     notice_unread_incr(to_id)
+    mc_notice_id_count.delete('%s_%s_%s_%s' % (from_id, to_id, cid, rid))
     return n
 
-mc_notice_id_get = McCache('NoticeIdGet.%s')
+mc_notice_id_count = McCache('NoticeIdCount.%s')
 
-@mc_notice_id_get('{from_id}_{to_id}_{cid}_{rid}')
-def notice_id_get(from_id, to_id, cid, rid):
-    n = Notice.get(from_id=from_id, to_id=to_id, cid=CID_INVITE_QUESTION, rid=qid)
-    if n:
-        return n.id
-    return 0
+@mc_notice_id_count('{from_id}_{to_id}_{cid}_{rid}')
+def notice_id_count(from_id, to_id, cid, rid):
+    return Notice.where(from_id=from_id, to_id=to_id, cid=cid, rid=rid).count()
+
+def notice_new_hide_old(from_id, to_id, cid, rid):
+    if notice_id_count(from_id, to_id, cid, rid):
+        for i in Notice.where(from_id=from_id, to_id=to_id, cid=cid, rid=rid):
+            i.rm(to_id)
+    return notice_new(from_id, to_id, cid, rid)
+
+def notice_wall_new(from_id, to_id, wall_id):
+    return notice_new_hide_old(from_id, to_id, CID_NOTICE_WALL, wall_id)
+
+def notice_wall_reply_new(from_id, to_id, wall_id):
+    return notice_new_hide_old(from_id, to_id, CID_NOTICE_WALL_REPLY, wall_id)
 
 def invite_question(from_id, to_id, qid):
     from po_question import answer_id_get
     if not answer_id_get(to_id, qid):
-        nid = notice_id_get(from_id, to_id, CID_INVITE_QUESTION, qid)
-        if not nid:
+        if not notice_id_count(from_id, to_id, CID_INVITE_QUESTION, qid):
             n = notice_new(from_id, to_id, CID_INVITE_QUESTION, qid)
             if mail_notice_state(to_id, CID_INVITE_QUESTION):
                 mq_invite_question_mail(n)

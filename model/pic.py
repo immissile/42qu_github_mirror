@@ -32,7 +32,7 @@ def pic_save(pic_id, pic):
 
 
 def _pic_list_to_review_by_cid(cid, start_id, limit):
-    return Pic.where(cid=cid, state=1, admin_id=0).where('id>%s' % start_id).order_by('id')[:limit]
+    return Pic.where(cid=cid, state=1, admin_id=0).where('id>%s' % start_id).order_by('id desc')[:limit]
 
 def pic_ico_to_review_iter(limit):
     from ico import ico
@@ -133,11 +133,12 @@ if __name__ == '__main__':
         ico96_id = ico96.get(i.id)
         if ico_id:
             pic = Pic.get(ico_id)
-            pic.cid = CID_ICO
-            pic.save()
-        if ico96_id:
-            pic = Pic.get(ico96_id)
-            pic.cid = CID_ICO96
-            pic.save()
+            print pic.state
+   #         pic.cid = CID_ICO
+   #         pic.save()
+   #     if ico96_id:
+   #         pic = Pic.get(ico96_id)
+   #         pic.cid = CID_ICO96
+   #         pic.save()
 
 

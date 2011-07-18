@@ -295,5 +295,8 @@ def mc_flush_cid_list_all(user_id, cid_list):
             mc_flush_cid(user_id, cid, is_self)
 
 if __name__ == '__main__':
-    for i in Po.where("rid!=0"):
-        print i.id , po_rm(i.user_id, i.id)
+    #for i in Po.where("rid!=0"):
+        #print i.id , po_rm(i.user_id, i.id)
+    po_view_list()
+
+

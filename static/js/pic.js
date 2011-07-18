@@ -34,6 +34,7 @@ errdetail = {
 }
 
 function upload(){
+    $("#txt").focus();
     $.fancybox({
         content : '<div style="width:220px;padding:8px 16px 16px;font-size:16px"><div class="btns"><p><input style="margin:16px 0;width:200px;" id="file" type="file" name="img"></p><p><span class="btnw"><button class="btn" onclick="start_upload()">上传图片</button></span></p></div></div>',
         hideOnOverlayClick: false
@@ -59,7 +60,7 @@ function start_upload() {
         fileElementId: 'file',
         dataType: 'json',
         timeout: 120000,
-        allowType: 'jpg|png|bmp|gif|jpeg',
+        allowType: '\\.(jpg|png|bmp|gif|jpeg)$',
         extra: {
             _xsrf : $.cookie.get("_xsrf")
         },
