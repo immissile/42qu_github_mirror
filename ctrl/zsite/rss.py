@@ -15,6 +15,8 @@ from _handler import ZsiteBase
 from time import gmtime, strftime, time
 from model.cid import CID_NOTE
 from cgi import escape
+from model.motto import motto_get
+
 
 def format_rfc822_data(sec):
     return strftime('%a, %d %b %Y %H:%M:%S +0800', gmtime(sec))
@@ -30,7 +32,8 @@ class Rss(ZsiteBase):
         rss_title = '%s - 文章 42qu.com' % zsite.name
         rss_link = 'http:%s/rss' % zsite.link
         pubdate = time()
-        rss_desc = '%s 的文章 | 42qu.com %s' % (zsite.name, format_rfc822_data(pubdate))
+        rss_desc = motto_get(zsite.id)
+
         limit = 25
         offset = 0
         po_list = po_view_list(zsite.id, CID_NOTE, False, limit, offset)
@@ -49,7 +52,6 @@ class Rss(ZsiteBase):
             htm = htm.replace('class="PICR"', 'style="float:right;margin-left:14px"')\
                      .replace('class="PICL"', 'style="float:left;margin-right:14px"')\
                      .replace('class="PIC"', 'style="margin:14px auto"')
-
 
             desc = [
             """<font face="Verdana,sans-serif" size="3">
