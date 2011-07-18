@@ -133,11 +133,12 @@ if __name__ == '__main__':
         ico96_id = ico96.get(i.id)
         if ico_id:
             pic = Pic.get(ico_id)
-            pic.cid = CID_ICO
-            pic.save()
-        if ico96_id:
-            pic = Pic.get(ico96_id)
-            pic.cid = CID_ICO96
-            pic.save()
+            print pic.state
+   #         pic.cid = CID_ICO
+   #         pic.save()
+   #     if ico96_id:
+   #         pic = Pic.get(ico96_id)
+   #         pic.cid = CID_ICO96
+   #         pic.save()
 
 
