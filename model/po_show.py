@@ -50,4 +50,5 @@ def po_show_set(po, cid):
 
 #Po.is_show = property(po_is_show)
 if __name__ == "__main__":
-    print po_show_list(0, "id", 100, 0)
+    for i in po_show_list(0, "id", 25, 0):
+        print i.name_
