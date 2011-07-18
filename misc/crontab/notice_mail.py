@@ -38,6 +38,5 @@ def notice_day():
         kv_int.set(KV_NOTICE_POS, pos)
 
 
-
 if __name__ == '__main__':
     notice_day()
