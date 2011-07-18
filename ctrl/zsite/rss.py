@@ -46,9 +46,9 @@ class Rss(ZsiteBase):
             d['link'] = po_link
             htm = po.htm
 
-            htm.replace('class="PICR"', 'style="float:right;margin-right:14px"')
-            htm.replace('class="PICL"', 'style="float:left;margin-left:14px"')
-            htm.replace('class="PIC"', 'style="margin:14px auto"')
+            htm = htm.replace('class="PICR"', 'style="float:right;margin-right:14px"')\
+                     .replace('class="PICL"', 'style="float:left;margin-left:14px"')\
+                     .replace('class="PIC"', 'style="margin:14px auto"')
 
 
             desc = [
