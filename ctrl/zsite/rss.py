@@ -26,7 +26,7 @@ class Rss(ZsiteBase):
         rss_link = 'http:%s/rss' % zsite.link
         pubdate = time()
         rss_desc = '%s - 文章 42qu.com %s' % (zsite.name, format_rfc822_data(pubdate))
-        limit = 25
+        limit = 10
         offset = 0
         po_list = po_view_list(zsite.id, CID_NOTE, False, limit, offset)
 
