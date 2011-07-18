@@ -44,7 +44,7 @@ class Rss(ZsiteBase):
             po_title = po.name
             po_link = 'http:%s/%s' % (zsite.link, po.id)
             tag = tag_by_po_id(zsite.id, po.id)[2]
-            d['title'] = '%s #%s' % (po_title, tag)
+            d['title'] = '%s #%s#' % (po_title, tag)
             d['author'] = mail_by_user_id(po.user_id)
             d['link'] = po_link
             htm = po.htm
