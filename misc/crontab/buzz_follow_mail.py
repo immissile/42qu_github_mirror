@@ -19,7 +19,7 @@ from zkit.single_process import single_process
 def buzz_follow_mail():
     prev_pos = kv_int.get(KV_BUZZ_FOLLOW_POS)
     c = Buzz.raw_sql(
-        'select max(id) from buzz where create_time<%s', int(time()) - 60 * 20
+        'select max(id) from buzz where create_time<%s', int(time()) - 1200
     )
     pos = c.fetchone()[0]
     if pos > prev_pos:
@@ -47,7 +47,7 @@ def buzz_follow_mail():
                 rendermail('/mail/buzz/follow_new.htm', mail, name,
                            from_user=from_user,
                           )
-                sleep(0.1)
+                #sleep(0.1)
 
         kv_int.set(KV_BUZZ_FOLLOW_POS, pos)
 
