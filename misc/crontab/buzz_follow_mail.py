@@ -13,13 +13,13 @@ from model.zsite import Zsite, ZSITE_STATE_VERIFY
 from zkit.ordereddict import OrderedDict
 from zkit.orderedset import OrderedSet
 from zkit.single_process import single_process
-
+from model.days import ONE_DAY
 
 @single_process
 def buzz_follow_mail():
     prev_pos = kv_int.get(KV_BUZZ_FOLLOW_POS)
     c = Buzz.raw_sql(
-        'select max(id) from buzz where create_time<%s', int(time()) - 1200
+        'select max(id) from buzz where create_time<%s', int(time()) - ONE_DAY
     )
     pos = c.fetchone()[0]
     if pos > prev_pos:
