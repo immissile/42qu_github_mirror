@@ -50,7 +50,7 @@ jQuery.extend({
         s = jQuery.extend({}, jQuery.ajaxSettings, s);
         var ename = $('#'+s.fileElementId)[0].value.split('.');
         ename = ename[ename.length-1].toLowerCase();
-        if(! new RegExp(s.allowType).test(ename)){
+        if(s.allowType.test(ename)){
             s.begin(12);
             return false;
         }
