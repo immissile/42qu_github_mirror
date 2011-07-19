@@ -40,14 +40,16 @@ else:
 %if cid!=CID_USER:
 <a href="${po.link}" target="_blank">${po.name}</a>
 %else:
-<a href="${wall_from_user.link}${wall.link}" target="_blank">${wall_from_user.name} - ${wall_to_user.name}</a>
+<a target="_blank" href="${wall_from_user.link}">${wall_from_user.name}</a> 
+<a target="_blank" href="${wall_from_user.link}${wall.link}" target="_blank">&gt;-&lt;</a>
+<a target="_blank" href="${wall_to_user.link}" target="_blank">${wall_to_user.name}</a>
 %endif
 </p>
 <p>
 <a href="${user.link}" target="_blank">${user.name}</a> :
 ${reply.txt or '[]'}
 </p>
-<p>
+<p class="tr">
 %if state == STATE_DEL:
 已删
 %elif state == STATE_SECRET:
