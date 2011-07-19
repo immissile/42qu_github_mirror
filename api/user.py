@@ -77,7 +77,7 @@ class UserFollower(_handler.OauthBase):
 
 
 @urlmap('/user/following')
-class UserFollowing(_handler.OauthAccessBase):
+class UserFollowing(_handler.OauthBase):
     def get(self):
         user_id = self.get_argument('user_id')
         ids = follow_id_list_by_from_id(user_id)

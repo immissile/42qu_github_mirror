@@ -20,7 +20,7 @@ class Apply(LoginBase):
     def post(self):
         current_user = self.current_user
         user_id = self.current_user_id
-        name = self.get_argument('name', current_user.name)
+        name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
         oauth_client_new(user_id,name,txt)
         return self.redirect('/')
