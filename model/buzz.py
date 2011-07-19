@@ -64,9 +64,10 @@ def buzz_show_new_all(zsite_id):
         buzz_show_new(i.id, zsite_id)
 
 def buzz_follow_new(from_id, to_id):
-    buzz_new(from_id, to_id, CID_BUZZ_FOLLOW, to_id)
-    for i in ormiter(Follow, 'to_id=%s and from_id!=%s' % (from_id, to_id)):
-        buzz_new(from_id, i.from_id, CID_BUZZ_FOLLOW, to_id)
+    if not Buzz.where(from_id=from_id, to_id=to_id, cid=CID_BUZZ_FOLLOW, rid=to_id).count():
+        buzz_new(from_id, to_id, CID_BUZZ_FOLLOW, to_id)
+        for i in ormiter(Follow, 'to_id=%s and from_id!=%s' % (from_id, to_id)):
+            buzz_new(from_id, i.from_id, CID_BUZZ_FOLLOW, to_id)
 
 mq_buzz_follow_new = mq_client(buzz_follow_new)
 
