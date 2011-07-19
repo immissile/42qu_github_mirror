@@ -42,15 +42,22 @@ def buzz_follow_mail():
         for to_id, li in dd.iteritems():
             mail = mail_by_user_id(to_id)
             name = Zsite.mc_get(to_id).name
+            print mail
             mail = "zsp007@gmail.com"
             for from_id in li:
                 from_user = Zsite.mc_get(from_id)
-                if from_user.state >= ZSITE_STATE_VERIFY and any(from_user.career):
-                    rendermail('/mail/buzz/follow_new.htm', mail, name,
-                               from_user=from_user,
-                               format='html'
-                              )
-                    #sleep(0.1)
+                career = from_user.career
+                if from_user.state >= ZSITE_STATE_VERIFY and any(career):
+                    rendermail(
+                        '/mail/buzz/follow_new.htm', mail, name,
+                        from_user=from_user,
+                        format='html',
+                        subject = "%s ( %s ) 关注 你"%(
+                            from_user.name ,
+                            " , ".join(career),
+                        )
+                    )
+                    sleep(0.1)
 
         kv_int.set(KV_BUZZ_FOLLOW_POS, pos)
 

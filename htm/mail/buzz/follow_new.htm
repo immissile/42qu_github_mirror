@@ -6,7 +6,8 @@ link = from_user.link
 %>
 % if ico:
 <td width="55">
-<a style="color: #ffffff;" href="${link}">
+<a style="color: #ffffff;" href="http:${link}"
+target="_blank">
 <img border="0" width="96px" height="96px" src="${ico}">
 </a>
 </td>
@@ -16,14 +17,15 @@ link = from_user.link
 <%
 career = from_user.career
 %>
+${from_user.name}
 % if any(career):
-${' , '.join(career)} - \
+ - ${' , '.join(career)}\
 % endif
-${from_user.name}</div>
+</div>
 <div>关注了你</div>
 <div>
-<a href="${link}" target="_blank" style="color:#00f">详细介绍 , 点此浏览</a>
-<p style="font-size:14px;margin-top:48px">如果想退订 , <a href="${site_http}/i/mail_notice" target="_blank" style="color:#999">请在此设置</a></p>
+<a href="http:${link}" target="_blank" style="color:#00f">详细介绍 , 点此浏览</a>
+<p style="font-size:14px;margin-top:48px;color:#999">如果想退订 , <a href="${site_http}/i/mail_notice" target="_blank" style="color:#999">请在此设置</a></p>
 </div>
 </td>
 </tr>
