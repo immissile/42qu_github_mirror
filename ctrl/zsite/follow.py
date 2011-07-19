@@ -34,7 +34,7 @@ class Follower(ZsiteBase):
             '/ctrl/zsite/follow/_base.htm',
             zsite_list=follower,
             page=page,
-            title='粉丝',
+            title='围观',
             path='/follower'
         )
 
