@@ -61,7 +61,7 @@ class Rss(ZsiteBase):
             ]
             unit, title = career_current(id)
             desc.append(
-                """ <div style="padding:0 0 27px;text-align:left;font-size:14px;float:right"><a target="_blank" href="%s">"""%author.link
+                """ <div style="padding:27px 0;text-align:left;font-size:14px;float:left"><a target="_blank" href="%s">"""%author.link
             )
 
             ico = ico_url(id)
