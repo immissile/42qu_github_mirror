@@ -48,9 +48,7 @@ jQuery.extend({
 
     ajaxFileUpload: function(s) {
         s = jQuery.extend({}, jQuery.ajaxSettings, s);
-        var ename = $('#'+s.fileElementId)[0].value.split('.');
-        ename = ename[ename.length-1].toLowerCase();
-        if(s.allowType.test(ename)){
+        if(s.allowType.test($('#'+s.fileElementId)[0].value)){
             s.begin(12);
             return false;
         }
