@@ -44,9 +44,13 @@ def buzz_follow_mail():
             name = Zsite.mc_get(to_id).name
             for from_id in li:
                 from_user = Zsite.mc_get(from_id)
-                rendermail('/mail/buzz/follow_new.htm', mail, name,
-                           from_user=from_user,
-                          )
+                rendermail(
+                    '/mail/buzz/follow_new.htm',
+                    mail,
+                    name,
+                    from_user=from_user,
+                    format="html"
+                )
                 #sleep(0.1)
 
         kv_int.set(KV_BUZZ_FOLLOW_POS, pos)
@@ -54,3 +58,6 @@ def buzz_follow_mail():
 
 if __name__ == '__main__':
     buzz_follow_mail()
+
+
+
