@@ -9,7 +9,7 @@ from model.kv_misc import kv_int, KV_BUZZ_FOLLOW_POS
 from model.mail import rendermail
 from model.mail_notice import mail_notice_state
 from model.user_mail import mail_by_user_id
-from model.zsite import Zsite
+from model.zsite import Zsite, ZSITE_STATE_VERIFY
 from zkit.ordereddict import OrderedDict
 from zkit.orderedset import OrderedSet
 from zkit.single_process import single_process
@@ -44,10 +44,11 @@ def buzz_follow_mail():
             name = Zsite.mc_get(to_id).name
             for from_id in li:
                 from_user = Zsite.mc_get(from_id)
-                rendermail('/mail/buzz/follow_new.htm', mail, name,
-                           from_user=from_user,
-                          )
-                #sleep(0.1)
+                if from_user.state >= ZSITE_STATE_VERIFY and any(from_user.career):
+                    rendermail('/mail/buzz/follow_new.htm', mail, name,
+                               from_user=from_user,
+                              )
+                    sleep(0.1)
 
         kv_int.set(KV_BUZZ_FOLLOW_POS, pos)
 
