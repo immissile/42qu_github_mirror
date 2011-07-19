@@ -37,9 +37,14 @@ class Zsite(McModel):
         return '<a href="%s">%s</a>' % (self.link, escape(self.name))
 
     @attrcache
+    def _ico96(self):
+        from ico import ico_url
+        return ico_url(self.id)
+
+    @property
     def ico96(self):
-        from ico import ico_url_with_default
-        return ico_url_with_default(self.id)
+        from ico import ICO96_DEFAULT
+        return self._ico96 or ICO96_DEFAULT
 
     @attrcache
     def career(self):

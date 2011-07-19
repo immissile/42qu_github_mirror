@@ -1,14 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from zkit.single_process import single_process
-from model.kv_misc import kv_int, KV_BUZZ_FOLLOW_POS
-from model.cid import CID_BUZZ_FOLLOW
-from model.buzz import Buzz, buzz_pos
-from model.mail_notice import mail_notice_state
 from time import time, sleep
-from zkit.orderedset import OrderedSet
 from collections import defaultdict
+from model.buzz import Buzz, buzz_pos
+from model.cid import CID_BUZZ_FOLLOW
+from model.kv_misc import kv_int, KV_BUZZ_FOLLOW_POS
+from model.mail import rendermail
+from model.mail_notice import mail_notice_state
+from model.user_mail import mail_by_user_id
+from model.zsite import Zsite
+from zkit.ordereddict import OrderedDict
+from zkit.orderedset import OrderedSet
+from zkit.single_process import single_process
 
 
 @single_process
@@ -19,27 +23,30 @@ def buzz_follow_mail():
     )
     pos = c.fetchone()[0]
     if pos > prev_pos:
-        d = defaultdict(list)
-        d2 = {}
+        d = defaultdict(OrderedDict)
 
         for i in Buzz.where(cid=CID_BUZZ_FOLLOW).where('to_id=rid').where(
             'id>%s and id<=%s', prev_pos, pos
         ):
             id = i.id
-            d[i.to_id].append(id)
-            d2[id] = i.from_id
+            d[i.to_id][i.from_id] = i.id
 
-        d3 = defaultdict(OrderedSet)
-        for to_id, li in d.iteritems():
-            min_id = buzz_pos.get(to_id)
-            for id in li:
-                if id > min_id:
-                    d3[to_id].add(d2[id])
+        dd = defaultdict(OrderedSet)
+        for to_id, _d in d.iteritems():
+            if mail_notice_state(to_id, CID_BUZZ_FOLLOW):
+                min_id = buzz_pos.get(to_id)
+                for from_id, id in _d.iteritems():
+                    if id > min_id:
+                        dd[to_id].add(from_id)
 
-        for to_id, li in d3.iteritems():
+        for to_id, li in dd.iteritems():
+            mail = mail_by_user_id(to_id)
+            name = Zsite.mc_get(to_id).name
             for from_id in li:
-                print from_id, to_id
-                #follow_mail_new(from_id, to_id)
+                from_user = Zsite.mc_get(from_id)
+                rendermail('/mail/buzz/follow_new.htm', mail, name,
+                           from_user=from_user,
+                          )
                 sleep(0.1)
 
         kv_int.set(KV_BUZZ_FOLLOW_POS, pos)
