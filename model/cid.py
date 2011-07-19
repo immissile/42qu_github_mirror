@@ -15,11 +15,13 @@ CID_ZSITE = (
 CID_ICO = 31
 CID_ICO96 = 32
 CID_PO_PIC = 35
+CID_PO_PHOTO = 36
 
 CID_PIC = (
     CID_ICO,
     CID_ICO96,
     CID_PO_PIC,
+    CID_PO_PHOTO,
 )
 
 # Po

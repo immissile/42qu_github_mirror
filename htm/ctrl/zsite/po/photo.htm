@@ -1,13 +1,51 @@
 <%inherit file="_po.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="_vote.htm" import="po_bar_vote"/>
-
+<%!
+from model.fs import fs_url_jpg
+from model.po_pic import PoPic
+%>
 <%def name="po_body()">
-%if po.rid:
-<h1>${po.name_htm|n}</h1>
-%endif
+<style>
+    span#photo_title{
+        font-size:36px;
+    }
+    div#photo_info{
+        display:block;
+        height:100px;
+        width:715px;
+    }
+    div#page{
+        margin-left:300px;
+    }
+    div#publish_info{
+        float:right;
+    }
+    div#txt{
+        text-indent:2em;
+    }
+</style>
+
+<%
+img_url = fs_url_jpg(721, po.rid)
+%>
 <pre>\
-<p><a href="${zsite.link}">${zsite.name}</a> : ${po.htm|n}</p>\
+<div id="image">
+<img src="${img_url}">
+</div>
+<div id="page"><a href="/pre">上一页</a>/<a href="/next">下一页</a></div>
+<div id="photo_info">
+<span id="photo_title">${po.name}</span> <a href="/po/photo/${po.id}">编辑</a> 
+<div id="publish_info"><a href="${zsite.link}">${zsite.name}</a>\
+%if zsite_tag_id:
+ : \
+<a href="/tag/${zsite_tag_id}">${tag_name}</a>\
+%endif
+</div>
+</div>
+<div id="txt">
+${po.htm|n}
+</div>
 ${po_bar_vote(po)}\
 <p class="po_bar">\
     %if can_admin:

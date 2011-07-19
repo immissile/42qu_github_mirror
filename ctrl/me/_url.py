@@ -4,3 +4,4 @@ import money
 import notice
 import po
 import newbie
+import photo

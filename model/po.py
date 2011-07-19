@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
 from feed import feed_new, mc_feed_tuple, feed_rm
 from gid import gid
 from spammer import is_same_post
@@ -22,6 +22,7 @@ PO_CN_EN = (
     (CID_NOTE, 'note', '文章', '篇'),
     (CID_QUESTION, 'question', '问题', '条'),
     (CID_ANSWER, 'answer', '回答', '次'),
+    (CID_PHOTO, 'photo', '图片', '张'),
 )
 PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
 PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
@@ -231,6 +232,17 @@ def po_note_new(user_id, name, txt, state=STATE_ACTIVE):
     name = name or time_title()
     if not is_same_post(user_id, name, txt):
         m = po_new(CID_NOTE, user_id, name, state)
+        txt_new(m.id, txt)
+        if state > STATE_SECRET:
+            m.feed_new()
+        return m
+
+def po_photo_new(user_id, name, txt, rid, state=STATE_ACTIVE):
+    if not name and not txt:
+        return
+    name = name or time_title()
+    if not is_same_post(user_id, name, txt):
+        m = po_new(CID_PHOTO, user_id, name, state, rid)
         txt_new(m.id, txt)
         if state > STATE_SECRET:
             m.feed_new()
