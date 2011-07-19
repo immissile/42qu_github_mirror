@@ -48,7 +48,7 @@ jQuery.extend({
 
     ajaxFileUpload: function(s) {
         s = jQuery.extend({}, jQuery.ajaxSettings, s);
-        if(!s.allowType.test($('#'+s.fileElementId)[0].value)){
+        if(!s.allowType.test(($('#'+s.fileElementId)[0].value||'').toLowerCase())){
             s.begin(12);
             return false;
         }
