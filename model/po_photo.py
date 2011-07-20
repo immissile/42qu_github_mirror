@@ -8,7 +8,7 @@ from pic import pic_new, pic_save, PicMixin
 from cid import CID_PO_PHOTO
 from fs import fs_set_jpg, fs_url_jpg
 from po_pic import PoPic
-from zsite_tag import po_id_list_by_zsite_tag_id, ZsiteTagPo
+from zsite_tag import photo_id_list_by_zsite_tag_id, ZsiteTagPo
 
 PIC_SIZE = 721
 
@@ -35,7 +35,7 @@ def photo_pre_page_and_next_page(po_id):
 
 def photo_id_list_by_tag_po_id(po_id):
     zsite_tag_po = ZsiteTagPo.get(po_id=po_id)
-    po_id_list = po_id_list_by_zsite_tag_id(zsite_tag_po.zsite_tag_id)
+    po_id_list = photo_id_list_by_zsite_tag_id(zsite_tag_po.zsite_tag_id)
     return po_id_list
 
 def mc_flush(user_id, po_id):

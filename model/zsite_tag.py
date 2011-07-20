@@ -3,7 +3,7 @@
 from _db import Model, McModel, McCacheA, McCache, McCacheM, McLimitA, McNum
 from tag import Tag, tag_new
 from zweb.orm import ormiter
-
+from cid import CID_PHOTO 
 
 #CREATE TABLE  `zpage`.`zpage_tag` (
 #  `id` int(10) unsigned NOT NULL auto_increment,
@@ -173,7 +173,11 @@ def tag_id_by_po_id(zsite_id, po_id):
 
 @mc_po_id_list_by_zsite_tag_id('{zsite_tag_id}')
 def po_id_list_by_zsite_tag_id(zsite_tag_id, limit=None, offset=0):
-    id_list = ZsiteTagPo.where(zsite_tag_id=zsite_tag_id).order_by('id desc').col_list(limit, offset, 'po_id')
+    id_list = ZsiteTagPo.where(zsite_tag_id=zsite_tag_id).where(cid!=CID_PHOTO).order_by('id desc').col_list(limit, offset, 'po_id')
+    return id_list
+
+def photo_id_list_by_zsite_tag_id(zsite_tag_id, limit=None, offset=0):
+    id_list = ZsiteTagPo.where(zsite_tag_id=zsite_tag_id).where(cid=CID_PHOTO).order_by('id desc').col_list(limit, offset, 'po_id')
     return id_list
 
 
