@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from config import render
 import model._db
-from model.api_client import api_sign_verify, api_login_verify
-from model.api_error import API_ERROR_SIGN, API_ERROR_LOGIN
 from zweb._handler import Base as _Base, BaseBase, _login_redirect, login
 from model.zsite import Zsite
 from model.oauth2 import oauth_access_token_verify
@@ -41,7 +39,7 @@ class OauthAccessBase(OauthBase):
         client_id = self.get_argument('client_id')
         user_id = oauth_access_token_verify(client_id, access_token)
         if not user_id:
-            self.finish(API_ERROR_LOGIN)
+            self.finish({'loginerror':1})
         self.current_user_id = user_id
 
     def get_current_user(self):
