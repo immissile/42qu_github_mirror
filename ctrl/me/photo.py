@@ -17,7 +17,7 @@ class PoPhoto(LoginBase):
         title = self.get_argument('name', None)
         txt = self.get_argument('txt', None)
         img = self.check_img()
-        if title and txt and img:
+        if title and img:
             photo_id = photo_new(user_id, img)
             if po_id:
                 #edit
