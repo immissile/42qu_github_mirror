@@ -79,6 +79,7 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
         tag_id = 1
     zsite_id = po.user_id
     po_id = po.id
+    po_cid = po.cid
 
     if tag_id == 1: #初始化
         zsite_tag_id_list_with_init(zsite_id)
@@ -86,7 +87,8 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
     id = zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
     tag_po = ZsiteTagPo.get_or_create(
         po_id=po_id,
-        zsite_id=zsite_id
+        zsite_id=zsite_id,
+        cid=po_cid
     )
     tag_po.zsite_tag_id = id
     tag_po.save()
