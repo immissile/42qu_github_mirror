@@ -11,6 +11,8 @@ from yajl import loads
 <%
 t_log = trade_log.get(rid)
 message = loads(t_log)
+title = None
+url = None
 if message:
     title = message.get('title')
     url = message.get('url')
