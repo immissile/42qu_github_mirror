@@ -1,6 +1,4 @@
-== 问答录 ==
-
-有问题 , 请发邮件到 hi@42qu.com
+== 技巧 ==
 
 === 如何加粗文本 ? ===
 
@@ -12,14 +10,12 @@
 
 显示效果如 : **待加粗的内容**
 
-== API ==
-
-* [[api|调用流程]]
-* [[api/interface|接口一览]]
+== 有问题 , 请发邮件到 hi@42qu.com ==
 
 
-== 如何参与42qu.com的开发 ==
+== 其他 ==
 
-网站源代码: [[https://bitbucket.org/zuroc/zpage]]
+* [[http://help.api.42qu.com | 42qu.com API]] 
+* [[http://doc.42qu.me | 42qu.com 开源]] 
 
-开发讨论组: [[http://groups.google.com/groups/kanrss-pyer]]
+
