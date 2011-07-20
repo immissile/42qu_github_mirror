@@ -5,9 +5,13 @@ from config import SITE_DOMAIN
 %>
 <%def name="htm_head()">
 </%def>
+<div>
+    <a href="/apply">申请 API KEY</a>
+</div>
 
-<a href="/apply">申请 API KEY</a>
-<a href="//help.api.${SITE_DOMAIN}" target="_blank">开发文档</a>
+<div>
+    <a href="//help.api.${SITE_DOMAIN}" target="_blank">开发文档</a>
+</div>
 
 %for client in oauth_client_by_user_id(current_user_id):
 <%
