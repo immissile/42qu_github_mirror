@@ -23,6 +23,7 @@
     mail = "yupbank@qq.com"
     passwd = "123456"
 
+
 生成链接 ::
 
     http://api.yup.xxx/user/oauth/login?mail=yupbank@qq.com&passwd=6171446&token=820afba8706f4fd3b281cdd8418b2fa2&client_id=10045260
@@ -30,5 +31,8 @@
 
 对应输出 ::
     
-    {"access_token":"AgAAAAQrpDXHlWFg3n_JvH","refresh_token":"AgAAAAKaF1QoKfQ_ER7D-c"}
+    {
+        "access_token":"AgAAAAQrpDXHlWFg3n_JvH",
+        "refresh_token":"AgAAAAKaF1QoKfQ_ER7D-c"
+    }
 
