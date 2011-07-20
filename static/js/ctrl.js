@@ -89,8 +89,25 @@ function init_D(){
 
 
 function po_photo(id){
+    
     $.fancybox({      
-    "content":'<form method="POST" enctype="multipart/form-data" id="po_photo_form" style="font-size:16px;width:500px;padding:0 12px 0 7px;"><div style="padding:10px">发布图片</div><input id="po_photo" style="margin:10px;" type="file" name="photo"><div style="padding:10px;line-height:0;"><input autocomplete="off" placeholder="请输入标题 ..." id="po_photo_name" style="font-size:16px;padding:7px;width:470px;border: 1px dotted #CCC;border-bottom: 0 none;" name="name" type="text"><textarea name="txt" id="po_photo_txt" style="font-size:16px;padding:2px;width:470px;border: 1px dotted #CCC;height:100px;padding:7px"></textarea></div><div style="padding:7px;margin-left:3px;"><span id="po_photo_error" style="float:right;color:#f00;line-height:45px"></span><span class="btnw"><button type="submit">提交</button></span></div><input type="hidden" name="_xsrf" value=""></form>',
+    "content":[
+'<form method="POST" enctype="multipart/form-data" id="po_photo_form"><div style="padding:0 10px 5px;">',
+
+id?"编辑文本":"发布图片",
+
+'</div>',
+
+id?'':'<input id="po_photo" style="margin:10px;" type="file" name="photo">',
+
+'<div style="padding:10px;line-height:0;">',
+
+'<input autocomplete="off" placeholder="请输入标题 ..." id="po_photo_name" name="name" type="text"><textarea name="txt" id="po_photo_txt"></textarea></div><div class="btns">',
+
+id?'<a href="javascript:void(0)" id="po_photo_rm">删除</a>':'<span id="po_photo_error"></span>',
+
+'<span class="btnw"><button type="submit">提交</button></span></div><input type="hidden" name="_xsrf" value=""></form>'
+    ].join(''),
     hideOnOverlayClick:false,
     "onComplete":function(){
         var form=$("#po_photo_form"),
