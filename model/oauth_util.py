@@ -113,13 +113,13 @@ def oauth_header(args, realm=''):
 if __name__ == '__main__':
     url = 'http://api.t.sina.com.cn/statuses/update.json'
     print oauth10a_url(
-     url,
-     'GDdmIQH6jhtmLUypg82g',
-     'MCD8BKwGdgPHvAuvgvz4EQpqDAtx89grbuNMRd7Eh98',
-     '819797-Jxq8aYUDRmykzVKrgoLhXSq67TEa5ruc4GJC2rWimw',
-     'J6zix3FfA9LofH0awS24M3HcBYXO5nI1iYe8EfBA',
-     parameters={
-         'status':'通过OAuth发送微博信息'
-     },
-     method='POST'
+        url,
+        'GDdmIQH6jhtmLUypg82g',
+        'MCD8BKwGdgPHvAuvgvz4EQpqDAtx89grbuNMRd7Eh98',
+        '819797-Jxq8aYUDRmykzVKrgoLhXSq67TEa5ruc4GJC2rWimw',
+        'J6zix3FfA9LofH0awS24M3HcBYXO5nI1iYe8EfBA',
+        parameters={
+            'status':'通过OAuth发送微博信息'
+        },
+        method='POST'
     )

@@ -8,6 +8,7 @@ from model.god_po_show import po_show_zsite_channel
 %>
 <%def name="htm_head()">
 </%def>
+<a target="_blank" href="${po.link}">${po.name}</a>
 <%htm:form>
 <ol>
     % for cid, name in po_show_zsite_channel():

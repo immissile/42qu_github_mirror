@@ -181,17 +181,19 @@ def pay_account_name_get(user_id, cid):
 def pay_notice(pay_id):
     from notice import notice_new
     trade = Trade.get(pay_id)
-    message = loads(trade_log.get(pay_id))
-    if 'txt' in message:
-        if 'secret' in message:
-            state = STATE_SECRET
-        else:
-            state = STATE_ACTIVE
-        to_user = Zsite.mc_get(trade.to_id)
-        from_user = Zsite.mc_get(trade.from_id)
-        to_user.reply_new(from_user, message['txt'], state)
-
     notice_new(trade.from_id, trade.to_id, CID_NOTICE_PAY, pay_id)
+    t_log = (trade_log.get(pay_id))
+    if t_log:
+        message = loads(t_log)
+        if 'txt' in message:
+            if 'secret' in message:
+                state = STATE_SECRET
+            else:
+                state = STATE_ACTIVE
+            to_user = Zsite.mc_get(trade.to_id)
+            from_user = Zsite.mc_get(trade.from_id)
+            to_user.reply_new(from_user, message['txt'], state)
+
 
 # Charge
 CHARGE_TAX = {

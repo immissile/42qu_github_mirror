@@ -9,11 +9,14 @@ from yajl import loads
 
 <%def name="trade_log_render(rid)">
 <%
-message = loads(trade_log.get(rid))
-title = message.get('title')
-url = message.get('url')
+t_log = trade_log.get(rid)
 %>
-%if title or url:
+%if t_log:
+    <%
+        message = loads(t_log)
+        title = message.get('title')
+        url = message.get('url')
+    %>
     %if url:
 <a href="${url}" target="_blank">\
     %endif
