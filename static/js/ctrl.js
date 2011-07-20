@@ -129,40 +129,40 @@ id?'<a href="javascript:void(0)" id="po_photo_rm">删除</a>':'<span id="po_phot
             })
         }else{
             po_photo_name.attr('placeholder',"请输入标题 ..." ).placeholder()
-        }
-        form.attr('action',action).submit(function(){
+            form.attr('action',action).submit(function(){
 
-            var photo = po_photo.val(),
-                name = $.trim(po_photo_name.val()),
-                po_photo_error=$("#po_photo_error"),
-                self=$(self),
-                error;
+                var photo = po_photo.val(),
+                    name = $.trim(po_photo_name.val()),
+                    po_photo_error=$("#po_photo_error"),
+                    self=$(self),
+                    error;
 
-                if(name==po_photo_name[0].placeholder){
-                    name='';
-                }
-                
-                if(photo&&photo.length){
-                    if(!/\.(jpg|png|bmp|gif|jpeg)$/.test(photo.toLowerCase())){
-                        error = "照片格式有误(仅支持JPG,JPEG,GIF,PNG或BMP)"
+                    if(name==po_photo_name[0].placeholder){
+                        name='';
                     }
-                }else{
-                    error = "请选择图片"
-                }
+                    
+                    if(photo&&photo.length){
+                        if(!/\.(jpg|png|bmp|gif|jpeg)$/.test(photo.toLowerCase())){
+                            error = "照片格式有误(仅支持JPG,JPEG,GIF,PNG或BMP)"
+                        }
+                    }else{
+                        error = "请选择图片"
+                    }
 
-                if(!(name&&name.length)){
-                    error = "请输入标题"
-                    po_photo_name.focus()
-                }
-                
-                if(error){
-                    $("#po_photo_error").text(error).fadeIn()
-                    return false;
-                }
+                    if(!(name&&name.length)){
+                        error = "请输入标题"
+                        po_photo_name.focus()
+                    }
+                    
+                    if(error){
+                        $("#po_photo_error").text(error).fadeIn()
+                        return false;
+                    }
 
 
-                fancybox.showActivity();
-        })
+                    fancybox.showActivity();
+            })
+        }
 
     }
     })
