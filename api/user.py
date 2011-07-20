@@ -46,7 +46,7 @@ class Login(_handler.OauthBase):
         else: 
             self.finish(
                     {
-                        'error_code':'1'
+                        'error_code':1
                         }
                     )
 

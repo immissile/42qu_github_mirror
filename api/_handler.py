@@ -39,7 +39,7 @@ class OauthAccessBase(OauthBase):
             return
         access_token = self.get_argument('access_token')
         client_id = self.get_argument('client_id')
-        user_id = oauth_access_token_verify(client_id,access_token)
+        user_id = oauth_access_token_verify(client_id, access_token)
         if not user_id:
             self.finish(API_ERROR_LOGIN)
         self.current_user_id = user_id
