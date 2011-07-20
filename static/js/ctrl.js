@@ -89,8 +89,8 @@ function init_D(){
 
 
 function po_photo(id){
-    
-    $.fancybox({      
+    var fancybox = $.fancybox;
+    fancybox({      
     "content":[
 
 '<form method="POST" enctype="multipart/form-data" id="po_photo_form"><div style="padding:0 10px 5px;">',
@@ -103,7 +103,7 @@ id?'':'<input id="po_photo" style="margin:10px;" type="file" name="photo">',
 
 '<div style="padding:10px;line-height:0;">',
 
-'<input autocomplete="off" placeholder="请输入标题 ..." id="po_photo_name" name="name" type="text"><textarea name="txt" id="po_photo_txt"></textarea></div><div class="btns">',
+'<input autocomplete="off" id="po_photo_name" name="name" type="text"><textarea name="txt" id="po_photo_txt"></textarea></div><div class="btns">',
 
 id?'<a href="javascript:void(0)" id="po_photo_rm">删除</a>':'<span id="po_photo_error"></span>',
 
@@ -114,22 +114,29 @@ id?'<a href="javascript:void(0)" id="po_photo_rm">删除</a>':'<span id="po_phot
     "onComplete":function(){
         var form=$("#po_photo_form"),
             action="/po/photo",
-            po_photo=$("#po_photo");
+            po_photo=$("#po_photo"),
+            po_photo_name=$("#po_photo_name"),
+            _xsrf = $.cookie.get("_xsrf");
+        form.find("input[name=_xsrf]").val(_xsrf)
         if(id){
-            action+=("/"+id)
-            po_photo.remove();
+            action+="/"+id;
+            po_photo_name.val($('#photo_title').text()) 
+            //$("#po_photo_txt").html($.trim($('#txt').html()))
+            $("#po_photo_rm").attr('href',"/po/rm/"+id+"?_xsrf="+_xsrf).click(function(){
+                if(!confirm('删除 , 确定 ?')) return false;
+            })
+        }else{
+            po_photo_name.attr('placeholder',"请输入标题 ..." ).placeholder()
         }
-        
         form.attr('action',action).submit(function(){
 
             var photo = po_photo.val(),
-                _name=$("#po_photo_name").placeholder(),
-                name = $.trim(_name.val()),
+                name = $.trim(po_photo_name.val()),
                 po_photo_error=$("#po_photo_error"),
                 self=$(self),
                 error;
 
-                if(name==_name[0].placeholder){
+                if(name==po_photo_name[0].placeholder){
                     name='';
                 }
                 
@@ -143,7 +150,7 @@ id?'<a href="javascript:void(0)" id="po_photo_rm">删除</a>':'<span id="po_phot
 
                 if(!(name&&name.length)){
                     error = "请输入标题"
-                    _name.focus()
+                    po_photo_name.focus()
                 }
                 
                 if(error){
@@ -154,7 +161,6 @@ id?'<a href="javascript:void(0)" id="po_photo_rm">删除</a>':'<span id="po_phot
 
                 fancybox.showActivity();
         })
-        form.find("input[name=_xsrf]").val($.cookie.get("_xsrf"))
 
     }
     })

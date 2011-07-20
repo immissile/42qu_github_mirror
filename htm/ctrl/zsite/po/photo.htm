@@ -39,7 +39,7 @@ photo_pre_page, photo_next_page = photo_pre_page_and_next_page(po.id)
 <div id="photo_info">
 <span id="photo_title">${po.name}</span>\
 ##%if can_admin:
-<a href="javascript:po_photo(${po.id}).void(0)">编辑</a>\
+<a href="javascript:po_photo(${po.id});void(0)">编辑</a>\
 ##%endif
 <div id="publish_info"><a href="${zsite.link}">${zsite.name}</a>\
 %if zsite_tag_id:
