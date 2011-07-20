@@ -44,10 +44,8 @@ def buzz_follow_mail():
 
             mail = mail_by_user_id(to_id)
             name = Zsite.mc_get(to_id).name
-            
 
             for from_id in li:
-                
 
                 from_user = Zsite.mc_get(from_id)
                 career = from_user.career

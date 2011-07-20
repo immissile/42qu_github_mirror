@@ -61,9 +61,9 @@ def render_template(uri, **kwds):
 NOEMAIL = 'kanrss_noemail@googlegroups.com'
 
 def sendmail(
-    subject, 
-    text, email, name=None, sender=SENDER_MAIL, 
-    sender_name=SENDER_NAME, 
+    subject,
+    text, email, name=None, sender=SENDER_MAIL,
+    sender_name=SENDER_NAME,
     format='plain'
 ):
     if not email:
@@ -89,7 +89,7 @@ def sendmail(
 
 
 def rendermail(
-        uri, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME, 
+        uri, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME,
         format='plain',
         subject=None,
         **kwds
@@ -113,10 +113,10 @@ def rendermail(
 
         if uri.endswith('.txt'):
             r[1] = r[1].replace('\n', '\n\n')
-        
+
         subject = str(r[0])
         text = str(r[1])
-    
+
     sendmail(subject, text, email, name, sender, sender_name, format)
 
 from mq import mq_client
