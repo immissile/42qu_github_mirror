@@ -87,31 +87,88 @@ function init_D(){
     })
 }
 
-function po_photo(id) {
-$.fancybox({
-"content":'<form  onsubmit="return false;" id="po_photo_form" style="font-size:16px;width:500px;padding:0 12px 0 7px;"><div style="padding:10px;line-height:0;"><input placeholder="请更改标题 ..." id="po_photo_name" style="font-size:16px;padding:7px;width:470px;border: 1px dotted #CCC;border-bottom: 0 none;" name="name" type="text"><textarea placeholder="请更改描述 ..." name="txt" id="po_photo_txt" style="font-size:16px;padding:2px;width:470px;border: 1px dotted #CCC;height:100px;padding:7px"></textarea></div><div style="padding:7px;margin-left:3px;"><span id="po_photo_error" style="float:right;color:#f00;line-height:45px"></span><span class="btnw"><button type="submit">提交</button></span></div><input type="hidden" name="_xsrf" value=""></form>',
-"onComplete":function(){
-    var $form = $("#po_photo_form"),
-        $name = $("#po_photo_name"),
-        $txt = $("#po_photo_txt"),
-        _name = $("#photo_title"),
-        _txt = $("#txt");
-    
-    name = _name.val()
-    txt = _txt.val()
-    console.log(name,txt)
-    $("po_photo_name:placeholder").val(name)
-    $("po_photo_txt:placeholder").val(txt)
-    $form.submit(function(){
-        var name = $name.val(),
-            txt = $txt.val();
-        $("#photo_title").html(name);
-        $("txt").html(txt);
+
+function po_photo(id){
+    var fancybox = $.fancybox;
+    fancybox({      
+    "content":[
+
+'<form method="POST" ',
+
+id?'class="po_photo_form_id"':'enctype="multipart/form-data"', 
+
+' id="po_photo_form"><div style="padding:0 10px 5px;">',
+
+id?"编辑文本":"发布图片",
+
+'</div>',
+
+id?'':'<input id="po_photo" style="margin:10px;" type="file" name="photo">',
+
+'<div style="padding:10px;line-height:0;"><input autocomplete="off" id="po_photo_name" name="name" type="text"><textarea name="txt" class="po_photo_txt" id="po_photo_txt"></textarea></div><div class="btns">',
+
+id?'<a href="javascript:void(0)" id="po_photo_rm">删除</a>':'<span id="po_photo_error"></span>',
+
+'<span class="btnw"><button type="submit">提交</button></span></div><input type="hidden" name="_xsrf" value=""></form>'
+
+    ].join(''),
+    hideOnOverlayClick:false,
+    "onComplete":function(){
+        var form=$("#po_photo_form"),
+            action="/po/photo",
+            po_photo=$("#po_photo"),
+            po_photo_name=$("#po_photo_name"),
+            _xsrf = $.cookie.get("_xsrf");
+        form.find("input[name=_xsrf]").val(_xsrf)
+        if(id){
+            action+="/"+id;
+            po_photo_name.val($('#photo_title').text()) 
+            $("#po_photo_txt").val($.trim($('#_txt').val()))
+            $("#po_photo_rm").attr('href',"/po/rm/"+id+"?_xsrf="+_xsrf).click(function(){
+                if(!confirm('删除 , 确定 ?')) return false;
+            })
+        }else{
+            po_photo_name.attr('placeholder',"请输入标题 ..." ).placeholder()
+            form.attr('action',action).submit(function(){
+
+                var photo = po_photo.val(),
+                    name = $.trim(po_photo_name.val()),
+                    po_photo_error=$("#po_photo_error"),
+                    self=$(self),
+                    error;
+
+                    if(name==po_photo_name[0].placeholder){
+                        name='';
+                    }
+                    
+                    if(photo&&photo.length){
+                        if(!/\.(jpg|png|bmp|gif|jpeg)$/.test(photo.toLowerCase())){
+                            error = "照片格式有误(仅支持JPG,JPEG,GIF,PNG或BMP)"
+                        }
+                    }else{
+                        error = "请选择图片"
+                    }
+
+                    if(!(name&&name.length)){
+                        error = "请输入标题"
+                        po_photo_name.focus()
+                    }
+                    
+                    if(error){
+                        $("#po_photo_error").text(error).fadeIn()
+                        return false;
+                    }
+
+
+                    fancybox.showActivity();
+            })
+        }
+
+    }
     })
-}html
-});
 
 }
+
 
 
 CANNOT_REPLY = '<div class="fancyban"><p>啊 , 出错了 !</p><p>为了假装一本正经的讨论气氛</p><p>未认证用户没有发言权</p><p><a href="/i/verify">点此申请认证吧</a></p></div>'
