@@ -184,4 +184,5 @@ def buzz_show(user_id, limit):
     return buzz_career_bind(li)
 
 if __name__ == '__main__':
-    pass
+    for i in Buzz.where(rid=10046172,cid=CID_BUZZ_SHOW):
+        i.delete()
