@@ -97,7 +97,7 @@ $.fancybox({
         _name = $("#photo_title"),
         _txt = $("txt");
     
-    name = _name.val()val
+    name = _name.val()
     txt = _txt.val()
     console.log(name,txt)
     $("po_photo_name:placeholder").val(name)
@@ -108,7 +108,7 @@ $.fancybox({
         $("#photo_title").html(name);
         $("txt").html(txt);
     })
-}html
+}
 });
 
 }
