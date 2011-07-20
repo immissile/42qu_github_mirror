@@ -17,6 +17,7 @@ t_log = trade_log.get(rid)
         title = message.get('title')
         url = message.get('url')
     %>
+% if title or url:
     %if url:
 <a href="${url}" target="_blank">\
     %endif
@@ -24,6 +25,7 @@ ${title or url}\
     %if url:
 </a>\
     %endif
+%endif
 %endif
 </%def>
 
@@ -43,7 +45,7 @@ seq = i.seq
 % if seq > 1:
 第 ${seq} 次\
 % endif
-留言 , <a href="${i.link}">点此浏览</a> 
+留言 , <a href="${i.link}">点此浏览</a>
 %elif cid == CID_NOTICE_WALL_REPLY:
 <%
 entry_zsite = entry.zsite_other(current_user_id)
@@ -64,7 +66,7 @@ ${trade_log_render(rid)}
 ##%elif cid == CID_NOTICE_REGISTER:
 ##接受你的邀请注册了
 ##%elif cid == CID_NOTICE_WALL:
-##留言 
+##留言
 ##%elif cid == CID_NOTICE_WALL_REPLY:
 ##回复了我的留言
 ##%elif cid == CID_INVITE_QUESTION:

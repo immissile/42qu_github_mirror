@@ -10,7 +10,7 @@ from wall import Wall, WallReply
 from kv import Kv
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
-from mail import rendermail
+from mail import rendermail, render_template, sendmail
 from mail_notice import mail_notice_state
 from career import career_dict
 from user_mail import mail_by_user_id
@@ -185,15 +185,25 @@ def notice_mail_day(to_id, li):
         o = Wall.mc_get(rid)
         li_wall_reply[o] = from_list
 
-    rendermail(
-        '/mail/notice/day_total.txt',
-        mail,
-        name,
-        to_user=to_user,
-        count=count,
-        li_wall=li_wall,
-        li_wall_reply=li_wall_reply,
-    )
+    if li_wall or li_wall_reply:
+
+        subject = render_template(
+            '/mail/notice/day_total.txt',
+            count=count,
+            li_wall=li_wall,
+            li_wall_reply=li_wall_reply,
+        )
+
+        rendermail(
+            '/mail/notice/day_total.htm',
+            mail,
+            name,
+            to_user=to_user,
+            li_wall=li_wall,
+            li_wall_reply=li_wall_reply,
+            format='html',
+            subject=subject,
+        )
 
 
 notice_count = McNum(lambda to_id: Notice.where(to_id=to_id).where(STATE_GTE_APPLY).count(), 'NoticeCount.%s')

@@ -1,3 +1,11 @@
+<%!
+from cgi import escape
+%>
+
+<%def name="user_link(user)">
+<a href="${user.link}">${user.name}</a>\
+</%def>
+
 <%def name="user_career_link(user)">
 <%
 career = ' , '.join(filter(bool, user.career))
@@ -8,6 +16,23 @@ career = ' , '.join(filter(bool, user.career))
 % endif
 </a>
 </%def>
+
+<%def name="user_link_list(user_list)">
+${' , '.join(['<a href="%s">%s</a>' % (i.link, escape(i.name)) for i in user_list])|n}
+</%def>
+
+<%def name="user_link_list_with_career(user_list)">
+<%
+l = len(user_list)
+%>
+%if l > 1:
+${user_link_list(user_list)}\
+%elif l:
+${user_career_link(user_list[0])}\
+%endif
+</%def>
+
+## txt
 
 <%def name="user_career(user)">\
 <%

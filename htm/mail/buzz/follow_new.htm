@@ -15,11 +15,11 @@ target="_blank">
 <td width="430" style="padding:0 0 0 28px;line-height:32px">
 <div>
 <%
-career = from_user.career
+career = ' , '.join(filter(bool, from_user.career))
 %>
 ${from_user.name}
-% if any(career):
- - ${' , '.join(career)}\
+% if career:
+ - ${career}\
 % endif
 </div>
 <div>关注了你</div>
