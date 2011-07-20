@@ -1,6 +1,6 @@
 #coding:utf-8
 from _db import McCache
-from config import render, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SENDER_MAIL, SENDER_NAME, SITE_HTTP, SITE_NAME
+from config import render, SMTP, SMTP_USERNAME, SMTP_PASSWORD, SENDER_MAIL, SENDER_NAME, SITE_HTTP, SITE_NAME, SITE_DOMAIN
 
 from email.MIMEText import MIMEText
 from email.Header import Header
@@ -56,18 +56,16 @@ def sendmail_imp(
 
 def render_template(uri, **kwds):
     txt = render(uri, **kwds).strip()
-    r = txt.split('\n', 1)
-
-    if len(r) < 2:
-        r.append(txt[0])
-
-    if uri.endswith('.txt'):
-        r[1] = r[1].replace('\n', '\n\n')
-    return r
+    return txt
 
 NOEMAIL = 'kanrss_noemail@googlegroups.com'
 
-def sendmail(subject, text, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME):
+def sendmail(
+    subject, 
+    text, email, name=None, sender=SENDER_MAIL, 
+    sender_name=SENDER_NAME, 
+    format='plain'
+):
     if not email:
         email = NOEMAIL
         subject = '->%s : %s'%(name, subject)
@@ -81,17 +79,20 @@ def sendmail(subject, text, email, name=None, sender=SENDER_MAIL, sender_name=SE
 
     text = str(text)
     subject = str(subject)
-    sendmail_imp(server, sender, sender_name, email, name, subject, text)
+    sendmail_imp(server, sender, sender_name, email, name, subject, text, format=format)
 
     if email != NOEMAIL:
         subject = '%s %s %s'%(name, subject, email)
-        sendmail_imp(server, sender, sender_name, 'kanrss_backup@googlegroups.com', name, subject, text)
+        sendmail_imp(server, sender, sender_name, 'kanrss_backup@googlegroups.com', name, subject, text, format=format)
 
     server.quit()
 
 
 def rendermail(
-        uri, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME, **kwds
+        uri, email, name=None, sender=SENDER_MAIL, sender_name=SENDER_NAME, 
+        format='plain',
+        subject=None,
+        **kwds
     ):
     if name is None:
         name = email.split('@', 1)[0]
@@ -100,11 +101,23 @@ def rendermail(
     kwds['sender'] = sender
     kwds['sender_name'] = sender_name
     kwds['site_name'] = SITE_NAME
+    kwds['site_domain'] = SITE_DOMAIN
     kwds['site_http'] = SITE_HTTP
-    subject, text = render_template(uri, **kwds)
-    subject = str(subject)
-    text = str(text)
-    sendmail(subject, text, email, name, sender, sender_name)
+    text = render_template(uri, **kwds)
+
+    if subject is None:
+        r = text.split('\n', 1)
+
+        if len(r) < 2:
+            r.append(r[0])
+
+        if uri.endswith('.txt'):
+            r[1] = r[1].replace('\n', '\n\n')
+        
+        subject = str(r[0])
+        text = str(r[1])
+    
+    sendmail(subject, text, email, name, sender, sender_name, format)
 
 from mq import mq_client
 mq_rendermail = mq_client(rendermail)

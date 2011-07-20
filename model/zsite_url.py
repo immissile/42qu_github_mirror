@@ -8,15 +8,16 @@ from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
 class Url(Model):
     pass
 
-mc_url_by_id = McCache('UrlById.%s')
-mc_id_by_url = McCache('IdByUrl.%s')
+mc_url_by_id = McCache('UrlById<%s')
+mc_id_by_url = McCache('IdByUrl<%s')
 
 @mc_url_by_id('{id}')
 def url_by_id(id):
     u = Url.get(id)
     if u is None:
         return ''
-    return u.url
+    url = u.url
+    return url
 
 
 def url_or_id(id):
@@ -38,11 +39,9 @@ def url_new(id, url):
     if id_by_url(url):
         return
     u = Url.get_or_create(id=id)
-    if u.url:
-        mc_id_by_url.set(u.url, 0)
     u.url = url
     u.save()
-    mc_id_by_url.set(url, id)
+    mc_id_by_url.set(url.lower(), id)
     mc_url_by_id.set(id, url)
 
 NO_URL = set(('god', 'admin', 'review', 'lolicon', 'lolita', 'loli', 'risako', 'lara', 'luna', 'nuva'))
@@ -81,11 +80,16 @@ def zsite_by_domain(domain):
         if domain.isdigit():
             zsite_id = domain
         else:
-            zsite_id = id_by_url(domain)
+            zsite_id = id_by_url(domain.lower())
         return Zsite.mc_get(zsite_id)
 
+def host(id):
+    return '%s.%s' % (url_by_id(id) or id, SITE_DOMAIN)
+
 def link(id):
-    return '//%s.%s' % (url_by_id(id) or id, SITE_DOMAIN)
+    return '//%s' % host(id)
 
 if __name__ == '__main__':
-    print id_by_url("i000000")
+    print id_by_url('Jarod')
+    print host('10006523')
+    #print mc_id_by_url.get("I000000") 

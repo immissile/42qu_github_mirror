@@ -23,7 +23,7 @@ class Result(ZsiteBase):
         t = Trade.get(id)
         from_user = Zsite.mc_get(t.from_id)
         to_user = Zsite.mc_get(t.to_id)
-            
+
         self.render(
             from_user=from_user,
             to_user=to_user,
@@ -113,9 +113,9 @@ class Index(ZsiteBase):
 
 
 
-            txt = self.get_argument('txt', None) 
+            txt = self.get_argument('txt', None)
             secret = self.get_argument('secret', None)
-            
+
             message = {}
 
             if title:
@@ -127,7 +127,7 @@ class Index(ZsiteBase):
                 if secret:
                     message['secret'] = secret
 
-            
+
 
 
             if balance_cent >= amount_cent:
@@ -135,13 +135,13 @@ class Index(ZsiteBase):
                 if message:
                     trade_log.set(o_id, dumps(message))
                 pay_notice(o_id)
-                
+
                 return self.redirect('/pay/result/%s'%o_id)
             elif balance_cent > 0:
                 subject += '(余额支付 %.2f 元)' % (balance_cent/100.0)
                 o_id = _pay_new(TRADE_STATE_NEW)
                 amount_cent -= balance_cent
-            else: 
+            else:
                 o_id = _pay_new(TRADE_STATE_NEW)
 
             trade_log.set(o_id, dumps(message))
@@ -151,6 +151,7 @@ class Index(ZsiteBase):
             alipay_url = alipay_payurl_with_tax(
                     current_user_id,
                     amount_cent/100.0,
+                    return_url,
                     self.NOTIFY_URL,
                     subject,
                     alipay_account,

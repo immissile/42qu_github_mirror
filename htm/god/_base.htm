@@ -12,7 +12,7 @@ from model.reply import Reply
 <!doctype html>\
 <head>\
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">\
-<script src="${js.god}"></script>\
+<script src="${js.z}"></script>\
 ${css.z|n}
 ${css.god_god|n}
 ${self.htm_head()}\
@@ -44,7 +44,7 @@ ${self.htm_head()}\
 <div>
 <a
     class="cola" 
-    href="/zsite/verify${CID_USER}?${Zsite.raw_sql('select max(id) from zsite where state = %s and cid = %s',ZSITE_STATE_WAIT_VERIFY,CID_USER).fetchone()[0] or ''}">
+    href="/zsite/verify${CID_USER}#${Zsite.raw_sql('select max(id) from zsite where state = %s and cid = %s',ZSITE_STATE_WAIT_VERIFY,CID_USER).fetchone()[0] or ''}">
     <span class="R">
         ${Zsite.where(cid=CID_USER, state=ZSITE_STATE_WAIT_VERIFY).count()}
     </span>
@@ -57,15 +57,15 @@ ${self.htm_head()}\
 
 <p class="coltitle">浏览</p>
 <a class="cola" href="/user_list_verify"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_VERIFY ).where(cid=CID_USER).count()}</span>认证用户</a>
-<a class="cola" href="/user_list#{Zsite.raw_sql('select max(id) from zsite where cid=%s',CID_USER).fetchone()[0] or ''}"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_ACTIVE).where(cid=CID_USER).count()}</span>用户</a>
+<a class="cola" href="/user_list#${Zsite.raw_sql('select max(id) from zsite where cid=%s',CID_USER).fetchone()[0] or ''}"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_ACTIVE).where(cid=CID_USER).count()}</span>用户</a>
 <a class="cola" href="/po#${Po.raw_sql('select max(id) from po').fetchone()[0] or ''}"><span class="R">${Po.where('state>%s', STATE_DEL).count()}</span>文章</a>
 <a class="cola" href="/po/show"><span class="R">${po_show_count(0)}</span>全站广播</a>
 
-
-<p class="coltite">回复</p>
+<p class="coltitle">回复</p>
 <a class="cola" href="/reply_list/${CID_NOTE}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_NOTE).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_NOTE).count()}</span>文章</a>
 <a class="cola" href="/reply_list/${CID_WORD}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_WORD).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_WORD).count()}</span>微博</a>
 <a class="cola" href="/reply_list/${CID_QUESTION}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_QUESTION).count()}</span>评论</a>
+<a class="cola" href="/reply_list/${CID_USER}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_USER).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_USER).count()}</span>留言</a>
 
 
 

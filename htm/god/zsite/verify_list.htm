@@ -1,4 +1,6 @@
+<%namespace file="/_util/user_index.htm" import="user_index"/>
 <%inherit file="/god/_base.htm" />
+
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 from model.ico import pic_url_with_default
@@ -24,6 +26,7 @@ var template = [
 
 }
 $('a.show').live('click', function() {
+    $.fancybox.showActivity();
     var id = this.rel
     $.postJSON('/zsite/verify/2/' + id, function(data) {
         if (data.state == true) {
@@ -33,6 +36,7 @@ $('a.show').live('click', function() {
     return false
 })
 $('a.yes').live('click', function() {
+    $.fancybox.showActivity();
     var id = this.rel
     $.postJSON('/zsite/verify/1/' + id, function(data) {
         if (data.state == true) {
@@ -49,6 +53,7 @@ $('a.no').live('click', function() {
         alert("请选择理由")
         return
     }
+    $.fancybox.showActivity();
     $.postJSON('/zsite/verify/0/' + id, {"txt":txt}, function(data) {
         if (data.state == true) {
             pass(id)
@@ -57,7 +62,7 @@ $('a.no').live('click', function() {
     return false
 })
 function pass(id){
-    $('#zsite' + id+" a").css("color","#ccc").css("font-size","14px")
+    location='/zsite/verify1'
 }
 </script>
 <style>
@@ -95,20 +100,22 @@ margin-right:16px
 }
 </style>
 </%def>
-% for i in zsite_list:
 <%
-id = i.id
-zsite_show = zsite_show_get(id)
-_pic_url = pic_url_with_default(id,"219") 
+id = zsite.id
 %>
 <div class="sdw" id="zsite${id}">
 <div class="sd c">
-<a href="${i.link}"><img class="ico" src="${_pic_url}"></a>
-<h1><a href="${i.link}" target="_blank">${i.name}</a></h1>
+<div id="user_info">
+${user_index(zsite, False)}
+</div>
 <div class="bar">
 <div class="L">
 <a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
 <a class="show" rel="${id}" href="javascript:void(0)">通过 & 展示</a>
+<div style="margin-top:32px">
+    <a href="/zsite/${id}" target="_blank">管理</a>
+
+</div>
 </div>
 <a class="no" rel="${id}" href="javascript:void(0)">拒绝</a>
 <textarea class="txt" id="txt${id}"></textarea>
@@ -122,7 +129,3 @@ _pic_url = pic_url_with_default(id,"219")
 </div>
 
 </div>
-% endfor
-% if extra:
-<a href="?">还有${extra}未审核</a>
-% endif

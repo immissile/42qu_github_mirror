@@ -4,10 +4,21 @@ from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 from cgi import escape
 %>
-
+<%namespace file="/ctrl/_util/user.htm" import="user_career_link"/>
 
 <%def name="entry_link(entry)">
 <a href="${entry.link}">${entry.name}</a>\
+</%def>
+
+<%def name="user_link_list_with_career(user_list)">
+<%
+l = len(user_list)
+%>
+%if l>1:
+${user_link_list(user_list)}\
+%elif l:
+${user_career_link(user_list[0])}\
+%endif
 </%def>
 
 <%def name="user_link_list(user_list)">
@@ -24,22 +35,12 @@ entry = i.entry
 %if cid == CID_BUZZ_SYS:
     <span class="buzz_sys">${entry.htm|n}</span>
 %elif cid == CID_BUZZ_SHOW:
-<%
-career = ' , '.join(filter(bool, entry.career))
-%>
-<span class="buzz_user">
-
-<a href="${entry.link}">${entry.name}\
-    % if career:
- - ${career}
-    % endif
- </a></span> 入驻
+<span class="buzz_user">${user_career_link(entry)}</span> 入驻
 %elif cid == CID_BUZZ_FOLLOW:
-${user_link_list(from_list)} 关注了\
     %if rid == current_user_id:
-我
+${user_link_list_with_career(from_list)} 关注了我
     %else:
- ${entry_link(entry)}
+${user_link_list(from_list)} 关注了 ${user_career_link(entry)}
     %endif
 %elif cid == CID_BUZZ_WALL:
 <%
@@ -47,14 +48,35 @@ to = Zsite.mc_get(entry.to_id)
 %>
 ${user_link_list(from_list)} 给 ${entry_link(to)} <a href="${to.link}${entry.link}">留言</a>
 %elif cid == CID_BUZZ_WALL_REPLY:
+${user_link_list(from_list)} \
 <%
-to = Zsite.mc_get(entry.to_id)
+e_from_id = entry.from_id
+e_to_id = entry.to_id
+e_from = Zsite.mc_get(e_from_id)
+e_to = Zsite.mc_get(e_to_id)
 %>
-${user_link_list(from_list)} 答复 ${entry_link(to)} 的 <a href="${to.link}${entry.link}">留言</a>
+% if len(from_list) == 1:
+<%
+from_user = from_list[0]
+from_id = from_user.id
+%>
+% if from_id == e_from_id:
+答复 ${entry_link(e_to)} 的 \
+% elif from_id == e_to_id:
+答复 ${entry_link(e_from)} 的 \
+% else:
+回复 ${entry_link(e_from)} 给 ${entry_link(e_to)} 的 \
+% endif
+% elif set(i.from_id_list) & entry.zsite_id_list():
+相互 \
+% else:
+回复 ${entry_link(e_from)} 给 ${entry_link(e_to)} 的 \
+% endif
+<a href="${e_to.link}${entry.link}">留言</a>
 %elif cid == CID_BUZZ_PO_REPLY:
-${user_link_list(from_list)} 跟帖 <a href="/po/${entry.id}">${entry.name}</a> 
+${user_link_list(from_list)} 跟帖 <a href="/po/${entry.id}">${entry.name_with_user}</a> 
 %elif cid == CID_BUZZ_ANSWER:
-${user_link_list(from_list)} 回答 ${entry_link(entry)}
+${user_link_list(from_list)} 回答 <a href="${entry.link}#replyer${from_list[0].id}">${entry.name}</a>\
 %endif
 </%def>
 
@@ -64,7 +86,7 @@ buzz_list = _buzz_show(user_id, 3)
 unread = buzz_unread_count(user_id)
 %>
 %if buzz_list:
-<div class="c" style="padding-bottom:36px" id="buzz"><div class="G2">\
+<div class="c" id="buzz"><div class="G2">\
 <div class="buzz">\
 <div id="buzz_p">\
     %for i in buzz_list:

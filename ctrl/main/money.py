@@ -12,7 +12,7 @@ class AlipaySync(Base):
         t = alipay_url_recall(query)
         url = '%s/money' % SITE_URL
         if t.id:
-            url = "/pay/result/%s"%t.id
+            url = '/pay/result/%s'%t.id
         else:
             url = '%s/charged/%s/%s'%(url, t.id, t.to_id)
         return self.redirect(url)

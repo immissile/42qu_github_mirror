@@ -135,11 +135,13 @@ color:#000;
 .num_normal span{
 margin-right:3px;
 }
-.zsite_foot{
-border-top:1px dotted #ccc;padding:32px;margin-top:-1px;text-align:center
+a.zsite_foot{
+display:block;
+border-top:1px dotted #ccc;padding:32px;margin-top:48px;text-align:center;
+font-size:23px;font-family:Trebuchet MS;color:#666;
 }
-.zsite_foot a{
-font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 28px
+a.zsite_foot:hover{
+color:#a10;
 }
 
 .zsite_ico_div{

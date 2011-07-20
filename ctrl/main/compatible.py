@@ -6,8 +6,8 @@ from config import SITE_DOMAIN
 @urlmap('/-(\d+)')
 class Index(Base):
     def get(self, id):
-        return self.redirect("//%s.%s"%(id,SITE_DOMAIN), True)
-    
+        return self.redirect('//%s.%s'%(id, SITE_DOMAIN), True)
+
     post = get
 
 

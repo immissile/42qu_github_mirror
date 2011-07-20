@@ -23,7 +23,7 @@ class Pic(PicEdit):
 class UserInfo(UserInfoEdit):
     def post(self):
         self.save()
-        self.redirect("/me/newbie/4")
+        self.redirect('/me/newbie/4')
 
 
 @urlmap('/me/newbie/4')
@@ -31,5 +31,5 @@ class Link(LinkEdit):
     def post(self):
         self.save()
         current_user = self.current_user
-        self.redirect("%s/live"%current_user.link)
+        self.redirect('%s/live'%current_user.link)
 

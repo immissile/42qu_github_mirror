@@ -20,19 +20,19 @@ class Index(Base):
             uid = google_uid_by_link(q)
             if uid:
                 rank = google_rank_by_uid(uid)
-                if not rank: 
+                if not rank:
                     self.uid = uid
                     client = httpclient.AsyncHTTPClient()
                     url = GOOGLE_PLUS_URL_PROXY%uid
                     #logging.info(url)
                     client.fetch(url, self._callback)
                     return
-        
-        self._page(n,rank, q)
+
+        self._page(n, rank, q)
 
     def _callback(self, response):
         if response.error:
-            print "Error:", response.error
+            print 'Error:', response.error
         else:
             html = response.body
             if html:
@@ -43,12 +43,12 @@ class Index(Base):
 
     def _page(self, n, rank, q):
         page, limit, offset = page_limit_offset(
-            "/google_plus-%s",
+            '/google_plus-%s',
             GoogleRank.count(),
             n,
             50,
         )
-        rank_list = GoogleRank.mc_get_list(GoogleRank.where().order_by("follower desc").col_list(limit, offset))
+        rank_list = GoogleRank.mc_get_list(GoogleRank.where().order_by('follower desc').col_list(limit, offset))
 
         return self.render(
             q=q, rank=rank, page=page, rank_list=rank_list, offset=offset

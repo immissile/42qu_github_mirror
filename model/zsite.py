@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 from cgi import escape
 from cid import CID_USER
 from _db import Model, McModel
@@ -36,9 +37,14 @@ class Zsite(McModel):
         return '<a href="%s">%s</a>' % (self.link, escape(self.name))
 
     @attrcache
+    def _ico96(self):
+        from ico import ico_url
+        return ico_url(self.id)
+
+    @property
     def ico96(self):
-        from ico import ico_url_with_default
-        return ico_url_with_default(self.id)
+        from ico import ICO96_DEFAULT
+        return self._ico96 or ICO96_DEFAULT
 
     @attrcache
     def career(self):
@@ -53,6 +59,10 @@ def user_can_reply(user):
 #class Zpage(McModel):
 #    pass
 #
+
+def zsite_is_verify(id):
+    zsite = Zsite.mc_get(id)
+    return zsite.state >= ZSITE_STATE_VERIFY
 
 def zsite_new(name, cid, state):
     zsite = Zsite(id=gid(), cid=cid, name=name, state=state)
@@ -92,6 +102,11 @@ def zsite_verify_no(zsite, txt):
     zsite.save()
     zsite_verify_mail(zsite.id, zsite.cid, zsite.state, txt)
 
+def zsite_verify_no_without_notify(zsite):
+    zsite.state = ZSITE_STATE_FAILED_VERIFY
+    zsite.save()
+
+
 def zsite_verify_mail(zsite_id, cid, state, txt=''):
     from mail import rendermail
     from user_mail import mail_by_user_id
@@ -106,11 +121,16 @@ def zsite_verify_mail(zsite_id, cid, state, txt=''):
 from mq import mq_client
 mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
+    #print zsite_is_verify(jarod)
     pass
-    zsite = Zsite.mc_get(10043090)
-    zsite_verify_no(zsite,"te")
+    zsite = Zsite.mc_get(10023730)
+    zsite.state = ZSITE_STATE_VERIFY
+    zsite.save()
+    print zsite.state , ZSITE_STATE_VERIFY
+    print Zsite.where(state=ZSITE_STATE_WAIT_VERIFY).col_list()
+#  zsite_verify_no(zsite,"te")
     #print Zsite.where().count()
-   # for i in Zsite.where():
-   #     i.name = i.name.strip()
-   #     i.save()
+# for i in Zsite.where():
+#     i.name = i.name.strip()
+#     i.save()

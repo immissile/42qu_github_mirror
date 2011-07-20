@@ -13,7 +13,7 @@ zsite_show = partial(zsite_id_list, 0, 0)
 
 def zsite_show_update():
     for i in ormiter(ZsiteList, 'owner_id=0 and cid=0'):
-        i.rank = zsite_rank_get(i.id)
+        i.rank = zsite_rank_get(i.zsite_id)
         i.save()
     mc_flush_owner_id_cid(0, 0)
 
@@ -33,8 +33,9 @@ def zsite_show_rank(zsite_id, rank):
 
 if __name__ == '__main__':
 #    print zsite_show()
+    zsite_show_update()
     from model.zsite import Zsite
     for i in ormiter(ZsiteList, 'owner_id=0 and cid=0'):
-        if not Zsite.get(i.zsite_id):
+        if i.rank:
             print i.zsite_id
-            i.delete() 
+            print i.rank

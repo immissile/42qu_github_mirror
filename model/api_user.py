@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from model.zsite import Zsite
 from model.motto import motto
 from model.zsite_url import url_by_id

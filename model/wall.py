@@ -4,7 +4,7 @@ from _db import Model, McModel, McCacheA, McLimitA, McCache
 from reply import Reply, ReplyMixin, STATE_ACTIVE, STATE_SECRET
 from model.zsite import Zsite
 from time import time
-from operator import itemgetter
+from zkit.attrcache import attrcache
 
 """
 CREATE TABLE `wall` (
@@ -37,7 +37,7 @@ class Wall(McModel, ReplyMixin):
     def zsite_id_list(self):
         return set([self.from_id, self.to_id])
 
-    def zsite_id_other(self,id):
+    def zsite_id_other(self, id):
         if id == self.from_id:
             return self.to_id
         if id == self.to_id:
@@ -58,8 +58,7 @@ class Wall(McModel, ReplyMixin):
 
     def reply_new(self, user, txt, state, create_time=None):
         user_id = user.id
-        from cid import CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY
-        from notice import notice_new
+        from notice import notice_wall_new, notice_wall_reply_new
         from buzz import buzz_wall_reply_new
         id = self.id
         reply_id = super(Wall, self).reply_new(user, txt, state, create_time)
@@ -80,10 +79,10 @@ class Wall(McModel, ReplyMixin):
 
                 zsite_id_list.remove(user_id)
                 for zsite_id in zsite_id_list:
-                    notice_new(user_id, zsite_id, CID_NOTICE_WALL, id)
+                    notice_wall_new(user_id, zsite_id, id)
             else:
                 for zsite_id in zsite_id_list:
-                    notice_new(user_id, zsite_id, CID_NOTICE_WALL_REPLY, id)
+                    notice_wall_reply_new(user_id, zsite_id, id)
 
             for i in self.reply_user_id_list():
                 buzz_wall_reply_new(user_id, i, id)
@@ -116,13 +115,11 @@ class Wall(McModel, ReplyMixin):
 
 
 class WallReply(McModel):
-    @property
+    @attrcache
     def link(self):
-        if not hasattr(self, '_link'):
-            zsite = Zsite.mc_get(self.zsite_id)
-            wall = Wall.mc_get(self.wall_id)
-            self._link = '%s%s' % (zsite.link, wall.link)
-        return self._link
+        zsite = Zsite.mc_get(self.zsite_id)
+        wall = Wall.mc_get(self.wall_id)
+        return '%s%s' % (zsite.link, wall.link)
 
 
 def wall_reply_new(wall_id, from_id, to_id, reply_id):

@@ -64,9 +64,10 @@ def buzz_show_new_all(zsite_id):
         buzz_show_new(i.id, zsite_id)
 
 def buzz_follow_new(from_id, to_id):
-    buzz_new(from_id, to_id, CID_BUZZ_FOLLOW, to_id)
-    for i in ormiter(Follow, 'to_id=%s and from_id!=%s' % (from_id, to_id)):
-        buzz_new(from_id, i.from_id, CID_BUZZ_FOLLOW, to_id)
+    if not Buzz.where(from_id=from_id, to_id=to_id, cid=CID_BUZZ_FOLLOW, rid=to_id).count():
+        buzz_new(from_id, to_id, CID_BUZZ_FOLLOW, to_id)
+        for i in ormiter(Follow, 'to_id=%s and from_id!=%s' % (from_id, to_id)):
+            buzz_new(from_id, i.from_id, CID_BUZZ_FOLLOW, to_id)
 
 mq_buzz_follow_new = mq_client(buzz_follow_new)
 
@@ -146,11 +147,11 @@ def buzz_list(user_id, limit, offset):
 def buzz_career_bind(li):
     id_list = []
     for i in li:
-        if i.cid == CID_BUZZ_SHOW:
+        if i.cid in (CID_BUZZ_SHOW, CID_BUZZ_FOLLOW):
             id_list.append(i.rid)
     c_dict = career_dict(id_list)
     for i in li:
-        if i.cid == CID_BUZZ_SHOW:
+        if i.cid in (CID_BUZZ_SHOW, CID_BUZZ_FOLLOW):
             i.entry.career = c_dict[i.rid]
     return li
 
@@ -183,26 +184,4 @@ def buzz_show(user_id, limit):
     return buzz_career_bind(li)
 
 if __name__ == '__main__':
-    #buzz_show_new_all(10024800)
     pass
-    #buzz_to = [i.user_id for i in ormiter(PoPos, 'po_id=%s and state=%s' % (10043344, STATE_BUZZ))]
-    #print buzz_to
-#    for i in buzz_list(10000000, 100, 0):
-#        pass
-#        print i.id
-#        print i.cid
-#
-  #  from model.zsite import Zsite
-  #  c = Buzz.raw_sql("select distinct rid from buzz where cid=%s",CID_BUZZ_SHOW)
-  #  for i, in c:
-  #      zsite = Zsite.mc_get(i)
-  #      if not zsite:
-    #Buzz.raw_sql("delete from buzz where cid=%s", CID_BUZZ_SHOW)
-    from zweb.orm import ormiter
-
-    for i in ormiter(Buzz,"cid=%s"%CID_BUZZ_SHOW):
-        print i.id
-        i.delete()
-
-
-    #Buzz.where(rid=10003473,cid=CID_BUZZ_SHOW).delete()

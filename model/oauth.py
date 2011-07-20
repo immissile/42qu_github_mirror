@@ -2,7 +2,7 @@
 from _db import cursor_by_table, McNum, Model
 
 
-OAUTH_GOOGLE = 1 
+OAUTH_GOOGLE = 1
 OAUTH_DOUBAN = 2
 OAUTH_SINA = 3
 OAUTH_TWITTER = 4
@@ -14,11 +14,11 @@ OAUTH_RENREN = 9
 OAUTH_LINKEDIN = 10
 
 OAUTH2NAME_DICT = {
-    OAUTH_GOOGLE    : "Google"      , 
-    OAUTH_WWW163    : "网易微博"    ,
-    OAUTH_SOHU      : "搜狐微博"    ,
-    OAUTH_QQ        : "腾讯微博"    ,
-    OAUTH_RENREN    : "人人网"      ,
+    OAUTH_GOOGLE    : 'Google'      ,
+    OAUTH_WWW163    : '网易微博'    ,
+    OAUTH_SOHU      : '搜狐微博'    ,
+    OAUTH_QQ        : '腾讯微博'    ,
+    OAUTH_RENREN    : '人人网'      ,
     OAUTH_DOUBAN    : '豆瓣'        ,
     OAUTH_SINA      : '新浪微博'    ,
     OAUTH_QQ        : '腾讯微博'    ,
@@ -28,23 +28,23 @@ OAUTH2NAME_DICT = {
 }
 
 OAUTH2URL = {
-    OAUTH_DOUBAN:"http://www.douban.com/people/%s/",
-    OAUTH_SINA:"http://t.sina.com.cn/%s",
-    OAUTH_TWITTER:"http://twitter.com/%s",
-    OAUTH_WWW163:"http://t.163.com/%s",
-    OAUTH_SOHU:"http://t.sohu.com/%s",
+    OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
+    OAUTH_SINA:'http://t.sina.com.cn/%s',
+    OAUTH_TWITTER:'http://twitter.com/%s',
+    OAUTH_WWW163:'http://t.163.com/%s',
+    OAUTH_SOHU:'http://t.sohu.com/%s',
 #    OAUTH_BUZZ:"%s",
-    OAUTH_QQ:"http://t.qq.com/%s",
+    OAUTH_QQ:'http://t.qq.com/%s',
 }
 
 OAUTH2TABLE = {
     #OAUTH_BUZZ:"oauth_token_buzz",
-    OAUTH_TWITTER:"oauth_token_twitter",
-    OAUTH_SOHU:"oauth_token_sohu",
-    OAUTH_SINA:"oauth_token_sina",
-    OAUTH_DOUBAN:"oauth_token_douban",
-    OAUTH_WWW163:"oauth_token_www163",
-    OAUTH_QQ:"oauth_token_qq",
+    OAUTH_TWITTER:'oauth_token_twitter',
+    OAUTH_SOHU:'oauth_token_sohu',
+    OAUTH_SINA:'oauth_token_sina',
+    OAUTH_DOUBAN:'oauth_token_douban',
+    OAUTH_WWW163:'oauth_token_www163',
+    OAUTH_QQ:'oauth_token_qq',
 }
 
 
@@ -52,58 +52,58 @@ OAUTH_SYNC_CID = set(
     OAUTH2NAME_DICT.iterkeys()
 )
 
-OAUTH_SYNC_SQL = "app_id in (%s)"%(",".join(map(str, OAUTH_SYNC_CID)))
+OAUTH_SYNC_SQL = 'app_id in (%s)'%(','.join(map(str, OAUTH_SYNC_CID)))
 
 class OauthToken(Model):
     pass
 
 def _oauth_sync_sum(zsite_id):
-    c = OauthToken.raw_sql("select count(1) from oauth_token where zsite_id=%%s and %s"%OAUTH_SYNC_SQL,zsite_id).fetchone()
+    c = OauthToken.raw_sql('select count(1) from oauth_token where zsite_id=%%s and %s'%OAUTH_SYNC_SQL, zsite_id).fetchone()
     return c[0]
 
 #print _oauth_sync_sum(10000000)
 
 oauth_sync_sum = McNum(
-    _oauth_sync_sum, "OauthSyncSum=%s"
+    _oauth_sync_sum, 'OauthSyncSum=%s'
 )
 
 def name_uid_set( id, name, uid, table):
-    cursor = OauthToken.raw_sql("select id from %s where id=%%s"%table, id)
+    cursor = OauthToken.raw_sql('select id from %s where id=%%s'%table, id)
     sql_tuple = (name, uid, id)
     if cursor.fetchone():
-        OauthToken.raw_sql("update %s set name=%%s,uid=%%s where id=%%s"%table, *sql_tuple)
+        OauthToken.raw_sql('update %s set name=%%s,uid=%%s where id=%%s'%table, *sql_tuple)
     else:
         OauthToken.raw_sql(
-            "insert into %s (name,uid,id) values (%%s,%%s,%%s)"%table,
+            'insert into %s (name,uid,id) values (%%s,%%s,%%s)'%table,
             *sql_tuple
         )
 
 def oauth_token_by_oauth_id(oauth_id):
-    s = OauthToken.raw_sql('select app_id, token_key, token_secret from oauth_token where id =%s',oauth_id).fetchone()
+    s = OauthToken.raw_sql('select app_id, token_key, token_secret from oauth_token where id =%s', oauth_id).fetchone()
     return s
 
 
 def oauth_rm_by_oauth_id(oauth_id):
     cursor = cursor_by_table('oauth_token')
     cursor_new = cursor_by_table('oauth_token_backup')
-    cursor.execute('select id,app_id,zsite_id,token_key,token_secret from oauth_token where id=%s',oauth_id)
+    cursor.execute('select id,app_id,zsite_id,token_key,token_secret from oauth_token where id=%s', oauth_id)
     item = cursor.fetchone()
     if item:
-        cursor_new.execute('insert into oauth_token_backup (id,app_id,zsite_id,token_key,token_secret) values (%s,%s,%s,%s,%s)',item)
-        cursor.execute('delete from oauth_token where id =%s',oauth_id)
+        cursor_new.execute('insert into oauth_token_backup (id,app_id,zsite_id,token_key,token_secret) values (%s,%s,%s,%s,%s)', item)
+        cursor.execute('delete from oauth_token where id =%s', oauth_id)
 
 
 
 def oauth_save(app_id, zsite_id, token_key, token_secret):
-    cursor = OauthToken.raw_sql("select id from oauth_token where zsite_id=%s and app_id=%s", zsite_id, app_id)
+    cursor = OauthToken.raw_sql('select id from oauth_token where zsite_id=%s and app_id=%s', zsite_id, app_id)
     id = cursor.fetchone()
     id = id and id[0]
 
     if id:
-        OauthToken.raw_sql("update oauth_token set token_key=%s , token_secret=%s where id=%s", token_key, token_secret, id)
+        OauthToken.raw_sql('update oauth_token set token_key=%s , token_secret=%s where id=%s', token_key, token_secret, id)
     else:
         id = OauthToken.raw_sql(
-            "insert into oauth_token (app_id,zsite_id,token_key,token_secret) values (%s,%s,%s,%s)",
+            'insert into oauth_token (app_id,zsite_id,token_key,token_secret) values (%s,%s,%s,%s)',
             app_id, zsite_id, token_key, token_secret
         ).lastrowid
     if app_id in OAUTH_SYNC_CID:
@@ -146,12 +146,12 @@ def oauth_save_www163(zsite_id, token_key, token_secret, name, uid):
 
 def oauth_by_zsite_id(zsite_id):
     cursor = OauthToken.raw_sql(
-        "select app_id,id from oauth_token where zsite_id=%s", zsite_id
+        'select app_id,id from oauth_token where zsite_id=%s', zsite_id
     )
     return dict(cursor.fetchall())
 
 def name_uid_get(id, table, url):
-    cursor = OauthToken.raw_sql("select name,uid from %s where id=%%s"%table, id)
+    cursor = OauthToken.raw_sql('select name,uid from %s where id=%%s'%table, id)
     r = cursor.fetchone()
     if r:
         name, uid = r
@@ -188,9 +188,9 @@ def oauth_name_link(app_id, id):
 #        return c[0]
 
 
-if __name__ == "__main__":
-    oauth_save(OAUTH_BUZZ,2,"2","1")
-    print oauth_sync_sum("11")
+if __name__ == '__main__':
+    oauth_save(OAUTH_BUZZ, 2, '2', '1')
+    print oauth_sync_sum('11')
 
 #def oauth_url(
 #url, api_key, api_secret, access_token, access_token_secret, parameters={}, method="GET", data=None

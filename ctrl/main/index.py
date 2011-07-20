@@ -13,7 +13,7 @@ class Index(Base):
                 '%s/live'%current_user.link
             )
         else:
-            self.redirect('/auth/reg')
+            self.redirect('/login')
 
 
 @urlmap('/tag/(\d+)')
@@ -21,4 +21,4 @@ class Tag(Base):
     def get(self, id, n=1):
         tag = ZsiteTag.mc_get(id)
         tag_zsite = Zsite.mc_get(tag.zsite_id)
-        return self.redirect("%s/tag/%s"%(tag_zsite.link, id))
+        return self.redirect('%s/tag/%s'%(tag_zsite.link, id))

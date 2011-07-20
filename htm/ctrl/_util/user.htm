@@ -1,0 +1,35 @@
+<%def name="user_career_link(user)">
+<%
+career = ' , '.join(filter(bool, user.career))
+%>
+<a href="${user.link}">${user.name}\
+% if career:
+ - ${career}\
+% endif
+</a>
+</%def>
+
+<%def name="user_career(user)">\
+<%
+career = ' , '.join(filter(bool, user.career))
+%>\
+${user.name}\
+% if career:
+ - ${career}\
+% endif
+</%def>
+
+<%def name="user_name_list(user_list)">\
+${' , '.join([i.name for i in user_list])}\
+</%def>
+
+<%def name="user_list_with_career(user_list)">\
+<%
+l = len(user_list)
+%>\
+% if l > 1:
+${user_name_list(user_list)}\
+% elif l:
+${user_career(user_list[0])}\
+% endif
+</%def>

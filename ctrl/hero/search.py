@@ -26,7 +26,7 @@ class Search(Base):
                 return self.redirect(link)
             else:
                 self.render(
-                    q = None,
+                    q=None,
                 )
         if q:
             try:
@@ -37,7 +37,7 @@ class Search(Base):
             now, list_limit, offset = limit_offset(n, PAGE_LIMIT)
             zsite_list, total = search(q, offset, list_limit)
             page = str(Page(
-                '/q-%%s/%s' % quote(q).replace("%","%%"),
+                '/q-%%s/%s' % quote(q).replace('%', '%%'),
                 total,
                 now,
                 PAGE_LIMIT

@@ -178,4 +178,5 @@ def po_id_list_by_zsite_tag_id(zsite_tag_id, limit=None, offset=0):
 if __name__ == '__main__':
     #for i in ZsiteTag.where(zsite_id=24):
     #print i.tag_id
-    print po_id_list_by_zsite_tag_id(24, 25)
+    #print po_id_list_by_zsite_tag_id(24, 25)
+    print tag_by_po_id(10007348, 10037094)[2]

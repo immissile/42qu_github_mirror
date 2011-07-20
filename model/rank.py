@@ -6,9 +6,10 @@ from vote import vote_up_count, vote_down_count
 from zsite import Zsite
 from model.po import Po
 
+ORDER = ('id', 'hot', 'confidence')
+
 class Rank(McModel):
     pass
-
 
 mc_rank_po_id_count = McCache('RankPoIdCount.%s')
 
@@ -98,7 +99,7 @@ def rank_mv(po_id, to_id, cid):
         _rank_mv(r, cid)
 
 def _mc_flush_cid(to_id, cid):
-    for order in ('hot', 'confidence'):
+    for order in ORDER:
         mc_rank_po_id_list.delete('%s_%s_%s' % (to_id, cid, order))
     mc_rank_po_id_count.delete('%s_%s' % (to_id, cid))
 

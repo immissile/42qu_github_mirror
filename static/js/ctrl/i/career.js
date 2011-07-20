@@ -79,7 +79,7 @@ function career(
 
 $(".career").delegate('.unit:last,.title:last', "change", function(){
     var val = $.trim(this.value);
-    if(val.length&&val!=this.placeholder){
+    if(val&&val.length&&val!=this.placeholder){
         career(this.name.split("_")[0]);
     }
 })
@@ -94,7 +94,7 @@ $("#career_form").submit(function(){
 })
 
 function loads(name){
-    var data = $.parseJSON($("#career_data_"+name).text()),i=0,t;
+    var data = $.parseJSON($("#career_data_"+name).html()),i=0,t;
     for(;i<data.length;++i){
         t=data[i];
         t.unshift(name)

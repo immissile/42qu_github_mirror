@@ -3,7 +3,7 @@
 }
 .po_body h1{
     text-align:center;
-    font-size:32px;
+    font-size:27px;
     margin:48px 0;
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
@@ -11,13 +11,6 @@
 .po_body pre{
     width:721px;
     margin:auto;
-}
-.po_body pre p{
-    line-height:28px;
-    padding-bottom:14px;
-}
-#txt_form{
-text-align:right;
 }
 #reply_txt{
 text-align:left;
@@ -33,7 +26,7 @@ margin:0 auto 32px;
 *margin:0 auto;
 }
 #txt_form{
-*margin-top:-32px;
+text-align:right;
 }
 #reply_list{
 margin-top:16px;
@@ -63,9 +56,6 @@ text-align:right;
 .bar .edit{
 float:left;
 }
-.po_page{
-padding-bottom:32px;
-}
 #secret_span label{
 *vertical-align:-1px;
 }
@@ -85,9 +75,6 @@ line-height:46px;
 }
 #question_submit{
 float:right;
-}
-.G4{
-padding-bottom:64px;
 }
 .qsnum{
 padding:0 3px;

@@ -1,5 +1,6 @@
 <%!
 from yajl import dumps
+from cgi import escape
 %>
 
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -59,9 +60,9 @@ ${css.ctrl_i_career|n}
 %>
 
 <script type="text/x-json" id="career_data_edu">
-${dumps(edu_list)|n}
+${escape(dumps(edu_list))|n}
 </script>
 <script type="text/x-json" id="career_data_job">
-${dumps(job_list)|n}
+${escape(dumps(job_list))|n}
 </script>
 <script src="${js.ctrl_i_career}"></script>

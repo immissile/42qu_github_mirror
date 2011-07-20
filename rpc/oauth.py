@@ -12,14 +12,14 @@ BACK_URL = '/'
 class DoubanOauthHandler(LoginBase, DoubanMixin):
     @tornado.web.asynchronous
     def get(self):
-        if self.get_argument("oauth_token", None):
+        if self.get_argument('oauth_token', None):
             self.get_authenticated_user(self.async_callback(self._on_auth))
             return
         self.authorize_redirect(
                 self.callback_url()
                 )
-    
-    def _on_auth(self,user):
+
+    def _on_auth(self, user):
         zsite = self.current_user
 
         back = BACK_URL
@@ -114,9 +114,9 @@ class QqOauthHandler(LoginBase, QqMixin):
         self.authorize_redirect(
             self.callback_url()
                 )
-    
-    
-    def _on_auth(self,user):
+
+
+    def _on_auth(self, user):
         zsite = self.current_user
         back = BACK_URL
         if user:
@@ -162,14 +162,14 @@ class QqOauthHandler(LoginBase, QqMixin):
 class TwitterOauthHandler(LoginBase, TwitterMixin):
     @tornado.web.asynchronous
     def get(self):
-        if self.get_argument("oauth_token", None):
+        if self.get_argument('oauth_token', None):
             self.get_authenticated_user(self.async_callback(self._on_auth))
             return
         self.authenticate_redirect(
                 self.callback_url()
                 )
 
-    def _on_auth(self,user):
+    def _on_auth(self, user):
         man = self.current_user
         back = BACK_URL
         if user:

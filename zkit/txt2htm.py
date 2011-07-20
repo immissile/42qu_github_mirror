@@ -32,7 +32,7 @@ def replace_link(match):
 
 def replace_bold(match):
     txt = match.groups()[0]
-    return '<b>%s</b>' % txt
+    return '<b>%s</b>' % txt.strip()
 
 def txt_withlink(s):
     s = escape(s)

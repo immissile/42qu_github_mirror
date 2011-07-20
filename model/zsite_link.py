@@ -17,7 +17,7 @@ OAUTH_LINK_DEFAULT = (
 )
 
 OAUTH2NAME = tuple(
-    (k, OAUTH2NAME_DICT[k]) for k in OAUTH_LINK_DEFAULT 
+    (k, OAUTH2NAME_DICT[k]) for k in OAUTH_LINK_DEFAULT
 )
 
 
@@ -40,13 +40,13 @@ def link_id_name_by_zsite_id(zsite_id):
     return c.fetchall()
 
 
-def name_link_by_zsite_id(zsite_id, prefix=""):
+def name_link_by_zsite_id(zsite_id, prefix=''):
     r = []
     _link = link(zsite_id)
     for id, name in link_id_name_by_zsite_id(zsite_id):
         r.append((
             name,
-            "%s%s/link/%s"%(prefix,_link, id),
+            '%s%s/link/%s'%(prefix, _link, id),
         ))
     return r
 

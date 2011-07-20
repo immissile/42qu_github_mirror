@@ -14,6 +14,7 @@ class Pay(LoginBase):
     def get(self):
         return self.render()
 
+
 @urlmap('/money/bill')
 class Bill(LoginBase):
     def get(self):
@@ -31,7 +32,6 @@ class Bill(LoginBase):
             t.from_user = user_dic[t.from_id]
             t.to_user = user_dic[t.to_id]
         self.render(trade_list=trade_list)
-
 
 
 @urlmap('/money/charge')
@@ -72,6 +72,7 @@ class Charge(LoginBase):
             error=error,
         )
 
+
 @urlmap('/money/charged/(\d+)')
 @urlmap('/money/charged/(\d+)/(\d+)')
 class Charged(LoginBase):
@@ -83,6 +84,7 @@ class Charged(LoginBase):
             self.render(trade=t)
         else:
             self.redirect('/money')
+
 
 @urlmap('/money/draw')
 class Draw(LoginBase):
@@ -127,6 +129,7 @@ class Draw(LoginBase):
             name=name,
             error=error,
         )
+
 
 @urlmap('/money/drawed/(\d+)')
 class Drawed(LoginBase):

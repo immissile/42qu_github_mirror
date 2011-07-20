@@ -1,4 +1,4 @@
-_gaq=[['_setAccount', 'UA-23361634-1'],['_trackPageview'],['_trackPageLoadTime']];
+_gaq=[['_setAccount', 'UA-18596900-1'],['_trackPageview'],['_trackPageLoadTime']];
 (function(){
         var ga = document.createElement('script');
         ga.type = 'text/javascript';
@@ -68,23 +68,34 @@ function login_autofill(suffix){
          }
  })
  */
-function init_D(){
-    var body=$('html,body')
+function init_none(){
+$(function(){
+    var body=$('body');
+    if(body.height()>$(window).height()){
+        body.append($('<a class="zsite_foot" href="#B"></a>').html(
+            $(".site").html()||location.host
+        ))
+    }
+})
+}
+function init_user(){
+    var html=$('html,body');
     $("#H .DA").click(function(e){
         var t=this, drop=$(this.parentNode).find('div');
         t.blur();
         function _(){
             drop.hide()
-            body.unbind('click',_)
+            html.unbind('click',_)
         }
         if(drop.is(":hidden")){
             drop.show()
             e.stopPropagation()
-            body.click(_)
+            html.click(_)
         }else{
             _()
         }
     })
+    init_none()
 }
 
 CANNOT_REPLY = '<div class="fancyban"><p>啊 , 出错了 !</p><p>为了假装一本正经的讨论气氛</p><p>未认证用户没有发言权</p><p><a href="/i/verify">点此申请认证吧</a></p></div>'

@@ -293,7 +293,7 @@ class Query(object):
             raise
         if DEBUG:
             logging.info(
-                 "%.2f\t%s ;\n\t%s"%(
+                 '%.2f\t%s ;\n\t%s'%(
                     1000*(time() - begin_time),
                     sql.strip(), values
                 )

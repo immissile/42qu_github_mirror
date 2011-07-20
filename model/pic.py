@@ -30,6 +30,7 @@ def pic_new(cid, user_id):
 def pic_save(pic_id, pic):
     fs_set_jpg('0', pic_id, pic)
 
+
 def _pic_list_to_review_by_cid(cid, start_id, limit):
     return Pic.where(cid=cid, state=1, admin_id=0).where('id>%s' % start_id).order_by('id')[:limit]
 
@@ -81,17 +82,19 @@ def pic_yes(id, admin_id):
         pic.save()
 
 def pic_no(id, admin_id):
-    from ico import ico
+    from ico import ico, ico96
     pic = Pic.get(id)
     if pic:
         pic.admin_id = admin_id
         pic.state = 0
         pic.save()
         cid = pic.cid
+        #print pic.cid
         if cid == CID_ICO:
             user_id = pic.user_id
             if ico.get(user_id) == pic.id:
                 ico.set(user_id, 0)
+                ico96.set(user_id, 0)
         mq_pic_rm_mail(id)
 
 PIC_RM_TEMPLATE = {
@@ -122,4 +125,20 @@ from mq import mq_client
 mq_pic_rm_mail = mq_client(pic_rm_mail)
 
 if __name__ == '__main__':
-    print pic_list_to_review_by_cid(31, 2)
+    from ico import ico, ico96
+    from zweb.orm import ormiter
+    from zsite import Zsite
+    for i in ormiter(Zsite):
+        ico_id = ico.get(i.id)
+        ico96_id = ico96.get(i.id)
+        if ico_id:
+            pic = Pic.get(ico_id)
+            print pic.state
+#         pic.cid = CID_ICO
+#         pic.save()
+#     if ico96_id:
+#         pic = Pic.get(ico96_id)
+#         pic.cid = CID_ICO96
+#         pic.save()
+
+

@@ -20,7 +20,7 @@ class Follow(JLoginBase):
         current_user_id = self.current_user_id
 
         zsite = Zsite.mc_get(id)
-        
+
         if zsite:
             follow_new(current_user_id, id)
 
@@ -45,5 +45,5 @@ class FollowRm(JLoginBase):
         zsite = Zsite.mc_get(id)
         if zsite:
             follow_rm(current_user_id, id)
-        
+
         self.finish('{}')

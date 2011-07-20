@@ -6,6 +6,7 @@ from model.po_show import po_is_show
 from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
 from model.zsite import Zsite
+from zkit.txt import cnenoverflow
 %>
 <%def name="htm_head()">
 </%def>
@@ -20,17 +21,20 @@ margin-right:32px
 <li>
 <%
 cid = po.cid
-name_ = po.name_
+name = po.name
 ico_url = _ico_url(po.user_id)
 user = po.user
 %>\
 <div class="sdw">
 <div class="sd c">
 %if ico_url:
-    <img class="ico" src="${ico_url}">
+    <a href="${user.link}" target="_blank"><img class="ico" src="${ico_url}"></a>
 %endif
 <div id="list_txt">
-<span class="c9">
+<a href="${po.link}" target="_blank">
+% if po.rid:
+答案\
+%else:
 % if cid == CID_WORD:
 微博\
 % elif cid == CID_QUESTION:
@@ -38,12 +42,13 @@ user = po.user
 % else:
 日记\
 % endif
-% if po.rid:
-答案\
 % endif
-</span>
-<a class="c0" href="${po.link}" target="_blank">${name_}</a>
+</a>
+${po.name_htm|n}
 </p>
+%if cid!=CID_WORD:
+<p>${cnenoverflow(po.txt, 60)[0]|n}</p>
+%endif
 <p>
 <a class="c0" href="${user.link}" target="_blank">${user.name}</a>
 ${friendly_time(po.create_time)}

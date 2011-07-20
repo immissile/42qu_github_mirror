@@ -26,3 +26,4 @@ table_main
 *.orig
 zpage_private_config
 htm/help/build/
+misc/sitemap/file/
