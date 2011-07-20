@@ -92,6 +92,7 @@ function po_photo(id){
     
     $.fancybox({      
     "content":[
+
 '<form method="POST" enctype="multipart/form-data" id="po_photo_form"><div style="padding:0 10px 5px;">',
 
 id?"编辑文本":"发布图片",
@@ -107,6 +108,7 @@ id?'':'<input id="po_photo" style="margin:10px;" type="file" name="photo">',
 id?'<a href="javascript:void(0)" id="po_photo_rm">删除</a>':'<span id="po_photo_error"></span>',
 
 '<span class="btnw"><button type="submit">提交</button></span></div><input type="hidden" name="_xsrf" value=""></form>'
+
     ].join(''),
     hideOnOverlayClick:false,
     "onComplete":function(){
