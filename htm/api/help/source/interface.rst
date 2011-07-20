@@ -4,44 +4,8 @@
 
 .. include::  interface/po_word.rst
 .. include::  interface/user_info_id.rst
+.. include::  interface/user_follower.rst
 
-
-
-
-
-
-== 3.获取用户粉丝 ==
-/user/follower
-
-输入
-{{{
-{
-    user_id:
-    limit: //可选 默认为25，最大支持100
-    offset: //可选
-    client_id: //可选
-    access_token: //可选
-}
-}}}
-
-返回
-{{{
-{
-    follower_list: //粉丝id列表
-    total_num: //粉丝数
-}
-}}}
-演示链接
-{{{
-http://api.yup.xxx/user/follower?user_id=80&offset=1
-}}}
-返回值
-{{{
-{
-    "follower_list":[3]
-    "total_num":2
-}
-}}}
 
 == 4.获取用户关注 ==
 

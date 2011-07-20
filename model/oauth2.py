@@ -37,7 +37,7 @@ def oauth_client_new(user_id, name, txt):
     oauth_client.name = name
     txt_new(oauth_client.id, txt)
     oauth_client.save()
-    hex_secret = binascii.hexlify(secret)
+    #hex_secret = binascii.hexlify(secret)
     return oauth_client
 
 def oauth_secret(id):
@@ -61,29 +61,24 @@ def oauth_refresh_token(client_id, id):
 def oauth_refresh_token_new(client_id, id):
     r = oauth_refresh_token(client_id, id)
     if not r:
-        re = OauthRefreshToken.get_or_create(client_id=client_id, id=id)
-        re.token = r = urandom(12)
-        re.time = time.time()
-        re.save()
-    else:
-        r = r.token
-    return id_binary_encode(id, r)
+        r = OauthRefreshToken.get_or_create(client_id=client_id, id=id)
+        r.token = urandom(12)
+        r.time = time.time()
+        r.save()
+    return id_binary_encode(id, r.token)
+
 
 def oauth_access_token_new(client_id, user_id):
-    value = oauth_access_token(client_id, user_id)
-    if not value:
-        access = OauthAccessToken.get_or_create(user_id=user_id, client_id=client_id)
-        access.token = value = urandom(12)
-        access.save()
-        id = access.id
-    else :
-        id = value.id
-        value = value.token
-    return id, id_binary_encode(id, value)
+    r = oauth_access_token(client_id, user_id)
+    if not r:
+        r = OauthAccessToken.get_or_create(user_id=user_id, client_id=client_id)
+        r.token = urandom(12)
+        r.save()
+    id = r.id
+    return id, id_binary_encode(id, r.token)
 
 def oauth_access_token_verify(client_id, access_token):
     id, token = id_binary_decode(access_token)
-    print id
     o = OauthAccessToken.get(client_id=client_id, token=token, id=id)
     if o:
         return o.user_id
