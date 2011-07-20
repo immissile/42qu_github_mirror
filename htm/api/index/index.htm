@@ -1,11 +1,13 @@
 <%inherit file="/api/_base.htm" />
 <%!
 from model.oauth2 import oauth_client_by_user_id
+from config import SITE_DOMAIN
 %>
 <%def name="htm_head()">
 </%def>
 
 <a href="/apply">申请 API KEY</a>
+<a href="//help.api.${SITE_DOMAIN}" target="_blank">开发文档</a>
 
 %for client in oauth_client_by_user_id(current_user_id):
 <%
