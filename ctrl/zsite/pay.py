@@ -151,6 +151,7 @@ class Index(ZsiteBase):
             alipay_url = alipay_payurl_with_tax(
                     current_user_id,
                     amount_cent/100.0,
+                    return_url,
                     self.NOTIFY_URL,
                     subject,
                     alipay_account,
