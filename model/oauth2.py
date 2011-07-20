@@ -79,7 +79,7 @@ def oauth_access_token_new(client_id, user_id):
     else :
         id = value.id
         value = value.token
-    return id_binary_encode(id, value)
+    return id, id_binary_encode(id, value)
 
 def oauth_access_token_verify(client_id, access_token):
     id, token = id_binary_decode(access_token)

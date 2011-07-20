@@ -30,20 +30,22 @@ class InfoMail(_handler.OauthBase):
 @urlmap('/user/oauth/login')
 class Login(_handler.OauthBase):
     def get(self):
-        mail = self.get_argument('mail',None)
-        passwd = self.get_argument('passwd',None)
-        auth = self.get_argument('token',None)
-        client_id = self.get_argument('client_id',None)
-        if mail_password_verify(mail,passwd):
+        mail = self.get_argument('mail', None)
+        passwd = self.get_argument('passwd', None)
+        auth = self.get_argument('client_secret', None)
+        client_id = self.get_argument('client_id', None)
+
+        if mail_password_verify(mail, passwd):
             user_id = user_id_by_mail(mail)
-            access_token = oauth_access_token_new(client_id,user_id)
-            id,token = id_binary_decode(access_token)
-            refresh_token = oauth_refresh_token_new(client_id,id)
+            id, access_token = oauth_access_token_new(client_id, user_id)
+            refresh_token = oauth_refresh_token_new(client_id, id)
             return self.finish({
-                    'access_token': access_token,
-                    'refresh_token': refresh_token
-                    })
-        else: 
+                        'access_token': access_token,
+                        'refresh_token': refresh_token,
+                        "expires_in": 87063,
+                        "scope": "basic"
+                   })
+        else:
             self.finish(
                     {
                         'error_code':1
