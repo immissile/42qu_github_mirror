@@ -7,5 +7,5 @@
 
    tip.rst
    api.rst
-
+   opensource.rst
 
