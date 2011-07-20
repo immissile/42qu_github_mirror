@@ -9,7 +9,8 @@ from yajl import loads
 
 <%def name="trade_log_render(rid)">
 <%
-message = loads(trade_log.get(rid))
+t_log = trade_log.get(rid)
+message = loads(t_log)
 title = message.get('title')
 url = message.get('url')
 %>
