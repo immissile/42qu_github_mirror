@@ -28,7 +28,7 @@ with open('data.sql', 'w') as f:
         sql = '''
 truncate {new}.{table};
 insert into {new}.{table} select * from {old}.{table};
-'''.format(new=name, old=OLD_DB_NANE, table=table)
+'''.format(new=name, old=OLD_DB_NAME, table=table)
         f.write(sql)
 
 subprocess.Popen('%s < data.sql' % SQL, shell=True)
