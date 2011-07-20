@@ -4,6 +4,7 @@ from ctrl._urlmap.me import urlmap
 from model.fs import fs_url_jpg
 from model.po_photo import photo_new
 from model.po import Po, po_photo_new
+from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.cid import CID_PHOTO
 from model.state import STATE_ACTIVE
 from zkit.pic import picopen
@@ -17,22 +18,24 @@ class PoPhoto(LoginBase):
         title = self.get_argument('name', None)
         txt = self.get_argument('txt', None)
         img = self.check_img()
-        if title and img:
-            photo_id = photo_new(user_id, img)
-            if po_id:
-                #edit
-                po_id = int(po_id)
-                po = Po.get(id=po_id) 
-                po.user_id = user_id
-                po.name = title
-                po.txt = txt
-                po.rid = photo_id 
-                po.save()
-            else:
-                #new
+        if po_id:
+            #edit
+            po_id = int(po_id)
+            po = Po.get(id=po_id) 
+            po.user_id = user_id
+            po.name_ = title
+            po.txt_set(txt)
+            po.save()
+        else:
+            #new
+            if img:
+                photo_id = photo_new(user_id, img)
                 po = po_photo_new(user_id, title, txt, photo_id, STATE_ACTIVE)
+                zsite_tag_new_by_tag_id(po, 1)
                 po_id = po.id
-            self.redirect('/po/tag/%s' % po_id)
+            else:
+                self.redirect('/live')
+        self.redirect('/po/tag/%s' % po_id)
         
     def check_img(self):
         files = self.request.files
