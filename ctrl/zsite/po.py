@@ -89,6 +89,11 @@ class QuestionPage(PoPage):
     cid = CID_QUESTION
     page_template = '/question-%s'
 
+@urlmap('/photo')
+@urlmap('/photo-(\d+)')
+class PhotoPage(PoPage):
+    cid = CID_PHOTO
+    page_template = '/photo-%s'
 
 
 @urlmap('/answer')

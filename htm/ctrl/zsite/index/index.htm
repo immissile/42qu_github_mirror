@@ -21,7 +21,7 @@ ${user_index(zsite, is_owner)}
 
 
 <%
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO
 from model.po import po_list_count, po_view_list
 po_word_list = po_view_list(zsite_id, CID_WORD, is_owner, 1)
 po_word_count = po_list_count(zsite_id, CID_WORD, is_owner)
@@ -31,6 +31,8 @@ po_answer_list = po_view_list(zsite_id, CID_ANSWER, is_owner, 6)
 po_answer_count = po_list_count(zsite_id, CID_ANSWER, is_owner)
 po_question_list = po_view_list(zsite_id, CID_QUESTION, is_owner, 6)
 po_question_count = po_list_count(zsite_id, CID_QUESTION, is_owner)
+po_photo_list = po_view_list(zsite_id, CID_PHOTO, is_owner, 6)
+po_photo_count = po_list_count(zsite_id, CID_PHOTO, is_owner)
 %>
 
 % if po_word_count:
@@ -101,6 +103,23 @@ po_question_count = po_list_count(zsite_id, CID_QUESTION, is_owner)
 <div class="zsite_num_div">\
 <a href="/question" class="num">\
     <span class="now">${po_question_count}</span><b>条问题</b>
+</a>
+</div>
+</div>
+% endif
+
+% if po_photo_count:
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+% for po in po_photo_list:
+<li><a href="/${po.id}">${po.name}</a></li>\
+% endfor
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="/photo" class="num">\
+    <span class="now">${po_photo_count}</span><b>张图片</b>
 </a>
 </div>
 </div>
