@@ -87,54 +87,32 @@ function init_D(){
     })
 }
 
-function po_photo(id){
-    $.fancybox({      
-    "content":'<form method="POST" enctype="multipart/form-data" id="po_photo_form" style="font-size:16px;width:500px;padding:0 12px 0 7px;"><div style="padding:10px">发布图片</div><input id="po_photo" style="margin:10px;" type="file" name="photo"><div style="padding:10px;line-height:0;"><input placeholder="请输入标题 ..." id="po_photo_name" style="font-size:16px;padding:7px;width:470px;border: 1px dotted #CCC;border-bottom: 0 none;" name="name" type="text"><textarea name="txt" id="po_photo_txt" style="font-size:16px;padding:2px;width:470px;border: 1px dotted #CCC;height:100px;padding:7px"></textarea></div><div style="padding:7px;margin-left:3px;"><span id="po_photo_error" style="float:right;color:#f00;line-height:45px"></span><span class="btnw"><button type="submit">提交</button></span></div><input type="hidden" name="_xsrf" value=""></form>',
-    "onComplete":function(){
-        var form=$("#po_photo_form"),
-             action="/po/photo";
-             if(id){
-                action+=("/"+id)
-            }
-        
-        form.attr('action',action).submit(function(){
-
-            var photo = $("#po_photo").val(),
-                _name=$("#po_photo_name").placeholder(),
-                name = $.trim(_name.val()),
-                po_photo_error=$("#po_photo_error"),
-                self=$(self),
-                error;
-
-                if(name==_name[0].placeholder){
-                    name='';
-                }
-                
-                if(photo&&photo.length){
-                    if(!/\.(jpg|png|bmp|gif|jpeg)$/.test(photo.toLowerCase())){
-                        error = "照片格式有误(仅支持JPG,JPEG,GIF,PNG或BMP)"
-                    }
-                }else{
-                    error = "请选择图片"
-                }
-
-                if(!(name&&name.length)){
-                    error = "请输入标题"
-                    _name.focus()
-                }
-                
-                if(error){
-                    $("#po_photo_error").text(error).fadeIn()
-                    return false;
-                }
-
-        })
-        form.find("input[name=_xsrf]").val($.cookie.get("_xsrf"))
-
-    }
+function po_photo(id) {
+$.fancybox({
+"content":'<form  onsubmit="return false;" id="po_photo_form" style="font-size:16px;width:500px;padding:0 12px 0 7px;"><div style="padding:10px;line-height:0;"><input placeholder="请更改标题 ..." id="po_photo_name" style="font-size:16px;padding:7px;width:470px;border: 1px dotted #CCC;border-bottom: 0 none;" name="name" type="text"><textarea placeholder="请更改描述 ..." name="txt" id="po_photo_txt" style="font-size:16px;padding:2px;width:470px;border: 1px dotted #CCC;height:100px;padding:7px"></textarea></div><div style="padding:7px;margin-left:3px;"><span id="po_photo_error" style="float:right;color:#f00;line-height:45px"></span><span class="btnw"><button type="submit">提交</button></span></div><input type="hidden" name="_xsrf" value=""></form>',
+"onComplete":function(){
+    var $form = $("#po_photo_form"),
+        $name = $("#po_photo_name"),
+        $txt = $("#po_photo_txt"),
+        _name = $("#photo_title"),
+        _txt = $("txt");
+    
+    name = _name.val()val
+    txt = _txt.val()
+    console.log(name,txt)
+    $("po_photo_name:placeholder").val(name)
+    $("po_photo_txt").val(txt)
+    $form.submit(function(){
+        var name = $name.val(),
+            txt = $txt.val();
+        $("#photo_title").html(name);
+        $("txt").html(txt);
     })
+}html
+});
 
 }
+
 
 CANNOT_REPLY = '<div class="fancyban"><p>啊 , 出错了 !</p><p>为了假装一本正经的讨论气氛</p><p>未认证用户没有发言权</p><p><a href="/i/verify">点此申请认证吧</a></p></div>'
 
