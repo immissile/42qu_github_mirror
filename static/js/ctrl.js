@@ -121,7 +121,7 @@ id?'<a href="javascript:void(0)" id="po_photo_rm">删除</a>':'<span id="po_phot
         if(id){
             action+="/"+id;
             po_photo_name.val($('#photo_title').text()) 
-            //$("#po_photo_txt").html($.trim($('#txt').html()))
+            $("#po_photo_txt").val($.trim($('#_txt').val()))
             $("#po_photo_rm").attr('href',"/po/rm/"+id+"?_xsrf="+_xsrf).click(function(){
                 if(!confirm('删除 , 确定 ?')) return false;
             })

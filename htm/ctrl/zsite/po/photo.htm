@@ -38,9 +38,9 @@ photo_pre_page, photo_next_page = photo_pre_page_and_next_page(po.id)
 <div id="page"><a href="${photo_pre_page}">上一页</a>/<a href="${photo_next_page}">下一页</a></div>
 <div id="photo_info">
 <span id="photo_title">${po.name}</span>\
-##%if can_admin:
+%if can_admin:
 <a href="javascript:po_photo(${po.id});void(0)">编辑</a>\
-##%endif
+%endif
 <div id="publish_info"><a href="${zsite.link}">${zsite.name}</a>\
 %if zsite_tag_id:
  : \
@@ -52,10 +52,9 @@ photo_pre_page, photo_next_page = photo_pre_page_and_next_page(po.id)
 ${po.htm|n}
 </div>
 ${po_bar_vote(po)}\
-<p class="po_bar">\
-    %if can_admin:
-<a href="/po/rm/${po.id}?${_xsrf}">删除</a>\
-    %endif
-</p>\
 </pre>
+%if can_admin:
+<textarea id="_txt" style="display:none">${po.txt}</textarea>
+%endif
 </%def>
+
