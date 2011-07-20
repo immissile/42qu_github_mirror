@@ -33,5 +33,5 @@
     verify_state: //是否通过验证 9为未验证 10为已经验证 其他代码日后开发完善公布
     place_now_name:    //可能无  现居地址
     place_home_name:   //可能无 家乡地址
- }
+}
 }}}
