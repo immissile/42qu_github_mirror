@@ -4,7 +4,6 @@
 
 from _handler import Base, LoginBase
 from _urlmap import urlmap
-from model.api_client import api_client_new
 
 @urlmap('/')
 class Index(Base):
