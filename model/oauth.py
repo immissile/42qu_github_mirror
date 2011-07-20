@@ -1,7 +1,6 @@
 #coding:utf-8
 from _db import cursor_by_table, McNum, Model
 
-
 OAUTH_GOOGLE = 1
 OAUTH_DOUBAN = 2
 OAUTH_SINA = 3
@@ -21,7 +20,6 @@ OAUTH2NAME_DICT = {
     OAUTH_RENREN    : '人人网'      ,
     OAUTH_DOUBAN    : '豆瓣'        ,
     OAUTH_SINA      : '新浪微博'    ,
-    OAUTH_QQ        : '腾讯微博'    ,
 #    OAUTH_BUZZ      : 'Buzz'        ,
     OAUTH_TWITTER   : 'Twitter'     ,
     OAUTH_LINKEDIN  : 'LinkedIn'    ,
@@ -33,7 +31,7 @@ OAUTH2URL = {
     OAUTH_TWITTER:'http://twitter.com/%s',
     OAUTH_WWW163:'http://t.163.com/%s',
     OAUTH_SOHU:'http://t.sohu.com/%s',
-#    OAUTH_BUZZ:"%s",
+#    OAUTH_BUZZ:'%s',
     OAUTH_QQ:'http://t.qq.com/%s',
 }
 
@@ -52,16 +50,14 @@ OAUTH_SYNC_CID = set(
     OAUTH2NAME_DICT.iterkeys()
 )
 
-OAUTH_SYNC_SQL = 'app_id in (%s)'%(','.join(map(str, OAUTH_SYNC_CID)))
+OAUTH_SYNC_SQL = 'app_id in (%s)' % (','.join(map(str, OAUTH_SYNC_CID)))
 
 class OauthToken(Model):
     pass
 
 def _oauth_sync_sum(zsite_id):
-    c = OauthToken.raw_sql('select count(1) from oauth_token where zsite_id=%%s and %s'%OAUTH_SYNC_SQL, zsite_id).fetchone()
+    c = OauthToken.raw_sql('select count(1) from oauth_token where zsite_id=%%s and %s' % OAUTH_SYNC_SQL, zsite_id).fetchone()
     return c[0]
-
-#print _oauth_sync_sum(10000000)
 
 oauth_sync_sum = McNum(
     _oauth_sync_sum, 'OauthSyncSum=%s'
