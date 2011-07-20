@@ -1,11 +1,9 @@
-42qu.com 
+42qu.com API
 ====================================
 
 
 .. toctree::
    :maxdepth: 3
 
-   tip.rst
-   api.rst
-   opensource.rst
-
+   step.rst
+   interface.rst
