@@ -95,13 +95,13 @@ $.fancybox({
         $name = $("#po_photo_name"),
         $txt = $("#po_photo_txt"),
         _name = $("#photo_title"),
-        _txt = $("txt");
+        _txt = $("#txt");
     
-    name = _name.val()val
+    name = _name.val()
     txt = _txt.val()
     console.log(name,txt)
     $("po_photo_name:placeholder").val(name)
-    $("po_photo_txt").val(txt)
+    $("po_photo_txt:placeholder").val(txt)
     $form.submit(function(){
         var name = $name.val(),
             txt = $txt.val();
