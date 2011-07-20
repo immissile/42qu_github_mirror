@@ -10,7 +10,6 @@ from model.oauth_follow import oauth_follow_by_oauth_id
 @single_process
 def oauth_follow():
     pre_pos = kv_int.get(KV_OAUTH_FOLLOW)
-    pre_pos = 0
     c = OauthToken.raw_sql('select max(id) from oauth_token')
     pos = c.fetchone()[0]
     if pos > pre_pos:
