@@ -93,7 +93,11 @@ function po_photo(id){
     fancybox({      
     "content":[
 
-'<form method="POST" enctype="multipart/form-data" id="po_photo_form"><div style="padding:0 10px 5px;">',
+'<form method="POST" ',
+
+id?'class="po_photo_form_id"':'enctype="multipart/form-data"', 
+
+' id="po_photo_form"><div style="padding:0 10px 5px;">',
 
 id?"编辑文本":"发布图片",
 
@@ -101,9 +105,7 @@ id?"编辑文本":"发布图片",
 
 id?'':'<input id="po_photo" style="margin:10px;" type="file" name="photo">',
 
-'<div style="padding:10px;line-height:0;">',
-
-'<input autocomplete="off" id="po_photo_name" name="name" type="text"><textarea name="txt" id="po_photo_txt"></textarea></div><div class="btns">',
+'<div style="padding:10px;line-height:0;"><input autocomplete="off" id="po_photo_name" name="name" type="text"><textarea name="txt" class="po_photo_txt" id="po_photo_txt"></textarea></div><div class="btns">',
 
 id?'<a href="javascript:void(0)" id="po_photo_rm">删除</a>':'<span id="po_photo_error"></span>',
 

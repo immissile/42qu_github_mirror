@@ -240,7 +240,7 @@ pre p{
 font-size:16px;width:500px;
 padding:10px 12px 0 7px;
 }
-#po_photo_txt{
+.po_photo_txt{
 font-size:16px;padding:2px;width:470px;border: 1px dotted #CCC;height:100px;padding:7px
 }
 #po_photo_name{
@@ -255,5 +255,7 @@ float:right;line-height:45px
 #po_photo_error{
 color:#f00;
 }
-
+.po_photo_form_id .po_photo_txt{
+height:150px;
+}
 
