@@ -6,7 +6,7 @@ OAUTH_SINA, OAUTH_TWITTER,\
 OAUTH_WWW163, OAUTH_BUZZ,\
 OAUTH_SOHU, OAUTH_QQ,\
 OAUTH_RENREN, OAUTH_LINKEDIN
-from oauth_update import api_qq, api_www163, api_sina, api_network_http, oauth_res_check
+from oauth_update import api_qq, api_www163, api_sina, api_network_http
 from config import SINA_FOLLOW, QQ_FOLLOW, WWW163_FOLLOW
 
 
@@ -53,12 +53,12 @@ def oauth_follow_by_oauth_id(oauth_id):
             return
         re = DICT_API_FOLLOW[cid](key, secret)
         mes = api_network_http(*re)
-        #print mes
+        print mes
         #oauth_res_check(mes,oauth_id)
 
 
 
 if __name__ == '__main__':
-    oauth_follow_by_oauth_id(9)
+    oauth_follow_by_oauth_id(4752)
 
 
