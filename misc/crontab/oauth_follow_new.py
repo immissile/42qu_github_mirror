@@ -15,6 +15,9 @@ def oauth_follow():
     if pos > pre_pos:
         c = OauthToken.raw_sql('select id from oauth_token where id>%s and id<=%s order by id',pre_pos,pos)
         for id, in c.fetchall():
+            print id
+            import sys
+            sys.stdout.flush()
             oauth_follow_by_oauth_id(id)
         kv_int.set(KV_OAUTH_FOLLOW, pos)
 
