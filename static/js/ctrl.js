@@ -25,7 +25,8 @@ jQuery.fn.extend({
                     return false
                 }
             }
-            this.find('textarea,input').elastic().focus(_)
+            this.find('input').focus(_)
+            this.find('textarea').elastic().focus(_)
             return this.submit(_) 
         }
 })
