@@ -16,7 +16,6 @@ def photo_new(user_id, photo):
     photo_id = pic_new(CID_PO_PHOTO, user_id)
     pic_save(photo_id, photo)
     po_photo_save(photo_id, photo)
-    #mc_flush(user_id, po_id)
     return photo_id
 
 def po_photo_save(photo_id, photo):
@@ -28,10 +27,10 @@ def photo_pre_page_and_next_page(po_id):
     index = id_list.index(po_id)
     if index == 0:
         if len(id_list) == 1:
-            return 'tag', 'tag'
+            return None, None
         return id_list[-1], id_list[index+1]
     elif index == len(id_list) - 1:
-        return id_list[index-1], 'tag'
+        return id_list[index-1], None
     else:
         return id_list[index-1], id_list[index+1]
 
@@ -39,10 +38,6 @@ def photo_id_list_by_tag_po_id(po_id):
     zsite_tag_po = ZsiteTagPo.get(po_id=po_id)
     po_id_list = photo_id_list_by_zsite_tag_id(zsite_tag_po.zsite_tag_id)
     return po_id_list
-
-def mc_flush(user_id, po_id):
-    po_pic_sum.delete(user_id, po_id)
-    mc_pic_id_list.delete('%s_%s' % (user_id, po_id))
 
 if __name__ == '__main__':
     pass
