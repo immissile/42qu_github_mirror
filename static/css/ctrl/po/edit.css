@@ -97,3 +97,10 @@ _position:relative;
 text-align:center;
 margin:16px 0;
 }
+#question_flag{
+position:absolute;font-size:16px;margin-left:128px;margin-top:9px;
+padding-right:8px;
+background:#fff
+}
+
+
