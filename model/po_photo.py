@@ -28,10 +28,10 @@ def photo_pre_page_and_next_page(po_id):
     index = id_list.index(po_id)
     if index == 0:
         if len(id_list) == 1:
-            return 'tag_list', 'tag_list'
+            return 'tag', 'tag'
         return id_list[-1], id_list[index+1]
     elif index == len(id_list) - 1:
-        return id_list[index-1], 'tag_list'
+        return id_list[index-1], 'tag'
     else:
         return id_list[index-1], id_list[index+1]
 
