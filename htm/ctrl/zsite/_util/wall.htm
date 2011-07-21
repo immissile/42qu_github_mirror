@@ -62,6 +62,17 @@ other = Zsite.mc_get(other_id)
 </%def>
 
 
+<%def name="wall_reply_textarea(action)">
+<%htm:form id="reply_form" className="c" action="${action}">\
+<div class="btns c">\
+<span id="reply_submit" class="btnw"><button type="submit">回复</button></span>\
+<span id="secret_span"><input type="checkbox" name="secret" id="secret">\
+<label for="secret">私语</label></span>\
+</div>\
+${htm.reply_textarea()}\
+</%htm:form>\
+<script>$("#reply_form").elastic_login()</script>\
+</%def>
 
 
 <%def name="reply_textarea(action)">
