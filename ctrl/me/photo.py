@@ -47,3 +47,6 @@ class PoPhoto(LoginBase):
                 if not img:
                     return
                 return img
+
+
+
