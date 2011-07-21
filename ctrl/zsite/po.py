@@ -223,15 +223,16 @@ class PoTag(ZsiteBase):
             return self.redirect('%s/tag/%s'%(tag_zsite.link, id))
         count = zsite_tag_count(id)
         page, limit, offset = page_limit_offset(
-            '/po/tag/%s-%%s'%id,
+            '/tag/%s-%%s'%id,
             count,
             n,
             PAGE_LIMIT
         )
         id_list = po_id_list_by_zsite_tag_id(id)
+        po_list=Po.mc_get_list(id_list)[offset:offset+limit]
         self.render(
             tag_name=Tag.get(tag.tag_id),
-            po_list=Po.mc_get_list(id_list),
+            po_list=po_list,
             count=count,
             page=page
         )
