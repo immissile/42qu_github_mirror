@@ -87,11 +87,11 @@ padding:0 3px;
 }
 .gprev , .gnext{
 position:fixed;
+_position:absolute;
 background:url(/img/gif/gprev.gif) no-repeat;
 width:48px;
 height:48px;
-top:164px;
-_position:absolute;
+top:256px;
 }
 .gnext{
 background-image:url(/img/gif/gnext.gif);
@@ -102,6 +102,6 @@ line-height:0;
 margin-top:32px;
 }
 #photo_name{
-font-size:14px;
+font-size:16px;
 text-align:center;
 }
