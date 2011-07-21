@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 #coding:utf-8
-
-
 import _handler
 from _urlmap import urlmap
 from model.po import po_word_new, Po, po_rm
 from model.zsite import user_can_reply, Zsite
 from model import reply
-
 
 
 @urlmap('/po/word')
