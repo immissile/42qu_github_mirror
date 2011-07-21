@@ -28,7 +28,7 @@ def photo_pre_page_and_next_page(po_id):
     if index == 0:
         if len(id_list) == 1:
             return None, None
-        return id_list[-1], id_list[index+1]
+        return None, id_list[index+1]
     elif index == len(id_list) - 1:
         return id_list[index-1], None
     else:

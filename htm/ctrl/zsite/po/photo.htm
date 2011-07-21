@@ -10,14 +10,13 @@ from model.po_photo import photo_pre_page_and_next_page
 <%
 img_url = fs_url_jpg(721, po.rid)
 photo_pre_page, photo_next_page = photo_pre_page_and_next_page(po.id)
-tag_link = "%s/tag/%s" % (zsite.link, zsite_tag_id)
-next_link = "/%s#po_body"%(photo_pre_page or tag_link)
+tag_link = "tag/%s" % zsite_tag_id
 %>
-<a href="/${next_link|n}" class="gprev"></a>
+<a href="/${photo_pre_page or tag_link}#po_body" class="gprev"></a>
 <a href="/${photo_next_page or tag_link}#po_body" class="gnext"></a>
 <div id="photo_name">${po.name}</div>\
 <div class="w721">\
-<div id="photo"><a href="${next_link}"><img src="${img_url}"></a></div>
+<div id="photo"><a href="/${photo_next_page or tag_link}#po_body"><img src="${img_url}"></a></div>
 %if po.txt:
 <div id="photo_txt">${po.htm|n}</div>
 %endif
