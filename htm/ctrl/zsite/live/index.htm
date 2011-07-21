@@ -65,6 +65,9 @@ target="_blank"
 href="/{{if rid && cid!=65}}${question_id}{{else}}${id}{{/if}}">${name}</a>{{/if}}{{if tag_id}}<a
 class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}
+{{if cid==65}}
+<img class="fdimg" src="${rid}">
+{{/if}}
 <div class="fdtxt" id="fdtxt${id}">
         {{if cid==61 }}
 {{html txt}}

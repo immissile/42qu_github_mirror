@@ -25,6 +25,8 @@ def photo_new(user_id, photo):
 def po_photo_save(photo_id, photo):
     p1 = pic_fit_width_cut_height_if_large(photo, 721)
     fs_set_jpg('721', photo_id, p1)
+    p1 = pic_fit_width_cut_height_if_large(photo, 677)
+    fs_set_jpg('677', photo_id, p1)
 
 @mc_po_photo_prev_next("{zsite_id}_{po_id}_{tag_id}")
 def po_photo_prev_next(zsite_id, po_id, tag_id):
