@@ -22,8 +22,6 @@ config/nginx
 UglifyJS
 table_main
 .git*
-*.vim
-*.orig
 zpage_private_config
-htm/help/build/
 misc/sitemap/file/
+htm/api/help/build/
