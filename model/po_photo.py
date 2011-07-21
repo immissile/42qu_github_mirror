@@ -57,14 +57,9 @@ def _po_photo_goto(sql, zsite_id, zsite_tag_id, id):
         id
     )
     r = c.fetchone()
-    
-    print sql,  zsite_id, zsite_tag_id,  CID_PHOTO, id
-    print r
-
     if r:
         r = r[0]
     return r
-
 
 def mc_flush(zsite_id, zsite_tag_id, id, po_id):
     _mc_flush(
