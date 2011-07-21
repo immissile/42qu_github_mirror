@@ -44,4 +44,3 @@ class OauthAccessBase(OauthBase):
 
     def get_current_user(self):
         return Zsite.mc_get(self.current_user_id)
-
