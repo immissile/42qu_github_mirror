@@ -91,5 +91,3 @@ class PoReplyRm(_handler.OauthAccessBase):
                 if can_rm:
                     r.rm()
         self.finish({'status': can_rm})
-
-

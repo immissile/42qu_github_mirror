@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 #coding:utf-8
-
-
 import _handler
 from _urlmap import urlmap
 from model.user_mail import user_id_by_mail, mail_by_user_id
@@ -50,7 +48,6 @@ class Login(_handler.OauthBase):
                         'error_code':1
                         }
                     )
-
 
 
 @urlmap('/user/info/id')
