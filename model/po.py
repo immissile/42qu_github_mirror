@@ -4,6 +4,7 @@ from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
 from feed import feed_new, mc_feed_tuple, feed_rm
+from feed_po import mc_feed_po_iter, mc_feed_po_json
 from gid import gid
 from spammer import is_same_post
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
@@ -54,6 +55,7 @@ class Po(McModel, ReplyMixin):
                 id = self.id
                 mc_htm.delete(id)
                 mc_feed_tuple.delete(id)
+                mc_feed_po_json.delete(id)
             self._mc_flush = True
 
     def save(self):
@@ -178,6 +180,7 @@ def po_new(cid, user_id, name, state, rid=0):
     from po_pos import po_pos_set
     po_pos_set(user_id, m)
     mc_flush(user_id, cid)
+    mc_feed_po_iter.delete(user_id)
     return m
 
 def po_state_set(po, state):
@@ -191,6 +194,7 @@ def po_state_set(po, state):
     po.state = state
     po.save()
     mc_flush_other(po.user_id, po.cid)
+    mc_feed_po_iter.delete(user_id)
 
 def po_cid_set(po, cid):
     o_cid = po.cid
@@ -295,8 +299,4 @@ def mc_flush_cid_list_all(user_id, cid_list):
             mc_flush_cid(user_id, cid, is_self)
 
 if __name__ == '__main__':
-    #for i in Po.where("rid!=0"):
-    #print i.id , po_rm(i.user_id, i.id)
-    po_view_list()
-
-
+    pass
