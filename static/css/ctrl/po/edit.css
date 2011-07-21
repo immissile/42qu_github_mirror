@@ -101,11 +101,9 @@ margin:16px 0;
 #question_flag{
 position:absolute;font-size:16px;
 margin-left:118px;
-*margin-left:98px;
+*margin-left:1px;
 margin-top:9px;
+*margin-top:10px;
 padding:0 10px;
 background:#fff
-}
-#po_form{
-line-height:0;
 }
