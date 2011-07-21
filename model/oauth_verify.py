@@ -88,7 +88,7 @@ def oauth_verify_by_oauth_id(oauth_id):
         if cid not in DICT_API_VERIFY:
             return
         re = DICT_API_VERIFY[cid](key,secret,oauth_id)
-        print re
+        return re
 
 
 if __name__ == "__main__":
