@@ -1,12 +1,13 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC, \
-CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO
 from model.po_show import po_is_show
 from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
 from model.zsite import Zsite
 from zkit.txt import cnenoverflow
+from model.fs import fs_url_jpg
 %>
 <%def name="htm_head()">
 </%def>
@@ -39,6 +40,8 @@ user = po.user
 微博\
 % elif cid == CID_QUESTION:
 问题\
+% elif CID_PHOTO == cid:
+图片\
 % else:
 日记\
 % endif
@@ -48,6 +51,9 @@ ${po.name_htm|n}
 </p>
 %if cid!=CID_WORD:
 <p>${cnenoverflow(po.txt, 60)[0]|n}</p>
+%endif
+%if cid == CID_PHOTO:
+<img src="${fs_url_jpg(721,po.rid)}">
 %endif
 <p>
 <a class="c0" href="${user.link}" target="_blank">${user.name}</a>
