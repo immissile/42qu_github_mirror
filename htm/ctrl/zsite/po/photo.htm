@@ -7,52 +7,31 @@ from model.po_pic import PoPic
 from model.po_photo import photo_pre_page_and_next_page
 %>
 <%def name="po_body()">
-<style>
-    span#photo_title{
-        font-size:36px;
-    }
-    div#photo_info{
-        display:block;
-        height:100px;
-        width:715px;
-    }
-    div#page{
-        margin-left:300px;
-    }
-    div#publish_info{
-        float:right;
-    }
-    div#txt{
-        text-indent:2em;
-    }
-</style>
-
 <%
 img_url = fs_url_jpg(721, po.rid)
 photo_pre_page, photo_next_page = photo_pre_page_and_next_page(po.id)
+tag_link = "tag/%s" % zsite_tag_id
 %>
-<pre>\
-<div id="image">
-<img src="${img_url}">
-</div>
-<div id="page"><a href="${photo_pre_page}">上一页</a>/<a href="${photo_next_page}">下一页</a></div>
-<div id="photo_info">
-<span id="photo_title">${po.name}</span>\
-%if can_admin:
-<a href="javascript:po_photo(${po.id});void(0)">编辑</a>\
+<a href="/${photo_pre_page or tag_link}#po_body" class="gprev"></a>
+<a href="/${photo_next_page or tag_link}#po_body" class="gnext"></a>
+<div id="photo_name">${po.name}</div>\
+<div class="w721">\
+<div id="photo"><a href="/${photo_next_page or tag_link}#po_body"><img src="${img_url}"></a></div>
+%if po.txt:
+<div id="photo_txt">${po.htm|n}</div>
 %endif
-<div id="publish_info"><a href="${zsite.link}/tag">${zsite.name}</a>\
+<p class="po_bar">\
+%if can_admin:
+<a class="L" href="javascript:po_photo(${po.id});void(0)">编辑</a>\
+%endif
+<a href="${zsite.link}/tag">${zsite.name}</a>\
 %if zsite_tag_id:
  : \
-<a href="/tag/${zsite_tag_id}">${tag_name}</a>\
+<a href="${tag_link}">${tag_name}</a>\
 %endif
-</div>
-</div>
-<div id="txt">
-${po.htm|n}
-</div>
+</p>
 ${po_bar_vote(po)}\
-</pre>
+</div>
 %if can_admin:
 <textarea id="_txt" style="display:none">${po.txt}</textarea>
 %endif
