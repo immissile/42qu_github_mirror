@@ -25,5 +25,5 @@ table_main
 *.vim
 *.orig
 zpage_private_config
-htm/help/build/
 misc/sitemap/file/
+htm/api/help/build/
