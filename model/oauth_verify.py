@@ -37,7 +37,7 @@ def api_sina_verify(key,secret,oauth_id):
             ))
     if json.loads(res):
         m = json.loads(res)
-        if int(m.get('error_code','0'))!= 0:
+        if int(m.get('error_code','0')) == 401:
             oauth_rm_by_oauth_id(oauth_id)
         else:
             return True
@@ -53,7 +53,7 @@ def api_qq_verify(key,secret,oauth_id):
             ))
     if json.loads(res):
         m = json.loads(res)
-        if int(m.get('errcode','0'))!=0:
+        if int(m.get('errcode','0')) == 9:
             oauth_rm_by_oauth_id(oauth_id)
         else:
             return True
@@ -68,7 +68,7 @@ def api_www163_verify(key,secret,oauth_id):
             ))
     if json.loads(res):
         m = json.loads(res)
-        if int(m.get('error_code','0'))!=0:
+        if int(m.get('error_code','0')) == 401:
             oauth_rm_by_oauth_id(oauth_id)
         else:
             return True
@@ -88,9 +88,9 @@ def oauth_verify_by_oauth_id(oauth_id):
         if cid not in DICT_API_VERIFY:
             return
         re = DICT_API_VERIFY[cid](key,secret,oauth_id)
-        print re
+        return re
 
 
 if __name__ == "__main__":
-    oauth_verify_by_oauth_id(1569)
+    oauth_verify_by_oauth_id(2071)
 
