@@ -2,8 +2,8 @@
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model.fs import fs_url_jpg
-from model.po_photo import photo_new
-from model.po import Po, po_photo_new
+from model.po_photo import po_photo_new
+from model.po import Po
 from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.cid import CID_PHOTO
 from model.state import STATE_ACTIVE
@@ -14,30 +14,34 @@ from zkit.pic import picopen
 class PoPhoto(LoginBase):
     def post(self, po_id=0):
         cid = CID_PHOTO
-        title = self.get_argument('name', None)
+        name = self.get_argument('name', None)
         txt = self.get_argument('txt', None)
+
+        
+        link = '/live'
+
         if po_id:
             po_id = int(po_id)
-            po = Po.get(id=po_id) 
-            if po.user_id == self.current_user_id:
-                po.name_ = title
+            po = Po.mc_get(po_id) 
+            if po and po.user_id == self.current_user_id:
+                po.name_ = name
                 po.txt_set(txt)
                 po.save()
-            else:
-                return self.redirect('/live')
+                link = po.link
         else:
-            img = self.check_img()
+            img = self._img()
             if img:
                 user_id = self.current_user_id
-                photo_id = photo_new(user_id, img)
-                po = po_photo_new(user_id, title, txt, photo_id, STATE_ACTIVE)
-                zsite_tag_new_by_tag_id(po, 1)
-                po_id = po.id
-            else:
-                return self.redirect('/live')
-        return self.redirect('/po/tag/%s' % po_id)
+                po = po_photo_new(user_id, name, txt, img, STATE_ACTIVE)
+                if po:
+                    po_id = po.id
+
+                    link = '/po/tag/%s' % po_id
+
+
+        return self.redirect(link)
         
-    def check_img(self):
+    def _img(self):
         files = self.request.files
         img = files.get('photo')
         if img:

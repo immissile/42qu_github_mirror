@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCacheA, McCache, McCacheM, McLimitA, McNum
 from tag import Tag, tag_new
+from model.cid import CID_PHOTO 
 from zweb.orm import ormiter
-from cid import CID_PHOTO 
 
 #CREATE TABLE  `zpage`.`zpage_tag` (
 #  `id` int(10) unsigned NOT NULL auto_increment,
@@ -90,10 +90,19 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
         zsite_id=zsite_id,
         cid=po_cid
     )
+    
+
     tag_po.zsite_tag_id = id
     tag_po.save()
     mc_tag_by_po_id.delete('%s_%s'%(zsite_id, po_id))
     mc_po_id_list_by_zsite_tag_id.delete(id)
+    
+    if po.cid == CID_PHOTO:
+        from model.po_photo import mc_flush
+        tag_po_id = tag_po.id
+        mc_flush(zsite_id, id, tag_po_id, po_id)  
+
+
 
 def zsite_tag_new_by_tag_name(po, name):
     tag_id = tag_new(name)
@@ -143,11 +152,15 @@ def mc_flush_zsite_tag_id(id):
     mc_zsite_tag_id_list_by_zsite_id.delete(id)
 
 
-def zsite_tag_rm_by_po_id(id):
+def zsite_tag_rm_by_po(po):
+    id = po.id
+    cid = po.cid
     for i in ZsiteTagPo.where(po_id=id):
         mc_flush_zsite_tag_id(i.zsite_tag_id)
         i.delete()
-
+        if cid == CID_PHOTO: 
+            from model.po_photo import mc_flush
+            mc_flush(i.zsite_id, i.zsite_tag_id, i.id, id)  
 
 @mc_tag_by_po_id('{zsite_id}_{po_id}')
 def tag_by_po_id(zsite_id, po_id):
@@ -176,9 +189,6 @@ def po_id_list_by_zsite_tag_id(zsite_tag_id, limit=None, offset=0):
     id_list = ZsiteTagPo.where(zsite_tag_id=zsite_tag_id).order_by('id desc').col_list(limit, offset, 'po_id')
     return id_list
 
-def photo_id_list_by_zsite_tag_id(zsite_tag_id, limit=None, offset=0):
-    id_list = ZsiteTagPo.where(zsite_tag_id=zsite_tag_id).where(cid=CID_PHOTO).order_by('id desc').col_list(limit, offset, 'po_id')
-    return id_list
 
 
 if __name__ == '__main__':

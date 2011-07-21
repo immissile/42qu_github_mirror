@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_PO
 from feed import feed_new, mc_feed_tuple, feed_rm
 from gid import gid
 from spammer import is_same_post
@@ -77,7 +77,7 @@ class Po(McModel, ReplyMixin):
 
     def txt_set(self, txt):
         id = self.id
-        txt_new(id, txt)
+        txt_new(id, txt or '')
         self.mc_flush()
 
     @attrcache
@@ -207,8 +207,8 @@ def _po_rm(user_id, po):
     po.save()
     id = po.id
     feed_rm(id)
-    from zsite_tag import zsite_tag_rm_by_po_id
-    zsite_tag_rm_by_po_id(id)
+    from zsite_tag import zsite_tag_rm_by_po
+    zsite_tag_rm_by_po(po)
     from rank import rank_rm_all
     rank_rm_all(id)
     from po_question import mc_answer_id_get, answer_count
@@ -237,16 +237,6 @@ def po_note_new(user_id, name, txt, state=STATE_ACTIVE):
             m.feed_new()
         return m
 
-def po_photo_new(user_id, name, txt, rid, state=STATE_ACTIVE):
-    if not name and not txt:
-        return
-    name = name or time_title()
-    if not is_same_post(user_id, name, txt):
-        m = po_new(CID_PHOTO, user_id, name, state, rid)
-        txt_new(m.id, txt)
-        if state > STATE_SECRET:
-            m.feed_new()
-        return m
 
 
 PO_LIST_STATE = {

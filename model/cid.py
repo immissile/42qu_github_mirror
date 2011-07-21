@@ -15,14 +15,8 @@ CID_ZSITE = (
 CID_ICO = 31
 CID_ICO96 = 32
 CID_PO_PIC = 35
-CID_PO_PHOTO = 36
+#CID_PHOTO = 36
 
-CID_PIC = (
-    CID_ICO,
-    CID_ICO96,
-    CID_PO_PIC,
-    CID_PO_PHOTO,
-)
 
 # Po
 CID_WORD = 61
@@ -30,6 +24,15 @@ CID_NOTE = 62
 CID_QUESTION = 63
 CID_ANSWER = 64
 CID_PHOTO = 65
+
+
+
+CID_PIC = (
+    CID_ICO,
+    CID_ICO96,
+    CID_PO_PIC,
+    CID_PHOTO,
+)
 
 CID_PO = (
     CID_WORD,

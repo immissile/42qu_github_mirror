@@ -227,15 +227,6 @@ class PoTag(ZsiteBase):
             page=page
         )
 
-@urlmap('/tag')
-class GlobalTag(ZsiteBase):
-    def get(self):
-        zsite_id = self.zsite_id
-        tag_list = zsite_tag_list_by_zsite_id(zsite_id)
-        self.render(
-        tag_list=tag_list,
-        zsite_id=zsite_id,
-        )
 
 @urlmap('/po/reply/rm/(\d+)')
 class ReplyRm(LoginBase):
