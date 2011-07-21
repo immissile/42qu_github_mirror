@@ -16,10 +16,10 @@ tag_link = "%s/tag/%s" % (zsite.link, zsite_tag_id)
 <a href="/${photo_next_page or tag_link}#po_body" class="gnext"></a>
 <div id="photo_name">${po.name}</div>\
 <div class="w721">\
-<div id="photo">
-<img src="${img_url}">
-</div>
+<div id="photo"><img src="${img_url}"></div>
+%if po.txt:
 <div id="photo_txt">${po.htm|n}</div>
+%endif
 <p class="po_bar">\
 %if can_admin:
 <a class="L" href="javascript:po_photo(${po.id});void(0)">编辑</a>\

@@ -107,7 +107,10 @@ font-size:16px;
 text-align:center;
 }
 #photo_txt{
-margin:28px 0 14px;
+margin:0 0 14px;
+}
+#photo{
+margin-bottom:28px;
 }
 .w721 p{
 line-height: 28px;
