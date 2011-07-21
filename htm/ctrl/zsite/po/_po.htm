@@ -10,10 +10,10 @@ from datetime import datetime
 
 <%def name="htm_title()">
 %if can_view:
+${po.name} - ${zsite.name} 
 %if tag_name:
 #${tag_name}# \
 %endif 
-${po.name} - ${zsite.name} 
 %endif
 </%def>
 <%def name="htm_head()">
