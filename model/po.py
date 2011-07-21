@@ -180,7 +180,6 @@ def po_new(cid, user_id, name, state, rid=0):
     from po_pos import po_pos_set
     po_pos_set(user_id, m)
     mc_flush(user_id, cid)
-    mc_feed_po_iter.delete(user_id)
     return m
 
 def po_state_set(po, state):
@@ -194,7 +193,6 @@ def po_state_set(po, state):
     po.state = state
     po.save()
     mc_flush_other(po.user_id, po.cid)
-    mc_feed_po_iter.delete(user_id)
 
 def po_cid_set(po, cid):
     o_cid = po.cid
@@ -283,10 +281,12 @@ def mc_flush_all(user_id):
 
 def mc_flush(user_id, cid):
     mc_flush_cid_list_all(user_id, [0, cid])
+    mc_feed_po_iter.delete(user_id)
 
 def mc_flush_other(user_id, cid):
     mc_flush_cid(user_id, 0, False)
     mc_flush_cid(user_id, cid, False)
+    mc_feed_po_iter.delete(user_id)
 
 def mc_flush_cid(user_id, cid, is_self):
     key = '%s_%s_%s' % (user_id, cid, is_self)
