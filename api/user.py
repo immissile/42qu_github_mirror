@@ -5,13 +5,15 @@
 import _handler
 from _urlmap import urlmap
 from model.user_mail import user_id_by_mail, mail_by_user_id
-from model.user_auth import user_password_sha256, sha256
-from model.api_client import api_session_new
+from model.user_auth import mail_password_verify
 from model.api_user import json_info
 from model.follow import follow_id_list_by_from_id, follow_id_list_by_to_id, follow_count_by_to_id, follow_count_by_from_id, follow_rm, follow_new
+from model.oauth2 import oauth_access_token_new, oauth_refresh_token_new
+from model.user_session import id_binary_decode
+
 
 @urlmap('/user/info/mail')
-class InfoMail(_handler.ApiBase):
+class InfoMail(_handler.OauthBase):
     def get(self):
         mail = self.get_argument('mail')
         user_id = user_id_by_mail(mail)
@@ -24,26 +26,35 @@ class InfoMail(_handler.ApiBase):
                 })
 
 
-@urlmap('/user/auth/login')
-class Login(_handler.ApiSignBase):
+@urlmap('/user/oauth/login')
+class Login(_handler.OauthBase):
     def get(self):
-        user_id = self.get_argument('user_id')
-        auth = self.get_argument('token')
-        client_id = self.get_argument('client_id')
-        password = user_password_sha256(user_id)
-        if not password:
-            return self.finish('{}')
+        mail = self.get_argument('mail', None)
+        passwd = self.get_argument('passwd', None)
+        auth = self.get_argument('client_secret', None)
+        client_id = self.get_argument('client_id', None)
 
-        if auth != sha256(mail_by_user_id(user_id)+password).hexdigest():
-            return self.finish('{}')
+        if mail_password_verify(mail, passwd):
+            user_id = user_id_by_mail(mail)
+            id, access_token = oauth_access_token_new(client_id, user_id)
+            refresh_token = oauth_refresh_token_new(client_id, id)
+            return self.finish({
+                        'access_token': access_token,
+                        'refresh_token': refresh_token,
+                        "expires_in": 87063,
+                        "scope": "basic"
+                   })
+        else:
+            self.finish(
+                    {
+                        'error_code':1
+                        }
+                    )
 
-        self.finish({
-            'S':api_session_new(client_id, user_id)
-        })
 
 
 @urlmap('/user/info/id')
-class InfoId(_handler.ApiBase):
+class InfoId(_handler.OauthBase):
     def get(self):
         user_id = self.get_argument('user_id')
         data = json_info(user_id)
@@ -51,7 +62,7 @@ class InfoId(_handler.ApiBase):
 
 
 @urlmap('/user/follower')
-class UserFollower(_handler.ApiBase):
+class UserFollower(_handler.OauthBase):
     def get(self):
         user_id = self.get_argument('user_id')
         limit = int(self.get_argument('limit', 25))
@@ -67,7 +78,7 @@ class UserFollower(_handler.ApiBase):
 
 
 @urlmap('/user/following')
-class UserFollowing(_handler.ApiBase):
+class UserFollowing(_handler.OauthBase):
     def get(self):
         user_id = self.get_argument('user_id')
         ids = follow_id_list_by_from_id(user_id)
@@ -79,7 +90,7 @@ class UserFollowing(_handler.ApiBase):
 
 
 @urlmap('/user/follow')
-class UserFollow(_handler.LoginBase):
+class UserFollow(_handler.OauthAccessBase):
     def get(self):
         user_id = self.current_user_id
         follow_id = int(self.get_argument('id'))
@@ -90,7 +101,7 @@ class UserFollow(_handler.LoginBase):
 
 
 @urlmap('/user/follow/rm')
-class UserFollowRm(_handler.LoginBase):
+class UserFollowRm(_handler.OauthAccessBase):
     def get(self):
         user_id = self.current_user_id
         unfollow_id = int(self.get_argument('id'))

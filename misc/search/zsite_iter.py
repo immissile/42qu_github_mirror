@@ -51,11 +51,11 @@ def zsite2keyword(z):
         if unit:
             for word in seg_title_search(unit):
                 t[word] += add
-        
+
         if title:
             for word in seg_title_search(title):
                 t[word] += add
-        if txt:        
+        if txt:
             for word in seg_txt_search(txt):
                 t[word] += add
 
@@ -68,7 +68,7 @@ def zsite_keyword_iter():
         kw = zsite2keyword(i)
         if not kw:
             continue
-        
+
         yield str(id), zsite_rank_by_zsite_id(id), kw.items()
 
 

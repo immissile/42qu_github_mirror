@@ -9,7 +9,7 @@ if len(sys.argv) > 1 and sys.argv[1].isdigit():
     config.PORT = port
 else:
     port = config.PORT
-    if type(port) in (list,tuple):
+    if type(port) in (list, tuple):
         port = port[0]
 
 
@@ -31,7 +31,7 @@ def run():
     from ctrl._application import application
 
     from config import SITE_DOMAIN
-    print "\nhttp://%s"%SITE_DOMAIN
+    print '\nhttp://%s'%SITE_DOMAIN
     print 'SERVE ON PORT %s'%port
 
     server = WSGIServer(port, application)

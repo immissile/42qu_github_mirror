@@ -10,5 +10,5 @@ ${entry.txt}
 
 ${site_http}${notice.link}
 
-该邮件由系统发送，如果您不想接到此类信件，
+如果您不想接到此类信件，
 点此设置 ${site_http}/i/notice

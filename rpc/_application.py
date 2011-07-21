@@ -8,8 +8,8 @@ from config import SITE_URL, TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY
 application = tornado.web.Application(
     tuple(urlmap.handlers),
     login_url='%s/auth/login' % SITE_URL,
-    settings = {
-            "twitter_consumer_key":TWITTER_CONSUMER_KEY,
-            "twitter_consumer_secret":TWITTER_CONSUMER_SECRET,
+    settings={
+            'twitter_consumer_key':TWITTER_CONSUMER_KEY,
+            'twitter_consumer_secret':TWITTER_CONSUMER_SECRET,
         }
 )

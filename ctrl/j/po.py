@@ -16,7 +16,7 @@ from zkit.pic import picopen
 class Reply(JLoginBase):
     def get(self, id):
         user = self.current_user
-        
+
         if not user_can_reply(user):
             self.finish('{"can_not_reply":1}')
         else:

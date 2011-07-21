@@ -10,7 +10,7 @@ ALIPAY = Alipay(ALIPAY_SALT, ALIPAY_ID, ALIPAY_EMAIL)
 
 def _alipay_payurl(
         user_id, total_fee, return_url, notify_url, subject, buyer_email=None,
-        for_id=0, body = ''
+        for_id=0, body=''
     ):
     if buyer_email is None:
         buyer_email = mail_by_user_id(user_id)
@@ -42,7 +42,7 @@ def alipay_payurl_with_tax(
         subject,
         buyer_email,
         for_id,
-        "支付宝手续费 %.2f 元"%tax
+        '支付宝手续费 %.2f 元'%tax
     )
 
 
@@ -59,7 +59,7 @@ def alipay_payurl(
         subject,
         buyer_email,
         for_id,
-        "%s"%buyer_email
+        '%s'%buyer_email
     )
 
 ####

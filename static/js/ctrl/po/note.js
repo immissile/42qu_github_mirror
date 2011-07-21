@@ -1,6 +1,5 @@
 $(function(){
     $("#name").focus()
-    $("#txt").elastic()
     $("#po_form").submit(function(){
         $("[placeholder]").each(function(){
             if(this.value==this.placeholder){
@@ -8,5 +7,21 @@ $(function(){
             }
         })
     })
+
+
+    var win = $(window),
+        txt = $("#txt");
+    
+    function txtresize() {
+        var inpo = $("#po_btn"),
+        h = Math.max(win.height() - inpo.height() - txt.offset().top - 50, 250);
+        txt.height(h)
+    }
+    txtresize()
+    win.resize(txtresize)
+
+
+
+
 })
 

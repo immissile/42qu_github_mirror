@@ -44,7 +44,7 @@ class Po(McModel, ReplyMixin):
             return txt_get(self.id)
 
     def mc_flush(self):
-        if not hasattr(self, "_mc_flush"):
+        if not hasattr(self, '_mc_flush'):
             if self._new_record:
                 rid = self.rid
                 if rid:
@@ -92,10 +92,17 @@ class Po(McModel, ReplyMixin):
     def name(self):
         q = self.question
         if q:
-            u = q.user
             return '答 : %s' % q.name
         #if self.cid == CID_WORD:
         #    return ''
+        return self.name_
+
+    @attrcache
+    def name_with_user(self):
+        q = self.question
+        if q:
+            u = self.user
+            return '%s 答 : %s' % (u.name, q.name)
         return self.name_
 
     @attrcache
@@ -197,7 +204,7 @@ def po_rm(user_id, id):
     po = Po.mc_get(id)
     if po.can_admin(user_id):
         from po_question import answer_count
-        if po.cid == CID_QUESTION: 
+        if po.cid == CID_QUESTION:
             if answer_count(id):
                 return
         return _po_rm(user_id, po)
@@ -290,5 +297,8 @@ def mc_flush_cid_list_all(user_id, cid_list):
             mc_flush_cid(user_id, cid, is_self)
 
 if __name__ == '__main__':
-    for i in Po.where("rid!=0"):
-        print i.id , po_rm(i.user_id, i.id)
+    #for i in Po.where("rid!=0"):
+    #print i.id , po_rm(i.user_id, i.id)
+    po_view_list()
+
+

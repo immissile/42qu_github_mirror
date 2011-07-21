@@ -8,8 +8,6 @@ from model.follow import follow_count_by_to_id, follow_id_list_by_to_id, follow_
 from model.zsite import Zsite
 
 PAGE_LIMIT = 64
-#PAGE_LIMIT = 1
-
 
 
 @urlmap('/follower')
@@ -31,11 +29,11 @@ class Follower(ZsiteBase):
         follower = Zsite.mc_get_list(ids)
 
         self.render(
-            "/ctrl/zsite/follow/_base.htm",
+            '/ctrl/zsite/follow/_base.htm',
             zsite_list=follower,
             page=page,
-            title="粉丝",
-            path="/follower"
+            title='围观',
+            path='/follower'
         )
 
 @urlmap('/following(\d)?')
@@ -68,7 +66,7 @@ class Following(ZsiteBase):
         self.render(
             zsite_list=following,
             page=page,
-            title="关注",
-            path="/following%s"%(cid or '')
+            title='关注',
+            path='/following%s'%(cid or '')
         )
 

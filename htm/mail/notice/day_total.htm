@@ -1,0 +1,25 @@
+<%inherit file="/mail/_base/base.htm"/>
+<%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career"/>
+<tr valign="top">
+    <td width="430" style="padding:0 0 0 28px;line-height:32px">
+        <div>
+            <%
+            to_id = to_user.id
+            %>\
+            %if li_wall:
+            ${user_link_list_with_career(li_wall)} 给你留了言
+            %endif
+            % for wall, from_list in li_wall_reply.iteritems():
+            <%
+            other = wall.zsite_other(to_id)
+            %>\
+            <p>${user_link_list_with_career(from_list)} 参与了 你 与 ${user_link(other)} 的对话</p>
+            % endfor
+        </div>
+        <div>
+            <a href="http:${to_user.link}/notice" target="_blank" style="margin-top:32px;color:#00f">详细内容 , 点此浏览</a>
+            <p style="font-size:14px;margin-top:48px;color:#999">如果想退订 , <a href="${site_http}/i/mail_notice" target="_blank" style="color:#999">请在此设置</a></p>
+        </div>
+    </td>
+</tr>
+

@@ -42,9 +42,10 @@ def user_info_new(
     o.save()
     return o
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pass
     n = UserInfo.mc_get(10001299)
+    print n
     print type(n.pid_home)
 #    n.sex=2
 #    n.marry=0

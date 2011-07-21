@@ -68,23 +68,34 @@ function login_autofill(suffix){
          }
  })
  */
-function init_D(){
-    var body=$('html,body')
+function init_none(){
+$(function(){
+    var body=$('body');
+    if(body.height()>$(window).height()){
+        body.append($('<a class="zsite_foot" href="#B"></a>').html(
+            $(".site").html()||location.host
+        ))
+    }
+})
+}
+function init_user(){
+    var html=$('html,body');
     $("#H .DA").click(function(e){
         var t=this, drop=$(this.parentNode).find('div');
         t.blur();
         function _(){
             drop.hide()
-            body.unbind('click',_)
+            html.unbind('click',_)
         }
         if(drop.is(":hidden")){
             drop.show()
             e.stopPropagation()
-            body.click(_)
+            html.click(_)
         }else{
             _()
         }
     })
+    init_none()
 }
 
 

@@ -36,7 +36,7 @@ def po_pos_set(user_id, po):
     pos_old, _ = po_pos_get(user_id, po_id)
     if pos > pos_old:
         PoPos.raw_sql(
-            'insert delayed into po_pos (user_id, po_id, pos, state) values (%s, %s, %s, %s) on duplicate key update pos=values(pos), state=values(state)', 
+            'insert delayed into po_pos (user_id, po_id, pos, state) values (%s, %s, %s, %s) on duplicate key update pos=values(pos), state=values(state)',
             user_id, po_id, pos, STATE_BUZZ
         )
         mc_po_pos.delete('%s_%s' % (user_id, po_id))

@@ -10,7 +10,7 @@ from model.cid import CID_NOTE, CID_QUESTION
 from yajl import dumps
 
 @urlmap('/user/live')
-class UserFeed(_handler.ApiBase):
+class UserFeed(_handler.OauthBase):
     def get(self, id=MAXINT):
         user_id = int(self.get_argument('user_id'))
         result = render_feed_by_zsite_id(user_id, PAGE_LIMIT, id)

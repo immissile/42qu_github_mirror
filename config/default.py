@@ -72,6 +72,11 @@ def prepare(o):
     o.GOD_PORT = None
     o.RPC_PORT = None
     o.API_PORT = None
+
+    o.SINA_FOLLOW = '1827906323'
+    o.WWW163_FOLLOW = '6122584690'
+    o.QQ_FOLLOW = 'cn42qu'
+
     return o
 
 
@@ -139,12 +144,12 @@ def finish(o):
     o.DB_CONFIG = {
         'main': {
             'master': DB_HOST_MAIN,
-            'tables': DB_MAIN_TABLE
+            'tables': DB_MAIN_TABLE,
         },
         'google': {
             'master': DB_HOST_GOOGLE,
-            'tables': DB_GOOGLE_TABLE
-        }
+            'tables': DB_GOOGLE_TABLE,
+        },
     }
     return o
 

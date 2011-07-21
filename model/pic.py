@@ -30,6 +30,7 @@ def pic_new(cid, user_id):
 def pic_save(pic_id, pic):
     fs_set_jpg('0', pic_id, pic)
 
+
 def _pic_list_to_review_by_cid(cid, start_id, limit):
     return Pic.where(cid=cid, state=1, admin_id=0).where('id>%s' % start_id).order_by('id')[:limit]
 
@@ -88,6 +89,7 @@ def pic_no(id, admin_id):
         pic.state = 0
         pic.save()
         cid = pic.cid
+        #print pic.cid
         if cid == CID_ICO:
             user_id = pic.user_id
             if ico.get(user_id) == pic.id:

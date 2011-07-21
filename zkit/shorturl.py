@@ -6,9 +6,9 @@ import httplib
 from yajl import loads
 import traceback
 
-SINA_API_KEY = "3152496704"
+SINA_API_KEY = '3152496704'
 
-SINA_SHORT_URL = "http://api.t.sina.com.cn/short_url/shorten.json?source=%s&url_long=%%s"%SINA_API_KEY
+SINA_SHORT_URL = 'http://api.t.sina.com.cn/short_url/shorten.json?source=%s&url_long=%%s'%SINA_API_KEY
 
 def retry(func):
     def _(*args, **kwargs):
@@ -39,10 +39,10 @@ def t_cn(url):
     url = SINA_SHORT_URL%url
     result = urlfetch(url)
     result = loads(result)
-    return result[0]['url_short'] 
+    return result[0]['url_short']
 
 
-if "__main__" == __name__:
-    url = "http://open.weibo.com/wiki/index.php/Short_url/shorten"
+if '__main__' == __name__:
+    url = 'http://open.weibo.com/wiki/index.php/Short_url/shorten'
     print t_cn(url)
 

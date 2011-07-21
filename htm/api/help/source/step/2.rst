@@ -1,0 +1,38 @@
+用户登录 
+=======================================
+
+/user/oauth/login 
+
+输入 ::
+
+    mail //用户的注册邮箱
+    passwd //用户的密码
+    client_id //应用的id 
+    token //应用的token
+
+返回 ::
+
+    access_token //授权token
+    refresh_token //刷新token
+
+
+演示输入 ::
+
+    client_id = 10045260
+    token = "820afba8706f4fd3b281cdd8418b2fa2"
+    mail = "yupbank@qq.com"
+    passwd = "123456"
+
+
+生成链接 ::
+
+    http://api.yup.xxx/user/oauth/login?mail=yupbank@qq.com&passwd=6171446&token=820afba8706f4fd3b281cdd8418b2fa2&client_id=10045260
+
+
+对应输出 ::
+    
+    {
+        "access_token":"AgAAAAQrpDXHlWFg3n_JvH",
+        "refresh_token":"AgAAAAKaF1QoKfQ_ER7D-c"
+    }
+

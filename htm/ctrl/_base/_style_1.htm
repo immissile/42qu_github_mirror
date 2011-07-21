@@ -1,3 +1,6 @@
+<%!
+from model.zsite_url import host
+%>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>\
 <%inherit file="_base.htm" />\
 ${self.T()}\
@@ -22,7 +25,13 @@ href="//${request_host}\
 /live\
 %endif
 "
-class="site">${request_host}</a>
+class="site">\
+%if zsite_id:
+${host(zsite_id)}
+%else:
+${request_host}\
+%endif
+</a>
 </div></div>
 </%def>
 

@@ -66,12 +66,14 @@ href="/{{if rid && cid!=65}}${question_id}{{else}}${id}{{/if}}">${name}</a>{{/if
 class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}
 <div class="fdtxt" id="fdtxt${id}">
-        {{if cid==61}}
+        {{if cid==61 }}
 {{html txt}}
         {{else}} 
-<div class="fdtxtin">${txt}</div>
             {{if txt_more}}
+<div class="fdtxtin">${txt}</div>
 <div class="fdall"><a href="javascript:void(0)" onclick="fdtxt(this,${id});">显示全部</a></div>
+             {{else}}
+{{html txt}}
             {{/if}}
         {{/if}}
     </div>

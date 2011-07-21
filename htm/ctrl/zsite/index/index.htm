@@ -6,6 +6,9 @@ from model.ico import pic_url as _pic_url, ico_url_with_default
 from model.zsite_link import link_id_name_by_zsite_id
 from model.career import career_list_all
 %>
+<%def name="htm_head()">
+<link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章" />
+</%def>
 
 <%def name="htm_title()">
 ${zsite.name}
@@ -166,7 +169,7 @@ class="num_normal"><span>\
 %else:
 class="num"><span class="now">\
 %endif
-${follower_count}</span>粉丝</a>
+${follower_count}</span>围观</a>
 %endif
 </div>
 %endif
@@ -179,9 +182,5 @@ ${follower_count}</span>粉丝</a>
 
 
 
-
-<div class="zsite_foot">
-<a href="#H">${request.host}</a>
-</div>
 
 <script src="${js.ctrl_zsite|n}"></script>

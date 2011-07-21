@@ -1,0 +1,39 @@
+<%def name="user_career(user)">\
+<%
+career = ' , '.join(filter(bool, user.career))
+%>\
+${user.name|n}\
+% if career:
+ - ${career|n}\
+% endif
+</%def>
+
+<%def name="user_name_list(user_list)">\
+${' , '.join([i.name for i in user_list])|n}\
+</%def>
+
+<%def name="user_list_with_career(user_list)">\
+<%
+l = len(user_list)
+%>\
+% if l > 1:
+${user_name_list(user_list)}\
+% elif l:
+${user_career(user_list[0])}\
+% endif
+</%def>
+
+提醒 : \
+    %if li_wall:
+<%
+    first_user = li_wall[0]
+%>\
+${user_career(first_user)} ${'等%s人 ' % count if count > 1 else ''}给你留言
+    %elif li_wall_reply:
+<%
+result = []
+for wall, from_list in li_wall_reply.iteritems():
+    result.extend(from_list)
+%>\
+${user_list_with_career(result)} 参与讨论
+    %endif

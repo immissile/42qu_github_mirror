@@ -236,6 +236,15 @@ pre p{
     padding-bottom:14px;
 }
 
+.back_a{
+float:left;
+width:52px;
+height:62px;
+margin-top:88px;
+background:url(/img/gif/p.gif);
+position:fixed;
+_position:absolute;
+}
 #po_photo_form{
 font-size:16px;width:500px;
 padding:10px 12px 0 7px;

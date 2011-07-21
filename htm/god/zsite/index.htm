@@ -1,9 +1,11 @@
 <%inherit file="/god/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
+from model.zsite import zsite_is_verify
 from model.zsite_list_0 import zsite_show_get
-from model.ico import ico_url as _ico_url, pic_url_with_default
+from model.ico import ico_url as _ico_url, pic_url_with_default, ico
 from model.zsite_url import url_by_id
+from model.user_mail import mail_by_user_id
 from model.motto import motto
 from model.zsite_rank import zsite_rank_max
 from model.career import career_list_all
@@ -71,6 +73,8 @@ float:left;
     <div class="item">
     <%
     zsite_show = zsite_show_get(zsite_id)
+    zsite_verify = zsite_is_verify(zsite_id)
+    pic_id = ico.get(zsite_id)
     %>
     %if zsite_show:
         <a href="/zsite/show/rm/${zsite_id}">移出秀</a>
@@ -81,8 +85,24 @@ float:left;
             <button type="submit">加入秀</button>
         </form>
         %endif
+
+    </div>
+    <div class="item">
+    %if pic_id:
+    <a href="/zsite/pic/rm/${pic_id}/${zsite_id}">删除头像</a> 
+    %endif
+    </div>
+    <div class="item">
+    % if zsite_verify:
+    <a href="/zsite/verify/new/0/${zsite_id}">取消认证</a>
+    %else:
+    <a href="/zsite/verify/new/1/${zsite_id}">认证</a>
+    %endif
     </div>
     <div class="item"><a target="_blank" href="${zsite.link}">${zsite.link.strip("/")}</a></div>
+    <div class="item">
+        ${mail_by_user_id(zsite_id)}
+    </div>
 </div>
 <div class="mid">
 <%namespace file="/_util/_g1.htm" import="about_me"/>
