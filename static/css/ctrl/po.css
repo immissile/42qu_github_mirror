@@ -1,5 +1,5 @@
 .po_body{
-    margin-top:32px;
+    padding-top:32px;
 }
 .po_body h1{
     text-align:center;
@@ -8,7 +8,7 @@
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
 }
-.po_body pre{
+.w721,.po_body pre{
     width:721px;
     margin:auto;
 }
@@ -100,8 +100,16 @@ margin-left:924px;
 #photo{
 line-height:0;
 margin-top:32px;
+text-align:center;
 }
 #photo_name{
 font-size:16px;
 text-align:center;
+}
+#photo_txt{
+margin:28px 0 14px;
+}
+.w721 p{
+line-height: 28px;
+padding-bottom: 14px;
 }
