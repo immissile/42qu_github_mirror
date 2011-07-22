@@ -46,6 +46,12 @@ def oauth_secret(id):
         return binascii.hexlify(client.secret)
     return 0
 
+def oauth_secret_verify(id,secret):
+    client = OauthClient.get(id)
+    if client.secret == binascii.hexlify(secret):
+        return True
+    return 0
+
 def oauth_access_token(client_id, user_id):
     u = OauthAccessToken.get(user_id=user_id, client_id=client_id)
     if u is not None:
@@ -83,4 +89,6 @@ def oauth_access_token_verify(client_id, access_token):
     if o:
         return o.user_id
 
+def oauth_authorization_code_verify(client_id,authorization_code):
+    pass
 
