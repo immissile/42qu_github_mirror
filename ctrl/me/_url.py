@@ -2,5 +2,6 @@ import buzz
 import i
 import money
 import notice
-import po
 import newbie
+import po
+import po_photo

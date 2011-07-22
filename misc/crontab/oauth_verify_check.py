@@ -4,13 +4,13 @@ import _env
 from zkit.single_process import single_process
 from model.oauth import OauthToken
 from model.oauth_verify import oauth_verify_by_oauth_id
+from zweb.orm import ormiter
 
 
 @single_process
 def oauth_verify():
-    c = OauthToken.raw_sql('select id from oauth_token order by id')
-    for id, in c.fetchall():
-        oauth_verify_by_oauth_id(id)
+    for i in ormiter(OauthToken):
+        oauth_verify_by_oauth_id(i.id)
 
 
 

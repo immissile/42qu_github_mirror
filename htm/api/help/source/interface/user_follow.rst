@@ -1,4 +1,4 @@
-po/rm 删除微博
+/user/follow 关注新用户  
 =======================================
 
 
@@ -14,13 +14,13 @@ po/rm 删除微博
 返回 ::
 
     {
-        status: 
+        status: //成功返回true，多次重复为NUll
     }
 
 
 演示链接 ::
 
-    http://api.yup.xxx/po/rm?client_id=422&id=427&access_token=40bd69c43a46c4fd376cc7f4623fe250df84475719f55ffcd98132b538fdf943
+    http://api.yup.xxx/user/follow?client_id=73&id=80&access_token=820afba8706f4fd3b281cdd8418b2fa2
 
 
 演示返回 ::

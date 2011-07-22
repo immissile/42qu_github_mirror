@@ -782,6 +782,11 @@ CREATE TABLE `zsite_tag_po` (
   UNIQUE KEY `po_id` USING BTREE (`po_id`),
   KEY `zsite_tag_id` USING BTREE (`zsite_tag_id`,`po_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/* edit by silegon@gmail.com */
+ALTER TABLE `zpage`.`zsite_tag_po` ADD COLUMN `cid` INT UNSIGNED 
+NOT NULL DEFAULT 0 AFTER `zsite_id` , DROP INDEX `zsite_tag_id` ,
+ADD INDEX `zsite_tag_id` USING BTREE (`zsite_tag_id` ASC, `po_id` ASC, `cid` ASC) ;
+/* edit by silegon@gmail.com */
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `zsite_uv_daily`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

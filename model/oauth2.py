@@ -23,6 +23,9 @@ class OauthClient(McModel):
 class OauthRefreshToken(Model):
     pass
 
+mc_oauth_client_id_by_user_id = McCacheA('OauthClientIdListByUserId.%s')
+
+@mc_oauth_client_id_by_user_id('{user_id}')
 def oauth_client_id_by_user_id(user_id):
     return OauthClient.where(user_id=user_id).order_by('id desc').col_list()
 
@@ -32,55 +35,63 @@ def oauth_client_by_user_id(user_id):
 def oauth_client_new(user_id, name, txt):
     secret = uuid4().bytes
     id = gid()
-    oauth_client = OauthClient(id, user_id=user_id, secret=secret)
+    o = OauthClient(id=id, user_id=user_id, secret=secret, name=name)
+    o.save()
 
-    oauth_client.name = name
-    txt_new(oauth_client.id, txt)
-    oauth_client.save()
-    #hex_secret = binascii.hexlify(secret)
-    return oauth_client
+    txt_new(id, txt)
+    mc_oauth_client_id_by_user_id.delete(user_id)
+    return o
 
 def oauth_secret(id):
-    client = OauthClient.get(id)
+    client = OauthClient.mc_get(id)
     if client:
         return binascii.hexlify(client.secret)
     return 0
 
 def oauth_access_token(client_id, user_id):
-    u = OauthAccessToken.get(user_id=user_id, client_id=client_id)
-    if u is not None:
-        return u
-    return False
+    o = OauthAccessToken.get(user_id=user_id, client_id=client_id)
+    if o:
+        return o
 
 def oauth_refresh_token(client_id, id):
-    r = OauthRefreshToken.get(client_id=client_id, id=id)
-    if r is not None:
-        return r
-    return False
+    o = OauthRefreshToken.get(client_id=client_id, id=id)
+    if o:
+        return o
 
 def oauth_refresh_token_new(client_id, id):
-    r = oauth_refresh_token(client_id, id)
-    if not r:
-        r = OauthRefreshToken.get_or_create(client_id=client_id, id=id)
-        r.token = urandom(12)
-        r.time = time.time()
-        r.save()
-    return id_binary_encode(id, r.token)
-
+    o = oauth_refresh_token(client_id, id)
+    if not o:
+        o = OauthRefreshToken.get_or_create(client_id=client_id, id=id)
+        o.token = urandom(12)
+        o.time = time.time()
+        o.save()
+    return id_binary_encode(id, o.token)
 
 def oauth_access_token_new(client_id, user_id):
-    r = oauth_access_token(client_id, user_id)
-    if not r:
-        r = OauthAccessToken.get_or_create(user_id=user_id, client_id=client_id)
-        r.token = urandom(12)
-        r.save()
-    id = r.id
-    return id, id_binary_encode(id, r.token)
+    o = oauth_access_token(client_id, user_id)
+    if not o:
+        o = OauthAccessToken.get_or_create(user_id=user_id, client_id=client_id)
+        o.token = urandom(12)
+        o.save()
+    id = o.id
+    access_token = id_binary_encode(id, o.token)
+    mc_oauth_access_token_verify.delete(access_token)
+    return id, access_token
+
+mc_oauth_access_token_verify = McCacheA('OauthAccessTokenVerify.%s')
+
+@mc_oauth_access_token_verify('{access_token}')
+def _oauth_access_token_verify(access_token):
+    id, token = id_binary_decode(access_token)
+    o = OauthAccessToken.get(id)
+    if o and o.token == token:
+        return o.client_id, o.user_id
+    return 0, 0
 
 def oauth_access_token_verify(client_id, access_token):
-    id, token = id_binary_decode(access_token)
-    o = OauthAccessToken.get(client_id=client_id, token=token, id=id)
-    if o:
-        return o.user_id
-
-
+    client_id = int(client_id)
+    if client_id:
+        _client_id, user_id = _oauth_access_token_verify(access_token)
+        if client_id == _client_id:
+            return user_id
+    return 0

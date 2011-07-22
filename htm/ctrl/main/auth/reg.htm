@@ -83,6 +83,17 @@ ${errtip.password|n}
 </div>
 </%htm:form>
 </div>
+
+
+<%namespace file="/ctrl/_util/hero.htm" import="hero_list"/>
+%if zsite_list:
+
+<div class="zsite_mb64 c">
+${hero_list(zsite_list)}
+</div>
+${page|n}
+%endif
+
 <script>
 (function(){
     var mail=$("#mail");

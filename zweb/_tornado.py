@@ -69,6 +69,9 @@ def set_cookie(self, name, value, domain=None, expires=None, path='/',
                 timestamp, localtime=False, usegmt=True
             )
         new_cookie[name]['expires'] = expires
+    elif expires is None:
+        new_cookie[name]['expires'] = 'Sat, 20-Aug-2999 03:38:00 GMT'
+
     if path:
         new_cookie[name]['path'] = path
     for k, v in kwargs.iteritems():

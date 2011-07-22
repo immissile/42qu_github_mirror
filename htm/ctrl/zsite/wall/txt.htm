@@ -3,7 +3,7 @@ from zkit.time_format import friendly_time
 from model.state import STATE_SECRET
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
-<%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render_body,reply_textarea"/>
+<%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render_body,wall_reply_textarea"/>
 
 <%def name="htm_title()">${zsite.name} - 留言</%def>
 
@@ -14,7 +14,7 @@ ${css.ctrl_wall_page|n}
 </%def>
 
 <div id="wall">
-${reply_textarea('/wall/%s' % wall.id)}
+${wall_reply_textarea('/wall/%s' % wall.id)}
 <%
 _can_rm = current_user_id in zsite_id_list
 %>
