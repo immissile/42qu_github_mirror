@@ -20,11 +20,13 @@ zsite_rank_get = zsite_rank.get
 zsite_rank_set = zsite_rank.set
 
 mc_zsite_rank_max = McCache('ZsiteRankMax.%s')
+mc_zsite_rank_sixteen = McCache('ZsiteRankSixteen.%s')
 
-@mc_zsite_rank_max('')
-def zsite_rank_max():
-    c = ZsiteRank.raw_sql('select max(value) from zsite_rank')
+@mc_zsite_rank_max('{offset}')
+def zsite_rank_max(offset=1):
+    c = ZsiteRank.raw_sql('select max(value) from zsite_rank order by value desc limit 1 offset %s',offset)
     return c.fetchone()[0] or 0
+
 
 def zsite_rank_rebase():
     n = kv_int.get(KV_ZSITE_RANK_POWER) or 100
