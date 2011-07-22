@@ -20,6 +20,17 @@ def int2date(day):
 def today_int():
     return int((8+time.time()/3600)/24)
 
+def fa2l(t): #tupe by fetchall() 2 list
+    n = ()
+    for i in t:
+        n += i
+    return n
+
+def log_update(cid, limit=100):
+    n = LogHistory.raw_sql('select incr from log_history where cid = %s limit %s',cid, limit).fetchall()
+    num = fa2l(n)
+    return num
+    
 def log_new_user():
     num_today = Zsite.raw_sql('select count(1) from zsite').fetchone()[0]
     today = today_int()
@@ -57,5 +68,18 @@ def log_new_reply():
     else:
         LogHistory.raw_sql('insert into log_history (day,num,incr,cid) values(%s,%s,%s,%s)', today, num_today, 0, LOG_HISTORY_NEW_REPLY_CID)
 
+def all_incr():    #返回所有的增长数
+    user, po, pouser, reply = log_update(LOG_HISTORY_NEW_USER_CID),log_update(LOG_HISTORY_NEW_PO_CID),\
+                              log_update(LOG_HISTORY_NEW_PO_USER_CID),log_update(LOG_HISTORY_NEW_REPLY_CID)
+    return user,po,pouser,reply
+
+def today_all_num():     #返回所有的今天数据
+    num_user = LogHistory.raw_sql("select day from log_history")
+    print num_user
+
 if __name__ == '__main__':
-    print log_new_po_user()
+##    log_new_user()
+##    log_new_po()
+##    log_new_po_user()
+##    log_new_reply()
+    today_all_num()

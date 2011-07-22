@@ -1,8 +1,8 @@
 <%inherit file="/god/_base.htm" />
 <%!
-
 from config import FS_URL 
 from yajl import dumps
+from model.log_history import LOG_HISTORY_NEW_USER_CID, LOG_HISTORY_NEW_PO_CID, LOG_HISTORY_NEW_PO_USER_CID, LOG_HISTORY_NEW_REPLY_CID
 %>
 <%def name="htm_head()">
 ${css.god_chart|n}
@@ -23,11 +23,10 @@ json = {
     "colour": "#A2ACBA", "grid-colour": "#D7E4A3", 
     "offset": 'false', "steps": 7
 }
-
 }
 %>
 <div class="chart">
-    <div class="chart_title">新增用户数 今日 +10</div>
+    <div class="chart_title">新增${cat(cid)} 今日 +100</div>
     <div id="chart${cid}"></div>
 <script>
 swfobject.embedSWF(
@@ -40,13 +39,20 @@ function chart${cid}(){
 </script>
 </div>
 </%def>
-
-
-
-%for cid in xrange(3):
+<%def name="cat(cid)">
 <%
-data = range(100,100+210)
+    if cid == LOG_HISTORY_NEW_USER_CID:
+        return "用户数"
+    elif cid == LOG_HISTORY_NEW_PO_CID:        return "发帖数"
+    elif cid == LOG_HISTORY_NEW_PO_USER_CID:        return "发帖人数"
+    elif cid == LOG_HISTORY_NEW_REPLY_CID:
+        return "回复数"
+    else:
+        return "不清楚......"
 %>
+</%def>
+
+%for data,cid in (nuser,LOG_HISTORY_NEW_USER_CID),(npo,LOG_HISTORY_NEW_PO_CID),(npouser,LOG_HISTORY_NEW_PO_USER_CID),(nreply,LOG_HISTORY_NEW_REPLY_CID):
 ${render_chart(cid,data)}
 %endfor
 
