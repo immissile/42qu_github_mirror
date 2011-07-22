@@ -165,8 +165,8 @@ def career_bind(user_list):
 def mc_flush(user_id, cid):
     from model.feed_po import mc_feed_user_dict
     mc_career_current.delete(user_id)
-    mc_career_id_list.delete('%s_%s' % (user_id, o.cid))
-    mc_feed_user_dict.delete(current_user_id)
+    mc_career_id_list.delete('%s_%s' % (user_id, cid))
+    mc_feed_user_dict.delete(user_id)
 
 if __name__ == '__main__':
     from yajl import dumps
