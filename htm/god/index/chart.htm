@@ -26,7 +26,7 @@ json = {
 }
 %>
 <div class="chart">
-    <div class="chart_title">新增${cat(cid)} 今日 +100</div>
+    <div class="chart_title">新增${cat(cid)} 今日 +${pr(cid)}</div>
     <div id="chart${cid}"></div>
 <script>
 swfobject.embedSWF(
@@ -48,11 +48,26 @@ function chart${cid}(){
     elif cid == LOG_HISTORY_NEW_REPLY_CID:
         return "回复数"
     else:
-        return "不清楚......"
+        return "神马数"
+%>
+</%def>
+<%def name="pr(cid)">
+<%
+    if cid == LOG_HISTORY_NEW_USER_CID:
+        return num_user
+    elif cid == LOG_HISTORY_NEW_PO_CID:
+        return num_po
+    elif cid == LOG_HISTORY_NEW_PO_USER_CID:
+        return num_pouser
+    elif cid == LOG_HISTORY_NEW_REPLY_CID:
+        return num_reply
+    else:
+        return "@@"
 %>
 </%def>
 
-%for data,cid in (nuser,LOG_HISTORY_NEW_USER_CID),(npo,LOG_HISTORY_NEW_PO_CID),(npouser,LOG_HISTORY_NEW_PO_USER_CID),(nreply,LOG_HISTORY_NEW_REPLY_CID):
+
+%for data,cid in (incr_user,LOG_HISTORY_NEW_USER_CID),(incr_po,LOG_HISTORY_NEW_PO_CID),(incr_pouser,LOG_HISTORY_NEW_PO_USER_CID),(incr_reply,LOG_HISTORY_NEW_REPLY_CID):
 ${render_chart(cid,data)}
 %endfor
 

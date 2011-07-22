@@ -12,5 +12,9 @@ class Index(Base):
 @urlmap('/chart')
 class Chart(Base):
     def get(self):
-        user, po, pouser, reply = all_incr()
-        self.render(nuser=user,npo=po,npouser=pouser,nreply=reply)
+        incr_user, incr_po, incr_pouser, incr_reply = all_incr()
+        num_user, num_po, num_pouser, num_reply = today_all_num()
+        self.render(
+            incr_user=incr_user, incr_po=incr_po, incr_pouser=incr_pouser, incr_reply=incr_reply,
+            num_user=num_user, num_po=num_po, num_pouser=num_pouser, num_reply=num_reply
+        )

@@ -74,12 +74,19 @@ def all_incr():    #返回所有的增长数
     return user,po,pouser,reply
 
 def today_all_num():     #返回所有的今天数据
-    num_user = LogHistory.raw_sql("select day from log_history")
-    print num_user
+    num_user = LogHistory.raw_sql("select incr from log_history where cid = %s order by day desc", LOG_HISTORY_NEW_USER_CID).fetchone()[0]
+    num_po = LogHistory.raw_sql("select incr from log_history where cid = %s order by day desc", LOG_HISTORY_NEW_PO_CID).fetchone()[0]
+    num_po_user = LogHistory.raw_sql("select incr from log_history where cid = %s order by day desc", LOG_HISTORY_NEW_PO_USER_CID).fetchone()[0]
+    num_reply = LogHistory.raw_sql("select incr from log_history where cid = %s order by day desc", LOG_HISTORY_NEW_REPLY_CID).fetchone()[0]
+    return num_user, num_po, num_po_user, num_reply
+
+def log_new():
+    log_new_user()
+    log_new_po()
+    log_new_po_user()
+    log_new_reply()
 
 if __name__ == '__main__':
-##    log_new_user()
-##    log_new_po()
-##    log_new_po_user()
-##    log_new_reply()
-    today_all_num()
+#   log_new()
+    print all_incr()
+    print today_all_num()
