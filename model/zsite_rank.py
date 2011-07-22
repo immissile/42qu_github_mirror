@@ -26,6 +26,9 @@ def zsite_rank_max():
     c = ZsiteRank.raw_sql('select max(value) from zsite_rank')
     return c.fetchone()[0] or 0
 
+def zsite_rank_max():
+    c = ZsiteRank.raw_sql('select value from zsite_rank order by value desc limit 16')
+
 def zsite_rank_rebase():
     n = kv_int.get(KV_ZSITE_RANK_POWER) or 100
     if n > 9999:
