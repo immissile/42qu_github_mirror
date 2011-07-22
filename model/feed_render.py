@@ -51,7 +51,7 @@ def feed_tuple_by_db(id):
 
     txt = m.txt
     if cid in (CID_NOTE, CID_QUESTION, CID_ANSWER):
-        txt , has_more = cnenoverflow(txt, 164)
+        txt, has_more = cnenoverflow(txt, 164)
         if not has_more:
             txt = m.htm
         result.extend((txt, has_more))
