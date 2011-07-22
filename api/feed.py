@@ -4,6 +4,8 @@ from _handler import OauthBase, OauthAccessBase
 from _urlmap import urlmap
 from model.feed_api_render import render_feed_api_by_zsite_id, render_user_feed_api_by_zsite_id, PAGE_LIMIT
 
+PAGE_LIMIT = 10
+
 
 @urlmap('/live')
 class Feed(OauthAccessBase):

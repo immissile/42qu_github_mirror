@@ -5,9 +5,9 @@ from zkit.algorithm.merge import imerge
 from state import STATE_ACTIVE
 from feed import MAXINT, PAGE_LIMIT
 
-
+mc_feed_user_dict = McCacheM('FeedUserDict.%s')
 mc_feed_po_iter = McCacheA('FeedPoIter.%s')
-mc_feed_po_dict = McCache('FeedPoDict.%s')
+mc_feed_po_dict = McCacheM('FeedPoDict.%s')
 
 cursor = cursor_by_table('po')
 
@@ -40,19 +40,38 @@ def feed_po_iter(zsite_id, start_id=None):
         start_id = i
 
 
-def feed_po_merge_iter(zsite_id_list, limit=PAGE_LIMIT, begin_id=None):
-    count = 0
-    for i in imerge(
-        *[
-            feed_po_iter(i, begin_id)
-            for i in
-            zsite_id_list
-        ]
-    ):
-        yield i
-        count += 1
-        if count >= limit:
-            break
+def feed_po_cmp_iter(zsite_id, start_id=None):
+    for id in feed_po_iter(zsite_id, start_id):
+        yield FeedPoCmp(id, zsite_id)
+
+
+class FeedPoCmp(object):
+    def __init__(self, id, zsite_id):
+        self.id = id
+        self.zsite_id = zsite_id
+
+    def __cmp__(self, other):
+        return other.id - self.id
+
+
+class FeedPoMerge(object):
+    def __init__(self, zsite_id_list):
+        self.zsite_id_list = zsite_id_list
+
+    def merge_iter(self, limit=PAGE_LIMIT, begin_id=None):
+        zsite_id_list = self.zsite_id_list
+        count = 0
+        for i in imerge(
+            *[
+                feed_po_cmp_iter(i, begin_id)
+                for i in
+                zsite_id_list
+            ]
+        ):
+            yield i
+            count += 1
+            if count >= limit:
+                break
 
 
 if __name__ == '__main__':
