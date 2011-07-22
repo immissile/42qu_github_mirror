@@ -6,6 +6,17 @@ from model.ico import ico_url_with_default
 from model.career import career_current
 %>
 <style>
+    div#career ,div#img, div#txt{
+        float:left;
+        margin-right:10px;
+        display:inline-block;
+        border-right:1px dashed #bbb;
+        padding-right:10px;
+    
+    }
+    div.sd {
+        display:inline-block;
+    }
 </style>
 
 ${page|n}
@@ -15,22 +26,25 @@ ${page|n}
 ico_url = ico_url_with_default(user.id)
 user_career = career_current(user.id)
 %>
-<div class="sdw"><div class="sd">
-<div id="img">
-    <a href="${user.link}" target="_blank"><img src="${ico_url}"></a>
-</div>
-<div id="career">
-    <p><a href="/zsite/${user.id}">  管理  </a>
+<div class="sdw">
+    <div class="sd">
+        <div id="img">
+            <a href="${user.link}" target="_blank"><img src="${ico_url}"></a>
+        </div>
+        <div id="career">
+            <p><a href="/zsite/${user.id}">  管理  </a></p>
 
-<p><a href="${user.link}" target="_blank">${user.id}</a></p>  
-<p>${user.name}</p>
-    %if any(user_career):
-<p>${user_career[0]}  ${user_career[1]}</p>
-    %endif
+            <p><a href="${user.link}" target="_blank">${user.id}</a></p>  
+            <p>${user.name}</p>
+                %if any(user_career):
+                    <p>${user_career[0]}  ${user_career[1]}</p>
+                %endif
+        </div>
+        <div id="txt">
+            <pre> ${txt_get(user.id)}</pre>
+        </div>
+    </div>
 </div>
-
-<pre> ${txt_get(user.id)}</pre>
-</div></div>
 %endfor
    
 ${page|n}

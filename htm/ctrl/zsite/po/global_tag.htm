@@ -1,27 +1,20 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-<%namespace file="/_util/_g1.htm" import="about_me"/>
-<%namespace file="/_util/user_index.htm" import="user_index"/>
-<%!
-from model.ico import pic_url as _pic_url, ico_url_with_default
-from model.zsite_link import link_id_name_by_zsite_id
-from model.career import career_list_all
-%>
-<%def name="htm_head()">
-<link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章" />
-</%def>
-
-<%def name="htm_title()">
-${zsite.name}
-%if motto:
- - ${motto}
-%endif
-</%def>
 
 <%
 is_owner = zsite_id == current_user_id
 %>
-${user_index(zsite, is_owner)}
-
+<%!
+from model.zsite_tag import ZsiteTag
+%>
+%for id, tag in tag_list.iteritems():
+<div class="tag${id} tag_line">
+<%
+zsite_tag = ZsiteTag.get(tag_id=id, zsite_id=zsite_id) 
+zsite_tag_id = zsite_tag.id
+%>
+    <a href="/tag/${zsite_tag_id}">${tag}, ${zsite_tag_id}</a>
+</div>
+%endfor
 
 <%
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO
@@ -37,6 +30,7 @@ po_question_count = po_list_count(zsite_id, CID_QUESTION, is_owner)
 po_photo_list = po_view_list(zsite_id, CID_PHOTO, is_owner, 6)
 po_photo_count = po_list_count(zsite_id, CID_PHOTO, is_owner)
 %>
+
 
 % if po_word_count:
 <div class="zsite_block">\
@@ -129,58 +123,3 @@ po_photo_count = po_list_count(zsite_id, CID_PHOTO, is_owner)
 % endif
 
 
-
-<div class="zsite_block zsite_follow">\
-
-
-<%
-from model.follow import follow_count_by_to_id, follow_count_by_from_id, follow_list_show_by_from_id
-following_count = follow_count_by_from_id(zsite_id)
-follower_count = follow_count_by_to_id(zsite_id)
-follow_list = follow_list_show_by_from_id(zsite_id, 3)
-%>
-%if follow_list:
-<div class="zsite_ico_div">\
-%for i in follow_list:
-<%
-i_career = i.career
-%>
-<div class="zsite_ico c">
-    <a href="${i.link}"><img src="${i.ico96}"></a>
-    <div><a href="${i.link}" target="_blank">${i.name}</a></div>
-    <div>${i_career[0]}</div>
-    <div>${i_career[1]}</div>
- </div>
-%endfor
-</div>\
-%endif
-%if following_count or follower_count:
-<div class="zsite_num_div">\
-%if following_count:
-<a href="/following" class="num"><span class="now">${following_count}</span><b>关注</b></a>
-%endif
-%if following_count and follower_count:
-&
-%endif
-%if follower_count:
-<a href="/follower"
-%if following_count:
-class="num_normal"><span>\
-%else:
-class="num"><span class="now">\
-%endif
-${follower_count}</span>围观</a>
-%endif
-</div>
-%endif
-</div>
-
-
-
-
-
-
-
-
-
-<script src="${js.ctrl_zsite|n}"></script>

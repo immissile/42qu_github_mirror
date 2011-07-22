@@ -1,14 +1,14 @@
 .po_body{
-    margin-top:32px;
+    padding-top:32px;
 }
 .po_body h1{
     text-align:center;
     font-size:27px;
-    margin:48px 0;
+    margin:16px 0 48px;
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
 }
-.po_body pre{
+.w721,.po_body pre{
     width:721px;
     margin:auto;
 }
@@ -81,4 +81,35 @@ float:right;
 }
 .qsnum{
 padding:0 3px;
+}
+.gprev , .gnext{
+position:fixed;
+_position:absolute;
+background:url(/img/gif/gprev.gif) no-repeat;
+width:48px;
+height:48px;
+top:256px;
+}
+.gnext{
+background-image:url(/img/gif/gnext.gif);
+margin-left:924px;
+}
+#photo{
+line-height:0;
+margin-top:32px;
+text-align:center;
+}
+#photo_name{
+font-size:16px;
+text-align:center;
+}
+#photo_txt{
+margin:0 0 14px;
+}
+#photo{
+margin-bottom:21px;
+}
+.w721 p{
+line-height: 28px;
+padding-bottom: 14px;
 }

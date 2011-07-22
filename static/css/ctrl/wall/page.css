@@ -15,7 +15,7 @@ border:1px solid #ccc;
 font-size:14px;
 line-height:28px;
 height:100px;
-margin-top:48px;
+margin-top:28px;
 }
 #secret_span{
 vertical-align:top;
@@ -29,9 +29,8 @@ margin-right:32px;
 margin-left:5px;
 }
 #reply_form .btns{
+margin:28px auto 0;
 text-align:right;
-margin-bottom:4px;
-margin-top:10px;
 }
 .reply{
 padding-right:13px;

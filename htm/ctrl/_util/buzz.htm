@@ -87,7 +87,11 @@ unread = buzz_unread_count(user_id)
 </div>\
 </div></div>\
 <script>\
-$("#buzz_p a").attr('target','_blank')
+$("#buzz_p a").each(function(){
+    if(this.href.slice(0,11)!="javascript:"){
+        this.target='_blank'
+    }
+})
 </script>
 %endif
 </%def>

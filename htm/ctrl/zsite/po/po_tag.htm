@@ -1,5 +1,6 @@
 <%!
 from model.vote import vote_state, vote_count
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
 from datetime import datetime
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
@@ -14,14 +15,34 @@ href="/live"
 href="/"
 %endif
 ></a>
+
+
+<%def name="type(cid)">
+%if cid == CID_WORD:
+微博
+%elif cid == CID_NOTE:
+文章
+%elif cid == CID_QUESTION:
+问题
+%elif cid == CID_ANSWER:
+回答
+%elif cid == CID_PHOTO:
+图片
+%else:
+未知
+%endif
+</%def>
+
+
 <div class="po_tag">
 <h1><a class="c0" href="${zsite.link}">${zsite.name}</a> : ${tag_name}</h1>
 <div class="zsite_ol">
 <ol>
 %for po in po_list:
-<li><a href="${po.link}">${po.name}</a></li>
+<li>${type(po.cid)}<a href="${po.link}">${po.name}</a></li>
 %endfor
 </ul>
 ${page|n}
 </div>
 </div>
+

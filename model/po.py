@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_PO
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -23,6 +23,7 @@ PO_CN_EN = (
     (CID_NOTE, 'note', '文章', '篇'),
     (CID_QUESTION, 'question', '问题', '条'),
     (CID_ANSWER, 'answer', '回答', '次'),
+    (CID_PHOTO, 'photo', '图片', '张'),
 )
 PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
 PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
@@ -78,7 +79,7 @@ class Po(McModel, ReplyMixin):
 
     def txt_set(self, txt):
         id = self.id
-        txt_new(id, txt)
+        txt_new(id, txt or '')
         self.mc_flush()
 
     @attrcache
@@ -215,8 +216,8 @@ def _po_rm(user_id, po):
     po.save()
     id = po.id
     feed_rm(id)
-    from zsite_tag import zsite_tag_rm_by_po_id
-    zsite_tag_rm_by_po_id(id)
+    from zsite_tag import zsite_tag_rm_by_po
+    zsite_tag_rm_by_po(po)
     from rank import rank_rm_all
     rank_rm_all(id)
     from po_question import mc_answer_id_get, answer_count
@@ -244,6 +245,7 @@ def po_note_new(user_id, name, txt, state=STATE_ACTIVE):
         if state > STATE_SECRET:
             m.feed_new()
         return m
+
 
 
 PO_LIST_STATE = {

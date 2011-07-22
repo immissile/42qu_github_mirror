@@ -39,6 +39,7 @@ def oauth_client_new(user_id, name, txt):
     o.save()
 
     txt_new(id, txt)
+    mc_oauth_client_id_by_user_id.delete(user_id)
     return o
 
 def oauth_secret(id):
