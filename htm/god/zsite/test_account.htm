@@ -11,16 +11,18 @@ test_account_list = (
 10001637,
 )
 %>
-<ul>
+
 %for test_account_id in test_account_list:
 <%
 test_account_user = Zsite.mc_get(id=test_account_id)
 test_account_name = test_account_user.name
 %>
-<li>
-<a href="/sudo/${test_account_id}">变身</a> 
-${test_account_id} 
-${test_account_name}
-</li>
+<div style="border:1px solid #ccc;padding:10px;margin:10px;float:left">
+
+<p>${test_account_id}</p> 
+<p>${test_account_name}</p>
+<p >
+<a target="_blank" href="/sudo/${test_account_id}">变身</a>
+</p> 
+</div>
 %endfor
-</ul>
