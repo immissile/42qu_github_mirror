@@ -7,7 +7,7 @@ from feed import MAXINT, PAGE_LIMIT
 
 
 mc_feed_po_iter = McCacheA('FeedPoIter.%s')
-mc_feed_po_json = McCache('FeedPoJson.%s')
+mc_feed_po_dict = McCache('FeedPoDict.%s')
 
 cursor = cursor_by_table('po')
 

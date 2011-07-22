@@ -4,7 +4,7 @@ from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
 from feed import feed_new, mc_feed_tuple, feed_rm
-from feed_po import mc_feed_po_iter, mc_feed_po_json
+from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
 from spammer import is_same_post
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
@@ -55,7 +55,7 @@ class Po(McModel, ReplyMixin):
                 id = self.id
                 mc_htm.delete(id)
                 mc_feed_tuple.delete(id)
-                mc_feed_po_json.delete(id)
+                mc_feed_po_dict.delete(id)
             self._mc_flush = True
 
     def save(self):

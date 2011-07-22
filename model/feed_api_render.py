@@ -4,10 +4,9 @@ from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
 from po import Po
 from feed_render import zsite_id_list_by_follow
 from feed import MAXINT, PAGE_LIMIT
-from feed_po import FeedPoMerge, mc_feed_po_json
+from feed_po import FeedPoMerge, mc_feed_po_dict
 from zsite import Zsite
 from zkit.txt2htm import txt_withlink
-from yajl import dumps
 from zkit.mc_func import mc_func_get_list
 
 def user_dict(user_id):
@@ -41,12 +40,8 @@ def feed_po_dict_by_db(id):
 
     return d
 
-def feed_po_json_by_db(id):
-    d = feed_po_dict_by_db(id)
-    return dumps(d)
-
-def feed_po_json_list(id_list):
-    return mc_func_get_list(mc_feed_po_json, feed_po_json_by_db, id_list)
+def feed_po_dict_list(id_list):
+    return mc_func_get_list(mc_feed_po_dict, feed_po_dict_by_db, id_list)
 
 def render_feed_api_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     feed_merge = FeedPoMerge(zsite_id_list_by_follow(zsite_id))
@@ -54,7 +49,7 @@ def render_feed_api_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     i = 0
     for i in feed_merge.merge_iter(limit, begin_id):
         id_list.append(i)
-    return feed_po_json_list(id_list), i
+    return feed_po_dict_list(id_list), i
 
 if __name__ == '__main__':
     pass

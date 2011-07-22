@@ -10,6 +10,14 @@ from model.oauth2 import oauth_access_token_new, oauth_refresh_token_new
 from model.user_session import id_binary_decode
 
 
+@urlmap('/user/info/id')
+class InfoId(_handler.OauthBase):
+    def get(self):
+        user_id = self.get_argument('user_id')
+        data = json_info(user_id)
+        self.finish(data)
+
+
 @urlmap('/user/info/mail')
 class InfoMail(_handler.OauthBase):
     def get(self):
@@ -37,10 +45,11 @@ class Login(_handler.OauthBase):
             id, access_token = oauth_access_token_new(client_id, user_id)
             refresh_token = oauth_refresh_token_new(client_id, id)
             return self.finish({
+                        'user_id': user_id,
                         'access_token': access_token,
                         'refresh_token': refresh_token,
-                        "expires_in": 87063,
-                        "scope": "basic"
+                        'expires_in': 87063,
+                        'scope': 'basic'
                    })
         else:
             self.finish(
@@ -48,14 +57,6 @@ class Login(_handler.OauthBase):
                         'error_code':1
                         }
                     )
-
-
-@urlmap('/user/info/id')
-class InfoId(_handler.OauthBase):
-    def get(self):
-        user_id = self.get_argument('user_id')
-        data = json_info(user_id)
-        self.finish(data)
 
 
 @urlmap('/user/follower')
