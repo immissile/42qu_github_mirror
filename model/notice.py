@@ -30,7 +30,7 @@ NOTICE_TUPLE = (
 NOTICE_CLS = dict(i[:2] for i in NOTICE_TUPLE)
 
 NOTICE_MAIL_DAY = dict(i[:2] for i in NOTICE_TUPLE[:2])
-NOTICE_MAIL_DIC = dict((i[0], (i[1], i[2])) for i in NOTICE_TUPLE[2:])
+#NOTICE_MAIL_DIC = dict((i[0], (i[1], i[2])) for i in NOTICE_TUPLE[2:])
 
 notice_unread = Kv('notice_unread', 0)
 
