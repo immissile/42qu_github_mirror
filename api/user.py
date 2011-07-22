@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
-import _handler
+from _handler import OauthBase, OauthAccessBase
 from _urlmap import urlmap
 from model.user_mail import user_id_by_mail, mail_by_user_id
 from model.user_auth import mail_password_verify
@@ -11,7 +11,7 @@ from model.user_session import id_binary_decode
 
 
 @urlmap('/user/info/id')
-class InfoId(_handler.OauthBase):
+class InfoId(OauthBase):
     def get(self):
         user_id = self.get_argument('user_id')
         data = json_info(user_id)
@@ -19,7 +19,7 @@ class InfoId(_handler.OauthBase):
 
 
 @urlmap('/user/info/mail')
-class InfoMail(_handler.OauthBase):
+class InfoMail(OauthBase):
     def get(self):
         mail = self.get_argument('mail')
         user_id = user_id_by_mail(mail)
@@ -33,7 +33,7 @@ class InfoMail(_handler.OauthBase):
 
 
 @urlmap('/user/oauth/login')
-class Login(_handler.OauthBase):
+class Login(OauthBase):
     def get(self):
         mail = self.get_argument('mail', None)
         passwd = self.get_argument('passwd', None)
@@ -60,7 +60,7 @@ class Login(_handler.OauthBase):
 
 
 @urlmap('/user/follower')
-class UserFollower(_handler.OauthBase):
+class UserFollower(OauthBase):
     def get(self):
         user_id = self.get_argument('user_id')
         limit = int(self.get_argument('limit', 25))
@@ -76,7 +76,7 @@ class UserFollower(_handler.OauthBase):
 
 
 @urlmap('/user/following')
-class UserFollowing(_handler.OauthBase):
+class UserFollowing(OauthBase):
     def get(self):
         user_id = self.get_argument('user_id')
         ids = follow_id_list_by_from_id(user_id)
@@ -88,7 +88,7 @@ class UserFollowing(_handler.OauthBase):
 
 
 @urlmap('/user/follow')
-class UserFollow(_handler.OauthAccessBase):
+class UserFollow(OauthAccessBase):
     def get(self):
         user_id = self.current_user_id
         follow_id = int(self.get_argument('id'))
@@ -99,7 +99,7 @@ class UserFollow(_handler.OauthAccessBase):
 
 
 @urlmap('/user/follow/rm')
-class UserFollowRm(_handler.OauthAccessBase):
+class UserFollowRm(OauthAccessBase):
     def get(self):
         user_id = self.current_user_id
         unfollow_id = int(self.get_argument('id'))

@@ -74,7 +74,6 @@ def oauth_access_token_new(client_id, user_id):
         o.save()
     id = o.id
     access_token = id_binary_encode(id, o.token)
-    mc_oauth_access_token_verify.set(access_token, (client_id, user_id))
     mc_oauth_access_token_verify.delete(access_token)
     return id, access_token
 
