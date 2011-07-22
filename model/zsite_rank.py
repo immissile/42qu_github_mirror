@@ -20,7 +20,6 @@ zsite_rank_get = zsite_rank.get
 zsite_rank_set = zsite_rank.set
 
 mc_zsite_rank_max = McCache('ZsiteRankMax.%s')
-mc_zsite_rank_sixteen = McCache('ZsiteRankSixteen.%s')
 
 @mc_zsite_rank_max('{offset}')
 def zsite_rank_max(offset=1):
