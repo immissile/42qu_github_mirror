@@ -7,7 +7,7 @@ from model.ico import ico_url as _ico_url, pic_url_with_default, ico
 from model.zsite_url import url_by_id
 from model.user_mail import mail_by_user_id
 from model.motto import motto
-from model.zsite_rank import zsite_rank_max
+from model.zsite_rank import zsite_rank_sixteen
 from model.career import career_list_all
 %>
 <%
@@ -81,7 +81,7 @@ float:left;
         权重 ${zsite_show.rank}
     %else:
         <form action="/zsite/show/${zsite_id}">
-            <input id="rank" type="text" name="rank" value="${zsite_rank_max()}">
+            <input id="rank" type="text" name="rank" value="${zsite_rank_sixteen()}">
             <button type="submit">加入秀</button>
         </form>
         %endif
