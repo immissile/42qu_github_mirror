@@ -60,7 +60,7 @@ def ico_pos_new(id, pos=None):
     ico_pos.set(id, pos or '')
     ico96.set(id, pic_id)
     from model.feed_po import mc_feed_user_dict
-    mc_feed_user_dict.delete(current_user_id)
+    mc_feed_user_dict.delete()
 
 def ico_new(id, pic):
     pic_id = pic_new(CID_ICO, id)
