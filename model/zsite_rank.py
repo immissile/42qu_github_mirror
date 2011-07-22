@@ -24,7 +24,7 @@ mc_zsite_rank_sixteen = McCache('ZsiteRankSixteen.%s')
 
 @mc_zsite_rank_max('{offset}')
 def zsite_rank_max(offset=1):
-    c = ZsiteRank.raw_sql('select max(value) from zsite_rank order by value desc limit 1 offset %s',offset)
+    c = ZsiteRank.raw_sql('select value from zsite_rank order by value desc limit 1 offset %s',offset)
     return c.fetchone()[0] or 0
 
 
@@ -77,6 +77,7 @@ def zsite_rank_by_zsite_id(id):
 if __name__ == '__main__':
     #ZsiteRank.where().update(value=0)
     pass
+    print zsite_rank_max(2)
 
 
 
