@@ -210,3 +210,9 @@ class avatar(Base):
             self.redirect(current_user.link)
 
 
+@urlmap('/test_account')
+class TestAccount(Base):
+    def get(self):
+        self.render()
+
+
