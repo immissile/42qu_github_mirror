@@ -293,3 +293,10 @@ class Rm(XsrfGetBase):
     post = get
 
 
+@urlmap('/tag')
+class GlobalTag(ZsiteBase):
+    def get(self):
+        tag_list = zsite_tag_list_by_zsite_id(self.zsite_id)
+        self.render(
+        tag_list=tag_list,
+        )
