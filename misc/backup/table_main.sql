@@ -196,6 +196,19 @@ CREATE TABLE `kv_txt` (
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `log_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `log_history` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `day` int(10) unsigned NOT NULL,
+  `num` int(10) unsigned NOT NULL,
+  `incr` int(10) unsigned NOT NULL,
+  `cid` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `Index_2` (`cid`,`day`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `mail_notice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -259,6 +272,41 @@ CREATE TABLE `notice_unread` (
   `id` int(10) unsigned NOT NULL,
   `value` smallint(5) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `oauth_access_token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_access_token` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `token` binary(12) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `client_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `Index_2` USING BTREE (`user_id`,`client_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `oauth_client`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_client` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `user_id` int(10) unsigned NOT NULL,
+  `secret` binary(16) NOT NULL,
+  `name` varbinary(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `oauth_refresh_token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_refresh_token` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `token` binary(12) NOT NULL,
+  `client_id` int(10) unsigned NOT NULL,
+  `time` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `Index_2` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `oauth_sync`;
@@ -782,11 +830,6 @@ CREATE TABLE `zsite_tag_po` (
   UNIQUE KEY `po_id` USING BTREE (`po_id`),
   KEY `zsite_tag_id` USING BTREE (`zsite_tag_id`,`po_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
-/* edit by silegon@gmail.com */
-ALTER TABLE `zpage`.`zsite_tag_po` ADD COLUMN `cid` INT UNSIGNED 
-NOT NULL DEFAULT 0 AFTER `zsite_id` , DROP INDEX `zsite_tag_id` ,
-ADD INDEX `zsite_tag_id` USING BTREE (`zsite_tag_id` ASC, `po_id` ASC, `cid` ASC) ;
-/* edit by silegon@gmail.com */
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `zsite_uv_daily`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
