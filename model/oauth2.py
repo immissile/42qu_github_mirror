@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCacheA
+from _db import Model, McModel, McCache, McCacheA
 from txt import txt_property, txt_new
 from gid import gid
 from uuid import uuid4
@@ -85,7 +85,7 @@ def oauth_access_token_new(client_id, user_id):
     mc_oauth_access_token_verify.delete(access_token)
     return id, access_token
 
-mc_oauth_access_token_verify = McCacheA('OauthAccessTokenVerify.%s')
+mc_oauth_access_token_verify = McCache('OauthAccessTokenVerify.%s')
 
 @mc_oauth_access_token_verify('{access_token}')
 def oauth_access_token_verify(access_token):
