@@ -124,7 +124,7 @@ class TagPoPage(ZsiteBase):
         n = int(n)
         total = zsite_tag_cid_count(zsite_tag_id, cid)
         page, limit, offset = page_limit_offset(
-            self.page_template,
+            '/tag/%s'%zsite_tag_id + self.page_template,
             total,
             n,
             PAGE_LIMIT
