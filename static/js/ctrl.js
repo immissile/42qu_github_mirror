@@ -1,3 +1,5 @@
+IE6 = $.browser.msie && $.browser.version < 7 && !window.XMLHttpRequest
+
 _gaq=[['_setAccount', 'UA-18596900-1'],['_trackPageview'],['_trackPageLoadTime']];
 (function(){
         var ga = document.createElement('script');
@@ -71,12 +73,30 @@ function login_autofill(suffix){
  */
 function init_none(){
 $(function(){
-    var body=$('body');
-    if(body.height()>$(window).height()){
+    var body=$('body'), back=$('<a href="#B" id="sB"></a>'), win=$(window);
+    if((body.height()-128)>$(window).height()){
         body.append($('<a class="zsite_foot" href="#B"></a>').html(
             $(".site").html()||location.host
         ))
     }
+    
+    if(!IE6){
+        body.append(back)
+        win.scroll(function() {
+            if(win.scrollTop() >= 512){
+                back.fadeIn();
+            }
+            else{
+                back.fadeOut();
+            }
+        })
+        back.click(function(){
+            back.hide()
+            win.scrollTop(0)
+            return false
+        })
+    }
+
 })
 }
 function init_user(){
