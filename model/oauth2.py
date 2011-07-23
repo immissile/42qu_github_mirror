@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCacheA
+from _db import Model, McModel, McCache, McCacheA
 from txt import txt_property, txt_new
 from gid import gid
 from uuid import uuid4
@@ -39,6 +39,7 @@ def oauth_client_new(user_id, name, txt):
     o.save()
 
     txt_new(id, txt)
+    mc_oauth_client_id_by_user_id.delete(user_id)
     return o
 
 def oauth_secret(id):
@@ -46,6 +47,13 @@ def oauth_secret(id):
     if client:
         return binascii.hexlify(client.secret)
     return 0
+
+def oauth_secret_verify(id, secret):
+    client = OauthClient.get(id)
+    if client and id:
+        if binascii.hexlify(client.secret) == secret:
+            return True
+        return 0
 
 def oauth_access_token(client_id, user_id):
     o = OauthAccessToken.get(user_id=user_id, client_id=client_id)
@@ -74,24 +82,18 @@ def oauth_access_token_new(client_id, user_id):
         o.save()
     id = o.id
     access_token = id_binary_encode(id, o.token)
-    mc_oauth_access_token_verify.set(access_token, (client_id, user_id))
     mc_oauth_access_token_verify.delete(access_token)
     return id, access_token
 
-mc_oauth_access_token_verify = McCacheA('OauthAccessTokenVerify.%s')
+mc_oauth_access_token_verify = McCache('OauthAccessTokenVerify.%s')
 
 @mc_oauth_access_token_verify('{access_token}')
-def _oauth_access_token_verify(access_token):
+def oauth_access_token_verify(access_token):
     id, token = id_binary_decode(access_token)
     o = OauthAccessToken.get(id)
     if o and o.token == token:
-        return o.client_id, o.user_id
-    return 0, 0
-
-def oauth_access_token_verify(client_id, access_token):
-    client_id = int(client_id)
-    if client_id:
-        _client_id, user_id = _oauth_access_token_verify(access_token)
-        if client_id == _client_id:
-            return user_id
+        return o.user_id
     return 0
+
+def oauth_authorization_code_verify(client_id,authorization_code):
+    pass

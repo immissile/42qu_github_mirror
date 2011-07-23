@@ -90,6 +90,13 @@ outline:0;
 margin-bottom:10px;
 margin-top:-6px;
 }
+.fdimga{
+display:block;
+text-align:center;
+}
+#feeds .fdimg{
+margin-bottom:8px;
+}
 #feeds .fdh{
 margin-bottom:14px;
 }

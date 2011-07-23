@@ -96,8 +96,7 @@ def career_rm(id, user_id):
     o = Career.mc_get(id)
     if o.user_id == user_id:
         o.delete()
-        mc_career_current.delete(user_id)
-        mc_career_id_list.delete('%s_%s' % (user_id, o.cid))
+        mc_flush(user_id, o.cid)
 
 def career_set(id, user_id, unit, title, txt, begin, end, cid):
     if not any((txt, title , unit)):
@@ -118,8 +117,7 @@ def career_set(id, user_id, unit, title, txt, begin, end, cid):
 def career_list_set(id, user_id, unit, title, txt, begin, end, cid):
     for id, unit, title, txt, begin, end in zip(id, unit, title, txt, begin, end)[:-1]:
         career_set(id, user_id, unit, title, txt, begin, end, cid)
-    mc_career_current.delete(user_id)
-    mc_career_id_list.delete('%s_%s' % (user_id, cid))
+    mc_flush(user_id, cid)
 
 @mc_career_id_list('{user_id}_{cid}')
 def career_id_list(user_id, cid):
@@ -163,6 +161,12 @@ def career_bind(user_list):
     for i in user_list:
         i.career = o_dict[i.id]
     return user_list
+
+def mc_flush(user_id, cid):
+    from model.feed_po import mc_feed_user_dict
+    mc_career_current.delete(user_id)
+    mc_career_id_list.delete('%s_%s' % (user_id, cid))
+    mc_feed_user_dict.delete(user_id)
 
 if __name__ == '__main__':
     from yajl import dumps

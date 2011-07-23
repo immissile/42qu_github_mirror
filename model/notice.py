@@ -24,13 +24,13 @@ NOTICE_TUPLE = (
     (CID_NOTICE_WALL_REPLY, Wall, None),
     (CID_INVITE_QUESTION, Po, '/mail/notice/invite_question.txt'),
     (CID_NOTICE_QUESTION, Po, '/mail/notice/notice_question.txt'),
-    (CID_NOTICE_PAY, Trade, None),
+#    (CID_NOTICE_PAY, Trade, None),
 )
 
 NOTICE_CLS = dict(i[:2] for i in NOTICE_TUPLE)
 
 NOTICE_MAIL_DAY = dict(i[:2] for i in NOTICE_TUPLE[:2])
-NOTICE_MAIL_DIC = dict((i[0], (i[1], i[2])) for i in NOTICE_TUPLE[2:])
+#NOTICE_MAIL_DIC = dict((i[0], (i[1], i[2])) for i in NOTICE_TUPLE[2:])
 
 notice_unread = Kv('notice_unread', 0)
 

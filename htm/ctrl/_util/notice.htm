@@ -1,7 +1,7 @@
 <%!
 from model.cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY
 from zkit.time_format import friendly_time
-from model.money import trade_log
+from model.money import Trade, trade_log
 from model.notice import notice_id_count
 from yajl import loads
 %>
@@ -57,7 +57,10 @@ seq = i.seq
 参与 我 与 <a href="${entry_zsite.link}">${entry_zsite.name}</a> 的
 对话 , <a href="${i.link}">点此浏览</a>
 %elif cid == CID_NOTICE_PAY:
-捐赠 ${entry.read_value} 元
+<%
+t = Trade.get(rid)
+%>
+捐赠 ${t.read_value} 元
 ${trade_log_render(rid)}
 %endif
 

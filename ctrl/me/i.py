@@ -11,7 +11,7 @@ from model.zsite_url import url_by_id, url_new, url_valid
 from model.user_mail import mail_by_user_id
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
-from model.zsite import user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_APPLY
+from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_APPLY
 from model.user_auth import user_password_new, user_password_verify
 from model.user_mail import mail_by_user_id
 from cgi import escape
@@ -155,12 +155,10 @@ class UserInfoEdit(LoginBase):
 
     def save(self):
         current_user_id = self.current_user_id
-        current_user = self.current_user
 
         name = self.get_argument('name', None)
         if name:
-            current_user.name = name
-            current_user.save()
+            zsite_name_edit(current_user_id, name)
 
         motto = self.get_argument('motto', None)
         if motto:

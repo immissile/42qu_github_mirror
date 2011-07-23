@@ -4,7 +4,7 @@
 .po_body h1{
     text-align:center;
     font-size:27px;
-    margin:48px 0;
+    margin:16px 0 48px;
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
 }
@@ -107,7 +107,7 @@ text-align:center;
 margin:0 0 14px;
 }
 #photo{
-margin-bottom:28px;
+margin-bottom:21px;
 }
 .w721 p{
 line-height: 28px;

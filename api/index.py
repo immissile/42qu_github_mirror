@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 #coding:utf-8
-
-
 from _handler import Base, LoginBase
 from _urlmap import urlmap
 from model.oauth2 import oauth_client_new
@@ -24,4 +22,3 @@ class Apply(LoginBase):
         txt = self.get_argument('txt', '')
         oauth_client_new(user_id, name, txt)
         return self.redirect('/')
-

@@ -11,8 +11,11 @@ class Index(ZsiteBase):
     def get(self):
         zsite_id = self.zsite_id
         self.render(
-            motto=motto.get(zsite_id)
+            motto=motto.get(zsite_id),
         )
+
+
+
 
 @urlmap('/link/(\d+)')
 class Link(LoginBase):

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from yajl import dumps, loads
 from time import time
+from mail import rendermail
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from kv import Kv
 from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY, CID_NOTICE_PAY
@@ -63,7 +64,10 @@ mc_frozen_get = McCache('FrozenBank.%s')
 @mc_frozen_get('{user_id}')
 def frozen_get(user_id):
     c = Trade.raw_sql('select sum(value) from trade where from_id=%s and state=%s', user_id, TRADE_STATE_ONWAY)
-    return c.fetchone()[0] or 0
+    c = c.fetchone()[0]
+    if c:
+        return int(c)
+    return 0
 
 def frozen_view(user_id):
     return read_cent(frozen_get(user_id))
@@ -238,6 +242,24 @@ def withdraw_fail(id, txt):
     if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_ONWAY:
         trade_fail(t)
         trade_log.set(id, txt)
+        mail = mail_by_user_id(id)
+        rendermail(
+            '/mail/notice/with_draw_fail.txt', mail,
+            t.name, cid=t.cid, account=t.account,
+            value=t.value/100.0
+        )
+
+def withdraw_success(id,trade_no):
+    t = Trade.get(id)
+    if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_ONWAY:
+        trade_finish(t)
+        trade_log.set(id,trade_no)
+        mail = mail_by_user_id(id)
+        rendermail(
+            '/mail/notice/with_draw_success.txt', mail,
+            t.name, cid=t.cid, account=t.account,
+            value=t.value/100.0
+        )
 
 def withdraw_open_count():
     return Trade.where(cid=CID_TRADE_WITHDRAW, to_id=0, state=TRADE_STATE_ONWAY).count()
@@ -266,5 +288,7 @@ def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
 
 
 if __name__ == '__main__':
-    for i in trade_history(10000000):
-        print i.cid, i.state, i.from_id
+    pass
+    #with_draw_success(,'12001201')
+    #for i in trade_history(10000000):
+    #   print i.cid, i.state, i.from_id

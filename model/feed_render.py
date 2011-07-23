@@ -11,7 +11,8 @@ from model.vote import vote_count
 from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT
 from zsite import Zsite
 from zkit.txt import cnenoverflow
-from zkit.txt2htm import txt_withlink
+from model.txt2htm import txt_withlink
+from fs import fs_url_jpg
 
 CIDMAP = {}
 
@@ -23,7 +24,9 @@ def feed_tuple_by_db(id):
     cid = m.cid
     rid = m.rid
 
-    if rid and cid!=CID_PHOTO:
+    if cid == CID_PHOTO:
+        name = m.name
+    elif rid:
         question = m.question
         name = question.name
     elif cid != CID_WORD:
@@ -39,7 +42,7 @@ def feed_tuple_by_db(id):
     result = [
         m.user_id,
         cid,
-        rid,
+        rid if cid != CID_PHOTO else fs_url_jpg(677, rid),
         reply_count,
         m.create_time,
         name,
@@ -48,7 +51,7 @@ def feed_tuple_by_db(id):
 
     txt = m.txt
     if cid in (CID_NOTE, CID_QUESTION, CID_ANSWER):
-        txt , has_more = cnenoverflow(txt, 164)
+        txt, has_more = cnenoverflow(txt, 164)
         if not has_more:
             txt = m.htm
         result.extend((txt, has_more))

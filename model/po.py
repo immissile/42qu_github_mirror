@@ -4,6 +4,7 @@ from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_PO
 from feed import feed_new, mc_feed_tuple, feed_rm
+from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
 from spammer import is_same_post
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
@@ -11,7 +12,7 @@ from txt import txt_new, txt_get, txt_property
 from zkit.time_format import time_title
 from reply import ReplyMixin
 from po_pic import pic_htm
-from zkit.txt2htm import txt_withlink
+from model.txt2htm import txt_withlink
 from zsite import Zsite
 from zkit.txt import cnencut
 from zkit.attrcache import attrcache
@@ -55,6 +56,7 @@ class Po(McModel, ReplyMixin):
                 id = self.id
                 mc_htm.delete(id)
                 mc_feed_tuple.delete(id)
+                mc_feed_po_dict.delete(id)
             self._mc_flush = True
 
     def save(self):
@@ -281,10 +283,12 @@ def mc_flush_all(user_id):
 
 def mc_flush(user_id, cid):
     mc_flush_cid_list_all(user_id, [0, cid])
+    mc_feed_po_iter.delete(user_id)
 
 def mc_flush_other(user_id, cid):
     mc_flush_cid(user_id, 0, False)
     mc_flush_cid(user_id, cid, False)
+    mc_feed_po_iter.delete(user_id)
 
 def mc_flush_cid(user_id, cid, is_self):
     key = '%s_%s_%s' % (user_id, cid, is_self)
@@ -297,8 +301,4 @@ def mc_flush_cid_list_all(user_id, cid_list):
             mc_flush_cid(user_id, cid, is_self)
 
 if __name__ == '__main__':
-    #for i in Po.where("rid!=0"):
-    #print i.id , po_rm(i.user_id, i.id)
-    po_view_list()
-
-
+    pass

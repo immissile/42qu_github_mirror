@@ -7,13 +7,11 @@ from model.po_question import answer_count
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_title()">
-%if po:
-    %if po.cid == CID_QUESTION:
-提交 - 问题
+    %if cid == CID_QUESTION:
+发布 - 问题
     %else:
-提交 - 文章
+发布 - 文章
     %endif
-%endif
 </%def>
 
 
@@ -42,6 +40,9 @@ rid = po.rid
 <p class="rid_title">${po.name_htm|n}</p>
 <textarea id="txt" name="txt">${po.name if cid == CID_WORD else po.txt}</textarea>
 % else:
+%if cid == CID_QUESTION:
+<div id="question_flag">问</div>
+%endif
 <input id="name" type="text" autocomplete="off" name="name" value="${po.name}">
 <textarea id="txt" name="txt">${po.txt}</textarea>
 % endif

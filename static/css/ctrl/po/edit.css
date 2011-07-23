@@ -14,9 +14,10 @@ margin:0 auto;
 border-bottom:0;
 border-top:0;
 padding:14px 7px;
-padding-top:7px\9;
-padding-bottom:18px\9;
+height:19px;
 text-align:center;
+padding-top:9px\9;
+padding-bottom:16px\9;
 }
 #txt{
 height:350px;
@@ -96,4 +97,13 @@ _position:relative;
 .rid_title{
 text-align:center;
 margin:16px 0;
+}
+#question_flag{
+position:absolute;font-size:16px;
+margin-left:119px;
+*margin-left:1px;
+margin-top:9px;
+*margin-top:10px;
+padding:0 10px;
+background:#fff
 }
