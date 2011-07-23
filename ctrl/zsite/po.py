@@ -70,7 +70,7 @@ class PoPage(ZsiteBase):
 
         po_list = po_view_list(zsite_id, cid, is_self, limit, offset)
 
-        if zsite_id == current_user_id:
+        if zsite_id == user_id:
             back_a = "/live"
         else:
             back_a = "/"
