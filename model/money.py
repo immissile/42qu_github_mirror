@@ -63,7 +63,10 @@ mc_frozen_get = McCache('FrozenBank.%s')
 @mc_frozen_get('{user_id}')
 def frozen_get(user_id):
     c = Trade.raw_sql('select sum(value) from trade where from_id=%s and state=%s', user_id, TRADE_STATE_ONWAY)
-    return c.fetchone()[0] or 0
+    c = c.fetchone()[0]
+    if c:
+        return int(c)
+    return 0
 
 def frozen_view(user_id):
     return read_cent(frozen_get(user_id))

@@ -1,32 +1,30 @@
-/user/following 获取用户关注
+/user/following 关注列表
 =======================================
 
 
 输入 ::
 
     {
-        user_id: 
-        client_id: //可选
-        access_token: //可选
+        id:
+        client_id:
+        access_token:
     }
 
 
 返回 ::
 
     {
-        following_list: //用户关注id列表
-        total_num:   //用户关注总数 
+        status: 
     }
 
 
 演示链接 ::
 
-    http://api.yup.xxx/user/following?user_id=80
+    http://api.yup.xxx/po/rm?client_id=422&id=427&access_token=40bd69c43a46c4fd376cc7f4623fe250df84475719f55ffcd98132b538fdf943
 
 
 演示返回 ::
 
     {
-        "following_list":[3,79]
-        "total_num":2
+        "status":true
     }

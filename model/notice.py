@@ -24,7 +24,7 @@ NOTICE_TUPLE = (
     (CID_NOTICE_WALL_REPLY, Wall, None),
     (CID_INVITE_QUESTION, Po, '/mail/notice/invite_question.txt'),
     (CID_NOTICE_QUESTION, Po, '/mail/notice/notice_question.txt'),
-    (CID_NOTICE_PAY, Trade, None),
+#    (CID_NOTICE_PAY, Trade, None),
 )
 
 NOTICE_CLS = dict(i[:2] for i in NOTICE_TUPLE)

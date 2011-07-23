@@ -131,7 +131,7 @@ class Verify(Base):
             if state:
                 zsite_verify_yes(zsite)
                 if state == 2:
-                    zsite_show_new(id, zsite_rank_max())
+                    zsite_show_new(id, zsite_rank_max(16))
             else:
                 zsite_verify_no(zsite, txt)
             self.finish({'state': True})
@@ -208,5 +208,11 @@ class avatar(Base):
             self.redirect(next)
         else:
             self.redirect(current_user.link)
+
+
+@urlmap('/test_account')
+class TestAccount(Base):
+    def get(self):
+        self.render()
 
 

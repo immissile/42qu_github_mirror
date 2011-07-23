@@ -40,12 +40,11 @@ class OauthAccessBase(OauthBase):
         access_token = self.get_argument('access_token')
         client_id = self.get_argument('client_id')
         client_secret = self.get_argument('token')
-        if oauth_secret_verify(client_id,client_secret):
-            user_id = oauth_access_token_verify(client_id, access_token)
+        if oauth_secret_verify(client_id, client_secret):
+            user_id = oauth_access_token_verify(access_token)
         if not user_id:
             self.finish({'loginerror':1})
         self.current_user_id = user_id
 
     def get_current_user(self):
         return Zsite.mc_get(self.current_user_id)
-

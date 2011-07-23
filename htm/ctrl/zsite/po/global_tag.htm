@@ -1,0 +1,125 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+
+<%
+is_owner = zsite_id == current_user_id
+%>
+<%!
+from model.zsite_tag import ZsiteTag
+%>
+%for id, tag in tag_list.iteritems():
+<div class="tag${id} tag_line">
+<%
+zsite_tag = ZsiteTag.get(tag_id=id, zsite_id=zsite_id) 
+zsite_tag_id = zsite_tag.id
+%>
+    <a href="/tag/${zsite_tag_id}">${tag}, ${zsite_tag_id}</a>
+</div>
+%endfor
+
+<%
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO
+from model.po import po_list_count, po_view_list
+po_word_list = po_view_list(zsite_id, CID_WORD, is_owner, 1)
+po_word_count = po_list_count(zsite_id, CID_WORD, is_owner)
+po_note_list = po_view_list(zsite_id, CID_NOTE, is_owner, 6)
+po_note_count = po_list_count(zsite_id, CID_NOTE, is_owner)
+po_answer_list = po_view_list(zsite_id, CID_ANSWER, is_owner, 6)
+po_answer_count = po_list_count(zsite_id, CID_ANSWER, is_owner)
+po_question_list = po_view_list(zsite_id, CID_QUESTION, is_owner, 6)
+po_question_count = po_list_count(zsite_id, CID_QUESTION, is_owner)
+po_photo_list = po_view_list(zsite_id, CID_PHOTO, is_owner, 6)
+po_photo_count = po_list_count(zsite_id, CID_PHOTO, is_owner)
+%>
+
+
+% if po_word_count:
+<div class="zsite_block">\
+% for po in po_word_list:
+<pre class="zsite_word">${po.htm|n}<a href="/${po.id}" class="zsite_reply"></a>\
+</pre>\
+% endfor
+<div class="zsite_num_div">\
+<a href="/word" class="num">\
+    <span class="now">${po_word_count}</span><b>句微博</b>
+</a>
+</div>
+</div>
+% elif is_owner:
+<div class="zsite_block">\
+<div class="zsite_num_div">\
+<a href="/live" class="num">\
+    <span class="now">点击这里</span><b>思绪飘零</b>
+</a>
+</div>
+</div>
+% endif
+
+% if po_note_count:
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+% for po in po_note_list:
+<li><a href="/${po.id}">${po.name}</a></li>\
+% endfor
+</ol>\
+</div>\
+<div class="zsite_num_div">\
+<a href="/note" class="num">\
+    <span class="now">${po_note_count}</span><b>篇文章</b>
+</a>
+</div>
+</div>
+% endif
+
+% if po_answer_count:
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+% for po in po_answer_list:
+<li>${po.question.user.link_html|n} : <a href="/${po.id}">${po.question.name}</a></li>\
+% endfor
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="/answer" class="num">\
+    <span class="now">${po_answer_count}</span><b>次回答</b>
+</a>
+</div>
+</div>
+% endif
+
+% if po_question_count:
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+% for po in po_question_list:
+<li><a href="/${po.id}">${po.name}</a></li>\
+% endfor
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="/question" class="num">\
+    <span class="now">${po_question_count}</span><b>条问题</b>
+</a>
+</div>
+</div>
+% endif
+
+% if po_photo_count:
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+% for po in po_photo_list:
+<li><a href="/${po.id}">${po.name}</a></li>\
+% endfor
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="/photo" class="num">\
+    <span class="now">${po_photo_count}</span><b>张图片</b>
+</a>
+</div>
+</div>
+% endif
+
+
