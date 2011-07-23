@@ -301,8 +301,9 @@ def tag_po_classify(po_list, cid, n=6):
     cid_po_list = []
     for po in po_list:
         if po.cid == cid:
+            if count < n:
+                cid_po_list.append(po)
             count += 1
-            cid_po_list.append(po)
     return count, cid_po_list
 
 if __name__ == '__main__':
