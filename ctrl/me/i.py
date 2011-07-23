@@ -11,7 +11,7 @@ from model.zsite_url import url_by_id, url_new, url_valid
 from model.user_mail import mail_by_user_id
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
-from model.zsite import user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_APPLY
+from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_APPLY
 from model.user_auth import user_password_new, user_password_verify
 from model.user_mail import mail_by_user_id
 from cgi import escape
@@ -19,7 +19,6 @@ from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
 from config import SITE_URL
-from model.feed_po import mc_feed_user_dict
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -156,13 +155,10 @@ class UserInfoEdit(LoginBase):
 
     def save(self):
         current_user_id = self.current_user_id
-        current_user = self.current_user
 
         name = self.get_argument('name', None)
         if name:
-            current_user.name = name
-            current_user.save()
-            mc_feed_user_dict.delete(current_user_id)
+            zsite_name_edit(current_user_id, name)
 
         motto = self.get_argument('motto', None)
         if motto:
