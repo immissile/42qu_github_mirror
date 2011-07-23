@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
+import _env
 import re
 from cgi import escape
 from config import SITE_DOMAIN
@@ -54,7 +55,7 @@ def replace_at(match):
 
 
 if __name__ == '__main__':
-    print txt_withlink('x http://v.youku.com/v_show/id_XMjIwOTI4MDk2.html x')
-    print txt_withlink('<script>''"""<--test<??><img />')
-    print txt_withlink('**asdasds** ** xx **')
-    print txt_withlink('@**asdasds**(asdasd)')
+    print txt_withlink("""
+
+**二**
+""")
