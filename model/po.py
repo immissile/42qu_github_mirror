@@ -296,16 +296,6 @@ def mc_flush_cid_list_all(user_id, cid_list):
         for cid in cid_list:
             mc_flush_cid(user_id, cid, is_self)
 
-def tag_po_classify(po_list, cid, n=6):
-    count = 0
-    cid_po_list = []
-    for po in po_list:
-        if po.cid == cid:
-            if count < n:
-                cid_po_list.append(po)
-            count += 1
-    return count, cid_po_list
-
 if __name__ == '__main__':
     #for i in Po.where("rid!=0"):
     #print i.id , po_rm(i.user_id, i.id)

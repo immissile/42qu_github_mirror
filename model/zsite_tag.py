@@ -189,6 +189,14 @@ def po_id_list_by_zsite_tag_id(zsite_tag_id, limit=None, offset=0):
     id_list = ZsiteTagPo.where(zsite_tag_id=zsite_tag_id).order_by('id desc').col_list(limit, offset, 'po_id')
     return id_list
 
+from model.po import Po
+def tag_po_classify(zsite_tag_id, cid, n=6):
+    c = ZsiteTagPo.raw_sql("select po_id from zsite_tag_po where zsite_tag_id=%s and cid=%s limit %s", zsite_tag_id, cid, n)
+    po_id_list = c.fetchall()
+    c = ZsiteTagPo.raw_sql("select count(1) from zsite_tag_po where zsite_tag_id=%s and cid=%s", zsite_tag_id, cid)
+    count = c.fetchone()[0]
+    cid_po_list = Po.mc_get_list(po_id_list)
+    return count, cid_po_list
 
 
 if __name__ == '__main__':

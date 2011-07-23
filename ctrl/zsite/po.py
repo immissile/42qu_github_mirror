@@ -212,7 +212,6 @@ class Question(PoOne):
 
 
 @urlmap('/tag/(\d+)')
-@urlmap('/tag/(\d+)-(\d+)')
 class PoTag(ZsiteBase):
     def get(self, id, n=1):
         tag = ZsiteTag.mc_get(id)
@@ -221,20 +220,9 @@ class PoTag(ZsiteBase):
         if tag.zsite_id != self.zsite_id:
             tag_zsite = Zsite.mc_get(tag.zsite_id)
             return self.redirect('%s/tag/%s'%(tag_zsite.link, id))
-        count = zsite_tag_count(id)
-        page, limit, offset = page_limit_offset(
-            '/tag/%s-%%s'%id,
-            count,
-            n,
-            PAGE_LIMIT
-        )
-        id_list = po_id_list_by_zsite_tag_id(id)
-        po_list=Po.mc_get_list(id_list)[offset:offset+limit]
         self.render(
             tag_name=Tag.get(tag.tag_id),
-            po_list=po_list,
-            count=count,
-            page=page
+            zsite_tag_id=id
         )
 
 
