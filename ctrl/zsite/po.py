@@ -215,11 +215,14 @@ class Question(PoOne):
 class PoTag(ZsiteBase):
     def get(self, id, n=1):
         tag = ZsiteTag.mc_get(id)
+
         if tag is None:
             return self.redirect('/')
+
         if tag.zsite_id != self.zsite_id:
             tag_zsite = Zsite.mc_get(tag.zsite_id)
             return self.redirect('%s/tag/%s'%(tag_zsite.link, id))
+
         self.render(
             tag_name=Tag.get(tag.tag_id),
             zsite_tag_id=id
@@ -281,10 +284,10 @@ class Rm(XsrfGetBase):
     post = get
 
 
-@urlmap('/tag')
-class GlobalTag(ZsiteBase):
-    def get(self):
-        tag_list = zsite_tag_list_by_zsite_id(self.zsite_id)
-        self.render(
-        tag_list=tag_list,
-        )
+#@urlmap('/tag')
+#class GlobalTag(ZsiteBase):
+#    def get(self):
+#        tag_list = zsite_tag_list_by_zsite_id(self.zsite_id)
+#        self.render(
+#        tag_list=tag_list,
+#        )
