@@ -19,6 +19,7 @@ from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
 from config import SITE_URL
+from model.feed_po import mc_feed_user_dict
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -161,6 +162,7 @@ class UserInfoEdit(LoginBase):
         if name:
             current_user.name = name
             current_user.save()
+            mc_feed_user_dict.delete(current_user_id)
 
         motto = self.get_argument('motto', None)
         if motto:

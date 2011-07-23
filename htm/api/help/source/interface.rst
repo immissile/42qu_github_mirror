@@ -13,3 +13,4 @@
 .. include::  interface/user_following.rst
 .. include::  interface/user_info_id.rst
 .. include::  interface/user_live.rst
+.. include::  interface/live.rst

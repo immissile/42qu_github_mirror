@@ -48,6 +48,12 @@ def oauth_secret(id):
         return binascii.hexlify(client.secret)
     return 0
 
+def oauth_secret_verify(id, secret):
+    client = OauthClient.get(id)
+    if client.secret == binascii.hexlify(secret):
+        return True
+    return 0
+
 def oauth_access_token(client_id, user_id):
     o = OauthAccessToken.get(user_id=user_id, client_id=client_id)
     if o:
@@ -81,17 +87,12 @@ def oauth_access_token_new(client_id, user_id):
 mc_oauth_access_token_verify = McCacheA('OauthAccessTokenVerify.%s')
 
 @mc_oauth_access_token_verify('{access_token}')
-def _oauth_access_token_verify(access_token):
+def oauth_access_token_verify(access_token):
     id, token = id_binary_decode(access_token)
     o = OauthAccessToken.get(id)
     if o and o.token == token:
-        return o.client_id, o.user_id
-    return 0, 0
-
-def oauth_access_token_verify(client_id, access_token):
-    client_id = int(client_id)
-    if client_id:
-        _client_id, user_id = _oauth_access_token_verify(access_token)
-        if client_id == _client_id:
-            return user_id
+        return o.user_id
     return 0
+
+def oauth_authorization_code_verify(client_id,authorization_code):
+    pass
