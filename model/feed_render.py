@@ -11,7 +11,7 @@ from model.vote import vote_count
 from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT
 from zsite import Zsite
 from zkit.txt import cnenoverflow
-from zkit.txt2htm import txt_withlink
+from model.txt2htm import txt_withlink
 from fs import fs_url_jpg
 
 CIDMAP = {}

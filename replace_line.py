@@ -5,11 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/zsite/avatar
+zkit.txt2htm
 """
 
 TO_STRING = """
-/sudo
+model.txt2htm
 """
 
 def run():

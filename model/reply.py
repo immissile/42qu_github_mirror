@@ -6,7 +6,7 @@ from txt import txt_new
 from spammer import is_same_post, is_spammer, mc_lastest_hash
 from time import time
 from txt import txt_bind
-from zkit.txt2htm import txt_withlink
+from model.txt2htm import txt_withlink
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from cid import CID_PO
 
