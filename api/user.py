@@ -6,7 +6,7 @@ from model.user_mail import user_id_by_mail, mail_by_user_id
 from model.user_auth import mail_password_verify
 from model.api_user import json_info
 from model.follow import follow_id_list_by_from_id, follow_id_list_by_to_id, follow_count_by_to_id, follow_count_by_from_id, follow_rm, follow_new
-from model.oauth2 import oauth_access_token_new, oauth_refresh_token_new
+from model.oauth2 import oauth_access_token_new, oauth_refresh_token_new, oauth_secret_verify
 from model.user_session import id_binary_decode
 
 
@@ -40,11 +40,13 @@ class Login(OauthBase):
         auth = self.get_argument('client_secret', None)
         client_id = self.get_argument('client_id', None)
 
+        print mail,passwd,auth,client_id
         if mail_password_verify(mail, passwd):
-            user_id = user_id_by_mail(mail)
-            id, access_token = oauth_access_token_new(client_id, user_id)
-            refresh_token = oauth_refresh_token_new(client_id, id)
-            return self.finish({
+            if oauth_secret_verify(client_id, auth):
+                user_id = user_id_by_mail(mail)
+                id, access_token = oauth_access_token_new(client_id, user_id)
+                refresh_token = oauth_refresh_token_new(client_id, id)
+                return self.finish({
                         'user_id': user_id,
                         'access_token': access_token,
                         'refresh_token': refresh_token,

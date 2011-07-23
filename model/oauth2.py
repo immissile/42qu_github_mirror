@@ -50,9 +50,10 @@ def oauth_secret(id):
 
 def oauth_secret_verify(id, secret):
     client = OauthClient.get(id)
-    if client.secret == binascii.hexlify(secret):
-        return True
-    return 0
+    if client and id:
+        if binascii.hexlify(client.secret) == secret:
+            return True
+        return 0
 
 def oauth_access_token(client_id, user_id):
     o = OauthAccessToken.get(user_id=user_id, client_id=client_id)
