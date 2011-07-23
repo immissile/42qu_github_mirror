@@ -15,7 +15,7 @@
 
 == 其他 ==
 
-* [[http://help.api.42qu.com | 42qu.com API]] 
+* [[http://help-api.42qu.com | 42qu.com API]] 
 * [[http://doc.42qu.me | 42qu.com 开源]] 
 
 
