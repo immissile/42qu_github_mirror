@@ -8,7 +8,7 @@ from model.po_question import po_answer_new
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite, user_can_reply
-from model.zsite_tag import zsite_tag_list_by_zsite_id, zsite_tag_new_by_tag_id, po_id_list_by_zsite_tag_id, zsite_tag_count
+from model.zsite_tag import zsite_tag_list_by_zsite_id, zsite_tag_new_by_tag_id, po_id_list_by_zsite_tag_id, zsite_tag_count, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_PO
 from zkit.page import page_limit_offset
 from zkit.txt import cnenlen
@@ -110,6 +110,57 @@ class PhotoPage(PoPage):
 class AnswerPage(PoPage):
     cid = CID_ANSWER
     page_template = '/answer-%s'
+
+
+class TagPoPage(ZsiteBase):
+    cid = 0
+    template = '/ctrl/zsite/po/po_page.htm'
+
+    def get(self, zsite_tag_id, n=1):
+        zsite_id = self.zsite_id
+        user_id = self.current_user_id
+        cid = self.cid
+        is_self = zsite_id == user_id
+        n = int(n)
+        total = zsite_tag_cid_count(zsite_tag_id, cid)
+        page, limit, offset = page_limit_offset(
+            self.page_template,
+            total,
+            n,
+            PAGE_LIMIT
+        )
+
+        if n != 1 and offset >= total:
+            return self.redirect(self.page_template[:-3])
+
+        po_list = Po.mc_get_list(po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit, offset))
+        self.render(
+            cid=cid,
+            is_self=is_self,
+            total=total,
+            po_list=po_list,
+            page=page,
+        )
+
+
+@urlmap('/tag/(\d+)/note')
+@urlmap('/tag/(\d+)/note-(\d+)')
+class NotePage(TagPoPage):
+    cid = CID_NOTE
+    page_template = '/note-%s'
+
+
+@urlmap('/tag/(\d+)/question')
+@urlmap('/tag/(\d+)/question-(\d+)')
+class QuestionPage(TagPoPage):
+    cid = CID_QUESTION
+    page_template = '/question-%s'
+
+@urlmap('/tag/(\d+)/photo')
+@urlmap('/tag/(\d+)/photo-(\d+)')
+class PhotoPage(TagPoPage):
+    cid = CID_PHOTO
+    page_template = '/photo-%s'
 
 
 PO_TEMPLATE = '/ctrl/zsite/po/po.htm'

@@ -1,3 +1,9 @@
+<%def name="tag_url(zsite_tag_id)">
+%if zsite_tag_id:
+/tag/${zsite_tag_id}
+%endif
+</%def>
+
 <%def name="tag_list_word(po_word_count, po_word_list, is_owner)">
 % if po_word_count:
 <div class="zsite_block">\
@@ -22,7 +28,7 @@
 % endif
 </%def>
 
-<%def name="tag_list_note(po_note_count, po_note_list, is_owner)">
+<%def name="tag_list_note(po_note_count, po_note_list, is_owner, zsite_tag_id=None)">
 % if po_note_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -33,7 +39,7 @@
 </ol>\
 </div>\
 <div class="zsite_num_div">\
-<a href="/note" class="num">\
+    <a href="${tag_url(zsite_tag_id)}/note" class="num">\
     <span class="now">${po_note_count}</span><b>篇文章</b>
 </a>
 </div>
@@ -60,7 +66,7 @@
 % endif
 </%def>
 
-<%def name="tag_list_question(po_question_count, po_question_list, is_owner)">
+<%def name="tag_list_question(po_question_count, po_question_list, is_owner, zsite_tag_id=None)">
 % if po_question_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -71,7 +77,7 @@
 </ol>
 </div>\
 <div class="zsite_num_div">\
-<a href="/question" class="num">\
+<a href="${tag_url(zsite_tag_id)}/question" class="num">\
     <span class="now">${po_question_count}</span><b>条问题</b>
 </a>
 </div>
@@ -79,7 +85,7 @@
 % endif
 </%def>
 
-<%def name="tag_list_photo(po_photo_count, po_photo_list, is_owner)">
+<%def name="tag_list_photo(po_photo_count, po_photo_list, is_owner, zsite_tag_id=None)">
 % if po_photo_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -90,7 +96,7 @@
 </ol>
 </div>\
 <div class="zsite_num_div">\
-<a href="/photo" class="num">\
+<a href="${tag_url(zsite_tag_id)}/photo" class="num">\
     <span class="now">${po_photo_count}</span><b>张图片</b>
 </a>
 </div>

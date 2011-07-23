@@ -213,7 +213,7 @@ from model.po import Po
 
 @mc_po_id_list_by_zsite_tag_id_cid("{zsite_tag_id}_{cid}")
 def po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=None, offset=0):
-    return ZsiteTagPo.where(zsite_tag_id=zsite_tag_id, cid=cid).col_list(limit, offset, 'po_id')
+    return ZsiteTagPo.where(zsite_tag_id=zsite_tag_id, cid=cid).order_by('-po_id').col_list(limit, offset, 'po_id')
 
 #def tag_po_classify(zsite_tag_id, cid, n=6):
 #    pass
