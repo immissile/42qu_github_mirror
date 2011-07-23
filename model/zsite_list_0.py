@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from zsite_list import ZsiteList, zsite_id_list, zsite_list_new, zsite_list_rm, zsite_list_get, zsite_list_rank, mc_flush_owner_id_cid
+from zsite_list import ZsiteList, zsite_id_list, zsite_list_new, zsite_list_rm, zsite_list_get, zsite_list_rank, mc_flush_owner_id_cid, zsite_id_list_order_id_desc
 from functools import partial
 from zsite_rank import zsite_rank_get
 from zweb.orm import ormiter
@@ -8,6 +8,7 @@ from zweb.orm import ormiter
 OWNER_ID = 0
 
 zsite_show = partial(zsite_id_list, 0, 0)
+user_list_verify = partial(zsite_id_list_order_id_desc, 0, 0)
 #def zsite_show(limit=None, offset=None):
 #    return zsite_list(0, 0, limit, offset)
 
