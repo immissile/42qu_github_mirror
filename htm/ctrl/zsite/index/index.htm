@@ -1,7 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/_util/_g1.htm" import="about_me"/>
 <%namespace file="/_util/user_index.htm" import="user_index"/>
-<%namespace file="/ctrl/_util/tag_classify.htm" import="tag_classify_word, tag_classify_note, tag_classify_answer, tag_classify_question, tag_classify_photo"/>
+<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo"/>
 <%!
 from model.ico import pic_url as _pic_url, ico_url_with_default
 from model.zsite_link import link_id_name_by_zsite_id
@@ -41,11 +41,11 @@ po_photo_count = po_list_count(zsite_id, CID_PHOTO, is_owner)
 
 
 
-${tag_classify_word(po_word_count, po_word_list, is_owner)}
-${tag_classify_note(po_note_count, po_note_list, is_owner)}
-${tag_classify_answer(po_answer_count, po_answer_list, is_owner)}
-${tag_classify_question(po_question_count, po_question_list, is_owner)}
-${tag_classify_photo(po_photo_count, po_photo_list, is_owner)}
+${tag_list_word(po_word_count, po_word_list, is_owner)}
+${tag_list_note(po_note_count, po_note_list, is_owner)}
+${tag_list_answer(po_answer_count, po_answer_list, is_owner)}
+${tag_list_question(po_question_count, po_question_list, is_owner)}
+${tag_list_photo(po_photo_count, po_photo_list, is_owner)}
 
 
 <div class="zsite_block zsite_follow">\

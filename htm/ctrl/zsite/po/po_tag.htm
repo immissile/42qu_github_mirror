@@ -5,7 +5,7 @@ from datetime import datetime
 from model.zsite_tag import count_po_list_by_zsite_tag_id_cid
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
-<%namespace file="/ctrl/_util/tag_classify.htm" import="tag_classify_word, tag_classify_note, tag_classify_answer, tag_classify_question, tag_classify_photo"/>
+<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo"/>
 <%def name="htm_head()">
 ${css.ctrl_tag|n}
 </%def>
@@ -18,22 +18,6 @@ href="/"
 %endif
 ></a>
 
-
-<%def name="type(cid)">
-%if cid == CID_WORD:
-微博
-%elif cid == CID_NOTE:
-文章
-%elif cid == CID_QUESTION:
-问题
-%elif cid == CID_ANSWER:
-回答
-%elif cid == CID_PHOTO:
-图片
-%else:
-未知
-%endif
-</%def>
 
 <%
 is_owner = zsite_id == current_user_id
@@ -48,6 +32,6 @@ po_photo_count, po_photo_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, 
 </div>
 
 
-${tag_classify_note(po_note_count, po_note_list, is_owner)}
-${tag_classify_question(po_question_count, po_question_list, is_owner)}
-${tag_classify_photo(po_photo_count, po_photo_list, is_owner)}
+${tag_list_note(po_note_count, po_note_list, is_owner)}\
+${tag_list_question(po_question_count, po_question_list, is_owner)}\
+${tag_list_photo(po_photo_count, po_photo_list, is_owner)}\

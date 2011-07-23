@@ -1,4 +1,4 @@
-<%def name="tag_classify_word(po_word_count, po_word_list, is_owner)">
+<%def name="tag_list_word(po_word_count, po_word_list, is_owner)">
 % if po_word_count:
 <div class="zsite_block">\
 % for po in po_word_list:
@@ -22,7 +22,7 @@
 % endif
 </%def>
 
-<%def name="tag_classify_note(po_note_count, po_note_list, is_owner)">
+<%def name="tag_list_note(po_note_count, po_note_list, is_owner)">
 % if po_note_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -41,7 +41,7 @@
 % endif
 </%def>
 
-<%def name="tag_classify_answer(po_answer_count, po_answer_list, is_owner)">
+<%def name="tag_list_answer(po_answer_count, po_answer_list, is_owner)">
 % if po_answer_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -60,7 +60,7 @@
 % endif
 </%def>
 
-<%def name="tag_classify_question(po_question_count, po_question_list, is_owner)">
+<%def name="tag_list_question(po_question_count, po_question_list, is_owner)">
 % if po_question_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -79,7 +79,7 @@
 % endif
 </%def>
 
-<%def name="tag_classify_photo(po_photo_count, po_photo_list, is_owner)">
+<%def name="tag_list_photo(po_photo_count, po_photo_list, is_owner)">
 % if po_photo_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
