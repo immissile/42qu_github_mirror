@@ -3,6 +3,7 @@
 DB_MAIN_TABLE = (
     '*',
     'bank',
+    'shorturl',
     'buzz',
     'buzz_pos',
     'buzz_sys',
@@ -47,6 +48,7 @@ DB_MAIN_TABLE = (
     'zsite_rank',
     'zsite_tag',
     'zsite_tag_po',
+    'oauth_token_backup',
     'zsite_uv_daily',
 )
 
