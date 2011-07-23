@@ -75,6 +75,15 @@ def zsite_new(name, cid, state):
 #    page.save()
     return zsite
 
+def zsite_name_edit(id, name):
+    from feed_po import mc_feed_user_dict
+    if id:
+        zsite = Zsite.mc_get(id)
+        if zsite:
+            zsite.name = name
+            zsite.save()
+            mc_feed_user_dict.delete(id)
+
 def zsite_new_user(name, state=ZSITE_STATE_APPLY):
     return zsite_new(name, CID_USER, state)
 
