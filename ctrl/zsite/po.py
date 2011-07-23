@@ -117,6 +117,7 @@ class TagPoPage(ZsiteBase):
     template = '/ctrl/zsite/po/po_page.htm'
 
     def get(self, zsite_tag_id, n=1):
+        tag = ZsiteTag.mc_get(zsite_tag_id)
         zsite_id = self.zsite_id
         user_id = self.current_user_id
         cid = self.cid
@@ -140,6 +141,7 @@ class TagPoPage(ZsiteBase):
             total=total,
             po_list=po_list,
             page=page,
+            tag_name=Tag.get(tag.tag_id),
         )
 
 
