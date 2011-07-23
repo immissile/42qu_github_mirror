@@ -45,7 +45,7 @@ seq = i.seq
 % if seq > 1:
 第 ${seq} 次\
 % endif
-留言 , <a href="${i.link}">点此浏览</a>
+留言 , <a target="_blank" href="${i.link}#${seq}" class="noticeA">点此浏览</a>
 %elif cid == CID_NOTICE_WALL_REPLY:
 <%
 entry_zsite = entry.zsite_other(current_user_id)
@@ -55,7 +55,7 @@ seq = i.seq
 第 ${seq} 次\
 % endif
 参与 我 与 <a href="${entry_zsite.link}">${entry_zsite.name}</a> 的
-对话 , <a href="${i.link}">点此浏览</a>
+对话 , <a target="_blank" class="noticeA" href="${i.link}#${seq}">点此浏览</a>
 %elif cid == CID_NOTICE_PAY:
 <%
 t = Trade.get(rid)
