@@ -5,11 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-zkit.txt2htm
+sumbit
 """
 
 TO_STRING = """
-model.txt2htm
+submit
 """
 
 def run():
