@@ -111,7 +111,8 @@ def pic_rm_mail(id):
         user_id = pic.user_id
         template = PIC_RM_TEMPLATE.get(cid)
         if template:
-            name = Zsite.mc_get(user_id).name
+            user = Zsite.mc_get(user_id)
+            name = user.name
             mail = mail_by_user_id(user_id)
             if cid == CID_ICO:
                 if not ico.get(user_id):
