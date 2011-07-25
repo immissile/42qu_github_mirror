@@ -2,8 +2,15 @@
 from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
+from zkit.txt import cnenoverflow
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career"/>
+<%def name="cut_txt(txt)">
+<%
+ctxt, has_more = cnenoverflow(txt, 30)
+%>
+${ctxt}
+</%def>
 
 <%def name="buzz_render(i)">
 <%
@@ -54,9 +61,9 @@ from_id = from_user.id
 % endif
 <a href="${e_to.link}${entry.link}">留言</a>
 %elif cid == CID_BUZZ_PO_REPLY:
-${user_link_list(from_list)} 跟帖 <a href="/po/${entry.id}">${entry.name_with_user}</a> 
+${user_link_list(from_list)} 跟帖 <a href="/po/${entry.id}">${cut_txt(entry.name_with_user)}</a> 
 %elif cid == CID_BUZZ_ANSWER:
-${user_link_list(from_list)} 回答 <a href="${entry.link}#replyer${from_list[0].id}">${entry.name}</a>\
+${user_link_list(from_list)} 回答 <a href="${entry.link}#replyer${from_list[0].id}">${cut_txt(entry.name)}</a>\
 %endif
 </%def>
 
