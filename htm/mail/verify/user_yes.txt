@@ -4,6 +4,10 @@ ${site_name} 认证通过
 
 ${site_http}
 
+如果您有wordpress博客也可以欢迎安装此插件 
+
+详情见： http://help.42qu.com/wordpress.html
+
 感谢支持 !
 
 如果有问题，请回复本邮件 ...
