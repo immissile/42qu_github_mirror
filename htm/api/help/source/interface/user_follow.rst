@@ -6,7 +6,6 @@
 
     {
         id:
-        client_id:
         access_token:
     }
 
@@ -20,7 +19,7 @@
 
 演示链接 ::
 
-    http://api.yup.xxx/user/follow?client_id=73&id=80&access_token=820afba8706f4fd3b281cdd8418b2fa2
+    http://api.yup.xxx/user/follow?id=80&access_token=820afba8706f4fd3b281cdd8418b2fa2
 
 
 演示返回 ::

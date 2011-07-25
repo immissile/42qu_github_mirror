@@ -5,7 +5,7 @@
 
     {
         user_id:
-        client_id: //可选
+        access_token: //可选
         begin_id: //可选 (第一页不传)
     }
 
