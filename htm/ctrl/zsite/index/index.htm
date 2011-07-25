@@ -1,6 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/_util/_g1.htm" import="about_me"/>
 <%namespace file="/_util/user_index.htm" import="user_index"/>
+<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo"/>
 <%!
 from model.ico import pic_url as _pic_url, ico_url_with_default
 from model.zsite_link import link_id_name_by_zsite_id
@@ -38,96 +39,13 @@ po_photo_list = po_view_list(zsite_id, CID_PHOTO, is_owner, 6)
 po_photo_count = po_list_count(zsite_id, CID_PHOTO, is_owner)
 %>
 
-% if po_word_count:
-<div class="zsite_block">\
-% for po in po_word_list:
-<pre class="zsite_word">${po.htm|n}<a href="/${po.id}" class="zsite_reply"></a>\
-</pre>\
-% endfor
-<div class="zsite_num_div">\
-<a href="/word" class="num">\
-    <span class="now">${po_word_count}</span><b>句微博</b>
-</a>
-</div>
-</div>
-% elif is_owner:
-<div class="zsite_block">\
-<div class="zsite_num_div">\
-<a href="/live" class="num">\
-    <span class="now">点击这里</span><b>思绪飘零</b>
-</a>
-</div>
-</div>
-% endif
 
-% if po_note_count:
-<div class="zsite_block">\
-<div class="zsite_ol">\
-<ol>
-% for po in po_note_list:
-<li><a href="/${po.id}">${po.name}</a></li>\
-% endfor
-</ol>\
-</div>\
-<div class="zsite_num_div">\
-<a href="/note" class="num">\
-    <span class="now">${po_note_count}</span><b>篇文章</b>
-</a>
-</div>
-</div>
-% endif
 
-% if po_answer_count:
-<div class="zsite_block">\
-<div class="zsite_ol">\
-<ol>
-% for po in po_answer_list:
-<li>${po.question.user.link_html|n} : <a href="/${po.id}">${po.question.name}</a></li>\
-% endfor
-</ol>
-</div>\
-<div class="zsite_num_div">\
-<a href="/answer" class="num">\
-    <span class="now">${po_answer_count}</span><b>次回答</b>
-</a>
-</div>
-</div>
-% endif
-
-% if po_question_count:
-<div class="zsite_block">\
-<div class="zsite_ol">\
-<ol>
-% for po in po_question_list:
-<li><a href="/${po.id}">${po.name}</a></li>\
-% endfor
-</ol>
-</div>\
-<div class="zsite_num_div">\
-<a href="/question" class="num">\
-    <span class="now">${po_question_count}</span><b>条问题</b>
-</a>
-</div>
-</div>
-% endif
-
-% if po_photo_count:
-<div class="zsite_block">\
-<div class="zsite_ol">\
-<ol>
-% for po in po_photo_list:
-<li><a href="/${po.id}">${po.name}</a></li>\
-% endfor
-</ol>
-</div>\
-<div class="zsite_num_div">\
-<a href="/photo" class="num">\
-    <span class="now">${po_photo_count}</span><b>张图片</b>
-</a>
-</div>
-</div>
-% endif
-
+${tag_list_word(po_word_count, po_word_list, is_owner)}
+${tag_list_note(po_note_count, po_note_list, is_owner)}
+${tag_list_answer(po_answer_count, po_answer_list, is_owner)}
+${tag_list_question(po_question_count, po_question_list, is_owner)}
+${tag_list_photo(po_photo_count, po_photo_list, is_owner)}
 
 
 <div class="zsite_block zsite_follow">\

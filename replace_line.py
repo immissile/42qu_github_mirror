@@ -5,11 +5,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/zsite/avatar
+sumbit
 """
 
 TO_STRING = """
-/sudo
+submit
 """
 
 def run():

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCacheA, McCache, McCacheM, McLimitA, McNum
 from tag import Tag, tag_new
-from model.cid import CID_PHOTO 
+from model.cid import CID_PHOTO, CID_PO 
 from zweb.orm import ormiter
 
 #CREATE TABLE  `zpage`.`zpage_tag` (
@@ -38,6 +38,9 @@ mc_zsite_tag_id_list_by_zsite_id = McCacheA('ZsiteTagIdListByZsiteId:%s')
 mc_tag_by_po_id = McCacheM('TagIdByPoId:%s')
 mc_po_id_list_by_zsite_tag_id = McLimitA('PoIdListByZsiteTagId:%s', 128)
 zsite_tag_count = McNum(lambda id: ZsiteTagPo.where(zsite_tag_id=id).count(), 'ZsiteTagCount:%s')
+zsite_tag_cid_count = McNum(lambda id, cid: ZsiteTagPo.where(zsite_tag_id=id, cid=cid).count(), 'ZsiteTagCount:%s')
+mc_po_id_list_by_zsite_tag_id_cid = McLimitA("PoIdListByTagIdCid:%s", 128)
+
 
 class ZsiteTag(McModel):
     pass
@@ -90,12 +93,22 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
         zsite_id=zsite_id,
         cid=po_cid
     )
-    
 
+    pre_tag_id = tag_po.zsite_tag_id
     tag_po.zsite_tag_id = id
     tag_po.save()
+
     mc_tag_by_po_id.delete('%s_%s'%(zsite_id, po_id))
+
+    
+    if pre_tag_id:
+        mc_po_id_list_by_zsite_tag_id.delete(pre_tag_id)
+        zsite_tag_cid_count.delete(pre_tag_id, po_cid)
+        mc_po_id_list_by_zsite_tag_id_cid.delete("%s_%s"%(pre_tag_id, po_cid))
+    
     mc_po_id_list_by_zsite_tag_id.delete(id)
+    mc_po_id_list_by_zsite_tag_id_cid.delete("%s_%s"%(id, po_cid))
+    zsite_tag_cid_count.delete(id, po_cid)
     
     if po.cid == CID_PHOTO:
         from model.po_photo import mc_flush
@@ -122,6 +135,7 @@ def zsite_tag_id_mv(zsite_id, from_tag_id, to_tag_id=1):
     mc_flush_zsite_tag_id(from_tag_id)
     mc_flush_zsite_tag_id(to_tag_id)
 
+
 def zsite_tag_rm_by_tag_id(zsite_id, tag_id):
     tag_id = int(tag_id)
     if tag_id == 1 or tag_id not in zsite_tag_id_list_by_zsite_id(zsite_id):
@@ -147,10 +161,16 @@ def zsite_tag_rename(zsite_id, tag_id, tag_name):
         tag.save()
         mc_flush_zsite_tag_id(zsite_id)
 
+
+
+
 def mc_flush_zsite_tag_id(id):
     zsite_tag_count.delete(id)
     mc_zsite_tag_id_list_by_zsite_id.delete(id)
-
+    mc_po_id_list_by_zsite_tag_id.delete(id) 
+    for cid in CID_PO:
+        zsite_tag_cid_count.delete(id, cid)
+        mc_po_id_list_by_zsite_tag_id_cid.delete(id, cid)
 
 def zsite_tag_rm_by_po(po):
     id = po.id
@@ -189,10 +209,30 @@ def po_id_list_by_zsite_tag_id(zsite_tag_id, limit=None, offset=0):
     id_list = ZsiteTagPo.where(zsite_tag_id=zsite_tag_id).order_by('id desc').col_list(limit, offset, 'po_id')
     return id_list
 
+from model.po import Po
+
+@mc_po_id_list_by_zsite_tag_id_cid("{zsite_tag_id}_{cid}")
+def po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=None, offset=0):
+    return ZsiteTagPo.where(zsite_tag_id=zsite_tag_id, cid=cid).order_by('-po_id').col_list(limit, offset, 'po_id')
+
+#def tag_po_classify(zsite_tag_id, cid, n=6):
+#    pass
+
+def count_po_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=6):
+    from model.po import Po
+    return (
+        zsite_tag_cid_count(zsite_tag_id, cid), 
+        Po.mc_get_list(po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit))
+    )
 
 
 if __name__ == '__main__':
     #for i in ZsiteTag.where(zsite_id=24):
     #print i.tag_id
     #print po_id_list_by_zsite_tag_id(24, 25)
-    print tag_by_po_id(10007348, 10037094)[2]
+    #print tag_by_po_id(10007348, 10037094)[2]
+    from model.cid import CID_NOTE
+    print count_po_list_by_zsite_tag_id_cid(1923, CID_NOTE)
+    print ZsiteTagPo.where(zsite_tag_id=1923, cid=CID_NOTE).count()
+    zsite_tag_cid_count.delete(1923, CID_NOTE)
+    print zsite_tag_cid_count(1923, CID_NOTE)

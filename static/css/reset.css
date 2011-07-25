@@ -1,5 +1,5 @@
 input,pre,body,button,select,textarea{
-font:14px/28px "Segoe UI",Tahoma,Verdana,Helvetica,Arial,sans-serif;
+font:14px/28px Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif;
 }
 body,img,a,div,span,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,textarea,th,td,tr,input{margin:0;padding:0;}
 h1,h2,h3,h4,h5,h6,p{
@@ -7,6 +7,7 @@ font-size:100%;
 font-weight:normal;
 line-height:28px;
 }
+b{font-weight:bold}
 code{font-family:courier new,courier,monospace;}
 small{font-size:12px;}
 a{text-decoration:none;color:#01a}

@@ -8,16 +8,16 @@ ${css.ctrl_tag|n}
 </%def>
 
 
-<a class="back_a"
-%if zsite_id == current_user_id:
-href="/live"
-%else:
-href="/"
-%endif
-></a>
+<a class="back_a" href="${back_a|n}"></a>
 
 <div class="po_tag">
-<h1><a class="c0" href="${zsite.link}">${zsite.name}</a> : ${total} ${PO_COUNT_CN[cid]}</h1>
+<h1>\
+
+<a class="c0" href="${zsite.link}">${zsite.name}</a> :
+%if tag_name:
+<a href="${back_a|n}" class="c0">${tag_name}</a> .
+%endif
+${total} ${PO_COUNT_CN[cid]}</h1>
 <div class="zsite_ol">\
 <ol>
     % for po in po_list:

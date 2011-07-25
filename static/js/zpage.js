@@ -100,6 +100,12 @@ jQuery.extend({
     } 
 })
 })(jQuery);
+
+
+function uuid(){
+    return (""+ Math.random()).slice(2)
+}
+
 (function (){
 var RE_CNCHAR = /[^\x00-\x80]/g;
 
@@ -115,7 +121,3 @@ cnenlen = function(str) {
         return Math.ceil(_cnenlen($.trim(str)) / 2)  
 } 
 })();
-
-function uuid(){
-    return (""+ Math.random()).slice(2)
-}
