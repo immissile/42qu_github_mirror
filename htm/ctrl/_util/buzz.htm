@@ -26,7 +26,7 @@ ${user_link_list(from_list)} 关注了 ${user_career_link(entry)}
 <%
 to = Zsite.mc_get(entry.to_id)
 %>
-${user_link_list(from_list)} 对话 ${user_link(to)} , <a href="${to.link}${entry.link}" target="_blank">点此浏览</a>
+${user_link_list(from_list)} 对话 ${user_link(to)}, <a href="${to.link}${entry.link}" target="_blank">点此浏览</a>
 %elif cid == CID_BUZZ_WALL_REPLY:
 ${user_link_list(from_list)} \
 <%
@@ -52,7 +52,7 @@ from_id = from_user.id
 % else:
 回复 ${user_link(e_from)} 给 ${user_link(e_to)} 的 \
 % endif
-留言 , <a href="${e_to.link}${entry.link}" target="_blank">点此浏览</a>
+留言, <a href="${e_to.link}${entry.link}" target="_blank">点此浏览</a>
 %elif cid == CID_BUZZ_PO_REPLY:
 ${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${entry.id}">${entry.name_with_user}</a> 
 %elif cid == CID_BUZZ_ANSWER:
