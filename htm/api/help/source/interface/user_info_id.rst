@@ -5,7 +5,6 @@
 
     {
         id:
-        client_id: //可选
         access_token: //可选
     }
 
