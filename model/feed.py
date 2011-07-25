@@ -37,9 +37,7 @@ def feed_rm(id):
         cursor.connection.commit()
         mc_feed_iter.delete(zsite_id)
         if not rid:
-            feed_rt_rm_by_rid(id)
-            #TODO MQ
-            #mq_feed_rt_rm_by_rid(id)
+            mq_feed_rt_rm_by_rid(id)
 
 
 def feed_rt_rm_by_rid(rid):
