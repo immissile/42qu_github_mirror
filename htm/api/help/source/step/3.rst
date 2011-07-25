@@ -4,5 +4,4 @@
 
 每次调用, 附加上以下参数即可 ::
 
-    client_id
     access_token

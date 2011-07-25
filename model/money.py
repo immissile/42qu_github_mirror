@@ -8,6 +8,7 @@ from kv import Kv
 from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY, CID_NOTICE_PAY
 from zsite import Zsite
 from user_mail import mail_by_user_id
+from mail import rendermail
 from verify import verify_new, verifyed
 from state import STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from zkit.attrcache import attrcache
