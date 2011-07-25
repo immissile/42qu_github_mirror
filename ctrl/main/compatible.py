@@ -4,6 +4,7 @@ from ctrl._urlmap.main import urlmap
 from config import SITE_DOMAIN
 
 @urlmap('/-(\d+)/pay')
+@urlmap('/(\w+)/pay')
 class Index(Base):
     def get(self, name):
         url = '//%s.%s/pay'%(name, SITE_DOMAIN)
