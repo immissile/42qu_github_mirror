@@ -109,5 +109,12 @@ def pic_url_bind_with_default(zsite_list, size):
 
 
 if __name__ == '__main__':
-    print ico_url(399)
-    print pic_url(399)
+    #print ico_url(399)
+    #print pic_url(399)
+    from _db import mc
+    mc = mc.mc
+    for i in range(100000):
+        mc.set("1",1)
+        mc.delete("1")
+        if mc.get("1"):
+            print "!!!"
