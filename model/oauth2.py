@@ -40,6 +40,8 @@ def oauth_client_by_user_id(user_id):
     for c in oc:
         if OauthClientUri.get(c.id):
             c.uri = OauthClientUri.get(c.id)
+        else:
+            c.uri = False
     return oc
 
 
