@@ -78,7 +78,7 @@ class Kv(object):
             cursor = self.cursor
             table = self.__table__
             cursor.execute(
-                'insert delayed into %s (id,value) values (%%s,%%s) on duplicate key update value=%%s' % table,
+                'insert into %s (id,value) values (%%s,%%s) on duplicate key update value=%%s' % table,
                 (id, value, value)
             )
             cursor.connection.commit()
