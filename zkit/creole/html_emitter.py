@@ -235,7 +235,7 @@ class HtmlEmitter(object):
         if '://' in link:
             return u'<a target="_blank" href="%s">%s</a>' % (link, inside)
         else:
-            return u'<a href="/%s.html">%s</a>' % (link, inside)
+            return u'<a href="/%s">%s</a>' % (link, inside)
 
     def image_emit(self, node):
         target = node.content

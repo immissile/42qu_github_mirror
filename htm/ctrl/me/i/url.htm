@@ -28,7 +28,7 @@ current_user_url = url_by_id(current_user_id)
 %else:
 <%htm:form className="btns fullscreen_line">
 <p>
-<input value="${url}" id="url" autocomplete="off" type="text" name="url">.${SITE_DOMAIN}\
+<input value="${url or ''}" id="url" autocomplete="off" type="text" name="url">.${SITE_DOMAIN}\
 %if error_url:
 <div style="line-height:18px;margin-bottom:10px;color:#f00">${error_url}</div>\
 %endif

@@ -51,3 +51,7 @@ for base, dirs, files in os.walk(BASE):
             html = wiki2html(file.read().decode('utf-8', 'ignore'))
             with open(html_name, 'w') as out:
                 out.write(HTML_TEMPLATE%html)
+
+
+
+
