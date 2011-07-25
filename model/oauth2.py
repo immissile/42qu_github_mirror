@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA
+from kv import Kv
 from txt import txt_property, txt_new
 from gid import gid
 from uuid import uuid4
@@ -8,6 +9,10 @@ from user_session import id_binary_encode, id_binary_decode
 import binascii
 from os import urandom
 import time
+
+OauthClientUri = Kv('oauth_client_uri')
+
+OauthAuthorizeCode = Kv('oauth_authorize_code')
 
 
 class OauthAccessToken(Model):
@@ -42,6 +47,17 @@ def oauth_client_new(user_id, name, txt):
     mc_oauth_client_id_by_user_id.delete(user_id)
     return o
 
+def oauth_client_web_new(user_id,name,txt,uri):
+    secret = uuid4().bytes
+    id = gid()
+    o = OauthClient(id=id,user_id=user_id,secret=secret,name=name)
+    o.save()
+    OauthClientUri.set(id=id,value=uri)
+
+    txt_new(id,txt)
+    mc_oauth_client_id_by_user_id.delete(user_id)
+    return True
+
 def oauth_secret(id):
     client = OauthClient.mc_get(id)
     if client:
@@ -64,6 +80,12 @@ def oauth_refresh_token(client_id, id):
     o = OauthRefreshToken.get(client_id=client_id, id=id)
     if o:
         return o
+
+def oauth_authorize_code_new():
+    id = gid()
+    value = urandom(12)
+    OauthAuthorizeCode.set(id,value)
+    return id_binary_encode(id,value)
 
 def oauth_refresh_token_new(client_id, id):
     o = oauth_refresh_token(client_id, id)
@@ -95,5 +117,12 @@ def oauth_access_token_verify(access_token):
         return o.user_id
     return 0
 
-def oauth_authorization_code_verify(client_id,authorization_code):
-    pass
+def oauth_authorize_code_del(id):
+    OauthAuthorizeCode.delete(id)
+
+def oauth_authorization_code_verify(authorization_code):
+    id,code = id_binary_decode(authorization_code)
+    t = OauthAuthorizeCode.get(id)
+    if t and t == code:
+        return id
+    return 0

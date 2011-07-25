@@ -1,12 +1,13 @@
 <%inherit file="/api/_base.htm" />
 <%!
-from model.oauth2 import oauth_client_by_user_id
+from model.oauth2 import oauth_client_by_user_id, OauthClientUri
 from config import SITE_DOMAIN
 %>
 <%def name="htm_head()">
 </%def>
 <div>
-    <a href="/apply">申请 API KEY</a>
+    <a href="/apply?cid=1">申请 web_ API KEY</a>
+    <a href='/apply?cid=0'>申请mobile_api_key</a>
 </div>
 
 <div>
@@ -24,6 +25,11 @@ txt = client.txt
 %endif
 <div>
 client_id : ${client.id}
+</div>
+<div>
+%if OauthClientUri.get(client.id):
+uri:${OauthClientUri.get(client.id)}
+%endif
 </div>
 <div>
 client_secret : ${client.hex_secret}

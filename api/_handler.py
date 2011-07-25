@@ -24,6 +24,10 @@ class LoginBase(Base):
     def render(self, template_name=None, **kwds):
         kwds['_xsrf'] = self._xsrf
         super(Base, self).render(template_name, **kwds)
+    
+    def prepare(self):
+        super(LoginBase, self).prepare()
+        _login_redirect(self)
 
     post = post
 
