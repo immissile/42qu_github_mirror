@@ -1,0 +1,6 @@
+== 42qu.com WordPress 博客插件 ==
+<a href="/misc/42qu.zip">点此下载42qu作者信息WordPress插件</a> 
+
+进入WordPress后台的插件安装页面, 上传并启用插件
+
+
