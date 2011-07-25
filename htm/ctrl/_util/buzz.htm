@@ -56,8 +56,8 @@ from_id = from_user.id
 留言, <a href="${e_to.link}${entry.link}" target="_blank">点此浏览</a>
 %elif cid == CID_BUZZ_PO_REPLY:
 ${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${entry.id}">\
-    %if entry.cid == CID_PO_WORD:
-${cnenoverflow(entry.name)[0]}\
+    %if entry.cid == CID_WORD:
+${cnenoverflow(entry.name,30)[0]}\
     %else:
 ${entry.name_with_user}\
     %endif
