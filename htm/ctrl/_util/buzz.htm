@@ -1,7 +1,8 @@
 <%!
-from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER
+from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_PO_WORD
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
+from zkit.txt import cnenoverflow
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career"/>
 
@@ -54,7 +55,13 @@ from_id = from_user.id
 % endif
 留言, <a href="${e_to.link}${entry.link}" target="_blank">点此浏览</a>
 %elif cid == CID_BUZZ_PO_REPLY:
-${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${entry.id}">${entry.name_with_user}</a> 
+${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${entry.id}">\
+    %if entry.cid == CID_PO_WORD:
+${cnenoverflow(entry.name)[0]}\
+    %else:
+${entry.name_with_user}\
+    %endif
+</a>
 %elif cid == CID_BUZZ_ANSWER:
 ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}#replyer${from_list[0].id}">${entry.name}</a>\
 %endif
