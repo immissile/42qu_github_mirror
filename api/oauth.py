@@ -14,12 +14,12 @@ class OauthAuthorize(LoginBase):
         redirect_uri = self.get_argument('redirect_uri','')
         if response_type == 'code':
             if client_id:
-                if OauthClientUri.get(client_id) == redirect_uri or 1:
+                if OauthClientUri.get(client_id) == redirect_uri:
                     self.render(client_id=client_id)
                 else:
-                    self.finish({'error':'redirect_uri error'})
+                    self.finish({'error':'redirect_uri error!'})
             else:
-                self.finish({'error':'no client_id'})
+                self.finish({'error':'no client_id!'})
         else:
             self.finish({'error':'response_type error!'})
 
@@ -52,4 +52,10 @@ class OauthToken(Base):
                         'refresh_token':refresh_token
                         })
                     self.redirect(url)
+                else:
+                    self.finish({'error':'oauth secret verify error!'})
+            else:
+                self.finish({'error':'oauth authorization code verify error!'})
+        else:
+            self.finish({'error':'grant type error!'})
 

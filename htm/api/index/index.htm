@@ -27,8 +27,8 @@ txt = client.txt
 client_id : ${client.id}
 </div>
 <div>
-%if OauthClientUri.get(client.id):
-uri:${OauthClientUri.get(client.id)}
+%if client.uri:
+uri:${client.uri}
 %endif
 </div>
 <div>

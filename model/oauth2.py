@@ -35,7 +35,13 @@ def oauth_client_id_by_user_id(user_id):
     return OauthClient.where(user_id=user_id).order_by('id desc').col_list()
 
 def oauth_client_by_user_id(user_id):
-    return OauthClient.mc_get_list(oauth_client_id_by_user_id(user_id))
+    #return OauthClient.mc_get_list(oauth_client_id_by_user_id(user_id))
+    oc =  OauthClient.mc_get_list(oauth_client_id_by_user_id(user_id))
+    for c in oc:
+        if OauthClientUri.get(c.id):
+            c.uri = OauthClientUri.get(c.id)
+    return oc
+
 
 def oauth_client_new(user_id, name, txt):
     secret = uuid4().bytes

@@ -4,6 +4,8 @@ from _handler import Base, LoginBase
 from _urlmap import urlmap
 from model.oauth2 import oauth_client_new, oauth_client_web_new
 
+
+
 @urlmap('/')
 class Index(Base):
     def get(self):
