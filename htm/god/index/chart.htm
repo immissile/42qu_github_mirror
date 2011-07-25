@@ -1,8 +1,8 @@
 <%inherit file="/god/_base.htm" />
 <%!
-
 from config import FS_URL 
 from yajl import dumps
+from model.log_history import LOG_HISTORY_CID, LOG_HISTORY_CN_CID , log_incr_list
 %>
 <%def name="htm_head()">
 ${css.god_chart|n}
@@ -12,25 +12,26 @@ ${css.god_chart|n}
 <a target="_blank" href="http://42qu.5upm.com/project-task-1-wait.html">任务列表</a>
 <a target="_blank" href="https://www.google.com/analytics">谷歌统计</a>
 </p>
-<%def name="render_chart(cid,data)">
+<%def name="render_chart(cid)">
 <%
+data = log_incr_list(cid)
 y_max = max(data)
 y_min = min(data)
 step = max(int((y_max - y_min)/10),1)
-values = data
-json = {
+
+json_data = {
     "elements": [ 
     {
-        "type": "line", "values": data,  "width": 1, "colour": "#3D5C56" } ], "y_axis": { "min": y_min, "max": y_max, "steps": step},
-"x_axis": { 
-    "colour": "#A2ACBA", "grid-colour": "#D7E4A3", 
-    "offset": 'false', "steps": 7
-}
-
+        "type": "line", "values": data,  "width": 1, "colour": "#3D5C56" } ], 
+        "y_axis": { "min": y_min, "max": y_max, "steps": step},
+        "x_axis": { 
+            "colour": "#A2ACBA", "grid-colour": "#D7E4A3", 
+            "offset": 'false', "steps": 7
+        }
 }
 %>
 <div class="chart">
-    <div class="chart_title">新增用户数 今日 +10</div>
+    <div class="chart_title">${LOG_HISTORY_CN_CID[cid]} 今日 +${data[-1]}</div>
     <div id="chart${cid}"></div>
 <script>
 swfobject.embedSWF(
@@ -38,19 +39,18 @@ swfobject.embedSWF(
     {"get-data":"chart${cid}"} 
 );
 function chart${cid}(){
-    return '${dumps(json)|n}' 
+    return '${dumps(json_data)|n}' 
 }
 </script>
 </div>
 </%def>
 
 
-
-%for cid in xrange(3):
-<%
-data = range(100,100+210)
-%>
-${render_chart(cid,data)}
+%for cid in LOG_HISTORY_CID: 
+${render_chart(cid)}
 %endfor
 
-
+<div class="chart">
+ <div class="chart_title"><a href="http://www.alexa.com/siteinfo/42qu.com" target="_blank">Alexa</a></div>
+ <div class="tc"><img src="http://traffic.cn.alexa.com/graph?&w=972&h=256&o=f&c=1&y=r&b=ffffff&r=6m&u=42qu.com&"></div>
+</div>

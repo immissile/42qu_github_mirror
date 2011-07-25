@@ -3,6 +3,7 @@
 DB_MAIN_TABLE = (
     '*',
     'bank',
+    'log_history',
     'shorturl',
     'buzz',
     'buzz_pos',
