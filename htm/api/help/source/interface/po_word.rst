@@ -5,7 +5,6 @@
 输入 ::
 
     {
-        client_id:
         access_token:
         txt: //微博内容 不可以重复发送！
     }
@@ -21,7 +20,7 @@
 
 演示链接 ::
 
-    http://api.yup.xxx/po/word?client_id=10045260&txt=testxs&access_token=820afba8706f4fd3b281cdd8418b2fa2
+    http://api.yup.xxx/po/word?txt=testxs&access_token=820afba8706f4fd3b281cdd8418b2fa2
 
 
 演示返回 ::

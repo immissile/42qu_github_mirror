@@ -26,7 +26,7 @@
 
 生成链接 ::
 
-    http://api.yup.xxx/user/oauth/login?mail=yupbank@qq.com&passwd=6171446&token=820afba8706f4fd3b281cdd8418b2fa2&client_id=10045260
+    http://api.yup.xxx/user/oauth/login?mail=yupbank@qq.com&passwd=123456&token=820afba8706f4fd3b281cdd8418b2fa2&client_id=10045260
 
 
 对应输出 ::

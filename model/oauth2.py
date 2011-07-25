@@ -45,13 +45,13 @@ def oauth_client_new(user_id, name, txt):
 def oauth_secret(id):
     client = OauthClient.mc_get(id)
     if client:
-        return binascii.hexlify(client.secret)
+        return client.hex_secret
     return 0
 
 def oauth_secret_verify(id, secret):
     client = OauthClient.get(id)
     if client and id:
-        if binascii.hexlify(client.secret) == secret:
+        if client.hex_secret == secret:
             return True
         return 0
 

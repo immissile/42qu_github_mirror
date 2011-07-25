@@ -6,7 +6,6 @@
 
     {
         id:
-        client_id:
         access_token:
     }
 
@@ -29,7 +28,7 @@
 
 演示链接 ::
 
-    http://api.yup.xxx/po?client_id=73&id=342&access_token=cec5081ef51fda0099937345ce9b6192e4016e6fa719a70b06215c0aef1fa20d
+    http://api.yup.xxx/po?id=342&access_token=cec5081ef51fda0099937345ce9b6192e4016e6fa719a70b06215c0aef1fa20d
 
 
 演示返回 ::

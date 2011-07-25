@@ -8,8 +8,6 @@
         user_id:
         limit: //可选 默认为25，最大支持100
         offset: //可选
-        client_id: //可选
-        token://
         access_token: //可选
     }
 
