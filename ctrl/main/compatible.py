@@ -11,7 +11,6 @@ class Index(Base):
         query = self.request.query
         if query:
             url = '%s?%s' % (url, query)
-        #import pdb;pdb.set_trace()
         return self.redirect(url, True)
 
     post = get
