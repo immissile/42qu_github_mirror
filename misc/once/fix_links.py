@@ -28,7 +28,7 @@ def validate_all_links():
         validate_link(id, cid, link)
 
 def validate_link(id, cid, link):
-    pure_link = link[7:]
+    pure_link = link[7:].strip("@")
     try:
         if ord(pure_link[0])>127 or '@' in pure_link:
             print pure_link
@@ -41,7 +41,7 @@ def validate_link(id, cid, link):
         pure_link = OAUTH2URL[cid] % pure_link
         print pure_link
         print ""
-        ZsiteLink.raw_sql('update zsite_link set link=%s where id=%s' % (link, id))
+        ZsiteLink.raw_sql('update zsite_link set link=%s where id=%s' , pure_link, id)
 
 if __name__=='__main__':
     validate_all_links()
