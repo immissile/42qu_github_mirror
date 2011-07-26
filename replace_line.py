@@ -5,15 +5,9 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-LOG_HISTORY_NEW_USER_CID
-LOG_HISTORY_NEW_PO_CID
-LOG_HISTORY_NEW_REPLY_CID
 """
 
 TO_STRING = """
-LOG_HISTORY_CID_NEW_USER
-LOG_HISTORY_CID_NEW_PO
-LOG_HISTORY_CID_NEW_REPLY
 """
 
 def run():

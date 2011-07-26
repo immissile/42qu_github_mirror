@@ -1,13 +1,37 @@
 <%inherit file="/api/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%htm:form>
+
+<style>
+textarea{
+border:1px solid #ccc;
+padding:7px;
+width:454px;
+height:180px;
+}
+input{
+border:1px solid #ccc;
+padding:7px;
+width:454px;
+margin-bottom:14px;
+}
+</style>
+<%htm:form style="width:470px;margin:auto">
 <div>
-应用名称 <input name="name" type="text">
+    <p><label for="name">应用名称</label></p> 
+    <p><input id="name" name="name" type="text" autocomplete="off"></p>
 </div>
+%if cid:
 <div>
-应用描述 <textarea name="txt"></textarea>
+    <input name="cid"type="hidden">
+    <p><label for="uri">回调网址 ( redirect_uri )</label> </p>
+    <p><input name="uri" autocomplete="off" type="text"></p>
 </div>
+%endif
 <div>
+    <p><label for="txt">介绍描述</label></p> 
+    <textarea id="txt" name="txt" autocomplete="off"></textarea>
+</div>
+<div style="margin-top:32px">
 <span class="btnw"><button type="submit">创建</button></span>
 </div>
 </%htm:form>
