@@ -1,7 +1,10 @@
 登录 - 网页方式
 =======================================
 
+第一步：
 /oauth/authorize 
+获取 authorization_code
+
 
 输入 ::
 
@@ -9,25 +12,9 @@
     response_type
     redirect_uri
 
-返回 ::
+重定向到redirect_uri并附上参数 ::
     
     code
-
-输入 ::
-
-    client_id
-    client_secret
-    redirect_uri
-    grant_type
-    code
-
-返回 ::
-    
-    access_token
-    refresh_token
-    expires_in
-    scope
-    user_id
 
 
 演示输入 ::
@@ -37,9 +24,34 @@
     redirect_uri = http://wa.com
 
 
-生成链接 ::
+重定向返回 ::
 
     http://wa.com/?code=zE2ZAAT81XVjvbsTomYvDK
+
+    
+    
+第二步：
+/oauth/token
+获取access_token
+
+
+输入 ::
+
+    client_id
+    client_secret
+    redirect_uri
+    grant_type
+    code
+
+重定向到redirect_uri并附上参数 ::
+    
+    access_token
+    refresh_token
+    expires_in
+    scope
+    user_id
+
+
 
 演示输入 ::
     
@@ -49,19 +61,8 @@
     grant_type = authorization_code
     code = zE2ZAAT81XVjvbsTomYvDK
 
-生成链接 ::
+重定向返回 ::
 
     http://wa.com/?access_token=CQAAAAuXvKaiFLlJn0knOY&scope=basic&expires_in=87063&refresh_token=CQAAAAeZIEOhqQoS75tEPF&user_id=10001637
 
-对应输出 ::
-    
-    {
-
-        'access_token' = CQAAAAuXvKaiFLlJn0knOY
-        'refresh_token' = CQAAAAeZIEOhqQoS75tEPF
-        'scope' = 'basic'
-        'expires_in' = '87063'
-        'user_id' = '10001637'
-
-    }
 
