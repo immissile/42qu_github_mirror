@@ -12,18 +12,16 @@ class Index(Base):
         self.render()
 
 
-@urlmap('/apply')
+@urlmap('/apply/(\d+)')
 class Apply(LoginBase):
-    def get(self):
-        cid = self.get_argument('cid',0)
+    def get(self, cid):
         self.render(cid = cid)
 
-    def post(self):
+    def post(self, cid):
         current_user = self.current_user
         user_id = self.current_user_id
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
-        cid = self.get_argument('cid')
         if cid:
             uri = self.get_argument('uri')
             oauth_client_web_new(user_id,name,txt,uri)
