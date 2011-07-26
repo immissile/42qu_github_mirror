@@ -1,31 +1,69 @@
 #!/usr/bin/env python
 #coding:utf-8
-import _handler
+from  _handler import LoginBase, Base
 from _urlmap import urlmap
+from model.oauth2 import oauth_client_uri, oauth_authorize_code_new, oauth_secret_verify, oauth_authorization_code_verify, oauth_refresh_token_new, oauth_access_token_new, oauth_authorize_code_rm
+import urllib
 
 
 @urlmap('/oauth/authorize')
-class OauthAuthorize(_handler.LoginBase):
+class OauthAuthorize(LoginBase):
     def get(self):
-        arg = self.request
-        self.render(arg=arg)
+        client_id = self.get_argument('client_id', '')
+        response_type = self.get_argument('response_type', '')
+        redirect_uri = self.get_argument('redirect_uri', '')
+        if response_type == 'code':
+            if client_id:
+                if oauth_client_uri.get(client_id) == redirect_uri:
+                    self.render(client_id=client_id)
+                else:
+                    self.finish({'error':'redirect_uri error!'})
+            else:
+                self.finish({'error':'no client_id!'})
+        else:
+            self.finish({'error':'response_type error!'})
 
-        def post(self):
-            current_user = self.current_user
-            arg = self.get_argument('arg')
+    def post(self):
+        uri = self.get_argument('uri')
+        url = uri+'?'+urllib.urlencode({'code':oauth_authorize_code_new()})
+        self.redirect(url)
 
-            if arg:
-                client_id = arg['client_id']
-                redirect_uri = arg['redirect_uri']
-                response_type = arg['response_type']
-            pass
+
 
 
 @urlmap('/oauth/token')
-class OauthToken(_handler.Base):
+class OauthToken(Base):
     def get(self):
-        arg = self.request
-        #if arg:
-        pass 
+        client_id = self.get_argument('client_id', '')
+        client_secret = self.get_argument('client_secret', '')
+        redirect_uri = self.get_argument('redirect_uri', '')
+        grant_type = self.get_argument('grant_type', '')
+        code = self.get_argument('code', '')
+        user_id = self.current_user_id
 
+        if grant_type == 'authorization_code':
+            if oauth_authorization_code_verify(code):
+                authorization_id = oauth_authorization_code_verify(code)
+                if oauth_secret_verify(client_id, client_secret):
+                    if oauth_client_uri.get(client_id) == redirect_uri:
+                        id, access_token = oauth_access_token_new(client_id, user_id)
+                        refresh_token = oauth_refresh_token_new(client_id, id)
+                        oauth_authorize_code_rm(authorization_id)
+
+                        data = {
+                            'access_token':access_token,
+                            'refresh_token':refresh_token,
+                            'expires_in': 87063,
+                            'scope': 'basic',
+                            'user_id':user_id
+                        }
+                        self.finish(data)
+                    else:
+                        self.finish({'error':'redirect uri not same as the redirect uri of this app'})
+                else:
+                    self.finish({'error':'oauth secret verify error'})
+            else:
+                self.finish({'error':'oauth authorization code verify error'})
+        else:
+            self.finish({'error':'grant type error'})
 

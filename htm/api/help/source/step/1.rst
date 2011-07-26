@@ -1,2 +1,18 @@
-创建应用
+概述
 =======================================
+
+授权采用 oauth2.0 协议 , 登录方式分为 
+
+网页方式 ( Web Server Flow ) 
+
+和 
+
+客户端方式 ( Resource Owner Password Credentials Flow )
+
+注意：
+
+refresh_token 暂未使用 ...
+
+创建应用 / 调用接口 的域名为
+
+http://api.42qu.com 

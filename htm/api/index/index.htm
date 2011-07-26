@@ -1,32 +1,49 @@
 <%inherit file="/api/_base.htm" />
 <%!
-from model.oauth2 import oauth_client_by_user_id
+from model.oauth2 import oauth_client_by_user_id, oauth_client_uri
 from config import SITE_DOMAIN
 %>
-<%def name="htm_head()">
-</%def>
-<div>
-    <a href="/apply">申请 API KEY</a>
-</div>
+<style>
+.link{
+text-align:center;
+}
+.link a{
+margin:0 14px;
+}
+</style>
 
-<div>
-    <a href="//help-api.${SITE_DOMAIN}" target="_blank">开发文档</a>
+<div class="tc">
+开发文档 : <a href="//help-api.${SITE_DOMAIN}" target="_blank">点此浏览</a>
 </div>
-
-%for client in oauth_client_by_user_id(current_user_id):
+<h2>创建应用</h2>
+<div class="link">
+<p><a href="/apply/1">网页版应用</a> <a href="/apply/0">客户端应用</a></p>
+</div>
 <%
-txt = client.txt
+exist_client = oauth_client_by_user_id(current_user_id)
 %>
-<div style="margin:10px 0;padding:27px;border:1px solid #eee">
-<div>${client.name}</div>
-%if txt:
-<pre>${txt}</pre>
+%if exist_client:
+<h2>已有应用</h2>
+    %for client in exist_client:
+    <%
+    txt = client.txt
+    %>
+    <div style="margin:10px 0;padding:27px;border:1px solid #eee">
+    <div>${client.name}</div>
+    %if txt:
+    <pre>${txt}</pre>
+    %endif
+    <div>
+    client_id : ${client.id}
+    </div>
+    <div>
+    %if client.uri:
+    uri:${client.uri}
+    %endif
+    </div>
+    <div>
+    client_secret : ${client.hex_secret}
+    </div>
+    </div>
+    %endfor
 %endif
-<div>
-client_id : ${client.id}
-</div>
-<div>
-client_secret : ${client.hex_secret}
-</div>
-</div>
-%endfor
