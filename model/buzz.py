@@ -119,7 +119,7 @@ def buzz_pos_update(user_id, li):
         #print id,buzz_pos.get(user_id)
         if id > buzz_pos.get(user_id):
             buzz_pos.set(user_id, id)
-            buzz_unread_update(user_id)
+            buzz_unread_update(user_id, id)
 
 CACHE_LIMIT = 256
 
@@ -197,18 +197,17 @@ def buzz_unread_incr(user_id):
     buzz_unread.set(user_id, unread + 1)
 
 
-def buzz_unread_update(user_id):
+def buzz_unread_update(user_id, id):
     buzz_unread.set(
         user_id,
-        Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count()
+        Buzz.where('id>%s', id).where(to_id=user_id).count()
     )
 
 
 if __name__ == '__main__':
-    buzz_show(10000212,3)
-  #  from model.cid import CID_USER
-  #  for i in Zsite.where(cid=CID_USER):
-  #      user_id = i.id
-  #      print user_id
-  #      buzz_unread_update(user_id)
+    from model.cid import CID_USER
+    for i in Zsite.where(cid=CID_USER):
+        user_id = i.id
+        print user_id
+        buzz_unread_update(user_id)
 
