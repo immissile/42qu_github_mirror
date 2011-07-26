@@ -45,18 +45,21 @@ class OauthToken(Base):
             if oauth_authorization_code_verify(code):
                 authorization_id = oauth_authorization_code_verify(code)
                 if oauth_secret_verify(client_id, client_secret):
-                    id, access_token = oauth_access_token_new(client_id, user_id)
-                    refresh_token = oauth_refresh_token_new(client_id, id)
-                    oauth_authorize_code_rm(authorization_id)
+                    if oauth_client_uri.get(client_id) == redirect_uri:
+                        id, access_token = oauth_access_token_new(client_id, user_id)
+                        refresh_token = oauth_refresh_token_new(client_id, id)
+                        oauth_authorize_code_rm(authorization_id)
 
-                    url = redirect_uri+'?'+urllib.urlencode({
-                        'access_token':access_token,
-                        'refresh_token':refresh_token,
-                        'expires_in': 87063,
-                        'scope': 'basic',
-                        'user_id':user_id
-                    })
-                    self.redirect(url)
+                        url = redirect_uri+'?'+urllib.urlencode({
+                            'access_token':access_token,
+                            'refresh_token':refresh_token,
+                            'expires_in': 87063,
+                            'scope': 'basic',
+                            'user_id':user_id
+                        })
+                        self.redirect(url)
+                    else:
+                        self.finish({'error':'oauth redirect uri error'})
                 else:
                     self.finish({'error':'oauth secret verify error'})
             else:
