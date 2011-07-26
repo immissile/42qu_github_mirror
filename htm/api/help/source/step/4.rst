@@ -9,14 +9,26 @@ web用户登录
     response_type
     redirect_uri
 
-
 返回 ::
+    
+    code
+
+输入 ::
 
     client_id
     client_secret
     redirect_uri
     grant_type
     code
+
+返回 ::
+    
+    access_token
+    refresh_token
+    expires_in
+    scope
+    user_id
+
 
 演示输入 ::
 
@@ -27,8 +39,19 @@ web用户登录
 
 生成链接 ::
 
-    http://wa.com/?access_token=CQAAAAuXvKaiFLlJn0knOY&scope=basic&expires_in=87063&refresh_token=CQAAAAeZIEOhqQoS75tEPF
+    http://wa.com/?code=zE2ZAAT81XVjvbsTomYvDK
 
+演示输入 ::
+    
+    client_id = 11046911
+    client_secret = d1b52c339b53468e891fe0f301edd01a
+    redirect_uri = http://wa.com
+    grant_type = authorization_code
+    code = zE2ZAAT81XVjvbsTomYvDK
+
+生成链接 ::
+
+    http://wa.com/?access_token=CQAAAAuXvKaiFLlJn0knOY&scope=basic&expires_in=87063&refresh_token=CQAAAAeZIEOhqQoS75tEPF&user_id=10001637
 
 对应输出 ::
     
@@ -38,6 +61,7 @@ web用户登录
         'refresh_token' = CQAAAAeZIEOhqQoS75tEPF
         'scope' = 'basic'
         'expires_in' = '87063'
+        'user_id' = '10001637'
 
     }
 
