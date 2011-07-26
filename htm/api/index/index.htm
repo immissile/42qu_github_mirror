@@ -19,6 +19,7 @@ margin:0 14px;
 <div class="link">
 <p><a href="/apply/1">网页版应用</a> <a href="/apply/0">客户端应用</a></p>
 </div>
+%if current_user_id:
 <%
 exist_client = oauth_client_by_user_id(current_user_id)
 %>
@@ -46,4 +47,5 @@ exist_client = oauth_client_by_user_id(current_user_id)
     </div>
     </div>
     %endfor
+%endif
 %endif
