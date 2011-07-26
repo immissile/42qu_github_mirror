@@ -16,3 +16,5 @@ refresh_token 暂未使用 ...
 创建应用 / 调用接口 的域名为
 
 http://api.42qu.com 
+
+如有问题 , 请发邮件到 hi@42qu.com
