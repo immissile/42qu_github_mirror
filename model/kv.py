@@ -116,7 +116,7 @@ class Kv(object):
             mc.set(mc_key, r)
         return r
 
-    def insert(self, value):
+    def insert_no_value_cache(self,value):
         cursor = self.cursor
         cursor.execute(
             'insert into %s (value) values (%%s)' % self.__table__,
@@ -124,9 +124,13 @@ class Kv(object):
         )
         cursor.connection.commit()
         id = cursor.lastrowid
-        self.mc_value_id_set(value, id)
         mc_key = self.__mc_id__ % id
         mc.set(mc_key, value)
+        return id
+
+    def insert(self, value):
+        self.insert_no_value_cache(value)
+        self.mc_value_id_set(value, id)
         return id
 
     def id_by_value_new(self, value):

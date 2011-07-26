@@ -5,11 +5,13 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-sumbit
+OauthClientUri
+OauthAuthorizeCode
 """
 
 TO_STRING = """
-submit
+oauth_client_uri
+oauth_authorize_code
 """
 
 def run():

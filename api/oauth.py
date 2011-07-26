@@ -2,7 +2,7 @@
 #coding:utf-8
 from  _handler import LoginBase, Base
 from _urlmap import urlmap
-from model.oauth2 import OauthClientUri, oauth_authorize_code_new, oauth_secret_verify, oauth_authorization_code_verify, oauth_refresh_token_new, oauth_access_token_new, oauth_authorize_code_rm
+from model.oauth2 import oauth_client_uri, oauth_authorize_code_new, oauth_secret_verify, oauth_authorization_code_verify, oauth_refresh_token_new, oauth_access_token_new, oauth_authorize_code_rm
 import urllib
 
 
@@ -14,7 +14,7 @@ class OauthAuthorize(LoginBase):
         redirect_uri = self.get_argument('redirect_uri', '')
         if response_type == 'code':
             if client_id:
-                if OauthClientUri.get(client_id) == redirect_uri:
+                if oauth_client_uri.get(client_id) == redirect_uri:
                     self.render(client_id=client_id)
                 else:
                     self.finish({'error':'redirect_uri error!'})

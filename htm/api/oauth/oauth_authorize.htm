@@ -1,13 +1,13 @@
 <%inherit file="/api/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.oauth2 import OauthClient,OauthClientUri
+from model.oauth2 import OauthClient,oauth_client_uri
 %>
 <%def name="htm_head()">
 </%def>
 <%
 client = OauthClient.mc_get(client_id)
-uri = OauthClientUri.get(client_id)
+uri = oauth_client_uri.get(client_id)
 %>
 <%htm:form>
     <div>${client.name}</div>
