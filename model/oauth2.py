@@ -125,7 +125,7 @@ def oauth_access_token_verify(access_token):
         return o.user_id
     return 0
 
-def oauth_authorize_code_del(id):
+def oauth_authorize_code_rm(id):
     OauthAuthorizeCode.delete(id)
 
 def oauth_authorization_code_verify(authorization_code):
