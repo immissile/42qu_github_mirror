@@ -119,7 +119,6 @@ def buzz_pos_update(user_id, li):
         if id > buzz_pos.get(user_id):
             buzz_pos.set(user_id, id)
             buzz_unread_update(user_id)
-            #buzz_unread_count.delete(user_id)
 
 CACHE_LIMIT = 256
 
@@ -193,12 +192,15 @@ def buzz_show(user_id, limit):
     return buzz_career_bind(li)
 
 def buzz_unread_incr(user_id):
-    unread = buzz_unread.get(user_id)
+    unread = buzz_unread_count(user_id)
     buzz_unread.set(user_id, unread + 1)
 
 
 def buzz_unread_update(user_id):
-    buzz_unread.delete(user_id)
+    buzz_unread.set(
+        user_id,
+        Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count()
+    )
 
 
 if __name__ == '__main__':
