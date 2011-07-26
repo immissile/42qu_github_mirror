@@ -36,7 +36,7 @@ def validate_link(id, cid, link):
     except:
         pass
 
-    if pure_link.isalpha():
+    if pure_link.isalnum():
         print "id:%s cid:%s EX:%s" % (id, cid, pure_link)
         pure_link = OAUTH2URL[cid] % pure_link
         print pure_link

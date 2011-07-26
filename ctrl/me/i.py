@@ -19,6 +19,14 @@ from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
 from config import SITE_URL
+from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ
+
+OAUTH2URL = {
+    OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
+    OAUTH_SINA:'http://weibo.com/%s',
+    OAUTH_TWITTER:'http://twitter.com/%s',
+    OAUTH_QQ:'http://t.qq.com/%s',
+}
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -34,8 +42,10 @@ def _upload_pic(files, current_user_id):
 
 
 class LinkEdit(LoginBase):
-    def _linkify(self, link):
+    def _linkify(self, link, cid=0):
         link = link.strip().split(' ', 1)[0]
+        if link.isalnum() and cid in OAUTH2URL: 
+            link = OAUTH2URL[cid] % link
         if link and not link.startswith('http://') and not link.startswith('https://'):
             link = 'http://%s'%link
         return link
@@ -75,7 +85,7 @@ class LinkEdit(LoginBase):
         for cid, link in zip(arguments.get('cid'), arguments.get('link')):
             cid = int(cid)
             name = OAUTH2NAME_DICT[cid]
-            link_cid.append((cid, name, self._linkify(link)))
+            link_cid.append((cid, name, self._linkify(link, cid)))
 
 
         for id, key, value in zip(
