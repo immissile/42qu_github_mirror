@@ -25,7 +25,7 @@ buzz_pos = Kv('buzz_pos', 0)
 buzz_unread = Kv('buzz_unread', 0)
 
 buzz_count = McNum(lambda user_id: Buzz.where(to_id=user_id).count(), 'BuzzCount.%s')
-buzz_unread_count = McNum(lambda user_id: buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count(), 'BuzzUnreadCount.%s')
+buzz_unread_count = McNum(lambda user_id: Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count(), 'BuzzUnreadCount.%s')
 
 BUZZ_DIC = {
     CID_BUZZ_SYS: BuzzSys,
@@ -58,8 +58,8 @@ def buzz_sys_new_all(rid):
 #mq_buzz_sys_new_all = mq_client(buzz_sys_new_all)
 
 def buzz_show_new(user_id, zsite_id):
-    if buzz_unread_can_send(user_id):
-        buzz_new(0, user_id, CID_BUZZ_SHOW, zsite_id)
+        if buzz_unread_can_send(user_id):
+            buzz_new(0, user_id, CID_BUZZ_SHOW, zsite_id)
 
 def buzz_show_new_all(zsite_id):
     for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_ACTIVE)):
@@ -112,7 +112,7 @@ def buzz_pos_update(user_id, li):
         id = li[0][0]
         if id > buzz_pos.get(user_id):
             buzz_pos.set(user_id, id)
-            buzz_unread_update()
+            buzz_unread_update(user_id)
             buzz_unread_count.delete(user_id)
 
 CACHE_LIMIT = 256
@@ -194,6 +194,10 @@ def buzz_unread_incr(user_id):
 
 def buzz_unread_can_send(user_id, limit=10):
     unread = buzz_unread.get(user_id)
+    if not unread:
+        unread = buzz_unread_count(user_id)
+        if unread:
+            buzz_unread.set(user_id, unread)
     return unread < limit
 
 def buzz_unread_update(user_id):
@@ -201,6 +205,10 @@ def buzz_unread_update(user_id):
 
 
 if __name__ == '__main__':
-    for i in ormiter(Buzz,"cid=%s"%CID_BUZZ_SHOW):
-        i.delete()
-        print i.id
+    #import pdb;pdb.set_trace()
+    #buzz_show_new(10014918 ,10000000)
+    #buzz_unread_incr(10007647)
+    id = 10007637
+    print 'buzz_unread:%s'%id, buzz_unread.get(id)
+    print buzz_unread_can_send(id)
+    print buzz_unread_count(id)
