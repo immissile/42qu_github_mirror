@@ -1,15 +1,16 @@
 <%inherit file="/api/_base.htm" />
 <%!
-from model.oauth2 import OauthClient
+from model.oauth2 import OauthClient,OauthClientUri
 %>
 <%def name="htm_head()">
 </%def>
 <%
 client = OauthClient.mc_get(client_id)
+uri = OauthClientUri.get(client_id)
 %>
 <form  method='POST'>
     <div>${client.name}</div>
     <div>${client.txt}</div>
-    <input type='input' name='arg' value=${client_id}>
+    <input type='input' name='arg' value=${uri}>
     <input type="submit" value='确认'>
 </form>
