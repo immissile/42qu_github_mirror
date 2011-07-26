@@ -44,11 +44,11 @@ def _upload_pic(files, current_user_id):
 class LinkEdit(LoginBase):
     def _linkify(self, link, cid=0):
         link = link.strip().split(' ', 1)[0]
-
-        if cid in OAUTH2URL and RE_URL.match(link): 
-            link = OAUTH2URL[cid] % link
-        elif link and not link.startswith('http://') and not link.startswith('https://'):
-            link = 'http://%s'%link
+        if link:
+            if cid in OAUTH2URL and RE_URL.match(link): 
+                link = OAUTH2URL[cid] % link
+            elif not link.startswith('http://') and not link.startswith('https://'):
+                link = 'http://%s'%link
         
         return link
 
