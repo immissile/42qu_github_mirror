@@ -6,18 +6,36 @@ from model.money import read_cent, bank
 .fullscreen{
 font-size:16px;
 margin-top:64px;
-text-align:center;
+text-align:left;
 }
 .fullscreen p{
 margin-bottom:16px;
 }
+.block{
+margin-bottom:32px
+}
 </style>
 <div class="fullscreen">
-<p>将以下链接告诉对方就可以了</p>
-<p>
-http:${current_user.link}/pay
-</p>
 
+<div class="block">
+<p>收款链接 : <a href="http:${current_user.link}/pay" target="_blank">http:${current_user.link}/pay</a></p>
+</div>
+
+<div class="block">
+<p>如果您是WordPress的用户 , 也欢迎 <a href="http://help.42qu.com/wordpress.html" target="_blank">点此安装</a> 博客插件</p>
+</div>
+
+
+<div class="block">
+<p>链接中还可以附加以下参数</p>
+<p>title : 标题</p>
+<p>url : 标题的网址</p>
+<p>price：默认的金额</p>
+<p>比如</p>
+<p>
+<a href="http:${current_user.link}/pay?title=%E8%BF%99%E9%87%8C%E6%98%AF%E6%A0%87%E9%A2%98&url=http://zuroc.42qu.com/10048305&price=42">http:${current_user.link}/pay?title=这里是标题&url=http://zuroc.42qu.com/10048305&price=42</a>
+</p>
+</div>
 
 </div>
 
