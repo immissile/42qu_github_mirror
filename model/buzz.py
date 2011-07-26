@@ -116,6 +116,7 @@ class BuzzEntry(object):
 def buzz_pos_update(user_id, li):
     if buzz_unread_count(user_id) and li:
         id = li[0][0]
+        #print id,buzz_pos.get(user_id)
         if id > buzz_pos.get(user_id):
             buzz_pos.set(user_id, id)
             buzz_unread_update(user_id)
@@ -204,8 +205,10 @@ def buzz_unread_update(user_id):
 
 
 if __name__ == '__main__':
-    from model.cid import CID_USER
-    for i in Zsite.where(cid=CID_USER):
-        user_id = i.id
-        print user_id
-        buzz_unread_update(user_id)
+    buzz_show(10000212,3)
+  #  from model.cid import CID_USER
+  #  for i in Zsite.where(cid=CID_USER):
+  #      user_id = i.id
+  #      print user_id
+  #      buzz_unread_update(user_id)
+
