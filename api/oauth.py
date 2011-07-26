@@ -24,8 +24,8 @@ class OauthAuthorize(LoginBase):
             self.finish({'error':'response_type error!'})
 
     def post(self):
-        arg = self.get_argument('arg')
-        url = arg+'?'+urllib.urlencode({'code':oauth_authorize_code_new()})
+        uri = self.get_argument('uri')
+        url = uri+'?'+urllib.urlencode({'code':oauth_authorize_code_new()})
         self.redirect(url)
 
 
