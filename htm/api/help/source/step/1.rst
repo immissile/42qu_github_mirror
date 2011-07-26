@@ -1,2 +1,16 @@
-创建应用
+概述
 =======================================
+
+授权采用 oauth2.0 协议 , 分为 
+
+网页方式 ( Web Server Flow ) 
+
+和 
+
+客户端方式 ( Resource Owner Password Credentials Flow )
+
+注意：
+
+refresh_token 暂未使用 ...
+
+  
