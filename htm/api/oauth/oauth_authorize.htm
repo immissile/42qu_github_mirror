@@ -1,17 +1,31 @@
-<%inherit file="/api/_base.htm" />
+<%inherit file="/ctrl/_base/zsite.htm" />
+
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.oauth2 import OauthClient,oauth_client_uri
+from config import SITE_URL
 %>
 <%def name="htm_head()">
+<style>
+.btns{
+margin-top:32px;text-align:center;border-top:1px dotted #ccc;padding-top:32px;
+font-size:16px;
+}
+.btns a,.btns .btnw{
+margin:0 32px
+}
+</style>
 </%def>
 <%
 client = OauthClient.mc_get(client_id)
 uri = oauth_client_uri.get(client_id)
 %>
-<%htm:form>
-    <div>${client.name}</div>
-    <div>${client.txt}</div>
-    <input type='input' name='uri' value=${uri}>
-    <input type="submit" value='确认'>
+<%htm:form style="width:470px;margin:32px auto">
+    <div class="tc" style="margin-bottom:32px;border-bottom:1px dotted #ccc;padding-bottom:32px;font-size:16px">${client.name}</div>
+    <pre>${client.txt}</pre>
+    <input type="hidden" name="uri" value="${uri}">
+    <div class="btns">
+        <span class="btnw"><button type="submit">授权读写</button></span>
+        <a style="vertical-align:12px;" href="${SITE_URL}">还是算了</a>
+    </div>
 </%htm:form>
