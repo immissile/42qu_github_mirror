@@ -7,7 +7,7 @@ from model.motto import motto as _motto
 from model.user_info import UserInfo, user_info_new
 from model.namecard import namecard_get, namecard_new
 from model.ico import ico_new, ico_pos, ico_pos_new
-from model.zsite_url import url_by_id, url_new, url_valid
+from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from model.user_mail import mail_by_user_id
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
@@ -44,10 +44,12 @@ def _upload_pic(files, current_user_id):
 class LinkEdit(LoginBase):
     def _linkify(self, link, cid=0):
         link = link.strip().split(' ', 1)[0]
-        if link.isalnum() and cid in OAUTH2URL: 
+
+        if cid in OAUTH2URL and RE_URL.match(link): 
             link = OAUTH2URL[cid] % link
-        if link and not link.startswith('http://') and not link.startswith('https://'):
+        elif link and not link.startswith('http://') and not link.startswith('https://'):
             link = 'http://%s'%link
+        
         return link
 
     def get(self):
