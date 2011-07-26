@@ -1,0 +1,43 @@
+web用户登录 
+=======================================
+
+/oauth/authorize 
+
+输入 ::
+
+    client_id
+    response_type
+    redirect_uri
+
+
+返回 ::
+
+    client_id
+    client_secret
+    redirect_uri
+    grant_type
+    code
+
+演示输入 ::
+
+    client_id = 10046911
+    response_type = code
+    redirect_uri = http://wa.com
+
+
+生成链接 ::
+
+    http://wa.com/?access_token=CQAAAAuXvKaiFLlJn0knOY&scope=basic&expires_in=87063&refresh_token=CQAAAAeZIEOhqQoS75tEPF
+
+
+对应输出 ::
+    
+    {
+
+        'access_token' = CQAAAAuXvKaiFLlJn0knOY
+        'refresh_token' = CQAAAAeZIEOhqQoS75tEPF
+        'scope' = 'basic'
+        'expires_in' = '87063'
+
+    }
+
