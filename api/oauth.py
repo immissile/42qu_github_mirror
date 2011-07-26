@@ -25,7 +25,8 @@ class OauthAuthorize(LoginBase):
 
     def post(self):
         arg = self.get_argument('arg')
-        self.finish({'authorization_code':oauth_authorize_code_new()})
+        url = arg+'?'+urllib.urlencode({'code':oauth_authorize_code_new()})
+        self.redirect(url)
 
 
 
@@ -49,7 +50,9 @@ class OauthToken(Base):
                     oauth_authorize_code_del(authorization_id)
                     url = redirect_uri+'?'+urllib.urlencode({
                         'access_token':access_token,
-                        'refresh_token':refresh_token
+                        'refresh_token':refresh_token,
+                        'expires_in': 87063,
+                        'scope': 'basic'
                         })
                     self.redirect(url)
                 else:
