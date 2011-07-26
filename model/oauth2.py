@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA
+from kv import Kv
 from txt import txt_property, txt_new
 from gid import gid
 from uuid import uuid4
@@ -9,6 +10,11 @@ import binascii
 from os import urandom
 import time
 
+oauth_client_uri = Kv('oauth_client_uri')
+
+oauth_authorize_code = Kv('oauth_authorize_code')
+
+mc_oauth_client_id_by_user_id = McCacheA('OauthClientIdListByUserId.%s')
 
 class OauthAccessToken(Model):
     pass
@@ -23,23 +29,33 @@ class OauthClient(McModel):
 class OauthRefreshToken(Model):
     pass
 
-mc_oauth_client_id_by_user_id = McCacheA('OauthClientIdListByUserId.%s')
 
 @mc_oauth_client_id_by_user_id('{user_id}')
 def oauth_client_id_by_user_id(user_id):
     return OauthClient.where(user_id=user_id).order_by('id desc').col_list()
 
 def oauth_client_by_user_id(user_id):
-    return OauthClient.mc_get_list(oauth_client_id_by_user_id(user_id))
+    oc = OauthClient.mc_get_list(oauth_client_id_by_user_id(user_id))
+    for c in oc:
+        if oauth_client_uri.get(c.id):
+            c.uri = oauth_client_uri.get(c.id)
+        else:
+            c.uri = False
+    return oc
+
 
 def oauth_client_new(user_id, name, txt):
     secret = uuid4().bytes
     id = gid()
     o = OauthClient(id=id, user_id=user_id, secret=secret, name=name)
     o.save()
-
     txt_new(id, txt)
     mc_oauth_client_id_by_user_id.delete(user_id)
+    return o
+
+def oauth_client_web_new(user_id, name, txt, uri):
+    o = oauth_client_new(user_id, name, txt)
+    oauth_client_uri.set(id=o.id, value=uri)
     return o
 
 def oauth_secret(id):
@@ -64,6 +80,11 @@ def oauth_refresh_token(client_id, id):
     o = OauthRefreshToken.get(client_id=client_id, id=id)
     if o:
         return o
+
+def oauth_authorize_code_new():
+    value = urandom(12)
+    id = oauth_authorize_code.insert_no_value_cache(value)
+    return id_binary_encode(id, value)
 
 def oauth_refresh_token_new(client_id, id):
     o = oauth_refresh_token(client_id, id)
@@ -95,5 +116,12 @@ def oauth_access_token_verify(access_token):
         return o.user_id
     return 0
 
-def oauth_authorization_code_verify(client_id,authorization_code):
-    pass
+def oauth_authorize_code_rm(id):
+    oauth_authorize_code.delete(id)
+
+def oauth_authorization_code_verify(authorization_code):
+    id, code = id_binary_decode(authorization_code)
+    t = oauth_authorize_code.get(id)
+    if t and t == code:
+        return id
+    return 0

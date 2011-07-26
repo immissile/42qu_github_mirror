@@ -15,6 +15,9 @@ ${css.god_chart|n}
 <%def name="render_chart(cid)">
 <%
 data = log_incr_list(cid)
+%>
+%if data:
+<%
 y_max = max(data)
 y_min = min(data)
 step = max(int((y_max - y_min)/10),1)
@@ -31,7 +34,7 @@ json_data = {
 }
 %>
 <div class="chart">
-    <div class="chart_title">${LOG_HISTORY_CN_CID[cid]} 今日 +${data[-1]}</div>
+    <div class="chart_title">${LOG_HISTORY_CN_CID[cid]} 昨日 +${data[-1]}</div>
     <div id="chart${cid}"></div>
 <script>
 swfobject.embedSWF(
@@ -43,6 +46,7 @@ function chart${cid}(){
 }
 </script>
 </div>
+%endif
 </%def>
 
 

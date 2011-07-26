@@ -39,8 +39,8 @@ def log_history_new(cls , cid, num, day=None):
     if day is None:
         day = today_days()
     c = LogHistory.raw_sql(
-        "select num from log_history where cid=%s order by day desc limit 1",
-        cid
+        "select num from log_history where cid=%s and day<%s order by day desc limit 1",
+        cid, day
     )
     pre_num = c.fetchone()
     if pre_num:
@@ -65,9 +65,9 @@ day , num, incr, cid, max_id, num, incr, max_id
 
 def log_incr_list(cid, limit=100):
     c = LogHistory.raw_sql(
-'select incr from log_history where cid=%s order by day desc limit %s', cid, limit
+'select incr from log_history where cid=%s order by day desc limit %s', cid, limit+1
     ).fetchall()
-    return map(itemgetter(0),c) 
+    return list(reversed(map(itemgetter(0),c)))[1:] 
 
 
 def log_num_user():
@@ -99,6 +99,9 @@ def log_num():
 
 
 if __name__ == '__main__':
+    c = LogHistory.raw_sql(
+        'select day , incr, num from log_history where cid=%s order by day desc limit %s', LOG_HISTORY_CID_REPLY, 100 
+    ).fetchall()
+    print c
     log_num()
-    for i in LOG_HISTORY_CID:
-        print log_incr_list(i), LOG_HISTORY_CN_CID[i]
+    print log_incr_list(LOG_HISTORY_CID_REPLY, limit=100)

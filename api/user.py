@@ -40,7 +40,6 @@ class Login(OauthBase):
         auth = self.get_argument('client_secret', None)
         client_id = self.get_argument('client_id', None)
 
-        print mail,passwd,auth,client_id
         if mail_password_verify(mail, passwd):
             if oauth_secret_verify(client_id, auth):
                 user_id = user_id_by_mail(mail)

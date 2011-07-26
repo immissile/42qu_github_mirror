@@ -12,22 +12,10 @@ PAGE_LIMIT = 64
 SAFE_TABLE = maketrans('/,. ', '++++')
 
 @urlmap('/q')
-@urlmap('/q/(?P<q>[^/]+)')
-@urlmap('/q-(\d+)/([^/]+)')
+@urlmap('/q-(\d+)')
 class Search(Base):
     def get(self, n=1, q=''):
-        if not q:
-            if 'q' in self.request.query:
-                link = '/q'
-                q = self.get_argument('q', '')
-                q = q.lower().translate(SAFE_TABLE)
-                if q:
-                    link = '%s/%s' % (link, quote(q))
-                return self.redirect(link)
-            else:
-                self.render(
-                    q=None,
-                )
+        q = self.get_argument('q', '')
         if q:
             try:
                 q = q.decode('utf-8')
@@ -37,7 +25,7 @@ class Search(Base):
             now, list_limit, offset = limit_offset(n, PAGE_LIMIT)
             zsite_list, total = search(q, offset, list_limit)
             page = str(Page(
-                '/q-%%s/%s' % quote(q).replace('%', '%%'),
+                '/q-%%s?q=%s' % quote(q).replace('%', '%%'),
                 total,
                 now,
                 PAGE_LIMIT
@@ -48,3 +36,5 @@ class Search(Base):
                 total=total,
                 page=page,
             )
+        else:
+            self.render(q=None)
