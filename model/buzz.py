@@ -21,11 +21,17 @@ from collections import defaultdict
 class Buzz(Model):
     pass
 
+class BuzzUnread(Model):
+    pass
+
 buzz_pos = Kv('buzz_pos', 0)
 buzz_unread = Kv('buzz_unread', 0)
 
 buzz_count = McNum(lambda user_id: Buzz.where(to_id=user_id).count(), 'BuzzCount.%s')
-buzz_unread_count = McNum(lambda user_id: Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count(), 'BuzzUnreadCount.%s')
+#buzz_unread_count = McNum(lambda user_id: Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count(), 'BuzzUnreadCount.%s')
+
+def buzz_unread_count(user_id):
+    return buzz_unread.get(user_id)
 
 BUZZ_DIC = {
     CID_BUZZ_SYS: BuzzSys,
@@ -39,13 +45,14 @@ BUZZ_DIC = {
 
 def mc_flush(user_id):
     buzz_count.delete(user_id)
-    buzz_unread_count.delete(user_id)
     mc_buzz_list.delete(user_id)
+    #buzz_unread_count.delete(user_id)
 
 def buzz_new(from_id, to_id, cid, rid):
     b = Buzz(from_id=from_id, to_id=to_id, cid=cid, rid=rid, create_time=int(time()))
     b.save()
     mc_flush(to_id)
+    buzz_unread_incr(to_id)
     return b
 
 def buzz_sys_new(user_id, rid):
@@ -58,11 +65,10 @@ def buzz_sys_new_all(rid):
 #mq_buzz_sys_new_all = mq_client(buzz_sys_new_all)
 
 def buzz_show_new(user_id, zsite_id):
-        if buzz_unread_can_send(user_id):
-            buzz_new(0, user_id, CID_BUZZ_SHOW, zsite_id)
+    buzz_new(0, user_id, CID_BUZZ_SHOW, zsite_id)
 
 def buzz_show_new_all(zsite_id):
-    for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_ACTIVE)):
+    for i in ormiter(BuzzUnread, 'value < 10'):
         buzz_show_new(i.id, zsite_id)
 
 def buzz_follow_new(from_id, to_id):
@@ -113,7 +119,7 @@ def buzz_pos_update(user_id, li):
         if id > buzz_pos.get(user_id):
             buzz_pos.set(user_id, id)
             buzz_unread_update(user_id)
-            buzz_unread_count.delete(user_id)
+            #buzz_unread_count.delete(user_id)
 
 CACHE_LIMIT = 256
 
@@ -188,27 +194,17 @@ def buzz_show(user_id, limit):
 
 def buzz_unread_incr(user_id):
     unread = buzz_unread.get(user_id)
-    if not unread:
-        unread = buzz_unread_count(user_id)
     buzz_unread.set(user_id, unread + 1)
 
-def buzz_unread_can_send(user_id, limit=10):
-    unread = buzz_unread.get(user_id)
-    if not unread:
-        unread = buzz_unread_count(user_id)
-        if unread:
-            buzz_unread.set(user_id, unread)
-    return unread < limit
 
 def buzz_unread_update(user_id):
     buzz_unread.delete(user_id)
 
 
 if __name__ == '__main__':
-    #import pdb;pdb.set_trace()
-    #buzz_show_new(10014918 ,10000000)
-    #buzz_unread_incr(10007647)
-    id = 10007637
-    print 'buzz_unread:%s'%id, buzz_unread.get(id)
-    print buzz_unread_can_send(id)
-    print buzz_unread_count(id)
+    from model.cid import CID_USER
+    for i in Zsite.where(cid=CID_USER):
+        user_id = i.id
+        print user_id
+        count = Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count()
+        buzz_unread.set(user_id, count) 
