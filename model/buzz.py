@@ -208,5 +208,4 @@ if __name__ == '__main__':
     for i in Zsite.where(cid=CID_USER):
         user_id = i.id
         print user_id
-        count = Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count()
-        buzz_unread.set(user_id, count) 
+        buzz_unread_update(user_id)
