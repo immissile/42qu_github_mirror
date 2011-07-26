@@ -59,7 +59,7 @@ class OauthToken(Base):
                         })
                         self.redirect(url)
                     else:
-                        self.finish({'error':'oauth redirect uri error'})
+                        self.finish({'error':'redirect uri not same as the redirect uri of this app'})
                 else:
                     self.finish({'error':'oauth secret verify error'})
             else:

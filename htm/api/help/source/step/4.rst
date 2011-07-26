@@ -1,9 +1,13 @@
 登录 - 网页方式
 =======================================
 
-第一步：
-/oauth/authorize 
+---------------------------------------
 获取 authorization_code
+---------------------------------------
+
+
+/oauth/authorize 
+
 
 
 输入 ::
@@ -34,10 +38,11 @@
 
     
     
+---------------------------------------
+获取 access_token 
+---------------------------------------
 
-第二步：
 /oauth/token
-获取access_token
 
 
 输入 ::
@@ -66,14 +71,9 @@
     grant_type = authorization_code
     code = zE2ZAAT81XVjvbsTomYvDK
 
-
-    
 生成链接 ::
 
     http://api.yup.xxx/oauth/token?code=wE2ZAAYzSp2HV0is588Tf8&client_id=10046911&client_secret=d1b52c339b53468e891fe0f301edd01a&redirect_uri=http://wa.com&grant_type=authorization_code
-
-
-
 
 重定向返回 ::
 
