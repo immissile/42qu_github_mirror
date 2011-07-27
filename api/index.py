@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
-from _handler import Base, LoginBase
+from _handler import Base, LoginBase, XsrfGetBase
 from _urlmap import urlmap
 from model.oauth2 import oauth_client_new, oauth_client_web_new
 
@@ -27,11 +27,12 @@ class Apply(LoginBase):
         name = self.get_argument('name', '')
         txt = self.get_argument('txt', '')
         site = self.get_argument('site', '')
-        if cid:
-            uri = self.get_argument('uri')
-            oauth_client_web_new(user_id, name, txt, uri, site, cid)
-        else:
-            oauth_client_new(user_id, name, txt, site, cid)
+        if name:
+            if cid:
+                uri = self.get_argument('uri','')
+                oauth_client_web_new(user_id, name, txt, uri, site, cid)
+            else:
+                oauth_client_new(user_id, name, txt, site, cid)
         return self.redirect('/')
 
 
@@ -60,17 +61,16 @@ class ApplyEdit(LoginBase):
             txt = self.get_argument('txt', '')
             site = self.get_argument('site', '')
             if client.cid:
-                uri = self.get_argument('uri')
-                oauth_client_web_edit(oauth_client_id, name, txt, uri, site)
+                uri = self.get_argument('uri', '')
+                oauth_client_web_edit(oauth_client_id, name, txt, site, uri,)
             else:
                 oauth_client_edit(oauth_client_id, name, txt, site)
         return self.redirect('/')
 
-@urlmap('/apply/delete/(\d+)')
-class ApplyDelete(LoginBase):
+@urlmap('/apply/rm/(\d+)')
+class ApplyRm(XsrfGetBase):
     def get(self, oauth_client_id):
         client = OauthClient.get(oauth_client_id)
         if client and client.can_edit(self.current_user_id):
             client.rm()
         return self.redirect('/')
-

@@ -16,6 +16,10 @@ oauth_authorize_code = Kv('oauth_authorize_code')
 
 mc_oauth_client_id_by_user_id = McCacheA('OauthClientIdListByUserId.%s')
 
+mc_oauth_access_token_verify = McCache('OauthAccessTokenVerify.%s')
+
+
+
 class OauthAccessToken(Model):
     pass
 
@@ -72,17 +76,18 @@ def oauth_client_web_new(user_id, name, txt, uri, site, cid=0):
     return o
 
 def oauth_client_edit(oauth_client_id, name, txt, site):
-    o = OauthClient.get(id=oauth_client_id)
-    o.name = name
+    o = OauthClient.mc_get(oauth_client_id)
+    if name:
+        o.name = name
     o.site = site
     o.save()
     txt_new(oauth_client_id, txt)
     mc_oauth_client_id_by_user_id.delete(o.user_id)
     return o
 
-def oauth_client_web_edit(oauth_client_id, name, txt, uri, site):
+def oauth_client_web_edit(oauth_client_id, name, txt, site, uri):
     o = oauth_client_edit(oauth_client_id, name, txt, site)
-    oauth_client_uri.set(id=o.id, value=uri)
+    oauth_client_uri.set(o.id, uri)
     return o
 
 def oauth_secret(id):
@@ -148,7 +153,6 @@ def oauth_access_token_new(client_id, user_id):
     mc_oauth_access_token_verify.delete(access_token)
     return id, access_token
 
-mc_oauth_access_token_verify = McCache('OauthAccessTokenVerify.%s')
 
 @mc_oauth_access_token_verify('{access_token}')
 def oauth_access_token_verify(access_token):
@@ -167,3 +171,7 @@ def oauth_authorization_code_verify(authorization_code):
     if t and t == code:
         return id
     return 0
+
+
+if __name__ == "__main__":
+    pass
