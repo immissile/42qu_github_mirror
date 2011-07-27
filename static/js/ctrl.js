@@ -100,22 +100,49 @@ $(function(){
 })
 }
 function init_user(){
-    var html=$('html,body');
+    var html=$('html,body') , clicked, timeout;
+    
     $("#H .DA").click(function(e){
         var t=this, drop=$(this.parentNode).find('div');
         t.blur();
         function _(){
             drop.hide()
             html.unbind('click',_)
+            clicked=undefined;
         }
-        if(drop.is(":hidden")){
+        if(!clicked||drop.is(":hidden")){
             drop.show()
             e.stopPropagation()
             html.click(_)
+            clicked=true;
+            clearTimeout(timeout)
         }else{
             _()
         }
-    })
+    }).hover(
+        function(e){
+            if(clicked)return;
+            var t=this, drop=$(this.parentNode).find('div');
+            drop.show()
+        },
+        function(){
+            if(clicked)return;
+            var t=this, drop=$(this.parentNode).find('div');
+            timeout = setTimeout(function(){
+                drop.hide()
+            }, 250) ;
+            drop.hover(
+                function(e){
+                    clearTimeout(timeout)
+                },
+                function(e){
+                    drop.hide().unbind('mouseenter mouseleave')
+                }
+            );
+        }
+    )
+
+
     init_none()
 }
 
@@ -251,3 +278,6 @@ function follow_a(id){
     $.postJSON(url+"/"+id)
     a.html(text)
 }
+
+
+
