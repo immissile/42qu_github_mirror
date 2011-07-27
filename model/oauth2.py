@@ -26,6 +26,16 @@ class OauthClient(McModel):
     def hex_secret(self):
         return binascii.hexlify(self.secret)
 
+    def rm(self):
+        if self.cid:
+            oauth_client_uri.delete(self.id)
+        mc_oauth_client_id_by_user_id.delete(self.user_id)
+        self.delete()
+
+    def can_edit(self, user_id):
+        return self.user_id == user_id 
+
+
 class OauthRefreshToken(Model):
     pass
 
@@ -71,7 +81,6 @@ def oauth_client_web_edit(oauth_client_id, name, txt, uri, site):
     o = oauth_client_edit(oauth_client_id, name, txt, site)
     oauth_client_uri.set(id=o.id, value=uri)
     return o
-
 
 def oauth_secret(id):
     client = OauthClient.mc_get(id)
