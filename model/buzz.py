@@ -52,7 +52,7 @@ def buzz_new(from_id, to_id, cid, rid):
     b = Buzz(from_id=from_id, to_id=to_id, cid=cid, rid=rid, create_time=int(time()))
     b.save()
     mc_flush(to_id)
-    buzz_unread_incr(to_id)
+    buzz_unread_update(to_id)
     return b
 
 def buzz_sys_new(user_id, rid):
@@ -192,19 +192,21 @@ def buzz_show(user_id, limit):
         be.entry = cls_dic[BUZZ_DIC[be.cid]][be.rid]
     return buzz_career_bind(li)
 
-def buzz_unread_incr(user_id):
-    unread = buzz_unread_count(user_id)
-    buzz_unread.set(user_id, unread + 1)
+#def buzz_unread_incr(user_id):
+#    unread = buzz_unread_count(user_id)
+#    buzz_unread.set(user_id, unread + 1)
 
 
-def buzz_unread_update(user_id, id):
+def buzz_unread_update(user_id, id=None):
     buzz_unread.set(
         user_id,
-        Buzz.where('id>%s', id).where(to_id=user_id).count()
+        Buzz.where('id>%s', id or buzz_pos.get(user_id)).where(to_id=user_id).count()
     )
 
 
 if __name__ == '__main__':
+    buzz_unread_update(10000000)
+    print  buzz_unread_count(10000000)
     from model.cid import CID_USER
     for i in Zsite.where(cid=CID_USER):
         user_id = i.id
