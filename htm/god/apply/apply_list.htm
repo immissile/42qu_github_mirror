@@ -1,0 +1,41 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from model.txt import txt_get
+from model.oauth2 import oauth_client_uri
+%>
+<style>
+</style>
+
+${page|n}
+
+%for client in apply_list:
+<%
+txt = client.txt
+uri = oauth_client_uri.get(client.id)
+%>
+<div style="margin:10px 0;padding:27px;border:1px solid #eee">
+<div id="left">
+<div>${client.name}</div>
+<p>官方网站:${client.site}</p>
+<div>
+client_id : ${client.id}
+</div>
+<div>
+%if uri:
+uri:${uri}
+%endif
+</div>
+<div>
+client_secret : ${client.hex_secret}
+</div>
+</div>
+%if txt:
+<div id="right">
+<p>介绍:${txt}</p>
+</div>
+%endif
+</div>
+%endfor
+
+${page|n}
+
