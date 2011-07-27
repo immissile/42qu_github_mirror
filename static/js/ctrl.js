@@ -100,49 +100,24 @@ $(function(){
 })
 }
 function init_user(){
-    var html=$('html,body') , clicked, timeout;
+    var html=$('html,body');
     
-    $("#H .DA").click(function(e){
+    $("#H .DA") .click(function(e){
         var t=this, drop=$(this.parentNode).find('div');
         t.blur();
         function _(){
             drop.hide()
             html.unbind('click',_)
-            clicked=undefined;
         }
-        if(!clicked||drop.is(":hidden")){
+        if(drop.is(":hidden")){
             drop.show()
             e.stopPropagation()
             html.click(_)
             clicked=true;
-            clearTimeout(timeout)
         }else{
             _()
         }
-    }).hover(
-        function(e){
-            if(clicked)return;
-            var t=this, drop=$(this.parentNode).find('div');
-            drop.slideDown()
-        },
-        function(){
-            if(clicked)return;
-            var t=this, drop=$(this.parentNode).find('div');
-            timeout = setTimeout(function(){
-                drop.slideUp()
-            }, 250) ;
-            drop.hover(
-                function(e){
-                    clearTimeout(timeout)
-                },
-                function(e){
-                    timeout = setTimeout(function(){
-                        drop.hide().unbind('mouseenter mouseleave')
-                    }, 500) ;
-                }
-            );
-        }
-    )
+    })
 
 
     init_none()

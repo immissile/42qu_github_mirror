@@ -23,6 +23,7 @@
 }
 .HN{
 float:right;
+margin-right:-16px;
 margin-top:1px;
 }
 #H .H{
@@ -68,11 +69,11 @@ margin-top:1px;
     background:#fff;
 }
 #H .DA{
-    margin-left: 32px;
+    padding:16px;
     color:#999;
 }
 #H .DA:hover{
-color:#000;
+    color:#000;
 }
 #H .D{
     *z-index:999;
@@ -84,7 +85,7 @@ color:#000;
     position:absolute;
     margin-top:5px;
     *margin-top:28px;
-    right:-16px;
+    right:0;
     border:1px solid #eee;
     background:#fafafa; 
     z-index:998; 
