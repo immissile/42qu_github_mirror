@@ -19,8 +19,9 @@ from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
 from config import SITE_URL
-from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can 
+from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient 
 from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ
+from model.zsite import Zsite
 
 OAUTH2URL = {
     OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
@@ -400,7 +401,8 @@ class Invoke(LoginBase):
     def get(self):
         user_id = self.current_user_id
         li = oauth_access_token_by_user_id(user_id)
-        OauthClient.mc_bind(li, "client_id", "client")
+        OauthClient.mc_bind(li, "client", "client_id")
+        Zsite.mc_bind(li, "user", "user_id")
         self.render(li = li)
 
 @urlmap('/i/invoke/rm/(\d+)')
@@ -408,5 +410,8 @@ class InvokeRm(XsrfGetBase):
     def get(self,id):
         if id:
             user_id = self.current_user_id
-            oauth_token_rm_if_can(id,user_id):
+            oauth_token_rm_if_can(id,user_id)
             self.redirect('/i/invoke')
+
+
+

@@ -9,11 +9,11 @@ from model.oauth2 import OauthClient
 
 
 
-<div >
-    <ol>
+<div style="width:470px;margin:32px auto">
     %for access_token in li:
 <%
 client = access_token.client
+user = access_token.user
 %>
         %if client:
         <%
@@ -21,16 +21,30 @@ client = access_token.client
         txt = client.txt
         site = client.site
         %>
-        <li><p> &nbsp;
-        ${cname}&nbsp;
+        <div style="border-bottom:1px dotted #ccc;margin-bottom:32px;padding-bottom:32px;"> 
+<div class="tr">
+<span class="L">
+<a href="${user.link}" target="_blank">${user.name}</a> :
+        %if site:
+<a href="${site}" target="_blank">${cname}</a>
+        %else:
+${cname}
+        %endif
+</span>
+<a href="/i/invoke/rm/${access_token.id}?${_xsrf}" class="rm">删除</a>
+</div>
 
-        ${txt}&nbsp;
+<pre>${txt}</pre>
 
-        ${site}&nbsp;
 
-        </p>
-        <a href="/i/invoke/rm/${access_token.id}?${_xsrf}">取消授权</a></li>
+        </div>
         %endif
     %endfor
-</ol>
 </div>
+<script>
+$(".rm").click(function(){
+    if(!confirm('确定要删除?')){
+        return false
+    }
+})
+</script>
