@@ -1,21 +1,45 @@
 <%inherit file="/api/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%htm:form>
+
+<style>
+textarea{
+border:1px solid #ccc;
+padding:7px;
+width:454px;
+height:180px;
+}
+input{
+border:1px solid #ccc;
+padding:7px;
+width:454px;
+margin-bottom:14px;
+}
+</style>
+<%htm:form style="width:470px;margin:auto">
+<p style="text-align:center">${current_user.name}的应用</p>
 <div>
-应用名称 <input name="name" type="text">
-</div>
-<div>
-应用描述 <textarea name="txt"></textarea>
+    <p><label for="name">应用名称</label></p> 
+    <p><input id="name" name="name" type="text" autocomplete="off" value="${name or ''}"></p>
 </div>
 %if cid:
 <div>
-    <input name='cid'type='hidden'>
-redirect_uri<input name='uri' type='text'>
+    <input name="cid"type="hidden">
+    <p><label for="uri">回调网址 ( redirect_uri )</label> </p>
+    <p><input name="uri" autocomplete="off" type="text" value="${uri or ''}"></p>
 </div>
 %endif
 <div>
-<span class="btnw"><button type="submit">创建</button></span>
+    <p><label for="site">官方网站(选填)</label></p> 
+    <p><input id="site" name="site" type="text" autocomplete="off" value="${site or ''}"></p>
+    <p><label for="txt">介绍描述</label></p> 
+    <textarea id="txt" name="txt" autocomplete="off">${txt or ''}</textarea>
 </div>
+<div style="margin-top:32px">
+<span class="btnw"><button type="submit">保存</button></span>
+</div>
+%if oauth_client_id:
+<a href="/apply/delete/${oauth_client_id}">删除</a>
+%endif
 </%htm:form>
 
 

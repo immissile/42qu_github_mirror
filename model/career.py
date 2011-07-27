@@ -99,6 +99,7 @@ def career_rm(id, user_id):
         mc_flush(user_id, o.cid)
 
 def career_set(id, user_id, unit, title, txt, begin, end, cid):
+    id = int(id)
     if not any((txt, title , unit)):
         career_rm(id, user_id)
         return

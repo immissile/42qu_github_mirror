@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 from array import array
 from hashlib import md5
-from zkit.ordereddict import OrderedDict
 from _db import mc, cursor_by_table
+from zkit.ordereddict import OrderedDict
 
 
 class Kv(object):
@@ -129,7 +129,7 @@ class Kv(object):
         return id
 
     def insert(self, value):
-        self.insert_no_value_cache(value)
+        id = self.insert_no_value_cache(value)
         self.mc_value_id_set(value, id)
         return id
 

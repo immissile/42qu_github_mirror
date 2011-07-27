@@ -50,14 +50,14 @@ class OauthToken(Base):
                         refresh_token = oauth_refresh_token_new(client_id, id)
                         oauth_authorize_code_rm(authorization_id)
 
-                        url = redirect_uri+'?'+urllib.urlencode({
+                        data = {
                             'access_token':access_token,
                             'refresh_token':refresh_token,
                             'expires_in': 87063,
                             'scope': 'basic',
                             'user_id':user_id
-                        })
-                        self.redirect(url)
+                        }
+                        self.finish(data)
                     else:
                         self.finish({'error':'redirect uri not same as the redirect uri of this app'})
                 else:

@@ -7,7 +7,7 @@ from model.motto import motto as _motto
 from model.user_info import UserInfo, user_info_new
 from model.namecard import namecard_get, namecard_new
 from model.ico import ico_new, ico_pos, ico_pos_new
-from model.zsite_url import url_by_id, url_new, url_valid
+from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from model.user_mail import mail_by_user_id
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
@@ -20,6 +20,14 @@ from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zs
 from urlparse import urlparse
 from config import SITE_URL
 from model.oauth2 import oauth_invoke_by_user_id, oauth_refresh_token_rm, oauth_access_token_rm, OauthClient
+from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ
+
+OAUTH2URL = {
+    OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
+    OAUTH_SINA:'http://weibo.com/%s',
+    OAUTH_TWITTER:'http://twitter.com/%s',
+    OAUTH_QQ:'http://t.qq.com/%s',
+}
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -35,10 +43,14 @@ def _upload_pic(files, current_user_id):
 
 
 class LinkEdit(LoginBase):
-    def _linkify(self, link):
+    def _linkify(self, link, cid=0):
         link = link.strip().split(' ', 1)[0]
-        if link and not link.startswith('http://') and not link.startswith('https://'):
-            link = 'http://%s'%link
+        if link:
+            if cid in OAUTH2URL and RE_URL.match(link): 
+                link = OAUTH2URL[cid] % link
+            elif not link.startswith('http://') and not link.startswith('https://'):
+                link = 'http://%s'%link
+        
         return link
 
     def get(self):
@@ -76,7 +88,7 @@ class LinkEdit(LoginBase):
         for cid, link in zip(arguments.get('cid'), arguments.get('link')):
             cid = int(cid)
             name = OAUTH2NAME_DICT[cid]
-            link_cid.append((cid, name, self._linkify(link)))
+            link_cid.append((cid, name, self._linkify(link, cid)))
 
 
         for id, key, value in zip(

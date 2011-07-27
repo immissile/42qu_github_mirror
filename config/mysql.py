@@ -8,6 +8,7 @@ DB_MAIN_TABLE = (
     'buzz',
     'buzz_pos',
     'buzz_sys',
+    'buzz_unread',
     'career',
     'feed',
     'follow',

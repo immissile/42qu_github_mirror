@@ -14,4 +14,4 @@ def tag_get(id):
     return ''
 
 if __name__ == '__main__':
-    pass
+    print tag_new('test1234test134')
