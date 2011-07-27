@@ -44,17 +44,17 @@ def oauth_client_by_user_id(user_id):
     return oc
 
 
-def oauth_client_new(user_id, name, txt):
+def oauth_client_new(user_id, name, txt, site, cid=0):
     secret = uuid4().bytes
     id = gid()
-    o = OauthClient(id=id, user_id=user_id, secret=secret, name=name)
+    o = OauthClient(id=id, user_id=user_id, secret=secret, name=name,site=site, cid=cid)
     o.save()
     txt_new(id, txt)
     mc_oauth_client_id_by_user_id.delete(user_id)
     return o
 
-def oauth_client_web_new(user_id, name, txt, uri):
-    o = oauth_client_new(user_id, name, txt)
+def oauth_client_web_new(user_id, name, txt, uri, site, cid=0):
+    o = oauth_client_new(user_id, name, txt, site, cid)
     oauth_client_uri.set(id=o.id, value=uri)
     return o
 

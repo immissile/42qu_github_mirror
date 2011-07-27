@@ -11,7 +11,7 @@ text-align:center;
 margin:0 14px;
 }
 </style>
-
+<p>${current_user.name}的应用</p>
 <div class="tc">
 开发文档 : <a href="//help-api.${SITE_DOMAIN}" target="_blank">点此浏览</a>
 </div>
@@ -30,7 +30,7 @@ exist_client = oauth_client_by_user_id(current_user_id)
     txt = client.txt
     %>
     <div style="margin:10px 0;padding:27px;border:1px solid #eee">
-    <div>${client.name}</div>
+    <div style="text-align:center">${client.name}</div>
     %if txt:
     <pre>${txt}</pre>
     %endif
@@ -45,6 +45,8 @@ exist_client = oauth_client_by_user_id(current_user_id)
     <div>
     client_secret : ${client.hex_secret}
     </div>
+    <a href="/apply/edit/${client.id}">修改</a>
+    <a href="/apply/delete/${client.id}">删除</a>
     </div>
     %endfor
 %endif
