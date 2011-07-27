@@ -44,7 +44,7 @@ class OauthRefreshToken(Model):
 def oauth_client_id_by_user_id(user_id):
     return OauthClient.where(user_id=user_id).order_by('id desc').col_list()
 
-def oauth_invoke_by_user_id(user_id):
+def oauth_access_token_by_user_id(user_id):
     return OauthAccessToken.where(user_id=user_id).order_by('client_id desc')
 
 def oauth_client_by_user_id(user_id):
