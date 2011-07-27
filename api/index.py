@@ -17,9 +17,11 @@ class Index(Base):
 @urlmap('/apply/(\d+)')
 class Apply(LoginBase):
     def get(self, cid):
+        cid = int(cid)
         self.render(cid = cid)
 
     def post(self, cid):
+        cid = int(cid)
         current_user = self.current_user
         user_id = self.current_user_id
         name = self.get_argument('name', '')
