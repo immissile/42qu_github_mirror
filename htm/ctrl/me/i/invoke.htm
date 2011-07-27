@@ -1,0 +1,38 @@
+<%inherit file="_base.htm" />
+<%!
+from model.oauth2 import OauthClient
+%>
+
+
+<%def name="head()">
+</%def>
+
+
+
+<div >
+    <ol>
+        %for c in col:
+        <%
+        oc = OauthClient.mc_get(c.client_id)
+        print c.client_id,'!!!'
+        print oc
+        %>
+        %if oc:
+        <%
+        cname = oc.name
+        txt = oc.txt
+        site = oc.site
+        %>
+        %endif
+        <li><p> &nbsp;
+        ${cname}&nbsp;
+
+        ${txt}&nbsp;
+
+        ${site}&nbsp;
+
+        </p>
+        <a href="/i/invoke/rm/${c.id}?${_xsrf}">取消授权</a></li>
+        %endfor
+</ol>
+</div>

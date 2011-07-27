@@ -44,6 +44,9 @@ class OauthRefreshToken(Model):
 def oauth_client_id_by_user_id(user_id):
     return OauthClient.where(user_id=user_id).order_by('id desc').col_list()
 
+def oauth_invoke_by_user_id(user_id):
+    return OauthAccessToken.where(user_id=user_id).order_by('client_id desc')
+
 def oauth_client_by_user_id(user_id):
     oc = OauthClient.mc_get_list(oauth_client_id_by_user_id(user_id))
     for c in oc:
@@ -89,11 +92,24 @@ def oauth_secret(id):
     return 0
 
 def oauth_secret_verify(id, secret):
-    client = OauthClient.get(id)
+    client = OauthClient.mc_get(id)
     if client and id:
         if client.hex_secret == secret:
             return True
         return 0
+
+
+def oauth_token_rm_if_can(id,user_id):
+    o = OauthAccessToken.get(id=id)
+    if o:
+        if o.user_id == user_id:
+            access_token = id_binary_encode(o.id, o.token)
+            o.delete()
+            mc_oauth_access_token_verify.delete(access_token)
+            oauth_refresh_token_rm(id)
+
+def oauth_refresh_token_rm(id):
+    return OauthRefreshToken.where(id=id).delete()
 
 def oauth_access_token(client_id, user_id):
     o = OauthAccessToken.get(user_id=user_id, client_id=client_id)
