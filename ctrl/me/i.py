@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from _handler import LoginBase
+from _handler import LoginBase, XsrfGetBase
 from ctrl._urlmap.me import urlmap
 from zkit.pic import picopen
 from zkit.jsdict import JsDict
@@ -19,6 +19,7 @@ from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
 from config import SITE_URL
+from model.oauth2 import oauth_invoke_by_user_id, oauth_refresh_token_rm, oauth_access_token_rm, OauthClient
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -381,3 +382,18 @@ class Password(LoginBase):
             success=success,
             error_password=error_password
         )
+
+@urlmap('/i/invoke')
+class Invoke(LoginBase):
+    def get(self):
+        user_id = self.current_user_id
+        col = oauth_invoke_by_user_id(user_id)
+        self.render(col = col)
+
+@urlmap('/i/invoke/rm/(\d+)')
+class InvokeRm(XsrfGetBase):
+    def get(self,id):
+        if id:
+            oauth_access_token_rm(id)
+            oauth_refresh_token_rm(id)
+            self.redirect('/i/invoke')
