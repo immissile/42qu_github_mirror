@@ -11,19 +11,16 @@ from model.oauth2 import OauthClient
 
 <div >
     <ol>
-        %for c in col:
+    %for access_token in li:
+<%
+client = access_token.client
+%>
+        %if client:
         <%
-        oc = OauthClient.mc_get(c.client_id)
-        print c.client_id,'!!!'
-        print oc
+        cname = client.name
+        txt = client.txt
+        site = client.site
         %>
-        %if oc:
-        <%
-        cname = oc.name
-        txt = oc.txt
-        site = oc.site
-        %>
-        %endif
         <li><p> &nbsp;
         ${cname}&nbsp;
 
@@ -32,7 +29,8 @@ from model.oauth2 import OauthClient
         ${site}&nbsp;
 
         </p>
-        <a href="/i/invoke/rm/${c.id}?${_xsrf}">取消授权</a></li>
-        %endfor
+        <a href="/i/invoke/rm/${access_token.id}?${_xsrf}">取消授权</a></li>
+        %endif
+    %endfor
 </ol>
 </div>
