@@ -7,6 +7,12 @@
 <div>
 应用描述 <textarea name="txt"></textarea>
 </div>
+%if cid:
+<div>
+    <input name='cid'type='hidden'>
+redirect_uri<input name='uri' type='text'>
+</div>
+%endif
 <div>
 <span class="btnw"><button type="submit">创建</button></span>
 </div>
