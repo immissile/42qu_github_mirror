@@ -26,27 +26,29 @@ ${page|n}
 <%
 txt = client.txt
 uri = oauth_client_uri.get(client.id)
-user = Zsite.get(client.user_id)
+user = Zsite.mc_get(client.user_id)
+site = client.site
 %>
 <div id="box" class="sdw">
     <div id="left" class="sd">
-        <p>${client.name} 作者:<a href="${user.link}" target="_blank">${user.name}</a></p>
-        <p>官方网站:${client.site}</p>
-            <div>
-            client_id : ${client.id}
-            </div>
-            <div>
+<p><a href="${user.link}" target="_blank">${user.name}</a> : 
+%if site:
+    <a target="_blank" href="${site}">${client.name}</a>
+%else:
+    ${client.name}
+%endif
+</p>
+    <div>
             %if uri:
-            uri:${uri}
+            redirect uri : ${uri}
             %endif
-            </div>
-            <div>
-            client_secret : ${client.hex_secret}
-            </div>
+            
+            client_id : ${client.id}
+            client secret : ${client.hex_secret}
     </div>
 %if txt:
     <div id="right">
-    <p>介绍:${txt}</p>
+    <pre>${txt}</pre>
     </div>
 %endif
 </div>
