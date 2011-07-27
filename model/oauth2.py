@@ -89,14 +89,14 @@ def oauth_secret_verify(id, secret):
             return True
         return 0
 
-def oauth_access_token_rm(id):
-    return OauthAccessToken.where(id = id).delete()
 
 def oauth_token_rm_if_can(id,user_id):
-    o = OauthAccessToken.get(id)
+    o = OauthAccessToken.get(id=id)
     if o:
         if o.user_id == user_id:
-            oauth_access_token_rm(id)
+            access_token = id_binary_encode(o.id, o.token)
+            o.delete()
+            mc_oauth_access_token_verify.delete(access_token)
             oauth_refresh_token_rm(id)
 
 def oauth_refresh_token_rm(id):
