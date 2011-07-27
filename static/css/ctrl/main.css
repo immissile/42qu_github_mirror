@@ -1,3 +1,7 @@
+#TW{
+padding-bottom:48px;
+_padding-bottom:0;
+}
 #T{
     text-align:center;
     padding:7px;
@@ -8,6 +12,10 @@
     background-image:-webkit-gradient(linear,0 0, 0 0,from(#333), to(#000));
     background-image:-moz-linear-gradient(center top, #333, #000) ;
     margin-bottom:3px;
+}
+#TW #T{
+    position:fixed;
+    width:100%;
 }
 #T a{
     color: #ffe000;
