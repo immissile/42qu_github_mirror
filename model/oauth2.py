@@ -92,6 +92,12 @@ def oauth_secret_verify(id, secret):
 def oauth_access_token_rm(id):
     return OauthAccessToken.where(id = id).delete()
 
+def oauth_token_rm_if_can(id,user_id):
+    if OauthAccessToken.get(id):
+        if OauthAccessToken.get(id) == user_id:
+            oauth_access_token_rm(id)
+            oauth_refresh_token_rm(id)
+
 def oauth_refresh_token_rm(id):
     return OauthRefreshToken.where(id=id).delete()
 
