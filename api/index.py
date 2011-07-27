@@ -30,7 +30,6 @@ class Apply(LoginBase):
         if cid:
             uri = self.get_argument('uri')
             oauth_client_web_new(user_id, name, txt, uri, site, cid)
-
         else:
             oauth_client_new(user_id, name, txt, site, cid)
         return self.redirect('/')
@@ -58,7 +57,6 @@ class ApplyEdit(LoginBase):
         if client.cid:
             uri = self.get_argument('uri')
             oauth_client_web_edit(oauth_client_id, name, txt, uri, site)
-
         else:
             oauth_client_edit(oauth_client_id, name, txt, site)
         return self.redirect('/')
