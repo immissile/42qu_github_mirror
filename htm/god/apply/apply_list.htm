@@ -1,6 +1,7 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.txt import txt_get
+from model.zsite import Zsite
 from model.oauth2 import oauth_client_uri
 %>
 <style>
@@ -25,10 +26,11 @@ ${page|n}
 <%
 txt = client.txt
 uri = oauth_client_uri.get(client.id)
+user = Zsite.get(client.user_id)
 %>
 <div id="box" class="sdw">
     <div id="left" class="sd">
-        <div>${client.name}</div>
+        <p>${client.name} 作者:<a href="${user.link}" target="_blank">${user.name}</a></p>
         <p>官方网站:${client.site}</p>
             <div>
             client_id : ${client.id}
