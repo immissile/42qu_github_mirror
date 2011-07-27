@@ -407,5 +407,5 @@ class InvokeRm(XsrfGetBase):
     def get(self,id):
         if id:
             user_id = self.current_user_id
-            oauth_token_rm_if_can(id,user_id):
+            oauth_token_rm_if_can(id,user_id)
             self.redirect('/i/invoke')
