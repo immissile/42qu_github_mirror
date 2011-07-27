@@ -123,13 +123,13 @@ function init_user(){
         function(e){
             if(clicked)return;
             var t=this, drop=$(this.parentNode).find('div');
-            drop.show()
+            drop.slideDown()
         },
         function(){
             if(clicked)return;
             var t=this, drop=$(this.parentNode).find('div');
             timeout = setTimeout(function(){
-                drop.hide()
+                drop.slideUp()
             }, 250) ;
             drop.hover(
                 function(e){
