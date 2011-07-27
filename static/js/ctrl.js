@@ -138,7 +138,7 @@ function init_user(){
                 function(e){
                     timeout = setTimeout(function(){
                         drop.hide().unbind('mouseenter mouseleave')
-                    }, 250) ;
+                    }, 500) ;
                 }
             );
         }
