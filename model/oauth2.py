@@ -93,8 +93,9 @@ def oauth_access_token_rm(id):
     return OauthAccessToken.where(id = id).delete()
 
 def oauth_token_rm_if_can(id,user_id):
-    if OauthAccessToken.get(id):
-        if OauthAccessToken.get(id) == user_id:
+    o = OauthAccessToken.get(id)
+    if o:
+        if o.user_id == user_id:
             oauth_access_token_rm(id)
             oauth_refresh_token_rm(id)
 
