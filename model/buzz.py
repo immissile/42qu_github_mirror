@@ -25,13 +25,19 @@ class BuzzUnread(Model):
     pass
 
 buzz_pos = Kv('buzz_pos', 0)
-buzz_unread = Kv('buzz_unread', 0)
+buzz_unread = Kv('buzz_unread', None)
 
 buzz_count = McNum(lambda user_id: Buzz.where(to_id=user_id).count(), 'BuzzCount.%s')
 #buzz_unread_count = McNum(lambda user_id: Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count(), 'BuzzUnreadCount.%s')
 
 def buzz_unread_count(user_id):
-    return buzz_unread.get(user_id)
+    count = buzz_unread.get(user_id)
+    if count is None:
+        count = Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count()
+        buzz_unread.set(
+            user_id, count
+        )
+    return count
 
 BUZZ_DIC = {
     CID_BUZZ_SYS: BuzzSys,
@@ -119,7 +125,7 @@ def buzz_pos_update(user_id, li):
         #print id,buzz_pos.get(user_id)
         if id > buzz_pos.get(user_id):
             buzz_pos.set(user_id, id)
-            buzz_unread_update(user_id, id)
+            buzz_unread_update(user_id)
 
 CACHE_LIMIT = 256
 
@@ -197,19 +203,13 @@ def buzz_show(user_id, limit):
 #    buzz_unread.set(user_id, unread + 1)
 
 
-def buzz_unread_update(user_id, id=None):
-    buzz_unread.set(
-        user_id,
-        Buzz.where('id>%s', id or buzz_pos.get(user_id)).where(to_id=user_id).count()
-    )
+def buzz_unread_update(user_id):
+    buzz_unread.delete(user_id)
 
 
 if __name__ == '__main__':
-    buzz_unread_update(10000000)
-    print  buzz_unread_count(10000000)
     from model.cid import CID_USER
     for i in Zsite.where(cid=CID_USER):
         user_id = i.id
         print user_id
         buzz_unread_update(user_id)
-
