@@ -176,6 +176,8 @@ def oauth_authorization_code_verify(authorization_code):
 if __name__ == "__main__":
     from zweb.orm import ormiter
     for i in ormiter(OauthClient):
+        print i
         if oauth_client_uri.get(i.id):
+            print i
             i.cid = 1
             i.save()
