@@ -19,7 +19,7 @@ from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
 from config import SITE_URL
-from model.oauth2 import oauth_invoke_by_user_id, oauth_refresh_token_rm, oauth_access_token_rm, OauthClient
+from model.oauth2 import oauth_invoke_by_user_id, oauth_token_rm_if_can 
 from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ
 
 OAUTH2URL = {
@@ -406,6 +406,6 @@ class Invoke(LoginBase):
 class InvokeRm(XsrfGetBase):
     def get(self,id):
         if id:
-            oauth_access_token_rm(id)
-            oauth_refresh_token_rm(id)
+            user_id = self.current_user_id
+            oauth_token_rm_if_can(id,user_id):
             self.redirect('/i/invoke')
