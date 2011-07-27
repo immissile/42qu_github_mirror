@@ -35,8 +35,11 @@ margin-bottom:14px;
     <textarea id="txt" name="txt" autocomplete="off">${txt or ''}</textarea>
 </div>
 <div style="margin-top:32px">
-<span class="btnw"><button type="submit">创建</button></span>
+<span class="btnw"><button type="submit">保存</button></span>
 </div>
+%if oauth_client_id:
+<a href="/apply/delete/${oauth_client_id}">删除</a>
+%endif
 </%htm:form>
 
 

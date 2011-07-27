@@ -47,7 +47,7 @@ def oauth_client_by_user_id(user_id):
 def oauth_client_new(user_id, name, txt, site, cid=0):
     secret = uuid4().bytes
     id = gid()
-    o = OauthClient(id=id, user_id=user_id, secret=secret, name=name,site=site, cid=cid)
+    o = OauthClient(id=id, user_id=user_id, secret=secret, name=name, site=site, cid=cid)
     o.save()
     txt_new(id, txt)
     mc_oauth_client_id_by_user_id.delete(user_id)
@@ -57,6 +57,21 @@ def oauth_client_web_new(user_id, name, txt, uri, site, cid=0):
     o = oauth_client_new(user_id, name, txt, site, cid)
     oauth_client_uri.set(id=o.id, value=uri)
     return o
+
+def oauth_client_edit(oauth_client_id, name, txt, site):
+    o = OauthClient.get(id=oauth_client_id)
+    o.name = name
+    o.site = site
+    o.save()
+    txt_new(oauth_client_id, txt)
+    mc_oauth_client_id_by_user_id.delete(o.user_id)
+    return o
+
+def oauth_client_web_edit(oauth_client_id, name, txt, uri, site):
+    o = oauth_client_edit(oauth_client_id, name, txt, site)
+    oauth_client_uri.set(id=o.id, value=uri)
+    return o
+
 
 def oauth_secret(id):
     client = OauthClient.mc_get(id)

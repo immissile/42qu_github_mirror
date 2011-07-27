@@ -31,6 +31,7 @@ exist_client = oauth_client_by_user_id(current_user_id)
     %>
     <div style="margin:10px 0;padding:27px;border:1px solid #eee">
     <div style="text-align:center">${client.name}</div>
+    官方网站:${client.site}
     %if txt:
     <pre>${txt}</pre>
     %endif
@@ -46,7 +47,6 @@ exist_client = oauth_client_by_user_id(current_user_id)
     client_secret : ${client.hex_secret}
     </div>
     <a href="/apply/edit/${client.id}">修改</a>
-    <a href="/apply/delete/${client.id}">删除</a>
     </div>
     %endfor
 %endif
