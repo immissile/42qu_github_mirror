@@ -16,6 +16,7 @@ _padding-bottom:0;
 #TW #T{
     position:fixed;
     width:100%;
+    z-index:1;
 }
 #T a{
     color: #ffe000;
