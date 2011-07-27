@@ -18,21 +18,28 @@ margin-bottom:14px;
 <%htm:form style="width:470px;margin:auto">
 <div>
     <p><label for="name">应用名称</label></p> 
-    <p><input id="name" name="name" type="text" autocomplete="off"></p>
+    <p><input id="name" name="name" type="text" autocomplete="off" value="${name or ''}"></p>
 </div>
 %if cid:
+<input name="cid"type="hidden">
 <div>
-    <input name="cid"type="hidden">
     <p><label for="uri">回调网址 ( redirect_uri )</label> </p>
-    <p><input name="uri" autocomplete="off" type="text"></p>
+    <p><input name="uri" autocomplete="off" type="text" value="${uri or ''}"></p>
 </div>
 %endif
 <div>
-    <p><label for="txt">介绍描述</label></p> 
-    <textarea id="txt" name="txt" autocomplete="off"></textarea>
+    <p><label for="site">官方网站 ( 选填 )</label></p> 
+    <p><input id="site" name="site" type="text" autocomplete="off" value="${site or ''}"></p>
 </div>
-<div style="margin-top:32px">
-<span class="btnw"><button type="submit">创建</button></span>
+<div>
+    <p><label for="txt">介绍描述</label></p> 
+    <textarea id="txt" name="txt" autocomplete="off">${txt or ''}</textarea>
+</div>
+<div style="margin-top:32px" class="btns">
+##%if oauth_client_id:
+##<a class="R" href="/apply/rm/${oauth_client_id}?${_xsrf}">删除</a>
+##%endif
+<span class="btnw"><button type="submit">保存</button></span>
 </div>
 </%htm:form>
 

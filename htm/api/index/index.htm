@@ -11,7 +11,6 @@ text-align:center;
 margin:0 14px;
 }
 </style>
-
 <div class="tc">
 开发文档 : <a href="//help-api.${SITE_DOMAIN}" target="_blank">点此浏览</a>
 </div>
@@ -24,13 +23,23 @@ margin:0 14px;
 exist_client = oauth_client_by_user_id(current_user_id)
 %>
 %if exist_client:
-<h2>已有应用</h2>
+<h2>
+    <a href="${current_user.link}" target="_blank">${current_user.name}</a> 的 应用
+</h2>
     %for client in exist_client:
     <%
     txt = client.txt
+    site = client.site
     %>
     <div style="margin:10px 0;padding:27px;border:1px solid #eee">
-    <div>${client.name}</div>
+        <div style="margin-bottom:16px">
+    <a class="R" href="/apply/edit/${client.id}">修改</a>
+       %if site:
+           <a target="_blank" href="${site}">${client.name}</a>
+       %else:
+           ${client.name}
+       %endif 
+        </div>
     %if txt:
     <pre>${txt}</pre>
     %endif
@@ -39,7 +48,7 @@ exist_client = oauth_client_by_user_id(current_user_id)
     </div>
     <div>
     %if client.uri:
-    uri:${client.uri}
+     redirect_uri : ${client.uri}
     %endif
     </div>
     <div>
