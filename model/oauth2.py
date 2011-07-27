@@ -102,6 +102,8 @@ def oauth_access_token_new(client_id, user_id):
         o.token = urandom(12)
         o.save()
     id = o.id
+    #print o.id , o.client_id
+
     access_token = id_binary_encode(id, o.token)
     mc_oauth_access_token_verify.delete(access_token)
     return id, access_token
