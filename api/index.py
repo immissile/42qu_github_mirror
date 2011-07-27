@@ -37,9 +37,10 @@ class Apply(LoginBase):
 
 @urlmap('/apply/edit/(\d+)')
 class ApplyEdit(LoginBase):
+    template = '/api/index/apply.htm'
+
     def get(self, oauth_client_id):
         client = OauthClient.get(oauth_client_id)
-        self.template = '/api/index/apply.htm'
         self.render(
             cid=client.cid,
             name=client.name,
@@ -47,7 +48,7 @@ class ApplyEdit(LoginBase):
             uri=oauth_client_uri.get(oauth_client_id),
             txt=txt_get(oauth_client_id),
             oauth_client_id=oauth_client_id,
-            )
+        )
 
     def post(self, oauth_client_id):
         client = OauthClient.get(oauth_client_id)
