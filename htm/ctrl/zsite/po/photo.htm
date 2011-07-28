@@ -9,11 +9,16 @@ from model.po_photo import po_photo_prev_next
 <%def name="po_body()">
 <%
 img_url = fs_url_jpg(721, po.rid)
-photo_pre_page, photo_next_page = po_photo_prev_next(zsite_id, po.id, zsite_tag_id)
+photo_prev_page, photo_next_page = po_photo_prev_next(zsite_id, po.id, zsite_tag_id)
 tag_link = "tag/%s" % zsite_tag_id
 %>
-<a href="/${photo_pre_page or tag_link}#po_body" class="sprev"></a>
-<a href="/${photo_next_page or tag_link}#po_body" class="snext"></a>
+%if photo_prev_page:
+<a href="/${photo_prev_page}#po_body" class="sprev"></a>
+%endif
+%if photo_next_page:
+<a href="/${photo_next_page}#po_body" class="snext"></a>
+%endif
+
 <div id="photo_name">${po.name}</div>\
 <div class="w721">\
 <div id="photo"><a href="/${photo_next_page or tag_link}#po_body"><img src="${img_url}" alt="${po.name}"></a></div>
