@@ -20,8 +20,10 @@ from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zs
 from urlparse import urlparse
 from config import SITE_URL
 from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient 
-from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ
+from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id
 from model.zsite import Zsite
+from model.cid import CID_PO
+from model.sync import sync_state_set, sync_all
 
 OAUTH2URL = {
     OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
@@ -413,5 +415,33 @@ class InvokeRm(XsrfGetBase):
             oauth_token_rm_if_can(id,user_id)
             self.redirect('/i/invoke')
 
+@urlmap('/i/bind')
+class Bind(LoginBase):
+    def get(self):
+        user_id = self.current_user_id
+        print oauth_by_zsite_id(user_id),'!!!!'
+        self.render(sync_list = sync_all(user_id),app_list = oauth_by_zsite_id(user_id))
 
+    def post(self):
+        user_id = self.current_user_id
+        for cid in CID_PO:
+            state = self.get_argument('cid%s' % cid, None)
+            sync_state_set(user_id, cid, state)
+        self.get()
+
+
+@urlmap('/i/binded')
+class Binded(LoginBase):
+    def get(self):
+        self.render()
+
+    def post(self):
+        self.redirect('/i/bind')
+
+@urlmap('/i/bind/oauth_rm/(\d+)')
+class BindOauthRm(XsrfGetBase):
+    def get(self,id):
+        if id:
+            oauth_rm_by_oauth_id(id)
+        self.redirect('/i/bind')
 

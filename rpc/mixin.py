@@ -34,6 +34,7 @@ def xxx_request(self, path, callback, access_token=None, post_args=None, **args)
     callback = self.async_callback(self._on_request, callback)
     http = httpclient.AsyncHTTPClient()
     if post_args is not None:
+        print url,post_args
         http.fetch(url, method='POST', body=urllib.urlencode(post_args),
                    callback=callback)
     else:
