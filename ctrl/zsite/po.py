@@ -111,6 +111,12 @@ class PhotoPage(PoPage):
     cid = CID_PHOTO
     page_template = '/photo-%s'
 
+@urlmap('/video')
+@urlmap('/video-(\d+)')
+class VideoPage(PoPage):
+    cid = CID_VIDEO
+    page_template = '/video-%s'
+
 
 @urlmap('/answer')
 @urlmap('/answer-(\d+)')

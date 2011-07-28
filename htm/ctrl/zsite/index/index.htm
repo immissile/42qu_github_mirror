@@ -1,7 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/_util/_g1.htm" import="about_me"/>
 <%namespace file="/_util/user_index.htm" import="user_index"/>
-<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo"/>
+<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo, tag_list_video"/>
 <%!
 from model.ico import pic_url as _pic_url, ico_url_with_default
 from model.zsite_link import link_id_name_by_zsite_id
@@ -25,7 +25,7 @@ ${user_index(zsite, is_owner)}
 
 
 <%
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO
 from model.po import po_list_count, po_view_list
 po_word_list = po_view_list(zsite_id, CID_WORD, is_owner, 1)
 po_word_count = po_list_count(zsite_id, CID_WORD, is_owner)
@@ -37,6 +37,8 @@ po_question_list = po_view_list(zsite_id, CID_QUESTION, is_owner, 6)
 po_question_count = po_list_count(zsite_id, CID_QUESTION, is_owner)
 po_photo_list = po_view_list(zsite_id, CID_PHOTO, is_owner, 6)
 po_photo_count = po_list_count(zsite_id, CID_PHOTO, is_owner)
+po_video_list = po_view_list(zsite_id, CID_VIDEO, is_owner, 6)
+po_video_count = po_list_count(zsite_id, CID_VIDEO, is_owner)
 %>
 
 
@@ -46,6 +48,7 @@ ${tag_list_note(po_note_count, po_note_list, is_owner)}
 ${tag_list_answer(po_answer_count, po_answer_list, is_owner)}
 ${tag_list_question(po_question_count, po_question_list, is_owner)}
 ${tag_list_photo(po_photo_count, po_photo_list, is_owner)}
+${tag_list_video(po_video_count, po_video_list, is_owner)}
 
 
 <div class="zsite_block zsite_follow">\
