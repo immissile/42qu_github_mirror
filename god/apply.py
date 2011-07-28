@@ -5,7 +5,7 @@ from _urlmap import urlmap
 from zkit.page import page_limit_offset
 from model.oauth2 import OauthClient 
 
-PAGE_LIMIT = 100
+PAGE_LIMIT = 50
 
 @urlmap('/apply_list')
 @urlmap('/apply_list-(\d+)')

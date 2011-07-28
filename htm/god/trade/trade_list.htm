@@ -3,21 +3,6 @@
 from model.zsite import Zsite
 from zkit.time_format import friendly_time
 %>
-<style>
-    div#left{
-        width:300px;
-        display:inline-block;
-        float:left;
-    }
-    div#right{
-        display:inline-block;
-        float:left;
-    }
-    div#box{
-        display:inline-block;
-        width:70%;
-    }
-</style>
 
 ${page|n}
 
@@ -34,8 +19,14 @@ ${page|n}
 from_user = Zsite.mc_get(trade.from_id)
 to_user = Zsite.mc_get(trade.to_id)
 %>
-<p>${friendly_time(trade.update_time)}  ${check_user(from_user)} 支付给 ${check_user(to_user)}  ${float(trade.value)/100}元，税${float(trade.tax)/100}元</p>
-
+<div class="sdw">
+<div class="sd">
+<p> ${check_user(from_user)} &lt;&lt; ${check_user(to_user)}  ${float(trade.value)/100}元，税${float(trade.tax)/100}元</p>
+<p>
+${friendly_time(trade.update_time)} 
+</p>
+</div>
+</div>
 %endfor
 
 ${page|n}

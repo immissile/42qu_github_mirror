@@ -1,24 +1,10 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.txt import txt_get
+import model.zsite_link
 from model.zsite import Zsite
 from model.oauth2 import oauth_client_uri
 %>
-<style>
-    div#left{
-        width:300px;
-        display:inline-block;
-        float:left;
-    }
-    div#right{
-        display:inline-block;
-        float:left;
-    }
-    div#box{
-        display:inline-block;
-        width:70%;
-    }
-</style>
 
 ${page|n}
 
@@ -29,28 +15,32 @@ uri = oauth_client_uri.get(client.id)
 user = Zsite.mc_get(client.user_id)
 site = client.site
 %>
-<div id="box" class="sdw">
-    <div id="left" class="sd">
-<p><a href="${user.link}" target="_blank">${user.name}</a> : 
+<div class="sdw"><div class="sd">
+<div>
+
+    <div>${client.id}</div>
+    %if user:
+<a href="${user.link}" target="_blank">${user.name}</a> :
+    %endif
 %if site:
     <a target="_blank" href="${site}">${client.name}</a>
 %else:
     ${client.name}
 %endif
-</p>
+</div>
     <div>
             %if uri:
             redirect uri : ${uri}
             %endif
             
-            client_id : ${client.id}
             client secret : ${client.hex_secret}
     </div>
 %if txt:
-    <div id="right">
-    <pre>${txt}</pre>
+    <div>
+        <pre>${txt}</pre>
     </div>
 %endif
+</div>
 </div>
 %endfor
 

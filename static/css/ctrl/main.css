@@ -1,3 +1,7 @@
+#TW{
+padding-bottom:48px;
+_padding-bottom:0;
+}
 #T{
     text-align:center;
     padding:7px;
@@ -8,6 +12,11 @@
     background-image:-webkit-gradient(linear,0 0, 0 0,from(#333), to(#000));
     background-image:-moz-linear-gradient(center top, #333, #000) ;
     margin-bottom:3px;
+}
+#TW #T{
+    position:fixed;
+    width:100%;
+    z-index:1;
 }
 #T a{
     color: #ffe000;
@@ -23,6 +32,7 @@
 }
 .HN{
 float:right;
+margin-right:-16px;
 margin-top:1px;
 }
 #H .H{
@@ -68,11 +78,11 @@ margin-top:1px;
     background:#fff;
 }
 #H .DA{
-    margin-left: 32px;
+    padding:16px;
     color:#999;
 }
 #H .DA:hover{
-color:#000;
+    color:#000;
 }
 #H .D{
     *z-index:999;
@@ -84,7 +94,7 @@ color:#000;
     position:absolute;
     margin-top:5px;
     *margin-top:28px;
-    right:-16px;
+    right:0;
     border:1px solid #eee;
     background:#fafafa; 
     z-index:998; 
