@@ -191,3 +191,14 @@ color:#000;
 .zsite_block .zsite_ol{
 margin-left:1px
 }
+.qaword_title{
+margin-bottom:10px;
+}
+.qaword_title a{
+color:#000;
+padding-bottom:4px;
+}
+.qaword_title a:hover{
+border-bottom:1px dotted #000
+}
+
