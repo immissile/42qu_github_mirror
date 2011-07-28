@@ -40,7 +40,7 @@ width:467px;
 overflow:hidden;
 text-align:center;
 }
-#form_reg_h1{
+#form_reg #form_reg_h1{
 margin-bottom:72px;
 background:url(/img/gif/logo.gif) no-repeat;
 text-indent:-999px;
