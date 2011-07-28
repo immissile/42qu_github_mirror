@@ -208,8 +208,12 @@ def buzz_unread_update(user_id):
 
 
 if __name__ == '__main__':
-    from model.cid import CID_USER
-    for i in Zsite.where(cid=CID_USER):
-        user_id = i.id
-        print user_id
-        buzz_unread_update(user_id)
+    for i in ormiter(Buzz, "cid=%s"%CID_BUZZ_SHOW):
+        print i.id
+        i.delete()
+
+   # from model.cid import CID_USER
+   # for i in Zsite.where(cid=CID_USER):
+   #     user_id = i.id
+   #     print user_id
+   #     buzz_unread_update(user_id)
