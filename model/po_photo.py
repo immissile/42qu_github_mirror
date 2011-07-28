@@ -32,23 +32,44 @@ def po_photo_save(photo_id, photo):
 def po_photo_prev_next(zsite_id, po_id, tag_id):
     t = ZsiteTagPo.get(zsite_id=zsite_id, po_id=po_id, zsite_tag_id=tag_id)
     if not t:
-        return (None, None)
-    id = t.id 
-    return (
-        _po_photo_goto(
-            'select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and cid=%s and id>%s order by id limit 1',
-            zsite_id,
-            tag_id,
-            id,
+        result = (None, None)
+    else:
+        id = t.id 
+        result = (
+            _po_photo_goto(
+                'select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and cid=%s and id>%s order by id limit 1',
+                zsite_id,
+                tag_id,
+                id,
+            )
+            ,
+            _po_photo_goto(
+                'select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and cid=%s and id<%s order by id desc limit 1',
+                zsite_id,
+                tag_id,
+                id,
+            )
         )
-        ,
-        _po_photo_goto(
-            'select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and cid=%s and id<%s order by id desc limit 1',
-            zsite_id,
-            tag_id,
-            id,
-        )
-    )
+   
+    if result[0] != result[1]:
+        if result[0] is None:
+            c = ZsiteTagPo.raw_sql(
+                'select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and cid=%s order by id desc limit 1',
+                zsite_id,
+                tag_id,
+                CID_PHOTO, 
+            )
+            result[0] = c.fetchone()[0] 
+        elif result[1] is None:
+            c = ZsiteTagPo.raw_sql(
+                'select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and cid=%s order by id limit 1',
+                zsite_id,
+                tag_id
+                CID_PHOTO, 
+            )
+            result[1] = c.fetchone()[0]
+    return result
+
 
 def _po_photo_goto(sql, zsite_id, zsite_tag_id, id):
     c = ZsiteTagPo.raw_sql(
