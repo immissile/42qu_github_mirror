@@ -21,7 +21,7 @@ to_user = Zsite.mc_get(trade.to_id)
 %>
 <div class="sdw">
 <div class="sd">
-<p> ${check_user(from_user)} &lt;&lt; ${check_user(to_user)}  ${float(trade.value)/100}元，税${float(trade.tax)/100}元</p>
+<p> ${check_user(from_user)} &gt;&gt; ${check_user(to_user)}  ${float(trade.value)/100}元，税${float(trade.tax)/100}元</p>
 <p>
 ${friendly_time(trade.update_time)} 
 </p>
