@@ -34,12 +34,14 @@ margin-left:40px;
 text-align:center;
 }
 #form_reg h1{
-background:url(/img/gif/logo.gif) no-repeat;
 margin:30px auto 72px;
 height:54px;
 width:467px;
 overflow:hidden;
 text-align:center;
+}
+#form_reg_h1{
+background:url(/img/gif/logo.gif) no-repeat;
 text-indent:-999px;
 }
 #form_reg .logo{

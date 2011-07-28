@@ -20,7 +20,11 @@ ${css.ctrl_auth_reg|n}
 
 <div>
 <%htm:form id="form_reg" action="/auth/reg">
-<a href="//hero.${SITE_DOMAIN}"><h1>${LOGO_TEXT|n}</h1></a>
+<a
+%if not request.get_argument('next',None):
+id="form_reg_h1" 
+%endif
+href="//hero.${SITE_DOMAIN}"><h1>${LOGO_TEXT|n}</h1></a>
 
 <div class="L">
 <div class="logo_txt">
