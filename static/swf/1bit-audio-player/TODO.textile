@@ -1,0 +1,19 @@
+h1. Todo
+
+h2. Wishlist features
+
+If the project starts up again:
+
+* Modal playback (no more than one sound at once)
+* Documentation of options
+* Make flash a single pixel player, do all styling in HTML/CSS.
+* HTML5 playback where supported
+* Support an array of DOM elements, rather than using our selector (let them use a nice library)
+
+h2. Project house keeping
+
+* Use sub module for
+* Proper tests
+* Simple build system (ala https://github.com/polvero/Kizzy)
+** Separate 1bit-specific code form utilities (selectors, class & event methods)
+** Current build process is manual packing. boo-urns
