@@ -26,15 +26,12 @@ if zsite_tag_id:
 else:
     tag_link = ""
 %>
-<a title="上一层" href="/${tag_link}" id="sT"></a>
 
 <%
 cid = po.cid
 po_state = po.state
 %>
-%if cid != CID_PHOTO:
-<a class="back_a" href="/po/cid/${cid}"></a>
-%endif
+<a title="上一层" href="/${tag_link}" id="sT"></a>
 
 %if can_view:
 <div class="po_page">

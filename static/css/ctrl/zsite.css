@@ -199,6 +199,7 @@ color:#000;
 padding-bottom:4px;
 }
 .qaword_title a:hover{
-border-bottom:1px dotted #000
+border-bottom:1px dotted #000;
+text-decoration:none;
 }
 

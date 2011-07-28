@@ -70,6 +70,11 @@ class PoPage(ZsiteBase):
 
         po_list = po_view_list(zsite_id, cid, is_self, limit, offset)
 
+        if cid == CID_WORD:
+            rid_po_list = [i for i in po_list if i.rid]
+            Po.mc_bind(rid_po_list,"question","rid")
+            Zsite.mc_bind([i.question for i in rid_po_list],"user","user_id")
+
         if zsite_id == user_id:
             back_a = "/live"
         else:

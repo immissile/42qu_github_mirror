@@ -14,8 +14,8 @@ from model.zsite import Zsite
 % for po in po_word_list:
     <%
     if po.rid:
-        question_po = Po.get(po.rid)
-        question_user = Zsite.get(question_po.user_id)
+        question_po = Po.mc_get(po.rid)
+        question_user = Zsite.mc_get(question_po.user_id)
     %>
         %if po.rid:
             <div class="qaword_title"><p> 答 <a href="/${question_user.link}" target="_blank">${question_user.name}</a> 问 <a href="/${po.id}" target="_blank">${question_po.name}</a></p></div>

@@ -19,22 +19,24 @@ ${css.ctrl_tag|n}
 %endif
 ${total} ${PO_COUNT_CN[cid]}</h1>
 <div class="zsite_ol">\
-<ol>
-    % for po in po_list:
-
-        %if po.cid == CID_WORD:
+        %if cid == CID_WORD:
+            % for po in po_list:
         <%
         if po.rid:
-            question_po = Po.get(po.rid)
-            question_user = Zsite.get(question_po.user_id)
+            question_po = po.question
+            question_user = question.user
         %>
-            %if po.rid:
-                <div class="qaword_title"><p> 答 <a href="/${question_user.link}" target="_blank">${question_user.name}</a> 问 <a href="/${po.id}" target="_blank">${question_po.name}</a></p></div>
-            %endif
-        <pre class="zsite_word">${po.htm|n}\
+%if po.rid:
+<div class="qaword_title"><p> 答 <a href="/${question_user.link}" target="_blank">${question_user.name}</a> 问 
+<a href="${po.link}" target="_blank">${question_po.name}</a></p></div>
+%endif
+<pre class="zsite_word">${po.htm|n}\
 <a href="/${po.id}" class="zsite_reply"></a>\
 </pre>\
+            % endfor
         %else:
+<ol>
+    % for po in po_list:
     <li>\
         <a href="${po.link}">\
         % if po.cid == CID_WORD:
@@ -44,9 +46,9 @@ ${po.name}\
         % endif
         </a>\
     </li>\
-        %endif
     % endfor
 </ol>
+        %endif
 </div>
 
 ${page|n}
