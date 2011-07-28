@@ -1,0 +1,33 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from model.zsite import Zsite
+from zkit.time_format import friendly_time
+%>
+
+${page|n}
+
+<%def name="check_user(user)">
+%if user:
+<a href="${user.link}" target="_blank">${user.name}</a>
+%else:
+    系统银行
+%endif
+</%def>
+
+%for trade in trade_list:
+<%
+from_user = Zsite.mc_get(trade.from_id)
+to_user = Zsite.mc_get(trade.to_id)
+%>
+<div class="sdw">
+<div class="sd">
+<p> ${check_user(from_user)} &lt;&lt; ${check_user(to_user)}  ${float(trade.value)/100}元，税${float(trade.tax)/100}元</p>
+<p>
+${friendly_time(trade.update_time)} 
+</p>
+</div>
+</div>
+%endfor
+
+${page|n}
+

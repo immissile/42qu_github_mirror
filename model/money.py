@@ -141,7 +141,7 @@ def trade_fail(t):
 
 def trade_history(user_id):
     qs = Trade.where(
-        '(to_id=%%s and state>%s) or (to_id=%%s and cid=%s) or from_id=%%s' % (
+        '(to_id=%%s and state=%s) or (to_id=%%s and cid=%s) or from_id=%%s' % (
             TRADE_STATE_FINISH,
             CID_TRADE_WITHDRAW,
         ),

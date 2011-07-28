@@ -1,0 +1,51 @@
+h1. 1 BIT AUDIO PLAYER (v1.4)
+
+h2. INTRODUCTION
+
+1 Bit Audio Player is a simple way to play .mp3 links on a webpage. It uses Javascript and Flash to automatically generate play buttons for each linked MP3 file, for inline playback.
+
+It's no longer officially supported, this code is available for anyone to branch and make use of. God speed.
+
+A memorial and former project homepage can be found at: http://1bit.markwheeler.net/rip/
+
+h2. DEPENDENCIES
+
+1 Bit is designed to as stand alone as possible, you do not need a Javascript framework to use it. However it does rely on some external javascript:
+
+* "SWFObject":http://code.google.com/p/swfobject/ - Used to embed the flash players into the page safely and cross browser.
+
+h2. HOW TO USE
+
+1 Bit can be used by uploading the 'example' files to your web server and adding the following code within the <code><head></code> of your pages:
+
+<pre>
+<code>
+<script type="text/javascript" src="swfobject.js"></script>
+<script type="text/javascript" src="1bit.js"></script>
+
+<script type="text/javascript">
+	oneBit = new OneBit('1bit.swf');
+	oneBit.ready(function() {
+		oneBit.specify('color', '#000000');
+		oneBit.specify('background', '#FFFFFF');
+		oneBit.specify('playerSize', '10');
+		oneBit.specify('position', 'after');
+		oneBit.specify('analytics', false);
+		oneBit.apply('a');
+	});
+</script>
+</code>
+</pre>
+
+You must then adjust the path to 1bit.swf within the line that creates a new 1 Bit object. All of the oneBit.specify lines are optional, however, oneBit.apply must be called and passed a valid CSS selector.
+
+h2. FAQs
+
+Q: Are there plans to resume active development? 
+A: No, maybe, possibly. No plans, but i'd like to work on this project some more. There just isn't the time at the moment.
+
+Q: Didn't there used to be a wordpress plugin and such?
+A: Yes, but it has been deprecated. There wasn't the time to help with support questions, so it was decided to kill it rather than have an unsupported version. If you're really fussed you can dig through the history of this repo.
+
+The original plugin/bookmarklet code is available, if you want to fork it:
+https://github.com/dsingleton/1bit-audio-player/tree/36e3f5c90c2fe3ca9c2a610cdb29de13b26ca008

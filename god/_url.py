@@ -8,4 +8,5 @@ import reply
 import money
 import google_plus
 import apply
+import trade
 
