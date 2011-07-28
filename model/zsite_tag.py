@@ -170,7 +170,7 @@ def mc_flush_zsite_tag_id(id):
     mc_po_id_list_by_zsite_tag_id.delete(id) 
     for cid in CID_PO:
         zsite_tag_cid_count.delete(id, cid)
-        mc_po_id_list_by_zsite_tag_id_cid.delete(id, cid)
+        mc_po_id_list_by_zsite_tag_id_cid.delete("%s_%s"%(id, cid))
 
 def zsite_tag_rm_by_po(po):
     id = po.id
