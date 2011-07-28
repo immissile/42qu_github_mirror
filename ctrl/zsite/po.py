@@ -310,6 +310,7 @@ class ReplyRm(LoginBase):
 class Reply(LoginBase):
     def post(self, id):
         po = Po.mc_get(id)
+        link = '/'
         if po:
             user = self.current_user
             if user_can_reply(user):
@@ -321,8 +322,6 @@ class Reply(LoginBase):
                     m = po.reply_new(user, txt, po.state)
                     if m:
                         link = '%s#reply%s' % (link, m)
-        else:
-            link = '/'
         self.redirect(link)
 
     def get(self, id):
