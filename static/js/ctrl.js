@@ -123,6 +123,92 @@ function init_user(){
     init_none()
 }
 
+function po_video(id){
+    var fancybox = $.fancybox;
+    fancybox({      
+    "content":[
+
+'<form method="POST" ',
+
+id?'class="po_video_form_id"':'enctype="multipart/form-data"', 
+
+' id="po_video_form"><div>',
+
+id?"编辑文本":"发布视频",
+
+'</div>',
+
+id?'':'<input id="po_video" autocomplete="off" name="video" type="txt">',
+
+'<div><input id="po_video_name" autocomplete="off" name="name" type="text"><textarea id="po_video_txt" name="txt" class="po_video_txt"></textarea></div><div class="btns">',
+
+id?'<a href="javascript:void(0)" id="po_video_rm">删除</a>':'<span id="po_video_error"></span>',
+
+'<span class="btnw"><button type="submit">提交</button></span></div><input type="hidden" name="_xsrf" value=""></form>'
+
+    ].join(''),
+    hideOnOverlayClick:false,
+    "onComplete":function(){
+        var form=$("#po_video_form"),
+            action="/po/video",
+            po_video=$("#po_video"),
+            po_video_name=$("#po_video_name"),
+            _xsrf = $.cookie.get("_xsrf");
+        form.find("input[name=_xsrf]").val(_xsrf)
+        if(id){
+            form.attr('action',action+"/"+id);
+            po_video_name.val($('#video_name').text()) 
+            $("#po_video_txt").val($.trim($('#_txt').val()))
+            $("#po_video_rm").attr('href',"/po/rm/"+id+"?_xsrf="+_xsrf).click(function(){
+                if(!confirm('删除 , 确定 ?')) return false;
+            })
+        }else{
+            po_video.attr('placeholder',"请粘贴视频网址(仅支持youku)").placeholder()
+            po_video_name.attr('placeholder',"请输入标题 ..." ).placeholder()
+            form.attr('action',action).submit(function(){
+
+                var video = po_video.val(),
+                    name = $.trim(po_video_name.val()),
+                    po_video_error=$("#po_video_error"),
+                    self=$(self),
+                    error;
+
+                    if(name==po_video_name[0].placeholder){
+                        name='';
+                    }
+                    
+                    if(video&&video.length){
+                        if(!/^(http:\/\/v\.youku\.com\/v_show\/id_)\w{13}(\.html)$/.test(video) || \ 
+                            !/^(http\:\/\/player\.youku\.com\/player\.php\/sid\/w{13}\(/v\.swf)$/.test(video)){
+                            error = "请粘贴正确的视频网址，例如:http://v.youku.com/v_show/id_XMjg5MTA2NzA0.html \n\
+                                或者 http://player.youku.com/player.php/sid/XMjg5MTA2NzA0/v.swf"
+                            return false
+                        }
+                    }else{
+                        error = "请粘贴视频网址"
+                    }
+                        
+
+                    if(!(name&&name.length)){
+                        error = "请输入标题"
+                        po_video_name.focus()
+                    }
+                    
+                    if(error){
+                        $("#po_video_error").text(error).fadeIn()
+                        return false;
+                    }
+
+
+                    fancybox.showActivity();
+            })
+        }
+
+    }
+    })
+
+}
+
 
 function po_photo(id){
     var fancybox = $.fancybox;
