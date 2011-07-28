@@ -1,0 +1,108 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import re
+from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum, McCacheM
+from cgi import escape
+from zkit.pic import pic_fit_width_cut_height_if_large
+from pic import pic_new, pic_save, PicMixin
+from cid import CID_VIDEO
+from fs import fs_set_jpg, fs_url_jpg
+from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
+from po_pic import PoPic
+from zsite_tag import ZsiteTagPo, zsite_tag_new_by_tag_id
+
+class Video(Model):
+    pass
+
+def video_new(user_id, video):
+    v = Video(key=video)
+    v.save()
+    return v.id
+
+"""
+@mc_po_photo_prev_next("{zsite_id}_{po_id}_{tag_id}")
+def po_photo_prev_next(zsite_id, po_id, tag_id):
+    t = ZsiteTagPo.get(zsite_id=zsite_id, po_id=po_id, zsite_tag_id=tag_id)
+    if not t:
+        return (None, None)
+    id = t.id 
+    return (
+        _po_photo_goto(
+            'select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and cid=%s and id>%s order by id limit 1',
+            zsite_id,
+            tag_id,
+            id,
+        )
+        ,
+        _po_photo_goto(
+            'select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and cid=%s and id<%s order by id desc limit 1',
+            zsite_id,
+            tag_id,
+            id,
+        )
+    )
+
+def _po_photo_goto(sql, zsite_id, zsite_tag_id, id):
+    c = ZsiteTagPo.raw_sql(
+        sql,
+        zsite_id,
+        zsite_tag_id, 
+        CID_PHOTO, 
+        id
+    )
+    r = c.fetchone()
+    if r:
+        r = r[0]
+    return r
+
+def mc_flush(zsite_id, zsite_tag_id, id, po_id):
+    _mc_flush(
+        "select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and id>%s and cid=%s order by id limit 1",
+        zsite_id,
+        zsite_tag_id,
+        id
+    )
+    _mc_flush( 
+        "select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and id<%s and cid=%s order by id desc limit 1",
+        zsite_id,
+        zsite_tag_id,
+        id
+    )
+    mc_po_photo_prev_next.delete("%s_%s_%s"%(zsite_id, zsite_tag_id, po_id))
+
+
+def _mc_flush(sql, zsite_id, zsite_tag_id, id):
+    c = ZsiteTagPo.raw_sql(
+        sql,
+        zsite_id,
+        zsite_tag_id,
+        id,
+        CID_PHOTO,
+    )
+    r = c.fetchone()
+    if r:
+        mc_po_photo_prev_next.delete("%s_%s_%s"%(zsite_id, r[0], zsite_tag_id))
+"""
+
+
+
+def po_video_new(user_id, name, txt, video, state):
+
+    if not name and not txt:
+        return
+
+    name = name or time_title()
+    if not is_same_post(user_id, name, txt):
+
+        rid = video_new(user_id, video)
+
+        m = po_new(CID_VIDEO, user_id, name, state, rid)
+        m.txt_set(txt)
+        m.feed_new()
+        zsite_tag_new_by_tag_id(m, 1)
+
+        return m
+
+
+if __name__ == '__main__':
+    pass

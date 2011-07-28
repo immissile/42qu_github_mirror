@@ -178,11 +178,9 @@ id?'<a href="javascript:void(0)" id="po_video_rm">删除</a>':'<span id="po_vide
                     }
                     
                     if(video&&video.length){
-                        if(!/^(http:\/\/v\.youku\.com\/v_show\/id_)\w{13}(\.html)$/.test(video) || \ 
-                            !/^(http\:\/\/player\.youku\.com\/player\.php\/sid\/w{13}\(/v\.swf)$/.test(video)){
+                        if(!(/^(http:\/\/v\.youku\.com\/v_show\/id_)\w{13}(\.html)$/.test(video) || /^(http\:\/\/player\.youku\.com\/player\.php\/sid\/)w{13}(\/v\.swf)$/.test(video))){
                             error = "请粘贴正确的视频网址，例如:http://v.youku.com/v_show/id_XMjg5MTA2NzA0.html \n\
-                                或者 http://player.youku.com/player.php/sid/XMjg5MTA2NzA0/v.swf"
-                            return false
+                                或者 http://player.youku.com/player.php/sid/XMjg5MTA2NzA0/v.swf";
                         }
                     }else{
                         error = "请粘贴视频网址"
