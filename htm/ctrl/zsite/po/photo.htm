@@ -12,8 +12,8 @@ img_url = fs_url_jpg(721, po.rid)
 photo_pre_page, photo_next_page = po_photo_prev_next(zsite_id, po.id, zsite_tag_id)
 tag_link = "tag/%s" % zsite_tag_id
 %>
-<a href="/${photo_pre_page or tag_link}#po_body" class="gprev"></a>
-<a href="/${photo_next_page or tag_link}#po_body" class="gnext"></a>
+<a href="/${photo_pre_page or tag_link}#po_body" class="sprev"></a>
+<a href="/${photo_next_page or tag_link}#po_body" class="snext"></a>
 <div id="photo_name">${po.name}</div>\
 <div class="w721">\
 <div id="photo"><a href="/${photo_next_page or tag_link}#po_body"><img src="${img_url}" alt="${po.name}"></a></div>

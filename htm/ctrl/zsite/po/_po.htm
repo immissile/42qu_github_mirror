@@ -21,6 +21,14 @@ ${css.ctrl_po|n}
 <link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章" />
 </%def>
 <%
+if zsite_tag_id:
+    tag_link = "tag/%s" % zsite_tag_id
+else:
+    tag_link = ""
+%>
+<a title="上一层" href="/${tag_link}" id="sT"></a>
+
+<%
 cid = po.cid
 po_state = po.state
 %>

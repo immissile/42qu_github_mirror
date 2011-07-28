@@ -44,15 +44,22 @@ background:#33609B;
 color:#fff;
 }
 
-#sB{
+#sB,#sT{
 display:block;
-position:fixed;
-bottom:14px;
-right:16px;
 width:32px;
 height:32px;
 background:url(/img/gif/uptop.gif) no-repeat;
-display:none;
 }
-
+#sB{
+bottom:14px;
+display:none;
+position:fixed;
+right:16px;
+}
+#sT{
+position:fixed;
+margin-top:92px;
+margin-left:25px;
+background-image:url(/img/gif/upli.gif)
+}
 
