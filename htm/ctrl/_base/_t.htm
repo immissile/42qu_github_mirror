@@ -13,7 +13,7 @@ state = current_user.state
 <div id="T">${verify_sended(current_user_id)}</div>
     %elif state == ZSITE_STATE_ACTIVE:
 <div id="T">\
-想要个性域名吗 ? <a href="/i/verify">点此申请认证吧</a>\
+想要个性域名吗 ? <a id="i_verify" href="/i/verify">点此申请认证吧</a>\
 </div>\
     %elif state == ZSITE_STATE_FAILED_VERIFY:
 <div id="T">\
