@@ -23,14 +23,14 @@ ${total} ${PO_COUNT_CN[cid]}</h1>
             % for po in po_list:
         <%
         if po.rid:
-            question_po = po.question
+            question = po.question
             question_user = question.user
         %>
 %if po.rid:
 <div class="qaword_title"><p> 答 <a href="/${question_user.link}" target="_blank">${question_user.name}</a> 问 
-<a href="${po.link}" target="_blank">${question_po.name}</a></p></div>
+<a href="${question.link}" target="_blank">${question.name}</a></p></div>
 %endif
-<pre class="zsite_word">${po.htm|n}\
+<pre class="zsite_word" style="padding-top:0">${po.htm|n}\
 <a href="/${po.id}" class="zsite_reply"></a>\
 </pre>\
             % endfor
