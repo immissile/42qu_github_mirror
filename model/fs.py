@@ -20,11 +20,11 @@ def fs_path(root, prefix, id, suffix):
     path = join(root, str(prefix), str(id%1024), '%s.%s'%(id, suffix))
     return path
 
-def fs_file(prefix, id, suffix, cid):
+def fs_file(prefix, cid, id, suffix):
     path = CID_PATH[cid]
     return fs_path(path, prefix, id, suffix)
 
-def fs_url(prefix, id, suffix, cid):
+def fs_url(prefix, cid, id, suffix):
     url = CID_URL[cid]
     return fs_path(url, prefix, id, suffix)
 
@@ -34,8 +34,8 @@ def img2str(image, quality=95):
     image.save(f, 'JPEG', quality=quality)
     return f.getvalue()
 
-def fs_set(prefix, id, suffix, data):
-    path = fs_file(prefix, id, suffix)
+def fs_set(prefix, cid, id, suffix, data):
+    path = fs_file(prefix, cid, id, suffix)
     dirpath = dirname(path)
     if not exists(dirpath):
         makedirs(dirpath)
@@ -50,16 +50,16 @@ def fs_get_jpg(prefix, key):
             return infile.read()
 
 def fs_set_jpg(prefix, key, image, quality=95):
-    fs_set(prefix, key, 'jpg', img2str(image, quality))
+    fs_set(prefix, CID_PHOTO, key, 'jpg', img2str(image, quality))
 
 def fs_set_audio(prefix, key, audio):
-    fs_set(prefix, key, 'mp3', audio)
+    fs_set(prefix, CID_AUDIO, key, 'mp3', audio)
 
 def fs_file_jpg(prefix, key):
-    return fs_file(prefix, key, 'jpg', CID_PHOTO)
+    return fs_file(prefix, CID_PHOTO, key, 'jpg')
 
 def fs_url_jpg(prefix, key):
-    return fs_url(prefix, key, 'jpg', CID_PHOTO)
+    return fs_url(prefix, CID_PHOTO, key, 'jpg')
 
 #print fs_file("test", 1, "jpg")
 #print fs_link("test", 1, "jpg")
