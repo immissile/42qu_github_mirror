@@ -6,8 +6,9 @@ function po_(id, action, name, input, oncomplete){
         '<form method="POST" enctype="multipart/form-data" id="po_pop_form" class="po_pop_form"><div class="po_pop_tip">',
         id?"编辑文本":"发布"+name,
         '</div>',
+        '<div id="po_pop_main">',
         id?'':input,
-        '<div id="po_pop_main"><input id="po_pop_name" autocomplete="off" name="name" type="text"><textarea id="po_pop_txt" name="txt" class="po_pop_txt"></textarea></div><div class="btns">',
+        '<input id="po_pop_name" autocomplete="off" name="name" type="text"><textarea id="po_pop_txt" name="txt" class="po_pop_txt"></textarea></div><div class="btns">',
         id?'<a href="javascript:void(0)" id="po_pop_rm">删除</a>':'<span id="po_pop_error"></span>',
         '<span class="btnw"><button type="submit">提交</button></span></div><input type="hidden" name="_xsrf" value=""></form>'
         ].join(''),
@@ -91,7 +92,7 @@ po_photo = function(id){
         id,
         'photo',
         '图片',
-        '<input id="po_photo" style="margin:10px;" type="file" name="photo">',
+        '<input id="po_photo" style="margin:10px 0;" type="file" name="photo">',
         function(){
             var error,
                 photo=$("#po_photo").val();
