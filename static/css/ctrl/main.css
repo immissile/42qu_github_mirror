@@ -255,26 +255,29 @@ background:url(/img/gif/p.gif);
 position:fixed;
 _position:absolute;
 }
-#po_photo_form{
-font-size:16px;width:500px;
-padding:10px 12px 0 7px;
-}
 .po_photo_txt{
 font-size:16px;padding:2px;width:470px;border: 1px dotted #CCC;height:100px;padding:7px
 }
-#po_photo_name{
+#po_pop_name{
 font-size:16px;padding:7px;width:470px;border: 1px dotted #CCC;border-bottom: 0 none;
 }
-#po_photo_form .btns{
+.po_pop_tip{
+padding:0 10px 5px;
+}
+.po_pop_form{
+font-size:16px;width:500px;
+padding:10px 12px 0 7px;
+}
+.po_pop_form .btns{
 padding:7px;margin-left:3px;
 }
-#po_photo_rm,#po_photo_error{
+#po_pop_rm,#po_pop_error{
 float:right;line-height:45px
 }
-#po_photo_error{
+#po_pop_error{
 color:#f00;
 }
-.po_photo_form_id .po_photo_txt{
+.po_photo_form .po_photo_txt{
 height:150px;
 }
 .zsite_mb64{

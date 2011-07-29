@@ -117,3 +117,22 @@ from model.zsite import Zsite
 % endif
 </%def>
 
+<%def name="tag_list_video(po_video_count, po_video_list, is_owner, zsite_tag_id=None)">
+% if po_video_count:
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+% for po in po_video_list:
+<li><a href="/${po.id}">${po.name}</a></li>\
+% endfor
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="${tag_url(zsite_tag_id)}/video" class="num">\
+    <span class="now">${po_video_count}</span><b>段视频</b>
+</a>
+</div>
+</div>
+% endif
+</%def>
+

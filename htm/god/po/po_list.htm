@@ -1,11 +1,13 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC, \
-CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO
+CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO
 from model.po_show import po_is_show
 from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
 from model.zsite import Zsite
+from model.po_video import Video
+from model.txt2htm import YOUKU
 from zkit.txt import cnenoverflow
 from model.fs import fs_url_jpg
 %>
@@ -20,12 +22,14 @@ margin-right:32px
 <ol>
 % for po in po_list:
 <li>
+
 <%
 cid = po.cid
 name = po.name
 ico_url = _ico_url(po.user_id)
 user = po.user
 %>\
+
 <div class="sdw">
 <div class="sd c">
 %if ico_url:
@@ -33,18 +37,18 @@ user = po.user
 %endif
 <div id="list_txt">
 <a href="${po.link}" target="_blank">
-% if po.rid:
+% if cid == CID_ANSWER:
 答案\
-%else:
-% if cid == CID_WORD:
+%elif cid == CID_WORD:
 微博\
 % elif cid == CID_QUESTION:
 问题\
-% elif CID_PHOTO == cid:
+% elif cid == CID_PHOTO:
 图片\
-% else:
+% elif cid == CID_VIDEO:
+视频\
+% elif cid == CID_NOTE:
 日记\
-% endif
 % endif
 </a>
 ${po.name_htm|n}
@@ -52,9 +56,13 @@ ${po.name_htm|n}
 %if cid!=CID_WORD:
 <p>${cnenoverflow(po.txt, 60)[0]|n}</p>
 %endif
+
 %if cid == CID_PHOTO:
 <img src="${fs_url_jpg(721,po.rid)}">
+%elif cid == CID_VIDEO:
+<div id="video">${YOUKU%Video.get(po.rid).key|n}</div>
 %endif
+
 <p>
 <a class="c0" href="${user.link}" target="_blank">${user.name}</a>
 ${friendly_time(po.create_time)}
