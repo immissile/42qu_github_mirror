@@ -6,7 +6,7 @@ import tornado.web
 from _urlmap import urlmap
 from config import SITE_DOMAIN
 
-BACK_URL = 'http://%%s.%s/i/binded'%SITE_DOMAIN
+BACK_URL = 'http://%%s.%s/i/bind'%SITE_DOMAIN
 #+SITE_DOMAIN
 
 @urlmap('/oauth/%s'%OAUTH_DOUBAN)

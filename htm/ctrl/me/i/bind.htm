@@ -2,7 +2,6 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_BUZZ, OAUTH_SOHU, OAUTH_QQ, OAUTH2NAME_DICT
-from config import SITE_DOMAIN
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
 CID_NAME_DICT = {
     CID_PHOTO : '图片',
@@ -15,13 +14,10 @@ CID_NAME_DICT = {
 %>
 <%def name="head()">
 </%def>
-<%
-url = '//rpc.'+SITE_DOMAIN+'/oauth/'
-%>
 <ul>
     %for i in OAUTH2NAME_DICT.keys():
     <li>
-    <a href="${url}${i}">绑定${OAUTH2NAME_DICT[i]}</a>
+    <a href="/i/binded?cid=${i}">绑定${OAUTH2NAME_DICT[i]}</a>
     </li>
     %endfor
 <ul>

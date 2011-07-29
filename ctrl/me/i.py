@@ -18,7 +18,7 @@ from cgi import escape
 from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
-from config import SITE_URL
+from config import SITE_URL, SITE_DOMAIN
 from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient 
 from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id
 from model.zsite import Zsite
@@ -433,10 +433,14 @@ class Bind(LoginBase):
 @urlmap('/i/binded')
 class Binded(LoginBase):
     def get(self):
-        self.render()
+        cid = self.get_argument('cid',None)
+        self.render(cid=cid)
 
     def post(self):
-        self.redirect('/i/bind')
+        cid = self.get_argument('cid',None)
+        if cid:
+            url = 'http://rpc.%s/oauth/%s'%(SITE_DOMAIN,cid)
+            self.redirect(url)
 
 @urlmap('/i/bind/oauth_rm/(\d+)')
 class BindOauthRm(XsrfGetBase):
