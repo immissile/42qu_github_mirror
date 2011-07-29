@@ -301,4 +301,8 @@ def mc_flush_cid_list_all(user_id, cid_list):
             mc_flush_cid(user_id, cid, is_self)
 
 if __name__ == '__main__':
-    pass
+    from zweb.orm import ormiter
+    for i in ormiter(Po):
+        if "焦作" in i.name:
+            print i.user_id
+            print i.name

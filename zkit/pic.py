@@ -60,8 +60,6 @@ def pic_resize_width_cut_height_if_large(image, width, max_height=None):
 
 def pic_fit_width_cut_height_if_large(image, width, max_height=None):
     if not image:return
-    if max_height == None:
-        max_height = width*2.5
 
     x, y = image.size
     if x > width:
