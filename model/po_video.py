@@ -8,13 +8,24 @@ from zsite_tag import ZsiteTagPo, zsite_tag_new_by_tag_id
 
 VEDIO_CID_YOUKU = 1
 
+mc_video_uri = McCache("VideoUri:%s")
+
 class Video(Model):
     pass
+
+@mc_video_uri('{id}')
+def video_uri(id):
+    c = Video.raw_sql('select uri from video where id=%s', id)
+    r = c.fetchone()
+    if r:
+        return r[0] 
+    return ''
 
 def video_new(id, uri):
     v = Video.get_or_create(id=id)
     v.uri = uri
     v.save()
+    mc_video_uri.set(id, uri)
 
 def po_video_new(user_id, name, txt, uri, state):
 
