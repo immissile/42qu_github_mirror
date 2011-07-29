@@ -25,6 +25,7 @@ CID_QUESTION = 63
 CID_ANSWER = 64
 CID_PHOTO = 65
 CID_VIDEO = 66
+CID_AUDIO = 67
 
 
 
@@ -42,6 +43,7 @@ CID_PO = (
     CID_ANSWER,
     CID_PHOTO,
     CID_VIDEO,
+    CID_AUDIO,
 )
 
 # Notice
