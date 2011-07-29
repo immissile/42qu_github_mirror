@@ -16,8 +16,7 @@ function po_(id, action, name, input, oncomplete){
         "onComplete": function(){
             var form=$("#po_pop_form"),
                 po_name=$("#po_pop_name"),
-                _xsrf = $.cookie.get("_xsrf"),
-                error;
+                _xsrf = $.cookie.get("_xsrf");
                 
                 form.find("input[name=_xsrf]").val(_xsrf)
                 
@@ -36,15 +35,15 @@ function po_(id, action, name, input, oncomplete){
                 }
 
                 form.submit(function(){ 
+                    var error;
                     name = $.trim(po_name.val())
                     if(name==po_name[0].placeholder){
                         name='';
                     }
                     if(!(name&&name.length)){
                         error = "请输入标题"
-                        po_video_name.focus()
+                        po_name.focus()
                     }
-
                     fancybox.showActivity();
                     if(!error){
                         if(!id){
@@ -68,7 +67,7 @@ po_video = function(id){
         '视频',
         '<input id="po_video" autocomplete="off" placeholder="优酷的视频网址 ..." name="video" type="txt">',
         function(){
-            var video=$('#po_video'), error;
+            var e=$('#po_video'), video=e.val(), error;
                 if(video&&video.length){
                     if(
                         !(
@@ -82,6 +81,9 @@ po_video = function(id){
                 }else{
                     error = "请输入视频网址"
                 }
+                if(error){
+                   e.focus().select()
+                }
                 return error 
         }
     )
@@ -92,7 +94,7 @@ po_photo = function(id){
         id,
         'photo',
         '图片',
-        '<input id="po_photo" style="margin:10px 0;" type="file" name="photo">',
+        '<input id="po_photo" type="file" name="photo">',
         function(){
             var error,
                 photo=$("#po_photo").val();
