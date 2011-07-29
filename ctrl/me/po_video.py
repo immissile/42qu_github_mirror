@@ -26,7 +26,7 @@ class PoVideo(LoginBase):
                 po.name_ = name
                 po.txt_set(txt)
                 po.save()
-                link = po.link
+                link = '/po/tag/%s' % po_id
         else:
             video = self._video(video_url)
             if video:
