@@ -1,6 +1,6 @@
 #TW{
-padding-bottom:48px;
-_padding-bottom:0;
+    padding-bottom:48px;
+    _padding-bottom:0;
 }
 #T{
     text-align:center;
@@ -255,8 +255,9 @@ background:url(/img/gif/p.gif);
 position:fixed;
 _position:absolute;
 }
-.po_photo_txt{
-font-size:16px;padding:2px;width:470px;border: 1px dotted #CCC;height:100px;padding:7px
+#po_pop_txt{
+font-size:16px;padding:2px;width:470px;border: 1px dotted #CCC;
+height:150px;padding:7px
 }
 #po_pop_name{
 font-size:16px;padding:7px;width:470px;border: 1px dotted #CCC;border-bottom: 0 none;
@@ -277,8 +278,8 @@ float:right;line-height:45px
 #po_pop_error{
 color:#f00;
 }
-.po_photo_form .po_photo_txt{
-height:150px;
+#po_pop_main{
+padding:10px;
 }
 .zsite_mb64{
 margin-top:32px;
