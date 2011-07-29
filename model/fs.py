@@ -1,18 +1,32 @@
 import _env
-from config import PIC_PATH, PIC_URL
+from config import PIC_PATH, PIC_URL, AUDIO_PATH, AUDIO_URL
+from cid import CID_PHOTO, CID_AUDIO
 from os.path import join, exists, dirname
 from os import remove, makedirs
 from cStringIO import StringIO
+
+CID_PATH = {
+    CID_PHOTO:PIC_PATH,
+    CID_AUDIO:AUDIO_PATH,
+}
+
+CID_URL = {
+    CID_PHOTO:PIC_URL,
+    CID_AUDIO:AUDIO_URL,
+}
+
 
 def fs_path(root, prefix, id, suffix):
     path = join(root, str(prefix), str(id%1024), '%s.%s'%(id, suffix))
     return path
 
-def fs_file(prefix, id, suffix):
-    return fs_path(PIC_PATH, prefix, id, suffix)
+def fs_file(prefix, id, suffix, cid):
+    path = CID_PATH[cid]
+    return fs_path(path, prefix, id, suffix)
 
-def fs_url(prefix, id, suffix):
-    return fs_path(PIC_URL, prefix, id, suffix)
+def fs_url(prefix, id, suffix, cid):
+    url = CID_URL[cid]
+    return fs_path(url, prefix, id, suffix)
 
 def img2str(image, quality=95):
     f = StringIO()
@@ -38,11 +52,14 @@ def fs_get_jpg(prefix, key):
 def fs_set_jpg(prefix, key, image, quality=95):
     fs_set(prefix, key, 'jpg', img2str(image, quality))
 
+def fs_set_audio(prefix, key, audio):
+    fs_set(prefix, key, 'mp3', audio)
+
 def fs_file_jpg(prefix, key):
-    return fs_file(prefix, key, 'jpg')
+    return fs_file(prefix, key, 'jpg', CID_PHOTO)
 
 def fs_url_jpg(prefix, key):
-    return fs_url(prefix, key, 'jpg')
+    return fs_url(prefix, key, 'jpg', CID_PHOTO)
 
 #print fs_file("test", 1, "jpg")
 #print fs_link("test", 1, "jpg")

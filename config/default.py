@@ -27,6 +27,7 @@ def prepare(o):
     o.MQ_PORT = 11300
 
     o.PIC_DOMAIN = 'p.%s'%o.SITE_DOMAIN
+    o.AUDIO_DOMAIN = 'p.%s'%o.SITE_DOMAIN
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
 
     o.DEBUG = False
@@ -88,6 +89,7 @@ def finish(o):
     o.MQ_USE = o.MYSQL_MAIN
 
     o.PIC_PATH = '/mnt/zpage'
+    o.AUDIO_PATH = '/mnt/zpage'
     o.SEARCH_DB_PATH = '/mnt/zpage_searchdb'
 
 
@@ -102,6 +104,7 @@ def finish(o):
 
 
     o.PIC_URL = 'http://%s'%o.PIC_DOMAIN
+    o.AUDIO_URL = 'http://%s'%o.AUDIO_DOMAIN
     o.FS_URL = 'http://%s'%o.FS_DOMAIN
 
     o.SITE_DOMAIN_SUFFIX = '.%s' % o.SITE_DOMAIN
