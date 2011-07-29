@@ -23,10 +23,11 @@ function po_(id, action, name, input, oncomplete){
                 po_name.attr('placeholder',"请输入"+name+"标题 ..." )
                 form.attr(
                     'action',
-                    "/po/"+action+id?("/"+id):""
+                    "/po/"+action+(id?("/"+id):"")
                 ).find(' [placeholder]').placeholder()
 
                 if(id){
+                    po_name.val($.trim($('#po_name').text()))
                     $("#po_pop_txt").val($.trim($('#_txt').val()))
                     $("#po_pop_rm").attr('href',"/po/rm/"+id+"?_xsrf="+_xsrf).click(function(){
                         if(!confirm('删除 , 确定 ?')) return false;
