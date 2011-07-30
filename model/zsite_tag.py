@@ -110,10 +110,9 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
     mc_po_id_list_by_zsite_tag_id_cid.delete("%s_%s"%(id, po_cid))
     zsite_tag_cid_count.delete(id, po_cid)
     
-    if po.cid == CID_PHOTO:
-        from model.po_photo import mc_flush
-        tag_po_id = tag_po.id
-        mc_flush(zsite_id, id, tag_po_id, po_id)  
+    from model.po_prev_next import mc_flush
+    tag_po_id = tag_po.id
+    mc_flush(cid, zsite_id, id, tag_po_id, po_id)  
 
 
 

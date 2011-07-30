@@ -52,43 +52,42 @@ def po_prev_next(state, cid, zsite_id, tag_id,  po_id):
                 tag_id,
             )
             result[1] = c.fetchone()[0]
+    
     return result
 
-def mc_flush(zsite_id, zsite_tag_id, id, po_id):
+
+
+def mc_flush(cid, zsite_id, zsite_tag_id, id, po_id):
     _mc_flush(
         "select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and id>%s and cid=%s order by id limit 1",
         zsite_id,
         zsite_tag_id,
-        id
+        id,
+        cid
     )
     _mc_flush( 
         "select po_id from zsite_tag_po where zsite_id=%s and zsite_tag_id=%s and id<%s and cid=%s order by id desc limit 1",
         zsite_id,
         zsite_tag_id,
-        id
+        id,
+        cid,
     )
     mc_po_prev_next.delete("%s_%s_%s_%s_%s"%(state, cid, zsite_id, zsite_tag_id, po_id))
 
 
-def _mc_flush(sql, zsite_id, zsite_tag_id, id):
+def _mc_flush(sql, cid, zsite_id, zsite_tag_id, id, cid):
     c = ZsiteTagPo.raw_sql(
         sql,
         zsite_id,
         zsite_tag_id,
         id,
-        CID_PHOTO,
+        cid,
     )
     r = c.fetchone()
     if r:
         mc_po_prev_next.delete("%s_%s_%s"%(zsite_id, r[0], zsite_tag_id))
 
 
-                #'select po_id from zsite_tag_po where state>=%s and cid=%s and zsite_id=%s and zsite_tag_id=%s and id>%s order by id limit 1',
-                state,
-                cid,
-                zsite_id,
-                tag_id,
-                id,
 
 def _po_goto(
     sql,
