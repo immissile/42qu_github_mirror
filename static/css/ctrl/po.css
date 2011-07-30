@@ -8,6 +8,11 @@
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
 }
+.po_body #po_answer_name{
+    font-size:14px;
+    margin:0 0 8px;
+    font-family:inherit;
+}
 .w721,.po_body pre{
     width:721px;
     margin:auto;

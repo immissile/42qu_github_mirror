@@ -50,7 +50,7 @@ user = po.user
 ${po.name_htm|n}
 </p>
 %if cid!=CID_WORD:
-<p>${cnenoverflow(po.txt, 60)[0]|n}</p>
+<p>${cnenoverflow(po.txt, 60)[0]}</p>
 %endif
 %if cid == CID_PHOTO:
 <img src="${fs_url_jpg(721,po.rid)}">
