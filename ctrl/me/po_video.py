@@ -42,7 +42,7 @@ class PoVideo(LoginBase):
 
     def _video(self, video_url):
         if video_url.startswith('http://v.youku.com/v_show/id_'):
-            video = video_url[29:video.rfind('.')]
+            video = video_url[29:42]
         elif video_url.startswith('http://player.youku.com/player.php/sid/'):
             video = video_url[39:52]
         else:
