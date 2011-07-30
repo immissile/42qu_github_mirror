@@ -7,7 +7,7 @@ from model.fs import fs_url_audio
 <%def name="po_body()">
 <%
 tag_link = "tag/%s" % zsite_tag_id
-audio_url = fs_url_audio(0, po.id)
+audio_url = fs_url_audio(po.rid, po.id)
 %>
 <style>
 </style>

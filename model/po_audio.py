@@ -8,8 +8,11 @@ from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIV
 from zsite_tag import ZsiteTagPo, zsite_tag_new_by_tag_id
 from fs import fs_set_audio
 
+AUDIO_ORIGINAL = 0
+AUDIO_COMPRESSED = 1
+
 def audio_save(id, audio):
-    fs_set_audio('0', id, audio)
+    fs_set_audio(AUDIO_ORIGINAL, id, audio)
 
 
 def po_audio_new(user_id, name, txt, audio):

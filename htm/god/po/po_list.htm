@@ -64,7 +64,7 @@ ${po.name_htm|n}
 %elif cid == CID_VIDEO:
 <div id="video">${YOUKU%Video.get(po.id).uri|n}</div>
 %elif cid == CID_AUDIO:
-<div id="audio">${fs_url_audio(0, po.id)}</div>
+<div id="audio">${fs_url_audio(po.rid, po.id)}</div>
 %else:
 !!!
 %endif
