@@ -10,7 +10,7 @@ r'[\w\-.%/=+#:~!,\'\*\^@]+'
 r'(?:\?[\w\-.%/=+#:~!,\'\*&$@]*)?)'
 )
 RE_SPACE = re.compile(""" ( +)""")
-RE_AT = re.compile(r'(\s|^)@([^@\(\)\s]+(?:\s+[^@\(\)\s]+)*)\(([a-zA-Z0-9][a-zA-A0-9\-]{,31}|-\d{8,10})\)(?=\s|$)')
+RE_AT = re.compile(r'(\s|^)@([^@\(\)\s]+(?:\s+[^@\(\)\s]+)*)\(([a-zA-Z0-9][a-zA-Z0-9\-]{,31})\)(?=\s|$)')
 RE_BOLD = re.compile(r'\*{2}([^\*].*?)\*{2}')
 
 YOUKU = """<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>"""
@@ -55,6 +55,6 @@ def replace_at(match):
 
 if __name__ == '__main__':
     print txt_withlink("""
-
+@bwww(wsss)
 **二**
 """)
