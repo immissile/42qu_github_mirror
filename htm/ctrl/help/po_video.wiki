@@ -1,0 +1,18 @@
+== 42qu.com 视频发布帮助 ==
+
+首先打开您想分享的视频页面，例如：[[http://v.youku.com/v_show/id_XMjc2NzE3MTEy.html]]
+
+第一步，点击分享。
+
+第二步，点击复制。
+{{img/help/po_video/1.png}}
+
+第三步，在42qu发布视频弹出框中粘贴分享链接地址，完成标题和视频说明。
+{{img/help/po_video/2.png}}
+
+说明：目前仅支持[[http://www.youku.com/|优酷]]和[[http://www.tudou.com/|土豆]]两家网站的视频，有任何问题和要求请联系42qu运营：[[http://zhendi.42qu.com/|真谛]]
+
+
+
+
+
