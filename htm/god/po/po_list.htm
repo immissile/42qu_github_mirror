@@ -6,7 +6,7 @@ from model.po_show import po_is_show
 from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
 from model.zsite import Zsite
-from model.po_video import Video
+from model.po_video import video_htm
 from model.txt2htm import YOUKU
 from zkit.txt import cnenoverflow
 from model.fs import fs_url_jpg
@@ -60,7 +60,7 @@ ${po.name_htm|n}
 %if cid == CID_PHOTO:
 <img src="${fs_url_jpg(721,po.rid)}">
 %elif cid == CID_VIDEO:
-<div id="video">${YOUKU%Video.get(po.rid).key|n}</div>
+<div id="video">${video_htm(po.rid, po.id)|n}</div>
 %endif
 
 <p>

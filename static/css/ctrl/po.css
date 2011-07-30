@@ -116,10 +116,9 @@ margin-bottom:21px;
 line-height: 28px;
 padding-bottom: 14px;
 }
-#po_video_swf .video{
+#po_video_htm .video{
 width:721px;
 height:589px;
 outline:0;
 margin-bottom:14px;
-background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
 }

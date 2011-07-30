@@ -198,6 +198,13 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
         $(e).replaceWith(div)
         $.get("/j/fdvideo/"+id, function(html){
             div.html(html)
+            var win=$(window),
+                winst = win.scrollTop(),
+                offset = div.offset().top+div.height()-winst-win.height();
+            
+            if(offset>0){
+                win.scrollTop(winst+offset)
+            }
         })
     }
 })()

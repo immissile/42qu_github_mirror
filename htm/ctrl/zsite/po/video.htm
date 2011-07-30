@@ -2,7 +2,7 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="_vote.htm" import="po_bar_vote"/>
 <%!
-from model.po_video import video_swf
+from model.po_video import video_htm
 %>
 <%def name="po_body()">
 <%
@@ -17,7 +17,7 @@ div#video{
 </style>
 
 <div class="w721">\
-<div id="po_video_swf">${video_swf(po.rid, po.id)|n}</div>
+<div id="po_video_htm">${video_htm(po.rid, po.id)|n}</div>
 <div id="po_name">${po.name}</div>\
 %if po.txt:
 <pre id="video_txt">${po.htm|n}</pre>

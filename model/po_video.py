@@ -5,13 +5,20 @@ from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum, McCacheM
 from cid import CID_VIDEO
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
 from zsite_tag import ZsiteTagPo, zsite_tag_new_by_tag_id
-from model.txt2htm import YOUKU
 
 VIDEO_CID_YOUKU = 1
 
-VIDEO_CID2SWF = {
-    VIDEO_CID_YOUKU:YOUKU
+
+HTM_YOUKU = """<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>"""
+HTM_AUTOPLAY_YOUKU="""<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior&isAutoPlay=true" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>"""
+
+VIDEO_CID2HTM = {
+    VIDEO_CID_YOUKU:HTM_YOUKU
 }
+VIDEO_CID2HTM_AUTOPLAY = {
+    VIDEO_CID_YOUKU:HTM_AUTOPLAY_YOUKU
+}
+
 
 mc_video_uri = McCache("VideoUri:%s")
 
@@ -19,9 +26,11 @@ class Video(Model):
     pass
 
 
+def video_htm_autoplay(cid, id):
+    return VIDEO_CID2HTM_AUTOPLAY[cid]%video_uri(id) 
 
-def video_swf(cid, id):
-    return VIDEO_CID2SWF[cid]%video_uri(id) 
+def video_htm(cid, id):
+    return VIDEO_CID2HTM[cid]%video_uri(id) 
 
 
 @mc_video_uri('{id}')
