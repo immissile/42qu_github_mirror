@@ -112,7 +112,7 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
     
     from model.po_prev_next import mc_flush
     tag_po_id = tag_po.id
-    mc_flush(cid, zsite_id, id, tag_po_id, po_id)  
+    mc_flush(po.cid, zsite_id, id, tag_po_id, po_id)  
 
 
 
