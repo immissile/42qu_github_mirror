@@ -69,9 +69,6 @@ def mc_flush(cid, zsite_id, zsite_tag_id, id, po_id):
         zsite_tag_id,
         id,
     )
-    mc_po_prev_next.delete(
-        "%s_%s_%s_%s_%s"%( cid, zsite_id, zsite_tag_id, po_id)
-    )
 
 
 def _mc_flush(sql, cid, zsite_id, zsite_tag_id, id):
@@ -84,7 +81,8 @@ def _mc_flush(sql, cid, zsite_id, zsite_tag_id, id):
     )
     r = c.fetchone()
     if r:
-        mc_po_prev_next.delete("%s_%s_%s"%(zsite_id, r[0], zsite_tag_id))
+        #@mc_po_prev_next("{cid}_{zsite_id}_{tag_id}_{po_id}")
+        mc_po_prev_next.delete("%s_%s_%s_%s"%(cid, zsite_id, zsite_tag_id, r[0]))
 
 
 
