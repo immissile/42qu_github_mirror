@@ -8,7 +8,7 @@ from model.po_video import Video
 <%def name="po_body()">
 <%
 tag_link = "tag/%s" % zsite_tag_id
-video = Video.get(po.rid).key
+video = Video.get(po.rid).uri
 %>
 <style>
 div#video{

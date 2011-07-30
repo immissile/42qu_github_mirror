@@ -122,6 +122,13 @@ class VideoPage(PoPage):
     cid = CID_VIDEO
     page_template = '/video-%s'
 
+@urlmap('/audio')
+@urlmap('/audio-(\d+)')
+class AudioPage(PoPage):
+    cid = CID_AUDIO
+    page_template = '/audio-%s'
+
+
 
 @urlmap('/answer')
 @urlmap('/answer-(\d+)')
@@ -183,6 +190,17 @@ class PhotoPage(TagPoPage):
     cid = CID_PHOTO
     page_template = '/photo-%s'
 
+@urlmap('/tag/(\d+)/video')
+@urlmap('/tag/(\d+)/video-(\d+)')
+class VideoPage(TagPoPage):
+    cid = CID_VIDEO
+    page_template = '/video-%s'
+
+@urlmap('/tag/(\d+)/audio')
+@urlmap('/tag/(\d+)/audio-(\d+)')
+class AudioPage(TagPoPage):
+    cid = CID_AUDIO
+    page_template = '/audio-%s'
 
 PO_TEMPLATE = '/ctrl/zsite/po/po.htm'
 CID2TEMPLATE = {
