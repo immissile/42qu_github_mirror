@@ -1,7 +1,7 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC, \
-CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO
+CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO
 from model.po_show import po_is_show
 from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
@@ -9,7 +9,7 @@ from model.zsite import Zsite
 from model.po_video import Video
 from model.txt2htm import YOUKU
 from zkit.txt import cnenoverflow
-from model.fs import fs_url_jpg
+from model.fs import fs_url_jpg, fs_url_audio
 %>
 <%def name="htm_head()">
 </%def>
@@ -47,6 +47,8 @@ user = po.user
 图片\
 % elif cid == CID_VIDEO:
 视频\
+% elif cid == CID_AUDIO:
+音频\
 % elif cid == CID_NOTE:
 日记\
 % endif
@@ -60,7 +62,11 @@ ${po.name_htm|n}
 %if cid == CID_PHOTO:
 <img src="${fs_url_jpg(721,po.rid)}">
 %elif cid == CID_VIDEO:
-<div id="video">${YOUKU%Video.get(po.rid).key|n}</div>
+<div id="video">${YOUKU%Video.get(po.rid).uri|n}</div>
+%elif cid == CID_AUDIO:
+<div id="audio">${fs_url_audio(0, po.id)}</div>
+%else:
+!!!
 %endif
 
 <p>

@@ -61,6 +61,9 @@ def fs_file_jpg(prefix, key):
 def fs_url_jpg(prefix, key):
     return fs_url(prefix, CID_PHOTO, key, 'jpg')
 
+def fs_url_audio(prefix, key):
+    return fs_url(prefix, CID_AUDIO, key, 'mp3')
+
 #print fs_file("test", 1, "jpg")
 #print fs_link("test", 1, "jpg")
 #import init_env
