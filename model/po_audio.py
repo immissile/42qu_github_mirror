@@ -12,7 +12,7 @@ AUDIO_ORIGINAL = 0
 AUDIO_COMPRESSED = 1
 
 def audio_save(id, audio):
-    fs_set_audio(AUDIO_ORIGINAL, id, audio)
+    fs_set_audio('mp3', id, audio)
 
 
 def po_audio_new(user_id, name, txt, audio):
