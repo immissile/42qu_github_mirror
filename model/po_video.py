@@ -5,13 +5,24 @@ from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum, McCacheM
 from cid import CID_VIDEO
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
 from zsite_tag import ZsiteTagPo, zsite_tag_new_by_tag_id
+from model.txt2htm import YOUKU
 
-VEDIO_CID_YOUKU = 1
+VIDEO_CID_YOUKU = 1
+
+VIDEO_CID2SWF = {
+    VIDEO_CID_YOUKU:YOUKU
+}
 
 mc_video_uri = McCache("VideoUri:%s")
 
 class Video(Model):
     pass
+
+
+
+def video_swf(cid, id):
+    return VIDEO_CID2SWF[cid]%video_uri(id) 
+
 
 @mc_video_uri('{id}')
 def video_uri(id):
@@ -35,7 +46,7 @@ def po_video_new(user_id, name, txt, uri, state):
     name = name or time_title()
 
     if not is_same_post(user_id, name, txt, uri):
-        m = po_new(CID_VIDEO, user_id, name, state, VEDIO_CID_YOUKU)
+        m = po_new(CID_VIDEO, user_id, name, state, VIDEO_CID_YOUKU)
         video_new(m.id , uri)
         m.txt_set(txt)
         m.feed_new()

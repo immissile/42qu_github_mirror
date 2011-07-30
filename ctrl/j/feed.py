@@ -15,6 +15,7 @@ from itertools import groupby
 from operator import itemgetter
 from model.career import career_dict
 from model.zsite import Zsite
+from model.po_video import CID_VIDEO, video_swf
 
 @urlmap('/j/feed/up1/(\d+)')
 class FeedUp(JLoginBase):
@@ -118,3 +119,11 @@ class FdTxt(Base):
         else:
             result = ''
         self.finish(result)
+
+@urlmap('/j/fdvideo/(\d+)')
+class FdTxt(Base):
+    def get(self, id):
+        po = Po.mc_get(id)
+        if po and po.cid == CID_VIDEO:
+            self.finish(video_swf(po.rid, id))
+

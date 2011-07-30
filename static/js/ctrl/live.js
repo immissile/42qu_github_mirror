@@ -194,7 +194,10 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
         }) 
     }
     fdvideo = function(e, id){
-        var div=$('<div><div class="fdloading"/></div>')
+        var div=$('<div class="fdswf"><div class="fdloading"/></div>')
         $(e).replaceWith(div)
+        $.get("/j/fdvideo/"+id, function(html){
+            div.html(html)
+        })
     }
 })()
