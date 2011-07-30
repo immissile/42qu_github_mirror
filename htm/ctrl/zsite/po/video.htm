@@ -7,18 +7,12 @@ from model.po_video import video_htm
 <%def name="po_body()">
 <%
 tag_link = "tag/%s" % zsite_tag_id
-video = video_uri(po.id) 
 %>
-<style>
-div#video{
-    width:480;
-    height:600;
-    }
-</style>
 
 <div class="w721">\
-<div id="po_video_htm">${video_htm(po.rid, po.id)|n}</div>
+<div id="po_video_htm">${video_htm(po.rid, po.id)|n}\
 <div id="po_name">${po.name}</div>\
+</div>
 %if po.txt:
 <pre id="video_txt">${po.htm|n}</pre>
 %endif
