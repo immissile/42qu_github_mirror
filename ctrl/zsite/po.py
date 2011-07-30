@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
+from model.po_prev_next import po_prev_next
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from ctrl._urlmap.zsite import urlmap
 from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN
@@ -80,13 +81,18 @@ class PoPage(ZsiteBase):
         else:
             back_a = "/"
 
+
+        prev_id, next_id = po_prev_next(zsite_id, po.id, zsite_tag_id)
+
         self.render(
             cid=cid,
             is_self=is_self,
             total=total,
             po_list=po_list,
             page=page,
-            back_a = back_a
+            back_a = back_a,
+            prev_id = prev_id,
+            next_id = next_id
         )
 
 

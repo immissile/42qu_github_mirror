@@ -36,6 +36,12 @@ po_state = po.state
 %if can_view:
 <div class="po_page">
 <div class="po_body" id="po_body">
+%if prev_id:
+<a href="/${prev_id}#po_body" class="sprev"></a>
+%endif
+%if next_id:
+<a href="/${next_id}#po_body" class="snext"></a>
+%endif
 ${next.po_body()}\
 </div>
 ${self.reply_list()}\

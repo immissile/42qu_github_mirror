@@ -4,24 +4,16 @@
 <%!
 from model.fs import fs_url_jpg
 from model.po_pic import PoPic
-from model.po_prev_next import po_prev_next
 %>
 <%def name="po_body()">
 <%
 img_url = fs_url_jpg(721, po.rid)
-prev_page, next_page = po_prev_next(zsite_id, po.id, zsite_tag_id)
 tag_link = "tag/%s" % zsite_tag_id
 %>
-%if prev_page:
-<a href="/${prev_page}#po_body" class="sprev"></a>
-%endif
-%if next_page:
-<a href="/${next_page}#po_body" class="snext"></a>
-%endif
 
 <div id="po_name">${po.name}</div>\
 <div class="w721">\
-<div id="photo"><a href="/${next_page or tag_link}#po_body"><img src="${img_url}" alt="${po.name}"></a></div>
+<div id="photo"><a href="/${next_id or tag_link}#po_body"><img src="${img_url}" alt="${po.name}"></a></div>
 %if po.txt:
 <pre id="photo_txt">${po.htm|n}</pre>
 %endif
