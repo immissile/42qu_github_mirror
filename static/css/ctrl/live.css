@@ -165,7 +165,11 @@ display:block;
 margin:12px 0 6px;
 padding-left:32px;
 line-height:27px;
+color:#000;
 background:url(/img/gif/redplay.gif) no-repeat;
+}
+.fdvideo:hover{
+color:#a10;
 }
 .fdswf .video{
 width:677px;height:553px;
