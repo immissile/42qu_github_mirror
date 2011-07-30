@@ -65,7 +65,7 @@ po_video = function(id){
         id,
         'video',
         '视频',
-        '<input id="po_video" autocomplete="off" placeholder="优酷的视频网址 ..." name="video" type="txt">',
+        '<input id="po_video" autocomplete="off" placeholder="优酷或土豆的视频网址 ..." name="video" type="txt">',
         function(){
             var e=$('#po_video'), video=e.val(), error;
                 if(video&&video.length){
@@ -74,9 +74,11 @@ po_video = function(id){
                             /^(http:\/\/v\.youku\.com\/v_show\/id_)\w{13}(\.html)$/.test(video) 
                             || 
                             /^(http\:\/\/player\.youku\.com\/player\.php\/sid\/)w{13}(\/v\.swf)$/.test(video)
+                            ||
+                            /^(http:\/\/www\.tudou\.com\/programs\/view\/)[A-z0-9-_]{11}\//.test(video)
                         )
                     ){
-                        error = "请输入优酷视频 (视频下方的分享->视频地址)";
+                        error = "请输入优酷或土豆视频 (视频下方的分享->视频地址)";
                     }
                 }else{
                     error = "请输入视频网址"

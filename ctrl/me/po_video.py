@@ -2,7 +2,7 @@
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model.po import Po
-from model.po_video import po_video_new
+from model.po_video import po_video_new, VIDEO_CID_YOUKU, VIDEO_CID_TUDOU
 from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.cid import CID_VIDEO
 from model.state import STATE_ACTIVE
@@ -29,10 +29,10 @@ class PoVideo(LoginBase):
                 link = '/po/tag/%s' % po_id
         else:
             if url:
-                video = self._video(url)
+                video, video_site = self._video(url)
                 if video:
                     user_id = self.current_user_id
-                    po = po_video_new(user_id, name, txt, video, STATE_ACTIVE)
+                    po = po_video_new(user_id, name, txt, video, video_site)
                     if po:
                         po_id = po.id
                         link = '/po/tag/%s' % po_id
@@ -43,9 +43,15 @@ class PoVideo(LoginBase):
     def _video(self, url):
         if url.startswith('http://v.youku.com/v_show/id_'):
             video = url[29:url.rfind('.')]
+            video_site = VIDEO_CID_YOUKU
         elif url.startswith('http://player.youku.com/player.php/sid/'):
             video = url[39:52]
+            video_site = VIDEO_CID_YOUKU
+        elif url.startswith('http://www.tudou.com/programs/view/'):
+            video = url[35:46]
+            video_site = VIDEO_CID_TUDOU
         else:
             video = None
-        return video
+            video_site = None
+        return video, video_site
 
