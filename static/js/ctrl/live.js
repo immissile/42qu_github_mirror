@@ -12,7 +12,8 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
         62:FEED_ATTR_TXT_BASE,
         63:FEED_ATTR_TXT_BASE,
         64:FEED_ATTR_TXT_BASE+QUESTION_ATTR_BASE,
-        65:FEED_ATTR_TXT_BASE
+        65:FEED_ATTR_TXT_BASE,
+        66:FEED_ATTR_TXT_BASE
     },
     DATE_ATTR = "name link unit title pic".split(' ');
     for(var i in FEED_ATTR){
@@ -191,5 +192,9 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
         $.get("/j/fdtxt/"+id,function(htm){
             txt.html('<pre class="fdpre">'+htm+"</pre>")
         }) 
+    }
+    fdvideo = function(e, id){
+        var div=$('<div><div class="fdloading"/></div>')
+        $(e).replaceWith(div)
     }
 })()

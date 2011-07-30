@@ -57,9 +57,9 @@ id="po_word_txt" name="txt"></textarea>\
 <div class="G c">
     <div class="G3">
 {{each item}}
-    <div class="sdw"><div class="sd">
+<div class="sdw"><div class="sd">
 {{if cid!=61 || rid }}
-<pre class="fdh">{{if cid!=65}}{{if cid==63}}问 : {{/if}}{{if rid}}{{if question_user_link==link}}自问自答{{else}}答 <a
+<pre class="fdh">{{if cid!=65 && cid!=66}}{{if cid==63}}问 : {{/if}}{{if rid}}{{if question_user_link==link}}自问自答{{else}}答 <a
 href="${question_user_link}">${question_user}</a> 问{{/if}} : {{/if}}{{/if}}{{if name}}<a
 target="_blank"
 href="/{{if rid && cid!=65}}${question_id}{{else}}${id}{{/if}}">${name}</a>{{/if}}{{if tag_id}}<a
@@ -69,8 +69,11 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 <a class="fdimga" target="_blank" href="/${id}"><img class="fdimg" src="${rid}"></a>
 {{/if}}
 <div class="fdtxt" id="fdtxt${id}">
-        {{if cid==61 }}
+        {{if cid==61 || cid == 66}}
 {{html txt}}
+            {{if cid == 66}}
+<a onclick="fdvideo(this,${id});" class="fdvideo" href="javascript:void(0)">播放视频</a>
+            {{/if}}
         {{else}} 
             {{if txt_more}}
 <div class="fdtxtin">${txt}</div>
