@@ -78,7 +78,7 @@ po_video = function(id){
                             /^(http:\/\/www\.tudou\.com\/programs\/view\/)[A-z0-9-_]{11}\//.test(video)
                         )
                     ){
-                        error = "请输入优酷或土豆视频 (视频下方的分享->视频地址)";
+                        error = "请输入优酷或土豆视频 <a href='http://help.42qu.com/po_video.html' target='_blank'>查看帮助</a>";
                     }
                 }else{
                     error = "请输入视频网址"
