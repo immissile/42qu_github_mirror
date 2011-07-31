@@ -90,7 +90,7 @@ padding:0 3px;
 .sprev , .snext{
 position:fixed;
 _position:absolute;
-background:url(/img/gif/lt.gif) no-repeat;
+background:url(/img/gif/lt2.gif) no-repeat;
 width:21px;
 height:48px;
 top:300px;
@@ -99,7 +99,7 @@ top:300px;
 margin-left:40px
 }
 .snext{
-background-image:url(/img/gif/gt.gif);
+background-image:url(/img/gif/gt2.gif);
 margin-left:911px;
 }
 #photo{
