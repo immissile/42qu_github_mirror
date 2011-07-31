@@ -48,7 +48,7 @@ color:#fff;
 display:block;
 width:32px;
 height:32px;
-background:url(/img/gif/uptop.gif) no-repeat;
+background:url(/img/gif/back_home.gif) no-repeat;
 }
 #sB{
 bottom:14px;
@@ -61,6 +61,6 @@ position:fixed;
 _position:absolute;
 margin-top:96px;
 margin-left:38px;
-background-image:url(/img/gif/upli.gif)
+background-image:url(/img/gif/list.gif)
 }
 
