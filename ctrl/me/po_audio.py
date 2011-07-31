@@ -23,7 +23,7 @@ class PoAudio(LoginBase):
                 po.name_ = name
                 po.txt_set(txt)
                 po.save()
-                link = po.link
+                link = '/po/tag/%s' % po_id
         else:
             audio = self._audio()
             if audio:
@@ -31,9 +31,7 @@ class PoAudio(LoginBase):
                 po = po_audio_new(user_id, name, txt, audio)
                 if po:
                     po_id = po.id
-
                     link = '/po/tag/%s' % po_id
-
 
         return self.redirect(link)
         
@@ -42,10 +40,9 @@ class PoAudio(LoginBase):
         audio = files.get('audio')
         if audio:
             audio = audio[0]['body']
-            if not len(audio) > 1024*1024*12:
-                ##audio = picopen(audio)
-                if not audio:
-                    return
+            if not audio:
+                return
+            if not (len(audio) > 1024*1024*512):
                 return audio
 
 
