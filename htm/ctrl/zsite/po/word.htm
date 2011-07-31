@@ -4,7 +4,7 @@
 
 <%def name="po_body()">
 %if po.rid:
-<h1>${po.name_htm|n}</h1>
+<h1 id="po_answer_name">${po.name_htm|n}</h1>
 %endif
 <pre>\
 <p><a href="${zsite.link}">${zsite.name}</a> : ${po.htm|n}</p>\

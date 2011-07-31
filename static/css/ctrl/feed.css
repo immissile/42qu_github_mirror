@@ -65,7 +65,8 @@ outline:0;
 display:inline-block;
 width:56px;
 height:8px;
-background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
+margin:22px 0 7px;
+background:url(/img/gif/loading_bar.gif) 0 0 no-repeat;
 }
 #feed_loading, #feed_load{
 margin-top:16px;

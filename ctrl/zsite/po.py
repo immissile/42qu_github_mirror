@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
+from model.po_prev_next import po_prev_next
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from ctrl._urlmap.zsite import urlmap
 from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN
@@ -80,13 +81,14 @@ class PoPage(ZsiteBase):
         else:
             back_a = "/"
 
+
         self.render(
             cid=cid,
             is_self=is_self,
             total=total,
             po_list=po_list,
             page=page,
-            back_a = back_a
+            back_a = back_a,
         )
 
 
@@ -240,6 +242,7 @@ class PoOne(ZsiteBase):
         if po is None:
             return
 
+        zsite_id = self.zsite_id
         user_id = self.current_user_id
         can_admin = po.can_admin(user_id)
         can_view = po.can_view(user_id)
@@ -249,13 +252,19 @@ class PoOne(ZsiteBase):
 
         zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
 
+        prev_id, next_id = po_prev_next(
+            po.cid, zsite_id, zsite_tag_id, po.id
+        )
+
         return self.render(
             self.template,
             po=po,
-            can_admin=can_admin,
-            can_view=can_view,
-            zsite_tag_id=zsite_tag_id,
-            tag_name=tag_name,
+            can_admin       =  can_admin,
+            can_view        =  can_view,
+            zsite_tag_id    =  zsite_tag_id,
+            prev_id         =  prev_id,
+            next_id         =  next_id,
+            tag_name        =  tag_name,
         )
 
 

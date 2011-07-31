@@ -27,7 +27,7 @@ class PoPhoto(LoginBase):
                 po.name_ = name
                 po.txt_set(txt)
                 po.save()
-                link = po.link
+                link = '/po/tag/%s' % po_id
         else:
             img = self._img()
             if img:

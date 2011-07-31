@@ -12,7 +12,7 @@ from model.state import STATE_ACTIVE
 class PoVideo(LoginBase):
     def post(self, po_id=0):
         cid = CID_VIDEO
-        video_url = self.get_argument('video', None)
+        url = self.get_argument('video', None)
         name = self.get_argument('name', None)
         txt = self.get_argument('txt', None)
 
@@ -28,8 +28,8 @@ class PoVideo(LoginBase):
                 po.save()
                 link = '/po/tag/%s' % po_id
         else:
-            if video_url:
-                video = self._video(video_url)
+            if url:
+                video = self._video(url)
                 if video:
                     user_id = self.current_user_id
                     po = po_video_new(user_id, name, txt, video, STATE_ACTIVE)
@@ -40,11 +40,11 @@ class PoVideo(LoginBase):
 
         return self.redirect(link)
 
-    def _video(self, video_url):
-        if video_url.startswith('http://v.youku.com/v_show/id_'):
-            video = video_url[29:42]
-        elif video_url.startswith('http://player.youku.com/player.php/sid/'):
-            video = video_url[39:52]
+    def _video(self, url):
+        if url.startswith('http://v.youku.com/v_show/id_'):
+            video = url[29:url.rfind('.')]
+        elif url.startswith('http://player.youku.com/player.php/sid/'):
+            video = url[39:52]
         else:
             video = None
         return video

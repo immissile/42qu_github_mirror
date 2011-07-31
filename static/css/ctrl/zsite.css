@@ -204,4 +204,6 @@ text-decoration:none;
 color:#a10;
 border-bottom-color:#a10;
 }
-
+.video{
+background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
+}

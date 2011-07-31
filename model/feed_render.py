@@ -23,10 +23,9 @@ def feed_tuple_by_db(id):
     m = Po.mc_get(id)
     cid = m.cid
     rid = m.rid
+    has_question = cid in (CID_WORD, CID_ANSWER)
 
-    if cid == CID_PHOTO:
-        name = m.name
-    elif rid:
+    if rid and has_question:
         question = m.question
         name = question.name
     elif cid != CID_WORD:
@@ -56,11 +55,10 @@ def feed_tuple_by_db(id):
             txt = m.htm
         result.extend((txt, has_more))
     else:
-        if cid == CID_WORD:
-            txt = txt_withlink(txt)
+        txt = txt_withlink(txt)
         result.extend((txt, False))
 
-    if rid and cid!=CID_PHOTO:
+    if rid and has_question:
         user = question.user
         result.extend(
             (question.id, user.name, user.link)

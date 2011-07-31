@@ -33,14 +33,21 @@ po_state = po.state
 %>
 <a title="上一层" href="/${tag_link}" id="sT"></a>
 
-%if can_view:
 <div class="po_page">
 <div class="po_body" id="po_body">
+    %if prev_id:
+<a href="/${prev_id}#po_body" class="sprev"></a>
+    %endif
+    %if next_id:
+<a href="/${next_id}#po_body" class="snext"></a>
+    %endif
+
+    %if can_view:
 ${next.po_body()}\
-</div>
+##close po_body
+</div>\
 ${self.reply_list()}\
-</div>
-%else:
+    %else:
 <style>
 .fullscreen p{
 line-height:64px
@@ -54,16 +61,19 @@ font-size:16px;text-align:center;margin-top:10%;
     %if po_state == STATE_DEL:
 啊 , 被删除了 !!!
     %elif po_state == STATE_SECRET:
-机密文件 , 无关人士 , 禁止入内
+私密文件 , 无权浏览
     %else:
 不可见的状态 ${po_state}
     %endif
 </p>
 <p>
-<a href="/">点此返回</a>
+<a href="/">点此回首页</a>
 </p>
 </div>
-%endif
+##close po_body
+</div>
+    %endif
+</div>
 
 <script src="${js.ctrl_po_po}"></script>\
 <script src="${js.ctrl_feed}")></script>
