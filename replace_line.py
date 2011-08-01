@@ -5,21 +5,17 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-<<<<<<< local
-=======
-LOG_HISTORY_NEW_USER_CID
-LOG_HISTORY_NEW_PO_CID
-LOG_HISTORY_NEW_REPLY_CID
->>>>>>> other
+back_home.gif
+gt.gif
+list.gif
+lt.gif
 """
 
 TO_STRING = """
-<<<<<<< local
-=======
-LOG_HISTORY_CID_NEW_USER
-LOG_HISTORY_CID_NEW_PO
-LOG_HISTORY_CID_NEW_REPLY
->>>>>>> other
+back_home2.gif
+gt2.gif
+list2.gif
+lt2.gif
 """
 
 def run():
