@@ -7,7 +7,11 @@ from cid import CID_AUDIO
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
 from zsite_tag import ZsiteTagPo, zsite_tag_new_by_tag_id
 from fs import fs_set_audio
+from config import FS_URL 
 
+HTM_AUDIO = """<embed flashvars="foreColor=#aa1100&amp;analytics=true&amp;filename=%%s" quality="high" bgcolor="#FFFFFF" class="audio" src="%s/swf/1bit.swf" type="application/x-shockwave-flash" wmode= "Opaque"></embed>"""%FS_URL 
+
+##style="margin-right: 10px; margin-bottom: -8px;"
 
 def audio_save(id, audio):
     fs_set_audio('mp3', id, audio)
