@@ -39,8 +39,6 @@ def fs_get_jpg(prefix, key):
 def fs_set_jpg(prefix, key, image, quality=95):
     fs_set(prefix, key, 'jpg', img2str(image, quality))
 
-def fs_set_audio(prefix, key, audio):
-    fs_set(prefix, key, 'mp3', audio)
 
 def fs_file_jpg(prefix, key):
     return fs_file(prefix, key, 'jpg')
@@ -49,10 +47,13 @@ def fs_url_jpg(prefix, key):
     return fs_url(prefix, key, 'jpg')
 
 def fs_file_audio(prefix, key):
-    return fs_file(prefix, key, 'mp3')
+    return fs_file(prefix, key, 'wav')
 
 def fs_url_audio(prefix, key):
-    return fs_url(prefix, key, 'mp3')
+    return fs_url(prefix, key, 'wav')
+
+def fs_set_audio(prefix, key, audio):
+    fs_set(prefix, key, 'wav', audio)
 
 #print fs_file("test", 1, "jpg")
 #print fs_link("test", 1, "jpg")
