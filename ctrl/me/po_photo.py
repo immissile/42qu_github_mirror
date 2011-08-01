@@ -4,7 +4,6 @@ from ctrl._urlmap.me import urlmap
 from model.fs import fs_url_jpg
 from model.po_photo import po_photo_new
 from model.po import Po
-from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.cid import CID_PHOTO
 from model.state import STATE_ACTIVE
 from zkit.pic import picopen

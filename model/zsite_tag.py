@@ -107,13 +107,12 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
         mc_po_id_list_by_zsite_tag_id.delete(pre_tag_id)
         zsite_tag_cid_count.delete(pre_tag_id, po_cid)
         mc_po_id_list_by_zsite_tag_id_cid.delete('%s_%s'%(pre_tag_id, po_cid))
-        mc_flush(po_cid, zsite_id, pre_tag_id, tag_po_id, po_id)
+        mc_flush(po_cid, zsite_id, pre_tag_id, po_id)
 
     mc_po_id_list_by_zsite_tag_id.delete(id)
     mc_po_id_list_by_zsite_tag_id_cid.delete('%s_%s'%(id, po_cid))
     zsite_tag_cid_count.delete(id, po_cid)
-
-    mc_flush(po_cid, zsite_id, id, tag_po_id, po_id)
+    mc_flush(po_cid, zsite_id, id, po_id)
 
 
 
@@ -179,7 +178,7 @@ def zsite_tag_rm_by_po(po):
         mc_flush_zsite_tag_id(i.zsite_tag_id)
         i.delete()
         from model.po_prev_next import mc_flush
-        mc_flush(cid, i.zsite_id, i.zsite_tag_id, i.id, id)
+        mc_flush(cid, i.zsite_id, i.zsite_tag_id, id)
 
 
 @mc_tag_by_po_id('{zsite_id}_{po_id}')
