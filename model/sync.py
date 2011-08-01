@@ -11,6 +11,14 @@ from oauth import OauthToken
 class SyncTurn(McModel):
     pass
 
+class SyncFollow(McModel):
+    pass
+
+
+def sync_follow_new(zsite_id,state,cid,txt):
+    SyncFollow.raw_sql('insert into sync_follow (zsite_id,state,cid,txt) values(%s,%s,%s,%s)',zsite_id,state,cid,txt)
+
+
 def sync_state(user_id,cid):
     s = SyncTurn.get(zsite_id=user_id,cid=cid)
     if not s:

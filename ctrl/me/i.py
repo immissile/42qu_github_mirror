@@ -23,7 +23,7 @@ from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, O
 from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id
 from model.zsite import Zsite
 from model.cid import CID_PO
-from model.sync import sync_state_set, sync_all
+from model.sync import sync_state_set, sync_all, sync_follow_new
 
 OAUTH2URL = {
     OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
@@ -438,6 +438,11 @@ class Binded(LoginBase):
 
     def post(self):
         cid = self.get_argument('cid',None)
+        fstate = int(self.get_argument('fstate',0))
+        tstate = int(self.get_argument('tstate',0))
+        txt = self.get_argument('weibo',None)
+        user_id = self.current_user_id
+        sync_follow_new(user_id,fstate+tstate,cid,txt)
         if cid:
             url = 'http://rpc.%s/oauth/%s'%(SITE_DOMAIN,cid)
             self.redirect(url)
