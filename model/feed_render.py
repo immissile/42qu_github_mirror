@@ -12,7 +12,7 @@ from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT
 from zsite import Zsite
 from zkit.txt import cnenoverflow
 from model.txt2htm import txt_withlink
-from fs import fs_url_jpg
+from fs import fs_url_jpg, fs_url_audio
 
 CIDMAP = {}
 
