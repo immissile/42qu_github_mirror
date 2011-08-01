@@ -39,7 +39,7 @@ def audio_compress():
             input_filename, 
             output_filename 
         ]) 
-        shutil.copy(output_filename, input_filename)
+        shutil.move(output_filename, input_filename)
     
     kv_int.set(KV_PO_AUDIO, id)
 
