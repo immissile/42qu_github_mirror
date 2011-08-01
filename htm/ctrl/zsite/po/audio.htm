@@ -11,14 +11,14 @@ tag_link = "tag/%s" % zsite_tag_id
 audio_url = fs_url_audio('mp3', po.id)
 %>
 
-<h1>${HTM_AUDIO%audio_url|n}<a href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
+<h1 id="po_audio_name">${HTM_AUDIO%audio_url|n}<a href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
 <div class="w721">\
 %if po.txt:
-<pre id="video_txt">${po.htm|n}</pre>
+<pre>${po.htm|n}</pre>\
 %endif
 <p class="po_bar">\
 %if can_admin:
-<a class="L" href="javascript:po_video(${po.id});void(0)">编辑</a>\
+<a class="L" href="javascript:po_audio(${po.id});void(0)">编辑</a>\
 %endif
 <a href="${zsite.link}">${zsite.name}</a>\
 %if zsite_tag_id:
