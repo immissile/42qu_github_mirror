@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import McCacheM
 from collections import namedtuple
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO
 from operator import itemgetter
 from po import Po
 from po_question import answer_count
@@ -56,7 +56,7 @@ def feed_tuple_by_db(id):
     ]
 
     txt = m.txt
-    if cid in (CID_NOTE, CID_QUESTION, CID_ANSWER):
+    if cid != CID_WORD:
         txt, has_more = cnenoverflow(txt, 164)
         if not has_more:
             txt = m.htm
