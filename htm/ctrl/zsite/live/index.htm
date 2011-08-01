@@ -60,7 +60,7 @@ id="po_word_txt" name="txt"></textarea>\
 <div class="sdw"><div class="sd">
 {{if cid!=61 || rid }}
 <pre class="fdh">{{if cid==61 || cid==64 || cid==63 }}{{if cid==63}}问 : {{/if}}{{if rid}}{{if question_user_link==link}}自问自答{{else}}答 <a
-href="${question_user_link}">${question_user}</a> 问{{/if}} : {{/if}}{{/if}}{{if name}}<a
+href="${question_user_link}">${question_user}</a> 问{{/if}} : {{/if}}{{/if}}{{if cid==67}}${rid}{{/if}}{{if name}}<a
 target="_blank"
 href="/{{if rid && (cid==65 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}</a>{{/if}}{{if tag_id}}<a
 class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
@@ -121,83 +121,3 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 </%text>
 
 
-
-##
-##
-##
-
-
-
-
-
-
-
-
-
-
-
-##<%def name="_style1(i)">
-##<%
-##feed_zsite = i.zsite
-##%>\
-##<div style="padding:10px;margin:10px;border:1px solid #eee">\
-##<a href="${feed_zsite.link}" target="_blank">${feed_zsite.name}</a> : \
-##${caller.body()}\
-##</div>\
-##</%def>
-##
-##<%!
-##from model.vote import vote_state
-##%>
-##<%def name="vote(id, num)">
-##<%
-##state = vote_state(current_user_id, id)
-##%>
-##<span class="vote${state}" id="vote${id}">
-##<a title="厌倦" class="down" href="javascript:vote_down(${id});void(0)">-</a>
-##<span title="好评度" class="num">${num}</span>
-##<a title="喜欢" class="up" href="javascript:vote_up(${id});void(0)">+</a>
-##<a title="转发" id="rt${id}" class="rt" href="javascript:rt(${id});void(0)"></a>
-##</span>
-##</%def>
-##
-##<%def name="_style1_1(i)">
-##<%
-##iid = i.id
-##%>
-##<%call expr="_style1(i)">
-##${caller.body()}\
-##<div>\
-##<a href="/po/${iid}" target="_blank">${i.reply_count or ''}回复</a>
-##${vote(iid, i.vote)}
-##</div>\
-##</%call>\
-##</%def>
-##
-##<%def name="render_word(i)">
-##<%call expr="_style1_1(i)">
-##${i.name}
-##</%call>
-##</%def>
-##
-##<%def name="render_note(i)">
-##<%call expr="_style1_1(i)">
-##<a href="/po/${i.id}" target="_blank">${i.name}</a>
-##<div>${i.txt}</div>
-##</%call>
-##</%def>
-##
-##
-##<%!
-##from model.cid import CID_WORD,CID_NOTE
-##%>
-##%for i in entry_list:
-##<%
-##cid = i.cid
-##%>
-##%if cid == CID_WORD:
-##${render_word(i)}
-##%elif cid == CID_NOTE:
-##${render_note(i)}
-##%endif
-##%endfor
