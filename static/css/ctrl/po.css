@@ -3,7 +3,7 @@
 }
 .po_body h1{
     text-align:center;
-    font-size:27px;
+    font-size:28px;
     margin:16px 0 48px;
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
@@ -131,10 +131,12 @@ margin-bottom:14px;
 margin-top:14px;
 font-size:14px;
 }
+#po_audio_name #po_name{
+font-size:28px;
+}
 #po_audio_name .audio{
 height:28px;
 width:28px;
 margin-right:8px;
 margin-bottom:-4px;
 }
-
