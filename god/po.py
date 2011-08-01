@@ -6,7 +6,7 @@ from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION, CID_CHANNEL
-from model.po import Po
+from model.po import Po, po_state_set
 from model.po_show import po_show_set, po_show_count, po_show_list, po_show_rm
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from zkit.page import page_limit_offset
@@ -31,6 +31,16 @@ class PoList(Base):
             po_list=li,
             page=page,
         )
+
+
+@urlmap('/po/state/(\d+)/(%s|%s)' % (STATE_SECRET, STATE_ACTIVE))
+class PoState(Base):
+    def post(self, id, state):
+        po = Po.mc_get(id)
+        state = int(state)
+        if po:
+            po_state_set(po, state)
+        self.finish('{}')
 
 
 @urlmap('/po/show(?:-(\d+))?')
