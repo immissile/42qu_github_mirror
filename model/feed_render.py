@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import McCacheM
 from collections import namedtuple
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO
 from operator import itemgetter
 from po import Po
 from po_question import answer_count
@@ -38,10 +38,17 @@ def feed_tuple_by_db(id):
     else:
         reply_count = m.reply_count
 
+    if cid == CID_PHOTO:
+        _rid = fs_url_jpg(677, rid)
+    elif cid == CID_PHOTO:
+        _rid = fs_url_audio(id)
+    else:
+        _rid = rid 
+    
     result = [
         m.user_id,
         cid,
-        rid if cid != CID_PHOTO else fs_url_jpg(677, rid),
+        _rid,
         reply_count,
         m.create_time,
         name,
