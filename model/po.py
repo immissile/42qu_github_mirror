@@ -25,7 +25,7 @@ PO_CN_EN = (
     (CID_ANSWER, 'answer', '回答', '次'),
     (CID_PHOTO, 'photo', '图片', '张'),
     (CID_VIDEO, 'video', '视频', '场'),
-    (CID_AUDIO, 'audio', '录音', '段'),
+    (CID_AUDIO, 'audio', '声音', '段'),
 )
 PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
 PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
