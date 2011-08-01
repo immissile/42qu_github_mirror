@@ -163,7 +163,7 @@ _zoom:1;
 .fdvideo{
 display:block;
 margin:12px 0 6px;
-padding-left:36px;
+padding-left:33px;
 line-height:27px;
 color:#000;
 background:url(/img/gif/redplay.gif) no-repeat;
@@ -172,6 +172,7 @@ background:url(/img/gif/redplay.gif) no-repeat;
 color:#a10;
 }
 .fdswf .video{
-width:677px;height:553px;
+width:677px;
+height:553px;
 margin:14px 0 8px;
 }
