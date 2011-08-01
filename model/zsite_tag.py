@@ -4,6 +4,8 @@ from _db import Model, McModel, McCacheA, McCache, McCacheM, McLimitA, McNum
 from tag import Tag, tag_new
 from model.cid import CID_PHOTO, CID_PO
 from zweb.orm import ormiter
+from po import Po, po_id_list
+
 
 #CREATE TABLE  `zpage`.`zpage_tag` (
 #  `id` int(10) unsigned NOT NULL auto_increment,
@@ -204,12 +206,17 @@ def tag_id_by_po_id(zsite_id, po_id):
     return tag_by_po_id(zsite_id, po_id)[0]
 
 
+def tag_id_by_user_id_cid(zsite_id, cid):
+    id_list = po_id_list(zsite_id, cid, True, 1, 0)
+    if id_list:
+        id = id_list[0]
+        return tag_id_by_po_id(zsite_id, id)
+
+
 @mc_po_id_list_by_zsite_tag_id('{zsite_tag_id}')
 def po_id_list_by_zsite_tag_id(zsite_tag_id, limit=None, offset=0):
     id_list = ZsiteTagPo.where(zsite_tag_id=zsite_tag_id).order_by('id desc').col_list(limit, offset, 'po_id')
     return id_list
-
-from model.po import Po
 
 @mc_po_id_list_by_zsite_tag_id_cid('{zsite_tag_id}_{cid}')
 def po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=None, offset=0):
@@ -219,7 +226,6 @@ def po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=None, offset=0):
 #    pass
 
 def count_po_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=6):
-    from model.po import Po
     return (
         zsite_tag_cid_count(zsite_tag_id, cid),
         Po.mc_get_list(po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit))
