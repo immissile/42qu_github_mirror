@@ -46,8 +46,8 @@ def fs_file_jpg(prefix, key):
 def fs_url_jpg(prefix, key):
     return fs_url(prefix, key, 'jpg')
 
-def fs_file_audio(prefix, key):
-    return fs_file(prefix, key, 'wav')
+def fs_file_audio(key):
+    return fs_file('mp3', key, 'wav')
 
 def fs_url_audio(key):
     return fs_url('mp3', key, 'wav')

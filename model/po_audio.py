@@ -11,7 +11,6 @@ from config import FS_URL
 
 HTM_AUDIO = """<embed flashvars="foreColor=#aa1100&amp;analytics=false&amp;filename=%%s" quality="high" bgcolor="#FFFFFF" class="audio" src="%s/swf/1bit.swf" type="application/x-shockwave-flash" wmode= "Opaque"></embed>"""%FS_URL 
 
-##style="margin-right: 10px; margin-bottom: -8px;"
 
 def audio_save(id, audio):
     fs_set_audio('mp3', id, audio)

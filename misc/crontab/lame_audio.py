@@ -7,32 +7,41 @@ from os.path import exists, dirname
 import os
 import shutil
 from model.cid import CID_AUDIO
-from model.po_audio import AUDIO_ORIGINAL, AUDIO_COMPRESSED
 from zweb.orm import ormiter
 import subprocess
+from zkit.single_process import single_process
+from model.kv_misc import KV_PO_AUDIO, kv_int
+from config import SITE_DOMAIN
 
+
+@single_process
 def audio_compress():
-    c = Po.raw_sql("select id from po where rid=%s and cid=%s limit 1",\
-                   AUDIO_ORIGINAL, CID_AUDIO)
-    x = c.fetchone()
-    if x:
-        mark_id = x[0]
-        for i in ormiter(Po, 'id>=%s and cid=%s'%\
-                         (mark_id, CID_AUDIO)): 
-            input_filename = fs_file_audio('mp3', i.id)
-            output_filename = '/tmp/temp.mp3' 
-            subprocess.call([ 
-                "lame", 
-                "--quiet", 
-                "--mp3input", 
-                "--abr", 
-                "64", 
-                input_filename, 
-                output_filename 
-            ]) 
-            shutil.copy(output_filename, input_filename)
-            i.rid = AUDIO_COMPRESSED
-            i.save()
+    id = kv_int.get(KV_PO_AUDIO)
+
+    for i in ormiter(Po, "cid=%s and id>%s"%(
+        CID_AUDIO,
+        id 
+    )):
+        id = i.id
+
+        input_filename = fs_file_audio(id)
+        if not exists(input_filename):
+            continue
+        output_filename = '/tmp/audio.%s'%SITE_DOMAIN 
+        #print input_filename
+
+        subprocess.call([ 
+            "lame", 
+            "--quiet", 
+            "--mp3input", 
+            "--abr", 
+            "64", 
+            input_filename, 
+            output_filename 
+        ]) 
+        shutil.copy(output_filename, input_filename)
+    
+    kv_int.set(KV_PO_AUDIO, id)
 
 if __name__ == "__main__":
     audio_compress()
