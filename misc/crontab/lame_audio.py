@@ -27,7 +27,7 @@ def audio_compress():
         input_filename = fs_file_audio(id)
         if not exists(input_filename):
             continue
-        output_filename = '/tmp/audio.%s'%SITE_DOMAIN 
+        output_filename = '/tmp/po.audio.%s'%SITE_DOMAIN 
         #print input_filename
 
         subprocess.call([ 
