@@ -40,13 +40,25 @@ def sync_by_po_id(id):
     user_id = p.user_id
     cid = p.cid
     s = SyncTurn.raw_sql('select cid,state from sync_turn where zsite_id = %s',user_id).fetchall()
+    o = OauthToken.raw_sql('select id from oauth_token where zsite_id = %s',user_id).fetchall()
     if s:
         for scid,state in s:
             if cid == scid and state:
-                o = OauthToken.raw_sql('select id from oauth_token where zsite_id = %s',user_id).fetchall()
                 for oid in o:
                     sync_by_oauth_id(oid[0],p.name_,'http://%s.42qu.com/%s'%(p.user_id,p.id))
 
+
+
+def sync_follow_by_sync_id(id):
+    s = SyncFollow.get(id)
+    user_id = s.zsite_id
+    o = OauthToken.raw_sql('select id from oauth_token where zsite_id = %s',user_id).fetchall()
+    if s.state:
+        if s.state >= 2:
+            for oid in o:
+                sync_by_oauth_id(oid[0],s.txt,'http://42qu.com')
+        else:
+            oauth_follow_by_oauth_id(oid[0])
 
 
 
