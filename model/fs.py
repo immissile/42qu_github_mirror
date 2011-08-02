@@ -1,5 +1,5 @@
 import _env
-from config import PIC_PATH, PIC_URL 
+from config import PIC_PATH, PIC_URL
 from cid import CID_PHOTO, CID_AUDIO
 from os.path import join, exists, dirname
 from os import remove, makedirs
