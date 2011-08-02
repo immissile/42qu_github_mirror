@@ -183,6 +183,10 @@ def po_new(cid, user_id, name, state, rid=0):
     from po_pos import po_pos_set
     po_pos_set(user_id, m)
     mc_flush(user_id, cid)
+    from zsite_tag import zsite_tag_new_by_tag_id, tag_id_by_user_id_cid
+    if cid != CID_WORD:
+        tag_id = tag_id_by_user_id_cid(user_id, cid)
+        zsite_tag_new_by_tag_id(m, tag_id)
     return m
 
 def po_state_set(po, state):
@@ -305,6 +309,6 @@ def mc_flush_cid_list_all(user_id, cid_list):
 if __name__ == '__main__':
     from zweb.orm import ormiter
     for i in ormiter(Po):
-        if "焦作" in i.name:
+        if '焦作' in i.name:
             print i.user_id
             print i.name

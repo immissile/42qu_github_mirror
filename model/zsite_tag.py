@@ -207,10 +207,11 @@ def tag_id_by_po_id(zsite_id, po_id):
 
 
 def tag_id_by_user_id_cid(zsite_id, cid):
-    id_list = po_id_list(zsite_id, cid, True, 1, 0)
+    id_list = po_id_list(zsite_id, cid, True, 1, 1)
     if id_list:
         id = id_list[0]
         return tag_id_by_po_id(zsite_id, id)
+    return 1
 
 
 @mc_po_id_list_by_zsite_tag_id('{zsite_tag_id}')
@@ -233,12 +234,5 @@ def count_po_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=6):
 
 
 if __name__ == '__main__':
-    #for i in ZsiteTag.where(zsite_id=24):
-    #print i.tag_id
-    #print po_id_list_by_zsite_tag_id(24, 25)
-    #print tag_by_po_id(10007348, 10037094)[2]
-    from model.cid import CID_NOTE
-    print count_po_list_by_zsite_tag_id_cid(1923, CID_NOTE)
-    print ZsiteTagPo.where(zsite_tag_id=1923, cid=CID_NOTE).count()
-    zsite_tag_cid_count.delete(1923, CID_NOTE)
-    print zsite_tag_cid_count(1923, CID_NOTE)
+    from model.cid import CID_AUDIO
+    print tag_id_by_user_id_cid(10000212, CID_AUDIO)
