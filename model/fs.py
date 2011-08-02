@@ -47,13 +47,13 @@ def fs_url_jpg(prefix, key):
     return fs_url(prefix, key, 'jpg')
 
 def fs_file_audio(key):
-    return fs_file('mp3', key, 'wav')
+    return fs_file('mp3', key, 'exe')
 
 def fs_url_audio(key):
-    return fs_url('mp3', key, 'wav')
+    return fs_url('mp3', key, 'exe')
 
 def fs_set_audio(prefix, key, audio):
-    fs_set(prefix, key, 'wav', audio)
+    fs_set(prefix, key, 'exe', audio)
 
 #print fs_file("test", 1, "jpg")
 #print fs_link("test", 1, "jpg")
