@@ -1,6 +1,6 @@
 <%!
 from config import SITE_URL, SITE_DOMAIN
-from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO
+from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO, CID_AUDIO
 from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY 
 from model.money import withdraw_open_count, withdraw_max
 from model.po import Po
@@ -69,6 +69,7 @@ ${self.htm_head()}\
 <a class="cola" href="/reply_list/${CID_QUESTION}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_QUESTION).count()}</span>评论</a>
 <a class="cola" href="/reply_list/${CID_PHOTO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_PHOTO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_PHOTO).count()}</span>图片</a>
 <a class="cola" href="/reply_list/${CID_VIDEO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_VIDEO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_VIDEO).count()}</span>视频</a>
+<a class="cola" href="/reply_list/${CID_AUDIO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_AUDIO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_AUDIO).count()}</span>音乐</a>
 
 
 

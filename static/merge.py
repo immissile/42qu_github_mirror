@@ -82,7 +82,7 @@ class ChangeFilter():
                 yield i
 
         if has_change:
-            for k in ('g.css', 'v.css'):
+            for k in ('z.css'):
                 if k in self.filename2num:
                     self.filename2num[k] += 1
 

@@ -1,5 +1,6 @@
 import _env
-from config import PIC_PATH, PIC_URL
+from config import PIC_PATH, PIC_URL 
+from cid import CID_PHOTO, CID_AUDIO
 from os.path import join, exists, dirname
 from os import remove, makedirs
 from cStringIO import StringIO
@@ -11,7 +12,7 @@ def fs_path(root, prefix, id, suffix):
 def fs_file(prefix, id, suffix):
     return fs_path(PIC_PATH, prefix, id, suffix)
 
-def fs_url(prefix, id, suffix):
+def fs_url(prefix,  id, suffix):
     return fs_path(PIC_URL, prefix, id, suffix)
 
 def img2str(image, quality=95):
@@ -38,11 +39,21 @@ def fs_get_jpg(prefix, key):
 def fs_set_jpg(prefix, key, image, quality=95):
     fs_set(prefix, key, 'jpg', img2str(image, quality))
 
+
 def fs_file_jpg(prefix, key):
     return fs_file(prefix, key, 'jpg')
 
 def fs_url_jpg(prefix, key):
     return fs_url(prefix, key, 'jpg')
+
+def fs_file_audio(key):
+    return fs_file('mp3', key, 'wav')
+
+def fs_url_audio(key):
+    return fs_url('mp3', key, 'wav')
+
+def fs_set_audio(prefix, key, audio):
+    fs_set(prefix, key, 'wav', audio)
 
 #print fs_file("test", 1, "jpg")
 #print fs_link("test", 1, "jpg")

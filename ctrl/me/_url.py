@@ -6,3 +6,4 @@ import newbie
 import po
 import po_photo
 import po_video
+import po_audio

@@ -1,29 +1,50 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC, \
-CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO
+CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO
 from model.po_show import po_is_show
 from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
 from model.zsite import Zsite
 from model.po_video import video_htm
+from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from zkit.txt import cnenoverflow
-from model.fs import fs_url_jpg
+from model.fs import fs_url_jpg, fs_url_audio
 %>
 <%def name="htm_head()">
-</%def>
+<script>
+    $('a.po2a').live('click', function() {
+        var id = this.rel;
+        $.postJSON('/po/state/' + id + '/${STATE_ACTIVE}', function(data){
+            $('#po_state_' + id).html(
+                '<a href="javascript:void(0)" rel="' + id + '" class="po2s" style="color:#999">私密</a> , <b>公开</b>'
+            )
+        })
+    })
+    $('a.po2s').live('click', function() {
+        var id = this.rel;
+        $.postJSON('/po/state/' + id + '/${STATE_SECRET}', function(data){
+            $('#po_state_' + id).html(
+            '<b>私密</b> , <a href="javascript:void(0)" rel="' + id + '" class="po2a" style="color:#999">公开</a>'
+            )
+        })
+    })
+</script>
 <style>
 .ico {
 float:left;
 margin-right:32px
 }
 </style>
+</%def>
+
 <ol>
 % for po in po_list:
 <li>
-
 <%
+id = po.id
 cid = po.cid
+state = po.state
 name = po.name
 ico_url = _ico_url(po.user_id)
 user = po.user
@@ -46,6 +67,8 @@ user = po.user
 图片\
 % elif cid == CID_VIDEO:
 视频\
+% elif cid == CID_AUDIO:
+音乐\
 % elif cid == CID_NOTE:
 日记\
 % endif
@@ -60,6 +83,8 @@ ${po.name_htm|n}
 <img src="${fs_url_jpg(721,po.rid)}">
 %elif cid == CID_VIDEO:
 <div id="video">${video_htm(po.rid, po.id)|n}</div>
+%elif cid == CID_AUDIO:
+<div id="audio">${fs_url_audio(po.id)}</div>
 %endif
 
 <p>
@@ -67,14 +92,26 @@ ${po.name_htm|n}
 ${friendly_time(po.create_time)}
 </p>
 </div>
-<p>
-<a href="/po/show/set/${po.id}">
+<p class="tr">
+<a class="L" href="/po/show/set/${id}">
     % if po_is_show(po):
     设置
     % else:
     转发
     % endif
-</a></p>
+</a>
+<span id="po_state_${id}">
+% if state == STATE_DEL:
+已删除
+% elif state == STATE_SECRET:
+<b>私密</b> , <a href="javascript:void(0)" rel="${id}" class="po2a" style="color:#999">公开</a>
+% elif state == STATE_ACTIVE:
+<a href="javascript:void(0)" rel="${id}" class="po2s" style="color:#999">私密</a> , <b>公开</b>
+% else:
+哈哈？
+% endif
+</span>
+</p>
 </div>
 </div>
 % endfor

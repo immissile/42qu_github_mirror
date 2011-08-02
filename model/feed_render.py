@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import McCacheM
 from collections import namedtuple
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO
 from operator import itemgetter
 from po import Po
 from po_question import answer_count
@@ -12,7 +12,7 @@ from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT
 from zsite import Zsite
 from zkit.txt import cnenoverflow
 from model.txt2htm import txt_withlink
-from fs import fs_url_jpg
+from fs import fs_url_jpg, fs_url_audio
 
 CIDMAP = {}
 
@@ -38,10 +38,17 @@ def feed_tuple_by_db(id):
     else:
         reply_count = m.reply_count
 
+    if cid == CID_PHOTO:
+        _rid = fs_url_jpg(677, rid)
+    elif cid == CID_AUDIO:
+        _rid = fs_url_audio(id)
+    else:
+        _rid = rid 
+    
     result = [
         m.user_id,
         cid,
-        rid if cid != CID_PHOTO else fs_url_jpg(677, rid),
+        _rid,
         reply_count,
         m.create_time,
         name,
@@ -49,7 +56,7 @@ def feed_tuple_by_db(id):
     ]
 
     txt = m.txt
-    if cid in (CID_NOTE, CID_QUESTION, CID_ANSWER):
+    if cid != CID_WORD:
         txt, has_more = cnenoverflow(txt, 164)
         if not has_more:
             txt = m.htm
