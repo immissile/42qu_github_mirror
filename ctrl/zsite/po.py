@@ -9,7 +9,7 @@ from model.po_question import po_answer_new
 from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite, user_can_reply
-from model.zsite_tag import zsite_tag_list_by_zsite_id, zsite_tag_new_by_tag_id, po_id_list_by_zsite_tag_id, zsite_tag_count, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
+from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO
 from zkit.page import page_limit_offset
 from zkit.txt import cnenlen
@@ -73,13 +73,13 @@ class PoPage(ZsiteBase):
 
         if cid == CID_WORD:
             rid_po_list = [i for i in po_list if i.rid]
-            Po.mc_bind(rid_po_list,"question","rid")
-            Zsite.mc_bind([i.question for i in rid_po_list],"user","user_id")
+            Po.mc_bind(rid_po_list, 'question', 'rid')
+            Zsite.mc_bind([i.question for i in rid_po_list], 'user', 'user_id')
 
         if zsite_id == user_id:
-            back_a = "/live"
+            back_a = '/live'
         else:
-            back_a = "/"
+            back_a = '/'
 
 
         self.render(
@@ -88,7 +88,7 @@ class PoPage(ZsiteBase):
             total=total,
             po_list=po_list,
             page=page,
-            back_a = back_a,
+            back_a=back_a,
         )
 
 
@@ -169,7 +169,7 @@ class TagPoPage(ZsiteBase):
             po_list=po_list,
             page=page,
             tag_name=Tag.get(tag.tag_id),
-            back_a = "/tag/%s"%zsite_tag_id
+            back_a='/tag/%s'%zsite_tag_id
         )
 
 
@@ -259,12 +259,12 @@ class PoOne(ZsiteBase):
         return self.render(
             self.template,
             po=po,
-            can_admin       =  can_admin,
-            can_view        =  can_view,
-            zsite_tag_id    =  zsite_tag_id,
-            prev_id         =  prev_id,
-            next_id         =  next_id,
-            tag_name        =  tag_name,
+            can_admin=can_admin,
+            can_view=can_view,
+            zsite_tag_id=zsite_tag_id,
+            prev_id=prev_id,
+            next_id=next_id,
+            tag_name=tag_name,
         )
 
 
@@ -304,7 +304,6 @@ class Question(PoOne):
             if po.cid == CID_ANSWER:
                 answer_id = po.id
                 link = '/po/tag/%s' % answer_id
-                zsite_tag_new_by_tag_id(po)
             else:
                 link = '%s#reply%s' % (question.link, po.id)
         else:
