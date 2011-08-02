@@ -126,4 +126,5 @@ from mq import mq_client
 mq_pic_rm_mail = mq_client(pic_rm_mail)
 
 if __name__ == '__main__':
-    print  Pic.get(25763)
+    for i in  Pic.where(user_id=10005704):
+        print i.id, i.cid
