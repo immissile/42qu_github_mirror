@@ -27,7 +27,6 @@ def prepare(o):
     o.MQ_PORT = 11300
 
     o.FILE_DOMAIN = 'p.%s'%o.SITE_DOMAIN
-    o.AUDIO_DOMAIN = 'p.%s'%o.SITE_DOMAIN
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
 
     o.DEBUG = False
