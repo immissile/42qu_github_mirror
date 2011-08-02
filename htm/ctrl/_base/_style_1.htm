@@ -17,7 +17,10 @@ ${self.H()}\
  tc">\
 %endif
 <%
-request_host = request.host
+if zsite_id:
+    request_host = host(zsite_id)
+else:
+    request_host = request.host
 %>
 <a
 href="//${request_host}\
@@ -26,13 +29,9 @@ href="//${request_host}\
 %endif
 "
 class="site">\
-%if zsite_id:
-${host(zsite_id)}
-%else:
 ${request_host}\
-%endif
-</a>
-</div></div>
+</a>\
+</div></div>\
 </%def>
 
 
