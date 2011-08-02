@@ -102,7 +102,7 @@ def finish(o):
         o.RPC_PORT = o.PORT + 40
 
 
-    o.PIC_URL = 'http://%s'%o.PIC_DOMAIN
+    o.FILE_URL = 'http://%s'%o.PIC_DOMAIN
     o.FS_URL = 'http://%s'%o.FS_DOMAIN
 
     o.SITE_DOMAIN_SUFFIX = '.%s' % o.SITE_DOMAIN
