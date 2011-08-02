@@ -41,7 +41,7 @@ def feed_tuple_by_db(id):
     if cid == CID_PHOTO:
         _rid = fs_url_jpg(677, rid)
     elif cid == CID_AUDIO:
-        _rid = fs_url_audio(id)
+        _rid = fs_url_audio(id,"")
     else:
         _rid = rid 
     
