@@ -115,3 +115,6 @@ def search(keywords, offset, limit):
 if __name__ == "__main__":
     print search("bjwdk2008@163.com",0,111)
     print search("zsp007@gmail.com",0,111)
+    print search("王兴",0,111)
+    print search("美团网",0,111)
+    print search("美团",0,111)
