@@ -65,6 +65,10 @@ def zsite2keyword(z):
 def zsite_keyword_iter():
     for i in ormiter(Zsite):
         id = i.id
+       # if id == 10054091:
+       #     print id
+       # else:
+       #     continue
         kw = zsite2keyword(i)
         if not kw:
             continue
@@ -76,7 +80,9 @@ def zsite_keyword_iter():
 
 
 if __name__ == '__main__':
-    z = Zsite.mc_get(16)
-    if z:
-        for k, v in zsite2keyword(z)[1].iteritems():
-            print k, v
+    for i in zsite_keyword_iter():
+        print i
+  #  z = Zsite.mc_get(10054091)
+  #  if z:
+  #      for k, v in zsite2keyword(z).iteritems():
+  #          print k, v

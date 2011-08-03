@@ -14,7 +14,7 @@ if not exists(PATH):
 
 SEARCH_DB = xapian.WritableDatabase(PATH, xapian.DB_CREATE_OR_OPEN)
 
-
+#print PATH
 
 def flush_db():
     SEARCH_DB.flush()
@@ -31,7 +31,8 @@ def index():
         for word, value in kw:
             if word:
                 if not word.startswith('>'):
-                    doc.add_term(word, value)
+                    if len(word) < 254:
+                        doc.add_term(word, value)
 
         key = '>%s'%id
         doc.add_term(key)

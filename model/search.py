@@ -111,3 +111,7 @@ def search(keywords, offset, limit):
         r.append(rss_id)
 
     return Zsite.mc_get_list(r), count
+
+if __name__ == "__main__":
+    print search("bjwdk2008@163.com",0,111)
+    print search("zsp007@gmail.com",0,111)
