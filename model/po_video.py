@@ -17,9 +17,9 @@ HTM_TUDOU = """<embed src="http://www.tudou.com/v/%s/v.swf" class="video" type="
 
 HTM_AUTOPLAY_TUDOU =  """<embed src="http://www.tudou.com/v/%s&autoPlay=true/v.swf" class="video" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque"></embed>"""
 
-HTM_SINA = """<embed wmode="opaque" src="http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?autoplay=1&vid=%s&uid=%s" class="video" allowFullScreen="true" "></embed>"""
+HTM_AUTOPLAY_SINA = """<embed wmode="opaque" src="http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?autoplay=1&vid=%s&uid=%s" class="video" allowFullScreen="true" "></embed>"""
 
-HTM_AUTOPLAY_SINA = """<embed wmode="opaque" src="http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?vid=%s&uid=%s" class="video" allowFullScreen="true" "></embed>"""
+HTM_SINA = """<embed wmode="opaque" src="http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?vid=%s&uid=%s" class="video" allowFullScreen="true" "></embed>"""
 
 VIDEO_CID2HTM = {
     VIDEO_CID_YOUKU:HTM_YOUKU,
@@ -40,6 +40,8 @@ class Video(Model):
 
 
 def video_htm_autoplay(cid, id):
+    if cid == VIDEO_CID_SINA:
+        return VIDEO_CID2HTM_AUTOPLAY[cid] % tuple(video_uri(id).split('-'))
     return VIDEO_CID2HTM_AUTOPLAY[cid] % video_uri(id)
 
 def video_htm(cid, id):

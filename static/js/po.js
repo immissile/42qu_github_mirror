@@ -67,28 +67,28 @@ po_video = function(id){
         '视频',
         '<input id="po_video" autocomplete="off" placeholder="优酷/土豆/新浪的视频网址 ..." name="video" type="txt">',
         function(){
-            var e=$('#po_video'), video=e.val(), error;
-                if(video&&video.length){
-                    if(
-                        !(
-                            /^(http:\/\/v\.youku\.com\/v_show\/id_)\w{13}(\.html)$/.test(video) 
-                            || 
-                            /^(http\:\/\/player\.youku\.com\/player\.php\/sid\/)w{13}(\/v\.swf)$/.test(video)
-                            ||
-                            /^(http:\/\/www\.tudou\.com\/programs\/view\/)[A-z0-9-_]{11}\//.test(video)
-                            ||
-                            /^(http:\/\/video\.sina\.com\.cn\/v\/b\/\d{8}-\d{10}(\.html)$/.test(video)
-                        )
-                    ){
-                        error = "请输入优酷/土豆/新浪视频网址 , <a href='http://help.42qu.com/po_video.html' target='_blank'>点此看帮助</a>";
-                    }
-                }else{
-                    error = "请输入视频网址"
+            var e=$('#po_video'), video=$.trim(e.val()), error;
+            if(video&&video.length){
+                if(
+                    !(
+                        /^http:\/\/v\.youku\.com\/v_show\/id_\w{13}\.html$/.test(video) 
+                        || 
+                        /^http\:\/\/player\.youku\.com\/player\.php\/sid\/w{13}\/v\.swf$/.test(video)
+                        ||
+                        /^http:\/\/www\.tudou\.com\/programs\/view\/[A-z0-9-_]{11}\//.test(video)
+                        ||
+                        /^http:\/\/video\.sina\.com\.cn\/v\/b\/\d+-\d+\.html$/.test(video)
+                    )
+                ){
+                    error = '请输入优酷/土豆/新浪视频网址 , <a href="http://help.42qu.com/po_video.html" target="_blank">点此看帮助</a>';
                 }
-                if(error){
-                   e.focus().select()
-                }
-                return error 
+            }else{
+                error = "请输入视频网址"
+            }
+            if(error){
+               e.focus().select()
+            }
+            return error 
         }
     )
 }
@@ -135,7 +135,6 @@ po_audio = function(id){
         }
     )
 }
-
 
 
 })()
