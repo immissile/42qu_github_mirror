@@ -166,6 +166,8 @@ class Edit(LoginBase):
 
         if po.cid == CID_WORD:
             link = po.link_question
+        elif po.state == STATE_SECRET:
+            link = po.link
         else:
             link = '/po/tag/%s' % id
         self.redirect(link)
