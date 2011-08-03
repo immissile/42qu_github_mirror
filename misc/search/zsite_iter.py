@@ -72,9 +72,6 @@ def zsite_keyword_iter():
         yield str(id), zsite_rank_by_zsite_id(id), kw.items()
 
 
-
-
-
 if __name__ == '__main__':
     z = Zsite.mc_get(16)
     if z:
