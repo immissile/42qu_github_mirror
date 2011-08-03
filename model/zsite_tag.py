@@ -181,6 +181,7 @@ def zsite_tag_rm_by_po(po):
         i.delete()
         from model.po_prev_next import mc_flush
         mc_flush(cid, i.zsite_id, i.zsite_tag_id, id)
+    mc_tag_by_po_id.delete('%s_%s' % (po.user_id, id))
 
 
 @mc_tag_by_po_id('{zsite_id}_{po_id}')
