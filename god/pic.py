@@ -17,6 +17,10 @@ class Review(Base):
     def get(self, cid):
         cid = int(cid)
         pic_list = pic_list_to_review_by_cid(cid, PAGE_LIMIT)
+
+        if pic_list:
+            self.redirect('/zsite/verify%s'%CID_USER)
+
         Zsite.mc_bind(pic_list, 'user', 'user_id')
         self.render(
             cid=cid,
@@ -30,11 +34,6 @@ class Review(Base):
         yes = self.get_argument('yes', '')
         no = self.get_argument('no', '')
         
-        if not yes and not no:
-            
-            self.redirect('/zsite/verify%s'%CID_USER)
-
-
         if yes:
             ids_yes = map(int, yes.split(' '))
         else:
