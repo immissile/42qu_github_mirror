@@ -9,9 +9,6 @@ from model.po_show import po_show_count
 from model.pic import pic_to_review_count_by_cid
 from model.reply import Reply
 %>\
-<%
-pic_to_review_count = pic_to_review_count_by_cid(CID_ICO)
-%>
 <!doctype html>\
 <head>\
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">\
@@ -36,6 +33,9 @@ ${self.htm_head()}\
 </body>\
 
 <%def name="col2()">
+<%
+pic_to_review_count = pic_to_review_count_by_cid(CID_ICO)
+%>
 <h1><a href="//god.${SITE_DOMAIN}">${SITE_DOMAIN}</a></h1>
 <form class="search" action="/zsite/user_search" method="POST">\
 <input id="search" type="text" name="input" value="${value or ''}">\
