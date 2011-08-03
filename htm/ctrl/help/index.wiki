@@ -16,6 +16,7 @@
 == 其他 ==
 
 * [[wordpress.html | 42qu.com WordPress 博客插件]] 
+* [[po_video.html | 42qu.com WordPress 发布视频帮助]] 
 * [[http://help-api.42qu.com | 42qu.com API]] 
 * [[http://doc.42qu.me | 42qu.com 开源]] 
 
