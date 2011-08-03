@@ -169,6 +169,19 @@ class Po(McModel, ReplyMixin):
         mc_feed_tuple.delete(self.id)
         return result
 
+    def tag_new(self):
+        from zsite_tag import zsite_tag_new_by_tag_id, tag_id_by_user_id_cid
+        cid = self.cid
+        user_id = self.zsite_id
+        if cid != CID_WORD:
+            tag_id = tag_id_by_user_id_cid(user_id, cid)
+            zsite_tag_new_by_tag_id(self, tag_id)
+
+    def tag_rm(self):
+        from zsite_tag import zsite_tag_rm_by_po
+        zsite_tag_rm_by_po(self)
+
+
 def po_new(cid, user_id, name, state, rid=0):
     m = Po(
         id=gid(),
@@ -183,10 +196,7 @@ def po_new(cid, user_id, name, state, rid=0):
     from po_pos import po_pos_set
     po_pos_set(user_id, m)
     mc_flush(user_id, cid)
-    from zsite_tag import zsite_tag_new_by_tag_id, tag_id_by_user_id_cid
-    if cid != CID_WORD:
-        tag_id = tag_id_by_user_id_cid(user_id, cid)
-        zsite_tag_new_by_tag_id(m, tag_id)
+    m.tag_new()
     return m
 
 def po_state_set(po, state):
@@ -195,8 +205,10 @@ def po_state_set(po, state):
         return
     if old_state > STATE_SECRET and state == STATE_SECRET:
         feed_rm(id)
+        po.tag_rm()
     elif old_state <= STATE_SECRET and state >= STATE_ACTIVE:
         po.feed_new()
+        po.tag_new()
     po.state = state
     po.save()
     mc_flush_other(po.user_id, po.cid)
@@ -308,7 +320,5 @@ def mc_flush_cid_list_all(user_id, cid_list):
 
 if __name__ == '__main__':
     from zweb.orm import ormiter
-    for i in ormiter(Po):
-        if '焦作' in i.name:
-            print i.user_id
-            print i.name
+    for i in ormiter(Po, 'state=%s' % STATE_SECRET):
+        i.tag_rm()
