@@ -172,7 +172,7 @@ class Po(McModel, ReplyMixin):
     def tag_new(self):
         from zsite_tag import zsite_tag_new_by_tag_id, tag_id_by_user_id_cid
         cid = self.cid
-        user_id = self.zsite_id
+        user_id = self.user_id
         if cid != CID_WORD:
             tag_id = tag_id_by_user_id_cid(user_id, cid)
             zsite_tag_new_by_tag_id(self, tag_id)
