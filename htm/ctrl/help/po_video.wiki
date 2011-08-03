@@ -11,7 +11,7 @@
 {{img/help/po_video/2.png}}
 
 
-目前支持 [[http://www.youku.com/|优酷]] , [[http://www.tudou.com/|土豆]] , 新浪 的视频，有任何问题和要求请联系42qu运营：[[http://zhendi.42qu.com/|真谛]]
+目前支持 [[http://www.youku.com/|优酷]] , [[http://www.tudou.com/|土豆]] , [[http://video.sina.com.cn/|新浪]] 的视频，有任何问题和要求请联系42qu运营：[[http://zhendi.42qu.com/|真谛]]
 
 
 
