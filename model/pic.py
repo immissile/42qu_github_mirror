@@ -81,7 +81,7 @@ def pic_yes(id, admin_id):
         pic.state = 1
         pic.save()
 
-def pic_no(id, admin_id):
+def (id, admin_id):
     from ico import ico, ico96
     pic = Pic.get(id)
     if pic:
@@ -96,6 +96,18 @@ def pic_no(id, admin_id):
                 ico.set(user_id, 0)
                 ico96.set(user_id, 0)
         mq_pic_rm_mail(id)
+        return user_id
+
+def _total(id, admin_id):
+    user_id = (id, admin_id)
+    if user_id:
+        from zsite_list_0 import zsite_show_rm
+        from zsite import Zsite, ZSITE_STATE_ACTIVE
+        zsite_show_rm(user_id)
+        zsite = Zsite.mc_get(user_id)
+        zsite.state = ZSITE_STATE_ACTIVE
+        zsite.save()
+
 
 PIC_RM_TEMPLATE = {
     CID_ICO: '/mail/pic/rm_ico.txt',
