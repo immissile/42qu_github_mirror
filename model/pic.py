@@ -81,7 +81,7 @@ def pic_yes(id, admin_id):
         pic.state = 1
         pic.save()
 
-def (id, admin_id):
+def _pic_no(id, admin_id):
     from ico import ico, ico96
     pic = Pic.get(id)
     if pic:
@@ -98,8 +98,8 @@ def (id, admin_id):
         mq_pic_rm_mail(id)
         return user_id
 
-def _total(id, admin_id):
-    user_id = (id, admin_id)
+def pic_no(id, admin_id):
+    user_id = _pic_no(id, admin_id)
     if user_id:
         from zsite_list_0 import zsite_show_rm
         from zsite import Zsite, ZSITE_STATE_ACTIVE
