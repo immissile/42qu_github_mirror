@@ -18,7 +18,7 @@ class Review(Base):
         cid = int(cid)
         pic_list = pic_list_to_review_by_cid(cid, PAGE_LIMIT)
 
-        if pic_list:
+        if not pic_list:
             self.redirect('/zsite/verify%s'%CID_USER)
 
         Zsite.mc_bind(pic_list, 'user', 'user_id')
