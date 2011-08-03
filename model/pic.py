@@ -96,6 +96,16 @@ def pic_no(id, admin_id):
                 ico.set(user_id, 0)
                 ico96.set(user_id, 0)
         mq_pic_rm_mail(id)
+        return user_id
+
+def pic_no_total(id,admin_id):
+    user_id = pic_no(id,admin_id)
+    if user_id:
+        from zsite_list_0 import zsite_show_rm
+        from zsite import Zsite, zsite_verify_no_without_notify
+        zsite_show_rm(user_id)
+        zsite_verify_no_without_notify(Zsite.mc_get(user_id)) 
+
 
 PIC_RM_TEMPLATE = {
     CID_ICO: '/mail/pic/rm_ico.txt',

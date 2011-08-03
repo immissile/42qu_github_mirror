@@ -43,8 +43,16 @@ ${self.htm_head()}\
 
 <div>
 <a
-    class="cola" 
-    href="/zsite/verify${CID_USER}#${Zsite.raw_sql('select max(id) from zsite where state = %s and cid = %s',ZSITE_STATE_WAIT_VERIFY,CID_USER).fetchone()[0] or ''}">
+    class="cola"
+  %if pic_to_review_count_by_cid(CID_ICO) == 0:
+  href="/zsite/verify${CID_USER}#${Zsite.raw_sql('select max(id) from zsite where state = %s and cid = %s',ZSITE_STATE_WAIT_VERIFY,CID_USER).fetchone()[0] or ''}"
+  %elif Zsite.where(cid=CID_USER, state=ZSITE_STATE_WAIT_VERIFY).count() > 0:
+  href="/pic/review${CID_ICO}"
+  %else:
+  href = "/chart"
+  %endif
+  >
+
     <span class="R">
         ${Zsite.where(cid=CID_USER, state=ZSITE_STATE_WAIT_VERIFY).count()}
     </span>
@@ -74,7 +82,13 @@ ${self.htm_head()}\
 
 
 <p class="coltitle">头像</p>
-<a class="cola" href="/pic/review${CID_ICO}"><span class="R">${pic_to_review_count_by_cid(CID_ICO)}</span>待审核</a>
+<a class="cola" 
+    %if pic_to_review_count_by_cid(CID_ICO) > 0 :
+    href="/pic/review${CID_ICO}"
+    %else:
+    href = "/chart"
+    %endif
+    ><span class="R">${pic_to_review_count_by_cid(CID_ICO)}</span>待审核</a>
 <a class="cola tc" href="/pic/reviewed${CID_ICO}/1">已通过</a>
 <a class="cola tc" href="/pic/reviewed${CID_ICO}/0">被删除</a>
 
