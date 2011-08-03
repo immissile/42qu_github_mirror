@@ -65,7 +65,7 @@ po_video = function(id){
         id,
         'video',
         '视频',
-        '<input id="po_video" autocomplete="off" placeholder="优酷或土豆的视频网址 ..." name="video" type="txt">',
+        '<input id="po_video" autocomplete="off" placeholder="优酷/土豆/新浪的视频网址 ..." name="video" type="txt">',
         function(){
             var e=$('#po_video'), video=e.val(), error;
                 if(video&&video.length){
@@ -78,7 +78,7 @@ po_video = function(id){
                             /^(http:\/\/www\.tudou\.com\/programs\/view\/)[A-z0-9-_]{11}\//.test(video)
                         )
                     ){
-                        error = "请输入优酷或土豆视频 <a href='http://help.42qu.com/po_video.html' target='_blank'>查看帮助</a>";
+                        error = "请输入优酷/土豆/新浪视频网址 , <a href='http://help.42qu.com/po_video.html' target='_blank'>点此看帮助</a>";
                     }
                 }else{
                     error = "请输入视频网址"
