@@ -43,6 +43,8 @@ def url_new(id, url):
     u.save()
     mc_id_by_url.set(url.lower(), id)
     mc_url_by_id.set(id, url)
+    from search_zsite import search_new
+    search_new(id)
 
 NO_URL = set(('god', 'admin', 'review', 'lolicon', 'lolita', 'loli', 'risako', 'lara', 'luna', 'nuva'))
 RESERVED_URL = set(('google', 'youdao', 'taobao', 'douban', 'facebook', 'twitter', 'javaeye')) | NO_URL
@@ -92,4 +94,4 @@ def link(id):
 if __name__ == '__main__':
     print id_by_url('Jarod')
     print host('10006523')
-    #print mc_id_by_url.get("I000000") 
+    #print mc_id_by_url.get("I000000")

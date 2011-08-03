@@ -19,9 +19,10 @@ from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
 from config import SITE_URL
-from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient 
+from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient
 from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ
 from model.zsite import Zsite
+from model.search_zsite import search_new
 
 OAUTH2URL = {
     OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
@@ -47,11 +48,11 @@ class LinkEdit(LoginBase):
     def _linkify(self, link, cid=0):
         link = link.strip().split(' ', 1)[0]
         if link:
-            if cid in OAUTH2URL and RE_URL.match(link): 
+            if cid in OAUTH2URL and RE_URL.match(link):
                 link = OAUTH2URL[cid] % link
             elif not link.startswith('http://') and not link.startswith('https://'):
                 link = 'http://%s'%link
-        
+
         return link
 
     def get(self):
@@ -129,6 +130,8 @@ class CareerEdit(LoginBase):
             begin = arguments.get('%s_begin' % prefix, [])
             end = arguments.get('%s_end' % prefix, [])
             career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
+
+        search_new(current_user_id)
 
 
 class PicEdit(LoginBase):
@@ -209,7 +212,6 @@ class UserInfoEdit(LoginBase):
             else:
                 c = namecard_new(current_user_id, pid_now=pid_now)
 
-
         if not o.sex:
             sex = self.get_argument('sex', 0)
             if sex and not o.sex:
@@ -223,6 +225,7 @@ class UserInfoEdit(LoginBase):
                     else:
                         user_info_new(current_user_id, sex=sex)
 
+        search_new(current_user_id)
 
 
 @urlmap('/i/pic')
@@ -240,11 +243,11 @@ class Url(LoginBase):
         super(Url, self).prepare()
         if not self._finished:
             user = self.current_user
-            user_id = self.current_user_id
+            current_user_id = self.current_user_id
             link = self.current_user.link
             if user.state <= ZSITE_STATE_APPLY:
                 self.redirect(link+'/i/verify')
-            elif url_by_id(user_id):
+            elif url_by_id(current_user_id):
                 self.redirect(link)
 
     def get(self):
@@ -252,15 +255,15 @@ class Url(LoginBase):
 
     def post(self):
 
-        user_id = self.current_user_id
+        current_user_id = self.current_user_id
         url = self.get_argument('url', None)
         if url:
-            if url_by_id(user_id):
+            if url_by_id(current_user_id):
                 error_url = '个性域名设置后不能修改'
             else:
                 error_url = url_valid(url)
             if error_url is None:
-                url_new(user_id, url)
+                url_new(current_user_id, url)
                 self.redirect(SITE_URL)
         else:
             error_url = '个性域名不能为空'
