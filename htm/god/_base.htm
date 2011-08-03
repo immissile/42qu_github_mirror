@@ -1,6 +1,6 @@
 <%!
 from config import SITE_URL, SITE_DOMAIN
-from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO
+from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO, CID_AUDIO
 from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY 
 from model.money import withdraw_open_count, withdraw_max
 from model.po import Po
@@ -33,6 +33,9 @@ ${self.htm_head()}\
 </body>\
 
 <%def name="col2()">
+<%
+pic_to_review_count = pic_to_review_count_by_cid(CID_ICO)
+%>
 <h1><a href="//god.${SITE_DOMAIN}">${SITE_DOMAIN}</a></h1>
 <form class="search" action="/zsite/user_search" method="POST">\
 <input id="search" type="text" name="input" value="${value or ''}">\
@@ -43,8 +46,16 @@ ${self.htm_head()}\
 
 <div>
 <a
-    class="cola" 
-    href="/zsite/verify${CID_USER}#${Zsite.raw_sql('select max(id) from zsite where state = %s and cid = %s',ZSITE_STATE_WAIT_VERIFY,CID_USER).fetchone()[0] or ''}">
+    class="cola"
+    %if pic_to_review_count > 0:
+href="/pic/review${CID_ICO}"
+  %elif Zsite.where(cid=CID_USER, state=ZSITE_STATE_WAIT_VERIFY).count() > 0:
+href="/zsite/verify${CID_USER}#${Zsite.raw_sql('select max(id) from zsite where state = %s and cid = %s',ZSITE_STATE_WAIT_VERIFY,CID_USER).fetchone()[0] or ''}"
+  %else:
+href = "/chart"
+  %endif
+  >
+
     <span class="R">
         ${Zsite.where(cid=CID_USER, state=ZSITE_STATE_WAIT_VERIFY).count()}
     </span>
@@ -69,11 +80,18 @@ ${self.htm_head()}\
 <a class="cola" href="/reply_list/${CID_QUESTION}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_QUESTION).count()}</span>评论</a>
 <a class="cola" href="/reply_list/${CID_PHOTO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_PHOTO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_PHOTO).count()}</span>图片</a>
 <a class="cola" href="/reply_list/${CID_VIDEO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_VIDEO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_VIDEO).count()}</span>视频</a>
+<a class="cola" href="/reply_list/${CID_AUDIO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_AUDIO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_AUDIO).count()}</span>音乐</a>
 
 
 
 <p class="coltitle">头像</p>
-<a class="cola" href="/pic/review${CID_ICO}"><span class="R">${pic_to_review_count_by_cid(CID_ICO)}</span>待审核</a>
+<a class="cola" 
+    %if pic_to_review_count > 0 :
+    href="/pic/review${CID_ICO}"
+    %else:
+    href = "/chart"
+    %endif
+    ><span class="R">${pic_to_review_count}</span>待审核</a>
 <a class="cola tc" href="/pic/reviewed${CID_ICO}/1">已通过</a>
 <a class="cola tc" href="/pic/reviewed${CID_ICO}/0">被删除</a>
 

@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-#初始化python的查找路径
-#coding:utf-8
-from _env import PREFIX
-
-from zkit.jsdict import JsDict
+# 初始化python的查找路径
+import _env
 import default
 import getpass
 import socket
+from zkit.jsdict import JsDict
 
 default.load(
     JsDict(locals()),
-    'host.%s'%socket.gethostname(),
-    'user.%s'%getpass.getuser(),
+    'host.%s' % socket.gethostname(),
+    'user.%s' % getpass.getuser(),
 )

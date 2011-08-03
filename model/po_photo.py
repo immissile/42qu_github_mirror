@@ -9,8 +9,6 @@ from cid import CID_PHOTO
 from fs import fs_set_jpg, fs_url_jpg
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
 from po_pic import PoPic
-from zsite_tag import  zsite_tag_new_by_tag_id
-
 
 
 PIC_SIZE = 721
@@ -42,9 +40,6 @@ def po_photo_new(user_id, name, txt, img, state=STATE_ACTIVE):
         m.txt_set(txt)
         if state > STATE_SECRET:
             m.feed_new()
-
-        zsite_tag_new_by_tag_id(m, 1)
-
         return m
 
 

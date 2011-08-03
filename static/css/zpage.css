@@ -46,9 +46,9 @@ color:#fff;
 
 #sB,#sT{
 display:block;
-width:32px;
-height:32px;
-background:url(/img/gif/uptop.gif) no-repeat;
+width:36px;
+height:33px;
+background:url(/img/gif/back_home3.gif) no-repeat;
 }
 #sB{
 bottom:14px;
@@ -60,7 +60,16 @@ right:16px;
 position:fixed;
 _position:absolute;
 margin-top:96px;
-margin-left:38px;
-background-image:url(/img/gif/upli.gif)
+margin-left:37px;
+background-image:url(/img/gif/list3.gif);
+width:29px;
+height:27px;
 }
 
+.audio{
+height:28px;
+width:28px;
+margin-right:8px;
+margin-left:-3px;
+margin-bottom:-8px;
+}

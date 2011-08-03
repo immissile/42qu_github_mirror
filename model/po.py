@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_PO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -24,7 +24,8 @@ PO_CN_EN = (
     (CID_QUESTION, 'question', '问题', '条'),
     (CID_ANSWER, 'answer', '回答', '次'),
     (CID_PHOTO, 'photo', '图片', '张'),
-    (CID_VIDEO, 'video', '视频', '段'),
+    (CID_VIDEO, 'video', '视频', '场'),
+    (CID_AUDIO, 'audio', '音乐', '段'),
 )
 PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
 PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
@@ -182,6 +183,10 @@ def po_new(cid, user_id, name, state, rid=0):
     from po_pos import po_pos_set
     po_pos_set(user_id, m)
     mc_flush(user_id, cid)
+    from zsite_tag import zsite_tag_new_by_tag_id, tag_id_by_user_id_cid
+    if cid != CID_WORD:
+        tag_id = tag_id_by_user_id_cid(user_id, cid)
+        zsite_tag_new_by_tag_id(m, tag_id)
     return m
 
 def po_state_set(po, state):
@@ -304,6 +309,6 @@ def mc_flush_cid_list_all(user_id, cid_list):
 if __name__ == '__main__':
     from zweb.orm import ormiter
     for i in ormiter(Po):
-        if "焦作" in i.name:
+        if '焦作' in i.name:
             print i.user_id
             print i.name

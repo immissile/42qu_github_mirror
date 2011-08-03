@@ -94,7 +94,7 @@ def career_edit(id, user_id, unit_id, title_id, txt, begin, end, cid):
 
 def career_rm(id, user_id):
     o = Career.mc_get(id)
-    if o.user_id == user_id:
+    if o and o.user_id == user_id:
         o.delete()
         mc_flush(user_id, o.cid)
 

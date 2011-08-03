@@ -4,6 +4,8 @@ from _db import Model, McModel, McCacheA, McCache, McCacheM, McLimitA, McNum
 from tag import Tag, tag_new
 from model.cid import CID_PHOTO, CID_PO
 from zweb.orm import ormiter
+from po import Po, po_id_list
+
 
 #CREATE TABLE  `zpage`.`zpage_tag` (
 #  `id` int(10) unsigned NOT NULL auto_increment,
@@ -107,13 +109,12 @@ def zsite_tag_new_by_tag_id(po, tag_id=1):
         mc_po_id_list_by_zsite_tag_id.delete(pre_tag_id)
         zsite_tag_cid_count.delete(pre_tag_id, po_cid)
         mc_po_id_list_by_zsite_tag_id_cid.delete('%s_%s'%(pre_tag_id, po_cid))
-        mc_flush(po_cid, zsite_id, pre_tag_id, tag_po_id, po_id)
+        mc_flush(po_cid, zsite_id, pre_tag_id, po_id)
 
     mc_po_id_list_by_zsite_tag_id.delete(id)
     mc_po_id_list_by_zsite_tag_id_cid.delete('%s_%s'%(id, po_cid))
     zsite_tag_cid_count.delete(id, po_cid)
-
-    mc_flush(po_cid, zsite_id, id, tag_po_id, po_id)
+    mc_flush(po_cid, zsite_id, id, po_id)
 
 
 
@@ -179,7 +180,7 @@ def zsite_tag_rm_by_po(po):
         mc_flush_zsite_tag_id(i.zsite_tag_id)
         i.delete()
         from model.po_prev_next import mc_flush
-        mc_flush(cid, i.zsite_id, i.zsite_tag_id, i.id, id)
+        mc_flush(cid, i.zsite_id, i.zsite_tag_id, id)
 
 
 @mc_tag_by_po_id('{zsite_id}_{po_id}')
@@ -204,12 +205,18 @@ def tag_id_by_po_id(zsite_id, po_id):
     return tag_by_po_id(zsite_id, po_id)[0]
 
 
+def tag_id_by_user_id_cid(zsite_id, cid):
+    id_list = po_id_list(zsite_id, cid, True, 1, 1)
+    if id_list:
+        id = id_list[0]
+        return tag_id_by_po_id(zsite_id, id)
+    return 1
+
+
 @mc_po_id_list_by_zsite_tag_id('{zsite_tag_id}')
 def po_id_list_by_zsite_tag_id(zsite_tag_id, limit=None, offset=0):
     id_list = ZsiteTagPo.where(zsite_tag_id=zsite_tag_id).order_by('id desc').col_list(limit, offset, 'po_id')
     return id_list
-
-from model.po import Po
 
 @mc_po_id_list_by_zsite_tag_id_cid('{zsite_tag_id}_{cid}')
 def po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=None, offset=0):
@@ -219,7 +226,6 @@ def po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=None, offset=0):
 #    pass
 
 def count_po_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=6):
-    from model.po import Po
     return (
         zsite_tag_cid_count(zsite_tag_id, cid),
         Po.mc_get_list(po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit))
@@ -227,12 +233,5 @@ def count_po_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=6):
 
 
 if __name__ == '__main__':
-    #for i in ZsiteTag.where(zsite_id=24):
-    #print i.tag_id
-    #print po_id_list_by_zsite_tag_id(24, 25)
-    #print tag_by_po_id(10007348, 10037094)[2]
-    from model.cid import CID_NOTE
-    print count_po_list_by_zsite_tag_id_cid(1923, CID_NOTE)
-    print ZsiteTagPo.where(zsite_tag_id=1923, cid=CID_NOTE).count()
-    zsite_tag_cid_count.delete(1923, CID_NOTE)
-    print zsite_tag_cid_count(1923, CID_NOTE)
+    from model.cid import CID_AUDIO
+    print tag_id_by_user_id_cid(10000212, CID_AUDIO)

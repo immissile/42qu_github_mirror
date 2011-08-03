@@ -113,6 +113,28 @@ po_photo = function(id){
     )
 }
 
+po_audio = function(id){
+    po_(
+        id,
+        'audio',
+        '音乐',
+        '<input id="po_audio" type="file" name="audio">',
+        function(){
+            var error,
+                audio=$("#po_audio").val();
+                if(audio&&audio.length){
+                    if(!/\.(mp3)$/.test(audio.toLowerCase())){
+                        error = "仅支持mp3"
+                    }
+                }else{
+                    error = "请选择mp3文件"
+                }
+            return error
+        }
+    )
+}
+
+
 
 })()
 

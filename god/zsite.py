@@ -11,7 +11,7 @@ from model.mail import sendmail
 from model.cid import CID_ZSITE
 from zkit.page import page_limit_offset
 
-from model.pic import pic_no
+from model.pic import pic_no 
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail

@@ -4,17 +4,15 @@ import re
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum, McCacheM
 from cid import CID_VIDEO
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
-from zsite_tag import ZsiteTagPo, zsite_tag_new_by_tag_id
 
 VIDEO_CID_YOUKU = 1
 VIDEO_CID_TUDOU = 2 
 
+HTM_YOUKU = '''<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>'''
+HTM_AUTOPLAY_YOUKU = '''<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior&isAutoPlay=true" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>'''
 
-HTM_YOUKU = """<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>"""
-HTM_AUTOPLAY_YOUKU="""<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior&isAutoPlay=true" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash"></embed>"""
 HTM_TUDOU = """<embed src="http://www.tudou.com/v/%s/v.swf" class="video" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque"></embed>"""
 HTM_AUTOPLAY_TUDOU = HTM_TUDOU
-
 
 VIDEO_CID2HTM = {
     VIDEO_CID_YOUKU:HTM_YOUKU,
@@ -26,17 +24,17 @@ VIDEO_CID2HTM_AUTOPLAY = {
 }
 
 
-mc_video_uri = McCache("VideoUri:%s")
+mc_video_uri = McCache('VideoUri:%s')
 
 class Video(Model):
     pass
 
 
 def video_htm_autoplay(cid, id):
-    return VIDEO_CID2HTM_AUTOPLAY[cid]%video_uri(id) 
+    return VIDEO_CID2HTM_AUTOPLAY[cid] % video_uri(id)
 
 def video_htm(cid, id):
-    return VIDEO_CID2HTM[cid]%video_uri(id) 
+    return VIDEO_CID2HTM[cid] % video_uri(id)
 
 
 @mc_video_uri('{id}')
@@ -44,7 +42,7 @@ def video_uri(id):
     c = Video.raw_sql('select uri from video where id=%s', id)
     r = c.fetchone()
     if r:
-        return r[0] 
+        return r[0]
     return ''
 
 def video_new(id, uri):
@@ -65,9 +63,6 @@ def po_video_new(user_id, name, txt, uri, video_site):
         video_new(m.id , uri)
         m.txt_set(txt)
         m.feed_new()
-
-        zsite_tag_new_by_tag_id(m, 1)
-
         return m
 
 

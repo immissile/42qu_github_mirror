@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
-from model.fs import fs_url_jpg
-from model.po_photo import po_photo_new
 from model.po import Po
-from model.cid import CID_PHOTO
-from model.state import STATE_ACTIVE
-from zkit.pic import picopen
+from model.po_audio import po_audio_new
+from model.zsite_tag import zsite_tag_new_by_tag_id
+from model.cid import CID_AUDIO
 
-@urlmap('/po/photo')
-@urlmap('/po/photo/(\d+)')
-class PoPhoto(LoginBase):
+@urlmap('/po/audio')
+@urlmap('/po/audio/(\d+)')
+class PoAudio(LoginBase):
     def post(self, po_id=0):
-        cid = CID_PHOTO
+        cid = CID_AUDIO
         name = self.get_argument('name', None)
         txt = self.get_argument('txt', None)
-
         
         link = '/live'
 
@@ -28,28 +25,25 @@ class PoPhoto(LoginBase):
                 po.save()
                 link = '/po/tag/%s' % po_id
         else:
-            img = self._img()
-            if img:
+            audio = self._audio()
+            if audio:
                 user_id = self.current_user_id
-                po = po_photo_new(user_id, name, txt, img, STATE_ACTIVE)
+                po = po_audio_new(user_id, name, txt, audio)
                 if po:
                     po_id = po.id
-
                     link = '/po/tag/%s' % po_id
-
 
         return self.redirect(link)
         
-    def _img(self):
+    def _audio(self):
         files = self.request.files
-        img = files.get('photo')
-        if img:
-            img = img[0]['body']
-            if not len(img) > 1024*1024*12:
-                img = picopen(img)
-                if not img:
-                    return
-                return img
+        audio = files.get('audio')
+        if audio:
+            audio = audio[0]['body']
+            if not audio:
+                return
+            if not (len(audio) > 1024*1024*512):
+                return audio
 
 
 

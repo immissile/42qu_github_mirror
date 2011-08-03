@@ -64,8 +64,6 @@ def po_post(self):
     self_id = self.id
     if po:
         po_id = po.id
-        if not tag_id_by_po_id(user_id, po_id):
-            zsite_tag_new_by_tag_id(po)
     else:
         po_id = 0
     if po or self_id == 0:
@@ -193,6 +191,7 @@ class Tag(LoginBase):
             current_user_id = self.current_user_id
             tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
             po_id = po.id
+            cid = po.cid
             tag_id = tag_id_by_po_id(current_user_id, po_id) or 1
             self.render(
                 tag_list=tag_list,

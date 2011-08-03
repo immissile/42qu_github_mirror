@@ -3,7 +3,7 @@
 }
 .po_body h1{
     text-align:center;
-    font-size:27px;
+    font-size:28px;
     margin:16px 0 48px;
     line-height:48px;
     font-family: "Trebuchet MS", sans-serif;
@@ -90,16 +90,16 @@ padding:0 3px;
 .sprev , .snext{
 position:fixed;
 _position:absolute;
-background:url(/img/gif/sprev.gif) no-repeat;
+background:url(/img/gif/lt3.gif) no-repeat;
 width:21px;
-height:48px;
+height:46px;
 top:300px;
 }
 .sprev{
 margin-left:40px
 }
 .snext{
-background-image:url(/img/gif/snext.gif);
+background-image:url(/img/gif/gt3.gif);
 margin-left:911px;
 }
 #photo{
@@ -130,4 +130,12 @@ outline:0;
 margin-bottom:14px;
 margin-top:14px;
 font-size:14px;
+}
+#po_audio_name #po_name{
+font-size:28px;
+}
+#po_audio_name .audio{
+margin-bottom:-4px;
+margin-left:0;
+margin-right:8px;
 }
