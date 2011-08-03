@@ -150,7 +150,10 @@ class TagPoPage(ZsiteBase):
         cid = self.cid
         is_self = zsite_id == user_id
         n = int(n)
-        total = zsite_tag_cid_count(zsite_tag_id, cid)
+
+        is_self = (user_id == zsite_id)
+
+        total = zsite_tag_cid_count(zsite_tag_id, cid , is_self)
         page, limit, offset = page_limit_offset(
             '/tag/%s'%zsite_tag_id + self.page_template,
             total,
@@ -161,7 +164,7 @@ class TagPoPage(ZsiteBase):
         if n != 1 and offset >= total:
             return self.redirect(self.page_template[:-3])
 
-        po_list = Po.mc_get_list(po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit, offset))
+        po_list = Po.mc_get_list(po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, is_self, limit, offset))
         self.render(
             cid=cid,
             is_self=is_self,

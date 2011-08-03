@@ -20,12 +20,12 @@ href="/"
 
 
 <%
-is_owner = zsite_id == current_user_id
-po_note_count, po_note_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_NOTE, 6)
-po_question_count, po_question_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_QUESTION, 6)
-po_photo_count, po_photo_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_PHOTO, 6)
-po_video_count, po_video_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_VIDEO, 6)
-po_audio_count, po_audio_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_AUDIO, 6)
+is_owner = (zsite_id == current_user_id)
+po_note_count, po_note_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_NOTE, is_owner,6)
+po_question_count, po_question_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_QUESTION, is_owner,6)
+po_photo_count, po_photo_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_PHOTO, is_owner,6)
+po_video_count, po_video_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_VIDEO, is_owner, 6)
+po_audio_count, po_audio_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_AUDIO, is_owner, 6)
 %>
 
 
