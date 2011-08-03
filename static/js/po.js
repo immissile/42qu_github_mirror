@@ -76,6 +76,8 @@ po_video = function(id){
                             /^(http\:\/\/player\.youku\.com\/player\.php\/sid\/)w{13}(\/v\.swf)$/.test(video)
                             ||
                             /^(http:\/\/www\.tudou\.com\/programs\/view\/)[A-z0-9-_]{11}\//.test(video)
+                            ||
+                            /^(http:\/\/video\.sina\.com\.cn\/v\/b\/\d{8}-\d{10}(\.html)$/.test(video)
                         )
                     ){
                         error = "请输入优酷/土豆/新浪视频网址 , <a href='http://help.42qu.com/po_video.html' target='_blank'>点此看帮助</a>";
