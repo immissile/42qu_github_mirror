@@ -91,8 +91,10 @@ class PoBase(LoginBase):
     def post(self):
         po = self.po_post()
         if po:
-            po_id = po.id
-            link = '/po/tag/%s' % po_id
+            if po.state == STATE_SECRET:
+                link = po.link
+            else:
+                link = '/po/tag/%s' % po.id
         else:
             link = self.request.uri
         self.redirect(link)
