@@ -5,7 +5,7 @@ from time import time
 from mail import rendermail
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from kv import Kv
-from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY, CID_NOTICE_PAY
+from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_EVENT, CID_VERIFY_MONEY, CID_PAY_ALIPAY, CID_NOTICE_PAY
 from zsite import Zsite
 from user_mail import mail_by_user_id
 from mail import rendermail
@@ -37,7 +37,7 @@ TRADE_CID_DIC = {
     CID_TRADE_CHARDE: '充值',
     CID_TRADE_WITHDRAW: '提现',
     CID_TRADE_DEAL: '交易',
-#    CID_TRADE_REWARD: '奖励',
+#    CID_TRADE_EVENT: '活动',
 }
 
 TRADE_STATE_NEW = 5
@@ -275,6 +275,7 @@ def withdraw_list():
         i.account, i.name = pay_account_name_get(i.from_id, i.rid)
     return qs
 
+
 # Deal
 def pay_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     assert price > 0
@@ -286,6 +287,13 @@ def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
     assert price > 0
     cent = int(price * 100)
     return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)
+
+
+# Event
+def trade_event_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
+    assert price > 0
+    cent = int(price * 100)
+    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_EVENT, rid, state)
 
 
 if __name__ == '__main__':
