@@ -16,7 +16,6 @@ from tornado.escape import json_encode
 <script src="${js.reg}"></script>
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
-<script src="${js.flyoffpage}"></script>
 ${css.ctrl_auth_reg|n}
 </%def>
 
@@ -77,11 +76,11 @@ ${errtip.password|n}
 <script id="zsite_ico" type="text/x-jquery-tmpl">
 <%text>
 <div class="zsite_ico c">
-<a target="_blank" href="${i.link}">
-<img src="${i[0]}">
-<div>${i[1]}</div>
-<div>${i[2]}</div>
-<div>${i[3]}</div>
+<a target="_blank" href="${$data[0]}">
+<img src="${$data[1]}">
+<div>${$data[2]}</div>
+<div>${$data[3]}</div>
+<div>${$data[4]}</div>
 </a>
 </div>
 </%text>
@@ -95,7 +94,7 @@ zsite_ico_list = []
 for i in zsite_list:
     unit , title = i.career
     zsite_ico_list.append(
-        (i.ico, i.name, unit, title)
+        (i.link, i.ico, i.name, unit, title)
     )
 %>
 <script>
