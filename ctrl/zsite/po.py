@@ -301,7 +301,7 @@ class Question(PoOne):
         po = po_answer_new(user_id, id, name, txt, state)
 
         if po:
-            if po.cid == CID_ANSWER:
+            if po.cid == CID_ANSWER and po.state == STATE_ACTIVE:
                 answer_id = po.id
                 link = '/po/tag/%s' % answer_id
             else:
