@@ -12,10 +12,9 @@
     }
 
      zsite_ico_list = function(ico_list){
-        load(ico_list)
-        load(ico_list)
-        load(ico_list)
-
+        for(var i=0;i<3;++i){
+            load(ico_list)
+        }
         function _(){
             var t = $('#zsite_list .zsite_ico:first')
             t.slideUp(function(){
