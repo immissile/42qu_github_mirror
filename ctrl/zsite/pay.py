@@ -4,7 +4,7 @@ from _handler import ZsiteBase, LoginBase
 from zkit.errtip import Errtip
 from ctrl._urlmap.zsite import urlmap
 from model.zsite import Zsite
-from config import RPC_HTTP, SITE_DOMAIN
+from config import SITE_HTTP, RPC_HTTP
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax
 from model.user_mail import mail_by_user_id, user_by_mail
 from model.money import bank_can_pay, bank_change, pay_new, deal_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank_view, Trade, trade_log, pay_notice
@@ -32,8 +32,6 @@ class Result(ZsiteBase):
 
 @urlmap('/pay')
 class Index(ZsiteBase):
-
-    NOTIFY_URL = '%s/money/alipay_async/%%s' % RPC_HTTP
 
     def _arguments(self):
         url = self.get_argument('url', '')
@@ -146,16 +144,17 @@ class Index(ZsiteBase):
 
             trade_log.set(o_id, dumps(message))
 
-            return_url = 'http://%s/money/alipay_sync' % SITE_DOMAIN
+            return_url = '%s/money/alipay_sync' % SITE_HTTP
+            notify_url = '%s/money/alipay_async' % RPC_HTTP
 
             alipay_url = alipay_payurl_with_tax(
-                    current_user_id,
-                    amount_cent/100.0,
-                    return_url,
-                    self.NOTIFY_URL,
-                    subject,
-                    alipay_account,
-                    o_id
+                current_user_id,
+                amount_cent/100.0,
+                return_url,
+                notify_url,
+                subject,
+                alipay_account,
+                o_id
             )
 
             return self.redirect(alipay_url)
@@ -166,4 +165,3 @@ class Index(ZsiteBase):
             errtip=errtip,
             alipay_account=alipay_account
         )
-
