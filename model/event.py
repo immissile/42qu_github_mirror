@@ -7,5 +7,9 @@ class Event(McModel):
     pass
 
 
+class EventUser(Model):
+    pass
+
+
 if __name__ == '__main__':
     pass
