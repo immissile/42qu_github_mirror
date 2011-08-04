@@ -99,11 +99,13 @@ height:420px;
 overflow:hidden;
 text-align: right;
 width:304px;
-margin-right:64px;  border-right:1px dotted #ccc;
+margin-right:64px;
+border-right:1px dotted #ccc;
 padding-bottom:30px;
 padding-top:4px;
 }
-.logo_txt div{
+.logo_txt .zsite_ico div{
+margin-right:128px;
 line-height:32px
 }
 #form_reg .logo_txt p{
@@ -114,7 +116,9 @@ padding:0;
 padding-top:7px;
 }
 .logo_txt .zsite_ico{
-font-size:14px;text-align:right;padding:0 32px 32px 0;
+font-size:14px;
+text-align:right;
+padding:0 32px 32px 0;
 }
 .logo_txt .zsite_ico a:hover{
 text-decoration:none;
@@ -128,3 +132,4 @@ float:right;margin:0 0 0 32px;
 #zsite_list{
 margin-top:-13px;
 }
+
