@@ -2,9 +2,12 @@
 # -*- coding: utf-8 -*-
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
+from config import SITE_HTTP, RPC_HTTP
 from model.state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from model.event import Event, event_user_new, event_user_state
 from model.money import trade_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice, read_cent
+from model.money_alipay import alipay_payurl, alipay_payurl_with_tax
+from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT
 
 
 class EventBase(LoginBase):
@@ -77,8 +80,23 @@ class EventPay(EventJoin):
             event_user_new(id, current_user_id)
             return self.redirect(event.link)
 
-        subject = '参加*******支付报名费%s元' % read_cent(price)
         if bank_price > 0:
-            charge_cent = price - bank_price
-            subject += '(已有余额%s元)' % read_cent(bank_price)
+            price = price - bank_price
 
+        subject = '参加*******还需充值%s元' % read_cent(price)
+
+        return_url = '%s/money/alipay_sync' % SITE_HTTP
+        notify_url = '%s/money/alipay_async' % RPC_HTTP
+
+        alipay_account = pay_account_get(current_user_id, CID_PAY_ALIPAY)
+
+        alipay_url = alipay_payurl_with_tax(
+            current_user_id,
+            price/100.0,
+            return_url,
+            notify_url,
+            subject,
+            alipay_account,
+            t.id,
+        )
+        return self.redirect(alipay_url)
