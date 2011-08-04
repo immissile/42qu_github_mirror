@@ -23,7 +23,7 @@
                 setTimeout( _ , 1000)
             })
         }
-        setTimeout( _ , 200)
+        setTimeout( _ , 500)
     }
 })()
 
