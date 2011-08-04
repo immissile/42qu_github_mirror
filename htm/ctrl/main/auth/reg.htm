@@ -14,6 +14,7 @@ from model.career import career_bind
 <%def name="htm_head()">
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
+<script src="${js.flyoffpage}"></script>
 ${css.ctrl_auth_reg|n}
 </%def>
 
@@ -39,9 +40,9 @@ career_bind(zsite_list)
 <%
 unit , title = i.career
 %>
-<div class="zsite_ico c" id="zsite_ico${i.id}" style="font-size:14px;text-align:right;padding:0 32px 32px 0;">\
-<a target="_blank" href="${i.link}" style="margin:0;padding:0">\
-<img src="${i.ico|n}" style="float:right;margin:0 0 0 32px;">\
+<div class="zsite_ico c">\
+<a target="_blank" href="${i.link}">\
+<img src="${i.ico|n}">\
 <div>${i.name}</div>\
 <div>${unit}</div>\
 <div>${title}</div>\
@@ -103,6 +104,11 @@ ${errtip.password|n}
     }else{
         $('#password').focus();
     }
+
+    setInterval(function(){
+
+
+    }, 300)
 
 })()
 </script>

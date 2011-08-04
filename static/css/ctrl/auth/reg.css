@@ -106,15 +106,6 @@ padding-top:4px;
 .logo_txt div{
 line-height:32px
 }
-#form_reg .logo_txt a:hover{
-border-bottom:1px dotted #000;
-}
-#form_reg .logo_txt a{
-border-bottom:1px solid #000;
-color:#000;
-margin-left:8px;
-padding-bottom:3px
-}
 #form_reg .logo_txt p{
 line-height:32px;
 padding:0;
@@ -122,3 +113,16 @@ padding:0;
 #form_reg .logo_txt .tr{
 padding-top:7px;
 }
+.logo_txt .zsite_ico{
+font-size:14px;text-align:right;padding:0 32px 32px 0;
+}
+.logo_txt .zsite_ico a:hover{
+text-decoration:none;
+}
+.logo_txt .zsite_ico a{
+margin:0;padding:0;display:block;
+}
+.logo_txt .zsite_ico a img{
+float:right;margin:0 0 0 32px;
+}
+
