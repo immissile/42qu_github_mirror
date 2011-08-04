@@ -74,7 +74,7 @@ def frozen_view(user_id):
     return read_cent(frozen_get(user_id))
 
 def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_ONWAY, for_id=0):
-    create_time = int(time())
+    now = int(time())
     t = Trade(
         value=cent,
         tax=tax,
@@ -83,8 +83,8 @@ def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_ONWAY, for_
         cid=cid,
         rid=rid,
         state=state,
-        create_time=create_time,
-        update_time=create_time,
+        create_time=now,
+        update_time=now,
         for_id=for_id
     )
     t.save()
@@ -109,15 +109,15 @@ def trade_finish(t):
     to_id = t.to_id
     value = t.value
     state = t.state
-    update_time = int(time())
+    now = int(time())
 
-    is_new = (state == TRADE_STATE_NEW)
-    is_onway = (state == TRADE_STATE_ONWAY)
+    is_new = state == TRADE_STATE_NEW
+    is_onway = state == TRADE_STATE_ONWAY
     if is_new:
         bank_change(from_id, -value)
     if is_new or is_onway:
         bank_change(to_id, value)
-        t.update_time = update_time
+        t.update_time = now
         t.state = TRADE_STATE_FINISH
         t.save()
         if is_onway:
@@ -127,14 +127,14 @@ def trade_fail(t):
     from_id = t.from_id
     value = t.value
     state = t.state
-    update_time = int(time())
+    now = int(time())
     if state == TRADE_STATE_NEW:
-        t.update_time = update_time
+        t.update_time = now
         t.state = TRADE_STATE_ROLLBACK
         t.save()
     elif state == TRADE_STATE_ONWAY:
         bank_change(from_id, value)
-        t.update_time = update_time
+        t.update_time = now
         t.state = TRADE_STATE_ROLLBACK
         t.save()
         mc_frozen_get.delete(from_id)
@@ -221,13 +221,17 @@ def charged(out_trade_no, total_fee, rid, d):
         if t and t.to_id == user_id and t.rid == rid  and t.value + t.tax == int(float(total_fee)*100):
             if t.state == TRADE_STATE_ONWAY:
                 trade_finish(t)
-                for_t = Trade.get(t.for_id)
                 trade_log.set(id, dumps(d))
-                if t.for_id:
+                for_t = Trade.get(t.for_id)
+                if for_t:
                     if bank_can_pay(for_t.from_id, for_t.value):
-                        trade_finish(for_t)
-                        #send message and notice
-                        pay_notice(for_t.id)
+                        for_cid = for_t.cid
+                        if cid == CID_TRADE_PAY:
+                            trade_finish(for_t)
+                            pay_notice(for_t.id)
+                        elif cid == CID_TRADE_EVENT:
+                            trade_open(for_t)
+
                         return for_t
             return t
 
@@ -280,8 +284,7 @@ def withdraw_list():
 def pay_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     assert price > 0
     cent = int(price * 100)
-    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_PAY, rid, state)
-    return t.id
+    return trade_new(cent, 0, from_id, to_id, CID_TRADE_PAY, rid, state)
 
 def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
     assert price > 0
@@ -293,7 +296,7 @@ def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
 def trade_event_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     assert price > 0
     cent = int(price * 100)
-    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_EVENT, rid, state)
+    return trade_new(cent, 0, from_id, to_id, CID_TRADE_EVENT, rid, state)
 
 
 if __name__ == '__main__':
