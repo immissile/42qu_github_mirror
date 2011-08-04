@@ -3,6 +3,7 @@
 from config import LOGO_TEXT, SITE_DOMAIN
 from model.ico import ico_url_bind_with_default
 from model.career import career_bind
+from tornado.escape import json_encode 
 %>
 
 <%inherit file="/ctrl/_base/zsite.htm" />
@@ -29,31 +30,9 @@ id="form_reg_h1"
 >${LOGO_TEXT|n}</h1></a>
 
 %if zsite_list:
-<%
-ico_url_bind_with_default(zsite_list)
-career_bind(zsite_list)
-%>
 <div class="L">
-<div class="logo_txt">
-
-%for i in zsite_list:
-<%
-unit , title = i.career
-%>
-<div class="zsite_ico c">\
-<a target="_blank" href="${i.link}">\
-<img src="${i.ico|n}">\
-<div>${i.name}</div>\
-<div>${unit}</div>\
-<div>${title}</div>\
-</a>\
-</div>\
-%endfor
-
+<div id="zsite_list" class="logo_txt"></div>
 </div>
-
-</div>
-
 
 <div class="L">
 %else:
@@ -94,9 +73,41 @@ ${errtip.password|n}
 </div>
 </%htm:form>
 
+<script id="zsite_ico" type="text/x-jquery-tmpl">
+<%text>
+<div class="zsite_ico c">
+<a target="_blank" href="${i.link}">
+<img src="${i[0]}">
+<div>${i[1]}</div>
+<div>${i[2]}</div>
+<div>${i[3]}</div>
+</a>
+</div>
+</%text>
+</script>
 
-
+%if zsite_list:
+<%
+ico_url_bind_with_default(zsite_list)
+career_bind(zsite_list)
+zsite_ico_list = []
+for i in zsite_list:
+    unit , title = i.career
+    zsite_ico_list.append(
+        (i.ico, i.name, unit, title)
+    )
+%>
 <script>
+zsite_ico_list(${json_encode(zsite_ico_list)|n})
+</script>
+%endif
+<script>
+function zsite_ico_list(zsite_ico_list){
+    setInterval(function(){
+
+
+    }, 300)
+}
 (function(){
     var mail=$("#mail");
     if(mail.val()==''){
@@ -104,11 +115,5 @@ ${errtip.password|n}
     }else{
         $('#password').focus();
     }
-
-    setInterval(function(){
-
-
-    }, 300)
-
 })()
 </script>
