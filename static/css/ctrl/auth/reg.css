@@ -1,7 +1,7 @@
 #form_reg{
 font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
 line-height:36px;
-padding:32px 0 48px;
+padding:64px 0 48px;
 }
 #form_reg p{
 padding:16px 0;
@@ -94,12 +94,12 @@ margin-left:104px
 text-align:center;
 }
 .logo_txt{
-font-size:14px; 
-height:290px;
+font-size:14px;
+height:420px;
 overflow:hidden;
 text-align: right;
 width:304px;
-margin-right:64px; margin-top:-10px; border-right:1px dotted #ccc;
+margin-right:64px;  border-right:1px dotted #ccc;
 padding-bottom:30px;
 padding-top:4px;
 }
@@ -125,4 +125,6 @@ margin:0;padding:0;display:block;
 .logo_txt .zsite_ico a img{
 float:right;margin:0 0 0 32px;
 }
-
+#zsite_list{
+margin-top:-13px;
+}

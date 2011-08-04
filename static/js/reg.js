@@ -12,7 +12,7 @@
     }
 
      zsite_ico_list = function(ico_list){
-        for(var i=0;i<3;++i){
+        for(var i=0;i<4;++i){
             load(ico_list)
         }
         function _(){
