@@ -104,7 +104,7 @@ def ico_url_bind_with_default(zsite_list):
         setattr(
             i,
             key,
-            ico_url(i.id)
+            ico_url_with_default(i.id)
         )
 
 

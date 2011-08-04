@@ -34,7 +34,7 @@ margin-left:40px;
 text-align:center;
 }
 #form_reg h1{
-margin:30px auto 64px;
+margin:0 auto 64px;
 height:54px;
 width:467px;
 overflow:hidden;
@@ -94,14 +94,15 @@ margin-left:104px
 text-align:center;
 }
 .logo_txt{
-font-size: 16px; text-align: right;
+font-size:14px; 
+text-align: right;
 width:304px;
-margin-right:64px;padding-right:64px; margin-top:-10px; border-right:1px dotted #ccc;
+margin-right:64px; margin-top:-10px; border-right:1px dotted #ccc;
 padding-bottom:30px;
 padding-top:4px;
 }
 .logo_txt div{
-margin-top:20px;
+line-height:32px
 }
 #form_reg .logo_txt a:hover{
 border-bottom:1px dotted #000;
