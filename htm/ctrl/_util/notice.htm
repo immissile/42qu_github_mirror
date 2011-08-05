@@ -1,5 +1,6 @@
 <%!
 from model.cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY
+from model.event CID_EVENT_WAIT_SUMMARY, CID_EVENT_USER_WAIT_FEEDBACK
 from zkit.time_format import friendly_time
 from model.money import Trade, trade_log
 from model.notice import notice_id_count
@@ -62,6 +63,18 @@ t = Trade.get(rid)
 %>
 捐赠 ${t.read_value} 元
 ${trade_log_render(rid)}
+%elif cid = CID_EVENT_WAIT_SUMMARY:
+<%
+event_id = from_id
+event = Event.get(event_id)
+%>
+活动结束了，活动编号${event_id}提醒您写活动总结。
+%elif cid = CID_EVENT_WAIT_FEEDBACK:
+<%
+event_id = from_id
+event = Event.get(event_id)
+%>
+活动结束了，去看看活动总结${event_id}，发表下自己的看法吧。
 %endif
 
 ##%if cid == CID_INVITE_REGISTER:
