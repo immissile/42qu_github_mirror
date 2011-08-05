@@ -74,13 +74,19 @@ def test_add_event_user(event_id):
     o.save()
     print "event_user_id:",o.id
 
+
 def event_feedback_new(event_id, user_id, name, txt):
     m = po_new(CID_EVENT_FEEDBACK, user_id, name, STATE_ACTIVE, event_id)
     txt_new(m.id, txt)
     return m
 
+def event_feedback_list(po, user_id):
+    event_id = po.rid
+    event_user_list = EventUser.where("event_id = %s",event_id).col_list(col='user_id')
+    can_feedback = not user_id in event_user_list
 
+    return can_feedback, reply_list
 if __name__=="__main__":
-    event_id = test_event_init()
-    test_add_event_user(event_id)
+    #event_id = test_event_init()
+    #test_add_event_user(event_id)
 
