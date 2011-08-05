@@ -12,7 +12,7 @@
     }
 
      zsite_ico_list = function(ico_list){
-        for(var i=0;i<4;++i){
+        for(var i=0;i<5;++i){
             load(ico_list)
         }
         function _(){
@@ -23,7 +23,7 @@
                 setTimeout( _ , 1000)
             })
         }
-        setTimeout( _ , 200)
+        setTimeout( _ , 800)
     }
 })()
 
