@@ -71,7 +71,7 @@ po_video = function(id){
             if(video&&video.length){
                 if(
                     !(
-                        /^http:\/\/v\.youku\.com\/v_show\/id_\w{13}\.html$/.test(video) 
+                        /^http:\/\/v\.youku\.com\/v_show\/id_[\w=]{13}\.html$/.test(video) 
                         || 
                         /^http\:\/\/player\.youku\.com\/player\.php\/sid\/w{13}\/v\.swf$/.test(video)
                         ||
