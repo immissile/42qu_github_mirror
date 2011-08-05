@@ -8,11 +8,10 @@ from model.po_event import po_event_new
 @urlmap('/po/event/(\d+)')
 class PoVideo(LoginBase):
     def post(self, po_id=0):
-        pass
+        return self.render()
 
     def get(self):
-        pass
-
+        return self.render()
 
 
 
