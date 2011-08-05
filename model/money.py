@@ -230,8 +230,12 @@ def charged(out_trade_no, total_fee, rid, d):
                             trade_finish(for_t)
                             pay_notice(for_t.id)
                         elif cid == CID_TRADE_EVENT:
-                            trade_open(for_t)
-
+                            from event import event_user_state, event_user_new
+                            event_id = for_t.rid
+                            user_id = for_t.from_id
+                            if event_user_state(event_id, user_id) < STATE_APPLY:
+                                trade_open(for_t)
+                                event_user_new(event_id, user_id)
                         return for_t
             return t
 
