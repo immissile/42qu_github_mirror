@@ -50,6 +50,9 @@ class EventJoin(EventBase):
         if event.price:
             return self.redirect('/event/pay/%s' % id)
 
+        event_user_new(id, current_user_id)
+        return self.redirect(event.link)
+
 
 @urlmap('/event/pay/(\d+)')
 class EventPay(EventJoin):

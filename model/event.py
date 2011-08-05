@@ -3,10 +3,19 @@
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from time import time
+from zkit.attrcache import attrcache
 
 
 class Event(McModel):
-    pass
+
+    @attrcache
+    def zsite(self):
+        return Zsite.mc_get(self.zsite_id)
+
+    @attrcache
+    def link(self):
+        o = self.zsite
+        return '%s/%s' % (o.link, self.id)
 
 
 STATE_NO = STATE_DEL
