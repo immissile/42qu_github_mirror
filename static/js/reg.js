@@ -17,10 +17,10 @@
         }
         function _(){
             var t = $('#zsite_list .zsite_ico:first')
-            t.slideUp(function(){
+            t.slideUp(500, function(){
                 $(this).remove()
                 load(ico_list)
-                setTimeout( _ , 1000)
+                setTimeout( _ , 2000)
             })
         }
         setTimeout( _ , 800)
