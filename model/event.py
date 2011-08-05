@@ -5,6 +5,7 @@ from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from time import time
 from zkit.attrcache import attrcache
 from money import read_cent
+from zsite import Zsite
 
 
 class Event(McModel):

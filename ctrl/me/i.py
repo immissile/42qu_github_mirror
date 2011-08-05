@@ -19,7 +19,7 @@ from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
 from config import SITE_URL
-from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient 
+from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient
 from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ
 from model.zsite import Zsite
 
@@ -47,11 +47,11 @@ class LinkEdit(LoginBase):
     def _linkify(self, link, cid=0):
         link = link.strip().split(' ', 1)[0]
         if link:
-            if cid in OAUTH2URL and RE_URL.match(link): 
+            if cid in OAUTH2URL and RE_URL.match(link):
                 link = OAUTH2URL[cid] % link
             elif not link.startswith('http://') and not link.startswith('https://'):
                 link = 'http://%s'%link
-        
+
         return link
 
     def get(self):
@@ -316,8 +316,7 @@ class Link(LinkEdit):
         self.get()
 
 
-@urlmap('/i/namecard')
-class Namecard(LoginBase):
+class NameCardEdit(object):
     def get(self):
         current_user = self.current_user
         current_user_id = self.current_user_id
@@ -332,7 +331,7 @@ class Namecard(LoginBase):
             sex=o.sex,
         )
 
-    def post(self):
+    def save(self):
         current_user = self.current_user
         current_user_id = self.current_user_id
         pid_now = self.get_argument('pid_now', '1')
@@ -343,13 +342,18 @@ class Namecard(LoginBase):
 
         pid_now = int(pid_now)
 
-
         if pid_now or name or phone or mail or address:
             c = namecard_new(
                 current_user_id, pid_now, name, phone, mail, address
             )
 
+
+@urlmap('/i/namecard')
+class Namecard(NameCardEdit, LoginBase):
+    def post(self):
+        self.save()
         self.get()
+
 
 @urlmap('/i/mail/notice')
 class MailNotice(LoginBase):

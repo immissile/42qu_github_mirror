@@ -8,6 +8,7 @@ from model.event import Event, event_user_new, event_user_state
 from model.money import pay_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice, read_cent
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cent_with_tax
 from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT
+from ctrl.me.i import NameCardEdit
 
 
 class EventBase(LoginBase):
@@ -30,7 +31,7 @@ class EventBase(LoginBase):
 
 
 @urlmap('/event/join/(\d+)')
-class EventJoin(EventBase):
+class EventJoin(NameCardEdit, EventBase):
     def event(self, id):
         current_user_id = self.current_user_id
         zsite_id = self.zsite_id
@@ -40,15 +41,24 @@ class EventJoin(EventBase):
                 return event
             return self.redirect(event.link)
 
+    def get(self, id):
+        event = self.event(id)
+        if event is None:
+            return
+
+        return NameCardEdit.get(self)
+
     def post(self, id):
         event = self.event(id)
         if event is None:
             return
 
+        self.save()
+
         if event.cent:
             return self.redirect('/event/pay/%s' % id)
 
-        event_user_new(id, current_user_id)
+        event_user_new(id, self.current_user_id)
         return self.redirect(event.link)
 
 
