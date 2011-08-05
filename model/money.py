@@ -236,6 +236,9 @@ def charged(out_trade_no, total_fee, rid, d):
                             if event_user_state(event_id, user_id) < STATE_APPLY:
                                 trade_open(for_t)
                                 event_user_new(event_id, user_id)
+                            else:
+                                trade_fail(for_t)
+                                return t
                         return for_t
             return t
 
