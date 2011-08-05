@@ -8,17 +8,26 @@ from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_AC
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.zsite import Zsite
 
-from model.event import Event, event_feedback_new, CID_EVENT_FEEDBACK
+from model.event import Event, event_feedback_new, CID_EVENT_FEEDBACK, CID_EVENT_INTRODUCTION
+from zkit.jsdict import JsDict
 
 @urlmap('/event/feedback/(\d+)')
-def EventFeedback(LoginBase):
+class EventFeedback(LoginBase):
     def get(self, event_id):
+        user_id = self.current_user_id
+        self.cid = CID_EVENT_FEEDBACK
         event = Event.get(event_id)
         introduction_po = Po.where('cid=%s and rid=%s', CID_EVENT_INTRODUCTION, event_id)[0]
         feedback_po = Po.where('cid=%s and rid=%s', CID_EVENT_FEEDBACK, event_id)[0]
         if event.zsite_id == self.current_user_id and not feedback_po:
-            self.template = '/ctrl/me/po/po.htm'
-            self.render()
+            self.render(
+                '/ctrl/me/po/po.htm',
+                cid = self.cid,
+                po=JsDict(),
+                pic_list=pic_list_edit(user_id, 0),
+            )
+        else:
+            self.redirect(feedback_po.link)
 
     def post(self, event_id):
         event = Event.get(event_id)
@@ -26,7 +35,8 @@ def EventFeedback(LoginBase):
         if event.zsite_id == current_user_id:
             name = self.get_argument('name', None)
             txt = self.get_argument('txt', None)
-            event_feedback_new(event_id, current_user_id, name, txt)
+            m = event_feedback_new(event_id, current_user_id, name, txt)
+            self.redirect(m.link)
 
 
 

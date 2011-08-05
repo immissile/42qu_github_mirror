@@ -3,6 +3,7 @@
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum, McCacheM
 from po import po_new
 from state import STATE_ACTIVE
+from txt import txt_new 
 
 CID_EVENT_INTRODUCTION = 69
 CID_EVENT_FEEDBACK = 70
@@ -40,10 +41,10 @@ def test_event_init():
     o.end_time = 1314230406
     o.price = 0
     o.pay_online = 0
-    o.state = EVENT_FINISH
+    o.state = CID_EVENT_END
     o.need_review = 0
-    o.cid = CID_EVENT
-    o.zsite_id = 10016149
+    o.cid = CID_EVENT_FEEDBACK
+    o.zsite_id = 10016494
     o.save()
     return o.id
 
@@ -53,7 +54,7 @@ def test_add_event_user(event_id):
     o.event_id = event_id
     o.user_id = 10016149
     o.create_time = 1312416006
-    o.state = EVENT_USER_NO_FEEDBACK
+    o.state = CID_EVENT_USER_END
     o.save()
     print "event_user_id:",o.id
 
@@ -61,7 +62,7 @@ def test_add_event_user(event_id):
     o.event_id = event_id
     o.user_id = 10001518
     o.create_time = 1312414006
-    o.state = EVENT_USER_NO_FEEDBACK
+    o.state = CID_EVENT_USER_END
     o.save()
     print "event_user_id:",o.id
 
@@ -69,12 +70,14 @@ def test_add_event_user(event_id):
     o.event_id = event_id
     o.user_id = 10030280
     o.create_time = 1312412006
-    o.state = EVENT_USER_NO_FEEDBACK
+    o.state = CID_EVENT_USER_END
     o.save()
     print "event_user_id:",o.id
 
 def event_feedback_new(event_id, user_id, name, txt):
-    po_new(CID_EVENT_FEEDBACK, user_id, name, STATE_ACTIVE, event_id)
+    m = po_new(CID_EVENT_FEEDBACK, user_id, name, STATE_ACTIVE, event_id)
+    txt_new(m.id, txt)
+    return m
 
 
 if __name__=="__main__":
