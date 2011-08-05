@@ -9,9 +9,23 @@ from model.po import STATE_SECRET
 
 
 <%def name="htm_head()">
+<style>
+.po_line{
+font-size:16px;
+margin:27px 0;
+}
+</style>
 </%def>
 
 <%htm:form id="po_form">
+<div class="po_line">
+城市
+</div>
+<div class="po_line">
+地址
+</div>
+
+
 <div>\
 <span id="po_submit" class="btnw">\
 <button type="submit">确定</button>\
