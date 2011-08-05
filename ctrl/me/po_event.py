@@ -6,7 +6,7 @@ from model.po_event import po_event_new
 
 @urlmap('/po/event')
 @urlmap('/po/event/(\d+)')
-class PoVideo(LoginBase):
+class Index(LoginBase):
     def post(self, po_id=0):
         return self.render()
 
