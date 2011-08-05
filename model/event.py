@@ -4,9 +4,16 @@ from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from time import time
 from zkit.attrcache import attrcache
+from money import read_cent
 
 
 class Event(McModel):
+
+    def price(self):
+        cent = self.cent
+        if cent:
+            return read_cent(cent)
+        return ''
 
     @attrcache
     def zsite(self):

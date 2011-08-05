@@ -1,0 +1,18 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.money import bank, bank_view, read_cent
+from model.money_alipay import alipay_cent_with_tax
+%>
+
+<%
+cent_with_tax = alipay_cent_with_tax(cent_need)
+tax = cent_with_tax - cent_need
+%>
+
+入场费 ${event.price} 元
+银行金额 ${bank_view(current_user_id)} 元
+
+差 ${read_cent(cent_need)} 元
+需充值 ${read_cent(cent_with_tax)} 元
+支付宝手续费 ${read_cent(tax)} 元

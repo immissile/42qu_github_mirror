@@ -300,7 +300,7 @@ def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
 
 
 # Event
-def trade_event_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
+def pay_event_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     assert price > 0
     cent = int(price * 100)
     return trade_new(cent, 0, from_id, to_id, CID_TRADE_EVENT, rid, state)
