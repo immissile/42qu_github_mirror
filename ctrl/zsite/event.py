@@ -33,9 +33,10 @@ class EventBase(LoginBase):
 class EventJoin(EventBase):
     def event(self, id):
         current_user_id = self.current_user_id
+        zsite_id = self.zsite_id
         event = super(EventJoin, self).event(id)
         if event:
-            if event_user_state(id, current_user_id) < STATE_APPLY:
+            if current_user_id != zsite_id and event_user_state(id, current_user_id) < STATE_APPLY:
                 return event
             return self.redirect(event.link)
 
