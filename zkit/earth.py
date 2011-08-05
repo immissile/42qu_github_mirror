@@ -10635,7 +10635,7 @@ BIT_CITY_LEN = 16
 BIT_PROVINCE_LEN = 24
 BIT_COUNTRY_LEN = 32
 
-BIT_COUNTRY_PROVINCE_CITY =  BIT_COUNTRY+BIT_PROVINCE+BIT_CITY
+BIT_COUNTRY_PROVINCE_CITY = BIT_COUNTRY+BIT_PROVINCE+BIT_CITY
 
 def place_name_by_int(pid):
     hexpid = hex(pid).rstrip('L')[2:]
@@ -10672,7 +10672,7 @@ if __name__ == '__main__':
     print 0b100001000011111110000000000000000
     print hex(4437508096)
     print "!!"
-    place_id = 4765188096 
+    place_id = 4765188096
     p = BIT_COUNTRY
     for i in (
               4429250560,
