@@ -10665,6 +10665,9 @@ if __name__ == '__main__':
     print place_name(4497866752)
     print place_name(4497866752&BIT_COUNTRY_PROVINCE_CITY)
 
+    print place_name(4497801472)
+    print place_name(4497801472&BIT_COUNTRY_PROVINCE_CITY)
+
     raise
     print 0b100001000011111110000000000000000
     print hex(4437508096)
