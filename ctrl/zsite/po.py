@@ -214,7 +214,7 @@ CID2TEMPLATE = {
     CID_PHOTO: '/ctrl/zsite/po/photo.htm',
     CID_VIDEO: '/ctrl/zsite/po/video.htm',
     CID_AUDIO: '/ctrl/zsite/po/audio.htm',
-    CID_EVENT_FEEDBACK: PO_TEMPLATE,
+    CID_EVENT_FEEDBACK: '/ctrl/zsite/po/event.htm',
 }
 
 @urlmap('/(\d+)')

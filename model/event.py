@@ -52,7 +52,7 @@ def test_event_init():
 def test_add_event_user(event_id):
     o = EventUser()
     o.event_id = event_id
-    o.user_id = 10016149
+    o.user_id = 10016494
     o.create_time = 1312416006
     o.state = CID_EVENT_USER_END
     o.save()
@@ -80,13 +80,17 @@ def event_feedback_new(event_id, user_id, name, txt):
     txt_new(m.id, txt)
     return m
 
-def event_feedback_list(po, user_id):
+def can_feedback(po, user_id):
     event_id = po.rid
     event_user_list = EventUser.where("event_id = %s",event_id).col_list(col='user_id')
-    can_feedback = not user_id in event_user_list
+    if user_id in event_user_list:
+        event_user = EventUser.where('event_id=%s and user_id=%s', event_id, user_id)[0]
+        if event_user.state != CID_EVENT_USER_GENERAL and event_user.state != CID_EVENT_USER_SATISFACTION:
+            return True
+    return False
 
-    return can_feedback, reply_list
+
 if __name__=="__main__":
-    #event_id = test_event_init()
-    #test_add_event_user(event_id)
+    event_id = test_event_init()
+    test_add_event_user(event_id)
 
