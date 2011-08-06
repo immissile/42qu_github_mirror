@@ -1,12 +1,11 @@
 function month_days(year, month) {
-    year=year-0
-    month=month-0 
     switch (month) { 
         case 2: return ((year%4 == 0) && (year%100 != 0) || (year%400 == 0)) ? 29 : 28; case 4: case 6: case 9: case 11: return 30; default: return 31; 
     } 
 } 
     
-function select_span(span, name, value, year_begin, year_end, no_empty){
+function select_span(span, name, value, year_begin, year_end, no_empty, month_begin){
+
     var r=[
         '<input type="hidden" value="0" name="'+name+'">'
     ], i, span, day_option='<option value="0">- 日 -</option>';
@@ -39,13 +38,15 @@ r.push('<option value="'+i+'">'+i+'</option>')
     span.html(r.join(''))
     var year=select('year'), month=select('month'), day=select('day'), hidden=span.find('input');
     function _(){
-        var dv=day.val(), 
-            days=month_days(year.val(),month.val()), 
+        var dv=day.val(),
+            year_val = year.val()-0,
+            month_val = month.val()-0,
+            days=month_days(year_val,month_val), 
             r=[];
         if(!no_empty){
             r.push(day_option)
         }
-        for(i=1;i<=days;++i){
+        for(i=month_begin?month_begin(year_val,month_val):1;i<=days;++i){
             r.push('<option value="'+i+'">'+i+'</option>')
         }
         day.html(r.join('')).val(dv>days?0:dv)
@@ -68,16 +69,22 @@ r.push('<option value="'+i+'">'+i+'</option>')
     }
 }
 
-function select_date(id, value, year_begin, year_end, no_empty){
+function select_date(id, value, year_begin, year_end, no_empty, month_begin){
     document.write('<span id="'+id+'"></span>');
-    select_span($("#"+id), id, value, year_begin, year_end, no_empty)
+    select_span($("#"+id), id, value, year_begin, year_end, no_empty, month_begin)
 }
 
 function select_event(id, value){
     var date=new Date(), today=new Date();
     date.setDate(date.getDate() + 5)
-    var year=today.getFullYear();
-    select_date(id, value, year+100, year-1, true);
+    var year=today.getFullYear(), month=today.getMonth()+1;
+    select_date(id, value, year+100, year-1, true, 
+        function(year_val, month_val){
+            if(year_val==year&&month_val==month){
+                return today.getDay()
+            }
+            return 1
+    });
 
     var year_elem=$("#"+id+"_year"), month_elem=$("#"+id+"_month"), day_elem=$("#"+id+"_day");
 
