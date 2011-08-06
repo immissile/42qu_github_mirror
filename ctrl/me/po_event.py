@@ -23,6 +23,12 @@ class Index(LoginBase):
         review = bool(self.get_argument('review',False))
         pid = self.get_argument('pid','1')
         event_cid = self.get_argument('event_cid', '')
+        begin_time = self.get_argument('begin_time','')
+        end_time = self.get_argument('end_time','')
+        begin_time = self.get_argument('begin_time','')
+
+        if begin_time:
+            begin_time = int(begin_time)
 
         if not event_cid.isdigit():
             errtip.event_cid = "请选择类型"
