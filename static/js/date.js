@@ -76,28 +76,28 @@ function select_date(id, value, year_begin, year_end, no_empty){
 function select_event(id, value){
     var date=new Date(), today=new Date();
     date.setDate(date.getDate() + 5)
-    var year=date.getFullYear();
+    var year=today.getFullYear();
     select_date(id, value, year+100, year-1, true);
 
-    var year_elem = $("#"+id+"_year"), month_elem=$("#"+id+"_month");
-
-    if(!value){
-        year_elem.val(year)        
-        month_elem.val(date.getMonth()+1).change()
-        $("#"+id+"_day").val(date.getDate())
-    }
+    var year_elem=$("#"+id+"_year"), month_elem=$("#"+id+"_month"), day_elem=$("#"+id+"_day");
 
     year_elem.change(function(){
         var r=[],val=this.value-0,i=1;
-        if(val==today.getFullYear()){
+        if(val==year){
             i = date.getMonth()+1
         }
         for(;i<13;++i){
             r.push('<option value="'+i+'">'+i+'</option>')
         }
-        month_elem.html(r.join(''))
+        month_elem.html(r.join('')).change()
     }).change()
-
+    
+    if(!value){
+        year_elem.val(date.getFullYear()).change()        
+        month_elem.val(date.getMonth()+1).change()
+        day_elem.val(date.getDate()).change()
+    }
+    
 }
 
 function select_birthday(id, value){
