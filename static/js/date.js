@@ -6,26 +6,32 @@ function month_days(year, month) {
     } 
 } 
     
-function select_span(span, name, value, year_begin, year_end){
+function select_span(span, name, value, year_begin, year_end, no_empty){
     var r=[
         '<input type="hidden" value="0" name="'+name+'">'
     ], i, span, day_option='<option value="0">- 日 -</option>';
     if(year_begin>year_end){
         i=year_begin; 
-        r.push('<select class="'+name+'_year date_year" name="year"><option value="0000">- 年 -</option>')
+        r.push('<select id="'+name+'_year"class="'+name+'_year date_year" name="year">')
+        if(!no_empty){
+            r.push('<option value="0000">- 年 -</option>')
+        }
         for(;i>year_end;--i){
             r.push('<option value="'+i+'">'+i+'</option>')
         }
         r.push('</select>')
     }
     r.push(
-'<select class="'+name+'_month date_month" name="month"><option value="0">- 月 -</option>'
+'<select id="'+name+'_month" class="'+name+'_month date_month" name="month">'
     )
+    if(!no_empty){
+        r.push('<option value="0">- 月 -</option>')
+    }
     for(i=1;i<13;++i){
 r.push('<option value="'+i+'">'+i+'</option>')
     }
     r.push(
-'</select><select class="'+name+'_day date_day" name="day">'+day_option+'</select>'
+'</select><select id="'+name+'_day"class="'+name+'_day date_day" name="day">'+day_option+'</select>'
     )
     function select(name){
         return span.find("select[name="+name+"]")
@@ -35,8 +41,10 @@ r.push('<option value="'+i+'">'+i+'</option>')
     function _(){
         var dv=day.val(), 
             days=month_days(year.val(),month.val()), 
-            r=[day_option];
-
+            r=[];
+        if(!no_empty){
+            r.push(day_option)
+        }
         for(i=1;i<=days;++i){
             r.push('<option value="'+i+'">'+i+'</option>')
         }
@@ -60,9 +68,36 @@ r.push('<option value="'+i+'">'+i+'</option>')
     }
 }
 
-function select_date(id, value, year_begin, year_end){
+function select_date(id, value, year_begin, year_end, no_empty){
     document.write('<span id="'+id+'"></span>');
-    select_span($("#"+id), id, value, year_begin, year_end)
+    select_span($("#"+id), id, value, year_begin, year_end, no_empty)
+}
+
+function select_event(id, value){
+    var date=new Date(), today=new Date();
+    date.setDate(date.getDate() + 5)
+    var year=date.getFullYear();
+    select_date(id, value, year+100, year-1, true);
+
+    var year_elem = $("#"+id+"_year"), month_elem=$("#"+id+"_month");
+
+    if(!value){
+        year_elem.val(year)        
+        month_elem.val(date.getMonth()+1).change()
+        $("#"+id+"_day").val(date.getDate())
+    }
+
+    year_elem.change(function(){
+        var r=[],val=this.value-0,i=1;
+        if(val==today.getFullYear()){
+            i = date.getMonth()+1
+        }
+        for(;i<13;++i){
+            r.push('<option value="'+i+'">'+i+'</option>')
+        }
+        month_elem.html(r.join(''))
+    }).change()
+
 }
 
 function select_birthday(id, value){

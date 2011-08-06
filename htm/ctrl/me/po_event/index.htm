@@ -10,6 +10,7 @@ from model.po import STATE_SECRET
 
 <%def name="htm_head()">
 <script src="${js.pid}"></script>
+<script src="${js.date}"></script>
 <style>
 .po_line{
 font-size:16px;
@@ -20,7 +21,7 @@ padding:8px;
 font-size:16px;
 border:1px solid #ccc;
 }
-#pid select{
+#pid select, #begin_time select, #end_time select{
     margin-right: 8px;
 }
 .input{
@@ -66,10 +67,10 @@ margin:auto
 交通路线 <input name="transport" class="input">
 </div>
 <div class="po_line">
-开始时间
+开始时间 <script>select_event("begin_time", ${begin_time or 0})</script>
 </div>
 <div class="po_line">
-结束时间
+结束时间 <script>select_event("end_time", ${end_time or 0})</script>
 </div>
 <div class="po_line">
 参与费用
