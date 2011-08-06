@@ -11,6 +11,7 @@ from namecard import namecard_bind
 
 class Event(McModel):
 
+    @attrcache
     def price(self):
         cent = self.cent
         if cent:
@@ -33,7 +34,10 @@ STATE_YES = STATE_ACTIVE
 
 
 class EventUser(McModel):
-    pass
+
+    @attrcache
+    def event(self):
+        return Event.mc_get(self.event_id)
 
 
 mc_event_user_get = McCache('EventUserGet.%s')
@@ -86,17 +90,18 @@ def event_user_new(event_id, user_id):
         mc_event_user_id_list.delete(event_id)
     return o
 
-def event_user_no(event_id, user_id):
-    id = event_user_get(event_id, user_id)
-    o = EventUser.mc_get(id)
-    if o:
+def event_user_no(o):
+    event_id = o.event_id
+    user_id = o.user_id
+    if o.state == STATE_APPLY:
         o.state = STATE_DEL
         o.save()
+        mc_event_user_id_list.delete(event_id)
 
-def event_user_yes(event_id, user_id):
-    id = event_user_get(event_id, user_id)
-    o = EventUser.mc_get(id)
-    if o:
+def event_user_yes(o):
+    event_id = o.event_id
+    user_id = o.user_id
+    if o.state == STATE_APPLY:
         o.state = STATE_ACTIVE
         o.save()
 
