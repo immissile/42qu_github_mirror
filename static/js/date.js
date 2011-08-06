@@ -3,8 +3,16 @@ function month_days(year, month) {
         case 2: return ((year%4 == 0) && (year%100 != 0) || (year%400 == 0)) ? 29 : 28; case 4: case 6: case 9: case 11: return 30; default: return 31; 
     } 
 } 
+function zfill(number, length) {
+    var num = '' + number;
+    while (num.length < length) {
+        num = '0' + num;
+    }
+    return num;
+}
+
     
-function select_span(span, name, value, year_begin, year_end, no_empty, month_begin){
+function select_span(span, name, value, year_begin, year_end, no_empty, month_begin, show_time){
 
     var r=[
         '<input type="hidden" value="0" name="'+name+'">'
@@ -35,7 +43,29 @@ r.push('<option value="'+i+'">'+i+'</option>')
     function select(name){
         return span.find("select[name="+name+"]")
     }
+
+    if(show_time){
+        r.push(
+            '<select id="'+name+'_hour" class="'+name+'_hour date_hour" name="'+name+'_hour">'
+        )
+        for(i=0;i<24;++i){
+            r.push('<option value="'+i+'">'+zfill(i,2)+'</option>')
+        }
+        r.push('</select>:')
+        r.push(
+            '<select id="'+name+'_minute" class="'+name+'_minute date_minute" name="'+name+'_minute">'
+        )
+        for(i=0;i<60;++i){
+            r.push('<option value="'+i+'">'+zfill(i,2)+'</option>')
+        }
+        r.push('</select>')
+    }
+
+
     span.html(r.join(''))
+
+
+
     var year=select('year'), month=select('month'), day=select('day'), hidden=span.find('input');
     function _(){
         var dv=day.val(),
@@ -69,9 +99,9 @@ r.push('<option value="'+i+'">'+i+'</option>')
     }
 }
 
-function select_date(id, value, year_begin, year_end, no_empty, month_begin){
+function select_date(id, value, year_begin, year_end, no_empty, month_begin, show_time){
     document.write('<span id="'+id+'"></span>');
-    select_span($("#"+id), id, value, year_begin, year_end, no_empty, month_begin)
+    select_span($("#"+id), id, value, year_begin, year_end, no_empty, month_begin, show_time)
 }
 
 function select_event(id, value){
@@ -84,7 +114,7 @@ function select_event(id, value){
                 return today.getDay()
             }
             return 1
-    });
+    },true);
 
     var year_elem=$("#"+id+"_year"), month_elem=$("#"+id+"_month"), day_elem=$("#"+id+"_day");
 
@@ -104,7 +134,7 @@ function select_event(id, value){
         month_elem.val(date.getMonth()+1).change()
         day_elem.val(date.getDate()).change()
     }
-    
+
 }
 
 function select_birthday(id, value){

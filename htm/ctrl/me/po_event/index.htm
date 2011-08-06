@@ -7,6 +7,23 @@ from model.po import STATE_SECRET
 发布 - 活动
 </%def>
 
+<%!
+
+EVENT_CID_CN = (
+(1 ,"技术"),
+(2 ,"创业"),
+(3 ,"展览"),
+(4 ,"电影"),
+(5 ,"体育"),
+(6 ,"旅行"),
+(7 ,"公益"),
+(8 ,"讲座"),
+(9 ,"曲艺"),
+(10,"聚会"),
+(11,"演出"),
+(12,"其他"),
+)
+%>
 
 <%def name="htm_head()">
 <script src="${js.pid}"></script>
@@ -17,6 +34,7 @@ font-size:16px;
 margin:27px 0;
 }
 select{
+text-align:center;
 padding:8px;
 font-size:16px;
 border:1px solid #ccc;
@@ -41,8 +59,35 @@ border-bottom:1px dotted #ccc;
 margin-bottom:32px;
 }
 #po_form{
-width:721px;
-margin:auto
+margin-left:125px;
+}
+.date_minute{
+margin-left:8px;
+}
+.date_hour{
+margin:0 8px 0 4px;
+}
+#po_form label{
+margin-right:16px;
+}
+#po_submit{
+margin-left:80px;
+}
+.price{
+width:32px;
+margin-right:8px;
+text-align:right;
+}
+.limit_down{
+text-align:right;
+width:32px
+}
+.limit_up{
+text-align:right;
+width:32px
+}
+.review{
+vertical-align:-1px;
 }
 </style>
 </%def>
@@ -55,40 +100,41 @@ margin:auto
 
 <%htm:form id="po_form">
 <div class="po_line">
-联系电话 <input name="phone" class="phone input">
+<label>所在城市</label><script>select_pid("pid", ${pid or 0})</script>
 </div>
 <div class="po_line">
-所在城市 <script>select_pid("pid", ${pid or 0})</script>
+<label>详细地址</label><input name="address" class="input">
 </div>
 <div class="po_line">
-详细地址 <input name="address" class="input">
+<label>交通路线</label><input name="transport" class="input">
 </div>
 <div class="po_line">
-交通路线 <input name="transport" class="input">
+<label>开始时间</label><script>select_event("begin_time", ${begin_time or 0})</script>
 </div>
 <div class="po_line">
-开始时间 <script>select_event("begin_time", ${begin_time or 0})</script>
+<label>结束时间</label><script>select_event("end_time", ${end_time or 0})</script>
 </div>
 <div class="po_line">
-结束时间 <script>select_event("end_time", ${end_time or 0})</script>
+<label>联系电话</label><input name="phone" class="phone input">
 </div>
 <div class="po_line">
-参与费用
+<label>在线付费</label><input name="price" class="input price" value="${price or 0}">元 / 人
 </div>
 <div class="po_line">
-人数上限
+<label>人数上限</label><input name="limit_up" class="limit_up input" value="${limit_up or 42}">
 </div>
 <div class="po_line">
-尚在筹办
-    <div>
-        人数下限
-    </div>
+<label>人数下限</label><input name="limit_down" class="limit_down input" value="${limit_down or 0}">
 </div>
 <div class="po_line">
-报名审批
+<label>报名审批</label><input type="checkbox" name="review" class="review" ${'checked' if review else ''}>
 </div>
 <div class="po_line">
-活动类型
+<label>活动类型</label><select>
+%for event_cid, event_name in EVENT_CID_CN:
+<option value="${event_cid}">${event_name}</option>
+%endfor
+</select>
 </div>
 
 
