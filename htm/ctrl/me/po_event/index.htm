@@ -18,7 +18,7 @@ ${css.ctrl_po_event|n}
 
 <div class="head">
 %if errtip:
-<span style="color:#a10">填写有误 , 请您更正</span>
+<span style="color:#a10">表单有误 , 请您更正</span>
 %else:
 <span class="c0">1. 设置属性</span>&gt;<span>2. 编写简介</span> 
 %endif
@@ -84,13 +84,14 @@ value="${_event_cid}">${event_name}</option>
 
 <div class="po_line">
 <label>宣传图片</label><input name="pic" type="file">
+${errtip.pic|n}
 </div>
 
 
 
 <div>\
 <span id="po_submit" class="btnw">\
-<button type="submit">确定</button>\
+<button type="submit">下一步</button>\
 </span>\
 </div>\
 </%htm:form>
