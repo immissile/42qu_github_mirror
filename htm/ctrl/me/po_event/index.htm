@@ -28,98 +28,30 @@ EVENT_CID_CN = (
 <%def name="htm_head()">
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
-<style>
-.po_line{
-font-size:16px;
-margin:27px 0;
-}
-select{
-text-align:center;
-padding:8px;
-font-size:16px;
-border:1px solid #ccc;
-}
-#pid select, #begin_time select, #end_time select{
-    margin-right: 8px;
-}
-.input{
-width:452px;
-border:1px solid #ccc;
-padding:8px;
-}
-.phone{
-width:201px
-}
-
-.head{
-font-size:16px;
-text-align:center;
-padding:14px 0;
-border-bottom:1px dotted #ccc;
-margin-bottom:32px;
-}
-#po_form{
-margin-left:125px;
-}
-.date_minute{
-margin-left:8px;
-}
-.date_hour{
-margin:0 8px 0 4px;
-}
-#po_form label{
-margin-right:16px;
-}
-#po_submit{
-margin-left:80px;
-}
-.price{
-width:32px;
-margin-right:8px;
-text-align:right;
-}
-.limit_down{
-text-align:right;
-width:32px
-}
-.limit_up{
-text-align:right;
-width:32px
-}
-.review{
-vertical-align:-1px;
-}
-.event_cid{
-width:219px;
-}
-.head{
-color:#333;
-}
-.head span{
-margin:0 14px;
-color:#999;
-}
-.head .c0{
-color:#000;
-}
-</style>
+${css.ctrl_po_event|n}
 </%def>
 
 
 <div class="head">
+%if errtip:
+<span style="color:#a10">填写有误 , 请您更正</span>
+%else:
 <span class="c0">1. 设置属性</span>&gt;<span>2. 编写简介</span> 
+%endif
 </div>
 
 
-<%htm:form id="po_form">
+<%htm:form id="po_form" enctype="multipart/form-data">
 <div class="po_line">
 <label>所在城市</label><script>select_pid("pid", ${pid or 0})</script>
 </div>
 <div class="po_line">
-<label>详细地址</label><input name="address" class="input">
+<label>详细地址</label><input
+value="${address or ''}"
+name="address" class="input">${errtip.address|n}
 </div>
 <div class="po_line">
-<label>交通路线</label><input name="transport" class="input">
+<label>交通路线</label><input name="transport" class="input" value="${transport or ''}">
 </div>
 <div class="po_line">
 <label>开始时间</label><script>select_event("begin_time", ${begin_time or 0})</script>
@@ -128,7 +60,7 @@ color:#000;
 <label>结束时间</label><script>select_event("end_time", ${end_time or 0})</script>
 </div>
 <div class="po_line">
-<label>联系电话</label><input name="phone" class="phone input">
+<label>联系电话</label><input name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
 </div>
 <div class="po_line">
 <label>活动类型</label><select name="event_cid" class="event_cid">
@@ -137,7 +69,7 @@ color:#000;
 %endfor
 </select>
 <div class="po_line">
-<label>在线收费</label><input name="price" class="input price" value="${price or 0}">元 / 人
+<label>在线收费</label><input name="price" class="input price" value="${price or 0}">元 / 人${errtip.price|n}
 </div>
 <div class="po_line">
 <label>名额上限</label><input name="limit_up" class="limit_up input" value="${limit_up or 42}">
@@ -146,7 +78,7 @@ color:#000;
 <label>名额下限</label><input name="limit_down" class="limit_down input" value="${limit_down or 0}">
 </div>
 <div class="po_line">
-<label for="review">报名审批</label><input id="review" type="checkbox" name="review" class="review" ${'checked' if review else ''}>
+<label for="review">审批报名</label><input id="review" type="checkbox" name="review" class="review" ${'checked' if review else ''}>
 </div>
 <div class="po_line">
 <label>宣传图片</label><input name="pic" type="file">
