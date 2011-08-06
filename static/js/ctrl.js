@@ -1,13 +1,20 @@
 IE6 = $.browser.msie && $.browser.version < 7 && !window.XMLHttpRequest
 
 _gaq=[['_setAccount', 'UA-18596900-1'],['_trackPageview'],['_trackPageLoadTime']];
+
+
 (function(){
+
+    function _(src){
         var ga = document.createElement('script');
+        var s = document.getElementsByTagName('script')[0]; 
         ga.type = 'text/javascript';
         ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        /*google 百度 统计*/
+        ga.src = src;
+        s.parentNode.insertBefore(ga, s);
+
+    }
+    _( ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js' );
 })()
 
 function _rm(prefix, url){
