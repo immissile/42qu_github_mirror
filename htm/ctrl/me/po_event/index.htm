@@ -23,19 +23,47 @@ border:1px solid #ccc;
 #pid select{
     margin-right: 8px;
 }
+.input{
+width:452px;
+border:1px solid #ccc;
+padding:8px;
+}
+.phone{
+width:201px
+}
+
+.head{
+font-size:16px;
+text-align:center;
+padding:14px 0;
+border-bottom:1px dotted #ccc;
+margin-bottom:32px;
+}
+#po_form{
+width:721px;
+margin:auto
+}
 </style>
 </%def>
 
+
+<div class="head">
+创建活动
+</div>
+
+
 <%htm:form id="po_form">
 <div class="po_line">
-所在城市
-<script>select_pid("pid", ${pid or 0})</script>
+联系电话 <input name="phone" class="phone input">
 </div>
 <div class="po_line">
-详细地址
+所在城市 <script>select_pid("pid", ${pid or 0})</script>
 </div>
 <div class="po_line">
-交通路线
+详细地址 <input name="address" class="input">
+</div>
+<div class="po_line">
+交通路线 <input name="transport" class="input">
 </div>
 <div class="po_line">
 开始时间
