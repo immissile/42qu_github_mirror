@@ -104,7 +104,7 @@ function select_date(id, value, year_begin, year_end, no_empty, month_begin, sho
     select_span($("#"+id), id, value, year_begin, year_end, no_empty, month_begin, show_time)
 }
 
-function select_event(id, value){
+function select_event(id, value , hour, minute){
     var date=new Date(), today=new Date();
     date.setDate(date.getDate() + 5)
     var year=today.getFullYear(), month=today.getMonth()+1;
@@ -134,8 +134,9 @@ function select_event(id, value){
         year_elem.val(date.getFullYear()).change()        
         month_elem.val(date.getMonth()+1).change()
         day_elem.val(date.getDate()).change()
-        $(prefix+"_hour").val(12)
     }
+    $(prefix+"_hour").val(hour||12)
+    $(prefix+"_minute").val(minute||30)
     
 }
 

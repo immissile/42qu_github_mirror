@@ -28,6 +28,32 @@ class Index(LoginBase):
         end_time = self.get_argument('end_time','')
         begin_time = self.get_argument('begin_time','')
 
+        begin_time_hour = self.get_argument('begin_time_hour', '0')
+        begin_time_minute = self.get_argument('begin_time_minute', '0')
+        end_time_hour = self.get_argument('end_time_hour','0')
+        end_time_minute = self.get_argument('end_time_minute','0')
+
+        begin_time_hour = int(begin_time_hour)
+        begin_time_minute = int(begin_time_minute)
+
+        end_time_hour = int(end_time_hour)
+        end_time_minute = int(end_time_minute)
+        
+        if begin_time_hour>23 or begin_time_hour<0:
+            begin_time_hour = 10
+        
+        if end_time_hour>23 or end_time_hour<0:
+            end_time_hour = 11
+        
+        if begin_time_minute>59 or begin_time_minute<0:
+            begin_time_minute = 0
+        
+        if end_time_minute>59 or end_time_minute<0:
+            end_time_minute = 30
+
+
+
+
         if begin_time:
             begin_time = int(begin_time)
 
@@ -41,6 +67,9 @@ class Index(LoginBase):
         if begin_time < today_ymd_int():
             errtip.begin_time = "这个时间 , 属于过去"
 
+
+        begin = begin_time*(60*24)+begin_time_hour*60+begin_time_minute
+        end = end_time*(60*24)+end_time_hour*60+end_time_minute
 
         if not event_cid.isdigit():
             errtip.event_cid = "请选择类型"
@@ -110,7 +139,11 @@ class Index(LoginBase):
             pid=pid,
             event_cid=event_cid,
             begin_time = begin_time,
-            end_time = end_time
+            end_time = end_time,
+            begin_time_hour = begin_time_hour,
+            begin_time_minute = begin_time_minute,
+            end_time_hour = end_time_hour,
+            end_time_minute = end_time_minute,
         )
 
     def get(self):
