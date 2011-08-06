@@ -344,6 +344,7 @@ class NameCardEdit(object):
             c = namecard_new(
                 current_user_id, pid_now, name, phone, mail, address
             )
+            return c
 
 
 @urlmap('/i/namecard')

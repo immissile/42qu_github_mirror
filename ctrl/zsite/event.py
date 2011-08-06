@@ -45,7 +45,8 @@ class EventJoin(NameCardEdit, EventBase):
         if event is None:
             return
 
-        self.save()
+        if not self.save():
+            return self.get(id)
 
         if event.cent:
             return self.redirect('/event/pay/%s' % id)

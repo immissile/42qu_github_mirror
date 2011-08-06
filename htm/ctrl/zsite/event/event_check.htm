@@ -1,13 +1,50 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/user.htm" import="user_link"/>
 <%!
 from model.state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 %>
+<%def name="htm_head()">
+<script>
+    $('a.yes').live('click', function() {
+        var id = this.rel
+        $.postJSON('/j/event/check/' + id + '/1', function(data) {
+            alert(data)
+        })
+    })
+    $('a.no').live('click', function() {
+        var id = this.rel
+        $.postJSON('/j/event/check/' + id + '/0', function(data) {
+            alert(data)
+        })
+    })
+</script>
+</%def>
+<ol>
 % for i in event_user_list:
 <%
+id = i.id
+state = i.state
 user = i.user
 namecard = i.namecard
 %>
-${user}
-${namecard}
+<li>
+${user_link(user)}
+% if namecard:
+<p>本人姓名 : ${namecard.name}</p>
+<p>手机号码 : ${namecard.phone}</p>
+<p>邮件地址 : ${namecard.mail}</p>
+<p>现居城市 : ${namecard.place_now}</p>
+<p>详细地址 : ${namecard.address}</p>
+% else:
+<p>没有个人资料</p>
+% endif
+% if state == STATE_APPLY:
+<a rel="${id}" class="yes">同意</a>
+<a rel="${id}" class="no">拒绝</a>
+% elif state == STATE_ACTIVE:
+已加入
+% endif
+</li>
 % endfor
+</ol>

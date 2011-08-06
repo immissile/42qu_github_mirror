@@ -73,13 +73,17 @@ def event_user_new(event_id, user_id):
     if o and o.state >= STATE_APPLY:
         return
     now = int(time())
-    if not o:
+    if o:
+        o.state = STATE_APPLY
+        o.create_time = now
+        o.save()
+    else:
         o = EventUser.get_or_create(event_id=event_id, user_id=user_id)
-    o.state = STATE_APPLY
-    o.create_time = now
-    o.save()
-    if not o:
+        o.state = STATE_APPLY
+        o.create_time = now
+        o.save()
         mc_event_user_get.set('%s_%s' % (event_id, user_id), o.id)
+        mc_event_user_id_list.delete(event_id)
     return o
 
 def event_user_no(event_id, user_id):
