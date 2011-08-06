@@ -89,6 +89,9 @@ width:32px
 .review{
 vertical-align:-1px;
 }
+.event_cid{
+width:219px;
+}
 </style>
 </%def>
 
@@ -118,23 +121,23 @@ vertical-align:-1px;
 <label>联系电话</label><input name="phone" class="phone input">
 </div>
 <div class="po_line">
-<label>在线付费</label><input name="price" class="input price" value="${price or 0}">元 / 人
-</div>
-<div class="po_line">
-<label>人数上限</label><input name="limit_up" class="limit_up input" value="${limit_up or 42}">
-</div>
-<div class="po_line">
-<label>人数下限</label><input name="limit_down" class="limit_down input" value="${limit_down or 0}">
-</div>
-<div class="po_line">
-<label>报名审批</label><input type="checkbox" name="review" class="review" ${'checked' if review else ''}>
-</div>
-<div class="po_line">
-<label>活动类型</label><select>
+<label>活动类型</label><select name="event_cid" class="event_cid">
 %for event_cid, event_name in EVENT_CID_CN:
 <option value="${event_cid}">${event_name}</option>
 %endfor
 </select>
+<div class="po_line">
+<label>在线收费</label><input name="price" class="input price" value="${price or 0}">元 / 人
+</div>
+<div class="po_line">
+<label>名额上限</label><input name="limit_up" class="limit_up input" value="${limit_up or 42}">
+</div>
+<div class="po_line">
+<label>名额下限</label><input name="limit_down" class="limit_down input" value="${limit_down or 0}">
+</div>
+<div class="po_line">
+<label>报名审批</label><input type="checkbox" name="review" class="review" ${'checked' if review else ''}>
+</div>
 </div>
 
 
