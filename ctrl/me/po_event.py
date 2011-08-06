@@ -5,6 +5,8 @@ from model.po import Po
 from model.po_event import po_event_new
 from zkit.errtip import Errtip
 from zkit.jsdict import JsDict
+from zkit.earth import pid_city 
+
 
 @urlmap('/po/event')
 @urlmap('/po/event/(\d+)')
@@ -22,7 +24,11 @@ class Index(LoginBase):
 
         if not pid.isdigit():
             errtip.pid = "请选择地址"
+
         pid = int(pid)
+        pid2 = pid_city(pid)
+        if not pid2: 
+            errtip.pid = "请选择地址"
 
         if price:
             try:
@@ -62,7 +68,8 @@ class Index(LoginBase):
             transport=transport,
             price=price,
             phone=phone,
-            review=review
+            review=review,
+            pid=pid,
         )
 
     def get(self):

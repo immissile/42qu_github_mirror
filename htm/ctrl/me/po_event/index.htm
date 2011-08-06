@@ -1,5 +1,6 @@
 <%!
 from model.po import STATE_SECRET
+from model.po_event import EVENT_CID_CN
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -7,23 +8,6 @@ from model.po import STATE_SECRET
 发布 - 活动
 </%def>
 
-<%!
-
-EVENT_CID_CN = (
-(1 ,"技术"),
-(2 ,"创业"),
-(3 ,"展览"),
-(4 ,"电影"),
-(5 ,"体育"),
-(6 ,"旅行"),
-(7 ,"公益"),
-(8 ,"讲座"),
-(9 ,"曲艺"),
-(10,"聚会"),
-(11,"演出"),
-(12,"其他"),
-)
-%>
 
 <%def name="htm_head()">
 <script src="${js.pid}"></script>
@@ -44,6 +28,7 @@ ${css.ctrl_po_event|n}
 <%htm:form id="po_form" enctype="multipart/form-data">
 <div class="po_line">
 <label>所在城市</label><script>select_pid("pid", ${pid or 0})</script>
+${errtip.pid|n}
 </div>
 <div class="po_line">
 <label>详细地址</label><input
@@ -64,8 +49,12 @@ name="address" class="input">${errtip.address|n}
 </div>
 <div class="po_line">
 <label>活动类型</label><select name="event_cid" class="event_cid">
-%for event_cid, event_name in EVENT_CID_CN:
-<option value="${event_cid}">${event_name}</option>
+%for _event_cid, event_name in EVENT_CID_CN:
+<option 
+%if _event_cid == event_cid:
+selected
+%endif
+value="${event_cid}">${event_name}</option>
 %endfor
 </select>
 <div class="po_line">

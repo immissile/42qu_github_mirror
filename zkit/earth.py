@@ -10658,6 +10658,32 @@ def place_name(place_id):
         p += (0b11111111<<i)
     return ' '.join(r)
 
+
+PLACE_MUNI = (
+   4295032832, #北京
+   4295098368, #上海
+   4295229440, #天津
+   4295163904, #重庆
+   4295294976, #香港
+   4295360512, #澳门
+)
+
+def pid_city(code):
+    if code in COUNTRY_DICT and code!=1:
+        return code 
+    
+    code = code&BIT_COUNTRY_PROVINCE_CITY
+    if code in PLACE_MUNI:
+        return code
+    else:
+        if code in PLACE_GET_CITY_L1L2:
+            return PLACE_GET_CITY_L1L2[code]
+        elif code in PLACE_GET_CITY_L2L3:
+            return PLACE_GET_CITY_L2L3[code]
+    return 0
+
+
+
 if __name__ == '__main__':
     print place_name(4295033088)
     print place_name(4295033088&BIT_COUNTRY_PROVINCE_CITY)

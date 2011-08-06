@@ -8,6 +8,21 @@ from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from zsite import Zsite
 
+EVENT_CID_CN = (
+    (1 ,"技术"),
+    (2 ,"创业"),
+    (3 ,"展览"),
+    (4 ,"电影"),
+    (5 ,"体育"),
+    (6 ,"旅行"),
+    (7 ,"公益"),
+    (8 ,"讲座"),
+    (9 ,"曲艺"),
+    (10,"聚会"),
+    (11,"演出"),
+    (12,"其他"),
+)
+
 def po_event_new(user_id, name, txt, state):
     pass
 
