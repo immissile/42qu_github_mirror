@@ -32,6 +32,9 @@ class Event(Model):
     def introducation_po(self):
         return Po.where('cid=%s and rid=%s', CID_EVENT_INTRODUCTION, self.id)[0]
 
+    def feedback_link(self):
+        return '/event/feedback/%s'%self.id
+
 class EventUser(Model):
     pass
 
@@ -43,7 +46,7 @@ def test_event_init():
     o.address = "回龙观 龙锦五区"
     o.transport = "回龙观城铁站下，然后做602路公交车"
     o.begin_time = 1310774406
-    o.end_time = 1314230406
+    o.end_time = 1312598697 
     o.price = 0
     o.pay_online = 0
     o.state = CID_EVENT_END

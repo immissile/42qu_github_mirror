@@ -8,21 +8,28 @@
 """
 import _env
 import time
-from model.event import Event, EventUser, CID_EVENT, CID_EVENT_WAIT_SUMMARY, CID_EVENT_WAIT_FEEDBACK 
+from model.event import Event, EventUser, CID_EVENT_WAIT_SUMMARY, CID_EVENT_USER_WAIT_FEEDBACK, CID_EVENT_END, CID_EVENT_USER_END, CID_EVENT_SUMMARIZED
 from model.notice import notice_new
 from zweb.orm import ormiter
 
 def event_notice():
     now = int(time.time())
-    for event in ormiter(Event, "cid = %s and end_time<%s"%(EVENT_END, now)):
-        notice_new(event.id, event.zsite_id, CID_EVENT_WAIT_SUMMARY, 0)
+    for event in ormiter(Event, "state=%s and end_time<%s"%(CID_EVENT_END, now)):
+        notice_new(event.zsite_id, event.zsite_id, CID_EVENT_WAIT_SUMMARY, event.id)
         event.state = CID_EVENT_WAIT_SUMMARY
         event.save()
         
 def event_user_notice():
     now = int(time.time())
-    for user in ormiter(EventUser, "cid = %s and end_time<%s"(EVENT_USER_END, now)):
-        notcie_new(user.event_id, user.user_id, CID_EVENT_WAIT_FEEDBACK, 0)
-        event.state = CID_EVENT_USER_WAIT_FEEDBACK
-        event.save()
+    for user in ormiter(EventUser, "state=%s"%(CID_EVENT_USER_END)):
+        event=Event.get(user.event_id)
+        if event.state == CID_EVENT_SUMMARIZED:
+            notice_new(event.zsite_id, user.user_id, CID_EVENT_USER_WAIT_FEEDBACK, user.event_id)
+            user.state = CID_EVENT_USER_WAIT_FEEDBACK
+            event.save()
+            print user.user_id
 
+
+if __name__=="__main__":
+    event_notice()
+    event_user_notice()

@@ -67,12 +67,13 @@ ${trade_log_render(rid)}
 <%
 event = Event.get(i.rid)
 %>
-组织的活动结束了，活动编号${event.id}提醒您写活动总结。
+组织的活动结束了，提醒您<a href="${event.feedback_link()}" target="_blacnk">写总结</a>。
 %elif cid == CID_EVENT_USER_WAIT_FEEDBACK:
 <%
 event = Event.get(i.rid)
+po = event.feedback_po()
 %>
-组织的活动结束了，去看看活动总结${event.id}，发表下自己的看法吧。
+组织的活动结束了，去看看活动<a href="${po.link}" target="_blacnk">${po.name}</a>总结，发表下自己的看法吧。
 %elif cid == CID_EVENT_USER_FEEDBACK:
 <%
 event = Event.get(i.rid)

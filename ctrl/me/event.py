@@ -8,7 +8,7 @@ from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_AC
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.zsite import Zsite
 
-from model.event import Event, EventUser, event_feedback_new, CID_EVENT_FEEDBACK, CID_EVENT_INTRODUCTION, CID_EVENT_USER_SATISFACTION, CID_EVENT_USER_GENERAL
+from model.event import Event, EventUser, event_feedback_new, CID_EVENT_FEEDBACK, CID_EVENT_INTRODUCTION, CID_EVENT_USER_SATISFACTION, CID_EVENT_USER_GENERAL, CID_EVENT_SUMMARIZED
 from zkit.jsdict import JsDict
 
 @urlmap('/event/feedback/(\d+)')
@@ -37,7 +37,10 @@ class EventFeedback(LoginBase):
             name = self.get_argument('name', None)
             txt = self.get_argument('txt', None)
             m = event_feedback_new(event_id, current_user_id, name, txt)
-            self.redirect(m.link)
+            if m:
+                event.state = CID_EVENT_SUMMARIZED 
+                event.save()
+                self.redirect(m.link)
 
 
 
