@@ -108,6 +108,7 @@ function select_event(id, value){
     var date=new Date(), today=new Date();
     date.setDate(date.getDate() + 5)
     var year=today.getFullYear(), month=today.getMonth()+1;
+
     select_date(id, value, year+100, year-1, true, 
         function(year_val, month_val){
             if(year_val==year&&month_val==month){
