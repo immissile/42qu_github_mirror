@@ -9,10 +9,19 @@ from model.po import STATE_SECRET
 
 
 <%def name="htm_head()">
+<script src="${js.pid}"></script>
 <style>
 .po_line{
 font-size:16px;
 margin:27px 0;
+}
+select{
+padding:8px;
+font-size:16px;
+border:1px solid #ccc;
+}
+#pid select{
+    margin-right: 8px;
 }
 </style>
 </%def>
@@ -20,6 +29,7 @@ margin:27px 0;
 <%htm:form id="po_form">
 <div class="po_line">
 所在城市
+<script>select_pid("pid", ${pid or 0})</script>
 </div>
 <div class="po_line">
 详细地址
