@@ -45,7 +45,6 @@ def ping_all(po):
     blog_index = zsite.link
     po_link = po.link
     rss_link = zsite.link+'/rss'
-    print blog_name, blog_index, po_link, rss_link
     
     for ping_url in PING_URL:
         server = xmlrpclib.ServerProxy(ping_url)
