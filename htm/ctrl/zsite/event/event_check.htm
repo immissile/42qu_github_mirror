@@ -9,13 +9,15 @@ from model.state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
     $('a.yes').live('click', function() {
         var id = this.rel
         $.postJSON('/j/event/check/' + id + '/1', function(data) {
-            alert(data)
+            $('#eustate' + id).html('已加入')
         })
     })
     $('a.no').live('click', function() {
         var id = this.rel
         $.postJSON('/j/event/check/' + id + '/0', function(data) {
-            alert(data)
+            $('#eu' + id).slideUp(500, function() {
+                $(this).remove()
+            })
         })
     })
 </script>
@@ -28,7 +30,7 @@ state = i.state
 user = i.user
 namecard = i.namecard
 %>
-<li>
+<li id="eu${id}">
 ${user_link(user)}
 % if namecard:
 <p>本人姓名 : ${namecard.name}</p>
@@ -39,12 +41,14 @@ ${user_link(user)}
 % else:
 <p>没有个人资料</p>
 % endif
+<p id="eustate${id}">
 % if state == STATE_APPLY:
 <a rel="${id}" class="yes">同意</a>
 <a rel="${id}" class="no">拒绝</a>
 % elif state == STATE_ACTIVE:
 已加入
 % endif
+</p>
 </li>
 % endfor
 </ol>
