@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum, McCacheM
-from po import po_new
+from po import po_new, Po
 from state import STATE_ACTIVE
 from txt import txt_new 
 
@@ -23,9 +23,14 @@ CID_EVENT_USER_END = 50
 CID_EVENT_USER_WAIT_FEEDBACK = 51
 CID_EVENT_USER_GENERAL = 52
 CID_EVENT_USER_SATISFACTION = 54
+CID_EVENT_USER_FEEDBACK = 55
 
 class Event(Model):
-    pass
+    def feedback_po(self):
+        return Po.where('cid=%s and rid=%s', CID_EVENT_FEEDBACK, self.id)[0]
+
+    def introducation_po(self):
+        return Po.where('cid=%s and rid=%s', CID_EVENT_INTRODUCTION, self.id)[0]
 
 class EventUser(Model):
     pass

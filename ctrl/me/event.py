@@ -17,7 +17,7 @@ class EventFeedback(LoginBase):
         user_id = self.current_user_id
         self.cid = CID_EVENT_FEEDBACK
         event = Event.get(event_id)
-        feedback_po = Po.where('cid=%s and rid=%s', CID_EVENT_FEEDBACK, event_id)[0]
+        feedback_po = event.feedback_po()
         if event.zsite_id == user_id and not feedback_po:
             self.render(
                 '/ctrl/me/po/po.htm',
@@ -32,7 +32,7 @@ class EventFeedback(LoginBase):
         event = Event.get(event_id)
         current_user = self.current_user
         current_user_id = self.current_user_id
-        feedback_po = Po.where('cid=%s and rid=%s', CID_EVENT_FEEDBACK, event_id)[0]
+        feedback_po = event.feedback_po()
         if event.zsite_id == current_user_id and not feedback_po:
             name = self.get_argument('name', None)
             txt = self.get_argument('txt', None)
