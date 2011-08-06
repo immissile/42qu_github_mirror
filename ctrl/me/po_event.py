@@ -8,6 +8,7 @@ from zkit.errtip import Errtip
 from zkit.jsdict import JsDict
 from zkit.earth import pid_city 
 from model.po_event import EVENT_CID
+from model.days import today_ymd_int 
 
 @urlmap('/po/event')
 @urlmap('/po/event/(\d+)')
@@ -29,6 +30,17 @@ class Index(LoginBase):
 
         if begin_time:
             begin_time = int(begin_time)
+
+        if end_time:
+            end_time = int(end_time)
+
+
+        if begin_time > end_time:
+            end_time, begin_time = begin_time, end_time
+        
+        if begin_time < today_ymd_int():
+            errtip.begin_time = "这个时间 , 属于过去"
+
 
         if not event_cid.isdigit():
             errtip.event_cid = "请选择类型"
@@ -97,6 +109,8 @@ class Index(LoginBase):
             review=review,
             pid=pid,
             event_cid=event_cid,
+            begin_time = begin_time,
+            end_time = end_time
         )
 
     def get(self):

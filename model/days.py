@@ -12,6 +12,9 @@ def today_seconds():
 def today_days():
     return int(time()/ONE_DAY)
 
+def today_ymd_int():
+    t = datetime.date.today()
+    return t.year*10000 + t.month*100 + t.day
 
 def yesterday_seconds():
     return today_days() - ONE_DAY
@@ -57,9 +60,10 @@ def epoch_seconds(timestr):
 
 
 if __name__ == '__main__':
+    print today_ymd_int()
     #print date_to_days('')
     #print yesterday()
     #print today_year()
     #date = 20110704
     #print year_month_begin_end(date, date)
-    print today_seconds()
+    #print today_seconds()
