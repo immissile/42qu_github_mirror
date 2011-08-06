@@ -30,49 +30,62 @@ ${css.ctrl_po_event|n}
 <label>所在城市</label><script>select_pid("pid", ${pid or 0})</script>
 ${errtip.pid|n}
 </div>
+
 <div class="po_line">
 <label>详细地址</label><input
 value="${address or ''}"
 name="address" class="input">${errtip.address|n}
 </div>
+
 <div class="po_line">
 <label>交通路线</label><input name="transport" class="input" value="${transport or ''}">
 </div>
+
 <div class="po_line">
 <label>开始时间</label><script>select_event("begin_time", ${begin_time or 0})</script>
 </div>
+
 <div class="po_line">
 <label>结束时间</label><script>select_event("end_time", ${end_time or 0})</script>
 </div>
+
 <div class="po_line">
 <label>联系电话</label><input name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
 </div>
+
 <div class="po_line">
 <label>活动类型</label><select name="event_cid" class="event_cid">
+<option value="">- 请选择 -</option>
 %for _event_cid, event_name in EVENT_CID_CN:
 <option 
 %if _event_cid == event_cid:
 selected
 %endif
-value="${event_cid}">${event_name}</option>
+value="${_event_cid}">${event_name}</option>
 %endfor
-</select>
+</select>${errtip.event_cid|n}
+</div>
+
 <div class="po_line">
 <label>在线收费</label><input name="price" class="input price" value="${price or 0}">元 / 人${errtip.price|n}
-</div>
+</div
+>
 <div class="po_line">
 <label>名额上限</label><input name="limit_up" class="limit_up input" value="${limit_up or 42}">
 </div>
+
 <div class="po_line">
 <label>名额下限</label><input name="limit_down" class="limit_down input" value="${limit_down or 0}">
 </div>
+
 <div class="po_line">
 <label for="review">审批报名</label><input id="review" type="checkbox" name="review" class="review" ${'checked' if review else ''}>
 </div>
+
 <div class="po_line">
 <label>宣传图片</label><input name="pic" type="file">
 </div>
-</div>
+
 
 
 <div>\

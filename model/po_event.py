@@ -7,6 +7,7 @@ from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from zsite import Zsite
+from operator import itemgetter
 
 EVENT_CID_CN = (
     (1 ,"技术"),
@@ -22,11 +23,14 @@ EVENT_CID_CN = (
     (11,"演出"),
     (12,"其他"),
 )
+EVENT_CID = tuple(map(itemgetter(0),EVENT_CID_CN))
+
 
 def po_event_new(user_id, name, txt, state):
     pass
 
-
+if __name__ == "__main__":
+    print EVENT_CID
 
 
 
