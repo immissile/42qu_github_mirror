@@ -3,8 +3,9 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from config import SITE_HTTP, RPC_HTTP
+from zkit.page import page_limit_offset
 from model.state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
-from model.event import Event, event_user_new, event_user_state
+from model.event import Event, event_user_new, event_user_state, event_user_list, event_user_count
 from model.money import pay_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice, read_cent
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cent_with_tax
 from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT
@@ -19,15 +20,6 @@ class EventBase(LoginBase):
                 return o
             return self.redirect(o.link)
         return self.redirect('/')
-
-    def get(self, id):
-        event = self.event(id)
-        if event is None:
-            return
-
-        return self.render(
-            event=event,
-        )
 
 
 @urlmap('/event/join/(\d+)')
@@ -133,3 +125,31 @@ class EventPay(EventJoin):
             t.id,
         )
         return self.redirect(alipay_url)
+
+
+PAGE_LIMIT = 42
+
+
+@urlmap('/event/check/(\d+)')
+@urlmap('/event/check/(\d+)-(\d+)')
+class EventCheck(EventBase):
+    def get(self, id, n=1):
+        event = self.event(id)
+        if event is None:
+            return
+
+        total = event_user_count(id)
+
+        page, limit, offset = page_limit_offset(
+            '/event/verify/%s-%%s' % id,
+            total,
+            n,
+            PAGE_LIMIT
+        )
+
+        li = event_user_list(id, limit, offset)
+
+        return self.render(
+            event=event,
+            event_user_list=li,
+        )

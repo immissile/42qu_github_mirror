@@ -6,6 +6,7 @@ from time import time
 from zkit.attrcache import attrcache
 from money import read_cent
 from zsite import Zsite
+from namecard import namecard_bind
 
 
 class Event(McModel):
@@ -50,6 +51,21 @@ def event_user_state(event_id, user_id):
     if o:
         return o.state
     return 0
+
+event_user_count = McNum(lambda event_id: EventUser.where('state>=%s', STATE_APPLY).count(), 'EventUserCount.%s')
+
+mc_event_user_id_list = McLimitA('EventUserIdList.%s', 128)
+
+@mc_event_user_id_list('{event_id}')
+def event_user_id_list(event_id, limit, offset):
+    return EventUser.where('state>=%s', STATE_APPLY).order_by('id desc').col_list(limit, offset)
+
+def event_user_list(event_id, limit, offset):
+    id_list = event_user_id_list(event_id, limit, offset)
+    li = EventUser.mc_get_list(id_list)
+    Zsite.mc_bind(li, 'user', 'user_id')
+    namecard_bind(li, 'user_id')
+    return li
 
 def event_user_new(event_id, user_id):
     id = event_user_get(event_id, user_id)

@@ -4,6 +4,7 @@ from _db import Model, McModel, McCache
 from state import STATE_DEL, STATE_ACTIVE
 from zkit.earth import place_name
 from zkit.attrcache import attrcache
+from zkit.mc_func import mc_func_get_list, mc_func_get_dict
 
 
 class Namecard(McModel):
@@ -58,7 +59,24 @@ def namecard_new(
     mc_namecard_id.set(user_id, c.id)
     return c
 
+def namecard_bind(li, key='zsite_id'):
+    d = []
+    for i in li:
+        k = getattr(i, key)
+        d.append(k)
+
+    r = mc_func_get_dict(mc_namecard_id, namecard_get_id, d)
+    id_list = r.values()
+    e = Namecard.mc_get_dict(id_list)
+
+    for i, id in zip(li, d):
+        i.namecard = e.get(r.get(id))
+
 if __name__ == '__main__':
-    pass
-
-
+    from zsite import Zsite
+    li = Zsite.mc_get_list([10000212, 10000000])
+    namecard_bind(li, 'id')
+    for i in li:
+        print vars(i)
+        o = i.namecard
+        print o.id, vars(o)

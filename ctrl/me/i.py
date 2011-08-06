@@ -321,14 +321,12 @@ class NameCardEdit(object):
         current_user = self.current_user
         current_user_id = self.current_user_id
         c = namecard_get(current_user_id) or JsDict()
-        o = UserInfo.mc_get(current_user_id) or JsDict()
         self.render(
             name=c.name or current_user.name,
             phone=c.phone,
             mail=c.mail or mail_by_user_id(current_user_id),
             pid_now=c.pid_now or 0,
             address=c.address,
-            sex=o.sex,
         )
 
     def save(self):
