@@ -5,16 +5,13 @@ _gaq=[['_setAccount', 'UA-18596900-1'],['_trackPageview'],['_trackPageLoadTime']
 
 (function(){
 
-    function _(src){
-        var ga = document.createElement('script');
-        var s = document.getElementsByTagName('script')[0]; 
-        ga.type = 'text/javascript';
-        ga.async = true;
-        ga.src = src;
-        s.parentNode.insertBefore(ga, s);
+    var ga = document.createElement('script');
+    var s = document.getElementsByTagName('script')[0]; 
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js' ;
+    s.parentNode.insertBefore(ga, s);
 
-    }
-    _( ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js' );
 })()
 
 function _rm(prefix, url){

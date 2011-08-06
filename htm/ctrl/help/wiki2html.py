@@ -23,6 +23,7 @@ HTML_TEMPLATE = ''.join(['''
 'http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.6.1.min.js',
 '''"></script>
 <script src="/help.js"></script>
+<script src="http://hm.baidu.com/h.js?1248415989221c81fd45dd0d1208df98"></script>
 <link href="/help.css" rel="stylesheet" type="text/css">
 </head>
 <body>
