@@ -305,6 +305,13 @@ def pay_event_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     cent = int(price * 100)
     return trade_new(cent, 0, from_id, to_id, CID_TRADE_EVENT, rid, state)
 
+def pay_event_get(event, user_id):
+    li = Trade.where(from_id=user_id, to_id=event.zsite_id, rid=event.id, state=TRADE_STATE_ONWAY)
+    if li:
+        for i in li[1:]:
+            trade_fail(i)
+        return li[0]
+
 
 if __name__ == '__main__':
     pass

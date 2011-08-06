@@ -4,7 +4,7 @@ from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from time import time
 from zkit.attrcache import attrcache
-from money import read_cent
+from money import read_cent, pay_event_get, trade_fail
 from zsite import Zsite
 from namecard import namecard_bind
 
@@ -94,16 +94,21 @@ def event_user_no(o):
     event_id = o.event_id
     user_id = o.user_id
     if o.state == STATE_APPLY:
-        o.state = STATE_DEL
-        o.save()
-        mc_event_user_id_list.delete(event_id)
+        t = pay_event_get(o.event, user_id)
+        if t:
+            trade_fail(t)
+            o.state = STATE_DEL
+            o.save()
+            mc_event_user_id_list.delete(event_id)
 
 def event_user_yes(o):
     event_id = o.event_id
     user_id = o.user_id
     if o.state == STATE_APPLY:
-        o.state = STATE_ACTIVE
-        o.save()
+        t = pay_event_get(o.event, user_id)
+        if t:
+            o.state = STATE_ACTIVE
+            o.save()
 
 if __name__ == '__main__':
     pass
