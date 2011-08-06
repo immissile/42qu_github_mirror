@@ -117,7 +117,7 @@ function select_event(id, value){
             return 1
     },true);
 
-    var year_elem=$("#"+id+"_year"), month_elem=$("#"+id+"_month"), day_elem=$("#"+id+"_day");
+    var prefix='#'+id, year_elem=$(prefix+"_year"), month_elem=$(prefix+"_month"), day_elem=$(prefix+"_day");
 
     year_elem.change(function(){
         var r=[],val=this.value-0,i=1;
@@ -134,8 +134,9 @@ function select_event(id, value){
         year_elem.val(date.getFullYear()).change()        
         month_elem.val(date.getMonth()+1).change()
         day_elem.val(date.getDate()).change()
+        $(prefix+"_hour").val(12)
     }
-
+    
 }
 
 function select_birthday(id, value){

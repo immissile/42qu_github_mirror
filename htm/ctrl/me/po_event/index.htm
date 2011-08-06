@@ -92,12 +92,22 @@ vertical-align:-1px;
 .event_cid{
 width:219px;
 }
+.head{
+color:#333;
+}
+.head span{
+margin:0 14px;
+color:#999;
+}
+.head .c0{
+color:#000;
+}
 </style>
 </%def>
 
 
 <div class="head">
-创建活动
+<span class="c0">1. 设置属性</span>&gt;<span>2. 编写简介</span> 
 </div>
 
 
@@ -136,7 +146,10 @@ width:219px;
 <label>名额下限</label><input name="limit_down" class="limit_down input" value="${limit_down or 0}">
 </div>
 <div class="po_line">
-<label>报名审批</label><input type="checkbox" name="review" class="review" ${'checked' if review else ''}>
+<label for="review">报名审批</label><input id="review" type="checkbox" name="review" class="review" ${'checked' if review else ''}>
+</div>
+<div class="po_line">
+<label>宣传图片</label><input name="pic" type="file">
 </div>
 </div>
 
