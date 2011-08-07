@@ -45,6 +45,7 @@ def event_new(
     phone,
     pic_id
 ):
+
     event = Event(
         id=gid(),
         zsite_id=zsite_id,
@@ -64,6 +65,8 @@ def event_new(
         state=EVENT_STATE_INIT
     )
     event.save()
+    
+    
     return event
 
 class Event(McModel):
@@ -72,8 +75,6 @@ class Event(McModel):
             return True
 
 
-def event_by_zsite_id(zsite_id):
-    return Event.get(zsite_id=zsite_id, state=EVENT_STATE_INIT) 
 
 EVENT_CID_CN = (
     (1 , '技术'),

@@ -10,7 +10,7 @@ from zkit.earth import pid_city
 from model.days import today_ymd_int 
 from model.pic import Pic
 from model.cid import CID_EVENT
-from model.event import event_new, Event, event_by_zsite_id
+from model.event import event_new, Event
 from model.po import po_new, STATE_DEL
 
 
@@ -181,11 +181,6 @@ class Index(LoginBase):
 
     def get(self, id=0):
         user_id = self.current_user_id
-        if not id:
-            event = event_by_zsite_id(user_id)
-            if event:
-                return self.redirect("/po/event/%s"%event.id)
-        
         return self.render(errtip=Errtip(), id=id)
 
 
