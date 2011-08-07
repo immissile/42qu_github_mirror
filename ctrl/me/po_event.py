@@ -185,7 +185,8 @@ class Index(LoginBase):
             event = Event.mc_get(id)
             if not event or event.zsite_id != self.current_user_id:
                 return self.redirect("/po/event")
-            
+           
+             
             return self.render(
                 errtip=Errtip(), id=id,
                 address=event.address,
@@ -198,14 +199,17 @@ class Index(LoginBase):
                 review=event.need_review,
                 pid=event.pid,
                 event_cid=event.cid,
-                begin_time = event.begin_time/10000,
-                end_time = event.end_time/10000,
+                begin_time = event.begin_time/(60*24),
+                end_time = event.end_time/(60*24),
                # begin_time_hour = begin_time_hour,
                # begin_time_minute = begin_time_minute,
                # end_time_hour = end_time_hour,
                # end_time_minute = end_time_minute,
 
             )
+        #begin = begin_time*(60*24)+begin_time_hour*60+begin_time_minute
+        #end = end_time*(60*24)+end_time_hour*60+end_time_minute
+
         return self.render(errtip=Errtip())
 
 
