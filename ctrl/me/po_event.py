@@ -159,25 +159,25 @@ class Index(LoginBase):
                 end_time_minute = end_time_minute,
             )
         else:
-            event_new(
+            event = event_new(
                 user_id,
                 event_cid,
                 city_pid,
                 pid,
                 address,
                 transport,
-                begin_time,
-                end_time,
-                cent,
-                need_review,
+                begin,
+                end,
+                int(100*price),
+                review,
                 limit_up,
                 limit_down,
                 phone,
                 pic_id
             )            
+            return self.redirect("/po/event/%s"%event.id)
 
-
-    def get(self):
+    def get(self, po_id=0):
         return self.render(errtip=Errtip())
 
 
