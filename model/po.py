@@ -322,4 +322,5 @@ def mc_flush_cid_list_all(user_id, cid_list):
 
 if __name__ == '__main__':
     po = Po.mc_get(10057652)
+    print po.user_id
     po_rm(po.user_id, po.id)
