@@ -7,9 +7,6 @@ from model.po_question import answer_count
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_title()">
-<%
-cid = po.cid
-%>\
     %if cid == CID_EVENT:
 发布 - 活动
     %elif cid == CID_QUESTION:
@@ -36,6 +33,12 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 <script src="${js.upload}"></script>
 <script src="${js.pic}"></script>
 </%def>
+
+%if cid == CID_EVENT:
+<div class="head">
+<span class="c0">1. 设置属性</span>&gt;<span>2. 编写简介</span>
+</div>
+%endif
 
 <%htm:form enctype="multipart/form-data" id="po_form">
 <%
