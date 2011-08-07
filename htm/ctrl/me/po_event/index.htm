@@ -12,6 +12,7 @@ from model.po_event import EVENT_CID_CN
 <%def name="htm_head()">
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
+<script src="${js.ctrl_po_event}"></script>
 ${css.ctrl_po_event|n}
 </%def>
 
@@ -32,9 +33,11 @@ ${errtip.pid|n}
 </div>
 
 <div class="po_line">
-<label>详细地址</label><input
+<label for="address">详细地址</label><input
 value="${address or ''}"
-name="address" class="input">${errtip.address|n}
+name="address" class="input"
+id="address"
+>${errtip.address|n}
 </div>
 
 <div class="po_line">
@@ -51,11 +54,11 @@ ${errtip.begin_time|n}
 </div>
 
 <div class="po_line">
-<label>联系电话</label><input name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
+<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
 </div>
 
 <div class="po_line">
-<label>活动类型</label><select name="event_cid" class="event_cid">
+<label>活动类型</label><select id="event_cid" name="event_cid" class="event_cid">
 <option value="">- 请选择 -</option>
 %for _event_cid, event_name in EVENT_CID_CN:
 <option 
@@ -84,11 +87,12 @@ value="${_event_cid}">${event_name}</option>
 </div>
 
 <div class="po_line">
-<label>宣传图片</label><input name="pic" type="file">
+<label>宣传图片</label><input name="pic" type="file" id="pic">
 ${errtip.pic|n}
 </div>
-
-
+%if pic_id:
+<input id="pic_id" type="hidden" name="pic_id" value="${pic_id}">
+%endif
 
 <div>\
 <span id="po_submit" class="btnw">\

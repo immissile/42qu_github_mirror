@@ -147,7 +147,7 @@ class Index(LoginBase):
         )
 
     def get(self):
-        return self.render(errtip=JsDict())
+        return self.render(errtip=Errtip())
 
 
 
