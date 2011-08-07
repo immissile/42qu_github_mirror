@@ -180,7 +180,7 @@ class Index(LoginBase):
             return self.redirect("/po/edit/%s"%id)
 
     def get(self, id=0):
-        return self.render(errtip=Errtip())
+        return self.render(errtip=Errtip(), id=id)
 
 
 

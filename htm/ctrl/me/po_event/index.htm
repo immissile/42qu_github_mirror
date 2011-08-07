@@ -22,7 +22,15 @@ ${css.ctrl_po_event|n}
 %if errtip:
 <span style="color:#a10">表单有误 , 请您更正</span>
 %else:
-<span class="c0">1. 设置属性</span>&gt;<span>2. 编写简介</span> 
+<span class="c0">1. 设置属性</span>&gt;<span>\
+%if id:
+<a class="c9" href="/po/edit/${id}">\
+%endif
+2. 编写简介
+%if id:
+</a>\
+%endif
+</span> 
 %endif
 </div>
 
