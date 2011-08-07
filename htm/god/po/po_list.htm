@@ -90,6 +90,8 @@ ${po.name_htm|n}
 <p>
 %if user:
 <a class="c0" href="${user.link}" target="_blank">${user.name}</a>
+%else:
+${po.user_id}
 %endif
 ${friendly_time(po.create_time)}
 </p>
