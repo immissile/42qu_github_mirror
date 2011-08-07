@@ -181,7 +181,32 @@ class Index(LoginBase):
 
     def get(self, id=0):
         user_id = self.current_user_id
-        return self.render(errtip=Errtip(), id=id)
+        if id:
+            event = Event.mc_get(id)
+            if not event or event.zsite_id != self.current_user_id:
+                return self.redirect("/po/event")
+            
+            return self.render(
+                errtip=Errtip(), id=id,
+                address=event.address,
+                pic_id=event.pic_id,
+                limit_up=event.limit_up,
+                limit_down=event.limit_down,
+                transport=event.transport,
+                price=event.cent/100.0,
+                phone=event.phone,
+                review=event.need_review,
+                pid=event.pid,
+                event_cid=event.cid,
+                begin_time = event.begin_time/10000,
+                end_time = event.end_time/10000,
+               # begin_time_hour = begin_time_hour,
+               # begin_time_minute = begin_time_minute,
+               # end_time_hour = end_time_hour,
+               # end_time_minute = end_time_minute,
+
+            )
+        return self.render(errtip=Errtip())
 
 
 
