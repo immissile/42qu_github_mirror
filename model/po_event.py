@@ -21,10 +21,6 @@ def po_event_pic_new(zsite_id, pic):
     return pic_id
 
 
-def po_event_new(zsite_id, pid, address, transport, begin_time, end_time, state):
-    pass
-
-
 
 if __name__ == '__main__':
     print EVENT_CID

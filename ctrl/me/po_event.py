@@ -2,7 +2,7 @@
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model.po import Po
-from model.po_event import po_event_new, po_event_pic_new , EVENT_CID
+from model.po_event import po_event_pic_new , EVENT_CID
 from zkit.pic import picopen
 from zkit.errtip import Errtip
 from zkit.jsdict import JsDict
@@ -10,7 +10,7 @@ from zkit.earth import pid_city
 from model.days import today_ymd_int 
 from model.pic import Pic
 from model.cid import CID_EVENT
-from model.event import event_new, Event
+from model.event import event_new, Event, event_by_zsite_id
 from model.po import po_new, STATE_DEL
 
 
@@ -180,6 +180,12 @@ class Index(LoginBase):
             return self.redirect("/po/edit/%s"%id)
 
     def get(self, id=0):
+        user_id = self.current_user_id
+        if not id:
+            event = event_by_zsite_id(user_id)
+            if event:
+                return self.redirect("/po/event/%s"%event.id)
+        
         return self.render(errtip=Errtip(), id=id)
 
 
