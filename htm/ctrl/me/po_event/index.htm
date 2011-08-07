@@ -1,6 +1,7 @@
 <%!
 from model.po import STATE_SECRET
 from model.po_event import EVENT_CID_CN
+from model.fs import fs_url_jpg
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -86,13 +87,20 @@ value="${_event_cid}">${event_name}</option>
 <label for="review">审批报名</label><input id="review" type="checkbox" name="review" class="review" ${'checked' if review else ''}>
 </div>
 
-<div class="po_line">
-<label>宣传图片</label><input name="pic" type="file" id="pic">
-${errtip.pic|n}
-</div>
 %if pic_id:
 <input id="pic_id" type="hidden" name="pic_id" value="${pic_id}">
+<img id="event_pic" src="${fs_url_jpg(162, pic_id)|n}">
 %endif
+<div class="po_line">
+<label>
+%if pic_id:
+替换\
+%else:
+宣传\
+%endif
+图片</label><input name="pic" type="file" id="pic">
+${errtip.pic|n}
+</div>
 
 <div>\
 <span id="po_submit" class="btnw">\

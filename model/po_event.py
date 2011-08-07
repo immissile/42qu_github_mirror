@@ -8,6 +8,9 @@ from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from zsite import Zsite
 from operator import itemgetter
+from model.cid import CID_EVENT
+from model.pic import pic_new_save , fs_url_jpg , fs_set_jpg
+from zkit.pic import pic_fit
 
 EVENT_CID_CN = (
     (1 ,"技术"),
@@ -26,8 +29,18 @@ EVENT_CID_CN = (
 EVENT_CID = tuple(map(itemgetter(0),EVENT_CID_CN))
 
 
+
+def po_event_pic_new(user_id, pic):
+    pic_id = pic_new_save(CID_EVENT, user_id, pic)
+    pic162 = pic_fit(pic, 162)
+    fs_set_jpg(162, pic_id,pic162) 
+    return pic_id
+
+
 def po_event_new(user_id, name, txt, state):
     pass
+
+
 
 if __name__ == "__main__":
     print EVENT_CID

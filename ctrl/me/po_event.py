@@ -2,18 +2,18 @@
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model.po import Po
-from model.po_event import po_event_new
+from model.po_event import po_event_new, po_event_pic_new , EVENT_CID
 from zkit.pic import picopen
 from zkit.errtip import Errtip
 from zkit.jsdict import JsDict
 from zkit.earth import pid_city 
-from model.po_event import EVENT_CID
 from model.days import today_ymd_int 
 
 @urlmap('/po/event')
 @urlmap('/po/event/(\d+)')
 class Index(LoginBase):
     def post(self, po_id=0):
+        user_id = self.current_user_id
         errtip = Errtip()
         address = self.get_argument('address', None)
         limit_up = self.get_argument('limit_up', "42")
@@ -116,20 +116,23 @@ class Index(LoginBase):
         if not phone:
             errtip.phone = "请输入联系电话"
         
+        pic_id = None
         files = self.request.files
         if 'pic' in files:
             pic = files['pic'][0]['body']
             pic = picopen(pic)
             if not pic:
                 errtip.pic = "图片格式有误"
+            else:
+                pic_id = po_event_pic_new(user_id, pic)
         else:
             errtip.pic = "请上传图片" 
-
 
 
         return self.render(
             errtip=errtip,
             address=address,
+            pic_id=pic_id,
             limit_up=limit_up,
             limit_down=limit_down,
             transport=transport,
