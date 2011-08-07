@@ -183,9 +183,9 @@ class Po(McModel, ReplyMixin):
         zsite_tag_rm_by_po(self)
 
 
-def po_new(cid, user_id, name, state, rid=0):
+def po_new(cid, user_id, name, state, rid=0, id=None):
     m = Po(
-        id=gid(),
+        id=id or gid(),
         name_=cnencut(name, 140),
         user_id=user_id,
         cid=cid,

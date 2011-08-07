@@ -11,8 +11,7 @@ from model.days import today_ymd_int
 from model.pic import Pic
 from model.cid import CID_EVENT
 from model.event import event_new, Event
-
-
+from model.po import po_new, STATE_DEL
 
 
 @urlmap('/po/event')
@@ -175,8 +174,10 @@ class Index(LoginBase):
                 limit_down,
                 phone,
                 pic_id
-            )            
-            return self.redirect("/po/edit/%s"%event.id)
+            )           
+            id = event.id 
+            po_new(CID_EVENT, user_id, '', STATE_DEL, id)
+            return self.redirect("/po/edit/%s"%id)
 
     def get(self, id=0):
         return self.render(errtip=Errtip())
