@@ -109,7 +109,7 @@ class PoNote(PoBase):
 @urlmap('/po/question')
 class PoQuestion(PoBase):
     cid = CID_QUESTION
-    po_save = staticmethod(po_question_new)
+po_save = staticmethod(po_question_new)
 
 
 @urlmap('/po/edit/(\d+)')
