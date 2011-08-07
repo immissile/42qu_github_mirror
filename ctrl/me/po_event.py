@@ -176,7 +176,7 @@ class Index(LoginBase):
                 pic_id
             )           
             id = event.id 
-            po_new(CID_EVENT, user_id, '', STATE_DEL, id)
+            po_new(CID_EVENT, user_id, '', STATE_DEL, id=id)
             return self.redirect("/po/edit/%s"%id)
 
     def get(self, id=0):

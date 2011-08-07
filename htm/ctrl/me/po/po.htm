@@ -7,6 +7,9 @@ from model.po_question import answer_count
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_title()">
+<%
+cid = po.cid
+%>\
     %if cid == CID_EVENT:
 发布 - 活动
     %elif cid == CID_QUESTION:

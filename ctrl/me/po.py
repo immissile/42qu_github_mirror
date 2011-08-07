@@ -123,6 +123,7 @@ class Edit(LoginBase):
                     return self.redirect(po.link)
                 return po
             return self.redirect(po.link)
+        raise
         return self.redirect('/')
 
     def get(self, id):
