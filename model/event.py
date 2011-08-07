@@ -3,6 +3,7 @@
 
 from _db import McModel
 from operator import itemgetter
+from model.gid import gid
 
 """
 CREATE TABLE  `zpage`.`event` (
@@ -45,6 +46,7 @@ def event_new(
     pic_id
 ):
     event = Event(
+        id=gid(),
         zsite_id=zsite_id,
         cid=cid,
         city_pid=city_pid,
@@ -65,7 +67,9 @@ def event_new(
     return event
 
 class Event(McModel):
-    pass
+    def can_admin(self, user_id):
+        if self.zsite_id == user_id:
+            return True
 
 
 EVENT_CID_CN = (

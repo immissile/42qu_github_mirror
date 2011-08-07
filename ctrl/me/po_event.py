@@ -10,12 +10,24 @@ from zkit.earth import pid_city
 from model.days import today_ymd_int 
 from model.pic import Pic
 from model.cid import CID_EVENT
-from model.event import event_new
+from model.event import event_new, Event
+
+
+@urlmap('/po/event/(\d+)/txt')
+class Txt(LoginBase):
+    def get(self, id=0):
+        event = Event.mc_get(id)
+        user_id = self.current_user_id
+        if not (event and event.can_admin(user_id)):
+            return self.redirect('/po/event')
+
+        return self.render(event=event)
+
 
 @urlmap('/po/event')
 @urlmap('/po/event/(\d+)')
 class Index(LoginBase):
-    def post(self, po_id=0):
+    def post(self, id=0):
         user_id = self.current_user_id
         errtip = Errtip()
         address = self.get_argument('address', None)
@@ -53,8 +65,6 @@ class Index(LoginBase):
         
         if end_time_minute>59 or end_time_minute<0:
             end_time_minute = 30
-
-
 
         if begin_time:
             begin_time = int(begin_time)
@@ -175,9 +185,9 @@ class Index(LoginBase):
                 phone,
                 pic_id
             )            
-            return self.redirect("/po/event/%s"%event.id)
+            return self.redirect("/po/event/%s/txt"%event.id)
 
-    def get(self, po_id=0):
+    def get(self, id=0):
         return self.render(errtip=Errtip())
 
 
