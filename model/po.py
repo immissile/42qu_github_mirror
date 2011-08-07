@@ -321,6 +321,5 @@ def mc_flush_cid_list_all(user_id, cid_list):
             mc_flush_cid(user_id, cid, is_self)
 
 if __name__ == '__main__':
-    from zweb.orm import ormiter
-    for i in ormiter(Po, 'state=%s' % STATE_SECRET):
-        i.tag_rm()
+    po = Po.mc_get(10057652)
+    po_rm(po.user_id, po.id)
