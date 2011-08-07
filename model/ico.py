@@ -4,7 +4,7 @@ from fs import fs_set_jpg, fs_url_jpg, fs_file_jpg, fs_get_jpg
 from kv import Kv
 from cid import CID_ICO, CID_ICO96
 from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high
-from pic import pic_new, pic_save
+from pic import pic_new, pic_save, pic_new_save
 import Image
 from config import FS_URL
 
@@ -63,8 +63,7 @@ def ico_pos_new(id, pos=None):
     mc_feed_user_dict.delete(id)
 
 def ico_new(id, pic):
-    pic_id = pic_new(CID_ICO, id)
-    pic_save(pic_id, pic)
+    pic_id = pic_new_save(CID_ICO, id, pic)
     ico_save(pic_id, pic)
     ico.set(id, pic_id)
     ico_pos_new(id)
