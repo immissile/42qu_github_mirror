@@ -127,7 +127,9 @@ function select_event(id, value , hour, minute){
         for(;i<13;++i){
             r.push('<option value="'+i+'">'+i+'</option>')
         }
-        month_elem.html(r.join('')).change()
+        if(!value){
+            month_elem.html(r.join('')).change()
+        }
     }).change()
     
     if(!value){
