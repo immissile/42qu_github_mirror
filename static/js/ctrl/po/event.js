@@ -1,5 +1,5 @@
 $(function(){
-    $("#po_form").submit(function(){
+    $("#event_form").submit(function(){
         var error;
         if( $.trim($("#pic").val()) == '' && !$("#pic_id")[0]){
             error = "请选择宣传图片"

@@ -27,7 +27,7 @@ ${css.ctrl_po_event|n}
 </div>
 
 
-<%htm:form id="po_form" enctype="multipart/form-data">
+<%htm:form id="event_form" enctype="multipart/form-data">
 <div class="po_line">
 <label>所在城市</label><script>select_pid("pid", ${pid or 0})</script>
 ${errtip.pid|n}
@@ -103,7 +103,7 @@ ${errtip.pic|n}
 </div>
 
 <div>\
-<span id="po_submit" class="btnw">\
+<span id="event_submit_span" class="btnw">\
 <button type="submit">下一步</button>\
 </span>\
 </div>\

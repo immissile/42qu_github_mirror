@@ -31,7 +31,7 @@ padding:14px 0;
 border-bottom:1px dotted #ccc;
 margin-bottom:32px;
 }
-#po_form{
+#event_form{
 margin-left:125px;
 }
 .date_minute{
@@ -40,10 +40,10 @@ margin-left:8px;
 .date_hour{
 margin:0 8px 0 4px;
 }
-#po_form label{
+#event_form label{
 margin-right:16px;
 }
-#po_submit{
+#event_submit_span{
 margin-left:80px;
 }
 .price{
