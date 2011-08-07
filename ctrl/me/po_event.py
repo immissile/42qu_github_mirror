@@ -8,6 +8,8 @@ from zkit.errtip import Errtip
 from zkit.jsdict import JsDict
 from zkit.earth import pid_city 
 from model.days import today_ymd_int 
+from model.pic import Pic
+from model.cid import CID_EVENT
 
 @urlmap('/po/event')
 @urlmap('/po/event/(\d+)')
@@ -50,7 +52,6 @@ class Index(LoginBase):
         
         if end_time_minute>59 or end_time_minute<0:
             end_time_minute = 30
-
 
 
 
@@ -125,9 +126,16 @@ class Index(LoginBase):
                 errtip.pic = "图片格式有误"
             else:
                 pic_id = po_event_pic_new(user_id, pic)
-        else:
-            errtip.pic = "请上传图片" 
 
+        if not pic_id:
+            pic_id = self.get_argument('pic_id', None)
+            if pic_id:
+                o = Pic.get(pic_id)
+                if not (o and o.user_id == user_id and o.cid == CID_EVENT):
+                    pic_id = None
+        
+        if not pic_id:
+            errtip.pic = "请上传图片" 
 
         return self.render(
             errtip=errtip,
