@@ -10,6 +10,7 @@ from zkit.earth import pid_city
 from model.days import today_ymd_int 
 from model.pic import Pic
 from model.cid import CID_EVENT
+from model.event import event_new
 
 @urlmap('/po/event')
 @urlmap('/po/event/(\d+)')
@@ -83,8 +84,8 @@ class Index(LoginBase):
             errtip.pid = "请选择地址"
         else:
             pid = int(pid)
-            pid2 = pid_city(pid)
-            if not pid2: 
+            city_pid = pid_city(pid)
+            if not city_pid: 
                 errtip.pid = "请选择地址"
 
         if price:
@@ -137,25 +138,44 @@ class Index(LoginBase):
         if not pic_id:
             errtip.pic = "请上传图片" 
 
-        return self.render(
-            errtip=errtip,
-            address=address,
-            pic_id=pic_id,
-            limit_up=limit_up,
-            limit_down=limit_down,
-            transport=transport,
-            price=price,
-            phone=phone,
-            review=review,
-            pid=pid,
-            event_cid=event_cid,
-            begin_time = begin_time,
-            end_time = end_time,
-            begin_time_hour = begin_time_hour,
-            begin_time_minute = begin_time_minute,
-            end_time_hour = end_time_hour,
-            end_time_minute = end_time_minute,
-        )
+        if errtip:
+            return self.render(
+                errtip=errtip,
+                address=address,
+                pic_id=pic_id,
+                limit_up=limit_up,
+                limit_down=limit_down,
+                transport=transport,
+                price=price,
+                phone=phone,
+                review=review,
+                pid=pid,
+                event_cid=event_cid,
+                begin_time = begin_time,
+                end_time = end_time,
+                begin_time_hour = begin_time_hour,
+                begin_time_minute = begin_time_minute,
+                end_time_hour = end_time_hour,
+                end_time_minute = end_time_minute,
+            )
+        else:
+            event_new(
+                user_id,
+                event_cid,
+                city_pid,
+                pid,
+                address,
+                transport,
+                begin_time,
+                end_time,
+                cent,
+                need_review,
+                limit_up,
+                limit_down,
+                phone,
+                pic_id
+            )            
+
 
     def get(self):
         return self.render(errtip=Errtip())
