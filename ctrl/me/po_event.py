@@ -13,15 +13,6 @@ from model.cid import CID_EVENT
 from model.event import event_new, Event
 
 
-@urlmap('/po/event/(\d+)/txt')
-class Txt(LoginBase):
-    def get(self, id=0):
-        event = Event.mc_get(id)
-        user_id = self.current_user_id
-        if not (event and event.can_admin(user_id)):
-            return self.redirect('/po/event')
-
-        return self.render(event=event)
 
 
 @urlmap('/po/event')
@@ -185,7 +176,7 @@ class Index(LoginBase):
                 phone,
                 pic_id
             )            
-            return self.redirect("/po/event/%s/txt"%event.id)
+            return self.redirect("/po/edit/%s"%event.id)
 
     def get(self, id=0):
         return self.render(errtip=Errtip())
