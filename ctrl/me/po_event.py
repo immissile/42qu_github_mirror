@@ -206,8 +206,6 @@ class Index(LoginBase):
                 end_time_hour = (event.end_time%ONE_DAY_MINUTE)/60,
                 end_time_minute = event.end_time%60,
             )
-        #begin = begin_time*(60*24)+begin_time_hour*60+begin_time_minute
-        #end = end_time*(60*24)+end_time_hour*60+end_time_minute
 
         return self.render(errtip=Errtip())
 
