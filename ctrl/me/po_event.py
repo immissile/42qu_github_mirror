@@ -7,7 +7,7 @@ from zkit.pic import picopen
 from zkit.errtip import Errtip
 from zkit.jsdict import JsDict
 from zkit.earth import pid_city 
-from model.days import today_ymd_int, ymd2minute, minute2ymd 
+from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
 from model.cid import CID_EVENT
 from model.event import event_new, Event
@@ -186,9 +186,7 @@ class Index(LoginBase):
             if not event or event.zsite_id != self.current_user_id:
                 return self.redirect("/po/event")
           
-            print event.begin_time
-            print event.end_time 
-             
+ 
             return self.render(
                 errtip=Errtip(), id=id,
                 address=event.address,
@@ -203,11 +201,10 @@ class Index(LoginBase):
                 event_cid=event.cid,
                 begin_time = minute2ymd(event.begin_time),
                 end_time = minute2ymd(event.end_time),
-                begin_time_hour = event.begin_time/60,
+                begin_time_hour = (event.begin_time%ONE_DAY_MINUTE)/60,
                 begin_time_minute = event.begin_time%60,
-                end_time_hour = end_time_hour,
-                end_time_minute = end_time_minute,
-
+                end_time_hour = (event.end_time%ONE_DAY_MINUTE)/60,
+                end_time_minute = event.end_time%60,
             )
         #begin = begin_time*(60*24)+begin_time_hour*60+begin_time_minute
         #end = end_time*(60*24)+end_time_hour*60+end_time_minute
