@@ -160,7 +160,6 @@ def event_joiner_state(event_id, user_id):
     return 0
 
 
-
 @mc_event_joiner_id_list('{event_id}')
 def event_joiner_id_list(event_id, limit, offset):
     return EventJoiner.where('state>=%s', STATE_APPLY).order_by('id desc').col_list(limit, offset)
