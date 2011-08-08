@@ -30,6 +30,10 @@ class EventHandle(ZsiteBase):
             PAGE_LIMIT
         )
         li = event_list_by_zsite_id(zsite_id, can_admin, limit, offset)
+        self.render(
+            li=li,
+            page=page,
+        )
 
 
 @urlmap('/event')
@@ -46,6 +50,10 @@ class EventJoin(ZsiteBase):
             PAGE_LIMIT
         )
         li = event_list_join_by_user_id(zsite_id, limit, offset)
+        self.render(
+            li=li,
+            page=page,
+        )
 
 
 @urlmap('/event')
@@ -62,6 +70,10 @@ class EventOpen(ZsiteBase):
             PAGE_LIMIT
         )
         li = event_list_open_by_user_id(zsite_id, limit, offset)
+        self.render(
+            li=li,
+            page=page,
+        )
 
 
 class EventBase(LoginBase):
