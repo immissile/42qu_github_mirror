@@ -12,7 +12,7 @@ from txt import txt_new, txt_get, txt_property
 from zkit.time_format import time_title
 from reply import ReplyMixin
 from po_pic import pic_htm
-from model.txt2htm import txt_withlink
+from txt2htm import txt_withlink
 from zsite import Zsite
 from zkit.txt import cnencut
 from zkit.attrcache import attrcache

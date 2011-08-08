@@ -8,6 +8,7 @@ from zsite import Zsite
 from namecard import namecard_bind
 from operator import itemgetter
 from gid import gid
+from po import Po
 
 EVENT_CID_CN = (
     (1 , '技术'),
@@ -32,6 +33,14 @@ EVENT_STATE_TO_REVIEW = 40
 EVENT_STATE_BEGIN = 50
 EVENT_STATE_NOW = 60
 EVENT_STATE_END = 70
+
+EVENT_STATE_CN = {
+    EVENT_STATE_REJECT: '未通过',
+    EVENT_STATE_TO_REVIEW: '待审核',
+    EVENT_STATE_BEGIN: '未开始',
+    EVENT_STATE_NOW: '进行中',
+    EVENT_STATE_END: '已结束',
+}
 
 EVENT_JOIN_STATE_NO = 10
 EVENT_JOIN_STATE_NEW = 20
@@ -164,7 +173,7 @@ def event_id_list_by_zsite_id(zsite_id, can_admin, limit, offset):
 
 def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     id_list = event_id_list_by_zsite_id(zsite_id, bool(can_admin), limit, offset)
-    return Event.mc_get_list(id_list)
+    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 
 class EventJoiner(McModel):
@@ -184,7 +193,7 @@ def event_id_list_join_by_user_id(user_id, limit, offset):
 
 def event_list_join_by_user_id(user_id, limit, offset):
     id_list = event_id_list_join_by_user_id(user_id, limit, offset)
-    return Event.mc_get_list(id_list)
+    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 
 event_list_open_by_user_id_qs = lambda user_id: EventJoiner.where(user_id=user_id, state=EVENT_JOIN_STATE_YES)
@@ -198,7 +207,7 @@ def event_id_list_open_by_user_id(user_id, limit, offset):
 
 def event_list_open_by_user_id(user_id, limit, offset):
     id_list = event_id_list_open_by_user_id(user_id, limit, offset)
-    return Event.mc_get_list(id_list)
+    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 
 @mc_event_joiner_id_get('{event_id}_{user_id}')
