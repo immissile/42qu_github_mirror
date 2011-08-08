@@ -184,7 +184,9 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
                     po_word_txt.focus()
                     return false
                 };
-        var xsrf = $("input[name=_xsrf]").val(),
+        var profile = $('.G3:first')
+        console.log(profile)
+         var xsrf = $("input[name=_xsrf]").val(),
             button = $("span.btnw button")
         $.ajax({
             type: 'POST',
@@ -194,9 +196,10 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
                 button.html('<img style="vertical-align: 1px;" src="loading_bar.gif">')
             },
             success:function(data){
+                d = JSON.parse(data)
                 po_word_txt.blur().val('').addClass(po_word_txt_bg)
                 button.html('游吟')
-                $('.sdw:first-child').before("<div class='sdw'><div class='sd'><div class='fdtxt'>"+data+"<div class='fdbar'></div></div></div></div>")
+                $('.G3:first').before("<div class='G3'><div class='sdw'><div class='sd'><div class='fdtxt' id='fdtxt"+d.id+"'>"+ d.name +"</div><div class='fdbar'><span class='L'>刚刚</span><a title='回应' target='_blank' class='reply' href='/"+d.id+"#txt_form'>0</a></div></div></div></div>")
             },
             error:function(data){
                 document.write(data.responseText)

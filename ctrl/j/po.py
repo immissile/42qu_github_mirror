@@ -19,7 +19,12 @@ class PoWord(JLoginBase):
         txt = self.get_argument('txt', '')
         if txt:
             m = po_word_new(current_user.id, txt)
-        self.finish(m.name)
+        r = {
+            'id' : m.id,
+            'name':m.name
+        }
+        result = dumps(r)
+        self.finish(result)
 
 @urlmap('/j/po/reply/(\d+)')
 class Reply(JLoginBase):
