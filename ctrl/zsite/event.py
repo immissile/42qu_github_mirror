@@ -16,7 +16,7 @@ from ctrl.me.i import NameCardEdit
 
 @urlmap('/event')
 @urlmap('/event-(\d+)')
-class EventHandle(ZsiteBase):
+class EventMine(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
@@ -38,7 +38,7 @@ class EventHandle(ZsiteBase):
 
 @urlmap('/event/all')
 @urlmap('/event/all-(\d+)')
-class EventJoin(ZsiteBase):
+class EventJoined(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
 

@@ -277,8 +277,8 @@ def event_joiner_yes(o):
         o.state = EVENT_JOIN_STATE_YES
         o.save()
         mc_event_id_list_join_by_user_id.delete(user_id)
-        event_join_count_by_user_id.delete(user_id)
         mc_event_id_list_open_by_user_id.delete(user_id)
+        event_join_count_by_user_id.delete(user_id)
         event_open_count_by_user_id.delete(user_id)
 
 def event_joiner_end(o):
