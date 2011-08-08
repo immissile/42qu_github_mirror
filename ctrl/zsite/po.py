@@ -92,12 +92,12 @@ class PoPage(ZsiteBase):
         )
 
 
-
 @urlmap('/word')
 @urlmap('/word-(\d+)')
 class WordPage(PoPage):
     cid = CID_WORD
     page_template = '/word-%s'
+
 
 @urlmap('/note')
 @urlmap('/note-(\d+)')
