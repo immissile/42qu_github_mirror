@@ -5,7 +5,7 @@ from ctrl._urlmap.zsite import urlmap
 from config import SITE_HTTP, RPC_HTTP
 from zkit.page import page_limit_offset
 from model.state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
-from model.event import Event, event_user_new, event_user_state, event_user_list, event_user_count
+from model.event import Event, event_joiner_new, event_joiner_state, event_joiner_list, event_joiner_count
 from model.money import pay_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice, read_cent
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cent_with_tax
 from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT
@@ -29,7 +29,7 @@ class EventJoin(NameCardEdit, EventBase):
         zsite_id = self.zsite_id
         event = super(EventJoin, self).event(id)
         if event:
-            if current_user_id != zsite_id and event_user_state(id, current_user_id) < STATE_APPLY:
+            if current_user_id != zsite_id and event_joiner_state(id, current_user_id) < STATE_APPLY:
                 return event
             return self.redirect(event.link)
 
@@ -51,7 +51,7 @@ class EventJoin(NameCardEdit, EventBase):
         if event.cent:
             return self.redirect('/event/pay/%s' % id)
 
-        event_user_new(id, self.current_user_id)
+        event_joiner_new(id, self.current_user_id)
         return self.redirect(event.link)
 
 
@@ -104,7 +104,7 @@ class EventPay(EventJoin):
         t = pay_event_new(event.cent/100.0, current_user_id, zsite_id, id, state)
 
         if not cent_need:
-            event_user_new(id, current_user_id)
+            event_joiner_new(id, current_user_id)
             return self.redirect(event.link)
 
         cent_with_tax = alipay_cent_with_tax(cent_need)
@@ -139,7 +139,7 @@ class EventCheck(EventBase):
         if event is None:
             return
 
-        total = event_user_count(id)
+        total = event_joiner_count(id)
 
         page, limit, offset = page_limit_offset(
             '/event/verify/%s-%%s' % id,
@@ -148,9 +148,9 @@ class EventCheck(EventBase):
             PAGE_LIMIT
         )
 
-        li = event_user_list(id, limit, offset)
+        li = event_joiner_list(id, limit, offset)
 
         return self.render(
             event=event,
-            event_user_list=li,
+            event_joiner_list=li,
         )

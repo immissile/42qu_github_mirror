@@ -42,7 +42,7 @@ class ApplyEdit(LoginBase):
 
     def get(self, oauth_client_id):
         client = OauthClient.get(oauth_client_id)
-        if client and client.can_edit(self.current_user_id):
+        if client and client.can_admin(self.current_user_id):
             self.render(
                 cid=client.cid,
                 name=client.name,
@@ -56,7 +56,7 @@ class ApplyEdit(LoginBase):
 
     def post(self, oauth_client_id):
         client = OauthClient.get(oauth_client_id)
-        if client and client.can_edit(self.current_user_id):
+        if client and client.can_admin(self.current_user_id):
             name = self.get_argument('name', '')
             txt = self.get_argument('txt', '')
             site = self.get_argument('site', '')
@@ -71,6 +71,6 @@ class ApplyEdit(LoginBase):
 class ApplyRm(XsrfGetBase):
     def get(self, oauth_client_id):
         client = OauthClient.get(oauth_client_id)
-        if client and client.can_edit(self.current_user_id):
+        if client and client.can_admin(self.current_user_id):
             client.rm()
         return self.redirect('/')

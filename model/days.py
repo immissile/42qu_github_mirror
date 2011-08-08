@@ -4,7 +4,10 @@ from time import time, mktime, strptime, strftime
 import datetime
 
 ONE_DAY = 3600 * 24
+ONE_DAY_MINUTE = 60*24
 TIMEZONE_OFFSET = mktime((1970, 1, 1, 0, 0, 0, 0, 0, 0))
+DATE_BEGIN = datetime.date(1970, 1, 1)
+
 
 def today_seconds():
     return int(time()/ONE_DAY)*ONE_DAY
@@ -12,6 +15,9 @@ def today_seconds():
 def today_days():
     return int(time()/ONE_DAY)
 
+def today_ymd_int():
+    t = datetime.date.today()
+    return t.year*10000 + t.month*100 + t.day
 
 def yesterday_seconds():
     return today_days() - ONE_DAY
@@ -21,6 +27,16 @@ def date_to_days(s):
     seconds = mktime(n) - TIMEZONE_OFFSET
     return int(seconds / ONE_DAY)
 
+def ymd2days(ymd):
+    return (datetime.date(ymd//10000, (ymd%10000)//100, ymd%100) - DATE_BEGIN).days
+
+
+def minute2ymd(minute):
+    d = datetime.timedelta(minute/ONE_DAY_MINUTE)+DATE_BEGIN
+    return d.year*10000+d.month*100+d.day
+
+def ymd2minute(ymd):
+    return ymd2days(ymd)*ONE_DAY_MINUTE
 
 def yesterday():
     r = datetime.date.today()- datetime.timedelta(1)
@@ -57,9 +73,12 @@ def epoch_seconds(timestr):
 
 
 if __name__ == '__main__':
+    #print today_ymd_int()
     #print date_to_days('')
     #print yesterday()
     #print today_year()
     #date = 20110704
     #print year_month_begin_end(date, date)
-    print today_seconds()
+    #print today_seconds()
+    print minute2ymd(72690510)
+    #print (20091010%10000)//100

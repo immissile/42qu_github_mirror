@@ -10,7 +10,6 @@ from oauth_update import api_qq, api_www163, api_sina, api_network_http
 from config import SINA_FOLLOW, QQ_FOLLOW, WWW163_FOLLOW
 
 
-
 def api_sina_follow(key, secret, id=SINA_FOLLOW):
     return api_sina(
                 '/friendships/create.json',
@@ -59,6 +58,6 @@ def oauth_follow_by_oauth_id(oauth_id):
 
 
 if __name__ == '__main__':
-    oauth_follow_by_oauth_id(4752)
+    oauth_follow_by_oauth_id(2953)
 
 

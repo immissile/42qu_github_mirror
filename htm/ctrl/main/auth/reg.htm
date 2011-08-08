@@ -1,6 +1,9 @@
 
 <%!
 from config import LOGO_TEXT, SITE_DOMAIN
+from model.ico import ico_url_bind_with_default
+from model.career import career_bind
+from tornado.escape import json_encode 
 %>
 
 <%inherit file="/ctrl/_base/zsite.htm" />
@@ -10,6 +13,7 @@ from config import LOGO_TEXT, SITE_DOMAIN
 </%def>
 
 <%def name="htm_head()">
+<script src="${js.reg}"></script>
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
 ${css.ctrl_auth_reg|n}
@@ -18,39 +22,19 @@ ${css.ctrl_auth_reg|n}
 
 <%def name="h_nav()"></%def>
 
-<div>
 <%htm:form id="form_reg" action="/auth/reg">
-<a href="//hero.${SITE_DOMAIN}"><h1
-%if not this.get_argument('next',None):
-id="form_reg_h1" 
+
+%if zsite_list:
+<div class="L">
+<div class="logo_txt"><div id="zsite_list"></div></div>
+</div>
+
+<div class="L">
+%else:
+<div>
 %endif
->${LOGO_TEXT|n}</h1></a>
+<h1 id="form_reg_h1">${LOGO_TEXT|n}</h1>
 
-<div class="L">
-<div class="logo_txt">
-<div >
-<p>有人满足于老婆孩子热炕头</p>
-<p>从不向与己无关的尘世之外扫一眼</p>
-</div>
-<div >
-<p>有的人则用尽全部生命</p>
-<p>只为一睹人类从未见过的事物</p>
-</div>
-<div >
-<p>这两种人我都做过</p>
-<p>我们有权选择各自的生活</p>
-</div>
-<div >
-<p class="tr">\
-<del>　</del>\
-<a href="//help.${SITE_DOMAIN}/china_sun.html">中国太阳</a></p>
-</div>
-</div>
-
-</div>
-
-
-<div class="L">
 <p class="line">
 性别
 <span class="sex"><input
@@ -80,32 +64,36 @@ ${errtip.password|n}
 
 <div class="cl btns" id="form_btn">
 <span id="login_link">已有账号 ? <a href="/auth/login">点此登录</a></span>
-
 <span class="R btnw"><button type="submit" >注册</button></span>
- 
 </div>
 </div>
 </%htm:form>
+
+<script id="zsite_ico" type="text/x-jquery-tmpl">
+<%text>
+<div class="zsite_ico c">
+<a target="_blank" href="${$data[0]}">
+<img src="${$data[1]}">
+<div>${$data[2]}</div>
+<div>${$data[3]}</div>
+<div>${$data[4]}</div>
+</a>
 </div>
-
-
-<%namespace file="/ctrl/_util/hero.htm" import="hero_list"/>
-%if zsite_list:
-</div><div style="clear:both;padding-top:32px">
-<div class="zsite_mb64 c">
-${hero_list(zsite_list)}
-</div>
-${page|n}
-%endif
-
-<script>
-(function(){
-    var mail=$("#mail");
-    if(mail.val()==''){
-        mail.focus();
-    }else{
-        $('#password').focus();
-    }
-
-})()
+</%text>
 </script>
+
+%if zsite_list:
+<%
+ico_url_bind_with_default(zsite_list)
+career_bind(zsite_list)
+zsite_ico_list = []
+for i in zsite_list:
+    unit , title = i.career
+    zsite_ico_list.append(
+        (i.link, i.ico, i.name, unit, title)
+    )
+%>
+<script>
+zsite_ico_list(${json_encode(zsite_ico_list)|n})
+</script>
+%endif

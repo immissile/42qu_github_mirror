@@ -71,11 +71,11 @@ po_video = function(id){
             if(video&&video.length){
                 if(
                     !(
-                        /^http:\/\/v\.youku\.com\/v_show\/id_\w{13}\.html$/.test(video) 
+                        /^http:\/\/v\.youku\.com\/v_show\/id_[\w=]+\.html$/.test(video) 
                         || 
-                        /^http\:\/\/player\.youku\.com\/player\.php\/sid\/w{13}\/v\.swf$/.test(video)
+                        /^http\:\/\/player\.youku\.com\/player\.php\/sid\/[\w=]+\/v\.swf$/.test(video)
                         ||
-                        /^http:\/\/www\.tudou\.com\/programs\/view\/[A-z0-9-_]{11}\//.test(video)
+                        /^http:\/\/www\.tudou\.com\/programs\/view\/[A-z0-9-_]+\//.test(video)
                         ||
                         /^http:\/\/video\.sina\.com\.cn\/v\/b\/\d+-\d+\.html$/.test(video)
                     )

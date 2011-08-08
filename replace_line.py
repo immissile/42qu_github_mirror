@@ -5,17 +5,13 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-back_home2.gif
-gt2.gif
-list2.gif
-lt2.gif
+EventUser
+event_user
 """
 
 TO_STRING = """
-back_home3.gif
-gt3.gif
-list3.gif
-lt3.gif
+EventJoiner
+event_joiner
 """
 
 def run():
