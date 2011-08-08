@@ -14,7 +14,8 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
         64:FEED_ATTR_TXT_BASE+QUESTION_ATTR_BASE,
         65:FEED_ATTR_TXT_BASE,
         66:FEED_ATTR_TXT_BASE,
-        67:FEED_ATTR_TXT_BASE
+        67:FEED_ATTR_TXT_BASE,
+        68:FEED_ATTR_TXT_BASE
     },
     DATE_ATTR = "name link unit title pic".split(' ');
     for(var i in FEED_ATTR){
@@ -178,25 +179,31 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
     })
     .addClass(po_word_txt_bg)
     ;
-
     $("#po_word_form").submit(function(){
         if(po_word_update(po_word_txt.val())>0){
-            po_word_txt.focus()
-            return false
-            }
-    })
-
-        /*
-       $(this).ajaxSubmit({
-            beforeSubmit:function(){},
+                    po_word_txt.focus()
+                    return false
+                };
+        var xsrf = $("input[name=_xsrf]").val(),
+            button = $("span.btnw button")
+        $.ajax({
             type: 'POST',
             url:  '/j/po/word',
-            data: 'txt='+po_word_txt.val(),
-            success:function(data){alert(data);}
+            data: "txt="+po_word_txt.val()+"&_xsrf="+xsrf,
+            beforeSend:function(){
+                button.html('<img style="vertical-align: 1px;" src="loading_bar.gif">')
+            },
+            success:function(data){
+                po_word_txt.blur().val('').addClass(po_word_txt_bg)
+                button.html('游吟')
+                $('.sdw:first-child').before("<div class='sdw'><div class='sd'><div class='fdtxt'>"+data+"<div class='fdbar'></div></div></div></div>")
+            },
+            error:function(data){
+                document.write(data.responseText)
+                },
         });
-        return false
-    })
-        */
+    return false
+    });
     
     /* 显示全部 */
     fdtxt = function(e,id){

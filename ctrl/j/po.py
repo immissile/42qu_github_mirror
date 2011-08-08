@@ -15,14 +15,11 @@ from zkit.pic import picopen
 @urlmap('/j/po/word')
 class PoWord(JLoginBase):
     def post(self):
-        import pdb;pdb.set_trace()
         current_user = self.current_user
         txt = self.get_argument('txt', '')
         if txt:
             m = po_word_new(current_user.id, txt)
-        self.finish(m)
-
-
+        self.finish(m.name)
 
 @urlmap('/j/po/reply/(\d+)')
 class Reply(JLoginBase):
