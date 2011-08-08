@@ -30,7 +30,8 @@ EVENT_STATE_INIT = 20
 EVENT_STATE_REJECT = 30
 EVENT_STATE_TO_REVIEW = 40
 EVENT_STATE_BEGIN = 50
-EVENT_STATE_END = 60
+EVENT_STATE_NOW = 60
+EVENT_STATE_END = 70
 
 mc_event_joiner_get = McCache('EventJoinerGet.%s')
 event_joiner_count = McNum(lambda event_id: EventJoiner.where('state>=%s', STATE_APPLY).count(), 'EventJoinerCount.%s')
