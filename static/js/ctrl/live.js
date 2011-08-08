@@ -180,11 +180,15 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
     ;
 
     $("#po_word_form").submit(function(){
-        if(po_word_update(po_word_txt.val())>0){
-            po_word_txt.focus()
-            return false
-        }
-    })
+       $(this).ajaxSubmit({ 
+            beforeSubmit:function(){},
+            type: 'POST', 
+            url:  '/j/po/word', 
+            data: 'txt='+po_word_txt.val(),
+            success:function(data){alert(data);}
+        });
+        return false;
+    });
     
     /* 显示全部 */
     fdtxt = function(e,id){

@@ -4,12 +4,23 @@ from yajl import dumps
 from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
 from model.fs import fs_url_jpg
-from model.po import Po, CID_WORD, CID_NOTE
+from model.po import Po, po_word_new, CID_WORD, CID_NOTE
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.po_question import answer_word2note
 from model.zsite import user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from zkit.pic import picopen
+
+
+@urlmap('/j/po/word')
+class PoWord(JLoginBase):
+    def post(self):
+        current_user = self.current_user
+        txt = self.get_argument('txt', '')
+        if txt:
+            m = po_word_new(current_user.id, txt)
+        self.finish(m)
+
 
 
 @urlmap('/j/po/reply/(\d+)')
