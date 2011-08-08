@@ -136,9 +136,9 @@ ${user_index(zsite, False)}
 
 <script>
 (function(){
-    var base_host="//"+location.host.slice(1+location.host.indexOf("."))
+    var host=location.host, base_host="//"+host.slice(1+host.indexOf("."))
     $("#zsite_link a").each(function(){
-        this.href=base_host+this.href
+        this.href=this.href.replace(host,base_host)
     })
 })()
 </script>
