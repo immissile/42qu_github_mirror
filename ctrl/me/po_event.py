@@ -173,10 +173,12 @@ class Index(LoginBase):
                 limit_up,
                 limit_down,
                 phone,
-                pic_id
+                pic_id,
+                id
             )           
-            id = event.id 
-            po_new(CID_EVENT, user_id, '', STATE_DEL, id=id)
+            if not id:
+                id = event.id 
+                po_new(CID_EVENT, user_id, '', STATE_DEL, id=id)
             return self.redirect("/po/edit/%s"%id)
 
     def get(self, id=0):

@@ -29,6 +29,7 @@ CREATE TABLE  `zpage`.`event` (
   KEY `Index_4` (`city_pid`,`state`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 """
+
 def event_new(
     zsite_id,
     cid,
@@ -43,30 +44,48 @@ def event_new(
     limit_up,
     limit_down,
     phone,
-    pic_id
+    pic_id,
+    id=None
 ):
-
-    event = Event(
-        id=gid(),
-        zsite_id=zsite_id,
-        cid=cid,
-        city_pid=city_pid,
-        pid=pid,
-        address=address,
-        transport=transport,
-        begin_time=begin_time,
-        end_time=end_time,
-        cent=cent,
-        need_review=need_review,
-        limit_up=limit_up,
-        limit_down=limit_down,
-        phone=phone,
-        pic_id=pic_id,
-        state=EVENT_STATE_INIT
-    )
-    event.save()
-    
-    
+    if id:
+        event = Event.mc_get(id)
+        if event.zsite_id == zsite_id:
+            event.cid=cid
+            event.city_pid=city_pid
+            event.pid=pid
+            event.address=address
+            event.transport=transport
+            event.begin_time=begin_time
+            event.end_time=end_time
+            event.cent=cent
+            event.need_review=need_review
+            event.limit_up=limit_up
+            event.limit_down=limit_down
+            event.phone=phone
+            event.pic_id=pic_id
+            #event.state=EVENT_STATE_INIT
+            event.save()
+    else:
+        event = Event(
+            id=gid(),
+            zsite_id=zsite_id,
+            cid=cid,
+            city_pid=city_pid,
+            pid=pid,
+            address=address,
+            transport=transport,
+            begin_time=begin_time,
+            end_time=end_time,
+            cent=cent,
+            need_review=need_review,
+            limit_up=limit_up,
+            limit_down=limit_down,
+            phone=phone,
+            pic_id=pic_id,
+            state=EVENT_STATE_INIT
+        )
+        event.save()
+        
     return event
 
 class Event(McModel):
