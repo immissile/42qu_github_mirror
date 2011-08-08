@@ -113,8 +113,12 @@ ${user_index(zsite, False)}
 <a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
 <a class="show" rel="${id}" href="javascript:void(0)">通过 & 展示</a>
 <div style="margin-top:32px">
+<div>
+    <a href="${zsite.link}">主页</a>
+</div>
+<div>
     <a href="/zsite/${id}" target="_blank">管理</a>
-
+</div>
 </div>
 </div>
 <a class="no" rel="${id}" href="javascript:void(0)">拒绝</a>
@@ -129,3 +133,12 @@ ${user_index(zsite, False)}
 </div>
 
 </div>
+
+<script>
+(function(){
+    var base_host="//"+location.host.slice(1+location.host.indexOf("."))
+    $("#zsite_link a").each(function(){
+        this.href=base_host+this.href
+    })
+})()
+</script>
