@@ -11,6 +11,7 @@ from zkit.txt import cnenoverflow
 cid = i.cid
 rid = i.rid
 from_list = i.from_list
+from_list = filter(bool, from_list)
 entry = i.entry
 %>\
 %if cid == CID_BUZZ_SYS:
