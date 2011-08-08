@@ -8,7 +8,8 @@ from money import read_cent, pay_event_get, trade_fail
 from zsite import Zsite
 from namecard import namecard_bind
 from operator import itemgetter
-from model.gid import gid
+from gid import gid
+
 EVENT_CID_CN = (
     (1 , '技术'),
     (2 , '创业'),
@@ -33,7 +34,7 @@ EVENT_STATE_BEGIN = 50
 EVENT_STATE_NOW = 60
 EVENT_STATE_END = 70
 
-mc_event_joiner_get = McCache('EventJoinerGet.%s')
+mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
 event_joiner_count = McNum(lambda event_id: EventJoiner.where('state>=%s', STATE_APPLY).count(), 'EventJoinerCount.%s')
 mc_event_joiner_id_list = McLimitA('EventJoinerIdList.%s', 128)
 
@@ -117,21 +118,21 @@ def event_new(
             state=EVENT_STATE_INIT
         )
         event.save()
-        
+
     return event
 
 class Event(McModel):
     def can_admin(self, user_id):
         if self.zsite_id == user_id:
             return True
-    
+
     @attrcache
     def price(self):
         cent = self.cent
         if cent:
             return read_cent(cent)
         return ''
-    
+
     @attrcache
     def zsite(self):
         return Zsite.mc_get(self.zsite_id)
@@ -141,23 +142,27 @@ class Event(McModel):
         o = self.zsite
         return '%s/%s' % (o.link, self.id)
 
+
 class EventJoiner(McModel):
     @attrcache
     def event(self):
         return Event.mc_get(self.event_id)
 
 
-
-@mc_event_joiner_get('{event_id}_{user_id}')
-def event_joiner_get(event_id, user_id):
+@mc_event_joiner_id_get('{event_id}_{user_id}')
+def event_joiner_id_get(event_id, user_id):
     o = EventJoiner.get(event_id=event_id, user_id=user_id)
     if o:
         return o.id
     return 0
 
+def event_joiner_get(event_id, user_id):
+    id = event_joiner_id_get(event_id, user_id)
+    if id:
+        return EventJoiner.mc_get(id)
+
 def event_joiner_state(event_id, user_id):
-    id = event_joiner_get(event_id, user_id)
-    o = EventJoiner.mc_get(id)
+    o = event_joiner_get(event_id, user_id)
     if o:
         return o.state
     return 0
@@ -176,8 +181,7 @@ def event_joiner_list(event_id, limit, offset):
     return li
 
 def event_joiner_new(event_id, user_id):
-    id = event_joiner_get(event_id, user_id)
-    o = EventJoiner.mc_get(id)
+    o = event_joiner_get(event_id, user_id)
     if o and o.state >= STATE_APPLY:
         return
     now = int(time())
@@ -190,7 +194,7 @@ def event_joiner_new(event_id, user_id):
         o.state = STATE_APPLY
         o.create_time = now
         o.save()
-        mc_event_joiner_get.set('%s_%s' % (event_id, user_id), o.id)
+        mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
         mc_event_joiner_id_list.delete(event_id)
     return o
 

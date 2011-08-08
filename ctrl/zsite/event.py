@@ -26,10 +26,9 @@ class EventBase(LoginBase):
 class EventJoin(NameCardEdit, EventBase):
     def event(self, id):
         current_user_id = self.current_user_id
-        zsite_id = self.zsite_id
         event = super(EventJoin, self).event(id)
         if event:
-            if current_user_id != zsite_id and event_joiner_state(id, current_user_id) < STATE_APPLY:
+            if not event.can_admin(current_user_id) and event_joiner_state(id, current_user_id) < STATE_APPLY:
                 return event
             return self.redirect(event.link)
 
