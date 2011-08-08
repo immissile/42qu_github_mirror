@@ -203,10 +203,10 @@ class Index(LoginBase):
                 event_cid=event.cid,
                 begin_time = minute2ymd(event.begin_time),
                 end_time = minute2ymd(event.end_time),
-               # begin_time_hour = begin_time_hour,
-               # begin_time_minute = begin_time_minute,
-               # end_time_hour = end_time_hour,
-               # end_time_minute = end_time_minute,
+                begin_time_hour = event.begin_time/60,
+                begin_time_minute = event.begin_time%60,
+                end_time_hour = end_time_hour,
+                end_time_minute = end_time_minute,
 
             )
         #begin = begin_time*(60*24)+begin_time_hour*60+begin_time_minute
