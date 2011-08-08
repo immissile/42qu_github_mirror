@@ -36,15 +36,15 @@ class EventHandle(ZsiteBase):
         )
 
 
-@urlmap('/event')
-@urlmap('/event-(\d+)')
+@urlmap('/event/all')
+@urlmap('/event/all-(\d+)')
 class EventJoin(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
 
         total = event_join_count_by_user_id(zsite_id)
         page, limit, offset = page_limit_offset(
-            '/event-%s',
+            '/event/all-%s',
             total,
             n,
             PAGE_LIMIT
@@ -56,15 +56,15 @@ class EventJoin(ZsiteBase):
         )
 
 
-@urlmap('/event')
-@urlmap('/event-(\d+)')
+@urlmap('/event/ing')
+@urlmap('/event/ing-(\d+)')
 class EventOpen(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
 
         total = event_open_count_by_user_id(zsite_id)
         page, limit, offset = page_limit_offset(
-            '/event-%s',
+            '/event/ing-%s',
             total,
             n,
             PAGE_LIMIT
