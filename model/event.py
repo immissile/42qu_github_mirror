@@ -154,6 +154,8 @@ EVENT_VIEW_STATE_GET = {
     False: EVENT_STATE_BEGIN,
 }
 
+event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).count(), 'EventCountByZsiteId.%s')
+
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
 @mc_event_id_list_by_zsite_id('{zsite_id}_{can_admin}')
@@ -171,22 +173,28 @@ class EventJoiner(McModel):
         return Event.mc_get(self.event_id)
 
 
+event_list_join_by_user_id_qs = lambda user_id: EventJoiner.where(user_id=user_id).where('state>=%s' % EVENT_JOIN_STATE_YES)
+
+event_join_count_by_user_id = McNum(lambda user_id: event_list_join_by_user_id_qs(user_id).count(), 'EventJoinCountByUserId.%s')
 mc_event_id_list_join_by_user_id = McLimitA('EventIdListJoinByUserId.%s', 128)
 
 @mc_event_id_list_join_by_user_id('{user_id}')
 def event_id_list_join_by_user_id(user_id, limit, offset):
-    return EventJoiner.where(user_id=user_id).where('state>=%s' % EVENT_JOIN_STATE_YES).order_by('id desc').col_list(limit, offset, 'event_id')
+    return event_list_join_by_user_id_qs(user_id).order_by('id desc').col_list(limit, offset, 'event_id')
 
 def event_list_join_by_user_id(user_id, limit, offset):
     id_list = event_id_list_join_by_user_id(user_id, limit, offset)
     return Event.mc_get_list(id_list)
 
 
+event_list_open_by_user_id_qs = lambda user_id: EventJoiner.where(user_id=user_id, state=EVENT_JOIN_STATE_YES)
+event_open_count_by_user_id = McNum(lambda user_id: event_list_open_by_user_id_qs(user_id).count(), 'EventOpenCountByUserId.%s')
+
 mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
 
 @mc_event_id_list_open_by_user_id('{user_id}')
 def event_id_list_open_by_user_id(user_id, limit, offset):
-    return EventJoiner.where(user_id=user_id, state=EVENT_JOIN_STATE_YES).order_by('id desc').col_list(limit, offset, 'event_id')
+    return event_list_open_by_user_id_qs.order_by('id desc').col_list(limit, offset, 'event_id')
 
 def event_list_open_by_user_id(user_id, limit, offset):
     id_list = event_id_list_open_by_user_id(user_id, limit, offset)
@@ -240,6 +248,7 @@ def event_joiner_new(event_id, user_id):
         o.save()
         mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
         mc_event_joiner_id_list.delete(event_id)
+        event_joiner_count.delete(event_id)
     return o
 
 def event_joiner_no(o):
@@ -268,7 +277,9 @@ def event_joiner_yes(o):
         o.state = EVENT_JOIN_STATE_YES
         o.save()
         mc_event_id_list_join_by_user_id.delete(user_id)
+        event_join_count_by_user_id.delete(user_id)
         mc_event_id_list_open_by_user_id.delete(user_id)
+        event_open_count_by_user_id.delete(user_id)
 
 def event_joiner_end(o):
     event_id = o.event_id
@@ -282,6 +293,7 @@ def event_joiner_end(o):
         o.state = EVENT_JOIN_STATE_END
         o.save()
         mc_event_id_list_open_by_user_id.delete(user_id)
+        event_open_count_by_user_id.delete(user_id)
 
 def event_join_review(o):
     event_id = o.event_id
