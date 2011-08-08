@@ -190,7 +190,8 @@ class Index(LoginBase):
           
  
             return self.render(
-                errtip=Errtip(), id=id,
+                errtip=Errtip(), 
+                event_id=id,
                 address=event.address,
                 pic_id=event.pic_id,
                 limit_up=event.limit_up,
