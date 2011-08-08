@@ -24,11 +24,13 @@ EVENT_CID_CN = (
     (12, '其他'),
 )
 EVENT_CID = tuple(map(itemgetter(0), EVENT_CID_CN))
-EVENT_STATE_INIT = 1
-EVENT_STATE_TO_REVIEW = 5
-EVENT_STATE_BEGIN = 10
-EVENT_STATE_END = 15
-EVENT_STATE_DEL = 20
+
+EVENT_STATE_DEL = 10
+EVENT_STATE_INIT = 20
+EVENT_STATE_REJECT = 30
+EVENT_STATE_TO_REVIEW = 40
+EVENT_STATE_BEGIN = 50
+EVENT_STATE_END = 60
 
 mc_event_joiner_get = McCache('EventJoinerGet.%s')
 event_joiner_count = McNum(lambda event_id: EventJoiner.where('state>=%s', STATE_APPLY).count(), 'EventJoinerCount.%s')
