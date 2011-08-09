@@ -46,6 +46,9 @@ can_change = False
 
 
 <%htm:form id="event_form" enctype="multipart/form-data">
+<div class="po_line">
+<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
+</div>
 
 <div class="po_line">
 <label>
@@ -95,9 +98,6 @@ ${errtip.begin_time|n}
 <label>结束时间</label><script>select_event("end_time", ${end_time or 0},${end_time_hour or 0},${end_time_minute or 0})</script>
 </div>
 
-<div class="po_line">
-<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
-</div>
 
 <div class="po_line">
 <label>活动类型</label><select id="event_cid" name="event_cid" class="event_cid">
