@@ -13,6 +13,14 @@ from model.cid import CID_EVENT
 from model.event import event_new, Event
 from model.po import po_new, STATE_DEL
 
+@urlmap('/po/event/(\d+)/state')
+class PoEventState(LoginBase):
+    def get(self, id):
+        event = Event.mc_get(id)
+        if event.id and event.zsite_id == self.current_user_id:
+            return self.render(event=event)
+        self.redirect("/po/event")
+
 
 @urlmap('/po/event')
 @urlmap('/po/event/(\d+)')
