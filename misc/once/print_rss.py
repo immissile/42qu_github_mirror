@@ -13,16 +13,31 @@ def get_uri():
     ids = Zsite.raw_sql('select id from zpage.zsite where state >= %s',ZSITE_STATE_VERIFY ).fetchall()
     links = []
     for id in ids:
-        links.append(ZsiteLink.raw_sql('select link from zpage.zsite_link where zsite_id = %s and cid = 0',*id).fetchone())
+        link = ZsiteLink.raw_sql('select link from zpage.zsite_link where zsite_id = %s and cid = 0',*id).fetchone()
+        if link:
+            links.append(*link)
+    return links
+
+def get_rss(links):
     for link in links:
         if link:
-            rss = feeds(*link)
+            rss = feeds(link)
             if rss:
                 yield rss
 
 
 
 if __name__ == '__main__':
+    #links =  get_uri()
+    #for i in links:
+    #    print i
+    
+    
+    
+    links = []
+    m = open('x')
+    for line in m:
+        links.append(line.strip())
     print """<?xml version="1.0" encoding="UTF-8"?>
     <opml version="1.0">
     <head>
@@ -30,7 +45,7 @@ if __name__ == '__main__':
     </head>
     <body>
     """
-    for i in get_uri():
+    for i in get_rss(links):
         if i[0]:
             txt = get_rss_link_title_by_rss(i[0])[-1]
             print """<outline text="%s"
