@@ -1,3 +1,4 @@
 User-agent: *
-Disallow:  
+Disallow: /link/
+Disallow: /auth/login
 Sitemap: http://42qu.com/sitemap.xml
