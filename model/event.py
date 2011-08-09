@@ -157,7 +157,8 @@ def event_new(
         )
         event.save()
 
-    mc_event_id_list_by_zsite_id.delete(zsite_id)
+    for i in (True, False):
+        mc_event_id_list_by_zsite_id.delete("%s_%s"%(zsite_id, i))
 
     return event
 
@@ -182,7 +183,6 @@ class Event(McModel):
     def link(self):
         o = self.zsite
         return '%s/%s' % (o.link, self.id)
-
 
 
 
