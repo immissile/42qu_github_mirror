@@ -170,4 +170,6 @@ def mc_flush(user_id, cid):
 
 if __name__ == '__main__':
     from yajl import dumps
-    print career_list_all(10026433)[0].unit
+    d = career_dict([10016494])
+    print d
+    #print career_list_all(10026433)[0].unit

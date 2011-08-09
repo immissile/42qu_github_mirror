@@ -184,9 +184,7 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
                     po_word_txt.focus()
                     return false
                 };
-        var profile = $('.G3:first')
-        console.log(profile)
-         var xsrf = $("input[name=_xsrf]").val(),
+        var xsrf = $("input[name=_xsrf]").val(),
             button = $("span.btnw button")
         $.ajax({
             type: 'POST',
@@ -199,8 +197,10 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
                 d = JSON.parse(data)
                 po_word_txt.blur().val('').addClass(po_word_txt_bg)
                 button.html('游吟')
-                $('.G3:first').before("<div class='G3'><div class='sdw'><div class='sd'><div class='fdtxt' id='fdtxt"+d.id+"'>"+ d.name +"</div><div class='fdbar'><span class='L'>刚刚</span><a title='回应' target='_blank' class='reply' href='/"+d.id+"#txt_form'>0</a></div></div></div></div>")
-            },
+                if(d.link === $('.liveimg:first>a').attr("href"))
+                    {$('.sdw:first').before("<div class='sdw'><div class='sd'><div class='fdtxt' id='fdtxt"+d.id+"'>"+d.txt+"</div><div class='fdbar'><span class='L'>刚刚</span><a title='回应' target='_blank' class='reply' href='/"+d.id+"#txt_form'>0</a></div></div></div>")}
+                else
+                    {$('.G3:first').before("<div class='G3'><div class='sdw'><div class='sd'><div class='fdtxt' id='fdtxt"+d.id+"'>"+d.txt+"</div><div class='fdbar'><span class='L'>刚刚</span><a title='回应' target='_blank' class='reply' href='/"+d.id+"#txt_form'>0</a></div></div></div></div><div class='G1 liveimg'><a class='c0' target='_blank' href='"+d.link+"'><div><img src='"+d.ico_url+"'></div><div>"+d.name+"</div><div class='tr'>"+d.unit+"</div><div class='tr'>"+d.title+"</div></a></div>")}},
             error:function(data){
                 document.write(data.responseText)
                 },
