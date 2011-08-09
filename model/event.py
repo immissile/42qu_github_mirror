@@ -182,14 +182,14 @@ class EventJoiner(McModel):
         return Event.mc_get(self.event_id)
 
 
-event_list_join_by_user_id_qs = lambda user_id: EventJoiner.where(user_id=user_id).where('state>=%s' % EVENT_JOIN_STATE_YES)
+event_list_join_by_user_id_query = lambda user_id: EventJoiner.where(user_id=user_id).where('state>=%s' % EVENT_JOIN_STATE_YES)
 
-event_join_count_by_user_id = McNum(lambda user_id: event_list_join_by_user_id_qs(user_id).count(), 'EventJoinCountByUserId.%s')
+event_join_count_by_user_id = McNum(lambda user_id: event_list_join_by_user_id_query(user_id).count(), 'EventJoinCountByUserId.%s')
 mc_event_id_list_join_by_user_id = McLimitA('EventIdListJoinByUserId.%s', 128)
 
 @mc_event_id_list_join_by_user_id('{user_id}')
 def event_id_list_join_by_user_id(user_id, limit, offset):
-    return event_list_join_by_user_id_qs(user_id).order_by('id desc').col_list(limit, offset, 'event_id')
+    return event_list_join_by_user_id_query(user_id).order_by('id desc').col_list(limit, offset, 'event_id')
 
 def event_list_join_by_user_id(user_id, limit, offset):
     id_list = event_id_list_join_by_user_id(user_id, limit, offset)
