@@ -12,7 +12,7 @@ from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 from zkit.errtip import Errtip
-from ctrl.hero.index import hero_page
+from model.zsite_list_0 import zsite_show
 
 LOGIN_REDIRECT = '%s/live'
 
@@ -45,14 +45,13 @@ class NoLoginBase(Base):
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
     def get(self, mail=''):
-        zsite_list , page = hero_page(1) 
+        zsite_list = Zsite.mc_get_list(zsite_show(128, 0))
         self.render(
             mail=mail,
             sex=0,
             password='',
             errtip=Errtip(),
             zsite_list=zsite_list,
-            page=page
         )
 
     def post(self, mail=None):

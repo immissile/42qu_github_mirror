@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
-from config import RPC_HTTP
+from config import SITE_HTTP, RPC_HTTP
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_PAY_ALIPAY
 from model.money import bank, Trade, trade_history, pay_account_new, pay_account_name_get, withdraw_new, TRADE_STATE_FINISH
 from model.money_alipay import alipay_payurl
@@ -55,7 +55,7 @@ class Charge(LoginBase):
             elif price > price_max:
                 error = '充值上限为 %s 元' % price_max
             else:
-                return_url = '%s/money/alipay_sync' % RPC_HTTP
+                return_url = '%s/money/alipay_sync' % SITE_HTTP
                 notify_url = '%s/money/alipay_async' % RPC_HTTP
                 return self.redirect(
                     alipay_payurl(

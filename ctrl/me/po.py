@@ -134,6 +134,7 @@ class Edit(LoginBase):
         self.render(
             'ctrl/me/po/po.htm',
             po=po,
+            cid=po.cid,
             pic_list=pic_list_edit(user_id, id)
         )
 
@@ -218,3 +219,5 @@ class Tag(LoginBase):
                 zsite_tag_new_by_tag_name(po, name)
 
             self.redirect(po.link_question)
+
+

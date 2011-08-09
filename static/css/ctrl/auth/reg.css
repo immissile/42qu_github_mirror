@@ -1,7 +1,7 @@
 #form_reg{
 font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
 line-height:36px;
-padding:32px 0 48px;
+padding:64px 0 48px;
 }
 #form_reg p{
 padding:16px 0;
@@ -34,7 +34,7 @@ margin-left:40px;
 text-align:center;
 }
 #form_reg h1{
-margin:30px auto 64px;
+margin:0 auto 64px;
 height:54px;
 width:467px;
 overflow:hidden;
@@ -94,23 +94,19 @@ margin-left:104px
 text-align:center;
 }
 .logo_txt{
-font-size: 16px; text-align: right;
+font-size:14px;
+height:432px;
+overflow:hidden;
+text-align: right;
 width:304px;
-margin-right:64px;padding-right:64px; margin-top:-10px; border-right:1px dotted #ccc;
+margin-right:64px;
+border-right:1px dotted #ccc;
 padding-bottom:30px;
 padding-top:4px;
 }
-.logo_txt div{
-margin-top:20px;
-}
-#form_reg .logo_txt a:hover{
-border-bottom:1px dotted #000;
-}
-#form_reg .logo_txt a{
-border-bottom:1px solid #000;
-color:#000;
-margin-left:8px;
-padding-bottom:3px
+.logo_txt .zsite_ico div{
+margin-right:128px;
+line-height:32px
 }
 #form_reg .logo_txt p{
 line-height:32px;
@@ -119,3 +115,21 @@ padding:0;
 #form_reg .logo_txt .tr{
 padding-top:7px;
 }
+.logo_txt .zsite_ico{
+font-size:14px;
+text-align:right;
+padding:0 32px 32px 0;
+}
+.logo_txt .zsite_ico a:hover{
+text-decoration:none;
+}
+.logo_txt .zsite_ico a{
+margin:0;padding:0;display:block;
+}
+.logo_txt .zsite_ico a img{
+float:right;margin:0 0 0 32px;
+}
+#zsite_list{
+margin-top:-13px;
+}
+

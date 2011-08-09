@@ -36,7 +36,7 @@ class OauthClient(McModel):
         mc_oauth_client_id_by_user_id.delete(self.user_id)
         self.delete()
 
-    def can_edit(self, user_id):
+    def can_admin(self, user_id):
         return self.user_id == user_id 
 
 

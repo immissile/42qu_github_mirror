@@ -1,0 +1,59 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/user.htm" import="user_link"/>
+<%!
+from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
+%>
+<%def name="htm_head()">
+<script>
+    $('a.yes').live('click', function() {
+        var id = this.rel
+        $.postJSON('/j/event/check/' + id + '/1', function(data) {
+            $('#eustate' + id).html('已加入')
+        })
+    })
+    $('a.no').live('click', function() {
+        var id = this.rel
+        $.postJSON('/j/event/check/' + id + '/0', function(data) {
+            $('#eu' + id).slideUp(500, function() {
+                $(this).remove()
+            })
+        })
+    })
+</script>
+</%def>
+<ol>
+% for i in event_joiner_list:
+<%
+id = i.id
+state = i.state
+user = i.user
+namecard = i.namecard
+%>
+<li id="eu${id}">
+${user_link(user)}
+% if namecard:
+<p>本人姓名 : ${namecard.name}</p>
+<p>手机号码 : ${namecard.phone}</p>
+<p>邮件地址 : ${namecard.mail}</p>
+<p>现居城市 : ${namecard.place_now}</p>
+<p>详细地址 : ${namecard.address}</p>
+% else:
+<p>没有个人资料</p>
+% endif
+<p id="eustate${id}">
+% if state == EVENT_JOIN_STATE_NEW:
+<a rel="${id}" class="yes">同意</a>
+<a rel="${id}" class="no">拒绝</a>
+% elif state == EVENT_JOIN_STATE_YES:
+已加入
+% elif state == EVENT_JOIN_STATE_END:
+已结束
+% elif state == EVENT_JOIN_STATE_REVIEW:
+已完成
+% endif
+</p>
+</li>
+% endfor
+</ol>
+${page|n}

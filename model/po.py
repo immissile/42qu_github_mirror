@@ -12,7 +12,7 @@ from txt import txt_new, txt_get, txt_property
 from zkit.time_format import time_title
 from reply import ReplyMixin
 from po_pic import pic_htm
-from model.txt2htm import txt_withlink
+from txt2htm import txt_withlink
 from zsite import Zsite
 from zkit.txt import cnencut
 from zkit.attrcache import attrcache
@@ -183,9 +183,9 @@ class Po(McModel, ReplyMixin):
         zsite_tag_rm_by_po(self)
 
 
-def po_new(cid, user_id, name, state, rid=0):
+def po_new(cid, user_id, name, state, rid=0, id=None):
     m = Po(
-        id=gid(),
+        id=id or gid(),
         name_=cnencut(name, 140),
         user_id=user_id,
         cid=cid,
@@ -321,6 +321,6 @@ def mc_flush_cid_list_all(user_id, cid_list):
             mc_flush_cid(user_id, cid, is_self)
 
 if __name__ == '__main__':
-    from zweb.orm import ormiter
-    for i in ormiter(Po, 'state=%s' % STATE_SECRET):
-        i.tag_rm()
+    pass
+
+
