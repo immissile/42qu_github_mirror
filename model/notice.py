@@ -118,7 +118,7 @@ def invite_question(from_id, to_id, qid):
         if not notice_id_count(from_id, to_id, CID_INVITE_QUESTION, qid):
             n = notice_new(from_id, to_id, CID_INVITE_QUESTION, qid)
             if mail_notice_state(to_id, CID_INVITE_QUESTION):
-                mq_invite_question_mail(n)
+                mq_invite_question_mail(n.id)
             return n
 
 def notice_question(to_id, qid):
@@ -129,7 +129,8 @@ def notice_question(to_id, qid):
 from mq import mq_client
 mq_notice_question = mq_client(notice_question)
 
-def invite_question_mail(notice):
+def invite_question_mail(notice_id):
+    notice = Notice.get(notice_id)
     from_id = notice.from_id
     to_id = notice.to_id
     rid = notice.rid

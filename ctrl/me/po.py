@@ -60,7 +60,7 @@ def po_post(self):
         state = STATE_SECRET
     else:
         state = STATE_ACTIVE
-    if cid == CID_QUESTION and to_user_id:
+    if self.cid == CID_QUESTION and to_user_id:
         po = self.po_save(user_id, name, txt, state, to_user_id)
     else:
         po = self.po_save(user_id, name, txt, state)
@@ -92,7 +92,7 @@ class PoBase(LoginBase):
             to_user_id=to_user_id,
         )
 
-    def post(self):
+    def post(self, to_user_id=0):
         po = self.po_post()
         if po:
             if po.state == STATE_SECRET:

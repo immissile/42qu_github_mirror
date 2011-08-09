@@ -9,7 +9,7 @@ from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from zsite import Zsite
-from model.notice import mq_notice_question
+from model.notice import mq_notice_question, invite_question
 
 def po_question_new(user_id, name, txt, state, to_user_id=0):
     if not name and not txt:
@@ -17,6 +17,8 @@ def po_question_new(user_id, name, txt, state, to_user_id=0):
     name = name or time_title()
     if not is_same_post(user_id, name, txt):
         m = po_new(CID_QUESTION, user_id, name, state, to_user_id)
+        if to_user_id:
+            invite_question(user_id, to_user_id, m.id)
         txt_new(m.id, txt)
         if state > STATE_SECRET:
             m.feed_new()
