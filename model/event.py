@@ -203,7 +203,7 @@ mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
 
 @mc_event_id_list_open_by_user_id('{user_id}')
 def event_id_list_open_by_user_id(user_id, limit, offset):
-    return event_list_open_by_user_id_qs.order_by('id desc').col_list(limit, offset, 'event_id')
+    return event_list_open_by_user_id_qs(user_id).order_by('id desc').col_list(limit, offset, 'event_id')
 
 def event_list_open_by_user_id(user_id, limit, offset):
     id_list = event_id_list_open_by_user_id(user_id, limit, offset)

@@ -14,8 +14,8 @@ from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT
 from ctrl.me.i import NameCardEdit
 
 
-@urlmap('/event')
-@urlmap('/event-(\d+)')
+@urlmap('/event/my')
+@urlmap('/event/my-(\d+)')
 class EventMine(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
@@ -24,7 +24,7 @@ class EventMine(ZsiteBase):
 
         total = event_count_by_zsite_id(zsite_id, can_admin)
         page, limit, offset = page_limit_offset(
-            '/event-%s',
+            '/event/my-%s',
             total,
             n,
             PAGE_LIMIT
@@ -51,6 +51,7 @@ class EventJoined(ZsiteBase):
         )
         li = event_list_join_by_user_id(zsite_id, limit, offset)
         self.render(
+            'ctrl/zsite/event/event_page.htm',
             li=li,
             page=page,
         )
@@ -71,6 +72,7 @@ class EventOpen(ZsiteBase):
         )
         li = event_list_open_by_user_id(zsite_id, limit, offset)
         self.render(
+            'ctrl/zsite/event/event_page.htm',
             li=li,
             page=page,
         )
