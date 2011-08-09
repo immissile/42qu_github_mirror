@@ -173,7 +173,7 @@ class Edit(LoginBase):
 
         if cid == CID_EVENT:
             if event_init2to_review(po.rid):
-                link = po.link
+                link = "/po/event/%s/state"%id
             else:
                 link = po.link
         else:
