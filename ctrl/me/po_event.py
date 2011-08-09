@@ -10,8 +10,18 @@ from zkit.earth import pid_city
 from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
 from model.cid import CID_EVENT
-from model.event import event_new, Event
+from model.event import Event, EVENT_STATE_INIT, event_new_if_can_change
 from model.po import po_new, STATE_DEL
+
+@urlmap('/po/event/(\d+)/state')
+class EventState(LoginBase):
+    def get(self, id):
+        event = Event.mc_get(id)
+        if event.id and event.zsite_id == self.current_user_id:
+            if event.cid == EVENT_STATE_INIT:
+                return self.redirect("/po/event/%s"%id)
+            return self.render(event=event)
+        self.redirect("/po/event")
 
 
 @urlmap('/po/event')
@@ -138,7 +148,13 @@ class Index(LoginBase):
             errtip.pic = "请上传图片"
 
         if errtip:
+            if id:
+                event = Event.mc_get(id)
+            else:
+                event = None
+            
             return self.render(
+                event=event,
                 errtip=errtip,
                 address=address,
                 pic_id=pic_id,
@@ -157,7 +173,7 @@ class Index(LoginBase):
                 end_time_minute = end_time_minute,
             )
         else:
-            event = event_new(
+            event = event_new_if_can_change(
                 user_id,
                 event_cid,
                 city_pid,
@@ -189,6 +205,7 @@ class Index(LoginBase):
             return self.render(
                 errtip=Errtip(),
                 event_id=id,
+                event=event,
                 address=event.address,
                 pic_id=event.pic_id,
                 limit_up=event.limit_up,

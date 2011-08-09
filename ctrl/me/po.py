@@ -2,7 +2,7 @@
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model import reply
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT
 from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.po_pos import po_pos_get, po_pos_set
@@ -11,6 +11,8 @@ from model.zsite import Zsite
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from zkit.jsdict import JsDict
 from zkit.txt import cnenlen
+from model.event import Event, event_init2to_review
+
 
 def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
@@ -167,12 +169,20 @@ class Edit(LoginBase):
 
         po = self.po_post()
 
-        if po.cid == CID_WORD:
-            link = po.link_question
-        elif po.state == STATE_SECRET:
-            link = po.link
+        cid = po.cid
+
+        if cid == CID_EVENT:
+            if event_init2to_review(id):
+                link = "/po/event/%s/state"%id
+            else:
+                link = po.link
         else:
-            link = '/po/tag/%s' % id
+            if cid == CID_WORD:
+                link = po.link_question
+            elif po.state == STATE_SECRET:
+                link = po.link
+            else:
+                link = '/po/tag/%s' % id
         self.redirect(link)
 
 

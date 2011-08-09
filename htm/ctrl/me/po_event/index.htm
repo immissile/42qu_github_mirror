@@ -2,6 +2,7 @@
 from model.po import STATE_SECRET
 from model.po_event import EVENT_CID_CN
 from model.fs import fs_url_jpg
+from model.event import EVENT_STATE_TO_REVIEW
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -16,6 +17,15 @@ from model.fs import fs_url_jpg
 <script src="${js.ctrl_po_event}"></script>
 ${css.ctrl_po_event|n}
 </%def>
+
+<%
+if event:
+    can_change = event.can_change()
+else:
+    can_change = True
+
+can_change = False
+%>
 
 
 <div class="head">
@@ -36,6 +46,32 @@ ${css.ctrl_po_event|n}
 
 
 <%htm:form id="event_form" enctype="multipart/form-data">
+<div class="po_line">
+<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
+</div>
+
+<div class="po_line">
+<label>
+%if pic_id:
+替换\
+%else:
+宣传\
+%endif
+图片</label><input name="pic" type="file" id="pic">
+${errtip.pic|n}
+</div>
+%if pic_id:
+<img id="event_pic" src="${fs_url_jpg(162, pic_id)|n}">
+<input id="pic_id" type="hidden" name="pic_id" value="${pic_id}">
+%endif
+
+%if not can_change:
+<div style="font-size:16px;margin-top:16px">
+内容已锁定 , 如有改动 , 请邮件到 hi@42qu.com 联系管理员
+</div>
+%endif
+
+<div id="event_body">
 <div class="po_line">
 <label>所在城市</label><script>select_pid("pid", ${pid or 0})</script>
 ${errtip.pid|n}
@@ -62,9 +98,6 @@ ${errtip.begin_time|n}
 <label>结束时间</label><script>select_event("end_time", ${end_time or 0},${end_time_hour or 0},${end_time_minute or 0})</script>
 </div>
 
-<div class="po_line">
-<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
-</div>
 
 <div class="po_line">
 <label>活动类型</label><select id="event_cid" name="event_cid" class="event_cid">
@@ -92,25 +125,16 @@ value="${_event_cid}">${event_name}</option>
 </div>
 
 
-%if pic_id:
-<input id="pic_id" type="hidden" name="pic_id" value="${pic_id}">
-<img id="event_pic" src="${fs_url_jpg(162, pic_id)|n}">
-%endif
-<div class="po_line">
-<label>
-%if pic_id:
-替换\
-%else:
-宣传\
-%endif
-图片</label><input name="pic" type="file" id="pic">
-${errtip.pic|n}
-</div>
 
 <div>\
 <span id="event_submit_span" class="btnw">\
 <button type="submit">下一步</button>\
 </span>\
 </div>\
+</div>\
 </%htm:form>
-
+%if not can_change:
+<script>
+$("#event_body").find('input,select').attr("disabled", true)
+</script>
+%endif

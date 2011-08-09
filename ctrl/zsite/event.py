@@ -4,7 +4,7 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from config import SITE_HTTP, RPC_HTTP
 from zkit.page import page_limit_offset
-from model.event import Event, event_joiner_new, event_joiner_state, event_joiner_list, event_joiner_count
+from model.event import Event, event_joiner_new, event_joiner_state, event_joiner_list
 from model.event import event_count_by_zsite_id, event_join_count_by_user_id, event_open_count_by_user_id
 from model.event import event_list_by_zsite_id, event_list_join_by_user_id, event_list_open_by_user_id
 from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
@@ -204,7 +204,7 @@ class EventCheck(EventBase):
         if event is None:
             return
 
-        total = event_joiner_count(id)
+        total = event.join_count
 
         page, limit, offset = page_limit_offset(
             '/event/verify/%s-%%s' % id,

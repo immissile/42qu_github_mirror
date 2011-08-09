@@ -10,6 +10,30 @@ from operator import itemgetter
 from gid import gid
 from po import Po
 
+mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
+
+event_list_join_by_user_id_query = lambda user_id: EventJoiner.where(
+    user_id=user_id
+).where('state>=%s' % EVENT_JOIN_STATE_YES)
+
+event_join_count_by_user_id = McNum(
+    lambda user_id: event_list_join_by_user_id_query(
+        user_id
+    ).count(), 'EventJoinCountByUserId.%s'
+)
+
+mc_event_id_list_join_by_user_id = McLimitA('EventIdListJoinByUserId.%s', 128)
+
+event_list_open_by_user_id_qs = lambda user_id: EventJoiner.where(user_id=user_id, state=EVENT_JOIN_STATE_YES)
+event_open_count_by_user_id = McNum(lambda user_id: event_list_open_by_user_id_qs(user_id).count(), 'EventOpenCountByUserId.%s')
+
+mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
+
+mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
+#event_joiner_count = McNum(lambda event_id: EventJoiner.where('state>=%s', EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCount.%s')
+mc_event_joiner_id_list = McLimitA('EventJoinerIdList.%s', 128)
+event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).count(), 'EventCountByZsiteId.%s')
+
 EVENT_CID_CN = (
     (1 , '技术'),
     (2 , '创业'),
@@ -35,11 +59,17 @@ EVENT_STATE_NOW = 60
 EVENT_STATE_END = 70
 
 EVENT_STATE_CN = {
-    EVENT_STATE_REJECT: '未通过',
+    EVENT_STATE_DEL:'已删除',
+    EVENT_STATE_REJECT: '被拒绝',
     EVENT_STATE_TO_REVIEW: '待审核',
     EVENT_STATE_BEGIN: '未开始',
     EVENT_STATE_NOW: '进行中',
     EVENT_STATE_END: '已结束',
+}
+
+EVENT_VIEW_STATE_GET = {
+    True: EVENT_STATE_REJECT,
+    False: EVENT_STATE_BEGIN,
 }
 
 EVENT_JOIN_STATE_NO = 10
@@ -48,9 +78,6 @@ EVENT_JOIN_STATE_YES = 30
 EVENT_JOIN_STATE_END = 40
 EVENT_JOIN_STATE_REVIEW = 50
 
-mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
-event_joiner_count = McNum(lambda event_id: EventJoiner.where('state>=%s', EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCount.%s')
-mc_event_joiner_id_list = McLimitA('EventJoinerIdList.%s', 128)
 
 """
 CREATE TABLE  `zpage`.`event` (
@@ -77,6 +104,48 @@ CREATE TABLE  `zpage`.`event` (
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 """
 
+def event_new_if_can_change(
+    zsite_id,
+    cid,
+    city_pid,
+    pid,
+    address,
+    transport,
+    begin_time,
+    end_time,
+    cent,
+    limit_up,
+    limit_down,
+    phone,
+    pic_id,
+    id=None
+):
+    if id:
+        event = Event.mc_get(id)
+        if event and not event.can_change():
+            event.phone = phone
+            event.pic_id = pic_id
+            event.save()
+ 
+    event_new(
+        zsite_id,
+        cid,
+        city_pid,
+        pid,
+        address,
+        transport,
+        begin_time,
+        end_time,
+        cent,
+        limit_up,
+        limit_down,
+        phone,
+        pic_id,
+        id=None
+    )
+     
+
+
 def event_new(
     zsite_id,
     cid,
@@ -96,18 +165,18 @@ def event_new(
     if id:
         event = Event.mc_get(id)
         if event.zsite_id == zsite_id:
-            event.cid=cid
-            event.city_pid=city_pid
-            event.pid=pid
-            event.address=address
-            event.transport=transport
-            event.begin_time=begin_time
-            event.end_time=end_time
-            event.cent=cent
-            event.limit_up=limit_up
-            event.limit_down=limit_down
-            event.phone=phone
-            event.pic_id=pic_id
+            event.cid = cid
+            event.city_pid = city_pid
+            event.pid = pid
+            event.address = address
+            event.transport = transport
+            event.begin_time = begin_time
+            event.end_time = end_time
+            event.cent = cent
+            event.limit_up = limit_up
+            event.limit_down = limit_down
+            event.phone = phone
+            event.pic_id = pic_id
             #event.state=EVENT_STATE_INIT
             event.save()
     else:
@@ -129,14 +198,27 @@ def event_new(
             state=EVENT_STATE_INIT
         )
         event.save()
+        mc_flush_by_zsite_id(zsite_id)
 
     return event
+
+
+def mc_flush_by_zsite_id(zsite_id):
+    for i in (True, False):
+        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, i))
 
 
 class Event(McModel):
     def can_admin(self, user_id):
         if self.zsite_id == user_id:
             return True
+
+    def can_change(self):
+        if self.state <= EVENT_STATE_TO_REVIEW:
+            return True
+        if self.join_count == 0:
+            return True
+
 
     @attrcache
     def price(self):
@@ -155,14 +237,7 @@ class Event(McModel):
         return '%s/%s' % (o.link, self.id)
 
 
-EVENT_VIEW_STATE_GET = {
-    True: EVENT_STATE_REJECT,
-    False: EVENT_STATE_BEGIN,
-}
 
-event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).count(), 'EventCountByZsiteId.%s')
-
-mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
 @mc_event_id_list_by_zsite_id('{zsite_id}_{can_admin}')
 def event_id_list_by_zsite_id(zsite_id, can_admin, limit, offset):
@@ -179,10 +254,6 @@ class EventJoiner(McModel):
         return Event.mc_get(self.event_id)
 
 
-event_list_join_by_user_id_query = lambda user_id: EventJoiner.where(user_id=user_id).where('state>=%s' % EVENT_JOIN_STATE_YES)
-
-event_join_count_by_user_id = McNum(lambda user_id: event_list_join_by_user_id_query(user_id).count(), 'EventJoinCountByUserId.%s')
-mc_event_id_list_join_by_user_id = McLimitA('EventIdListJoinByUserId.%s', 128)
 
 @mc_event_id_list_join_by_user_id('{user_id}')
 def event_id_list_join_by_user_id(user_id, limit, offset):
@@ -193,10 +264,6 @@ def event_list_join_by_user_id(user_id, limit, offset):
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 
-event_list_open_by_user_id_qs = lambda user_id: EventJoiner.where(user_id=user_id, state=EVENT_JOIN_STATE_YES)
-event_open_count_by_user_id = McNum(lambda user_id: event_list_open_by_user_id_qs(user_id).count(), 'EventOpenCountByUserId.%s')
-
-mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
 
 @mc_event_id_list_open_by_user_id('{user_id}')
 def event_id_list_open_by_user_id(user_id, limit, offset):
@@ -238,23 +305,37 @@ def event_joiner_list(event_id, limit, offset):
     return li
 
 
-def event_joiner_new(event_id, user_id):
-    o = event_joiner_get(event_id, user_id)
-    if o and o.state >= EVENT_JOIN_STATE_NEW:
+def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
+    event = Event.mc_get(event_id)
+    #    if event.zsite_id!=user_id:
+    #        event.join_count+=1
+    if not event or \
+        event.state < EVENT_STATE_BEGIN or \
+        event.state >= EVENT_STATE_END:
         return
+
+
+    o = event_joiner_get(event_id, user_id)
+    if o and o.state >= state:
+        return
+
     now = int(time())
+
     if o:
-        o.state = EVENT_JOIN_STATE_NEW
+        o.state = state
         o.create_time = now
         o.save()
     else:
         o = EventJoiner.get_or_create(event_id=event_id, user_id=user_id)
-        o.state = EVENT_JOIN_STATE_NEW
+        o.state = state
         o.create_time = now
         o.save()
         mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
         mc_event_joiner_id_list.delete(event_id)
-        event_joiner_count.delete(event_id)
+
+        if zsite_id != user_id:
+            event.join_count += 1
+            event.save()
     return o
 
 def event_joiner_no(o):
@@ -282,10 +363,13 @@ def event_joiner_yes(o):
                 return
         o.state = EVENT_JOIN_STATE_YES
         o.save()
-        mc_event_id_list_join_by_user_id.delete(user_id)
-        mc_event_id_list_open_by_user_id.delete(user_id)
-        event_join_count_by_user_id.delete(user_id)
-        event_open_count_by_user_id.delete(user_id)
+    mc_flush_by_user_id(user_id)
+
+def mc_flush_by_user_id(user_id):
+    mc_event_id_list_join_by_user_id.delete(user_id)
+    mc_event_id_list_open_by_user_id.delete(user_id)
+    event_join_count_by_user_id.delete(user_id)
+    event_open_count_by_user_id.delete(user_id)
 
 def event_joiner_end(o):
     event_id = o.event_id
@@ -314,6 +398,16 @@ def event_join_review(o):
         o.state = EVENT_JOIN_STATE_REVIEW
         o.save()
 
+def event_init2to_review(id):
+    event = Event.mc_get(id)
+    if event and event.state <= EVENT_STATE_TO_REVIEW:
+        event.state = EVENT_STATE_TO_REVIEW
+        event.save()
+        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, True))
+        return True
 
 if __name__ == '__main__':
     pass
+
+
+
