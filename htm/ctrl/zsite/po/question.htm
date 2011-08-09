@@ -4,6 +4,7 @@ from model.po_question import answer_id_get, po_answer_list
 from model.state import STATE_SECRET, STATE_DEL
 from model.cid import CID_NOTE
 from model.zsite_url import url_or_id
+from model.zsite import Zsite
 %>
 <%inherit file="_po.htm" />
 <%namespace file="_vote.htm" import="_vote, po_bar_vote"/>
@@ -14,8 +15,15 @@ from model.zsite_url import url_or_id
 po_id = str(po.id)
 po_state = po.state
 zsite_url = zsite.link
+to_user = Zsite.get(po.rid)
 %>
-<h1>${po.name}</h1>
+<h1>
+%if to_user:
+    <a href="${zsite.link}" target="_blank">${zsite.name}</a> 问 <a href="${to_user.link}" target="_blank">${to_user.name}</a> “${po.name}”
+%else:
+    ${po.name}
+%endif
+</h1>
 <pre>${po.htm|n}\
 <p class="po_bar">\
 %if can_admin:

@@ -49,18 +49,21 @@ class PoWord(LoginBase):
             po_word_new(current_user.id, txt)
         return self.redirect('/live')
 
-
 def po_post(self):
     user_id = self.current_user_id
     name = self.get_argument('name', '')
     txt = self.get_argument('txt', '', strip=False).rstrip()
     secret = self.get_argument('secret', None)
+    to_user_id = self.get_argument('to_user_id', None)
     arguments = self.request.arguments
     if secret:
         state = STATE_SECRET
     else:
         state = STATE_ACTIVE
-    po = self.po_save(user_id, name, txt, state)
+    if cid == CID_QUESTION and to_user_id:
+        po = self.po_save(user_id, name, txt, state, to_user_id)
+    else:
+        po = self.po_save(user_id, name, txt, state)
     self_id = self.id
     if po:
         po_id = po.id
@@ -79,13 +82,14 @@ class PoBase(LoginBase):
     po_save = None
     po_post = po_post
 
-    def get(self):
+    def get(self, to_user_id=0):
         user_id = self.current_user_id
         self.render(
             'ctrl/me/po/po.htm',
             cid=self.cid,
             po=JsDict(),
             pic_list=pic_list_edit(user_id, 0),
+            to_user_id=to_user_id,
         )
 
     def post(self):
@@ -107,6 +111,7 @@ class PoNote(PoBase):
 
 
 @urlmap('/po/question')
+@urlmap('/po/question/(\d+)')
 class PoQuestion(PoBase):
     cid = CID_QUESTION
     po_save = staticmethod(po_question_new)

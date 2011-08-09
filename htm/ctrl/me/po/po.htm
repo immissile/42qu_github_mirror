@@ -3,6 +3,7 @@ from model.po import STATE_SECRET
 from model.cid import CID_QUESTION, CID_WORD
 from yajl import dumps
 from model.po_question import answer_count
+from model.zsite import Zsite
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -35,13 +36,19 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 <%htm:form enctype="multipart/form-data" id="po_form">
 <%
 rid = po.rid
+zsite = Zsite.get(to_user_id)
 %>
 % if rid:
 <p class="rid_title">${po.name_htm|n}</p>
 <textarea id="txt" name="txt">${po.name if cid == CID_WORD else po.txt}</textarea>
 % else:
 %if cid == CID_QUESTION:
-<div id="question_flag">问</div>
+<div id="question_flag">问
+    %if to_user_id:
+    <a href="${zsite.link}" target="_blank">${zsite.name}</a>
+    <input id="to_user_id" name="to_user_id" type="hidden" value="${to_user_id}">
+    %endif
+</div>
 %endif
 <input id="name" type="text" autocomplete="off" name="name" value="${po.name}">
 <textarea id="txt" name="txt">${po.txt}</textarea>
