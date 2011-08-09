@@ -87,7 +87,6 @@ def event_new(
     begin_time,
     end_time,
     cent,
-    need_review,
     limit_up,
     limit_down,
     phone,
@@ -105,7 +104,6 @@ def event_new(
             event.begin_time=begin_time
             event.end_time=end_time
             event.cent=cent
-            event.need_review=need_review
             event.limit_up=limit_up
             event.limit_down=limit_down
             event.phone=phone
@@ -124,7 +122,6 @@ def event_new(
             begin_time=begin_time,
             end_time=end_time,
             cent=cent,
-            need_review=need_review,
             limit_up=limit_up,
             limit_down=limit_down,
             phone=phone,

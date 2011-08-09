@@ -26,7 +26,6 @@ class Index(LoginBase):
         transport = self.get_argument('transport', '')
         price = self.get_argument('price','0')
         phone = self.get_argument('phone','')
-        review = bool(self.get_argument('review',False))
         pid = self.get_argument('pid','1')
         event_cid = self.get_argument('event_cid', '')
         begin_time = self.get_argument('begin_time','')
@@ -148,7 +147,6 @@ class Index(LoginBase):
                 transport=transport,
                 price=price,
                 phone=phone,
-                review=review,
                 pid=pid,
                 event_cid=event_cid,
                 begin_time = begin_time,
@@ -169,7 +167,6 @@ class Index(LoginBase):
                 begin,
                 end,
                 int(100*price),
-                review,
                 limit_up,
                 limit_down,
                 phone,
@@ -199,7 +196,6 @@ class Index(LoginBase):
                 transport=event.transport,
                 price=event.cent/100.0,
                 phone=event.phone,
-                review=event.need_review,
                 pid=event.pid,
                 event_cid=event.cid,
                 begin_time = minute2ymd(event.begin_time),
