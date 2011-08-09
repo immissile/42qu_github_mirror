@@ -31,9 +31,16 @@ def ymd2days(ymd):
     return (datetime.date(ymd//10000, (ymd%10000)//100, ymd%100) - DATE_BEGIN).days
 
 
+def minute2date(minute):
+    return datetime.timedelta(minute/ONE_DAY_MINUTE)+DATE_BEGIN
+
 def minute2ymd(minute):
-    d = datetime.timedelta(minute/ONE_DAY_MINUTE)+DATE_BEGIN
+    d = minute2date(minute)
     return d.year*10000+d.month*100+d.day
+
+def minute2ymd2(minute):
+    d = minute2date(minute)
+    return '%s.%s.%s' % (d.year, d.month, d.day)
 
 def ymd2minute(ymd):
     return ymd2days(ymd)*ONE_DAY_MINUTE

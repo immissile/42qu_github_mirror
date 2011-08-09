@@ -6,7 +6,7 @@ from model.po_event import po_event_pic_new , EVENT_CID
 from zkit.pic import picopen
 from zkit.errtip import Errtip
 from zkit.jsdict import JsDict
-from zkit.earth import pid_city 
+from zkit.earth import pid_city
 from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
 from model.cid import CID_EVENT
@@ -43,16 +43,16 @@ class Index(LoginBase):
 
         end_time_hour = int(end_time_hour)
         end_time_minute = int(end_time_minute)
-        
+
         if begin_time_hour>23 or begin_time_hour<0:
             begin_time_hour = 10
-        
+
         if end_time_hour>23 or end_time_hour<0:
             end_time_hour = 11
-        
+
         if begin_time_minute>59 or begin_time_minute<0:
             begin_time_minute = 0
-        
+
         if end_time_minute>59 or end_time_minute<0:
             end_time_minute = 30
 
@@ -65,7 +65,7 @@ class Index(LoginBase):
 
         if begin_time > end_time:
             end_time, begin_time = begin_time, end_time
-        
+
         if begin_time < today_ymd_int():
             errtip.begin_time = "这个时间 , 属于过去"
 
@@ -85,7 +85,7 @@ class Index(LoginBase):
         else:
             pid = int(pid)
             city_pid = pid_city(pid)
-            if not city_pid: 
+            if not city_pid:
                 errtip.pid = "请选择地址"
 
         if price:
@@ -102,7 +102,7 @@ class Index(LoginBase):
             limit_down = 0
         else:
             limit_down = int(limit_down)
-        
+
         if not limit_up.isdigit():
             limit_up = 42
         else:
@@ -110,14 +110,14 @@ class Index(LoginBase):
 
         if limit_down > limit_up:
             limit_up, limit_down = limit_down, limit_up
-            
+
 
         if not address:
             errtip.address = "请输入详细地址"
 
         if not phone:
             errtip.phone = "请输入联系电话"
-        
+
         pic_id = None
         files = self.request.files
         if 'pic' in files:
@@ -134,9 +134,9 @@ class Index(LoginBase):
                 o = Pic.get(pic_id)
                 if not (o and o.user_id == user_id and o.cid == CID_EVENT):
                     pic_id = None
-        
+
         if not pic_id:
-            errtip.pic = "请上传图片" 
+            errtip.pic = "请上传图片"
 
         if errtip:
             return self.render(
@@ -175,9 +175,9 @@ class Index(LoginBase):
                 phone,
                 pic_id,
                 id
-            )           
+            )
             if not id:
-                id = event.id 
+                id = event.id
                 po_new(CID_EVENT, user_id, '', STATE_DEL, id=id)
             return self.redirect("/po/edit/%s"%id)
 
@@ -187,10 +187,10 @@ class Index(LoginBase):
             event = Event.mc_get(id)
             if not event or event.zsite_id != self.current_user_id:
                 return self.redirect("/po/event")
-          
- 
+
+
             return self.render(
-                errtip=Errtip(), 
+                errtip=Errtip(),
                 event_id=id,
                 address=event.address,
                 pic_id=event.pic_id,

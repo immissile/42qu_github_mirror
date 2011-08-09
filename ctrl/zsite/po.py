@@ -92,12 +92,12 @@ class PoPage(ZsiteBase):
         )
 
 
-
 @urlmap('/word')
 @urlmap('/word-(\d+)')
 class WordPage(PoPage):
     cid = CID_WORD
     page_template = '/word-%s'
+
 
 @urlmap('/note')
 @urlmap('/note-(\d+)')
@@ -112,11 +112,13 @@ class QuestionPage(PoPage):
     cid = CID_QUESTION
     page_template = '/question-%s'
 
+
 @urlmap('/photo')
 @urlmap('/photo-(\d+)')
 class PhotoPage(PoPage):
     cid = CID_PHOTO
     page_template = '/photo-%s'
+
 
 @urlmap('/video')
 @urlmap('/video-(\d+)')
@@ -124,12 +126,12 @@ class VideoPage(PoPage):
     cid = CID_VIDEO
     page_template = '/video-%s'
 
+
 @urlmap('/audio')
 @urlmap('/audio-(\d+)')
 class AudioPage(PoPage):
     cid = CID_AUDIO
     page_template = '/audio-%s'
-
 
 
 @urlmap('/answer')
@@ -186,11 +188,13 @@ class QuestionPage(TagPoPage):
     cid = CID_QUESTION
     page_template = '/question-%s'
 
+
 @urlmap('/tag/(\d+)/photo')
 @urlmap('/tag/(\d+)/photo-(\d+)')
 class PhotoPage(TagPoPage):
     cid = CID_PHOTO
     page_template = '/photo-%s'
+
 
 @urlmap('/tag/(\d+)/video')
 @urlmap('/tag/(\d+)/video-(\d+)')
@@ -198,11 +202,13 @@ class VideoPage(TagPoPage):
     cid = CID_VIDEO
     page_template = '/video-%s'
 
+
 @urlmap('/tag/(\d+)/audio')
 @urlmap('/tag/(\d+)/audio-(\d+)')
 class AudioPage(TagPoPage):
     cid = CID_AUDIO
     page_template = '/audio-%s'
+
 
 PO_TEMPLATE = '/ctrl/zsite/po/po.htm'
 CID2TEMPLATE = {
@@ -214,6 +220,7 @@ CID2TEMPLATE = {
     CID_VIDEO: '/ctrl/zsite/po/video.htm',
     CID_AUDIO: '/ctrl/zsite/po/audio.htm',
 }
+
 
 @urlmap('/(\d+)')
 class PoOne(ZsiteBase):
@@ -390,4 +397,3 @@ class Rm(XsrfGetBase):
 #        self.render(
 #        tag_list=tag_list,
 #        )
-

@@ -52,6 +52,21 @@ class Zsite(McModel):
         if self.cid == CID_USER:
             return career_current(self.id)
 
+    @attrcache
+    def info(self):
+        from user_info import UserInfo
+        id = self.id
+        return UserInfo.mc_get(id)
+
+    def pronoun(self, user_id):
+        zsite_id = self.id
+        if zsite_id == user_id:
+            return '我'
+        info = self.info
+        if info and info.sex == 2:
+            return '她'
+        return '他'
+
 
 def user_can_reply(user):
     return user.state >= ZSITE_STATE_CAN_REPLY

@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
-from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from time import time
 from zkit.attrcache import attrcache
-from money import read_cent, pay_event_get, trade_fail
+from money import read_cent, pay_event_get, trade_fail, trade_finish
 from zsite import Zsite
 from namecard import namecard_bind
 from operator import itemgetter
-from model.gid import gid
+from gid import gid
+from po import Po
+
 EVENT_CID_CN = (
     (1 , '技术'),
     (2 , '创业'),
@@ -33,8 +34,22 @@ EVENT_STATE_BEGIN = 50
 EVENT_STATE_NOW = 60
 EVENT_STATE_END = 70
 
-mc_event_joiner_get = McCache('EventJoinerGet.%s')
-event_joiner_count = McNum(lambda event_id: EventJoiner.where('state>=%s', STATE_APPLY).count(), 'EventJoinerCount.%s')
+EVENT_STATE_CN = {
+    EVENT_STATE_REJECT: '未通过',
+    EVENT_STATE_TO_REVIEW: '待审核',
+    EVENT_STATE_BEGIN: '未开始',
+    EVENT_STATE_NOW: '进行中',
+    EVENT_STATE_END: '已结束',
+}
+
+EVENT_JOIN_STATE_NO = 10
+EVENT_JOIN_STATE_NEW = 20
+EVENT_JOIN_STATE_YES = 30
+EVENT_JOIN_STATE_END = 40
+EVENT_JOIN_STATE_REVIEW = 50
+
+mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
+event_joiner_count = McNum(lambda event_id: EventJoiner.where('state>=%s', EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCount.%s')
 mc_event_joiner_id_list = McLimitA('EventJoinerIdList.%s', 128)
 
 """
@@ -117,21 +132,22 @@ def event_new(
             state=EVENT_STATE_INIT
         )
         event.save()
-        
+
     return event
+
 
 class Event(McModel):
     def can_admin(self, user_id):
         if self.zsite_id == user_id:
             return True
-    
+
     @attrcache
     def price(self):
         cent = self.cent
         if cent:
             return read_cent(cent)
         return ''
-    
+
     @attrcache
     def zsite(self):
         return Zsite.mc_get(self.zsite_id)
@@ -141,23 +157,73 @@ class Event(McModel):
         o = self.zsite
         return '%s/%s' % (o.link, self.id)
 
+
+EVENT_VIEW_STATE_GET = {
+    True: EVENT_STATE_REJECT,
+    False: EVENT_STATE_BEGIN,
+}
+
+event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).count(), 'EventCountByZsiteId.%s')
+
+mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
+
+@mc_event_id_list_by_zsite_id('{zsite_id}_{can_admin}')
+def event_id_list_by_zsite_id(zsite_id, can_admin, limit, offset):
+    return Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
+
+def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
+    id_list = event_id_list_by_zsite_id(zsite_id, bool(can_admin), limit, offset)
+    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
+
+
 class EventJoiner(McModel):
     @attrcache
     def event(self):
         return Event.mc_get(self.event_id)
 
 
+event_list_join_by_user_id_qs = lambda user_id: EventJoiner.where(user_id=user_id).where('state>=%s' % EVENT_JOIN_STATE_YES)
 
-@mc_event_joiner_get('{event_id}_{user_id}')
-def event_joiner_get(event_id, user_id):
+event_join_count_by_user_id = McNum(lambda user_id: event_list_join_by_user_id_qs(user_id).count(), 'EventJoinCountByUserId.%s')
+mc_event_id_list_join_by_user_id = McLimitA('EventIdListJoinByUserId.%s', 128)
+
+@mc_event_id_list_join_by_user_id('{user_id}')
+def event_id_list_join_by_user_id(user_id, limit, offset):
+    return event_list_join_by_user_id_qs(user_id).order_by('id desc').col_list(limit, offset, 'event_id')
+
+def event_list_join_by_user_id(user_id, limit, offset):
+    id_list = event_id_list_join_by_user_id(user_id, limit, offset)
+    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
+
+
+event_list_open_by_user_id_qs = lambda user_id: EventJoiner.where(user_id=user_id, state=EVENT_JOIN_STATE_YES)
+event_open_count_by_user_id = McNum(lambda user_id: event_list_open_by_user_id_qs(user_id).count(), 'EventOpenCountByUserId.%s')
+
+mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
+
+@mc_event_id_list_open_by_user_id('{user_id}')
+def event_id_list_open_by_user_id(user_id, limit, offset):
+    return event_list_open_by_user_id_qs(user_id).order_by('id desc').col_list(limit, offset, 'event_id')
+
+def event_list_open_by_user_id(user_id, limit, offset):
+    id_list = event_id_list_open_by_user_id(user_id, limit, offset)
+    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
+
+
+@mc_event_joiner_id_get('{event_id}_{user_id}')
+def event_joiner_id_get(event_id, user_id):
     o = EventJoiner.get(event_id=event_id, user_id=user_id)
     if o:
         return o.id
     return 0
 
+def event_joiner_get(event_id, user_id):
+    id = event_joiner_id_get(event_id, user_id)
+    if id:
+        return EventJoiner.mc_get(id)
+
 def event_joiner_state(event_id, user_id):
-    id = event_joiner_get(event_id, user_id)
-    o = EventJoiner.mc_get(id)
+    o = event_joiner_get(event_id, user_id)
     if o:
         return o.state
     return 0
@@ -165,8 +231,7 @@ def event_joiner_state(event_id, user_id):
 
 @mc_event_joiner_id_list('{event_id}')
 def event_joiner_id_list(event_id, limit, offset):
-    return EventJoiner.where('state>=%s', STATE_APPLY).order_by('id desc').col_list(limit, offset)
-
+    return EventJoiner.where('state>=%s', EVENT_JOIN_STATE_NEW).order_by('id desc').col_list(limit, offset)
 
 def event_joiner_list(event_id, limit, offset):
     id_list = event_joiner_id_list(event_id, limit, offset)
@@ -175,44 +240,83 @@ def event_joiner_list(event_id, limit, offset):
     namecard_bind(li, 'user_id')
     return li
 
+
 def event_joiner_new(event_id, user_id):
-    id = event_joiner_get(event_id, user_id)
-    o = EventJoiner.mc_get(id)
-    if o and o.state >= STATE_APPLY:
+    o = event_joiner_get(event_id, user_id)
+    if o and o.state >= EVENT_JOIN_STATE_NEW:
         return
     now = int(time())
     if o:
-        o.state = STATE_APPLY
+        o.state = EVENT_JOIN_STATE_NEW
         o.create_time = now
         o.save()
     else:
         o = EventJoiner.get_or_create(event_id=event_id, user_id=user_id)
-        o.state = STATE_APPLY
+        o.state = EVENT_JOIN_STATE_NEW
         o.create_time = now
         o.save()
-        mc_event_joiner_get.set('%s_%s' % (event_id, user_id), o.id)
+        mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
         mc_event_joiner_id_list.delete(event_id)
+        event_joiner_count.delete(event_id)
     return o
 
 def event_joiner_no(o):
     event_id = o.event_id
     user_id = o.user_id
-    if o.state == STATE_APPLY:
-        t = pay_event_get(o.event, user_id)
-        if t:
+    event = o.event
+    if o.state == EVENT_JOIN_STATE_NEW:
+        if event.cent:
+            t = pay_event_get(event, user_id)
+            if not t:
+                return
             trade_fail(t)
-            o.state = STATE_DEL
-            o.save()
-            mc_event_joiner_id_list.delete(event_id)
+        o.state = EVENT_JOIN_STATE_NO
+        o.save()
+        mc_event_joiner_id_list.delete(event_id)
 
 def event_joiner_yes(o):
     event_id = o.event_id
     user_id = o.user_id
-    if o.state == STATE_APPLY:
-        t = pay_event_get(o.event, user_id)
-        if t:
-            o.state = STATE_ACTIVE
-            o.save()
+    event = o.event
+    if o.state == EVENT_JOIN_STATE_NEW:
+        if event.cent:
+            t = pay_event_get(o.event, user_id)
+            if not t:
+                return
+        o.state = EVENT_JOIN_STATE_YES
+        o.save()
+        mc_event_id_list_join_by_user_id.delete(user_id)
+        mc_event_id_list_open_by_user_id.delete(user_id)
+        event_join_count_by_user_id.delete(user_id)
+        event_open_count_by_user_id.delete(user_id)
+
+def event_joiner_end(o):
+    event_id = o.event_id
+    user_id = o.user_id
+    event = o.event
+    if o.state == EVENT_JOIN_STATE_YES:
+        if event.cent:
+            t = pay_event_get(o.event, user_id)
+            if not t:
+                return
+        o.state = EVENT_JOIN_STATE_END
+        o.save()
+        mc_event_id_list_open_by_user_id.delete(user_id)
+        event_open_count_by_user_id.delete(user_id)
+
+def event_join_review(o):
+    event_id = o.event_id
+    user_id = o.user_id
+    event = o.event
+    if o.state == EVENT_JOIN_STATE_END:
+        if event.cent:
+            t = pay_event_get(o.event, user_id)
+            if not t:
+                return
+            trade_finish(t)
+        o.state = EVENT_JOIN_STATE_REVIEW
+        o.save()
+
 
 if __name__ == '__main__':
     pass
