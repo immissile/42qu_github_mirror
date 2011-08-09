@@ -263,28 +263,37 @@ def event_joiner_list(event_id, limit, offset):
     return li
 
 
-def event_joiner_new(event_id, user_id):
-    o = event_joiner_get(event_id, user_id)
-    if o and o.state >= EVENT_JOIN_STATE_NEW:
-        return
-    now = int(time())
-    
+def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
     event = Event.mc_get(event_id)
+    #    if event.zsite_id!=user_id:
+    #        event.join_count+=1
+    if not event or \
+        event.state < EVENT_STATE_BEGIN or \
+        event.state >= EVENT_STATE_END:
+        return
+
+
+    o = event_joiner_get(event_id, user_id)
+    if o and o.state >= state:
+        return
+
+    now = int(time())
+
     if o:
-        o.state = EVENT_JOIN_STATE_NEW
+        o.state = state
         o.create_time = now
         o.save()
     else:
         o = EventJoiner.get_or_create(event_id=event_id, user_id=user_id)
-        o.state = EVENT_JOIN_STATE_NEW
+        o.state = state
         o.create_time = now
         o.save()
         mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
         mc_event_joiner_id_list.delete(event_id)
-        
-        if event.zsite_id!=user_id:
-            event.join_count+=1
-        #event_joiner_count.delete(event_id)
+
+        if zsite_id != user_id:
+            event.join_count += 1
+            event.save()
     return o
 
 def event_joiner_no(o):
