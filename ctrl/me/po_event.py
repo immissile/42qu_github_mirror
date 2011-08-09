@@ -54,7 +54,9 @@ class Index(LoginBase):
         end_time_hour = self.get_argument('end_time_hour','0')
         end_time_minute = self.get_argument('end_time_minute','0')
 
-        if can_change:
+        if not can_change:
+            city_pid = end = begin = None
+        else:
             begin_time_hour = int(begin_time_hour)
             begin_time_minute = int(begin_time_minute)
 
