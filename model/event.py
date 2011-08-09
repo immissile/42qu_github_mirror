@@ -156,11 +156,14 @@ def event_new(
             state=EVENT_STATE_INIT
         )
         event.save()
-
-    for i in (True, False):
-        mc_event_id_list_by_zsite_id.delete("%s_%s"%(zsite_id, i))
+        mc_flush_by_user_id(zsite_id)
 
     return event
+
+
+def mc_flush_zsite_id(zsite_id):
+    for i in (True, False):
+        mc_event_id_list_by_zsite_id.delete("%s_%s"%(zsite_id, i))
 
 
 class Event(McModel):
@@ -337,6 +340,7 @@ def event_init2to_review(id):
     if event and event.state <= EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_TO_REVIEW
         event.save()
+        mc_event_id_list_by_zsite_id.delete("%s_%s"%(zsite_id, True))
         return True
 
 if __name__ == '__main__':
