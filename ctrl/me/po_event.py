@@ -10,7 +10,7 @@ from zkit.earth import pid_city
 from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
 from model.cid import CID_EVENT
-from model.event import event_new, Event, EVENT_STATE_INIT
+from model.event import Event, EVENT_STATE_INIT, event_new_if_can_change
 from model.po import po_new, STATE_DEL
 
 @urlmap('/po/event/(\d+)/state')
@@ -173,7 +173,7 @@ class Index(LoginBase):
                 end_time_minute = end_time_minute,
             )
         else:
-            event = event_new(
+            event = event_new_if_can_change(
                 user_id,
                 event_cid,
                 city_pid,

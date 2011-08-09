@@ -104,6 +104,48 @@ CREATE TABLE  `zpage`.`event` (
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 """
 
+def event_new_if_can_change(
+    zsite_id,
+    cid,
+    city_pid,
+    pid,
+    address,
+    transport,
+    begin_time,
+    end_time,
+    cent,
+    limit_up,
+    limit_down,
+    phone,
+    pic_id,
+    id=None
+):
+    if id:
+        event = Event.mc_get(id)
+        if event and not event.can_change():
+            event.phone = phone
+            event.pic_id = pic_id
+            event.save()
+ 
+    event_new(
+        zsite_id,
+        cid,
+        city_pid,
+        pid,
+        address,
+        transport,
+        begin_time,
+        end_time,
+        cent,
+        limit_up,
+        limit_down,
+        phone,
+        pic_id,
+        id=None
+    )
+     
+
+
 def event_new(
     zsite_id,
     cid,
