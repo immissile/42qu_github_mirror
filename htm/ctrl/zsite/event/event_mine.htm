@@ -6,5 +6,5 @@ from model.event import EVENT_STATE_CN
 <%def name="event_po(event, po)">
 <a href="${po.link}">${po.name}</a>
 -
-EVENT_STATE_CN[event.state]
+${EVENT_STATE_CN[event.state]}
 </%def>
