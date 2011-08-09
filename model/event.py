@@ -156,12 +156,12 @@ def event_new(
             state=EVENT_STATE_INIT
         )
         event.save()
-        mc_flush_by_user_id(zsite_id)
+        mc_flush_by_zsite_id(zsite_id)
 
     return event
 
 
-def mc_flush_zsite_id(zsite_id):
+def mc_flush_by_zsite_id(zsite_id):
     for i in (True, False):
         mc_event_id_list_by_zsite_id.delete("%s_%s"%(zsite_id, i))
 
