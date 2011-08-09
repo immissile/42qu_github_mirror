@@ -403,7 +403,7 @@ def event_init2to_review(id):
     if event and event.state <= EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_TO_REVIEW
         event.save()
-        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, True))
+        mc_event_id_list_by_zsite_id.delete('%s_%s'%(event.zsite_id, True))
         return True
 
 if __name__ == '__main__':
