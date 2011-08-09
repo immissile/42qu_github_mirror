@@ -2,6 +2,7 @@
 from model.po import STATE_SECRET
 from model.po_event import EVENT_CID_CN
 from model.fs import fs_url_jpg
+from model.event import EVENT_STATE_TO_REVIEW
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -16,6 +17,13 @@ from model.fs import fs_url_jpg
 <script src="${js.ctrl_po_event}"></script>
 ${css.ctrl_po_event|n}
 </%def>
+
+<%
+if event:
+    can_change = event.can_change()
+else:
+    can_change = True
+%>
 
 
 <div class="head">
@@ -36,6 +44,23 @@ ${css.ctrl_po_event|n}
 
 
 <%htm:form id="event_form" enctype="multipart/form-data">
+
+<div class="po_line">
+<label>
+%if pic_id:
+替换\
+%else:
+宣传\
+%endif
+图片</label><input name="pic" type="file" id="pic">
+${errtip.pic|n}
+</div>
+%if pic_id:
+<img id="event_pic" src="${fs_url_jpg(162, pic_id)|n}">
+<input id="pic_id" type="hidden" name="pic_id" value="${pic_id}">
+%endif
+
+<div id="event_body">
 <div class="po_line">
 <label>所在城市</label><script>select_pid("pid", ${pid or 0})</script>
 ${errtip.pid|n}
@@ -92,25 +117,12 @@ value="${_event_cid}">${event_name}</option>
 </div>
 
 
-%if pic_id:
-<input id="pic_id" type="hidden" name="pic_id" value="${pic_id}">
-<img id="event_pic" src="${fs_url_jpg(162, pic_id)|n}">
-%endif
-<div class="po_line">
-<label>
-%if pic_id:
-替换\
-%else:
-宣传\
-%endif
-图片</label><input name="pic" type="file" id="pic">
-${errtip.pic|n}
-</div>
 
 <div>\
 <span id="event_submit_span" class="btnw">\
 <button type="submit">下一步</button>\
 </span>\
+</div>\
 </div>\
 </%htm:form>
 

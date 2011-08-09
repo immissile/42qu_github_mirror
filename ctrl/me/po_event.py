@@ -148,7 +148,13 @@ class Index(LoginBase):
             errtip.pic = "请上传图片"
 
         if errtip:
+            if id:
+                event = Event.mc_get(id)
+            else:
+                event = None
+            
             return self.render(
+                event=event,
                 errtip=errtip,
                 address=address,
                 pic_id=pic_id,
@@ -199,6 +205,7 @@ class Index(LoginBase):
             return self.render(
                 errtip=Errtip(),
                 event_id=id,
+                event=event,
                 address=event.address,
                 pic_id=event.pic_id,
                 limit_up=event.limit_up,

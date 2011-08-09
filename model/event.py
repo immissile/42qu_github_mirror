@@ -30,7 +30,7 @@ event_open_count_by_user_id = McNum(lambda user_id: event_list_open_by_user_id_q
 mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
 
 mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
-event_joiner_count = McNum(lambda event_id: EventJoiner.where('state>=%s', EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCount.%s')
+#event_joiner_count = McNum(lambda event_id: EventJoiner.where('state>=%s', EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCount.%s')
 mc_event_joiner_id_list = McLimitA('EventJoinerIdList.%s', 128)
 event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).count(), 'EventCountByZsiteId.%s')
 
@@ -59,7 +59,7 @@ EVENT_STATE_NOW = 60
 EVENT_STATE_END = 70
 
 EVENT_STATE_CN = {
-    EVENT_STATE_DEL:"已删除",
+    EVENT_STATE_DEL:'已删除',
     EVENT_STATE_REJECT: '被拒绝',
     EVENT_STATE_TO_REVIEW: '待审核',
     EVENT_STATE_BEGIN: '未开始',
@@ -123,18 +123,18 @@ def event_new(
     if id:
         event = Event.mc_get(id)
         if event.zsite_id == zsite_id:
-            event.cid=cid
-            event.city_pid=city_pid
-            event.pid=pid
-            event.address=address
-            event.transport=transport
-            event.begin_time=begin_time
-            event.end_time=end_time
-            event.cent=cent
-            event.limit_up=limit_up
-            event.limit_down=limit_down
-            event.phone=phone
-            event.pic_id=pic_id
+            event.cid = cid
+            event.city_pid = city_pid
+            event.pid = pid
+            event.address = address
+            event.transport = transport
+            event.begin_time = begin_time
+            event.end_time = end_time
+            event.cent = cent
+            event.limit_up = limit_up
+            event.limit_down = limit_down
+            event.phone = phone
+            event.pic_id = pic_id
             #event.state=EVENT_STATE_INIT
             event.save()
     else:
@@ -163,13 +163,20 @@ def event_new(
 
 def mc_flush_by_zsite_id(zsite_id):
     for i in (True, False):
-        mc_event_id_list_by_zsite_id.delete("%s_%s"%(zsite_id, i))
+        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, i))
 
 
 class Event(McModel):
     def can_admin(self, user_id):
         if self.zsite_id == user_id:
             return True
+
+    def can_change(self):
+        if self.state <= EVENT_STATE_TO_REVIEW:
+            return True
+        if self.join_count == 0:
+            return True
+
 
     @attrcache
     def price(self):
@@ -261,6 +268,8 @@ def event_joiner_new(event_id, user_id):
     if o and o.state >= EVENT_JOIN_STATE_NEW:
         return
     now = int(time())
+    
+    event = Event.mc_get(event_id)
     if o:
         o.state = EVENT_JOIN_STATE_NEW
         o.create_time = now
@@ -272,7 +281,10 @@ def event_joiner_new(event_id, user_id):
         o.save()
         mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
         mc_event_joiner_id_list.delete(event_id)
-        event_joiner_count.delete(event_id)
+        
+        if event.zsite_id!=user_id:
+            event.join_count+=1
+        #event_joiner_count.delete(event_id)
     return o
 
 def event_joiner_no(o):
@@ -340,7 +352,7 @@ def event_init2to_review(id):
     if event and event.state <= EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_TO_REVIEW
         event.save()
-        mc_event_id_list_by_zsite_id.delete("%s_%s"%(zsite_id, True))
+        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, True))
         return True
 
 if __name__ == '__main__':
