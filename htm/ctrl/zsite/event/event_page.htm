@@ -27,7 +27,7 @@ path = request.path
 %>
 <a class="${'c0' if path.startswith('/event/all') else 'c9'}" href="${zsite.link}/event/all">所有活动</a>
 <a class="${'c0' if path.startswith('/event/ing') else 'c9'}" href="${zsite.link}/event/ing">正在参与</a>
-<a class="${'c0' if path.startswith('/event/my') else 'c9'}" href="${zsite.link}/event/my">我发起的</a>
+<a class="${'c0' if path.startswith('/event/my') else 'c9'}" href="${zsite.link}/event/my">${zsite.pronoun(current_user_id)}发起的</a>
 </h1>
 <div class="zsite_ol">
 <ol>
