@@ -180,10 +180,14 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
     .addClass(po_word_txt_bg)
     ;
     $("#po_word_form").submit(function(){
+        if(cnenlen(po_word_txt.val())==0){
+            po_word_txt.blur()
+            return false
+        };
         if(po_word_update(po_word_txt.val())>0){
-                    po_word_txt.focus()
-                    return false
-                };
+            po_word_txt.focus()
+            return false
+        };
         var xsrf = $("input[name=_xsrf]").val(),
             button = $("span.btnw button")
         $.ajax({
