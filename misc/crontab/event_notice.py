@@ -8,24 +8,24 @@
 """
 import _env
 import time
-from model.event import Event, EventUser, CID_EVENT_WAIT_SUMMARY, CID_EVENT_USER_WAIT_FEEDBACK, CID_EVENT_END, CID_EVENT_USER_END, CID_EVENT_SUMMARIZED
+from model.event import Event, EventJoiner, EVENT_STATE_END, EVENT_STATE_WAIT_SUMMARY, EVENT_STATE_SUMMARIZED, EVENT_JOIN_STATE_WAIT_FEEDBACK, EVENT_JOIN_STATE_END
 from model.notice import notice_new
 from zweb.orm import ormiter
 
 def event_notice():
     now = int(time.time())
-    for event in ormiter(Event, "state=%s and end_time<%s"%(CID_EVENT_END, now)):
-        notice_new(event.zsite_id, event.zsite_id, CID_EVENT_WAIT_SUMMARY, event.id)
-        event.state = CID_EVENT_WAIT_SUMMARY
+    for event in ormiter(Event, "state=%s and end_time<%s"%(EVENT_STATE_END, now)):
+        notice_new(event.zsite_id, event.zsite_id, EVENT_STATE_WAIT_SUMMARY, event.id)
+        event.state = EVENT_STATE_WAIT_SUMMARY
         event.save()
         
 def event_user_notice():
     now = int(time.time())
-    for user in ormiter(EventUser, "state=%s"%(CID_EVENT_USER_END)):
+    for user in ormiter(EventJoiner, "state=%s"%(EVENT_JOIN_STATE_END)):
         event=Event.get(user.event_id)
-        if event.state == CID_EVENT_SUMMARIZED:
-            notice_new(event.zsite_id, user.user_id, CID_EVENT_USER_WAIT_FEEDBACK, user.event_id)
-            user.state = CID_EVENT_USER_WAIT_FEEDBACK
+        if event.state == EVENT_STATE_SUMMARIZED:
+            notice_new(event.zsite_id, user.user_id, EVENT_JOIN_STATE_WAIT_FEEDBACK, user.event_id)
+            user.state = EVENT_JOIN_STATE_WAIT_FEEDBACK
             event.save()
             print user.user_id
 
