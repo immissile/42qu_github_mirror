@@ -11,11 +11,7 @@ po_id = po.id
 cid = po.cid
 zsite_url = zsite.link
 %>
-%if po.rid:
-<h1 id="po_answer_name">${po.name_htm|n}</h1>
-%else:
-<h1><a href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
-%endif
+<h1>活动总结: ${po.name_}</h1>
 <pre>${po.htm|n}\
 <p class="po_bar po_bar1">\
 %if can_admin:
