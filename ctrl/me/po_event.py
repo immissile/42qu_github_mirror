@@ -11,12 +11,13 @@ from zkit.earth import pid_city
 from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
 from model.cid import CID_EVENT
-from model.event import event_new, Event
+from model.event import event_new, Event, event_feedback_new, EVENT_STATE_SUMMARIZED
 from model.po import po_new, STATE_DEL
 
+#MY from model.event import Event, EventUser, event_feedback_new, CID_EVENT_FEEDBACK, CID_EVENT_INTRODUCTION, CID_EVENT_USER_SATISFACTION, CID_EVENT_USER_GENERAL, CID_EVENT_SUMMARIZED
 from model import reply
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
-#MY from model.event import Event, EventUser, event_feedback_new, CID_EVENT_FEEDBACK, CID_EVENT_INTRODUCTION, CID_EVENT_USER_SATISFACTION, CID_EVENT_USER_GENERAL, CID_EVENT_SUMMARIZED
+from model.cid import CID_EVENT_FEEDBACK
 
 @urlmap('/event/feedback/(\d+)')
 class EventFeedback(LoginBase):
@@ -45,9 +46,11 @@ class EventFeedback(LoginBase):
             txt = self.get_argument('txt', None)
             m = event_feedback_new(event_id, current_user_id, name, txt)
             if m:
-                event.state = CID_EVENT_SUMMARIZED 
+                event.state = EVENT_STATE_SUMMARIZED 
                 event.save()
                 self.redirect(m.link)
+        else:
+            self.redirect(feedback_po.link)
 
 
 

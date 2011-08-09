@@ -18,33 +18,17 @@ from model.notice import notice_new
 
 #MY from model.event import Event, EventUser, event_feedback_new, CID_EVENT_FEEDBACK, CID_EVENT_INTRODUCTION, CID_EVENT_USER_SATISFACTION, CID_EVENT_USER_GENERAL, CID_EVENT_USER_FEEDBACK
 
+from model.event import EventJoiner, EVENT_JOIN_STATE_GENERAL, EVENT_JOIN_STATE_SATISFACTION 
+from model.cid import CID_NOTICE_EVENT_JOINER_FEEDBACK
+
 @urlmap('/event/my')
 @urlmap('/event/my-(\d+)')
 class EventMine(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
-
-@urlmap('/event/feedback/reply/(\d+)')
-class EventFeedback(LoginBase):
-    def post(self, event_id):
-        event = Event.get(event_id)
-        current_user = self.current_user
         current_user_id = self.current_user_id
         can_admin = zsite_id == current_user_id
-        event_user = EventUser.where('user_id=%s and event_id=%s', current_user_id, event_id)[0]
-        satisfaction = self.get_argument('satisfaction', None)
-        txt = self.get_argument('txt', None)
-        if txt:
-            feedback_po = event.feedback_po()
-            feedback_po.reply_new(current_user, txt, feedback_po.state)
-            notice_new(current_user_id, event.zsite_id, CID_EVENT_USER_FEEDBACK, event_id)
-        if event_user.state != CID_EVENT_USER_SATISFACTION and event_user.state != CID_EVENT_USER_GENERAL:
-            if satisfaction=='on':
-                event_user.state = CID_EVENT_USER_SATISFACTION
-            else:
-                event_user.state = CID_EVENT_USER_GENERAL
-            event_user.save()
-        self.redirect(feedback_po.link)
+
         total = event_count_by_zsite_id(zsite_id, can_admin)
         page, limit, offset = page_limit_offset(
             '/event/my-%s',
@@ -57,6 +41,27 @@ class EventFeedback(LoginBase):
             li=li,
             page=page,
         )
+
+@urlmap('/event/feedback/reply/(\d+)')
+class EventFeedback(LoginBase):
+    def post(self, event_id):
+        event = Event.get(event_id)
+        current_user = self.current_user
+        current_user_id = self.current_user_id
+        event_joiner = EventJoiner.where('user_id=%s and event_id=%s', current_user_id, event_id)[0]
+        satisfaction = self.get_argument('satisfaction', None)
+        txt = self.get_argument('txt', None)
+        if txt:
+            feedback_po = event.feedback_po()
+            feedback_po.reply_new(current_user, txt, feedback_po.state)
+            notice_new(current_user_id, event.zsite_id, CID_NOTICE_EVENT_JOINER_FEEDBACK, event_id)
+        if event_joiner.state != EVENT_JOIN_STATE_SATISFACTION and event_joiner.state != EVENT_JOIN_STATE_GENERAL:
+            if satisfaction=='on':
+                event_joiner.state = EVENT_JOIN_STATE_SATISFACTION
+            else:
+                event_joiner.state = EVENT_JOIN_STATE_GENERAL
+            event_joiner.save()
+        self.redirect(feedback_po.link)
 
 
 @urlmap('/event/all')

@@ -12,6 +12,8 @@ from po import po_new, Po
 from state import STATE_ACTIVE
 from txt import txt_new 
 
+from model.cid import CID_EVENT_INTRODUCTION, CID_EVENT_FEEDBACK 
+
 EVENT_CID_CN = (
     (1 , '技术'),
     (2 , '创业'),
@@ -28,9 +30,6 @@ EVENT_CID_CN = (
 )
 EVENT_CID = tuple(map(itemgetter(0), EVENT_CID_CN))
 
-#CID_EVENT_INTRODUCTION = 69
-#CID_EVENT_FEEDBACK = 70
-
 EVENT_STATE_DEL = 10
 EVENT_STATE_INIT = 20
 EVENT_STATE_REJECT = 30
@@ -38,14 +37,14 @@ EVENT_STATE_TO_REVIEW = 40
 EVENT_STATE_BEGIN = 50
 EVENT_STATE_NOW = 60
 EVENT_STATE_END = 70
+EVENT_STATE_WAIT_SUMMARY = 80
+EVENT_STATE_SUMMARIZED = 90
 
 #CID_EVENT_EDIT = 90
 #CID_EVENT_REVIEW_FAIL = 91
 #CID_EVENT_REVIEW = 92
 #CID_EVENT_REGISTRATION = 94
 #CID_EVENT_END = 99
-#CID_EVENT_WAIT_SUMMARY = 100
-#CID_EVENT_SUMMARIZED = 102
 
 EVENT_STATE_CN = {
     EVENT_STATE_REJECT: '未通过',
@@ -60,37 +59,22 @@ EVENT_STATE_CN = {
 #CID_EVENT_USER_QUIT = 44
 #CID_EVENT_USER_END = 50
 #CID_EVENT_USER_WAIT_FEEDBACK = 51
-#CID_EVENT_USER_GENERAL = 52
-#CID_EVENT_USER_SATISFACTION = 54
-#CID_EVENT_USER_FEEDBACK = 55
-
+##CID_EVENT_USER_GENERAL = 52
+##CID_EVENT_USER_SATISFACTION = 54
+##CID_EVENT_USER_FEEDBACK = 55
 
 EVENT_JOIN_STATE_NO = 10
 EVENT_JOIN_STATE_NEW = 20
 EVENT_JOIN_STATE_YES = 30
 EVENT_JOIN_STATE_END = 40
-EVENT_JOIN_STATE_REVIEW = 50
+EVENT_JOIN_STATE_WAIT_FEEDBACK = 50
+EVENT_JOIN_STATE_REVIEW = 60
+EVENT_JOIN_STATE_GENERAL = 70
+EVENT_JOIN_STATE_SATISFACTION = 80 
 
 mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
 event_joiner_count = McNum(lambda event_id: EventJoiner.where('state>=%s', EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCount.%s')
 mc_event_joiner_id_list = McLimitA('EventJoinerIdList.%s', 128)
-
-
-class Event(McModel):
-    def can_admin(self, user_id):
-        if self.zsite_id == user_id:
-
-    def feedback_po(self):
-        return Po.where('cid=%s and rid=%s', CID_EVENT_FEEDBACK, self.id)[0]
-
-    def introducation_po(self):
-        return Po.where('cid=%s and rid=%s', CID_EVENT_INTRODUCTION, self.id)[0]
-
-    def feedback_link(self):
-        return '/event/feedback/%s'%self.id
-
-class EventUser(Model):
-    pass
 
 """
 CREATE TABLE  `zpage`.`event` (
@@ -116,6 +100,42 @@ CREATE TABLE  `zpage`.`event` (
   KEY `Index_4` (`city_pid`,`state`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 """
+
+
+class Event(McModel):
+    def can_admin(self, user_id):
+        return self.zsite_id == user_id
+
+    @attrcache
+    def price(self):
+        cent = self.cent
+        if cent:
+            return read_cent(cent)
+        return ''
+
+    @attrcache
+    def zsite(self):
+        return Zsite.mc_get(self.zsite_id)
+
+    @attrcache
+    def link(self):
+        o = self.zsite
+        return '%s/%s' % (o.link, self.id)
+
+    def feedback_po(self):
+        return Po.where('cid=%s and rid=%s', CID_EVENT_FEEDBACK, self.id)[0]
+
+    def introducation_po(self):
+        return Po.where('cid=%s and rid=%s', CID_EVENT_INTRODUCTION, self.id)[0]
+
+    def feedback_link(self):
+        return '/event/feedback/%s'%self.id
+
+class EventJoiner(McModel):
+    @attrcache
+    def event(self):
+        return Event.mc_get(self.event_id)
+
 
 def event_new(
     zsite_id,
@@ -169,38 +189,22 @@ def event_new(
             state=EVENT_STATE_INIT
         )
         event.save()
+    return event
+
+def can_feedback(po, user_id):
+    event_id = po.rid
+    event_joiner_list = EventJoiner.where("event_id = %s",event_id).col_list(col='user_id')
+    if user_id in event_joiner_list:
+        event_joiner = EventJoiner.where('event_id=%s and user_id=%s', event_id, user_id)[0]
+        if event_joiner.state != EVENT_JOIN_STATE_GENERAL and event_joiner.state != EVENT_JOIN_STATE_SATISFACTION:
+            return True
+    return False
 
 
 def event_feedback_new(event_id, user_id, name, txt):
     m = po_new(CID_EVENT_FEEDBACK, user_id, name, STATE_ACTIVE, event_id)
     txt_new(m.id, txt)
     return m
-
-def can_feedback(po, user_id):
-    event_id = po.rid
-    event_user_list = EventUser.where("event_id = %s",event_id).col_list(col='user_id')
-    if user_id in event_user_list:
-        event_user = EventUser.where('event_id=%s and user_id=%s', event_id, user_id)[0]
-        if event_user.state != CID_EVENT_USER_GENERAL and event_user.state != CID_EVENT_USER_SATISFACTION:
-            return True
-    return False
-
-    @attrcache
-    def price(self):
-        cent = self.cent
-        if cent:
-            return read_cent(cent)
-        return ''
-
-    @attrcache
-    def zsite(self):
-        return Zsite.mc_get(self.zsite_id)
-
-    @attrcache
-    def link(self):
-        o = self.zsite
-        return '%s/%s' % (o.link, self.id)
-
 
 EVENT_VIEW_STATE_GET = {
     True: EVENT_STATE_REJECT,
@@ -212,18 +216,14 @@ event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
 @mc_event_id_list_by_zsite_id('{zsite_id}_{can_admin}')
-def event_id_list_by_zsite_id(zsite_id, can_admin, limit, offset):
-    return Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
+def event_id_list_by_zsite_id(zsite_id, can_admin, limit, offset): 
+    return Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset) 
 
 def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     id_list = event_id_list_by_zsite_id(zsite_id, bool(can_admin), limit, offset)
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 
-class EventJoiner(McModel):
-    @attrcache
-    def event(self):
-        return Event.mc_get(self.event_id)
 
 
 event_list_join_by_user_id_query = lambda user_id: EventJoiner.where(user_id=user_id).where('state>=%s' % EVENT_JOIN_STATE_YES)
@@ -364,5 +364,5 @@ def event_join_review(o):
 
 if __name__=="__main__":
     event_id = test_event_init()
-    test_add_event_user(event_id)
+    test_add_event_joiner(event_id)
 

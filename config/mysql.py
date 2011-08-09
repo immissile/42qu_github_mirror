@@ -11,7 +11,7 @@ DB_MAIN_TABLE = (
     'buzz_unread',
     'career',
     'event',
-    'event_user',
+    'event_joiner',
     'feed',
     'follow',
     'gid',

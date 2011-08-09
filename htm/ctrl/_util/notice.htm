@@ -1,6 +1,7 @@
 <%!
 from model.cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY
-from model.event import Event, CID_EVENT_WAIT_SUMMARY, CID_EVENT_USER_WAIT_FEEDBACK, CID_EVENT_USER_FEEDBACK
+from model.event import Event, EVENT_STATE_WAIT_SUMMARY, EVENT_JOIN_STATE_WAIT_FEEDBACK 
+from model.cid import CID_NOTICE_EVENT_JOINER_FEEDBACK
 from zkit.time_format import friendly_time
 from model.money import Trade, trade_log
 from model.notice import notice_id_count
@@ -63,18 +64,18 @@ t = Trade.get(rid)
 %>
 捐赠 ${t.read_value} 元
 ${trade_log_render(rid)}
-%elif cid == CID_EVENT_WAIT_SUMMARY:
+%elif cid == EVENT_STATE_WAIT_SUMMARY:
 <%
 event = Event.get(i.rid)
 %>
 组织的活动结束了，提醒您<a href="${event.feedback_link()}" target="_blacnk">写总结</a>。
-%elif cid == CID_EVENT_USER_WAIT_FEEDBACK:
+%elif cid == EVENT_JOIN_STATE_WAIT_FEEDBACK: 
 <%
 event = Event.get(i.rid)
 po = event.feedback_po()
 %>
 组织的活动结束了，去看看活动<a href="${po.link}" target="_blacnk">${po.name}</a>总结，发表下自己的看法吧。
-%elif cid == CID_EVENT_USER_FEEDBACK:
+%elif cid == CID_NOTICE_EVENT_JOINER_FEEDBACK:
 <%
 event = Event.get(i.rid)
 po = event.feedback_po()
