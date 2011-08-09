@@ -314,6 +314,15 @@ def event_join_review(o):
         o.state = EVENT_JOIN_STATE_REVIEW
         o.save()
 
+def event_init2to_review(id):
+    event = Event.mc_get(id)
+    if not (event and event.state <= EVENT_STATE_INIT):
+        event.state = EVENT_STATE_TO_REVIEW
+        event.save()
+        return True
 
 if __name__ == '__main__':
     pass
+
+
+

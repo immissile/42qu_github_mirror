@@ -11,7 +11,7 @@ from model.zsite import Zsite
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from zkit.jsdict import JsDict
 from zkit.txt import cnenlen
-from model.event import Event, EVENT_STATE_INIT
+from model.event import Event, event_init2to_review
 
 
 def update_pic(form, user_id, po_id, id):
@@ -172,9 +172,10 @@ class Edit(LoginBase):
         cid = po.cid
 
         if cid == CID_EVENT:
-            event = Event.mc_get(po.rid)
-            if event.state <= EVENT_STATE_INIT:
-                pass 
+            if event_init2to_review(po.rid):
+                link = po.link
+            else:
+                link = po.link
         else:
             if cid == CID_WORD:
                 link = po.link_question
