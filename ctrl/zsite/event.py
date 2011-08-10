@@ -14,8 +14,8 @@ from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT
 from ctrl.me.i import NameCardEdit
 
 
-@urlmap('/event/my')
-@urlmap('/event/my-(\d+)')
+@urlmap('/event/to_review')
+@urlmap('/event/to_review-(\d+)')
 class EventMine(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
@@ -24,7 +24,7 @@ class EventMine(ZsiteBase):
 
         total = event_count_by_zsite_id(zsite_id, can_admin)
         page, limit, offset = page_limit_offset(
-            '/event/my-%s',
+            '/event/to_review-%s',
             total,
             n,
             PAGE_LIMIT
@@ -36,15 +36,15 @@ class EventMine(ZsiteBase):
         )
 
 
-@urlmap('/event/all')
-@urlmap('/event/all-(\d+)')
+@urlmap('/event')
+@urlmap('/event-(\d+)')
 class EventJoined(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
 
         total = event_join_count_by_user_id(zsite_id)
         page, limit, offset = page_limit_offset(
-            '/event/all-%s',
+            '/event-%s',
             total,
             n,
             PAGE_LIMIT
@@ -57,25 +57,25 @@ class EventJoined(ZsiteBase):
         )
 
 
-@urlmap('/event/ing')
-@urlmap('/event/ing-(\d+)')
-class EventOpen(ZsiteBase):
-    def get(self, n=1):
-        zsite_id = self.zsite_id
-
-        total = event_open_count_by_user_id(zsite_id)
-        page, limit, offset = page_limit_offset(
-            '/event/ing-%s',
-            total,
-            n,
-            PAGE_LIMIT
-        )
-        li = event_list_open_by_user_id(zsite_id, limit, offset)
-        self.render(
-            'ctrl/zsite/event/event_page.htm',
-            li=li,
-            page=page,
-        )
+#@urlmap('/event/ing')
+#@urlmap('/event/ing-(\d+)')
+#class EventOpen(ZsiteBase):
+#    def get(self, n=1):
+#        zsite_id = self.zsite_id
+#
+#        total = event_open_count_by_user_id(zsite_id)
+#        page, limit, offset = page_limit_offset(
+#            '/event/ing-%s',
+#            total,
+#            n,
+#            PAGE_LIMIT
+#        )
+#        li = event_list_open_by_user_id(zsite_id, limit, offset)
+#        self.render(
+#            'ctrl/zsite/event/event_page.htm',
+#            li=li,
+#            page=page,
+#        )
 
 
 class EventBase(LoginBase):
