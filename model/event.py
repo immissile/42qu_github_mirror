@@ -315,5 +315,20 @@ def event_join_review(o):
         o.save()
 
 
+def event_review_yes(id):
+    event = Event.mc_get(id)
+    if event and event.state == EVENT_STATE_TO_REVIEW:
+        event.state = EVENT_STATE_BEGIN
+        event.save()
+        mc_event_id_list_by_zsite_id.delete('%s_%s'%(event.zsite_id, False))
+
+
+def event_review_no(id):
+    event = Event.mc_get(id)
+    if event and event.state == EVENT_STATE_TO_REVIEW:
+        event.state = EVENT_STATE_REJECT
+        event.save()
+
+
 if __name__ == '__main__':
     pass
