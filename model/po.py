@@ -188,7 +188,7 @@ class Po(McModel, ReplyMixin):
 def po_new(cid, user_id, name, state, rid=0):
     m = Po(
         id=gid(),
-        name_=cnencut(name, 140),
+        name_=cnencut(name, 142),
         user_id=user_id,
         cid=cid,
         rid=rid,
