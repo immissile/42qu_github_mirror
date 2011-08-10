@@ -39,7 +39,11 @@ ${css.ctrl_po_event|n}
 
 %if cid == CID_EVENT:
 <div class="head">
+%if po.txt:
+<span><a href="/po/event/${po.id}" target="_blank">编辑属性</a>
+%else:
 <span><a href="/po/event/${po.id}" class="c9">1. 设置属性</a></span>&gt;<span class="c0">2. 编写简介</span>&gt;<span>3. 等待审核</span>
+%endif
 </div>
 %endif
 
