@@ -30,9 +30,9 @@ event_open_count_by_user_id = McNum(lambda user_id: event_list_open_by_user_id_q
 mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
 
 mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
-#event_joiner_count = McNum(lambda event_id: EventJoiner.where('state>=%s', EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCount.%s')
 mc_event_joiner_id_list = McLimitA('EventJoinerIdList.%s', 128)
 event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).count(), 'EventCountByZsiteId.%s')
+event_to_review_count_by_zsite_id = McNum( lambda zsite_id : Event.where("state=%s and zsite_id=%s", EVENT_STATE_TO_REVIEW, zsite_id).count(), "EventToReviewCountByZsiteId:%s")
 
 EVENT_CID_CN = (
     (1 , '技术'),
@@ -402,14 +402,16 @@ def event_init2to_review(id):
     if event and event.state <= EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_TO_REVIEW
         event.save()
-        mc_event_id_list_by_zsite_id.delete('%s_%s'%(event.zsite_id, True))
+
+        zsite_id = event.zsite_id
+        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, True))
+        event_to_review_count_by_zsite_id.delete(zsite_id)
+
         return True
 
-def event_review_count(zsite_id):
-    return Event.where("state=%s and zsite_id=%s", EVENT_STATE_TO_REVIEW, zsite_id).count()
 
 if __name__ == '__main__':
-    print event_review_count(10000000)
+    print event_to_review_count(10000000)
     #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
 
 

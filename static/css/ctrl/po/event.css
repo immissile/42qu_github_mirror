@@ -31,6 +31,7 @@ padding:14px 0;
 border-bottom:1px dotted #ccc;
 }
 #event_form{
+padding-bottom:64px;
 margin-top:32px;
 margin-left:125px;
 }
