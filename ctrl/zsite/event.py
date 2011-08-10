@@ -21,6 +21,9 @@ class EventMine(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
+        if current_user_id != zsite_id:
+            return self.redirect('/event')
+
         can_admin = zsite_id == current_user_id
 
         total = event_count_by_zsite_id(zsite_id, can_admin)

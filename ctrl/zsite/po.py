@@ -16,7 +16,7 @@ from zkit.txt import cnenlen
 from model.zsite_tag import ZsiteTag
 from model.feed_render import feed_tuple_list
 from model.tag import Tag
-from model.event import Event
+from model.event import Event, EVENT_STATE_TO_REVIEW
 
 PAGE_LIMIT = 42
 
@@ -272,9 +272,9 @@ class PoOne(ZsiteBase):
             )
             zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
             if zsite_tag_id:
-                tag_link = "tag/%s" % zsite_tag_id
+                tag_link = "/tag/%s" % zsite_tag_id
             else:
-                tag_link = "po/cid/%s"%cid
+                tag_link = "/po/cid/%s"%cid
 
         return self.render(
             self.template,
@@ -285,6 +285,7 @@ class PoOne(ZsiteBase):
             prev_id=prev_id,
             next_id=next_id,
             tag_name=tag_name,
+            tag_link=tag_link
         )
 
 
