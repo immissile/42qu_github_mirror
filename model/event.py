@@ -326,7 +326,7 @@ def event_review_yes(id):
         event.save()
         mc_event_id_list_by_zsite_id.delete('%s_%s'%(event.zsite_id, False))
         from notice import notice_event_yes
-        notice_event_yes(event.user_id, id)
+        notice_event_yes(event.zsite_id, id)
 
 
 def event_review_no(id, txt):
@@ -335,7 +335,7 @@ def event_review_no(id, txt):
         event.state = EVENT_STATE_REJECT
         event.save()
         from top_notice import top_notice_event_no
-        top_notice_event_no(event.user_id, id, txt)
+        top_notice_event_no(event.zsite_id, id, txt)
 
 
 if __name__ == '__main__':

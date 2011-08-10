@@ -22,7 +22,7 @@ $('a.no').live('click', function() {
         return
     }
     $.postJSON('/event/state/' + id + '/0', {"txt":txt}, function(data){
-        next()
+        //next()
     })
 })
 function next(){

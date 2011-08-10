@@ -9,8 +9,6 @@ from mail_notice import mail_notice_state
 from user_mail import mail_by_user_id
 from zkit.attrcache import attrcache
 
-STATE_GTE_APPLY = 'state>=%s' % STATE_APPLY
-
 mc_top_notice_id_by_user_id = McCache('TopNoticeIdByUserId.%s')
 
 
@@ -20,7 +18,7 @@ class TopNotice(McModel):
 
 @mc_top_notice_id_by_user_id('{user_id}')
 def top_notice_id_by_user_id(user_id):
-    for i in TopNotice.where(user_id=user_id).where(STATE_GTE_APPLY).order_by('id desc')[:1]:
+    for i in TopNotice.where(user_id=user_id, state=1).order_by('id desc')[:1]:
         return i.id
     return 0
 
@@ -30,7 +28,7 @@ def top_notice_by_user_id(user_id):
         return TopNotice.mc_get(id)
 
 def top_notice_new(user_id, cid, rid, txt=''):
-    o = TopNotice(user_id=user_id, cid=cid, rid=rid, txt=txt)
+    o = TopNotice(user_id=user_id, cid=cid, rid=rid, txt=txt, state=1)
     o.save()
     mc_top_notice_id_by_user_id.set(user_id, o.id)
     return o
@@ -38,10 +36,10 @@ def top_notice_new(user_id, cid, rid, txt=''):
 def top_notice_event_no(user_id, event_id, txt):
     return top_notice_new(user_id, CID_NOTICE_EVENT_NO, event_id, txt)
 
-def top_notice_read(user_id, id):
+def top_notice_rm(id, user_id):
     o = TopNotice.mc_get(id)
-    if o and o.user_id = user_id:
-        o.state = STATE_DEL
+    if o and o.user_id == user_id:
+        o.state = 0
         o.save()
         mc_top_notice_id_by_user_id.delete(user_id)
 

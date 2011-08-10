@@ -21,6 +21,15 @@
 #T a{
     color: #ffe000;
 }
+#TX{
+    color: #000;
+    background: url('/img/gif/icons/gif/white/16x16/close.gif') repeat scroll 0% 0% transparent;
+    height: 16px;
+    display: inline-block;
+    width: 16px;
+    margin-left: 14px;
+    vertical-align: -3px;
+}
 #H{
     font-size:16px;
     border-bottom:1px dotted #ccc;
