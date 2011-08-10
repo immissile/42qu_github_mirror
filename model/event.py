@@ -150,6 +150,10 @@ class Event(McModel):
         return Zsite.mc_get(self.zsite_id)
 
     @attrcache
+    def po(self):
+        return Po.mc_get(self.id)
+
+    @attrcache
     def link(self):
         o = self.zsite
         return '%s/%s' % (o.link, self.id)
@@ -321,13 +325,17 @@ def event_review_yes(id):
         event.state = EVENT_STATE_BEGIN
         event.save()
         mc_event_id_list_by_zsite_id.delete('%s_%s'%(event.zsite_id, False))
+        from notice import notice_event_yes
+        notice_event_yes(event.user_id, id)
 
 
-def event_review_no(id):
+def event_review_no(id, txt):
     event = Event.mc_get(id)
     if event and event.state == EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_REJECT
         event.save()
+        from top_notice import top_notice_event_no
+        top_notice_event_no(event.user_id, id, txt)
 
 
 if __name__ == '__main__':

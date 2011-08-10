@@ -4,12 +4,22 @@ from _handler import Base
 from _urlmap import urlmap
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
-from model.event import Event, event_review_yes, event_review_no
+from model.event import Event, event_review_yes, event_review_no, EVENT_STATE_TO_REVIEW
 from model.po import Po
 from zkit.page import page_limit_offset
 
 
 PAGE_LIMIT = 50
+
+@urlmap('/event/review')
+class EventReview(Base):
+    def get(self):
+        qs = Event.where(state=EVENT_STATE_TO_REVIEW).order_by('id')[:1]
+        o = None
+        if qs:
+            o = qs[0]
+        self.render(event=o)
+
 
 @urlmap('/event/(\d+)')
 @urlmap('/event/(\d+)-(\d+)')
@@ -38,5 +48,6 @@ class EventState(Base):
         if state:
             event_review_yes(id)
         else:
-            event_review_no(id)
+            txt = self.get_argument('txt')
+            event_review_no(id, txt)
         self.finish('{}')

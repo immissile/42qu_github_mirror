@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from time import time
-from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY
+from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY, CID_NOTICE_EVENT_YES
 from state import STATE_DEL, STATE_APPLY, STATE_ACTIVE
 from po import Po
 from zsite import Zsite
@@ -111,6 +111,9 @@ def notice_wall_new(from_id, to_id, wall_id):
 
 def notice_wall_reply_new(from_id, to_id, wall_id):
     return notice_new_hide_old(from_id, to_id, CID_NOTICE_WALL_REPLY, wall_id)
+
+def notice_event_yes(user_id, event_id):
+    return notice_new(0, user_id, CID_NOTICE_EVENT_YES, event_id)
 
 def invite_question(from_id, to_id, qid):
     from po_question import answer_id_get

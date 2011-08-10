@@ -7,20 +7,6 @@ from zkit.txt import cnenoverflow
 from model.event import EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
 %>
 <%def name="htm_head()">
-<script>
-    $('a.yes').live('click', function() {
-        var id = this.rel;
-        $.postJSON('/event/state/' + id + '/1', function(data){
-            $('#event' + id).slideUp()
-        })
-    })
-    $('a.no').live('click', function() {
-        var id = this.rel;
-        $.postJSON('/event/state/' + id + '/0', function(data){
-            $('#event' + id).slideUp()
-        })
-    })
-</script>
 </%def>
 
 <ol>
@@ -47,8 +33,9 @@ user = po.user
 % elif state == EVENT_STATE_INIT:
 刚创建
 % elif state == EVENT_STATE_TO_REVIEW:
-<a href="javascript:void(0)" rel="${id}" class="yes">通过</a>
-<a href="javascript:void(0)" rel="${id}" class="no">拒绝</a>
+待审核
+## <a href="javascript:void(0)" rel="${id}" class="yes">通过</a>
+## <a href="javascript:void(0)" rel="${id}" class="no">拒绝</a>
 % elif state == EVENT_STATE_REJECT:
 已拒绝
 % elif state == EVENT_STATE_BEGIN:
