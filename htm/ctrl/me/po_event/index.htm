@@ -45,7 +45,7 @@ event_to_review = event_review_count(current_user_id)
 
 <%htm:form id="event_form" enctype="multipart/form-data">
 %if event_to_review and not address:
-    <a href="/event/to_review" target="_blank">你还有 ${event_to_review} 次活动待审批</a>
+    <a href="/event/to_review" target="_blank">你还有 ${event_to_review} 次活动待审核</a>
 %endif
 <div class="po_line">
 <label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
