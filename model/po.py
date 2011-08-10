@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -174,7 +174,7 @@ class Po(McModel, ReplyMixin):
         cid = self.cid
         state = self.state
         user_id = self.user_id
-        if cid != CID_WORD and state == STATE_ACTIVE:
+        if cid != CID_WORD and cid != CID_EVENT and state == STATE_ACTIVE:
             tag_id = tag_id_by_user_id_cid(user_id, cid)
             zsite_tag_new_by_tag_id(self, tag_id)
 
