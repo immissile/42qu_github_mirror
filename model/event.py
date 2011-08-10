@@ -126,7 +126,7 @@ def event_new_if_can_change(
             event.phone = phone
             event.pic_id = pic_id
             event.save()
- 
+
     event_new(
         zsite_id,
         cid,
@@ -143,7 +143,7 @@ def event_new_if_can_change(
         pic_id,
         id=None
     )
-     
+
 
 
 def event_new(
@@ -219,7 +219,6 @@ class Event(McModel):
         if self.join_count == 0:
             return True
 
-
     @attrcache
     def price(self):
         cent = self.cent
@@ -235,7 +234,6 @@ class Event(McModel):
     def link(self):
         o = self.zsite
         return '%s/%s' % (o.link, self.id)
-
 
 
 
