@@ -1,5 +1,6 @@
 <%!
 from model.days import minute2ymd2
+from model.po import PO_COUNT_CN
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%def name="htm_head()">
@@ -21,15 +22,23 @@ else:
 <a class="back_a" href="${back_a|n}"></a>
 
 <div class="po_tag">
+%if zsite_id == current_user_id:
 <h1 class="event_nav_a">
 <%
 path = request.path
 %>
 <a class="${'c0' if path.startswith('/event/all') else 'c9'}" href="/event/all">所有活动</a>
-%if zsite_id == current_user_id:
 <a class="${'c0' if path.startswith('/event/to_review') else 'c9'}" href="/event/to_review">待审批的</a>
-%endif
 </h1>
+%else:
+<h1>\
+<a class="c0" href="${zsite.link}">${zsite.name}</a> : \
+${total} ${PO_COUNT_CN[cid]}</h1>
+%endif
+
+
+
+
 <div class="zsite_ol">
 <ol>
     % for event, po in li:

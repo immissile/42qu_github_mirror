@@ -22,15 +22,15 @@ PO_CN_EN = (
     (CID_WORD, 'word', '微博', '句'),
     (CID_NOTE, 'note', '文章', '篇'),
     (CID_QUESTION, 'question', '问题', '条'),
-    (CID_ANSWER, 'answer', '回答', '次'),
+    (CID_ANSWER, 'answer', '回答', '个'),
     (CID_PHOTO, 'photo', '图片', '张'),
     (CID_VIDEO, 'video', '视频', '场'),
     (CID_AUDIO, 'audio', '音乐', '段'),
+    (CID_EVENT, 'event', '活动', '次'),
 )
 PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
 PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
 PO_COUNT_CN = dict((i[0], i[3]+i[2]) for i in PO_CN_EN)
-
 
 mc_htm = McCache('PoHtm.%s')
 
