@@ -10646,7 +10646,7 @@ def place_name(place_id):
     if not place_id:
         return ''
 
-    if place_id / 1000 == 0:
+    if place_id < 1000:
         return COUNTRY_DICT[place_id] 
 
     r = []
