@@ -72,13 +72,8 @@ class Po(McModel, ReplyMixin):
         id = self.id
         s = txt_withlink(self.txt)
         if cid != CID_WORD:
-            from po_pic import pic_htm
             user_id = self.user_id
             s = pic_htm(s, user_id, id)
-            s = s.replace('\n\n', '</p><p>')
-            import re
-            s = re.sub(r'(\w+)\s(图:\d+)\s(\w+)', r'\1\2\3', s)
-            s = '<p>%s</p>' % s
         return s
 
     def txt_set(self, txt):

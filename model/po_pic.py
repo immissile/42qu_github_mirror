@@ -137,6 +137,8 @@ def pic_seq_dict_html(user_id, po_id):
 PIC_FIND = re.compile(r'图:([\d]+)')
 PIC_SUB = re.compile(r'图:([\d]+)')
 PIC_HTML = '<div class="pmix np%s"><img src="%s" alt="%s"><div>%s</div></div>'
+PIC_SPACE = re.compile(r'\s{1,3}[ \t]*(图:\d+)[ \t]*(\s*)', re.MULTILINE)
+
 
 #mc_htm = McCache('PoHtm.%s')
 #@mc_htm('{self.id}')
@@ -148,8 +150,31 @@ def re_pic2htm(match, d):
     return d.get(m, match.group(0))
 
 def pic_htm(htm, user_id, po_id):
+    htm = PIC_SPACE.sub(re_pic_space, htm) 
     pic_dict = pic_seq_dict_html(user_id, po_id)
-    return PIC_SUB.sub(lambda x: re_pic2htm(x, pic_dict), htm)
+    htm = PIC_SUB.sub(lambda x: re_pic2htm(x, pic_dict), htm)
+    htm = htm.replace('\n\n', '</p><p>')
+    htm = '<p>%s</p>' % htm
+    return htm
+
+def re_pic_space(match):
+    s, n = match.groups()
+    if n.count('\n') > 1:
+        n = n.split('\n', 1)[1]
+    return ' %s %s'%(s, n)
+
+
 
 if __name__ == '__main__':
-    pass
+    PIC_SPACE = re.compile(r'\s{1,3}[ \t]*(图:\d+)[ \t]*(\s*)', re.MULTILINE)
+    print PIC_SPACE.sub(re_pic_space, """1
+
+    图:1
+    
+    3
+    图:2
+    s
+
+    图:4""")
+
+
