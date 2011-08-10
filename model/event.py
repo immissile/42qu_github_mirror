@@ -127,7 +127,7 @@ def event_new_if_can_change(
             event.pic_id = pic_id
             event.save()
  
-    event_new(
+    return event_new(
         zsite_id,
         cid,
         city_pid,

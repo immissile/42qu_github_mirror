@@ -259,10 +259,13 @@ class PoOne(ZsiteBase):
             self.mark()
 
         zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
-
-        prev_id, next_id = po_prev_next(
-            po.cid, zsite_id, zsite_tag_id, po.id
-        )
+        cid = po.cid
+        if cid == CID_EVENT:
+            prev_id = next_id = None
+        else:
+            prev_id, next_id = po_prev_next(
+                po.cid, zsite_id, zsite_tag_id, po.id
+            )
 
         return self.render(
             self.template,
