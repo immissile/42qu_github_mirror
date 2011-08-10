@@ -10646,6 +10646,9 @@ def place_name(place_id):
     if not place_id:
         return ''
 
+    if place_id < 1000:
+        return COUNTRY_DICT[place_id] 
+
     r = []
     country = (place_id&BIT_COUNTRY) >> BIT_COUNTRY_LEN
     if country > 1:
@@ -10659,6 +10662,9 @@ def place_name(place_id):
     return ' '.join(r)
 
 if __name__ == '__main__':
+    print place_name(4295033088)
+    print place_name(105)
+    """
     print place_name(4295033088)
     print place_name(4295033088&BIT_COUNTRY_PROVINCE_CITY)
 
@@ -10719,3 +10725,4 @@ if __name__ == '__main__':
             return (max<<(prefixlen-8))+pid
 
     test()
+    """
