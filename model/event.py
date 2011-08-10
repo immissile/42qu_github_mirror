@@ -408,6 +408,7 @@ def event_init2to_review(id):
 
 if __name__ == '__main__':
     pass
+    #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
 
 
 
