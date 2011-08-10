@@ -1,8 +1,8 @@
 <%!
-from model.po import STATE_SECRET
+from model.po import Po, STATE_SECRET
 from model.po_event import EVENT_CID_CN
 from model.fs import fs_url_jpg
-from model.event import event_review_count
+from model.event import event_to_review_count_by_zsite_id
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -23,9 +23,10 @@ if event:
     can_change = event.can_change()
 else:
     can_change = True
-event_to_review = event_review_count(current_user_id)
+event_to_review = event_to_review_count_by_zsite_id(current_user_id)
 %>
 
+%if not event_id:
 <div class="head">
 %if errtip:
 <span style="color:#a10">表单有误 , 请您更正</span>
@@ -41,11 +42,21 @@ event_to_review = event_review_count(current_user_id)
 </span>&gt;<span>3. 等待审核</span> 
 %endif
 </div>
+%else:
+<%
+po = Po.get(event_id)
+%>
+<div class="head">
+<a href="/po/edit/${event_id}" target="_blank">编辑介绍</a><span style="margin-left:15px">${po.name}</span>
+</div>
+%endif
 
 
 <%htm:form id="event_form" enctype="multipart/form-data">
-%if event_to_review and not address:
-    <a href="/event/to_review" target="_blank">你还有 ${event_to_review} 次活动待审核</a>
+%if event_to_review and not event_id:
+<div class="po_line">
+<a href="/event/to_review" target="_blank"><span class="mr3">${event_to_review}</span>活动待审核</a>
+</div>
 %endif
 <div class="po_line">
 <label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
