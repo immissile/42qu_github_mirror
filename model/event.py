@@ -405,8 +405,11 @@ def event_init2to_review(id):
         mc_event_id_list_by_zsite_id.delete('%s_%s'%(event.zsite_id, True))
         return True
 
+def event_review_count(zsite_id):
+    return Event.where("state=%s and zsite_id=%s", EVENT_STATE_TO_REVIEW, zsite_id).count()
+
 if __name__ == '__main__':
-    pass
+    print event_review_count(10000000)
     #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
 
 

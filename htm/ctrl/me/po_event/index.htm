@@ -2,7 +2,7 @@
 from model.po import STATE_SECRET
 from model.po_event import EVENT_CID_CN
 from model.fs import fs_url_jpg
-from model.event import EVENT_STATE_TO_REVIEW
+from model.event import event_review_count
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -23,7 +23,7 @@ if event:
     can_change = event.can_change()
 else:
     can_change = True
-
+event_to_review = event_review_count(current_user_id)
 %>
 
 <div class="head">
@@ -44,6 +44,9 @@ else:
 
 
 <%htm:form id="event_form" enctype="multipart/form-data">
+%if event_to_review and not address:
+    <a href="/event/to_review" target="_blank">你还有 ${event_to_review} 次活动待审批</a>
+%endif
 <div class="po_line">
 <label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
 </div>
