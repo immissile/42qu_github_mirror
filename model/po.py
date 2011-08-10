@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -22,15 +22,15 @@ PO_CN_EN = (
     (CID_WORD, 'word', '微博', '句'),
     (CID_NOTE, 'note', '文章', '篇'),
     (CID_QUESTION, 'question', '问题', '条'),
-    (CID_ANSWER, 'answer', '回答', '次'),
+    (CID_ANSWER, 'answer', '回答', '个'),
     (CID_PHOTO, 'photo', '图片', '张'),
     (CID_VIDEO, 'video', '视频', '场'),
     (CID_AUDIO, 'audio', '音乐', '段'),
+    (CID_EVENT, 'event', '活动', '次'),
 )
 PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
 PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
 PO_COUNT_CN = dict((i[0], i[3]+i[2]) for i in PO_CN_EN)
-
 
 mc_htm = McCache('PoHtm.%s')
 
@@ -174,7 +174,7 @@ class Po(McModel, ReplyMixin):
         cid = self.cid
         state = self.state
         user_id = self.user_id
-        if cid != CID_WORD and state == STATE_ACTIVE:
+        if cid != CID_WORD and cid != CID_EVENT and state == STATE_ACTIVE:
             tag_id = tag_id_by_user_id_cid(user_id, cid)
             zsite_tag_new_by_tag_id(self, tag_id)
 

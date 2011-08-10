@@ -4,27 +4,31 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from config import SITE_HTTP, RPC_HTTP
 from zkit.page import page_limit_offset
-from model.event import Event, event_joiner_new, event_joiner_state, event_joiner_list
-from model.event import event_count_by_zsite_id, event_join_count_by_user_id, event_open_count_by_user_id
-from model.event import event_list_by_zsite_id, event_list_join_by_user_id, event_list_open_by_user_id
-from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
+from model.event import Event, event_joiner_new, event_joiner_state, event_joiner_list,\
+event_count_by_zsite_id, event_join_count_by_user_id, event_open_count_by_user_id,\
+event_list_by_zsite_id, event_list_join_by_user_id, event_list_open_by_user_id,\
+EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
 from model.money import pay_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice, read_cent
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cent_with_tax
-from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT
+from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT, CID_EVENT
 from ctrl.me.i import NameCardEdit
 
+#,CID_EVENT
 
-@urlmap('/event/my')
-@urlmap('/event/my-(\d+)')
+@urlmap('/event/to_review')
+@urlmap('/event/to_review-(\d+)')
 class EventMine(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
+        if current_user_id != zsite_id:
+            return self.redirect('/event')
+
         can_admin = zsite_id == current_user_id
 
         total = event_count_by_zsite_id(zsite_id, can_admin)
         page, limit, offset = page_limit_offset(
-            '/event/my-%s',
+            '/event/to_review-%s',
             total,
             n,
             PAGE_LIMIT
@@ -32,19 +36,21 @@ class EventMine(ZsiteBase):
         li = event_list_by_zsite_id(zsite_id, can_admin, limit, offset)
         self.render(
             li=li,
+            total=total,
+            cid=CID_EVENT,
             page=page,
         )
 
 
-@urlmap('/event/all')
-@urlmap('/event/all-(\d+)')
+@urlmap('/event')
+@urlmap('/event-(\d+)')
 class EventJoined(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
 
         total = event_join_count_by_user_id(zsite_id)
         page, limit, offset = page_limit_offset(
-            '/event/all-%s',
+            '/event-%s',
             total,
             n,
             PAGE_LIMIT
@@ -53,29 +59,11 @@ class EventJoined(ZsiteBase):
         self.render(
             'ctrl/zsite/event/event_page.htm',
             li=li,
+            cid=CID_EVENT,
             page=page,
+            total=total,
         )
 
-
-@urlmap('/event/ing')
-@urlmap('/event/ing-(\d+)')
-class EventOpen(ZsiteBase):
-    def get(self, n=1):
-        zsite_id = self.zsite_id
-
-        total = event_open_count_by_user_id(zsite_id)
-        page, limit, offset = page_limit_offset(
-            '/event/ing-%s',
-            total,
-            n,
-            PAGE_LIMIT
-        )
-        li = event_list_open_by_user_id(zsite_id, limit, offset)
-        self.render(
-            'ctrl/zsite/event/event_page.htm',
-            li=li,
-            page=page,
-        )
 
 
 class EventBase(LoginBase):

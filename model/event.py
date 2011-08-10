@@ -126,8 +126,9 @@ def event_new_if_can_change(
             event.phone = phone
             event.pic_id = pic_id
             event.save()
-
-    event_new(
+            return event
+ 
+    return event_new(
         zsite_id,
         cid,
         city_pid,
@@ -406,6 +407,7 @@ def event_init2to_review(id):
 
 if __name__ == '__main__':
     pass
+    #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
 
 
 
