@@ -20,12 +20,6 @@ ${po.name} - ${zsite.name}\
 ${css.ctrl_po|n}
 <link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章" />
 </%def>
-<%
-if zsite_tag_id:
-    tag_link = "tag/%s" % zsite_tag_id
-else:
-    tag_link = "po/cid/%s"%po.cid
-%>
 
 <%
 cid = po.cid

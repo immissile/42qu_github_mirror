@@ -158,7 +158,6 @@ class Index(LoginBase):
             errtip.pic = "请上传图片"
 
         if errtip:
-            
             return self.render(
                 event=event,
                 errtip=errtip,
