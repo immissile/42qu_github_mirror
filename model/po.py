@@ -76,6 +76,8 @@ class Po(McModel, ReplyMixin):
             user_id = self.user_id
             s = pic_htm(s, user_id, id)
             s = s.replace('\n\n', '</p><p>')
+            import re
+            s = re.sub(r'(\w+)\s(图:\d+)\s(\w+)', r'\1\2\3', s)
             s = '<p>%s</p>' % s
         return s
 
