@@ -320,7 +320,7 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
 
     o = event_joiner_get(event_id, user_id)
     if o and o.state >= state:
-        return
+        return o
 
     now = int(time())
 
@@ -336,7 +336,7 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
         mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
         mc_event_joiner_id_list.delete(event_id)
 
-        if zsite_id != user_id:
+        if event.zsite_id != user_id:
             event.join_count += 1
             event.save()
     return o
@@ -433,6 +433,7 @@ def event_review_yes(id):
     if event and event.state == EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_BEGIN
         event.save()
+        event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
         mc_event_id_list_by_zsite_id.delete('%s_%s'%(event.zsite_id, False))
         from notice import notice_event_yes
         notice_event_yes(event.zsite_id, id)
@@ -450,6 +451,10 @@ def event_review_no(id, txt):
 if __name__ == '__main__':
     print event_to_review_count(10000000)
     #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
+    #event = Event.get(10047312)
+    #print event.id ,event.zsite_id
+    #o = event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
+    #print o.id
 
 
 
