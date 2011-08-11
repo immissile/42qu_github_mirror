@@ -67,7 +67,7 @@ class EventJoined(ZsiteBase):
 
 
 class EventBase(LoginBase):
-    def event(self, id):
+    def _event(self, id):
         o = Event.mc_get(id)
         if o:
             if o.zsite_id == self.zsite_id:
@@ -76,11 +76,17 @@ class EventBase(LoginBase):
         return self.redirect('/')
 
 
+@urlmap('/event/(\d+)/state')
+class EventState(EventBase):
+    def get(self, id):
+        event = self._event(id)
+        return self.render(event=event)
+
 @urlmap('/event/join/(\d+)')
 class EventJoin(NameCardEdit, EventBase):
     def _event(self, id):
         current_user_id = self.current_user_id
-        self.event = event = super(EventJoin, self).event(id)
+        self.event = event = super(EventJoin, self)._event(id)
         self.error = []
         if event:
             return event
@@ -213,7 +219,7 @@ PAGE_LIMIT = 42
 @urlmap('/event/check/(\d+)-(\d+)')
 class EventCheck(EventBase):
     def get(self, id, n=1):
-        event = self.event(id)
+        event = self._event(id)
         if event is None:
             return
 
