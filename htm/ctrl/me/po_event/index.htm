@@ -1,5 +1,5 @@
 <%!
-from model.po import Po, STATE_SECRET
+from model.po import STATE_SECRET
 from model.po_event import EVENT_CID_CN
 from model.fs import fs_url_jpg
 from model.event import event_to_review_count_by_zsite_id
@@ -30,7 +30,12 @@ else:
 event_to_review = event_to_review_count_by_zsite_id(current_user_id)
 %>
 
-%if not event_id:
+
+%if event_id:
+<div class="head">
+    <span class="c0">编辑属性</span><a class="c9" href="/po/edit/${event_id}">编辑介绍</a>
+</div>
+%else:
 <div class="head">
 %if errtip:
 <span style="color:#a10">表单有误 , 请您更正</span>
@@ -45,13 +50,6 @@ event_to_review = event_to_review_count_by_zsite_id(current_user_id)
 %endif
 </span>&gt;<span>3. 等待审核</span> 
 %endif
-</div>
-%else:
-<%
-po = Po.get(event_id)
-%>
-<div class="head">
-<a href="/po/edit/${event_id}" target="_blank">编辑活动介绍</a><span style="margin-left:15px">${po.name}</span>
 </div>
 %endif
 
@@ -144,7 +142,13 @@ value="${_event_cid}">${event_name}</option>
 
 <div>\
 <span id="event_submit_span" class="btnw">\
-<button type="submit">下一步</button>\
+    <button type="submit">
+% if event_id:
+保存
+% else:
+下一步
+% endif
+    </button>\
 </span>\
 % if event_id:
 <span id="rm"><a href="/po/rm/${event_id}?${_xsrf}">删除</a></span>

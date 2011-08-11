@@ -399,7 +399,7 @@ def event_join_review(o):
 
 def event_init2to_review(id):
     event = Event.mc_get(id)
-    if event and event.state <= EVENT_STATE_TO_REVIEW:
+    if event and event.state < EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_TO_REVIEW
         event.save()
 
