@@ -1,12 +1,21 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
+<%!
+from model.po import Po
+%>
+
 <%def name="htm_head()">
 <script src="${js.pid}"></script>
 ${css.ctrl_i_namecard|n}
 </%def>
 
+<%
+event = this.event
+po = Po.mc_get(event.id)
+%>
+
 <%namespace file="/ctrl/_util/namecard.htm" import="namecard_edit"/>
 <div style="font-size:16px;margin-top:32px;">
-<p>登记报名<a style="margin-left:14px" href="#">我们去游泳</a></p>
+<p>登记报名<a style="margin-left:14px" href="${po.link}">${po.name}</a></p>
 </div>
 <div>
 ${namecard_edit()}

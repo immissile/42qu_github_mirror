@@ -87,10 +87,9 @@ class EventJoin(NameCardEdit, EventBase):
             return self.redirect(event.link)
 
     def get(self, id):
-        event = self._event(id)
+        self.event = event = self._event(id)
         if event is None:
             return
-
         return NameCardEdit.get(self)
 
     def post(self, id):
