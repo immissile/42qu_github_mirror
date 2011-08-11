@@ -8,7 +8,8 @@ from zsite import Zsite
 from namecard import namecard_bind
 from operator import itemgetter
 from gid import gid
-from po import Po, po_rm
+from po import Po, po_rm, po_state_set
+from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
@@ -30,9 +31,9 @@ event_open_count_by_user_id = McNum(lambda user_id: event_list_open_by_user_id_q
 mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
 
 mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
-mc_event_joiner_id_list = McLimitA('EventJoinerIdList.%s', 128)
+mc_event_joiner_id_list = McCacheA('EventJoinerIdList.%s')
 event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).count(), 'EventCountByZsiteId.%s')
-event_to_review_count_by_zsite_id = McNum( lambda zsite_id : Event.where("state=%s and zsite_id=%s", EVENT_STATE_TO_REVIEW, zsite_id).count(), "EventToReviewCountByZsiteId:%s")
+event_to_review_count_by_zsite_id = McNum(lambda zsite_id: Event.where(state=EVENT_STATE_TO_REVIEW, zsite_id=zsite_id).count(), "EventToReviewCountByZsiteId:%s")
 
 EVENT_CID_CN = (
     (1 , '技术'),
@@ -206,7 +207,9 @@ def event_new(
 
 def mc_flush_by_zsite_id(zsite_id):
     for i in (True, False):
-        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, i))
+        mc_key = '%s_%s' % (zsite_id, i)
+        mc_event_id_list_by_zsite_id.delete(mc_key)
+        event_count_by_zsite_id.delete(mc_key)
 
 
 class Event(McModel):
@@ -296,21 +299,29 @@ def event_joiner_state(event_id, user_id):
 
 
 @mc_event_joiner_id_list('{event_id}')
-def event_joiner_id_list(event_id, limit, offset):
-    return EventJoiner.where('state>=%s', EVENT_JOIN_STATE_NEW).order_by('id desc').col_list(limit, offset)
+def event_joiner_id_list(event_id):
+    event = Event.mc_get(event_id)
+    zsite_id = event.zsite_id
+    return EventJoiner.where('user_id!=%s and state>=%s', zsite_id, EVENT_JOIN_STATE_NEW).order_by('id desc').col_list()
 
 def event_joiner_list(event_id, limit, offset):
-    id_list = event_joiner_id_list(event_id, limit, offset)
+    id_list = event_joiner_id_list(event_id)[offset: limit+offset]
     li = EventJoiner.mc_get_list(id_list)
     Zsite.mc_bind(li, 'user', 'user_id')
     namecard_bind(li, 'user_id')
     return li
 
+def event_joiner_user_list(event_id, limit=0, offset=0):
+    id_list = event_joiner_id_list(event_id)
+    if limit:
+        id_list = id_list[offset: limit+offset]
+    li = EventJoiner.mc_get_list(id_list)
+    _li = [i.user_id for i in li]
+    return Zsite.mc_get_list(_li)
+
 
 def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
     event = Event.mc_get(event_id)
-    #    if event.zsite_id!=user_id:
-    #        event.join_count+=1
     if not event or \
         event.state < EVENT_STATE_BEGIN or \
         event.state >= EVENT_STATE_END:
@@ -414,17 +425,12 @@ def event_init2to_review(id):
 
 def event_rm(user_id, id):
     event = Event.mc_get(id)
-    zsite_id = event.zsite_id
     if event.can_admin(user_id) and event.can_change():
         event.state = EVENT_STATE_DEL
         event.save()
 
-        mc_key = '%s_%s'%(zsite_id, True)
-        mc_event_id_list_by_zsite_id.delete(mc_key)
-        event_count_by_zsite_id.delete(mc_key)
-
+        mc_flush_by_zsite_id(event.zsite_id)
         event_to_review_count_by_zsite_id.delete(user_id)
-
         mc_flush_by_user_id(user_id)
 
 def event_review_yes(id):
@@ -432,10 +438,13 @@ def event_review_yes(id):
     if event and event.state == EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_BEGIN
         event.save()
-        event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
-        mc_event_id_list_by_zsite_id.delete('%s_%s'%(event.zsite_id, False))
+        zsite_id = event.zsite_id
+        event_joiner_new(id, zsite_id, EVENT_JOIN_STATE_YES)
+        po = Po.mc_get(id)
+        po_state_set(po, STATE_ACTIVE)
         from notice import notice_event_yes
         notice_event_yes(event.zsite_id, id)
+        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, False))
 
 
 def event_review_no(id, txt):
