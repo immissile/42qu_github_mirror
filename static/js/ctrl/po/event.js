@@ -17,5 +17,10 @@ $(function(){
             alert(error)
             return false
         }
+    });
+    $("#rm").click(function(){
+        if(!confirm("删除，确定？")){
+            return false
+        }
     })
 })
