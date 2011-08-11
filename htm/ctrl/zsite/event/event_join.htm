@@ -12,6 +12,7 @@ ${css.ctrl_event_join|n}
 <%
 event = this.event
 po = Po.mc_get(event.id)
+error = this.error
 %>
 
 <%namespace file="/ctrl/_util/namecard.htm" import="namecard_edit"/>
@@ -19,5 +20,13 @@ po = Po.mc_get(event.id)
 <p>登记报名<a href="${po.link}">${po.name}</a></p>
 </div>
 <div>
+%if error:
+<div class="errortop">
+    %for i in error:
+<p class="error">${i}</p>
+    %endfor
+</div>
+%endif
 ${namecard_edit()}
 </div>
+
