@@ -456,17 +456,18 @@ def event_review_no(id, txt):
         top_notice_event_no(event.zsite_id, id, txt)
         from user_mail import mail_by_user_id
         rendermail(
-                '/mail/event/event_review_yes.txt',
+                '/mail/event/event_review_no.txt',
                 mail_by_user_id(event.zsite_id),
                 event.zsite.name,
                 title = event.po.name,
+                reason = txt,
                 id=id,
-                txt = txt
                 )
 
 
 if __name__ == '__main__':
-    print event_to_review_count(10000000)
+    #event_review_no(10047323,'yuyuyuyu')
+    #print event_to_review_count(10000000)
     #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
 
 
