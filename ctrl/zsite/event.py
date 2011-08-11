@@ -78,34 +78,57 @@ class EventBase(LoginBase):
 
 @urlmap('/event/join/(\d+)')
 class EventJoin(NameCardEdit, EventBase):
-    def event(self, id):
+    def _event(self, id):
         current_user_id = self.current_user_id
-        event = super(EventJoin, self).event(id)
+        self.event = event = super(EventJoin, self).event(id)
+        self.error = []
         if event:
-            if not event.can_admin(current_user_id) and event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
+            return event
+            if event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
                 return event
-            return self.redirect(event.link)
+            event_link = "/event/%s/state"%event.id
+            return self.redirect(event_link)
 
     def get(self, id):
-        event = self.event(id)
+        event = self._event(id)
         if event is None:
             return
-
         return NameCardEdit.get(self)
 
     def post(self, id):
-        event = self.event(id)
+        event = self._event(id)
         if event is None:
             return
+        
+        event_link = "/event/%s/state"%event.id
 
-        if not self.save():
-            return self.get(id)
+        pid_now = self.get_argument('pid_now', None)
+        name = self.get_argument('name', '')
+        phone = self.get_argument('phone', '')
+        mail = self.get_argument('mail', '')
+        address = self.get_argument('address', '')
+      
+        error = self.error 
+        pid_now = int(pid_now)
+
+
+        if not pid_now or int(pid_now) == 1:
+            error.append("请选择现居城市") 
+        if not name:
+            error.append("请输入本人姓名")
+        if not phone:
+            error.append("请填写手机号码")
+        if not mail:
+            error.append("请补充邮件地址")
+
+        if not self.save() or error:
+            return NameCardEdit.get(self)
 
         if event.cent:
             return self.redirect('/event/pay/%s' % id)
 
         event_joiner_new(id, self.current_user_id)
-        return self.redirect(event.link)
+        return self.redirect(event_link)
 
 
 @urlmap('/event/pay/(\d+)')
@@ -144,6 +167,8 @@ class EventPay(EventJoin):
         if event is None:
             return
 
+        event_link = "/event/%s/state"%event.id
+
         current_user_id = self.current_user_id
         zsite_id = self.zsite_id
 
@@ -158,7 +183,7 @@ class EventPay(EventJoin):
 
         if not cent_need:
             event_joiner_new(id, current_user_id)
-            return self.redirect(event.link)
+            return self.redirect(event_link)
 
         cent_with_tax = alipay_cent_with_tax(cent_need)
 
@@ -208,3 +233,6 @@ class EventCheck(EventBase):
             event_joiner_list=li,
             page=page,
         )
+
+
+
