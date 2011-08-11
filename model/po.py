@@ -224,12 +224,20 @@ def po_cid_set(po, cid):
 
 def po_rm(user_id, id):
     po = Po.mc_get(id)
+    cid = po.cid
     if po.can_admin(user_id):
         from po_question import answer_count
-        if po.cid == CID_QUESTION:
+        if cid == CID_QUESTION:
             if answer_count(id):
                 return
+        elif cid == CID_EVENT:
+            from model.event import event_rm
+            event_rm(user_id, id)
         return _po_rm(user_id, po)
+
+#, event_rm
+
+
 
 def _po_rm(user_id, po):
     po.state = STATE_DEL

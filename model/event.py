@@ -215,9 +215,9 @@ class Event(McModel):
             return True
 
     def can_change(self):
-        if self.state <= EVENT_STATE_TO_REVIEW:
-            return True
         if self.join_count == 0:
+            return True
+        if self.state <= EVENT_STATE_TO_REVIEW:
             return True
 
     @attrcache
@@ -415,10 +415,14 @@ def event_rm(user_id, id):
     if event.can_admin(user_id) and event.can_change():
         event.state = EVENT_STATE_DEL
         event.save()
-        po_rm(zsite_id, id)
-        mc_event_id_list_by_zsite_id.delete(user_id)
-        event_count_by_zsite_id.delete(user_id)
+        
+        mc_key = '%s_%s'%(zsite_id, True)
+        mc_event_id_list_by_zsite_id.delete(mc_key)
+        event_count_by_zsite_id.delete(mc_key)
+
         event_to_review_count_by_zsite_id.delete(user_id)
+
+        mc_flush_by_user_id(user_id)
 
 if __name__ == '__main__':
     print event_to_review_count(10000000)

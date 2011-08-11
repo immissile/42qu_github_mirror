@@ -10,7 +10,7 @@ from zkit.earth import pid_city
 from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
 from model.cid import CID_EVENT
-from model.event import Event, EVENT_STATE_INIT, event_new_if_can_change, event_rm
+from model.event import Event, EVENT_STATE_INIT, event_new_if_can_change
 from model.po import po_new, STATE_DEL
 
 @urlmap('/po/event/(\d+)/state')
@@ -23,15 +23,6 @@ class EventState(LoginBase):
             return self.render(event=event)
         self.redirect("/po/event")
 
-@urlmap('/event/rm/(\d+)')
-class EventRm(XsrfGetBase):
-    def get(self, event_id):
-        user = self.current_user
-        user_id = self.current_user_id
-        event_rm(user_id, event_id)
-        self.redirect('%s/live'%user.link)
-
-    post = get
 
 
 @urlmap('/po/event')
