@@ -440,7 +440,7 @@ def event_review_yes(id):
         from user_mail import mail_by_user_id
         rendermail(
                 '/mail/event/event_review_yes.txt',
-                mail_by_user_id(event_review_yes.zsite_id),
+                mail_by_user_id(event.zsite_id),
                 event.zsite.name,
                 link = event.zsite.link,
                 title = event.po.name,
@@ -457,10 +457,10 @@ def event_review_no(id, txt):
         from user_mail import mail_by_user_id
         rendermail(
                 '/mail/event/event_review_yes.txt',
-                mail_by_user_id(event_review_yes.zsite_id),
+                mail_by_user_id(event.zsite_id),
                 event.zsite.name,
                 title = event.po.name,
-                id=event.id,
+                id=id,
                 txt = txt
                 )
 
