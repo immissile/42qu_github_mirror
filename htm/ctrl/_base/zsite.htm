@@ -126,10 +126,10 @@ ${self.h_nav_inner()}\
 %endif
 %else:
     %if zsite_id:
-<div class="D"><a href="/login" class="DA">登录</a></div>\
+<div class="D"><a href="/auth/login" class="DA">登录</a></div>\
 <div class="D"><a href="javascript:login();void(0);" class="DA">交流</a></div>\
     %else:
-<div class="D"><a href="${SITE_URL|n}/login" class="DA">登录</a></div>\
+<div class="D"><a href="${SITE_URL|n}/auth/login" class="DA">登录</a></div>\
 <div class="D"><a href="${SITE_URL|n}/auth/reg" class="DA">注册</a></div>\
     %endif
 %endif

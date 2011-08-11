@@ -3,13 +3,121 @@
 <%namespace file="_vote.htm" import="po_bar_vote"/>
 <%!
 from model.fs import fs_url_jpg
-from model.po_pic import PoPic
+from model.days import cn_date, cn_weekday, minute2date, minute2time
+from zkit.earth import place_name
+from model.event import Event, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
 %>
 <%def name="po_body()">
 <%
-img_url = fs_url_jpg(721, po.rid)
-tag_link = "tag/%s" % zsite_tag_id
+id = po.id
+event = Event.mc_get(id)
+state = event.state
+can_admin = event.can_admin(current_user_id)
 %>
+
+% if can_admin or state >= EVENT_STATE_BEGIN:
+<%
+pic_url = fs_url_jpg(162, event.pic_id)
+_begin_time = event.begin_time
+begin_date = minute2date(_begin_time)
+begin_time = minute2time(_begin_time)
+_end_time = event.end_time
+end_date = minute2date(_end_time)
+end_time = minute2time(_end_time)
+join_count = event.join_count
+price = event.price
+%>
+<div class="c" style="margin-left: 125px; margin-bottom: 28px;">
+% if pic_url:
+    <img src="${pic_url}" style="float: left; margin-right: 36px;">
+% endif
+    <div style="float: left; margin-top: -7px;">
+<div style="text-align: left; font-size: 14px; margin-top: 4px; margin-bottom: 14px;" id="po_name">${po.name}</div>
+
+<p>时间<span style="display:inline-block;width:20px;text-align:center;">:</span>${cn_date(begin_date)} ${cn_weekday(begin_date)}
+% if begin_date == end_date:
+% if begin_time == end_time:
+${begin_time}</p>
+% else:
+</p>
+<p style="margin-left: 48px;">${begin_time} - ${end_time}</p>
+% endif
+% else:
+${begin_time}</p>
+<p style="margin-left: 14px;">至<span style="margin-left: 20px;">${cn_date(end_date)} ${cn_weekday(end_date)} ${end_time}</span></p>
+% endif
+
+<p style="margin-top: 14px;">地点<span style="display:inline-block;width:20px;text-align:center;">:</span>${place_name(event.city_pid)}</p>
+<p style="margin-left: 48px;">${event.address}</p>
+
+</div>
+</div>
+
+<div class="w721">
+<pre style="white-space: pre-wrap;">\
+${po.htm|n}\
+<p>联系电话 : ${event.phone}</p>\
+<p>交通方式 : ${event.transport}</p>\
+<form action="/event/${'check' if can_admin else 'join'}/${id}" style="margin-top: 16px; margin-bottom: 28px;"><span class="btnw"><button type="submit">报名${'管理' if can_admin else '参加'}</button></span>\
+% if can_admin and join_count:
+<span style="margin-left:32px;vertical-align: 13px;"><a href="/event/check/${id}"><span class="mr3">${join_count}</span>待确认</a></span>
+% endif
+% if price:
+<span style="vertical-align: 13px; margin-left: 32px;">${price} 元 / 人</span>\
+% endif
+</form>\
+<p class="po_bar po_bar1"><a class="L" href="/po/event/${id}">编辑</a>组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
+${po_bar_vote(po)}\
+</pre>
+<div style="border-width: 1px 0pt; border-style: dotted none; border-color: rgb(204, 204, 204) -moz-use-text-color; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; text-align: center; padding: 14px 14px 16px; margin: 14px 0pt 0pt;">
+<span>32</span> 报名
+</div>
+<div class="G">
+
+<div class="G3">
+
+<div id="joiner" class="G">
+
+<div class="G1">
+<img src="40206.jpg">
+<div>王兴</div>
+
+<div class="tr">美团网</div>
+<div class="tr">创始人&amp;CEO</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<div style="border-width: 1px 0pt; border-style: dotted none; border-color: rgb(204, 204, 204) -moz-use-text-color; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; text-align: center; padding: 14px; margin: 0pt;">
+<span>32</span> 留言
+</div>
+
+</div>
+
+<textarea id="_txt" style="display: none;">event_new_if_can_change</textarea>
+</div>
+
+
+<div id="reply_list">
+</div>
+<form method="POST" action="http://zuroc.zuroc.xxx/po/reply/10047266" id="txt_form"><textarea style="overflow: hidden; height: 100px;" id="reply_txt" name="txt"></textarea>
+<div class="btns"><span class="btnw"><button type="submit">此致 , 敬礼</button></span></div>
+<input name="_xsrf" value="6a4950a45a9f4d6faa018351bdabb696" type="hidden"><div style="position: absolute; display: none; word-wrap: break-word; border-color: rgb(204, 204, 204); border-style: solid; border-width: 1px; font-weight: 400; width: 703px; font-family: Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif; line-height: 28px; font-size: 14px; padding: 6px 8px;">&nbsp;</div><div style="position: absolute; display: none; word-wrap: break-word; border-color: rgb(204, 204, 204); border-style: solid; border-width: 1px; font-weight: 400; width: 703px; font-family: Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif; line-height: 28px; font-size: 14px; padding: 6px 8px;">&nbsp;</div></form>
+</div>
+
+
+
+</div></div></div>
+
+
+
+% else:
+活动尚未通过审批
+% endif
 
 <div id="po_name">${po.name}</div>\
 <div class="w721">\

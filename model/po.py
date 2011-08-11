@@ -174,7 +174,7 @@ class Po(McModel, ReplyMixin):
         cid = self.cid
         state = self.state
         user_id = self.user_id
-        if cid != CID_WORD and cid != CID_EVENT and state == STATE_ACTIVE:
+        if cid not in (CID_WORD, CID_EVENT) and state == STATE_ACTIVE:
             tag_id = tag_id_by_user_id_cid(user_id, cid)
             zsite_tag_new_by_tag_id(self, tag_id)
 

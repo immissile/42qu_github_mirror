@@ -7,6 +7,7 @@ ONE_DAY = 3600 * 24
 ONE_DAY_MINUTE = 60*24
 TIMEZONE_OFFSET = mktime((1970, 1, 1, 0, 0, 0, 0, 0, 0))
 DATE_BEGIN = datetime.date(1970, 1, 1)
+DATETIME_BEGIN = datetime.datetime(1970, 1, 1)
 
 
 def today_seconds():
@@ -34,13 +35,36 @@ def ymd2days(ymd):
 def minute2date(minute):
     return datetime.timedelta(minute/ONE_DAY_MINUTE)+DATE_BEGIN
 
+def minute2time(minute):
+    minute = minute % ONE_DAY_MINUTE
+    return '%d:%02d' % (minute//60, minute % 60)
+
+def minute2datetime(minute):
+    return datetime.timedelta(minutes=minute) + DATETIME_BEGIN
+
 def minute2ymd(minute):
     d = minute2date(minute)
     return d.year*10000+d.month*100+d.day
 
 def minute2ymd2(minute):
     d = minute2date(minute)
-    return '%s.%s.%s' % (d.year, d.month, d.day)
+    return d.strftime('%Y.%m.%d')
+
+def cn_date(datetime):
+    return datetime.strftime('%Y年%m月%d日')
+
+CN_WEEKDAY = {
+    0: '日',
+    1: '一',
+    2: '二',
+    3: '三',
+    4: '四',
+    5: '五',
+    6: '六',
+}
+
+def cn_weekday(datetime):
+    return '星期%s' % CN_WEEKDAY[datetime.weekday()]
 
 def ymd2minute(ymd):
     return ymd2days(ymd)*ONE_DAY_MINUTE

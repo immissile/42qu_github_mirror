@@ -127,7 +127,7 @@ def event_new_if_can_change(
             event.pic_id = pic_id
             event.save()
             return event
- 
+
     return event_new(
         zsite_id,
         cid,
@@ -239,7 +239,6 @@ class Event(McModel):
     def link(self):
         o = self.zsite
         return '%s/%s' % (o.link, self.id)
-
 
 
 @mc_event_id_list_by_zsite_id('{zsite_id}_{can_admin}')
@@ -419,7 +418,7 @@ def event_rm(user_id, id):
     if event.can_admin(user_id) and event.can_change():
         event.state = EVENT_STATE_DEL
         event.save()
-        
+
         mc_key = '%s_%s'%(zsite_id, True)
         mc_event_id_list_by_zsite_id.delete(mc_key)
         event_count_by_zsite_id.delete(mc_key)
