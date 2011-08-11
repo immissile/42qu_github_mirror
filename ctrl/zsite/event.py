@@ -86,7 +86,8 @@ class EventJoin(NameCardEdit, EventBase):
             return event
             if event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
                 return event
-            return self.redirect(event.link)
+            event_link = "/event/%s/state"%event.id
+            return self.redirect(event_link)
 
     def get(self, id):
         event = self._event(id)
@@ -98,6 +99,8 @@ class EventJoin(NameCardEdit, EventBase):
         event = self._event(id)
         if event is None:
             return
+        
+        event_link = "/event/%s/state"%event.id
 
         pid_now = self.get_argument('pid_now', None)
         name = self.get_argument('name', '')
@@ -108,7 +111,6 @@ class EventJoin(NameCardEdit, EventBase):
         error = self.error 
         pid_now = int(pid_now)
 
-        print "phone", bool(phone),phone
 
         if not pid_now or int(pid_now) == 1:
             error.append("请选择现居城市") 
@@ -126,7 +128,7 @@ class EventJoin(NameCardEdit, EventBase):
             return self.redirect('/event/pay/%s' % id)
 
         event_joiner_new(id, self.current_user_id)
-        return self.redirect(event.link)
+        return self.redirect(event_link)
 
 
 @urlmap('/event/pay/(\d+)')
@@ -165,6 +167,8 @@ class EventPay(EventJoin):
         if event is None:
             return
 
+        event_link = "/event/%s/state"%event.id
+
         current_user_id = self.current_user_id
         zsite_id = self.zsite_id
 
@@ -179,7 +183,7 @@ class EventPay(EventJoin):
 
         if not cent_need:
             event_joiner_new(id, current_user_id)
-            return self.redirect(event.link)
+            return self.redirect(event_link)
 
         cent_with_tax = alipay_cent_with_tax(cent_need)
 
