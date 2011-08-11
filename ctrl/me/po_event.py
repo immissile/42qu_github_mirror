@@ -10,7 +10,7 @@ from zkit.earth import pid_city
 from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
 from model.cid import CID_EVENT
-from model.event import Event, EVENT_STATE_INIT, event_new_if_can_change
+from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_TO_REVIEW, event_new_if_can_change
 from model.po import po_new, STATE_DEL
 
 @urlmap('/po/event/(\d+)/state')
@@ -198,7 +198,11 @@ class Index(LoginBase):
             if not id:
                 id = event.id
                 po_new(CID_EVENT, user_id, '', STATE_DEL, id=id)
-            return self.redirect("/po/edit/%s"%id)
+
+            if event.state == EVENT_STATE_INIT: 
+                return self.redirect("/po/edit/%s"%id)
+            else:
+                return self.redirect("/%s"%id)
 
     def get(self, id=0):
         user_id = self.current_user_id
