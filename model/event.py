@@ -449,7 +449,7 @@ def event_review_no(id, txt):
 
 
 if __name__ == '__main__':
-    #print event_to_review_count(10000000)
+    print event_to_review_count(10000000)
     #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
     #event = Event.get(10047312)
     #print event.id ,event.zsite_id
