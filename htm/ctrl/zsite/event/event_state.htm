@@ -1,11 +1,48 @@
 <%!
-from model.days import minute2ymd2
-from model.po import PO_COUNT_CN
+from model.po import Po
+from model.event import event_joiner_state
+from model.event import EVENT_JOIN_STATE_NEW , \
+EVENT_JOIN_STATE_YES, \
+EVENT_JOIN_STATE_END, \
+EVENT_JOIN_STATE_REVIEW 
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%def name="htm_head()">
-${css.ctrl_tag|n}
+<style>
+.name{
+text-align:center;
+padding:16px;
+border-bottom:1px dotted #ccc;
+}
+.state{
+text-align:center;
+margin-top:32px;
+}
+</style>
 </%def>
 
-<div>
+<%
+event_id = event.id
+po = Po.mc_get(event_id)
+state = event_joiner_state(event_id, current_user_id)
+%>
+
+
+<div class="name">${po.name}</div>
+<div class="state">
+%if state == EVENT_JOIN_STATE_NO:
+报名被拒绝 , 可重新报名
+%elif state == EVENT_JOIN_STATE_NEW:
+报名成功 , 等待确认
+%elif state == EVENT_JOIN_STATE_YES:
+报名成功 
+%elif state == EVENT_JOIN_STATE_END:
+已经结束 , 请写反馈
+%elif state == EVENT_JOIN_STATE_END:
+已经结束
+%endif
+</div>
+
+<div class="tc" style="margin-top:27px">
+<a href="${po.link}">活动主页 , 点此返回</a>
 </div>

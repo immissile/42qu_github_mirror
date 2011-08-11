@@ -77,9 +77,10 @@ class EventBase(LoginBase):
 
 
 @urlmap('/event/(\d+)/state')
-class EventState(LoginBase):
+class EventState(EventBase):
     def get(self, id):
-        return self.render()
+        event = self._event(id)
+        return self.render(event=event)
 
 @urlmap('/event/join/(\d+)')
 class EventJoin(NameCardEdit, EventBase):
