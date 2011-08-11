@@ -8,7 +8,7 @@ from zsite import Zsite
 from namecard import namecard_bind
 from operator import itemgetter
 from gid import gid
-from po import Po
+from po import Po, po_rm
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
@@ -409,6 +409,16 @@ def event_init2to_review(id):
 
         return True
 
+def event_rm(user_id, id):
+    event = Event.mc_get(id)
+    zsite_id = event.zsite_id
+    if event.can_admin(user_id) and event.can_change():
+        event.state = EVENT_STATE_DEL
+        event.save()
+        po_rm(zsite_id, id)
+        mc_event_id_list_by_zsite_id.delete(user_id)
+        event_count_by_zsite_id.delete(user_id)
+        event_to_review_count_by_zsite_id.delete(user_id)
 
 if __name__ == '__main__':
     print event_to_review_count(10000000)

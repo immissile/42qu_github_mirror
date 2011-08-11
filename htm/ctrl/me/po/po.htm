@@ -7,13 +7,18 @@ from model.po_question import answer_count
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_title()">
-    %if cid == CID_EVENT:
-发布 - 活动
-    %elif cid == CID_QUESTION:
-发布 - 问题
-    %else:
-发布 - 文章
-    %endif
+%if po.name:
+编辑 -
+%else:
+发布 -
+%endif
+%if cid == CID_EVENT:
+活动介绍
+%elif cid == CID_QUESTION:
+问题
+%else:
+文章
+%endif
 </%def>
 
 
@@ -40,7 +45,7 @@ ${css.ctrl_po_event|n}
 %if cid == CID_EVENT:
 <div class="head">
 %if po.txt:
-<span><a href="/po/event/${po.id}" target="_blank">编辑属性</a>
+<span><a href="/po/event/${po.id}" target="_blank">编辑活动属性</a>
 %else:
 <span><a href="/po/event/${po.id}" class="c9">1. 设置属性</a></span>&gt;<span class="c0">2. 编写简介</span>&gt;<span>3. 等待审核</span>
 %endif
@@ -69,8 +74,8 @@ rid = po.rid
     <span id="po_edit_wrap">
     <span id="po_edit_span">
 % if po:
-    % if po.cid != CID_QUESTION or not answer_count(po.id):
-<a class="rmpo" href="/po/rm/${po.id}?${_xsrf}">删除</a>
+    % if (po.cid != CID_QUESTION or not answer_count(po.id)) and po.cid != CID_EVENT :
+        <a class="rmpo" href="/po/rm/${po.id}?${_xsrf}">删除</a>
     % endif
 % endif
 %if cid in (CID_WORD, CID_NOTE, CID_QUESTION):

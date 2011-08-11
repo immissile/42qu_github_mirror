@@ -267,11 +267,11 @@ class PoOne(ZsiteBase):
             else:
                 tag_link = "/event/all"
         else:
-            prev_id, next_id = po_prev_next(
-                cid, zsite_id, zsite_tag_id, po.id
-            )
             zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
             if zsite_tag_id:
+                prev_id, next_id = po_prev_next(
+                    cid, zsite_id, zsite_tag_id, po.id
+                )
                 tag_link = "/tag/%s" % zsite_tag_id
             else:
                 tag_link = "/po/cid/%s"%cid
