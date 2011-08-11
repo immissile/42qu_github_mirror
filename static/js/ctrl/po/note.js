@@ -26,7 +26,11 @@ $(function(){
     txtresize()
     win.resize(txtresize)
 
-
+    $("#rm").click(function(){
+        if(!confirm("删除 , 确定 ?")){
+            return false
+        }
+    }) 
 
 
 })
