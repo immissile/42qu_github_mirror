@@ -23,7 +23,7 @@
 }
 #TX{
     color: #000;
-    background: url('/img/gif/icons/gif/white/16x16/close.gif') repeat scroll 0% 0% transparent;
+    background: url(/img/gif/icons/gif/white/16x16/close.gif) no-repeat;
     height: 16px;
     display: inline-block;
     width: 16px;

@@ -24,8 +24,8 @@ rid = top_notice.rid
 <%
 po = Po.mc_get(rid)
 %>
-${po.name} 活动未通过审核 ,
-<a href="${po.link}">点此浏览详情</a>
+${po.name} 未过审核 ,
+<a href="/event/${po.id}">点此浏览详情</a>
 <a href="javascript:$('#T').remove();$.postJSON('/j/top_notice/rm/${id}');void(0);" id="TX"></a>
 % endif
 </%def>
