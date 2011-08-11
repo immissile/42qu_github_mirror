@@ -8,11 +8,10 @@ from model.event import event_to_review_count_by_zsite_id
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_title()">
 %if event_id:
-编辑
+编辑 - 活动属性
 %else:
-发布
+发布 - 活动
 %endif
-- 活动
 </%def>
 
 
@@ -52,7 +51,7 @@ event_to_review = event_to_review_count_by_zsite_id(current_user_id)
 po = Po.get(event_id)
 %>
 <div class="head">
-<a href="/po/edit/${event_id}" target="_blank">编辑介绍</a><span style="margin-left:15px">${po.name}</span>
+<a href="/po/edit/${event_id}" target="_blank">编辑活动介绍</a><span style="margin-left:15px">${po.name}</span>
 </div>
 %endif
 

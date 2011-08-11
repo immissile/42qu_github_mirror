@@ -7,13 +7,13 @@ from model.po_question import answer_count
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_title()">
-%if po:
+%if po.name:
 编辑 -
 %else:
 发布 -
 %endif
 %if cid == CID_EVENT:
-活动
+活动介绍
 %elif cid == CID_QUESTION:
 问题
 %else:
@@ -45,7 +45,7 @@ ${css.ctrl_po_event|n}
 %if cid == CID_EVENT:
 <div class="head">
 %if po.txt:
-<span><a href="/po/event/${po.id}" target="_blank">编辑属性</a>
+<span><a href="/po/event/${po.id}" target="_blank">编辑活动属性</a>
 %else:
 <span><a href="/po/event/${po.id}" class="c9">1. 设置属性</a></span>&gt;<span class="c0">2. 编写简介</span>&gt;<span>3. 等待审核</span>
 %endif
