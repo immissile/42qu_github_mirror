@@ -7,7 +7,12 @@ from model.event import event_to_review_count_by_zsite_id
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_title()">
-发布 - 活动
+%if event_id:
+编辑
+%else:
+发布
+%endif
+- 活动
 </%def>
 
 
@@ -142,6 +147,9 @@ value="${_event_cid}">${event_name}</option>
 <span id="event_submit_span" class="btnw">\
 <button type="submit">下一步</button>\
 </span>\
+% if event_id:
+<span id="event_rm" style="margin-left:300px"><a href="/event/rm/${event_id}?${_xsrf}">删除活动</a></span>
+% endif 
 </div>\
 </div>\
 </%htm:form>
