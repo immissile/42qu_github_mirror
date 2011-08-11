@@ -78,23 +78,23 @@ class EventBase(LoginBase):
 
 @urlmap('/event/join/(\d+)')
 class EventJoin(NameCardEdit, EventBase):
-    def event(self, id):
+    def _event(self, id):
         current_user_id = self.current_user_id
         event = super(EventJoin, self).event(id)
         if event:
-            if not event.can_admin(current_user_id) and event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
+            if event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
                 return event
             return self.redirect(event.link)
 
     def get(self, id):
-        event = self.event(id)
+        event = self._event(id)
         if event is None:
             return
 
         return NameCardEdit.get(self)
 
     def post(self, id):
-        event = self.event(id)
+        event = self._event(id)
         if event is None:
             return
 
