@@ -9,6 +9,7 @@ from namecard import namecard_bind
 from operator import itemgetter
 from gid import gid
 from po import Po, po_rm
+from mail import rendermail
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
@@ -436,6 +437,14 @@ def event_review_yes(id):
         mc_event_id_list_by_zsite_id.delete('%s_%s'%(event.zsite_id, False))
         from notice import notice_event_yes
         notice_event_yes(event.zsite_id, id)
+        from user_mail import mail_by_user_id
+        rendermail(
+                '/mail/event/event_review_yes.txt',
+                mail_by_user_id(event_review_yes.zsite_id),
+                event.zsite.name,
+                link = event.zsite.link,
+                title = event.po.name,
+                )
 
 
 def event_review_no(id, txt):
@@ -445,6 +454,15 @@ def event_review_no(id, txt):
         event.save()
         from top_notice import top_notice_event_no
         top_notice_event_no(event.zsite_id, id, txt)
+        from user_mail import mail_by_user_id
+        rendermail(
+                '/mail/event/event_review_yes.txt',
+                mail_by_user_id(event_review_yes.zsite_id),
+                event.zsite.name,
+                title = event.po.name,
+                id=event.id,
+                txt = txt
+                )
 
 
 if __name__ == '__main__':
