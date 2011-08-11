@@ -74,9 +74,11 @@ rid = po.rid
     <span id="po_edit_wrap">
     <span id="po_edit_span">
 % if po:
-    % if (po.cid != CID_QUESTION or not answer_count(po.id)) and po.cid != CID_EVENT :
-        <a class="rmpo" href="/po/rm/${po.id}?${_xsrf}">删除</a>
-    % endif
+    %if po.cid != CID_EVENT 
+        % if (cid != CID_QUESTION or not answer_count(po.id)) :
+            <a class="rmpo" href="/po/rm/${po.id}?${_xsrf}">删除</a>
+        % endif
+    %endif
 % endif
 %if cid in (CID_WORD, CID_NOTE, CID_QUESTION):
     <input type="checkbox" name="secret" id="secret"
