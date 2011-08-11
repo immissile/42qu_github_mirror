@@ -144,7 +144,8 @@ class Edit(LoginBase):
         po = self.po(user_id, self.id)
         if po is None:
             return
-        if po.cid == CID_WORD:
+        cid = po.cid
+        if cid == CID_WORD:
             if cnenlen(txt) > 140:
                 answer_word2note(po)
                 po.txt_set(txt)
@@ -157,7 +158,7 @@ class Edit(LoginBase):
                 po.save()
             if txt:
                 po.txt_set(txt)
-        if not (po.cid == CID_QUESTION and po.state == STATE_ACTIVE):
+        if not (cid == CID_QUESTION and po.state == STATE_ACTIVE) and cid != CID_EVENT:
             po_state_set(po, state)
         return po
 

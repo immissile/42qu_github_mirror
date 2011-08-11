@@ -3,11 +3,17 @@
 <%namespace file="_vote.htm" import="po_bar_vote"/>
 <%!
 from model.fs import fs_url_jpg
+from model.ico import pic_url_bind_with_default
+from model.career import career_bind
 from model.days import cn_date, cn_weekday, minute2date, minute2time
 from zkit.earth import place_name
-from model.event import Event, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
+from model.event import Event, event_joiner_user_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
 %>
 <%def name="po_body()">
+<style>
+#joiner { width: 753px; margin-top: 32px; }
+#joiner .G1 { margin-bottom: 32px; }
+</style>
 <%
 id = po.id
 event = Event.mc_get(id)
@@ -25,7 +31,11 @@ _end_time = event.end_time
 end_date = minute2date(_end_time)
 end_time = minute2time(_end_time)
 join_count = event.join_count
+join_list = event_joiner_user_list(id)
+career_bind(join_list)
+pic_url_bind_with_default(join_list, '219')
 price = event.price
+reply_count = po.reply_count
 %>
 <div class="c" style="margin-left: 125px; margin-bottom: 28px;">
 % if pic_url:
@@ -69,44 +79,42 @@ ${po.htm|n}\
 <p class="po_bar po_bar1"><a class="L" href="/po/event/${id}">编辑</a>组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
 ${po_bar_vote(po)}\
 </pre>
-<div style="border-width: 1px 0pt; border-style: dotted none; border-color: rgb(204, 204, 204) -moz-use-text-color; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; text-align: center; padding: 14px 14px 16px; margin: 14px 0pt 0pt;">
-<span>32</span> 报名
+<div style="border-width: 1px 0; border-style: dotted none; border-color: #ccc; text-align: center; padding: 14px 14px 16px; margin: 14px 0 0;">
+<span>${join_count}</span> 报名
 </div>
 <div class="G">
 
 <div class="G3">
 
 <div id="joiner" class="G">
-
+% for i in join_list:
+<%
+unit, title = i.career
+%>
+<a href="${i.link}" class="c0">
 <div class="G1">
-<img src="40206.jpg">
-<div>王兴</div>
-
-<div class="tr">美团网</div>
-<div class="tr">创始人&amp;CEO</div>
+    <img src="${i.pic219}">
+    <div>${i.name}</div>
+% if unit:
+    <div class="tr">${unit}</div>
+% endif
+% if title:
+    <div class="tr">${title}</div>
+% endif
+</div>
+</a>
+% endfor
 </div>
 </div>
 </div>
-</div>
 
 
 
-
-<div style="border-width: 1px 0pt; border-style: dotted none; border-color: rgb(204, 204, 204) -moz-use-text-color; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-image: none; text-align: center; padding: 14px; margin: 0pt;">
-<span>32</span> 留言
-</div>
-
-</div>
-
-<textarea id="_txt" style="display: none;">event_new_if_can_change</textarea>
-</div>
-
-
-<div id="reply_list">
-</div>
-<form method="POST" action="http://zuroc.zuroc.xxx/po/reply/10047266" id="txt_form"><textarea style="overflow: hidden; height: 100px;" id="reply_txt" name="txt"></textarea>
-<div class="btns"><span class="btnw"><button type="submit">此致 , 敬礼</button></span></div>
-<input name="_xsrf" value="6a4950a45a9f4d6faa018351bdabb696" type="hidden"><div style="position: absolute; display: none; word-wrap: break-word; border-color: rgb(204, 204, 204); border-style: solid; border-width: 1px; font-weight: 400; width: 703px; font-family: Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif; line-height: 28px; font-size: 14px; padding: 6px 8px;">&nbsp;</div><div style="position: absolute; display: none; word-wrap: break-word; border-color: rgb(204, 204, 204); border-style: solid; border-width: 1px; font-weight: 400; width: 703px; font-family: Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif; line-height: 28px; font-size: 14px; padding: 6px 8px;">&nbsp;</div></form>
+<div style="border-width: 1px 0; border-style: dotted none; border-color: #ccc; text-align: center; padding: 14px 14px 16px; margin: 14px 0 0;">
+% if reply_count:
+<span>${reply_count}</span>
+% endif
+留言
 </div>
 
 
@@ -119,16 +127,5 @@ ${po_bar_vote(po)}\
 活动尚未通过审批
 % endif
 
-<div id="po_name">${po.name}</div>\
-<div class="w721">\
-</p>
-${po_bar_vote(po)}\
 </div>
-%if can_admin:
-<textarea id="_txt" style="display:none">${po.txt}</textarea>
-%endif
 </%def>
-
-
-
-

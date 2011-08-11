@@ -226,7 +226,7 @@ class EventCheck(EventBase):
         total = event.join_count
 
         page, limit, offset = page_limit_offset(
-            '/event/verify/%s-%%s' % id,
+            '/event/check/%s-%%s' % id,
             total,
             n,
             PAGE_LIMIT
