@@ -57,7 +57,7 @@ id="po_word_txt" name="txt"></textarea>\
 <div class="G c">
     <div class="G3">
 {{each item}}
-<div class="sdw"><div class="sd">
+<div class="sdw"><div class="sd cid${cid}">
 {{if cid==68}}
 <a href="/${id}"><img class="feed_event_img" src="${rid}"></a>
 {{/if}}
@@ -77,6 +77,12 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}
 {{if cid==65}}
 <a class="fdimga" target="_blank" href="/${id}"><img class="fdimg" src="${rid}"></a>
+{{/if}}
+{{if cid==68}}
+<div class="feed_event_prop">
+<p>时间 : 2011年8月13日 周六 15:00</p><p style="margin-left: 41px;">2011年8月13日 周六 15:00</p>
+<p style="margin-top: 6px;">地点 : 上海</p><p style="margin-left: 41px;">上海上海上海上海上海上海</p>
+</div>
 {{/if}}
 <div class="fdtxt" id="fdtxt${id}">
         {{if cid==61 || cid == 66}}
