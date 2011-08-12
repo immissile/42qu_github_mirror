@@ -10,6 +10,7 @@ from operator import itemgetter
 from gid import gid
 from po import Po, po_rm, po_state_set
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from mail import rendermail
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
@@ -33,9 +34,14 @@ event_open_count_by_user_id = McNum(lambda user_id: event_list_open_by_user_id_q
 mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
 
 mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
+
 mc_event_joiner_id_list = McCacheA('EventJoinerIdList.%s')
-event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).count(), 'EventCountByZsiteId.%s')
+
 event_to_review_count_by_zsite_id = McNum(lambda zsite_id: Event.where(state=EVENT_STATE_TO_REVIEW, zsite_id=zsite_id).count(), "EventToReviewCountByZsiteId:%s")
+
+event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where(
+    'state between %s and %s',EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]
+).count(), 'EventCountByZsiteId.%s')
 
 EVENT_CID_CN = (
     (1 , '技术'),
@@ -71,7 +77,7 @@ EVENT_STATE_CN = {
 }
 
 EVENT_VIEW_STATE_GET = {
-    True: EVENT_STATE_REJECT,
+    True: EVENT_STATE_TO_REVIEW,
     False: EVENT_STATE_BEGIN,
 }
 
@@ -145,7 +151,7 @@ def event_new_if_can_change(
         limit_down,
         phone,
         pic_id,
-        id=None
+        id=id
     )
 
 
@@ -248,7 +254,7 @@ class Event(McModel):
 
 @mc_event_id_list_by_zsite_id('{zsite_id}_{can_admin}')
 def event_id_list_by_zsite_id(zsite_id, can_admin, limit, offset):
-    return Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
+    return Event.where(zsite_id=zsite_id).where('state between %s and %s',EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
 
 def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     id_list = event_id_list_by_zsite_id(zsite_id, bool(can_admin), limit, offset)
@@ -418,12 +424,14 @@ def event_join_review(o):
 
 def event_init2to_review(id):
     event = Event.mc_get(id)
-    if event and event.state <= EVENT_STATE_TO_REVIEW:
+    if event and event.state < EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_TO_REVIEW
         event.save()
 
         zsite_id = event.zsite_id
-        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, True))
+
+        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, False))
+
         event_to_review_count_by_zsite_id.delete(zsite_id)
 
         return True
@@ -449,7 +457,18 @@ def event_review_yes(id):
         po_state_set(po, STATE_ACTIVE)
         from notice import notice_event_yes
         notice_event_yes(event.zsite_id, id)
+
         mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, False))
+
+        from user_mail import mail_by_user_id
+        rendermail(
+            '/mail/event/event_review_yes.txt',
+            mail_by_user_id(event.zsite_id),
+            event.zsite.name,
+            link = event.zsite.link,
+            title = event.po.name,
+        )
+
 
 
 def event_review_no(id, txt):
@@ -459,15 +478,25 @@ def event_review_no(id, txt):
         event.save()
         from top_notice import top_notice_event_no
         top_notice_event_no(event.zsite_id, id, txt)
+        from user_mail import mail_by_user_id
+        rendermail(
+                '/mail/event/event_review_no.txt',
+                mail_by_user_id(event.zsite_id),
+                event.zsite.name,
+                title = event.po.name,
+                reason = txt,
+                id=id,
+                )
 
 
 if __name__ == '__main__':
-    print event_to_review_count(10000000)
+    #event_review_no(10047323,'yuyuyuyu')
+    #print event_to_review_count(10000000)
     #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
     #event = Event.get(10047312)
     #print event.id ,event.zsite_id
     #o = event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
     #print o.id
 
-
+    pass
 
