@@ -493,5 +493,5 @@ if __name__ == '__main__':
     #o = event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
     #print o.id
 
-
+    pass
 
