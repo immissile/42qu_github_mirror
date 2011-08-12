@@ -69,7 +69,7 @@ ${begin_time}</p>
 ${po.htm|n}\
 <p>联系电话 : ${event.phone}</p>\
 <p>交通方式 : ${event.transport}</p>\
-<form action="/event/${'check' if can_admin else 'join'}/${id}" style="margin-top: 16px; margin-bottom: 28px;"><span class="btnw"><button type="submit">报名${'管理' if can_admin else '参加'}</button></span>\
+<form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" style="margin-top: 16px; margin-bottom: 28px;"><span class="btnw"><button type="submit">报名${'管理' if can_admin else '参加'}</button></span>\
 % if can_admin and join_check_count:
 <span style="margin-left:32px;vertical-align: 13px;"><a href="/event/check/${id}"><span class="mr3">${join_check_count}</span>待确认</a></span>
 % endif
@@ -79,7 +79,7 @@ ${po.htm|n}\
 </form>\
 <p class="po_bar po_bar1">
 % if can_admin:
-<a class="L" href="/po/event/${id}">编辑</a>
+<a class="L" href="/po/event/${id}">编辑</a>\
 % endif
 组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
 ${po_bar_vote(po)}\
@@ -133,4 +133,5 @@ unit, title = i.career
 % endif
 
 </div>
+<script src="${js.ctrl_zsite|n}"></script>
 </%def>
