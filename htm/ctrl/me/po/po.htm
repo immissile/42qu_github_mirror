@@ -3,7 +3,7 @@ from model.po import STATE_SECRET
 from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT
 from yajl import dumps
 from model.po_question import answer_count
-from model.event import EVENT_STATE_INIT
+from model.event import Event, EVENT_STATE_REJECT
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -45,7 +45,7 @@ ${css.ctrl_po_event|n}
 
 %if cid == CID_EVENT:
 <div class="head">
-%if po.name:
+%if po.name and Event.get(po.id).state != EVENT_STATE_REJECT :
 <span><a class="c9" href="/po/event/${po.id}">编辑属性</a></span><span class="c0">编辑介绍</span>
 %else:
 <span><a href="/po/event/${po.id}" class="c9">1. 设置属性</a></span>&gt;<span class="c0">2. 编写简介</span>&gt;<span>3. 等待审核</span>

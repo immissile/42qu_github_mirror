@@ -2,7 +2,7 @@
 from model.po import STATE_SECRET
 from model.po_event import EVENT_CID_CN
 from model.fs import fs_url_jpg
-from model.event import event_to_review_count_by_zsite_id
+from model.event import event_to_review_count_by_zsite_id, EVENT_STATE_REJECT
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -31,7 +31,7 @@ event_to_review = event_to_review_count_by_zsite_id(current_user_id)
 %>
 
 
-%if event_id:
+%if event_id and event.state != EVENT_STATE_REJECT:
 <div class="head">
     <span class="c0">编辑属性</span><span><a class="c9" href="/po/edit/${event_id}">编辑介绍</a></span>
 </div>
@@ -143,7 +143,7 @@ value="${_event_cid}">${event_name}</option>
 <div>\
 <span id="event_submit_span" class="btnw">\
     <button type="submit">
-% if event_id:
+% if event_id and event.state != EVENT_STATE_REJECT:
 保存
 % else:
 下一步
