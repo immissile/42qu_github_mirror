@@ -265,7 +265,7 @@ class PoOne(ZsiteBase):
             if event.state <= EVENT_STATE_TO_REVIEW:
                 tag_link = "/event/to_review"
             else:
-                tag_link = "/event/all"
+                tag_link = "/event"
         else:
             zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
             if zsite_tag_id:

@@ -10670,8 +10670,8 @@ PLACE_MUNI = (
 
 def pid_city(code):
     if code in COUNTRY_DICT and code!=1:
-        return code 
-    
+        return code
+
     code = code&BIT_COUNTRY_PROVINCE_CITY
     if code in PLACE_MUNI:
         return code

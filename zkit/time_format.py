@@ -70,9 +70,9 @@ def friendly_time(mtime):
     elif 0 < diff_days < 3:
         cc_time = ONE_DAY + time
         if now.day == cc_time.day:
-            return '昨天 %s '%friendly_hour(time.hour, time.minute, time.second)
+            return '昨天 %s' % friendly_hour(time.hour, time.minute, time.second)
         elif now.day == (cc_time + ONE_DAY).day:
-            return '前天 %s '%friendly_hour(time.hour, time.minute, time.second)
+            return '前天 %s' % friendly_hour(time.hour, time.minute, time.second)
 
     if now.year == time.year:
         return '%s月%s日 %s' % (time.month, time.day, friendly_hour(time.hour, time.minute, time.second))

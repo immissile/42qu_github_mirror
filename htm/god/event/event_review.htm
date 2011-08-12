@@ -19,7 +19,7 @@ $('a.no').live('click', function() {
     var txt = $('#txt' + id).val();
     if(!(txt && txt.length)) {
         alert("请写入理由")
-        return
+        return false
     }
     $.postJSON('/event/state/' + id + '/0', {"txt":txt}, function(data){
         //next()
