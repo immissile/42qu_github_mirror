@@ -8,13 +8,9 @@ from zsite import Zsite
 from namecard import namecard_bind
 from operator import itemgetter
 from gid import gid
-<<<<<<< local
 from po import Po, po_rm, po_state_set
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
-=======
-from po import Po, po_rm
 from mail import rendermail
->>>>>>> other
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
@@ -449,18 +445,17 @@ def event_review_yes(id):
         po_state_set(po, STATE_ACTIVE)
         from notice import notice_event_yes
         notice_event_yes(event.zsite_id, id)
-<<<<<<< local
         mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, False))
-=======
         from user_mail import mail_by_user_id
         rendermail(
-                '/mail/event/event_review_yes.txt',
-                mail_by_user_id(event.zsite_id),
-                event.zsite.name,
-                link = event.zsite.link,
-                title = event.po.name,
-                )
->>>>>>> other
+            '/mail/event/event_review_yes.txt',
+            mail_by_user_id(event.zsite_id),
+            event.zsite.name,
+            link = event.zsite.link,
+            title = event.po.name,
+        )
+
+
 
 
 def event_review_no(id, txt):
