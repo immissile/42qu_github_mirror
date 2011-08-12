@@ -34,9 +34,14 @@ event_open_count_by_user_id = McNum(lambda user_id: event_list_open_by_user_id_q
 mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
 
 mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
+
 mc_event_joiner_id_list = McCacheA('EventJoinerIdList.%s')
-event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).count(), 'EventCountByZsiteId.%s')
+
 event_to_review_count_by_zsite_id = McNum(lambda zsite_id: Event.where(state=EVENT_STATE_TO_REVIEW, zsite_id=zsite_id).count(), "EventToReviewCountByZsiteId:%s")
+
+event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where(
+    'state between %s and %s',EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]
+).count(), 'EventCountByZsiteId.%s')
 
 EVENT_CID_CN = (
     (1 , '技术'),
@@ -72,7 +77,7 @@ EVENT_STATE_CN = {
 }
 
 EVENT_VIEW_STATE_GET = {
-    True: EVENT_STATE_REJECT,
+    True: EVENT_STATE_TO_REVIEW,
     False: EVENT_STATE_BEGIN,
 }
 
@@ -146,7 +151,7 @@ def event_new_if_can_change(
         limit_down,
         phone,
         pic_id,
-        id=None
+        id=id
     )
 
 
@@ -249,7 +254,7 @@ class Event(McModel):
 
 @mc_event_id_list_by_zsite_id('{zsite_id}_{can_admin}')
 def event_id_list_by_zsite_id(zsite_id, can_admin, limit, offset):
-    return Event.where(zsite_id=zsite_id).where('state>=%s' % EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
+    return Event.where(zsite_id=zsite_id).where('state between %s and %s',EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
 
 def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     id_list = event_id_list_by_zsite_id(zsite_id, bool(can_admin), limit, offset)
@@ -419,7 +424,7 @@ def event_join_review(o):
 
 def event_init2to_review(id):
     event = Event.mc_get(id)
-    if event and event.state <= EVENT_STATE_TO_REVIEW:
+    if event and event.state < EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_TO_REVIEW
         event.save()
 
