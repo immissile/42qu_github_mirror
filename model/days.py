@@ -10,11 +10,11 @@ DATE_BEGIN = datetime.date(1970, 1, 1)
 DATETIME_BEGIN = datetime.datetime(1970, 1, 1)
 
 
-def today_seconds():
-    return int(time()/ONE_DAY)*ONE_DAY
-
 def today_days():
-    return int(time()/ONE_DAY)
+    return time() // ONE_DAY
+
+def today_seconds():
+    return today_days() * ONE_DAY
 
 def today_ymd_int():
     t = datetime.date.today()
@@ -26,7 +26,7 @@ def yesterday_seconds():
 def date_to_days(s):
     n = strptime(s, '%Y%m%d')
     seconds = mktime(n) - TIMEZONE_OFFSET
-    return int(seconds / ONE_DAY)
+    return seconds // ONE_DAY
 
 def ymd2days(ymd):
     return (datetime.date(ymd//10000, (ymd%10000)//100, ymd%100) - DATE_BEGIN).days
@@ -70,7 +70,7 @@ def ymd2minute(ymd):
     return ymd2days(ymd)*ONE_DAY_MINUTE
 
 def yesterday():
-    r = datetime.date.today()- datetime.timedelta(1)
+    r = datetime.date.today() - datetime.timedelta(1)
     return r.strftime('%Y%m%d')
 
 

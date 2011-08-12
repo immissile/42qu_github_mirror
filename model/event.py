@@ -24,7 +24,13 @@ event_join_count_by_user_id = McNum(
     ).count(), 'EventJoinCountByUserId.%s'
 )
 
-event_joiner_check_count = McNum(lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCheckCount.%s')
+event_joiner_check_query = lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW)
+
+event_joiner_check_count = McNum(
+    lambda event_id: event_joiner_check_query(
+        event_id
+    ).count(), 'EventJoinerCheckCount.%s'
+)
 
 mc_event_id_list_join_by_user_id = McLimitA('EventIdListJoinByUserId.%s', 128)
 
@@ -470,7 +476,6 @@ def event_review_yes(id):
         )
 
 
-
 def event_review_no(id, txt):
     event = Event.mc_get(id)
     if event and event.state == EVENT_STATE_TO_REVIEW:
@@ -487,6 +492,12 @@ def event_review_no(id, txt):
                 reason = txt,
                 id=id,
                 )
+
+
+def event_begin2now(event):
+    if event.state == EVENT_STATE_BEGIN:
+        event.state = EVENT_STATE_NOW
+        event.save()
 
 
 if __name__ == '__main__':
