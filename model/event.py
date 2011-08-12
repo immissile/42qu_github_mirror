@@ -424,7 +424,9 @@ def event_init2to_review(id):
         event.save()
 
         zsite_id = event.zsite_id
-        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, True))
+
+        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, False))
+
         event_to_review_count_by_zsite_id.delete(zsite_id)
 
         return True
@@ -450,7 +452,9 @@ def event_review_yes(id):
         po_state_set(po, STATE_ACTIVE)
         from notice import notice_event_yes
         notice_event_yes(event.zsite_id, id)
+
         mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, False))
+
         from user_mail import mail_by_user_id
         rendermail(
             '/mail/event/event_review_yes.txt',
@@ -459,7 +463,6 @@ def event_review_yes(id):
             link = event.zsite.link,
             title = event.po.name,
         )
-
 
 
 
