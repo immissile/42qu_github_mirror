@@ -1,0 +1,11 @@
+${title} 有新报名者等待确认
+
+${name}:
+
+活动 ${title} (http:${event_link}) 有新的报名者等待确认
+
+未审核的报名者名单：
+${event_registration_list}
+  
+
+如有问题请回复此邮件 

@@ -43,10 +43,10 @@ mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
 
 mc_event_joiner_id_list = McCacheA('EventJoinerIdList.%s')
 
-event_to_review_count_by_zsite_id = McNum(lambda zsite_id: Event.where(state=EVENT_STATE_TO_REVIEW, zsite_id=zsite_id).count(), "EventToReviewCountByZsiteId:%s")
+event_to_review_count_by_zsite_id = McNum(lambda zsite_id: Event.where(state=EVENT_STATE_TO_REVIEW, zsite_id=zsite_id).count(), 'EventToReviewCountByZsiteId:%s')
 
 event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where(
-    'state between %s and %s',EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]
+    'state between %s and %s', EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]
 ).count(), 'EventCountByZsiteId.%s')
 
 EVENT_CID_CN = (
@@ -260,7 +260,7 @@ class Event(McModel):
 
 @mc_event_id_list_by_zsite_id('{zsite_id}_{can_admin}')
 def event_id_list_by_zsite_id(zsite_id, can_admin, limit, offset):
-    return Event.where(zsite_id=zsite_id).where('state between %s and %s',EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
+    return Event.where(zsite_id=zsite_id).where('state between %s and %s', EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
 
 def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     id_list = event_id_list_by_zsite_id(zsite_id, bool(can_admin), limit, offset)
@@ -471,8 +471,8 @@ def event_review_yes(id):
             '/mail/event/event_review_yes.txt',
             mail_by_user_id(event.zsite_id),
             event.zsite.name,
-            link = event.zsite.link,
-            title = event.po.name,
+            link=event.zsite.link,
+            title=event.po.name,
         )
 
 
@@ -488,8 +488,8 @@ def event_review_no(id, txt):
                 '/mail/event/event_review_no.txt',
                 mail_by_user_id(event.zsite_id),
                 event.zsite.name,
-                title = event.po.name,
-                reason = txt,
+                title=event.po.name,
+                reason=txt,
                 id=id,
                 )
 
@@ -499,9 +499,29 @@ def event_begin2now(event):
         event.state = EVENT_STATE_NOW
         event.save()
 
+def event_review_registration(event_id):
+    event = Event.mc_get(event_id)
+    if event:
+        event_new_joiner_id_list = EventJoiner.where('event_id=%s and state=%s', event_id, EVENT_JOIN_STATE_NEW).col_list(col='user_id')
+        if event_new_joiner_id_list:
+            event_joiner_list = []
+            for user_id in event_new_joiner_id_list:
+                user = Zsite.mc_get(user_id)
+                event_joiner_list.append(user.name)
+            from user_mail import mail_by_user_id
+            rendermail(
+                    '/mail/event/event_review_registration.txt',
+                    mail_by_user_id(event.zsite_id),
+                    event.zsite.name,
+                    event_link='%s/%s' % (event.zsite.link, event_id),
+                    title=event.po.name,
+                    event_registration_list=', '.join(event_joiner_list)
+            )
+
 
 if __name__ == '__main__':
-    #event_review_no(10047323,'yuyuyuyu')
+    event_review_registration(10047337)
+    # event_review_no(10047323,'yuyuyuyu')
     #print event_to_review_count(10000000)
     #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
     #event = Event.get(10047312)
