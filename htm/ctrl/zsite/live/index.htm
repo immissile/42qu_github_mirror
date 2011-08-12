@@ -93,7 +93,7 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
         {{else}} 
             {{if txt_more}}
 <div class="fdtxtin">${txt}</div>
-<div class="fdall"><a href="javascript:void(0)" onclick="fdtxt(this,${id});">显示全部</a><a href="/event/join/${id}" target="_blank">报名参加</a></div>
+<div class="fdall"><a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">显示全部</a>{{if cid==68}}<a href="/event/join/${id}" target="_blank">报名参加</a>{{/if}}</div>
              {{else}}
 {{html txt}}
                 {{if cid == 68}}

@@ -190,9 +190,14 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
     /* 显示全部 */
     fdtxt = function(e,id){
         var txt=$(e).parents('.fdtxt'),all=txt.find(".fdall");
-        all.html('').addClass("fdloading")
+        all.addClass("fdloading").find('.fdext').remove()
         $.get("/j/fdtxt/"+id,function(htm){
-            txt.html('<pre class="fdpre">'+htm+"</pre>")
+            txt.find('.fdtxtin').html('<pre class="fdpre">'+htm+"</pre>")
+            if(all.find('a').length){
+                all.removeClass('fdloading')
+            }else{
+                all.remove()
+            }
         }) 
     }
     fdvideo = function(e, id){
