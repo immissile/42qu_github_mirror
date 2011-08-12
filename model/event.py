@@ -507,10 +507,11 @@ def event_review_registration(event_id):
         ).col_list(col='user_id')
 
         if event_new_joiner_id_list:
-            event_joiner_list = []
-
-            for user in Zsite.mc_get_list(event_new_joiner_id_list):
-                event_joiner_list.append(user.name)
+            event_joiner_list = [
+                user.name
+                for user in 
+                Zsite.mc_get_list(event_new_joiner_id_list)
+            ]
 
             from user_mail import mail_by_user_id
 
