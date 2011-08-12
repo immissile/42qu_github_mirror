@@ -10,10 +10,6 @@ from zkit.earth import place_name
 from model.event import Event, event_joiner_check_count, event_joiner_user_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
 %>
 <%def name="po_body()">
-<style>
-#joiner { width: 753px; margin-top: 32px; }
-#joiner .G1 { margin-bottom: 32px; }
-</style>
 <%
 id = po.id
 event = Event.mc_get(id)
@@ -38,43 +34,49 @@ pic_url_bind_with_default(join_list, '219')
 price = event.price
 reply_count = po.reply_count
 %>
-<div class="c" style="margin-left: 125px; margin-bottom: 28px;">
+<div class="c" id="event_page">
 % if pic_url:
-    <img src="${pic_url}" style="float: left; margin-right: 36px;">
+    <img src="${pic_url}" id="event_img">
 % endif
-    <div style="float: left; margin-top: -7px;">
-<div style="text-align: left; font-size: 14px; margin-top: 4px; margin-bottom: 14px;" id="po_name">${po.name}</div>
+    <div id="event_txt">
+    <div id="po_name">${po.name}</div>
 
-<p>时间<span style="display:inline-block;width:20px;text-align:center;">:</span>${cn_date(begin_date)} ${cn_weekday(begin_date)}
+<p>时间<span class="colon">:</span>\
+${cn_date(begin_date)} ${cn_weekday(begin_date)}\
+</p>\
 % if begin_date == end_date:
-% if begin_time == end_time:
-${begin_time}</p>
-% else:
+<p class="ml48">
+    % if begin_time == end_time:
+${begin_time}
+    % else:
+${begin_time} - ${end_time}
+    % endif
 </p>
-<p style="margin-left: 48px;">${begin_time} - ${end_time}</p>
-% endif
 % else:
 ${begin_time}</p>
-<p style="margin-left: 14px;">至<span style="margin-left: 20px;">${cn_date(end_date)} ${cn_weekday(end_date)} ${end_time}</span></p>
+<p class="ml14">至<span class="ml20">\
+${cn_date(end_date)} ${cn_weekday(end_date)} ${end_time}</span></p>
 % endif
 
-<p style="margin-top: 14px;">地点<span style="display:inline-block;width:20px;text-align:center;">:</span>${place_name(event.city_pid)}</p>
-<p style="margin-left: 48px;">${event.address}</p>
+<p class="mt14">地点<span class="colon">:</span>${place_name(event.city_pid)}</p>
+<p class="ml48">${event.address}</p>
 
 </div>
 </div>
 
 <div class="w721">
-<pre style="white-space: pre-wrap;">\
+<pre>\
 ${po.htm|n}\
 <p>联系电话 : ${event.phone}</p>\
 <p>交通方式 : ${event.transport}</p>\
-<form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" style="margin-top: 16px; margin-bottom: 28px;"><span class="btnw"><button type="submit">报名${'管理' if can_admin else '参加'}</button></span>\
+<form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" ><span class="btnw"><button type="submit">报名${'管理' if can_admin else '参加'}</button></span>\
 % if can_admin and join_check_count:
-<span style="margin-left:32px;vertical-align: 13px;"><a href="/event/check/${id}"><span class="mr3">${join_check_count}</span>待确认</a></span>
+<span id="to_confirm">\
+<a href="/event/check/${id}"><span class="mr3">${join_check_count}</span>待确认</a>\
+</span>
 % endif
 % if price:
-<span style="vertical-align: 13px; margin-left: 32px;">${price} 元 / 人</span>\
+<span id="price_per">${price} 元 / 人</span>\
 % endif
 </form>\
 <p class="po_bar po_bar1">
@@ -84,7 +86,7 @@ ${po.htm|n}\
 组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
 ${po_bar_vote(po)}\
 </pre>
-<div style="border-width: 1px 0; border-style: dotted none; border-color: #ccc; text-align: center; padding: 14px 14px 16px; margin: 14px 0 0;">
+<div class="spline">
 <span>${join_count}</span> 报名
 </div>
 <div class="G">
@@ -115,7 +117,7 @@ unit, title = i.career
 
 
 
-<div style="border-width: 1px 0; border-style: dotted none; border-color: #ccc; text-align: center; padding: 14px 14px 16px; margin: 14px 0 0;">
+<div class="spline">
 % if reply_count:
 <span>${reply_count}</span>
 % endif
