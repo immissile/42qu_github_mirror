@@ -1,10 +1,10 @@
-${title|n} 有新报名者 , 请 审核 并 确认报名
+${title|n} : ${len(event_registration_list)}个新的报名者 , 请审核并确认
 
 ${name|n}:
 
 ${title|n} 有新的报名者 ( ${event_registration_list|n} ) 
 
-请 审核 并 确认报名
+请审核并确认
 
 浏览链接 : ${event_link}
  
