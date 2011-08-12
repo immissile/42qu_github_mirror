@@ -95,6 +95,9 @@ class EventJoin(NameCardEdit, EventBase):
         self.event = event = super(EventJoin, self)._event(id)
         self.error = []
         if event:
+            if event.zsite_id == current_user_id:
+                self.redirect('/event/check/%s'%id)
+                return 
             if event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
                 return event
             event_link = "/event/%s/state"%event.id
