@@ -1,4 +1,5 @@
 #coding:utf-8
+
 def ormiter(orm, where=''):
     id = 0
     while True:

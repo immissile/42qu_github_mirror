@@ -13,7 +13,7 @@ function txt(id, cid){
 var template = [
     ]
     if(cid==1||cid==3){
-        template.push('本人照片 不清晰/不雅观')
+        template.push('本人照片 不清晰/不雅观/非主流')
     }
     if(cid==2||cid==3){
         template.push('职业信息/公司类型/个人资料/专业信息 不完整')
@@ -113,8 +113,12 @@ ${user_index(zsite, False)}
 <a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
 <a class="show" rel="${id}" href="javascript:void(0)">通过 & 展示</a>
 <div style="margin-top:32px">
+<div>
+    <a href="${zsite.link}">主页</a>
+</div>
+<div>
     <a href="/zsite/${id}" target="_blank">管理</a>
-
+</div>
 </div>
 </div>
 <a class="no" rel="${id}" href="javascript:void(0)">拒绝</a>
@@ -129,3 +133,13 @@ ${user_index(zsite, False)}
 </div>
 
 </div>
+
+<script>
+(function(){
+    var host=location.host, base_host='${zsite.link}'
+    $("#zsite_link a").each(function(){
+        this.href=this.href.replace(host,base_host)
+        this.target="_blank"
+    })
+})()
+</script>

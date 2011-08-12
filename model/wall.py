@@ -84,8 +84,9 @@ class Wall(McModel, ReplyMixin):
                 for zsite_id in zsite_id_list:
                     notice_wall_reply_new(user_id, zsite_id, id)
 
-            for i in self.reply_user_id_list():
-                buzz_wall_reply_new(user_id, i, id)
+            if state == STATE_ACTIVE:
+                for i in self.reply_user_id_list():
+                    buzz_wall_reply_new(user_id, i, id)
 
             return reply_id
 

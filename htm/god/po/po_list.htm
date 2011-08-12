@@ -52,7 +52,7 @@ user = po.user
 
 <div class="sdw">
 <div class="sd c">
-%if ico_url:
+%if ico_url and user:
     <a href="${user.link}" target="_blank"><img class="ico" src="${ico_url}"></a>
 %endif
 <div id="list_txt">
@@ -88,7 +88,11 @@ ${po.name_htm|n}
 %endif
 
 <p>
+%if user:
 <a class="c0" href="${user.link}" target="_blank">${user.name}</a>
+%else:
+${po.user_id}
+%endif
 ${friendly_time(po.create_time)}
 </p>
 </div>
