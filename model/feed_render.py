@@ -14,7 +14,6 @@ from zkit.txt import cnenoverflow
 from model.txt2htm import txt_withlink
 from fs import fs_url_jpg, fs_url_audio
 
-CIDMAP = {}
 
 
 FEED_TUPLE_DEFAULT_LEN = 11
@@ -74,11 +73,6 @@ def feed_tuple_by_db(id):
 
     return result
 
-def cidmap(cid):
-    def _(cls):
-        CIDMAP[cid] = cls
-        return cls
-    return _
 
 class FeedBase(object):
     def __init__(self, id, rt_id_list, cid, reply_count, zsite_id, vote, name):

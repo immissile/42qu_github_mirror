@@ -10,6 +10,7 @@ from operator import itemgetter
 from gid import gid
 from po import Po, po_rm, po_state_set
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from feed_po import mc_feed_po_dict
 from mail import rendermail
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
@@ -142,6 +143,7 @@ def event_new_if_can_change(
             event.pic_id = pic_id
             event.save()
             return event
+        mc_feed_po_dict.delete(id)
 
     return event_new(
         zsite_id,
