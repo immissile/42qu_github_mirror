@@ -11,7 +11,7 @@ from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
 from model.cid import CID_EVENT
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
-from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_TO_REVIEW, event_new_if_can_change
+from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, event_new_if_can_change
 from model.po import po_new, STATE_DEL
 
 @urlmap('/po/event/(\d+)/state')
@@ -200,7 +200,7 @@ class Index(LoginBase):
                 id = event.id
                 po_new(CID_EVENT, user_id, '', STATE_SECRET, id=id)
 
-            if event.state == EVENT_STATE_INIT: 
+            if event.state in (EVENT_STATE_INIT, EVENT_STATE_REJECT): 
                 return self.redirect("/po/edit/%s"%id)
             else:
                 return self.redirect("/%s"%id)
