@@ -24,6 +24,8 @@ event_join_count_by_user_id = McNum(
     ).count(), 'EventJoinCountByUserId.%s'
 )
 
+event_joiner_check_count = McNum(lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCheckCount.%s')
+
 mc_event_id_list_join_by_user_id = McLimitA('EventIdListJoinByUserId.%s', 128)
 
 event_list_open_by_user_id_qs = lambda user_id: EventJoiner.where(user_id=user_id, state=EVENT_JOIN_STATE_YES)
@@ -350,6 +352,7 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
         if event.zsite_id != user_id:
             event.join_count += 1
             event.save()
+    event_joiner_check_count.delete(event_id)
     return o
 
 def event_joiner_no(o):
@@ -365,6 +368,7 @@ def event_joiner_no(o):
         o.state = EVENT_JOIN_STATE_NO
         o.save()
         mc_event_joiner_id_list.delete(event_id)
+        event_joiner_check_count.delete(event_id)
 
 def event_joiner_yes(o):
     event_id = o.event_id
@@ -377,7 +381,8 @@ def event_joiner_yes(o):
                 return
         o.state = EVENT_JOIN_STATE_YES
         o.save()
-    mc_flush_by_user_id(user_id)
+        mc_flush_by_user_id(user_id)
+        event_joiner_check_count.delete(event_id)
 
 def mc_flush_by_user_id(user_id):
     mc_event_id_list_join_by_user_id.delete(user_id)
