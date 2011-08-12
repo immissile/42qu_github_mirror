@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import McCacheM
 from collections import namedtuple
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO, CID_EVENT
 from operator import itemgetter
 from po import Po
 from po_question import answer_count
@@ -13,7 +13,7 @@ from zsite import Zsite
 from zkit.txt import cnenoverflow
 from model.txt2htm import txt_withlink
 from fs import fs_url_jpg, fs_url_audio
-
+from model.event import Event
 
 
 FEED_TUPLE_DEFAULT_LEN = 11
@@ -39,10 +39,14 @@ def feed_tuple_by_db(id):
     else:
         reply_count = m.reply_count
 
+
     if cid == CID_PHOTO:
         _rid = fs_url_jpg(677, rid)
     elif cid == CID_AUDIO:
         _rid = fs_url_audio(id,"")
+    elif cid == CID_EVENT:
+        event = Event.mc_get(id)
+        _rid = fs_url_jpg(162, event.pic_id)        
     else:
         _rid = rid 
     

@@ -73,4 +73,6 @@ margin-top:16px;
 clear:both;
 }
 
-
+.feed_event_img{
+margin-top: 7px; height: 162px; width: 162px; float: right; margin-left: 16px;
+}
