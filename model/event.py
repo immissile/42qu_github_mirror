@@ -42,6 +42,7 @@ mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
 mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
 
 mc_event_joiner_id_list = McCacheA('EventJoinerIdList.%s')
+mc_event_joiner_user_id_list = McCacheA('EventJoinerUserIdList.%s')
 
 event_to_review_count_by_zsite_id = McNum(lambda zsite_id: Event.where(state=EVENT_STATE_TO_REVIEW, zsite_id=zsite_id).count(), "EventToReviewCountByZsiteId:%s")
 
@@ -72,6 +73,7 @@ EVENT_STATE_TO_REVIEW = 40
 EVENT_STATE_BEGIN = 50
 EVENT_STATE_NOW = 60
 EVENT_STATE_END = 70
+EVENT_STATE_SUMMARIZED = 80
 
 EVENT_STATE_CN = {
     EVENT_STATE_DEL:'已删除',
@@ -92,7 +94,8 @@ EVENT_JOIN_STATE_NEW = 20
 EVENT_JOIN_STATE_YES = 30
 EVENT_JOIN_STATE_END = 40
 EVENT_JOIN_STATE_REVIEW = 50
-
+EVENT_JOIN_STATE_GENERAL = 60
+EVENT_JOIN_STATE_SATISFACTION = 70 
 
 """
 CREATE TABLE  `zpage`.`event` (
@@ -311,6 +314,13 @@ def event_joiner_state(event_id, user_id):
         return o.state
     return 0
 
+@mc_event_joiner_user_id_list('{event_id}')
+def event_joiner_user_id_list(event_id):
+    event = Event.mc_get(event_id)
+    zsite_id = event.zsite_id
+    return EventJoiner.where(event_id=event_id).where('user_id!=%s and state>=%s', zsite_id, EVENT_JOIN_STATE_YES).col_list(col='user_id')
+
+
 
 @mc_event_joiner_id_list('{event_id}')
 def event_joiner_id_list(event_id):
@@ -359,7 +369,7 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
         o.save()
         mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
         mc_event_joiner_id_list.delete(event_id)
-
+        mc_event_joiner_user_id_list.delete(event_id)
         if event.zsite_id != user_id:
             event.join_count += 1
             event.save()
@@ -379,6 +389,7 @@ def event_joiner_no(o):
         o.state = EVENT_JOIN_STATE_NO
         o.save()
         mc_event_joiner_id_list.delete(event_id)
+        mc_event_joiner_user_id_list.delete(event_id)
         event_joiner_check_count.delete(event_id)
 
 def event_joiner_yes(o):
@@ -501,6 +512,7 @@ def event_begin2now(event):
 
 
 if __name__ == '__main__':
+    print 10001299 in event_joiner_user_id_list(10047337)
     #event_review_no(10047323,'yuyuyuyu')
     #print event_to_review_count(10000000)
     #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)

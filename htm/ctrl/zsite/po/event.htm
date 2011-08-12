@@ -2,12 +2,13 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="_vote.htm" import="po_bar_vote"/>
 <%!
+from model.po_question import answer_id_get
 from model.fs import fs_url_jpg
 from model.ico import pic_url_bind_with_default
 from model.career import career_bind
 from model.days import cn_date, cn_weekday, minute2date, minute2time
 from zkit.earth import place_name
-from model.event import Event, event_joiner_check_count, event_joiner_user_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
+from model.event import Event, event_joiner_check_count, event_joiner_user_list, event_joiner_user_id_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
 %>
 <%def name="po_body()">
 <%
@@ -34,6 +35,18 @@ pic_url_bind_with_default(join_list, '219')
 price = event.price
 reply_count = po.reply_count
 %>
+%if event.state >= EVENT_STATE_END and not answer_id_get(current_user_id, event.zsite_id):
+%if current_user_id in event_joiner_user_id_list(event.id) or current_user_id==event.zsite_id:
+<div style="text-align:center;border-bottom:1px dotted 
+#ccc;padding-bottom:16px"><a href="#">
+%if current_user_id == po.user_id:
+点击这里 , 总结活动
+%else:
+点击这里 , 反馈活动
+%endif
+</a></div>
+%endif
+%endif 
 <div class="c" id="event_page">
 % if pic_url:
     <img src="${pic_url}" id="event_img">
