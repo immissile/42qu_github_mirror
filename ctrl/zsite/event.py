@@ -12,6 +12,7 @@ from model.money import pay_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cent_with_tax
 from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT, CID_EVENT
 from ctrl.me.i import NameCardEdit
+from model.zsite import ZSITE_STATE_VERIFY
 
 #,CID_EVENT
 
@@ -82,14 +83,17 @@ class EventState(EventBase):
         event = self._event(id)
         return self.render(event=event)
 
+
 @urlmap('/event/join/(\d+)')
 class EventJoin(NameCardEdit, EventBase):
     def _event(self, id):
+        current_user = self.current_user
+        if current_user.state < ZSITE_STATE_VERIFY:
+            return self.redirect('/i/verify')
         current_user_id = self.current_user_id
         self.event = event = super(EventJoin, self)._event(id)
         self.error = []
         if event:
-            return event
             if event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
                 return event
             event_link = "/event/%s/state"%event.id
@@ -105,7 +109,7 @@ class EventJoin(NameCardEdit, EventBase):
         event = self._event(id)
         if event is None:
             return
-        
+
         event_link = "/event/%s/state"%event.id
 
         pid_now = self.get_argument('pid_now', None)
@@ -113,13 +117,13 @@ class EventJoin(NameCardEdit, EventBase):
         phone = self.get_argument('phone', '')
         mail = self.get_argument('mail', '')
         address = self.get_argument('address', '')
-      
-        error = self.error 
+
+        error = self.error
         pid_now = int(pid_now)
 
 
         if not pid_now or int(pid_now) == 1:
-            error.append("请选择现居城市") 
+            error.append("请选择现居城市")
         if not name:
             error.append("请输入本人姓名")
         if not phone:

@@ -7,7 +7,7 @@ from model.ico import pic_url_bind_with_default
 from model.career import career_bind
 from model.days import cn_date, cn_weekday, minute2date, minute2time
 from zkit.earth import place_name
-from model.event import Event, event_joiner_user_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
+from model.event import Event, event_joiner_check_count, event_joiner_user_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
 %>
 <%def name="po_body()">
 <style>
@@ -30,6 +30,7 @@ begin_time = minute2time(_begin_time)
 _end_time = event.end_time
 end_date = minute2date(_end_time)
 end_time = minute2time(_end_time)
+join_check_count = event_joiner_check_count(id)
 join_count = event.join_count
 join_list = event_joiner_user_list(id)
 career_bind(join_list)
@@ -69,14 +70,18 @@ ${po.htm|n}\
 <p>联系电话 : ${event.phone}</p>\
 <p>交通方式 : ${event.transport}</p>\
 <form action="/event/${'check' if can_admin else 'join'}/${id}" style="margin-top: 16px; margin-bottom: 28px;"><span class="btnw"><button type="submit">报名${'管理' if can_admin else '参加'}</button></span>\
-% if can_admin and join_count:
-<span style="margin-left:32px;vertical-align: 13px;"><a href="/event/check/${id}"><span class="mr3">${join_count}</span>待确认</a></span>
+% if can_admin and join_check_count:
+<span style="margin-left:32px;vertical-align: 13px;"><a href="/event/check/${id}"><span class="mr3">${join_check_count}</span>待确认</a></span>
 % endif
 % if price:
 <span style="vertical-align: 13px; margin-left: 32px;">${price} 元 / 人</span>\
 % endif
 </form>\
-<p class="po_bar po_bar1"><a class="L" href="/po/event/${id}">编辑</a>组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
+<p class="po_bar po_bar1">
+% if can_admin:
+<a class="L" href="/po/event/${id}">编辑</a>
+% endif
+组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
 ${po_bar_vote(po)}\
 </pre>
 <div style="border-width: 1px 0; border-style: dotted none; border-color: #ccc; text-align: center; padding: 14px 14px 16px; margin: 14px 0 0;">
