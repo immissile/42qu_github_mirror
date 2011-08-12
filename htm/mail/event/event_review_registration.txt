@@ -1,11 +1,12 @@
-${title} 有新报名者等待确认
+${title|n} 有新报名者 , 请 审核 并 确认报名
 
-${name}:
+${name|n}:
 
-活动 ${title} (http:${event_link}) 有新的报名者等待确认
+${title|n} 有新的报名者 ( ${event_registration_list|n} ) 
 
-未审核的报名者名单：
-${event_registration_list}
-  
+请 审核 并 确认报名
+
+浏览链接 : ${event_link}
+ 
 
 如有问题请回复此邮件 

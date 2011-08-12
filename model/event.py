@@ -502,20 +502,27 @@ def event_begin2now(event):
 def event_review_registration(event_id):
     event = Event.mc_get(event_id)
     if event:
-        event_new_joiner_id_list = EventJoiner.where('event_id=%s and state=%s', event_id, EVENT_JOIN_STATE_NEW).col_list(col='user_id')
+        event_new_joiner_id_list = EventJoiner.where(
+            'event_id=%s and state=%s', event_id, EVENT_JOIN_STATE_NEW
+        ).col_list(col='user_id')
+
         if event_new_joiner_id_list:
             event_joiner_list = []
-            for user_id in event_new_joiner_id_list:
-                user = Zsite.mc_get(user_id)
+
+            for user in Zsite.mc_get_list(event_new_joiner_id_list):
                 event_joiner_list.append(user.name)
+
             from user_mail import mail_by_user_id
+
             rendermail(
                     '/mail/event/event_review_registration.txt',
                     mail_by_user_id(event.zsite_id),
                     event.zsite.name,
-                    event_link='%s/%s' % (event.zsite.link, event_id),
+                    event_link='http:%s/event/join/%s' % (
+                        event.zsite.link, event_id
+                    ),
                     title=event.po.name,
-                    event_registration_list=', '.join(event_joiner_list)
+                    event_registration_list=' , '.join(event_joiner_list)
             )
 
 
