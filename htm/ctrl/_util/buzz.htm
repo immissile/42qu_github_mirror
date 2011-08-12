@@ -67,7 +67,7 @@ ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}#reply
 %elif cid == CID_BUZZ_JOIN:
 ${user_link_list(from_list)} 加入了 ${event_name(i.rid)} 活动
 %elif cid == CID_BUZZ_REGISTRATION:
-${user_link_list(from_list)} 报名了 ${event_name(i.rid)} 活动
+${user_link_list(from_list)} 想参加 ${event_name(i.rid)} 活动 , <a href="/event/join/${po.id}" target="_blank">请您点此</a> , 批准报名
 %endif
 </%def>
 
