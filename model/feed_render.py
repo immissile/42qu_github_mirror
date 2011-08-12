@@ -69,7 +69,6 @@ def feed_tuple_by_db(id):
         result.extend(
             (question.id, user.name, user.link)
         )
-        #print (question.link, user.name, user.link)
 
     return result
 
