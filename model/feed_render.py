@@ -8,7 +8,7 @@ from po import Po
 from po_question import answer_count
 from follow import follow_id_list_by_from_id
 from model.vote import vote_count
-from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT
+from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm
 from zsite import Zsite
 from zkit.txt import cnenoverflow
 from model.txt2htm import txt_withlink
@@ -20,6 +20,8 @@ FEED_TUPLE_DEFAULT_LEN = 11
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
+    if not m:
+        feed_rm(id)
     cid = m.cid
     rid = m.rid
     has_question = cid in (CID_WORD, CID_ANSWER)
