@@ -466,9 +466,7 @@ def event_review_no(id, txt):
 
 
 if __name__ == '__main__':
+    pass
     #event_review_no(10047323,'yuyuyuyu')
     #print event_to_review_count(10000000)
     #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
-
-
-
