@@ -6,23 +6,29 @@ from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_ST
 %>
 <%def name="htm_head()">
 <script>
-    $('a.join_yes').live('click', function() {
-        var box = $(this.parentNode.parentNode)
-        if ( ! box.hasClass('join_y') ) {
-            box.addClass('join_y')
-            var id = this.rel
-            $.postJSON('/j/event/check/' + id + '/1')
-        }
-    })
-    $('a.join_no').live('click', function() {
+$('a.join_yes').live('click', function() {
+    var box = $(this.parentNode.parentNode)
+    if ( ! box.hasClass('join_y') ) {
+        box.addClass('join_y')
         var id = this.rel
-        var txt = ''
+        $.postJSON('/j/event/check/' + id + '/1')
+    }
+})
+$('a.join_no').live('click', function() {
+    var id = this.rel
+    var fancybox = $.fancybox
+    fancybox({
+        'content': '',
+    })
+    var txt = ''
+    if ( txt ) {
         $.postJSON('/j/event/check/' + id + '/0', {'txt': txt}, function(data) {
             $('#ndbk' + id).slideUp(500, function() {
                 $(this).remove()
             })
         })
-    })
+    }
+})
 </script>
 ${css.ctrl_event_admin|n}
 </%def>
