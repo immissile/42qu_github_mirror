@@ -9,6 +9,7 @@ from po_question import answer_count
 from follow import follow_id_list_by_from_id
 from model.vote import vote_count
 from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm
+from zkit.earth import place_name
 from zsite import Zsite
 from zkit.txt import cnenoverflow
 from model.txt2htm import txt_withlink
@@ -69,12 +70,19 @@ def feed_tuple_by_db(id):
     else:
         txt = txt_withlink(txt)
         result.extend((txt, False))
-
-    if rid and has_question:
+    
+    if cid == CID_EVENT:
+        result.append(place_name(event.pid))
+        result.append(event.address)
+        result.extend(
+            begin_end_by_minute(event, event.begin_time, event.end_time)
+        )
+    elif rid and has_question:
         user = question.user
         result.extend(
             (question.id, user.name, user.link)
         )
+    
 
     return result
 
