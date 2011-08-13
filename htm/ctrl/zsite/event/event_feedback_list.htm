@@ -1,0 +1,44 @@
+
+<%namespace file="/ctrl/zsite/po/_vote.htm" import="_vote"/>
+<%!
+from model.event import Event, event_feedback_list, event_feedback_count, EVENT_JOIN_STATE_GENERAL, EVENT_JOIN_STATE_PRAISE
+%>
+<%def name="feedback_list(event_id)">
+<% 
+event = Event.get(event_id) 
+%>
+<div class="spline">
+    <span>${event_feedback_count(event_id, EVENT_JOIN_STATE_PRAISE)}</span> 好评
+    <span>${event_feedback_count(event_id, EVENT_JOIN_STATE_GENERAL)}</span> 反馈
+</div>
+
+<div id="reply_list">
+%for feedback in event_feedback_list(event_id, zsite_id, current_user_id):
+<%
+feedback_id = feedback.id
+feedback_link = feedback.link
+user = feedback.user
+user_id = user.id
+%>
+<div class="sdw" id="reply${feedback.id}"><div class="sd">
+<p>
+<a href="${user.link}" id="replyer${user.id}" class="replyer">${user.name}</a>
+ :
+</p>
+<pre>${feedback.htm|n}</pre>
+
+    %if feedback.can_view(current_user_id):
+    <div class="bar">
+        %if feedback.can_admin(current_user_id):
+<a
+href="${feedback.link_edit}" class="edit">编辑</a>
+        %else:
+<span class="L">${_vote(feedback_id)}</span>\
+        %endif
+<a class="reply" href="${feedback_link}#reply_txt" title="回复">${feedback.reply_count}</a>
+    </div>
+    %endif
+</div></div>
+%endfor
+</div>
+</%def>
