@@ -11,7 +11,7 @@ from model.cid import CID_EVENT, CID_EVENT_FEEDBACK
 from model.pic import pic_new_save , fs_url_jpg , fs_set_jpg
 from zkit.pic import pic_fit
 from rank import rank_po_id_list
-from event import EVENT_CID, EVENT_CID_CN, EventJoiner, event_joiner_get, EVENT_JOIN_STATE_REVIEW , EVENT_JOIN_STATE_GOOD 
+from event import EVENT_CID, EVENT_CID_CN, EventJoiner, event_joiner_get, EVENT_JOIN_STATE_FEEDBACK_NORMAL , EVENT_JOIN_STATE_FEEDBACK_GOOD, mc_event_joiner_feedback_normal_id_list, event_joiner_feedback_normal_id_list 
 
 mc_event_feedback_id_get = McCache('EventFeedBackGet.%s')
 
@@ -23,11 +23,6 @@ def event_feedback_id_get(user_id, event_id):
         return i
     return 0
 
-event_feedback_count = McNum(
-    lambda event_id, state: EventJoiner.where(
-        event_id=event_id, state=state
-    ).count(), 'EventFeedbackCount:%s'
-)
 
 def po_event_pic_new(zsite_id, pic):
     pic_id = pic_new_save(CID_EVENT, zsite_id, pic)
@@ -61,7 +56,7 @@ def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
         event_joiner_state_set(
             user_id, 
             event_id, 
-            EVENT_JOIN_STATE_GOOD if good else EVENT_JOIN_STATE_REVIEW
+            EVENT_JOIN_STATE_FEEDBACK_GOOD if good else EVENT_JOIN_STATE_FEEDBACK_NORMAL
         )
 
     return m
@@ -77,8 +72,7 @@ def event_joiner_state_set(user_id, event_id, to_state):
 
     event_joiner.state = to_state
     event_joiner.save()
-    event_feedback_count.delete('%s_%s'%(event_id, to_state))
-    event_feedback_count.delete('%s_%s'%(event_id, from_state))
+    mc_event_joiner_feedback_normal_id_list.delete(event_id) 
 
 def po_event_feedback_rm(user_id, event_id):
     event_joiner_state_set(user_id, event_id, EVENT_JOIN_STATE_END)
@@ -92,8 +86,24 @@ def po_event_feedback_list(event_id):
     li = Po.mc_get_list(ids)
     Zsite.mc_bind(li, 'user', 'user_id')
 
-
     return li
+
+
+def po_event_feedback_group(event_id):
+    li = po_event_feedback_list(event_id)
+    id_set = set(event_joiner_feedback_normal_id_list(event_id))
+
+    good = []
+    normal = []
+
+    for i in li:
+        if i.user_id in id_set:
+            normal.append(i)  
+        else:
+            good.append(i)
+
+    return good, normal
+
 
 
 if __name__ == '__main__':

@@ -5,13 +5,13 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-EventUser
-event_user
+EVENT_JOIN_STATE_REVIEW 
+EVENT_JOIN_STATE_GOOD
 """
 
 TO_STRING = """
-EventJoiner
-event_joiner
+EVENT_JOIN_STATE_FEEDBACK_NORMAL
+EVENT_JOIN_STATE_FEEDBACK_GOOD
 """
 
 def run():

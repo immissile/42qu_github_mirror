@@ -1,19 +1,32 @@
 
 <%namespace file="/ctrl/zsite/po/_vote.htm" import="_vote"/>
 <%!
-from model.po_event import Event, po_event_feedback_list, po_event_feedback_count, EVENT_JOIN_STATE_REVIEW, EVENT_JOIN_STATE_GOOD
+from model.po_event import po_event_feedback_group
 %>
 <%def name="feedback_list(event_id)">
 <% 
-event = Event.get(event_id) 
+good , normal = po_event_feedback_group(event_id)
 %>
-<div class="spline">
-    <span>${po_event_feedback_count(event_id, EVENT_JOIN_STATE_GOOD)}</span> 好评
-    <span>${po_event_feedback_count(event_id, EVENT_JOIN_STATE_REVIEW)}</span> 反馈
-</div>
 
-<div id="reply_list">
-%for feedback in event_feedback_list(event_id):
+%if good:
+<div class="spline">
+    <span>${len(good)}</span> 好评
+</div>
+${feedback_list(good)}
+%endif
+
+%if normal:
+<div class="spline">
+    <span>${len(normal)}</span> 反馈
+</div>
+${feedback_list(normal)}
+%endif
+
+</%def>
+
+<%def name="feedback_list(li)">
+<div>
+%for feedback in li:
 <%
 feedback_id = feedback.id
 feedback_link = feedback.link
@@ -42,3 +55,4 @@ user_id = user.id
 %endfor
 </div>
 </%def>
+

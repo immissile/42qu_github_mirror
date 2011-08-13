@@ -99,33 +99,9 @@ EVENT_JOIN_STATE_NO = 10
 EVENT_JOIN_STATE_NEW = 20
 EVENT_JOIN_STATE_YES = 30
 EVENT_JOIN_STATE_END = 40
-EVENT_JOIN_STATE_REVIEW = 50
-EVENT_JOIN_STATE_GOOD = 60
+EVENT_JOIN_STATE_FEEDBACK_NORMAL = 50
+EVENT_JOIN_STATE_FEEDBACK_GOOD = 60
 
-"""
-CREATE TABLE  `zpage`.`event` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `city_pid` int(10) unsigned NOT NULL,
-  `pid` int(10) unsigned NOT NULL,
-  `address` varchar(255) collate utf8_bin NOT NULL,
-  `transport` varchar(255) collate utf8_bin NOT NULL,
-  `begin_time` int(10) unsigned NOT NULL default '0',
-  `end_time` int(10) unsigned NOT NULL default '0',
-  `cent` int(10) unsigned NOT NULL default '0',
-  `state` tinyint(3) unsigned NOT NULL,
-  `need_review` int(10) unsigned NOT NULL,
-  `cid` tinyint(3) unsigned NOT NULL,
-  `zsite_id` int(10) unsigned NOT NULL,
-  `limit_up` int(10) unsigned NOT NULL default '0',
-  `phone` varbinary(64) NOT NULL,
-  `limit_down` int(10) unsigned NOT NULL,
-  `pic_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `Index_3` (`zsite_id`),
-  KEY `Index_2` USING BTREE (`state`,`limit_up`),
-  KEY `Index_4` (`city_pid`,`state`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-"""
 
 def event_new_if_can_change(
     zsite_id,
@@ -328,6 +304,14 @@ def event_joiner_user_id_list(event_id):
 
 
 
+mc_event_joiner_feedback_normal_id_list = McCacheA("EventJoinerReveiwIdList:%s")
+
+@mc_event_joiner_feedback_normal_id_list('{event_id}')
+def event_joiner_feedback_normal_id_list(event_id):
+    return EventJoiner.where(
+        event_id=event_id,state=EVENT_JOIN_STATE_FEEDBACK_NORMAL
+    ).col_list(col='user_id')
+
 @mc_event_joiner_id_list('{event_id}')
 def event_joiner_id_list(event_id):
     event = Event.mc_get(event_id)
@@ -442,7 +426,7 @@ def event_join_review(o):
             if not t:
                 return
             trade_finish(t)
-        o.state = EVENT_JOIN_STATE_REVIEW
+        o.state = EVENT_JOIN_STATE_FEEDBACK_NORMAL
         o.save()
 
 def event_init2to_review(id):
