@@ -14,8 +14,7 @@ from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT, CID_EVENT
 from ctrl.me.i import NameCardEdit
 from model.zsite import ZSITE_STATE_VERIFY
 from model.buzz import buzz_event_registration_new
-
-#,CID_EVENT
+from model.zsite_url import link
 
 @urlmap('/event/to_review')
 @urlmap('/event/to_review-(\d+)')
@@ -74,7 +73,7 @@ class EventBase(LoginBase):
         if o:
             if o.zsite_id == self.zsite_id:
                 return o
-            return self.redirect(o.link)
+            return self.redirect(link(o.zsite_id)+self.request.path)
         return self.redirect('/')
 
 
@@ -84,25 +83,25 @@ class EventState(EventBase):
         event = self._event(id)
         return self.render(event=event)
 
+def _event(self, id):
+    current_user = self.current_user
+    if current_user.state < ZSITE_STATE_VERIFY:
+        return self.redirect('/i/verify')
+    current_user_id = self.current_user_id
+    self.event = event = super(EventJoin, self)._event(id)
+    self.error = []
+    if event:
+        if event.zsite_id == current_user_id:
+            self.redirect('/event/check/%s'%id)
+            return 
+        if event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
+            return event
+        event_link = "/event/%s/state"%event.id
+        return self.redirect(event_link)
 
 @urlmap('/event/join/(\d+)')
 class EventJoin(NameCardEdit, EventBase):
-    def _event(self, id):
-        current_user = self.current_user
-        if current_user.state < ZSITE_STATE_VERIFY:
-            return self.redirect('/i/verify')
-        current_user_id = self.current_user_id
-        self.event = event = super(EventJoin, self)._event(id)
-        self.error = []
-        if event:
-            if event.zsite_id == current_user_id:
-                self.redirect('/event/check/%s'%id)
-                return 
-            if event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
-                return event
-            event_link = "/event/%s/state"%event.id
-            return self.redirect(event_link)
-
+    _event = _event
     def get(self, id):
         event = self._event(id)
         if event is None:
@@ -148,8 +147,8 @@ class EventJoin(NameCardEdit, EventBase):
 
 @urlmap('/event/pay/(\d+)')
 class EventPay(EventJoin):
-    def event(self, id):
-        event = super(EventPay, self).event(id)
+    def _event(self, id):
+        event = _event(self, id)
         if event:
             if event.cent:
                 return event
@@ -166,7 +165,7 @@ class EventPay(EventJoin):
         return cent
 
     def get(self, id):
-        event = self.event(id)
+        event = self._event(id)
         if event is None:
             return
 
