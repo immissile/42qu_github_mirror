@@ -249,7 +249,6 @@ class Index(LoginBase):
 @urlmap('/event/feedback/(\d+)')
 class EventFeedback(PoBase):
     cid = CID_EVENT_FEEDBACK
-
     def po_save(self, user_id, name, txt, good):
         event = self.event
         return po_event_feedback_new(

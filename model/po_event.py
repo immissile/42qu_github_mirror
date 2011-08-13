@@ -11,7 +11,7 @@ from model.cid import CID_EVENT, CID_EVENT_FEEDBACK
 from model.pic import pic_new_save , fs_url_jpg , fs_set_jpg
 from zkit.pic import pic_fit
 from rank import rank_po_id_list
-from event import EVENT_CID, EVENT_CID_CN, EventJoiner, event_joiner_get
+from event import EVENT_CID, EVENT_CID_CN, EventJoiner, event_joiner_get, EVENT_JOIN_STATE_REVIEW , EVENT_JOIN_STATE_GOOD 
 
 mc_event_feedback_id_get = McCache('EventFeedBackGet.%s')
 
@@ -58,15 +58,30 @@ def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
         else:
             mq_buzz_event_feedback_owner_new(user_id, id, event_user_id)
 
+        event_joiner_state_set(
+            user_id, 
+            event_id, 
+            EVENT_JOIN_STATE_GOOD if good else EVENT_JOIN_STATE_REVIEW
+        )
+
     return m
 
-def po_event_feedback_rm(user_id, event_id):
-    event_joiner = event_joiner_get(event_id, user_id)
-    state = event_joiner.state
-    event_joiner.state = EVENT_JOIN_STATE_END
-    event_joiner.save()
-    event_feedback_count.delete('%s_%s'%(event_id, state))
 
+
+def event_joiner_state_set(user_id, event_id, to_state):
+    event_joiner = event_joiner_get(event_id, user_id)
+    from_state = event_joiner.state
+
+    if from_state == to_state:
+        return
+
+    event_joiner.state = to_state
+    event_joiner.save()
+    event_feedback_count.delete('%s_%s'%(event_id, to_state))
+    event_feedback_count.delete('%s_%s'%(event_id, from_state))
+
+def po_event_feedback_rm(user_id, event_id):
+    event_joiner_state_set(user_id, event_id, EVENT_JOIN_STATE_END)
 
 def po_event_feedback_list(event_id):
     ids = rank_po_id_list(event_id, CID_EVENT_FEEDBACK, 'confidence')
@@ -76,6 +91,7 @@ def po_event_feedback_list(event_id):
     
     li = Po.mc_get_list(ids)
     Zsite.mc_bind(li, 'user', 'user_id')
+
 
     return li
 
