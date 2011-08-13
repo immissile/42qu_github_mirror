@@ -53,11 +53,12 @@ po_id = str(po.id)
 answer_id = answer.id
 answer_link = answer.link
 user = answer.user
-user_id = user.id
+if user:
+    user_id = user.id
 %>
 <div class="sdw" id="reply${answer.id}"><div class="sd">
 <p>
-%if answer.state != STATE_SECRET:
+%if answer.state != STATE_SECRET and user:
 <a href="${user.link}" id="replyer${user.id}" class="replyer">${user.name}</a>
 %else:
 匿名

@@ -72,11 +72,8 @@ class Po(McModel, ReplyMixin):
         id = self.id
         s = txt_withlink(self.txt)
         if cid != CID_WORD:
-            from po_pic import pic_htm
             user_id = self.user_id
             s = pic_htm(s, user_id, id)
-            s = s.replace('\n\n', '</p><p>')
-            s = '<p>%s</p>' % s
         return s
 
     def txt_set(self, txt):
@@ -186,7 +183,7 @@ class Po(McModel, ReplyMixin):
 def po_new(cid, user_id, name, state, rid=0, id=None):
     m = Po(
         id=id or gid(),
-        name_=cnencut(name, 140),
+        name_=cnencut(name, 142),
         user_id=user_id,
         cid=cid,
         rid=rid,
@@ -335,5 +332,3 @@ def mc_flush_cid_list_all(user_id, cid_list):
 
 if __name__ == '__main__':
     pass
-
-

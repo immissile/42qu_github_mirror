@@ -7,7 +7,7 @@ from model.po_question import answer_id_get
 from model.fs import fs_url_jpg
 from model.ico import pic_url_bind_with_default
 from model.career import career_bind
-from model.days import cn_date, cn_weekday, minute2date, minute2time
+from model.days import begin_end_by_minute 
 from zkit.earth import place_name
 from model.event import Event, event_joiner_check_count, event_joiner_user_list, event_joiner_user_id_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
 %>
@@ -22,12 +22,12 @@ can_admin = event.can_admin(current_user_id)
 % if can_admin or state >= EVENT_STATE_BEGIN:
 <%
 pic_url = fs_url_jpg(162, event.pic_id)
-_begin_time = event.begin_time
-begin_date = minute2date(_begin_time)
-begin_time = minute2time(_begin_time)
-_end_time = event.end_time
-end_date = minute2date(_end_time)
-end_time = minute2time(_end_time)
+
+row1, row2, diff_day = begin_end_by_minute(
+    event.begin_time,
+    event.end_time
+)
+
 join_check_count = event_joiner_check_count(id)
 join_count = event.join_count
 join_list = event_joiner_user_list(id)
@@ -55,25 +55,16 @@ reply_count = po.reply_count
     <div id="event_txt">
     <div id="po_name">${po.name}</div>
 
-<p>时间<span class="colon">:</span>\
-${cn_date(begin_date)} ${cn_weekday(begin_date)}\
-</p>\
-% if begin_date == end_date:
-<p class="ml48">
-    % if begin_time == end_time:
-${begin_time}
-    % else:
-${begin_time} - ${end_time}
-    % endif
-</p>
-% else:
-${begin_time}</p>
-<p class="ml14">至<span class="ml20">\
-${cn_date(end_date)} ${cn_weekday(end_date)} ${end_time}</span></p>
-% endif
 
-<p class="mt14">地点<span class="colon">:</span>${place_name(event.city_pid)}</p>
+<p>地点<span class="colon">:</span>${place_name(event.pid)}</p>
 <p class="ml48">${event.address}</p>
+
+<p class="mt14">时间<span class="colon">:</span>${row1}</p>
+%if diff_day:
+<p class="ml14">至<span class="ml20">${row2}</span></p>
+%else:
+<p class="ml48">${row2}</p>
+%endif
 
 </div>
 </div>

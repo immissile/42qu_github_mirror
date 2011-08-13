@@ -1,5 +1,6 @@
 <%!
 from cgi import escape
+from model.po import Po
 %>
 
 <%def name="user_link(user)">
@@ -18,7 +19,7 @@ career = ' , '.join(filter(bool, user.career))
 </%def>
 
 <%def name="user_link_list(user_list)">
-${' , '.join(['<a target="_blank" href="%s">%s</a>' % (i.link, escape(i.name)) for i in user_list])|n}
+${' , '.join(['<a target="_blank" href="%s">%s</a>' % (i.link, escape(i.name)) for i in filter(bool,user_list)])|n}
 </%def>
 
 <%def name="user_link_list_with_career(user_list)">
@@ -57,4 +58,11 @@ ${user_name_list(user_list)}\
 % elif l:
 ${user_career(user_list[0])}\
 % endif
+</%def>
+
+<%def name="event_name(event_id)">\
+<%
+po = Po.mc_get(event_id)
+%>
+<a href="${po.link}" target="_blank">${po.name}</a>
 </%def>

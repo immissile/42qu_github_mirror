@@ -35,7 +35,7 @@ def ymd2days(ymd):
 def minute2date(minute):
     return datetime.timedelta(minute/ONE_DAY_MINUTE)+DATE_BEGIN
 
-def minute2time(minute):
+def minute2hour(minute):
     minute = minute % ONE_DAY_MINUTE
     return '%d:%02d' % (minute//60, minute % 60)
 
@@ -53,15 +53,15 @@ def minute2ymd2(minute):
 def cn_date(datetime):
     return datetime.strftime('%Y年%m月%d日')
 
-CN_WEEKDAY = {
-    0: '日',
-    1: '一',
-    2: '二',
-    3: '三',
-    4: '四',
-    5: '五',
-    6: '六',
-}
+CN_WEEKDAY = (
+     '日',
+     '一',
+     '二',
+     '三',
+     '四',
+     '五',
+     '六',
+)
 
 def cn_weekday(datetime):
     return '星期%s' % CN_WEEKDAY[datetime.weekday()]
@@ -103,13 +103,32 @@ def epoch_seconds(timestr):
     return int(mktime(strptime(timestr, TIMESTAMP_FORMAT)))
 
 
+def begin_end_by_minute(begin_time, end_time):
+    begin_date = minute2date(begin_time)
+    end_date = minute2date(end_time)
+
+    row1 = [cn_date(begin_date), cn_weekday(begin_date)]
+
+    diff_day = (begin_date != end_date)
+
+    begin_hour = minute2hour(begin_time)
+    end_hour = minute2hour(end_time)
+
+    if diff_day:
+        row1.append(begin_hour)
+        row2 = "%s %s %s"%(
+            cn_date(end_date), cn_weekday(end_date), end_hour
+        )
+    else:
+        if begin_time == end_time:
+            row2 = begin_hour
+        else:
+            row2 = '%s - %s'%(begin_hour, end_hour)
+
+    return " ".join(row1), row2, diff_day
+
+
 if __name__ == '__main__':
-    #print today_ymd_int()
-    #print date_to_days('')
-    #print yesterday()
-    #print today_year()
-    #date = 20110704
-    #print year_month_begin_end(date, date)
-    #print today_seconds()
     print minute2ymd(72690510)
-    #print (20091010%10000)//100
+
+

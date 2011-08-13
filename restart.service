@@ -6,7 +6,10 @@ $PROCESS|ack server_god\.py|ack python|awk '{print $1}'|xargs kill
 
 $PROCESS|ack server_mq\.py|ack python|awk '{print $1}'|xargs kill
 
-$PROCESS|ack server_ctrl\.py|ack python|awk '{print $1}'|xargs kill
+for (( i = 30050; i < 30054; i++ )); do
+    $PROCESS | ack server_ctrl\.py | ack python | ack $i | awk '{print $1}' | xargs kill
+    sleep 2
+done
 
 $PROCESS|ack server_rpc\.py|ack python|awk '{print $1}'|xargs kill
 

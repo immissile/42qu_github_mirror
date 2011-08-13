@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER
+from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_REGISTRATION
 from cid import CID_USER
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -17,6 +17,7 @@ from zweb.orm import ormiter
 from zkit.orderedset import OrderedSet
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
+from model.event import Event
 
 class Buzz(Model):
     pass
@@ -47,6 +48,8 @@ BUZZ_DIC = {
     CID_BUZZ_WALL_REPLY: Wall,
     CID_BUZZ_PO_REPLY: Po,
     CID_BUZZ_ANSWER: Po,
+    CID_BUZZ_JOIN: Event,
+    CID_BUZZ_REGISTRATION: Event,
 }
 
 def mc_flush(user_id):
@@ -206,11 +209,26 @@ def buzz_show(user_id, limit):
 def buzz_unread_update(user_id):
     buzz_unread.delete(user_id)
 
+def buzz_event_join_new(user_id, event_id):
+    event_host = Event.mc_get(event_id).zsite_id
+    followed = [i.from_id for i in ormiter(Follow, 'to_id=%s' % user_id)]
+    for to_id in followed:
+        if to_id != event_host:
+            buzz_new(user_id, to_id, CID_BUZZ_JOIN, event_id)
+
+mq_buzz_event_join_new = mq_client(buzz_event_join_new)
+
+def buzz_event_registration_new(user_id, event_id):
+    event_host = Event.mc_get(event_id).zsite_id
+    buzz_new(user_id, event_host, CID_BUZZ_REGISTRATION, event_id) 
+
 
 if __name__ == '__main__':
-    for i in ormiter(Buzz, "cid=%s"%CID_BUZZ_SHOW):
-        print i.id
-        i.delete()
+    buzz_event_join_new(10000000, 10047337)
+    #buzz_event_registration_new(10001637, 10047337)
+    #for i in ormiter(Buzz, "cid=%s"%CID_BUZZ_SHOW):
+    #    print i.id
+    #    i.delete()
 
    # from model.cid import CID_USER
    # for i in Zsite.where(cid=CID_USER):

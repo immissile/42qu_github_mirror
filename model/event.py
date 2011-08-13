@@ -10,6 +10,7 @@ from operator import itemgetter
 from gid import gid
 from po import Po, po_rm, po_state_set
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from feed_po import mc_feed_po_dict
 from mail import rendermail
 from zkit.time_format import time_title
 from spammer import is_same_post
@@ -150,6 +151,7 @@ def event_new_if_can_change(
             event.pic_id = pic_id
             event.save()
             return event
+        mc_feed_po_dict.delete(id)
 
     return event_new(
         zsite_id,
@@ -525,6 +527,31 @@ def event_begin2now(event):
         event.state = EVENT_STATE_NOW
         event.save()
 
+def event_review_registration(event_id):
+    event = Event.mc_get(event_id)
+    if event:
+        event_new_joiner_id_list = EventJoiner.where(
+            'event_id=%s and state=%s', event_id, EVENT_JOIN_STATE_NEW
+        ).col_list(col='user_id')
+        if event_new_joiner_id_list:
+            event_joiner_list = [
+                user.name
+                for user in 
+                Zsite.mc_get_list(event_new_joiner_id_list)
+            ]
+
+            from user_mail import mail_by_user_id
+            rendermail(
+                    '/mail/event/event_review_registration.txt',
+                    mail_by_user_id(event.zsite_id),
+                    event.zsite.name,
+                    event_link='http:%s/event/join/%s' % (
+                        event.zsite.link, event_id
+                    ),
+                    title=event.po.name,
+                    event_registration_list=' , '.join(event_joiner_list)
+            )
+
 def event_feedback_new(user_id, name, txt, rid):
     if not name and not txt:
         return
@@ -534,17 +561,16 @@ def event_feedback_new(user_id, name, txt, rid):
         txt_new(m.id, txt)
         m.feed_new()
         return m
-
+        
 from rank import rank_po_id_list
 from po_question import answer_id_get
 
 def event_feedback_list(event_id, zsite_id=0, user_id=0):
     ids = rank_po_id_list(event_id, CID_EVENT_FEEDBACK, 'confidence')
     print 'ids:', ids
-
     if zsite_id == user_id:
         zsite_id = 0
-
+    
     user_ids = filter(bool, (zsite_id, user_id))
     if user_ids:
         _ids = []
@@ -563,16 +589,6 @@ def event_feedback_list(event_id, zsite_id=0, user_id=0):
     return li
 
 if __name__ == '__main__':
-    po_list = event_feedback_list(10047337, 10016494, 100001637)
-    for x in po_list:
-        print 'po_list', x.id
-
-    print answer_id_get(10016494, 10047337)
-    print answer_id_get(10001299, 10047337)
-    print answer_id_get(10001637, 10047337)
-    pass
-    #print 10001299 in event_joiner_user_id_list(10047337)
-    #event_review_no(10047323,'yuyuyuyu')
     #print event_to_review_count(10000000)
     #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)
     #event = Event.get(10047312)

@@ -232,7 +232,7 @@ if __name__ == '__main__':
     reload(sys)
     sys.setdefaultencoding('utf-8')
     uri = 'http://zsp.javaeye.com'
-
+    print feeds(uri)
     for i in get_rss_link_title_by_url(uri):
         print i
 
