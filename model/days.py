@@ -53,15 +53,15 @@ def minute2ymd2(minute):
 def cn_date(datetime):
     return datetime.strftime('%Y年%m月%d日')
 
-CN_WEEKDAY = {
-    0: '日',
-    1: '一',
-    2: '二',
-    3: '三',
-    4: '四',
-    5: '五',
-    6: '六',
-}
+CN_WEEKDAY = (
+     '日',
+     '一',
+     '二',
+     '三',
+     '四',
+     '五',
+     '六',
+)
 
 def cn_weekday(datetime):
     return '星期%s' % CN_WEEKDAY[datetime.weekday()]
