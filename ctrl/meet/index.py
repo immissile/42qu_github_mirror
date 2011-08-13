@@ -2,7 +2,7 @@
 from _handler import Base, LoginBase, XsrfGetBase
 from ctrl._urlmap.meet import urlmap
 
-@urlmap('/-(\d+)')
+@urlmap('/')
 class Index(Base):
-    def get(Base):
+    def get(self):
         return self.render()
