@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -233,6 +233,11 @@ def po_rm(user_id, id):
         elif cid == CID_EVENT:
             from model.event import event_rm
             event_rm(user_id, id)
+        elif cid == CID_EVENT_FEEDBACK:
+            from model.event import event_feedback_rm
+            from model.rank import rank_rm
+            event_feedback_rm(user_id, po.rid)
+            rank_rm(po.id, po.rid)
         return _po_rm(user_id, po)
 
 #, event_rm

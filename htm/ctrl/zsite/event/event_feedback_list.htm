@@ -1,7 +1,7 @@
 
 <%namespace file="/ctrl/zsite/po/_vote.htm" import="_vote"/>
 <%!
-from model.event import Event, event_feedback_list, event_feedback_count, EVENT_JOIN_STATE_GENERAL, EVENT_JOIN_STATE_PRAISE
+from model.event import Event, event_feedback_list, event_feedback_count, EVENT_JOIN_STATE_REVIEW, EVENT_JOIN_STATE_PRAISE
 %>
 <%def name="feedback_list(event_id)">
 <% 
@@ -9,7 +9,7 @@ event = Event.get(event_id)
 %>
 <div class="spline">
     <span>${event_feedback_count(event_id, EVENT_JOIN_STATE_PRAISE)}</span> 好评
-    <span>${event_feedback_count(event_id, EVENT_JOIN_STATE_GENERAL)}</span> 反馈
+    <span>${event_feedback_count(event_id, EVENT_JOIN_STATE_REVIEW)}</span> 反馈
 </div>
 
 <div id="reply_list">
@@ -31,7 +31,7 @@ user_id = user.id
     <div class="bar">
         %if feedback.can_admin(current_user_id):
 <a
-href="${feedback.link_edit}" class="edit">编辑</a>
+    href="/event/feedback/edit/${feedback_id}" class="edit">编辑</a>
         %else:
 <span class="L">${_vote(feedback_id)}</span>\
         %endif

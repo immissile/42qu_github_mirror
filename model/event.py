@@ -49,13 +49,13 @@ mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
 mc_event_joiner_id_list = McCacheA('EventJoinerIdList.%s')
 mc_event_joiner_user_id_list = McCacheA('EventJoinerUserIdList.%s')
 
-event_to_review_count_by_zsite_id = McNum(lambda zsite_id: Event.where(state=EVENT_STATE_TO_REVIEW, zsite_id=zsite_id).count(), "EventToReviewCountByZsiteId:%s")
+event_to_review_count_by_zsite_id = McNum(lambda zsite_id: Event.where(state=EVENT_STATE_TO_REVIEW, zsite_id=zsite_id).count(), 'EventToReviewCountByZsiteId:%s')
 
 event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where(
-    'state between %s and %s',EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]
+    'state between %s and %s', EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]
 ).count(), 'EventCountByZsiteId.%s')
 
-event_feedback_count = McNum(lambda event_id, state: EventJoiner.where(event_id=event_id, state=state).count(), "EventFeedbackCount:%s")
+event_feedback_count = McNum(lambda event_id, state: EventJoiner.where(event_id=event_id, state=state).count(), 'EventFeedbackCount:%s')
 
 EVENT_CID_CN = (
     (1 , '技术'),
@@ -101,8 +101,7 @@ EVENT_JOIN_STATE_NEW = 20
 EVENT_JOIN_STATE_YES = 30
 EVENT_JOIN_STATE_END = 40
 EVENT_JOIN_STATE_REVIEW = 50
-EVENT_JOIN_STATE_GENERAL = 60
-EVENT_JOIN_STATE_PRAISE = 70 
+EVENT_JOIN_STATE_PRAISE = 60
 
 """
 CREATE TABLE  `zpage`.`event` (
@@ -270,7 +269,7 @@ class Event(McModel):
 
 @mc_event_id_list_by_zsite_id('{zsite_id}_{can_admin}')
 def event_id_list_by_zsite_id(zsite_id, can_admin, limit, offset):
-    return Event.where(zsite_id=zsite_id).where('state between %s and %s',EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
+    return Event.where(zsite_id=zsite_id).where('state between %s and %s', EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
 
 def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     id_list = event_id_list_by_zsite_id(zsite_id, bool(can_admin), limit, offset)
@@ -470,6 +469,16 @@ def event_rm(user_id, id):
         event_to_review_count_by_zsite_id.delete(user_id)
         mc_flush_by_user_id(user_id)
 
+def event_feedback_rm(user_id, event_id):
+    event_joiner = event_joiner_get(event_id, user_id)
+    state = event_joiner.state
+    event_joiner.state = EVENT_JOIN_STATE_END
+    event_joiner.save()
+    event_feedback_count.delete('%s_%s'%(event_id, state))
+
+
+
+
 def event_review_yes(id):
     event = Event.mc_get(id)
     if event and event.state == EVENT_STATE_TO_REVIEW:
@@ -489,8 +498,8 @@ def event_review_yes(id):
             '/mail/event/event_review_yes.txt',
             mail_by_user_id(event.zsite_id),
             event.zsite.name,
-            link = event.zsite.link,
-            title = event.po.name,
+            link=event.zsite.link,
+            title=event.po.name,
         )
 
 
@@ -506,8 +515,8 @@ def event_review_no(id, txt):
                 '/mail/event/event_review_no.txt',
                 mail_by_user_id(event.zsite_id),
                 event.zsite.name,
-                title = event.po.name,
-                reason = txt,
+                title=event.po.name,
+                reason=txt,
                 id=id,
                 )
 
@@ -532,7 +541,7 @@ from po_question import answer_id_get
 
 def event_feedback_list(event_id, zsite_id=0, user_id=0):
     ids = rank_po_id_list(event_id, CID_EVENT_FEEDBACK, 'confidence')
-    print "ids:",ids
+    print 'ids:', ids
 
     if zsite_id == user_id:
         zsite_id = 0
@@ -557,7 +566,7 @@ def event_feedback_list(event_id, zsite_id=0, user_id=0):
 if __name__ == '__main__':
     po_list = event_feedback_list(10047337, 10016494, 100001637)
     for x in po_list:
-        print "po_list", x.id
+        print 'po_list', x.id
 
     print answer_id_get(10016494, 10047337)
     print answer_id_get(10001299, 10047337)
