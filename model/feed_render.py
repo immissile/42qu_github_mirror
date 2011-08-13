@@ -14,6 +14,7 @@ from zsite import Zsite
 from zkit.txt import cnenoverflow
 from model.txt2htm import txt_withlink
 from fs import fs_url_jpg, fs_url_audio
+from model.days import begin_end_by_minute 
 from model.event import Event
 
 
@@ -75,7 +76,7 @@ def feed_tuple_by_db(id):
         result.append(place_name(event.pid))
         result.append(event.address)
         result.extend(
-            begin_end_by_minute(event, event.begin_time, event.end_time)
+            begin_end_by_minute(event.begin_time, event.end_time)
         )
     elif rid and has_question:
         user = question.user

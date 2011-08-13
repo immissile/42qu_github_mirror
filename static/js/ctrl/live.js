@@ -15,7 +15,7 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
         65:FEED_ATTR_TXT_BASE,
         66:FEED_ATTR_TXT_BASE,
         67:FEED_ATTR_TXT_BASE,
-        68:FEED_ATTR_BASE+"place_name address time_row1 time_row2 time_diff_day",
+        68:FEED_ATTR_BASE+" place_name address time_row1 time_row2 time_diff_day",
         69:FEED_ATTR_BASE
     },
     DATE_ATTR = "name link unit title pic".split(' ');

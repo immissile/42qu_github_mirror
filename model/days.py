@@ -109,7 +109,7 @@ def begin_end_by_minute(begin_time, end_time):
 
     row1 = [cn_date(begin_date), cn_weekday(begin_date)]
 
-    diff_day = (begin_date == end_date)
+    diff_day = (begin_date != end_date)
 
     begin_hour = minute2hour(begin_time)
     end_hour = minute2hour(end_time)
