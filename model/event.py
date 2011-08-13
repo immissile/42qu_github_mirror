@@ -527,7 +527,7 @@ def event_review_join_apply(event_id):
                         event.zsite.link, event_id
                     ),
                     title=event.po.name,
-                    event_registration_list=' , '.join(event_joiner_list)
+                    event_join_apply_list=' , '.join(event_joiner_list)
             )
 
         
