@@ -16,6 +16,8 @@ from operator import itemgetter
 from model.career import career_dict
 from model.zsite import Zsite
 from model.po_video import CID_VIDEO, video_htm_autoplay
+from model.event import Event
+from cgi import escape
 
 @urlmap('/j/feed/up1/(\d+)')
 class FeedUp(JLoginBase):
@@ -114,8 +116,19 @@ class FdTxt(Base):
     def get(self, id):
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
+        cid = po.cid
         if po.can_view(current_user_id):
             result = po.htm
+            if cid == CID_EVENT:
+                result = [result]
+                event = Event.mc_get(id)
+                result.append('<p>联系电话 : %s</p>'%escape(event.phone))
+                result.append(
+                    '<p>交通方式 : %s</p>'%escape(event.transport)
+                )
+                if event.price:
+                    result.append("<p>%s 元 / 人</p>"%event.price)
+                result = ''.join(result)
         else:
             result = ''
         self.finish(result)
