@@ -1,6 +1,7 @@
 <%inherit file="_po.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="_vote.htm" import="po_bar_vote"/>
+<%namespace file="/ctrl/zsite/event/event_feedback_list.htm" import="feedback_list"/>
 <%!
 from model.po_question import answer_id_get
 from model.fs import fs_url_jpg
@@ -35,10 +36,10 @@ pic_url_bind_with_default(join_list, '219')
 price = event.price
 reply_count = po.reply_count
 %>
-%if event.state >= EVENT_STATE_END and not answer_id_get(current_user_id, event.zsite_id):
+%if event.state >= EVENT_STATE_END and not answer_id_get(current_user_id, id):
 %if current_user_id in event_joiner_user_id_list(event.id) or current_user_id==event.zsite_id:
 <div style="text-align:center;border-bottom:1px dotted 
-#ccc;padding-bottom:16px"><a href="#">
+#ccc;padding-bottom:16px"><a href="/event/feedback/${id}">
 %if current_user_id == po.user_id:
 点击这里 , 总结活动
 %else:
@@ -99,6 +100,9 @@ ${po.htm|n}\
 组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
 ${po_bar_vote(po)}\
 </pre>
+%if state>= EVENT_STATE_END:
+${feedback_list(id)}
+%endif
 <div class="spline">
 <span>${join_count}</span> 报名
 </div>

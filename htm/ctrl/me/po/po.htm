@@ -1,6 +1,6 @@
 <%!
 from model.po import STATE_SECRET
-from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT
+from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT, CID_EVENT_FEEDBACK
 from yajl import dumps
 from model.po_question import answer_count
 from model.event import Event, EVENT_STATE_REJECT
@@ -15,6 +15,12 @@ from model.event import Event, EVENT_STATE_REJECT
 %endif
 %if cid == CID_EVENT:
 活动 . 介绍
+%elif cid == CID_EVENT_FEEDBACK:
+%if event.zsite_id == current_user_id:
+活动 . 总结
+%else:
+活动 . 反馈
+%endif
 %elif cid == CID_QUESTION:
 问题
 %else:
@@ -63,6 +69,14 @@ rid = po.rid
 % else:
 %if cid == CID_QUESTION:
 <div id="question_flag">问</div>
+%elif cid == CID_EVENT_FEEDBACK:
+<div id="question_flag">
+%if event.zsite_id == current_user_id:
+    总结：
+%else:
+    反馈:
+%endif
+    <a href="${event_po.link}" target="_blank">${event_po.name|n}</a></div>
 %endif
 <input id="name" type="text" autocomplete="off" name="name" value="${po.name}">
 <textarea id="txt" name="txt">${po.txt}</textarea>
@@ -97,6 +111,11 @@ checked
 % endif
 </label>\
 %endif
+% if cid == CID_EVENT_FEEDBACK:
+<input type="checkbox" name="prase" id="praise">
+<lable for="praise" id="praise_lable">活动好评
+% endif 
+
 </span>\
 <span id="po_submit" class="btnw">\
 <button  type="submit">确定</button></span></span>\

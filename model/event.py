@@ -11,6 +11,11 @@ from gid import gid
 from po import Po, po_rm, po_state_set
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from mail import rendermail
+from zkit.time_format import time_title
+from spammer import is_same_post
+from po import po_new
+from model.cid import CID_EVENT_FEEDBACK
+from model.txt import txt_new
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
@@ -49,6 +54,8 @@ event_to_review_count_by_zsite_id = McNum(lambda zsite_id: Event.where(state=EVE
 event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id=zsite_id).where(
     'state between %s and %s',EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]
 ).count(), 'EventCountByZsiteId.%s')
+
+event_feedback_count = McNum(lambda event_id, state: EventJoiner.where(event_id=event_id, state=state).count(), "EventFeedbackCount:%s")
 
 EVENT_CID_CN = (
     (1 , '技术'),
@@ -95,7 +102,7 @@ EVENT_JOIN_STATE_YES = 30
 EVENT_JOIN_STATE_END = 40
 EVENT_JOIN_STATE_REVIEW = 50
 EVENT_JOIN_STATE_GENERAL = 60
-EVENT_JOIN_STATE_SATISFACTION = 70 
+EVENT_JOIN_STATE_PRAISE = 70 
 
 """
 CREATE TABLE  `zpage`.`event` (
@@ -510,9 +517,53 @@ def event_begin2now(event):
         event.state = EVENT_STATE_NOW
         event.save()
 
+def event_feedback_new(user_id, name, txt, rid):
+    if not name and not txt:
+        return
+    name = name or time_title()
+    if not is_same_post(user_id, name, txt):
+        m = po_new(CID_EVENT_FEEDBACK, user_id, name, STATE_ACTIVE, rid)
+        txt_new(m.id, txt)
+        m.feed_new()
+        return m
+
+from rank import rank_po_id_list
+from po_question import answer_id_get
+
+def event_feedback_list(event_id, zsite_id=0, user_id=0):
+    ids = rank_po_id_list(event_id, CID_EVENT_FEEDBACK, 'confidence')
+    print "ids:",ids
+
+    if zsite_id == user_id:
+        zsite_id = 0
+
+    user_ids = filter(bool, (zsite_id, user_id))
+    if user_ids:
+        _ids = []
+        for i in user_ids:
+            user_feedback_id = answer_id_get(i, event_id)
+            if user_feedback_id:
+                _ids.append(user_feedback_id)
+                if user_feedback_id in ids:
+                    ids.remove(user_feedback_id)
+        if _ids:
+            _ids.extend(ids)
+            ids = _ids
+
+    li = Po.mc_get_list(ids)
+    Zsite.mc_bind(li, 'user', 'user_id')
+    return li
 
 if __name__ == '__main__':
-    print 10001299 in event_joiner_user_id_list(10047337)
+    po_list = event_feedback_list(10047337, 10016494, 100001637)
+    for x in po_list:
+        print "po_list", x.id
+
+    print answer_id_get(10016494, 10047337)
+    print answer_id_get(10001299, 10047337)
+    print answer_id_get(10001637, 10047337)
+    pass
+    #print 10001299 in event_joiner_user_id_list(10047337)
     #event_review_no(10047323,'yuyuyuyu')
     #print event_to_review_count(10000000)
     #event_joiner_new(event.id, event.zsite_id, EVENT_JOIN_STATE_YES)

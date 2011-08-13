@@ -9,10 +9,15 @@ from zkit.jsdict import JsDict
 from zkit.earth import pid_city
 from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
-from model.cid import CID_EVENT
+from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_NOTICE_EVENT_JOINER_FEEDBACK, CID_NOTICE_EVENT_ORGANIZER_SUMMARY
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
-from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, event_new_if_can_change
+from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_PRAISE, EVENT_JOIN_STATE_GENERAL, event_new_if_can_change, EventJoiner, event_feedback_new, event_joiner_user_id_list, event_feedback_count
 from model.po import po_new, STATE_DEL
+from zkit.jsdict import JsDict
+from model.po_pic import pic_list_edit
+from model.notice import notice_new
+from model.po_question import mc_answer_id_get
+from model.rank import rank_new
 
 @urlmap('/po/event/(\d+)/state')
 class EventState(LoginBase):
@@ -235,5 +240,48 @@ class Index(LoginBase):
 
         return self.render(errtip=Errtip())
 
+
+
+@urlmap('/event/feedback/(\d+)')
+class EventFeedback(LoginBase):
+    def get(self, event_id):
+        current_user_id = self.current_user_id
+        event = Event.get(event_id)
+        self.render(
+            'ctrl/me/po/po.htm',
+            cid=CID_EVENT_FEEDBACK,
+            po=JsDict(),
+            pic_list=pic_list_edit(current_user_id, 0),
+            event = event,
+            event_po = event.po,
+        )
+
+    def post(self, event_id):
+        current_user_id = self.current_user_id
+        event_joiner = EventJoiner.where('user_id=%s and event_id=%s', current_user_id, event_id)[0]
+        if event_joiner.state in (EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END):
+            event = Event.get(event_id)
+            praise = self.get_argument('praise', None)
+            txt = self.get_argument('txt', None)
+            name = self.get_argument('name', None)
+            if txt:
+                event_po = event.po
+                m = event_feedback_new(current_user_id, name, txt, event_id)
+                rank_new(m, event_id, CID_EVENT_FEEDBACK)
+                mc_answer_id_get.set("%s_%s" % (current_user_id, event_id), m.id)
+                event_organizer = event.zsite_id
+                if current_user_id != event_organizer:
+                    notice_new(current_user_id, event_organizer, CID_NOTICE_EVENT_JOINER_FEEDBACK, event_id)
+                else:
+                    joiner_list =  event_joiner_user_id_list(event_id)
+                    for event_joiner_user_id in joiner_list:
+                        notice_new(event_organizer, event_joiner_user_id, CID_NOTICE_EVENT_ORGANIZER_SUMMARY, event_id)
+                if praise=='on':
+                    event_joiner.state = EVENT_JOIN_STATE_PRAISE
+                else:
+                    event_joiner.state = EVENT_JOIN_STATE_GENERAL
+                event_feedback_count.delete("%s_%s"%(event_id, event_joiner.state))
+                event_joiner.save()
+                self.redirect(event_po.link)
 
 
