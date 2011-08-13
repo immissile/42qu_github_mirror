@@ -3,13 +3,12 @@
 <%namespace file="_vote.htm" import="po_bar_vote"/>
 <%namespace file="/ctrl/zsite/event/event_feedback_list.htm" import="feedback_list"/>
 <%!
-from model.po_question import answer_id_get
 from model.fs import fs_url_jpg
 from model.ico import pic_url_bind_with_default
 from model.career import career_bind
 from model.days import begin_end_by_minute 
 from zkit.earth import place_name
-from model.event import Event, event_joiner_check_count, event_joiner_user_list, event_joiner_user_id_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
+from model.event import Event, event_joiner_check_count, event_joiner_user_list, event_joiner_user_id_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END, event_feedback_id_get, event_joiner_state
 %>
 <%def name="po_body()">
 <%
@@ -35,19 +34,25 @@ career_bind(join_list)
 pic_url_bind_with_default(join_list, '219')
 price = event.price
 reply_count = po.reply_count
+
+event_state = event.state
+join_state = event_joiner_state(id, current_user_id)
 %>
-%if event.state >= EVENT_STATE_END and not answer_id_get(current_user_id, id):
-%if current_user_id in event_joiner_user_id_list(event.id) or current_user_id==event.zsite_id:
-<div style="text-align:center;border-bottom:1px dotted 
-#ccc;padding-bottom:16px"><a href="/event/feedback/${id}">
+
+%if join_state and event_state >= EVENT_STATE_END:
+    %if event_feedback_id_get(current_user_id, id):
+<div class="feedback_top"><a href="/event/feedback/${id}">\
+点击这里 , \
 %if current_user_id == po.user_id:
-点击这里 , 总结活动
+总结\
 %else:
-点击这里 , 反馈活动
+评价\
 %endif
-</a></div>
+活动\
+</a></div>\
+    %endif
 %endif
-%endif 
+ 
 <div class="c" id="event_page">
 % if pic_url:
     <img src="${pic_url}" id="event_img">

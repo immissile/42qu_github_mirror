@@ -33,3 +33,9 @@ vertical-align: 13px; margin-left: 32px;
 border:1px dotted #ccc;
 border-width: 1px 0;  text-align: center; padding: 14px 14px 16px; margin: 14px 0 0;
 }
+
+.feedback_top{
+    text-align:center;
+    border-bottom:1px dotted #ccc;
+    padding-bottom:16px
+}

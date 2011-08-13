@@ -291,9 +291,10 @@ def event_joiner_get(event_id, user_id):
         return EventJoiner.mc_get(id)
 
 def event_joiner_state(event_id, user_id):
-    o = event_joiner_get(event_id, user_id)
-    if o:
-        return o.state
+    if user_id:
+        o = event_joiner_get(event_id, user_id)
+        if o:
+            return o.state
     return 0
 
 @mc_event_joiner_user_id_list('{event_id}')
