@@ -13,7 +13,7 @@ event = Event.get(event_id)
 </div>
 
 <div id="reply_list">
-%for feedback in event_feedback_list(event_id, zsite_id, current_user_id):
+%for feedback in event_feedback_list(event_id):
 <%
 feedback_id = feedback.id
 feedback_link = feedback.link

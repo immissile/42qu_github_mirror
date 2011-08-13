@@ -36,14 +36,14 @@ def po_event_pic_new(zsite_id, pic):
     return pic_id
 
 
-def po_event_feedback_new(user_id, name, txt, event_id, event_user_id):
+def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
     if not name and not txt:
         return
 
     id = event_feedback_id_get(user_id, event_id)
 
     if id:
-        return Po.mc_get(id)
+        m = Po.mc_get(id)
     else:
         m = po_new(CID_EVENT_FEEDBACK, user_id, name, STATE_ACTIVE, event_id)
         id = m.id
@@ -57,6 +57,8 @@ def po_event_feedback_new(user_id, name, txt, event_id, event_user_id):
             buzz_event_feedback_new(user_id, id, event_user_id)
         else:
             mq_buzz_event_feedback_owner_new(user_id, id, event_user_id)
+
+    return m
 
 def po_event_feedback_rm(user_id, event_id):
     event_joiner = event_joiner_get(event_id, user_id)
