@@ -66,28 +66,15 @@ def po_event_feedback_rm(user_id, event_id):
     event_feedback_count.delete('%s_%s'%(event_id, state))
 
 
-def po_event_feedback_list(event_id, zsite_id=0, user_id=0):
+def po_event_feedback_list(event_id):
     ids = rank_po_id_list(event_id, CID_EVENT_FEEDBACK, 'confidence')
     
     if zsite_id == user_id:
         zsite_id = 0
     
-    user_ids = filter(bool, (zsite_id, user_id))
-
-    if user_ids:
-        _ids = []
-        for i in user_ids:
-            user_feedback_id = event_feedback_id_get(i, event_id)
-            if user_feedback_id:
-                _ids.append(user_feedback_id)
-                if user_feedback_id in ids:
-                    ids.remove(user_feedback_id)
-        if _ids:
-            _ids.extend(ids)
-            ids = _ids
-
     li = Po.mc_get_list(ids)
     Zsite.mc_bind(li, 'user', 'user_id')
+
     return li
 
 

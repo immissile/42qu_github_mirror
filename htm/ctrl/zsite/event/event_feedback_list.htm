@@ -1,15 +1,15 @@
 
 <%namespace file="/ctrl/zsite/po/_vote.htm" import="_vote"/>
 <%!
-from model.event import Event, event_feedback_list, event_feedback_count, EVENT_JOIN_STATE_REVIEW, EVENT_JOIN_STATE_GOOD
+from model.po_event import Event, po_event_feedback_list, po_event_feedback_count, EVENT_JOIN_STATE_REVIEW, EVENT_JOIN_STATE_GOOD
 %>
 <%def name="feedback_list(event_id)">
 <% 
 event = Event.get(event_id) 
 %>
 <div class="spline">
-    <span>${event_feedback_count(event_id, EVENT_JOIN_STATE_GOOD)}</span> 好评
-    <span>${event_feedback_count(event_id, EVENT_JOIN_STATE_REVIEW)}</span> 反馈
+    <span>${po_event_feedback_count(event_id, EVENT_JOIN_STATE_GOOD)}</span> 好评
+    <span>${po_event_feedback_count(event_id, EVENT_JOIN_STATE_REVIEW)}</span> 反馈
 </div>
 
 <div id="reply_list">
