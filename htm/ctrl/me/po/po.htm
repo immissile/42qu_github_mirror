@@ -1,5 +1,5 @@
 <%!
-from model.po import STATE_SECRET
+from model.po import STATE_SECRET, Po
 from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT, CID_EVENT_FEEDBACK
 from yajl import dumps
 from model.po_question import answer_count
@@ -17,7 +17,7 @@ from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_FEEDBACK_GOO
 %if cid == CID_EVENT:
 活动 . 介绍
 %elif cid == CID_EVENT_FEEDBACK:
-    %if event.zsite_id == current_user_id:
+    %if this.event.zsite_id == current_user_id:
     活动 . 总结
     %else:
     活动 . 反馈
@@ -37,6 +37,10 @@ if po:
     suffix = '/%s' % po.id
 else:
     suffix = ''
+
+if cid == CID_EVENT_FEEDBACK:
+    event = this.event
+    event_po = Po.mc_get(event.id)
 %>
 <script>
 UPLOADURL = "/j/po/upload${suffix}"
@@ -73,11 +77,11 @@ rid = po.rid
 %elif cid == CID_EVENT_FEEDBACK:
 <p class="rid_title">
 %if event.zsite_id == current_user_id:
-    总结：
+总结 
 %else:
-    反馈:
+反馈
 %endif
-<a href="${event_po.link}" target="_blank">${event_po.name|n}</a></p>
+: <a href="${event_po.link}" target="_blank">${event_po.name|n}</a></p>
 %endif
 <textarea id="txt" name="txt">${po.txt}</textarea>
 % endif
