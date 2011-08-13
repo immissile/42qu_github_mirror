@@ -3,7 +3,7 @@
 
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
-from model.ico import pic_url_with_default
+from model.ico import pic_url_with_default, ico
 from model.zsite_list_0 import zsite_show_get
 from model.zsite_rank import zsite_rank_max
 %>
@@ -102,6 +102,7 @@ margin-right:16px
 </%def>
 <%
 id = zsite.id
+pic_id = ico.get(id)
 %>
 <div class="sdw" id="zsite${id}">
 <div class="sd c">
@@ -109,6 +110,10 @@ id = zsite.id
 ${user_index(zsite, False)}
 </div>
 <div class="bar">
+    %if pic_id:
+    <a href="/zsite/pic/rm/${pic_id}/${id}">删除头像</a>
+    %endif
+    <div class="item"><a target="_blank" href="/sudo/${id}?next=${zsite.link}/i/career">修改个人履历</a></div>
 <div class="L">
 <a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
 <a class="show" rel="${id}" href="javascript:void(0)">通过 & 展示</a>
