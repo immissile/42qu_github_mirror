@@ -48,18 +48,15 @@ def po_event_feedback_new(user_id, name, txt, event_id, event_user_id):
         m = po_new(CID_EVENT_FEEDBACK, user_id, name, STATE_ACTIVE, event_id)
         id = m.id
         mc_event_feedback_id_get.set('%s_%s' % (user_id, event_id), id)
+        m.feed_new()
 
+        from buzz import buzz_event_feedback_new , mq_buzz_event_feedback_owner_new
+        
         if user_id!=event_user_id:
             rank_new(m, event_id, CID_EVENT_FEEDBACK)
-            notice_event_feedback(user_id, id)
-
-#    name = name or time_title()
-#
-#    if not is_same_post(user_id, name, txt):
-#        m = po_new(CID_EVENT_FEEDBACK, user_id, name, STATE_ACTIVE, rid)
-#        txt_new(m.id, txt)
-#        m.feed_new()
-#        return m
+            buzz_event_feedback_new(user_id, id)
+        else:
+            mq_buzz_event_feedback_owner_new(user_id, id)
 
 def po_event_feedback_rm(user_id, event_id):
     event_joiner = event_joiner_get(event_id, user_id)
