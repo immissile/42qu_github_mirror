@@ -293,36 +293,36 @@ class EventFeedback(PoBase):
         return super(EventFeedback, self).post()
 
 
-@urlmap('/event/feedback/edit/(\d+)')
-class EventFeedback(LoginBase):
-    def get(self, po_id):
-        current_user_id = self.current_user_id
-        po = Po.get(po_id)
-        event = Event.get(po.rid)
-        event_po = event.po
-        self.render(
-            'ctrl/me/po/po.htm',
-            cid=CID_EVENT_FEEDBACK,
-            po=po,
-            pic_list=pic_list_edit(current_user_id, 0),
-            event=event,
-            event_po=event.po,
-        )
-
-    def post(self, po_id):
-        current_user_id = self.current_user_id
-        po = Po.get(po_id)
-        event_id = po.rid
-        event_joiner = event_joiner_get(event_id, current_user_id)
-        good = self.get_argument('good', None)
-        txt = self.get_argument('txt', None)
-        state = EVENT_JOIN_STATE_FEEDBACK_GOOD if good == 'on' else EVENT_JOIN_STATE_FEEDBACK_NORMAL
-        if event_joiner.state != state:
-            event_joiner.state = state
-            event_joiner.save()
-        txt_new(po.id, txt)
-        po.save()
-        self.redirect('/%s'%event_id)
-
-
-
+#@urlmap('/event/feedback/edit/(\d+)')
+#class EventFeedback(LoginBase):
+#    def get(self, po_id):
+#        current_user_id = self.current_user_id
+#        po = Po.get(po_id)
+#        event = Event.get(po.rid)
+#        event_po = event.po
+#        self.render(
+#            'ctrl/me/po/po.htm',
+#            cid=CID_EVENT_FEEDBACK,
+#            po=po,
+#            pic_list=pic_list_edit(current_user_id, 0),
+#            event=event,
+#            event_po=event.po,
+#        )
+#
+#    def post(self, po_id):
+#        current_user_id = self.current_user_id
+#        po = Po.get(po_id)
+#        event_id = po.rid
+#        event_joiner = event_joiner_get(event_id, current_user_id)
+#        good = self.get_argument('good', None)
+#        txt = self.get_argument('txt', None)
+#        state = EVENT_JOIN_STATE_FEEDBACK_GOOD if good == 'on' else EVENT_JOIN_STATE_FEEDBACK_NORMAL
+#        if event_joiner.state != state:
+#            event_joiner.state = state
+#            event_joiner.save()
+#        txt_new(po.id, txt)
+#        po.save()
+#        self.redirect('/%s'%event_id)
+#
+#
+#
