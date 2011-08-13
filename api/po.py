@@ -104,7 +104,6 @@ class PoVideo(_handler.OauthAccessBase):
         name = self.get_argument('name', None)
         txt = self.get_argument('txt', None)
 
-        link = '/live'
 
         if po_id:
             po_id = int(po_id)
@@ -113,7 +112,6 @@ class PoVideo(_handler.OauthAccessBase):
                 po.name_ = name
                 po.txt_set(txt)
                 po.save()
-                link = '/po/tag/%s' % po_id
         else:
             if url:
                 video, video_site = self._video(url)
@@ -122,10 +120,25 @@ class PoVideo(_handler.OauthAccessBase):
                     po = po_video_new(user_id, name, txt, video, video_site)
                     if po:
                         po_id = po.id
-                        link = '/po/tag/%s' % po_id
 
+        current_user = self.current_user
+        current_user_id = self.current_user_id
+        po = Po.mc_get(po_id)
+        if not po.can_admin(current_user_id):
+            return self.finish({'error':'cant admin'})
+        if po:
+            tag_id = int(self.get_argument('tag',0))
+            name = self.get_argument('tag_name', None)
 
-        return self.finish({'link':link})
+            if not name and not tag_id:
+                tag_id = 1
+
+            if tag_id:
+                zsite_tag_new_by_tag_id(po, tag_id)
+            else:
+                zsite_tag_new_by_tag_name(po, name)
+
+        return self.finish({'link':po.link,'id':po.id})
 
     def _video(self, url):
         if url.startswith('http://v.youku.com/v_show/id_'):
@@ -156,7 +169,6 @@ class PoPhoto(_handler.OauthAccessBase):
         txt = self.get_argument('txt', None)
 
         
-        link = '/live'
 
         if po_id:
             po_id = int(po_id)
@@ -165,7 +177,6 @@ class PoPhoto(_handler.OauthAccessBase):
                 po.name_ = name
                 po.txt_set(txt)
                 po.save()
-                link = '/po/tag/%s' % po_id
         else:
             img = self._img()
             if img:
@@ -174,10 +185,26 @@ class PoPhoto(_handler.OauthAccessBase):
                 if po:
                     po_id = po.id
 
-                    link = '/po/tag/%s' % po_id
 
+        current_user = self.current_user
+        current_user_id = self.current_user_id
+        po = Po.mc_get(po_id)
+        if not po.can_admin(current_user_id):
+            return self.finish({'error':'cant admin'})
+        if po:
+            tag_id = int(self.get_argument('tag',0))
+            name = self.get_argument('tag_name', None)
 
-        return self.finish({'link':link})
+            if not name and not tag_id:
+                tag_id = 1
+
+            if tag_id:
+                zsite_tag_new_by_tag_id(po, tag_id)
+            else:
+                zsite_tag_new_by_tag_name(po, name)
+
+        return self.finish({'link':po.link,'id':po.id})
+
         
     def _img(self):
         files = self.request.files
@@ -199,7 +226,6 @@ class PoAudio(_handler.OauthAccessBase):
         name = self.get_argument('name', None)
         txt = self.get_argument('txt', None)
         
-        link = '/live'
 
         if po_id:
             po_id = int(po_id)
@@ -208,7 +234,6 @@ class PoAudio(_handler.OauthAccessBase):
                 po.name_ = name
                 po.txt_set(txt)
                 po.save()
-                link = '/po/tag/%s' % po_id
         else:
             audio = self._audio()
             if audio:
@@ -216,9 +241,26 @@ class PoAudio(_handler.OauthAccessBase):
                 po = po_audio_new(user_id, name, txt, audio)
                 if po:
                     po_id = po.id
-                    link = '/po/tag/%s' % po_id
 
-        return self.finish({'link':link})
+        current_user = self.current_user
+        current_user_id = self.current_user_id
+        po = Po.mc_get(po_id)
+        if not po.can_admin(current_user_id):
+            return self.finish({'error':'cant admin'})
+        if po:
+            tag_id = int(self.get_argument('tag',0))
+            name = self.get_argument('tag_name', None)
+
+            if not name and not tag_id:
+                tag_id = 1
+
+            if tag_id:
+                zsite_tag_new_by_tag_id(po, tag_id)
+            else:
+                zsite_tag_new_by_tag_name(po, name)
+
+        return self.finish({'link':po.link,'id':po.id})
+
         
     def _audio(self):
         files = self.request.files
