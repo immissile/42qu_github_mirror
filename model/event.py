@@ -520,7 +520,7 @@ def event_begin2now(event):
         event.state = EVENT_STATE_NOW
         event.save()
 
-def event_review_registration(event_id):
+def event_review_join_apply(event_id):
     event = Event.mc_get(event_id)
     if event:
         event_new_joiner_id_list = EventJoiner.where(
@@ -535,7 +535,7 @@ def event_review_registration(event_id):
 
             from user_mail import mail_by_user_id
             rendermail(
-                    '/mail/event/event_review_registration.txt',
+                    '/mail/event/event_review_join_apply.txt',
                     mail_by_user_id(event.zsite_id),
                     event.zsite.name,
                     event_link='http:%s/event/join/%s' % (

@@ -1,5 +1,5 @@
 import _env
-from model.event import EventJoiner, event_review_registration, EVENT_JOIN_STATE_NEW
+from model.event import EventJoiner, event_review_join_apply, EVENT_JOIN_STATE_NEW
 import time
 
 def buzz_registration_review_mail():
@@ -10,7 +10,7 @@ def buzz_registration_review_mail():
     event_id_list = c.fetchall()
 
     for event_id in event_id_list:
-        event_review_registration(event_id[0])
+        event_review_join_apply(event_id[0])
 
 if __name__ == '__main__':
     buzz_registration_review_mail()
