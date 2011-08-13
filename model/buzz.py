@@ -210,31 +210,32 @@ def buzz_unread_update(user_id):
     buzz_unread.delete(user_id)
 
 def buzz_event_join_new(user_id, event_id):
-    event_host = Event.mc_get(event_id).zsite_id
+    event_zsite_id = Event.mc_get(event_id).zsite_id
     followed = [i.from_id for i in ormiter(Follow, 'to_id=%s' % user_id)]
     for to_id in followed:
-        if to_id != event_host:
+        if to_id != event_zsite_id:
             buzz_new(user_id, to_id, CID_BUZZ_JOIN, event_id)
 
 mq_buzz_event_join_new = mq_client(buzz_event_join_new)
 
 def buzz_event_join_apply_new(user_id, event_id):
-    event_host = Event.mc_get(event_id).zsite_id
-    buzz_new(user_id, event_host, CID_BUZZ_EVENT_JOIN_APPLY, event_id) 
+    event_zsite_id = Event.mc_get(event_id).zsite_id
+    buzz_new(user_id, event_zsite_id, CID_BUZZ_EVENT_JOIN_APPLY, event_id) 
 
-def buzz_event_feedback_new
 
-def mq_buzz_event_feedback_owner_new
+# 张沈鹏 评论了 <a>去看电影</a>  , 点此浏览
+# 只显示给发起人
+def buzz_event_feedback_new(user_id, event_id, event_user_id):
+    pass
+
+# 张沈鹏 写了 <a>去看电影</a> 的活动总结 , 点此浏览
+# 显示给所有人
+def buzz_event_feedback_owner_new(user_id, event_id, event_user_id):
+    pass
+
+
+mq_buzz_event_feedback_owner_new = mq_client(buzz_event_feedback_owner_new)
+
 
 if __name__ == '__main__':
     buzz_event_join_new(10000000, 10047337)
-    #buzz_event_join_apply_new(10001637, 10047337)
-    #for i in ormiter(Buzz, "cid=%s"%CID_BUZZ_SHOW):
-    #    print i.id
-    #    i.delete()
-
-   # from model.cid import CID_USER
-   # for i in Zsite.where(cid=CID_USER):
-   #     user_id = i.id
-   #     print user_id
-   #     buzz_unread_update(user_id)

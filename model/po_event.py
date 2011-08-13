@@ -54,9 +54,9 @@ def po_event_feedback_new(user_id, name, txt, event_id, event_user_id):
         
         if user_id!=event_user_id:
             rank_new(m, event_id, CID_EVENT_FEEDBACK)
-            buzz_event_feedback_new(user_id, id)
+            buzz_event_feedback_new(user_id, id, event_user_id)
         else:
-            mq_buzz_event_feedback_owner_new(user_id, id)
+            mq_buzz_event_feedback_owner_new(user_id, id, event_user_id)
 
 def po_event_feedback_rm(user_id, event_id):
     event_joiner = event_joiner_get(event_id, user_id)
