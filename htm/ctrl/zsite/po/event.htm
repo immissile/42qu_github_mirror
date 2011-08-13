@@ -41,15 +41,16 @@ reply_count = po.reply_count
     <div id="event_txt">
     <div id="po_name">${po.name}</div>
 
-<p>时间<span class="colon">:</span>${row1}</p>
+
+<p>地点<span class="colon">:</span>${place_name(event.pid)}</p>
+<p class="ml48">${event.address}</p>
+
+<p class="mt14">时间<span class="colon">:</span>${row1}</p>
 %if diff_day:
 <p class="ml14">至<span class="ml20">${row2}</span></p>
 %else:
 <p class="ml48">${row2}</p>
 %endif
-
-<p class="mt14">地点<span class="colon">:</span>${place_name(event.pid)}</p>
-<p class="ml48">${event.address}</p>
 
 </div>
 </div>

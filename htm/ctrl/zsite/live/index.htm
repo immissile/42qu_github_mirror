@@ -80,14 +80,14 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}
 {{if cid==68}}
 <div class="feed_event_prop">
+<p >地点<span class="colon">:</span>${place_name}</p>
+<p class="ml48 feed_event_pid">${address}</p>
 <p>时间<span class="colon">:</span>${time_row1}</p>
 {{if time_diff_day}}
 <p class="ml14">至<span class="ml20">${time_row2}</span></p>
 {{else}}
 <p class="ml48">${time_row2}</span></p>
 {{/if}}
-<p class="feed_event_pid">地点<span class="colon">:</span>${place_name}</p>
-<p class="ml48">${address}</p>
 </div>
 {{/if}}
 <div class="fdtxt" id="fdtxt${id}">
