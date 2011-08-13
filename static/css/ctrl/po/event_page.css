@@ -16,20 +16,6 @@ float: left; margin-top: -7px;
 #po_name{
 text-align: left; font-size: 14px; margin-top: 4px; margin-bottom: 14px;
 }
-.colon{
-display:inline-block;
-width:20px;
-text-align:center;
-}
-.ml48{
-margin-left: 48px;
-}
-.ml14{
-margin-left:14px;
-}
-.ml20{
-margin-left:20px;
-}
 .mt14{
 margin-top:14px
 }

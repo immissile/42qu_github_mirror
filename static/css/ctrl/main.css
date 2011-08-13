@@ -310,3 +310,18 @@ margin-bottom:20px;
 color:#999;
 }
 
+.colon{
+display:inline-block;
+width:20px;
+text-align:center;
+}
+.ml48{
+margin-left: 48px;
+}
+.ml14{
+margin-left:14px;
+}
+.ml20{
+margin-left:20px;
+}
+
