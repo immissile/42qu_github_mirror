@@ -5,8 +5,8 @@ from ctrl._urlmap.zsite import urlmap
 from config import SITE_HTTP, RPC_HTTP
 from zkit.page import page_limit_offset
 from model.event import Event, event_joiner_new, event_joiner_state, event_joiner_list,\
-event_count_by_zsite_id, event_join_count_by_user_id, event_open_count_by_user_id,\
-event_list_by_zsite_id, event_list_join_by_user_id, event_list_open_by_user_id,\
+event_count_by_zsite_id, event_join_count_by_user_id,\
+event_list_by_zsite_id, event_list_join_by_user_id,\
 EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
 from model.money import pay_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice, read_cent
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cent_with_tax
@@ -143,14 +143,14 @@ class EventJoin(NameCardEdit, EventBase):
 
 @urlmap('/event/pay/(\d+)')
 class EventPay(EventJoin):
-    def event(self, id):
-        event = super(EventPay, self).event(id)
+    def _event(self, id):
+        self.event = event = super(EventPay, self)._event(id)
         if event:
             if event.cent:
                 return event
             return self.redirect(event.link)
 
-    def cent_need(self, event):
+    def cent_need(self):
         current_user_id = self.current_user_id
         cent = event.cent
         bank_cent = bank.get(current_user_id)
@@ -161,11 +161,11 @@ class EventPay(EventJoin):
         return cent
 
     def get(self, id):
-        event = self.event(id)
+        event = self._event(id)
         if event is None:
             return
 
-        cent_need = self.cent_need(event)
+        cent_need = self.cent_need()
 
         return self.render(
             event=event,
@@ -173,7 +173,7 @@ class EventPay(EventJoin):
         )
 
     def post(self, id):
-        event = self.event(id)
+        event = self._event(id)
         if event is None:
             return
 
@@ -182,7 +182,7 @@ class EventPay(EventJoin):
         current_user_id = self.current_user_id
         zsite_id = self.zsite_id
 
-        cent_need = self.cent_need(event)
+        cent_need = self.cent_need()
 
         if cent_need:
             state = TRADE_STATE_NEW
@@ -236,11 +236,12 @@ class EventCheck(EventBase):
             PAGE_LIMIT
         )
 
-        li = event_joiner_list(id, limit, offset)
+        li, pos_id = event_joiner_list(id, limit, offset)
 
         return self.render(
             event=event,
             event_joiner_list=li,
+            pos_id=pos_id,
             page=page,
         )
 

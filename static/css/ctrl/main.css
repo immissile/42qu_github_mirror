@@ -23,12 +23,12 @@
 }
 #TX{
     color: #000;
-    background: url(/img/gif/icons/gif/white/16x16/close.gif) no-repeat;
+    background: url(/img/gif/icons/gif/white/to_size/close.gif) no-repeat;
     height: 16px;
     display: inline-block;
     width: 16px;
     margin-left: 14px;
-    vertical-align: -3px;
+    vertical-align: -7px;
 }
 #H{
     font-size:16px;

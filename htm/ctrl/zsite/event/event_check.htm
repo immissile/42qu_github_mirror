@@ -6,54 +6,83 @@ from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_ST
 %>
 <%def name="htm_head()">
 <script>
-    $('a.yes').live('click', function() {
-        var id = this.rel
-        $.postJSON('/j/event/check/' + id + '/1', function(data) {
-            $('#eustate' + id).html('已加入')
-        })
+    $('a.join_yes').live('click', function() {
+        var box = $(this.parentNode.parentNode)
+        if ( ! box.hasClass('join_y') ) {
+            box.addClass('join_y')
+            var id = this.rel
+            $.postJSON('/j/event/check/' + id + '/1')
+        }
     })
-    $('a.no').live('click', function() {
+    $('a.join_no').live('click', function() {
         var id = this.rel
-        $.postJSON('/j/event/check/' + id + '/0', function(data) {
-            $('#eu' + id).slideUp(500, function() {
+        $.postJSON('/j/event/check/' + id + '/0', {'txt': txt}, function(data) {
+            $('#ndbk' + id).slideUp(500, function() {
                 $(this).remove()
             })
         })
     })
 </script>
+${css.ctrl_event_admin|n}
 </%def>
-<ol>
+
+<%
+id = event.id
+po = event.po
+%>
+
+<div class="event_admin_head">
+<a href="${po.link}">${po.name}</a>
+<span class="R">
+<a class="c0" href="">成员审核</a><a href="#" >发布公告</a><a href="#">解散活动</a>
+</span>
+
+
+
 % for i in event_joiner_list:
 <%
 id = i.id
 state = i.state
 user = i.user
-namecard = i.namecard
+username = user.name
+namecard = user.namecard
+realname = namecard.name
+career = ' , '.join(filter(bool, user.career))
 %>
-<li id="eu${id}">
-${user_link(user)}
-% if namecard:
-<p>本人姓名 : ${namecard.name}</p>
-<p>手机号码 : ${namecard.phone}</p>
-<p>邮件地址 : ${namecard.mail}</p>
-<p>现居城市 : ${namecard.place_now}</p>
-<p>详细地址 : ${namecard.address}</p>
-% else:
-<p>没有个人资料</p>
+% if id == pos_id:
+<div style="border-bottom: 1px dotted #ccc; width: 721px; margin: 32px auto auto;"></div>
 % endif
-<p id="eustate${id}">
-% if state == EVENT_JOIN_STATE_NEW:
-<a rel="${id}" class="yes">同意</a>
-<a rel="${id}" class="no">拒绝</a>
-% elif state == EVENT_JOIN_STATE_YES:
-已加入
-% elif state == EVENT_JOIN_STATE_END:
-已结束
-% elif state == EVENT_JOIN_STATE_REVIEW:
-已完成
+
+<div class="ndbk" id="ndbk${id}"><div class="sdw"><div class="sd c">
+    <img src="${user.pic96}" class="ndico">
+    <div class="ndtxt">
+        <p><a href="${user.link}">${realname}
+% if username != realname:
+( ${username} )
+% endif
+</a>
+% if career:
+, ${career}
 % endif
 </p>
-</li>
+        <p>电话 : ${namecard.phone}</p>
+        <p>邮箱 : ${namecard.mail}</p>
+        <p>地址 : ${namecard.place_now} ${namecard.address}</p>
+    </div>
+
+    <div class="ndbtn">
+        <div class="eventbtn">
+            <div
+                % if state == EVENT_JOIN_STATE_YES:
+                class="join_y"
+                % endif
+                >
+                <p><a class="join_yes" href="javascript:void(0)" rel="${id}">通过</a></p>
+                <p><a class="join_no" href="javascript:void(0)" rel="${id}">拒绝</a></p>
+            </div>
+        </div>
+    </div>
+</div></div></div>
 % endfor
-</ol>
+
 ${page|n}

@@ -1,0 +1,60 @@
+.ndico{
+    float:left;
+    margin-right: 21px;
+    margin-top: 4px;
+    margin-bottom: 9px;
+    border: 1px solid #eee;
+    padding: 6px;
+}
+.ndbk .sdw{
+margin-bottom:0;
+}
+.ndbk{
+    width:721px;
+    margin:32px auto 0;
+}
+.ndbtn{
+    float: right;
+    height: 110px;
+    border-left: 1px dotted #ccc;
+    text-align: center;
+    padding-left: 21px;
+    padding-right: 16px;
+    line-height: 78px;
+}
+.ndtxt{
+    float: left;
+    margin-top: 1px;
+}
+.eventbtn{
+    margin-top: 18px;
+}
+.eventbtn p{
+    margin: 18px 0;
+}
+.join_yes,.join_no{
+    padding-left: 16px;
+}
+.join_y .join_yes{
+    background: url(/img/gif/icons/gif/black/to_size/check.gif) no-repeat 0 50%;
+    color:#000;
+}
+.join_y .join_no{
+    color:#999;padding-left:16px;
+}
+.ndtxt{
+    width:440px;
+}
+.event_admin_head{
+text-align: left; width: 721px; margin-right: auto; margin-bottom: auto; margin-left: auto; padding-top: 32px;
+}
+.event_admin_head .R a{
+    margin: 0 24px; color:#999
+}
+.event_admin_head .R a:hover{
+    color:#a10
+}
+.event_admin_head .R .c0{
+    color:#000
+}
+</style>
