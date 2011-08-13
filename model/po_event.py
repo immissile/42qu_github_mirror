@@ -11,7 +11,7 @@ from model.cid import CID_EVENT, CID_EVENT_FEEDBACK
 from model.pic import pic_new_save , fs_url_jpg , fs_set_jpg
 from zkit.pic import pic_fit
 from rank import rank_po_id_list
-from event import EVENT_CID, EVENT_CID_CN, EventJoiner
+from event import EVENT_CID, EVENT_CID_CN, EventJoiner, event_joiner_get
 
 mc_event_feedback_id_get = McCache('EventFeedBackGet.%s')
 
@@ -65,16 +65,15 @@ def po_event_feedback_rm(user_id, event_id):
     event_joiner.save()
     event_feedback_count.delete('%s_%s'%(event_id, state))
 
-#event_feedback_count
-
 
 def po_event_feedback_list(event_id, zsite_id=0, user_id=0):
     ids = rank_po_id_list(event_id, CID_EVENT_FEEDBACK, 'confidence')
-    print 'ids:', ids
+    
     if zsite_id == user_id:
         zsite_id = 0
     
     user_ids = filter(bool, (zsite_id, user_id))
+
     if user_ids:
         _ids = []
         for i in user_ids:
