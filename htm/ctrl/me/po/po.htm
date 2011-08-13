@@ -3,7 +3,7 @@ from model.po import STATE_SECRET
 from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT, CID_EVENT_FEEDBACK
 from yajl import dumps
 from model.po_question import answer_count
-from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_PRAISE, event_joiner_state
+from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_GOOD, event_joiner_state
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -112,12 +112,12 @@ checked
 </label>\
 %endif
 % if cid == CID_EVENT_FEEDBACK:
-<input type="checkbox" name="praise" id="praise"
-%if event_joiner_state(event.id, current_user_id) == EVENT_JOIN_STATE_PRAISE:
+<input type="checkbox" name="good" id="good"
+%if event_joiner_state(event.id, current_user_id) == EVENT_JOIN_STATE_GOOD:
 checked
 %endif
 >
-<lable for="praise" id="praise_lable">活动好评
+<lable for="good" id="good_lable">活动好评
 % endif 
 
 </span>\

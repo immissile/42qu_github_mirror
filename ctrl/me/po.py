@@ -56,21 +56,30 @@ def po_post(self):
     user_id = self.current_user_id
     name = self.get_argument('name', '')
     txt = self.get_argument('txt', '', strip=False).rstrip()
-    secret = self.get_argument('secret', None)
     arguments = self.request.arguments
-    if secret:
-        state = STATE_SECRET
+
+    if self.cid == CID_EVENT:
+        state = self.get_argument('good', None),
     else:
-        state = STATE_ACTIVE
+        secret = self.get_argument('secret', None)
+        if secret:
+            state = STATE_SECRET
+        else:
+            state = STATE_ACTIVE
+
     po = self.po_save(user_id, name, txt, state)
+
     self_id = self.id
     if po:
         po_id = po.id
     else:
         po_id = 0
+
     if po or self_id == 0:
         update_pic(arguments, user_id, po_id, self_id)
-        mc_pic_id_list.delete('%s_%s' % (user_id, self_id))
+        mc_pic_id_list.delete(
+            '%s_%s' % (user_id, self_id)
+        )
     return po
 
 

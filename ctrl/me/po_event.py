@@ -2,7 +2,7 @@
 from _handler import LoginBase, XsrfGetBase
 from ctrl._urlmap.me import urlmap
 from model.po import Po
-from model.po_event import po_event_pic_new , EVENT_CID
+from model.po_event import po_event_pic_new , EVENT_CID,po_event_feedback_new
 from zkit.pic import picopen
 from zkit.errtip import Errtip
 from zkit.jsdict import JsDict
@@ -11,7 +11,7 @@ from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
 from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_NOTICE_EVENT_JOINER_FEEDBACK, CID_NOTICE_EVENT_ORGANIZER_SUMMARY
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
-from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_PRAISE, EVENT_JOIN_STATE_REVIEW, event_new_if_can_change, EventJoiner, event_feedback_new, event_joiner_user_id_list, event_feedback_count, event_joiner_get
+from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_GOOD, EVENT_JOIN_STATE_REVIEW, event_new_if_can_change, EventJoiner, event_joiner_user_id_list,  event_joiner_get, event_joiner_state
 from model.po import po_new, STATE_DEL
 from zkit.jsdict import JsDict
 from model.po_pic import pic_list_edit
@@ -19,6 +19,9 @@ from model.notice import notice_new
 from model.po_question import mc_answer_id_get
 from model.rank import rank_new
 from model.txt import txt_new
+from ctrl.me.po import PoBase
+
+
 
 @urlmap('/po/event/(\d+)/state')
 class EventState(LoginBase):
@@ -244,44 +247,63 @@ class Index(LoginBase):
 
 
 @urlmap('/event/feedback/(\d+)')
-class EventFeedback(LoginBase):
-    def get(self, event_id):
-        current_user_id = self.current_user_id
-        event = Event.get(event_id)
-        self.render(
-            'ctrl/me/po/po.htm',
-            cid=CID_EVENT_FEEDBACK,
-            po=JsDict(),
-            pic_list=pic_list_edit(current_user_id, 0),
-            event=event,
-            event_po=event.po,
+class EventFeedback(PoBase):
+    cid = CID_EVENT_FEEDBACK
+
+    def po_save(self, user_id, name, txt, good):
+        return po_event_feedback_new(
+            user_id, name, txt, good,
+            self.event,
         )
 
-    def post(self, event_id):
+    def _event(self, event_id):
+        self.event_id = event_id
+        self.event = event = Event.mc_get(event_id)
         current_user_id = self.current_user_id
-        event_joiner = event_joiner_get(event_id, current_user_id)
-        if event_joiner.state in (EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END):
-            event = Event.get(event_id)
-            praise = self.get_argument('praise', None)
-            txt = self.get_argument('txt', None)
-            name = self.get_argument('name', None)
-            if txt:
-                event_po = event.po
-                m = event_feedback_new(current_user_id, name, txt, event_id)
-                rank_new(m, event_id, CID_EVENT_FEEDBACK)
-                mc_answer_id_get.set('%s_%s' % (current_user_id, event_id), m.id)
-                event_organizer = event.zsite_id
-                if current_user_id != event_organizer:
-                    notice_new(current_user_id, event_organizer, CID_NOTICE_EVENT_JOINER_FEEDBACK, event_id)
-                else:
-                    joiner_list = event_joiner_user_id_list(event_id)
-                    for event_joiner_user_id in joiner_list:
-                        notice_new(event_organizer, event_joiner_user_id, CID_NOTICE_EVENT_ORGANIZER_SUMMARY, event_id)
-                event_joiner.state = EVENT_JOIN_STATE_PRAISE if praise == 'on' else EVENT_JOIN_STATE_REVIEW
-                event_feedback_count.delete('%s_%s'%(event_id, event_joiner.state))
-                event_joiner.save()
-                self.redirect(event_po.link)
 
+        if not event:
+            return self.redirect("/")
+
+        state = event_joiner_state(
+            event_id, current_user_id
+        )
+
+        if state  < EVENT_JOIN_STATE_YES: 
+            return self.redirect("/%s"%event_id)
+
+        return event
+
+    def get(self, event_id):
+        if not self._event(event_id):
+            return
+
+        event_joiner = event_joiner_get(
+            event_id, current_user_id
+        )
+
+        return super(EventFeedback, self).get()
+
+    def post(self, event_id):
+        if not self._event(event_id):
+            return
+        return super(EventFeedback, self).post()
+
+#                event_po = event.po
+#                m = event_feedback_new(current_user_id, name, txt, event_id)
+#                rank_new(m, event_id, CID_EVENT_FEEDBACK)
+#                mc_answer_id_get.set('%s_%s' % (current_user_id, event_id), m.id)
+#                event_organizer = event.zsite_id
+#                if current_user_id != event_organizer:
+#                    notice_new(current_user_id, event_organizer, CID_NOTICE_EVENT_JOINER_FEEDBACK, event_id)
+#                else:
+#                    joiner_list = event_joiner_user_id_list(event_id)
+#                    for event_joiner_user_id in joiner_list:
+#                        notice_new(event_organizer, event_joiner_user_id, CID_NOTICE_EVENT_ORGANIZER_SUMMARY, event_id)
+#                event_joiner.state = EVENT_JOIN_STATE_GOOD if good == 'on' else EVENT_JOIN_STATE_REVIEW
+#                event_feedback_count.delete('%s_%s'%(event_id, event_joiner.state))
+#                event_joiner.save()
+#                self.redirect(event_po.link)
+#
 
 @urlmap('/event/feedback/edit/(\d+)')
 class EventFeedback(LoginBase):
@@ -304,9 +326,9 @@ class EventFeedback(LoginBase):
         po = Po.get(po_id)
         event_id = po.rid
         event_joiner = event_joiner_get(event_id, current_user_id)
-        praise = self.get_argument('praise', None)
+        good = self.get_argument('good', None)
         txt = self.get_argument('txt', None)
-        state = EVENT_JOIN_STATE_PRAISE if praise == 'on' else EVENT_JOIN_STATE_REVIEW
+        state = EVENT_JOIN_STATE_GOOD if good == 'on' else EVENT_JOIN_STATE_REVIEW
         if event_joiner.state != state:
             event_feedback_count.delete('%s_%s'%(event_id, event_joiner.state))
             event_feedback_count.delete('%s_%s'%(event_id, state))

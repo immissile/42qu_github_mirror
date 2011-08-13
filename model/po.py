@@ -222,6 +222,7 @@ def po_cid_set(po, cid):
 def po_rm(user_id, id):
     po = Po.mc_get(id)
     cid = po.cid
+    rid = po.rid
     if po.can_admin(user_id):
         from po_question import answer_count
         if cid == CID_QUESTION:
@@ -231,10 +232,10 @@ def po_rm(user_id, id):
             from model.event import event_rm
             event_rm(user_id, id)
         elif cid == CID_EVENT_FEEDBACK:
-            from model.event import event_feedback_rm
+            from model.event import po_event_feedback_rm
             from model.rank import rank_rm
-            event_feedback_rm(user_id, po.rid)
-            rank_rm(po.id, po.rid)
+            po_event_feedback_rm(user_id, rid)
+            rank_rm(id, rid)
         return _po_rm(user_id, po)
 
 #, event_rm
