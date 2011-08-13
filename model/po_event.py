@@ -53,15 +53,17 @@ def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
         else:
             mq_buzz_event_feedback_owner_new(user_id, id, event_user_id)
 
-        event_joiner_state_set(
-            user_id, 
-            event_id, 
-            EVENT_JOIN_STATE_FEEDBACK_GOOD if good else EVENT_JOIN_STATE_FEEDBACK_NORMAL
-        )
-
+        event_joiner_state_is_good(user_id, event_id, good)
     return m
 
 
+def event_joiner_state_is_good(user_id, event_id, good):
+    event_joiner_state_set(
+        user_id, 
+        event_id, 
+        EVENT_JOIN_STATE_FEEDBACK_GOOD if good else EVENT_JOIN_STATE_FEEDBACK_NORMAL
+    )
+    
 
 def event_joiner_state_set(user_id, event_id, to_state):
     event_joiner = event_joiner_get(event_id, user_id)

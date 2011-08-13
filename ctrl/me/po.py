@@ -2,7 +2,7 @@
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model import reply
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK
 from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.po_pos import po_pos_get, po_pos_set
@@ -12,7 +12,7 @@ from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_i
 from zkit.jsdict import JsDict
 from zkit.txt import cnenlen
 from model.event import Event, event_init2to_review
-
+from model.po_event import event_joiner_state_is_good
 
 def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
@@ -58,7 +58,7 @@ def po_post(self):
     txt = self.get_argument('txt', '', strip=False).rstrip()
     arguments = self.request.arguments
 
-    if self.cid == CID_EVENT:
+    if self.cid == CID_EVENT_FEEDBACK:
         state = self.get_argument('good', None),
     else:
         secret = self.get_argument('secret', None)
@@ -142,6 +142,9 @@ class Edit(LoginBase):
         if po is None:
             return
 
+        if po.cid == CID_EVENT_FEEDBACK:
+            self.event = Event.mc_get(id)
+
         self.render(
             'ctrl/me/po/po.htm',
             po=po,
@@ -153,7 +156,10 @@ class Edit(LoginBase):
         po = self.po(user_id, self.id)
         if po is None:
             return
+
         cid = po.cid
+        rid = po.rid
+
         if cid == CID_WORD:
             if cnenlen(txt) > 140:
                 answer_word2note(po)
@@ -161,14 +167,22 @@ class Edit(LoginBase):
             else:
                 po.name_ = txt
                 po.save()
+        elif cid == CID_EVENT_FEEDBACK:
+            event_joiner_state_is_good(user_id, rid, good)
         else:
             if not po.rid and name:
                 po.name_ = name
                 po.save()
             if txt:
                 po.txt_set(txt)
-        if not (cid == CID_QUESTION and po.state == STATE_ACTIVE) and cid != CID_EVENT:
-            po_state_set(po, state)
+         
+
+
+        if cid in (CID_NOTE,CID_QUESTION,CID_ANSWER):
+            if not (cid == CID_QUESTION and po.state == STATE_ACTIVE):
+                po_state_set(po, state)
+
+
         return po
 
     po_post = po_post
@@ -186,6 +200,8 @@ class Edit(LoginBase):
                 link = "/po/event/%s/state"%id
             else:
                 link = po.link
+        elif cid == CID_EVENT_FEEDBACK:
+            link = po.link
         else:
             if cid == CID_WORD:
                 link = po.link_question
@@ -193,6 +209,7 @@ class Edit(LoginBase):
                 link = po.link
             else:
                 link = '/po/tag/%s' % id
+
         self.redirect(link)
 
 
