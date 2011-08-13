@@ -7,6 +7,9 @@
 .. include::  interface/po_reply_rm.rst
 .. include::  interface/po_rm.rst
 .. include::  interface/po_word.rst
+.. include::  interface/po_audio.rst
+.. include::  interface/po_photo.rst
+.. include::  interface/po_video.rst
 .. include::  interface/user_follow.rst
 .. include::  interface/user_follow_rm.rst
 .. include::  interface/user_follower.rst

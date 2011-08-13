@@ -6,12 +6,13 @@ from model.po import po_word_new, Po, po_rm
 from model.zsite import user_can_reply, Zsite
 from model import reply
 from model.po_video import po_video_new, VIDEO_CID_YOUKU, VIDEO_CID_TUDOU, VIDEO_CID_SINA
-from model.cid import CID_VIDEO, CID_PHOTO
+from model.cid import CID_VIDEO, CID_PHOTO, CID_AUDIO
 from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.po_photo import po_photo_new
 from model.state import STATE_ACTIVE
 from zkit.pic import picopen
 from model.po_audio import po_audio_new
+from model.zsite_tag import zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name
 
 @urlmap('/po/word')
 class PoWord(_handler.OauthAccessBase):
@@ -138,7 +139,7 @@ class PoVideo(_handler.OauthAccessBase):
             else:
                 zsite_tag_new_by_tag_name(po, name)
 
-        return self.finish({'link':po.link,'id':po.id})
+        return self.finish({'link':'http:%s'%po.link,'id':po.id})
 
     def _video(self, url):
         if url.startswith('http://v.youku.com/v_show/id_'):
@@ -182,16 +183,16 @@ class PoPhoto(_handler.OauthAccessBase):
             if img:
                 user_id = self.current_user_id
                 po = po_photo_new(user_id, name, txt, img, STATE_ACTIVE)
-                if po:
-                    po_id = po.id
+                po_id = po.id
 
 
         current_user = self.current_user
         current_user_id = self.current_user_id
         po = Po.mc_get(po_id)
-        if not po.can_admin(current_user_id):
-            return self.finish({'error':'cant admin'})
+
         if po:
+            if not po.can_admin(current_user_id):
+                return self.finish({'error':'cant admin'})
             tag_id = int(self.get_argument('tag',0))
             name = self.get_argument('tag_name', None)
 
@@ -203,7 +204,7 @@ class PoPhoto(_handler.OauthAccessBase):
             else:
                 zsite_tag_new_by_tag_name(po, name)
 
-        return self.finish({'link':po.link,'id':po.id})
+            return self.finish({'link':'http:%s'%po.link,'id':po.id})
 
         
     def _img(self):
@@ -245,9 +246,9 @@ class PoAudio(_handler.OauthAccessBase):
         current_user = self.current_user
         current_user_id = self.current_user_id
         po = Po.mc_get(po_id)
-        if not po.can_admin(current_user_id):
-            return self.finish({'error':'cant admin'})
         if po:
+            if not po.can_admin(current_user_id):
+                return self.finish({'error':'cant admin'})
             tag_id = int(self.get_argument('tag',0))
             name = self.get_argument('tag_name', None)
 
@@ -259,7 +260,7 @@ class PoAudio(_handler.OauthAccessBase):
             else:
                 zsite_tag_new_by_tag_name(po, name)
 
-        return self.finish({'link':po.link,'id':po.id})
+        return self.finish({'link':'http:%s'%po.link,'id':po.id})
 
         
     def _audio(self):
