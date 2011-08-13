@@ -13,6 +13,7 @@ from gid import gid
 from po import Po, po_rm, po_state_set
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from mail import rendermail
+from notice import notice_event_yes, notice_event_no, notice_event_join_yes, notice_event_join_no
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
@@ -35,11 +36,6 @@ event_joiner_check_count = McNum(
 )
 
 mc_event_id_list_join_by_user_id = McLimitA('EventIdListJoinByUserId.%s', 128)
-
-#event_list_open_by_user_id_qs = lambda user_id: EventJoiner.where(user_id=user_id, state=EVENT_JOIN_STATE_YES)
-#event_open_count_by_user_id = McNum(lambda user_id: event_list_open_by_user_id_qs(user_id).count(), 'EventOpenCountByUserId.%s')
-
-#mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
 
 mc_event_joiner_id_get = McCache('EventJoinerIdGet.%s')
 
@@ -287,16 +283,6 @@ def event_list_join_by_user_id(user_id, limit, offset):
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 
-#
-#@mc_event_id_list_open_by_user_id('{user_id}')
-#def event_id_list_open_by_user_id(user_id, limit, offset):
-#    return event_list_open_by_user_id_qs(user_id).order_by('id desc').col_list(limit, offset, 'event_id')
-#
-#def event_list_open_by_user_id(user_id, limit, offset):
-#    id_list = event_id_list_open_by_user_id(user_id, limit, offset)
-#    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
-
-
 @mc_event_joiner_id_get('{event_id}_{user_id}')
 def event_joiner_id_get(event_id, user_id):
     o = EventJoiner.get(event_id=event_id, user_id=user_id)
@@ -398,10 +384,11 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
     mc_flush_by_user_id(user_id)
     return o
 
-def event_joiner_no(o):
+def event_joiner_no(o, txt=''):
     event_id = o.event_id
     user_id = o.user_id
     event = o.event
+    zsite_id = event.zsite_id
     if o.state in (EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
         if event.cent:
             t = pay_event_get(event, user_id)
@@ -410,9 +397,11 @@ def event_joiner_no(o):
             trade_fail(t)
         o.state = EVENT_JOIN_STATE_NO
         o.save()
-        if event.zsite_id != user_id:
+        if zsite_id != user_id:
             event.join_count -= 1
             event.save()
+        if txt:
+            notice_event_join_no(zsite_id, user_id, event_id, txt)
         mc_event_joiner_user_id_list.delete(event_id)
         mc_event_joining_id_list.delete(event_id)
         event_joiner_check_count.delete(event_id)
@@ -421,6 +410,7 @@ def event_joiner_yes(o):
     event_id = o.event_id
     user_id = o.user_id
     event = o.event
+    zsite_id = event.zsite_id
     if o.state == EVENT_JOIN_STATE_NEW:
         if event.cent:
             t = pay_event_get(o.event, user_id)
@@ -428,6 +418,7 @@ def event_joiner_yes(o):
                 return
         o.state = EVENT_JOIN_STATE_YES
         o.save()
+        notice_event_join_yes(zsite_id, user_id, event_id)
         mc_flush_by_user_id(user_id)
         mc_event_joining_id_list.delete(event_id)
         mc_event_joined_id_list.delete(event_id)
@@ -435,9 +426,7 @@ def event_joiner_yes(o):
 
 def mc_flush_by_user_id(user_id):
     mc_event_id_list_join_by_user_id.delete(user_id)
-    #mc_event_id_list_open_by_user_id.delete(user_id)
     event_join_count_by_user_id.delete(user_id)
-    #event_open_count_by_user_id.delete(user_id)
 
 def event_joiner_end(o):
     event_id = o.event_id
@@ -450,8 +439,6 @@ def event_joiner_end(o):
                 return
         o.state = EVENT_JOIN_STATE_END
         o.save()
-        #mc_event_id_list_open_by_user_id.delete(user_id)
-        #event_open_count_by_user_id.delete(user_id)
 
 def event_join_review(o):
     event_id = o.event_id
@@ -499,7 +486,6 @@ def event_review_yes(id):
         event_joiner_new(id, zsite_id, EVENT_JOIN_STATE_YES)
         po = Po.mc_get(id)
         po_state_set(po, STATE_ACTIVE)
-        from notice import notice_event_yes
         notice_event_yes(event.zsite_id, id)
 
         mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, False))
@@ -519,8 +505,7 @@ def event_review_no(id, txt):
     if event and event.state == EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_REJECT
         event.save()
-        from top_notice import top_notice_event_no
-        top_notice_event_no(event.zsite_id, id, txt)
+        notice_event_no(event.zsite_id, id, txt)
         from user_mail import mail_by_user_id
         rendermail(
                 '/mail/event/event_review_no.txt',

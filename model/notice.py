@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from time import time
-from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY, CID_NOTICE_EVENT_YES
+from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY, CID_NOTICE_EVENT_YES, CID_NOTICE_EVENT_NO, CID_NOTICE_EVENT_JOIN_YES, CID_NOTICE_EVENT_JOIN_NO
 from state import STATE_DEL, STATE_APPLY, STATE_ACTIVE
 from po import Po
 from zsite import Zsite
@@ -24,6 +24,10 @@ NOTICE_TUPLE = (
     (CID_NOTICE_WALL_REPLY, Wall, None),
     (CID_INVITE_QUESTION, Po, '/mail/notice/invite_question.txt'),
     (CID_NOTICE_QUESTION, Po, '/mail/notice/notice_question.txt'),
+    (CID_NOTICE_EVENT_YES, Po, None),
+    (CID_NOTICE_EVENT_NO, Po, None),
+    (CID_NOTICE_EVENT_JOIN_YES, Po, None),
+    (CID_NOTICE_EVENT_JOIN_NO, Po, None),
 #    (CID_NOTICE_PAY, Trade, None),
 )
 
@@ -42,7 +46,13 @@ def notice_unread_decr(user_id):
     unread = notice_unread.get(user_id)
     notice_unread.set(user_id, max(unread - 1, 0))
 
+notice_txt = Kv('notice_txt')
+
 class Notice(McModel):
+    @property
+    def txt(self):
+        return notice_txt.get(self.id)
+
     @property
     def link(self):
         return '/notice/%s' % self.id
@@ -79,7 +89,7 @@ class Notice(McModel):
         return notice_id_count(self.from_id, self.to_id, self.cid, self.rid)
 
 
-def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY):
+def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY, txt=''):
     n = Notice(
         from_id=from_id,
         to_id=to_id,
@@ -89,6 +99,8 @@ def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY):
         create_time=int(time()),
     )
     n.save()
+    if txt:
+        notice_txt.set(n.id, txt)
     mc_flush(to_id)
     notice_unread_incr(to_id)
     mc_notice_id_count.delete('%s_%s_%s_%s' % (from_id, to_id, cid, rid))
@@ -114,6 +126,15 @@ def notice_wall_reply_new(from_id, to_id, wall_id):
 
 def notice_event_yes(user_id, event_id):
     return notice_new(0, user_id, CID_NOTICE_EVENT_YES, event_id)
+
+def notice_event_no(user_id, event_id, txt):
+    return notice_new(0, user_id, CID_NOTICE_EVENT_NO, event_id, txt)
+
+def notice_event_join_yes(from_id, to_id, event_id):
+    return notice_new(from_id, to_id, CID_NOTICE_EVENT_JOIN_YES, event_id)
+
+def notice_event_join_no(from_id, to_id, event_id, txt):
+    return notice_new(from_id, to_id, CID_NOTICE_EVENT_JOIN_NO, event_id, txt)
 
 def invite_question(from_id, to_id, qid):
     from po_question import answer_id_get

@@ -24,5 +24,5 @@ class EventCheck(JLoginBase):
                         if o_state in (EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
                             txt = self.get_argument('txt', '')
                             if txt:
-                                event_joiner_no(o)
+                                event_joiner_no(o, txt)
         self.finish('{}')

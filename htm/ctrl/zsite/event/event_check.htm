@@ -16,6 +16,7 @@ from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_ST
     })
     $('a.join_no').live('click', function() {
         var id = this.rel
+        var txt = ''
         $.postJSON('/j/event/check/' + id + '/0', {'txt': txt}, function(data) {
             $('#ndbk' + id).slideUp(500, function() {
                 $(this).remove()
