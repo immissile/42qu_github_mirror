@@ -56,7 +56,7 @@ ${css.ctrl_po_event|n}
 
 %if cid == CID_EVENT:
 <div class="head">
-%if po.name and Event.get(po.id).state != EVENT_STATE_REJECT :
+%if po.name and Event.get(po.id).state > EVENT_STATE_INIT :
 <span><a class="c9" href="/po/event/${po.id}">编辑属性</a></span><span class="c0">编辑介绍</span>
 %else:
 <span><a href="/po/event/${po.id}" class="c9">1. 设置属性</a></span>&gt;<span class="c0">2. 编写简介</span>&gt;<span>3. 等待审核</span>
@@ -82,6 +82,8 @@ rid = po.rid
 反馈
 %endif
 : <a href="${event_po.link}" target="_blank">${event_po.name|n}</a></p>
+%else:
+<input id="name" type="text" autocomplete="off" name="name" value="${po.name}">
 %endif
 <textarea id="txt" name="txt">${po.txt}</textarea>
 % endif
