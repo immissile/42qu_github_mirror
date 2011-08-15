@@ -220,22 +220,22 @@ mq_buzz_event_join_new = mq_client(buzz_event_join_new)
 
 def buzz_event_join_apply_new(user_id, event_id):
     event_zsite_id = Event.mc_get(event_id).zsite_id
-    buzz_new(user_id, event_zsite_id, CID_BUZZ_EVENT_JOIN_APPLY, event_id) 
+    buzz_new(user_id, event_zsite_id, CID_BUZZ_EVENT_JOIN_APPLY, event_id)
 
 
 # 张沈鹏 评论了 <a>去看电影</a>  , 点此浏览
 # 只显示给发起人
 def buzz_event_feedback_new(user_id, event_id, event_user_id):
-    buzz_new(user_id, event_user_id, CID_BUZZ_EVENT_FEEDBACK_OWNER, event_id)
+    buzz_new(user_id, event_user_id, CID_BUZZ_EVENT_FEEDBACK_JOINER, event_id)
 
 # 张沈鹏 写了 <a>去看电影</a> 的活动总结 , 点此浏览
 # 显示给所有人
 def buzz_event_feedback_owner_new(user_id, event_id):
     event_list = event_joiner_feedback_normal_id_list(event_id)
     for event in event_list:
-        if event.user_id != user_id:
-            buzz_new(user_id,event.user_id,CID_BUZZ_EVENT_FEEDBACK_JOINER,event_id)
-    
+        if event.zsite_id != user_id:
+            buzz_new(user_id, event.zsite_id, CID_BUZZ_EVENT_FEEDBACK_OWNER, event_id)
+
 
 mq_buzz_event_feedback_owner_new = mq_client(buzz_event_feedback_owner_new)
 
