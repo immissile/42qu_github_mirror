@@ -102,7 +102,9 @@ class PoBase(LoginBase):
     def post(self):
         po = self.po_post()
         if po:
-            if po.state == STATE_SECRET:
+            if po.cid == CID_EVENT_FEEDBACK:
+                link = "/%s#po%s"%(po.rid,po.id)
+            elif po.state == STATE_SECRET:
                 link = po.link
             else:
                 link = '/po/tag/%s' % po.id
