@@ -3,7 +3,7 @@ from model.po import STATE_SECRET, Po
 from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT, CID_EVENT_FEEDBACK
 from yajl import dumps
 from model.po_question import answer_count
-from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_FEEDBACK_GOOD, event_joiner_state, EVENT_STATE_INIT
+from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_FEEDBACK_GOOD, event_joiner_state, EVENT_STATE_INIT, EVENT_JOIN_STATE_FEEDBACK_NORMAL
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -38,9 +38,6 @@ if po:
 else:
     suffix = ''
 
-if cid == CID_EVENT_FEEDBACK:
-    event = this.event
-    event_po = Po.mc_get(event.id)
 %>
 <script>
 UPLOADURL = "/j/po/upload${suffix}"
@@ -53,6 +50,12 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 ${css.ctrl_po_event|n}
 %endif
 </%def>
+
+<%
+if cid == CID_EVENT_FEEDBACK:
+    event = this.event
+    event_po = Po.mc_get(event.id)
+%>
 
 %if cid == CID_EVENT:
 <div class="head">
@@ -72,19 +75,19 @@ rid = po.rid
 <p class="rid_title">${po.name_htm|n}</p>
 <textarea id="txt" name="txt">${po.name if cid == CID_WORD else po.txt}</textarea>
 % else:
-%if cid == CID_QUESTION:
+    %if cid == CID_QUESTION:
 <div id="question_flag">问</div>
-%elif cid == CID_EVENT_FEEDBACK:
+    %elif cid == CID_EVENT_FEEDBACK:
 <p class="rid_title">
-%if event.zsite_id == current_user_id:
+        %if event.zsite_id == current_user_id:
 总结 
-%else:
+        %else:
 反馈
-%endif
-: <a href="${event_po.link}" target="_blank">${event_po.name|n}</a></p>
-%else:
+        %endif
+: <a href="${event_po.link}">${event_po.name}</a></p>
+    %else:
 <input id="name" type="text" autocomplete="off" name="name" value="${po.name}">
-%endif
+    %endif
 <textarea id="txt" name="txt">${po.txt}</textarea>
 % endif
 <div class="btns c" id="po_btn">
@@ -119,11 +122,11 @@ checked
 %endif
 % if cid == CID_EVENT_FEEDBACK:
 <input type="checkbox" name="good" id="good"
-%if event_joiner_state(event.id, current_user_id) == EVENT_JOIN_STATE_FEEDBACK_GOOD:
+%if event_joiner_state(event.id, current_user_id) != EVENT_JOIN_STATE_FEEDBACK_NORMAL:
 checked
 %endif
 >
-<lable for="good" id="good_lable">活动好评
+<label for="good" id="good_label">满意</label>
 % endif 
 
 </span>\

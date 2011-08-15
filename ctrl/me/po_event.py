@@ -280,6 +280,8 @@ class EventFeedback(PoBase):
     def get(self, event_id):
         if not self._event(event_id):
             return
+        
+        current_user_id = self.current_user_id
 
         event_joiner = event_joiner_get(
             event_id, current_user_id
