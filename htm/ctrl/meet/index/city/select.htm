@@ -1,0 +1,22 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/i/info.htm" name="info"/>
+<%
+from zkit.earth import place_name, PLACE_L1, PLACE_MUNI, PLACE_L1L2
+%>
+选择城市:
+% for i in PLACE_MUNI:
+<h1><a href="/${i}">${place_name(i)}</a></h1>
+%endfor
+
+选择省市:
+%for i in PLACE_L1:
+        %if not i in PLACE_MUNI:
+${place_name(i)}
+            %for p in PLACE_L1L2.get(i):
+                <a href="/${i}">${place_name(p)}</a>
+            %endfor
+        %endif
+%endfor
+
+
