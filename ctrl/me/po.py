@@ -131,6 +131,7 @@ class Edit(LoginBase):
         if po:
             if po.can_admin(user_id):
                 cid = po.cid
+                self.cid = cid
                 if cid == CID_WORD and po.rid == 0:
                     return self.redirect(po.link)
                 return po
@@ -191,13 +192,14 @@ class Edit(LoginBase):
     po_post = po_post
 
     def post(self, id):
+        self.id = id
         user_id = self.current_user_id
         po = self._po(user_id, id)
-        self.id = id
-
-        po = self.po_post()
-
+        if po is None:
+            return
+        
         cid = po.cid
+        self.po_post()
 
         if cid == CID_EVENT:
             if event_init2to_review(id):
