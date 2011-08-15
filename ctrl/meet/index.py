@@ -3,7 +3,7 @@ from _handler import Base, LoginBase, XsrfGetBase
 from ctrl._urlmap.meet import urlmap
 from model.namecard import namecard_get
 from zkit.earth import pid_city
-from model.event import event_list_by_city_pid, event_count_by_citd_pid
+from model.event import event_list_by_city_pid, event_count_by_city_pid
 from zkit.jsdict import JsDict
 from model.namecard import namecard_get, namecard_new
 
@@ -35,7 +35,7 @@ class City(Base):
         if not pid_city(pid):
             return self.redirect("/")
 
-        total = event_count_by_citd_pid(pid)
+        total = event_count_by_city_pid(pid)
         page, limit, offset = page_limit_offset(
             '%s-%s' % ,
             total,
@@ -69,7 +69,7 @@ class CitySet(LoginBase):
                 pid_now
             )
         if pid_city(pid_now):
-            self.redirect('/')
+            self.redirect('/%s'%pid_now)
         else:
-            self.render(pid_now=pid_now or 0, message="请确认！")
+            self.render(pid_now=pid_now or 0, error="请选择城市")
 

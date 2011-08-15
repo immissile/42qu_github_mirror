@@ -21,10 +21,11 @@ from model.txt import txt_new
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 mc_event_id_list_by_city_pid = McLimitA('EventIdListByCityPid.%s', 128)
 
-event_count_by_citd_pid = McNum(
+event_count_by_city_pid = McNum(
     lambda city_pid : Event.where(city_pid=city_pid).where(
         'state >= %s'%EVENT_STATE_BEGIN
-    ).count()
+    ).count(),
+    "EventCountByCityPid:%s:"
 )
 
 mc_event_joiner_feedback_normal_id_list = McCacheA('EventJoinerReveiwIdList:%s')
@@ -425,7 +426,7 @@ def mc_flush_by_user_id(user_id):
 
 def mc_flush_by_city_pid(city_pid):
     mc_event_id_list_by_city_pid.delete(city_pid)
-    event_count_by_citd_pid.delete(city_pid)
+    event_count_by_city_pid.delete(city_pid)
 
 def event_joiner_end(o):
     event_id = o.event_id
