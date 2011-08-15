@@ -244,7 +244,7 @@ def po_rm(user_id, id):
             from model.event import event_rm
             event_rm(user_id, id)
         elif cid == CID_EVENT_FEEDBACK:
-            from model.event import po_event_feedback_rm
+            from model.po_event import po_event_feedback_rm
             from model.rank import rank_rm
             po_event_feedback_rm(user_id, rid)
             rank_rm(id, rid)

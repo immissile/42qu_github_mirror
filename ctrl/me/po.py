@@ -149,7 +149,7 @@ class Edit(LoginBase):
             return
 
         if po.cid == CID_EVENT_FEEDBACK:
-            self.event = Event.mc_get(id)
+            self.event = Event.mc_get(po.rid)
 
         self.render(
             'ctrl/me/po/po.htm',
@@ -174,7 +174,7 @@ class Edit(LoginBase):
                 po.name_ = txt
                 po.save()
         elif cid == CID_EVENT_FEEDBACK:
-            event_joiner_state_set_by_good(user_id, rid, good)
+            event_joiner_state_set_by_good(user_id, rid, state)
         else:
             if not po.rid and name:
                 po.name_ = name
@@ -209,7 +209,7 @@ class Edit(LoginBase):
             else:
                 link = po.link
         elif cid == CID_EVENT_FEEDBACK:
-            link = po.link
+            link = "/%s#po%s"%(po.rid,po.id)
         else:
             if cid == CID_WORD:
                 link = po.link_question
