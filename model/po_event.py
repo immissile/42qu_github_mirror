@@ -17,12 +17,19 @@ mc_event_feedback_id_get = McCache('EventFeedBackGet.%s')
 
 @mc_event_feedback_id_get("{user_id}_{event_id}")
 def event_feedback_id_get(user_id, event_id):
-    for i in Po.where(user_id=user_id, rid=event_id).where(
-        cid = CID_EVENT_FEEDBACK
-    ).where('state>%s', STATE_DEL).col_list(1, 0):
-        return i
+    c = Po.raw_sql(
+            'select id from po where rid=%s and cid=%s and user_id=%s and state>%s', event_id, CID_EVENT_FEEDBACK, user_id, STATE_DEL
+        )
+    r = c.fetchone()
+    if r:
+        return r[0]
     return 0
 
+
+def event_feedback_get(user_id, event_id):
+    id = event_feedback_id_get(user_id, event_id)
+    if id:
+        return Po.mc_get(id)
 
 def po_event_pic_new(zsite_id, pic):
     pic_id = pic_new_save(CID_EVENT, zsite_id, pic)
@@ -31,21 +38,8 @@ def po_event_pic_new(zsite_id, pic):
     return pic_id
 
 
-mc_po_event_feedback_id_by_owner = McCache("PoEventFeedbackByOwner:%s")
 
-@mc_po_event_feedback_id_by_owner("{event_id}")
-def po_event_feedback_id_by_owner(event_id):
-    event = Event.mc_get(event_id)
-    if event:
-        po = Po.get(rid=event_id, cid=CID_EVENT_FEEDBACK, user_id=event.zsite_id)
-        if po:
-            return po.id
-    return 0
 
-def po_event_feedback_by_owner(event_id):
-    id = po_event_feedback_id_by_owner(event_id)
-    if id:
-        return Po.mc_get(id)
 
 def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
     if not name and not txt:
@@ -66,7 +60,6 @@ def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
         if user_id!=event_user_id:
             rank_new(m, event_id, CID_EVENT_FEEDBACK)
             buzz_event_feedback_new(user_id, id, event_user_id)
-            mc_po_event_feedback_id_by_owner.set(event_id, id)
         else:
             mq_buzz_event_feedback_owner_new(user_id, id, event_user_id)
 
@@ -95,7 +88,7 @@ def event_joiner_state_set(user_id, event_id, to_state):
 
 def po_event_feedback_rm(user_id, event_id):
     event_joiner_state_set(user_id, event_id, EVENT_JOIN_STATE_END)
-    mc_po_event_feedback_id_by_owner.delete(event_id)
+    mc_event_feedback_id_get.set('%s_%s' % (user_id, event_id), 0)
 
 def po_event_feedback_list(event_id):
     ids = rank_po_id_list(event_id, CID_EVENT_FEEDBACK, 'confidence')

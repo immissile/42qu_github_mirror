@@ -1,11 +1,12 @@
 
 <%namespace file="/ctrl/zsite/po/_vote.htm" import="_vote"/>
 <%!
-from model.po_event import po_event_feedback_group, po_event_feedback_by_owner
+from model.po_event import po_event_feedback_group, event_feedback_get
 %>
-<%def name="feedback_list(event_id)">
+<%def name="feedback_list(event)">
 <% 
-po_by_owner = po_event_feedback_by_owner(event_id)
+event_id = event.id
+po_by_owner = event_feedback_get(event.zsite_id, event.id)
 good , normal = po_event_feedback_group(event_id)
 %>
 %if po_by_owner:
@@ -48,7 +49,6 @@ user_id = user.id
 </p>
 <pre>${feedback.htm|n}</pre>
 
-    %if feedback.can_view(current_user_id):
     <div class="bar">
         %if feedback.can_admin(current_user_id):
 <a
@@ -58,6 +58,5 @@ user_id = user.id
         %endif
 <a class="reply" href="${feedback_link}#reply_txt" title="回复">${feedback.reply_count}</a>
     </div>
-    %endif
 </div></div>
 </%def>
