@@ -13,5 +13,6 @@ class Index(Base):
         location = pid_city(namecard.pid_now)
         if not location:
             return self.redirect('/guest')
+        
 
-        return self.render()
+        return self.render(location = location)
