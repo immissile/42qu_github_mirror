@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY
+from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER
 from cid import CID_USER
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -17,7 +17,7 @@ from zweb.orm import ormiter
 from zkit.orderedset import OrderedSet
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
-from model.event import Event
+from model.event import Event, event_joiner_feedback_normal_id_list
 
 class Buzz(Model):
     pass
@@ -226,13 +226,16 @@ def buzz_event_join_apply_new(user_id, event_id):
 # 张沈鹏 评论了 <a>去看电影</a>  , 点此浏览
 # 只显示给发起人
 def buzz_event_feedback_new(user_id, event_id, event_user_id):
-    pass
+    buzz_new(user_id, event_user_id, CID_BUZZ_EVENT_FEEDBACK_OWNER, event_id)
 
 # 张沈鹏 写了 <a>去看电影</a> 的活动总结 , 点此浏览
 # 显示给所有人
-def buzz_event_feedback_owner_new(user_id, event_id, event_user_id):
-    pass
-
+def buzz_event_feedback_owner_new(user_id, event_id):
+    event_list = event_joiner_feedback_normal_id_list(event_id)
+    for event in event_list:
+        if event.user_id != user_id:
+            buzz_new(user_id,event.user_id,CID_BUZZ_EVENT_FEEDBACK_JOINER,event_id)
+    
 
 mq_buzz_event_feedback_owner_new = mq_client(buzz_event_feedback_owner_new)
 

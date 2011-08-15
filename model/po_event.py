@@ -61,7 +61,7 @@ def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
             rank_new(m, event_id, CID_EVENT_FEEDBACK)
             buzz_event_feedback_new(user_id, id, event_user_id)
         else:
-            mq_buzz_event_feedback_owner_new(user_id, id, event_user_id)
+            mq_buzz_event_feedback_owner_new(user_id, id)
 
         event_joiner_state_set_by_good(user_id, event_id, good)
     return m
