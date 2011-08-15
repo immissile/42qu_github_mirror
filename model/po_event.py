@@ -31,6 +31,22 @@ def po_event_pic_new(zsite_id, pic):
     return pic_id
 
 
+mc_po_event_feedback_id_by_owner = McCache("PoEventFeedbackByOwner:%s")
+
+@mc_po_event_feedback_id_by_owner("{event_id}")
+def po_event_feedback_id_by_owner(event_id):
+    event = Event.mc_get(event_id)
+    if event:
+        po = Po.get(rid=event_id, cid=CID_EVENT_FEEDBACK, user_id=event.zsite_id)
+        if po:
+            return po.id
+    return 0
+
+def po_event_feedback_by_owner(event_id):
+    id = po_event_feedback_id_by_owner(event_id)
+    if id:
+        return Po.mc_get(id)
+
 def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
     if not name and not txt:
         return
@@ -50,6 +66,7 @@ def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
         if user_id!=event_user_id:
             rank_new(m, event_id, CID_EVENT_FEEDBACK)
             buzz_event_feedback_new(user_id, id, event_user_id)
+            mc_po_event_feedback_id_by_owner.set(event_id, id)
         else:
             mq_buzz_event_feedback_owner_new(user_id, id, event_user_id)
 
