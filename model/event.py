@@ -268,6 +268,14 @@ def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     id_list = event_id_list_by_zsite_id(zsite_id, bool(can_admin), limit, offset)
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
+def event_id_list_by_city_pid(city_pid, limit=10,offset=0):
+    return Event.where(city_pid=city_pid).where('state >= %s', EVENT_VIEW_STATE_GET[False]).order_by('id desc').col_list(limit,offset)
+
+def event_list_by_city_pid(city_pid, limit=10, offset=0):
+    id_list = event_id_list_by_city_pid(city_pid,limit,offset)
+    print id_list
+    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
+
 
 class EventJoiner(McModel):
     @attrcache
