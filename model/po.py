@@ -109,15 +109,27 @@ class Po(McModel, ReplyMixin):
     @attrcache
     def name_htm(self):
         q = self.question
+        cid = self.cid
         if q:
+            
             u = q.user
             link = '<a href="%s">%s</a>' % (q.link, escape(q.name))
-            if q.user_id == self.user_id:
-                return '自问自答 : %s' % link
-            return '答 <a href="%s">%s</a> 问 : %s' % (
-                u.link, escape(u.name), link
-            )
-        if self.cid == CID_WORD:
+            
+            if cid == CID_EVENT_FEEDBACK:
+                if q.user_id == self.user_id:
+                    name = '总结 : %s' 
+                else: 
+                    name = '评价 : %s' 
+                return name%link
+            else: 
+                if q.user_id == self.user_id:
+                    return '自问自答 : %s' % link
+                else:
+                    return '答 <a href="%s">%s</a> 问 : %s' % (
+                        u.link, escape(u.name), link
+                    )
+
+        if cid == CID_WORD:
             return txt_withlink(self.name)
         return escape(self.name)
 
