@@ -257,6 +257,9 @@ class PoOne(ZsiteBase):
             self.mark()
 
         cid = po.cid
+        prev_id, next_id = po_prev_next(
+            cid, zsite_id, zsite_tag_id, po.id
+        )
         if cid == CID_EVENT:
             prev_id = next_id = zsite_tag_id = tag_name = None
             event = Event.mc_get(id)
@@ -267,9 +270,6 @@ class PoOne(ZsiteBase):
         else:
             zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
             if zsite_tag_id:
-                prev_id, next_id = po_prev_next(
-                    cid, zsite_id, zsite_tag_id, po.id
-                )
                 tag_link = "/tag/%s" % zsite_tag_id
             else:
                 tag_link = "/po/cid/%s"%cid
