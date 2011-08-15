@@ -3,6 +3,7 @@ from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WAL
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 from zkit.txt import cnenoverflow
+from model.po_event import event_feedback_id_get
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career, event_name"/>
 
@@ -20,10 +21,10 @@ entry = i.entry
 %elif cid == CID_BUZZ_SHOW:
 <span class="buzz_user">${user_career_link(entry)}</span> 入驻
 %elif cid == CID_BUZZ_EVENT_FEEDBACK_OWNER:
-${user_link_list(from_list)}评论了<a>${event_name(rid)}</a>的活动总结，<a href="${to.link}${entry.link}" target="_blank">点此浏览</a>
+${user_link_list(from_list)}评论了<a>${event_name(rid)}</a>的活动总结，<a href="/${rid}" target="_blank">点此浏览</a>
 
 %elif cid == CID_BUZZ_EVENT_FEEDBACK_JOINER:
-${user_link_list(from_list)}写了<a>${event_name(rid)}</a>的活动总结，<a href="${to.link}${entry.link}" target="_blank">点此浏览</a>
+${user_link_list(from_list)}写了<a>${event_name(rid)}</a>的活动总结，<a href="/${rid}" target="_blank">点此浏览</a>
 
 
 %elif cid == CID_BUZZ_FOLLOW:
