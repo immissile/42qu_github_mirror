@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_REGISTRATION
+from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER
 from cid import CID_USER
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -17,7 +17,7 @@ from zweb.orm import ormiter
 from zkit.orderedset import OrderedSet
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
-from model.event import Event
+from model.event import Event, event_joiner_user_id_list
 
 class Buzz(Model):
     pass
@@ -49,7 +49,7 @@ BUZZ_DIC = {
     CID_BUZZ_PO_REPLY: Po,
     CID_BUZZ_ANSWER: Po,
     CID_BUZZ_JOIN: Event,
-    CID_BUZZ_REGISTRATION: Event,
+    CID_BUZZ_EVENT_JOIN_APPLY: Event,
 }
 
 def mc_flush(user_id):
@@ -210,28 +210,34 @@ def buzz_unread_update(user_id):
     buzz_unread.delete(user_id)
 
 def buzz_event_join_new(user_id, event_id):
-    event_host = Event.mc_get(event_id).zsite_id
+    event_zsite_id = Event.mc_get(event_id).zsite_id
     followed = [i.from_id for i in ormiter(Follow, 'to_id=%s' % user_id)]
     for to_id in followed:
-        if to_id != event_host:
+        if to_id != event_zsite_id:
             buzz_new(user_id, to_id, CID_BUZZ_JOIN, event_id)
 
 mq_buzz_event_join_new = mq_client(buzz_event_join_new)
 
-def buzz_event_registration_new(user_id, event_id):
-    event_host = Event.mc_get(event_id).zsite_id
-    buzz_new(user_id, event_host, CID_BUZZ_REGISTRATION, event_id) 
+def buzz_event_join_apply_new(user_id, event_id):
+    event_zsite_id = Event.mc_get(event_id).zsite_id
+    buzz_new(user_id, event_zsite_id, CID_BUZZ_EVENT_JOIN_APPLY, event_id)
+
+
+# 张沈鹏 评论了 <a>去看电影</a>  , 点此浏览
+# 只显示给发起人
+def buzz_event_feedback_new(user_id, event_id, event_user_id):
+    buzz_new(user_id, event_user_id, CID_BUZZ_EVENT_FEEDBACK_JOINER, event_id)
+
+# 张沈鹏 写了 <a>去看电影</a> 的活动总结 , 点此浏览
+# 显示给所有人
+def buzz_event_feedback_owner_new(user_id, event_id):
+    to_id_list = event_joiner_user_id_list(event_id)
+    for to_id in to_id_list:
+        buzz_new(user_id, to_id, CID_BUZZ_EVENT_FEEDBACK_OWNER, event_id)
+
+
+mq_buzz_event_feedback_owner_new = mq_client(buzz_event_feedback_owner_new)
 
 
 if __name__ == '__main__':
     buzz_event_join_new(10000000, 10047337)
-    #buzz_event_registration_new(10001637, 10047337)
-    #for i in ormiter(Buzz, "cid=%s"%CID_BUZZ_SHOW):
-    #    print i.id
-    #    i.delete()
-
-   # from model.cid import CID_USER
-   # for i in Zsite.where(cid=CID_USER):
-   #     user_id = i.id
-   #     print user_id
-   #     buzz_unread_update(user_id)

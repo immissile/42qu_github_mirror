@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-EventUser
-event_user
+event_join_apply_list
 """
 
 TO_STRING = """
-EventJoiner
-event_joiner
+event_join_apply_list
 """
 
 def run():

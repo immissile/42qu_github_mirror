@@ -2,7 +2,7 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/_util/user.htm" import="user_link"/>
 <%!
-from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
+from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_FEEDBACK_NORMAL
 %>
 <%def name="htm_head()">
 <script>
@@ -49,7 +49,7 @@ ${user_link(user)}
 已加入
 % elif state == EVENT_JOIN_STATE_END:
 已结束
-% elif state == EVENT_JOIN_STATE_REVIEW:
+% elif state == EVENT_JOIN_STATE_FEEDBACK_NORMAL:
 已完成
 % endif
 </p>
