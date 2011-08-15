@@ -218,10 +218,19 @@ class EventPay(EventJoin):
 
 PAGE_LIMIT = 42
 
+class EventAdmin(EventBase):
+    def _event(self, id):
+        current_user_id = self.current_user_id
+        self.event = event = super(EventAdmin, self)._event(id)
+        if event:
+            if event.can_admin(current_user_id):
+                return event
+            return self.redirect(event.link)
+
 
 @urlmap('/event/check/(\d+)')
 @urlmap('/event/check/(\d+)-(\d+)')
-class EventCheck(EventBase):
+class EventCheck(EventAdmin):
     def get(self, id, n=1):
         event = self._event(id)
         if event is None:
@@ -239,11 +248,37 @@ class EventCheck(EventBase):
         li, pos_id = event_joiner_list(id, limit, offset)
 
         return self.render(
-            event=event,
             event_joiner_list=li,
             pos_id=pos_id,
             page=page,
         )
 
 
+@urlmap('/event/notice/(\d+)')
+class EventNotice(EventAdmin):
+    def get(self, id):
+        event = self._event(id)
+        if event is None:
+            return
 
+        self.render()
+
+    def post(self, id):
+        event = self._event(id)
+        if event is None:
+            return
+
+
+@urlmap('/event/kill/(\d+)')
+class EventKill(EventAdmin):
+    def get(self, id):
+        event = self._event(id)
+        if event is None:
+            return
+
+        self.render()
+
+    def post(self, id):
+        event = self._event(id)
+        if event is None:
+            return

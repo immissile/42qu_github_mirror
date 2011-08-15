@@ -1,27 +1,10 @@
-<%inherit file="/ctrl/_base/zsite.htm" />
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%namespace file="/ctrl/_util/user.htm" import="user_link"/>
+<%inherit file="_admin.htm" />
 <%!
 from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
 from model.notice import notice_event_join_no_txt_by_zsite_id
 %>
-<%def name="htm_head()">
-${css.ctrl_event_admin|n}
-</%def>
 
-<%
-id = event.id
-po = event.po
-%>
-
-<div class="event_admin_head">
-<a href="${po.link}">${po.name}</a>
-<span class="R">
-<a class="c0" href="">成员审核</a><a href="#" >发布公告</a><a href="#">解散活动</a>
-</span>
-
-
-
+<%def name="event_admin_body()">
 % for i in event_joiner_list:
 <%
 id = i.id
@@ -71,3 +54,4 @@ career = ' , '.join(filter(bool, user.career))
 ${page|n}
 <textarea style="display: none" id="_txt">${notice_event_join_no_txt_by_zsite_id(current_user_id)}</textarea>
 <script src="${js.ctrl_event}"></script>
+</%def>
