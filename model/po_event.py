@@ -111,9 +111,3 @@ def po_event_feedback_group(event_id):
 if __name__ == '__main__':
     print EVENT_CID
 
-
-
-
-
-
-

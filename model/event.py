@@ -541,4 +541,12 @@ if __name__ == '__main__':
     #print o.id
 
     pass
+    event = Event.mc_get(10047266)
+    event.state = EVENT_STATE_END
+    event.save()
+
+
+
+
+
 
