@@ -7,13 +7,13 @@ from zkit.page import page_limit_offset
 from model.event import Event, event_joiner_new, event_joiner_state, event_joiner_list,\
 event_count_by_zsite_id, event_join_count_by_user_id, event_open_count_by_user_id,\
 event_list_by_zsite_id, event_list_join_by_user_id, event_list_open_by_user_id,\
-EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
+EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW
 from model.money import pay_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice, read_cent
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cent_with_tax
 from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT, CID_EVENT
 from ctrl.me.i import NameCardEdit
 from model.zsite import ZSITE_STATE_VERIFY
-from model.buzz import buzz_event_registration_new
+from model.buzz import buzz_event_join_apply_new
 from model.zsite_url import link
 
 @urlmap('/event/to_review')
@@ -141,7 +141,7 @@ class EventJoin(NameCardEdit, EventBase):
             return self.redirect('/event/pay/%s' % id)
 
         event_joiner_new(id, self.current_user_id)
-        buzz_event_registration_new(self.current_user_id, event.id)
+        buzz_event_join_apply_new(self.current_user_id, event.id)
         return self.redirect(event_link)
 
 
@@ -247,6 +247,4 @@ class EventCheck(EventBase):
             event_joiner_list=li,
             page=page,
         )
-
-
 

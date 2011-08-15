@@ -2,17 +2,26 @@
 from _handler import LoginBase, XsrfGetBase
 from ctrl._urlmap.me import urlmap
 from model.po import Po
-from model.po_event import po_event_pic_new , EVENT_CID
+from model.po_event import po_event_pic_new , EVENT_CID, po_event_feedback_new
 from zkit.pic import picopen
 from zkit.errtip import Errtip
 from zkit.jsdict import JsDict
 from zkit.earth import pid_city
 from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
-from model.cid import CID_EVENT
+from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_NOTICE_EVENT_JOINER_FEEDBACK, CID_NOTICE_EVENT_ORGANIZER_SUMMARY
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
-from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, event_new_if_can_change
+from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_FEEDBACK_GOOD, EVENT_JOIN_STATE_FEEDBACK_NORMAL, event_new_if_can_change, EventJoiner, event_joiner_user_id_list, event_joiner_get, event_joiner_state
 from model.po import po_new, STATE_DEL
+from zkit.jsdict import JsDict
+from model.po_pic import pic_list_edit
+from model.notice import notice_new
+from model.po_question import mc_answer_id_get
+from model.rank import rank_new
+from model.txt import txt_new
+from ctrl.me.po import PoBase
+
+
 
 @urlmap('/po/event/(\d+)/state')
 class EventState(LoginBase):
@@ -200,10 +209,10 @@ class Index(LoginBase):
                 id = event.id
                 po_new(CID_EVENT, user_id, '', STATE_SECRET, id=id)
 
-            if event.state in (EVENT_STATE_INIT, EVENT_STATE_REJECT): 
-                return self.redirect("/po/edit/%s"%id)
+            if event.state in (EVENT_STATE_INIT, EVENT_STATE_REJECT):
+                return self.redirect('/po/edit/%s'%id)
             else:
-                return self.redirect("/%s"%id)
+                return self.redirect('/%s'%id)
 
     def get(self, id=0):
         user_id = self.current_user_id
@@ -237,3 +246,90 @@ class Index(LoginBase):
 
 
 
+@urlmap('/event/feedback/(\d+)')
+class EventFeedback(PoBase):
+
+    cid = CID_EVENT_FEEDBACK
+
+    def po_save(self, user_id, name, txt, good):
+        event = self.event
+        po = po_event_feedback_new(
+            user_id,
+            name,
+            txt,
+            good,
+            event.id,
+            event.zsite_id
+        )
+        if txt:
+            po.txt_set(txt)
+        return po
+
+    def _event(self, event_id):
+        self.event_id = event_id
+        self.event = event = Event.mc_get(event_id)
+        current_user_id = self.current_user_id
+
+        if not event:
+            return self.redirect('/')
+
+        state = event_joiner_state(
+            event_id, current_user_id
+        )
+
+        if state < EVENT_JOIN_STATE_YES:
+            return self.redirect('/%s'%event_id)
+
+        return event
+
+    def get(self, event_id):
+        if not self._event(event_id):
+            return
+
+        current_user_id = self.current_user_id
+
+        event_joiner = event_joiner_get(
+            event_id, current_user_id
+        )
+
+        return super(EventFeedback, self).get()
+
+    def post(self, event_id):
+        if not self._event(event_id):
+            return
+        return super(EventFeedback, self).post()
+
+
+#@urlmap('/event/feedback/edit/(\d+)')
+#class EventFeedback(LoginBase):
+#    def get(self, po_id):
+#        current_user_id = self.current_user_id
+#        po = Po.get(po_id)
+#        event = Event.get(po.rid)
+#        event_po = event.po
+#        self.render(
+#            'ctrl/me/po/po.htm',
+#            cid=CID_EVENT_FEEDBACK,
+#            po=po,
+#            pic_list=pic_list_edit(current_user_id, 0),
+#            event=event,
+#            event_po=event.po,
+#        )
+#
+#    def post(self, po_id):
+#        current_user_id = self.current_user_id
+#        po = Po.get(po_id)
+#        event_id = po.rid
+#        event_joiner = event_joiner_get(event_id, current_user_id)
+#        good = self.get_argument('good', None)
+#        txt = self.get_argument('txt', None)
+#        state = EVENT_JOIN_STATE_FEEDBACK_GOOD if good == 'on' else EVENT_JOIN_STATE_FEEDBACK_NORMAL
+#        if event_joiner.state != state:
+#            event_joiner.state = state
+#            event_joiner.save()
+#        txt_new(po.id, txt)
+#        po.save()
+#        self.redirect('/%s'%event_id)
+#
+#
+#

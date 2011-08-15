@@ -4,8 +4,7 @@
 <%
 from zkit.earth import place_name
 %>
-% if location:
-<h1>${place_name(location)}<a href="/city_select">切换城市</a></h1>
+<h1>${place_name(pid)}<a href="/city/select">切换城市</a></h1>
 % for event_po in event_list:
 <%
 event, po = event_po
@@ -14,6 +13,4 @@ event, po = event_po
 <h2>begins:${event.begin_time}<h2>
 
 % endfor
-%else:
-<h1>todo </h1>
-%endif
+${page|n}

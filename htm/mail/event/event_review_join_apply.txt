@@ -1,0 +1,12 @@
+${title|n} : ${len(event_join_apply_list)}个新的报名者 , 请审核并确认
+
+${name|n}:
+
+${title|n} 有新的报名者 ( ${event_join_apply_list|n} ) 
+
+请审核并确认
+
+浏览链接 : ${event_link}
+ 
+
+如有问题请回复此邮件 

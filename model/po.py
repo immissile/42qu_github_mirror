@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -109,15 +109,27 @@ class Po(McModel, ReplyMixin):
     @attrcache
     def name_htm(self):
         q = self.question
+        cid = self.cid
         if q:
+            
             u = q.user
             link = '<a href="%s">%s</a>' % (q.link, escape(q.name))
-            if q.user_id == self.user_id:
-                return '自问自答 : %s' % link
-            return '答 <a href="%s">%s</a> 问 : %s' % (
-                u.link, escape(u.name), link
-            )
-        if self.cid == CID_WORD:
+            
+            if cid == CID_EVENT_FEEDBACK:
+                if q.user_id == self.user_id:
+                    name = '总结 : %s' 
+                else: 
+                    name = '评价 : %s' 
+                return name%link
+            else: 
+                if q.user_id == self.user_id:
+                    return '自问自答 : %s' % link
+                else:
+                    return '答 <a href="%s">%s</a> 问 : %s' % (
+                        u.link, escape(u.name), link
+                    )
+
+        if cid == CID_WORD:
             return txt_withlink(self.name)
         return escape(self.name)
 
@@ -222,6 +234,7 @@ def po_cid_set(po, cid):
 def po_rm(user_id, id):
     po = Po.mc_get(id)
     cid = po.cid
+    rid = po.rid
     if po.can_admin(user_id):
         from po_question import answer_count
         if cid == CID_QUESTION:
@@ -230,6 +243,11 @@ def po_rm(user_id, id):
         elif cid == CID_EVENT:
             from model.event import event_rm
             event_rm(user_id, id)
+        elif cid == CID_EVENT_FEEDBACK:
+            from model.po_event import po_event_feedback_rm
+            from model.rank import rank_rm
+            po_event_feedback_rm(user_id, rid)
+            rank_rm(id, rid)
         return _po_rm(user_id, po)
 
 #, event_rm
