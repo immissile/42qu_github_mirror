@@ -19,9 +19,15 @@ from model.cid import CID_EVENT_FEEDBACK
 from model.txt import txt_new
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
+mc_event_id_list_by_city_pid = McLimitA('EventIdListByCityPid.%s', 128)
+
+event_count_by_citd_pid = McNum(
+    lambda city_pid : Event.where(city_pid=city_pid).where(
+        'state >= %s'%EVENT_STATE_BEGIN
+    ).count()
+)
 
 mc_event_joiner_feedback_normal_id_list = McCacheA('EventJoinerReveiwIdList:%s')
-mc_event_id_list_by_city_pid = McLimitA('EventIdListByCityPid.%s',128)
 
 event_list_join_by_user_id_query = lambda user_id: EventJoiner.where(
     user_id=user_id
@@ -44,6 +50,7 @@ event_joiner_check_count = McNum(
 mc_event_id_list_join_by_user_id = McLimitA('EventIdListJoinByUserId.%s', 128)
 
 event_list_open_by_user_id_qs = lambda user_id: EventJoiner.where(user_id=user_id, state=EVENT_JOIN_STATE_YES)
+
 event_open_count_by_user_id = McNum(lambda user_id: event_list_open_by_user_id_qs(user_id).count(), 'EventOpenCountByUserId.%s')
 
 mc_event_id_list_open_by_user_id = McLimitA('EventIdListOpenByUserId.%s', 128)
@@ -254,12 +261,14 @@ def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     id_list = event_id_list_by_zsite_id(zsite_id, bool(can_admin), limit, offset)
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
+
+
 @mc_event_id_list_by_city_pid('{city_pid}')
-def event_id_list_by_city_pid(city_pid, limit=10,offset=0):
-    return Event.where(city_pid=city_pid).where('state >= %s', EVENT_VIEW_STATE_GET[False]).order_by('id desc').col_list(limit,offset)
+def event_id_list_by_city_pid(city_pid, limit=10, offset=0):
+    return Event.where(city_pid=city_pid).where('state >= %s', EVENT_VIEW_STATE_GET[False]).order_by('join_total desc').col_list(limit, offset)
 
 def event_list_by_city_pid(city_pid, limit=10, offset=0):
-    id_list = event_id_list_by_city_pid(city_pid,limit,offset)
+    id_list = event_id_list_by_city_pid(city_pid, limit, offset)
     print id_list
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
@@ -416,6 +425,7 @@ def mc_flush_by_user_id(user_id):
 
 def mc_flush_by_city_pid(city_pid):
     mc_event_id_list_by_city_pid.delete(city_pid)
+    event_count_by_citd_pid.delete(city_pid)
 
 def event_joiner_end(o):
     event_id = o.event_id
@@ -529,12 +539,14 @@ def event_end(event):
         mc_flush_by_city_pid(event.city_pid)
 
 
+
 def event_review_join_apply(event_id):
     event = Event.mc_get(event_id)
     if event:
         event_new_joiner_id_list = EventJoiner.where(
             'event_id=%s and state=%s', event_id, EVENT_JOIN_STATE_NEW
         ).col_list(col='user_id')
+
         if event_new_joiner_id_list:
             event_joiner_list = [
                 user.name
@@ -572,6 +584,6 @@ if __name__ == '__main__':
     event.save()
 
     for i in EventJoiner.where(event_id=id):
-        print i 
+        print i
 
 

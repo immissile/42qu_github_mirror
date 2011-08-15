@@ -3,32 +3,55 @@ from _handler import Base, LoginBase, XsrfGetBase
 from ctrl._urlmap.meet import urlmap
 from model.namecard import namecard_get
 from zkit.earth import pid_city
-from model.event import event_list_by_city/pid
+from model.event import event_list_by_city_pid, event_count_by_citd_pid
 from zkit.jsdict import JsDict
 from model.namecard import namecard_get, namecard_new
 
 
 @urlmap('/')
-@urlmap('/(\d+)')
 class Index(Base):
-    def get(self,location=0):
-        location = int(location)
+    def get(self):
         user_id = self.current_user_id
-        if not location:
-            if not user_id:
-                return self.redirect('/city/select')
+
+        if user_id:
+            link = "/city/set"
             namecard = namecard_get(user_id)
-            if namecard.pid_now:
-                location = pid_city(namecard.pid_now)
-                if not location:
-                    return self.redirect('/city/set')
-        event_list = event_list_by_city/pid(location)
-        return self.render(location = location, event_list = event_list)
+            pid_now = namecard.pid_now
+            if pid_now and pid_city(pid_now):
+                link = "/%s"%pid_now
+        else:
+            link = '/city/select'
+
+        return self.redirect(link)
+
+
+@urlmap('/(\d+)')
+@urlmap('/(\d+)-(\d+)')
+class City(Base):
+    def get(self, pid, n=1):
+        pid = int(pid)
+        n = int(n)
+
+        if not pid_city(pid):
+            return self.redirect("/")
+
+        total = event_count_by_citd_pid(pid)
+        page, limit, offset = page_limit_offset(
+            '%s-%s' % ,
+            total,
+            n,
+            PAGE_LIMIT,
+        )
+        event_list = event_list_by_city_pid(pid, limit, offset)
+        return self.render(pid = pid, event_list = event_list, page)
+
+
 
 @urlmap('/city/select')
 class CitySelect(Base):
     def get(self):
         self.render()
+
 
 @urlmap('/city/set')
 class CitySet(LoginBase):
@@ -42,9 +65,11 @@ class CitySet(LoginBase):
         pid_now = self.get_argument('pid_now','1')
         pid_now = int(pid_now)
         c = namecard_new(
-                    current_user_id,pid_now
-                    )
+                current_user_id,
+                pid_now
+            )
         if pid_city(pid_now):
             self.redirect('/')
         else:
             self.render(pid_now=pid_now or 0, message="请确认！")
+
