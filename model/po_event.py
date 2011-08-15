@@ -13,7 +13,6 @@ from zkit.pic import pic_fit
 from event import EVENT_CID, EVENT_CID_CN
 
 
-
 def po_event_pic_new(zsite_id, pic):
     pic_id = pic_new_save(CID_EVENT, zsite_id, pic)
     pic162 = pic_fit(pic, 162)
@@ -21,13 +20,5 @@ def po_event_pic_new(zsite_id, pic):
     return pic_id
 
 
-
 if __name__ == '__main__':
-    print EVENT_CID
-
-
-
-
-
-
-
+    pass
