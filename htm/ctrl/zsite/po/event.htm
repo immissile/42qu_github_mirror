@@ -39,7 +39,6 @@ reply_count = po.reply_count
 event_state = event.state
 join_state = event_joiner_state(id, current_user_id)
 %>
-
 %if join_state and event_state >= EVENT_STATE_END:
     %if event_feedback_id_get(current_user_id, id):
 <div class="feedback_top"><a href="/event/feedback/${id}">\
