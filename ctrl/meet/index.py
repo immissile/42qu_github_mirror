@@ -19,8 +19,10 @@ class Index(Base):
             link = "/city/set"
             namecard = namecard_get(user_id)
             pid_now = namecard.pid_now
-            if pid_now and pid_city(pid_now):
-                link = "/%s"%pid_now
+            if pid_now:
+                pid = pid_city(pid_now)
+                if pid:
+                    link = "/%s"%pid
         else:
             link = '/city/select'
 
@@ -34,8 +36,12 @@ class City(Base):
         pid = int(pid)
         n = int(n)
 
-        if not pid_city(pid):
+        _pid = pid_city(pid) 
+        if not _pid:
             return self.redirect("/")
+        if _pid != pid:
+            return self.redirect("/%s"%_pid)
+            
 
         total = event_count_by_city_pid(pid)
         page, limit, offset = page_limit_offset(
