@@ -63,6 +63,7 @@ EVENT_CID_CN = (
     (11, '演出'),
     (12, '其他'),
 )
+
 EVENT_CID = tuple(map(itemgetter(0), EVENT_CID_CN))
 
 EVENT_STATE_DEL = 10
@@ -94,7 +95,7 @@ EVENT_JOIN_STATE_END = 40
 EVENT_JOIN_STATE_REVIEW = 50
 
 
-"""
+'''
 CREATE TABLE  `zpage`.`event` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `city_pid` int(10) unsigned NOT NULL,
@@ -117,7 +118,7 @@ CREATE TABLE  `zpage`.`event` (
   KEY `Index_2` USING BTREE (`state`,`limit_up`),
   KEY `Index_4` (`city_pid`,`state`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-"""
+'''
 
 def event_new_if_can_change(
     zsite_id,
@@ -159,7 +160,6 @@ def event_new_if_can_change(
         pic_id,
         id=id
     )
-
 
 
 def event_new(
@@ -273,7 +273,6 @@ class EventJoiner(McModel):
         return Event.mc_get(self.event_id)
 
 
-
 @mc_event_id_list_join_by_user_id('{user_id}')
 def event_id_list_join_by_user_id(user_id, limit, offset):
     return event_list_join_by_user_id_query(user_id).order_by('id desc').col_list(limit, offset, 'event_id')
@@ -313,7 +312,8 @@ def event_joined_id_list(event_id):
     return EventJoiner.where(event_id=event_id).where('user_id!=%s and state>=%s', zsite_id, EVENT_JOIN_STATE_YES).order_by('id desc').col_list()
 
 def event_joiner_id_list(event_id, limit, offset):
-    li = event_joining_id_list(event_id) + event_joined_id_list(event_id)
+    li = event_joining_id_list(event_id)
+    li.extend(event_joined_id_list(event_id))
     return li[offset: offset+limit]
 
 def event_joiner_split_before_id(li):

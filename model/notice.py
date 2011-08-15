@@ -112,6 +112,22 @@ mc_notice_id_count = McCache('NoticeIdCount.%s')
 def notice_id_count(from_id, to_id, cid, rid):
     return Notice.where(from_id=from_id, to_id=to_id, cid=cid, rid=rid).count()
 
+
+mc_notice_last_id_by_zsite_id_cid = McCache('NoticeIdLastByZsiteIdCid.%s')
+
+@mc_notice_last_id_by_zsite_id_cid('{zsite_id}_{cid}')
+def notice_last_id_by_zsite_id_cid(zsite_id, cid):
+    li = Notice.where(from_id=zsite_id, cid=cid).order_by('id desc')[:1]
+    if li:
+        return li[0].id
+    return 0
+
+def notice_last_txt_by_zsite_id_cid(zsite_id, cid):
+    return notice_txt.get(notice_last_id_by_zsite_id_cid(zsite_id, cid))
+
+def notice_event_join_no_txt_by_zsite_id(zsite_id):
+    return notice_last_txt_by_zsite_id_cid(zsite_id, CID_NOTICE_EVENT_JOIN_NO)
+
 def notice_new_hide_old(from_id, to_id, cid, rid):
     if notice_id_count(from_id, to_id, cid, rid):
         for i in Notice.where(from_id=from_id, to_id=to_id, cid=cid, rid=rid):
@@ -128,13 +144,16 @@ def notice_event_yes(user_id, event_id):
     return notice_new(0, user_id, CID_NOTICE_EVENT_YES, event_id)
 
 def notice_event_no(user_id, event_id, txt):
-    return notice_new(0, user_id, CID_NOTICE_EVENT_NO, event_id, txt)
+    return notice_new(0, user_id, CID_NOTICE_EVENT_NO, event_id, txt=txt)
 
 def notice_event_join_yes(from_id, to_id, event_id):
     return notice_new(from_id, to_id, CID_NOTICE_EVENT_JOIN_YES, event_id)
 
 def notice_event_join_no(from_id, to_id, event_id, txt):
-    return notice_new(from_id, to_id, CID_NOTICE_EVENT_JOIN_NO, event_id, txt)
+    cid = CID_NOTICE_EVENT_JOIN_NO
+    n = notice_new(from_id, to_id, cid, event_id, txt)
+    mc_notice_last_id_by_zsite_id_cid.set('%s_%s' % (from_id, cid), n.id)
+    return n
 
 def invite_question(from_id, to_id, qid):
     from po_question import answer_id_get
