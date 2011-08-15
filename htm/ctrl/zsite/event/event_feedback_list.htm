@@ -7,24 +7,23 @@ from model.po_event import po_event_feedback_group
 <% 
 good , normal = po_event_feedback_group(event_id)
 %>
-
 %if good:
 <div class="spline">
     <span>${len(good)}</span> 好评
 </div>
-${feedback_list(good)}
+${feedback_list_li(good)}
 %endif
 
 %if normal:
 <div class="spline">
     <span>${len(normal)}</span> 反馈
 </div>
-${feedback_list(normal)}
+${feedback_list_li(normal)}
 %endif
 
 </%def>
 
-<%def name="feedback_list(li)">
+<%def name="feedback_list_li(li)">
 <div>
 %for feedback in li:
 <%

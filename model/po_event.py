@@ -82,9 +82,6 @@ def po_event_feedback_rm(user_id, event_id):
 def po_event_feedback_list(event_id):
     ids = rank_po_id_list(event_id, CID_EVENT_FEEDBACK, 'confidence')
     
-    if zsite_id == user_id:
-        zsite_id = 0
-    
     li = Po.mc_get_list(ids)
     Zsite.mc_bind(li, 'user', 'user_id')
 
@@ -109,5 +106,4 @@ def po_event_feedback_group(event_id):
 
 
 if __name__ == '__main__':
-    print EVENT_CID
-
+    print po_event_feedback_group(10047367)
