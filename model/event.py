@@ -266,7 +266,7 @@ def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
 
 @mc_event_id_list_by_city_pid('{city_pid}')
 def event_id_list_by_city_pid(city_pid, limit=10, offset=0):
-    return Event.where(city_pid=city_pid).where('state >= %s', EVENT_VIEW_STATE_GET[False]).order_by('join_total desc').col_list(limit, offset)
+    return Event.where(city_pid=city_pid).where('state >= %s', EVENT_STATE_BEGIN).order_by('end_time').col_list(limit, offset)
 
 def event_list_by_city_pid(city_pid, limit=10, offset=0):
     id_list = event_id_list_by_city_pid(city_pid, limit, offset)

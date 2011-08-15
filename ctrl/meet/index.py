@@ -5,8 +5,10 @@ from model.namecard import namecard_get
 from zkit.earth import pid_city
 from model.event import event_list_by_city_pid, event_count_by_city_pid
 from zkit.jsdict import JsDict
+from zkit.page import page_limit_offset
 from model.namecard import namecard_get, namecard_new
 
+PAGE_LIMIT = 42
 
 @urlmap('/')
 class Index(Base):
@@ -37,7 +39,7 @@ class City(Base):
 
         total = event_count_by_city_pid(pid)
         page, limit, offset = page_limit_offset(
-            '%s-%s' % pid,
+            '%%s-%s' % pid,
             total,
             n,
             PAGE_LIMIT,
