@@ -53,11 +53,11 @@ def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
         else:
             mq_buzz_event_feedback_owner_new(user_id, id, event_user_id)
 
-        event_joiner_state_is_good(user_id, event_id, good)
+        event_joiner_state_set_by_good(user_id, event_id, good)
     return m
 
 
-def event_joiner_state_is_good(user_id, event_id, good):
+def event_joiner_state_set_by_good(user_id, event_id, good):
     event_joiner_state_set(
         user_id, 
         event_id, 
@@ -86,7 +86,6 @@ def po_event_feedback_list(event_id):
     Zsite.mc_bind(li, 'user', 'user_id')
 
     return li
-
 
 def po_event_feedback_group(event_id):
     li = po_event_feedback_list(event_id)

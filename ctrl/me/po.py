@@ -12,7 +12,7 @@ from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_i
 from zkit.jsdict import JsDict
 from zkit.txt import cnenlen
 from model.event import Event, event_init2to_review
-from model.po_event import event_joiner_state_is_good
+from model.po_event import event_joiner_state_set_by_good
 
 def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
@@ -174,7 +174,7 @@ class Edit(LoginBase):
                 po.name_ = txt
                 po.save()
         elif cid == CID_EVENT_FEEDBACK:
-            event_joiner_state_is_good(user_id, rid, good)
+            event_joiner_state_set_by_good(user_id, rid, good)
         else:
             if not po.rid and name:
                 po.name_ = name
