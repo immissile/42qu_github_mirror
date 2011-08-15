@@ -267,6 +267,8 @@ class EventNotice(EventAdmin):
         event = self._event(id)
         if event is None:
             return
+        current_user_id = self.current_user_id
+        txt = self.get_argument('txt', '')
 
 
 @urlmap('/event/kill/(\d+)')
@@ -282,3 +284,5 @@ class EventKill(EventAdmin):
         event = self._event(id)
         if event is None:
             return
+        current_user_id = self.current_user_id
+        txt = self.get_argument('txt', '')
