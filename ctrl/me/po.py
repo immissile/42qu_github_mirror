@@ -175,6 +175,8 @@ class Edit(LoginBase):
                 po.save()
         elif cid == CID_EVENT_FEEDBACK:
             event_joiner_state_set_by_good(user_id, rid, state)
+            if txt:
+                po.txt_set(txt)
         else:
             if not po.rid and name:
                 po.name_ = name

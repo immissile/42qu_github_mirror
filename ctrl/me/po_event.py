@@ -253,7 +253,7 @@ class EventFeedback(PoBase):
 
     def po_save(self, user_id, name, txt, good):
         event = self.event
-        return po_event_feedback_new(
+        po = po_event_feedback_new(
             user_id,
             name,
             txt,
@@ -261,6 +261,9 @@ class EventFeedback(PoBase):
             event.id,
             event.zsite_id
         )
+        if txt:
+            po.txt_set(txt)
+        return po
 
     def _event(self, event_id):
         self.event_id = event_id
