@@ -5,7 +5,7 @@
 from zkit.earth import place_name
 %>
 % if location:
-<h1>${place_name(location)}<a href="/guest">切换城市</a></h1>
+<h1>${place_name(location)}<a href="/city_select">切换城市</a></h1>
 % for event_po in event_list:
 <%
 event, po = event_po
@@ -15,5 +15,5 @@ event, po = event_po
 
 % endfor
 %else:
-<h1><a href="/set_city">设定城市 </a></h1>
+<h1>todo </h1>
 %endif

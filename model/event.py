@@ -15,6 +15,8 @@ from mail import rendermail
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
+mc_event_id_list_by_city_pid = McLimitA('EventIdListByCityPid.%s',128)
+
 event_list_join_by_user_id_query = lambda user_id: EventJoiner.where(
     user_id=user_id
 ).where('state>=%s' % EVENT_JOIN_STATE_YES)
@@ -268,6 +270,7 @@ def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     id_list = event_id_list_by_zsite_id(zsite_id, bool(can_admin), limit, offset)
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
+@mc_event_id_list_by_city_pid('{city_pid}')
 def event_id_list_by_city_pid(city_pid, limit=10,offset=0):
     return Event.where(city_pid=city_pid).where('state >= %s', EVENT_VIEW_STATE_GET[False]).order_by('id desc').col_list(limit,offset)
 
@@ -411,6 +414,9 @@ def mc_flush_by_user_id(user_id):
     event_join_count_by_user_id.delete(user_id)
     event_open_count_by_user_id.delete(user_id)
 
+def mc_flush_by_city_pid(city_pid):
+    mc_event_id_list_by_city_pid.delete(city_pid)
+
 def event_joiner_end(o):
     event_id = o.event_id
     user_id = o.user_id
@@ -508,6 +514,14 @@ def event_begin2now(event):
     if event.state == EVENT_STATE_BEGIN:
         event.state = EVENT_STATE_NOW
         event.save()
+        mc_flush_by_city_pid(event.city_pid)
+
+def event_end(event):
+    if event.state == EVENT_STATE_NOW:
+        event.state = EVENT_STATE_END
+        event.save()
+        mc_flush_by_city_pid(event.city_pid)
+
 
 def event_review_registration(event_id):
     event = Event.mc_get(event_id)

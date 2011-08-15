@@ -16,22 +16,22 @@ class Index(Base):
         user_id = self.current_user_id
         if not location:
             if not user_id:
-                return self.redirect('/guest')
+                return self.redirect('/city_select')
             namecard = namecard_get(user_id)
             if namecard.pid_now:
                 location = pid_city(namecard.pid_now)
-            else:
-                return self.render()
+                if not location:
+                    return self.redirect('/city_set')
         event_list = event_list_by_city_pid(location)
         return self.render(location = location, event_list = event_list)
 
-@urlmap('/guest')
-class Guest(Base):
+@urlmap('/city_select')
+class CitySelect(Base):
     def get(self):
         self.render()
 
-@urlmap('/set_city')
-class SetCity(LoginBase):
+@urlmap('/city_set')
+class CitySet(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
         c = namecard_get(current_user_id) or JsDict()
