@@ -3,7 +3,7 @@ from _handler import Base, LoginBase, XsrfGetBase
 from ctrl._urlmap.meet import urlmap
 from model.namecard import namecard_get
 from zkit.earth import pid_city
-from model.event import event_list_by_city_pid
+from model.event import event_list_by_city/pid
 from zkit.jsdict import JsDict
 from model.namecard import namecard_get, namecard_new
 
@@ -16,21 +16,21 @@ class Index(Base):
         user_id = self.current_user_id
         if not location:
             if not user_id:
-                return self.redirect('/city_select')
+                return self.redirect('/city/select')
             namecard = namecard_get(user_id)
             if namecard.pid_now:
                 location = pid_city(namecard.pid_now)
                 if not location:
-                    return self.redirect('/city_set')
-        event_list = event_list_by_city_pid(location)
+                    return self.redirect('/city/set')
+        event_list = event_list_by_city/pid(location)
         return self.render(location = location, event_list = event_list)
 
-@urlmap('/city_select')
+@urlmap('/city/select')
 class CitySelect(Base):
     def get(self):
         self.render()
 
-@urlmap('/city_set')
+@urlmap('/city/set')
 class CitySet(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
