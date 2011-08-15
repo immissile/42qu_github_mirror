@@ -11,7 +11,7 @@ from model.cid import CID_EVENT, CID_EVENT_FEEDBACK
 from model.pic import pic_new_save , fs_url_jpg , fs_set_jpg
 from zkit.pic import pic_fit
 from rank import rank_po_id_list
-from event import EVENT_CID, EVENT_CID_CN, EventJoiner, event_joiner_get, EVENT_JOIN_STATE_FEEDBACK_NORMAL , EVENT_JOIN_STATE_FEEDBACK_GOOD, mc_event_joiner_feedback_normal_id_list, event_joiner_feedback_normal_id_list 
+from event import EVENT_CID, EVENT_CID_CN, EventJoiner, event_joiner_get, EVENT_JOIN_STATE_FEEDBACK_NORMAL , EVENT_JOIN_STATE_FEEDBACK_GOOD, mc_event_joiner_feedback_normal_id_list, event_joiner_feedback_normal_id_list , Event
 
 mc_event_feedback_id_get = McCache('EventFeedBackGet.%s')
 

@@ -1,38 +1,47 @@
 
 <%namespace file="/ctrl/zsite/po/_vote.htm" import="_vote"/>
 <%!
-from model.po_event import po_event_feedback_group
+from model.po_event import po_event_feedback_group, po_event_feedback_by_owner
 %>
 <%def name="feedback_list(event_id)">
 <% 
+po_by_owner = po_event_feedback_by_owner(event_id)
 good , normal = po_event_feedback_group(event_id)
 %>
-%if good:
-<div class="spline">
-    <span>${len(good)}</span> 好评
+%if po_by_owner:
+<div class="spline">总结</div>
+<div class="feedback_list">
+${feedback_li(po_by_owner)}
 </div>
-${feedback_list_li(good)}
 %endif
 
-%if normal:
-<div class="spline">
-    <span>${len(normal)}</span> 反馈
-</div>
-${feedback_list_li(normal)}
-%endif
+${feedback_list_div(good, "好评")}
+
+${feedback_list_div(normal, "反馈")}
 
 </%def>
 
-<%def name="feedback_list_li(li)">
-<div>
+<%def name="feedback_list_div(li, name)">
+%if li:
+<div class="spline">
+    <span>${len(li)}</span> ${name}
+</div>
+<div class="feedback_list">
 %for feedback in li:
+${feedback_li(feedback)}
+%endfor
+</div>
+%endif
+</%def>
+
+<%def name="feedback_li(feedback)">
 <%
 feedback_id = feedback.id
 feedback_link = feedback.link
 user = feedback.user
 user_id = user.id
 %>
-<div class="sdw" id="reply${feedback.id}"><div class="sd">
+<div class="sdw" id="po${feedback.id}"><div class="sd">
 <p>
 <a href="${user.link}" id="replyer${user.id}" class="replyer">${user.name}</a>
  :
@@ -43,7 +52,7 @@ user_id = user.id
     <div class="bar">
         %if feedback.can_admin(current_user_id):
 <a
-    href="/event/feedback/edit/${feedback_id}" class="edit">编辑</a>
+    href="/po/edit/${feedback_id}" class="edit">编辑</a>
         %else:
 <span class="L">${_vote(feedback_id)}</span>\
         %endif
@@ -51,7 +60,4 @@ user_id = user.id
     </div>
     %endif
 </div></div>
-%endfor
-</div>
 </%def>
-
