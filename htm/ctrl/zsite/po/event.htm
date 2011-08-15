@@ -38,10 +38,12 @@ reply_count = po.reply_count
 
 event_state = event.state
 join_state = event_joiner_state(id, current_user_id)
+
 %>
+
 %if join_state and event_state >= EVENT_STATE_END:
-    %if event_feedback_id_get(current_user_id, id):
-<div class="feedback_top"><a href="/event/feedback/${id}">\
+    %if not event_feedback_id_get(current_user_id, id):
+<a href="/event/feedback/${id}"><div class="feedback_top">\
 点击这里 , \
 %if current_user_id == po.user_id:
 总结\
@@ -49,10 +51,10 @@ join_state = event_joiner_state(id, current_user_id)
 评价\
 %endif
 活动\
-</a></div>\
+</div></a>\
     %endif
 %endif
- 
+
 <div class="c" id="event_page">
 % if pic_url:
     <img src="${pic_url}" id="event_img">

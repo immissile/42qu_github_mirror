@@ -20,6 +20,8 @@ from model.txt import txt_new
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 
+mc_event_joiner_feedback_normal_id_list = McCacheA('EventJoinerReveiwIdList:%s')
+
 event_list_join_by_user_id_query = lambda user_id: EventJoiner.where(
     user_id=user_id
 ).where('state>=%s' % EVENT_JOIN_STATE_YES)
@@ -305,12 +307,11 @@ def event_joiner_user_id_list(event_id):
 
 
 
-mc_event_joiner_feedback_normal_id_list = McCacheA("EventJoinerReveiwIdList:%s")
 
 @mc_event_joiner_feedback_normal_id_list('{event_id}')
 def event_joiner_feedback_normal_id_list(event_id):
     return EventJoiner.where(
-        event_id=event_id,state=EVENT_JOIN_STATE_FEEDBACK_NORMAL
+        event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_NORMAL
     ).col_list(col='user_id')
 
 @mc_event_joiner_id_list('{event_id}')
@@ -514,7 +515,7 @@ def event_review_join_apply(event_id):
         if event_new_joiner_id_list:
             event_joiner_list = [
                 user.name
-                for user in 
+                for user in
                 Zsite.mc_get_list(event_new_joiner_id_list)
             ]
 
@@ -530,7 +531,7 @@ def event_review_join_apply(event_id):
                     event_join_apply_list=' , '.join(event_joiner_list)
             )
 
-        
+
 
 if __name__ == '__main__':
     #print event_to_review_count(10000000)
@@ -541,12 +542,13 @@ if __name__ == '__main__':
     #print o.id
 
     pass
-    event = Event.mc_get(10047266)
+
+    id = 10047372
+    event = Event.mc_get(id)
     event.state = EVENT_STATE_END
     event.save()
 
-
-
-
+    for i in EventJoiner.where(event_id=id):
+        print i 
 
 
