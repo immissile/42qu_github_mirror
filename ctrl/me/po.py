@@ -125,8 +125,9 @@ class PoQuestion(PoBase):
 
 @urlmap('/po/edit/(\d+)')
 class Edit(LoginBase):
-    def po(self, user_id, id):
-        po = Po.mc_get(id)
+    def _po(self, user_id, id):
+        self.po = po = Po.mc_get(id)
+        
         if po:
             if po.can_admin(user_id):
                 cid = po.cid
@@ -136,9 +137,11 @@ class Edit(LoginBase):
             return self.redirect(po.link)
         return self.redirect('/')
 
+
+
     def get(self, id):
         user_id = self.current_user_id
-        po = self.po(user_id, id)
+        po = self._po(user_id, id)
         if po is None:
             return
 
@@ -153,7 +156,7 @@ class Edit(LoginBase):
         )
 
     def po_save(self, user_id, name, txt, state):
-        po = self.po(user_id, self.id)
+        po = self.po
         if po is None:
             return
 
@@ -189,6 +192,7 @@ class Edit(LoginBase):
 
     def post(self, id):
         user_id = self.current_user_id
+        po = self._po(user_id, id)
         self.id = id
 
         po = self.po_post()
