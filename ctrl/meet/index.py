@@ -37,13 +37,13 @@ class City(Base):
 
         total = event_count_by_city_pid(pid)
         page, limit, offset = page_limit_offset(
-            '%s-%s' % ,
+            '%s-%s' % pid,
             total,
             n,
             PAGE_LIMIT,
         )
         event_list = event_list_by_city_pid(pid, limit, offset)
-        return self.render(pid = pid, event_list = event_list, page)
+        return self.render(pid = pid, event_list = event_list, page=page)
 
 
 
