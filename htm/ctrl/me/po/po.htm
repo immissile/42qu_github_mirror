@@ -120,7 +120,8 @@ checked
 % endif
 </label>\
 %endif
-% if cid == CID_EVENT_FEEDBACK:
+
+% if cid == CID_EVENT_FEEDBACK and current_user_id!=event.zsite_id:
 <input type="checkbox" name="good" id="good"
 %if event_joiner_state(event.id, current_user_id) != EVENT_JOIN_STATE_FEEDBACK_NORMAL:
 checked
