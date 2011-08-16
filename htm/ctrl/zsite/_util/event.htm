@@ -2,7 +2,11 @@
 from model.event import EVENT_STATE_BEGIN
 from static import js
 %>
-<%def name="event_admin_nav(id, state, name, path)">
+<%def name="event_admin_nav(event, po)">
+<%
+name = po.name
+path = request.path
+%>
 <script src="${js.ctrl_event}"></script>
 <div class="event_admin_nav">\
 <a class="event_admin_name" href="/${id}">${name}</a>\

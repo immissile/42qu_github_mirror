@@ -4,20 +4,9 @@ ${css.ctrl_event_admin|n}
 </%def>
 <%namespace file="/ctrl/zsite/_util/event.htm" import="event_admin_nav"/>
 
-
 <%
 event = this.event
-id = event.id
 po = event.po
-path = request.path
-NAV_PATH_NAME = (
-    ('/event/check/', '成员审核'),
-    ('/event/notice/', '发布公告'),
-    ('/event/kill/', '解散活动'),
-)
 %>
-
-
-
-${event_admin_nav(event.id, event.state, po.name, path)}
+${event_admin_nav(event, po)}
 ${self.event_admin_body()}
