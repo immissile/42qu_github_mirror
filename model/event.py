@@ -528,6 +528,7 @@ def event_review_no(id, txt):
         event.state = EVENT_STATE_REJECT
         event.save()
         notice_event_no(event.zsite_id, id, txt)
+        zsite = event.zsite
         from user_mail import mail_by_user_id
         rendermail(
             '/mail/event/event_review_no.txt',
@@ -535,6 +536,7 @@ def event_review_no(id, txt):
             event.zsite.name,
             title=event.po.name,
             reason=txt,
+            zsite_link="http:%s"%zsite.link,
             id=id,
         )
 
