@@ -4,6 +4,8 @@ from static import js
 %>
 <%def name="event_admin_nav(event, po)">
 <%
+id = event.id
+state = event.state
 name = po.name
 path = request.path
 %>
