@@ -154,6 +154,7 @@ class EventPay(EventBase):
             return self.redirect(event.link)
 
     def cent_need(self):
+        event = self.event
         current_user_id = self.current_user_id
         cent = event.cent
         bank_cent = bank.get(current_user_id)
