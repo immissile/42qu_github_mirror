@@ -111,17 +111,17 @@ class Po(McModel, ReplyMixin):
         q = self.question
         cid = self.cid
         if q:
-            
+
             u = q.user
             link = '<a href="%s">%s</a>' % (q.link, escape(q.name))
-            
+
             if cid == CID_EVENT_FEEDBACK:
                 if q.user_id == self.user_id:
-                    name = '总结 : %s' 
-                else: 
-                    name = '评价 : %s' 
+                    name = '总结 : %s'
+                else:
+                    name = '评价 : %s'
                 return name%link
-            else: 
+            else:
                 if q.user_id == self.user_id:
                     return '自问自答 : %s' % link
                 else:
@@ -249,9 +249,6 @@ def po_rm(user_id, id):
             po_event_feedback_rm(user_id, rid)
             rank_rm(id, rid)
         return _po_rm(user_id, po)
-
-#, event_rm
-
 
 
 def _po_rm(user_id, po):

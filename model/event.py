@@ -498,10 +498,11 @@ def event_kill_extra(from_id, event_id, po_id):
 
 mq_event_kill_extra = mq_client(event_kill_extra)
 
-def event_kill(user_id, event_id, txt):
+def event_kill(user_id, event, txt):
     from po_event import _po_event_notice_new
-    event = Event.mc_get(event_id)
-    if event.state < EVENT_STATE_END:
+    if event.can_change():
+        po_rm(user_id, event.id)
+    elif event.state < EVENT_STATE_END:
         event.state = EVENT_STATE_DEL
         event.save()
 
@@ -515,7 +516,7 @@ def event_kill(user_id, event_id, txt):
 
 def event_rm(user_id, id):
     event = Event.mc_get(id)
-    if event.can_admin(user_id) and event.can_change():
+    if event and event.can_change():
         event.state = EVENT_STATE_DEL
         event.save()
 

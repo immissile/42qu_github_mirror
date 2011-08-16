@@ -49,5 +49,5 @@ class EventKill(JLoginBase):
         event = Event.mc_get(id)
         txt = self.get_argument('txt', '')
         if event and event.can_admin(current_user_id) and txt:
-            event_kill(current_user_id, id, txt)
+            event_kill(current_user_id, event, txt)
         self.finish('{}')
