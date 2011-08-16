@@ -10688,8 +10688,9 @@ def pid_city(code):
 
 
 if __name__ == '__main__':
-    print place_name(4295033088)
-    print place_name(105)
+    #print place_name(4295033088)
+    #print place_name(105)
+    print pid_city(4496293888)
     """
     print place_name(4295033088)
     print place_name(4295033088&BIT_COUNTRY_PROVINCE_CITY)
