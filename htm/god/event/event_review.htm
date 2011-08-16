@@ -9,6 +9,7 @@ from model.event import EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, E
 <%def name="htm_head()">
 <script>
 $('a.yes').live('click', function() {
+    $.fancybox.showActivity()
     var id = this.rel;
     $.postJSON('/event/state/' + id + '/1', function(data){
         next()
@@ -16,13 +17,14 @@ $('a.yes').live('click', function() {
 })
 $('a.no').live('click', function() {
     var id = this.rel;
-    var txt = $('#txt' + id).val();
+    var txt = $.trim($('#txt' + id).val());
     if(!(txt && txt.length)) {
         alert("请写入理由")
         return false
     }
+    $.fancybox.showActivity()
     $.postJSON('/event/state/' + id + '/0', {"txt":txt}, function(data){
-        //next()
+        next()
     })
 })
 function next(){
