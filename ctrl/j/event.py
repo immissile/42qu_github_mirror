@@ -39,6 +39,7 @@ class EventNotice(JLoginBase):
         txt = self.get_argument('txt', '')
         if event and event.can_admin(current_user_id) and txt:
             po_event_notice_new(current_user_id, id, txt)
+        self.finish('{}')
 
 
 @urlmap('/j/event/kill/(\d+)')
@@ -49,3 +50,4 @@ class EventKill(JLoginBase):
         txt = self.get_argument('txt', '')
         if event and event.can_admin(current_user_id) and txt:
             event_kill(current_user_id, id, txt)
+        self.finish('{}')
