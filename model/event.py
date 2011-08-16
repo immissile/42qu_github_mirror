@@ -471,16 +471,19 @@ def event_join_review(o):
 
 def event_init2to_review(id):
     event = Event.mc_get(id)
-    if event and event.state < EVENT_STATE_TO_REVIEW:
-        event.state = EVENT_STATE_TO_REVIEW
-        event.save()
+    if event and event.state <= EVENT_STATE_TO_REVIEW:
+        if event.state < EVENT_STATE_TO_REVIEW:
 
-        zsite_id = event.zsite_id
+            event.state = EVENT_STATE_TO_REVIEW
+            event.save()
 
-        mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, False))
+            zsite_id = event.zsite_id
 
-        event_to_review_count_by_zsite_id.delete(zsite_id)
+            mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, False))
 
+            event_to_review_count_by_zsite_id.delete(zsite_id)
+
+            return True
         return True
 
 def event_rm(user_id, id):
