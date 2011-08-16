@@ -7,7 +7,7 @@ from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from zsite import Zsite
-from model.cid import CID_EVENT, CID_EVENT_FEEDBACK
+from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
 from model.pic import pic_new_save , fs_url_jpg , fs_set_jpg
 from zkit.pic import pic_fit
 from rank import rank_po_id_list
@@ -111,6 +111,17 @@ def po_event_feedback_group(event_id):
             good.append(i)
 
     return good, normal
+
+
+def _po_event_notice_new(user_id, event_id, name):
+    o = po_new(CID_EVENT_NOTICE, user_id, name, STATE_ACTIVE, event_id)
+    return o
+
+def po_event_notice_new(user_id, event_id, name):
+    o = _po_event_notice_new(user_id, event_id, name)
+    if o:
+        from notice import mq_notice_event_notice
+        mq_notice_event_notice(user_id, event_id, o.id)
 
 
 if __name__ == '__main__':

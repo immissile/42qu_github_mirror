@@ -15,6 +15,7 @@ from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from feed_po import mc_feed_po_dict
 from mail import mq_rendermail 
 from notice import notice_event_yes, notice_event_no, notice_event_join_yes, notice_event_join_no
+from mq import mq_client
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 mc_event_id_list_by_city_pid = McLimitA('EventIdListByCityPid.%s', 128)
@@ -486,6 +487,32 @@ def event_init2to_review(id):
             return True
         return True
 
+
+def event_kill_extra(from_id, event_id, po_id):
+    from notice import notice_event_kill_one
+    to_id_list = event_joiner_user_id_list(event_id)
+    for user_id in to_id_list:
+        o = event_joiner_get(event_id, user_id)
+        event_joiner_no(o)
+        notice_event_kill_one(from_id, user_id, po_id)
+
+mq_event_kill_extra = mq_client(event_kill_extra)
+
+def event_kill(user_id, event_id, txt):
+    from po_event import _po_event_notice_new
+    event = Event.mc_get(event_id)
+    if event.state in (EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
+        event.state = EVENT_STATE_DEL
+        event.save()
+
+        o = _po_event_notice_new(user_id, event_id, txt)
+        mq_event_kill_extra(user_id, event_id, o.id)
+
+        mc_flush_by_zsite_id(event.zsite_id)
+        event_to_review_count_by_zsite_id.delete(user_id)
+        mc_flush_by_user_id(user_id)
+
+
 def event_rm(user_id, id):
     event = Event.mc_get(id)
     if event.can_admin(user_id) and event.can_change():
@@ -495,9 +522,6 @@ def event_rm(user_id, id):
         mc_flush_by_zsite_id(event.zsite_id)
         event_to_review_count_by_zsite_id.delete(user_id)
         mc_flush_by_user_id(user_id)
-
-
-
 
 
 def event_review_yes(id):
@@ -550,12 +574,12 @@ def event_begin2now(event):
         event.save()
         mc_flush_by_city_pid(event.city_pid)
 
+
 def event_end(event):
     if event.state < EVENT_STATE_END:
         event.state = EVENT_STATE_END
         event.save()
         mc_flush_by_city_pid(event.city_pid)
-
 
 
 def event_review_join_apply(event_id):
@@ -574,14 +598,14 @@ def event_review_join_apply(event_id):
 
             from user_mail import mail_by_user_id
             rendermail(
-                    '/mail/event/event_review_join_apply.txt',
-                    mail_by_user_id(event.zsite_id),
-                    event.zsite.name,
-                    event_link='http:%s/event/join/%s' % (
-                        event.zsite.link, event_id
-                    ),
-                    title=event.po.name,
-                    event_join_apply_list=' , '.join(event_joiner_list)
+                '/mail/event/event_review_join_apply.txt',
+                mail_by_user_id(event.zsite_id),
+                event.zsite.name,
+                event_link='http:%s/event/join/%s' % (
+                    event.zsite.link, event_id
+                ),
+                title=event.po.name,
+                event_join_apply_list=' , '.join(event_joiner_list)
             )
 
 
