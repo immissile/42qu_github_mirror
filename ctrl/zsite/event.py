@@ -222,7 +222,9 @@ class EventPay(EventBase):
 
 PAGE_LIMIT = 42
 
-class EventAdmin(EventBase):
+@urlmap('/event/check/(\d+)')
+@urlmap('/event/check/(\d+)-(\d+)')
+class EventCheck(EventBase):
     def _event(self, id):
         current_user_id = self.current_user_id
         self.event = event = super(EventAdmin, self)._event(id)
@@ -231,10 +233,6 @@ class EventAdmin(EventBase):
                 return event
             return self.redirect(event.link)
 
-
-@urlmap('/event/check/(\d+)')
-@urlmap('/event/check/(\d+)-(\d+)')
-class EventCheck(EventAdmin):
     def get(self, id, n=1):
         event = self._event(id)
         if event is None:
@@ -256,39 +254,3 @@ class EventCheck(EventAdmin):
             pos_id=pos_id,
             page=page,
         )
-
-
-@urlmap('/event/notice/(\d+)')
-class EventNotice(EventAdmin):
-    def get(self, id):
-        event = self._event(id)
-        if event is None:
-            return
-
-        self.render()
-
-    def post(self, id):
-        event = self._event(id)
-        if event is None:
-            return
-        current_user_id = self.current_user_id
-        txt = self.get_argument('txt', '')
-
-
-@urlmap('/event/kill/(\d+)')
-class EventKill(EventAdmin):
-    def get(self, id):
-        event = self._event(id)
-        if event is None:
-            return
-
-        self.render()
-
-    def post(self, id):
-        event = self._event(id)
-        if event is None:
-            return
-        current_user_id = self.current_user_id
-        txt = self.get_argument('txt', '')
-
-
