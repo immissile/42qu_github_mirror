@@ -45,16 +45,20 @@ margin-bottom:0;
 .ndtxt{
     width:440px;
 }
-.event_admin_head{
-text-align: left; width: 721px; margin-right: auto; margin-bottom: auto; margin-left: auto; padding-top: 32px;
+.event_admin_nav{
+    border-bottom:1px dotted #ccc;
+    padding-bottom:16px;
+    padding-top:16px;
+    font-size:16px;
+    text-align:right;
 }
-.event_admin_head .R a{
-    margin: 0 24px; color:#999
+.event_notice_a a{
+    margin-left:32px; 
+    color:#999;
 }
-.event_admin_head .R a:hover{
-    color:#a10
+.event_notice_a .now{
+    color:#000;
 }
-.event_admin_head .R .c0{
-    color:#000
+.event_admin_name{
+float:left;
 }
-</style>

@@ -2,6 +2,8 @@
 <%def name="htm_head()">
 ${css.ctrl_event_admin|n}
 </%def>
+<%namespace file="/ctrl/zsite/_util/event.htm" import="event_admin_nav"/>
+
 
 <%
 event = this.event
@@ -15,16 +17,7 @@ NAV_PATH_NAME = (
 )
 %>
 
-<div class="event_admin_head">
-<a href="${po.link}">${po.name}</a>
-<span class="R">
-% for k, v in NAV_PATH_NAME:
-<a
-% if path.startswith(k):
-class="c0"
-% endif
-href="${k}${id}">${v}</a>\
-% endfor
-</span>
 
+
+${event_admin_nav(event.id, event.state, po.name, path)}
 ${self.event_admin_body()}
