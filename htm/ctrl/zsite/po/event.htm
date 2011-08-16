@@ -84,6 +84,8 @@ ${po_bar_vote(po)}\
 %if state>= EVENT_STATE_END:
 ${feedback_list(event)}
 %endif
+
+%if join_count:
 <div class="spline">
 <span>${join_count}</span> 报名
 </div>
@@ -113,7 +115,7 @@ unit, title = i.career
 </div>
 </div>
 
-
+%endif
 
 <div class="spline">
 % if reply_count:
