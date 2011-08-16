@@ -3,11 +3,43 @@
 <%namespace file="/ctrl/_util/i/info.htm" name="info"/>
 <%
 from zkit.earth import place_name
+from model.event import event_cid_name_count_by_city_pid 
 %>
+
+<style>
+.event_cid span{
+float:left;
+}
+.event_cid a{
+color: #999;
+border-bottom: 1px dotted #ccc;
+display: block; 
+padding: 16px 0; 
+font-size: 16px; 
+text-align: right;
+}
+</style>
+
 <h1 style="border-bottom:1px dotted #ccc;text-align:right;padding:16px 0;font-size:16px">
 <span class="L">${place_name(pid)}</span>
 <a href="/city/select">切换城市</a>
 </h1>
+<div class="G">
+<div class="G1">
+    <div class="event_cid">
+            <a href="/${pid}"><span>全部</span>${total}</a>
+            
+    %for event_cid, event_cid_name, event_cid_count in event_cid_name_count_by_city_pid(pid):
+            %if event_cid_count:
+            <a href="/${pid}/${event_cid}">
+                <span>${event_cid_name}</span>
+                ${event_cid_count} 
+            </a>
+            %endif
+    %endfor
+    </div>
+</div>
+<div class="G3">
 % for event_po in event_list:
 <%
 event, po = event_po
@@ -18,4 +50,6 @@ event, po = event_po
 % endfor
 
 ${page|n}
+</div>
+</div>
 

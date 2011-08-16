@@ -82,6 +82,7 @@ EVENT_CID_CN = (
     (11, '演出'),
     (12, '其他'),
 )
+
 EVENT_CID = tuple(map(itemgetter(0), EVENT_CID_CN))
 
 EVENT_STATE_DEL = 10
@@ -567,6 +568,10 @@ def event_review_join_apply(event_id):
                     event_join_apply_list=' , '.join(event_joiner_list)
             )
 
+
+def event_cid_name_count_by_city_pid(city_id):
+    for event_cid, event_cid_name in EVENT_CID_CN:
+        yield event_cid, event_cid_name, 3
 
 
 if __name__ == '__main__':
