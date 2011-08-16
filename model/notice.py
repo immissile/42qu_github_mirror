@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from time import time
-from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY, CID_NOTICE_EVENT_YES
+from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY, CID_NOTICE_EVENT_YES, CID_NOTICE_EVENT_NO, CID_NOTICE_EVENT_JOIN_YES, CID_NOTICE_EVENT_JOIN_NO, CID_NOTICE_EVENT_NOTICE, CID_NOTICE_EVENT_KILL, CID_NOTICE_EVENT_ORGANIZER_SUMMARY, CID_NOTICE_EVENT_JOINER_FEEDBACK
 from state import STATE_DEL, STATE_APPLY, STATE_ACTIVE
 from po import Po
 from zsite import Zsite
@@ -24,6 +24,13 @@ NOTICE_TUPLE = (
     (CID_NOTICE_WALL_REPLY, Wall, None),
     (CID_INVITE_QUESTION, Po, '/mail/notice/invite_question.txt'),
     (CID_NOTICE_QUESTION, Po, '/mail/notice/notice_question.txt'),
+    (CID_NOTICE_EVENT_YES, Po, None),
+    (CID_NOTICE_EVENT_NO, Po, None),
+    (CID_NOTICE_EVENT_JOIN_YES, Po, None),
+    (CID_NOTICE_EVENT_JOIN_NO, Po, None),
+    (CID_NOTICE_EVENT_ORGANIZER_SUMMARY, Po, None),
+    (CID_NOTICE_EVENT_JOINER_FEEDBACK, Po, None),
+#    (CID_NOTICE_PAY, Trade, None),
 )
 
 NOTICE_CLS = dict(i[:2] for i in NOTICE_TUPLE)
@@ -41,7 +48,13 @@ def notice_unread_decr(user_id):
     unread = notice_unread.get(user_id)
     notice_unread.set(user_id, max(unread - 1, 0))
 
+notice_txt = Kv('notice_txt')
+
 class Notice(McModel):
+    @property
+    def txt(self):
+        return notice_txt.get(self.id)
+
     @property
     def link(self):
         return '/notice/%s' % self.id
@@ -78,7 +91,7 @@ class Notice(McModel):
         return notice_id_count(self.from_id, self.to_id, self.cid, self.rid)
 
 
-def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY):
+def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY, txt=''):
     n = Notice(
         from_id=from_id,
         to_id=to_id,
@@ -88,6 +101,8 @@ def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY):
         create_time=int(time()),
     )
     n.save()
+    if txt:
+        notice_txt.set(n.id, txt)
     mc_flush(to_id)
     notice_unread_incr(to_id)
     mc_notice_id_count.delete('%s_%s_%s_%s' % (from_id, to_id, cid, rid))
@@ -98,6 +113,22 @@ mc_notice_id_count = McCache('NoticeIdCount.%s')
 @mc_notice_id_count('{from_id}_{to_id}_{cid}_{rid}')
 def notice_id_count(from_id, to_id, cid, rid):
     return Notice.where(from_id=from_id, to_id=to_id, cid=cid, rid=rid).count()
+
+
+mc_notice_last_id_by_zsite_id_cid = McCache('NoticeIdLastByZsiteIdCid.%s')
+
+@mc_notice_last_id_by_zsite_id_cid('{zsite_id}_{cid}')
+def notice_last_id_by_zsite_id_cid(zsite_id, cid):
+    li = Notice.where(from_id=zsite_id, cid=cid).order_by('id desc')[:1]
+    if li:
+        return li[0].id
+    return 0
+
+def notice_last_txt_by_zsite_id_cid(zsite_id, cid):
+    return notice_txt.get(notice_last_id_by_zsite_id_cid(zsite_id, cid))
+
+def notice_event_join_no_txt_by_zsite_id(zsite_id):
+    return notice_last_txt_by_zsite_id_cid(zsite_id, CID_NOTICE_EVENT_JOIN_NO)
 
 def notice_new_hide_old(from_id, to_id, cid, rid):
     if notice_id_count(from_id, to_id, cid, rid):
@@ -113,6 +144,18 @@ def notice_wall_reply_new(from_id, to_id, wall_id):
 
 def notice_event_yes(user_id, event_id):
     return notice_new(0, user_id, CID_NOTICE_EVENT_YES, event_id)
+
+def notice_event_no(user_id, event_id, txt):
+    return notice_new(0, user_id, CID_NOTICE_EVENT_NO, event_id, txt=txt)
+
+def notice_event_join_yes(from_id, to_id, event_id):
+    return notice_new(from_id, to_id, CID_NOTICE_EVENT_JOIN_YES, event_id)
+
+def notice_event_join_no(from_id, to_id, event_id, txt):
+    cid = CID_NOTICE_EVENT_JOIN_NO
+    n = notice_new(from_id, to_id, cid, event_id, txt)
+    mc_notice_last_id_by_zsite_id_cid.set('%s_%s' % (from_id, cid), n.id)
+    return n
 
 def invite_question(from_id, to_id, qid):
     from po_question import answer_id_get

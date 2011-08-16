@@ -78,8 +78,8 @@ class Kv(object):
             cursor = self.cursor
             table = self.__table__
             cursor.execute(
-                'insert into %s (id,value) values (%%s,%%s) on duplicate key update value=%%s' % table,
-                (id, value, value)
+                'insert into %s (id,value) values (%%s,%%s) on duplicate key update value=values(value)' % table,
+                (id, value)
             )
             cursor.connection.commit()
             mc.set(mc_key, value)

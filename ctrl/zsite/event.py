@@ -5,9 +5,9 @@ from ctrl._urlmap.zsite import urlmap
 from config import SITE_HTTP, RPC_HTTP
 from zkit.page import page_limit_offset
 from model.event import Event, event_joiner_new, event_joiner_state, event_joiner_list,\
-event_count_by_zsite_id, event_join_count_by_user_id, event_open_count_by_user_id,\
-event_list_by_zsite_id, event_list_join_by_user_id, event_list_open_by_user_id,\
-EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW
+event_count_by_zsite_id, event_join_count_by_user_id,\
+event_list_by_zsite_id, event_list_join_by_user_id,\
+EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
 from model.money import pay_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice, read_cent
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cent_with_tax
 from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT, CID_EVENT
@@ -88,12 +88,11 @@ def _event(self, id):
     if current_user.state < ZSITE_STATE_VERIFY:
         return self.redirect('/i/verify')
     current_user_id = self.current_user_id
-    self.event = event = super(EventJoin, self)._event(id)
+    self.event = event = EventBase._event(self, id)
     self.error = []
     if event:
         if event.zsite_id == current_user_id:
-            self.redirect('/event/check/%s'%id)
-            return 
+            return self.redirect('/event/check/%s'%id)
         if event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
             return event
         event_link = "/event/%s/state"%event.id
@@ -146,7 +145,7 @@ class EventJoin(NameCardEdit, EventBase):
 
 
 @urlmap('/event/pay/(\d+)')
-class EventPay(EventJoin):
+class EventPay(EventBase):
     def _event(self, id):
         event = _event(self, id)
         if event:
@@ -154,7 +153,7 @@ class EventPay(EventJoin):
                 return event
             return self.redirect(event.link)
 
-    def cent_need(self, event):
+    def cent_need(self):
         current_user_id = self.current_user_id
         cent = event.cent
         bank_cent = bank.get(current_user_id)
@@ -169,7 +168,7 @@ class EventPay(EventJoin):
         if event is None:
             return
 
-        cent_need = self.cent_need(event)
+        cent_need = self.cent_need()
 
         return self.render(
             event=event,
@@ -177,7 +176,7 @@ class EventPay(EventJoin):
         )
 
     def post(self, id):
-        event = self.event(id)
+        event = self._event(id)
         if event is None:
             return
 
@@ -186,7 +185,7 @@ class EventPay(EventJoin):
         current_user_id = self.current_user_id
         zsite_id = self.zsite_id
 
-        cent_need = self.cent_need(event)
+        cent_need = self.cent_need()
 
         if cent_need:
             state = TRADE_STATE_NEW
@@ -222,10 +221,19 @@ class EventPay(EventJoin):
 
 PAGE_LIMIT = 42
 
+class EventAdmin(EventBase):
+    def _event(self, id):
+        current_user_id = self.current_user_id
+        self.event = event = super(EventAdmin, self)._event(id)
+        if event:
+            if event.can_admin(current_user_id):
+                return event
+            return self.redirect(event.link)
+
 
 @urlmap('/event/check/(\d+)')
 @urlmap('/event/check/(\d+)-(\d+)')
-class EventCheck(EventBase):
+class EventCheck(EventAdmin):
     def get(self, id, n=1):
         event = self._event(id)
         if event is None:
@@ -240,11 +248,44 @@ class EventCheck(EventBase):
             PAGE_LIMIT
         )
 
-        li = event_joiner_list(id, limit, offset)
+        li, pos_id = event_joiner_list(id, limit, offset)
 
         return self.render(
-            event=event,
             event_joiner_list=li,
+            pos_id=pos_id,
             page=page,
         )
 
+
+@urlmap('/event/notice/(\d+)')
+class EventNotice(EventAdmin):
+    def get(self, id):
+        event = self._event(id)
+        if event is None:
+            return
+
+        self.render()
+
+    def post(self, id):
+        event = self._event(id)
+        if event is None:
+            return
+        current_user_id = self.current_user_id
+        txt = self.get_argument('txt', '')
+
+
+@urlmap('/event/kill/(\d+)')
+class EventKill(EventAdmin):
+    def get(self, id):
+        event = self._event(id)
+        if event is None:
+            return
+
+        self.render()
+
+    def post(self, id):
+        event = self._event(id)
+        if event is None:
+            return
+        current_user_id = self.current_user_id
+        txt = self.get_argument('txt', '')

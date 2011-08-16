@@ -3,7 +3,7 @@
 from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
 from model.event import EventJoiner, event_joiner_yes, event_joiner_no, event_joiner_state
-from model.state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
+from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
 from model.buzz import mq_buzz_event_join_new
 
 
@@ -15,11 +15,16 @@ class EventCheck(JLoginBase):
         o = EventJoiner.mc_get(id)
         if o:
             event = o.event
+            o_state = o.state
             if event:
-                if event.zsite_id == current_user_id and o.state == STATE_APPLY:
+                if event.can_admin(current_user_id):
                     if state:
-                        event_joiner_yes(o)
-                        mq_buzz_event_join_new(o.user_id, o.event_id)
+                        if o_state == EVENT_JOIN_STATE_NEW:
+                            event_joiner_yes(o)
+                            mq_buzz_event_join_new(o.user_id, o.event_id)
                     else:
-                        event_joiner_no(o)
+                        if o_state in (EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
+                            txt = self.get_argument('txt', '')
+                            if txt:
+                                event_joiner_no(o, txt)
         self.finish('{}')

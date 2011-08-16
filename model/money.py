@@ -16,7 +16,7 @@ from zkit.attrcache import attrcache
 mc_frozen_get = McCache('FrozenBank.%s')
 
 def read_cent(cent):
-    return '%.2f' % (cent / 100.)
+    return ('%.2f' % (cent / 100.)).rstrip('0').rstrip('.')
 
 # Bank
 bank = Kv('bank', 0)

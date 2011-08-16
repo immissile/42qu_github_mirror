@@ -63,8 +63,8 @@ CN_WEEKDAY = (
      '六',
 )
 
-def cn_weekday(datetime):
-    return '星期%s' % CN_WEEKDAY[datetime.weekday()]
+def cn_weekday(dt):
+    return '星期%s' % CN_WEEKDAY[dt.weekday()]
 
 def ymd2minute(ymd):
     return ymd2days(ymd)*ONE_DAY_MINUTE
