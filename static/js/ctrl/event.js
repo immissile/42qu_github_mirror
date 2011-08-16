@@ -32,14 +32,14 @@ function fancybox_txt(tip, action, post, complete, submit) {
 }
 
 function event_kill() {
-	fancybox_txt('解散原因如下 :', "/j/event/kill", function() {
+	fancybox_txt('解散原因如下 :', '/j/event/kill', function() {
 		$.fancybox({
 			'content': '活动已解散'
 		})
 	})
 }
 function event_notice() {
-	fancybox_txt('公告如下 :', "/j/event/notice", function() {
+	fancybox_txt('公告如下 :', '/j/event/notice', function() {
 		$.fancybox({
 			'content': '发布成功 !'
 		})
