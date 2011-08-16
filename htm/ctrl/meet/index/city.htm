@@ -4,7 +4,10 @@
 <%
 from zkit.earth import place_name
 %>
-<h1>${place_name(pid)}<a href="/city/select">切换城市</a></h1>
+<h1 style="border-bottom:1px dotted #ccc;text-align:right;padding:16px 0;font-size:16px">
+<span class="L">${place_name(pid)}</span>
+<a href="/city/select">切换城市</a>
+</h1>
 % for event_po in event_list:
 <%
 event, po = event_po
