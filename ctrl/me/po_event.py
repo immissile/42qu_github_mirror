@@ -230,7 +230,7 @@ class Index(LoginBase):
                 limit_up=event.limit_up,
                 limit_down=event.limit_down,
                 transport=event.transport,
-                price=event.cent/100.0,
+                price=event.price,
                 phone=event.phone,
                 pid=event.pid,
                 event_cid=event.cid,
