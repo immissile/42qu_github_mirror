@@ -35,7 +35,8 @@ ${title or url}\
 cid = i.cid
 rid = i.rid
 from_id = i.from_id
-from_user = i.from_user
+if from_id:
+    from_user = i.from_user
 entry = i.entry
 %>
 <span class="R c9">${friendly_time(i.create_time)}</span>
@@ -78,7 +79,7 @@ ${trade_log_render(rid)}
 <%
 txt = i.txt
 %>
-拒绝您参加 <a href="${entry.link}">${entry.name}</a> 活动 , 因为 : <p>${txt}</p>
+拒绝您参加 <a href="${entry.link}">${entry.name}</a> 活动 , 因为 : <span>${txt}</span>
 % elif cid == CID_NOTICE_EVENT_NOTICE:
 <%
 event = Event.mc_get(r.rid)
@@ -97,6 +98,8 @@ price = event.price
 组织的活动结束了，去看看活动总结<a href="${entry.link}" target="_blacnk">${entry.name}</a>，发表下自己的亲身体会吧。
 % elif cid == CID_NOTICE_EVENT_JOINER_FEEDBACK:
 给活动总结<a href="${entry.link}" target="_blacnk">${entry.name}</a> 反馈了。
+% else:
+${vars(i)}
 % endif
 
 % if not from_id:

@@ -153,7 +153,7 @@ def notice_event_join_yes(from_id, to_id, event_id):
 
 def notice_event_join_no(from_id, to_id, event_id, txt):
     cid = CID_NOTICE_EVENT_JOIN_NO
-    n = notice_new(from_id, to_id, cid, event_id, txt)
+    n = notice_new(from_id, to_id, cid, event_id, txt=txt)
     mc_notice_last_id_by_zsite_id_cid.set('%s_%s' % (from_id, cid), n.id)
     return n
 
