@@ -122,6 +122,7 @@ def po_event_notice_new(user_id, event_id, name):
     if o:
         from notice import mq_notice_event_notice
         mq_notice_event_notice(user_id, event_id, o.id)
+        return o
 
 
 if __name__ == '__main__':
