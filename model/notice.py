@@ -102,18 +102,19 @@ def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY, txt=None):
     )
     n.save()
     if txt is not None:
-        print "notice_txt.set()",n.id, txt
         notice_txt.set(n.id, txt)
+
     mc_flush(to_id)
     notice_unread_incr(to_id)
     mc_notice_id_count.delete('%s_%s_%s_%s' % (from_id, to_id, cid, rid))
     return n
 
 def notice_txt_get(from_id, to_id, cid, rid):
-    c = Notice.raw_sql('select id from notice where from_id=%s and to_id=%s and cid=%s and rid=%s', from_id, to_id, cid, rid)
+    c = Notice.raw_sql('select id from notice where from_id=%s and to_id=%s and cid=%s and rid=%s order by id desc', from_id, to_id, cid, rid)
     r = c.fetchone()
     if r:
-        return notice_txt.get(r[0])
+        r = r[0]
+        return notice_txt.get(r)
 
 mc_notice_id_count = McCache('NoticeIdCount.%s')
 
@@ -141,7 +142,7 @@ def notice_new_hide_old(from_id, to_id, cid, rid, txt=None):
     if notice_id_count(from_id, to_id, cid, rid):
         for i in Notice.where(from_id=from_id, to_id=to_id, cid=cid, rid=rid):
             i.rm(to_id)
-    return notice_new(from_id, to_id, cid, rid, txt)
+    return notice_new(from_id, to_id, cid, rid, txt=txt)
 
 def notice_wall_new(from_id, to_id, wall_id):
     return notice_new_hide_old(from_id, to_id, CID_NOTICE_WALL, wall_id)
@@ -155,7 +156,7 @@ def notice_event_yes(to_id, event_id):
     return notice_new(0, to_id, CID_NOTICE_EVENT_YES, event_id)
 
 def notice_event_no(to_id, event_id, txt):
-    return notice_new_hide_old(0, to_id, CID_NOTICE_EVENT_NO, event_id, txt)
+    return notice_new_hide_old(0, to_id, CID_NOTICE_EVENT_NO, event_id, txt=txt)
 
 def notice_event_no_txt_get(to_id, event_id):
     return notice_txt_get(0, to_id, CID_NOTICE_EVENT_NO, event_id)
@@ -165,7 +166,7 @@ def notice_event_join_yes(from_id, to_id, event_id):
 
 def notice_event_join_no(from_id, to_id, event_id, txt):
     cid = CID_NOTICE_EVENT_JOIN_NO
-    n = notice_new(from_id, to_id, cid, event_id, txt)
+    n = notice_new(from_id, to_id, cid, event_id, txt=txt)
     mc_notice_last_id_by_zsite_id_cid.set('%s_%s' % (from_id, cid), n.id)
     return n
 
@@ -301,6 +302,4 @@ def mc_flush(to_id):
 if __name__ == '__main__':
     pass
     print notice_event_no_txt_get(10000000 , 10047383 )
-
-
 
