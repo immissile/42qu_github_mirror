@@ -4,17 +4,18 @@
 <%
 from zkit.earth import place_name, PLACE_L1, PLACE_MUNI, PLACE_L1L2, PID2NAME
 %>
-选择城市:
 % for i in PLACE_MUNI:
-<h1><a href="/${i}">${place_name(i)}</a></h1>
+<a href="/${i}">${place_name(i)}</a>
 %endfor
 
-选择省市:
 %for i in PLACE_L1:
         %if not i in PLACE_MUNI:
 <div>${place_name(i)}</div>
             %for p in PLACE_L1L2.get(i):
-                <a href="/${i}">${PID2NAME[p]}</a>
+<%
+name = PID2NAME[p].rstrip(u"市")
+%>
+                <a href="/${p}">${name|n}</a>
             %endfor
         %endif
 %endfor
