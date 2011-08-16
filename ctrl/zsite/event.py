@@ -290,3 +290,5 @@ class EventKill(EventAdmin):
             return
         current_user_id = self.current_user_id
         txt = self.get_argument('txt', '')
+
+
