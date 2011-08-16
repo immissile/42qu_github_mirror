@@ -62,18 +62,15 @@ event_count_by_zsite_id = McNum(lambda zsite_id, can_admin: Event.where(zsite_id
 
 
 EVENT_CID_CN = (
-    (1 , '技术'),
-    (2 , '创业'),
+    (1 , '讲座'),
+    (2 , '电影'),
     (3 , '展览'),
-    (4 , '电影'),
-    (5 , '体育'),
-    (6 , '旅行'),
-    (7 , '公益'),
-    (8 , '讲座'),
-    (9 , '曲艺'),
-    (10, '聚会'),
-    (11, '演出'),
-    (12, '其他'),
+    (4 , '体育'),
+    (5 , '旅行'),
+    (6 , '公益'),
+    (7 , '聚会'),
+    (8 , '演出'),
+    (9 , '其他'),
 )
 
 EVENT_CID = tuple(map(itemgetter(0), EVENT_CID_CN))
