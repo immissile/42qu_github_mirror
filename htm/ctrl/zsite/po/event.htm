@@ -46,7 +46,9 @@ join_state = event_joiner_state(id, current_user_id)
 活动\
 </div></a>\
     %endif
-%endif
+% elif can_admin and join_check_count:
+<a href="/event/check/${id}"><div class="feedback_top"><span class="mr3">${join_check_count}</span>人新报名 , 请审批确认</div></a>\
+% endif
 
 <div class="c event_page">
 ${event_show(event, po)}
@@ -60,16 +62,11 @@ ${po.htm|n}\
 %if not can_admin:
 <form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" ><span class="btnw"><button type="submit">报名参加</button></span>\
 %endif
-% if can_admin and join_check_count:
-<span id="to_confirm">\
-<a href="/event/check/${id}"><span class="mr3">${join_check_count}</span>待确认</a>\
-</span>
-% endif
 % if price:
 <span id="price_per">${price} 元 / 人</span>\
 % endif
 </form>\
-<p class="po_bar">
+<p class="po_bar">\
 % if can_admin:
 <a class="L" href="/po/event/${id}">管理</a>\
 % endif
