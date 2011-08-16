@@ -80,6 +80,10 @@ class EventBase(LoginBase):
 class EventState(EventBase):
     def get(self, id):
         event = self._event(id)
+        if not event:
+            return
+        if event.state < EVENT_STATE_BEGIN:
+            return self.redirect('/')
         return self.render(event=event)
 
 def _event(self, id):
