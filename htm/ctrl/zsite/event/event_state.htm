@@ -27,7 +27,6 @@ po = Po.mc_get(event_id)
 state = event_joiner_state(event_id, current_user_id)
 %>
 
-
 <div class="name">${po.name}</div>
 <div class="state">
 %if state == EVENT_JOIN_STATE_NO:

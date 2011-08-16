@@ -23,7 +23,7 @@ event_count_by_city_pid = McNum(
     lambda city_pid : Event.where(city_pid=city_pid).where(
         'state >= %s'%EVENT_STATE_BEGIN
     ).count(),
-    "EventCountByCityPid:%s:"
+    'EventCountByCityPid:%s:'
 )
 
 mc_event_joiner_feedback_normal_id_list = McCacheA('EventJoinerReveiwIdList:%s')
@@ -587,3 +587,6 @@ def event_cid_name_count_by_city_pid(city_id):
 
 if __name__ == '__main__':
     pass
+    event_id, user_id = 10047372 , 10014918
+
+    print event_joiner_get(event_id, user_id)
