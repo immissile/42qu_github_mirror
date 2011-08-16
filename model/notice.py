@@ -91,7 +91,7 @@ class Notice(McModel):
         return notice_id_count(self.from_id, self.to_id, self.cid, self.rid)
 
 
-def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY, txt=''):
+def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY, txt=None):
     n = Notice(
         from_id=from_id,
         to_id=to_id,
@@ -101,12 +101,19 @@ def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY, txt=''):
         create_time=int(time()),
     )
     n.save()
-    if txt:
+    if txt is not None:
+        print "notice_txt.set()",n.id, txt
         notice_txt.set(n.id, txt)
     mc_flush(to_id)
     notice_unread_incr(to_id)
     mc_notice_id_count.delete('%s_%s_%s_%s' % (from_id, to_id, cid, rid))
     return n
+
+def notice_txt_get(from_id, to_id, cid, rid):
+    c = Notice.raw_sql('select id from notice where from_id=%s and to_id=%s and cid=%s and rid=%s', from_id, to_id, cid, rid)
+    r = c.fetchone()
+    if r:
+        return notice_txt.get(r[0])
 
 mc_notice_id_count = McCache('NoticeIdCount.%s')
 
@@ -130,11 +137,11 @@ def notice_last_txt_by_zsite_id_cid(zsite_id, cid):
 def notice_event_join_no_txt_by_zsite_id(zsite_id):
     return notice_last_txt_by_zsite_id_cid(zsite_id, CID_NOTICE_EVENT_JOIN_NO)
 
-def notice_new_hide_old(from_id, to_id, cid, rid):
+def notice_new_hide_old(from_id, to_id, cid, rid, txt=None):
     if notice_id_count(from_id, to_id, cid, rid):
         for i in Notice.where(from_id=from_id, to_id=to_id, cid=cid, rid=rid):
             i.rm(to_id)
-    return notice_new(from_id, to_id, cid, rid)
+    return notice_new(from_id, to_id, cid, rid, txt)
 
 def notice_wall_new(from_id, to_id, wall_id):
     return notice_new_hide_old(from_id, to_id, CID_NOTICE_WALL, wall_id)
@@ -142,11 +149,16 @@ def notice_wall_new(from_id, to_id, wall_id):
 def notice_wall_reply_new(from_id, to_id, wall_id):
     return notice_new_hide_old(from_id, to_id, CID_NOTICE_WALL_REPLY, wall_id)
 
-def notice_event_yes(user_id, event_id):
-    return notice_new(0, user_id, CID_NOTICE_EVENT_YES, event_id)
+def notice_event_yes(to_id, event_id):
+    for i in Notice.where(from_id=0, to_id=to_id, cid=CID_NOTICE_EVENT_NO, rid=event_id):
+        i.rm(to_id)
+    return notice_new(0, to_id, CID_NOTICE_EVENT_YES, event_id)
 
-def notice_event_no(user_id, event_id, txt):
-    return notice_new(0, user_id, CID_NOTICE_EVENT_NO, event_id, txt=txt)
+def notice_event_no(to_id, event_id, txt):
+    return notice_new_hide_old(0, to_id, CID_NOTICE_EVENT_NO, event_id, txt)
+
+def notice_event_no_txt_get(to_id, event_id):
+    return notice_txt_get(0, to_id, CID_NOTICE_EVENT_NO, event_id)
 
 def notice_event_join_yes(from_id, to_id, event_id):
     return notice_new(from_id, to_id, CID_NOTICE_EVENT_JOIN_YES, event_id)
@@ -288,12 +300,7 @@ def mc_flush(to_id):
 
 if __name__ == '__main__':
     pass
-    to_user = Zsite.mc_get(10000000)
-    rendermail(
-        '/mail/notice/day_total.txt',
-        'zsp007@gmail.com',
-        'x',
-        to_user=to_user,
-        count=3,
-        li_wall_reply={},
-    )
+    print notice_event_no_txt_get(10000000 , 10047383 )
+
+
+

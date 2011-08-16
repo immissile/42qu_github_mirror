@@ -63,9 +63,6 @@ ${event_admin_nav(event.id, event.state, po.name, request.path)}
 <a href="/event/to_review" target="_blank"><span class="mr3">${event_to_review}</span>活动待审核</a>
 </div>
 %endif
-<div class="po_line">
-<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
-</div>
 
 <div class="po_line">
 <label>
@@ -144,6 +141,9 @@ value="${_event_cid}">${event_name}</option>
 
 
 <div>\
+<div class="po_line">
+<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
+</div>
 <span id="event_submit_span" class="btnw">\
     <button type="submit">
 % if event_id and event.state > EVENT_STATE_TO_REVIEW:
