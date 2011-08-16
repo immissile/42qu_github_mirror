@@ -35,11 +35,11 @@ join_state = event_joiner_state(id, current_user_id)
 
 %>
 %if event_state == EVENT_STATE_REJECT:
-<div class="feedback_top">
-<p>活动未通过审核</p>
+<div class="feedback_top" style="width:721px;margin-left:auto;margin-right:auto"><div class="tl">
+<p>活动未通过审核, 原因如下 : </p>
 <p>${notice_event_no_txt_get(event.zsite_id, event.id)}</p>
 <p>您可以 <a href="/po/event/${id}">点此修改内容</a> , 然后重新提交审批</p>
-</div>\
+</div></div>\
 %elif event_state == EVENT_STATE_TO_REVIEW:
 <div class="feedback_top">活动审核中 , 请耐心等待</div>\
 %elif join_state and event_state >= EVENT_STATE_END:
