@@ -157,6 +157,14 @@ def notice_event_join_no(from_id, to_id, event_id, txt):
     mc_notice_last_id_by_zsite_id_cid.set('%s_%s' % (from_id, cid), n.id)
     return n
 
+def notice_event_notice(from_id, event_id, po_id, cid=CID_NOTICE_EVENT_NOTICE):
+    from event import event_joiner_user_id_list
+    for user_id in event_joiner_user_id_list(event_id):
+        notice_new(from_id, user_id, cid, po_id)
+
+def notice_event_kill(from_id, event_id, po_id):
+    notice_event_notice(from_id, event_id, po_id, CID_NOTICE_EVENT_KILL)
+
 def invite_question(from_id, to_id, qid):
     from po_question import answer_id_get
     if not answer_id_get(to_id, qid):
