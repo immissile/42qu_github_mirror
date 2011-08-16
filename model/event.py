@@ -501,7 +501,7 @@ mq_event_kill_extra = mq_client(event_kill_extra)
 def event_kill(user_id, event_id, txt):
     from po_event import _po_event_notice_new
     event = Event.mc_get(event_id)
-    if event.state in (EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
+    if event.state < EVENT_STATE_END:
         event.state = EVENT_STATE_DEL
         event.save()
 
