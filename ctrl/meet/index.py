@@ -8,7 +8,7 @@ from zkit.jsdict import JsDict
 from zkit.page import page_limit_offset
 from model.namecard import namecard_get, namecard_new
 
-PAGE_LIMIT = 2
+PAGE_LIMIT = 25
 
 @urlmap('/')
 class Index(Base):
