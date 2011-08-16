@@ -90,8 +90,8 @@ def _event(self, id):
     self.event = event = EventBase._event(self, id)
     self.error = []
     if event:
-        #if event.zsite_id == current_user_id:
-        #    return self.redirect('/event/check/%s'%id)
+        if event.zsite_id == current_user_id:
+            return self.redirect('/event/check/%s'%id)
         if event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
             return event
         event_link = "/event/%s/state"%event.id
@@ -200,7 +200,7 @@ class EventPay(EventBase):
 
         cent_with_tax = alipay_cent_with_tax(cent_need)
 
-        subject = '参加****还需充值%s元(其中手续费%s)' % (read_cent(cent_with_tax), read_cent(cent_with_tax-cent_need))
+        subject = '报名活动 需充值%s元 ( 其中 : 手续费%s )' % (read_cent(cent_with_tax), read_cent(cent_with_tax-cent_need))
 
         return_url = '%s/money/alipay_sync' % SITE_HTTP
         notify_url = '%s/money/alipay_async' % RPC_HTTP
@@ -226,7 +226,7 @@ PAGE_LIMIT = 42
 class EventCheck(EventBase):
     def _event(self, id):
         current_user_id = self.current_user_id
-        self.event = event = super(EventCheck, self)._event(id)
+        self.event = event = super(EventAdmin, self)._event(id)
         if event:
             if event.can_admin(current_user_id):
                 return event
