@@ -51,7 +51,7 @@ class City(Base):
             PAGE_LIMIT,
         )
         event_list = event_list_by_city_pid(pid, limit, offset)
-        return self.render(pid = pid, event_list = event_list, page=page)
+        return self.render(pid = pid, event_list = event_list, page=page, total=total)
 
 
 
@@ -79,5 +79,5 @@ class CitySet(LoginBase):
         if pid_city(pid_now):
             self.redirect('/%s'%pid_now)
         else:
-            self.render(pid_now=pid_now or 0, error="请选择城市")
+            self.render(pid_now=pid_now or 0, error="请选择现居城市")
 

@@ -584,6 +584,10 @@ def event_review_join_apply(event_id):
             )
 
 
+def event_cid_name_count_by_city_pid(city_id):
+    for event_cid, event_cid_name in EVENT_CID_CN:
+        yield event_cid, event_cid_name, 3
+
 
 if __name__ == '__main__':
     pass
