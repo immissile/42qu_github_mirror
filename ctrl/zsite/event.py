@@ -91,8 +91,8 @@ def _event(self, id):
     self.event = event = EventBase._event(self, id)
     self.error = []
     if event:
-        if event.zsite_id == current_user_id:
-            return self.redirect('/event/check/%s'%id)
+        #if event.zsite_id == current_user_id:
+        #    return self.redirect('/event/check/%s'%id)
         if event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
             return event
         event_link = "/event/%s/state"%event.id
@@ -227,7 +227,7 @@ PAGE_LIMIT = 42
 class EventCheck(EventBase):
     def _event(self, id):
         current_user_id = self.current_user_id
-        self.event = event = super(EventAdmin, self)._event(id)
+        self.event = event = super(EventCheck, self)._event(id)
         if event:
             if event.can_admin(current_user_id):
                 return event

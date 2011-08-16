@@ -15,13 +15,13 @@ margin:auto;
 }
 </style>
 <script>
-$('a.yes').live('click', function() {
+function yes(id){
     $.fancybox.showActivity()
-    var id = this.rel;
     $.postJSON('/event/state/' + id + '/1', function(data){
         next()
     })
-})
+}
+
 $('a.no').live('click', function() {
     var id = this.rel;
     var txt = $.trim($('#txt' + id).val());
@@ -59,7 +59,7 @@ user = po.user
             <div class="tc">
                 <textarea class="txt" id="txt${id}"></textarea>
             </div>
-            <a class="R" href="javascript:void(0)" rel="${id}" class="yes">通过</a>
+            <a class="R" href="javascript:yes(${id});void(0)">通过</a>
             <a href="javascript:void(0)" rel="${id}" class="no">拒绝</a>
         </div>
     </div>
