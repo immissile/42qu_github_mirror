@@ -1,0 +1,34 @@
+<%!
+from model.days import begin_end_by_minute 
+from zkit.earth import place_name
+from model.fs import fs_url_jpg
+%>
+
+<%def name="event_show(event, po)">
+<%
+pic_url = fs_url_jpg(162, event.pic_id)
+
+row1, row2, diff_day = begin_end_by_minute(
+    event.begin_time,
+    event.end_time
+)
+%>
+% if pic_url:
+<img src="${pic_url}" class="event_img">\
+% endif
+<div class="event_txt">\
+<div class="po_name">${po.name}</div>\
+
+<p>地点<span class="colon">:</span>${place_name(event.pid)}</p>\
+<p class="ml48">${event.address}</p>\
+
+<p class="mt14">时间<span class="colon">:</span>${row1}</p>\
+%if diff_day:
+<p class="ml14">至<span class="ml20">${row2}</span></p>\
+%else:
+<p class="ml48">${row2}</p>\
+%endif
+
+</div>\
+</div>\
+</%def>

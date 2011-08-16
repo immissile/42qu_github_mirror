@@ -1,13 +1,11 @@
 <%inherit file="_po.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="_vote.htm" import="po_bar_vote"/>
+<%namespace file="/_util/event.htm" import="event_show"/>
 <%namespace file="/ctrl/zsite/event/event_feedback_list.htm" import="feedback_list"/>
 <%!
-from model.fs import fs_url_jpg
 from model.ico import pic_url_bind_with_default
 from model.career import career_bind
-from model.days import begin_end_by_minute 
-from zkit.earth import place_name
 from model.event import Event, event_joiner_check_count, event_joiner_user_list, event_joiner_user_id_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END,  event_joiner_state
 from model.po_event import event_feedback_id_get
 %>
@@ -19,36 +17,6 @@ state = event.state
 can_admin = event.can_admin(current_user_id)
 %>
 
-<%def name="event_show(event)">
-<%
-
-pic_url = fs_url_jpg(162, event.pic_id)
-
-row1, row2, diff_day = begin_end_by_minute(
-    event.begin_time,
-    event.end_time
-)
-%>
-% if pic_url:
-<img src="${pic_url}" class="event_img">\
-% endif
-<div class="event_txt">\
-<div class="po_name">${po.name}</div>\
-
-
-<p>地点<span class="colon">:</span>${place_name(event.pid)}</p>\
-<p class="ml48">${event.address}</p>\
-
-<p class="mt14">时间<span class="colon">:</span>${row1}</p>\
-%if diff_day:
-<p class="ml14">至<span class="ml20">${row2}</span></p>\
-%else:
-<p class="ml48">${row2}</p>\
-%endif
-
-</div>\
-</div>\
-</%def>
 
 % if can_admin or state >= EVENT_STATE_BEGIN:
 <%
@@ -81,7 +49,7 @@ join_state = event_joiner_state(id, current_user_id)
 %endif
 
 <div class="c event_page">
-${event_show(event)}
+${event_show(event, po)}
 
 <div class="w721">
 <pre class="prebody">\
