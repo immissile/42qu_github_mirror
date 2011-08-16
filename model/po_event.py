@@ -120,15 +120,8 @@ def _po_event_notice_new(user_id, event_id, name):
 def po_event_notice_new(user_id, event_id, name):
     o = _po_event_notice_new(user_id, event_id, name)
     if o:
-        from notice import notice_event_notice
-        notice_event_notice(user_id, event_id, o.id)
-
-
-def po_event_kill_new(user_id, event_id, name):
-    o = _po_event_notice_new(user_id, event_id, name)
-    if o:
-        from notice import notice_event_kill
-        notice_event_kill(user_id, event_id, o.id)
+        from notice import mq_notice_event_notice
+        mq_notice_event_notice(user_id, event_id, o.id)
 
 
 if __name__ == '__main__':

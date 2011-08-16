@@ -16,6 +16,7 @@ from career import career_dict
 from user_mail import mail_by_user_id
 from money import Trade
 from zkit.attrcache import attrcache
+from mq import mq_client
 
 STATE_GTE_APPLY = 'state>=%s' % STATE_APPLY
 
@@ -157,13 +158,15 @@ def notice_event_join_no(from_id, to_id, event_id, txt):
     mc_notice_last_id_by_zsite_id_cid.set('%s_%s' % (from_id, cid), n.id)
     return n
 
-def notice_event_notice(from_id, event_id, po_id, cid=CID_NOTICE_EVENT_NOTICE):
+def notice_event_notice(from_id, event_id, po_id):
     from event import event_joiner_user_id_list
     for user_id in event_joiner_user_id_list(event_id):
-        notice_new(from_id, user_id, cid, po_id)
+        notice_new(from_id, user_id, CID_NOTICE_EVENT_NOTICE, po_id)
 
-def notice_event_kill(from_id, event_id, po_id):
-    notice_event_notice(from_id, event_id, po_id, CID_NOTICE_EVENT_KILL)
+mq_notice_event_notice = mq_client(notice_event_notice)
+
+def notice_event_kill_one(from_id, to_id, po_id):
+    return notice_new(from_id, to_id, CID_NOTICE_EVENT_KILL, po_id)
 
 def invite_question(from_id, to_id, qid):
     from po_question import answer_id_get
@@ -179,7 +182,6 @@ def notice_question(to_id, qid):
         n = notice_new(to_id, from_id, CID_NOTICE_QUESTION, qid)
         notice_question_mail(n)
 
-from mq import mq_client
 mq_notice_question = mq_client(notice_question)
 
 def invite_question_mail(notice):
