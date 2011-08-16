@@ -3,7 +3,7 @@
 from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
 from model.event import EventJoiner, event_joiner_yes, event_joiner_no, event_joiner_state
-from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
+from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END
 from model.buzz import mq_buzz_event_join_new
 
 
