@@ -1,19 +1,19 @@
 #joiner { width: 753px; margin-top: 32px; }
 #joiner .G1 { margin-bottom: 32px; }
 
-#event_page{
+.event_page{
 margin-left: 125px; margin-bottom: 28px;
 }
 
-#event_img{
+.event_img{
 float:left; margin-right: 36px;
 }
 
-#event_txt{
+.event_txt{
 float: left; margin-top: -7px;
 }
 
-#po_name{
+.po_name{
 text-align: left; font-size: 14px; margin-top: 4px; margin-bottom: 14px;
 }
 .mt14{

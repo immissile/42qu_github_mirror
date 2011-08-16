@@ -19,14 +19,39 @@ state = event.state
 can_admin = event.can_admin(current_user_id)
 %>
 
-% if can_admin or state >= EVENT_STATE_BEGIN:
+<%def name="event_show(event)">
 <%
+
 pic_url = fs_url_jpg(162, event.pic_id)
 
 row1, row2, diff_day = begin_end_by_minute(
     event.begin_time,
     event.end_time
 )
+%>
+% if pic_url:
+<img src="${pic_url}" class="event_img">\
+% endif
+<div class="event_txt">\
+<div class="po_name">${po.name}</div>\
+
+
+<p>地点<span class="colon">:</span>${place_name(event.pid)}</p>\
+<p class="ml48">${event.address}</p>\
+
+<p class="mt14">时间<span class="colon">:</span>${row1}</p>\
+%if diff_day:
+<p class="ml14">至<span class="ml20">${row2}</span></p>\
+%else:
+<p class="ml48">${row2}</p>\
+%endif
+
+</div>\
+</div>\
+</%def>
+
+% if can_admin or state >= EVENT_STATE_BEGIN:
+<%
 
 join_check_count = event_joiner_check_count(id)
 join_count = event.join_count
@@ -55,26 +80,8 @@ join_state = event_joiner_state(id, current_user_id)
     %endif
 %endif
 
-<div class="c" id="event_page">
-% if pic_url:
-    <img src="${pic_url}" id="event_img">
-% endif
-    <div id="event_txt">
-    <div id="po_name">${po.name}</div>
-
-
-<p>地点<span class="colon">:</span>${place_name(event.pid)}</p>
-<p class="ml48">${event.address}</p>
-
-<p class="mt14">时间<span class="colon">:</span>${row1}</p>
-%if diff_day:
-<p class="ml14">至<span class="ml20">${row2}</span></p>
-%else:
-<p class="ml48">${row2}</p>
-%endif
-
-</div>
-</div>
+<div class="c event_page">
+${event_show(event)}
 
 <div class="w721">
 <pre class="prebody">\
