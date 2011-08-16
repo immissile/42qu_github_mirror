@@ -1,4 +1,4 @@
-function fancybox_txt(tip, action, complete, post, submit){
+function fancybox_txt(tip, action, post, complete,  submit){
     var fancybox = $.fancybox;
     fancybox({
         'content': '<form method="POST" id="po_pop_form" class="po_pop_form"><div class="po_pop_tip">　</div><div id="po_pop_main"><textarea id="po_pop_txt" name="txt" class="po_pop_txt"></textarea></div><div class="btns"><span id="po_pop_error"></span><span class="btnw"><button type="submit">确认</button></span></div></form>',
@@ -15,13 +15,12 @@ function fancybox_txt(tip, action, complete, post, submit){
                 if (txt.length) {
                     submit && submit()
                     fancybox.showActivity()
-                    $.postJSON(action, {
+                    $.postJSON(
+                    action, 
+                    {
                         'txt': txt
                     },
-                    function(data) {
-                        fancybox.close()
-                        post && post()
-                    })
+                    post)
                 } else {
                     error.html('请输入文字').fadeIn()
                     pop_txt.focus()
@@ -35,10 +34,14 @@ function fancybox_txt(tip, action, complete, post, submit){
 
 
 function event_kill(){
-    fancybox_txt('解散原因如下 :', "/j/event/kill")
+    fancybox_txt('解散原因如下 :', "/j/event/kill", function(){
+        $.fancybox({'content':'活动已解散'})
+    })
 }
 function event_notice(){
-    fancybox_txt('公告如下 :',"/j/event/notice")
+    fancybox_txt('公告如下 :',"/j/event/notice", function(){
+        $.fancybox({'content':'发布成功 !'})
+    })
 }
 
 
@@ -58,13 +61,14 @@ $(function() {
 		var id = this.rel
         fancybox_txt('拒绝理由如下 :', '/j/event/check/' + id + '/0', 
         function(){
-            $('#po_pop_txt').val(_txt)
-        },
-        function(){
+            $.fancybox.close()
             $('#ndbk' + id).slideUp(500, function() {
                 $(this).remove()
             })
         }),
+        function(){
+            $('#po_pop_txt').val(_txt)
+        },
         function(){
             _txt = $('#po_pop_txt').val()
         }
