@@ -57,7 +57,9 @@ ${event_show(event, po)}
 ${po.htm|n}\
 <p>联系电话 : ${event.phone}</p>\
 <p>交通方式 : ${event.transport}</p>\
-<form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" ><span class="btnw"><button type="submit">报名${'管理' if can_admin else '参加'}</button></span>\
+%if not can_admin:
+<form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" ><span class="btnw"><button type="submit">报名参加</button></span>\
+%endif
 % if can_admin and join_check_count:
 <span id="to_confirm">\
 <a href="/event/check/${id}"><span class="mr3">${join_check_count}</span>待确认</a>\
@@ -67,9 +69,9 @@ ${po.htm|n}\
 <span id="price_per">${price} 元 / 人</span>\
 % endif
 </form>\
-<p class="po_bar po_bar1">
+<p class="po_bar">
 % if can_admin:
-<a class="L" href="/po/event/${id}">编辑</a>\
+<a class="L" href="/po/event/${id}">管理</a>\
 % endif
 组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
 ${po_bar_vote(po)}\
