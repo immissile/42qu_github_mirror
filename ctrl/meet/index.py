@@ -51,7 +51,7 @@ class City(Base):
             PAGE_LIMIT,
         )
         event_list = event_list_by_city_pid(pid, limit, offset)
-        return self.render(pid = pid, event_list = event_list, page=page)
+        return self.render(pid = pid, event_list = event_list, page=page, total=total)
 
 
 
