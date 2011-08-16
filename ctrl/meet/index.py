@@ -16,13 +16,14 @@ class Index(Base):
         user_id = self.current_user_id
 
         if user_id:
-            link = "/city/set"
+            link = '/city/set'
             namecard = namecard_get(user_id)
-            pid_now = namecard.pid_now
-            if pid_now:
-                pid = pid_city(pid_now)
-                if pid:
-                    link = "/%s"%pid
+            if namecard:
+                pid_now = namecard.pid_now
+                if pid_now:
+                    pid = pid_city(pid_now)
+                    if pid:
+                        link = '/%s'%pid
         else:
             link = '/city/select'
 
@@ -36,12 +37,12 @@ class City(Base):
         pid = int(pid)
         n = int(n)
 
-        _pid = pid_city(pid) 
+        _pid = pid_city(pid)
         if not _pid:
-            return self.redirect("/")
+            return self.redirect('/')
         if _pid != pid:
-            return self.redirect("/%s"%_pid)
-            
+            return self.redirect('/%s'%_pid)
+
 
         total = event_count_by_city_pid(pid)
         page, limit, offset = page_limit_offset(
@@ -51,7 +52,7 @@ class City(Base):
             PAGE_LIMIT,
         )
         event_list = event_list_by_city_pid(pid, limit, offset)
-        return self.render(pid = pid, event_list = event_list, page=page, total=total)
+        return self.render(pid=pid, event_list=event_list, page=page, total=total)
 
 
 
@@ -67,17 +68,14 @@ class CitySet(LoginBase):
         current_user_id = self.current_user_id
         c = namecard_get(current_user_id) or JsDict()
         self.render(pid_now=c.pid_now or 0)
-    
+
     def post(self):
         current_user_id = self.current_user_id
-        pid_now = self.get_argument('pid_now','1')
+        pid_now = self.get_argument('pid_now', '1')
         pid_now = int(pid_now)
-        c = namecard_new(
-                current_user_id,
-                pid_now
-            )
         if pid_city(pid_now):
+            namecard_new(current_user_id, pid_now)
             self.redirect('/%s'%pid_now)
         else:
-            self.render(pid_now=pid_now or 0, error="请选择现居城市")
+            self.render(pid_now=pid_now or 0, error='请选择现居城市')
 
