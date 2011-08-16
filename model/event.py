@@ -263,7 +263,6 @@ def event_id_list_by_city_pid(city_pid, limit=10, offset=0):
 
 def event_list_by_city_pid(city_pid, limit=10, offset=0):
     id_list = event_id_list_by_city_pid(city_pid, limit, offset)
-    print id_list
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 

@@ -1,12 +1,17 @@
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/_util/event.htm" import="event_show"/>
 <%namespace file="/ctrl/_util/i/info.htm" name="info"/>
+
 <%
 from zkit.earth import place_name
 from model.event import event_cid_name_count_by_city_pid 
 %>
 
 <style>
+.event_txt{
+width:523px;
+}
 .event_cid .now{
     color:#000;
 }
@@ -23,6 +28,13 @@ text-align: right;
 }
 h1{
 border-bottom:1px dotted #ccc;text-align:right;padding:16px 0;font-size:16px
+}
+.event_po{
+margin-bottom:32px;padding-bottom:32px;
+border-bottom:1px dotted #ccc;
+}
+.event_list{
+margin-top:32px;
 }
 </style>
 
@@ -46,18 +58,18 @@ border-bottom:1px dotted #ccc;text-align:right;padding:16px 0;font-size:16px
     </div>
 </div>
 <div class="G3">
+    <div class="event_list">
 % for event_po in event_list:
 <%
 event, po = event_po
 %>
-<div>
-
-<a href="${po.link}">${po.name}</a>
+<div class="c event_po">
+${event_show(event, po)}
 </div>
-
 % endfor
 
 ${page|n}
+    </div>
 </div>
 </div>
 

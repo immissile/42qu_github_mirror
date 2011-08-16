@@ -14,10 +14,10 @@ row1, row2, diff_day = begin_end_by_minute(
 )
 %>
 % if pic_url:
-<img src="${pic_url}" class="event_img">\
+<a href="${po.link|n}"><img src="${pic_url}" class="event_img"></a>\
 % endif
 <div class="event_txt">\
-<div class="po_name">${po.name}</div>\
+<div class="po_name"><a href="${po.link|n}" class="c0">${po.name}</a></div>\
 
 <p>地点<span class="colon">:</span>${place_name(event.pid)}</p>\
 <p class="ml48">${event.address}</p>\
@@ -29,6 +29,5 @@ row1, row2, diff_day = begin_end_by_minute(
 <p class="ml48">${row2}</p>\
 %endif
 
-</div>\
 </div>\
 </%def>
