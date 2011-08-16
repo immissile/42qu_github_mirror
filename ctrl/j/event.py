@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
-from model.event import EventJoiner, event_joiner_yes, event_joiner_no, event_joiner_state
+from model.event import Event, EventJoiner, event_joiner_yes, event_joiner_no, event_joiner_state, event_kill
+from model.po_event import po_event_notice_new
 from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END
 from model.buzz import mq_buzz_event_join_new
 
@@ -28,3 +29,23 @@ class EventCheck(JLoginBase):
                             if txt:
                                 event_joiner_no(o, txt)
         self.finish('{}')
+
+
+@urlmap('/j/event/notice/(\d+)')
+class EventNotice(JLoginBase):
+    def post(self, id):
+        current_user_id = self.current_user_id
+        event = Event.mc_get(id)
+        txt = self.get_argument('txt', '')
+        if event and event.can_admin(current_user_id) and txt:
+            po_event_notice_new(current_user_id, id, txt)
+
+
+@urlmap('/j/event/kill/(\d+)')
+class EventKill(JLoginBase):
+    def post(self, id):
+        current_user_id = self.current_user_id
+        event = Event.mc_get(id)
+        txt = self.get_argument('txt', '')
+        if event and event.can_admin(current_user_id) and txt:
+            event_kill(current_user_id, id, txt)

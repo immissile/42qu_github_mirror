@@ -4,9 +4,9 @@ function fancybox_txt(tip, action, post, complete, submit) {
 		'content': '<form method="POST" id="po_pop_form" class="po_pop_form"><div class="po_pop_tip">　</div><div id="po_pop_main"><textarea id="po_pop_txt" name="txt" class="po_pop_txt"></textarea></div><div class="btns"><span id="po_pop_error"></span><span class="btnw"><button type="submit">确认</button></span></div></form>',
 		"onComplete": function() {
 			$('.po_pop_tip').text(tip)
-			var form = $("#po_pop_form"),
+			var form = $('#po_pop_form'),
 			pop_txt = $('#po_pop_txt').focus(),
-			error = $("#po_pop_error");
+			error = $('#po_pop_error');
 			complete && complete()
 			form.submit(function() {
 				var txt = $.trim(pop_txt.val());
