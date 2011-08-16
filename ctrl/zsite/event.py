@@ -227,7 +227,7 @@ PAGE_LIMIT = 42
 class EventCheck(EventBase):
     def _event(self, id):
         current_user_id = self.current_user_id
-        self.event = event = _event(self, id)
+        self.event = event = super(EventCheck, self)._event(id)
         if event:
             if event.can_admin(current_user_id):
                 return event
