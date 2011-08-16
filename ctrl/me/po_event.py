@@ -209,7 +209,7 @@ class Index(LoginBase):
                 id = event.id
                 po_new(CID_EVENT, user_id, '', STATE_SECRET, id=id)
 
-            if event.state in (EVENT_STATE_INIT, EVENT_STATE_REJECT):
+            if event.state <= EVENT_STATE_TO_REVIEW:
                 return self.redirect('/po/edit/%s'%id)
             else:
                 return self.redirect('/%s'%id)
