@@ -3,7 +3,7 @@ from model.po import STATE_SECRET, Po
 from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT, CID_EVENT_FEEDBACK
 from yajl import dumps
 from model.po_question import answer_count
-from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_FEEDBACK_GOOD, event_joiner_state, EVENT_STATE_INIT, EVENT_JOIN_STATE_FEEDBACK_NORMAL
+from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_FEEDBACK_GOOD, event_joiner_state, EVENT_STATE_INIT, EVENT_JOIN_STATE_FEEDBACK_NORMAL, EVENT_STATE_TO_REVIEW
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -62,7 +62,7 @@ if cid == CID_EVENT_FEEDBACK:
 <%
 event = Event.mc_get(po.id)
 %>
-%if po.name and event.state > EVENT_STATE_INIT :
+%if po.name and event.state > EVENT_STATE_TO_REVIEW:
 ${event_admin_nav(event.id, event.state, po.name, request.path)}
 %else:
 <div class="head">

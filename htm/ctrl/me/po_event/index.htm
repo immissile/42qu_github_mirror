@@ -2,7 +2,7 @@
 from model.po import STATE_SECRET, Po
 from model.po_event import EVENT_CID_CN
 from model.fs import fs_url_jpg
-from model.event import event_to_review_count_by_zsite_id, EVENT_STATE_INIT
+from model.event import event_to_review_count_by_zsite_id, EVENT_STATE_TO_REVIEW
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -33,7 +33,7 @@ event_to_review = event_to_review_count_by_zsite_id(current_user_id)
 %>
 
 
-%if event_id and event.state > EVENT_STATE_INIT:
+%if event_id and event.state > EVENT_STATE_TO_REVIEW:
 <%
 po = Po.mc_get(event_id)
 %>
@@ -146,7 +146,7 @@ value="${_event_cid}">${event_name}</option>
 <div>\
 <span id="event_submit_span" class="btnw">\
     <button type="submit">
-% if event_id and event.state != EVENT_STATE_REJECT:
+% if event_id and event.state > EVENT_STATE_TO_REVIEW:
 保存
 % else:
 下一步

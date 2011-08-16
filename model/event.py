@@ -13,7 +13,7 @@ from gid import gid
 from po import Po, po_rm, po_state_set
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from feed_po import mc_feed_po_dict
-from mail import rendermail
+from mail import mq_rendermail 
 from notice import notice_event_yes, notice_event_no, notice_event_join_yes, notice_event_join_no
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
@@ -513,7 +513,7 @@ def event_review_yes(id):
         mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, False))
 
         from user_mail import mail_by_user_id
-        rendermail(
+        mq_rendermail(
             '/mail/event/event_review_yes.txt',
             mail_by_user_id(event.zsite_id),
             event.zsite.name,
@@ -530,7 +530,7 @@ def event_review_no(id, txt):
         notice_event_no(event.zsite_id, id, txt)
         zsite = event.zsite
         from user_mail import mail_by_user_id
-        rendermail(
+        mq_rendermail(
             '/mail/event/event_review_no.txt',
             mail_by_user_id(event.zsite_id),
             event.zsite.name,
