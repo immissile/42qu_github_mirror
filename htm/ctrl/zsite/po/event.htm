@@ -67,11 +67,11 @@ ${event_show(event, po)}
 ${po.htm|n}\
 <p>联系电话 : ${event.phone}</p>\
 <p>交通方式 : ${event.transport}</p>\
-<p>人数\
+<p>\
 %if event.limit_down:
-范围 : ${event.limit_down} - \
+人数范围 : ${event.limit_down} - \
 %else:
-上限 : \
+名额上限 : \
 %endif
 ${event.limit_up}</p>\
 %if not can_admin:
