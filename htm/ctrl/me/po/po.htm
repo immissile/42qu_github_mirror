@@ -7,7 +7,7 @@ from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_FEEDBACK_GOO
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-
+<%namespace file="/ctrl/zsite/_util/event.htm" import="event_admin_nav"/>
 <%def name="htm_title()">
 %if po.name:
 编辑 -
@@ -32,6 +32,7 @@ from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_FEEDBACK_GOO
 
 <%def name="htm_head()">
 ${css.ctrl_po_edit|n}
+${css.ctrl_event_admin|n}
 <%
 if po:
     suffix = '/%s' % po.id
@@ -58,13 +59,16 @@ if cid == CID_EVENT_FEEDBACK:
 %>
 
 %if cid == CID_EVENT:
-<div class="head">
-%if po.name and Event.get(po.id).state > EVENT_STATE_INIT :
-<span><a class="c9" href="/po/event/${po.id}">编辑属性</a></span><span class="c0">编辑介绍</span>
+<%
+event = Event.mc_get(po.id)
+%>
+%if po.name and event.state > EVENT_STATE_INIT :
+${event_admin_nav(event.id, event.state, po.name, request.path)}
 %else:
+<div class="head">
 <span><a href="/po/event/${po.id}" class="c9">1. 设置属性</a></span>&gt;<span class="c0">2. 编写简介</span>&gt;<span>3. 等待审核</span>
-%endif
 </div>
+%endif
 %endif
 
 <%htm:form enctype="multipart/form-data" id="po_form">
