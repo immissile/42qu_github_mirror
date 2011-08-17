@@ -518,8 +518,9 @@ mq_event_kill_extra = mq_client(event_kill_extra)
 def event_kill(user_id, event, txt):
     from po_event import _po_event_notice_new
     if event.state < EVENT_STATE_END:
+        event_id = event.id
         if event.can_change():
-            po_rm(user_id, event.id)
+            po_rm(user_id, event_id)
         else:
             event.state = EVENT_STATE_DEL
             event.save()
