@@ -91,11 +91,13 @@ class Po(McModel, ReplyMixin):
 
     @attrcache
     def name(self):
-        q = self.question
-        if q:
-            return '答 : %s' % q.name
-        #if self.cid == CID_WORD:
-        #    return ''
+        cid = self.cid
+
+        if cid != CID_EVENT_NOTICE:
+            q = self.question
+            if q:
+                return '答 : %s' % q.name
+
         return self.name_
 
     @attrcache
