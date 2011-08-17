@@ -84,7 +84,12 @@ class EventState(EventBase):
             return
         if event.state < EVENT_STATE_BEGIN:
             return self.redirect('/')
-        return self.render(event=event)
+        current_user_id = self.current_user_id
+        state = event_joiner_state(id, current_user_id)
+        if state < EVENT_JOIN_STATE_NEW:
+            return self.redirect("/%s"%id)
+ 
+        return self.render(event=event, state=state)
 
 def _event(self, id):
     current_user = self.current_user

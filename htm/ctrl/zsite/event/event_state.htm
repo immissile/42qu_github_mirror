@@ -1,6 +1,5 @@
 <%!
 from model.po import Po
-from model.event import event_joiner_state
 from model.event import EVENT_JOIN_STATE_NEW , \
 EVENT_JOIN_STATE_YES, \
 EVENT_JOIN_STATE_END, \
@@ -24,7 +23,6 @@ margin-top:32px;
 <%
 event_id = event.id
 po = Po.mc_get(event_id)
-state = event_joiner_state(event_id, current_user_id)
 %>
 
 <div class="name">${po.name}</div>
