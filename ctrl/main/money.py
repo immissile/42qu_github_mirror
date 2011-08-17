@@ -7,18 +7,18 @@ from model.money_alipay import alipay_url_recall
 from model.money import pay_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice
 from model.zsite import Zsite
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_EVENT
-
+from model.zsite import Zsite
 
 @urlmap('/money/alipay_sync')
 class AlipaySync(Base):
     def get(self):
         query = self.request.query
         t = alipay_url_recall(query)
-        url = '%s/money' % SITE_URL
         if t:
             cid = t.cid
             if cid == CID_TRADE_CHARDE:
-                url = '%s/charged/%s/%s'%(url, t.id, t.to_id)
+                user = Zsite.mc_get(t.to_id)
+                url = '%s/money/charged/%s/%s'%(user.link, t.id, t.to_id)
             elif cid == CID_TRADE_EVENT:
                 url = '%s/%s/%s'%(url, t.rid,t.from_id)
             else:
@@ -39,16 +39,5 @@ class Result(Base):
             trade=t,
         )
 
-@urlmap('/money/charged/(\d+)')
-@urlmap('/money/charged/(\d+)/(\d+)')
-class Charged(Base):
-    def get(self, tid, uid=0):
-        uid = int(uid)
-        t = Trade.get(tid)
-        return self.render(trade=t)
-        if t and t.cid == CID_TRADE_CHARDE and t.state == TRADE_STATE_FINISH and t.to_id == uid:
-            self.render(trade=t)
-        else:
-            self.redirect('/money')
 
 
