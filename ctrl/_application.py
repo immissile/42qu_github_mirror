@@ -18,6 +18,12 @@ application.add_handlers(
     handlers(_urlmap.hero)
 )
 
+import _urlmap.meet
+application.add_handlers(
+    'meet\.%s'%RE_SITE_DOMAIN,
+    handlers(_urlmap.meet)
+)
+
 
 import _urlmap.main
 import _urlmap.auth

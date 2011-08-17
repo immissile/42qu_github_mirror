@@ -1,0 +1,75 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/_util/event.htm" import="event_show"/>
+<%namespace file="/ctrl/_util/i/info.htm" name="info"/>
+
+<%
+from zkit.earth import place_name
+from model.event import event_cid_name_count_by_city_pid 
+%>
+
+<style>
+.event_txt{
+width:523px;
+}
+.event_cid .now{
+    color:#000;
+}
+.event_cid span{
+float:left;
+}
+.event_cid a{
+color: #999;
+border-bottom: 1px dotted #ccc;
+display: block; 
+padding: 16px 0; 
+font-size: 16px; 
+text-align: right;
+}
+h1{
+border-bottom:1px dotted #ccc;text-align:right;padding:16px 0;font-size:16px
+}
+.event_po{
+margin-bottom:32px;padding-bottom:32px;
+border-bottom:1px dotted #ccc;
+}
+.event_list{
+margin-top:32px;
+}
+</style>
+
+<h1>
+<span class="L">${place_name(pid)}</span>
+<a class="c9" href="/city/select">切换</a>
+</h1>
+<div class="G">
+<div class="G1">
+    <div class="event_cid">
+            <a href="/${pid}" class="now"><span>全部</span>${total}</a>
+            
+    %for event_cid, event_cid_name, event_cid_count in event_cid_name_count_by_city_pid(pid):
+            %if event_cid_count:
+            <a href="/${pid}/${event_cid}">
+                <span>${event_cid_name}</span>
+                ${event_cid_count} 
+            </a>
+            %endif
+    %endfor
+    </div>
+</div>
+<div class="G3">
+    <div class="event_list">
+% for event_po in event_list:
+<%
+event, po = event_po
+%>
+<div class="c event_po">
+${event_show(event, po)}
+</div>
+% endfor
+
+${page|n}
+    </div>
+</div>
+</div>
+

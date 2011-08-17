@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _handler import ZsiteBase, LoginBase
-from zkit.errtip import Errtip
 from ctrl._urlmap.zsite import urlmap
+from zkit.errtip import Errtip
 from model.zsite import Zsite
 from config import SITE_HTTP, RPC_HTTP
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax
 from model.user_mail import mail_by_user_id, user_by_mail
-from model.money import bank_can_pay, bank_change, pay_new, deal_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank_view, Trade, trade_log, pay_notice
+from model.money import pay_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice
 from model.zsite import zsite_new, ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
 from zkit.txt import EMAIL_VALID
 from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_PAY
@@ -106,9 +106,10 @@ class Index(ZsiteBase):
         if current_user and not errtip:
             subject = '%s 向 %s 捐赠 %.2f 元' % (current_user.name, zsite.name, amount)
             current_user_id = current_user.id
-            _pay_new = lambda state : pay_new(amount, current_user_id, zsite_id, CID_TRADE_PAY, state)
-            balance_cent = float(bank_view(current_user_id)) * 100
+            balance_cent = bank.get(current_user_id)
 
+            def _pay_new(state):
+                return pay_new(amount, current_user_id, zsite_id, CID_TRADE_PAY, state).id
 
 
             txt = self.get_argument('txt', None)

@@ -1,14 +1,19 @@
 <%!
 from model.zsite_url import url_by_id
 from model.zsite import ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY, ZSITE_STATE_FAILED_VERIFY
+from model.top_notice import top_notice_by_user_id
 %>
-<%namespace file="/ctrl/_util/base.htm" import="verify_sended"/>\
-%if current_user:
+<%namespace file="/ctrl/_util/base.htm" import="top_notice_view, verify_sended"/>\
+% if current_user:
+<%
+top_notice = top_notice_by_user_id(current_user_id)
+%>
+% if top_notice:
+<div id="T">${top_notice_view(top_notice)}</div>
+% else:
 <%
 state = current_user.state
 %>
-
-
     %if state == ZSITE_STATE_APPLY:
 <div id="T">${verify_sended(current_user_id)}</div>
     %elif state == ZSITE_STATE_ACTIVE:
@@ -24,6 +29,7 @@ state = current_user.state
 <a href="/i/url">点此设置个性域名</a> , 拥有我的网络门户\
 </div>\
     %endif
-%elif zsite_id:
-<div id="TW"><div id="T">你想关注<a href="/"> 我 </a>吗 ? <a href="/auth/reg" style="text-decoration:underline;">点此注册</a> , 仅需一步</div></div>\
 %endif
+% elif zsite_id:
+<div id="TW"><div id="T">你想关注<a href="/"> 我 </a>吗 ? <a href="/auth/reg" style="text-decoration:underline;">点此注册</a> , 仅需一步</div></div>\
+% endif

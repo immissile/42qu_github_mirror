@@ -1,0 +1,64 @@
+.ndico{
+    float:left;
+    margin-right: 21px;
+    margin-top: 4px;
+    margin-bottom: 9px;
+    border: 1px solid #eee;
+    padding: 6px;
+}
+.ndbk .sdw{
+margin-bottom:0;
+}
+.ndbk{
+    width:721px;
+    margin:32px auto 0;
+}
+.ndbtn{
+    float: right;
+    height: 110px;
+    border-left: 1px dotted #ccc;
+    text-align: center;
+    padding-left: 21px;
+    padding-right: 16px;
+    line-height: 78px;
+}
+.ndtxt{
+    float: left;
+    margin-top: 1px;
+}
+.eventbtn{
+    margin-top: 18px;
+}
+.eventbtn p{
+    margin: 18px 0;
+}
+.join_yes,.join_no{
+    padding-left: 16px;
+}
+.join_y .join_yes{
+    background: url(/img/gif/icons/gif/black/to_size/check.gif) no-repeat 0 50%;
+    color:#000;
+}
+.join_y .join_no{
+    color:#999;padding-left:16px;
+}
+.ndtxt{
+    width:440px;
+}
+.event_admin_nav{
+    border-bottom:1px dotted #ccc;
+    padding-bottom:16px;
+    padding-top:16px;
+    font-size:16px;
+    text-align:right;
+}
+.event_notice_a a{
+    margin-left:32px; 
+    color:#999;
+}
+.event_notice_a .now{
+    color:#000;
+}
+.event_admin_name{
+float:left;
+}

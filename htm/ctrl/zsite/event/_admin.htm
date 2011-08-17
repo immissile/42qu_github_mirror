@@ -1,0 +1,12 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%def name="htm_head()">
+${css.ctrl_event_admin|n}
+</%def>
+<%namespace file="/ctrl/zsite/_util/event.htm" import="event_admin_nav"/>
+
+<%
+event = this.event
+po = event.po
+%>
+${event_admin_nav(event, po)}
+${self.event_admin_body()}
