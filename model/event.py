@@ -388,8 +388,10 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
         o.create_time = now
         o.save()
         mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
-        mc_event_joiner_user_id_list.delete(event_id)
-        mc_event_joining_id_list.delete(event_id)
+
+    mc_event_joiner_user_id_list.delete(event_id)
+    mc_event_joining_id_list.delete(event_id)
+
 
     if event.zsite_id != user_id:
         event.join_count += 1
