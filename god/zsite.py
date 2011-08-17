@@ -3,7 +3,7 @@
 import urllib
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, zsite_verify_no_without_notify, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY
+from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, zsite_verify_no_without_notify, zsite_name_rm, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY
 from model.zsite_list_0 import zsite_show_new, zsite_show_rm
 from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
@@ -67,6 +67,12 @@ class PicRm(Base):
         admin_id = self.current_user.id
         pic_no(id, admin_id)
         self.redirect('/zsite/%s'%uid)
+
+@urlmap('/zsite/name/rm/(\d+)')
+class NameRm(Base):
+    def get(self, id):
+        zsite_name_rm(id)
+        self.redirect('/zsite/%s'%id)
 
 @urlmap('/zsite/show/(\d+)')
 class Show(Base):
