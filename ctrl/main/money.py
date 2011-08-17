@@ -20,7 +20,7 @@ class AlipaySync(Base):
 
 
 @urlmap('/pay/result/(\d+)')
-class Result(ZsiteBase):
+class Result(Base):
     def get(self, id):
         t = Trade.get(id)
         from_user = Zsite.mc_get(t.from_id)
