@@ -26,8 +26,8 @@ def top_notice_by_user_id(user_id):
     if id:
         return TopNotice.mc_get(id)
 
-def top_notice_new(user_id, cid, rid, txt=''):
-    o = TopNotice(user_id=user_id, cid=cid, rid=rid, txt=txt, state=1)
+def top_notice_new(user_id, cid, rid):
+    o = TopNotice(user_id=user_id, cid=cid, rid=rid, state=1)
     o.save()
     mc_top_notice_id_by_user_id.set(user_id, o.id)
     return o
