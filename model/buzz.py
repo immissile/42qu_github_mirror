@@ -17,7 +17,6 @@ from zweb.orm import ormiter
 from zkit.orderedset import OrderedSet
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
-from model.event import Event, event_joiner_user_id_list
 
 class Buzz(Model):
     pass
@@ -48,8 +47,10 @@ BUZZ_DIC = {
     CID_BUZZ_WALL_REPLY: Wall,
     CID_BUZZ_PO_REPLY: Po,
     CID_BUZZ_ANSWER: Po,
-    CID_BUZZ_JOIN: Event,
-    CID_BUZZ_EVENT_JOIN_APPLY: Event,
+    CID_BUZZ_JOIN: Po,
+    CID_BUZZ_EVENT_JOIN_APPLY: Po,
+    CID_BUZZ_EVENT_FEEDBACK_OWNER: Po,
+    CID_BUZZ_EVENT_FEEDBACK_JOINER: Po,
 }
 
 def mc_flush(user_id):
@@ -209,32 +210,32 @@ def buzz_show(user_id, limit):
 def buzz_unread_update(user_id):
     buzz_unread.delete(user_id)
 
-def buzz_event_join_new(user_id, event_id):
-    event_zsite_id = Event.mc_get(event_id).zsite_id
+def buzz_event_join_new(user_id, event_id, zsite_id):
     followed = [i.from_id for i in ormiter(Follow, 'to_id=%s' % user_id)]
     for to_id in followed:
-        if to_id != event_zsite_id:
+        if to_id != zsite_id:
             buzz_new(user_id, to_id, CID_BUZZ_JOIN, event_id)
 
 mq_buzz_event_join_new = mq_client(buzz_event_join_new)
 
 
-def buzz_event_join_apply_new(user_id, event_id):
-    event_zsite_id = Event.mc_get(event_id).zsite_id
-    buzz_new(user_id, event_zsite_id, CID_BUZZ_EVENT_JOIN_APPLY, event_id)
+def buzz_event_join_apply_new(user_id, zsite_id, event_id):
+    buzz_new(user_id, zsite_id, CID_BUZZ_EVENT_JOIN_APPLY, event_id)
+
 
 # 张沈鹏 评论了 <a>去看电影</a> , 点此浏览
 # 只显示给发起人
 def buzz_event_feedback_new(user_id, event_id, event_user_id):
     buzz_new(user_id, event_user_id, CID_BUZZ_EVENT_FEEDBACK_JOINER, event_id)
 
+
 # 张沈鹏 写了 <a>去看电影</a> 的活动总结 , 点此浏览
 # 显示给所有人
 def buzz_event_feedback_owner_new(user_id, event_id):
+    from event import event_joiner_user_id_list
     to_id_list = event_joiner_user_id_list(event_id)
     for to_id in to_id_list:
         buzz_new(user_id, to_id, CID_BUZZ_EVENT_FEEDBACK_OWNER, event_id)
-
 
 mq_buzz_event_feedback_owner_new = mq_client(buzz_event_feedback_owner_new)
 

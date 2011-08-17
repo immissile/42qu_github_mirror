@@ -394,6 +394,10 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
         o.save()
         mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
 
+    if state == EVENT_JOIN_STATE_NEW:
+        from buzz import buzz_event_join_apply_new
+        buzz_event_join_apply_new(user_id, event.user_id, event_id)
+
     mc_event_joiner_user_id_list.delete(event_id)
     mc_event_joining_id_list.delete(event_id)
 
@@ -441,6 +445,8 @@ def event_joiner_yes(o):
         o.state = EVENT_JOIN_STATE_YES
         o.save()
         notice_event_join_yes(zsite_id, user_id, event_id)
+        from model.buzz import mq_buzz_event_join_new
+        mq_buzz_event_join_new(user_id, event_id, zsite_id)
         mc_flush_by_user_id(user_id)
         mc_event_joining_id_list.delete(event_id)
         mc_event_joined_id_list.delete(event_id)

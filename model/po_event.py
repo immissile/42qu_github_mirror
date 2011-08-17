@@ -56,7 +56,7 @@ def po_event_feedback_new(user_id, name, txt, good, event_id, event_user_id):
 
         from buzz import buzz_event_feedback_new , mq_buzz_event_feedback_owner_new
 
-        if user_id!=event_user_id:
+        if user_id != event_user_id:
             rank_new(m, event_id, CID_EVENT_FEEDBACK)
             buzz_event_feedback_new(user_id, id, event_user_id)
         else:
@@ -133,13 +133,13 @@ mc_po_event_notice_id_list_by_event_id = McCacheA(
 def po_event_notice_id_list_by_event_id(event_id):
     from state import STATE_ACTIVE
     return Po.where(
-        cid=CID_EVENT_NOTICE, 
+        cid=CID_EVENT_NOTICE,
         rid=event_id
     ).where("state>=%s"%STATE_ACTIVE).col_list()
 
 def po_event_notice_list_by_event_id(event_id):
     return Po.mc_get_list(
-        po_event_notice_id_list_by_event_id(event_id)   
+        po_event_notice_id_list_by_event_id(event_id)
     )
 
 

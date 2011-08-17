@@ -13,7 +13,6 @@ from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cen
 from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT, CID_EVENT
 from ctrl.me.i import NameCardEdit
 from model.zsite import ZSITE_STATE_VERIFY
-from model.buzz import buzz_event_join_apply_new
 from model.zsite_url import link
 
 @urlmap('/event/to_review')
@@ -88,7 +87,7 @@ class EventState(EventBase):
         state = event_joiner_state(id, current_user_id)
         if state < EVENT_JOIN_STATE_NEW:
             return self.redirect("/%s"%id)
- 
+
         return self.render(event=event, state=state)
 
 def _event(self, id):
@@ -147,8 +146,8 @@ class EventJoin(NameCardEdit, EventBase):
         if event.cent:
             return self.redirect('/event/pay/%s' % id)
 
-        event_joiner_new(id, self.current_user_id)
-        buzz_event_join_apply_new(self.current_user_id, event.id)
+        current_user_id = self.current_user_id
+        event_joiner_new(id, current_user_id)
         return self.redirect(event_link)
 
 

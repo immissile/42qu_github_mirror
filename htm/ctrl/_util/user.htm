@@ -1,6 +1,5 @@
 <%!
 from cgi import escape
-from model.po import Po
 %>
 
 <%def name="user_link(user)">
@@ -60,9 +59,6 @@ ${user_career(user_list[0])}\
 % endif
 </%def>
 
-<%def name="event_name(event_id)">\
-<%
-po = Po.mc_get(event_id)
-%>
+<%def name="po_link(po)">\
 <a href="${po.link}" target="_blank">${po.name}</a>
 </%def>

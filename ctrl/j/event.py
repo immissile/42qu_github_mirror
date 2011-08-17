@@ -5,7 +5,6 @@ from _handler import JLoginBase
 from model.event import Event, EventJoiner, event_joiner_yes, event_joiner_no, event_joiner_state, event_kill
 from model.po_event import po_event_notice_new
 from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END
-from model.buzz import mq_buzz_event_join_new
 
 
 @urlmap('/j/event/check/(\d+)/(0|1)')
@@ -22,7 +21,6 @@ class EventCheck(JLoginBase):
                     if state:
                         if o_state == EVENT_JOIN_STATE_NEW:
                             event_joiner_yes(o)
-                            mq_buzz_event_join_new(o.user_id, o.event_id)
                     else:
                         if o_state in (EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
                             txt = self.get_argument('txt', '')
