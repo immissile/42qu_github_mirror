@@ -10,6 +10,7 @@ from model.event import Event, event_joiner_check_count, event_joiner_user_list,
 from model.po_event import event_feedback_id_get, po_event_notice_list_by_event_id
 from model.notice import notice_event_no_txt_get
 from model.po import po_id_list, po_list_count 
+from zkit.time_format import friendly_time
 from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
 %>
 <%def name="po_body()">
@@ -122,9 +123,16 @@ notice_list = po_event_notice_list_by_event_id(id)
 <div class="spline">
 <span>${len(notice_list)}</span> 公告
 </div>
+<div class="mt32">
     %for notice in notice_list:
-${notice}
+<div class="sdw"><div class="sd">\
+<pre class="fdtxt">${notice.name_htm|n}</pre>\
+<div class="fdbar">\
+<span class="L">${friendly_time(notice.create_time)}</span>\
+<a href="${notice.link}#txt_form" class="reply" target="_blank" title="回应">${notice.reply_count}</a>\
+</div></div></div>\
     %endfor
+</div>
 %endif
 
 

@@ -70,25 +70,9 @@ background:url(/img/gif/comment.gif) no-repeat -51px 28px;
 margin-left:-2px;
 padding-left:34px;
 }
-.fdbar{
-border-top:1px solid #eee;
-text-align:right;
-color:#999;
-padding:7px 0 0;
-}
-.fdbar a{
-color:#999;
-}
-.fdbar .reply{
-margin-left:21px;
-}
 #feeds .G1 .c0{
 display:block:
 outline:0;
-}
-#feeds .fdtxt{
-margin-bottom:10px;
-margin-top:-6px;
 }
 .fdimga{
 display:block;

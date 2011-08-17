@@ -110,6 +110,10 @@ class Po(McModel, ReplyMixin):
     def name_htm(self):
         q = self.question
         cid = self.cid
+
+        if cid == CID_EVENT_NOTICE:
+            return txt_withlink(self.name_)
+                
         if q:
             u = q.user
             link = '<a href="%s">%s</a>' % (q.link, escape(q.name))
@@ -130,6 +134,7 @@ class Po(McModel, ReplyMixin):
 
         if cid == CID_WORD:
             return txt_withlink(self.name)
+
         return escape(self.name)
 
     @attrcache
