@@ -458,7 +458,7 @@ def mc_flush_by_user_id(user_id):
 
 def mc_flush_by_city_pid_cid(city_pid, cid):
     for _cid in set([0, cid]):
-        mc_event_id_list_by_city_pid_cid.delete(city_pid, _cid)
+        mc_event_id_list_by_city_pid_cid.delete("%s_%s"%(city_pid, _cid))
         event_count_by_city_pid_cid.delete(city_pid, _cid)
     mc_event_cid_count_by_city_pid.delete(city_pid)
 
