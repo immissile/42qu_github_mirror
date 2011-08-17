@@ -16,6 +16,7 @@ from feed_po import mc_feed_po_dict
 from mail import mq_rendermail
 from notice import notice_event_yes, notice_event_no, notice_event_join_yes, notice_event_join_no
 from mq import mq_client
+from feed import feed_new, mc_feed_tuple, feed_rm
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 mc_event_id_list_by_city_pid_cid = McLimitA('EventIdListByCityPidCid.%s', 128)
@@ -25,7 +26,7 @@ def event_by_city_pid_cid_query(city_pid, cid=0):
     qs = Event.where(city_pid=city_pid)
     if cid:
         qs = qs.where(cid=cid)
-    return qs.where('state>=%s and state<%s', EVENT_STATE_BEGIN, EVENT_STATE_END)
+    return qs.where('state between %s and %s', EVENT_STATE_BEGIN, EVENT_STATE_NOW)
 
 event_count_by_city_pid_cid = McNum(
     lambda city_pid, cid=0: event_by_city_pid_cid_query(city_pid, cid).count(),
@@ -305,14 +306,6 @@ def event_joiner_state(event_id, user_id):
             return o.state
     return 0
 
-@mc_event_joiner_user_id_list('{event_id}')
-def event_joiner_user_id_list(event_id):
-    event = Event.mc_get(event_id)
-    zsite_id = event.zsite_id
-    return EventJoiner.where(event_id=event_id).where('user_id!=%s and state>=%s', zsite_id, EVENT_JOIN_STATE_YES).col_list(col='user_id')
-
-
-
 
 @mc_event_joiner_feedback_normal_id_list('{event_id}')
 def event_joiner_feedback_normal_id_list(event_id):
@@ -507,17 +500,15 @@ def event_init2to_review(id):
 
 def event_kill_extra(from_id, event_id, po_id):
     from notice import notice_event_kill_one
-    to_id_list = event_joiner_user_id_list(event_id)
-    for user_id in to_id_list:
-        o = event_joiner_get(event_id, user_id)
-        event_joiner_no(o)
-        notice_event_kill_one(from_id, user_id, po_id)
+    for i in Event.where(event_id=event_id).where('state>=%s', EVENT_JOIN_STATE_NEW):
+        event_joiner_no(i)
+        notice_event_kill_one(from_id, i.user_id, po_id)
 
 mq_event_kill_extra = mq_client(event_kill_extra)
 
 def event_kill(user_id, event, txt):
     from po_event import _po_event_notice_new
-    if event.state < EVENT_STATE_END:
+    if EVENT_STATE_DEL < event.state < EVENT_STATE_END:
         event_id = event.id
         if event.can_change():
             po_rm(user_id, event_id)
@@ -525,6 +516,7 @@ def event_kill(user_id, event, txt):
             event.state = EVENT_STATE_DEL
             event.save()
 
+            feed_rm(event_id)
             mc_flush_by_zsite_id(event.zsite_id)
             event_to_review_count_by_zsite_id.delete(user_id)
             mc_flush_by_user_id(user_id)

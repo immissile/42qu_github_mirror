@@ -22,7 +22,7 @@ can_admin = event.can_admin(current_user_id)
 %>
 
 
-% if can_admin or state >= EVENT_STATE_BEGIN:
+## % if can_admin or state >= EVENT_STATE_BEGIN:
 <%
 
 join_check_count = event_joiner_check_count(id)
@@ -181,9 +181,9 @@ unit, title = i.career
 
 
 
-% else:
-活动尚未通过审批
-% endif
+## % else:
+## 活动尚未通过审批
+## % endif
 
 </div>
 <script src="${js.ctrl_zsite|n}"></script>
