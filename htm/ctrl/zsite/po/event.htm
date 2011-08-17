@@ -120,7 +120,7 @@ notice_list = po_event_notice_list_by_event_id(id)
 %>
 %if notice_list:
 <div class="spline">
-<span>len(${notice_list})</span> 公告
+<span>${len(notice_list)}</span> 公告
 </div>
     %for notice in notice_list:
 ${notice}

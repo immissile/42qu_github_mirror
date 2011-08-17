@@ -122,8 +122,8 @@ def po_event_notice_new(user_id, event_id, name):
     if o:
         from notice import mq_notice_event_notice
         mq_notice_event_notice(user_id, event_id, o.id)
+        mc_po_event_notice_id_list_by_event_id.delete(event_id)
         return o
-    mc_po_event_notice_id_list_by_event_id.delete(event_id)
 
 mc_po_event_notice_id_list_by_event_id = McCacheA(
     "PoEventNoticeIdListByEventId:%s"
