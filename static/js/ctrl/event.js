@@ -13,8 +13,14 @@ function fancybox_txt(tip, action, complete, post,  submit) {
             form.submit(function() {
 				var txt = $.trim(pop_txt.val());
 
-				error.hide()
-				if (txt.length) {
+				error.hide();
+
+                if(cnenlen(txt)>142){
+					error.html('文字太多了').fadeIn()
+                    return false;
+				}
+
+                if (txt.length) {
 					submit && submit()
 					fancybox.showActivity()
 					$.postJSON(
