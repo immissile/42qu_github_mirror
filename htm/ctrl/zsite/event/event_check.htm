@@ -5,6 +5,7 @@ from model.notice import notice_event_join_no_txt_by_zsite_id
 %>
 
 <%def name="event_admin_body()">
+%if event_joiner_list:
 % for i in event_joiner_list:
 <%
 id = i.id
@@ -53,4 +54,10 @@ career = ' , '.join(filter(bool, user.career))
 
 ${page|n}
 <textarea style="display: none" id="_txt">${notice_event_join_no_txt_by_zsite_id(current_user_id)}</textarea>
+%else:
+<div style="width:470px;margin:auto;text-align:center;font-size:16px;margin-top:96px">
+<p>暂无人报名</p>
+<p style="margin-top:32px;">去邀请朋友来参加吧</p></div>
+%endif
+
 </%def>
