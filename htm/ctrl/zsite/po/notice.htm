@@ -3,9 +3,6 @@
 <%namespace file="_vote.htm" import="po_bar_vote"/>
 
 <%def name="po_body()">
-%if po.rid:
-<h1 id="po_answer_name">${po.name_htm|n}</h1>
-%endif
 <pre class="prebody">\
 <p><a href="${zsite.link}">${zsite.name}</a> : ${po.htm|n}</p>\
 ${po_bar_vote(po)}\
