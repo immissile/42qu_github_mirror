@@ -66,7 +66,8 @@ margin-top:32px;
 </div>
 <div class="G3">
     <div class="event_list">
-% for event_po in event_list:
+%if event_list:
+    % for event_po in event_list:
 <%
 event, po = event_po
 %>
@@ -76,6 +77,14 @@ ${event_show(event, po)}
 % endfor
 
 ${page|n}
+
+%else:
+<div class="f16 tc" style="border-bottom:1px dotted #ccc;padding-bottom:32px">
+暂无活动 , <a href="/po/event">点此创建</a>
+</div>
+%endif
+
+
     </div>
 </div>
 </div>
