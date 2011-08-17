@@ -51,16 +51,16 @@ margin-top:32px;
             % endif
             ><span>全部</span>${event_count_by_city_pid_cid(pid)}</a>
     %for event_cid, event_cid_name, event_cid_count in event_cid_name_count_by_city_pid(pid):
-            %if event_cid_count:
-            <a href="/${pid}/${event_cid}"
-                % if cid == event_cid:
-                class="now"
-                % endif
-                >
-                <span>${event_cid_name}</span>
-                ${event_cid_count} 
-            </a>
-            %endif
+        %if event_cid_count:
+        <a href="/${pid}/${event_cid}"
+            % if cid == event_cid:
+            class="now"
+            % endif
+            >
+            <span>${event_cid_name}</span>
+            ${event_cid_count}
+        </a>
+        %endif
     %endfor
     </div>
 </div>
