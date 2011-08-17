@@ -226,10 +226,10 @@ def charged(out_trade_no, total_fee, rid, d):
                 if for_t:
                     if bank_can_pay(for_t.from_id, for_t.value):
                         for_cid = for_t.cid
-                        if cid == CID_TRADE_PAY:
+                        if for_cid == CID_TRADE_PAY:
                             trade_finish(for_t)
                             pay_notice(for_t.id)
-                        elif cid == CID_TRADE_EVENT:
+                        elif for_cid == CID_TRADE_EVENT:
                             from event import event_joiner_state, event_joiner_new
                             event_id = for_t.rid
                             user_id = for_t.from_id
