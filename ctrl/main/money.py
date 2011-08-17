@@ -8,19 +8,27 @@ from model.money import pay_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE
 from model.zsite import Zsite
 from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_EVENT
 from model.zsite import Zsite
+from model.money import Trade
+from model.po import Po
+from model.event import Event
+
 
 @urlmap('/money/alipay_sync')
 class AlipaySync(Base):
     def get(self):
         query = self.request.query
         t = alipay_url_recall(query)
+        if t.for_id:
+            t = Trade.get(t.for_id)
         if t:
             cid = t.cid
             if cid == CID_TRADE_CHARDE:
                 user = Zsite.mc_get(t.to_id)
                 url = '%s/money/charged/%s/%s'%(user.link, t.id, t.to_id)
             elif cid == CID_TRADE_EVENT:
-                url = '%s/%s/%s'%(url, t.rid,t.from_id)
+                event = Event.mc_get(t.rid)
+                zsite = Zsite.mc_get(event.zsite_id)
+                url = '%s/event/%s/state'%(zsite.link, event.id)
             else:
                 url = '/pay/result/%s'%t.id
         return self.redirect(url)
