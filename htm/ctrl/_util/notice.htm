@@ -4,6 +4,7 @@ from zkit.time_format import friendly_time
 from model.money import Trade, trade_log
 from model.notice import notice_id_count
 from model.po import Po
+from model.event import Event
 from yajl import loads
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_career_link"/>
@@ -84,12 +85,12 @@ txt = i.txt
 <pre>${txt}</pre>
 % elif cid == CID_NOTICE_EVENT_NOTICE:
 <%
-event = Event.mc_get(r.rid)
+event = Event.mc_get(rid)
 %>
 通知你 : ${entry.name}
 % elif cid == CID_NOTICE_EVENT_KILL:
 <%
-event = Event.mc_get(r.rid)
+event = Event.mc_get(rid)
 price = event.price
 %>
 解散活动了 , 原因是${entry.name}\
