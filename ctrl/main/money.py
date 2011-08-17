@@ -6,6 +6,8 @@ from config import SITE_URL
 from model.money_alipay import alipay_url_recall
 from model.money import pay_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice
 from model.zsite import Zsite
+from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_EVENT
+
 
 @urlmap('/money/alipay_sync')
 class AlipaySync(Base):
@@ -13,10 +15,14 @@ class AlipaySync(Base):
         query = self.request.query
         t = alipay_url_recall(query)
         url = '%s/money' % SITE_URL
-        if t.id:
-            url = '/pay/result/%s'%t.id
-        else:
-            url = '%s/charged/%s/%s'%(url, t.id, t.to_id)
+        if t:
+            cid = t.cid
+            if cid == CID_TRADE_CHARDE:
+                url = '%s/charged/%s/%s'%(url, t.id, t.to_id)
+            elif cid == CID_TRADE_EVENT:
+                url = '%s/%s/%s'%(url, t.rid,t.from_id)
+            else:
+                url = '/pay/result/%s'%t.id
         return self.redirect(url)
 
 
