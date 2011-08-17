@@ -3,7 +3,7 @@ from _handler import Base, LoginBase, XsrfGetBase
 from ctrl._urlmap.meet import urlmap
 from model.namecard import namecard_get
 from zkit.earth import pid_city
-from model.event import event_list_by_city_pid, event_count_by_city_pid
+from model.event import event_list_by_city_pid_cid, event_count_by_city_pid_cid
 from zkit.jsdict import JsDict
 from zkit.page import page_limit_offset
 from model.namecard import namecard_get, namecard_new
@@ -30,11 +30,14 @@ class Index(Base):
         return self.redirect(link)
 
 
-@urlmap('/(\d+)')
-@urlmap('/(\d+)-(\d+)')
+@urlmap('/(?P<pid>\d+)')
+@urlmap('/(?P<pid>\d+)-(?P<n>\d+)')
+@urlmap('/(?P<pid>\d+)/(?P<cid>\d+)')
+@urlmap('/(?P<pid>\d+)/(?P<cid>\d+)-(?P<n>\d+)')
 class City(Base):
-    def get(self, pid, n=1):
+    def get(self, pid, cid=0, n=1):
         pid = int(pid)
+        cid = int(cid)
         n = int(n)
 
         _pid = pid_city(pid)
@@ -43,17 +46,24 @@ class City(Base):
         if _pid != pid:
             return self.redirect('/%s'%_pid)
 
-
-        total = event_count_by_city_pid(pid)
+        if cid:
+            page_template = '/%s/%s-%%s' % (pid, cid)
+        else:
+            page_template = '/%s-%%s' % pid
+        total = event_count_by_city_pid_cid(pid, cid)
         page, limit, offset = page_limit_offset(
-            '%s-%%s' % pid,
+            page_template,
             total,
             n,
             PAGE_LIMIT,
         )
-        event_list = event_list_by_city_pid(pid, limit, offset)
-        return self.render(pid=pid, event_list=event_list, page=page, total=total)
-
+        event_list = event_list_by_city_pid_cid(pid, cid, limit, offset)
+        return self.render(
+            pid=pid,
+            cid=cid,
+            event_list=event_list,
+            page=page,
+        )
 
 
 @urlmap('/city/select')

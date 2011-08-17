@@ -5,7 +5,7 @@
 
 <%
 from zkit.earth import place_name
-from model.event import event_cid_name_count_by_city_pid 
+from model.event import event_count_by_city_pid_cid, event_cid_name_count_by_city_pid 
 %>
 
 <style>
@@ -45,11 +45,18 @@ margin-top:32px;
 <div class="G">
 <div class="G1">
     <div class="event_cid">
-            <a href="/${pid}" class="now"><span>全部</span>${total}</a>
-            
+        <a href="/${pid}"
+            % if cid == 0:
+            class="now"
+            % endif
+            ><span>全部</span>${event_count_by_city_pid_cid(pid)}</a>
     %for event_cid, event_cid_name, event_cid_count in event_cid_name_count_by_city_pid(pid):
             %if event_cid_count:
-            <a href="/${pid}/${event_cid}">
+            <a href="/${pid}/${event_cid}"
+                % if cid == event_cid:
+                class="now"
+                % endif
+                >
                 <span>${event_cid_name}</span>
                 ${event_cid_count} 
             </a>
