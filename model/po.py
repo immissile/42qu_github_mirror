@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, CID_EVENT_NOTICE
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -236,6 +236,7 @@ def po_rm(user_id, id):
     rid = po.rid
     if po.can_admin(user_id):
         from po_question import answer_count
+
         if cid == CID_QUESTION:
             if answer_count(id):
                 return
@@ -247,6 +248,9 @@ def po_rm(user_id, id):
             from model.rank import rank_rm
             po_event_feedback_rm(user_id, rid)
             rank_rm(id, rid)
+        elif cid == CID_EVENT_NOTICE:
+            mc_po_event_notice_id_list_by_event_id.delete(rid)
+
         return _po_rm(user_id, po)
 
 
@@ -302,6 +306,7 @@ def _po_list_count(user_id, cid, is_self):
 po_list_count = McNum(_po_list_count, 'PoListCount.%s')
 
 mc_po_id_list = McLimitA('PoIdList.%s', 512)
+
 
 @mc_po_id_list('{user_id}_{cid}_{is_self}')
 def po_id_list(user_id, cid, is_self, limit, offset):

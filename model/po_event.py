@@ -123,7 +123,28 @@ def po_event_notice_new(user_id, event_id, name):
         from notice import mq_notice_event_notice
         mq_notice_event_notice(user_id, event_id, o.id)
         return o
+    mc_po_event_notice_id_list_by_event_id.delete(event_id)
+
+mc_po_event_notice_id_list_by_event_id = McCacheA(
+    "PoEventNoticeIdListByEventId:%s"
+)
+
+@mc_po_event_notice_id_list_by_event_id("{event_id}")
+def po_event_notice_id_list_by_event_id(event_id):
+    from state import STATE_ACTIVE
+    return Po.where(
+        cid=CID_EVENT_NOTICE, 
+        rid=event_id
+    ).where("state>=%s"%STATE_ACTIVE).col_list()
+
+def po_event_notice_list_by_event_id(event_id):
+    return Po.mc_get_list(
+        po_event_notice_id_list_by_event_id(event_id)   
+    )
 
 
 if __name__ == '__main__':
     pass
+
+
+
