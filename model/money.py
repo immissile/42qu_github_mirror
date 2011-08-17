@@ -12,6 +12,7 @@ from mail import rendermail
 from verify import verify_new, verifyed
 from state import STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from zkit.attrcache import attrcache
+from model.event import EVENT_JOIN_STATE_NEW
 
 mc_frozen_get = McCache('FrozenBank.%s')
 
@@ -233,7 +234,7 @@ def charged(out_trade_no, total_fee, rid, d):
                             from event import event_joiner_state, event_joiner_new
                             event_id = for_t.rid
                             user_id = for_t.from_id
-                            if event_joiner_state(event_id, user_id) < STATE_APPLY:
+                            if event_joiner_state(event_id, user_id) < EVENT_JOIN_STATE_NEW:
                                 trade_open(for_t)
                                 event_joiner_new(event_id, user_id)
                             else:
