@@ -115,7 +115,6 @@ def po_event_feedback_group(event_id):
 
 def _po_event_notice_new(user_id, event_id, name):
     o = po_new(CID_EVENT_NOTICE, user_id, name, STATE_ACTIVE, event_id)
-    mc_po_event_notice_id_list.delete()
     return o
 
 def po_event_notice_new(user_id, event_id, name):
