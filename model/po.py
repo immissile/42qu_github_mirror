@@ -254,6 +254,7 @@ def po_rm(user_id, id):
             po_event_feedback_rm(user_id, rid)
             rank_rm(id, rid)
         elif cid == CID_EVENT_NOTICE:
+            from model.po_event import mc_po_event_notice_id_list_by_event_id
             mc_po_event_notice_id_list_by_event_id.delete(rid)
 
         return _po_rm(user_id, po)

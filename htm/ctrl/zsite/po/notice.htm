@@ -8,11 +8,7 @@
 ${po_bar_vote(po)}\
 <p class="po_bar">\
     %if can_admin:
-    %if po.rid:
-<a href="/po/edit/${po.id}">编辑</a>\
-    %else:
 <a href="/po/rm/${po.id}?${_xsrf}">删除</a>\
-    %endif
     %endif
 </p>\
 </pre>
