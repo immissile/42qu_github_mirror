@@ -7,8 +7,10 @@ function fancybox_txt(tip, action, post, complete, submit) {
 			var form = $('#po_pop_form'),
 			pop_txt = $('#po_pop_txt').focus(),
 			error = $('#po_pop_error');
+
 			complete && complete()
-			form.submit(function() {
+            
+            form.submit(function() {
 				var txt = $.trim(pop_txt.val());
 
 				error.hide()
@@ -60,17 +62,20 @@ $(function() {
 
 	$('.join_no').click(function() {
 		var id = this.rel
-		fancybox_txt('拒绝理由如下 :', '/j/event/check/' + id + '/0', function() {
+		fancybox_txt(
+        '拒绝理由如下 :', 
+        '/j/event/check/' + id + '/0', 
+        function() {
 			$.fancybox.close()
 			$('#ndbk' + id).slideUp(500, function() {
 				$(this).remove()
 			})
-		}),
+		},
 		function() {
-			$('#po_pop_txt').val(_txt)
+			$('#po_pop_txt').val(_txt).select()
 		},
 		function() {
 			_txt = $('#po_pop_txt').val()
-		}
+		})
 	})
 })

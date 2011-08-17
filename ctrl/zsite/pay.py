@@ -17,18 +17,6 @@ from model.state import STATE_SECRET, STATE_ACTIVE
 from model.notice import notice_new
 
 
-@urlmap('/pay/result/(\d+)')
-class Result(ZsiteBase):
-    def get(self, id):
-        t = Trade.get(id)
-        from_user = Zsite.mc_get(t.from_id)
-        to_user = Zsite.mc_get(t.to_id)
-
-        self.render(
-            from_user=from_user,
-            to_user=to_user,
-            trade=t,
-        )
 
 @urlmap('/pay')
 class Index(ZsiteBase):
