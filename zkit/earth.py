@@ -10647,7 +10647,7 @@ def place_name(place_id):
         return ''
 
     if place_id < 1000:
-        return COUNTRY_DICT[place_id] 
+        return COUNTRY_DICT[place_id]
 
     r = []
     country = (place_id&BIT_COUNTRY) >> BIT_COUNTRY_LEN
@@ -10661,68 +10661,65 @@ def place_name(place_id):
         p += (0b11111111<<i)
     return ' '.join(r)
 
+
+PLACE_MUNI = (
+   4295032832, #北京
+   4295098368, #上海
+   4295229440, #天津
+   4295163904, #重庆
+   4295294976, #香港
+   4295360512, #澳门
+)
+
+PLACE_CITY_L1 = (
+4529848320, #广东
+4731174912, #浙江
+4496293888, #江苏
+4596957184, #四川
+4445962240, #湖北
+4362076160, #山东
+4747952128, #福建
+4429185024, #河南     
+4345298944, #辽宁     
+4395630592, #陕西    
+4462739456, #湖南    
+4412407808, #河北     
+4714397696, #安徽    
+4311744512, #黑龙江      
+4378853376,#山西     
+4546625536, #广西     
+4328521728, #吉林    
+4513071104, #江西          
+4563402752, #云南     
+4613734400,#内蒙古     
+4580179968, #贵州   
+4647288832, #甘肃    
+4697620480, #新疆    
+4479516672, #海南    
+4630511616, #宁夏    
+4664066048, #青海    
+4680843264, #西藏 
+4764729344, #台湾
+)
+
+def pid_city(code):
+    if code in COUNTRY_DICT and code != 1:
+        return code
+
+    code = code&BIT_COUNTRY_PROVINCE_CITY
+    if code in PLACE_MUNI:
+        return code
+    else:
+        if code in PLACE_GET_CITY_L1L2:
+            return code
+        elif code in PLACE_GET_CITY_L2L3:
+            return PLACE_GET_CITY_L2L3[code]
+    return 0
+
+
+
 if __name__ == '__main__':
-    print place_name(4295033088)
-    print place_name(105)
-    """
-    print place_name(4295033088)
-    print place_name(4295033088&BIT_COUNTRY_PROVINCE_CITY)
-
-    print place_name(4497866752)
-    print place_name(4497866752&BIT_COUNTRY_PROVINCE_CITY)
-
-    print place_name(4497801472)
-    print place_name(4497801472&BIT_COUNTRY_PROVINCE_CITY)
-
-    raise
-    print 0b100001000011111110000000000000000
-    print hex(4437508096)
-    print "!!"
-    place_id = 4765188096
-    p = BIT_COUNTRY
-    for i in (
-              4429250560,
-               4429709312,
-               4430102528,
-               4430757888,
-               4431216640,
-               4431609856,
-               4431806464,
-               4432396288,
-               4432855040,
-               4433248256,
-               4433641472,
-               4433838080,
-               4434231296,
-               4435017728,
-               4435542016,
-               4436131840,
-               4436787200
-    ):
-        print hex(i)
-    raise
-    def test():
-        def print_city():
-            for i in PLACE_L1:
-                print PID2NAME[i].decode('utf-8')
-                for j in PLACE_L1L2.get(i, []):
-                    print '     ', place_name(j).decode('utf-8')
-                    for k in PLACE_L2L3.get(j, []):
-                        print '         ', place_name(k).decode('utf-8')
-
-        print_city()
-
-        def next_id(prefix, prefixlen):
-            max = 0
-            bits = BIT_ALL - (2<<(prefixlen-1)) + 1
-            pid = prefix&bits
-            for i, v in PID2NAME.iteritems():
-                if i&bits == pid:
-                    id = (i>>(prefixlen-8))&0b11111111
-                    if id > max:
-                        max = id
-            max += 1
-            return (max<<(prefixlen-8))+pid
-
-    test()
-    """
+    #print place_name(4295033088)
+    #print place_name(105)
+    print pid_city(4497801216)
+    print place_name(4496293888)

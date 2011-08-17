@@ -3,6 +3,7 @@
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from tag import tag_new, tag_get
 from zkit.attrcache import attrcache
+from zkit.mc_func import mc_func_get_list, mc_func_get_dict
 from spammer import anti_same_post
 
 CID_JOB = 1
@@ -145,22 +146,22 @@ def career_current(user_id):
         return o.unit, o.title
     return '', ''
 
-from zkit.mc_func import mc_func_get_list, mc_func_get_dict
 
 def career_dict(id_list):
-    o_dict = mc_func_get_dict(
+    return mc_func_get_dict(
         mc_career_current,
         career_current,
         id_list,
     )
-    return o_dict
 
-def career_bind(user_list):
-    id_list = set([i.id for i in user_list])
-    o_dict = career_dict(id_list)
-    for i in user_list:
-        i.career = o_dict[i.id]
-    return user_list
+def career_bind(li, key='id'):
+    d = set()
+    for i in li:
+        k = getattr(i, key)
+        d.add(k)
+    o_dict = career_dict(d)
+    for i in li:
+        i.career = o_dict.get(getattr(i, key))
 
 def mc_flush(user_id, cid):
     from model.feed_po import mc_feed_user_dict

@@ -1,7 +1,7 @@
 (function(){
 function po_(id, action, name, input, oncomplete){
     var fancybox = $.fancybox;
-    fancybox({      
+    fancybox({
         "content":[
         '<form method="POST" enctype="multipart/form-data" id="po_pop_form" class="po_pop_form"><div class="po_pop_tip">',
         id?"编辑文本":"发布"+name,
@@ -136,6 +136,4 @@ po_audio = function(id){
     )
 }
 
-
 })()
-

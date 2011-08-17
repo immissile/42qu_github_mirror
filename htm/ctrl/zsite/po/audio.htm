@@ -14,7 +14,7 @@ audio_url = fs_url_audio( po.id, this.xsrf_token)
 <h1 id="po_audio_name">${HTM_AUDIO%audio_url|n}<a id="po_name" href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
 <div class="w721">\
 %if po.txt:
-<pre>${po.htm|n}</pre>\
+<pre class="prebody">${po.htm|n}</pre>\
 %endif
 <p class="po_bar">\
 %if can_admin:

@@ -1,0 +1,25 @@
+<%!
+from model.event import EVENT_STATE_BEGIN
+from static import js
+%>
+<%def name="event_admin_nav(event, po)">
+<%
+id = event.id
+state = event.state
+name = po.name
+path = request.path
+%>
+<script src="${js.ctrl_event}"></script>
+<div class="event_admin_nav">\
+<a class="event_admin_name" href="/${id}">${name}</a>\
+<span class="event_notice_a">\
+% if state >= EVENT_STATE_BEGIN:
+<a ${'class="now" ' if path.startswith('/event/check/') else ''|n}href="/event/check/${id}">成员审核</a>\
+<a href="javascript:event_notice(${id});void(0)">发布公告</a>\
+% endif
+<a ${'class="now" ' if path.startswith('/po/event/') else ''|n}href="/po/event/${id}">设置属性</a>\
+<a ${'class="now" ' if path.startswith('/po/edit/') else ''|n}href="/po/edit/${id}">编辑介绍</a>\
+<a href="javascript:event_kill(${id});void(0)" >解散活动</a>\
+</span>\
+</div>\
+</%def>

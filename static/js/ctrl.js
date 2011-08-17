@@ -144,7 +144,7 @@ function follow_a(id){
         text = follow_rm;
         fancybox = $.fancybox;
         fancybox({
-            content:'<form id="follow_reply" class="fancyreply"><h3>关注 , 可以有个理由 ...</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">此致 , 敬礼 !</button></span><span id="follow_secret_span"><input type="checkbox" name="secret" id="follow_reply_secret"><label for="follow_reply_secret">私语</label></span></div></form>',
+            content:'<form id="follow_reply" class="fancyreply"><h3>你好 ...</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">此致 , 敬礼 !</button></span><span id="follow_secret_span"><input type="checkbox" name="secret" id="follow_reply_secret"><label for="follow_reply_secret">私语</label></span></div></form>',
             onComplete:function(){
                 var reply = $("#follow_reply"),
                     textarea = reply.find('textarea');
@@ -178,6 +178,37 @@ function follow_a(id){
     }
     $.postJSON(url+"/"+id)
     a.html(text)
+}
+
+
+function txt_maxlen(txt, tip, form,  maxlen){
+    function po_word_update(value){
+        var len = cnenlen(value),
+            html, diff=0;
+        if(len){
+            diff = len-maxlen; 
+            if(diff>0){
+    html = '<span style="color:red">超出<span>'+diff+"</span>字</span>"
+            }else{
+    html = '<span style="color:#999"><span>'+len+"</span>字</span>"
+    //为了ie6 多加一层span
+            }
+        }else{
+    html = '&nbsp;'
+        }
+        tip.html(html);
+        return diff
+    }
+    
+    form.submit(function(){
+        if(po_word_update(txt.val())>0){
+            txt.focus()
+            return false
+        }
+    })
+    txt.input(function(){
+        po_word_update(this.value)
+    })
 }
 
 

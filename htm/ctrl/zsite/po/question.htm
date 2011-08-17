@@ -16,7 +16,7 @@ po_state = po.state
 zsite_url = zsite.link
 %>
 <h1>${po.name}</h1>
-<pre>${po.htm|n}\
+<pre class="prebody">${po.htm|n}\
 <p class="po_bar">\
 %if can_admin:
 <span class="L"><a href="${po.link_edit}">编辑</a></span>\
@@ -65,7 +65,7 @@ if user:
 %endif
  :
 </p>
-<pre>${answer.htm|n}</pre>
+<pre class="prebody">${answer.htm|n}</pre>
 
     %if answer.can_view(current_user_id):
     <div class="bar">

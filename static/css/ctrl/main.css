@@ -21,6 +21,15 @@
 #T a{
     color: #ffe000;
 }
+#TX{
+    color: #000;
+    background: url(/img/gif/icons/gif/white/to_size/close.gif) no-repeat;
+    height: 16px;
+    display: inline-block;
+    width: 16px;
+    margin-left: 14px;
+    vertical-align: -7px;
+}
 #H{
     font-size:16px;
     border-bottom:1px dotted #ccc;
@@ -114,9 +123,11 @@ margin-top:1px;
 
 .btnw{
     border: 1px solid #ccc;
+/*
     -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eee;
     -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eee;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eee;
+*/
     height:42px;
     display:inline-block;
 }
@@ -297,5 +308,39 @@ margin-bottom:20px;
 }
 .noticeA:visited{
 color:#999;
+}
+
+.colon{
+display:inline-block;
+width:20px;
+text-align:center;
+}
+.ml48{
+margin-left: 48px;
+}
+.ml14{
+margin-left:14px;
+}
+.ml20{
+margin-left:20px;
+}
+.mt14{
+margin-top:14px
+}
+
+.event_page{
+margin-left: 125px; margin-bottom: 28px;
+}
+
+.event_img{
+float:left; margin-right: 36px;
+}
+
+.event_txt{
+float: left; margin-top: -7px;
+}
+
+.po_name{
+text-align: left; font-size: 14px; margin-top: 4px; margin-bottom: 14px;
 }
 
