@@ -135,7 +135,7 @@ def po_event_notice_id_list_by_event_id(event_id):
     return Po.where(
         cid=CID_EVENT_NOTICE,
         rid=event_id
-    ).where("state>=%s"%STATE_ACTIVE).col_list()
+    ).where("state>=%s"%STATE_ACTIVE).order_by("id desc").col_list()
 
 def po_event_notice_list_by_event_id(event_id):
     return Po.mc_get_list(
