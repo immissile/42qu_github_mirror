@@ -2,7 +2,7 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/_util/i/info.htm" name="info"/>
 <%
-from zkit.earth import place_name, PLACE_L1, PLACE_MUNI, PLACE_L1L2, PID2NAME
+from zkit.earth import place_name, PLACE_CITY_L1 , PLACE_MUNI, PLACE_L1L2, PID2NAME
 %>
 <style>
 .divbk, .divbk2{
@@ -28,8 +28,7 @@ margin-right:-16px;
 %endfor
 </div>
 
-%for i in PLACE_L1:
-        %if not i in PLACE_MUNI:
+%for i in PLACE_CITY_L1:
 <div class="divbk">${place_name(i)}</div>
 <div class="divbk2">
             %for p in PLACE_L1L2.get(i):
@@ -39,7 +38,6 @@ name = PID2NAME[p].rstrip(u"市")
 <a href="/${p}">${name|n}</a>\
             %endfor
 </div>
-        %endif
 %endfor
 
 
