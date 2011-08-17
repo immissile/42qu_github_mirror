@@ -261,11 +261,11 @@ def withdraw_fail(id, txt):
             value=t.value/100.0
         )
 
-def withdraw_success(id,trade_no):
+def withdraw_success(id, trade_no):
     t = Trade.get(id)
     if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_ONWAY:
         trade_finish(t)
-        trade_log.set(id,trade_no)
+        trade_log.set(id, trade_no)
         mail = mail_by_user_id(id)
         rendermail(
             '/mail/notice/with_draw_success.txt', mail,
@@ -315,6 +315,6 @@ def pay_event_get(event, user_id):
 
 if __name__ == '__main__':
     pass
-    #with_draw_success(,'12001201')
-    #for i in trade_history(10000000):
-    #   print i.cid, i.state, i.from_id
+
+    t = Trade.get(124)
+    print t.cid
