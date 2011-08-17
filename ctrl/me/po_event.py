@@ -140,7 +140,8 @@ class Index(LoginBase):
 
             if limit_down > limit_up:
                 limit_up, limit_down = limit_down, limit_up
-
+            if limit_down < 0:
+                errtip.limit_down = "人数不能为负数"
 
             if not address:
                 errtip.address = '请输入详细地址'

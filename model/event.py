@@ -127,6 +127,8 @@ def event_new_if_can_change(
         if event and not event.can_change():
             event.phone = phone
             event.pic_id = pic_id
+            event.limit_up = limit_up
+            event.limit_down = limit_down
             event.save()
             return event
         mc_feed_po_dict.delete(id)
