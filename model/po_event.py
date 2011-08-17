@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import McCache, McNum
+from _db import McCacheA, McCache, McNum
 from cid import CID_EVENT
 from po import Po, po_new, po_word_new, po_note_new, po_rm, po_cid_set
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
@@ -115,6 +115,7 @@ def po_event_feedback_group(event_id):
 
 def _po_event_notice_new(user_id, event_id, name):
     o = po_new(CID_EVENT_NOTICE, user_id, name, STATE_ACTIVE, event_id)
+    mc_po_event_notice_id_list.delete()
     return o
 
 def po_event_notice_new(user_id, event_id, name):
