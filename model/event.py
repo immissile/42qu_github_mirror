@@ -18,13 +18,18 @@ from notice import notice_event_yes, notice_event_no, notice_event_join_yes, not
 from mq import mq_client
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
-mc_event_id_list_by_city_pid = McLimitA('EventIdListByCityPid.%s', 128)
+mc_event_id_list_by_city_pid_cid = McLimitA('EventIdListByCityPidCid.%s', 128)
+mc_event_cid_count_by_city_pid = McCacheA('EventCidCountByCityPid.%s')
 
-event_count_by_city_pid = McNum(
-    lambda city_pid : Event.where(city_pid=city_pid).where(
-        'state >= %s'%EVENT_STATE_BEGIN
-    ).count(),
-    'EventCountByCityPid:%s:'
+def event_by_city_pid_cid_query(city_pid, cid=0):
+    qs = Event.where(city_pid=city_pid)
+    if cid:
+        qs = qs.where(cid=cid)
+    return qs.where('state>=%s and state<%s', EVENT_STATE_BEGIN, EVENT_STATE_END)
+
+event_count_by_city_pid_cid = McNum(
+    lambda city_pid, cid=0: event_by_city_pid_cid_query(city_pid, cid).count(),
+    'EventCountByCityPidCid:%s:'
 )
 
 mc_event_joiner_feedback_normal_id_list = McCacheA('EventJoinerReveiwIdList:%s')
@@ -255,12 +260,12 @@ def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
 
 
 
-@mc_event_id_list_by_city_pid('{city_pid}')
-def event_id_list_by_city_pid(city_pid, limit=10, offset=0):
-    return Event.where(city_pid=city_pid).where('state >= %s', EVENT_STATE_BEGIN).order_by('end_time').col_list(limit, offset)
+@mc_event_id_list_by_city_pid_cid('{city_pid}_{cid}')
+def event_id_list_by_city_pid_cid(city_pid, cid, limit=10, offset=0):
+    return event_by_city_pid_cid_query(city_pid, cid).order_by('end_time').col_list(limit, offset)
 
-def event_list_by_city_pid(city_pid, limit=10, offset=0):
-    id_list = event_id_list_by_city_pid(city_pid, limit, offset)
+def event_list_by_city_pid_cid(city_pid, cid, limit=10, offset=0):
+    id_list = event_id_list_by_city_pid_cid(city_pid, cid, limit, offset)
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 
@@ -441,9 +446,11 @@ def mc_flush_by_user_id(user_id):
     mc_event_id_list_join_by_user_id.delete(user_id)
     event_join_count_by_user_id.delete(user_id)
 
-def mc_flush_by_city_pid(city_pid):
-    mc_event_id_list_by_city_pid.delete(city_pid)
-    event_count_by_city_pid.delete(city_pid)
+def mc_flush_by_city_pid_cid(city_pid, cid):
+    for _cid in set([0, cid]):
+        mc_event_id_list_by_city_pid_cid.delete(city_pid, _cid)
+        event_count_by_city_pid_cid.delete(city_pid, _cid)
+    mc_event_cid_count_by_city_pid.delete(city_pid)
 
 def event_joiner_end(o):
     event_id = o.event_id
@@ -530,7 +537,7 @@ def event_review_yes(id):
     if event and event.state == EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_BEGIN
         event.save()
-        mc_flush_by_city_pid(event.city_pid)
+        mc_flush_by_city_pid_cid(event.city_pid, event.cid)
 
         zsite_id = event.zsite_id
         event_joiner_new(id, zsite_id, EVENT_JOIN_STATE_YES)
@@ -573,14 +580,14 @@ def event_begin2now(event):
     if event.state < EVENT_STATE_NOW:
         event.state = EVENT_STATE_NOW
         event.save()
-        mc_flush_by_city_pid(event.city_pid)
+        mc_flush_by_city_pid_cid(event.city_pid, event.cid)
 
 
 def event_end(event):
     if event.state < EVENT_STATE_END:
         event.state = EVENT_STATE_END
         event.save()
-        mc_flush_by_city_pid(event.city_pid)
+        mc_flush_by_city_pid_cid(event.city_pid, event.cid)
 
 
 def event_review_join_apply(event_id):
@@ -609,10 +616,13 @@ def event_review_join_apply(event_id):
                 event_join_apply_list=' , '.join(event_joiner_list)
             )
 
+@mc_event_cid_count_by_city_pid('{city_pid}')
+def event_cid_count_by_city_pid(city_pid):
+    return [event_count_by_city_pid_cid(city_pid, cid) for cid in EVENT_CID]
 
-def event_cid_name_count_by_city_pid(city_id):
-    for event_cid, event_cid_name in EVENT_CID_CN:
-        yield event_cid, event_cid_name, 3
+def event_cid_name_count_by_city_pid(city_pid):
+    for (event_cid, event_cid_name), count in zip(EVENT_CID_CN, event_cid_count_by_city_pid(city_pid)):
+        yield event_cid, event_cid_name, count
 
 
 if __name__ == '__main__':
