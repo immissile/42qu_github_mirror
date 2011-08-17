@@ -85,15 +85,15 @@ txt = i.txt
 <pre>${txt}</pre>
 % elif cid == CID_NOTICE_EVENT_NOTICE:
 <%
-event = Event.mc_get(rid)
+event = Po.mc_get(entry.rid)
 %>
-通知你 : ${entry.name}
+发布 <a target="_blank" href="/${event.id}">${event.name}</a> 活动公告 , <a target="_blank" class="noticeA" href="${entry.link}">点此浏览</a>
 % elif cid == CID_NOTICE_EVENT_KILL:
 <%
-event = Event.mc_get(rid)
+event = Event.mc_get(entry.rid)
 price = event.price
 %>
-解散活动了 , 原因是${entry.name}\
+解散了活动 <a target="_blank" href="/${event.id}">${event.name}</a> , <a target="_blank" class="noticeA" href="${entry.link}">原因见此</a> \
 % if price:
 你预付的 ${price} 元以退回 , 请查看账户
 % endif
