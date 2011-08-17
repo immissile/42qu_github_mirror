@@ -214,7 +214,7 @@ CID2TEMPLATE = {
     CID_NOTE: PO_TEMPLATE,
     CID_QUESTION:'/ctrl/zsite/po/question.htm',
     CID_ANSWER: PO_TEMPLATE,
-    CID_EVENT_NOTICE: PO_TEMPLATE,
+    CID_EVENT_NOTICE: '/ctrl/zsite/po/notice.htm',
     CID_PHOTO: '/ctrl/zsite/po/photo.htm',
     CID_VIDEO: '/ctrl/zsite/po/video.htm',
     CID_EVENT: '/ctrl/zsite/po/event.htm',
@@ -269,6 +269,9 @@ class PoOne(ZsiteBase):
                 tag_link = "/event/to_review"
             else:
                 tag_link = "/event"
+        elif cid == CID_EVENT_NOTICE:
+            prev_id = next_id = zsite_tag_id = tag_name = None
+            tag_link = "/%s"%po.rid
         else:
             zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
             if zsite_tag_id:
