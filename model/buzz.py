@@ -218,10 +218,10 @@ def buzz_event_join_new(user_id, event_id):
 
 mq_buzz_event_join_new = mq_client(buzz_event_join_new)
 
+
 def buzz_event_join_apply_new(user_id, event_id):
     event_zsite_id = Event.mc_get(event_id).zsite_id
     buzz_new(user_id, event_zsite_id, CID_BUZZ_EVENT_JOIN_APPLY, event_id)
-
 
 # 张沈鹏 评论了 <a>去看电影</a> , 点此浏览
 # 只显示给发起人
