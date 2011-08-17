@@ -511,18 +511,19 @@ mq_event_kill_extra = mq_client(event_kill_extra)
 
 def event_kill(user_id, event, txt):
     from po_event import _po_event_notice_new
-    if event.can_change():
-        po_rm(user_id, event.id)
-    elif event.state < EVENT_STATE_END:
-        event.state = EVENT_STATE_DEL
-        event.save()
+    if event.state < EVENT_STATE_END:
+        if event.can_change():
+            po_rm(user_id, event.id)
+        else:
+            event.state = EVENT_STATE_DEL
+            event.save()
+
+            mc_flush_by_zsite_id(event.zsite_id)
+            event_to_review_count_by_zsite_id.delete(user_id)
+            mc_flush_by_user_id(user_id)
 
         o = _po_event_notice_new(user_id, event_id, txt)
         mq_event_kill_extra(user_id, event_id, o.id)
-
-        mc_flush_by_zsite_id(event.zsite_id)
-        event_to_review_count_by_zsite_id.delete(user_id)
-        mc_flush_by_user_id(user_id)
 
 
 def event_rm(user_id, id):
