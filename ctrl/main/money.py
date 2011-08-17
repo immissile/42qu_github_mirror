@@ -5,6 +5,7 @@ from ctrl._urlmap.main import urlmap
 from config import SITE_URL
 from model.money_alipay import alipay_url_recall
 from model.money import pay_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice
+from model.zsite import Zsite
 
 @urlmap('/money/alipay_sync')
 class AlipaySync(Base):
