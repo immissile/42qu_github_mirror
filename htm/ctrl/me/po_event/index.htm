@@ -130,6 +130,13 @@ value="${_event_cid}">${event_name}</option>
 <label>在线收费</label><input autocomplete="off" name="price" class="input price" value="${price or 0}">元 / 人${errtip.price|n}
 </div
 >
+
+</div>\
+
+<div class="po_line">
+<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
+</div>
+
 <div class="po_line">
 <label>名额上限</label><input autocomplete="off" name="limit_up" class="limit_up input" value="${limit_up or 42}">
 </div>
@@ -138,12 +145,6 @@ value="${_event_cid}">${event_name}</option>
 <label>最少人数</label><input autocomplete="off" name="limit_down" class="limit_down input" value="${limit_down or 0}">
 </div>
 
-
-
-<div>\
-<div class="po_line">
-<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
-</div>
 <span id="event_submit_span" class="btnw">\
     <button type="submit">
 % if event_id and event.state > EVENT_STATE_TO_REVIEW:
