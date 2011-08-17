@@ -80,7 +80,10 @@ ${page|n}
 
 %else:
 <div class="f16 tc" style="border-bottom:1px dotted #ccc;padding-bottom:32px">
-暂无活动 , <a href="/po/event">点此创建</a>
+暂无活动 
+%if current_user:
+, <a href="${current_user.link}/po/event">点此创建</a>
+%endif
 </div>
 %endif
 
