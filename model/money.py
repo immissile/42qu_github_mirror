@@ -316,9 +316,7 @@ def pay_event_get(event, user_id):
 if __name__ == '__main__':
     pass
 
-    t = Trade.get(124)
-    print t.cid
+    t = Trade.get(127)
+    print t.cid, t.for_id
 
-    t = pay_event_new("1", 1, 1, 1, state=TRADE_STATE_NEW)
-    print t.cid
 

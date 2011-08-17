@@ -18,8 +18,12 @@ class AlipaySync(Base):
     def get(self):
         query = self.request.query
         t = alipay_url_recall(query)
+
         if t.for_id:
             t = Trade.get(t.for_id)
+
+        url = SITE_URL
+
         if t:
             cid = t.cid
             if cid == CID_TRADE_CHARDE:
@@ -31,6 +35,7 @@ class AlipaySync(Base):
                 url = '%s/event/%s/state'%(zsite.link, event.id)
             else:
                 url = '/pay/result/%s'%t.id
+
         return self.redirect(url)
 
 
