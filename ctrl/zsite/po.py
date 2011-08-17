@@ -10,7 +10,7 @@ from model.po_pos import po_pos_get, po_pos_set
 from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
 from zkit.page import page_limit_offset
 from zkit.txt import cnenlen
 from model.zsite_tag import ZsiteTag
@@ -214,6 +214,7 @@ CID2TEMPLATE = {
     CID_NOTE: PO_TEMPLATE,
     CID_QUESTION:'/ctrl/zsite/po/question.htm',
     CID_ANSWER: PO_TEMPLATE,
+    CID_EVENT_NOTICE: PO_TEMPLATE,
     CID_PHOTO: '/ctrl/zsite/po/photo.htm',
     CID_VIDEO: '/ctrl/zsite/po/video.htm',
     CID_EVENT: '/ctrl/zsite/po/event.htm',
