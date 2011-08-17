@@ -559,6 +559,7 @@ def event_review_yes(id):
             event.zsite.name,
             link=event.zsite.link,
             title=event.po.name,
+            price=event.price
         )
 
 
