@@ -397,7 +397,6 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
     mc_event_joiner_user_id_list.delete(event_id)
     mc_event_joining_id_list.delete(event_id)
 
-
     if event.zsite_id != user_id:
         event.join_count += 1
         event.save()
@@ -405,6 +404,7 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
     event_joiner_check_count.delete(event_id)
     mc_flush_by_user_id(user_id)
     return o
+
 
 def event_joiner_no(o, txt=''):
     event_id = o.event_id
