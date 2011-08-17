@@ -33,11 +33,11 @@ def bank_can_pay(user_id, cent):
     return bank.get(user_id) >= cent
 
 # Trade
-TRADE_CID_DIC = {
+TRADE_CID_DICT = {
     CID_TRADE_CHARDE: '充值',
     CID_TRADE_WITHDRAW: '提现',
     CID_TRADE_DEAL: '交易',
-#    CID_TRADE_EVENT: '活动',
+    CID_TRADE_EVENT: '活动',
 }
 
 TRADE_STATE_NEW = 5
@@ -318,3 +318,7 @@ if __name__ == '__main__':
 
     t = Trade.get(124)
     print t.cid
+
+    t = pay_event_new("1", 1, 1, 1, state=TRADE_STATE_NEW)
+    print t.cid
+
