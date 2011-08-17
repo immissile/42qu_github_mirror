@@ -6,7 +6,7 @@
 <%!
 from model.ico import pic_url_bind_with_default
 from model.career import career_bind
-from model.event import Event, event_joiner_check_count, event_joiner_user_list, event_joiner_user_id_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END,  event_joiner_state
+from model.event import Event, event_joiner_check_count, event_joiner_user_list, event_joiner_user_id_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END,  event_joiner_state, EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_NEW
 from model.po_event import event_feedback_id_get
 from model.notice import notice_event_no_txt_get
 %>
@@ -75,10 +75,26 @@ ${po.htm|n}\
 %endif
 ${event.limit_up}</p>\
 %if not can_admin:
-<form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" ><span class="btnw"><button type="submit">报名参加</button></span>\
-% if price:
+    %if join_state <= EVENT_JOIN_STATE_NO :
+<form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" ><span class="btnw"><button type="submit">\
+%if join_state == EVENT_JOIN_STATE_NO :
+重新报名\
+%else:
+报名参加\
+%endif
+</button></span>\
+    %else:
+<span class="L">
+        %if join_state == EVENT_JOIN_STATE_NEW :
+已经报名 , 等待确认
+        %elif join_state == EVENT_JOIN_STATE_YES :
+报名成功
+        %endif
+</span>
+    %endif
+    % if price:
 <span id="price_per">${price} 元 / 人</span>\
-% endif
+    % endif
 %elif price:
 <p>\
 活动费用 : ${price} 元 / 人\
