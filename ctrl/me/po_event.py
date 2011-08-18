@@ -41,6 +41,8 @@ class Index(LoginBase):
     def post(self, id=0):
         if id:
             event = Event.mc_get(id)
+            if event.zsite_id != self.current_user_id:
+                return self.redirect("/%s"%id)
             can_change = event.can_change()
         else:
             event = None
