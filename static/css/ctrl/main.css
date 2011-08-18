@@ -62,14 +62,10 @@ margin-top:1px;
     text-decoration:underline
 }
 #H .site{
-    font-size: 24px;
+    font-size: 16px;
     font-family: Trebuchet MS;
     color: #a10;
-    *position:relative;
-    *top:-28px;
-}
-#H .tc .site{
-    *position:static;
+    margin-right:16px;
 }
 
 #H .D div a:hover{
@@ -86,11 +82,14 @@ margin-top:1px;
     padding:7px 0;
     background:#fff;
 }
-#H .DA{
+#DL{
+display:inline;
+}
+#H .DA, #DL a{
     padding:16px;
     color:#999;
 }
-#H .DA:hover{
+#H .DA:hover, #DL a:hover{
     color:#000;
 }
 #H .D{
