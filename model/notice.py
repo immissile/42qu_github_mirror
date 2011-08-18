@@ -165,38 +165,34 @@ def notice_event_no_txt_get(to_id, event_id):
     return notice_txt_get(0, to_id, CID_NOTICE_EVENT_NO, event_id)
 
 def notice_event_join_yes(from_id, to_id, event_id):
-    from event import Event
     n = notice_new(from_id, to_id, CID_NOTICE_EVENT_JOIN_YES, event_id)
     mail = mail_by_user_id(to_id)
     zsite = Zsite.mc_get(to_id)
-    link = Zsite.mc_get(from_id).link
-    event = Event.get(event_id)
-    title = event.po.name
+    po = Po.mc_get(event_id)
+    title = po.name
+    link = po.link
     rendermail('/mail/event/event_join_yes.txt',
-                mail, zsite.name,
-                link = link,
-                event_id = event_id,
-                title = title
-            )
+               mail, zsite.name,
+               link=link,
+               title=title
+              )
     return n
 
 def notice_event_join_no(from_id, to_id, event_id, txt):
     cid = CID_NOTICE_EVENT_JOIN_NO
     n = notice_new(from_id, to_id, cid, event_id, txt=txt)
     mc_notice_last_id_by_zsite_id_cid.set('%s_%s' % (from_id, cid), n.id)
-    from event import Event
     mail = mail_by_user_id(to_id)
     zsite = Zsite.mc_get(to_id)
-    link = Zsite.mc_get(from_id).link
-    event = Event.get(event_id)
-    title = event.po.name
+    po = Po.mc_get(event_id)
+    title = po.name
+    link = po.link
     rendermail('/mail/event/event_join_no.txt',
-                mail, zsite.name,
-                link = link,
-                event_id = event_id,
-                title = title,
-                reason = txt
-            )
+               mail, zsite.name,
+               link=link,
+               title=title,
+               reason=txt
+              )
     return n
 
 def notice_event_notice(from_id, event_id, po_id):

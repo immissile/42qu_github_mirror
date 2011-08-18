@@ -115,7 +115,7 @@ class Po(McModel, ReplyMixin):
 
         if cid == CID_EVENT_NOTICE:
             return txt_withlink(self.name_)
-                
+
         if q:
             u = q.user
             link = '<a href="%s">%s</a>' % (q.link, escape(q.name))
