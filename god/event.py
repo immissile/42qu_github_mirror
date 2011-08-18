@@ -51,3 +51,11 @@ class EventState(Base):
             txt = self.get_argument('txt')
             event_review_no(id, txt)
         self.finish('{}')
+
+
+@urlmap("/event/edit/(\d+)")
+class EventEdit(Base):
+    def get(self, id, state):
+        pass
+    
+
