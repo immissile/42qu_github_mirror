@@ -20,17 +20,17 @@ a.eventcat {
 <%
 state = event.state
 %>
-<a href="/event" class="eventcat" style="color:
+<a href="/event" class="eventcat" 
     % if state == 0:
-    #000
+style="color:#000"
     % endif
-    ">全部</a>
+    >全部</a>
 % for _state, cnname in EVENT_STATE_CN_TUPLE:
-<a href="/event/${_state}" class="eventcat" style="color:
+<a href="/event/${_state}" class="eventcat" 
     % if state == _state:
-    #000
+style="color:#000"
     % endif
-    ">${cnname}</a>
+    >${cnname}</a>
 % endfor
 
 <form 
