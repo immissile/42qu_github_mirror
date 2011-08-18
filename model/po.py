@@ -353,4 +353,7 @@ def mc_flush_cid_list_all(user_id, cid_list):
             mc_flush_cid(user_id, cid, is_self)
 
 if __name__ == '__main__':
-    pass
+   po = Po.mc_get(10066012)
+   print po.name_
+   print po.txt
+
