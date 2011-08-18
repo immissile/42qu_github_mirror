@@ -69,6 +69,8 @@ class Index(LoginBase):
 
 def po_event_edit_post(self, id, event, can_change, event_new):
     user_id = self.current_user_id
+    if event:
+        user_id = event.zsite_id
     errtip = Errtip()
     phone = self.get_argument('phone', '')
     address = self.get_argument('address', None)
