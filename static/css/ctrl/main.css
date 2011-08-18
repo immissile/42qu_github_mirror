@@ -36,7 +36,7 @@
     padding:18px 0 20px;
     margin-bottom:0;
     text-align:center;
-    _padding:18px 0 20px;
+    _padding:18px 0 0;
     _height:48px;
 }
 .HN{
@@ -101,7 +101,7 @@ display:inline;
     padding-bottom:1px;
     position:absolute;
     margin-top:5px;
-    *margin-top:28px;
+    *margin-top:42px;
     right:0;
     border:1px solid #eee;
     background:#fafafa; 
