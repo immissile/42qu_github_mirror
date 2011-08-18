@@ -129,6 +129,5 @@ def begin_end_by_minute(begin_time, end_time):
 
 
 if __name__ == '__main__':
-    print minute2ymd(72690510)
-
+    print today()
 
