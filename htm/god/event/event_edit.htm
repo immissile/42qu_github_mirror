@@ -1,0 +1,88 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.po import STATE_SECRET, Po
+from model.po_event import EVENT_CID_CN
+from model.fs import fs_url_jpg
+from model.event import event_to_review_count_by_zsite_id, EVENT_STATE_TO_REVIEW
+from zkit.time_format import friendly_time
+from model.ico import ico_url as _ico_url
+from model.zsite import Zsite
+from zkit.txt import cnenoverflow
+from model.event import EVENT_STATE_CN_TUPLE, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
+%>
+
+<%def name="htm_head()">
+<style>
+a.eventcat {
+    color:#999;
+    margin:8px 16px;
+}
+</style>
+</%def>
+
+<a href="/event" class="eventcat" style="color:
+    % if state == 0:
+    #000
+    % endif
+    ">全部</a>
+% for _state, cnname in EVENT_STATE_CN_TUPLE:
+<a href="/event/${_state}" class="eventcat" style="color:
+    % if state == _state:
+    #000
+    % endif
+    ">${cnname}</a>
+% endfor
+
+
+<%htm:form>
+
+<div class="po_line">
+<label for="address">详细地址</label><input value="${address or ''}" name="address" class="input" id="address">
+</div>
+
+<div class="po_line">
+<label>交通路线</label><input name="transport" class="input" value="${transport or ''}">
+</div>
+
+<div class="po_line">
+<label>开始时间</label><script>select_event("begin_time", ${begin_time or 0},${begin_time_hour or 0},${begin_time_minute or 0})</script>
+</div>
+
+<div class="po_line">
+<label>结束时间</label><script>select_event("end_time", ${end_time or 0},${end_time_hour or 0},${end_time_minute or 0})</script>
+</div>
+
+<div class="po_line">
+<label>活动类型</label><select id="event_cid" name="event_cid" class="event_cid">
+<option value="">- 请选择 -</option>
+%for _event_cid, event_name in EVENT_CID_CN:
+<option 
+%if _event_cid == event_cid:
+selected
+%endif
+value="${_event_cid}">${event_name}</option>
+%endfor
+</select>
+</div>
+
+</div>\
+
+<div class="po_line">
+<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">
+</div>
+
+<div class="po_line">
+<label>名额上限</label><input autocomplete="off" name="limit_up" class="limit_up input" value="${limit_up or 42}">
+</div>
+
+<div class="po_line">
+<label>最少人数</label><input autocomplete="off" name="limit_down" class="limit_down input" value="${limit_down or 0}">
+</div>
+
+<span class="btnw">\
+<button type="submit">保存</button>\
+</span>\
+</div>\
+</div>\
+</%htm:form>
