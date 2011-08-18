@@ -2,9 +2,11 @@
 <%!
 from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_FEEDBACK_NORMAL
 from model.notice import notice_event_join_no_txt_by_zsite_id
+from model.ico import pic_url as _pic_url, ico_url_with_default
 %>
 
 <%def name="event_admin_body()">
+<div style="padding-bottom:48px">
 %if event_joiner_list:
 % for i in event_joiner_list:
 <%
@@ -21,7 +23,7 @@ career = ' , '.join(filter(bool, user.career))
 % endif
 
 <div class="ndbk" id="ndbk${id}"><div class="sdw"><div class="sd c">
-    <img src="${user.pic96}" class="ndico">
+    <img src="${ico_url_with_default(user.id)}" class="ndico">
     <div class="ndtxt">
         <p><a href="${user.link}">${realname}
 % if username != realname:
@@ -59,5 +61,5 @@ ${page|n}
 <p>暂无人报名</p>
 <p style="margin-top:32px;">去邀请朋友来参加吧</p></div>
 %endif
-
+</div>
 </%def>
