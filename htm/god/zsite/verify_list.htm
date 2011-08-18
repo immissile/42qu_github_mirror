@@ -66,9 +66,6 @@ function pass(id){
 }
 </script>
 <style>
-.bar{
-border-top:1px solid #ccc;
-}
 .bar .yes, .bar .show{
 display:block;
 margin-bottom:14px;
@@ -113,15 +110,12 @@ pic_id = ico.get(id)
 ${user_index(zsite, False)}
 </div>
 <div class="bar">
+<div class="L">
 <div style="margin-bottom:32px">
 <a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
 <a class="show" rel="${id}" href="javascript:void(0)">通过 & 展示</a>
 </div>
-    %if pic_id:
-    <a href="/zsite/pic/rm/${pic_id}/${id}">删除头像</a>
-    %endif
     <div class="item"><a target="_blank" href="/sudo/${id}?next=${zsite.link}/i/career">修改个人履历</a></div>
-<div class="L">
 
 
 <div style="margin-top:32px">
@@ -131,8 +125,15 @@ ${user_index(zsite, False)}
 <div>
     <a href="/zsite/${id}" target="_blank">管理</a>
 </div>
+<div style="margin-top:32px">
+    %if pic_id:
+    <a   href="/zsite/pic/rm/${pic_id}/${id}">删除头像</a>
+    %endif
 </div>
 </div>
+</div>
+
+<div class="R">
 <a class="no" rel="${id}" href="javascript:void(0)">拒绝</a>
 <textarea class="txt" id="txt${id}"></textarea>
 <div class="txtdefault">
@@ -141,6 +142,9 @@ ${user_index(zsite, False)}
     <a href="javascript:txt(${id}, 3);void(0)">都没有</a>
     <a href="javascript:txt(${id}, 4);void(0)">不雅词</a>
 </div>
+</div>
+
+
 </div>
 </div>
 
