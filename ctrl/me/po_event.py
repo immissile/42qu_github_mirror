@@ -185,7 +185,7 @@ def po_event_edit_post(self, id, event, can_change, event_new):
         pic_id = self.get_argument('pic_id', None)
         if pic_id:
             o = Pic.get(pic_id)
-            if not (o and o.user_id == user_id and o.cid == CID_EVENT):
+            if not (o and o.cid == CID_EVENT):
                 pic_id = None
 
     if not pic_id:
