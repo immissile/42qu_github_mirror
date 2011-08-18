@@ -11,18 +11,17 @@ ${self.H()}\
 </div>\
 
 <%def name="_H(htm)">
-<div id="H"><div class="H\
-%if htm:
-">${htm|n}
-%else:
- tc">\
-%endif
+<div id="H"><div class="H c">
 <%
 if zsite_id:
     request_host = host(zsite_id)
 else:
     request_host = request.host
 %>
+%if htm:
+${htm|n}\
+%endif
+<div class="L">\
 <a
 href="//${request_host}"
 class="site">\
@@ -36,6 +35,7 @@ ${request_host}\
 </div>\
 %endif
 </div></div>\
+</div>\
 </%def>
 
 
@@ -48,3 +48,4 @@ ${self.h_nav()}
 <%def name="T()">\
 <%include file="_t.htm"/>\
 </%def>\
+
