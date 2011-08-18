@@ -7,7 +7,7 @@ ${name} :
 
 来写篇文章 , 总结一下吧 :)
 
-直达链接 : ${site_domain}${feedback_link}
+直达链接 : http:${user_link}${feedback_link}
 
 
 
