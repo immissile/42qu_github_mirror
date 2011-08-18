@@ -98,6 +98,9 @@ padding-right:14px;
 float:left;
 margin-right:16px
 }
+.item{
+margin-top:32px
+}
 </style>
 </%def>
 <%
@@ -110,13 +113,17 @@ pic_id = ico.get(id)
 ${user_index(zsite, False)}
 </div>
 <div class="bar">
+<div style="margin-bottom:32px">
+<a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
+<a class="show" rel="${id}" href="javascript:void(0)">通过 & 展示</a>
+</div>
     %if pic_id:
     <a href="/zsite/pic/rm/${pic_id}/${id}">删除头像</a>
     %endif
     <div class="item"><a target="_blank" href="/sudo/${id}?next=${zsite.link}/i/career">修改个人履历</a></div>
 <div class="L">
-<a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
-<a class="show" rel="${id}" href="javascript:void(0)">通过 & 展示</a>
+
+
 <div style="margin-top:32px">
 <div>
     <a href="${zsite.link}">主页</a>
