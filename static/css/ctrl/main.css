@@ -35,14 +35,14 @@
     border-bottom:1px dotted #ccc;
     padding:18px 0 20px;
     margin-bottom:0;
-    *height:30px;
-    _padding:18px 0 0;
     text-align:center;
+    _padding:18px 0 20px;
+    _height:48px;
 }
 .HN{
-float:right;
-margin-right:-16px;
-margin-top:1px;
+    float:right;
+    margin-right:-16px;
+    margin-top:1px;
 }
 #H .H{
     width: 972px;

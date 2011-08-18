@@ -18,9 +18,6 @@ if zsite_id:
 else:
     request_host = request.host
 %>
-%if htm:
-${htm|n}\
-%endif
 <div class="L">\
 <a
 href="//${request_host}"
@@ -33,9 +30,12 @@ ${request_host}\
 <a href="//meet.${SITE_DOMAIN}">活动</a>\
 <a href="//hero.${SITE_DOMAIN}">人物</a>\
 </div>\
+</div>\
+%endif
+%if htm:
+${htm|n}\
 %endif
 </div></div>\
-</div>\
 </%def>
 
 
