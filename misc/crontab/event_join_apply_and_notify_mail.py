@@ -6,6 +6,7 @@ from time import time
 from model.kv_misc import kv_int_call, KV_EVENT_READY
 from zkit.single_process import single_process
 from zweb.orm import ormiter
+from model.days import today_days, ONE_DAY_MINUTE
 
 def buzz_join_apply_review_mail():
     ago = int(time()) - 18*60*60
@@ -18,7 +19,7 @@ def buzz_join_apply_review_mail():
         event_review_join_apply(event_id)
 
 def event_ready_mail(begin):
-    end = time() // 60 + 1
+    end = (today_days() + 2) * ONE_DAY_MINUTE
     for event in ormiter(Event, 'state=%s and begin_time>%s and begin_time<=%s' % (EVENT_STATE_BEGIN, begin, end)):
         event_ready(event)
     return end
