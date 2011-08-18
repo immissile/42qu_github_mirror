@@ -2,5 +2,17 @@
 <%def name="htm_head()">
 </%def>
 <%namespace file="/_util/event.htm" import="event_edit"/>
+<%def name="htm_head()">
+<script src="${js.pid}"></script>
+<script src="${js.date}"></script>
+<script src="${js.ctrl_po_event}"></script>
+${css.ctrl_event_admin|n}
+${css.ctrl_po_event|n}
+</%def>
 
+<form 
+method="POST"
+id="event_form" enctype="multipart/form-data"
+>
 ${event_edit(event, True)}
+</form>

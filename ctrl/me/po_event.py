@@ -46,166 +46,8 @@ class Index(LoginBase):
             event = None
             can_change = True
 
-        user_id = self.current_user_id
-        errtip = Errtip()
-        phone = self.get_argument('phone', '')
-        address = self.get_argument('address', None)
-        limit_up = self.get_argument('limit_up', '42')
-        limit_down = self.get_argument('limit_down', '0')
-        transport = self.get_argument('transport', '')
-        price = self.get_argument('price', '0')
-        pid = self.get_argument('pid', '1')
-        event_cid = self.get_argument('event_cid', '')
-        begin_time = self.get_argument('begin_time', '')
-        end_time = self.get_argument('end_time', '')
-        begin_time = self.get_argument('begin_time', '')
-
-        begin_time_hour = self.get_argument('begin_time_hour', '0')
-        begin_time_minute = self.get_argument('begin_time_minute', '0')
-        end_time_hour = self.get_argument('end_time_hour', '0')
-        end_time_minute = self.get_argument('end_time_minute', '0')
-
-        if not can_change:
-            city_pid = end = begin = None
-        else:
-            begin_time_hour = int(begin_time_hour)
-            begin_time_minute = int(begin_time_minute)
-
-            end_time_hour = int(end_time_hour)
-            end_time_minute = int(end_time_minute)
-
-            if begin_time_hour > 23 or begin_time_hour < 0:
-                begin_time_hour = 10
-
-            if end_time_hour > 23 or end_time_hour < 0:
-                end_time_hour = 11
-
-            if begin_time_minute > 59 or begin_time_minute < 0:
-                begin_time_minute = 0
-
-            if end_time_minute > 59 or end_time_minute < 0:
-                end_time_minute = 30
-
-            if begin_time:
-                begin_time = int(begin_time)
-
-            if end_time:
-                end_time = int(end_time)
-
-
-            if begin_time > end_time:
-                end_time, begin_time = begin_time, end_time
-
-            if begin_time < today_ymd_int():
-                errtip.begin_time = '这个时间 , 属于过去'
-
-
-            begin = ymd2minute(begin_time)+begin_time_hour*60+begin_time_minute
-            end = ymd2minute(end_time)+end_time_hour*60+end_time_minute
-
-            if not event_cid.isdigit():
-                errtip.event_cid = '请选择类型'
-            else:
-                event_cid = int(event_cid)
-                if event_cid not in EVENT_CID:
-                    errtip.event_cid = '请选择类型'
-
-            if not pid.isdigit():
-                errtip.pid = '请选择地址'
-            else:
-                pid = int(pid)
-                city_pid = pid_city(pid)
-                if not city_pid:
-                    errtip.pid = '请选择地址'
-
-            if price:
-                try:
-                    price = float(price)
-                except:
-                    errtip.price = '请输入有效的金额'
-                if price < 0:
-                    errtip.price = '金额必须大于零'
-            else:
-                price = 0
-
-            if not limit_down.isdigit():
-                limit_down = 0
-            else:
-                limit_down = int(limit_down)
-
-            if not limit_up.isdigit():
-                limit_up = 42
-            else:
-                limit_up = int(limit_up)
-
-            if limit_down > limit_up:
-                limit_up, limit_down = limit_down, limit_up
-            if limit_down < 0:
-                errtip.limit_down = "人数不能为负数"
-
-            if not address:
-                errtip.address = '请输入详细地址'
-
-        if not phone:
-            errtip.phone = '请输入联系电话'
-
-        pic_id = None
-        files = self.request.files
-        if 'pic' in files:
-            pic = files['pic'][0]['body']
-            pic = picopen(pic)
-            if not pic:
-                errtip.pic = '图片格式有误'
-            else:
-                pic_id = po_event_pic_new(user_id, pic)
-
-        if not pic_id:
-            pic_id = self.get_argument('pic_id', None)
-            if pic_id:
-                o = Pic.get(pic_id)
-                if not (o and o.user_id == user_id and o.cid == CID_EVENT):
-                    pic_id = None
-
-        if not pic_id:
-            errtip.pic = '请上传图片'
-
-        if errtip:
-            return self.render(
-                event=event,
-                errtip=errtip,
-                address=address,
-                pic_id=pic_id,
-                limit_up=limit_up,
-                limit_down=limit_down,
-                transport=transport,
-                price=price,
-                phone=phone,
-                pid=pid,
-                event_cid=event_cid,
-                begin_time=begin_time if can_change else 0,
-                end_time=end_time if can_change else 0,
-                begin_time_hour=begin_time_hour,
-                begin_time_minute=begin_time_minute,
-                end_time_hour=end_time_hour,
-                end_time_minute=end_time_minute,
-            )
-        else:
-            event = event_new_if_can_change(
-                user_id,
-                event_cid,
-                city_pid,
-                pid,
-                address,
-                transport,
-                begin,
-                end,
-                int(100*price),
-                limit_up,
-                limit_down,
-                phone,
-                pic_id,
-                id
-            )
+        event = po_event_edit_post(self, id, event, can_change, event_new_if_can_change)
+        if event:
             if not id:
                 id = event.id
                 po_new(CID_EVENT, user_id, '', STATE_SECRET, id=id)
@@ -224,6 +66,170 @@ class Index(LoginBase):
                 return self.redirect('/po/event')
             return po_event_edit_get(self, event)
         return self.render(errtip=Errtip())
+
+def po_event_edit_post(self, id, event, can_change, event_new):
+    user_id = self.current_user_id
+    errtip = Errtip()
+    phone = self.get_argument('phone', '')
+    address = self.get_argument('address', None)
+    limit_up = self.get_argument('limit_up', '42')
+    limit_down = self.get_argument('limit_down', '0')
+    transport = self.get_argument('transport', '')
+    price = self.get_argument('price', '0')
+    pid = self.get_argument('pid', '1')
+    event_cid = self.get_argument('event_cid', '')
+    begin_time = self.get_argument('begin_time', '')
+    end_time = self.get_argument('end_time', '')
+    begin_time = self.get_argument('begin_time', '')
+
+    begin_time_hour = self.get_argument('begin_time_hour', '0')
+    begin_time_minute = self.get_argument('begin_time_minute', '0')
+    end_time_hour = self.get_argument('end_time_hour', '0')
+    end_time_minute = self.get_argument('end_time_minute', '0')
+
+    if not can_change:
+        city_pid = end = begin = None
+    else:
+        begin_time_hour = int(begin_time_hour)
+        begin_time_minute = int(begin_time_minute)
+
+        end_time_hour = int(end_time_hour)
+        end_time_minute = int(end_time_minute)
+
+        if begin_time_hour > 23 or begin_time_hour < 0:
+            begin_time_hour = 10
+
+        if end_time_hour > 23 or end_time_hour < 0:
+            end_time_hour = 11
+
+        if begin_time_minute > 59 or begin_time_minute < 0:
+            begin_time_minute = 0
+
+        if end_time_minute > 59 or end_time_minute < 0:
+            end_time_minute = 30
+
+        if begin_time:
+            begin_time = int(begin_time)
+
+        if end_time:
+            end_time = int(end_time)
+
+
+        if begin_time > end_time:
+            end_time, begin_time = begin_time, end_time
+
+        if begin_time < today_ymd_int():
+            errtip.begin_time = '这个时间 , 属于过去'
+
+
+        begin = ymd2minute(begin_time)+begin_time_hour*60+begin_time_minute
+        end = ymd2minute(end_time)+end_time_hour*60+end_time_minute
+
+        if not event_cid.isdigit():
+            errtip.event_cid = '请选择类型'
+        else:
+            event_cid = int(event_cid)
+            if event_cid not in EVENT_CID:
+                errtip.event_cid = '请选择类型'
+
+        if not pid.isdigit():
+            errtip.pid = '请选择地址'
+        else:
+            pid = int(pid)
+            city_pid = pid_city(pid)
+            if not city_pid:
+                errtip.pid = '请选择地址'
+
+        if price:
+            try:
+                price = float(price)
+            except:
+                errtip.price = '请输入有效的金额'
+            if price < 0:
+                errtip.price = '金额必须大于零'
+        else:
+            price = 0
+
+        if not limit_down.isdigit():
+            limit_down = 0
+        else:
+            limit_down = int(limit_down)
+
+        if not limit_up.isdigit():
+            limit_up = 42
+        else:
+            limit_up = int(limit_up)
+
+        if limit_down > limit_up:
+            limit_up, limit_down = limit_down, limit_up
+        if limit_down < 0:
+            errtip.limit_down = "人数不能为负数"
+
+        if not address:
+            errtip.address = '请输入详细地址'
+
+    if not phone:
+        errtip.phone = '请输入联系电话'
+
+    pic_id = None
+    files = self.request.files
+    if 'pic' in files:
+        pic = files['pic'][0]['body']
+        pic = picopen(pic)
+        if not pic:
+            errtip.pic = '图片格式有误'
+        else:
+            pic_id = po_event_pic_new(user_id, pic)
+
+    if not pic_id:
+        pic_id = self.get_argument('pic_id', None)
+        if pic_id:
+            o = Pic.get(pic_id)
+            if not (o and o.user_id == user_id and o.cid == CID_EVENT):
+                pic_id = None
+
+    if not pic_id:
+        errtip.pic = '请上传图片'
+
+    if errtip:
+        self.render(
+            event=event,
+            errtip=errtip,
+            address=address,
+            pic_id=pic_id,
+            limit_up=limit_up,
+            limit_down=limit_down,
+            transport=transport,
+            price=price,
+            phone=phone,
+            pid=pid,
+            event_cid=event_cid,
+            begin_time=begin_time if can_change else 0,
+            end_time=end_time if can_change else 0,
+            begin_time_hour=begin_time_hour,
+            begin_time_minute=begin_time_minute,
+            end_time_hour=end_time_hour,
+            end_time_minute=end_time_minute,
+        )
+        return
+    else:
+        event = event_new(
+            user_id,
+            event_cid,
+            city_pid,
+            pid,
+            address,
+            transport,
+            begin,
+            end,
+            int(100*price),
+            limit_up,
+            limit_down,
+            phone,
+            pic_id,
+            id
+        )
+        return event
 
 def po_event_edit_get(self, event):
     return self.render(
