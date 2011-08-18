@@ -69,7 +69,7 @@ ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}#reply
 % elif cid == CID_BUZZ_JOIN:
 ${user_link_list(from_list)} 加入了 ${po_link(entry)} 活动
 % elif cid == CID_BUZZ_EVENT_JOIN_APPLY:
-${user_link_list(from_list)} 想参加 ${po_link(entry)} 活动 , <a href="/event/join/${po.id}" target="_blank">请您点此</a> , 审核报名
+${user_link_list(from_list)} 想参加 ${po_link(entry)} 活动 , <a href="/event/check/${rid}" target="_blank">请点这里</a> , 审核报名 
 % elif cid == CID_BUZZ_EVENT_FEEDBACK_OWNER:
 ${user_link_list(from_list)}评论了<a>${po_link(entry)}</a>的活动总结，<a href="/${rid}" target="_blank">点此浏览</a>
 % elif cid == CID_BUZZ_EVENT_FEEDBACK_JOINER:
