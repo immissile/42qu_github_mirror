@@ -7,7 +7,7 @@ from model.mail import sendmail
 from model.event import Event, event_review_yes, event_review_no, EVENT_STATE_TO_REVIEW
 from model.po import Po
 from zkit.page import page_limit_offset
-
+from model.event import Event
 
 PAGE_LIMIT = 50
 
@@ -55,7 +55,9 @@ class EventState(Base):
 
 @urlmap("/event/edit/(\d+)")
 class EventEdit(Base):
-    def get(self, id, state):
-        pass
-    
+    def get(self, id):
+        event = Event.mc_get(id)
+        if not event:
+            return self.redirect("/")
+        return self.render(event=event) 
 
