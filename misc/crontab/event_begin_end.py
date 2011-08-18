@@ -4,7 +4,7 @@ import _env
 from time import time
 from zkit.single_process import single_process
 from zweb.orm import ormiter
-from model.event import Event, event_begin2now, event_end, EVENT_STATE_END, EVENT_STATE_BEGIN
+from model.event import Event, event_begin2now, event_end, EVENT_STATE_NOW, EVENT_STATE_BEGIN
 from model.kv_misc import kv_int_call, KV_BUZZ_FOLLOW_POS
 
 
@@ -13,7 +13,7 @@ def event_begin(begin, end):
         event_begin2now(i)
 
 def _event_end(begin, end):
-    for i in ormiter(Event, 'state=%s and end_time>%s and end_time<=%s' % (EVENT_STATE_END, begin, end)):
+    for i in ormiter(Event, 'state=%s and end_time>%s and end_time<=%s' % (EVENT_STATE_NOW, begin, end)):
         event_end(i)
 
 def event_begin_end(begin):
