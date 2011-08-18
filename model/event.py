@@ -616,25 +616,29 @@ def event_end(event):
 def event_end_mail(event):
     event_id = event.id
     owner_id = event.zsite_id
+    owner = event.zsite
     po = Po.mc_get(event_id)
     rendermail(
         '/mail/event/event_end_owner.txt',
         mail_by_user_id(owner_id),
-        event.zsite.name,
+        owner.name,
         title=po.name,
         link=po.link,
+        user_link=owner.link
         price=event.price,
         feedback_link='/event/feedback/%s' % event_id
     )
 
     for user_id in event_joiner_user_id_list(event_id):
         if user_id != owner_id:
+            user = Zsite.mc_get(user_id)
             rendermail(
                 '/mail/event/event_end_joiner.txt',
                 mail_by_user_id(user_id),
-                Zsite.mc_get(user_id).name,
+                user.name,
                 title=po.name,
                 link=po.link,
+                user_link=user.link,
                 feedback_link='/event/feedback/%s' % event_id
             )
 

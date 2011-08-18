@@ -6,6 +6,6 @@ ${name} :
 
 来评价一下 , 满不满意吧 :)
 
-直达链接 : ${site_domain}${feedback_link}
+直达链接 : http:${user_link}${feedback_link}
 
 如有问题请回复此邮件 
