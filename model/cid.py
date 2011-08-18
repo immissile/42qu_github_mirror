@@ -46,6 +46,9 @@ CID_PO = (
     CID_PHOTO,
     CID_VIDEO,
     CID_AUDIO,
+    CID_EVENT,
+    CID_EVENT_FEEDBACK,
+    CID_EVENT_NOTICE,
 )
 
 # Notice
