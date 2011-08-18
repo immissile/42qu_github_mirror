@@ -93,9 +93,7 @@ ${_h_nav_notice()}\
 %if zsite_id == current_user_id:
 ${self.h_nav_inner()}\
 %else:
-<div class="D">\
-<a class="DA" href="${SITE_URL|n}">返回</a>\
-</div>\
+
 %if zsite_id:
 <div class="D"><a class="DA" href="javascript:void(0)">交流</a>\
 <div>\
