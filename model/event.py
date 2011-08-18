@@ -624,7 +624,7 @@ def event_end_mail(event):
         owner.name,
         title=po.name,
         link=po.link,
-        user_link=owner.link
+        user_link=owner.link,
         price=event.price,
         feedback_link='/event/feedback/%s' % event_id
     )
