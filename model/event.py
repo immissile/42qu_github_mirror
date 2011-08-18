@@ -451,7 +451,7 @@ def event_ready(event):
     join_count = event.join_count
     po = event.po
     link = 'http:%s' % po.link
-    title = po.title
+    title = po.name
     user_id_list = event_joiner_user_id_list(event_id)
     user_id_list.append(event.zsite_id)
     for user_id in user_id_list:
