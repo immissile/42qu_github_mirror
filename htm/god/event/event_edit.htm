@@ -1,0 +1,41 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from model.event import EVENT_STATE_CN_TUPLE
+%>
+<%namespace file="/_util/event.htm" import="event_edit"/>
+<%def name="htm_head()">
+<script src="${js.pid}"></script>
+<script src="${js.date}"></script>
+<script src="${js.ctrl_po_event}"></script>
+${css.ctrl_event_admin|n}
+${css.ctrl_po_event|n}
+<style>
+a.eventcat {
+    color:#999;
+    margin:8px 16px;
+}
+</style>
+</%def>
+
+<%
+state = event.state
+%>
+<a href="/event" class="eventcat" 
+    % if state == 0:
+style="color:#000"
+    % endif
+    >全部</a>
+% for _state, cnname in EVENT_STATE_CN_TUPLE:
+<a href="/event/${_state}" class="eventcat" 
+    % if state == _state:
+style="color:#000"
+    % endif
+    >${cnname}</a>
+% endfor
+
+<form 
+method="POST"
+id="event_form" enctype="multipart/form-data"
+>
+${event_edit(event, True)}
+</form>
