@@ -215,35 +215,38 @@ class Index(LoginBase):
             else:
                 return self.redirect('/%s'%id)
 
+
     def get(self, id=0):
         user_id = self.current_user_id
         if id:
             event = Event.mc_get(id)
             if not event or event.zsite_id != self.current_user_id:
                 return self.redirect('/po/event')
-
-            return self.render(
-                errtip=Errtip(),
-                event_id=id,
-                event=event,
-                address=event.address,
-                pic_id=event.pic_id,
-                limit_up=event.limit_up,
-                limit_down=event.limit_down,
-                transport=event.transport,
-                price=event.price,
-                phone=event.phone,
-                pid=event.pid,
-                event_cid=event.cid,
-                begin_time=minute2ymd(event.begin_time),
-                end_time=minute2ymd(event.end_time),
-                begin_time_hour=(event.begin_time%ONE_DAY_MINUTE)/60,
-                begin_time_minute=event.begin_time%60,
-                end_time_hour=(event.end_time%ONE_DAY_MINUTE)/60,
-                end_time_minute=event.end_time%60,
-            )
-
+            return po_event_edit_get(self, event)
         return self.render(errtip=Errtip())
+
+def po_event_edit_get(self, event):
+    return self.render(
+        errtip=Errtip(),
+        event_id=id,
+        event=event,
+        address=event.address,
+        pic_id=event.pic_id,
+        limit_up=event.limit_up,
+        limit_down=event.limit_down,
+        transport=event.transport,
+        price=event.price,
+        phone=event.phone,
+        pid=event.pid,
+        event_cid=event.cid,
+        begin_time=minute2ymd(event.begin_time),
+        end_time=minute2ymd(event.end_time),
+        begin_time_hour=(event.begin_time%ONE_DAY_MINUTE)/60,
+        begin_time_minute=event.begin_time%60,
+        end_time_hour=(event.end_time%ONE_DAY_MINUTE)/60,
+        end_time_minute=event.end_time%60,
+    )
+
 
 
 
@@ -301,36 +304,3 @@ class EventFeedback(PoBase):
         return super(EventFeedback, self).post()
 
 
-#@urlmap('/event/feedback/edit/(\d+)')
-#class EventFeedback(LoginBase):
-#    def get(self, po_id):
-#        current_user_id = self.current_user_id
-#        po = Po.get(po_id)
-#        event = Event.get(po.rid)
-#        event_po = event.po
-#        self.render(
-#            'ctrl/me/po/po.htm',
-#            cid=CID_EVENT_FEEDBACK,
-#            po=po,
-#            pic_list=pic_list_edit(current_user_id, 0),
-#            event=event,
-#            event_po=event.po,
-#        )
-#
-#    def post(self, po_id):
-#        current_user_id = self.current_user_id
-#        po = Po.get(po_id)
-#        event_id = po.rid
-#        event_joiner = event_joiner_get(event_id, current_user_id)
-#        good = self.get_argument('good', None)
-#        txt = self.get_argument('txt', None)
-#        state = EVENT_JOIN_STATE_FEEDBACK_GOOD if good == 'on' else EVENT_JOIN_STATE_FEEDBACK_NORMAL
-#        if event_joiner.state != state:
-#            event_joiner.state = state
-#            event_joiner.save()
-#        txt_new(po.id, txt)
-#        po.save()
-#        self.redirect('/%s'%event_id)
-#
-#
-#

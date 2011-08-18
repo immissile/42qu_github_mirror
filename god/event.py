@@ -8,6 +8,7 @@ from model.event import Event, event_review_yes, event_review_no, EVENT_STATE_TO
 from model.po import Po
 from zkit.page import page_limit_offset
 from model.event import Event
+from ctrl.me.po_event import po_event_edit_get
 
 PAGE_LIMIT = 50
 
@@ -59,5 +60,5 @@ class EventEdit(Base):
         event = Event.mc_get(id)
         if not event:
             return self.redirect("/")
-        return self.render(event=event) 
+        return po_event_edit_get(self, event)
 
