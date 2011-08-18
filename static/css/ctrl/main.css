@@ -35,14 +35,14 @@
     border-bottom:1px dotted #ccc;
     padding:18px 0 20px;
     margin-bottom:0;
-    *height:30px;
-    _padding:18px 0 0;
     text-align:center;
+    _padding:18px 0 0;
+    _height:48px;
 }
 .HN{
-float:right;
-margin-right:-16px;
-margin-top:1px;
+    float:right;
+    margin-right:-16px;
+    margin-top:1px;
 }
 #H .H{
     width: 972px;
@@ -62,14 +62,10 @@ margin-top:1px;
     text-decoration:underline
 }
 #H .site{
-    font-size: 24px;
+    font-size: 16px;
     font-family: Trebuchet MS;
     color: #a10;
-    *position:relative;
-    *top:-28px;
-}
-#H .tc .site{
-    *position:static;
+    margin-right:16px;
 }
 
 #H .D div a:hover{
@@ -86,11 +82,14 @@ margin-top:1px;
     padding:7px 0;
     background:#fff;
 }
-#H .DA{
+#DL{
+display:inline;
+}
+#H .DA, #DL a{
     padding:16px;
     color:#999;
 }
-#H .DA:hover{
+#H .DA:hover, #DL a:hover{
     color:#000;
 }
 #H .D{
@@ -102,7 +101,7 @@ margin-top:1px;
     padding-bottom:1px;
     position:absolute;
     margin-top:5px;
-    *margin-top:28px;
+    *margin-top:42px;
     right:0;
     border:1px solid #eee;
     background:#fafafa; 
