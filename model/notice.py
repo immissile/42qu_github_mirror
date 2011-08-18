@@ -165,12 +165,38 @@ def notice_event_no_txt_get(to_id, event_id):
     return notice_txt_get(0, to_id, CID_NOTICE_EVENT_NO, event_id)
 
 def notice_event_join_yes(from_id, to_id, event_id):
-    return notice_new(from_id, to_id, CID_NOTICE_EVENT_JOIN_YES, event_id)
+    from event import Event
+    n = notice_new(from_id, to_id, CID_NOTICE_EVENT_JOIN_YES, event_id)
+    mail = mail_by_user_id(to_id)
+    zsite = Zsite.mc_get(to_id)
+    link = Zsite.mc_get(from_id).link
+    event = Event.get(event_id)
+    title = event.po.name
+    rendermail('/mail/event/event_join_yes.txt',
+                mail, zsite.name,
+                link = link,
+                event_id = event_id,
+                title = title
+            )
+    return n
 
 def notice_event_join_no(from_id, to_id, event_id, txt):
     cid = CID_NOTICE_EVENT_JOIN_NO
     n = notice_new(from_id, to_id, cid, event_id, txt=txt)
     mc_notice_last_id_by_zsite_id_cid.set('%s_%s' % (from_id, cid), n.id)
+    from event import Event
+    mail = mail_by_user_id(to_id)
+    zsite = Zsite.mc_get(to_id)
+    link = Zsite.mc_get(from_id).link
+    event = Event.get(event_id)
+    title = event.po.name
+    rendermail('/mail/event/event_join_no.txt',
+                mail, zsite.name,
+                link = link,
+                event_id = event_id,
+                title = title,
+                reason = txt
+            )
     return n
 
 def notice_event_notice(from_id, event_id, po_id):
@@ -312,6 +338,7 @@ def mc_flush(to_id):
     notice_count.delete(to_id)
 
 if __name__ == '__main__':
-    pass
-    print notice_event_no_txt_get(10000000 , 10047383 )
+    notice_event_join_no(10001299, 10017321, 10064559, '你去死吧！！')
+    #pass
+    #print notice_event_no_txt_get(10000000 , 10047383 )
 

@@ -13,7 +13,7 @@ from gid import gid
 from po import Po, po_rm, po_state_set
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from feed_po import mc_feed_po_dict
-from mail import mq_rendermail
+from mail import mq_rendermail, rendermail
 from notice import notice_event_yes, notice_event_no, notice_event_join_yes, notice_event_join_no
 from mq import mq_client
 from feed import feed_new, mc_feed_tuple, feed_rm
@@ -445,6 +445,27 @@ def event_joiner_yes(o):
         mc_event_joined_id_list.delete(event_id)
         event_joiner_check_count.delete(event_id)
 
+def event_ready(event_id):
+    event = Event.mc_get(event_id)
+    from user_mail import mail_by_user_id
+    if event:
+        event_joiner_id_list = EventJoiner.where(
+            'event_id=%s and state=%s', event_id, EVENT_JOIN_STATE_YES
+        ).col_list(col='user_id')
+
+        for id in event_joiner_id_list:
+            rendermail(
+                '/mail/event/event_ready.txt',
+                mail_by_user_id(id),
+                Zsite.mc_get(id).name,
+                link='http:%s/%s' % (
+                    event.zsite.link, event_id
+                ),
+                title=event.po.name,
+                join_count=len(event_joiner_id_list)
+            )
+
+
 def mc_flush_by_user_id(user_id):
     mc_event_id_list_join_by_user_id.delete(user_id)
     event_join_count_by_user_id.delete(user_id)
@@ -594,6 +615,35 @@ def event_end(event):
         event.save()
         mc_flush_by_city_pid_cid(event.city_pid, event.cid)
 
+def event_end_mail(event):
+    event_end(event)
+    from user_mail import mail_by_user_id
+    rendermail(
+            '/mail/event/event_end_owner.txt',
+            mail_by_user_id(event.zsite.id),
+            event.zsite.name,
+            title = event.po.name,
+            link = event.link,
+            price = event.price,
+            feedback_link = '/event/feedback/%s'%event.id
+        )
+    event_joiner_id_list = EventJoiner.where(
+            'event_id=%s and state=%s', event_id, EVENT_JOIN_STATE_YES
+    ).col_list(col='user_id')
+
+    for id in event_joiner_id_list:
+        if id != event.zsite.id:
+            rendermail(
+                '/mail/event/event_end_joiner.txt',
+                mail_by_user_id(id),
+                Zsite.mc_get(id).name,
+                link='http:%s/%s' % (
+                    event.zsite.link, event_id
+                ),
+                title=event.po.name,
+                feedback_link = '/event/feedback/%s'%event.id 
+        )
+
 
 def event_review_join_apply(event_id):
     event = Event.mc_get(event_id)
@@ -631,7 +681,8 @@ def event_cid_name_count_by_city_pid(city_pid):
 
 
 if __name__ == '__main__':
-    pass
-    event_id, user_id = 10047372 , 10014918
+    event_ready(10064559)
+    #pass
+    #event_id, user_id = 10047372 , 10014918
 
-    print event_joiner_get(event_id, user_id)
+    #print event_joiner_get(event_id, user_id)

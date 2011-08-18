@@ -144,6 +144,8 @@ def po_event_notice_list_by_event_id(event_id):
 
 
 if __name__ == '__main__':
+    good, normal = po_event_feedback_group(10064559)
+    print good,'!!',normal
     pass
 
 

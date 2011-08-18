@@ -2,7 +2,7 @@
 
 ${name} :
 
-抱歉，报名 ${title} ( http:${link} ) 失败，缘由是:
+抱歉，报名 ${title} ( http:${link}/${event_id} ) 失败，缘由是:
  
 ${reason}
  
