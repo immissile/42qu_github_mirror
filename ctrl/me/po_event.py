@@ -39,6 +39,7 @@ class EventState(LoginBase):
 @urlmap('/po/event/(\d+)')
 class Index(LoginBase):
     def post(self, id=0):
+        user_id = self.current_user_id
         if id:
             event = Event.mc_get(id)
             if event.zsite_id != self.current_user_id:
