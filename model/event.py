@@ -575,8 +575,8 @@ def event_review_yes(id):
             '/mail/event/event_review_yes.txt',
             mail_by_user_id(event.zsite_id),
             event.zsite.name,
-            link=event.zsite.link,
-            title=event.po.name,
+            link=po.link,
+            title=po.name,
             price=event.price
         )
 
