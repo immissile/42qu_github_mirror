@@ -25,7 +25,3 @@ class Index(Base):
         return self.redirect('//%s.%s'%(id, SITE_DOMAIN), True)
 
 
-@urlmap("/i/mail_notice")
-class MailNotice(LoginBase):
-    def get(self):
-        return self.redirect("//%s/i/mail/notice"%self.current_user.link)

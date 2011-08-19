@@ -22,3 +22,11 @@ class Tag(Base):
         tag = ZsiteTag.mc_get(id)
         tag_zsite = Zsite.mc_get(tag.zsite_id)
         return self.redirect('%s/tag/%s'%(tag_zsite.link, id))
+
+
+
+@urlmap("/i/mail_notice")
+@urlmap("/i/mail/notice")
+class MailNotice(LoginBase):
+    def get(self):
+        return self.redirect("//%s/i/mail/notice"%self.current_user.link)
