@@ -123,7 +123,7 @@ class Index(ZsiteBase):
                     trade_log.set(o_id, dumps(message))
                 pay_notice(o_id)
 
-                return self.redirect('/pay/result/%s'%o_id)
+                return self.redirect('%s/pay/result/%s'%(SITE_HTTP, o_id))
             elif balance_cent > 0:
                 subject += '(余额支付 %.2f 元)' % (balance_cent/100.0)
                 o_id = _pay_new(TRADE_STATE_NEW)
