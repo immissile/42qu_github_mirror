@@ -117,6 +117,8 @@ def rendermail(
         subject = str(r[0])
         text = str(r[1])
 
+    print subject, '\n\n', text
+    return
     sendmail(subject, text, email, name, sender, sender_name, format)
 
 from mq import mq_client

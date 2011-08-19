@@ -60,7 +60,6 @@ class Index(LoginBase):
             else:
                 return self.redirect('/%s'%id)
 
-
     def get(self, id=0):
         user_id = self.current_user_id
         if id:
@@ -69,6 +68,7 @@ class Index(LoginBase):
                 return self.redirect('/po/event')
             return po_event_edit_get(self, event)
         return self.render(errtip=Errtip())
+
 
 def po_event_edit_post(self, id, event, can_change, event_new):
     user_id = self.current_user_id
