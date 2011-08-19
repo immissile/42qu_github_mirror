@@ -124,7 +124,3 @@ mq_rendermail = mq_client(rendermail)
 
 if '__main__' == __name__:
     sendmail("122", "2345", "zsp007@gmail.com")
-    import sys
-    #rendermail()
-
-
