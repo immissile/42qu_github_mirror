@@ -197,13 +197,39 @@ def notice_event_join_no(from_id, to_id, event_id, txt):
 
 def notice_event_notice(from_id, event_id, po_id):
     from event import event_joiner_user_id_list
+    po = Po.mc_get(event_id)
+    title = po.name
+    link = po.link
+    notice_po = Po.mc_get(po_id)
+    txt = notice_po.name
+    notice_link = notice_po.link
     for user_id in event_joiner_user_id_list(event_id):
         notice_new(from_id, user_id, CID_NOTICE_EVENT_NOTICE, po_id)
+        name = Zsite.mc_get(user_id).name
+        mail = mail_by_user_id(user_id)
+        rendermail('/mail/event/event_notice.txt',
+                   mail, name,
+                   title=title,
+                   link=link,
+                   txt=txt,
+                   notice_link=notice_link,
+                  )
 
 mq_notice_event_notice = mq_client(notice_event_notice)
 
 def notice_event_kill_one(from_id, to_id, po_id):
     return notice_new(from_id, to_id, CID_NOTICE_EVENT_KILL, po_id)
+
+def notice_event_kill_mail(user_id, title, link, txt, notice_link):
+    name = Zsite.mc_get(user_id).name
+    mail = mail_by_user_id(user_id)
+    rendermail('/mail/event/event_notice.txt',
+               mail, name,
+               title=title,
+               link=link,
+               txt=txt,
+               notice_link=notice_link,
+              )
 
 def invite_question(from_id, to_id, qid):
     from po_question import answer_id_get

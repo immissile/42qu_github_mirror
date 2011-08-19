@@ -11,7 +11,7 @@ from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
 from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_NOTICE_EVENT_JOINER_FEEDBACK, CID_NOTICE_EVENT_ORGANIZER_SUMMARY
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
-from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_FEEDBACK_GOOD, EVENT_JOIN_STATE_FEEDBACK_NORMAL, event_new_if_can_change, EventJoiner, event_joiner_user_id_list, event_joiner_get, event_joiner_state
+from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_NOW, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_FEEDBACK_GOOD, EVENT_JOIN_STATE_FEEDBACK_NORMAL, event_new_if_can_change, EventJoiner, event_joiner_user_id_list, event_joiner_get, event_joiner_state
 from model.po import po_new, STATE_DEL
 from zkit.jsdict import JsDict
 from model.po_pic import pic_list_edit
@@ -288,12 +288,15 @@ class EventFeedback(PoBase):
         if not event:
             return self.redirect('/')
 
+        if event.state < EVENT_STATE_NOW:
+            return self.redirect(event.link)
+
         state = event_joiner_state(
             event_id, current_user_id
         )
 
         if state < EVENT_JOIN_STATE_YES:
-            return self.redirect('/%s'%event_id)
+            return self.redirect(event.link)
 
         return event
 

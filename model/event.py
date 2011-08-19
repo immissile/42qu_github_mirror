@@ -519,10 +519,18 @@ def event_init2to_review(id):
 
 
 def event_kill_extra(from_id, event_id, po_id):
-    from notice import notice_event_kill_one
+    from notice import notice_event_kill_one, notice_event_kill_mail
+    event_po = Po.mc_get(event_id)
+    title = event_po.name
+    link = event.link
+    po = Po.mc_get(event_id)
+    txt = po.name
+    notice_link = po.link
     for i in Event.where(event_id=event_id).where('state>=%s', EVENT_JOIN_STATE_NEW):
         event_joiner_no(i)
-        notice_event_kill_one(from_id, i.user_id, po_id)
+        user_id = i.user_id
+        notice_event_kill_one(from_id, user_id, po_id)
+        notice_event_kill_mail(user_id, title, link, txt, notice_link)
 
 mq_event_kill_extra = mq_client(event_kill_extra)
 

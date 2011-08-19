@@ -2,10 +2,10 @@ ${title} 解散 !!!
 
 ${name} :
 
-${title} ( ${link} ) 解散了 , 缘由如下 : 
+${title} ( http:${link} ) 解散了 , 缘由如下 :
 
 ${txt}
 
-你可以跟帖回复 , 访问链接 : ${notice_link}
+你可以跟帖回复 , 访问链接 : http:${notice_link}
 
 

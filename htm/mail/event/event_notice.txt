@@ -2,10 +2,10 @@ ${title} 公告
 
 ${name} :
 
-${title} ( ${link} ) 发布新的了活动公告 : 
+${title} ( http:${link} ) 发布新的了活动公告 :
 
 ${txt}
 
-你可以跟帖回复 , 访问链接 : ${notice_link}
+你可以跟帖回复 , 访问链接 : http:${notice_link}
 
 
