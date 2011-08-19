@@ -1,12 +1,16 @@
 #coding:utf-8
 import _env
-from mail import rendermail
+from model.mail import rendermail
+from model.mail_notice import mail_notice_iter, CID_MAIL_MONTH
+import time
 
-mail = "zsp007@gmail.com"
-name = "张沈鹏"
+if __name__ == "__main__":
+    for mail, name in mail_notice_iter(CID_MAIL_MONTH):
+        #mail = "zsp007@gmail.com"
 
-rendermail(
-    '/mail/spam/event_20110819.htm', mail, name,
-    format='html',
-    subject='道可道 . 线下活动: 42区 . 技术 . 创业 . 第一讲'
-)
+        rendermail(
+            '/mail/spam/event_20110819.htm', mail, name,
+            format='html',
+            subject='42区 : 技术 . 创业 . 第一讲 - 线下活动 报名 ( 2011年08月21日 星期日 )'
+        )
+        time.sleep(0.1)
