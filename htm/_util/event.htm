@@ -4,6 +4,7 @@ from model.po_event import EVENT_CID_CN
 from model.event import EVENT_STATE_TO_REVIEW
 from zkit.earth import place_name
 from model.fs import fs_url_jpg
+from config import SITE_DOMAIN
 %>
 
 <%def name="event_show(event, po)">
@@ -21,7 +22,7 @@ row1, row2, diff_day = begin_end_by_minute(
 <div class="event_txt c">\
 <div class="po_name"><a href="${po.link|n}" class="c0">${po.name}</a></div>\
 
-<p>地点<span class="colon">:</span>${place_name(event.pid)}</p>\
+<p>地点<span class="colon">:</span><a href="//meet.${SITE_DOMAIN}/${event.pid}" class="c0">${place_name(event.pid)}</a></p>\
 <p class="ml48">${event.address}</p>\
 
 <p class="mt14">时间<span class="colon">:</span>${row1}</p>\
