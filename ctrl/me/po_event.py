@@ -239,7 +239,7 @@ def po_event_edit_post(self, id, event, can_change, event_new):
 def po_event_edit_get(self, event):
     return self.render(
         errtip=Errtip(),
-        event_id=id,
+        event_id=event.id,
         event=event,
         address=event.address,
         pic_id=event.pic_id,
