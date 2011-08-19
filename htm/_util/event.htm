@@ -1,6 +1,7 @@
 <%!
 from model.days import begin_end_by_minute 
 from model.po_event import EVENT_CID_CN
+from model.event import EVENT_STATE_TO_REVIEW
 from zkit.earth import place_name
 from model.fs import fs_url_jpg
 %>
@@ -119,7 +120,7 @@ value="${_event_cid}">${event_name}</option>
 
 <span id="event_submit_span" class="btnw">\
     <button type="submit">
-% if event_id and event.state > EVENT_STATE_TO_REVIEW:
+% if event and event.state > EVENT_STATE_TO_REVIEW:
 保存
 % else:
 下一步

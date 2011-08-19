@@ -30,7 +30,7 @@ def event_by_city_pid_cid_query(city_pid, cid=0):
     return qs.where('state between %s and %s', EVENT_STATE_BEGIN, EVENT_STATE_NOW)
 
 event_count_by_city_pid_cid = McNum(
-    lambda city_pid, cid=0: event_by_city_pid_cid_query(city_pid, cid).count(),
+    lambda city_pid, cid: event_by_city_pid_cid_query(city_pid, cid).count(),
     'EventCountByCityPidCid:%s:'
 )
 
@@ -575,8 +575,8 @@ def event_review_yes(id):
             '/mail/event/event_review_yes.txt',
             mail_by_user_id(event.zsite_id),
             event.zsite.name,
-            link=event.zsite.link,
-            title=event.po.name,
+            link=po.link,
+            title=po.name,
             price=event.price
         )
 

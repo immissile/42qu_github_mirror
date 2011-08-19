@@ -22,7 +22,7 @@ ${css.meet|n}
             % if cid == 0:
             class="now"
             % endif
-            ><span>全部</span>${event_count_by_city_pid_cid(pid)}</a>
+            ><span>全部</span>${event_count_by_city_pid_cid(pid, 0)}</a>
     %for event_cid, event_cid_name, event_cid_count in event_cid_name_count_by_city_pid(pid):
         %if event_cid_count:
         <a href="/${pid}/${event_cid}"

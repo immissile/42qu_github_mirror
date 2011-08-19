@@ -10,7 +10,7 @@ from wall import Wall, WallReply
 from kv import Kv
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
-from mail import rendermail, render_template, sendmail
+from mail import rendermail, render_template, sendmail, mq_rendermail
 from mail_notice import mail_notice_state
 from career import career_dict
 from user_mail import mail_by_user_id
@@ -171,11 +171,11 @@ def notice_event_join_yes(from_id, to_id, event_id):
     po = Po.mc_get(event_id)
     title = po.name
     link = po.link
-    rendermail('/mail/event/event_join_yes.txt',
-               mail, zsite.name,
-               link=link,
-               title=title
-              )
+    mq_rendermail('/mail/event/event_join_yes.txt',
+                  mail, zsite.name,
+                  link=link,
+                  title=title
+                 )
     return n
 
 def notice_event_join_no(from_id, to_id, event_id, txt):
@@ -187,12 +187,12 @@ def notice_event_join_no(from_id, to_id, event_id, txt):
     po = Po.mc_get(event_id)
     title = po.name
     link = po.link
-    rendermail('/mail/event/event_join_no.txt',
-               mail, zsite.name,
-               link=link,
-               title=title,
-               reason=txt
-              )
+    mq_rendermail('/mail/event/event_join_no.txt',
+                  mail, zsite.name,
+                  link=link,
+                  title=title,
+                  reason=txt
+                 )
     return n
 
 def notice_event_notice(from_id, event_id, po_id):
@@ -334,7 +334,5 @@ def mc_flush(to_id):
     notice_count.delete(to_id)
 
 if __name__ == '__main__':
-    notice_event_join_no(10001299, 10017321, 10064559, '你去死吧！！')
-    #pass
-    #print notice_event_no_txt_get(10000000 , 10047383 )
-
+    notice_event_join_yes(10000212, 10000000, 10064577)
+    notice_event_join_no(10000212, 10000000, 10064577, '这个真是没有办法的啦')

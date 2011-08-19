@@ -50,17 +50,17 @@ def minute2ymd2(minute):
     d = minute2date(minute)
     return d.strftime('%Y.%m.%d')
 
-def cn_date(datetime):
-    return datetime.strftime('%Y年%m月%d日')
+def cn_date(dt):
+    return dt.strftime('%Y年%m月%d日')
 
 CN_WEEKDAY = (
-     '日',
      '一',
      '二',
      '三',
      '四',
      '五',
      '六',
+     '日',
 )
 
 def cn_weekday(dt):
@@ -130,4 +130,3 @@ def begin_end_by_minute(begin_time, end_time):
 
 if __name__ == '__main__':
     print today_days()
-
