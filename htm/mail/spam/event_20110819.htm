@@ -1,0 +1,31 @@
+<%inherit file="/mail/_base/base.htm"/>
+<tr valign="top">
+<%
+ico = from_user._ico96
+link = from_user.link
+%>
+% if ico:
+<td width="55">
+<a style="color: #ffffff;" href="http:${link}"
+target="_blank">
+<img border="0" width="96px" height="96px" src="${ico}">
+</a>
+</td>
+% endif
+<td width="430" style="padding:0 0 0 28px;line-height:32px">
+<div>
+<%
+career = ' , '.join(filter(bool, from_user.career))
+%>
+${from_user.name}
+% if career:
+ - ${career}\
+% endif
+</div>
+<div>关注了你</div>
+<div>
+<a href="http:${link}" target="_blank" style="color:#00f">详细介绍 , 点此浏览</a>
+<p style="font-size:14px;margin-top:48px;color:#999">如果想退订 , <a href="${site_http}/i/mail_notice" target="_blank" style="color:#999">请在此设置</a></p>
+</div>
+</td>
+</tr>
