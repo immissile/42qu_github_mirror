@@ -119,7 +119,7 @@ value="${_event_cid}">${event_name}</option>
 
 <span id="event_submit_span" class="btnw">\
     <button type="submit">
-% if event_id and event.state > EVENT_STATE_TO_REVIEW:
+% if event and event.state > EVENT_STATE_TO_REVIEW:
 保存
 % else:
 下一步
