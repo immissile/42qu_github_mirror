@@ -551,6 +551,7 @@ def event_kill(user_id, event, txt):
 
         o = _po_event_notice_new(user_id, event_id, txt)
         mq_event_kill_extra(user_id, event_id, o.id)
+        mc_flush_by_city_pid_cid(event.city_pid, event.cid)
 
 
 def event_rm(user_id, id):
