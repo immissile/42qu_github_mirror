@@ -32,7 +32,11 @@ CHANNEL = (
 
 def init_channel():
     for id, name in CHANNEL:
-        Zsite(id=id, cid=CID_CHANNEL, name=name, state=ZSITE_STATE_ACTIVE).save()
+        o = Zsite.get_or_create(id=id)
+        o.cid = CID_CHANNEL
+        o.name = name
+        o.state = ZSITE_STATE_ACTIVE
+        o.save()
 
 
 if __name__ == '__main__':
