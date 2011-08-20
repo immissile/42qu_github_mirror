@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import _env
-from model.zsite import Zsite
+from model.zsite import Zsite, ZSITE_STATE_ACTIVE
+from model.cid import CID_CHANNEL
 from model.tag import Tag
 
 TAG = (
@@ -31,7 +32,7 @@ CHANNEL = (
 
 def init_channel():
     for id, name in CHANNEL:
-        Zsite(id=id, name=name).save()
+        Zsite(id=id, cid=CID_CHANNEL, name=name, state=ZSITE_STATE_ACTIVE).save()
 
 
 if __name__ == '__main__':
