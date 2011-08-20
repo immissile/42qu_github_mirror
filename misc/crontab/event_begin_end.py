@@ -5,7 +5,7 @@ from time import time
 from zkit.single_process import single_process
 from zweb.orm import ormiter
 from model.event import Event, event_begin2now, event_end, EVENT_STATE_NOW, EVENT_STATE_BEGIN
-from model.kv_misc import kv_int_call, KV_BUZZ_FOLLOW_POS
+from model.kv_misc import kv_int_call, KV_EVENT_STATE
 
 
 def event_begin(begin, end):
