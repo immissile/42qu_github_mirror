@@ -137,7 +137,7 @@ def format_call(funcname, *a, **kw):
     arglist += ['%s=%r' % (k, v) for k, v in r]
     return '%s(%s)' % (funcname, ', '.join(arglist))
 
-def profile_middleware(execute, PROFILE_FUNC_LIST):
+def profile_middleware(PROFILE_FUNC_LIST):
     def _profile_middleware(execute):
         def _(self, transforms, *args, **kwargs):
             profile = self.get_argument('profile', None)

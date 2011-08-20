@@ -107,9 +107,8 @@ def _execute(self, transforms, *args, **kwargs):
 from model._db import SQLSTORE, mc
 
 web.RequestHandler._execute = profile_middleware(
-    _execute,
     [SQLSTORE, mc]
-)
+)(_execute)
 
 
 def redirect(self, url, permanent=False):
