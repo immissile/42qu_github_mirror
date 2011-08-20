@@ -103,7 +103,12 @@ def _execute(self, transforms, *args, **kwargs):
         if self._auto_finish and not self._finished:
             self.finish()
 
-web.RequestHandler._execute = profile_middleware(_execute)
+
+from model._db import SQLSTORE, mc
+
+web.RequestHandler._execute = profile_middleware(
+    [SQLSTORE, mc]
+)(_execute)
 
 
 def redirect(self, url, permanent=False):
@@ -121,6 +126,4 @@ def xsrf_form_html(self):
     return '<input type="hidden" name="_xsrf" value="%s">'%self.xsrf_token
 
 web.RequestHandler.xsrf_form_html = xsrf_form_html
-
-
 
