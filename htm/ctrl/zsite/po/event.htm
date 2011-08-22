@@ -69,7 +69,9 @@ ${event_show(event, po)}
 <pre class="prebody">\
 ${po.htm|n}\
 <p class="mt28">联系电话 : ${event.phone}</p>\
+%if event.transport:
 <p>交通方式 : ${event.transport}</p>\
+%endif
 <p>\
 %if event.limit_down:
 人数范围 : ${event.limit_down} - \
