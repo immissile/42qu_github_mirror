@@ -22,6 +22,7 @@ from user_mail import mail_by_user_id
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 mc_event_id_list_by_city_pid_cid = McLimitA('EventIdListByCityPidCid.%s', 128)
 mc_event_cid_count_by_city_pid = McCacheA('EventCidCountByCityPid.%s')
+mc_event_end_id_list_by_city_pid = McLimitA('EventEndIdListByCityPid.%s', 128)
 
 def event_by_city_pid_cid_query(city_pid, cid=0):
     qs = Event.where(city_pid=city_pid)
@@ -31,7 +32,15 @@ def event_by_city_pid_cid_query(city_pid, cid=0):
 
 event_count_by_city_pid_cid = McNum(
     lambda city_pid, cid: event_by_city_pid_cid_query(city_pid, cid).count(),
-    'EventCountByCityPidCid:%s:'
+    'EventCountByCityPidCid.%s'
+)
+
+def event_end_by_city_pid_query(city_pid):
+    return Event.where(state=EVENT_STATE_END, city_pid=city_pid)
+
+event_end_count_by_city_pid = McNum(
+    lambda city_pid: event_end_by_city_pid_query(city_pid).count(),
+    'EventEndCountByCityPid.%s'
 )
 
 mc_event_joiner_feedback_normal_id_list = McCacheA('EventJoinerReveiwIdList:%s')
@@ -273,6 +282,14 @@ def event_list_by_city_pid_cid(city_pid, cid, limit=10, offset=0):
     id_list = event_id_list_by_city_pid_cid(city_pid, cid, limit, offset)
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
+@mc_event_end_id_list_by_city_pid('{city_pid}')
+def event_end_id_list_by_city_pid(city_pid, limit, offset):
+    return event_end_by_city_pid_query(city_pid).order_by('end_time desc').col_list(limit, offset)
+
+def event_end_list_by_city_pid(city_pid, limit, offset):
+    id_list = event_end_id_list_by_city_pid(city_pid, limit, offset)
+    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
+
 
 class EventJoiner(McModel):
     @attrcache
@@ -474,6 +491,8 @@ def mc_flush_by_city_pid_cid(city_pid, cid):
         mc_event_id_list_by_city_pid_cid.delete('%s_%s'%(city_pid, _cid))
         event_count_by_city_pid_cid.delete(city_pid, _cid)
     mc_event_cid_count_by_city_pid.delete(city_pid)
+    mc_event_end_id_list_by_city_pid.delete(city_pid)
+    event_end_count_by_city_pid.delete(city_pid)
 
 def event_joiner_end(o):
     event_id = o.event_id
