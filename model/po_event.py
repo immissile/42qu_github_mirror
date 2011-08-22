@@ -144,14 +144,4 @@ def po_event_notice_list_by_event_id(event_id):
 
 
 if __name__ == '__main__':
-    for i in Po.where(cid=CID_EVENT_FEEDBACK):
-        event_id =  i.rid
-        event = Event.mc_get(i.rid)
-        if event.zsite_id != i.user_id:
-            try:
-                rank_new(i, event_id, CID_EVENT_FEEDBACK)
-                event_joiner_state_set_by_good(i.user_id, event_id, True)
-            except:
-                print "excpet"
-                continue
-
+    pass
