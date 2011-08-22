@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 import _env
 from model.event import EventJoiner, event_review_join_apply, EVENT_JOIN_STATE_NEW, event_ready, EVENT_STATE_BEGIN, Event
-from time import time
+from time import time, timezone
 from model.kv_misc import kv_int_call, KV_EVENT_READY
 from zkit.single_process import single_process
 from zweb.orm import ormiter
 from model.days import today_days, ONE_DAY_MINUTE
 
 def buzz_join_apply_review_mail():
-    ago = int(time()) - 18*60*60
+    ago = int(time() + timezone) - 18*60*60
 
     c = EventJoiner.raw_sql('select distinct(event_id) from event_joiner where state=%s and create_time<%s;', EVENT_JOIN_STATE_NEW, ago)
 

@@ -3,7 +3,7 @@ from _handler import Base, LoginBase, XsrfGetBase
 from ctrl._urlmap.meet import urlmap
 from model.namecard import namecard_get
 from zkit.earth import pid_city
-from model.event import event_list_by_city_pid_cid, event_count_by_city_pid_cid
+from model.event import event_list_by_city_pid_cid, event_count_by_city_pid_cid, event_end_list_by_city_pid, event_end_count_by_city_pid, EVENT_STATE_END
 from zkit.jsdict import JsDict
 from zkit.page import page_limit_offset
 from model.namecard import namecard_get, namecard_new
@@ -38,7 +38,6 @@ class City(Base):
     def get(self, pid, cid=0, n=1):
         pid = int(pid)
         cid = int(cid)
-        n = int(n)
 
         _pid = pid_city(pid)
         if not _pid:
@@ -61,6 +60,34 @@ class City(Base):
         return self.render(
             pid=pid,
             cid=cid,
+            event_list=event_list,
+            page=page,
+        )
+
+
+@urlmap('/(\d+)/ago')
+@urlmap('/(\d+)/ago-(\d+)')
+class CityAgo(Base):
+    def get(self, pid, n=1):
+        pid = int(pid)
+        _pid = pid_city(pid)
+        if not _pid:
+            return self.redirect('/')
+        if _pid != pid:
+            return self.redirect('/%s' % _pid)
+
+        total = event_end_count_by_city_pid(pid)
+        page, limit, offset = page_limit_offset(
+            '/%s/ago-%%s' % pid,
+            total,
+            n,
+            PAGE_LIMIT,
+        )
+        event_list = event_end_list_by_city_pid(pid, limit, offset)
+        return self.render(
+            'ctrl/meet/index/city.htm',
+            pid=pid,
+            state=EVENT_STATE_END,
             event_list=event_list,
             page=page,
         )

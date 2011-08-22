@@ -137,67 +137,68 @@ def format_call(funcname, *a, **kw):
     arglist += ['%s=%r' % (k, v) for k, v in r]
     return '%s(%s)' % (funcname, ', '.join(arglist))
 
-def profile_middleware(execute):
-    from model._db import SQLSTORE, mc
-    PROFILE_FUNC_LIST = [SQLSTORE, mc]
-    def _(self, transforms, *args, **kwargs):
-        profile = self.get_argument('profile', None)
-        profile_cookie = self.get_cookie('profile')
-        if profile == '0':
-            self.clear_cookie('profile')
-            profile = None
-            profile_cookie = None
-        elif profile is not None:
-            self.set_cookie('profile', '1')
+def profile_middleware(PROFILE_FUNC_LIST):
+    def _profile_middleware(execute):
+        def _(self, transforms, *args, **kwargs):
+            profile = self.get_argument('profile', None)
+            profile_cookie = self.get_cookie('profile')
+            if profile == '0':
+                self.clear_cookie('profile')
+                profile = None
+                profile_cookie = None
+            elif profile is not None:
+                self.set_cookie('profile', '1')
 
 
-        if profile or profile_cookie:
+            if profile or profile_cookie:
 
-            prof = start_profile()
-            for i in PROFILE_FUNC_LIST:
-                i.start_log()
-
-            so = []
-            result = None
-
-            cls = self.__class__
-            _finish = cls.finish
-
-            def finish(self, chunk=None):
-                if chunk is not None: self.write(chunk)
-                if self._status_code != 200:
-                    _finish(self)
-
-            cls.finish = finish
-            try:
-                result = prof.runcall(execute, self, transforms, *args, **kwargs)
+                prof = start_profile()
                 for i in PROFILE_FUNC_LIST:
-                    so.append(i.get_log())
-            finally:
-                for i in PROFILE_FUNC_LIST:
-                    i.stop_log()
-                prof.close()
+                    i.start_log()
 
-                def finish(self, so):
-                    _write_buffer = self._write_buffer
-                    if ''.join(_write_buffer).lstrip().startswith('<') or profile:
-                        #disable output for json
-                        stats = load_stats()
+                so = []
+                result = None
 
-                        so.append( format_stats(stats, sort='time') )
-                        so.append( format_stats(stats, sort='cumulative') )
+                cls = self.__class__
+                _finish = cls.finish
 
-                        from cgi import escape
-                        splitor = """\n<hr style="border:0;border-bottom:1px dashed;margin:20px 0">\n"""
-                        so = splitor.join(escape(i.strip()) for i in so)
-                        so = """<pre style="clear:both;padding:1em;background:#ffffde;color:#033;font-size:12px;font-family:fixedsys;white-space: pre-wrap;white-space: -moz-pre-wrap;white-space: -pre-wrap;white-space: -o-pre-wrap;word-wrap:break-word;line-height:18px">\n%s\n</pre>"""%so
-                        _write_buffer.append(so)
-                    _finish(self)
-                if self._status_code == 200:
-                    finish(self, so)
-                cls.finish = _finish
+                def finish(self, chunk=None):
+                    if chunk is not None: self.write(chunk)
+                    if self._status_code != 200:
+                        _finish(self)
 
-            return result
-        return execute(self, transforms, *args, **kwargs)
-    return _
+                cls.finish = finish
+                try:
+                    result = prof.runcall(execute, self, transforms, *args, **kwargs)
+                    for i in PROFILE_FUNC_LIST:
+                        so.append(i.get_log())
+                finally:
+                    for i in PROFILE_FUNC_LIST:
+                        i.stop_log()
+                    prof.close()
+
+                    def finish(self, so):
+                        _write_buffer = self._write_buffer
+                        if ''.join(_write_buffer).lstrip().startswith('<') or profile:
+                            #disable output for json
+                            stats = load_stats()
+
+                            so.append( format_stats(stats, sort='time') )
+                            so.append( format_stats(stats, sort='cumulative') )
+
+                            from cgi import escape
+                            splitor = """\n<hr style="border:0;border-bottom:1px dashed;margin:20px 0">\n"""
+                            so = splitor.join(escape(i.strip()) for i in so)
+                            so = """<pre style="clear:both;padding:1em;background:#ffffde;color:#033;font-size:12px;font-family:fixedsys;white-space: pre-wrap;white-space: -moz-pre-wrap;white-space: -pre-wrap;white-space: -o-pre-wrap;word-wrap:break-word;line-height:18px">\n%s\n</pre>"""%so
+                            _write_buffer.append(so)
+                        _finish(self)
+                    if self._status_code == 200:
+                        finish(self, so)
+                    cls.finish = _finish
+
+                return result
+            return execute(self, transforms, *args, **kwargs)
+        return _
+    
+    return _profile_middleware
 
