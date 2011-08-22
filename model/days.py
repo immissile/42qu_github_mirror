@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from time import time, mktime, strptime, strftime
+from time import time, mktime, strptime, strftime, timezone
 import datetime
 
 ONE_DAY = 3600 * 24
@@ -8,13 +8,14 @@ ONE_DAY_MINUTE = 60*24
 TIMEZONE_OFFSET = mktime((1970, 1, 1, 0, 0, 0, 0, 0, 0))
 DATE_BEGIN = datetime.date(1970, 1, 1)
 DATETIME_BEGIN = datetime.datetime(1970, 1, 1)
+TIMEZONE_MINUTE_OFFSET = timezone // 60
 
 
 def today_days():
-    return time() // ONE_DAY
+    return (time() + timezone) // ONE_DAY
 
 def today_seconds():
-    return today_days() * ONE_DAY
+    return today_days() * ONE_DAY - timezone
 
 def today_ymd_int():
     t = datetime.date.today()
