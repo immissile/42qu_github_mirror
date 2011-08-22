@@ -10,12 +10,12 @@ from zsite import Zsite
 from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
 from model.pic import pic_new_save , fs_url_jpg , fs_set_jpg
 from zkit.pic import pic_fit
-from rank import rank_po_id_list
+from rank import rank_po_id_list, rank_new
 from event import EVENT_CID, EVENT_CID_CN, EventJoiner, event_joiner_get, EVENT_JOIN_STATE_FEEDBACK_NORMAL , EVENT_JOIN_STATE_FEEDBACK_GOOD, mc_event_joiner_feedback_normal_id_list, event_joiner_feedback_normal_id_list , Event, EVENT_JOIN_STATE_END
 
 mc_event_feedback_id_get = McCache('EventFeedBackGet.%s')
 
-@mc_event_feedback_id_get("{user_id}_{event_id}")
+@mc_event_feedback_id_get('{user_id}_{event_id}')
 def event_feedback_id_get(user_id, event_id):
     c = Po.raw_sql(
             'select id from po where rid=%s and cid=%s and user_id=%s and state>%s', event_id, CID_EVENT_FEEDBACK, user_id, STATE_DEL
@@ -126,16 +126,16 @@ def po_event_notice_new(user_id, event_id, name):
         return o
 
 mc_po_event_notice_id_list_by_event_id = McCacheA(
-    "PoEventNoticeIdListByEventId:%s"
+    'PoEventNoticeIdListByEventId:%s'
 )
 
-@mc_po_event_notice_id_list_by_event_id("{event_id}")
+@mc_po_event_notice_id_list_by_event_id('{event_id}')
 def po_event_notice_id_list_by_event_id(event_id):
     from state import STATE_ACTIVE
     return Po.where(
         cid=CID_EVENT_NOTICE,
         rid=event_id
-    ).where("state>=%s"%STATE_ACTIVE).order_by("id desc").col_list()
+    ).where('state>=%s'%STATE_ACTIVE).order_by('id desc').col_list()
 
 def po_event_notice_list_by_event_id(event_id):
     return Po.mc_get_list(
@@ -144,9 +144,4 @@ def po_event_notice_list_by_event_id(event_id):
 
 
 if __name__ == '__main__':
-    good, normal = po_event_feedback_group(10064559)
-    print good,'!!',normal
     pass
-
-
-

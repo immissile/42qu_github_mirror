@@ -99,7 +99,7 @@ class Po(McModel, ReplyMixin):
                 name = '总结 : %s'
             else:
                 name = '评价 : %s'
-            return name%self.name_
+            return name%q.name
 
         if cid != CID_EVENT_NOTICE:
             q = self.question
@@ -362,4 +362,4 @@ def mc_flush_cid_list_all(user_id, cid_list):
 
 if __name__ == '__main__':
     po = Po.mc_get(10066676)
-    print po.name
+    #print po.name
