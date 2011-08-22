@@ -14,7 +14,7 @@ from zsite import Zsite
 from zkit.txt import cnenoverflow
 from model.txt2htm import txt_withlink
 from fs import fs_url_jpg, fs_url_audio
-from model.days import begin_end_by_minute 
+from model.days import begin_end_by_minute
 from model.event import Event
 
 
@@ -29,7 +29,7 @@ def feed_tuple_by_db(id):
     has_question = cid in (CID_WORD, CID_ANSWER)
 
     if rid and has_question:
-        question = m.question
+        question = m.target
         name = question.name
     elif cid != CID_WORD:
         name = m.name
@@ -48,10 +48,10 @@ def feed_tuple_by_db(id):
         _rid = fs_url_audio(id,"")
     elif cid == CID_EVENT:
         event = Event.mc_get(id)
-        _rid = fs_url_jpg(162, event.pic_id)        
+        _rid = fs_url_jpg(162, event.pic_id)
     else:
-        _rid = rid 
-    
+        _rid = rid
+
     result = [
         m.user_id,
         cid,
@@ -71,7 +71,7 @@ def feed_tuple_by_db(id):
     else:
         txt = txt_withlink(txt)
         result.extend((txt, False))
-    
+
     if cid == CID_EVENT:
         result.append(place_name(event.pid))
         result.append(event.address)
@@ -83,7 +83,7 @@ def feed_tuple_by_db(id):
         result.extend(
             (question.id, user.name, user.link)
         )
-    
+
 
     return result
 
