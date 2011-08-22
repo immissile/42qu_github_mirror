@@ -99,7 +99,7 @@ class Po(McModel, ReplyMixin):
                 name = '总结 : %s'
             else:
                 name = '评价 : %s'
-            return name%self.name_
+            return name%q.name
 
         if cid != CID_EVENT_NOTICE:
             q = self.question
