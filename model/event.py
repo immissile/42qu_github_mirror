@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from time import time
-from days import TIMEZONE_MINUTE_OFFSET
 from zkit.attrcache import attrcache
 from money import read_cent, pay_event_get, trade_fail, trade_finish
 from zsite import Zsite
@@ -176,8 +175,6 @@ def event_new(
     pic_id,
     id=None
 ):
-    begin_time = begin_time + TIMEZONE_MINUTE_OFFSET
-    end_time = end_time + TIMEZONE_MINUTE_OFFSET
     if id:
         event = Event.mc_get(id)
         if event.zsite_id == zsite_id:
