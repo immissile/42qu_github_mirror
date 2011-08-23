@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
-from cid import CID_INVITE_QUESTION, CID_MAIL_DAY, CID_MAIL_MONTH, CID_MAIL_YEAR, CID_BUZZ_FOLLOW
+from cid import CID_INVITE_QUESTION, CID_MAIL_DAY, CID_MAIL_MONTH, CID_MAIL_YEAR, CID_BUZZ_FOLLOW, CID_MAIL_WEEK
 from model.zsite import Zsite, CID_USER
 from user_mail import mail_by_user_id
 from zweb.orm import ormiter
@@ -12,6 +12,7 @@ CID_MAIL_NOTICE_ALL = (
     CID_MAIL_DAY,
     CID_MAIL_MONTH,
     CID_MAIL_YEAR,
+    CID_MAIL_WEEK,
 )
 
 class MailNotice(Model):
@@ -44,21 +45,4 @@ def mail_notice_iter(cid):
 
 
 if __name__ == '__main__':
-    for mail, name in mail_notice_iter(CID_MAIL_MONTH):
-        print mail, name
-
-
-#    with open('1') as infile:
-#        for i in infile:
-#            cid , user_id = map(int, i.strip().split())
-#            if cid == 0:
-#                cid = CID_MAIL_MONTH
-#            else:
-#                cid = CID_MAIL_YEAR
-#            print cid, user_id
-#            from zsite import Zsite
-#            if Zsite.mc_get(user_id):
-#                mail_notice_set(user_id, cid, False)
-#                pass
-#
-
+    MailNotice.raw_sql('insert into mail_notice (user_id, cid, state) select user_id, %s, state from mail_notice where cid=%s', CID_MAIL_WEEK, CID_MAIL_MONTH)
