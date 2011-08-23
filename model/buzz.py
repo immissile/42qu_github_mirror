@@ -116,7 +116,7 @@ def buzz_po_reply_new2(from_id, reply_id, po_id, po_user_id):
     excepted = set([from_id, po_user_id])
     if from_id != po_user_id:
         buzz_new(from_id, po_user_id, CID_BUZZ_PO_REPLY2, reply_id)
-    for user_id in ((followed | buzz_to) - excepted)):
+    for user_id in ((followed | buzz_to) - excepted):
         buzz_new(from_id, user_id, CID_BUZZ_PO_REPLY2, reply_id)
         po_pos_state(user_id, po_id, STATE_MUTE)
 
