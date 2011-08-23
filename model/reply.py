@@ -56,10 +56,10 @@ class ReplyMixin(object):
         cursor.connection.commit()
         mc_flush_reply_id_list(cid, rid)
         if cid in CID_PO:
-            from buzz import mq_buzz_po_reply_new2
+            from buzz import mq_buzz_po_reply_new
             from po_pos import po_pos_state, STATE_BUZZ
             po_pos_state(user_id, rid, STATE_BUZZ)
-            mq_buzz_po_reply_new2(user_id, id, rid, self.user_id)
+            mq_buzz_po_reply_new(user_id, id, rid, self.user_id)
 #            key = '%s_%s' % (rid, user_id)
 #            if mc_reply_in_1h.get(key) is None:
 #                mq_buzz_po_reply_new(user_id, rid)
