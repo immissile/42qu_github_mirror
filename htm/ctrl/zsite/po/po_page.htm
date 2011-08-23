@@ -23,7 +23,7 @@ ${total} ${PO_COUNT_CN[cid]}</h1>
             % for po in po_list:
         <%
         if po.rid:
-            question = po.question
+            question = po.target
             question_user = question.user
         %>
 %if po.rid:

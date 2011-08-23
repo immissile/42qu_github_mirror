@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from time import time
+from time import time, timezone
 from zkit.single_process import single_process
 from zweb.orm import ormiter
 from model.event import Event, event_begin2now, event_end, EVENT_STATE_NOW, EVENT_STATE_BEGIN
@@ -17,7 +17,7 @@ def _event_end(begin, end):
         event_end(i)
 
 def event_begin_end(begin):
-    end = time() // 60 + 1
+    end = (time() + timezone) // 60 + 1
     event_begin(begin, end)
     _event_end(begin, end)
     return end

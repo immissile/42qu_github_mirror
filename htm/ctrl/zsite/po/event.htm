@@ -4,6 +4,7 @@
 <%namespace file="/_util/event.htm" import="event_show"/>
 <%namespace file="/ctrl/zsite/event/event_feedback_list.htm" import="feedback_list"/>
 <%!
+from zkit.itertools import chunkiter
 from model.ico import pic_url_bind_with_default
 from model.career import career_bind
 from model.event import Event, event_joiner_check_count, event_joiner_user_list, event_joiner_user_id_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END,  event_joiner_state, EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_NEW
@@ -69,7 +70,9 @@ ${event_show(event, po)}
 <pre class="prebody">\
 ${po.htm|n}\
 <p class="mt28">联系电话 : ${event.phone}</p>\
+%if event.transport:
 <p>交通方式 : ${event.transport}</p>\
+%endif
 <p>\
 %if event.limit_down:
 人数范围 : ${event.limit_down} - \
@@ -145,7 +148,9 @@ notice_list = po_event_notice_list_by_event_id(id)
 <div class="G3">
 
 <div id="joiner" class="G">
-% for i in join_list:
+    %for chunk in chunkiter(join_list,3):
+<div class="c">
+        % for i in chunk:
 <%
 unit, title = i.career
 %>
@@ -161,7 +166,9 @@ unit, title = i.career
 % endif
 </div>
 </a>
-% endfor
+        % endfor
+</div>
+    % endfor
 </div>
 </div>
 </div>
