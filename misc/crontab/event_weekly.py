@@ -22,7 +22,7 @@ def main():
 
     title = " . ".join(title)
 
-    mail = "zsp007@gmail.com"
+    mail = "zsp009@gmail.com"
     name = "张沈鹏"
 
     rendermail(
