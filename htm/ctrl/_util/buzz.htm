@@ -1,5 +1,5 @@
 <%!
-from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE, CID_BUZZ_PO_REPLY2
+from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 from zkit.txt import cnenoverflow
@@ -58,14 +58,6 @@ from_id = from_user.id
 % endif
 留言, <a href="${e_to.link}${entry.link}" target="_blank">点此浏览</a>
 % elif cid == CID_BUZZ_PO_REPLY:
-${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${entry.id}">\
-    % if entry.cid in (CID_WORD , CID_EVENT_NOTICE):
-${cnenoverflow(entry.name,30)[0]}\
-    % else:
-${entry.name_with_user}\
-    % endif
-</a>
-% elif cid == CID_BUZZ_PO_REPLY2:
 <%
 po_id = entry.rid
 po = Po.mc_get(po_id)
