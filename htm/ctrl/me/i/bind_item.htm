@@ -1,0 +1,54 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%!
+from model.oauth import OAUTH2NAME_DICT
+from model.po import PO_CN 
+%>
+
+<%def name="head()">
+<style>
+.ckdiv{
+margin:16px 0;
+}
+.submit{
+margin-top:14px
+}
+.sync{
+margin-top:16px;
+font-size:16px;
+}
+.sync input{
+margin-right:5px;
+vertical-align:-1px;
+}
+</style>
+</%def>
+<%htm:form method="POST">
+<div class="sync">
+<div>${id} 同步选项</div>
+<div class="ckdiv">
+<p>\
+<input type="checkbox" id="po" checked>\
+<label for="po">游吟碎语</label>\
+</p>\
+<p>\
+<input type="checkbox" id="po" checked>\
+<label for="po">撰写文章</label>\
+</p>\
+<p>\
+<input type="checkbox" id="po" checked>\
+<label for="po">参与活动</label>\
+</p>\
+<p>\
+<input type="checkbox" id="po" checked>\
+<label for="po">推荐分享</label>\
+</p>\
+
+</div>
+</div>
+
+<div>
+<span class="btnw"><button type="submit">确定</button></span>
+</div>
+</%htm:form>

@@ -424,6 +424,9 @@ class BindItem(LoginBase):
     def get(self, id):
         return self.render(id=id)
 
+    def post(self, id):
+        self.redirect('/i/bind')
+    
 
 @urlmap('/i/bind')
 class Bind(LoginBase):

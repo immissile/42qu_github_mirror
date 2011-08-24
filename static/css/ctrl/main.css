@@ -159,7 +159,7 @@ overflow:visible; /* IE6/IE7中，根据内容的多少将自动产生一定程�
 height:42px; /* select在12px的状态下，IE浏览器中的默认高度为21px，并且height属性在select上于IE6是无效的，于IE7，在外观上是无效的，如需考虑与select垂直对齐的情况，21px的高度是合适的选择 */
 padding:0 28px;
 *padding:0 27px; /* IE6、IE7中，会在紧贴边框的位置产生1px的与背景相同的内边框，其实际宽度会比其他浏览器多出1px */
-line-height:42px;
+line-height:41px;
 padding-bottom:2px;
 line-height:43px\9; 
 _padding-top:5px; 
