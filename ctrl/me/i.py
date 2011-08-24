@@ -419,6 +419,12 @@ class InvokeRm(XsrfGetBase):
             oauth_token_rm_if_can(id, user_id)
             self.redirect('/i/invoke')
 
+@urlmap('/i/bind/(\d+)')
+class BindItem(LoginBase):
+    def get(self, id):
+        return self.render(id=id)
+
+
 @urlmap('/i/bind')
 class Bind(LoginBase):
     def get(self):
