@@ -5,11 +5,42 @@ from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, O
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
 %>
 <%def name="head()">
+<style>
+.g1bk{
+text-align:right;
+padding:16px 0;
+border-bottom:1px dotted #ccc;
+}
+.sync{
+border-bottom:1px dotted #ccc;padding-bottom:3px;
+}
+</style>
 </%def>
 <div class="C">
-<div class="G1">新浪微博</div>
-</div>
 
+
+%for cid, name in OAUTH2NAME_DICT.iteritems():
+<div class="sync">
+    <div class="G">
+        <div class="G1">
+            <div class="g1bk">
+                <span class="L">${name}</span>
+                <a href="/i/binded/${cid}">添加关联</a>
+            </div>
+        </div>
+        <div class="G3"><div class="G">
+        %for j in range(1):
+            <div class="G1">
+                <div class="g1bk">
+                    <span class="L">张沈鹏</span>
+                    <a href="javascript:sync()">同步设置</a>
+                </div>
+            </div>
+        %endfor
+        </div></div>
+    </div>
+</div>
+%endfor
 
 
 

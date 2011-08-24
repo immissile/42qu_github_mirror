@@ -433,14 +433,12 @@ class Bind(LoginBase):
         self.get()
 
 
-@urlmap('/i/binded')
+@urlmap('/i/binded/(\d+)')
 class Binded(LoginBase):
-    def get(self):
-        cid = self.get_argument('cid',None)
+    def get(self, cid):
         self.render(cid=cid)
 
-    def post(self):
-        cid = self.get_argument('cid',None)
+    def post(self, cid):
         fstate = int(self.get_argument('fstate',0))
         tstate = int(self.get_argument('tstate',0))
         txt = self.get_argument('weibo',None)
