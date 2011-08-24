@@ -1,5 +1,5 @@
 #coding:utf-8
-from _db import cursor_by_table, McNum, Model
+from _db import cursor_by_table, McNum, Model, McCache
 
 OAUTH_GOOGLE = 1
 OAUTH_DOUBAN = 2
@@ -91,6 +91,17 @@ def name_uid_set( id, name, uid, table):
 def oauth_token_by_oauth_id(oauth_id):
     s = OauthToken.raw_sql('select app_id, token_key, token_secret from oauth_token where id =%s', oauth_id).fetchone()
     return s
+
+mc_oauth_name_by_oauth_id = McCache("OauthNameByOauthId:%s")
+
+@mc_oauth_name_by_oauth_id("{oauth_id}") 
+def oauth_name_by_oauth_id(app_id, oauth_id):
+    table = OAUTH2TABLE[app_id]
+    cursor = cursor_by_table(table)
+    cursor.execute("select name from %s where id=%%s"%table, oauth_id)
+    r = cursor.fetchone()
+    if r:
+        return r[0]
 
 
 def oauth_rm_by_oauth_id(oauth_id):

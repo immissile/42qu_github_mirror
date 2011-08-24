@@ -1,7 +1,7 @@
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH2NAME_DICT, OAUTH_TUPLE
+from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH2NAME_DICT, OAUTH_TUPLE , oauth_name_by_oauth_id
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
 %>
 <%def name="head()">
@@ -32,10 +32,10 @@ name = OAUTH2NAME_DICT[cid]
             </div>
         </div>
         <div class="G3"><div class="G">
-        %for j in range(1):
+        %for oauth_id in app_dict[cid]:
             <div class="G1">
                 <div class="g1bk">
-                    <span class="L">张沈鹏</span>
+                    <span class="L">${oauth_name_by_oauth_id(cid, oauth_id)}</span>
                     <a href="javascript:sync()">同步设置</a>
                 </div>
             </div>
@@ -53,12 +53,5 @@ name = OAUTH2NAME_DICT[cid]
 
 
 
-已经关联：
-<ul>
-    %for app_id,oauth_id in app_list:
-%if app_id in OAUTH2NAME_DICT:
-<li> ${OAUTH2NAME_DICT[app_id]} <a href='/i/bind/oauth_rm/${oauth_id}?${_xsrf}'> 取消关联</a></li>
-%endif
-    %endfor
-</ul>
+## <a href='/i/bind/oauth_rm/${oauth_id}?${_xsrf}'> 取消关联</a></li>
 

@@ -23,6 +23,7 @@ from config import SITE_URL, SITE_DOMAIN
 from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id, OAUTH_SYNC_TXT 
 from model.zsite import Zsite
 from model.cid import CID_PO
+from collections import defaultdict
 from model.sync import sync_state_set, sync_all, sync_follow_new
 
 OAUTH2URL = {
@@ -422,15 +423,22 @@ class InvokeRm(XsrfGetBase):
 class Bind(LoginBase):
     def get(self):
         user_id = self.current_user_id
-        #print oauth_by_zsite_id(user_id),'!!!!'
-        self.render(sync_list=sync_all(user_id), app_list=oauth_by_zsite_id(user_id))
 
-    def post(self):
-        user_id = self.current_user_id
-        for cid in CID_PO:
-            state = self.get_argument('cid%s' % cid, None)
-            sync_state_set(user_id, cid, state)
-        self.get()
+        app_dict = defaultdict(list)
+
+        for app_id , oauth_id in oauth_by_zsite_id(user_id):
+            app_dict[app_id].append(oauth_id)        
+
+        self.render(
+            sync_list=sync_all(user_id), app_dict=app_dict
+        )
+
+#    def post(self):
+#        user_id = self.current_user_id
+#        for cid in CID_PO:
+#            state = self.get_argument('cid%s' % cid, None)
+#            sync_state_set(user_id, cid, state)
+#        self.get()
 
 
 @urlmap('/i/binded/(\d+)')
