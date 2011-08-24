@@ -27,11 +27,11 @@ OAUTH2NAME_DICT = {
 
 OAUTH_TUPLE = (
     OAUTH_DOUBAN    ,
-    OAUTH_RENREN    ,
+    #OAUTH_RENREN    ,
     OAUTH_SINA      ,
     OAUTH_QQ        ,
     OAUTH_WWW163    ,
-    OAUTH_SOHU      ,
+    #OAUTH_SOHU      ,
     OAUTH_TWITTER   ,
 )
 
