@@ -1,7 +1,7 @@
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH2NAME_DICT
+from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH2NAME_DICT, OAUTH_TUPLE
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
 %>
 <%def name="head()">
@@ -19,7 +19,10 @@ border-bottom:1px dotted #ccc;padding-bottom:3px;
 <div class="C">
 
 
-%for cid, name in OAUTH2NAME_DICT.iteritems():
+%for cid in OAUTH_TUPLE:
+<%
+name = OAUTH2NAME_DICT[cid]
+%>
 <div class="sync">
     <div class="G">
         <div class="G1">
@@ -49,29 +52,7 @@ border-bottom:1px dotted #ccc;padding-bottom:3px;
 
 
 
-<ul>
-    %for i in OAUTH2NAME_DICT:
-    <li>
-    <a href="/i/binded?cid=${i}">关联${OAUTH2NAME_DICT[i]}</a>
-    </li>
-    %endfor
-<ul>
 
-<%htm:form className="fullscreen">
-##% for cid, state in sync_list:
-##<p>
-##<input type="checkbox"
-##% if state == 1:
-##checked
-##% endif
-##name="cid${cid}" id="cid${cid}">
-##<label for="cid${cid}">${CID_NAME_DICT[cid]}</label>
-##</p>
-##% endfor
-<p>
-    <span class="btnw"><button type="submit">同步</button></span>
-</p>
-</%htm:form>
 已经关联：
 <ul>
     %for app_id,oauth_id in app_list:

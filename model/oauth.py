@@ -6,7 +6,7 @@ OAUTH_DOUBAN = 2
 OAUTH_SINA = 3
 OAUTH_TWITTER = 4
 OAUTH_WWW163 = 5
-#OAUTH_BUZZ = 6
+OAUTH_BUZZ = 6
 OAUTH_SOHU = 7
 OAUTH_QQ = 8
 OAUTH_RENREN = 9
@@ -20,10 +20,21 @@ OAUTH2NAME_DICT = {
     OAUTH_RENREN    : '人人网'      ,
     OAUTH_DOUBAN    : '豆瓣'        ,
     OAUTH_SINA      : '新浪微博'    ,
-#    OAUTH_BUZZ      : 'Buzz'        ,
+    OAUTH_BUZZ      : 'Buzz'        ,
     OAUTH_TWITTER   : 'Twitter'     ,
     OAUTH_LINKEDIN  : 'LinkedIn'    ,
 }
+
+OAUTH_TUPLE = (
+    OAUTH_DOUBAN    ,
+    OAUTH_RENREN    ,
+    OAUTH_SINA      ,
+    OAUTH_QQ        ,
+    OAUTH_WWW163    ,
+    OAUTH_SOHU      ,
+    OAUTH_TWITTER   ,
+)
+
 
 OAUTH2URL = {
     OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
