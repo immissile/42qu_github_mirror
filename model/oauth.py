@@ -104,6 +104,7 @@ def oauth_name_by_oauth_id(app_id, oauth_id):
         return r[0]
 
 
+
 def oauth_rm_by_oauth_id(oauth_id):
     cursor = cursor_by_table('oauth_token')
     cursor_new = cursor_by_table('oauth_token_backup')
