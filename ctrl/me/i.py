@@ -422,7 +422,7 @@ class InvokeRm(XsrfGetBase):
 class Bind(LoginBase):
     def get(self):
         user_id = self.current_user_id
-        print oauth_by_zsite_id(user_id),'!!!!'
+        #print oauth_by_zsite_id(user_id),'!!!!'
         self.render(sync_list = sync_all(user_id),app_list = oauth_by_zsite_id(user_id))
 
     def post(self):
