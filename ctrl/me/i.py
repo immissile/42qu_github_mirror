@@ -406,16 +406,16 @@ class Invoke(LoginBase):
     def get(self):
         user_id = self.current_user_id
         li = oauth_access_token_by_user_id(user_id)
-        OauthClient.mc_bind(li, "client", "client_id")
-        Zsite.mc_bind(li, "user", "user_id")
-        self.render(li = li)
+        OauthClient.mc_bind(li, 'client', 'client_id')
+        Zsite.mc_bind(li, 'user', 'user_id')
+        self.render(li=li)
 
 @urlmap('/i/invoke/rm/(\d+)')
 class InvokeRm(XsrfGetBase):
-    def get(self,id):
+    def get(self, id):
         if id:
             user_id = self.current_user_id
-            oauth_token_rm_if_can(id,user_id)
+            oauth_token_rm_if_can(id, user_id)
             self.redirect('/i/invoke')
 
 @urlmap('/i/bind')
@@ -423,7 +423,7 @@ class Bind(LoginBase):
     def get(self):
         user_id = self.current_user_id
         #print oauth_by_zsite_id(user_id),'!!!!'
-        self.render(sync_list = sync_all(user_id),app_list = oauth_by_zsite_id(user_id))
+        self.render(sync_list=sync_all(user_id), app_list=oauth_by_zsite_id(user_id))
 
     def post(self):
         user_id = self.current_user_id
@@ -439,18 +439,28 @@ class Binded(LoginBase):
         self.render(cid=cid)
 
     def post(self, cid):
-        fstate = int(self.get_argument('fstate',0))
-        tstate = int(self.get_argument('tstate',0))
-        txt = self.get_argument('weibo',None)
+        fstate = self.get_argument('fstate', None)
+        tstate = self.get_argument('tstate', None)
+        txt = self.get_argument('weibo', None)
+
         user_id = self.current_user_id
-        sync_follow_new(user_id,fstate+tstate,cid,txt)
-        if cid:
-            url = 'http://rpc.%s/oauth/%s'%(SITE_DOMAIN,cid)
-            self.redirect(url)
+
+        flag = 0
+        if fstate:
+            flag += 0b1
+        if tstate:
+            flag += 0b10
+
+        sync_follow_new(user_id, flag, cid, txt)
+        
+        url = 'http://rpc.%s/oauth/%s'%(SITE_DOMAIN, cid)
+        
+        self.redirect(url)
+
 
 @urlmap('/i/bind/oauth_rm/(\d+)')
 class BindOauthRm(XsrfGetBase):
-    def get(self,id):
+    def get(self, id):
         if id:
             oauth_rm_by_oauth_id(id)
         self.redirect('/i/bind')
