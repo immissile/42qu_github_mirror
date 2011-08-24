@@ -9,7 +9,7 @@ from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
 <ul>
     %for i in OAUTH2NAME_DICT:
     <li>
-    <a href="/i/binded?cid=${i}">绑定${OAUTH2NAME_DICT[i]}</a>
+    <a href="/i/binded?cid=${i}">关联${OAUTH2NAME_DICT[i]}</a>
     </li>
     %endfor
 <ul>
@@ -29,11 +29,11 @@ from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
     <span class="btnw"><button type="submit">同步</button></span>
 </p>
 </%htm:form>
-已经绑定：
+已经关联：
 <ul>
     %for app_id,oauth_id in app_list:
 %if app_id in OAUTH2NAME_DICT:
-<li> ${OAUTH2NAME_DICT[app_id]} <a href='/i/bind/oauth_rm/${oauth_id}?${_xsrf}'> 取消绑定</a></li>
+<li> ${OAUTH2NAME_DICT[app_id]} <a href='/i/bind/oauth_rm/${oauth_id}?${_xsrf}'> 取消关联</a></li>
 %endif
     %endfor
 </ul>
