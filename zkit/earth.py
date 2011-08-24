@@ -10635,7 +10635,8 @@ BIT_CITY_LEN = 16
 BIT_PROVINCE_LEN = 24
 BIT_COUNTRY_LEN = 32
 
-BIT_COUNTRY_PROVINCE_CITY = BIT_COUNTRY+BIT_PROVINCE+BIT_CITY
+BIT_COUNTRY_PROVINCE = BIT_COUNTRY + BIT_PROVINCE
+BIT_COUNTRY_PROVINCE_CITY = BIT_COUNTRY_PROVINCE + BIT_CITY
 
 def place_name_by_int(pid):
     hexpid = hex(pid).rstrip('L')[2:]
@@ -10679,26 +10680,26 @@ PLACE_CITY_L1 = (
 4445962240, #湖北
 4362076160, #山东
 4747952128, #福建
-4429185024, #河南     
-4345298944, #辽宁     
-4395630592, #陕西    
-4462739456, #湖南    
-4412407808, #河北     
-4714397696, #安徽    
-4311744512, #黑龙江      
-4378853376,#山西     
-4546625536, #广西     
-4328521728, #吉林    
-4513071104, #江西          
-4563402752, #云南     
-4613734400,#内蒙古     
-4580179968, #贵州   
-4647288832, #甘肃    
-4697620480, #新疆    
-4479516672, #海南    
-4630511616, #宁夏    
-4664066048, #青海    
-4680843264, #西藏 
+4429185024, #河南
+4345298944, #辽宁
+4395630592, #陕西
+4462739456, #湖南
+4412407808, #河北
+4714397696, #安徽
+4311744512, #黑龙江
+4378853376, #山西
+4546625536, #广西
+4328521728, #吉林
+4513071104, #江西
+4563402752, #云南
+4613734400, #内蒙古
+4580179968, #贵州
+4647288832, #甘肃
+4697620480, #新疆
+4479516672, #海南
+4630511616, #宁夏
+4664066048, #青海
+4680843264, #西藏
 4764729344, #台湾
 )
 
@@ -10706,20 +10707,23 @@ def pid_city(code):
     if code in COUNTRY_DICT and code != 1:
         return code
 
-    code = code&BIT_COUNTRY_PROVINCE_CITY
+    code = code & BIT_COUNTRY_PROVINCE_CITY
     if code in PLACE_MUNI:
         return code
+    elif code in PLACE_GET_CITY_L1L2:
+        return code
     else:
-        if code in PLACE_GET_CITY_L1L2:
-            return code
-        elif code in PLACE_GET_CITY_L2L3:
-            return PLACE_GET_CITY_L2L3[code]
-    return 0
+        return PLACE_GET_CITY_L2L3.get(code, 0)
 
+def pid_province(code):
+    if code in COUNTRY_DICT and code != 1:
+        return code
+    return code & BIT_COUNTRY_PROVINCE
 
 
 if __name__ == '__main__':
     #print place_name(4295033088)
     #print place_name(105)
-    print pid_city(4497801216)
+    print place_name(pid_city(4497801216))
     print place_name(4496293888)
+    print place_name(pid_province(4497801216))
