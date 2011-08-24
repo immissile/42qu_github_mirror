@@ -69,7 +69,7 @@ ${cnenoverflow(po.name,30)[0]}\
 ${po.name_with_user}\
     % endif
 </a> :
-<span class="buzz_txt">${cnenoverflow(entry.txt, 30)[0]}<a class="buzz_reply" href="${po.link}#reply_txt"></a></span>
+<span class="buzz_txt">${cnenoverflow(entry.txt, 30)[0]}<a class="buzz_reply" href="/po/${po_id}" target="_blank"></a></span>
 % elif cid == CID_BUZZ_ANSWER:
 ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}#replyer${from_list[0].id}">${entry.name}</a>\
 % elif cid == CID_BUZZ_JOIN:
