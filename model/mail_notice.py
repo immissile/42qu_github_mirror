@@ -45,4 +45,6 @@ def mail_notice_iter(cid):
 
 
 if __name__ == '__main__':
-    MailNotice.raw_sql('insert into mail_notice (user_id, cid, state) select user_id, %s, state from mail_notice where cid=%s', CID_MAIL_WEEK, CID_MAIL_MONTH)
+    #MailNotice.where(cid=CID_MAIL_WEEK).delete()
+    #MailNotice.raw_sql('insert into mail_notice (user_id, cid, state) select user_id, %s, state from mail_notice where cid=%s', CID_MAIL_WEEK, CID_MAIL_MONTH)
+    pass
