@@ -20,7 +20,7 @@ from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zs
 from urlparse import urlparse
 from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient
 from config import SITE_URL, SITE_DOMAIN
-from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id
+from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id, OAUTH_SYNC_TXT 
 from model.zsite import Zsite
 from model.cid import CID_PO
 from model.sync import sync_state_set, sync_all, sync_follow_new
@@ -436,7 +436,7 @@ class Bind(LoginBase):
 @urlmap('/i/binded/(\d+)')
 class Binded(LoginBase):
     def get(self, cid):
-        self.render(cid=cid)
+        self.render(cid=cid, txt=OAUTH_SYNC_TXT)
 
     def post(self, cid):
         fstate = self.get_argument('fstate', None)
