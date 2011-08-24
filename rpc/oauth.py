@@ -4,9 +4,10 @@ from _handler import LoginBase
 from mixin import DoubanMixin, GoogleMixin, Www163Mixin, QqMixin, TwitterMixin, SinaMixin
 import tornado.web
 from _urlmap import urlmap
+from config import SITE_DOMAIN
 
-
-BACK_URL = '/'
+BACK_URL = 'http://%%s.%s/i/bind'%SITE_DOMAIN
+#+SITE_DOMAIN
 
 @urlmap('/oauth/%s'%OAUTH_DOUBAN)
 class DoubanOauthHandler(LoginBase, DoubanMixin):
@@ -22,7 +23,7 @@ class DoubanOauthHandler(LoginBase, DoubanMixin):
     def _on_auth(self, user):
         zsite = self.current_user
 
-        back = BACK_URL
+        back = BACK_URL%zsite.id
 
         if user:
             access_token = user.get('access_token')
@@ -60,7 +61,7 @@ class SinaOauthHandler(LoginBase, SinaMixin):
 
     def _on_auth(self, user):
         man = self.current_user
-        back = BACK_URL
+        back = BACK_URL%man.id
         if user:
             access_token = user.get('access_token')
             if access_token:
@@ -88,7 +89,7 @@ class Www163OauthHandler(LoginBase, Www163Mixin):
                 )
     def _on_auth(self, user):
         man = self.current_user
-        back = BACK_URL
+        back = BACK_URL%man.id
         if user:
             access_token = user.get('access_token')
             if access_token:
@@ -118,7 +119,7 @@ class QqOauthHandler(LoginBase, QqMixin):
 
     def _on_auth(self, user):
         zsite = self.current_user
-        back = BACK_URL
+        back = BACK_URL%zsite.id
         if user:
             access_token = user.get('access_token')
             if access_token:
@@ -171,7 +172,7 @@ class TwitterOauthHandler(LoginBase, TwitterMixin):
 
     def _on_auth(self, user):
         man = self.current_user
-        back = BACK_URL
+        back = BACK_URL%man.id
         if user:
             access_token = user.get('access_token')
             if access_token:

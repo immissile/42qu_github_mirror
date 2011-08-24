@@ -1,0 +1,14 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="head()">
+</%def>
+
+<%htm:form method="POST">
+<input type="hidden"name="cid"value="${cid}">
+<pre><input type="checkbox" name="fstate" value="1"checked>关注我们官网</pre>
+<pre><input type="checkbox" name="tstate" value="2" checked>发一条微博</pre>
+<input type="textarea" name="weibo" value="我来这里了！！">
+<p>
+<span class="btnw"><button type="submit">好的</button></span>
+</p>
+</%htm:form>

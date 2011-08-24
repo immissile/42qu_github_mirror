@@ -277,9 +277,10 @@ def sync_by_oauth_id(oauth_id, txt, url=None):
         url = shorturl(url)
         txt = oauth_txt_cat(out[0], txt, url)
         re = DICT_API_SAY[out[0]](out[1], out[2], txt)
-        mes = api_network_http(*re)
+        if re:
+            mes = api_network_http(*re)
         #oauth_res_check(mes, oauth_id)
-        return mes
+            return mes
 
 def api_network_http(host, netloc, headers, body, method, connection=httplib.HTTPConnection):
     conn = connection(host)

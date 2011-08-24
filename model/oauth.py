@@ -144,7 +144,7 @@ def oauth_by_zsite_id(zsite_id):
     cursor = OauthToken.raw_sql(
         'select app_id,id from oauth_token where zsite_id=%s', zsite_id
     )
-    return dict(cursor.fetchall())
+    return cursor.fetchall()
 
 def name_uid_get(id, table, url):
     cursor = OauthToken.raw_sql('select name,uid from %s where id=%%s'%table, id)
@@ -185,8 +185,9 @@ def oauth_name_link(app_id, id):
 
 
 if __name__ == '__main__':
-    oauth_save(OAUTH_BUZZ, 2, '2', '1')
-    print oauth_sync_sum('11')
+    oauth_by_zsite_id(10017321)
+    #oauth_save(OAUTH_BUZZ, 2, '2', '1')
+    #print oauth_sync_sum('11')
 
 #def oauth_url(
 #url, api_key, api_secret, access_token, access_token_secret, parameters={}, method="GET", data=None
