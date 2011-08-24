@@ -116,19 +116,21 @@ def oauth_rm_by_oauth_id(oauth_id):
 
 
 def oauth_save(app_id, zsite_id, token_key, token_secret):
-    cursor = OauthToken.raw_sql('select id from oauth_token where zsite_id=%s and app_id=%s', zsite_id, app_id)
-    id = cursor.fetchone()
-    id = id and id[0]
 
-    if id:
-        OauthToken.raw_sql('update oauth_token set token_key=%s , token_secret=%s where id=%s', token_key, token_secret, id)
-    else:
-        id = OauthToken.raw_sql(
-            'insert into oauth_token (app_id,zsite_id,token_key,token_secret) values (%s,%s,%s,%s)',
-            app_id, zsite_id, token_key, token_secret
-        ).lastrowid
+
+    cursor = OauthToken.raw_sql(
+        'delete from oauth_token where zsite_id=%s and app_id=%s and token_key=%s and token_secret=%s', 
+        zsite_id, app_id, token_key, token_secret
+    )
+    
+    id = OauthToken.raw_sql(
+        'insert into oauth_token (app_id,zsite_id,token_key,token_secret) values (%s,%s,%s,%s)',
+        app_id, zsite_id, token_key, token_secret
+    ).lastrowid
+
     if app_id in OAUTH_SYNC_CID:
         oauth_sync_sum.delete(zsite_id)
+    
     return id
 
 
@@ -167,9 +169,14 @@ def oauth_save_www163(zsite_id, token_key, token_secret, name, uid):
 
 def oauth_by_zsite_id(zsite_id):
     cursor = OauthToken.raw_sql(
-        'select app_id,id from oauth_token where zsite_id=%s', zsite_id
+        'select app_id,id from oauth_token where zsite_id=%s order by id desc', zsite_id
     )
     return cursor.fetchall()
+
+def oauth_by_zsite_id_last(zsite_id):
+    r = oauth_by_zsite_id(zsite_id)
+    if r:
+        return r[0]
 
 def name_uid_get(id, table, url):
     cursor = OauthToken.raw_sql('select name,uid from %s where id=%%s'%table, id)
