@@ -1,14 +1,45 @@
-<%inherit file="/ctrl/_base/zsite.htm" />
+<%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%def name="head()">
-</%def>
 
+<%!
+from model.oauth import OAUTH2NAME_DICT
+%>
+
+<%def name="head()">
+<style>
+.sync{font-size:16px;margin-top:32px}
+.sync .ck{
+margin-right:6px
+}
+.txt{
+border:1px solid #ccc;
+height:100px;
+width:462px;
+padding:0 3px;
+font-size:16px;
+margin:6px 0;
+}
+.to{
+margin:0 8px;
+}
+.mb16{
+margin-bottom:16px;
+}
+</style>
+</%def>
 <%htm:form method="POST">
-<input type="hidden"name="cid"value="${cid}">
-<pre><input type="checkbox" name="fstate" value="1"checked>关注我们官网</pre>
-<pre><input type="checkbox" name="tstate" value="2" checked>发一条微博</pre>
-<input type="textarea" name="weibo" value="我来这里了！！">
-<p>
-<span class="btnw"><button type="submit">好的</button></span>
-</p>
+<div class="sync">
+<div class="mb16">
+<span>${OAUTH2NAME_DICT[int(cid)]}</span>
+</div>
+<div><input class="ck" type="checkbox" name="fstate" checked id="fstate"><label for="fstate">关注我们</label></div>
+<div><input class="ck" type="checkbox" name="tstate" checked id="tstate"><label for="tstate">介绍这里</label></div>
+<textarea id="weibo" name="weibo" class="txt">这是一个神奇的网站 ...</textarea>
+<div>
+<span class="btnw"><button type="submit">继续</button></span>
+</div>
+</div>
+<script>
+$("#weibo").focus().select()
+</script>
 </%htm:form>
