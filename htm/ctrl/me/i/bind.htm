@@ -32,7 +32,9 @@ from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
 已经绑定：
 <ul>
     %for app_id,oauth_id in app_list:
+%if app_id in OAUTH2NAME_DICT:
 <li> ${OAUTH2NAME_DICT[app_id]} <a href='/i/bind/oauth_rm/${oauth_id}?${_xsrf}'> 取消绑定</a></li>
+%endif
     %endfor
 </ul>
 
