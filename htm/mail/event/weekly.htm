@@ -20,7 +20,7 @@ begin_hour = minute2hour(begin_time)
 weekday = cn_diff_weekday(begin_date)
 %>
 <div style="border-top:1px dotted #ccc;padding:0 16px">
-    <p>${po.name} <a href="${po.link}">详情点此</a></p>
+    <p>${po.name} <a href="http:${po.link}">详情点此</a></p>
     <p>${begin_date.month}月${begin_date.day}日
 % if weekday:
 . ${weekday}
