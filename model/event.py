@@ -706,6 +706,7 @@ def event_cid_name_count_by_city_pid(city_pid):
 
 
 if __name__ == '__main__':
-    event_id = 10069907
-    for user_id in (10009225,10000566):
-        event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_YES)
+    #event_id = 10069907
+    #for user_id in (10009225,10000566):
+    #    event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_YES)
+    pass
