@@ -17,6 +17,7 @@ from collections import defaultdict
 from zkit.ordereddict import OrderedDict
 from zkit.orderedset import OrderedSet
 import time
+import sys
 
 def event_city_info(event_city_list, pid):
     event_city_list.sort(reverse=True, key=lambda x: city_event_weight(x, pid))
@@ -29,10 +30,12 @@ def event_city_info(event_city_list, pid):
             place = PID2NAME[pid]
         else:
             province_id = pid_province(pid)
+            #print place_name(province_id)
             li = filter(lambda x: x.province_id == province_id, event_city_list)
             if li:
                 count = sum([len(i.event_list) for i in li])
-                place = PID2NAME[province_id]
+                place = place_name(province_id)
+
     return event_city_list, count, place
 
 
@@ -40,6 +43,8 @@ def event_weekly_mail(user, event_city_list):
     user_id = user.id
     if mail_notice_state(user_id, CID_MAIL_WEEK):
         mail = mail_by_user_id(user_id)
+        #print user_id
+        #sys.stdout.flush()
         if mail:
             title = [
                 '线下活动 . 周报汇总'
@@ -61,14 +66,14 @@ def event_weekly_mail(user, event_city_list):
 
             name = user.name
 
-            rendermail(
-                '/mail/event/weekly.htm',
-                mail,
-                name,
-                event_city_list=event_city_list,
-                format='html',
-                subject=title
-            )
+          #  rendermail(
+          #      '/mail/event/weekly.htm',
+          #      mail,
+          #      name,
+          #      event_city_list=event_city_list,
+          #      format='html',
+          #      subject=title
+          #  )
 
 
 class CityEvent(object):

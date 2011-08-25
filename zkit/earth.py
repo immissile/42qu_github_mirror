@@ -10718,12 +10718,11 @@ def pid_city(code):
 def pid_province(code):
     if code in COUNTRY_DICT and code != 1:
         return code
+    mcode = code & BIT_COUNTRY_PROVINCE_CITY
+    if mcode in PLACE_MUNI:
+        return mcode
     return code & BIT_COUNTRY_PROVINCE
 
 
 if __name__ == '__main__':
-    #print place_name(4295033088)
-    #print place_name(105)
-    print place_name(pid_city(4497801216))
-    print place_name(4496293888)
-    print place_name(pid_province(4497801216))
+    print place_name(pid_city(4295098368))
