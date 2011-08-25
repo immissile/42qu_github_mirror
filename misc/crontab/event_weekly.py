@@ -42,7 +42,7 @@ def event_weekly_mail(user, event_city_list):
         mail = mail_by_user_id(user_id)
         if mail:
             title = [
-                '线下活动 . 周报'
+                '线下活动 . 周报汇总'
             ]
             pid = 0
             namecard = namecard_get(user_id)
