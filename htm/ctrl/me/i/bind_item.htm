@@ -34,7 +34,7 @@ token = OauthToken.get(id)
 <div><p><a href="/i/bind">${OAUTH2NAME_DICT[token.app_id]} </a>
 ${oauth_name_by_oauth_id(token.app_id,id)} 同步选项</div>
 <div class="ckdiv">
-%for sync, (cid, name) in zip(sync_list, SYNC_CID_CN):
+%for sync, (cid, name) in zip(sync_all, SYNC_CID_CN):
 <p>\
 <input
 %if sync:

@@ -424,7 +424,7 @@ class BindItem(LoginBase):
         user_id = self.current_user_id
         return self.render(
             id=id,
-            sync_list=sync_all(user_id),
+            sync_all=sync_all(user_id),
         )
 
     def post(self, id):
