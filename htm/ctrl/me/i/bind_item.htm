@@ -31,7 +31,8 @@ token = OauthToken.get(id)
 %>
 <%htm:form method="POST">
 <div class="sync">
-<div><span>${oauth_name_by_oauth_id(token.app_id,id)}</span> 同步选项</div>
+<div><p><a href="/i/bind">${OAUTH2NAME_DICT[token.app_id]} </a>
+${oauth_name_by_oauth_id(token.app_id,id)} 同步选项</div>
 <div class="ckdiv">
 %for sync, (cid, name) in zip(sync_list, SYNC_CID_CN):
 <p>\
