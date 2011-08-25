@@ -5,6 +5,7 @@
 from model.oauth import OAUTH2NAME_DICT
 from model.po import PO_CN 
 from model.oauth import oauth_name_by_oauth_id , OauthToken
+from model.sync import SYNC_CID_CN
 %>
 
 <%def name="head()">
@@ -32,23 +33,16 @@ token = OauthToken.get(id)
 <div class="sync">
 <div><span>${oauth_name_by_oauth_id(token.app_id,id)}</span> 同步选项</div>
 <div class="ckdiv">
+%for sync, (cid, name) in zip(sync_list, SYNC_CID_CN):
 <p>\
-<input type="checkbox" id="word" checked>\
-<label for="word">游吟碎语</label>\
+<input
+%if sync:
+checked
+%endif
+type="checkbox" value="${cid}" name="cid" id="cid${cid}">\
+<label for="cid${cid}">${name}</label>\
 </p>\
-<p>\
-<input type="checkbox" id="note" checked>\
-<label for="note">撰写文章</label>\
-</p>\
-<p>\
-<input type="checkbox" id="event" checked>\
-<label for="event">线下活动</label>\
-</p>\
-<p>\
-<input type="checkbox" id="rec" checked>\
-<label for="rec">推荐分享</label>\
-</p>\
-
+%endfor
 </div>
 </div>
 

@@ -22,9 +22,8 @@ from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, O
 from config import SITE_URL, SITE_DOMAIN
 from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id, OAUTH_SYNC_TXT 
 from model.zsite import Zsite
-from model.cid import CID_PO
 from collections import defaultdict
-from model.sync import sync_state_set, sync_all, sync_follow_new
+from model.sync import sync_state_set, sync_all, sync_follow_new, SYNC_CID
 
 OAUTH2URL = {
     OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
@@ -422,9 +421,23 @@ class InvokeRm(XsrfGetBase):
 @urlmap('/i/bind/(\d+)')
 class BindItem(LoginBase):
     def get(self, id):
-        return self.render(id=id)
+        user_id = self.current_user_id
+        return self.render(
+            id=id,
+            sync_list=sync_all(user_id),
+        )
 
     def post(self, id):
+        user_id = self.current_user_id
+        cid_list = self.get_arguments("cid")
+        cid_list = set(map(int,cid_list)) 
+        for i in SYNC_CID:
+            if i in cid_list:
+                state = 1
+            else:
+                state = 0
+            sync_state_set(user_id, i, state)
+
         self.redirect('/i/bind')
     
 
@@ -439,15 +452,8 @@ class Bind(LoginBase):
             app_dict[app_id].append(oauth_id)        
 
         self.render(
-            sync_list=sync_all(user_id), app_dict=app_dict
+             app_dict=app_dict
         )
-
-#    def post(self):
-#        user_id = self.current_user_id
-#        for cid in CID_PO:
-#            state = self.get_argument('cid%s' % cid, None)
-#            sync_state_set(user_id, cid, state)
-#        self.get()
 
 
 @urlmap('/i/binded/(\d+)')

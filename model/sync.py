@@ -3,10 +3,21 @@
 
 import sys
 from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
-from cid import CID_PO
 from po import Po
 from oauth_update import sync_by_oauth_id
 from oauth import OauthToken
+
+mc_sync_state = McCache('SyncState:%s')
+mc_sync_state_all = McCacheA('SyncStateAll:%s')
+
+SYNC_CID_CN = (
+    (1, '游吟碎语'),
+    (2, '撰写文章'),
+    (3, '线下活动'),
+    (4, '推荐分享'),
+)
+
+SYNC_CID = tuple(i[0] for i in SYNC_CID_CN)
 
 class SyncTurn(McModel):
     pass
@@ -17,6 +28,7 @@ class SyncFollow(McModel):
 def sync_follow_new(zsite_id, state, cid, txt):
     SyncFollow.raw_sql('insert into sync_follow (zsite_id,state,cid,txt) values(%s,%s,%s,%s)', zsite_id, state, cid, txt)
 
+@mc_sync_state('{user_id}_{cid}')
 def sync_state(user_id, cid):
     s = SyncTurn.get(zsite_id=user_id, cid=cid)
     if not s:
@@ -24,14 +36,16 @@ def sync_state(user_id, cid):
         s = SyncTurn.get(zsite_id=user_id, cid=cid)
     return s.state
 
-
+@mc_sync_state_all("{user_id}")
 def sync_all(user_id):
-    return [(cid, sync_state(user_id, cid)) for cid in CID_PO]
+    return [sync_state(user_id, cid) for cid in SYNC_CID]
 
 def sync_state_set(user_id, cid, state):
     state = int(bool(state))
     if state != sync_state(user_id, cid):
         SyncTurn.where(zsite_id=user_id, cid=cid).update(state=state)
+        mc_sync_state.set('%s_%s'%(user_id, cid), state)
+        mc_sync_state_all.delete(user_id)
 
 def sync_by_po_id(id):
     p = Po.get(id)
