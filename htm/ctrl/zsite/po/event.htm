@@ -1,7 +1,7 @@
 <%inherit file="_po.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="_vote.htm" import="po_bar_vote"/>
-<%namespace file="/_util/event.htm" import="event_show"/>
+<%namespace file="/_util/event.htm" import="event_show, event_content"/>
 <%namespace file="/ctrl/zsite/event/event_feedback_list.htm" import="feedback_list"/>
 <%!
 from zkit.itertools import chunkiter
@@ -23,9 +23,7 @@ can_admin = event.can_admin(current_user_id)
 %>
 
 
-## % if can_admin or state >= EVENT_STATE_BEGIN:
 <%
-
 join_check_count = event_joiner_check_count(id)
 join_count = event.join_count
 join_list = event_joiner_user_list(id)
@@ -68,18 +66,7 @@ ${event_show(event, po)}
 
 <div class="w721">
 <pre class="prebody">\
-${po.htm|n}\
-<p class="mt28">联系电话 : ${event.phone}</p>\
-%if event.transport:
-<p>交通方式 : ${event.transport}</p>\
-%endif
-<p>\
-%if event.limit_down:
-人数范围 : ${event.limit_down} - \
-%else:
-名额上限 : \
-%endif
-${event.limit_up}</p>\
+${event_content(event, po)}
 %if not can_admin:
     %if join_state <= EVENT_JOIN_STATE_NO :
 <form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" ><span class="btnw"><button type="submit">\
@@ -186,11 +173,6 @@ unit, title = i.career
 
 </div></div></div>
 
-
-
-## % else:
-## 活动尚未通过审批
-## % endif
 
 </div>
 <script src="${js.ctrl_zsite|n}"></script>

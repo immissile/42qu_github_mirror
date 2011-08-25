@@ -36,6 +36,21 @@ row1, row2, diff_day = begin_end_by_minute(
 </%def>
 
 
+<%def name="event_content(event, po)">
+${po.htm|n}\
+<p class="mt28">联系电话 : ${event.phone}</p>\
+%if event.transport:
+<p>交通方式 : ${event.transport}</p>\
+%endif
+<p>\
+%if event.limit_down:
+人数范围 : ${event.limit_down} - \
+%else:
+名额上限 : \
+%endif
+${event.limit_up}</p>\
+</%def>
+
 <%def name="event_edit(event, can_change)">
 
 <div class="po_line">
