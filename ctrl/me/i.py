@@ -18,10 +18,12 @@ from cgi import escape
 from urlparse import parse_qs
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from urlparse import urlparse
-from config import SITE_URL
 from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient
-from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ
+from config import SITE_URL, SITE_DOMAIN
+from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id, OAUTH_SYNC_TXT 
 from model.zsite import Zsite
+from collections import defaultdict
+from model.sync import sync_state_set, sync_all, sync_follow_new, SYNC_CID
 
 OAUTH2URL = {
     OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
@@ -404,17 +406,85 @@ class Invoke(LoginBase):
     def get(self):
         user_id = self.current_user_id
         li = oauth_access_token_by_user_id(user_id)
-        OauthClient.mc_bind(li, "client", "client_id")
-        Zsite.mc_bind(li, "user", "user_id")
-        self.render(li = li)
+        OauthClient.mc_bind(li, 'client', 'client_id')
+        Zsite.mc_bind(li, 'user', 'user_id')
+        self.render(li=li)
 
 @urlmap('/i/invoke/rm/(\d+)')
 class InvokeRm(XsrfGetBase):
-    def get(self,id):
+    def get(self, id):
         if id:
             user_id = self.current_user_id
-            oauth_token_rm_if_can(id,user_id)
+            oauth_token_rm_if_can(id, user_id)
             self.redirect('/i/invoke')
 
+@urlmap('/i/bind/(\d+)')
+class BindItem(LoginBase):
+    def get(self, id):
+        user_id = self.current_user_id
+        return self.render(
+            id=id,
+            sync_all=sync_all(user_id),
+        )
 
+    def post(self, id):
+        user_id = self.current_user_id
+        cid_list = self.get_arguments("cid")
+        cid_list = set(map(int,cid_list)) 
+        for i in SYNC_CID:
+            if i in cid_list:
+                state = 1
+            else:
+                state = 0
+            sync_state_set(user_id, i, state)
+
+        self.redirect('/i/bind')
+    
+
+@urlmap('/i/bind')
+class Bind(LoginBase):
+    def get(self):
+        user_id = self.current_user_id
+
+        app_dict = defaultdict(list)
+
+        for app_id , oauth_id in oauth_by_zsite_id(user_id):
+            app_dict[app_id].append(oauth_id)        
+
+        self.render(
+             app_dict=app_dict
+        )
+
+
+@urlmap('/i/binded/(\d+)')
+class Binded(LoginBase):
+    def get(self, cid):
+        self.render(cid=cid, txt=OAUTH_SYNC_TXT)
+
+    def post(self, cid):
+        fstate = self.get_argument('fstate', None)
+        tstate = self.get_argument('tstate', None)
+        txt = self.get_argument('weibo', None)
+
+        user_id = self.current_user_id
+
+        flag = 0
+        if fstate:
+            flag += 0b1
+        if tstate:
+            flag += 0b10
+
+        sync_follow_new(user_id, flag, cid, txt)
+        
+        url = 'http://rpc.%s/oauth/%s'%(SITE_DOMAIN, cid)
+        
+        self.redirect(url)
+
+
+@urlmap('/i/bind/oauth_rm/(\d+)')
+class BindOauthRm(XsrfGetBase):
+    def get(self, id):
+        if id:
+            oauth_rm_by_oauth_id(id)
+        self.redirect('/i/bind')
 

@@ -64,7 +64,7 @@ CN_WEEKDAY = (
 )
 
 def cn_weekday(dt):
-    return '星期%s' % CN_WEEKDAY[dt.weekday()]
+    return '周%s' % CN_WEEKDAY[dt.weekday()]
 
 def ymd2minute(ymd):
     return ymd2days(ymd)*ONE_DAY_MINUTE
@@ -102,12 +102,25 @@ TIMESTAMP_FORMAT = '%Y-%m-%d %H:%M:%S'
 def epoch_seconds(timestr):
     return int(mktime(strptime(timestr, TIMESTAMP_FORMAT)))
 
+def cn_diff_weekday(dt):
+    today = datetime.date.today()
+    diff_week = ((dt - today).days + today.weekday()) / 7
+    cn_week_day = cn_weekday(dt)
+    if diff_week == -1:
+        return '上%s' % cn_week_day
+    elif diff_week == 0:
+        return '本%s' % cn_week_day
+    elif diff_week == 1:
+        return '下%s' % cn_week_day
 
 def begin_end_by_minute(begin_time, end_time):
     begin_date = minute2date(begin_time)
     end_date = minute2date(end_time)
 
-    row1 = [cn_date(begin_date), cn_weekday(begin_date)]
+    row1 = [cn_date(begin_date)]
+    weekday = cn_diff_weekday(begin_date)
+    if weekday:
+        row1.append(weekday)
 
     diff_day = (begin_date != end_date)
 
@@ -116,8 +129,11 @@ def begin_end_by_minute(begin_time, end_time):
 
     if diff_day:
         row1.append(begin_hour)
-        row2 = "%s %s %s"%(
-            cn_date(end_date), cn_weekday(end_date), end_hour
+        weekday = cn_diff_weekday(end_date)
+        if weekday:
+            weekday = ' %s' % weekday
+        row2 = "%s%s %s"%(
+            cn_date(end_date), weekday, end_hour
         )
     else:
         if begin_time == end_time:
@@ -125,7 +141,7 @@ def begin_end_by_minute(begin_time, end_time):
         else:
             row2 = '%s - %s'%(begin_hour, end_hour)
 
-    return " ".join(row1), row2, diff_day
+    return ' '.join(row1), row2, diff_day
 
 
 if __name__ == '__main__':

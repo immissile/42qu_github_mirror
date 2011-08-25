@@ -1,36 +1,38 @@
+<%!
+from model.days import cn_diff_weekday, minute2date, minute2hour
+%>
 <%inherit file="/mail/_base/base.htm"/>
 <tr valign="top">
 <td width="630" style="padding:0;line-height:24px">
 <p style="margin:0;padding-top:0;border-bottom:1px dotted #ccc;padding-bottom: 4px;text-align:center;">很多故事 , 起于一次机缘巧合的遇见 ; 人生奇妙 ,  常在那些不期而至的相逢 </p>
 <p style="margin-top:6px;text-align:center;margin-bottom:24px">如有闲暇时光 , 不妨到处看看 :)</p>
 
+% for city in event_city_list:
+
 <div style="margin-bottom:24px;border:1px solid #ccc;">
-<p style="padding:0 16px">北京</p>
+<p style="padding:0 16px">${city.place}</p>
+% for event in city.event_list:
+<%
+po = event.po
+begin_time = event.begin_time
+begin_date = minute2date(begin_time)
+begin_hour = minute2hour(begin_time)
+weekday = cn_diff_weekday(begin_date)
+%>
 <div style="border-top:1px dotted #ccc;padding:0 16px">
-    <p>HTML聚会 <a href="#">详情点此</a></p>
-    <p>8月31日 . 周日 13:30-11:20  </p>
+    <p>${po.name} <a href="http:${po.link}">详情点此</a></p>
+    <p>${begin_date.month}月${begin_date.day}日
+% if weekday:
+. ${weekday}
+% endif
+${begin_hour}</p>
 </div>
-<div style="border-top:1px dotted #ccc;padding:0 16px">
-    <p>HTML聚会 <a href="#">详情点此</a></p>
-    <p>8月31日 . 周日 13:30-11:20  </p>
-</div>
-</div>
- 
-<div style="margin-bottom:24px;border:1px solid #ccc;">
-<p style="padding:0 16px">北京</p>
-<div style="border-top:1px dotted #ccc;padding:0 16px">
-    <p>HTML聚会 <a href="#">详情点此</a></p>
-    <p>8月31日 . 周日 13:30-11:20  </p>
-</div>
-<div style="border-top:1px dotted #ccc;padding:0 16px">
-    <p>HTML聚会 <a href="#">详情点此</a></p>
-    <p>8月31日 . 周日 13:30-11:20  </p>
-</div>
+% endfor
 </div>
 
+% endfor
 
-<p>没有感兴趣的 ?</p> 
-<p><a href="${site_http}/po/event" target="_blank">点击这里</a> , 发起自己的同城活动</p>
+<p>没有感兴趣的? <a href="${site_http}/po/event" target="_blank">点击这里</a> , 创建自己的同城活动</p>
 
 
 
