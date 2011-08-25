@@ -16,7 +16,7 @@ from zweb.orm import ormiter
 from collections import defaultdict
 from zkit.ordereddict import OrderedDict
 from zkit.orderedset import OrderedSet
-
+import time
 
 def event_city_info(event_city_list, pid):
     event_city_list.sort(reverse=True, key=lambda x: city_event_weight(x, pid))
@@ -114,7 +114,7 @@ def event_weekly(begin):
         event_li = event_city_list(event_list)
         for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_ACTIVE)):
             event_weekly_mail(i, event_li)
-
+            time.sleep(0.1)
         return last_id
 
 @single_process
