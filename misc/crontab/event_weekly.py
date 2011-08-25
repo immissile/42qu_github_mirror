@@ -66,14 +66,14 @@ def event_weekly_mail(user, event_city_list):
 
             name = user.name
 
-          #  rendermail(
-          #      '/mail/event/weekly.htm',
-          #      mail,
-          #      name,
-          #      event_city_list=event_city_list,
-          #      format='html',
-          #      subject=title
-          #  )
+            rendermail(
+                '/mail/event/weekly.htm',
+                mail,
+                name,
+                event_city_list=event_city_list,
+                format='html',
+                subject=title
+            )
 
 
 class CityEvent(object):
@@ -119,6 +119,8 @@ def event_weekly(begin):
         event_li = event_city_list(event_list)
         for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_ACTIVE)):
             event_weekly_mail(i, event_li)
+            #print i.id
+            #sys.stdout.flush()
             time.sleep(0.1)
         return last_id
 
