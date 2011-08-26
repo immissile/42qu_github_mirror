@@ -7,6 +7,41 @@ from model.fs import fs_url_jpg
 from config import SITE_DOMAIN
 %>
 
+<%def name="event_show_rss(event, po)">
+<%
+pic_url = fs_url_jpg(162, event.pic_id)
+
+row1, row2, diff_day = begin_end_by_minute(
+    event.begin_time,
+    event.end_time
+)
+%>
+<div style="margin-top:16px">
+% if pic_url:
+<a style="float:right" href="${po.link|n}"><img src="${pic_url}" class="event_img"></a>\
+% endif
+<div class="event_txt c">\
+<div class="po_name"><a style="color:#000" href="${po.link|n}" >${po.name}</a>
+<a href="${po.link}" target="_blank">点此报名</a>
+</div>\
+
+<p>地点<span>:</span>\
+<a href="//meet.${SITE_DOMAIN}/${event.pid}" style="color:#000">${place_name(event.pid)}</a>\
+</p>\
+
+<p style="margin-left:48px">${event.address}</p>\
+
+<p style="margin-top:14px">时间<span>:</span>${row1}</p>\
+%if diff_day:
+<p style="margin-left:14px">至<span style="margin-left:20px">${row2}</span></p>\
+%else:
+<p style="margin-left:48px">${row2}</p>\
+%endif
+
+</div>\
+</div>
+</%def>
+
 <%def name="event_show(event, po)">
 <%
 pic_url = fs_url_jpg(162, event.pic_id)
