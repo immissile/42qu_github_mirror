@@ -440,9 +440,8 @@ def event_joiner_no(o, txt=''):
     if o.state in (EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
         if event.cent:
             t = pay_event_get(event, user_id)
-            if not t:
-                return
-            trade_fail(t)
+            if t:
+                trade_fail(t)
         o.state = EVENT_JOIN_STATE_NO
         o.save()
         if zsite_id != user_id:
@@ -460,10 +459,6 @@ def event_joiner_yes(o):
     event = o.event
     zsite_id = event.zsite_id
     if o.state == EVENT_JOIN_STATE_NEW:
-        if event.cent:
-            t = pay_event_get(o.event, user_id)
-            if not t:
-                return
         o.state = EVENT_JOIN_STATE_YES
         o.save()
         notice_event_join_yes(zsite_id, user_id, event_id)
@@ -506,30 +501,6 @@ def mc_flush_by_city_pid_cid(city_pid, cid):
     event_end_count_by_city_pid.delete(city_pid)
     mc_event_all_id_list.delete('')
 
-def event_joiner_end(o):
-    event_id = o.event_id
-    user_id = o.user_id
-    event = o.event
-    if o.state == EVENT_JOIN_STATE_YES:
-        if event.cent:
-            t = pay_event_get(o.event, user_id)
-            if not t:
-                return
-        o.state = EVENT_JOIN_STATE_END
-        o.save()
-
-def event_join_review(o):
-    event_id = o.event_id
-    user_id = o.user_id
-    event = o.event
-    if o.state == EVENT_JOIN_STATE_END:
-        o.state = EVENT_JOIN_STATE_FEEDBACK_NORMAL
-        o.save()
-        if event.cent:
-            t = pay_event_get(o.event, user_id)
-            if t:
-                trade_finish(t)
-                return True
 
 def event_init2to_review(id):
     event = Event.mc_get(id)
@@ -652,6 +623,38 @@ def event_end(event):
         event.save()
         mc_flush_by_city_pid_cid(event.city_pid, event.cid)
         event_end_mail(event)
+        for i in EventJoiner.where(event_id=event.id).where('state in (%s, %s)', EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
+            i.state = EVENT_JOIN_STATE_END
+            i.save()
+
+
+def event_pay(event):
+    owner = event.zsite
+    owner_id = event.zsite_id
+    cent = event.cent
+    if event.state == EVENT_STATE_END and cent:
+        pay_count = 0
+        for i in EventJoiner.where(event_id=event.id).where('state>=%s', EVENT_JOIN_STATE_YES):
+            user_id = i.user_id
+            if user_id != owner_id:
+                t = pay_event_get(event, user_id)
+                if t:
+                    trade_finish(t)
+                    pay_count += 1
+        if pay_count:
+            pay_money = read_cent(cent * pay_count)
+            po = event.po
+            rendermail(
+                '/mail/event/event_end_draw.txt',
+                mail_by_user_id(owner_id),
+                owner.name,
+                join_count=event.join_count,
+                pay_count=pay_count,
+                pay_money=pay_money,
+                title=po.name,
+                link=po.link,
+            )
+
 
 def event_end_mail(event):
     event_id = event.id

@@ -11,10 +11,10 @@ DATETIME_BEGIN = datetime.datetime(1970, 1, 1)
 
 
 def today_days():
-    return (time() + timezone) // ONE_DAY
+    return (time() - timezone) // ONE_DAY
 
 def today_seconds():
-    return today_days() * ONE_DAY - timezone
+    return today_days() * ONE_DAY + timezone
 
 def today_ymd_int():
     t = datetime.date.today()
