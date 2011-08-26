@@ -1,0 +1,41 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/i/info.htm" name="info"/>
+<%
+from zkit.earth import place_name, PLACE_CITY_L1 , PLACE_MUNI, PLACE_L1L2, PID2NAME
+%>
+<style>
+.divbk, .divbk2{
+border-bottom:1px dotted #ccc;font-size:16px;padding:16px 0
+}
+
+.divbk a, .divbk2 a{
+margin-right:16px;
+}
+.city_set{
+float:right;
+margin-right:-16px;
+}
+</style>
+
+<div class="divbk">
+选择城市
+<span class="city_set"><a href="/city/set">设置</a></span>
+</div>
+<div class="divbk">
+% for i in PLACE_MUNI:
+<a href="/${i}">${place_name(i)}</a>\
+%endfor
+</div>
+
+%for i in PLACE_CITY_L1:
+<div class="divbk">${place_name(i)}</div>
+<div class="divbk2">
+    %for p in PLACE_L1L2.get(i):
+<%
+name = PID2NAME[p].rstrip(u"市")
+%>\
+<a href="/${p}">${name|n}</a>\
+    %endfor
+</div>
+%endfor

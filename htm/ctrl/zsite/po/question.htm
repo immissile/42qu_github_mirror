@@ -19,12 +19,11 @@ to_user = Zsite.get(po.rid)
 %>
 <h1>
 %if to_user:
-    <a href="${zsite.link}" target="_blank">${zsite.name}</a> 问 <a href="${to_user.link}" target="_blank">${to_user.name}</a> “${po.name}”
-%else:
-    ${po.name}
+<a href="${zsite.link}" target="_blank">${zsite.name}</a> 问 <a href="${to_user.link}" target="_blank">${to_user.name}</a> :
 %endif
+${po.name}
 </h1>
-<pre>${po.htm|n}\
+<pre class="prebody">${po.htm|n}\
 <p class="po_bar">\
 %if can_admin:
 <span class="L"><a href="${po.link_edit}">编辑</a></span>\
@@ -73,7 +72,7 @@ if user:
 %endif
  :
 </p>
-<pre>${answer.htm|n}</pre>
+<pre class="prebody">${answer.htm|n}</pre>
 
     %if answer.can_view(current_user_id):
     <div class="bar">

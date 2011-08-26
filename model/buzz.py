@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER
+from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER
 from cid import CID_USER
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -13,6 +13,7 @@ from wall import Wall
 from kv import Kv
 from mq import mq_client
 from career import career_dict
+from reply import Reply
 from zweb.orm import ormiter
 from zkit.orderedset import OrderedSet
 from zkit.ordereddict import OrderedDict
@@ -45,8 +46,12 @@ BUZZ_DIC = {
     CID_BUZZ_FOLLOW: Zsite,
     CID_BUZZ_WALL: Wall,
     CID_BUZZ_WALL_REPLY: Wall,
-    CID_BUZZ_PO_REPLY: Po,
+    CID_BUZZ_PO_REPLY: Reply,
     CID_BUZZ_ANSWER: Po,
+    CID_BUZZ_JOIN: Po,
+    CID_BUZZ_EVENT_JOIN_APPLY: Po,
+    CID_BUZZ_EVENT_FEEDBACK_OWNER: Po,
+    CID_BUZZ_EVENT_FEEDBACK_JOINER: Po,
 }
 
 def mc_flush(user_id):
@@ -94,14 +99,41 @@ mq_buzz_wall_new = mq_client(buzz_wall_new)
 def buzz_wall_reply_new(from_id, to_id, wall_id):
     buzz_new(from_id, to_id, CID_BUZZ_WALL_REPLY, wall_id)
 
-def buzz_po_reply_new(from_id, po_id):
-    followed = [i.from_id for i in ormiter(Follow, 'to_id=%s' % from_id)]
-    buzz_to = [i.user_id for i in ormiter(PoPos, 'po_id=%s and state=%s' % (po_id, STATE_BUZZ))]
-    for user_id in (set(followed) | set(buzz_to)) - set([from_id]):
-        buzz_new(from_id, user_id, CID_BUZZ_PO_REPLY, po_id)
+def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
+    from po_pos import po_pos_state, STATE_MUTE
+    followed = set([i.from_id for i in ormiter(Follow, 'to_id=%s' % from_id)])
+    buzz_to = set([i.user_id for i in ormiter(PoPos, 'po_id=%s and state=%s' % (po_id, STATE_BUZZ))])
+    excepted = set([from_id, po_user_id])
+    if from_id != po_user_id:
+        buzz_new(from_id, po_user_id, CID_BUZZ_PO_REPLY, reply_id)
+    for user_id in ((followed | buzz_to) - excepted):
+        buzz_new(from_id, user_id, CID_BUZZ_PO_REPLY, reply_id)
+        po_pos_state(user_id, po_id, STATE_MUTE)
 
 mq_buzz_po_reply_new = mq_client(buzz_po_reply_new)
 
+def buzz_po_reply_rm(reply_id):
+    for i in ormiter(Buzz, 'cid=%s and rid=%s' % (CID_BUZZ_PO_REPLY, reply_id)):
+        to_id = i.to_id
+        i.delete()
+        mc_flush(to_id)
+        buzz_unread_update(to_id)
+
+mq_buzz_po_reply_rm = mq_client(buzz_po_reply_rm)
+
+def buzz_po_rm(po_id):
+    to_id_list = set()
+    po = Po.mc_get(po_id)
+    to_id_list = set()
+    for reply_id in po.reply_id_list():
+        for i in ormiter(Buzz, 'cid=%s and rid=%s' % (CID_BUZZ_PO_REPLY, reply_id)):
+            to_id_list.add(i.to_id)
+            i.delete()
+    for to_id in to_id_list:
+        mc_flush(to_id)
+        buzz_unread_update(to_id)
+
+mq_buzz_po_rm = mq_client(buzz_po_rm)
 
 def buzz_answer_new(from_id, po_id):
     from po_question import po_user_id_list
@@ -206,14 +238,35 @@ def buzz_show(user_id, limit):
 def buzz_unread_update(user_id):
     buzz_unread.delete(user_id)
 
+def buzz_event_join_new(user_id, event_id, zsite_id):
+    followed = [i.from_id for i in ormiter(Follow, 'to_id=%s' % user_id)]
+    for to_id in followed:
+        if to_id != zsite_id:
+            buzz_new(user_id, to_id, CID_BUZZ_JOIN, event_id)
+
+mq_buzz_event_join_new = mq_client(buzz_event_join_new)
+
+
+def buzz_event_join_apply_new(user_id, zsite_id, event_id):
+    buzz_new(user_id, zsite_id, CID_BUZZ_EVENT_JOIN_APPLY, event_id)
+
+
+# 张沈鹏 评论了 <a>去看电影</a> , 点此浏览
+# 只显示给发起人
+def buzz_event_feedback_new(user_id, event_id, event_user_id):
+    buzz_new(user_id, event_user_id, CID_BUZZ_EVENT_FEEDBACK_JOINER, event_id)
+
+
+# 张沈鹏 写了 <a>去看电影</a> 的活动总结 , 点此浏览
+# 显示给所有人
+def buzz_event_feedback_owner_new(user_id, event_id):
+    from event import event_joiner_user_id_list
+    to_id_list = event_joiner_user_id_list(event_id)
+    for to_id in to_id_list:
+        buzz_new(user_id, to_id, CID_BUZZ_EVENT_FEEDBACK_OWNER, event_id)
+
+mq_buzz_event_feedback_owner_new = mq_client(buzz_event_feedback_owner_new)
+
 
 if __name__ == '__main__':
-    for i in ormiter(Buzz, "cid=%s"%CID_BUZZ_SHOW):
-        print i.id
-        i.delete()
-
-   # from model.cid import CID_USER
-   # for i in Zsite.where(cid=CID_USER):
-   #     user_id = i.id
-   #     print user_id
-   #     buzz_unread_update(user_id)
+    buzz_event_join_new(10000000, 10047337)

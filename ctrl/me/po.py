@@ -2,7 +2,7 @@
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model import reply
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK
 from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.po_pos import po_pos_get, po_pos_set
@@ -11,6 +11,8 @@ from model.zsite import Zsite
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from zkit.jsdict import JsDict
 from zkit.txt import cnenlen
+from model.event import Event, event_init2to_review
+from model.po_event import event_joiner_state_set_by_good
 
 def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
@@ -49,17 +51,22 @@ class PoWord(LoginBase):
             po_word_new(current_user.id, txt)
         return self.redirect('/live')
 
-def po_post(self):
+
+def po_post(self, to_user_id=0):
     user_id = self.current_user_id
     name = self.get_argument('name', '')
     txt = self.get_argument('txt', '', strip=False).rstrip()
-    secret = self.get_argument('secret', None)
-    to_user_id = self.get_argument('to_user_id', None)
     arguments = self.request.arguments
-    if secret:
-        state = STATE_SECRET
+
+    if self.cid == CID_EVENT_FEEDBACK:
+        state = self.get_argument('good', None),
     else:
-        state = STATE_ACTIVE
+        secret = self.get_argument('secret', None)
+        if secret:
+            state = STATE_SECRET
+        else:
+            state = STATE_ACTIVE
+
     if self.cid == CID_QUESTION and to_user_id:
         po = self.po_save(user_id, name, txt, state, to_user_id)
     else:
@@ -69,9 +76,12 @@ def po_post(self):
         po_id = po.id
     else:
         po_id = 0
+
     if po or self_id == 0:
         update_pic(arguments, user_id, po_id, self_id)
-        mc_pic_id_list.delete('%s_%s' % (user_id, self_id))
+        mc_pic_id_list.delete(
+            '%s_%s' % (user_id, self_id)
+        )
     return po
 
 
@@ -93,9 +103,11 @@ class PoBase(LoginBase):
         )
 
     def post(self, to_user_id=0):
-        po = self.po_post()
+        po = self.po_post(to_user_id)
         if po:
-            if po.state == STATE_SECRET:
+            if po.cid == CID_EVENT_FEEDBACK:
+                link = "/%s#po%s"%(po.rid,po.id)
+            elif po.state == STATE_SECRET:
                 link = po.link
             else:
                 link = '/po/tag/%s' % po.id
@@ -119,64 +131,99 @@ class PoQuestion(PoBase):
 
 @urlmap('/po/edit/(\d+)')
 class Edit(LoginBase):
-    def po(self, user_id, id):
-        po = Po.mc_get(id)
+    def _po(self, user_id, id):
+        self.po = po = Po.mc_get(id)
+
         if po:
             if po.can_admin(user_id):
                 cid = po.cid
+                self.cid = cid
                 if cid == CID_WORD and po.rid == 0:
                     return self.redirect(po.link)
                 return po
             return self.redirect(po.link)
         return self.redirect('/')
 
+
+
     def get(self, id):
         user_id = self.current_user_id
-        po = self.po(user_id, id)
+        po = self._po(user_id, id)
         if po is None:
             return
+
+        if po.cid == CID_EVENT_FEEDBACK:
+            self.event = Event.mc_get(po.rid)
 
         self.render(
             'ctrl/me/po/po.htm',
             po=po,
+            cid=po.cid,
             pic_list=pic_list_edit(user_id, id)
         )
 
     def po_save(self, user_id, name, txt, state):
-        po = self.po(user_id, self.id)
+        po = self.po
         if po is None:
             return
-        if po.cid == CID_WORD:
+
+        cid = po.cid
+        rid = po.rid
+
+        if cid == CID_WORD:
             if cnenlen(txt) > 140:
                 answer_word2note(po)
                 po.txt_set(txt)
             else:
                 po.name_ = txt
                 po.save()
+        elif cid == CID_EVENT_FEEDBACK:
+            event_joiner_state_set_by_good(user_id, rid, state)
+            if txt:
+                po.txt_set(txt)
         else:
             if not po.rid and name:
                 po.name_ = name
                 po.save()
             if txt:
                 po.txt_set(txt)
-        if not (po.cid == CID_QUESTION and po.state == STATE_ACTIVE):
-            po_state_set(po, state)
+
+
+
+        if cid in (CID_NOTE,CID_QUESTION,CID_ANSWER):
+            if not (cid == CID_QUESTION and po.state == STATE_ACTIVE):
+                po_state_set(po, state)
+
+
         return po
 
     po_post = po_post
 
     def post(self, id):
-        user_id = self.current_user_id
         self.id = id
+        user_id = self.current_user_id
+        po = self._po(user_id, id)
+        if po is None:
+            return
 
-        po = self.po_post()
+        cid = po.cid
+        self.po_post()
 
-        if po.cid == CID_WORD:
-            link = po.link_question
-        elif po.state == STATE_SECRET:
-            link = po.link
+        if cid == CID_EVENT:
+            if event_init2to_review(id):
+                link = "/po/event/%s/state"%id
+            else:
+                link = po.link
+        elif cid == CID_EVENT_FEEDBACK:
+            link = "/%s#po%s"%(po.rid,po.id)
         else:
-            link = '/po/tag/%s' % id
+            if cid == CID_WORD:
+                link = po.link_target
+            elif po.state == STATE_SECRET:
+                link = po.link
+            else:
+                link = '/po/tag/%s' % id
+
         self.redirect(link)
 
 
@@ -222,4 +269,6 @@ class Tag(LoginBase):
             else:
                 zsite_tag_new_by_tag_name(po, name)
 
-            self.redirect(po.link_question)
+            self.redirect(po.link_target)
+
+

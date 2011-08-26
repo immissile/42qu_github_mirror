@@ -1,0 +1,55 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH2NAME_DICT, OAUTH_TUPLE , oauth_name_by_oauth_id
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
+%>
+<%def name="head()">
+<style>
+.g1bk{
+text-align:right;
+padding:16px 0;
+border-bottom:1px dotted #ccc;
+}
+.sync{
+border-bottom:1px dotted #ccc;padding-bottom:3px;
+}
+</style>
+</%def>
+<div class="C">
+
+
+%for cid in OAUTH_TUPLE:
+<%
+name = OAUTH2NAME_DICT[cid]
+%>
+<div class="sync">
+    <div class="G">
+        <div class="G1">
+            <div class="g1bk">
+                <span class="L">${name}</span>
+                <a href="/i/binded/${cid}">添加关联</a>
+            </div>
+        </div>
+        <div class="G3"><div class="G">
+        %for oauth_id in app_dict[cid]:
+            <div class="G1">
+                <div class="g1bk">
+                    <span class="L">${oauth_name_by_oauth_id(cid, oauth_id)}</span>
+                    <a href="/i/bind/${oauth_id}">同步设置</a>
+                </div>
+            </div>
+        %endfor
+        </div></div>
+    </div>
+</div>
+%endfor
+
+
+
+
+
+
+
+
+

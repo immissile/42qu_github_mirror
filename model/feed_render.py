@@ -2,31 +2,34 @@
 # -*- coding: utf-8 -*-
 from _db import McCacheM
 from collections import namedtuple
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO, CID_EVENT
 from operator import itemgetter
 from po import Po
 from po_question import answer_count
 from follow import follow_id_list_by_from_id
 from model.vote import vote_count
-from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT
+from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm
+from zkit.earth import place_name
 from zsite import Zsite
 from zkit.txt import cnenoverflow
 from model.txt2htm import txt_withlink
 from fs import fs_url_jpg, fs_url_audio
-
-CIDMAP = {}
+from model.days import begin_end_by_minute
+from model.event import Event
 
 
 FEED_TUPLE_DEFAULT_LEN = 11
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
+    if not m:
+        feed_rm(id)
     cid = m.cid
     rid = m.rid
     has_question = cid in (CID_WORD, CID_ANSWER)
 
     if rid and has_question:
-        question = m.question
+        question = m.target
         name = question.name
     elif cid != CID_WORD:
         name = m.name
@@ -38,13 +41,17 @@ def feed_tuple_by_db(id):
     else:
         reply_count = m.reply_count
 
+
     if cid == CID_PHOTO:
         _rid = fs_url_jpg(677, rid)
     elif cid == CID_AUDIO:
         _rid = fs_url_audio(id,"")
+    elif cid == CID_EVENT:
+        event = Event.mc_get(id)
+        _rid = fs_url_jpg(162, event.pic_id)
     else:
-        _rid = rid 
-    
+        _rid = rid
+
     result = [
         m.user_id,
         cid,
@@ -65,20 +72,21 @@ def feed_tuple_by_db(id):
         txt = txt_withlink(txt)
         result.extend((txt, False))
 
-    if rid and has_question:
+    if cid == CID_EVENT:
+        result.append(place_name(event.pid))
+        result.append(event.address)
+        result.extend(
+            begin_end_by_minute(event.begin_time, event.end_time)
+        )
+    elif rid and has_question:
         user = question.user
         result.extend(
             (question.id, user.name, user.link)
         )
-        #print (question.link, user.name, user.link)
+
 
     return result
 
-def cidmap(cid):
-    def _(cls):
-        CIDMAP[cid] = cls
-        return cls
-    return _
 
 class FeedBase(object):
     def __init__(self, id, rt_id_list, cid, reply_count, zsite_id, vote, name):

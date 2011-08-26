@@ -4,39 +4,13 @@ from yajl import dumps
 from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
 from model.fs import fs_url_jpg
-from model.po import Po, po_word_new, CID_WORD, CID_NOTE
+from model.po import Po, CID_WORD, CID_NOTE
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.po_question import answer_word2note
 from model.zsite import user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from zkit.pic import picopen
 
-
-from model.career import career_dict
-from model.ico import pic_url_with_default
-@urlmap('/j/po/word')
-class PoWord(JLoginBase):
-    def post(self):
-        current_user_id = self.current_user_id
-        user = self.current_user
-        txt = self.get_argument('txt', '')
-        m = po_word_new(current_user_id, txt)
-        career_list_dict = career_dict([current_user_id])
-        career = career_list_dict[current_user_id]
-        unit = career[0]
-        title = career[1]
-        ico_url = pic_url_with_default(current_user_id, '219')
-        r = {
-            'id' : m.id,
-            'txt':m.name,
-            'ico_url':ico_url,
-            'unit':unit,
-            'title':title,
-            'name':user.name,
-            'link':user.link,
-        }
-        result = dumps(r)
-        self.finish(result)
 
 @urlmap('/j/po/reply/(\d+)')
 class Reply(JLoginBase):

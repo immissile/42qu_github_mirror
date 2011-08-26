@@ -1,11 +1,17 @@
 $(function(){
-    $("#name").focus()
+    var name=$("#name").focus();
+
     $("#po_form").submit(function(){
         $("[placeholder]").each(function(){
             if(this.value==this.placeholder){
                 this.value='';
             }
         })
+        if(name.val()==''){
+            alert("没有标题 , 不可以 ...")
+            name.focus()
+            return false
+        }
     })
 
 
@@ -20,7 +26,11 @@ $(function(){
     txtresize()
     win.resize(txtresize)
 
-
+    $("#rm").click(function(){
+        if(!confirm("删除 , 确定 ?")){
+            return false
+        }
+    }) 
 
 
 })

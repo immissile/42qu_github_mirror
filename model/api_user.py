@@ -31,9 +31,10 @@ def json_info(user_id):
             data['following_num'] = follow_count_by_from_id(user_id)
             data['verify_state'] = user.state
             data['pic'] = ico.get(user_id)
-            if namecard.pid_now:
-                data['place_now_name'] = namecard.place_now
-                data['place_now'] = namecard.pid_now
+            if namecard:
+                if namecard.pid_now:
+                    data['place_now_name'] = namecard.place_now
+                    data['place_now'] = namecard.pid_now
             if user_info.pid_home:
                 data['place_home_name'] = user_info.place_home
                 data['place_home'] = user_info.pid_home

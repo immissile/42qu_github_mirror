@@ -1,0 +1,13 @@
+报名 ${title} 失败
+
+${name} :
+
+抱歉，报名 ${title} ( http:${link} ) 失败，缘由是:
+
+${reason}
+
+%if price:
+报名费已退还到您的42区账目
+
+%endif
+如有问题请回复此邮件 :)

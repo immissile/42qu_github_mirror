@@ -76,7 +76,7 @@ po_photo_count = po_list_count(zsite_id, CID_PHOTO, is_owner)
 <div class="zsite_ol">\
 <ol>
 % for po in po_answer_list:
-<li>${po.question.user.link_html|n} : <a href="/${po.id}">${po.question.name}</a></li>\
+<li>${po.target.user.link_html|n} : <a href="/${po.id}">${po.target.name}</a></li>\
 % endfor
 </ol>
 </div>\

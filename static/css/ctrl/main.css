@@ -21,19 +21,28 @@
 #T a{
     color: #ffe000;
 }
+#TX{
+    color: #000;
+    background: url(/img/gif/icons/gif/white/to_size/close.gif) no-repeat;
+    height: 16px;
+    display: inline-block;
+    width: 16px;
+    margin-left: 14px;
+    vertical-align: -7px;
+}
 #H{
     font-size:16px;
     border-bottom:1px dotted #ccc;
     padding:18px 0 20px;
     margin-bottom:0;
-    *height:30px;
-    _padding:18px 0 0;
     text-align:center;
+    _padding:18px 0 0;
+    _height:48px;
 }
 .HN{
-float:right;
-margin-right:-16px;
-margin-top:1px;
+    float:right;
+    margin-right:-16px;
+    margin-top:1px;
 }
 #H .H{
     width: 972px;
@@ -53,14 +62,10 @@ margin-top:1px;
     text-decoration:underline
 }
 #H .site{
-    font-size: 24px;
+    font-size: 16px;
     font-family: Trebuchet MS;
     color: #a10;
-    *position:relative;
-    *top:-28px;
-}
-#H .tc .site{
-    *position:static;
+    margin-right:16px;
 }
 
 #H .D div a:hover{
@@ -77,11 +82,14 @@ margin-top:1px;
     padding:7px 0;
     background:#fff;
 }
-#H .DA{
+#DL{
+display:inline;
+}
+#H .DA, #DL a{
     padding:16px;
     color:#999;
 }
-#H .DA:hover{
+#H .DA:hover, #DL a:hover{
     color:#000;
 }
 #H .D{
@@ -93,7 +101,7 @@ margin-top:1px;
     padding-bottom:1px;
     position:absolute;
     margin-top:5px;
-    *margin-top:28px;
+    *margin-top:42px;
     right:0;
     border:1px solid #eee;
     background:#fafafa; 
@@ -114,9 +122,11 @@ margin-top:1px;
 
 .btnw{
     border: 1px solid #ccc;
+/*
     -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eee;
     -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eee;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eee;
+*/
     height:42px;
     display:inline-block;
 }
@@ -149,7 +159,7 @@ overflow:visible; /* IE6/IE7中，根据内容的多少将自动产生一定程�
 height:42px; /* select在12px的状态下，IE浏览器中的默认高度为21px，并且height属性在select上于IE6是无效的，于IE7，在外观上是无效的，如需考虑与select垂直对齐的情况，21px的高度是合适的选择 */
 padding:0 28px;
 *padding:0 27px; /* IE6、IE7中，会在紧贴边框的位置产生1px的与背景相同的内边框，其实际宽度会比其他浏览器多出1px */
-line-height:42px;
+line-height:41px;
 padding-bottom:2px;
 line-height:43px\9; 
 _padding-top:5px; 
@@ -299,3 +309,39 @@ margin-bottom:20px;
 color:#999;
 }
 
+.colon{
+display:inline-block;
+width:20px;
+text-align:center;
+}
+.ml48{
+margin-left: 48px;
+}
+.ml14{
+margin-left:14px;
+}
+.ml20{
+margin-left:20px;
+}
+.mt14{
+margin-top:14px
+}
+
+.event_page{
+margin-left: 125px; margin-bottom: 28px;
+}
+
+.event_img{
+float:left; margin-right: 36px;
+}
+
+.event_txt{
+float: left; margin-top: -7px;
+}
+
+.po_name{
+text-align: left; font-size: 14px; margin-top: 4px; margin-bottom: 14px;
+}
+.mt28{
+margin-top:28px;
+}

@@ -1,7 +1,7 @@
 <%!
 from model.money import read_cent, bank
 %>
-<%inherit file="_base.htm" />
+<%inherit file="/ctrl/me/money/_base.htm" />
 <style>
 .fullscreen{
 font-size:16px;
@@ -24,10 +24,10 @@ margin-top:32px
 <div class="fullscreen">
 
 <h2>充值成功</h2>
-<p>金额 ${trade.read_cent} 元</p>
+<p>金额 ${read_cent(trade.value)} 元</p>
 
 %if trade.tax:
-<p>费用 ${trade.read_tax} 元</p>
+<p>费用 ${read_cent(trade.tax)} 元</p>
 %endif
 
 %if trade.to_id == current_user_id:

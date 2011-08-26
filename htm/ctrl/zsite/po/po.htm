@@ -19,7 +19,7 @@ zsite_url = zsite.link
 %else:
 <h1><a href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
 %endif
-<pre>${po.htm|n}\
+<pre class="prebody">${po.htm|n}\
 <p class="po_bar po_bar1">\
 %if can_admin:
     <a class="L" href="${po.link_edit}">编辑</a>\
@@ -47,3 +47,4 @@ count = answer_count(po.id)
 %endif
 </pre>
 </%def>
+

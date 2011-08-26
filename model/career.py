@@ -3,6 +3,7 @@
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from tag import tag_new, tag_get
 from zkit.attrcache import attrcache
+from zkit.mc_func import mc_func_get_list, mc_func_get_dict
 from spammer import anti_same_post
 
 CID_JOB = 1
@@ -132,8 +133,9 @@ def career_list(user_id, cid):
     return [i.value_list for i in li]
 
 def career_list_all(user_id):
-    li = Career.where(user_id=user_id)
-    li = list(li)
+    id_list = career_id_list(user_id, CID_JOB)
+    id_list.extend(career_id_list(user_id, CID_EDU))
+    li = Career.mc_get_list(id_list)
     li.sort(reverse=True)
     return li
 
@@ -145,22 +147,22 @@ def career_current(user_id):
         return o.unit, o.title
     return '', ''
 
-from zkit.mc_func import mc_func_get_list, mc_func_get_dict
 
 def career_dict(id_list):
-    o_dict = mc_func_get_dict(
+    return mc_func_get_dict(
         mc_career_current,
         career_current,
         id_list,
     )
-    return o_dict
 
-def career_bind(user_list):
-    id_list = set([i.id for i in user_list])
-    o_dict = career_dict(id_list)
-    for i in user_list:
-        i.career = o_dict[i.id]
-    return user_list
+def career_bind(li, key='id'):
+    d = set()
+    for i in li:
+        k = getattr(i, key)
+        d.add(k)
+    o_dict = career_dict(d)
+    for i in li:
+        i.career = o_dict.get(getattr(i, key))
 
 def mc_flush(user_id, cid):
     from model.feed_po import mc_feed_user_dict
@@ -170,6 +172,4 @@ def mc_flush(user_id, cid):
 
 if __name__ == '__main__':
     from yajl import dumps
-    d = career_dict([10016494])
-    print d
-    #print career_list_all(10026433)[0].unit
+    print career_list_all(10026433)[0].unit

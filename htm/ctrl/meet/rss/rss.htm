@@ -1,0 +1,40 @@
+<%!
+from config import SITE_NAME
+from ctrl.zsite.rss import format_rfc822_data
+from time import time
+%>\
+<%namespace file="/_util/event.htm" import="event_show_rss, event_content"/>\
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>\
+<language>zh-cn</language>\
+<title>${SITE_NAME}活动 ${request.host}</title>\
+<link>${request.full_url()}</link>\
+<description>${SITE_NAME}活动列表</description>\
+<pubDate>${format_rfc822_data(time())}</pubDate>\
+% for event, po in event_list:
+<%
+zsite = event.zsite
+price = event.price
+link = 'http:%s' % po.link
+%>
+<item>\
+<title>${po.name}</title>\
+<link>${link}</link>\
+<dc:creator><![CDATA[${zsite.name}]]></dc:creator>\
+<description><![CDATA[
+${event_show_rss(event, po)}
+${event_content(event, po)}
+<div style="margin-bottom:16px;">\
+% if price:
+${price} 元 / 人
+% endif
+<a href="${po.link}" target="_blank">点此报名</a>\
+</div>\
+]]></description>\
+<pubDate>${format_rfc822_data(po.create_time)}</pubDate>\
+<guid>${link}</guid>\
+</item>\
+% endfor
+</channel>\
+</rss>

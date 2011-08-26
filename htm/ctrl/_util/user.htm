@@ -58,3 +58,7 @@ ${user_name_list(user_list)}\
 ${user_career(user_list[0])}\
 % endif
 </%def>
+
+<%def name="po_link(po)">\
+<a href="${po.link}" target="_blank">${po.name}</a>
+</%def>

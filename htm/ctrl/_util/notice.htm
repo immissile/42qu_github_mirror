@@ -1,11 +1,13 @@
 <%!
-from model.cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY
+from model.cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY, CID_NOTICE_EVENT_YES, CID_NOTICE_EVENT_NO, CID_NOTICE_EVENT_JOIN_YES, CID_NOTICE_EVENT_JOIN_NO, CID_NOTICE_EVENT_NOTICE, CID_NOTICE_EVENT_KILL, CID_NOTICE_EVENT_ORGANIZER_SUMMARY, CID_NOTICE_EVENT_JOINER_FEEDBACK
 from zkit.time_format import friendly_time
 from model.money import Trade, trade_log
 from model.notice import notice_id_count
+from model.po import Po
+from model.event import Event
 from yajl import loads
 %>
-<%namespace file="/ctrl/_util/user.htm" import="user_career_link"/>
+<%namespace file="/ctrl/_util/user.htm" import="user_career_link, po_link"/>
 
 <%def name="trade_log_render(rid)">
 <%
@@ -33,12 +35,18 @@ ${title or url}\
 <%
 cid = i.cid
 rid = i.rid
-from_user = i.from_user
+from_id = i.from_id
+if from_id:
+    from_user = i.from_user
 entry = i.entry
 %>
 <span class="R c9">${friendly_time(i.create_time)}</span>
+% if from_id:
 ${user_career_link(from_user)}
-%if cid == CID_NOTICE_WALL:
+% else:
+<span class="buzz_sys">
+% endif
+% if cid == CID_NOTICE_WALL:
 <%
 seq = i.seq
 %>\
@@ -46,7 +54,7 @@ seq = i.seq
 第 ${seq} 次\
 % endif
 留言, <a target="_blank" href="${i.link}#${seq}" class="noticeA">点此浏览</a>
-%elif cid == CID_NOTICE_WALL_REPLY:
+% elif cid == CID_NOTICE_WALL_REPLY:
 <%
 entry_zsite = entry.zsite_other(current_user_id)
 seq = i.seq
@@ -54,15 +62,54 @@ seq = i.seq
 % if seq > 1:
 第 ${seq} 次\
 % endif
-参与 我 与 <a href="${entry_zsite.link}">${entry_zsite.name}</a> 的
+参与 我 与 <a target="_blank" href="${entry_zsite.link}">${entry_zsite.name}</a> 的
 对话, <a target="_blank" class="noticeA" href="${i.link}#${seq}">点此浏览</a>
-%elif cid == CID_NOTICE_PAY:
+% elif cid == CID_NOTICE_PAY:
 <%
 t = Trade.get(rid)
 %>
 捐赠 ${t.read_value} 元
 ${trade_log_render(rid)}
-%endif
+% elif cid == CID_NOTICE_EVENT_YES:
+<a target="_blank"  href="${entry.link}">${entry.name}</a> 活动审核通过 , 快去邀请朋友来报名吧 ...
+% elif cid == CID_NOTICE_EVENT_NO:
+<a target="_blank"  href="${entry.link}">${entry.name}</a> 活动审核未通过 , <a href="/${rid}" target="_blank">原因见此</a>
+% elif cid == CID_NOTICE_EVENT_JOIN_YES:
+同意您参加 <a target="_blank" href="${entry.link}">${entry.name}</a> 活动 , 不要忘记时间哦
+% elif cid == CID_NOTICE_EVENT_JOIN_NO:
+<%
+txt = i.txt
+%>
+拒绝您参加 <a target="_blank" href="${entry.link}">${entry.name}</a> 活动 
+<p>原因如下 : </p>
+<pre>${txt}</pre>
+% elif cid == CID_NOTICE_EVENT_NOTICE:
+<%
+po = Po.mc_get(entry.rid)
+%>
+发布 ${po_link(po)} 活动公告 , <a target="_blank" class="noticeA" href="${entry.link}">点此浏览</a>
+% elif cid == CID_NOTICE_EVENT_KILL:
+<%
+event_id = entry.rid
+event = Event.mc_get(event_id)
+po = Po.mc_get(event_id)
+price = event.price
+%>
+解散了活动 ${po_link(po)} , <a target="_blank" class="noticeA" href="${entry.link}">原因见此</a> \
+% if price:
+你预付的 ${price} 元以退回 , 请查看账户
+% endif
+% elif cid == CID_NOTICE_EVENT_ORGANIZER_SUMMARY:
+组织的活动结束了，去看看活动总结<a href="${entry.link}" target="_blacnk">${entry.name}</a>，发表下自己的亲身体会吧。
+% elif cid == CID_NOTICE_EVENT_JOINER_FEEDBACK:
+给活动总结<a href="${entry.link}" target="_blacnk">${entry.name}</a> 反馈了。
+% else:
+${vars(i)}
+% endif
+
+% if not from_id:
+</span>
+% endif
 
 ##%if cid == CID_INVITE_REGISTER:
 ##邀请你注册

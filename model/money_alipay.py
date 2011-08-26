@@ -26,23 +26,27 @@ def _alipay_payurl(
     )
 
 
+def alipay_cent_with_tax(cent):
+    cent = int(cent)
+    tax = CHARGE_TAX[CID_PAY_ALIPAY]
+    return int((cent+1) / (1-tax))
+
+
 def alipay_payurl_with_tax(
-        user_id, total_fee, return_url, notify_url, subject, buyer_email=None,
+        user_id, yuan, return_url, notify_url, subject, buyer_email=None,
         for_id=0
     ):
-    total_fee = float(total_fee)
-    tax = int(
-        (total_fee*100+1)*CHARGE_TAX[CID_PAY_ALIPAY]
-    )/100.0
+    cent = int(float(yuan) * 100)
+    total_fee = alipay_cent_with_tax(cent) / 100.0
     return _alipay_payurl(
         user_id,
-        total_fee+tax,
+        total_fee,
         return_url,
         notify_url,
         subject,
         buyer_email,
         for_id,
-        '支付宝手续费 %.2f 元'%tax
+        '支付宝手续费 %.2f 元' % (total_fee - cent / 100.0)
     )
 
 

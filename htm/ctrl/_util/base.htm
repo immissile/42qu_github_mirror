@@ -1,6 +1,8 @@
 <%!
 from zkit.txt import EMAIL_VALID, mail2link
 from model.user_mail import mail_by_user_id 
+from model.event import Event
+from model.po import Po
 %>
 <%def name="verify_sended(user_id)">
 <span>激活邮件已发送至 ${mail2link(mail_by_user_id(user_id))|n} , 请查阅 。</span>
@@ -11,3 +13,12 @@ from model.user_mail import mail_by_user_id
 注意 : 可能被误判为垃圾邮件 。</span>
 </%def>
 
+<%def name="top_notice_view(top_notice)">
+<%
+id = top_notice.id
+cid = top_notice.cid
+rid = top_notice.rid
+%>
+${id} ${cid} ${rid}
+<a href="javascript:$('#T').remove();$.postJSON('/j/top_notice/rm/${id}');void(0);" id="TX"></a>
+</%def>

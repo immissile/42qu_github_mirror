@@ -1,0 +1,182 @@
+<%!
+from model.days import begin_end_by_minute 
+from model.po_event import EVENT_CID_CN
+from model.event import EVENT_STATE_TO_REVIEW
+from zkit.earth import place_name
+from model.fs import fs_url_jpg
+from config import SITE_DOMAIN
+%>
+
+<%def name="event_show_rss(event, po)">
+<%
+pic_url = fs_url_jpg(162, event.pic_id)
+
+row1, row2, diff_day = begin_end_by_minute(
+    event.begin_time,
+    event.end_time
+)
+%>
+<div style="margin-top:16px">
+% if pic_url:
+<a style="margin-left:14px;margin-bottom:14px;float:right" href="${po.link|n}"><img src="${pic_url}" class="event_img"></a>\
+% endif
+<div class="event_txt c">\
+<div class="po_name"><a style="color:#000;text-decoration:none;margin-right:14px;" href="${po.link|n}">${po.name}</a>\
+<a href="${po.link}" target="_blank">点此报名</a>\
+</div>\
+
+<p>地点<span style="display:inline-block;width:24px;text-align:center">:</span>\
+<a href="//meet.${SITE_DOMAIN}/${event.pid}" style="color:#000;text-decoration:none;">${place_name(event.pid)}</a>\
+</p>\
+
+<p style="margin-left:48px">${event.address}</p>\
+
+<p style="margin-top:14px">时间<span style="display:inline-block;width:24px;text-align:center">:</span>${row1}</p>\
+%if diff_day:
+<p style="margin-left:14px">至<span style="margin-left:20px">${row2}</span></p>\
+%else:
+<p style="margin-left:48px">${row2}</p>\
+%endif
+
+</div>\
+</div>
+</%def>
+
+<%def name="event_show(event, po)">
+<%
+pic_url = fs_url_jpg(162, event.pic_id)
+
+row1, row2, diff_day = begin_end_by_minute(
+    event.begin_time,
+    event.end_time
+)
+%>
+% if pic_url:
+<a href="${po.link|n}"><img src="${pic_url}" class="event_img"></a>\
+% endif
+<div class="event_txt c">\
+<div class="po_name"><a href="${po.link|n}" class="c0">${po.name}</a></div>\
+
+<p>地点<span class="colon">:</span><a href="//meet.${SITE_DOMAIN}/${event.pid}" class="c0">${place_name(event.pid)}</a></p>\
+<p class="ml48">${event.address}</p>\
+
+<p class="mt14">时间<span class="colon">:</span>${row1}</p>\
+%if diff_day:
+<p class="ml14">至<span class="ml20">${row2}</span></p>\
+%else:
+<p class="ml48">${row2}</p>\
+%endif
+
+</div>\
+</%def>
+
+
+<%def name="event_content(event, po)">
+${po.htm|n}\
+<p class="mt28">联系电话 : ${event.phone}</p>\
+%if event.transport:
+<p>交通方式 : ${event.transport}</p>\
+%endif
+<p>\
+%if event.limit_down:
+人数范围 : ${event.limit_down} - \
+%else:
+名额上限 : \
+%endif
+${event.limit_up}</p>\
+</%def>
+
+<%def name="event_edit(event, can_change)">
+
+<div class="po_line">
+<label>
+%if pic_id:
+替换\
+%else:
+宣传\
+%endif
+图片</label><input name="pic" type="file" id="pic">
+${errtip.pic|n}
+</div>
+%if pic_id:
+<img id="event_pic" src="${fs_url_jpg(162, pic_id)|n}">
+<input id="pic_id" type="hidden" name="pic_id" value="${pic_id}">
+%endif
+
+%if not can_change:
+<div style="font-size:16px;margin-top:16px">
+内容已锁定 , 如有改动 , 请邮件到 hi@42qu.com 联系管理员
+</div>
+%endif
+
+<div id="event_body">
+<div class="po_line">
+<label>所在城市</label><script>select_pid("pid", ${pid or 0})</script>
+${errtip.pid|n}
+</div>
+
+<div class="po_line">
+<label for="address">详细地址</label><input
+value="${address or ''}"
+name="address" class="input"
+id="address"
+>${errtip.address|n}
+</div>
+
+<div class="po_line">
+<label>交通路线</label><input name="transport" class="input" value="${transport or ''}">
+</div>
+
+<div class="po_line">
+<label>开始时间</label><script>select_event("begin_time", ${begin_time or 0},${begin_time_hour or 0},${begin_time_minute or 0})</script>
+${errtip.begin_time|n}
+</div>
+
+<div class="po_line">
+<label>结束时间</label><script>select_event("end_time", ${end_time or 0},${end_time_hour or 0},${end_time_minute or 0})</script>
+</div>
+
+
+<div class="po_line">
+<label>活动类型</label><select id="event_cid" name="event_cid" class="event_cid">
+<option value="">- 请选择 -</option>
+%for _event_cid, event_name in EVENT_CID_CN:
+<option 
+%if _event_cid == event_cid:
+selected
+%endif
+value="${_event_cid}">${event_name}</option>
+%endfor
+</select>${errtip.event_cid|n}
+</div>
+
+<div class="po_line">
+<label>在线收费</label><input autocomplete="off" name="price" class="input price" value="${price or 0}">元 / 人${errtip.price|n}
+</div
+>
+
+</div>\
+
+<div class="po_line">
+<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
+</div>
+
+<div class="po_line">
+<label>名额上限</label><input autocomplete="off" name="limit_up" class="limit_up input" value="${limit_up or 42}">
+</div>
+
+<div class="po_line">
+<label>最少人数</label><input autocomplete="off" name="limit_down" class="limit_down input" value="${limit_down or 0}">${errtip.limit_down|n}
+</div>
+
+<span id="event_submit_span" class="btnw">\
+    <button type="submit">
+% if event and event.state > EVENT_STATE_TO_REVIEW:
+保存
+% else:
+下一步
+% endif
+    </button>\
+</span>\
+</%def>
+

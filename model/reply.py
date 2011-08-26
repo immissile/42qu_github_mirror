@@ -5,10 +5,11 @@ from _db import cursor_by_table, McModel, McLimitA, McCache
 from txt import txt_new
 from spammer import is_same_post, is_spammer, mc_lastest_hash
 from time import time
-from txt import txt_bind
+from txt import txt_bind, txt_get
 from model.txt2htm import txt_withlink
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from cid import CID_PO
+from zkit.attrcache import attrcache
 
 REPLY_STATE = (
     STATE_DEL,
@@ -19,7 +20,7 @@ REPLY_STATE = (
 mc_reply_id_list = McLimitA('ReplyIdList:%s', 512)
 mc_reply_id_list_reversed = McLimitA('ReplyIdListReversed:%s', 512)
 mc_reply_count = McCache('ReplyCount:%s')
-mc_reply_in_1h = McCache('ReplyInOneHour.%s')
+#mc_reply_in_1h = McCache('ReplyInOneHour.%s')
 
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
@@ -58,10 +59,11 @@ class ReplyMixin(object):
             from buzz import mq_buzz_po_reply_new
             from po_pos import po_pos_state, STATE_BUZZ
             po_pos_state(user_id, rid, STATE_BUZZ)
-            key = '%s_%s' % (rid, user_id)
-            if mc_reply_in_1h.get(key) is None:
-                mq_buzz_po_reply_new(user_id, rid)
-                mc_reply_in_1h.set(key, True, 3600)
+            mq_buzz_po_reply_new(user_id, id, rid, self.user_id)
+#            key = '%s_%s' % (rid, user_id)
+#            if mc_reply_in_1h.get(key) is None:
+#                mq_buzz_po_reply_new(user_id, rid)
+#                mc_reply_in_1h.set(key, True, 3600)
         return id
 
     @property
@@ -135,18 +137,23 @@ class ReplyMixin(object):
         return self._reply_list(limit, offset, self.reply_id_list)
 
 class Reply(McModel):
+    @attrcache
+    def txt(self):
+        return txt_get(self.id)
+
     @property
     def htm(self):
         return txt_withlink(self.txt)
 
     def rm(self):
+        from buzz import mq_buzz_po_reply_rm
         if self.state != STATE_DEL:
             self.state = STATE_DEL
             self.save()
             mc_flush_reply_id_list(self.cid, self.rid)
+            mq_buzz_po_reply_rm(self.id)
 
         user_id = self.user_id
-        #print '!!!', user_id
         mc_lastest_hash.delete(user_id)
 
     def can_rm(self, user_id):

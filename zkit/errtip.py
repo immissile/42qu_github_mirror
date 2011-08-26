@@ -14,7 +14,6 @@ class Errtip(object):
         else:
             v = ''
 
-
         html = self._template%(
             name,
             v
@@ -42,6 +41,6 @@ if __name__ == '__main__':
     print bool(errtip)
     errtip.name = '程序'
     print bool(errtip)
-    print errtip.name
+    print errtip.nam2we
     print 'name' in errtip
     print 'x' in errtip

@@ -3,7 +3,7 @@
 from _handler import Base
 from _urlmap import urlmap
 from zkit.page import page_limit_offset
-from model.oauth2 import OauthClient 
+from model.oauth2 import OauthClient
 
 PAGE_LIMIT = 50
 
@@ -11,7 +11,7 @@ PAGE_LIMIT = 50
 @urlmap('/apply_list-(\d+)')
 class ApplyList(Base):
     def get(self, n=1):
-        total = OauthClient.where().count() 
+        total = OauthClient.where().count()
         page, limit, offset = page_limit_offset(
             href='/apply_list-%s',
             total=total,

@@ -15,7 +15,12 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
         65:FEED_ATTR_TXT_BASE,
         66:FEED_ATTR_TXT_BASE,
         67:FEED_ATTR_TXT_BASE,
-        68:FEED_ATTR_TXT_BASE
+//<<<<<<< local
+        68:FEED_ATTR_BASE+" place_name address time_row1 time_row2 time_diff_day",
+        69:FEED_ATTR_BASE
+//=======
+//        68:FEED_ATTR_TXT_BASE
+//>>>>>>> other
     },
     DATE_ATTR = "name link unit title pic".split(' ');
     for(var i in FEED_ATTR){
@@ -149,28 +154,9 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
 
     });
     /* 发微博 */
-    var po_word_tip = $("#po_word_tip"), po_word_txt = $("#po_word_txt"), po_word_max = 142, po_word_txt_bg="po_word_txt_bg";
-    function po_word_update(value){
-        var len = cnenlen(value),
-            html, diff=0;
-        if(len){
-            diff = len-po_word_max; 
-            if(diff>0){
-    html = '<span style="color:red">超出<span>'+diff+"</span>字</span>"
-            }else{
-    html = "<span><span>"+len+"</span>字</span>"
-    //为了ie6 多加一层span
-            }
-        }else{
-    html = '&nbsp;'
-        }
-        po_word_tip.html(html);
-        return diff
-    }
+    var  po_word_txt = $("#po_word_txt"), po_word_txt_bg="po_word_txt_bg";
     po_word_txt.blur().val('').focus(function(){
         $(this).removeClass(po_word_txt_bg)
-    }).input(function po_word_change(){
-        po_word_update(this.value)
     }).blur(function(){
         var self=$(this), val=self.val();
         if(!val||!val.length){
@@ -179,45 +165,56 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
     })
     .addClass(po_word_txt_bg)
     ;
-    $("#po_word_form").submit(function(){
-        if(cnenlen(po_word_txt.val())==0){
-            po_word_txt.blur()
-            return false
-        };
-        if(po_word_update(po_word_txt.val())>0){
-            po_word_txt.focus()
-            return false
-        };
-        var xsrf = $("input[name=_xsrf]").val(),
-            button = $("span.btnw button")
-        $.ajax({
-            type: 'POST',
-            url:  '/j/po/word',
-            data: "txt="+po_word_txt.val()+"&_xsrf="+xsrf,
-            beforeSend:function(){
-                button.html('<img style="vertical-align: 1px;" src="loading_bar.gif">')
-            },
-            success:function(data){
-                d = JSON.parse(data)
-                po_word_txt.blur().val('').addClass(po_word_txt_bg)
-                button.html('游吟')
-                if(d.link === $('.liveimg:first>a').attr("href"))
-                    {$('.sdw:first').before("<div class='sdw'><div class='sd'><div class='fdtxt' id='fdtxt"+d.id+"'>"+d.txt+"</div><div class='fdbar'><span class='L'>刚刚</span><a title='回应' target='_blank' class='reply' href='/"+d.id+"#txt_form'>0</a></div></div></div>")}
-                else
-                    {$('.G3:first').before("<div class='G3'><div class='sdw'><div class='sd'><div class='fdtxt' id='fdtxt"+d.id+"'>"+d.txt+"</div><div class='fdbar'><span class='L'>刚刚</span><a title='回应' target='_blank' class='reply' href='/"+d.id+"#txt_form'>0</a></div></div></div></div><div class='G1 liveimg'><a class='c0' target='_blank' href='"+d.link+"'><div><img src='"+d.ico_url+"'></div><div>"+d.name+"</div><div class='tr'>"+d.unit+"</div><div class='tr'>"+d.title+"</div></a></div>")}},
-            error:function(data){
-                document.write(data.responseText)
-                },
-        });
-    return false
-    });
-    
+//<<<<<<< local
+
+    txt_maxlen(po_word_txt,  $("#po_word_tip"), $("#po_word_form"), 142)
+
+//=======
+//    $("#po_word_form").submit(function(){
+//        if(cnenlen(po_word_txt.val())==0){
+//            po_word_txt.blur()
+//            return false
+//        };
+//        if(po_word_update(po_word_txt.val())>0){
+//            po_word_txt.focus()
+//            return false
+//        };
+//        var xsrf = $("input[name=_xsrf]").val(),
+//            button = $("span.btnw button")
+//        $.ajax({
+//            type: 'POST',
+//            url:  '/j/po/word',
+//            data: "txt="+po_word_txt.val()+"&_xsrf="+xsrf,
+//            beforeSend:function(){
+//                button.html('<img style="vertical-align: 1px;" src="loading_bar.gif">')
+//            },
+//            success:function(data){
+//                d = JSON.parse(data)
+//                po_word_txt.blur().val('').addClass(po_word_txt_bg)
+//                button.html('游吟')
+//                if(d.link === $('.liveimg:first>a').attr("href"))
+//                    {$('.sdw:first').before("<div class='sdw'><div class='sd'><div class='fdtxt' id='fdtxt"+d.id+"'>"+d.txt+"</div><div class='fdbar'><span class='L'>刚刚</span><a title='回应' target='_blank' class='reply' href='/"+d.id+"#txt_form'>0</a></div></div></div>")}
+//                else
+//                    {$('.G3:first').before("<div class='G3'><div class='sdw'><div class='sd'><div class='fdtxt' id='fdtxt"+d.id+"'>"+d.txt+"</div><div class='fdbar'><span class='L'>刚刚</span><a title='回应' target='_blank' class='reply' href='/"+d.id+"#txt_form'>0</a></div></div></div></div><div class='G1 liveimg'><a class='c0' target='_blank' href='"+d.link+"'><div><img src='"+d.ico_url+"'></div><div>"+d.name+"</div><div class='tr'>"+d.unit+"</div><div class='tr'>"+d.title+"</div></a></div>")}},
+//            error:function(data){
+//                document.write(data.responseText)
+//                },
+//        });
+//    return false
+//    });
+//
+//>>>>>>> other
     /* 显示全部 */
     fdtxt = function(e,id){
         var txt=$(e).parents('.fdtxt'),all=txt.find(".fdall");
-        all.html('').addClass("fdloading")
+        all.addClass("fdloading").find('.fdext').remove()
         $.get("/j/fdtxt/"+id,function(htm){
-            txt.html('<pre class="fdpre">'+htm+"</pre>")
+            txt.find('.fdtxtin').html('<pre class="fdpre">'+htm+"</pre>")
+            if(all.find('a').length){
+                all.removeClass('fdloading')
+            }else{
+                all.remove()
+            }
         }) 
     }
     fdvideo = function(e, id){

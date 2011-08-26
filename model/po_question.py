@@ -11,6 +11,7 @@ from zkit.time_format import time_title
 from zsite import Zsite
 from model.notice import mq_notice_question, invite_question
 
+
 def po_question_new(user_id, name, txt, state, to_user_id=0):
     if not name and not txt:
         return
@@ -30,7 +31,7 @@ answer_count = McNum(lambda id:Po.where(rid=id).where('state>%s', STATE_DEL).cou
 
 @mc_answer_id_get('{user_id}_{question_id}')
 def answer_id_get(user_id, question_id):
-    for i in Po.where(user_id=user_id, rid=question_id).where('state>%s', STATE_DEL).col_list(1, 0):
+    for i in Po.where(user_id=user_id, rid=question_id).where('cid in (%s,%s)'%(CID_WORD, CID_ANSWER)).where('state>%s', STATE_DEL).col_list(1, 0):
         return i
     return 0
 
@@ -43,6 +44,7 @@ def answer_word2note(po):
 def po_answer_new(user_id, question_id, name, txt, state):
     from buzz import buzz_answer_new
     id = answer_id_get(user_id, question_id)
+
     if id:
         return Po.mc_get(id)
     else:
@@ -50,6 +52,7 @@ def po_answer_new(user_id, question_id, name, txt, state):
             m = _po_answer_new(user_id, name, txt, state, question_id)
         else:
             m = po_word_new(user_id, name, state, question_id)
+
         if m:
             id = m.id
             buzz_answer_new(user_id, question_id)
@@ -58,7 +61,6 @@ def po_answer_new(user_id, question_id, name, txt, state):
             mc_answer_id_get.set('%s_%s' % (user_id, question_id), id)
             answer_count.delete(question_id)
             return m
-
 
 
 def _po_answer_new(user_id, name, txt, state, rid):
@@ -102,3 +104,5 @@ def po_answer_list(question_id, zsite_id=0, user_id=0):
     li = Po.mc_get_list(ids)
     Zsite.mc_bind(li, 'user', 'user_id')
     return li
+
+

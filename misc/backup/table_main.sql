@@ -73,6 +73,45 @@ CREATE TABLE `career` (
   KEY `index2` (`user_id`,`cid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `event`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `event` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `city_pid` bigint(20) unsigned NOT NULL,
+  `pid` bigint(20) unsigned NOT NULL,
+  `address` varchar(255) COLLATE utf8_bin NOT NULL,
+  `transport` varchar(255) COLLATE utf8_bin NOT NULL,
+  `begin_time` int(10) unsigned NOT NULL DEFAULT '0',
+  `end_time` int(10) unsigned NOT NULL DEFAULT '0',
+  `cent` int(10) unsigned NOT NULL DEFAULT '0',
+  `state` tinyint(3) unsigned NOT NULL,
+  `cid` tinyint(3) unsigned NOT NULL,
+  `zsite_id` int(10) unsigned NOT NULL,
+  `limit_up` int(10) unsigned NOT NULL DEFAULT '0',
+  `phone` varbinary(64) NOT NULL,
+  `limit_down` int(10) unsigned NOT NULL,
+  `pic_id` int(10) unsigned NOT NULL,
+  `join_count` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `Index_3` (`zsite_id`),
+  KEY `Index_2` (`state`,`limit_up`) USING BTREE,
+  KEY `Index_4` (`city_pid`,`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `event_joiner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `event_joiner` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `event_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `create_time` int(10) unsigned NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index2` (`event_id`,`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `failed_mq`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -253,6 +292,15 @@ CREATE TABLE `notice` (
   KEY `index3` (`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `notice_txt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notice_txt` (
+  `id` int(10) unsigned NOT NULL,
+  `value` blob NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `notice_unread`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -337,8 +385,8 @@ CREATE TABLE `oauth_token` (
   `token_key` varbinary(256) NOT NULL,
   `token_secret` varbinary(256) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `app_id` (`app_id`,`zsite_id`) USING BTREE,
-  KEY `index` (`zsite_id`) USING BTREE
+  KEY `index` (`zsite_id`) USING BTREE,
+  KEY `app_id` (`app_id`,`zsite_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `oauth_token_backup`;
@@ -382,7 +430,7 @@ DROP TABLE IF EXISTS `oauth_token_qq`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `oauth_token_qq` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` char(12) COLLATE utf8_bin NOT NULL,
+  `name` varchar(48) COLLATE utf8_bin NOT NULL,
   `uid` char(20) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -580,6 +628,28 @@ CREATE TABLE `shorturl` (
   KEY `Index_2` (`url_hash`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `sync_follow`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sync_follow` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `zsite_id` int(10) unsigned NOT NULL,
+  `state` int(10) unsigned NOT NULL,
+  `cid` int(10) unsigned NOT NULL,
+  `txt` varbinary(1024) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `sync_turn`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sync_turn` (
+  `zsite_id` int(10) unsigned NOT NULL,
+  `cid` int(10) unsigned NOT NULL,
+  `state` int(10) unsigned NOT NULL,
+  KEY `Index_1` (`zsite_id`,`cid`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -589,6 +659,19 @@ CREATE TABLE `tag` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index_2` (`value`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `top_notice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `top_notice` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `cid` tinyint(3) unsigned NOT NULL,
+  `rid` int(10) unsigned NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index2` (`user_id`,`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `trade`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

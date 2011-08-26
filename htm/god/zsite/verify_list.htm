@@ -3,7 +3,7 @@
 
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
-from model.ico import pic_url_with_default
+from model.ico import pic_url_with_default, ico
 from model.zsite_list_0 import zsite_show_get
 from model.zsite_rank import zsite_rank_max
 %>
@@ -13,7 +13,7 @@ function txt(id, cid){
 var template = [
     ]
     if(cid==1||cid==3){
-        template.push('本人照片 不清晰/不雅观')
+        template.push('本人照片 不清晰/不雅观/非主流')
     }
     if(cid==2||cid==3){
         template.push('职业信息/公司类型/个人资料/专业信息 不完整')
@@ -66,9 +66,6 @@ function pass(id){
 }
 </script>
 <style>
-.bar{
-border-top:1px solid #ccc;
-}
 .bar .yes, .bar .show{
 display:block;
 margin-bottom:14px;
@@ -98,10 +95,14 @@ padding-right:14px;
 float:left;
 margin-right:16px
 }
+.item{
+margin-top:32px
+}
 </style>
 </%def>
 <%
 id = zsite.id
+pic_id = ico.get(id)
 %>
 <div class="sdw" id="zsite${id}">
 <div class="sd c">
@@ -110,13 +111,29 @@ ${user_index(zsite, False)}
 </div>
 <div class="bar">
 <div class="L">
+<div style="margin-bottom:32px">
 <a class="yes" rel="${id}" href="javascript:void(0)">通过</a>
 <a class="show" rel="${id}" href="javascript:void(0)">通过 & 展示</a>
-<div style="margin-top:32px">
-    <a href="/zsite/${id}" target="_blank">管理</a>
+</div>
+    <div class="item"><a target="_blank" href="/sudo/${id}?next=${zsite.link}/i/career">修改个人履历</a></div>
 
+
+<div style="margin-top:32px">
+<div>
+    <a href="${zsite.link}">主页</a>
+</div>
+<div>
+    <a href="/zsite/${id}" target="_blank">管理</a>
+</div>
+<div style="margin-top:32px">
+    %if pic_id:
+    <a   href="/zsite/pic/rm/${pic_id}/${id}">删除头像</a>
+    %endif
 </div>
 </div>
+</div>
+
+<div class="R">
 <a class="no" rel="${id}" href="javascript:void(0)">拒绝</a>
 <textarea class="txt" id="txt${id}"></textarea>
 <div class="txtdefault">
@@ -126,6 +143,19 @@ ${user_index(zsite, False)}
     <a href="javascript:txt(${id}, 4);void(0)">不雅词</a>
 </div>
 </div>
+
+
+</div>
 </div>
 
 </div>
+
+<script>
+(function(){
+    var host=location.host, base_host='${zsite.link}'
+    $("#zsite_link a").each(function(){
+        this.href=this.href.replace(host,base_host)
+        this.target="_blank"
+    })
+})()
+</script>

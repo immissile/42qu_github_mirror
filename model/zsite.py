@@ -52,6 +52,21 @@ class Zsite(McModel):
         if self.cid == CID_USER:
             return career_current(self.id)
 
+    @attrcache
+    def info(self):
+        from user_info import UserInfo
+        id = self.id
+        return UserInfo.mc_get(id)
+
+    def pronoun(self, user_id):
+        zsite_id = self.id
+        if zsite_id == user_id:
+            return '我'
+        info = self.info
+        if info and info.sex == 2:
+            return '她'
+        return '他'
+
 
 def user_can_reply(user):
     return user.state >= ZSITE_STATE_CAN_REPLY
@@ -83,6 +98,18 @@ def zsite_name_edit(id, name):
             zsite.name = name
             zsite.save()
             mc_feed_user_dict.delete(id)
+
+def zsite_name_rm(id):
+    from mail import rendermail
+    from user_mail import mail_by_user_id
+    zsite_name_edit(id,"无名")
+    zsite = Zsite.mc_get(id)
+    rendermail('/mail/notice/name_rm.txt', mail_by_user_id(id), zsite.name,
+                   link=zsite.link,
+                  )
+
+
+
 
 def zsite_new_user(name, state=ZSITE_STATE_APPLY):
     return zsite_new(name, CID_USER, state)
@@ -131,15 +158,5 @@ from mq import mq_client
 mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 
 if __name__ == '__main__':
-    #print zsite_is_verify(jarod)
+    #zsite_name_rm(10017321)
     pass
-    zsite = Zsite.mc_get(10023730)
-    zsite.state = ZSITE_STATE_VERIFY
-    zsite.save()
-    print zsite.state , ZSITE_STATE_VERIFY
-    print Zsite.where(state=ZSITE_STATE_WAIT_VERIFY).col_list()
-#  zsite_verify_no(zsite,"te")
-    #print Zsite.where().count()
-# for i in Zsite.where():
-#     i.name = i.name.strip()
-#     i.save()

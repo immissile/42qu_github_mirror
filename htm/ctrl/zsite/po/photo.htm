@@ -15,7 +15,7 @@ tag_link = "tag/%s" % zsite_tag_id
 <div class="w721">\
 <div id="photo"><a href="/${next_id or tag_link}#po_body"><img src="${img_url}" alt="${po.name}"></a></div>
 %if po.txt:
-<pre id="photo_txt">${po.htm|n}</pre>
+<pre class="prebody" id="photo_txt">${po.htm|n}</pre>
 %endif
 <p class="po_bar">\
 %if can_admin:
