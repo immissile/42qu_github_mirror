@@ -25,10 +25,12 @@ link = 'http:%s' % po.link
 <description><![CDATA[
 ${event_show_rss(event, po)}
 ${event_content(event, po)}
+<div style="margin-bottom:16px;">\
 % if price:
 ${price} 元 / 人
 % endif
-<a style="margin-bottom:16px;" href="${po.link}" target="_blank">点此报名</a>
+<a href="${po.link}" target="_blank">点此报名</a>\
+</div>\
 ]]></description>\
 <pubDate>${format_rfc822_data(po.create_time)}</pubDate>\
 <guid>${link}</guid>\
