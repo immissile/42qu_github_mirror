@@ -112,6 +112,7 @@ def cn_diff_weekday(dt):
         return '本%s' % cn_week_day
     elif diff_week == 1:
         return '下%s' % cn_week_day
+    return ''
 
 def begin_end_by_minute(begin_time, end_time):
     begin_date = minute2date(begin_time)
