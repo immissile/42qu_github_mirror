@@ -523,13 +523,13 @@ def event_join_review(o):
     user_id = o.user_id
     event = o.event
     if o.state == EVENT_JOIN_STATE_END:
-        if event.cent:
-            t = pay_event_get(o.event, user_id)
-            if not t:
-                return
-            trade_finish(t)
         o.state = EVENT_JOIN_STATE_FEEDBACK_NORMAL
         o.save()
+        if event.cent:
+            t = pay_event_get(o.event, user_id)
+            if t:
+                trade_finish(t)
+                return True
 
 def event_init2to_review(id):
     event = Event.mc_get(id)
