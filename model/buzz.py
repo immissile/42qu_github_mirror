@@ -112,6 +112,28 @@ def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
 
 mq_buzz_po_reply_new = mq_client(buzz_po_reply_new)
 
+def buzz_po_reply_rm(reply_id):
+    for i in ormiter(Buzz, 'cid=%s and rid=%s' % (CID_BUZZ_PO_REPLY, reply_id)):
+        to_id = i.to_id
+        i.delete()
+        mc_flush(to_id)
+        buzz_unread_update(to_id)
+
+mq_buzz_po_reply_rm = mq_client(buzz_po_reply_rm)
+
+def buzz_po_rm(po_id):
+    to_id_list = set()
+    po = Po(id=po_id)
+    to_id_list = set()
+    for reply_id in po.reply_id_list():
+        for i in ormiter(Buzz, 'cid=%s and rid=%s' % (CID_BUZZ_PO_REPLY, reply_id)):
+            to_id_list.add(i.to_id)
+            i.delete()
+    for to_id in to_id_list:
+        mc_flush(to_id)
+        buzz_unread_update(to_id)
+
+mq_buzz_po_rm = mq_client(buzz_po_rm)
 
 def buzz_answer_new(from_id, po_id):
     from po_question import po_user_id_list

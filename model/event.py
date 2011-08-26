@@ -23,6 +23,7 @@ mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 mc_event_id_list_by_city_pid_cid = McLimitA('EventIdListByCityPidCid.%s', 128)
 mc_event_cid_count_by_city_pid = McCacheA('EventCidCountByCityPid.%s')
 mc_event_end_id_list_by_city_pid = McLimitA('EventEndIdListByCityPid.%s', 128)
+mc_event_all_id_list = McLimitA('EventAllIdList.%s', 128)
 
 def event_by_city_pid_cid_query(city_pid, cid=0):
     qs = Event.where(city_pid=city_pid)
@@ -264,6 +265,15 @@ class Event(McModel):
         return '%s/%s' % (o.link, self.id)
 
 
+@mc_event_all_id_list('')
+def event_all_id_list(limit, offset):
+    return Event.where('state>=%s', EVENT_STATE_BEGIN).order_by('id desc').col_list(limit, offset)
+
+def event_all_list(limit, offset):
+    id_list = event_all_id_list(limit, offset)
+    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
+
+
 @mc_event_id_list_by_zsite_id('{zsite_id}_{can_admin}')
 def event_id_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     return Event.where(zsite_id=zsite_id).where('state between %s and %s', EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
@@ -273,7 +283,6 @@ def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 
-
 @mc_event_id_list_by_city_pid_cid('{city_pid}_{cid}')
 def event_id_list_by_city_pid_cid(city_pid, cid, limit=10, offset=0):
     return event_by_city_pid_cid_query(city_pid, cid).order_by('end_time').col_list(limit, offset)
@@ -281,6 +290,7 @@ def event_id_list_by_city_pid_cid(city_pid, cid, limit=10, offset=0):
 def event_list_by_city_pid_cid(city_pid, cid, limit=10, offset=0):
     id_list = event_id_list_by_city_pid_cid(city_pid, cid, limit, offset)
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
+
 
 @mc_event_end_id_list_by_city_pid('{city_pid}')
 def event_end_id_list_by_city_pid(city_pid, limit, offset):
@@ -493,6 +503,7 @@ def mc_flush_by_city_pid_cid(city_pid, cid):
     mc_event_cid_count_by_city_pid.delete(city_pid)
     mc_event_end_id_list_by_city_pid.delete(city_pid)
     event_end_count_by_city_pid.delete(city_pid)
+    mc_event_all_id_list.delete('')
 
 def event_joiner_end(o):
     event_id = o.event_id
