@@ -479,7 +479,7 @@ def event_ready(event):
     po = event.po
     link = 'http:%s' % po.link
     title = po.name
-    user_id_list = event_joiner_user_id_list(event_id)
+    user_id_list = event_joiner_user_id_list(event.id)
     user_id_list.append(event.zsite_id)
     for user_id in user_id_list:
         rendermail(
@@ -490,6 +490,7 @@ def event_ready(event):
             title=title,
             join_count=join_count,
         )
+        sleep(0.1)
 
 
 def mc_flush_by_user_id(user_id):

@@ -19,7 +19,7 @@ def buzz_join_apply_review_mail():
         event_review_join_apply(event_id)
 
 def event_ready_mail(begin):
-    end = (today_days() + 2) * ONE_DAY_MINUTE
+    end = (today_days() + 3) * ONE_DAY_MINUTE
     for event in ormiter(Event, 'state=%s and begin_time>%s and begin_time<=%s' % (EVENT_STATE_BEGIN, begin, end)):
         event_ready(event)
     return end
