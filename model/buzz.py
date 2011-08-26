@@ -123,7 +123,7 @@ mq_buzz_po_reply_rm = mq_client(buzz_po_reply_rm)
 
 def buzz_po_rm(po_id):
     to_id_list = set()
-    po = Po(id=po_id)
+    po = Po.mc_get(po_id)
     to_id_list = set()
     for reply_id in po.reply_id_list():
         for i in ormiter(Buzz, 'cid=%s and rid=%s' % (CID_BUZZ_PO_REPLY, reply_id)):
