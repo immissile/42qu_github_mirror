@@ -424,7 +424,7 @@ class BindItem(LoginBase):
         user_id = self.current_user_id
         return self.render(
             id=id,
-            sync_all=sync_all(user_id),
+            sync_all=sync_all(user_id, id),
         )
 
     def post(self, id):
@@ -436,7 +436,7 @@ class BindItem(LoginBase):
                 state = 1
             else:
                 state = 0
-            sync_state_set(user_id, i, state)
+            sync_state_set(user_id, i, state, id)
 
         self.redirect('/i/bind')
     
