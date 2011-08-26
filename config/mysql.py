@@ -2,6 +2,7 @@
 
 DB_MAIN_TABLE = (
     '*',
+    'notice_txt',
     'bank',
     'log_history',
     'shorturl',
