@@ -18,7 +18,6 @@ from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
 <%
 id = po.id
 event = Event.mc_get(id)
-state = event.state
 can_admin = event.can_admin(current_user_id)
 %>
 
@@ -69,6 +68,9 @@ ${event_show(event, po)}
 ${event_content(event, po)}
 %if not can_admin:
     %if join_state <= EVENT_JOIN_STATE_NO :
+% if event_state == EVENT_STATE_END:
+<span class="L">活动结束</span>
+% else:
 <form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" ><span class="btnw"><button type="submit">\
 %if join_state == EVENT_JOIN_STATE_NO :
 重新报名\
@@ -76,6 +78,7 @@ ${event_content(event, po)}
 报名参加\
 %endif
 </button></span>\
+% endif
     %else:
 <span class="L">
         %if join_state == EVENT_JOIN_STATE_NEW :
@@ -101,7 +104,7 @@ ${event_content(event, po)}
 组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
 ${po_bar_vote(po)}\
 </pre>
-%if state>= EVENT_STATE_END:
+%if event_state >= EVENT_STATE_END:
 ${feedback_list(event)}
 %endif
 

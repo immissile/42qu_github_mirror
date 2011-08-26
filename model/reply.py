@@ -146,13 +146,14 @@ class Reply(McModel):
         return txt_withlink(self.txt)
 
     def rm(self):
+        from buzz import mq_buzz_po_reply_rm
         if self.state != STATE_DEL:
             self.state = STATE_DEL
             self.save()
             mc_flush_reply_id_list(self.cid, self.rid)
+            mq_buzz_po_reply_rm(self.id)
 
         user_id = self.user_id
-        #print '!!!', user_id
         mc_lastest_hash.delete(user_id)
 
     def can_rm(self, user_id):

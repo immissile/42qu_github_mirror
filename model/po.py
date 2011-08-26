@@ -225,6 +225,7 @@ def po_new(cid, user_id, name, state, rid=0, id=None):
     return m
 
 def po_state_set(po, state):
+    from buzz import mq_buzz_po_rm
     old_state = po.state
     if old_state == state:
         return
@@ -235,6 +236,7 @@ def po_state_set(po, state):
     if old_state > STATE_SECRET and state == STATE_SECRET:
         feed_rm(id)
         po.tag_rm()
+        mq_buzz_po_rm(id)
     elif old_state <= STATE_SECRET and state >= STATE_ACTIVE:
         po.feed_new()
         po.tag_new()
@@ -286,6 +288,8 @@ def _po_rm(user_id, po):
         mc_answer_id_get.delete('%s_%s' % (user_id, rid))
         answer_count.delete(rid)
     mc_flush(user_id, po.cid)
+    from buzz import mq_buzz_po_rm
+    mq_buzz_po_rm(id)
     return True
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
