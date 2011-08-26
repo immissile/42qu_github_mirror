@@ -32,7 +32,7 @@ OAUTH_TUPLE = (
     OAUTH_QQ        ,
     OAUTH_WWW163    ,
     #OAUTH_SOHU      ,
-    OAUTH_TWITTER   ,
+    #OAUTH_TWITTER   ,
 )
 
 
