@@ -7,9 +7,6 @@
 from zkit.earth import place_name
 from model.event import event_count_by_city_pid_cid, event_cid_name_count_by_city_pid, event_end_count_by_city_pid, EVENT_STATE_END
 %>
-<%def name="htm_head()">
-${css.meet|n}
-</%def>
 
 <h1>
 <span class="L">${place_name(pid)}</span>
