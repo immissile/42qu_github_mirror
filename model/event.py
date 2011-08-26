@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
-from time import time
+from time import time, sleep
 from zkit.attrcache import attrcache
 from money import read_cent, pay_event_get, trade_fail, trade_finish
 from zsite import Zsite
@@ -668,6 +668,7 @@ def event_end_mail(event):
         price=event.price,
         feedback_link='/event/feedback/%s' % event_id
     )
+    sleep(0.1)
 
     for user_id in event_joiner_user_id_list(event_id):
         if user_id != owner_id:
@@ -681,6 +682,7 @@ def event_end_mail(event):
                 user_link=user.link,
                 feedback_link='/event/feedback/%s' % event_id
             )
+            sleep(0.1)
 
 
 def event_review_join_apply(event_id):
@@ -707,6 +709,7 @@ def event_review_join_apply(event_id):
                 title=event.po.name,
                 event_join_apply_list=' , '.join(event_joiner_list)
             )
+            sleep(0.1)
 
 @mc_event_cid_count_by_city_pid('{city_pid}')
 def event_cid_count_by_city_pid(city_pid):
