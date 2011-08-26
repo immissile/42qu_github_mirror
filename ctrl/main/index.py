@@ -4,6 +4,7 @@ from ctrl._urlmap.main import urlmap
 from model.zsite_tag import ZsiteTag
 from model.zsite import Zsite
 from model.oauth import oauth_by_zsite_id_last
+from model.sync import sync_follow_by_sync_id, sync_follow_flush_by_zsite_id
 
 @urlmap('/')
 class Index(Base):
@@ -42,6 +43,8 @@ class Bind(LoginBase):
         oauth_id = oauth_by_zsite_id_last(user.id)
         if oauth_id:
             link = "%s/i/bind/%s"%(link,oauth_id[1])
+            sync_follow_by_sync_id(user.id, oauth_id)
+            sync_follow_flush_by_zsite_id(user.id)
 
         return self.redirect(link)
 

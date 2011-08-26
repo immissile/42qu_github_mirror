@@ -6,6 +6,7 @@ from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
 from po import Po
 from oauth_update import sync_by_oauth_id
 from oauth import OauthToken
+from config import SITE_DOMAIN
 from model.cid import CID_EVENT, CID_NOTE, CID_WORD
 mc_sync_state = McCache('SyncState:%s')
 mc_sync_state_all = McCacheA('SyncStateAll:%s')
@@ -64,18 +65,20 @@ def sync_by_po_id(id):
 
 
 
-def sync_follow_by_sync_id(id):
+def sync_follow_by_sync_id(id, oauth_id):
     s = SyncFollow.get(id)
     user_id = s.zsite_id
-    o = OauthToken.raw_sql('select id from oauth_token where zsite_id = %s', user_id).fetchall()
     if s.state:
         if s.state >= 2:
-            for oid in o:
-                sync_by_oauth_id(oid[0], s.txt, 'http://42qu.com')
+            sync_by_oauth_id(oauth_id, s.txt, SITE_DOMAIN)
         else:
-            oauth_follow_by_oauth_id(oid[0])
+            oauth_follow_by_oauth_id(oauth_id)
 
-
+def sync_follow_flush_by_zsite_id(id):
+    s = SyncFollow.get(id)
+    s.delete()
+    s.save()
+    
 
 
 if __name__ == '__main__':
