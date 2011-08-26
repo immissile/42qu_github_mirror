@@ -69,7 +69,7 @@ ${event_content(event, po)}
 %if not can_admin:
     %if join_state <= EVENT_JOIN_STATE_NO :
 % if event_state == EVENT_STATE_END:
-<span class="L">活动结束</span>
+活动结束
 % else:
 <form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" ><span class="btnw"><button type="submit">\
 %if join_state == EVENT_JOIN_STATE_NO :
@@ -87,10 +87,10 @@ ${event_content(event, po)}
 报名成功
         %endif
 </span>
-    %endif
     % if price:
 <span id="price_per">${price} 元 / 人</span>\
     % endif
+    %endif
 %elif price:
 <p>\
 活动费用 : ${price} 元 / 人\
