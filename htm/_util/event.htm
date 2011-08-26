@@ -21,17 +21,17 @@ row1, row2, diff_day = begin_end_by_minute(
 <a style="float:right" href="${po.link|n}"><img src="${pic_url}" class="event_img"></a>\
 % endif
 <div class="event_txt c">\
-<div class="po_name"><a style="color:#000" href="${po.link|n}" >${po.name}</a>
-<a href="${po.link}" target="_blank">点此报名</a>
+<div class="po_name"><a style="color:#000;text-decoration:none;" href="${po.link|n}">${po.name}</a>\
+<a href="${po.link}" target="_blank">点此报名</a>\
 </div>\
 
-<p>地点<span>:</span>\
-<a href="//meet.${SITE_DOMAIN}/${event.pid}" style="color:#000">${place_name(event.pid)}</a>\
+<p>地点<span style="display:inline-block;width:24px;text-align:center">:</span>\
+<a href="//meet.${SITE_DOMAIN}/${event.pid}" style="color:#000;text-decoration:none;">${place_name(event.pid)}</a>\
 </p>\
 
 <p style="margin-left:48px">${event.address}</p>\
 
-<p style="margin-top:14px">时间<span>:</span>${row1}</p>\
+<p style="margin-top:14px">时间<span style="display:inline-block;width:24px;text-align:center">:</span>${row1}</p>\
 %if diff_day:
 <p style="margin-left:14px">至<span style="margin-left:20px">${row2}</span></p>\
 %else:
