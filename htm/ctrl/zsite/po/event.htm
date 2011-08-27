@@ -78,6 +78,9 @@ ${event_content(event, po)}
 报名参加\
 %endif
 </button></span>\
+    % if price:
+<span id="price_per">${price} 元 / 人</span>\
+    % endif
 % endif
     %else:
 <span class="L">
@@ -87,9 +90,6 @@ ${event_content(event, po)}
 报名成功
         %endif
 </span>
-    % if price:
-<span id="price_per">${price} 元 / 人</span>\
-    % endif
     %endif
 %elif price:
 <p>\
