@@ -59,7 +59,7 @@ def po_post(self):
     arguments = self.request.arguments
 
     if self.cid == CID_EVENT_FEEDBACK:
-        state = self.get_argument('good', None),
+        state = self.get_argument('good', None)
     else:
         secret = self.get_argument('secret', None)
         if secret:
