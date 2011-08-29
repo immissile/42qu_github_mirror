@@ -1,0 +1,21 @@
+<%!
+from model.zsite import ZSITE_STATE_VERIFY
+%>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%
+state = current_user.state
+%>
+
+% if state >= ZSITE_STATE_VERIFY:
+% if site:
+<a href="${site.link}">${site.name}</a>创建成功
+% else:
+<%htm:form>
+名字 <input type="text" name="name">
+${errtip.name|n}
+<button type="submit">提交</button>
+</%htm:form>
+% endif
+% else:
+请认证
+% endif

@@ -4,6 +4,7 @@
 # Zsite
 CID_USER = 1
 CID_CHANNEL = 2
+CID_SITE = 3
 
 
 CID_ZSITE = (

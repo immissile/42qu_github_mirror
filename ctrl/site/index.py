@@ -8,17 +8,6 @@ PAGE_LIMIT = 25
 
 
 @urlmap('/')
-class SiteIndex(LoginBase):
+class SiteIndex(Base):
     def get(self):
-        pass
-
-    def post(self):
-        pass
-
-@urlmap('/new')
-class SiteNew(LoginBase):
-    def get(self):
-        pass
-
-    def post(self):
         pass
