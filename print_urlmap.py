@@ -34,6 +34,8 @@ print_urlmap('ctrl._urlmap.auth')
 print_urlmap('ctrl._urlmap.j')
 print_urlmap('ctrl._urlmap.zsite')
 print_urlmap('ctrl._urlmap.me')
+print_urlmap('ctrl._urlmap.meet')
+print_urlmap('ctrl._urlmap.site')
 
 import god._url
 print_urlmap('god._urlmap')
@@ -43,5 +45,3 @@ print_urlmap('api._urlmap')
 
 import rpc._url
 print_urlmap('rpc._urlmap')
-
-
