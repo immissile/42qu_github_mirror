@@ -17,7 +17,7 @@ from model.cid import CID_ANSWER
 cid = po.cid
 rid = po.rid
 %>
-    % if cid == CID_ANSWER and rid:
+    % if rid:
     <%
     question_po = Po.mc_get(rid)
     question_user = question_po.user
