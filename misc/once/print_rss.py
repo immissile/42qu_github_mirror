@@ -48,7 +48,7 @@ def print_rss():
         output.write("""<?xml version="1.0" encoding="UTF-8"?>
 <opml version="1.0">
 <head>
-<title>Google 阅读器中 peng 的订阅</title>
+<title>Google 阅读器中 42qu 的订阅</title>
 </head>
 <body>
 """)
