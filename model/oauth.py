@@ -1,5 +1,5 @@
 #coding:utf-8
-from _db import cursor_by_table, McNum, Model
+from _db import cursor_by_table, McNum, Model, McCache
 
 OAUTH_GOOGLE = 1
 OAUTH_DOUBAN = 2
@@ -20,10 +20,21 @@ OAUTH2NAME_DICT = {
     OAUTH_RENREN    : '人人网'      ,
     OAUTH_DOUBAN    : '豆瓣'        ,
     OAUTH_SINA      : '新浪微博'    ,
-#    OAUTH_BUZZ      : 'Buzz'        ,
+    OAUTH_BUZZ      : 'Buzz'        ,
     OAUTH_TWITTER   : 'Twitter'     ,
     OAUTH_LINKEDIN  : 'LinkedIn'    ,
 }
+
+OAUTH_TUPLE = (
+    OAUTH_DOUBAN    ,
+    #OAUTH_RENREN    ,
+    OAUTH_SINA      ,
+    OAUTH_QQ        ,
+    OAUTH_WWW163    ,
+    #OAUTH_SOHU      ,
+    #OAUTH_TWITTER   ,
+)
+
 
 OAUTH2URL = {
     OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
@@ -52,6 +63,9 @@ OAUTH_SYNC_CID = set(
 
 OAUTH_SYNC_SQL = 'app_id in (%s)' % (','.join(map(str, OAUTH_SYNC_CID)))
 
+OAUTH_SYNC_TXT = "42区 , 这是一个神奇的网站 , 速来围观 !"
+
+
 class OauthToken(Model):
     pass
 
@@ -78,6 +92,18 @@ def oauth_token_by_oauth_id(oauth_id):
     s = OauthToken.raw_sql('select app_id, token_key, token_secret from oauth_token where id =%s', oauth_id).fetchone()
     return s
 
+mc_oauth_name_by_oauth_id = McCache("OauthNameByOauthId:%s")
+
+@mc_oauth_name_by_oauth_id("{oauth_id}") 
+def oauth_name_by_oauth_id(app_id, oauth_id):
+    table = OAUTH2TABLE[app_id]
+    cursor = cursor_by_table(table)
+    cursor.execute("select name from %s where id=%%s"%table, oauth_id)
+    r = cursor.fetchone()
+    if r:
+        return r[0]
+
+
 
 def oauth_rm_by_oauth_id(oauth_id):
     cursor = cursor_by_table('oauth_token')
@@ -91,19 +117,24 @@ def oauth_rm_by_oauth_id(oauth_id):
 
 
 def oauth_save(app_id, zsite_id, token_key, token_secret):
-    cursor = OauthToken.raw_sql('select id from oauth_token where zsite_id=%s and app_id=%s', zsite_id, app_id)
-    id = cursor.fetchone()
-    id = id and id[0]
 
-    if id:
-        OauthToken.raw_sql('update oauth_token set token_key=%s , token_secret=%s where id=%s', token_key, token_secret, id)
-    else:
-        id = OauthToken.raw_sql(
-            'insert into oauth_token (app_id,zsite_id,token_key,token_secret) values (%s,%s,%s,%s)',
-            app_id, zsite_id, token_key, token_secret
-        ).lastrowid
+
+    cursor = OauthToken.raw_sql(
+        'select id from oauth_token where zsite_id=%s and app_id=%s and token_key=%s and token_secret=%s', 
+        zsite_id, app_id, token_key, token_secret
+    )
+    r = cursor.fetchone()
+    if r:
+        oauth_rm_by_oauth_id(r[0])
+
+    id = OauthToken.raw_sql(
+        'insert into oauth_token (app_id,zsite_id,token_key,token_secret) values (%s,%s,%s,%s)',
+        app_id, zsite_id, token_key, token_secret
+    ).lastrowid
+
     if app_id in OAUTH_SYNC_CID:
         oauth_sync_sum.delete(zsite_id)
+    
     return id
 
 
@@ -142,9 +173,14 @@ def oauth_save_www163(zsite_id, token_key, token_secret, name, uid):
 
 def oauth_by_zsite_id(zsite_id):
     cursor = OauthToken.raw_sql(
-        'select app_id,id from oauth_token where zsite_id=%s', zsite_id
+        'select app_id,id from oauth_token where zsite_id=%s order by id desc', zsite_id
     )
-    return dict(cursor.fetchall())
+    return cursor.fetchall()
+
+def oauth_by_zsite_id_last(zsite_id):
+    r = oauth_by_zsite_id(zsite_id)
+    if r:
+        return r[0]
 
 def name_uid_get(id, table, url):
     cursor = OauthToken.raw_sql('select name,uid from %s where id=%%s'%table, id)
@@ -185,8 +221,9 @@ def oauth_name_link(app_id, id):
 
 
 if __name__ == '__main__':
-    oauth_save(OAUTH_BUZZ, 2, '2', '1')
-    print oauth_sync_sum('11')
+    oauth_by_zsite_id(10017321)
+    #oauth_save(OAUTH_BUZZ, 2, '2', '1')
+    #print oauth_sync_sum('11')
 
 #def oauth_url(
 #url, api_key, api_secret, access_token, access_token_secret, parameters={}, method="GET", data=None

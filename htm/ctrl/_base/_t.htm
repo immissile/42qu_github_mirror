@@ -7,6 +7,7 @@ from model.top_notice import top_notice_by_user_id
 % if current_user:
 <%
 top_notice = top_notice_by_user_id(current_user_id)
+current_user_link = current_user.link
 %>
 % if top_notice:
 <div id="T">${top_notice_view(top_notice)}</div>
@@ -18,15 +19,15 @@ state = current_user.state
 <div id="T">${verify_sended(current_user_id)}</div>
     %elif state == ZSITE_STATE_ACTIVE:
 <div id="T">\
-想要个性域名吗 ? <a id="i_verify" href="/i/verify">点此申请认证吧</a>\
+想要个性域名吗 ? <a id="i_verify" href="${current_user_link}/i/verify">点此申请认证吧</a>\
 </div>\
     %elif state == ZSITE_STATE_FAILED_VERIFY:
 <div id="T">\
-认证未通过 , 原因见邮件 。 修正资料以后 , <a href="/i/verify">点此重新认证</a>\
+认证未通过 , 原因见邮件 。 修正资料以后 , <a href="${current_user_link}/i/verify">点此重新认证</a>\
 </div>\
     %elif state == ZSITE_STATE_VERIFY and not url_by_id(current_user_id):
 <div id="T">\
-<a href="/i/url">点此设置个性域名</a> , 拥有我的网络门户\
+<a href="${current_user_link}/i/url">点此设置个性域名</a> , 拥有我的网络门户\
 </div>\
     %endif
 %endif

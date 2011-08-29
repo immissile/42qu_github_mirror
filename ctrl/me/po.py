@@ -59,7 +59,7 @@ def po_post(self):
     arguments = self.request.arguments
 
     if self.cid == CID_EVENT_FEEDBACK:
-        state = self.get_argument('good', None),
+        state = self.get_argument('good', None)
     else:
         secret = self.get_argument('secret', None)
         if secret:
@@ -129,7 +129,7 @@ class PoQuestion(PoBase):
 class Edit(LoginBase):
     def _po(self, user_id, id):
         self.po = po = Po.mc_get(id)
-        
+
         if po:
             if po.can_admin(user_id):
                 cid = po.cid
@@ -183,7 +183,7 @@ class Edit(LoginBase):
                 po.save()
             if txt:
                 po.txt_set(txt)
-         
+
 
 
         if cid in (CID_NOTE,CID_QUESTION,CID_ANSWER):
@@ -201,7 +201,7 @@ class Edit(LoginBase):
         po = self._po(user_id, id)
         if po is None:
             return
-        
+
         cid = po.cid
         self.po_post()
 
@@ -214,7 +214,7 @@ class Edit(LoginBase):
             link = "/%s#po%s"%(po.rid,po.id)
         else:
             if cid == CID_WORD:
-                link = po.link_question
+                link = po.link_target
             elif po.state == STATE_SECRET:
                 link = po.link
             else:
@@ -265,6 +265,6 @@ class Tag(LoginBase):
             else:
                 zsite_tag_new_by_tag_name(po, name)
 
-            self.redirect(po.link_question)
+            self.redirect(po.link_target)
 
 

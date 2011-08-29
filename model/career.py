@@ -133,8 +133,9 @@ def career_list(user_id, cid):
     return [i.value_list for i in li]
 
 def career_list_all(user_id):
-    li = Career.where(user_id=user_id)
-    li = list(li)
+    id_list = career_id_list(user_id, CID_JOB)
+    id_list.extend(career_id_list(user_id, CID_EDU))
+    li = Career.mc_get_list(id_list)
     li.sort(reverse=True)
     return li
 

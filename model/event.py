@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
-from time import time
+from time import time, sleep
 from zkit.attrcache import attrcache
 from money import read_cent, pay_event_get, trade_fail, trade_finish
 from zsite import Zsite
@@ -22,6 +22,8 @@ from user_mail import mail_by_user_id
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 mc_event_id_list_by_city_pid_cid = McLimitA('EventIdListByCityPidCid.%s', 128)
 mc_event_cid_count_by_city_pid = McCacheA('EventCidCountByCityPid.%s')
+mc_event_end_id_list_by_city_pid = McLimitA('EventEndIdListByCityPid.%s', 128)
+mc_event_all_id_list = McLimitA('EventAllIdList.%s', 128)
 
 def event_by_city_pid_cid_query(city_pid, cid=0):
     qs = Event.where(city_pid=city_pid)
@@ -31,7 +33,15 @@ def event_by_city_pid_cid_query(city_pid, cid=0):
 
 event_count_by_city_pid_cid = McNum(
     lambda city_pid, cid: event_by_city_pid_cid_query(city_pid, cid).count(),
-    'EventCountByCityPidCid:%s:'
+    'EventCountByCityPidCid.%s'
+)
+
+def event_end_by_city_pid_query(city_pid):
+    return Event.where(state=EVENT_STATE_END, city_pid=city_pid)
+
+event_end_count_by_city_pid = McNum(
+    lambda city_pid: event_end_by_city_pid_query(city_pid).count(),
+    'EventEndCountByCityPid.%s'
 )
 
 mc_event_joiner_feedback_normal_id_list = McCacheA('EventJoinerReveiwIdList:%s')
@@ -255,6 +265,15 @@ class Event(McModel):
         return '%s/%s' % (o.link, self.id)
 
 
+@mc_event_all_id_list('')
+def event_all_id_list(limit, offset):
+    return Event.where('state>=%s', EVENT_STATE_BEGIN).order_by('id desc').col_list(limit, offset)
+
+def event_all_list(limit, offset):
+    id_list = event_all_id_list(limit, offset)
+    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
+
+
 @mc_event_id_list_by_zsite_id('{zsite_id}_{can_admin}')
 def event_id_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     return Event.where(zsite_id=zsite_id).where('state between %s and %s', EVENT_STATE_REJECT, EVENT_VIEW_STATE_GET[can_admin]).order_by('id desc').col_list(limit, offset)
@@ -264,13 +283,21 @@ def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 
-
 @mc_event_id_list_by_city_pid_cid('{city_pid}_{cid}')
 def event_id_list_by_city_pid_cid(city_pid, cid, limit=10, offset=0):
     return event_by_city_pid_cid_query(city_pid, cid).order_by('end_time').col_list(limit, offset)
 
 def event_list_by_city_pid_cid(city_pid, cid, limit=10, offset=0):
     id_list = event_id_list_by_city_pid_cid(city_pid, cid, limit, offset)
+    return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
+
+
+@mc_event_end_id_list_by_city_pid('{city_pid}')
+def event_end_id_list_by_city_pid(city_pid, limit, offset):
+    return event_end_by_city_pid_query(city_pid).order_by('end_time desc').col_list(limit, offset)
+
+def event_end_list_by_city_pid(city_pid, limit, offset):
+    id_list = event_end_id_list_by_city_pid(city_pid, limit, offset)
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 
@@ -413,9 +440,8 @@ def event_joiner_no(o, txt=''):
     if o.state in (EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
         if event.cent:
             t = pay_event_get(event, user_id)
-            if not t:
-                return
-            trade_fail(t)
+            if t:
+                trade_fail(t)
         o.state = EVENT_JOIN_STATE_NO
         o.save()
         if zsite_id != user_id:
@@ -433,10 +459,6 @@ def event_joiner_yes(o):
     event = o.event
     zsite_id = event.zsite_id
     if o.state == EVENT_JOIN_STATE_NEW:
-        if event.cent:
-            t = pay_event_get(o.event, user_id)
-            if not t:
-                return
         o.state = EVENT_JOIN_STATE_YES
         o.save()
         notice_event_join_yes(zsite_id, user_id, event_id)
@@ -452,7 +474,7 @@ def event_ready(event):
     po = event.po
     link = 'http:%s' % po.link
     title = po.name
-    user_id_list = event_joiner_user_id_list(event_id)
+    user_id_list = event_joiner_user_id_list(event.id)
     user_id_list.append(event.zsite_id)
     for user_id in user_id_list:
         rendermail(
@@ -463,6 +485,7 @@ def event_ready(event):
             title=title,
             join_count=join_count,
         )
+        sleep(0.1)
 
 
 def mc_flush_by_user_id(user_id):
@@ -474,31 +497,10 @@ def mc_flush_by_city_pid_cid(city_pid, cid):
         mc_event_id_list_by_city_pid_cid.delete('%s_%s'%(city_pid, _cid))
         event_count_by_city_pid_cid.delete(city_pid, _cid)
     mc_event_cid_count_by_city_pid.delete(city_pid)
+    mc_event_end_id_list_by_city_pid.delete(city_pid)
+    event_end_count_by_city_pid.delete(city_pid)
+    mc_event_all_id_list.delete('')
 
-def event_joiner_end(o):
-    event_id = o.event_id
-    user_id = o.user_id
-    event = o.event
-    if o.state == EVENT_JOIN_STATE_YES:
-        if event.cent:
-            t = pay_event_get(o.event, user_id)
-            if not t:
-                return
-        o.state = EVENT_JOIN_STATE_END
-        o.save()
-
-def event_join_review(o):
-    event_id = o.event_id
-    user_id = o.user_id
-    event = o.event
-    if o.state == EVENT_JOIN_STATE_END:
-        if event.cent:
-            t = pay_event_get(o.event, user_id)
-            if not t:
-                return
-            trade_finish(t)
-        o.state = EVENT_JOIN_STATE_FEEDBACK_NORMAL
-        o.save()
 
 def event_init2to_review(id):
     event = Event.mc_get(id)
@@ -621,6 +623,38 @@ def event_end(event):
         event.save()
         mc_flush_by_city_pid_cid(event.city_pid, event.cid)
         event_end_mail(event)
+        for i in EventJoiner.where(event_id=event.id).where('state in (%s, %s)', EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
+            i.state = EVENT_JOIN_STATE_END
+            i.save()
+
+
+def event_pay(event):
+    owner = event.zsite
+    owner_id = event.zsite_id
+    cent = event.cent
+    if event.state == EVENT_STATE_END and cent:
+        pay_count = 0
+        for i in EventJoiner.where(event_id=event.id).where('state>=%s', EVENT_JOIN_STATE_YES):
+            user_id = i.user_id
+            if user_id != owner_id:
+                t = pay_event_get(event, user_id)
+                if t:
+                    trade_finish(t)
+                    pay_count += 1
+        if pay_count:
+            pay_money = read_cent(cent * pay_count)
+            po = event.po
+            rendermail(
+                '/mail/event/event_end_draw.txt',
+                mail_by_user_id(owner_id),
+                owner.name,
+                join_count=event.join_count,
+                pay_count=pay_count,
+                pay_money=pay_money,
+                title=po.name,
+                link=po.link,
+            )
+
 
 def event_end_mail(event):
     event_id = event.id
@@ -637,6 +671,7 @@ def event_end_mail(event):
         price=event.price,
         feedback_link='/event/feedback/%s' % event_id
     )
+    sleep(0.1)
 
     for user_id in event_joiner_user_id_list(event_id):
         if user_id != owner_id:
@@ -650,6 +685,7 @@ def event_end_mail(event):
                 user_link=user.link,
                 feedback_link='/event/feedback/%s' % event_id
             )
+            sleep(0.1)
 
 
 def event_review_join_apply(event_id):
@@ -676,6 +712,7 @@ def event_review_join_apply(event_id):
                 title=event.po.name,
                 event_join_apply_list=' , '.join(event_joiner_list)
             )
+            sleep(0.1)
 
 @mc_event_cid_count_by_city_pid('{city_pid}')
 def event_cid_count_by_city_pid(city_pid):
@@ -687,4 +724,7 @@ def event_cid_name_count_by_city_pid(city_pid):
 
 
 if __name__ == '__main__':
+    #event_id = 10069907
+    #for user_id in (10009225,10000566):
+    #    event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_YES)
     pass

@@ -31,13 +31,11 @@ margin-right:-16px;
 %for i in PLACE_CITY_L1:
 <div class="divbk">${place_name(i)}</div>
 <div class="divbk2">
-            %for p in PLACE_L1L2.get(i):
+    %for p in PLACE_L1L2.get(i):
 <%
 name = PID2NAME[p].rstrip(u"市")
 %>\
 <a href="/${p}">${name|n}</a>\
-            %endfor
+    %endfor
 </div>
 %endfor
-
-

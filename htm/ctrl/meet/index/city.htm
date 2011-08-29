@@ -5,11 +5,8 @@
 
 <%
 from zkit.earth import place_name
-from model.event import event_count_by_city_pid_cid, event_cid_name_count_by_city_pid 
+from model.event import event_count_by_city_pid_cid, event_cid_name_count_by_city_pid, event_end_count_by_city_pid, EVENT_STATE_END
 %>
-<%def name="htm_head()">
-${css.meet|n}
-</%def>
 
 <h1>
 <span class="L">${place_name(pid)}</span>
@@ -35,6 +32,18 @@ ${css.meet|n}
         </a>
         %endif
     %endfor
+<%
+event_end_count = event_end_count_by_city_pid(pid)
+%>
+% if event_end_count:
+<a href="/${pid}/ago"
+    % if state == EVENT_STATE_END:
+    class="now"
+    % endif
+    >
+    <span>往期</span>
+    ${event_end_count}
+% endif
     </div>
 </div>
 <div class="G3">

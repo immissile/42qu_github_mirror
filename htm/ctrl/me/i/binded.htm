@@ -1,0 +1,50 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%!
+from model.oauth import OAUTH2NAME_DICT
+%>
+
+<%def name="head()">
+<style>
+.sync{font-size:16px;margin-top:16px}
+.sync .ck{
+margin-right:6px
+}
+.txt{
+border:1px solid #ccc;
+height:100px;
+width:462px;
+padding:0 3px;
+font-size:16px;
+margin:6px 0;
+}
+.to{
+margin:0 8px;
+}
+.mb16{
+margin-bottom:16px;
+}
+.binded{
+vertical-align: 11px; margin-left: 338px;
+}
+</style>
+</%def>
+<%htm:form method="POST">
+<div class="sync">
+<div class="mb16">
+<span>${OAUTH2NAME_DICT[int(cid)]}</span>
+</div>
+<div><input class="ck" type="checkbox" name="fstate" checked id="fstate"><label for="fstate">关注我们</label></div>
+<div><input class="ck" type="checkbox" name="tstate" checked id="tstate"><label for="tstate">介绍这里</label></div>
+<textarea id="weibo" name="weibo" class="txt">${txt}</textarea>
+<div>
+<span class="btnw"><button type="submit">继续</button></span>
+
+<a href="/i/bind" class="binded">返回</a>
+</div>
+</div>
+<script>
+$("#weibo").focus().select()
+</script>
+</%htm:form>

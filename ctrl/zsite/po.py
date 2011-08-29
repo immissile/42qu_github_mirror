@@ -6,7 +6,7 @@ from model.po_prev_next import po_prev_next
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN
 from model.po_question import po_answer_new
-from model.po_pos import po_pos_get, po_pos_set
+from model.po_pos import po_pos_get, po_pos_set, po_pos_state, STATE_BUZZ
 from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
@@ -72,7 +72,7 @@ class PoPage(ZsiteBase):
         if cid == CID_WORD:
             rid_po_list = [i for i in po_list if i.rid]
             Po.mc_bind(rid_po_list, 'question', 'rid')
-            Zsite.mc_bind([i.question for i in rid_po_list], 'user', 'user_id')
+            Zsite.mc_bind([i.target for i in rid_po_list], 'user', 'user_id')
 
         if zsite_id == user_id:
             back_a = '/live'
@@ -244,6 +244,7 @@ class PoOne(ZsiteBase):
         cid = po.cid
         if cid != CID_QUESTION:
             po_pos_set(user_id, po)
+            po_pos_state(user_id, po.id, STATE_BUZZ)
 
     def get(self, id):
         po = self.po(id)
@@ -303,6 +304,7 @@ class Question(PoOne):
         po = self._po
         user_id = self.current_user_id
         po_pos_set(user_id, po)
+        po_pos_state(user_id, po.id, STATE_BUZZ)
 
     def post(self, id):
         question = self.po(id)

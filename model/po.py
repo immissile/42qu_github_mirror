@@ -39,7 +39,7 @@ class Po(McModel, ReplyMixin):
     @property
     def txt(self):
         cid = self.cid
-        if cid in (CID_WORD ,CID_EVENT_NOTICE):
+        if cid in (CID_WORD, CID_EVENT_NOTICE):
             return self.name_
         elif cid == CID_ANSWER:
             return txt_get(self.id) or self.name_
@@ -86,31 +86,32 @@ class Po(McModel, ReplyMixin):
         return Zsite.mc_get(self.user_id)
 
     @attrcache
-    def question(self):
-        return Po.mc_get(self.rid)
+    def target(self):
+        if self.cid in (CID_WORD, CID_ANSWER, CID_EVENT_FEEDBACK):
+            return Po.mc_get(self.rid)
+
+    question = target
 
     @attrcache
     def name(self):
         cid = self.cid
+        q = self.target
+        if q:
+            if cid == CID_EVENT_FEEDBACK:
+                if q.user_id == self.user_id:
+                    name = '总结 : %s'
+                else:
+                    name = '评价 : %s'
+                return name % q.name
 
-        if cid == CID_EVENT_FEEDBACK:
-            q = self.question
-            if q.user_id == self.user_id:
-                name = '总结 : %s'
-            else:
-                name = '评价 : %s'
-            return name%self.name_
-
-        if cid != CID_EVENT_NOTICE:
-            q = self.question
-            if q:
+            if cid != CID_EVENT_NOTICE:
                 return '答 : %s' % q.name
 
         return self.name_
 
     @attrcache
     def name_with_user(self):
-        q = self.question
+        q = self.target
         if q:
             u = self.user
             return '%s 答 : %s' % (u.name, q.name)
@@ -118,7 +119,7 @@ class Po(McModel, ReplyMixin):
 
     @attrcache
     def name_htm(self):
-        q = self.question
+        q = self.target
         cid = self.cid
 
         if cid == CID_EVENT_NOTICE:
@@ -155,8 +156,8 @@ class Po(McModel, ReplyMixin):
             return '%s/%s' % (u.link, self.id)
 
     @attrcache
-    def link_question(self):
-        q = self.question
+    def link_target(self):
+        q = self.target
         if q:
             return '%s#reply%s' % (q.link, self.id)
         return self.link
@@ -224,6 +225,7 @@ def po_new(cid, user_id, name, state, rid=0, id=None):
     return m
 
 def po_state_set(po, state):
+    from buzz import mq_buzz_po_rm
     old_state = po.state
     if old_state == state:
         return
@@ -234,6 +236,7 @@ def po_state_set(po, state):
     if old_state > STATE_SECRET and state == STATE_SECRET:
         feed_rm(id)
         po.tag_rm()
+        mq_buzz_po_rm(id)
     elif old_state <= STATE_SECRET and state >= STATE_ACTIVE:
         po.feed_new()
         po.tag_new()
@@ -285,6 +288,8 @@ def _po_rm(user_id, po):
         mc_answer_id_get.delete('%s_%s' % (user_id, rid))
         answer_count.delete(rid)
     mc_flush(user_id, po.cid)
+    from buzz import mq_buzz_po_rm
+    mq_buzz_po_rm(id)
     return True
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
@@ -362,4 +367,4 @@ def mc_flush_cid_list_all(user_id, cid_list):
 
 if __name__ == '__main__':
     po = Po.mc_get(10066676)
-    print po.name
+    #print po.name

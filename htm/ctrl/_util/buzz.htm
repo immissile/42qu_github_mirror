@@ -4,6 +4,7 @@ from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 from zkit.txt import cnenoverflow
 from model.po_event import event_feedback_id_get
+from model.po import Po
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career, po_link"/>
 
@@ -57,13 +58,18 @@ from_id = from_user.id
 % endif
 留言, <a href="${e_to.link}${entry.link}" target="_blank">点此浏览</a>
 % elif cid == CID_BUZZ_PO_REPLY:
-${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${entry.id}">\
+<%
+po_id = entry.rid
+po = Po.mc_get(po_id)
+%>
+${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${po_id}">\
     % if entry.cid in (CID_WORD , CID_EVENT_NOTICE):
-${cnenoverflow(entry.name,30)[0]}\
+${cnenoverflow(po.name,30)[0]}\
     % else:
-${entry.name_with_user}\
+${po.name_with_user}\
     % endif
-</a>
+</a> :
+<span class="buzz_txt">${cnenoverflow(entry.txt, 30)[0]}<a class="buzz_reply" href="/po/${po_id}" target="_blank"></a></span>
 % elif cid == CID_BUZZ_ANSWER:
 ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}#replyer${from_list[0].id}">${entry.name}</a>\
 % elif cid == CID_BUZZ_JOIN:
