@@ -1,0 +1,7 @@
+<%inherit file="/god/_base.htm" />
+<a href="${site.link}">${site.name}</a>
+% if site.state >= ZSITE_STATE_APPLY:
+<a href="/site/rm/${site.id}">解散</a>
+% else:
+已解散
+% endif

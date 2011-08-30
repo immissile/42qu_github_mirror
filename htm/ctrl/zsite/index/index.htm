@@ -87,8 +87,8 @@ zsite_list = zsite_list_by_admin_id(current_user_id)
 %>
 % if zsite_list:
 管理的小站
-% for zsite in zsite_list:
-<a href="${zsite.link}">${zsite.name}</a>
+% for i in zsite_list:
+<a href="${i.link}">${i.name}</a>
 % endfor
 % endif
 

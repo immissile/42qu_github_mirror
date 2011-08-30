@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import urllib
 from _handler import Base
 from _urlmap import urlmap
 from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, zsite_verify_no_without_notify, zsite_name_rm, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY
@@ -11,7 +10,7 @@ from model.mail import sendmail
 from model.cid import CID_ZSITE
 from zkit.page import page_limit_offset
 
-from model.pic import pic_no 
+from model.pic import pic_no
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail

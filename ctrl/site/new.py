@@ -28,7 +28,7 @@ class SiteNew(LoginBase):
         elif len(name) > 9:
             errtip.name = '最长9个字'
         else:
-            site = zsite_new_site(name, admin_id)
+            site = zsite_new_site(name, current_user_id)
         self.render(
             errtip=errtip,
             site=site,

@@ -1,0 +1,25 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%!
+from model.zsite import Zsite
+from model.zsite_admin import admin_id_list_by_zsite_id
+%>
+
+<%def name="htm_title()">
+${zsite.name}
+%if motto:
+ - ${motto}
+%endif
+</%def>
+
+<%
+admin_id_list = admin_id_list_by_zsite_id(zsite_id)
+admin_list = Zsite.mc_get_list(admin_id_list)
+can_admin = current_user_id in admin_id_list
+%>
+% if can_admin:
+<a href="/rm">解散</a>
+% endif
+
+% for i in admin_list:
+<a href="${i.link}">${i.name}</a>
+% endfor
