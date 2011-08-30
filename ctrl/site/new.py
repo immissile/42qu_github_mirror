@@ -4,8 +4,7 @@ from ctrl._urlmap.site import urlmap
 from zkit.jsdict import JsDict
 from zkit.page import page_limit_offset
 from zkit.errtip import Errtip
-from model.zsite import zsite_new, ZSITE_STATE_APPLY, ZSITE_STATE_VERIFY
-from model.cid import CID_SITE
+from model.zsite import zsite_new_site, ZSITE_STATE_VERIFY
 
 
 @urlmap('/new')
@@ -29,7 +28,7 @@ class SiteNew(LoginBase):
         elif len(name) > 9:
             errtip.name = '最长9个字'
         else:
-            site = zsite_new(name, CID_SITE, ZSITE_STATE_APPLY)
+            site = zsite_new_site(name, admin_id)
         self.render(
             errtip=errtip,
             site=site,
