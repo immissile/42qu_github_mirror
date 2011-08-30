@@ -81,16 +81,6 @@ ${tag_list_audio(po_audio_count, po_audio_list, is_owner)}
 </div>
 % endif
 
-<%
-from model.zsite_admin import zsite_list_by_admin_id
-zsite_list = zsite_list_by_admin_id(current_user_id)
-%>
-% if zsite_list:
-管理的小站
-% for i in zsite_list:
-<a href="${i.link}">${i.name}</a>
-% endfor
-% endif
 
 <div class="zsite_block zsite_follow">\
 
