@@ -161,8 +161,10 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
     })
     .addClass(po_word_txt_bg)
     ;
-
-    txt_maxlen(po_word_txt,  $("#po_word_tip"), $("#po_word_form"), 142)
+    
+    $("#po_word_form").submit(
+        txt_maxlen(po_word_txt,  $("#po_word_tip"), 142)
+    )
 
     /* 显示全部 */
     fdtxt = function(e,id){

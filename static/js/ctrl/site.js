@@ -1,6 +1,10 @@
 $(function(){
 
-var po_word="po_word", tip='今天 , 你想说什么 ?', po_submit=$('<div class="po_word_submit"><a href="javascript:void(0)" class="po_word_close"></a><span class="po_word_tip"></span><a href="javascript:void(0)" class="po_word_submit_a">发布</a></div>'), word=$("#"+po_word).val(tip).blur().focus(function(){
+var po_word="po_word", tip='今天 , 你想说什么 ?', 
+    po_submit=$(
+        '<div class="po_word_submit"><a href="javascript:void(0)" class="po_word_close"></a><span class="po_word_tip"></span><a href="javascript:void(0)" class="po_word_submit_a">发布</a></div>'
+    ),
+    word=$("#"+po_word).val(tip).blur().focus(function(){
     if(!$.cookie.get('S')){
         login();
         return
@@ -15,25 +19,25 @@ var po_word="po_word", tip='今天 , 你想说什么 ?', po_submit=$('<div class
         word.removeClass(po_word).val(tip)
         po_submit.hide()
     }
-}).after(po_submit)
+}).after(po_submit), can_post=txt_maxlen(
+    word, po_submit.find('.po_word_tip'), 
+    142
+);
 
 po_submit.find('.po_word_submit_a').click(function(){
     var v=word.val();
     $.fancybox.showActivity()
-    if(v.length){
+    if(v.length&&can_post()){
         $.post("/po/word",function(){
             location.reload()
         })
     } 
 })
+
 po_submit.find('.po_word_close').click(function(){
     word.val('').blur()
 })
 
-txt_maxlen(
-    word, po_submit.find('.po_word_tip'), 
-    form, 142
-)
 
 })
 /*
