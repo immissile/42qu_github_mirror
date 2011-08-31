@@ -64,9 +64,9 @@ color:#a10;
 position:absolute;
 right:0;
 z-index:1; 
-height: 125px;
+height: 140px;
 text-align:left;
-width: 358px;
+width: 458px;
 color:#000;
 padding:3px 7px;
 background:#fff;
@@ -74,13 +74,13 @@ background:#fff;
 .po_word_submit{
 position: absolute;
 right:0;
-margin-top:89px;
+margin-top:105px;
 display:none;
 text-align:left;
 border:1px dotted #ccc;
 border-top:0;
 z-index:2;
-width:372px;
+width:472px;
 background:#fff;
 }
 .po_word_tip{
