@@ -41,6 +41,7 @@ font-size:16px;
 padding:8px;
 border:1px solid #ccc;
 text-align:center;
+width:96px;
 }
 </style>
 </%def>
@@ -56,12 +57,12 @@ ${errtip.name|n}
 ${errtip.url|n}
 </div>
 <div>
-站点类型<select class="sitetype">
+浏览权限<select class="sitetype" name="sitetype">
 <option>公开</option>
 <option>私密</option>
 </select>
+<span style="color:#a10;margin-left:16px">注意 : 类型无法修改</span>
 </div>
-
 
 <span class="btnw"><button type="submit">确定</button></span>
 </%htm:form>
