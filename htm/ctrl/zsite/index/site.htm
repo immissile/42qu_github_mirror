@@ -14,6 +14,41 @@ ${zsite.name}
 ${css.ctrl_site|n}
 </%def>
 
+<%def name="span_opt()">
+<span style="float:right;;color: rgb(153, 153, 153); vertical-align: 0px;"><a style="color: rgb(153, 153, 153); margin-right: 14px;" href="#">3 评论</a>-<a style="color: rgb(153, 153, 153); margin: 0pt 14px;" href="#">分享</a>-<a href="#" style="margin: 0pt 14px; background: url(&quot;http://s4.42qu.us/img/gif/icons/gif/black/to_size/check.gif&quot;) no-repeat scroll 100% 5px transparent; color: rgb(0, 0, 0); padding-right: 17px;">收藏</a></span>
+</%def>
+
+
+
+
+<%def name="render_item()">
+<div class="item">
+<a href="#" style="color:#999">萝卜青菜，各有所爱</a>
+<div class="item_sign">\
+<a href="#" class="item_sign_name">张沈鹏 , 42qu.com 程序员</a>\
+${span_opt()}\
+</div>\
+</div>
+
+<div class="item">
+<a href="#" >萝卜青菜，各有所爱</a>
+<div class="item_sign">\
+<a href="#" class="item_sign_name">张沈鹏 , 42qu.com 程序员</a>\
+${span_opt()}\
+</div>\
+</div>
+
+<div class="item">
+<a href="#" class="cidword">萝卜青菜，各有所爱。可有些人的口味就是难伺候&mdash;&mdash;为什么有的人会挑食？是每个人都有自己特别的口味，还是说挑食只是个别人的毛病？美国康奈尔大学营养与心理学教授李维斯基（David A. Levitsky）医生表示，个人的味蕾感觉不同，会对口味造成一些影响。人感知苦味的</a>
+
+<div class="item_sign">\
+<a href="#" class="item_sign_name">张沈鹏 , 42qu.com 程序员</a>\
+${span_opt()}\
+</div>\
+</div>
+</%def>
+
+
 
 <%
 admin_id_list = admin_id_list_by_zsite_id(zsite_id)
@@ -32,13 +67,37 @@ ${zsite.name}\
 <div class="G">
 
 <div class="G3">
-<div style="border-bottom: 1px dotted rgb(204, 204, 204); margin-bottom: 32px; padding-bottom:16px; margin-top:16px; text-align:center;"><a href="http://meet.42qu.com/4295032832/ago">
-</a>
-<span style=" color: rgb(153, 153, 153);">热度<span style="margin: 0pt 14px; color: rgb(153, 153, 153);">-</span><span style="color: rgb(0, 0, 0);">时间</span><span style="margin: 0pt 14px; color: rgb(153, 153, 153);">-</span><span style="">精华</span></span>
+<div class="sortby">
+
+<a href="#" class="sort">热度</a>\
+<span class="split">-</span>\
+<a href="#" class="sort">时间</a>\
+<span class="split">-</span>\
+<a href="#" class="sort now">回帖</a>\
+<span class="split">-</span>\
+<a href="#" class="sort">精华</a>\
+
+
 </div>
+
+${render_item()}
+
+
 </div>
 
 <div>
+</div>
+<div class="G1">
+<div class="sidebar">
+<a href="http://meet.42qu.com/4295032832" class="now">4<span>全部</span></a>
+<a href="http://meet.42qu.com/4295032832" class="now">4<span>碎语</span></a>
+<a href="http://meet.42qu.com/4295032832" class="now">4<span>图片</span></a>
+<a href="http://meet.42qu.com/4295032832" class="now">4<span>问题</span></a>
+<a href="http://meet.42qu.com/4295032832" class="now">4<span>文章</span></a>
+<a href="http://meet.42qu.com/4295032832" class="now">4<span>音乐</span></a>
+<a href="http://meet.42qu.com/4295032832" class="now">4<span>视频</span></a>
+<a href="http://meet.42qu.com/4295032832" class="now">4<span>活动</span></a>
+</div>
 </div>
 
 </div>

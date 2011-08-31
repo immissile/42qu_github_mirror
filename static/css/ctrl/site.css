@@ -15,3 +15,51 @@ font-size: 14px;
 float:right;
 margin-top: -15px;
 }
+.sidebar a{
+border-bottom:1px dotted #ccc;
+display:block;
+color:#999;
+text-align:right;
+padding:8px 0;
+}
+.sidebar a span{
+float:left
+}
+.item{
+border-bottom: 1px dotted #ccc;
+margin-bottom: 32px;
+padding-bottom: 16px;
+margin-top:16px;
+}
+.cidword{
+color:#000;
+}
+.item_sign{
+text-align:left;
+color:#000;
+margin-top: 10px;
+}
+.item_sign_name{
+color:#000; 
+}
+.sortby{
+border-bottom: 1px dotted #ccc;
+padding-bottom:8px; margin-top:8px; text-align:center;
+}
+.sortby .sort{
+color:#999
+}
+.sortby .split{
+margin:0 14px;
+color:#999;
+}
+.sortby .now{
+color:#000
+}
+.sortby .sort:hover{
+color:#a10;
+}
+
+
+
+
