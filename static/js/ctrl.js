@@ -192,9 +192,9 @@ function txt_maxlen(txt, tip, form, maxlen) {
 		if (len) {
 			diff = len - maxlen;
 			if (diff > 0) {
-				html = '<span style="color:red">超出<span>' + diff + "</span>字</span>"
+				html = '<span style="color:red">超出<span class="m03">' + diff + "</span>字</span>"
 			} else {
-				html = '<span style="color:#999"><span>' + len + "</span>字</span>"
+				html = '<span style="color:#999"><span class="mr3">' + len + "</span>字</span>"
 				//为了ie6 多加一层span
 			}
 		} else {

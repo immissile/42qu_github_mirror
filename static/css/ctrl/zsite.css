@@ -122,9 +122,6 @@ color:#000;
 .zsite_ol a:hover , .zsite_ico a:hover{
 text-decoration:underline
 }
-.mr3{
-margin-right:3px;
-}
 .num_normal{
 color:#666;
 }
@@ -222,4 +219,10 @@ margin-left:21px;
 .fdtxt{
 margin-bottom:10px;
 margin-top:-6px;
+}
+.m03{
+margin:0 3px;
+}
+.mr3{
+margin-right:3px;
 }
