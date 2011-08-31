@@ -53,19 +53,20 @@ class PoPage(ZsiteBase):
         zsite_id = self.zsite_id
         user_id = self.current_user_id
         cid = self.cid
+        page_template = self.page_template
         is_self = zsite_id == user_id
         total = po_list_count(zsite_id, cid, is_self)
         n = int(n)
 
         page, limit, offset = page_limit_offset(
-            self.page_template,
+            page_template,
             total,
             n,
             PAGE_LIMIT
         )
 
         if n != 1 and offset >= total:
-            return self.redirect(self.page_template[:-3])
+            return self.redirect(page_template[:-3])
 
         po_list = po_view_list(zsite_id, cid, is_self, limit, offset)
 

@@ -1,0 +1,24 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo, tag_list_video, tag_list_audio, tag_list_event"/>
+<%!
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT
+from model.fav import fav_po_list_by_user_id_cid, fav_po_count_by_user_id_cid
+from model.po import PO_CN_EN, PO_EN
+%>
+
+<%
+_DICT = vars()['_import_ns']
+FUNC_DICT = {}
+for cid, en in PO_EN.iteritems():
+    FUNC_DICT[cid] = _DICT['tag_list_%s' % en]
+%>
+
+% for i in PO_CN_EN:
+<%
+cid = i[0]
+po_list = fav_po_list_by_user_id_cid(zsite_id, cid, 1)
+po_count = fav_po_count_by_user_id_cid(zsite_id, cid)
+func = FUNC_DICT[cid]
+%>
+${func(po_count, po_list)}
+% endfor

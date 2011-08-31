@@ -237,6 +237,8 @@ def po_state_set(po, state):
         feed_rm(id)
         po.tag_rm()
         mq_buzz_po_rm(id)
+        from fav import fav_rm_by_po
+        fav_rm_by_po(po)
     elif old_state <= STATE_SECRET and state >= STATE_ACTIVE:
         po.feed_new()
         po.tag_new()
@@ -290,8 +292,8 @@ def _po_rm(user_id, po):
     mc_flush(user_id, po.cid)
     from buzz import mq_buzz_po_rm
     mq_buzz_po_rm(id)
-    from fav import fav_rm_by_po_id
-    fav_rm_by_po_id(id, cid)
+    from fav import fav_rm_by_po
+    fav_rm_by_po(po)
     return True
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):

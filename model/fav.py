@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from po import Po
+from event import Event
+from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from cid import CID_EVENT
 
 class Fav(Model):
     pass
@@ -29,7 +32,7 @@ def fav_cid_dict(user_id, po_id_list):
 
 def fav_add(user_id, po_id):
     po = Po.mc_get(po_id)
-    if po and not fav_cid(user_id, po_id):
+    if po and po.state >= STATE_ACTIVE and not fav_cid(user_id, po_id):
         cid = po.cid
         Fav(user_id=user_id, po_id=po_id, cid=cid).save()
         mc_fav_cid.set('%s_%s' % (user_id, po_id), cid)
@@ -41,7 +44,9 @@ def fav_rm(user_id, po_id):
         mc_fav_cid.set('%s_%s' % (user_id, po_id), 0)
         mc_fav_po_id_list_by_user_id_cid.delete('%s_%s' % (user_id, cid))
 
-def fav_rm_by_po_id(po_id, cid):
+def fav_rm_by_po(po):
+    po_id = po.id
+    cid = po.cid
     for i in Fav.where(po_id=po_id):
         i.delete()
         user_id = i.user_id
@@ -50,13 +55,17 @@ def fav_rm_by_po_id(po_id, cid):
 
 mc_fav_po_id_list_by_user_id_cid = McLimitA('FavPoIdListByUserIdCid.%s', 128)
 
+fav_po_count_by_user_id_cid = McNum(lambda user_id, cid: Fav.where(user_id=user_id, cid=cid).count(), 'FavPoCountByUserIdCid.%s')
+
 @mc_fav_po_id_list_by_user_id_cid('{user_id}_{cid}')
 def fav_po_id_list_by_user_id_cid(user_id, cid, limit, offset):
-    return Fav.where(user_id=user_id, cid=cid).order_by('id desc').col_list(limit, offset)
+    return Fav.where(user_id=user_id, cid=cid).order_by('id desc').col_list(limit, offset, 'po_id')
 
-def fav_po_list_by_user_id_cid(user_id, cid, limit, offset):
+def fav_po_list_by_user_id_cid(user_id, cid, limit, offset=0):
     id_list = fav_po_id_list_by_user_id_cid(user_id, cid, limit, offset)
+    if cid == CID_EVENT:
+        return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
     return Po.mc_get_list(id_list)
 
 if __name__ == '__main__':
-    print fav_cid_dict(10000212, [1,3,4])
+    fav_add(10000212, 10071341)
