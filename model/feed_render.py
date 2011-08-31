@@ -7,15 +7,16 @@ from operator import itemgetter
 from po import Po
 from po_question import answer_count
 from follow import follow_id_list_by_from_id
-from model.vote import vote_count
+from vote import vote_count
 from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm
 from zkit.earth import place_name
 from zsite import Zsite
 from zkit.txt import cnenoverflow
-from model.txt2htm import txt_withlink
+from txt2htm import txt_withlink
 from fs import fs_url_jpg, fs_url_audio
-from model.days import begin_end_by_minute
-from model.event import Event
+from days import begin_end_by_minute
+from event import Event
+from fav import fav_cid_dict
 
 
 FEED_TUPLE_DEFAULT_LEN = 11
@@ -116,35 +117,28 @@ def dump_zsite(zsite):
         return (zsite.name, zsite.link)
     return (0, 0)
 
-def render_feed_list(id_list, rt_dict):
+
+def render_feed_list(id_list, rt_dict, zsite_id):
     zsite_id_list = []
 
     for i in rt_dict.itervalues():
         zsite_id_list.extend(i)
 
-    for id, i in zip(id_list, feed_tuple_list(id_list)):
-        zsite_id = i[0]
-        zsite_id_list.append(zsite_id)
-
-        rt_id_list = rt_dict[id]
-        zsite_id_list.extend(rt_id_list)
-
     zsite_dict = Zsite.mc_get_dict(filter(bool, zsite_id_list))
+    fav_dict = fav_cid_dict(zsite_id, id_list)
     r = []
     for id, i in zip(id_list, feed_tuple_list(id_list)):
-        zsite_id = i[0]
-        zsite = zsite_dict[zsite_id]
         rt_id_list = rt_dict[id]
         result = [
-            zsite_id,
             id,
+            fav_dict[id],
             map(dump_zsite, map(zsite_dict.get, rt_id_list))
         ]
-        result.extend(i[1:])
+        result.extend(i)
         r.append(result)
 
-
     return r
+
 
 def zsite_id_list_by_follow(zsite_id):
     r = follow_id_list_by_from_id(zsite_id)
@@ -165,7 +159,7 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
             id_list.append(id)
         if rid:
             rt_dict[id].append(i.zsite_id)
-    return render_feed_list(id_list, rt_dict), id
+    return render_feed_list(id_list, rt_dict, zsite_id), id
 
 
 #    result = []

@@ -80,7 +80,7 @@ class Feed(JLoginBase):
             id = MAXINT
         current_user_id = self.current_user_id
 
-        result , last_id = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
+        result, last_id = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
         result = tuple(
             (i, tuple(g)) for i, g in groupby(result, itemgetter(0))
         )
