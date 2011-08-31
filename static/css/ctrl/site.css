@@ -1,0 +1,17 @@
+h1{
+font-size: 14px; text-align: left;padding:16px 0;border-bottom:1px dotted #ccc
+}
+h1 textarea{
+border:1px dotted #ccc; 
+border-top:0;
+margin-left:1px;
+width:210px;
+text-align:center;
+color:#ccc;
+height:30px;
+margin-bottom:-22px; 
+padding: 7px 3px;
+font-size: 14px;
+float:right;
+margin-top: -15px;
+}

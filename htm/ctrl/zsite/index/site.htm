@@ -10,16 +10,48 @@ ${zsite.name}
  - ${motto}
 %endif
 </%def>
+<%def name="htm_head()">
+${css.ctrl_site|n}
+</%def>
+
 
 <%
 admin_id_list = admin_id_list_by_zsite_id(zsite_id)
 admin_list = Zsite.mc_get_list(admin_id_list)
 can_admin = current_user_id in admin_id_list
 %>
-% if can_admin:
-<a href="/rm">解散</a>
-% endif
+
+<h1>
+${zsite.name}\
+%if motto:
+ ,  ${motto}
+%endif
+<textarea>今天 , 你想说什么 ?</textarea>
+</h1>
+
+<div class="G">
+
+<div class="G3">
+<div style="border-bottom: 1px dotted rgb(204, 204, 204); margin-bottom: 32px; padding-bottom:16px; margin-top:16px; text-align:center;"><a href="http://meet.42qu.com/4295032832/ago">
+</a>
+<span style=" color: rgb(153, 153, 153);">热度<span style="margin: 0pt 14px; color: rgb(153, 153, 153);">-</span><span style="color: rgb(0, 0, 0);">时间</span><span style="margin: 0pt 14px; color: rgb(153, 153, 153);">-</span><span style="">精华</span></span>
+</div>
+</div>
+
+<div>
+</div>
+
+</div>
+
 
 % for i in admin_list:
 <a href="${i.link}">${i.name}</a>
 % endfor
+% if can_admin:
+<a href="/rm">解散</a>
+% endif
+
+
+
+
+

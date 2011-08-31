@@ -48,14 +48,20 @@ width:96px;
 
 <%htm:form className="site_new">
 <h1>创建站点</h1>
+
 <div>
 显示名字<input class="input" type="text" name="name" value="${name or ''}">
 ${errtip.name|n}
 </div>
 <div>
+描述签名<input class="input" type="text" name="motto" value="${motto or ''}">
+${errtip.motto|n}
+</div>
+<div>
 个性网址<input class="input" type="text" name="url" value="${url or ''}">
 ${errtip.url|n}
 </div>
+
 <div>
 浏览权限<select class="sitetype" name="sitetype">
 <option value="1">公开</option>
