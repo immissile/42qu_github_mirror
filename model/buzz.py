@@ -105,7 +105,7 @@ def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
     from zsite_url import id_by_url
     from po_pos import po_pos_state, STATE_MUTE
     txt = txt_get(reply_id)
-    ated = set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)))
+    ated = set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)]))
     followed = set([i.from_id for i in ormiter(Follow, 'to_id=%s' % from_id)])
     buzz_to = set([i.user_id for i in ormiter(PoPos, 'po_id=%s and state=%s' % (po_id, STATE_BUZZ))])
     excepted = set([from_id, po_user_id])
