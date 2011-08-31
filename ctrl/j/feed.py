@@ -17,6 +17,7 @@ from model.career import career_dict
 from model.zsite import Zsite
 from model.po_video import CID_VIDEO, video_htm_autoplay
 from model.event import Event
+from model.sync import sync_recommend_by_zsite_id
 from cgi import escape
 
 @urlmap('/j/feed/up1/(\d+)')
@@ -25,6 +26,8 @@ class FeedUp(JLoginBase):
         current_user_id = self.current_user_id
         vote_up(current_user_id, id)
         feed_rt(current_user_id, id)
+        p = Po.mc_get(id)
+        sync_recommend_by_zsite_id(current_user_id,p.name,p.link)
         self.finish('{}')
 
 

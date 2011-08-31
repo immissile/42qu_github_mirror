@@ -9,7 +9,7 @@ from model.po import Po
 from zkit.page import page_limit_offset
 from model.event import Event
 from ctrl.me.po_event import po_event_edit_get, po_event_edit_post
-
+from model.sync import sync_po_event_by_zsite_id
 PAGE_LIMIT = 50
 
 @urlmap('/event/review')
@@ -72,6 +72,8 @@ class EventState(Base):
         state = int(state)
         if state:
             event_review_yes(id)
+            event = Event.mc_get(id)
+            sync_po_event_by_zsite_id(event.zsite_id,event.po.name,event.link)
         else:
             txt = self.get_argument('txt')
             event_review_no(id, txt)

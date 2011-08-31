@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #coding:utf-8
 import urllib
+import urllib2
 from urllib2 import urlopen
 import httplib
 from yajl import loads

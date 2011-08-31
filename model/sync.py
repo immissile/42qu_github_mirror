@@ -8,6 +8,8 @@ from oauth_update import sync_by_oauth_id
 from oauth import OauthToken
 from config import SITE_DOMAIN
 from model.cid import CID_EVENT, CID_NOTE, CID_WORD
+from mq import mq_client
+
 mc_sync_state = McCache('SyncState:%s')
 mc_sync_state_all = McCacheA('SyncStateAll:%s')
 
@@ -18,10 +20,12 @@ SYNC_CID_CN = (
     (4, '推荐分享'),
 )
 SYNC_GET_CID = {
-       CID_WORD :'1',
-       CID_NOTE :'2',
-       CID_EVENT :'3',
+        '1':CID_WORD,
+        '2':CID_NOTE,
+        '3':CID_EVENT,
+        '4':0
         }
+SYNC_CID_TXT = tuple(i[1] for i in SYNC_CID_CN)
 
 SYNC_CID = tuple(i[0] for i in SYNC_CID_CN)
 
@@ -32,26 +36,26 @@ class SyncFollow(McModel):
     pass
 
 def sync_follow_new(zsite_id, state, cid, txt):
-    SyncFollow.raw_sql('insert into sync_follow (zsite_id,state,cid,txt) values(%s,%s,%s,%s)', zsite_id, state, cid, txt)
+    SyncFollow.raw_sql('insert into sync_follow (id,state,cid,txt) values(%s,%s,%s,%s)', zsite_id, state, cid, txt)
 
-@mc_sync_state('{user_id}_{cid}')
+@mc_sync_state('{user_id}_{oauth_id}_{cid}')
 def sync_state(user_id, oauth_id, cid):
-    s = SyncTurn.get(zsite_id=user_id, cid=cid)
+    s = SyncTurn.get(zsite_id=user_id, cid=cid, oauth_id=oauth_id)
     if not s:
         SyncTurn.raw_sql('insert into sync_turn (zsite_id,cid,state, oauth_id) values(%s,%s,1,%s)', user_id, cid,oauth_id)
-        s = SyncTurn.get(zsite_id=user_id, cid=cid)
+        s = SyncTurn.get(zsite_id=user_id, cid=cid, oauth_id=oauth_id)
     return s.state
 
-@mc_sync_state_all("{user_id}")
+@mc_sync_state_all("{user_id}_{oauth_id}")
 def sync_all(user_id,oauth_id):
     return [sync_state(user_id,oauth_id, cid) for cid in SYNC_CID]
 
 def sync_state_set(user_id, cid, state, oauth_id):
     state = int(bool(state))
     if state != sync_state(user_id, oauth_id, cid):
-        SyncTurn.where(zsite_id=user_id, cid=cid).update(state=state)
-        mc_sync_state.set('%s_%s'%(user_id, cid), state)
-        mc_sync_state_all.delete(user_id)
+        SyncTurn.where(zsite_id=user_id, cid=cid, oauth_id=oauth_id).update(state=state)
+        mc_sync_state.set('%s_%s_%s'%(user_id,oauth_id,cid), state)
+        mc_sync_state_all.delete('%s_%s'%(user_id,oauth_id))
 
 def sync_by_po_id(id):
     p = Po.get(id)
@@ -63,11 +67,43 @@ def sync_by_po_id(id):
             if state and SYNC_GET_CID.get(cid):
                 sync_by_oauth_id(oauth_id, p.name_, 'http://%s.42qu.com/%s'%(p.user_id, p.id))
 
+def sync_po_by_zsite_id(id,txt,link,cid):
+    s = SyncTurn.raw_sql('select state,oauth_id from sync_turn where zsite_id = %s and cid = %s', id,cid).fetchall()
+    if s:
+        for state, oauth_id in s:
+            if state:
+                sync_by_oauth_id(oauth_id, txt,'http:%s'%link)
+
+def sync_po_word_by_zsite_id(id,txt,link,cid=1):
+    txt = SYNC_CID_TXT[cid-1] +':' +txt
+    sync_po_by_zsite_id(id,txt,link,cid)
+
+def sync_po_note_by_zsite_id(id,txt,link,cid=2):
+    txt = SYNC_CID_TXT[cid-1] +':'+ txt
+    sync_po_by_zsite_id(id,txt,link,cid)
+
+def sync_po_event_by_zsite_id(id,txt,link,cid=3):
+    txt = SYNC_CID_TXT[cid-1] +':'+txt
+    sync_po_by_zsite_id(id,txt,link,cid)
+
+def sync_join_event_by_zsite_id(id,txt,link,cid=3):
+    txt = '参加活动:'+txt
+    sync_po_by_zsite_id(id,txt,link,cid)
+
+def sync_recommend_by_zsite_id(id,txt,link,cid=4):
+    txt = SYNC_CID_TXT[cid-1] +':'+txt
+    sync_po_by_zsite_id(id,txt,link,cid)
+
+mq_sync_po_word_by_zsite_id = mq_client(sync_po_word_by_zsite_id)
+mq_sync_po_note_by_zsite_id = mq_client(sync_po_note_by_zsite_id)
+mq_sync_po_event_by_zsite_id = mq_client(sync_po_event_by_zsite_id)
+mq_sync_join_event_by_zsite_id = mq_client(sync_join_event_by_zsite_id)
+mq_sync_recommend_by_zsite_id = mq_client(sync_recommend_by_zsite_id)
 
 
-def sync_follow_by_sync_id(id, oauth_id):
-    s = SyncFollow.get(id)
-    user_id = s.zsite_id
+
+def sync_follow_by_sync_id(zsite_id, oauth_id):
+    s = SyncFollow.get(zsite_id)
     if s.state:
         if s.state >= 2:
             sync_by_oauth_id(oauth_id, s.txt, SITE_DOMAIN)
@@ -82,5 +118,9 @@ def sync_follow_flush_by_zsite_id(id):
 
 
 if __name__ == '__main__':
-    sync_by_po_id(10043539)
+    sync_po_event_by_zsite_id('10001299','这是一次活动！1','//zhendi.yup.xxx/10071320')
+    #sync_po_word_by_zsite_id(10001299,'dsadasd',' //zhendi.yup.xxx/10071280')
+    #sync_by_po_id(10043539)
+    for cid in SYNC_CID:
+        print cid
 

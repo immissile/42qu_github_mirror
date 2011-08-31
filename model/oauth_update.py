@@ -1,4 +1,5 @@
 #coding:utf-8
+import urllib2
 from urllib2 import urlopen, HTTPError
 import urllib
 from urllib import urlencode
@@ -274,9 +275,10 @@ def oauth_txt_cat(cid, txt, url):
 def sync_by_oauth_id(oauth_id, txt, url=None):
     out = oauth_token_by_oauth_id(oauth_id)
     if out:
-        url = shorturl(url)
-        txt = oauth_txt_cat(out[0], txt, url)
-        re = DICT_API_SAY[out[0]](out[1], out[2], txt)
+        cid, key, secret = out
+        #url = shorturl(url)
+        txt = oauth_txt_cat(cid, txt, url)
+        re = DICT_API_SAY[cid](key, secret, txt)
         if re:
             mes = api_network_http(*re)
         #oauth_res_check(mes, oauth_id)
