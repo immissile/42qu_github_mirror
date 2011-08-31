@@ -290,6 +290,8 @@ def _po_rm(user_id, po):
     mc_flush(user_id, po.cid)
     from buzz import mq_buzz_po_rm
     mq_buzz_po_rm(id)
+    from fav import fav_rm_by_po_id
+    fav_rm_by_po_id(id)
     return True
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):

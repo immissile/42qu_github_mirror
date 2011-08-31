@@ -17,7 +17,25 @@ from model.career import career_dict
 from model.zsite import Zsite
 from model.po_video import CID_VIDEO, video_htm_autoplay
 from model.event import Event
+from model.fav import fav_add, fav_rm
 from cgi import escape
+
+
+@urlmap('/j/feed/fav/(\d+)')
+class Fav(JLoginBase):
+    def post(self, id):
+        current_user_id = self.current_user_id
+        fav_add(current_user_id, id)
+        self.finish('{}')
+
+
+@urlmap('/j/feed/unfav/(\d+)')
+class UnFav(JLoginBase):
+    def post(self, id):
+        current_user_id = self.current_user_id
+        fav_rm(current_user_id, id)
+        self.finish('{}')
+
 
 @urlmap('/j/feed/up1/(\d+)')
 class FeedUp(JLoginBase):

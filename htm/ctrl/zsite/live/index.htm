@@ -112,6 +112,8 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
     </div>
     <div class="fdbar">
     <span class="L">
+<span style="vertical-align: -5px" class="c9"><a style="color: rgb(153, 153, 153); margin-right: 14px;" href="/${id}#txt_form">${reply_count or ''} 评论</a>-<a style="color: rgb(153, 153, 153); margin: 0pt 14px;" class="vote${vote_state}" href="javascript:vote_up(${id});void(0)">分享</a>-<a href="javascript:fav(${id});void(0)" style="margin: 0pt 14px; background: url(&quot;http://s4.42qu.us/img/gif/icons/gif/orange/to_size/check.gif&quot;) no-repeat scroll 100% 5px transparent; padding-right: 17px; color: rgb(170, 17, 0);">收藏</a></span>
+    </span>
         ${create_time}
         {{if rt_list.length}} ,
             {{if rt_list.length == 1 && rt_list[0] == 0}}
@@ -125,8 +127,6 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
         {{if rt_list.length > 1}}, ${rt_list.length}人{{/if}}喜欢
             {{/if}}
         {{/if}}
-    </span>
-<span class="vote${vote_state}" id="vote${id}"><a title="厌倦" class="down" href="javascript:vote_down(${id});void(0)"></a><span title="好评度" class="num">${vote}</span><a title="喜欢" class="up" href="javascript:vote_up(${id});void(0)"></a></span><a title="回应" target="_blank" class="reply" href="/${id}#txt_form">${reply_count}</a>
     </div>
 </div></div>
 {{/each}}
