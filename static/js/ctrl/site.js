@@ -5,19 +5,27 @@ var po_word="po_word", tip='今天 , 你想说什么 ?', po_submit=$('<div class
         login();
         return
     }
-    var j=$(this);
-    if(!j.hasClass(po_word)){
-        j.val('').addClass(po_word);
+    if(!word.hasClass(po_word)){
+        word.val('').addClass(po_word);
         po_submit.show()
     }
 }).blur(function(){
-    var j=$(this),v=j.val();
+    var v=word.val();
     if(!v||v==''){
-        j.removeClass(po_word).val(tip)
+        word.removeClass(po_word).val(tip)
         po_submit.hide()
     }
 }).after(po_submit)
 
+po_submit.find('.po_word_submit_a').click(function(){
+    var v=word.val();
+    $.fancybox.showActivity()
+    if(v.length){
+        $.post("/po/word",function(){
+            location.reload()
+        })
+    } 
+})
 po_submit.find('.po_word_close').click(function(){
     word.val('').blur()
 })

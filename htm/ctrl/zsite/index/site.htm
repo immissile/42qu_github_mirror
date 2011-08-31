@@ -1,4 +1,5 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.zsite import Zsite
 from model.zsite_admin import admin_id_list_by_zsite_id
@@ -62,7 +63,7 @@ ${zsite.name}\
 %if motto:
  ,  ${motto}
 %endif
-<textarea id="po_word"></textarea>
+<textarea id="po_word"></textarea>\
 </h1>
 
 <div class="G">
