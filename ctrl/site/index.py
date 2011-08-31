@@ -8,6 +8,6 @@ PAGE_LIMIT = 25
 
 
 @urlmap('/')
-class SiteIndex(Base):
+class Index(Base):
     def get(self):
-        pass
+        return self.render()
