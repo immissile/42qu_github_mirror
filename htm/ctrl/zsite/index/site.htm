@@ -12,6 +12,7 @@ ${zsite.name}
 </%def>
 <%def name="htm_head()">
 ${css.ctrl_site|n}
+<script src="${js.ctrl_site|n}"></script>
 </%def>
 
 <%def name="span_opt()">
@@ -61,7 +62,7 @@ ${zsite.name}\
 %if motto:
  ,  ${motto}
 %endif
-<textarea>今天 , 你想说什么 ?</textarea>
+<textarea id="po_word"></textarea>
 </h1>
 
 <div class="G">

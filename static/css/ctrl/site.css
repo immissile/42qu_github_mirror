@@ -7,7 +7,7 @@ border-top:0;
 margin-left:1px;
 width:210px;
 text-align:center;
-color:#ccc;
+color:#999;
 height:30px;
 margin-bottom:-22px; 
 padding: 7px 3px;
@@ -60,7 +60,58 @@ color:#000
 .sortby .sort:hover{
 color:#a10;
 }
-
+.po_word{
+position:absolute;
+right:0;
+z-index:1; 
+height: 125px;
+text-align:left;
+width: 358px;
+color:#000;
+padding:3px 7px;
+background:#fff;
+}
+.po_word_submit{
+position: absolute;
+right:0;
+margin-top:89px;
+display:none;
+text-align:left;
+border:1px dotted #ccc;
+border-top:0;
+z-index:2;
+width:372px;
+background:#fff;
+}
+.po_word_tip span{
+margin-right:3px
+}
+.po_word_tip{
+color:#999;
+line-height:38px;
+margin:0 14px;
+}
+.po_word_submit_a{
+color:#999; 
+border-right:1px dotted #ccc;
+padding:5px 28px;
+float:left;
+}
+.po_word_submit_a:hover{
+color:#000;
+background:#f9f9f9;
+}
+.po_word_close{
+width:8px;
+height:8px;
+float:right;
+padding:12px;
+margin-top:3px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 50% 50%;
+}
+.po_word_close:hover{
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 50% 50%;
+}
 
 
 
