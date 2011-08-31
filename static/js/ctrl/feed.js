@@ -85,12 +85,12 @@
 		this.className = 'faving'
 		$.postJSON('/j/feed/fav/' + this.rel, function() {
 			this.className = 'faved'
-		}
+		})
 	})
 	$('.faved').live('click', function() {
 		this.className = 'faving'
 		$.postJSON('/j/feed/unfav/' + this.rel, function() {
 			this.className = 'fav'
-		}
+		})
 	})
 })()
