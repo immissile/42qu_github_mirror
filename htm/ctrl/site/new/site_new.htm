@@ -49,11 +49,11 @@ width:96px;
 <%htm:form className="site_new">
 <h1>创建站点</h1>
 <div>
-显示名字<input class="input" type="text" name="name">
+显示名字<input class="input" type="text" name="name" value="${name or ''}">
 ${errtip.name|n}
 </div>
 <div>
-个性网址<input class="input" type="text" name="url">
+个性网址<input class="input" type="text" name="url" value="${url or ''}">
 ${errtip.url|n}
 </div>
 <div>

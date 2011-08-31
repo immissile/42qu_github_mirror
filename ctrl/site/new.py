@@ -20,6 +20,7 @@ class SiteNew(LoginBase):
 
         errtip = Errtip()
         name = self.get_argument('name', None)
+        url = self.get_argument('url', None)
         site = None
         
         if not name:
@@ -35,4 +36,6 @@ class SiteNew(LoginBase):
         self.render(
             errtip=errtip,
             site=site,
+            name=name,
+            url=url
         )
