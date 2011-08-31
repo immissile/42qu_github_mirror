@@ -44,8 +44,9 @@ color:#000;
 }
 .sortby{
 border-bottom: 1px dotted #ccc;
-padding-bottom:8px; margin-top:8px; text-align:center;
+padding-bottom:8px; margin-top:8px; text-align:right;
 }
+.tc{text-align:center}
 .sortby .sort{
 color:#999
 }
