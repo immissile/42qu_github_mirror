@@ -1,0 +1,36 @@
+#joiner { width: 753px; margin-top: 32px; }
+#joiner .G1 { margin-bottom: 32px; }
+
+
+#event_join_btn{
+margin-top: 16px; 
+}
+#price_per{
+vertical-align: 13px; margin-left: 32px;
+}
+
+.spline{
+border:1px dotted #ccc;
+border-width: 1px 0;  text-align: center; padding: 14px 14px 16px; margin: 14px 0 0;
+}
+
+.feedback_top{
+text-align:center;
+border-bottom:1px dotted #ccc;
+margin-bottom: 44px;
+padding-bottom: 11px;
+margin-top: -21px;
+}
+.feedback_list{
+margin-top:32px;
+}
+.sd p{
+padding-bottom:0
+}
+#reply_list{
+margin:auto;
+padding:0;
+}
+.reply_spline{
+margin-bottom:32px;
+}

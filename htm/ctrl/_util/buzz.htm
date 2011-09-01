@@ -1,10 +1,12 @@
 <%!
-from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_WORD
+from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 from zkit.txt import cnenoverflow
+from model.po_event import event_feedback_id_get
+from model.po import Po
 %>
-<%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career"/>
+<%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career, po_link"/>
 
 <%def name="buzz_render(i)">
 <%
@@ -14,22 +16,22 @@ from_list = i.from_list
 from_list = filter(bool, from_list)
 entry = i.entry
 %>\
-%if cid == CID_BUZZ_SYS:
-    <span class="buzz_sys">${entry.htm|n}</span>
-%elif cid == CID_BUZZ_SHOW:
+% if cid == CID_BUZZ_SYS:
+<span class="buzz_sys">${entry.htm|n}</span>
+% elif cid == CID_BUZZ_SHOW:
 <span class="buzz_user">${user_career_link(entry)}</span> 入驻
-%elif cid == CID_BUZZ_FOLLOW:
-    %if rid == current_user_id:
+% elif cid == CID_BUZZ_FOLLOW:
+    % if rid == current_user_id:
 ${user_link_list_with_career(from_list)} 关注了我
-    %else:
+    % else:
 ${user_link_list(from_list)} 关注了 ${user_career_link(entry)}
-    %endif
-%elif cid == CID_BUZZ_WALL:
+    % endif
+% elif cid == CID_BUZZ_WALL:
 <%
 to = Zsite.mc_get(entry.to_id)
 %>
 ${user_link_list(from_list)} 对话 ${user_link(to)}, <a href="${to.link}${entry.link}" target="_blank">点此浏览</a>
-%elif cid == CID_BUZZ_WALL_REPLY:
+% elif cid == CID_BUZZ_WALL_REPLY:
 ${user_link_list(from_list)} \
 <%
 e_from_id = entry.from_id
@@ -55,17 +57,30 @@ from_id = from_user.id
 回复 ${user_link(e_from)} 给 ${user_link(e_to)} 的 \
 % endif
 留言, <a href="${e_to.link}${entry.link}" target="_blank">点此浏览</a>
-%elif cid == CID_BUZZ_PO_REPLY:
-${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${entry.id}">\
-    %if entry.cid == CID_WORD:
-${cnenoverflow(entry.name,30)[0]}\
-    %else:
-${entry.name_with_user}\
-    %endif
-</a>
-%elif cid == CID_BUZZ_ANSWER:
+% elif cid == CID_BUZZ_PO_REPLY:
+<%
+po_id = entry.rid
+po = Po.mc_get(po_id)
+%>
+${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${po_id}">\
+    % if entry.cid in (CID_WORD , CID_EVENT_NOTICE):
+${cnenoverflow(po.name,30)[0]}\
+    % else:
+${po.name_with_user}\
+    % endif
+</a> :
+<span class="buzz_txt">${cnenoverflow(entry.txt, 30)[0]}<a class="buzz_reply" href="/po/${po_id}" target="_blank"></a></span>
+% elif cid == CID_BUZZ_ANSWER:
 ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}#replyer${from_list[0].id}">${entry.name}</a>\
-%endif
+% elif cid == CID_BUZZ_JOIN:
+${user_link_list(from_list)} 参加 ${po_link(entry)} 活动
+% elif cid == CID_BUZZ_EVENT_JOIN_APPLY:
+${user_link_list(from_list)} 报名 ${po_link(entry)} 活动 , <a href="/event/check/${rid}" target="_blank">点此确认</a> 
+% elif cid == CID_BUZZ_EVENT_FEEDBACK_OWNER:
+${user_link_list(from_list)} 总结了 ${po_link(entry)} 活动 , <a href="/${rid}" target="_blank">点此浏览</a>
+% elif cid == CID_BUZZ_EVENT_FEEDBACK_JOINER:
+${user_link_list(from_list)} 评论了 ${po_link(entry)} 活动 , <a href="/${rid}" target="_blank">点此浏览</a>
+% endif
 </%def>
 
 <%def name="buzz_show(user_id)">
@@ -73,26 +88,25 @@ ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}#reply
 buzz_list = _buzz_show(user_id, 3)
 unread = buzz_unread_count(user_id)
 %>
-%if buzz_list:
+% if buzz_list:
 <div class="c" id="buzz"><div class="G2">\
 <div class="buzz">\
 <div id="buzz_p">\
-    %for i in buzz_list:
+    % for i in buzz_list:
 <p>${buzz_render(i)}</p>\
-    %endfor
+    % endfor
 </div>\
 <p class="tr">\
 <a href="javascript:$('#buzz').slideUp();void(0)" id="buzzrm"></a>\
-
 <a class="unread" href="/buzz">\
-    %if unread:
+    % if unread:
 未读<span class="mg03">${unread}</span>条\
-    %else:
+    % else:
 浏览全部\
-    %endif
+    % endif
 </a>\
 </p>\
 </div>\
 </div></div>\
-%endif
+% endif
 </%def>

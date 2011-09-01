@@ -1,0 +1,76 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/_util/event.htm" import="event_show"/>
+<%namespace file="/ctrl/_util/i/info.htm" name="info"/>
+
+<%
+from zkit.earth import place_name
+from model.event import event_count_by_city_pid_cid, event_cid_name_count_by_city_pid, event_end_count_by_city_pid, EVENT_STATE_END
+%>
+
+<h1>
+<span class="L">${place_name(pid)}</span>
+<a class="c9" href="/city/select">切换</a>
+</h1>
+<div class="G">
+<div class="G1">
+    <div class="event_cid">
+        <a href="/${pid}"
+            % if cid == 0:
+            class="now"
+            % endif
+            ><span>全部</span>${event_count_by_city_pid_cid(pid, 0)}</a>
+    %for event_cid, event_cid_name, event_cid_count in event_cid_name_count_by_city_pid(pid):
+        %if event_cid_count:
+        <a href="/${pid}/${event_cid}"
+            % if cid == event_cid:
+            class="now"
+            % endif
+            >
+            <span>${event_cid_name}</span>
+            ${event_cid_count}
+        </a>
+        %endif
+    %endfor
+<%
+event_end_count = event_end_count_by_city_pid(pid)
+%>
+% if event_end_count:
+<a href="/${pid}/ago"
+    % if state == EVENT_STATE_END:
+    class="now"
+    % endif
+    >
+    <span>往期</span>
+    ${event_end_count}
+% endif
+    </div>
+</div>
+<div class="G3">
+    <div class="event_list">
+%if event_list:
+    % for event_po in event_list:
+<%
+event, po = event_po
+%>\
+<div class="c event_po">\
+${event_show(event, po)}\
+</div>\
+% endfor
+
+${page|n}
+
+%else:
+<div class="f16 tc" style="border-bottom:1px dotted #ccc;padding-bottom:32px">
+暂无活动 
+%if current_user:
+, <a href="${current_user.link}/po/event">点此创建</a>
+%endif
+</div>
+%endif
+
+
+    </div>
+</div>
+</div>
+

@@ -3,7 +3,7 @@
 import urllib
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, zsite_verify_no_without_notify, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY
+from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, zsite_verify_no_without_notify, zsite_name_rm, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY
 from model.zsite_list_0 import zsite_show_new, zsite_show_rm
 from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
@@ -11,7 +11,7 @@ from model.mail import sendmail
 from model.cid import CID_ZSITE
 from zkit.page import page_limit_offset
 
-from model.pic import pic_no 
+from model.pic import pic_no
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
@@ -19,6 +19,7 @@ from model.zsite_url import id_by_url
 from model.user_session import user_session
 from model.user_info import UserInfo
 from model.zsite_rank import zsite_rank_max
+from model.search_zsite import search_new
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -59,7 +60,9 @@ class Index(Base):
             user_info.sex = sex
             user_info.save()
 
+        search_new(id)
         self.redirect('/zsite/%s' % id)
+
 
 @urlmap('/zsite/pic/rm/(\d+)/(\d+)')
 class PicRm(Base):
@@ -67,6 +70,12 @@ class PicRm(Base):
         admin_id = self.current_user.id
         pic_no(id, admin_id)
         self.redirect('/zsite/%s'%uid)
+
+@urlmap('/zsite/name/rm/(\d+)')
+class NameRm(Base):
+    def get(self, id):
+        zsite_name_rm(id)
+        self.redirect('/zsite/%s'%id)
 
 @urlmap('/zsite/show/(\d+)')
 class Show(Base):
@@ -102,6 +111,7 @@ class Mail(Base):
             sendmail(title, txt, mail, name)
         self.redirect('/zsite/%s' % id)
 
+
 @urlmap('/zsite/verify/new/(0|1)/(\d+)')
 class VerifyNew(Base):
     def get(self, state, id):
@@ -131,7 +141,7 @@ class Verify(Base):
             if state:
                 zsite_verify_yes(zsite)
                 if state == 2:
-                    zsite_show_new(id, zsite_rank_max(16))
+                    zsite_show_new(id, zsite_rank_max(11))
             else:
                 zsite_verify_no(zsite, txt)
             self.finish({'state': True})

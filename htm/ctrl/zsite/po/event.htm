@@ -1,0 +1,182 @@
+<%inherit file="_po.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="_vote.htm" import="po_bar_vote"/>
+<%namespace file="/_util/event.htm" import="event_show, event_content"/>
+<%namespace file="/ctrl/zsite/event/event_feedback_list.htm" import="feedback_list"/>
+<%!
+from zkit.itertools import chunkiter
+from model.ico import pic_url_bind_with_default
+from model.career import career_bind
+from model.event import Event, event_joiner_check_count, event_joiner_user_list, event_joiner_user_id_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END, event_joiner_state, EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_NEW
+from model.po_event import event_feedback_id_get, po_event_notice_list_by_event_id
+from model.notice import notice_event_no_txt_get
+from model.po import po_id_list, po_list_count 
+from zkit.time_format import friendly_time
+from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
+%>
+<%def name="po_body()">
+<%
+id = po.id
+event = Event.mc_get(id)
+can_admin = event.can_admin(current_user_id)
+%>
+
+
+<%
+join_check_count = event_joiner_check_count(id)
+join_count = event.join_count
+join_list = event_joiner_user_list(id)
+career_bind(join_list)
+pic_url_bind_with_default(join_list, '219')
+price = event.price
+reply_count = po.reply_count
+
+event_state = event.state
+join_state = event_joiner_state(id, current_user_id)
+
+%>
+%if event_state == EVENT_STATE_REJECT:
+<div class="feedback_top" style="width:721px;margin-left:auto;margin-right:auto"><div class="tl">
+<p>活动未通过审核, 原因如下 : </p>
+<p>${notice_event_no_txt_get(event.zsite_id, event.id)}</p>
+<p>您可以 <a href="/po/event/${id}">点此修改内容</a> , 然后重新提交审批</p>
+</div></div>\
+%elif event_state == EVENT_STATE_TO_REVIEW:
+<div class="feedback_top">活动审核中 , 请耐心等待</div>\
+%elif join_state and event_state >= EVENT_STATE_END:
+    %if not event_feedback_id_get(current_user_id, id):
+<a href="/event/feedback/${id}"><div class="feedback_top">\
+点击这里 , \
+%if current_user_id == po.user_id:
+总结\
+%else:
+评价\
+%endif
+活动\
+</div></a>\
+    %endif
+% elif can_admin and join_check_count:
+<a href="/event/check/${id}"><div class="feedback_top"><span class="mr3">${join_check_count}</span>人新报名 , 请审批确认</div></a>\
+% endif
+
+<div class="c event_page">
+${event_show(event, po)}
+</div>\
+
+<div class="w721">
+<pre class="prebody">\
+${event_content(event, po)}
+%if not can_admin:
+    %if join_state <= EVENT_JOIN_STATE_NO :
+% if event_state == EVENT_STATE_END:
+活动结束
+% else:
+<form id="event_join_btn" action="/event/${'check' if can_admin else 'join'}/${id}" ><span class="btnw"><button type="submit">\
+%if join_state == EVENT_JOIN_STATE_NO :
+重新报名\
+%else:
+报名参加\
+%endif
+</button></span>\
+    % if price:
+<span id="price_per">${price} 元 / 人</span>\
+    % endif
+% endif
+    %else:
+<span class="L">\
+        %if join_state == EVENT_JOIN_STATE_NEW :
+已经报名 , 等待确认\
+        %elif join_state == EVENT_JOIN_STATE_YES :
+报名成功\
+        %endif
+</span>\
+    %endif
+%elif price:
+<p>\
+活动费用 : ${price} 元 / 人\
+</p>\
+%endif
+</form>\
+<p class="po_bar">\
+% if can_admin:
+<a class="L" href="/po/event/${id}">管理</a>\
+% endif
+组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
+${po_bar_vote(po)}\
+</pre>
+%if event_state >= EVENT_STATE_END:
+${feedback_list(event)}
+%endif
+
+
+<%
+notice_list = po_event_notice_list_by_event_id(id)
+%>
+%if notice_list:
+<div class="spline">
+<span>${len(notice_list)}</span> 公告
+</div>
+<div class="mt32">
+    %for notice in notice_list:
+<div class="sdw"><div class="sd">\
+<pre class="fdtxt">${notice.name_htm|n}</pre>\
+<div class="fdbar">\
+<span class="L">${friendly_time(notice.create_time)}</span>\
+<a href="${notice.link}#txt_form" class="reply" title="回应">${notice.reply_count}</a>\
+</div></div></div>\
+    %endfor
+</div>
+%endif
+
+
+%if join_count:
+<div class="spline">
+<span>${join_count}</span> 报名
+</div>
+<div class="G">
+
+<div class="G3">
+
+<div id="joiner" class="G">
+    %for chunk in chunkiter(join_list,3):
+<div class="c">
+        % for i in chunk:
+<%
+unit, title = i.career
+%>
+<a href="${i.link}" class="c0">
+<div class="G1">
+    <img src="${i.pic219}">
+    <div>${i.name}</div>
+% if unit:
+    <div class="tr">${unit}</div>
+% endif
+% if title:
+    <div class="tr">${title}</div>
+% endif
+</div>
+</a>
+        % endfor
+</div>
+    % endfor
+</div>
+</div>
+</div>
+
+%endif
+
+<div class="spline reply_spline">
+% if reply_count:
+<span>${reply_count}</span>
+% endif
+留言
+</div>
+
+
+
+</div></div></div>
+
+
+</div>
+<script src="${js.ctrl_zsite|n}"></script>
+</%def>

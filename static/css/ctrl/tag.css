@@ -19,3 +19,6 @@ border-bottom:1px dotted #ccc;
 margin-bottom:16px;
 padding:16px 0
 }
+.event_nav_a a{
+margin: 0pt 16px;
+}

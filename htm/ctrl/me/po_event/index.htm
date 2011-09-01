@@ -1,0 +1,77 @@
+<%!
+from model.po import STATE_SECRET, Po
+from model.fs import fs_url_jpg
+from model.event import event_to_review_count_by_zsite_id, EVENT_STATE_TO_REVIEW
+%>
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/zsite/_util/event.htm" import="event_admin_nav"/>
+<%namespace file="/_util/event.htm" import="event_edit"/>
+
+
+<%def name="htm_title()">
+%if event_id:
+编辑 - 活动 . 属性
+%else:
+发布 - 活动
+%endif
+</%def>
+
+
+<%def name="htm_head()">
+<script src="${js.pid}"></script>
+<script src="${js.date}"></script>
+<script src="${js.ctrl_po_event}"></script>
+${css.ctrl_event_admin|n}
+${css.ctrl_po_event|n}
+</%def>
+
+<%
+if event:
+    can_change = event.can_change()
+else:
+    can_change = True
+event_to_review = event_to_review_count_by_zsite_id(current_user_id)
+%>
+
+
+%if event_id and event.state > EVENT_STATE_TO_REVIEW:
+<%
+po = Po.mc_get(event_id)
+%>
+${event_admin_nav(event, po)}
+%else:
+<div class="head">
+%if errtip:
+<span style="color:#a10">表单有误 , 请您更正</span>
+%else:
+<span class="c0">1. 设置属性</span>&gt;<span>\
+%if event_id:
+<a class="c9" href="/po/edit/${event_id}">\
+%endif
+2. 编写简介
+%if id:
+</a>\
+%endif
+</span>&gt;<span>3. 等待审核</span> 
+%endif
+</div>
+%endif
+
+
+<%htm:form id="event_form" enctype="multipart/form-data">
+%if event_to_review and not event_id:
+<div class="po_line">
+<a href="/event/to_review" target="_blank">\
+<span class="mr3">${event_to_review}</span>活动待审核</a>\
+</div>\
+%endif
+
+${event_edit(event, can_change)}
+
+</%htm:form>
+%if not can_change:
+<script>
+$("#event_body").find('input,select').attr("disabled", true)
+</script>
+%endif

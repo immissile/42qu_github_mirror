@@ -64,13 +64,33 @@ margin-bottom:64px;
 outline:0;
 display:inline-block;
 width:56px;
-height:8px;
-margin:22px 0 7px;
-background:url(/img/gif/loading_bar.gif) 0 0 no-repeat;
+padding-left:70px;
+height:28px;
+margin-bottom:7px;
+background:url(/img/gif/loading_bar.gif) 0 50% no-repeat;
 }
 #feed_loading, #feed_load{
 margin-top:16px;
 clear:both;
 }
 
+.feed_event_img{
+margin-top: 7px; height: 162px; width: 162px; float: right; margin-left: 16px;
+}
+.feed_event_prop{
+margin-top:-8px;
+margin-bottom:14px
+}
+.cid68 .fdtxt, .cid68 .fdpre{
+overflow:visible;
+}
+.fdall{
+margin-top:3px;
+}
+.fdall a{
+margin-right:14px;
+}
+.feed_event_pid{
+margin-bottom:6px
+}
 

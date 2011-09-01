@@ -1,0 +1,95 @@
+#event_pic{
+margin-left:80px
+}
+
+.po_line{
+font-size:16px;
+margin:27px 0;
+}
+select{
+text-align:center;
+padding:8px;
+font-size:16px;
+border:1px solid #ccc;
+}
+#pid select, #begin_time select, #end_time select{
+    margin-right: 8px;
+}
+.input{
+width:452px;
+border:1px solid #ccc;
+padding:8px;
+}
+.phone{
+width:201px
+}
+
+.head{
+font-size:16px;
+text-align:center;
+padding:14px 0;
+border-bottom:1px dotted #ccc;
+}
+#event_form{
+padding-bottom:64px;
+margin-top:32px;
+margin-left:125px;
+}
+.date_minute{
+margin-left:8px;
+}
+.date_hour{
+margin:0 8px 0 4px;
+}
+#event_form label{
+margin-right:16px;
+}
+#event_submit_span{
+margin-left:80px;
+}
+.price{
+width:32px;
+margin-right:8px;
+text-align:right;
+}
+.limit_down{
+text-align:right;
+width:32px
+}
+.limit_up{
+text-align:right;
+width:32px
+}
+.review{
+vertical-align:-1px;
+}
+.event_cid{
+width:219px;
+}
+.head{
+color:#333;
+}
+.head span{
+margin:0 14px;
+color:#999;
+}
+.head .c0{
+color:#000;
+}
+.errtip{
+margin-left:80px;
+color:#a10;
+margin-top:6px;
+}
+
+#event_state{
+width:470px;margin:32px auto;font-size:16px;text-align:center;
+}
+#event_state p{
+margin-bottom:16px
+}
+
+#rm{
+line-height: 27px; float: right; margin-top: 8px; margin-right: 470px;
+font-size:16px;
+}

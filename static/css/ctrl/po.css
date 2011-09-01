@@ -13,13 +13,13 @@
     margin:0 0 8px;
     font-family:inherit;
 }
-.w721,.po_body pre{
+.w721,.po_body .prebody{
     width:721px;
     margin:auto;
 }
 #reply_txt{
 text-align:left;
-width:701px;
+width:703px;
 padding:6px 8px;
 margin:0 auto 8px;
 height:100px;
@@ -128,7 +128,7 @@ outline:0;
 }
 #po_video_htm #po_name{
 margin-bottom:14px;
-margin-top:14px;
+margin-top:18px;
 font-size:14px;
 }
 #po_audio_name #po_name{

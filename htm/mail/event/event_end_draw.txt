@@ -1,0 +1,11 @@
+${title} 的报名费可以提现了
+
+${title} ( http:${link} ) 共 \
+% if join_count == pay_count:
+${join_count} 人付费参与
+% else:
+${join_count} 人参与，其中 ${pay_count} 人付费
+% endif
+报名费总计 ${pay_money} 元 已经汇到您的42区账目上 , 请查收
+
+如有问题请回复此邮件 

@@ -7,7 +7,7 @@ from cStringIO import StringIO
 from config import SITE_URL
 
 def fs_path(root, prefix, id, suffix):
-    path = join(root, str(prefix), str(id%1024), '%s.%s'%(id, suffix))
+    path = join(root, str(prefix), str(int(id)%1024), '%s.%s'%(id, suffix))
     return path
 
 def fs_file(prefix, id, suffix):

@@ -5,7 +5,7 @@ from time import time
 from mail import rendermail
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from kv import Kv
-from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_REWARD, CID_VERIFY_MONEY, CID_PAY_ALIPAY, CID_NOTICE_PAY
+from cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_PAY, CID_TRADE_DEAL, CID_TRADE_EVENT, CID_VERIFY_MONEY, CID_PAY_ALIPAY, CID_NOTICE_PAY
 from zsite import Zsite
 from user_mail import mail_by_user_id
 from mail import rendermail
@@ -16,7 +16,7 @@ from zkit.attrcache import attrcache
 mc_frozen_get = McCache('FrozenBank.%s')
 
 def read_cent(cent):
-    return '%.2f' % (cent / 100.)
+    return ('%.2f' % (cent / 100.)).rstrip('0').rstrip('.')
 
 # Bank
 bank = Kv('bank', 0)
@@ -33,11 +33,11 @@ def bank_can_pay(user_id, cent):
     return bank.get(user_id) >= cent
 
 # Trade
-TRADE_CID_DIC = {
+TRADE_CID_DICT = {
     CID_TRADE_CHARDE: '充值',
     CID_TRADE_WITHDRAW: '提现',
     CID_TRADE_DEAL: '交易',
-#    CID_TRADE_REWARD: '奖励',
+    CID_TRADE_EVENT: '活动',
 }
 
 TRADE_STATE_NEW = 5
@@ -74,7 +74,7 @@ def frozen_view(user_id):
     return read_cent(frozen_get(user_id))
 
 def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_ONWAY, for_id=0):
-    create_time = int(time())
+    now = int(time())
     t = Trade(
         value=cent,
         tax=tax,
@@ -83,8 +83,8 @@ def trade_new(cent, tax, from_id, to_id, cid, rid, state=TRADE_STATE_ONWAY, for_
         cid=cid,
         rid=rid,
         state=state,
-        create_time=create_time,
-        update_time=create_time,
+        create_time=now,
+        update_time=now,
         for_id=for_id
     )
     t.save()
@@ -109,15 +109,15 @@ def trade_finish(t):
     to_id = t.to_id
     value = t.value
     state = t.state
-    update_time = int(time())
+    now = int(time())
 
-    is_new = (state == TRADE_STATE_NEW)
-    is_onway = (state == TRADE_STATE_ONWAY)
+    is_new = state == TRADE_STATE_NEW
+    is_onway = state == TRADE_STATE_ONWAY
     if is_new:
         bank_change(from_id, -value)
     if is_new or is_onway:
         bank_change(to_id, value)
-        t.update_time = update_time
+        t.update_time = now
         t.state = TRADE_STATE_FINISH
         t.save()
         if is_onway:
@@ -127,14 +127,14 @@ def trade_fail(t):
     from_id = t.from_id
     value = t.value
     state = t.state
-    update_time = int(time())
+    now = int(time())
     if state == TRADE_STATE_NEW:
-        t.update_time = update_time
+        t.update_time = now
         t.state = TRADE_STATE_ROLLBACK
         t.save()
     elif state == TRADE_STATE_ONWAY:
         bank_change(from_id, value)
-        t.update_time = update_time
+        t.update_time = now
         t.state = TRADE_STATE_ROLLBACK
         t.save()
         mc_frozen_get.delete(from_id)
@@ -221,13 +221,24 @@ def charged(out_trade_no, total_fee, rid, d):
         if t and t.to_id == user_id and t.rid == rid  and t.value + t.tax == int(float(total_fee)*100):
             if t.state == TRADE_STATE_ONWAY:
                 trade_finish(t)
-                for_t = Trade.get(t.for_id)
                 trade_log.set(id, dumps(d))
-                if t.for_id:
+                for_t = Trade.get(t.for_id)
+                if for_t:
                     if bank_can_pay(for_t.from_id, for_t.value):
-                        trade_finish(for_t)
-                        #send message and notice
-                        pay_notice(for_t.id)
+                        for_cid = for_t.cid
+                        if for_cid == CID_TRADE_PAY:
+                            trade_finish(for_t)
+                            pay_notice(for_t.id)
+                        elif for_cid == CID_TRADE_EVENT:
+                            from event import event_joiner_state, event_joiner_new, EVENT_JOIN_STATE_NEW
+                            event_id = for_t.rid
+                            user_id = for_t.from_id
+                            if event_joiner_state(event_id, user_id) < EVENT_JOIN_STATE_NEW:
+                                trade_open(for_t)
+                                event_joiner_new(event_id, user_id)
+                            else:
+                                trade_fail(for_t)
+                                return t
                         return for_t
             return t
 
@@ -250,11 +261,11 @@ def withdraw_fail(id, txt):
             value=t.value/100.0
         )
 
-def withdraw_success(id,trade_no):
+def withdraw_success(id, trade_no):
     t = Trade.get(id)
     if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_ONWAY:
         trade_finish(t)
-        trade_log.set(id,trade_no)
+        trade_log.set(id, trade_no)
         mail = mail_by_user_id(id)
         rendermail(
             '/mail/notice/with_draw_success.txt', mail,
@@ -275,12 +286,12 @@ def withdraw_list():
         i.account, i.name = pay_account_name_get(i.from_id, i.rid)
     return qs
 
+
 # Deal
 def pay_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
     assert price > 0
     cent = int(price * 100)
-    t = trade_new(cent, 0, from_id, to_id, CID_TRADE_PAY, rid, state)
-    return t.id
+    return trade_new(cent, 0, from_id, to_id, CID_TRADE_PAY, rid, state)
 
 def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
     assert price > 0
@@ -288,8 +299,24 @@ def deal_new(price, from_id, to_id, rid, state=TRADE_STATE_ONWAY):
     return trade_new(cent, 0, from_id, to_id, CID_TRADE_DEAL, rid, state)
 
 
+# Event
+def pay_event_new(price, from_id, to_id, rid, state=TRADE_STATE_NEW):
+    assert price > 0
+    cent = int(price * 100)
+    return trade_new(cent, 0, from_id, to_id, CID_TRADE_EVENT, rid, state)
+
+def pay_event_get(event, user_id):
+    li = Trade.where(from_id=user_id, to_id=event.zsite_id, rid=event.id, state=TRADE_STATE_ONWAY)
+    if li:
+        for i in li[1:]:
+            trade_fail(i)
+        return li[0]
+
+
 if __name__ == '__main__':
     pass
-    #with_draw_success(,'12001201')
-    #for i in trade_history(10000000):
-    #   print i.cid, i.state, i.from_id
+
+    t = Trade.get(127)
+    print t.cid, t.for_id
+
+

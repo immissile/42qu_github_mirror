@@ -31,6 +31,11 @@ def pic_save(pic_id, pic):
     fs_set_jpg('0', pic_id, pic)
 
 
+def pic_new_save(cid, user_id, pic):
+    pic_id = pic_new(cid, user_id)
+    pic_save(pic_id, pic)
+    return pic_id
+
 
 def pic_yes(id, admin_id):
     pic = Pic.get(id)
@@ -89,9 +94,12 @@ def pic_rm_mail(id):
             mail = mail_by_user_id(user_id)
             if cid == CID_ICO:
                 if not ico.get(user_id):
-                    rendermail(template, mail, name,
-                               user=user,
-                              )
+                    rendermail(
+                       template,
+                       mail,
+                       name,
+                       user=user,
+                    )
 
 
 

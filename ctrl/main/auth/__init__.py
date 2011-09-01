@@ -13,6 +13,7 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 from zkit.errtip import Errtip
 from model.zsite_list_0 import zsite_show
+from model.search_zsite import search_new
 
 LOGIN_REDIRECT = '%s/live'
 
@@ -89,6 +90,7 @@ class Reg(NoLoginBase):
             user = user_new_by_mail(mail, password)
             user_id = user.id
             user_info_new(user_id, sex=sex)
+            search_new(user_id)
             return self.redirect('/auth/verify/send/%s'%user_id)
 
         self.render(

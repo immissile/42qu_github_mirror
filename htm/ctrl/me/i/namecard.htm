@@ -1,5 +1,5 @@
 <%inherit file="_base.htm" />
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/namecard.htm" import="namecard_edit"/>
 <%!
 
 %>
@@ -9,19 +9,4 @@
 ${css.ctrl_i_namecard|n}
 </%def>
 
-
-
-<%htm:form>
-<p>本人姓名 <input class="ti" autocomplete="off" type="text" name="name" value="${name}"></p>
-<p>手机号码 <input class="ti" autocomplete="off" type="text" name="phone" value="${phone}"></p>
-<p>邮件地址 <input class="ti" autocomplete="off" type="text" name="mail" value="${mail}"></p>
-<p class="tc" style="text-align:left">现居城市
-<script>select_pid("pid_now", ${pid_now})</script>
-</p>
-<p>详细地址 <input class="ti address" type="text" name="address" value="${address}"></p>
-<div class="btns">
-<span class="btnw">
-<button type="submit">保存</button>
-</span>
-</div>
-</%htm:form>
+${namecard_edit()}

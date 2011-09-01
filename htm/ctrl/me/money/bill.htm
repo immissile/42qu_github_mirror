@@ -1,8 +1,10 @@
 <%!
 from datetime import datetime
-from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL, CID_TRADE_PAY
+from model.cid import CID_TRADE_CHARDE, CID_TRADE_WITHDRAW, CID_TRADE_DEAL, CID_TRADE_PAY, CID_TRADE_EVENT  
+from model.money import TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, TRADE_STATE_ROLLBACK
 from model.money import trade_log, bank_view, frozen_view, frozen_get
 from yajl import loads
+from model.po import Po
 %>
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/notice.htm" import="trade_log_render"/>
@@ -51,7 +53,6 @@ tax = t.tax
 read_tax = t.read_tax
 got = t.read_value
 update_time = datetime.fromtimestamp(t.update_time)
-
 %>
 
 %if cid == CID_TRADE_CHARDE:
@@ -62,7 +63,7 @@ update_time = datetime.fromtimestamp(t.update_time)
     等待
     %elif state == TRADE_STATE_FINISH:
     成功
-    %elif state == TRADE_STATE_CANCEL:
+    %elif state == TRADE_STATE_ROLLBACK:
     失败: ${trade_log.get(t.id)}
     %endif
 %elif cid == CID_TRADE_DEAL:
@@ -71,15 +72,27 @@ update_time = datetime.fromtimestamp(t.update_time)
     %else:
     收到 ${got} 
     %endif
+%elif cid == CID_TRADE_EVENT:
+<%
+po = Po.mc_get(t.rid)
+%>
+报名 <a href="${po.link}">${po.name}</a>
+    %if state == TRADE_STATE_ONWAY:
+    待审 , 冻结 ${got} 元 
+    %elif state == TRADE_STATE_FINISH:
+    成功 , 支付 ${got} 元 
+    %elif state == TRADE_STATE_ROLLBACK:
+    失败 , 费用已退
+    %endif
 %elif cid == CID_TRADE_PAY:
 %if current_user_id == from_user.id:
 向 <a href="${to_user.link}">${to_user.name}</a> 捐赠 ${got} 元 
 %else:
 <a href="${from_user.link}">${from_user.name}</a> 捐赠 ${got} 元 
 %endif
-
 ${trade_log_render(t.id)}
-
+%else:
+CID : ${cid}
 %endif
 %if tax:
  , 交易费 ${read_tax} 

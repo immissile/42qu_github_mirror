@@ -1,0 +1,32 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%!
+from model.po import Po
+%>
+
+<%def name="htm_head()">
+<script src="${js.pid}"></script>
+${css.ctrl_i_namecard|n}
+${css.ctrl_event_join|n}
+</%def>
+
+<%
+event = this.event
+po = Po.mc_get(event.id)
+error = this.error
+%>
+
+<%namespace file="/ctrl/_util/namecard.htm" import="namecard_edit"/>
+<div class="event_join">
+<p>报名登记<a href="${po.link}">${po.name}</a></p>
+</div>
+<div>
+%if error:
+<div class="errortop">
+    %for i in error:
+<p class="error">${i}</p>
+    %endfor
+</div>
+%endif
+${namecard_edit()}
+</div>
+
