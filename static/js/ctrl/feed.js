@@ -82,15 +82,17 @@
 		_(down, up, id, - 1)
 	}
 	$('.fav').live('click', function() {
-		this.className = 'faving'
+        var self=this;
+		self.className = 'faving'
 		$.postJSON('/j/feed/fav/' + this.rel, function() {
-			this.className = 'faved'
+			self.className = 'faved'
 		})
 	})
 	$('.faved').live('click', function() {
-		this.className = 'faving'
+        var self=this;
+		self.className = 'faving'
 		$.postJSON('/j/feed/unfav/' + this.rel, function() {
-			this.className = 'fav'
+			self.className = 'fav'
 		})
 	})
 })()
