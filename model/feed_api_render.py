@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT
 from po import Po
 from feed_render import zsite_id_list_by_follow
 from feed import MAXINT, PAGE_LIMIT
@@ -9,6 +9,8 @@ from zsite import Zsite
 from model.txt2htm import txt_withlink
 from zkit.mc_func import mc_func_get_list, mc_func_get_dict
 from txt import txt_get
+from event import Event
+from zkit.earth import place_name
 
 @mc_feed_user_dict('{user_id}')
 def user_dict(user_id):
@@ -24,6 +26,11 @@ def question_dict(question_id):
     o = Po.mc_get(question_id)
     return dict(question_id=question_id, question_name=o.name, question_user=user_dict(o.user_id))
 
+def event_dict(event_id):
+    e = Event.mc_get(event_id)
+    p = Po.mc_get(event_id)
+    return dict(event_id=event_id,event_name=p.name,event_begin_time=e.begin_time,event_end_time=e.end_time,event_address_pid=e.pid,event_address=place_name(e.pid))
+
 def feed_po_dict_by_db(id):
     o = Po.mc_get(id)
     cid = o.cid
@@ -33,6 +40,8 @@ def feed_po_dict_by_db(id):
 
     if cid == CID_WORD and rid or cid == CID_ANSWER:
         d.update(question_dict(rid))
+    elif cid == CID_EVENT:
+        d.update(event_dict(id))
     else:
         d['name'] = o.name
 
