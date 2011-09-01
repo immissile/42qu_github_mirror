@@ -13,7 +13,6 @@ from zkit.jsdict import JsDict
 from zkit.txt import cnenlen
 from model.event import Event, event_init2to_review
 from model.po_event import event_joiner_state_set_by_good
-from model.sync import sync_po_note_by_zsite_id,sync_po_word_by_zsite_id
 
 def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
@@ -50,8 +49,6 @@ class PoWord(LoginBase):
         txt = self.get_argument('txt', '')
         if txt:
             p = po_word_new(current_user.id, txt)
-            print current_user.id, p.txt, p.link
-            sync_po_word_by_zsite_id(current_user.id,p.txt,p.link)
         return self.redirect('/live')
 
 
@@ -71,8 +68,6 @@ def po_post(self):
             state = STATE_ACTIVE
 
     po = self.po_save(user_id, name, txt, state)
-    if self.cid ==CID_NOTE and state == STATE_ACTIVE:
-        sync_po_note_by_zsite_id(user_id,po.name,po.link)
 
     self_id = self.id
     if po:

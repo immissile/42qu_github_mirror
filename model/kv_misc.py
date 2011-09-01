@@ -28,4 +28,3 @@ KV_PO_AUDIO = 7 # 音频压缩
 KV_EVENT_STATE = 8 # 活动开始与结束
 KV_EVENT_READY = 9 # 活动后天开始提醒
 KV_EVENT_WEEK = 10 # 活动周报位置
-KV_SYNC_FOLLOW = 11 #同步关注官方和发微博

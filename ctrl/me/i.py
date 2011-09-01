@@ -473,7 +473,7 @@ class Binded(LoginBase):
             flag += 0b1
         if tstate:
             flag += 0b10
-
+        
         sync_follow_new(user_id, flag, cid, txt)
         
         url = 'http://rpc.%s/oauth/%s'%(SITE_DOMAIN, cid)
