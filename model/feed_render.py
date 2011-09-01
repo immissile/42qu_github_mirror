@@ -7,7 +7,7 @@ from operator import itemgetter
 from po import Po
 from po_question import answer_count
 from follow import follow_id_list_by_from_id
-from vote import vote_count
+#from vote import vote_count
 from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm
 from zkit.earth import place_name
 from zsite import Zsite
@@ -60,7 +60,7 @@ def feed_tuple_by_db(id):
         reply_count,
         m.create_time,
         name,
-        vote_count(id)
+        #vote_count(id)
     ]
 
     txt = m.txt
@@ -130,11 +130,12 @@ def render_feed_list(id_list, rt_dict, zsite_id):
     for id, i in zip(id_list, feed_tuple_list(id_list)):
         rt_id_list = rt_dict[id]
         result = [
+            i[0],
             id,
             fav_dict[id],
             map(dump_zsite, map(zsite_dict.get, rt_id_list))
         ]
-        result.extend(i)
+        result.extend(i[1:])
         r.append(result)
 
     return r

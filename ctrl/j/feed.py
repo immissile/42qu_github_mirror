@@ -104,9 +104,9 @@ class Feed(JLoginBase):
                 else:
                     after = None
 
-                i.extend([
-                    vote_state(current_user_id, id),
-                ])
+        #        i.extend([
+        #            vote_state(current_user_id, id),
+        #        ])
 
                 if cid not in (CID_WORD, CID_EVENT):
                     i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
