@@ -112,7 +112,7 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
     </div>
     <div class="fdbar">
     <span class="L">
-<span style="vertical-align: -5px" class="c9"><a style="color: rgb(153, 153, 153); margin-right: 14px;" href="/${id}#txt_form">${reply_count or ''} 评论</a>-<a style="color: rgb(153, 153, 153); margin: 0pt 14px;" class="vote${vote_state}" href="javascript:vote_up(${id});void(0)">分享</a>-<a href="javascript:fav(${id});void(0)" style="margin: 0pt 14px; background: url(&quot;http://s4.42qu.us/img/gif/icons/gif/orange/to_size/check.gif&quot;) no-repeat scroll 100% 5px transparent; padding-right: 17px; color: rgb(170, 17, 0);">收藏</a></span>
+<span style="vertical-align: -5px" class="c9"><a style="color: rgb(153, 153, 153); margin-right: 14px;" href="/${id}#txt_form">{{if reply_count}}<span class="mr3">${reply_count}</span>{{/if}}评论</a>-<a style="color: rgb(153, 153, 153); margin: 0pt 14px;" class="vote${vote_state}" href="javascript:vote_up(${id});void(0)">分享</a>-<a href="javascript:fav(${id});void(0)" style="margin: 0pt 14px; background: url(&quot;http://s4.42qu.us/img/gif/icons/gif/orange/to_size/check.gif&quot;) no-repeat scroll 100% 5px transparent; padding-right: 17px; color: rgb(170, 17, 0);">收藏</a></span>
     </span>
         ${create_time}
         {{if rt_list.length}} ,

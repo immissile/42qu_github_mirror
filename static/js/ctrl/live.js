@@ -4,7 +4,7 @@
 */
 // - vote vote_state
 (function() {
-	var FEED_ATTR_BASE = "id fav rt_list cid rid reply_count create_time name txt txt_more ",
+	var FEED_ATTR_BASE = "id fav rt_list cid rid reply_count create_time name txt txt_more",
 	FEED_ATTR_TXT_BASE = FEED_ATTR_BASE + " tag_id tag_name",
 	QUESTION_ATTR_BASE = " question_id question_user question_user_link",
 	FEED_ATTR = {
@@ -47,9 +47,8 @@
 
 		for (i = 0; i < item.length; ++i) {
 			result = item[i];
-            console.info(result)
 			t = {};
-			attr = FEED_ATTR[result[2]];
+			attr = FEED_ATTR[result[3]];
 			result_length = result.length;
 			for (j = 0; j < result_length; ++j) {
 				t[attr[j]] = result[j]

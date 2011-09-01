@@ -132,8 +132,8 @@ def render_feed_list(id_list, rt_dict, zsite_id):
         result = [
             i[0],
             id,
+            map(dump_zsite, map(zsite_dict.get, rt_id_list)),
             fav_dict[id],
-            map(dump_zsite, map(zsite_dict.get, rt_id_list))
         ]
         result.extend(i[1:])
         r.append(result)
