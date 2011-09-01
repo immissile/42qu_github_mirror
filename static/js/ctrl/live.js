@@ -2,9 +2,9 @@
 61 word
 62 note
 */
-// - vote vote_state
+
 (function() {
-	var FEED_ATTR_BASE = "id fav rt_list cid rid reply_count create_time name txt txt_more",
+	var FEED_ATTR_BASE = "id rt_list fav cid rid reply_count create_time name txt txt_more",
 	FEED_ATTR_TXT_BASE = FEED_ATTR_BASE + " tag_id tag_name",
 	QUESTION_ATTR_BASE = " question_id question_user question_user_link",
 	FEED_ATTR = {
