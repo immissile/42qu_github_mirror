@@ -427,7 +427,7 @@ class BindItem(LoginBase):
         user_id = self.current_user_id
         return self.render(
             id=id,
-            sync_all=sync_all(user_id),
+            sync_all=sync_all(user_id, id),
         )
 
     def post(self, id):
@@ -439,7 +439,7 @@ class BindItem(LoginBase):
                 state = 1
             else:
                 state = 0
-            sync_state_set(user_id, i, state)
+            sync_state_set(user_id, i, state, id)
 
         self.redirect('/i/bind')
 
@@ -476,7 +476,7 @@ class Binded(LoginBase):
             flag += 0b1
         if tstate:
             flag += 0b10
-
+        
         sync_follow_new(user_id, flag, cid, txt)
 
         url = 'http://rpc.%s/oauth/%s'%(SITE_DOMAIN, cid)
