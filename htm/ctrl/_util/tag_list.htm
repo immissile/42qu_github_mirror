@@ -6,7 +6,7 @@ from model.po import PO_CN_EN, PO_EN
 %>
 <%namespace file="/ctrl/zsite/event/event_page.htm" import="event_po"/>
 
-<%def name="tag_url(zsite_tag_id)">\
+<%def name="tag_url(zsite_tag_id=None)">\
 % if zsite_tag_id:
 /tag/${zsite_tag_id}\
 % elif request.path == '/fav':
@@ -34,7 +34,7 @@ rid = po.rid
 </pre>\
 % endfor
 <div class="zsite_num_div">\
-<a href="/word" class="num">\
+<a href="${tag_url()}/word" class="num">\
     <span class="now">${po_word_count}</span><b>句微博</b>
 </a>
 </div>

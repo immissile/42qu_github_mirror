@@ -15,15 +15,20 @@ ${minute2ymd2(event.begin_time)}
 </%def>
 
 <%
-if current_user_id == zsite_id:
-    back_a = '/live'
+is_fav = request.path.startswith("/fav/")
+if is_fav:
+    back_a = "/fav"
 else:
-    back_a = '/'
+    if current_user_id == zsite_id:
+        back_a = '/live'
+    else:
+        back_a = '/'
+
 %>
 <a class="back_a" href="${back_a|n}"></a>
 
 <div class="po_tag">
-%if zsite_id == current_user_id:
+%if not is_fav and zsite_id == current_user_id:
 <h1 class="event_nav_a">
 <%
 path = request.path
@@ -36,8 +41,8 @@ to_review = path.startswith('/event/to_review')
 </h1>
 %else:
 <h1>\
-<a class="c0" href="${zsite.link}">${zsite.name}</a> \ 
-%if request.path.startswith("/fav/"):
+<a class="c0" href="${zsite.link}">${zsite.name}</a> \
+%if is_fav:
 . 收藏 \
 %endif
 : \
