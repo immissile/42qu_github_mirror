@@ -48,7 +48,7 @@ class PoWord(LoginBase):
         current_user = self.current_user
         txt = self.get_argument('txt', '')
         if txt:
-            p = po_word_new(current_user.id, txt)
+            po_word_new(current_user.id, txt)
         return self.redirect('/live')
 
 

@@ -10,6 +10,7 @@ from zkit.page import page_limit_offset
 from model.event import Event
 from ctrl.me.po_event import po_event_edit_get, po_event_edit_post
 from model.sync import mq_sync_po_by_zsite_id
+
 PAGE_LIMIT = 50
 
 @urlmap('/event/review')
