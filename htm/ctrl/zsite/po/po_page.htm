@@ -23,7 +23,7 @@ ${css.ctrl_tag|n}
 ${total} ${PO_COUNT_CN[cid]}</h1>
 <div class="zsite_ol">\
         %if cid == CID_WORD:
-            % for po in po_list:
+            % for po in li:
         <%
         if po.rid:
             question = po.target
@@ -39,7 +39,7 @@ ${total} ${PO_COUNT_CN[cid]}</h1>
             % endfor
         %else:
 <ol>
-    % for po in po_list:
+    % for po in li:
     <li>\
         <a href="${po.link}">\
         % if po.cid == CID_WORD:

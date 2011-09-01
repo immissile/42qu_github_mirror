@@ -35,17 +35,20 @@ class FavPage(ZsiteBase):
         if n != 1 and offset >= total:
             return self.redirect(page_template[:-3])
 
-        po_list = fav_po_list_by_user_id_cid(zsite_id, cid, limit, offset)
+        if cid == CID_EVENT:
+            li = event_list_join_by_user_id(zsite_id, limit, offset)
+        else:
+            li = fav_po_list_by_user_id_cid(zsite_id, cid, limit, offset)
 
-        if cid == CID_WORD:
-            rid_po_list = [i for i in po_list if i.rid]
-            Po.mc_bind(rid_po_list, 'question', 'rid')
-            Zsite.mc_bind([i.target for i in rid_po_list], 'user', 'user_id')
+            if cid == CID_WORD:
+                rid_po_list = [i for i in li if i.rid]
+                Po.mc_bind(rid_po_list, 'question', 'rid')
+                Zsite.mc_bind([i.target for i in rid_po_list], 'user', 'user_id')
 
         self.render(
             cid=cid,
             total=total,
-            po_list=po_list,
+            li=li,
             page=page,
             back_a='/fav',
         )
@@ -102,6 +105,7 @@ class AnswerPage(FavPage):
 @urlmap('/fav/event')
 @urlmap('/fav/event-(\d+)')
 class EventPage(FavPage):
-    cid = CID_ANSWER
-    page_template = '/fav/answer-%s'
+    cid = CID_EVENT
+    page_template = '/fav/event-%s'
     template = 'ctrl/zsite/event/event_page.htm'
+

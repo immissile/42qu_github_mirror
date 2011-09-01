@@ -85,7 +85,7 @@ class PoPage(ZsiteBase):
             cid=cid,
             is_self=is_self,
             total=total,
-            po_list=po_list,
+            li=po_list,
             page=page,
             back_a=back_a,
         )
@@ -167,7 +167,7 @@ class TagPoPage(ZsiteBase):
             cid=cid,
             is_self=is_self,
             total=total,
-            po_list=po_list,
+            li=po_list,
             page=page,
             tag_name=Tag.get(tag.tag_id),
             back_a='/tag/%s'%zsite_tag_id
