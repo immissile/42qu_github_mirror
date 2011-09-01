@@ -14,7 +14,9 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
         64:FEED_ATTR_TXT_BASE+QUESTION_ATTR_BASE,
         65:FEED_ATTR_TXT_BASE,
         66:FEED_ATTR_TXT_BASE,
-        67:FEED_ATTR_TXT_BASE
+        67:FEED_ATTR_TXT_BASE,
+        68:FEED_ATTR_BASE+" place_name address time_row1 time_row2 time_diff_day",
+        69:FEED_ATTR_BASE
     },
     DATE_ATTR = "name link unit title pic".split(' ');
     for(var i in FEED_ATTR){
@@ -148,28 +150,9 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
 
     });
     /* 发微博 */
-    var po_word_tip = $("#po_word_tip"), po_word_txt = $("#po_word_txt"), po_word_max = 142, po_word_txt_bg="po_word_txt_bg";
-    function po_word_update(value){
-        var len = cnenlen(value),
-            html, diff=0;
-        if(len){
-            diff = len-po_word_max; 
-            if(diff>0){
-    html = '<span style="color:red">超出<span>'+diff+"</span>字</span>"
-            }else{
-    html = "<span><span>"+len+"</span>字</span>"
-    //为了ie6 多加一层span
-            }
-        }else{
-    html = '&nbsp;'
-        }
-        po_word_tip.html(html);
-        return diff
-    }
+    var  po_word_txt = $("#po_word_txt"), po_word_txt_bg="po_word_txt_bg";
     po_word_txt.blur().val('').focus(function(){
         $(this).removeClass(po_word_txt_bg)
-    }).input(function po_word_change(){
-        po_word_update(this.value)
     }).blur(function(){
         var self=$(this), val=self.val();
         if(!val||!val.length){
@@ -179,19 +162,19 @@ var FEED_ATTR_BASE = "id rt_list cid rid reply_count create_time name vote txt t
     .addClass(po_word_txt_bg)
     ;
 
-    $("#po_word_form").submit(function(){
-        if(po_word_update(po_word_txt.val())>0){
-            po_word_txt.focus()
-            return false
-        }
-    })
-    
+    txt_maxlen(po_word_txt,  $("#po_word_tip"), $("#po_word_form"), 142)
+
     /* 显示全部 */
     fdtxt = function(e,id){
         var txt=$(e).parents('.fdtxt'),all=txt.find(".fdall");
-        all.html('').addClass("fdloading")
+        all.addClass("fdloading").find('.fdext').remove()
         $.get("/j/fdtxt/"+id,function(htm){
-            txt.html('<pre class="fdpre">'+htm+"</pre>")
+            txt.find('.fdtxtin').html('<pre class="fdpre">'+htm+"</pre>")
+            if(all.find('a').length){
+                all.removeClass('fdloading')
+            }else{
+                all.remove()
+            }
         }) 
     }
     fdvideo = function(e, id){

@@ -4,7 +4,7 @@ from _db import cursor_by_table
 from oauth import oauth_token_by_oauth_id,\
 OAUTH_GOOGLE, OAUTH_DOUBAN, \
 OAUTH_SINA, OAUTH_TWITTER,\
-OAUTH_WWW163, OAUTH_BUZZ,\
+OAUTH_WWW163, \
 OAUTH_SOHU, OAUTH_QQ, \
 OAUTH_RENREN,OAUTH_LINKEDIN 
 from oauth_update import api_qq,api_douban, api_sina, api_www163, api_network_http

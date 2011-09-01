@@ -6,11 +6,11 @@ from model.po_prev_next import po_prev_next
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN
 from model.po_question import po_answer_new
-from model.po_pos import po_pos_get, po_pos_set
+from model.po_pos import po_pos_get, po_pos_set, po_pos_state, STATE_BUZZ
 from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
 from zkit.page import page_limit_offset
 from zkit.txt import cnenlen
 from model.zsite_tag import ZsiteTag
@@ -45,8 +45,6 @@ class PoIndex(ZsiteBase):
         self.redirect(link)
 
 
-#@urlmap('/po')
-#@urlmap('/po-(\d+)')
 class PoPage(ZsiteBase):
     cid = 0
     template = '/ctrl/zsite/po/po_page.htm'
@@ -74,7 +72,7 @@ class PoPage(ZsiteBase):
         if cid == CID_WORD:
             rid_po_list = [i for i in po_list if i.rid]
             Po.mc_bind(rid_po_list, 'question', 'rid')
-            Zsite.mc_bind([i.question for i in rid_po_list], 'user', 'user_id')
+            Zsite.mc_bind([i.target for i in rid_po_list], 'user', 'user_id')
 
         if zsite_id == user_id:
             back_a = '/live'
@@ -216,10 +214,12 @@ CID2TEMPLATE = {
     CID_NOTE: PO_TEMPLATE,
     CID_QUESTION:'/ctrl/zsite/po/question.htm',
     CID_ANSWER: PO_TEMPLATE,
+    CID_EVENT_NOTICE: '/ctrl/zsite/po/notice.htm',
     CID_PHOTO: '/ctrl/zsite/po/photo.htm',
     CID_VIDEO: '/ctrl/zsite/po/video.htm',
     CID_EVENT: '/ctrl/zsite/po/event.htm',
     CID_AUDIO: '/ctrl/zsite/po/audio.htm',
+    CID_EVENT_FEEDBACK: PO_TEMPLATE,
 }
 
 
@@ -244,6 +244,7 @@ class PoOne(ZsiteBase):
         cid = po.cid
         if cid != CID_QUESTION:
             po_pos_set(user_id, po)
+            po_pos_state(user_id, po.id, STATE_BUZZ)
 
     def get(self, id):
         po = self.po(id)
@@ -259,13 +260,19 @@ class PoOne(ZsiteBase):
             self.mark()
 
         cid = po.cid
+
+        prev_id = next_id = None
+
         if cid == CID_EVENT:
             prev_id = next_id = zsite_tag_id = tag_name = None
             event = Event.mc_get(id)
             if event.state <= EVENT_STATE_TO_REVIEW:
                 tag_link = "/event/to_review"
             else:
-                tag_link = "/event/all"
+                tag_link = "/event"
+        elif cid == CID_EVENT_NOTICE:
+            prev_id = next_id = zsite_tag_id = tag_name = None
+            tag_link = "/%s"%po.rid
         else:
             zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
             if zsite_tag_id:
@@ -297,6 +304,7 @@ class Question(PoOne):
         po = self._po
         user_id = self.current_user_id
         po_pos_set(user_id, po)
+        po_pos_state(user_id, po.id, STATE_BUZZ)
 
     def post(self, id):
         question = self.po(id)

@@ -99,6 +99,18 @@ def zsite_name_edit(id, name):
             zsite.save()
             mc_feed_user_dict.delete(id)
 
+def zsite_name_rm(id):
+    from mail import rendermail
+    from user_mail import mail_by_user_id
+    zsite_name_edit(id,"无名")
+    zsite = Zsite.mc_get(id)
+    rendermail('/mail/notice/name_rm.txt', mail_by_user_id(id), zsite.name,
+                   link=zsite.link,
+                  )
+
+
+
+
 def zsite_new_user(name, state=ZSITE_STATE_APPLY):
     return zsite_new(name, CID_USER, state)
 
@@ -146,15 +158,5 @@ from mq import mq_client
 mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 
 if __name__ == '__main__':
-    #print zsite_is_verify(jarod)
+    #zsite_name_rm(10017321)
     pass
-    zsite = Zsite.mc_get(10023730)
-    zsite.state = ZSITE_STATE_VERIFY
-    zsite.save()
-    print zsite.state , ZSITE_STATE_VERIFY
-    print Zsite.where(state=ZSITE_STATE_WAIT_VERIFY).col_list()
-#  zsite_verify_no(zsite,"te")
-    #print Zsite.where().count()
-# for i in Zsite.where():
-#     i.name = i.name.strip()
-#     i.save()

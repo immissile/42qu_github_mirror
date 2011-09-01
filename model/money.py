@@ -16,7 +16,7 @@ from zkit.attrcache import attrcache
 mc_frozen_get = McCache('FrozenBank.%s')
 
 def read_cent(cent):
-    return '%.2f' % (cent / 100.)
+    return ('%.2f' % (cent / 100.)).rstrip('0').rstrip('.')
 
 # Bank
 bank = Kv('bank', 0)
@@ -33,11 +33,11 @@ def bank_can_pay(user_id, cent):
     return bank.get(user_id) >= cent
 
 # Trade
-TRADE_CID_DIC = {
+TRADE_CID_DICT = {
     CID_TRADE_CHARDE: '充值',
     CID_TRADE_WITHDRAW: '提现',
     CID_TRADE_DEAL: '交易',
-#    CID_TRADE_EVENT: '活动',
+    CID_TRADE_EVENT: '活动',
 }
 
 TRADE_STATE_NEW = 5
@@ -226,14 +226,14 @@ def charged(out_trade_no, total_fee, rid, d):
                 if for_t:
                     if bank_can_pay(for_t.from_id, for_t.value):
                         for_cid = for_t.cid
-                        if cid == CID_TRADE_PAY:
+                        if for_cid == CID_TRADE_PAY:
                             trade_finish(for_t)
                             pay_notice(for_t.id)
-                        elif cid == CID_TRADE_EVENT:
-                            from event import event_joiner_state, event_joiner_new
+                        elif for_cid == CID_TRADE_EVENT:
+                            from event import event_joiner_state, event_joiner_new, EVENT_JOIN_STATE_NEW
                             event_id = for_t.rid
                             user_id = for_t.from_id
-                            if event_joiner_state(event_id, user_id) < STATE_APPLY:
+                            if event_joiner_state(event_id, user_id) < EVENT_JOIN_STATE_NEW:
                                 trade_open(for_t)
                                 event_joiner_new(event_id, user_id)
                             else:
@@ -261,11 +261,11 @@ def withdraw_fail(id, txt):
             value=t.value/100.0
         )
 
-def withdraw_success(id,trade_no):
+def withdraw_success(id, trade_no):
     t = Trade.get(id)
     if t and t.cid == CID_TRADE_WITHDRAW and t.state == TRADE_STATE_ONWAY:
         trade_finish(t)
-        trade_log.set(id,trade_no)
+        trade_log.set(id, trade_no)
         mail = mail_by_user_id(id)
         rendermail(
             '/mail/notice/with_draw_success.txt', mail,
@@ -315,6 +315,8 @@ def pay_event_get(event, user_id):
 
 if __name__ == '__main__':
     pass
-    #with_draw_success(,'12001201')
-    #for i in trade_history(10000000):
-    #   print i.cid, i.state, i.from_id
+
+    t = Trade.get(127)
+    print t.cid, t.for_id
+
+

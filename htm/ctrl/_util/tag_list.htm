@@ -1,6 +1,7 @@
 <%!
 from model.po import Po
 from model.zsite import Zsite
+from model.cid import CID_ANSWER
 %>
 <%def name="tag_url(zsite_tag_id)">\
 %if zsite_tag_id:
@@ -12,14 +13,17 @@ from model.zsite import Zsite
 % if po_word_count:
 <div class="zsite_block">\
 % for po in po_word_list:
+<%
+cid = po.cid
+rid = po.rid
+%>
+    % if rid:
     <%
-    if po.rid:
-        question_po = Po.mc_get(po.rid)
-        question_user = Zsite.mc_get(question_po.user_id)
+    question_po = Po.mc_get(rid)
+    question_user = question_po.user
     %>
-        %if po.rid:
-            <div class="qaword_title"><p> 答 <a href="/${question_user.link}" target="_blank">${question_user.name}</a> 问 <a href="/${po.id}" target="_blank">${question_po.name}</a></p></div>
-        %endif
+    <div class="qaword_title"><p> 答 <a href="/${question_user.link}" target="_blank">${question_user.name}</a> 问 <a href="/${po.id}" target="_blank">${question_po.name}</a></p></div>
+    % endif
 
 <pre class="zsite_word">${po.htm|n}<a href="/${po.id}" class="zsite_reply"></a>\
 </pre>\
@@ -66,7 +70,7 @@ from model.zsite import Zsite
 <div class="zsite_ol">\
 <ol>
 % for po in po_answer_list:
-<li>${po.question.user.link_html|n} : <a href="/${po.id}">${po.question.name}</a></li>\
+<li>${po.target.user.link_html|n} : <a href="/${po.id}">${po.target.name}</a></li>\
 % endfor
 </ol>
 </div>\

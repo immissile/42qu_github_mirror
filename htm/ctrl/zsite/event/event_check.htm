@@ -1,59 +1,65 @@
-<%inherit file="/ctrl/_base/zsite.htm" />
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%namespace file="/ctrl/_util/user.htm" import="user_link"/>
+<%inherit file="_admin.htm" />
 <%!
-from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_REVIEW
+from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_FEEDBACK_NORMAL
+from model.notice import notice_event_join_no_txt_by_zsite_id
+from model.ico import pic_url as _pic_url, ico_url_with_default
 %>
-<%def name="htm_head()">
-<script>
-    $('a.yes').live('click', function() {
-        var id = this.rel
-        $.postJSON('/j/event/check/' + id + '/1', function(data) {
-            $('#eustate' + id).html('已加入')
-        })
-    })
-    $('a.no').live('click', function() {
-        var id = this.rel
-        $.postJSON('/j/event/check/' + id + '/0', function(data) {
-            $('#eu' + id).slideUp(500, function() {
-                $(this).remove()
-            })
-        })
-    })
-</script>
-</%def>
-<ol>
+
+<%def name="event_admin_body()">
+<div style="padding-bottom:48px">
+%if event_joiner_list:
 % for i in event_joiner_list:
 <%
 id = i.id
 state = i.state
 user = i.user
-namecard = i.namecard
+username = user.name
+namecard = user.namecard
+realname = namecard.name
+career = ' , '.join(filter(bool, user.career))
 %>
-<li id="eu${id}">
-${user_link(user)}
-% if namecard:
-<p>本人姓名 : ${namecard.name}</p>
-<p>手机号码 : ${namecard.phone}</p>
-<p>邮件地址 : ${namecard.mail}</p>
-<p>现居城市 : ${namecard.place_now}</p>
-<p>详细地址 : ${namecard.address}</p>
-% else:
-<p>没有个人资料</p>
+% if id == pos_id:
+<div style="border-bottom: 1px dotted #ccc; width: 721px; margin: 32px auto auto;"></div>
 % endif
-<p id="eustate${id}">
-% if state == EVENT_JOIN_STATE_NEW:
-<a rel="${id}" class="yes">同意</a>
-<a rel="${id}" class="no">拒绝</a>
-% elif state == EVENT_JOIN_STATE_YES:
-已加入
-% elif state == EVENT_JOIN_STATE_END:
-已结束
-% elif state == EVENT_JOIN_STATE_REVIEW:
-已完成
+
+<div class="ndbk" id="ndbk${id}"><div class="sdw"><div class="sd c">
+    <img src="${ico_url_with_default(user.id)}" class="ndico">
+    <div class="ndtxt">
+        <p><a href="${user.link}">${realname}
+% if username != realname:
+( ${username} )
+% endif
+</a>
+% if career:
+, ${career}
 % endif
 </p>
-</li>
+        <p>电话 : ${namecard.phone}</p>
+        <p>邮箱 : ${namecard.mail}</p>
+        <p>地址 : ${namecard.place_now} ${namecard.address}</p>
+    </div>
+
+    <div class="ndbtn">
+        <div class="eventbtn">
+            <div
+                % if state == EVENT_JOIN_STATE_YES:
+                class="join_y"
+                % endif
+                >
+                <p><a class="join_yes" href="javascript:void(0)" rel="${id}">通过</a></p>
+                <p><a class="join_no" href="javascript:void(0)" rel="${id}">拒绝</a></p>
+            </div>
+        </div>
+    </div>
+</div></div></div>
 % endfor
-</ol>
+
 ${page|n}
+<textarea style="display: none" id="_txt">${notice_event_join_no_txt_by_zsite_id(current_user_id)}</textarea>
+%else:
+<div style="width:470px;margin:auto;text-align:center;font-size:16px;margin-top:96px">
+<p>暂无人报名</p>
+<p style="margin-top:32px;">去邀请朋友来参加吧</p></div>
+%endif
+</div>
+</%def>

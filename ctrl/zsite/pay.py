@@ -17,18 +17,6 @@ from model.state import STATE_SECRET, STATE_ACTIVE
 from model.notice import notice_new
 
 
-@urlmap('/pay/result/(\d+)')
-class Result(ZsiteBase):
-    def get(self, id):
-        t = Trade.get(id)
-        from_user = Zsite.mc_get(t.from_id)
-        to_user = Zsite.mc_get(t.to_id)
-
-        self.render(
-            from_user=from_user,
-            to_user=to_user,
-            trade=t,
-        )
 
 @urlmap('/pay')
 class Index(ZsiteBase):
@@ -135,7 +123,7 @@ class Index(ZsiteBase):
                     trade_log.set(o_id, dumps(message))
                 pay_notice(o_id)
 
-                return self.redirect('/pay/result/%s'%o_id)
+                return self.redirect('%s/pay/result/%s'%(SITE_HTTP, o_id))
             elif balance_cent > 0:
                 subject += '(余额支付 %.2f 元)' % (balance_cent/100.0)
                 o_id = _pay_new(TRADE_STATE_NEW)

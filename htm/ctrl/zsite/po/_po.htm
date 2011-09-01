@@ -2,9 +2,11 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%!
+from config import SITE_DOMAIN, SITE_NAME
+from zkit.time_format import friendly_time
 from model.state import STATE_SECRET, STATE_DEL
 from model.zsite_url import url_or_id
-from model.cid import CID_QUESTION, CID_PHOTO
+from model.cid import CID_QUESTION, CID_PHOTO, CID_EVENT
 from datetime import datetime
 %>
 
@@ -18,9 +20,13 @@ ${po.name} - ${zsite.name}\
 </%def>
 <%def name="htm_head()">
 ${css.ctrl_po|n}
+% if po.cid == CID_EVENT:
+${css.ctrl_po_event_page|n}
+<link rel="alternate" href="http://meet.${SITE_DOMAIN}/rss" type="application/rss+xml" title="${SITE_NAME}活动" />
+% else:
 <link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章" />
+% endif
 </%def>
-
 <%
 cid = po.cid
 po_state = po.state
@@ -87,6 +93,8 @@ user_id = user.id
     <div class="bar">
 %if can_admin or reply.can_rm(current_user_id):
     <a href="javascript:rm(${reply.id});void(0)" class="rm">删除</a> 
+%else:
+    <span class="c9 L">${friendly_time(reply.create_time)}</span>
 %endif
 <a href="${user.link}" class="replyer">${user.name}</a> 
 <a class="reply_at" rel="${url_or_id(user_id)}" href="javascript:void(0)"></a>

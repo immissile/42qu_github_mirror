@@ -1,6 +1,7 @@
 <%!
 from model.days import minute2ymd2
 from model.po import PO_COUNT_CN
+from model.event import event_join_count_by_user_id
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%def name="htm_head()">
@@ -29,7 +30,9 @@ path = request.path
 to_review = path.startswith('/event/to_review')
 %>
 <a class="${'c0' if not to_review else 'c9'}" href="/event">所有活动</a>
-<a class="${'c0' if to_review else 'c9'}" href="/event/to_review">待审批的</a>
+%if event_join_count_by_user_id(zsite_id):
+    <a class="${'c0' if to_review else 'c9'}" href="/event/to_review">待审批的</a>
+%endif
 </h1>
 %else:
 <h1>\

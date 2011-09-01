@@ -3,20 +3,22 @@
 <%!
 from model.money import bank, bank_view, read_cent
 from model.money_alipay import alipay_cent_with_tax
+from model.po import Po
 %>
 
 <%
 cent_with_tax = alipay_cent_with_tax(cent_need)
 tax = cent_with_tax - cent_need
+po = Po.mc_get(event.id)
 %>
-
-入场费 ${event.price} 元
-银行金额 ${bank_view(current_user_id)} 元
-
-差 ${read_cent(cent_need)} 元
-需充值 ${read_cent(cent_with_tax)} 元
-支付宝手续费 ${read_cent(tax)} 元
-
+<div style="width:470px;margin:32px auto">
+<a style="text-align:center;border-bottom:1px dotted #ccc;padding-bottom:32px;display:block" href="${po.link}">${po.name}</a>
+<div style="border-bottom:1px dotted #ccc;margin-bottom:32px;padding:32px 0;text-align:center">
+${event.price} 元 / 人
+</div>
 <%htm:form>
-<button type="submit">付款加入</button>
+<div class="tc">
+<span class="btnw"><button type="submit">付费报名</button></span>
+</div>
 </%htm:form>
+</div>

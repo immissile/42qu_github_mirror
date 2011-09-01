@@ -1,0 +1,11 @@
+活动 ${title} 结束了 , 来评价一下吧 ...
+
+${name} :
+
+您报名的活动 ${title} ( http:${link} ) 已经结束了。
+
+来评价一下 , 满不满意吧 :)
+
+直达链接 : http:${user_link}${feedback_link}
+
+如有问题请回复此邮件 

@@ -1,0 +1,15 @@
+<%inherit file="_po.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="_vote.htm" import="po_bar_vote"/>
+
+<%def name="po_body()">
+<pre class="prebody">\
+<p><a href="${zsite.link}">${zsite.name}</a> : ${po.htm|n}</p>\
+${po_bar_vote(po)}\
+<p class="po_bar">\
+    %if can_admin:
+<a href="/po/rm/${po.id}?${_xsrf}">删除</a>\
+    %endif
+</p>\
+</pre>
+</%def>

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from time import time
-from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY, CID_NOTICE_EVENT_YES
+from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY, CID_NOTICE_EVENT_YES, CID_NOTICE_EVENT_NO, CID_NOTICE_EVENT_JOIN_YES, CID_NOTICE_EVENT_JOIN_NO, CID_NOTICE_EVENT_NOTICE, CID_NOTICE_EVENT_KILL, CID_NOTICE_EVENT_ORGANIZER_SUMMARY, CID_NOTICE_EVENT_JOINER_FEEDBACK
 from state import STATE_DEL, STATE_APPLY, STATE_ACTIVE
 from po import Po
 from zsite import Zsite
@@ -10,12 +10,13 @@ from wall import Wall, WallReply
 from kv import Kv
 from zkit.ordereddict import OrderedDict
 from collections import defaultdict
-from mail import rendermail, render_template, sendmail
+from mail import rendermail, render_template, sendmail, mq_rendermail
 from mail_notice import mail_notice_state
 from career import career_dict
 from user_mail import mail_by_user_id
 from money import Trade
 from zkit.attrcache import attrcache
+from mq import mq_client
 
 STATE_GTE_APPLY = 'state>=%s' % STATE_APPLY
 
@@ -24,6 +25,14 @@ NOTICE_TUPLE = (
     (CID_NOTICE_WALL_REPLY, Wall, None),
     (CID_INVITE_QUESTION, Po, '/mail/notice/invite_question.txt'),
     (CID_NOTICE_QUESTION, Po, '/mail/notice/notice_question.txt'),
+    (CID_NOTICE_EVENT_YES, Po, None),
+    (CID_NOTICE_EVENT_NO, Po, None),
+    (CID_NOTICE_EVENT_JOIN_YES, Po, None),
+    (CID_NOTICE_EVENT_JOIN_NO, Po, None),
+    (CID_NOTICE_EVENT_NOTICE, Po, None),
+    (CID_NOTICE_EVENT_KILL, Po, None),
+    (CID_NOTICE_EVENT_ORGANIZER_SUMMARY, Po, None),
+    (CID_NOTICE_EVENT_JOINER_FEEDBACK, Po, None),
 #    (CID_NOTICE_PAY, Trade, None),
 )
 
@@ -42,7 +51,13 @@ def notice_unread_decr(user_id):
     unread = notice_unread.get(user_id)
     notice_unread.set(user_id, max(unread - 1, 0))
 
+notice_txt = Kv('notice_txt')
+
 class Notice(McModel):
+    @property
+    def txt(self):
+        return notice_txt.get(self.id)
+
     @property
     def link(self):
         return '/notice/%s' % self.id
@@ -79,7 +94,7 @@ class Notice(McModel):
         return notice_id_count(self.from_id, self.to_id, self.cid, self.rid)
 
 
-def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY):
+def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY, txt=None):
     n = Notice(
         from_id=from_id,
         to_id=to_id,
@@ -89,10 +104,20 @@ def notice_new(from_id, to_id, cid, rid, state=STATE_APPLY):
         create_time=int(time()),
     )
     n.save()
+    if txt is not None:
+        notice_txt.set(n.id, txt)
+
     mc_flush(to_id)
     notice_unread_incr(to_id)
     mc_notice_id_count.delete('%s_%s_%s_%s' % (from_id, to_id, cid, rid))
     return n
+
+def notice_txt_get(from_id, to_id, cid, rid):
+    c = Notice.raw_sql('select id from notice where from_id=%s and to_id=%s and cid=%s and rid=%s order by id desc', from_id, to_id, cid, rid)
+    r = c.fetchone()
+    if r:
+        r = r[0]
+        return notice_txt.get(r)
 
 mc_notice_id_count = McCache('NoticeIdCount.%s')
 
@@ -100,11 +125,27 @@ mc_notice_id_count = McCache('NoticeIdCount.%s')
 def notice_id_count(from_id, to_id, cid, rid):
     return Notice.where(from_id=from_id, to_id=to_id, cid=cid, rid=rid).count()
 
-def notice_new_hide_old(from_id, to_id, cid, rid):
+
+mc_notice_last_id_by_zsite_id_cid = McCache('NoticeIdLastByZsiteIdCid.%s')
+
+@mc_notice_last_id_by_zsite_id_cid('{zsite_id}_{cid}')
+def notice_last_id_by_zsite_id_cid(zsite_id, cid):
+    li = Notice.where(from_id=zsite_id, cid=cid).order_by('id desc')[:1]
+    if li:
+        return li[0].id
+    return 0
+
+def notice_last_txt_by_zsite_id_cid(zsite_id, cid):
+    return notice_txt.get(notice_last_id_by_zsite_id_cid(zsite_id, cid))
+
+def notice_event_join_no_txt_by_zsite_id(zsite_id):
+    return notice_last_txt_by_zsite_id_cid(zsite_id, CID_NOTICE_EVENT_JOIN_NO)
+
+def notice_new_hide_old(from_id, to_id, cid, rid, txt=None):
     if notice_id_count(from_id, to_id, cid, rid):
         for i in Notice.where(from_id=from_id, to_id=to_id, cid=cid, rid=rid):
             i.rm(to_id)
-    return notice_new(from_id, to_id, cid, rid)
+    return notice_new(from_id, to_id, cid, rid, txt=txt)
 
 def notice_wall_new(from_id, to_id, wall_id):
     return notice_new_hide_old(from_id, to_id, CID_NOTICE_WALL, wall_id)
@@ -112,8 +153,83 @@ def notice_wall_new(from_id, to_id, wall_id):
 def notice_wall_reply_new(from_id, to_id, wall_id):
     return notice_new_hide_old(from_id, to_id, CID_NOTICE_WALL_REPLY, wall_id)
 
-def notice_event_yes(user_id, event_id):
-    return notice_new(0, user_id, CID_NOTICE_EVENT_YES, event_id)
+def notice_event_yes(to_id, event_id):
+    for i in Notice.where(from_id=0, to_id=to_id, cid=CID_NOTICE_EVENT_NO, rid=event_id):
+        i.rm(to_id)
+    return notice_new(0, to_id, CID_NOTICE_EVENT_YES, event_id)
+
+def notice_event_no(to_id, event_id, txt):
+    return notice_new_hide_old(0, to_id, CID_NOTICE_EVENT_NO, event_id, txt=txt)
+
+def notice_event_no_txt_get(to_id, event_id):
+    return notice_txt_get(0, to_id, CID_NOTICE_EVENT_NO, event_id)
+
+def notice_event_join_yes(from_id, to_id, event_id):
+    n = notice_new(from_id, to_id, CID_NOTICE_EVENT_JOIN_YES, event_id)
+    mail = mail_by_user_id(to_id)
+    zsite = Zsite.mc_get(to_id)
+    po = Po.mc_get(event_id)
+    title = po.name
+    link = po.link
+    mq_rendermail('/mail/event/event_join_yes.txt',
+                  mail, zsite.name,
+                  link=link,
+                  title=title
+                 )
+    return n
+
+def notice_event_join_no(from_id, to_id, event_id, txt):
+    cid = CID_NOTICE_EVENT_JOIN_NO
+    n = notice_new(from_id, to_id, cid, event_id, txt=txt)
+    mc_notice_last_id_by_zsite_id_cid.set('%s_%s' % (from_id, cid), n.id)
+    mail = mail_by_user_id(to_id)
+    zsite = Zsite.mc_get(to_id)
+    po = Po.mc_get(event_id)
+    title = po.name
+    link = po.link
+    mq_rendermail('/mail/event/event_join_no.txt',
+                  mail, zsite.name,
+                  link=link,
+                  title=title,
+                  reason=txt
+                 )
+    return n
+
+def notice_event_notice(from_id, event_id, po_id):
+    from event import event_joiner_user_id_list
+    po = Po.mc_get(event_id)
+    title = po.name
+    link = po.link
+    notice_po = Po.mc_get(po_id)
+    txt = notice_po.name
+    notice_link = notice_po.link
+    for user_id in event_joiner_user_id_list(event_id):
+        notice_new(from_id, user_id, CID_NOTICE_EVENT_NOTICE, po_id)
+        name = Zsite.mc_get(user_id).name
+        mail = mail_by_user_id(user_id)
+        rendermail('/mail/event/event_notice.txt',
+                   mail, name,
+                   title=title,
+                   link=link,
+                   txt=txt,
+                   notice_link=notice_link,
+                  )
+
+mq_notice_event_notice = mq_client(notice_event_notice)
+
+def notice_event_kill_one(from_id, to_id, po_id):
+    return notice_new(from_id, to_id, CID_NOTICE_EVENT_KILL, po_id)
+
+def notice_event_kill_mail(user_id, title, link, txt, notice_link):
+    name = Zsite.mc_get(user_id).name
+    mail = mail_by_user_id(user_id)
+    rendermail('/mail/event/event_notice.txt',
+               mail, name,
+               title=title,
+               link=link,
+               txt=txt,
+               notice_link=notice_link,
+              )
 
 def invite_question(from_id, to_id, qid):
     from po_question import answer_id_get
@@ -129,7 +245,6 @@ def notice_question(to_id, qid):
         n = notice_new(to_id, from_id, CID_NOTICE_QUESTION, qid)
         notice_question_mail(n)
 
-from mq import mq_client
 mq_notice_question = mq_client(notice_question)
 
 def invite_question_mail(notice):
@@ -245,13 +360,5 @@ def mc_flush(to_id):
     notice_count.delete(to_id)
 
 if __name__ == '__main__':
-    pass
-    to_user = Zsite.mc_get(10000000)
-    rendermail(
-        '/mail/notice/day_total.txt',
-        'zsp007@gmail.com',
-        'x',
-        to_user=to_user,
-        count=3,
-        li_wall_reply={},
-    )
+    notice_event_join_yes(10000212, 10000000, 10064577)
+    notice_event_join_no(10000212, 10000000, 10064577, '这个真是没有办法的啦')

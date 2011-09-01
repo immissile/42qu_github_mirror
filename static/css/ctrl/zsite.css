@@ -207,3 +207,19 @@ border-bottom-color:#a10;
 .video{
 background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
 }
+.fdbar{
+border-top:1px solid #eee;
+text-align:right;
+color:#999;
+padding:7px 0 0;
+}
+.fdbar a{
+color:#999;
+}
+.fdbar .reply{
+margin-left:21px;
+}
+.fdtxt{
+margin-bottom:10px;
+margin-top:-6px;
+}

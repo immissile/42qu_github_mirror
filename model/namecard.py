@@ -59,18 +59,25 @@ def namecard_new(
     mc_namecard_id.set(user_id, c.id)
     return c
 
-def namecard_bind(li, key='zsite_id'):
-    d = []
+def namecard_dict(id_list):
+    return mc_func_get_dict(
+        mc_namecard_id,
+        namecard_get_id,
+        id_list,
+    )
+
+def namecard_bind(li, key='id'):
+    d = set()
     for i in li:
         k = getattr(i, key)
-        d.append(k)
+        d.add(k)
 
-    r = mc_func_get_dict(mc_namecard_id, namecard_get_id, d)
+    r = namecard_dict(d)
     id_list = r.values()
     e = Namecard.mc_get_dict(id_list)
 
-    for i, id in zip(li, d):
-        i.namecard = e.get(r.get(id))
+    for i in li:
+        i.namecard = e.get(r.get(getattr(i, key)))
 
 if __name__ == '__main__':
     from zsite import Zsite

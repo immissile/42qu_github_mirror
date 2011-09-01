@@ -1,7 +1,6 @@
 <%!
 from zkit.txt import EMAIL_VALID, mail2link
 from model.user_mail import mail_by_user_id 
-from model.cid import CID_NOTICE_EVENT_NO
 from model.event import Event
 from model.po import Po
 %>
@@ -20,12 +19,6 @@ id = top_notice.id
 cid = top_notice.cid
 rid = top_notice.rid
 %>
-% if cid == CID_NOTICE_EVENT_NO:
-<%
-po = Po.mc_get(rid)
-%>
-${po.name} 未过审核 ,
-<a href="/event/${po.id}">点此浏览详情</a>
+${id} ${cid} ${rid}
 <a href="javascript:$('#T').remove();$.postJSON('/j/top_notice/rm/${id}');void(0);" id="TX"></a>
-% endif
 </%def>

@@ -46,7 +46,7 @@ def alipay_payurl_with_tax(
         subject,
         buyer_email,
         for_id,
-        '支付宝手续费 %.2f 元'%tax
+        '支付宝手续费 %.2f 元' % (total_fee - cent / 100.0)
     )
 
 

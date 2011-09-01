@@ -35,7 +35,7 @@ border-top:1px #ccc dotted;
 #upload,#upload_wait{
 float:left;
 }
-#secret{
+#secret, #good{
     vertical-align:-1px;
     _vertical-align:1px;
     _margin-right:-4px;
@@ -75,9 +75,10 @@ margin:16px 0;
 .imgblock .align label{
 margin-right:32px;
 }
-#secret_label{
+#secret_label, #good_label{
 margin-right:32px
 }
+
 .rmpo{
 margin-right:46px;
 }
@@ -106,4 +107,10 @@ margin-top:9px;
 *margin-top:10px;
 padding:0 10px;
 background:#fff
+}
+#name{
+background:#FeFeFF;
+}
+#txt{
+background:#FeFeFF;
 }

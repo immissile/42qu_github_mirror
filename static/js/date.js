@@ -55,7 +55,7 @@ r.push('<option value="'+i+'">'+i+'</option>')
         r.push(
             '<select id="'+name+'_minute" class="'+name+'_minute date_minute" name="'+name+'_minute">'
         )
-        for(i=0;i<60;++i){
+        for(i=0;i<60;i+=5){
             r.push('<option value="'+i+'">'+zfill(i,2)+'</option>')
         }
         r.push('</select>')
@@ -104,43 +104,6 @@ function select_date(id, value, year_begin, year_end, no_empty, month_begin, sho
     select_span($("#"+id), id, value, year_begin, year_end, no_empty, month_begin, show_time)
 }
 
-function select_event(id, value , hour, minute){
-    var date=new Date(), today=new Date();
-    date.setDate(date.getDate() + 5)
-    var year=today.getFullYear(), month=today.getMonth()+1;
-
-    select_date(id, value, year+100, year-1, true, 
-        function(year_val, month_val){
-            if(year_val==year&&month_val==month){
-                return today.getDay()
-            }
-            return 1
-    },true);
-
-    var prefix='#'+id, year_elem=$(prefix+"_year"), month_elem=$(prefix+"_month"), day_elem=$(prefix+"_day");
-
-    year_elem.change(function(){
-        var r=[],val=this.value-0,i=1;
-        if(val==year){
-            i = date.getMonth()+1
-        }
-        for(;i<13;++i){
-            r.push('<option value="'+i+'">'+i+'</option>')
-        }
-        if(!value){
-            month_elem.html(r.join('')).change()
-        }
-    }).change()
-    
-    if(!value){
-        year_elem.val(date.getFullYear()).change()        
-        month_elem.val(date.getMonth()+1).change()
-        day_elem.val(date.getDate()).change()
-    }
-    $(prefix+"_hour").val(hour||12)
-    $(prefix+"_minute").val(minute||30)
-    
-}
 
 function select_birthday(id, value){
     var date=new Date(), year=date.getFullYear();

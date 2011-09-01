@@ -138,8 +138,8 @@ def pic_rm_mail(id):
             if cid == CID_ICO:
                 if not ico.get(user_id):
                     rendermail(
-                       template, 
-                       mail, 
+                       template,
+                       mail,
                        name,
                        user=user,
                     )

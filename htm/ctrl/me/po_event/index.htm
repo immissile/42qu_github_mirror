@@ -1,11 +1,14 @@
 <%!
-from model.po import Po, STATE_SECRET
-from model.po_event import EVENT_CID_CN
+from model.po import STATE_SECRET, Po
 from model.fs import fs_url_jpg
-from model.event import event_to_review_count_by_zsite_id
+from model.event import event_to_review_count_by_zsite_id, EVENT_STATE_TO_REVIEW
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/zsite/_util/event.htm" import="event_admin_nav"/>
+<%namespace file="/_util/event.htm" import="event_edit"/>
+
+
 <%def name="htm_title()">
 %if event_id:
 编辑 - 活动 . 属性
@@ -19,6 +22,7 @@ from model.event import event_to_review_count_by_zsite_id
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
 <script src="${js.ctrl_po_event}"></script>
+${css.ctrl_event_admin|n}
 ${css.ctrl_po_event|n}
 </%def>
 
@@ -30,7 +34,13 @@ else:
 event_to_review = event_to_review_count_by_zsite_id(current_user_id)
 %>
 
-%if not event_id:
+
+%if event_id and event.state > EVENT_STATE_TO_REVIEW:
+<%
+po = Po.mc_get(event_id)
+%>
+${event_admin_nav(event, po)}
+%else:
 <div class="head">
 %if errtip:
 <span style="color:#a10">表单有误 , 请您更正</span>
@@ -46,111 +56,19 @@ event_to_review = event_to_review_count_by_zsite_id(current_user_id)
 </span>&gt;<span>3. 等待审核</span> 
 %endif
 </div>
-%else:
-<%
-po = Po.get(event_id)
-%>
-<div class="head">
-<a href="/po/edit/${event_id}" target="_blank">编辑活动介绍</a><span style="margin-left:15px">${po.name}</span>
-</div>
 %endif
 
 
 <%htm:form id="event_form" enctype="multipart/form-data">
 %if event_to_review and not event_id:
 <div class="po_line">
-<a href="/event/to_review" target="_blank"><span class="mr3">${event_to_review}</span>活动待审核</a>
-</div>
-%endif
-<div class="po_line">
-<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
-</div>
-
-<div class="po_line">
-<label>
-%if pic_id:
-替换\
-%else:
-宣传\
-%endif
-图片</label><input name="pic" type="file" id="pic">
-${errtip.pic|n}
-</div>
-%if pic_id:
-<img id="event_pic" src="${fs_url_jpg(162, pic_id)|n}">
-<input id="pic_id" type="hidden" name="pic_id" value="${pic_id}">
-%endif
-
-%if not can_change:
-<div style="font-size:16px;margin-top:16px">
-内容已锁定 , 如有改动 , 请邮件到 hi@42qu.com 联系管理员
-</div>
-%endif
-
-<div id="event_body">
-<div class="po_line">
-<label>所在城市</label><script>select_pid("pid", ${pid or 0})</script>
-${errtip.pid|n}
-</div>
-
-<div class="po_line">
-<label for="address">详细地址</label><input
-value="${address or ''}"
-name="address" class="input"
-id="address"
->${errtip.address|n}
-</div>
-
-<div class="po_line">
-<label>交通路线</label><input name="transport" class="input" value="${transport or ''}">
-</div>
-
-<div class="po_line">
-<label>开始时间</label><script>select_event("begin_time", ${begin_time or 0},${begin_time_hour or 0},${begin_time_minute or 0})</script>
-${errtip.begin_time|n}
-</div>
-
-<div class="po_line">
-<label>结束时间</label><script>select_event("end_time", ${end_time or 0},${end_time_hour or 0},${end_time_minute or 0})</script>
-</div>
-
-
-<div class="po_line">
-<label>活动类型</label><select id="event_cid" name="event_cid" class="event_cid">
-<option value="">- 请选择 -</option>
-%for _event_cid, event_name in EVENT_CID_CN:
-<option 
-%if _event_cid == event_cid:
-selected
-%endif
-value="${_event_cid}">${event_name}</option>
-%endfor
-</select>${errtip.event_cid|n}
-</div>
-
-<div class="po_line">
-<label>在线收费</label><input autocomplete="off" name="price" class="input price" value="${price or 0}">元 / 人${errtip.price|n}
-</div
->
-<div class="po_line">
-<label>名额上限</label><input autocomplete="off" name="limit_up" class="limit_up input" value="${limit_up or 42}">
-</div>
-
-<div class="po_line">
-<label>最少人数</label><input autocomplete="off" name="limit_down" class="limit_down input" value="${limit_down or 0}">
-</div>
-
-
-
-<div>\
-<span id="event_submit_span" class="btnw">\
-<button type="submit">下一步</button>\
-</span>\
-% if event_id:
-<span id="rm"><a href="/po/rm/${event_id}?${_xsrf}">删除</a></span>
-% endif 
+<a href="/event/to_review" target="_blank">\
+<span class="mr3">${event_to_review}</span>活动待审核</a>\
 </div>\
-</div>\
+%endif
+
+${event_edit(event, can_change)}
+
 </%htm:form>
 %if not can_change:
 <script>

@@ -46,7 +46,7 @@ class Rss(ZsiteBase):
             po_link = 'http:%s/%s' % (zsite.link, po.id)
             tag = tag_by_po_id(id, po.id)[2]
             d['title'] = '%s #%s#' % (po_title, tag)
-            d['author'] = mail_by_user_id(po.user_id)
+            d['author'] = author.name
             d['link'] = po_link
             htm = po.htm
 
@@ -57,7 +57,7 @@ class Rss(ZsiteBase):
             desc = [
             """<font face="Verdana,sans-serif" size="3">
 <pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;">%s</pre>
-""" % htm 
+""" % htm
             ]
             unit, title = career_current(id)
             desc.append(

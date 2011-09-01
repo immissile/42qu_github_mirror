@@ -1,4 +1,5 @@
 <%inherit file="/god/_base.htm" />
+<%namespace file="/_util/event.htm" import="event_show"/>
 <%!
 from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
@@ -7,22 +8,30 @@ from zkit.txt import cnenoverflow
 from model.event import EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
 %>
 <%def name="htm_head()">
+<style>
+.txt{
+width:721px;
+margin:auto;
+}
+</style>
 <script>
-$('a.yes').live('click', function() {
-    var id = this.rel;
+function yes(id){
+    $.fancybox.showActivity()
     $.postJSON('/event/state/' + id + '/1', function(data){
         next()
     })
-})
+}
+
 $('a.no').live('click', function() {
     var id = this.rel;
-    var txt = $('#txt' + id).val();
+    var txt = $.trim($('#txt' + id).val());
     if(!(txt && txt.length)) {
         alert("请写入理由")
-        return
+        return false
     }
+    $.fancybox.showActivity()
     $.postJSON('/event/state/' + id + '/0', {"txt":txt}, function(data){
-        //next()
+        next()
     })
 })
 function next(){
@@ -41,18 +50,17 @@ user = po.user
 <div class="sdw">
     <div class="sd c">
         <div id="list_txt">
-            <a href="${po.link}" target="_blank">${po.name}</a>
-            <p>${cnenoverflow(po.txt, 60)[0]}</p>
+            <div class="c">${event_show(event, po)}</div>
+            <pre>${po.htm|n}</pre>
             <p>
                 <a class="c0" href="${user.link}" target="_blank">${user.name}</a>
                 ${friendly_time(po.create_time)}
             </p>
-            <p>
-<a href="javascript:void(0)" rel="${id}" class="yes">通过</a>
-<hr>
-<a href="javascript:void(0)" rel="${id}" class="no">拒绝</a>
-<textarea class="txt" id="txt${id}"></textarea>
-            </p>
+            <div class="tc">
+                <textarea class="txt" id="txt${id}"></textarea>
+            </div>
+            <a class="R" href="javascript:yes(${id});void(0)">通过</a>
+            <a href="javascript:void(0)" rel="${id}" class="no">拒绝</a>
         </div>
     </div>
 </div>

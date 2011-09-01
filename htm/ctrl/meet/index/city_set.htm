@@ -1,0 +1,46 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/i/info.htm" name="info"/>
+
+<%def name="htm_head()">
+<style>
+.pid_form{
+font-size:16px;
+margin-left:125px;
+margin-top:32px;
+}
+.mb32{
+margin-bottom:32px;
+}
+.pid{
+margin-bottom:32px;
+}
+.pid select{
+padding:8px;
+margin-right:8px;
+border:1px solid #ccc;
+}
+.errtip{
+color:red;
+}
+</style>
+
+<script src="${js.pid}"></script>
+</%def>
+
+<%htm:form className="pid_form">
+%if error:
+<div class="mb32 errtip">${error}</div>
+%else:
+<div class="mb32">
+请选择现居城市
+</div>
+%endif
+<div class="pid">
+<script>select_pid("pid_now",${pid_now})</script>
+</div>
+<span class="btnw">
+<button type="submit">确定</button>
+</span>
+</%htm:form>
+

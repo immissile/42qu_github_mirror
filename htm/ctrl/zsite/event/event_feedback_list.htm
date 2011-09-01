@@ -1,0 +1,62 @@
+
+<%namespace file="/ctrl/zsite/po/_vote.htm" import="_vote"/>
+<%!
+from model.po_event import po_event_feedback_group, event_feedback_get
+%>
+<%def name="feedback_list(event)">
+<% 
+event_id = event.id
+po_by_owner = event_feedback_get(event.zsite_id, event.id)
+good , normal = po_event_feedback_group(event_id)
+%>
+%if po_by_owner:
+<div class="spline">总结</div>
+<div class="feedback_list">
+${feedback_li(po_by_owner)}
+</div>
+%endif
+
+${feedback_list_div(good, "好评")}
+
+${feedback_list_div(normal, "反馈")}
+
+</%def>
+
+<%def name="feedback_list_div(li, name)">
+%if li:
+<div class="spline">
+    <span>${len(li)}</span> ${name}
+</div>
+<div class="feedback_list">
+%for feedback in li:
+${feedback_li(feedback)}
+%endfor
+</div>
+%endif
+</%def>
+
+<%def name="feedback_li(feedback)">
+<%
+feedback_id = feedback.id
+feedback_link = feedback.link
+user = feedback.user
+user_id = user.id
+%>
+<div class="sdw" id="po${feedback.id}"><div class="sd">
+<p>
+<a href="${user.link}" id="replyer${user.id}" class="replyer">${user.name}</a>
+ :
+</p>
+<pre>${feedback.htm|n}</pre>
+
+    <div class="bar">
+        %if feedback.can_admin(current_user_id):
+<a
+    href="/po/edit/${feedback_id}" class="edit">编辑</a>
+        %else:
+<span class="L">${_vote(feedback_id)}</span>\
+        %endif
+<a class="reply" href="${feedback_link}#reply_txt" title="回复">${feedback.reply_count}</a>
+    </div>
+</div></div>
+</%def>

@@ -9,6 +9,7 @@ from model.user_mail import mail_by_user_id
 from model.motto import motto
 from model.zsite_rank import zsite_rank_max
 from model.career import career_list_all
+from model.namecard import namecard_get
 %>
 <%
 zsite_id = zsite.id
@@ -88,6 +89,9 @@ float:left;
 
     </div>
     <div class="item">
+    <a href="/zsite/name/rm/${zsite_id}">删除昵称</a>
+    </div>
+    <div class="item">
     %if pic_id:
     <a href="/zsite/pic/rm/${pic_id}/${zsite_id}">删除头像</a> 
     %endif
@@ -107,6 +111,16 @@ float:left;
 <div class="mid">
 <%namespace file="/_util/_g1.htm" import="about_me"/>
 ${about_me(zsite_id,False)}
+
+<%
+namecard = namecard_get(zsite_id)
+%>
+% if namecard:
+<p>姓名 : ${namecard.name}</p>
+<p>手机 : ${namecard.phone}</p>
+<p>邮件 : ${namecard.mail}</p>
+<p>地址 : ${namecard.address}</p>
+% endif
 </div>
 
 <div class="right">
