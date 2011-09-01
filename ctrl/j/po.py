@@ -11,25 +11,24 @@ from model.zsite import user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from zkit.pic import picopen
 
+def post_reply(self, id):
+    user = self.current_user
+
+    if not user_can_reply(user):
+        self.finish('{"can_not_reply":1}')
+    else:
+        result = {}
+        txt = self.get_argument('txt')
+        if txt:
+            user_id = self.current_user_id
+            po = Po.mc_get(id)
+            if po.can_view(user_id):
+                po.reply_new(user, txt, po.state)
+        self.finish(result)
 
 @urlmap('/j/po/reply/(\d+)')
 class Reply(JLoginBase):
-    def get(self, id):
-        user = self.current_user
-
-        if not user_can_reply(user):
-            self.finish('{"can_not_reply":1}')
-        else:
-            result = {}
-            txt = self.get_argument('txt')
-            if txt:
-                user_id = self.current_user_id
-                po = Po.mc_get(id)
-                if po.can_view(user_id):
-                    po.reply_new(user, txt, po.state)
-            self.finish(result)
-
-    post = get
+    post = get = post_reply
 
 @urlmap('/j/po/tag/edit')
 class TagEdit(JLoginBase):
