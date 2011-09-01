@@ -2,14 +2,19 @@
 from model.po import Po
 from model.zsite import Zsite
 from model.cid import CID_ANSWER
+from model.po import PO_CN_EN, PO_EN
 %>
+<%namespace file="/ctrl/zsite/event/event_page.htm" import="event_po"/>
+
 <%def name="tag_url(zsite_tag_id)">\
-%if zsite_tag_id:
+% if zsite_tag_id:
 /tag/${zsite_tag_id}\
+% elif request.path == '/fav':
+/fav\
 %endif
 </%def>
 
-<%def name="tag_list_word(po_word_count, po_word_list, is_owner)">
+<%def name="tag_list_word(po_word_count, po_word_list, is_owner=None)">
 % if po_word_count:
 <div class="zsite_block">\
 % for po in po_word_list:
@@ -45,7 +50,7 @@ rid = po.rid
 % endif
 </%def>
 
-<%def name="tag_list_note(po_note_count, po_note_list, is_owner, zsite_tag_id=None)">
+<%def name="tag_list_note(po_note_count, po_note_list, is_owner=None, zsite_tag_id=None)">
 % if po_note_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -64,7 +69,7 @@ rid = po.rid
 % endif
 </%def>
 
-<%def name="tag_list_answer(po_answer_count, po_answer_list, is_owner)">
+<%def name="tag_list_answer(po_answer_count, po_answer_list, is_owner=None)">
 % if po_answer_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -83,7 +88,7 @@ rid = po.rid
 % endif
 </%def>
 
-<%def name="tag_list_question(po_question_count, po_question_list, is_owner, zsite_tag_id=None)">
+<%def name="tag_list_question(po_question_count, po_question_list, is_owner=None, zsite_tag_id=None)">
 % if po_question_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -102,7 +107,7 @@ rid = po.rid
 % endif
 </%def>
 
-<%def name="tag_list_photo(po_photo_count, po_photo_list, is_owner, zsite_tag_id=None)">
+<%def name="tag_list_photo(po_photo_count, po_photo_list, is_owner=None, zsite_tag_id=None)">
 % if po_photo_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -121,7 +126,7 @@ rid = po.rid
 % endif
 </%def>
 
-<%def name="tag_list_video(po_video_count, po_video_list, is_owner, zsite_tag_id=None)">
+<%def name="tag_list_video(po_video_count, po_video_list, is_owner=None, zsite_tag_id=None)">
 % if po_video_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -140,7 +145,7 @@ rid = po.rid
 % endif
 </%def>
 
-<%def name="tag_list_audio(po_audio_count, po_audio_list, is_owner, zsite_tag_id=None)">
+<%def name="tag_list_audio(po_audio_count, po_audio_list, is_owner=None, zsite_tag_id=None)">
 % if po_audio_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -158,4 +163,24 @@ rid = po.rid
 </div>
 % endif
 </%def>
+
+<%def name="tag_list_event(po_event_count, po_event_list, is_owner=None, zsite_tag_id=None)">
+% if po_event_count:
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+% for event, po in po_event_list:
+<li>${event_po(event, po)}</li>
+% endfor
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="${tag_url(zsite_tag_id)}/event" class="num">\
+    <span class="now">${po_event_count}</span><b>次活动</b>
+</a>
+</div>
+</div>
+% endif
+</%def>
+
 
