@@ -105,8 +105,8 @@ class Feed(JLoginBase):
             t = []
             for i in item_list:
                 id = i[1]
-                cid = i[3]
-                rid = i[4]
+                cid = i[4]
+                rid = i[5]
 
                 if len(i) >= FEED_TUPLE_DEFAULT_LEN:
                     after = i[FEED_TUPLE_DEFAULT_LEN:]

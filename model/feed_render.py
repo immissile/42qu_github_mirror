@@ -19,7 +19,7 @@ from event import Event
 from fav import fav_cid_dict
 
 
-FEED_TUPLE_DEFAULT_LEN = 11
+FEED_TUPLE_DEFAULT_LEN = 12
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
