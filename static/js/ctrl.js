@@ -184,7 +184,7 @@ function follow_a(id) {
 	a.html(text)
 }
 
-function txt_maxlen(txt, tip, form, maxlen) {
+function txt_maxlen(txt, tip, maxlen) {
 	function po_word_update(value) {
 		var len = cnenlen(value),
 		html,
@@ -192,9 +192,9 @@ function txt_maxlen(txt, tip, form, maxlen) {
 		if (len) {
 			diff = len - maxlen;
 			if (diff > 0) {
-				html = '<span style="color:red">超出<span>' + diff + "</span>字</span>"
+				html = '<span style="color:red">超出<span class="m03">' + diff + "</span>字</span>"
 			} else {
-				html = '<span style="color:#999"><span>' + len + "</span>字</span>"
+				html = '<span style="color:#999"><span class="mr3">' + len + "</span>字</span>"
 				//为了ie6 多加一层span
 			}
 		} else {
@@ -204,13 +204,16 @@ function txt_maxlen(txt, tip, form, maxlen) {
 		return diff
 	}
 
-	form.submit(function() {
+	//form.submit()
+	txt.input(function() {
+		po_word_update(this.value)
+	})
+
+    return function() {
 		if (po_word_update(txt.val()) > 0) {
 			txt.focus()
 			return false
 		}
-	})
-	txt.input(function() {
-		po_word_update(this.value)
-	})
+	}
+
 }

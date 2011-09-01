@@ -1,0 +1,113 @@
+h1{
+font-size: 14px; text-align: left;padding:16px 0;border-bottom:1px dotted #ccc
+}
+h1 textarea{
+border:1px dotted #ccc; 
+border-top:0;
+margin-left:1px;
+width:210px;
+text-align:center;
+color:#999;
+height:30px;
+margin-bottom:-22px; 
+padding: 7px 3px;
+font-size: 14px;
+float:right;
+margin-top: -15px;
+}
+.sidebar a{
+border-bottom:1px dotted #ccc;
+display:block;
+color:#999;
+text-align:right;
+padding:8px 0;
+}
+.sidebar a span{
+float:left
+}
+.item{
+border-bottom: 1px dotted #ccc;
+margin-bottom: 32px;
+padding-bottom: 16px;
+margin-top:16px;
+}
+.cidword{
+color:#000;
+}
+.item_sign{
+text-align:left;
+color:#000;
+margin-top: 10px;
+}
+.item_sign_name{
+color:#000; 
+}
+.sortby{
+border-bottom: 1px dotted #ccc;
+padding-bottom:8px; margin-top:8px; text-align:right;
+}
+.tc{text-align:center}
+.sortby .sort{
+color:#999
+}
+.sortby .split{
+margin:0 14px;
+color:#999;
+}
+.sortby .now{
+color:#000
+}
+.sortby .sort:hover{
+color:#a10;
+}
+.po_word{
+position:absolute;
+right:0;
+z-index:1; 
+height: 140px;
+text-align:left;
+width: 458px;
+color:#000;
+padding:3px 7px;
+background:#fff;
+}
+.po_word_submit{
+position: absolute;
+right:0;
+margin-top:105px;
+display:none;
+text-align:left;
+border:1px dotted #ccc;
+border-top:0;
+z-index:2;
+width:472px;
+background:#fff;
+}
+.po_word_tip{
+line-height:38px;
+margin:0 14px;
+}
+.po_word_submit_a{
+color:#999; 
+border-right:1px dotted #ccc;
+padding:5px 28px;
+float:left;
+}
+.po_word_submit_a:hover{
+color:#000;
+background:#f9f9f9;
+}
+.po_word_close{
+width:8px;
+height:8px;
+float:right;
+padding:12px;
+margin-top:3px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 50% 50%;
+}
+.po_word_close:hover{
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 50% 50%;
+}
+
+
+

@@ -1,0 +1,13 @@
+<%!
+from config import SITE_NAME
+%>\
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%def name="htm_head()">
+${css.ctrl_site|n}
+</%def>
+
+<%def name="htm_title()">
+站点
+</%def>
+
+${next.body()}

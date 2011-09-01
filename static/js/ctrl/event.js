@@ -43,8 +43,10 @@ function fancybox_word(title, path, finish){
 	fancybox_txt(
         title, path,
         function(){
-            txt_maxlen(
-                $("#po_pop_txt"), $('#po_pop_error'), $("#po_pop_form"),  142
+            $("#po_pop_form").submit(
+                txt_maxlen(
+                    $("#po_pop_txt"), $('#po_pop_error'),   142
+                )
             )
         },
         function() {

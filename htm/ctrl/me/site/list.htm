@@ -1,0 +1,8 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+
+% if zsite_list:
+管理的小站
+% for i in zsite_list:
+<a href="${i.link}">${i.name}</a>
+% endfor
+% endif

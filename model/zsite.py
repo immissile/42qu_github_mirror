@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from cgi import escape
-from cid import CID_USER
+from cid import CID_USER, CID_SITE
 from _db import Model, McModel
 from gid import gid
 from txt import txt_property
@@ -108,7 +108,19 @@ def zsite_name_rm(id):
                    link=zsite.link,
                   )
 
+def zsite_new_site(name, admin_id, state=ZSITE_STATE_APPLY):
+    from zsite_admin import zsite_admin_new
+    site = zsite_new(name, CID_SITE, ZSITE_STATE_APPLY)
+    zsite_admin_new(site.id, admin_id)
+    return site
 
+def zsite_rm_site(zsite_id):
+    from zsite_admin import zsite_rm_site_extra
+    o = Zsite.mc_get(zsite_id)
+    if o and o.cid == CID_SITE and o.state >= ZSITE_STATE_APPLY:
+        o.state = ZSITE_STATE_BAN
+        o.save()
+        zsite_rm_site_extra(zsite_id)
 
 
 def zsite_new_user(name, state=ZSITE_STATE_APPLY):

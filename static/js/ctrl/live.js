@@ -183,9 +183,57 @@
 			winst = win.scrollTop(),
 			offset = div.offset().top + div.height() - winst - win.height();
 
+<<<<<<< local
+    });
+    /* 发微博 */
+    var  po_word_txt = $("#po_word_txt"), po_word_txt_bg="po_word_txt_bg";
+    po_word_txt.blur().val('').focus(function(){
+        $(this).removeClass(po_word_txt_bg)
+    }).blur(function(){
+        var self=$(this), val=self.val();
+        if(!val||!val.length){
+            self.addClass(po_word_txt_bg)
+        }
+    })
+    .addClass(po_word_txt_bg)
+    ;
+    
+    $("#po_word_form").submit(
+        txt_maxlen(po_word_txt,  $("#po_word_tip"), 142)
+    )
+
+    /* 显示全部 */
+    fdtxt = function(e,id){
+        var txt=$(e).parents('.fdtxt'),all=txt.find(".fdall");
+        all.addClass("fdloading").find('.fdext').remove()
+        $.get("/j/fdtxt/"+id,function(htm){
+            txt.find('.fdtxtin').html('<pre class="fdpre">'+htm+"</pre>")
+            if(all.find('a').length){
+                all.removeClass('fdloading')
+            }else{
+                all.remove()
+            }
+        }) 
+    }
+    fdvideo = function(e, id){
+        var div=$('<div class="fdswf"><div class="fdloading"/></div>')
+        $(e).replaceWith(div)
+        $.get("/j/fdvideo/"+id, function(html){
+            div.html(html)
+            var win=$(window),
+                winst = win.scrollTop(),
+                offset = div.offset().top+div.height()-winst-win.height();
+            
+            if(offset>0){
+                win.scrollTop(winst+offset)
+            }
+        })
+    }
+=======
 			if (offset > 0) {
 				win.scrollTop(winst + offset)
 			}
 		})
 	}
+>>>>>>> other
 })()

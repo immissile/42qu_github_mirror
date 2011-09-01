@@ -1,0 +1,74 @@
+<%!
+from model.zsite import ZSITE_STATE_VERIFY
+%>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%
+state = current_user.state
+%>
+<%inherit file="../_base.htm" />
+<%def name="htm_head()">
+<style>
+form{
+font-size:16px
+}
+.input{
+border:1px solid #ccc;
+width:300px;
+font-size:16px;
+padding:7px;
+margin-top:16px;
+margin-left:8px;
+}
+.btnw{
+margin-left:72px;
+margin-top:16px;
+}
+.site_new{
+margin-top:32px;
+}
+.errtip{
+    color: #AA1100;
+    margin-left: 72px;
+    margin-top: 7px;
+}
+h1{
+margin-left:72px;
+}
+.sitetype{
+margin-top:16px;
+margin-left:8px;
+font-size:16px;
+padding:8px;
+border:1px solid #ccc;
+text-align:center;
+width:96px;
+}
+</style>
+</%def>
+
+<%htm:form className="site_new">
+<h1>创建站点</h1>
+
+<div>
+显示名字<input class="input" type="text" name="name" value="${name or ''}">
+${errtip.name|n}
+</div>
+<div>
+描述签名<input class="input" type="text" name="motto" value="${motto or ''}">
+${errtip.motto|n}
+</div>
+<div>
+个性网址<input class="input" type="text" name="url" value="${url or ''}">
+${errtip.url|n}
+</div>
+
+<div>
+浏览权限<select class="sitetype" name="sitetype">
+<option value="1">公开</option>
+<option value="2">私密</option>
+</select>
+<span style="color:#a10;margin-left:16px">注意 : 此设置无法修改</span>
+</div>
+
+<span class="btnw"><button type="submit">确定</button></span>
+</%htm:form>
