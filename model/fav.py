@@ -35,28 +35,29 @@ def fav_add(user_id, po_id):
     if po and po.state >= STATE_ACTIVE and not fav_cid(user_id, po_id):
         cid = po.cid
         Fav(user_id=user_id, po_id=po_id, cid=cid).save()
-        mc_flush(user_id, cid)
         mc_fav_cid.set('%s_%s' % (user_id, po_id), cid)
+        mc_flush(user_id, cid)
 
 def fav_rm(user_id, po_id):
     cid = fav_cid(user_id, po_id)
     if cid:
         Fav.where(user_id=user_id, po_id=po_id).delete()
-        mc_flush(user_id, cid)
         mc_fav_cid.set('%s_%s' % (user_id, po_id), 0)
+        mc_flush(user_id, cid)
 
 def fav_rm_by_po(po):
     po_id = po.id
     cid = po.cid
     for i in Fav.where(po_id=po_id):
         i.delete()
+        user_id = i.user_id
+        mc_fav_cid.delete('%s_%s' % (user_id, po_id))
         mc_flush(user_id, cid)
 
 def mc_flush(user_id, cid):
     key = '%s_%s' % (user_id, cid)
-    fav_po_count_by_user_id_cid.delete(key)
     mc_fav_po_id_list_by_user_id_cid.delete(key)
-    mc_fav_cid.delete(key)
+    fav_po_count_by_user_id_cid.delete(key)
 
 mc_fav_po_id_list_by_user_id_cid = McLimitA('FavPoIdListByUserIdCid.%s', 128)
 
