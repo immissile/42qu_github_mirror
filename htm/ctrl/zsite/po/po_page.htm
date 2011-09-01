@@ -12,8 +12,11 @@ ${css.ctrl_tag|n}
 
 <div class="po_tag">
 <h1>\
-
-<a class="c0" href="${zsite.link}">${zsite.name}</a> :
+<a class="c0" href="${zsite.link}">${zsite.name}</a> \
+%if request.path.startswith("/fav/")
+. 收藏 \
+%endif
+:
 %if tag_name:
 <a href="${back_a|n}" class="c0">${tag_name}</a> .
 %endif
