@@ -7,7 +7,6 @@ from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, C
 from zkit.page import page_limit_offset
 from model.po import Po
 from model.zsite import Zsite
-from model.event import event_join_count_by_user_id, event_list_join_by_user_id
 
 @urlmap('/fav')
 class Index(ZsiteBase):
@@ -37,15 +36,12 @@ class FavPage(ZsiteBase):
         if n != 1 and offset >= total:
             return self.redirect(page_template[:-3])
 
-        if cid == CID_EVENT:
-            li = event_list_join_by_user_id(zsite_id, limit, offset)
-        else:
-            li = fav_po_list_by_user_id_cid(zsite_id, cid, limit, offset)
+        li = fav_po_list_by_user_id_cid(zsite_id, cid, limit, offset)
 
-            if cid == CID_WORD:
-                rid_po_list = [i for i in li if i.rid]
-                Po.mc_bind(rid_po_list, 'question', 'rid')
-                Zsite.mc_bind([i.target for i in rid_po_list], 'user', 'user_id')
+        if cid == CID_WORD:
+            rid_po_list = [i for i in li if i.rid]
+            Po.mc_bind(rid_po_list, 'question', 'rid')
+            Zsite.mc_bind([i.target for i in rid_po_list], 'user', 'user_id')
 
         self.render(
             cid=cid,
