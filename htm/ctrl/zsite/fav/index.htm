@@ -7,15 +7,16 @@ from model.po import PO_CN_EN, PO_EN
 %>
 
 <%
-_DICT = vars()['_import_ns']
+
 FUNC_DICT = {}
+_DICT = vars()['_import_ns']
 for cid, en in PO_EN.iteritems():
     FUNC_DICT[cid] = _DICT['tag_list_%s' % en]
 
 
 po_total_count = 0 
 %>
-
+<div style="margin-top:32px">
 % for i in PO_CN_EN:
 <%
 cid = i[0]
@@ -26,6 +27,7 @@ po_total_count += po_count
 %>
 ${func(po_count, po_list)}
 % endfor
+</div>
 
 %if not po_total_count:
 <p style="width:470px;margin:auto;border:1px dotted #ccc;margin-top:10%;padding:32px;text-align:center;">暂无收藏 , <a href="/live">先逛逛吧</a></p>
