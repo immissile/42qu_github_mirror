@@ -16,7 +16,7 @@ po_state = po.state
 zsite_url = zsite.link
 %>
 <h1>${po.name}</h1>
-<pre>${po.htm|n}\
+<pre class="prebody">${po.htm|n}\
 <p class="po_bar">\
 %if can_admin:
 <span class="L"><a href="${po.link_edit}">编辑</a></span>\
@@ -53,18 +53,19 @@ po_id = str(po.id)
 answer_id = answer.id
 answer_link = answer.link
 user = answer.user
-user_id = user.id
+if user:
+    user_id = user.id
 %>
 <div class="sdw" id="reply${answer.id}"><div class="sd">
 <p>
-%if answer.state != STATE_SECRET:
+%if answer.state != STATE_SECRET and user:
 <a href="${user.link}" id="replyer${user.id}" class="replyer">${user.name}</a>
 %else:
 匿名
 %endif
  :
 </p>
-<pre>${answer.htm|n}</pre>
+<pre class="prebody">${answer.htm|n}</pre>
 
     %if answer.can_view(current_user_id):
     <div class="bar">

@@ -37,7 +37,9 @@ margin:auto;
 %endif
 </h2>
 
+%if from_user:
 <p>付款 : <a href="${from_user.link}">${from_user.name}</a></p>
+%endif
 <p>收款 : <a href="${to_user.link}"> ${to_user.name}</a></p>
 <p>金额 : <span id="amount"> ${trade.read_value}</span> 元</p>
 

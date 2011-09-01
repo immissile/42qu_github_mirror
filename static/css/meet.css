@@ -1,0 +1,28 @@
+
+.event_txt{
+width:523px;
+}
+.event_cid .now{
+    color:#000;
+}
+.event_cid span{
+float:left;
+}
+.event_cid a{
+color: #999;
+border-bottom: 1px dotted #ccc;
+display: block; 
+padding: 16px 0; 
+font-size: 16px; 
+text-align: right;
+}
+h1{
+border-bottom:1px dotted #ccc;text-align:right;padding:16px 0;font-size:16px
+}
+.event_po{
+margin-bottom:32px;padding-bottom:32px;
+border-bottom:1px dotted #ccc;
+}
+.event_list{
+margin-top:32px;
+}

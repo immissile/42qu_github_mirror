@@ -1,27 +1,44 @@
 <%!
-from model.po import STATE_SECRET
-from model.cid import CID_QUESTION, CID_WORD
+from model.po import STATE_SECRET, Po
+from model.cid import CID_QUESTION, CID_WORD, CID_NOTE, CID_EVENT, CID_EVENT_FEEDBACK
 from yajl import dumps
 from model.po_question import answer_count
+from model.event import Event, EVENT_STATE_REJECT, EVENT_JOIN_STATE_FEEDBACK_GOOD, event_joiner_state, EVENT_STATE_INIT, EVENT_JOIN_STATE_FEEDBACK_NORMAL, EVENT_STATE_TO_REVIEW
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/zsite/_util/event.htm" import="event_admin_nav"/>
 <%def name="htm_title()">
-    %if cid == CID_QUESTION:
-发布 - 问题
+%if po.name:
+编辑 -
+%else:
+发布 -
+%endif
+%if cid == CID_EVENT:
+活动 . 介绍
+%elif cid == CID_EVENT_FEEDBACK:
+    %if this.event.zsite_id == current_user_id:
+    活动 . 总结
     %else:
-发布 - 文章
+    活动 . 反馈
     %endif
+%elif cid == CID_QUESTION:
+问题
+%else:
+文章
+%endif
 </%def>
 
 
 <%def name="htm_head()">
 ${css.ctrl_po_edit|n}
+${css.ctrl_event_admin|n}
 <%
 if po:
     suffix = '/%s' % po.id
 else:
     suffix = ''
+
 %>
 <script>
 UPLOADURL = "/j/po/upload${suffix}"
@@ -30,23 +47,55 @@ DELETEURL = "/j/po/upload/rm${suffix}"
 <script src="${js.ctrl_po_note}"></script>
 <script src="${js.upload}"></script>
 <script src="${js.pic}"></script>
+%if cid == CID_EVENT:
+${css.ctrl_po_event|n}
+%endif
 </%def>
+
+<%
+if cid == CID_EVENT_FEEDBACK:
+    event = this.event
+    event_po = Po.mc_get(event.id)
+%>
+
+%if cid == CID_EVENT:
+<%
+event = Event.mc_get(po.id)
+%>
+%if po.name and event.state > EVENT_STATE_TO_REVIEW:
+${event_admin_nav(event, po)}
+%else:
+<div class="head">
+<span><a href="/po/event/${po.id}" class="c9">1. 设置属性</a></span>&gt;<span class="c0">2. 编写简介</span>&gt;<span>3. 等待审核</span>
+</div>
+%endif
+%endif
 
 <%htm:form enctype="multipart/form-data" id="po_form">
 <%
 rid = po.rid
 %>
-% if rid:
+% if rid and cid in (CID_WORD, CID_NOTE):
 <p class="rid_title">${po.name_htm|n}</p>
-<textarea id="txt" name="txt">${po.name if cid == CID_WORD else po.txt}</textarea>
+<textarea id="txt" name="txt">${po.name if cid == CID_WORD and not rid else po.txt}</textarea>
 % else:
-%if cid == CID_QUESTION:
-<div id="question_flag">问</div>
-%endif
-<input id="name" type="text" autocomplete="off" name="name" value="${po.name}">
+    %if cid == CID_EVENT_FEEDBACK:
+<p class="rid_title">
+        %if event.zsite_id == current_user_id:
+总结 
+        %else:
+反馈
+        %endif
+: <a href="${event_po.link}">${event_po.name}</a></p>
+    %else:
+        %if cid == CID_QUESTION:
+<div id="question_flag">问</div>\
+        %endif
+<input id="name" type="text" autocomplete="off" name="name" value="${po.name}">\
+    %endif
 <textarea id="txt" name="txt">${po.txt}</textarea>
 % endif
-<div class="btns" id="po_btn">
+<div class="btns c" id="po_btn">
     <a id="upload" href="javascript:upload();void(0)">传图</a>
     <span id="upload_wait">图片上传中 ...
     <a href="javascript:cancel_uploading();void(0)">取消</a>
@@ -54,10 +103,13 @@ rid = po.rid
     <span id="po_edit_wrap">
     <span id="po_edit_span">
 % if po:
-    % if po.cid != CID_QUESTION or not answer_count(po.id):
-<a class="rmpo" href="/po/rm/${po.id}?${_xsrf}">删除</a>
-    % endif
+    %if po.cid != CID_EVENT: 
+        % if (cid != CID_QUESTION or not answer_count(po.id)) :
+            <a id="rm" class="rmpo" href="/po/rm/${po.id}?${_xsrf}">删除</a>
+        % endif
+    %endif
 % endif
+%if cid in (CID_WORD, CID_NOTE, CID_QUESTION):
     <input type="checkbox" name="secret" id="secret"
 %if po.state == STATE_SECRET: 
 checked
@@ -71,7 +123,19 @@ checked
 % else:
 私密\
 % endif
-</label></span>\
+</label>\
+%endif
+
+% if cid == CID_EVENT_FEEDBACK and current_user_id!=event.zsite_id:
+<input type="checkbox" name="good" id="good"
+%if event_joiner_state(event.id, current_user_id) != EVENT_JOIN_STATE_FEEDBACK_NORMAL:
+checked
+%endif
+>
+<label for="good" id="good_label">满意</label>
+% endif 
+
+</span>\
 <span id="po_submit" class="btnw">\
 <button  type="submit">确定</button></span></span>\
 </div>
@@ -122,3 +186,4 @@ for pic in pic_list:
 <script>
 $('#update_item').tmpl(${dumps(pic_json_list)|n}).appendTo("#uploaded")
 </script>
+

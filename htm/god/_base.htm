@@ -8,6 +8,7 @@ from model.state import STATE_DEL
 from model.po_show import po_show_count
 from model.pic import pic_to_review_count_by_cid
 from model.reply import Reply
+from model.event import Event, EVENT_STATE_TO_REVIEW
 %>\
 <!doctype html>\
 <head>\
@@ -45,9 +46,8 @@ pic_to_review_count = pic_to_review_count_by_cid(CID_ICO)
 
 
 <div>
-<a
-    class="cola"
-    %if pic_to_review_count > 0:
+<a class="cola"
+  %if pic_to_review_count > 0:
 href="/pic/review${CID_ICO}"
   %elif Zsite.where(cid=CID_USER, state=ZSITE_STATE_WAIT_VERIFY).count() > 0:
 href="/zsite/verify${CID_USER}#${Zsite.raw_sql('select max(id) from zsite where state = %s and cid = %s',ZSITE_STATE_WAIT_VERIFY,CID_USER).fetchone()[0] or ''}"
@@ -59,8 +59,15 @@ href = "/chart"
     <span class="R">
         ${Zsite.where(cid=CID_USER, state=ZSITE_STATE_WAIT_VERIFY).count()}
     </span>
-    认证
+    用户认证
 </a>
+<%
+event_to_review_query = Event.where(state=EVENT_STATE_TO_REVIEW)
+event_to_review_count = event_to_review_query.count()
+event_to_review_max_li = event_to_review_query.order_by('id desc').col_list(1, 0)
+event_to_review_max = event_to_review_max_li and event_to_review_max_li[0] or 0
+%>
+<a class="cola" href="/event/review?${event_to_review_max}"><span class="R">${event_to_review_count}</span>活动审核</a>
 <a class="cola" href="/withdraw?${withdraw_max()}"><span class="R">${withdraw_open_count()}</span>提现</a>
 <a class="cola tc" href="/test_account" target="_blank">测试账号</a>
 </div>
@@ -70,8 +77,9 @@ href = "/chart"
 <p class="coltitle">浏览</p>
 <a class="cola" href="/user_list_verify"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_VERIFY ).where(cid=CID_USER).count()}</span>认证用户</a>
 <a class="cola" href="/user_list#${Zsite.raw_sql('select max(id) from zsite where cid=%s',CID_USER).fetchone()[0] or ''}"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_ACTIVE).where(cid=CID_USER).count()}</span>用户</a>
-<a class="cola" href="/po#${Po.raw_sql('select max(id) from po').fetchone()[0] or ''}"><span class="R">${Po.where('state>%s', STATE_DEL).count()}</span>最近发表</a>
+<a class="cola" href="/po#${Po.raw_sql('select max(id) from po').fetchone()[0] or ''}"><span class="R">${Po.where('state>%s', STATE_DEL).count()}</span>最近的Po</a>
 <a class="cola" href="/po/show"><span class="R">${po_show_count(0)}</span>全站广播</a>
+<a class="cola" href="/event"><span class="R">${Event.where().count()}</span>全部活动</a>
 
 <p class="coltitle">回复</p>
 <a class="cola" href="/reply_list/${CID_USER}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_USER).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_USER).count()}</span>留言</a>

@@ -43,7 +43,7 @@ class Following(ZsiteBase):
         if cid:
             cid = int(cid)
             if cid not in CID_ZSITE:
-                cid = 0
+                return self.redirect('/following')
 
         zsite_id = self.zsite_id
         if cid:

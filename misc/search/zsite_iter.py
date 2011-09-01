@@ -10,6 +10,7 @@ from model.user_mail import mail_by_user_id
 from model.zsite import Zsite, CID_USER, ZSITE_STATE_CAN_REPLY
 from model.zsite_url import url_by_id
 from model.zsite_rank import zsite_rank_by_zsite_id
+from model.search_zsite import SearchZsite
 
 def zsite2keyword(z):
     r = []
@@ -63,20 +64,14 @@ def zsite2keyword(z):
 
 
 def zsite_keyword_iter():
-    for i in ormiter(Zsite):
+    for i in ormiter(SearchZsite):
         id = i.id
-       # if id == 10054091:
-       #     print id
-       # else:
-       #     continue
-        kw = zsite2keyword(i)
-        if not kw:
-            continue
-
-        yield str(id), zsite_rank_by_zsite_id(id), kw.items()
-
-
-
+        i.delete()
+        zsite = Zsite.mc_get(id)
+        if zsite:
+            kw = zsite2keyword(zsite)
+            if kw:
+                yield str(id), zsite_rank_by_zsite_id(id), kw.items()
 
 
 if __name__ == '__main__':

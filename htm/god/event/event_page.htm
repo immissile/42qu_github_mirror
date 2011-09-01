@@ -1,0 +1,73 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from zkit.time_format import friendly_time
+from model.ico import ico_url as _ico_url
+from model.zsite import Zsite
+from zkit.txt import cnenoverflow
+from model.event import EVENT_STATE_CN_TUPLE, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
+%>
+<%def name="htm_head()">
+<style>
+a.eventcat {
+    color:#999;
+    margin:8px 16px;
+}
+</style>
+</%def>
+
+<a href="/event" class="eventcat" 
+    % if stat == 0:
+style="color:#000"
+    % endif
+    >全部</a>
+% for state, cnname in EVENT_STATE_CN_TUPLE:
+<a href="/event/${state}" class="eventcat" 
+    % if stat == state:
+style="color:#000"
+    % endif
+    >${cnname}</a>
+% endfor
+
+<ol>
+% for event in li:
+<%
+id = event.id
+po = event.po
+state = event.state
+user = po.user
+%>
+<li id="event${id}">
+    <div class="sdw">
+        <div class="sd c">
+            <div id="list_txt">
+                <a href="/event/edit/${id}" style="margin-right:20px">后台编辑</a><a href="${po.link}" target="_blank">${po.name}</a>
+                <p>${cnenoverflow(po.txt, 60)[0]}</p>
+                <p>
+                    <a class="c0" href="${user.link}" target="_blank">${user.name}</a>
+                    ${friendly_time(po.create_time)}
+                </p>
+                <p>
+% if state == EVENT_STATE_DEL:
+已删除
+% elif state == EVENT_STATE_INIT:
+刚创建
+% elif state == EVENT_STATE_TO_REVIEW:
+待审核
+% elif state == EVENT_STATE_REJECT:
+已拒绝
+% elif state == EVENT_STATE_BEGIN:
+已通过
+% elif state == EVENT_STATE_NOW:
+已开始
+% elif state == EVENT_STATE_END:
+已结束
+% endif
+                </p>
+            </div>
+        </div>
+    </div>
+</li>
+% endfor
+</ol>
+
+${page|n}

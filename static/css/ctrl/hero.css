@@ -1,6 +1,8 @@
 .search{
 float:right;
 margin-top:-2px;
+margin-right:16px;
+*margin-right:6px;
 }
 .search input{
 height:26px;

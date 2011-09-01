@@ -34,10 +34,15 @@ def prepare(o):
     o.DISABLE_LOCAL_CACHED = False
     o.MEMCACHED_ADDR = ('127.0.0.1:11211', )
 
-    o.SMTP = 'smtp.163.com'
-    o.SMTP_USERNAME = 'zpagedev'
-    o.SMTP_PASSWORD = '42qu_com'
-    o.SENDER_MAIL = 'zpagedev@163.com'
+    o.SMTP = 'smtp.sina.com'
+    o.SMTP_USERNAME = '42qutest'
+    o.SMTP_PASSWORD = '42qu.com'
+    o.SENDER_MAIL = '42qutest@sina.com'
+
+#    o.SMTP = 'smtp.163.com'
+#    o.SMTP_USERNAME = 'zpagedev'
+#    o.SMTP_PASSWORD = '42qu_com'
+#    o.SENDER_MAIL = 'zpagedev@163.com'
 
     o.LOGO_TEXT = '找到给你答案的人'
 
