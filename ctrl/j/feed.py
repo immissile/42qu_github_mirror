@@ -46,6 +46,7 @@ class FeedUp(JLoginBase):
         feed_rt(current_user_id, id)
 
         post_reply(self, id)
+        mq_sync_recommend_by_zsite_id(current_user_id,id)
 
 
 @urlmap('/j/feed/up1/(\d+)')

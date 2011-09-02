@@ -90,9 +90,6 @@ def sync_recommend_by_zsite_id(id, po_id, cid=4):
             if state:
                 sync_by_oauth_id(oauth_id, SYNC_CID_TXT[cid-1] +':'+ p.name_, 'http:%s'%p.link)
 
-mq_sync_po_by_zsite_id = mq_client(sync_po_by_zsite_id)
-mq_sync_join_event_by_zsite_id = mq_client(sync_join_event_by_zsite_id)
-mq_sync_recommend_by_zsite_id = mq_client(sync_recommend_by_zsite_id)
 
 
 
@@ -107,6 +104,10 @@ def sync_follow_by_sync_id(zsite_id, oauth_id):
         s.delete()
 
 
+mq_sync_po_by_zsite_id = mq_client(sync_po_by_zsite_id)
+mq_sync_join_event_by_zsite_id = mq_client(sync_join_event_by_zsite_id)
+mq_sync_recommend_by_zsite_id = mq_client(sync_recommend_by_zsite_id)
+mq_sync_follow_by_sync_id = mq_client(sync_follow_by_sync_id)
 
 
 if __name__ == '__main__':
