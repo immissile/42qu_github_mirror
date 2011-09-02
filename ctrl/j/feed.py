@@ -47,41 +47,6 @@ class FeedUp(JLoginBase):
         post_reply(self, id)
 
 
-@urlmap('/j/feed/up1/(\d+)')
-class FeedUp1(JLoginBase):
-    def post(self, id):
-        current_user_id = self.current_user_id
-        vote_up(current_user_id, id)
-        feed_rt(current_user_id, id)
-        self.finish('{}')
-
-
-@urlmap('/j/feed/up0/(\d+)')
-class FeedUpX(JLoginBase):
-    def post(self, id):
-        current_user_id = self.current_user_id
-        vote_up_x(current_user_id, id)
-        feed_rt_rm(current_user_id, id)
-        self.finish('{}')
-
-
-@urlmap('/j/feed/down1/(\d+)')
-class FeedDown(JLoginBase):
-    def post(self, id):
-        current_user_id = self.current_user_id
-        vote_down(current_user_id, id)
-        feed_rt_rm(current_user_id, id)
-        self.finish('{}')
-
-
-@urlmap('/j/feed/down0/(\d+)')
-class FeedDownX(JLoginBase):
-    def post(self, id):
-        current_user_id = self.current_user_id
-        vote_down_x(current_user_id, id)
-        self.finish('{}')
-
-
 @urlmap('/j/feed/(\d+)')
 class Feed(JLoginBase):
     def get(self, id):

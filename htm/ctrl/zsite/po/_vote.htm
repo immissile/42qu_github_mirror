@@ -1,21 +1,33 @@
 <%!
 from datetime import datetime
 from zkit.time_format import friendly_time
-from model.vote import vote_state, vote_count
+from model.vote import vote_state, vote_count, vote_up_count
+from model.fav import fav_cid, fav_user_count_by_po_id
+from model.po import PO_SHARE_FAV_CID
 %>
 <%def name="_vote(po_id)">\
-<span class="vote${vote_state(current_user_id, po_id)}" id="vote${po_id}">\
-<a title="厌倦" class="down" href="javascript:vote_down(${po_id});void(0)"></a>\
-<span title="好评度" class="num">${vote_count(po_id)}</span>\
-<a title="喜欢" class="up" href="javascript:vote_up(${po_id});void(0)"></a>\
-</span>\
+<%
+share_count = vote_up_count(po_id)
+fav_count = fav_user_count_by_po_id(po_id)
+faved = fav_cid(current_user_id, po_id)
+%>\
+<span style="color: rgb(153, 153, 153);" class="fdopt">\
+% if share_count:
+<a style="margin-right:7px;text-decoration: underline;" href="/{po_id}/share">${share_count}</a>\
+% endif
+<a class="vote" href="javascript:share(10076111);void(0)">分享</a><span class="split" style="margin: 0pt 10px;">&amp;</span>\
+% if fav_count:
+<a style="margin-right:7px;text-decoration: underline;" href="/${po_id}/fav">${fav_count}</a>\
+% endif
+<a rel="${po_id}" href="javascript:void(0)" class="${'faved' if faved else 'fav'}">收藏</a></span>\
 </%def>
 
 
 
 <%def name="po_bar_vote(po)">\
 <p class="po_bar">\
+% if po.cid in PO_SHARE_FAV_CID:
 <span class="L">${_vote(po.id)}</span>\
+% endif
 ${friendly_time(datetime.fromtimestamp(po.create_time))}</p>\
 </%def>
-

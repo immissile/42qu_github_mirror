@@ -5,6 +5,7 @@ from po import Po
 from event import Event
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from cid import CID_EVENT
+from zsite import Zsite
 
 class Fav(Model):
     pass
@@ -36,14 +37,16 @@ def fav_add(user_id, po_id):
         cid = po.cid
         Fav(user_id=user_id, po_id=po_id, cid=cid).save()
         mc_fav_cid.set('%s_%s' % (user_id, po_id), cid)
-        mc_flush(user_id, cid)
+        mc_flush_by_user_id(user_id, cid)
+        mc_flush_by_po_id(po_id)
 
 def fav_rm(user_id, po_id):
     cid = fav_cid(user_id, po_id)
     if cid:
         Fav.where(user_id=user_id, po_id=po_id).delete()
         mc_fav_cid.set('%s_%s' % (user_id, po_id), 0)
-        mc_flush(user_id, cid)
+        mc_flush_by_user_id(user_id, cid)
+        mc_flush_by_po_id(po_id)
 
 def fav_rm_by_po(po):
     po_id = po.id
@@ -52,13 +55,18 @@ def fav_rm_by_po(po):
         i.delete()
         user_id = i.user_id
         mc_fav_cid.delete('%s_%s' % (user_id, po_id))
-        mc_flush(user_id, cid)
+        mc_flush_by_user_id(user_id, cid)
+    mc_flush_by_po_id(po_id)
 
-def mc_flush(user_id, cid):
+def mc_flush_by_user_id(user_id, cid):
     key = '%s_%s' % (user_id, cid)
     mc_fav_po_id_list_by_user_id_cid.delete(key)
     fav_po_count_by_user_id_cid.delete(key)
     fav_po_count_by_user_id.delete(user_id)
+
+def mc_flush_by_po_id(po_id):
+    mc_fav_user_id_list_by_po_id.delete(po_id)
+    fav_user_count_by_po_id.delete(po_id)
 
 mc_fav_po_id_list_by_user_id_cid = McLimitA('FavPoIdListByUserIdCid.%s', 128)
 
@@ -75,6 +83,20 @@ def fav_po_list_by_user_id_cid(user_id, cid, limit, offset=0):
     if cid == CID_EVENT:
         return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
     return Po.mc_get_list(id_list)
+
+
+mc_fav_user_id_list_by_po_id = McLimitA('FavUserIdListByPoId.%s', 128)
+
+fav_user_count_by_po_id = McNum(lambda po_id: Fav.where(po_id=po_id).count(), 'FavUserCountByPoId.%s')
+
+@mc_fav_user_id_list_by_po_id('{po_id}')
+def fav_user_id_list_by_po_id(user_id, limit, offset):
+    return Fav.where(po_id=po_id).order_by('id desc').col_list(limit, offset, 'user_id')
+
+def fav_po_list_by_user_id_cid(po_id, limit, offset=0):
+    id_list = fav_user_id_list_by_po_id(po_id, limit, offset)
+    return Zsite.mc_get_list(id_list)
+
 
 if __name__ == '__main__':
     fav_add(10000212, 10071341)
