@@ -32,6 +32,7 @@ def mq_server():
     beanstalk.ignore('default')
     while True:
         job = beanstalk.reserve()
+        print job
         try:
             name, args, kwds = loads(job.body)
         except:
@@ -39,6 +40,7 @@ def mq_server():
             continue
 
         func = NAME2FUNC.get(name)
+        print name, args, kwds
 
         try:
             func(*args, **kwds)
