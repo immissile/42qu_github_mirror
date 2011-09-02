@@ -42,53 +42,53 @@ def sync_follow_new(zsite_id, state, cid, txt):
 def sync_state(user_id, oauth_id, cid):
     s = SyncTurn.get(zsite_id=user_id, cid=cid, oauth_id=oauth_id)
     if not s:
-        SyncTurn.raw_sql('insert into sync_turn (zsite_id,cid,state, oauth_id) values(%s,%s,1,%s)', user_id, cid,oauth_id)
+        SyncTurn.raw_sql('insert into sync_turn (zsite_id,cid,state, oauth_id) values(%s,%s,1,%s)', user_id, cid, oauth_id)
         s = SyncTurn.get(zsite_id=user_id, cid=cid, oauth_id=oauth_id)
     return s.state
 
-@mc_sync_state_all("{user_id}_{oauth_id}")
-def sync_all(user_id,oauth_id):
-    return [sync_state(user_id,oauth_id, cid) for cid in SYNC_CID]
+@mc_sync_state_all('{user_id}_{oauth_id}')
+def sync_all(user_id, oauth_id):
+    return [sync_state(user_id, oauth_id, cid) for cid in SYNC_CID]
 
 def sync_state_set(user_id, cid, state, oauth_id):
     state = int(bool(state))
     if state != sync_state(user_id, oauth_id, cid):
         SyncTurn.where(zsite_id=user_id, cid=cid, oauth_id=oauth_id).update(state=state)
-        mc_sync_state.set('%s_%s_%s'%(user_id,oauth_id,cid), state)
-        mc_sync_state_all.delete('%s_%s'%(user_id,oauth_id))
+        mc_sync_state.set('%s_%s_%s'%(user_id, oauth_id, cid), state)
+        mc_sync_state_all.delete('%s_%s'%(user_id, oauth_id))
 
 
-def sync_po_by_zsite_id(id,po_id):
+def sync_po_by_zsite_id(id, po_id):
     from po import Po
     p = Po.mc_get(po_id)
     cid = SYNC_GET_CID[p.cid]
-    s = SyncTurn.raw_sql('select state,oauth_id from sync_turn where zsite_id = %s and cid = %s', id,cid).fetchall()
+    s = SyncTurn.raw_sql('select state,oauth_id from sync_turn where zsite_id = %s and cid = %s', id, cid).fetchall()
     if s:
         for state, oauth_id in s:
             if state:
-                sync_by_oauth_id(oauth_id,SYNC_CID_TXT[cid-1] +':'+ p.name_,'http:%s'%p.link)
+                sync_by_oauth_id(oauth_id, SYNC_CID_TXT[cid-1] +':'+ p.name_, 'http:%s'%p.link)
 
 
 
 
-def sync_join_event_by_zsite_id(id,po_id,cid=3):
+def sync_join_event_by_zsite_id(id, po_id, cid=3):
     from po import Po
     p = Po.mc_get(po_id)
-    s = SyncTurn.raw_sql('select state,oauth_id from sync_turn where zsite_id = %s and cid = %s', id,cid).fetchall()
+    s = SyncTurn.raw_sql('select state,oauth_id from sync_turn where zsite_id = %s and cid = %s', id, cid).fetchall()
     if s:
         for state, oauth_id in s:
             if state:
-                sync_by_oauth_id(oauth_id,'参加活动:'+ p.name_,'http:%s'%p.link)
+                sync_by_oauth_id(oauth_id, '参加活动:'+ p.name_, 'http:%s'%p.link)
 
-def sync_recommend_by_zsite_id(id,po_id,cid=4):
+def sync_recommend_by_zsite_id(id, po_id, cid=4):
     from po import Po
     cid = int(cid)
     p = Po.mc_get(po_id)
-    s = SyncTurn.raw_sql('select state,oauth_id from sync_turn where zsite_id = %s and cid = %s', id,cid).fetchall()
+    s = SyncTurn.raw_sql('select state,oauth_id from sync_turn where zsite_id = %s and cid = %s', id, cid).fetchall()
     if s:
         for state, oauth_id in s:
             if state:
-                sync_by_oauth_id(oauth_id,SYNC_CID_TXT[cid-1] +':'+ p.name_,'http:%s'%p.link)
+                sync_by_oauth_id(oauth_id, SYNC_CID_TXT[cid-1] +':'+ p.name_, 'http:%s'%p.link)
 
 mq_sync_po_by_zsite_id = mq_client(sync_po_by_zsite_id)
 mq_sync_join_event_by_zsite_id = mq_client(sync_join_event_by_zsite_id)
@@ -99,7 +99,7 @@ mq_sync_recommend_by_zsite_id = mq_client(sync_recommend_by_zsite_id)
 def sync_follow_by_sync_id(zsite_id, oauth_id):
     s = SyncFollow.get(zsite_id)
     if s:
-        a,b =divmod(s.state,2)
+        a, b = divmod(s.state, 2)
         if a:
             sync_by_oauth_id(oauth_id, s.txt, SITE_DOMAIN)
         if b:
