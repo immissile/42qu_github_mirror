@@ -650,16 +650,21 @@ CREATE TABLE `sync_follow` (
   `state` int(10) unsigned NOT NULL,
   `cid` int(10) unsigned NOT NULL,
   `txt` varbinary(1024) NOT NULL,
-  PRIMARY KEY (`id`)
+  `oauth_id` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `oauth_id` (`oauth_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `sync_turn`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sync_turn` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `zsite_id` int(10) unsigned NOT NULL,
   `cid` int(10) unsigned NOT NULL,
   `state` int(10) unsigned NOT NULL,
+  `oauth_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
   KEY `Index_1` (`zsite_id`,`cid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
