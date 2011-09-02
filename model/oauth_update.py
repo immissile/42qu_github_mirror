@@ -265,7 +265,7 @@ def oauth_txt_cat(cid, txt, url):
         tword = txt[:140-url_len]
         if tword != txt:
             txt = txt[:137-url_len]+'...'
-        txt = str(txt)+url
+        txt = str(txt)+' '+url
         return txt
     else:
         txt = cnenoverflow(str(txt), 139-url_len)[0]+' '+url
