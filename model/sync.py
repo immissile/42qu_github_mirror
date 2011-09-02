@@ -78,7 +78,7 @@ def sync_join_event_by_zsite_id(id, po_id, cid=3):
     if s:
         for state, oauth_id in s:
             if state:
-                sync_by_oauth_id(oauth_id, '报名活动:'+ p.name_, 'http:%s'%p.link)
+                sync_by_oauth_id(oauth_id, '报名活动 : '+ p.name_, 'http:%s'%p.link)
 
 def sync_recommend_by_zsite_id(id, po_id, cid=4):
     from po import Po
