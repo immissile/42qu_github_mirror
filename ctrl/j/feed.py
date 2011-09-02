@@ -18,7 +18,7 @@ from model.zsite import Zsite
 from model.po_video import CID_VIDEO, video_htm_autoplay
 from model.event import Event
 from model.fav import fav_add, fav_rm
-from model.sync import mq_sync_recommend_by_zsite_id
+#from model.sync import mq_sync_recommend_by_zsite_id
 from cgi import escape
 from ctrl.j.po import post_reply
 
@@ -46,7 +46,7 @@ class FeedUp(JLoginBase):
         feed_rt(current_user_id, id)
 
         post_reply(self, id)
-        mq_sync_recommend_by_zsite_id(current_user_id,id)
+        #mq_sync_recommend_by_zsite_id(current_user_id,id)
 
 
 @urlmap('/j/feed/up1/(\d+)')
@@ -55,7 +55,7 @@ class FeedUp1(JLoginBase):
         current_user_id = self.current_user_id
         vote_up(current_user_id, id)
         feed_rt(current_user_id, id)
-        mq_sync_recommend_by_zsite_id(current_user_id,id)
+        #mq_sync_recommend_by_zsite_id(current_user_id,id)
         self.finish('{}')
 
 

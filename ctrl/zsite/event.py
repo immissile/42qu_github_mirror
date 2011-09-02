@@ -14,7 +14,7 @@ from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT, CID_EVENT
 from ctrl.me.i import NameCardEdit
 from model.zsite import ZSITE_STATE_VERIFY
 from model.zsite_url import link
-from model.sync import mq_sync_join_event_by_zsite_id
+#from model.sync import mq_sync_join_event_by_zsite_id
 
 
 @urlmap('/event/to_review')
@@ -152,7 +152,7 @@ class EventJoin(NameCardEdit, EventBase):
 
         current_user_id = self.current_user_id
         event_joiner_new(id, current_user_id)
-        mq_sync_join_event_by_zsite_id(current_user_id, id)
+        #mq_sync_join_event_by_zsite_id(current_user_id, id)
         return self.redirect(event_link)
 
 
