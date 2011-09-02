@@ -5,6 +5,9 @@ from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, C
 from model.fav import fav_po_list_by_user_id_cid, fav_po_count_by_user_id_cid
 from model.po import PO_CN_EN, PO_EN
 %>
+<%def name="htm_head()">
+${css.ctrl_fav|n}
+</%def>
 
 <%
 if zsite_id == current_user_id:
@@ -23,9 +26,11 @@ for cid, en in PO_EN.iteritems():
 
 po_total_count = 0 
 %>
-<div style="margin-top:16px">
 
-<div style="width: 470px; margin: auto; border-bottom: 1px dotted #ccc; padding-bottom: 16px; text-align: right;"><span style="float: left;">${zsite.name}</span><a class="c0" href="/fav">收藏</a><span style="margin: 0pt 14px; color: #999;">-</span><a class="c9" href="/po">发布</a></div>
+<h1>\
+<span class="L">${zsite.name}</span>\
+<a class="c0" href="/fav">收藏</a><span class="split">-</span>\
+<a class="c9" href="/po">发布</a></h1>
 
 
 % for i in PO_CN_EN:
@@ -39,8 +44,7 @@ po_total_count += po_count
 %>
 ${func(po_count, po_list)}
 % endfor
-</div>
 
 %if not po_total_count:
-<p style="width:470px;margin:auto;border:1px dotted #ccc;margin-top:10%;padding:32px;text-align:center;">暂无收藏 , <a href="${link}">先逛逛吧</a></p>
+<p style="width:468px;margin:auto;border:1px dotted #ccc;margin-top:10%;padding:32px 0;text-align:center;">暂无收藏 , <a href="${link}">先逛逛吧</a></p>
 %endif

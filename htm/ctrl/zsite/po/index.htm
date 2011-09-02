@@ -7,6 +7,9 @@ from model.po import po_list_count, po_view_list
 from model.event import event_join_count_by_user_id, event_list_join_by_user_id
 %>
 
+<%def name="htm_head()">
+${css.ctrl_fav|n}
+</%def>
 
 <%def name="user_po_show()">
 <%
@@ -55,11 +58,15 @@ else:
 
 <a class="back_a" href="${link}"></a>
 
-<div style="margin-top:16px">
+<h1>\
+<span class="L">${zsite.name}</span>\
+<a class="c9" href="/fav">收藏</a><span class="split">-</span>\
+<a class="c0" href="/po">发布</a></h1>
 
-<div style="width: 470px; margin: auto; border-bottom: 1px dotted #ccc; padding-bottom: 16px; text-align: right;"><span style="float: left;">${zsite.name}</span><a class="c9" href="/fav">收藏</a><span style="margin: 0pt 14px; color: #999;">-</span><a class="c0" href="/po">发布</a></div>
+<div id="user_po_show">${user_po_show()}</div>
 
-${user_po_show()}
-</div>
-
-<p style="width:470px;margin:auto;border:1px dotted #ccc;margin-top:10%;padding:32px;text-align:center;">暂无文章 , <a href="${link}">先逛逛吧</a></p>
+<script>
+if(!$.trim($("#user_po_show").html()).length){
+document.write('<p style="width:468px;margin:auto;border:1px dotted #ccc;margin-top:10%;padding:32px 0;text-align:center;">暂无文章 , <a href="${link}">先逛逛吧</a></p>')
+}
+</script>
