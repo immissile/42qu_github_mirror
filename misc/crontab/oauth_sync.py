@@ -21,15 +21,15 @@ def sync_po_by_zsite_id(begin_id):
 
 
 def sync_join_event_by_zsite_id(begin_id):
-    pass
+    return begin_id
 
 
 def sync_recommend_by_zsite_id(begin_id):
-    pass
+    return begin_id
 
 
 def sync_follow_by_sync_id(begin_id):
-    pass
+    return begin_id
 
 
 
