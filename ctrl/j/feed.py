@@ -3,7 +3,7 @@
 from _handler import JLoginBase, Base
 from ctrl._urlmap.j import urlmap
 from model.vote import vote_state
-from model.po import Po
+from model.po import Po, PO_SHARE_FAV_CID
 from yajl import dumps
 from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
 from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN, dump_zsite
@@ -41,8 +41,10 @@ class FeedUp(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
 
-        vote_up(current_user_id, id)
-        feed_rt(current_user_id, id)
+        po = Po.mc_get(id)
+        if po and po.cid in PO_SHARE_FAV_CID:
+            vote_up(current_user_id, id)
+            feed_rt(current_user_id, id)
 
         post_reply(self, id)
 

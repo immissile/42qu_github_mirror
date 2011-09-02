@@ -4,7 +4,7 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model.po_prev_next import po_prev_next
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
-from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN
+from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN, PO_SHARE_FAV_CID
 from model.po_question import po_answer_new
 from model.po_pos import po_pos_get, po_pos_set, po_pos_state, STATE_BUZZ
 from model import reply
@@ -17,6 +17,9 @@ from model.zsite_tag import ZsiteTag
 from model.feed_render import feed_tuple_list
 from model.tag import Tag
 from model.event import Event, EVENT_STATE_TO_REVIEW
+from model.fav import fav_user_count_by_po_id, fav_user_list_by_po_id
+from model.vote import vote_up_count, vote_user_id_list
+
 
 @urlmap('/po')
 class Index(ZsiteBase):
@@ -417,6 +420,83 @@ class Rm(XsrfGetBase):
         self.redirect('%s/live'%user.link)
 
     post = get
+
+
+class ShareFavBase(ZsiteBase):
+    template = '/ctrl/zsite/po/zsite_list.htm'
+
+    def po(self, id):
+        po = Po.mc_get(id)
+        if po:
+            if po.cid in PO_SHARE_FAV_CID and po.can_view(self.current_user_id):
+                if po.user_id == self.zsite_id:
+                    return po
+                return self.redirect('%s%s' % (po.user.link, self.request.path))
+            return self.redirect(po.link)
+        return self.redirect('/')
+
+
+@urlmap('/(\d+)/share')
+@urlmap('/(\d+)/share-(\d+)')
+class PoShare(ShareFavBase):
+    def get(self, id, n=1):
+        po = self.po(id)
+        if po is None:
+            return
+
+        path = '/%s/fav' % id
+
+        total = vote_up_count(id)
+        page, limit, offset = page_limit_offset(
+            '%s-%%s' % path,
+            total,
+            n,
+            PAGE_LIMIT
+        )
+        if type(n) == str and offset >= total:
+            return self.redirect(path)
+
+        id_list = vote_user_id_list(id, limit, offset)
+        zsite_list = Zsite.mc_get_list(id_list)
+
+        self.render(
+            po=po,
+            zsite_list=zsite_list,
+            page=page,
+            title='分享',
+            path=path,
+        )
+
+
+@urlmap('/(\d+)/fav')
+@urlmap('/(\d+)/fav-(\d+)')
+class PoFav(ShareFavBase):
+    def get(self, id, n=1):
+        po = self.po(id)
+        if po is None:
+            return
+
+        path = '/%s/fav' % id
+
+        total = fav_user_count_by_po_id(id)
+        page, limit, offset = page_limit_offset(
+            '%s-%%s' % path,
+            total,
+            n,
+            PAGE_LIMIT
+        )
+        if type(n) == str and offset >= total:
+            return self.redirect(path)
+
+        zsite_list = fav_user_list_by_po_id(id, limit, offset)
+
+        self.render(
+            po=po,
+            zsite_list=zsite_list,
+            page=page,
+            title='收藏',
+            path=path,
+        )
 
 
 #@urlmap('/tag')

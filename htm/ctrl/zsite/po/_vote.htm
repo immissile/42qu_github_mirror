@@ -13,9 +13,9 @@ faved = fav_cid(current_user_id, po_id)
 %>\
 <span style="color: rgb(153, 153, 153);" class="fdopt">\
 % if share_count:
-<a style="margin-right:7px;text-decoration: underline;" href="/{po_id}/share">${share_count}</a>\
+<a style="margin-right:7px;text-decoration: underline;" href="/${po_id}/share">${share_count}</a>\
 % endif
-<a class="vote" href="javascript:share(10076111);void(0)">分享</a><span class="split" style="margin: 0pt 10px;">&amp;</span>\
+<a class="vote" href="javascript:share(${po_id});void(0)">分享</a><span class="split" style="margin: 0pt 10px;">&amp;</span>\
 % if fav_count:
 <a style="margin-right:7px;text-decoration: underline;" href="/${po_id}/fav">${fav_count}</a>\
 % endif

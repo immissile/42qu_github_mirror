@@ -62,19 +62,25 @@ def vote_down_x(user_id, po_id):
         _vote_0(user_id, po_id)
         vote_mc_flush(user_id, po_id)
 
+mc_vote_user_id_list = McLimitA('VoteUserIdList.%s', 128)
+
+@mc_vote_user_id_list('{po_id}')
+def vote_user_id_list(po_id, limit, offset):
+    return Vote.where(po_id=po_id, state=STATE_UP).order_by('id desc').col_list(limit, offset, 'user_id')
+
 def vote_mc_flush(user_id, po_id):
     mc_vote_state.delete('%s_%s' % (user_id, po_id))
     po_id = str(po_id)
     vote_up_count.delete(po_id)
     vote_down_count.delete(po_id)
     vote_count.delete(po_id)
+    mc_vote_user_id_list.delete(po_id)
     mc_feed_tuple.delete(po_id)
     from rank import rank_update
     rank_update(po_id)
 
 if __name__ == '__main__':
     pass
-    print vote_count(15)
 #class Rate(Model):
 #    pass
 #

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
-from po import Po
+from po import Po, PO_SHARE_FAV_CID
 from event import Event
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from cid import CID_EVENT
@@ -33,7 +33,7 @@ def fav_cid_dict(user_id, po_id_list):
 
 def fav_add(user_id, po_id):
     po = Po.mc_get(po_id)
-    if po and po.state >= STATE_ACTIVE and not fav_cid(user_id, po_id):
+    if po and po.cid in PO_SHARE_FAV_CID and po.state >= STATE_ACTIVE and not fav_cid(user_id, po_id):
         cid = po.cid
         Fav(user_id=user_id, po_id=po_id, cid=cid).save()
         mc_fav_cid.set('%s_%s' % (user_id, po_id), cid)
@@ -90,10 +90,10 @@ mc_fav_user_id_list_by_po_id = McLimitA('FavUserIdListByPoId.%s', 128)
 fav_user_count_by_po_id = McNum(lambda po_id: Fav.where(po_id=po_id).count(), 'FavUserCountByPoId.%s')
 
 @mc_fav_user_id_list_by_po_id('{po_id}')
-def fav_user_id_list_by_po_id(user_id, limit, offset):
+def fav_user_id_list_by_po_id(po_id, limit, offset):
     return Fav.where(po_id=po_id).order_by('id desc').col_list(limit, offset, 'user_id')
 
-def fav_po_list_by_user_id_cid(po_id, limit, offset=0):
+def fav_user_list_by_po_id(po_id, limit, offset=0):
     id_list = fav_user_id_list_by_po_id(po_id, limit, offset)
     return Zsite.mc_get_list(id_list)
 

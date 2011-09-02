@@ -29,23 +29,19 @@ function share(id) {
 
 			reply.submit(function() {
 				var txt = $.trim(textarea.val());
-				if (txt && txt.length) {
-					fancybox.showActivity()
-					$.postJSON("/j/feed/up/" + id, {
-						'txt': txt
-					},
-					function(r) {
-						if (r.can_not_reply) {
-							fancybox({
-								content: CANNOT_REPLY
-							})
-						} else {
-							fancybox.close()
-						}
-					})
-				} else {
-					fancybox.close()
-				}
+				fancybox.showActivity()
+				$.postJSON("/j/feed/up/" + id, {
+					'txt': txt
+				},
+				function(r) {
+					if (r.can_not_reply) {
+						fancybox({
+							content: CANNOT_REPLY
+						})
+					} else {
+						fancybox.close()
+					}
+				})
 				return false;
 			})
 			textarea.focus()
