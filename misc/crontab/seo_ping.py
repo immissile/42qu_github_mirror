@@ -52,12 +52,12 @@ def ping_all(po):
     blog_index = 'http:%s' % zsite.link
     po_link = '%s/%s' % (blog_index, po.id)
     rss_link = '%s/rss' % blog_index
-    print po.name
+    #print po.name
 
     for ping_url in PING_URL:
         server = xmlrpclib.ServerProxy(ping_url)
         response = server.weblogUpdates.extendedPing(blog_name, blog_index, po_link, rss_link)
-        print response
+        #print response
 
 @single_process
 def main():

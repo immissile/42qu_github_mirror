@@ -13,10 +13,10 @@ mc_sync_state = McCache('SyncState:%s')
 mc_sync_state_all = McCacheA('SyncStateAll:%s')
 
 SYNC_CID_CN = (
-    (1, '游吟碎语'),
-    (2, '撰写文章'),
-    (3, '线下活动'),
-    (4, '推荐分享'),
+    (1, ''),
+    (2, '文章 : '),
+    (3, '发起活动 : '),
+    (4, '分享 : '),
 )
 
 SYNC_GET_CID = {
@@ -78,7 +78,7 @@ def sync_join_event_by_zsite_id(id, po_id, cid=3):
     if s:
         for state, oauth_id in s:
             if state:
-                sync_by_oauth_id(oauth_id, '参加活动:'+ p.name_, 'http:%s'%p.link)
+                sync_by_oauth_id(oauth_id, '报名活动:'+ p.name_, 'http:%s'%p.link)
 
 def sync_recommend_by_zsite_id(id, po_id, cid=4):
     from po import Po
@@ -88,7 +88,7 @@ def sync_recommend_by_zsite_id(id, po_id, cid=4):
     if s:
         for state, oauth_id in s:
             if state:
-                sync_by_oauth_id(oauth_id, SYNC_CID_TXT[cid-1] +':'+ p.name_, 'http:%s'%p.link)
+                sync_by_oauth_id(oauth_id, SYNC_CID_TXT[cid-1] + p.name_, 'http:%s'%p.link)
 
 
 
