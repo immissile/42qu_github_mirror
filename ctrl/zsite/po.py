@@ -18,6 +18,12 @@ from model.feed_render import feed_tuple_list
 from model.tag import Tag
 from model.event import Event, EVENT_STATE_TO_REVIEW
 
+@urlmap('/po')
+class Index(ZsiteBase):
+    def get(self):
+        self.render()
+
+
 PAGE_LIMIT = 42
 
 @urlmap('/po/cid/(\d+)')

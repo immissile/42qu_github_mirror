@@ -1,14 +1,12 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/_util/_g1.htm" import="about_me"/>
 <%namespace file="/_util/user_index.htm" import="user_index"/>
-<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo, tag_list_video, tag_list_audio"/>
+<%namespace file="/ctrl/zsite/po/index.htm" import="user_po_show"/>
 <%!
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO
-from model.po import po_list_count, po_view_list
 from model.ico import pic_url as _pic_url, ico_url_with_default
 from model.zsite_link import link_id_name_by_zsite_id
 from model.career import career_list_all
-from model.event import event_join_count_by_user_id, event_list_join_by_user_id
 %>
 <%def name="htm_head()">
 <link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章" />
@@ -25,61 +23,8 @@ ${zsite.name}
 is_owner = zsite_id == current_user_id
 %>
 ${user_index(zsite, is_owner)}
+${user_po_show()}
 
-
-<%
-po_word_list = po_view_list(zsite_id, CID_WORD, is_owner, 1)
-po_word_count = po_list_count(zsite_id, CID_WORD, is_owner)
-
-po_note_list = po_view_list(zsite_id, CID_NOTE, is_owner, 6)
-po_note_count = po_list_count(zsite_id, CID_NOTE, is_owner)
-
-po_answer_list = po_view_list(zsite_id, CID_ANSWER, is_owner, 6)
-po_answer_count = po_list_count(zsite_id, CID_ANSWER, is_owner)
-
-po_question_list = po_view_list(zsite_id, CID_QUESTION, is_owner, 6)
-po_question_count = po_list_count(zsite_id, CID_QUESTION, is_owner)
-
-po_photo_list = po_view_list(zsite_id, CID_PHOTO, is_owner, 6)
-po_photo_count = po_list_count(zsite_id, CID_PHOTO, is_owner)
-
-po_video_list = po_view_list(zsite_id, CID_VIDEO, is_owner, 6)
-po_video_count = po_list_count(zsite_id, CID_VIDEO, is_owner)
-
-po_audio_list = po_view_list(zsite_id, CID_AUDIO, is_owner, 6)
-po_audio_count = po_list_count(zsite_id, CID_AUDIO, is_owner)
-
-event_count = event_join_count_by_user_id(zsite_id)
-event_list = event_list_join_by_user_id(zsite_id, 6, 0)
-%>
-
-
-${tag_list_word(po_word_count, po_word_list, is_owner)}
-${tag_list_note(po_note_count, po_note_list, is_owner)}
-${tag_list_answer(po_answer_count, po_answer_list, is_owner)}
-${tag_list_question(po_question_count, po_question_list, is_owner)}
-${tag_list_photo(po_photo_count, po_photo_list, is_owner)}
-${tag_list_video(po_video_count, po_video_list, is_owner)}
-${tag_list_audio(po_audio_count, po_audio_list, is_owner)}
-
-<%namespace file="/ctrl/zsite/event/event_page.htm" import="event_po"/>
-
-% if event_count:
-<div class="zsite_block">\
-<div class="zsite_ol">\
-<ol>
-% for event, po in event_list:
-<li>${event_po(event, po)}</li>
-% endfor
-</ol>
-</div>\
-<div class="zsite_num_div">\
-<a href="${zsite.link}/event" class="num">\
-    <span class="now">${event_count}</span><b>次活动</b>
-</a>
-</div>
-</div>
-% endif
 
 <div class="zsite_block zsite_follow">\
 
