@@ -44,6 +44,6 @@ def t_cn(url):
 
 
 if '__main__' == __name__:
-    url = 'http://open.weibo.com/wiki/index.php/Short_url/shorten'
+    url = 'http://open.weibo.com/wiki/index.php/Short_url/shorten?14'
     print t_cn(url)
 
