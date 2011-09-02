@@ -8,7 +8,6 @@ from model.notice import mq_notice_event_notice, mq_notice_question, mq_invite_q
 from model.pic import mq_pic_rm_mail
 from model.zsite import mq_zsite_verify_mail
 from model.event import mq_event_kill_extra
-import model.sync
 
 def run():
     mq_server()
