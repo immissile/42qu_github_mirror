@@ -8,6 +8,7 @@ from config import SITE_DOMAIN
 from cid import CID_EVENT, CID_NOTE, CID_WORD
 from mq import mq_client
 from oauth_follow import oauth_follow_by_oauth_id
+from model.po import Po
 
 mc_sync_state = McCache('SyncState:%s')
 mc_sync_state_all = McCacheA('SyncStateAll:%s')
@@ -33,12 +34,10 @@ SYNC_GET_CID = {
     CID_EVENT: SYNC_CID_EVENT,
 }
 
-SYNC_CID_TXT = (
-    '',
-    '文章 : ',
-    '发起活动 :',
-    '分享 : ',
-)
+SYNC_CID_TXT = {
+    CID_NOTE:'文章 : ',
+    CID_EVENT:'发起活动 :',
+}
 
 SYNC_CID = tuple(i[0] for i in SYNC_CID_CN)
 
@@ -77,14 +76,14 @@ def sync_state_set(user_id, cid, state, oauth_id):
 def state_oauth_id_by_zsite_id_cid(zsite_id, cid):
     s = SyncTurn.where(
         zsite_id=zsite_id, cid=cid
-    ).where('state>0').col_list('oauth_id')
+    ).where('state>0').col_list(col='oauth_id')
     return s
 
 def sync_po(po):
     id = po.user_id
-    cid = SYNC_GET_CID[p.cid]
+    cid = SYNC_GET_CID[po.cid]
     for oauth_id in state_oauth_id_by_zsite_id_cid(id, cid):
-        sync_by_oauth_id(oauth_id, SYNC_CID_TXT[cid-1] + p.name_, 'http:%s'%p.link)
+        sync_by_oauth_id(oauth_id, SYNC_CID_TXT.get(cid,"") + po.name_, 'http:%s'%po.link)
 
 def sync_join_event(id, event_id):
     po = Po.mc_get(event_id)
@@ -92,13 +91,12 @@ def sync_join_event(id, event_id):
     for oauth_id in s:
         sync_by_oauth_id(oauth_id, '报名活动 : '+ po.name_, 'http:%s'%po.link)
 
-def sync_recommend_by_zsite_id(id, po_id):
+def sync_recommend(id, po_id):
     from po import Po
-    cid = int(cid)
     p = Po.mc_get(po_id)
     s = state_oauth_id_by_zsite_id_cid(id, SYNC_CID_SHARE)
     for oauth_id in s:
-        sync_by_oauth_id(oauth_id, SYNC_CID_TXT[cid-1] + p.name_, 'http:%s'%p.link)
+        sync_by_oauth_id(oauth_id, "分享 : " + p.name_, 'http:%s'%p.link)
 
 
 def sync_follow_oauth_id_bind(user_id, cid, oauth_id):
@@ -117,7 +115,7 @@ def sync_follow(follow):
     oauth_id = follow.oauth_id
 
     if a:
-        sync_by_oauth_id(oauth_id, s.txt, "http://%s"%SITE_DOMAIN)
+        sync_by_oauth_id(oauth_id, follow.txt, "http://%s"%SITE_DOMAIN)
     if b:
         oauth_follow_by_oauth_id(oauth_id)
     
