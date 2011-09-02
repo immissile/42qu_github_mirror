@@ -17,7 +17,7 @@ from zsite import Zsite
 from zkit.txt import cnencut
 from zkit.attrcache import attrcache
 from cgi import escape
-from sync import mq_sync_po_by_zsite_id
+#from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
     (CID_WORD, 'word', '微博', '句'),
@@ -219,8 +219,8 @@ def po_new(cid, user_id, name, state, rid=0, id=None):
         create_time=int(time()),
     )
     m.save()
-    if cid in (CID_NOTE, CID_WORD) and state == STATE_ACTIVE:
-        mq_sync_po_by_zsite_id(user_id, m.id)
+    #if cid in (CID_NOTE, CID_WORD) and state == STATE_ACTIVE:
+        #mq_sync_po_by_zsite_id(user_id, m.id)
     from po_pos import po_pos_set
     po_pos_set(user_id, m)
     mc_flush(user_id, cid)
