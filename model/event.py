@@ -531,7 +531,7 @@ def event_kill_extra(from_id, event_id, po_id):
     po = Po.mc_get(event_id)
     txt = po.name
     notice_link = po.link
-    for i in Event.where(event_id=event_id).where('state>=%s', EVENT_JOIN_STATE_NEW):
+    for i in Event.where(id=event_id).where('state>=%s', EVENT_JOIN_STATE_NEW):
         event_joiner_no(i)
         user_id = i.user_id
         notice_event_kill_one(from_id, user_id, po_id)
