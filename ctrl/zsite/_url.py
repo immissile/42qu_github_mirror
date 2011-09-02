@@ -6,3 +6,4 @@ import live
 import pay
 import rss
 import event
+import fav

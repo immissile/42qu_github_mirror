@@ -17,11 +17,39 @@ from model.career import career_dict
 from model.zsite import Zsite
 from model.po_video import CID_VIDEO, video_htm_autoplay
 from model.event import Event
+from model.fav import fav_add, fav_rm
 from model.sync import mq_sync_recommend_by_zsite_id
 from cgi import escape
+from ctrl.j.po import post_reply
+
+@urlmap('/j/feed/fav/(\d+)')
+class Fav(JLoginBase):
+    def post(self, id):
+        current_user_id = self.current_user_id
+        fav_add(current_user_id, id)
+        self.finish('{}')
+
+
+@urlmap('/j/feed/unfav/(\d+)')
+class UnFav(JLoginBase):
+    def post(self, id):
+        current_user_id = self.current_user_id
+        fav_rm(current_user_id, id)
+        self.finish('{}')
+
+@urlmap('/j/feed/up/(\d+)')
+class FeedUp(JLoginBase):
+    def post(self, id):
+        current_user_id = self.current_user_id
+
+        vote_up(current_user_id, id)
+        feed_rt(current_user_id, id)
+
+        post_reply(self, id)
+
 
 @urlmap('/j/feed/up1/(\d+)')
-class FeedUp(JLoginBase):
+class FeedUp1(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         vote_up(current_user_id, id)
@@ -64,7 +92,7 @@ class Feed(JLoginBase):
             id = MAXINT
         current_user_id = self.current_user_id
 
-        result , last_id = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
+        result, last_id = render_feed_by_zsite_id(current_user_id, PAGE_LIMIT, id)
         result = tuple(
             (i, tuple(g)) for i, g in groupby(result, itemgetter(0))
         )
@@ -79,8 +107,8 @@ class Feed(JLoginBase):
             t = []
             for i in item_list:
                 id = i[1]
-                cid = i[3]
-                rid = i[4]
+                cid = i[4]
+                rid = i[5]
 
                 if len(i) >= FEED_TUPLE_DEFAULT_LEN:
                     after = i[FEED_TUPLE_DEFAULT_LEN:]
@@ -88,9 +116,9 @@ class Feed(JLoginBase):
                 else:
                     after = None
 
-                i.extend([
-                    vote_state(current_user_id, id),
-                ])
+                #        i.extend([
+                #            vote_state(current_user_id, id),
+                #        ])
 
                 if cid not in (CID_WORD, CID_EVENT):
                     i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
@@ -129,7 +157,7 @@ class FdTxt(Base):
                     '<p>交通方式 : %s</p>'%escape(event.transport)
                 )
                 if event.price:
-                    result.append("<p>%s 元 / 人</p>"%event.price)
+                    result.append('<p>%s 元 / 人</p>'%event.price)
                 result = ''.join(result)
         else:
             result = ''
