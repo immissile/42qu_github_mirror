@@ -73,7 +73,7 @@ class EventState(Base):
         state = int(state)
         if state:
             event_review_yes(id)
-            e = Event.mc_get(id)
+            #e = Event.mc_get(id)
             #mq_sync_po_by_zsite_id(e.zsite_id,id)
         else:
             txt = self.get_argument('txt')

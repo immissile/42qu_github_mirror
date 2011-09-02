@@ -49,7 +49,10 @@ class SyncFollow(McModel):
     pass
 
 def sync_follow_new(zsite_id, state, cid, txt):
-    SyncFollow.raw_sql('insert into sync_follow (id,state,cid,txt) values(%s,%s,%s,%s) on duplicate key update id=id', zsite_id, state, cid, txt)
+    SyncFollow.raw_sql(
+        'insert into sync_follow (zsite_id,state,cid,txt) values(%s,%s,%s,%s) ',
+         zsite_id, state, cid, txt
+    )
 
 @mc_sync_state('{user_id}_{oauth_id}_{cid}')
 def sync_state(user_id, oauth_id, cid):
@@ -83,41 +86,46 @@ def sync_po(po):
     for oauth_id in state_oauth_id_by_zsite_id_cid(id, cid):
         sync_by_oauth_id(oauth_id, SYNC_CID_TXT[cid-1] + p.name_, 'http:%s'%p.link)
 
-def sync_join_event(id, po):
+def sync_join_event(id, event_id):
+    po = Po.mc_get(event_id)
     s = state_oauth_id_by_zsite_id_cid(id, SYNC_CID_EVENT)
     for oauth_id in s:
         sync_by_oauth_id(oauth_id, '报名活动 : '+ po.name_, 'http:%s'%po.link)
 
-def sync_recommend_by_zsite_id(id, po_id, cid=4):
+def sync_recommend_by_zsite_id(id, po_id):
     from po import Po
     cid = int(cid)
     p = Po.mc_get(po_id)
-    s = SyncTurn.raw_sql('select state,oauth_id from sync_turn where zsite_id = %s and cid = %s', id, cid).fetchall()
-    if s:
-        for state, oauth_id in s:
-            if state:
-                sync_by_oauth_id(oauth_id, SYNC_CID_TXT[cid-1] + p.name_, 'http:%s'%p.link)
+    s = state_oauth_id_by_zsite_id_cid(id, SYNC_CID_SHARE)
+    for oauth_id in s:
+        sync_by_oauth_id(oauth_id, SYNC_CID_TXT[cid-1] + p.name_, 'http:%s'%p.link)
 
 
+def sync_follow_oauth_id_bind(user_id, cid, oauth_id):
+    for pos, sync_follow in enumerate(
+        SyncFollow.where(zsite_id=user_id, cid=cid, oauth_id=0)
+    ):
+        if pos:
+            sync_follow.delete()
+
+        sync_follow.oauth_id = oauth_id
+        sync_follow.save()
+    
+
+def sync_follow(follow):
+    a, b = divmod(follow.state, 2)
+    oauth_id = follow.oauth_id
+
+    if a:
+        sync_by_oauth_id(oauth_id, s.txt, "http://%s"%SITE_DOMAIN)
+    if b:
+        oauth_follow_by_oauth_id(oauth_id)
+    
+    follow.delete()
 
 
-def sync_follow_by_sync_id(zsite_id, oauth_id):
-    s = SyncFollow.get(zsite_id)
-    if s:
-        a, b = divmod(s.state, 2)
-        if a:
-            sync_by_oauth_id(oauth_id, s.txt, "http://%s"%SITE_DOMAIN)
-        if b:
-            oauth_follow_by_oauth_id(oauth_id)
-        s.delete()
-
-
-#mq_sync_po_by_zsite_id = mq_client(sync_po_by_zsite_id)
-#mq_sync_join_event_by_zsite_id = mq_client(sync_join_event_by_zsite_id)
-#mq_sync_recommend_by_zsite_id = mq_client(sync_recommend_by_zsite_id)
-#mq_sync_follow_by_sync_id = mq_client(sync_follow_by_sync_id)
 
 
 if __name__ == '__main__':
-    pass
     sync_po_by_zsite_id(10076346, 10076346)
+    pass
