@@ -40,7 +40,7 @@ def ping_po(begin):
     if begin < 10075567:
         begin = 10075567
     po = None
-    for po in ormiter(Po, 'id > %s and cid=%s and state=%s' % (begin, CID_NOTE, STATE_ACTIVE)):
+    for po in ormiter(Po, 'id>%s and state=%s' % (begin, STATE_ACTIVE)):
         ping_all(po)
     if po:
         return po.id
