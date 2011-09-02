@@ -47,7 +47,6 @@ def t_cn(url):
 
 def dwz_cn(url):
     url = urllib.quote(url)
-    print url
     result = urlfetch('http://dwz.cn/create.php', data='url=%s'%url)
     result = loads(result)
     if 'err_msg' in result:
@@ -55,7 +54,13 @@ def dwz_cn(url):
     else:
         return result['tinyurl']
 
+def curt_cc(url):
+    url = urllib.quote(url)
+    result = urlfetch('http://curt.cc/service/generator.php?url=%s'%url)
+    result = loads(result)
+    return result['url']
+
 if '__main__' == __name__:
     url = 'http://42qu.com/1233?1'
-    print dwz_cn(url)
+    print curt_cc(url)
 
