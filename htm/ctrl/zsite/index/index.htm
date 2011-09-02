@@ -7,6 +7,7 @@ from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_
 from model.ico import pic_url as _pic_url, ico_url_with_default
 from model.zsite_link import link_id_name_by_zsite_id
 from model.career import career_list_all
+from model.fav import fav_po_count_by_user_id
 %>
 <%def name="htm_head()">
 <link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章" />
@@ -34,6 +35,12 @@ from model.follow import follow_count_by_to_id, follow_count_by_from_id, follow_
 following_count = follow_count_by_from_id(zsite_id)
 follower_count = follow_count_by_to_id(zsite_id)
 follow_list = follow_list_show_by_from_id(zsite_id, 3)
+fav_count = fav_po_count_by_user_id(zsite_id)
+follow_fav_tuple = filter(lambda x: x[0], (
+    (following_count, '/following', '关注'),
+    (follower_count, '/follower', '围观'),
+    (fav_count, '/fav', '收藏'),
+))
 %>
 %if follow_list:
 <div class="zsite_ico_div">\
@@ -46,39 +53,25 @@ i_career = i.career
     <div><a href="${i.link}" target="_blank">${i.name}</a></div>
     <div>${i_career[0]}</div>
     <div>${i_career[1]}</div>
- </div>
+</div>
 %endfor
 </div>\
 %endif
-%if following_count or follower_count:
+
+% if follow_fav_tuple:
 <div class="zsite_num_div">\
-%if following_count:
-<a href="/following" class="num"><span class="now">${following_count}</span><b>关注</b></a>
-%endif
-%if following_count and follower_count:
-&
-%endif
-%if follower_count:
-<a href="/follower"
-%if following_count:
-class="num_normal"><span>\
-%else:
-class="num"><span class="now">\
-%endif
-${follower_count}</span>围观</a>
-%endif
+% for pos, (count, link, name) in enumerate(follow_fav_tuple):
+% if pos:
+&amp;
+<a href="${link}" class="num_normal"><span>${count}</span>${name}</a>
+% else:
+<a href="${link}" class="num"><span class="now">${count}</span><b>${name}</b></a>
+% endif
+% endfor
 </div>
-%endif
+% endif
+
 </div>
-
-
-
-
-
-
-
-
-
 
 
 <script src="${js.ctrl_zsite|n}"></script>

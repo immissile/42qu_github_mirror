@@ -6,6 +6,14 @@ from model.fav import fav_po_list_by_user_id_cid, fav_po_count_by_user_id_cid
 from model.po import PO_CN_EN, PO_EN
 %>
 
+<%
+if zsite_id == current_user_id:
+    link = '/live'
+else:
+    link = '/'
+%>
+
+<a class="back_a" href="${link}"></a>
 
 <%
 FUNC_DICT = {}
@@ -34,8 +42,5 @@ ${func(po_count, po_list)}
 </div>
 
 %if not po_total_count:
-<%
-is_owner = zsite_id == current_user_id
-%>
-<p style="width:470px;margin:auto;border:1px dotted #ccc;margin-top:10%;padding:32px;text-align:center;">暂无收藏 , <a href="/${'live' if is_owner else ''}">先逛逛吧</a></p>
+<p style="width:470px;margin:auto;border:1px dotted #ccc;margin-top:10%;padding:32px;text-align:center;">暂无收藏 , <a href="${link}">先逛逛吧</a></p>
 %endif

@@ -46,6 +46,14 @@ ${tag_list_audio(po_audio_count, po_audio_list)}
 ${tag_list_event(po_event_count, po_event_list)}
 </%def>
 
+<%
+if zsite_id == current_user_id:
+    link = '/live'
+else:
+    link = '/'
+%>
+
+<a class="back_a" href="${link}"></a>
 
 <div style="margin-top:16px">
 
@@ -54,7 +62,4 @@ ${tag_list_event(po_event_count, po_event_list)}
 ${user_po_show()}
 </div>
 
-<%
-is_owner = zsite_id == current_user_id
-%>
-<p style="width:470px;margin:auto;border:1px dotted #ccc;margin-top:10%;padding:32px;text-align:center;">暂无文章 , <a href="/${'live' if is_owner else ''}">先逛逛吧</a></p>
+<p style="width:470px;margin:auto;border:1px dotted #ccc;margin-top:10%;padding:32px;text-align:center;">暂无文章 , <a href="${link}">先逛逛吧</a></p>

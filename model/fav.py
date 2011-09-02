@@ -58,10 +58,13 @@ def mc_flush(user_id, cid):
     key = '%s_%s' % (user_id, cid)
     mc_fav_po_id_list_by_user_id_cid.delete(key)
     fav_po_count_by_user_id_cid.delete(key)
+    fav_po_count_by_user_id.delete(user_id)
 
 mc_fav_po_id_list_by_user_id_cid = McLimitA('FavPoIdListByUserIdCid.%s', 128)
 
 fav_po_count_by_user_id_cid = McNum(lambda user_id, cid: Fav.where(user_id=user_id, cid=cid).count(), 'FavPoCountByUserIdCid.%s')
+
+fav_po_count_by_user_id = McNum(lambda user_id: Fav.where(user_id=user_id).count(), 'FavPoCountByUserId.%s')
 
 @mc_fav_po_id_list_by_user_id_cid('{user_id}_{cid}')
 def fav_po_id_list_by_user_id_cid(user_id, cid, limit, offset):
