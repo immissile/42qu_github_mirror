@@ -139,3 +139,18 @@ margin-bottom:-4px;
 margin-left:0;
 margin-right:8px;
 }
+
+.poopt , .poopt a{
+color:#999
+}
+.poopt a:hover{
+color:#a10;
+}
+.poopt .split{
+margin:0 10px;
+}
+.pnum{
+margin-right:7px;
+text-decoration: underline;
+}
+

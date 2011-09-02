@@ -104,17 +104,6 @@ color:#999;
 color:#a10;
 }
 
-#feeds .fav:hover , #feeds .faving, #feeds .faved{
-padding-right:17px;
-background:url(/img/gif/icons/gif/orange/to_size/check.gif) no-repeat 100% 5px;
-}
-#feeds .faved{
-color:#000;
-background-image:url(/img/gif/icons/gif/black/to_size/check.gif);
-}
-#feeds .faving{
-background:url(/img/gif/loading12.gif) no-repeat 100% 1px;
-}
 
 
 
