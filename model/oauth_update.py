@@ -276,7 +276,7 @@ def sync_by_oauth_id(oauth_id, txt, url=None):
     out = oauth_token_by_oauth_id(oauth_id)
     if out:
         cid, key, secret = out
-        #url = shorturl(url)
+        url = shorturl(url)
         txt = oauth_txt_cat(cid, txt, url)
         re = DICT_API_SAY[cid](key, secret, txt)
         if re:
