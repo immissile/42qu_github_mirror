@@ -57,7 +57,7 @@ def ping_all(po):
     for ping_url in PING_URL:
         server = xmlrpclib.ServerProxy(ping_url)
         response = server.weblogUpdates.extendedPing(blog_name, blog_index, po_link, rss_link)
-        #print response
+        #print ping_url , response
 
 @single_process
 def main():
