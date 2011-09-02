@@ -3,9 +3,7 @@
 from config import SITE_DOMAIN
 %>
 <%def name="h1()">
-%if current_user_id != zsite_id:
 ${self._h1()}
-%endif
 %if not zsite_list:
 <div style="font-size:16px;margin-top:10%;text-align:center">你还没有关注 , <a href="//hero.${SITE_DOMAIN}">点这里逛逛吧</a></div>
 %endif
