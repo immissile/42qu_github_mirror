@@ -276,7 +276,7 @@ def sync_by_oauth_id(oauth_id, txt, url=None):
     out = oauth_token_by_oauth_id(oauth_id)
     if out:
         cid, key, secret = out
-        url = shorturl(url)
+        #url = shorturl(url)
         txt = oauth_txt_cat(cid, txt, url)
         re = DICT_API_SAY[cid](key, secret, txt)
         if re:
@@ -285,7 +285,7 @@ def sync_by_oauth_id(oauth_id, txt, url=None):
             return mes
 
 def api_network_http(host, netloc, headers, body, method, connection=httplib.HTTPConnection):
-    conn = connection(host)
+    conn = connection(host, timeout=30)
     #conn.set_debuglevel(1)
     conn.request(method, netloc, headers=headers, body=body)
     resp = conn.getresponse()
