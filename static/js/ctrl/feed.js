@@ -2,17 +2,23 @@ $('.fav').live('click', function() {
 	if (!$.cookie.get('S')) {
 		return login();
 	}
-	var self = this;
+	var self = this, pnum=$(self).prev();
 	self.className = 'faving'
 	$.postJSON('/j/feed/fav/' + this.rel, function() {
 		self.className = 'faved';
+        if(pnum.hasClass("pnum")){
+            pnum.html(pnum.html()-0+1)
+        }
 	})
 })
 $('.faved').live('click', function() {
-	var self = this;
+	var self = this, pnum=$(self).prev();
 	self.className = 'faving'
 	$.postJSON('/j/feed/unfav/' + this.rel, function() {
 		self.className = 'fav';
+        if(pnum.hasClass("pnum")){
+            pnum.html(pnum.html()-1)
+        }
 	})
 })
 
