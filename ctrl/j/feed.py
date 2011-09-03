@@ -45,6 +45,7 @@ class FeedUp(JLoginBase):
         po = Po.mc_get(id)
         if po and po.cid in PO_SHARE_FAV_CID:
             vote_up(current_user_id, id)
+            feed_rt_rm(current_user_id, id)
             feed_rt(current_user_id, id)
 
         post_reply(self, id)
