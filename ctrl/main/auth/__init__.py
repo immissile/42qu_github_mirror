@@ -49,7 +49,7 @@ class Reg(NoLoginBase):
     def get(self, mail=''):
         #id_list = zsite_show(128, 0)
         id_list = SHOW_LIST
-        zsite_list = Zsite.mc_get_list(id_list)
+        zsite_list = filter(bool, Zsite.mc_get_list(id_list))
         self.render(
             mail=mail,
             sex=0,
