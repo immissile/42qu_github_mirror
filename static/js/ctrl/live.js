@@ -159,9 +159,18 @@
 			self.addClass(po_word_txt_bg)
 		}
 	}).addClass(po_word_txt_bg);
-
-	txt_maxlen(po_word_txt, $("#po_word_tip"), $("#po_word_form"), 142)
-
+    
+    function po_all_show_ext_hide(){
+            po_all.show()
+            po_ext.hide()
+    }
+    var po_all=$("#po_all"),po_ext=$('<a href="javascript:void(0)" id="po_ext"></a>').click(po_all_show_ext_hide);
+    po_all.after(po_ext)
+	txt_maxlen(po_word_txt, $("#po_word_tip"), $("#po_word_form"), 142, function(){
+        po_all.hide()
+        po_ext.show()
+    },po_all_show_ext_hide)
+    
 	/* 显示全部 */
 	fdtxt = function(e, id) {
 		var txt = $(e).parents('.fdtxt'),

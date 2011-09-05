@@ -52,7 +52,15 @@ margin:0 12px
 color:#a10;
 text-decoration:underline
 }
-#po_all{
+#po_ext{
+display:none;
+cursor:pointer;
+background:url(/img/gif/bext9.gif) no-repeat 50% 50%;
+}
+#po_ext:hover{
+background-image:url(/img/gif/bext.gif);
+}
+#po_all,#po_ext{
 padding:0 21px;
 margin-left:0;
 color:#666;
