@@ -35,8 +35,8 @@ po_video_count = po_list_count(zsite_id, CID_VIDEO, is_owner)
 po_audio_list = po_view_list(zsite_id, CID_AUDIO, is_owner, 6)
 po_audio_count = po_list_count(zsite_id, CID_AUDIO, is_owner)
 
-event_list = event_list_join_by_user_id(zsite_id, 6, 0)
-event_count = event_join_count_by_user_id(zsite_id)
+po_event_list = event_list_join_by_user_id(zsite_id, 6, 0)
+po_event_count = event_join_count_by_user_id(zsite_id)
 %>
 
 ${tag_list_word(po_word_count, po_word_list)}
