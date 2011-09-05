@@ -55,10 +55,10 @@ text-decoration:underline
 #po_ext{
 display:none;
 cursor:pointer;
-background:url(/img/gif/bext9.gif) no-repeat 50% 50%;
+background:url(/img/gif/nnr9.gif) no-repeat 50% 50%;
 }
 #po_ext:hover{
-background-image:url(/img/gif/bext.gif);
+background-image:url(/img/gif/nnr.gif);
 }
 #po_all,#po_ext{
 padding:0 21px;
