@@ -18,7 +18,7 @@ def post_reply(self, id):
         self.finish('{"can_not_reply":1}')
     else:
         result = {}
-        txt = self.get_argument('txt')
+        txt = self.get_argument('txt', None)
         if txt:
             user_id = self.current_user_id
             po = Po.mc_get(id)

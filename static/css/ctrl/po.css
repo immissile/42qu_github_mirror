@@ -6,7 +6,6 @@
     font-size:28px;
     margin:16px 0 48px;
     line-height:48px;
-    font-family: "Trebuchet MS", sans-serif;
 }
 .po_body #po_answer_name{
     font-size:14px;
@@ -139,3 +138,18 @@ margin-bottom:-4px;
 margin-left:0;
 margin-right:8px;
 }
+
+.poopt , .poopt a{
+color:#999
+}
+.poopt a:hover{
+color:#a10;
+}
+.poopt .split{
+margin:0 10px;
+}
+.pnum{
+margin-right:7px;
+text-decoration: underline;
+}
+

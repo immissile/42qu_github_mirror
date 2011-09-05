@@ -3,7 +3,7 @@
 from _handler import JLoginBase, Base
 from ctrl._urlmap.j import urlmap
 from model.vote import vote_state
-from model.po import Po
+from model.po import Po, PO_SHARE_FAV_CID
 from yajl import dumps
 from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
 from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN, dump_zsite
@@ -18,6 +18,7 @@ from model.zsite import Zsite
 from model.po_video import CID_VIDEO, video_htm_autoplay
 from model.event import Event
 from model.fav import fav_add, fav_rm
+#from model.sync import mq_sync_recommend_by_zsite_id
 from cgi import escape
 from ctrl.j.po import post_reply
 
@@ -41,45 +42,14 @@ class FeedUp(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
 
-        vote_up(current_user_id, id)
-        feed_rt(current_user_id, id)
+        po = Po.mc_get(id)
+        if po and po.cid in PO_SHARE_FAV_CID:
+            vote_up(current_user_id, id)
+            feed_rt_rm(current_user_id, id)
+            feed_rt(current_user_id, id)
 
         post_reply(self, id)
-
-
-@urlmap('/j/feed/up1/(\d+)')
-class FeedUp1(JLoginBase):
-    def post(self, id):
-        current_user_id = self.current_user_id
-        vote_up(current_user_id, id)
-        feed_rt(current_user_id, id)
-        self.finish('{}')
-
-
-@urlmap('/j/feed/up0/(\d+)')
-class FeedUpX(JLoginBase):
-    def post(self, id):
-        current_user_id = self.current_user_id
-        vote_up_x(current_user_id, id)
-        feed_rt_rm(current_user_id, id)
-        self.finish('{}')
-
-
-@urlmap('/j/feed/down1/(\d+)')
-class FeedDown(JLoginBase):
-    def post(self, id):
-        current_user_id = self.current_user_id
-        vote_down(current_user_id, id)
-        feed_rt_rm(current_user_id, id)
-        self.finish('{}')
-
-
-@urlmap('/j/feed/down0/(\d+)')
-class FeedDownX(JLoginBase):
-    def post(self, id):
-        current_user_id = self.current_user_id
-        vote_down_x(current_user_id, id)
-        self.finish('{}')
+        #mq_sync_recommend_by_zsite_id(current_user_id,id)
 
 
 @urlmap('/j/feed/(\d+)')
