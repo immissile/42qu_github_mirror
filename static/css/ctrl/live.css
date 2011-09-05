@@ -52,11 +52,6 @@ margin:0 12px
 color:#a10;
 text-decoration:underline
 }
-#po_ext{
-display:none;
-cursor:pointer;
-background:url(/img/gif/nnr9.gif) no-repeat 50% 50%;
-}
 #po_ext:hover{
 background-image:url(/img/gif/nnr.gif);
 }
@@ -70,6 +65,14 @@ height:41px;float: left;
 border:1px dotted #ccc;
 _border-style:solid;
 }
+#po_ext{
+width:94px;
+padding:0;
+display:none;
+cursor:pointer;
+background:url(/img/gif/nnr9.gif) no-repeat 50% 50%;
+}
+
 .po_word_txt_bg{
 background: url(/img/gif/today.gif) no-repeat 50% 50%;
 }
