@@ -100,7 +100,10 @@ margin:0 14px
 .fdopt a{
 color:#999;
 }
-.fdopt a:hover{
+.fdopt .faved{
+color:#000
+}
+.fdopt a:hover,.fdopt .faved:hover{
 color:#a10;
 }
 
