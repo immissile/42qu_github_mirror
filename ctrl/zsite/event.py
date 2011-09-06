@@ -4,7 +4,7 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from config import SITE_HTTP, RPC_HTTP
 from zkit.page import page_limit_offset
-from model.event import Event, EVENT_STATE_DEL,event_joiner_new, event_joiner_state, event_joiner_list,\
+from model.event import Event, EVENT_STATE_DEL,event_joiner_new, event_joiner_state, event_joiner_list, event_joiner_user_list,\
 event_count_by_zsite_id, event_join_count_by_user_id,\
 event_list_by_zsite_id, event_list_join_by_user_id,\
 EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_STATE_BEGIN, EVENT_STATE_END
@@ -266,3 +266,26 @@ class EventCheck(EventBase):
             pos_id=pos_id,
             page=page,
         )
+
+@urlmap('/event/(\d+)/joiner/(\d+)')
+class EventJoiner(EventBase):
+    def get(self, id, n):
+        event = self._event(id)
+        if not event:
+            return
+        if event.state < EVENT_STATE_BEGIN:
+            return self.redirect('/')
+        total = event.join_count
+        n = int(n)
+        link_base = '/event/%s/joiner/%%s' % id
+        li = event_joiner_user_list(id, 1, n-1)
+        if li:
+            self.render(
+                po=event.po,
+                user=li[0],
+                total=total,
+                n=n,
+                link_base=link_base,
+            )
+        else:
+            self.redirect(event.link)
