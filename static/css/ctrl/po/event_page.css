@@ -38,11 +38,12 @@ padding:0;
 margin-bottom:32px;
 }
 .joiner{
-background:url(/img/gif/nnr9.gif) no-repeat;
+background:url(/img/gif/nnr9.gif) no-repeat 100% 50%;
 display:inline-block;
-height:10px;
-width:12px;
+height:28px;
+width:28px;
+float:right;
 }
-
-
-
+.joiner:hover{
+background-image:url(/img/gif/nnr.gif);
+}
