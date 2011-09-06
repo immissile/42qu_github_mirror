@@ -1,5 +1,8 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/_util/user_index.htm" import="user_index"/>
+<%def name="htm_head()">
+${css.ctrl_event_joiner|n}
+</%def>
 
 <%
 po_link = po.link
@@ -14,8 +17,13 @@ if next > total:
 else:
     next_link = link_base % next
 %>
-<div style="border-bottom: 1px dotted rgb(204, 204, 204); font-size: 16px; padding: 16px 0pt;"><a href="${po_link}">${po.name}</a>
-<span style="float: right;"><a style="font-family: Comic Sans MS; display: inline-block; background: url(&quot;http://s4.42qu.us/img/gif/nnl.gif&quot;) no-repeat scroll 0% 0% transparent; width: 12px; height: 10px;" href="${prev_link}"></a> <span style="color: rgb(51, 51, 51); margin: 0pt 14px;">${n}</span> <a style="font-family: Comic Sans MS; display: inline-block; background: url(&quot;http://s4.42qu.us/img/gif/nnr.gif&quot;) no-repeat scroll 0% 0% transparent; width:12px; height: 10px;" href="${next_link}"></a></span>
-</div>
+<div id="joiner_nav">\
+<a href="${po_link}">${po.name}</a>\
+<span class="R">\
+<a class="joiner_prev" href="${prev_link}"></a>\
+<span>${n}</span>\
+<a class="joiner_next" href="${next_link}"></a>\
+</span>\
+</div>\
 
 ${user_index(user)}
