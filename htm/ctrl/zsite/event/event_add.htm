@@ -5,6 +5,9 @@ from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_ST
 from model.notice import notice_event_join_no_txt_by_zsite_id
 from model.ico import pic_url as _pic_url, ico_url_with_default
 %>
+<%def name="head()">
+${css.ctrl_po_event_add|n}
+</%def>
 
 <%def name="event_admin_body()">
 % if zsite_list:
@@ -12,9 +15,12 @@ from model.ico import pic_url as _pic_url, ico_url_with_default
 <a href="${i.link}">${i.name}</a>
 % endfor
 % endif
-<%htm:form style="width:470px;margin:auto">
-<textarea name="txt" style="border:1px solid #ccc;width:470px;padding:0 3px;margin-top:36px;height:128px;margin-bottom:0px"></textarea>
-<div style="text-align:right;"><span class="btnw L"><button type="submit">确定</button></span>\
-<span style="font-size:16px;vertical-align:-10px;color:#999">请输入对方的42区网址 , 一行一个</span></span></div>
+<%htm:form className="w470">
+<textarea name="txt" class="txt"></textarea>
+<div class="tr"><span class="btnw L"><button type="submit">确定</button></span>\
+<span class="tip">输入嘉宾的42区网址 , 每个一行</span></span></div>
 </%htm:form>
+
+<div class="spline">32 报名</div>
 </%def>
+

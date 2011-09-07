@@ -1,0 +1,18 @@
+
+.spline{
+border:1px dotted #ccc;
+border-width: 1px 0;  text-align: center; padding:14px 0; margin: 14px 0 0;
+margin-top:36px;
+}
+.w470{
+width:470px;margin:auto
+}
+.txt{
+border:1px solid #ccc;
+width:462px;
+padding:0 3px;margin-top:36px;height:128px;margin-bottom:0px
+}
+
+.tip{
+font-size:16px;vertical-align:-10px;color:#999
+}
