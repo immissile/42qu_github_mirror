@@ -89,7 +89,7 @@ class Po(McModel, ReplyMixin):
 
     @attrcache
     def target(self):
-        if self.cid in (CID_WORD, CID_ANSWER, CID_EVENT_FEEDBACK):
+        if self.cid in (CID_WORD, CID_ANSWER, CID_EVENT_NOTICE, CID_EVENT_FEEDBACK):
             return Po.mc_get(self.rid)
 
     question = target
