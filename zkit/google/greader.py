@@ -82,7 +82,7 @@ class Reader(object):
         self.token = token
 
     def get_url(self, url):
-        print url
+        #print url
 
         r = urllib2.Request(url, headers=self.headers)
         return urllib2.urlopen(r, timeout=20).read()
