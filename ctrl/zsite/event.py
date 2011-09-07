@@ -12,8 +12,9 @@ from model.money import pay_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cent_with_tax
 from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT, CID_EVENT
 from ctrl.me.i import NameCardEdit
-from model.zsite import ZSITE_STATE_VERIFY
-from model.zsite_url import link
+from model.zsite import Zsite, ZSITE_STATE_VERIFY
+from model.zsite_url import link, id_by_url
+from config import SITE_DOMAIN
 #from model.sync import mq_sync_join_event_by_zsite_id
 
 
@@ -232,19 +233,47 @@ class EventPay(EventBase):
         return self.redirect(alipay_url)
 
 
-PAGE_LIMIT = 42
-
-@urlmap('/event/check/(\d+)')
-@urlmap('/event/check/(\d+)-(\d+)')
-class EventCheck(EventBase):
+class EventAdmin(EventBase):
     def _event(self, id):
         current_user_id = self.current_user_id
-        self.event = event = super(EventCheck, self)._event(id)
+        self.event = event = super(EventAdmin, self)._event(id)
         if event:
             if event.can_admin(current_user_id):
                 return event
             return self.redirect(event.link)
 
+
+@urlmap('/event/add/(\d+)')
+class EventAdd(EventAdmin):
+    def get(self, id):
+        event = self._event(id)
+        if event is None:
+            return
+        self.render(po=event.po)
+
+    def post(self, id):
+        event = self._event(id)
+        if event is None:
+            return
+        txt = self.get_argument('txt', '')
+        li = []
+        for i in txt.splitlines():
+            url = i.split('//')[-1].split('.%s' % SITE_DOMAIN)[0]
+            if url.isdigit():
+                user_id = int(url)
+            else:
+                user_id = id_by_url()
+            if user_id and user_id not in li:
+                li.append(user_id)
+                event_joiner_new(id, user_id, EVENT_JOIN_STATE_YES)
+        self.render(zsite_list=Zsite.mc_get_list(li))
+
+
+PAGE_LIMIT = 42
+
+@urlmap('/event/check/(\d+)')
+@urlmap('/event/check/(\d+)-(\d+)')
+class EventCheck(EventAdmin):
     def get(self, id, n=1):
         event = self._event(id)
         if event is None:

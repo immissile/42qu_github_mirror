@@ -433,6 +433,21 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
     return o
 
 
+def event_joiner_can_exit(event_id, user_id):
+    if event_joiner_state(event_id, user_id) in (EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
+        event = Event.mc_get(event_id)
+        if event.cent:
+            if pay_event_get(event, user_id):
+                return False
+        return True
+
+
+def event_joiner_exit(event_id, user_id):
+    if event_joiner_can_exit(event_id, user_id):
+        o = event_joiner_get(event_id, user_id)
+        event_joiner_no(o)
+
+
 def event_joiner_no(o, txt=''):
     event_id = o.event_id
     user_id = o.user_id
