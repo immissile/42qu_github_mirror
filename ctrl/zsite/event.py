@@ -262,7 +262,7 @@ class EventAdd(EventAdmin):
             if url.isdigit():
                 user_id = int(url)
             else:
-                user_id = id_by_url()
+                user_id = id_by_url(url)
             if user_id and user_id not in li:
                 li.append(user_id)
                 event_joiner_new(id, user_id, EVENT_JOIN_STATE_YES)
