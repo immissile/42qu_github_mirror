@@ -383,8 +383,9 @@ def event_joiner_list(event_id, limit, offset):
 @mc_event_joiner_user_id_list('{event_id}')
 def event_joiner_user_id_list(event_id):
     event = Event.mc_get(event_id)
-    zsite_id = event.zsite_id
-    return EventJoiner.where(event_id=event_id).where('user_id!=%s and state>=%s', zsite_id, EVENT_JOIN_STATE_NEW).order_by('id desc').col_list(col='user_id')
+    if event:
+        zsite_id = event.zsite_id
+        return EventJoiner.where(event_id=event_id).where('user_id!=%s and state>=%s', zsite_id, EVENT_JOIN_STATE_NEW).order_by('id desc').col_list(col='user_id')
 
 def event_joiner_user_list(event_id, limit=0, offset=0):
     id_list = event_joiner_user_id_list(event_id)
