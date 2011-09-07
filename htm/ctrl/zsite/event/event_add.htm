@@ -7,6 +7,11 @@ from model.ico import pic_url as _pic_url, ico_url_with_default
 %>
 
 <%def name="event_admin_body()">
+% if zsite_list:
+% for i in zsite_list:
+<a href="${i.link}">${i.name}</a>
+% endfor
+% endif
 <%htm:form style="width:470px;margin:auto">
 <textarea name="txt"></textarea>
 <span class="btnw"><button type="submit">确定</button></span></span>

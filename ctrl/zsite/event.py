@@ -12,7 +12,7 @@ from model.money import pay_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cent_with_tax
 from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT, CID_EVENT
 from ctrl.me.i import NameCardEdit
-from model.zsite import ZSITE_STATE_VERIFY
+from model.zsite import Zsite, ZSITE_STATE_VERIFY
 from model.zsite_url import link, id_by_url
 from config import SITE_DOMAIN
 #from model.sync import mq_sync_join_event_by_zsite_id
@@ -257,16 +257,16 @@ class EventAdd(EventAdmin):
             return
         txt = self.get_argument('txt', '')
         li = []
-        for i in txt.splitline():
+        for i in txt.splitlines():
             url = i.split('//')[-1].split('.%s' % SITE_DOMAIN)[0]
             if url.isdigit():
                 user_id = int(url)
             else:
                 user_id = id_by_url()
-            if user_id:
+            if user_id and user_id not in li:
                 li.append(user_id)
                 event_joiner_new(id, user_id, EVENT_JOIN_STATE_YES)
-        self.render(user_list=Zsite.mc_get_list(li))
+        self.render(zsite_list=Zsite.mc_get_list(li))
 
 
 PAGE_LIMIT = 42
