@@ -21,7 +21,7 @@ rid = po.rid
 <%
 event_po = po.target
 %>
-<div style="border-bottom: 1px dotted #ccc; text-align: center; padding-bottom: 16px; margin-bottom: 16px; margin-top: -16px;"><a href="${event_po.link}">${event_po.name}</a> </div>
+<div class="pevent"><a href="${event_po.link}">${event_po.name}</a> </div>
 %else:
 <h1><a href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
 %endif

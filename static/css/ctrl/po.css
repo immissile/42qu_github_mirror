@@ -156,4 +156,8 @@ margin:0 10px;
 margin-right:7px;
 text-decoration: underline;
 }
-
+.pevent{
+border-bottom: 1px dotted #ccc; 
+text-align: center; 
+padding-bottom: 16px; margin-bottom: 16px; margin-top: -16px;
+}
