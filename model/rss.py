@@ -17,6 +17,10 @@ GREADER = Reader('42qu.com@gmail.com','42qukanrss')
 def rss_add(user_id,url):
     Rss.raw_sql('insert into rss (user_id, url) values(%s, %s)',user_id,url)
 
+def get_pre_po():
+    p = PrePo.raw_sql('select id,user_id,title,htm from pre_po where state = %s',0).fetchall()
+    return p
+
 def get_unread_update():
     feeds = GREADER.unread_feed()
     for feed in feeds:
@@ -52,6 +56,7 @@ def get_rss_json(url):
 
 
 if __name__ == "__main__":
+    pass
     #get_rss_json('feed/http://feed43.com/rexsong.xml')
     #rss_feed()
 
