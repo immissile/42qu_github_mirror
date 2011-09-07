@@ -35,9 +35,11 @@ career = ' , '.join(filter(bool, user.career))
 , ${career}
 % endif
 </p>
+% if namecard:
         <p>电话 : ${namecard.phone}</p>
         <p>邮箱 : ${namecard.mail}</p>
         <p>地址 : ${namecard.place_now} ${namecard.address}</p>
+% endif
     </div>
 
     <div class="ndbtn">
