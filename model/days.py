@@ -53,6 +53,9 @@ def minute2ymd2(minute):
 def cn_date(dt):
     return dt.strftime('%Y年%m月%d日')
 
+def today_cn_date():
+    return cn_date(datetime.date.today())
+
 CN_WEEKDAY = (
      '一',
      '二',
