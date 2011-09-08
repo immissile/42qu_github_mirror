@@ -22,7 +22,7 @@ class SiteNew(LoginBase):
         name = self.get_argument('name', None)
         url = self.get_argument('url', None)
         site = None
-        
+
         if not name:
             errtip.name = '请输入名称'
         elif cnenlen(name) > 18:
