@@ -1,6 +1,6 @@
 <%!
 from yajl import dumps
-from model.zsite_link import OAUTH2NAME 
+from model.zsite_link import OAUTH2NAME
 %>
 
 %for cid, name, link in link_cid:
@@ -30,7 +30,7 @@ else:
 %>
 <p>
 <input type="hidden" name="id" value="${id}">\
-<input 
+<input
 autocomplete="off"
 class="key" type="text" name="key" value="${k}" >\
 <input
