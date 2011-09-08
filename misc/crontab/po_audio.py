@@ -3,7 +3,7 @@
 import _env
 from model.po import Po
 from model.fs import fs_file_audio, fs_set_audio
-from os.path import exists, dirname
+from os.path import exists, dirname, isdir, join
 import os
 import shutil
 from model.cid import CID_AUDIO
@@ -20,27 +20,35 @@ def audio_compress():
 
     for i in ormiter(Po, "cid=%s and id>%s"%(
         CID_AUDIO,
-        id 
+        id
     )):
         id = i.id
 
         input_filename = fs_file_audio(id)
+        
         if not exists(input_filename):
             continue
-        output_filename = '/tmp/po.audio.%s'%SITE_DOMAIN 
-        #print input_filename
+        
+        output_filename = '/tmp/po.audio.%s'%SITE_DOMAIN
 
-        subprocess.call([ 
-            "lame", 
-            "--quiet", 
-            "--mp3input", 
-            "--abr", 
-            "64", 
-            input_filename, 
-            output_filename 
-        ]) 
+        #if not isdir(output_filename):
+        #    os.mkdir(output_filename)
+
+        subprocess.call([
+            "lame",
+            "--quiet",
+            "--mp3input",
+            "--abr",
+            "64",
+            input_filename,
+            output_filename
+        ])
+        
+        if not exists(output_filename):
+            continue
+        
         shutil.move(output_filename, input_filename)
-    
+
     kv_int.set(KV_PO_AUDIO, id)
 
 if __name__ == "__main__":

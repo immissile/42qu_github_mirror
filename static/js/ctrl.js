@@ -184,7 +184,7 @@ function follow_a(id) {
 	a.html(text)
 }
 
-function txt_maxlen(txt, tip, maxlen) {
+function txt_maxlen(txt, tip, form, maxlen, update, cancel) {
 	function po_word_update(value) {
 		var len = cnenlen(value),
 		html,
@@ -197,8 +197,10 @@ function txt_maxlen(txt, tip, maxlen) {
 				html = '<span style="color:#999"><span class="mr3">' + len + "</span>字</span>"
 				//为了ie6 多加一层span
 			}
+            update && update()
 		} else {
 			html = '&nbsp;'
+            cancel && cancel()
 		}
 		tip.html(html);
 		return diff

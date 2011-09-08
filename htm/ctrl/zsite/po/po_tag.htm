@@ -20,7 +20,6 @@ href="/"
 
 
 <%
-is_owner = zsite_id == current_user_id
 po_note_count, po_note_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_NOTE, 6)
 po_question_count, po_question_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_QUESTION, 6)
 po_photo_count, po_photo_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_PHOTO, 6)
@@ -34,8 +33,8 @@ po_audio_count, po_audio_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, 
 </div>
 
 
-${tag_list_note(po_note_count, po_note_list, is_owner, zsite_tag_id)}\
-${tag_list_question(po_question_count, po_question_list, is_owner, zsite_tag_id)}\
-${tag_list_photo(po_photo_count, po_photo_list, is_owner, zsite_tag_id)}\
-${tag_list_video(po_video_count, po_video_list, is_owner, zsite_tag_id)}\
-${tag_list_audio(po_audio_count, po_audio_list, is_owner, zsite_tag_id)}\
+${tag_list_note(po_note_count, po_note_list, zsite_tag_id)}\
+${tag_list_question(po_question_count, po_question_list, zsite_tag_id)}\
+${tag_list_photo(po_photo_count, po_photo_list, zsite_tag_id)}\
+${tag_list_video(po_video_count, po_video_list, zsite_tag_id)}\
+${tag_list_audio(po_audio_count, po_audio_list, zsite_tag_id)}\

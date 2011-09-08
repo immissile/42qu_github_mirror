@@ -1,0 +1,17 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/hero.htm" import="hero_list"/>
+
+<%def name="htm_title()">
+${po.name} - ${title}
+</%def>
+<%def name="htm_head()">
+${css.ctrl_follow_zsite|n}
+</%def>
+
+<h1><a href="${po.link}">${po.name}</a> : <a href="${path}">${title}</a></h1>
+
+<div class="G">
+${hero_list(zsite_list)}
+</div>
+
+${page|n}

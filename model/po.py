@@ -17,6 +17,7 @@ from zsite import Zsite
 from zkit.txt import cnencut
 from zkit.attrcache import attrcache
 from cgi import escape
+#from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
     (CID_WORD, 'word', '微博', '句'),
@@ -28,6 +29,7 @@ PO_CN_EN = (
     (CID_AUDIO, 'audio', '音乐', '段'),
     (CID_EVENT, 'event', '活动', '次'),
 )
+PO_SHARE_FAV_CID = set([i[0] for i in PO_CN_EN])
 PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
 PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
 PO_COUNT_CN = dict((i[0], i[3]+i[2]) for i in PO_CN_EN)
@@ -87,7 +89,7 @@ class Po(McModel, ReplyMixin):
 
     @attrcache
     def target(self):
-        if self.cid in (CID_WORD, CID_ANSWER, CID_EVENT_FEEDBACK):
+        if self.cid in (CID_WORD, CID_ANSWER, CID_EVENT_NOTICE, CID_EVENT_FEEDBACK):
             return Po.mc_get(self.rid)
 
     question = target
@@ -218,6 +220,8 @@ def po_new(cid, user_id, name, state, rid=0, id=None):
         create_time=int(time()),
     )
     m.save()
+    #if cid in (CID_NOTE, CID_WORD) and state == STATE_ACTIVE:
+        #mq_sync_po_by_zsite_id(user_id, m.id)
     from po_pos import po_pos_set
     po_pos_set(user_id, m)
     mc_flush(user_id, cid)
@@ -237,6 +241,8 @@ def po_state_set(po, state):
         feed_rm(id)
         po.tag_rm()
         mq_buzz_po_rm(id)
+        from fav import fav_rm_by_po
+        fav_rm_by_po(po)
     elif old_state <= STATE_SECRET and state >= STATE_ACTIVE:
         po.feed_new()
         po.tag_new()
@@ -290,6 +296,8 @@ def _po_rm(user_id, po):
     mc_flush(user_id, po.cid)
     from buzz import mq_buzz_po_rm
     mq_buzz_po_rm(id)
+    from fav import fav_rm_by_po
+    fav_rm_by_po(po)
     return True
 
 def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):

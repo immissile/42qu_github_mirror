@@ -13,6 +13,8 @@ RE_SPACE = re.compile(""" ( +)""")
 RE_AT = re.compile(r'(\s|^)@([^@\(\)\s]+(?:\s+[^@\(\)\s]+)*)\(([a-zA-Z0-9][a-zA-Z0-9\-]{,31})\)(?=\s|$)')
 RE_BOLD = re.compile(r'\*{2}([^\*].*?)\*{2}')
 
+HTM_YOUKU = '''<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>'''
+
 
 def replace_space(match):
     return ' '+len(match.groups()[0])*'&nbsp;'
@@ -23,11 +25,11 @@ def replace_link(match):
     #    return "%s%s"%(p, g)
     #else:
     g = match.groups()[0]
-  #  if g.startswith('http://v.youku.com/v_show/id_'):
-  #      g = g[29:g.rfind('.')]
-  #      return YOUKU%g
-  #  else:
-    return """<a target="_blank" href="%s" rel="nofollow">%s</a>""" %(g, g)
+    if g.startswith('http://v.youku.com/v_show/id_'):
+        g = g[29:g.rfind('.')]
+        return HTM_YOUKU%g
+    else:
+        return """<a target="_blank" href="%s" rel="nofollow">%s</a>""" %(g, g)
 
 def replace_bold(match):
     txt = match.groups()[0]

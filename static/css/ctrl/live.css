@@ -34,13 +34,45 @@ float:right;
 margin-top:-3px;
 }
 #po_word_btn{
+width:470px;
 text-align:right;
 margin-top:16px;
 float:right;
-_clear:both;
-_width:323px;
 _padding-top:3px;
+height:42px;
+_margin-bottom:-42px;
 }
+#po_all a{
+color:#666
+}
+#po_all .split{
+margin:0 12px
+}
+#po_all a:hover{
+color:#a10;
+text-decoration:underline
+}
+#po_ext:hover{
+background-image:url(/img/gif/nnr.gif);
+}
+#po_all,#po_ext{
+padding:0 21px;
+margin-left:0;
+color:#666;
+margin-top:-2px; 
+line-height:41px;
+height:41px;float: left;
+border:1px dotted #ccc;
+_border-style:solid;
+}
+#po_ext{
+width:94px;
+padding:0;
+display:none;
+cursor:pointer;
+background:url(/img/gif/nnr9.gif) no-repeat 50% 50%;
+}
+
 .po_word_txt_bg{
 background: url(/img/gif/today.gif) no-repeat 50% 50%;
 }
@@ -155,7 +187,7 @@ background:url(/img/gif/redplay.gif) no-repeat;
 .fdvideo:hover{
 color:#a10;
 }
-.fdswf .video{
+#feeds .video{
 width:677px;
 height:553px;
 margin:14px 0 8px;

@@ -18,6 +18,7 @@ from model.zsite_url import id_by_url
 from model.user_session import user_session
 from model.user_info import UserInfo
 from model.zsite_rank import zsite_rank_max
+from model.search_zsite import search_new
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -58,7 +59,9 @@ class Index(Base):
             user_info.sex = sex
             user_info.save()
 
+        search_new(id)
         self.redirect('/zsite/%s' % id)
+
 
 @urlmap('/zsite/pic/rm/(\d+)/(\d+)')
 class PicRm(Base):
@@ -106,6 +109,7 @@ class Mail(Base):
             name = zsite.name
             sendmail(title, txt, mail, name)
         self.redirect('/zsite/%s' % id)
+
 
 @urlmap('/zsite/verify/new/(0|1)/(\d+)')
 class VerifyNew(Base):

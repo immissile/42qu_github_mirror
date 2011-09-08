@@ -7,7 +7,7 @@ from model.zsite import Zsite
 from model.career import career_list_all
 %>
 
-<%def name="user_index(zsite, is_owner)">
+<%def name="user_index(zsite, is_owner=False)">
     <%
     zsite_id = zsite.id
     pic_url = _pic_url(zsite_id)

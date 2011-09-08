@@ -1,5 +1,5 @@
 <%!
-from model.po import CID_QUESTION
+from model.cid import CID_QUESTION, CID_ANSWER, CID_EVENT_FEEDBACK
 from model.po_question import answer_count
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from datetime import datetime
@@ -13,9 +13,15 @@ from datetime import datetime
 po_id = po.id
 cid = po.cid
 zsite_url = zsite.link
+rid = po.rid
 %>
-%if po.rid:
+%if cid == CID_ANSWER:
 <h1 id="po_answer_name">${po.name_htm|n}</h1>
+%elif cid == CID_EVENT_FEEDBACK:
+<%
+event_po = po.target
+%>
+<div class="pevent"><a href="${event_po.link}">${event_po.name}</a> </div>
 %else:
 <h1><a href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
 %endif
@@ -47,4 +53,3 @@ count = answer_count(po.id)
 %endif
 </pre>
 </%def>
-

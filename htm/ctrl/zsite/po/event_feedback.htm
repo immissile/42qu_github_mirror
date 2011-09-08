@@ -6,7 +6,7 @@ from model.cid import CID_NOTE
 from model.zsite_url import url_or_id
 %>
 <%inherit file="_po.htm" />
-<%namespace file="_vote.htm" import="_vote, po_bar_vote"/>
+<%namespace file="_vote.htm" import="po_bar_vote"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%def name="po_body()">
@@ -75,8 +75,6 @@ if user:
 style="float:none"
 %endif
 href="${answer.link_edit}" class="edit">编辑</a>
-        %else:
-<span class="L">${_vote(answer_id)}</span>\
         %endif
         %if answer.state != STATE_SECRET:
 <a class="reply" href="${answer_link}#reply_txt" title="回复">${answer.reply_count}</a>
