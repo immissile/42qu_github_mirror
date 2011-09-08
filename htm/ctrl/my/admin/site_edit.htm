@@ -1,12 +1,5 @@
-<%!
-from config import SITE_DOMAIN
-from model.zsite import ZSITE_STATE_VERIFY
-%>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%
-state = current_user.state
-%>
-<%inherit file="../_base.htm" />
+<%inherit file="/ctrl/_base/zsite.htm" />
 <%def name="htm_head()">
 <style>
 form{
@@ -48,7 +41,7 @@ width:96px;
 </%def>
 
 <%htm:form className="site_new">
-<h1>创建站点</h1>
+<h1>编辑站点</h1>
 
 <div>
 显示名字<input class="input" type="text" name="name" value="${name or ''}">
@@ -58,18 +51,7 @@ ${errtip.name|n}
 描述签名<input class="input" type="text" name="motto" value="${motto or ''}"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
 </div>
 <div>
-个性域名<input class="input" type="text" name="url" value="${url or ''}"><span style="color: rgb(153, 153, 153); margin-left: 16px;"><span class="c0">my-domain</span>.${SITE_DOMAIN}</span>
-${errtip.url|n}
-</div>
-<div>
 文字介绍<textarea name="txt" style="width: 721px; border: 1px solid rgb(204, 204, 204); margin-left: 8px; margin-top: 16px; height: 150px; padding: 3px 6px; vertical-align: 1px;">${txt or ''}</textarea>
-</div>
-<div>
-浏览权限<select class="sitetype" name="sitetype">
-<option value="1">公开</option>
-<option value="2">私密</option>
-</select>
-<span style="color:#a10;margin-left:16px">注意 : 此设置无法修改</span>
 </div>
 <div>
 官方网站<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>

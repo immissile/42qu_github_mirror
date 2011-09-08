@@ -36,6 +36,7 @@ print_urlmap('ctrl._urlmap.zsite')
 print_urlmap('ctrl._urlmap.me')
 print_urlmap('ctrl._urlmap.meet')
 print_urlmap('ctrl._urlmap.site')
+print_urlmap('ctrl._urlmap.my')
 
 import god._url
 print_urlmap('god._urlmap')

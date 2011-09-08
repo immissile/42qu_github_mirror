@@ -5,15 +5,14 @@ from _db import Model, McModel, McCache
 from hashlib import sha256
 from zsite import zsite_new_user, Zsite
 from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
-from oauth import OAUTH2NAME_DICT, OAUTH_DOUBAN, OAUTH_SINA,\
-OAUTH_QQ, OAUTH_TWITTER
+from oauth import OAUTH2NAME_DICT, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_QQ, OAUTH_TWITTER
 from model.zsite_url import link
 
 OAUTH_LINK_DEFAULT = (
     OAUTH_DOUBAN    ,
     OAUTH_SINA      ,
     OAUTH_QQ        ,
-    OAUTH_TWITTER   ,
+#    OAUTH_TWITTER   ,
 )
 
 OAUTH2NAME = tuple(

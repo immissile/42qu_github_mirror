@@ -110,7 +110,7 @@ def zsite_name_rm(id):
 
 def zsite_new_site(name, admin_id, state=ZSITE_STATE_APPLY):
     from zsite_admin import zsite_admin_new
-    site = zsite_new(name, CID_SITE, ZSITE_STATE_APPLY)
+    site = zsite_new(name, CID_SITE, state)
     zsite_admin_new(site.id, admin_id)
     return site
 
