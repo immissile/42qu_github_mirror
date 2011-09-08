@@ -1,0 +1,16 @@
+<%inherit file="/god/_base.htm" />
+<%def name="htm_head()">
+</%def>
+${page|n}
+
+% if pre_po:
+% for p in pre_po:
+<%
+id,user_id,title,htm = p
+%>
+<h1>${title}</h1><a href="/rss/${id}">发表</a>
+<div>${htm|n}</div>
+
+%endfor
+% endif
+${page|n}
