@@ -1,0 +1,40 @@
+<%!
+from yajl import dumps
+from model.zsite_link import OAUTH2NAME 
+%>
+
+%for cid, name, link in link_cid:
+<p>
+    <label for="cid${cid}">${name}</label><input
+        id="cid${cid}"
+        class="value"
+        autocomplete="off"
+        value="${link}"
+        type="text"
+        name="link">
+    <input type="hidden" value="${cid}" name="cid">
+</p>
+%endfor
+
+%for i in range(4):
+<%
+if i<len(link_list):
+    id, k, v = link_list[i]
+else:
+    if i==0:
+        k = 'Blog'
+    else:
+        k = ''
+    v = ''
+    id = 0
+%>
+<p>
+<input type="hidden" name="id" value="${id}">\
+<input 
+autocomplete="off"
+class="key" type="text" name="key" value="${k}" >\
+<input
+autocomplete="off"
+class="value" type="text" name="value" value="${v}">\
+</p>
+%endfor
