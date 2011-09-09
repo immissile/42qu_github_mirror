@@ -8,6 +8,53 @@ from zkit.txt import cnenoverflow
 %>
 
 <%def name="htm_head()">
+<style>
+.rss{
+border-bottom:1px dotted #ccc;margin-bottom:14px;padding-bottom:14px
+}
+.rss pre,.rss form{display:none}
+.rm{
+margin-right:128px;
+}
+.edit{
+margin-left:128px;
+}
+.txt{
+width:721px;
+padding:3px 0;
+height:300px;
+}
+</style>
+<script>
+function ext(id){
+    $("#txt"+id).hide() 
+    $("#pre"+id).show()
+    $("#ext"+id).hide()
+     
+}
+
+function edit(id){
+    $("#txt"+id).hide() 
+    $("#pre"+id).hide() 
+    $("#form"+id).show() 
+    $("#ext"+id).hide()
+    $("#bar"+id).hide() 
+}
+
+function save(id){
+    $.fancybox.showActivity(); 
+    $.post(
+        "/rss/edit/"+id, 
+        {"txt":$("#textarea"+id).val()},
+        function(){
+            $.fancybox.hideActivity();
+            $("#form"+id).hide() 
+            $("#bar"+id).show().prepend("保存成功 ") 
+        }
+    )
+    return false
+}
+</script>
 </%def>
 ${page|n}
 
@@ -26,22 +73,21 @@ htm = pic_rss(htm,pic_list)
 %>
 %endif
 
-<div style="border-bottom:1px dotted #ccc;margin-bottom:14px;padding-bottom:14px">
+<div class="rss">
 <div style="text-align:right;"><span class="L">${title}</span>
+<a href="/rss/${RSS_RM}/${id}" class="rm">删除</a>
 <a target="_blank" href="${link}">原文</a></div>
 <pre>
-<a href="/rss/${RSS_RM}/${id}">删除</a>
 </pre>
-<div>${txt}</div>
-<div><a href="javascript:void(0)">显示全部</a><a href="javascript:void(0)" style="margin-left:64px">编辑</a></div>
-<pre style="display:none">${htm|n}</pre>
+<div id="txt${id}">${txt}</div>
+<div id="bar${id}"><a id="ext${id}" href="javascript:ext(${id})">展开</a><a href="javascript:edit(${id})" class="edit">编辑</a></div>
+<pre id="pre${id}">${htm|n}</pre>
 
-<form action="/rss" method="POST" style="display:none">
+<form action="/rss/${id}" method="POST" id="form${id}" onsubmit="return save(${id})">
 <div>
-    <textarea name="${id}txt">${txt}</textarea>
+    <textarea id="textarea${id}" class="txt" name="txt">${txt}</textarea>
 </div>
-<input type="hidden" name="id" value="${id}">
-<input type="submit" value="发表">
+<span class="btnw"><button type="submit">保存</button></span>
 </form>
 </div>
 %endfor

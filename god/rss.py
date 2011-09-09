@@ -24,22 +24,15 @@ class RssIndex(Base):
                 page=page
             )
 
-@urlmap('/rss')
-@urlmap('/rss/(\d+)/(\d+)')
-class RssCheck(Base):
-    def get(self, state, id):
-        po = RssPo.get(id=id)
-        po.state = state
-        po.save()
-        self.redirect('/rss_index')
+@urlmap('/rss/edit/(\d+)')
+class RssEdit(Base):
+    def post(self, id):
+        id=int(id)
+        txt = self.get_argument('txt')
 
-    def post(self):
-        id = int(self.get_argument('id'))
-        txt = self.get_argument('%stxt'%id)
         po = RssPo.get(id=id)
         po.txt = txt
         po.state = RSS_PRE_PO
         po.save()
-        self.redirect('/rss_index')
 
-
+        self.finish('')

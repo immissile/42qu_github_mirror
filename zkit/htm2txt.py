@@ -107,7 +107,7 @@ def htm2txt(htm):
         return u''.join(li)
 
     s = soup2txt_recursion(soup)
-    s = unescape(s)
+    s = unescape(s.strip())
     return '\n\n'.join(filter(bool, [i.strip() for i in s.splitlines()])), pic_list
 
 if __name__ == "__main__":
