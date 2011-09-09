@@ -4,6 +4,7 @@ from _db import Model, McModel
 from zkit.google.greader import Reader  
 import json
 import sys
+from zkit.htm2txt import htm2txt
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -20,8 +21,9 @@ def rss_add(user_id,url):
     Rss.raw_sql('insert into rss (user_id, url) values(%s, %s)',user_id,url)
 
 def get_pre_po(limit=1,offset=10):
-    p = PrePo.raw_sql('select id,user_id,title,htm from pre_po where state = %s order by id desc limit %s offset %s',0,limit,offset).fetchall()
+    p = PrePo.raw_sql('select id,user_id,title,txt from pre_po where state = %s order by id desc limit %s offset %s',0,limit,offset).fetchall()
     return p
+
 
 def get_unread_update():
     feeds = GREADER.unread_feed()
@@ -33,18 +35,17 @@ def get_unread_update():
             id,user_id = rs
             res = GREADER.unread(feed)
             for i in res:
-                print i
-                sys.stdout.flush()
                 link = i['alternate'][0]['href']
                 title = i['title']
                 rss_uid = i.get('id') or 1
                 snippet = i.get('summary') or i.get('content') or None
                 if snippet:
-                    txt = snippet['content']
+                    htm = snippet['content']
                 else:
-                    txt = ""
-                print rss_uid
-                PrePo.raw_sql('insert into pre_po (user_id,rss_id,rss_uid,title,htm,state) value(%s,%s,%s,%s,%s,0)',user_id,id,rss_uid,title,txt)
+                    htm = ""
+                txt,pic_list=htm2txt(htm)
+                pic_list = json.dumps(pic_list)
+                PrePo.raw_sql('insert into pre_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) value(%s,%s,%s,%s,%s,0,%s,%s)',user_id,id,rss_uid,title,txt,link,pic_list)
 
 def get_rss_json(url):
     feeds = GREADER.unread(url)
@@ -63,6 +64,7 @@ def get_rss_json(url):
 
 
 if __name__ == "__main__":
+    get_unread_update()
     print PrePo.where(state=0).count()
     #get_unread_update()
     #get_rss_json('feed/http://feed43.com/rexsong.xml')

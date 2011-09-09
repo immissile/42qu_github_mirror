@@ -25,10 +25,13 @@ class RssIndex(Base):
                 page = page
                 )
 
-@urlmap('/rss/(\d+)')
+@urlmap('/rss/(\d+)/(\d+)')
 class RssCheck(Base):
-    def get(self,id):
+    def get(self,state,id):
         po = PrePo.where(id=id)
-        if po:
-            htm2po(po.user_id,po.title,po.htm)
+        if state:
+            po.state = 2
+        else:
+            po.state = 1
+        po.save()
         self.redirect('/rss_index')
