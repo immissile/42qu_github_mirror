@@ -29,7 +29,7 @@ def rss_new(user_id, url):
     return rss
 
 def rss_po_list_by_state(state, limit=1, offset=10):
-    p = RssPo.raw_sql('select id,user_id,title,txt,pic_list from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
+    p = RssPo.raw_sql('select id,link,user_id,title,txt,pic_list from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
     return p
 
 

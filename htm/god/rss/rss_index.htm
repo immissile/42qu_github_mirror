@@ -4,6 +4,7 @@
 from model.rss import RSS_PRE_PO,RSS_RM
 from model.po_pic import pic_rss
 import json
+from zkit.txt import cnenoverflow
 %>
 
 <%def name="htm_head()">
@@ -13,9 +14,10 @@ ${page|n}
 % if rss_po_list:
 % for p in rss_po_list:
 <%
-id,user_id,title,htm,pic_list = p
+id,link,user_id,title,htm,pic_list = p
 txt = htm
 pic_list = json.loads(pic_list)
+txt, has_more = cnenoverflow(txt, 164)
 %>
 %if pic_list:
 <%
@@ -24,20 +26,23 @@ htm = pic_rss(htm,pic_list)
 %>
 %endif
 
-<h1>${title}</h1>
+<div style="border-bottom:1px dotted #ccc;margin-bottom:14px;padding-bottom:14px">
+<div style="text-align:right;"><span class="L">${title}</span>
+<a target="_blank" href="${link}">原文</a></div>
 <pre>
 <a href="/rss/${RSS_RM}/${id}">删除</a>
 </pre>
-<pre>${htm|n}</pre>
-<form action="/rss" method="POST">
+<div>${txt}</div>
+<pre style="display:none">${htm|n}</pre>
+
+<form action="/rss" method="POST" style="display:none">
 <div>
-    <textarea name="${id}txt"> ${txt}
-    </textarea>
+    <textarea name="${id}txt">${txt}</textarea>
 </div>
 <input type="hidden" name="id" value="${id}">
 <input type="submit" value="发表">
 </form>
-
+</div>
 %endfor
 % endif
 ${page|n}
