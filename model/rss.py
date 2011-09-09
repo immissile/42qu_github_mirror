@@ -69,8 +69,10 @@ def unread_feed_update(greader, feed):
 'insert into rss_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
 user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_list
                         )
-    
+
 
 
 if __name__ == '__main__':
-    pass
+    GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+    print GREADER_USERNAME, GREADER_PASSWORD
+    GREADER.empty_subscription_list()
