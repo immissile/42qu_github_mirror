@@ -33,7 +33,7 @@ def rss_po_list_by_state(state, limit=1, offset=10):
     return p
 
 
-def get_unread_update():
+def unread_update():
     GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
 
     feeds = GREADER.unread_feed()
