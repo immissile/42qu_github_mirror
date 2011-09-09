@@ -20,7 +20,8 @@ class Rss(McModel):
 class RssPo(McModel):
     pass
 
-
+def rss_po_total(state):
+    return RssPo.where(state=state).count()
 
 def rss_new(user_id, url):
     rss = Rss.get_or_create(url=url)
@@ -34,12 +35,12 @@ def rss_po_list_by_state(state, limit=1, offset=10):
 
 
 def unread_update():
-    GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+    greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
 
-    feeds = GREADER.unread_feed()
+    feeds = greader.unread_feed()
     for feed in feeds:
         try:
-            unread_feed(greader, feed)
+            unread_feed_update(greader, feed)
         except:
             traceback.print_exc()
             continue

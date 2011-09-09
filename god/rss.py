@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.rss import rss_po_list_by_state, RssPo, RSS_UNCHECK, RSS_PRE_PO, RSS_RM
+from model.rss import rss_po_list_by_state, RssPo, RSS_UNCHECK, RSS_PRE_PO, RSS_RM, rss_po_total
 from zkit.page import page_limit_offset
+
 PAGE_LIMIT = 10
 
 @urlmap('/rss_index')
@@ -11,13 +12,14 @@ PAGE_LIMIT = 10
 @urlmap('/rss_index/(\d+)-(\-?\d+)')
 class RssIndex(Base):
     def get(self, state=RSS_UNCHECK, n=1):
-        total = RssPo.where(state=state).count()
+        total = rss_po_total(state)
+
         page, limit, offset = page_limit_offset(
                  '/rss_index/%s-%%s'%state,
                  total,
                  n,
                  PAGE_LIMIT
-                 )
+             )
         rss_po_list = rss_po_list_by_state(state, limit, offset)
         self.render(
                 rss_po_list=rss_po_list,
