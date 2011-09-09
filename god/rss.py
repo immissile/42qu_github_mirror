@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.rss import get_rss_po, RssPo, RSS_UNCHECK, RSS_PRE_PO, RSS_RM
+from model.rss import rss_po_list_by_state, RssPo, RSS_UNCHECK, RSS_PRE_PO, RSS_RM
 from zkit.page import page_limit_offset
 PAGE_LIMIT = 10
 
@@ -18,7 +18,7 @@ class RssIndex(Base):
                  n,
                  PAGE_LIMIT
                  )
-        rss_po = get_rss_po(state,limit,offset)
+        rss_po = rss_po_list_by_state(state,limit,offset)
         self.render(
                 rss_po=rss_po,
                 page = page

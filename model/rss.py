@@ -26,7 +26,7 @@ GREADER = Reader('42qu.com@gmail.com', '42qukanrss')
 def rss_add(user_id, url):
     Rss.raw_sql('insert into rss (user_id, url) values(%s, %s)', user_id, url)
 
-def get_rss_po(state, limit=1, offset=10):
+def rss_po_list_by_state(state, limit=1, offset=10):
     p = RssPo.raw_sql('select id,user_id,title,txt,pic_list from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
     return p
 
