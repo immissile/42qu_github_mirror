@@ -3,38 +3,60 @@ from yajl import dumps
 from model.zsite_link import OAUTH2NAME
 %>
 
-%for cid, name, link in link_cid:
-<p>
-    <label for="cid${cid}">${name}</label><input
-        id="cid${cid}"
-        class="value"
-        autocomplete="off"
-        value="${link}"
-        type="text"
-        name="link">
-    <input type="hidden" value="${cid}" name="cid">
-</p>
-%endfor
+##%for cid, name, link in link_cid:
+##<p>
+##    <label for="cid${cid}">${name}</label><input
+##        id="cid${cid}"
+##        class="value"
+##        autocomplete="off"
+##        value="${link}"
+##        type="text"
+##        name="link">
+##    <input type="hidden" value="${cid}" name="cid">
+##</p>
+##%endfor
+##
+##%for i in range(4):
+##<%
+##if i<len(link_list):
+##    id, k, v = link_list[i]
+##else:
+##    if i==0:
+##        k = 'Blog'
+##    else:
+##        k = ''
+##    v = ''
+##    id = 0
+##%>
+##<p>
+##<input type="hidden" name="id" value="${id}">\
+##<input
+##autocomplete="off"
+##class="key" type="text" name="key" value="${k}" >\
+##<input
+##autocomplete="off"
+##class="value" type="text" name="value" value="${v}">\
+##</p>
+##%endfor
 
-%for i in range(4):
-<%
-if i<len(link_list):
-    id, k, v = link_list[i]
-else:
-    if i==0:
-        k = 'Blog'
-    else:
-        k = ''
-    v = ''
-    id = 0
-%>
-<p>
-<input type="hidden" name="id" value="${id}">\
-<input
-autocomplete="off"
-class="key" type="text" name="key" value="${k}" >\
-<input
-autocomplete="off"
-class="value" type="text" name="value" value="${v}">\
-</p>
-%endfor
+<div>
+文字介绍<textarea name="txt" style="width: 721px; border: 1px solid rgb(204, 204, 204); margin-left: 8px; margin-top: 16px; height: 150px; padding: 3px 6px; vertical-align: 1px;">${txt or ''}</textarea>
+</div>
+<div>
+官方网站<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
+</div>
+<div>
+豆瓣小站<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
+</div>
+<div>
+新浪微博<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
+</div>
+<div>
+腾讯微博<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
+</div>
+<div><span><input value="" style="border: 1px solid rgb(204, 204, 204); padding: 7px; font-size: 16px; width: 48px;" type="text"></span><input value="" name="url" class="input" style="font-size: 16px;" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">其它链接</span>
+</div>
+<div><span><input value="" style="border: 1px solid rgb(204, 204, 204); padding: 7px; font-size: 16px; width: 48px;" type="text"></span><input value="" name="url" class="input" style="font-size: 16px;" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">其它链接</span>
+</div>
+<div><span><input value="" style="border: 1px solid rgb(204, 204, 204); padding: 7px; font-size: 16px; width: 48px;" type="text"></span><input value="" name="url" class="input" style="font-size: 16px;" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">其它链接</span>
+</div>

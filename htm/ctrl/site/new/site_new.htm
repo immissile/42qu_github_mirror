@@ -3,6 +3,7 @@ from config import SITE_DOMAIN
 from model.zsite import ZSITE_STATE_VERIFY
 %>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/site/link.htm" name="link"/>
 <%
 state = current_user.state
 %>
@@ -71,23 +72,6 @@ ${errtip.url|n}
 </select>
 <span style="color:#a10;margin-left:16px">注意 : 此设置无法修改</span>
 </div>
-<div>
-官方网站<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-</div>
-<div>
-豆瓣小站<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-</div>
-<div>
-新浪微博<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-</div>
-<div>
-腾讯微博<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-</div>
-<div><span><input value="" style="border: 1px solid rgb(204, 204, 204); padding: 7px; font-size: 16px; width: 48px;" type="text"></span><input value="" name="url" class="input" style="font-size: 16px;" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">其它链接</span>
-</div>
-<div><span><input value="" style="border: 1px solid rgb(204, 204, 204); padding: 7px; font-size: 16px; width: 48px;" type="text"></span><input value="" name="url" class="input" style="font-size: 16px;" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">其它链接</span>
-</div>
-<div><span><input value="" style="border: 1px solid rgb(204, 204, 204); padding: 7px; font-size: 16px; width: 48px;" type="text"></span><input value="" name="url" class="input" style="font-size: 16px;" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">其它链接</span>
-</div>
+${link.body()}
 <span class="btnw"><button type="submit">确定</button></span>
 </%htm:form>

@@ -1,4 +1,5 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/site/link.htm" name="link"/>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%def name="htm_head()">
 <style>
@@ -50,26 +51,6 @@ ${errtip.name|n}
 <div>
 描述签名<input class="input" type="text" name="motto" value="${motto or ''}"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
 </div>
-<div>
-文字介绍<textarea name="txt" style="width: 721px; border: 1px solid rgb(204, 204, 204); margin-left: 8px; margin-top: 16px; height: 150px; padding: 3px 6px; vertical-align: 1px;">${txt or ''}</textarea>
-</div>
-<div>
-官方网站<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-</div>
-<div>
-豆瓣小站<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-</div>
-<div>
-新浪微博<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-</div>
-<div>
-腾讯微博<input value="" name="url" class="input" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-</div>
-<div><span><input value="" style="border: 1px solid rgb(204, 204, 204); padding: 7px; font-size: 16px; width: 48px;" type="text"></span><input value="" name="url" class="input" style="font-size: 16px;" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">其它链接</span>
-</div>
-<div><span><input value="" style="border: 1px solid rgb(204, 204, 204); padding: 7px; font-size: 16px; width: 48px;" type="text"></span><input value="" name="url" class="input" style="font-size: 16px;" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">其它链接</span>
-</div>
-<div><span><input value="" style="border: 1px solid rgb(204, 204, 204); padding: 7px; font-size: 16px; width: 48px;" type="text"></span><input value="" name="url" class="input" style="font-size: 16px;" type="text"><span style="color: rgb(153, 153, 153); margin-left: 16px;">其它链接</span>
-</div>
+${link.body()}
 <span class="btnw"><button type="submit">确定</button></span>
 </%htm:form>
