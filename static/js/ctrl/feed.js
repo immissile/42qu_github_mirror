@@ -28,7 +28,7 @@ function share(id) {
 	}
 	var fancybox = $.fancybox;
 	fancybox({
-		content: '<form id="vote_reply" class="fancyreply"><h3>推荐语</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">分享</button></span></div></form>',
+		content: '<form id="vote_reply" class="fancyreply"><h3>推荐语</h3><textarea name="txt"></textarea><div class="btns"><a href="/i/bind" target="_blank" class="share_sync">微博同步</a><span class="btnw"><button class="btn" type="submit">分享</button></span></div></form>',
 		onComplete: function() {
 			var reply = $("#vote_reply"),
 			textarea = reply.find("textarea");
