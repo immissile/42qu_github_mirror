@@ -120,13 +120,7 @@ font-size:14px;
 text-align:right;
 padding:0 32px 32px 0;
 }
-.logo_txt .zsite_ico a:hover{
-text-decoration:none;
-}
-.logo_txt .zsite_ico a{
-margin:0;padding:0;display:block;
-}
-.logo_txt .zsite_ico a img{
+.logo_txt .zsite_ico  img{
 float:right;margin:0 0 0 32px;
 }
 #zsite_list{
