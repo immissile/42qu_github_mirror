@@ -71,7 +71,7 @@ def unread_feed_update(greader, feed):
 user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_list
                         )
 
-
+    greader.mark_as_read(feed)
 
 if __name__ == '__main__':
     #GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
