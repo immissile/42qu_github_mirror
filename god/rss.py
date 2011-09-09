@@ -29,5 +29,8 @@ class RssCheck(Base):
     def get(self,state,id):
         po = PrePo.get(id=id)
         po.state = state
+        if state == RSS_PRE_PO:
+            txt = self.get_argument('%stxt'%id)
+            print txt
         po.save()
         self.redirect('/rss_index')

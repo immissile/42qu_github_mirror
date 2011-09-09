@@ -17,7 +17,10 @@ id,user_id,title,htm = p
 <a href="/rss/${RSS_PRE_PO}/${id}">发表</a>  
 <a href="/rss/${RSS_RM}/${id}">删除</a>
 </pre>
-<div>${htm|n}</div>
+<div>
+    <textarea name="${id}txt">${htm|n}
+    </textarea>
+</div>
 
 %endfor
 % endif
