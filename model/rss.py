@@ -74,6 +74,7 @@ user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_l
 
 
 if __name__ == '__main__':
-    GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-    print GREADER_USERNAME, GREADER_PASSWORD
-    GREADER.empty_subscription_list()
+    #GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+    #print GREADER_USERNAME, GREADER_PASSWORD
+    #GREADER.empty_subscription_list()
+    print Rss.max_id()
