@@ -1,0 +1,50 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo, tag_list_video, tag_list_audio, tag_list_event"/>
+<%!
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT
+from model.fav import fav_po_list_by_user_id_cid, fav_po_count_by_user_id_cid
+from model.po import PO_CN_EN, PO_EN
+%>
+<%def name="htm_head()">
+${css.ctrl_fav|n}
+</%def>
+
+<%
+if zsite_id == current_user_id:
+    link = '/live'
+else:
+    link = '/'
+%>
+
+<a class="back_a" href="${link}"></a>
+
+<%
+FUNC_DICT = {}
+_DICT = vars()['_import_ns']
+for cid, en in PO_EN.iteritems():
+    FUNC_DICT[cid] = _DICT['tag_list_%s' % en]
+
+po_total_count = 0 
+%>
+
+<h1>\
+<span class="L">${zsite.name}</span>\
+<a class="c0" href="/fav">收藏</a><span class="split">-</span>\
+<a class="c9" href="/po">发布</a></h1>
+
+
+% for i in PO_CN_EN:
+<%
+cid = i[0]
+limit = 1 if cid == CID_WORD else 6
+po_list = fav_po_list_by_user_id_cid(zsite_id, cid, limit)
+po_count = fav_po_count_by_user_id_cid(zsite_id, cid)
+func = FUNC_DICT[cid]
+po_total_count += po_count
+%>
+${func(po_count, po_list)}
+% endfor
+
+%if not po_total_count:
+<p style="width:468px;margin:auto;border:1px dotted #ccc;margin-top:10%;padding:32px 0;text-align:center;">暂无收藏 , <a href="${link}">先逛逛吧</a></p>
+%endif

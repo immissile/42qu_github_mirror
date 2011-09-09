@@ -16,12 +16,12 @@ class PoPhoto(LoginBase):
         name = self.get_argument('name', None)
         txt = self.get_argument('txt', None)
 
-        
+
         link = '/live'
 
         if po_id:
             po_id = int(po_id)
-            po = Po.mc_get(po_id) 
+            po = Po.mc_get(po_id)
             if po and po.user_id == self.current_user_id:
                 po.name_ = name
                 po.txt_set(txt)
@@ -39,7 +39,7 @@ class PoPhoto(LoginBase):
 
 
         return self.redirect(link)
-        
+
     def _img(self):
         files = self.request.files
         img = files.get('photo')

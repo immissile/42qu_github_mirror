@@ -104,10 +104,6 @@ ${event_content(event, po)}
 组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
 ${po_bar_vote(po)}\
 </pre>
-%if event_state >= EVENT_STATE_END:
-${feedback_list(event)}
-%endif
-
 
 <%
 notice_list = po_event_notice_list_by_event_id(id)
@@ -128,10 +124,17 @@ notice_list = po_event_notice_list_by_event_id(id)
 </div>
 %endif
 
+%if event_state >= EVENT_STATE_END:
+${feedback_list(event)}
+%endif
+
+
+
 
 %if join_count:
-<div class="spline">
-<span>${join_count}</span> 报名
+<div class="spline spliner c">
+<span class="L"><span>${join_count}</span> 报名</span>
+<a href="/event/${id}/joiner/1" class="joiner"></a>
 </div>
 <div class="G">
 

@@ -100,13 +100,18 @@ def buzz_wall_reply_new(from_id, to_id, wall_id):
     buzz_new(from_id, to_id, CID_BUZZ_WALL_REPLY, wall_id)
 
 def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
+    from txt import txt_get
+    from txt2htm import RE_AT
+    from zsite_url import id_by_url
     from po_pos import po_pos_state, STATE_MUTE
+    txt = txt_get(reply_id)
+    ated = set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)]))
     followed = set([i.from_id for i in ormiter(Follow, 'to_id=%s' % from_id)])
     buzz_to = set([i.user_id for i in ormiter(PoPos, 'po_id=%s and state=%s' % (po_id, STATE_BUZZ))])
     excepted = set([from_id, po_user_id])
     if from_id != po_user_id:
         buzz_new(from_id, po_user_id, CID_BUZZ_PO_REPLY, reply_id)
-    for user_id in ((followed | buzz_to) - excepted):
+    for user_id in ((ated | followed | buzz_to) - excepted):
         buzz_new(from_id, user_id, CID_BUZZ_PO_REPLY, reply_id)
         po_pos_state(user_id, po_id, STATE_MUTE)
 

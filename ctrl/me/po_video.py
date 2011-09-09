@@ -45,10 +45,10 @@ class PoVideo(LoginBase):
             video = url[29:url.rfind('.')]
             video_site = VIDEO_CID_YOUKU
         elif url.startswith('http://player.youku.com/player.php/sid/'):
-            video = url[39:url.find("/",39)]
+            video = url[39:url.find('/', 39)]
             video_site = VIDEO_CID_YOUKU
         elif url.startswith('http://www.tudou.com/programs/view/'):
-            video = url[35:].rstrip("/")
+            video = url[35:].rstrip('/')
             video_site = VIDEO_CID_TUDOU
         elif url.startswith('http://video.sina.com.cn/v/b/'):
             video = url[29:url.rfind('.')]

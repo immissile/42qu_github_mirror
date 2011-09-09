@@ -116,7 +116,7 @@ class Kv(object):
             mc.set(mc_key, r)
         return r
 
-    def insert_no_value_cache(self,value):
+    def insert_no_value_cache(self, value):
         cursor = self.cursor
         cursor.execute(
             'insert into %s (value) values (%%s)' % self.__table__,

@@ -1,0 +1,29 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/_util/user_index.htm" import="user_index"/>
+<%def name="htm_head()">
+${css.ctrl_event_joiner|n}
+</%def>
+
+<%
+po_link = po.link
+prev = n - 1
+next = n + 1
+if prev <= 0:
+    prev_link = po_link
+else:
+    prev_link = link_base % prev
+if next > total:
+    next_link = po_link
+else:
+    next_link = link_base % next
+%>
+<div id="joiner_nav">\
+<a href="${po_link}">${po.name}</a>\
+<span class="R">\
+<a class="joiner_prev" href="${prev_link}"></a>\
+<span>${n}</span>\
+<a class="joiner_next" href="${next_link}"></a>\
+</span>\
+</div>\
+
+${user_index(user)}

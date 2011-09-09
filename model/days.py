@@ -53,6 +53,9 @@ def minute2ymd2(minute):
 def cn_date(dt):
     return dt.strftime('%Y年%m月%d日')
 
+def today_cn_date():
+    return cn_date(datetime.date.today())
+
 CN_WEEKDAY = (
      '一',
      '二',
@@ -114,6 +117,11 @@ def cn_diff_weekday(dt):
         return '下%s' % cn_week_day
     return ''
 
+def date_time_by_minute(minutes):
+    dt = minute2date(minutes)
+    li = [cn_date(dt), cn_diff_weekday(dt), minute2hour(minutes)]
+    return ' '.join(filter(bool, li))
+
 def begin_end_by_minute(begin_time, end_time):
     begin_date = minute2date(begin_time)
     end_date = minute2date(end_time)
@@ -133,7 +141,7 @@ def begin_end_by_minute(begin_time, end_time):
         weekday = cn_diff_weekday(end_date)
         if weekday:
             weekday = ' %s' % weekday
-        row2 = "%s%s %s"%(
+        row2 = '%s%s %s'%(
             cn_date(end_date), weekday, end_hour
         )
     else:

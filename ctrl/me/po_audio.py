@@ -13,12 +13,12 @@ class PoAudio(LoginBase):
         cid = CID_AUDIO
         name = self.get_argument('name', None)
         txt = self.get_argument('txt', None)
-        
+
         link = '/live'
 
         if po_id:
             po_id = int(po_id)
-            po = Po.mc_get(po_id) 
+            po = Po.mc_get(po_id)
             if po and po.user_id == self.current_user_id:
                 po.name_ = name
                 po.txt_set(txt)
@@ -34,7 +34,7 @@ class PoAudio(LoginBase):
                     link = '/po/tag/%s' % po_id
 
         return self.redirect(link)
-        
+
     def _audio(self):
         files = self.request.files
         audio = files.get('audio')

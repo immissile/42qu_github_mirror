@@ -103,7 +103,7 @@ class PoBase(LoginBase):
         po = self.po_post()
         if po:
             if po.cid == CID_EVENT_FEEDBACK:
-                link = "/%s#po%s"%(po.rid,po.id)
+                link = '/%s#po%s'%(po.rid, po.id)
             elif po.state == STATE_SECRET:
                 link = po.link
             else:
@@ -186,7 +186,7 @@ class Edit(LoginBase):
 
 
 
-        if cid in (CID_NOTE,CID_QUESTION,CID_ANSWER):
+        if cid in (CID_NOTE, CID_QUESTION, CID_ANSWER):
             if not (cid == CID_QUESTION and po.state == STATE_ACTIVE):
                 po_state_set(po, state)
 
@@ -207,11 +207,11 @@ class Edit(LoginBase):
 
         if cid == CID_EVENT:
             if event_init2to_review(id):
-                link = "/po/event/%s/state"%id
+                link = '/po/event/%s/state'%id
             else:
                 link = po.link
         elif cid == CID_EVENT_FEEDBACK:
-            link = "/%s#po%s"%(po.rid,po.id)
+            link = '/%s#po%s'%(po.rid, po.id)
         else:
             if cid == CID_WORD:
                 link = po.link_target

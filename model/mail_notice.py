@@ -38,7 +38,7 @@ def mail_notice_set(user_id, cid, state):
         mc_mail_notice_state.set('%s_%s' % (user_id, cid), state)
 
 def mail_notice_iter(cid):
-    for i in ormiter(Zsite, "cid=%s"%CID_USER):
+    for i in ormiter(Zsite, 'cid=%s'%CID_USER):
         if mail_notice_state(i.id , cid):
             mail = mail_by_user_id(i.id)
             yield mail, i.name

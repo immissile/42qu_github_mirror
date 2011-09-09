@@ -11,7 +11,7 @@ from model.mail import sendmail
 from model.cid import CID_ZSITE
 from zkit.page import page_limit_offset
 
-from model.pic import pic_no 
+from model.pic import pic_no
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
@@ -19,6 +19,7 @@ from model.zsite_url import id_by_url
 from model.user_session import user_session
 from model.user_info import UserInfo
 from model.zsite_rank import zsite_rank_max
+from model.search_zsite import search_new
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -59,7 +60,9 @@ class Index(Base):
             user_info.sex = sex
             user_info.save()
 
+        search_new(id)
         self.redirect('/zsite/%s' % id)
+
 
 @urlmap('/zsite/pic/rm/(\d+)/(\d+)')
 class PicRm(Base):
@@ -107,6 +110,7 @@ class Mail(Base):
             name = zsite.name
             sendmail(title, txt, mail, name)
         self.redirect('/zsite/%s' % id)
+
 
 @urlmap('/zsite/verify/new/(0|1)/(\d+)')
 class VerifyNew(Base):

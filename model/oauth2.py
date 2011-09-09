@@ -37,7 +37,7 @@ class OauthClient(McModel):
         self.delete()
 
     def can_admin(self, user_id):
-        return self.user_id == user_id 
+        return self.user_id == user_id
 
 
 class OauthRefreshToken(Model):
@@ -104,7 +104,7 @@ def oauth_secret_verify(id, secret):
         return 0
 
 
-def oauth_token_rm_if_can(id,user_id):
+def oauth_token_rm_if_can(id, user_id):
     o = OauthAccessToken.get(id=id)
     if o:
         if o.user_id == user_id:
@@ -173,7 +173,7 @@ def oauth_authorization_code_verify(authorization_code):
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from zweb.orm import ormiter
     for i in ormiter(OauthClient):
         print i

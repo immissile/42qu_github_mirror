@@ -1,4 +1,5 @@
 #coding:utf-8
+import urllib2
 from urllib2 import urlopen, HTTPError
 import urllib
 from urllib import urlencode
@@ -19,7 +20,7 @@ GOOGLE_CONSUMER_SECRET
 from oauth import oauth_token_by_oauth_id,\
 OAUTH_GOOGLE, OAUTH_DOUBAN,\
 OAUTH_SINA, OAUTH_TWITTER,\
-OAUTH_WWW163, \
+OAUTH_WWW163,\
 OAUTH_SOHU, OAUTH_QQ,\
 OAUTH_RENREN, OAUTH_LINKEDIN
 
@@ -264,7 +265,7 @@ def oauth_txt_cat(cid, txt, url):
         tword = txt[:140-url_len]
         if tword != txt:
             txt = txt[:137-url_len]+'...'
-        txt = str(txt)+url
+        txt = str(txt)+' '+url
         return txt
     else:
         txt = cnenoverflow(str(txt), 139-url_len)[0]+' '+url
@@ -274,16 +275,17 @@ def oauth_txt_cat(cid, txt, url):
 def sync_by_oauth_id(oauth_id, txt, url=None):
     out = oauth_token_by_oauth_id(oauth_id)
     if out:
+        cid, key, secret = out
         url = shorturl(url)
-        txt = oauth_txt_cat(out[0], txt, url)
-        re = DICT_API_SAY[out[0]](out[1], out[2], txt)
+        txt = oauth_txt_cat(cid, txt, url)
+        re = DICT_API_SAY[cid](key, secret, txt)
         if re:
             mes = api_network_http(*re)
-        #oauth_res_check(mes, oauth_id)
+            #oauth_res_check(mes, oauth_id)
             return mes
 
 def api_network_http(host, netloc, headers, body, method, connection=httplib.HTTPConnection):
-    conn = connection(host)
+    conn = connection(host, timeout=30)
     #conn.set_debuglevel(1)
     conn.request(method, netloc, headers=headers, body=body)
     resp = conn.getresponse()

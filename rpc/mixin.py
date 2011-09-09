@@ -34,7 +34,7 @@ def xxx_request(self, path, callback, access_token=None, post_args=None, **args)
     callback = self.async_callback(self._on_request, callback)
     http = httpclient.AsyncHTTPClient()
     if post_args is not None:
-        print url,post_args
+        print url, post_args
         http.fetch(url, method='POST', body=urllib.urlencode(post_args),
                    callback=callback)
     else:
@@ -233,12 +233,12 @@ class SinaMixin(tornado.auth.OAuthMixin):
 
 
 class SohuMixin(tornado.auth.OAuthMixin):
-    _OAUTH_REQUEST_TOKEN_URL = "http://api.t.sohu.com/oauth/request_token"
-    _OAUTH_ACCESS_TOKEN_URL = "http://api.t.sohu.com/oauth/access_token"
-    _OAUTH_AUTHORIZE_URL = "http://api.t.sohu.com/oauth/authorize"
-    _OAUTH_VERSION = "1.0"
+    _OAUTH_REQUEST_TOKEN_URL = 'http://api.t.sohu.com/oauth/request_token'
+    _OAUTH_ACCESS_TOKEN_URL = 'http://api.t.sohu.com/oauth/access_token'
+    _OAUTH_AUTHORIZE_URL = 'http://api.t.sohu.com/oauth/authorize'
+    _OAUTH_VERSION = '1.0'
     _OAUTH_NO_CALLBACKS = False
-    _API_URL = "http://api.t.sohu.com%s.json"
+    _API_URL = 'http://api.t.sohu.com%s.json'
 
     callback_url = callback_url
     _parse_user_response = _parse_user_response
@@ -260,7 +260,7 @@ class SohuMixin(tornado.auth.OAuthMixin):
         callback = self.async_callback(self._parse_user_response, callback)
         sohu_user_id = access_token['user_id']
         self.sohu_request(
-            "/users/show/%s"%sohu_user_id,
+            '/users/show/%s'%sohu_user_id,
             access_token=access_token, callback=callback
         )
 

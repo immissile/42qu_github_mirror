@@ -93,4 +93,20 @@ margin-right:14px;
 .feed_event_pid{
 margin-bottom:6px
 }
+.split{
+margin:0 14px
+}
+
+.fdopt a{
+color:#999;
+}
+.fdopt .faved{
+color:#000
+}
+.fdopt a:hover,.fdopt .faved:hover{
+color:#a10;
+}
+
+
+
 

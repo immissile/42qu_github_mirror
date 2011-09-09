@@ -30,7 +30,7 @@ class Base(_Base):
 #        _login_redirect(self)
 #
 
-class LoginBase(_LoginBase): 
+class LoginBase(_LoginBase):
     post = post
 
 class OauthBase(BaseBase):
@@ -44,13 +44,13 @@ class OauthAccessBase(OauthBase):
         access_token = self.get_argument('access_token')
 
         if not access_token:
-            self.finish({'error':"miss access_token", 'error_code': 400})
+            self.finish({'error':'miss access_token', 'error_code': 400})
             return
-        
+
         user_id = oauth_access_token_verify(access_token)
-        
+
         if not user_id:
-            self.finish({'error':"invalid access_token", 'error_code': 401})
+            self.finish({'error':'invalid access_token', 'error_code': 401})
             return
 
         self.current_user_id = user_id

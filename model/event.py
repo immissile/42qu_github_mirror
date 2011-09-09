@@ -18,6 +18,7 @@ from notice import notice_event_yes, notice_event_no, notice_event_join_yes, not
 from mq import mq_client
 from feed import feed_new, mc_feed_tuple, feed_rm
 from user_mail import mail_by_user_id
+from days import date_time_by_minute
 
 mc_event_id_list_by_zsite_id = McLimitA('EventIdListByZsiteId.%s', 128)
 mc_event_id_list_by_city_pid_cid = McLimitA('EventIdListByCityPidCid.%s', 128)
@@ -382,8 +383,10 @@ def event_joiner_list(event_id, limit, offset):
 @mc_event_joiner_user_id_list('{event_id}')
 def event_joiner_user_id_list(event_id):
     event = Event.mc_get(event_id)
-    zsite_id = event.zsite_id
-    return EventJoiner.where(event_id=event_id).where('user_id!=%s and state>=%s', zsite_id, EVENT_JOIN_STATE_NEW).order_by('id desc').col_list(col='user_id')
+    if event:
+        zsite_id = event.zsite_id
+        return EventJoiner.where(event_id=event_id).where('user_id!=%s and state>=%s', zsite_id, EVENT_JOIN_STATE_NEW).order_by('id desc').col_list(col='user_id')
+    return []
 
 def event_joiner_user_list(event_id, limit=0, offset=0):
     id_list = event_joiner_user_id_list(event_id)
@@ -432,6 +435,21 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
     return o
 
 
+def event_joiner_can_exit(event_id, user_id):
+    if event_joiner_state(event_id, user_id) in (EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES):
+        event = Event.mc_get(event_id)
+        if event.cent:
+            if pay_event_get(event, user_id):
+                return False
+        return True
+
+
+def event_joiner_exit(event_id, user_id):
+    if event_joiner_can_exit(event_id, user_id):
+        o = event_joiner_get(event_id, user_id)
+        event_joiner_no(o)
+
+
 def event_joiner_no(o, txt=''):
     event_id = o.event_id
     user_id = o.user_id
@@ -474,6 +492,7 @@ def event_ready(event):
     po = event.po
     link = 'http:%s' % po.link
     title = po.name
+    begin_time = date_time_by_minute(event.begin_time)
     user_id_list = event_joiner_user_id_list(event.id)
     user_id_list.append(event.zsite_id)
     for user_id in user_id_list:
@@ -483,6 +502,7 @@ def event_ready(event):
             Zsite.mc_get(user_id).name,
             link=link,
             title=title,
+            begin_time=begin_time,
             join_count=join_count,
         )
         sleep(0.1)
@@ -528,7 +548,7 @@ def event_kill_extra(from_id, event_id, po_id):
     po = Po.mc_get(event_id)
     txt = po.name
     notice_link = po.link
-    for i in Event.where(event_id=event_id).where('state>=%s', EVENT_JOIN_STATE_NEW):
+    for i in EventJoiner.where(event_id=event_id).where('state>=%s', EVENT_JOIN_STATE_NEW):
         event_joiner_no(i)
         user_id = i.user_id
         notice_event_kill_one(from_id, user_id, po_id)

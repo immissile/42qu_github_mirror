@@ -55,6 +55,8 @@ DB_MAIN_TABLE = (
     'zsite_tag_po',
     'oauth_token_backup',
     'zsite_uv_daily',
+    'sync_turn',
+    'sync_follow',
 )
 
 DB_GOOGLE_TABLE = (

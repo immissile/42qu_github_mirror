@@ -12,15 +12,18 @@ ${css.ctrl_tag|n}
 
 <div class="po_tag">
 <h1>\
-
-<a class="c0" href="${zsite.link}">${zsite.name}</a> :
+<a class="c0" href="${zsite.link}">${zsite.name}</a> \
+%if request.path.startswith("/fav/"):
+. 收藏 \
+%endif
+:
 %if tag_name:
 <a href="${back_a|n}" class="c0">${tag_name}</a> .
 %endif
 ${total} ${PO_COUNT_CN[cid]}</h1>
 <div class="zsite_ol">\
         %if cid == CID_WORD:
-            % for po in po_list:
+            % for po in li:
         <%
         if po.rid:
             question = po.target
@@ -36,7 +39,7 @@ ${total} ${PO_COUNT_CN[cid]}</h1>
             % endfor
         %else:
 <ol>
-    % for po in po_list:
+    % for po in li:
     <li>\
         <a href="${po.link}">\
         % if po.cid == CID_WORD:

@@ -3,6 +3,10 @@
 <%namespace file="_vote.htm" import="po_bar_vote"/>
 
 <%def name="po_body()">
+<%
+event_po = po.target
+%>
+<div style="border-bottom: 1px dotted #ccc; text-align: center; padding-bottom: 16px; margin-bottom: 16px; margin-top: -16px;"><a href="${event_po.link}">${event_po.name}</a> </div>
 <pre class="prebody">\
 <p><a href="${zsite.link}">${zsite.name}</a> : ${po.htm|n}</p>\
 ${po_bar_vote(po)}\

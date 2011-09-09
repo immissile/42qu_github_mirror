@@ -72,12 +72,10 @@ ${errtip.password|n}
 <script id="zsite_ico" type="text/x-jquery-tmpl">
 <%text>
 <div class="zsite_ico c">
-<a target="_blank" href="${$data[0]}">
-<img src="${$data[1]}">
+<img src="${$data[0]}">
+<div>${$data[1]}</div>
 <div>${$data[2]}</div>
 <div>${$data[3]}</div>
-<div>${$data[4]}</div>
-</a>
 </div>
 </%text>
 </script>
@@ -90,7 +88,7 @@ zsite_ico_list = []
 for i in zsite_list:
     unit , title = i.career
     zsite_ico_list.append(
-        (i.link, i.ico, i.name, unit, title)
+        ( i.ico, i.name, unit, title)
     )
 %>
 <script>
@@ -100,4 +98,5 @@ zsite_ico_list(${json_encode(zsite_ico_list)|n})
 <div style="display:none">
 <a href="//hero.${SITE_DOMAIN}">人物</a>
 <a href="//meet.${SITE_DOMAIN}">活动</a>
+<a href="http://www.xinmeiad.com">广告公司</a>
 </div>
