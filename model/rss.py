@@ -38,12 +38,15 @@ def unread_update():
     greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
 
     feeds = greader.unread_feed()
+
     for feed in feeds:
         try:
             unread_feed_update(greader, feed)
         except:
             traceback.print_exc()
             continue
+
+    greader.mark_as_read()
 
 def unread_feed_update(greader, feed):
     rs = Rss.raw_sql('select id,user_id from rss where url = %s', feed[5:]).fetchone()
@@ -71,7 +74,6 @@ def unread_feed_update(greader, feed):
 user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_list
                         )
 
-    greader.mark_as_read(feed)
 
 if __name__ == '__main__':
     #GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
