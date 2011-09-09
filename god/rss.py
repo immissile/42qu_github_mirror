@@ -10,7 +10,7 @@ PAGE_LIMIT = 10
 @urlmap('/rss_index/(\d+)')
 @urlmap('/rss_index/(\d+)-(\-?\d+)')
 class RssIndex(Base):
-    def get(self,state=RSS_UNCHECK,n=1):
+    def get(self, state=RSS_UNCHECK, n=1):
         total = RssPo.where(state=state).count()
         page, limit, offset = page_limit_offset(
                  '/rss_index/%s-%%s'%state,
@@ -18,16 +18,16 @@ class RssIndex(Base):
                  n,
                  PAGE_LIMIT
                  )
-        rss_po_list = rss_po_list_by_state(state,limit,offset)
+        rss_po_list = rss_po_list_by_state(state, limit, offset)
         self.render(
                 rss_po_list=rss_po_list,
-                page = page
+                page=page
             )
 
 @urlmap('/rss')
 @urlmap('/rss/(\d+)/(\d+)')
 class RssCheck(Base):
-    def get(self,state,id):
+    def get(self, state, id):
         po = RssPo.get(id=id)
         po.state = state
         po.save()

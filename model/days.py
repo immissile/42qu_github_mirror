@@ -141,7 +141,7 @@ def begin_end_by_minute(begin_time, end_time):
         weekday = cn_diff_weekday(end_date)
         if weekday:
             weekday = ' %s' % weekday
-        row2 = "%s%s %s"%(
+        row2 = '%s%s %s'%(
             cn_date(end_date), weekday, end_hour
         )
     else:

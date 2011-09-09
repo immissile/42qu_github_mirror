@@ -199,6 +199,6 @@ def profile_middleware(PROFILE_FUNC_LIST):
                 return result
             return execute(self, transforms, *args, **kwargs)
         return _
-    
+
     return _profile_middleware
 

@@ -77,7 +77,7 @@ def zsite_keyword_iter():
 if __name__ == '__main__':
     for i in zsite_keyword_iter():
         print i
-  #  z = Zsite.mc_get(10054091)
-  #  if z:
-  #      for k, v in zsite2keyword(z).iteritems():
-  #          print k, v
+#  z = Zsite.mc_get(10054091)
+#  if z:
+#      for k, v in zsite2keyword(z).iteritems():
+#          print k, v

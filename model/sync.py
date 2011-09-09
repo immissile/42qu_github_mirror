@@ -83,7 +83,7 @@ def sync_po(po):
     id = po.user_id
     cid = SYNC_GET_CID[po.cid]
     for oauth_id in state_oauth_id_by_zsite_id_cid(id, cid):
-        sync_by_oauth_id(oauth_id, SYNC_CID_TXT.get(cid,"") + po.name_, 'http:%s'%po.link)
+        sync_by_oauth_id(oauth_id, SYNC_CID_TXT.get(cid, '') + po.name_, 'http:%s'%po.link)
 
 def sync_join_event(id, event_id):
     po = Po.mc_get(event_id)
@@ -96,7 +96,7 @@ def sync_recommend(id, po_id):
     p = Po.mc_get(po_id)
     s = state_oauth_id_by_zsite_id_cid(id, SYNC_CID_SHARE)
     for oauth_id in s:
-        sync_by_oauth_id(oauth_id, "分享 : " + p.name_, 'http:%s'%p.link)
+        sync_by_oauth_id(oauth_id, '分享 : ' + p.name_, 'http:%s'%p.link)
 
 
 def sync_follow_oauth_id_bind(user_id, cid, oauth_id):
@@ -108,17 +108,17 @@ def sync_follow_oauth_id_bind(user_id, cid, oauth_id):
 
         sync_follow.oauth_id = oauth_id
         sync_follow.save()
-    
+
 
 def sync_follow(follow):
     a, b = divmod(follow.state, 2)
     oauth_id = follow.oauth_id
 
     if a:
-        sync_by_oauth_id(oauth_id, follow.txt, "http://%s"%SITE_DOMAIN)
+        sync_by_oauth_id(oauth_id, follow.txt, 'http://%s'%SITE_DOMAIN)
     if b:
         oauth_follow_by_oauth_id(oauth_id)
-    
+
     follow.delete()
 
 

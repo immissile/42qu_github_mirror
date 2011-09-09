@@ -63,7 +63,7 @@ OAUTH_SYNC_CID = set(
 
 OAUTH_SYNC_SQL = 'app_id in (%s)' % (','.join(map(str, OAUTH_SYNC_CID)))
 
-OAUTH_SYNC_TXT = "42区 , 这是一个神奇的网站 , 速来围观 !"
+OAUTH_SYNC_TXT = '42区 , 这是一个神奇的网站 , 速来围观 !'
 
 
 class OauthToken(Model):
@@ -92,13 +92,13 @@ def oauth_token_by_oauth_id(oauth_id):
     s = OauthToken.raw_sql('select app_id, token_key, token_secret from oauth_token where id =%s', oauth_id).fetchone()
     return s
 
-mc_oauth_name_by_oauth_id = McCache("OauthNameByOauthId:%s")
+mc_oauth_name_by_oauth_id = McCache('OauthNameByOauthId:%s')
 
-@mc_oauth_name_by_oauth_id("{oauth_id}") 
+@mc_oauth_name_by_oauth_id('{oauth_id}')
 def oauth_name_by_oauth_id(app_id, oauth_id):
     table = OAUTH2TABLE[app_id]
     cursor = cursor_by_table(table)
-    cursor.execute("select name from %s where id=%%s"%table, oauth_id)
+    cursor.execute('select name from %s where id=%%s'%table, oauth_id)
     r = cursor.fetchone()
     if r:
         return r[0]
@@ -120,7 +120,7 @@ def oauth_save(app_id, zsite_id, token_key, token_secret):
 
 
     cursor = OauthToken.raw_sql(
-        'select id from oauth_token where zsite_id=%s and app_id=%s and token_key=%s and token_secret=%s', 
+        'select id from oauth_token where zsite_id=%s and app_id=%s and token_key=%s and token_secret=%s',
         zsite_id, app_id, token_key, token_secret
     )
     r = cursor.fetchone()
@@ -134,7 +134,7 @@ def oauth_save(app_id, zsite_id, token_key, token_secret):
 
     if app_id in OAUTH_SYNC_CID:
         oauth_sync_sum.delete(zsite_id)
-    
+
     return id
 
 

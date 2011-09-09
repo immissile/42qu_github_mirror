@@ -26,12 +26,12 @@ from model.state import STATE_DEL, STATE_ACTIVE
 
 def htm2po_by_po(pre):
     txt = pre.txt
-    
+
     po = po_note_new(
         pre.user_id, pre.title, txt, STATE_DEL
     )
     po_id = po.id
-    
+
     pic_list = json.loads(pre.pic_list)
 
     for seq, url in enumerate(pic_list, 1):
@@ -43,5 +43,5 @@ def htm2po_by_po(pre):
     po.save()
 
     po.feed_new()
-    
+
     return po

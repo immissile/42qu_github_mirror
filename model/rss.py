@@ -22,8 +22,11 @@ class RssPo(McModel):
 
 
 
-def rss_add(user_id, url):
-    Rss.raw_sql('insert into rss (user_id, url) values(%s, %s)', user_id, url)
+def rss_new(user_id, url):
+    rss = Rss.get_or_create(url=url)
+    rss.user_id = user_id
+    rss.save()
+    return rss
 
 def rss_po_list_by_state(state, limit=1, offset=10):
     p = RssPo.raw_sql('select id,user_id,title,txt,pic_list from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
@@ -48,14 +51,14 @@ def get_unread_update():
 
                 if snippet:
                     htm = snippet['content']
-                    
+
                     if htm:
 
                         txt, pic_list = htm2txt(htm)
                         pic_list = json.dumps(pic_list)
 
                         RssPo.raw_sql(
-                            'insert into rss_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) value(%s,%s,%s,%s,%s,%s,%s,%s)', 
+                            'insert into rss_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) value(%s,%s,%s,%s,%s,%s,%s,%s)',
                             user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list
                         )
 

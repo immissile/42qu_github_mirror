@@ -1,4 +1,4 @@
-s="""feed://scrumalliance.org/rss
+s = """feed://scrumalliance.org/rss
 http://1eef0.pn.ipc.la/?feed=rss2
 http://2years.net/feed/
 http://517onlyone.blog.163.com/rss/
@@ -633,7 +633,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 from zkit.google.greader import Reader
-reader = Reader('42qu.com','')
+reader = Reader('42qu.com', '')
 
 for i in s:
     reader.subscribe(i)

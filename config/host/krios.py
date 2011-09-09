@@ -8,4 +8,4 @@ def prepare(o):
     except ImportError:
         pass
     else:
-       _private.prepare(o)
+        _private.prepare(o)

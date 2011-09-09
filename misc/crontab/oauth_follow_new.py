@@ -13,7 +13,7 @@ def oauth_follow():
     c = OauthToken.raw_sql('select max(id) from oauth_token')
     pos = c.fetchone()[0]
     if pos > rss_pos:
-        c = OauthToken.raw_sql('select id from oauth_token where id>%s and id<=%s order by id',rss_pos,pos)
+        c = OauthToken.raw_sql('select id from oauth_token where id>%s and id<=%s order by id', rss_pos, pos)
         for id, in c.fetchall():
             #print id
             #import sys
@@ -22,5 +22,5 @@ def oauth_follow():
         kv_int.set(KV_OAUTH_FOLLOW, pos)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     oauth_follow()

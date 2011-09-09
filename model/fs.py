@@ -13,7 +13,7 @@ def fs_path(root, prefix, id, suffix):
 def fs_file(prefix, id, suffix):
     return fs_path(FILE_PATH, prefix, id, suffix)
 
-def fs_url(prefix,  id, suffix, url=FILE_URL):
+def fs_url(prefix, id, suffix, url=FILE_URL):
     return fs_path(url, prefix, id, suffix)
 
 def img2str(image, quality=95):

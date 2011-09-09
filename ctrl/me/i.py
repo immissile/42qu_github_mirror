@@ -432,8 +432,8 @@ class BindItem(LoginBase):
 
     def post(self, id):
         user_id = self.current_user_id
-        cid_list = self.get_arguments("cid")
-        cid_list = set(map(int,cid_list))
+        cid_list = self.get_arguments('cid')
+        cid_list = set(map(int, cid_list))
         for i in SYNC_CID:
             if i in cid_list:
                 state = 1
@@ -476,7 +476,7 @@ class Binded(LoginBase):
             flag += 0b1
         if tstate:
             flag += 0b10
-        
+
         sync_follow_new(user_id, flag, cid, txt)
 
         url = 'http://rpc.%s/oauth/%s'%(SITE_DOMAIN, cid)

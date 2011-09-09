@@ -4,7 +4,7 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from config import SITE_HTTP, RPC_HTTP
 from zkit.page import page_limit_offset
-from model.event import Event, EVENT_STATE_DEL,event_joiner_new, event_joiner_state, event_joiner_list, event_joiner_user_list,\
+from model.event import Event, EVENT_STATE_DEL, event_joiner_new, event_joiner_state, event_joiner_list, event_joiner_user_list,\
 event_count_by_zsite_id, event_join_count_by_user_id,\
 event_list_by_zsite_id, event_list_join_by_user_id,\
 EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_STATE_BEGIN, EVENT_STATE_END
@@ -89,7 +89,7 @@ class EventState(EventBase):
         current_user_id = self.current_user_id
         state = event_joiner_state(id, current_user_id)
         if state < EVENT_JOIN_STATE_NEW:
-            return self.redirect("/%s"%id)
+            return self.redirect('/%s'%id)
 
         return self.render(event=event, state=state)
 
@@ -107,7 +107,7 @@ def _event(self, id):
             return self.redirect(event.link)
         if event_joiner_state(id, current_user_id) < EVENT_JOIN_STATE_NEW:
             return event
-        event_link = "/event/%s/state"%event.id
+        event_link = '/event/%s/state'%event.id
         return self.redirect(event_link)
 
 @urlmap('/event/join/(\d+)')
@@ -124,7 +124,7 @@ class EventJoin(NameCardEdit, EventBase):
         if event is None:
             return
 
-        event_link = "/event/%s/state"%event.id
+        event_link = '/event/%s/state'%event.id
 
         pid_now = self.get_argument('pid_now', None)
         name = self.get_argument('name', '')
@@ -137,13 +137,13 @@ class EventJoin(NameCardEdit, EventBase):
 
 
         if not pid_now or int(pid_now) == 1:
-            error.append("请选择现居城市")
+            error.append('请选择现居城市')
         if not name:
-            error.append("请输入本人姓名")
+            error.append('请输入本人姓名')
         if not phone:
-            error.append("请填写手机号码")
+            error.append('请填写手机号码')
         if not mail:
-            error.append("请补充邮件地址")
+            error.append('请补充邮件地址')
 
         if not self.save() or error:
             return NameCardEdit.get(self)
@@ -194,7 +194,7 @@ class EventPay(EventBase):
         if event is None:
             return
 
-        event_link = "/event/%s/state"%event.id
+        event_link = '/event/%s/state'%event.id
 
         current_user_id = self.current_user_id
         zsite_id = self.zsite_id

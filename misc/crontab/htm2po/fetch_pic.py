@@ -8,13 +8,13 @@ from zkit.pic import picopen
 def fetch_pic(url, referer=None):
 
     headers = {}
- 
+
     if referer:
         headers['Referer'] = referer
 
     request = urllib2.Request(url, None, headers)
     raw = urlfetch(request)
-    
+
     return picopen(raw)
 
 

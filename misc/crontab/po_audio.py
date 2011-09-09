@@ -18,39 +18,39 @@ from config import SITE_DOMAIN
 def audio_compress():
     id = kv_int.get(KV_PO_AUDIO)
 
-    for i in ormiter(Po, "cid=%s and id>%s"%(
+    for i in ormiter(Po, 'cid=%s and id>%s'%(
         CID_AUDIO,
         id
     )):
         id = i.id
 
         input_filename = fs_file_audio(id)
-        
+
         if not exists(input_filename):
             continue
-        
+
         output_filename = '/tmp/po.audio.%s'%SITE_DOMAIN
 
         #if not isdir(output_filename):
         #    os.mkdir(output_filename)
 
         subprocess.call([
-            "lame",
-            "--quiet",
-            "--mp3input",
-            "--abr",
-            "64",
+            'lame',
+            '--quiet',
+            '--mp3input',
+            '--abr',
+            '64',
             input_filename,
             output_filename
         ])
-        
+
         if not exists(output_filename):
             continue
-        
+
         shutil.move(output_filename, input_filename)
 
     kv_int.set(KV_PO_AUDIO, id)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     audio_compress()
 

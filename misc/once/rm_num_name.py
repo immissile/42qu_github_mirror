@@ -23,9 +23,9 @@ def check(a):
 
 def get_name():
     names = Zsite.raw_sql('select id,name from zpage.zsite').fetchall()
-    for id,name in names:
+    for id, name in names:
         if check(name):
             zsite_name_rm(id)
-    
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     get_name()

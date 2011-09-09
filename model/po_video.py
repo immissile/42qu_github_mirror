@@ -6,7 +6,7 @@ from cid import CID_VIDEO
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
 
 VIDEO_CID_YOUKU = 1
-VIDEO_CID_TUDOU = 2 
+VIDEO_CID_TUDOU = 2
 VIDEO_CID_SINA = 3
 
 HTM_YOUKU = '''<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>'''
@@ -15,7 +15,7 @@ HTM_AUTOPLAY_YOUKU = '''<embed src="http://static.youku.com/v/swf/qplayer.swf?Vi
 
 HTM_TUDOU = """<embed src="http://www.tudou.com/v/%s/v.swf" class="video" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque"></embed>"""
 
-HTM_AUTOPLAY_TUDOU =  """<embed src="http://www.tudou.com/v/%s&autoPlay=true/v.swf" class="video" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque"></embed>"""
+HTM_AUTOPLAY_TUDOU = """<embed src="http://www.tudou.com/v/%s&autoPlay=true/v.swf" class="video" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque"></embed>"""
 
 HTM_AUTOPLAY_SINA = """<embed wmode="opaque" src="http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?autoplay=1&vid=%s&uid=%s" class="video" allowFullScreen="true" "></embed>"""
 
