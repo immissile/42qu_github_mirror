@@ -28,9 +28,7 @@ htm = pic_rss(htm,pic_list)
 <pre>
 <a href="/rss/${RSS_RM}/${id}">删除</a>
 </pre>
-<div>
-    ${htm|n}
-    </div>
+<pre>${htm|n}</pre>
 <form action="/rss" method="POST">
 <div>
     <textarea name="${id}txt"> ${txt}

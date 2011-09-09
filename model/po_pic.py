@@ -146,6 +146,7 @@ PIC_SPACE = re.compile(r'\s{1,3}[ \t]*(图:\d+)[ \t]*(\s*)', re.MULTILINE)
 #    return pic2htm(self.txt, pic_seq_dict_html(self.user_id, self.id))
 
 def re_pic2htm(match, d):
+    print match,'!!'
     m = int(match.group(1))
     return d.get(m, match.group(0))
 
@@ -177,12 +178,12 @@ def re_pic_space(match):
 
 
 if __name__ == '__main__':
-    m=['http:xx','hdd://ss']
-    s = ['<div class="PIC"><img src="%s"></div>'%i for i in m]
-    print s
+   # m=['http:xx','hdd://ss']
+   # s = ['<div class="PIC"><img src="%s"></div>'%i for i in m]
+   # print s
     
     #print PIC_SUB.sub('!','收到撒uyiasyduiasyduaysd 图:1 是的撒旦一udyu')
-    #print pic_htm('萨顶顶顶顶的 图:1 的的',10001299,6)
+    print pic_htm('萨顶顶顶顶的 图:1 的的',10001299,6)
     #PIC_SPACE = re.compile(r'\s{1,3}[ \t]*(图:\d+)[ \t]*(\s*)', re.MULTILINE)
    # print PIC_SPACE.sub(re_pic_space, """1
 
