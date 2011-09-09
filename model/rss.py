@@ -7,6 +7,11 @@ import sys
 from zkit.htm2txt import htm2txt
 reload(sys)
 sys.setdefaultencoding('utf-8')
+RSS_UNCHECK = 0
+RSS_RM = 1
+RSS_PRE_PO = 2
+RSS_POED =3
+
 
 class Rss(McModel):
     pass
@@ -20,8 +25,8 @@ GREADER = Reader('42qu.com@gmail.com','42qukanrss')
 def rss_add(user_id,url):
     Rss.raw_sql('insert into rss (user_id, url) values(%s, %s)',user_id,url)
 
-def get_pre_po(limit=1,offset=10):
-    p = PrePo.raw_sql('select id,user_id,title,txt from pre_po where state = %s order by id desc limit %s offset %s',0,limit,offset).fetchall()
+def get_pre_po(state,limit=1,offset=10):
+    p = PrePo.raw_sql('select id,user_id,title,txt from pre_po where state = %s order by id desc limit %s offset %s',state,limit,offset).fetchall()
     return p
 
 
@@ -45,7 +50,7 @@ def get_unread_update():
                     htm = ""
                 txt,pic_list=htm2txt(htm)
                 pic_list = json.dumps(pic_list)
-                PrePo.raw_sql('insert into pre_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) value(%s,%s,%s,%s,%s,0,%s,%s)',user_id,id,rss_uid,title,txt,link,pic_list)
+                PrePo.raw_sql('insert into pre_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) value(%s,%s,%s,%s,%s,%s,%s,%s)',user_id,id,rss_uid,title,txt,RSS_UNCHECK,link,pic_list)
 
 def get_rss_json(url):
     feeds = GREADER.unread(url)

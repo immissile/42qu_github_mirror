@@ -1,4 +1,8 @@
 <%inherit file="/god/_base.htm" />
+<%!
+from model.rss import RSS_PRE_PO,RSS_RM
+%>
+
 <%def name="htm_head()">
 </%def>
 ${page|n}
@@ -10,7 +14,8 @@ id,user_id,title,htm = p
 %>
 <h1>${title}</h1>
 <pre>
-<a href="/rss/0/${id}">发表</a>  <a href="/rss/1/${id}">删除</a>
+<a href="/rss/${RSS_PRE_PO}/${id}">发表</a>  
+<a href="/rss/${RSS_RM}/${id}">删除</a>
 </pre>
 <div>${htm|n}</div>
 

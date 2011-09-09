@@ -2,16 +2,15 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.rss import get_pre_po, PrePo
+from model.rss import get_pre_po, PrePo, RSS_UNCHECK, RSS_PRE_PO, RSS_RM
 from zkit.page import page_limit_offset
 PAGE_LIMIT = 10
-from misc.htm2po.htm2po import htm2po
 
 @urlmap('/rss_index')
 @urlmap('/rss_index/(\d+)')
 @urlmap('/rss_index/(\d+)-(\-?\d+)')
 class RssIndex(Base):
-    def get(self,state=0,n=1):
+    def get(self,state=RSS_UNCHECK,n=1):
         total = PrePo.where(state=state).count()
         page, limit, offset = page_limit_offset(
                  '/rss_index-%s',
@@ -19,7 +18,7 @@ class RssIndex(Base):
                  n,
                  PAGE_LIMIT
                  )
-        pre_po = get_pre_po(limit,offset)
+        pre_po = get_pre_po(state,limit,offset)
         self.render(
                 pre_po=pre_po,
                 page = page
@@ -28,10 +27,7 @@ class RssIndex(Base):
 @urlmap('/rss/(\d+)/(\d+)')
 class RssCheck(Base):
     def get(self,state,id):
-        po = PrePo.where(id=id)
-        if state:
-            po.state = 2
-        else:
-            po.state = 1
+        po = PrePo.get(id=id)
+        po.state = state
         po.save()
         self.redirect('/rss_index')
