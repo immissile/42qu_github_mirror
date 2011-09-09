@@ -234,3 +234,10 @@ background-image:url(/img/gif/icons/gif/black/to_size/check.gif);
 .faving{
 background:url(/img/gif/loading12.gif) no-repeat 100% 1px;
 }
+.share_sync{
+float:right;
+font-size:16px;
+}
+.share_sync:visited{
+color:#999;
+}
