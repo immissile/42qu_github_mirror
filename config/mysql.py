@@ -59,6 +59,7 @@ DB_MAIN_TABLE = (
     'sync_follow',
     "rss_po",
     "rss",
+    'search_zsite',
 )
 
 DB_GOOGLE_TABLE = (
