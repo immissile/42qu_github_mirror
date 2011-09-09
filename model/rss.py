@@ -5,7 +5,7 @@ from zkit.google.greader import Reader
 import json
 import sys
 from zkit.htm2txt import htm2txt
-
+from config import GREADER_USERNAME, GREADER_PASSWORD
 
 
 RSS_UNCHECK = 0
@@ -21,7 +21,6 @@ class RssPo(McModel):
     pass
 
 
-GREADER = Reader('42qu.com@gmail.com', '42qukanrss')
 
 def rss_add(user_id, url):
     Rss.raw_sql('insert into rss (user_id, url) values(%s, %s)', user_id, url)
@@ -32,40 +31,34 @@ def rss_po_list_by_state(state, limit=1, offset=10):
 
 
 def get_unread_update():
+    GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+
     feeds = GREADER.unread_feed()
     for feed in feeds:
-    #    print feed[5:]
         rs = Rss.raw_sql('select id,user_id from rss where url = %s', feed[5:]).fetchone()
         if rs:
-            #      print rs,'!!!'
             id, user_id = rs
+
             res = GREADER.unread(feed)
             for i in res:
                 link = i['alternate'][0]['href']
                 title = i['title']
                 rss_uid = i.get('id') or 1
                 snippet = i.get('summary') or i.get('content') or None
+
                 if snippet:
                     htm = snippet['content']
-                else:
-                    htm = ''
-                txt, pic_list = htm2txt(htm)
-                pic_list = json.dumps(pic_list)
-                RssPo.raw_sql('insert into rss_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) value(%s,%s,%s,%s,%s,%s,%s,%s)', user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list)
+                    
+                    if htm:
 
-def get_rss_json(url):
-    feeds = GREADER.unread(url)
-    i = feeds.next()
-    link = i['alternate'][0]['href']
-    title = i['title']
-    snippet = i.get('summary') or i.get('content') or None
-    if snippet:
-        txt = snippet['content']
-    else:
-        snippet = ''
-        txt = ''
-    stamp = int(i['crawlTimeMsec'])/1000
-    print link, title, i['id']
+                        txt, pic_list = htm2txt(htm)
+                        pic_list = json.dumps(pic_list)
+
+                        RssPo.raw_sql(
+                            'insert into rss_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) value(%s,%s,%s,%s,%s,%s,%s,%s)', 
+                            user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list
+                        )
+
 
 
 
