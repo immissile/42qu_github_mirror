@@ -58,19 +58,12 @@ def get_unread_update():
                         pic_list = json.dumps(pic_list)
 
                         RssPo.raw_sql(
-                            'insert into rss_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) value(%s,%s,%s,%s,%s,%s,%s,%s)',
-                            user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list
+'insert into rss_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
+user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_list
                         )
 
 
 
 
 if __name__ == '__main__':
-    get_unread_update()
-    print RssPo.where(state=0).count()
-    #get_unread_update()
-    #get_rss_json('feed/http://feed43.com/rexsong.xml')
-    #rss_feed()
-
-
-
+    pass
