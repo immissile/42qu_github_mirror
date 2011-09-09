@@ -150,7 +150,7 @@ def re_pic2htm(match, d):
     return d.get(m, match.group(0))
 
 def pic_htm(htm, user_id, po_id):
-    htm = PIC_SPACE.sub(re_pic_space, htm) 
+    htm = PIC_SPACE.sub(re_pic_space, htm)
     pic_dict = pic_seq_dict_html(user_id, po_id)
     htm = PIC_SUB.sub(lambda x: re_pic2htm(x, pic_dict), htm)
     htm = htm.replace('\n\n', '</p><p>')
@@ -170,7 +170,7 @@ if __name__ == '__main__':
     print PIC_SPACE.sub(re_pic_space, """1
 
     图:1
-    
+
     3
     图:2
     s
