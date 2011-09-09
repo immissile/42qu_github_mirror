@@ -67,7 +67,7 @@ id,link,user_id,title,htm,pic_list = p
 user = Zsite.mc_get(user_id)
 txt = htm
 pic_list = json.loads(pic_list)
-txt, has_more = cnenoverflow(txt, 164)
+txt_cut, has_more = cnenoverflow(txt, 164)
 url = url_by_id(user_id)
 %>
 %if pic_list:
@@ -91,7 +91,7 @@ ${title}</span>
 <a target="_blank" href="${link}">原文</a></div>
 <pre>
 </pre>
-<div id="txt${id}">${txt}</div>
+<div id="txt${id}">${txt_cut}</div>
 <div id="bar${id}"><a id="ext${id}" href="javascript:ext(${id})">展开</a><a href="javascript:edit(${id})" class="edit">编辑</a></div>
 <pre id="pre${id}">${htm|n}</pre>
 

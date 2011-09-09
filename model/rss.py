@@ -50,7 +50,7 @@ def unread_feed_update(greader, feed):
     if rs:
         id, user_id = rs
 
-        res = GREADER.unread(feed)
+        res = greader.unread(feed)
         for i in res:
             link = i['alternate'][0]['href']
             title = i['title']
