@@ -2,6 +2,8 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.rss import RSS_PRE_PO,RSS_RM
+from model.po_pic import pic_rss
+import json
 %>
 
 <%def name="htm_head()">
@@ -11,16 +13,28 @@ ${page|n}
 % if pre_po:
 % for p in pre_po:
 <%
-id,user_id,title,htm = p
+id,user_id,title,htm,pic_list = p
+txt = htm
+pic_list = json.loads(pic_list)
 %>
+%if pic_list:
+<%
+pic_list = ['<div class="PIC"><img src="%s"></div>'%i for i in pic_list]
+htm = pic_rss(htm,pic_list)
+%>
+%endif
 
 <h1>${title}</h1>
 <pre>
 <a href="/rss/${RSS_RM}/${id}">删除</a>
 </pre>
+<div>
+    ${htm|n}
+    </div>
 <form action="/rss" method="POST">
 <div>
-    <textarea name="${id}txt"> ${htm}</textarea>
+    <textarea name="${id}txt"> ${txt}
+    </textarea>
 </div>
 <input type="hidden" name="id" value="${id}">
 <input type="submit" value="发表">

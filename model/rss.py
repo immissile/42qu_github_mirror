@@ -27,7 +27,7 @@ def rss_add(user_id, url):
     Rss.raw_sql('insert into rss (user_id, url) values(%s, %s)', user_id, url)
 
 def get_pre_po(state, limit=1, offset=10):
-    p = PrePo.raw_sql('select id,user_id,title,txt from pre_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
+    p = PrePo.raw_sql('select id,user_id,title,txt,pic_list from pre_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
     return p
 
 
