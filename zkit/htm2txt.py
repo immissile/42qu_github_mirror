@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 
-BLOCK_BOLD = [
+BLOCK_BOLD = set([
     'h1',
     'h2',
     'h3',
     'h4',
     'h5',
     'h6',
-]
-BLOCK = [
+])
+
+BLOCK = set([
     'form',
     'hr',
     'div',
@@ -19,29 +20,39 @@ BLOCK = [
     'li',
     'pre',
     'p',
-]
-BOLD = [
+])
+
+BOLD = set([
     'b',
     'strong',
     'i',
     'em',
-]
-PASS = [
+])
+
+PASS = set([
     'span',
-]
+])
 
 def htm2txt(htm):
+    htm = htm.replace("*","﹡")
+
     soup = BeautifulSoup(htm)
+
     pic_list = []
 
     def soup2txt_recursion(soup):
         li = []
         for i in soup:
+
             if isinstance(i, NavigableString):
+
                 li.append(i.string)
+
             else:
+
                 name = i.name
                 s = soup2txt_recursion(i)
+                
                 if name in BLOCK_BOLD:
                     li.append('\n**%s**\n' % s)
                 elif name in BLOCK:
@@ -59,7 +70,9 @@ def htm2txt(htm):
                         else:
                             pic_seq = pic_list.index(src) + 1
                         li.append(' 图:%s ' % pic_seq)
+        
         return ''.join(li)
 
     s = soup2txt_recursion(soup)
     return '\n'.join(filter(bool, [i.strip() for i in s.splitlines()])), pic_list
+

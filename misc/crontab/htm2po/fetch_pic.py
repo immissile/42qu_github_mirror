@@ -6,11 +6,15 @@ from zkit.retry import urlfetch
 from zkit.pic import picopen
 
 def fetch_pic(url, referer=None):
-    if referer is None:
-        referer = 'https://www.google.com/reader/'
 
-    request = urllib2.Request(url, None, {'Referer': referer})
+    headers = {}
+ 
+    if referer:
+        headers['Referer'] = referer
+
+    request = urllib2.Request(url, None, headers)
     raw = urlfetch(request)
+    
     return picopen(raw)
 
 
