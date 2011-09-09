@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.rss import get_pre_po, PrePo, RSS_UNCHECK, RSS_PRE_PO, RSS_RM
+from model.rss import get_rss_po, RssPo, RSS_UNCHECK, RSS_PRE_PO, RSS_RM
 from zkit.page import page_limit_offset
 PAGE_LIMIT = 10
 
@@ -11,23 +11,23 @@ PAGE_LIMIT = 10
 @urlmap('/rss_index/(\d+)-(\-?\d+)')
 class RssIndex(Base):
     def get(self,state=RSS_UNCHECK,n=1):
-        total = PrePo.where(state=state).count()
+        total = RssPo.where(state=state).count()
         page, limit, offset = page_limit_offset(
                  '/rss_index/%s-%%s'%state,
                  total,
                  n,
                  PAGE_LIMIT
                  )
-        pre_po = get_pre_po(state,limit,offset)
+        rss_po = get_rss_po(state,limit,offset)
         self.render(
-                pre_po=pre_po,
+                rss_po=rss_po,
                 page = page
                 )
 @urlmap('/rss')
 @urlmap('/rss/(\d+)/(\d+)')
 class RssCheck(Base):
     def get(self,state,id):
-        po = PrePo.get(id=id)
+        po = RssPo.get(id=id)
         po.state = state
         po.save()
         self.redirect('/rss_index')
@@ -35,7 +35,7 @@ class RssCheck(Base):
     def post(self):
         id = int(self.get_argument('id'))
         txt = self.get_argument('%stxt'%id)
-        po = PrePo.get(id=id)
+        po = RssPo.get(id=id)
         po.txt = txt
         po.state = RSS_PRE_PO
         po.save()

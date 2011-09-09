@@ -17,7 +17,7 @@ RSS_POED = 3
 class Rss(McModel):
     pass
 
-class PrePo(McModel):
+class RssPo(McModel):
     pass
 
 
@@ -26,8 +26,8 @@ GREADER = Reader('42qu.com@gmail.com', '42qukanrss')
 def rss_add(user_id, url):
     Rss.raw_sql('insert into rss (user_id, url) values(%s, %s)', user_id, url)
 
-def get_pre_po(state, limit=1, offset=10):
-    p = PrePo.raw_sql('select id,user_id,title,txt,pic_list from pre_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
+def get_rss_po(state, limit=1, offset=10):
+    p = RssPo.raw_sql('select id,user_id,title,txt,pic_list from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
     return p
 
 
@@ -51,7 +51,7 @@ def get_unread_update():
                     htm = ''
                 txt, pic_list = htm2txt(htm)
                 pic_list = json.dumps(pic_list)
-                PrePo.raw_sql('insert into pre_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) value(%s,%s,%s,%s,%s,%s,%s,%s)', user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list)
+                RssPo.raw_sql('insert into rss_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) value(%s,%s,%s,%s,%s,%s,%s,%s)', user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list)
 
 def get_rss_json(url):
     feeds = GREADER.unread(url)
@@ -71,7 +71,7 @@ def get_rss_json(url):
 
 if __name__ == '__main__':
     get_unread_update()
-    print PrePo.where(state=0).count()
+    print RssPo.where(state=0).count()
     #get_unread_update()
     #get_rss_json('feed/http://feed43.com/rexsong.xml')
     #rss_feed()
