@@ -6,10 +6,10 @@ sys.setdefaultencoding('utf-8')
 
 import _env
 from zkit.google.findrss import feeds, get_rss_link_title_by_rss
-from model.zsite_link import ZsiteLink
-from model.zsite import Zsite, ZSITE_STATE_VERIFY
 
 def get_uri():
+    from model.zsite_link import ZsiteLink
+    from model.zsite import Zsite, ZSITE_STATE_VERIFY
     ids = Zsite.raw_sql('select id from zpage.zsite where state >= %s', ZSITE_STATE_VERIFY ).fetchall()
     links = []
     for id in ids:
@@ -34,8 +34,9 @@ def get_rss(links):
                     rss = feeds(link)
                 except:
                     continue
-                if rss:
-                    yield rss
+                else:
+                    if rss:
+                        yield rss
 
 
 def print_rss():
@@ -43,6 +44,25 @@ def print_rss():
     m = open('x')
     for line in m:
         links.append(line.strip())
+
+    for i in get_rss(links):
+        for j in i:
+            if j:
+                print j
+
+#    with open('x.rss', 'w') as output:
+#        for i in get_rss(links):
+#            for j in i:
+#                if j:
+#                    print j
+#                    output.write('%s\n' % j)
+
+
+def print_xml():
+    links = []
+    with open('x.rss') as f:
+        for line in f:
+            links.append(line.strip())
 
     with open('x.xml', 'w') as output:
         output.write("""<?xml version="1.0" encoding="UTF-8"?>
@@ -52,18 +72,20 @@ def print_rss():
 </head>
 <body>
 """)
-        for i in get_rss(links):
-            for j in i:
-                if j:
-                    txt = get_rss_link_title_by_rss(j)[-1]
-                    output.write("""<outline text="%s"
+        for j in links:
+            try:
+                txt = get_rss_link_title_by_rss(j)[-1]
+            except:
+                continue
+            else:
+                output.write("""<outline text="%s"
 title="%s"
 type="rss" xmlUrl="%s"
 htmlUrl="%s"/>
 """ % (txt, txt, j, j))
 
-
         output.write("""</body></opml>""")
+
 
 def print_uri():
     links = get_uri()
@@ -72,5 +94,6 @@ def print_uri():
             f.write('%s\n' % i)
 
 if __name__ == '__main__':
-    print_uri()
+    #print_uri()
     #print_rss()
+    print_xml()
