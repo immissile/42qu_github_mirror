@@ -18,11 +18,12 @@ class RssIndex(Base):
                  n,
                  PAGE_LIMIT
                  )
-        rss_po = rss_po_list_by_state(state,limit,offset)
+        rss_po_list = rss_po_list_by_state(state,limit,offset)
         self.render(
-                rss_po=rss_po,
+                rss_po_list=rss_po_list,
                 page = page
-                )
+            )
+
 @urlmap('/rss')
 @urlmap('/rss/(\d+)/(\d+)')
 class RssCheck(Base):

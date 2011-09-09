@@ -10,8 +10,8 @@ import json
 </%def>
 ${page|n}
 
-% if rss_po:
-% for p in rss_po:
+% if rss_po_list:
+% for p in rss_po_list:
 <%
 id,user_id,title,htm,pic_list = p
 txt = htm
