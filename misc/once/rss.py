@@ -15,8 +15,25 @@ USER2RSS = [
 
 import _env
 
-from model.rss import rss_new
+from model.rss import rss_new, Rss, Reader, GREADER_USERNAME, GREADER_PASSWORD 
+from zweb.orm import ormiter
+
 
 for user_id, rss in USER2RSS:
     rss_new(user_id, rss) 
+
+reader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+
+subscription_list =  set(reader.subscription_list())
+
+
+for rss in ormiter(Rss):
+    rss_url = rss.url
+    
+
+    if "feed/%s"%rss_url in subscription_list:
+        continue
+    
+
+    reader.subscribe(rss_url)
 
