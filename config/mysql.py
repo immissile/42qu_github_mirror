@@ -57,6 +57,8 @@ DB_MAIN_TABLE = (
     'zsite_uv_daily',
     'sync_turn',
     'sync_follow',
+    "rss_po",
+    "rss",
 )
 
 DB_GOOGLE_TABLE = (
