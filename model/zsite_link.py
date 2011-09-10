@@ -20,13 +20,13 @@ OAUTH2NAME = tuple(
 )
 
 SITE_LINK_DEFAULT = (
-    0,
+    20,
     OAUTH_DOUBAN,
     OAUTH_SINA,
     OAUTH_QQ,
 )
 SITE_LINK_NAME = (
-    (0, '官方网站'),
+    (20, '官方网站'),
     (OAUTH_DOUBAN, '豆瓣小站'),
     (OAUTH_SINA, '新浪微博'),
     (OAUTH_QQ, '腾讯微博'),
