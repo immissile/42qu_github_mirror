@@ -90,7 +90,7 @@ def sync_po(po):
     id = po.user_id
     cid = SYNC_GET_CID[po.cid]
     for oauth_id in state_oauth_id_by_zsite_id_cid(id, cid):
-        sync_by_oauth_id(oauth_id, SYNC_CID_TXT.get(cid, '') + po.name_, 'http:%s'%po.link)
+        sync_by_oauth_id(oauth_id, SYNC_CID_TXT.get(po.cid, '') + po.name_, 'http:%s'%po.link)
 
 def sync_join_event(id, event_id):
     po = Po.mc_get(event_id)

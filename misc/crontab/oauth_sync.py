@@ -10,16 +10,17 @@ from model.po import Po
 from model.state import STATE_ACTIVE
 from model.sync import sync_po, sync_join_event,\
 sync_recommend, sync_follow, SyncFollow
-from model.cid import CID_WORD, CID_NOTE, CID_EVENT
+from model.cid import CID_WORD, CID_NOTE, CID_EVENT, CID_AUDIO, CID_VIDEO, CID_PHOTO
 from model.event import EventJoiner, EVENT_JOIN_STATE_NO
 from model.feed import Feed
 
 def _sync_po(begin_id):
     for po in ormiter(
-        Po, 'id>%s and state=%s and cid in (%s,%s,%s)' % (
-            begin_id, STATE_ACTIVE, CID_WORD, CID_NOTE, CID_EVENT
-        )
-    ):
+        Po, 'id>%s and state=%s and cid in (%s,%s,%s, %s,%s,%s)' % (
+            begin_id, STATE_ACTIVE, 
+            CID_WORD, CID_NOTE, CID_EVENT, CID_AUDIO, CID_VIDEO, CID_PHOTO
+        )                                                          
+    ):                                                             
         begin_id = po.id
         sync_po(po)
 
