@@ -28,7 +28,7 @@ def htm2po_by_po(pre):
     txt = pre.txt
 
     po = po_note_new(
-        pre.user_id, pre.title, txt, STATE_DEL
+        pre.user_id, pre.title, '', STATE_DEL
     )
     po_id = po.id
 
@@ -38,11 +38,15 @@ def htm2po_by_po(pre):
         img = fetch_pic(url)
         if img:
             po_pic_new(pre.user_id, po_id, img, seq)
+        else:
+            txt = txt.replace("图:%s"%seq,"")
 
+    po.txt_set(txt)
     po.state = STATE_ACTIVE
     po.save()
 
     po.feed_new()
+
 
     return po
 
