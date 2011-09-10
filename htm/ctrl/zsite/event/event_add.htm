@@ -33,12 +33,12 @@ pic_url_bind_with_default(join_list, '219')
 
 <div class="G">
     %for chunk in chunkiter(join_list,4):
-<div class="c">
+<div class="c mt32">
         % for i in chunk:
 <%
 unit, title = i.career
 %>
-<a href="${i.link}" class="c0 mt32">
+<a href="${i.link}" class="c0">
 <div class="G1">
     <img src="${i.pic219}">
     <div>${i.name}</div>
