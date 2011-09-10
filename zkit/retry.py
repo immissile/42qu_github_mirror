@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import urllib2
-
+import time
 def retry(func):
     def _(*args, **kwargs):
         tries = 2

@@ -85,7 +85,7 @@ def htm2txt(htm):
                 if name == 'img':
                     src = i.get('src')
                     if src:
-                        print src
+                        #print src
                         if src not in pic_list:
                             pic_seq = len(pic_list) + 1
                             pic_list.append(src)
