@@ -7,11 +7,13 @@ from zkit.errtip import Errtip
 from zkit.txt import cnenlen
 from model.zsite import zsite_new_site, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
 from model.zsite_url import url_valid, url_new
-from model.zsite_link import OAUTH_LINK_DEFAULT
-from model.oauth import OAUTH2NAME_DICT, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_QQ
+from model.zsite_link import SITE_LINK_DEFAULT, SITE_LINK_NAME, SITE_LINK_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id
 from model.motto import motto as _motto
 from model.txt import txt_get, txt_new
+from urlparse import parse_qs, urlparse
+from ctrl.me.i import linkify
 
+DEFAULT_LINK_CID = tuple((i, j, '') for i, j in SITE_LINK_NAME)
 
 @urlmap('/new')
 class SiteNew(LoginBase):
@@ -21,17 +23,37 @@ class SiteNew(LoginBase):
             return self.finish('请认证')
         self.render(
             errtip=JsDict(),
+            link_cid=DEFAULT_LINK_CID,
+            link_list=[],
         )
 
     def post(self):
         current_user_id = self.current_user_id
         current_user = self.current_user
 
-        name = self.get_argument('name', None)
-        url = self.get_argument('url', None)
-        motto = self.get_argument('motto', None)
+        name = self.get_argument('name', '')
+        url = self.get_argument('url', '')
+        motto = self.get_argument('motto', '')
         txt = self.get_argument('txt', '')
-        sitetype = self.get_argument('sitetype', None)
+        sitetype = self.get_argument('sitetype', '')
+
+        arguments = parse_qs(self.request.body, True)
+        link_cid = []
+        link_kv = []
+        for cid, link in zip(arguments.get('cid'), arguments.get('link')):
+            cid = int(cid)
+            name = SITE_LINK_DICT[cid]
+            link_cid.append((cid, name, linkify(link, cid)))
+
+        for id, key, value in zip(
+            arguments.get('id'),
+            arguments.get('key'),
+            arguments.get('value')
+        ):
+            id = int(id)
+            link = linkify(value)
+
+            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
 
         errtip = Errtip()
 
@@ -63,6 +85,9 @@ class SiteNew(LoginBase):
                 _motto.set(zsite_id, motto)
             if txt:
                 txt_new(zsite_id, txt)
+
+            link_list_save(zsite_id, link_cid, link_kv)
+
             return self.redirect(zsite.link)
 
         self.render(
@@ -71,4 +96,6 @@ class SiteNew(LoginBase):
             motto=motto,
             url=url,
             txt=txt,
+            link_cid=link_cid,
+            link_list=link_kv,
         )

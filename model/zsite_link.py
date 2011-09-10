@@ -12,13 +12,26 @@ OAUTH_LINK_DEFAULT = (
     OAUTH_DOUBAN    ,
     OAUTH_SINA      ,
     OAUTH_QQ        ,
-#    OAUTH_TWITTER   ,
+    OAUTH_TWITTER   ,
 )
 
 OAUTH2NAME = tuple(
     (k, OAUTH2NAME_DICT[k]) for k in OAUTH_LINK_DEFAULT
 )
 
+SITE_LINK_DEFAULT = (
+    0,
+    OAUTH_DOUBAN,
+    OAUTH_SINA,
+    OAUTH_QQ,
+)
+SITE_LINK_NAME = (
+    (0, '官方网站'),
+    (OAUTH_DOUBAN, '豆瓣小站'),
+    (OAUTH_SINA, '新浪微博'),
+    (OAUTH_QQ, '腾讯微博'),
+)
+SITE_LINK_DICT = dict(SITE_LINK_NAME)
 
 mc_link_id_name = McCache('LinkIdName:%s')
 mc_link_id_cid = McCache('LinkIdCid:%s')
