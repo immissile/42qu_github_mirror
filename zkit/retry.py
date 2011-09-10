@@ -17,14 +17,16 @@ def retry(func):
             except :
                 time.sleep(0.1)
                 tries -= 1
-                sys.stdout.flush()
                 traceback.print_exc()
         return func(*args, **kwargs)
     return _
 
 @retry
 def urlfetch(url, data=None, timeout=30):
-    r = urllib2.urlopen(url, data, timeout=30)
-    c = r.read()
-    return c
+    try:
+        r = urllib2.urlopen(url, data, timeout=30)
+        c = r.read()
+        return c
+    except:
+        traceback.print_exc()
 

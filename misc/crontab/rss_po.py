@@ -7,6 +7,7 @@ from model.rss import RssPo, RSS_PRE_PO, RSS_POED
 def rss_po():
     for pre in RssPo.where(state=RSS_PRE_PO):
         htm2po_by_po(pre)
+        print pre.id
         pre.state = RSS_POED
         pre.save()
 
