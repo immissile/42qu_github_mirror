@@ -8,6 +8,8 @@ from zkit.htm2txt import htm2txt
 from model.po import po_note_new
 from model.po_pic import po_pic_new
 from model.state import STATE_DEL, STATE_ACTIVE
+from model.rss import rss_po_id, RSS_RT_PO
+from model.po_show import po_show_new
 
 #def htm2po(user_id, title, htm):
 #    po = po_note_new(user_id, title, '', STATE_DEL)
@@ -30,7 +32,10 @@ def htm2po_by_po(pre):
     po = po_note_new(
         pre.user_id, pre.title, txt, STATE_DEL
     )
+    
     po_id = po.id
+
+    rss_po_id(pre.rss_id, po_id)
 
     pic_list = json.loads(pre.pic_list)
 
@@ -43,5 +48,7 @@ def htm2po_by_po(pre):
     po.save()
 
     po.feed_new()
+    if pre.state == RSS_RT_PO:
+        po_show_new(po)
 
     return po
