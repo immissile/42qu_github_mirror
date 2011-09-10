@@ -1,6 +1,6 @@
 USER2RSS = """
 10009225 http://feed43.com/rexsong.xml 
-
+10000066 http://feed.feedsky.com/dreamcog_yo2
 
 """.strip().split('\n')
 
@@ -34,6 +34,6 @@ for rss in ormiter(Rss):
     if "feed/%s"%rss_url in subscription_list:
         continue
     
-
+    print "subscribe" , rss_url
     reader.subscribe(rss_url)
 
