@@ -205,7 +205,12 @@ color:#a10;
 border-bottom-color:#a10;
 }
 .video{
+display:block;
 background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
+}
+.sdw .video{
+width:677px;
+height:553px;
 }
 .fdbar{
 border-top:1px solid #eee;
