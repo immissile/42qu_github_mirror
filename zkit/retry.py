@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 import urllib2
 import time
+import sys
+import traceback
+
 def retry(func):
     def _(*args, **kwargs):
         tries = 2
@@ -24,3 +27,4 @@ def urlfetch(url, data=None, timeout=30):
     r = urllib2.urlopen(url, data, timeout=30)
     c = r.read()
     return c
+
