@@ -75,9 +75,8 @@ render_machine('krios', """
 zuroc
 zjd
 yup
-zwtaoo
-silegon
 work
+realfex
 """)
 
 render_machine('nuva', """
