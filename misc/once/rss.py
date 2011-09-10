@@ -1,4 +1,5 @@
 USER2RSS = """
+10000076 http://feed.uitony.com/
 10009225 http://feed43.com/rexsong.xml 
 10000066 http://feed.feedsky.com/dreamcog_yo2
 10002411 http://www.realfex.com/feed
