@@ -106,6 +106,7 @@ class Feed(JLoginBase):
                     t
                 ))
             else:
+                print "zsite_id", zsite_id
                 feed_rm(id)
         r.append(last_id)
         result = dumps(r)
