@@ -91,6 +91,13 @@ def host(id):
 def link(id):
     return '//%s' % host(id)
 
+
+def at_zsite(zsite):
+    return "@%s(%s)"%(
+        zsite.name,
+        url_or_id(zsite.id)
+    )
+
 if __name__ == '__main__':
     print id_by_url('Jarod')
     print host('10006523')
