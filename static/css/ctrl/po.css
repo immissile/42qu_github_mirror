@@ -95,11 +95,11 @@ height:46px;
 top:300px;
 }
 .sprev{
-margin-left:40px
+left:32px
 }
 .snext{
 background-image:url(/img/gif/gt3.gif);
-margin-left:911px;
+right:32px;
 }
 #photo{
 line-height:0;

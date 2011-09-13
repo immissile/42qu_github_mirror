@@ -22,12 +22,12 @@ if(!IE6){
     $(function(){
         var st = $('#sT');
         if(st[0]){
-            st.css('position','absolute')
+            st.css('position','fixed')
             var top = st.offset().top, win=$(window).scroll(function() {
                 if(win.scrollTop() >= top-16){
                     st.css({'position':'fixed',"marginTop":"-56px"})
                 }else{
-                    st.css({'position':'absolute',"marginTop":"96px"})
+                    st.css({'position':'fixed',"marginTop":"36px"})
                 }
             })
         }
