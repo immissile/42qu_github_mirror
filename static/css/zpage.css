@@ -65,13 +65,13 @@ background:url(/img/gif/back_home3.gif) no-repeat;
 bottom:14px;
 display:none;
 position:fixed;
-right:16px;
+right:22px;
 }
 #sT{
-position:fixed;
+position:absolute;
+right:28px;
 _position:absolute;
-margin-top:96px;
-margin-left:37px;
+margin-top:36px;
 background-image:url(/img/gif/list3.gif);
 width:29px;
 height:27px;

@@ -18,24 +18,57 @@ if zsite_id:
 else:
     request_host = request.host
 %>
-<div class="L">\
+<div class="L">
+%if request_host.startswith("hero."):
+<form class="search" action="/q">\
+<input autocomplete="off" id="search" type="text" name="q" value="${q or ''}">\
+<input class="search_btn" type="submit" value="">\
+</form>\
+<script>\
+$("#search").focus()\
+</script> 
+%else:
 <a
 href="//${request_host}"
 class="site">\
 ${request_host}\
-</a>\
-%if current_user_id:
-<div id="DL">\
-<a href="${current_user.link}/live">动态</a>\
-<a href="//meet.${SITE_DOMAIN}">活动</a>\
-<a href="//hero.${SITE_DOMAIN}">人物</a>\
-</div>\
+</a>
 %endif
 </div>\
 %if htm:
 ${htm|n}\
 %endif
-</div></div>\
+%if current_user_id:
+<%
+link = current_user.link
+%>
+<div class="D_nav">\
+<div class="D">\
+<a class="DA" href="javascript:void(0)">更多</a>\
+<div>\
+    <a href="${link}/i">资料</a>\
+    <a href="${link}/money/bill">账目</a>\
+    <a href="//help.${SITE_DOMAIN}">帮助</a>\
+    <a href="/logout?${_xsrf}">退出</a>\
+</div>\
+</div>\
+<div class="D">\
+<a class="DA" href="javascript:void(0)">我的</a>\
+<div>\
+    <a href="${link}">主页</a>\
+    <a href="${link}/following">关注</a>\
+    <a href="${link}/wall">留言</a>\
+    <a href="${link}/notice">提醒</a>\
+    <a href="${link}/fav">收藏</a>\
+</div>\
+</div>\
+<div class="D"><a class="DA" href="//hero.${SITE_DOMAIN}">人物</a></div>\
+<div class="D"><a class="DA" href="//meet.${SITE_DOMAIN}">活动</a></div>\
+<div class="D"><a class="DA" href="${link}/live">动态</a></div>\
+</div>\
+%endif
+</div>\
+</div>\
 </%def>
 
 
