@@ -17,19 +17,29 @@ if zsite_id:
     request_host = host(zsite_id)
 else:
     request_host = request.host
-%>\
-<div class="L">\
+%>
+<div class="L">
+%if request_host.startswith("hero."):
+<form class="search" action="/q">\
+<input autocomplete="off" id="search" type="text" name="q" value="${q or ''}">\
+<input class="search_btn" type="submit" value="">\
+</form>\
+<script>\
+$("#search").focus()\
+</script> 
+%else:
 <a
 href="//${request_host}"
 class="site">\
 ${request_host}\
-</a>\
+</a>
+%endif
 </div>\
 %if htm:
 ${htm|n}\
 %endif
 %if current_user_id:
-<div>\
+<div class="D_nav">\
 <div class="D"><a class="DA" href="//hero.${SITE_DOMAIN}">人物</a></div>\
 <div class="D"><a class="DA" href="//meet.${SITE_DOMAIN}">活动</a></div>\
 <div class="D"><a class="DA" href="${current_user.link}/live">动态</a></div>\
