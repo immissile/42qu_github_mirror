@@ -35,7 +35,7 @@ if notice_unread > 99:
 
 
 
-<%def name="h_nav_inner()">
+##<%def name="h_nav_inner()">
 ##<%
 ##    link = current_user.link
 ##%>
@@ -58,7 +58,7 @@ if notice_unread > 99:
 ##    <a href="${link}/fav">收藏</a>\
 ##</div>\
 ##</div>
-</%def>
+##</%def>
 
 
 
@@ -72,9 +72,6 @@ if notice_unread > 99:
     link = current_user.link
 %>\
 ${_h_nav_notice()}\
-%if zsite_id == current_user_id:
-${self.h_nav_inner()}\
-%endif
 %else:
 <div class="D"><a href="${SITE_URL|n}/auth/login" class="DA">登录</a></div>\
 <div class="D"><a href="${SITE_URL|n}/auth/reg" class="DA">注册</a></div>\
