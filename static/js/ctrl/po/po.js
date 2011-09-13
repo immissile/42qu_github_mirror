@@ -35,12 +35,9 @@ if(!IE6){
     })
 }
 $(function(){
-    var pre = $(".sprev")
-    var nxt = $(".snext")
-    var po = $(".po_body")
-    if(pre.offset().left>=po.offset().left||nxt.offset().left-po.offset().left<=po.width()){
-        pre.css('display','none')
-        nxt.css('display','none')
+    if($(window).width()<827){
+        $(".sprev,.snext").hide()
+        
     }
 })
 
