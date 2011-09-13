@@ -7,7 +7,7 @@ from model.po import Po, PO_SHARE_FAV_CID
 from yajl import dumps
 from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
 from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN, dump_zsite
-from model.feed import feed_rt, feed_rt_rm, feed_rt_id
+from model.feed import feed_rt, feed_rt_rm, feed_rt_id, feed_rm
 from model.ico import pic_url_with_default
 from model.cid import CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_WORD, CID_EVENT
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
@@ -96,14 +96,17 @@ class Feed(JLoginBase):
                 t.append(i[1:])
 
             unit, title = c_dict[zsite_id]
-            r.append((
-                zsite.name,
-                zsite.link,
-                unit,
-                title,
-                pic_url_with_default(zsite_id, '219'),
-                t
-            ))
+            if zsite:
+                r.append((
+                    zsite.name,
+                    zsite.link,
+                    unit,
+                    title,
+                    pic_url_with_default(zsite_id, '219'),
+                    t
+                ))
+            else:
+                feed_rm(id)
         r.append(last_id)
         result = dumps(r)
         self.finish(result)
