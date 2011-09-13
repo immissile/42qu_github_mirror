@@ -1,6 +1,6 @@
 rm = _rm("#reply","/po/reply/rm/")
+$(function(){$(".G,.G4").css('position','static')})
 $("#txt_form").elastic_login()
-
 $(".reply_at").live("click", function(){
     var txt=$("#reply_txt").focus(),
         val=txt.val(),
@@ -22,12 +22,12 @@ if(!IE6){
     $(function(){
         var st = $('#sT');
         if(st[0]){
-            st.css('position','fixed')
+            st.css('position','absolute')
             var top = st.offset().top, win=$(window).scroll(function() {
                 if(win.scrollTop() >= top-16){
                     st.css({'position':'fixed',"marginTop":"-56px"})
                 }else{
-                    st.css({'position':'fixed',"marginTop":"36px"})
+                    st.css({'position':'absolute',"marginTop":"36px"})
                 }
             })
         }

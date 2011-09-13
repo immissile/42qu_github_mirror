@@ -68,10 +68,10 @@ position:fixed;
 right:22px;
 }
 #sT{
-position:fixed;
+position:absolute;
+right:28px;
 _position:absolute;
 margin-top:36px;
-right:28px;
 background-image:url(/img/gif/list3.gif);
 width:29px;
 height:27px;

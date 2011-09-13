@@ -9,8 +9,10 @@ from model.event import event_count_by_city_pid_cid, event_cid_name_count_by_cit
 %>
 
 <h1>
-<span class="L">${place_name(pid)}</span>
-<a class="c9" href="/city/select">切换</a>
+<span class="L">${place_name(pid)}<a class="c9" href="/city/select">切换</a></span>
+%if current_user:
+<a href="${current_user.link}/po/event">创建</a>
+%endif
 </h1>
 <div class="G">
 <div class="G1">
