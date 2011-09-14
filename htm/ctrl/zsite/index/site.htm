@@ -4,6 +4,65 @@
 %>
 
 <%def name="htm_head()">
+
+<style>
+h1{
+border-bottom:1px dotted #ccc;
+padding:16px 0;
+font-size: 16px;
+text-align: center;
+}
+.touch{
+border: 1px dotted #ccc;
+border-right:0;
+padding: 0px 1px 1px;
+overflow: hidden;
+font-size: 14px;
+margin-top: -17px;
+float: left;
+text-align: center;
+position: absolute;
+}
+.touch a{
+padding: 14px;
+color:#999;
+border-right: 1px dotted #ccc;
+}
+.event_list{
+margin-top:32px;
+}
+.event_po{
+margin-top: -4px;
+padding-bottom: 16px;
+border-bottom:1px dotted #ccc;
+margin-bottom:32px;
+}
+.event_ti{
+margin-bottom: 32px;
+border-bottom:1px dotted #ccc;
+border-top:1px dotted #ccc;
+margin-top: -31px;
+text-align: right;
+padding: 6px 0;
+}
+.ti_txt{
+float: left;
+background: url('arrow1_e.gif') no-repeat scroll 0pt 6px transparent;
+font-size: 14px;
+padding-left: 22px;
+}
+.ti_time{
+padding-left: 12px;
+padding-top: 10px;
+padding-bottom: 10px;
+color:#000;
+}
+.event_txt{
+float:left;
+margin-top:-10px;
+}
+</style>
+
 </%def>
 
 <%def name="htm_title()">
@@ -12,6 +71,42 @@ ${zsite.name}
  - ${motto}
 %endif
 </%def>
+
+
+
+<h1>
+    <div class="touch">
+        <a href="#" >关注</a>
+        <a href="#">投递</a>
+    </div>
+    <span>Python 程序爱好者</span>
+</h1>
+
+<div class="G">
+    <a href="http://meet.42qu.com/4295032832/ago"></a>
+    <div class="G3">
+        <a href="http://meet.42qu.com/4295032832/ago"></a>
+        <div class="event_list">
+            <a href="http://meet.42qu.com/4295032832/ago"></a>
+            <div class="c event_po">
+                <div class="event_ti">
+                    <span class="ti_txt">信息架构</span>
+                    <a class="ti_time" href="#">2011 - 09 - 25</a>
+                </div>
+                <div class="event_txt C">
+                          
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="G1">
+    </div>
+</div>
+
+
+
+
+
 
 
 
