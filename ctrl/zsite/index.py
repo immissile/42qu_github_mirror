@@ -9,8 +9,8 @@ from model.zsite_admin import admin_id_list_by_zsite_id
 
 
 ZSITE_INDEX_TEMPLATE = {
-    CID_USER: 'ctrl/zsite/index/index.htm',
-    CID_SITE: 'ctrl/zsite/index/site.htm',
+    CID_USER: 'user',
+    CID_SITE: 'site',
 }
 
 
@@ -19,7 +19,7 @@ class Index(ZsiteBase):
     def get(self):
         zsite_id = self.zsite_id
         self.render(
-            ZSITE_INDEX_TEMPLATE[zsite.cid],
+            "ctrl/zsite/index/%s.htm"%ZSITE_INDEX_TEMPLATE[zsite.cid],
             motto=motto.get(zsite_id),
         )
 
