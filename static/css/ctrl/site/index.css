@@ -1,6 +1,6 @@
 #site_page{
-margin: auto;
-float: none;
+margin:auto;
+float:none;
 }
 h1{
 width: 721px;
@@ -18,7 +18,7 @@ margin-top:-7px;
 .site_po{
 border-bottom:1px dotted #ccc;
 margin-bottom:32px;
-padding-bottom:32px;
+padding-bottom:28px;
 }
 .site_img{
 width: 96px;
@@ -34,9 +34,6 @@ padding-bottom: 11px;
 text-align:left;
 margin-top:4px;
 font-size:14px;
-}
-.po_text{
-margin-bottom: -10px;
 }
 .po_num{
 text-align: left;
