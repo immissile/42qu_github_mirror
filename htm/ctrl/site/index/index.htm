@@ -3,73 +3,7 @@
 <%!
 %>
 <%def name="htm_head()">
-
-
-<style>
-
-#G3{
-margin: auto;
-float: none;
-}
-h1{
-width: 721px;
-margin: auto;
-text-align: left;
-border-bottom:1px dotted #ccc;
-font-size:16px;
-padding:16px 0;
-}
-.site_txt{
-width:599px;
-float:left;
-margin-top:-7px;
-}
-.site_po{
-border-bottom:1px dotted #ccc;
-margin-bottom:32px;
-padding-bottom:32px;
-}
-.site_img{
-width: 96px;
-padding: 3px;
-border: 1px solid #eee;
-background-color:#f9f9f9;
-float:left;
-margin-right:17px;
-}
-.po_ti{
-border-bottom-width: 1px;
-padding-bottom: 11px;
-text-align:left;
-margin-top:4px;
-font-size:14px;
-}
-.po_text{
-margin-bottom: -10px;
-}
-.po_num{
-text-align: left;
-margin-top: 13px;
-}
-.po_fo{
-background-color:#666;
-color:#fff;
-padding: 2px 4px;
-vertical-align: 1px;
-font-size: 10px;
-font-family: Verdana;
-}
-.po_no{
-font-size: 10px;
-border-bottom: 1px solid #333;
-vertical-align: 2px;
-}
-.lk{
-margin:12px;
-}
-</style>
-
-
+${css.ctrl_site_index|n}
 </%def>
 
 <%def name="htm_title()">
@@ -98,14 +32,14 @@ margin:12px;
 <h1>
     <a class="f14" href="http://meet.42qu.com/city/select">创建站点</a>
     <span class="f14 R">
-        <a class="c0" href="http://meet.42qu.com/">所有</a><span class="c9 lk">-</span><a href="http://meet.42qu.com/" class="c9">我的</a>
+        <a class="c0" href="http://meet.42qu.com/">所有</a><span class="c9 split">-</span><a href="http://meet.42qu.com/" class="c9">我的</a>
     </span>
 </h1>
 
 
 <div class="G">
-    <div class="G3" id="G3">
-        <div class="site_list, mt32">
+    <div class="G3" id="site_page">
+        <div class="site_list mt32">
             %for i in range(3):
                 ${site_li()}
             %endfor
