@@ -277,21 +277,21 @@ class PoOne(ZsiteBase):
             prev_id = next_id = zsite_tag_id = tag_name = None
             event = Event.mc_get(id)
             if event.state <= EVENT_STATE_TO_REVIEW:
-                tag_link = "/event/to_review"
+                tag_link = '/event/to_review'
             else:
-                tag_link = "/event"
+                tag_link = '/event'
         elif cid == CID_EVENT_NOTICE:
             prev_id = next_id = zsite_tag_id = tag_name = None
-            tag_link = "/%s"%po.rid
+            tag_link = '/%s'%po.rid
         else:
             zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
             if zsite_tag_id:
                 prev_id, next_id = po_prev_next(
                     cid, zsite_id, zsite_tag_id, po.id
                 )
-                tag_link = "/tag/%s" % zsite_tag_id
+                tag_link = '/tag/%s' % zsite_tag_id
             else:
-                tag_link = "/po/cid/%s"%cid
+                tag_link = '/po/cid/%s'%cid
 
         return self.render(
             self.template,
@@ -317,11 +317,14 @@ class Question(PoOne):
         po_pos_state(user_id, po.id, STATE_BUZZ)
 
     def post(self, id):
+        user_id = self.current_user_id
+        if not user_id:
+            return request.redirect("/auth/login")
+
         question = self.po(id)
         if question is None:
             return
 
-        user_id = self.current_user_id
         txt = self.get_argument('txt', '')
         if not question.can_view(user_id) or not txt:
             return self.get(id)

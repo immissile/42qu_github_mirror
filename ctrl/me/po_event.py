@@ -43,7 +43,7 @@ class Index(LoginBase):
         if id:
             event = Event.mc_get(id)
             if event.zsite_id != self.current_user_id:
-                return self.redirect("/%s"%id)
+                return self.redirect('/%s'%id)
             can_change = event.can_change()
         else:
             event = None
@@ -168,7 +168,7 @@ def po_event_edit_post(self, id, event, can_change, event_new):
         if limit_down > limit_up:
             limit_up, limit_down = limit_down, limit_up
         if limit_down < 0:
-            errtip.limit_down = "人数不能为负数"
+            errtip.limit_down = '人数不能为负数'
 
         if not address:
             errtip.address = '请输入详细地址'

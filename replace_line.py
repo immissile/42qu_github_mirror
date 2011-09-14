@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-event_join_apply_list
+get_rss_po
 """
 
 TO_STRING = """
-event_join_apply_list
+rss_po_list_by_state
 """
 
 def run():

@@ -1,0 +1,107 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.rss import RSS_PRE_PO,RSS_RM
+from model.po_pic import pic_rss
+import json
+from model.zsite import Zsite
+from zkit.txt import cnenoverflow
+from model.zsite_url import url_by_id
+%>
+
+<%def name="htm_head()">
+<style>
+.rss{
+border-bottom:1px dotted #ccc;margin-bottom:14px;padding-bottom:14px
+}
+.rss pre,.rss form{display:none}
+.rm{
+margin-right:128px;
+}
+.edit{
+margin-left:128px;
+}
+.txt{
+width:721px;
+padding:3px 0;
+height:300px;
+}
+</style>
+<script>
+function ext(id){
+    $("#txt"+id).hide() 
+    $("#pre"+id).show()
+    $("#ext"+id).hide()
+     
+}
+
+function edit(id){
+    $("#txt"+id).hide() 
+    $("#pre"+id).hide() 
+    $("#form"+id).show() 
+    $("#ext"+id).hide()
+    $("#bar"+id).hide() 
+}
+
+function save(id){
+    $.fancybox.showActivity(); 
+    $.post(
+        "/rss/edit/"+id, 
+        {"txt":$("#textarea"+id).val()},
+        function(){
+            $.fancybox.hideActivity();
+            $("#form"+id).hide() 
+            $("#bar"+id).show().prepend("保存成功 ") 
+        }
+    )
+    return false
+}
+</script>
+</%def>
+${page|n}
+
+% if rss_po_list:
+% for p in rss_po_list:
+<%
+id,link,user_id,title,htm,pic_list = p
+user = Zsite.mc_get(user_id)
+txt = htm
+pic_list = json.loads(pic_list)
+txt_cut, has_more = cnenoverflow(txt, 164)
+url = url_by_id(user_id)
+%>
+%if pic_list:
+<%
+pic_list = ['<div class="PIC"><img src="%s"></div>'%i for i in pic_list]
+htm = pic_rss(htm,pic_list)
+%>
+%endif
+
+<div class="rss">
+<div class="tr"><span class="L">
+%if user:
+<a href="${user.link}" target="_blank">${user.name}
+%if url:
+( ${url_by_id(user_id)} )
+%endif
+</a> :
+%endif
+${title}</span>
+<a href="/rss/${RSS_RM}/${id}" class="rm">删除</a>
+<a target="_blank" href="${link}">原文</a></div>
+<pre>
+</pre>
+<div id="txt${id}">${txt_cut}</div>
+<div id="bar${id}"><a id="ext${id}" href="javascript:ext(${id})">展开</a><a href="javascript:edit(${id})" class="edit">编辑</a></div>
+<pre id="pre${id}">${htm|n}</pre>
+
+<form action="/rss/${id}" method="POST" id="form${id}" onsubmit="return save(${id})">
+<div>
+    <textarea id="textarea${id}" class="txt" name="txt">${txt}</textarea>
+</div>
+<span class="btnw"><button type="submit">保存</button></span>
+</form>
+</div>
+%endfor
+% endif
+${page|n}

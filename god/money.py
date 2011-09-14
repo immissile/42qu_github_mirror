@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.money import withdraw_list, Trade, withdraw_fail, pay_account_name_get,  withdraw_success
+from model.money import withdraw_list, Trade, withdraw_fail, pay_account_name_get, withdraw_success
 from model.mail import sendmail, rendermail
 from model.user_mail import mail_by_user_id
 
@@ -29,5 +29,5 @@ class WithDraw(Base):
         else:
             trade_no = self.get_argument('trade_no', '').strip()
             if trade_no:
-                withdraw_success(id,trade_no)
+                withdraw_success(id, trade_no)
         return self.redirect('/withdraw')

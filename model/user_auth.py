@@ -21,7 +21,7 @@ def mail_password_verify(mail, password):
     user_id = user_id_by_mail(mail)
     if user_id:
         p = UserPassword.get(user_id)
-        if p.password == hash_password(user_id,password):
+        if p.password == hash_password(user_id, password):
             return True
 
 

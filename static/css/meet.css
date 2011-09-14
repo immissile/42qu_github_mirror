@@ -26,3 +26,8 @@ border-bottom:1px dotted #ccc;
 .event_list{
 margin-top:32px;
 }
+h1 .select{
+font-size: 12px;
+margin-left: 14px;
+color:#999
+}

@@ -42,7 +42,6 @@
 .HN{
     float:right;
     margin-right:-16px;
-    margin-top:1px;
 }
 #H .H{
     width: 972px;
@@ -66,6 +65,10 @@
     font-family: Trebuchet MS;
     color: #a10;
     margin-right:16px;
+}
+
+#H .D_nav{
+    margin-right:-16px;
 }
 
 #H .D div a:hover{

@@ -112,9 +112,9 @@ def search(keywords, offset, limit):
 
     return Zsite.mc_get_list(r), count
 
-if __name__ == "__main__":
-    print search("bjwdk2008@163.com",0,111)
-    print search("zsp007@gmail.com",0,111)
-    print search("王兴",0,111)
-    print search("美团网",0,111)
-    print search("美团",0,111)
+if __name__ == '__main__':
+    print search('bjwdk2008@163.com', 0, 111)
+    print search('zsp007@gmail.com', 0, 111)
+    print search('王兴', 0, 111)
+    print search('美团网', 0, 111)
+    print search('美团', 0, 111)

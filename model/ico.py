@@ -123,7 +123,7 @@ if __name__ == '__main__':
     from _db import mc
     mc = mc.mc
     for i in range(100000):
-        mc.set("1",1)
-        mc.delete("1")
-        if mc.get("1"):
-            print "!!!"
+        mc.set('1', 1)
+        mc.delete('1')
+        if mc.get('1'):
+            print '!!!'

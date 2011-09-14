@@ -433,8 +433,8 @@ class BindItem(LoginBase):
 
     def post(self, id):
         user_id = self.current_user_id
-        cid_list = self.get_arguments("cid")
-        cid_list = set(map(int,cid_list))
+        cid_list = self.get_arguments('cid')
+        cid_list = set(map(int, cid_list))
         for i in SYNC_CID:
             if i in cid_list:
                 state = 1

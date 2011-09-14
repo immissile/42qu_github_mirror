@@ -8,6 +8,7 @@ from model.state import STATE_DEL
 from model.po_show import po_show_count
 from model.pic_review import pic_to_review_count_by_cid
 from model.reply import Reply
+from model.rss import rss_po_total, RSS_UNCHECK,Rss 
 from model.event import Event, EVENT_STATE_TO_REVIEW
 %>\
 <!doctype html>\
@@ -81,6 +82,10 @@ event_to_review_max = event_to_review_max_li and event_to_review_max_li[0] or 0
 <a class="cola" href="/po/show"><span class="R">${po_show_count(0)}</span>广播</a>
 <a class="cola" href="/event"><span class="R">${Event.where().count()}</span>全部活动</a>
 
+<p class="coltitle">RSS</p>
+<a class="cola" href="/rss_index#${Rss.max_id()}"><span class="R">${rss_po_total(RSS_UNCHECK)}</span>审核</a>
+
+
 <p class="coltitle">回复</p>
 <a class="cola" href="/reply_list/${CID_USER}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_USER).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_USER).count()}</span>留言</a>
 <a class="cola" href="/reply_list/${CID_NOTE}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_NOTE).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_NOTE).count()}</span>文章</a>
@@ -102,7 +107,6 @@ event_to_review_max = event_to_review_max_li and event_to_review_max_li[0] or 0
     ><span class="R">${pic_to_review_count}</span>待审核</a>
 <a class="cola tc" href="/pic/reviewed${CID_ICO}/1">已通过</a>
 <a class="cola tc" href="/pic/reviewed${CID_ICO}/0">被删除</a>
-
 
 <p class="coltitle">公告</p>
 <a class="cola tc" href="/buzz/sys">提交</a>

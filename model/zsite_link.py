@@ -133,4 +133,4 @@ if __name__ == '__main__':
     #http://zuroc.zuroc.xxx/link/8
 
     #print zhendi
-
+    #print link_id_name_by_zsite_id(10000000)
