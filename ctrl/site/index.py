@@ -12,3 +12,5 @@ PAGE_LIMIT = 25
 class Index(Base):
     def get(self):
         return self.render()
+
+
