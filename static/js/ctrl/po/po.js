@@ -39,7 +39,7 @@ $(function(){
         $(".sprev,.snext").hide()
         
     }
-});
+})
 (function(){
 
     var INPUT_FOCUS;
@@ -55,12 +55,7 @@ $(function(){
                 id="snext"
                 break
             }
-            if (id) {
-                id = $('.'+id)
-                if (id) {
-                    location.href = id.attr('href')
-                }
-            }
+            id && $('.'+id).click()
         }
     })
     
@@ -74,4 +69,4 @@ $(function(){
     $(input_ban)
     $(document).ajaxComplete(input_ban)
 
-})();
+})
