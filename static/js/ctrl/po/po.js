@@ -55,12 +55,7 @@ $(function(){
                 id="snext"
                 break
             }
-            if (id) {
-                id = $('.'+id)
-                if (id) {
-                    location.href = id.attr('href')
-                }
-            }
+            id && $('.'+id).click()
         }
     })
     
