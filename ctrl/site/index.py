@@ -13,4 +13,12 @@ class Index(Base):
     def get(self):
         return self.render()
 
+@urlmap('/new')
+class New(Base):
+    def get(self):
+        return self.render()
+
+
+
+
 
