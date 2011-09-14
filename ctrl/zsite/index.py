@@ -18,6 +18,7 @@ ZSITE_INDEX_TEMPLATE = {
 class Index(ZsiteBase):
     def get(self):
         zsite_id = self.zsite_id
+        zsite = self.zsite
         self.render(
             "ctrl/zsite/index/%s.htm"%ZSITE_INDEX_TEMPLATE[zsite.cid],
             motto=motto.get(zsite_id),
