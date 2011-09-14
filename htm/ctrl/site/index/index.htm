@@ -1,0 +1,50 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+
+<%!
+%>
+<%def name="htm_head()">
+<style>
+</style>
+</%def>
+
+<%def name="htm_title()">
+站点
+</%def>
+
+
+<%def name="site_li()">
+<div class="c site_po">
+
+    <a href="http://melody.42qu.com/10082995"><img style="width: 96px; padding: 3px; border: 1px solid rgb(238, 238, 238); background: none repeat scroll 0% 0% rgb(249, 249, 249);" src="http://p4.42qu.us/96/200/37064.jpg" class="site_img"></a>
+    <div class="site_txt c">
+        <div style="border-bottom-width: 1px; padding-bottom: 11px;" class="po_name"><a href="http://melody.42qu.com/10082995" class="c0">Python 爱好者</a></div>
+        <div style="margin-bottom: -10px;">
+
+            <span style="">我们需要很多很多的有温暖声音的你有空就来给大家念故事或唱歌我们需要很多很多的有温暖声音的你有空就来给大家念故事或唱歌</span>
+            <div style="text-align: left; margin-top: 13px;">
+                <span class=""><a style="background: none repeat scroll 0% 0% rgb(102, 102, 102); color: rgb(255, 255, 255); padding: 2px 4px; vertical-align: 1px; font-size: 10px; font-family: Verdana;" href="#">96</a> 关注 &amp; <span style="font-size: 10px; border-bottom: 1px solid rgb(51, 51, 51); vertical-align: 2px;">312</span> 贴子</span>
+            </div>
+        </div>
+    </div>
+</div>
+</%def>
+
+
+<h1 style="width: 721px; margin: auto; text-align: left;">
+ 
+<a style="font-size: 14px;" class="" href="http://meet.42qu.com/city/select">创建站点</a>
+<span style="font-size: 14px; float: right;"><a class="c0" href="http://meet.42qu.com/">所有</a><span style="margin: 12px; color: rgb(153, 153, 153);">-</span><a href="http://meet.42qu.com/" class="c9">我的</a></span>
+</h1>
+
+
+<div class="G">
+    <div style="margin: auto; float: none;" class="G3">
+        <div class="site_list">
+%for i in range(3):
+    ${site_li()}
+%endfor
+        </div>   
+    </div>
+</div>
+
+
