@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from _handler import Base, LoginBase, XsrfGetBase
+from _handler import Base
 from ctrl._urlmap.site import urlmap
 from zkit.jsdict import JsDict
 from zkit.page import page_limit_offset
