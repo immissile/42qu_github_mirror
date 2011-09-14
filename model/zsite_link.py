@@ -6,7 +6,7 @@ from hashlib import sha256
 from zsite import zsite_new_user, Zsite
 from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
 from oauth import OAUTH2NAME_DICT, OAUTH_DOUBAN, OAUTH_SINA,\
-OAUTH_QQ, OAUTH_TWITTER
+OAUTH_QQ, OAUTH_TWITTER, OAUTH_MY
 from model.zsite_url import link
 
 OAUTH_LINK_DEFAULT = (
@@ -15,6 +15,15 @@ OAUTH_LINK_DEFAULT = (
     OAUTH_QQ        ,
     OAUTH_TWITTER   ,
 )
+
+SITE_LINK_NAME = (
+    (OAUTH_MY, '官方网站'),
+    (OAUTH_DOUBAN, '豆瓣小站'),
+    (OAUTH_SINA, '新浪微博'),
+    (OAUTH_QQ, '腾讯微博'),
+)
+
+SITE_LINK_ZSITE_DICT = dict(SITE_LINK_NAME)
 
 OAUTH2NAME = tuple(
     (k, OAUTH2NAME_DICT[k]) for k in OAUTH_LINK_DEFAULT

@@ -1,6 +1,7 @@
 #coding:utf-8
 from _db import cursor_by_table, McNum, Model, McCache
 
+OAUTH_MY = 0
 OAUTH_GOOGLE = 1
 OAUTH_DOUBAN = 2
 OAUTH_SINA = 3
