@@ -56,7 +56,10 @@ $(function(){
                 id="snext"
                 break
             }
-            id && $('.'+id).click()
+            if(id){
+                id=$('.'+id)[0]
+                id&&id.click()
+            }
         }
     })
     
