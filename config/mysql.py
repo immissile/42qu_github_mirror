@@ -60,6 +60,7 @@ DB_MAIN_TABLE = (
     "rss_po",
     "rss",
     'search_zsite',
+    'txt_history',
 )
 
 DB_GOOGLE_TABLE = (

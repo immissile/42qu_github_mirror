@@ -27,6 +27,11 @@ application.add_handlers(
     handlers(_urlmap.meet, _urlmap.auth)
 )
 
+import _urlmap.site
+application.add_handlers(
+    'site\.%s'%RE_SITE_DOMAIN,
+    handlers(_urlmap.site, _urlmap.auth)
+)
 
 import _urlmap.main
 import _urlmap.auth

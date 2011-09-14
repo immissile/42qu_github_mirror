@@ -18,7 +18,7 @@ zsite_url = zsite.link
 <h1>${po.name}</h1>
 <pre class="prebody">${po.htm|n}\
 <p class="po_bar">\
-%if can_admin:
+%if can_admin and current_user_id:
 <span class="L"><a href="${po.link_edit}">编辑</a></span>\
 %endif
 <span><a href="${zsite_url}">${zsite.name}</a>\

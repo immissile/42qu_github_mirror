@@ -1,7 +1,10 @@
 USER2RSS = """
+10000076 http://feed.uitony.com/
 10009225 http://feed43.com/rexsong.xml 
 10000066 http://feed.feedsky.com/dreamcog_yo2
-
+10002411 http://www.realfex.com/feed
+10000566 http://xlvector.net/blog/?feed=rss2
+10066567 http://blog.sina.com.cn/rss/1677574270.xml
 """.strip().split('\n')
 
 

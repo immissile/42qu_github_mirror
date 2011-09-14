@@ -45,17 +45,16 @@ def _upload_pic(files, current_user_id):
             error_pic = '图片格式有误'
     return error_pic
 
+def linkify(link, cid=0):
+    link = link.strip().split(' ', 1)[0]
+    if link:
+        if cid in OAUTH2URL and RE_URL.match(link):
+            link = OAUTH2URL[cid] % link
+        elif not link.startswith('http://') and not link.startswith('https://'):
+            link = 'http://%s'%link
+    return link
 
 class LinkEdit(LoginBase):
-    def _linkify(self, link, cid=0):
-        link = link.strip().split(' ', 1)[0]
-        if link:
-            if cid in OAUTH2URL and RE_URL.match(link):
-                link = OAUTH2URL[cid] % link
-            elif not link.startswith('http://') and not link.startswith('https://'):
-                link = 'http://%s'%link
-
-        return link
 
     def get(self):
         zsite_id = self.zsite_id
@@ -92,7 +91,7 @@ class LinkEdit(LoginBase):
         for cid, link in zip(arguments.get('cid'), arguments.get('link')):
             cid = int(cid)
             name = OAUTH2NAME_DICT[cid]
-            link_cid.append((cid, name, self._linkify(link, cid)))
+            link_cid.append((cid, name, linkify(link, cid)))
 
 
         for id, key, value in zip(
@@ -101,7 +100,7 @@ class LinkEdit(LoginBase):
             arguments.get('value')
         ):
             id = int(id)
-            link = self._linkify(value)
+            link = linkify(value)
 
             link_kv.append((id, key.strip() or urlparse(link).netloc, link))
 

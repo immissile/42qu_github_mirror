@@ -40,32 +40,38 @@ $(function(){
         
     }
 })
-INPUT_FOCUS = null
-$(document).keyup(function (e) {
-    if (!INPUT_FOCUS && !(e.ctrlKey || e.shiftKey || e.altKey) ) {
-        var id
-        switch (e.keyCode) {
-            case 37://←
-            id="sprev"
-            break
-            case 39://→
-            id="snext"
-            break
-        }
-        if (id) {
-            id = $('.'+id)
+(function(){
+
+    var INPUT_FOCUS;
+    
+    $(document).keyup(function (e) {
+        if (!INPUT_FOCUS && !(e.ctrlKey || e.shiftKey || e.altKey) ) {
+            var id
+            switch (e.keyCode) {
+                case 37://←
+                id="sprev"
+                break
+                case 39://→
+                id="snext"
+                break
+            }
             if (id) {
-                location.href = id.attr('href')
+                id = $('.'+id)
+                if (id) {
+                    location.href = id.attr('href')
+                }
             }
         }
-    }
-})
-function input_ban () {
-    $('input, textarea').live('focus',function () {
-        INPUT_FOCUS = this
-    }).live('blur',function () {
-        INPUT_FOCUS = null
     })
-}
-$(input_ban)
-$(document).ajaxComplete(input_ban)
+    
+    function input_ban () {
+        $('input, textarea').live('focus',function () {
+            INPUT_FOCUS = this
+        }).live('blur',function () {
+            INPUT_FOCUS = null
+        })
+    }
+    $(input_ban)
+    $(document).ajaxComplete(input_ban)
+
+})

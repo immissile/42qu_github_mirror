@@ -317,11 +317,14 @@ class Question(PoOne):
         po_pos_state(user_id, po.id, STATE_BUZZ)
 
     def post(self, id):
+        user_id = self.current_user_id
+        if not user_id:
+            return request.redirect("/auth/login")
+
         question = self.po(id)
         if question is None:
             return
 
-        user_id = self.current_user_id
         txt = self.get_argument('txt', '')
         if not question.can_view(user_id) or not txt:
             return self.get(id)
