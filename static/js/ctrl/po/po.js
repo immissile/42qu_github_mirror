@@ -57,7 +57,8 @@ $(function(){
             }
             if (id) {
                 id = $('.'+id)
-                if (id) {
+                var href = id.attr('href')
+                if (href!=null && $.trim(href)!="") {
                     location.href = id.attr('href')
                 }
             }
