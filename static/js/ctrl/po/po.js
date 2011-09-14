@@ -74,4 +74,4 @@ $(function(){
     $(input_ban)
     $(document).ajaxComplete(input_ban)
 
-})
+})()
