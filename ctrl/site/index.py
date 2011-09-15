@@ -63,6 +63,8 @@ class New(LoginBase):
                 (cid, name, linkify(link, cid))
             )
 
+            
+
         for id, key, value in zip(
             arguments.get('id',[]),
             arguments.get('key',[]),
@@ -98,6 +100,17 @@ class New(LoginBase):
         if url:
             errtip.url = url_valid(url)
 
+
+        if errtip:
+            for cid, link_name in SITE_LINK_NAME:
+                if cid not in set(i[0] for i in link_cid):
+                    link_cid.append(
+                        (
+                            cid,
+                            link_name, 
+                            ''
+                        )
+                    )
 
         return self.render(
             errtip=errtip,
