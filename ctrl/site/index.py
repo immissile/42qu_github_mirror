@@ -80,7 +80,8 @@ class New(LoginBase):
 #        link_list_save(zsite_id, link_cid, link_kv)
 
         files = self.request.files
-        
+        pic_id = None
+ 
         if 'pic' in files:
             pic = files['pic'][0]['body']
             pic = picopen(pic)
@@ -89,7 +90,12 @@ class New(LoginBase):
             else:
                 errtip.pic = '图片格式有误'
         else:
-            errtip.pic = "请上传图片"
+            pic_id = self.get_argument('pic_id',None)
+            if not pic_id:
+                errtip.pic = "请上传图片"
+
+
+
 
         if not name:
             errtip.name = "请输入名称"
