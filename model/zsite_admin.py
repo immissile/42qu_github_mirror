@@ -58,4 +58,5 @@ def zsite_admin_empty(zsite_id):
         mc_zsite_id_list_by_admin_id.delete(admin_id)
     mc_admin_id_list_by_zsite_id.delete(zsite_id)
 
-
+if __name__ == "__main__":
+    pass

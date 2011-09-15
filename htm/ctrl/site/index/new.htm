@@ -3,12 +3,11 @@ from config import SITE_DOMAIN
 from model.zsite import ZSITE_STATE_VERIFY
 from model.zsite_link import SITE_LINK_ZSITE_DICT
 %>
+<%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%namespace file="/ctrl/_util/site/link.htm" name="link"/>
 <%
 state = current_user.state
 %>
-<%inherit file="../_base.htm" />
 <%def name="htm_head()">
 <style>
 form{
@@ -73,6 +72,5 @@ ${errtip.url|n}
 </select>
 <span style="color:#a10;margin-left:16px">注意 : 此设置无法修改</span>
 </div>
-${link.body()}
 <span class="btnw"><button type="submit">确定</button></span>
 </%htm:form>
