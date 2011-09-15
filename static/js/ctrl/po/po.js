@@ -39,7 +39,8 @@ $(function(){
         $(".sprev,.snext").hide()
         
     }
-})
+});
+
 (function(){
 
     var INPUT_FOCUS;
@@ -55,11 +56,10 @@ $(function(){
                 id="snext"
                 break
             }
-            if (id) {
-                id = $('.'+id)
-                var href = id.attr('href')
-                if (href!=null && $.trim(href)!="") {
-                    location.href = id.attr('href')
+            if(id){
+                id = $('.'+id)[0]
+                if(id){
+                    location = id.href
                 }
             }
         }
@@ -75,4 +75,4 @@ $(function(){
     $(input_ban)
     $(document).ajaxComplete(input_ban)
 
-})
+})();
