@@ -4,7 +4,7 @@ from fs import fs_set_jpg, fs_url_jpg, fs_file_jpg, fs_get_jpg
 from kv import Kv
 from cid import CID_ICO, CID_ICO96, CID_SITE_ICO
 from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high
-from pic import pic_new, pic_save, pic_new_save
+from pic import pic_new, pic_save, pic_new_save, Pic
 import Image
 from config import FS_URL
 
@@ -62,6 +62,11 @@ def ico_pos_new(id, pos=None):
     from model.feed_po import mc_feed_user_dict
     mc_feed_user_dict.delete(id)
 
+
+def site_ico_bind(user_id, pic_id, site_id):
+    p = Pic.get(pic_id)
+    if p and p.user_id == user_id: 
+        ico96.set(site_id, pic_id)
 
 def site_ico_new(user_id, pic, site_id=None):
     pic_id = pic_new_save(CID_SITE_ICO, user_id, pic)

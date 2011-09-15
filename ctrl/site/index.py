@@ -11,8 +11,10 @@ from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zs
 from zkit.errtip import Errtip
 from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from zkit.pic import picopen
-from model.ico import site_ico_new
+from model.ico import site_ico_new, site_ico_bind
 from model.zsite_site import site_new
+from model.motto import motto_set
+from model.txt import txt_new
 
 PAGE_LIMIT = 25
 
@@ -120,10 +122,14 @@ class New(LoginBase):
 
 
         if not errtip:
-            site = site_new(name, current_user_id)                 
+            site = site_new(name, current_user_id, sitetype)                 
             site_id = site.id 
             link_list_save(site_id, link_cid, link_kv)
-
+            site_ico_bind(current_user_id, pic_id, site_id)
+            motto_set(site_id, motto)
+            txt_new(site_id, txt)
+            if url:
+                url_new(site_id, url)
             return request.redirect(site.link)
 
         return self.render(
