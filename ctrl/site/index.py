@@ -40,7 +40,7 @@ class New(LoginBase):
         )
 
     def post(self):
-        arguments = parse_qs(self.request.body, True)
+        arguments = self.request.arguments
 
         current_user =  self.current_user
         current_user_id = current_user.id
