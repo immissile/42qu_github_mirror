@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from _handler import Base
+from _handler import Base, LoginBase
 from ctrl._urlmap.site import urlmap
 from zkit.jsdict import JsDict
 from urlparse import parse_qs, urlparse
@@ -21,7 +21,7 @@ class Index(Base):
         return self.render()
 
 @urlmap('/new')
-class New(Base):
+class New(LoginBase):
     def get(self):
         link_cid = []
         for cid, name in SITE_LINK_NAME:
@@ -40,6 +40,9 @@ class New(Base):
 
     def post(self):
         arguments = parse_qs(self.request.body, True)
+        current_user =  self.current_user
+        current_user_id = current_user.id
+
         link_cid = []
         link_kv = []
         errtip = Errtip()
@@ -52,7 +55,7 @@ class New(Base):
 
 
 
-        for cid, link in zip(arguments.get('cid'), arguments.get('link')):
+        for cid, link in zip(arguments.get('cid',[]), arguments.get('link',[])):
             cid = int(cid)
             name = SITE_LINK_ZSITE_DICT[cid]
             link_cid.append(
@@ -60,9 +63,9 @@ class New(Base):
             )
 
         for id, key, value in zip(
-            arguments.get('id'),
-            arguments.get('key'),
-            arguments.get('value')
+            arguments.get('id',[]),
+            arguments.get('key',[]),
+            arguments.get('value',[])
         ):
             id = int(id)
             link = linkify(value)
@@ -72,6 +75,24 @@ class New(Base):
             )
 
 #        link_list_save(zsite_id, link_cid, link_kv)
+
+        files = self.request.files
+        
+        if 'pic' in files:
+            pic = files['pic'][0]['body']
+            pic = picopen(pic)
+            if pic:
+                ico_new(current_user_id, pic)
+            else:
+                errtip.pic = '图片格式有误'
+        else:
+            errtip.pic = "请上传图片"
+
+        if not name:
+            errtip.name = "请输入名称"
+        
+        if not motto:
+            errtip.motto = "请编写签名"
 
         return self.render(
             errtip=errtip,
