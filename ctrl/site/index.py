@@ -12,8 +12,7 @@ from zkit.errtip import Errtip
 from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from zkit.pic import picopen
 from model.ico import site_ico_new
-from model.zsite import zsite_new, ZSITE_STATE_ACTIVE 
-from model.cid import CID_SITE
+from model.zsite_site import site_new
 
 PAGE_LIMIT = 25
 
@@ -79,7 +78,6 @@ class New(LoginBase):
                 (id, key.strip() or urlparse(link).netloc, link)
             )
 
-#        link_list_save(zsite_id, link_cid, link_kv)
 
         files = self.request.files
         pic_id = None
@@ -122,8 +120,11 @@ class New(LoginBase):
 
 
         if not errtip:
-            site = zsite_new(name, CID_SITE, ZSITE_STATE_ACTIVE)
+            site = site_new(name, current_user_id)                 
+            site_id = site.id 
+            link_list_save(site_id, link_cid, link_kv)
 
+            return request.redirect(site.link)
 
         return self.render(
             errtip=errtip,
