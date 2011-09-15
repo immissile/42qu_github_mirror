@@ -37,24 +37,40 @@ ${errtip.url|n}
 <span style="color:#a10;margin-left:16px">注意 : 此设置无法修改</span>
 </div>
 
+%for cid, link_name, link in link_cid:
 <div>
-官方网站<input type="text" class="input" name="url" value=""><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-</div>
-<div>
-豆瓣小站<input type="text" class="input" name="url" value=""><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-</div>
-<div>
-新浪微博<input type="text" class="input" name="url" value=""><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
+<label for="cid${cid}">${link_name}</label>\
+<input 
+id="cid${cid}"
+autocomplete="off"
+type="text" 
+class="input" name="link" value="${link}">\
+<span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>\
+</div>\
+<input type="hidden" value="${cid}" name="cid">
+%endfor
 
-</div>
-<div>
-腾讯微博<input type="text" class="input" name="url" value=""><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-</div>
 
 %for i in range(4):
+<%
+if i<len(link_list):
+    id, k, v = link_list[i]
+else:
+    v = ''
+    if i==0:
+        k = 'Blog'
+    else:
+        k = ''
+    id = 0
+%>
 <div>
-<input type="text" style="border:1px solid #ccc;width:62px;font-size:16px;padding:7px 0">\
-<input type="text" class="input" name="url" value=""><span style="color: rgb(153, 153, 153); margin-left: 16px;">自定义链接</span>
+<input type="hidden" name="id" value="${id}">\
+<input type="text" style="border:1px solid #ccc;width:62px;font-size:16px;padding:7px 0;text-align:center"
+autocomplete="off" name="key" value="${k}"
+>\
+<input type="text" class="input" name="value" value="${v}"
+autocomplete="off" name="link_name"
+><span style="color: rgb(153, 153, 153); margin-left: 16px;">自定义链接</span>
 </div>
 %endfor
 

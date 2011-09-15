@@ -20,18 +20,12 @@ from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zs
 from urlparse import urlparse
 from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient
 from config import SITE_URL, SITE_DOMAIN
-from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id, OAUTH_SYNC_TXT
+from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id, OAUTH_SYNC_TXT, linkify
 from model.zsite import Zsite
 from collections import defaultdict
 from model.sync import sync_state_set, sync_all, sync_follow_new, SYNC_CID
 from model.search_zsite import search_new
 
-OAUTH2URL = {
-    OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
-    OAUTH_SINA:'http://weibo.com/%s',
-    OAUTH_TWITTER:'http://twitter.com/%s',
-    OAUTH_QQ:'http://t.qq.com/%s',
-}
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -45,14 +39,7 @@ def _upload_pic(files, current_user_id):
             error_pic = '图片格式有误'
     return error_pic
 
-def linkify(link, cid=0):
-    link = link.strip().split(' ', 1)[0]
-    if link:
-        if cid in OAUTH2URL and RE_URL.match(link):
-            link = OAUTH2URL[cid] % link
-        elif not link.startswith('http://') and not link.startswith('https://'):
-            link = 'http://%s'%link
-    return link
+
 
 class LinkEdit(LoginBase):
 
