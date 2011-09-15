@@ -9,6 +9,7 @@ from model.oauth import linkify
 from model.zsite_link import SITE_LINK_NAME,SITE_LINK_ZSITE_DICT
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from zkit.errtip import Errtip
+from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 
 
 
@@ -93,6 +94,10 @@ class New(LoginBase):
         
         if not motto:
             errtip.motto = "请编写签名"
+        
+        if url:
+            errtip.url = url_valid(url)
+
 
         return self.render(
             errtip=errtip,

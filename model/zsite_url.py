@@ -64,7 +64,7 @@ def url_valid_base(url):
     if url.endswith('-'):
         return '个性域名不能以-结尾'
     if not RE_URL.match(url):
-        return '个性域名格式不正确，请参阅下面说明'
+        return '个性域名格式不正确，请参阅说明'
     if id_by_url(url):
         return '该网址已经被占用'
 
