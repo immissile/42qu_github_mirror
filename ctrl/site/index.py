@@ -16,7 +16,7 @@ class Index(Base):
 @urlmap('/new')
 class New(Base):
     def get(self):
-        return self.render()
+        return self.render(errtip=JsDict())
 
 
 

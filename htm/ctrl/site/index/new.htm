@@ -3,61 +3,24 @@ from config import SITE_DOMAIN
 from model.zsite import ZSITE_STATE_VERIFY
 from model.zsite_link import SITE_LINK_ZSITE_DICT
 %>
+<%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%namespace file="/ctrl/_util/site/link.htm" name="link"/>
 <%
 state = current_user.state
 %>
-<%inherit file="../_base.htm" />
 <%def name="htm_head()">
-<style>
-form{
-font-size:16px
-}
-.input{
-border:1px solid #ccc;
-width:300px;
-font-size:16px;
-padding:7px;
-margin-top:16px;
-margin-left:8px;
-}
-.btnw{
-margin-left:72px;
-margin-top:16px;
-}
-.site_new{
-margin-top:32px;
-}
-.errtip{
-    color: #AA1100;
-    margin-left: 72px;
-    margin-top: 7px;
-}
-h1{
-margin-left:72px;
-}
-.sitetype{
-margin-top:16px;
-margin-left:8px;
-font-size:16px;
-padding:8px;
-border:1px solid #ccc;
-text-align:center;
-width:96px;
-}
-</style>
+${css.ctrl_site_new|n}
 </%def>
 
 <%htm:form className="site_new">
 <h1>创建站点</h1>
 
 <div>
-显示名字<input class="input" type="text" name="name" value="${name or ''}">
+显示名称<input class="input" type="text" name="name" value="${name or ''}">
 ${errtip.name|n}
 </div>
 <div>
-描述签名<input class="input" type="text" name="motto" value="${motto or ''}"><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
+描述签名<input class="input" type="text" name="motto" value="${motto or ''}">
 </div>
 <div>
 个性域名<input class="input" type="text" name="url" value="${url or ''}"><span style="color: rgb(153, 153, 153); margin-left: 16px;"><span class="c0">my-domain</span>.${SITE_DOMAIN}</span>
@@ -73,6 +36,23 @@ ${errtip.url|n}
 </select>
 <span style="color:#a10;margin-left:16px">注意 : 此设置无法修改</span>
 </div>
-${link.body()}
+
+<div>
+官方网站<input type="text" class="input" name="url" value=""><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
+</div>
+<div>
+豆瓣小站<input type="text" class="input" name="url" value=""><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
+</div>
+<div>
+新浪微博<input type="text" class="input" name="url" value=""><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
+
+</div>
+<div>
+腾讯微博<input type="text" class="input" name="url" value=""><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
+
+</div>
+
+<div>
 <span class="btnw"><button type="submit">确定</button></span>
+</div>
 </%htm:form>
