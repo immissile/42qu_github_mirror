@@ -49,8 +49,14 @@ ${errtip.url|n}
 </div>
 <div>
 腾讯微博<input type="text" class="input" name="url" value=""><span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>
-
 </div>
+
+%for i in range(4):
+<div>
+<input type="text" style="border:1px solid #ccc;width:62px;font-size:16px;padding:7px 0">\
+<input type="text" class="input" name="url" value=""><span style="color: rgb(153, 153, 153); margin-left: 16px;">自定义链接</span>
+</div>
+%endfor
 
 <div>
 <span class="btnw"><button type="submit">确定</button></span>
