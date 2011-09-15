@@ -41,6 +41,7 @@ class New(LoginBase):
 
     def post(self):
         arguments = parse_qs(self.request.body, True)
+
         current_user =  self.current_user
         current_user_id = current_user.id
 
@@ -53,7 +54,6 @@ class New(LoginBase):
         url = self.get_argument('url', None)
         txt = self.get_argument('txt', None)
         sitetype = int(self.get_argument('sitetype'))
-
 
 
         for cid, link in zip(arguments.get('cid',[]), arguments.get('link',[])):
@@ -111,6 +111,7 @@ class New(LoginBase):
                             ''
                         )
                     )
+        print link_cid, link_kv
 
         return self.render(
             errtip=errtip,
