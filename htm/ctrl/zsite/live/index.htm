@@ -106,8 +106,8 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}
 <div class="fdtxt" id="fdtxt${id}">
         {{if cid==61 || cid == 66}}
-<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}</div>
-{{if txt_more}}<a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">显示全部</a>{{/if}}
+<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}
+{{if txt_more}}<a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
 {{if cid == 66}}<a onclick="fdvideo(this,${id});" class="fdvideo" href="javascript:void(0)">播放视频</a>{{/if}}
         {{else}}
             {{if cid==68}}

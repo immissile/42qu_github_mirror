@@ -13,6 +13,7 @@ sync_recommend, sync_follow, SyncFollow
 from model.cid import CID_WORD, CID_NOTE, CID_EVENT, CID_AUDIO, CID_VIDEO, CID_PHOTO
 from model.event import EventJoiner, EVENT_JOIN_STATE_NO
 from model.feed import Feed
+from traceback import print_exc
 
 def _sync_po(begin_id):
     for po in ormiter(
@@ -22,8 +23,10 @@ def _sync_po(begin_id):
         )                                                          
     ):                                                             
         begin_id = po.id
-        sync_po(po)
-
+        try:
+            sync_po(po)
+        except:
+            print_exc()
     return begin_id
 
 
@@ -35,7 +38,10 @@ def _sync_join_event(begin_id):
         )
     ):
         begin_id = i.id
-        sync_join_event(i.user_id, i.event_id)
+        try:
+            sync_join_event(i.user_id, i.event_id)
+        except:
+            print_exc()
     return begin_id
 
 def _sync_recommend(begin_id):
@@ -45,7 +51,10 @@ def _sync_recommend(begin_id):
         )
     ):
         begin_id = i.id
-        sync_recommend(i.zsite_id, i.rid)
+        try:
+            sync_recommend(i.zsite_id, i.rid)
+        except:
+            print_exc()
     return begin_id
 
 
