@@ -130,7 +130,7 @@ class New(LoginBase):
             txt_new(site_id, txt)
             if url:
                 url_new(site_id, url)
-            return request.redirect(site.link)
+            return self.redirect(site.link)
 
         return self.render(
             errtip=errtip,
