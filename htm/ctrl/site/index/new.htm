@@ -16,25 +16,34 @@ ${css.ctrl_site_new|n}
 <h1>创建站点</h1>
 
 <div>
-显示名称<input class="input" type="text" name="name" value="${name or ''}">
+显示名称<input class="input" type="text" name="name" value="${name or ''}">\
 ${errtip.name|n}
 </div>
 <div>
-描述签名<input class="input" type="text" name="motto" value="${motto or ''}">
+描述签名<input class="input" type="text" name="motto" value="${motto or ''}">\
+${errtip.motto|n}
 </div>
 <div>
-个性域名<input class="input" type="text" name="url" value="${url or ''}"><span style="color: rgb(153, 153, 153); margin-left: 16px;"><span class="c0">my-domain</span>.${SITE_DOMAIN}</span>
+个性域名<input class="input" type="text" name="url" value="${url or ''}"><span class="ltip"><span class="c0">my-domain</span>.${SITE_DOMAIN}</span>
 ${errtip.url|n}
 </div>
 <div>
-文字介绍<textarea name="txt" style="width: 721px; border: 1px solid rgb(204, 204, 204); margin-left: 8px; margin-top: 16px; height: 150px; padding: 3px 6px; vertical-align: 1px;">${txt or ''}</textarea>
+文字介绍<textarea name="txt" class="txt">${txt or ''}</textarea>
 </div>
 <div>
 浏览权限<select class="sitetype" name="sitetype">
-<option value="1">公开</option>
-<option value="2">私密</option>
+<option value="1"
+%if sitetype==1:
+selected
+%endif
+>公开</option>
+<option value="2"
+%if sitetype==2:
+selected
+%endif
+>私密</option>
 </select>
-<span style="color:#a10;margin-left:16px">注意 : 此设置无法修改</span>
+<span class="warn">注意 : 此设置无法修改</span>
 </div>
 
 %for cid, link_name, link in link_cid:
@@ -45,7 +54,6 @@ id="cid${cid}"
 autocomplete="off"
 type="text" 
 class="input" name="link" value="${link}">\
-<span style="color: rgb(153, 153, 153); margin-left: 16px;">可选</span>\
 </div>\
 <input type="hidden" value="${cid}" name="cid">
 %endfor
@@ -65,12 +73,15 @@ else:
 %>
 <div>
 <input type="hidden" name="id" value="${id}">\
-<input type="text" style="border:1px solid #ccc;width:62px;font-size:16px;padding:7px 0;text-align:center"
+<input type="text" class="link_k"
 autocomplete="off" name="key" value="${k}"
 >\
 <input type="text" class="input" name="value" value="${v}"
 autocomplete="off" name="link_name"
-><span style="color: rgb(153, 153, 153); margin-left: 16px;">自定义链接</span>
+>\
+%if i==0:
+<span class="ltip">自定义链接</span>
+%endif
 </div>
 %endfor
 

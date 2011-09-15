@@ -34,3 +34,22 @@ border:1px solid #ccc;
 text-align:center;
 width:96px;
 }
+
+.ltip{
+color:#999; margin-left: 16px;
+}
+
+.txt{
+width: 721px;
+border: 1px solid #ccc;
+margin-left: 8px;
+margin-top: 16px; height: 150px; padding: 3px 6px; vertical-align: 1px;
+}
+
+.link_k{
+border:1px solid #ccc;width:62px;font-size:16px;padding:7px 0;text-align:center
+}
+
+.warn{
+color:#a10;margin-left:16px
+}

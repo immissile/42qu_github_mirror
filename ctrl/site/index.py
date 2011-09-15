@@ -44,12 +44,16 @@ class New(Base):
         link_kv = []
         errtip = Errtip()
 
+        name = self.get_argument('name',None)
+        motto = self.get_argument('motto', None)
+        url = self.get_argument('url', None)
+        sitetype = int(self.get_argument('sitetype'))
 
         for cid, link in zip(arguments.get('cid'), arguments.get('link')):
             cid = int(cid)
             name = SITE_LINK_ZSITE_DICT[cid]
             link_cid.append(
-(cid, name, linkify(link, cid))
+                (cid, name, linkify(link, cid))
             )
 
         for id, key, value in zip(
@@ -61,16 +65,19 @@ class New(Base):
             link = linkify(value)
 
             link_kv.append(
-(id, key.strip() or urlparse(link).netloc, link)
+                (id, key.strip() or urlparse(link).netloc, link)
             )
 
 #        link_list_save(zsite_id, link_cid, link_kv)
 
-
         return self.render(
             errtip=errtip,
             link_cid=link_cid,
-            link_list=link_kv
+            link_list=link_kv,
+            name=name,
+            motto=motto,
+            url=url,
+            sitetype=sitetype
         )
 
 
