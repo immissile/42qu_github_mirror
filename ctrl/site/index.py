@@ -47,14 +47,23 @@ class New(Base):
 (cid, name, linkify(link, cid))
             )
 
+        for id, key, value in zip(
+            arguments.get('id'),
+            arguments.get('key'),
+            arguments.get('value')
+        ):
+            id = int(id)
+            link = linkify(value)
 
-        link_list_save(zsite_id, link_cid, link_kv)
+            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
+
+#        link_list_save(zsite_id, link_cid, link_kv)
 
 
         return self.render(
             errtip=errtip,
             link_cid=link_cid,
-            link_list=[]
+            link_list=link_kv
         )
 
 
