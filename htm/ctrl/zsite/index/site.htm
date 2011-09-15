@@ -63,7 +63,7 @@ text-align: right;
 } 
 .ti_txt{ 
 float: left; 
-background: url('arrow1_e.gif') no-repeat scroll 0pt 6px transparent; 
+background: url('http://m1.img.libdd.com/farm2/89/A0B964E9C2A0964F2583C1D87F43D159_16_16.GIF') no-repeat scroll 0pt 6px transparent; 
 font-size: 14px; 
 padding-left: 22px; 
 } 
@@ -135,7 +135,7 @@ font-size:14px;
 margin-bottom:18px;
 margin-top:-3px;
 }
-.say textarea{
+.say_txt{
 color:#999;
 border:1px dotted #ccc;
 border-top:0;
@@ -155,7 +155,7 @@ display:block;
 font-size:14px;
 padding:16px 0;
 }
-.event_cid a{
+.event_a{
 border-bottom:1px dotted #ccc;
 display:block;
 font-size:14px;
@@ -166,6 +166,66 @@ color:#999;
 .event_cid a.now{
 color:#000;
 }
+
+
+.pop_say{
+position:absolute;
+right:0;
+z-index:1; 
+height: 140px;
+text-align:left;
+width: 458px;
+color:#000;
+background-color:#fff;
+border:1px dotted #333;
+}
+.pop_txt{
+z-index:1; 
+height: 95px;
+text-align:left;
+width: 444px;
+color:#000;
+padding:3px 7px;
+background:#fff;
+border:0;
+}
+.pop_banner{
+right:0;
+text-align:left;
+border-top:1px dotted #999;
+z-index:1;
+width:458px;
+height:30px;
+background:#fff;
+}
+.pop_tip{
+float:right;
+margin:0 14px 0;
+color:#999;
+font-size:12px;
+padding:3px;
+}
+.pop_submit{
+color:#999;
+float:right;
+padding:3px 10px;
+border-left:1px dotted #999;
+}
+.po_word_submit_a:hover{
+color:#000;
+background:#f9f9f9;
+}
+.pop_close{
+float:left;
+border-right:1px dotted #999;
+padding:3px 10px;
+color:#999;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 50% 50%;
+}
+.po_word_close:hover{
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 50% 50%;
+}
+
 </style>
 
 </%def>
@@ -176,6 +236,40 @@ ${zsite.name}
  - ${motto}
 %endif
 </%def>
+
+<script type="text/javascript">
+
+$(function(){
+    say = $('#say')
+    txt = $('#say_txt')
+    txt.attr('value','今天 , 想说什么?')
+})
+
+
+$(function(){
+    txt.focus(function(){
+        if(say.attr("class")!='pop_say'){
+            $('.G1').css('position','static')
+            say.attr('class','pop_say')
+            txt.attr('class','pop_txt').attr('value','').after('<div class="pop_banner"><a class="pop_submit" href="#">发表</a><div class="pop_tip">还可输入142个字</div><a class="pop_close" href="javascript:close_pop();void(0)">×关闭</div>')
+        }   
+    })
+})
+
+function close_pop(){
+    say.attr('class','say')
+    txt.attr('class','say_txt').attr('value','今天 ,  想说什么?')
+    $('.pop_banner').remove()
+    $('.G1').css('position','relative')
+}
+
+
+
+
+</script>
+
+
+
 
 <h1>
     <div class="touch">
@@ -259,12 +353,12 @@ ${zsite.name}
     </div>
     <div class="G1">
         <div class="event_cid">
-            <div class="say">
-                <textarea>今天 ,  想说什么?</textarea>
+            <div class="say" id="say">
+                <textarea id="say_txt" class="say_txt">今天 ,  想说什么?</textarea>
             </div>
-            <a class="home" href="http://meet.42qu.com/4295032832/ago">主页</a>
-            <a class="now" href="http://meet.42qu.com/4295032832">4<span class="L">信息架构</span></a>
-            <a href="http://meet.42qu.com/4295032832/1"><span><span class="L">游吟水域</span>2</span></a>
+            <a class="home event_a" href="http://meet.42qu.com/4295032832/ago">主页</a>
+            <a class="now event_a" href="http://meet.42qu.com/4295032832">4<span class="L">信息架构</span></a>
+            <a class="event_a" href="http://meet.42qu.com/4295032832/1"><span><span class="L">游吟水域</span>2</span></a>
         </div>
         <a href="http://meet.42qu.com/4295032832/ago"></a>
     </div>
