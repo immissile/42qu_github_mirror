@@ -3,11 +3,14 @@
 from _handler import Base
 from ctrl._urlmap.site import urlmap
 from zkit.jsdict import JsDict
-from urlparse import parse_qs
+from urlparse import parse_qs, urlparse
 from zkit.page import page_limit_offset
 from model.oauth import linkify
-from model.zsite_link import SITE_LINK_NAME
+from model.zsite_link import SITE_LINK_NAME,SITE_LINK_ZSITE_DICT
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
+from zkit.errtip import Errtip
+
+
 
 PAGE_LIMIT = 25
 
@@ -37,12 +40,14 @@ class New(Base):
 
     def post(self):
         arguments = parse_qs(self.request.body, True)
-
         link_cid = []
         link_kv = []
+        errtip = Errtip()
+
+
         for cid, link in zip(arguments.get('cid'), arguments.get('link')):
             cid = int(cid)
-            name = OAUTH2NAME_DICT[cid]
+            name = SITE_LINK_ZSITE_DICT[cid]
             link_cid.append(
 (cid, name, linkify(link, cid))
             )
@@ -55,7 +60,9 @@ class New(Base):
             id = int(id)
             link = linkify(value)
 
-            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
+            link_kv.append(
+(id, key.strip() or urlparse(link).netloc, link)
+            )
 
 #        link_list_save(zsite_id, link_cid, link_kv)
 

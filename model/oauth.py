@@ -15,6 +15,7 @@ OAUTH_RENREN = 9
 OAUTH_LINKEDIN = 10
 
 OAUTH2NAME_DICT = {
+    OAUTH_MY        : "官方网站"    ,
     OAUTH_GOOGLE    : 'Google'      ,
     OAUTH_WWW163    : '网易微博'    ,
     OAUTH_SOHU      : '搜狐微博'    ,
