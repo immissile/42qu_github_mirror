@@ -15,9 +15,8 @@ from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSI
 from model.user_auth import user_password_new, user_password_verify
 from model.user_mail import mail_by_user_id
 from cgi import escape
-from urlparse import parse_qs
+from urlparse import parse_qs, urlparse
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
-from urlparse import urlparse
 from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient
 from config import SITE_URL, SITE_DOMAIN
 from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id, OAUTH_SYNC_TXT, linkify
