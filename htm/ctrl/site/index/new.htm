@@ -12,9 +12,11 @@ state = current_user.state
 ${css.ctrl_site_new|n}
 </%def>
 
-<%htm:form className="site_new">
+<%htm:form enctype="multipart/form-data" className="site_new">
 <h1>创建站点</h1>
-
+<div>
+标识图片<input class="file" type="file" name="pic">
+</div>
 <div>
 显示名称<input class="input" type="text" name="name" value="${name or ''}">\
 ${errtip.name|n}

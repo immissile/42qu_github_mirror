@@ -24,6 +24,7 @@ margin-top:32px;
 }
 h1{
 margin-left:72px;
+margin-bottom:16px;
 }
 .sitetype{
 margin-top:16px;
@@ -49,7 +50,9 @@ margin-top: 16px; height: 150px; padding: 3px 6px; vertical-align: 1px;
 .link_k{
 border:1px solid #ccc;width:62px;font-size:16px;padding:7px 0;text-align:center
 }
-
+.file{
+margin-left:8px;
+}
 .warn{
 color:#a10;margin-left:16px
 }
