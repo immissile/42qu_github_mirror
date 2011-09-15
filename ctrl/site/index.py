@@ -47,7 +47,10 @@ class New(Base):
         name = self.get_argument('name',None)
         motto = self.get_argument('motto', None)
         url = self.get_argument('url', None)
+        txt = self.get_argument('txt', None)
         sitetype = int(self.get_argument('sitetype'))
+
+
 
         for cid, link in zip(arguments.get('cid'), arguments.get('link')):
             cid = int(cid)
@@ -77,7 +80,8 @@ class New(Base):
             name=name,
             motto=motto,
             url=url,
-            sitetype=sitetype
+            sitetype=sitetype,
+            txt=txt,
         )
 
 
