@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from fs import fs_set_jpg, fs_url_jpg, fs_file_jpg, fs_get_jpg
 from kv import Kv
-from cid import CID_ICO, CID_ICO96
+from cid import CID_ICO, CID_ICO96, CID_SITE_ICO
 from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high
 from pic import pic_new, pic_save, pic_new_save
 import Image
@@ -61,6 +61,15 @@ def ico_pos_new(id, pos=None):
     ico96.set(id, pic_id)
     from model.feed_po import mc_feed_user_dict
     mc_feed_user_dict.delete(id)
+
+
+def site_ico_new(user_id, pic, site_id=None):
+    pic_id = pic_new_save(CID_SITE_ICO, user_id, pic)
+    
+    p96 = pic_square(pic, 96, size=96)
+    fs_set_jpg('96', pic_id, p96)
+    
+    return pic_id
 
 def ico_new(id, pic):
     pic_id = pic_new_save(CID_ICO, id, pic)
