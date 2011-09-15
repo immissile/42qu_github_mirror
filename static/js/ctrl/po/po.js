@@ -39,7 +39,7 @@ $(function(){
         $(".sprev,.snext").hide()
         
     }
-});
+})
 (function(){
 
     var INPUT_FOCUS;
@@ -75,4 +75,4 @@ $(function(){
     $(input_ban)
     $(document).ajaxComplete(input_ban)
 
-})();
+})
