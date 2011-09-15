@@ -30,3 +30,4 @@ def site_new(name, admin_id, state):
 
 if __name__ == '__main__':
     print '..'
+

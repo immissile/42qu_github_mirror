@@ -3,6 +3,7 @@ from config import SITE_DOMAIN
 from model.zsite import ZSITE_STATE_VERIFY
 from model.zsite_link import SITE_LINK_ZSITE_DICT
 from model.ico import fs_url_jpg
+from model.zsite_site import ZSITE_STATE_SITE2CN
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -40,17 +41,14 @@ ${errtip.url|n}
 文字介绍<textarea name="txt" class="txt">${txt or ''}</textarea>
 </div>
 <div>
-浏览权限<select class="sitetype" name="sitetype">
-<option value="1"
-%if sitetype==1:
+浏览权限<select class="sitetype" name="sitetype">\
+%for state,name in ZSITE_STATE_SITE2CN:
+<option value="${state}"
+%if sitetype==state:
 selected
 %endif
->公开</option>
-<option value="2"
-%if sitetype==2:
-selected
+>${name}</option>\
 %endif
->私密</option>
 </select>
 <span class="warn">注意 : 此设置无法修改</span>
 </div>
