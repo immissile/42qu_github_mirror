@@ -58,9 +58,9 @@ class New(LoginBase):
 
         for cid, link in zip(arguments.get('cid',[]), arguments.get('link',[])):
             cid = int(cid)
-            name = SITE_LINK_ZSITE_DICT[cid]
+            link_name = SITE_LINK_ZSITE_DICT[cid]
             link_cid.append(
-                (cid, name, linkify(link, cid))
+                (cid, link_name, linkify(link, cid))
             )
 
             
@@ -111,7 +111,6 @@ class New(LoginBase):
                             ''
                         )
                     )
-        print link_cid, link_kv
 
         return self.render(
             errtip=errtip,
