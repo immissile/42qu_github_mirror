@@ -42,13 +42,13 @@ ${errtip.url|n}
 </div>
 <div>
 浏览权限<select class="sitetype" name="sitetype">\
-%for state,name in ZSITE_STATE_SITE2CN:
+%for state,state_name in ZSITE_STATE_SITE2CN:
 <option value="${state}"
 %if sitetype==state:
 selected
 %endif
->${name}</option>\
-%endif
+>${state_name}</option>\
+%endfor
 </select>
 <span class="warn">注意 : 此设置无法修改</span>
 </div>
