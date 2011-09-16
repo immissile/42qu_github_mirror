@@ -59,8 +59,8 @@ margin-top:-20px;
 _margin-bottom:22px;
 } 
 .event_ti{
-border-bottom: 1px dotted #CCCCCC;
-border-top: 1px dotted #CCCCCC;
+border-bottom: 1px dotted #ccc;
+border-top: 1px dotted #ccc;
 margin-bottom: 32px;
 margin-top: -31px;
 padding: 6px 0;
@@ -71,7 +71,7 @@ _margin-top:0;
 } 
 .ti_txt{ 
 float: left; 
-background: url('http://m1.img.libdd.com/farm2/89/A0B964E9C2A0964F2583C1D87F43D159_16_16.GIF') no-repeat scroll 0pt 6px transparent; 
+background:url(/img/gif/icons/gif/black/to_size/arrow1_e.gif) no-repeat 0 8px;
 font-size: 14px; 
 padding-left: 22px; 
 } 
