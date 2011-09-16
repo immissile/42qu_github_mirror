@@ -10,6 +10,7 @@ color:#fff;
 padding:4px 7px;
 vertical-align:1px;
 font-size:10px;
+-webkit-text-size-adjust:none;
 }
 #nav2 .verify:hover span{
 background:#F60;
