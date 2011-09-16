@@ -5,6 +5,7 @@ padding:16px 0;
 font-size: 16px; 
 text-align: center; 
 } 
+/*
 .touch{ 
 border: 1px dotted #ccc; 
 border-right:0; 
@@ -22,17 +23,18 @@ position: absolute;
 .touch_a, .verify{ 
 padding: 14px;
 border-right: 1px dotted #ccc; 
-margin-left:-4px;
 vertical-align:-2px;
 *vertical-align:-5px;
 }
 .touch_a{
 color:#999;
 }
-.touch a.verify span{
+*/
+#nav2 .verify span{
 background-color:#aa1100;
 color:#fff;
-padding: 2px 7px;
+padding:1px 7px;
+vertical-align:1px;
 font-size: 10px;
 }
 .event_list{ 
