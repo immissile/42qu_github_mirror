@@ -43,6 +43,9 @@ def zsite_id_list_by_admin_id(id):
     ).where('state>%s' % ZSITE_ADMIN_STATE_DEL).col_list(col='zsite_id')
 
 
+def zsite_list_by_admin_id(id):
+    return ZsiteAdmin.mc_get_list(zsite_id_list_by_admin_id(id))
+
 def zsite_admin_rm(zsite_id, admin_id):
     o = ZsiteAdmin.get(zsite_id=zsite_id, admin_id=admin_id)
     if o:
@@ -59,4 +62,5 @@ def zsite_admin_empty(zsite_id):
     mc_admin_id_list_by_zsite_id.delete(zsite_id)
 
 if __name__ == "__main__":
-    pass
+    print zsite_list_by_admin_id(10000000)
+
