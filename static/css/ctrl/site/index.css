@@ -70,3 +70,10 @@ vertical-align: 2px;
 .split{
 margin:0 12px;
 }
+.none{
+text-align:center;
+margin-top:14px;
+border:1px dotted #ccc;
+padding:27px;
+margin-top:32px;
+}
