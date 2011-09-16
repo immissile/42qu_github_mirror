@@ -8,6 +8,13 @@ from model.cid import CID_SITE
 
 mc_zsite_id_list_by_admin_id = McCacheA('ZsiteIdListBYAdminId.%s')
 mc_admin_id_list_by_zsite_id = McCacheA('AdminIdListByZsiteId.%s')
+zsite_by_admin_id_total = McNum(
+    lambda id:ZsiteAdmin.where(
+        admin_id=id
+    ).where('state>%s' % ZSITE_ADMIN_STATE_DEL).count(),
+    "ZsiteByAdminIdTotal.%s"
+)
+
 
 ZSITE_ADMIN_STATE_DEL = 0
 ZSITE_ADMIN_STATE_OWNER = 100
@@ -18,7 +25,7 @@ class ZsiteAdmin(McModel):
 
 def zsite_admin_new(zsite_id, admin_id, state=ZSITE_ADMIN_STATE_OWNER):
     zsite_admin = ZsiteAdmin.get_or_create(
-        zsite_id=zsite_id, 
+        zsite_id=zsite_id,
         admin_id=admin_id,
     )
     zsite_admin.state = state
@@ -29,6 +36,7 @@ def zsite_admin_new(zsite_id, admin_id, state=ZSITE_ADMIN_STATE_OWNER):
 def mc_flush(zsite_id, admin_id):
     mc_admin_id_list_by_zsite_id.delete(zsite_id)
     mc_zsite_id_list_by_admin_id.delete(admin_id)
+    zsite_by_admin_id_total.delete(admin_id)
 
 @mc_admin_id_list_by_zsite_id('{id}')
 def admin_id_list_by_zsite_id(id):
@@ -43,8 +51,13 @@ def zsite_id_list_by_admin_id(id):
     ).where('state>%s' % ZSITE_ADMIN_STATE_DEL).col_list(col='zsite_id')
 
 
-def zsite_list_by_admin_id(id):
-    return ZsiteAdmin.mc_get_list(zsite_id_list_by_admin_id(id))
+def zsite_list_by_admin_id(id, offset=0, limit=None):
+    id_list = zsite_id_list_by_admin_id(id)
+    
+    if id_list and offset and limit is not None:
+        id_list = id_list[offset:limit]
+
+    return Zsite.mc_get_list(id_list)
 
 def zsite_admin_rm(zsite_id, admin_id):
     o = ZsiteAdmin.get(zsite_id=zsite_id, admin_id=admin_id)
@@ -55,12 +68,14 @@ def zsite_admin_rm(zsite_id, admin_id):
 
 
 def zsite_admin_empty(zsite_id):
-    for i in ZsiteAdmin.where(zsite_id=zsite_id).where("state>%s"%STATE_DEL):
+    for i in ZsiteAdmin.where(zsite_id=zsite_id).where('state>%s'%STATE_DEL):
         i.state = STATE_DEL
         i.save()
         mc_zsite_id_list_by_admin_id.delete(admin_id)
     mc_admin_id_list_by_zsite_id.delete(zsite_id)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
+    print zsite_id_list_by_admin_id(10000000)
     print zsite_list_by_admin_id(10000000)
+    print zsite_by_admin_id_total(10000000)
 
