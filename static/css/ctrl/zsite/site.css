@@ -1,35 +1,9 @@
-
 h1{ 
 border-bottom:1px dotted #ccc; 
 padding:16px 0; 
 font-size: 16px; 
 text-align: center; 
 } 
-/*
-.touch{ 
-border: 1px dotted #ccc; 
-border-right:0; 
-padding: 0px 1px 1px; 
-overflow: hidden; 
-font-size: 14px; 
-margin-top: -17px; 
-float: left; 
-text-align: center; 
-position: absolute;
-*left:33px;
-*margin-top:-20px;
-*border-top:0;
-} 
-.touch_a, .verify{ 
-padding: 14px;
-border-right: 1px dotted #ccc; 
-vertical-align:-2px;
-*vertical-align:-5px;
-}
-.touch_a{
-color:#999;
-}
-*/
 #nav2 .verify span{
 background:#a10;
 color:#fff;
@@ -40,34 +14,31 @@ font-size: 10px;
 #nav2 .verify:hover span{
 background:#F60;
 }
-.event_list{ 
-margin-top:32px; 
-}
 .event_po_head{
-margin-top: -4px;
 padding-bottom:16px;
 border-bottom:1px dotted #ccc;
-margin-bottom:32px;
+/*
 *zoom:1;
 *margin-top:-20px;
 *padding-bottom:0;
 _margin-bottom:22px;
 _margin-top:-30px;
+*/
 }
 .event_po{ 
 padding-bottom: 27px; 
 border-bottom:1px dotted #ccc; 
-margin-bottom:32px;
-margin-top:-20px;
+/*
 *zoom:1;
 *padding-bottom:1px;
 _margin-bottom:22px;
+*/
 } 
 .event_ti{
 border-bottom: 1px dotted #ccc;
 border-top: 1px dotted #ccc;
 margin-bottom: 32px;
-margin-top: -31px;
+margin-top:1px;
 padding: 6px 0;
 text-align: right;
 *zoom:1;
