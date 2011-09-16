@@ -54,9 +54,8 @@ def zsite_id_list_by_admin_id(id):
 def zsite_list_by_admin_id(id, limit=None, offset=0):
     id_list = zsite_id_list_by_admin_id(id)
 
-    if id_list and offset and limit is not None:
-        id_list = id_list[offset:limit]
-
+    if id_list and (offset or limit is not None):
+        id_list = id_list[offset:offset+limit]
     return Zsite.mc_get_list(id_list)
 
 def zsite_admin_rm(zsite_id, admin_id):

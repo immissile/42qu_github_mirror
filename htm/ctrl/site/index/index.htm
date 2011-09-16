@@ -42,10 +42,11 @@ is_my = path.startswith("/my")
 <div class="G">
     <div class="G3" id="site_page">
         <div class="site_list mt32">
-            %for i in range(3):
+            %for i in page_list:
                 ${site_li()}
             %endfor
-        </div>   
+        </div>  
+${page|n}
     </div>
 </div>
 

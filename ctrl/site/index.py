@@ -18,7 +18,7 @@ from model.txt import txt_new
 from model.zsite_admin import zsite_by_admin_id_total, zsite_list_by_admin_id
 
  
-PAGE_LIMIT = 25
+PAGE_LIMIT = 20
 
 class SiteListBase(object):
     def get(self, n=1):
@@ -35,7 +35,7 @@ class SiteListBase(object):
         return self.render(
             "/ctrl/site/index/index.htm",
             page_list = page_list,
-            page = page,
+            page = str(page),
             total = total
         )
 
