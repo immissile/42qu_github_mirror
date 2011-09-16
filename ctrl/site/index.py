@@ -15,22 +15,56 @@ from model.ico import site_ico_new, site_ico_bind
 from model.zsite_site import site_new
 from model.motto import motto_set
 from model.txt import txt_new
+from model.zsite_admin import zsite_by_admin_id_total, zsite_list_by_admin_id
 
+ 
 PAGE_LIMIT = 25
 
 class SiteListBase(object):
-    def get(self):
-        return self.render("/ctrl/site/index/index.htm")
+    def get(self, n=1):
+        total = self._total()
+        n = int(n)
 
+        page, limit, offset = page_limit_offset(
+            self.page_url,
+            total,
+            n,
+            PAGE_LIMIT,
+        )
+        page_list = self._page_list(limit, offset)
+        return self.render(
+            "/ctrl/site/index/index.htm",
+            page_list = page_list,
+            page = page,
+            total = total
+        )
 
 
 @urlmap('/')
+@urlmap("/-(\d+)")
 class Index(SiteListBase, Base):
-    pass
+    page_url = "/-%s"
+
+    def _total(self):
+        return 0
+    
+    def _page_list(self, limit, offset):
+        return []
 
 @urlmap("/my")
-class My( SiteListBase, LoginBase):
-    pass
+@urlmap("/my-(\d+)")
+class My(SiteListBase, LoginBase):
+    page_url = "/my-%s"
+
+    def _total(self):
+        return zsite_by_admin_id_total(
+            self.current_user_id
+        )
+
+    def _page_list(self,  limit, offset):
+        return zsite_list_by_admin_id(
+            self.current_user_id, limit, offset
+        )
 
 
 @urlmap('/new')

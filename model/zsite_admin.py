@@ -12,7 +12,7 @@ zsite_by_admin_id_total = McNum(
     lambda id:ZsiteAdmin.where(
         admin_id=id
     ).where('state>%s' % ZSITE_ADMIN_STATE_DEL).count(),
-    "ZsiteByAdminIdTotal.%s"
+    'ZsiteByAdminIdTotal.%s'
 )
 
 
@@ -51,9 +51,9 @@ def zsite_id_list_by_admin_id(id):
     ).where('state>%s' % ZSITE_ADMIN_STATE_DEL).col_list(col='zsite_id')
 
 
-def zsite_list_by_admin_id(id, offset=0, limit=None):
+def zsite_list_by_admin_id(id, limit=None, offset=0):
     id_list = zsite_id_list_by_admin_id(id)
-    
+
     if id_list and offset and limit is not None:
         id_list = id_list[offset:limit]
 
