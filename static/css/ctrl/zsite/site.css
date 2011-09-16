@@ -31,11 +31,14 @@ color:#999;
 }
 */
 #nav2 .verify span{
-background-color:#aa1100;
+background:#a10;
 color:#fff;
-padding:1px 7px;
+padding:4px 7px;
 vertical-align:1px;
 font-size: 10px;
+}
+#nav2 .verify:hover span{
+background:#F60;
 }
 .event_list{ 
 margin-top:32px; 
