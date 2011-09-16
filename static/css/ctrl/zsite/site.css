@@ -70,24 +70,18 @@ margin-top: 10px;
 margin-right: 32px;
 border: 1px dotted #ccc;
 padding: 3px;
-width: 153px;
+width: 159px;
 background-color:#f9f9f9;
 }
 .po_cont_img{
-width: 527px;
+width: 522px;
 margin-top: 7px;
 }
 .po_cont{
 margin-top:5px;
 }
-.po_more_img{
-margin-top:0;
-}
 .po_more{
 margin-top:6px;
-}
-.po_more a,.po_more_img a{
-margin-top:-9px;
 }
 .po_au{
 clear: both;
@@ -186,7 +180,7 @@ background:#fff;
 }
 .pop_tip{
 float:right;
-margin:0 14px 0;
+margin:0 14px;
 color:#999;
 font-size:14px;
 padding:3px;
