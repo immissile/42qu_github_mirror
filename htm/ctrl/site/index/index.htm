@@ -2,6 +2,7 @@
 
 <%!
 from model.ico import ico_url_with_default
+from model.motto import motto
 %>
 <%def name="htm_head()">
 ${css.ctrl_site_index|n}
@@ -20,9 +21,9 @@ ${css.ctrl_site_index|n}
             <a href="${site.link}" class="c0">${site.name}</a>
         </div>
         <div class="po_text">
-            <span>我们需要很多很多的有温暖声音的你有空就来给大家念故事或唱歌我们需要很多很多的有温暖声音的你有空就来给大家念故事或唱歌</span>
+            <span>${motto.get(site.id)}</span>
             <div class="po_num">
-                <span><a class="po_fo" href="#">96</a> 关注 &amp; <span class="po_no">312</span> 贴子</span>
+                <span><a class="po_fo" href="#">96</a> 粉丝 &amp; <span class="po_no">312</span> 贴子</span>
             </div>
         </div>
     </div>
