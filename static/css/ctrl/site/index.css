@@ -5,7 +5,7 @@ float:none;
 h1{
 width: 721px;
 margin: auto;
-text-align: left;
+text-align:right;
 border-bottom:1px dotted #ccc;
 font-size:14px;
 padding:16px 0;
@@ -14,7 +14,7 @@ h1 .new:visited{
 color:#999;
 }
 h1 .nav{
-float:right;
+float:left;
 color:#999
 }
 h1 .nav a{
