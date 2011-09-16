@@ -1,6 +1,8 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 
 <%!
+from model.ico import ico_url_with_default
+from model.motto import motto
 %>
 <%def name="htm_head()">
 ${css.ctrl_site_index|n}
@@ -11,17 +13,22 @@ ${css.ctrl_site_index|n}
 </%def>
 
 
-<%def name="site_li()">
+<%def name="site_li(site)">
 <div class="c site_po">
-    <a href="http://melody.42qu.com/10082995"><img src="http://p4.42qu.us/96/200/37064.jpg" class="site_img"></a>
+    <a href="${site.link}"><img src="${ico_url_with_default(site.id)}" class="site_img"></a>
     <div class="site_txt c">
         <div class="po_ti">
-            <a href="http://melody.42qu.com/10082995" class="c0">Python 爱好者</a>
+            <a href="${site.link}" class="c0">${site.name}</a>
         </div>
         <div class="po_text">
-            <span>我们需要很多很多的有温暖声音的你有空就来给大家念故事或唱歌我们需要很多很多的有温暖声音的你有空就来给大家念故事或唱歌</span>
+            <span>${motto.get(site.id)}</span>
             <div class="po_num">
-                <span><a class="po_fo" href="#">96</a> 关注 &amp; <span class="po_no">312</span> 贴子</span>
+<span><a class="po_fo" href="#">96</a> 关注</span>
+&amp;
+ <span class="po_no">312</span> 图片 &amp;
+<span class="po_no">312</span> 文章</span>
+&amp;
+<span class="po_no">312</span> 活动</span>
             </div>
         </div>
     </div>
@@ -41,12 +48,16 @@ is_my = path.startswith("/my")
 
 <div class="G">
     <div class="G3" id="site_page">
+%if total:
         <div class="site_list mt32">
             %for i in page_list:
-                ${site_li()}
+                ${site_li(i)}
             %endfor
         </div>  
 ${page|n}
+%else:
+<div class="none"><p>暂无站点</p><p><a href="/new">点此创建</a></p></div>
+%endif
     </div>
 </div>
 
