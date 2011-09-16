@@ -5,6 +5,7 @@ border-right:0;
 float: left;
 overflow: hidden;
 font-size: 14px;
+position:absolute;
 }
 .nav2drop{
 display:none;
