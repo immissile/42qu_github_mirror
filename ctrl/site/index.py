@@ -18,11 +18,20 @@ from model.txt import txt_new
 
 PAGE_LIMIT = 25
 
+class SiteListBase(object):
+    def get(self):
+        return self.render("/ctrl/site/index/index.htm")
+
+
 
 @urlmap('/')
-class Index(Base):
-    def get(self):
-        return self.render()
+class Index(SiteListBase, Base):
+    pass
+
+@urlmap("/my")
+class My( SiteListBase, LoginBase):
+    pass
+
 
 @urlmap('/new')
 class New(LoginBase):
