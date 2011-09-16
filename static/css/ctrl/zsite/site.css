@@ -216,3 +216,12 @@ background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 50% 50%;
 #say_g1{
 overflow:visible;
 }
+.say_loading{
+background:url(/img/gif/loading_bar.gif) no-repeat 50% 50%;
+width:26px;
+height:26px;
+margin-top:2px;
+}
+.pop_ok{
+color:#f00;
+}

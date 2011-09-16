@@ -18,9 +18,9 @@ $(function(){
             tip.html("这是必填项")
         }
     }
-    var elem_str="#name,#motto";
+    var elem="#name,#motto";
     if(!$('input[name=pic_id]')[0]){
-        elem_str+=",#pic"
+        elem+=",#pic"
     }
     elem=$(elem);
     elem.blur(verify).focus(function(){
