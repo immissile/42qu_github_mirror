@@ -18,7 +18,11 @@ $(function(){
             tip.html("这是必填项")
         }
     }
-    var elem=$('#name, #motto, #pic');
+    var elem_str="#name,#motto";
+    if(!$('input[name=pic_id]')[0]){
+        elem_str+=",#pic"
+    }
+    elem=$(elem);
     elem.blur(verify).focus(function(){
         $("#errtip_"+this.id).remove()
     })
