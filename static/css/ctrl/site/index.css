@@ -10,6 +10,9 @@ border-bottom:1px dotted #ccc;
 font-size:14px;
 padding:16px 0;
 }
+h1 .new:visited{
+color:#999;
+}
 h1 .nav{
 float:right;
 color:#999
@@ -26,7 +29,6 @@ color:#01a
 .site_txt{
 width:599px;
 float:left;
-margin-top:-7px;
 }
 .site_po{
 border-bottom:1px dotted #ccc;
@@ -42,10 +44,10 @@ float:left;
 margin-right:17px;
 }
 .po_ti{
+margin-top:-3px;
 border-bottom-width: 1px;
 padding-bottom: 11px;
 text-align:left;
-margin-top:4px;
 font-size:14px;
 }
 .po_num{
