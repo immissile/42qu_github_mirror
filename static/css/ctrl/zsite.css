@@ -6,6 +6,9 @@ float: left;
 overflow: hidden;
 font-size: 14px;
 }
+#nav2_touch{
+margin-left:-4px;
+}
 .nav2drop{
 display:none;
 position: absolute;
