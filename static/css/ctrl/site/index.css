@@ -7,8 +7,21 @@ width: 721px;
 margin: auto;
 text-align: left;
 border-bottom:1px dotted #ccc;
-font-size:16px;
+font-size:14px;
 padding:16px 0;
+}
+h1 .nav{
+float:right;
+color:#999
+}
+h1 .nav a{
+color:#999
+}
+h1 .nav .c0{
+color:#000
+}
+h1 .nav a:hover{
+color:#01a
 }
 .site_txt{
 width:599px;
