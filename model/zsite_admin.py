@@ -42,13 +42,13 @@ def mc_flush(zsite_id, admin_id):
 def admin_id_list_by_zsite_id(id):
     return ZsiteAdmin.where(
         zsite_id=id
-    ).where('state>%s' % ZSITE_ADMIN_STATE_DEL).col_list(col='admin_id')
+    ).where('state>%s' % ZSITE_ADMIN_STATE_DEL).order_by("id desc").col_list(col='admin_id')
 
 @mc_zsite_id_list_by_admin_id('{id}')
 def zsite_id_list_by_admin_id(id):
     return ZsiteAdmin.where(
         admin_id=id
-    ).where('state>%s' % ZSITE_ADMIN_STATE_DEL).col_list(col='zsite_id')
+    ).where('state>%s' % ZSITE_ADMIN_STATE_DEL).order_by("id desc").col_list(col='zsite_id')
 
 
 def zsite_list_by_admin_id(id, limit=None, offset=0):
