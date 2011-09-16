@@ -11,33 +11,13 @@ from model.zsite_site import ZSITE_STATE_SITE2CN
 state = current_user.state
 %>
 <%def name="htm_head()">
+<script src="${js.ctrl_site_new}"></script>
 ${css.ctrl_site_new|n}
 </%def>
 
-<script type="text/javascript">
-$(function(){
-    $('.errtip').css('display','none')
-    function empty(e){
-        if($.trim(e.val())=="") return 1
-        return 0
-    }
-    $('#name, #motto, #pic').blur(function(){
-        if(empty($(this))){
-            $('#errtip_'+$(this).attr('id')).css('display','block')
-        }
-    }).focus(function(){
-        $('#errtip_'+$(this).attr('id')).css('display','none')
-    })
-    $('#submit').click(function(){
-        if(!empty($('#name'))&&!empty($('#pic'))&&!empty($('#motto')))
-        $("form:first").submit()
-        else $('body,html').animate({scrollTop: 0}, 0)
-    })
-})
-</script>
 
 
-<%htm:form enctype="multipart/form-data" className="site_new">
+<%htm:form enctype="multipart/form-data" className="site_new" onsubmit="return site_new()">
 <h1>创建站点</h1>
 %if pic_id:
 <img class="imgpic" src="${fs_url_jpg('96',pic_id)}">
@@ -116,6 +96,6 @@ autocomplete="off" name="link_name"
 %endfor
 
 <div>
-<span class="btnw"><button type="button" id="submit">确定</button></span>
+<span class="btnw"><button type="submit" id="submit">确定</button></span>
 </div>
 </%htm:form>
