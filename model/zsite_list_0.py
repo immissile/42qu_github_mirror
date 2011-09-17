@@ -35,9 +35,4 @@ def zsite_show_rank(zsite_id, rank):
 
 if __name__ == '__main__':
 #    print zsite_show()
-    zsite_show_update()
-    from model.zsite import Zsite
-    for i in ormiter(ZsiteList, 'owner_id=0 and cid=0'):
-        if i.rank:
-            print i.zsite_id
-            print i.rank
+    pass
