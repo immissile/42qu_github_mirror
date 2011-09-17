@@ -10,8 +10,6 @@ OWNER_ID = 0
 
 zsite_show = partial(zsite_id_list, 0, 0)
 user_list_verify = partial(zsite_id_list_order_id_desc, 0, 0)
-#def zsite_show(limit=None, offset=None):
-#    return zsite_list(0, 0, limit, offset)
 
 def zsite_show_update():
     for i in ormiter(ZsiteList, 'owner_id=0 and cid=0'):
