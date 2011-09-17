@@ -4,6 +4,7 @@ from zsite_list import ZsiteList, zsite_id_list, zsite_list_new, zsite_list_rm, 
 from functools import partial
 from zsite_rank import zsite_rank_get
 from zweb.orm import ormiter
+from model.cid import CID_USER, CID_SITE
 
 OWNER_ID = 0
 
@@ -18,9 +19,9 @@ def zsite_show_update():
         i.save()
     mc_flush_owner_id_cid(0, 0)
 
-def zsite_show_new(zsite_id, rank=1000):
+def zsite_show_new(zsite_id, cid=CID_USER, rank=1):
     cid_list = [] # TODO
-    zsite_list_new(zsite_id, 0, cid_list, rank)
+    zsite_list_new(zsite_id, cid, cid_list, rank)
 
 def zsite_show_rm(zsite_id):
     zsite_list_rm(zsite_id, 0)
