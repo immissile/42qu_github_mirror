@@ -54,8 +54,13 @@ def follow_list_by_from_id_cid(from_id, cid):
     id_list = follow_id_list_by_from_id_cid(from_id, cid)
     return Zsite.mc_get_list(id_list)
 
-@mc_follow_get('{from_id}_{to_id}')
 def follow_get(from_id, to_id):
+    if from_id:
+        return _follow_get(from_id, to_id)
+    return False
+
+@mc_follow_get('{from_id}_{to_id}')
+def _follow_get(from_id, to_id):
     follow_cursor.execute(
         'select id from follow where from_id=%s and to_id=%s',
         (from_id, to_id)
