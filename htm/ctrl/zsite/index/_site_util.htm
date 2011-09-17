@@ -1,0 +1,24 @@
+<%!
+_sidebar_nav = (
+    ("/word", "碎语"),
+    ("/note", "文章"),
+    ("/event", "活动"),
+
+)
+%>
+<%def name="sidebar_nav()">
+<%
+now = request.path
+%>
+<div id="sidebar_nav">
+%for path,name in _sidebar_nav:
+<a
+class="event_a\
+%if now.startswith(path):
+ now\
+%endif
+"
+href="${path}"><span class="L">${name}</span>2</a>\
+%endfor
+</div>
+</%def>

@@ -1,4 +1,5 @@
 <%inherit file="_base_site.htm" />
+<%namespace file="_site_util.htm" import="sidebar_nav"/>
 
 <%def name="head()">
 <script src="${js.ctrl_zsite_site|n}"></script>
@@ -86,8 +87,7 @@
                 <textarea id="say_txt" class="say_txt">今天 ,  想说什么?</textarea>
             </div>
             <a class="event_a tc" href="http://meet.42qu.com/4295032832/ago">主页</a>
-            <a class="event_a" href="http://meet.42qu.com/4295032832"><span><span class="L">信息架构</span>4</span></a>
-            <a class="event_a" href="http://meet.42qu.com/4295032832/1"><span><span class="L">游吟水域</span>2</span></a>
+            ${sidebar_nav()}
         </div>
         <a href="http://meet.42qu.com/4295032832/ago"></a>
     </div>

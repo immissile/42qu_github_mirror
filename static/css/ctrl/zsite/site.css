@@ -13,9 +13,10 @@ position:relative;
 z-index:1;
 }
 .imgabout{
-width:213px;
+width:211px;
 border:1px dotted #ccc;
-padding:2px;
+padding:3px;
+margin-bottom:-9px;
 border-top:0;
 }
 .G .G1about{
@@ -233,4 +234,7 @@ margin-top:2px;
 }
 .pop_ok{
 color:#a10;
+}
+#sidebar_nav .now{
+color:#000
 }
