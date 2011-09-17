@@ -26,14 +26,14 @@ def zsite_show_update():
     for cid in (CID_SITE, CID_USER):
         mc_flush_owner_id_cid(OWNER_ID, cid)
 
-def zsite_show_new(zsite_id, cid=CID_USER, rank=1):
+def zsite_show_new(zsite_id, cid, rank=1):
     zsite_list_new(zsite_id, OWNER_ID, cid, rank)
 
 def zsite_show_rm(zsite_id):
     zsite_list_rm(zsite_id, OWNER_ID)
 
 def zsite_show_get(zsite_id, cid=CID_USER):
-    return zsite_list_get(zsite_id, cid, OWNER_ID)
+    return zsite_list_get(zsite_id, OWNER_ID, cid)
 
 def zsite_show_rank(zsite_id, rank):
     zsite_list_rank(zsite_id, OWNER_ID, rank)
@@ -43,8 +43,5 @@ if __name__ == '__main__':
 #    print zsite_show()
     pass
     #ZsiteList.where(owner_id=0,cid=0).update(cid=CID_USER)
-    for i in ZsiteList.where("owner_id!=0"):
-        i.owner_id = 0
-        i.cid = CID_USER
-        i.save() 
-        
+    print zsite_show_get(10000000)
+    print list(ZsiteList.where("owner_id!=0"))

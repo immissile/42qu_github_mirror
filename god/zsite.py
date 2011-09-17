@@ -8,7 +8,7 @@ from model.zsite_list_0 import zsite_show_new, zsite_show_rm
 from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
-from model.cid import CID_ZSITE
+from model.cid import CID_ZSITE, CID_USER
 from zkit.page import page_limit_offset
 
 from model.pic import pic_no
@@ -84,7 +84,7 @@ class Show(Base):
         rank = self.get_argument('rank', 0)
         rank = int(rank)
         if zsite:
-            zsite_show_new(id, rank)
+            zsite_show_new(id, zsite.cid, rank)
         self.redirect('/zsite/%s'%id)
 
 
@@ -141,7 +141,7 @@ class Verify(Base):
             if state:
                 zsite_verify_yes(zsite)
                 if state == 2:
-                    zsite_show_new(id, zsite_rank_max(11))
+                    zsite_show_new(id, zsite.cid, zsite_rank_max(6))
             else:
                 zsite_verify_no(zsite, txt)
             self.finish({'state': True})

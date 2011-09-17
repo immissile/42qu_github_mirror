@@ -76,5 +76,5 @@ def zsite_rank_by_zsite_id(id):
 if __name__ == '__main__':
     #ZsiteRank.where().update(value=0)
 
-    print kv_int.get(KV_ZSITE_RANK_POWER)
-
+    print zsite_rank_max(1)
+    print zsite_rank_max(8)
