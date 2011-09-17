@@ -1,8 +1,27 @@
-h1{ 
+.h1about , .h1feed{ 
 border-bottom:1px dotted #ccc; 
 padding:16px 0; 
 font-size: 16px; 
 text-align: center; 
+}
+.h1about{ 
+width:754px;
+background:#fff;
+margin-left:32px;
+float:left;
+position:relative;
+z-index:1;
+}
+.imgabout{
+width:213px;
+border:1px dotted #ccc;
+padding:2px;
+border-top:0;
+}
+.G .G1about{
+position:relative;
+float:right;
+margin-top:-61px;
 } 
 #nav2 .verify span{
 background:#a10;
