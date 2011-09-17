@@ -34,13 +34,13 @@ def zsite_id_list_order_id_desc(owner_id, cid, limit=None, offset=None):
     qs = ZsiteList.where(owner_id=owner_id, cid=cid, state=1).order_by('id desc')
     return qs.col_list(limit, offset, 'zsite_id')
 
-def zsite_list_new(zsite_id, owner_id, cid, rank=1):
+def zsite_list_new(zsite_id, owner_id, cid, rank=1, state=STATE_ACTIVE):
     zsite = ZsiteList.get_or_create(
         zsite_id=zsite_id,
         owner_id=owner_id,
         cid=cid,
     )
-    zsite.state = 1
+    zsite.state = state
     zsite.rank = rank
     zsite.save()
     mc_flush_owner_id_cid(owner_id, cid)
