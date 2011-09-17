@@ -16,7 +16,8 @@ from model.zsite_site import site_new
 from model.motto import motto_set
 from model.txt import txt_new
 from model.zsite_admin import zsite_by_admin_id_count, zsite_list_by_admin_id
-
+from model.zsite_show import zsite_show_list, zsite_show_count
+from model.cid import CID_SITE
  
 PAGE_LIMIT = 20
 
@@ -46,10 +47,10 @@ class Index(SiteListBase, Base):
     page_url = "/-%s"
 
     def _total(self):
-        return 0
+        return zsite_show_count(CID_SITE)
     
     def _page_list(self, limit, offset):
-        return []
+        return zsite_show_list(CID_SITE, limit, offset)
 
 @urlmap("/my")
 @urlmap("/my-(\d+)")
