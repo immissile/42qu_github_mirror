@@ -76,7 +76,7 @@ event_to_review_max = event_to_review_max_li and event_to_review_max_li[0] or 0
 
 
 <p class="coltitle">浏览</p>
-<a class="cola" href="/user_list_verify"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_VERIFY ).where(cid=CID_USER).count()}</span>认证用户</a>
+<a class="cola" href="/user_show_id_list"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_VERIFY ).where(cid=CID_USER).count()}</span>认证用户</a>
 <a class="cola" href="/user_list#${Zsite.raw_sql('select max(id) from zsite where cid=%s',CID_USER).fetchone()[0] or ''}"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_ACTIVE).where(cid=CID_USER).count()}</span>用户</a>
 <a class="cola" href="/po#${Po.raw_sql('select max(id) from po').fetchone()[0] or ''}"><span class="R">${Po.where('state>%s', STATE_DEL).count()}</span>最近的Po</a>
 <a class="cola" href="/po/show"><span class="R">${po_show_count(0)}</span>广播</a>
