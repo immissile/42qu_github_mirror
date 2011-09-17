@@ -10,7 +10,7 @@ OWNER_ID = 0
 
 user_list_verify = partial(zsite_id_list_order_id_desc, 0, 0)
 
-def zsite_show_list(cid=CID_USER, limit=None, offset=None):
+def zsite_show_list(cid, limit=None, offset=None):
     id_list = zsite_id_list(0, cid, limit, offset)
     return Zsite.mc_get_list(id_list)
 
