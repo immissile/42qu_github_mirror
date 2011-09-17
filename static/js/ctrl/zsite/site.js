@@ -13,6 +13,7 @@ $(function(){
             else txt.select();
         }   
     })
+    
     txt_maxlen(txt,after.find('.pop_tip'),142)
 
     close_pop = function (){
@@ -25,14 +26,25 @@ $(function(){
     }
 
     post_say = function (){
-        txt.replaceWith('<pre class="pop_txt" id="pop_txt">'+txt.val()+'</pre>')
+        txt.replaceWith($('<pre class="pop_txt" id="pop_txt"/>').html(txt.val()))
         $('.pop_tip').replaceWith('<div class="say_loading pop_tip"></div>')
         $('.pop_close,.pop_submit').hide()
-        $.post('/deal.py',{value:$('.pop_txt').val()},post_ok())
-        function post_ok(){
-        $('.pop_tip').replaceWith('<div class="pop_ok pop_tip">发表成功!</div>')
-        var pop_ok = $('.pop_ok')   
-        pop_ok.fadeOut("slow",function(){pop_ok.fadeIn(location.reload())})
-        }
+        $.postJSON(
+            '/j/po/word',
+            {
+                "txt":$('.pop_txt').val()
+            },
+            function(){
+                $('.pop_tip').replaceWith('<div class="pop_ok pop_tip">发表成功</div>')
+                var pop_ok = $('.pop_ok')  
+                pop_ok.fadeIn(function(){
+                    location="/word"
+                })
+            }
+        )
     }
 })
+
+
+
+

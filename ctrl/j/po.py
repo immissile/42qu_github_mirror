@@ -26,6 +26,17 @@ def post_reply(self, id):
                 po.reply_new(user, txt, po.state)
         self.finish(result)
 
+
+@urlmap('/j/po/word')
+class Word(JLoginBase):
+    def post(self):
+        txt = self.get_argument('txt', None)
+        if txt:
+            pass 
+        self.finish('{}')
+
+
+
 @urlmap('/j/po/reply/(\d+)')
 class Reply(JLoginBase):
     post = get = post_reply
