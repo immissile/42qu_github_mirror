@@ -9,7 +9,7 @@ from model.zsite import Zsite
 
 OWNER_ID = 0
 
-user_list_verify = partial(zsite_id_list_order_id_desc, CID_USER, 0)
+user_list_verify = partial(zsite_id_list_order_id_desc, OWNER_ID, CID_USER)
 
 def zsite_show_list(cid, limit=None, offset=None):
     id_list = zsite_id_list(OWNER_ID, cid, limit, offset)
