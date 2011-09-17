@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from zsite_list import ZsiteList, zsite_id_list, zsite_list_new, zsite_list_rm, zsite_list_get, zsite_list_rank, mc_flush_owner_id_cid, zsite_id_list_order_id_desc
+from zsite_list import ZsiteList, zsite_id_list, zsite_list_new, zsite_list_rm, zsite_list_get, zsite_list_rank, mc_flush_owner_id_cid, zsite_id_list_order_id_desc, zsite_list_count
 from functools import partial
 from zsite_rank import zsite_rank_get
 from zweb.orm import ormiter
@@ -15,7 +15,8 @@ def zsite_show_list(cid, limit=None, offset=None):
     id_list = zsite_id_list(OWNER_ID, cid, limit, offset)
     return Zsite.mc_get_list(id_list)
 
-def zsite_id_show_zsite_list_count
+def zsite_show_count(cid):
+    return zsite_list_count(OWNER_ID, cid)
 
 def zsite_show_update():
     for i in ormiter(ZsiteList, 'owner_id=0'):
