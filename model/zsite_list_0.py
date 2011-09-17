@@ -15,6 +15,8 @@ def zsite_show_list(cid, limit=None, offset=None):
     id_list = zsite_id_list(OWNER_ID, cid, limit, offset)
     return Zsite.mc_get_list(id_list)
 
+def zsite_id_show_zsite_list_count
+
 def zsite_show_update():
     for i in ormiter(ZsiteList, 'owner_id=0'):
         i.rank = zsite_rank_get(i.zsite_id)
