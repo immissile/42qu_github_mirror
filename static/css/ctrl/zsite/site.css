@@ -12,6 +12,28 @@ float:left;
 position:relative;
 z-index:1;
 }
+.mk_ti{
+font-size:16px;
+margin:14px 0 2px;
+padding-bottom:18px;
+border-bottom:1px dotted #ccc;
+overflow:auto;
+}
+.mk_txt{
+width:699px;
+height:140px;
+padding:10px;
+border:1px dotted #ccc;
+font-size:14px;
+line-height:28px;
+margin-bottom:10px;
+}
+.G3center{
+margin-left:auto;
+margin-right:auto;
+text-align:center;
+width:721px;
+}
 .imgabout{
 width:211px;
 border:1px dotted #ccc;
@@ -24,6 +46,26 @@ position:relative;
 float:right;
 margin-top:-61px;
 } 
+.bio{
+font-size:14px;
+line-height:28px;
+margin:10px 5px 0;
+}
+.bio_a{
+margin:0 4px;
+}
+.bio_link{
+margin:27px auto 1px;
+text-align:center;
+padding-bottom:27px;
+border-bottom:1px dotted #ccc;
+}
+.his_ti{
+padding:6px 14px;
+font-size:14px;
+border:dotted #ccc;
+border-width:1px 0;
+}
 #nav2 .verify span{
 background:#a10;
 color:#fff;

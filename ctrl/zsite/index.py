@@ -38,4 +38,7 @@ class About(ZsiteBase):
     def get(self):
         self.render()
 
-
+@urlmap('/mark')
+class Mark(ZsiteBase):
+    def get(self):
+        self.render()

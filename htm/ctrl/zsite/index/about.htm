@@ -3,7 +3,16 @@
 
 <%!
 %>
-
+<script type="text/javascript">
+    function fav(){
+        fancybox_word(
+            '收藏备注 :',
+            '/j/fav/txt',
+            '收藏成功 !'
+        )
+        $("#fav_a").text('设置').attr('href','/fav')
+    }
+</script>
 
 <div class="G">
 <h1 class="h1about">
@@ -14,6 +23,12 @@
 ${sidebar_nav()}
 </div>
 <div class="G3 G3about">
-23
+    <pre class="bio">暑夜乘凉，偕诸兄妹坐庭院间，射谜语、捉迷藏、歌俗谣、扑流萤，觉人生之乐无逾于此。今言扑萤之乐。
+萤之来也，必先有一萤，以为之招。又或庭中花树葱郁，则亦以为止息之地。
+    </pre>
+    <div class="bio_link">
+        <a class="bio_a" href="#">官网</a> - <a class="bio_a" href="#">新浪微博</a>
+    </div>
+    <h1 class="his_ti">编年史</h1>
 </div>
 </div>
