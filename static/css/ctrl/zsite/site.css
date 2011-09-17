@@ -19,22 +19,14 @@ background:#F60;
 .event_po_head{
 padding-bottom:16px;
 border-bottom:1px dotted #ccc;
-/*
 *zoom:1;
-*margin-top:-20px;
 *padding-bottom:0;
-_margin-bottom:22px;
-_margin-top:-30px;
-*/
 }
 .event_po{ 
 padding-bottom: 27px; 
 border-bottom:1px dotted #ccc; 
-/*
 *zoom:1;
 *padding-bottom:1px;
-_margin-bottom:22px;
-*/
 } 
 .event_ti{
 border:1px dotted #ccc;
@@ -43,11 +35,7 @@ margin-bottom:21px;
 margin-top:1px;
 padding: 6px 0;
 text-align: right;
-/*
 *zoom:1;
-*margin-top:-10px;
-_margin-top:0;
-*/
 } 
 .ti_txt{ 
 float: left; 
@@ -84,6 +72,8 @@ margin-top:5px;
 }
 .po_more{
 margin-top:6px;
+*margin-bottom:-8px;
+_margin-bottom:-6px;
 }
 .po_au{
 clear: both;
