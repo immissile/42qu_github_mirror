@@ -15,7 +15,7 @@ $(function(){
             var tip=$('<div class="errtip" id="errtip_'+id+'"/>');
             self.after(tip);
             tip.fadeOut(function(){tip.fadeIn()})
-            tip.html("这是必填项")
+            tip.html("此项必填")
         }
     }
     var elem="#name,#motto";
