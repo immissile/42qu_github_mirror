@@ -3,9 +3,9 @@
 from _handler import Base
 from _urlmap import urlmap
 from model.zsite import Zsite
+from model.cid import CID_USER
 from zkit.page import page_limit_offset
-from model.zsite_list import zsite_list_count
-from model.zsite_list_0 import user_list_verify
+from model.zsite_list_0 import user_list_verify, zsite_show_count
 
 PAGE_LIMIT = 100
 
@@ -33,7 +33,7 @@ class Index(Base):
 class IndexV(Base):
     def get(self, n=1):
         n = int(n)
-        count = zsite_list_count(0, 0)
+        count = zsite_show_count(CID_USER)
         page, limit, offset = page_limit_offset('/user_list_verify-%s', count, n, 64)
         zsite_list = Zsite.mc_get_list(user_list_verify(limit, offset))
         self.render(zsite_list=zsite_list, page=page)

@@ -15,7 +15,7 @@ from model.ico import site_ico_new, site_ico_bind
 from model.zsite_site import site_new
 from model.motto import motto_set
 from model.txt import txt_new
-from model.zsite_admin import zsite_by_admin_id_total, zsite_list_by_admin_id
+from model.zsite_admin import zsite_by_admin_id_count, zsite_list_by_admin_id
 
  
 PAGE_LIMIT = 20
@@ -57,7 +57,7 @@ class My(SiteListBase, LoginBase):
     page_url = "/my-%s"
 
     def _total(self):
-        return zsite_by_admin_id_total(
+        return zsite_by_admin_id_count(
             self.current_user_id
         )
 

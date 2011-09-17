@@ -26,7 +26,7 @@ def site_new(name, admin_id, state):
     site_id = site.id
     zsite_admin_new(site_id, admin_id)
 
-    if zsite.state > ZSITE_STATE_SITE_SECRET:
+    if state > ZSITE_STATE_SITE_SECRET:
         zsite_show_new(site_id, CID_SITE)
 
     return site
