@@ -3,7 +3,10 @@ $(function(){
     var say = $('#say'),
     txt = $('#say_txt'),
     after=$('<div class="pop_banner"><a class="pop_submit" href="javascript:post_say();void(0)">发表</a><div class="pop_tip"></div><a class="pop_close" href="javascript:close_pop();void(0)"></a></div>'),
-    tiptxt='今天 , 想说什么?';
+    tiptxt='今天 , 想说什么?',
+    pop_tip=after.find('.pop_tip'),
+    can_say = txt_maxlen(txt,pop_tip,142)
+;
 
     txt.val(tiptxt).focus(function(){
         if(!say.hasClass('pop_say')){
@@ -14,7 +17,6 @@ $(function(){
         }   
     })
     
-    txt_maxlen(txt,after.find('.pop_tip'),142)
 
     close_pop = function (){
         say.attr('class','say')
@@ -26,8 +28,12 @@ $(function(){
     }
 
     post_say = function (){
+        if(!can_say()){
+            pop_tip.fadeOut(function(){pop_tip.fadeIn()})
+            return false
+        }
         txt.replaceWith($('<pre class="pop_txt" id="pop_txt"/>').html(txt.val()))
-        $('.pop_tip').replaceWith('<div class="say_loading pop_tip"></div>')
+        pop_tip.replaceWith('<div class="say_loading pop_tip"></div>')
         $('.pop_close,.pop_submit').hide()
         $.postJSON(
             '/j/po/word',
