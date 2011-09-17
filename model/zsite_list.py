@@ -72,5 +72,4 @@ def zsite_list_rank(zsite_id, owner_id, rank):
         mc_flush_owner_id_cid(owner_id, cid)
 
 if __name__ == "__main__":
-    for i in ZsiteList.where("cid!=0"):
-        print i 
+    pass

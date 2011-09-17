@@ -43,5 +43,8 @@ if __name__ == '__main__':
 #    print zsite_show()
     pass
     #ZsiteList.where(owner_id=0,cid=0).update(cid=CID_USER)
-    print zsite_show_count(CID_SITE)    
+    for i in ZsiteList.where("owner_id!=0"):
+        i.owner_id = 0
+        i.cid = CID_USER
+        i.save() 
         
