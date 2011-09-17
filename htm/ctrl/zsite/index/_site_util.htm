@@ -4,9 +4,10 @@ from model.po import PO_CN_EN
 
 <%def name="sidebar_nav()">
 <%
-now = request.path.lstrip("/")
+now = request.path.lstrip("/").split("-",1)[0]
 %>
 <div id="sidebar_nav">
+<a href="/" class="event_a tc${' now' if not now else ''}">主页</a>\
 %for cid, en, cn, unit in PO_CN_EN:
 <a
 class="event_a\
