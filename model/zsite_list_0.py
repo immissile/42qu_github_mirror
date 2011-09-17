@@ -40,3 +40,6 @@ def zsite_show_rank(zsite_id, rank):
 if __name__ == '__main__':
 #    print zsite_show()
     pass
+    ZsiteList.where(owner_id=0).update(cid=CID_USER)
+        
+        
