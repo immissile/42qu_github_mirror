@@ -4,6 +4,7 @@
 # Zsite
 CID_USER = 1
 CID_CHANNEL = 2
+CID_SITE = 3
 
 
 CID_ZSITE = (
@@ -15,6 +16,7 @@ CID_ZSITE = (
 CID_ICO = 31
 CID_ICO96 = 32
 CID_PO_PIC = 35
+CID_SITE_ICO = 36
 
 
 # Po

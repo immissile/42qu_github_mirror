@@ -30,14 +30,16 @@ is_owner = zsite_id == current_user_id
 
 %if not is_owner and current_user_id:
 <div id="nav2">
-<a id="follow_a${zsite_id}" class="nav_a" href="javascript:follow_a(${zsite_id});void(0)">\
+<a
+    id="follow_a${zsite_id}" class="nav_a" href="javascript:follow_a(${zsite_id});void(0)">\
 %if follow_get(current_user_id, zsite_id):
 淡忘\
 %else:
 关注\
 %endif
-</a>\
-    <a id="nav2_touch" class="nav_a" href="javascript:nav2_touch()">互动</a>
+</a><a 
+    id="nav2_touch" class="nav_a" href="javascript:nav2_touch()"
+>互动</a>
     <div class="nav2drop">
         <a href="/wall">留言</a>\
         <a href="/pay">捐赠</a>\

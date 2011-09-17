@@ -12,7 +12,6 @@ from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 from zkit.errtip import Errtip
-from model.zsite_list_0 import zsite_show
 from model.search_zsite import search_new
 
 LOGIN_REDIRECT = '%s/live'
@@ -47,7 +46,6 @@ SHOW_LIST = (10074584, 10001433, 10054091, 10024555, 10014854, 10061647, 1000248
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
     def get(self, mail=''):
-        #id_list = zsite_show(128, 0)
         id_list = SHOW_LIST
         zsite_list = filter(bool, Zsite.mc_get_list(id_list))
         self.render(

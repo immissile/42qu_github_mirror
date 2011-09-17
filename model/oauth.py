@@ -1,6 +1,8 @@
 #coding:utf-8
 from _db import cursor_by_table, McNum, Model, McCache
+from model.zsite_url import  RE_URL
 
+OAUTH_MY = 0
 OAUTH_GOOGLE = 1
 OAUTH_DOUBAN = 2
 OAUTH_SINA = 3
@@ -13,6 +15,7 @@ OAUTH_RENREN = 9
 OAUTH_LINKEDIN = 10
 
 OAUTH2NAME_DICT = {
+    OAUTH_MY        : "官方网站"    ,
     OAUTH_GOOGLE    : 'Google'      ,
     OAUTH_WWW163    : '网易微博'    ,
     OAUTH_SOHU      : '搜狐微博'    ,
@@ -34,6 +37,13 @@ OAUTH_TUPLE = (
     #OAUTH_SOHU      ,
     #OAUTH_TWITTER   ,
 )
+
+OAUTH2URL = {
+    OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
+    OAUTH_SINA:'http://weibo.com/%s',
+    OAUTH_TWITTER:'http://twitter.com/%s',
+    OAUTH_QQ:'http://t.qq.com/%s',
+}
 
 
 OAUTH2URL = {
@@ -199,6 +209,14 @@ def oauth_name_link(app_id, id):
         r = (None, None)
     return r
 
+def linkify(link, cid=0):
+    link = link.strip().split(' ', 1)[0]
+    if link:
+        if cid in OAUTH2URL and RE_URL.match(link):
+            link = OAUTH2URL[cid] % link
+        elif not link.startswith('http://') and not link.startswith('https://'):
+            link = 'http://%s'%link
+    return link
 
 #from binascii import crc32
 #from hashlib import md5

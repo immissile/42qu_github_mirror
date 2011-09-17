@@ -9,6 +9,7 @@ class Errtip(object):
     def __getattr__(self, name):
         if name.startswith('_'):
             return self.__dict__[name]
+
         if self._errtip and name in self._errtip:
             v = self._errtip[name]
         else:
@@ -30,7 +31,7 @@ class Errtip(object):
     def __setattr__(self, name, value):
         if name.startswith('_'):
             self.__dict__[name] = value
-        else:
+        elif value is not None:
             self.__dict__['_errtip'][name] = value
 
     def __contains__(self, name):

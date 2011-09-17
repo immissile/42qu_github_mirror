@@ -286,7 +286,7 @@ def sync_by_oauth_id(oauth_id, txt, url=None):
 
 def api_network_http(host, netloc, headers, body, method, connection=httplib.HTTPConnection):
     conn = connection(host, timeout=30)
-    #conn.set_debuglevel(1)
+    conn.set_debuglevel(0)
     conn.request(method, netloc, headers=headers, body=body)
     resp = conn.getresponse()
     r = resp.read()
