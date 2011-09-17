@@ -54,9 +54,28 @@ font-size:14px;
 text-align: left;
 margin-top: 13px;
 }
+.po_num a b{
+color:#666;
+font-weight:normal;
+}
+.po_num a:hover b{
+color:#000;
+}
+.po_num a:hover .number{
+border:0;
+color:#000;
+border-bottom:1px solid #000;
+}
+.po_num a .number{
+font-size:12px;
+vertical-align:1px;
+}
 .po_no{
 color:#666;
-font-size:12px;
+}
+.po_num .amp{
+margin:0 4px;
+color:#000;
 }
 .po_no b{
 font-weight:normal;
@@ -65,14 +84,20 @@ font-weight:normal;
 border-bottom:1px solid #000;
 color:#000;
 }
-.po_no:hover .number{
+.po_num .po_no:hover .number{
 background:#000;
+color:#fff;
 }
 .number{
-background:#666;
-color:#fff;
 margin-right:3px;
+color:#666;
+border-bottom:1px dotted #666
+}
+.po_no .number{
+background:#666;
 padding:0 4px;
+color:#fff;
+border:0;
 text-align:right;
 }
 .split{
