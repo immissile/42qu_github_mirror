@@ -7,18 +7,17 @@ function fancybox_txt(tip, action, complete, post,  submit) {
 			var form = $('#po_pop_form'),
 			pop_txt = $('#po_pop_txt').focus(),
 			error = $('#po_pop_error');
-
-			complete && complete()
-            
+            if(complete){
+                complete = complete()           
+            } 
             form.submit(function() {
+                if(complete&&!complete()){
+                    error.hide().fadeIn();
+                    return false
+                }
 				var txt = $.trim(pop_txt.val());
-
 				error.hide();
 
-                if(cnenlen(txt)>142){
-					error.html('文字太多了').fadeIn()
-                    return false;
-				}
 
                 if (txt.length) {
 					submit && submit()
@@ -43,8 +42,8 @@ function fancybox_word(title, path, finish){
 	fancybox_txt(
         title, path,
         function(){
-            txt_maxlen(
-                $("#po_pop_txt"), $('#po_pop_error'), $("#po_pop_form"),  142
+            return txt_maxlen(
+                $("#po_pop_txt"), $('#po_pop_error'),  142
             )
         },
         function() {

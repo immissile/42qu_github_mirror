@@ -216,5 +216,6 @@ function txt_maxlen(txt, tip,  maxlen, update, cancel) {
 			txt.focus()
 			return false
 		}
+        return true
 	}
 }
