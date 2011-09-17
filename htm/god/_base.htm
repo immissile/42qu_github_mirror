@@ -93,7 +93,7 @@ event_to_review_max = event_to_review_max_li and event_to_review_max_li[0] or 0
 <a class="cola" href="/reply_list/${CID_QUESTION}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_QUESTION).count()}</span>评论</a>
 <a class="cola" href="/reply_list/${CID_PHOTO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_PHOTO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_PHOTO).count()}</span>图片</a>
 <a class="cola" href="/reply_list/${CID_VIDEO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_VIDEO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_VIDEO).count()}</span>视频</a>
-<a class="cola" href="/reply_list/${CID_AUDIO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_AUDIO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_AUDIO).count()}</span>音乐</a>
+<a class="cola" href="/reply_list/${CID_AUDIO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_AUDIO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_AUDIO).count()}</span>声音</a>
 
 
 

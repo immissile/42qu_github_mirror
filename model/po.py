@@ -26,7 +26,7 @@ PO_CN_EN = (
     (CID_ANSWER, 'answer', '回答', '个'),
     (CID_PHOTO, 'photo', '图片', '张'),
     (CID_VIDEO, 'video', '视频', '场'),
-    (CID_AUDIO, 'audio', '音乐', '段'),
+    (CID_AUDIO, 'audio', '声音', '段'),
     (CID_EVENT, 'event', '活动', '次'),
 )
 PO_SHARE_FAV_CID = set([i[0] for i in PO_CN_EN])
