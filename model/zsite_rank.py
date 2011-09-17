@@ -53,7 +53,7 @@ def zsite_rank_update(days):
 
 
 def zsite_rank_by_zsite(zsite):
-    from model.zsite_list_0 import zsite_show_get
+    from model.zsite_show import zsite_show_get
     rank = 0
     id = zsite.id
     if zsite.state > ZSITE_STATE_CAN_REPLY:

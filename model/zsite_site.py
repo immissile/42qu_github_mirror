@@ -5,7 +5,7 @@ import _db
 from model.zsite import zsite_new, ZSITE_STATE_ACTIVE
 from model.cid import CID_SITE
 from model.zsite_admin import zsite_admin_new
-from model.zsite_list_0 import zsite_show_new
+from model.zsite_show import zsite_show_new
 
 ZSITE_STATE_SITE_PUBLIC = 40
 ZSITE_STATE_SITE_SECRET = 20

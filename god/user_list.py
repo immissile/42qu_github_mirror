@@ -5,7 +5,7 @@ from _urlmap import urlmap
 from model.zsite import Zsite
 from model.cid import CID_USER
 from zkit.page import page_limit_offset
-from model.zsite_list_0 import user_list_verify, zsite_show_count
+from model.zsite_show import user_list_verify, zsite_show_count
 
 PAGE_LIMIT = 100
 

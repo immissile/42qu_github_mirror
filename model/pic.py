@@ -64,7 +64,7 @@ def _pic_no(id, admin_id):
 def pic_no(id, admin_id):
     user_id = _pic_no(id, admin_id)
     if user_id:
-        from zsite_list_0 import zsite_show_rm
+        from zsite_show import zsite_show_rm
         from zsite import Zsite, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY, ZSITE_STATE_WAIT_VERIFY
         zsite_show_rm(user_id)
         zsite = Zsite.mc_get(user_id)
