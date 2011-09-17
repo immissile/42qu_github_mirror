@@ -52,6 +52,7 @@ function fancybox_word(title, path, finish){
 		})	
     })
 }
+
 function event_kill(id) {
     fancybox_word(
         '解散原因如下 :',
