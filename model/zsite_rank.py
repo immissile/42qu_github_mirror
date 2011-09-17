@@ -29,7 +29,7 @@ def zsite_rank_max(offset=1):
 
 def zsite_rank_rebase():
     n = kv_int.get(KV_ZSITE_RANK_POWER) or 100
-    if n > 9999:
+    if n > 5000:
         kv_int.set(KV_ZSITE_RANK_POWER, 100)
         ZsiteRank.raw_sql('update zsite_rank set value=value*100/%s', n)
         for i in ormiter(ZsiteRank):
@@ -75,8 +75,6 @@ def zsite_rank_by_zsite_id(id):
 
 if __name__ == '__main__':
     #ZsiteRank.where().update(value=0)
-    pass
-    print zsite_rank_max(2)
 
-
+    print kv_int.get(KV_ZSITE_RANK_POWER)
 

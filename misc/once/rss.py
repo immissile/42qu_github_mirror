@@ -5,6 +5,7 @@ USER2RSS = """
 10002411 http://www.realfex.com/feed
 10000566 http://xlvector.net/blog/?feed=rss2
 10066567 http://blog.sina.com.cn/rss/1677574270.xml
+10043973 http://blog.sina.com.cn/rss/1593119885.xml
 """.strip().split('\n')
 
 

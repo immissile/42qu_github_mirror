@@ -123,7 +123,7 @@ def event_weekly(begin):
             event_weekly_mail(i, event_li)
             #print i.id
             #sys.stdout.flush()
-            time.sleep(0.1)
+            time.sleep(0.01)
         return last_id
 
 @single_process
