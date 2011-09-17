@@ -32,4 +32,9 @@ class Link(LoginBase):
     def get(self, id):
         self.redirect(link_by_id(id))
 
+@urlmap('/about')
+class About(ZsiteBase):
+    def get(self, id):
+        self.redirect(link_by_id(id))
+
 
