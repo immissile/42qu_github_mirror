@@ -14,6 +14,7 @@ z-index:1;
 }
 .mk_ti{
 font-size:16px;
+color:#999;
 margin:14px 0 2px;
 padding-bottom:18px;
 border-bottom:1px dotted #ccc;
@@ -160,7 +161,7 @@ margin-left:14px;
 font-size:14px;
 }
 .say{
-margin-bottom:9px;
+margin-bottom:20px;
 }
 .say_txt{
 color:#999;
@@ -174,7 +175,8 @@ vertical-align:-1px;
 padding: 7px 3px;
 font-size: 14px;
 line-height:28px;
-overflow: auto;
+overflow: hidden;
+cursor:text;
 }
 .event_cid .tc, #sidebar_nav .tc{
 text-align:center;
@@ -198,8 +200,10 @@ color:#000;
 .pop_say{
 position:absolute;
 right:0;
+top:0;
 z-index:1; 
 overflow:hidden;
+display:none;
 text-align:left;
 width: 458px;
 color:#000;
@@ -223,7 +227,7 @@ text-align:left;
 border-top:1px dotted #ccc;
 z-index:1;
 width:458px;
-height:30px;
+height:34px;
 background:#fff;
 }
 .pop_tip{
