@@ -93,7 +93,7 @@ class PoBase(LoginBase):
     def get(self):
         user_id = self.current_user_id
         self.render(
-            'ctrl/me/po/po.htm',
+            'ctrl/zsite/po/po.htm',
             cid=self.cid,
             po=JsDict(),
             pic_list=pic_list_edit(user_id, 0),
@@ -152,7 +152,7 @@ class Edit(LoginBase):
             self.event = Event.mc_get(po.rid)
 
         self.render(
-            'ctrl/me/po/po.htm',
+            'ctrl/zsite/po/po.htm',
             po=po,
             cid=po.cid,
             pic_list=pic_list_edit(user_id, id)
