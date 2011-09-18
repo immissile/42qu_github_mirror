@@ -1,0 +1,88 @@
+<%!
+from config import SITE_DOMAIN
+from model.zsite import ZSITE_STATE_VERIFY
+from model.zsite_link import SITE_LINK_ZSITE_DICT
+from model.ico import fs_url_jpg
+from model.zsite_site import ZSITE_STATE_SITE2CN
+%>
+<%def name="site_new()">
+%if pic_id:
+<img class="imgpic" src="${fs_url_jpg('96',pic_id)}">
+<input class="file" type="hidden" name="pic_id" value="${pic_id}" >
+%endif
+<div>
+标识图片\
+<input class="file" type="file" name="pic" id="pic">${errtip.pic|n}
+</div>
+<div>
+显示名称<input autocomplete="off" class="input" type="text" name="name" id="name"  value="${name or ''}">\
+${errtip.name|n}
+</div>
+<div>
+口号宣言<input class="input" autocomplete="off" type="text" name="motto" id="motto"  value="${motto or ''}">\
+${errtip.motto|n}
+</div>
+<div>
+个性域名<input autocomplete="off" class="input" type="text" name="url" value="${url or ''}">\
+<span class="ltip">域名由英语字母，数字，和 - 构成，长度在5-32个字符</span>\
+${errtip.url|n}
+</div>
+<div>
+文字介绍<textarea name="txt" class="txt">${txt or ''}</textarea>
+</div>
+<div>
+浏览权限<select class="sitetype" name="sitetype">\
+%for state,state_name in ZSITE_STATE_SITE2CN:
+<option value="${state}"
+%if sitetype==state:
+selected
+%endif
+>${state_name}</option>\
+%endfor
+</select>
+<span class="warn">注意 : 此设置无法修改</span>
+</div>
+
+%for cid, link_name, link in link_cid:
+<div>
+<label for="cid${cid}">${link_name}</label>\
+<input 
+id="cid${cid}"
+autocomplete="off"
+type="text" 
+class="input" name="link" value="${link}">\
+</div>\
+<input type="hidden" value="${cid}" name="cid">
+%endfor
+
+
+%for i in range(4):
+<%
+if i<len(link_list):
+    id, k, v = link_list[i]
+else:
+    v = ''
+    if i==0:
+        k = 'Blog'
+    else:
+        k = ''
+    id = 0
+%>
+<div>
+<input type="hidden" name="id" value="${id}">\
+<input type="text" class="link_k"
+autocomplete="off" name="key" value="${k}"
+>\
+<input type="text" class="input" name="value" value="${v}"
+autocomplete="off" name="link_name"
+>\
+%if i==0:
+<span class="ltip">自定义链接</span>
+%endif
+</div>
+%endfor
+
+<div>
+<span class="btnw"><button type="submit" id="submit">确定</button></span>
+</div>
+</%def>
