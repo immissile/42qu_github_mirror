@@ -2,6 +2,7 @@
 
 <%!
 from model.motto import motto_get
+from model.zsite import zsite_user_state
 %>
 
 <%def name="htm_head()">
@@ -21,7 +22,11 @@ ${zsite.name}
  - ${motto}
 %endif
 </%def>
-    
+<%
+if not current_user_id:
+    is_admin = False
+zsite_user_state
+%>
 <div id="nav2">
 <a href="javascript:fav();void(0)" class="nav_a" id="fav_a">收藏</a>\
 <a href="javascript:nav2_touch();void(0)" id="nav2_touch"  class="nav_a">发帖</a>\
