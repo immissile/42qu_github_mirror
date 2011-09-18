@@ -33,9 +33,5 @@ class Link(LoginBase):
         self.redirect(link_by_id(id))
 
 
-@urlmap('/about')
-class About(ZsiteBase):
-    def get(self):
-        self.render()
 
 

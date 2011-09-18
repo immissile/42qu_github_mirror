@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from ctrl._urlmap.zsite import urlmap
-from _handler import ZsiteBase, LoginBase, XsrfGetBase
+from _handler.site import ZsiteBase, _login_redirect
+from model.cid import CID_SITE
+
 
 
 @urlmap('/mark')
@@ -16,3 +18,7 @@ class Mark(LoginBase):
         self.render()
 
 
+@urlmap('/about')
+class About(SiteBase):
+    def get(self):
+        self.render()
