@@ -2,7 +2,6 @@
 from _db import cursor_by_table, McNum, Model, McCache
 from model.zsite_url import  RE_URL
 
-OAUTH_MY = 0
 OAUTH_GOOGLE = 1
 OAUTH_DOUBAN = 2
 OAUTH_SINA = 3
@@ -13,6 +12,7 @@ OAUTH_SOHU = 7
 OAUTH_QQ = 8
 OAUTH_RENREN = 9
 OAUTH_LINKEDIN = 10
+OAUTH_MY = 100
 
 OAUTH2NAME_DICT = {
     OAUTH_MY        : "官方网站"    ,
