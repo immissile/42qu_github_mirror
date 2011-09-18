@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-get_rss_po
+from ctrl.me.po import PoBase
 """
 
 TO_STRING = """
-rss_po_list_by_state
+from ctrl.me.zsite import PoBase
 """
 
 def run():
