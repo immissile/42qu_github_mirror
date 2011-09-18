@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from _handler import ZsiteBase, _login_redirect
+from model.cid import CID_SITE
 
 class SiteBase(ZsiteBase):
     def prepare(self):
         super(SiteBase, self).prepare()
+        zsite = self.zsite
         if zsite.cid != CID_SITE:
             return self.redirect("/")
 

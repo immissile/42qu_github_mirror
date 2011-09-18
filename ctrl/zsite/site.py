@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from ctrl._urlmap.zsite import urlmap
-from _handler.site import ZsiteBase, _login_redirect
-from model.cid import CID_SITE
+from _handler_site import SiteBase, LoginBase
 
 
 
