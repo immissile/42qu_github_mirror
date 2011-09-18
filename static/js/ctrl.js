@@ -26,13 +26,13 @@ function _rm(prefix, url) {
 }
 jQuery.fn.extend({
 	elastic_login: function() {
-		this.find('input').focus(nologin)
-		this.find('textarea').elastic().focus(nologin)
-		return this.submit(nologin)
+		this.find('input').focus(islogin)
+		this.find('textarea').elastic().focus(islogin)
+		return this.submit(islogin)
 	}
 })
 
-function nologin(){
+function islogin(){
     if (!$.cookie.get('S')) {
         login()
         return false

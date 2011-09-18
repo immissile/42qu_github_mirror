@@ -24,9 +24,10 @@ $('#event_join_btn').submit(function() {
 })
 
 function nav2_touch(){
+    if(!islogin())return;
     var html = $('html,body'),
-         e=$("#nav2_touch").blur(),  
-         drop = $(e[0].parentNode).find('div');
+        e=$("#nav2_touch").blur(),  
+        drop = $(e[0].parentNode).find('div');
 
         function _() {
             drop.hide()
