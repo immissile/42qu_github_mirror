@@ -60,7 +60,8 @@ function fav(){
         '备注 :',
         '/j/fav',
         function(){
-            $("#fav_a").text('设置').attr('href','/fav')
-        }
+            $("#fav_a").text('设置').attr('href','/mark')
+        },
+        function(){return 1} 
     )
 }

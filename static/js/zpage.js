@@ -122,7 +122,12 @@ cnenlen = function(str) {
 } 
 })();
 
-function fancybox_txt(tip, action, complete, post,  submit) {
+function fancybox_txt(tip, action, complete, post,  submit, can_post) {
+    can_post = can_post|| function (txtlen, error, pop_txt){
+        if(txtlen)return true; 
+        error.html('请输入文字').fadeIn()
+        pop_txt.focus()
+    }
 	var fancybox = $.fancybox;
 	fancybox({
 		'content': '<form method="POST" id="po_pop_form" class="po_pop_form"><div class="po_pop_tip">　</div><div id="po_pop_main"><textarea id="po_pop_txt" name="txt" class="po_pop_txt"></textarea></div><div class="btns"><span id="po_pop_error"></span><span class="btnw"><button type="submit">确认</button></span></div></form>',
@@ -143,7 +148,9 @@ function fancybox_txt(tip, action, complete, post,  submit) {
 				error.hide();
 
 
-                if (txt.length) {
+                if (
+                    can_post(txt.length,error,pop_txt)
+                ) {
 					submit && submit()
 					fancybox.showActivity()
 					$.postJSON(
@@ -151,18 +158,15 @@ function fancybox_txt(tip, action, complete, post,  submit) {
 						'txt': txt
 					},
 					post)
-				} else {
-					error.html('请输入文字').fadeIn()
-					pop_txt.focus()
-				}
-
+				} 
 				return false
 			})
 		},
 	})
 }
 
-function fancybox_word(title, path, finish){ 
+function fancybox_word(title, path, finish, can_post){ 
+
 	fancybox_txt(
         title, path,
         function(){
@@ -182,7 +186,9 @@ function fancybox_word(title, path, finish){
                 }
             }
             $.fancybox.close() 	
-        }
+        },
+        0,
+        can_post                    
     )
 }
 
