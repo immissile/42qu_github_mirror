@@ -26,17 +26,19 @@ function _rm(prefix, url) {
 }
 jQuery.fn.extend({
 	elastic_login: function() {
-		function _() {
-			if (!$.cookie.get('S')) {
-				login()
-				return false
-			}
-		}
-		this.find('input').focus(_)
-		this.find('textarea').elastic().focus(_)
-		return this.submit(_)
+		this.find('input').focus(islogin)
+		this.find('textarea').elastic().focus(islogin)
+		return this.submit(islogin)
 	}
 })
+
+function islogin(){
+    if (!$.cookie.get('S')) {
+        login()
+        return false
+    }
+    return true
+}
 
 function login() {
 	$.fancybox({

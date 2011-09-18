@@ -56,6 +56,7 @@ $(function(){
 
 
 function fav(){
+    if(!islogin())return;
     fancybox_word(
         '备注 :',
         '/j/fav',

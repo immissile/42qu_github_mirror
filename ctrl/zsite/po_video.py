@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from _handler import LoginBase
-from ctrl._urlmap.me import urlmap
+from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
+from ctrl._urlmap.zsite import urlmap
 from model.po import Po
 from model.po_video import po_video_new, VIDEO_CID_YOUKU, VIDEO_CID_TUDOU, VIDEO_CID_SINA
 from model.zsite_tag import zsite_tag_new_by_tag_id
