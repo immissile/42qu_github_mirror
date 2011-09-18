@@ -1,4 +1,5 @@
 import po
+import po_view
 import wall
 import follow
 import index
