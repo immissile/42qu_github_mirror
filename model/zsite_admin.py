@@ -8,6 +8,7 @@ from model.cid import CID_SITE
 
 mc_zsite_id_list_by_admin_id = McCacheA('ZsiteIdListBYAdminId.%s')
 mc_admin_id_list_by_zsite_id = McCacheA('AdminIdListByZsiteId.%s')
+mc_zsite_user_state = McCache("ZsiteUserState:%s")
 zsite_by_admin_id_count = McNum(
     lambda id:ZsiteAdmin.where(
         admin_id=id
@@ -37,6 +38,7 @@ def mc_flush(zsite_id, admin_id):
     mc_admin_id_list_by_zsite_id.delete(zsite_id)
     mc_zsite_id_list_by_admin_id.delete(admin_id)
     zsite_by_admin_id_count.delete(admin_id)
+    mc_zsite_user_state.delete("%s_%s"%(zsite_id, admin_id))
 
 @mc_admin_id_list_by_zsite_id('{id}')
 def admin_id_list_by_zsite_id(id):
@@ -72,6 +74,13 @@ def zsite_admin_empty(zsite_id):
         i.save()
         mc_zsite_id_list_by_admin_id.delete(admin_id)
     mc_admin_id_list_by_zsite_id.delete(zsite_id)
+
+@mc_zsite_user_state("{zsite_id}_{user_id}")
+def zsite_user_state(zsite_id, user_id):
+    z = ZsiteAdmin.get(zsite_id=zsite_id, user_id=user_id)
+    if z:
+        return z.state
+    return 0
 
 if __name__ == '__main__':
     print zsite_id_list_by_admin_id(10000000)
