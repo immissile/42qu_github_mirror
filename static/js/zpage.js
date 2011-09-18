@@ -171,9 +171,12 @@ function fancybox_word(title, path, finish){
             )
         },
         function() {
-		$.fancybox({
-			'content': finish 
-		})	
-    })
+            if(finish){
+                $.fancybox({
+                    'content': finish 
+                })
+            }	
+        }
+    )
 }
 
