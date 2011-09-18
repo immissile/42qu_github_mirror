@@ -22,3 +22,8 @@ class Mark(LoginBase):
 class About(SiteBase):
     def get(self):
         self.render()
+
+@urlmap('/admin')
+class Admin(SiteBase):
+    def get(self):
+        self.render()
