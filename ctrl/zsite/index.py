@@ -5,7 +5,6 @@ from model.motto import motto
 from ctrl._urlmap.zsite import urlmap
 from model.zsite_link import link_by_id
 from model.cid import CID_USER, CID_SITE
-from model.zsite_admin import admin_id_list_by_zsite_id, zsite_user_state
 
 
 ZSITE_INDEX_TEMPLATE = {
