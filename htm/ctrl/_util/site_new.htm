@@ -5,7 +5,17 @@ from model.zsite_link import SITE_LINK_ZSITE_DICT
 from model.ico import fs_url_jpg
 from model.zsite_site import ZSITE_STATE_SITE2CN
 %>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="head()">
+<script src="${js.ctrl_site_new}"></script>
+${css.ctrl_site_new|n}
+</%def>
+
+
 <%def name="site_new()">
+<%htm:form enctype="multipart/form-data" className="site_new" onsubmit="return site_new()">
+<h1>创建站点</h1>
 %if pic_id:
 <img class="imgpic" src="${fs_url_jpg('96',pic_id)}">
 <input class="file" type="hidden" name="pic_id" value="${pic_id}" >
@@ -85,4 +95,5 @@ autocomplete="off" name="link_name"
 <div>
 <span class="btnw"><button type="submit" id="submit">确定</button></span>
 </div>
+</%htm:form>
 </%def>

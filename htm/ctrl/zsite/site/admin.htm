@@ -1,2 +1,12 @@
 <%inherit file="../_base/site_admin.htm" />
-s
+
+
+
+<%namespace file="/ctrl/_util/site_new.htm" import="site_new,head"/>
+
+<%def name="htm_head()">
+${head()}
+</%def>
+
+
+${site_new()}

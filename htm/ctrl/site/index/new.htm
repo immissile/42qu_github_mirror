@@ -1,15 +1,9 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<%namespace file="/ctrl/_util/site_new.htm" import="site_new"/>
+<%namespace file="/ctrl/_util/site_new.htm" import="site_new,head"/>
 
 <%def name="htm_head()">
-<script src="${js.ctrl_site_new}"></script>
-${css.ctrl_site_new|n}
+${head()}
 </%def>
 
 
-
-<%htm:form enctype="multipart/form-data" className="site_new" onsubmit="return site_new()">
-<h1>创建站点</h1>
 ${site_new()}
-</%htm:form>
