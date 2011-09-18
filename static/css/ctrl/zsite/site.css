@@ -18,6 +18,7 @@ margin:14px 0 2px;
 padding-bottom:18px;
 border-bottom:1px dotted #ccc;
 overflow:auto;
+text-align:left
 }
 .mk_txt{
 width:699px;
@@ -59,12 +60,6 @@ margin:27px auto 1px;
 text-align:center;
 padding-bottom:27px;
 border-bottom:1px dotted #ccc;
-}
-.his_ti{
-padding:6px 14px;
-font-size:14px;
-border:dotted #ccc;
-border-width:1px 0;
 }
 #nav2 .verify span{
 background:#a10;
@@ -177,7 +172,7 @@ font-size: 14px;
 line-height:28px;
 overflow: auto;
 }
-.event_cid .tc{
+.event_cid .tc, #sidebar_nav .tc{
 text-align:center;
 }
 .event_a{
@@ -274,4 +269,7 @@ color:#a10;
 }
 #sidebar_nav .now{
 color:#000
+}
+.m07{
+margin:0 7px
 }

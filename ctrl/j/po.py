@@ -26,6 +26,11 @@ def post_reply(self, id):
                 po.reply_new(user, txt, po.state)
         self.finish(result)
 
+@urlmap('/j/fav')
+class Fav(JLoginBase):
+    def get(self):
+        self.finish('{}')
+
 
 @urlmap('/j/po/word')
 class Word(JLoginBase):

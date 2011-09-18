@@ -1,7 +1,8 @@
 
 $(function(){
-    var say = $('#say'),
-    txt = $('#say_txt'),
+    var say = $('#say');
+    if(!say[0])return;
+    var txt = $('#say_txt'),
     after=$('<div class="pop_banner"><a class="pop_submit" href="javascript:post_say();void(0)">发表</a><div class="pop_tip"></div><a class="pop_close" href="javascript:close_pop();void(0)"></a></div>'),
     tiptxt='今天 , 想说什么?',
     pop_tip=after.find('.pop_tip'),
@@ -54,3 +55,13 @@ $(function(){
 
 
 
+function fav(){
+    fancybox_word(
+        '备注 :',
+        '/j/fav',
+        function(){
+            $("#fav_a").text('设置').attr('href','/mark')
+        },
+        function(){return 1} 
+    )
+}
