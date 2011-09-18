@@ -76,11 +76,16 @@ def zsite_admin_empty(zsite_id):
     mc_admin_id_list_by_zsite_id.delete(zsite_id)
 
 @mc_zsite_user_state("{zsite_id}_{user_id}")
-def zsite_user_state(zsite_id, user_id):
-    z = ZsiteAdmin.get(zsite_id=zsite_id, user_id=user_id)
+def _zsite_user_state(zsite_id, user_id):
+    z = ZsiteAdmin.get(zsite_id=zsite_id, admin_id=user_id)
     if z:
         return z.state
     return 0
+
+def zsite_user_state(zsite_id, user_id):
+    if not user_id:
+        return 0
+    return _zsite_user_state(zsite_id,user_id)
 
 if __name__ == '__main__':
     print zsite_id_list_by_admin_id(10000000)

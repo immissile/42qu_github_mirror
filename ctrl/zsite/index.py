@@ -5,7 +5,7 @@ from model.motto import motto
 from ctrl._urlmap.zsite import urlmap
 from model.zsite_link import link_by_id
 from model.cid import CID_USER, CID_SITE
-from model.zsite_admin import admin_id_list_by_zsite_id
+from model.zsite_admin import admin_id_list_by_zsite_id, zsite_user_state
 
 
 ZSITE_INDEX_TEMPLATE = {
@@ -41,4 +41,11 @@ class About(ZsiteBase):
 @urlmap('/mark')
 class Mark(LoginBase):
     def get(self):
+        zsite_id = self.zsite_id
+        current_user_id = self.current_user_id
+        can_admin = zsite_user_state(zsite_id, current_user_id)
+        if can_admin:
+            return self.redirect("/admin")
         self.render()
+
+
