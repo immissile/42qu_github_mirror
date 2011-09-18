@@ -4,6 +4,7 @@ from model.zsite import ZSITE_STATE_VERIFY
 from model.zsite_link import SITE_LINK_ZSITE_DICT
 from model.ico import fs_url_jpg
 from model.zsite_site import ZSITE_STATE_SITE2CN,ZSITE_STATE_SITE_SECRET,ZSITE_STATE_SITE_PUBLIC 
+from model.zsite_url import url_by_id
 %>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
@@ -37,11 +38,13 @@ ${errtip.name|n}
 口号宣言<input class="input" autocomplete="off" type="text" name="motto" id="motto"  value="${motto or ''}">\
 ${errtip.motto|n}
 </div>
+%if not (zsite and url_by_id(zsite_id)):
 <div>
 个性域名<input autocomplete="off" class="input" type="text" name="url" value="${url or ''}">\
 <span class="ltip">域名由英语字母，数字，和 - 构成，长度在5-32个字符</span>\
 ${errtip.url|n}
 </div>
+%endif
 <div>
 文字介绍<textarea name="txt" class="txt">${txt or ''}</textarea>
 </div>
@@ -101,7 +104,7 @@ autocomplete="off" name="link_name"
 %endfor
 
 <div>
-<span class="btnw"><button type="submit" id="submit">确定</button></span>
+<span class="btnw"><button type="submit" id="submit">提交</button></span>
 </div>
 </%htm:form>
 </%def>

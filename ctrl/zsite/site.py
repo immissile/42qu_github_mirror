@@ -8,6 +8,7 @@ from model.zsite_admin import admin_id_list_by_zsite_id, zsite_user_state
 from zkit.jsdict import JsDict
 from model.zsite_link import link_list_cid_by_zsite_id,SITE_LINK_ZSITE_DICT
 from model.txt import txt_get
+from model.ico import ico96
 
 @urlmap('/admin')
 class Admin(LoginBase):
@@ -21,7 +22,8 @@ class Admin(LoginBase):
             link_list=link_list,
             name = zsite.name,
             motto = motto_get(zsite_id),
-            txt = txt_get(zsite_id)
+            txt = txt_get(zsite_id),
+            pic_id = ico96.get(zsite_id)
         )
 
 
