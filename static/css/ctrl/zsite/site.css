@@ -177,7 +177,7 @@ font-size: 14px;
 line-height:28px;
 overflow: auto;
 }
-.event_cid .tc{
+.event_cid .tc, #sidebar_nav .tc{
 text-align:center;
 }
 .event_a{
