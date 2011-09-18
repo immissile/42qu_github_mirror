@@ -58,7 +58,9 @@ $(function(){
 function fav(){
     fancybox_word(
         '备注 :',
-        '/j/fav/txt'
+        '/j/fav/txt',
+        function(){
+            $("#fav_a").text('设置').attr('href','/fav')
+        }
     )
-    $("#fav_a").text('设置').attr('href','/fav')
 }

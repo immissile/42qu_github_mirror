@@ -172,9 +172,13 @@ function fancybox_word(title, path, finish){
         },
         function() {
             if(finish){
-                $.fancybox({
-                    'content': finish 
-                })
+                if(typeof(finish)=="function"){
+                    finish()
+                }else{
+                    $.fancybox({
+                        'content': finish 
+                    })
+                }
             }	
         }
     )
