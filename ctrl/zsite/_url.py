@@ -12,3 +12,5 @@ import pay
 import rss
 import event
 import fav
+import admin
+import site
