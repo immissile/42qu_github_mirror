@@ -1,0 +1,44 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%def name="htm_head()">
+${css.ctrl_zsite_site|n}
+<script src="${js.ctrl_zsite_site|n}"></script>
+<script type="text/javascript">
+    $(function(){
+    var mk_tip=$('.mk_tip')
+    $(".mk_txt").focus()
+    var can = txt_maxlen(
+            $(".mk_txt"),
+            mk_tip,
+            142           
+       )
+    $('#mk_form').submit(
+        function(){
+            if(!can()){
+             mk_tip.fadeOut(function(){mk_tip.fadeIn()}) 
+            return false
+        }
+    })
+    })
+</script>
+</%def>
+
+<div class="G">
+    <div class="G3center">
+<div class="mk_ti">
+
+<a class="R" href="javascript:void(0)">取消收藏</a>
+
+<a href="/">Python 程序爱好者</a>\
+<span class="m07">&gt;</span>\
+<a href="#">设置</a>\
+
+</div>
+    <form id="mk_form" action="http://baidu.com" method="get">
+    <textarea class="mk_txt"></textarea>
+    <br/>
+    <span class="mk_tip"></span>
+    <span class='btnw R'><button type="submit">保存备注</button></span>
+    </form>
+    </div>
+</div>
+
