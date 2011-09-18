@@ -56,7 +56,7 @@ class PoIndex(ZsiteBase):
 
 class PoPage(ZsiteBase):
     cid = 0
-    template = '/ctrl/zsite/po/po_page.htm'
+    template = '/ctrl/zsite/po_view/po_page.htm'
 
     def get(self, n=1):
         zsite_id = self.zsite_id
@@ -151,7 +151,7 @@ class AnswerPage(PoPage):
 
 class TagPoPage(ZsiteBase):
     cid = 0
-    template = '/ctrl/zsite/po/po_page.htm'
+    template = '/ctrl/zsite/po_view/po_page.htm'
 
     def get(self, zsite_tag_id, n=1):
         tag = ZsiteTag.mc_get(zsite_tag_id)
@@ -218,17 +218,17 @@ class AudioPage(TagPoPage):
     page_template = '/audio-%s'
 
 
-PO_TEMPLATE = '/ctrl/zsite/po/po.htm'
+PO_TEMPLATE = '/ctrl/zsite/po_view/po.htm'
 CID2TEMPLATE = {
-    CID_WORD:'/ctrl/zsite/po/word.htm',
+    CID_WORD:'/ctrl/zsite/po_view/word.htm',
     CID_NOTE: PO_TEMPLATE,
-    CID_QUESTION:'/ctrl/zsite/po/question.htm',
+    CID_QUESTION:'/ctrl/zsite/po_view/question.htm',
     CID_ANSWER: PO_TEMPLATE,
-    CID_EVENT_NOTICE: '/ctrl/zsite/po/notice.htm',
-    CID_PHOTO: '/ctrl/zsite/po/photo.htm',
-    CID_VIDEO: '/ctrl/zsite/po/video.htm',
-    CID_EVENT: '/ctrl/zsite/po/event.htm',
-    CID_AUDIO: '/ctrl/zsite/po/audio.htm',
+    CID_EVENT_NOTICE: '/ctrl/zsite/po_view/notice.htm',
+    CID_PHOTO: '/ctrl/zsite/po_view/photo.htm',
+    CID_VIDEO: '/ctrl/zsite/po_view/video.htm',
+    CID_EVENT: '/ctrl/zsite/po_view/event.htm',
+    CID_AUDIO: '/ctrl/zsite/po_view/audio.htm',
     CID_EVENT_FEEDBACK: PO_TEMPLATE,
 }
 
@@ -426,7 +426,7 @@ class Rm(XsrfGetBase):
 
 
 class ShareFavBase(ZsiteBase):
-    template = '/ctrl/zsite/po/zsite_list.htm'
+    template = '/ctrl/zsite/po_view/zsite_list.htm'
 
     def po(self, id):
         po = Po.mc_get(id)

@@ -17,7 +17,7 @@ PAGE_LIMIT = 42
 
 class FavPage(ZsiteBase):
     cid = 0
-    template = '/ctrl/zsite/po/po_page.htm'
+    template = '/ctrl/zsite/po_view/po_page.htm'
 
     def get(self, n=1):
         zsite_id = self.zsite_id
