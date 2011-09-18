@@ -178,8 +178,10 @@ function fancybox_word(title, path, finish){
                     $.fancybox({
                         'content': finish 
                     })
+                    return
                 }
-            }	
+            }
+            $.fancybox.close() 	
         }
     )
 }
