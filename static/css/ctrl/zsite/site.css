@@ -18,6 +18,7 @@ margin:14px 0 2px;
 padding-bottom:18px;
 border-bottom:1px dotted #ccc;
 overflow:auto;
+text-align:left
 }
 .mk_txt{
 width:699px;
@@ -268,4 +269,7 @@ color:#a10;
 }
 #sidebar_nav .now{
 color:#000
+}
+.m07{
+margin:0 7px
 }
