@@ -82,7 +82,6 @@ def _site_save(self):
     motto = self.get_argument('motto', None)
     url = self.get_argument('url', None)
     txt = self.get_argument('txt', None)
-    sitetype = int(self.get_argument('sitetype'))
 
 
     for cid, link in zip(arguments.get('cid',[]), arguments.get('link',[])):
@@ -147,7 +146,7 @@ def _site_save(self):
                 )
 
 
-    return errtip, link_cid, link_kv, name, motto, url, sitetype, txt, pic_id
+    return errtip, link_cid, link_kv, name, motto, url,  txt, pic_id
 
 @urlmap('/new')
 class New(LoginBase):
@@ -171,6 +170,7 @@ class New(LoginBase):
 
     def post(self):
 
+        sitetype = int(self.get_argument('sitetype'))
         errtip, link_cid, link_kv, name, motto, url, sitetype, txt, pic_id  = self._site_save()
  
         if not errtip:

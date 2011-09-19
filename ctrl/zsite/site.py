@@ -31,11 +31,10 @@ class Admin(LoginBase):
     _site_save = _site_save
 
     def post(self):
-        errtip, link_cid, link_kv, name, motto, url, sitetype, txt, pic_id  = self._site_save()
+        errtip, link_cid, link_kv, name, motto, url,  txt, pic_id  = self._site_save()
  
         if not errtip:
-            pass
-
+            self.render(success=True)
         
 
 @urlmap('/mark')

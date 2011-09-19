@@ -9,4 +9,10 @@ ${head()}
 </%def>
 
 
+%if success:
+<div style="border:1px dotted #ccc;text-align:center;margin-top:27px;padding:27px">
+保存成功 , <a href="${zsite.link}">点此浏览</a>
+</div>
+%else:
 ${site_new()}
+%endif
