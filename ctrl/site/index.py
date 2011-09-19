@@ -171,7 +171,9 @@ class New(LoginBase):
     def post(self):
 
         sitetype = int(self.get_argument('sitetype'))
-        errtip, link_cid, link_kv, name, motto, url, sitetype, txt, pic_id  = self._site_save()
+        errtip, link_cid, link_kv, name, motto, url,  txt, pic_id  = self._site_save()
+        current_user =  self.current_user
+        current_user_id = current_user.id
  
         if not errtip:
             site = site_new(name, current_user_id, sitetype)                 

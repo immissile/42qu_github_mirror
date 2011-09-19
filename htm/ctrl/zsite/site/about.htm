@@ -1,4 +1,5 @@
 <%!
+from model.ico import pic211_url
 from model.zsite_link import link_id_name_by_zsite_id
 from model.txt import txt_get
 %>
@@ -16,7 +17,7 @@ zsite_link_len = len(zsite_link)
     Python 程序爱好者
 </h1>
 <div class="G1 G1about">
-<img src="http://i.imgur.com/2VHGP.jpg" class="imgabout">
+<img src="${pic211_url(zsite_id)}" class="imgabout">
 ${sidebar_nav()}
 </div>
 <div class="G3 G3about">

@@ -3,7 +3,7 @@
 from fs import fs_set_jpg, fs_url_jpg, fs_file_jpg, fs_get_jpg
 from kv import Kv
 from cid import CID_ICO, CID_ICO96, CID_SITE_ICO
-from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high
+from zkit.pic import pic_square, picopen, pic_zoom_inner, pic_fit_height_if_high, pic_resize_width_cut_height_if_large
 from pic import pic_new, pic_save, pic_new_save, Pic
 import Image
 from config import FS_URL
@@ -73,6 +73,9 @@ def site_ico_new(user_id, pic, site_id=None):
     
     p96 = pic_square(pic, 96, size=96)
     fs_set_jpg('96', pic_id, p96)
+
+    p211 = pic_resize_width_cut_height_if_large(pic, 211)
+    fs_set_jpg('211', pic_id, p211)
     
     return pic_id
 
@@ -102,6 +105,12 @@ def ico_url(id):
     pic_id = ico96.get(id)
     if pic_id:
         return fs_url_jpg('96', pic_id)
+
+def pic211_url(id):
+    pic_id = ico96.get(id)
+    if pic_id:
+        return fs_url_jpg('211', pic_id)
+
 
 def pic_url_with_default(id, size='721'):
     url = pic_url(id, size)
