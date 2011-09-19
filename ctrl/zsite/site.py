@@ -6,8 +6,10 @@ from model.motto import motto_get
 from _handler_site import SiteBase, LoginBase
 from model.zsite_admin import admin_id_list_by_zsite_id, zsite_user_state
 from zkit.jsdict import JsDict
-from model.zsite_link import link_list_cid_by_zsite_id,SITE_LINK_ZSITE_DICT
-from model.txt import txt_get
+from model.zsite_link import link_list_cid_by_zsite_id,SITE_LINK_ZSITE_DICT,link_list_save
+from model.ico import site_ico_bind
+from model.motto import motto_set
+from model.txt import txt_get, txt_new
 from model.ico import ico96
 from ctrl.site.index import _site_save
 from model.zsite_url import url_by_id
@@ -33,14 +35,23 @@ class Admin(LoginBase):
 
     def post(self):
         errtip, link_cid, link_kv, name, motto, url,  txt, pic_id  = self._site_save()
+        current_user_id = self.current_user_id
         zsite_id = self.zsite_id 
+        zsite = self.zsite
         
         success = False
            
         if not errtip:
             success = True
             if not url_by_id(zsite_id) and url:
-                pass
+                url_new(zsite_id, url)
+            zsite.name = name
+            zsite.save()
+            
+            link_list_save(zsite_id, link_cid, link_kv)
+            txt_new(zsite_id, txt)
+            motto_set(zsite_id, motto)
+            site_ico_bind(current_user_id, pic_id, zsite_id)
 
         self.render(
             success = success,
