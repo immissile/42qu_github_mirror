@@ -86,85 +86,12 @@ class New(LoginBase):
             link_list=[]
         )
 
+    _site_save = _site_save
+
     def post(self):
-        arguments = self.request.arguments
 
-        current_user =  self.current_user
-        current_user_id = current_user.id
-
-        link_cid = []
-        link_kv = []
-        errtip = Errtip()
-
-        name = self.get_argument('name',None)
-        motto = self.get_argument('motto', None)
-        url = self.get_argument('url', None)
-        txt = self.get_argument('txt', None)
-        sitetype = int(self.get_argument('sitetype'))
-
-
-        for cid, link in zip(arguments.get('cid',[]), arguments.get('link',[])):
-            cid = int(cid)
-            link_name = SITE_LINK_ZSITE_DICT[cid]
-            link_cid.append(
-                (cid, link_name, linkify(link, cid))
-            )
-
-            
-
-        for id, key, value in zip(
-            arguments.get('id',[]),
-            arguments.get('key',[]),
-            arguments.get('value',[])
-        ):
-            id = int(id)
-            link = linkify(value)
-
-            link_kv.append(
-                (id, key.strip() or urlparse(link).netloc, link)
-            )
-
-
-        files = self.request.files
-        pic_id = None
+        errtip, link_cid, link_kv, name, motto, url, sitetype, txt, pic_id  = self._site_save()
  
-        if 'pic' in files:
-            pic = files['pic'][0]['body']
-            pic = picopen(pic)
-            if pic:
-                pic_id = site_ico_new(current_user_id, pic)
-            else:
-                errtip.pic = '图片格式有误'
-        else:
-            pic_id = self.get_argument('pic_id',None)
-            if not pic_id:
-                errtip.pic = "请上传图片"
-
-
-
-
-        if not name:
-            errtip.name = "请输入名称"
-        
-        if not motto:
-            errtip.motto = "请编写签名"
-        
-        if url:
-            errtip.url = url_valid(url)
-
-
-        if errtip:
-            for cid, link_name in SITE_LINK_NAME:
-                if cid not in set(i[0] for i in link_cid):
-                    link_cid.append(
-                        (
-                            cid,
-                            link_name, 
-                            ''
-                        )
-                    )
-
-
         if not errtip:
             site = site_new(name, current_user_id, sitetype)                 
             site_id = site.id 
@@ -174,7 +101,9 @@ class New(LoginBase):
             txt_new(site_id, txt)
             if url:
                 url_new(site_id, url)
-            return self.redirect(site.link)
+            self.redirect(site.link)
+            return 
+
 
         return self.render(
             errtip=errtip,
@@ -189,4 +118,83 @@ class New(LoginBase):
         )
 
 
+def _site_save(self):
+    arguments = self.request.arguments
 
+    current_user =  self.current_user
+    current_user_id = current_user.id
+
+    link_cid = []
+    link_kv = []
+    errtip = Errtip()
+
+    name = self.get_argument('name',None)
+    motto = self.get_argument('motto', None)
+    url = self.get_argument('url', None)
+    txt = self.get_argument('txt', None)
+    sitetype = int(self.get_argument('sitetype'))
+
+
+    for cid, link in zip(arguments.get('cid',[]), arguments.get('link',[])):
+        cid = int(cid)
+        link_name = SITE_LINK_ZSITE_DICT[cid]
+        link_cid.append(
+            (cid, link_name, linkify(link, cid))
+        )
+
+        
+
+    for id, key, value in zip(
+        arguments.get('id',[]),
+        arguments.get('key',[]),
+        arguments.get('value',[])
+    ):
+        id = int(id)
+        link = linkify(value)
+
+        link_kv.append(
+            (id, key.strip() or urlparse(link).netloc, link)
+        )
+
+
+    files = self.request.files
+    pic_id = None
+
+    if 'pic' in files:
+        pic = files['pic'][0]['body']
+        pic = picopen(pic)
+        if pic:
+            pic_id = site_ico_new(current_user_id, pic)
+        else:
+            errtip.pic = '图片格式有误'
+    else:
+        pic_id = self.get_argument('pic_id',None)
+        if not pic_id:
+            errtip.pic = "请上传图片"
+
+
+
+
+    if not name:
+        errtip.name = "请输入名称"
+    
+    if not motto:
+        errtip.motto = "请编写签名"
+    
+    if url:
+        errtip.url = url_valid(url)
+
+
+    if errtip:
+        for cid, link_name in SITE_LINK_NAME:
+            if cid not in set(i[0] for i in link_cid):
+                link_cid.append(
+                    (
+                        cid,
+                        link_name, 
+                        ''
+                    )
+                )
+
+
+    return errtip, link_cid, link_kv, name, motto, url, sitetype, txt, pic_id
