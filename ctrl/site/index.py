@@ -68,56 +68,6 @@ class My(SiteListBase, LoginBase):
         )
 
 
-@urlmap('/new')
-class New(LoginBase):
-    def get(self):
-        link_cid = []
-        for cid, name in SITE_LINK_NAME:
-            link_cid.append(
-                (
-                    cid,
-                    name, 
-                    ''
-                )
-            )
-        return self.render(
-            errtip=JsDict(),
-            link_cid=link_cid,
-            link_list=[]
-        )
-
-    _site_save = _site_save
-
-    def post(self):
-
-        errtip, link_cid, link_kv, name, motto, url, sitetype, txt, pic_id  = self._site_save()
- 
-        if not errtip:
-            site = site_new(name, current_user_id, sitetype)                 
-            site_id = site.id 
-            link_list_save(site_id, link_cid, link_kv)
-            site_ico_bind(current_user_id, pic_id, site_id)
-            motto_set(site_id, motto)
-            txt_new(site_id, txt)
-            if url:
-                url_new(site_id, url)
-            self.redirect(site.link)
-            return 
-
-
-        return self.render(
-            errtip=errtip,
-            link_cid=link_cid,
-            link_list=link_kv,
-            name=name,
-            motto=motto,
-            url=url,
-            sitetype=sitetype,
-            txt=txt,
-            pic_id=pic_id
-        )
-
-
 def _site_save(self):
     arguments = self.request.arguments
 
@@ -198,3 +148,53 @@ def _site_save(self):
 
 
     return errtip, link_cid, link_kv, name, motto, url, sitetype, txt, pic_id
+
+@urlmap('/new')
+class New(LoginBase):
+    def get(self):
+        link_cid = []
+        for cid, name in SITE_LINK_NAME:
+            link_cid.append(
+                (
+                    cid,
+                    name, 
+                    ''
+                )
+            )
+        return self.render(
+            errtip=JsDict(),
+            link_cid=link_cid,
+            link_list=[]
+        )
+
+    _site_save = _site_save
+
+    def post(self):
+
+        errtip, link_cid, link_kv, name, motto, url, sitetype, txt, pic_id  = self._site_save()
+ 
+        if not errtip:
+            site = site_new(name, current_user_id, sitetype)                 
+            site_id = site.id 
+            link_list_save(site_id, link_cid, link_kv)
+            site_ico_bind(current_user_id, pic_id, site_id)
+            motto_set(site_id, motto)
+            txt_new(site_id, txt)
+            if url:
+                url_new(site_id, url)
+            self.redirect(site.link)
+            return 
+
+
+        return self.render(
+            errtip=errtip,
+            link_cid=link_cid,
+            link_list=link_kv,
+            name=name,
+            motto=motto,
+            url=url,
+            sitetype=sitetype,
+            txt=txt,
+            pic_id=pic_id
+        )
+
