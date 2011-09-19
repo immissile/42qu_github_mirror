@@ -35,22 +35,22 @@ class Admin(LoginBase):
         errtip, link_cid, link_kv, name, motto, url,  txt, pic_id  = self._site_save()
         zsite_id = self.zsite_id 
         
+        success = False
            
         if not errtip:
+            success = True
             if not url_by_id(zsite_id) and url:
                 pass
 
-            self.render(success=True)
-            return
-
         self.render(
-            errtip = JsDict(),
+            success = success,
+            errtip = errtip,
             link_cid = link_cid,
-            link_list = link_list,
-            name = zsite.name,
-            motto = motto_get(zsite_id),
-            txt = txt_get(zsite_id),
-            pic_id = ico96.get(zsite_id),
+            link_list = link_kv,
+            name = name,
+            motto = motto,
+            txt = txt,
+            pic_id = pic_id,
             url = url
         )
                 
