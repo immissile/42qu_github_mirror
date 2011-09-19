@@ -9,6 +9,7 @@ from zkit.jsdict import JsDict
 from model.zsite_link import link_list_cid_by_zsite_id,SITE_LINK_ZSITE_DICT
 from model.txt import txt_get
 from model.ico import ico96
+from ctrl.site.index import _site_save
 
 @urlmap('/admin')
 class Admin(LoginBase):
@@ -26,6 +27,16 @@ class Admin(LoginBase):
             pic_id = ico96.get(zsite_id)
         )
 
+
+    _site_save = _site_save
+
+    def post(self):
+        errtip, link_cid, link_kv, name, motto, url, sitetype, txt, pic_id  = self._site_save()
+ 
+        if not errtip:
+            pass
+
+        
 
 @urlmap('/mark')
 class Mark(LoginBase):
