@@ -1,4 +1,5 @@
 <%!
+from model.zsite_link import link_id_name_by_zsite_id
 from model.txt import txt_get
 %>
 <%inherit file="../_base/site.htm" />
@@ -6,6 +7,8 @@ from model.txt import txt_get
 
 <%
 txt = txt_get(zsite_id)
+zsite_link = link_id_name_by_zsite_id(zsite_id)
+zsite_link_len = len(zsite_link)
 %>
 
 <div class="G">
@@ -17,14 +20,23 @@ txt = txt_get(zsite_id)
 ${sidebar_nav()}
 </div>
 <div class="G3 G3about">
-    <div class="mt27">
-%if txt:
+%if txt or zsite_link:
+<div class="mt27">
+    %if txt:
     <pre class="bio">${txt}</pre>
-%endif
+    %endif
+    %if zsite_link:
     <div class="bio_link">
-        <a class="bio_a" href="#">官网</a> - <a class="bio_a" href="#">新浪微博</a>
+        %for pos,(id, name) in enumerate(zsite_link,1):
+<a href="/link/${id}">${name}</a>\
+%if zsite_link_len != pos: 
+<span class="split">-</span>\
+%endif
+        %endfor
     </div>
-    </div>
+    %endif
+</div>
+%endif
     <div class="event_ti c">
     <span class="ti_txt">编年史</span>
     </div>
