@@ -307,9 +307,11 @@ class Query(object):
             if offset is not None:
                 _limit.append(offset)
             _limit.append(limit)
-        r = self.execute_query()
+        r = self.execute_query().fetchall()
+
         if r and len(r[0]) == 1:
             return [i[0] for i in r]
+
         return r
 
     @classmethod
