@@ -161,7 +161,7 @@ function fancybox_txt(tip, action, complete, post,  submit, can_post) {
 				} 
 				return false
 			})
-		},
+		}
 	})
 }
 

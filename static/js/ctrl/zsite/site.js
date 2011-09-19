@@ -1,31 +1,24 @@
 
 $(function(){
-    var say = $('#say');
-    if(!say[0])return;
-    var txt = $('#say_txt'),
-    after=$('<div class="pop_banner"><a class="pop_submit" href="javascript:post_say();void(0)">发表</a><div class="pop_tip"></div><a class="pop_close" href="javascript:close_pop();void(0)"></a></div>'),
-    tiptxt='今天 , 想说什么?',
-    pop_tip=after.find('.pop_tip'),
-    can_say = txt_maxlen(txt,pop_tip,142)
-;
+    var say = $('.say')
+    var pop_say = $(".pop_say")
+    var txt = $('.say_txt')
+    var pop_txt = $('.pop_txt')
+    var txt_tip = txt.text()
+    var  pop_tip = $('.pop_tip') 
+    can_say = txt_maxlen(pop_txt,pop_tip,142)
 
-    txt.val(tiptxt).focus(function(){
-        if(!say.hasClass('pop_say')){
-            say.attr('class','pop_say')
-            txt.attr('class','pop_txt').after(after)
-            if(txt.val()==tiptxt)txt.val('');
-            else txt.select();
-        }   
+    txt.click(function(){
+        if(pop_say.css("display")=='none'){
+            pop_say.css("display","block")
+        }  
     })
     
-
     close_pop = function (){
-        say.attr('class','say')
-        txt.attr('class','say_txt')
-        if($.trim(txt.val())==''){
-            txt.val(tiptxt)
-        }
-        $('.pop_banner').remove()
+        var cont = $('.pop_txt').val()
+        pop_say.css('display','none')
+        if($.trim(cont)=='') txt.text(txt_tip)
+        else txt.text(cont)
     }
 
     post_say = function (){
@@ -33,13 +26,13 @@ $(function(){
             pop_tip.fadeOut(function(){pop_tip.fadeIn()})
             return false
         }
-        txt.replaceWith($('<pre class="pop_txt" id="pop_txt"/>').html(txt.val()))
+        pop_txt.replaceWith($('<pre class="pop_txt" id="pop_txt"/>').html(pop_txt.val()))
         pop_tip.replaceWith('<div class="say_loading pop_tip"></div>')
         $('.pop_close,.pop_submit').hide()
         $.postJSON(
             '/j/po/word',
             {
-                "txt":$('.pop_txt').val()
+                "txt":pop_txt.val()
             },
             function(){
                 $('.pop_tip').replaceWith('<div class="pop_ok pop_tip">发表成功</div>')
