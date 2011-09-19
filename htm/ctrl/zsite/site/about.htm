@@ -1,7 +1,14 @@
+<%!
+from model.zsite_link import link_id_name_by_zsite_id
+from model.txt import txt_get
+%>
 <%inherit file="../_base/site.htm" />
 <%namespace file="../_util/site.htm" import="sidebar_nav"/>
 
-<%!
+<%
+txt = txt_get(zsite_id)
+zsite_link = link_id_name_by_zsite_id(zsite_id)
+zsite_link_len = len(zsite_link)
 %>
 
 <div class="G">
@@ -13,13 +20,29 @@
 ${sidebar_nav()}
 </div>
 <div class="G3 G3about">
-    <div class="mt27">
-    <pre class="bio">暑夜乘凉，偕诸兄妹坐庭院间，射谜语、捉迷藏、歌俗谣、扑流萤，觉人生之乐无逾于此。今言扑萤之乐。
-萤之来也，必先有一萤，以为之招。又或庭中花树葱郁，则亦以为止息之地。</pre>
-    <div class="bio_link">
-        <a class="bio_a" href="#">官网</a> - <a class="bio_a" href="#">新浪微博</a>
+%if txt or zsite_link:
+<div class="mt27">
+    %if txt:
+    <pre class="bio">${txt}</pre>
+    %endif
+    %if zsite_link:
+    <div class="bio_link" id="bio_link">
+        %for pos,(id, name) in enumerate(zsite_link,1):
+<a href="/link/${id}">${name}</a>\
+%if zsite_link_len != pos: 
+<span class="split">-</span>\
+%endif
+        %endfor
     </div>
-    </div>
+<script>
+$("#bio_link a").click(function(){
+    if(!islogin())return false;
+    this.target="_blank"       
+})
+</script>
+    %endif
+</div>
+%endif
     <div class="event_ti c">
     <span class="ti_txt">编年史</span>
     </div>
