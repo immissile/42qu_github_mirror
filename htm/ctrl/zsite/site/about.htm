@@ -26,7 +26,7 @@ ${sidebar_nav()}
     <pre class="bio">${txt}</pre>
     %endif
     %if zsite_link:
-    <div class="bio_link">
+    <div class="bio_link" id="bio_link">
         %for pos,(id, name) in enumerate(zsite_link,1):
 <a href="/link/${id}">${name}</a>\
 %if zsite_link_len != pos: 
@@ -34,6 +34,12 @@ ${sidebar_nav()}
 %endif
         %endfor
     </div>
+<script>
+$("#bio_link a").click(function(){
+    if(!islogin())return false;
+    this.target="_blank"       
+})
+</script>
     %endif
 </div>
 %endif
