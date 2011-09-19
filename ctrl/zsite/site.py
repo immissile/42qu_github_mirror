@@ -10,6 +10,7 @@ from model.zsite_link import link_list_cid_by_zsite_id,SITE_LINK_ZSITE_DICT
 from model.txt import txt_get
 from model.ico import ico96
 from ctrl.site.index import _site_save
+from model.zsite_url import url_by_id
 
 @urlmap('/admin')
 class Admin(LoginBase):
@@ -32,10 +33,27 @@ class Admin(LoginBase):
 
     def post(self):
         errtip, link_cid, link_kv, name, motto, url,  txt, pic_id  = self._site_save()
- 
-        if not errtip:
-            self.render(success=True)
+        zsite_id = self.zsite_id 
         
+           
+        if not errtip:
+            if not url_by_id(zsite_id) and url:
+                pass
+
+            self.render(success=True)
+            return
+
+        self.render(
+            errtip = JsDict(),
+            link_cid = link_cid,
+            link_list = link_list,
+            name = zsite.name,
+            motto = motto_get(zsite_id),
+            txt = txt_get(zsite_id),
+            pic_id = ico96.get(zsite_id),
+            url = url
+        )
+                
 
 @urlmap('/mark')
 class Mark(LoginBase):
