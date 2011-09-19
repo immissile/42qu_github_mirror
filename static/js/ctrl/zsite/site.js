@@ -1,6 +1,6 @@
 
 $(function(){
-    var say = $('.say');
+    var say = $('.say')
     var pop_say = $(".pop_say")
     var txt = $('.say_txt')
     var pop_txt = $('.pop_txt')
