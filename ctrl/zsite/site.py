@@ -65,6 +65,10 @@ class Admin(LoginBase):
             url = url
         )
                 
+@urlmap('/admin/review')
+class AdminReview(LoginBase):
+    def get(self):
+        self.render()
 
 @urlmap('/mark')
 class Mark(LoginBase):
