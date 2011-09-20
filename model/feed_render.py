@@ -158,7 +158,7 @@ def render_zsite_feed_list(user_id, id_list):
         (i.id, (i.name, i.link))
         for i in z_dict.itervalues()
     )
-
+    
     for id, i in zip(id_list, rf):
         zsite_id = i[0]
         cid = i[1]
@@ -180,7 +180,7 @@ def render_zsite_feed_list(user_id, id_list):
         
         r.append(result)
 
-    return result, z_dict, c_dict
+    return r, z_dict, c_dict
 
 def zsite_id_list_by_follow(zsite_id):
     r = follow_id_list_by_from_id(zsite_id)
