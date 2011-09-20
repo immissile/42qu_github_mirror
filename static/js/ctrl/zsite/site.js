@@ -85,7 +85,7 @@ function render_site(data){
     for (i=0;i < length; ++i) {
         r.push(feed_loader(data[i]))
     }
-    console.info(r)
+    $('#feed').tmpl(r).appendTo("#feeds");
 }
 
 

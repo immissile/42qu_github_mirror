@@ -8,7 +8,6 @@ from tornado.escape import json_encode
 %if li:
 <script id="feed" type="text/x-jquery-tmpl">
 <%text>
-{{each item}}
 <div class="sdw"><div class="sd cid${cid}">
 {{if cid==68}}
 <a href="/${id}"><img class="feed_event_img" src="${rid}"></a>
@@ -74,22 +73,9 @@ rel="${id}" href="javascript:void(0)"
 class="{{if fav}}faved{{else}}fav{{/if}}"
 >收藏</a></span>
     </span>
-        ${create_time}
-        {{if rt_list.length}} ,
-            {{if rt_list.length == 1 && rt_list[0] == 0}}
-广播
-            {{else}}
-        <span>
-            {{each rt_list}}
-<a href="${$value.link}" target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}
-            {{/each}}
-        </span>
-        {{if rt_list.length > 1}}, ${rt_list.length}人{{/if}}推荐
-            {{/if}}
-        {{/if}}
+    ww
     </div>
 </div></div>
-{{/each}}
 </%text>
 </script>
 <script>
