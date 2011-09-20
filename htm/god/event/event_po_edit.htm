@@ -1,0 +1,14 @@
+<%inherit file="/god/_base.htm" />
+<%def name="htm_head()">
+<style>
+a.eventcat {
+    color:#999;
+    margin:8px 16px;
+}
+</style>
+</%def>
+<form method="POST">
+    <input type="txt" name="name" value="${po.name}">
+    <textarea name="txt">${po.txt}</textarea>
+    <input type="submit" name="submit" value="提交">
+</form>

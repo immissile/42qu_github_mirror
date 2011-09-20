@@ -100,3 +100,19 @@ class EventEdit(Base):
             event = po_event_edit_post(self, id, event, True, event_new)
             if event:
                 return self.get(id)
+
+@urlmap('/event/po/edit/(\d+)')
+class EventPoEdit(Base):
+    def get(self,id):
+        event = Event.mc_get(id)
+        po = event.po
+        self.render(po=po)
+
+    def post(self,id):
+        po = Po.mc_get(id)
+        name = self.get_argument('name',1)
+        txt = self.get_argument('txt',2)
+        po.name_ = name
+        po.txt_set(txt)
+        po.save()
+        self.redirect('/event')
