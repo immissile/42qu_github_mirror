@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from _handler import JLoginBase, Base
 from ctrl._urlmap.j import urlmap
-from model.vote import vote_state
 from model.po import Po, PO_SHARE_FAV_CID
 from yajl import dumps
 from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
@@ -84,9 +83,6 @@ class Feed(JLoginBase):
                 else:
                     after = None
 
-                #        i.extend([
-                #            vote_state(current_user_id, id),
-                #        ])
 
                 if cid not in (CID_WORD, CID_EVENT):
                     i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
