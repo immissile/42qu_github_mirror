@@ -14,10 +14,17 @@ def txttidy_42qu(txt):
         txt = txt[:first_pos]
     return txt
 
+def txttidy_wumii(txt):
+    first_pos = txt.find('<table class="wumii-related-items"')
+    if first_pos>0:
+        txt = txt[:first_pos]
+    return txt
+
 def txttidy(txt):
     txt = unescape(txt).replace("&quot;",'"')
     txt = txttidy_feed43(txt)
     txt = txttidy_42qu(txt)
+    txt = txttidy_wumii(txt)
     return txt
 
 
