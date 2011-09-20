@@ -23,6 +23,8 @@ from fav import fav_cid_dict
 
 FEED_TUPLE_DEFAULT_LEN = 12
 
+FEED_TUPLE_DEFAULT_LEN_FOR_ZSITE = 9
+
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
     if not m:
@@ -158,14 +160,24 @@ def render_zsite_feed_list(user_id, id_list):
     )
 
     for id, i in zip(id_list, rf):
-        if cid not in (CID_WORD, CID_EVENT):
-            i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
+        zsite_id = i[0]
+        cid = i[1]
+
         result = [
-            i[0],
+            zsite_id,
             id,
-            fav_dict[id]
+            fav_dict[id],
         ]
-        result.extend(i[1:])
+
+
+        if cid not in (CID_WORD, CID_EVENT):
+            result.extend(i[1:9])
+            result.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
+            if len(i) > 9:
+                result.extend(i[9:])
+        else:
+            result.extend(i[1:])
+        
         r.append(result)
 
     return result, z_dict, c_dict
