@@ -1,0 +1,18 @@
+<%inherit file="../_base/site.htm" />
+<%namespace file="../_util/site.htm" import="sidebar_nav"/>
+<h1 class="h1feed">${zsite.name}</h1>
+
+<div class="G">
+    <div class="G3">
+        ${next.body()}
+    </div>
+    <div class="G1" id="say_g1">
+        <div class="event_cid">
+            <script>init_say()</script>
+            ${sidebar_nav()}
+            <a class="event_a tc" href="/about">关于</a>
+        </div>
+    </div>
+</div>
+
+
