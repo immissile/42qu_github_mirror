@@ -27,8 +27,9 @@ def po_count_by_zsite_id(zsite_id):
         PO_CID, _po_count_by_zsite_id(zsite_id)
     )
 
-def po_list_by_zsite_id(zsite_id, cid, limit, offset):
+def po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset):
     return render_zsite_feed_list(
+            user_id,
             po_id_list_by_zsite_id(zsite_id, cid, limit, offset)
         )
 

@@ -90,7 +90,7 @@ class PoPage(ZsiteBase):
             return self.redirect(page_template[:-3])
 
         if zsite_cid == CID_SITE:
-            po_list = po_list_by_zsite_id(zsite_id, cid, limit, offset)
+            po_list = po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset)
             back_a = None
             total = 0
         else:

@@ -6,7 +6,7 @@ from event import Event
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from cid import CID_EVENT
 from zsite import Zsite
-
+from collections import defaultdict
 class Fav(Model):
     pass
 
@@ -20,6 +20,8 @@ def fav_cid(user_id, po_id):
     return 0
 
 def fav_cid_dict(user_id, po_id_list):
+    if not user_id:
+        return defaultdict(int)
     arg_list = tuple((user_id, i) for i in po_id_list)
     key_dict = dict(('%s_%s' % (user_id, i), i) for i in po_id_list)
     t = mc_fav_cid.get_dict(key_dict)

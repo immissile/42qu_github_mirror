@@ -140,8 +140,18 @@ def render_feed_list(id_list, rt_dict, zsite_id):
 
     return r
 
-def render_zsite_feed_list(id_list):
-    return feed_tuple_list(id_list)
+def render_zsite_feed_list(user_id, id_list):
+    fav_dict = fav_cid_dict(user_id, id_list)
+    r = []
+    for id, i in zip(id_list, feed_tuple_list(id_list)):
+        result = [
+            i[0],
+            id,
+            fav_dict[id]
+        ]
+        result.extend(i[1:])
+        r.append(result)
+    return result
 
 def zsite_id_list_by_follow(zsite_id):
     r = follow_id_list_by_from_id(zsite_id)
