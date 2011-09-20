@@ -192,7 +192,7 @@ z-index:1;
 overflow:hidden;
 display:none;
 text-align:left;
-width: 458px;
+width: 459px;
 color:#000;
 background:#fff;
 border:1px dotted #ccc;
@@ -201,7 +201,7 @@ border:1px dotted #ccc;
 z-index:1; 
 height: 95px;
 text-align:left;
-width: 444px;
+width: 445px;
 color:#000;
 padding:3px 7px;
 background:#fff;
@@ -212,7 +212,7 @@ right:0;
 text-align:left;
 border-top:1px dotted #ccc;
 z-index:1;
-width:458px;
+width:459px;
 height:34px;
 background:#fff;
 }
@@ -229,7 +229,7 @@ margin:0 3px
 .pop_submit{
 color:#999;
 float:right;
-padding:3px 10px 2px;
+padding:3px 10px;
 border-left:1px dotted #ccc;
 }
 .pop_submit:hover{
