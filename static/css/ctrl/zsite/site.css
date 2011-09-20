@@ -150,16 +150,14 @@ margin-left:14px;
 font-size:14px;
 }
 .say{
-margin-bottom:20px;
+padding-bottom:1px;
+border-bottom:1px dotted #ccc;
 }
 .say_txt{
 color:#999;
 border:1px dotted #ccc;
-border-top:0;
 text-align: center;
-width: 210px;
 height:28px;
-margin:0 0 -22px 1px;
 vertical-align:-1px;
 padding: 7px 3px;
 font-size: 14px;
@@ -198,7 +196,6 @@ width: 458px;
 color:#000;
 background:#fff;
 border:1px dotted #ccc;
-border-top:0;
 }
 .pop_txt{
 z-index:1; 
