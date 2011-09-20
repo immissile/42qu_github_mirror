@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 from yajl import dumps
 from ctrl._urlmap.j import urlmap
+from model.zsite_url import zsite_by_domain
 from _handler import JLoginBase
 from model.fs import fs_url_jpg
-from model.po import Po, CID_WORD, CID_NOTE
+from model.po import Po, CID_WORD, CID_NOTE, po_word_new
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
 from model.po_question import answer_word2note
 from model.zsite import user_can_reply
@@ -35,9 +36,18 @@ class Fav(JLoginBase):
 @urlmap('/j/po/word')
 class Word(JLoginBase):
     def post(self):
+        current_user_id = self.current_user_id
         txt = self.get_argument('txt', None)
         if txt:
-            pass 
+            host = self.request.host
+            zsite = zsite_by_domain(host)
+            if zsite:
+                zsite_id = zsite.id
+            else:
+                zsite_id = 0
+
+            po_word_new(current_user_id, txt, zsite_id=zsite_id) 
+
         self.finish('{}')
 
 

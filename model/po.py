@@ -7,7 +7,7 @@ from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
 from spammer import is_same_post
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_ACCPET 
 from txt import txt_new, txt_get, txt_property
 from zkit.time_format import time_title
 from reply import ReplyMixin
@@ -26,7 +26,7 @@ PO_CN_EN = (
     (CID_ANSWER, 'answer', '回答', '个'),
     (CID_PHOTO, 'photo', '图片', '张'),
     (CID_VIDEO, 'video', '视频', '场'),
-    (CID_AUDIO, 'audio', '声音', '段'),
+    (CID_AUDIO, 'audio', '音乐', '段'),
     (CID_EVENT, 'event', '活动', '次'),
 )
 PO_SHARE_FAV_CID = set([i[0] for i in PO_CN_EN])
@@ -201,7 +201,7 @@ class Po(McModel, ReplyMixin):
         cid = self.cid
         state = self.state
         user_id = self.user_id
-        if cid not in (CID_WORD, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE) and state >= STATE_ACTIVE:
+        if cid not in (CID_WORD, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE) and state == STATE_ACTIVE:
             tag_id = tag_id_by_user_id_cid(user_id, cid)
             zsite_tag_new_by_tag_id(self, tag_id)
 
@@ -210,7 +210,14 @@ class Po(McModel, ReplyMixin):
         zsite_tag_rm_by_po(self)
 
 
-def po_new(cid, user_id, name, state, rid=0, id=None):
+def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
+    
+    if state is None:
+        if zsite_id and zsite_id != user_id:
+            state = STATE_PO_ZSITE_ACCPET 
+        else:
+            state = STATE_ACTIVE
+
     m = Po(
         id=id or gid(),
         name_=cnencut(name, 142),
@@ -218,6 +225,7 @@ def po_new(cid, user_id, name, state, rid=0, id=None):
         cid=cid,
         rid=rid,
         state=state,
+        zsite_id=zsite_id,
         create_time=int(time()),
     )
     m.save()
@@ -301,10 +309,12 @@ def _po_rm(user_id, po):
     fav_rm_by_po(po)
     return True
 
-def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
-    if name and not is_same_post(user_id, name):
-        m = po_new(CID_WORD, user_id, name, state, rid)
-        if state > STATE_SECRET:
+
+def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
+
+    if name and not is_same_post(user_id, name, zsite_id):
+        m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
+        if m and (state is None or state > STATE_SECRET):
             m.feed_new()
         return m
 
