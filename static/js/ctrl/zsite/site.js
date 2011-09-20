@@ -68,7 +68,7 @@ function fav(){
 }
 
 function render_site(data){
-	var FEED_ATTR_BASE = "id rt_list fav cid rid reply_count create_time name txt txt_more",
+	var FEED_ATTR_BASE = "id fav cid rid reply_count create_time name txt txt_more",
 	FEED_ATTR_TXT_BASE = FEED_ATTR_BASE + " tag_id tag_name",
 	QUESTION_ATTR_BASE = " question_id question_user question_user_link",
 	FEED_ATTR = {
@@ -81,9 +81,14 @@ function render_site(data){
 		67: FEED_ATTR_TXT_BASE,
 		68: FEED_ATTR_BASE + " place_name address time_row1 time_row2 time_diff_day",
 		69: FEED_ATTR_BASE
-	};
-
-
+	},
+    zsite_dict = data[1],
+    career_dict = data[2],
+    data = data[0]
+;
+   console.info(zsite_dict) 
+   console.info(career_dict) 
+   console.info(data)    
 }
 
 
