@@ -57,13 +57,18 @@ class PoIndex(ZsiteBase):
 
 class PoPage(ZsiteBase):
     cid = 0
-    template = '/ctrl/zsite/po_view/po_page.htm'
 
     def get(self, n=1):
         zsite_id = self.zsite_id
         user_id = self.current_user_id
         zsite = self.zsite
         zsite_cid = zsite.cid
+
+        if zsite_cid == CID_SITE:
+            self.template = '/ctrl/zsite/po_view/site_po_page.htm'
+        else:
+            self.template = '/ctrl/zsite/po_view/po_page.htm'
+            
 
         cid = self.cid
         page_template = self.page_template
