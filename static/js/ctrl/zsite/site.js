@@ -68,7 +68,7 @@ function fav(){
 }
 
 function render_site(data){
-	var FEED_ATTR_BASE = "id fav cid rid reply_count create_time name txt txt_more",
+	var FEED_ATTR_BASE = "zsite_id id fav cid rid reply_count create_time name txt txt_more",
 	FEED_ATTR_TXT_BASE = FEED_ATTR_BASE + " tag_id tag_name",
 	QUESTION_ATTR_BASE = " question_id question_user question_user_link",
 	FEED_ATTR = {
@@ -84,11 +84,28 @@ function render_site(data){
 	},
     zsite_dict = data[1],
     career_dict = data[2],
-    data = data[0]
+    data = data[0],
+    i,
+    length = data.length,
+    result,
+    t,
+    r = []
 ;
-   console.info(zsite_dict) 
-   console.info(career_dict) 
-   console.info(data)    
+
+	for (var i in FEED_ATTR) {
+		FEED_ATTR[i] = (FEED_ATTR[i] + "").split(' ')
+	}
+    for (i=0;i < length; ++i) {
+        result = data[i];
+        t = {};
+        attr = FEED_ATTR[result[3]];
+        result_length = result.length;
+        for (j = 0; j < result_length; ++j) {
+            t[attr[j]] = result[j]
+        }
+        r.push(t)
+    }
+
 }
 
 
