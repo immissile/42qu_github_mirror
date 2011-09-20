@@ -16,7 +16,7 @@ def po_list_by_zsite_id(zsite_id, cid, limit, offset):
 def po_id_list_by_zsite_id(zsite_id, cid,  limit, offset):
 
     qs = Po.where(
-        zsite=zsite_id, cid=cid
+        zsite_id=zsite_id, cid=cid
     ).where("state>=%s"%STATE_PO_ZSITE_ACCPET)
  
     return qs.order_by('id desc').col_list(limit, offset)

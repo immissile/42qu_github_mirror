@@ -10,7 +10,7 @@ from model.po_pos import po_pos_get, po_pos_set, po_pos_state, STATE_BUZZ
 from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE, CID_SITE
 from zkit.page import page_limit_offset
 from zkit.txt import cnenlen
 from model.zsite_tag import ZsiteTag
@@ -19,6 +19,7 @@ from model.tag import Tag
 from model.event import Event, EVENT_STATE_TO_REVIEW
 from model.fav import fav_user_count_by_po_id, fav_user_list_by_po_id
 from model.vote import vote_up_count, vote_user_id_list
+from model.site_po import po_list_by_zsite_id
 
 
 @urlmap('/po')
@@ -61,6 +62,9 @@ class PoPage(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
         user_id = self.current_user_id
+        zsite = self.zsite
+        zsite_cid = zsite.cid
+
         cid = self.cid
         page_template = self.page_template
         is_self = zsite_id == user_id
@@ -77,14 +81,17 @@ class PoPage(ZsiteBase):
         if n != 1 and offset >= total:
             return self.redirect(page_template[:-3])
 
-        po_list = po_view_list(zsite_id, cid, is_self, limit, offset)
+        if zsite_cid == CID_SITE:
+            po_list = po_list_by_zsite_id(zsite_id, cid, limit, offset)
+        else:
+            po_list = po_view_list(zsite_id, cid, is_self, limit, offset)
 
-        if cid == CID_WORD:
-            rid_po_list = [i for i in po_list if i.rid]
-            Po.mc_bind(rid_po_list, 'question', 'rid')
-            Zsite.mc_bind([i.target for i in rid_po_list], 'user', 'user_id')
+            if cid == CID_WORD:
+                rid_po_list = [i for i in po_list if i.rid]
+                Po.mc_bind(rid_po_list, 'question', 'rid')
+                Zsite.mc_bind([i.target for i in rid_po_list], 'user', 'user_id')
 
-        if zsite_id == user_id:
+        if is_self:
             back_a = '/live'
         else:
             back_a = '/'
