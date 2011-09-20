@@ -68,20 +68,10 @@ function fav(){
 }
 
 function render_site(data){
-	var FEED_ATTR_BASE = "zsite_id id fav cid rid reply_count create_time name txt txt_more",
-	FEED_ATTR_TXT_BASE = FEED_ATTR_BASE + " tag_id tag_name",
-	QUESTION_ATTR_BASE = " question_id question_user question_user_link",
-	FEED_ATTR = {
-		61: FEED_ATTR_BASE + QUESTION_ATTR_BASE,
-		62: FEED_ATTR_TXT_BASE,
-		63: FEED_ATTR_TXT_BASE,
-		64: FEED_ATTR_TXT_BASE + QUESTION_ATTR_BASE,
-		65: FEED_ATTR_TXT_BASE,
-		66: FEED_ATTR_TXT_BASE,
-		67: FEED_ATTR_TXT_BASE,
-		68: FEED_ATTR_BASE + " place_name address time_row1 time_row2 time_diff_day",
-		69: FEED_ATTR_BASE
-	},
+	var feed_loader = feed_load_maker(
+"zsite_id id fav cid rid reply_count create_time name txt txt_more"
+    )
+	,
     zsite_dict = data[1],
     career_dict = data[2],
     data = data[0],
@@ -92,20 +82,10 @@ function render_site(data){
     r = []
 ;
 
-	for (var i in FEED_ATTR) {
-		FEED_ATTR[i] = (FEED_ATTR[i] + "").split(' ')
-	}
     for (i=0;i < length; ++i) {
-        result = data[i];
-        t = {};
-        attr = FEED_ATTR[result[3]];
-        result_length = result.length;
-        for (j = 0; j < result_length; ++j) {
-            t[attr[j]] = result[j]
-        }
-        r.push(t)
+        r.push(feed_loader(data[i]))
     }
-
+    console.info(r)
 }
 
 
