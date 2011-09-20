@@ -221,3 +221,32 @@ function txt_maxlen(txt, tip,  maxlen, update, cancel) {
         return true
 	}
 }
+
+function feed_load_maker(FEED_ATTR_BASE ){
+	var FEED_ATTR_TXT_BASE = FEED_ATTR_BASE + " tag_id tag_name",
+	QUESTION_ATTR_BASE = " question_id question_user question_user_link",
+	FEED_ATTR = {
+		61: FEED_ATTR_BASE + QUESTION_ATTR_BASE,
+		62: FEED_ATTR_TXT_BASE,
+		63: FEED_ATTR_TXT_BASE,
+		64: FEED_ATTR_TXT_BASE + QUESTION_ATTR_BASE,
+		65: FEED_ATTR_TXT_BASE,
+		66: FEED_ATTR_TXT_BASE,
+		67: FEED_ATTR_TXT_BASE,
+		68: FEED_ATTR_BASE + " place_name address time_row1 time_row2 time_diff_day",
+		69: FEED_ATTR_BASE
+	}
+	for (var i in FEED_ATTR) {
+		FEED_ATTR[i] = (FEED_ATTR[i] + "").split(' ')
+	}
+    function _(result){
+        var t = {}, attr = FEED_ATTR[result[3]], j=0;
+        result_length = result.length;
+        for (; j < result_length; ++j) {
+            t[attr[j]] = result[j]
+        }
+        return t
+    }
+    return _
+}
+
