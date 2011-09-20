@@ -19,7 +19,7 @@ from model.tag import Tag
 from model.event import Event, EVENT_STATE_TO_REVIEW
 from model.fav import fav_user_count_by_po_id, fav_user_list_by_po_id
 from model.vote import vote_up_count, vote_user_id_list
-from model.site_po import po_list_by_zsite_id
+from model.site_po import po_list_by_zsite_id, po_id_count_by_zsite_id
 
 
 @urlmap('/po')
@@ -72,9 +72,12 @@ class PoPage(ZsiteBase):
 
         cid = self.cid
         page_template = self.page_template
-        is_self = zsite_id == user_id
-        total = po_list_count(zsite_id, cid, is_self)
         n = int(n)
+
+        if zsite_cid == CID_SITE:
+            total = po_id_count_by_zsite_id(zsite_id, cid)
+        else:
+            total = po_list_count(zsite_id, cid, is_self)
 
         page, limit, offset = page_limit_offset(
             page_template,
@@ -88,7 +91,10 @@ class PoPage(ZsiteBase):
 
         if zsite_cid == CID_SITE:
             po_list = po_list_by_zsite_id(zsite_id, cid, limit, offset)
+            back_a = None
+            total = 0
         else:
+            is_self = zsite_id == user_id
             po_list = po_view_list(zsite_id, cid, is_self, limit, offset)
 
             if cid == CID_WORD:
@@ -96,15 +102,14 @@ class PoPage(ZsiteBase):
                 Po.mc_bind(rid_po_list, 'question', 'rid')
                 Zsite.mc_bind([i.target for i in rid_po_list], 'user', 'user_id')
 
-        if is_self:
-            back_a = '/live'
-        else:
-            back_a = '/'
+            if is_self:
+                back_a = '/live'
+            else:
+                back_a = '/'
 
 
         self.render(
             cid=cid,
-            is_self=is_self,
             total=total,
             li=po_list,
             page=page,

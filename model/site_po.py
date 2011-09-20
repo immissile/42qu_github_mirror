@@ -6,6 +6,13 @@ from model.state import STATE_PO_ZSITE_REVIEW , STATE_PO_ZSITE_ACCPET
 
 
 mc_pos_id_list_by_cid = McCacheM("PosIdListByCid:%s")
+po_id_count_by_zsite_id = McNum(
+    lambda zsite_id,cid:Po.where(
+        zsite_id=zsite_id, cid=cid
+    ).where("state>=%s"%STATE_PO_ZSITE_ACCPET).count(),
+    "PoIdCount:%s"
+)
+ 
 
 
 def po_list_by_zsite_id(zsite_id, cid, limit, offset):
@@ -14,7 +21,6 @@ def po_list_by_zsite_id(zsite_id, cid, limit, offset):
     )
 
 def po_id_list_by_zsite_id(zsite_id, cid,  limit, offset):
-
     qs = Po.where(
         zsite_id=zsite_id, cid=cid
     ).where("state>=%s"%STATE_PO_ZSITE_ACCPET)
