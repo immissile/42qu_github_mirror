@@ -29,6 +29,9 @@ PO_CN_EN = (
     (CID_AUDIO, 'audio', '音乐', '段'),
     (CID_EVENT, 'event', '活动', '次'),
 )
+PO_CID = tuple([
+    i[0] for i in PO_CN_EN
+])
 PO_SHARE_FAV_CID = set([i[0] for i in PO_CN_EN])
 PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
 PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)

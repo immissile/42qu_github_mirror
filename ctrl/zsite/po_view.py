@@ -19,7 +19,7 @@ from model.tag import Tag
 from model.event import Event, EVENT_STATE_TO_REVIEW
 from model.fav import fav_user_count_by_po_id, fav_user_list_by_po_id
 from model.vote import vote_up_count, vote_user_id_list
-from model.site_po import po_list_by_zsite_id, po_id_count_by_zsite_id
+from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id
 
 
 @urlmap('/po')
@@ -75,7 +75,7 @@ class PoPage(ZsiteBase):
         n = int(n)
 
         if zsite_cid == CID_SITE:
-            total = po_id_count_by_zsite_id(zsite_id, cid)
+            total = po_cid_count_by_zsite_id(zsite_id, cid)
         else:
             total = po_list_count(zsite_id, cid, is_self)
 
