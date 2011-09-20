@@ -16,9 +16,9 @@ po_id_count_by_zsite_id = McNum(
 
 
 def po_list_by_zsite_id(zsite_id, cid, limit, offset):
-    return Po.mc_get_list(
+    return [
         po_id_list_by_zsite_id(zsite_id, cid,  limit, offset)
-    )
+    ]
 
 def po_id_list_by_zsite_id(zsite_id, cid,  limit, offset):
     qs = Po.where(
