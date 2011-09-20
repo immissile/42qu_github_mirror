@@ -3,6 +3,7 @@
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, Model, McCacheM, McCacheA
 from po import Po, PO_CID
 from model.state import STATE_PO_ZSITE_REVIEW , STATE_PO_ZSITE_ACCPET
+from model.feed_render import render_zsite_feed_list
 
 #mc_pos_id_list_by_cid = McCacheM("PosIdListByCid:%s")
 
@@ -27,9 +28,9 @@ def po_count_by_zsite_id(zsite_id):
     )
 
 def po_list_by_zsite_id(zsite_id, cid, limit, offset):
-    return [
-        po_id_list_by_zsite_id(zsite_id, cid, limit, offset)
-    ]
+    return render_zsite_feed_list(
+            po_id_list_by_zsite_id(zsite_id, cid, limit, offset)
+        )
 
 def po_id_list_by_zsite_id(zsite_id, cid, limit, offset):
     qs = Po.where(

@@ -140,6 +140,9 @@ def render_feed_list(id_list, rt_dict, zsite_id):
 
     return r
 
+def render_zsite_feed_list(id_list):
+
+    return feed_tuple_list(id_list)
 
 def zsite_id_list_by_follow(zsite_id):
     r = follow_id_list_by_from_id(zsite_id)
@@ -163,18 +166,6 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     return render_feed_list(id_list, rt_dict, zsite_id), id
 
 
-#    result = []
-#    zsite_dict = Zsite.mc_get_dict(set(map(itemgetter(3), entry_list)))
-#    vote_count_list = vote_count.get_list(map(itemgetter(0), entry_list))
-#    for (id, cid, feed_id, zsite_id), vote in zip(entry_list, vote_count_list):
-#        args = CID2FEEDFUNC[cid](id)
-#        if not args:
-#            continue
-#        cls = CID2FEED_ENTRY[cid]
-#        result.append(
-#            cls(id, vote, cid, feed_id, zsite_dict[zsite_id], zsite_id, *args)
-#        )
-#    return result
 
 if __name__ == '__main__':
     pass
