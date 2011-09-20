@@ -24,7 +24,7 @@ def txttidy(txt):
 if __name__ == "__main__":
     from glob import glob 
 
-    for f in sorted(glob("test/*.txt")):
+    for f in reversed(sorted(glob("test/*.txt"))):
         with open(f) as infile:
             print txttidy(infile.read())
             raw_input(f)
