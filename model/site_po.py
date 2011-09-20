@@ -12,10 +12,10 @@ po_cid_count_by_zsite_id = McNum(
     ).where('state>=%s'%STATE_PO_ZSITE_ACCPET).count(),
     'PoIdCount:%s'
 )
-po_count_by_zsite_id = McCacheA('PoCountByZsiteId:%s')
+mc_po_count_by_zsite_id = McCacheA('PoCountByZsiteId:%s')
 
 
-@po_count_by_zsite_id("{zsite_id}") 
+@mc_po_count_by_zsite_id("{zsite_id}") 
 def _po_count_by_zsite_id(zsite_id):
     return tuple(
         po_cid_count_by_zsite_id(zsite_id,i) for i in PO_CID

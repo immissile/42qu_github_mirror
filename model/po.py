@@ -214,7 +214,7 @@ class Po(McModel, ReplyMixin):
 
 
 def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
-    
+        
     if state is None:
         if zsite_id and zsite_id != user_id:
             state = STATE_PO_ZSITE_ACCPET 
@@ -238,6 +238,12 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
     po_pos_set(user_id, m)
     mc_flush(user_id, cid)
     m.tag_new()
+    
+    if zsite_id:
+        from model.site_po import mc_po_count_by_zsite_id, po_cid_count_by_zsite_id 
+        mc_po_count_by_zsite_id.delete(zsite_id)
+        po_cid_count_by_zsite_id.delete(zsite_id, cid)
+ 
     return m
 
 def po_state_set(po, state):
