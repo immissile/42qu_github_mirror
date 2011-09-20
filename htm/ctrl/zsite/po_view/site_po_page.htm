@@ -6,7 +6,7 @@ from model.po import PO_CN
 
 <div class="event_list">\
 <div class="c site_po">\
-<div class="site_ti c"><span class="ti_txt">${PO_CN[cid]}</span></div>
+<div class="site_ti c"><span class="ti_txt">${PO_CN[cid]}</span></div>\
 %for po in li:
     <div class="site_txt c">
         <div class="po_cont L">
@@ -21,4 +21,5 @@ from model.po import PO_CN
     </div>
 %endfor
 </div>\
+    <div class="tc mt27">${page|n}</div>\
 </div>
