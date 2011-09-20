@@ -16,6 +16,7 @@ from txt2htm import txt_withlink
 from fs import fs_url_jpg, fs_url_audio
 from model.career import career_dict
 from days import begin_end_by_minute
+from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from event import Event
 from fav import fav_cid_dict
 
@@ -144,7 +145,21 @@ def render_feed_list(id_list, rt_dict, zsite_id):
 def render_zsite_feed_list(user_id, id_list):
     fav_dict = fav_cid_dict(user_id, id_list)
     r = []
-    for id, i in zip(id_list, feed_tuple_list(id_list)):
+    rf = feed_tuple_list(id_list)
+    
+    zsite_id_set = set(
+        i[0] for i in rf
+    )
+    c_dict = career_dict(zsite_id_set)
+    z_dict = Zsite.mc_get_dict(zsite_id_set)
+    z_dict = dict(
+        (i.id, (i.name, i.link))
+        for i in z_dict.itervalues()
+    )
+
+    for id, i in zip(id_list, rf):
+        if cid not in (CID_WORD, CID_EVENT):
+            i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
         result = [
             i[0],
             id,
@@ -152,11 +167,8 @@ def render_zsite_feed_list(user_id, id_list):
         ]
         result.extend(i[1:])
         r.append(result)
-    zsite_id_set = set(
-        i[0] for i in result
-    )
-    c_dict = career_dict(zsite_id_set)
-    return result
+
+    return result, z_dict, c_dict
 
 def zsite_id_list_by_follow(zsite_id):
     r = follow_id_list_by_from_id(zsite_id)
