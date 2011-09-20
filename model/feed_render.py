@@ -141,7 +141,6 @@ def render_feed_list(id_list, rt_dict, zsite_id):
     return r
 
 def render_zsite_feed_list(id_list):
-
     return feed_tuple_list(id_list)
 
 def zsite_id_list_by_follow(zsite_id):
