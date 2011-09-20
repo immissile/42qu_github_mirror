@@ -5,6 +5,10 @@ from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, Model, McCac
 mc_pos_id_list_by_cid = McCacheM("PosIdListByCid:%s")
 
 
+def po_id_list_by_zsite_id(zsite_id, ):
+    pass
+
+
 class ZsiteSiteMax(Model):
     pass
 
