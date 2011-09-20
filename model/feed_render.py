@@ -14,6 +14,7 @@ from zsite import Zsite
 from zkit.txt import cnenoverflow
 from txt2htm import txt_withlink
 from fs import fs_url_jpg, fs_url_audio
+from model.career import career_dict
 from days import begin_end_by_minute
 from event import Event
 from fav import fav_cid_dict
@@ -151,6 +152,10 @@ def render_zsite_feed_list(user_id, id_list):
         ]
         result.extend(i[1:])
         r.append(result)
+    zsite_id_set = set(
+        i[0] for i in result
+    )
+    c_dict = career_dict(zsite_id_set)
     return result
 
 def zsite_id_list_by_follow(zsite_id):
@@ -178,6 +183,3 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
 if __name__ == '__main__':
     pass
-    m = Po.mc_get(10044641)
-    print feed_tuple_by_db(10033928)
-    print feed_tuple_list([10033927])
