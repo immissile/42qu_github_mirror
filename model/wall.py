@@ -157,6 +157,12 @@ def wall_id_by_from_id_to_id(from_id, to_id):
         return w.id
     return 0
 
+
+def wall_by_from_id_to_id(from_id, to_id):
+    id = wall_id_by_from_id_to_id(from_id, to_id)
+    if id:
+        return Wall.mc_get(id)
+
 def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
     user_id = user.id
     zsite_id = self.id

@@ -15,7 +15,7 @@ z-index:1;
 .mk_ti{
 font-size:16px;
 color:#999;
-margin:14px 0 2px;
+margin:14px 0 0;
 padding-bottom:18px;
 border-bottom:1px dotted #ccc;
 overflow:auto;
@@ -38,7 +38,6 @@ font-size:16px;
 .G3center{
 margin-left:auto;
 margin-right:auto;
-text-align:center;
 width:721px;
 }
 .imgabout{
@@ -266,4 +265,7 @@ color:#000
 }
 .m07{
 margin:0 7px
+}
+#reply_list{
+margin-top:27px
 }
