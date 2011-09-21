@@ -19,7 +19,7 @@ ZSITE_STATE_SITE2CN = (
 ZSITE_STATE_SITE2CN_DICT = dict(ZSITE_STATE_SITE2CN)
 
 def site_new(name, admin_id, state):
-    if state not in ZSITE_STATE_SITE2CN:
+    if state not in ZSITE_STATE_SITE2CN_DICT:
         state = ZSITE_STATE_SITE_PUBLIC
 
     site = zsite_new(name, CID_SITE, state)
