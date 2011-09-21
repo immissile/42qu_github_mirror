@@ -265,6 +265,9 @@ text-align:right;
 color:#999;
 padding:7px 0 0;
 }
+.fdbar a:hover{
+color:#a10;
+}
 .fdbar a{
 color:#999;
 }
