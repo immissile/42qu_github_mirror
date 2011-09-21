@@ -99,7 +99,7 @@ def zsite_list_id_get(zsite_id, owner_id, cid=0):
 
 
 def zsite_list_get(zsite_id, owner_id, cid=0):
-    id = zsite_list_id_get(zsite_id, owner_id, cid=0)
+    id = zsite_list_id_get(zsite_id, owner_id, cid=cid)
     if id:
         return ZsiteList.get(id)
 
