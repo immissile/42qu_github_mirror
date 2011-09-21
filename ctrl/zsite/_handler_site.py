@@ -28,7 +28,7 @@ class XsrfGetBase(LoginBase):
 
 class AdminBase(SiteBase):
     def prepare(self):
-        super(LoginBase, self).prepare()
+        super(AdminBase, self).prepare()
         _login_redirect(self)
 
         zsite = self.zsite
