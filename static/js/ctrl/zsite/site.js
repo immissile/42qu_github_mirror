@@ -33,7 +33,7 @@ $(function(){
             return false
         }
         var val=pop_txt.val()
-        pop_txt.replaceWith($('<pre class="pop_txt" id="pop_txt"/>').html(val))
+        pop_txt.attr('disabled',true)
         pop_tip.replaceWith('<div class="say_loading pop_tip"></div>')
         $('.pop_close,.pop_submit').hide()
         $.postJSON(
