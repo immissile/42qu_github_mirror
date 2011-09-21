@@ -38,11 +38,7 @@ ${css.ctrl_zsite_site|n}
         ${reply_render_body(i, can_rm)}\
         <div class="bar">
         <span class="L">
-        <a href="${user.link}">${user.name}</a> 
-        %if i.state == STATE_SECRET:
-        私语
-        %endif
-        , ${friendly_time(i.create_time)} 
+        ${friendly_time(i.create_time)} 
         </span>
         %if can_rm:
         <a href="javascript:rm(${id});void(0)">删除</a>
