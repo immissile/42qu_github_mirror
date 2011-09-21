@@ -3,8 +3,8 @@
 
 from ctrl._urlmap.zsite import urlmap
 from model.motto import motto_get
-from _handler_site import SiteBase, LoginBase, XsrfGetBase
-from model.zsite_admin import admin_id_list_by_zsite_id, zsite_user_state
+from _handler_site import SiteBase, LoginBase, XsrfGetBase, AdminBase
+from model.zsite_admin import admin_id_list_by_zsite_id,  site_can_admin
 from zkit.jsdict import JsDict
 from model.zsite_link import link_list_cid_by_zsite_id,SITE_LINK_ZSITE_DICT,link_list_save
 from model.ico import site_ico_bind
@@ -16,7 +16,7 @@ from model.zsite_url import url_by_id
 from model.zsite_fav import zsite_fav_rm 
 
 @urlmap('/admin')
-class Admin(LoginBase):
+class Admin(AdminBase):
     def get(self):
         zsite = self.zsite
         zsite_id = self.zsite_id 
@@ -85,7 +85,7 @@ class Mark(LoginBase):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
         
-        can_admin = zsite_user_state(zsite_id, current_user_id)
+        can_admin = site_can_admin(zsite_id, current_user_id)
 
         if can_admin:
             return self.redirect("/admin")

@@ -40,6 +40,11 @@ def site_can_view(zsite, current_user_id):
     if zsite_user_state(zsite_id, user_id):
         return True
 
+def site_can_admin(zsite_id, current_user_id):
+    if zsite_user_state(zsite_id, user_id):
+        return True
+
+
 
 if __name__ == '__main__':
     print '..'

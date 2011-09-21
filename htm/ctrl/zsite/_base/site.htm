@@ -1,10 +1,9 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 
 <%!
-from model.zsite_site import site_can_view
+from model.zsite_site import site_can_view, site_can_admin
 from model.zsite_fav import zsite_fav_id_get
 from model.motto import motto_get
-from model.zsite_admin import zsite_user_state
 %>
 
 <%def name="htm_head()">
@@ -25,7 +24,7 @@ ${zsite.name}
 %endif
 </%def>
 <%
-can_admin = zsite_user_state(zsite_id, current_user_id)
+can_admin = site_can_admin(zsite_id, current_user_id)
 %>
 
 %if site_can_view(zsite, current_user_id): 
