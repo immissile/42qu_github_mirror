@@ -1,12 +1,6 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/site.htm" import="site_li"/>
 
-<%!
-from model.ico import ico_url_with_default
-from model.po import PO_CN, PO_EN
-from model.site_po import po_count_by_zsite_id
-from operator import itemgetter
-from model.motto import motto
-%>
 <%def name="htm_head()">
 ${css.ctrl_site_index|n}
 </%def>
@@ -16,35 +10,6 @@ ${css.ctrl_site_index|n}
 </%def>
 
 
-<%def name="site_li(site)">
-<%
-po_count = po_count_by_zsite_id(site.id)
-%>
-<div class="c site_po">
-    <a href="${site.link}"><img src="${ico_url_with_default(site.id)}" class="site_img"></a>
-    <div class="site_txt c">
-        <div class="po_ti">
-            <a href="${site.link}" class="c0">${site.name}</a>
-        </div>
-        <div class="po_text">
-            <span>${motto.get(site.id)}</span>
-            <div class="po_num">
-<a class="po_no" href="#"><span class="number">96</span><b>关注</b></a>\
-%for cid, count in po_count:
-<%
-en = PO_EN[cid]
-cn = PO_CN[cid]
-%>\
-%if count:
-<span class="amp">&amp;</span>\
-<a href="${site.link}/${en}"><span class="number">${count}</span><b>${cn|n}</b></a>\
-%endif
-%endfor
-            </div>
-        </div>
-    </div>
-</div>
-</%def>
 <%
 path = request.path
 is_my = path.startswith("/my")
