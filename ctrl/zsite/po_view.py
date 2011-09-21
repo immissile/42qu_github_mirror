@@ -77,6 +77,7 @@ class PoPage(ZsiteBase):
         if zsite_cid == CID_SITE:
             total = po_cid_count_by_zsite_id(zsite_id, cid)
         else:
+            is_self = zsite_id == user_id
             total = po_list_count(zsite_id, cid, is_self)
 
         page, limit, offset = page_limit_offset(
@@ -94,7 +95,6 @@ class PoPage(ZsiteBase):
             back_a = None
             total = 0
         else:
-            is_self = zsite_id == user_id
             po_list = po_view_list(zsite_id, cid, is_self, limit, offset)
 
             if cid == CID_WORD:
