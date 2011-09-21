@@ -3,7 +3,7 @@
 
 from ctrl._urlmap.zsite import urlmap
 from model.motto import motto_get
-from _handler_site import SiteBase, LoginBase
+from _handler_site import SiteBase, LoginBase, XsrfGetBase
 from model.zsite_admin import admin_id_list_by_zsite_id, zsite_user_state
 from zkit.jsdict import JsDict
 from model.zsite_link import link_list_cid_by_zsite_id,SITE_LINK_ZSITE_DICT,link_list_save
@@ -13,6 +13,7 @@ from model.txt import txt_get, txt_new
 from model.ico import ico96
 from ctrl.site.index import _site_save
 from model.zsite_url import url_by_id
+from model.zsite_fav import zsite_fav_rm 
 
 @urlmap('/admin')
 class Admin(LoginBase):
@@ -69,6 +70,14 @@ class Admin(LoginBase):
 class AdminReview(LoginBase):
     def get(self):
         self.render()
+
+@urlmap('/mark/rm')
+class MarkRm(XsrfGetBase):
+    def get(self):
+        zsite = self.zsite
+        current_user_id = self.current_user_id
+        zsite_fav_rm(zsite, current_user_id) 
+        return self.redirect(zsite.link) 
 
 @urlmap('/mark')
 class Mark(LoginBase):

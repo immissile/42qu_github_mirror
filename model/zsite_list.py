@@ -66,12 +66,19 @@ def mc_flush(owner_id, cid, zsite_id=0):
 
 
 
-def zsite_list_rm(zsite_id, owner_id):
-    cid_list = ZsiteList.where(zsite_id=zsite_id, owner_id=owner_id, state=1).col_list(col='cid')
-    ZsiteList.raw_sql('update zsite_list set state=0 where zsite_id=%s and owner_id=%s', zsite_id, owner_id)
-    for cid in cid_list:
-        mc_flush(owner_id, cid, zsite_id)
+def zsite_list_rm(zsite_id, owner_id, cid=None):
+    if cid is None:
+        cid_list = ZsiteList.where(zsite_id=zsite_id, owner_id=owner_id, state=1).col_list(col='cid')
+        ZsiteList.raw_sql('update zsite_list set state=0 where zsite_id=%s and owner_id=%s', zsite_id, owner_id)
+        for cid in cid_list:
+            mc_flush(owner_id, cid, zsite_id)
+    else:
+        id = zsite_list_id_get(zsite_id, owner_id, cid)  
+        if id:
+            ZsiteList.where(id=id).delete() 
+            mc_flush(owner_id, cid, zsite_id)
 
+    
 
 @mc_zsite_list_id_get("{zsite_id}_{owner_id}_{cid}")
 def _zsite_list_id_get(zsite_id, owner_id, cid=0):

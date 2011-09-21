@@ -1,5 +1,14 @@
 #coding:utf-8
-from model.zsite_list import zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_id_get
+from model.zsite_list import zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_id_get, zsite_list_rm
+
+
+
+def zsite_fav_rm(zsite, owner_id):
+    zsite_list_rm(
+        zsite.id,
+        owner_id,
+        zsite.cid
+    )
 
 def zsite_fav_new(zsite, owner_id):
     zsite = zsite_list_new(
