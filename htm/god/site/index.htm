@@ -20,12 +20,14 @@ ${page|n}
 site = Zsite.mc_get(site_id)
 %>
 <li id="site${site_id}">
-<a href="http:${site.link}"><img src="${ico_url_with_default(site_id)}"/></a>
-${site.name}
+<a href="http:${site.link}"><img src="${ico_url_with_default(site_id)}"/>
+${site.name}</a>
 ${ZSITE_STATE_SITE2CN_DICT.get(site.state)}
+%if zsite_show_get(site_id,CID_SITE):
 <a href="/site/rm_show/${site_id}">移除秀</a>
+%else:
 <a href="/site/add_show/${site_id}">加入秀</a>
-${zsite_show_get(site_id,CID_SITE)}
+%endif
 <%
 admin_list = admin_id_list_by_zsite_id(site_id)
 %>
