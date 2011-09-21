@@ -79,11 +79,26 @@ function render_site(data){
     length = data.length,
     result,
     t,
-    r = []
+    o,
+    r = [],
+    z
 ;
 
     for (i=0;i < length; ++i) {
-        r.push(feed_loader(data[i]))
+        t=feed_loader(data[i])
+        t.zsite = z= {}
+        o = zsite_dict[t.zsite_id]
+        if(o){
+            z.name = o[0] 
+            z.link = o[1] 
+        }
+        o = career_dict[t.zsite_id]
+        if(o){
+            z.unit = o[0]
+            z.title = o[1] 
+        }
+
+        r.push(t)
     }
     $('#feed').tmpl(r).appendTo("#feeds");
 }
