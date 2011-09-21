@@ -39,7 +39,7 @@ def zsite_id_list_order_id_desc(owner_id, cid, limit=None, offset=None):
     return qs.col_list(limit, offset, 'zsite_id')
 
 def zsite_list_new(zsite_id, owner_id, cid, rank=1, state=STATE_ACTIVE):
-    if not owner_id or not zsite_id:
+    if not zsite_id:
         return
     zsite = ZsiteList.get_or_create(
         zsite_id=zsite_id,
