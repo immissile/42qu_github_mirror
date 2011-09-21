@@ -1,5 +1,5 @@
 #coding:utf-8
-from model.zsite_list import zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_id_get, zsite_list_rm
+from model.zsite_list import zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id
 
 
 
@@ -45,3 +45,7 @@ def zsite_fav_get_and_touch(zsite_id, owner_id):
     else:
         zsite_fav_touch(zsite_id, owner_id)   
 
+def zsite_fav_count_by_zsite_id(zsite):
+    return zsite_list_count_by_zsite_id(
+        zsite.id, zsite.cid
+    )
