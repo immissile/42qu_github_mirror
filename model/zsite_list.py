@@ -41,7 +41,8 @@ def zsite_list_new(zsite_id, owner_id, cid, rank=1, state=STATE_ACTIVE):
         cid=cid,
     )
     zsite.state = state
-    zsite.rank = rank
+    if not zsite.rank:
+        zsite.rank = rank
     zsite.save()
     mc_flush_owner_id_cid(owner_id, cid)
 
