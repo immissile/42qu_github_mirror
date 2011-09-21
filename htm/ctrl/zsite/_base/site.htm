@@ -1,9 +1,9 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 
 <%!
+from model.zsite_site import site_can_view, site_can_admin
 from model.zsite_fav import zsite_fav_id_get
 from model.motto import motto_get
-from model.zsite_admin import zsite_user_state
 %>
 
 <%def name="htm_head()">
@@ -24,9 +24,10 @@ ${zsite.name}
 %endif
 </%def>
 <%
-can_admin = zsite_user_state(zsite_id, current_user_id)
+can_admin = site_can_admin(zsite_id, current_user_id)
 %>
 
+%if site_can_view(zsite, current_user_id): 
 <div id="nav2">
 %if can_admin:
 <a href="/admin" class="nav_a">管理</a>\
@@ -50,5 +51,7 @@ can_admin = zsite_user_state(zsite_id, current_user_id)
 <a href="javascript:po_video();void(0)">视频</a>\
 </div>\
 </div>
-
 ${next.body()}
+%else:
+<div style="text-align:center;border:1px dotted #ccc;margin-top:32px;padding:32px 0">私密站点 , 无权浏览</div>
+%endif

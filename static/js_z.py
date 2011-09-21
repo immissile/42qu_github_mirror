@@ -8,5 +8,6 @@ JS = [
 'jquery.elastic.source.js.h',
 'zpage.js',
 'ctrl.js',
+'ctrl/feed.js',
 'po.js',
 ]
