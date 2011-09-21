@@ -45,12 +45,20 @@ width:211px;
 border:1px dotted #ccc;
 padding:3px;
 border-top:0;
+border-bottom:0;
 display:block;
+}
+.pop_say{
+margin-top:-94px
+}
+.G1about .pop_say{
+margin-top:34px
 }
 .G .G1about{
 position:relative;
 float:right;
 margin-top:-61px;
+overflow:visible;
 } 
 .bio{
 font-size:14px;
