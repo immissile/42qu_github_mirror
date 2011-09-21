@@ -14,7 +14,7 @@ now = request.path.lstrip("/").split("-",1)[0]
 %>
 %if total:
 <div id="sidebar_nav">
-<a href="/" class="event_a tc${' now' if not now else ''}">主页</a>\
+<a href="/" class="event_a${' now' if not now else ''}"><span class="L">全部</span>${total}</a>\
 %for cid, count in po_count:
 %if count:
 <%
