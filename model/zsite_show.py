@@ -29,7 +29,7 @@ def zsite_show_update():
 def zsite_show_new(zsite_id, cid, rank=1):
     zsite_list_new(zsite_id, OWNER_ID, cid, rank)
 
-def zsite_show_rm(zsite_id):
+def zsite_show_rm(zsite_id, cid=None):
     zsite_list_rm(zsite_id, OWNER_ID)
 
 def zsite_show_get(zsite_id, cid=CID_USER):

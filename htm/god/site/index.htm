@@ -1,0 +1,40 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from model.zsite import Zsite
+from model.zsite_site import ZSITE_STATE_SITE2CN_DICT, ZSITE_STATE_SITE_PUBLIC, ZSITE_STATE_SITE_SECRET
+from model.ico import ico_url_with_default
+from model.zsite_show import zsite_show_get
+from model.cid import CID_SITE
+from model.zsite_admin import admin_id_list_by_zsite_id
+%>
+<%def name="htm_head()">
+</%def>
+<a href="/site">全部</a>
+<a href="/site/${ZSITE_STATE_SITE_PUBLIC}">公开</a>
+<a href="/site/${ZSITE_STATE_SITE_SECRET}">私密</a>
+${page|n}
+%if site_id_list:
+<ol>
+%for site_id in site_id_list:
+<%
+site = Zsite.mc_get(site_id)
+%>
+<li id="site${site_id}">
+<a href="http:${site.link}"><img src="${ico_url_with_default(site_id)}"/></a>
+${site.name}
+${ZSITE_STATE_SITE2CN_DICT.get(site.state)}
+<a href="/site/rm_show/${site_id}">移除秀</a>
+<a href="/site/add_show/${site_id}">加入秀</a>
+${zsite_show_get(site_id,CID_SITE)}
+<%
+admin_list = admin_id_list_by_zsite_id(site_id)
+%>
+%for admin_id in admin_list:
+<%
+admin = Zsite.mc_get(admin_id)
+%>
+管理员：<a href="http:${admin.link}">${admin.name}</a>
+%endfor
+</li>
+%endfor
+%endif
