@@ -4,7 +4,7 @@
 import _db
 from model.zsite import zsite_new, ZSITE_STATE_ACTIVE
 from model.cid import CID_SITE
-from model.zsite_admin import zsite_admin_new
+from model.zsite_admin import zsite_admin_new, zsite_user_state
 from model.zsite_show import zsite_show_new
 
 ZSITE_STATE_SITE_PUBLIC = 40
@@ -30,6 +30,16 @@ def site_new(name, admin_id, state):
         zsite_show_new(site_id, CID_SITE)
 
     return site
+
+
+def site_can_view(zsite, current_user_id):
+
+    if zsite.state >= ZSITE_STATE_SITE_PUBLIC:
+        return True
+
+    if zsite_user_state(zsite_id, user_id):
+        return True
+
 
 if __name__ == '__main__':
     print '..'
