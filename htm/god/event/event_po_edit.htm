@@ -1,0 +1,38 @@
+<%inherit file="/god/_base.htm" />
+<%def name="htm_head()">
+<style>
+a.eventcat {
+    color:#999;
+    margin:8px 16px;
+}
+.edit{
+text-align:left;
+width:900px;
+margin:30px auto;
+}
+.txt_name{
+width:500px;
+height:40px;
+font-size:16px;
+padding:6px;
+padding:4px;
+margin:10px auto;
+border:1px dotted #ccc;
+}
+.txt_cont{
+width:700px;
+height:480px;
+margin:auto;
+font-size:16px;
+line-height:30px;
+border:1px dotted #ccc;
+}
+</style>
+</%def>
+<form method="POST">
+<div class="edit">
+    <div><input class="txt_name"  type="txt" name="name" value="${po.name}"></div>
+    <div><textarea name="txt" class="txt_cont">${po.txt}</textarea></div>
+    <span class="btnw"><button type="submit">提交</button></span>
+</div>
+</form>

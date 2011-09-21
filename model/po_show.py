@@ -9,7 +9,7 @@ from zsite import Zsite
 
 ORDER = ('id', 'hot', 'confidence')
 
-def po_show_new(po, cid):
+def po_show_new(po, cid=0):
     r = rank_new(po, 0, cid)
     feed_rt(0, po.id)
 

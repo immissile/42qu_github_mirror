@@ -47,7 +47,10 @@ function save(id){
     $.fancybox.showActivity(); 
     $.post(
         "/rss/edit/"+id, 
-        {"txt":$("#textarea"+id).val()},
+        {
+"txt":$("#textarea"+id).val(),
+"rt":$('#checkbox'+id)[0].checked
+},
         function(){
             $.fancybox.hideActivity();
             $("#form"+id).hide() 
@@ -87,7 +90,7 @@ htm = pic_rss(htm,pic_list)
 </a> :
 %endif
 ${title}</span>
-<a href="/rss/${RSS_RM}/${id}" class="rm">删除</a>
+<a href="/rss/rm/${RSS_RM}/${id}" class="rm">删除</a>
 <a target="_blank" href="${link}">原文</a></div>
 <pre>
 </pre>
@@ -95,10 +98,11 @@ ${title}</span>
 <div id="bar${id}"><a id="ext${id}" href="javascript:ext(${id})">展开</a><a href="javascript:edit(${id})" class="edit">编辑</a></div>
 <pre id="pre${id}">${htm|n}</pre>
 
-<form action="/rss/${id}" method="POST" id="form${id}" onsubmit="return save(${id})">
+<form  id="form${id}" onsubmit="return save(${id})">
 <div>
     <textarea id="textarea${id}" class="txt" name="txt">${txt}</textarea>
 </div>
+<span><input type="checkbox" id="checkbox${id}"   checked >全站转发</span>
 <span class="btnw"><button type="submit">保存</button></span>
 </form>
 </div>
