@@ -32,11 +32,21 @@ def post_reply(self, id):
 @urlmap('/j/fav')
 class Fav(JLoginBase):
     def get(self):
+        current_user = self.current_user
         current_user_id = self.current_user_id
+
         host = self.request.host
         zsite = zsite_by_domain(host)
+
         if zsite and zsite.cid == CID_SITE:
             zsite_fav_new(zsite, current_user_id)
+
+        txt = self.get_argument('txt', None)
+        if txt:
+            from model.reply import STATE_ACTIVE
+            zsite.reply_new(current_user, txt, STATE_ACTIVE)
+            
+
         self.finish('{}')
 
 
