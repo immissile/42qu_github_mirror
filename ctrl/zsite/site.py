@@ -84,10 +84,25 @@ class Mark(LoginBase):
     def get(self):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
+        
         can_admin = zsite_user_state(zsite_id, current_user_id)
+
         if can_admin:
             return self.redirect("/admin")
+
         self.render()
+
+
+    def post(self):
+        zsite = self.zsite
+        current_user = self.current_user
+        txt = self.get_argument('txt', None)
+
+        if txt:
+            from model.reply import STATE_ACTIVE
+            zsite.reply_new(current_user, txt, STATE_ACTIVE)
+
+        self.get()
 
 
 @urlmap('/about')

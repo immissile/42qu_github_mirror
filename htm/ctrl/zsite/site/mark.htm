@@ -4,6 +4,7 @@ from model.wall import wall_by_from_id_to_id
 from zkit.time_format import friendly_time
 %>
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render_body,wall_reply_textarea"/>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_head()">
 ${css.ctrl_zsite_site|n}
 <script src="${js.ctrl_zsite_mark|n}"></script>
@@ -54,13 +55,13 @@ ${css.ctrl_zsite_site|n}
         </div>
 %endif
 
-        <form id="mk_form" action="http://baidu.com" method="get">
-            <textarea class="mk_txt"></textarea>
-            <script> $(".mk_txt").focus() </script>
-            <div>
-                <span class='btnw R'><button type="submit">添加备注</button></span>
-            </div>
-        </form>
+<%htm:form id="mk_form">
+<textarea name="txt" class="mk_txt"></textarea>\
+<script> $(".mk_txt").focus() </script>\
+<div class="tr">
+    <span class='btnw'><button type="submit">添加备注</button></span>
+</div>
+</%htm:form>
     </div>
 </div>
 
