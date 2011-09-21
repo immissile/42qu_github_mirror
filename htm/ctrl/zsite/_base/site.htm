@@ -1,6 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 
 <%!
+from model.zsite_fav import zsite_fav_id_get
 from model.motto import motto_get
 from model.zsite_admin import zsite_user_state
 %>
@@ -30,7 +31,11 @@ can_admin = zsite_user_state(zsite_id, current_user_id)
 %if can_admin:
 <a href="/admin" class="nav_a">管理</a>\
 %else:
+    %if zsite_fav_id_get(zsite, current_user_id):
+<a href="/mark" class="nav_a" id="fav_a">设置</a>\
+    %else:
 <a href="javascript:fav();void(0)" class="nav_a" id="fav_a">收藏</a>\
+    %endif
 %endif
 <a href="javascript:nav2_touch();void(0)" id="nav2_touch"  class="nav_a">发帖</a>\
 %if can_admin:
