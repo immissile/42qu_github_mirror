@@ -32,11 +32,12 @@ def site_new(name, admin_id, state):
     return site
 
 
-def site_can_view(zsite, current_user_id):
+def site_can_view(zsite, user_id):
 
     if zsite.state >= ZSITE_STATE_SITE_PUBLIC:
         return True
 
+    zsite_id = zsite.id
     if zsite_user_state(zsite_id, user_id):
         return True
 

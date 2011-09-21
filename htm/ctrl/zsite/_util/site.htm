@@ -8,6 +8,7 @@ from operator import itemgetter
 <%
 po_count = po_count_by_zsite_id(zsite_id)
 total = sum(map(itemgetter(1), po_count))
+
 %>
 <%
 now = request.path.lstrip("/").split("-",1)[0]
