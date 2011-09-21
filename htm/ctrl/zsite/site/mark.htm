@@ -14,14 +14,15 @@ ${css.ctrl_zsite_site|n}
             <span class="c0">设置</span>\
         </div>
 <%
-    _can_rm = current_user_id in zsite_id_list
+    reply_list = zsite.reply_list()
 %>
+
 %if reply_list:
         <div id="reply_list">
         %for i in reply_list:
-<%
-    can_rm = _can_rm or i.can_rm(current_user_id)
-%>
+            <%
+                can_rm = i.can_rm(current_user_id)
+            %>
         <%
         id = i.id
         user = i.user
