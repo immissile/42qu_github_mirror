@@ -1,0 +1,31 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from model.zsite import Zsite
+from model.zsite_site import ZSITE_STATE_SITE2CN_DICT, ZSITE_STATE_SITE_PUBLIC, ZSITE_STATE_SITE_SECRET
+from model.ico import ico_url_with_default
+%>
+<%def name="htm_head()">
+</%def>
+<a href="/site">全部</a>
+<a href="/site/${ZSITE_STATE_SITE_PUBLIC}">公开</a>
+<a href="/site/${ZSITE_STATE_SITE_SECRET}">私密</a>
+${page|n}
+%if site_id_list:
+<ol>
+%for site_id in site_id_list:
+<%
+site = Zsite.mc_get(site_id)
+%>
+<li id="site${site_id}">
+<img src="${ico_url_with_default(site_id)}"/>
+${site.name}
+%if site.state == ZSITE_STATE_SITE_PUBLIC:
+${ZSITE_STATE_SITE2CN_DICT[ZSITE_STATE_SITE_PUBLIC]}
+<a href="/site/rm_show/${site_id}">移除秀</a>
+%elif state == ZSITE_STATE_SITE_SECRET:
+${ZSITE_STATE_SITE2CN_DICT[ZSITE_STATE_SITE_SECRET]}
+<a href="/site/add_show/${site_id}">加入秀</a>
+%endif
+</li>
+%endfor
+%endif
