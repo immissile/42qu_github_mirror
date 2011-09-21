@@ -93,7 +93,7 @@ def _zsite_list_id_get(zsite_id, owner_id, cid=0):
     return 0
 
 def zsite_list_id_get(zsite_id, owner_id, cid=0):
-    if not owner_id or not zsite_id:
+    if not zsite_id:
         return 0
     return _zsite_list_id_get(zsite_id, owner_id, cid)
 
