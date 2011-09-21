@@ -1,0 +1,18 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="htm_head()">
+</%def>
+%if rss:
+${page|n}
+% for r in rss:
+<%
+id,user_id,url,gid = r
+%>
+${id}
+${user_id}
+<a href="/rss_gid/edit/${id}">删除</a>
+<br/>
+%endfor
+%endif
+
+${page|n}
