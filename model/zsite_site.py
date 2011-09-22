@@ -44,7 +44,11 @@ def site_can_admin(zsite_id, user_id):
     if zsite_user_state(zsite_id, user_id):
         return True
 
-
+def zsite_id_by_zsite_user_id(zsite, user_id):
+    if zsite.cid == CID_SITE:
+        if site_can_view(zsite, user_id):
+            return zsite.id
+    return 0
 
 if __name__ == '__main__':
     print '..'

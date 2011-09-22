@@ -13,6 +13,8 @@ from zkit.jsdict import JsDict
 from zkit.txt import cnenlen
 from model.event import Event, event_init2to_review
 from model.po_event import event_joiner_state_set_by_good
+from model.zsite_url import link
+from model.zsite_site import zsite_id_by_zsite_user_id 
 
 def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
@@ -56,7 +58,6 @@ def po_post(self):
     user_id = self.current_user_id
     name = self.get_argument('name', '')
     txt = self.get_argument('txt', '', strip=False).rstrip()
-    zsite_id = self.zsite_id
     zsite = self.zsite
 
     arguments = self.request.arguments
@@ -64,11 +65,12 @@ def po_post(self):
 
     if self.cid == CID_EVENT_FEEDBACK:
         state = self.get_argument('good', None)
+        zsite_id = 0
     else:
-        if zsite_id != user_id and zsite.cid == CID_SITE:
+        zsite_id = zsite_id_by_zsite_user_id(zsite,user_id)
+        if zsite_id:
             state = STATE_ACTIVE
         else: 
-            zsite_id = 0
             secret = self.get_argument('secret', None)
             if secret:
                 state = STATE_SECRET
@@ -153,8 +155,15 @@ class Edit(LoginBase):
     def get(self, id):
         user_id = self.current_user_id
         po = self._po(user_id, id)
+            
         if po is None:
             return
+        po_zsite_id = po.zsite_id
+
+        if po_zsite_id and po_zsite_id!=self.zsite_id:
+            return self.redirect(
+                "%s/po/edit/%s"%(link(po_zsite_id),id)
+            )
 
         if po.cid == CID_EVENT_FEEDBACK:
             self.event = Event.mc_get(po.rid)
@@ -166,13 +175,14 @@ class Edit(LoginBase):
             pic_list=pic_list_edit(user_id, id)
         )
 
-    def po_save(self, user_id, name, txt, state):
+    def po_save(self, user_id, name, txt, state, zsite_id):
         po = self.po
         if po is None:
             return
 
         cid = po.cid
         rid = po.rid
+        po.zsite_id = zsite_id
 
         if cid == CID_WORD:
             if cnenlen(txt) > 140:
@@ -180,7 +190,6 @@ class Edit(LoginBase):
                 po.txt_set(txt)
             else:
                 po.name_ = txt
-                po.save()
         elif cid == CID_EVENT_FEEDBACK:
             event_joiner_state_set_by_good(user_id, rid, state)
             if txt:
@@ -188,7 +197,6 @@ class Edit(LoginBase):
         else:
             if not po.rid and name:
                 po.name_ = name
-                po.save()
             if txt:
                 po.txt_set(txt)
 
@@ -199,6 +207,7 @@ class Edit(LoginBase):
                 po_state_set(po, state)
 
 
+        po.save()
         return po
 
     po_post = po_post
