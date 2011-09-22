@@ -42,6 +42,7 @@ def zsite_fav_get_and_touch(zsite_id, owner_id):
     if r:
         r.rank+=1
         r.save()
+        return r.rank
     else:
         zsite_fav_touch(zsite_id, owner_id)   
 
