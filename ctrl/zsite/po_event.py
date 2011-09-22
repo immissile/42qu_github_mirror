@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
+from model.zsite_site import zsite_id_by_zsite_user_id 
 from ctrl._urlmap.zsite import urlmap
 from model.po import Po
 from model.po_event import po_event_pic_new , EVENT_CID, po_event_feedback_new
@@ -40,6 +41,7 @@ class EventState(LoginBase):
 class Index(LoginBase):
     def post(self, id=0):
         user_id = self.current_user_id
+
         if id:
             event = Event.mc_get(id)
             if event.zsite_id != self.current_user_id:
@@ -53,7 +55,9 @@ class Index(LoginBase):
         if event:
             if not id:
                 id = event.id
-                po_new(CID_EVENT, user_id, '', STATE_SECRET, id=id)
+                zsite = self.zsite
+                zsite_id = zsite_id_by_zsite_user_id(zsite, user_id)
+                po_new(CID_EVENT, user_id, '', STATE_SECRET, id=id, zsite_id=zsite_id)
 
             if event.state <= EVENT_STATE_TO_REVIEW:
                 return self.redirect('/po/edit/%s'%id)
