@@ -18,11 +18,14 @@ ${css.ctrl_zsite_site|n}
             <span class="m07 c9">&gt;</span>\
             <span class="c0">设置</span>\
         </div>
+
 <%
     wall = wall_by_from_id_to_id(current_user_id, zsite_id)
+%>\
+%if wall:
+<%
     reply_list = wall.reply_list()
 %>
-
 %if reply_list:
         <div id="reply_list">
         %for i in reply_list:
@@ -49,7 +52,7 @@ ${css.ctrl_zsite_site|n}
         %endfor
         </div>
 %endif
-
+%endif
 <%htm:form id="mk_form">
 <textarea name="txt" class="mk_txt"></textarea>\
 <script> $(".mk_txt").focus() </script>\
