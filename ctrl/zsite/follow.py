@@ -15,6 +15,8 @@ PAGE_LIMIT = 64
 class Follower(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
+        zsite = self.zsite
+
         total = follow_count_by_to_id(zsite_id)
         page, limit, offset = page_limit_offset(
             '/follower-%s',
@@ -28,11 +30,16 @@ class Follower(ZsiteBase):
         ids = follow_id_list_by_to_id(zsite_id, limit, offset)
         follower = Zsite.mc_get_list(ids)
 
+        if zsite.cid == CID_SITE:
+            title = '收藏'
+        else:
+            title = '围观'
+
         self.render(
             '/ctrl/zsite/follow/_base.htm',
             zsite_list=follower,
             page=page,
-            title='围观',
+            title=title,
             path='/follower'
         )
 
