@@ -89,11 +89,12 @@ def zsite_list_id_state(zsite_id, owner_id, cid):
     o = ZsiteList.get(zsite_id=zsite_id, owner_id=owner_id, cid=cid)
     if o:
         return o.id, o.state        
+    return 0 , 0
 
 def _zsite_list_id_get(zsite_id, owner_id, cid=0):
-    o = zsite_list_id_state(zsite_id, owner_id, cid)
-    if o and o[1] >= STATE_ACTIVE:
-        return o[0]
+    id, state = zsite_list_id_state(zsite_id, owner_id, cid)
+    if state >= STATE_ACTIVE:
+        return id
     return 0
 
 def zsite_list_id_get(zsite_id, owner_id, cid=0):

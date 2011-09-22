@@ -1,6 +1,5 @@
 #coding:utf-8
-from model.zsite_list import zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id
-
+from model.zsite_list import zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList
 
 
 def zsite_fav_rm(zsite, owner_id):
@@ -46,11 +45,10 @@ def zsite_fav_id_get(zsite, owner_id):
 
 
 def zsite_fav_get_and_touch(zsite, owner_id):
-    r = zsite_fav_get(zsite, owner_id)
-    if r:
-        r.rank+=1
-        r.save()
-        return r.rank
+    id , state = zsite_list_id_state(zsite.id, owner_id, zsite.cid)
+    if id:
+        ZsiteList.raw_sql("update zsite_list set rank=rank+1 where id=%s", id)
+        return id
     else:
         zsite_fav_touch(zsite, owner_id)   
 
