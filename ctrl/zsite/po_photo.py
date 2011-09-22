@@ -32,7 +32,7 @@ class PoPhoto(LoginBase):
         else:
             img = self._img()
             if img:
-                zsite_id = zsite_id_by_zsite_user_id(zsite, user_id)
+                zsite_id = zsite_id_by_zsite_user_id(self.zsite, user_id)
                 if zsite_id:
                     state = STATE_PO_ZSITE_ACCPET
                 else:
