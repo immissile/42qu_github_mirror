@@ -19,6 +19,7 @@ STATE_ACTIVE = 1
 STATE_DEL = 0
 
 mc_zsite_id_list = McLimitA('ZsiteIdList%s', 1024)
+mc_zsite_id_list_by_zsite_id = McLimitA('ZsiteIdListByZsiteId%s', 1024)
 
 zsite_list_count = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id).count(), 'ZsiteListCount%s')
 zsite_list_count_by_zsite_id = McNum(lambda zsite_id, cid:ZsiteList.where(cid=cid, zsite_id=zsite_id).count(), 'ZsiteListCountByZsiteId%s')
@@ -31,11 +32,17 @@ class ZsiteList(McModel):
 
 @mc_zsite_id_list('{owner_id}_{cid}')
 def zsite_id_list(owner_id, cid, limit=None, offset=None):
-    qs = ZsiteList.where(owner_id=owner_id, cid=cid, state=1).order_by('rank desc')
+    qs = ZsiteList.where(owner_id=owner_id, cid=cid, state=STATE_ACTIVE).order_by('rank desc')
     return qs.col_list(limit, offset, 'zsite_id')
 
+#@mc_zsite_id_list_by_zsite_id('{zsite_id}_{cid}')
+def zsite_id_list_by_zsite_id(zsite_id, cid, limit=None, offset=None):
+    qs = ZsiteList.where(zsite_id=zsite_id, cid=cid, state=STATE_ACTIVE).order_by('rank desc')
+    return qs.col_list(limit, offset, 'owner_id')
+
+
 def zsite_id_list_order_id_desc(owner_id, cid, limit=None, offset=None):
-    qs = ZsiteList.where(owner_id=owner_id, cid=cid, state=1).order_by('id desc')
+    qs = ZsiteList.where(owner_id=owner_id, cid=cid, state=STATE_ACTIVE).order_by('id desc')
     return qs.col_list(limit, offset, 'zsite_id')
 
 def zsite_list_new(zsite_id, owner_id, cid, rank=1, state=STATE_ACTIVE):
@@ -58,6 +65,7 @@ def mc_flush(owner_id, cid, zsite_id=0):
     mc_zsite_id_list.delete(key)
     zsite_list_count.delete(key)
     if zsite_id:
+        mc_zsite_id_list_by_zsite_id.delete("%s_%s"%(zsite_id, cid)) 
         mc_zsite_list_id_state.delete(
             "%s_%s_%s"%(
                 zsite_id, owner_id , cid

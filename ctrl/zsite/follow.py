@@ -3,9 +3,10 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase
 from zkit.page import page_limit_offset
 from ctrl._urlmap.zsite import urlmap
-from model.cid import CID_ZSITE
+from model.cid import CID_ZSITE, CID_SITE
 from model.follow import follow_count_by_to_id, follow_id_list_by_to_id, follow_id_list_by_from_id, follow_id_list_by_from_id_cid
 from model.zsite import Zsite
+from model.zsite_fav import zsite_fav_list, zsite_fav_count_by_zsite
 
 PAGE_LIMIT = 64
 
@@ -17,27 +18,33 @@ class Follower(ZsiteBase):
         zsite_id = self.zsite_id
         zsite = self.zsite
 
-        total = follow_count_by_to_id(zsite_id)
+        if zsite.cid == CID_SITE:
+            title = '收藏'
+            total = zsite_fav_count_by_zsite(zsite)
+        else:
+            title = '围观'
+            total = follow_count_by_to_id(zsite_id)
+
         page, limit, offset = page_limit_offset(
             '/follower-%s',
             total,
             n,
             PAGE_LIMIT
         )
+
         if type(n) == str and offset >= total:
             return self.redirect('/follower')
 
-        ids = follow_id_list_by_to_id(zsite_id, limit, offset)
-        follower = Zsite.mc_get_list(ids)
 
         if zsite.cid == CID_SITE:
-            title = '收藏'
+            zsite_list = zsite_fav_list(zsite, limit, offset)
         else:
-            title = '围观'
+            ids = follow_id_list_by_to_id(zsite_id, limit, offset)
+            zsite_list = Zsite.mc_get_list(ids)
 
         self.render(
             '/ctrl/zsite/follow/_base.htm',
-            zsite_list=follower,
+            zsite_list=zsite_list,
             page=page,
             title=title,
             path='/follower'
