@@ -117,6 +117,7 @@ class PoPage(ZsiteBase):
         )
 
 
+
 @urlmap('/word')
 @urlmap('/word-(\d+)')
 class WordPage(PoPage):
