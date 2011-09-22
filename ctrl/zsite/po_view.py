@@ -28,7 +28,7 @@ class Index(ZsiteBase):
         self.render()
 
 
-PAGE_LIMIT = 25
+PAGE_LIMIT = 20
 
 @urlmap('/po/cid/(\d+)')
 class PoCid(ZsiteBase):
