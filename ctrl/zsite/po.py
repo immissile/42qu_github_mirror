@@ -3,7 +3,8 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model import reply
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE
-from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
+from model.po import Po, po_rm, po_word_new, po_note_new,  po_state_set
+from model.state import STATE_PO_ZSITE_ACCPET, STATE_SECRET, STATE_ACTIVE 
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.po_pos import po_pos_get, po_pos_set
 from model.po_question import po_question_new, answer_word2note
@@ -69,7 +70,7 @@ def po_post(self):
     else:
         zsite_id = zsite_id_by_zsite_user_id(zsite,user_id)
         if zsite_id:
-            state = STATE_ACTIVE
+            state = STATE_PO_ZSITE_ACCPET
         else: 
             secret = self.get_argument('secret', None)
             if secret:

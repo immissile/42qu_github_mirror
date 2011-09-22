@@ -84,3 +84,45 @@ margin-right:8px;
 margin-left:-3px;
 margin-bottom:-8px;
 }
+#feeds .fdvideo{
+display:block;
+margin:12px 0 6px;
+padding-left:33px;
+line-height:27px;
+color:#000;
+background:url(/img/gif/redplay.gif) no-repeat;
+}
+#feeds .fdvideo:hover{
+color:#a10;
+}
+#feeds .video{
+width:677px;
+height:553px;
+margin:14px 0 8px;
+}
+#feeds .G3{
+overflow:hidden;
+}
+#feeds .sdw{
+margin-bottom:36px;
+}
+#feeds .G1{
+background:url(/img/gif/comment.gif) no-repeat -51px 28px;
+*background-position: -50px 28px;
+margin-left:-2px;
+padding-left:34px;
+}
+#feeds .G1 .c0{
+display:block:
+outline:0;
+}
+.fdimga{
+display:block;
+text-align:center;
+}
+#feeds .fdimg{
+margin-bottom:8px;
+}
+#feeds .fdh{
+margin-bottom:14px;
+}
