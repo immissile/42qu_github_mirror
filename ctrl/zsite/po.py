@@ -2,7 +2,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model import reply
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE
 from model.po import Po, po_rm, po_word_new, po_note_new, STATE_SECRET, STATE_ACTIVE, po_state_set
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.po_pos import po_pos_get, po_pos_set
@@ -56,18 +56,26 @@ def po_post(self):
     user_id = self.current_user_id
     name = self.get_argument('name', '')
     txt = self.get_argument('txt', '', strip=False).rstrip()
+    zsite_id = self.zsite_id
+    zsite = self.zsite
+
     arguments = self.request.arguments
+
 
     if self.cid == CID_EVENT_FEEDBACK:
         state = self.get_argument('good', None)
     else:
-        secret = self.get_argument('secret', None)
-        if secret:
-            state = STATE_SECRET
-        else:
+        if zsite_id != user_id and zsite.cid == CID_SITE:
             state = STATE_ACTIVE
+        else: 
+            zsite_id = 0
+            secret = self.get_argument('secret', None)
+            if secret:
+                state = STATE_SECRET
+            else:
+                state = STATE_ACTIVE
 
-    po = self.po_save(user_id, name, txt, state)
+    po = self.po_save(user_id, name, txt, state, zsite_id)
 
     self_id = self.id
     if po:

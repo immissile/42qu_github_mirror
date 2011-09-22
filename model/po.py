@@ -7,7 +7,7 @@ from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
 from spammer import is_same_post
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_ACCPET 
+from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_ACCPET
 from txt import txt_new, txt_get, txt_property
 from zkit.time_format import time_title
 from reply import ReplyMixin
@@ -214,10 +214,10 @@ class Po(McModel, ReplyMixin):
 
 
 def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
-        
+
     if state is None:
         if zsite_id and zsite_id != user_id:
-            state = STATE_PO_ZSITE_ACCPET 
+            state = STATE_PO_ZSITE_ACCPET
         else:
             state = STATE_ACTIVE
 
@@ -238,12 +238,12 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
     po_pos_set(user_id, m)
     mc_flush(user_id, cid)
     m.tag_new()
-    
+
     if zsite_id:
-        from model.site_po import mc_po_count_by_zsite_id, po_cid_count_by_zsite_id 
+        from model.site_po import mc_po_count_by_zsite_id, po_cid_count_by_zsite_id
         mc_po_count_by_zsite_id.delete(zsite_id)
         po_cid_count_by_zsite_id.delete(zsite_id, cid)
- 
+
     return m
 
 def po_state_set(po, state):
@@ -327,12 +327,12 @@ def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
             m.feed_new()
         return m
 
-def po_note_new(user_id, name, txt, state=STATE_ACTIVE):
+def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
     if not name and not txt:
         return
     name = name or time_title()
-    if not is_same_post(user_id, name, txt):
-        m = po_new(CID_NOTE, user_id, name, state)
+    if not is_same_post(user_id, name, txt, zsite_id):
+        m = po_new(CID_NOTE, user_id, name, state, zsite_id=zsite_id)
         txt_new(m.id, txt)
         if state > STATE_SECRET:
             m.feed_new()
