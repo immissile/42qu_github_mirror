@@ -126,3 +126,23 @@ margin-bottom:8px;
 #feeds .fdh{
 margin-bottom:14px;
 }
+#feeds .fdpre p{
+line-height:28px;
+padding-bottom:14px;
+}
+#feeds .fdpre{
+margin-bottom:-12px;
+}
+#feeds .fdtxt{
+overflow:hidden;
+}
+#feeds .tag{
+color:#999;
+margin-left:14px
+}
+#feeds .tag:hover{
+color:#a10;
+}
+#feeds .fdtxtin{
+margin-bottom:6px;
+}

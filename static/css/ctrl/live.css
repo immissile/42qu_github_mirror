@@ -112,26 +112,6 @@ color:#999;
 .buzz{
 color:#999;
 }
-.fdpre p{
-line-height:28px;
-padding-bottom:14px;
-}
-.fdpre{
-margin-bottom:-12px;
-}
-.fdtxt{
-overflow:hidden;
-}
-#feeds .tag{
-color:#999;
-margin-left:14px
-}
-#feeds .tag:hover{
-color:#a10;
-}
-.fdtxtin{
-margin-bottom:6px;
-}
 #buzzrm{
 float:left;
 display:inline-block;
