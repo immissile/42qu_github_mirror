@@ -20,11 +20,7 @@ audio_url = fs_url_audio( po.id, this.xsrf_token)
 %if can_admin:
 <a class="L" href="javascript:po_audio(${po.id});void(0)">编辑</a>\
 %endif
-<a href="${zsite.link}">${zsite.name}</a>\
-%if zsite_tag_id:
- : \
-<a href="${tag_link}">${tag_name}</a>\
-%endif
+<%include file="_sign.htm"/>\
 </p>
 ${po_bar_vote(po)}\
 </div>
