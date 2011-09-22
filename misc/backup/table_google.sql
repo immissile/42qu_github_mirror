@@ -20,6 +20,25 @@ CREATE TABLE `google_rank` (
   KEY `Index_3` (`follower`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `rss_po`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rss_po` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `rss_id` int(10) unsigned NOT NULL,
+  `rss_uid` varbinary(128) NOT NULL,
+  `title` varbinary(1024) NOT NULL,
+  `txt` mediumblob NOT NULL,
+  `state` int(10) unsigned NOT NULL,
+  `link` varbinary(1000) NOT NULL,
+  `pic_list` blob NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Index_3` (`rss_uid`) USING BTREE,
+  KEY `Index_2` (`rss_id`),
+  KEY `link` (`link`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
