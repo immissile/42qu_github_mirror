@@ -24,8 +24,7 @@ src="${FS_URL}/swf/1bit.swf"
 type="application/x-shockwave-flash"
 wmode= "Opaque"></embed>{{/if}}{{if name}}<a
 target="_blank"
-href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}</a>{{/if}}{{if tag_id}}<a
-class="tag" href="/tag/${tag_id}">${tag_name}</a>{{/if}}</pre>
+href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}</a>{{/if}}</pre>
 {{/if}}
 {{if cid==65}}
 <a class="fdimga" target="_blank" href="/${id}"><img class="fdimg" src="${rid}"></a>
@@ -73,7 +72,7 @@ rel="${id}" href="javascript:void(0)"
 class="{{if fav}}faved{{else}}fav{{/if}}"
 >收藏</a></span>
     </span>
-<a href="${zsite.link}">${zsite.name}{{if zsite.unit||zsite.title}} , ${zsite.unit} ${zsite.title}{{/if}}</a>
+<a href="${zsite.link}">${zsite.name}{{if zsite.unit||zsite.title}} , ${zsite.unit} ${zsite.title}{{if tag_id}} , <a href="/tag/${tag_id}">${tag_name}</a>{{/if}}{{/if}}</a>
     </div>
 </div></div>
 </%text>
