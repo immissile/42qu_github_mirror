@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, McLimitA, McNum
+from _db import Model, McModel, McCache, McLimitA, McNum, McCacheA
 
 '''
 CREATE TABLE `zsite_list` (
@@ -23,7 +23,7 @@ mc_zsite_id_list = McLimitA('ZsiteIdList%s', 1024)
 zsite_list_count = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id).count(), 'ZsiteListCount%s')
 zsite_list_count_by_zsite_id = McNum(lambda zsite_id, cid:ZsiteList.where(cid=cid, zsite_id=zsite_id).count(), 'ZsiteListCountByZsiteId%s')
 
-mc_zsite_list_id_get = McCache("ZsiteListIdGet:%s")
+mc_zsite_list_id_state = McCacheA("ZsiteListIdState:%s")
 
 class ZsiteList(McModel):
     pass
@@ -58,7 +58,7 @@ def mc_flush(owner_id, cid, zsite_id=0):
     mc_zsite_id_list.delete(key)
     zsite_list_count.delete(key)
     if zsite_id:
-        mc_zsite_list_id_get.delete(
+        mc_zsite_list_id_state.delete(
             "%s_%s_%s"%(
                 zsite_id, owner_id , cid
             )
@@ -83,13 +83,17 @@ def zsite_list_rm(zsite_id, owner_id, cid=None):
             ZsiteList.where(id=id).delete() 
             mc_flush(owner_id, cid, zsite_id)
 
-    
-
-@mc_zsite_list_id_get("{zsite_id}_{owner_id}_{cid}")
-def _zsite_list_id_get(zsite_id, owner_id, cid=0):
-    o = ZsiteList.get(zsite_id=zsite_id, owner_id=owner_id, cid=cid, state=STATE_ACTIVE)
+ 
+@mc_zsite_list_id_state("{zsite_id}_{owner_id}_{cid}")
+def zsite_list_id_state(zsite_id, owner_id, cid):
+    o = ZsiteList.get(zsite_id=zsite_id, owner_id=owner_id, cid=cid)
     if o:
-        return o.id
+        return o.id, o.state        
+
+def _zsite_list_id_get(zsite_id, owner_id, cid=0):
+    o = zsite_list_id_state(zsite_id, owner_id, cid)
+    if o and o[1] >= STATE_ACTIVE:
+        return o[0]
     return 0
 
 def zsite_list_id_get(zsite_id, owner_id, cid=0):
@@ -101,7 +105,7 @@ def zsite_list_id_get(zsite_id, owner_id, cid=0):
 def zsite_list_get(zsite_id, owner_id, cid=0):
     id = zsite_list_id_get(zsite_id, owner_id, cid=cid)
     if id:
-        return ZsiteList.get(id)
+        return ZsiteList.mc_get(id)
 
 
 def zsite_list_rank(zsite_id, owner_id, rank):
