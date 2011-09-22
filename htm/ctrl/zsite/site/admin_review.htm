@@ -1,11 +1,9 @@
 <%inherit file="../_base/site_admin.htm" />
 
+
+<%def name="_head()">
 ${css.ctrl_site_admin_admin_review|n}
 <script src="${js.ctrl_site_admin_admin_review|n}"></script>
-<%namespace file="/ctrl/_util/site_new.htm" import="site_new,head"/>
-
-<%def name="htm_head()">
-${head()}
 </%def>
 
 <div class="type">
