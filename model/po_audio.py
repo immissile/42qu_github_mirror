@@ -15,7 +15,7 @@ def audio_save(id, audio):
     fs_set_audio('mp3', id, audio)
 
 
-def po_audio_new(user_id, name, txt, audio):
+def po_audio_new(user_id, name, txt, audio, zsite_id):
     state = STATE_ACTIVE
 
     if not name and not txt:
@@ -24,7 +24,7 @@ def po_audio_new(user_id, name, txt, audio):
     name = name or time_title()
 
     state = STATE_ACTIVE
-    m = po_new(CID_AUDIO, user_id, name, state, rid=0)
+    m = po_new(CID_AUDIO, user_id, name, state, rid=0, zsite_id=zsite_id)
     audio_save(m.id, audio)
     m.txt_set(txt)
     if state > STATE_SECRET:
