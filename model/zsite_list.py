@@ -22,7 +22,7 @@ mc_zsite_id_list = McLimitA('ZsiteIdList%s', 1024)
 mc_zsite_id_list_by_zsite_id = McLimitA('ZsiteIdListByZsiteId%s', 1024)
 
 zsite_list_count = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id).count(), 'ZsiteListCount%s')
-zsite_list_count_by_zsite_id = McNum(lambda zsite_id, cid:ZsiteList.where(cid=cid, zsite_id=zsite_id).count(), 'ZsiteListCountByZsiteId%s')
+zsite_list_count_by_zsite_id = McNum(lambda zsite_id, cid:ZsiteList.where(cid=cid, zsite_id=zsite_id).where("state>=%s"%STATE_ACTIVE).count(), 'ZsiteListCountByZsiteId%s')
 
 mc_zsite_list_id_state = McCacheA("ZsiteListIdState:%s")
 
@@ -35,7 +35,7 @@ def zsite_id_list(owner_id, cid, limit=None, offset=None):
     qs = ZsiteList.where(owner_id=owner_id, cid=cid, state=STATE_ACTIVE).order_by('rank desc')
     return qs.col_list(limit, offset, 'zsite_id')
 
-#@mc_zsite_id_list_by_zsite_id('{zsite_id}_{cid}')
+@mc_zsite_id_list_by_zsite_id('{zsite_id}_{cid}')
 def zsite_id_list_by_zsite_id(zsite_id, cid, limit=None, offset=None):
     qs = ZsiteList.where(zsite_id=zsite_id, cid=cid, state=STATE_ACTIVE).order_by('rank desc')
     return qs.col_list(limit, offset, 'owner_id')
@@ -126,3 +126,5 @@ def zsite_list_rank(zsite_id, owner_id, rank):
 
 if __name__ == "__main__":
     pass
+    from model.cid import CID_SITE
+    print zsite_id_list_by_zsite_id(65, CID_SITE)

@@ -33,6 +33,7 @@ print_urlmap('ctrl._urlmap.hero')
 print_urlmap('ctrl._urlmap.auth')
 print_urlmap('ctrl._urlmap.j')
 print_urlmap('ctrl._urlmap.zsite')
+print_urlmap('ctrl._urlmap.site')
 print_urlmap('ctrl._urlmap.me')
 print_urlmap('ctrl._urlmap.meet')
 import god._url
