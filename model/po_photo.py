@@ -26,21 +26,21 @@ def po_photo_save(photo_id, photo):
     fs_set_jpg('677', photo_id, p1)
 
 
-def po_photo_new(user_id, name, txt, img, state=STATE_ACTIVE):
+def po_photo_new(user_id, name, txt, img, state=STATE_ACTIVE, zsite_id=0):
     if not name and not txt:
         return
 
     name = name or time_title()
-    if not is_same_post(user_id, name, txt):
 
-        rid = photo_new(user_id, img)
+    rid = photo_new(user_id, img)
 
-        m = po_new(CID_PHOTO, user_id, name, state, rid)
-        id = m.id
-        m.txt_set(txt)
-        if state > STATE_SECRET:
-            m.feed_new()
-        return m
+    m = po_new(CID_PHOTO, user_id, name, state, rid, zsite_id)
+    id = m.id
+    m.txt_set(txt)
+    if state > STATE_SECRET:
+        m.feed_new()
+
+    return m
 
 
 if __name__ == '__main__':
