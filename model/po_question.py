@@ -12,12 +12,12 @@ from zsite import Zsite
 from model.notice import mq_notice_question
 
 
-def po_question_new(user_id, name, txt, state):
+def po_question_new(user_id, name, txt, state, zsite_id):
     if not name and not txt:
         return
     name = name or time_title()
-    if not is_same_post(user_id, name, txt):
-        m = po_new(CID_QUESTION, user_id, name, state)
+    if not is_same_post(user_id, name, txt, zsite_id):
+        m = po_new(CID_QUESTION, user_id, name, state, zsite_id=zsite_id)
         txt_new(m.id, txt)
         if state > STATE_SECRET:
             m.feed_new()
