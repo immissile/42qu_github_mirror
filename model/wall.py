@@ -201,6 +201,7 @@ def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
             from buzz import mq_buzz_wall_new
             if state == STATE_ACTIVE:
                 if self.cid != CID_SITE:
+                    #TODO
                     mq_buzz_wall_new(user_id, zsite_id, new_wall_id)
 
 
