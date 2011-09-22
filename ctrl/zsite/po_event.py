@@ -270,7 +270,7 @@ class EventFeedback(PoBase):
 
     cid = CID_EVENT_FEEDBACK
 
-    def po_save(self, user_id, name, txt, good):
+    def po_save(self, user_id, name, txt, good, zsite_id):
         event = self.event
         po = po_event_feedback_new(
             user_id,
