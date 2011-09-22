@@ -46,32 +46,3 @@ function nav2_touch(){
 
 
 
-/* 显示全部 */
- function fdtxt(e, id) {
-    var txt = $(e).parents('.fdtxt'),
-    all = txt.find(".fdall");
-    all.addClass("fdloading").find('.fdext').remove()
-    $.get("/j/fdtxt/" + id, function(htm) {
-        txt.find('.fdtxtin').html('<pre class="fdpre">' + htm + "</pre>")
-        if (all.find('a').length) {
-            all.removeClass('fdloading')
-        } else {
-            all.remove()
-        }
-    })
-}
- function fdvideo(e, id) {
-    var div = $('<div class="fdswf"><div class="fdloading"/></div>')
-    $(e).replaceWith(div)
-    $.get("/j/fdvideo/" + id, function(html) {
-        div.html(html)
-        var win = $(window),
-        winst = win.scrollTop(),
-        offset = div.offset().top + div.height() - winst - win.height();
-
-        if (offset > 0) {
-            win.scrollTop(winst + offset)
-        }
-    })
-}
-
