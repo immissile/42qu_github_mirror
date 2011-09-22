@@ -239,12 +239,15 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
     mc_flush(user_id, cid)
     m.tag_new()
 
+    mc_flush_zsite_cid(zsite_id, cid)
+    return m
+
+def mc_flush_zsite_cid(zsite_id, cid):
     if zsite_id:
         from model.site_po import mc_po_count_by_zsite_id, po_cid_count_by_zsite_id
         mc_po_count_by_zsite_id.delete(zsite_id)
         po_cid_count_by_zsite_id.delete(zsite_id, cid)
 
-    return m
 
 def po_state_set(po, state):
     from buzz import mq_buzz_po_rm
@@ -253,8 +256,9 @@ def po_state_set(po, state):
         return
     po.state = state
     po.save()
-    mc_flush_other(po.user_id, po.cid)
-
+    cid = po.cid
+    mc_flush_other(po.user_id, cid)
+    mc_flush_zsite_cid(po.zsite_id, cid)
     if old_state > STATE_SECRET and state == STATE_SECRET:
         feed_rm(id)
         po.tag_rm()
