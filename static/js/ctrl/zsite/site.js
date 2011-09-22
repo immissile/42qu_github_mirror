@@ -16,7 +16,7 @@ $(function(){
     txt.click(function(){
         if(pop_say.is(":hidden")){
             pop_say.show();
-            pop_say.css("marginTop",0).css("marginTop",txt.offset().top-pop_say.offset().top-98)
+            pop_say.css("marginTop",0).css("marginTop",Math.max(txt.offset().top-pop_say.offset().top-98,-62))
             pop_txt.focus()
         }  
     })
