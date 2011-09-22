@@ -37,7 +37,7 @@ class Index(ZsiteBase):
         if zsite.cid == CID_SITE:
             li, page = render_zsite_site(self, n)
             if current_user_id:
-                if not zsite_fav_get_and_touch(zsite_id, current_user_id):
+                if not zsite_fav_get_and_touch(zsite, current_user_id):
                     return self.redirect("/about")
             self.render( 
                 '/ctrl/zsite/po_view/site_po_page.htm',

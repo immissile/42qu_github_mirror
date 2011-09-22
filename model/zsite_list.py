@@ -25,7 +25,7 @@ zsite_list_count_by_zsite_id = McNum(lambda zsite_id, cid:ZsiteList.where(cid=ci
 
 mc_zsite_list_id_get = McCache("ZsiteListIdGet:%s")
 
-class ZsiteList(Model):
+class ZsiteList(McModel):
     pass
 
 
