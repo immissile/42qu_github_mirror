@@ -5,7 +5,7 @@ from reply import Reply, ReplyMixin, STATE_ACTIVE, STATE_SECRET
 from model.zsite import Zsite
 from time import time
 from zkit.attrcache import attrcache
-
+from model.cid import CID_SITE
 """
 CREATE TABLE `wall` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -200,7 +200,8 @@ def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
         if not_self:
             from buzz import mq_buzz_wall_new
             if state == STATE_ACTIVE:
-                mq_buzz_wall_new(user_id, zsite_id, new_wall_id)
+                if self.cid != CID_SITE:
+                    mq_buzz_wall_new(user_id, zsite_id, new_wall_id)
 
 
 def mc_flush(zsite_id):
