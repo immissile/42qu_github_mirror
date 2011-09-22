@@ -39,9 +39,9 @@ can_admin = site_can_admin(zsite_id, current_user_id)
     %endif
 %endif
 <a href="javascript:nav2_touch();void(0)" id="nav2_touch"  class="nav_a">发帖</a>\
-%if can_admin:
-<a href="/admin/review" class="nav_a verify"><span>3</span> 待审批</a>\
-%endif
+##%if can_admin:
+##<a href="/admin/review" class="nav_a verify"><span>3</span> 待审批</a>
+##%endif
 <div class="nav2drop">\
 <a href="/po/note">文章</a>\
 <a href="javascript:po_photo();void(0)">图片</a>\
