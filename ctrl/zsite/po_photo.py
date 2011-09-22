@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
+from model.zsite_site import zsite_id_by_zsite_user_id
 from model.fs import fs_url_jpg
 from model.po_photo import po_photo_new
 from model.po import Po
 from model.cid import CID_PHOTO
-from model.state import STATE_ACTIVE
+from model.state import STATE_ACTIVE, STATE_PO_ZSITE_ACCPET
 from zkit.pic import picopen
 
 @urlmap('/po/photo')
@@ -15,6 +16,7 @@ class PoPhoto(LoginBase):
         cid = CID_PHOTO
         name = self.get_argument('name', None)
         txt = self.get_argument('txt', None)
+        user_id = self.current_user_id
 
 
         link = '/live'
@@ -22,7 +24,7 @@ class PoPhoto(LoginBase):
         if po_id:
             po_id = int(po_id)
             po = Po.mc_get(po_id)
-            if po and po.user_id == self.current_user_id:
+            if po and po.user_id == user_id:
                 po.name_ = name
                 po.txt_set(txt)
                 po.save()
@@ -30,8 +32,12 @@ class PoPhoto(LoginBase):
         else:
             img = self._img()
             if img:
-                user_id = self.current_user_id
-                po = po_photo_new(user_id, name, txt, img, STATE_ACTIVE)
+                zsite_id = zsite_id_by_zsite_user_id(zsite, user_id)
+                if zsite_id:
+                    state = STATE_PO_ZSITE_ACCPET
+                else:
+                    state = STATE_ACTIVE
+                po = po_photo_new(user_id, name, txt, img, state, zsite_id)
                 if po:
                     po_id = po.id
 
