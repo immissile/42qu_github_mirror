@@ -7,19 +7,22 @@ from model.feed_render import render_zsite_feed_list
 
 #mc_pos_id_list_by_cid = McCacheM("PosIdListByCid:%s")
 
-po_cid_count_by_zsite_id = McNum(
-    lambda zsite_id, cid:Po.where(
-        zsite_id=zsite_id, cid=cid
-    ).where('state>=%s'%STATE_PO_ZSITE_ACCPET).count(),
-    'PoIdCount:%s'
-)
 mc_po_count_by_zsite_id = McCacheA('PoCountByZsiteId:%s')
 
+def _po_cid_count_by_zsite_id(zsite_id, cid):
+    qs = Po.where(
+        zsite_id=zsite_id
+    ).where('state>=%s'%STATE_PO_ZSITE_ACCPET)
+    if cid:
+        qs = qs.where(cid=cid)
+    return qs.count()
 
-@mc_po_count_by_zsite_id("{zsite_id}") 
+po_cid_count_by_zsite_id = McNum(_po_cid_count_by_zsite_id, 'PoIdCount:%s')
+
+@mc_po_count_by_zsite_id('{zsite_id}')
 def _po_count_by_zsite_id(zsite_id):
     return tuple(
-        po_cid_count_by_zsite_id(zsite_id,i) for i in PO_CID
+        po_cid_count_by_zsite_id(zsite_id, i) for i in PO_CID
     )
 
 def po_count_by_zsite_id(zsite_id):
