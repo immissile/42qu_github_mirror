@@ -1,6 +1,6 @@
 
 function init_say(){
-    document.write('<div class="say"><div class="say_txt">今天 ,  想说什么?</div></div> <div class="pop_say"> <textarea class="pop_txt"></textarea> <div class="pop_banner"><a class="pop_submit" href="javascript:post_say();void(0)">发表</a><div class="pop_tip"></div><a class="pop_close" href="javascript:close_pop();void(0)"></a></div></div>')
+    document.write('<div class="say"><div class="say_txt">现在 ,  想说什么?</div></div> <div class="pop_say"> <textarea class="pop_txt"></textarea> <div class="pop_banner"><a class="pop_submit" href="javascript:post_say();void(0)">发表</a><div class="pop_tip"></div><a class="pop_close" href="javascript:close_pop();void(0)"></a></div></div>')
 }
 
 $(function(){
