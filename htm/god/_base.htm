@@ -1,6 +1,6 @@
 <%!
 from config import SITE_URL, SITE_DOMAIN
-from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO, CID_AUDIO
+from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_SITE
 from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY 
 from model.money import withdraw_open_count, withdraw_max
 from model.po import Po
@@ -81,7 +81,7 @@ event_to_review_max = event_to_review_max_li and event_to_review_max_li[0] or 0
 <a class="cola" href="/po#${Po.raw_sql('select max(id) from po').fetchone()[0] or ''}"><span class="R">${Po.where('state>%s', STATE_DEL).count()}</span>最近的Po</a>
 <a class="cola" href="/po/show"><span class="R">${po_show_count(0)}</span>广播</a>
 <a class="cola" href="/event"><span class="R">${Event.where().count()}</span>全部活动</a>
-
+<a class="cola" href="/site"><span class="R">${Zsite.where(cid=CID_SITE).count()}</span>全部小组</a>
 <p class="coltitle">RSS</p>
 <a class="cola" href="/rss_index#${Rss.max_id()}"><span class="R">${rss_po_total(RSS_UNCHECK)}</span>审核</a>
 
