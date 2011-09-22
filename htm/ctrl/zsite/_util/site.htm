@@ -16,7 +16,7 @@ now = request.path.lstrip("/").split("-",1)[0]
 %if total:
 <div id="sidebar_nav">
 %if len(filter(bool, po_count_list))>1:
-<a href="/" class="event_a${' now' if not now else ''}"><span class="L">全部</span>${total}</a>\
+<a href="/" class="site_a${' now' if not now else ''}"><span class="L">全部</span>${total}</a>\
 %endif
 %for cid, count in po_count:
 %if count:
@@ -25,12 +25,12 @@ en = PO_EN[cid]
 cn = PO_CN[cid]
 %>\
 <a
-class="event_a\
+class="site_a\
 %if now.startswith(en):
  now\
 %endif
 "
-href="/${en}"><span class="L">${cn}</span>${count}</a>\
+href="/${en}#count"><span class="L">${cn}</span>${count}</a>\
 %endif
 %endfor
 </div>
