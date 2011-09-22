@@ -35,13 +35,18 @@ def po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset):
 
 def po_id_list_by_zsite_id(zsite_id, cid, limit, offset):
     qs = Po.where(
-        zsite_id=zsite_id, cid=cid
+        zsite_id=zsite_id
     ).where('state>=%s'%STATE_PO_ZSITE_ACCPET)
+
+    if cid:
+        qs = qs.where(cid=cid)
 
     return qs.order_by('id desc').col_list(limit, offset)
 
+
 class ZsiteSiteMax(Model):
     pass
+
 
 class ZsiteSitePos(Model):
     pass
