@@ -15,6 +15,7 @@ from model.ico import ico96
 from ctrl.site.index import _site_save
 from model.zsite_url import url_by_id
 from model.zsite_fav import zsite_fav_rm 
+from ctrl.zsite.index import render_zsite_site
 
 @urlmap('/admin')
 class Admin(AdminBase):
@@ -109,5 +110,8 @@ class Mark(LoginBase):
 @urlmap('/about')
 class About(SiteBase):
     def get(self):
-        self.render()
+        li, page = render_zsite_site(self, 1)
+        self.render(
+            li=li, page=page
+        )
 

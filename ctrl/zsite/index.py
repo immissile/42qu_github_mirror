@@ -21,7 +21,9 @@ def render_zsite_site(self, n=1):
             n,
             20
         )
-        li = po_list_by_zsite_id(user_id, zsite_id, 0, limit, offset),
+        li = po_list_by_zsite_id(
+            user_id, zsite_id, 0, limit, offset
+        )
         page=page
         return li, page
 
@@ -33,7 +35,10 @@ class Index(ZsiteBase):
         result = render_zsite_site(self, n)
         if result:
             li, page = result
-            self.render( '/ctrl/zsite/po_view/site_po_page.htm',li, page)
+            self.render( 
+                '/ctrl/zsite/po_view/site_po_page.htm',
+                li=li, page=page
+            )
         else:
             self.render( motto=motto.get(zsite_id) )
 
