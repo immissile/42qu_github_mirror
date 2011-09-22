@@ -37,7 +37,7 @@ def zsite_id_list(owner_id, cid, limit=None, offset=None):
 
 @mc_zsite_id_list_by_zsite_id('{zsite_id}_{cid}')
 def zsite_id_list_by_zsite_id(zsite_id, cid, limit=None, offset=None):
-    qs = ZsiteList.where(zsite_id=zsite_id, cid=cid, state=STATE_ACTIVE).order_by('rank desc')
+    qs = ZsiteList.where(zsite_id=zsite_id, cid=cid, state=STATE_ACTIVE).where("owner_id>0").order_by('rank desc')
     return qs.col_list(limit, offset, 'owner_id')
 
 
