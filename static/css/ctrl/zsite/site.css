@@ -63,7 +63,7 @@ overflow:visible;
 .bio{
 font-size:14px;
 line-height:28px;
-margin:0 27px 20px;
+margin:0 27px 0 20px;
 }
 .bio_a{
 margin:0 4px;
@@ -85,6 +85,7 @@ font-size:10px;
 #nav2 .verify:hover span{
 background:#F60;
 }
+/*
 .site_ti{
 border:1px dotted #ccc;
 border-width:1px 0;
@@ -153,7 +154,8 @@ background:url(/img/gif/icons/gif/black/to_size/check.gif) no-repeat scroll 100%
 padding-right:17px;
 margin-left:14px;
 }
-.event_cid{
+*/
+.sitecid{
 font-size:14px;
 }
 .say{
@@ -172,7 +174,7 @@ line-height:27px;
 overflow: hidden;
 cursor:text;
 }
-.event_cid .tc, #sidebar_nav .tc{
+.sitecid .tc, #sidebar_nav .tc{
 text-align:center;
 }
 .site_a{
@@ -186,10 +188,9 @@ color:#999;
 .site_a span{
 *clear:both;
 }
-.event_cid .now{
+.sitecid .now{
 color:#000;
 }
-
 
 .pop_say{
 position:absolute;
