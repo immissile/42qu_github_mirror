@@ -1,3 +1,6 @@
+<%!
+from model.zsite import Zsite
+%>
 <%inherit file="/god/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_head()">
@@ -7,11 +10,18 @@ ${page|n}
 % for r in rss:
 <%
 id,user_id,url,gid = r
+user = Zsite.mc_get(user_id)
 %>
-${id}
-${user_id}
-<a href="/rss_gid/rm/${id}">删除</a>
-<br/>
+<div style="border-bottom:1px dotted #ccc;padding:27px;">
+    <div>
+        ${id} 
+        <div><a href="$[user.link]" target="_blank">${user.name}</a></div>
+        <a target="_blank" href="${url}">${url}</a>
+    </div>
+    <div class="tr">
+        <a href="/rss_gid/rm/${id}">删除</a>
+    </div>
+</div>
 %endfor
 %endif
 
