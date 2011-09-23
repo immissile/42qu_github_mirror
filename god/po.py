@@ -7,7 +7,7 @@ from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION, CID_CHANNEL
 from model.po import Po, po_state_set
-from model.po_show import po_show_set, po_show_count, po_show_list, po_show_rm
+from model.po_show import po_show_new, po_show_count, po_show_list, po_show_rm
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from zkit.page import page_limit_offset
 from model.god_po_show import mc_po_show_zsite_channel
@@ -76,14 +76,18 @@ class PoShowSet(Base):
         next = self.get_argument('next', '/po')
         broad = self.get_argument('broad',None)
         site = self.get_argument('site',None)
+
         if po:
             if broad:
-                po_show_set(po, 0)
+                po_show_new(po)
+
             if site:
                 po.zsite_id = int(site)
                 po.state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
                 po.save()
+
             return self.redirect(next)
+
         self.render(
             po=po,
             next=next,
