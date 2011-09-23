@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import McCache
-from feed import feed_rt, feed_rt_rm, feed_rt_list, feed_rt_count
+from feed import feed_rt, feed_rt_rm, feed_rt_list, feed_rt_count, feed_rt_id
 from po import Po, po_new, po_word_new, po_note_new, po_rm, CID_QUESTION
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from zsite import Zsite
