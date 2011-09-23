@@ -116,18 +116,31 @@ def link_cid_new(zsite_id, cid, link):
         mc_link_by_id.delete(zsite_link.id)
     mc_flush(zsite_id)
 
+def link_list_cid_by_zsite_id(zsite_id, cid_name_dict=dict(OAUTH2NAME)):
+    id_name = link_id_name_by_zsite_id(zsite_id)
+    id_cid = dict(link_id_cid(zsite_id))
+
+    link_list = []
+    link_cid = []
+    exist_cid = set()
+
+    for id, name in id_name:
+        link = link_by_id(id)
+        if id in id_cid:
+            cid = id_cid[id]
+            link_cid.append((cid, name , link))
+            exist_cid.add(cid)
+        else:
+            link_list.append((id, name, link))
+
+    for cid in (set(cid_name_dict) - exist_cid):
+        link_cid.append((cid, cid_name_dict[cid], ''))
+
+    return link_list, link_cid
 
 if __name__ == '__main__':
     #print link_id_cid(1)
     #print link_id_name_by_zsite_id(1)
 
     pass
-    #link_cid_new(1, OAUTH_RENREN, "http://1.zuroc.xxx/i/link")
-    #print link_id_name_by_zsite_id(1)
-    #print link_id_cid(1)
-    #print link_id_name_by_zsite_id(10000000)
-    #print link_name_by_zsite_id(10000000)
-    #http://zuroc.zuroc.xxx/link/8
-
-    #print zhendi
-    #print link_id_name_by_zsite_id(10000000)
+    print link_list_cid_by_zsite_id(67)

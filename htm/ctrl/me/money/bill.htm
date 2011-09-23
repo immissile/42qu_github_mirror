@@ -76,7 +76,10 @@ update_time = datetime.fromtimestamp(t.update_time)
 <%
 po = Po.mc_get(t.rid)
 %>
-报名 <a href="${po.link}">${po.name}</a>
+报名 
+%if po:
+<a href="${po.link}">${po.name}</a>
+%endif
     %if state == TRADE_STATE_ONWAY:
     待审 , 冻结 ${got} 元 
     %elif state == TRADE_STATE_FINISH:

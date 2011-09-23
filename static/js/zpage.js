@@ -121,3 +121,103 @@ cnenlen = function(str) {
         return Math.ceil(_cnenlen($.trim(str)) / 2)  
 } 
 })();
+
+function fancybox_txt(tip, action, complete, post,  submit, can_post) {
+    can_post = can_post|| function (txtlen, error, pop_txt){
+        if(txtlen)return true; 
+        error.html('请输入文字').fadeIn()
+        pop_txt.focus()
+    }
+	var fancybox = $.fancybox;
+	fancybox({
+		'content': '<form method="POST" id="po_pop_form" class="po_pop_form"><div class="po_pop_tip">　</div><div id="po_pop_main"><textarea id="po_pop_txt" name="txt" class="po_pop_txt"></textarea></div><div class="btns"><span id="po_pop_error"></span><span class="btnw"><button type="submit">确认</button></span></div></form>',
+		"onComplete": function() {
+			$('.po_pop_tip').text(tip)
+			var form = $('#po_pop_form'),
+			pop_txt = $('#po_pop_txt').focus(),
+			error = $('#po_pop_error');
+            if(complete){
+                complete = complete()           
+            } 
+            form.submit(function() {
+                if(complete&&!complete()){
+                    error.hide().fadeIn();
+                    return false
+                }
+				var txt = $.trim(pop_txt.val());
+				error.hide();
+
+
+                if (
+                    can_post(txt.length,error,pop_txt)
+                ) {
+					submit && submit()
+					fancybox.showActivity()
+					$.postJSON(
+					action, {
+						'txt': txt
+					},
+					post)
+				} 
+				return false
+			})
+		}
+	})
+}
+
+function fancybox_word(title, path, finish, can_post){ 
+
+	fancybox_txt(
+        title, path,
+        function(){
+            return txt_maxlen(
+                $("#po_pop_txt"), $('#po_pop_error'),  142
+            )
+        },
+        function() {
+            if(finish){
+                if(typeof(finish)=="function"){
+                    finish()
+                }else{
+                    $.fancybox({
+                        'content': finish 
+                    })
+                    return
+                }
+            }
+            $.fancybox.close() 	
+        },
+        0,
+        can_post                    
+    )
+}
+
+/* 显示全部 */
+ function fdtxt(e, id) {
+    var txt = $(e).parents('.fdtxt'),
+    all = txt.find(".fdall");
+    all.addClass("fdloading").find('.fdext').remove()
+    $.get("/j/fdtxt/" + id, function(htm) {
+        txt.find('.fdtxtin').html('<pre class="fdpre">' + htm + "</pre>")
+        if (all.find('a').length) {
+            all.removeClass('fdloading')
+        } else {
+            all.remove()
+        }
+    })
+}
+ function fdvideo(e, id) {
+    var div = $('<div class="fdswf"><div class="fdloading"/></div>')
+    $(e).replaceWith(div)
+    $.get("/j/fdvideo/" + id, function(html) {
+        div.html(html)
+        var win = $(window),
+        winst = win.scrollTop(),
+        offset = div.offset().top + div.height() - winst - win.height();
+
+        if (offset > 0) {
+            win.scrollTop(winst + offset)
+        }
+    })
+}
+

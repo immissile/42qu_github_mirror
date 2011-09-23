@@ -631,22 +631,15 @@ CREATE TABLE `rss` (
   KEY `Index_2` (`url`(1000))
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `rss_po`;
+DROP TABLE IF EXISTS `rss_po_id`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rss_po` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `rss_id` int(10) unsigned NOT NULL,
-  `rss_uid` varbinary(128) NOT NULL,
-  `title` varbinary(512) NOT NULL,
-  `txt` mediumblob NOT NULL,
+CREATE TABLE `rss_po_id` (
+  `id` int(10) unsigned NOT NULL,
+  `po_id` int(10) unsigned NOT NULL,
   `state` int(10) unsigned NOT NULL,
-  `link` varbinary(1024) NOT NULL,
-  `pic_list` blob NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Index_3` (`rss_uid`) USING BTREE,
-  KEY `Index_2` (`rss_id`)
+  KEY `po_id` (`po_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `search_zsite`;

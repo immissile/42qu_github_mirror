@@ -2,13 +2,11 @@
 
 <%namespace file="/_util/_g1.htm" import="about_me"/>
 <%namespace file="/_util/user_index.htm" import="user_index"/>
-<%namespace file="/ctrl/zsite/po/index.htm" import="user_po_show"/>
+<%namespace file="/ctrl/zsite/po_view/index.htm" import="user_po_show"/>
 <%!
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO
 from model.follow import follow_get
 from model.ico import pic_url as _pic_url, ico_url_with_default
-from model.zsite_link import link_id_name_by_zsite_id
-from model.career import career_list_all
 from model.fav import fav_po_count_by_user_id
 %>
 <%def name="htm_head()">

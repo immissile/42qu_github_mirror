@@ -64,7 +64,7 @@ def video_new(id, uri):
     v.save()
     mc_video_uri.set(id, uri)
 
-def po_video_new(user_id, name, txt, uri, video_site):
+def po_video_new(user_id, name, txt, uri, video_site, state, zsite_id):
 
     if not name and not txt:
         return
@@ -72,7 +72,10 @@ def po_video_new(user_id, name, txt, uri, video_site):
     name = name or time_title()
 
     if not is_same_post(user_id, name, txt, uri):
-        m = po_new(CID_VIDEO, user_id, name, STATE_ACTIVE, video_site)
+        m = po_new(
+            CID_VIDEO, user_id, name, state, video_site,
+            zsite_id=zsite_id
+        )
         video_new(m.id , uri)
         m.txt_set(txt)
         m.feed_new()

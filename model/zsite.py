@@ -142,6 +142,9 @@ def zsite_verify_no_without_notify(zsite):
     zsite.state = ZSITE_STATE_FAILED_VERIFY
     zsite.save()
 
+def zsite_user_verify_count():
+    count = Zsite.raw_sql( 'select count(1) from zsite where cid=%s and state=%s'%( CID_USER, ZSITE_STATE_VERIFY ) ).fetchone()[0]
+    return count
 
 def zsite_verify_mail(zsite_id, cid, state, txt=''):
     from mail import rendermail
@@ -154,12 +157,17 @@ def zsite_verify_mail(zsite_id, cid, state, txt=''):
                    txt=txt,
                   )
 
+def zsite_name_id_dict(id_set):
+    d = Zsite.mc_get_dict(id_set)
+    r = {}
+    for i in id_set:
+        r[i] = d[i].name
+    return r
+
 from mq import mq_client
 mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 
 if __name__ == '__main__':
     #zsite_name_rm(10017321)
     pass
-    for i in Zsite.where():
-        if "叶" in i.name:
-            print i.link,i.name
+    print zsite_user_verify_count()

@@ -1,6 +1,6 @@
 <%!
 from config import SITE_URL, SITE_DOMAIN
-from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO, CID_AUDIO
+from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_SITE
 from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY 
 from model.money import withdraw_open_count, withdraw_max
 from model.po import Po
@@ -8,7 +8,7 @@ from model.state import STATE_DEL
 from model.po_show import po_show_count
 from model.pic_review import pic_to_review_count_by_cid
 from model.reply import Reply
-from model.rss import rss_po_total, RSS_UNCHECK,Rss 
+from model.rss import rss_po_total, RSS_UNCHECK,Rss,RSS_RM,RSS_POED,RSS_RT_PO,RSS_PRE_PO 
 from model.event import Event, EVENT_STATE_TO_REVIEW
 %>\
 <!doctype html>\
@@ -81,12 +81,19 @@ event_to_review_max = event_to_review_max_li and event_to_review_max_li[0] or 0
 <a class="cola" href="/po#${Po.raw_sql('select max(id) from po').fetchone()[0] or ''}"><span class="R">${Po.where('state>%s', STATE_DEL).count()}</span>最近的Po</a>
 <a class="cola" href="/po/show"><span class="R">${po_show_count(0)}</span>广播</a>
 <a class="cola" href="/event"><span class="R">${Event.where().count()}</span>全部活动</a>
+<a class="cola" href="/site"><span class="R">${Zsite.where(cid=CID_SITE).count()}</span>全部小组</a>
+<p class="coltitle">RSS文章</p>
 
-<p class="coltitle">RSS</p>
-<a class="cola" href="/rss_index#${Rss.max_id()}"><span class="R">${rss_po_total(RSS_UNCHECK)}</span>审核</a>
-<a class="cola" href="/rss_gid/0">未加入</a>
-<a class="cola" href="/rss_gid/-1">删除</a>
-<a class="cola" href="/rss_gid/1">通过</a>
+<a class="cola" href="/rss_index#${Rss.max_id()}"><span class="R">${rss_po_total(RSS_UNCHECK)}</span>未审核</a>
+<a class="cola" href="/rss_index/${RSS_PRE_PO}#${Rss.max_id()}"><span class="R">${rss_po_total(RSS_PRE_PO)}</span>已审核</a>
+<a class="cola" href="/rss_index/${RSS_RT_PO}#${Rss.max_id()}"><span class="R">${rss_po_total(RSS_RT_PO)}</span>已审核并全站转发</a>
+<a class="cola" href="/rss_index/${RSS_POED}#${Rss.max_id()}"><span class="R">${rss_po_total(RSS_POED)}</span>已发表</a>
+<a class="cola" href="/rss_index/${RSS_RM}#${Rss.max_id()}"><span class="R">${rss_po_total(RSS_RM)}</span>已删除</a>
+
+<p class="coltitle">RSS订阅</p>
+<a class="cola" href="/rss_gid/0">待订阅</a>
+<a class="cola" href="/rss_gid/1">已订阅</a>
+<a class="cola" href="/rss_gid/-1">被删除</a>
 
 
 
@@ -97,7 +104,7 @@ event_to_review_max = event_to_review_max_li and event_to_review_max_li[0] or 0
 <a class="cola" href="/reply_list/${CID_QUESTION}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_QUESTION).count()}</span>评论</a>
 <a class="cola" href="/reply_list/${CID_PHOTO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_PHOTO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_PHOTO).count()}</span>图片</a>
 <a class="cola" href="/reply_list/${CID_VIDEO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_VIDEO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_VIDEO).count()}</span>视频</a>
-<a class="cola" href="/reply_list/${CID_AUDIO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_AUDIO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_AUDIO).count()}</span>音乐</a>
+<a class="cola" href="/reply_list/${CID_AUDIO}#${Reply.raw_sql('select max(id) from reply where cid = %s',CID_AUDIO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_AUDIO).count()}</span>声音</a>
 
 
 

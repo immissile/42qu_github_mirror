@@ -10,11 +10,12 @@ event_list_by_zsite_id, event_list_join_by_user_id,\
 EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_STATE_BEGIN, EVENT_STATE_END
 from model.money import pay_event_new, TRADE_STATE_NEW, TRADE_STATE_ONWAY, TRADE_STATE_FINISH, pay_account_get, bank, Trade, trade_log, pay_notice, read_cent
 from model.money_alipay import alipay_payurl, alipay_payurl_with_tax, alipay_cent_with_tax
-from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT, CID_EVENT
+from model.cid import CID_USER, CID_PAY_ALIPAY, CID_TRADE_EVENT, CID_EVENT, CID_SITE
 from ctrl.me.i import NameCardEdit
 from model.zsite import ZSITE_STATE_VERIFY
 from model.zsite_url import link, id_by_url
 from config import SITE_DOMAIN
+from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id
 #from model.sync import mq_sync_join_event_by_zsite_id
 
 
@@ -45,24 +46,40 @@ class EventMine(ZsiteBase):
         )
 
 
+
 @urlmap('/event')
 @urlmap('/event-(\d+)')
 class EventJoined(ZsiteBase):
     def get(self, n=1):
+        zsite = self.zsite
         zsite_id = self.zsite_id
+        user_id = self.current_user_id
+        cid = CID_EVENT
 
-        total = event_join_count_by_user_id(zsite_id)
+        if zsite.cid == CID_SITE:
+            total = po_cid_count_by_zsite_id(zsite_id, cid)
+            template = '/ctrl/zsite/po_view/site_po_page.htm'
+        else:
+            total = event_join_count_by_user_id(zsite_id)
+            template = 'ctrl/zsite/event/event_page.htm'
+
+
         page, limit, offset = page_limit_offset(
             '/event-%s',
             total,
             n,
             PAGE_LIMIT
         )
-        li = event_list_join_by_user_id(zsite_id, limit, offset)
+
+        if zsite.cid == CID_SITE:
+            li = po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset)
+        else:
+            li = event_list_join_by_user_id(zsite_id, limit, offset)
+
         self.render(
-            'ctrl/zsite/event/event_page.htm',
+            template,
             li=li,
-            cid=CID_EVENT,
+            cid=cid,
             page=page,
             total=total,
         )

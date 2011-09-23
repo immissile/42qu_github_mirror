@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from zsite_list import ZsiteList, zsite_id_list, zsite_list_new, zsite_list_rm, zsite_list_get, zsite_list_rank, mc_flush_owner_id_cid, zsite_id_list_order_id_desc, zsite_list_count
+from zsite_list import ZsiteList, zsite_id_list, zsite_list_new, zsite_list_rm, zsite_list_get, zsite_list_rank, mc_flush, zsite_id_list_order_id_desc, zsite_list_count
 from functools import partial
 from zsite_rank import zsite_rank_get
 from zweb.orm import ormiter
@@ -24,12 +24,12 @@ def zsite_show_update():
         i.save()
 
     for cid in (CID_SITE, CID_USER):
-        mc_flush_owner_id_cid(OWNER_ID, cid)
+        mc_flush(OWNER_ID, cid)
 
 def zsite_show_new(zsite_id, cid, rank=1):
     zsite_list_new(zsite_id, OWNER_ID, cid, rank)
 
-def zsite_show_rm(zsite_id):
+def zsite_show_rm(zsite_id, cid=None):
     zsite_list_rm(zsite_id, OWNER_ID)
 
 def zsite_show_get(zsite_id, cid=CID_USER):
@@ -41,4 +41,5 @@ def zsite_show_rank(zsite_id, rank):
 
 if __name__ == '__main__':
     pass
-
+    print zsite_show_get( 127,CID_SITE )
+    

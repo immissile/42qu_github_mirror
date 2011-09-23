@@ -5,7 +5,7 @@ from reply import Reply, ReplyMixin, STATE_ACTIVE, STATE_SECRET
 from model.zsite import Zsite
 from time import time
 from zkit.attrcache import attrcache
-
+from model.cid import CID_SITE
 """
 CREATE TABLE `wall` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -30,7 +30,7 @@ CREATE TABLE  `wall_reply` (
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 """
 
-mc_reply_id_list = McLimitA('WallReplyIdListReversed:%s', 512)
+mc_reply_id_list_reversed = McLimitA('WallReplyIdListReversed:%s', 512)
 mc_reply_count = McCache('Zsite.reply_count:%s')
 
 class Wall(McModel, ReplyMixin):
@@ -157,6 +157,12 @@ def wall_id_by_from_id_to_id(from_id, to_id):
         return w.id
     return 0
 
+
+def wall_by_from_id_to_id(from_id, to_id):
+    id = wall_id_by_from_id_to_id(from_id, to_id)
+    if id:
+        return Wall.mc_get(id)
+
 def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
     user_id = user.id
     zsite_id = self.id
@@ -194,23 +200,25 @@ def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
         if not_self:
             from buzz import mq_buzz_wall_new
             if state == STATE_ACTIVE:
-                mq_buzz_wall_new(user_id, zsite_id, new_wall_id)
+                if self.cid != CID_SITE:
+                    #TODO
+                    mq_buzz_wall_new(user_id, zsite_id, new_wall_id)
 
 
 def mc_flush(zsite_id):
-    mc_reply_id_list.delete(zsite_id)
+    mc_reply_id_list_reversed.delete(zsite_id)
     mc_reply_count.delete(zsite_id)
 
 
-@mc_reply_id_list('{self.id}')
-def reply_list_id_reversed(self, limit=None, offset=None):
+@mc_reply_id_list_reversed('{self.id}')
+def reply_id_list_reversed(self, limit=None, offset=None):
     id_list = WallReply.where(zsite_id=self.id).where('last_reply_id>0').order_by('update_time desc').col_list(limit, offset, 'last_reply_id')
     return id_list
 
 
 def reply_list_reversed(self, limit=None, offset=None):
     reply_list = Wall(id=self.id, cid=self.cid)._reply_list(
-        limit, offset, self.reply_list_id_reversed
+        limit, offset, self.reply_id_list_reversed
     )
     return reply_list
 
@@ -222,5 +230,5 @@ def reply_count(self):
 
 Zsite.reply_new = reply_new
 Zsite.reply_count = reply_count
-Zsite.reply_list_id_reversed = reply_list_id_reversed
+Zsite.reply_id_list_reversed = reply_id_list_reversed
 Zsite.reply_list_reversed = reply_list_reversed

@@ -1,0 +1,38 @@
+<%!
+from model.po import PO_CN, PO_EN
+from model.site_po import po_count_by_zsite_id
+from operator import itemgetter
+%>
+
+<%def name="sidebar_nav()">
+<%
+po_count = po_count_by_zsite_id(zsite_id)
+po_count_list = map(itemgetter(1), po_count)
+total = sum(po_count_list)
+%>
+<%
+now = request.path.lstrip("/").split("-",1)[0]
+%>
+%if total:
+<div id="sidebar_nav">
+%if len(filter(bool, po_count_list))>1:
+<a href="/" class="site_a${' now' if not now else ''}"><span class="L">全部</span>${total}</a>\
+%endif
+%for cid, count in po_count:
+%if count:
+<%
+en = PO_EN[cid]
+cn = PO_CN[cid]
+%>\
+<a
+class="site_a\
+%if now.startswith(en):
+ now\
+%endif
+"
+href="/${en}"><span class="L">${cn}</span>${count}</a>\
+%endif
+%endfor
+</div>
+%endif
+</%def>

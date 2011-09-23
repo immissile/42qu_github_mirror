@@ -1,0 +1,30 @@
+<%!
+from model.zsite import Zsite
+%>
+<%inherit file="_po.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="_vote.htm" import="po_bar_vote"/>
+
+<%def name="po_body()">
+<pre class="prebody">\
+%if po.rid:
+<h1 id="po_answer_name">${po.name_htm|n}</h1>\
+%elif po.zsite_id:
+<%
+po_zsite = Zsite.mc_get(po.zsite_id)
+%>\
+<h1 id="po_answer_name"><a href="${po_zsite.link|n}">${po_zsite.name}</a></h1>\
+%endif
+<p><a href="${zsite.link}">${zsite.name}</a> : ${po.htm|n}</p>\
+${po_bar_vote(po)}\
+<p class="po_bar">\
+    %if can_admin:
+    %if po.rid:
+<a href="/po/edit/${po.id}">编辑</a>\
+    %else:
+<a href="/po/rm/${po.id}?${_xsrf}">删除</a>\
+    %endif
+    %endif
+</p>\
+</pre>
+</%def>

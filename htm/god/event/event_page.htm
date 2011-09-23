@@ -1,7 +1,7 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from zkit.time_format import friendly_time
-from model.ico import ico_url as _ico_url
+from model.fs import fs_url_jpg
 from model.zsite import Zsite
 from zkit.txt import cnenoverflow
 from model.event import EVENT_STATE_CN_TUPLE, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
@@ -40,7 +40,10 @@ user = po.user
     <div class="sdw">
         <div class="sd c">
             <div id="list_txt">
-                <a href="/event/edit/${id}" style="margin-right:20px">后台编辑</a><a href="${po.link}" target="_blank">${po.name}</a>
+                <img src="${fs_url_jpg(162,event.pic_id)}">
+                <a href="/event/edit/${id}" style="margin-right:20px">后台编辑信息</a>
+                <a href="/event/po/edit/${id}" style="margin-right:20px">后台编辑介绍</a>
+                <a href="${po.link}" target="_blank">${po.name}</a>
                 <p>${cnenoverflow(po.txt, 60)[0]}</p>
                 <p>
                     <a class="c0" href="${user.link}" target="_blank">${user.name}</a>

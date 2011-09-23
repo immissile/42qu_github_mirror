@@ -13,6 +13,7 @@ from model.notice import notice_event_no_txt_get
 from model.po import po_id_list, po_list_count 
 from zkit.time_format import friendly_time
 from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
+from model.zsite import Zsite
 %>
 <%def name="po_body()">
 <%
@@ -101,7 +102,18 @@ ${event_content(event, po)}
 % if can_admin:
 <a class="L" href="/po/event/${id}">管理</a>\
 % endif
-组织者 : <a href="${zsite.link}">${zsite.name}</a></p>\
+<%
+po_zsite_id = po.zsite_id
+if po_zsite_id:
+    po_zsite = Zsite.mc_get(po_zsite_id)
+else:
+    po_zsite=None
+%>\
+组织者 : \
+%if po_zsite:
+<a href="${po_zsite.link}">${po_zsite.name}</a> &gt; \
+%endif
+<a href="${zsite.link}">${zsite.name}</a></p>\
 ${po_bar_vote(po)}\
 </pre>
 

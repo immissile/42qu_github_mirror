@@ -11,7 +11,7 @@ from ico import pic_url_bind_with_default
 from operator import itemgetter
 from gid import gid
 from po import Po, po_rm, po_state_set
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from feed_po import mc_feed_po_dict
 from mail import mq_rendermail, rendermail
 from notice import notice_event_yes, notice_event_no, notice_event_join_yes, notice_event_join_no
@@ -597,7 +597,14 @@ def event_review_yes(id):
         zsite_id = event.zsite_id
         event_joiner_new(id, zsite_id, EVENT_JOIN_STATE_YES)
         po = Po.mc_get(id)
-        po_state_set(po, STATE_ACTIVE)
+
+        if po.zsite_id:
+            state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
+        else:
+            state = STATE_ACTIVE
+
+        po_state_set(po, state)
+
         notice_event_yes(event.zsite_id, id)
 
         mc_event_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, False))

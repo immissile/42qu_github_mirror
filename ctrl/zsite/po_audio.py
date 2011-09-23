@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from _handler import LoginBase
-from ctrl._urlmap.me import urlmap
+from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
+from model.zsite_site import zsite_id_by_zsite_user_id
+from ctrl._urlmap.zsite import urlmap
+from model.state import STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from model.po import Po
 from model.po_audio import po_audio_new
 from model.zsite_tag import zsite_tag_new_by_tag_id
@@ -28,7 +30,19 @@ class PoAudio(LoginBase):
             audio = self._audio()
             if audio:
                 user_id = self.current_user_id
-                po = po_audio_new(user_id, name, txt, audio)
+                zsite_id = zsite_id_by_zsite_user_id(self.zsite, user_id)
+
+                if zsite_id:
+                    state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
+                else:
+                    state = STATE_ACTIVE
+
+                po = po_audio_new(
+                    user_id, name, txt, audio, 
+                    state,
+                    zsite_id=zsite_id
+                )
+
                 if po:
                     po_id = po.id
                     link = '/po/tag/%s' % po_id

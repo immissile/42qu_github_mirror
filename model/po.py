@@ -7,10 +7,10 @@ from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
 from spammer import is_same_post
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from txt import txt_new, txt_get, txt_property
 from zkit.time_format import time_title
-from reply import ReplyMixin
+from reply import ReplyMixin, Reply
 from po_pic import pic_htm
 from txt2htm import txt_withlink
 from zsite import Zsite
@@ -29,6 +29,9 @@ PO_CN_EN = (
     (CID_AUDIO, 'audio', '音乐', '段'),
     (CID_EVENT, 'event', '活动', '次'),
 )
+PO_CID = tuple([
+    i[0] for i in PO_CN_EN
+])
 PO_SHARE_FAV_CID = set([i[0] for i in PO_CN_EN])
 PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
 PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
@@ -196,6 +199,7 @@ class Po(McModel, ReplyMixin):
         mc_feed_tuple.delete(self.id)
         return result
 
+
     def tag_new(self):
         from zsite_tag import zsite_tag_new_by_tag_id, tag_id_by_user_id_cid
         cid = self.cid
@@ -210,7 +214,14 @@ class Po(McModel, ReplyMixin):
         zsite_tag_rm_by_po(self)
 
 
-def po_new(cid, user_id, name, state, rid=0, id=None):
+def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
+
+    if state is None:
+        if zsite_id and zsite_id != user_id:
+            state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
+        else:
+            state = STATE_ACTIVE
+
     m = Po(
         id=id or gid(),
         name_=cnencut(name, 142),
@@ -218,6 +229,7 @@ def po_new(cid, user_id, name, state, rid=0, id=None):
         cid=cid,
         rid=rid,
         state=state,
+        zsite_id=zsite_id,
         create_time=int(time()),
     )
     m.save()
@@ -227,7 +239,16 @@ def po_new(cid, user_id, name, state, rid=0, id=None):
     po_pos_set(user_id, m)
     mc_flush(user_id, cid)
     m.tag_new()
+
+    mc_flush_zsite_cid(zsite_id, cid)
     return m
+
+def mc_flush_zsite_cid(zsite_id, cid):
+    if zsite_id:
+        from model.site_po import mc_po_count_by_zsite_id, po_cid_count_by_zsite_id
+        mc_po_count_by_zsite_id.delete(zsite_id)
+        po_cid_count_by_zsite_id.delete(zsite_id, cid)
+
 
 def po_state_set(po, state):
     from buzz import mq_buzz_po_rm
@@ -236,8 +257,9 @@ def po_state_set(po, state):
         return
     po.state = state
     po.save()
-    mc_flush_other(po.user_id, po.cid)
-
+    cid = po.cid
+    mc_flush_other(po.user_id, cid)
+    mc_flush_zsite_cid(po.zsite_id, cid)
     if old_state > STATE_SECRET and state == STATE_SECRET:
         feed_rm(id)
         po.tag_rm()
@@ -301,19 +323,21 @@ def _po_rm(user_id, po):
     fav_rm_by_po(po)
     return True
 
-def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
-    if name and not is_same_post(user_id, name):
-        m = po_new(CID_WORD, user_id, name, state, rid)
-        if state > STATE_SECRET:
+
+def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
+
+    if name and not is_same_post(user_id, name, zsite_id):
+        m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
+        if m and (state is None or state > STATE_SECRET):
             m.feed_new()
         return m
 
-def po_note_new(user_id, name, txt, state=STATE_ACTIVE):
+def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
     if not name and not txt:
         return
     name = name or time_title()
-    if not is_same_post(user_id, name, txt):
-        m = po_new(CID_NOTE, user_id, name, state)
+    if not is_same_post(user_id, name, txt, zsite_id):
+        m = po_new(CID_NOTE, user_id, name, state, zsite_id=zsite_id)
         txt_new(m.id, txt)
         if state > STATE_SECRET:
             m.feed_new()
@@ -373,6 +397,19 @@ def mc_flush_cid_list_all(user_id, cid_list):
     for is_self in (True, False):
         for cid in cid_list:
             mc_flush_cid(user_id, cid, is_self)
+
+
+def reply_rm_if_can(user_id, id):
+    can_rm = None
+    r = Reply.mc_get(id)
+    if r:
+        po = Po.mc_get(r.rid)
+        if po:
+            can_rm = r.can_rm(user_id) or po.can_admin(user_id)
+            if can_rm:
+                r.rm()
+                mc_feed_tuple.delete(po.id)
+    return can_rm
 
 if __name__ == '__main__':
     po = Po.mc_get(10066676)

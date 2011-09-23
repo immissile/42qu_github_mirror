@@ -4,24 +4,9 @@
 */
 
 (function() {
-	var FEED_ATTR_BASE = "id rt_list fav cid rid reply_count create_time name txt txt_more",
-	FEED_ATTR_TXT_BASE = FEED_ATTR_BASE + " tag_id tag_name",
-	QUESTION_ATTR_BASE = " question_id question_user question_user_link",
-	FEED_ATTR = {
-		61: FEED_ATTR_BASE + QUESTION_ATTR_BASE,
-		62: FEED_ATTR_TXT_BASE,
-		63: FEED_ATTR_TXT_BASE,
-		64: FEED_ATTR_TXT_BASE + QUESTION_ATTR_BASE,
-		65: FEED_ATTR_TXT_BASE,
-		66: FEED_ATTR_TXT_BASE,
-		67: FEED_ATTR_TXT_BASE,
-		68: FEED_ATTR_BASE + " place_name address time_row1 time_row2 time_diff_day",
-		69: FEED_ATTR_BASE
-	},
-	DATE_ATTR = "name link unit title pic".split(' ');
-	for (var i in FEED_ATTR) {
-		FEED_ATTR[i] = (FEED_ATTR[i] + "").split(' ')
-	}
+	var feed_loader = feed_load_maker( "id rt_list"),
+	DATE_ATTR = "name link unit title pic".split(' '),
+    host_suffix=location.host.slice(location.host.indexOf("."));
 
 	function array2zsite(a) {
 		return {
@@ -30,7 +15,7 @@
 		}
 	}
 
-	function init(result) {
+	function init(result, site_dict) {
 		var data = {
 			"item": []
 		},
@@ -39,20 +24,17 @@
 		attr,
 		item = result[5],
 		t,
-		rt_list;
+		rt_list,
+        site_id;
+
 		for (; i < DATE_ATTR.length; ++i) {
 			data[DATE_ATTR[i]] = result[i]
 		}
 
 
 		for (i = 0; i < item.length; ++i) {
-			result = item[i];
-			t = {};
-			attr = FEED_ATTR[result[3]];
-			result_length = result.length;
-			for (j = 0; j < result_length; ++j) {
-				t[attr[j]] = result[j]
-			}
+            t = feed_loader(item[i]);
+
 			rt_list = t.rt_list;
 			if (rt_list.length) {
 				if (! (rt_list.length == 1 && rt_list[0][0] == 0)) {
@@ -69,6 +51,13 @@
 			}
 
 			t.create_time = $.timeago(t.create_time);
+            
+            site_id = t.site_id;
+            if(site_id){
+                t.site_name = site_dict[site_id];
+                t.site_url = site_id+host_suffix
+            }
+
 			data.item.push(t)
 			//console.info(t)
 		}
@@ -77,14 +66,15 @@
 	}
 
 	function init_result(result) {
-		var length = result.length,
+		var site_dict = result.pop(),
+        length = result.length,
 		item = [],
 		i = 0,
 		data,
 		pre_zsite_id;
 
 		for (; i < length; ++i) {
-			data = init(result[i])
+			data = init(result[i], site_dict)
 			if (data.zsite_id == pre_zsite_id) {
 				data.zsite_same_as_pre = true
 			} else {
@@ -116,8 +106,7 @@
 				return
 			}
 			is_loading = 0;
-			begin_id.val(
-			result.pop())
+			begin_id.val( result.pop())
 			$('#feed').tmpl(init_result(result)).appendTo("#feeds");
 			feed_loading.slideUp(function() {
 				feed_load.show()
@@ -179,32 +168,4 @@
         )
     )
     
-	/* 显示全部 */
-	fdtxt = function(e, id) {
-		var txt = $(e).parents('.fdtxt'),
-		all = txt.find(".fdall");
-		all.addClass("fdloading").find('.fdext').remove()
-		$.get("/j/fdtxt/" + id, function(htm) {
-			txt.find('.fdtxtin').html('<pre class="fdpre">' + htm + "</pre>")
-			if (all.find('a').length) {
-				all.removeClass('fdloading')
-			} else {
-				all.remove()
-			}
-		})
-	}
-	fdvideo = function(e, id) {
-		var div = $('<div class="fdswf"><div class="fdloading"/></div>')
-		$(e).replaceWith(div)
-		$.get("/j/fdvideo/" + id, function(html) {
-			div.html(html)
-			var win = $(window),
-			winst = win.scrollTop(),
-			offset = div.offset().top + div.height() - winst - win.height();
-
-			if (offset > 0) {
-				win.scrollTop(winst + offset)
-			}
-		})
-	}
 })()

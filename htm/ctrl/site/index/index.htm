@@ -1,9 +1,6 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/site.htm" import="site_li"/>
 
-<%!
-from model.ico import ico_url_with_default
-from model.motto import motto
-%>
 <%def name="htm_head()">
 ${css.ctrl_site_index|n}
 </%def>
@@ -13,28 +10,6 @@ ${css.ctrl_site_index|n}
 </%def>
 
 
-<%def name="site_li(site)">
-<div class="c site_po">
-    <a href="${site.link}"><img src="${ico_url_with_default(site.id)}" class="site_img"></a>
-    <div class="site_txt c">
-        <div class="po_ti">
-            <a href="${site.link}" class="c0">${site.name}</a>
-        </div>
-        <div class="po_text">
-            <span>${motto.get(site.id)}</span>
-            <div class="po_num">
-<a class="po_no" href="#"><span class="number">96</span><b>关注</b></a>\
-<span class="amp">&amp;</span>\
-<a href="#"><span class="number">142</span><b>图片</b></a>\
-<span class="amp">&amp;</span>\
-<a href="#"><span class="number">142</span><b>文章</b></a>\
-<span class="amp">&amp;</span>\
-<a href="#"><span class="number">142</span><b>活动</b></a>\
-            </div>
-        </div>
-    </div>
-</div>
-</%def>
 <%
 path = request.path
 is_my = path.startswith("/my")
@@ -43,7 +18,7 @@ is_my = path.startswith("/my")
     <span class="nav">
         <a ${'class="c0"' if not is_my else ''|n} href="/">所有</a><span class="c9 split">-</span><a href="/my" ${'class="c0"' if is_my else ''|n}>我的</a>
     </span>
-    <a class="new" href="/new">创建站点</a>
+    <a class="new" href="/new">创建</a>
 </h1>
 
 

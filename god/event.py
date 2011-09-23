@@ -8,7 +8,7 @@ from model.event import Event, event_review_yes, event_review_no, EVENT_STATE_TO
 from model.po import Po
 from zkit.page import page_limit_offset
 from model.event import Event
-from ctrl.me.po_event import po_event_edit_get, po_event_edit_post
+from ctrl.zsite.po_event import po_event_edit_get, po_event_edit_post
 #from model.sync import mq_sync_po_by_zsite_id
 
 PAGE_LIMIT = 50
@@ -100,3 +100,21 @@ class EventEdit(Base):
             event = po_event_edit_post(self, id, event, True, event_new)
             if event:
                 return self.get(id)
+
+@urlmap('/event/po/edit/(\d+)')
+class EventPoEdit(Base):
+    def get(self,id):
+        event = Event.mc_get(id)
+        po = event.po
+        self.render(po=po)
+
+    def post(self,id):
+        po = Po.mc_get(id)
+        name = self.get_argument('name',None)
+        txt = self.get_argument('txt',None)
+        if name:
+            po.name_ = name
+            po.save()
+        if txt:
+            po.txt_set(txt)
+        self.redirect('/event')

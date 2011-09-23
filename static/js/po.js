@@ -119,7 +119,7 @@ po_audio = function(id){
     po_(
         id,
         'audio',
-        '音乐',
+        '声音',
         '<input id="po_audio" type="file" name="audio">',
         function(){
             var error,

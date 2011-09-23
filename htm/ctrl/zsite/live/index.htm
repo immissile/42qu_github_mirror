@@ -17,7 +17,6 @@ ${css.ctrl_live|n}
 <a id="feed_load" href="javascript:void(0)">加载更多</a>
 <div id="feed_loading"></div>
 <script src="${js.ctrl_live}"></script>
-<script src="${js.ctrl_feed}"></script>
 </%def>
 
 
@@ -48,7 +47,7 @@ id="po_word_txt" name="txt"></textarea>\
 <span class="split">-</span>\
 <a href="/po/event">活动</a>\
 <span class="split">-</span>\
-<a href="javascript:po_audio();void(0)">音乐</a>\
+<a href="javascript:po_audio();void(0)">声音</a>\
 <span class="split">-</span>\
 <a href="javascript:po_video();void(0)">视频</a>\
 </span>
@@ -125,7 +124,10 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
     </div>
     <div class="fdbar">
     <span class="L">
-<span class="fdopt"><a target="_blank"
+<span class="fdopt">{{if site_id}}<a href="//${site_url}"
+target="_blank">${site_name}</a><span
+class="split">-</span>{{/if}}<a
+target="_blank"
 href="/${id}#txt_form">{{if reply_count}}<span
 class="mr3">${reply_count}</span>{{/if}}评论</a><span
 class="split">-</span><a
@@ -145,7 +147,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 <a href="${$value.link}" target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}
             {{/each}}
         </span>
-        {{if rt_list.length > 1}}, ${rt_list.length}人{{/if}}推荐
+        {{if rt_list.length > 1}}, ${rt_list.length}人{{/if}}转帖
             {{/if}}
         {{/if}}
     </div>

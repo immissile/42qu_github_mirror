@@ -11,14 +11,21 @@ import traceback
 RSS_UNCHECK = 0
 RSS_RM = 1
 RSS_PRE_PO = 2
-RSS_POED = 3
-
+RSS_RT_PO= 3
+RSS_POED = 4
 
 class Rss(McModel):
     pass
 
 class RssPo(McModel):
     pass
+
+class RssPoId(McModel):
+    pass
+
+
+def rss_po_id(rss_id, po_id):
+    RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)',rss_id,po_id)
 
 def rss_po_total(state):
     return RssPo.where(state=state).count()

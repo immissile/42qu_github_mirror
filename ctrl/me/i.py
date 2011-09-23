@@ -16,7 +16,7 @@ from model.user_auth import user_password_new, user_password_verify
 from model.user_mail import mail_by_user_id
 from cgi import escape
 from urlparse import parse_qs, urlparse
-from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
+from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT, link_list_cid_by_zsite_id
 from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient
 from config import SITE_URL, SITE_DOMAIN
 from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id, OAUTH_SYNC_TXT, linkify
@@ -44,25 +44,7 @@ class LinkEdit(LoginBase):
 
     def get(self):
         zsite_id = self.zsite_id
-        id_name = link_id_name_by_zsite_id(zsite_id)
-        id_cid = dict(link_id_cid(zsite_id))
-
-        link_list = []
-        link_cid = []
-        exist_cid = set()
-
-        for id, name in id_name:
-            link = link_by_id(id)
-            if id in id_cid:
-                cid = id_cid[id]
-                link_cid.append((cid, name , link))
-                exist_cid.add(cid)
-            else:
-                link_list.append((id, name, link))
-
-        for cid in (set(OAUTH_LINK_DEFAULT) - exist_cid):
-            link_cid.append((cid, OAUTH2NAME_DICT[cid], ''))
-
+        link_list, link_cid = link_list_cid_by_zsite_id(zsite_id)
         return self.render(
             link_list=link_list,
             link_cid=link_cid

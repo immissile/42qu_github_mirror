@@ -21,11 +21,7 @@ zsite_url = zsite.link
 %if can_admin and current_user_id:
 <span class="L"><a href="${po.link_edit}">编辑</a></span>\
 %endif
-<span><a href="${zsite_url}">${zsite.name}</a>\
-%if zsite_tag_id:
- : \
-<a href="${zsite_url}/tag/${zsite_tag_id}">${tag_name}</a>\
-%endif
+<%include file="_sign.htm"/>\
 </p>\
 ${po_bar_vote(po)}\
 <p class="po_bar">\

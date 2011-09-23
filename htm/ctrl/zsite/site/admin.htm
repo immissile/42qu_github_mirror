@@ -1,0 +1,17 @@
+<%inherit file="../_base/site_admin.htm" />
+
+
+
+<%namespace file="/ctrl/_util/site_new.htm" import="site_new,head"/>
+
+<%def name="_head()">
+${head()}
+</%def>
+
+
+%if success:
+<div style="border:1px dotted #ccc;text-align:center;margin:27px 0;padding:27px 0">
+保存成功 , <a href="${zsite.link}/about">点此浏览</a>
+</div>
+%endif
+${site_new()}

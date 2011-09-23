@@ -1,0 +1,49 @@
+<%!
+from model.cid import CID_QUESTION, CID_ANSWER, CID_EVENT_FEEDBACK
+from model.po_question import answer_count
+from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from datetime import datetime
+%>\
+<%inherit file="_po.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="_vote.htm" import="po_bar_vote"/>
+
+<%def name="po_body()">
+<%
+po_id = po.id
+cid = po.cid
+zsite_url = zsite.link
+rid = po.rid
+%>
+%if cid == CID_ANSWER:
+<h1 id="po_answer_name">${po.name_htm|n}</h1>
+%elif cid == CID_EVENT_FEEDBACK:
+<%
+event_po = po.target
+%>
+<div class="pevent"><a href="${event_po.link}">${event_po.name}</a> </div>
+%else:
+<h1><a href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
+%endif
+<pre class="prebody">${po.htm|n}\
+<p class="po_bar po_bar1">\
+%if can_admin:
+    <a class="L" href="${po.link_edit}">编辑</a>\
+%endif
+<%include file="_sign.htm"/>\
+</p>\
+${po_bar_vote(po)}\
+%if cid == CID_QUESTION:
+<%
+count = answer_count(po.id)
+%>\
+<p>\
+<a href="${po.link}">\
+%if count:
+<span class="qsnum">${count}</span>\
+%endif
+回答</a>
+</p>\
+%endif
+</pre>
+</%def>
