@@ -86,11 +86,11 @@ class PoShowSet(Base):
         if po:
             if broad:
                 po_show_new(po)
+            else:
+                po_show_rm(po)
 
             if site:
-                po.zsite_id = int(site)
-                po.state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
-                po.save()
+                po.zsite_id_set(site)
 
             return self.redirect(next)
 

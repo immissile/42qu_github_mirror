@@ -114,6 +114,19 @@ class Po(McModel, ReplyMixin):
 
         return self.name_
 
+
+    def zsite_id_set(self, zsite_id, state=STATE_PO_ZSITE_SHOW_THEN_REVIEW):
+        cid = self.cid
+
+        mc_flush_zsite_cid(self.zsite_id, cid)
+
+        self.zsite_id = int(zsite_id)
+        self.state = state
+        self.save()
+
+        mc_flush_zsite_cid(zsite_id, cid)
+
+
     @attrcache
     def name_with_user(self):
         q = self.target

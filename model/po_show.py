@@ -26,14 +26,7 @@ def po_show_count():
 def po_is_show(po):
     return feed_rt_id(0, po.id)
 
-#def po_show_set(po):
-#    po_id = po.id
-#    if r:
-#        po_show_rm(po_id)
-#    else:
-#        po_show_new(po, cid)
-#
-#Po.is_show = property(po_is_show)
+
 
 if __name__ == '__main__':
     for i in po_show_list(0, 'id', 25, 0):
