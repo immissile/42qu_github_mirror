@@ -15,7 +15,7 @@ def get_uri():
     for id in ids:
         link = ZsiteLink.raw_sql('select link from zpage.zsite_link where zsite_id = %s and cid = 0', *id).fetchone()
         if link:
-            links.append(link[0])
+            links.append([id[0],link[0]])
     return links
 
 import re
@@ -91,9 +91,9 @@ def print_uri():
     links = get_uri()
     with open('x', 'w') as f:
         for i in links:
-            f.write('%s\n' % i)
+            f.write('%s  %s\n' % (i[0],i[1]))
 
 if __name__ == '__main__':
-    #print_uri()
+    print_uri()
     #print_rss()
-    print_xml()
+    #print_xml()
