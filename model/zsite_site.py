@@ -30,17 +30,21 @@ def site_new(name, admin_id, state):
         zsite_show_new(site_id, CID_SITE)
     return site
 
-def site_state_total(state):
-    if state:
-        return Zsite.where(cid=CID_SITE,state=state).count()
-    else:
-        return Zsite.where(cid=CID_SITE).count()
+def site_count_by_state(state):
+    qs = Zsite.where(cid=CID_SITE)
 
-def site_by_state(state,limit=None,offset=None):
     if state:
-        return Zsite.where(cid=CID_SITE,state=state).order_by('id desc').col_list(limit,offset,'id')
-    else:
-        return Zsite.where(cid=CID_SITE).order_by('id desc').col_list(limit,offset,'id')
+        qs = qs.where(state=state)
+
+    return qs.count()
+
+def site_id_list_by_state(state,limit=None,offset=None):
+    qs = Zsite.where(cid=CID_SITE)
+    
+    if state:
+        qs = qs.where(state=state)
+    
+    return qs.order_by('id desc').col_list(limit,offset,'id')
 
 def site_can_view(zsite, user_id):
 
