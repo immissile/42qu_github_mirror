@@ -4,9 +4,7 @@
 */
 
 (function() {
-	var feed_loader = feed_load_maker(
-        "id rt_list fav cid rid reply_count create_time name txt txt_more"
-    ),
+	var feed_loader = feed_load_maker( "id rt_list"),
 	DATE_ATTR = "name link unit title pic".split(' ');
 
 	function array2zsite(a) {
