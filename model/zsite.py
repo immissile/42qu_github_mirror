@@ -143,7 +143,7 @@ def zsite_verify_no_without_notify(zsite):
     zsite.save()
 
 def zsite_user_verify_count():
-    count = Zsite.raw_sql( "select count(1) from zsite where cid=%s and state=%s"%( CID_USER, ZSITE_STATE_VERIFY ) ).fetchone()[0]
+    count = Zsite.raw_sql( 'select count(1) from zsite where cid=%s and state=%s'%( CID_USER, ZSITE_STATE_VERIFY ) ).fetchone()[0]
     return count
 
 def zsite_verify_mail(zsite_id, cid, state, txt=''):
@@ -157,9 +157,12 @@ def zsite_verify_mail(zsite_id, cid, state, txt=''):
                    txt=txt,
                   )
 
-def zsite_name_id(id_set):
-    zsite_id_set = Zsite.mc_get_dict(id_set)
-     
+def zsite_name_id_dict(id_set):
+    d = Zsite.mc_get_dict(id_set)
+    r = {}
+    for i in id_set:
+        r[i] = d[i].name
+    return r
 
 from mq import mq_client
 mq_zsite_verify_mail = mq_client(zsite_verify_mail)
