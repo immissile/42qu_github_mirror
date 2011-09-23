@@ -8,6 +8,18 @@ from model.cid import CID_SITE
 from model.zsite_admin import admin_id_list_by_zsite_id
 %>
 <%def name="htm_head()">
+<style>
+.site{
+margin-bottom:27px;padding-bottom:27px;
+border-bottom:1px dotted #ccc;
+float:left;
+width:470px;
+}
+.site img{
+margin-right:32px;
+float:left;
+}
+</style>
 </%def>
 <a href="/site">全部</a>
 <a href="/site/${ZSITE_STATE_SITE_PUBLIC}">公开</a>
@@ -19,26 +31,34 @@ ${page|n}
 site_list = Zsite.mc_get_list(site_id_list)
 %>
 
-<ol>
 %for site in site_list:
 <%
 site_id = site.id
 %>
-<li id="site${site_id}">
-<a href="${site.link}"><img src="${ico_url_with_default(site_id)}"/>
+<div class="site c" id="site${site_id}">
+<div>
+<a href="${site.link}" target="_blank"><img src="${ico_url_with_default(site_id)}"/>
 ${site.name}</a>
 ${ZSITE_STATE_SITE2CN_DICT.get(site.state)}
+</div>
+<div>
+<%
+admin_list = Zsite.mc_get_list(admin_id_list_by_zsite_id(site_id))
+%>
+管理员：
+%for admin in admin_list:
+<a href="${admin.link}">${admin.name}</a>
+%endfor
+</div>
+<div>
 %if zsite_show_get(site_id,CID_SITE):
 <a href="/site/show/rm/${site_id}">移除秀</a>
 %else:
 <a href="/site/show/new/${site_id}">加入秀</a>
 %endif
-<%
-admin_list = Zsite.mc_get_list(admin_id_list_by_zsite_id(site_id))
-%>
-%for admin in admin_list:
-管理员：<a href="${admin.link}">${admin.name}</a>
-%endfor
-</li>
+</div>
+</div>
 %endfor
 %endif
+
+${page|n}
