@@ -62,6 +62,7 @@ def feed_tuple_by_db(id):
         cid,
         _rid,
         reply_count,
+        m.zsite_id,
         m.create_time,
         name,
         #vote_count(id)
