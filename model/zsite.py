@@ -157,6 +157,10 @@ def zsite_verify_mail(zsite_id, cid, state, txt=''):
                    txt=txt,
                   )
 
+def zsite_name_id(id_set):
+    zsite_id_set = Zsite.mc_get_dict(id_set)
+     
+
 from mq import mq_client
 mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 

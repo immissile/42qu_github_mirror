@@ -223,7 +223,7 @@ function txt_maxlen(txt, tip,  maxlen, update, cancel) {
 }
 
 function feed_load_maker(FEED_ATTR_BASE ){
-    FEED_ATTR_BASE+=" fav cid rid reply_count site_id create_time name txt txt_more"
+    FEED_ATTR_BASE+=" fav cid rid site_id reply_count create_time name txt txt_more"
 
 	var FEED_ATTR_TXT_BASE = FEED_ATTR_BASE + " tag_id tag_name",
 	QUESTION_ATTR_BASE = " question_id question_user question_user_link",
