@@ -56,11 +56,13 @@
 	}
 
 	function init_result(result) {
-		var length = result.length,
+		var site_dict = result.pop(),
+        length = result.length,
 		item = [],
 		i = 0,
 		data,
-		pre_zsite_id;
+		pre_zsite_id,
+        site_id;
 
 		for (; i < length; ++i) {
 			data = init(result[i])
@@ -69,6 +71,10 @@
 			} else {
 				pre_zsite_id = data.zsite_id
 			}
+            site_id = data.site_id;
+            if(site_id){
+                data.site_name=site_dict[site_id]
+            }
 			item.push(data)
 		}
 		return item
@@ -95,8 +101,7 @@
 				return
 			}
 			is_loading = 0;
-			begin_id.val(
-			result.pop())
+			begin_id.val( result.pop())
 			$('#feed').tmpl(init_result(result)).appendTo("#feeds");
 			feed_loading.slideUp(function() {
 				feed_load.show()
