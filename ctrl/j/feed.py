@@ -20,6 +20,7 @@ from model.fav import fav_add, fav_rm
 #from model.sync import mq_sync_recommend_by_zsite_id
 from cgi import escape
 from ctrl.j.po import post_reply
+from model.zsite import zsite_name_id_dict
 
 @urlmap('/j/feed/fav/(\d+)')
 class Fav(JLoginBase):
@@ -69,6 +70,9 @@ class Feed(JLoginBase):
         c_dict = career_dict(zsite_id_set)
 
         r = []
+
+        site_id_set = set()
+
         for zsite_id, item_list in result:
             zsite = Zsite.mc_get(zsite_id)
             t = []
@@ -76,6 +80,10 @@ class Feed(JLoginBase):
                 id = i[1]
                 cid = i[4]
                 rid = i[5]
+               
+                site_id = i[6] 
+                if site_id:
+                    site_id_set.add(site_id)
 
                 if len(i) >= FEED_TUPLE_DEFAULT_LEN:
                     after = i[FEED_TUPLE_DEFAULT_LEN:]
@@ -104,8 +112,13 @@ class Feed(JLoginBase):
             else:
                 print "zsite_id", zsite_id
                 feed_rm(id)
+
+        r.append(zsite_name_id_dict(site_id_set))
         r.append(last_id)
+
+
         result = dumps(r)
+
         self.finish(result)
 
 

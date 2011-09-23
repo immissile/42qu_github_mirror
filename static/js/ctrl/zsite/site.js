@@ -74,9 +74,7 @@ function fav(){
 }
 
 function render_site(data){
-	var feed_loader = feed_load_maker(
-"zsite_id id fav cid rid reply_count create_time name txt txt_more"
-    )
+	var feed_loader = feed_load_maker( "zsite_id id")
 	,
     zsite_dict = data[1],
     career_dict = data[2],

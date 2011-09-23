@@ -4,7 +4,7 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model.po_prev_next import po_prev_next
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
-from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN, PO_SHARE_FAV_CID
+from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN, PO_SHARE_FAV_CID, reply_rm_if_can
 from model.po_question import po_answer_new
 from model.po_pos import po_pos_get, po_pos_set, po_pos_state, STATE_BUZZ
 from model import reply
@@ -20,7 +20,6 @@ from model.event import Event, EVENT_STATE_TO_REVIEW
 from model.fav import fav_user_count_by_po_id, fav_user_list_by_po_id
 from model.vote import vote_up_count, vote_user_id_list
 from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id
-
 
 @urlmap('/po')
 class Index(ZsiteBase):
@@ -393,16 +392,7 @@ class PoTag(ZsiteBase):
 class ReplyRm(LoginBase):
     def post(self, id):
         user_id = self.current_user_id
-        r = reply.Reply.mc_get(id)
-
-        if r:
-            po = Po.mc_get(r.rid)
-            if po:
-                can_rm = r.can_rm(user_id) or po.can_admin(user_id)
-                if can_rm:
-                    r.rm()
-
-        self.finish({'success': can_rm})
+        self.finish({'success': reply_rm_if_can(user_id, id)})
 
 
 @urlmap('/po/reply/(\d+)')

@@ -4,10 +4,9 @@
 */
 
 (function() {
-	var feed_loader = feed_load_maker(
-        "id rt_list fav cid rid reply_count create_time name txt txt_more"
-    ),
-	DATE_ATTR = "name link unit title pic".split(' ');
+	var feed_loader = feed_load_maker( "id rt_list"),
+	DATE_ATTR = "name link unit title pic".split(' '),
+    host_suffix=location.host.slice(location.host.indexOf("."));
 
 	function array2zsite(a) {
 		return {
@@ -16,7 +15,7 @@
 		}
 	}
 
-	function init(result) {
+	function init(result, site_dict) {
 		var data = {
 			"item": []
 		},
@@ -25,7 +24,9 @@
 		attr,
 		item = result[5],
 		t,
-		rt_list;
+		rt_list,
+        site_id;
+
 		for (; i < DATE_ATTR.length; ++i) {
 			data[DATE_ATTR[i]] = result[i]
 		}
@@ -50,6 +51,13 @@
 			}
 
 			t.create_time = $.timeago(t.create_time);
+            
+            site_id = t.site_id;
+            if(site_id){
+                t.site_name = site_dict[site_id];
+                t.site_url = site_id+host_suffix
+            }
+
 			data.item.push(t)
 			//console.info(t)
 		}
@@ -58,14 +66,15 @@
 	}
 
 	function init_result(result) {
-		var length = result.length,
+		var site_dict = result.pop(),
+        length = result.length,
 		item = [],
 		i = 0,
 		data,
 		pre_zsite_id;
 
 		for (; i < length; ++i) {
-			data = init(result[i])
+			data = init(result[i], site_dict)
 			if (data.zsite_id == pre_zsite_id) {
 				data.zsite_same_as_pre = true
 			} else {
@@ -97,8 +106,7 @@
 				return
 			}
 			is_loading = 0;
-			begin_id.val(
-			result.pop())
+			begin_id.val( result.pop())
 			$('#feed').tmpl(init_result(result)).appendTo("#feeds");
 			feed_loading.slideUp(function() {
 				feed_load.show()

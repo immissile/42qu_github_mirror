@@ -21,9 +21,9 @@ from event import Event
 from fav import fav_cid_dict
 
 
-FEED_TUPLE_DEFAULT_LEN = 12
+FEED_TUPLE_DEFAULT_LEN = 13
 
-FEED_TUPLE_DEFAULT_LEN_FOR_ZSITE = 9
+FEED_TUPLE_DEFAULT_LEN_FOR_ZSITE = 10
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
@@ -61,6 +61,7 @@ def feed_tuple_by_db(id):
         m.user_id,
         cid,
         _rid,
+        m.zsite_id,
         reply_count,
         m.create_time,
         name,

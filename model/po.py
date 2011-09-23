@@ -10,7 +10,7 @@ from spammer import is_same_post
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from txt import txt_new, txt_get, txt_property
 from zkit.time_format import time_title
-from reply import ReplyMixin
+from reply import ReplyMixin, Reply
 from po_pic import pic_htm
 from txt2htm import txt_withlink
 from zsite import Zsite
@@ -198,6 +198,7 @@ class Po(McModel, ReplyMixin):
         result = super(Po, self).reply_new(user, txt, state)
         mc_feed_tuple.delete(self.id)
         return result
+
 
     def tag_new(self):
         from zsite_tag import zsite_tag_new_by_tag_id, tag_id_by_user_id_cid
@@ -396,6 +397,19 @@ def mc_flush_cid_list_all(user_id, cid_list):
     for is_self in (True, False):
         for cid in cid_list:
             mc_flush_cid(user_id, cid, is_self)
+
+
+def reply_rm_if_can(user_id, id):
+    can_rm = None
+    r = Reply.mc_get(id)
+    if r:
+        po = Po.mc_get(r.rid)
+        if po:
+            can_rm = r.can_rm(user_id) or po.can_admin(user_id)
+            if can_rm:
+                r.rm()
+                mc_feed_tuple.delete(po.id)
+    return can_rm
 
 if __name__ == '__main__':
     po = Po.mc_get(10066676)
