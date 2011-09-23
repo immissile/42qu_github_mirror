@@ -142,6 +142,9 @@ def zsite_verify_no_without_notify(zsite):
     zsite.state = ZSITE_STATE_FAILED_VERIFY
     zsite.save()
 
+def zsite_user_verify_count():
+    count = Zsite.raw_sql( "select count(1) from zsite where cid=%s and state=%s"%( CID_USER, ZSITE_STATE_VERIFY ) ).fetchone()[0]
+    return count
 
 def zsite_verify_mail(zsite_id, cid, state, txt=''):
     from mail import rendermail
