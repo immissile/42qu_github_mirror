@@ -54,7 +54,7 @@ class PoShow(Base):
             n,
             PAGE_LIMIT,
         )
-        li = po_show_list(0, 'id', limit, offset)
+        li = po_show_list(limit, offset)
         self.render(
             po_list=li,
             page=page,
