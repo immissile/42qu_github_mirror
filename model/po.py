@@ -7,7 +7,7 @@ from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
 from spammer import is_same_post
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_ACCPET
+from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from txt import txt_new, txt_get, txt_property
 from zkit.time_format import time_title
 from reply import ReplyMixin
@@ -217,7 +217,7 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
 
     if state is None:
         if zsite_id and zsite_id != user_id:
-            state = STATE_PO_ZSITE_ACCPET
+            state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
         else:
             state = STATE_ACTIVE
 
