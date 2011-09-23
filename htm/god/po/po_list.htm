@@ -100,7 +100,7 @@ ${friendly_time(po.create_time)}
 <a class="L" href="/po/show/set/${id}">
     % if po_is_show(po):
     设置
-    % else:
+    % elif po.state >= STATE_ACTIVE:
     转发
     % endif
 </a>
@@ -111,8 +111,13 @@ ${friendly_time(po.create_time)}
 <b>私密</b> , <a href="javascript:void(0)" rel="${id}" class="po2a" style="color:#999">公开</a>
 % elif state == STATE_ACTIVE:
 <a href="javascript:void(0)" rel="${id}" class="po2s" style="color:#999">私密</a> , <b>公开</b>
-% else:
-哈哈？
+% elif po.zsite_id:
+<%
+site = Zsite.get(po.zsite_id)
+%>
+%if site:
+来自小组：<a href="http:${site.link}" target="_blank">${site.name}</a>
+%endif
 % endif
 </span>
 </p>
