@@ -20,7 +20,7 @@ class Index(Base):
             n=n,
             limit=PAGE_LIMIT
         )
-        user_list = Zsite.where().order_by('id desc')[offset:offset+limit]
+        user_list = Zsite.where(cid=CID_USER).order_by('id desc')[offset:offset+limit]
 
         self.render(
             user_list=user_list,
