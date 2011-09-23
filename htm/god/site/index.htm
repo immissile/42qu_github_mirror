@@ -29,9 +29,9 @@ site_id = site.id
 ${site.name}</a>
 ${ZSITE_STATE_SITE2CN_DICT.get(site.state)}
 %if zsite_show_get(site_id,CID_SITE):
-<a href="/site/rm_show/${site_id}">移除秀</a>
+<a href="/site/show/rm/${site_id}">移除秀</a>
 %else:
-<a href="/site/add_show/${site_id}">加入秀</a>
+<a href="/site/show/new/${site_id}">加入秀</a>
 %endif
 <%
 admin_list = Zsite.mc_get_list(admin_id_list_by_zsite_id(site_id))

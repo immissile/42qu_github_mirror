@@ -4,11 +4,13 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/ctrl/zsite/po/
+/site/add_show
+/site/rm_show
 """
 
 TO_STRING = """
-/ctrl/zsite/po_view/
+/site/show/new
+/site/show/rm
 """
 
 def run():
