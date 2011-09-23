@@ -163,6 +163,4 @@ mq_zsite_verify_mail = mq_client(zsite_verify_mail)
 if __name__ == '__main__':
     #zsite_name_rm(10017321)
     pass
-    for i in Zsite.where():
-        if "叶" in i.name:
-            print i.link,i.name
+    print zsite_user_verify_count()
