@@ -6,7 +6,7 @@ from model.fs import fs_url_jpg
 from model.po_photo import po_photo_new
 from model.po import Po
 from model.cid import CID_PHOTO
-from model.state import STATE_ACTIVE, STATE_PO_ZSITE_ACCPET
+from model.state import STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from zkit.pic import picopen
 
 @urlmap('/po/photo')
@@ -34,7 +34,7 @@ class PoPhoto(LoginBase):
             if img:
                 zsite_id = zsite_id_by_zsite_user_id(self.zsite, user_id)
                 if zsite_id:
-                    state = STATE_PO_ZSITE_ACCPET
+                    state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
                 else:
                     state = STATE_ACTIVE
                 po = po_photo_new(user_id, name, txt, img, state, zsite_id)

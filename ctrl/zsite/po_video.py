@@ -4,7 +4,7 @@ from ctrl._urlmap.zsite import urlmap
 from model.po import Po
 from model.po_video import po_video_new, VIDEO_CID_YOUKU, VIDEO_CID_TUDOU, VIDEO_CID_SINA
 from model.zsite_tag import zsite_tag_new_by_tag_id
-from model.state import STATE_ACTIVE, STATE_PO_ZSITE_ACCPET
+from model.state import STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from model.zsite_site import zsite_id_by_zsite_user_id
 from model.cid import CID_VIDEO
 from model.state import STATE_ACTIVE
@@ -37,7 +37,7 @@ class PoVideo(LoginBase):
                     zsite_id = zsite_id_by_zsite_user_id(self.zsite, user_id)
 
                     if zsite_id:
-                        state = STATE_PO_ZSITE_ACCPET
+                        state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
                     else:
                         state = STATE_ACTIVE
                     po = po_video_new(user_id, name, txt, video, video_site, state, zsite_id)
