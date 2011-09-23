@@ -49,6 +49,14 @@ margin-left:6px;
             <span class="check"><a href="/po/show/rm/${po.id}">删除广播</a></span>
 %endif
         </div>
+% if po.zsite_id:
+<%
+site = Zsite.get(po.zsite_id)
+%>
+%if site:
+<div class="mt27">小组 : <a href="${site.link}" target="_blank">${site.name}</a></div> 
+%endif
+%endif
         <div class="selects">
             <div class="line">
 % for site in Zsite.where(cid=CID_SITE):

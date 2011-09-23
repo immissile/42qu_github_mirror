@@ -56,6 +56,14 @@ user = po.user
     <a href="${user.link}" target="_blank"><img class="ico" src="${ico_url}"></a>
 %endif
 <div id="list_txt">
+% if po.zsite_id:
+<%
+site = Zsite.get(po.zsite_id)
+%>
+%if site:
+<a href="${site.link}" target="_blank">${site.name}</a> : 
+%endif
+%endif
 <a href="${po.link}" target="_blank">
 % if cid == CID_ANSWER:
 答案\
@@ -111,13 +119,6 @@ ${friendly_time(po.create_time)}
 <b>私密</b> , <a href="javascript:void(0)" rel="${id}" class="po2a" style="color:#999">公开</a>
 % elif state == STATE_ACTIVE:
 <a href="javascript:void(0)" rel="${id}" class="po2s" style="color:#999">私密</a> , <b>公开</b>
-% elif po.zsite_id:
-<%
-site = Zsite.get(po.zsite_id)
-%>
-%if site:
-来自小组：<a href="http:${site.link}" target="_blank">${site.name}</a>
-%endif
 % endif
 </span>
 </p>
