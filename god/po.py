@@ -50,7 +50,7 @@ class PoShow(Base):
     def get(self, n):
         page, limit, offset = page_limit_offset(
             '/po/show-%s',
-            po_show_count(0),
+            po_show_count(),
             n,
             PAGE_LIMIT,
         )
