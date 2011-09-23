@@ -38,13 +38,13 @@ def site_count_by_state(state):
 
     return qs.count()
 
-def site_id_list_by_state(state,limit=None,offset=None):
+def site_id_list_by_state(state, limit=None, offset=None):
     qs = Zsite.where(cid=CID_SITE)
-    
+
     if state:
         qs = qs.where(state=state)
-    
-    return qs.order_by('id desc').col_list(limit,offset,'id')
+
+    return qs.order_by('id desc').col_list(limit, offset, 'id')
 
 def site_can_view(zsite, user_id):
 
