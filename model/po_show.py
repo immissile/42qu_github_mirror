@@ -26,18 +26,13 @@ def po_show_count():
 def po_is_show(po):
     return feed_rt_id(0, po.id)
 
-def po_show_set(po):
-    po_id = po.id
-    id = rank_id_by_po_id_to_id(po_id, 0)
-    r = Rank.mc_get(id)
-    if r:
-        if cid:
-            _rank_mv(r, cid)
-        else:
-            po_show_rm(po_id)
-    else:
-        po_show_new(po, cid)
-
+#def po_show_set(po):
+#    po_id = po.id
+#    if r:
+#        po_show_rm(po_id)
+#    else:
+#        po_show_new(po, cid)
+#
 #Po.is_show = property(po_is_show)
 
 if __name__ == '__main__':
