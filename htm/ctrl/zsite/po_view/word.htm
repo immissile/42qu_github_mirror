@@ -1,12 +1,20 @@
+<%!
+from model.zsite import Zsite
+%>
 <%inherit file="_po.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="_vote.htm" import="po_bar_vote"/>
 
 <%def name="po_body()">
-%if po.rid:
-<h1 id="po_answer_name">${po.name_htm|n}</h1>
-%endif
 <pre class="prebody">\
+%if po.rid:
+<h1 id="po_answer_name">${po.name_htm|n}</h1>\
+%elif po.zsite_id:
+<%
+zsite = Zsite.mc_get(po.zsite_id)
+%>\
+<h1 id="po_answer_name"><a href="${zsite.link|n}">${zsite.name}</a></h1>\
+%endif
 <p><a href="${zsite.link}">${zsite.name}</a> : ${po.htm|n}</p>\
 ${po_bar_vote(po)}\
 <p class="po_bar">\
