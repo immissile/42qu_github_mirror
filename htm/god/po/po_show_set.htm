@@ -9,13 +9,12 @@ from model.god_po_show import po_show_zsite_channel
 %>
 <style>
 .cont{
-width:700px;
 margin:15px 0 30px 15px;
 text-align:left;
 border:0px solid red;
 }
 .title{
-font-size:20px;
+font-size:14px;
 color:#999;
 margin-bottom:20px;
 }
@@ -27,17 +26,12 @@ color:#333;
 }
 .selects{
 padding-top:15px;
-width:700px;
-}
-.line{
-margin:20px 0;
-background:#f9f9f9;
 }
 .single{
 font-size:16px;
 color:#333;
 margin-right:20px;
-
+float:left;
 padding:5px;
 }
 .rdl{
@@ -47,13 +41,12 @@ margin-left:6px;
 </style>
 <%htm:form>
     <div class="cont">
-        <div class="title">${po.name}</div>
+        <div class="title"><a href="${po.link}" target="_blank">${po.name}</a></div>
         <div>
-            <span class="btnw"><button type="submit">提交</button></span>
-% if po_is_show(po):
-            <span class="check"><input type="checkbox" name="broad" checked value="0"/>取消 广播</span>
-%else:
+            <span class="btnw"><button type="submit">确定</button></span>
             <span class="check"><input type="checkbox" name="broad" checked value="1"/> 广播</span>
+% if po_is_show(po):
+            <span class="check"><a href="/po/show/rm/${po.id}">删除广播</a></span>
 %endif
         </div>
         <div class="selects">

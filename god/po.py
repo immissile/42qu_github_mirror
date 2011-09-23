@@ -60,6 +60,12 @@ class PoShow(Base):
             page=page,
         )
 
+@urlmap('/po/show/rm/(\d+)')
+class PoShowRm(Base):
+    def get(self, id):
+        po_show_rm(id)
+        self.redirect("/po/show/set/%s"%id)
+
 @urlmap('/po/show/set/(\d+)')
 class PoShowSet(Base):
     def get(self, id):
@@ -92,3 +98,4 @@ class PoShowSet(Base):
             po=po,
             next=next,
         )
+
