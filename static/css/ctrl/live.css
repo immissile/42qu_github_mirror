@@ -192,3 +192,48 @@ width:677px;
 height:553px;
 margin:14px 0 8px;
 }
+.comment_txt{
+width:649px;
+height:100px;
+padding:8px 12px;
+border:1px solid #ccc;
+margin-left:2px;
+}
+.loading{
+background:url(http://s4.42qu.us/img/gif/loading_bar.gif) no-repeat 50% 50%;
+height:8px;
+margin-top:22px;
+}
+.comment_list{
+padding-bottom:22px;
+margin-top:32px;
+border-top:1px dashed #ccc;
+display:none;
+}
+.comment_i{
+font-size:14px;
+text-align:left;
+margin-top:14px;
+padding-bottom:14px;
+border-bottom:1px dashed #ccc; 
+}
+.com_cont{
+clear:both;
+}
+.reply_at {
+  background: url("/img/gif/reply.gif") no-repeat scroll 0 0 transparent;
+  display: inline-block;
+  height: 11px;
+  margin: 9px 0 0 6px;
+  vertical-align: 0;
+  width: 12px;
+}
+.txt_submit{
+text-align:right;
+margin:6px 0 4px 0;
+}
+.txt_err{
+display:none;
+color:#A10;
+margin-left:2px;
+}

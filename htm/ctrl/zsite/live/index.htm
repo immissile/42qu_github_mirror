@@ -125,8 +125,8 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
     </div>
     <div class="fdbar">
     <span class="L">
-<span class="fdopt"><a target="_blank"
-href="/${id}#txt_form">{{if reply_count}}<span
+<span class="fdopt"><a
+class="comment_a" href="javascript:show_comment(${id},${reply_count});void(0)">{{if reply_count}}<span
 class="mr3">${reply_count}</span>{{/if}}评论</a><span
 class="split">-</span><a
 class="vote" href="javascript:share(${id});void(0)">分享</a><span
