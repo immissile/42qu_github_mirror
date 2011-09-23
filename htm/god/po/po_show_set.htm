@@ -44,7 +44,7 @@ margin-left:6px;
         <div class="title"><a href="${po.link}" target="_blank">${po.name}</a></div>
         <div>
             <span class="btnw"><button type="submit">确定</button></span>
-            <span class="check"><input type="checkbox" name="broad" checked value="1"/> 广播</span>
+            <span class="check"><input type="checkbox" name="broad" checked value="1" id="broad"><label for="broad">广播</label></span>
 % if po_is_show(po):
             <span class="check"><a href="/po/show/rm/${po.id}">删除广播</a></span>
 %endif
