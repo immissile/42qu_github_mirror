@@ -223,7 +223,7 @@ function fancybox_word(title, path, finish, can_post){
 
 function show_comment(id,count){
     var self = $('#fdtxt'+id)
-    self.append('<div id="com_pop_'+id+'"><textarea class="comment_txt" id="txt_'+id+'"></textarea><div class="txt_submit"><span class="txt_err L">先写点什么吧</span><span class="btnw"><button onclick="com_submit('+id+')">加上去</button></span></div></div>')
+    self.append('<div id="com_pop_'+id+'" class="com_pop"><textarea class="comment_txt" id="txt_'+id+'"></textarea><div class="txt_submit"><span class="txt_err L">先写点什么吧</span><span class="btnw"><button onclick="com_submit('+id+')">加上去</button></span></div></div>')
     var self_a = self.parent().find($(".comment_a")).hide()
     self_a.replaceWith('<a id="close_a_'+id+'" href="javascript:close_txt('+id+','+count+');void(0)">收起</a>')
     self.find($('.comment_txt')).before('<div class="loading"></div>')
@@ -231,7 +231,7 @@ function show_comment(id,count){
     var data = {"comments":[{"username":"realfex","link":"http://realfex.42qu.com","content":"楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了"},{"username":"realfex","link":"http://realfex.42qu.com","content":"楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了"}]}
     self.find($('.loading')).replaceWith('<div class="comment_list" id="comment_list_'+id+'"></div>')
     for(i=0;i<data.comments.length;i++){
-        var html = '<div class="comment_i"><a class="L c9" href="'+data.comments[i].link+'">'+data.comments[i].username+'</a><a href="javascript:void(0)" rel="'+data.comments[i].username+'" class="reply_at L"></a><pre class="com_cont">'+data.comments[i].content+'</pre></div>'
+        var html = '<div class="comment_i"><a class="c9" href="'+data.comments[i].link+'">'+data.comments[i].username+'</a><a href="javascript:void(0)" rel="'+data.comments[i].username+'" class="reply_at"></a><pre class="com_cont">'+data.comments[i].content+'</pre></div>'
             $('#comment_list_'+id).append(html)
         }
         $('#comment_list_'+id).slideDown(function(){$(this).show()})

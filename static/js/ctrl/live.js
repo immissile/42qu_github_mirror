@@ -170,10 +170,12 @@
     
 })()
 $(".reply_at").live("click", function(){
-    var txt=$("#reply_txt").focus(),
+    var self=$(this),
+        txt= self.parents('.com_pop').find('textarea').focus(),
         val=txt.val(),
-        name=$(this.parentNode).find(".replyer").text(),
+        name=$(this.previousSibling).text(),
         add;
+
     add =  "@"+name+'('+this.rel+') '
     if(val.length){
         if($.trim(val)==val){
@@ -183,5 +185,4 @@ $(".reply_at").live("click", function(){
     }else val=add;
 
     txt.val(val)
-
 })
