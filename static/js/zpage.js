@@ -223,7 +223,7 @@ function fancybox_word(title, path, finish, can_post){
 
 function fcm(id,count){
     var self = $('#fdtxt'+id)
-    self.append('<div id="com_pop_'+id+'" class="com_pop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><span class="txt_err L">先写点什么吧</span><span class="btnw"><button onclick="fcmcbtn('+id+')">提交</button></span></div></div>')
+    self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><span class="txt_err L">先写点什么吧</span><span class="btnw"><button onclick="fcmcbtn('+id+')">提交</button></span></div></div>')
     var self_a = self.parent().find($(".comment_a")).hide()
     self_a.replaceWith('<a id="close_a_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
 //请求数据:
@@ -240,7 +240,7 @@ function fcm(id,count){
 }
 
 function fcmc(id,count){
-    $('#fcml_'+id).slideUp(function(){$('#com_pop_'+id).remove();$('#close_a_'+id).replaceWith('<a href="javascript:show_comment('+id+','+count+');void(0)" class="comment_a"><span class="mr3">'+count+'</span>评论</a>')})
+    $('#fcml_'+id).slideUp(function(){$('#fcmpop_'+id).remove();$('#close_a_'+id).replaceWith('<a href="javascript:show_comment('+id+','+count+');void(0)" class="comment_a"><span class="mr3">'+count+'</span>评论</a>')})
 }
 function fcmcbtn(id){
     var cont = $('#txt_'+id).val()

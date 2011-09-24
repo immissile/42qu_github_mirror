@@ -171,7 +171,7 @@
 })()
 $(".reply_at").live("click", function(){
     var self=$(this),
-        txt= self.parents('.com_pop').find('textarea').focus(),
+        txt= self.parents('.fcmpop').find('textarea').focus(),
         val=txt.val(),
         name=$(this.previousSibling).text(),
         add;
