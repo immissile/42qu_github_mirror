@@ -226,7 +226,7 @@ function fancybox_word(title, path, finish, can_post){
 function fcm(id,count){
     var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
     self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
-    var self_a = self.parent().find($(".comment_a")).hide(),fcmtxt=self.find('.fcmtxt');
+    var self_a = self.parent().find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
     self_a.replaceWith('<a id="close_a_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
     if(count){
         fcmtxt.before('<div class="fcmload"></div>')
@@ -249,7 +249,7 @@ function fcm(id,count){
 }
 
 function fcmc(id,count){
-    $('#fcml_'+id).slideUp(function(){$('#fcmpop_'+id).remove();$('#close_a_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="comment_a"><span class="mr3">'+count+'</span>评论</a>')})
+    $('#fcml_'+id).slideUp(function(){$('#fcmpop_'+id).remove();$('#close_a_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="fcma"><span class="mr3">'+count+'</span>评论</a>')})
 }
 function fcmcbtn(id){
     var textarea=$('#txt_'+id) , cont = textarea.val()
