@@ -245,7 +245,7 @@ function fcm(id,count){
     }else{
         fcmtxt.before(fcml)
     }
-    self.find('textarea').focus()
+    self.find('textarea').focus().elastic()
 }
 
 function fcmc(id,count){
@@ -254,7 +254,7 @@ function fcmc(id,count){
 function fcmcbtn(id){
     var textarea=$('#txt_'+id) , cont = textarea.val()
     var my = $('<div class="fcmi" ><div class="c9">我</div><pre></pre></div>')
-    textarea.focus().val('')
+    textarea.focus().val('').height(100)
     if(!cont.length){
         return;
     }
