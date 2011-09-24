@@ -237,12 +237,12 @@ function fcm(id,count){
         $('#fcml_'+id).slideDown(function(){$(this).show()})
     }else{
         fcmtxt.before(fcml)
-
     }
+    self.find('textarea').focus()
 }
 
 function fcmc(id,count){
-    $('#fcml_'+id).slideUp(function(){$('#fcmpop_'+id).remove();$('#close_a_'+id).replaceWith('<a href="javascript:show_comment('+id+','+count+');void(0)" class="comment_a"><span class="mr3">'+count+'</span>评论</a>')})
+    $('#fcml_'+id).slideUp(function(){$('#fcmpop_'+id).remove();$('#close_a_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="comment_a"><span class="mr3">'+count+'</span>评论</a>')})
 }
 function fcmcbtn(id){
     var cont = $('#txt_'+id).val()
