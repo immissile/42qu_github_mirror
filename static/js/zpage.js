@@ -225,7 +225,7 @@ function fancybox_word(title, path, finish, can_post){
 
 function fcm(id,count){
     var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
-    self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
+    self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
     var self_a = self.parent().find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
     self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
     if(count){

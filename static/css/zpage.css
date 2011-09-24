@@ -182,3 +182,11 @@ padding:0 7px;
 border:1px solid #ccc;
 height:100px;
 }
+#feeds .fcm2{
+font-size: 16px; margin-right: 24px; vertical-align: 9px;
+color:#999;
+}
+#feeds .fcm2:hover{
+color:#a10;
+}
+
