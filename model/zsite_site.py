@@ -66,5 +66,5 @@ def zsite_id_by_zsite_user_id(zsite, user_id):
     return 0
 
 if __name__ == '__main__':
-    print '..'
-
+    print site_count_by_state(ZSITE_STATE_SITE_PUBLIC)
+    print len(site_id_list_by_state(ZSITE_STATE_SITE_PUBLIC,20,20))
