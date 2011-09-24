@@ -241,8 +241,10 @@ function fcm(id,count){
                 html.find(".fcmname").text(t[2])
             }
             $('#fcml_'+id).slideDown(function(){$(this).show()})
-            var e = $('#txt_'+id)
-            if(e.offset().top-$(document).scrollTop()>600){$(document).scrollTop($('#fdtxt'+id).offset().top-50)} 
+            var e = $('#txt_'+id), doc=$(document);
+            if(e.offset().top-doc.scrollTop()>(document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight)){
+                doc.scrollTop($('#fdtxt'+id).offset().top-80)
+            } 
         })
     }else{
         fcmtxt.before(fcml)
