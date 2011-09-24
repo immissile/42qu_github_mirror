@@ -2,13 +2,15 @@
     jQuery.fn.extend({
         elastic: function () {
             return this.each(function () {
-                var self = this
+                var self = this;
                 if (self.type !== 'textarea') {
                     return false;
                 }
                 function check() {
                     var inp = $(self),
-                        textarea_clone
+                        textarea_clone,
+                        h;
+                
                     if (!textarea_clone) {
 
                         textarea_clone = inp.clone().css({
@@ -18,9 +20,11 @@
                             width: inp.width()
                         }).appendTo('body');
                     }
+
                     inp.css('overflow','hidden')
                     h = textarea_clone.val(inp.val()).height(0).scrollTop(999).scrollTop();
-                    inp.css('height', Math.min(Math.max(h, 80), 600));
+                    
+                    inp.css('height', Math.max(h+7, 80));
 
                 }
                 check();
