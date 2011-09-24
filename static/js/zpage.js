@@ -236,7 +236,7 @@ function fcm(id,count){
             self.find($('.fcmload')).replaceWith(fcml)
             for(i=0;i<data.length;i++){
                 t=data[i]
-                html = $('<div class="fcmi"><a class="fcmname c9" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
+                html = $('<div class="fcmi"><a target="_blank" class="fcmname c9" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
                 $('#fcml_'+id).append(html)
                 html.find(".fcmname").text(t[2])
             }
