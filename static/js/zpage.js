@@ -222,20 +222,22 @@ function fancybox_word(title, path, finish, can_post){
 }
 
 function fcm(id,count){
-    var self = $('#fdtxt'+id)
+    var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>';
     self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><span class="txt_err L">先写点什么吧</span><span class="btnw"><button onclick="fcmcbtn('+id+')">提交</button></span></div></div>')
-    var self_a = self.parent().find($(".comment_a")).hide()
+    var self_a = self.parent().find($(".comment_a")).hide(),fcmtxt=self.find('.fcmtxt');
     self_a.replaceWith('<a id="close_a_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
-//请求数据:
-    if(count){ 
-        self.find($('.fcmtxt')).before('<div class="fcmload"></div>')
+    if(count){
+        fcmtxt.before('<div class="fcmload"></div>')
         var data = {"comments":[{"username":"realfex","link":"http://realfex.42qu.com","content":"楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了"},{"username":"realfex","link":"http://realfex.42qu.com","content":"楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了"}]}
-        self.find($('.fcmload')).replaceWith('<div class="fcml" id="fcml_'+id+'"></div>')
+        self.find($('.fcmload')).replaceWith(fcml)
         for(i=0;i<data.comments.length;i++){
             var html = '<div class="fcmi"><a class="c9" href="'+data.comments[i].link+'">'+data.comments[i].username+'</a><a href="javascript:void(0)" rel="'+data.comments[i].username+'" class="reply_at"></a><pre>'+data.comments[i].content+'</pre></div>'
                 $('#fcml_'+id).append(html)
         }
         $('#fcml_'+id).slideDown(function(){$(this).show()})
+    }else{
+        fcmtxt.before(fcml)
+
     }
 }
 
