@@ -4,13 +4,15 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/site/add_show
-/site/rm_show
+comment_txt
+comment_i
+comment_list
 """
 
 TO_STRING = """
-/site/show/new
-/site/show/rm
+fcmtxt
+fcmi
+fcml
 """
 
 def run():
@@ -32,7 +34,7 @@ def replace(from_string, to_string):
 
         for filename in filenames:
             suffix = filename.rsplit('.', 1)[-1]
-            if suffix not in ('py', 'htm', 'txt', 'conf', 'css', 'h', 'template'):
+            if suffix not in ('py', 'htm', 'txt', 'conf', 'css', 'h', 'template',"js"):
                 continue
             path = join(dirpath, filename)
             if path == file:

@@ -13,6 +13,7 @@ from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_i
 from zkit.pic import picopen
 from model.zsite_fav import zsite_fav_new
 from model.cid import CID_SITE
+from model.zsite_url import url_or_id
 
 def post_reply(self, id):
     user = self.current_user
@@ -28,6 +29,25 @@ def post_reply(self, id):
             if po.can_view(user_id):
                 po.reply_new(user, txt, po.state)
         self.finish(result)
+
+
+@urlmap('/j/po/reply/json/(\d+)')
+class PoReplyJson(JLoginBase):
+    def get(self, id):
+        po = Po.mc_get(id)
+        user_id = self.current_user_id
+        result = []
+
+        if po and po.can_view(user_id):
+            for reply in po.reply_list():
+                user = reply.user
+                result.append(
+                    (url_or_id(user.id), reply.htm, user.name)
+                )
+        
+        return self.finish(dumps(result))
+
+ 
 
 @urlmap('/j/fav')
 class Fav(JLoginBase):
@@ -157,3 +177,6 @@ class NoteUpload(JLoginBase):
         }
 
         return r
+
+
+

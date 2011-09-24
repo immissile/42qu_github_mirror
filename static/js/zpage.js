@@ -1,3 +1,5 @@
+HOST_SUFFIX=location.host.slice(location.host.indexOf("."));
+
 (function( jQuery ){
 jQuery.extend({
     cookie : {
@@ -221,3 +223,48 @@ function fancybox_word(title, path, finish, can_post){
     })
 }
 
+function fcm(id,count){
+    var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
+    self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><span class="btnw"><button onclick="fcmcbtn('+id+')">提交</button></span></div></div>')
+    var self_a = self.parent().find($(".comment_a")).hide(),fcmtxt=self.find('.fcmtxt');
+    self_a.replaceWith('<a id="close_a_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
+    if(count){
+        fcmtxt.before('<div class="fcmload"></div>')
+        $.postJSON(
+        "/j/po/reply/json/"+id,
+        function(data){
+            self.find($('.fcmload')).replaceWith(fcml)
+            for(i=0;i<data.length;i++){
+                t=data[i]
+                html = $('<div class="fcmi"><a class="fcmname c9" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
+                $('#fcml_'+id).append(html)
+                html.find(".fcmname").text(t[2])
+            }
+            $('#fcml_'+id).slideDown(function(){$(this).show()})
+        })
+    }else{
+        fcmtxt.before(fcml)
+    }
+    self.find('textarea').focus()
+}
+
+function fcmc(id,count){
+    $('#fcml_'+id).slideUp(function(){$('#fcmpop_'+id).remove();$('#close_a_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="comment_a"><span class="mr3">'+count+'</span>评论</a>')})
+}
+function fcmcbtn(id){
+    var textarea=$('#txt_'+id) , cont = textarea.val()
+    var my = $('<div class="fcmi" ><div class="c9">我</div><pre></pre></div>')
+    textarea.focus().val('')
+    if(!cont.length){
+        return;
+    }
+    my.find('pre').text(cont)
+    $('#fcml_'+id).append(my)
+
+    $.postJSON(
+        '/j/po/reply/'+id,
+        {
+            "txt":cont
+        }
+    )
+}

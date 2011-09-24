@@ -5,8 +5,8 @@
 
 (function() {
 	var feed_loader = feed_load_maker( "id rt_list"),
-	DATE_ATTR = "name link unit title pic".split(' '),
-    host_suffix=location.host.slice(location.host.indexOf("."));
+	DATE_ATTR = "name link unit title pic".split(' ')
+    ;
 
 	function array2zsite(a) {
 		return {
@@ -55,7 +55,7 @@
             site_id = t.site_id;
             if(site_id){
                 t.site_name = site_dict[site_id];
-                t.site_url = site_id+host_suffix
+                t.site_url = site_id+HOST_SUFFIX
             }
 
 			data.item.push(t)
@@ -169,3 +169,20 @@
     )
     
 })()
+$(".reply_at").live("click", function(){
+    var self=$(this),
+        txt= self.parents('.fcmpop').find('textarea').focus(),
+        val=txt.val(),
+        name=$(this.previousSibling).text(),
+        add;
+
+    add =  "@"+name+'('+this.rel+') '
+    if(val.length){
+        if($.trim(val)==val){
+            val+=" "
+        }
+        val+=add;
+    }else val=add;
+
+    txt.val(val)
+})
