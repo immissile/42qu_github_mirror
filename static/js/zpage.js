@@ -241,6 +241,8 @@ function fcm(id,count){
                 html.find(".fcmname").text(t[2])
             }
             $('#fcml_'+id).slideDown(function(){$(this).show()})
+            var e = $('#txt_'+id)
+            if(e.offset().top-$(document).scrollTop()>600){$(document).scrollTop($('#fdtxt'+id).offset().top-50)} 
         })
     }else{
         fcmtxt.before(fcml)
