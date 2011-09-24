@@ -254,6 +254,7 @@ function fcm(id,count){
 
 function fcmc(id,count){
     $('#fcml_'+id).slideUp(function(){$('#fcmpop_'+id).remove();$('#close_a_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="fcma"><span class="mr3">'+count+'</span>评论</a>')})
+    $(document).scrollTop($('#fdtxt'+id).offset().top-80)
 }
 function fcmcbtn(id){
     var textarea=$('#txt_'+id) , cont = textarea.val()
