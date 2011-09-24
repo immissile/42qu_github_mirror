@@ -4,13 +4,15 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/site/add_show
-/site/rm_show
+comment_txt
+comment_i
+comment_list
 """
 
 TO_STRING = """
-/site/show/new
-/site/show/rm
+fcmtxt
+fcmi
+fcml
 """
 
 def run():

@@ -146,27 +146,24 @@ color:#a10;
 #feeds .fdtxtin{
 margin-bottom:6px;
 }
-#feeds .loading{
+#feeds .fcmload{
 background:url(/img/gif/loading_bar.gif) no-repeat 50% 50%;
 height:8px;
 margin-top:22px;
 margin-bottom:27px;
 }
-#feeds .comment_list{
+#feeds .fcml{
 margin-top:14px;
 border-top:1px dotted #ccc;
 display:none;
 padding-bottom:2px;
 }
-#feeds .comment_i{
+#feeds .fcmi{
 font-size:14px;
 text-align:left;
 margin-top:14px;
 padding-bottom:14px;
 border-bottom:1px dotted #ccc; 
-}
-#feeds .com_cont{
-clear:both;
 }
 #feeds .reply_at {
   background: url("/img/gif/reply.gif") no-repeat scroll 0 0 transparent;
@@ -176,7 +173,7 @@ clear:both;
   vertical-align: 0;
   width: 12px;
 }
-#feeds .txt_submit{
+#feeds .fcmbtn{
 text-align:right;
 margin:6px 0 4px 0;
 }
@@ -185,7 +182,7 @@ display:none;
 color:#A10;
 margin-left:2px;
 }
-#feeds .comment_txt{
+#feeds .fcmtxt{
 width:661px;
 padding:0 7px;
 border:1px solid #ccc;
