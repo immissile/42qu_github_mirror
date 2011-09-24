@@ -227,6 +227,7 @@ function show_comment(id,count){
     var self_a = self.parent().find($(".comment_a")).hide()
     self_a.replaceWith('<a id="close_a_'+id+'" href="javascript:close_txt('+id+','+count+');void(0)">收起</a>')
     self.find($('.comment_txt')).before('<div class="loading"></div>')
+    alert(1)
 //请求数据:
     var data = {"comments":[{"username":"realfex","link":"http://realfex.42qu.com","content":"楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了"},{"username":"realfex","link":"http://realfex.42qu.com","content":"楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了"}]}
     self.find($('.loading')).replaceWith('<div class="comment_list" id="comment_list_'+id+'"></div>')
