@@ -176,11 +176,6 @@ border-bottom:1px dotted #ccc;
 text-align:right;
 margin:6px 0 4px 0;
 }
-#feeds .txt_err{
-display:none;
-color:#A10;
-margin-left:2px;
-}
 #feeds .fcmtxt{
 width:661px;
 padding:0 7px;

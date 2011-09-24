@@ -223,7 +223,7 @@ function fancybox_word(title, path, finish, can_post){
 
 function fcm(id,count){
     var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>';
-    self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><span class="txt_err L">先写点什么吧</span><span class="btnw"><button onclick="fcmcbtn('+id+')">提交</button></span></div></div>')
+    self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><span class="btnw"><button onclick="fcmcbtn('+id+')">提交</button></span></div></div>')
     var self_a = self.parent().find($(".comment_a")).hide(),fcmtxt=self.find('.fcmtxt');
     self_a.replaceWith('<a id="close_a_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
     if(count){
@@ -245,21 +245,19 @@ function fcmc(id,count){
     $('#fcml_'+id).slideUp(function(){$('#fcmpop_'+id).remove();$('#close_a_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="comment_a"><span class="mr3">'+count+'</span>评论</a>')})
 }
 function fcmcbtn(id){
-    var cont = $('#txt_'+id).val()
-    if($.trim(cont)==''){
-        var err = $('.txt_err')
-        err.fadeOut(function(){err.fadeIn()})
-        return false
+    var textarea=$('#txt_'+id) , cont = textarea.val()
+    var my = $('<div class="fcmi" ><div class="c9">我</div><pre></pre></div>')
+    textarea.focus().val('')
+    if(!cont.length){
+        return;
     }
-    var my = $('<div class="fcmi" style="display:none;"><span class="L c9">我</span><pre>'+cont+'</pre></div>')
+    my.find('pre').text(cont)
     $('#fcml_'+id).append(my)
-    $('#txt_'+id).val('')
-    my.fadeIn("slow",function(){my.show();})
+
     $.postJSON(
-        'url',
+        '/j/reply/'+id,
         {
-            "cont":cont,
-            "user_id":1
+            "txt":cont
         }
     )
 }
