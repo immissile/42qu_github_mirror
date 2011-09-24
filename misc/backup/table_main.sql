@@ -627,8 +627,10 @@ CREATE TABLE `rss` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `url` varbinary(1024) NOT NULL,
+  `gid` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `Index_2` (`url`(1000))
+  KEY `Index_2` (`url`(1000)),
+  KEY `gid` (`gid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rss_po_id`;
