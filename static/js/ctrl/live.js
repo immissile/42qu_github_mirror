@@ -169,20 +169,3 @@
     )
     
 })()
-$(".reply_at").live("click", function(){
-    var self=$(this),
-        txt= self.parents('.fcmpop').find('textarea').focus(),
-        val=txt.val(),
-        name=$(this.previousSibling).text(),
-        add;
-
-    add =  "@"+name+'('+this.rel+') '
-    if(val.length){
-        if($.trim(val)==val){
-            val+=" "
-        }
-        val+=add;
-    }else val=add;
-
-    txt.val(val)
-})
