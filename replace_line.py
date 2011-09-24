@@ -34,7 +34,7 @@ def replace(from_string, to_string):
 
         for filename in filenames:
             suffix = filename.rsplit('.', 1)[-1]
-            if suffix not in ('py', 'htm', 'txt', 'conf', 'css', 'h', 'template'):
+            if suffix not in ('py', 'htm', 'txt', 'conf', 'css', 'h', 'template',"js"):
                 continue
             path = join(dirpath, filename)
             if path == file:
