@@ -227,7 +227,7 @@ function fcm(id,count){
     var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
     self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
     var self_a = self.parent().find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
-    self_a.replaceWith('<a id="close_a_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
+    self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
     if(count){
         fcmtxt.before('<div class="fcmload"></div>')
         $.postJSON(
@@ -253,7 +253,9 @@ function fcm(id,count){
 }
 
 function fcmc(id,count){
-    $('#fcml_'+id).slideUp(function(){$('#fcmpop_'+id).remove();$('#close_a_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="fcma"><span class="mr3">'+count+'</span>评论</a>')})
+    $('#fcml_'+id).hide()
+    $('#fcmpop_'+id).remove();
+    $('#fcmx_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="fcma"><span class="mr3">'+count+'</span>评论</a>')
     $(document).scrollTop($('#fdtxt'+id).offset().top-80)
 }
 function fcmcbtn(id){
