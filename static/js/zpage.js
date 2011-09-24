@@ -224,28 +224,24 @@ function fancybox_word(title, path, finish, can_post){
 }
 
 function fcm(id,count){
-    var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t;
+    var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
     self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><span class="btnw"><button onclick="fcmcbtn('+id+')">提交</button></span></div></div>')
     var self_a = self.parent().find($(".comment_a")).hide(),fcmtxt=self.find('.fcmtxt');
     self_a.replaceWith('<a id="close_a_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
     if(count){
         fcmtxt.before('<div class="fcmload"></div>')
-        var data = [
-            ['realfex', "楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了","张沈鹏"],
-            ['realfex', "楼主牛逼,顶死你..可能加快农机空间克隆就能看见了空间看了","张沈鹏"]
-        ]
-
-              
-                
-        self.find($('.fcmload')).replaceWith(fcml)
-        for(i=0;i<data.length;i++){
-            t=data[i]
-            $('#fcml_'+id).append(
-               '<div class="fcmi"><a class="c9" href="//'+t[0]+HOST_SUFFIX+'">'+t[2]+'</a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>'
-
-            )
-        }
-        $('#fcml_'+id).slideDown(function(){$(this).show()})
+        $.postJSON(
+        "/j/po/reply/json/"+id,
+        function(data){
+            self.find($('.fcmload')).replaceWith(fcml)
+            for(i=0;i<data.length;i++){
+                t=data[i]
+                html = $('<div class="fcmi"><a class="fcmname c9" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
+                $('#fcml_'+id).append(html)
+                html.find(".fcmname").text(t[2])
+            }
+            $('#fcml_'+id).slideDown(function(){$(this).show()})
+        })
     }else{
         fcmtxt.before(fcml)
     }
@@ -266,7 +262,7 @@ function fcmcbtn(id){
     $('#fcml_'+id).append(my)
 
     $.postJSON(
-        '/j/reply/'+id,
+        '/j/po/reply/'+id,
         {
             "txt":cont
         }
