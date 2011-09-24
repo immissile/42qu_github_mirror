@@ -146,3 +146,41 @@ color:#a10;
 #feeds .fdtxtin{
 margin-bottom:6px;
 }
+#feeds .loading{
+background:url(/img/gif/loading_bar.gif) no-repeat 50% 50%;
+height:8px;
+margin-top:22px;
+}
+#feeds .comment_list{
+padding-bottom:22px;
+margin-top:32px;
+border-top:1px dashed #ccc;
+display:none;
+}
+#feeds .comment_i{
+font-size:14px;
+text-align:left;
+margin-top:14px;
+padding-bottom:14px;
+border-bottom:1px dashed #ccc; 
+}
+#feeds .com_cont{
+clear:both;
+}
+#feeds .reply_at {
+  background: url("/img/gif/reply.gif") no-repeat scroll 0 0 transparent;
+  display: inline-block;
+  height: 11px;
+  margin: 9px 0 0 6px;
+  vertical-align: 0;
+  width: 12px;
+}
+#feeds .txt_submit{
+text-align:right;
+margin:6px 0 4px 0;
+}
+#feeds .txt_err{
+display:none;
+color:#A10;
+margin-left:2px;
+}
