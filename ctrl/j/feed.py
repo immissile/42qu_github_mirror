@@ -147,7 +147,7 @@ class FdTxt(Base):
 
                 notice_list = po_event_notice_list_by_event_id(id)
                 for notice in notice_list:
-                    result.append("<div>%s</div>"%notice.name_htm)
+                    result.append('<div class="pb14">%s</div>'%notice.name_htm)
 
                 #if event.state == EVENT_STATE_END:
                 #    result.append("")
