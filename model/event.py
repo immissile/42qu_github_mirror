@@ -26,9 +26,9 @@ mc_event_cid_count_by_city_pid = McCacheA('EventCidCountByCityPid.%s')
 mc_event_end_id_list_by_city_pid = McLimitA('EventEndIdListByCityPid.%s', 128)
 mc_event_all_id_list = McLimitA('EventAllIdList.%s', 128)
 
-event_joiner_feedback_normal_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_NORMAL), "EventJoinerFeedbackNormalCount:%s")
+event_joiner_feedback_normal_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_NORMAL).count(), "EventJoinerFeedbackNormalCount:%s")
 
-event_joiner_feedback_good_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_GOOD), "EventJoinerFeedbackGoodCount:%s")
+event_joiner_feedback_good_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_GOOD).count(), "EventJoinerFeedbackGoodCount:%s")
 
 
 def event_by_city_pid_cid_query(city_pid, cid=0):
@@ -768,4 +768,5 @@ if __name__ == '__main__':
     #event_id = 10069907
     #for user_id in (10009225,10000566):
     #    event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_YES)
+    print event_joiner_feedback_good_count(10073872)
     pass
