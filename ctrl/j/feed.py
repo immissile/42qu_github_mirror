@@ -21,6 +21,8 @@ from model.fav import fav_add, fav_rm
 from cgi import escape
 from ctrl.j.po import post_reply
 from model.zsite import zsite_name_id_dict
+from model.po_event import event_feedback_id_get, po_event_notice_list_by_event_id
+from model.event import EVENT_STATE_END
 
 @urlmap('/j/feed/fav/(\d+)')
 class Fav(JLoginBase):
@@ -138,8 +140,18 @@ class FdTxt(Base):
                     result.append(
                         '<p>交通方式 : %s</p>'%escape(event.transport)
                     )
+
                 if event.price:
                     result.append('<p>%s 元 / 人</p>'%event.price)
+
+
+                notice_list = po_event_notice_list_by_event_id(id)
+                for notice in notice_list:
+                    result.append("<div>%s</div>"%notice.name_htm)
+
+                #if event.state == EVENT_STATE_END:
+                #    result.append("")
+
                 result = ''.join(result)
         else:
             result = ''
