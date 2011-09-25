@@ -219,7 +219,11 @@ function fancybox_word(title, path, finish, can_post){
     })
 }
 
-function fcm(id,count){
+
+(function(){
+var doc=$(document);
+
+fcm = function (id,count){
     var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
     self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
     var self_a = self.parent().find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
@@ -238,10 +242,9 @@ function fcm(id,count){
             }
             $('#fcml_'+id).slideDown(function(){$(this).show()})
             var e = $('#txt_'+id)
-            doc=$(document)
             h = document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight
             if(e.offset().top-doc.scrollTop()>h){
-                scrolls()             
+                scrolls(id)             
             } 
         })
     }else{
@@ -250,21 +253,19 @@ function fcm(id,count){
     self.find('textarea').focus().elastic()
 }
 
-function scrolls(){
-    if($('#fdtxt'+id).height()>h-160){
-        doc.scrollTop($('#fcml_'+id).offset().top-160)
-    } else{
-        doc.scrollTop($('#fdtxt'+id).offset().top-80)
-    }
+function scrolls(id){
+    doc.scrollTop(
+        $('#fdtxt'+id).height()>h-160?  $('#fcml_'+id).offset().top-160:$('#fdtxt'+id).offset().top-80
+    )
 }
 
-function fcmc(id,count){
+fcmc = function (id,count){
+    scrolls(id)
     $('#fcml_'+id).hide()
     $('#fcmpop_'+id).remove();
     $('#fcmx_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="fcma"><span class="mr3">'+count+'</span>评论</a>')
-    scrolls()
 }
-function fcmcbtn(id){
+fcmcbtn = function (id){
     var textarea=$('#txt_'+id) , cont = textarea.val()
     var my = $('<div class="fcmi" ><div class="c9">我</div><pre></pre></div>')
     textarea.focus().val('').height(100)
@@ -298,3 +299,4 @@ $("#feeds .reply_at").live("click", function(){
 
     txt.val(val)
 })
+})()
