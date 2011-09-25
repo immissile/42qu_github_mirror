@@ -23,7 +23,7 @@ from cgi import escape
 from ctrl.j.po import post_reply
 from model.zsite import zsite_name_id_dict
 from model.po_event import event_feedback_id_get, po_event_notice_list_by_event_id
-from model.event import EVENT_STATE_END
+from model.event import EVENT_STATE_END , event_joiner_feedback_normal_count , event_joiner_feedback_good_count 
 
 @urlmap('/j/feed/fav/(\d+)')
 class Fav(JLoginBase):
@@ -165,6 +165,23 @@ class FdTxt(Base):
 
                 if event.state < EVENT_STATE_END:
                     t.append('<a href="/event/join/%s" target="_blank">报名参加</a>'%event.id)
+                else:
+                    nc = event_joiner_feedback_normal_count(id)
+                    gc = event_joiner_feedback_good_count(id) 
+                    if gc:
+                        t.append(
+'<a href="/%s#feedback_good" target="_blank"><span class="mr3">%s</span>好评</a>'%(
+    id,
+    gc
+)
+                        ) 
+                    if nc:
+                        t.append(
+'<a href="/%s#feedback_normal" target="_blank"><span class="mr3">%s</span>反馈</a>'%(
+    id,
+    nc
+)
+                        ) 
 
                 if t:
                     result.append(
@@ -172,7 +189,7 @@ class FdTxt(Base):
                             " , ".join(t)
                         )
                     ) 
-
+                
                 #if event.state == EVENT_STATE_END:
                 #    result.append("")
 
