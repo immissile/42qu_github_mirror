@@ -201,11 +201,7 @@ function fancybox_word(title, path, finish, can_post){
     all.addClass("fdloading").find('.fdext').remove()
     $.get("/j/fdtxt/" + id, function(htm) {
         txt.find('.fdtxtin').html('<pre class="fdpre">' + htm + "</pre>")
-        if (all.find('a').length) {
-            all.removeClass('fdloading')
-        } else {
-            all.remove()
-        }
+        all.remove()
     })
 }
  function fdvideo(e, id) {
@@ -241,9 +237,11 @@ function fcm(id,count){
                 html.find(".fcmname").text(t[2])
             }
             $('#fcml_'+id).slideDown(function(){$(this).show()})
-            var e = $('#txt_'+id), doc=$(document);
-            if(e.offset().top-doc.scrollTop()>(document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight)){
-                doc.scrollTop($('#fdtxt'+id).offset().top-80)
+            var e = $('#txt_'+id)
+            doc=$(document)
+            h = document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight
+            if(e.offset().top-doc.scrollTop()>h){
+                scrolls()             
             } 
         })
     }else{
@@ -252,11 +250,19 @@ function fcm(id,count){
     self.find('textarea').focus().elastic()
 }
 
+function scrolls(){
+    if($('#fdtxt'+id).height()>h-160){
+        doc.scrollTop($('#fcml_'+id).offset().top-160)
+    } else{
+        doc.scrollTop($('#fdtxt'+id).offset().top-80)
+    }
+}
+
 function fcmc(id,count){
     $('#fcml_'+id).hide()
     $('#fcmpop_'+id).remove();
     $('#fcmx_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="fcma"><span class="mr3">'+count+'</span>评论</a>')
-    $(document).scrollTop($('#fdtxt'+id).offset().top-80)
+    scrolls()
 }
 function fcmcbtn(id){
     var textarea=$('#txt_'+id) , cont = textarea.val()
