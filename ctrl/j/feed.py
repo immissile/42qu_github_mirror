@@ -157,7 +157,7 @@ class FdTxt(Base):
 
                 if event.join_count:
                     t.append(
-                        '<a href="/event/%s#join_count" target="_blank"><span class="mr3">%s</span>报名</a>'%(
+                        '<a href="/%s#join_count" target="_blank"><span class="mr3">%s</span>报名</a>'%(
                             event.id ,
                             event.join_count
                         )
