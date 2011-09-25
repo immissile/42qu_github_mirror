@@ -16,6 +16,7 @@ from model.career import career_dict
 from model.zsite import Zsite
 from model.po_video import CID_VIDEO, video_htm_autoplay
 from model.event import Event
+from zkit.time_format import friendly_time
 from model.fav import fav_add, fav_rm
 #from model.sync import mq_sync_recommend_by_zsite_id
 from cgi import escape
@@ -147,7 +148,30 @@ class FdTxt(Base):
 
                 notice_list = po_event_notice_list_by_event_id(id)
                 for notice in notice_list:
-                    result.append('<div class="pb14">%s</div>'%notice.name_htm)
+                    result.append('<div class="pb14"><div><b>%s</b></div>%s</div>'%(
+                        friendly_time(notice.create_time),
+                        notice.name_htm
+                    ))
+
+                t = []
+
+                if event.join_count:
+                    t.append(
+                        '<a href="/event/%s#join_count" target="_blank"><span class="mr3">%s</span>报名</a>'%(
+                            event.id ,
+                            event.join_count
+                        )
+                    )
+
+                if event.state < EVENT_STATE_END:
+                    t.append('<a href="/event/join/%s" target="_blank">报名参加</a>'%event.id)
+
+                if t:
+                    result.append(
+                        "<p>%s</p>"%(
+                            " , ".join(t)
+                        )
+                    ) 
 
                 #if event.state == EVENT_STATE_END:
                 #    result.append("")

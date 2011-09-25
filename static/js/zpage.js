@@ -201,11 +201,7 @@ function fancybox_word(title, path, finish, can_post){
     all.addClass("fdloading").find('.fdext').remove()
     $.get("/j/fdtxt/" + id, function(htm) {
         txt.find('.fdtxtin').html('<pre class="fdpre">' + htm + "</pre>")
-        if (all.find('a').length) {
-            all.removeClass('fdloading')
-        } else {
-            all.remove()
-        }
+        all.remove()
     })
 }
  function fdvideo(e, id) {
