@@ -71,7 +71,7 @@ def zsite_keyword_iter():
         if zsite:
             kw = zsite2keyword(zsite)
             if kw:
-                yield str(id), zsite_rank_by_zsite_id(id), kw.items()
+                yield str(id), zsite_rank_by_zsite_id(id), kw.items(), str(zsite.cid)
 
 
 if __name__ == '__main__':

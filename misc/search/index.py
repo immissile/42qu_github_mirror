@@ -24,11 +24,12 @@ def flush_db():
 @single_process
 def index():
     from zsite_iter import zsite_keyword_iter
-    for id, rank, kw in zsite_keyword_iter():
+    for id, rank, kw, cid in zsite_keyword_iter():
 
         doc = xapian.Document()
         doc.add_value(0, id)
         doc.add_value(1, xapian.sortable_serialise(rank))
+        doc.add_value(2,cid)
 
         for word, value in kw:
             if word:
@@ -38,6 +39,7 @@ def index():
 
         key = '>%s' % id
         doc.add_term(key)
+        doc.add_term(cid)
         SEARCH_DB.replace_document(key, doc)
 
     flush_db()
