@@ -69,6 +69,7 @@ q:before,q:after {content:'';}
 font-size:16px;
 }
 .pd16{padding:16px}
+.pb14{padding-bottom:14px;}
 .mg03{ margin:0 3px; }
 .mt32{margin-top:32px;}
 .mt27{margin-top:27px;}
