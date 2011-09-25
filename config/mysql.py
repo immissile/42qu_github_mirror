@@ -60,6 +60,15 @@ DB_MAIN_TABLE = (
     "rss",
     'search_zsite',
     'txt_history',
+    'rss_po_id',
+    'fav',
+    'video',
+    'zsite_admin',
+    'oauth_client_uri',
+    'oauth_authorize_code',
+    'oauth_access_token',
+    'oauth_client',
+    'oauth_refresh_token',
 )
 
 DB_GOOGLE_TABLE = (
