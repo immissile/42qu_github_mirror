@@ -74,37 +74,6 @@ margin-top:16px;
 clear:both;
 }
 
-.feed_event_img{
-margin-top: 7px; height: 162px; width: 162px; float: right; margin-left: 16px;
-}
-.feed_event_prop{
-margin-bottom:14px
-}
-.cid68 .fdtxt, .cid68 .fdpre{
-overflow:visible;
-}
-.fdall{
-margin-top:3px;
-}
-.fdall a{
-margin-right:14px;
-}
-.feed_event_pid{
-margin-bottom:14px
-}
-.split{
-margin:0 14px
-}
-
-.fdopt a{
-color:#999;
-}
-.fdopt .faved{
-color:#000
-}
-.fdopt a:hover,.fdopt .faved:hover{
-color:#a10;
-}
 
 
 

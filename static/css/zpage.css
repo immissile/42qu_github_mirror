@@ -190,3 +190,34 @@ color:#999;
 color:#a10;
 }
 
+#feeds .feed_event_img{
+margin-top: 7px; height: 162px; width: 162px; float: right; margin-left: 16px;
+}
+#feeds .feed_event_prop{
+margin-bottom:14px
+}
+#feeds .cid68 .fdtxt, #feeds .cid68 .fdpre{
+overflow:visible;
+}
+#feeds .fdall{
+margin-top:3px;
+}
+#feeds .fdall a{
+margin-right:14px;
+}
+#feeds .feed_event_pid{
+margin-bottom:14px
+}
+#feeds .split{
+margin:0 14px
+}
+
+#feeds .fdopt a{
+color:#999;
+}
+#feeds .fdopt .faved{
+color:#000
+}
+#feeds .fdopt a:hover, #feeds .fdopt .faved:hover{
+color:#a10;
+}
