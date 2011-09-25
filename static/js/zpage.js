@@ -255,7 +255,7 @@ fcm = function (id,count){
 
 function scrolls(id){
     doc.scrollTop(
-        $('#fdtxt'+id).height()>h-160?  $('#fcml_'+id).offset().top-160:$('#fdtxt'+id).offset().top-80
+        $('#fdtxt'+id).height()>h-250?  $('#fcml_'+id).offset().top-250:$('#fdtxt'+id).offset().top-80
     )
 }
 
