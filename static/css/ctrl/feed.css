@@ -78,7 +78,6 @@ clear:both;
 margin-top: 7px; height: 162px; width: 162px; float: right; margin-left: 16px;
 }
 .feed_event_prop{
-margin-top:-8px;
 margin-bottom:14px
 }
 .cid68 .fdtxt, .cid68 .fdpre{
@@ -91,7 +90,7 @@ margin-top:3px;
 margin-right:14px;
 }
 .feed_event_pid{
-margin-bottom:6px
+margin-bottom:14px
 }
 .split{
 margin:0 14px
