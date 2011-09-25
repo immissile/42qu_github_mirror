@@ -11,7 +11,8 @@ from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
 from model.pic import pic_new_save , fs_url_jpg , fs_set_jpg
 from zkit.pic import pic_fit
 from rank import rank_po_id_list, rank_new
-from event import EVENT_CID, EVENT_CID_CN, EventJoiner, event_joiner_get, EVENT_JOIN_STATE_FEEDBACK_NORMAL , EVENT_JOIN_STATE_FEEDBACK_GOOD, mc_event_joiner_feedback_normal_id_list, event_joiner_feedback_normal_id_list , Event, EVENT_JOIN_STATE_END
+from event import EVENT_CID, EVENT_CID_CN, EventJoiner, event_joiner_get, EVENT_JOIN_STATE_FEEDBACK_NORMAL , EVENT_JOIN_STATE_FEEDBACK_GOOD, event_joiner_feedback_normal_id_list , Event, EVENT_JOIN_STATE_END, mc_flush_feedback
+
 
 mc_event_feedback_id_get = McCache('EventFeedBackGet.%s')
 
@@ -83,7 +84,7 @@ def event_joiner_state_set(user_id, event_id, to_state):
 
     event_joiner.state = to_state
     event_joiner.save()
-    mc_event_joiner_feedback_normal_id_list.delete(event_id)
+    mc_flush_feedback(event_id)
 
 def po_event_feedback_rm(user_id, event_id):
     event_joiner_state_set(user_id, event_id, EVENT_JOIN_STATE_END)
