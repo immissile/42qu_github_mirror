@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER
-from cid import CID_USER
+from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV 
+ 
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
 from po import Po
@@ -273,5 +273,21 @@ def buzz_event_feedback_owner_new(user_id, event_id):
 mq_buzz_event_feedback_owner_new = mq_client(buzz_event_feedback_owner_new)
 
 
+def buzz_site_fav(user_id, site_id):
+    followed = Follow.where('to_id=%s', user_id).col_list("from_id")
+    for to_id in followed:
+        buzz_new(user_id, to_id, CID_BUZZ_SITE_FAV, site_id)
+
+mq_buzz_site_fav = mq_client(buzz_site_fav)
+
+def buzz_site_new(user_id, site_id):
+    followed = Follow.where('to_id=%s', user_id).col_list("from_id")
+    for to_id in followed:
+        buzz_new(user_id, to_id, CID_BUZZ_SITE_NEW , site_id)
+
+mq_buzz_site_new = mq_client(buzz_site_new)
+
+
 if __name__ == '__main__':
-    buzz_event_join_new(10000000, 10047337)
+    buzz_site_new(10000000, 10047337)
+
