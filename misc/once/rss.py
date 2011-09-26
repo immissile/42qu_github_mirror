@@ -24,7 +24,7 @@ from zweb.orm import ormiter
 
 
 for user_id, rss in USER2RSS:
-    rss_new(user_id, rss) 
+    rss_new(user_id, rss,0) 
 
 reader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
 

@@ -23,10 +23,18 @@ class RssPo(McModel):
 def rss_po_total(state):
     return RssPo.where(state=state).count()
 
-def rss_new(user_id, url):
+def rss_new(user_id, url,gid):
     rss = Rss.get_or_create(url=url)
     rss.user_id = user_id
+    rss.gid = gid
     rss.save()
+    return rss
+
+def rss_total_gid(gid):
+    return Rss.where(gid=gid).count()
+
+def get_rss_by_gid(gid, limit=1, offset=10):
+    rss = Rss.raw_sql('select id,user_id,url,gid from rss where gid = %s order by id desc limit %s offset %s',gid,limit,offset).fetchall()
     return rss
 
 def rss_po_list_by_state(state, limit=1, offset=10):

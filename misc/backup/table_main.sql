@@ -533,6 +533,7 @@ CREATE TABLE `po` (
   `rid` int(10) unsigned NOT NULL DEFAULT '0',
   `state` int(10) unsigned NOT NULL,
   `create_time` int(10) unsigned NOT NULL,
+  `zsite_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `Index_2` (`user_id`,`cid`,`state`),
   KEY `index3` (`user_id`,`state`)
