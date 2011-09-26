@@ -274,14 +274,14 @@ mq_buzz_event_feedback_owner_new = mq_client(buzz_event_feedback_owner_new)
 
 
 def buzz_site_fav(user_id, site_id):
-    followed = Follow.where('to_id=%s', user_id).col_list("from_id")
+    followed = Follow.where('to_id=%s', user_id).col_list(col="from_id")
     for to_id in followed:
         buzz_new(user_id, to_id, CID_BUZZ_SITE_FAV, site_id)
 
 mq_buzz_site_fav = mq_client(buzz_site_fav)
 
 def buzz_site_new(user_id, site_id):
-    followed = Follow.where('to_id=%s', user_id).col_list("from_id")
+    followed = Follow.where('to_id=%s', user_id).col_list(col="from_id")
     for to_id in followed:
         buzz_new(user_id, to_id, CID_BUZZ_SITE_NEW , site_id)
 
