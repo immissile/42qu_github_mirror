@@ -7,10 +7,16 @@ CID_CHANNEL = 2
 CID_SITE = 3
 
 
+
 CID_ZSITE = (
     CID_USER,
     CID_CHANNEL,
+    CID_SITE,
 )
+
+CID_ZSITE_CN={
+    CID_SITE:"站点"
+}
 
 # Pic
 CID_ICO = 31

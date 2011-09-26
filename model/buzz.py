@@ -52,6 +52,8 @@ BUZZ_DIC = {
     CID_BUZZ_EVENT_JOIN_APPLY: Po,
     CID_BUZZ_EVENT_FEEDBACK_OWNER: Po,
     CID_BUZZ_EVENT_FEEDBACK_JOINER: Po,
+    CID_BUZZ_SITE_NEW : Zsite, 
+    CID_BUZZ_SITE_FAV : Zsite,
 }
 
 def mc_flush(user_id):
