@@ -91,6 +91,7 @@ user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_l
 
 def rss_subscribe():
     from zkit.google.findrss import get_rss_link_title_by_url
+    rss_list = []
     for i in Rss.where():#(gid=0):
 
         url = i.url.strip()
@@ -111,7 +112,14 @@ def rss_subscribe():
     
             i.save()
 
-            print url, rss, link, name
+        rss_list.append(i.url)
+
+    if rss_list:
+        greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+        greader.subscribe(i.url)
+        print url
+        i.gid = 1
+        i.save()            
 
 if __name__ == '__main__':
     #GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
