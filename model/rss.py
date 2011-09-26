@@ -24,6 +24,7 @@ class RssPoId(McModel):
     pass
 
 
+
 def rss_po_id(rss_id, po_id):
     RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)',rss_id,po_id)
 
@@ -41,7 +42,7 @@ def rss_total_gid(gid):
     return Rss.where(gid=gid).count()
 
 def get_rss_by_gid(gid, limit=1, offset=10):
-    rss = Rss.raw_sql('select id,user_id,url,gid from rss where gid = %s order by id desc limit %s offset %s',gid,limit,offset).fetchall()
+    rss = Rss.raw_sql('select id,user_id,url,gid,name,link from rss where gid = %s order by id desc limit %s offset %s',gid,limit,offset).fetchall()
     return rss
 
 def rss_po_list_by_state(state, limit=1, offset=10):

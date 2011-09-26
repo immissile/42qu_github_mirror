@@ -53,6 +53,13 @@ class RssGid(Base):
                 page = page
                 )
 
+@urlmap('/rss_gid/edit/(\d+)')
+class RssGidEdit(Base):
+    def get(self,id):
+        rss = Rss.get(id)
+        self.render(rss=rss)
+
+
 @urlmap('/rss_gid/rm/(\d+)')
 class RssEdit(Base):
     def get(self, id):
