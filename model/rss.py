@@ -11,7 +11,7 @@ import traceback
 RSS_UNCHECK = 0
 RSS_RM = 1
 RSS_PRE_PO = 2
-RSS_RT_PO= 3
+RSS_RT_PO = 3
 RSS_POED = 4
 
 class Rss(McModel):
@@ -25,12 +25,12 @@ class RssPoId(McModel):
 
 
 def rss_po_id(rss_id, po_id):
-    RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)',rss_id,po_id)
+    RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)', rss_id, po_id)
 
 def rss_po_total(state):
     return RssPo.where(state=state).count()
 
-def rss_new(user_id, url,gid):
+def rss_new(user_id, url, gid):
     rss = Rss.get_or_create(url=url)
     rss.user_id = user_id
     rss.gid = gid
@@ -41,7 +41,7 @@ def rss_total_gid(gid):
     return Rss.where(gid=gid).count()
 
 def get_rss_by_gid(gid, limit=1, offset=10):
-    rss = Rss.raw_sql('select id,user_id,url,gid from rss where gid = %s order by id desc limit %s offset %s',gid,limit,offset).fetchall()
+    rss = Rss.raw_sql('select id,user_id,url,gid from rss where gid = %s order by id desc limit %s offset %s', gid, limit, offset).fetchall()
     return rss
 
 def rss_po_list_by_state(state, limit=1, offset=10):
@@ -89,9 +89,16 @@ def unread_feed_update(greader, feed):
 user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_list
                         )
 
+def rss_subscribe():
+    from zkit.google.findrss import get_rss_link_title_by_url
+    for i in Rss.where(gid=0):
+        url = i.url.strip()
+        rss, link, title = get_rss_link_title_by_url(url)
+        print rss, link, title
 
 if __name__ == '__main__':
     #GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
     #print GREADER_USERNAME, GREADER_PASSWORD
     #GREADER.empty_subscription_list()
-    print Rss.max_id()
+    #print Rss.max_id()
+    print rss_subscribe()
