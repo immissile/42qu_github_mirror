@@ -288,6 +288,7 @@ def buzz_site_new(user_id, site_id):
 mq_buzz_site_new = mq_client(buzz_site_new)
 
 
+
 if __name__ == '__main__':
     pass
 
