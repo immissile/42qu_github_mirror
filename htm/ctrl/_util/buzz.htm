@@ -91,7 +91,9 @@ ${user_link_list(from_list)}
     %else:
 收藏
     %endif
+%if entry:
 ${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}</a>
+%endif
 % endif
 </%def>
 

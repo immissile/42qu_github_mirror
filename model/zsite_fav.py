@@ -11,6 +11,9 @@ def zsite_fav_rm(zsite, owner_id):
     )
 
 def zsite_fav_new(zsite, owner_id):
+    if zsite_fav_get(zsite, owner_id):
+        return
+
     zsite_id = zsite.id
     zsite = zsite_list_new(
         zsite_id,
