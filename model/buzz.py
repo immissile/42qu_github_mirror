@@ -289,5 +289,5 @@ mq_buzz_site_new = mq_client(buzz_site_new)
 
 
 if __name__ == '__main__':
-    buzz_site_new(10000000, 10047337)
+    pass
 
