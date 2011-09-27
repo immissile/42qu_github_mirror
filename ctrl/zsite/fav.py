@@ -3,10 +3,11 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model.fav import fav_po_list_by_user_id_cid, fav_po_count_by_user_id_cid
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_SITE
 from zkit.page import page_limit_offset
 from model.po import Po
 from model.zsite import Zsite
+from model.zsite_list import zsite_list_count, zsite_id_list
 
 @urlmap('/fav')
 class Index(ZsiteBase):
@@ -107,3 +108,22 @@ class EventPage(FavPage):
     page_template = '/fav/event-%s'
     template = 'ctrl/zsite/event/event_page.htm'
 
+@urlmap('/fav/site')
+@urlmap('/fav/site-(\d+)')
+class FavSite(ZsiteBase):
+    def get(self,n=0):
+        zsite_id = self.zsite_id
+        total = zsite_list_count(zsite_id, CID_SITE)
+        n = int(n)
+        page, limit,offset = page_limit_offset(
+               'fav/site-%s',
+               total,
+               n,
+               PAGE_LIMIT
+                )
+        site_list = Zsite.mc_get_list(zsite_id_list(zsite_id, CID_SITE,limit,offset))
+        self.render(
+               page = page,
+               site_list = site_list
+                )
+        self.render()

@@ -1,0 +1,16 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%def name="htm_head()">
+${css.ctrl_fav|n}
+</%def>
+${page|n}
+<ol>
+    %if site_list:
+    % for site in site_list:
+    <li><a href="${site.link}"><img src="${site.ico96}"/>${site.name}</a><div style="margin-left: 16px; margin-top: 7px;">${site.txt}
+    </div></li>
+    %endfor
+    %endif
+
+</ol>
+
+${page|n}
