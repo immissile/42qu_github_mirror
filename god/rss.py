@@ -66,13 +66,22 @@ class RssGidEdit(Base):
         link = self.get_argument('link',None)
         user_id = self.get_argument('user_id',None)
         name = self.get_argument('name',None)
-        if url and link and user_id and name:
+
+        if url:
             rss.url = url
+
+        if link:
             rss.link = link
+
+        if name:
             rss.name = name
+
+        if user_id:
             rss.user_id = user_id
-            rss.save()
-        self.redirect('/rss_gid')
+
+        rss.save()
+
+        self.render(rss=rss, success=True)
 
 
 @urlmap('/rss_gid/rm/(\d+)')
