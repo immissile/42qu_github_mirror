@@ -121,7 +121,7 @@ methods={
     moveSelectedItem: function (step) {
         var list = $('#at_list');
         var ats = list.children();
-        var onId = list.find('.on').index();
+        var onId = list.find('.at_on').index();
         if (!at_size) { return; }
 
         onId += step;
@@ -132,15 +132,15 @@ methods={
         if (onId < 0) {
           onId += at_size;
         }
-        ats.removeClass('on');
-        $(ats[onId]).addClass('on')
+        ats.removeClass('at_on');
+        $(ats[onId]).addClass('at_on')
     }
 };
  
 
 $.fn.pop_at = function(){
     atComplete = function(t,w){
-        var onli = $('#at_list').find($('.on'))
+        var onli = $('#at_list').find($('.at_on'))
         name = onli.find($('.at_name')).text()
         id = onli.find($('.at_name')).attr('id')
         methods.deleteRangeText(t, w.length);
@@ -177,7 +177,7 @@ $.fn.pop_at = function(){
                 pos = methods.getCarePos(self,val.substring(0,lastCharAt))
                 $('body').append(at_list)
                 $('#at_list').css(pos)
-                $('.at_li').mouseover(function(){$('.at_li').removeClass('on');$(this).addClass('on')})
+                $('.at_li').mouseover(function(){$('.at_li').removeClass('at_on');$(this).addClass('at_on')})
                 $('.at_li').click(function(){atComplete(self[0],wordsForSearch)})
                 $("body:not(:.at_li)").click(function(){$('#at_list').remove()})
             }
