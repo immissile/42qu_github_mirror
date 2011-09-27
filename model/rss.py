@@ -11,7 +11,7 @@ import traceback
 RSS_UNCHECK = 0
 RSS_RM = 1
 RSS_PRE_PO = 2
-RSS_RT_PO = 3
+RSS_RT_PO= 3
 RSS_POED = 4
 
 class Rss(McModel):
@@ -24,13 +24,14 @@ class RssPoId(McModel):
     pass
 
 
+
 def rss_po_id(rss_id, po_id):
-    RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)', rss_id, po_id)
+    RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)',rss_id,po_id)
 
 def rss_po_total(state):
     return RssPo.where(state=state).count()
 
-def rss_new(user_id, url, gid):
+def rss_new(user_id, url,gid):
     rss = Rss.get_or_create(url=url)
     rss.user_id = user_id
     rss.gid = gid
@@ -41,7 +42,7 @@ def rss_total_gid(gid):
     return Rss.where(gid=gid).count()
 
 def get_rss_by_gid(gid, limit=1, offset=10):
-    rss = Rss.raw_sql('select id,user_id,url,gid from rss where gid = %s order by id desc limit %s offset %s', gid, limit, offset).fetchall()
+    rss = Rss.raw_sql('select id,user_id,url,gid,name,link from rss where gid = %s order by id desc limit %s offset %s',gid,limit,offset).fetchall()
     return rss
 
 def rss_po_list_by_state(state, limit=1, offset=10):
@@ -129,5 +130,4 @@ if __name__ == '__main__':
     #GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
     #print GREADER_USERNAME, GREADER_PASSWORD
     #GREADER.empty_subscription_list()
-    #print Rss.max_id()
-    print rss_subscribe()
+    print Rss.max_id()

@@ -6,6 +6,7 @@ from model.po_pic import pic_rss
 import json
 from model.zsite import Zsite
 from zkit.txt import cnenoverflow
+from zkit.rss.txttidy import txttidy
 from model.zsite_url import url_by_id
 %>
 
@@ -68,7 +69,7 @@ ${page|n}
 <%
 id,link,user_id,title,htm,pic_list = p
 user = Zsite.mc_get(user_id)
-txt = htm
+txt = txttidy(htm)
 pic_list = json.loads(pic_list)
 txt_cut, has_more = cnenoverflow(txt, 164)
 url = url_by_id(user_id)

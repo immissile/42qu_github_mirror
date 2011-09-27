@@ -288,6 +288,10 @@ def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     id_list = event_id_list_by_zsite_id(zsite_id, bool(can_admin), limit, offset)
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
+def last_event_by_zsite_id(zsite_id):
+    event = Event.where(zsite_id = zsite_id).order_by('id desc')[0]
+    return event
+
 
 @mc_event_id_list_by_city_pid_cid('{city_pid}_{cid}')
 def event_id_list_by_city_pid_cid(city_pid, cid, limit=10, offset=0):
@@ -765,8 +769,9 @@ def event_cid_name_count_by_city_pid(city_pid):
 
 
 if __name__ == '__main__':
+    print last_event_by_zsite_id(10000000)
     #event_id = 10069907
     #for user_id in (10009225,10000566):
     #    event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_YES)
-    print event_joiner_feedback_good_count(10073872)
+    #print event_joiner_feedback_good_count(10073872)
     pass

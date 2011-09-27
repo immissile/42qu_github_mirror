@@ -1,8 +1,8 @@
 <%inherit file="/god/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC, CID_SITE
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from model.zsite_show import zsite_show_list
+from model.cid import CID_SITE
 from model.po_show import po_is_show
 from model.zsite import Zsite
 from model.god_po_show import po_show_zsite_channel
@@ -63,7 +63,10 @@ site = Zsite.get(po.zsite_id)
 %endif
         <div class="selects">
             <div class="line">
-% for site in Zsite.where(cid=CID_SITE):
+<%
+zsite_list = zsite_show_list(CID_SITE)
+%>
+% for site in zsite_list:
                 <span class="single"><input type="radio" id="rd${site.id}" name="site" value="${site.id}"><label class="rdl" for="rd${site.id}">${site.name}</label></span>
 %endfor
             </div>
