@@ -26,9 +26,9 @@ mc_event_cid_count_by_city_pid = McCacheA('EventCidCountByCityPid.%s')
 mc_event_end_id_list_by_city_pid = McLimitA('EventEndIdListByCityPid.%s', 128)
 mc_event_all_id_list = McLimitA('EventAllIdList.%s', 128)
 
-event_joiner_feedback_normal_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_NORMAL).count(), "EventJoinerFeedbackNormalCount:%s")
+event_joiner_feedback_normal_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_NORMAL).count(), 'EventJoinerFeedbackNormalCount:%s')
 
-event_joiner_feedback_good_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_GOOD).count(), "EventJoinerFeedbackGoodCount:%s")
+event_joiner_feedback_good_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_GOOD).count(), 'EventJoinerFeedbackGoodCount:%s')
 
 
 def event_by_city_pid_cid_query(city_pid, cid=0):
@@ -289,7 +289,7 @@ def event_list_by_zsite_id(zsite_id, can_admin, limit, offset):
     return zip(Event.mc_get_list(id_list), Po.mc_get_list(id_list))
 
 def last_event_by_zsite_id(zsite_id):
-    event = Event.where(zsite_id = zsite_id).order_by('id desc')[0]
+    event = Event.where(zsite_id=zsite_id).order_by('id desc')[0]
     return event
 
 
@@ -353,11 +353,11 @@ def event_joiner_feedback_normal_id_list(event_id):
     ).col_list(col='user_id')
 
 
-    
+
 
 def mc_flush_feedback(event_id):
-    mc_event_joiner_feedback_normal_id_list.delete(event_id) 
-    event_joiner_feedback_normal_count.delete(event_id) 
+    mc_event_joiner_feedback_normal_id_list.delete(event_id)
+    event_joiner_feedback_normal_count.delete(event_id)
     event_joiner_feedback_good_count.delete(event_id)
 
 
@@ -769,9 +769,5 @@ def event_cid_name_count_by_city_pid(city_pid):
 
 
 if __name__ == '__main__':
-    print last_event_by_zsite_id(10000000)
-    #event_id = 10069907
-    #for user_id in (10009225,10000566):
-    #    event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_YES)
-    #print event_joiner_feedback_good_count(10073872)
-    pass
+    print last_event_by_zsite_id(10001299).id
+
