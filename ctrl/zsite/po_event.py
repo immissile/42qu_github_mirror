@@ -91,6 +91,7 @@ def po_event_edit_post(self, id, event, can_change, event_new):
     price = self.get_argument('price', '0')
     pid = self.get_argument('pid', '1')
     event_cid = self.get_argument('event_cid', '')
+    #print event_cid, "!!!!!!!!!!!"
     begin_time = self.get_argument('begin_time', '')
     end_time = self.get_argument('end_time', '')
     begin_time = self.get_argument('begin_time', '')
