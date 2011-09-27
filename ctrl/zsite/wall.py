@@ -6,6 +6,8 @@ from model.reply import STATE_SECRET, STATE_ACTIVE
 from model.wall import Wall
 from model.reply import Reply
 from zkit.page import page_limit_offset
+from model.zsite import Zsite
+from model.cid import CID_SITE
 
 PAGE_LIMIT = 42
 
@@ -70,6 +72,7 @@ class Txt(ZsiteBase):
         zsite = self.zsite
         zsite_id = zsite.id
         zsite_url = zsite.link
+        current_user_id = self.current_user_id
 
         wall = Wall.mc_get(id)
 
@@ -79,6 +82,11 @@ class Txt(ZsiteBase):
         zsite_id_list = wall.zsite_id_list()
         if zsite_id not in zsite_id_list:
             return self.redirect('/')
+        else:
+            other = wall.zsite_other(zsite_id)
+            if other.cid == CID_SITE or zsite_id == current_user_id:
+                return self.redirect("%s/wall/%s"%(other.link,id))
+            
 
         total = wall.reply_count
         page, limit, offset = page_limit_offset(
