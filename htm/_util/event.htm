@@ -97,6 +97,10 @@ default_cid = default_event.cid
 default_limit_up = default_event.limit_up
 default_phone = default_event.phone
 %>
+%else:
+<%
+default_pid  = default_address  = default_transport  = default_cent  = default_cid  = default_limit_up  = default_phone  =  None
+%>
 %endif
 <div class="po_line">
 <label>
