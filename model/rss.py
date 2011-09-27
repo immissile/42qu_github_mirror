@@ -95,7 +95,7 @@ def rss_subscribe():
 
     rss_list = []
 
-    for i in Rss.where():#(gid=0):
+    for i in Rss.where(gid=0):
 
         url = i.url.strip()
 
