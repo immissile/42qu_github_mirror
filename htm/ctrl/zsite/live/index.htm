@@ -137,7 +137,7 @@ rel="${id}" href="javascript:void(0)"
 class="{{if fav}}faved{{else}}fav{{/if}}"
 >收藏</a></span>
     </span>
-        ${create_time}
+        <a href="/${id}" target="_blank">${create_time}</a>
         {{if rt_list.length}} ,
             {{if rt_list.length == 1 && rt_list[0] == 0}}
 广播
