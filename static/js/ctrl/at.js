@@ -1,6 +1,5 @@
 (function ($) {  
-var pre,
-at_size,at_list
+var pre, at_size, at_list , wordsForSearch ;
 
 methods={
     getCarePos: function (node, con) {
@@ -28,8 +27,8 @@ methods={
             position: 'absolute',
             left: -9999,
             width: node.width() + 'px',
-            padding: '8px',
-            font: '14px/20px "Helvetica Neue", Helvetica, Arial',
+            padding: '0 4px',
+            font: '14px/26px Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif',
             'word-wrap': 'break-word',
             border: '1px'
         }
@@ -96,7 +95,6 @@ methods={
             t.focus();
             document.selection.createRange().text = str + ' ';  
 
-           
         } else {
             var obj=t;
             obj.focus();
@@ -106,11 +104,11 @@ methods={
                 sel.text = str;
             } else if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
                 var startPos = obj.selectionStart,
-                endPos = obj.selectionEnd,
-                cursorPos = startPos,
-                tmpStr = obj.value;
-                obj.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
-                cursorPos += str.length;
+                    endPos = obj.selectionEnd,
+                    cursorPos = startPos,
+                    tmpStr = obj.value;
+                    obj.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
+                    cursorPos += str.length;
                 //obj.selectionStart = obj.selectionEnd = cursorPos;
             } else {
                 obj.value += str;
@@ -147,47 +145,58 @@ $.fn.pop_at = function(){
         methods.insertAfterCursor(t,name+'('+id+') ');
         $('#at_list').remove()
     }
+
+    function at_list_remove(){
+        $('#at_list').remove()
+    }
+    $("body").click(at_list_remove)
+
     this.bind('keyup',function(e){
         at_list,at_size
-        var self = $(this)
-        offset = methods.getCursorPosition(self[0])
-        var val = self.val()
-        lastCharAt = val.substring(0, offset).lastIndexOf('@')
-        hasSpace = val.substring(lastCharAt, offset).indexOf(' ')
+        var self = $(this),
+            offset = methods.getCursorPosition(self[0]),
+            val = self.val(),
+            lastCharAt = val.substring(0, offset).lastIndexOf('@'),
+            hasSpace = val.substring(lastCharAt, offset).indexOf(' ');
+
         if(lastCharAt>=0 && hasSpace<0){
             wordsForSearch = val.substring(lastCharAt + 1, offset);
-            var keys = new Array(38,40,13,16,9)
+            var keys = [38,40,13,16,9];
             if($.inArray(e.keyCode,keys)<0){
                 $.postJSON(
                     "/j/at/",
+                    {"txt":$.trim(wordsForSearch)},
                     function(data){
-                        html = '<div class="at_list" id="at_list">'
+                        at_list = $('<div class="at_list" id="at_list"/>')
                         if(data.length<0){
                             return;
-                        }else{
-                        for(i=0;i<data.length;i++){
+                        }
+                        for(var i=0;i<data.length;i++){
                             t=data[i]
-                            html += '<div class="at_li"><img class="at_img L" src="'+t[3]+'"><span class="at_name" id="'+t[2]+'">'+t[0]+'</span><span class="at_title">'+t[1]+'</span></div>'
-                        }}
-                        at_list = html+'</div>'
-                        at_size = data.length
+                            var html = $('<div class="at_li"><img class="at_img L" src="'+t[3]+'"><span class="at_name" id="'+t[2]+'"></span><span class="at_title"></span></div>')
+                            html.find(".at_name").text(t[0])
+                            html.find(".at_title").text(t[1])
+                            at_list.append(html)
+                        }
+                        at_size = data.length;
+
+                        pos = methods.getCarePos(self,val.substring(0,lastCharAt))
+                        $('body').append(at_list)
+                        at_list.css(pos)
+                        $('.at_li').click(function(){atComplete(self[0],wordsForSearch)}).mouseover(function(){$('.at_li').removeClass('at_on');$(this).addClass('at_on')})
                     }
                 )
-                $('#at_list').remove()
-                pos = methods.getCarePos(self,val.substring(0,lastCharAt))
-                $('body').append(at_list)
-                $('#at_list').css(pos)
-                $('.at_li').mouseover(function(){$('.at_li').removeClass('at_on');$(this).addClass('at_on')})
-                $('.at_li').click(function(){atComplete(self[0],wordsForSearch)})
-                $("body:not(:.at_li)").click(function(){$('#at_list').remove()})
+                at_list_remove()
             }
-        } else{$('#at_list').remove()}
+        } else{
+            at_list_remove()
+        }
     }).bind('keydown',function(e){
         if ($('#at_list')[0]) { 
         switch (e.keyCode) {
             // space
             case 32:
-            $('#at_list').remove();
+            at_list_remove()
             break;
 
             // up
