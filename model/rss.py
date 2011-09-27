@@ -87,7 +87,7 @@ def unread_feed_update(greader, feed):
                 if htm:
 
                     htm = txttidy(htm)
-                    htm = tidy_fragment(htm)
+                    htm = tidy_fragment(htm)[0]
 
                     txt, pic_list = htm2txt(htm)
 
@@ -144,4 +144,5 @@ if __name__ == '__main__':
 
     #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
     #greader.empty_subscription_list()
- 
+    pass 
+    #RssPo.where().delete()
