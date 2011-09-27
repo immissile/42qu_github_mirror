@@ -95,5 +95,7 @@ def zsite_user_state(zsite_id, user_id):
         return 0
     return _zsite_user_state(zsite_id,user_id)
 
+
+
 if __name__ == '__main__':
     print zsite_id_list_by_admin_id_sample(10000000,2)
