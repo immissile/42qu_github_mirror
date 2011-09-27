@@ -87,7 +87,21 @@ ${event.limit_up}</p>\
 </%def>
 
 <%def name="event_edit(event, can_change)">
-
+%if default_event:
+<%
+default_pid = default_event.pid
+default_address = default_event.address
+default_transport = default_event.transport
+default_cent = default_event.cent
+default_cid = default_event.cid
+default_limit_up = default_event.limit_up
+default_phone = default_event.phone
+%>
+%else:
+<%
+default_pid  = default_address  = default_transport  = default_cent  = default_cid  = default_limit_up  = default_phone  =  None
+%>
+%endif
 <div class="po_line">
 <label>
 %if pic_id:
@@ -111,20 +125,20 @@ ${errtip.pic|n}
 
 <div id="event_body">
 <div class="po_line">
-<label>所在城市</label><script>select_pid("pid", ${pid or 0})</script>
+    <label>所在城市</label><script>select_pid("pid", ${pid or default_pid or 0 })</script>
 ${errtip.pid|n}
 </div>
 
 <div class="po_line">
 <label for="address">详细地址</label><input
-value="${address or ''}"
+value="${default_address or address or ''}"
 name="address" class="input"
 id="address"
 >${errtip.address|n}
 </div>
 
 <div class="po_line">
-<label>交通路线</label><input name="transport" class="input" value="${transport or ''}">
+<label>交通路线</label><input name="transport" class="input" value="${transport or default_transport or ''}">
 </div>
 
 <div class="po_line">
@@ -144,6 +158,8 @@ ${errtip.begin_time|n}
 <option 
 %if _event_cid == event_cid:
 selected
+%elif _event_cid == default_cid:
+selected
 %endif
 value="${_event_cid}">${event_name}</option>
 %endfor
@@ -151,18 +167,18 @@ value="${_event_cid}">${event_name}</option>
 </div>
 
 <div class="po_line">
-<label>在线收费</label><input autocomplete="off" name="price" class="input price" value="${price or 0}">元 / 人${errtip.price|n}
+<label>在线收费</label><input autocomplete="off" name="price" class="input price" value="${price or default_cent or 0}">元 / 人${errtip.price|n}
 </div
 >
 
 </div>\
 
 <div class="po_line">
-<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or ''}">${errtip.phone|n}
+<label for="phone">联系电话</label><input id="phone" name="phone" class="phone input" value="${phone or default_phone or ''}">${errtip.phone|n}
 </div>
 
 <div class="po_line">
-<label>名额上限</label><input autocomplete="off" name="limit_up" class="limit_up input" value="${limit_up or 42}">
+<label>名额上限</label><input autocomplete="off" name="limit_up" class="limit_up input" value="${ limit_up or default_limit_up or 42}">
 </div>
 
 <div class="po_line">

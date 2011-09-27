@@ -4,8 +4,9 @@
 import _db
 from model.zsite import zsite_new, ZSITE_STATE_ACTIVE, Zsite
 from model.cid import CID_SITE
-from model.zsite_admin import zsite_admin_new, zsite_user_state
+from model.zsite_admin import zsite_admin_new, zsite_user_state, zsite_id_list_by_admin_id_sample
 from model.zsite_show import zsite_show_new
+from model.buzz import mq_buzz_site_new
 
 ZSITE_STATE_SITE_PUBLIC = 40
 ZSITE_STATE_SITE_SECRET = 20
@@ -28,6 +29,8 @@ def site_new(name, admin_id, state):
 
     if state > ZSITE_STATE_SITE_SECRET:
         zsite_show_new(site_id, CID_SITE)
+
+    mq_buzz_site_new(admin_id, site_id)
     return site
 
 def site_count_by_state(state):
@@ -65,6 +68,11 @@ def zsite_id_by_zsite_user_id(zsite, user_id):
             return zsite.id
     return 0
 
+def zsite_site_by_user_id_sample(user_id, k):
+    id_list = zsite_id_list_by_admin_id_sample(user_id, k)
+
+    return Zsite.mc_get_list(id_list)
+    
+
 if __name__ == '__main__':
-    print site_count_by_state(ZSITE_STATE_SITE_PUBLIC)
-    print len(site_id_list_by_state(ZSITE_STATE_SITE_PUBLIC,20,20))
+    print zsite_site_by_user_id_sample(10000000, 3)

@@ -9,15 +9,19 @@ from model.zsite import Zsite
 ${page|n}
 % for r in rss:
 <%
-id,user_id,url,gid = r
+id,user_id,url,gid,name,link = r
 user = Zsite.mc_get(user_id)
 %>
 <div style="border-bottom:1px dotted #ccc;padding:27px;">
     <div>
         ${id} 
         <div><a href="${user.link}" target="_blank">${user.name}</a></div>
-        <a target="_blank" href="${url}">${url}</a>
-    </div>
+        <a target="_blank" href="${link}">${name}</a>
+        <div><a target="_blank" href="${url}">${url}</a>
+        </div>
+        </div>
+        <div><a href="/rss_gid/edit/${id}">编辑</a>
+            </div>
     <div class="tr">
         <a href="/rss_gid/rm/${id}">删除</a>
     </div>

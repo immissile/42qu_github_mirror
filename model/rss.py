@@ -8,10 +8,11 @@ from zkit.htm2txt import htm2txt, unescape
 from config import GREADER_USERNAME, GREADER_PASSWORD
 import traceback
 
+
 RSS_UNCHECK = 0
 RSS_RM = 1
 RSS_PRE_PO = 2
-RSS_RT_PO = 3
+RSS_RT_PO= 3
 RSS_POED = 4
 
 class Rss(McModel):
@@ -24,13 +25,14 @@ class RssPoId(McModel):
     pass
 
 
+
 def rss_po_id(rss_id, po_id):
-    RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)', rss_id, po_id)
+    RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)',rss_id,po_id)
 
 def rss_po_total(state):
     return RssPo.where(state=state).count()
 
-def rss_new(user_id, url, gid):
+def rss_new(user_id, url,gid):
     rss = Rss.get_or_create(url=url)
     rss.user_id = user_id
     rss.gid = gid
@@ -41,7 +43,7 @@ def rss_total_gid(gid):
     return Rss.where(gid=gid).count()
 
 def get_rss_by_gid(gid, limit=1, offset=10):
-    rss = Rss.raw_sql('select id,user_id,url,gid from rss where gid = %s order by id desc limit %s offset %s', gid, limit, offset).fetchall()
+    rss = Rss.raw_sql('select id,user_id,url,gid,name,link from rss where gid = %s order by id desc limit %s offset %s',gid,limit,offset).fetchall()
     return rss
 
 def rss_po_list_by_state(state, limit=1, offset=10):
@@ -64,6 +66,9 @@ def unread_update():
     greader.mark_as_read()
 
 def unread_feed_update(greader, feed):
+    from zkit.rss.txttidy import txttidy
+    from tidylib import  tidy_fragment
+
     rs = Rss.raw_sql('select id,user_id from rss where url = %s', feed[5:]).fetchone()
     if rs:
         id, user_id = rs
@@ -78,9 +83,14 @@ def unread_feed_update(greader, feed):
             if snippet:
                 htm = snippet['content']
 
+
                 if htm:
 
+                    htm = txttidy(htm)
+                    htm = tidy_fragment(htm)[0]
+
                     txt, pic_list = htm2txt(htm)
+
                     pic_list = json.dumps(pic_list)
                     if txt:
                         title = unescape(title)
@@ -91,9 +101,13 @@ user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_l
 
 def rss_subscribe():
     from zkit.google.findrss import get_rss_link_title_by_url
-    for i in Rss.where():#(gid=0):
+
+    rss_list = []
+
+    for i in Rss.where(gid=0):
 
         url = i.url.strip()
+
         if not all((i.link, i.url, i.name)):
             rss, link, name = get_rss_link_title_by_url(url)
 
@@ -111,11 +125,24 @@ def rss_subscribe():
     
             i.save()
 
-            print url, rss, link, name
+        rss_list.append(i)
+
+    if rss_list:
+        greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+        for i in rss_list:
+            greader.subscribe(i.url)
+            i.gid = 1
+            i.save()            
+            print i.url
 
 if __name__ == '__main__':
-    #GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-    #print GREADER_USERNAME, GREADER_PASSWORD
-    #GREADER.empty_subscription_list()
-    #print Rss.max_id()
-    print rss_subscribe()
+    #rss_subscribe()
+   # from collections import defaultdict
+   # user_id = defaultdict()
+   # for i in RssPo.where():
+   #     pass
+
+    #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+    #greader.empty_subscription_list()
+    pass 
+    #RssPo.where().delete()

@@ -35,6 +35,7 @@ class RssRm(Base):
         pre.save()
         self.redirect('/rss_index')
 
+@urlmap('/rss_gid')
 @urlmap('/rss_gid/(\-?\d+)')
 @urlmap('/rss_gid/(\-?\d+)-(\d+)')
 class RssGid(Base):
@@ -52,6 +53,36 @@ class RssGid(Base):
                 rss = rss_list,
                 page = page
                 )
+
+@urlmap('/rss_gid/edit/(\d+)')
+class RssGidEdit(Base):
+    def get(self,id):
+        rss = Rss.get(id)
+        self.render(rss=rss)
+
+    def post(self,id):
+        rss = Rss.get(id)
+        url = self.get_argument('url',None)
+        link = self.get_argument('link',None)
+        user_id = self.get_argument('user_id',None)
+        name = self.get_argument('name',None)
+
+        if url:
+            rss.url = url
+
+        if link:
+            rss.link = link
+
+        if name:
+            rss.name = name
+
+        if user_id:
+            rss.user_id = user_id
+
+        rss.save()
+
+        self.render(rss=rss, success=True)
+
 
 @urlmap('/rss_gid/rm/(\d+)')
 class RssEdit(Base):
