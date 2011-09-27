@@ -90,6 +90,41 @@ def unread_feed_update(greader, feed):
 user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_list
                         )
 
+def rss_subscribe():
+    from zkit.google.findrss import get_rss_link_title_by_url
+
+    rss_list = []
+
+    for i in Rss.where():#(gid=0):
+
+        url = i.url.strip()
+
+        if not all((i.link, i.url, i.name)):
+            rss, link, name = get_rss_link_title_by_url(url)
+
+            if rss:
+                i.url = rss
+
+            if link:
+                i.link = link
+
+                if not name:
+                    name = link.split("://",1)[-1]
+    
+            if name:
+                i.name = name
+    
+            i.save()
+
+        rss_list.append(i)
+
+    if rss_list:
+        greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+        for i in rss_list:
+            greader.subscribe(i.url)
+            i.gid = 1
+            i.save()            
+            print i.url
 
 if __name__ == '__main__':
     #GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
