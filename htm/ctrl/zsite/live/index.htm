@@ -7,7 +7,44 @@ from config import FS_URL
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render, reply_textarea"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 
+<style>
+.at_list{
+position:absolute;
+background:#fff;
+border:1px solid #ccc;
+width:auto;
+z-index:2;
+min-width:200px;
+}
+.at_img{
+height:36px;
+width:36px;
+margin-right:8px;
+padding:3px 2px 0 2px;
+}
+.at_li{
+text-align:left;
+clear:both;
+padding:3px 6px 0 3px;
+cursor:pointer;
+height:45px;
+overflow:hidden;
+}
+.on{
+background:#d6e9f8;
+}
+.at_name{
+display:block;
+line-height:14px;
+margin-top:4px;
 
+}
+.at_title{
+font-size:12px;
+line-height:1px;
+overflow:hidden;
+}
+</style>
 <%def name="htm_head()">
 ${css.ctrl_live|n}
 </%def>
@@ -17,6 +54,8 @@ ${css.ctrl_live|n}
 <a id="feed_load" href="javascript:void(0)">加载更多</a>
 <div id="feed_loading"></div>
 <script src="${js.ctrl_live}"></script>
+<script src="${js.ctrl_at}"></script>
+
 </%def>
 
 

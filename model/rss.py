@@ -8,6 +8,7 @@ from zkit.htm2txt import htm2txt, unescape
 from config import GREADER_USERNAME, GREADER_PASSWORD
 import traceback
 
+
 RSS_UNCHECK = 0
 RSS_RM = 1
 RSS_PRE_PO = 2
@@ -65,6 +66,9 @@ def unread_update():
     greader.mark_as_read()
 
 def unread_feed_update(greader, feed):
+    from zkit.rss.txttidy import txttidy
+    from tidylib import  tidy_fragment
+
     rs = Rss.raw_sql('select id,user_id from rss where url = %s', feed[5:]).fetchone()
     if rs:
         id, user_id = rs
@@ -79,9 +83,14 @@ def unread_feed_update(greader, feed):
             if snippet:
                 htm = snippet['content']
 
+
                 if htm:
 
+                    htm = txttidy(htm)
+                    htm = tidy_fragment(htm)[0]
+
                     txt, pic_list = htm2txt(htm)
+
                     pic_list = json.dumps(pic_list)
                     if txt:
                         title = unescape(title)
@@ -127,7 +136,13 @@ def rss_subscribe():
             print i.url
 
 if __name__ == '__main__':
-    #GREADER = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-    #print GREADER_USERNAME, GREADER_PASSWORD
-    #GREADER.empty_subscription_list()
-    print Rss.max_id()
+    #rss_subscribe()
+   # from collections import defaultdict
+   # user_id = defaultdict()
+   # for i in RssPo.where():
+   #     pass
+
+    #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+    #greader.empty_subscription_list()
+    pass 
+    #RssPo.where().delete()
