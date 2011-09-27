@@ -5,6 +5,7 @@ from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from zsite import Zsite
 from model.cid import CID_SITE
+from random import sample
 
 mc_zsite_id_list_by_admin_id = McCacheA('ZsiteIdListBYAdminId.%s')
 mc_admin_id_list_by_zsite_id = McCacheA('AdminIdListByZsiteId.%s')
@@ -53,6 +54,13 @@ def zsite_id_list_by_admin_id(id):
     ).where('state>%s' % ZSITE_ADMIN_STATE_DEL).order_by("id desc").col_list(col='zsite_id')
 
 
+def zsite_id_list_by_admin_id_sample(id, k):
+    id_list = zsite_id_list_by_admin_id(id)
+    if len(id_list) > k:
+        id_list = sample(id_list, k)
+    return id_list
+
+
 def zsite_list_by_admin_id(id, limit=None, offset=0):
     id_list = zsite_id_list_by_admin_id(id)
 
@@ -88,7 +96,4 @@ def zsite_user_state(zsite_id, user_id):
     return _zsite_user_state(zsite_id,user_id)
 
 if __name__ == '__main__':
-    print zsite_id_list_by_admin_id(10000000)
-    print zsite_list_by_admin_id(10000000)
-    print zsite_by_admin_id_count(10000000)
-
+    print zsite_id_list_by_admin_id_sample(10000000,2)
