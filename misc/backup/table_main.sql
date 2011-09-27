@@ -628,6 +628,8 @@ CREATE TABLE `rss` (
   `user_id` int(10) unsigned NOT NULL,
   `url` varbinary(1024) NOT NULL,
   `gid` smallint(6) NOT NULL DEFAULT '0',
+  `link` varbinary(1024) NOT NULL,
+  `name` varbinary(512) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Index_2` (`url`(1000)),
   KEY `gid` (`gid`)
