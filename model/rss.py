@@ -15,6 +15,18 @@ RSS_PRE_PO = 2
 RSS_RT_PO= 3
 RSS_POED = 4
 
+STATE_RSS_NEW = 5
+STATE_RSS_EMAILD = 6
+STATE_RSS_REJECT = 7
+STATE_RSS_OK = 8
+
+STATE2CN = {
+        STATE_RSS_OK:'通过',
+        STATE_RSS_NEW:'新建',
+        STATE_RSS_EMAILD:'已经联系',
+        STATE_RSS_REJECT:'已经被拒绝'
+        }
+
 class Rss(McModel):
     pass
 
@@ -24,7 +36,8 @@ class RssPo(McModel):
 class RssPoId(McModel):
     pass
 
-
+class RssUpdate(McModel):
+    pass
 
 def rss_po_id(rss_id, po_id):
     RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)',rss_id,po_id)
@@ -38,6 +51,13 @@ def rss_new(user_id, url,gid):
     rss.gid = gid
     rss.save()
     return rss
+
+def rss_update_new(id,state):
+    rss = RssUpdate.get_or_create(id=id)
+    rss.state = state
+    rss.save()
+    return rss
+
 
 def rss_total_gid(gid):
     return Rss.where(gid=gid).count()

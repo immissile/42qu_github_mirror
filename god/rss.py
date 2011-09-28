@@ -26,13 +26,24 @@ class RssIndex(Base):
                 page=page
             )
 
+    def post(self,state=RSS_UNCHECK,n=1):
+        ids = self.get_arguments('id')
+        if ids:
+            for id in ids:
+                rss = RssPo.get(id)
+                if rss and rss.state == RSS_UNCHECK:
+                    rss.state = RSS_RM
+                    rss.save()
+        self.get()
+
 
 @urlmap('/rss/rm/(\d+)/(\d+)')
 class RssRm(Base):
     def get(self,state,id):
-        pre = Pre.get(id)
-        pre.state = RSS_RM
-        pre.save()
+        pre = RssPo.get(id)
+        if pre:
+            pre.state = RSS_RM
+            pre.save()
         self.redirect('/rss_index')
 
 @urlmap('/rss_gid')
