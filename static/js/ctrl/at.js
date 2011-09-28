@@ -93,7 +93,7 @@ methods={
         // for IE
         if (document.selection) {
             t.focus();
-            document.selection.createRange().text = str + ' ';  
+            document.selection.createRange().text = str;  
 
         } else {
             var obj=t;
@@ -140,9 +140,8 @@ $.fn.pop_at = function(){
     atComplete = function(t,w){
         var onli = $('#at_list').find($('.at_on'))
         name = onli.find($('.at_name')).text()
-        id = onli.find($('.at_name')).attr('id')
         methods.deleteRangeText(t, w.length);
-        methods.insertAfterCursor(t,name+'('+id+') ');
+        methods.insertAfterCursor(t,name);
         $('#at_list').remove()
     }
 
@@ -158,14 +157,24 @@ $.fn.pop_at = function(){
             val = self.val(),
             lastCharAt = val.substring(0, offset).lastIndexOf('@'),
             hasSpace = val.substring(lastCharAt, offset).indexOf(' ');
-
+            pos = methods.getCarePos(self,val.substring(0,lastCharAt))
+            if(offset>0 && lastCharAt==offset-1){
+                at_list_remove()
+                $('body').append('<div class="at_tip">想用 @ 提到谁 ?</div>')
+                $('.at_tip').css(pos)
+                return;
+            }else{
+                $('.at_tip').remove()
+            }
         if(lastCharAt>=0 && hasSpace<0){
             wordsForSearch = val.substring(lastCharAt + 1, offset);
             var keys = [38,40,13,16,9];
             if($.inArray(e.keyCode,keys)<0){
                 $.postJSON(
-                    "/j/at/",
-                    {"txt":$.trim(wordsForSearch)},
+                    "/j/at",
+                    {
+                        "q":$.trim(wordsForSearch)
+                    },
                     function(data){
                         at_list = $('<div class="at_list" id="at_list"/>')
                         if(data.length<0){
@@ -173,19 +182,19 @@ $.fn.pop_at = function(){
                         }
                         for(var i=0;i<data.length;i++){
                             t=data[i]
-                            var html = $('<div class="at_li"><img class="at_img L" src="'+t[3]+'"><span class="at_name" id="'+t[2]+'"></span><span class="at_title"></span></div>')
-                            html.find(".at_name").text(t[0])
+                            var html = $('<div class="at_li"><img class="at_img L"  src="'+t[3]+'"><span class="at_name"></span><span class="at_title"></span></div>')
+                            html.find(".at_name").text(t[0]+"("+t[2]+")")
                             html.find(".at_title").text(t[1])
                             at_list.append(html)
                         }
                         at_size = data.length;
-
-                        pos = methods.getCarePos(self,val.substring(0,lastCharAt))
                         $('body').append(at_list)
                         at_list.css(pos)
+                        at_list.find('.at_li:first').addClass('at_on')
                         $('.at_li').click(function(){atComplete(self[0],wordsForSearch)}).mouseover(function(){$('.at_li').removeClass('at_on');$(this).addClass('at_on')})
                     }
                 )
+
                 at_list_remove()
             }
         } else{

@@ -10,7 +10,7 @@ from model.motto import motto_get
 from os.path import join
 from time import sleep
 import xapian
-
+from model.cid import CID_USER, CID_SITE
 
 DATEBASE = None
 ENQUIRE = None
@@ -22,7 +22,7 @@ def reload_db():
     else:
         DATEBASE = xapian.Database(join(SEARCH_DB_PATH, 'zsite'))
         ENQUIRE = xapian.Enquire(DATEBASE)
-        ENQUIRE.set_sort_by_value_then_relevance(1)
+        ENQUIRE.set_sort_by_value_then_relevance(1, True)
 
 reload_db()
 
@@ -88,22 +88,38 @@ def make_query(keywords):
 
 
 @retry
-def _search(enquire, keywords, offset=0, limit=50):
+def _search(enquire, keywords, cid=None, offset=0, limit=50):
     if type(keywords) is xapian.Query:
         query = keywords
     else:
         query = make_query(keywords)
     enquire.set_query(query)
-    matches = enquire.get_mset(offset, limit, None)
+
+    if cid is None:
+        matches = enquire.get_mset(offset, limit, None)
+    else:
+        match = xapian.ValueSetMatchDecider(2, True)
+        match.add_value(str(cid)) 
+        matches = enquire.get_mset(offset, limit, None, match)
     return matches, matches.get_matches_estimated()
 
 
+def search_user(keywords, offset, limit):
+    return search(keywords, CID_USER,  offset, limit)
+
+
+def search_site(keywords, offset, limit):
+    return search(keywords, CID_SITE,  offset, limit)
+
+
+
+
 @retry
-def search(keywords, offset, limit):
+def search(keywords, cid, offset, limit):
     e = ENQUIRE
     keywords = make_query(keywords)
 
-    match, count = _search(e, keywords, offset, limit)
+    match, count = _search(e, keywords, cid, offset, limit)
     r = []
     for m in match:
         doc = m.document
@@ -113,9 +129,10 @@ def search(keywords, offset, limit):
     return Zsite.mc_get_list(r), count
 
 if __name__ == '__main__':
-    print search('bjwdk2008@163.com', 0, 111)
-    print search('zsp007@gmail.com', 0, 111)
-    print search('王兴', 0, 111)
-    print search('美团网', 0, 111)
-    print search('美团', 0, 111)
+    print search_user('awerewar', 0, 111)
+    print search_site('awerewar', 0, 111)
+
+    cid = CID_USER
+
+
 

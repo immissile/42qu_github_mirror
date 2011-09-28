@@ -15,6 +15,7 @@ from model.ico import ico96
 from ctrl.site.index import _site_save
 from model.zsite_url import url_by_id
 from model.zsite_fav import zsite_fav_rm 
+from model.search_zsite import search_new
 from ctrl.zsite.index import render_zsite_site
 
 @urlmap('/admin')
@@ -55,6 +56,7 @@ class Admin(AdminBase):
             txt_new(zsite_id, txt)
             motto_set(zsite_id, motto)
             site_ico_bind(current_user_id, pic_id, zsite_id)
+            search_new(zsite_id)
 
         self.render(
             success = success,

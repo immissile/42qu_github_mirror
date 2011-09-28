@@ -243,6 +243,17 @@ cursor:pointer;
 height:55px;
 overflow:hidden;
 }
+.at_tip{
+font-size:12px;
+line-height:12px;
+padding:5px;
+_width:89px;
+color:#999;
+border:1px solid #ccc;
+position:absolute;
+background:#f9f9f9;
+z-index:2;
+}
 .at_on{
 -moz-box-shadow: inset 2px 2px 14px 2px #999;
 box-shadow: inset 2px 2px 14px 2px #999; 
