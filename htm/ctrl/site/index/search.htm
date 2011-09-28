@@ -1,28 +1,5 @@
-<%inherit file="/ctrl/_base/zsite.htm" />
+<%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/site.htm" import="site_li"/>
-
-<%def name="htm_head()">
-${css.ctrl_site_index|n}
-</%def>
-
-<%def name="htm_title()">
-站点
-</%def>
-
-
-<%
-path = request.path
-is_my = path.startswith("/my")
-%>
-<h1>
-    <span class="L">
-        <form action="/q" class="search"><input type="text" value="" name="q" id="search" autocomplete="off"><input type="submit" value="" class="search_btn"></form><script>$("#search").focus()</script>
-    </span>
-    <span class="nav C">
-        <a ${'class="c0"' if not is_my else ''|n} href="/">所有</a><span class="c9 split">-</span><a href="/my" ${'class="c0"' if is_my else ''|n}>我的</a><span class="c9 split">-</span><a class="new" href="/new">创建</a>
-    </span>
-</h1>
-
 
 <div class="G">
     <div class="G3" id="site_page">
@@ -34,7 +11,7 @@ is_my = path.startswith("/my")
         </div>  
 ${page|n}
 %else:
-<div class="none"><p>暂无站点</p><p><a href="/new">点此创建</a></p></div>
+<div class="none"><p>查无结果</p><p><a href="/new">点此创建</a></p></div>
 %endif
     </div>
 </div>
