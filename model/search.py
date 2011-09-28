@@ -22,7 +22,7 @@ def reload_db():
     else:
         DATEBASE = xapian.Database(join(SEARCH_DB_PATH, 'zsite'))
         ENQUIRE = xapian.Enquire(DATEBASE)
-        ENQUIRE.set_sort_by_value_then_relevance(1, False)
+        ENQUIRE.set_sort_by_value_then_relevance(1, True)
 
 reload_db()
 
