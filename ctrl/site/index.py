@@ -18,6 +18,7 @@ from model.txt import txt_new
 from model.zsite_admin import zsite_by_admin_id_count, zsite_list_by_admin_id
 from model.zsite_show import zsite_show_list, zsite_show_count
 from model.cid import CID_SITE
+from model.search_zsite import search_new
  
 PAGE_LIMIT = 20
 
