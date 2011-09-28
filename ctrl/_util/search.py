@@ -23,7 +23,7 @@ def search_get(self, n=1):
         ))
         self.render(
             q=q,
-            zsite_list=zsite_list,
+            page_list=zsite_list,
             total=total,
             page=page,
         )
