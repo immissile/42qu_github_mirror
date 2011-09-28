@@ -160,7 +160,7 @@ $.fn.pop_at = function(){
             pos = methods.getCarePos(self,val.substring(0,lastCharAt))
             if(offset>0 && lastCharAt==offset-1){
                 at_list_remove()
-                $('body').append('<div class="at_tip">想用@提到谁?</div>')
+                $('body').append('<div class="at_tip">想用 @ 提到谁 ?</div>')
                 $('.at_tip').css(pos)
                 return;
             }else{
