@@ -171,7 +171,7 @@ $.fn.pop_at = function(){
             var keys = [38,40,13,16,9];
             if($.inArray(e.keyCode,keys)<0){
                 $.postJSON(
-                    "/j/at/",
+                    "/j/at",
                     {
                         "q":$.trim(wordsForSearch)
                     },
