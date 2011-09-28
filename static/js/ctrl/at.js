@@ -140,9 +140,8 @@ $.fn.pop_at = function(){
     atComplete = function(t,w){
         var onli = $('#at_list').find($('.at_on'))
         name = onli.find($('.at_name')).text()
-        id = onli.find($('.at_name')).attr('id')
         methods.deleteRangeText(t, w.length);
-        methods.insertAfterCursor(t,name+'('+id+') ');
+        methods.insertAfterCursor(t,name);
         $('#at_list').remove()
     }
 
@@ -173,8 +172,8 @@ $.fn.pop_at = function(){
                         }
                         for(var i=0;i<data.length;i++){
                             t=data[i]
-                            var html = $('<div class="at_li"><img class="at_img L" src="'+t[3]+'"><span class="at_name" id="'+t[2]+'"></span><span class="at_title"></span></div>')
-                            html.find(".at_name").text(t[0])
+                            var html = $('<div class="at_li"><img class="at_img L"  src="'+t[3]+'"><span class="at_name"></span><span class="at_title"></span></div>')
+                            html.find(".at_name").text(t[0]+"("+t[2]+")")
                             html.find(".at_title").text(t[1])
                             at_list.append(html)
                         }
