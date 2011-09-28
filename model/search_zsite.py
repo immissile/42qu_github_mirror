@@ -6,5 +6,9 @@ class SearchZsite(Model):
     pass
 
 def search_new(id):
-    if not SearchZsite.get(id):
-        SearchZsite(id=id).save()
+    SearchZsite.raw_sql("insert delayed into search_zsite (id) values (%s) on duplicate key update id=id", id)
+
+if __name__ == "__main__":
+    print search_new(10002411)
+
+
