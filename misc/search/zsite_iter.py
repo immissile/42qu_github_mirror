@@ -23,7 +23,7 @@ def zsite2keyword(z):
     if name:
         for word in seg_title_search(name):
             t[word] += 2
-    
+
     url = url_by_id(id)
     if url:
         t[url] += 2
@@ -31,7 +31,7 @@ def zsite2keyword(z):
     if z.cid == CID_SITE:
         for word in seg_title_search(motto_get(id)):
             t[word] += 1
-    
+
     elif z.cid == CID_USER:
 
         mail = mail_by_user_id(id)
@@ -72,7 +72,8 @@ def zsite2keyword(z):
     return t
 
 
-def zsite_keyword_iter():
+
+def search_zsite_keyword_iter():
     for i in ormiter(SearchZsite):
         id = i.id
         i.delete()
@@ -80,10 +81,24 @@ def zsite_keyword_iter():
         if zsite:
             kw = zsite2keyword(zsite)
             if kw:
-                yield str(id), zsite.cid, zsite_rank_by_zsite_id(id), kw.items()
+                yield zsite_keyword(zsite, kw)
+
+
+
+def zsite_keyword_iter():
+    for i in ormiter(Zsite):
+        kw = zsite2keyword(zsite)
+        if kw:
+            yield zsite_keyword(zsite, kw)
+
+
+def zsite_keyword(zsite, kw):
+    id = zsite.id
+    return str(id), zsite.cid, zsite_rank_by_zsite_id(id), kw.items()
+
 
 
 if __name__ == '__main__':
-    for i in zsite_keyword_iter():
+    for i in search_zsite_keyword_iter():
         print i
 
