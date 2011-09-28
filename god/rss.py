@@ -58,10 +58,13 @@ class RssGid(Base):
 class RssGidEdit(Base):
     def get(self,id):
         rss = Rss.get(id)
-        self.render(rss=rss)
+        next = self.request.headers.get('Referer', '')
+        self.render(rss=rss,
+                next=next)
 
     def post(self,id):
         rss = Rss.get(id)
+        next = self.get_argument('next','/rss_index')
         url = self.get_argument('url',None)
         link = self.get_argument('link',None)
         user_id = self.get_argument('user_id',None)
@@ -81,7 +84,7 @@ class RssGidEdit(Base):
 
         rss.save()
 
-        self.render(rss=rss, success=True)
+        self.redirect(next)
 
 
 @urlmap('/rss_gid/rm/(\d+)')
@@ -100,9 +103,17 @@ class RssEdit(Base):
         self.redirect('/rss_gid/1')
 
    
-
+@urlmap('/rss/edit')
 @urlmap('/rss/edit/(\d+)')
 class RssEdit(Base):
+    def get(self,id=0):
+        if id:
+            id = int(id)
+            rss = Rss.get(id=id)
+            self.render(rss =rss)
+        else:
+            self.render()
+        
     def post(self, id):
         id=int(id)
         txt = self.get_argument('txt')
@@ -116,3 +127,5 @@ class RssEdit(Base):
         po.save()
 
         self.finish('')
+
+#@urlmap('/rss/')
