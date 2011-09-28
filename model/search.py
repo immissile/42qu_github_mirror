@@ -88,27 +88,38 @@ def make_query(keywords):
 
 
 @retry
-def _search(enquire, keywords, offset=0, limit=50):
+def _search(enquire, keywords, cid=None, offset=0, limit=50):
     if type(keywords) is xapian.Query:
         query = keywords
     else:
         query = make_query(keywords)
     enquire.set_query(query)
-    matches = enquire.get_mset(offset, limit, None)
+
+    if cid is None:
+        matches = enquire.get_mset(offset, limit, None)
+    else:
+        match = xapian.ValueSetMatchDecider(2, True)
+        match.add_value(str(cid)) 
+        matches = enquire.get_mset(offset, limit, None, match)
     return matches, matches.get_matches_estimated()
 
 
 def search_user(keywords, offset, limit):
-    return search(CID_USER, keywords, offset, limit)
+    return search(keywords, CID_USER,  offset, limit)
+
+
+def search_site(keywords, offset, limit):
+    return search(keywords, CID_SITE,  offset, limit)
+
 
 
 
 @retry
-def search(cid, keywords, offset, limit):
+def search(keywords, cid, offset, limit):
     e = ENQUIRE
     keywords = make_query(keywords)
 
-    match, count = _search(e, keywords, offset, limit)
+    match, count = _search(e, keywords, cid, offset, limit)
     r = []
     for m in match:
         doc = m.document
@@ -119,8 +130,9 @@ def search(cid, keywords, offset, limit):
 
 if __name__ == '__main__':
     print search_user('awerewar', 0, 111)
-    #print search('zsp007@gmail.com', 0, 111)
-    #print search('王兴', 0, 111)
-    #print search('美团网', 0, 111)
-    #print search('美团', 0, 111)
+    print search_site('awerewar', 0, 111)
+
+    cid = CID_USER
+
+
 
