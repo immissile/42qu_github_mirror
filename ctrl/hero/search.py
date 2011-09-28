@@ -4,7 +4,7 @@ from ctrl._urlmap.hero import urlmap
 from string import maketrans
 from urllib import quote
 from urlparse import parse_qs
-from model.search import search
+from model.search import search_user
 from model.zsite import Zsite
 from zkit.page import limit_offset, Page
 
@@ -23,7 +23,7 @@ class Search(Base):
                 q = q.decode('gb18030')
             q = q.encode('utf-8')
             now, list_limit, offset = limit_offset(n, PAGE_LIMIT)
-            zsite_list, total = search(q, offset, list_limit)
+            zsite_list, total = search_user(q, offset, list_limit)
             page = str(Page(
                 '/q-%%s?q=%s' % quote(q).replace('%', '%%'),
                 total,

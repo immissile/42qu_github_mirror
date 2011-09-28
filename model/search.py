@@ -10,7 +10,7 @@ from model.motto import motto_get
 from os.path import join
 from time import sleep
 import xapian
-
+from model.cid import CID_USER, CID_SITE
 
 DATEBASE = None
 ENQUIRE = None
@@ -98,8 +98,13 @@ def _search(enquire, keywords, offset=0, limit=50):
     return matches, matches.get_matches_estimated()
 
 
+def search_user(keywords, offset, limit):
+    return search(CID_USER, keywords, offset, limit)
+
+
+
 @retry
-def search(keywords, offset, limit):
+def search(cid, keywords, offset, limit):
     e = ENQUIRE
     keywords = make_query(keywords)
 
@@ -113,7 +118,7 @@ def search(keywords, offset, limit):
     return Zsite.mc_get_list(r), count
 
 if __name__ == '__main__':
-    print search('awerewar', 0, 111)
+    print search_user('awerewar', 0, 111)
     #print search('zsp007@gmail.com', 0, 111)
     #print search('王兴', 0, 111)
     #print search('美团网', 0, 111)
