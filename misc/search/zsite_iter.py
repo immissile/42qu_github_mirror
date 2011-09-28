@@ -86,7 +86,7 @@ def search_zsite_keyword_iter():
 
 
 def zsite_keyword_iter():
-    for i in ormiter(Zsite):
+    for zsite in ormiter(Zsite):
         kw = zsite2keyword(zsite)
         if kw:
             yield zsite_keyword(zsite, kw)
@@ -94,7 +94,7 @@ def zsite_keyword_iter():
 
 def zsite_keyword(zsite, kw):
     id = zsite.id
-    return str(id), zsite.cid, zsite_rank_by_zsite_id(id), kw.items()
+    return str(id), str(zsite.cid), zsite_rank_by_zsite_id(id), kw.items()
 
 
 

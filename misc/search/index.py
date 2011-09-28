@@ -21,10 +21,8 @@ def flush_db():
     SEARCH_DB.flush()
 
 
-@single_process
-def index():
-    from zsite_iter import search_zsite_keyword_iter
-    for id, cid, rank, kw in search_zsite_keyword_iter():
+def index(keyword_iter):
+    for id, cid, rank, kw in keyword_iter():
 
         doc = xapian.Document()
         doc.add_value(0, id)
@@ -44,5 +42,10 @@ def index():
     flush_db()
 
 
+@single_process
+def main():
+    from zsite_iter import search_zsite_keyword_iter, zsite_keyword_iter
+    index(zsite_keyword_iter)
+
 if __name__ == '__main__':
-    index()
+    main()
