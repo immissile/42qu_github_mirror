@@ -172,7 +172,9 @@ $.fn.pop_at = function(){
             if($.inArray(e.keyCode,keys)<0){
                 $.postJSON(
                     "/j/at/",
-                    {"txt":$.trim(wordsForSearch)},
+                    {
+                        "q":$.trim(wordsForSearch)
+                    },
                     function(data){
                         at_list = $('<div class="at_list" id="at_list"/>')
                         if(data.length<0){
