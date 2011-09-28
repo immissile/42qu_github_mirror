@@ -14,10 +14,6 @@ padding:16px 0;
 h1 .new:visited{
 color:#999;
 }
-h1 .nav{
-float:left;
-color:#999
-}
 h1 .nav a{
 color:#999
 }
@@ -26,6 +22,22 @@ color:#000
 }
 h1 .nav a:hover{
 color:#a10
+}
+#search{
+border: 1px solid #DDDDDD;
+height: 26px;
+line-height: 26px;
+padding: 1px 3px;
+width: 100px;
+float:left;
+_margin-right:-3px;
+}
+.search_btn{
+background: url("/img/png/search_btn.png") no-repeat scroll 0 0 transparent;
+border: medium none;
+cursor: pointer;
+height: 30px;
+width: 31px;
 }
 .site_txt{
 width:599px;

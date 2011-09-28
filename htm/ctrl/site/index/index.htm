@@ -15,10 +15,12 @@ path = request.path
 is_my = path.startswith("/my")
 %>
 <h1>
-    <span class="nav">
-        <a ${'class="c0"' if not is_my else ''|n} href="/">所有</a><span class="c9 split">-</span><a href="/my" ${'class="c0"' if is_my else ''|n}>我的</a>
+    <span class="L">
+        <form action="/q" class="search"><input type="text" value="" name="q" id="search" autocomplete="off"><input type="submit" value="" class="search_btn"></form><script>$("#search").focus()</script>
     </span>
-    <a class="new" href="/new">创建</a>
+    <span class="nav C">
+        <a ${'class="c0"' if not is_my else ''|n} href="/">所有</a><span class="c9 split">-</span><a href="/my" ${'class="c0"' if is_my else ''|n}>我的</a><span class="c9 split">-</span><a class="new" href="/new">创建</a>
+    </span>
 </h1>
 
 
