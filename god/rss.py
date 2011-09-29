@@ -37,9 +37,9 @@ class RssIndex(Base):
         self.get()
 
 
-@urlmap('/rss/rm/(\d+)/(\d+)')
+@urlmap('/rss/rm/(\d+)')
 class RssRm(Base):
-    def get(self,state,id):
+    def get(self,id):
         pre = RssPo.mc_get(id)
         if pre:
             pre.state = RSS_RM
