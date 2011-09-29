@@ -184,3 +184,21 @@ rid = po.rid
 </%def>
 
 
+<%def name="tag_list_site(po_site_count, po_site_list)">
+% if po_site_count:
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+% for site in po_site_list:
+<li><a href="${site.link}">${site.name}</a></li>
+% endfor
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="/fav/site" class="num">\
+    <span class="now">${po_site_count}</span><b>站点</b>
+</a>
+</div>
+</div>
+% endif
+</%def>
