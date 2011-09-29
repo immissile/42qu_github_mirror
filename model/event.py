@@ -372,7 +372,8 @@ def event_joined_id_list(event_id):
     return EventJoiner.where(event_id=event_id).where('user_id!=%s and state>=%s', zsite_id, EVENT_JOIN_STATE_YES).order_by('id desc').col_list()
 
 def event_joiner_id_list(event_id, limit, offset):
-    li = event_joining_id_list(event_id)
+    li = []
+    li.extend(event_joining_id_list(event_id))
     li.extend(event_joined_id_list(event_id))
     return li[offset: offset+limit]
 

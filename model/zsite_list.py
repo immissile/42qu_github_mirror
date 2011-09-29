@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McLimitA, McNum, McCacheA
+from model.zsite import Zsite
+from zkit.algorithm.wrandom import sample_or_shuffle
 
 '''
 CREATE TABLE `zsite_list` (
@@ -18,17 +20,25 @@ CREATE TABLE `zsite_list` (
 STATE_ACTIVE = 1
 STATE_DEL = 0
 
-mc_zsite_id_list = McLimitA('ZsiteIdList%s', 1024)
-mc_zsite_id_list_by_zsite_id = McLimitA('ZsiteIdListByZsiteId%s', 1024)
 
-zsite_list_count = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id).where("state>=%s"%STATE_ACTIVE).count(), 'ZsiteListCount%s')
-zsite_list_count_by_zsite_id = McNum(lambda zsite_id, cid:ZsiteList.where(cid=cid, zsite_id=zsite_id).where("owner_id>0").where("state>=%s"%STATE_ACTIVE).count(), 'ZsiteListCountByZsiteId%s')
+MC_LIMIT_ZSITE_LIST = 1024
 
-mc_zsite_list_id_state = McCacheA("ZsiteListIdState:%s")
+mc_zsite_id_list = McLimitA('ZsiteIdList%s', MC_LIMIT_ZSITE_LIST)
+mc_zsite_id_list_by_zsite_id = McLimitA('ZsiteIdListByZsiteId%s', MC_LIMIT_ZSITE_LIST)
+
+zsite_list_count = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id).where('state>=%s'%STATE_ACTIVE).count(), 'ZsiteListCount%s')
+zsite_list_count_by_zsite_id = McNum(lambda zsite_id, cid:ZsiteList.where(cid=cid, zsite_id=zsite_id).where('owner_id>0').where('state>=%s'%STATE_ACTIVE).count(), 'ZsiteListCountByZsiteId%s')
+
+mc_zsite_list_id_state = McCacheA('ZsiteListIdState:%s')
 
 class ZsiteList(McModel):
     pass
 
+
+def zsite_list(owner_id, cid, limit=None, offset=None):
+    return Zsite.mc_get_list(
+        zsite_id_list(owner_id, cid, limit, offset)
+    )
 
 @mc_zsite_id_list('{owner_id}_{cid}')
 def zsite_id_list(owner_id, cid, limit=None, offset=None):
@@ -37,7 +47,7 @@ def zsite_id_list(owner_id, cid, limit=None, offset=None):
 
 @mc_zsite_id_list_by_zsite_id('{zsite_id}_{cid}')
 def zsite_id_list_by_zsite_id(zsite_id, cid, limit=None, offset=None):
-    qs = ZsiteList.where(zsite_id=zsite_id, cid=cid, state=STATE_ACTIVE).where("owner_id>0").order_by('rank desc')
+    qs = ZsiteList.where(zsite_id=zsite_id, cid=cid, state=STATE_ACTIVE).where('owner_id>0').order_by('rank desc')
     return qs.col_list(limit, offset, 'owner_id')
 
 
@@ -65,15 +75,15 @@ def mc_flush(owner_id, cid, zsite_id=0):
     mc_zsite_id_list.delete(key)
     zsite_list_count.delete(key)
     if zsite_id:
-        mc_zsite_id_list_by_zsite_id.delete("%s_%s"%(zsite_id, cid)) 
+        mc_zsite_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, cid))
         mc_zsite_list_id_state.delete(
-            "%s_%s_%s"%(
+            '%s_%s_%s'%(
                 zsite_id, owner_id , cid
             )
         )
         zsite_list_count_by_zsite_id.delete(
-            "%s_%s"%(
-                zsite_id,  cid
+            '%s_%s'%(
+                zsite_id, cid
             )
         )
 
@@ -86,17 +96,17 @@ def zsite_list_rm(zsite_id, owner_id, cid=None):
         for cid in cid_list:
             mc_flush(owner_id, cid, zsite_id)
     else:
-        id = zsite_list_id_get(zsite_id, owner_id, cid)  
+        id = zsite_list_id_get(zsite_id, owner_id, cid)
         if id:
-            ZsiteList.where(id=id).delete() 
+            ZsiteList.where(id=id).delete()
             mc_flush(owner_id, cid, zsite_id)
 
- 
-@mc_zsite_list_id_state("{zsite_id}_{owner_id}_{cid}")
+
+@mc_zsite_list_id_state('{zsite_id}_{owner_id}_{cid}')
 def zsite_list_id_state(zsite_id, owner_id, cid):
     o = ZsiteList.get(zsite_id=zsite_id, owner_id=owner_id, cid=cid)
     if o:
-        return o.id, o.state        
+        return o.id, o.state
     return 0 , 0
 
 def _zsite_list_id_get(zsite_id, owner_id, cid=0):
@@ -124,7 +134,18 @@ def zsite_list_rank(zsite_id, owner_id, rank):
         mc_flush(owner_id, cid)
 
 
-if __name__ == "__main__":
+def zsite_id_list_sample(zsite_id, cid, k):
+    a = zsite_id_list(zsite_id, cid, MC_LIMIT_ZSITE_LIST, 0)
+    a = sample_or_shuffle(a, k)
+    return a
+
+
+def zsite_list_sample(zsite_id, cid, k):
+    return Zsite.mc_get_list(
+        zsite_id_list_sample(zsite_id, cid, k)
+    )
+
+if __name__ == '__main__':
     pass
     from model.cid import CID_SITE
     print zsite_id_list_by_zsite_id(65, CID_SITE)

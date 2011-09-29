@@ -1,5 +1,6 @@
 <%!
 from model.zsite import Zsite
+from model.rss import RssUpdate, STATE2CN, STATE_RSS_NEW, rss_update_new
 %>
 <%inherit file="/god/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -21,7 +22,22 @@ user = Zsite.mc_get(user_id)
         </div>
         </div>
         <div><a href="/rss_gid/edit/${id}">编辑</a>
-            </div>
+        </div>
+<%
+ru = RssUpdate.mc_get(id)          
+%>
+%if ru:
+${STATE2CN[ru.state]}
+%if ru.state == STATE_RSS_NEW:
+        <a href="/#rss_mail">发邮件</a>
+##<a href="#mail">发邮件</a>
+%endif
+%else:
+<%
+rss_update_new(id,STATE_RSS_NEW)
+%>
+%endif
+
     <div class="tr">
         <a href="/rss_gid/rm/${id}">删除</a>
     </div>

@@ -64,6 +64,7 @@ function save(id){
 ${page|n}
 
 % if rss_po_list:
+
 % for p in rss_po_list:
 <%
 id,link,user_id,title,htm,pic_list = p
@@ -90,8 +91,11 @@ htm = pic_rss(htm,pic_list)
 </a> :
 %endif
 ${title}</span>
-<a href="/rss/rm/${RSS_RM}/${id}" class="rm">删除</a>
+<a href="/rss/rm/${id}" class="rm">删除</a>
 <a target="_blank" href="${link}">原文</a></div>
+<div>
+<a href="/rss/edit/${id}">Rss编辑</a>
+</div>
 <pre>
 </pre>
 <div id="txt${id}">${txt_cut}</div>
@@ -107,5 +111,10 @@ ${title}</span>
 </form>
 </div>
 %endfor
+
+<form method="POST">
+<input type="hidden" name="id" value="${" ".join([str(p[0]) for p in rss_po_list])}"/>
+    <span class="btnw"><button type="submit">删除所有未通过</button></span>
+</form>
 % endif
-${page|n}
+<div class="c">${page|n}</div>
