@@ -8,7 +8,8 @@ from model.zsite_admin import zsite_admin_new, zsite_user_state, zsite_id_list_b
 from model.zsite_show import zsite_show_new
 from model.buzz import mq_buzz_site_new
 from model.search_zsite import search_new
-from model.zsite_list import zsite_id_list, MC_LIMIT_ZSITE_LIST 
+from model.zsite_list import zsite_id_list, MC_LIMIT_ZSITE_LIST
+from zkit.algorithm.wrandom import sample_or_shuffle
 
 ZSITE_STATE_SITE_PUBLIC = 40
 ZSITE_STATE_SITE_SECRET = 20
@@ -72,15 +73,21 @@ def zsite_id_by_zsite_user_id(zsite, user_id):
     return 0
 
 def zsite_site_by_user_id_sample(user_id, k):
-    a = zsite_id_list(owner_id, CID_SITE, MC_LIMIT_ZSITE_LIST)
+    a = zsite_id_list(user_id, CID_SITE, MC_LIMIT_ZSITE_LIST, 0)
+    a = sample_or_shuffle(a, k)
     b = zsite_id_list_by_admin_id_sample(user_id, k)
 
+
     id_list = []
-    id_list.extend(a)
-    id_list.extend(b)
+    if a:
+        id_list.extend(a)
+    if b:
+        id_list.extend(b)
+
+    id_list = sample_or_shuffle(id_list, k)
 
     return Zsite.mc_get_list(id_list)
-    
+
 
 
 if __name__ == '__main__':
