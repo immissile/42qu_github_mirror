@@ -88,7 +88,8 @@ def zsite_site_by_user_id_sample(user_id, k):
 
     return Zsite.mc_get_list(id_list)
 
-
+def zsite_site_count():
+    return zsite_list_count(zsite_id, CID_SITE)
 
 if __name__ == '__main__':
     print zsite_site_by_user_id_sample(10000000, 3)
