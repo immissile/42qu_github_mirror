@@ -3,6 +3,7 @@
 from zkit.page import page_limit_offset
 from model.zsite_list import zsite_list, zsite_list_count
 from model.zsite_admin import zsite_by_admin_id_count, zsite_list_by_admin_id
+from model.cid import CID_SITE
 
 PAGE_LIMIT = 20
 
