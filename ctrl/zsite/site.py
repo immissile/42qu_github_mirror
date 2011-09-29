@@ -140,14 +140,14 @@ class SiteListBase(_SiteListBase):
 
 @urlmap('/site/fav')
 @urlmap('/site/fav-(\d+)')
-class FavSite(ZsiteBase, FavBase):
+class FavSite( SiteListBase, FavBase, ZsiteBase):
     page_url = '/site/fav-%s'
 
 
 
 @urlmap('/site/my')
 @urlmap('/site/my-(\d+)')
-class MySite(ZsiteBase, MyBase):
+class MySite( SiteListBase, MyBase, ZsiteBase):
     page_url = '/site/my-%s'
 
 
