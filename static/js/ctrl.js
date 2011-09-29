@@ -179,7 +179,7 @@ function follow_a(id) {
 			}
 		})
 	} else {
-        if(confirm("取消关注 , 确定?")){
+        if(confirm("取消关注 , 确定 ?")){
     		text = follow;
 	    	url += "/rm"
         }
