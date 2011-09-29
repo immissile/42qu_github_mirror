@@ -57,8 +57,12 @@ def dwz_cn(url):
 def curt_cc(url):
     url = urllib.quote(url)
     result = urlfetch('http://curt.cc/service/generator.php?url=%s'%url)
-    result = loads(result)
-    return result['url']
+    try:
+        result = loads(result)
+        return result['url']
+    except:
+        traceback.print_exc()
+        return url
 
 if '__main__' == __name__:
     url = 'http://42qu.com/1233?122234'
