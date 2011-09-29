@@ -296,5 +296,7 @@ def pinyin_by_str(text):
             pinyin_list.append(pinyin)
     return ''.join(pinyin_list)
 
-if __name__ == "__main__":
-    print pinyin_by_str("张沈鹏")
+if __name__ == '__main__':
+    print startswith_pinyin_initial('z')('张沈鹏')
+    print startswith_pinyin_initial('z')('沈鹏')
+    print startswith_pinyin_initial('s')('沈鹏')
