@@ -27,7 +27,7 @@ class RssIndex(Base):
             )
 
     def post(self,state=RSS_UNCHECK,n=1):
-        ids = self.get_arguments('id')
+        ids = self.get_argument('id').split()
         if ids:
             for id in ids:
                 rss = RssPo.mc_get(id)
