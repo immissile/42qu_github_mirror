@@ -3,7 +3,12 @@
 
 <%def name="htm_head()">
 ${css.ctrl_site_index|n}
+${self.head()}
 </%def>
+
+
+<%def name="head()"></%def>
+
 <%def name="htm_title()">
 ${zsite.name} - 站点
 </%def>
