@@ -17,6 +17,13 @@ from model.zsite_url import url_by_id
 from model.zsite_fav import zsite_fav_rm 
 from model.search_zsite import search_new
 from ctrl.zsite.index import render_zsite_site
+from _handler import ZsiteBase
+from model.zsite_list import zsite_list_count, zsite_id_list
+from model.cid import CID_SITE
+from zkit.page import page_limit_offset
+from model.zsite import Zsite
+
+PAGE_LIMIT = 56
 
 @urlmap('/admin')
 class Admin(AdminBase):
@@ -116,4 +123,24 @@ class About(SiteBase):
         self.render(
             li=li, page=page
         )
+
+@urlmap('/site')
+@urlmap('/site-(\d+)')
+class Site(ZsiteBase):
+    def get(self,n=0):
+        zsite_id = self.zsite_id
+        total = zsite_list_count(zsite_id, CID_SITE)
+        n = int(n)
+        page, limit,offset = page_limit_offset(
+               '/site-%s',
+               total,
+               n,
+               PAGE_LIMIT
+                )
+        site_list = Zsite.mc_get_list(zsite_id_list(zsite_id, CID_SITE,limit,offset))
+        self.render(
+               page = page,
+               site_list = site_list
+                )
+        self.render()
 
