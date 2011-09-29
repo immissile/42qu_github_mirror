@@ -97,7 +97,7 @@ def htm2txt(htm):
                     
                     if name in BLOCK_BOLD:
                         if "\n" not in s:
-                            li.append(u'\n**%s**\n' % s):
+                            li.append(u'\n**%s**\n' % s)
                         else:
                             li.append(s)
                     elif name in BLOCK:
