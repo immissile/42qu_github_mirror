@@ -61,6 +61,6 @@ def curt_cc(url):
     return result['url']
 
 if '__main__' == __name__:
-    url = 'http://42qu.com/1233?1'
+    url = 'http://42qu.com/1233?122234'
     print curt_cc(url)
 
