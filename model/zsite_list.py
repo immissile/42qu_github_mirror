@@ -18,8 +18,11 @@ CREATE TABLE `zsite_list` (
 STATE_ACTIVE = 1
 STATE_DEL = 0
 
-mc_zsite_id_list = McLimitA('ZsiteIdList%s', 1024)
-mc_zsite_id_list_by_zsite_id = McLimitA('ZsiteIdListByZsiteId%s', 1024)
+
+MC_LIMIT_ZSITE_LIST = 1024
+
+mc_zsite_id_list = McLimitA('ZsiteIdList%s', MC_LIMIT_ZSITE_LIST)
+mc_zsite_id_list_by_zsite_id = McLimitA('ZsiteIdListByZsiteId%s', MC_LIMIT_ZSITE_LIST)
 
 zsite_list_count = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id).where("state>=%s"%STATE_ACTIVE).count(), 'ZsiteListCount%s')
 zsite_list_count_by_zsite_id = McNum(lambda zsite_id, cid:ZsiteList.where(cid=cid, zsite_id=zsite_id).where("owner_id>0").where("state>=%s"%STATE_ACTIVE).count(), 'ZsiteListCountByZsiteId%s')

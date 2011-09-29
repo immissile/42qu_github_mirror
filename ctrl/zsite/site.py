@@ -136,11 +136,13 @@ class Site(ZsiteBase):
                total,
                n,
                PAGE_LIMIT
-                )
+        )
         site_list = Zsite.mc_get_list(zsite_id_list(zsite_id, CID_SITE,limit,offset))
+
+
         self.render(
-               page = page,
-               site_list = site_list
-                )
+           page = page,
+           site_list = site_list
+        )
         self.render()
 
