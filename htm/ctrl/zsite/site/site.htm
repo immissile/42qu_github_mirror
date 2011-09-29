@@ -15,16 +15,7 @@ is_my = path.startswith("/my")
 is_all = not path.split("-",1)[0].strip("/")
 %>
 <h1>
-    <span class="L">
-        <form action="/q" class="search"><input type="text" value="\
-%if q:
-${q}\
-%endif
-" name="q" id="search" autocomplete="off"><input type="submit" value="" class="search_btn"></form><script>(function(){
-var search=$("#search").focus(),val=search.val();
-search.val('').val(val);
-})()</script>
-    </span>
+    <span class="L"><a href="${zsite.link}" class="c0">${zsite.name} : 站点</a></span>
     <span class="nav C">
         <a ${'class="c0"' if is_all else ''|n} href="/">所有</a><span class="c9 split">-</span><a href="/fav" ${'class="c0"' if is_fav else ''|n}>收藏</a><span class="c9 split">-</span><a href="/my" ${'class="c0"' if is_my else ''|n}>我的</a><span class="c9 split">-</span><a class="new" href="/new">创建</a>
     </span>
