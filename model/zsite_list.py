@@ -140,6 +140,11 @@ def zsite_id_list_sample(zsite_id, cid, k):
     return a
 
 
+def zsite_list_sample(zsite_id, cid, k):
+    return Zsite.mc_get_list(
+        zsite_id_list_sample(zsite_id, cid, k)
+    )
+
 if __name__ == '__main__':
     pass
     from model.cid import CID_SITE

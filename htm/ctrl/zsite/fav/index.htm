@@ -5,7 +5,7 @@ from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, C
 from model.fav import fav_po_list_by_user_id_cid, fav_po_count_by_user_id_cid
 from model.po import PO_CN_EN, PO_EN
 from model.zsite import Zsite
-from model.zsite_list import zsite_list_count, zsite_id_list
+from model.zsite_list import zsite_list_count, zsite_list_sample
 %>
 <%def name="htm_head()">
 ${css.ctrl_fav|n}
@@ -47,7 +47,7 @@ po_total_count += po_count
 ${func(po_count, po_list)}
 % endfor
 <%
-po_site_list = Zsite.mc_get_list(zsite_id_list(zsite_id, CID_SITE))
+po_site_list = zsite_list_sample(zsite_id, CID_SITE, 6)
 po_site_count = zsite_list_count(zsite_id,CID_SITE)
 %>
 
