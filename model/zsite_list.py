@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McLimitA, McNum, McCacheA
+from model.zsite import Zsite
 
 '''
 CREATE TABLE `zsite_list` (
@@ -29,6 +30,11 @@ mc_zsite_list_id_state = McCacheA("ZsiteListIdState:%s")
 class ZsiteList(McModel):
     pass
 
+
+def zsite_list(owner_id, cid, limit=None, offset=None):
+    return Zsite.mc_get_list(
+        zsite_id_list(owner_id, cid, limit, offset)
+    )
 
 @mc_zsite_id_list('{owner_id}_{cid}')
 def zsite_id_list(owner_id, cid, limit=None, offset=None):

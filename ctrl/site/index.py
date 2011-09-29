@@ -21,6 +21,7 @@ from model.cid import CID_SITE
 from model.search_zsite import search_new
 from model.search import search_site
 from ctrl._util.search import search_get
+from model.zsite_list import zsite_list
  
 PAGE_LIMIT = 20
 
@@ -62,6 +63,21 @@ class Index(SiteListBase, Base):
     
     def _page_list(self, limit, offset):
         return zsite_show_list(CID_SITE, limit, offset)
+
+@urlmap("/fav")
+@urlmap("/fav-(\d+)")
+class Fav(SiteListBase, LoginBase):
+    page_url = "/fav-%s"
+
+    def _total(self):
+        return zsite_list_count(
+            self.current_user_id, CID_SITE
+        )
+
+    def _page_list(self,  limit, offset):
+        return zsite_list(
+            self.current_user_id, CID_SITE, limit, offset
+        )
 
 @urlmap("/my")
 @urlmap("/my-(\d+)")
