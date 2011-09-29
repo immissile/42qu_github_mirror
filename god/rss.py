@@ -30,7 +30,7 @@ class RssIndex(Base):
         ids = self.get_arguments('id')
         if ids:
             for id in ids:
-                rss = RssPo.get(id)
+                rss = RssPo.mc_get(id)
                 if rss and rss.state == RSS_UNCHECK:
                     rss.state = RSS_RM
                     rss.save()
@@ -40,7 +40,7 @@ class RssIndex(Base):
 @urlmap('/rss/rm/(\d+)/(\d+)')
 class RssRm(Base):
     def get(self,state,id):
-        pre = RssPo.get(id)
+        pre = RssPo.mc_get(id)
         if pre:
             pre.state = RSS_RM
             pre.save()
@@ -68,13 +68,13 @@ class RssGid(Base):
 @urlmap('/rss_gid/edit/(\d+)')
 class RssGidEdit(Base):
     def get(self,id):
-        rss = Rss.get(id)
+        rss = Rss.mc_get(id)
         next = self.request.headers.get('Referer', '')
         self.render(rss=rss,
                 next=next)
 
     def post(self,id):
-        rss = Rss.get(id)
+        rss = Rss.mc_get(id)
         next = self.get_argument('next','/rss_index')
         url = self.get_argument('url',None)
         link = self.get_argument('link',None)
@@ -102,7 +102,7 @@ class RssGidEdit(Base):
 class RssEdit(Base):
     def get(self, id):
         id=int(id)
-        rss = Rss.get(id=id)
+        rss = Rss.mc_get(id)
 
         if not rss.gid:
             rss.delete()
@@ -120,7 +120,7 @@ class RssEdit(Base):
     def get(self,id=0):
         if id:
             id = int(id)
-            rss = Rss.get(id=id)
+            rss = Rss.mc_get(id)
             self.render(rss =rss)
         else:
             self.render()
@@ -129,7 +129,7 @@ class RssEdit(Base):
         id=int(id)
         txt = self.get_argument('txt')
         rt = self.get_argument('rt',None)
-        po = RssPo.get(id=id)
+        po = RssPo.mc_get(id)
         po.txt = txt
         if rt:
             po.state = RSS_RT_PO

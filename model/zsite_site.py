@@ -7,6 +7,7 @@ from model.cid import CID_SITE
 from model.zsite_admin import zsite_admin_new, zsite_user_state, zsite_id_list_by_admin_id_sample
 from model.zsite_show import zsite_show_new
 from model.buzz import mq_buzz_site_new
+from model.search_zsite import search_new
 
 ZSITE_STATE_SITE_PUBLIC = 40
 ZSITE_STATE_SITE_SECRET = 20
@@ -31,6 +32,7 @@ def site_new(name, admin_id, state):
         zsite_show_new(site_id, CID_SITE)
 
     mq_buzz_site_new(admin_id, site_id)
+    search_new(site_id)
     return site
 
 def site_count_by_state(state):

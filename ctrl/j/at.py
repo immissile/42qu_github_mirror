@@ -6,7 +6,7 @@ from model.zsite_url import zsite_by_domain
 from _handler import JLoginBase
 from model.zsite_url import url_or_id
 
-@urlmap('/j/at/')
+@urlmap('/j/at')
 class At(JLoginBase):
     def post(self):
         result = []

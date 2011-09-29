@@ -18,6 +18,9 @@ from model.txt import txt_new
 from model.zsite_admin import zsite_by_admin_id_count, zsite_list_by_admin_id
 from model.zsite_show import zsite_show_list, zsite_show_count
 from model.cid import CID_SITE
+from model.search_zsite import search_new
+from model.search import search_site
+from ctrl._util.search import search_get
  
 PAGE_LIMIT = 20
 
@@ -39,6 +42,14 @@ class SiteListBase(object):
             page = str(page),
             total = total
         )
+
+
+
+@urlmap('/q')
+@urlmap('/q-(\d+)')
+class Search(Base):
+    search = staticmethod(search_site)
+    get = search_get
 
 
 @urlmap('/')

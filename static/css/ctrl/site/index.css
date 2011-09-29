@@ -14,10 +14,6 @@ padding:16px 0;
 h1 .new:visited{
 color:#999;
 }
-h1 .nav{
-float:left;
-color:#999
-}
 h1 .nav a{
 color:#999
 }
@@ -26,6 +22,22 @@ color:#000
 }
 h1 .nav a:hover{
 color:#a10
+}
+#search{
+border: 1px solid #DDDDDD;
+height: 26px;
+line-height: 26px;
+padding: 1px 3px;
+width: 100px;
+float:left;
+_margin-right:-3px;
+}
+.search_btn{
+background: url("/img/png/search_btn.png") no-repeat scroll 0 0 transparent;
+border: medium none;
+cursor: pointer;
+height: 30px;
+width: 31px;
 }
 .site_txt{
 width:599px;
@@ -53,30 +65,30 @@ padding-bottom: 11px;
 text-align:left;
 font-size:14px;
 }
-.po_num{
+.site_num{
 text-align: left;
 margin-top: 13px;
 }
-.po_num a b{
+.site_num a b{
 color:#666;
 font-weight:normal;
 }
-.po_num a:hover b{
+.site_num a:hover b{
 color:#000;
 }
-.po_num a:hover .number{
+.site_num a:hover .number{
 border:0;
 color:#000;
 border-bottom:1px solid #000;
 }
-.po_num a .number{
+.site_num a .number{
 font-size:12px;
 vertical-align:1px;
 }
 .po_no{
 color:#666;
 }
-.po_num .amp{
+.site_num .amp{
 margin:0 6px;
 color:#000;
 }
@@ -87,7 +99,7 @@ font-weight:normal;
 border-bottom:1px solid #000;
 color:#000;
 }
-.po_num .po_no:hover .number{
+.site_num .po_no:hover .number{
 background:#000;
 color:#fff;
 }
