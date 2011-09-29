@@ -21,7 +21,7 @@ from model.cid import CID_SITE
 from model.search_zsite import search_new
 from model.search import search_site
 from ctrl._util.search import search_get
-from model.zsite_list import zsite_list
+from model.zsite_list import zsite_list, zsite_list_count
  
 PAGE_LIMIT = 20
 
