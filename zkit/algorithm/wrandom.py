@@ -109,8 +109,8 @@ def sample_or_shuffle(population, k):
 
     if len(population) > k:
         return sample(population, k)
-
-    return shuffle(population)
+    shuffle(population)
+    return population
 
 if __name__ == '__main__':
     z = wsample_k2(
