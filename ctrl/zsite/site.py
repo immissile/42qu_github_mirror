@@ -128,7 +128,7 @@ class About(SiteBase):
 @urlmap('/site')
 class Site(ZsiteBase):
     def get(self):
-        pass
+        return self.render()
 
 
 class SiteListBase(_SiteListBase):
