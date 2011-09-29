@@ -142,7 +142,8 @@ class Site(ZsiteBase):
 
         self.render(
            page = page,
-           site_list = site_list
+           page_list = site_list,
+            total = total
         )
         self.render()
 
