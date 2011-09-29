@@ -5,7 +5,7 @@ from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from zsite import Zsite
 from model.cid import CID_SITE
-from zkit.algorithm.unique import sample_or_shuffle
+from zkit.algorithm.wrandom import sample_or_shuffle
 
 mc_zsite_id_list_by_admin_id = McCacheA('ZsiteIdListBYAdminId.%s')
 mc_admin_id_list_by_zsite_id = McCacheA('AdminIdListByZsiteId.%s')
