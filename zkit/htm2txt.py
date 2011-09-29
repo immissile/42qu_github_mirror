@@ -96,7 +96,10 @@ def htm2txt(htm):
                     s = soup2txt_recursion(i)
                     
                     if name in BLOCK_BOLD:
-                        li.append(u'\n**%s**\n' % s)
+                        if "\n" not in s:
+                            li.append(u'\n**%s**\n' % s):
+                        else:
+                            li.append(s)
                     elif name in BLOCK:
                         li.append(u'\n%s\n' % s)
                     elif name in BOLD:
