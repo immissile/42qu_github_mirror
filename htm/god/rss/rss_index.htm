@@ -63,20 +63,8 @@ function save(id){
 </%def>
 ${page|n}
 
-<form method="POST">
 % if rss_po_list:
-% for p in rss_po_list:
-<%
-id,link,user_id,title,htm,pic_list = p
-%>
-<div>
-    <input type="hidden" name="id" value="${id}"/>
-    </div>
-%endfor
-% endif
-    <span class="btnw"><button type="submit">删除所有未通过</button></span>
-</form>
-% if rss_po_list:
+
 % for p in rss_po_list:
 <%
 id,link,user_id,title,htm,pic_list = p
@@ -123,5 +111,10 @@ ${title}</span>
 </form>
 </div>
 %endfor
+
+<form method="POST">
+<input type="hidden" name="id" value="${" ".join([str(p[0]) for p in rss_po_list])}"/>
+    <span class="btnw"><button type="submit">删除所有未通过</button></span>
+</form>
 % endif
-${page|n}
+<div class="c">${page|n}</div>
