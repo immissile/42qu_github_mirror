@@ -1,34 +1,66 @@
+<%!
+from model.cid import CID_SITE
+from model.zsite_list import zsite_list_count, zsite_list
+from model.zsite_admin import zsite_by_admin_id_count, zsite_list_by_admin_id
+from ctrl._util.site import PAGE_LIMIT 
+%>
 
 <%inherit file="_site_base.htm" />
+
+
 <%def name="head()">
 <style>h1{width:auto}</style>
 </%def>
 
+<%
+count = zsite_list_count(zsite_id, CID_SITE)
+
+if count > PAGE_LIMIT:
+    path = "/site/fav-2"
+else:
+    path = "/site/fav"
+
+page_list = zsite_list(zsite_id, CID_SITE, PAGE_LIMIT, 0) 
+%>
+
 <div class="G"><div class="G2">
 <div class="zsite_block"><div class="zsite_ol"><ol>
-<li><a href="//qqqqqqqqq.zuroc.xxx">qqq</a></li>
-<li><a href="//wwzzz.zuroc.xxx">ww</a></li>
-<li><a href="//ddddddddddddddd.zuroc.xxx">张沈鹏</a></li>
-<li><a href="//53.zuroc.xxx">e</a></li>
+%for site in page_list:
+<li><a href="${site.link}">${site.name}</a></li>\
+%endfor
 </ol>
 </div>
 
 
-<div class="zsite_num_div"><a href="/site" class="num"> <span class="now">4</span><b>站点</b></a></div>
+<div class="zsite_num_div"><a href="${path}" class="num"> <span class="now">${count}</span><b>收藏</b></a></div>
 </div>
 
 </div>
+
+
+
+<%
+count = zsite_by_admin_id_count(zsite_id)
+
+if count > PAGE_LIMIT:
+    path = "/site/my-2"
+else:
+    path = "/site/my"
+
+page_list = zsite_list_by_admin_id(zsite_id, PAGE_LIMIT, 0) 
+%>
+
 
 <div class="G2">
 <div class="zsite_block"><div class="zsite_ol"><ol>
-<li><a href="//qqqqqqqqq.zuroc.xxx">qqq</a></li>
-<li><a href="//wwzzz.zuroc.xxx">ww</a></li>
-<li><a href="//ddddddddddddddd.zuroc.xxx">张沈鹏</a></li>
-<li><a href="//53.zuroc.xxx">e</a></li>
+%for site in page_list:
+<li><a href="${site.link}">${site.name}</a></li>
+%endfor
 </ol>
 </div>
 
-<div class="zsite_num_div"><a href="/site" class="num"> <span class="now">4</span><b>站点</b></a></div>
+<div class="zsite_num_div"><a href="${path}" class="num"> <span class="now">${count}</span><b>管理</b></a></div>
+
 </div>
 
 
