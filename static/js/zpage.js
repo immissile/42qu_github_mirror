@@ -281,6 +281,7 @@ fcmcbtn = function (id){
                 $.fancybox({
                     content: CANNOT_REPLY
                 })
+                return
             } 
             textarea.focus().val('').height(100)
             my.find('pre').text(cont)
