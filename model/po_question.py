@@ -12,14 +12,23 @@ from zsite import Zsite
 from model.notice import mq_notice_question, invite_question
 
 
+<<<<<<< local
+def po_question_new(user_id, name, txt, state, zsite_id):
+=======
 def po_question_new(user_id, name, txt, state, to_user_id=0):
+>>>>>>> other
     if not name and not txt:
         return
     name = name or time_title()
+<<<<<<< local
+    if not is_same_post(user_id, name, txt, zsite_id):
+        m = po_new(CID_QUESTION, user_id, name, state, zsite_id=zsite_id)
+=======
     if not is_same_post(user_id, name, txt):
         m = po_new(CID_QUESTION, user_id, name, state, to_user_id)
         if to_user_id:
             invite_question(user_id, to_user_id, m.id)
+>>>>>>> other
         txt_new(m.id, txt)
         if state > STATE_SECRET:
             m.feed_new()

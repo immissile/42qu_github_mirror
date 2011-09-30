@@ -4,7 +4,7 @@
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 from model.ico import pic_url_with_default, ico
-from model.zsite_list_0 import zsite_show_get
+from model.zsite_show import zsite_show_get
 from model.zsite_rank import zsite_rank_max
 %>
 <%def name="htm_head()">
@@ -16,7 +16,7 @@ var template = [
         template.push('本人照片 不清晰/不雅观/非主流')
     }
     if(cid==2||cid==3){
-        template.push('职业信息/公司类型/个人资料/专业信息 不完整')
+        template.push('职业信息 / 个人履历 / 公司介绍 / 学校专业 不完整')
     }
     if(cid==4){
         template.push("个人资料含有不雅词汇")

@@ -4,6 +4,7 @@ from ctrl._urlmap.main import urlmap
 from model.zsite_tag import ZsiteTag
 from model.zsite import Zsite
 from model.oauth import oauth_by_zsite_id_last
+from model.sync import sync_follow_oauth_id_bind
 
 @urlmap('/')
 class Index(Base):
@@ -26,14 +27,14 @@ class Tag(Base):
 
 
 
-@urlmap("/i/mail_notice")
-@urlmap("/i/mail/notice")
+@urlmap('/i/mail_notice')
+@urlmap('/i/mail/notice')
 class MailNotice(LoginBase):
     def get(self):
-        return self.redirect("//%s/i/mail/notice"%self.current_user.link)
+        return self.redirect('//%s/i/mail/notice'%self.current_user.link)
 
 
-@urlmap("/i/bind")
+@urlmap('/i/bind')
 class Bind(LoginBase):
     def get(self):
         user = self.current_user
@@ -41,8 +42,11 @@ class Bind(LoginBase):
 
         oauth_id = oauth_by_zsite_id_last(user.id)
         if oauth_id:
-            link = "%s/i/bind/%s"%(link,oauth_id[1])
+            link = '%s/i/bind/%s'%(link, oauth_id[1])
+            sync_follow_oauth_id_bind(
+                user.id, oauth_id[0], oauth_id[1]
+            )
 
         return self.redirect(link)
 
- 
+

@@ -14,7 +14,7 @@ def __eq__(self, other):
 
 @classmethod
 def max_id(cls):
-    c = cls.raw_sql('select max(id) from %s', cls.Meta.table)
+    c = cls.raw_sql('select max(id) from %s'%cls.Meta.table)
     id = c.fetchone()
     if id:
         return id[0]

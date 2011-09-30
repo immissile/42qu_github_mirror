@@ -1,421 +1,288 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
-from model.po_prev_next import po_prev_next
-from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
-from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN
-from model.po_question import po_answer_new
-from model.po_pos import po_pos_get, po_pos_set, po_pos_state, STATE_BUZZ
 from model import reply
-from model.zsite import Zsite, user_can_reply
-from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE
-from zkit.page import page_limit_offset
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE
+from model.po import Po, po_rm, po_word_new, po_note_new,  po_state_set
+from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW, STATE_SECRET, STATE_ACTIVE 
+from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
+from model.po_pos import po_pos_get, po_pos_set
+from model.po_question import po_question_new, answer_word2note
+from model.zsite import Zsite
+from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
+from zkit.jsdict import JsDict
 from zkit.txt import cnenlen
-from model.zsite_tag import ZsiteTag
-from model.feed_render import feed_tuple_list
-from model.tag import Tag
-from model.event import Event, EVENT_STATE_TO_REVIEW
+from model.event import Event, event_init2to_review
+from model.po_event import event_joiner_state_set_by_good
+from model.zsite_url import link
+from model.zsite_site import zsite_id_by_zsite_user_id 
 
-PAGE_LIMIT = 42
+def update_pic(form, user_id, po_id, id):
+    pl = pic_list(user_id, id)
+    for pic in pl:
+        seq = pic.seq
 
-@urlmap('/po/cid/(\d+)')
-class PoCid(ZsiteBase):
-    def get(self, cid):
-        cid = int(cid)
-        if cid in PO_EN:
-            link = '/%s'%PO_EN[cid]
+        title = 'tit%s' % seq
+        if title in form:
+            title = form[title][0]
         else:
-            link = '/'
-        return self.redirect(link)
+            title = ''
 
-@urlmap('/po/(\d+)')
-class PoIndex(ZsiteBase):
-    def get(self, id):
-        po = Po.mc_get(id)
-        current_user_id = self.current_user_id
+        align = 'pos%s' % seq
+        if align in form:
+            align = int(form[align][0])
+            if align not in (-1, 0, 1):
+                align = 0
+        else:
+            align = 0
+
+        pic.title = title.strip()
+        align = int(align)
+
+
+        pic.align = align
+        pic.po_id = po_id
+        pic.save()
+
+
+@urlmap('/po/word')
+class PoWord(LoginBase):
+    def post(self):
+        current_user = self.current_user
+        txt = self.get_argument('txt', '')
+        if txt:
+            po_word_new(current_user.id, txt)
+        return self.redirect('/live')
+
+
+def po_post(self):
+    user_id = self.current_user_id
+    name = self.get_argument('name', '')
+    txt = self.get_argument('txt', '', strip=False).rstrip()
+    zsite = self.zsite
+
+    arguments = self.request.arguments
+
+
+    if self.cid == CID_EVENT_FEEDBACK:
+        state = self.get_argument('good', None)
+        zsite_id = 0
+    else:
+        zsite_id = zsite_id_by_zsite_user_id(zsite,user_id)
+        if zsite_id:
+            state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
+        else: 
+            secret = self.get_argument('secret', None)
+            if secret:
+                state = STATE_SECRET
+            else:
+                state = STATE_ACTIVE
+
+    po = self.po_save(user_id, name, txt, state, zsite_id)
+
+    self_id = self.id
+    if po:
+        po_id = po.id
+    else:
+        po_id = 0
+
+    if po or self_id == 0:
+        update_pic(arguments, user_id, po_id, self_id)
+        mc_pic_id_list.delete(
+            '%s_%s' % (user_id, self_id)
+        )
+    return po
+
+
+class PoBase(LoginBase):
+    id = 0
+    cid = None
+    template = None
+    po_save = None
+    po_post = po_post
+
+    def get(self):
+        user_id = self.current_user_id
+        self.render(
+            'ctrl/zsite/po/po.htm',
+            cid=self.cid,
+            po=JsDict(),
+            pic_list=pic_list_edit(user_id, 0),
+        )
+
+    def post(self):
+        po = self.po_post()
         if po:
-            link = po.link_reply
-            pos, state = po_pos_get(current_user_id, id)
-            if pos > 0:
-                link = '%s#reply%s' % (link, pos)
+            if po.cid == CID_EVENT_FEEDBACK:
+                link = '/%s#po%s'%(po.rid, po.id)
+            elif po.state == STATE_SECRET:
+                link = po.link
+            else:
+                link = '/po/tag/%s' % po.id
         else:
-            link = '/'
+            link = self.request.uri
         self.redirect(link)
 
 
-class PoPage(ZsiteBase):
-    cid = 0
-    template = '/ctrl/zsite/po/po_page.htm'
-
-    def get(self, n=1):
-        zsite_id = self.zsite_id
-        user_id = self.current_user_id
-        cid = self.cid
-        is_self = zsite_id == user_id
-        total = po_list_count(zsite_id, cid, is_self)
-        n = int(n)
-
-        page, limit, offset = page_limit_offset(
-            self.page_template,
-            total,
-            n,
-            PAGE_LIMIT
-        )
-
-        if n != 1 and offset >= total:
-            return self.redirect(self.page_template[:-3])
-
-        po_list = po_view_list(zsite_id, cid, is_self, limit, offset)
-
-        if cid == CID_WORD:
-            rid_po_list = [i for i in po_list if i.rid]
-            Po.mc_bind(rid_po_list, 'question', 'rid')
-            Zsite.mc_bind([i.target for i in rid_po_list], 'user', 'user_id')
-
-        if zsite_id == user_id:
-            back_a = '/live'
-        else:
-            back_a = '/'
-
-
-        self.render(
-            cid=cid,
-            is_self=is_self,
-            total=total,
-            po_list=po_list,
-            page=page,
-            back_a=back_a,
-        )
-
-
-@urlmap('/word')
-@urlmap('/word-(\d+)')
-class WordPage(PoPage):
-    cid = CID_WORD
-    page_template = '/word-%s'
-
-
-@urlmap('/note')
-@urlmap('/note-(\d+)')
-class NotePage(PoPage):
+@urlmap('/po/note')
+class PoNote(PoBase):
     cid = CID_NOTE
-    page_template = '/note-%s'
+    po_save = staticmethod(po_note_new)
 
 
-@urlmap('/question')
-@urlmap('/question-(\d+)')
-class QuestionPage(PoPage):
+@urlmap('/po/question')
+class PoQuestion(PoBase):
     cid = CID_QUESTION
-    page_template = '/question-%s'
+    po_save = staticmethod(po_question_new)
 
 
-@urlmap('/photo')
-@urlmap('/photo-(\d+)')
-class PhotoPage(PoPage):
-    cid = CID_PHOTO
-    page_template = '/photo-%s'
+@urlmap('/po/edit/(\d+)')
+class Edit(LoginBase):
+    def _po(self, user_id, id):
+        self.po = po = Po.mc_get(id)
 
-
-@urlmap('/video')
-@urlmap('/video-(\d+)')
-class VideoPage(PoPage):
-    cid = CID_VIDEO
-    page_template = '/video-%s'
-
-
-@urlmap('/audio')
-@urlmap('/audio-(\d+)')
-class AudioPage(PoPage):
-    cid = CID_AUDIO
-    page_template = '/audio-%s'
-
-
-@urlmap('/answer')
-@urlmap('/answer-(\d+)')
-class AnswerPage(PoPage):
-    cid = CID_ANSWER
-    page_template = '/answer-%s'
-
-
-class TagPoPage(ZsiteBase):
-    cid = 0
-    template = '/ctrl/zsite/po/po_page.htm'
-
-    def get(self, zsite_tag_id, n=1):
-        tag = ZsiteTag.mc_get(zsite_tag_id)
-        zsite_id = self.zsite_id
-        user_id = self.current_user_id
-        cid = self.cid
-        is_self = zsite_id == user_id
-        n = int(n)
-        total = zsite_tag_cid_count(zsite_tag_id, cid)
-        page, limit, offset = page_limit_offset(
-            '/tag/%s'%zsite_tag_id + self.page_template,
-            total,
-            n,
-            PAGE_LIMIT
-        )
-
-        if n != 1 and offset >= total:
-            return self.redirect(self.page_template[:-3])
-
-        po_list = Po.mc_get_list(po_id_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit, offset))
-        self.render(
-            cid=cid,
-            is_self=is_self,
-            total=total,
-            po_list=po_list,
-            page=page,
-            tag_name=Tag.get(tag.tag_id),
-            back_a='/tag/%s'%zsite_tag_id
-        )
-
-
-@urlmap('/tag/(\d+)/note')
-@urlmap('/tag/(\d+)/note-(\d+)')
-class NotePage(TagPoPage):
-    cid = CID_NOTE
-    page_template = '/note-%s'
-
-
-@urlmap('/tag/(\d+)/question')
-@urlmap('/tag/(\d+)/question-(\d+)')
-class QuestionPage(TagPoPage):
-    cid = CID_QUESTION
-    page_template = '/question-%s'
-
-
-@urlmap('/tag/(\d+)/photo')
-@urlmap('/tag/(\d+)/photo-(\d+)')
-class PhotoPage(TagPoPage):
-    cid = CID_PHOTO
-    page_template = '/photo-%s'
-
-
-@urlmap('/tag/(\d+)/video')
-@urlmap('/tag/(\d+)/video-(\d+)')
-class VideoPage(TagPoPage):
-    cid = CID_VIDEO
-    page_template = '/video-%s'
-
-
-@urlmap('/tag/(\d+)/audio')
-@urlmap('/tag/(\d+)/audio-(\d+)')
-class AudioPage(TagPoPage):
-    cid = CID_AUDIO
-    page_template = '/audio-%s'
-
-
-PO_TEMPLATE = '/ctrl/zsite/po/po.htm'
-CID2TEMPLATE = {
-    CID_WORD:'/ctrl/zsite/po/word.htm',
-    CID_NOTE: PO_TEMPLATE,
-    CID_QUESTION:'/ctrl/zsite/po/question.htm',
-    CID_ANSWER: PO_TEMPLATE,
-    CID_EVENT_NOTICE: '/ctrl/zsite/po/notice.htm',
-    CID_PHOTO: '/ctrl/zsite/po/photo.htm',
-    CID_VIDEO: '/ctrl/zsite/po/video.htm',
-    CID_EVENT: '/ctrl/zsite/po/event.htm',
-    CID_AUDIO: '/ctrl/zsite/po/audio.htm',
-    CID_EVENT_FEEDBACK: PO_TEMPLATE,
-}
-
-
-@urlmap('/(\d+)')
-class PoOne(ZsiteBase):
-    def po(self, id):
-        po = Po.mc_get(id)
         if po:
-            self._po = po
-            if po.user_id == self.zsite_id:
+            if po.can_admin(user_id):
+                cid = po.cid
+                self.cid = cid
+                if cid == CID_WORD and po.rid == 0:
+                    return self.redirect(po.link)
                 return po
             return self.redirect(po.link)
         return self.redirect('/')
 
-    @property
-    def template(self):
-        return CID2TEMPLATE[self._po.cid]
 
-    def mark(self):
-        po = self._po
-        user_id = self.current_user_id
-        cid = po.cid
-        if cid != CID_QUESTION:
-            po_pos_set(user_id, po)
-            po_pos_state(user_id, po.id, STATE_BUZZ)
 
     def get(self, id):
-        po = self.po(id)
+        user_id = self.current_user_id
+        po = self._po(user_id, id)
+            
+        if po is None:
+            return
+        po_zsite_id = po.zsite_id
+
+        if po_zsite_id and po_zsite_id!=self.zsite_id:
+            return self.redirect(
+                "%s/po/edit/%s"%(link(po_zsite_id),id)
+            )
+
+        if po.cid == CID_EVENT_FEEDBACK:
+            self.event = Event.mc_get(po.rid)
+
+        self.render(
+            'ctrl/zsite/po/po.htm',
+            po=po,
+            cid=po.cid,
+            pic_list=pic_list_edit(user_id, id)
+        )
+
+    def po_save(self, user_id, name, txt, state, zsite_id):
+        po = self.po
         if po is None:
             return
 
-        zsite_id = self.zsite_id
-        user_id = self.current_user_id
-        can_admin = po.can_admin(user_id)
-        can_view = po.can_view(user_id)
-
-        if can_view and user_id:
-            self.mark()
-
         cid = po.cid
+        rid = po.rid
+        po.zsite_id = zsite_id
 
-        prev_id = next_id = None
-
-        if cid == CID_EVENT:
-            prev_id = next_id = zsite_tag_id = tag_name = None
-            event = Event.mc_get(id)
-            if event.state <= EVENT_STATE_TO_REVIEW:
-                tag_link = "/event/to_review"
+        if cid == CID_WORD:
+            if cnenlen(txt) > 140:
+                answer_word2note(po)
+                po.txt_set(txt)
             else:
-                tag_link = "/event"
-        elif cid == CID_EVENT_NOTICE:
-            prev_id = next_id = zsite_tag_id = tag_name = None
-            tag_link = "/%s"%po.rid
+                po.name_ = txt
+        elif cid == CID_EVENT_FEEDBACK:
+            event_joiner_state_set_by_good(user_id, rid, state)
+            if txt:
+                po.txt_set(txt)
         else:
-            zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
-            if zsite_tag_id:
-                prev_id, next_id = po_prev_next(
-                    cid, zsite_id, zsite_tag_id, po.id
-                )
-                tag_link = "/tag/%s" % zsite_tag_id
-            else:
-                tag_link = "/po/cid/%s"%cid
-
-        return self.render(
-            self.template,
-            po=po,
-            can_admin=can_admin,
-            can_view=can_view,
-            zsite_tag_id=zsite_tag_id,
-            prev_id=prev_id,
-            next_id=next_id,
-            tag_name=tag_name,
-            tag_link=tag_link
-        )
+            if not po.rid and name:
+                po.name_ = name
+            if txt:
+                po.txt_set(txt)
 
 
-@urlmap('/question/(\d+)')
-class Question(PoOne):
-    template = PO_TEMPLATE
 
-    def mark(self):
-        po = self._po
-        user_id = self.current_user_id
-        po_pos_set(user_id, po)
-        po_pos_state(user_id, po.id, STATE_BUZZ)
+        if cid in (CID_NOTE, CID_QUESTION, CID_ANSWER):
+            if not (cid == CID_QUESTION and po.state == STATE_ACTIVE):
+                po_state_set(po, state)
+
+
+        po.save()
+        return po
+
+    po_post = po_post
 
     def post(self, id):
-        question = self.po(id)
-        if question is None:
+        self.id = id
+        user_id = self.current_user_id
+        po = self._po(user_id, id)
+        if po is None:
             return
 
-        user_id = self.current_user_id
-        txt = self.get_argument('txt', '')
-        if not question.can_view(user_id) or not txt:
-            return self.get(id)
+        cid = po.cid
+        self.po_post()
 
-        secret = self.get_argument('secret', None)
-        arguments = self.request.arguments
-        if secret:
-            state = STATE_SECRET
-        else:
-            state = STATE_ACTIVE
-
-        if cnenlen(txt) > 140:
-            name = ''
-        else:
-            name, txt = txt, ''
-        po = po_answer_new(user_id, id, name, txt, state)
-
-        if po:
-            if po.cid == CID_ANSWER and po.state == STATE_ACTIVE:
-                answer_id = po.id
-                link = '/po/tag/%s' % answer_id
+        if cid == CID_EVENT:
+            if event_init2to_review(id):
+                link = '/po/event/%s/state'%id
             else:
-                link = '%s#reply%s' % (question.link, po.id)
+                link = po.link
+        elif cid == CID_EVENT_FEEDBACK:
+            link = '/%s#po%s'%(po.rid, po.id)
         else:
-            link = '%s#reply_txt' % question.link
+            if cid == CID_WORD:
+                link = po.link_target
+            elif po.state == STATE_SECRET:
+                link = po.link
+            else:
+                link = '/po/tag/%s' % id
+
         self.redirect(link)
 
 
-@urlmap('/tag/(\d+)')
-class PoTag(ZsiteBase):
-    def get(self, id, n=1):
-        tag = ZsiteTag.mc_get(id)
-
-        if tag is None:
-            return self.redirect('/')
-
-        if tag.zsite_id != self.zsite_id:
-            tag_zsite = Zsite.mc_get(tag.zsite_id)
-            return self.redirect('%s/tag/%s'%(tag_zsite.link, id))
-
-        self.render(
-            tag_name=Tag.get(tag.tag_id),
-            zsite_tag_id=id
-        )
-
-
-@urlmap('/po/reply/rm/(\d+)')
-class ReplyRm(LoginBase):
-    def post(self, id):
-        user_id = self.current_user_id
-        r = reply.Reply.mc_get(id)
-
-        if r:
-            po = Po.mc_get(r.rid)
-            if po:
-                can_rm = r.can_rm(user_id) or po.can_admin(user_id)
-                if can_rm:
-                    r.rm()
-
-        self.finish({'success': can_rm})
-
-
-@urlmap('/po/reply/(\d+)')
-class Reply(LoginBase):
-    def post(self, id):
+@urlmap('/po/tag/(\d+)')
+class Tag(LoginBase):
+    def _po(self, id):
+        current_user = self.current_user
+        current_user_id = self.current_user_id
         po = Po.mc_get(id)
-        link = '/'
-        if po:
-            user = self.current_user
-            if user_can_reply(user):
-                user_id = self.current_user_id
-                can_view = po.can_view(user_id)
-                link = po.link_reply
-                if can_view:
-                    txt = self.get_argument('txt', '')
-                    m = po.reply_new(user, txt, po.state)
-                    if m:
-                        link = '%s#reply%s' % (link, m)
-        self.redirect(link)
+        if not po:
+            self.redirect('/')
+            return
+        if not po.can_admin(current_user_id):
+            self.redirect(po.link)
+            return
+        return po
 
     def get(self, id):
-        po = Po.mc_get(id)
+        po = self._po(id)
         if po:
-            link = po.link
-        else:
-            link = '/'
-        self.redirect(link)
+            current_user_id = self.current_user_id
+            tag_list = zsite_tag_list_by_zsite_id_with_init(current_user_id)
+            po_id = po.id
+            cid = po.cid
+            tag_id = tag_id_by_po_id(current_user_id, po_id) or 1
+            self.render(
+                tag_list=tag_list,
+                po=po,
+                tag_id=tag_id,
+            )
+
+    def post(self, id):
+        po = self._po(id)
+        if po:
+            tag_id = int(self.get_argument('tag'))
+            name = self.get_argument('name', None)
+
+            if not name and not tag_id:
+                tag_id = 1
+
+            if tag_id:
+                zsite_tag_new_by_tag_id(po, tag_id)
+            else:
+                zsite_tag_new_by_tag_name(po, name)
+
+            self.redirect(po.link_target)
 
 
-@urlmap('/po/rm/(\d+)')
-class Rm(XsrfGetBase):
-    def get(self, id):
-        user = self.current_user
-        user_id = self.current_user_id
-        po_rm(user_id, id)
-        self.redirect('%s/live'%user.link)
-
-    post = get
-
-
-#@urlmap('/tag')
-#class GlobalTag(ZsiteBase):
-#    def get(self):
-#        tag_list = zsite_tag_list_by_zsite_id(self.zsite_id)
-#        self.render(
-#        tag_list=tag_list,
-#        )

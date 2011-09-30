@@ -6,7 +6,7 @@ from hashlib import sha256
 from zsite import zsite_new_user, Zsite
 from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
 from oauth import OAUTH2NAME_DICT, OAUTH_DOUBAN, OAUTH_SINA,\
-OAUTH_QQ, OAUTH_TWITTER
+OAUTH_QQ, OAUTH_TWITTER, OAUTH_MY
 from model.zsite_url import link
 
 OAUTH_LINK_DEFAULT = (
@@ -15,6 +15,15 @@ OAUTH_LINK_DEFAULT = (
     OAUTH_QQ        ,
     OAUTH_TWITTER   ,
 )
+
+SITE_LINK_NAME = (
+    (OAUTH_MY, '官方网站'),
+    (OAUTH_DOUBAN, '豆瓣小站'),
+    (OAUTH_SINA, '新浪微博'),
+    (OAUTH_QQ, '腾讯微博'),
+)
+
+SITE_LINK_ZSITE_DICT = dict(SITE_LINK_NAME)
 
 OAUTH2NAME = tuple(
     (k, OAUTH2NAME_DICT[k]) for k in OAUTH_LINK_DEFAULT
@@ -107,18 +116,31 @@ def link_cid_new(zsite_id, cid, link):
         mc_link_by_id.delete(zsite_link.id)
     mc_flush(zsite_id)
 
+def link_list_cid_by_zsite_id(zsite_id, cid_name_dict=dict(OAUTH2NAME)):
+    id_name = link_id_name_by_zsite_id(zsite_id)
+    id_cid = dict(link_id_cid(zsite_id))
+
+    link_list = []
+    link_cid = []
+    exist_cid = set()
+
+    for id, name in id_name:
+        link = link_by_id(id)
+        if id in id_cid:
+            cid = id_cid[id]
+            link_cid.append((cid, name , link))
+            exist_cid.add(cid)
+        else:
+            link_list.append((id, name, link))
+
+    for cid in (set(cid_name_dict) - exist_cid):
+        link_cid.append((cid, cid_name_dict[cid], ''))
+
+    return link_list, link_cid
 
 if __name__ == '__main__':
     #print link_id_cid(1)
     #print link_id_name_by_zsite_id(1)
 
     pass
-    #link_cid_new(1, OAUTH_RENREN, "http://1.zuroc.xxx/i/link")
-    #print link_id_name_by_zsite_id(1)
-    #print link_id_cid(1)
-    #print link_id_name_by_zsite_id(10000000)
-    #print link_name_by_zsite_id(10000000)
-    #http://zuroc.zuroc.xxx/link/8
-
-    #print zhendi
-
+    print link_list_cid_by_zsite_id(67)

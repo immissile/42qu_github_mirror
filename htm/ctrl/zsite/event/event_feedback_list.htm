@@ -1,5 +1,3 @@
-
-<%namespace file="/ctrl/zsite/po/_vote.htm" import="_vote"/>
 <%!
 from model.po_event import po_event_feedback_group, event_feedback_get
 %>
@@ -16,9 +14,8 @@ ${feedback_li(po_by_owner)}
 </div>
 %endif
 
-${feedback_list_div(good, "好评")}
-
-${feedback_list_div(normal, "反馈")}
+<div id="feedback_good">${feedback_list_div(good, "好评")}</div>
+<div id="feedback_normal">${feedback_list_div(normal, "反馈")}</div>
 
 </%def>
 
@@ -51,10 +48,7 @@ user_id = user.id
 
     <div class="bar">
         %if feedback.can_admin(current_user_id):
-<a
-    href="/po/edit/${feedback_id}" class="edit">编辑</a>
-        %else:
-<span class="L">${_vote(feedback_id)}</span>\
+<a href="/po/edit/${feedback_id}" class="edit">编辑</a>
         %endif
 <a class="reply" href="${feedback_link}#reply_txt" title="回复">${feedback.reply_count}</a>
     </div>

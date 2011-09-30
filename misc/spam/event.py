@@ -6,16 +6,16 @@ import time
 import traceback
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     goon = False
     for mail, name in mail_notice_iter(CID_MAIL_MONTH):
-        if mail == "yupbank@42qu.com":
+        if mail == 'yupbank@42qu.com':
             goon = True
 
         if not goon:
             continue
-       # print mail
-        
+        # print mail
+
 
         try:
             rendermail(
@@ -26,7 +26,7 @@ if __name__ == "__main__":
         except:
             traceback.print_exc()
             continue
-        
+
         print mail
 
         time.sleep(0.1)

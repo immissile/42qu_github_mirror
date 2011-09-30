@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from config import render
 from config import SITE_DOMAIN, SITE_URL
-from model.zsite_url import zsite_by_domain
+from model.zsite_url import zsite_by_domain, url_by_digit_domain
 from zweb._handler import Base as _Base, _login_redirect, login
 
 
@@ -10,7 +10,16 @@ class Base(_Base):
         self.redirect('/')
 
     def prepare(self):
-        host = self.request.host
+        request = self.request
+        host = request.host
+
+        _host = url_by_digit_domain(host)
+        if _host:
+            path = "//%s%s"%(_host, request.path)
+            if request.query:
+                path = "%s?%s"%(path, request.query)
+            return self.redirect(path, True)
+
         zsite = zsite_by_domain(host)
         if zsite is None:
             self.zsite_id = 0

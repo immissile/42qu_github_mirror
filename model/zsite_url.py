@@ -43,6 +43,8 @@ def url_new(id, url):
     u.save()
     mc_id_by_url.set(url.lower(), id)
     mc_url_by_id.set(id, url)
+    from search_zsite import search_new
+    search_new(id)
 
 NO_URL = set(('god', 'admin', 'review', 'lolicon', 'lolita', 'loli', 'risako', 'lara', 'luna', 'nuva'))
 RESERVED_URL = set(('google', 'youdao', 'taobao', 'douban', 'facebook', 'twitter', 'javaeye')) | NO_URL
@@ -62,7 +64,7 @@ def url_valid_base(url):
     if url.endswith('-'):
         return '个性域名不能以-结尾'
     if not RE_URL.match(url):
-        return '个性域名格式不正确，请参阅下面说明'
+        return '个性域名格式不正确，请参阅说明'
     if id_by_url(url):
         return '该网址已经被占用'
 
@@ -83,13 +85,29 @@ def zsite_by_domain(domain):
             zsite_id = id_by_url(domain.lower())
         return Zsite.mc_get(zsite_id)
 
+
+def url_by_digit_domain(domain):
+    from zsite import Zsite
+    if domain.endswith(SITE_DOMAIN_SUFFIX):
+        domain = domain[:-len(SITE_DOMAIN_SUFFIX)]
+        if domain.isdigit():
+            zsite_id = domain
+            url = url_by_id(zsite_id)
+            if url:
+                return url+SITE_DOMAIN_SUFFIX
+
 def host(id):
     return '%s.%s' % (url_by_id(id) or id, SITE_DOMAIN)
 
 def link(id):
     return '//%s' % host(id)
 
+
+def at_zsite(zsite):
+    return "@%s(%s)"%(
+        zsite.name,
+        url_or_id(zsite.id)
+    )
+
 if __name__ == '__main__':
-    print id_by_url('Jarod')
-    print host('10006523')
-    #print mc_id_by_url.get("I000000") 
+    print url_by_digit_domain("10000000.zuroc.xxx")

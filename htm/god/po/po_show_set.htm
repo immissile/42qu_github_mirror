@@ -1,35 +1,76 @@
 <%inherit file="/god/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
+from model.zsite_show import zsite_show_list
+from model.cid import CID_SITE
 from model.po_show import po_is_show
+from model.zsite import Zsite
 from model.god_po_show import po_show_zsite_channel
 %>
-<%def name="htm_head()">
-</%def>
-<a target="_blank" href="${po.link}">${po.name}</a>
-<%htm:form>
-<ol>
-    % for cid, name in po_show_zsite_channel():
-    <li>
-        <input type="radio" name="cid" value="${cid}" id="cid${cid}">
-        <label for="cid${cid}">${name}</label>
-    </li>
-    % endfor
-    % if po_is_show(po):
-    <li>
-        <input type="radio" name="cid" value="0" id="cid0">
-        <label for="cid0">删除</label>
-    </li>
-##    %else:
-##    <li>
-##        <input type="radio" name="cid" value="0" id="cid0">
-##        <label for="cid0">新建 </label><input name="name" type="text" value="" onfocus="$('#cid0').attr('checked',true)" autocomplete="off"> 
-##    </li>
-    % endif
-</ol>
-<input type="hidden" name="next" value="${next}">
+<style>
+.cont{
+margin:15px 0 30px 15px;
+text-align:left;
+border:0px solid red;
+}
+.title{
+font-size:14px;
+color:#999;
+margin-bottom:20px;
+}
+.check{
+margin-left:18px;
+vertical-align:10px;
+font-size:16px;
+color:#333;
+}
+.selects{
+padding-top:15px;
+}
+.single{
+font-size:14px;
+color:#333;
+margin-right:20px;
+float:left;
+width:180px;
+padding:5px;
+}
+#broad{
+margin-right:6px;
+}
+.rdl{
+margin-left:6px;
+}
 
-<span class="btnw"><button type="submit">提交</button></span>
+</style>
+<%htm:form>
+    <div class="cont">
+        <div class="title"><a href="${po.link}" target="_blank">${po.name}</a></div>
+        <div>
+            <span class="btnw"><button type="submit">确定</button></span>
+            <span class="check"><input type="checkbox" name="broad" checked value="1" id="broad"><label for="broad">广播</label></span>
+% if po_is_show(po):
+            <span class="check"><a href="/po/show/rm/${po.id}">删除广播</a></span>
+%endif
+        </div>
+% if po.zsite_id:
+<%
+site = Zsite.get(po.zsite_id)
+%>
+%if site:
+<div class="mt27">小组 : <a href="${site.link}" target="_blank">${site.name}</a></div> 
+%endif
+%endif
+        <div class="selects">
+            <div class="line">
+<%
+zsite_list = zsite_show_list(CID_SITE)
+%>
+% for site in zsite_list:
+                <span class="single"><input type="radio" id="rd${site.id}" name="site" value="${site.id}"><label class="rdl" for="rd${site.id}">${site.name}</label></span>
+%endfor
+            </div>
+        </div>
+    </div>
+<input type="hidden" name="next" value="${next}">
 </%htm:form>

@@ -1,0 +1,66 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%!
+from model.wall import wall_by_from_id_to_id
+from zkit.time_format import friendly_time
+%>
+<%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render_body,wall_reply_textarea"/>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="htm_head()">
+${css.ctrl_zsite_site|n}
+<script src="${js.ctrl_zsite_site|n}"></script>
+<script src="${js.wall_txt}"></script>
+</%def>
+
+<div class="G">
+    <div class="G3center">
+        <div class="mk_ti">
+            <a class="R c9" href="/mark/rm?${_xsrf}">取消收藏</a>
+            <a href="/" class="c9">${zsite.name}</a>\
+            <span class="m07 c9">&gt;</span>\
+            <span class="c0">设置</span>\
+        </div>
+
+<%
+    wall = wall_by_from_id_to_id(current_user_id, zsite_id)
+%>\
+%if wall:
+<%
+    reply_list = wall.reply_list()
+%>
+%if reply_list:
+        <div id="reply_list">
+        %for i in reply_list:
+            <%
+                can_rm = i.can_rm(current_user_id)
+            %>
+        <%
+        id = i.id
+        user = i.user
+        %>\
+        <div id="reply${id}" class="sdw"><div class="sd c"> 
+        <div>\
+        ${reply_render_body(i, can_rm)}\
+        <div class="bar">
+        <span class="L">
+        ${friendly_time(i.create_time)} 
+        </span>
+        %if can_rm:
+        <a href="javascript:rm(${id});void(0)">删除</a>
+        %endif
+        </div>\
+        </div>\
+        </div></div>\
+        %endfor
+        </div>
+%endif
+%endif
+<%htm:form id="mk_form">
+<textarea name="txt" class="mk_txt"></textarea>\
+<script> $(".mk_txt").focus() </script>\
+<div class="tr">
+    <span class='btnw'><button type="submit">添加备注</button></span>
+</div>
+</%htm:form>
+    </div>
+</div>
+

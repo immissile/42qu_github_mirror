@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 #coding:utf-8
 import urllib
+import urllib2
 from urllib2 import urlopen
 import httplib
 from yajl import loads
 import traceback
+import time
+import sys
 
 SINA_API_KEY = '3152496704'
 
@@ -29,8 +32,8 @@ def retry(func):
 
 
 @retry
-def urlfetch(url):
-    r = urlopen(url, timeout=30)
+def urlfetch(url, data=None):
+    r = urlopen(url, data, timeout=30)
     c = r.read()
     return c
 
@@ -42,7 +45,26 @@ def t_cn(url):
     return result[0]['url_short']
 
 
+def dwz_cn(url):
+    url = urllib.quote(url)
+    result = urlfetch('http://dwz.cn/create.php', data='url=%s'%url)
+    result = loads(result)
+    if 'err_msg' in result:
+        print result['err_msg']
+    else:
+        return result['tinyurl']
+
+def curt_cc(url):
+    url = urllib.quote(url)
+    result = urlfetch('http://curt.cc/service/generator.php?url=%s'%url)
+    try:
+        result = loads(result)
+        return result['url']
+    except:
+        traceback.print_exc()
+        return url
+
 if '__main__' == __name__:
-    url = 'http://open.weibo.com/wiki/index.php/Short_url/shorten'
-    print t_cn(url)
+    url = 'http://42qu.com/1233?122234'
+    print curt_cc(url)
 

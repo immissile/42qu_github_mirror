@@ -12,7 +12,7 @@ from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 from zkit.errtip import Errtip
-from model.zsite_list_0 import zsite_show
+from model.search_zsite import search_new
 
 LOGIN_REDIRECT = '%s/live'
 
@@ -41,11 +41,13 @@ class NoLoginBase(Base):
             redirect = LOGIN_REDIRECT%current_user.link
         self.redirect(redirect)
 
+SHOW_LIST = (10074584, 10001433, 10054091, 10024555, 10014854, 10061647, 10002480, 10003683, 10007880, 10032093, 10014869, 10000144, 10024889, 10002312, 10003144, 10005102, 10022529, 10009692, 10000895, 10023650, 10006677, 10001875, 10017914, 10004712, 10016542, 10005981, 10055189, 10010156, 10073373, 10015306, 10009186, 10001929, 10010448, 10051930, 10018133, 10066598, 10028737, 10002687, 10029177, 10008285, 10068652, 10014849, 10011065, 10008692, 10000833, 10029871, 10025636, 10000645, 10000053, 10009225, 10002767, 10009040, 10060523, 10024538, 10001565, 10031402, 10000003, 10014236, 10000619, 10021794, 10014495, 10001397, 10003179, 10026510, 10071965, 10011811, 10009308, 10018282, 10055940, 10002178, 10055228, 10016550, 10019718, 10009854, 10016602, 10007895, 10002709)
 
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
     def get(self, mail=''):
-        zsite_list = Zsite.mc_get_list(zsite_show(128, 0))
+        id_list = SHOW_LIST
+        zsite_list = filter(bool, Zsite.mc_get_list(id_list))
         self.render(
             mail=mail,
             sex=0,
@@ -89,6 +91,7 @@ class Reg(NoLoginBase):
             user = user_new_by_mail(mail, password)
             user_id = user.id
             user_info_new(user_id, sex=sex)
+            search_new(user_id)
             return self.redirect('/auth/verify/send/%s'%user_id)
 
         self.render(

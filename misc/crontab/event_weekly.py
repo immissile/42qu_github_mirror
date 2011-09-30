@@ -10,6 +10,7 @@ from model.po import Po
 from model.event import Event, EVENT_STATE_BEGIN
 from model.mail_notice import mail_notice_state
 from model.namecard import namecard_get
+from model.days import today_cn_date
 from zkit.earth import pid_city, PID2NAME, PLACE_MUNI, pid_province, place_name
 from zkit.single_process import single_process
 from zweb.orm import ormiter
@@ -62,6 +63,7 @@ def event_weekly_mail(user, event_city_list):
                     '%s +%s 活动' % (place, event_incr)
                 )
 
+            title.append(today_cn_date())
             title = ' . '.join(title)
 
             name = user.name
@@ -121,7 +123,7 @@ def event_weekly(begin):
             event_weekly_mail(i, event_li)
             #print i.id
             #sys.stdout.flush()
-            time.sleep(0.1)
+            time.sleep(0.01)
         return last_id
 
 @single_process

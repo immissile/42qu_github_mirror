@@ -7,16 +7,17 @@ from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
 from spammer import is_same_post
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from txt import txt_new, txt_get, txt_property
 from zkit.time_format import time_title
-from reply import ReplyMixin
+from reply import ReplyMixin, Reply
 from po_pic import pic_htm
 from txt2htm import txt_withlink
 from zsite import Zsite
 from zkit.txt import cnencut
 from zkit.attrcache import attrcache
 from cgi import escape
+#from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
     (CID_WORD, 'word', '微博', '句'),
@@ -28,6 +29,10 @@ PO_CN_EN = (
     (CID_AUDIO, 'audio', '音乐', '段'),
     (CID_EVENT, 'event', '活动', '次'),
 )
+PO_CID = tuple([
+    i[0] for i in PO_CN_EN
+])
+PO_SHARE_FAV_CID = set([i[0] for i in PO_CN_EN])
 PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
 PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
 PO_COUNT_CN = dict((i[0], i[3]+i[2]) for i in PO_CN_EN)
@@ -87,7 +92,7 @@ class Po(McModel, ReplyMixin):
 
     @attrcache
     def target(self):
-        if self.cid in (CID_WORD, CID_ANSWER, CID_EVENT_FEEDBACK):
+        if self.cid in (CID_WORD, CID_ANSWER, CID_EVENT_NOTICE, CID_EVENT_FEEDBACK):
             return Po.mc_get(self.rid)
 
     question = target
@@ -108,6 +113,19 @@ class Po(McModel, ReplyMixin):
                 return '答 : %s' % q.name
 
         return self.name_
+
+
+    def zsite_id_set(self, zsite_id, state=STATE_PO_ZSITE_SHOW_THEN_REVIEW):
+        cid = self.cid
+
+        mc_flush_zsite_cid(self.zsite_id, cid)
+
+        self.zsite_id = int(zsite_id)
+        self.state = state
+        self.save()
+
+        mc_flush_zsite_cid(zsite_id, cid)
+
 
     @attrcache
     def name_with_user(self):
@@ -186,12 +204,14 @@ class Po(McModel, ReplyMixin):
         return True
 
     def can_admin(self, user_id):
-        return self.user_id == user_id
+        if user_id:
+            return self.user_id == user_id
 
     def reply_new(self, user, txt, state=STATE_ACTIVE):
         result = super(Po, self).reply_new(user, txt, state)
         mc_feed_tuple.delete(self.id)
         return result
+
 
     def tag_new(self):
         from zsite_tag import zsite_tag_new_by_tag_id, tag_id_by_user_id_cid
@@ -207,7 +227,14 @@ class Po(McModel, ReplyMixin):
         zsite_tag_rm_by_po(self)
 
 
-def po_new(cid, user_id, name, state, rid=0, id=None):
+def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
+
+    if state is None:
+        if zsite_id and zsite_id != user_id:
+            state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
+        else:
+            state = STATE_ACTIVE
+
     m = Po(
         id=id or gid(),
         name_=cnencut(name, 142),
@@ -215,14 +242,26 @@ def po_new(cid, user_id, name, state, rid=0, id=None):
         cid=cid,
         rid=rid,
         state=state,
+        zsite_id=zsite_id,
         create_time=int(time()),
     )
     m.save()
+    #if cid in (CID_NOTE, CID_WORD) and state == STATE_ACTIVE:
+        #mq_sync_po_by_zsite_id(user_id, m.id)
     from po_pos import po_pos_set
     po_pos_set(user_id, m)
     mc_flush(user_id, cid)
     m.tag_new()
+
+    mc_flush_zsite_cid(zsite_id, cid)
     return m
+
+def mc_flush_zsite_cid(zsite_id, cid):
+    if zsite_id:
+        from model.site_po import mc_po_count_by_zsite_id, po_cid_count_by_zsite_id
+        mc_po_count_by_zsite_id.delete(zsite_id)
+        po_cid_count_by_zsite_id.delete(zsite_id, cid)
+
 
 def po_state_set(po, state):
     from buzz import mq_buzz_po_rm
@@ -231,12 +270,15 @@ def po_state_set(po, state):
         return
     po.state = state
     po.save()
-    mc_flush_other(po.user_id, po.cid)
-
+    cid = po.cid
+    mc_flush_other(po.user_id, cid)
+    mc_flush_zsite_cid(po.zsite_id, cid)
     if old_state > STATE_SECRET and state == STATE_SECRET:
         feed_rm(id)
         po.tag_rm()
         mq_buzz_po_rm(id)
+        from fav import fav_rm_by_po
+        fav_rm_by_po(po)
     elif old_state <= STATE_SECRET and state >= STATE_ACTIVE:
         po.feed_new()
         po.tag_new()
@@ -290,21 +332,25 @@ def _po_rm(user_id, po):
     mc_flush(user_id, po.cid)
     from buzz import mq_buzz_po_rm
     mq_buzz_po_rm(id)
+    from fav import fav_rm_by_po
+    fav_rm_by_po(po)
     return True
 
-def po_word_new(user_id, name, state=STATE_ACTIVE, rid=0):
-    if name and not is_same_post(user_id, name):
-        m = po_new(CID_WORD, user_id, name, state, rid)
-        if state > STATE_SECRET:
+
+def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
+
+    if name and not is_same_post(user_id, name, zsite_id):
+        m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
+        if m and (state is None or state > STATE_SECRET):
             m.feed_new()
         return m
 
-def po_note_new(user_id, name, txt, state=STATE_ACTIVE):
+def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
     if not name and not txt:
         return
     name = name or time_title()
-    if not is_same_post(user_id, name, txt):
-        m = po_new(CID_NOTE, user_id, name, state)
+    if not is_same_post(user_id, name, txt, zsite_id):
+        m = po_new(CID_NOTE, user_id, name, state, zsite_id=zsite_id)
         txt_new(m.id, txt)
         if state > STATE_SECRET:
             m.feed_new()
@@ -364,6 +410,19 @@ def mc_flush_cid_list_all(user_id, cid_list):
     for is_self in (True, False):
         for cid in cid_list:
             mc_flush_cid(user_id, cid, is_self)
+
+
+def reply_rm_if_can(user_id, id):
+    can_rm = None
+    r = Reply.mc_get(id)
+    if r:
+        po = Po.mc_get(r.rid)
+        if po:
+            can_rm = r.can_rm(user_id) or po.can_admin(user_id)
+            if can_rm:
+                r.rm()
+                mc_feed_tuple.delete(po.id)
+    return can_rm
 
 if __name__ == '__main__':
     po = Po.mc_get(10066676)

@@ -4,14 +4,14 @@ import urllib
 from _handler import Base
 from _urlmap import urlmap
 from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, zsite_verify_no_without_notify, zsite_name_rm, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY
-from model.zsite_list_0 import zsite_show_new, zsite_show_rm
+from model.zsite_show import zsite_show_new, zsite_show_rm
 from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
-from model.cid import CID_ZSITE
+from model.cid import CID_ZSITE, CID_USER
 from zkit.page import page_limit_offset
 
-from model.pic import pic_no 
+from model.pic import pic_no
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
 from model.user_mail import user_id_by_mail
@@ -19,6 +19,12 @@ from model.zsite_url import id_by_url
 from model.user_session import user_session
 from model.user_info import UserInfo
 from model.zsite_rank import zsite_rank_max
+from model.search_zsite import search_new
+from config import SITE_DOMAIN, ADMIN_MAIL
+from urlparse import urlparse
+from model.zsite_url import id_by_url
+from model.zsite import Zsite
+from model.user_mail import user_id_by_mail
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -59,7 +65,9 @@ class Index(Base):
             user_info.sex = sex
             user_info.save()
 
+        search_new(id)
         self.redirect('/zsite/%s' % id)
+
 
 @urlmap('/zsite/pic/rm/(\d+)/(\d+)')
 class PicRm(Base):
@@ -81,7 +89,7 @@ class Show(Base):
         rank = self.get_argument('rank', 0)
         rank = int(rank)
         if zsite:
-            zsite_show_new(id, rank)
+            zsite_show_new(id, zsite.cid, rank)
         self.redirect('/zsite/%s'%id)
 
 
@@ -105,8 +113,9 @@ class Mail(Base):
         if zsite and title and txt:
             mail = mail_by_user_id(id)
             name = zsite.name
-            sendmail(title, txt, mail, name)
+            sendmail(title, txt, mail, name, ADMIN_MAIL)
         self.redirect('/zsite/%s' % id)
+
 
 @urlmap('/zsite/verify/new/(0|1)/(\d+)')
 class VerifyNew(Base):
@@ -137,7 +146,7 @@ class Verify(Base):
             if state:
                 zsite_verify_yes(zsite)
                 if state == 2:
-                    zsite_show_new(id, zsite_rank_max(11))
+                    zsite_show_new(id, zsite.cid, zsite_rank_max(6))
             else:
                 zsite_verify_no(zsite, txt)
             self.finish({'state': True})
@@ -160,11 +169,6 @@ class VerifyList(Base):
             self.redirect('/')
 
 
-from config import SITE_DOMAIN
-from urlparse import urlparse
-from model.zsite_url import id_by_url
-from model.zsite import Zsite
-from model.user_mail import user_id_by_mail
 
 def zsite_by_query(query):
     user_id = None

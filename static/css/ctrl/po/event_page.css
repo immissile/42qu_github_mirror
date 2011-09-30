@@ -11,9 +11,12 @@ vertical-align: 13px; margin-left: 32px;
 
 .spline{
 border:1px dotted #ccc;
-border-width: 1px 0;  text-align: center; padding: 14px 14px 16px; margin: 14px 0 0;
+border-width: 1px 0;  text-align: center; padding:14px 0; margin: 14px 0 0;
 }
-
+.spliner{
+text-align:right;
+padding:14px 0;
+}
 .feedback_top{
 text-align:center;
 border-bottom:1px dotted #ccc;
@@ -33,4 +36,14 @@ padding:0;
 }
 .reply_spline{
 margin-bottom:32px;
+}
+.joiner{
+background:url(/img/gif/nnr9.gif) no-repeat 100% 50%;
+display:inline-block;
+height:28px;
+width:28px;
+float:right;
+}
+.joiner:hover{
+background-image:url(/img/gif/nnr.gif);
 }

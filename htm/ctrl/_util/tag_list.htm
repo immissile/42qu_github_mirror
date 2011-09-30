@@ -2,14 +2,19 @@
 from model.po import Po
 from model.zsite import Zsite
 from model.cid import CID_ANSWER
+from model.po import PO_CN_EN, PO_EN
 %>
-<%def name="tag_url(zsite_tag_id)">\
-%if zsite_tag_id:
+<%namespace file="/ctrl/zsite/event/event_page.htm" import="event_po"/>
+
+<%def name="tag_url(zsite_tag_id=None)">\
+% if zsite_tag_id:
 /tag/${zsite_tag_id}\
+% elif request.path == '/fav':
+/fav\
 %endif
 </%def>
 
-<%def name="tag_list_word(po_word_count, po_word_list, is_owner)">
+<%def name="tag_list_word(po_word_count, po_word_list)">
 % if po_word_count:
 <div class="zsite_block">\
 % for po in po_word_list:
@@ -17,7 +22,7 @@ from model.cid import CID_ANSWER
 cid = po.cid
 rid = po.rid
 %>
-    % if cid == CID_ANSWER and rid:
+    % if rid:
     <%
     question_po = Po.mc_get(rid)
     question_user = question_po.user
@@ -29,12 +34,12 @@ rid = po.rid
 </pre>\
 % endfor
 <div class="zsite_num_div">\
-<a href="/word" class="num">\
-    <span class="now">${po_word_count}</span><b>句微博</b>
+<a href="${tag_url()}/word" class="num">\
+    <span class="now">${po_word_count}</span><b>微博</b>
 </a>
 </div>
 </div>
-% elif is_owner:
+% elif current_user_id == zsite_id and not request.path.startswith('/fav'):
 <div class="zsite_block">\
 <div class="zsite_num_div">\
 <a href="/live" class="num">\
@@ -45,7 +50,7 @@ rid = po.rid
 % endif
 </%def>
 
-<%def name="tag_list_note(po_note_count, po_note_list, is_owner, zsite_tag_id=None)">
+<%def name="tag_list_note(po_note_count, po_note_list, zsite_tag_id=None)">
 % if po_note_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -57,14 +62,14 @@ rid = po.rid
 </div>\
 <div class="zsite_num_div">\
     <a href="${tag_url(zsite_tag_id)}/note" class="num">\
-    <span class="now">${po_note_count}</span><b>篇文章</b>
+    <span class="now">${po_note_count}</span><b>文章</b>
 </a>
 </div>
 </div>
 % endif
 </%def>
 
-<%def name="tag_list_answer(po_answer_count, po_answer_list, is_owner)">
+<%def name="tag_list_answer(po_answer_count, po_answer_list)">
 % if po_answer_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -76,14 +81,14 @@ rid = po.rid
 </div>\
 <div class="zsite_num_div">\
 <a href="/answer" class="num">\
-    <span class="now">${po_answer_count}</span><b>次回答</b>
+    <span class="now">${po_answer_count}</span><b>回答</b>
 </a>
 </div>
 </div>
 % endif
 </%def>
 
-<%def name="tag_list_question(po_question_count, po_question_list, is_owner, zsite_tag_id=None)">
+<%def name="tag_list_question(po_question_count, po_question_list, zsite_tag_id=None)">
 % if po_question_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -95,14 +100,14 @@ rid = po.rid
 </div>\
 <div class="zsite_num_div">\
 <a href="${tag_url(zsite_tag_id)}/question" class="num">\
-    <span class="now">${po_question_count}</span><b>条问题</b>
+    <span class="now">${po_question_count}</span><b>问题</b>
 </a>
 </div>
 </div>
 % endif
 </%def>
 
-<%def name="tag_list_photo(po_photo_count, po_photo_list, is_owner, zsite_tag_id=None)">
+<%def name="tag_list_photo(po_photo_count, po_photo_list, zsite_tag_id=None)">
 % if po_photo_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -114,14 +119,14 @@ rid = po.rid
 </div>\
 <div class="zsite_num_div">\
 <a href="${tag_url(zsite_tag_id)}/photo" class="num">\
-    <span class="now">${po_photo_count}</span><b>张图片</b>
+    <span class="now">${po_photo_count}</span><b>图片</b>
 </a>
 </div>
 </div>
 % endif
 </%def>
 
-<%def name="tag_list_video(po_video_count, po_video_list, is_owner, zsite_tag_id=None)">
+<%def name="tag_list_video(po_video_count, po_video_list, zsite_tag_id=None)">
 % if po_video_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -133,14 +138,14 @@ rid = po.rid
 </div>\
 <div class="zsite_num_div">\
 <a href="${tag_url(zsite_tag_id)}/video" class="num">\
-    <span class="now">${po_video_count}</span><b>场视频</b>
+    <span class="now">${po_video_count}</span><b>视频</b>
 </a>
 </div>
 </div>
 % endif
 </%def>
 
-<%def name="tag_list_audio(po_audio_count, po_audio_list, is_owner, zsite_tag_id=None)">
+<%def name="tag_list_audio(po_audio_count, po_audio_list, zsite_tag_id=None)">
 % if po_audio_count:
 <div class="zsite_block">\
 <div class="zsite_ol">\
@@ -152,10 +157,48 @@ rid = po.rid
 </div>\
 <div class="zsite_num_div">\
 <a href="${tag_url(zsite_tag_id)}/audio" class="num">\
-    <span class="now">${po_audio_count}</span><b>段音乐</b>
+    <span class="now">${po_audio_count}</span><b>声音</b>
 </a>
 </div>
 </div>
 % endif
 </%def>
 
+<%def name="tag_list_event(po_event_count, po_event_list, zsite_tag_id=None)">
+% if po_event_count:
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+% for event, po in po_event_list:
+<li>${event_po(event, po)}</li>
+% endfor
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="${tag_url(zsite_tag_id)}/event" class="num">\
+    <span class="now">${po_event_count}</span><b>活动</b>
+</a>
+</div>
+</div>
+% endif
+</%def>
+
+
+<%def name="tag_list_site(po_site_count, po_site_list)">
+% if po_site_count:
+<div class="zsite_block">\
+<div class="zsite_ol">\
+<ol>
+% for site in po_site_list:
+<li><a href="${site.link}">${site.name}</a></li>
+% endfor
+</ol>
+</div>\
+<div class="zsite_num_div">\
+<a href="/site" class="num">\
+    <span class="now">${po_site_count}</span><b>站点</b>
+</a>
+</div>
+</div>
+% endif
+</%def>

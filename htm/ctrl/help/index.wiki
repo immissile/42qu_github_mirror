@@ -1,3 +1,10 @@
+
+== 42 是什么 ? ==
+
+42 - "生命、宇宙和一切的终极答案" ( The answer to life, the universe, and everything )
+
+详情见 [[ http://www.douban.com/note/172807027/ ]]
+
 == 技巧 ==
 
 === 如何加粗文本 ? ===

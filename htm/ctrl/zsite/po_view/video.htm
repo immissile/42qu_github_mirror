@@ -1,0 +1,31 @@
+<%inherit file="_po.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="_vote.htm" import="po_bar_vote"/>
+<%!
+from model.po_video import video_htm
+%>
+<%def name="po_body()">
+<%
+tag_link = "tag/%s" % zsite_tag_id
+%>
+
+<div class="w721">\
+<div id="po_video_htm">${video_htm(po.rid, po.id)|n}\
+<div id="po_name">${po.name}</div>\
+</div>
+%if po.txt:
+<pre class="prebody" id="video_txt">${po.htm|n}</pre>
+%endif
+<p class="po_bar">\
+%if can_admin:
+<a class="L" href="javascript:po_video(${po.id});void(0)">编辑</a>\
+%endif
+<%include file="_sign.htm"/>\
+</p>\
+${po_bar_vote(po)}\
+</div>
+%if can_admin:
+<textarea id="_txt" style="display:none">${po.txt}</textarea>
+%endif
+</%def>
+

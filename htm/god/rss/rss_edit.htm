@@ -1,0 +1,26 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.zsite import Zsite
+%>
+<%def name="htm_head()">
+</%def>
+%if rss:
+<%
+user = Zsite.mc_get(rss.user_id)
+%>
+<div style="border-bottom:1px dotted #ccc;padding:27px;">
+    <div>
+        ${rss.id} 
+      <div><a href="${user.link}" target="_blank">${user.name}</a></div>
+        <a target="_blank" href="${rss.link}">${rss.name}</a>
+        <div><a target="_blank" href="${rss.url}">${rss.url}</a>
+        </div>
+        </div>
+        <div><a href="/rss_gid/edit/${rss.id}">编辑</a>
+            </div>
+    <div class="tr">
+        <a href="/rss_gid/rm/${id}">删除</a>
+    </div>
+</div>
+%endif

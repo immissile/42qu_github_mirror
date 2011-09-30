@@ -6,11 +6,14 @@
     font-size:28px;
     margin:16px 0 48px;
     line-height:48px;
-    font-family: "Trebuchet MS", sans-serif;
 }
 .po_body #po_answer_name{
     font-size:14px;
-    margin:0 0 8px;
+    margin:0 0 22px;
+    padding-bottom:24px;
+    line-height:16px;
+    text-align:left;
+    border-bottom:1px dotted #ccc;
     font-family:inherit;
 }
 .w721,.po_body .prebody{
@@ -96,11 +99,11 @@ height:46px;
 top:300px;
 }
 .sprev{
-margin-left:40px
+left:32px
 }
 .snext{
 background-image:url(/img/gif/gt3.gif);
-margin-left:911px;
+right:32px;
 }
 #photo{
 line-height:0;
@@ -121,7 +124,7 @@ margin-bottom:21px;
 line-height: 28px;
 padding-bottom: 14px;
 }
-#po_video_htm .video{
+#po_body .video{
 width:721px;
 height:589px;
 outline:0;
@@ -138,4 +141,23 @@ font-size:28px;
 margin-bottom:-4px;
 margin-left:0;
 margin-right:8px;
+}
+
+.poopt , .poopt a{
+color:#999
+}
+.poopt a:hover{
+color:#a10;
+}
+.poopt .split{
+margin:0 10px;
+}
+.pnum{
+margin-right:7px;
+text-decoration: underline;
+}
+.pevent{
+border-bottom: 1px dotted #ccc; 
+text-align: center; 
+padding-bottom: 16px; margin-bottom: 16px; margin-top: -16px;
 }

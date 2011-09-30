@@ -3,6 +3,7 @@
 from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_FEEDBACK_NORMAL
 from model.notice import notice_event_join_no_txt_by_zsite_id
 from model.ico import pic_url as _pic_url, ico_url_with_default
+from zkit.jsdict import JsDict
 %>
 
 <%def name="event_admin_body()">
@@ -14,8 +15,8 @@ id = i.id
 state = i.state
 user = i.user
 username = user.name
-namecard = user.namecard
-realname = namecard.name
+namecard = user.namecard or JsDict()
+realname = namecard.name or username
 career = ' , '.join(filter(bool, user.career))
 %>
 % if id == pos_id:
@@ -34,9 +35,11 @@ career = ' , '.join(filter(bool, user.career))
 , ${career}
 % endif
 </p>
+% if namecard:
         <p>电话 : ${namecard.phone}</p>
         <p>邮箱 : ${namecard.mail}</p>
         <p>地址 : ${namecard.place_now} ${namecard.address}</p>
+% endif
     </div>
 
     <div class="ndbtn">

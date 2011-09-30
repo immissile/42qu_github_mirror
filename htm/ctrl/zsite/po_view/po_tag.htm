@@ -1,0 +1,40 @@
+<%!
+from model.vote import vote_state, vote_count
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO
+from datetime import datetime
+from model.zsite_tag import count_po_list_by_zsite_tag_id_cid
+%>
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo, tag_list_video, tag_list_audio"/>
+<%def name="htm_head()">
+${css.ctrl_tag|n}
+</%def>
+
+<a class="back_a"
+%if zsite_id == current_user_id:
+href="/live"
+%else:
+href="/"
+%endif
+></a>
+
+
+<%
+po_note_count, po_note_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_NOTE, 6)
+po_question_count, po_question_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_QUESTION, 6)
+po_photo_count, po_photo_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_PHOTO, 6)
+po_video_count, po_video_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_VIDEO, 6)
+po_audio_count, po_audio_list = count_po_list_by_zsite_tag_id_cid(zsite_tag_id, CID_AUDIO, 6)
+%>
+
+
+<div class="po_tag">
+<h1><a class="c0" href="${zsite.link}">${zsite.name}</a> : ${tag_name}</h1>
+</div>
+
+
+${tag_list_note(po_note_count, po_note_list, zsite_tag_id)}\
+${tag_list_question(po_question_count, po_question_list, zsite_tag_id)}\
+${tag_list_photo(po_photo_count, po_photo_list, zsite_tag_id)}\
+${tag_list_video(po_video_count, po_video_list, zsite_tag_id)}\
+${tag_list_audio(po_audio_count, po_audio_list, zsite_tag_id)}\

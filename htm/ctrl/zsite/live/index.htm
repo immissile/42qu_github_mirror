@@ -7,7 +7,6 @@ from config import FS_URL
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render, reply_textarea"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 
-
 <%def name="htm_head()">
 ${css.ctrl_live|n}
 </%def>
@@ -17,7 +16,6 @@ ${css.ctrl_live|n}
 <a id="feed_load" href="javascript:void(0)">加载更多</a>
 <div id="feed_loading"></div>
 <script src="${js.ctrl_live}"></script>
-<script src="${js.ctrl_feed}"></script>
 </%def>
 
 
@@ -39,6 +37,19 @@ class="po_word_txt"
 id="po_word_txt" name="txt"></textarea>\
 </div></div></div>\
 <div id="po_word_btn" class="btns">\
+<span id="po_all">\
+<a href="/po/note">文章</a>\
+<span class="split">-</span>\
+<a href="javascript:po_photo();void(0)">图片</a>\
+<span class="split">-</span>\
+<a href="/po/question">问题</a>\
+<span class="split">-</span>\
+<a href="/po/event">活动</a>\
+<span class="split">-</span>\
+<a href="javascript:po_audio();void(0)">声音</a>\
+<span class="split">-</span>\
+<a href="javascript:po_video();void(0)">视频</a>\
+</span>
 <span class="btnw"><button type="submit">游吟</button></span>\
 <span id="po_word_tip">&nbsp;</span>\
 </div>
@@ -63,6 +74,7 @@ id="po_word_txt" name="txt"></textarea>\
 {{/if}}
 {{if cid!=61 || rid }}
 <pre class="fdh">{{if cid==61 || cid==64 || cid==63 }}{{if cid==63}}问 : {{/if}}{{if rid}}{{if question_user_link==link}}自问自答{{else}}答 <a
+target="_blank"
 href="${question_user_link}">${question_user}</a> 问{{/if}} : {{/if}}{{/if}}{{if cid==67}}<embed
 flashvars="foreColor=#aa1100&amp;analytics=false&amp;filename=${rid}</%text>\
 ${this.xsrf_token}"
@@ -92,10 +104,9 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}
 <div class="fdtxt" id="fdtxt${id}">
         {{if cid==61 || cid == 66}}
-{{html txt}}
-            {{if cid == 66}}
-<a onclick="fdvideo(this,${id});" class="fdvideo" href="javascript:void(0)">播放视频</a>
-            {{/if}}
+<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}
+{{if txt_more}}<a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
+{{if cid == 66}}<a onclick="fdvideo(this,${id});" class="fdvideo" href="javascript:void(0)">播放视频</a>{{/if}}
         {{else}}
             {{if cid==68}}
 <div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}</div>
@@ -112,21 +123,32 @@ class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
     </div>
     <div class="fdbar">
     <span class="L">
-        ${create_time}
+<span class="fdopt">{{if site_id}}<a href="//${site_url}"
+target="_blank">${site_name}</a><span
+class="split">-</span>{{/if}}<a
+class="fcma"
+href="javascript:fcm(${id},${reply_count});void(0)">{{if reply_count}}<span
+class="mr3">${reply_count}</span>{{/if}}评论</a><span
+class="split">-</span><a
+class="vote" href="javascript:share(${id});void(0)">分享</a><span
+class="split">-</span><a
+rel="${id}" href="javascript:void(0)"
+class="{{if fav}}faved{{else}}fav{{/if}}"
+>收藏</a></span>
+    </span>
+        <a href="/${id}" target="_blank">${create_time}</a>
         {{if rt_list.length}} ,
             {{if rt_list.length == 1 && rt_list[0] == 0}}
-全站广播
+广播
             {{else}}
         <span>
             {{each rt_list}}
 <a href="${$value.link}" target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}
             {{/each}}
         </span>
-        {{if rt_list.length > 1}}, ${rt_list.length}人{{/if}}喜欢
+        {{if rt_list.length > 1}}, ${rt_list.length}人{{/if}} 推荐
             {{/if}}
         {{/if}}
-    </span>
-<span class="vote${vote_state}" id="vote${id}"><a title="厌倦" class="down" href="javascript:vote_down(${id});void(0)"></a><span title="好评度" class="num">${vote}</span><a title="喜欢" class="up" href="javascript:vote_up(${id});void(0)"></a></span><a title="回应" target="_blank" class="reply" href="/${id}#txt_form">${reply_count}</a>
     </div>
 </div></div>
 {{/each}}

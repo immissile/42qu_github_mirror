@@ -65,13 +65,13 @@ background:url(/img/gif/back_home3.gif) no-repeat;
 bottom:14px;
 display:none;
 position:fixed;
-right:16px;
+right:22px;
 }
 #sT{
-position:fixed;
+position:absolute;
+right:28px;
 _position:absolute;
-margin-top:96px;
-margin-left:37px;
+margin-top:36px;
 background-image:url(/img/gif/list3.gif);
 width:29px;
 height:27px;
@@ -83,4 +83,190 @@ width:28px;
 margin-right:8px;
 margin-left:-3px;
 margin-bottom:-8px;
+}
+#feeds .fdvideo{
+display:block;
+margin:12px 0 6px;
+padding-left:33px;
+line-height:27px;
+color:#000;
+background:url(/img/gif/redplay.gif) no-repeat;
+}
+#feeds .fdvideo:hover{
+color:#a10;
+}
+#feeds .video{
+width:677px;
+height:553px;
+margin:14px 0 8px;
+}
+#feeds .G3{
+overflow:hidden;
+}
+#feeds .sdw{
+margin-bottom:36px;
+}
+#feeds .G1{
+background:url(/img/gif/comment.gif) no-repeat -51px 28px;
+*background-position: -50px 28px;
+margin-left:-2px;
+padding-left:34px;
+}
+#feeds .G1 .c0{
+display:block:
+outline:0;
+}
+.fdimga{
+display:block;
+text-align:center;
+}
+#feeds .fdimg{
+margin-bottom:8px;
+}
+#feeds .fdh{
+margin-bottom:14px;
+}
+#feeds .fdpre p{
+line-height:28px;
+padding-bottom:14px;
+}
+#feeds .fdpre{
+margin-bottom:-12px;
+}
+#feeds .fdtxt{
+overflow:hidden;
+}
+#feeds .tag{
+color:#999;
+margin-left:14px
+}
+#feeds .tag:hover{
+color:#a10;
+}
+#feeds .fdtxtin{
+margin-bottom:6px;
+}
+#feeds .fcmload{
+background:url(/img/gif/loading_bar.gif) no-repeat 50% 50%;
+height:8px;
+margin-top:22px;
+margin-bottom:27px;
+}
+#feeds .fcml{
+margin-top:14px;
+border-top:1px dotted #ccc;
+padding-bottom:2px;
+}
+#feeds .fcmi{
+font-size:14px;
+text-align:left;
+margin-top:14px;
+padding-bottom:14px;
+border-bottom:1px dotted #ccc; 
+}
+#feeds .reply_at {
+  background: url("/img/gif/reply.gif") no-repeat scroll 0 0 transparent;
+  display: inline-block;
+  height: 11px;
+  margin: 9px 0 0 6px;
+  vertical-align: 0;
+  width: 12px;
+}
+#feeds .fcmbtn{
+text-align:right;
+margin:6px 0 4px 0;
+}
+#feeds .fcmtxt{
+width:661px;
+padding:0 7px;
+border:1px solid #ccc;
+height:100px;
+}
+#feeds .fcm2{
+font-size: 16px; margin-right: 24px; vertical-align: 9px;
+color:#999;
+}
+#feeds .fcm2:hover{
+color:#a10;
+}
+
+#feeds .feed_event_img{
+margin-top: 7px; height: 162px; width: 162px; float: right; margin-left: 16px;
+}
+#feeds .feed_event_prop{
+margin-bottom:14px
+}
+#feeds .cid68 .fdtxt, #feeds .cid68 .fdpre{
+overflow:visible;
+}
+#feeds .fdall{
+margin-top:3px;
+}
+#feeds .fdall a{
+margin-right:14px;
+}
+#feeds .feed_event_pid{
+margin-bottom:14px
+}
+#feeds .split{
+margin:0 14px
+}
+
+#feeds .fdopt a{
+color:#999;
+}
+#feeds .fdopt .faved{
+color:#000
+}
+#feeds .fdopt a:hover, #feeds .fdopt .faved:hover{
+color:#a10;
+}
+.at_list{
+position:absolute;
+background:#fff;
+border:1px solid #ccc;
+width:auto;
+z-index:2;
+min-width:200px;
+}
+.at_img{
+height:48px;
+width:48px;
+margin-right:8px;
+padding:2px 2px 0 2px;
+}
+.at_li{
+text-align:left;
+clear:both;
+padding:3px 6px 0 3px;
+cursor:pointer;
+height:55px;
+overflow:hidden;
+}
+.at_tip{
+font-size:12px;
+line-height:12px;
+padding:5px;
+_width:89px;
+color:#999;
+border:1px solid #ccc;
+position:absolute;
+background:#f9f9f9;
+z-index:2;
+}
+.at_on{
+-moz-box-shadow: inset 2px 2px 14px 2px #999;
+box-shadow: inset 2px 2px 14px 2px #999; 
+background:#e9e9e9;
+}
+.at_name{
+display:block;
+line-height:14px;
+margin-top:9px;
+}
+.at_title{
+color:#999;
+font-size:14px;
+line-height:1px;
+overflow:hidden;
 }

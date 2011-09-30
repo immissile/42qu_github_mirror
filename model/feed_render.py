@@ -7,18 +7,23 @@ from operator import itemgetter
 from po import Po
 from po_question import answer_count
 from follow import follow_id_list_by_from_id
-from model.vote import vote_count
+#from vote import vote_count
 from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm
 from zkit.earth import place_name
 from zsite import Zsite
 from zkit.txt import cnenoverflow
-from model.txt2htm import txt_withlink
+from txt2htm import txt_withlink
 from fs import fs_url_jpg, fs_url_audio
-from model.days import begin_end_by_minute
-from model.event import Event
+from model.career import career_dict
+from days import begin_end_by_minute
+from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
+from event import Event
+from fav import fav_cid_dict
 
 
-FEED_TUPLE_DEFAULT_LEN = 11
+FEED_TUPLE_DEFAULT_LEN = 13
+
+FEED_TUPLE_DEFAULT_LEN_FOR_ZSITE = 10
 
 def feed_tuple_by_db(id):
     m = Po.mc_get(id)
@@ -45,7 +50,7 @@ def feed_tuple_by_db(id):
     if cid == CID_PHOTO:
         _rid = fs_url_jpg(677, rid)
     elif cid == CID_AUDIO:
-        _rid = fs_url_audio(id,"")
+        _rid = fs_url_audio(id, '')
     elif cid == CID_EVENT:
         event = Event.mc_get(id)
         _rid = fs_url_jpg(162, event.pic_id)
@@ -56,10 +61,11 @@ def feed_tuple_by_db(id):
         m.user_id,
         cid,
         _rid,
+        m.zsite_id,
         reply_count,
         m.create_time,
         name,
-        vote_count(id)
+        #vote_count(id)
     ]
 
     txt = m.txt
@@ -116,35 +122,66 @@ def dump_zsite(zsite):
         return (zsite.name, zsite.link)
     return (0, 0)
 
-def render_feed_list(id_list, rt_dict):
+
+def render_feed_list(id_list, rt_dict, zsite_id):
     zsite_id_list = []
 
     for i in rt_dict.itervalues():
         zsite_id_list.extend(i)
 
-    for id, i in zip(id_list, feed_tuple_list(id_list)):
-        zsite_id = i[0]
-        zsite_id_list.append(zsite_id)
-
-        rt_id_list = rt_dict[id]
-        zsite_id_list.extend(rt_id_list)
-
     zsite_dict = Zsite.mc_get_dict(filter(bool, zsite_id_list))
+    fav_dict = fav_cid_dict(zsite_id, id_list)
     r = []
     for id, i in zip(id_list, feed_tuple_list(id_list)):
-        zsite_id = i[0]
-        zsite = zsite_dict[zsite_id]
         rt_id_list = rt_dict[id]
         result = [
-            zsite_id,
+            i[0],
             id,
-            map(dump_zsite, map(zsite_dict.get, rt_id_list))
+            map(dump_zsite, map(zsite_dict.get, rt_id_list)),
+            fav_dict[id],
         ]
         result.extend(i[1:])
         r.append(result)
 
-
     return r
+
+def render_zsite_feed_list(user_id, id_list):
+    fav_dict = fav_cid_dict(user_id, id_list)
+    r = []
+    rf = feed_tuple_list(id_list)
+    
+    zsite_id_set = set(
+        i[0] for i in rf
+    )
+    c_dict = career_dict(zsite_id_set)
+    z_dict = Zsite.mc_get_dict(zsite_id_set)
+    z_dict = dict(
+        (i.id, (i.name, i.link))
+        for i in z_dict.itervalues()
+    )
+    
+    for id, i in zip(id_list, rf):
+        zsite_id = i[0]
+        cid = i[1]
+
+        result = [
+            zsite_id,
+            id,
+            fav_dict[id],
+        ]
+
+
+        if cid not in (CID_WORD, CID_EVENT):
+            result.extend(i[1:9])
+            result.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
+            if len(i) > 9:
+                result.extend(i[9:])
+        else:
+            result.extend(i[1:])
+        
+        r.append(result)
+
+    return r, z_dict, c_dict
 
 def zsite_id_list_by_follow(zsite_id):
     r = follow_id_list_by_from_id(zsite_id)
@@ -165,24 +202,9 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
             id_list.append(id)
         if rid:
             rt_dict[id].append(i.zsite_id)
-    return render_feed_list(id_list, rt_dict), id
+    return render_feed_list(id_list, rt_dict, zsite_id), id
 
 
-#    result = []
-#    zsite_dict = Zsite.mc_get_dict(set(map(itemgetter(3), entry_list)))
-#    vote_count_list = vote_count.get_list(map(itemgetter(0), entry_list))
-#    for (id, cid, feed_id, zsite_id), vote in zip(entry_list, vote_count_list):
-#        args = CID2FEEDFUNC[cid](id)
-#        if not args:
-#            continue
-#        cls = CID2FEED_ENTRY[cid]
-#        result.append(
-#            cls(id, vote, cid, feed_id, zsite_dict[zsite_id], zsite_id, *args)
-#        )
-#    return result
 
 if __name__ == '__main__':
     pass
-    m = Po.mc_get(10044641)
-    print feed_tuple_by_db(10033928)
-    print feed_tuple_list([10033927])

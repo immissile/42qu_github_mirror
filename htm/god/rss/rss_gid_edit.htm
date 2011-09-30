@@ -1,0 +1,19 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.rss import Rss
+%>
+
+<%def name="htm_head()">
+</%def>
+<%htm:form>
+<input type="txt" name="user_id"value="${rss.user_id}" />
+<input type="txt" name="url" value="${rss.url}" />
+<input type="txt"name="link" value="${rss.link}" />
+<input type="txt" name="name"value="${rss.name}" />
+<div>
+    <input type="hidden" name="next" value="${next}"/>
+    <span class="btnw"><button type="submit">提交</button></span>
+    </div>
+</%htm:form>
+

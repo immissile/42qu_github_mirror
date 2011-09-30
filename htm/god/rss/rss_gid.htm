@@ -1,0 +1,48 @@
+<%!
+from model.zsite import Zsite
+from model.rss import RssUpdate, STATE2CN, STATE_RSS_NEW, rss_update_new
+%>
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="htm_head()">
+</%def>
+%if rss:
+${page|n}
+% for r in rss:
+<%
+id,user_id,url,gid,name,link = r
+user = Zsite.mc_get(user_id)
+%>
+<div style="border-bottom:1px dotted #ccc;padding:27px;">
+    <div>
+        ${id} 
+        <div><a href="${user.link}" target="_blank">${user.name}</a></div>
+        <a target="_blank" href="${link}">${name}</a>
+        <div><a target="_blank" href="${url}">${url}</a>
+        </div>
+        </div>
+        <div><a href="/rss_gid/edit/${id}">编辑</a>
+        </div>
+<%
+ru = RssUpdate.mc_get(id)          
+%>
+%if ru:
+${STATE2CN[ru.state]}
+%if ru.state == STATE_RSS_NEW:
+        <a href="/#rss_mail">发邮件</a>
+##<a href="#mail">发邮件</a>
+%endif
+%else:
+<%
+rss_update_new(id,STATE_RSS_NEW)
+%>
+%endif
+
+    <div class="tr">
+        <a href="/rss_gid/rm/${id}">删除</a>
+    </div>
+</div>
+%endfor
+%endif
+
+${page|n}

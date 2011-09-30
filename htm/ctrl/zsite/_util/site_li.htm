@@ -1,0 +1,88 @@
+
+<%!
+from model.po import PO_CN, PO_EN
+from config import FS_URL
+from tornado.escape import json_encode 
+%>
+
+%if li:
+<script id="feed" type="text/x-jquery-tmpl">
+<%text>
+<div class="sdw"><div class="sd cid${cid}">
+{{if cid==68}}
+<a href="/${id}"><img class="feed_event_img" src="${rid}"></a>
+{{/if}}
+{{if cid!=61 || rid }}
+<pre class="fdh">{{if cid==61 || cid==64 || cid==63 }}{{if cid==63}}问 : {{/if}}{{if rid}}{{if question_user_link==link}}自问自答{{else}}答 <a
+target="_blank"
+href="${question_user_link}">${question_user}</a> 问{{/if}} : {{/if}}{{/if}}{{if cid==67}}<embed
+flashvars="foreColor=#aa1100&amp;analytics=false&amp;filename=${rid}</%text>\
+${this.xsrf_token}"
+quality="high" bgcolor="#FFFFFF" class="audio"
+src="${FS_URL}/swf/1bit.swf"
+<%text>
+type="application/x-shockwave-flash"
+wmode= "Opaque"></embed>{{/if}}{{if name}}<a
+target="_blank"
+href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}</a>{{/if}}</pre>
+{{/if}}
+{{if cid==65}}
+<a class="fdimga" target="_blank" href="/${id}"><img class="fdimg" src="${rid}"></a>
+{{/if}}
+{{if cid==68}}
+<div class="feed_event_prop">
+<p >地点<span class="colon">:</span>${place_name}</p>
+<p class="ml48 feed_event_pid">${address}</p>
+<p>时间<span class="colon">:</span>${time_row1}</p>
+{{if time_diff_day}}
+<p class="ml14">至<span class="ml20">${time_row2}</span></p>
+{{else}}
+<p class="ml48">${time_row2}</span></p>
+{{/if}}
+</div>
+{{/if}}
+<div class="fdtxt" id="fdtxt${id}">
+        {{if cid==61 || cid == 66}}
+<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}
+{{if txt_more}}<a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
+{{if cid == 66}}<a onclick="fdvideo(this,${id});" class="fdvideo" href="javascript:void(0)">播放视频</a>{{/if}}
+        {{else}}
+            {{if cid==68}}
+<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}</div>
+<div class="fdall"><a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">显示详情</a>{{if cid==68}}<a href="/event/join/${id}" target="_blank">报名参加</a>{{/if}}</div>
+            {{else}} 
+                {{if txt_more}}
+<div class="fdtxtin">${txt}</div>
+<div class="fdall"><a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">显示全部</a></div>
+                 {{else}}
+{{html txt}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    </div>
+    <div class="fdbar">
+    <span class="L">
+<span class="fdopt"><a
+class="fcma"
+href="javascript:fcm(${id},${reply_count});void(0)">{{if reply_count}}<span
+class="mr3">${reply_count}</span>{{/if}}评论</a><span
+class="split">-</span><a
+class="vote" href="javascript:share(${id});void(0)">分享</a><span
+class="split">-</span><a
+rel="${id}" href="javascript:void(0)"
+class="{{if fav}}faved{{else}}fav{{/if}}"
+>收藏</a></span>
+    </span>
+<a href="${zsite.link}">${zsite.name}{{if zsite.unit||zsite.title}} , ${zsite.unit} ${zsite.title}{{/if}}</a>{{if tag_id}} , <a href="/tag/${tag_id}">${tag_name}</a>{{/if}}
+    </div>
+</div></div>
+</%text>
+</script>
+<script>
+render_site(${json_encode(li)|n})
+</script>
+
+<div class="mt27">${page|n}</div>
+%else:
+<div class="tc" style="border:1px dotted #ccc;padding:27px">暂无内容</div>
+%endif

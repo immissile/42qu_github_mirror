@@ -7,8 +7,8 @@ from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION, CID_CHANNEL
 from model.po import Po, po_state_set
-from model.po_show import po_show_set, po_show_count, po_show_list, po_show_rm
-from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from model.po_show import po_show_new, po_show_count, po_show_list, po_show_rm
+from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from zkit.page import page_limit_offset
 from model.god_po_show import mc_po_show_zsite_channel
 
@@ -50,15 +50,21 @@ class PoShow(Base):
     def get(self, n):
         page, limit, offset = page_limit_offset(
             '/po/show-%s',
-            po_show_count(0),
+            po_show_count(),
             n,
             PAGE_LIMIT,
         )
-        li = po_show_list(0, 'id', limit, offset)
+        li = po_show_list(limit, offset)
         self.render(
             po_list=li,
             page=page,
         )
+
+@urlmap('/po/show/rm/(\d+)')
+class PoShowRm(Base):
+    def get(self, id):
+        po_show_rm(id)
+        self.redirect("/po/show/set/%s"%id)
 
 @urlmap('/po/show/set/(\d+)')
 class PoShowSet(Base):
@@ -73,14 +79,23 @@ class PoShowSet(Base):
 
     def post(self, id):
         po = Po.mc_get(id)
-        cid = self.get_argument('cid', None)
         next = self.get_argument('next', '/po')
-        if po and cid:
-            cid = int(cid)
-#            name = self.get_argument('name', '')
-            po_show_set(po, cid)
+        broad = self.get_argument('broad',None)
+        site = self.get_argument('site',None)
+
+        if po:
+            if broad:
+                po_show_new(po)
+            else:
+                po_show_rm(po)
+
+            if site:
+                po.zsite_id_set(site)
+
             return self.redirect(next)
+
         self.render(
             po=po,
             next=next,
         )
+

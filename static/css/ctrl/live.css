@@ -34,13 +34,45 @@ float:right;
 margin-top:-3px;
 }
 #po_word_btn{
+width:470px;
 text-align:right;
 margin-top:16px;
 float:right;
-_clear:both;
-_width:323px;
 _padding-top:3px;
+height:42px;
+_margin-bottom:-42px;
 }
+#po_all a{
+color:#666
+}
+#po_all .split{
+margin:0 12px
+}
+#po_all a:hover{
+color:#a10;
+text-decoration:underline
+}
+#po_ext:hover{
+background-image:url(/img/gif/nnr.gif);
+}
+#po_all,#po_ext{
+padding:0 21px;
+margin-left:0;
+color:#666;
+margin-top:-2px; 
+line-height:41px;
+height:41px;float: left;
+border:1px dotted #ccc;
+_border-style:solid;
+}
+#po_ext{
+width:94px;
+padding:0;
+display:none;
+cursor:pointer;
+background:url(/img/gif/nnr9.gif) no-repeat 50% 50%;
+}
+
 .po_word_txt_bg{
 background: url(/img/gif/today.gif) no-repeat 50% 50%;
 }
@@ -57,32 +89,6 @@ color:#999;
 vertical-align:top;
 #vertical-align:7px;
 float:right;
-}
-#feeds .G3{
-overflow:hidden;
-}
-#feeds .sdw{
-margin-bottom:36px;
-}
-#feeds .G1{
-background:url(/img/gif/comment.gif) no-repeat -51px 28px;
-*background-position: -50px 28px;
-margin-left:-2px;
-padding-left:34px;
-}
-#feeds .G1 .c0{
-display:block:
-outline:0;
-}
-.fdimga{
-display:block;
-text-align:center;
-}
-#feeds .fdimg{
-margin-bottom:8px;
-}
-#feeds .fdh{
-margin-bottom:14px;
 }
 .buzz{
 border:1px dotted #ccc;
@@ -106,29 +112,6 @@ color:#999;
 .buzz{
 color:#999;
 }
-.mg03{
-margin:0 3px;
-}
-.fdpre p{
-line-height:28px;
-padding-bottom:14px;
-}
-.fdpre{
-margin-bottom:-12px;
-}
-.fdtxt{
-overflow:hidden;
-}
-#feeds .tag{
-color:#999;
-margin-left:14px
-}
-#feeds .tag:hover{
-color:#a10;
-}
-.fdtxtin{
-margin-bottom:6px;
-}
 #buzzrm{
 float:left;
 display:inline-block;
@@ -143,20 +126,4 @@ margin-bottom:32px;
 #buzz{
 padding-bottom:36px;
 _zoom:1;
-}
-.fdvideo{
-display:block;
-margin:12px 0 6px;
-padding-left:33px;
-line-height:27px;
-color:#000;
-background:url(/img/gif/redplay.gif) no-repeat;
-}
-.fdvideo:hover{
-color:#a10;
-}
-.fdswf .video{
-width:677px;
-height:553px;
-margin:14px 0 8px;
 }

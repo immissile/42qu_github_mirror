@@ -17,7 +17,7 @@ def _event_end(begin, end):
         event_end(i)
 
 def event_begin_end(begin):
-    end = (time() + timezone) // 60 + 1
+    end = (time() - timezone) // 60 + 1
     event_begin(begin, end)
     _event_end(begin, end)
     return end

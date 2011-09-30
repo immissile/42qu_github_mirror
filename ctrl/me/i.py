@@ -15,22 +15,16 @@ from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSI
 from model.user_auth import user_password_new, user_password_verify
 from model.user_mail import mail_by_user_id
 from cgi import escape
-from urlparse import parse_qs
-from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
-from urlparse import urlparse
+from urlparse import parse_qs, urlparse
+from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT, link_list_cid_by_zsite_id
 from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient
 from config import SITE_URL, SITE_DOMAIN
-from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id, OAUTH_SYNC_TXT 
+from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id, OAUTH_SYNC_TXT, linkify
 from model.zsite import Zsite
 from collections import defaultdict
 from model.sync import sync_state_set, sync_all, sync_follow_new, SYNC_CID
+from model.search_zsite import search_new
 
-OAUTH2URL = {
-    OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
-    OAUTH_SINA:'http://weibo.com/%s',
-    OAUTH_TWITTER:'http://twitter.com/%s',
-    OAUTH_QQ:'http://t.qq.com/%s',
-}
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -45,38 +39,12 @@ def _upload_pic(files, current_user_id):
     return error_pic
 
 
-class LinkEdit(LoginBase):
-    def _linkify(self, link, cid=0):
-        link = link.strip().split(' ', 1)[0]
-        if link:
-            if cid in OAUTH2URL and RE_URL.match(link):
-                link = OAUTH2URL[cid] % link
-            elif not link.startswith('http://') and not link.startswith('https://'):
-                link = 'http://%s'%link
 
-        return link
+class LinkEdit(LoginBase):
 
     def get(self):
         zsite_id = self.zsite_id
-        id_name = link_id_name_by_zsite_id(zsite_id)
-        id_cid = dict(link_id_cid(zsite_id))
-
-        link_list = []
-        link_cid = []
-        exist_cid = set()
-
-        for id, name in id_name:
-            link = link_by_id(id)
-            if id in id_cid:
-                cid = id_cid[id]
-                link_cid.append((cid, name , link))
-                exist_cid.add(cid)
-            else:
-                link_list.append((id, name, link))
-
-        for cid in (set(OAUTH_LINK_DEFAULT) - exist_cid):
-            link_cid.append((cid, OAUTH2NAME_DICT[cid], ''))
-
+        link_list, link_cid = link_list_cid_by_zsite_id(zsite_id)
         return self.render(
             link_list=link_list,
             link_cid=link_cid
@@ -91,7 +59,7 @@ class LinkEdit(LoginBase):
         for cid, link in zip(arguments.get('cid'), arguments.get('link')):
             cid = int(cid)
             name = OAUTH2NAME_DICT[cid]
-            link_cid.append((cid, name, self._linkify(link, cid)))
+            link_cid.append((cid, name, linkify(link, cid)))
 
 
         for id, key, value in zip(
@@ -100,7 +68,7 @@ class LinkEdit(LoginBase):
             arguments.get('value')
         ):
             id = int(id)
-            link = self._linkify(value)
+            link = linkify(value)
 
             link_kv.append((id, key.strip() or urlparse(link).netloc, link))
 
@@ -131,6 +99,8 @@ class CareerEdit(LoginBase):
             begin = arguments.get('%s_begin' % prefix, [])
             end = arguments.get('%s_end' % prefix, [])
             career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
+
+        search_new(current_user_id)
 
 
 class PicEdit(LoginBase):
@@ -211,7 +181,6 @@ class UserInfoEdit(LoginBase):
             else:
                 c = namecard_new(current_user_id, pid_now=pid_now)
 
-
         if not o.sex:
             sex = self.get_argument('sex', 0)
             if sex and not o.sex:
@@ -225,6 +194,7 @@ class UserInfoEdit(LoginBase):
                     else:
                         user_info_new(current_user_id, sex=sex)
 
+        search_new(current_user_id)
 
 
 @urlmap('/i/pic')
@@ -242,11 +212,11 @@ class Url(LoginBase):
         super(Url, self).prepare()
         if not self._finished:
             user = self.current_user
-            user_id = self.current_user_id
+            current_user_id = self.current_user_id
             link = self.current_user.link
             if user.state <= ZSITE_STATE_APPLY:
                 self.redirect(link+'/i/verify')
-            elif url_by_id(user_id):
+            elif url_by_id(current_user_id):
                 self.redirect(link)
 
     def get(self):
@@ -254,15 +224,15 @@ class Url(LoginBase):
 
     def post(self):
 
-        user_id = self.current_user_id
+        current_user_id = self.current_user_id
         url = self.get_argument('url', None)
         if url:
-            if url_by_id(user_id):
+            if url_by_id(current_user_id):
                 error_url = '个性域名设置后不能修改'
             else:
                 error_url = url_valid(url)
             if error_url is None:
-                url_new(user_id, url)
+                url_new(current_user_id, url)
                 self.redirect(SITE_URL)
         else:
             error_url = '个性域名不能为空'
@@ -424,22 +394,22 @@ class BindItem(LoginBase):
         user_id = self.current_user_id
         return self.render(
             id=id,
-            sync_all=sync_all(user_id),
+            sync_all=sync_all(user_id, id),
         )
 
     def post(self, id):
         user_id = self.current_user_id
-        cid_list = self.get_arguments("cid")
-        cid_list = set(map(int,cid_list)) 
+        cid_list = self.get_arguments('cid')
+        cid_list = set(map(int, cid_list))
         for i in SYNC_CID:
             if i in cid_list:
                 state = 1
             else:
                 state = 0
-            sync_state_set(user_id, i, state)
+            sync_state_set(user_id, i, state, id)
 
         self.redirect('/i/bind')
-    
+
 
 @urlmap('/i/bind')
 class Bind(LoginBase):
@@ -449,7 +419,7 @@ class Bind(LoginBase):
         app_dict = defaultdict(list)
 
         for app_id , oauth_id in oauth_by_zsite_id(user_id):
-            app_dict[app_id].append(oauth_id)        
+            app_dict[app_id].append(oauth_id)
 
         self.render(
              app_dict=app_dict
@@ -475,9 +445,9 @@ class Binded(LoginBase):
             flag += 0b10
 
         sync_follow_new(user_id, flag, cid, txt)
-        
+
         url = 'http://rpc.%s/oauth/%s'%(SITE_DOMAIN, cid)
-        
+
         self.redirect(url)
 
 

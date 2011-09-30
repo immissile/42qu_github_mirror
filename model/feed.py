@@ -63,6 +63,15 @@ def feed_rt(zsite_id, rid):
         feed_new(gid(), zsite_id, feed.cid, rid)
         mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
 
+def feed_rt_list(zsite_id, limit, offset):
+    return Feed.where(zsite_id=zsite_id).where("rid>0").order_by("id desc").col_list(
+        limit, offset, "rid"
+    ) 
+
+def feed_rt_count(zsite_id):
+    return Feed.where(zsite_id=zsite_id).where("rid>0").count()
+
+
 @mc_feed_rt_id('{zsite_id}_{rid}')
 def feed_rt_id(zsite_id, rid):
     cursor.execute(

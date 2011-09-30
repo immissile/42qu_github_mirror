@@ -3,6 +3,7 @@ from model.reply import STATE_SECRET, STATE_ACTIVE
 from zkit.time_format import friendly_time
 from model.zsite import Zsite
 from model.wall import Wall
+from model.zsite_url import at_zsite
 %>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="reply_render_body(i, can_see=False)">
@@ -65,6 +66,7 @@ other = Zsite.mc_get(other_id)
 <%def name="wall_reply_textarea(action)">
 <%htm:form id="reply_form" className="c" action="${action}">\
 <div class="btns c">\
+<span><a class="c0 L" href="//${request.host}/wall">${at_zsite(zsite)}</a></span>
 <span id="reply_submit" class="btnw"><button type="submit">回复</button></span>\
 <span id="secret_span"><input type="checkbox" name="secret" id="secret">\
 <label for="secret">私语</label></span>\
@@ -76,12 +78,13 @@ ${htm.reply_textarea()}\
 
 <%def name="reply_textarea(action)">
 <%htm:form id="reply_form" className="c" action="${action}">\
-${htm.reply_textarea()}\
 <div class="btns c">\
+<span><a class="c0 L" href="//${request.host}">${at_zsite(zsite)}</a></span>
 <span id="reply_submit" class="btnw"><button type="submit">此致 , 敬礼</button></span>\
 <span id="secret_span"><input type="checkbox" name="secret" id="secret">\
 <label for="secret">私语</label></span>\
 </div>\
+${htm.reply_textarea()}\
 </%htm:form>\
 <script>$("#reply_form").elastic_login()</script>\
 </%def>

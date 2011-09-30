@@ -1,0 +1,23 @@
+#joiner_nav{
+border-bottom: 1px dotted #ccc; 
+font-size: 16px; 
+padding: 16px 0;
+}
+.joiner_prev,.joiner_next{
+display: inline-block;
+background: url(/img/gif/nnl9.gif) no-repeat 50% 50%;
+width: 12px; height: 16px;
+padding:0 14px;vertical-align:-3px;
+}
+.joiner_nav .R{
+margin-top:-1px;
+}
+.joiner_prev:hover{
+background-image:url(/img/gif/nnl.gif);
+}
+.joiner_next:hover{
+background-image:url(/img/gif/nnr.gif);
+}
+.joiner_next{
+background-image:url(/img/gif/nnr9.gif);
+}

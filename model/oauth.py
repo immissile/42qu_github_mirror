@@ -1,5 +1,6 @@
 #coding:utf-8
 from _db import cursor_by_table, McNum, Model, McCache
+from model.zsite_url import  RE_URL
 
 OAUTH_GOOGLE = 1
 OAUTH_DOUBAN = 2
@@ -11,8 +12,10 @@ OAUTH_SOHU = 7
 OAUTH_QQ = 8
 OAUTH_RENREN = 9
 OAUTH_LINKEDIN = 10
+OAUTH_MY = 100
 
 OAUTH2NAME_DICT = {
+    OAUTH_MY        : "官方网站"    ,
     OAUTH_GOOGLE    : 'Google'      ,
     OAUTH_WWW163    : '网易微博'    ,
     OAUTH_SOHU      : '搜狐微博'    ,
@@ -34,6 +37,13 @@ OAUTH_TUPLE = (
     #OAUTH_SOHU      ,
     #OAUTH_TWITTER   ,
 )
+
+OAUTH2URL = {
+    OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
+    OAUTH_SINA:'http://weibo.com/%s',
+    OAUTH_TWITTER:'http://twitter.com/%s',
+    OAUTH_QQ:'http://t.qq.com/%s',
+}
 
 
 OAUTH2URL = {
@@ -63,7 +73,7 @@ OAUTH_SYNC_CID = set(
 
 OAUTH_SYNC_SQL = 'app_id in (%s)' % (','.join(map(str, OAUTH_SYNC_CID)))
 
-OAUTH_SYNC_TXT = "42区 , 这是一个神奇的网站 , 速来围观 !"
+OAUTH_SYNC_TXT = '42qu.com , 找到给你答案的人 ...'
 
 
 class OauthToken(Model):
@@ -92,13 +102,13 @@ def oauth_token_by_oauth_id(oauth_id):
     s = OauthToken.raw_sql('select app_id, token_key, token_secret from oauth_token where id =%s', oauth_id).fetchone()
     return s
 
-mc_oauth_name_by_oauth_id = McCache("OauthNameByOauthId:%s")
+mc_oauth_name_by_oauth_id = McCache('OauthNameByOauthId:%s')
 
-@mc_oauth_name_by_oauth_id("{oauth_id}") 
+@mc_oauth_name_by_oauth_id('{oauth_id}')
 def oauth_name_by_oauth_id(app_id, oauth_id):
     table = OAUTH2TABLE[app_id]
     cursor = cursor_by_table(table)
-    cursor.execute("select name from %s where id=%%s"%table, oauth_id)
+    cursor.execute('select name from %s where id=%%s'%table, oauth_id)
     r = cursor.fetchone()
     if r:
         return r[0]
@@ -120,7 +130,7 @@ def oauth_save(app_id, zsite_id, token_key, token_secret):
 
 
     cursor = OauthToken.raw_sql(
-        'select id from oauth_token where zsite_id=%s and app_id=%s and token_key=%s and token_secret=%s', 
+        'select id from oauth_token where zsite_id=%s and app_id=%s and token_key=%s and token_secret=%s',
         zsite_id, app_id, token_key, token_secret
     )
     r = cursor.fetchone()
@@ -134,7 +144,7 @@ def oauth_save(app_id, zsite_id, token_key, token_secret):
 
     if app_id in OAUTH_SYNC_CID:
         oauth_sync_sum.delete(zsite_id)
-    
+
     return id
 
 
@@ -199,6 +209,14 @@ def oauth_name_link(app_id, id):
         r = (None, None)
     return r
 
+def linkify(link, cid=0):
+    link = link.strip().split(' ', 1)[0]
+    if link:
+        if cid in OAUTH2URL and RE_URL.match(link):
+            link = OAUTH2URL[cid] % link
+        elif not link.startswith('http://') and not link.startswith('https://'):
+            link = 'http://%s'%link
+    return link
 
 #from binascii import crc32
 #from hashlib import md5

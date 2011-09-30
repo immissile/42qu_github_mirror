@@ -1,7 +1,9 @@
 input,pre,body,button,select,textarea{
 font:14px/28px Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif;
 }
-body,img,a,div,span,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,textarea,th,td,tr,input{margin:0;padding:0;}
+body,img,a,div,span,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,textarea,th,td,tr,input{
+margin:0;padding:0;
+}
 h1,h2,h3,h4,h5,h6,p{
 font-size:100%;
 font-weight:normal;
@@ -67,9 +69,10 @@ q:before,q:after {content:'';}
 font-size:16px;
 }
 .pd16{padding:16px}
-.mt32{
-margin-top:32px;
-}
+.pb14{padding-bottom:14px;}
+.mg03{ margin:0 3px; }
+.mt32{margin-top:32px;}
+.mt27{margin-top:27px;}
 .c0{
 color:#000;
 }

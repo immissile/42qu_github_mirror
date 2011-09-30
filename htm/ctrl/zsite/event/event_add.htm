@@ -1,0 +1,59 @@
+<%inherit file="_admin.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from zkit.itertools import chunkiter
+from model.event import event_joiner_user_list
+from model.ico import pic_url_bind_with_default
+from model.career import career_bind
+%>
+<%def name="head()">
+${css.ctrl_po_event_add|n}
+</%def>
+
+<%def name="event_admin_body()">
+<%htm:form className="w470">
+<textarea name="txt" class="txt"></textarea>
+<div class="tr"><span class="btnw L"><button type="submit">确定</button></span>\
+<span class="tip">输入嘉宾的42区网址 , 每个一行</span></span></div>
+</%htm:form>
+
+<%
+event = this.event
+id = event.id
+join_count = event.join_count
+join_list = event_joiner_user_list(id)
+career_bind(join_list)
+pic_url_bind_with_default(join_list, '219')
+%>
+% if join_count:
+<div class="spline">${join_count} 报名</div>
+<div class="G">
+
+<div class="G4">
+
+<div class="G">
+    %for chunk in chunkiter(join_list,4):
+<div class="c mt32">
+        % for i in chunk:
+<%
+unit, title = i.career
+%>
+<a href="${i.link}" class="c0">
+<div class="G1">
+    <img src="${i.pic219}">
+    <div>${i.name}</div>
+% if unit:
+    <div class="tr">${unit}</div>
+% endif
+% if title:
+    <div class="tr">${title}</div>
+% endif
+</div>
+</a>
+        % endfor
+</div>
+    % endfor
+</div>
+</div>
+% endif
+</%def>

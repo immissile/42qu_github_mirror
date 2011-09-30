@@ -55,10 +55,26 @@ DB_MAIN_TABLE = (
     'zsite_tag_po',
     'oauth_token_backup',
     'zsite_uv_daily',
+    'sync_turn',
+    'sync_follow',
+    "rss",
+    'search_zsite',
+    'txt_history',
+    'rss_po_id',
+    'fav',
+    'video',
+    'zsite_admin',
+    'oauth_client_uri',
+    'oauth_authorize_code',
+    'oauth_access_token',
+    'oauth_client',
+    'oauth_refresh_token',
+    'rss_update',
 )
 
 DB_GOOGLE_TABLE = (
     'google_rank',
+    'rss_po',
 )
 
 
