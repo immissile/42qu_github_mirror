@@ -268,17 +268,24 @@ fcmc = function (id,count){
 fcmcbtn = function (id){
     var textarea=$('#txt_'+id) , cont = textarea.val()
     var my = $('<div class="fcmi" ><div class="c9">我</div><pre></pre></div>')
-    textarea.focus().val('').height(100)
     if(!cont.length){
         return;
     }
-    my.find('pre').text(cont)
-    $('#fcml_'+id).append(my)
 
     $.postJSON(
         '/j/po/reply/'+id,
         {
             "txt":cont
+        },function(r){
+            if(r.can_not_reply){
+                $.fancybox({
+                    content: CANNOT_REPLY
+                })
+            } 
+            textarea.focus().val('').height(100)
+            my.find('pre').text(cont)
+            $('#fcml_'+id).append(my)
+    
         }
     )
 }
