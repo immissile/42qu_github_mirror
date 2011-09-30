@@ -179,8 +179,10 @@ function follow_a(id) {
 			}
 		})
 	} else {
-		text = follow;
-		url += "/rm"
+        if(confirm("取消关注 , 确定 ?")){
+    		text = follow;
+	    	url += "/rm"
+        }
 	}
 	$.postJSON(url + "/" + id)
 	a.html(text)
