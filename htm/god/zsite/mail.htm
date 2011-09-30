@@ -30,10 +30,13 @@ margin-left:419px;
 zsite_id = zsite.id
 %>
 <div style="width:972px;margin:16px auto">
-<p class="people">TO : ${zsite.name} (${zsite.id})</p>
+<p class="people"><a target="_blank" href="${zsite.link}">${zsite.name} (${zsite.id})</a></p>
 <%htm:form>
-<div><input class="title" type="text" name="title"></div>
+<div><input id="title" class="title" type="text" name="title"></div>
 <div><textarea class="txt" id="txt" name="txt"></textarea></div>
 <span class="btnw sub"><button type="submit">发送</button></span>
 </%htm:form>
 </div>
+<script>
+$("#title").focus()
+</script>
