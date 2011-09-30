@@ -75,8 +75,9 @@ def rss_po_list_by_state(state, limit=1, offset=10):
     return p
 
 
-def unread_update():
-    greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+def unread_update(greader=None):
+    if greader is None:
+        greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
 
     feeds = greader.unread_feed()
 
@@ -123,7 +124,7 @@ def unread_feed_update(greader, feed):
 user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_list
                         )
 
-def rss_subscribe():
+def rss_subscribe(greader=None):
     from zkit.google.findrss import get_rss_link_title_by_url
 
     rss_list = []
@@ -152,12 +153,22 @@ def rss_subscribe():
         rss_list.append(i)
 
     if rss_list:
-        greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+        if greader is None:
+            greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+
         for i in rss_list:
             greader.subscribe(i.url)
             i.gid = 1
             i.save()            
             print i.url
+
+    for i in Rss.where("gid<0"):
+        if greader is None:
+            greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+        print "unsubscribe",i.url
+        greader.unsubscribe(i.url)
+        i.delete()        
+
 
 if __name__ == '__main__':
     #rss_subscribe()
