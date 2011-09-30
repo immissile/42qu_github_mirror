@@ -161,7 +161,9 @@ def zsite_name_id_dict(id_set):
     d = Zsite.mc_get_dict(id_set)
     r = {}
     for i in id_set:
-        r[i] = d[i].name
+        t = d[i]
+        if t is not None:
+            r[i] = t.name
     return r
 
 from mq import mq_client
