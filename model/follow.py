@@ -4,6 +4,7 @@ from _db import Model, McModel, McCache, cursor_by_table, McCacheA, McLimitA, Mc
 from zsite import Zsite
 from gid import gid
 from days import ONE_DAY
+from zsite_url import name_dict_url_dict_by_zsite_id_list
 
 follow_count_by_to_id = McNum(lambda to_id: Follow.where(to_id=to_id).count(), 'FollowCountByToId.%s')
 follow_count_by_from_id = McNum(lambda from_id: Follow.where(from_id=from_id).count(), 'FollowCountByFromId.%s')
@@ -53,6 +54,11 @@ def follow_id_list_by_from_id_cid(from_id, cid):
 def follow_list_by_from_id_cid(from_id, cid):
     id_list = follow_id_list_by_from_id_cid(from_id, cid)
     return Zsite.mc_get_list(id_list)
+
+
+def follow_name_dict_url_dict_by_from_id_cid(from_id, cid):
+    flist = follow_id_list_by_from_id_cid(from_id, cid)
+    return name_dict_url_dict_by_zsite_id_list(flist)
 
 def follow_get(from_id, to_id):
     if from_id:
@@ -120,5 +126,10 @@ def mc_flush(from_id, to_id, cid):
 if __name__ == '__main__':
     #print follow_get(10001955, 10000217)
     #print mc_follow_id_list_by_to_id
-    print following_id_rank_tuple(10000000)
-    print follow_list_show_by_from_id(10000000, 1)
+    #print following_id_rank_tuple(10000000)
+    #print follow_list_show_by_from_id(10000000, 1)
+    from model.cid import CID_USER
+    name_dict, url_dict = follow_name_dict_url_dict_by_from_id_cid(10000000, CID_USER)
+    from zkit.at_match import zsite_by_key
+
+    print zsite_by_key('fe',name_dict,url_dict,4)

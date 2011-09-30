@@ -37,38 +37,61 @@ def name_to_pinyin(name_dict):
 def zsite_by_key(key, name_dict, url_dict, limit):
         
     s_result =[]
+    s_set = set() 
     c_result = []
+
     if key.replace("-","").isalnum():
         _s_result, _c_result = key_match(key, url_dict)
         s_result.extend(_s_result)
         c_result.extend(_c_result)
+        s_set.update(_s_result)
 
-    if len(unique(s_result)) < limit:
-        _s_result, _c_result = key_match(key, name_dict)
-        s_result.extend(_s_result)
-        c_result.extend(_c_result)
-    
-    if len(unique(s_result)) < limit:   
+    if len(s_set) < limit:
+        _s_result_list, _c_result_list = key_match(
+            key, 
+            dict(
+                (k.lower(),v) for k,v in name_dict.iteritems()
+            )
+        )
+        for _s_result in _s_result_list: 
+            s_result.extend(_s_result)
+            s_set.update(_s_result)    
+        for _c_result in _c_result_list:
+            c_result.extend(_c_result)
+
+    if len(s_set) < limit:   
         if key.isalpha() and key.lower():
             if len(key) == 1:
-                s_result.extend(start_pin_match(key, name_dict))
+                _s_result_list = start_pin_match(key, name_dict)
             else:
-                _s_result, _c_result = key_match(key, name_to_pinyin(name_dict))
-                s_result.extend(_s_result)
-                c_result.extend(_c_result)
-    if len(unique(s_result)) < limit:
-        s_result.extend(c_result)
+                _s_result_list, _c_result_list = key_match(key, name_to_pinyin(name_dict))
+                for _c_result in _c_result_list:
+                    c_result.extend(_c_result)
 
-    if len(unique(s_result)) > limit:
+            for _s_result in _s_result_list:
+                s_result.extend(_s_result)
+                s_set.update(_s_result)
+
+
+    s_result = unique(s_result)
+    len_s_result = len(s_result) 
+
+    if len_s_result < limit:
+        for i in c_result:
+            if i not in s_set:
+                s_result.append(i)
+                s_set.add(i)
+
+    if len_s_result > limit:
         s_result = s_result[:limit]
 
-    return unique(s_result)
+    return s_result
 
 
 if __name__ == '__main__':
     name_dict = {
-        "张沈鹏":10001,
-        }
+        "张沈鹏":[10001,3]
+    }
     url_dict = {
         "xzuroc":10001,
         "zhendi":10002,
