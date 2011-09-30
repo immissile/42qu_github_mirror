@@ -165,8 +165,8 @@ def rss_subscribe(greader=None):
     for i in Rss.where("gid<0"):
         if greader is None:
             greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-        print "unsubscribe",i.url
-        greader.unsubscribe(i.url)
+        greader.unsubscribe("feed/"+i.url)
+        #print "unsubscribe",i.url
         i.delete()        
 
 
