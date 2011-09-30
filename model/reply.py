@@ -29,8 +29,8 @@ class ReplyMixin(object):
         from zsite import user_can_reply
         user_id = user.id
 
-    #    if not user_can_reply(user):
-    #        return
+        if not user_can_reply(user):
+            return
         if is_spammer(user_id):
             return
 
