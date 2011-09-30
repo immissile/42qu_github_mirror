@@ -23,6 +23,7 @@ from cgi import escape
 from ctrl.j.po import post_reply
 from model.zsite import zsite_name_id_dict
 from model.po_event import event_feedback_id_get, po_event_notice_list_by_event_id
+from model.po_pos import po_pos_set
 from model.event import EVENT_STATE_END , event_joiner_feedback_normal_count , event_joiner_feedback_good_count 
 
 @urlmap('/j/feed/fav/(\d+)')
@@ -132,6 +133,7 @@ class FdTxt(Base):
         current_user_id = self.current_user_id
         cid = po.cid
         if po.can_view(current_user_id):
+            po_pos_set(current_user_id, po)
             result = po.htm
             if cid == CID_EVENT:
                 result = [result]
