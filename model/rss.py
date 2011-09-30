@@ -45,10 +45,14 @@ def rss_po_id(rss_id, po_id):
 def rss_po_total(state):
     return RssPo.where(state=state).count()
 
-def rss_new(user_id, url,gid):
+def rss_new(user_id, url,name=None,link=None,gid=0):
     rss = Rss.get_or_create(url=url)
     rss.user_id = user_id
     rss.gid = gid
+    if name:
+        rss.name = name
+    if link:
+        rss.link = link
     rss.save()
     return rss
 
@@ -67,7 +71,7 @@ def get_rss_by_gid(gid, limit=1, offset=10):
     return rss
 
 def rss_po_list_by_state(state, limit=1, offset=10):
-    p = RssPo.raw_sql('select id,link,user_id,title,txt,pic_list from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
+    p = RssPo.raw_sql('select id,link,user_id,title,txt,pic_list,rss_id from rss_po where state = %s order by id desc limit %s offset %s', state, limit, offset).fetchall()
     return p
 
 

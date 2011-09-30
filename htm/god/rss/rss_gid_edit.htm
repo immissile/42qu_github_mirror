@@ -7,12 +7,20 @@ from model.rss import Rss
 <%def name="htm_head()">
 </%def>
 <%htm:form>
-<input type="txt" name="user_id"value="${rss.user_id}" />
-<input type="txt" name="url" value="${rss.url}" />
-<input type="txt"name="link" value="${rss.link}" />
-<input type="txt" name="name"value="${rss.name}" />
-<div>
+%if rss:
+用户id<input type="txt" name="user_id"value="${rss.user_id}" />
+rss地址<input type="txt" name="url" value="${rss.url}" />
+博客地址<input type="txt"name="link" value="${rss.link}" />
+博客名字<input type="txt" name="name"value="${rss.name}" />
+    %else:
+ 用户id   <input type="txt" name="user_id"value="" />
+rss地址 <input type="txt" name="url" value="" />
+博客地址<input type="txt"name="link" value="" />
+博客名字<input type="txt" name="name"value="" />
+    <input type="hidden" name="next" value=""/>
+%endif
     <input type="hidden" name="next" value="${next}"/>
+<div>
     <span class="btnw"><button type="submit">提交</button></span>
     </div>
 </%htm:form>
