@@ -5,15 +5,35 @@ from model.zsite_show import zsite_show_get
 %>
 <%def name="htm_head()">
 </%def>
+<style>
+.title{
+width:500px;
+height:20px;
+padding:6px;
+}
+.people{
+font-size:16px;
+margin-bottom:20px;
+}
+.txt{
+width:500px;
+height:300px;
+padding:6px;
+line-height:28px;
+margin:30px 0 15px;
+}
+.sub{
+margin-left:419px;
+}
+</style>
 <%
 zsite_id = zsite.id
 %>
 <div style="width:972px;margin:16px auto">
-<p>${zsite.name}</p>
-<p>${zsite.id}</p>
+<p class="people">TO : ${zsite.name} (${zsite.id})</p>
 <%htm:form>
-<input type="text" name="title">
-<textarea id="txt" name="txt"></textarea>
-<button type="submit">发送</button>
+<div><input class="title" type="text" name="title"></div>
+<div><textarea class="txt" id="txt" name="txt"></textarea></div>
+<span class="btnw sub"><button type="submit">发送</button></span>
 </%htm:form>
 </div>
