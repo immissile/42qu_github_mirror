@@ -60,6 +60,14 @@ def follow_name_dict_url_dict_by_from_id_cid(from_id, cid):
     flist = follow_id_list_by_from_id_cid(from_id, cid)
     return name_dict_url_dict_by_zsite_id_list(flist)
 
+def follow_reply_name_dict_url_dict_by_from_id_cid(from_id, po_id):
+    flist = set(follow_id_list_by_from_id_cid(from_id, CID_USER))
+    from model.po import Po
+    po = Po.mc_get(po_id)
+    flist.update(po.reply_zsite_id_list())
+    return name_dict_url_dict_by_zsite_id_list(flist)
+ 
+
 def follow_get(from_id, to_id):
     if from_id:
         return _follow_get(from_id, to_id)
@@ -129,7 +137,11 @@ if __name__ == '__main__':
     #print following_id_rank_tuple(10000000)
     #print follow_list_show_by_from_id(10000000, 1)
     from model.cid import CID_USER
-    name_dict, url_dict = follow_name_dict_url_dict_by_from_id_cid(10000000, CID_USER)
+    #name_dict, url_dict = follow_name_dict_url_dict_by_from_id_cid(10000000, CID_USER)
     from zkit.at_match import zsite_by_key
 
-    print zsite_by_key('fe',name_dict,url_dict,4)
+    name_dict, url_dict = follow_reply_name_dict_url_dict_by_from_id_cid(10000000, 10096459)
+
+    
+    print zsite_by_key('kab',name_dict,url_dict,4)
+
