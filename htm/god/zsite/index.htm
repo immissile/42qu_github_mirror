@@ -8,6 +8,7 @@ from model.zsite_url import url_by_id
 from model.user_mail import mail_by_user_id
 from model.motto import motto
 from model.zsite_rank import zsite_rank_max
+from model.rss import Rss
 from model.career import career_list_all
 from model.namecard import namecard_get
 %>
@@ -107,6 +108,13 @@ float:left;
     <div class="item">
         ${mail_by_user_id(zsite_id)}
     </div>
+%for rss in Rss.where(user_id=zsite_id):
+<div>
+    ${rss.id}
+    <a href="${rss.link}">${rss.name or 'Blog'}</a>
+    ${rss.url}
+</div>
+%endfor
 </div>
 <div class="mid">
 <%namespace file="/_util/_g1.htm" import="about_me"/>
