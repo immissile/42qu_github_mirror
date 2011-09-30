@@ -173,7 +173,8 @@ $.fn.pop_at = function(){
             var keys = [38,40,13,16,9],req
 
             if($.inArray(e.keyCode,keys)<0){
-                $.postJSON(
+               if(req)req.abort(); 
+               req = $.postJSON(
                     "/j/at",
                     {
                         "q":$.trim(wordsForSearch)
