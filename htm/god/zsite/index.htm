@@ -111,8 +111,8 @@ float:left;
 %for rss in Rss.where(user_id=zsite_id):
 <div>
     ${rss.id}
-    <a href="${rss.link}">${rss.name or 'Blog'}</a>
-    <div style="font-size:11px">${rss.url}</div>
+<a href="/rss/edit/${rss.id}">${rss.name or 'Blog'}</a>
+<a href="${rss.link or rss.url}"> <div style="font-size:11px">${rss.url}</div> </a>
 </div>
 %endfor
 </div>

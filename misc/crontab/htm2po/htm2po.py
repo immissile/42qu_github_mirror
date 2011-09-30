@@ -32,7 +32,8 @@ def htm2po_by_po(pre):
     po = po_note_new(
         pre.user_id, pre.title, '', STATE_DEL
     )
-    
+    if not po:
+        return    
     po_id = po.id
 
     rss_po_id(pre.rss_id, po_id)
