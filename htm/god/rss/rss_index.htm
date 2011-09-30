@@ -67,7 +67,7 @@ ${page|n}
 
 % for p in rss_po_list:
 <%
-id,link,user_id,title,htm,pic_list = p
+id,link,user_id,title,htm,pic_list,rss_id = p
 user = Zsite.mc_get(user_id)
 txt = htm
 pic_list = json.loads(pic_list)
@@ -94,7 +94,7 @@ ${title}</span>
 <a href="/rss/rm/${id}" class="rm">删除</a>
 <a target="_blank" href="${link}">原文</a></div>
 <div>
-<a href="/rss/edit/${id}">Rss编辑</a>
+<a href="/rss/edit/${rss_id}">Rss编辑</a>
 </div>
 <pre>
 </pre>

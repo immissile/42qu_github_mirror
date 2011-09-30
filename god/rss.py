@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.rss import rss_po_list_by_state, RssPo, RSS_UNCHECK, RSS_PRE_PO, RSS_RM, rss_po_total, get_rss_by_gid, rss_total_gid, RSS_RT_PO, Rss
+from model.rss import rss_po_list_by_state, RssPo, RSS_UNCHECK, RSS_PRE_PO, RSS_RM, rss_po_total, get_rss_by_gid, rss_total_gid, RSS_RT_PO, Rss, rss_new
 from zkit.page import page_limit_offset
 
 PAGE_LIMIT = 50
@@ -96,6 +96,27 @@ class RssGidEdit(Base):
         rss.save()
 
         self.redirect(next)
+
+
+@urlmap('/rss/new')
+class RssNew(Base):
+    def get(self):
+        next = self.request.headers.get('Referer', '')
+        self.render('/god/rss/rss_gid_edit.htm',next=next) 
+    
+    def post(self):
+        next = self.get_argument('next','/rss_index')
+        url = self.get_argument('url',None)
+        link = self.get_argument('link',None)
+        user_id = self.get_argument('user_id',None)
+        name = self.get_argument('name',None)
+        
+        if url and user_id:
+            rss = rss_new(user_id,url,name,link)
+            self.redirect(next)
+        else:
+            self.get()
+
 
 
 @urlmap('/rss_gid/rm/(\d+)')

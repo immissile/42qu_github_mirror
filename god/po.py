@@ -33,6 +33,28 @@ class PoList(Base):
         )
 
 
+@urlmap('/po/edit/(\d+)')
+class PoEdit(Base):
+    def get(self, id):
+        po = Po.mc_get(id)
+        next = self.request.headers.get('Referer', '')
+        self.render(po = po,next=next)
+
+    def post(self,id):
+        po = Po.mc_get(id)
+        next = self.get_argument('next','/po')
+        name = self.get_argument('name',None)
+        txt = self.get_argument('txt',None)
+        if name:
+            po.name_ = name
+            po.save()
+        if txt:
+            po.txt_set(txt)
+        self.redirect(next)
+        
+
+
+
 @urlmap('/po/state/(\d+)/(%s|%s)' % (STATE_SECRET, STATE_ACTIVE))
 class PoState(Base):
     def post(self, id, state):
@@ -65,6 +87,7 @@ class PoShowRm(Base):
     def get(self, id):
         po_show_rm(id)
         self.redirect("/po/show/set/%s"%id)
+
 
 @urlmap('/po/show/set/(\d+)')
 class PoShowSet(Base):

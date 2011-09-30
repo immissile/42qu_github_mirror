@@ -184,7 +184,8 @@ $(function(){
     $('#po_sub').click(function(){
         var val = txt.val()
         if($.trim(val)=='')return;
-        $('#po_word_tip').replaceWith('<div class="po_loading"></div>')
+        $('#po_ext').hide()
+        $('#po_word_btn').append('<div class="po_loading"></div>')
         txt.attr('disabled','disabled')
         $.postJSON(
             'j/po/word',

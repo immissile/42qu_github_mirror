@@ -94,7 +94,11 @@ ${po.name_htm|n}
 %elif cid == CID_AUDIO:
 <div id="audio">${fs_url_audio(po.id, this.xsrf_token)}</div>
 %endif
-
+%if cid == CID_EVENT:
+<a href="/event/po/edit/${id}">编辑</a>
+%else:
+<a href="/po/edit/${id}">编辑</a>
+%endif
 <p>
 %if user:
 <a class="c0" href="${user.link}" target="_blank">${user.name}</a>
