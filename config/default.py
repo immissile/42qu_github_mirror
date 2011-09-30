@@ -39,6 +39,8 @@ def prepare(o):
     o.SMTP_PASSWORD = '42qu.com'
     o.SENDER_MAIL = '42qutest@sina.com'
 
+    if not hasattr(o,"ADMIN_MAIL"):
+        o.ADMIN_MAIL = o.SENDER_MAIL
 #    o.SMTP = 'smtp.163.com'
 #    o.SMTP_USERNAME = 'zpagedev'
 #    o.SMTP_PASSWORD = '42qu_com'

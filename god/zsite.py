@@ -20,6 +20,11 @@ from model.user_session import user_session
 from model.user_info import UserInfo
 from model.zsite_rank import zsite_rank_max
 from model.search_zsite import search_new
+from config import SITE_DOMAIN, ADMIN_MAIL
+from urlparse import urlparse
+from model.zsite_url import id_by_url
+from model.zsite import Zsite
+from model.user_mail import user_id_by_mail
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -108,7 +113,7 @@ class Mail(Base):
         if zsite and title and txt:
             mail = mail_by_user_id(id)
             name = zsite.name
-            sendmail(title, txt, mail, name)
+            sendmail(title, txt, mail, name, ADMIN_MAIL)
         self.redirect('/zsite/%s' % id)
 
 
@@ -164,11 +169,6 @@ class VerifyList(Base):
             self.redirect('/')
 
 
-from config import SITE_DOMAIN
-from urlparse import urlparse
-from model.zsite_url import id_by_url
-from model.zsite import Zsite
-from model.user_mail import user_id_by_mail
 
 def zsite_by_query(query):
     user_id = None
