@@ -127,3 +127,10 @@ margin-bottom:32px;
 padding-bottom:36px;
 _zoom:1;
 }
+.po_loading{
+background:url('/img/gif/loading_bar.gif');
+height:8px;
+width:26px;
+margin:15px 24px 0 0;
+float:right;
+}

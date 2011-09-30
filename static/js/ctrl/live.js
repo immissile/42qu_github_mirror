@@ -172,8 +172,31 @@
 
 
 /*
+
 $(function(){
     $('#po_word_txt').pop_at()
 })
 */
 
+$(function(){
+    var txt = $('#po_word_txt')
+    txt.removeAttr('disabled')
+    $('#po_sub').click(function(){
+        var val = txt.val()
+        if($.trim(val)=='')return;
+        $('#po_word_tip').replaceWith('<div class="po_loading"></div>')
+        txt.attr('disabled','disabled')
+        $.postJSON(
+            'j/po/word',
+            {
+                "txt":val
+            },
+            function(result){
+                $('#feed').tmpl(result).appendTo("#feeds")
+                txt.removeAttr('disabled')
+                $('.po_loading').remove()
+                $('#po_all').show()
+            }
+        )
+    })
+})
