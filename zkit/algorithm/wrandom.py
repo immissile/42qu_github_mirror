@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from random import random
+
+from random import random, sample, shuffle
 from bisect import bisect, insort
 
 
@@ -103,6 +104,13 @@ def wsample_k2(wlist, k, key=None):
         return [wlist[p[0]] for p in popped]
     return _
 
+
+def sample_or_shuffle(population, k):
+
+    if len(population) > k:
+        return sample(population, k)
+    shuffle(population)
+    return population
 
 if __name__ == '__main__':
     z = wsample_k2(

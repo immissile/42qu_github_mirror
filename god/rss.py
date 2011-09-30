@@ -27,7 +27,7 @@ class RssIndex(Base):
             )
 
     def post(self,state=RSS_UNCHECK,n=1):
-        ids = self.get_arguments('id')
+        ids = self.get_argument('id').split()
         if ids:
             for id in ids:
                 rss = RssPo.mc_get(id)
@@ -50,7 +50,7 @@ class RssRm(Base):
 @urlmap('/rss_gid/(\-?\d+)')
 @urlmap('/rss_gid/(\-?\d+)-(\d+)')
 class RssGid(Base):
-    def get(self, gid=0,n=1):
+    def get(self, gid=0, n=1):
         gid = int(gid)
         total = rss_total_gid(gid)
         page, limit, offset = page_limit_offset(
@@ -61,25 +61,25 @@ class RssGid(Base):
                 )
         rss_list = get_rss_by_gid(gid, limit, offset)
         self.render(
-                rss = rss_list,
-                page = page
+                rss=rss_list,
+                page=page
                 )
 
 @urlmap('/rss_gid/edit/(\d+)')
 class RssGidEdit(Base):
-    def get(self,id):
+    def get(self, id):
         rss = Rss.mc_get(id)
         next = self.request.headers.get('Referer', '')
         self.render(rss=rss,
                 next=next)
 
-    def post(self,id):
+    def post(self, id):
         rss = Rss.mc_get(id)
-        next = self.get_argument('next','/rss_index')
-        url = self.get_argument('url',None)
-        link = self.get_argument('link',None)
-        user_id = self.get_argument('user_id',None)
-        name = self.get_argument('name',None)
+        next = self.get_argument('next', '/rss_index')
+        url = self.get_argument('url', None)
+        link = self.get_argument('link', None)
+        user_id = self.get_argument('user_id', None)
+        name = self.get_argument('name', None)
 
         if url:
             rss.url = url
@@ -122,7 +122,7 @@ class RssNew(Base):
 @urlmap('/rss_gid/rm/(\d+)')
 class RssEdit(Base):
     def get(self, id):
-        id=int(id)
+        id = int(id)
         rss = Rss.mc_get(id)
 
         if not rss.gid:
@@ -134,22 +134,22 @@ class RssEdit(Base):
 
         self.redirect('/rss_gid/1')
 
-   
+
 @urlmap('/rss/edit')
 @urlmap('/rss/edit/(\d+)')
 class RssEdit(Base):
-    def get(self,id=0):
+    def get(self, id=0):
         if id:
             id = int(id)
             rss = Rss.mc_get(id)
-            self.render(rss =rss)
+            self.render(rss=rss)
         else:
             self.render()
-        
+
     def post(self, id):
-        id=int(id)
+        id = int(id)
         txt = self.get_argument('txt')
-        rt = self.get_argument('rt',None)
+        rt = self.get_argument('rt', None)
         po = RssPo.mc_get(id)
         po.txt = txt
         if rt:

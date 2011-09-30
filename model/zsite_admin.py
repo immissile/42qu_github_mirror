@@ -5,7 +5,7 @@ from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
 from zsite import Zsite
 from model.cid import CID_SITE
-from random import sample
+from zkit.algorithm.wrandom import sample_or_shuffle
 
 mc_zsite_id_list_by_admin_id = McCacheA('ZsiteIdListBYAdminId.%s')
 mc_admin_id_list_by_zsite_id = McCacheA('AdminIdListByZsiteId.%s')
@@ -57,7 +57,7 @@ def zsite_id_list_by_admin_id(id):
 def zsite_id_list_by_admin_id_sample(id, k):
     id_list = zsite_id_list_by_admin_id(id)
     if len(id_list) > k:
-        id_list = sample(id_list, k)
+        id_list = sample_or_shuffle(id_list, k)
     return id_list
 
 

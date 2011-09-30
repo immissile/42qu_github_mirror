@@ -69,6 +69,7 @@ DB_MAIN_TABLE = (
     'oauth_access_token',
     'oauth_client',
     'oauth_refresh_token',
+    'rss_update',
 )
 
 DB_GOOGLE_TABLE = (

@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 import re
 from _db import Model, McModel, McCache
+from collections import defaultdict
 from hashlib import sha256
+from zsite import Zsite
 from config import SITE_DOMAIN, SITE_DOMAIN_SUFFIX
 
 class Url(Model):
@@ -45,6 +47,26 @@ def url_new(id, url):
     mc_url_by_id.set(id, url)
     from search_zsite import search_new
     search_new(id)
+
+
+def url_dict_by_zsite_id_list(zsite_id_list):
+    result = mc_url_by_id.get_dict(zsite_id_list)
+
+    url_dict = {}
+    for id in zsite_id_list:
+        r = result.get(id)
+
+        if r is None:
+             r = url_by_id(id)
+
+        if r: 
+            url_dict[r] = id 
+
+    return url_dict
+
+    
+
+
 
 NO_URL = set(('god', 'admin', 'review', 'lolicon', 'lolita', 'loli', 'risako', 'lara', 'luna', 'nuva'))
 RESERVED_URL = set(('google', 'youdao', 'taobao', 'douban', 'facebook', 'twitter', 'javaeye')) | NO_URL
@@ -109,5 +131,16 @@ def at_zsite(zsite):
         url_or_id(zsite.id)
     )
 
+def name_dict_url_dict_by_zsite_id_list(zsite_id_list):
+    url_dict = {}
+    name_dict = defaultdict(list)
+
+    zsite_list = Zsite.mc_get_list(zsite_id_list)
+    for i in zsite_list:
+        name_dict[i.name].append(i.id)
+
+    url_dict = url_dict_by_zsite_id_list(zsite_id_list) 
+    
+    return name_dict , url_dict     
 if __name__ == '__main__':
     print url_by_digit_domain("10000000.zuroc.xxx")

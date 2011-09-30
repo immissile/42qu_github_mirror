@@ -16,7 +16,9 @@ methods={
         }
         pre.html(con).append(dot);
         pos = dot.position();
-
+        if(node.scrollTop()>0){
+            pos.top -= node.scrollTop()
+        }
         return {
             left: pos.left + nodePos.left + 2,
             top: pos.top + nodePos.top + 21
@@ -168,9 +170,11 @@ $.fn.pop_at = function(){
             }
         if(lastCharAt>=0 && hasSpace<0){
             wordsForSearch = val.substring(lastCharAt + 1, offset);
-            var keys = [38,40,13,16,9];
+            var keys = [38,40,13,16,9],req
+
             if($.inArray(e.keyCode,keys)<0){
-                $.postJSON(
+               if(req)req.abort(); 
+               req = $.postJSON(
                     "/j/at",
                     {
                         "q":$.trim(wordsForSearch)
@@ -192,9 +196,10 @@ $.fn.pop_at = function(){
                         at_list.css(pos)
                         at_list.find('.at_li:first').addClass('at_on')
                         $('.at_li').click(function(){atComplete(self[0],wordsForSearch)}).mouseover(function(){$('.at_li').removeClass('at_on');$(this).addClass('at_on')})
+                        req = 0;
                     }
                 )
-
+                            
                 at_list_remove()
             }
         } else{

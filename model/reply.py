@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from gid import gid
-from _db import cursor_by_table, McModel, McLimitA, McCache
+from _db import cursor_by_table, McModel, McLimitA, McCache, McCacheA
 from txt import txt_new
 from spammer import is_same_post, is_spammer, mc_lastest_hash
 from time import time
@@ -21,9 +21,18 @@ mc_reply_id_list = McLimitA('ReplyIdList:%s', 512)
 mc_reply_id_list_reversed = McLimitA('ReplyIdListReversed:%s', 512)
 mc_reply_count = McCache('ReplyCount:%s')
 #mc_reply_in_1h = McCache('ReplyInOneHour.%s')
+mc_reply_zsite_id_list = McCacheA("ReplyZsiteIdList:%s")
 
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
+
+    @mc_reply_zsite_id_list("{self.cid}_{self.id}")
+    def reply_zsite_id_list(self):
+        id_set = set()
+        id_set.update(
+            i.user_id for i in self.reply_list()
+        )
+        return list(id_set)
 
     def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
         from zsite import user_can_reply
@@ -165,6 +174,7 @@ def mc_flush_reply_id_list(cid, rid):
     mc_reply_id_list.delete(key)
     mc_reply_id_list_reversed.delete(key)
     mc_reply_count.delete(key)
+    mc_reply_zsite_id_list.delete(key)
 
 if __name__ == '__main__':
     pass
