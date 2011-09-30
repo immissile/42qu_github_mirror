@@ -4,15 +4,6 @@ from pinyin import startswith_pinyin_initial
 from pinyin import pinyin_by_str
 from algorithm.unique import unique
 
-name_dict = {
-    "张沈鹏":10001,
-    }
-url_dict = {
-    "zuroc":10001,
-    "zhendi":10002,
-    "kingli":10003,
-    "realfex":10004
-}
 def key_match(key, kvdict):
 # start_result, contain_result
     s_result = []
@@ -23,9 +14,11 @@ def key_match(key, kvdict):
         if pos<0:
             continue
         if pos==0:
-            s_result.append(id)
+            t = s_result
         else:
-            c_result.append(id)
+            t = c_result
+        t.append(id)
+
     return s_result, c_result
 
 def start_pin_match(key, kvdict):
@@ -73,4 +66,15 @@ def zsite_by_key(key, name_dict, url_dict, limit):
 
 
 if __name__ == '__main__':
+    name_dict = {
+        "张沈鹏":10001,
+        }
+    url_dict = {
+        "xzuroc":10001,
+        "zhendi":10002,
+        "kingli":10003,
+        "realfex":10004
+    }
     print zsite_by_key('peng',name_dict,url_dict,4)
+    print zsite_by_key('z',name_dict,url_dict,4)
+    print zsite_by_key('zu',name_dict,url_dict,4)
