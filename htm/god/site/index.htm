@@ -27,6 +27,7 @@ float:left;
 ${page|n}
 
 %if site_id_list:
+<div class="c">
 <%
 site_list = Zsite.mc_get_list(site_id_list)
 %>
@@ -59,6 +60,6 @@ admin_list = Zsite.mc_get_list(admin_id_list_by_zsite_id(site_id))
 </div>
 </div>
 %endfor
+</div>
 %endif
-
 <div class="c mt27">${page|n}</div>
