@@ -39,8 +39,8 @@ class RssPoId(McModel):
 class RssUpdate(McModel):
     pass
 
-def rss_po_id(rss_id, po_id):
-    RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)',rss_id,po_id)
+def rss_po_id(rss_po_id, po_id):
+    RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)',rss_po_id,po_id)
 
 def rss_po_total(state):
     return RssPo.where(state=state).count()

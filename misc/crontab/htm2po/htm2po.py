@@ -36,7 +36,7 @@ def htm2po_by_po(pre):
         return    
     po_id = po.id
 
-    rss_po_id(pre.rss_id, po_id)
+    rss_po_id(pre.id, po_id)
 
     pic_list = json.loads(pre.pic_list)
 
