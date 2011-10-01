@@ -12,7 +12,7 @@ import traceback
 RSS_UNCHECK = 0
 RSS_RM = 1
 RSS_PRE_PO = 2
-RSS_RT_PO= 3
+RSS_RT_PO = 3
 RSS_POED = 4
 
 STATE_RSS_NEW = 5
@@ -40,12 +40,12 @@ class RssUpdate(McModel):
     pass
 
 def rss_po_id(rss_po_id, po_id):
-    RssPoId.raw_sql('insert into rss_po_id (id,po_id) value(%s,%s)',rss_po_id,po_id)
+    RssPoId.raw_sql('insert into rss_po_id (id, po_id, state) values (%s, %s, 0)', rss_po_id, po_id)
 
 def rss_po_total(state):
     return RssPo.where(state=state).count()
 
-def rss_new(user_id, url,name=None,link=None,gid=0):
+def rss_new(user_id, url, name=None, link=None, gid=0):
     rss = Rss.get_or_create(url=url)
     rss.user_id = user_id
     rss.gid = gid
@@ -56,7 +56,7 @@ def rss_new(user_id, url,name=None,link=None,gid=0):
     rss.save()
     return rss
 
-def rss_update_new(id,state):
+def rss_update_new(id, state):
     rss = RssUpdate.get_or_create(id=id)
     rss.state = state
     rss.save()
@@ -67,7 +67,7 @@ def rss_total_gid(gid):
     return Rss.where(gid=gid).count()
 
 def get_rss_by_gid(gid, limit=1, offset=10):
-    rss = Rss.raw_sql('select id,user_id,url,gid,name,link from rss where gid = %s order by id desc limit %s offset %s',gid,limit,offset).fetchall()
+    rss = Rss.raw_sql('select id,user_id,url,gid,name,link from rss where gid = %s order by id desc limit %s offset %s', gid, limit, offset).fetchall()
     return rss
 
 def rss_po_list_by_state(state, limit=1, offset=10):
@@ -143,11 +143,11 @@ def rss_subscribe(greader=None):
                 i.link = link
 
                 if not name:
-                    name = link.split("://",1)[-1]
-    
+                    name = link.split('://', 1)[-1]
+
             if name:
                 i.name = name
-    
+
             i.save()
 
         rss_list.append(i)
@@ -159,25 +159,25 @@ def rss_subscribe(greader=None):
         for i in rss_list:
             greader.subscribe(i.url)
             i.gid = 1
-            i.save()            
+            i.save()
             print i.url
 
-    for i in Rss.where("gid<0"):
+    for i in Rss.where('gid<0'):
         if greader is None:
             greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-        greader.unsubscribe("feed/"+i.url)
+        greader.unsubscribe('feed/'+i.url)
         #print "unsubscribe",i.url
-        i.delete()        
+        i.delete()
 
 
 if __name__ == '__main__':
     #rss_subscribe()
-   # from collections import defaultdict
-   # user_id = defaultdict()
-   # for i in RssPo.where():
-   #     pass
+    # from collections import defaultdict
+    # user_id = defaultdict()
+    # for i in RssPo.where():
+    #     pass
 
     #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
     #greader.empty_subscription_list()
-    pass 
+    pass
     #RssPo.where().delete()
