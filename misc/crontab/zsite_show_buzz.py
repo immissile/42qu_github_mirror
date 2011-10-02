@@ -21,7 +21,7 @@ def buzz_show():
             pos
         )
         for zsite_id, in c.fetchall():
-            print zsite_id
+            #print zsite_id
             buzz_show_new_all(zsite_id)
         kv_int.set(KV_SHOW_BUZZ_POS, pos)
 
