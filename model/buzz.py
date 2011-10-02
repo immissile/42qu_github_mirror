@@ -83,6 +83,7 @@ def buzz_show_new(user_id, zsite_id):
 def buzz_show_new_all(zsite_id):
     for i in ormiter(BuzzUnread, 'value < 10'):
         buzz_show_new(i.id, zsite_id)
+#        print i.id, zsite_id
 
 def buzz_follow_new(from_id, to_id):
     if not Buzz.where(from_id=from_id, to_id=to_id, cid=CID_BUZZ_FOLLOW, rid=to_id).count():
@@ -243,7 +244,7 @@ def buzz_show(user_id, limit):
 
 
 def buzz_unread_update(user_id):
-    buzz_unread.delete(user_id)
+    buzz_unread.set(user_id,0)
 
 def buzz_event_join_new(user_id, event_id, zsite_id):
     followed = [i.from_id for i in ormiter(Follow, 'to_id=%s' % user_id)]
@@ -293,7 +294,8 @@ mq_buzz_site_new = mq_client(buzz_site_new)
 
 if __name__ == '__main__':
     pass
-    for i in ormiter(BuzzUnread, 'value < 10'):
-        print i.id
-        raw_input()
-
+    from model.zsite import Zsite
+    from model.cid import CID_USER
+    #for i in Zsite.where(cid=CID_USER):
+    #    if not buzz_unread.get(i.id):
+    #        print buzz_unread.set(i.id,0)
