@@ -293,4 +293,7 @@ mq_buzz_site_new = mq_client(buzz_site_new)
 
 if __name__ == '__main__':
     pass
+    for i in ormiter(BuzzUnread, 'value < 10'):
+        print i.id
+        raw_input()
 

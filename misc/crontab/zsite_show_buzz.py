@@ -5,16 +5,17 @@ from zkit.single_process import single_process
 from model.kv_misc import kv_int, KV_SHOW_BUZZ_POS
 from model.zsite_list import ZsiteList
 from model.buzz import buzz_show_new_all
-
+from model.cid import CID_USER
 @single_process
 def buzz_show():
     prev_pos = kv_int.get(KV_SHOW_BUZZ_POS)
     c = ZsiteList.raw_sql('select max(id) from zsite_list')
     pos = c.fetchone()[0]
-    #print pos
+    #print pos,prev_pos
     if pos > prev_pos:
         c = ZsiteList.raw_sql(
-            'select zsite_id from zsite_list where owner_id=0 and cid=0 and state=1 and id>%s and id<=%s order by id',
+            'select zsite_id from zsite_list where owner_id=0 and cid=%s and state=1 and id>%s and id<=%s order by id',
+            CID_USER,
             prev_pos,
             pos
         )
@@ -24,3 +25,4 @@ def buzz_show():
 
 if __name__ == '__main__':
     buzz_show()
+
