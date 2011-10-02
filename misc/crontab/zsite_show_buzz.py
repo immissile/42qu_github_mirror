@@ -9,6 +9,7 @@ from model.cid import CID_USER
 @single_process
 def buzz_show():
     prev_pos = kv_int.get(KV_SHOW_BUZZ_POS)
+    #prev_pos = 3300
     c = ZsiteList.raw_sql('select max(id) from zsite_list')
     pos = c.fetchone()[0]
     #print pos,prev_pos
@@ -20,6 +21,7 @@ def buzz_show():
             pos
         )
         for zsite_id, in c.fetchall():
+            print zsite_id
             buzz_show_new_all(zsite_id)
         kv_int.set(KV_SHOW_BUZZ_POS, pos)
 
