@@ -31,6 +31,7 @@ def htm2po_by_po(pre):
         po = po_note_new(
             pre.user_id, pre.title, '', STATE_DEL, group_id
         )
+        rss_po_id(pre.id, po_id)
  
     if zsite.cid == CID_SITE: 
         group_id = zsite.id
@@ -42,7 +43,6 @@ def htm2po_by_po(pre):
 
     po_id = po.id
 
-    rss_po_id(pre.id, po_id)
 
     pic_list = json.loads(pre.pic_list)
 

@@ -67,7 +67,7 @@ id="po_word_txt" name="txt"></textarea>\
 <%text>
 {{if zsite_cid == 3}}
 {{each item}}
-<div class="G"><div class="G4 site_po"><div><a href="${link}" target="_blank">${name}</a><span class="split">-</span><a
+<div class="G"><div class="G4 site_po"><div><a href="/${id}" target="_blank">${name}</a><span class="split">-</span><a
 target="_blank"
 class="c0"
 href="${zsite_link}">${zsite_name}</a> {{if rt_list.length}} {{if rt_list.length == 1 && rt_list[0] == 0}}{{else}}<span
@@ -89,7 +89,7 @@ target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}{{/eac
 <a href="/${id}"><img class="feed_event_img" src="${rid}"></a>
 {{/if}}
 {{if cid!=61 || rid }}
-<pre class="fdh">{{if cid==61 || cid==64 || cid==63 }}{{if cid==63}}问 : {{/if}}{{if rid}}{{if question_user_link==link}}自问自答{{else}}答 <a
+<pre class="fdh">{{if cid==61 || cid==64 || cid==63 }}{{if cid==63}}问 : {{/if}}{{if rid}}{{if question_user_link==zsite_link}}自问自答{{else}}答 <a
 target="_blank"
 href="${question_user_link}">${question_user}</a> 问{{/if}} : {{/if}}{{/if}}{{if cid==67}}<embed
 flashvars="foreColor=#aa1100&amp;analytics=false&amp;filename=${rid}</%text>\
