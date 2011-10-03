@@ -429,13 +429,3 @@ if __name__ == '__main__':
     #print Po.where(zsite_id=10097183).where('state>=%s'%STATE_PO_ZSITE_SHOW_THEN_REVIEW).count()
     #print Po.where(zsite_id=10097183).where('state>=%s'%STATE_PO_ZSITE_SHOW_THEN_REVIEW,cid=CID_NOTE).count()
 
-    import htmlentitydefs, re
-
-
-    BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
-
-
-    for po in Po.where("zsite_id!=0"):
-        po.txt_set(BLOD_LINE.sub('**', po.txt.replace("**","**\n")))
-
- 
