@@ -76,7 +76,7 @@ class RssGidEdit(Base):
 
     def post(self, id):
         rss = Rss.mc_get(id)
-        next = self.get_argument('next', '/rss_index')
+        next = self.get_argument('next', None) or '/rss_index'
         url = self.get_argument('url', None)
         link = self.get_argument('link', None)
         user_id = self.get_argument('user_id', None)
@@ -106,7 +106,7 @@ class RssNew(Base):
         self.render('/god/rss/rss_gid_edit.htm', next=next)
 
     def post(self):
-        next    = self.get_argument('next', '/rss_index')
+        next    = self.get_argument('next', None) or '/rss_index'
         url , link , user_id , name , auto  =  _rss_post_argument(self)   
         if url and user_id:
             rss = rss_new(user_id, url, name, link, auto=auto)
