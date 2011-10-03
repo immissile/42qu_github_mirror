@@ -65,6 +65,14 @@ id="po_word_txt" name="txt"></textarea>\
 
 <script id="feed" type="text/x-jquery-tmpl">
 <%text>
+{{if zsite_cid == 3}}
+{{each item}}
+<div class="G"><div style="margin-top: -9px;" class="G4"><div style="padding: 0pt 22px 24px;"><a href="#">${name}</a><span class="split">-</span><a
+target="_blank"
+class="c0"
+href="${zsite_link}">${zsite_name}</a><span class="split">-</span><a href="#" style="color:#000">张沈鹏</a> 分享</div></div></div>
+{{/each}}
+{{else}}
 <div class="G c">
     <div class="G3">
 {{each item}}
@@ -154,9 +162,9 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 {{/each}}
     </div>
     <div class="G1 liveimg">
-        <a class="c0" target="_blank" href="${link}">
+        <a class="c0" target="_blank" href="${zsite_link}">
         <div><img src="${pic}"></div>
-        <div>${name}</div>
+        <div>${zsite_name}</div>
 {{if unit}}
         <div class="tr">${unit}</div>
 {{/if}}
@@ -166,11 +174,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
         </a>
     </div>
 </div>
+{{/if}}
 </%text>
 </script>
-
-<%doc>
-%if cid == CID_SITE:
-<div class="G"><div style="margin-top: -9px;" class="G4"><div style="padding: 0pt 22px 24px;"><a href="#">找寻真实的孙中山</a><span class="split">-</span>第一财经周刊<span class="split">-</span><a href="#" style="color:#000">张沈鹏</a> 分享</div></div></div>
-</%def>
 

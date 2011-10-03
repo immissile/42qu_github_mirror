@@ -106,9 +106,9 @@ class Feed(JLoginBase):
             unit, title = c_dict[zsite_id]
             if zsite:
                 r.append((
+                    zsite.cid,
                     zsite.name,
                     zsite.link,
-                    zsite.cid,
                     unit,
                     title,
                     pic_url_with_default(zsite_id, '219'),
