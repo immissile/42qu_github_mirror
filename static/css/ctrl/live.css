@@ -128,6 +128,15 @@ padding-bottom:36px;
 _zoom:1;
 }
 
-.avc0:visited{
+.site_po a:visited{
 color:#000;
+}
+.site_po a:hover{
+color:#a10;
+}
+.site_po{
+margin-top:-9px;
+}
+.site_po div{
+padding: 0pt 22px 24px;
 }
