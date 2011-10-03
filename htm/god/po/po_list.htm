@@ -1,7 +1,7 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC, \
-CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO
+CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_SITE, CID_USER
 from model.po_show import po_is_show
 from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
@@ -46,10 +46,11 @@ id = po.id
 cid = po.cid
 state = po.state
 name = po.name
-ico_url = _ico_url(po.user_id)
 user = po.user
+if user.cid == CID_USER: 
+    ico_url = _ico_url(po.user_id)
 %>\
-
+%if user.cid == CID_USER:
 <div class="sdw">
 <div class="sd c">
 %if ico_url and user:
@@ -128,6 +129,11 @@ ${friendly_time(po.create_time)}
 </p>
 </div>
 </div>
+%else:
+<div>
+<a href="${user.link}" target="_blank"> ${user.name}</a> : ${po.name_htm|n} <a href="${po.link}" target="_blank">▷</a>
+</div>
+%endif
 % endfor
 </ol>
 
