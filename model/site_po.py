@@ -72,5 +72,5 @@ def po_id_list_by_zsite_id(zsite_id, cid, limit, offset):
 #
 
 if __name__ == '__main__':
-    print pos_id_list_by_cid(1, 2)
+    pass
 

@@ -261,6 +261,7 @@ def mc_flush_zsite_cid(zsite_id, cid):
         from model.site_po import mc_po_count_by_zsite_id, po_cid_count_by_zsite_id
         po_cid_count_by_zsite_id.delete(zsite_id, cid)
         mc_po_count_by_zsite_id.delete(zsite_id)
+        po_cid_count_by_zsite_id.delete(zsite_id, 0)
 
 
 def po_state_set(po, state):
