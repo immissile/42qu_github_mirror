@@ -431,9 +431,11 @@ if __name__ == '__main__':
 
     import htmlentitydefs, re
 
-    BLOD_LINE = re.compile(r"^\*\*[\r\n]+", re.M)
 
-    #for po in Po.where("zsite_id!=0"):
-    #    po.txt_set(BLOD_LINE.sub('**', po.txt))
+    BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
+
+
+    for po in Po.where("zsite_id!=0"):
+        po.txt_set(BLOD_LINE.sub('**', po.txt.replace("**","**\n")))
 
  
