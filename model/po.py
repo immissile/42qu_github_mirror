@@ -425,5 +425,10 @@ def reply_rm_if_can(user_id, id):
     return can_rm
 
 if __name__ == '__main__':
-    po = Po.mc_get(10066676)
-    #print po.name
+    site_id = 70
+    po_note_new(site_id, '小站', 'wewrty', state=STATE_ACTIVE, zsite_id=site_id)
+
+    po_word_new(site_id, str(time()), zsite_id=site_id)
+    po_word_new(10000000, str(time()), zsite_id=site_id)
+
+    pass
