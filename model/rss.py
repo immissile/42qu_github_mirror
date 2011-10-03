@@ -53,7 +53,7 @@ def rss_new(user_id, url, name=None, link=None, gid=0, auto=0):
         rss.name = name
     if link:
         rss.link = link
-    rss.auto = auto
+    rss.auto = int(bool(auto))
     rss.save()
     return rss
 
