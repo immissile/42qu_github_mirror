@@ -14,8 +14,10 @@ from model.zsite import Zsite
 from model.cid import CID_SITE
 
 def htm2po_by_po(pre):
-    txt = pre.txt
-   
+    txt = pre.txt.rstrip()
+    if not txt:
+        return
+       
     zsite = Zsite.mc_get(pre.user_id)
     
     if zsite.cid == CID_SITE: 
