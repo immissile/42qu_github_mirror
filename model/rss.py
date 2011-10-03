@@ -98,6 +98,7 @@ def unread_feed_update(greader, feed):
     rs = Rss.raw_sql('select id,user_id from rss where url = %s', feed[5:]).fetchone()
     if rs:
         id, user_id = rs
+        rss = Rss.mc_get(id)
 
         res = greader.unread(feed)
         for i in res:
@@ -120,9 +121,13 @@ def unread_feed_update(greader, feed):
                     pic_list = json.dumps(pic_list)
                     if txt:
                         title = unescape(title)
+                        if rss.auto:
+                            state = RSS_PRE_PO
+                        else:
+                            state = RSS_UNCHECK 
                         RssPo.raw_sql(
-'insert into rss_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
-user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_list
+'insert into rss_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
+user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_list, state
                         )
 
 def rss_subscribe(greader=None):
@@ -161,7 +166,7 @@ def rss_subscribe(greader=None):
             greader.subscribe(i.url)
             i.gid = 1
             i.save()
-            print i.url
+            #print i.url
 
     for i in Rss.where('gid<0'):
         if greader is None:
