@@ -426,6 +426,13 @@ def reply_rm_if_can(user_id, id):
 
 if __name__ == '__main__':
     pass
-    #print Po.where(zsite_id=10097183).where('state>=%s'%STATE_PO_ZSITE_SHOW_THEN_REVIEW).count()
-    #print Po.where(zsite_id=10097183).where('state>=%s'%STATE_PO_ZSITE_SHOW_THEN_REVIEW,cid=CID_NOTE).count()
+
+    for i in Po.where('zsite_id!=0'):
+        txt = i.txt
+        s = txt[:200]
+        pos = txt.find(s,200)
+        if pos>0:
+            print i
+
+
 
