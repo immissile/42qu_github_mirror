@@ -3,7 +3,7 @@
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 import htmlentitydefs, re
 
-BLOD_LINE = re.compile(r"^\*\*[\r\n]+", re.M)
+BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
 
 _char = re.compile(r'&(\w+?);')
 _dec = re.compile(r'&#(\d{2,4});')
