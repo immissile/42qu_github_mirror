@@ -425,5 +425,11 @@ def reply_rm_if_can(user_id, id):
     return can_rm
 
 if __name__ == '__main__':
-    po = Po.mc_get(10066676)
-    #print po.name
+    site_id = 70
+    from model.state import STATE_PO_ZSITE_REVIEW_THEN_SHOW , STATE_PO_ZSITE_SHOW_THEN_REVIEW
+    po_note_new(site_id, '小站', 'wewrty', state=STATE_PO_ZSITE_SHOW_THEN_REVIEW, zsite_id=site_id)
+
+    po_word_new(site_id, str(time()), zsite_id=site_id)
+    po_word_new(10000000, str(time()), zsite_id=site_id)
+
+    pass

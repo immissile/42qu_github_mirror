@@ -28,6 +28,7 @@ def post_reply(self, id):
             po = Po.mc_get(id)
             if po.can_view(user_id):
                 po.reply_new(user, txt, po.state)
+
         self.finish(result)
 
 
