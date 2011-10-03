@@ -23,8 +23,12 @@ def img2str(image, quality=95):
         image = image.convert('RGB')
     except:
         traceback.print_exc()
-    image.save(f, 'JPEG', quality=quality)
-    return f.getvalue()
+    try:
+        image.save(f, 'JPEG', quality=quality)
+        return f.getvalue()
+    except:
+        traceback.print_exc()
+    return ''
 
 def fs_set(prefix, id, suffix, data):
     path = fs_file(prefix, id, suffix)

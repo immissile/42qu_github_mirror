@@ -19,6 +19,11 @@ def htm2po_by_po(pre):
         return
        
     zsite = Zsite.mc_get(pre.user_id)
+ 
+    if zsite.cid == CID_SITE: 
+        group_id = zsite.id
+    else:
+        group_id = 0
 
     rp = RssPoId.get(pre.id)
     if rp:
@@ -30,17 +35,13 @@ def htm2po_by_po(pre):
         po = po_note_new(
             pre.user_id, pre.title, '', STATE_DEL, group_id
         )
-        rss_po_id(pre.id, po_id)
- 
-    if zsite.cid == CID_SITE: 
-        group_id = zsite.id
-    else:
-        group_id = 0
 
     if not po:
         return    
-
     po_id = po.id
+
+    if not rp:
+        rss_po_id(pre.id, po_id)
 
 
     pic_list = json.loads(pre.pic_list)

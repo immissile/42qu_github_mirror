@@ -259,8 +259,8 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
 def mc_flush_zsite_cid(zsite_id, cid):
     if zsite_id:
         from model.site_po import mc_po_count_by_zsite_id, po_cid_count_by_zsite_id
-        mc_po_count_by_zsite_id.delete(zsite_id)
         po_cid_count_by_zsite_id.delete(zsite_id, cid)
+        mc_po_count_by_zsite_id.delete(zsite_id)
 
 
 def po_state_set(po, state):
@@ -426,13 +426,6 @@ def reply_rm_if_can(user_id, id):
 
 if __name__ == '__main__':
     pass
-
-    for i in Po.where('zsite_id!=0'):
-        txt = i.txt
-        s = txt[:200]
-        pos = txt.find(s,200)
-        if pos>0:
-            print i
 
 
 
