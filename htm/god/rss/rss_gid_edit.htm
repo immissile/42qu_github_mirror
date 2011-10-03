@@ -5,23 +5,22 @@ from model.rss import Rss
 %>
 
 <%def name="htm_head()">
+<style>
+input{
+width:721px
+}
+label{
+width:96px;
+display:inline-block;
+}
+</style>
 </%def>
 <%htm:form>
-%if rss:
-用户id<input type="txt" name="user_id"value="${rss.user_id}" />
-rss地址<input type="txt" name="url" value="${rss.url}" />
-博客地址<input type="txt"name="link" value="${rss.link}" />
-博客名字<input type="txt" name="name"value="${rss.name}" />
-    %else:
- 用户id   <input type="txt" name="user_id"value="" />
-rss地址 <input type="txt" name="url" value="" />
-博客地址<input type="txt"name="link" value="" />
-博客名字<input type="txt" name="name"value="" />
-    <input type="hidden" name="next" value=""/>
-%endif
-    <input type="hidden" name="next" value="${next}"/>
-<div>
-    <span class="btnw"><button type="submit">提交</button></span>
-    </div>
+<input type="hidden" name="next" value="${next}"/>
+<div><label>用户ID  </label><input type="txt" name="user_id"value="${user_id if rss else ''}" /></div>
+<div><label>RSS地址 </label><input type="txt" name="url" value="${rss and rss.url or '' }" /></div>
+<div><label>博客地址</label><input type="txt"name="link" value="${rss and rss.link or ''}" /></div>
+<div><label>博客名字</label><input type="txt" name="name"value="${rss and rss.name or ''}" /></div>
+<div class="mt27"> <span class="btnw"><button type="submit">提交</button></span> </div>
 </%htm:form>
 
