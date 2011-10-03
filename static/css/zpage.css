@@ -270,3 +270,9 @@ font-size:14px;
 line-height:1px;
 overflow:hidden;
 }
+.fdh a:visited{
+color:#999;
+}
+ .fdh a:hover{
+color:#a10;
+}

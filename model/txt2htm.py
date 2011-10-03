@@ -63,4 +63,5 @@ if __name__ == '__main__':
 Google Reader 视频
 http://player.youku.com/player.php/sid/XMjQ2ODM1Mjcy/v.swf
 加勒比海盗
+http://player.youku.com/player.php/sid/XMzA4NDkzNTQ4/v.swf
 """)
