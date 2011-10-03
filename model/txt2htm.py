@@ -28,6 +28,9 @@ def replace_link(match):
     if g.startswith('http://v.youku.com/v_show/id_'):
         g = g[29:g.rfind('.')]
         return HTM_YOUKU%g
+    elif g.startswith('http://player.youku.com/player.php/sid/'):
+        g = g[39:g.rfind('/')]
+        return HTM_YOUKU%g
     else:
         return """<a target="_blank" href="%s" rel="nofollow">%s</a>""" %(g, g)
 
@@ -56,6 +59,8 @@ def replace_at(match):
 
 if __name__ == '__main__':
     print txt_withlink("""
-@bwww(wsss)
-**二**
+输出 :
+Google Reader 视频
+http://player.youku.com/player.php/sid/XMjQ2ODM1Mjcy/v.swf
+加勒比海盗
 """)
