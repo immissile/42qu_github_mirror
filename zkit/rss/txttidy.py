@@ -54,16 +54,20 @@ def txttidy_alibuybuy(txt):
 def txttidy_swf(txt):
     pos_str = 'http://reader.googleusercontent.com/reader/embediframe?src='
     iframe_end = '</iframe>'
-    bpos = txt.find(pos_str)
-    p2 = bpos+len(pos_str)
-    p3 = txt.find('&', p2)
-    epos = txt.find(iframe_end, p3)
-    txt1 = txt[:bpos]
-    txt1 = txt1[:txt1.rfind('<iframe ')]
-    txt2 = txt[p2:p3]
-    txt3 = txt[epos+len(iframe_end):]
-    r = [txt1.rstrip(), txt2, txt3.lstrip()]
-    txt = "\n\n".join(r)
+    while True:
+        bpos = txt.find(pos_str)
+        if bpos > 0:
+            p2 = bpos+len(pos_str)
+            p3 = txt.find('&', p2)
+            epos = txt.find(iframe_end, p3)
+            txt1 = txt[:bpos]
+            txt1 = txt1[:txt1.rfind('<iframe ')]
+            txt2 = txt[p2:p3]
+            txt3 = txt[epos+len(iframe_end):]
+            r = [txt1.rstrip(), txt2, txt3.lstrip()]
+            txt = "\n\n".join(r)
+        else:
+            break
     return txt
 
 def txttidy(txt):
@@ -79,9 +83,12 @@ def txttidy(txt):
 
 
 if __name__ == '__main__':
+    print txttidy_swf("""Google Reader 视频<iframe src="http://reader.googleusercontent.com/reader/embediframe?src=http://player.youku.com/player.php/sid/XMjQ2ODM1Mjcy/v.swf&;amp;width=600&amp;height=500" width="600" height="500"></iframe>加勒比海盗""")
     from glob import glob
 
     for f in reversed(sorted(glob('test/*.txt'))):
         with open(f) as infile:
             print txttidy(infile.read())
             raw_input(f)
+
+

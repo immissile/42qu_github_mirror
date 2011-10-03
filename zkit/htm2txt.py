@@ -96,9 +96,9 @@ def htm2txt(htm):
                         li.append(u'\n图:%s\n' % pic_seq)
                 else:
                     s = soup2txt_recursion(i)
-                    
+
                     if name in BLOCK_BOLD:
-                        if "\n" not in s:
+                        if '\n' not in s:
                             li.append(u'\n**%s**\n' % s)
                         else:
                             li.append(s)
@@ -114,12 +114,8 @@ def htm2txt(htm):
     s = soup2txt_recursion(soup)
     s = unescape(s.strip())
     txt = '\n\n'.join(filter(bool, [i.strip() for i in s.splitlines()]))
-    txt = BLOD_LINE.sub('**', txt) 
+    txt = BLOD_LINE.sub('**', txt)
     return txt , pic_list
 
-if __name__ == "__main__":
-    import sys
-    reload(sys)
-    sys.setdefaultencoding("utf-8")
-    print htm2txt("""
-""")[0]
+if __name__ == '__main__':
+    pass
