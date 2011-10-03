@@ -8,7 +8,7 @@ zsite_url = zsite.link
 <%
 po_zsite = Zsite.mc_get(po.zsite_id) 
 %>\
-    %if po_zsite:
+    %if po_zsite and po.zsite_id!=po_zsite.id:
 <a href="${po_zsite.link}">${po_zsite.name}</a> &gt; \
     %endif
 %endif
