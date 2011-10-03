@@ -6,21 +6,22 @@ from model.rss import Rss
 
 <%def name="htm_head()">
 <style>
-input{
+.rss input[type="text"]{
 width:721px
 }
-label{
+.rss label{
 width:96px;
 display:inline-block;
 }
 </style>
 </%def>
-<%htm:form>
+<%htm:form className="rss">
 <input type="hidden" name="next" value="${next}"/>
-<div><label>用户ID  </label><input type="txt" name="user_id"value="${user_id if rss else ''}" /></div>
-<div><label>RSS地址 </label><input type="txt" name="url" value="${rss and rss.url or '' }" /></div>
-<div><label>博客地址</label><input type="txt"name="link" value="${rss and rss.link or ''}" /></div>
-<div><label>博客名字</label><input type="txt" name="name"value="${rss and rss.name or ''}" /></div>
+<div><label>用户ID  </label><input type="text" name="user_id"value="${user_id if rss else ''}" /></div>
+<div><label>RSS地址 </label><input type="text" name="url" value="${rss and rss.url or '' }" /></div>
+<div><label>博客地址</label><input type="text"name="link" value="${rss and rss.link or ''}" /></div>
+<div><label>博客名字</label><input type="text" name="name"value="${rss and rss.name or ''}" /></div>
+<div><label for="auto">自动发布</label><input id="auto" type="checkbox" name="auto"></div>
 <div class="mt27"> <span class="btnw"><button type="submit">提交</button></span> </div>
 </%htm:form>
 

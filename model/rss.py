@@ -45,7 +45,7 @@ def rss_po_id(rss_po_id, po_id):
 def rss_po_total(state):
     return RssPo.where(state=state).count()
 
-def rss_new(user_id, url, name=None, link=None, gid=0):
+def rss_new(user_id, url, name=None, link=None, gid=0, auto=0):
     rss = Rss.get_or_create(url=url)
     rss.user_id = user_id
     rss.gid = gid
@@ -53,6 +53,7 @@ def rss_new(user_id, url, name=None, link=None, gid=0):
         rss.name = name
     if link:
         rss.link = link
+    rss.auto=auto
     rss.save()
     return rss
 

@@ -46,7 +46,7 @@ function edit(id){
 function save(id){
     $.fancybox.showActivity(); 
     $.post(
-        "/rss/edit/"+id, 
+        "/rss/po/edit/"+id, 
         {
 "txt":$("#textarea"+id).val(),
 "rt":$('#checkbox'+id)[0].checked
