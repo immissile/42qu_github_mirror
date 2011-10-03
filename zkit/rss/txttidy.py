@@ -41,11 +41,7 @@ def txttidy_other_relate(txt):
 
 def txttidy_bshare(txt):
     first_pos = txt.find('<p><a href="http://sharethis')
-<<<<<<< local
-    if first_pos > 0:
-=======
-    if first_pos>=0:
->>>>>>> other
+    if first_pos >= 0:
         txt = txt[:first_pos]
     return txt
 
