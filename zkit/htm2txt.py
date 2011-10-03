@@ -3,6 +3,8 @@
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 import htmlentitydefs, re
 
+BLOD_LINE = re.compile(r"^\*\*[\r\n]+", re.M)
+
 _char = re.compile(r'&(\w+?);')
 _dec = re.compile(r'&#(\d{2,4});')
 _hex = re.compile(r'&#x(\d{2,4});')
@@ -111,7 +113,9 @@ def htm2txt(htm):
 
     s = soup2txt_recursion(soup)
     s = unescape(s.strip())
-    return '\n\n'.join(filter(bool, [i.strip() for i in s.splitlines()])), pic_list
+    txt = '\n\n'.join(filter(bool, [i.strip() for i in s.splitlines()]))
+    txt = BLOD_LINE.sub('**', txt) 
+    return txt , pic_list
 
 if __name__ == "__main__":
     import sys
