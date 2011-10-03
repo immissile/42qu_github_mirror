@@ -5,6 +5,7 @@ from os.path import join, exists, dirname
 from os import remove, makedirs
 from cStringIO import StringIO
 from config import SITE_URL
+import traceback
 
 def fs_path(root, prefix, id, suffix):
     path = join(root, str(prefix), str(int(id)%1024), '%s.%s'%(id, suffix))
@@ -18,7 +19,10 @@ def fs_url(prefix, id, suffix, url=FILE_URL):
 
 def img2str(image, quality=95):
     f = StringIO()
-    image = image.convert('RGB')
+    try:
+        image = image.convert('RGB')
+    except:
+        traceback.print_exc()
     image.save(f, 'JPEG', quality=quality)
     return f.getvalue()
 

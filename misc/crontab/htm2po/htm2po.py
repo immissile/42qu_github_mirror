@@ -13,7 +13,6 @@ from model.po_show import po_show_new
 from model.zsite import Zsite
 from model.cid import CID_SITE
 
-
 def htm2po_by_po(pre):
     txt = pre.txt.rstrip()
     if not txt:
