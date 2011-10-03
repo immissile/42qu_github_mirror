@@ -219,10 +219,12 @@ function fancybox_word(title, path, finish, can_post){
     })
 }
 
+function doc_height(){
+    return document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight
+}
 
 (function(){
-var doc=$(document),
-h=document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight;
+var doc=$(document), h=doc_height();
 fcm = function (id,count){
     var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
     self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
@@ -254,7 +256,7 @@ fcm = function (id,count){
 
 function scrolls(id){
     doc.scrollTop(
-        $('#fdtxt'+id).height()>h-250?  $('#fcml_'+id).offset().top-250:$('#fdtxt'+id).offset().top-80
+        $('#fdtxt'+id).height()>doc_height()-250?  $('#fcml_'+id).offset().top-250:$('#fdtxt'+id).offset().top-80
     )
 }
 
