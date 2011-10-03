@@ -221,8 +221,8 @@ function fancybox_word(title, path, finish, can_post){
 
 
 (function(){
-var doc=$(document);
-
+var doc=$(document),
+h=document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight;
 fcm = function (id,count){
     var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
     self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
@@ -242,7 +242,6 @@ fcm = function (id,count){
             }
             $('#fcml_'+id).slideDown(function(){$(this).show()})
             var e = $('#txt_'+id)
-            h = document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight
             if(e.offset().top-doc.scrollTop()>h){
                 scrolls(id)             
             } 
