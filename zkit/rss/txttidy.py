@@ -45,22 +45,37 @@ def txttidy_bshare(txt):
         txt = txt[:first_pos]
     return txt
 
+def txttidy_alibuybuy(txt):
+    pos = txt.find("<p><small>© 推荐")
+    if pos > 0:
+        txt = txt[pos:]
+    return txt
+
+def txttidy_swf(txt):
+    return txt
+
 def txttidy(txt):
     txt = unescape(txt).replace('&quot;', '"')
+    txt = txttidy_alibuybuy(txt)
     txt = txttidy_other_relate(txt)
     txt = txttidy_feed43(txt)
     txt = txttidy_42qu(txt)
     txt = txttidy_wumii(txt)
     txt = txttidy_bshare(txt)
+    txt = txttidy_swf(txt)
     return txt
 
 
 if __name__ == '__main__':
-    print txttidy("""栏目，每周精选国内最新的优秀初创企业和大家分享，初创企业可以通过微博：<a href="http://weibo.com/web20share">@web20share</a> 或者邮箱：watsonxu{at}web20share.com进行投递。转载请著名本站链接。</p>
-<h3>相关阅读推荐</h3><ul><li><a href="http://www.web20share.com/2011/09/web20share-weekly-20110923.html" tit""")
+    print txttidy("""
+wwww
+<iframe src="http://reader.googleusercontent.com/reader/embediframe?src=http://player.youku.com/player.php/sid/XMjQ2ODM1Mjcy/v.swf&amp;width=600&amp;height=500" width="600" height="500"></iframe>www
+""")
     from glob import glob
 
     for f in reversed(sorted(glob('test/*.txt'))):
         with open(f) as infile:
             print txttidy(infile.read())
             raw_input(f)
+    print txttidy("""栏目，每周精选国内最新的优秀初创企业和大家分享，初创企业可以通过微博：<a href="http://weibo.com/web20share">@web20share</a> 或者邮箱：watsonxu{at}web20share.com进行投递。转载请著名本站链接。</p>
+<h3>相关阅读推荐</h3><ul><li><a href="http://www.web20share.com/2011/09/web20share-weekly-20110923.html" tit""")

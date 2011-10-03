@@ -103,6 +103,8 @@ def unread_feed_update(greader, feed):
 def rss_feed_update(res, id, user_id, limit=None):
     from zkit.rss.txttidy import txttidy
     from tidylib import  tidy_fragment
+
+
     rss = Rss.mc_get(id)
     for count , i in enumerate(res):
         if limit:
@@ -118,7 +120,6 @@ def rss_feed_update(res, id, user_id, limit=None):
             htm = snippet['content']
 
             if htm:
-
                 htm = txttidy(htm)
                 htm = tidy_fragment(htm)[0]
 
