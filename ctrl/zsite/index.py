@@ -5,7 +5,7 @@ from model.motto import motto
 from ctrl._urlmap.zsite import urlmap
 from model.zsite_link import link_by_id
 from model.cid import CID_USER, CID_SITE
-from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id
+from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id, PAGE_LIMIT
 from zkit.page import page_limit_offset
 from model.zsite_fav import zsite_fav_get_and_touch
 
@@ -18,7 +18,7 @@ def render_zsite_site(self, n=1):
         "/-%s",
         total,
         n,
-        20
+        PAGE_LIMIT
     )
     li = po_list_by_zsite_id(
         user_id, zsite_id, 0, limit, offset
@@ -27,7 +27,7 @@ def render_zsite_site(self, n=1):
     return li, page
 
 @urlmap('/')
-@urlmap("/-\d+")
+@urlmap("/-(\d+)")
 class Index(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
