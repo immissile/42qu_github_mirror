@@ -21,7 +21,11 @@ display:inline-block;
 <div><label>RSS地址 </label><input type="text" name="url" value="${rss and rss.url or '' }" /></div>
 <div><label>博客地址</label><input type="text"name="link" value="${rss and rss.link or ''}" /></div>
 <div><label>博客名字</label><input type="text" name="name"value="${rss and rss.name or ''}" /></div>
-<div><label for="auto">自动发布</label><input id="auto" type="checkbox" name="auto"></div>
+<div><label for="auto">自动发布</label><input 
+%if rss and rss.auto:
+checked
+%endif
+id="auto" type="checkbox" name="auto"></div>
 <div class="mt27"> <span class="btnw"><button type="submit">提交</button></span> </div>
 </%htm:form>
 
