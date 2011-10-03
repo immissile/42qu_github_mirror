@@ -174,8 +174,7 @@ class RssEdit(Base):
             if name:
                 rss.name = name
             
-            if auto:
-                rss.auto = auto
+            rss.auto = int(bool(auto))
 
             rss.save()
 
