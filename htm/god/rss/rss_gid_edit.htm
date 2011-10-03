@@ -17,7 +17,7 @@ display:inline-block;
 </%def>
 <%htm:form className="rss">
 <input type="hidden" name="next" value="${next}"/>
-<div><label>用户ID  </label><input type="text" name="user_id"value="${user_id if rss else ''}" /></div>
+<div><label>用户ID  </label><input type="text" name="user_id"value="${rss.user_id if rss else ''}" /></div>
 <div><label>RSS地址 </label><input type="text" name="url" value="${rss and rss.url or '' }" /></div>
 <div><label>博客地址</label><input type="text"name="link" value="${rss and rss.link or ''}" /></div>
 <div><label>博客名字</label><input type="text" name="name"value="${rss and rss.name or ''}" /></div>

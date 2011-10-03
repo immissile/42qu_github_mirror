@@ -53,7 +53,7 @@ def rss_new(user_id, url, name=None, link=None, gid=0, auto=0):
         rss.name = name
     if link:
         rss.link = link
-    rss.auto=auto
+    rss.auto = auto
     rss.save()
     return rss
 
@@ -92,43 +92,50 @@ def unread_update(greader=None):
     greader.mark_as_read()
 
 def unread_feed_update(greader, feed):
-    from zkit.rss.txttidy import txttidy
-    from tidylib import  tidy_fragment
-
     rs = Rss.raw_sql('select id,user_id from rss where url = %s', feed[5:]).fetchone()
     if rs:
         id, user_id = rs
-        rss = Rss.mc_get(id)
 
         res = greader.unread(feed)
-        for i in res:
-            link = i['alternate'][0]['href']
-            title = i['title']
-            rss_uid = i.get('id') or 1
-            snippet = i.get('summary') or i.get('content') or None
-
-            if snippet:
-                htm = snippet['content']
+        rss_feed_update(res, id , user_id)
 
 
-                if htm:
+def rss_feed_update(res, id, user_id, limit=None):
+    from zkit.rss.txttidy import txttidy
+    from tidylib import  tidy_fragment
+    rss = Rss.mc_get(id)
+    for count , i in enumerate(res):
+        if limit:
+            if count > limit:
+                break
 
-                    htm = txttidy(htm)
-                    htm = tidy_fragment(htm)[0]
+        link = i['alternate'][0]['href']
+        title = i['title']
+        rss_uid = i.get('id') or 1
+        snippet = i.get('summary') or i.get('content') or None
 
-                    txt, pic_list = htm2txt(htm)
+        if snippet:
+            htm = snippet['content']
 
-                    pic_list = json.dumps(pic_list)
-                    if txt:
-                        title = unescape(title)
-                        if rss.auto:
-                            state = RSS_PRE_PO
-                        else:
-                            state = RSS_UNCHECK 
-                        RssPo.raw_sql(
-'insert into rss_po (user_id,rss_id,rss_uid,title,txt,state,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
-user_id, id, rss_uid, title, txt, RSS_UNCHECK, link, pic_list, title, txt, pic_list, state
-                        )
+            if htm:
+
+                htm = txttidy(htm)
+                htm = tidy_fragment(htm)[0]
+
+                txt, pic_list = htm2txt(htm)
+
+                pic_list = json.dumps(pic_list)
+                if txt:
+                    title = unescape(title)
+                    if rss.auto:
+                        state = RSS_PRE_PO
+                    else:
+                        state = RSS_UNCHECK
+                    RssPo.raw_sql(
+'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
+user_id, id, rss_uid, title, txt, link, pic_list, state, title, txt, pic_list
+                    )
+
 
 def rss_subscribe(greader=None):
     from zkit.google.findrss import get_rss_link_title_by_url
@@ -167,6 +174,10 @@ def rss_subscribe(greader=None):
             i.gid = 1
             i.save()
             #print i.url
+            feed = 'feed/%s'%i.url
+            rss_feed_update(greader.feed(feed), i.id, i.user_id, 256)
+            greader.mark_as_read(feed)
+
 
     for i in Rss.where('gid<0'):
         if greader is None:
