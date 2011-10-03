@@ -45,6 +45,21 @@ def txttidy_bshare(txt):
         txt = txt[:first_pos]
     return txt
 
+def txttidy_swf(txt):
+    pos_str = 'http://reader.googleusercontent.com/reader/embediframe?src='
+    iframe_end = '</iframe>'
+    bpos = txt.find(pos_str)
+    p2 = bpos+len(pos_str)
+    p3 = txt.find('&', p2)
+    epos = txt.find(iframe_end, p3)
+    txt1 = txt[:bpos]
+    txt1 = txt1[:txt1.rfind('<iframe ')]
+    txt2 = txt[p2:p3]
+    txt3 = txt[epos+len(iframe_end):]
+    r = [txt1.rstrip(), txt2, txt3.lstrip()]
+    txt = "\n\n".join(r)
+    return txt
+
 def txttidy(txt):
     txt = unescape(txt).replace('&quot;', '"')
     txt = txttidy_other_relate(txt)
@@ -52,12 +67,16 @@ def txttidy(txt):
     txt = txttidy_42qu(txt)
     txt = txttidy_wumii(txt)
     txt = txttidy_bshare(txt)
+    txt = txttidy_swf(txt)
     return txt
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
+    
+
+    print txt
     print txttidy("""栏目，每周精选国内最新的优秀初创企业和大家分享，初创企业可以通过微博：<a href="http://weibo.com/web20share">@web20share</a> 或者邮箱：watsonxu{at}web20share.com进行投递。转载请著名本站链接。</p>
-<h3>相关阅读推荐</h3><ul><li><a href="http://www.web20share.com/2011/09/web20share-weekly-20110923.html" tit""")
+#<h3>相关阅读推荐</h3><ul><li><a href="http://www.web20share.com/2011/09/web20share-weekly-20110923.html" tit""")
     from glob import glob
 
     for f in reversed(sorted(glob('test/*.txt'))):
