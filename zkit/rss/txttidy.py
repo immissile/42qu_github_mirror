@@ -48,7 +48,7 @@ def txttidy_bshare(txt):
 def txttidy_alibuybuy(txt):
     pos = txt.find("<p><small>© 推荐")
     if pos > 0:
-        txt = txt[pos:]
+        txt = txt[:pos]
     return txt
 
 def txttidy_swf(txt):

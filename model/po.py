@@ -426,5 +426,5 @@ def reply_rm_if_can(user_id, id):
 
 if __name__ == '__main__':
     pass
-    print Po.where(zsite_id=10097183).where('state>=%s'%STATE_PO_ZSITE_SHOW_THEN_REVIEW).count()
-    print Po.where(zsite_id=10097183).where('state>=%s'%STATE_PO_ZSITE_SHOW_THEN_REVIEW,cid=CID_NOTE).count()
+    #print Po.where(zsite_id=10097183).where('state>=%s'%STATE_PO_ZSITE_SHOW_THEN_REVIEW).count()
+    #print Po.where(zsite_id=10097183).where('state>=%s'%STATE_PO_ZSITE_SHOW_THEN_REVIEW,cid=CID_NOTE).count()
