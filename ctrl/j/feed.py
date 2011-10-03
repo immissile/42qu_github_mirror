@@ -108,6 +108,7 @@ class Feed(JLoginBase):
                 r.append((
                     zsite.name,
                     zsite.link,
+                    zsite.cid,
                     unit,
                     title,
                     pic_url_with_default(zsite_id, '219'),

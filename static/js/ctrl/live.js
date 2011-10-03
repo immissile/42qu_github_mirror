@@ -5,7 +5,7 @@
 
 (function() {
 	var feed_loader = feed_load_maker( "id rt_list"),
-	DATE_ATTR = "name link unit title pic".split(' ')
+	DATE_ATTR = "name link cid unit title pic".split(' ')
     ;
 
 	function array2zsite(a) {
