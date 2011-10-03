@@ -198,18 +198,7 @@ if __name__ == '__main__':
     #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
     #greader.empty_subscription_list()
     pass
-    #RssPo.where().delete()
-    import sys
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
-    from tidylib import  tidy_fragment
-    from zkit.rss.txttidy import txttidy
-    htm = u"""
-<p>将视线从热点频出的消费电子产品市场移开，投向企业级市场，我们可以明显地感受到这样一种趋势——云端的应用和服务开始大量涌现，云的部署开始走向成熟。由于免去了自建平台的负担，中小企业成为了应用云端服务的主力军。那么，中小企业的云端应用的局面如何，又有什么代表性的服务呢？请看下面这张信息图。</p><p><a href="http://www.36kr.com/p/50516.html/cloud" rel="attachment wp-att-50552 external nofollow"><img class="aligncenter size-full wp-image-50552" title="cloud" src="http://img02.36krcnd.com/wp-content/uploads/2011/10/cloud.gif" alt="" width="1000" height="2204" /></a></p><p><strong>信息小结</strong></p><ul><li>据估计，整个世界的云计算市场规模在80亿美元左右。美国市场的地位举足轻重，比重高达40%，约32亿美元。</li><li>流行的云应用包含以下种类：在线客户自定义规划、数据存储与备份、人力资源软件、在线支付程序、财会软件、文档上传与管理、营销软件</li><li>中小企业选择云端服务的理由：可承受的价格(相比自建企业的IT服务)，便捷的资源访问(中小企业普遍具备访问互联网的能力)，快速部署与易用性(多数云端服务都提供免费试用)</li><li>十大云端推荐应用</li><ol><li><strong><a href="http://www.freshbooks.com/" rel="external nofollow">FreshBooks</a></strong>   类型：帐务管理  费用：收费，提供免费试用</li><li><strong><a href="http://www.constantcontact.com/" rel="external nofollow">Constant Contact</a></strong>   类型：客户关系管理  费用：收费，提供免费试用</li><li><strong><a href="http://www.picnik.com/" rel="external nofollow">Picnik</a></strong>   类型：照片分享与编辑  费用：免费</li><li><strong><a href="http://batchblue.com/" rel="external nofollow">Batchbook</a></strong>   类型：客户关系管理 费用：收费，提供免费试用</li><li><strong><a href="http://www.crashplan.com/" rel="external nofollow">CrashPlan</a></strong>   类型：数据备份  费用：免费，高级服务收费</li><li><strong><a href="http://doodle.com/" rel="external nofollow">Doodle</a></strong>   类型：日程安排与会议规划  费用：免费</li><li><strong><a href="http://www.dropbox.com/" rel="external nofollow">Dropbox</a></strong>   类型：文件分享  费用：免费，高级服务收费</li><li><strong><a href="http://www.carboniteaddon.com/" rel="external nofollow">Carbonite</a></strong> 类型：数据备份 费用：收费，提供免费试用</li><li><strong><a href="http://outright.com/" rel="external nofollow">outright</a></strong> 类型：财务管理 费用：收费，提供免费试用</li><li><strong><a href="http://quickbooks.intuit.com/" rel="external nofollow">QuickBooks</a></strong> 类型：帐务管理 费用：收费，提供免费试用</li></ol></ul><p>pic via <a href="http://www.formstack.com/assets/images/infographics/journey-to-the-cloud.gif" rel="external nofollow">Formstack</a></p><p>除非注明，本站文章均为原创或编译，转载请注明： 文章来自<a rel="bookmark" title="【信息图】中小企业的云端之路" href="http://www.36kr.com/p/50516.html">36氪</a></p><img width='1' height='1' src='http://feed.36kr.com/c/33346/f/566026/s/1903a03b/mf.gif' border='0'/><br/><br/><a href="http://da.feedsportal.com/r/114252605090/u/351/f/566026/c/33346/s/1903a03b/a2.htm"><img src="http://da.feedsportal.com/r/114252605090/u/351/f/566026/c/33346/s/1903a03b/a2.img" border="0"/></a>
-i在
-"""
-    print "\n"*11
-    htm = txttidy(htm)
-    htm = tidy_fragment(htm,{"indent": 0})[0]
-    print htm
-
+    #rss = Rss.get(202)
+    #rss.gid = 0
+    #rss.save() 
+    #RssPo.where(user_id=10098398).delete()

@@ -70,8 +70,15 @@ def txttidy_swf(txt):
             break
     return txt
 
+def txttidy_36kr(txt):
+    pos = txt.find("<p>除非注明，本站文章均为原创或编译，转载请注明： 文章来自")
+    if pos > 0:
+        txt = txt[:pos]
+    return txt
+
 def txttidy(txt):
     txt = unescape(txt).replace('&quot;', '"')
+    txt = txttidy_36kr(txt)
     txt = txttidy_alibuybuy(txt)
     txt = txttidy_other_relate(txt)
     txt = txttidy_feed43(txt)
