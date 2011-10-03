@@ -5,10 +5,10 @@ from fetch_pic import fetch_pic
 
 import json
 from zkit.htm2txt import htm2txt
-from model.po import po_note_new
+from model.po import po_note_new, Po
 from model.po_pic import po_pic_new
 from model.state import STATE_DEL, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
-from model.rss import rss_po_id, RSS_RT_PO
+from model.rss import rss_po_id, RSS_RT_PO, RssPoId
 from model.po_show import po_show_new
 from model.zsite import Zsite
 from model.cid import CID_SITE
@@ -19,22 +19,29 @@ def htm2po_by_po(pre):
         return
        
     zsite = Zsite.mc_get(pre.user_id)
-    
+
+    rp = RssPoId.get(pre.id)
+    if rp:
+        po = Po.mc_get(rp.po_id)
+        if po:
+            po.name_  = pre.title
+            po.save()
+    else:
+        po = po_note_new(
+            pre.user_id, pre.title, '', STATE_DEL, group_id
+        )
+        rss_po_id(pre.id, po_id)
+ 
     if zsite.cid == CID_SITE: 
         group_id = zsite.id
     else:
         group_id = 0
-
-    po = po_note_new(
-        pre.user_id, pre.title, '', STATE_DEL, group_id
-    )
 
     if not po:
         return    
 
     po_id = po.id
 
-    rss_po_id(pre.id, po_id)
 
     pic_list = json.loads(pre.pic_list)
 

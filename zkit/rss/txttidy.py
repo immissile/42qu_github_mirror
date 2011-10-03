@@ -45,6 +45,12 @@ def txttidy_bshare(txt):
         txt = txt[:first_pos]
     return txt
 
+def txttidy_alibuybuy(txt):
+    pos = txt.find("<p><small>© 推荐")
+    if pos > 0:
+        txt = txt[:pos]
+    return txt
+
 def txttidy_swf(txt):
     pos_str = 'http://reader.googleusercontent.com/reader/embediframe?src='
     iframe_end = '</iframe>'
@@ -62,6 +68,7 @@ def txttidy_swf(txt):
 
 def txttidy(txt):
     txt = unescape(txt).replace('&quot;', '"')
+    txt = txttidy_alibuybuy(txt)
     txt = txttidy_other_relate(txt)
     txt = txttidy_feed43(txt)
     txt = txttidy_42qu(txt)
@@ -71,12 +78,7 @@ def txttidy(txt):
     return txt
 
 
-if __name__ == '__main__': 
-    
-
-    print txt
-    print txttidy("""栏目，每周精选国内最新的优秀初创企业和大家分享，初创企业可以通过微博：<a href="http://weibo.com/web20share">@web20share</a> 或者邮箱：watsonxu{at}web20share.com进行投递。转载请著名本站链接。</p>
-#<h3>相关阅读推荐</h3><ul><li><a href="http://www.web20share.com/2011/09/web20share-weekly-20110923.html" tit""")
+if __name__ == '__main__':
     from glob import glob
 
     for f in reversed(sorted(glob('test/*.txt'))):
