@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import McCacheM
 from collections import namedtuple
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO, CID_EVENT
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO, CID_EVENT, CID_USER
 from operator import itemgetter
 from po import Po
 from po_question import answer_count
@@ -153,8 +153,8 @@ def render_zsite_feed_list(user_id, id_list):
     zsite_id_set = set(
         i[0] for i in rf
     )
-    c_dict = career_dict(zsite_id_set)
     z_dict = Zsite.mc_get_dict(zsite_id_set)
+    c_dict = career_dict(id for id,i in z_dict.iteritems() if i.cid == CID_USER)
     z_dict = dict(
         (i.id, (i.name, i.link))
         for i in z_dict.itervalues()
