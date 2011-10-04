@@ -13,8 +13,8 @@ RE_SPACE = re.compile(""" ( +)""")
 RE_AT = re.compile(r'(\s|^)@([^@\(\)\s]+(?:\s+[^@\(\)\s]+)*)\(([a-zA-Z0-9][a-zA-Z0-9\-]{,31})\)(?=\s|$)')
 RE_BOLD = re.compile(r'\*{2}([^\*].*?)\*{2}')
 
-HTM_YOUKU = '''<embed src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>'''
-
+HTM_SWF = """<embed src="%s" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>"""
+HTM_YOUKU = HTM_SWF%'''http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior'''
 
 def replace_space(match):
     return ' '+len(match.groups()[0])*'&nbsp;'
@@ -31,6 +31,8 @@ def replace_link(match):
     elif g.startswith('http://player.youku.com/player.php/sid/'):
         g = g[39:g.rfind('/')]
         return HTM_YOUKU%g
+    elif g.endswith(".swf"):
+        return HTM_SWF%g
     else:
         return """<a target="_blank" href="%s" rel="nofollow">%s</a>""" %(g, g)
 
