@@ -8,7 +8,7 @@ from po import Po
 from po_question import answer_count
 from follow import follow_id_list_by_from_id
 #from vote import vote_count
-from feed import FeedMerge, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm
+from feed import feed_merge_iter, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm
 from zkit.earth import place_name
 from zsite import Zsite
 from zkit.txt import cnenoverflow
@@ -190,11 +190,11 @@ def zsite_id_list_by_follow(zsite_id):
     return r
 
 def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
-    feed_merge = FeedMerge(zsite_id_list_by_follow(zsite_id))
+    zsite_id_list = zsite_id_list_by_follow(zsite_id)
     rt_dict = {}
     id_list = []
     id = 0
-    for i in feed_merge.merge_iter(limit, begin_id):
+    for i in feed_merge_iter(zsite_id_list, limit, begin_id):
         rid = i.rid
         id = rid or i.id
         if id not in rt_dict:
@@ -208,3 +208,5 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
 if __name__ == '__main__':
     pass
+    for i in render_feed_by_zsite_id(10000000, 100):
+        print i

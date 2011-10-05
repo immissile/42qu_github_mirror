@@ -6,8 +6,8 @@ from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
 from mq import mq_client
 from zkit.algorithm.merge import imerge
 from gid import gid
+from zkit.feed_merge import MAXINT, merge_iter as _merge_iter
 
-MAXINT = sys.maxint
 PAGE_LIMIT = 50
 
 mc_feed_iter = McCacheM('FeedIter:%s')
@@ -126,24 +126,15 @@ class FeedCmp(object):
         return other.id - self.id
 
 
-class FeedMerge(object):
-    def __init__(self, zsite_id_list):
-        self.zsite_id_list = zsite_id_list
-
-    def merge_iter(self, limit=MAXINT, begin_id=MAXINT):
-        zsite_id_list = self.zsite_id_list
-        count = 0
-        for i in imerge(
-            *[
-                feed_cmp_iter(i, begin_id)
-                for i in
-                zsite_id_list
-            ]
-        ):
-            yield i
-            count += 1
-            if count >= limit:
-                break
+#class FeedMerge(MergeBase):
+#    itemiter = staticmethod(feed_cmp_iter)
+#
+def feed_merge_iter(
+    id_list,  limit=MAXINT, begin_id=MAXINT
+):
+    return _merge_iter(
+        feed_cmp_iter, id_list, limit, begin_id
+    )    
 
 
 if __name__ == '__main__':
