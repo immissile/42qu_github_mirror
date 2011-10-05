@@ -4,16 +4,25 @@ from yajl import dumps
 from ctrl._urlmap.j import urlmap
 from model.zsite_url import zsite_by_domain
 from _handler import JLoginBase
-from model.zsite_url import url_or_id
+from model.zsite_url import url_or_id, name_dict_url_dict_by_zsite_id_list
+from model.follow import follow_name_dict_url_dict_by_from_id_cid
+from zkit.at_match import zsite_by_key
+from model.ico import ico_url_with_default
+from model.career import career_bind
+from model.cid import CID_USER
+from model.zsite import Zsite 
 
 @urlmap('/j/at')
 class At(JLoginBase):
     def post(self):
+        key = self.get_argument('q', None)
         result = []
-        result.append(('王大牛','宇宙银行主管','wangdaniu','http://img4.douban.com/icon/u50800918-10.jpg'))
-        result.append(('张飞虎','世界联合妓院副总裁','tiger','http://img3.douban.com/icon/u2194922-21.jpg'))
-        result.append(('何二狗','斧头帮市场总监,斧爱联合创始人','doghe','http://img3.douban.com/icon/u30288360-57.jpg'))
-        result.append(('陈冠希','国际摄影协会秘书长,国际性爱学会理事','edison','http://img3.douban.com/icon/u40915253-14.jpg'))
+        name_dict, url_dict = follow_name_dict_url_dict_by_from_id_cid(self.current_user_id, CID_USER)
+        id_list = zsite_by_key(key, name_dict, url_dict, 7)
+        zsite_list = Zsite.mc_get_list(id_list)
+        career_bind(zsite_list)
+        for i in zsite_list:
+            li = (i.name, ','.join(i.career), url_or_id(i.id), ico_url_with_default(i))
+            result.append(li)
         self.finish(dumps(result))
-
 
