@@ -44,7 +44,7 @@ width:599px;
 float:left;
 }
 .site_feed .site_txt{
-width:633px;
+width:643px;
 }
 .site_po{
 border-bottom:1px dotted #ccc;
@@ -65,10 +65,10 @@ margin-right:17px;
 margin-top:32px;
 }
 .site_feed .site_po{
-padding-bottom:14px;
+padding-bottom:23px;
 }
 .site_feed .site_img{
-width:62px;height:62px;
+width:52px;height:52px;
 }
 .po_ti{
 margin-top:-3px;
@@ -137,6 +137,10 @@ border:1px dotted #ccc;
 padding:27px;
 margin-top:32px;
 }
-.mb14{
-margin-bottom:14px;
+.mb4{
+margin-bottom:4px;
+}
+.sfpword{
+padding-top:8px;
+margin-bottom:4px;
 }
