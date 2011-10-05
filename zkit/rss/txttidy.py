@@ -90,12 +90,14 @@ def txttidy(txt):
 
 
 if __name__ == '__main__':
-    print txttidy_swf("""Google Reader 视频<iframe src="http://reader.googleusercontent.com/reader/embediframe?src=http://player.youku.com/player.php/sid/XMjQ2ODM1Mjcy/v.swf&;amp;width=600&amp;height=500" width="600" height="500"></iframe>加勒比海盗""")
+    txt = """Google Reader 视频<iframe src="http://reader.googleusercontent.com/reader/embediframe?src=http://player.youku.com/player.php/sid/XMjQ2ODM1Mjcy/v.swf&;amp;width=600&amp;height=500" width="600" height="500"></iframe>加勒比海盗"""
+    def grab_str(string):
+        print re.sub("<iframe.*(embediframe\?src\=)(.*\.swf).*","\\2",string)
+    grab_str(txt)
     from glob import glob
 
     for f in reversed(sorted(glob('test/*.txt'))):
         with open(f) as infile:
             print txttidy(infile.read())
             raw_input(f)
-
 
