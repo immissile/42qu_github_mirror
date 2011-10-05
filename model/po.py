@@ -165,6 +165,8 @@ class Po(McModel, ReplyMixin):
             return txt_withlink(self.name)
 
         return escape(self.name)
+    
+
 
     @attrcache
     def link(self):

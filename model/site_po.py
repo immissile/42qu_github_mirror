@@ -8,7 +8,7 @@ PAGE_LIMIT = 25
 #mc_pos_id_list_by_cid = McCacheM("PosIdListByCid:%s")
 
 mc_po_count_by_zsite_id = McCacheA('PoCountByZsiteId:%s')
-mc_po_id_list_by_zsite_id = McLimitA('PoIdListByZsiteId:%s', 512)
+mc_po_id_list_by_zsite_id = McLimitA('PoIdListByZsiteId.%s', 512)
 
 def _po_cid_count_by_zsite_id(zsite_id, cid):
     qs = Po.where(

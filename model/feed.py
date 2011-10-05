@@ -123,12 +123,9 @@ class FeedCmp(object):
         self.zsite_id = zsite_id
 
     def __cmp__(self, other):
-        return other.id - self.id
+        return  self.id - other.id
 
 
-#class FeedMerge(MergeBase):
-#    itemiter = staticmethod(feed_cmp_iter)
-#
 def feed_merge_iter(
     id_list,  limit=MAXINT, begin_id=MAXINT
 ):
