@@ -43,6 +43,9 @@ width: 31px;
 width:599px;
 float:left;
 }
+.site_feed .site_txt{
+width:643px;
+}
 .site_po{
 border-bottom:1px dotted #ccc;
 margin-bottom:32px;
@@ -57,6 +60,12 @@ border: 1px solid #eee;
 background-color:#f9f9f9;
 float:left;
 margin-right:17px;
+}
+.site_feed{
+margin-top:32px;
+}
+.site_feed .site_img{
+width:52px;height:52px;
 }
 .po_ti{
 margin-top:-3px;
