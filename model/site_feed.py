@@ -13,7 +13,7 @@ def site_feed_id_lastest(feed_id):
     return tuple(cursor.fetchall())
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW
     from model.po import Po
     c = Po.where(

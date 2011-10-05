@@ -256,12 +256,6 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
     mc_flush_zsite_cid(zsite_id, cid)
     return m
 
-def mc_flush_zsite_cid(zsite_id, cid):
-    if zsite_id:
-        from model.site_po import mc_po_count_by_zsite_id, po_cid_count_by_zsite_id
-        po_cid_count_by_zsite_id.delete(zsite_id, cid)
-        mc_po_count_by_zsite_id.delete(zsite_id)
-        po_cid_count_by_zsite_id.delete(zsite_id, 0)
 
 
 def po_state_set(po, state):
@@ -424,6 +418,10 @@ def reply_rm_if_can(user_id, id):
                 r.rm()
                 mc_feed_tuple.delete(po.id)
     return can_rm
+
+def mc_flush_zsite_cid(zsite_id, cid):
+    from model.site_po import mc_flush_zsite_cid as _
+    _(zsite_id, cid)
 
 if __name__ == '__main__':
     pass
