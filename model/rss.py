@@ -176,7 +176,7 @@ def rss_subscribe(greader=None):
             i.save()
             #print i.url
             feed = 'feed/%s'%i.url
-            rss_feed_update(greader.feed(feed), i.id, i.user_id, 256)
+            rss_feed_update(greader.feed(feed), i.id, i.user_id, 512)
             greader.mark_as_read(feed)
 
 
