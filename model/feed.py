@@ -149,4 +149,4 @@ class FeedMerge(object):
 
 
 if __name__ == '__main__':
-    print feed_rt_id(24, 121)
+    pass
