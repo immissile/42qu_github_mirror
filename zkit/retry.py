@@ -28,5 +28,6 @@ def urlfetch(url, data=None, timeout=30):
         c = r.read()
         return c
     except:
+        print url
         traceback.print_exc()
 
