@@ -3,14 +3,14 @@ from cgi import escape
 %>
 
 <%def name="user_link(user)">
-<a target="_blank" href="${user.link}">${user.name}</a>\
+<a target="_blank" href="http:${user.link}">${user.name}</a>\
 </%def>
 
 <%def name="user_career_link(user)">
 <%
 career = ' , '.join(filter(bool, user.career))
 %>
-<a href="${user.link}" target="_blank">${user.name}\
+<a href="http:${user.link}" target="_blank">${user.name}\
 % if career:
  - ${career}\
 % endif
