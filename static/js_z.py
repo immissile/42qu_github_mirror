@@ -11,4 +11,5 @@ JS = [
 'ctrl/feed.js',
 'po.js',
 'ctrl/at.js',
+'feed.js',
 ]
