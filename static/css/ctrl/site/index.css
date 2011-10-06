@@ -68,7 +68,8 @@ margin-top:32px;
 padding-bottom:23px;
 }
 .site_feed .site_img{
-width:52px;height:52px;
+width:60px;height:60px;
+padding:0;border:0;
 }
 .po_ti{
 margin-top:-3px;
