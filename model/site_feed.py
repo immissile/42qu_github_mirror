@@ -36,7 +36,7 @@ def feed_iter(zsite_id, start_id=MAXINT):
             break
         for i in c:
             #print zsite_id, i
-            yield i
+            yield i[0]
         start_id = i[0]
 
 
