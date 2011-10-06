@@ -7,9 +7,9 @@ JS = [
 'jquery.addplaceholder.js.h',
 'jquery.elastic.source.js.h',
 'zpage.js',
+'feed.js',
 'ctrl.js',
 'ctrl/feed.js',
 'po.js',
 'ctrl/at.js',
-'feed.js',
 ]
