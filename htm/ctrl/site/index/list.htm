@@ -1,0 +1,19 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/site.htm" import="site_li"/>
+
+<div class="G">
+    <div class="G3" id="site_page">
+%if total:
+        <div class="site_list mt32">
+            %for i in page_list:
+                ${site_li(i)}
+            %endfor
+        </div>  
+${page|n}
+%else:
+<div class="none"><p>暂无站点</p><p><a href="/new">点此创建</a></p></div>
+%endif
+    </div>
+</div>
+
+
