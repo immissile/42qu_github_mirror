@@ -39,11 +39,9 @@ class SiteFeed(JLoginBase):
         result, last_id = site_po_iter(id_list, PAGE_LIMIT, id)
         
         if result:
-            r = [result, last_id]
-        else:
-            r = [] 
+            result.append(last_id) 
 
-        self.finish(dumps(r))
+        self.finish(dumps(result))
 
 
 @urlmap('/j/feed/fav/(\d+)')
