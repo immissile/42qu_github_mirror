@@ -1,8 +1,6 @@
 
 (function(){
-    var has_result;
     function parse_result(result){
-        has_result = true;
         var r=[],result_length=result.length,i=0,t, m, tt, item, cid, mm, id,site_id;
         for(;i<result_length;++i){
             m={};
@@ -37,14 +35,12 @@
         }
         return r
     }
-    feed_page("/j/site/feed/", "#site_feed", parse_result, function(){
+    feed_page("/j/site/feed/", "#site_feed", parse_result, 0, function(){
 
-        if(!has_result){
            $("#site_feed").append(
-            '<div class="tc mt32"><p>没有内容了啊</p><p><a href="/show">点击这里</a></p><p>收藏更多站点</p></div>'
+            '<div class="tc mt32"><p>没有内容了啊</p><p><a href="/show">请你点击这里</a></p><p>收藏更多站点</p></div>'
           ) 
-        }
-    });
+    end && });
 
 })();
 

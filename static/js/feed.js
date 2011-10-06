@@ -1,4 +1,4 @@
-function feed_page(feed_url, feeds_id, parse_result, loaded){
+function feed_page(feed_url, feeds_id, parse_result, loaded, end){
 
 
     var begin_id = $("#begin_id").val(0),
@@ -23,6 +23,7 @@ function feed_page(feed_url, feeds_id, parse_result, loaded){
             if (result.length < 2) {
                 feed_load.hide()
                 feed_loading.hide()
+                end && end()
                 return
             }
             is_loading = 0;
