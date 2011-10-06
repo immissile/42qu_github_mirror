@@ -100,7 +100,7 @@
 		feed_load.hide()
 		feed_loading.show()
 		$.postJSON("/j/feed/" + begin_id.val(), function(result) {
-			if (result.length == 1) {
+			if (result.length < 2) {
 				feed_load.hide()
 				feed_loading.hide()
 				return
@@ -111,7 +111,6 @@
 			feed_loading.slideUp(function() {
 				feed_load.show()
 			});
-			//console.info(result.length)
 			var prebottom, top, diff, self;
 			$("#feeds .G3").each(function() {
 				self = $(this)

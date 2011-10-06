@@ -1,10 +1,7 @@
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/site.htm" import="site_li"/>
-<div class="G"><div id="site_page" class="G3"><div class="site_list site_feed" id="site_feed">
-
-
-</div></div></div>
-
+<div class="G"><div id="site_page" class="G3"><div class="site_list site_feed" id="site_feed"></div></div></div>
+ 
 <script id="feed" type="text/x-jquery-tmpl"><%text>
 <div class="c site_po">
     <a href="http://42qu-exam.42qu.com/"><img
@@ -33,7 +30,10 @@
 
 </%text></script>
 
-<script>
-$("#feed").tmpl([1,{"zsite_id":1}]).appendTo("#site_feed")
-</script>
+<input type="hidden" id="begin_id">
 
+<%def name="htm_foot()">
+<a id="feed_load" href="javascript:void(0)">加载更多</a>
+<div id="feed_loading"></div>
+<script src="${js.ctrl_site_feed|n}"></script>
+</%def>
