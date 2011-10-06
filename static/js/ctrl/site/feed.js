@@ -38,7 +38,7 @@
     feed_page("/j/site/feed/", "#site_feed", parse_result, 0, function(){
 
            $("#site_feed").append(
-            '<div class="tc mt32"><p>没有内容了啊</p><p><a href="/show">请你点击这里</a></p><p>收藏更多站点</p></div>'
+            '<div class="tc mt32" style="margin-bottom:64px"><p>没有内容了啊</p><p><a href="/show">请你点击这里</a></p><p>收藏更多站点</p></div>'
           ) 
     });
 
