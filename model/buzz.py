@@ -33,7 +33,7 @@ buzz_count = McNum(lambda user_id: Buzz.where(to_id=user_id).count(), 'BuzzCount
 
 def buzz_unread_count(user_id):
     count = buzz_unread.get(user_id)
-    if count is None:
+    if count is None or count is False:
         count = Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count()
         buzz_unread.set(
             user_id, count
@@ -244,7 +244,7 @@ def buzz_show(user_id, limit):
 
 
 def buzz_unread_update(user_id):
-    buzz_unread.delete(user_id, 0)
+    buzz_unread.set(user_id, None)
 
 def buzz_event_join_new(user_id, event_id, zsite_id):
     followed = [i.from_id for i in ormiter(Follow, 'to_id=%s' % user_id)]
