@@ -296,7 +296,7 @@ if __name__ == '__main__':
     pass
     from model.zsite import Zsite
     from model.cid import CID_USER
-
+    print buzz_unread_update(10000000)
     print buzz_unread_count(10000000)
     print buzz_show(10000000, 3)
 
