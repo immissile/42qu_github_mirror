@@ -144,7 +144,7 @@ $.fn.pop_at = function(isreply, po_id, num){
         var onli = $('#at_list').find($('.at_on'))
         name = onli.find($('.at_name')).text()
         methods.deleteRangeText(t, w.length);
-        methods.insertAfterCursor(t,name);
+        methods.insertAfterCursor(t,name+' ');
         $('#at_list').remove()
     }
 
