@@ -246,11 +246,13 @@ fcm = function (id,count){
             var e = $('#txt_'+id)
             if(e.offset().top-doc.scrollTop()>h){
                 scrolls(id)             
-            } 
+            }
+            
         })
     }else{
         fcmtxt.before(fcml)
     }
+    $("#txt_"+id).pop_at(1,id)
     self.find('textarea').focus().elastic()
 }
 

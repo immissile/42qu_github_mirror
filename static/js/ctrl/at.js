@@ -2,7 +2,7 @@
 var pre, at_size, at_list , wordsForSearch ;
 
 methods={
-    getCarePos: function (node, con) {
+    getCarePos: function (node, con, num) {
         var size = [node.offsetWidth, node.offsetHeight],
             dot = $('<em>&nbsp;</em>'),
             node = $(node),
@@ -19,9 +19,10 @@ methods={
         if(node.scrollTop()>0){
             pos.top -= node.scrollTop()
         }
+        var po_top = num?num:21
         return {
             left: pos.left + nodePos.left + 2,
-            top: pos.top + nodePos.top + 21
+            top: pos.top + nodePos.top + po_top
         };
     },
     initPreStyle:  function (node) {
@@ -138,7 +139,7 @@ methods={
 };
  
 
-$.fn.pop_at = function(){
+$.fn.pop_at = function(isreply, po_id, num){
     atComplete = function(t,w){
         var onli = $('#at_list').find($('.at_on'))
         name = onli.find($('.at_name')).text()
@@ -150,7 +151,10 @@ $.fn.pop_at = function(){
     function at_list_remove(){
         $('#at_list').remove()
     }
-    $("body").click(at_list_remove)
+    function at_tip_remove(){
+        $('.at_tip').remove()
+    }
+    $("body").click(function(){at_list_remove();at_tip_remove()})
 
     this.bind('keyup',function(e){
         at_list,at_size
@@ -159,14 +163,14 @@ $.fn.pop_at = function(){
             val = self.val(),
             lastCharAt = val.substring(0, offset).lastIndexOf('@'),
             hasSpace = val.substring(lastCharAt, offset).indexOf(' ');
-            pos = methods.getCarePos(self,val.substring(0,lastCharAt))
+            pos = methods.getCarePos(self,val.substring(0,lastCharAt),num)
             if(offset>0 && lastCharAt==offset-1){
                 at_list_remove()
                 $('body').append('<div class="at_tip">@ 我关注的人 ...</div>')
                 $('.at_tip').css(pos)
                 return;
             }else{
-                $('.at_tip').remove()
+                at_tip_remove()
             }
         if(lastCharAt>=0 && hasSpace<0){
             wordsForSearch = val.substring(lastCharAt + 1, offset);
@@ -177,11 +181,13 @@ $.fn.pop_at = function(){
                req = $.postJSON(
                     "/j/at",
                     {
-                        "q":$.trim(wordsForSearch)
+                        "q":$.trim(wordsForSearch),
+                        "isreply":isreply,
+                        "po_id":po_id
                     },
                     function(data){
                         at_list = $('<div class="at_list" id="at_list"/>')
-                        if(data.length<0){
+                        if(data.length<=0){
                             return;
                         }
                         for(var i=0;i<data.length;i++){

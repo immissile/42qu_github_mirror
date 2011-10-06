@@ -5,6 +5,7 @@ from zsite import Zsite
 from gid import gid
 from days import ONE_DAY
 from zsite_url import name_dict_url_dict_by_zsite_id_list
+from model.cid import CID_USER
 
 follow_count_by_to_id = McNum(lambda to_id: Follow.where(to_id=to_id).count(), 'FollowCountByToId.%s')
 follow_count_by_from_id = McNum(lambda from_id: Follow.where(from_id=from_id).count(), 'FollowCountByFromId.%s')

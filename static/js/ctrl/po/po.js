@@ -18,6 +18,7 @@ $(".reply_at").live("click", function(){
 
 })
 $("#reply_txt").elastic()
+$("#reply_txt").pop_at(1,$('#txt_form').attr('action').split('/')[3],27)
 if(!IE6){
     $(function(){
         var st = $('#sT');
