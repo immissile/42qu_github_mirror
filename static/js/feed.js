@@ -14,6 +14,7 @@ function feed_page(feed_url, feeds_id, parse_result, loaded, end){
 	function render_feed() {
 		if (is_loading) return;
 		is_loading = 1;
+
 		feed_load.hide();
 		feed_loading.show();
 
