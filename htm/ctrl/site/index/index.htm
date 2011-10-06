@@ -9,8 +9,9 @@
     <div class="site_txt c">
 <div class="mb4"><a class="c0" target="_blank" href="${site.link}">${site.name}</a></div>
 {{each item}}
-<div class={{if cid==61}}{{if $index}}"sfpword"{{else}}"mb4"{{/if}}>{{html name}}{{else}}"mb4"><a
-href="${link}" target="_blank">${name}</a>{{/if}}{{if user_link}}<span
+<div class={{if cid==61}}{{if $index}}"sfpword"{{else}}"mb4"{{/if}}><div
+class="sfptxt">{{html name}}</div>{{else}}"mb4"><a
+href="${link}" class="sfpa" target="_blank">${name}</a>{{/if}}{{if user_link}}<span
 class="split">-</span><a target="_blank" class="c0" href="${user_link}">${user_name}</a>{{/if}}
 {{if cid==61}}
 <a target="_blank" href="${link}" class="zsite_reply"></a>

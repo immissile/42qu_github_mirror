@@ -144,3 +144,11 @@ margin-bottom:4px;
 padding-top:8px;
 margin-bottom:4px;
 }
+.sfptxt a:visited,
+.sfpa:visited{
+color:#666
+}
+.sfptxt a:hover,
+.sfpa:hover{
+color:#a10
+}
