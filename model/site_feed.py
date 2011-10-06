@@ -49,7 +49,6 @@ def merge_iter(
 
 def site_po_iter(id_list, limit=MAXINT, begin_id=MAXINT):
     id_list = list(merge_iter(id_list, limit, begin_id))
-    print id_list
     po_list = Po.mc_get_list(id_list)
 
     zsite_set = set()
@@ -67,6 +66,7 @@ def site_po_iter(id_list, limit=MAXINT, begin_id=MAXINT):
     zsite_set=set()
 
     if po_list:
+        last_id = po_list[-1].id
         for i in po_list:
             if pre_zsite_id != i.zsite_id:
                 if pre_zsite_id:
@@ -93,6 +93,8 @@ def site_po_iter(id_list, limit=MAXINT, begin_id=MAXINT):
 
         result.append([i.zsite_id, m])
         zsite_set.add(zsite_dict[i.zsite_id])
+    else:
+        last_id = 0
 
     ico_url_bind_with_default(zsite_set)
 
@@ -101,7 +103,7 @@ def site_po_iter(id_list, limit=MAXINT, begin_id=MAXINT):
         zsite = zsite_dict[id]
         i[0] = [id, zsite.name, zsite.link, zsite.ico] 
 
-    return result
+    return result,last_id 
 
 
 if __name__ == '__main__':

@@ -39,9 +39,11 @@ class Search(Base):
     get = search_get
 
 @urlmap('/')
-class Index(Base):
+class Index(LoginBase):
     def get(self):
         return self.render()
+
+
 
 @urlmap('/show')
 @urlmap('/show-(\d+)')

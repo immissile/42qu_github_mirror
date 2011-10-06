@@ -25,6 +25,21 @@ from model.zsite import zsite_name_id_dict
 from model.po_event import event_feedback_id_get, po_event_notice_list_by_event_id
 from model.po_pos import po_pos_set
 from model.event import EVENT_STATE_END , event_joiner_feedback_normal_count , event_joiner_feedback_good_count 
+from model.zsite_site import zsite_id_list_by_user_id
+from model.site_feed import site_po_iter
+
+@urlmap('/j/site/feed/(\d+)')
+class SiteFeed(JLoginBase):
+    def get(self, id):
+        id = int(id)
+        if id == 0:
+            id = MAXINT
+        current_user_id = self.current_user_id
+        id_list = zsite_id_list_by_user_id(current_user_id)
+        result, last_id = site_po_iter(id_list, PAGE_LIMIT, id)
+        
+        self.finish(dumps([result, last_id]))
+
 
 @urlmap('/j/feed/fav/(\d+)')
 class Fav(JLoginBase):
