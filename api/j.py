@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #coding:utf-8
-from _handler import JLoginBase
+from ctrl.j._handler import JLoginBase
 from _urlmap import urlmap
 
 from yajl import dumps
@@ -13,7 +13,7 @@ from model.career import career_bind
 from model.cid import CID_USER
 from model.zsite import Zsite 
 
-def _post(self, name_dict, url_dict):
+def _get(self, name_dict, url_dict):
     key = self.get_argument('q', None)
     result = []
     
@@ -30,13 +30,13 @@ def _post(self, name_dict, url_dict):
 
 @urlmap('/j/at/reply/(\d+)')
 class AtReply(JLoginBase):
-    def post(self, id):
+    def get(self, id):
         name_dict, url_dict = follow_reply_name_dict_url_dict_by_from_id_cid(self.current_user_id, id)
-        return _post(self, name_dict, url_dict)
+        return _get(self, name_dict, url_dict)
 
 @urlmap('/j/at')
 class At(JLoginBase):
-    def post(self):
-        return _post(self, *follow_name_dict_url_dict_by_from_id_cid(self.current_user_id, CID_USER))
+    def get(self):
+        return _get(self, *follow_name_dict_url_dict_by_from_id_cid(self.current_user_id, CID_USER))
 
 

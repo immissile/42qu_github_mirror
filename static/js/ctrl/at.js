@@ -191,8 +191,9 @@ $.fn.pop_at = function(url, line_height){
             var keys = [38,40,13,16,9],req
 
             if($.inArray(e.keyCode,keys)<0){
-               if(req)req.abort(); 
-               req = $.postJSON(
+               if(req)req.abort();
+               document.domain = HOST_SUFFIX.slice(1)
+               req = $.getJSON(
                     "//api"+HOST_SUFFIX+url,
                     {
                         "q":$.trim(wordsForSearch),
