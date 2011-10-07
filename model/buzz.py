@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV
+from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_WORD
 
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -48,6 +48,7 @@ BUZZ_DIC = {
     CID_BUZZ_WALL_REPLY: Wall,
     CID_BUZZ_PO_REPLY: Reply,
     CID_BUZZ_ANSWER: Po,
+    CID_BUZZ_WORD: Po,
     CID_BUZZ_JOIN: Po,
     CID_BUZZ_EVENT_JOIN_APPLY: Po,
     CID_BUZZ_EVENT_FEEDBACK_OWNER: Po,
@@ -101,6 +102,8 @@ mq_buzz_wall_new = mq_client(buzz_wall_new)
 
 def buzz_wall_reply_new(from_id, to_id, wall_id):
     buzz_new(from_id, to_id, CID_BUZZ_WALL_REPLY, wall_id)
+
+
 
 def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
     from txt import txt_get
