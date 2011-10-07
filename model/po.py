@@ -165,7 +165,7 @@ class Po(McModel, ReplyMixin):
             return txt_withlink(self.name)
 
         return escape(self.name)
-    
+
 
 
     @attrcache
@@ -340,7 +340,10 @@ def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
             m.feed_new()
+        from model.buzz import mq_buzz_word_new
+        mq_buzz_word_new(user_id, m.id, name)
         return m
+
 
 def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
     if not name and not txt:
