@@ -75,8 +75,12 @@ methods={
         var p = this.getCursorPosition(t),
             s = t.scrollTop,
             val = t.value,
-            d=p-n;
-
+            d,
+            l=val.length;
+        if(n>=l){
+            n=l
+        }
+        d=p-n;
         // reset value  
         t.value = n > 0 ? val.slice(0, d) + val.slice(p): val.slice(0, p) + val.slice(d);
 
@@ -147,8 +151,14 @@ $.fn.pop_at = function(url, line_height){
     atComplete = function(t,w){
         var onli = $('#at_list').find($('.at_on'))
         name = onli.find($('.at_name')).text()
-        methods.deleteRangeText(t, w.length+1);
-        methods.insertAfterCursor(t," @"+name+' ');
+        var v=methods.deleteRangeText(t, w.length+2);
+
+        name = "@"+name+' '
+        if(v.length>w.length+1){
+            name = $.trim(v.charAt(0))+" "+name
+        }
+
+        methods.insertAfterCursor(t,name);
         $('#at_list').remove()
     }
 
