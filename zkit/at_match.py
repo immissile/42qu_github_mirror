@@ -76,11 +76,14 @@ def zsite_by_key(key, name_dict, url_dict, limit):
     s_result = unique(s_result)
     len_s_result = len(s_result) 
 
-    if len_s_result < limit:
+    while len_s_result < limit:
         for i in c_result:
             if i not in s_set:
                 s_result.append(i)
                 s_set.add(i)
+                len_s_result += 1
+
+        break
 
     if len_s_result > limit:
         s_result = s_result[:limit]
