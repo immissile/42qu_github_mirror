@@ -1,9 +1,10 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-from yajl import dumps
-from ctrl._urlmap.j import urlmap
-from model.zsite_url import zsite_by_domain
+#coding:utf-8
 from _handler import JLoginBase
+from _urlmap import urlmap
+
+from yajl import dumps
+from model.zsite_url import zsite_by_domain
 from model.zsite_url import url_or_id, name_dict_url_dict_by_zsite_id_list
 from model.follow import follow_name_dict_url_dict_by_from_id_cid, follow_reply_name_dict_url_dict_by_from_id_cid
 from zkit.at_match import zsite_by_key

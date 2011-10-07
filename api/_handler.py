@@ -65,3 +65,9 @@ class XsrfGetBase(LoginBase):
         super(XsrfGetBase, self).prepare()
         self.check_xsrf_cookie()
 
+class JLoginBase(Base):
+    def prepare(self):
+        super(JLoginBase, self).prepare()
+        if not self.current_user:
+            self.finish('{"login":1}')
+
