@@ -14,6 +14,7 @@ ${css.ctrl_site_index|n}
 path = request.path
 is_fav = path.startswith("/fav")
 is_my = path.startswith("/my")
+is_show = path.startswith("/show")
 is_all = not path.split("-",1)[0].strip("/")
 %>
 <h1>
@@ -28,7 +29,7 @@ search.val('').val(val);
 })()</script>
     </span>
     <span class="nav C">
-        <a ${'class="c0"' if is_all else ''|n} href="/">所有</a><span class="c9 split">-</span><a href="/fav" ${'class="c0"' if is_fav else ''|n}>收藏</a><span class="c9 split">-</span><a href="/my" ${'class="c0"' if is_my else ''|n}>我的</a><span class="c9 split">-</span><a class="new" href="/new">创建</a>
+        <a ${'class="c0"' if is_all else ''|n} href="/">阅读</a><span class="c9 split">-</span><a ${'class="c0"' if is_show else ''|n} href="/show">大全</a><span class="c9 split">-</span><a href="/fav" ${'class="c0"' if is_fav else ''|n}>收藏</a><span class="c9 split">-</span><a href="/my" ${'class="c0"' if is_my else ''|n}>我的</a><span class="c9 split">-</span><a class="new" href="/new">创建</a>
     </span>
 </h1>
 

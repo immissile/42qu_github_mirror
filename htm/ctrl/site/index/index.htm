@@ -1,19 +1,33 @@
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/site.htm" import="site_li"/>
+<div class="G"><div id="site_page" class="G3"><div class="site_list site_feed" id="site_feed"></div></div></div>
+ 
+<script id="feed" type="text/x-jquery-tmpl"><%text>
+<div class="c site_po">
+    <a href="${site.link}" target="_blank"><img class="site_img" src="${site.ico}"></a>
 
-<div class="G">
-    <div class="G3" id="site_page">
-%if total:
-        <div class="site_list mt32">
-            %for i in page_list:
-                ${site_li(i)}
-            %endfor
-        </div>  
-${page|n}
-%else:
-<div class="none"><p>暂无站点</p><p><a href="/new">点此创建</a></p></div>
-%endif
+    <div class="site_txt c">
+<div class="mb4"><a class="c0" target="_blank" href="${site.link}">${site.name}</a></div>
+{{each item}}
+<div class={{if cid==61}}{{if $index}}"sfpword"{{else}}"mb4"{{/if}}>{{html name}}{{else}}"mb4"><a
+href="${link}" target="_blank">${name}</a>{{/if}}{{if user_link}}<span
+class="split">-</span><a target="_blank" class="c0" href="${user_link}">${user_name}</a>{{/if}}
+{{if cid==61}}
+<a target="_blank" href="${link}" class="zsite_reply"></a>
+{{/if}}
+</div>
+{{/each}}
     </div>
 </div>
 
 
+
+</%text></script>
+
+<input type="hidden" id="begin_id">
+
+<%def name="htm_foot()">
+<a id="feed_load" href="javascript:void(0)">加载更多</a>
+<div id="feed_loading"></div>
+<script src="${js.ctrl_site_feed|n}"></script>
+</%def>

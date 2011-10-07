@@ -4,7 +4,7 @@
 import _db
 from model.zsite import zsite_new, ZSITE_STATE_ACTIVE, Zsite
 from model.cid import CID_SITE
-from model.zsite_admin import zsite_admin_new, zsite_user_state, zsite_id_list_by_admin_id_sample, zsite_by_admin_id_count
+from model.zsite_admin import zsite_admin_new, zsite_user_state, zsite_id_list_by_admin_id_sample, zsite_by_admin_id_count, zsite_id_list_by_admin_id
 from model.zsite_show import zsite_show_new
 from model.buzz import mq_buzz_site_new
 from model.search_zsite import search_new
@@ -89,6 +89,11 @@ def zsite_site_by_user_id_sample(user_id, k):
 
 def zsite_site_count(zsite_id):
     return zsite_list_count(zsite_id, CID_SITE) + zsite_by_admin_id_count(zsite_id)
+
+def zsite_id_list_by_user_id(user_id):
+    result = zsite_id_list_by_admin_id(user_id)
+    result.extend(zsite_id_list(user_id, CID_SITE))
+    return result
 
 if __name__ == '__main__':
     print zsite_site_by_user_id_sample(10000000, 3)

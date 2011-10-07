@@ -82,6 +82,8 @@ class Kv(object):
                 (id, value)
             )
             cursor.connection.commit()
+            if value is None:
+                value = False
             mc.set(mc_key, value)
 
     def mc_flush(self, id):

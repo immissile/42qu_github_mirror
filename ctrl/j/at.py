@@ -12,24 +12,28 @@ from model.career import career_bind
 from model.cid import CID_USER
 from model.zsite import Zsite 
 
+def _post(self, name_dict, url_dict):
+    key = self.get_argument('q', None)
+    result = []
+    
+    id_list = zsite_by_key(key, name_dict, url_dict, 7)
+    zsite_list = Zsite.mc_get_list(id_list)
+    career_bind(zsite_list)
+    for i in zsite_list:
+        li = (i.name, ','.join(i.career), url_or_id(i.id), ico_url_with_default(i))
+        result.append(li)
+    
+    self.finish(dumps(result))
+
+@urlmap('/j/at/reply/(\d+)')
+class AtReply(JLoginBase):
+    def post(self, id):
+        name_dict, url_dict = follow_reply_name_dict_url_dict_by_from_id_cid(self.current_user_id, id)
+        return _post(self, name_dict, url_dict)
+
 @urlmap('/j/at')
 class At(JLoginBase):
     def post(self):
-        key = self.get_argument('q', None)
-        isreply = self.get_argument('isreply',None)
-        result = []
-        if isreply==1:
-            po_id = self.get_argument('po_id',None)
-            if not po_id:
-                return
-            name_dict, url_dict = follow_reply_name_dict_url_dict_by_from_id_cid(self.current_user_id, po_id)
-        else:
-            name_dict, url_dict = follow_name_dict_url_dict_by_from_id_cid(self.current_user_id, CID_USER)
-        id_list = zsite_by_key(key, name_dict, url_dict, 7)
-        zsite_list = Zsite.mc_get_list(id_list)
-        career_bind(zsite_list)
-        for i in zsite_list:
-            li = (i.name, ','.join(i.career), url_or_id(i.id), ico_url_with_default(i))
-            result.append(li)
-        self.finish(dumps(result))
+        return _post(self, *follow_name_dict_url_dict_by_from_id_cid(self.current_user_id, CID_USER))
+
 

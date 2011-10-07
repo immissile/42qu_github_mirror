@@ -8,6 +8,7 @@ PAGE_LIMIT = 25
 #mc_pos_id_list_by_cid = McCacheM("PosIdListByCid:%s")
 
 mc_po_count_by_zsite_id = McCacheA('PoCountByZsiteId:%s')
+mc_po_id_list_by_zsite_id = McLimitA('PoIdListByZsiteId.%s', 512)
 
 def _po_cid_count_by_zsite_id(zsite_id, cid):
     qs = Po.where(
@@ -36,6 +37,7 @@ def po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset):
             po_id_list_by_zsite_id(zsite_id, cid, limit, offset)
         )
 
+@mc_po_id_list_by_zsite_id('{zsite_id}_{cid}')
 def po_id_list_by_zsite_id(zsite_id, cid, limit, offset):
     qs = Po.where(
         zsite_id=zsite_id
@@ -46,31 +48,15 @@ def po_id_list_by_zsite_id(zsite_id, cid, limit, offset):
 
     return qs.order_by('id desc').col_list(limit, offset)
 
+def mc_flush_zsite_cid(zsite_id, cid):
+    if zsite_id:
+        from model.site_po import mc_po_count_by_zsite_id, po_cid_count_by_zsite_id
+        po_cid_count_by_zsite_id.delete(zsite_id, cid)
+        mc_po_count_by_zsite_id.delete(zsite_id)
+        po_cid_count_by_zsite_id.delete(zsite_id, 0)
+        mc_po_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, cid))
+        mc_po_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, 0))
 
-#class ZsiteSiteMax(Model):
-#    pass
-#
-#
-#class ZsiteSitePos(Model):
-#    pass
-#
-#
-#def pos_id_list_by_cid(zsite_id , user_id):
-#    r = ZsiteSitePos.where(zsite_id=zsite_id, user_id=user_id).col_list(
-#            col='cid,pos_id'
-#        )
-#    return dict(r)
-#
-#def pos_mark_all(zsite_id, user_id):
-#    pass
-#
-#def pos_mark(zsite_id, user_id, cid):
-#    pass
-#
-#def next_id_list(zsite_id, user_id):
-#    pass
-#
 
 if __name__ == '__main__':
-    pass
-
+    print po_id_list_by_zsite_id(10099440, 0, 33, 0)

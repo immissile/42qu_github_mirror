@@ -2,7 +2,7 @@
 var pre, at_size, at_list , wordsForSearch ;
 
 methods={
-    getCarePos: function (node, con, num) {
+    getCarePos: function (node, con, line_height) {
         var size = [node.offsetWidth, node.offsetHeight],
             dot = $('<em>&nbsp;</em>'),
             node = $(node),
@@ -19,10 +19,9 @@ methods={
         if(node.scrollTop()>0){
             pos.top -= node.scrollTop()
         }
-        var po_top = num?num:21
         return {
             left: pos.left + nodePos.left + 2,
-            top: pos.top + nodePos.top + po_top
+            top: pos.top + nodePos.top + line_height?line_height:21
         };
     },
     initPreStyle:  function (node) {
@@ -139,7 +138,7 @@ methods={
 };
  
 
-$.fn.pop_at = function(isreply, po_id, num){
+$.fn.pop_at = function(url, line_height){
     atComplete = function(t,w){
         var onli = $('#at_list').find($('.at_on'))
         name = onli.find($('.at_name')).text()
@@ -163,7 +162,7 @@ $.fn.pop_at = function(isreply, po_id, num){
             val = self.val(),
             lastCharAt = val.substring(0, offset).lastIndexOf('@'),
             hasSpace = val.substring(lastCharAt, offset).indexOf(' ');
-            pos = methods.getCarePos(self,val.substring(0,lastCharAt),num)
+            pos = methods.getCarePos(self,val.substring(0,lastCharAt),line_height)
             if(offset>0 && lastCharAt==offset-1){
                 at_list_remove()
                 $('body').append('<div class="at_tip">@ 我关注的人 ...</div>')
@@ -179,11 +178,9 @@ $.fn.pop_at = function(isreply, po_id, num){
             if($.inArray(e.keyCode,keys)<0){
                if(req)req.abort(); 
                req = $.postJSON(
-                    "/j/at",
+                    url,
                     {
                         "q":$.trim(wordsForSearch),
-                        "isreply":isreply,
-                        "po_id":po_id
                     },
                     function(data){
                         at_list = $('<div class="at_list" id="at_list"/>')

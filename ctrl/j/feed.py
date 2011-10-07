@@ -25,6 +25,24 @@ from model.zsite import zsite_name_id_dict
 from model.po_event import event_feedback_id_get, po_event_notice_list_by_event_id
 from model.po_pos import po_pos_set
 from model.event import EVENT_STATE_END , event_joiner_feedback_normal_count , event_joiner_feedback_good_count 
+from model.zsite_site import zsite_id_list_by_user_id
+from model.site_feed import site_po_iter
+
+@urlmap('/j/site/feed/(\d+)')
+class SiteFeed(JLoginBase):
+    def get(self, id):
+        id = int(id)
+        if id == 0:
+            id = MAXINT
+        current_user_id = self.current_user_id
+        id_list = zsite_id_list_by_user_id(current_user_id)
+        result, last_id = site_po_iter(id_list, PAGE_LIMIT, id)
+        
+        if result:
+            result.append(last_id) 
+
+        self.finish(dumps(result))
+
 
 @urlmap('/j/feed/fav/(\d+)')
 class Fav(JLoginBase):
@@ -75,51 +93,52 @@ class Feed(JLoginBase):
 
         r = []
 
-        site_id_set = set()
 
-        for zsite_id, item_list in result:
-            zsite = Zsite.mc_get(zsite_id)
-            t = []
-            for i in item_list:
-                id = i[1]
-                cid = i[4]
-                rid = i[5]
-               
-                site_id = i[6] 
-                if site_id:
-                    site_id_set.add(site_id)
+        if result:
+            site_id_set = set()
+            for zsite_id, item_list in result:
+                zsite = Zsite.mc_get(zsite_id)
+                t = []
+                for i in item_list:
+                    id = i[1]
+                    cid = i[4]
+                    rid = i[5]
+                   
+                    site_id = i[6] 
+                    if site_id:
+                        site_id_set.add(site_id)
 
-                if len(i) >= FEED_TUPLE_DEFAULT_LEN:
-                    after = i[FEED_TUPLE_DEFAULT_LEN:]
-                    i = i[:FEED_TUPLE_DEFAULT_LEN]
+                    if len(i) >= FEED_TUPLE_DEFAULT_LEN:
+                        after = i[FEED_TUPLE_DEFAULT_LEN:]
+                        i = i[:FEED_TUPLE_DEFAULT_LEN]
+                    else:
+                        after = None
+
+
+                    if cid not in (CID_WORD, CID_EVENT):
+                        i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
+
+                    if after:
+                        i.extend(after)
+                    t.append(i[1:])
+
+                unit, title = c_dict[zsite_id]
+                if zsite:
+                    r.append((
+                        zsite.cid,
+                        zsite.name,
+                        zsite.link,
+                        unit,
+                        title,
+                        pic_url_with_default(zsite_id, '219'),
+                        t
+                    ))
                 else:
-                    after = None
+                    print "zsite_id", zsite_id
+                    feed_rm(id)
 
-
-                if cid not in (CID_WORD, CID_EVENT):
-                    i.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
-
-                if after:
-                    i.extend(after)
-                t.append(i[1:])
-
-            unit, title = c_dict[zsite_id]
-            if zsite:
-                r.append((
-                    zsite.cid,
-                    zsite.name,
-                    zsite.link,
-                    unit,
-                    title,
-                    pic_url_with_default(zsite_id, '219'),
-                    t
-                ))
-            else:
-                print "zsite_id", zsite_id
-                feed_rm(id)
-
-        r.append(zsite_name_id_dict(site_id_set))
-        r.append(last_id)
+            r.append(zsite_name_id_dict(site_id_set))
+            r.append(last_id)
 
 
         result = dumps(r)

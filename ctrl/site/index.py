@@ -26,7 +26,7 @@ PAGE_LIMIT = 20
 
 
 class SiteListBase(_SiteListBase):
-    template = '/ctrl/site/index/index.htm'
+    template = '/ctrl/site/index/list.htm'
 
     @property
     def user_id(self):
@@ -38,11 +38,17 @@ class Search(Base):
     search = staticmethod(search_site)
     get = search_get
 
-
 @urlmap('/')
-@urlmap('/-(\d+)')
-class Index(SiteListBase, Base):
-    page_url = '/-%s'
+class Index(LoginBase):
+    def get(self):
+        return self.render()
+
+
+
+@urlmap('/show')
+@urlmap('/show-(\d+)')
+class Show(SiteListBase, Base):
+    page_url = '/show-%s'
 
     def _total(self):
         return zsite_show_count(CID_SITE)
