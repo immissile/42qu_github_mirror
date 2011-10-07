@@ -104,6 +104,8 @@ def buzz_wall_reply_new(from_id, to_id, wall_id):
     buzz_new(from_id, to_id, CID_BUZZ_WALL_REPLY, wall_id)
 
 
+def buzz_word_new(from_id, to_id, po_id):
+    buzz_new(from_id, to_id, CID_BUZZ_WORD, po_id)
 
 def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
     from txt import txt_get
