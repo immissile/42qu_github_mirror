@@ -2,7 +2,7 @@
 
 
 (function ($) {  
-var pre, at_size, at_list , wordsForSearch ;
+var pre, at_size, at_list , wordsForSearch, req=0;
 
 methods={
     getCarePos: function (node, con, line_height) {
@@ -149,8 +149,7 @@ methods={
  
 
 $.fn.pop_at = function(url, line_height){
-    var session = $.cookie.get('S')
-    if(!session)return;
+    if(!islogin())return;
     line_height = line_height||21
 
     atComplete = function(t,w){
@@ -176,7 +175,6 @@ $.fn.pop_at = function(url, line_height){
 
     $("body").click(function(){at_list_remove();at_tip_remove()})
     this.bind('keyup',function(e){
-        at_list,at_size
         var self = $(this),
             offset = methods.getCursorPosition(self[0]),
             val = self.val(),
@@ -193,34 +191,36 @@ $.fn.pop_at = function(url, line_height){
             }
         if(lastCharAt>=0 && hasSpace<0){
             wordsForSearch = val.substring(lastCharAt + 1, offset);
-            var keys = [38,40,13,16,9],req
-
+            req+=1;
+            var keys = [38,40,13,16,9], myreq=req;
             if($.inArray(e.keyCode,keys)<0){
-               if(req)req.abort();
-               req = $.getJSON(
+               $.ajax(
                     "//api"+HOST_SUFFIX+url,
                     {
-                        "q":$.trim(wordsForSearch),
-                        "S":session
-                    },
-                    function(data){
-                        at_list = $('<div class="at_list" id="at_list"/>')
-                        if(data.length<=0){
-                            return;
+                        cache:true,
+                        dataType:"jsonp",
+                        data:{
+                            "q":$.trim(wordsForSearch)
+                        },
+                        success: function(data){
+                            if(myreq!=req)return;
+                            at_list = $('<div class="at_list" id="at_list"/>')
+                            if(data.length<=0){
+                                return;
+                            }
+                            for(var i=0;i<data.length;i++){
+                                t=data[i]
+                                var html = $('<div class="at_li"><img class="at_img L"  src="'+t[3]+'"><span class="at_name"></span><span class="at_title"></span></div>')
+                                html.find(".at_name").text(t[0]+"("+t[2]+")")
+                                html.find(".at_title").text(t[1])
+                                at_list.append(html)
+                            }
+                            at_size = data.length;
+                            $('body').append(at_list)
+                            at_list.css(pos)
+                            at_list.find('.at_li:first').addClass('at_on')
+                            $('.at_li').click(function(){atComplete(self[0],wordsForSearch)}).mouseover(function(){$('.at_li').removeClass('at_on');$(this).addClass('at_on')})
                         }
-                        for(var i=0;i<data.length;i++){
-                            t=data[i]
-                            var html = $('<div class="at_li"><img class="at_img L"  src="'+t[3]+'"><span class="at_name"></span><span class="at_title"></span></div>')
-                            html.find(".at_name").text(t[0]+"("+t[2]+")")
-                            html.find(".at_title").text(t[1])
-                            at_list.append(html)
-                        }
-                        at_size = data.length;
-                        $('body').append(at_list)
-                        at_list.css(pos)
-                        at_list.find('.at_li:first').addClass('at_on')
-                        $('.at_li').click(function(){atComplete(self[0],wordsForSearch)}).mouseover(function(){$('.at_li').removeClass('at_on');$(this).addClass('at_on')})
-                        req = 0;
                     }
                 )
                             

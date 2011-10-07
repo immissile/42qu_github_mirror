@@ -15,16 +15,7 @@ from model.motto import motto_get
 from model.zsite_url import url_by_id
 from model.zsite_link import name_link_by_zsite_id
 from model.txt import txt_get
-
-def jsonp(self, txt):
-    callback = self.get_argument('callback', None)
-    if callback:
-        txt = '%s(%s)'%(callback, txt)
-        content_type = 'text/javascript'
-    else:
-        content_type = 'text/plain'
-    self.set_header('Content-Type', content_type)
-    return txt
+from zweb.json import jsonp
 
 
 def _blog_ping(self):
