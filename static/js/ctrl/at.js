@@ -193,7 +193,7 @@ $.fn.pop_at = function(url, line_height){
             if($.inArray(e.keyCode,keys)<0){
                if(req)req.abort(); 
                req = $.postJSON(
-                    url,
+                    "//api"+HOST_SUFFIX+url,
                     {
                         "q":$.trim(wordsForSearch),
                     },

@@ -252,7 +252,7 @@ fcm = function (id,count){
     }else{
         fcmtxt.before(fcml)
     }
-    $("#txt_"+id).pop_at("j/at/reply/"+id)
+    $("#txt_"+id).pop_at("/j/at/reply/"+id)
     self.find('textarea').focus().elastic()
 }
 
