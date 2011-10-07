@@ -21,7 +21,7 @@ methods={
         }
         return {
             left: pos.left + nodePos.left + 2,
-            top: pos.top + nodePos.top + line_height?line_height:21
+            top: pos.top + nodePos.top + line_height
         };
     },
     initPreStyle:  function (node) {
@@ -74,10 +74,12 @@ methods={
     deleteRangeText: function (t, n) {
         var p = this.getCursorPosition(t),
             s = t.scrollTop,
-            val = t.value
+            val = t.value,
+            d=p-n;
 
         // reset value  
-         t.value = val.slice(0,p-n)
+        t.value = n > 0 ? val.slice(0, d) + val.slice(p): val.slice(0, p) + val.slice(d);
+
         // reset cursor
         this.setCursorPosition(t, p - (n < 0 ? 0 : n));
         // for firefox
@@ -85,7 +87,8 @@ methods={
             if (t.scrollTop !== s) {
                 t.scrollTop = s;
             }
-        }, 10);
+        }, 10)
+        return val.slice(p , d);
     },
 
     insertAfterCursor: function (t, str) {
@@ -139,11 +142,13 @@ methods={
  
 
 $.fn.pop_at = function(url, line_height){
+    line_height = line_height||21
+
     atComplete = function(t,w){
         var onli = $('#at_list').find($('.at_on'))
         name = onli.find($('.at_name')).text()
-        methods.deleteRangeText(t, w.length);
-        methods.insertAfterCursor(t,name+' ');
+        methods.deleteRangeText(t, w.length+1);
+        methods.insertAfterCursor(t," @"+name+' ');
         $('#at_list').remove()
     }
 
@@ -153,8 +158,8 @@ $.fn.pop_at = function(url, line_height){
     function at_tip_remove(){
         $('.at_tip').remove()
     }
-    $("body").click(function(){at_list_remove();at_tip_remove()})
 
+    $("body").click(function(){at_list_remove();at_tip_remove()})
     this.bind('keyup',function(e){
         at_list,at_size
         var self = $(this),
