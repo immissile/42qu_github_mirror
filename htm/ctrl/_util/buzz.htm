@@ -77,7 +77,7 @@ ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}\
 %endif
 ">${entry.name}</a>\
 %elif cid == CID_BUZZ_WORD:
-${user_link_list(from_list)} 说 ${entry.htm|n} <a target="_blank" class="zsite_reply" href="${entry.link}"></a>
+${user_link_list(from_list)} : <span class="buzz_txt">${entry.htm|n}</span><a target="_blank" class="zsite_reply" href="${entry.link}"></a>
 % elif cid == CID_BUZZ_JOIN:
 ${user_link_list(from_list)} 参加 ${po_link(entry)} 活动
 % elif cid == CID_BUZZ_EVENT_JOIN_APPLY:
