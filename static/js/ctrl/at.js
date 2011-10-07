@@ -210,7 +210,7 @@ $.fn.pop_at = function(url, line_height){
                             }
                             for(var i=0;i<data.length;i++){
                                 t=data[i]
-                                var html = $('<div class="at_li"><img class="at_img L"  src="'+t[3]+'"><span class="at_name"></span><span class="at_title"></span></div>')
+                                var html = $('<div class="at_li"><img class="at_img L"  src="'+t[3]+'"><div class="L"><span class="at_name"></span><span class="at_title"></span></div></div>')
                                 html.find(".at_name").text(t[0]+"("+t[2]+")")
                                 html.find(".at_title").text(t[1])
                                 at_list.append(html)
