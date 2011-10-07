@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `buzz_unread`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `buzz_unread` (
   `id` int(10) unsigned NOT NULL,
-  `value` int(10) unsigned NOT NULL,
+  `value` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `value` (`value`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
