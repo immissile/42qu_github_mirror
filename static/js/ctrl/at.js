@@ -153,16 +153,11 @@ $.fn.pop_at = function(url, line_height){
     line_height = line_height||21
 
     atComplete = function(t,w){
-        var onli = $('#at_list').find($('.at_on'))
-        name = onli.find($('.at_name')).text()
-        var v=methods.deleteRangeText(t, w.length+2);
+        var onli = $('#at_list').find($('.at_on')),
+            name = onli.find($('.at_name')).text(),
+            v=methods.deleteRangeText(t, w.length+2);
 
-        name = "@"+name+' '
-        if(v.length>w.length+1){
-            name = $.trim(v.charAt(0))+" "+name
-        }
-
-        methods.insertAfterCursor(t,name);
+        methods.insertAfterCursor(t,$.trim(v.charAt(0))+" @"+name);
         $('#at_list').remove()
     }
 
