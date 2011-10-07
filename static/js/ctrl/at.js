@@ -2,7 +2,7 @@
 
 
 (function ($) {  
-var pre, at_size, at_list , wordsForSearch, req=0;
+var pre, at_size, at_list , wordsForSearch, req=0, space_at =/\s+@/;
 
 methods={
     getCarePos: function (node, con, line_height) {
@@ -95,6 +95,8 @@ methods={
                 t.scrollTop = s;
             }
         }, 10)
+
+        console.log(val, p ,d)
         return val.slice(p , d);
     },
 
@@ -155,9 +157,11 @@ $.fn.pop_at = function(url, line_height){
     atComplete = function(t,w){
         var onli = $('#at_list').find($('.at_on')),
             name = onli.find($('.at_name')).text(),
-            v=methods.deleteRangeText(t, w.length+2);
-
-        methods.insertAfterCursor(t,$.trim(v.charAt(0))+" @"+name);
+            v=methods.deleteRangeText(t, w.length+1);
+        
+        methods.insertAfterCursor(t,$.trim(v.charAt(0))+" @"+name+" ");
+        
+        t.value= $.trim(t.value.replace(space_at," @"))+" "
         $('#at_list').remove()
     }
 
