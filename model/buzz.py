@@ -104,8 +104,12 @@ def buzz_wall_reply_new(from_id, to_id, wall_id):
     buzz_new(from_id, to_id, CID_BUZZ_WALL_REPLY, wall_id)
 
 
-def buzz_word_new(from_id, to_id, po_id):
-    buzz_new(from_id, to_id, CID_BUZZ_WORD, po_id)
+def buzz_word_new(user_id, po_id, txt ):
+    ated = set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)]))
+    for to_id in ated:
+        buzz_new(user_id, to_id, CID_BUZZ_WORD, po_id)
+
+mq_buzz_word_new = mq_client(buzz_word_new)
 
 def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
     from txt import txt_get
