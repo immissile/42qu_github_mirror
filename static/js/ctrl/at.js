@@ -1,3 +1,6 @@
+
+
+
 (function ($) {  
 var pre, at_size, at_list , wordsForSearch ;
 
@@ -146,6 +149,8 @@ methods={
  
 
 $.fn.pop_at = function(url, line_height){
+    var session = $.cookie.get('S')
+    if(!session)return;
     line_height = line_height||21
 
     atComplete = function(t,w){
@@ -192,11 +197,11 @@ $.fn.pop_at = function(url, line_height){
 
             if($.inArray(e.keyCode,keys)<0){
                if(req)req.abort();
-               document.domain = HOST_SUFFIX.slice(1)
                req = $.getJSON(
                     "//api"+HOST_SUFFIX+url,
                     {
                         "q":$.trim(wordsForSearch),
+                        "S":session
                     },
                     function(data){
                         at_list = $('<div class="at_list" id="at_list"/>')

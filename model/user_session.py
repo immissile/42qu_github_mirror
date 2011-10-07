@@ -70,6 +70,8 @@ def user_session_rm(user_id):
     mc_user_session.delete(user_id)
 
 def user_id_by_session(session):
+    if not session:
+        return
     user_id, value = id_binary_decode(session)
     if not user_id:
         return
