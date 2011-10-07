@@ -136,10 +136,9 @@
     
 })()
 
-/*
 
 $(function(){
-    $('#po_word_txt').pop_at()
+    $('#po_word_txt').pop_at("/j/at")
+    
 })
 
-*/

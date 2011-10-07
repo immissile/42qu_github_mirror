@@ -2,7 +2,7 @@
 var pre, at_size, at_list , wordsForSearch ;
 
 methods={
-    getCarePos: function (node, con) {
+    getCarePos: function (node, con, line_height) {
         var size = [node.offsetWidth, node.offsetHeight],
             dot = $('<em>&nbsp;</em>'),
             node = $(node),
@@ -21,7 +21,7 @@ methods={
         }
         return {
             left: pos.left + nodePos.left + 2,
-            top: pos.top + nodePos.top + 21
+            top: pos.top + nodePos.top + line_height
         };
     },
     initPreStyle:  function (node) {
@@ -74,10 +74,16 @@ methods={
     deleteRangeText: function (t, n) {
         var p = this.getCursorPosition(t),
             s = t.scrollTop,
-            val = t.value
-
+            val = t.value,
+            d,
+            l=val.length;
+        if(n>=l){
+            n=l
+        }
+        d=p-n;
         // reset value  
-         t.value = val.slice(0,p-n)
+        t.value = n > 0 ? val.slice(0, d) + val.slice(p): val.slice(0, p) + val.slice(d);
+
         // reset cursor
         this.setCursorPosition(t, p - (n < 0 ? 0 : n));
         // for firefox
@@ -85,7 +91,8 @@ methods={
             if (t.scrollTop !== s) {
                 t.scrollTop = s;
             }
-        }, 10);
+        }, 10)
+        return val.slice(p , d);
     },
 
     insertAfterCursor: function (t, str) {
@@ -138,11 +145,19 @@ methods={
 };
  
 
-$.fn.pop_at = function(){
+$.fn.pop_at = function(url, line_height){
+    line_height = line_height||21
+
     atComplete = function(t,w){
         var onli = $('#at_list').find($('.at_on'))
         name = onli.find($('.at_name')).text()
-        methods.deleteRangeText(t, w.length);
+        var v=methods.deleteRangeText(t, w.length+2);
+
+        name = "@"+name+' '
+        if(v.length>w.length+1){
+            name = $.trim(v.charAt(0))+" "+name
+        }
+
         methods.insertAfterCursor(t,name);
         $('#at_list').remove()
     }
@@ -150,8 +165,11 @@ $.fn.pop_at = function(){
     function at_list_remove(){
         $('#at_list').remove()
     }
-    $("body").click(at_list_remove)
+    function at_tip_remove(){
+        $('.at_tip').remove()
+    }
 
+    $("body").click(function(){at_list_remove();at_tip_remove()})
     this.bind('keyup',function(e){
         at_list,at_size
         var self = $(this),
@@ -159,14 +177,14 @@ $.fn.pop_at = function(){
             val = self.val(),
             lastCharAt = val.substring(0, offset).lastIndexOf('@'),
             hasSpace = val.substring(lastCharAt, offset).indexOf(' ');
-            pos = methods.getCarePos(self,val.substring(0,lastCharAt))
+            pos = methods.getCarePos(self,val.substring(0,lastCharAt),line_height)
             if(offset>0 && lastCharAt==offset-1){
                 at_list_remove()
                 $('body').append('<div class="at_tip">@ 我关注的人 ...</div>')
                 $('.at_tip').css(pos)
                 return;
             }else{
-                $('.at_tip').remove()
+                at_tip_remove()
             }
         if(lastCharAt>=0 && hasSpace<0){
             wordsForSearch = val.substring(lastCharAt + 1, offset);
@@ -175,13 +193,13 @@ $.fn.pop_at = function(){
             if($.inArray(e.keyCode,keys)<0){
                if(req)req.abort(); 
                req = $.postJSON(
-                    "/j/at",
+                    "//api"+HOST_SUFFIX+url,
                     {
-                        "q":$.trim(wordsForSearch)
+                        "q":$.trim(wordsForSearch),
                     },
                     function(data){
                         at_list = $('<div class="at_list" id="at_list"/>')
-                        if(data.length<0){
+                        if(data.length<=0){
                             return;
                         }
                         for(var i=0;i<data.length;i++){
