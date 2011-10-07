@@ -29,7 +29,7 @@ def _get(self, func):
         for i in zsite_list:
             li = (i.name, ','.join(i.career), url_or_id(i.id), i.ico)
             result.append(li)
-    print result
+    #print result
     self.finish(jsonp(self, dumps(result)))
 
 @urlmap('/j/at/reply/(\d+)')
