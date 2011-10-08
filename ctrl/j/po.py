@@ -14,6 +14,9 @@ from zkit.pic import picopen
 from model.zsite_fav import zsite_fav_new
 from model.cid import CID_SITE
 from model.zsite_url import url_or_id
+from model.career import career_dict
+import time
+from model.ico import pic_url_with_default
 
 def post_reply(self, id):
     user = self.current_user
@@ -79,14 +82,16 @@ class Word(JLoginBase):
         if txt:
             host = self.request.host
             zsite = zsite_by_domain(host)
-            if zsite:
+            if zsite and zsite.id!=current_user_id:
                 zsite_id = zsite.id
             else:
                 zsite_id = 0
 
-            po_word_new(current_user_id, txt, zsite_id=zsite_id) 
-        result = [["","//realfex.realfex.xxx","单位","头像","http://s.realfex.xxx/img/jpg/u/219.jpg",[[369,[],0,61,0,10002411,0,1318053853,None,"擦你妹",False]]],[]]
-        self.finish(dumps(result))
+            m = po_word_new(current_user_id, txt, zsite_id=zsite_id)
+        c_dict = career_dict(set([current_user_id]))
+        unit, title = c_dict[current_user_id]
+        result = [[1,zsite.name,zsite.link,unit,title,pic_url_with_default(current_user_id, '219'),[[m.id,[],0,61,0,0,0,time.time(),None,txt,False]]],[]]
+       self.finish(dumps(result))
 
 
 

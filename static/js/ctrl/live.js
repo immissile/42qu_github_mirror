@@ -169,6 +169,7 @@
         $('.po_loading').remove()
         $('#po_all').show() 
     }
+    $(function(){recover()}) 
     
     $('#po_word_form').submit(function(){
         var val = txt.val()
@@ -185,9 +186,7 @@
             },
             function(result){
                 recover()
-                alert(result)
-                $('#feed').tmpl(init_result(result)).prependTo("#feeds"); 
-                alert(0);alert(result)
+                $('#feed').tmpl(init_result(result)).prependTo("#feeds")
             }
         )
         return false
@@ -195,6 +194,7 @@
 
 
 })()
+
 
 
 $(function(){
