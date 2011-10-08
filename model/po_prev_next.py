@@ -14,7 +14,7 @@ def mc_flush(po, zsite_id, zsite_tag_id):
     if zsite_tag_id:
         key = '%s_%s_%s_'%(cid, zsite_id, zsite_tag_id)
         mc_po_prev_next.delete('%s%s'%(key, po_id))
-        prev_po_id, next_po_id = po_prev_next(po, zsite_id, zsite_tag_id)
+        prev_po_id, next_po_id = po_prev_next(po,  zsite_tag_id)
         mc_po_prev_next.delete('%s%s'%(key, prev_po_id))
         mc_po_prev_next.delete('%s%s'%(key, next_po_id))
 
@@ -135,8 +135,10 @@ if __name__ == '__main__':
     pass
     from model.po import Po
 
-    po = Po.mc_get(10101179)
+    po = Po.mc_get(10101228)
     print po.name
-
-    print po_prev_next(po, po.zsite_id, 0)
+    from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
+    zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, po.id)
+    print zsite_tag_id, tag_name
+    print po_prev_next(po, zsite_tag_id)
 
