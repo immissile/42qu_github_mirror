@@ -13,7 +13,7 @@ from model.po_show import po_show_new
 from model.zsite import Zsite
 from model.cid import CID_SITE
 from model.zsite_tag import zsite_tag_new_by_tag_id
-
+from model.po_prev_next import mc_flush
 
 def htm2po_by_po(pre):
     txt = pre.txt.rstrip()
@@ -69,6 +69,8 @@ def htm2po_by_po(pre):
     po.feed_new()
     if pre.state == RSS_RT_PO:
         po_show_new(po)
+
+    mc_flush(po, po.zsite_id)
 
     return po
 

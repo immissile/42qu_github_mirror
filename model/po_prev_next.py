@@ -9,7 +9,7 @@ from model.po import Po
 mc_po_prev_next = McCacheA('PoPrevNext:%s')
 mc_site_po_prev_next = McCacheA("SitePoPrevNext:%s")
 
-def mc_flush(po, zsite_id, zsite_tag_id):
+def mc_flush(po, zsite_id, zsite_tag_id=0):
     cid = po.cid
     po_id = po.id
     if zsite_tag_id:
