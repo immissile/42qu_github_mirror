@@ -84,8 +84,8 @@ class Word(JLoginBase):
                 zsite_id = 0
 
             po_word_new(current_user_id, txt, zsite_id=zsite_id) 
-
-        self.finish('{}')
+        result = [["","//realfex.realfex.xxx","单位","头像","http://s.realfex.xxx/img/jpg/u/219.jpg",[[369,[],0,61,0,10002411,0,1318053853,None,"擦你妹",False]]],[]]
+        self.finish(dumps(result))
 
 
 
