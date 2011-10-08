@@ -12,10 +12,18 @@ def txttidy_42qu(txt):
     first_pos = txt.find('<div id="qu42"')
     if first_pos <= 0:
         tmp = txt.find('关于作者')
+<<<<<<< local
+        txt = txt[:tmp]
+=======
         if tmp >= 0:
             txt = txt[:tmp]
+>>>>>>> other
         first_pos = txt.rfind('<div style="border:1px')
+<<<<<<< local
+        if first_pos<=0:
+=======
         if first_pos <= 0:
+>>>>>>> other
             return txt
     txt = txt[:first_pos]
     return txt
@@ -24,13 +32,23 @@ def txttidy_wumii(txt):
     first_pos = txt.find('<table class="wumii-related-items"')
     if first_pos <= 0:
         tmp = txt.find('猜您也喜欢')
+<<<<<<< local
+        txt = txt[:tmp]
+=======
         if tmp >= 0:
             txt = txt[:tmp]
+>>>>>>> other
         first_pos = txt.rfind('<table')
+<<<<<<< local
+        if first_pos<=0:
+=======
         if first_pos <= 0:
+>>>>>>> other
             return txt
     txt = txt[:first_pos]
     return txt
+<<<<<<< local
+=======
 
 def txttidy_other_relate(txt):
     pos = txt.find('>相关阅读推荐')
@@ -39,11 +57,18 @@ def txttidy_other_relate(txt):
         txt = txt[:txt.rfind('<h3')]
     return txt
 
+>>>>>>> other
 def txttidy_bshare(txt):
     first_pos = txt.find('<p><a href="http://sharethis')
+<<<<<<< local
+    if first_pos>0:
+=======
     if first_pos >= 0:
+>>>>>>> other
         txt = txt[:first_pos]
     return txt
+<<<<<<< local
+=======
 
 def txttidy_alibuybuy(txt):
     pos = txt.find("<p><small>© 推荐")
@@ -76,6 +101,7 @@ def txttidy_36kr(txt):
         txt = txt[:pos]
     return txt
 
+>>>>>>> other
 def txttidy(txt):
     txt = unescape(txt).replace('&quot;', '"')
     txt = txttidy_36kr(txt)
@@ -85,7 +111,10 @@ def txttidy(txt):
     txt = txttidy_42qu(txt)
     txt = txttidy_wumii(txt)
     txt = txttidy_bshare(txt)
+<<<<<<< local
+=======
     txt = txttidy_swf(txt)
+>>>>>>> other
     return txt
 
 

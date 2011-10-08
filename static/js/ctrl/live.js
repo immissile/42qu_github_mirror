@@ -57,11 +57,8 @@
                 t.site_name = site_dict[site_id];
                 t.site_url = site_id+HOST_SUFFIX
             }
-
-			data.item.push(t)
-			//console.info(t)
+			data.item.push(t)	
 		}
-
 		return data
 	}
 
@@ -82,11 +79,44 @@
 			}
 			item.push(data)
 		}
+        
 		return item
 	}
+<<<<<<< local
+
+	var feed_load = $("#feed_load").click(function() {
+		render_feed()
+		feed_load.hide()
+		autocount = 0;
+	}),
+	feed_loading = $("#feed_loading"),
+	begin_id = $("#begin_id").val(0),
+	is_loading = 0,
+	autocount = 0;
+	function render_feed() {
+		if (is_loading) return;
+		is_loading = 1;
+		feed_load.hide()
+		feed_loading.show()
+		$.postJSON("/j/feed/" + begin_id.val(), function(result) {
+    	
+        	if (result.length == 1) {
+				feed_load.hide()
+				feed_loading.hide()
+				return
+			}
+			is_loading = 0;
+			begin_id.val( result.pop())
+			$('#feed').tmpl(init_result(result)).appendTo("#feeds");
+			feed_loading.slideUp(function() {
+				feed_load.show()
+			});
+			//console.info(result.length)
+=======
    
     feed_page(
         "/j/feed/", "#feeds" , init_result, function(){
+>>>>>>> other
 			var prebottom, top, diff, self;
 			$("#feeds .G3").each(function() {
 				self = $(this)
@@ -133,12 +163,53 @@
             po_all_show_ext_hide
         )
     )
+
     
+    var txt = $('#po_word_txt')
+    recover = function(){
+        txt.removeAttr('disabled')
+        $('.btnw').show() 
+        $('.po_loading').remove()
+        $('#po_all').show() 
+    }
+    
+    $('#po_word_form').submit(function(){
+        var val = txt.val()
+        if($.trim(val)=='')return;
+        $('#po_ext, #po_word_tip').hide()
+        $('#po_word_btn').append('<div class="po_loading"></div>')
+        txt.attr('disabled','disabled')
+        $('.btnw').hide()
+        
+        $.postJSON(
+            'j/po/word',
+            {
+                "txt":val
+            },
+            function(result){
+                recover()
+                alert(result)
+                $('#feed').tmpl(init_result(result)).prependTo("#feeds"); 
+                alert(0);alert(result)
+            }
+        )
+        return false
+    })   
+
+
 })()
 
 
+<<<<<<< local
+/*
+
+=======
+>>>>>>> other
 $(function(){
     $('#po_word_txt').pop_at("/j/at")
     
 })
 
+$(function(){
+    
+})

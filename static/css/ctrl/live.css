@@ -127,10 +127,21 @@ margin-bottom:32px;
 padding-bottom:36px;
 _zoom:1;
 }
+<<<<<<< local
+.po_loading{
+background:url('/img/gif/loading_bar.gif');
+height:8px;
+width:26px;
+margin:15px 24px 0 0;
+float:right;
+=======
 
 .site_po a:visited{
 color:#000;
+>>>>>>> other
 }
+<<<<<<< local
+=======
 .site_po a:hover{
 color:#a10;
 }
@@ -140,3 +151,4 @@ margin-top:-9px;
 .site_po div{
 padding: 0pt 22px 24px;
 }
+>>>>>>> other
