@@ -113,8 +113,8 @@ else:
 </pre>
 <div id="txt${id}">${txt_cut}</div>
 <div id="bar${id}"><a id="ext${id}" href="javascript:ext(${id})">展开</a>
-%if not state:
-<a href="javascript:edit(${id})" class="edit">编辑</a></div>
+%if not rstate:
+<a href="/rss/po/edit/${id}" class="edit">编辑</a></div>
 %endif
 <pre id="pre${id}">${htm}</pre>
 

@@ -25,7 +25,7 @@ class RssIndex(Base):
         self.render(
                 rss_po_list=rss_po_list,
                 page=page,
-                state=state
+                rstate=state
             )
 
     def post(self, state=RSS_UNCHECK, n=1):
@@ -182,19 +182,29 @@ class RssEdit(Base):
 
 @urlmap('/rss/po/edit/(\d+)')
 class RssPoEdit(Base):
+    def get(self, id):
+        next = self.request.headers.get('Referer', '')
+        print id
+        po = RssPo.get(id)
+        self.render(next=next,po=po)
+    
     def post(self, id):
         id = int(id)
         txt = self.get_argument('txt')
         rt = self.get_argument('rt', None)
         po = RssPo.mc_get(id)
         po.txt = txt
+        next = self.get_argument('next', None) or '/rss_index'
         if rt:
             po.state = RSS_RT_PO
         else:
             po.state = RSS_PRE_PO
+        site = self.get_argument('site',None)
+        if site:
+            po.site_id = site
         po.save()
 
-        self.finish('')
+        self.redirect(next)
 
 
 @urlmap('/rss/mail/(\d+)')

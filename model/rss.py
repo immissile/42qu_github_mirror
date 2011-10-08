@@ -208,6 +208,7 @@ def rss_subscribe(greader=None):
 
 
 if __name__ == '__main__':
+    print rss_po_list_by_state(0)
     #rss_subscribe()
     # from collections import defaultdict
     # user_id = defaultdict()
