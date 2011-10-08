@@ -20,7 +20,7 @@ def mc_flush(po, zsite_id, zsite_tag_id=0):
         mc_po_prev_next.delete('%s%s'%(key, next_po_id))
     elif po.zsite_id == po.user_id:
         mc_site_po_prev_next.delete(po_id)
-        for i in site_po_prev_next(site_id, po_id):
+        for i in site_po_prev_next(zsite_id, po_id):
             if i:
                 mc_site_po_prev_next.delete(i)
 
