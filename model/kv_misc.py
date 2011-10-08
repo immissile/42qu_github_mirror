@@ -30,6 +30,7 @@ KV_EVENT_READY = 9 # 活动后天开始提醒
 KV_EVENT_WEEK = 10 # 活动周报位置
 KV_EVENT_PAY = 11 # 活动结束转账
 KV_SEO_PING = 12 # SEO ping PO
+KV_REPLY_NUM = 13 #回复数
 
 #微博同步
 KV_SYNC_PO_BY_ZSITE_ID = 15 # 发文 
