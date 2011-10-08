@@ -86,8 +86,8 @@ def htm2txt(htm):
                 name = i.name
                 if name == 'a':
                     s = soup2txt_recursion(i)
-                    if s:
-                        li.append(s)
+                    if s.strip():
+                        li.append(s.rstrip())
                         href = i.get('href')
                         if href:
                             li.append('[[%s]]'%href)
