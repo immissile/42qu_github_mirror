@@ -19,9 +19,10 @@ def mc_flush(po, zsite_id, zsite_tag_id):
         mc_po_prev_next.delete('%s%s'%(key, next_po_id))
 
 
-def po_prev_next(po, zsite_id, zsite_tag_id):
+def po_prev_next(po,  zsite_tag_id):
     cid = po.cid
     po_id = po.id
+    zsite_id = po.user_id
 
     if zsite_tag_id:
         return _po_prev_next(cid, zsite_id, zsite_tag_id, po_id)
