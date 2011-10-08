@@ -82,41 +82,9 @@
         
 		return item
 	}
-<<<<<<< local
-
-	var feed_load = $("#feed_load").click(function() {
-		render_feed()
-		feed_load.hide()
-		autocount = 0;
-	}),
-	feed_loading = $("#feed_loading"),
-	begin_id = $("#begin_id").val(0),
-	is_loading = 0,
-	autocount = 0;
-	function render_feed() {
-		if (is_loading) return;
-		is_loading = 1;
-		feed_load.hide()
-		feed_loading.show()
-		$.postJSON("/j/feed/" + begin_id.val(), function(result) {
-    	
-        	if (result.length == 1) {
-				feed_load.hide()
-				feed_loading.hide()
-				return
-			}
-			is_loading = 0;
-			begin_id.val( result.pop())
-			$('#feed').tmpl(init_result(result)).appendTo("#feeds");
-			feed_loading.slideUp(function() {
-				feed_load.show()
-			});
-			//console.info(result.length)
-=======
    
     feed_page(
         "/j/feed/", "#feeds" , init_result, function(){
->>>>>>> other
 			var prebottom, top, diff, self;
 			$("#feeds .G3").each(function() {
 				self = $(this)
@@ -200,16 +168,10 @@
 })()
 
 
-<<<<<<< local
-/*
 
-=======
->>>>>>> other
 $(function(){
     $('#po_word_txt').pop_at("/j/at")
     
 })
 
-$(function(){
-    
-})
+
