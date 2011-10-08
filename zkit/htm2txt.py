@@ -86,10 +86,11 @@ def htm2txt(htm):
                 name = i.name
                 if name == 'a':
                     s = soup2txt_recursion(i)
-                    li.append(s)
-                    href = i.get('href')
-                    if href:
-                        li.append("[[%s]]"%href) 
+                    if s:
+                        li.append(s)
+                        href = i.get('href')
+                        if href:
+                            li.append('[[%s]]'%href)
                 elif name == 'img':
                     src = i.get('src')
                     if src:
@@ -126,6 +127,7 @@ def htm2txt(htm):
 if __name__ == '__main__':
     print htm2txt("""
 3
-12345<a href="http://bw.com">www</a>323
+12345<a href="http://bw.com"><img src="$"></a>323
 w
 """)[0]
+
