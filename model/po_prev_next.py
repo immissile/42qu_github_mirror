@@ -26,7 +26,7 @@ def po_prev_next(po, zsite_id, zsite_tag_id):
         return _po_prev_next(cid, zsite_id, zsite_tag_id, po_id)
     elif cid == CID_EVENT_NOTICE:
         pass        
-    elif po.zsite_id:
+    elif po.zsite_id == po.user_id:
         pass
     
     return None, None
