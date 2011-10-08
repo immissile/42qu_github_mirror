@@ -28,7 +28,7 @@ def po_prev_next(po, zsite_id, zsite_tag_id):
     elif cid == CID_EVENT_NOTICE:
         pass
     elif po.zsite_id == po.user_id:
-        return site_po_prev_next(site_id, po_id)
+        return site_po_prev_next(zsite_id, po_id)
     return None, None
 
 
@@ -132,7 +132,10 @@ def _po_goto(
 
 if __name__ == '__main__':
     pass
-    from model.zsite import Zsite
-    zsite = Zsite.mc_get(10098082)
-    print zsite.name
-    print site_po_prev_next(10098082, 10101179)
+    from model.po import Po
+
+    po = Po.mc_get(10101179)
+    print po.name
+
+    print po_prev_next(po, po.zsite_id, 0)
+
