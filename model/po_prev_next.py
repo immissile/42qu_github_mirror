@@ -7,17 +7,29 @@ from model.cid import CID_EVENT_NOTICE
 
 mc_po_prev_next = McCacheA('PoPrevNext:%s')
 
+def mc_flush(po, zsite_id, zsite_tag_id):
+    cid = po.cid
+    po_id = po.id
+    if zsite_tag_id:
+        key = "%s_%s_%s_"%(cid, zsite_id, zsite_tag_id)
+        mc_po_prev_next.delete('%s%s'%(key, po_id))
+        prev_po_id, next_po_id = po_prev_next(po, zsite_id, zsite_tag_id)
+        mc_po_prev_next.delete('%s%s'%(key, prev_po_id))
+        mc_po_prev_next.delete('%s%s'%(key, next_po_id))
+
+
 def po_prev_next(po, zsite_id, zsite_tag_id):
     cid = po.cid
     po_id = po.id
 
     if zsite_tag_id:
         return _po_prev_next(cid, zsite_id, zsite_tag_id, po_id)
-
-    if cid != CID_EVENT_NOTICE:
+    elif cid == CID_EVENT_NOTICE:
         pass        
+    elif po.zsite_id:
+        pass
 
-
+    
     return None, None
 
 @mc_po_prev_next('{cid}_{zsite_id}_{zsite_tag_id}_{po_id}')
@@ -85,15 +97,6 @@ def _po_goto(
         r = r[0]
     return r
 
-
-def mc_flush(po, zsite_id, zsite_tag_id):
-    cid = po.cid
-    po_id = po.id
-    key = "%s_%s_%s_"%(cid, zsite_id, zsite_tag_id)
-    mc_po_prev_next.delete('%s%s'%(key, po_id))
-    prev_po_id, next_po_id = po_prev_next(po, zsite_id, zsite_tag_id)
-    mc_po_prev_next.delete('%s%s'%(key, prev_po_id))
-    mc_po_prev_next.delete('%s%s'%(key, next_po_id))
 
 if __name__ == '__main__':
     pass
