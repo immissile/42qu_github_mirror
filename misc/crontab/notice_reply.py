@@ -3,8 +3,10 @@
 import _env
 from zkit.single_process import single_process
 from model.kv_misc import kv_int, KV_REPLY_NUM
-from model.reply import reply_notice_mail
-
+from model.reply import reply_notice_mail, Reply
+from model.cid import CID_NOTE
+from collections import defaultdict
+from time import sleep
 @single_process
 def notice_reply():
     pre_pos = kv_int.get(KV_REPLY_NUM)
