@@ -1,7 +1,7 @@
 
 (function(){
     function parse_result(result){
-        var r=[],result_length=result.length,i=0,t, m, tt, item, cid, mm, id,site_id;
+        var r=[],result_length=result.length,i=0,t, m, tt, item, cid, pcid, mm, id,site_id, className;
         for(;i<result_length;++i){
             m={};
             t=result[i],
@@ -19,11 +19,23 @@
                 tt=t[j]
                 //[266, 61, "1317615877.01", "//zuroc.zuroc.xxx", "张沈鹏"]
                 id=tt[0]
+                cid=tt[1]
+
+                if(
+                    j && (  (pcid==61 && pcid!=cid)||cid==61   )
+                ){
+                    className = "sfpword"
+                }else{
+                    className = "mb4"
+                }
+                pcid = cid
+
                 mm = {
                     "id":id,
                     "link":"//"+site_id+HOST_SUFFIX+"/"+id,
-                    "cid":tt[1],
+                    "cid":cid,
                     "name": tt[2]
+                    "className":className
                 }
                 if(tt.length>2){
                     mm.user_link = tt[3]
