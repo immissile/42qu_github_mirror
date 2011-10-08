@@ -91,7 +91,7 @@ class Word(JLoginBase):
         c_dict = career_dict(set([current_user_id]))
         unit, title = c_dict[current_user_id]
         result = [[1,zsite.name,zsite.link,unit,title,pic_url_with_default(current_user_id, '219'),[[m.id,[],0,61,0,0,0,time.time(),None,txt,False]]],[]]
-       self.finish(dumps(result))
+        self.finish(dumps(result))
 
 
 
