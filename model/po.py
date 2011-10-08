@@ -429,6 +429,8 @@ def mc_flush_zsite_cid(zsite_id, cid):
     _(zsite_id, cid)
 
 if __name__ == '__main__':
-    pass
-
-
+    from model.zsite_tag import tag_by_po_id, zsite_tag_new_by_tag_id
+    for i in Po.where("zsite_id=0").where(cid=CID_NOTE):
+        if not tag_by_po_id(i.user_id, i.id):
+            print i.name
+            #zsite_tag_new_by_tag_id(i) 
