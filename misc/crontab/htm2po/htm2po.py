@@ -12,6 +12,8 @@ from model.rss import rss_po_id, RSS_RT_PO, RssPoId
 from model.po_show import po_show_new
 from model.zsite import Zsite
 from model.cid import CID_SITE
+from model.zsite_tag import zsite_tag_new_by_tag_id
+
 
 def htm2po_by_po(pre):
     txt = pre.txt.rstrip()
@@ -61,11 +63,12 @@ def htm2po_by_po(pre):
         state = STATE_ACTIVE
     po.state = state
     po.save()
+    
+    zsite_tag_new_by_tag_id(po)
 
     po.feed_new()
     if pre.state == RSS_RT_PO:
         po_show_new(po)
-
 
     return po
 
