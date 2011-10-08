@@ -286,27 +286,27 @@ class PoOne(ZsiteBase):
 
         cid = po.cid
 
-        prev_id = next_id = None
 
         if cid == CID_EVENT:
-            prev_id = next_id = zsite_tag_id = tag_name = None
+            zsite_tag_id = tag_name = None
             event = Event.mc_get(id)
             if event.state <= EVENT_STATE_TO_REVIEW:
                 tag_link = '/event/to_review'
             else:
                 tag_link = '/event'
         elif cid == CID_EVENT_NOTICE:
-            prev_id = next_id = zsite_tag_id = tag_name = None
+            zsite_tag_id = tag_name = None
             tag_link = '/%s'%po.rid
         else:
             zsite_tag_id, tag_name = zsite_tag_id_tag_name_by_po_id(po.user_id, id)
             if zsite_tag_id:
-                prev_id, next_id = po_prev_next(
-                    cid, zsite_id, zsite_tag_id, po.id
-                )
                 tag_link = '/tag/%s' % zsite_tag_id
             else:
                 tag_link = '/po/cid/%s'%cid
+        
+        prev_id, next_id = po_prev_next(
+            cid, zsite_id, zsite_tag_id, po.id
+        )
 
         return self.render(
             self.template,
