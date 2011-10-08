@@ -8,9 +8,8 @@
 
     <div class="site_txt c">
 <div class="mb4"><a class="c0" target="_blank" href="${site.link}">${site.name}</a></div>
-{{each item}}
-<div class={{if cid==61}}{{if $index}}"sfpword"{{else}}"mb4"{{/if}}><span
-class="sfptxt">{{html name}}</span>{{else}}"mb4"><a
+{{each item}}{{if cid==61}}<div class="${className}"><span
+class="sfptxt">{{html name}}</span>{{else}}<a
 href="${link}" class="sfpa" target="_blank">${name}</a>{{/if}}{{if user_link}}<span
 class="split">-</span><a target="_blank" class="c0" href="${user_link}">${user_name}</a>{{/if}}
 {{if cid==61}}

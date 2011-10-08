@@ -34,7 +34,7 @@
                     "id":id,
                     "link":"//"+site_id+HOST_SUFFIX+"/"+id,
                     "cid":cid,
-                    "name": tt[2]
+                    "name": tt[2],
                     "className":className
                 }
                 if(tt.length>2){
