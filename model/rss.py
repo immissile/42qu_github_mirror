@@ -7,6 +7,9 @@ import sys
 from zkit.htm2txt import htm2txt, unescape
 from config import GREADER_USERNAME, GREADER_PASSWORD
 import traceback
+from model.mail import rendermail
+from model.user_mail import mail_by_user_id
+from model.zsite import Zsite
 
 
 RSS_UNCHECK = 0
@@ -136,6 +139,22 @@ def rss_feed_update(res, id, user_id, limit=None):
 'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
 user_id, id, rss_uid, title, txt, link, pic_list, state, title, txt, pic_list
                     )
+
+
+def mail_by_rss_id(rss_id):
+    rss = Rss.mc_get(rss_id)
+    rendermail('/mail/notice/invite_blog.txt',
+        mail_by_user_id(rss.user_id),
+        Zsite.mc_get(rss.user_id).name
+        )
+    ru = RssUpdate.mc_get(rss_id)
+    if ru:
+        ru.state = STATE_RSS_EMAILD
+        ru.save()
+    else:
+        rss_update_new(rss_id,STATE_RSS_EMAILD)
+
+
 
 
 def rss_subscribe(greader=None):
