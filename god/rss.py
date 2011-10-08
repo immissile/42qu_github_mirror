@@ -190,8 +190,9 @@ class RssPoEdit(Base):
     
     def post(self, id):
         id = int(id)
-        txt = self.get_argument('txt')
+        txt = self.get_argument('txt',None)
         rt = self.get_argument('rt', None)
+        title = self.get_argument('name',None)
         po = RssPo.mc_get(id)
         po.txt = txt
         next = self.get_argument('next', None) or '/rss_index'
@@ -202,6 +203,8 @@ class RssPoEdit(Base):
         site = self.get_argument('site',None)
         if site:
             po.site_id = site
+        if title:
+            po.title = title
         po.save()
 
         self.redirect(next)
