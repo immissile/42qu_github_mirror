@@ -28,7 +28,6 @@ def po_prev_next(po, zsite_id, zsite_tag_id):
         pass        
     elif po.zsite_id:
         pass
-
     
     return None, None
 
