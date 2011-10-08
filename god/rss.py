@@ -24,7 +24,8 @@ class RssIndex(Base):
         rss_po_list = rss_po_list_by_state(state, limit, offset)
         self.render(
                 rss_po_list=rss_po_list,
-                page=page
+                page=page,
+                state=state
             )
 
     def post(self, state=RSS_UNCHECK, n=1):

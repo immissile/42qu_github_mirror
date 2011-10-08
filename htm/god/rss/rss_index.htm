@@ -99,7 +99,10 @@ ${title}</span>
 <pre>
 </pre>
 <div id="txt${id}">${txt_cut}</div>
-<div id="bar${id}"><a id="ext${id}" href="javascript:ext(${id})">展开</a><a href="javascript:edit(${id})" class="edit">编辑</a></div>
+<div id="bar${id}"><a id="ext${id}" href="javascript:ext(${id})">展开</a>
+%if not state:
+<a href="javascript:edit(${id})" class="edit">编辑</a></div>
+%endif
 <pre id="pre${id}">${htm}</pre>
 
 <form  id="form${id}" onsubmit="return save(${id})">
@@ -111,10 +114,11 @@ ${title}</span>
 </form>
 </div>
 %endfor
-
+%if not state:
 <form method="POST">
 <input type="hidden" name="id" value="${" ".join([str(p[0]) for p in rss_po_list])}"/>
     <span class="btnw"><button type="submit">删除所有未通过</button></span>
 </form>
-% endif
+%endif
+%endif
 <div class="c">${page|n}</div>
