@@ -35,7 +35,8 @@ methods={
             padding: '0 4px',
             font: '14px/26px Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif',
             'word-wrap': 'break-word',
-            border: '1px'
+            border: '1px',
+            overflow: 'auto'
         }
     },
     getCursorPosition: function (t) {
