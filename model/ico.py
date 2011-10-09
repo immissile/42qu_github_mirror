@@ -65,18 +65,18 @@ def ico_pos_new(id, pos=None):
 
 def site_ico_bind(user_id, pic_id, site_id):
     p = Pic.get(pic_id)
-    if p and p.user_id == user_id: 
+    if p and p.user_id == user_id:
         ico96.set(site_id, pic_id)
 
 def site_ico_new(user_id, pic, site_id=None):
     pic_id = pic_new_save(CID_SITE_ICO, user_id, pic)
-    
+
     p96 = pic_square(pic, 96, size=96)
     fs_set_jpg('96', pic_id, p96)
 
     p211 = pic_resize_width_cut_height_if_large(pic, 211)
     fs_set_jpg('211', pic_id, p211)
-    
+
     return pic_id
 
 def ico_new(id, pic):

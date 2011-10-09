@@ -48,10 +48,10 @@ class PoReplyJson(JLoginBase):
                 result.append(
                     (url_or_id(user.id), reply.htm, user.name)
                 )
-        
+
         return self.finish(dumps(result))
 
- 
+
 
 @urlmap('/j/fav')
 class Fav(JLoginBase):
@@ -69,7 +69,7 @@ class Fav(JLoginBase):
         if txt:
             from model.reply import STATE_ACTIVE
             zsite.reply_new(current_user, txt, STATE_ACTIVE)
-            
+
 
         self.finish('{}')
 
@@ -95,9 +95,9 @@ class Word(JLoginBase):
                 unit, title = c_dict[current_user_id]
                 result = [
                     [
-                        1,zsite.name,zsite.link,unit,
-                        title,pic_url_with_default(current_user_id, '219'),
-                        [[m.id,[],0,61,0,0,0,time.time(),None,txt,False]]
+                        1, zsite.name, zsite.link, unit,
+                        title, pic_url_with_default(current_user_id, '219'),
+                        [[m.id, [], 0, 61, 0, 0, 0, time.time(), None, txt, False]]
                     ],
                     []
                 ]

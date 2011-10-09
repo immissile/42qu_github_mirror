@@ -132,8 +132,8 @@ class Site(ZsiteBase):
 
 
 class SiteListBase(_SiteListBase):
-    template = "/ctrl/zsite/site/site_list.htm" 
-    
+    template = '/ctrl/zsite/site/site_list.htm'
+
     @property
     def user_id(self):
         return self.zsite_id

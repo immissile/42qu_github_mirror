@@ -67,7 +67,7 @@ def follow_reply_name_dict_url_dict_by_from_id_cid(from_id, po_id):
     po = Po.mc_get(po_id)
     flist.update(po.reply_zsite_id_list())
     return name_dict_url_dict_by_zsite_id_list(flist)
- 
+
 
 def follow_get(from_id, to_id):
     if from_id:
@@ -143,6 +143,6 @@ if __name__ == '__main__':
 
     name_dict, url_dict = follow_reply_name_dict_url_dict_by_from_id_cid(10000000, 10096459)
 
-    
-    print zsite_by_key('kab',name_dict,url_dict,4)
+
+    print zsite_by_key('kab', name_dict, url_dict, 4)
 

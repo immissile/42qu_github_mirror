@@ -19,10 +19,10 @@ def htm2po_by_po(pre):
     txt = pre.txt.rstrip()
     if not txt:
         return
-       
+
     zsite = Zsite.mc_get(pre.user_id)
- 
-    if zsite.cid == CID_SITE: 
+
+    if zsite.cid == CID_SITE:
         group_id = zsite.id
     else:
         group_id = 0
@@ -31,7 +31,7 @@ def htm2po_by_po(pre):
     if rp:
         po = Po.mc_get(rp.po_id)
         if po:
-            po.name_  = pre.title
+            po.name_ = pre.title
             po.save()
     else:
         po = po_note_new(
@@ -39,7 +39,7 @@ def htm2po_by_po(pre):
         )
 
     if not po:
-        return    
+        return
     po_id = po.id
 
     if not rp:
@@ -53,7 +53,7 @@ def htm2po_by_po(pre):
         if img:
             po_pic_new(pre.user_id, po_id, img, seq)
         else:
-            txt = txt.replace("图:%s"%seq,"")
+            txt = txt.replace('图:%s'%seq, '')
 
     po.txt_set(txt)
 
@@ -63,7 +63,7 @@ def htm2po_by_po(pre):
         state = STATE_ACTIVE
     po.state = state
     po.save()
-    
+
     if po.zsite_id != po.user_id:
         zsite_tag_new_by_tag_id(po)
 

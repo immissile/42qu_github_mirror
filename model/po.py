@@ -430,7 +430,7 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 if __name__ == '__main__':
     from model.zsite_tag import tag_by_po_id, zsite_tag_new_by_tag_id
-    for i in Po.where("user_id=zsite_id"):
+    for i in Po.where('user_id=zsite_id'):
         from zsite_tag import zsite_tag_rm_by_po
         if tag_by_po_id(i.zsite_id, i.id)[0]:
             zsite_tag_rm_by_po(i)

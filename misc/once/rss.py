@@ -14,30 +14,30 @@ USER2RSS = [
 ]
 
 USER2RSS = [
-    (int(i[0]),i[1]) for i in USER2RSS
+    (int(i[0]), i[1]) for i in USER2RSS
 ]
 
 import _env
 
-from model.rss import rss_new, Rss, Reader, GREADER_USERNAME, GREADER_PASSWORD 
+from model.rss import rss_new, Rss, Reader, GREADER_USERNAME, GREADER_PASSWORD
 from zweb.orm import ormiter
 
 
 for user_id, rss in USER2RSS:
-    rss_new(user_id, rss,0) 
+    rss_new(user_id, rss, 0)
 
 reader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
 
-subscription_list =  set(reader.subscription_list())
+subscription_list = set(reader.subscription_list())
 
 
 for rss in ormiter(Rss):
     rss_url = rss.url
-    
 
-    if "feed/%s"%rss_url in subscription_list:
+
+    if 'feed/%s'%rss_url in subscription_list:
         continue
-    
-    print "subscribe" , rss_url
+
+    print 'subscribe' , rss_url
     reader.subscribe(rss_url)
 

@@ -47,8 +47,8 @@ class Rss(ZsiteBase):
             tag = tag_by_po_id(id, po.id)[2]
             title = [po_title]
             if tag:
-                title.append("#%s#"%tag)
-            d['title'] = " ".join(title) 
+                title.append('#%s#'%tag)
+            d['title'] = ' '.join(title)
             d['author'] = author.name
             d['link'] = po_link
             htm = po.htm

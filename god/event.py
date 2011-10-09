@@ -103,15 +103,15 @@ class EventEdit(Base):
 
 @urlmap('/event/po/edit/(\d+)')
 class EventPoEdit(Base):
-    def get(self,id):
+    def get(self, id):
         event = Event.mc_get(id)
         po = event.po
         self.render(po=po)
 
-    def post(self,id):
+    def post(self, id):
         po = Po.mc_get(id)
-        name = self.get_argument('name',None)
-        txt = self.get_argument('txt',None)
+        name = self.get_argument('name', None)
+        txt = self.get_argument('txt', None)
         if name:
             po.name_ = name
             po.save()

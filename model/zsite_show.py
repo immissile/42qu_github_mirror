@@ -41,5 +41,5 @@ def zsite_show_rank(zsite_id, rank):
 
 if __name__ == '__main__':
     pass
-    print zsite_show_get( 127,CID_SITE )
-    
+    print zsite_show_get( 127, CID_SITE )
+

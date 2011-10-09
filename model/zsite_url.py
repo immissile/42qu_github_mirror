@@ -57,14 +57,14 @@ def url_dict_by_zsite_id_list(zsite_id_list):
         r = result.get(id)
 
         if r is None:
-             r = url_by_id(id)
+            r = url_by_id(id)
 
-        if r: 
-            url_dict[r] = id 
+        if r:
+            url_dict[r] = id
 
     return url_dict
 
-    
+
 
 
 
@@ -126,7 +126,7 @@ def link(id):
 
 
 def at_zsite(zsite):
-    return "@%s(%s)"%(
+    return '@%s(%s)'%(
         zsite.name,
         url_or_id(zsite.id)
     )
@@ -139,16 +139,16 @@ def name_dict_url_dict_by_zsite_id_list(zsite_id_list):
     for i in zsite_list:
         name_dict[i.name].append(i.id)
 
-    url_dict = url_dict_by_zsite_id_list(zsite_id_list) 
-    
-    return name_dict , url_dict     
+    url_dict = url_dict_by_zsite_id_list(zsite_id_list)
+
+    return name_dict , url_dict
 
 
 if __name__ == '__main__':
     #print url_by_digit_domain("10000000.zuroc.xxx")
 
-    i =    Url.get(10098082)
-    i.url = "alibuybuy"
+    i = Url.get(10098082)
+    i.url = 'alibuybuy'
     i.save()
 
 

@@ -15,9 +15,9 @@ class Base(_Base):
 
         _host = url_by_digit_domain(host)
         if _host:
-            path = "//%s%s"%(_host, request.path)
+            path = '//%s%s'%(_host, request.path)
             if request.query:
-                path = "%s?%s"%(path, request.query)
+                path = '%s?%s'%(path, request.query)
             return self.redirect(path, True)
 
         zsite = zsite_by_domain(host)

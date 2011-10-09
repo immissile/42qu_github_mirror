@@ -87,10 +87,10 @@ def htm2txt(htm):
                 if name == 'a':
                     s = soup2txt_recursion(i)
                     ss = s.rstrip()
-                    if not RE_TU.match(ss.lstrip().encode("utf-8")):
+                    if not RE_TU.match(ss.lstrip().encode('utf-8')):
                         li.append(ss)
                         href = i.get('href')
-                        if href and href.startswith("http"):
+                        if href and href.startswith('http'):
                             li.append('[[%s]]'%href)
                         li.append(s[len(ss):])
                     else:

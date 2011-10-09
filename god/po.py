@@ -38,20 +38,20 @@ class PoEdit(Base):
     def get(self, id):
         po = Po.mc_get(id)
         next = self.request.headers.get('Referer', '')
-        self.render(po = po,next=next)
+        self.render(po=po, next=next)
 
-    def post(self,id):
+    def post(self, id):
         po = Po.mc_get(id)
-        next = self.get_argument('next','/po')
-        name = self.get_argument('name',None)
-        txt = self.get_argument('txt',None)
+        next = self.get_argument('next', '/po')
+        name = self.get_argument('name', None)
+        txt = self.get_argument('txt', None)
         if name:
             po.name_ = name
             po.save()
         if txt:
             po.txt_set(txt)
         self.redirect(next)
-        
+
 
 
 
@@ -86,7 +86,7 @@ class PoShow(Base):
 class PoShowRm(Base):
     def get(self, id):
         po_show_rm(id)
-        self.redirect("/po/show/set/%s"%id)
+        self.redirect('/po/show/set/%s'%id)
 
 
 @urlmap('/po/show/set/(\d+)')
@@ -103,8 +103,8 @@ class PoShowSet(Base):
     def post(self, id):
         po = Po.mc_get(id)
         next = self.get_argument('next', '/po')
-        broad = self.get_argument('broad',None)
-        site = self.get_argument('site',None)
+        broad = self.get_argument('broad', None)
+        site = self.get_argument('site', None)
 
         if po:
             if broad:

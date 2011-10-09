@@ -23,14 +23,14 @@ def is_mobile_browser(user_agent):
     """
     if _long_matches.search(user_agent) != None:
         return True
-    
+
     # SHort matches only peek 4 first chars
     user_agent = user_agent[0:4]
     if _short_matches.search(user_agent) != None:
         return True
-    
+
     return False
 
-if __name__ == "__main__":
-    print is_mobile_browser("android")
- 
+if __name__ == '__main__':
+    print is_mobile_browser('android')
+

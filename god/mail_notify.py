@@ -11,7 +11,7 @@ PAGE_LIMIT = 50
 @urlmap('/mail/notify/(\d+)')
 @urlmap('/mail/notify/(\d+)-(\-?\d+)')
 class Index(Base):
-    def get(self,state=STATE_NEW, n=1):
+    def get(self, state=STATE_NEW, n=1):
         total = get_tem_total_by_state(state)
         page, limit, offset = page_limit_offset(
                 '/mail/notify/%s-%%s'%state,
@@ -20,9 +20,9 @@ class Index(Base):
                 PAGE_LIMIT
                 )
 
-        mail_template_list = get_tem_by_state(state,limit,offset) 
+        mail_template_list = get_tem_by_state(state, limit, offset)
         self.render(
-                mail_template_list = mail_template_list,
+                mail_template_list=mail_template_list,
                 total=total,
                 page=page
                 )

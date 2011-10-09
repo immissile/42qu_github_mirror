@@ -23,7 +23,7 @@ def po_audio_new(user_id, name, txt, audio, state, zsite_id):
     name = name or time_title()
 
     m = po_new(
-        CID_AUDIO, 
+        CID_AUDIO,
         user_id, name, state, rid=0, zsite_id=zsite_id
     )
     audio_save(m.id, audio)

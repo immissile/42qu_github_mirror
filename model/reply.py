@@ -23,12 +23,12 @@ mc_reply_id_list = McLimitA('ReplyIdList:%s', 512)
 mc_reply_id_list_reversed = McLimitA('ReplyIdListReversed:%s', 512)
 mc_reply_count = McCache('ReplyCount:%s')
 #mc_reply_in_1h = McCache('ReplyInOneHour.%s')
-mc_reply_zsite_id_list = McCacheA("ReplyZsiteIdList:%s")
+mc_reply_zsite_id_list = McCacheA('ReplyZsiteIdList:%s')
 
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
 
-    @mc_reply_zsite_id_list("{self.cid}_{self.id}")
+    @mc_reply_zsite_id_list('{self.cid}_{self.id}')
     def reply_zsite_id_list(self):
         id_set = set()
         id_set.update(
