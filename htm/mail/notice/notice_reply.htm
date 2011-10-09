@@ -3,7 +3,12 @@
 <tr valign="top">
     <td width="430" style="padding:0 0 0 28px;line-height:32px">
         <div>
-            ${user_link_list_with_career(reply_list)} 回复了 <a target="_blank" href="http:${po.link}">${po.name}</a> 
+            
+    %for i in reply_list:
+    <div>${user_career_link(i)}</div>
+    %endfor
+
+回复了 <a target="_blank" href="http:${po.link}">${po.name}</a> 
         </div>
         <div>
             <a href="http:${po.link}" target="_blank" style="margin-top:32px;color:#00f">详细内容 , 点此浏览</a>

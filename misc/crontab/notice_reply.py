@@ -47,7 +47,7 @@ def reply_notice_mail(po_id, li):
             else:
                 subject = '%s 回复 %s'%(li[0].name, po.name)
 
-
+#            mail = "zsp007@gmail.com"
 
             rendermail(
                 '/mail/notice/notice_reply.htm',
@@ -64,7 +64,9 @@ def reply_notice_mail(po_id, li):
 @single_process
 def notice_reply():
     pre_pos = kv_int.get(KV_REPLY_NUM)
-    print pre_pos
+
+#    print pre_pos; pre_pos = 0
+
     c = Reply.raw_sql( 'select max(id) from reply where cid = %s', CID_NOTE)
 
     pos = c.fetchone()[0]
