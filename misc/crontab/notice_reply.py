@@ -41,7 +41,7 @@ def reply_notice_mail(po_id, li):
 
             name_list = [li0.name]
             name_list.extend(career_current(li0.id))
-            name_title = ' , '.join(filter(bool,name_list))
+            name_title = ' , '.join(filter(bool, name_list))
 
             if len(li) > 1:
                 subject = '%s人 回复 %s ( %s 等 )'%(

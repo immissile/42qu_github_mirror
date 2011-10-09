@@ -148,7 +148,7 @@ if __name__ == '__main__':
     #print url_by_digit_domain("10000000.zuroc.xxx")
     id = id_by_url('tech2ipo')
     from zsite import Zsite
-            
+
     zsite = Zsite.mc_get(id)
     print id, zsite
     i = Url.get(10098082)

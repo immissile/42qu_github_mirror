@@ -29,12 +29,12 @@ class Index(Base):
 
 @urlmap('/mail/notify/rm/(\d+)')
 class NotifyRm(Base):
-    def get(self,id):
+    def get(self, id):
         if id:
             rm_tem_by_id(id)
             self.redirect('/mail/notify')
 
-        
+
 
 @urlmap('/mail/notify/add')
 class NotifyAdd(Base):
@@ -42,7 +42,7 @@ class NotifyAdd(Base):
         self.render()
 
     def post(self):
-        id = self.get_argument('id',None)
+        id = self.get_argument('id', None)
         if id:
             new_mail_tem(id)
         self.redirect('/mail/notify')

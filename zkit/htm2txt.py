@@ -131,7 +131,7 @@ def htm2txt(htm):
 if __name__ == '__main__':
     import sys
     reload(sys)
-    sys.setdefaultencoding("utf-8")
+    sys.setdefaultencoding('utf-8')
     print htm2txt("""
 <p>1.结合蓝牙4.0或者耳机唤醒手机。语音搜索和语音输入等技术都要用户手动点击按钮触发语音功能，这事本身就不够酷。但是不借助设备还存在困难，语音功能实时开启探测声波会耗费电量。</p>
 <p><a href="https://picasaweb.google.com/lh/photo/QC-kA8Eep990N-hyeqLPsw?feat=embedwebsite"><img src="https://lh6.googleusercontent.com/-6wI0yrzt5Bw/TpFH9z3B0XI/AAAAAAAAAE4/TlsqNk62jko/s800/siri2.PNG" alt="" width="480" height="270" /></a></p>
