@@ -1,0 +1,15 @@
+<%inherit file="/mail/_base/base.htm"/>
+<%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career"/>
+<tr valign="top">
+    <td width="430" style="padding:0 0 0 28px;line-height:32px">
+        <div>
+            ${user_link_list_with_career(reply_list)} 回复了 ${po.name} 
+        </div>
+        <div>
+            <a href="http:${zsite.link}${po.link}" target="_blank" style="margin-top:32px;color:#00f">详细内容 , 点此浏览</a>
+        </div>
+    </td>
+</tr>
+
+
+

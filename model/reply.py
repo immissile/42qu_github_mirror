@@ -180,22 +180,6 @@ def mc_flush_reply_id_list(cid, rid):
     mc_reply_zsite_id_list.delete(key)
 
 
-def reply_notice_mail(po_id,li):
-    from po_pos import po_pos_get
-    from po import Po
-    from zsite import Zsite
-    po = Po.mc_get(po_id)
-    if po:
-        li = list(li)
-        pos,state = po_pos_get(po.user_id,po_id)
-        if po.zsite_id != po.user_id and pos == -1 :
-            rendermail(
-                    '/mail/notice/notice_reply.txt',
-                    mail_by_user_id(po.user_id),
-                    Zsite.mc_get(po.user_id).name,
-                    count = len(li),
-                    reply_peo = Zsite.mc_get(li[0])
-                    )
 
 if __name__ == '__main__':
     pass

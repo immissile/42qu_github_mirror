@@ -57,3 +57,9 @@ def po_pos_state(user_id, po_id, state):
 
 if __name__ == '__main__':
     pass
+    po = Po.get(517)
+    print po_pos_get(10000000, po.id)
+    print po_pos_get(10000000, po.id)
+    po_pos_set(10000000, po)
+    print po_pos_get(10000000, po.id)
+    print po_pos_get(10000000, po.id)
