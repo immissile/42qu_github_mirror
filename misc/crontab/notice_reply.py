@@ -84,4 +84,6 @@ def notice_reply():
 
 
 if __name__ == '__main__':
-    notice_reply()
+    #print po_pos_get(10001135, 10102793)
+    #notice_reply()
+
