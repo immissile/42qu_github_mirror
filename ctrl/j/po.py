@@ -77,20 +77,30 @@ class Fav(JLoginBase):
 @urlmap('/j/po/word')
 class Word(JLoginBase):
     def post(self):
+        result = None
         current_user_id = self.current_user_id
         txt = self.get_argument('txt', None)
         if txt:
             host = self.request.host
             zsite = zsite_by_domain(host)
-            if zsite and zsite.id!=current_user_id:
+            if zsite and zsite.cid == CID_SITE:
                 zsite_id = zsite.id
             else:
                 zsite_id = 0
 
             m = po_word_new(current_user_id, txt, zsite_id=zsite_id)
-        c_dict = career_dict(set([current_user_id]))
-        unit, title = c_dict[current_user_id]
-        result = [[1,zsite.name,zsite.link,unit,title,pic_url_with_default(current_user_id, '219'),[[m.id,[],0,61,0,0,0,time.time(),None,txt,False]]],[]]
+
+            if not zsite_id and m:
+                c_dict = career_dict(set([current_user_id]))
+                unit, title = c_dict[current_user_id]
+                result = [
+                    [
+                        1,zsite.name,zsite.link,unit,
+                        title,pic_url_with_default(current_user_id, '219'),
+                        [[m.id,[],0,61,0,0,0,time.time(),None,txt,False]]
+                    ],
+                    []
+                ]
         self.finish(dumps(result))
 
 

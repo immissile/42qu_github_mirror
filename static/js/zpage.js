@@ -47,7 +47,7 @@ jQuery.extend({
             dataType: "json", 
             type: "POST",
             success: function(data, textStatus, jqXHR){
-                if(data.login){
+                if(data&&data.login){
                     login()
                 }else if(callback){
                     callback(data, textStatus, jqXHR)

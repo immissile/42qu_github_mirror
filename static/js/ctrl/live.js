@@ -172,13 +172,15 @@
     $(function(){recover()}) 
     
     $('#po_word_form').submit(function(){
-        var val = txt.val()
-        if($.trim(val)=='')return;
+        var val = txt.val(),btn=$('#po_word_btn'); 
+        if($.trim(val)=='')return false;
         $('#po_ext, #po_word_tip').hide()
-        $('#po_word_btn').append('<div class="po_loading"></div>')
+
+        btn.append('<div class="po_loading"></div>')
+        btn.find('button').blur() 
+
         txt.attr('disabled',true)
         $('.btnw').hide()
-        
         $.postJSON(
             '/j/po/word',
             {
@@ -186,9 +188,11 @@
             },
             function(result){
                 recover()
-                $('#feed').tmpl(init_result(result)).prependTo("#feeds")
-                txt.val('').attr('disabled',false).attr("className","po_word_txt po_word_txt_sayed")
-                
+                if(result){
+                    $('#feed').tmpl(init_result(result)).prependTo("#feeds")
+                }
+                txt.val('').attr('disabled',false).attr("class","po_word_txt po_word_txt_sayed")
+                 
             }
         )
         return false
