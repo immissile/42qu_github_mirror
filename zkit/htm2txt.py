@@ -2,12 +2,12 @@
 
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 import htmlentitydefs, re
-
 BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
 
 _char = re.compile(r'&(\w+?);')
 _dec = re.compile(r'&#(\d{2,4});')
 _hex = re.compile(r'&#x(\d{2,4});')
+RE_TU = re.compile(r"图:\d+")
 
 def _char_unescape(m, defs=htmlentitydefs.entitydefs):
     try:
@@ -86,11 +86,15 @@ def htm2txt(htm):
                 name = i.name
                 if name == 'a':
                     s = soup2txt_recursion(i)
-                    if s:
-                        li.append(s)
+                    ss = s.rstrip()
+                    if not RE_TU.match(ss.lstrip().encode("utf-8")):
+                        li.append(ss)
                         href = i.get('href')
                         if href and href.startswith("http"):
                             li.append('[[%s]]'%href)
+                        li.append(s[len(ss):])
+                    else:
+                        li.append(s)
                 elif name == 'img':
                     src = i.get('src')
                     if src:

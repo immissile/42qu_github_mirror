@@ -8,6 +8,12 @@ from tornado.escape import json_encode
 %if li:
 <script id="feed" type="text/x-jquery-tmpl">
 <%text>
+{{if cid==62}}
+<div class="site_note"><a
+href="/${id}" target="_blank">${name}</a>{{if tag_id}}<span class="split">-</span><span><a
+href="${zsite.link}" class="c0" target="_blank">${zsite.name}</a> . <a
+href="/tag/${tag_id}">${tag_name}</a></span>{{/if}}</div>
+{{else}}
 <div class="sdw"><div class="sd cid${cid}">
 {{if cid==68}}
 <a href="/${id}"><img class="feed_event_img" src="${rid}"></a>
@@ -76,6 +82,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 <a href="${zsite.link}">${zsite.name}{{if zsite.unit||zsite.title}} , ${zsite.unit} ${zsite.title}{{/if}}</a>{{if tag_id}} , <a href="/tag/${tag_id}">${tag_name}</a>{{/if}}
     </div>
 </div></div>
+{{/if}}
 </%text>
 </script>
 <script>
@@ -86,3 +93,6 @@ render_site(${json_encode(li)|n})
 %else:
 <div class="tc" style="border:1px dotted #ccc;padding:27px">暂无内容</div>
 %endif
+
+
+##{{/if}
