@@ -12,7 +12,6 @@ from cid import CID_PO
 from zkit.attrcache import attrcache
 from user_mail import mail_by_user_id
 from mail import rendermail
-from model import po_pos_get
 
 REPLY_STATE = (
     STATE_DEL,
@@ -182,6 +181,7 @@ def mc_flush_reply_id_list(cid, rid):
 
 
 def reply_notice_mail(po_id,li):
+    from po_pos import po_pos_get
     from po import Po
     from zsite import Zsite
     po = Po.mc_get(po_id)
