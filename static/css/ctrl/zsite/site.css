@@ -279,3 +279,13 @@ margin-top:27px
 .split{
 margin:0 7px;
 }
+.site_note{
+margin-top:-7px;
+padding:0 0 27px;
+}
+.site_note a:visited{
+color:#000;
+}
+.site_note a:hover{
+color:#a10;
+}

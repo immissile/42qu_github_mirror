@@ -83,9 +83,11 @@ class Reader(object):
 
     def get_url(self, url):
         #print url
-
-        r = urllib2.Request(url, headers=self.headers)
-        return urllib2.urlopen(r, timeout=20).read()
+        try:
+            r = urllib2.Request(url, headers=self.headers)
+            return urllib2.urlopen(r, timeout=20).read()
+        except HTTPError:
+            print url
 
     def get_json(self, url):
         content = self.get_url(url)

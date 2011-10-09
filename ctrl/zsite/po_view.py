@@ -305,7 +305,7 @@ class PoOne(ZsiteBase):
                 tag_link = '/po/cid/%s'%cid
         
         prev_id, next_id = po_prev_next(
-            po, zsite_id, zsite_tag_id
+            po, zsite_tag_id
         )
 
         return self.render(
