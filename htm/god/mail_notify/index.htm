@@ -1,0 +1,29 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.po import Po
+from model.mail_template import STATE2CN
+%>
+${page|n}
+<form method="POST" action="/mail/notify/add">
+    输入id:
+    <input type="text" name="id" >
+    <span class="btnw"><button type="submit">提交</button></span>
+</form>
+%if mail_template_list:
+%for mt in mail_template_list:
+<div>
+${STATE2CN[mt.state]}
+
+<% 
+po =  Po.mc_get(mt.po_id)
+%>
+%if po:
+<a href="${po.link}" target="_blank">${po.name}</a>
+%endif
+<a href="/mail/notify/rm/${mt.id}">删除</a>
+
+</div>
+%endfor
+%endif
+${page|n}
