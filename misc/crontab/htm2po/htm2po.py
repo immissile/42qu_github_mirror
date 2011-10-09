@@ -2,12 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-import ahocorasick
 
-
-IMG_IGNORE = ahocorasick.KeywordTree()
-IMG_IGNORE.add('.feedsky.com/')
-IMG_IGNORE.make()
 
 
 from fetch_pic import fetch_pic
@@ -59,7 +54,7 @@ def htm2po_by_po(pre):
     pic_list = json.loads(pre.pic_list)
 
     for seq, url in enumerate(pic_list, 1):
-        if IMG_IGNORE.search(url):
+        if ".feedsky.com/" in url:
             img = None
         else:
             img = fetch_pic(url)
