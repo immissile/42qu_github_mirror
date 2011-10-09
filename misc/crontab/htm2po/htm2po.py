@@ -1,6 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
+import ahocorasick
+
+
+IMG_IGNORE = ahocorasick.KeywordTree()
+IMG_IGNORE.add('.feedsky.com/')
+IMG_IGNORE.make()
+
+
 from fetch_pic import fetch_pic
 
 import json
@@ -14,6 +23,7 @@ from model.zsite import Zsite
 from model.cid import CID_SITE
 from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.po_prev_next import mc_flush
+
 
 def htm2po_by_po(pre):
     txt = pre.txt.rstrip()
@@ -49,7 +59,11 @@ def htm2po_by_po(pre):
     pic_list = json.loads(pre.pic_list)
 
     for seq, url in enumerate(pic_list, 1):
-        img = fetch_pic(url)
+        if IMG_IGNORE.search(url):
+            img = None
+        else:
+            img = fetch_pic(url)
+
         if img:
             po_pic_new(pre.user_id, po_id, img, seq)
         else:

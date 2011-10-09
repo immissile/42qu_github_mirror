@@ -29,7 +29,7 @@ def urlfetch(url, data=None, timeout=30):
         return c
     except:
         if isinstance(url, urllib2.Request):
-            print url.url
+            print url.get_full_url()
         else:
             print url
         traceback.print_exc()
