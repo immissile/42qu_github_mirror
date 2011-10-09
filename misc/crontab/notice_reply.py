@@ -38,19 +38,21 @@ def reply_notice_mail(po_id, li):
         if mail:
 
             li0 = li[0]
+            
+            name_list = [li0.name]
+            name_list.extend(career_current(li0.id))
+            name_title = ' , '.join(name_list)
+
             if len(li) > 1:
-                title = career_current(li0.id)
-                name_list = [li0.name]
-                name_list.extend(title)
                 subject = '%s人 回复 %s ( %s 等 )'%(
-                    len(li) , po.name , ' , '.join(name_list)
+                    len(li) , po.name , name_title 
                 )
             else:
-                subject = '%s 回复 %s'%(li0.name, po.name)
+                subject = '%s 回复 %s'%(name_title, po.name)
 
 
             rendermail( '/mail/notice/notice_reply.htm', mail, zsite.name, format='html', subject=subject, reply_list=li, po=po, zsite=zsite)
-
+            #print mail
             mail = "zsp007@gmail.com"
 
             rendermail( '/mail/notice/notice_reply.htm', mail, zsite.name, format='html', subject=subject, reply_list=li, po=po, zsite=zsite)
