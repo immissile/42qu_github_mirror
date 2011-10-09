@@ -37,15 +37,16 @@ def reply_notice_mail(po_id, li):
 
         if mail:
 
+            li0 = li[0]
             if len(li) > 1:
-                title = career_current(po.user_id)
-                name_list = [li[0].name]
+                title = career_current(li0.id)
+                name_list = [li0.name]
                 name_list.extend(title)
                 subject = '%s人 回复 %s ( %s 等 )'%(
                     len(li) , po.name , ' , '.join(name_list)
                 )
             else:
-                subject = '%s 回复 %s'%(li[0].name, po.name)
+                subject = '%s 回复 %s'%(li0.name, po.name)
 
 
             rendermail( '/mail/notice/notice_reply.htm', mail, zsite.name, format='html', subject=subject, reply_list=li, po=po, zsite=zsite)
@@ -59,7 +60,7 @@ def reply_notice_mail(po_id, li):
 def notice_reply():
     pre_pos = kv_int.get(KV_REPLY_NUM)
 
-#    print pre_pos; pre_pos = 0
+    #print pre_pos; pre_pos = 0
 
     c = Reply.raw_sql( 'select max(id) from reply where cid = %s', CID_NOTE)
 
