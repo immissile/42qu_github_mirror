@@ -21,8 +21,8 @@ def notice_reply():
                 'id>%s and id <= %s',pre_pos, pos
                 ):
             po_id = i.rid
-            usr_id = i.user_id
-            d[po_id].add(usr_id)
+            user_id = i.user_id
+            d[po_id].add(user_id)
 
         for po_id, li in d.iteritems():
             reply_notice_mail(po_id,li)
