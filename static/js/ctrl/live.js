@@ -133,7 +133,7 @@
 	var po_word_txt = $("#po_word_txt"),
 	po_word_txt_bg = "po_word_txt_bg";
 	po_word_txt.blur().val('').focus(function() {
-		$(this).removeClass(po_word_txt_bg)
+		this.className="po_word_txt"
 	}).blur(function() {
 		var self = $(this),
 		val = self.val();
@@ -176,18 +176,19 @@
         if($.trim(val)=='')return;
         $('#po_ext, #po_word_tip').hide()
         $('#po_word_btn').append('<div class="po_loading"></div>')
-        txt.attr('disabled','disabled')
+        txt.attr('disabled',true)
         $('.btnw').hide()
         
         $.postJSON(
-            'j/po/word',
+            '/j/po/word',
             {
                 "txt":val
             },
             function(result){
                 recover()
                 $('#feed').tmpl(init_result(result)).prependTo("#feeds")
-                txt.val('') 
+                txt.val('').attr('disabled',false).attr("className","po_word_txt po_word_txt_sayed")
+                
             }
         )
         return false
