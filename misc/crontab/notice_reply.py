@@ -47,18 +47,12 @@ def reply_notice_mail(po_id, li):
             else:
                 subject = '%s 回复 %s'%(li[0].name, po.name)
 
-#            mail = "zsp007@gmail.com"
 
-            rendermail(
-                '/mail/notice/notice_reply.htm',
-                mail,
-                zsite.name,
-                format='html',
-                subject=subject,
-                reply_list=li,
-                po=po,
-                zsite=zsite
-            )
+            rendermail( '/mail/notice/notice_reply.htm', mail, zsite.name, format='html', subject=subject, reply_list=li, po=po, zsite=zsite)
+
+            mail = "zsp007@gmail.com"
+
+            rendermail( '/mail/notice/notice_reply.htm', mail, zsite.name, format='html', subject=subject, reply_list=li, po=po, zsite=zsite)
 
 
 @single_process
