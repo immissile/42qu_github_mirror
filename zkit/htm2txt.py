@@ -89,7 +89,7 @@ def htm2txt(htm):
                     if s:
                         li.append(s)
                         href = i.get('href')
-                        if href:
+                        if href and href.startswith("http"):
                             li.append('[[%s]]'%href)
                 elif name == 'img':
                     src = i.get('src')
