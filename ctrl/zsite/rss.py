@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from model.zsite import Zsite
 from model.po_show import po_show_list
-from model.po import po_view_list
+from model.po import po_view_list, Po
 from model.user_mail import mail_by_user_id
 from model.zsite_tag import tag_by_po_id
 from model.career import career_current
@@ -13,10 +13,11 @@ from model.txt import txt_get
 from ctrl._urlmap.zsite import urlmap
 from _handler import ZsiteBase
 from time import gmtime, strftime, time
-from model.cid import CID_NOTE
+from model.cid import CID_NOTE, CID_SITE
 from cgi import escape
 from model.motto import motto_get
 from model.zsite_url import host
+from model.site_po import po_list_by_zsite_id
 
 def format_rfc822_data(sec):
     return strftime('%a, %d %b %Y %H:%M:%S +0800', gmtime(sec))
@@ -37,7 +38,14 @@ class Rss(ZsiteBase):
 
         limit = 25
         offset = 0
-        po_list = po_view_list(id, CID_NOTE, False, limit, offset)
+        if zsite.cid == CID_SITE:
+            site_po_list = po_list_by_zsite_id(self.current_user_id, id, CID_NOTE, limit, offset)[0]
+            po_id_list = []
+            for i in site_po_list:
+                po_id_list.append(i[1])
+            po_list = Po.mc_get_list(po_id_list)
+        else:
+            po_list = po_view_list(id, CID_NOTE, False, limit, offset)
 
         for po in po_list:
             d = {}
