@@ -2,7 +2,7 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.po import Po
-from model.mail_template import STATE2CN
+from model.mail_po import STATE2CN
 %>
 ${page|n}
 <form method="POST" action="/mail/notify/add">
@@ -10,8 +10,8 @@ ${page|n}
     <input type="text" name="id" >
     <span class="btnw"><button type="submit">提交</button></span>
 </form>
-%if mail_template_list:
-%for mt in mail_template_list:
+%if mail_po_list:
+%for mt in mail_po_list:
 <div>
 ${STATE2CN[mt.state]}
 

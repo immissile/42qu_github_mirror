@@ -26,7 +26,7 @@ def get_tem_by_state(state, limit=1, offset=10):
 
 
 def new_mail_tem(po_id, state=STATE_NEW):
-    MailTemplate.raw_sql('insert into mail_template (po_id,state) values(%s,%s)', po_id, state)
+    MailTemplate.raw_sql('insert into mail_po (po_id,state) values(%s,%s)', po_id, state)
     return MailTemplate.where(po_id=po_id).where(state=state)
 
 def rm_tem_by_id(id):
