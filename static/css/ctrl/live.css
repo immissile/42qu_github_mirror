@@ -40,13 +40,13 @@ margin-top:16px;
 float:right;
 _padding-top:3px;
 height:42px;
-_margin-bottom:-42px;
 }
 #po_all a{
 color:#666
 }
 #po_all .split{
-margin:0 12px
+margin:0 12px;
+_margin:0 11px;
 }
 #po_all a:hover{
 color:#a10;

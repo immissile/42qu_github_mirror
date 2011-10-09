@@ -223,6 +223,9 @@ border:1px solid #ccc;
 width:auto;
 z-index:2;
 min-width:200px;
+_width:260px;
+_overflow:hidden;
+*min-width:auto;
 }
 .at_img{
 height:48px;
