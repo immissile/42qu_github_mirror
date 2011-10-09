@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.mail_template import STATE_NEW, get_tem_total_by_state, get_tem_by_state
+from model.mail_template import STATE_NEW, get_tem_total_by_state, get_tem_by_state, new_mail_tem, rm_tem_by_id, STATE2CN
 from zkit.page import page_limit_offset
 
 PAGE_LIMIT = 50
@@ -20,9 +20,29 @@ class Index(Base):
                 PAGE_LIMIT
                 )
 
-        mail_template_list = get_tem_by_state(state,limit,offset) 
+        mail_template_list = get_tem_by_state(state,limit,offset)
         self.render(
                 mail_template_list = mail_template_list,
                 total=total,
                 page=page
                 )
+
+@urlmap('/mail/notify/rm/(\d+)')
+class NotifyRm(Base):
+    def get(self,id):
+        if id:
+            rm_tem_by_id(id)
+            self.redirect('/mail/notify')
+
+        
+
+@urlmap('/mail/notify/add')
+class NotifyAdd(Base):
+    def get(self):
+        self.render()
+
+    def post(self):
+        id = self.get_argument('id',None)
+        if id:
+            new_mail_tem(id)
+        self.redirect('/mail/notify')
