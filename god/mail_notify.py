@@ -23,6 +23,6 @@ class Index(Base):
         mail_template_list = get_tem_by_state(state,limit,offset) 
         self.render(
                 mail_template_list = mail_template_list,
-                total,
+                total=total,
                 page=page
                 )
