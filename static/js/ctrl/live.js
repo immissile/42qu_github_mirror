@@ -5,8 +5,7 @@
 
 (function() {
 	var feed_loader = feed_load_maker( "id rt_list"),
-	DATE_ATTR = "zsite_cid zsite_name zsite_link unit title pic".split(' ')
-    ;
+	DATE_ATTR = "zsite_cid zsite_name zsite_link unit title pic".split(' ');
 
 	function array2zsite(a) {
 		return {
@@ -111,7 +110,8 @@
 				feed_load.show()
 			});
 			//console.info(result.length)
-   
+        });
+    } 
     feed_page(
         "/j/feed/", "#feeds" , init_result, function(){
 			var prebottom, top, diff, self;
@@ -187,6 +187,7 @@
             function(result){
                 recover()
                 $('#feed').tmpl(init_result(result)).prependTo("#feeds")
+                txt.val('') 
             }
         )
         return false
