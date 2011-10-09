@@ -95,39 +95,29 @@ methods={
                 t.scrollTop = s;
             }
         }, 10)
-
-        console.log(val, p ,d)
+ 
         return val.slice(p , d);
     },
 
     insertAfterCursor: function (t, str) {
         var val = t.value,
-            self = this; 
-                
+            self = this, 
+            obj=t;
+            obj.focus();    
         // for IE
-        if (document.selection) {
-            t.focus();
-            document.selection.createRange().text = str;  
-
+        if (document.selection) {            
+            document.selection.createRange().text = str
+        } else if(typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
+            var startPos = obj.selectionStart,
+                endPos = obj.selectionEnd,
+                cursorPos = startPos,
+                tmpStr = obj.value;
+                obj.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
+                cursorPos += str.length;
+            //obj.selectionStart = obj.selectionEnd = cursorPos;
         } else {
-            var obj=t;
-            obj.focus();
-            if (document.selection) {
-                setCursorPosition(obj,pos);
-                var sel = document.selection.createRange();
-                sel.text = str;
-            } else if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
-                var startPos = obj.selectionStart,
-                    endPos = obj.selectionEnd,
-                    cursorPos = startPos,
-                    tmpStr = obj.value;
-                    obj.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
-                    cursorPos += str.length;
-                //obj.selectionStart = obj.selectionEnd = cursorPos;
-            } else {
-                obj.value += str;
-            }    
-        };
+            obj.value += str;
+        }    
     },
 
     moveSelectedItem: function (step) {

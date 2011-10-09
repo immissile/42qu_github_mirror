@@ -40,6 +40,9 @@ def zsite_by_key(key, name_dict, url_dict, limit):
     s_set = set()
     c_result = []
 
+    if not key:
+        return []
+
     if key.replace('-', '').isalnum():
         _s_result, _c_result = key_match(key, url_dict)
         s_result.extend(_s_result)
