@@ -11,11 +11,13 @@ from model.po_pos import po_pos_get
 from model.po import Po
 from model.zsite import Zsite
 from model.career import career_current
+from model.user_mail import mail_by_user_id
+from model.mail import rendermail
 
 def reply_notice_mail(po_id, li):
     po = Po.mc_get(po_id)
     if not (po and po.zsite_id != po.user_id):
-       return 
+        return
 
     li = Zsite.mc_get_list(li)
 
@@ -25,11 +27,11 @@ def reply_notice_mail(po_id, li):
     pos, state = po_pos_get(po.user_id, po_id)
 
     if pos != -1:
-        return 
+        return
 
     zsite = Zsite.mc_get(po.user_id)
 
-    if zsite and zsite.cid==CID_USER:
+    if zsite and zsite.cid == CID_USER:
 
         mail = mail_by_user_id(po.user_id)
 
@@ -39,26 +41,23 @@ def reply_notice_mail(po_id, li):
                 title = career_current(po.user_id)
                 name_list = [li[0].name]
                 name_list.extend(title)
-                subject = "%s人 回复 %s ( %s 等 )"%(
-                    len(li) , po.name , " , ".join(name_list)
+                subject = '%s人 回复 %s ( %s 等 )'%(
+                    len(li) , po.name , ' , '.join(name_list)
                 )
             else:
-                subject = "%s 回复 %s"%(li[0], po.name)
+                subject = '%s 回复 %s'%(li[0].name, po.name)
 
 
-            print mail
-            subject = mail+" "+subject
-            mail = "zsp007@gmail.com"
 
             rendermail(
                 '/mail/notice/notice_reply.htm',
                 mail,
                 zsite.name,
                 format='html',
-                subject = subject,
+                subject=subject,
                 reply_list=li,
-                po = po,
-                zsite = zsite
+                po=po,
+                zsite=zsite
             )
 
 
