@@ -12,7 +12,7 @@ from cid import CID_PO
 from zkit.attrcache import attrcache
 from user_mail import mail_by_user_id
 from mail import rendermail
-
+from model import po_pos_get
 
 REPLY_STATE = (
     STATE_DEL,
@@ -187,16 +187,15 @@ def reply_notice_mail(po_id,li):
     po = Po.mc_get(po_id)
     if po:
         li = list(li)
-        if po.zsite_id != po.user_id:
-            print mail_by_user_id(po.user_id), Zsite.mc_get(po.user_id).name,len(li),
-
-        #    rendermail(
-        #            '/mail/notice/notice_reply.txt',
-        #            mail_by_user_id(po.user_id),
-        #            Zsite.mc_get(po.user_id).name,
-        #            count = len(li),
-        #            reply_peo = Zsite.mc_get(li[0])
-        #            )
+        pos,state = po_pos_get(po.user_id,po_id)
+        if po.zsite_id != po.user_id and pos == -1 :
+            rendermail(
+                    '/mail/notice/notice_reply.txt',
+                    mail_by_user_id(po.user_id),
+                    Zsite.mc_get(po.user_id).name,
+                    count = len(li),
+                    reply_peo = Zsite.mc_get(li[0])
+                    )
 
 if __name__ == '__main__':
     pass
