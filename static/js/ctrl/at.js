@@ -189,9 +189,15 @@ $.fn.pop_at = function(url, line_height){
         if(hasSpace<0){
             pos = methods.getCarePos(self,val.substring(0,lastCharAt),line_height)
             if(offset>0 && lastCharAt==offset-1){
+                
                 at_list_remove()
                 $('body').append('<div class="at_tip">@ 我关注的人 ...</div>')
                 $('.at_tip').css(pos)
+                $(this).bind('keydown',function(e){
+                    if(e.keyCode==13) {
+                        at_tip_remove()
+                    }
+                })
                 return;
             }else{
                 at_tip_remove()
