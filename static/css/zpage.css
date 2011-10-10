@@ -245,7 +245,7 @@ overflow:hidden;
 font-size:12px;
 line-height:12px;
 padding:5px;
-_width:89px;
+*width:99px;
 color:#999;
 border:1px solid #ccc;
 position:absolute;
@@ -261,12 +261,14 @@ background:#e9e9e9;
 display:block;
 line-height:14px;
 margin-top:9px;
+*line-height:16px;
 }
 .at_title{
 color:#999;
 font-size:14px;
 line-height:1px;
 overflow:hidden;
+*line-height:22px;
 }
 .fdh a:visited{
 color:#999;
