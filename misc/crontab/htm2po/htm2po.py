@@ -30,7 +30,7 @@ def htm2po_by_po(pre):
     if zsite.cid == CID_SITE:
         group_id = zsite.id
     else:
-        group_id = 0
+        group_id = pre.site_id
 
     rp = RssPoId.get(pre.id)
     if rp:
@@ -40,7 +40,7 @@ def htm2po_by_po(pre):
             po.save()
     else:
         po = po_note_new(
-            pre.user_id, pre.title, '', STATE_DEL, group_id
+            pre.user_id, pre.title, '', STATE_DEL, group_id 
         )
 
     if not po:
