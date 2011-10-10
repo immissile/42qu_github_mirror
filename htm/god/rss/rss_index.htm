@@ -104,7 +104,7 @@ htm = pic_rss(htm,pic_list)
 
         %if state == STATE_RSS_NEW:
                 <a href="/rss/mail/${rss_id}">发邮件</a>
-            %endif
+        %endif
             ${STATE2CN[state]}
         <a href="/rss/rm/${id}" class="rm">删除</a>
         <a target="_blank" href="${link}">原文</a>
@@ -130,7 +130,7 @@ htm = pic_rss(htm,pic_list)
     </div>
 </div>
 %endfor
-%if not state:
+%if not rss_state:
 <form method="POST">
 <input type="hidden" name="id" value="${" ".join([str(p[0]) for p in rss_po_list])}"/>
     <span class="btnw"><button type="submit">删除所有未通过</button></span>
