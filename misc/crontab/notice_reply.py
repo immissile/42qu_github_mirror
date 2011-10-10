@@ -53,7 +53,6 @@ def reply_notice_mail(po_id, li):
 
             rendermail( '/mail/notice/notice_reply.htm', mail, zsite.name, format='html', subject=subject, reply_list=li, po=po, zsite=zsite)
 
-            print mail
             mail = 'zsp007@gmail.com'
 
             rendermail( '/mail/notice/notice_reply.htm', mail, zsite.name, format='html', subject=subject, reply_list=li, po=po, zsite=zsite)
@@ -85,6 +84,6 @@ def notice_reply():
 
 if __name__ == '__main__':
     #print po_pos_get(10001135, 10102793)
-    #notice_reply()
+    notice_reply()
     #print po_pos_get(10006891,10102798)
     pass
