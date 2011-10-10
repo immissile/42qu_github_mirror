@@ -182,6 +182,7 @@ $.fn.pop_at = function(url, line_height){
             val = self.val(),
             lastCharAt = val.substring(0, offset).lastIndexOf('@'),
             hasSpace=1, tipword;
+        at_tip_remove()
         if(lastCharAt>=0){
             tipword = val.substring(lastCharAt, offset)
             hasSpace = Math.max(tipword.indexOf(' '),tipword.indexOf("\n"));
@@ -193,11 +194,6 @@ $.fn.pop_at = function(url, line_height){
                 at_list_remove()
                 $('body').append('<div class="at_tip">@ 我关注的人 ...</div>')
                 $('.at_tip').css(pos)
-                $(this).bind('keydown',function(e){
-                    if(e.keyCode==13) {
-                        at_tip_remove()
-                    }
-                })
                 return;
             }else{
                 at_tip_remove()
