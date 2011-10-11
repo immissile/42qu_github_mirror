@@ -1,3 +1,4 @@
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <html>
 
 <head>
@@ -52,6 +53,11 @@ width:440px;
 margin:20px auto 30px;
 overflow:auto;
 }
+.success{
+    text-align:center;
+    font-size:16px;
+    margin-top:10px;
+}
 .txt{
 width:440px;
 height:100px;
@@ -64,8 +70,11 @@ line-height:22px;
 margin-bottom:32px;
 overflow:auto;
 font-size:14px;
-color:#01a;
+color:#999;
 display:block;
+}
+.title a{
+color:#10a
 }
 .link{
 font-size:12px;
@@ -120,17 +129,33 @@ margin-right:2px;
     <div class="hd">
         <div class="banner">
             <a class="logo" target="_blank" href="http://42qu.com"><span class="num">42</span>qu.com</a>
-            <a class="user" target="_blank" href="http://42qu.com">realfex</a>
+            <a class="user" target="_blank" href="${zsite.link}">${zsite.name}</a>
         </div>
     </div>
     <div class="bd">
-        <form name="share_form" action="/" method="post">
-            <a class="title" href="${href}">${name}</a>
+       %if not success:
+        <%htm:form name="share_form" >
+            <div class="title">
+    %if href or name:
+            %if href:
+            <a href="${href}"
+                >
+                %endif
+                ${name or href}
+                %if href:
+            </a>
+            %endif
+            </div>
             <input type="hidden" name="name" value="${name}"/ >
             <input type="hidden" name="href" value="${href}">
-            <textarea class="txt"></textarea>
+    %endif
+            <textarea class="txt" name="word"></textarea>
             <div class="sub"><span class="tip">140字</span><span class="btnw"><button type="submit">游吟</button></span></div>
-        </form>
+        </%htm:form>
+        %else:
+<div class="success">     推荐已提交
+    </div>
+        %endif
     </div>
 </body>
 
