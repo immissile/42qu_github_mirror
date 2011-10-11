@@ -1,7 +1,137 @@
-<%inherit file="/ctrl/_base/zsite.htm" />
+<html>
 
-${name}
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>42区</title>
+    <link href="" rel="stylesheet" type="text/css" />
+</head>
 
-${href}
+<style>
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+th, td /* table elements 表格元素 */ {
+    margin: 0;
+    padding: 0;
+}
 
-hello
+a{
+text-decoration:none;
+}
+a:hover{
+text-decoration:none;
+}
+.hd{
+width:100%;
+overflow:auto;
+text-align:center;
+}
+.banner{
+width:440px;
+margin:16px auto 11px;
+overflow:hidden;
+text-align:left;
+padding:8px 0 20px;
+line-height:26px;
+border-bottom:1px dotted #ccc;
+}
+.logo{
+color:#A10;
+font-size:16px;
+font-family:'Trebuchet MS';
+}
+.user{
+display:block;
+float:right;
+color:#999;
+font-size:16px;
+}
+.bd{
+width:440px;
+margin:20px auto 30px;
+overflow:auto;
+}
+.txt{
+width:440px;
+height:100px;
+padding:4px 6px;
+border:1px solid #ccc;
+font-size:14px;
+line-height:22px;
+}
+.title{
+margin-bottom:32px;
+overflow:auto;
+font-size:14px;
+color:#01a;
+display:block;
+}
+.link{
+font-size:12px;
+color:#999;
+}
+.btnw button {
+background-color: #FFFFFF;
+background-image: -moz-linear-gradient(#FFFFFF, #F3F3F3);
+border: 0 none;
+color: #555555;
+cursor: pointer;
+display: inline-block;
+font-size: 16px;
+height: 42px;
+line-height: 41px;
+margin: 0;
+overflow: visible;
+padding: 0 28px 2px;
+text-align: center;
+vertical-align: text-bottom;
+white-space: nowrap;
+z-index: 1;
+}
+.btnw button:hover{
+color:#000;
+}
+.btnw button:active {
+background-color: #F3F3F3;
+background-image: -moz-linear-gradient(#F3F3F3, #FFFFFF);
+color: #666666;
+}
+.btnw {
+border: 1px solid #CCCCCC;
+display: inline-block;
+height: 42px;
+float:right;
+}
+.sub{
+text-align:left;
+margin-top:10px;
+}
+.tip{
+color:#999;
+vertical-align:-28px;
+}
+.num{
+margin-right:2px;
+}
+</style>
+
+<body>
+    <div class="hd">
+        <div class="banner">
+            <a class="logo" target="_blank" href="http://42qu.com"><span class="num">42</span>qu.com</a>
+            <a class="user" target="_blank" href="http://42qu.com">realfex</a>
+        </div>
+    </div>
+    <div class="bd">
+        <form name="share_form" action="/" method="post">
+            <a class="title" href="${href}">${name}</a>
+            <input type="hidden" name="name" value="${name}"/ >
+            <input type="hidden" name="href" value="${href}">
+            <textarea class="txt"></textarea>
+            <div class="sub"><span class="tip">140字</span><span class="btnw"><button type="submit">游吟</button></span></div>
+        </form>
+    </div>
+</body>
+
+</html>
