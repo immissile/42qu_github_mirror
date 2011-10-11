@@ -13,3 +13,11 @@ for i in reader.feed("feed/http://feed.feedzshare.com"):
 
 
 
+for i in reader.feed("feed/http://www.feedzshare.com/s/t/1/rss"):
+    print i
+    sys.stdout.flush()
+
+
+for i in reader.feed("feed/http://www.feedzshare.com/s/t/3/rss"):
+    print i
+    sys.stdout.flush()

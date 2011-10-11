@@ -276,7 +276,7 @@ DROP TABLE IF EXISTS `motto`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `motto` (
   `id` int(10) unsigned NOT NULL,
-  `value` varchar(48) COLLATE utf8_bin NOT NULL,
+  `value` varchar(512) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
