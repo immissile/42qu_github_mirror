@@ -79,6 +79,7 @@ def prepare(o):
     o.GOD_PORT = None
     o.RPC_PORT = None
     o.API_PORT = None
+    o.M_PORT = None
 
     o.SINA_FOLLOW = '1827906323'
     o.WWW163_FOLLOW = '6122584690'
@@ -103,12 +104,15 @@ def finish(o):
 
     if not o.GOD_PORT:
         o.GOD_PORT = o.PORT + 20
-
+    
     if not o.API_PORT:
         o.API_PORT = o.PORT + 30
 
     if not o.RPC_PORT:
         o.RPC_PORT = o.PORT + 40
+    
+    if not o.M_PORT:
+        o.M_PORT = o.PORT + 50
 
 
     o.FILE_URL = 'http://%s'%o.FILE_DOMAIN
@@ -122,6 +126,10 @@ def finish(o):
     o.API_HTTP = 'http:%s' % o.API_URL
     o.RPC_URL = '//RPC.%s' % o.SITE_DOMAIN
     o.RPC_HTTP = 'http:%s' % o.RPC_URL
+
+    o.M_URL = '//m.%s' % o.SITE_DOMAIN
+    o.M_HTTP = 'http:%s' % o.M_URL
+    
 
     o.SENDER_NAME = o.SITE_DOMAIN
 

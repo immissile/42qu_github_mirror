@@ -28,6 +28,10 @@ def render_conf(name, base_path, o):
     api_port_list = o.API_PORT
     if type(api_port_list) not in (list, tuple):
         api_port_list = [api_port_list]
+    
+    m_port_list = o.M_PORT
+    if type(m_port_list) not in (list, tuple):
+        m_port_list = [m_port_list]
 
     rpc_port_list = o.RPC_PORT
     if type(rpc_port_list) not in (list, tuple):
@@ -42,6 +46,7 @@ def render_conf(name, base_path, o):
         god_port_list=god_port_list,
         rpc_port_list=rpc_port_list,
         api_port_list=api_port_list,
+        m_port_list=m_port_list
     )
     path = join(
             PREFIX, 'config/nginx/%s'%name
@@ -73,7 +78,6 @@ def render_machine(host, name_list):
 
 render_machine('krios', """
 zuroc
-zjd
 yup
 work
 realfex
