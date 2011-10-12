@@ -18,6 +18,7 @@ CREATE TABLE `zsite_list` (
 '''
 
 STATE_ACTIVE = 20
+STATE_ADMIN = 10 
 STATE_DEL = 0
 
 
@@ -149,3 +150,5 @@ if __name__ == '__main__':
     pass
     for i in ZsiteList.where(state=1):
         print i.state
+        i.state = 20
+        i.save()
