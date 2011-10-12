@@ -151,4 +151,6 @@ class MySite( SiteListBase, MyBase, ZsiteBase):
     page_url = '/site/my-%s'
 
 
-
+@urlmap("/read")
+class Read(LoginBase):
+    pass
