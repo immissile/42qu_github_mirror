@@ -74,26 +74,14 @@ def zsite_id_by_zsite_user_id(zsite, user_id):
     return 0
 
 def zsite_site_by_user_id_sample(user_id, k):
-    b = zsite_id_list_by_admin_id_sample(user_id, k)
-    a = zsite_id_list_sample(user_id, CID_SITE, k)
-
-    id_list = []
-    if a:
-        id_list.extend(a)
-    if b:
-        id_list.extend(b)
-
-    id_list = sample_or_shuffle(id_list, k)
-
+    id_list = zsite_id_list_sample(user_id, CID_SITE, k)
     return Zsite.mc_get_list(id_list)
 
 def zsite_site_count(zsite_id):
-    return zsite_list_count(zsite_id, CID_SITE) + zsite_by_admin_id_count(zsite_id)
+    return zsite_list_count(zsite_id, CID_SITE) 
 
 def zsite_id_list_by_user_id(user_id):
-    result = zsite_id_list_by_admin_id(user_id)
-    result.extend(zsite_id_list(user_id, CID_SITE))
-    return result
+    return zsite_id_list(user_id, CID_SITE)
 
 if __name__ == '__main__':
     print zsite_site_by_user_id_sample(10000000, 3)

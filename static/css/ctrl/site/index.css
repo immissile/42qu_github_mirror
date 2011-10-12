@@ -3,9 +3,8 @@ margin:auto;
 float:none;
 }
 h1{
-width: 721px;
 margin: auto;
-text-align:right;
+text-align:left;
 border-bottom:1px dotted #ccc;
 font-size:14px;
 padding:16px 0;
@@ -153,3 +152,16 @@ color:#666
 .sfpa:hover{
 color:#a10
 }
+.siteread .site_a{
+background:url(/img/gif/icons/gif/tan/to_size/next.gif) no-repeat 100% 50%;
+}
+.siteread .site_a:hover{
+background-image:url(/img/gif/icons/gif/orange/to_size/next.gif);
+}
+.siteread .now{
+color:#000;
+background-image:url(/img/gif/icons/gif/black/to_size/next.gif);
+}
+
+
+

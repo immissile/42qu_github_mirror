@@ -288,3 +288,16 @@ padding:0;
 background-image:url(/img/gif/icons/gif/red/to_size/arrow1_ne.gif);
 }
 
+.site_a{
+border-bottom:1px dotted #ccc;
+display:block;
+font-size:14px;
+padding:8px 0;
+color:#999;
+}
+.site_a span{
+*clear:both;
+}
+.sitecid .now{
+color:#000;
+}

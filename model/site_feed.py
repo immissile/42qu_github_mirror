@@ -24,7 +24,7 @@ def feed_iter(zsite_id, start_id=MAXINT):
         id_list = site_po_id_lastest(zsite_id)
         if id_list:
             for i in id_list:
-                print zsite_id, i
+                #print zsite_id, i
                 yield i
             start_id = i
         else:

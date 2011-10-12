@@ -21,10 +21,10 @@ is_my = path.startswith("/site/my")
 is_all = not path.split("-",1)[0].strip("/")
 %>
 <h1>
-    <span class="L"><a href="${zsite.link}" class="c0">${zsite.name} : 站点</a></span>
-    <span class="nav C">
+    <span class="nav R">
         <a href="/site/fav" ${'class="c0"' if is_fav else ''|n}>收藏</a><span class="c9 split">-</span><a href="/site/my" ${'class="c0"' if is_my else ''|n}>管理</a>
     </span>
+    <span ><a href="${zsite.link}" class="c0">${zsite.name} : 站点</a></span>
 </h1>
 
 ${next.body()}

@@ -1,0 +1,20 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/site.htm" import="site_li"/>
+<%!
+from model.zsite_list import zsite_list
+from model.cid import CID_SITE
+%>
+
+<div class="G">
+
+<div class="G1">
+<div class="siteread"> 
+<a class="site_a now" href="/">全部</a>\
+%for  i in zsite_list(current_user_id, CID_SITE):
+<a class="site_a" href="${i.link}">${i.name}</a>\
+%endfor
+</div>
+</div>
+
+${next.body()}
+</div>

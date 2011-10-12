@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from zkit.page import page_limit_offset
-from model.zsite_list import zsite_list, zsite_list_count
+from model.zsite_list import zsite_list_active, zsite_list_count_active
 from model.zsite_admin import zsite_by_admin_id_count, zsite_list_by_admin_id
 from model.cid import CID_SITE
 
@@ -29,12 +29,12 @@ class _SiteListBase(object):
 class FavBase(object):
 
     def _total(self):
-        return zsite_list_count(
+        return zsite_list_count_active(
             self.user_id, CID_SITE
         )
 
     def _page_list(self, limit, offset):
-        return zsite_list(
+        return zsite_list_active(
             self.user_id, CID_SITE, limit, offset
         )
 
