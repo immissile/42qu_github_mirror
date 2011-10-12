@@ -163,5 +163,31 @@ color:#000;
 background-image:url(/img/gif/icons/gif/black/to_size/next.gif);
 }
 
+h2{
+border-bottom:1px dotted #ccc;
+}
+h2 .site_a{
+border:0;
+padding:8px 0;
+margin:0;
+background: url('next.gif') no-repeat scroll 100% 50% transparent; 
+color:#000
+}
+.sitepost{
+color:#999; 
+padding:8px 0; 
+float:left;
+}
+.nav2drop{
+margin-top: 35px; margin-left: 261px;
+}
+.say_txt{
+float:right;
+padding: 8px 14px; color:#999;
+border-left:1px dotted #ccc;
+border-right:1px dotted #ccc;
+cursor:text;
+}
 
+h2 .G3{overflow:visible}
 

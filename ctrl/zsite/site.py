@@ -23,6 +23,7 @@ from ctrl._util.site import _SiteListBase, FavBase, MyBase
 from model.cid import CID_SITE
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
+from model.zsite_fav import zsite_fav_get_and_touch
 
 PAGE_LIMIT = 56
 
@@ -151,6 +152,15 @@ class MySite( SiteListBase, MyBase, ZsiteBase):
     page_url = '/site/my-%s'
 
 
-@urlmap("/read")
+@urlmap('/read')
+@urlmap('/read-(\d+)')
 class Read(LoginBase):
-    pass
+    def get(self, n=1):
+        zsite = self.zsite
+        current_user = self.current_user
+        current_user_id = self.current_user_id
+        zsite_fav_get_and_touch(zsite, current_user_id)
+
+        li, page = render_zsite_site(self, n, "/read-%s")
+        self.render(li=li, page=page)
+

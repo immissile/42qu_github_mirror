@@ -301,3 +301,79 @@ color:#999;
 .sitecid .now{
 color:#000;
 }
+.pop_say{
+position:absolute;
+right:0;
+top:0;
+z-index:1; 
+overflow:hidden;
+display:none;
+text-align:left;
+width: 459px;
+color:#000;
+background:#fff;
+border:1px dotted #ccc;
+}
+.pop_txt{
+z-index:1; 
+height: 95px;
+text-align:left;
+width: 445px;
+line-height:28px;
+color:#000;
+padding:3px 7px;
+background:#fff;
+border:0;
+}
+.pop_banner{
+right:0;
+text-align:left;
+border-top:1px dotted #ccc;
+z-index:1;
+width:459px;
+height:34px;
+background:#fff;
+}
+.pop_tip{
+float:right;
+margin:0 14px;
+color:#999;
+font-size:14px;
+padding:3px;
+}
+.pop_tip span{
+margin:0 3px
+}
+.pop_submit{
+color:#999;
+float:right;
+padding:3px 10px;
+border-left:1px dotted #ccc;
+}
+.pop_submit:hover{
+background:#f9f9f9;
+color:#444;
+}
+.pop_close{
+float:left;
+padding:3px 10px;
+color:#999;
+height:8px;
+width:8px;
+margin-top:11px;
+_margin-top:7px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 50% 50%;
+}
+.pop_close:hover{
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 50% 50%;
+}
+.site_note{
+margin-top:-7px;
+padding:0 0 27px;
+}
+.site_note a:visited{
+color:#000;
+}
+.site_note a:hover{
+color:#a10;
+}
