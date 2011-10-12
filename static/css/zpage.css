@@ -367,3 +367,13 @@ background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 50% 50
 .pop_close:hover{
 background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 50% 50%;
 }
+.site_note{
+margin-top:-7px;
+padding:0 0 27px;
+}
+.site_note a:visited{
+color:#000;
+}
+.site_note a:hover{
+color:#a10;
+}
