@@ -13,14 +13,14 @@ from ctrl._util.site import PAGE_LIMIT
 </%def>
 
 <%
-count = zsite_list_count(zsite_id, CID_SITE)
+count = zsite_list_count_active(zsite_id, CID_SITE)
 
 if count > PAGE_LIMIT:
     path = "/site/fav-2"
 else:
     path = "/site/fav"
 
-page_list = zsite_list(zsite_id, CID_SITE, PAGE_LIMIT, 0) 
+page_list = zsite_list_active(zsite_id, CID_SITE, PAGE_LIMIT, 0) 
 %>
 
 <div class="G"><div class="G2">
