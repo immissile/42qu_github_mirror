@@ -181,3 +181,12 @@ float:left;
 .nav2drop{
 margin-top: 35px; margin-left: 261px;
 }
+.say_txt{
+float:right;
+padding: 8px 14px; color:#999;
+border-left:1px dotted #ccc;
+border-right:1px dotted #ccc;
+cursor:text;
+}
+
+h2 .G3{overflow:visible}
