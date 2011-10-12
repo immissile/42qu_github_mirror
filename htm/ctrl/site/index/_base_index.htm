@@ -9,7 +9,7 @@ from model.cid import CID_SITE
 
 <div class="G1">
 <div class="siteread"> 
-<a class="site_a now" href="http://site.42qu.com/">全部</a>\
+<a class="site_a now" href="/">全部</a>\
 %for  i in zsite_list(current_user_id, CID_SITE):
 <a class="site_a" href="${i.link}">${i.name}</a>\
 %endfor
