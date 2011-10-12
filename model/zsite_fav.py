@@ -4,11 +4,13 @@ from model.zsite import Zsite
 from model.buzz import mq_buzz_site_fav
 
 def zsite_fav_rm(zsite, owner_id):
-    zsite_list_rm(
-        zsite.id,
-        owner_id,
-        zsite.cid
-    )
+    zsite = zsite_fav_get(zsite, owner_id)
+    if zsite.state <= STATE_ACTIVE:
+        zsite_list_rm(
+            zsite.id,
+            owner_id,
+            zsite.cid
+        )
 
 def zsite_fav_new(zsite, owner_id):
     if zsite_fav_get(zsite, owner_id):
