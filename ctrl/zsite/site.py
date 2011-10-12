@@ -153,4 +153,5 @@ class MySite( SiteListBase, MyBase, ZsiteBase):
 
 @urlmap("/read")
 class Read(LoginBase):
-    pass
+    def get(self):
+        self.render()

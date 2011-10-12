@@ -3,16 +3,36 @@
 <%!
 from model.zsite_list import zsite_list
 from model.cid import CID_SITE
+from config import SITE_DOMAIN_SUFFIX 
 %>
-
+%if zsite:
+<h2 class="siteread">
+<div class="G"><div class="G1">
+<a href="${zsite.link}/read" class="site_a now">${zsite.name}</a></div>
+<div class="G3">
+<a style="color: rgb(153, 153, 153); padding: 8px 0pt; float: left;" class="" href="javascript:nav2_touch();void(0)">发帖</a>
+<div style="float: right; padding: 8px 14px; color: rgb(153, 153, 153); border-left: 1px dotted rgb(204, 204, 204); border-right: 1px dotted rgb(204, 204, 204); cursor: text;">在此 , 你想说什么 ?</div>
+</div><div style="display: block; margin-top: 35px; margin-left: 261px;" class="nav2drop"><a href="http://site.zuroc.xxx/po/note">文章</a><a href="javascript:po_photo();void(0)">图片</a><a href="http://site.zuroc.xxx/po/question">问题</a><a href="http://site.zuroc.xxx/po/event">活动</a><a href="javascript:po_audio();void(0)">声音</a><a href="javascript:po_video();void(0)">视频</a></div>
+</div>
+</h2>
+%endif
 <div class="G">
 
 <div class="G1">
-<div class="siteread"> 
+<div class="siteread">
+%if zsite:
+<a class="site_a" href="//site${SITE_DOMAIN_SUFFIX}">全部</a>\
+%for  i in zsite_list(current_user_id, CID_SITE):
+%if i.id!=zsite_id:
+<a class="site_a" href="${i.link}/read">${i.name}</a>\
+%endif
+%endfor
+%else: 
 <a class="site_a now" href="/">全部</a>\
 %for  i in zsite_list(current_user_id, CID_SITE):
-<a class="site_a" href="${i.link}">${i.name}</a>\
+<a class="site_a" href="${i.link}/read">${i.name}</a>\
 %endfor
+%endif
 </div>
 </div>
 

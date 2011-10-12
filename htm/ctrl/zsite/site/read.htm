@@ -1,0 +1,35 @@
+<%inherit file="/ctrl/site/index/_base_index.htm" />
+<%namespace file="/ctrl/_util/site.htm" import="site_li"/>
+
+
+<div id="site_page" class="G3"><div class="site_list site_feed" id="site_feed"></div></div>
+ 
+<script id="feed" type="text/x-jquery-tmpl"><%text>
+<div class="c site_po">
+    <a href="${site.link}" target="_blank"><img class="site_img" src="${site.ico}"></a>
+
+    <div class="site_txt c">
+<div class="mb4"><a class="c0" target="_blank" href="${site.link}">${site.name}</a></div>
+{{each item}}<div class="${className}">{{if cid==61}}<span
+class="sfptxt">{{html name}}</span>{{else}}<a
+href="${link}" class="sfpa" target="_blank">${name}</a>{{/if}}{{if user_link}}<span
+class="split">-</span><a
+target="_blank" class="c0" href="${user_link}">${user_name}</a>{{/if}}{{if cid==61}}<a
+target="_blank" href="${link}" class="zsite_reply"></a>
+{{/if}}
+</div>
+{{/each}}
+    </div>
+</div>
+
+
+
+</%text></script>
+
+<input type="hidden" id="begin_id">
+
+<%def name="htm_foot()">
+<a id="feed_load" href="javascript:void(0)">加载更多</a>
+<div id="feed_loading"></div>
+<script src="${js.ctrl_site_feed|n}"></script>
+</%def>
