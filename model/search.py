@@ -99,17 +99,17 @@ def _search(enquire, keywords, cid=None, offset=0, limit=50):
         matches = enquire.get_mset(offset, limit, None)
     else:
         match = xapian.ValueSetMatchDecider(2, True)
-        match.add_value(str(cid)) 
+        match.add_value(str(cid))
         matches = enquire.get_mset(offset, limit, None, match)
     return matches, matches.get_matches_estimated()
 
 
 def search_user(keywords, offset, limit):
-    return search(keywords, CID_USER,  offset, limit)
+    return search(keywords, CID_USER, offset, limit)
 
 
 def search_site(keywords, offset, limit):
-    return search(keywords, CID_SITE,  offset, limit)
+    return search(keywords, CID_SITE, offset, limit)
 
 
 

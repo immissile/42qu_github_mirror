@@ -10,6 +10,8 @@ from model.txt2htm import txt_withlink
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from cid import CID_PO
 from zkit.attrcache import attrcache
+from user_mail import mail_by_user_id
+from mail import rendermail
 
 REPLY_STATE = (
     STATE_DEL,
@@ -21,12 +23,12 @@ mc_reply_id_list = McLimitA('ReplyIdList:%s', 512)
 mc_reply_id_list_reversed = McLimitA('ReplyIdListReversed:%s', 512)
 mc_reply_count = McCache('ReplyCount:%s')
 #mc_reply_in_1h = McCache('ReplyInOneHour.%s')
-mc_reply_zsite_id_list = McCacheA("ReplyZsiteIdList:%s")
+mc_reply_zsite_id_list = McCacheA('ReplyZsiteIdList:%s')
 
 class ReplyMixin(object):
     reply_cursor = cursor_by_table('reply')
 
-    @mc_reply_zsite_id_list("{self.cid}_{self.id}")
+    @mc_reply_zsite_id_list('{self.cid}_{self.id}')
     def reply_zsite_id_list(self):
         id_set = set()
         id_set.update(
@@ -176,6 +178,8 @@ def mc_flush_reply_id_list(cid, rid):
     mc_reply_id_list_reversed.delete(key)
     mc_reply_count.delete(key)
     mc_reply_zsite_id_list.delete(key)
+
+
 
 if __name__ == '__main__':
     pass

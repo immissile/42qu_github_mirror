@@ -1,0 +1,20 @@
+<%inherit file="/mail/_base/base.htm"/>
+<%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career"/>
+<tr valign="top">
+    <td width="430" style="padding:0 0 0 28px;line-height:32px">
+        <div>
+            
+    %for i in reply_list:
+    <div>${user_career_link(i)}</div>
+    %endfor
+
+回复了 <a target="_blank" href="http:${po.link}#reply_list">${po.name}</a> 
+        </div>
+        <div>
+            <a href="http:${po.link}" target="_blank" style="margin-top:32px;color:#00f">详细内容 , 点此浏览</a>
+        </div>
+    </td>
+</tr>
+
+
+

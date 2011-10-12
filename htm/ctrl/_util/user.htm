@@ -18,7 +18,7 @@ career = ' , '.join(filter(bool, user.career))
 </%def>
 
 <%def name="user_link_list(user_list)">
-${' , '.join(['<a target="_blank" href="%s">%s</a>' % (i.link, escape(i.name)) for i in filter(bool,user_list)])|n}
+${' , '.join(['<a target="_blank" href="http:%s">%s</a>' % (i.link, escape(i.name)) for i in filter(bool,user_list)])|n}
 </%def>
 
 <%def name="user_link_list_with_career(user_list)">

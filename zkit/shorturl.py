@@ -8,6 +8,8 @@ from yajl import loads
 import traceback
 import time
 import sys
+from urllib import  urlencode
+
 
 SINA_API_KEY = '3152496704'
 
@@ -65,7 +67,21 @@ def curt_cc(url):
         traceback.print_exc()
         return _url
 
+def xrl_us(url):
+    _url = url
+    url = urllib.quote(url)
+    try:
+        result = urlopen(
+            'http://metamark.net/api/rest/simple',
+            urlencode({'long_url':url})
+        ).read()
+        return result
+    except:
+        traceback.print_exc()
+        return _url
+
 if '__main__' == __name__:
     url = 'http://42qu.com/1233?122234'
-    print curt_cc(url)
-
+    print xrl_us(url)
+    #print curt_cc(url)
+    #print t_cn(url)

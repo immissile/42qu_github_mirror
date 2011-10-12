@@ -64,12 +64,12 @@ def feed_rt(zsite_id, rid):
         mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
 
 def feed_rt_list(zsite_id, limit, offset):
-    return Feed.where(zsite_id=zsite_id).where("rid>0").order_by("id desc").col_list(
-        limit, offset, "rid"
-    ) 
+    return Feed.where(zsite_id=zsite_id).where('rid>0').order_by('id desc').col_list(
+        limit, offset, 'rid'
+    )
 
 def feed_rt_count(zsite_id):
-    return Feed.where(zsite_id=zsite_id).where("rid>0").count()
+    return Feed.where(zsite_id=zsite_id).where('rid>0').count()
 
 
 @mc_feed_rt_id('{zsite_id}_{rid}')
@@ -127,11 +127,11 @@ class FeedCmp(object):
 
 
 def feed_merge_iter(
-    id_list,  limit=MAXINT, begin_id=MAXINT
+    id_list, limit=MAXINT, begin_id=MAXINT
 ):
     return _merge_iter(
         feed_cmp_iter, id_list, limit, begin_id
-    )    
+    )
 
 
 if __name__ == '__main__':

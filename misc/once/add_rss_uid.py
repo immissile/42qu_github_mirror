@@ -19,8 +19,8 @@ def get_uid():
 
 def add_rss(uids):
     for i in uids:
-        Rss.raw_sql('insert into rss (user_id,url,gid) values(%s,%s,0)',i[0],i[1])
+        Rss.raw_sql('insert into rss (user_id,url,gid) values(%s,%s,0)', i[0], i[1])
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     add_rss(get_uid())

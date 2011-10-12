@@ -8,7 +8,7 @@ from model.zsite_admin import zsite_admin_new, zsite_user_state, zsite_id_list_b
 from model.zsite_show import zsite_show_new
 from model.buzz import mq_buzz_site_new
 from model.search_zsite import search_new
-from model.zsite_list import zsite_id_list, MC_LIMIT_ZSITE_LIST, zsite_list_count, \
+from model.zsite_list import zsite_id_list, MC_LIMIT_ZSITE_LIST, zsite_list_count,\
 zsite_id_list_sample
 from zkit.algorithm.wrandom import sample_or_shuffle
 

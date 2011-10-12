@@ -10,7 +10,7 @@ class SiteBase(ZsiteBase):
         current_user_id = self.current_user_id
 
         if zsite.cid != CID_SITE:
-            return self.redirect("/")
+            return self.redirect('/')
 
 
 
@@ -34,6 +34,6 @@ class AdminBase(SiteBase):
         zsite = self.zsite
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
-        
+
         if not site_can_admin(zsite_id, current_user_id):
-            return self.redirect("/")
+            return self.redirect('/')

@@ -1,0 +1,65 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from model.cid import CID_SITE
+from model.zsite_show import zsite_show_list
+from model.zsite import Zsite
+%>
+<%def name="htm_head()">
+
+<style>
+a.eventcat {
+    color:#999;
+    margin:8px 16px;
+}
+.edit{
+text-align:left;
+width:900px;
+margin:30px auto;
+}
+.txt_name{
+width:500px;
+height:40px;
+font-size:16px;
+padding:6px;
+padding:4px;
+margin:10px auto;
+border:1px dotted #ccc;
+}
+.txt_cont{
+width:700px;
+height:480px;
+margin:auto;
+font-size:16px;
+line-height:30px;
+border:1px dotted #ccc;
+}
+</style>
+</%def>
+<div>
+<form method="POST">
+<div class="edit">
+    <div><input class="txt_name"  type="txt" name="name" value="${po.title}"></div>
+% if po.user_id:
+<%
+site = Zsite.get(po.user_id)
+%>
+<div class="mt27">作者: <a href="${site.link}" target="_blank">${site.name}</a></div> 
+%endif
+<span><input type="checkbox" name="rt" id="checkbox${id}"  checked ><label for="checkbox${id}">全站转发</label></span>
+    <div><textarea name="txt" class="txt_cont">${po.txt}</textarea></div>
+    <input type="hidden" name="next" value="${next}">
+选择小组：
+<div class="selects">
+            <div class="line">
+<%
+zsite_list = zsite_show_list(CID_SITE)
+%>
+% for site in zsite_list:
+                <span class="single"><input type="radio" id="rd${site.id}" name="site" value="${site.id}"><label class="rdl" for="rd${site.id}">${site.name}</label></span>
+%endfor
+            </div>
+        </div>
+    </div>
+    <span class="btnw"><button type="submit">提交</button></span>
+</div>
+</form>

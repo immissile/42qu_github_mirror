@@ -15,7 +15,7 @@ def render_zsite_site(self, n=1):
 
     total = po_cid_count_by_zsite_id(zsite_id, 0)
     page, limit, offset = page_limit_offset(
-        "/-%s",
+        '/-%s',
         total,
         n,
         PAGE_LIMIT
@@ -23,11 +23,11 @@ def render_zsite_site(self, n=1):
     li = po_list_by_zsite_id(
         user_id, zsite_id, 0, limit, offset
     )
-    page=page
+    page = page
     return li, page
 
 @urlmap('/')
-@urlmap("/-(\d+)")
+@urlmap('/-(\d+)')
 class Index(ZsiteBase):
     def get(self, n=1):
         zsite_id = self.zsite_id
@@ -38,8 +38,8 @@ class Index(ZsiteBase):
             li, page = render_zsite_site(self, n)
             if current_user_id:
                 if not zsite_fav_get_and_touch(zsite, current_user_id):
-                    return self.redirect("/about")
-            self.render( 
+                    return self.redirect('/about')
+            self.render(
                 '/ctrl/zsite/po_view/site_po_page.htm',
                 li=li, page=page
             )

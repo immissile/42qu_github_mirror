@@ -3,8 +3,8 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model import reply
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE
-from model.po import Po, po_rm, po_word_new, po_note_new,  po_state_set
-from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW, STATE_SECRET, STATE_ACTIVE 
+from model.po import Po, po_rm, po_word_new, po_note_new, po_state_set
+from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW, STATE_SECRET, STATE_ACTIVE
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
 from model.po_pos import po_pos_get, po_pos_set
 from model.po_question import po_question_new, answer_word2note
@@ -15,7 +15,7 @@ from zkit.txt import cnenlen
 from model.event import Event, event_init2to_review
 from model.po_event import event_joiner_state_set_by_good
 from model.zsite_url import link
-from model.zsite_site import zsite_id_by_zsite_user_id 
+from model.zsite_site import zsite_id_by_zsite_user_id
 
 def update_pic(form, user_id, po_id, id):
     pl = pic_list(user_id, id)
@@ -68,10 +68,10 @@ def po_post(self):
         state = self.get_argument('good', None)
         zsite_id = 0
     else:
-        zsite_id = zsite_id_by_zsite_user_id(zsite,user_id)
+        zsite_id = zsite_id_by_zsite_user_id(zsite, user_id)
         if zsite_id:
             state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
-        else: 
+        else:
             secret = self.get_argument('secret', None)
             if secret:
                 state = STATE_SECRET
@@ -156,14 +156,14 @@ class Edit(LoginBase):
     def get(self, id):
         user_id = self.current_user_id
         po = self._po(user_id, id)
-            
+
         if po is None:
             return
         po_zsite_id = po.zsite_id
 
-        if po_zsite_id and po_zsite_id!=self.zsite_id:
+        if po_zsite_id and po_zsite_id != self.zsite_id:
             return self.redirect(
-                "%s/po/edit/%s"%(link(po_zsite_id),id)
+                '%s/po/edit/%s'%(link(po_zsite_id), id)
             )
 
         if po.cid == CID_EVENT_FEEDBACK:

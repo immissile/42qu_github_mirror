@@ -24,7 +24,7 @@ from ctrl.j.po import post_reply
 from model.zsite import zsite_name_id_dict
 from model.po_event import event_feedback_id_get, po_event_notice_list_by_event_id
 from model.po_pos import po_pos_set
-from model.event import EVENT_STATE_END , event_joiner_feedback_normal_count , event_joiner_feedback_good_count 
+from model.event import EVENT_STATE_END , event_joiner_feedback_normal_count , event_joiner_feedback_good_count
 from model.zsite_site import zsite_id_list_by_user_id
 from model.site_feed import site_po_iter
 
@@ -37,9 +37,9 @@ class SiteFeed(JLoginBase):
         current_user_id = self.current_user_id
         id_list = zsite_id_list_by_user_id(current_user_id)
         result, last_id = site_po_iter(id_list, PAGE_LIMIT, id)
-        
+
         if result:
-            result.append(last_id) 
+            result.append(last_id)
 
         self.finish(dumps(result))
 
@@ -103,8 +103,8 @@ class Feed(JLoginBase):
                     id = i[1]
                     cid = i[4]
                     rid = i[5]
-                   
-                    site_id = i[6] 
+
+                    site_id = i[6]
                     if site_id:
                         site_id_set.add(site_id)
 
@@ -134,7 +134,7 @@ class Feed(JLoginBase):
                         t
                     ))
                 else:
-                    print "zsite_id", zsite_id
+                    print 'zsite_id', zsite_id
                     feed_rm(id)
 
             r.append(zsite_name_id_dict(site_id_set))
@@ -189,29 +189,29 @@ class FdTxt(Base):
                     t.append('<a href="/event/join/%s" target="_blank">报名参加</a>'%event.id)
                 else:
                     nc = event_joiner_feedback_normal_count(id)
-                    gc = event_joiner_feedback_good_count(id) 
+                    gc = event_joiner_feedback_good_count(id)
                     if gc:
                         t.append(
 '<a href="/%s#feedback_good" target="_blank"><span class="mr3">%s</span>好评</a>'%(
-    id,
-    gc
+                        id,
+                        gc
 )
-                        ) 
+                        )
                     if nc:
                         t.append(
 '<a href="/%s#feedback_normal" target="_blank"><span class="mr3">%s</span>反馈</a>'%(
-    id,
-    nc
+                        id,
+                        nc
 )
-                        ) 
+                        )
 
                 if t:
                     result.append(
-                        "<p>%s</p>"%(
-                            " , ".join(t)
+                        '<p>%s</p>'%(
+                            ' , '.join(t)
                         )
-                    ) 
-                
+                    )
+
                 #if event.state == EVENT_STATE_END:
                 #    result.append("")
 

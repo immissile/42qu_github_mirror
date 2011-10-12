@@ -60,10 +60,10 @@ def zsite_fav_list(zsite, limit, offset):
 def zsite_fav_get_and_touch(zsite, owner_id):
     id , state = zsite_list_id_state(zsite.id, owner_id, zsite.cid)
     if id:
-        ZsiteList.raw_sql("update zsite_list set rank=rank+1 where id=%s", id)
+        ZsiteList.raw_sql('update zsite_list set rank=rank+1 where id=%s', id)
         return id
     else:
-        zsite_fav_touch(zsite, owner_id)   
+        zsite_fav_touch(zsite, owner_id)
 
 def zsite_fav_count_by_zsite(zsite):
     return zsite_list_count_by_zsite_id(

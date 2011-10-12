@@ -21,9 +21,9 @@ class _SiteListBase(object):
         )
         page_list = self._page_list(limit, offset)
         return self.render(
-            page_list = page_list,
-            page = str(page),
-            total = total
+            page_list=page_list,
+            page=str(page),
+            total=total
         )
 
 class FavBase(object):
@@ -33,7 +33,7 @@ class FavBase(object):
             self.user_id, CID_SITE
         )
 
-    def _page_list(self,  limit, offset):
+    def _page_list(self, limit, offset):
         return zsite_list(
             self.user_id, CID_SITE, limit, offset
         )
@@ -44,7 +44,7 @@ class MyBase(object):
             self.user_id
         )
 
-    def _page_list(self,  limit, offset):
+    def _page_list(self, limit, offset):
         return zsite_list_by_admin_id(
             self.user_id, limit, offset
         )

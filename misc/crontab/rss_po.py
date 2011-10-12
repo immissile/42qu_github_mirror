@@ -15,7 +15,7 @@ def rss_po():
         htm2po_by_po(pre)
         pre.state = RSS_POED
         pre.save()
-        
+
 
 @single_process
 def main():

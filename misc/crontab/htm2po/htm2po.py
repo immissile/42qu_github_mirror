@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
+
+
+
 from fetch_pic import fetch_pic
 
 import json
@@ -15,31 +19,32 @@ from model.cid import CID_SITE
 from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.po_prev_next import mc_flush
 
+
 def htm2po_by_po(pre):
     txt = pre.txt.rstrip()
     if not txt:
         return
-       
+
     zsite = Zsite.mc_get(pre.user_id)
- 
-    if zsite.cid == CID_SITE: 
+
+    if zsite.cid == CID_SITE:
         group_id = zsite.id
     else:
-        group_id = 0
+        group_id = pre.site_id
 
     rp = RssPoId.get(pre.id)
     if rp:
         po = Po.mc_get(rp.po_id)
         if po:
-            po.name_  = pre.title
+            po.name_ = pre.title
             po.save()
     else:
         po = po_note_new(
-            pre.user_id, pre.title, '', STATE_DEL, group_id
+            pre.user_id, pre.title, '', STATE_DEL, group_id 
         )
 
     if not po:
-        return    
+        return
     po_id = po.id
 
     if not rp:
@@ -49,11 +54,15 @@ def htm2po_by_po(pre):
     pic_list = json.loads(pre.pic_list)
 
     for seq, url in enumerate(pic_list, 1):
-        img = fetch_pic(url)
+        if ".feedsky.com/" in url:
+            img = None
+        else:
+            img = fetch_pic(url)
+
         if img:
             po_pic_new(pre.user_id, po_id, img, seq)
         else:
-            txt = txt.replace("图:%s"%seq,"")
+            txt = txt.replace('图:%s'%seq, '')
 
     po.txt_set(txt)
 
@@ -63,7 +72,7 @@ def htm2po_by_po(pre):
         state = STATE_ACTIVE
     po.state = state
     po.save()
-    
+
     if po.zsite_id != po.user_id:
         zsite_tag_new_by_tag_id(po)
 

@@ -6,16 +6,16 @@ sys.setdefaultencoding('utf-8')
 
 import _env
 from zkit.google.findrss import feeds, get_rss_link_title_by_rss
-
+from model.cid import CID_USER
 def get_uri():
     from model.zsite_link import ZsiteLink
     from model.zsite import Zsite, ZSITE_STATE_VERIFY
-    ids = Zsite.raw_sql('select id from zpage.zsite where state >= %s', ZSITE_STATE_VERIFY ).fetchall()
+    ids = Zsite.raw_sql('select id from zpage.zsite where cid = %s' ,CID_USER).fetchall()
     links = []
     for id in ids:
         link = ZsiteLink.raw_sql('select link from zpage.zsite_link where zsite_id = %s and cid = 0', *id).fetchone()
         if link:
-            links.append([id[0],link[0]])
+            links.append([id[0], link[0]])
     return links
 
 import re
@@ -89,9 +89,9 @@ htmlUrl="%s"/>
 
 def print_uri():
     links = get_uri()
-    with open('x', 'w') as f:
+    with open('rss2user_id.txt', 'w') as f:
         for i in links:
-            f.write('%s  %s\n' % (i[0],i[1]))
+            f.write('%s  %s\n' % (i[0], i[1]))
 
 if __name__ == '__main__':
     print_uri()

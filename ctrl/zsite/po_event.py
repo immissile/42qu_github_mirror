@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
-from model.zsite_site import zsite_id_by_zsite_user_id 
+from model.zsite_site import zsite_id_by_zsite_user_id
 from ctrl._urlmap.zsite import urlmap
 from model.po import Po
 from model.po_event import po_event_pic_new , EVENT_CID, po_event_feedback_new
@@ -66,16 +66,16 @@ class Index(LoginBase):
 
     def get(self, id=0):
         user_id = self.current_user_id
-        
+
         if id:
             event = Event.mc_get(id)
             if not event or event.zsite_id != self.current_user_id:
                 return self.redirect('/po/event')
             return po_event_edit_get(self, event)
-        
+
         default_event = last_event_by_zsite_id(user_id)
 
-        return self.render(errtip=Errtip(),default_event=default_event)
+        return self.render(errtip=Errtip(), default_event=default_event)
 
 
 def po_event_edit_post(self, id, event, can_change, event_new):

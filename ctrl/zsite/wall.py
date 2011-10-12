@@ -85,8 +85,8 @@ class Txt(ZsiteBase):
         else:
             other = wall.zsite_other(zsite_id)
             if other.cid == CID_SITE or zsite_id == current_user_id:
-                return self.redirect("%s/wall/%s"%(other.link,id))
-            
+                return self.redirect('%s/wall/%s'%(other.link, id))
+
 
         total = wall.reply_count
         page, limit, offset = page_limit_offset(

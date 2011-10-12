@@ -5,8 +5,7 @@
 
 (function() {
 	var feed_loader = feed_load_maker( "id rt_list"),
-	DATE_ATTR = "zsite_cid zsite_name zsite_link unit title pic".split(' ')
-    ;
+	DATE_ATTR = "zsite_cid zsite_name zsite_link unit title pic".split(' ');
 
 	function array2zsite(a) {
 		return {
@@ -57,11 +56,8 @@
                 t.site_name = site_dict[site_id];
                 t.site_url = site_id+HOST_SUFFIX
             }
-
-			data.item.push(t)
-			//console.info(t)
+			data.item.push(t)	
 		}
-
 		return data
 	}
 
@@ -82,9 +78,9 @@
 			}
 			item.push(data)
 		}
+        
 		return item
 	}
-   
     feed_page(
         "/j/feed/", "#feeds" , init_result, function(){
 			var prebottom, top, diff, self;
@@ -106,7 +102,7 @@
 	var po_word_txt = $("#po_word_txt"),
 	po_word_txt_bg = "po_word_txt_bg";
 	po_word_txt.blur().val('').focus(function() {
-		$(this).removeClass(po_word_txt_bg)
+		this.className="po_word_txt"
 	}).blur(function() {
 		var self = $(this),
 		val = self.val();
@@ -133,12 +129,52 @@
             po_all_show_ext_hide
         )
     )
+
     
+    var txt = $('#po_word_txt')
+    function recover(){
+        txt.removeAttr('disabled')
+        $('.btnw').show() 
+        $('.po_loading').remove()
+        $('#po_all').show() 
+    }
+    $(recover) 
+    
+    $('#po_word_form').submit(function(){
+        var val = txt.val(),btn=$('#po_word_btn'); 
+        if($.trim(val)=='')return false;
+        $('#po_ext, #po_word_tip').hide()
+
+        btn.append('<div class="po_loading"></div>')
+        btn.find('button').blur() 
+
+        txt.attr('disabled',true)
+        $('.btnw').hide()
+        $.postJSON(
+            '/j/po/word',
+            {
+                "txt":val
+            },
+            function(result){
+                recover()
+                if(result){
+                    $('#feed').tmpl(init_result(result)).prependTo("#feeds")
+                }
+                txt.val('').attr('disabled',false).attr("class","po_word_txt po_word_txt_sayed")
+                 
+            }
+        )
+        return false
+    })   
+
+
 })()
+
 
 
 $(function(){
     $('#po_word_txt').pop_at("/j/at")
     
 })
+
 

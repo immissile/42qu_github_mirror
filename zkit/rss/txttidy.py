@@ -46,7 +46,7 @@ def txttidy_bshare(txt):
     return txt
 
 def txttidy_alibuybuy(txt):
-    pos = txt.find("<p><small>© 推荐")
+    pos = txt.find('<p><small>© 推荐')
     if pos > 0:
         txt = txt[:pos]
     return txt
@@ -65,13 +65,13 @@ def txttidy_swf(txt):
             txt2 = txt[p2:p3]
             txt3 = txt[epos+len(iframe_end):]
             r = [txt1.rstrip(), txt2, txt3.lstrip()]
-            txt = "\n\n".join(r)
+            txt = '\n\n'.join(r)
         else:
             break
     return txt
 
 def txttidy_36kr(txt):
-    pos = txt.find("<p>除非注明，本站文章均为原创或编译，转载请注明： 文章来自")
+    pos = txt.find('<p>除非注明，本站文章均为原创或编译，转载请注明： 文章来自')
     if pos > 0:
         txt = txt[:pos]
     return txt
@@ -92,7 +92,7 @@ def txttidy(txt):
 if __name__ == '__main__':
     txt = """Google Reader 视频<iframe src="http://reader.googleusercontent.com/reader/embediframe?src=http://player.youku.com/player.php/sid/XMjQ2ODM1Mjcy/v.swf&;amp;width=600&amp;height=500" width="600" height="500"></iframe>加勒比海盗"""
     def grab_str(string):
-        print re.sub("<iframe.*(embediframe\?src\=)(.*\.swf).*","\\2",string)
+        print re.sub('<iframe.*(embediframe\?src\=)(.*\.swf).*', '\\2', string)
     grab_str(txt)
     from glob import glob
 

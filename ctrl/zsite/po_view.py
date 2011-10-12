@@ -65,7 +65,7 @@ class PoPage(ZsiteBase):
             self.template = '/ctrl/zsite/po_view/site_po_page.htm'
         else:
             self.template = '/ctrl/zsite/po_view/po_page.htm'
-            
+
 
         cid = self.cid
         page_template = self.page_template
@@ -303,7 +303,7 @@ class PoOne(ZsiteBase):
                 tag_link = '/tag/%s' % zsite_tag_id
             else:
                 tag_link = '/po/cid/%s'%cid
-        
+
         prev_id, next_id = po_prev_next(
             po, zsite_tag_id
         )
@@ -334,7 +334,7 @@ class Question(PoOne):
     def post(self, id):
         user_id = self.current_user_id
         if not user_id:
-            return request.redirect("/auth/login")
+            return request.redirect('/auth/login')
 
         question = self.po(id)
         if question is None:

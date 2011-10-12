@@ -57,7 +57,7 @@ DB_MAIN_TABLE = (
     'zsite_uv_daily',
     'sync_turn',
     'sync_follow',
-    "rss",
+    'rss',
     'search_zsite',
     'txt_history',
     'rss_po_id',
