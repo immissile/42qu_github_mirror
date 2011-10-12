@@ -40,13 +40,13 @@ margin-top:16px;
 float:right;
 _padding-top:3px;
 height:42px;
-_margin-bottom:-42px;
 }
 #po_all a{
 color:#666
 }
 #po_all .split{
-margin:0 12px
+margin:0 12px;
+_margin:0 11px;
 }
 #po_all a:hover{
 color:#a10;
@@ -71,6 +71,9 @@ padding:0;
 display:none;
 cursor:pointer;
 background:url(/img/gif/nnr9.gif) no-repeat 50% 50%;
+}
+.po_word_txt_sayed{
+background: url(/img/gif/sayed.gif) no-repeat 50% 50%;
 }
 
 .po_word_txt_bg{
@@ -127,12 +130,12 @@ margin-bottom:32px;
 padding-bottom:36px;
 _zoom:1;
 }
-
-.site_po{
-margin-top:-9px;
-}
-.site_po div{
-padding: 0 22px 24px;
+.po_loading{
+background:url('/img/gif/loading_bar.gif');
+height:8px;
+width:26px;
+margin:15px 24px 0 0;
+float:right;
 }
 .site_po a:visited{
 color:#000;
@@ -140,3 +143,10 @@ color:#000;
 .site_po a:hover{
 color:#a10;
 }
+.site_po{
+margin-top:-9px;
+}
+.site_po div{
+padding: 0pt 22px 24px;
+}
+

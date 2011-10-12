@@ -14,6 +14,9 @@ from zkit.pic import picopen
 from model.zsite_fav import zsite_fav_new
 from model.cid import CID_SITE
 from model.zsite_url import url_or_id
+from model.career import career_dict
+import time
+from model.ico import pic_url_with_default
 
 def post_reply(self, id):
     user = self.current_user
@@ -45,10 +48,10 @@ class PoReplyJson(JLoginBase):
                 result.append(
                     (url_or_id(user.id), reply.htm, user.name)
                 )
-        
+
         return self.finish(dumps(result))
 
- 
+
 
 @urlmap('/j/fav')
 class Fav(JLoginBase):
@@ -66,7 +69,7 @@ class Fav(JLoginBase):
         if txt:
             from model.reply import STATE_ACTIVE
             zsite.reply_new(current_user, txt, STATE_ACTIVE)
-            
+
 
         self.finish('{}')
 
@@ -74,19 +77,31 @@ class Fav(JLoginBase):
 @urlmap('/j/po/word')
 class Word(JLoginBase):
     def post(self):
+        result = None
         current_user_id = self.current_user_id
         txt = self.get_argument('txt', None)
         if txt:
             host = self.request.host
             zsite = zsite_by_domain(host)
-            if zsite:
+            if zsite and zsite.cid == CID_SITE:
                 zsite_id = zsite.id
             else:
                 zsite_id = 0
 
-            po_word_new(current_user_id, txt, zsite_id=zsite_id) 
+            m = po_word_new(current_user_id, txt, zsite_id=zsite_id)
 
-        self.finish('{}')
+            if not zsite_id and m:
+                c_dict = career_dict(set([current_user_id]))
+                unit, title = c_dict[current_user_id]
+                result = [
+                    [
+                        1, zsite.name, zsite.link, unit,
+                        title, pic_url_with_default(current_user_id, '219'),
+                        [[m.id, [], 0, 61, 0, 0, 0, time.time(), None, txt, False]]
+                    ],
+                    []
+                ]
+        self.finish(dumps(result))
 
 
 

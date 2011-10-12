@@ -20,16 +20,21 @@ else:
     rss_update_new(id,STATE_RSS_NEW)
 %>
 <div style="border-bottom:1px dotted #ccc;padding:27px;">
+%if user:
     <div>
         ${id} 
-        <div><a href="${user.link}" target="_blank">${user.name}</a></div>
+        <div>
+            <a href="${user.link}" target="_blank">${user.name}</a>
+        </div>
         <a target="_blank" href="${link}">${name}</a>
-        <div><a target="_blank" href="${url}">${url}</a>
+        <div>
+            <a target="_blank" href="${url}">${url}</a>
         </div>
-        </div>
-        <div><a href="/rss_gid/edit/${id}">编辑</a>
-        </div>
-
+    </div>
+    <div>
+        <a href="/rss_gid/edit/${id}">编辑</a>
+    </div>
+%endif
     <div class="tr">
         <a href="/rss_gid/rm/${id}">删除</a>
     </div>

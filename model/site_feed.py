@@ -63,7 +63,7 @@ def site_po_iter(id_list, limit=MAXINT, begin_id=MAXINT):
     pre_zsite_id = None
     m = []
 
-    zsite_set=set()
+    zsite_set = set()
 
     if po_list:
         last_id = po_list[-1].id
@@ -74,7 +74,7 @@ def site_po_iter(id_list, limit=MAXINT, begin_id=MAXINT):
                     zsite_set.add(zsite_dict[pre_zsite_id])
                     m = []
                 pre_zsite_id = i.zsite_id
-            
+
             cid = i.cid
             t = []
             t.append(i.id)
@@ -83,7 +83,7 @@ def site_po_iter(id_list, limit=MAXINT, begin_id=MAXINT):
             if cid == CID_WORD:
                 t.append(i.htm)
             else:
-                t.append(i.name) 
+                t.append(i.name)
 
             if i.zsite_id != i.user_id:
                 user = zsite_dict[i.user_id]
@@ -99,21 +99,21 @@ def site_po_iter(id_list, limit=MAXINT, begin_id=MAXINT):
     ico_url_bind_with_default(zsite_set)
 
     for i in result:
-        id = i[0] 
+        id = i[0]
         zsite = zsite_dict[id]
-        i[0] = [id, zsite.name, zsite.link, zsite.ico] 
+        i[0] = [id, zsite.name, zsite.link, zsite.ico]
 
-    return result,last_id 
+    return result, last_id
 
 
 if __name__ == '__main__':
     for i in site_po_iter([10099440, 10092249]):
-        print "*"*30
+        print '*'*30
         for k in i[0]:
             print k,
-        print ""
+        print ''
         for k in i[1]:
-            print '\t', 
+            print '\t',
             for j in k:
                 print j,
             print ''

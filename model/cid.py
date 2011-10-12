@@ -14,9 +14,9 @@ CID_ZSITE = (
     CID_SITE,
 )
 
-CID_ZSITE_CN={
-    CID_SITE:"站点",
-    CID_USER:"用户",
+CID_ZSITE_CN = {
+    CID_SITE:'站点',
+    CID_USER:'用户',
 }
 
 # Pic

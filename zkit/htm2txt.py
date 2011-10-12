@@ -87,10 +87,10 @@ def htm2txt(htm):
                 if name == 'a':
                     s = soup2txt_recursion(i)
                     ss = s.rstrip()
-                    if not RE_TU.match(ss.lstrip().encode("utf-8")):
+                    if not RE_TU.match(ss.lstrip().encode('utf-8')):
                         li.append(ss)
                         href = i.get('href')
-                        if href and href.startswith("http"):
+                        if href and href.startswith('http'):
                             li.append('[[%s]]'%href)
                         li.append(s[len(ss):])
                     else:
@@ -129,9 +129,11 @@ def htm2txt(htm):
     return txt , pic_list
 
 if __name__ == '__main__':
+    import sys
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
     print htm2txt("""
-3
-12345<a href="http://bw.com"><img src="$"></a>323
-w
+<p>1.结合蓝牙4.0或者耳机唤醒手机。语音搜索和语音输入等技术都要用户手动点击按钮触发语音功能，这事本身就不够酷。但是不借助设备还存在困难，语音功能实时开启探测声波会耗费电量。</p>
+<p><a href="https://picasaweb.google.com/lh/photo/QC-kA8Eep990N-hyeqLPsw?feat=embedwebsite"><img src="https://lh6.googleusercontent.com/-6wI0yrzt5Bw/TpFH9z3B0XI/AAAAAAAAAE4/TlsqNk62jko/s800/siri2.PNG" alt="" width="480" height="270" /></a></p>
 """)[0]
 

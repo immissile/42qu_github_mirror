@@ -18,10 +18,10 @@ from traceback import print_exc
 def _sync_po(begin_id):
     for po in ormiter(
         Po, 'id>%s and state=%s and cid in (%s,%s,%s, %s,%s,%s)' % (
-            begin_id, STATE_ACTIVE, 
+            begin_id, STATE_ACTIVE,
             CID_WORD, CID_NOTE, CID_EVENT, CID_AUDIO, CID_VIDEO, CID_PHOTO
-        )                                                          
-    ):                                                             
+        )
+    ):
         begin_id = po.id
         try:
             sync_po(po)

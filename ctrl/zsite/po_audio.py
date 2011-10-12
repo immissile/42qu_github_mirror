@@ -38,7 +38,7 @@ class PoAudio(LoginBase):
                     state = STATE_ACTIVE
 
                 po = po_audio_new(
-                    user_id, name, txt, audio, 
+                    user_id, name, txt, audio,
                     state,
                     zsite_id=zsite_id
                 )

@@ -12,3 +12,4 @@ import trade
 import event
 import rss
 import site
+import mail_notify

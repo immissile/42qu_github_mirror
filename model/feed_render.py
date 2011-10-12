@@ -149,17 +149,17 @@ def render_zsite_feed_list(user_id, id_list):
     fav_dict = fav_cid_dict(user_id, id_list)
     r = []
     rf = feed_tuple_list(id_list)
-    
+
     zsite_id_set = set(
         i[0] for i in rf
     )
     z_dict = Zsite.mc_get_dict(zsite_id_set)
-    c_dict = career_dict(id for id,i in z_dict.iteritems() if i.cid == CID_USER)
+    c_dict = career_dict(id for id, i in z_dict.iteritems() if i.cid == CID_USER)
     z_dict = dict(
         (i.id, (i.name, i.link))
         for i in z_dict.itervalues()
     )
-    
+
     for id, i in zip(id_list, rf):
         zsite_id = i[0]
         cid = i[1]
@@ -178,7 +178,7 @@ def render_zsite_feed_list(user_id, id_list):
                 result.extend(i[9:])
         else:
             result.extend(i[1:])
-        
+
         r.append(result)
 
     return r, z_dict, c_dict

@@ -1,7 +1,7 @@
 <%inherit file="/god/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.rss import RSS_PRE_PO,RSS_RM
+from model.rss import RSS_PRE_PO,RSS_RM, STATE2CN, STATE_RSS_NEW, RssUpdate, rss_update_new
 from model.po_pic import pic_rss
 import json
 from model.zsite import Zsite
@@ -82,39 +82,59 @@ htm = pic_rss(htm,pic_list)
 %endif
 
 <div class="rss">
-<div class="tr"><span class="L">
-%if user:
-<a href="${user.link}" target="_blank">${user.name}
-%if url:
-( ${url_by_id(user_id)} )
-%endif
-</a> :
-%endif
-${title}</span>
-<a href="/rss/rm/${id}" class="rm">删除</a>
-<a target="_blank" href="${link}">原文</a></div>
-<div>
-<a href="/rss/edit/${rss_id}">Rss编辑</a>
-</div>
-<pre>
-</pre>
-<div id="txt${id}">${txt_cut}</div>
-<div id="bar${id}"><a id="ext${id}" href="javascript:ext(${id})">展开</a><a href="javascript:edit(${id})" class="edit">编辑</a></div>
-<pre id="pre${id}">${htm}</pre>
+    <div class="tr">
+        <span class="L">
+        %if user:
+        <a href="${user.link}" target="_blank">${user.name}
+        %if url:
+        ( ${url_by_id(user_id)} )
+        %endif
+        </a> :
+        %endif
+        ${title}
+        </span>
+        <%
+        ru = RssUpdate.mc_get(rss_id)
+        if ru:
+            state = ru.state
+        else:
+            state = STATE_RSS_NEW
+            rss_update_new(rss_id,STATE_RSS_NEW)
+        %>
 
-<form  id="form${id}" onsubmit="return save(${id})">
-<div>
-    <textarea id="textarea${id}" class="txt" name="txt">${txt}</textarea>
-</div>
-<span><input type="checkbox" id="checkbox${id}"  checked ><label for="checkbox${id}">全站转发</label></span>
-<span class="btnw"><button type="submit">保存</button></span>
-</form>
+        %if state == STATE_RSS_NEW:
+                <a href="/rss/mail/${rss_id}">发邮件</a>
+        %endif
+            ${STATE2CN[state]}
+        <a href="/rss/rm/${id}" class="rm">删除</a>
+        <a target="_blank" href="${link}">原文</a>
+    </div>
+    <div>
+        <a href="/rss/edit/${rss_id}">Rss编辑</a>
+    </div>
+    <div id="txt${id}">${txt_cut}</div>
+    <div id="bar${id}">
+        <a id="ext${id}" href="javascript:ext(${id})">展开</a>
+        %if not rss_state:
+        <a href="/rss/po/edit/${id}" class="edit">编辑</a>
+        %endif
+        <pre id="pre${id}">${htm}</pre>
+
+        <form  id="form${id}" onsubmit="return save(${id})">
+        <div>
+            <textarea id="textarea${id}" class="txt" name="txt">${txt}</textarea>
+        </div>
+        <span><input type="checkbox" id="checkbox${id}"  checked ><label for="checkbox${id}">全站转发</label></span>
+        <span class="btnw"><button type="submit">保存</button></span>
+        </form>
+    </div>
 </div>
 %endfor
-
+%if not rss_state:
 <form method="POST">
 <input type="hidden" name="id" value="${" ".join([str(p[0]) for p in rss_po_list])}"/>
     <span class="btnw"><button type="submit">删除所有未通过</button></span>
 </form>
-% endif
+%endif
+%endif
 <div class="c">${page|n}</div>

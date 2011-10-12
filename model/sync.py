@@ -41,9 +41,9 @@ SYNC_GET_CID = {
 SYNC_CID_TXT = {
     CID_NOTE:'文章 : ',
     CID_EVENT:'发起活动 : ',
-    CID_AUDIO:"音频 : " ,
-    CID_VIDEO:"视频 : ",
-    CID_PHOTO:"图片 : ",
+    CID_AUDIO:'音频 : ' ,
+    CID_VIDEO:'视频 : ',
+    CID_PHOTO:'图片 : ',
 }
 
 SYNC_CID = tuple(i[0] for i in SYNC_CID_CN)

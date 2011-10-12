@@ -17,7 +17,7 @@ CREATE TABLE `zsite_list` (
 ) ENGINE=MyISAM;
 '''
 
-STATE_ACTIVE = 1
+STATE_ACTIVE = 20
 STATE_DEL = 0
 
 
@@ -147,5 +147,5 @@ def zsite_list_sample(zsite_id, cid, k):
 
 if __name__ == '__main__':
     pass
-    from model.cid import CID_SITE
-    print zsite_id_list_by_zsite_id(65, CID_SITE)
+    for i in ZsiteList.where(state=1):
+        print i.state

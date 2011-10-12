@@ -1,10 +1,15 @@
 
 
+function htmlescape(escaped){
+    return escaped.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+}
 
 (function ($) {  
-var pre, at_size, at_list , wordsForSearch, req=0, space_at =/\s+@/;
+var pre, pre0,at_size, at_list , wordsForSearch, req=0, space_at =/\s+@/, ieselect;
+
 
 methods={
+
     getCarePos: function (node, con, line_height) {
         var size = [node.offsetWidth, node.offsetHeight],
             dot = $('<em>&nbsp;</em>'),
@@ -13,11 +18,17 @@ methods={
             pos = {};
 
         if (!pre) {
-            pre = $('<pre></pre>').
-                css(this.initPreStyle(node));
+            pre = $('<pre></pre>').css(this.initPreStyle(node));
             pre.appendTo('body');
+            pre0 = pre[0]
         }
-        pre.html(con).append(dot);
+        con = htmlescape(con)
+        if(pre0.outerHTML){
+            con=con.replace(/\r\n/g,"\n").replace(/\n/g,"<br>")
+        }
+        pre.html(con);
+        pre.height(node.height())
+        pre.append(dot);
         pos = dot.position();
         if(node.scrollTop()>0){
             pos.top -= node.scrollTop()
@@ -35,26 +46,26 @@ methods={
             padding: '0 4px',
             font: '14px/26px Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif',
             'word-wrap': 'break-word',
-            border: '1px'
+            border: '1px',
+            overflow: 'auto'
         }
     },
     getCursorPosition: function (t) {
-       if (document.selection) {
+       if(ieselect===undefined){
+            ieselect = !t.selectionStart && document.selection
+       }
+       if (ieselect) {
             t.focus();
-
             var ds = document.selection,
                 range = ds.createRange(),
                 storedRange = range.duplicate();
-
             storedRange.moveToElementText(t);
             storedRange.setEndPoint('EndToEnd', range);
             t.selectionStart = storedRange.text.length - range.text.length;
             t.selectionEnd = t.selectionStart + range.text.length;
-
             return t.selectionStart;
-        } else {
-            return t.selectionStart;
-        }
+        } 
+        return t.selectionStart;
     },
     setCursorPosition: function (t, p) {
         this.selectRangeText(t, p, p);
@@ -95,39 +106,29 @@ methods={
                 t.scrollTop = s;
             }
         }, 10)
-
-        console.log(val, p ,d)
+ 
         return val.slice(p , d);
     },
 
     insertAfterCursor: function (t, str) {
         var val = t.value,
-            self = this; 
-                
+            self = this, 
+            obj=t;
+            obj.focus();    
         // for IE
-        if (document.selection) {
-            t.focus();
-            document.selection.createRange().text = str;  
-
+        if (document.selection) {            
+            document.selection.createRange().text = str
+        } else if(typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
+            var startPos = obj.selectionStart,
+                endPos = obj.selectionEnd,
+                cursorPos = startPos,
+                tmpStr = obj.value;
+                obj.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
+                cursorPos += str.length;
+            //obj.selectionStart = obj.selectionEnd = cursorPos;
         } else {
-            var obj=t;
-            obj.focus();
-            if (document.selection) {
-                setCursorPosition(obj,pos);
-                var sel = document.selection.createRange();
-                sel.text = str;
-            } else if (typeof obj.selectionStart == 'number' && typeof obj.selectionEnd == 'number') {
-                var startPos = obj.selectionStart,
-                    endPos = obj.selectionEnd,
-                    cursorPos = startPos,
-                    tmpStr = obj.value;
-                    obj.value = tmpStr.substring(0, startPos) + str + tmpStr.substring(endPos, tmpStr.length);
-                    cursorPos += str.length;
-                //obj.selectionStart = obj.selectionEnd = cursorPos;
-            } else {
-                obj.value += str;
-            }    
-        };
+            obj.value += str;
+        }    
     },
 
     moveSelectedItem: function (step) {
@@ -161,7 +162,7 @@ $.fn.pop_at = function(url, line_height){
         
         methods.insertAfterCursor(t,$.trim(v.charAt(0))+" @"+name+" ");
         
-        t.value= $.trim(t.value.replace(space_at," @"))+" "
+        t.value= t.value.replace(space_at," @")
         $('#at_list').remove()
     }
 
@@ -172,15 +173,24 @@ $.fn.pop_at = function(url, line_height){
         $('.at_tip').remove()
     }
 
-    $("body").click(function(){at_list_remove();at_tip_remove()})
+    $("body").click(function(){
+        at_list_remove();at_tip_remove()
+    })
     this.bind('keyup',function(e){
         var self = $(this),
             offset = methods.getCursorPosition(self[0]),
             val = self.val(),
             lastCharAt = val.substring(0, offset).lastIndexOf('@'),
-            hasSpace = val.substring(lastCharAt, offset).indexOf(' ');
+            hasSpace=1, tipword;
+        at_tip_remove()
+        if(lastCharAt>=0){
+            tipword = val.substring(lastCharAt, offset)
+            hasSpace = Math.max(tipword.indexOf(' '),tipword.indexOf("\n"));
+        }
+        if(hasSpace<0){
             pos = methods.getCarePos(self,val.substring(0,lastCharAt),line_height)
             if(offset>0 && lastCharAt==offset-1){
+                
                 at_list_remove()
                 $('body').append('<div class="at_tip">@ 我关注的人 ...</div>')
                 $('.at_tip').css(pos)
@@ -188,7 +198,6 @@ $.fn.pop_at = function(url, line_height){
             }else{
                 at_tip_remove()
             }
-        if(lastCharAt>=0 && hasSpace<0){
             wordsForSearch = val.substring(lastCharAt + 1, offset);
             req+=1;
             var keys = [38,40,13,16,9], myreq=req;
@@ -249,7 +258,6 @@ $.fn.pop_at = function(url, line_height){
             break;
 
             // enter
-
             case 13:
             e.preventDefault();
             atComplete($(this)[0],wordsForSearch)
