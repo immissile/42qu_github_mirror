@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 from _db import Model
 from zsql.hash import by_hash, save_hash
-from zkit.shorturl import t_cn, dwz_cn, curt_cc
+from zkit.shorturl import t_cn, dwz_cn, curt_cc, xrl_us
 
 
 SHORTURL_CID_SINA = 1
 SHORTURL_CID_DWZ = 2
 SHORTURL_CID_CURT = 3
+SHORTURL_CID_XRL = 4
 
 class Shorturl(Model):
     by_url_hash = by_hash('url')
@@ -27,7 +28,8 @@ SHORTURL_CID2SHORT = {
 SHORTURL_CID2URL = {
     SHORTURL_CID_SINA:'http://t.cn/',
     SHORTURL_CID_DWZ:'http://dwz.cn/',
-    SHORTURL_CID_CURT:'http://curt.cc/'
+    SHORTURL_CID_CURT:'http://curt.cc/',
+    SHORTURL_CID_XRL:'http://xrl.us/'
 }
 
 
@@ -50,5 +52,5 @@ def shorturl(url):
 
 
 if '__main__' == __name__:
-    url = 'http://baidu.com'
+    url = 'http://baidu.com?2'
     print shorturl(url)
