@@ -3,9 +3,8 @@ margin:auto;
 float:none;
 }
 h1{
-width: 721px;
 margin: auto;
-text-align:right;
+text-align:left;
 border-bottom:1px dotted #ccc;
 font-size:14px;
 padding:16px 0;
