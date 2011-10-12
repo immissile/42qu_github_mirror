@@ -113,7 +113,6 @@ if __name__ == '__main__':
 
         site =Zsite.mc_get(zsite_id)
         if site.cid == CID_SITE:
-        
             if zsite_id and admin_id:
                 zsite_admin_new(zsite_id, admin_id)
                 print zsite_id, admin_id

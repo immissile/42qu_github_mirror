@@ -22,14 +22,15 @@ STATE_ADMIN = 40
 STATE_ACTIVE = 20
 STATE_DEL = 0
 
+STATE_EGT_ACTIVE = 'state>=%s'%STATE_ACTIVE
 
 MC_LIMIT_ZSITE_LIST = 1024
 
 mc_zsite_id_list = McLimitA('ZsiteIdList%s', MC_LIMIT_ZSITE_LIST)
 mc_zsite_id_list_by_zsite_id = McLimitA('ZsiteIdListByZsiteId%s', MC_LIMIT_ZSITE_LIST)
 
-zsite_list_count = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id).where('state>=%s'%STATE_ACTIVE).count(), 'ZsiteListCount%s')
-zsite_list_count_by_zsite_id = McNum(lambda zsite_id, cid:ZsiteList.where(cid=cid, zsite_id=zsite_id).where('owner_id>0').where('state>=%s'%STATE_ACTIVE).count(), 'ZsiteListCountByZsiteId%s')
+zsite_list_count = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id).where(STATE_EGT_ACTIVE).count(), 'ZsiteListCount%s')
+zsite_list_count_by_zsite_id = McNum(lambda zsite_id, cid:ZsiteList.where(cid=cid, zsite_id=zsite_id).where('owner_id>0').where(STATE_EGT_ACTIVE).count(), 'ZsiteListCountByZsiteId%s')
 
 mc_zsite_list_id_state = McCacheA('ZsiteListIdState:%s')
 
@@ -44,12 +45,12 @@ def zsite_list(owner_id, cid, limit=None, offset=None):
 
 @mc_zsite_id_list('{owner_id}_{cid}')
 def zsite_id_list(owner_id, cid, limit=None, offset=None):
-    qs = ZsiteList.where(owner_id=owner_id, cid=cid, state=STATE_ACTIVE).order_by('rank desc')
+    qs = ZsiteList.where(owner_id=owner_id, cid=cid).where(STATE_EGT_ACTIVE).order_by('rank desc')
     return qs.col_list(limit, offset, 'zsite_id')
 
 @mc_zsite_id_list_by_zsite_id('{zsite_id}_{cid}')
 def zsite_id_list_by_zsite_id(zsite_id, cid, limit=None, offset=None):
-    qs = ZsiteList.where(zsite_id=zsite_id, cid=cid, state=STATE_ACTIVE).where('owner_id>0').order_by('rank desc')
+    qs = ZsiteList.where(zsite_id=zsite_id, cid=cid).where(STATE_EGT_ACTIVE).where('owner_id>0').order_by('rank desc')
     return qs.col_list(limit, offset, 'owner_id')
 
 
