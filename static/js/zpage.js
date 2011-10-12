@@ -311,3 +311,23 @@ $("#feeds .reply_at").live("click", function(){
     txt.val(val)
 })
 })()
+
+function nav2_touch(){
+    if(!islogin())return;
+    var html = $('html,body'),
+        e=$("#nav2_touch").blur(),  
+        drop = $('#nav2drop');
+
+        function _() {
+            drop.hide()
+            html.unbind('click', _)
+        }
+
+        if (drop.is(":hidden")) {
+            drop.show()
+            html.click(_)
+            clicked = true;
+        } else {
+            _()
+        }
+};

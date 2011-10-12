@@ -173,3 +173,11 @@ margin:0;
 background: url('next.gif') no-repeat scroll 100% 50% transparent; 
 color:#000
 }
+.sitepost{
+color:#999; 
+padding:8px 0; 
+float:left;
+}
+.nav2drop{
+margin-top: 35px; margin-left: 261px;
+}

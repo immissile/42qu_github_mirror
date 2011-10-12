@@ -43,14 +43,7 @@ can_admin = site_can_admin(zsite_id, current_user_id)
 ##%if can_admin:
 ##<a href="/admin/review" class="nav_a verify"><span>3</span> 待审批</a>
 ##%endif
-<div class="nav2drop">\
-<a href="/po/note">文章</a>\
-<a href="javascript:po_photo();void(0)">图片</a>\
-<a href="/po/question">问题</a>\
-<a href="/po/event">活动</a>\
-<a href="javascript:po_audio();void(0)">声音</a>\
-<a href="javascript:po_video();void(0)">视频</a>\
-</div>\
+<%include file="/ctrl/zsite/site/_nav2_drop.htm"/>
 </div>
 ${next.body()}
 %else:
