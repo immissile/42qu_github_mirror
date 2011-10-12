@@ -152,13 +152,15 @@ class MySite( SiteListBase, MyBase, ZsiteBase):
     page_url = '/site/my-%s'
 
 
-@urlmap("/read")
+@urlmap('/read')
+@urlmap('/read-(\d+)')
 class Read(LoginBase):
-    def get(self):
+    def get(self, n=1):
         zsite = self.zsite
         current_user = self.current_user
         current_user_id = self.current_user_id
         zsite_fav_get_and_touch(zsite, current_user_id)
-        self.render()
 
+        li, page = render_zsite_site(self, n, "/read-%s")
+        self.render(li=li, page=page)
 

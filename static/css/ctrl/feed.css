@@ -47,6 +47,8 @@ background-position:-16px 6px;
 display:block;
 background:#fff;
 border:1px dotted #ccc;
+border-left:0;
+border-right:0;
 font-size:16px;
 text-align:center;
 color:#999;

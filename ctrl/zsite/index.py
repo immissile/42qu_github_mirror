@@ -9,13 +9,13 @@ from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id, PAGE_LI
 from zkit.page import page_limit_offset
 from model.zsite_fav import zsite_fav_get_and_touch
 
-def render_zsite_site(self, n=1):
+def render_zsite_site(self, n=1, page_template='/-%s'):
     zsite_id = self.zsite_id
     user_id = self.current_user_id
 
     total = po_cid_count_by_zsite_id(zsite_id, 0)
     page, limit, offset = page_limit_offset(
-        '/-%s',
+        page_template,
         total,
         n,
         PAGE_LIMIT
