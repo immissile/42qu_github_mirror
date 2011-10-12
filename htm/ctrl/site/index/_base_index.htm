@@ -4,6 +4,8 @@
 from model.zsite_list import zsite_list
 from model.cid import CID_SITE
 from config import SITE_DOMAIN_SUFFIX 
+
+site_link = "//site%s"%SITE_DOMAIN_SUFFIX
 %>
 %if zsite:
 <h2 class="siteread">
@@ -23,7 +25,7 @@ from config import SITE_DOMAIN_SUFFIX
 <div class="G1">
 <div class="siteread">
 %if zsite:
-<a class="site_a" href="//site${SITE_DOMAIN_SUFFIX}">全部</a>\
+<a class="site_a" href="${site_link}">全部</a>\
 %for  i in zsite_list(current_user_id, CID_SITE):
 %if i.id!=zsite_id:
 <a class="site_a" href="${i.link}/read">${i.name}</a>\

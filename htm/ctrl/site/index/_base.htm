@@ -1,3 +1,6 @@
+<%!
+from config import SITE_DOMAIN_SUFFIX
+%>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/site.htm" import="site_li"/>
 
@@ -8,7 +11,9 @@ ${css.ctrl_site_index|n}
 <%def name="htm_title()">
 站点
 </%def>
-
+<%!
+site_link = "//site%s"%SITE_DOMAIN_SUFFIX
+%>
 
 <%
 path = request.path
@@ -19,7 +24,7 @@ is_all = not path.split("-",1)[0].strip("/")
 %>
 <h1>
     <span class="R">
-        <form action="/q" class="search"><input type="text" value="\
+        <form action="${site_link|n}/q" class="search"><input type="text" value="\
 %if q:
 ${q}\
 %endif
@@ -29,7 +34,7 @@ search.val('').val(val);
 })()</script>
     </span>
     <span class="nav C">
-        <a ${'class="c0"' if is_all else ''|n} href="/">阅读</a><span class="c9 split">-</span><a ${'class="c0"' if is_show else ''|n} href="/show">目录</a><span class="c9 split">-</span><a href="/fav" ${'class="c0"' if is_fav else ''|n}>收藏</a><span class="c9 split">-</span><a href="/my" ${'class="c0"' if is_my else ''|n}>我的</a><span class="c9 split">-</span><a class="new" href="/new">创建</a>
+        <a ${'class="c0"' if is_all else ''|n} href="${site_link|n}">阅读</a><span class="c9 split">-</span><a ${'class="c0"' if is_show else ''|n} href="${site_link|n}/show">目录</a><span class="c9 split">-</span><a href="${site_link|n}/fav" ${'class="c0"' if is_fav else ''|n}>收藏</a><span class="c9 split">-</span><a href="${site_link|n}/my" ${'class="c0"' if is_my else ''|n}>我的</a><span class="c9 split">-</span><a class="new" href="${site_link|n}/new">创建</a>
     </span>
 </h1>
 
