@@ -20,22 +20,25 @@ zsite_by_admin_id_count = McNum(
 
 
 def zsite_admin_new(zsite_id, admin_id, state=STATE_OWNER):
-    cid = CID_SITE
-    zsite = zsite_list_get(
-        zsite_id,
-        admin_id,
-        cid
-    )
-    if not zsite:
-        zsite = zsite_list_new(
+    if zsite_id and admin_id:
+        cid = CID_SITE
+        zsite = zsite_list_get(
             zsite_id,
             admin_id,
-            cid,
-            1,
-            state
+            cid
         )
-
-    mc_flush(zsite_id, admin_id)
+        if not zsite:
+            zsite = zsite_list_new(
+                zsite_id,
+                admin_id,
+                cid,
+                1,
+                state
+            )
+        else:
+            zsite.state = state
+            zsite.save() 
+        mc_flush(zsite_id, admin_id)
 
 def mc_flush(zsite_id, admin_id):
     mc_admin_id_list_by_zsite_id.delete(zsite_id)
@@ -100,4 +103,19 @@ def zsite_user_state(zsite_id, user_id):
 
 
 if __name__ == '__main__':
-    print zsite_id_list_by_admin_id_sample(10000000, 2)
+    from model.zsite import Zsite
+    class ZsiteAdmin(McModel):
+        pass
+    for i in ZsiteAdmin.where("state>0"):
+        
+        zsite_id  = i.zsite_id
+        admin_id = i.admin_id
+
+        site =Zsite.mc_get(zsite_id)
+        if site.cid == CID_SITE:
+        
+            if zsite_id and admin_id:
+                zsite_admin_new(zsite_id, admin_id)
+                print zsite_id, admin_id
+
+
