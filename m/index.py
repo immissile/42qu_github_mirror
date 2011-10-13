@@ -5,6 +5,14 @@ from _urlmap import urlmap
 
 
 @urlmap('/')
-class Index(LoginBase):
+class Index(Base):
     def get(self):
-        self.finish('it works')
+        self.render()
+
+
+@urlmap('/auth/login')
+class AuthLogin(Base):
+    def get(self):
+        self.render(
+                errtip = Errtip()
+                )
