@@ -1,0 +1,44 @@
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>42qu.com 分享</title>
+${css.ctrl_main_share|n}
+</head>
+
+<body>
+    <div class="hd">
+        <div class="banner">
+            <a class="logo" target="_blank" href="http://42qu.com"><span class="num">42</span>qu.com</a>
+            <a class="user" target="_blank" href="${current_user.link}">${current_user.name}</a>
+        </div>
+    </div>
+    <div class="bd">
+       %if not success:
+        <%htm:form>
+            <div class="title">
+    %if href or name:
+%if href:
+<a href="${href}" target="_blank">\
+%endif
+${name or href}\
+%if href:
+</a>\
+%endif
+            </div>
+    %endif
+<textarea class="txt" name="word"></textarea><div class="sub">
+##<span class="tip">140字</span>
+<span class="btnw"><button type="submit">游吟</button></span></div>
+        </%htm:form>
+        %else:
+<div class="success"><p>推荐提交成功</p><p class="mt27"><a href="/">点此浏览首页</a></p></div>
+<script>
+window.close();
+</script>
+        %endif
+    </div>
+</body>
+
+</html>
