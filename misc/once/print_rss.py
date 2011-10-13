@@ -41,7 +41,7 @@ def get_rss(links):
 
 def print_rss():
     links = []
-    m = open('x')
+    m = open('rss2user_id.txt')
     for line in m:
         links.append(line.strip())
 
