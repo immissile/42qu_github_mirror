@@ -1,10 +1,11 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-<html>
+<!doctype html><html>
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>42qu.com 分享</title>
 ${css.ctrl_main_share|n}
+<script src="${js.z|n}"></script>
 </head>
 
 <body>
@@ -34,11 +35,14 @@ ${name or href}\
         </%htm:form>
         %else:
 <div class="success"><p>推荐提交成功</p><p class="mt27"><a href="/">点此浏览首页</a></p></div>
-<script>
-window.close();
-</script>
         %endif
     </div>
+<script>
+%if success:
+window.close();
+%else:
+$(".txt").focus()
+%endif
+</script>
 </body>
-
 </html>
