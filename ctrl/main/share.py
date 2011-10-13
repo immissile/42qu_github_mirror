@@ -38,8 +38,11 @@ class Share(LoginBase):
         current_user_id = self.current_user_id
         txt = self.get_argument('word', None)
         if href:
-            name = ''.join([name,'[[',href,']]'])
-            txt = name+txt
+            if name:
+                name = ''.join([name,'[[',href,']]'])
+                txt = name+txt
+            else:
+                txt = "[["+href+"]]"+txt
         elif name:
             txt = name+" "+txt
 
