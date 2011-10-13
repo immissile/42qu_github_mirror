@@ -30,9 +30,9 @@
 
 给下面地址加参数:
 
-{{{
-[[http://42qu.com/share | http://42qu.com/share]] ? + name & href
-}}}
+[[http://42qu.com/share?name=42区,找到给你答案的人&href=http://zuroc.42qu.com | http://42qu.com/share?name=标题&href=链接]]
+
+name 和 href 都是可选的参数
 
 === 参数解释 ===
 {{{

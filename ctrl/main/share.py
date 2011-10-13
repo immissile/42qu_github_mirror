@@ -23,7 +23,7 @@ class Share(LoginBase):
                 href = href.decode("utf-8")
             except:
                 href = href.decode("gb18030")
-            if not href.startswith("http://") or not href.startswith("https://"):
+            if not href.startswith("http://") and not href.startswith("https://"):
                 href = "http://"+href
             
         if name:
