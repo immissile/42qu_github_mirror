@@ -13,8 +13,8 @@ def get_uri():
     ids = Zsite.raw_sql('select id from zpage.zsite where cid = %s' ,CID_USER).fetchall()
     links = []
     for id in ids:
-        link = ZsiteLink.raw_sql('select link from zpage.zsite_link where zsite_id = %s and cid = 0', *id).fetchone()
-        if link:
+        r = ZsiteLink.raw_sql('select link from zpage.zsite_link where zsite_id = %s and cid in (0,2)', *id).fetchall()
+        for link in r:
             links.append([id[0], link[0]])
     return links
 
