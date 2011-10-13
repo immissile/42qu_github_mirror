@@ -259,6 +259,12 @@ background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
 width:677px;
 height:553px;
 }
+.fdbarload{
+background:url(/img/gif/loading_bar.gif) no-repeat 0 14px; 
+height:24px;
+padding-top:7px;
+border-top:1px solid #eee;
+}
 .fdbar{
 border-top:1px solid #eee;
 text-align:right;
