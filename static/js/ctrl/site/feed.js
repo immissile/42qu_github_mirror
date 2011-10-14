@@ -65,6 +65,7 @@ $(".dcid62 a").live('click',function(){
     pn.find(".site_img").hide()
     $(this.parentNode).replaceWith(prh)
     prh.find(".fdh").text(self.text())
+    prh.find(".site_txt").css("width","auto")
 
     $.getJSON("/j/po"+href.slice(href.lastIndexOf("/")),function(r){
         var zsite=r.pop(), result = {
