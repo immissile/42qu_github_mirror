@@ -17,14 +17,15 @@ $(".site_note a").live('click',function(){
         for (; j < attr.length; ++j) {
             result[attr[j]]=r[j]
         }
-        prh.replaceWith($("#feed61").tmpl(result))
+        prh.replaceWith(
+            $("#feed61").tmpl(result)
+        )
     }) 
     return false
 })
 
 function render_site(data){
-	var feed_loader = feed_load_maker( "zsite_id id")
-	,
+	var feed_loader = feed_load_maker( "zsite_id id"),
     zsite_dict = data[1],
     career_dict = data[2],
     data = data[0],

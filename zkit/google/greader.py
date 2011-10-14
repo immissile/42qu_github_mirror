@@ -185,6 +185,7 @@ class Reader(object):
         return r
 
     def unread(self, feed):
+        feed = quote_feed_url(feed)
         url = '%s?xt=user/-/state/com.google/read'%feed
         return self.feed(url)
 
