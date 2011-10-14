@@ -17,7 +17,6 @@ $(".site_note a").live('click',function(){
         for (; j < attr.length; ++j) {
             result[attr[j]]=r[j]
         }
-        console.info(result)
         prh.replaceWith($("#feed61").tmpl(result))
     }) 
     return false
