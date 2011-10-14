@@ -17,6 +17,8 @@ from model.zsite_url import url_or_id
 from model.career import career_dict
 import time
 from model.ico import pic_url_with_default
+from model.feed_render import feed_tuple_by_db
+from model.career import career_current
 
 def post_reply(self, id):
     user = self.current_user
@@ -74,22 +76,33 @@ class Fav(JLoginBase):
         self.finish('{}')
 
 @urlmap('/j/po/(\d+)')
-class Po(JLoginBase):
+class JPo(JLoginBase):
     def get(self, id):
-        data = {
-            "name":"2011年第2次BPUG活动",
-            "id":1234,
-            "fav":True,
-            "reply_count":1,
-            "zsite":{
-                "name":"w",
-                "unit":"xx",
-                "title":"zz"
-            },
-            "tag_id":232,
-            "tag_name":"sss"
-        }
-        self.finish(data)
+#        data = {
+#            "zsite":{
+#                "name":"w",
+#                "unit":"xx",
+#                "title":"zz"
+#            },
+#            "name":"2011年第2次BPUG活动",
+#            "id":1234,
+#            "fav":True,
+#            "reply_count":1,
+#            "tag_id":232,
+#            "tag_name":"sss"
+#        }
+        po = Po.mc_get(id)
+        user = po.user
+        result = [id]
+        result.extend(feed_tuple_by_db(id))
+        result.pop()
+        result.append(po.htm)
+
+        zsite = [user.name, user.link]
+        zsite.extend(career_current(po.user_id))
+
+        result.append(zsite)
+        self.finish(dumps(result))
 
 
 @urlmap('/j/po/word')

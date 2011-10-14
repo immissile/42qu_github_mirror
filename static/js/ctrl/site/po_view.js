@@ -4,7 +4,21 @@ $(".site_note a").live('click',function(){
     prh.find(".fdh").text(self.text())
 
     $.getJSON("/j/po"+href.slice(href.lastIndexOf("/")),function(r){
-        prh.replaceWith($("#feed61").tmpl(r))
+        var zsite=r.pop(), result = {
+            zsite : {
+                name:zsite[0],
+                link:zsite[1],
+                unit:zsite[2],
+                title:zsite[3]
+            }
+        },
+        attr="id user_id cid rid zsite_id reply_count create_time name txt".split(' '), j=0;
+
+        for (; j < attr.length; ++j) {
+            result[attr[j]]=r[j]
+        }
+        console.info(result)
+        prh.replaceWith($("#feed61").tmpl(result))
     }) 
     return false
 })
