@@ -1,0 +1,72 @@
+<!doctype html>\
+<head>\
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">\
+${self.htm_head()}\
+<title>${self.htm_title()}</title>\
+${css.m_m|n}
+${css.m_base|n}
+</head>\
+<body>\
+<div class="hd">
+        <div class="nav">
+            <a class="new" href="new.htm"></a>
+            <div class="me"><a href="people.htm" class="me_a">${current_user.name}</a></div>
+            <a class="more" href="/logout?${_xsrf}">logout</a>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="bd">
+            <div class="content">
+                <div class="tl_li">
+                    <a class="img_a" href=""><img class="avatar" src="http://p4.42qu.us/96/200/37064.jpg" /></a>
+                    <a class="f16" href="">张沈鹏</a>
+                    <div class="cont">
+                        发表文章 <a href="">Siri的语音交互革命</a>
+                    </div>
+                    <span class="cmt f13"><a href="">5评论</a></span>
+                </div>
+                <div class="tl_li">
+                    <a class="img_a" href=""><img class="avatar" src="http://p4.42qu.us/96/855/53079.jpg" /></a>
+                    <a class="f16" href="">章泽天</a>
+                    <div class="cont">
+                        两相比较之下，台湾大哥大的3G上网速度明显比中国联通的快。不知道是因为台湾大哥大已经布署了号称3.5G的HSPDA，还是因为它确实网络建设和优化做得比较好。
+                    </div>
+                    <span class="cmt f13"><a href="">13评论</a></span>
+                </div>
+                <div class="tl_li">
+                    <a class="img_a" href=""><img class="avatar" src="http://p4.42qu.us/96/243/34035.jpg" /></a>
+                    <a class="f16" href="">Judy张</a>
+                    <div class="cont">
+                        发表文章 <a href="">这城市隐匿着很多传奇</a>
+                    </div>
+                    <span class="cmt f13"><a href="">8评论</a></span>
+                </div>
+                <div class="tl_li">
+                    <a class="img_a" href=""><img class="avatar" src="http://p4.42qu.us/96/481/43489.jpg" /></a>
+                    <a class="f16" href="">Pan小月</a>
+                    <div class="cont">
+                        发起活动 <a href="">【单向街·沙龙】第338期 祝勇：回望辛亥年</a>
+                    </div>
+                    <span class="cmt f13"><a href="">5评论</a></span>
+                </div>
+                <div class="tl_li">
+                    <a class="img_a" href=""><img class="avatar" src="http://p4.42qu.us/96/181/30901.jpg" /></a>
+                    <a class="f16" href="">爱丽丝</a>
+                    <div class="cont">
+                        发起提问 <a href="">有人说现在中国的CPC与二战希特勒是一样的， 为什么这样说？这样说对么？是否太偏激了？</a>
+                    </div>
+                    <span class="cmt f13"><a href="">5评论</a></span>
+                </div>
+            </div>
+            <div class="page">
+                <a class="f16" href="">下一页</a>
+            </div>
+        </div>
+        <div class="ft tl f16">
+            <span class="logo">42qu.com</span><span class="R">手机版 | <a href="http://42qu.com" >网页版</a></span>
+        </div>
+    </div>
+
+</body>
+<%def name="htm_title()">42区(手机版)</%def>\
+<%def name="htm_head()"></%def>\

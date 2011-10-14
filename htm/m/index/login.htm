@@ -1,0 +1,41 @@
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<!doctype html>\
+<head>\
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">\
+${self.htm_head()}\
+<title>${self.htm_title()}</title>\
+${css.m_base|n}
+${css.m_login|n}
+</head>\
+<style>
+.errtip{
+    margin:7px 0 0 40px;
+    color:#f00;
+     
+}
+    </style>
+<body>\
+<div class="wrapper_c">
+        <div class="hd_c">
+            <div id="motto"></div>
+        </div>
+        <div class="bd_c">
+            <%htm:form name="user_login">
+            <div class="input_div f16">
+                    <label for="email">邮箱</label> <input type="text" id ="email" name="mail" class="input" />
+            ${errtip.mail|n}</div>
+                <div class="input_div f16">
+<label for="pwd">密码</label> <input type="password" name="pwd" id ="pwd" class="input" />
+       ${errtip.password|n}
+        </div>
+                
+                <div class="tl"><input class="login_submit submit" type="submit" value="登录"><a href="reg.htm" class="reg_a f16">点此注册</a></div>
+            </%htm:form>
+        </div>
+        <div class="ft_c f16">
+            <span class="c9">42qu.com</span><span class="R">手机版 | <a href="http://42qu.com" >网页版</a></span>
+        </div>
+    </div>
+</body>
+<%def name="htm_title()">42区(手机版)</%def>\
+<%def name="htm_head()"></%def>\

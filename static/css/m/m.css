@@ -1,0 +1,53 @@
+.bd{
+margin-top:20px;
+}
+.hd{
+height:32px;
+background:#000;
+padding:4px 0;
+position:relative;
+}
+.tl_li{
+padding-bottom:5px;
+border-bottom:1px solid #ccc;
+margin-bottom:7px;
+line-height:14px;
+overflow:auto;
+position:relative;
+}
+.cmt{
+position:absolute;
+right:0;
+top:0;
+}
+.cont{
+margin:5px 0 0 53px;
+line-height:18px;
+font-size:14px;
+}
+.img_a{
+float:left;
+margin-right:6px;
+}
+.avatar{
+width:48px;
+height:48px;
+}
+.acts{
+margin-left:8px;
+font-size:12px;
+}
+.split{
+margin:0 4px;
+color:#999;
+}
+.page{
+padding:5px 0;
+margin:5px auto 0;
+width:50px;
+}
+.ft{
+margin:5px 0 10px;
+padding:10px 0;
+border-top:1px solid #ccc;
+}
