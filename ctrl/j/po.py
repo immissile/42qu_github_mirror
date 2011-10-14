@@ -96,6 +96,7 @@ class JPo(JLoginBase):
         result = [id]
         result.extend(feed_tuple_by_db(id))
         result.pop()
+        result.pop()
         result.append(po.htm)
 
         zsite = [user.name, user.link]
