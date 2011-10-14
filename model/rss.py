@@ -200,14 +200,19 @@ def rss_subscribe(greader=None):
             greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
 
         for i in rss_list:
-            greader.subscribe(i.url)
-            i.gid = 1
-            i.save()
             #print i.url
-            feed = 'feed/%s'%i.url
-            rss_feed_update(greader.feed(feed), i.id, i.user_id, 512)
-            greader.mark_as_read(feed)
-
+            try:
+                greader.subscribe(i.url)
+                i.gid = 1
+                i.save()
+                #print i.url
+                feed = 'feed/%s'%i.url
+                rss_feed_update(greader.feed(feed), i.id, i.user_id, 512)
+                greader.mark_as_read(feed)
+            except:
+                traceback.print_exc()
+                print i.url, i.user_id
+                i.delete()
 
     for i in Rss.where('gid<0'):
         if greader is None:
