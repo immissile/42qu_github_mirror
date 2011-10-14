@@ -4,7 +4,7 @@
 
 
 
-function fav(){
+function sitefav(){
     if(!islogin())return;
     $.postJSON(
         '/j/fav',
