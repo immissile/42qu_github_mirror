@@ -118,7 +118,7 @@ text-align:center;
 #feeds .fdimg{
 margin-bottom:8px;
 }
-#feeds .fdh{
+.fdh{
 margin-bottom:14px;
 }
 #feeds .fdpre p{
@@ -128,7 +128,7 @@ padding-bottom:14px;
 #feeds .fdpre{
 margin-bottom:-12px;
 }
-#feeds .fdtxt{
+.fdtxt{
 overflow:hidden;
 }
 #feeds .tag{
