@@ -21,9 +21,19 @@ from model.search_zsite import search_new
 from model.search import search_site
 from ctrl._util.search import search_get
 from ctrl._util.site import _SiteListBase, FavBase, MyBase
+from model.po import Po
 
 PAGE_LIMIT = 20
 
+@urlmap("/(\d+)")
+class PoId(Base):
+    def get(self, id):
+        po = Po.mc_get(id)
+        if po:
+            link = po.link
+        else:
+            link = "/"
+        return self.redirect(link, True)
 
 class SiteListBase(_SiteListBase):
     template = '/ctrl/site/index/list.htm'
