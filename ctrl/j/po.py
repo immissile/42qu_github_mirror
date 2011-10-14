@@ -73,6 +73,24 @@ class Fav(JLoginBase):
 
         self.finish('{}')
 
+@urlmap('/j/po/(\d+)')
+class Po(JLoginBase):
+    def get(self, id):
+        data = {
+            "name":"2011年第2次BPUG活动",
+            "id":1234,
+            "fav":True,
+            "reply_count":1,
+            "zsite":{
+                "name":"w",
+                "unit":"xx",
+                "title":"zz"
+            },
+            "tag_id":232,
+            "tag_name":"sss"
+        }
+        self.finish(data)
+
 
 @urlmap('/j/po/word')
 class Word(JLoginBase):

@@ -1,22 +1,11 @@
 $(".site_note a").live('click',function(){
-    var self=$(this), prh=$('<div class="sdw"><div class="sd cid62"><pre class="fdh"></pre><div class="fdbarload"></div></div></div>');
+    var self=$(this), prh=$('<div class="sdw"><div class="sd cid62"><pre class="fdh"></pre><div class="fdbarload"></div></div></div>'), href=this.href;
     $(this.parentNode).replaceWith(prh)
     prh.find(".fdh").text(self.text())
-    
-    var r = {
-        name:"2011年第2次BPUG活动",
-        id:1234,
-        fav:true,
-        reply_count:1,
-        zsite:{
-            name:"w",
-            unit:"xx",
-            title:"zz"
-        },
-        tag_id:232,
-        tag_name:"sss"
-    }
-    prh.replaceWith($("#feed61").tmpl(r))
+
+    $.getJSON("/j/po"+href.slice(href.lastIndexOf("/")),function(r){
+        prh.replaceWith($("#feed61").tmpl(r))
+    }) 
     return false
 })
 
