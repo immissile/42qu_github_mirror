@@ -192,8 +192,11 @@ cursor:text;
 h2 .G3{overflow:visible}
 
 #feeds .sdw{
-margin-bottom:14px;
+margin-bottom:27px;
 margin-top:14px;
+}
+#site_feed .sdw{
+margin-bottom:14px;
 }
 .adot{
 padding-left:22px;
