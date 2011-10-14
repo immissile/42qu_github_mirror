@@ -30,8 +30,9 @@ ${name or href}\
             </div>
     %endif
 <textarea class="txt" name="word"></textarea><div class="sub">
-##<span class="tip">140字</span>
-<span class="btnw"><button type="submit">游吟</button></span></div>
+<span class="btnw"><button type="submit">游吟</button></span>
+<span class="tip">140字</span>
+</div>
         </%htm:form>
         %else:
 <div class="success"><p>推荐提交成功</p><p class="mt27"><a href="/">点此浏览首页</a></p></div>
@@ -43,6 +44,19 @@ window.close();
 %else:
 $(".txt").focus()
 %endif
+</script>
+<script type="text/javascript">
+$(function(){
+    var tip = $('.tip')
+    can_say = txt_maxlen($('.txt'),tip,142)
+    post_say = function(){
+        if(!can_say()){
+            tip.fadeOut(function(){tip.fadeIn()})
+            return false
+        }
+    }
+    $('form:first').submit(post_say)
+})
 </script>
 </body>
 </html>
