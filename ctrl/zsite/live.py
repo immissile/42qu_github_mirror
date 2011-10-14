@@ -7,4 +7,5 @@ from ctrl._urlmap.zsite import urlmap
 @urlmap('/live')
 class Index(LoginBase):
     def get(self):
-        return self.render()
+        site_rec = self.current_user
+        return self.render(site_rec=site_rec)
