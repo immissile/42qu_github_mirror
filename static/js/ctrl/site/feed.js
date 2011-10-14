@@ -58,8 +58,10 @@
 
 
 $(".dcid62 a").live('click',function(){
-    var self=$(this), prh=$('<div class="sdw"><div class="sd cid62"><pre class="fdh"></pre><div class="fdbarload"></div></div></div>'), href=this.href,pn=$(this.parentNode.parentNode.parentNode)
-    pn.find('.fdnt').css("marginBottom","7px")
+    var self=$(this), prh=$('<div class="sdw"><div class="sd cid62"><pre class="fdh"></pre><div class="fdbarload"></div></div></div>'), href=this.href,pn=$(this.parentNode.parentNode.parentNode), fdnt=pn.find('.fdnt')
+    if(!fdnt.hasClass('adot')){
+        fdnt.addClass("adot")
+    }
     pn.find(".site_img").hide()
     $(this.parentNode).replaceWith(prh)
     prh.find(".fdh").text(self.text())
