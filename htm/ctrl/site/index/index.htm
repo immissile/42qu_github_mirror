@@ -10,11 +10,11 @@
  
 <script id="feed" type="text/x-jquery-tmpl"><%text>
 <div class="c site_po">
-    <a href="${site.link}" target="_blank"><img class="site_img" src="${site.ico}"></a>
+<a href="${site.link}" target="_blank"><img class="site_img" src="${site.ico}"></a>
 
-    <div class="site_txt c">
-<div class="mb4"><a class="c0" target="_blank" href="${site.link}">${site.name}</a></div>
-{{each item}}<div class="${className}">{{if cid==61}}<span
+<div class="site_txt c">
+<div class="mb4 fdnt"><a class="c0" target="_blank" href="${site.link}">${site.name}</a></div>
+{{each item}}<div class="dcid${cid} ${className}">{{if cid==61}}<span
 class="sfptxt">{{html name}}</span>{{else}}<a
 href="${link}" class="sfpa" target="_blank">${name}</a>{{/if}}{{if user_link}}<span
 class="split">-</span><a
@@ -30,6 +30,28 @@ target="_blank" href="${link}" class="zsite_reply"></a>
 
 </%text></script>
 
+<script id="feed61" type="text/x-jquery-tmpl">
+<%text>
+<div class="sdw"><div class="sd cid62">
+<div class="fdh"><a href="/${id}" target="_blank">${name}</a></div>
+<div class="fdtxt" id="fdtxt${id}"><div class="fdtxtin">{{html txt}}</div></div><div
+class="fdbar"><span class="L">
+<span class="fdopt"><a
+class="fcma"
+href="javascript:fcm(${id},${reply_count});void(0)">{{if reply_count}}<span
+class="mr3">${reply_count}</span>{{/if}}评论</a><span
+class="split">-</span><a
+class="vote" href="javascript:share(${id});void(0)">分享</a><span
+class="split">-</span><a
+rel="${id}" href="javascript:void(0)"
+class="{{if fav}}faved{{else}}fav{{/if}}"
+>收藏</a></span>
+</span>
+<a href="${zsite.link}">${zsite.name}{{if zsite.unit||zsite.title}} , ${zsite.unit} ${zsite.title}{{/if}}</a>{{if tag_id}} , <a href="/tag/${tag_id}">${tag_name}</a>{{/if}}
+</div>
+</div></div>
+</%text>
+</script>
 <input type="hidden" id="begin_id">
 
 <script src="${js.ctrl_site_feed|n}"></script>

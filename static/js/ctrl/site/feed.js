@@ -57,17 +57,31 @@
 })();
 
 
+$(".dcid62 a").live('click',function(){
+    var self=$(this), prh=$('<div class="sdw"><div class="sd cid62"><pre class="fdh"></pre><div class="fdbarload"></div></div></div>'), href=this.href,pn=$(this.parentNode.parentNode.parentNode), fdnt=pn.find('.fdnt')
+    if(!fdnt.hasClass('adot')){
+        fdnt.addClass("adot")
+    }
+    pn.find(".site_img").hide()
+    $(this.parentNode).replaceWith(prh)
+    prh.find(".fdh").text(self.text())
 
-/*
-<div class="c site_po">
-    <a href="http://42qu-exam.42qu.com/"><img
-    class="site_img" src="http://p4.42qu.us/96/88/52312.jpg"></a>
+    $.getJSON("/j/po"+href.slice(href.lastIndexOf("/")),function(r){
+        var zsite=r.pop(), result = {
+            zsite : {
+                name:zsite[0],
+                link:zsite[1],
+                unit:zsite[2],
+                title:zsite[3]
+            }
+        },
+        attr="id user_id cid rid zsite_id reply_count create_time name txt".split(' '), j=0;
 
-    <div class="site_txt c">
-        <div class="mb4"><a class="c0" href="http://42qu-exam.42qu.com/">42区笔试题</a></div>
-        <div class="mb4"><a href="#">讨论：长文的数字排版与阅读</a></div>
-        <div class="mb4"><a href="#">讨论：长文的数字排版与阅读</a></div>
-        <div class="sfpword">买了一个air，终于不用背3kg的石头到处跑了。买的时候纠结了好久，是买11还是13的，觉得13看电视会方便，只贵几百块。看了13的air 又觉得差不多加几百就可以买 13的pro高配了。然后又在13的air 和pro纠结。最后还是买了11的air，想起我最初的需求买个便携性好的。。关键的时刻脑袋还是很能用的哈哈<span class="split">-</span><a style="color: rgb(0, 0, 0);" href="#">张沈鹏</a> <a href="http://site.42qu.com/10097628" class="zsite_reply"></a> </div>
-    </div>
-</div>
-*/
+        for (; j < attr.length; ++j) {
+            result[attr[j]]=r[j]
+        }
+        console.info(result)
+        prh.replaceWith($("#feed61").tmpl(result))
+    }) 
+    return false
+})
