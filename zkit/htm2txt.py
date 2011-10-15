@@ -7,7 +7,7 @@ BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
 _char = re.compile(r'&(\w+?);')
 _dec = re.compile(r'&#(\d{2,4});')
 _hex = re.compile(r'&#x(\d{2,4});')
-RE_TU = re.compile(r"\s*图:\d+\s*$")
+RE_TU = re.compile(r"^\s*图:\d+\s*$")
 
 def _char_unescape(m, defs=htmlentitydefs.entitydefs):
     try:
