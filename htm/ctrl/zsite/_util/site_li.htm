@@ -5,20 +5,6 @@ from config import FS_URL
 from tornado.escape import json_encode 
 %>
 
-<script type="text/javascript">
-fdh_close = function(id){
-    $('#G'+id).replaceWith(html)
-    html.find('a:first').addClass('c0')
-    $(window).scrollTop(html.offset().top-80)
-    html = null
-}
-fdh_open = function (id){
-    var node = $('.cid62').parent().parent().parent()
-    if(node[0])fdh_close(node.attr('id').substring(1))
-    html = $('#sn'+id)
-    $(window).scrollTop($('#sn'+id).offset().top - 80)
-}
-</script>
 
 %if li:
 <script id="feed" type="text/x-jquery-tmpl">

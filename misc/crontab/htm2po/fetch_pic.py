@@ -5,8 +5,11 @@ import urllib2
 from zkit.retry import urlfetch
 from zkit.pic import picopen
 
-def fetch_pic(url, referer=None):
+exist = {}
 
+def fetch_pic(url, referer=None):
+    if url in exist:
+        return exist[url]
     headers = {}
 
     if referer:
@@ -15,7 +18,9 @@ def fetch_pic(url, referer=None):
     request = urllib2.Request(url, None, headers)
     raw = urlfetch(request)
 
-    return picopen(raw)
+    img = picopen(raw)
+    exist[url] = img
+    return img 
 
 
 def main():
