@@ -58,9 +58,10 @@ def htm2po_by_po(pre):
             img = None
         else:
             img = fetch_pic(url)
-            x, y = img.size
-            if x < 48 and y < 48:
-                img = None
+            if img:
+                x, y = img.size
+                if x < 48 and y < 48:
+                    img = None
 
         if img:
             po_pic_new(pre.user_id, po_id, img, seq)
