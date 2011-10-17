@@ -46,3 +46,8 @@ class NotifyAdd(Base):
         if id:
             new_mail_tem(id)
         self.redirect('/mail/notify')
+
+@urlmap('/mail/group')
+class MailGroup(Base):
+    def get(self):
+        self.render()
