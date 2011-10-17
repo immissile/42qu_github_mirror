@@ -6,7 +6,6 @@ from config import FS_URL
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render, reply_textarea"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
-
 <%def name="htm_head()">
 ${css.ctrl_live|n}
 %if site_rec:
@@ -14,16 +13,15 @@ ${css.ctrl_site_rec|n}
 %endif
 </%def>
 
-
 <%def name="htm_foot()">
 <a id="feed_load" href="javascript:void(0)">加载更多</a>
 <div id="feed_loading"></div>
 <script src="${js.ctrl_live}"></script>
 </%def>
 
+
 %if zsite_id == current_user_id:
 <div class="live_top G c" style="margin-left:219px">
-
 ${buzz_show(zsite_id)}
 
 <%htm:form className="G2" action="/po/word" id="po_word_form">
@@ -76,6 +74,7 @@ id="po_word_txt" name="txt"></textarea>\
         <div class="site_act">
             <a class="site_unfav" href="javascript:unfav_site();void(0)">不感兴趣</a>
             <a class="site_fav" href="javascript:fav_site();void(0)">收藏站点</a>
+            <a class="site_more" href="" target="_blank">查看更多</a>
         </div>
         <div class="site_txt">
             <a class="site_txt_a" target="_blank"  href="">按评分排序，同时考虑分值和评分人数，拍脑袋拍出一公式来</a>
@@ -86,8 +85,7 @@ id="po_word_txt" name="txt"></textarea>\
     </div>
 </div>
 </script>
-
-<script src="${js.ctrl_site_rec|n}"></script>
+<script src="${js.ctrl_site_rec}"></script>
 %endif
 <div id="main"><div id="feeds"><input id="begin_id" type="hidden"></div></div>
 
