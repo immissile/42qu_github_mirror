@@ -132,6 +132,13 @@ ${friendly_time(po.create_time)}
 %else:
 <div>
 <a href="${user.link}" target="_blank"> ${user.name}</a> : ${po.name_htm|n} <a href="${po.link}" target="_blank">▷</a>
+<a href="/po/show/set/${id}">\
+% if po_is_show(po):
+设置\
+% elif po.state >= STATE_ACTIVE:
+转发\
+% endif
+</a>\
 </div>
 %endif
 % endfor
