@@ -8,14 +8,16 @@ path_name = (
    ('/i/link',"链接"), 
    ('/i/mail/notice',"邮件"), 
    ('/i/password',"密码"),
-   ('/i/bind',"同步"), 
+   ('/i/bind',"同步"),
+   ('/i/invite',"邀请"),
    ('/i/invoke',"授权"),
 )
+path_sp = path.split('/')
 %>
 <div class="i_nav">\
 %for nav_path, nav_name in path_name:
 <a
-%if nav_path == path:
+%if nav_path == '/'.join(path_sp[0:3]):
 class="now"
 %endif
 href="${nav_path}">${nav_name}</a>\

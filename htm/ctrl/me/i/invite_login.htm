@@ -1,0 +1,45 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from config import SITE_DOMAIN
+%><%def name="head()">
+${css.ctrl_i_password|n}
+</%def>
+<style>
+.login{
+width:528px;
+margin:20px auto 0;
+overflow:auto;
+}
+.text{
+width:240px;
+padding:6px;
+}
+.text_p{
+margin-bottom:16px;
+}
+.txt_sub{
+margin-left:64px;
+}
+.tip{
+margin-top:20px;
+color:#999;
+margin-left:220px;
+}
+
+</style>
+<p class="tip">
+    寻找MSN好友 (我们不会记录你的密码, 请放心)
+</p>
+<form class="login" action="http://rpc.${SITE_DOMAIN}/invite/msn" method="GET" >
+<p class="text_p">
+    <label for="email">MSN帐号 </label><input class="text" name="email" type="text">
+</p>
+<p class="text_p">
+    <label for="password">MSN密码 </label><input name="passwd" class="text"  type="password">
+</p>
+<p>
+    <span class="btnw txt_sub"><button type="submit">找好友</button></span>
+</p>
+</form>
+

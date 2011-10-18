@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import LoginBase
 from _urlmap import urlmap
-from config import SITE_URL
+from config import SITE_URL, SITE_DOMAIN
 from model.invite_email import CID_GOOGLE, CID_MSN, new_invite_email, get_email_by_cid, msn_friend_get
 import tornado.web
 from tornado.auth import GoogleMixin
@@ -15,10 +15,14 @@ class MsnAsync(LoginBase):
     def get(self):
         email = self.get_argument('email',None)
         passwd = self.get_argument('passwd',None)
+        url = 'http://%s.%s'%(self.current_user_id,SITE_DOMAIN)
         if email and passwd:
             res = msn_friend_get(email,passwd)
-        new_invite_email(self.current_user_id,email,CID_MSN,res)
-        self.finish({'frd_list':get_email_by_cid(self.current_user_id,CID_MSN)})
+            new_invite_email(self.current_user_id,email,CID_MSN,res)
+            return self.redirect('%s/i/invite/show'%url)
+        else:
+            self.render('/ctrl/me/i/invite_login.htm')
+            #self.redirect('%s/i/invite'%url)
 
 class _GoogleMixin(GoogleMixin):
     _OAUTH_VERSION = "1.0"

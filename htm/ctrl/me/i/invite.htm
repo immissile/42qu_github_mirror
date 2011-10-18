@@ -1,0 +1,41 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="head()">
+${css.ctrl_i_password|n}
+</%def>
+<style>
+.s_items{
+width:528px;
+margin:20px auto 0;
+overflow:auto;
+}
+.s_item{
+width:234px;
+margin-right:16px;
+padding:16px 0;
+float:left;
+overflow:hidden;
+border-bottom:1px dashed #ccc;
+}
+.s_item a{
+color:#444;
+}
+.s_item a:hover{
+color:#000;
+}
+.tip{
+margin-top:20px;
+color:#999;
+margin-left:220px;
+}
+
+</style>
+
+<p class="tip">
+寻找你在42区上的好友</p>
+<div class="s_items">
+    <div class="s_item"><a href="invite/login">寻找MSN好友</a></div>
+    <div class="s_item"><a href="">寻找Gmail好友</a></div>
+    <div class="s_item"><a href="">寻找QQ好友</a></div>
+
+</div>

@@ -341,7 +341,30 @@ class MailNotice(LoginBase):
             mail_notice_set(user_id, cid, state)
         self.get()
 
+@urlmap('/i/invite')
+class Invite(LoginBase):
+    def get(self):
+        self.render()
 
+@urlmap('/i/invite/type')
+class InviteType(LoginBase):
+    def get(self):
+        self.render()
+
+@urlmap('/i/invite/login')
+class InviteLogin(LoginBase):
+    def get(self):
+        self.render()
+
+@urlmap('/i/invite/show')
+class InviteShow(LoginBase):
+    def get(self):
+        self.render()
+
+@urlmap('/i/invite/email')
+class InviteEmail(LoginBase):
+    def get(self):
+        self.render()
 
 @urlmap('/i/password')
 class Password(LoginBase):
