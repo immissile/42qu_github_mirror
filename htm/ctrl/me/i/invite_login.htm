@@ -6,29 +6,40 @@ ${css.ctrl_i_password|n}
 <style>
 .login{
 width:528px;
-margin:20px auto 0;
+margin:48px auto 0;
 overflow:auto;
 }
 .text{
-width:240px;
+width:375px;
 padding:6px;
 }
 .text_p{
+font-size:16px;
 margin-bottom:16px;
 }
 .txt_sub{
-margin-left:64px;
+margin-left:71px;
 }
 .tip{
-margin-top:20px;
-color:#999;
-margin-left:220px;
+margin-top:22px;
+color:#000;
+font-size:16px;
+text-align:center;
+border-bottom:1px dotted #ccc;
+padding-bottom:22px;
 }
-
+.s_tip{
+font-size:14px;
+color:#999;
+margin:0 0 16px 70px;
+}
+.bk_a{
+font-size:16px;
+float:right;
+margin:6px 66px 0 0;
+}
 </style>
-<p class="tip">
-    寻找MSN好友 (我们不会记录你的密码, 请放心)
-</p>
+<p class="tip">寻找 MSN 好友</p>
 <form class="login" action="" method="" >
 <p class="text_p">
     <label for="email">MSN帐号 </label><input class="text" name="email" type="text">
@@ -36,7 +47,11 @@ margin-left:220px;
 <p class="text_p">
     <label for="password">MSN密码 </label><input name="password" class="text"  type="password">
 </p>
+<p class="s_tip">
+(我们不会记录你的密码, 请放心)
+</p>
 <p>
+    <a href="javascript:history.go(-1);void(0)" class="bk_a">返回</a>
     <span class="btnw txt_sub"><button type="submit">找好友</button></span>
 </p>
 </form>

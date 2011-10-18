@@ -4,8 +4,8 @@
 ${css.ctrl_i_password|n}
 </%def>
 <script>
-$(function(){
-   $('#select_all').click(
+$(function(){ 
+    $('#select_all').click(
         function(){
             if($(this).attr('checked')){
                 $('.ck').attr('checked',true)
@@ -19,10 +19,12 @@ $(function(){
 <style>
 .e_items{
 width:528px;
-margin:20px auto 0;
+margin:27px auto 0;
 overflow:auto;
 border:1px solid #ccc;
 padding:12px;
+max-height:400px;
+overflow:auto;
 }
 .e_item{
 display:block;
@@ -38,8 +40,8 @@ left:250px;
 text-align:left;
 }
 .tip{
-margin-top:20px;
-color:#999;
+margin-top:27px;
+font-size:16px;
 margin-left:207px;
 }
 .act{
@@ -47,15 +49,20 @@ margin:0 10px 0 0;
 }
 #select_all{
 padding:12px;
+margin-left:18px;
 }
-.nb{
-border-bottom:0;
+.select_all{
+width:552px;
+border:1px solid #ccc;
+border:0 1px 1px;
+margin:-1px auto 0;
+padding:6px 0;
 }
 .mail_txt{
 padding:6px;
 width:540px;
 height:85px;
-margin:20px 0 0 210px;
+margin:27px 0 0 210px;
 }
 .mail_sub{
 margin:20px 0 40px 758px;
@@ -65,6 +72,7 @@ margin:20px 0 40px 758px;
 <p class="tip">
 你有7个联系人不在42区上,你可以在下面的列表中选择你想邀请的联系人
 </p>
+<form>
 <div class="e_items">
     <div class="e_item">
         <input type="checkbox" id="e_check1" class="ck">
@@ -91,12 +99,14 @@ margin:20px 0 40px 758px;
         <label for="e_check2">大宝SOD密</label>
         <span class="e_email">dabaosodmi@gmail.com</span>
     </div>
-    <div class="e_item nb">
-        <input type="checkbox" id="select_all"><label for="select_all"> 全选</label>
-    </div>
 </div>
+<div class="select_all">
+    <input type="checkbox" id="select_all"><label for="select_all"> 全选</label>
+</div>
+
 <p class="tip">
 想在42区发出的邀请信中加几句话吗？
 </p>
 <textarea class="mail_txt" name="mail_txt"></textarea>
 <div class="mail_sub"><span class="btnw"><button type="submit">发送邀请</button></span></div>
+</form>

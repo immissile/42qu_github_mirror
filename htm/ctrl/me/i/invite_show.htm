@@ -27,25 +27,29 @@ $(function(){
 </script>
 <style>
 .items{
-width:528px;
-margin:20px auto 0;
+margin:27px auto 0;
 overflow:auto;
-border:1px solid #ccc;
 }
 .f_item, .f_item2{
 display:block;
-width:250px;
+width:224px;
 height:48px;
 padding:6px;
+margin:0 5px 5px 0;
 float:left;
 overflow:hidden;
+color:#444;
 border:1px solid #fff;
 }
 .f_item2{
-background:#eee;
+background:#a10;
+color:#fff;
+}
+.f_item2:hover{
+color:#fff;
 }
 .f_item:hover{
-text-decoration:none;
+color:#444;
 border:1px solid #ccc;
 }
 .f_img{
@@ -54,34 +58,41 @@ height:48px;
 float:left;
 margin-right:6px;
 }
-.f_name{
-color:#444;
+.f_icon{
+margin-left:5px;
+vertical-align:-2px;
+background:url(/img/gif/icons/gif/white/16x16/tick.gif);
+width:16px;
+height:16px;
+display:inline-block;
 }
 .f_email{
-color:#444;
 margin-top:-4px;
 }
 .tip{
-margin-top:20px;
-color:#999;
-margin-left:220px;
+margin-top:27px;
+font-size:16px;
 }
 .acts{
-float:right;
-overflow:auto;
-margin-right:210px;
-}
-.acts_wrap{
 text-align:left;
 overflow:auto;
-margin-top:20px;
+margin-top:27px;
+clear:both;
 }
 .act{
-margin:0 10px 0 0;
+margin:0 37px 0 0;
+}
+.item_wrap{
+overflow:auto;
+}
+.select_all{
+margin-top:16px;
+float:right;
+line-height:14px;
+margin-right:15px;
 }
 #select_all{
-margin-left:222px;
-margin-top:16px;
+margin-right:2px;
 }
 </style>
 
@@ -89,8 +100,10 @@ margin-top:16px;
 你有6个MSN联系人也在使用42区 , 你可以选择一些来关注 :
 </p>
 <div class="items">
+<div class="item_wrap">
 <a class="f_item" href="javascript:void(0)"><img class="f_img" src="http://p4.42qu.us/96/200/37064.jpg">
     <span class="f_name">张沈鹏</span>
+    <span class="f_icon"></span>
     <div class="f_email">zsp007@hotmail.com</div>
 </a>
 <a class="f_item" href="javascript:void(0)"><img class="f_img" src="http://p4.42qu.us/96/243/34035.jpg">
@@ -114,10 +127,10 @@ margin-top:16px;
     <div class="f_email">zsp007@hotmail.com</div>
 </a>
 </div>
-<div class="acts_wrap">
-    <div class="acts">
-        <span class="btnw act"><button type="button">关注所选</button></span>
-        <span class="btnw act"><button type="button">跳过</button></span>
-    </div>
-    <input type="checkbox" id="select_all" /> <label for="select_all">全选</label>
+<div class="acts">
+    <span class="btnw act R"><button type="button">关注所选</button></span>
+    <span class="btnw act"><button type="button">跳过</button></span>
+    <label for="select_all" class="select_all">全选</label><input type="checkbox" id="select_all" class="select_all"/>
 </div>
+</div>
+
