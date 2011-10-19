@@ -1,4 +1,4 @@
-.arrow_pic{
+.site_to{
 width:200px;
 height:17px;
 position:absolute;
@@ -94,7 +94,7 @@ display:none;
 #H .site_more:hover{
 color:#a10;
 }
-.close_site{
+.site_x{
 display:block;
 position:absolute;
 right:0;
@@ -105,7 +105,7 @@ padding:4px;
 width:16px;
 z-index:3;
 }
-.close_site:hover{
+.site_x:hover{
 background:url(/img/gif/icons/gif/black/to_size/close.gif) 8px 8px  no-repeat;
 }
 .site_txt{

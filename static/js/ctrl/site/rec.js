@@ -1,7 +1,7 @@
 
 ;$(function(){
-    close_site = function(){
-        $('.site_rec,.arrow_pic,.close_site').remove()
+    site_x = function(){
+        $('.site_rec,.site_to,.site_x').remove()
     }
     fav_site = function(){
         $('.site_unfav').slideUp()
@@ -18,7 +18,7 @@
             'j',
             {}
         )
-        $('.site_rec,.arrow_pic,.close_site').remove()
+        $('.site_rec,.site_to,.site_x').remove()
     }
 });
 $("#site_rec").tmpl({}).prependTo(".H")
