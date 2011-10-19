@@ -3,14 +3,14 @@
 from _handler import LoginBase
 from _urlmap import urlmap
 from config import SITE_URL, SITE_DOMAIN
-from model.invite_email import CID_GOOGLE, CID_MSN, new_invite_email, get_email_by_cid, msn_friend_get
+from model.invite_email import CID_GOOGLE, CID_QQ,  CID_MSN, new_invite_email, get_email_by_cid, msn_friend_get, get_invite_uid_by_cid
 import tornado.web
 from tornado.auth import GoogleMixin
 import thread
 from zweb.json import jsonp
 from yajl import dumps
 
-@urlmap('/invite/msn')
+@urlmap('/invite/%s'%CID_MSN)
 class MsnAsync(LoginBase):
     @tornado.web.asynchronous
     def get(self):
@@ -23,7 +23,7 @@ class MsnAsync(LoginBase):
             if res:
                 print res
                 new_invite_email(self.current_user_id,email,CID_MSN,res)
-                return self.finish(jsonp(self,dumps({"error":False})))
+                return self.finish(jsonp(self,dumps({"error":False,"next":get_invite_uid_by_cid(self.current_user_id,CID_MSN)})))
             else:
                 return self.finish(jsonp(self,dumps({"error":"邮箱或密码错误"})))
         else:
@@ -37,7 +37,7 @@ class _GoogleMixin(GoogleMixin):
         self.access_token = access_token
         super(self,GoogleMixin)._oauth_get_user(access_token,callback)
 
-@urlmap('/invite/google')
+@urlmap('/invite/%s'%CID_GOOGLE)
 class GoogleAsync(LoginBase,_GoogleMixin):
     @tornado.web.asynchronous
     def get(self):

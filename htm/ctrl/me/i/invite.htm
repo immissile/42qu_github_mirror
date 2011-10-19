@@ -3,6 +3,9 @@
 <%def name="head()">
 ${css.ctrl_i_password|n}
 </%def>
+<%!
+from model.invite_email import CID_MSN,CID_GOOGLE,CID_QQ
+%>
 <style>
 .s_items{
 width:528px;
@@ -37,8 +40,8 @@ border-bottom:1px dotted #ccc;
 <p class="tip">
 寻找你在42区上的好友</p>
 <div class="s_items">
-    <div class="s_item"><a href="invite/login">寻找MSN好友</a></div>
-    <div class="s_item"><a href="">寻找Gmail好友</a></div>
-    <div class="s_item"><a href="">寻找QQ好友</a></div>
+    <div class="s_item"><a href="invite/login/${CID_MSN}">寻找MSN好友</a></div>
+    <div class="s_item"><a href="invite/login/${CID_GOOGLE}">寻找Gmail好友</a></div>
+    <div class="s_item"><a href="invite/login/${CID_QQ}">寻找QQ好友</a></div>
 
 </div>

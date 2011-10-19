@@ -3,6 +3,10 @@
 <%def name="head()">
 ${css.ctrl_i_password|n}
 </%def>
+<%!
+from model.zsite import Zsite
+from model.user_mail import mail_by_user_id
+%>
 <script>
 $(function(){
     $('.f_item').toggle(
@@ -97,39 +101,27 @@ margin-right:2px;
 </style>
 
 <p class="tip">
-你有6个MSN联系人也在使用42区 , 你可以选择一些来关注 :
+你有${len(uid_list)}个MSN联系人也在使用42区 , 你可以选择一些来关注 :
 </p>
 <div class="items">
-<div class="item_wrap">
-<a class="f_item" href="javascript:void(0)"><img class="f_img" src="http://p4.42qu.us/96/200/37064.jpg">
-    <span class="f_name">张沈鹏</span>
+    <div class="item_wrap">
+% for uid in uid_list:
+<%
+zsite = Zsite.mc_get(uid)
+%>
+<a class="f_item" href="javascript:void(0)" id="${uid}"><img class="f_img" src="${zsite.ico96}">
+    <span class="f_name">${zsite.name}</span>
     <span class="f_icon"></span>
-    <div class="f_email">zsp007@hotmail.com</div>
+    <div class="f_email">${mail_by_user_id(uid)}</div>
 </a>
-<a class="f_item" href="javascript:void(0)"><img class="f_img" src="http://p4.42qu.us/96/243/34035.jpg">
-    <span class="f_name">张沈鹏</span>
-    <div class="f_email">zsp007@hotmail.com</div>
-</a>
-<a class="f_item" href="javascript:void(0)"><img class="f_img" src="http://p4.42qu.us/96/181/30901.jpg">
-    <span class="f_name">张沈鹏</span>
-    <div class="f_email">zsp007@hotmail.com</div>
-</a>
-<a class="f_item" href="javascript:void(0)"><img class="f_img" src="http://p4.42qu.us/96/200/37064.jpg">
-    <span class="f_name">张沈鹏</span>
-    <div class="f_email">zsp007@hotmail.com</div>
-</a>
-<a class="f_item" href="javascript:void(0)"><img class="f_img" src="http://p4.42qu.us/96/200/37064.jpg">
-    <span class="f_name">张沈鹏</span>
-    <div class="f_email">zsp007@hotmail.com</div>
-</a>
-<a class="f_item" href="javascript:void(0)"><img class="f_img" src="http://p4.42qu.us/96/855/53079.jpg">
-    <span class="f_name">张沈鹏</span>
-    <div class="f_email">zsp007@hotmail.com</div>
-</a>
+%endfor
 </div>
 <div class="acts">
-    <span class="btnw act R"><button type="button">关注所选</button></span>
-    <span class="btnw act"><button type="button">跳过</button></span>
+    <%htm:form method="POST" >
+        <input type="hidden" name="follow_id_list" value="10021794" />
+        <span class="btnw act R"><button type="submit">关注所选</button></span>
+    </%htm:form>
+    <span class="btnw act"><button type="button" onclick="location='/i/invite/email'">跳过</button></span>
     <label for="select_all" class="select_all">全选</label><input type="checkbox" id="select_all" class="select_all"/>
 </div>
 </div>

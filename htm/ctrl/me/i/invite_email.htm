@@ -3,6 +3,9 @@
 <%def name="head()">
 ${css.ctrl_i_password|n}
 </%def>
+<%!
+from model.invite_email import INVITE_CID2CN
+%>
 <script>
 $(function(){ 
     $('#select_all').click(
@@ -70,35 +73,17 @@ margin:20px 0 40px 758px;
 </style>
 
 <p class="tip">
-你有7个联系人不在42区上,你可以在下面的列表中选择你想邀请的联系人
+你有${len(emails)}个${INVITE_CID2CN[int(cid)]}联系人不在42区上,你可以在下面的列表中选择你想邀请的联系人
 </p>
-<form>
-<div class="e_items">
+<%htm:form>
+    <div class="e_items">
+        %for email in emails:
     <div class="e_item">
-        <input type="checkbox" id="e_check1" class="ck">
-        <label for="e_check1">张沈鹏</label>
-        <span class="e_email">zsp007@hotmail.com</span>
+        <input type="checkbox" name="mails" value="${email[0]}" class="ck">
+        <label for="e_check1">${email[0]}</label>
+        <span class="e_email">${email[1]}</span>
     </div>
-    <div class="e_item">
-        <input type="checkbox" id="e_check2" class="ck">
-        <label for="e_check2">Steve Jobs</label>
-        <span class="e_email">stevejobs@qq.com</span>
-    </div>
-    <div class="e_item">
-        <input type="checkbox" id="e_check3" class="ck"> 
-        <label for="e_check2">大宝SOD密</label>
-        <span class="e_email">dabaosodmi@gmail.com</span>
-    </div>
-    <div class="e_item">
-        <input type="checkbox" id="e_check2" class="ck">
-        <label for="e_check2">Steve Jobs</label>
-        <span class="e_email">stevejobs@qq.com</span>
-    </div>
-    <div class="e_item">
-        <input type="checkbox" id="e_check3" class="ck">
-        <label for="e_check2">大宝SOD密</label>
-        <span class="e_email">dabaosodmi@gmail.com</span>
-    </div>
+    %endfor
 </div>
 <div class="select_all">
     <input type="checkbox" id="select_all"><label for="select_all"> 全选</label>
@@ -109,4 +94,4 @@ margin:20px 0 40px 758px;
 </p>
 <textarea class="mail_txt" name="mail_txt"></textarea>
 <div class="mail_sub"><span class="btnw"><button type="submit">发送邀请</button></span></div>
-</form>
+</%htm:form>
