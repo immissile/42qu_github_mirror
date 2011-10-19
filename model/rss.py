@@ -239,3 +239,7 @@ if __name__ == '__main__':
     #rss.gid = 0
     #rss.save() 
     #RssPo.where(user_id=10098398).delete()
+    for i in Rss.where():
+        print i.url
+        if 'http://rss-tidy/' in i.url:
+            print i
