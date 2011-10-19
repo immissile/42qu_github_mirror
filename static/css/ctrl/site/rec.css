@@ -14,7 +14,7 @@ height:201px;
 padding:6px 10px;
 position:absolute;
 top:63px;
-margin-left:611px;
+margin-left:465px;
 border:1px solid #e9e9e9;
 background:#fff;
 box-shadow:-1px 2px 2px #f3f3f3;
@@ -99,14 +99,14 @@ display:block;
 position:absolute;
 left:1093px;
 top:64px;
-background:url('http://s4.42qu.us/img/gif/icons/gif/light_gray/to_size/close.gif') 8px 8px  no-repeat;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) 8px 8px  no-repeat;
 height:16px;
 padding:4px;
 width:16px;
 z-index:3;
 }
 .close_site:hover{
-background:url('http://s4.42qu.us/img/gif/icons/gif/black/to_size/close.gif') 8px 8px  no-repeat;
+background:url(/img/gif/icons/gif/black/to_size/close.gif) 8px 8px  no-repeat;
 }
 .site_txt{
 border-left: 1px dotted #CCCCCC;
