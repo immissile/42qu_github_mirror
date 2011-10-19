@@ -15,18 +15,20 @@ LOG_HISTORY_CID_USER = 1
 LOG_HISTORY_CID_PO = 2
 LOG_HISTORY_CID_REPLY = 3
 LOG_HISTORY_CID_FOLLOW = 4
-
+LOG_HISTORY_CID_PO_ZSITE = 5
 LOG_HISTORY_CID = (
     LOG_HISTORY_CID_USER,
     LOG_HISTORY_CID_PO,
     LOG_HISTORY_CID_REPLY,
     LOG_HISTORY_CID_FOLLOW,
+    LOG_HISTORY_CID_PO_ZSITE
 )
 LOG_HISTORY_CN_CID = {
     LOG_HISTORY_CID_USER: '用户',
     LOG_HISTORY_CID_PO: '帖子',
     LOG_HISTORY_CID_REPLY: '回复',
     LOG_HISTORY_CID_FOLLOW:'关注',
+    LOG_HISTORY_CID_PO_ZSITE:'小站贴'
 }
 
 
@@ -77,8 +79,13 @@ def log_num_user():
     log_history_new(Zsite, LOG_HISTORY_CID_USER, num)
 
 def log_num_po():
-    num = Po.raw_sql('select count(1) from po').fetchone()[0]
+    num = Po.raw_sql('select count(1) from po where zsite_id = 0').fetchone()[0]
     log_history_new(Po, LOG_HISTORY_CID_PO, num)
+
+
+def log_num_po_zsite():
+    num = Po.raw_sql('select count(1) from po where zsite_id != user_id').fetchone()[0]
+    log_history_new(Po, LOG_HISTORY_CID_PO_ZSITE, num )
 
 
 def log_num_reply():
@@ -96,6 +103,7 @@ def log_num():
     log_num_reply()
     log_num_po()
     log_num_follow()
+    log_num_po_zsite()
 
 
 if __name__ == '__main__':
