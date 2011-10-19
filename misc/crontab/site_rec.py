@@ -15,7 +15,7 @@ def can_rec_site_id_list():
     for i in ormiter(Zsite, 'cid=%s'%CID_SITE):
         zsite_id = i.id
         count = po_cid_count_by_zsite_id(zsite_id, CID_NOTE)
-        if count >= 2:
+        if count > 5:
             result.append(zsite_id)
     return set(result)
 
