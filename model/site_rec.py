@@ -43,5 +43,5 @@ def site_rec_feeckback(user_id, zsite_id, state):
         user_id=user_id, zsite_id=zsite_id, state=state
     ).save()
 
-#    SiteRec.set(user_id, 0)
+    SiteRec.set(user_id, 0)
 
