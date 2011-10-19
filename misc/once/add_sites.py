@@ -36,11 +36,12 @@ def get_in(id):
         meta = json.loads(i.read())
     idintro = intro.get(id)
     if info.get(id):
-        like,link,img_src,name = info.get(id)
+        like,link,img,name = info.get(id)
     else:
         print id,'数据未录入'
     if meta.get(id):
-        motto = meta.get(id)[0]
+        motto = meta.get(id)[0][0]
+        img_src = meta.get(id)[0][1]
     else:
         print id,'no motto data'
     make_site(name,link,motto,img_src)
