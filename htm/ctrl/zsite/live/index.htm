@@ -1,11 +1,14 @@
 <%!
 from model.ico import ico_url_with_default
 from config import FS_URL
+from model.motto import motto_get
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render, reply_textarea"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
+<%namespace file="/ctrl/_util/site_rec.htm" import="site_rec_render"/>
+
 <%def name="htm_head()">
 ${css.ctrl_live|n}
 %if site_rec:
@@ -56,37 +59,7 @@ id="po_word_txt" name="txt"></textarea>\
 </div>
 
 %endif
-%if site_rec:
-<script id="site_rec" type="text/x-jquery-tmpl">
-<div class="site_rec">
-    <div class="site_to"></div>
-    <a class="site_x" href="javascript:site_x();void(0)"></a>
-    <div class="site_title">
-        <div class="site_img">
-            <img class="site_avatar" src="http://p4.42qu.us/96/492/55788.jpg" />
-        </div>
-        <div class="site_info">
-            <span class="site_name"><a target="_blank" id="site_name_a" href="">36kr.com</a></span>
-            <span class="site_bio">36氪是一个关注互联网创业的科技博客。旨在为互联网创业者和投资者提供有价值的科技资讯，打造一个</span>
-        </div>
-    </div>
-    <div class="site_cont">
-        <div class="site_act">
-            <a class="site_unfav" href="javascript:unfav_site();void(0)">不感兴趣</a>
-            <a class="site_fav" href="javascript:fav_site();void(0)">收藏站点</a>
-            <a class="site_more" href="" target="_blank">查看更多</a>
-        </div>
-        <div class="site_txt">
-            <a class="site_txt_a" target="_blank"  href="">按评分排序，同时考虑分值和评分人数，拍脑袋拍出一公式来</a>
-            <a class="site_txt_a" target="_blank" href="">华尔街日报引发争论：为什么创业公司难筹钱？</a>
-            <a class="site_txt_a" target="_blank" href="">iPhone 4S待机时间下降33% 低于第一代iPhone </a>
-            <a class="site_txt_a" target="_blank" href="">Kickstarter 网站项目支持人数已达100万人  </a>
-        </div>
-    </div>
-</div>
-</script>
-<script src="${js.ctrl_site_rec}"></script>
-%endif
+${site_rec_render(site_rec)}
 <div id="main"><div id="feeds"><input id="begin_id" type="hidden"></div></div>
 
 <script id="feed" type="text/x-jquery-tmpl">
