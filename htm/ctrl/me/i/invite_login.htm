@@ -26,20 +26,49 @@ margin-top:20px;
 color:#999;
 margin-left:220px;
 }
-
+.errtip{
+    margin-top:20px;
+    color:#a10;
+margin-left:100px;
+}
 </style>
 <p class="tip">
     寻找MSN好友 (我们不会记录你的密码, 请放心)
-</p>
-<form class="login" action="http://rpc.${SITE_DOMAIN}/invite/msn" method="GET" >
+    </p>
+    <script>
+        function rex(){
+            $.ajax('//rpc'+HOST_SUFFIX+'/invite/msn',
+            {
+                cache:true,
+                dataType:"jsonp",
+                data:{
+                    'email':$("#email").val(),'passwd':$('#passwd').val()
+                },
+                success: function(data){
+                    if (!data.error)
+                         {
+                              window.location.href="/i/invite/show";
+                         }
+                         else{
+                             $('#err').text(data.error);
+                         }
+                }
+            }
+            )
+        }
+    
+</script>
+<form class="login"  method="POST" >
 <p class="text_p">
-    <label for="email">MSN帐号 </label><input class="text" name="email" type="text">
+    <label for="email">MSN帐号 </label><input class="text" name="email"id="email" type="text">
 </p>
 <p class="text_p">
-    <label for="password">MSN密码 </label><input name="passwd" class="text"  type="password">
-</p>
+    <label for="password">MSN密码 </label><input name="passwd" id='passwd' class="text"  type="password">
+    </p>
+    <p id="err">
+    <p>
 <p>
-    <span class="btnw txt_sub"><button type="submit">找好友</button></span>
+    <span class="btnw txt_sub"><button type="button" onclick="javascript:rex()">找好友</button></span>
 </p>
 </form>
 

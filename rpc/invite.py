@@ -7,7 +7,8 @@ from model.invite_email import CID_GOOGLE, CID_MSN, new_invite_email, get_email_
 import tornado.web
 from tornado.auth import GoogleMixin
 import thread
-
+from zweb.json import jsonp
+from yajl import dumps
 
 @urlmap('/invite/msn')
 class MsnAsync(LoginBase):
@@ -15,13 +16,18 @@ class MsnAsync(LoginBase):
     def get(self):
         email = self.get_argument('email',None)
         passwd = self.get_argument('passwd',None)
+        print email,passwd
         url = 'http://%s.%s'%(self.current_user_id,SITE_DOMAIN)
         if email and passwd:
             res = msn_friend_get(email,passwd)
-            new_invite_email(self.current_user_id,email,CID_MSN,res)
-            return self.redirect('%s/i/invite/show'%url)
+            if res:
+                print res
+                new_invite_email(self.current_user_id,email,CID_MSN,res)
+                return self.finish(jsonp(self,dumps({"error":False})))
+            else:
+                return self.finish(jsonp(self,dumps({"error":"邮箱或密码错误"})))
         else:
-            self.render('/ctrl/me/i/invite_login.htm')
+            return self.finish(jsonp(self,dumps({"error":"输入正确的邮箱和密码"})))
             #self.redirect('%s/i/invite'%url)
 
 class _GoogleMixin(GoogleMixin):

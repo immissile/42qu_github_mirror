@@ -16,7 +16,7 @@ def get_friend_list(email, password):
         m.login()
         m.sync()
     except:
-        return
+        return False
     m.change_status('invisible')
 
     begin_time = time.time()
