@@ -2,6 +2,9 @@
 from model.ico import ico_url_with_default
 from config import FS_URL
 from model.motto import motto_get
+from model.site_po import po_list_by_zsite_list
+from model.cid import CID_NOTE
+from config import SITE_DOMAIN
 %>
 <%def name="site_rec_render(site)">
 %if site:
@@ -15,26 +18,30 @@ site_link=site.link
     <a class="site_x" href="javascript:site_x();void(0)"></a>
     <div class="site_title">
         <div class="site_img">
-            <img class="site_avatar" src="${ico_url_with_default(site_id)}" />
+<a href="${site_link}"><img
+class="site_avatar" src="${ico_url_with_default(site_id)}"></a>
         </div>
         <div class="site_info">
 <span class="site_name"><a
 target="_blank" id="site_name_a"
 href="${site_link}">${site_rec.name}</a></span>
-<span class="site_bio">${motto_get(site_id)}</span>
+<span class="site_bio"><a href="${site_link}"
+target="_blank">${motto_get(site_id)}</a></span>
         </div>
     </div>
     <div class="site_cont">
         <div class="site_act">
-            <a class="site_unfav" href="javascript:site_unfav(${site_id});void(0)">不感兴趣</a>
-            <a class="site_fav" href="javascript:site_fav(${site_id});void(0)">收藏站点</a>
-            <a class="site_more" href="" target="_blank">查看更多</a>
+<a class="site_unfav"
+href="javascript:site_unfav(${site_id});void(0)">不感兴趣</a>
+<a class="site_fav"
+href="javascript:site_fav(${site_id});void(0)">收藏站点</a>
+<a class="site_more"
+href="//site.${SITE_DOMAIN}" target="_blank">浏览更新</a>
         </div>
         <div class="site_txt">
-            <a class="site_txt_a" target="_blank"  href="">按评分排序，同时考虑分值和评分人数，拍脑袋拍出一公式来</a>
-            <a class="site_txt_a" target="_blank" href="">华尔街日报引发争论：为什么创业公司难筹钱？</a>
-            <a class="site_txt_a" target="_blank" href="">iPhone 4S待机时间下降33% 低于第一代iPhone </a>
-            <a class="site_txt_a" target="_blank" href="">Kickstarter 网站项目支持人数已达100万人  </a>
+%for i in po_list_by_zsite_list(site_id, CID_NOTE, 4, 0):
+<a class="site_txt_a" target="_blank" href="${i.link}">${i.name}</a>\
+%endfor
         </div>
     </div>
 </div>
@@ -42,3 +49,5 @@ href="${site_link}">${site_rec.name}</a></span>
 <script src="${js.ctrl_site_rec}"></script>
 %endif
 </%def>
+
+
