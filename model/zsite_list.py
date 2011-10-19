@@ -17,8 +17,8 @@ CREATE TABLE `zsite_list` (
 ) ENGINE=MyISAM;
 '''
 
-STATE_OWNER = 60 
-STATE_ADMIN = 40 
+STATE_OWNER = 60
+STATE_ADMIN = 40
 STATE_ACTIVE = 20
 STATE_DEL = 0
 
@@ -31,7 +31,7 @@ mc_zsite_id_list_by_zsite_id = McLimitA('ZsiteIdListByZsiteId%s', MC_LIMIT_ZSITE
 mc_zsite_id_list_active = McLimitA('ZsiteIdListActive%s', MC_LIMIT_ZSITE_LIST)
 mc_zsite_id_list_by_zsite_id_active = McLimitA('ZsiteIdListByZsiteIdActive%s', MC_LIMIT_ZSITE_LIST)
 
-zsite_list_count_active = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id,state=STATE_ACTIVE).count(), 'ZsiteListCount%s')
+zsite_list_count_active = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id, state=STATE_ACTIVE).count(), 'ZsiteListCount%s')
 zsite_list_count = McNum(lambda owner_id, cid:ZsiteList.where(cid=cid, owner_id=owner_id).where(STATE_EGT_ACTIVE).count(), 'ZsiteListCount%s')
 zsite_list_count_by_zsite_id = McNum(lambda zsite_id, cid:ZsiteList.where(cid=cid, zsite_id=zsite_id).where('owner_id>0').where(STATE_EGT_ACTIVE).count(), 'ZsiteListCountByZsiteId%s')
 
@@ -58,7 +58,7 @@ def zsite_id_list(owner_id, cid, limit=None, offset=None):
 
 @mc_zsite_id_list_by_zsite_id('{zsite_id}_{cid}')
 def zsite_id_list_by_zsite_id(zsite_id, cid, limit=None, offset=None):
-    qs = ZsiteList.where(zsite_id=zsite_id, cid=cid).where(STATE_EGT_ACTIVE).where('owner_id>0').order_by('rank desc')
+    qs = ZsiteList.where(zsite_id=zsite_id, cid=cid).where(STATE_EGT_ACTIVE).where('owner_id>0').order_by('rank desc, id desc')
     return qs.col_list(limit, offset, 'owner_id')
 
 

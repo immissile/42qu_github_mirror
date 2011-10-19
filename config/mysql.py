@@ -70,6 +70,9 @@ DB_MAIN_TABLE = (
     'oauth_client',
     'oauth_refresh_token',
     'rss_update',
+    'site_rec',
+    'site_rec_history',
+
 )
 
 DB_GOOGLE_TABLE = (

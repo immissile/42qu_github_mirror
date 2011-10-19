@@ -1,16 +1,20 @@
 <%!
 from model.ico import ico_url_with_default
 from config import FS_URL
+from model.motto import motto_get
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render, reply_textarea"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
+<%namespace file="/ctrl/_util/site_rec.htm" import="site_rec_render"/>
 
 <%def name="htm_head()">
 ${css.ctrl_live|n}
+%if site_rec:
+${css.ctrl_site_rec|n}
+%endif
 </%def>
-
 
 <%def name="htm_foot()">
 <a id="feed_load" href="javascript:void(0)">加载更多</a>
@@ -19,10 +23,8 @@ ${css.ctrl_live|n}
 </%def>
 
 
-
 %if zsite_id == current_user_id:
 <div class="live_top G c" style="margin-left:219px">
-
 ${buzz_show(zsite_id)}
 
 <%htm:form className="G2" action="/po/word" id="po_word_form">
@@ -57,11 +59,8 @@ id="po_word_txt" name="txt"></textarea>\
 </div>
 
 %endif
-<div id="main">
-<div id="feeds">
-<input id="begin_id" type="hidden">
-</div>
-</div>
+${site_rec_render(site_rec)}
+<div id="main"><div id="feeds"><input id="begin_id" type="hidden"></div></div>
 
 <script id="feed" type="text/x-jquery-tmpl">
 <%text>

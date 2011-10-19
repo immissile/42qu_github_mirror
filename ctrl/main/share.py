@@ -10,27 +10,27 @@ from model.po import po_word_new
 
 @urlmap('/share')
 class Share(LoginBase):
-    
+
     def get(self):
         name, href = self._argument()
-        self.render(name=name,href=href)
+        self.render(name=name, href=href)
 
     def _argument(self):
-        name = self.get_argument('name',None)
-        href = self.get_argument('href',None)
+        name = self.get_argument('name', None)
+        href = self.get_argument('href', None)
         if href:
             try:
-                href = href.decode("utf-8")
+                href = href.decode('utf-8')
             except:
-                href = href.decode("gb18030")
-            if not href.startswith("http://") and not href.startswith("https://"):
-                href = "http://"+href
-            
+                href = href.decode('gb18030')
+            if not href.startswith('http://') and not href.startswith('https://'):
+                href = 'http://'+href
+
         if name:
             try:
-                name = name.decode("utf-8")
+                name = name.decode('utf-8')
             except:
-                name = name.decode("gb18030")
+                name = name.decode('gb18030')
         return name, href
 
     def post(self):
@@ -39,12 +39,12 @@ class Share(LoginBase):
         txt = self.get_argument('word', None)
         if href:
             if name:
-                name = ''.join([name,'[[',href,']]'])
+                name = ''.join([name, '[[', href, ']]'])
                 txt = name+txt
             else:
-                txt = "[["+href+"]]"+txt
+                txt = '[['+href+']]'+txt
         elif name:
-            txt = name+" "+txt
+            txt = name+' '+txt
 
         if txt:
             host = self.request.host
