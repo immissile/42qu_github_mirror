@@ -280,6 +280,18 @@ color:#999;
 .fdbar .reply{
 margin-left:21px;
 }
+.fdh_close{
+width:16px;
+height:16px;
+padding:4px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 50% 50%;
+}
+.fdh .fdh_close{
+padding-top:7px;
+}
+.fdh_close:hover{
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 50% 50%;
+}
 .fdtxt{
 margin-bottom:10px;
 margin-top:-6px;

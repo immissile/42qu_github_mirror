@@ -17,7 +17,7 @@ PAGE_LIMIT = 50
 @urlmap('/po(?:-(\d+))?')
 class PoList(Base):
     def get(self, n=1):
-        qs = Po.where('state>%s', STATE_DEL)
+        qs = Po.where('state>%s', STATE_DEL).where('zsite_id!=user_id')
         total = qs.count()
         page, limit, offset = page_limit_offset(
             '/po-%s',
@@ -32,6 +32,24 @@ class PoList(Base):
             page=page,
         )
 
+
+@urlmap('/po/zsite(?:-(\d+))?')
+class PoList(Base):
+    def get(self, n=1):
+        qs = Po.where('state>%s', STATE_DEL).where('zsite_id=user_id')
+        total = qs.count()
+        page, limit, offset = page_limit_offset(
+            '/po/zsite-%s',
+            total,
+            n,
+            PAGE_LIMIT,
+        )
+        li = qs.order_by('id desc')[offset: offset + limit]
+        Po.mc_bind(li, 'question', 'rid')
+        self.render(
+            po_list=li,
+            page=page,
+        )
 
 @urlmap('/po/edit/(\d+)')
 class PoEdit(Base):

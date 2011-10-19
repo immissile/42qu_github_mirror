@@ -66,8 +66,8 @@ def pic_no(id, admin_id):
     if user_id:
         from zsite_show import zsite_show_rm
         from zsite import Zsite, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY, ZSITE_STATE_WAIT_VERIFY
-        zsite_show_rm(user_id)
         zsite = Zsite.mc_get(user_id)
+        zsite_show_rm(zsite)
         if zsite.state == ZSITE_STATE_WAIT_VERIFY:
             zsite.state = ZSITE_STATE_FAILED_VERIFY
         else:

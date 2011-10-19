@@ -1,7 +1,6 @@
 <%inherit file="_base_index.htm" />
 <%namespace file="/ctrl/_util/site.htm" import="site_li"/>
 
-
 <div id="site_page" class="G3"><div id="feeds">\
 <div class="site_list site_feed" id="site_feed"></div>\
 </div>\
@@ -17,7 +16,7 @@
 <div class="mb4 fdnt"><a class="c0" target="_blank" href="${site.link}">${site.name}</a></div>
 {{each item}}<div class="dcid${cid} ${className}">{{if cid==61}}<span
 class="sfptxt">{{html name}}</span>{{else}}<a
-href="${link}" class="sfpa" target="_blank">${name}</a>{{/if}}{{if user_link}}<span
+href="${link}" class="sfpa" target="_blank" onclick="fdh_open(this)">${name}</a>{{/if}}{{if user_link}}<span
 class="split">-</span><a
 target="_blank" class="c0" href="${user_link}">${user_name}</a>{{/if}}{{if cid==61}}<a
 target="_blank" href="${link}" class="zsite_reply"></a>
@@ -33,8 +32,10 @@ target="_blank" href="${link}" class="zsite_reply"></a>
 
 <script id="feed61" type="text/x-jquery-tmpl">
 <%text>
-<div class="G"><div class="G3"><div class="sdw"><div class="sd cid62">
-<div class="fdh"><a href="/${id}" target="_blank">${name}</a></div>
+<div class="G" id="G${id}"><div class="G3"><div class="sdw"><div class="sd cid62">
+<div class="fdh"><a href="/${id}" target="_blank">${name}</a>
+<a class="fdh_close R" href="javascript:fdh_close(${id});void(0)"></a>
+</div>
 <div class="fdtxt" id="fdtxt${id}"><pre>{{html txt}}</pre></div><div
 class="fdbar"><span class="L">
 <span class="fdopt"><a
@@ -48,7 +49,11 @@ rel="${id}" href="javascript:void(0)"
 class="{{if fav}}faved{{else}}fav{{/if}}"
 >收藏</a></span>
 </span>
+{{if tag_id}}
 <a href="${zsite.link}">${zsite.name}{{if zsite.unit||zsite.title}} , ${zsite.unit} ${zsite.title}{{/if}}</a>{{if tag_id}} , <a href="/tag/${tag_id}">${tag_name}</a>{{/if}}
+{{else}}
+<a class="fdh_close" href="javascript:fdh_close(${id});void(0)"></a>
+{{/if}}
 </div>
 </div></div>
 </div></div>

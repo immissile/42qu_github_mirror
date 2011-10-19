@@ -1,4 +1,19 @@
 
+;(function(){
+var html;
+fdh_close = function(id){
+    $('#G'+id).replaceWith(html)
+    html.find('a:first').addClass('c0')
+    $(window).scrollTop(html.offset().top-7)
+    html = null
+}
+fdh_open = function (e){
+    var node = $('.cid62').parent().parent().parent()
+    if(node[0])fdh_close(node.attr('id').substring(1))
+    html = $(e).parent()
+    $(window).scrollTop($(e).parent().offset().top - 7)
+}
+})();
 (function(){
     function parse_result(result){
         var r=[],result_length=result.length,i=0,t, m, tt, item, cid, pcid, mm, id,site_id, className;

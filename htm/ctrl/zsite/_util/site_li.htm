@@ -5,12 +5,13 @@ from config import FS_URL
 from tornado.escape import json_encode 
 %>
 
+
 %if li:
 <script id="feed" type="text/x-jquery-tmpl">
 <%text>
 {{if cid==62}}
-<div class="site_note"><a
-href="/${id}" target="_blank">${name}</a>{{if tag_id}}<span class="split">-</span><span><a
+<div class="site_note" id="sn${id}"><a
+href="/${id}" target="_blank" onclick="fdh_open(${id})">${name}</a>{{if tag_id}}<span class="split">-</span><span><a
 href="${zsite.link}" class="c0" target="_blank">${zsite.name}</a> . <a
 href="/tag/${tag_id}" class="c0">${tag_name}</a></span>{{/if}}</div>
 {{else}}
@@ -88,8 +89,10 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 
 <script id="feed61" type="text/x-jquery-tmpl">
 <%text>
-<div class="G"><div class="G3"><div class="sdw"><div class="sd cid62">
-<div class="fdh"><a href="/${id}" target="_blank">${name}</a></div>
+<div class="G" id="G${id}"><div class="G3"><div class="sdw"><div class="sd cid62">
+<div class="fdh"><a href="/${id}" target="_blank">${name}</a>
+<a class="fdh_close R" href="javascript:fdh_close(${id});void(0)"></a>
+</div>
 <div class="fdtxt" id="fdtxt${id}"><pre>{{html txt}}</pre></div><div
 class="fdbar"><span class="L">
 <span class="fdopt"><a
@@ -103,7 +106,11 @@ rel="${id}" href="javascript:void(0)"
 class="{{if fav}}faved{{else}}fav{{/if}}"
 >收藏</a></span>
 </span>
+{{if tag_id}}
 <a href="${zsite.link}">${zsite.name}{{if zsite.unit||zsite.title}} , ${zsite.unit} ${zsite.title}{{/if}}</a>{{if tag_id}} , <a href="/tag/${tag_id}">${tag_name}</a>{{/if}}
+{{else}}
+<a class="fdh_close" href="javascript:fdh_close(${id});void(0)"></a>
+{{/if}}
 </div>
 </div></div>
 </div></div>

@@ -96,7 +96,8 @@ class Show(Base):
 @urlmap('/zsite/show/rm/(\d+)')
 class ShowRm(Base):
     def get(self, id):
-        zsite_show_rm(id)
+        zsite = Zsite.mc_get(id)
+        zsite_show_rm(zsite)
         self.redirect('/zsite/%s'%id)
 
 

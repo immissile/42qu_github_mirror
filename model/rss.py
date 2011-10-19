@@ -114,8 +114,10 @@ def rss_feed_update(res, id, user_id, limit=None):
         if limit:
             if count > limit:
                 break
-
-        link = i['alternate'][0]['href']
+        if 'alternate' in i:
+            link = i['alternate'][0]['href']
+        else:
+            link = ''
         title = i['title']
         rss_uid = i.get('id') or 1
         snippet = i.get('summary') or i.get('content') or None
@@ -237,3 +239,7 @@ if __name__ == '__main__':
     #rss.gid = 0
     #rss.save() 
     #RssPo.where(user_id=10098398).delete()
+    for i in Rss.where():
+        print i.url
+        if 'http://rss-tidy/' in i.url:
+            print i

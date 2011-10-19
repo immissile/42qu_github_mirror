@@ -6,6 +6,7 @@ from zkit.page import page_limit_offset
 from model.zsite_site import site_id_list_by_state, site_count_by_state, ZSITE_STATE_SITE_SECRET, ZSITE_STATE_SITE_PUBLIC
 from model.cid import CID_SITE
 from model.zsite_show import zsite_show_rm, zsite_show_new
+from model.zsite import Zsite
 
 PAGE_LIMIT = 20
 
@@ -40,5 +41,6 @@ class SiteAddShow(Base):
 @urlmap('/site/show/rm/(\d+)')
 class SiteRmShow(Base):
     def get(self, id):
-        zsite_show_rm(id, CID_SITE)
+        zsite = Zsite.mc_get(id)
+        zsite_show_rm(zsite)
         self.redirect('/site')

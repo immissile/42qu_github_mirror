@@ -57,3 +57,18 @@ function render_site(data){
     $('#feed').tmpl(r).appendTo("#feeds");
 }
 
+;(function(){
+var html;
+fdh_close = function(id){
+    $('#G'+id).replaceWith(html)
+    html.find('a:first').addClass('c0')
+    $(window).scrollTop(html.offset().top-7)
+    html = null
+}
+fdh_open = function (id){
+    var node = $('.cid62').parent().parent().parent()
+    if(node[0])fdh_close(node.attr('id').substring(1))
+    html = $('#sn'+id)
+    $(window).scrollTop($('#sn'+id).offset().top - 7)
+}
+})();
