@@ -40,7 +40,7 @@ def htm2po_by_po(pre):
             po.save()
     else:
         po = po_note_new(
-            pre.user_id, pre.title, '', STATE_DEL, group_id 
+            pre.user_id, pre.title, '', STATE_DEL, group_id
         )
 
     if not po:
@@ -54,7 +54,7 @@ def htm2po_by_po(pre):
     pic_list = json.loads(pre.pic_list)
 
     for seq, url in enumerate(pic_list, 1):
-        if ".feedsky.com/" in url:
+        if '.feedsky.com/' in url:
             img = None
         else:
             img = fetch_pic(url)

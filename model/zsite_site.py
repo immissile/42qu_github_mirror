@@ -78,7 +78,7 @@ def zsite_site_by_user_id_sample(user_id, k):
     return Zsite.mc_get_list(id_list)
 
 def zsite_site_count(zsite_id):
-    return zsite_list_count(zsite_id, CID_SITE) 
+    return zsite_list_count(zsite_id, CID_SITE)
 
 def zsite_id_list_by_user_id(user_id):
     return zsite_id_list(user_id, CID_SITE)

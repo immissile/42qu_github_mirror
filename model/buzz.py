@@ -33,6 +33,7 @@ buzz_unread = Kv('buzz_unread', None)
 buzz_count = McNum(lambda user_id: Buzz.where(to_id=user_id).count(), 'BuzzCount.%s')
 #buzz_unread_count = McNum(lambda user_id: Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count(), 'BuzzUnreadCount.%s')
 
+
 def buzz_unread_count(user_id):
     count = buzz_unread.get(user_id)
     if count is None or count is False:
@@ -172,9 +173,8 @@ class BuzzEntry(object):
         self.from_id_list = OrderedSet([from_id])
 
 def buzz_pos_update(user_id, li):
-    if buzz_unread_count(user_id) and li:
+    if li:
         id = li[0][0]
-        #print id,buzz_pos.get(user_id)
         if id > buzz_pos.get(user_id):
             buzz_pos.set(user_id, id)
             buzz_unread_update(user_id)
