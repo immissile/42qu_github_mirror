@@ -155,7 +155,7 @@ if __name__ == "__main__":
         rss_list,
         itemgetter(0)
     )):
-        if pos > 10:
+        if pos > 2:
             break
         print i
 
