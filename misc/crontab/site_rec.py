@@ -28,13 +28,21 @@ def user_id_site_can_rec():
         can_rec_id_list = id_list - fav_site_id_set
         if not can_rec_id_list:
             continue
+        yield user_id, can_rec_id_list        
 
 
+
+def site_rec():
+    for user_id, can_rec_id_list in user_id_site_can_rec():
+        print user_id, can_rec_id_list
 
 
 @single_process
 def main():
     site_rec()
+
+
+
 
 if __name__ == '__main__':
     main()
