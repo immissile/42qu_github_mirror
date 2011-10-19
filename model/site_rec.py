@@ -1,5 +1,13 @@
 #coding:utf-8
 
+
+SITE_REC_STATE_REJECT = 0
+SITE_REC_STATE_PASS = 1
+SITE_REC_STATE_FAV = 2
+SITE_REC_STATE = (0,1,2)
+
+
+
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, Model, McCacheM, McCacheA
 from model.zsite import Zsite
 from kv import Kv
@@ -8,10 +16,6 @@ from model.cid import CID_SITE
 from model.zsite_fav import zsite_fav_new
 
 
-SITE_REC_STATE_REJECT = 0
-SITE_REC_STATE_PASS = 1
-SITE_REC_STATE_FAV = 2
-SITE_REC_STATE = (0,1,2)
 
 SiteRec = Kv('site_rec', 0)
 
