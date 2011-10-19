@@ -2,10 +2,10 @@
 width:200px;
 height:17px;
 position:absolute;
-top:48px;
-margin-left:640px;
+top:-16px;
+margin-left:165px;
 padding-bottom:1px;
-background:url('http://ww4.sinaimg.cn/bmiddle/6877f28etw1dm2gidaiejg.gif') no-repeat 45px 0;
+background:url(/img/gif/uparrow.gif) no-repeat 45px 0;
 z-index:3;
 }
 .site_rec{
@@ -97,8 +97,8 @@ color:#a10;
 .close_site{
 display:block;
 position:absolute;
-left:1093px;
-top:64px;
+right:0;
+top:0;
 background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) 8px 8px  no-repeat;
 height:16px;
 padding:4px;
