@@ -11,7 +11,6 @@ class SiteRecHistory(Model):
 
 def site_rec(user_id):
     zsite_id = SiteRec.get(user_id)
-    print zsite_id
     if zsite_id:
         return Zsite.mc_get(zsite_id)
 

@@ -222,8 +222,9 @@ def buzz_career_bind(li):
             i.entry.career = c_dict[i.rid]
     return li
 
-def _buzz_show(user_id, limit):
-    unread = buzz_unread_count(user_id)
+def _buzz_show(user_id, limit, unread=None):
+    if unread is None:
+        unread = buzz_unread_count(user_id)
     if not unread:
         return []
     limit = min(unread, limit)
@@ -231,8 +232,8 @@ def _buzz_show(user_id, limit):
     li = _buzz_list(user_id, limit, offset)
     return li
 
-def buzz_show(user_id, limit):
-    _li = _buzz_show(user_id, limit)
+def buzz_show(user_id, limit, unread=None):
+    _li = _buzz_show(user_id, limit, unread)
     if not _li:
         return []
     buzz_pos_update(user_id, _li)

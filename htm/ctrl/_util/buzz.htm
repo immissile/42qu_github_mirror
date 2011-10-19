@@ -101,8 +101,8 @@ ${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}
 
 <%def name="buzz_show(user_id)">
 <%
-buzz_list = _buzz_show(user_id, 3)
 unread = buzz_unread_count(user_id)
+buzz_list = _buzz_show(user_id, 3, unread)
 %>
 % if buzz_list:
 <div class="c" id="buzz"><div class="G2">\

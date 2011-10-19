@@ -15,7 +15,7 @@ site_link=site.link
 <script id="site_rec" type="text/x-jquery-tmpl">
 <div class="site_rec">
     <div class="site_to"></div>
-    <a class="site_x" href="javascript:site_x();void(0)"></a>
+    <a class="site_x" href="javascript:site_x(${site_id});void(0)"></a>
     <div class="site_title">
         <div class="site_img">
 <a href="${site_link}"><img
@@ -36,7 +36,7 @@ href="javascript:site_unfav(${site_id});void(0)">不感兴趣</a>
 <a class="site_fav"
 href="javascript:site_fav(${site_id});void(0)">收藏站点</a>
 <a class="site_more"
-href="//site.${SITE_DOMAIN}" target="_blank">浏览更新</a>
+href="//site.${SITE_DOMAIN}">浏览更新</a>
         </div>
         <div class="site_txt">
 %for i in po_list_by_zsite_list(site_id, CID_NOTE, 4, 0):
