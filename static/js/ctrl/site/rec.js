@@ -1,5 +1,6 @@
 
 ;$(function(){
+    $("#site_rec").tmpl({}).prependTo(".H")
     var site_rec=$('.site_rec')
     function _(id, state){
         $.postJSON( '/j/site/rec/'+id+'-'+state)
@@ -17,7 +18,7 @@
     }
     site_unfav = function(id){
         _(id, 0)
+        site_rec.remove()
     }
 });
 
-$("#site_rec").tmpl({}).prependTo(".H")
