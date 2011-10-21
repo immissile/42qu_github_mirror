@@ -5,13 +5,12 @@ from gdata.service import RequestError
 
 SIG_METHOD = gdata.auth.OAuthSignatureMethod.HMAC_SHA1
 #try:
-from config import GOOGLE_CONSUMER_SECRET, GOOGLE_CONSUMER_KEY
 #except:
-#    GOOGLE_CONSUMER_KEY = "kanrss.com"
-#    GOOGLE_CONSUMER_SECRET = "sQ0H34M+w1nY9sTjD+DRU3n5"
+GOOGLE_CONSUMER_KEY = "518129477934.apps.googleusercontent.com"
+GOOGLE_CONSUMER_SECRET = "FRWbGhiNb8gau-Ku2i5Fnh-J"
 
 
-def load_friend(TOKEN, TOKEN_SECRET):
+def load_friend(TOKEN, TOKEN_SECRET,GOOGLE_CONSUMER_KEY=GOOGLE_CONSUMER_KEY,GOOGLE_CONSUMER_SECRET=GOOGLE_CONSUMER_SECRET):
     client = gdata.contacts.service.ContactsService(source=GOOGLE_CONSUMER_KEY)
     client.SetOAuthInputParameters(SIG_METHOD, GOOGLE_CONSUMER_KEY, consumer_secret=GOOGLE_CONSUMER_SECRET)
 
@@ -27,6 +26,7 @@ def load_friend(TOKEN, TOKEN_SECRET):
     feed = client.GetContactsFeed(query.ToUri())
 
     result = [] #email,name,info
+    print result,'!!!!!!!!'
     for entry in feed.entry:
         name = entry.title.text
         for email in entry.email:
@@ -39,3 +39,7 @@ def load_friend(TOKEN, TOKEN_SECRET):
 
     return result
 
+
+if __name__ == "__main__":
+    fr = load_friend('1/9N-3MPx_MoI3GsWv6sR8IyKei3qj_4CQdPDiJqR4XGQ','P0msFzqqj-AXZ5zuaCHuxe4p')
+    print fr

@@ -24,7 +24,7 @@ from model.zsite import Zsite
 from collections import defaultdict
 from model.sync import sync_state_set, sync_all, sync_follow_new, SYNC_CID
 from model.search_zsite import search_new
-from model.invite_email import get_invite_uid_list_by_cid, CID_MSN, get_invite_email_list_by_cid, new_invite_message
+from model.invite_email import get_invite_uid_list_by_cid, CID_MSN, CID_QQ, get_invite_email_list_by_cid, new_invite_message
 from model.follow import follow_id_list_by_from_id
 
 def _upload_pic(files, current_user_id):
@@ -351,7 +351,10 @@ class Invite(LoginBase):
 @urlmap('/i/invite/login/(\d+)')
 class InviteLogin(LoginBase):
     def get(self,cid=CID_MSN):
-        self.render(cid=cid)
+        if cid != CID_QQ:
+            self.render('ctrl/me/i/import_qq.htm',cid=cid)
+        else:
+            self.render('/ctrl/me/i/import_qq.htm')
 
 @urlmap('/i/invite/show')
 @urlmap('/i/invite/show/(\d+)')
