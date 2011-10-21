@@ -28,19 +28,22 @@ class MsnAsync(LoginBase):
     def get(self):
         email = self.get_argument('email',None)
         passwd = self.get_argument('passwd',None)
-        print email,passwd
         url = 'http://%s.%s'%(self.current_user_id,SITE_DOMAIN)
         if email and passwd:
-            res = msn_friend_get(email,passwd)
-            if res:
-                print res
-                new_invite_email(self.current_user_id,email,CID_MSN,res)
-                return self.finish(jsonp(self,dumps({"error":False,"next":get_invite_uid_by_cid(self.current_user_id,CID_MSN)})))
-            else:
-                return self.finish(jsonp(self,dumps({"error":"邮箱或密码错误"})))
+            thread.start_new_thread(
+            self._load_friend,
+            (email,passwd)
+            )
         else:
             return self.finish(jsonp(self,dumps({"error":"输入正确的邮箱和密码"})))
-            #self.redirect('%s/i/invite'%url)
+    
+    def _load_friend(self,email,passwd):
+        res = msn_friend_get(email,passwd)
+        if res:
+            new_invite_email(self.current_user_id,email,CID_MSN,res)
+            return self.finish(jsonp(self,dumps({"error":False,"next":get_invite_uid_by_cid(self.current_user_id,CID_MSN)})))
+        else:
+            return self.finish(jsonp(self,dumps({"error":"邮箱或密码错误"})))
 
 
 @urlmap('/invite/%s'%CID_GOOGLE)
@@ -56,7 +59,6 @@ class GoogleAsync(LoginBase,GoogleMixin):
 
     def _on_auth(self, userj):
         email = None
-        print userj
         if userj:
             email = userj.get("uid")
 
@@ -66,23 +68,33 @@ class GoogleAsync(LoginBase,GoogleMixin):
 
         user = self.current_user
         access_token = userj['access_token']
-    #    return self.finish(access_token)
         key = access_token['key']
         secret = access_token['secret']
         user_id = str(user.id)
         
-        result = load_friend(key, secret)
-        self.finish({'hg':result})
 
-            #oauth_save_google(user_id, key, secret)
 
-        #thread.start_new_thread(
-        #    self.async_load_friend,
-        #    ( user_id, key, secret)
-        #)
+        thread.start_new_thread(
+            self.async_load_friend,
+            ( user_id, email,key, secret )
+            )
 
     
-    #def async_load_friend( user_id, key, secret, callback ):
+    def async_load_friend(self, user_id, email,key, secret):
+        result = load_friend(key, secret)
+        if isinstance(result, list) and result:
+            result = [[x,y] for x,y,z in result]
+            _result = {}
+            for i,j in result:
+                _result[j] = i
+            new_invite_email(user_id,email,CID_GOOGLE,_result)
+            if get_invite_uid_by_cid(self.current_user_id,CID_GOOGLE):
+                return self.redirect('http://%s.%s/i/invite/show/%s'%(self.current_user_id,SITE_DOMAIN,CID_GOOGLE))
+            else:
+                self.redirect('http://%s.%s/i/invite/email'%(self.current_user_id,SITE_DOMAIN))
+            #return self.finish(jsonp(self,dumps({"error":False,"next":get_invite_uid_by_cid(self.current_user_id,CID_GOOGLE)})))
+        
+
 
 def load_friend(TOKEN, TOKEN_SECRET):
     from config import GOOGLE_CONSUMER_KEY, GOOGLE_CONSUMER_SECRET

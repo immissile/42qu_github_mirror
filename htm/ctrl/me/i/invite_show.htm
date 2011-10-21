@@ -6,6 +6,7 @@ ${css.ctrl_i_password|n}
 <%!
 from model.zsite import Zsite
 from model.user_mail import mail_by_user_id
+from model.invite_email import INVITE_CID2CN
 %>
 <script>
 $(function(){
@@ -101,7 +102,7 @@ margin-right:2px;
 </style>
 
 <p class="tip">
-你有${len(uid_list)}个MSN联系人也在使用42区 , 你可以选择一些来关注 :
+你有${len(uid_list)}个${INVITE_CID2CN[int(cid)]}联系人也在使用42区 , 你可以选择一些来关注 :
 </p>
 <div class="items">
     <div class="item_wrap">

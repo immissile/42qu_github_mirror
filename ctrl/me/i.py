@@ -352,7 +352,7 @@ class Invite(LoginBase):
 class InviteLogin(LoginBase):
     def get(self,cid=CID_MSN):
         if cid != CID_QQ:
-            self.render('ctrl/me/i/import_qq.htm',cid=cid)
+            self.render(cid=cid)
         else:
             self.render('/ctrl/me/i/import_qq.htm')
 
@@ -364,7 +364,7 @@ class InviteShow(LoginBase):
         uid_list = get_invite_uid_list_by_cid(uid,cid)
         follow_id_list = follow_id_list_by_from_id(uid)
         uid_list = set(uid_list) - set(follow_id_list)
-        self.render( uid_list = uid_list)
+        self.render(cid=cid, uid_list = uid_list)
 
     def post(self,cid=CID_MSN):
         fid_list = self.get_argument('follow_id_list',None)

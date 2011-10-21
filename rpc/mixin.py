@@ -31,7 +31,6 @@ def callback_url(self):
 
 def xxx_request(self, path, callback, access_token=None, post_args=None, **args):
     url = self._API_URL%path
-    print '!!!!xxx_request'
     if access_token:
         all_args = {}
         all_args.update(args)
@@ -45,11 +44,9 @@ def xxx_request(self, path, callback, access_token=None, post_args=None, **args)
     callback = self.async_callback(self._on_request, callback)
     http = httpclient.AsyncHTTPClient()
     if post_args is not None:
-        print body,'!!!!!!'
         http.fetch(url, method='POST', body=urllib.urlencode(post_args),
                    callback=callback)
     else:
-        print url,'!!!!!!'
         http.fetch(url, callback=callback)
 
 def _parse_user_response(self, callback, txt):
@@ -180,7 +177,6 @@ class GoogleMixin(tornado.auth.OAuthMixin):
     def _oauth_get_user(self, access_token, callback):
         callback = self.async_callback(self._parse_user_response, callback)
         user_id = access_token.get('user_id') or 'default'
-        print '_oauth_get_user'
         self.google_request(
                 user_id,
                 access_token=access_token,callback=callback
