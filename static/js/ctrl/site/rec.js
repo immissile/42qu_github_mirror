@@ -5,6 +5,10 @@
     function _(id, state){
         $.postJSON( '/j/site/rec/'+id+'-'+state)
     }
+    function site_to(id){
+        var num = $('.D').length
+        $('.site_to').css('margin-left',401-(num-Number(id.slice(2)))*64)
+    }
     site_x = function(id){
         site_rec.remove()
         _(id, 1)
@@ -20,5 +24,6 @@
         _(id, 0)
         site_rec.remove()
     }
+    site_to('da2')
 });
 
