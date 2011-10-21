@@ -66,22 +66,23 @@ class GoogleAsync(LoginBase,GoogleMixin):
 
         user = self.current_user
         access_token = userj['access_token']
-        return self.finish(access_token)
+    #    return self.finish(access_token)
         key = access_token['key']
         secret = access_token['secret']
         user_id = str(user.id)
+        
+        result = load_friend(key, secret)
+        self.finish({'hg':result})
 
             #oauth_save_google(user_id, key, secret)
 
-        thread.start_new_thread(
-            self.async_load_friend,
-            ( user_id, key, secret)
-        )
+        #thread.start_new_thread(
+        #    self.async_load_friend,
+        #    ( user_id, key, secret)
+        #)
 
     
-    def async_load_friend( user_id, key, secret, callback ):
-        result = load_friend(key, secret)
-        self.finish({'hg':result})
+    #def async_load_friend( user_id, key, secret, callback ):
 
 def load_friend(TOKEN, TOKEN_SECRET):
     from config import GOOGLE_CONSUMER_KEY, GOOGLE_CONSUMER_SECRET
@@ -98,7 +99,7 @@ def load_friend(TOKEN, TOKEN_SECRET):
     query.max_results = 99999
     #query.start_index = 1
     feed = client.GetContactsFeed(query.ToUri())
-
+    email_address = None
     result = [] #email,name,info
     for entry in feed.entry:
         name = entry.title.text
@@ -110,7 +111,7 @@ def load_friend(TOKEN, TOKEN_SECRET):
                 name = name.strip()
             result.append((name, email_address, None))
 
-    result.sort(key=lambda x:email_rank(x[1]), reverse=True)
+#    result.sort(key=lambda x:email_rank(x[1]), reverse=True)
     return result
 
 
