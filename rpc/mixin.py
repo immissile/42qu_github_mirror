@@ -147,7 +147,6 @@ class RenrenMixin(tornado.auth.OAuth2Mixin):
                           self.async_callback(self._on_access_token, callback_func))
 
     def _on_access_token(self, callback, response):
-        print response,'!!'
         if response.error:
             logging.warning("Could not fetch access token")
             callback(None)
