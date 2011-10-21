@@ -1,10 +1,11 @@
-from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH_RENREN, oauth_save_douban, oauth_save_www163, oauth_save_qq, oauth_save_sohu, oauth_save_twitter, oauth_save_sina
+from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH_RENREN,OAUTH_RENREN, oauth_save_douban, oauth_save_www163, oauth_save_qq, oauth_save_sohu, oauth_save_twitter, oauth_save_sina, oauth_save_renren
 from model.zsite_url import url_or_id
 from _handler import LoginBase
-from mixin import DoubanMixin, GoogleMixin, Www163Mixin, QqMixin, TwitterMixin, SinaMixin, SohuMixin
+from mixin import DoubanMixin, GoogleMixin, Www163Mixin, QqMixin, TwitterMixin, SinaMixin, SohuMixin, RenrenMixin
 import tornado.web
 from _urlmap import urlmap
 from config import SITE_DOMAIN
+import urlparse
 
 BACK_URL = 'http://%s/i/bind'%SITE_DOMAIN
 
@@ -153,7 +154,18 @@ class SohuOauthHandler(LoginBase, SohuMixin):
                         )
                 return self.redirect(back)
 
-
+@urlmap('/oauth/%s'%OAUTH_RENREN)
+class RenrenOauthHandler(LoginBase, RenrenMixin):
+    @tornado.web.asynchronous
+    def get(self):
+        if self.get_argument('code',None):
+            self.get_authenticated_user(self.async_callback(self._on_auth))
+            return
+        callback = urlparse.urljoin(self.request.full_url(),self.callback_url())
+        self.authorize_redirect(callback,self._oauth_consumer_token()['client_id'],self._oauth_consumer_token()['client_secret'],{'response_type':'code'}
+                )
+        def _on_auth(self,user):
+            print user,'!!!!!!'
 
 @urlmap('/oauth/%s'%OAUTH_TWITTER)
 class TwitterOauthHandler(LoginBase, TwitterMixin):
