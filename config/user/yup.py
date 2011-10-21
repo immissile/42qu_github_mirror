@@ -4,6 +4,6 @@ def prepare(o):
     o.MYSQL_MAIN = 'zpage'
     o.FILE_DOMAIN = 'p.%s'%o.SITE_DOMAIN
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
-    o.RENREN_CUNSUMER_KEY = 'e7f7a7eea0d943a5b3dcfa17a5574ecc'
-    o.RENREN_CUNSUMER_SECRET = '649b18e9f131424e9b75488112098068'
+    o.RENREN_CONSUMER_KEY = '5bba3dbbb90842678e3873fccb00dc3c'
+    o.RENREN_CONSUMER_SECRET = '6f7226df5c804053abf523080387f2b0'
     return o

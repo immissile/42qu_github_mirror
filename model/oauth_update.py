@@ -7,6 +7,7 @@ import _db
 import json
 import traceback
 import httplib
+import hashlib
 from zkit.txt import cnenoverflow
 from xml.sax.saxutils import escape, quoteattr
 from oauth_util import oauth_url, oauth_request_parameters, oauth_header, _oauth_escape
@@ -16,7 +17,7 @@ SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY,\
 QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY,\
 TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY,\
 WWW163_CONSUMER_SECRET, WWW163_CONSUMER_KEY,\
-GOOGLE_CONSUMER_SECRET
+GOOGLE_CONSUMER_SECRET, RENREN_CONSUMER_SECRET
 from oauth import oauth_token_by_oauth_id,\
 OAUTH_GOOGLE, OAUTH_DOUBAN,\
 OAUTH_SINA, OAUTH_TWITTER,\
@@ -168,6 +169,35 @@ def api_douban(netloc, parameters, key, secret, method='POST', data=None):
     )
 
 
+
+def api_renren(key,secret,data=None):
+    host = 'api.renren.com'
+    netloc = '/restserver.do'
+    _body = {
+            'method':'status.set',
+            'v':'1.0',
+            'access_token':key,
+            'format':'JSON'
+            }
+    if data:
+        _body.update(data)
+    post_param = ''.join(['%s=%s'%(x,y) for x,y in sorted(_body.items())])
+    post_param = post_param + RENREN_CONSUMER_SECRET
+    sig = hashlib.md5(post_param.encode('utf-8')).hexdigest()
+    _body['sig'] = sig
+    body = urlencode(_body)
+    method = 'POST'
+    headers = {}
+    headers['Content-Type'] = 'application/x-www-form-urlencoded' 
+    return  host, netloc, headers, body, method
+
+def api_renren_say(key, secret,word):
+    return api_renren(
+            key,
+            secret,
+            {'status':word}
+            )
+
 def api_twitter_say(key, secret, word):
     return
     #TODO
@@ -255,7 +285,8 @@ DICT_API_SAY = {
         OAUTH_SINA:api_sina_say,
         OAUTH_WWW163:api_www163_say,
         OAUTH_TWITTER:api_twitter_say,
-        OAUTH_DOUBAN:api_douban_say
+        OAUTH_DOUBAN:api_douban_say,
+        OAUTH_RENREN:api_renren_say
         }
 
 def oauth_txt_cat(cid, txt, url):
@@ -295,5 +326,5 @@ def api_network_http(host, netloc, headers, body, method, connection=httplib.HTT
     return r
 
 if __name__ == '__main__':
-    p = sync_by_oauth_id(3, '''42qu.com : 人来人往 , 这是我们相遇的地方关注42qu的官方微博
-            我很牛逼哟''', 'http://42qu.com/zhendi')
+    p = sync_by_oauth_id(20, '''42qu.com : 我很牛逼哟！！加入我们把！！''', 'http://42qu.com/zhendi')
+    print p

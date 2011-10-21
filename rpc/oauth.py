@@ -162,10 +162,27 @@ class RenrenOauthHandler(LoginBase, RenrenMixin):
             self.get_authenticated_user(self.async_callback(self._on_auth))
             return
         callback = urlparse.urljoin(self.request.full_url(),self.callback_url())
-        self.authorize_redirect(callback,self._oauth_consumer_token()['client_id'],self._oauth_consumer_token()['client_secret'],{'response_type':'code'}
-                )
-        def _on_auth(self,user):
-            print user,'!!!!!!'
+        token = self._oauth_consumer_token()
+        self.authorize_redirect(
+            callback,
+            token['client_id'],
+            token['client_secret'],
+            {'response_type':'code',
+                'scope':'status_update publish_share'}
+        )
+    def _on_auth(self,user):
+        uid = self.current_user_id
+        if user:
+            access_token = user.get('access_token')
+            if access_token:
+                oauth_save_renren(
+                        uid,
+                        access_token,
+                        user.get('refresh_token'),
+                        user.get('user').get('name'),
+                        user.get('user').get('id')
+                        )
+            return self.redirect(BACK_URL)
 
 @urlmap('/oauth/%s'%OAUTH_TWITTER)
 class TwitterOauthHandler(LoginBase, TwitterMixin):

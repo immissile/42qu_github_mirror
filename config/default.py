@@ -83,6 +83,7 @@ def prepare(o):
     o.SINA_FOLLOW = '1827906323'
     o.WWW163_FOLLOW = '6122584690'
     o.QQ_FOLLOW = 'cn42qu'
+    o.RENREN_FOLLOW = ''
 
     o.GREADER_PASSWORD = ''
     o.GREADER_USERNAME = ''
