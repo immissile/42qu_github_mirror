@@ -60,4 +60,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-
+    print TOP_REC_CID_SITE_REC&top_rec(10000000)
