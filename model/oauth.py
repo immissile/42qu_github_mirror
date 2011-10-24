@@ -27,6 +27,14 @@ OAUTH2NAME_DICT = {
     OAUTH_TWITTER   : 'Twitter'     ,
     OAUTH_LINKEDIN  : 'LinkedIn'    ,
 }
+OAUTH2NAME_DICT_SHORT = {
+    OAUTH_WWW163    : '网易'    ,
+    OAUTH_SOHU      : '搜狐'    ,
+    OAUTH_QQ        : '腾讯'    ,
+    OAUTH_RENREN    : '人人'      ,
+    OAUTH_DOUBAN    : '豆瓣'        ,
+    OAUTH_SINA      : '新浪'    ,
+}
 
 OAUTH_TUPLE = (
     OAUTH_DOUBAN    ,

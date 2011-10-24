@@ -5,6 +5,7 @@ from model.motto import motto_get
 from model.site_po import po_list_by_zsite_list
 from model.cid import CID_NOTE
 from config import SITE_DOMAIN
+from model.oauth import OAUTH_TUPLE, OAUTH2NAME_DICT_SHORT
 %>
 <%def name="oauth_sync()">
 <style>
@@ -43,11 +44,10 @@ margin-right:5px;vertical-align:-3px;
     <a class="site_x" href="javascript:site_x();void(0)"></a>
     <div class="sync_title">现在, 同步更新到各大网站。 一处发布, 四海皆知, 还等什么呢 ...</div>
     <div class="sync_cont">
-        <a class="sync_a" href="#"><img src="http://www.douban.com/favicon.ico">豆瓣</a>
-        <a class="sync_a" href="#"><img src="http://weibo.com/favicon.ico" style="margin-right:5px;vertical-align:-2px;">新浪</a>
-        <a class="sync_a" href="#"><img src="http://t.qq.com/favicon.ico">腾讯</a>
-        <a class="sync_a" href="#"><img src="http://a.xnimg.cn/favicon-rr.ico">人人</a>
-        <a class="sync_a" href="#"><img src="http://t.163.com/favicon.ico">网易</a>
+%for i in OAUTH_TUPLE:
+<a class="sync_a" href="/i/bind/${i}">\
+<img src="http://www.douban.com/favicon.ico">${OAUTH2NAME_DICT_SHORT[i]}</a>\
+%endfor
     </div>
 
 </div>
@@ -67,5 +67,7 @@ margin-right:5px;vertical-align:-3px;
     site_to('da1')
 });
 </script>
+
 </%def>
+
 
