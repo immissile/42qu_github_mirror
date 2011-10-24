@@ -149,4 +149,56 @@ margin-top:-9px;
 .site_po div{
 padding: 0pt 22px 24px;
 }
-
+.pop_hero{
+position:absolute;
+width:250px;
+height:100px;
+background:#fff;
+border:1px solid #ccc;
+z-index:4;
+}
+.pop_hero_to{
+background:url("6877f28etw1dm2gidaiejg.gif") no-repeat 0 -46px;
+height:22px;
+margin-left:27px;
+margin-top:95px;
+position:absolute;
+width:40px;
+z-index:4;
+}
+.pop_hero_avatar{
+float:left;
+width:48px;
+height:48px;
+margin-right:6px;
+padding:6px;
+}
+.pop_hero_name{
+display:block;
+}
+.pop_hero_title{
+margin-left:6px;
+}
+.pop_hero_banner{
+border-top:1px dotted #ccc;
+margin:4px 0 0 4px;
+overflow:auto;
+width:242px;
+padding-top:4px;
+}
+.pop_hero_num{
+float:right;
+margin-right:6px;
+}
+.pop_hero_follow{
+margin-left:4px 0 0 3px;
+display:block;
+padding:4px 8px 0;
+border:1px solid #ccc;
+height:22px;
+line-height:16px;
+font-size:14px;
+overflow:auto;
+color:#999;
+width:30px;
+}

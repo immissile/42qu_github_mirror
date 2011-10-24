@@ -174,7 +174,8 @@
 
 $(function(){
     $('#po_word_txt').pop_at("/j/at")
-    
+    $('.fcmname').live('mouseover',function(){
+        $('body').prepend('<div class="pop_hero"><div class="pop_hero_to"></div><img class="pop_hero_avatar" src="http://p4.42qu.us/96/200/37064.jpg"><a href="" class="pop_hero_name">'+$(this).text()+'</a><div class="pop_hero_bio">42qu.com<span class="pop_hero_title">创始人</span></div><div class="pop_hero_banner"><div class="pop_hero_num">1002人关注</div><a href="" class="pop_hero_follow">关注</a></div></div>')
+    $('.pop_hero').offset({top:$(this).offset().top-130, left:$(this).offset().left-30})
+    })
 })
-
-
