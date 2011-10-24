@@ -4,7 +4,7 @@ from config import FS_URL
 from model.motto import motto_get
 from model.site_po import po_list_by_zsite_list
 from model.cid import CID_NOTE
-from config import SITE_DOMAIN, FILE_URL
+from config import SITE_DOMAIN, FS_DOMAIN 
 from model.oauth import OAUTH_TUPLE, OAUTH2NAME_DICT_SHORT
 %>
 <%def name="oauth_sync()">
@@ -45,8 +45,8 @@ margin-right:5px;vertical-align:-3px;
     <div class="sync_title">现在, 同步更新到各大网站。 一处发布, 四海皆知, 还等什么呢 ...</div>
     <div class="sync_cont">
 %for i in OAUTH_TUPLE:
-<a class="sync_a" href="/i/bind/${i}">\
-<img src="${FILE_URL}/${i}.ico">${OAUTH2NAME_DICT_SHORT[i]}</a>\
+<a class="sync_a" target="_blank" href="/i/binded/${i}">\
+<img src="//${FS_DOMAIN}/img/ico/oauth/${i}.ico">${OAUTH2NAME_DICT_SHORT[i]}</a>\
 %endfor
     </div>
 
