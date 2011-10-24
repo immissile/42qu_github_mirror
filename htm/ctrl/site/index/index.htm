@@ -16,7 +16,7 @@
 <div class="mb4 fdnt"><a class="c0" target="_blank" href="${site.link}">${site.name}</a></div>
 {{each item}}<div class="dcid${cid} ${className}">{{if cid==61}}<span
 class="sfptxt">{{html name}}</span>{{else}}<a
-href="${link}" class="sfpa" target="_blank" onclick="fdh_open(this)">${name}</a>{{/if}}{{if user_link}}<span
+href="${link}" class="sfpa fdh_open" target="_blank" onclick="fdh_open(this)">${name}</a>{{/if}}{{if user_link}}<span
 class="split">-</span><a
 target="_blank" class="c0" href="${user_link}">${user_name}</a>{{/if}}{{if cid==61}}<a
 target="_blank" href="${link}" class="zsite_reply"></a>

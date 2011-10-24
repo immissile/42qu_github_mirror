@@ -1,4 +1,4 @@
-$(".site_note a").live('click',function(){
+$(".site_note .fdh_open").live('click',function(){
     var self=$(this), prh=$('<div class="sdw"><div class="sd cid62"><pre class="fdh"></pre><div class="fdbarload"></div></div></div>'), href=this.href;
     $(this.parentNode).replaceWith(prh)
     prh.find(".fdh").text(self.text())
