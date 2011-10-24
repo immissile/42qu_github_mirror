@@ -7,7 +7,7 @@ OAUTH_SINA, OAUTH_TWITTER,\
 OAUTH_WWW163,\
 OAUTH_SOHU, OAUTH_QQ,\
 OAUTH_RENREN, OAUTH_LINKEDIN
-from oauth_update import api_qq, api_douban, api_sina, api_www163, api_network_http
+from oauth_update import api_qq, api_douban, api_sina, api_www163, api_renren, api_network_http
 from config import SINA_FOLLOW
 from oauth import oauth_rm_by_oauth_id
 
@@ -73,11 +73,26 @@ def api_www163_verify(key, secret, oauth_id):
         else:
             return True
 
+def api_renren_verify(key, secret, oauth_id):
+    res = api_network_http(*api_renren(
+        key,
+        secret,
+        {'method':'users.getInfo'}
+        ))
+    if json.loads(res):
+        m = json.loads(res)
+        if isinstance(m,dict) and m.get('error_code'):
+            oauth_rm_by_oauth_id(oauth_id)
+        else:
+            return True
+
+
 DICT_API_VERIFY = {
         OAUTH_DOUBAN:api_douban_verify,
         OAUTH_SINA:api_sina_verify,
         OAUTH_WWW163:api_www163_verify,
-        OAUTH_QQ:api_qq_verify
+        OAUTH_QQ:api_qq_verify,
+        OAUTH_RENREN:api_renren_verify
         }
 
 
@@ -92,5 +107,5 @@ def oauth_verify_by_oauth_id(oauth_id):
 
 
 if __name__ == '__main__':
-    oauth_verify_by_oauth_id(2071)
+    oauth_verify_by_oauth_id(31)
 

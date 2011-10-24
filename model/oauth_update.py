@@ -174,7 +174,6 @@ def api_renren(key,secret,data=None):
     host = 'api.renren.com'
     netloc = '/restserver.do'
     _body = {
-            'method':'status.set',
             'v':'1.0',
             'access_token':key,
             'format':'JSON'
@@ -195,7 +194,8 @@ def api_renren_say(key, secret,word):
     return api_renren(
             key,
             secret,
-            {'status':word}
+            {'status':word,
+            'method':'status.set',}
             )
 
 def api_twitter_say(key, secret, word):
@@ -326,5 +326,5 @@ def api_network_http(host, netloc, headers, body, method, connection=httplib.HTT
     return r
 
 if __name__ == '__main__':
-    p = sync_by_oauth_id(20, '''42qu.com : 我很牛逼哟！！加入我们把！！''', 'http://42qu.com/zhendi')
+    p = sync_by_oauth_id(29, '''42qu.com : 我很牛逼哟！！加入我们把！！''', 'http://42qu.com/zhendi')
     print p
