@@ -6,30 +6,48 @@ from model.site_po import po_list_by_zsite_list
 from model.cid import CID_NOTE
 from config import SITE_DOMAIN
 %>
-<%def name="site_rec_render(site)">
-%if site:
-<%
-site_id=site.id
-site_link=site.link
-%>\
+<%def name="oauth_sync()">
+<style>
+
+.sync_title{
+font-size:14px;
+color:#444;
+padding:10px 8px 16px;
+}
+.sync_cont{
+overflow:auto;
+padding:0 10px;
+}
+#H .sync_a{
+color:#01a;
+display:block;
+float:left;
+padding:12px 0;
+text-align:left;
+width:93px;
+font-size:14px;
+}
+#H .sync_a:hover{
+color:#a10;
+}
+</style>
 <script id="site_rec" type="text/x-jquery-tmpl">
 <div class="site_rec">
     <div class="site_to"></div>
-    <a class="site_x" href="javascript:site_x(${site_id});void(0)"></a>
+    <a class="site_x" href="javascript:site_x();void(0)"></a>
     <div class="sync_title">现在 , 同步更新到各大网站 。 一处发布, 四海皆知 , 还等什么呢 ...</div>
     <div class="sync_cont">
-        <a class="sync_a" href="">豆瓣</a>
-        <a class="sync_a" href="">新浪微博</a>
-        <a class="sync_a" href="">腾讯微博</a>
-        <a class="sync_a" href="">人人网</a>
-        <a class="sync_a" href="">网易微博</a>
-        <a class="sync_a" href="">开心网</a>
+        <a class="sync_a" href=""><img src="http://www.douban.com/favicon.ico" style="margin-right:5px;vertical-align:-3px;">豆瓣</a>
+        <a class="sync_a" href=""><img src="http://weibo.com/favicon.ico" style="margin-right:5px;vertical-align:-3px;">新浪</a>
+        <a class="sync_a" href=""><img src="http://t.qq.com/favicon.ico" style="margin-right:5px;vertical-align:-3px;">腾讯</a>
+        <div>
+        <a class="sync_a" href=""><img src="http://a.xnimg.cn/favicon-rr.ico" style="margin-right:5px;vertical-align:-3px;">人人</a>
+        <a class="sync_a" href=""><img src="http://t.163.com/favicon.ico" style="margin-right:5px;vertical-align:-3px;">网易</a>
+        </div>
     </div>
 
 </div>
 </script>
 <script src="${js.ctrl_site_rec}"></script>
-%endif
 </%def>
-
 

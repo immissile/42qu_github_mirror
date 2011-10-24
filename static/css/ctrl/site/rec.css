@@ -127,27 +127,3 @@ overflow:hidden;
 color:#a10;
 }
 
-.sync_title{
-font-size:14px;
-color:#444;
-padding:10px 8px 16px;
-border-bottom:1px dotted #ccc;
-}
-.sync_cont{
-overflow:auto;
-padding:0 10px;
-}
-#H .sync_a{
-color:#01a;
-display:block;
-float:left;
-padding:12px 17px;
-text-align:center;
-width:80px;
-font-size:14px;
-border:1px dotted #ccc;
-border-width:0 1px 1px 0;
-}
-#H .sync_a:hover{
-color:#a10;
-}
