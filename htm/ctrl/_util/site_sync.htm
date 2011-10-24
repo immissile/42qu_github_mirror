@@ -43,14 +43,26 @@ color:#a10;
         <a class="sync_a" href=""><img src="http://www.douban.com/favicon.ico" style="margin-right:5px;vertical-align:-3px;">豆瓣</a>
         <a class="sync_a" href=""><img src="http://weibo.com/favicon.ico" style="margin-right:5px;vertical-align:-2px;">新浪</a>
         <a class="sync_a" href=""><img src="http://t.qq.com/favicon.ico" style="margin-right:5px;vertical-align:-3px;">腾讯</a>
-        <div>
         <a class="sync_a" href=""><img src="http://a.xnimg.cn/favicon-rr.ico" style="margin-right:5px;vertical-align:-3px;">人人</a>
         <a class="sync_a" href=""><img src="http://t.163.com/favicon.ico" style="margin-right:5px;vertical-align:-3px;">网易</a>
-        </div>
     </div>
 
 </div>
 </script>
-<script src="${js.ctrl_site_rec}"></script>
+<script>
+;$(function(){
+    $("#site_rec").tmpl({}).prependTo(".H")
+    var site_rec=$('.site_rec')
+    function site_to(id){
+        var num = $('.D').length
+        $('.site_to').css('margin-left',401-(num-Number(id.slice(2)))*64)
+    }
+    site_x = function(id){
+        site_rec.remove()
+        _(id, 1)
+    }
+    site_to('da1')
+});
+</script>
 </%def>
 
