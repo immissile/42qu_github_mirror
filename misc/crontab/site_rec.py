@@ -57,13 +57,6 @@ def main():
     run()
 
 
-
 if __name__ == '__main__':
-    print TOP_REC_CID_SITE_REC&top_rec(10001542)
-    from model.zsite import Zsite
-    for i in ormiter(Zsite, 'cid=%s'%CID_USER):
-        zsite_id = SiteRec.get(i.id)
-        if zsite_id and not Zsite.mc_get(zsite_id):
-            SiteRec.set(i.id, 0)
-            print "site reset" , i.id
     main()
+
