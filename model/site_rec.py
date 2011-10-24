@@ -14,7 +14,7 @@ from kv import Kv
 from model.zsite import  Zsite
 from model.cid import CID_SITE
 from model.zsite_fav import zsite_fav_new
-from model.top_rec import top_rec_unmark, TOP_REC_CID_SITE_REC
+from model.top_rec import top_rec_unmark, TOP_REC_CID_SITE_REC, top_rec_mark
 
 
 SiteRec = Kv('site_rec', 0)
