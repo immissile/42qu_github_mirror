@@ -175,7 +175,26 @@
 $(function(){
     $('#po_word_txt').pop_at("/j/at")
     $('.fcmname').live('mouseover',function(){
-        $('body').prepend('<div class="pop_hero"><div class="pop_hero_to"></div><img class="pop_hero_avatar" src="http://p4.42qu.us/96/200/37064.jpg"><a href="" class="pop_hero_name">'+$(this).text()+'</a><div class="pop_hero_bio">42qu.com<span class="pop_hero_title">创始人</span></div><div class="pop_hero_banner"><div class="pop_hero_num">1002人关注</div><a href="" class="pop_hero_follow">关注</a></div></div>')
-    $('.pop_hero').offset({top:$(this).offset().top-130, left:$(this).offset().left-30})
+        var self = $(this)
+        $.postJSON('j/hero',{url:$(this).attr('href')},function(result){
+            var title = result[1].split()
+            if(!$('.pop_hero')[0]){
+                $('body').prepend('<div class="pop_hero"><div class="pop_hero_to"></div><a href="//'+result[6]+'.42qu.com"><img class="pop_hero_avatar" src="'+result[2]+'"></a><a href="//'+result[6]+'.42qu.com" class="pop_hero_name">'+result[0]+'</a><div class="pop_hero_bio">'+title[0]+'<span class="pop_hero_title">'+title[1]+'</span></div><div class="pop_hero_banner"><div class="pop_hero_num">'+result[3]+'人关注</div><a href="javascript:follow_a('+result[4]+');void(0)" id="follow_a'+result[4]+'" class="pop_hero_follow">'+result[5]+'</a></div></div>')
+                $('.pop_hero').offset({top:self.offset().top-116,left:self.offset().left-30})
+            }
+        })
+    }).live('mouseout',function(){
+        var on = false
+        var pop_hero_remove = function(){$('.pop_hero').remove()}
+        clear_pop_hero = function(){
+            if(!on){
+                pop_hero_remove()
+            }else{
+                $('.pop_hero').bind('mouseleave',pop_hero_remove)
+            }
+        }
+        $('.pop_hero').live('mouseover',function(){on = true}).unbind('mouseleave')
+        setTimeout("clear_pop_hero()",200)
     })
+
 })

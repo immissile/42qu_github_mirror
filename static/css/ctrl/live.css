@@ -154,16 +154,16 @@ position:absolute;
 width:250px;
 height:100px;
 background:#fff;
-border:1px solid #ccc;
+border:1px solid #e9e9e9;
 z-index:4;
 }
 .pop_hero_to{
-background:url("6877f28etw1dm2gidaiejg.gif") no-repeat 0 -46px;
+background:url(/img/gif/uparrow.gif) no-repeat 0 -46px;
 height:22px;
 margin-left:27px;
 margin-top:95px;
 position:absolute;
-width:40px;
+width:220px;
 z-index:4;
 }
 .pop_hero_avatar{
@@ -176,22 +176,25 @@ padding:6px;
 .pop_hero_name{
 display:block;
 }
+.pop_hero_bio{
+color:#444;
+}
 .pop_hero_title{
 margin-left:6px;
 }
 .pop_hero_banner{
 border-top:1px dotted #ccc;
-margin:4px 0 0 4px;
+margin:6px 0 0 4px;
 overflow:auto;
 width:242px;
-padding-top:4px;
 }
 .pop_hero_num{
 float:right;
-margin-right:6px;
+margin:3px 6px 0 0;
+color:#444;
 }
 .pop_hero_follow{
-margin-left:4px 0 0 3px;
+margin:4px 0 0 3px;
 display:block;
 padding:4px 8px 0;
 border:1px solid #ccc;
