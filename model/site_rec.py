@@ -50,3 +50,7 @@ def site_rec_feeckback(user_id, zsite_id, state):
     SiteRec.set(user_id, 0)
     top_rec_unmark(user_id, TOP_REC_CID_SITE_REC)
 
+def site_rec_set(user_id, site_id):
+    SiteRec.set(user_id, site_id)
+    top_rec_mark(user_id, TOP_REC_CID_SITE_REC)
+
