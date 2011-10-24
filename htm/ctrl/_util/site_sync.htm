@@ -8,11 +8,14 @@ from config import SITE_DOMAIN
 %>
 <%def name="oauth_sync()">
 <style>
-
+.site_rec{
+height:106px;
+}
 .sync_title{
 font-size:14px;
 color:#444;
 padding:10px 8px 16px;
+border-bottom:1px dotted #ccc;
 }
 .sync_cont{
 overflow:auto;
@@ -35,10 +38,10 @@ color:#a10;
 <div class="site_rec">
     <div class="site_to"></div>
     <a class="site_x" href="javascript:site_x();void(0)"></a>
-    <div class="sync_title">现在 , 同步更新到各大网站 。 一处发布, 四海皆知 , 还等什么呢 ...</div>
+    <div class="sync_title">现在, 同步更新到各大网站。 一处发布, 四海皆知, 还等什么呢 ...</div>
     <div class="sync_cont">
         <a class="sync_a" href=""><img src="http://www.douban.com/favicon.ico" style="margin-right:5px;vertical-align:-3px;">豆瓣</a>
-        <a class="sync_a" href=""><img src="http://weibo.com/favicon.ico" style="margin-right:5px;vertical-align:-3px;">新浪</a>
+        <a class="sync_a" href=""><img src="http://weibo.com/favicon.ico" style="margin-right:5px;vertical-align:-2px;">新浪</a>
         <a class="sync_a" href=""><img src="http://t.qq.com/favicon.ico" style="margin-right:5px;vertical-align:-3px;">腾讯</a>
         <div>
         <a class="sync_a" href=""><img src="http://a.xnimg.cn/favicon-rr.ico" style="margin-right:5px;vertical-align:-3px;">人人</a>
