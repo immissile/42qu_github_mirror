@@ -11,7 +11,7 @@ from tornado.escape import json_encode
 <%text>
 {{if cid==62}}
 <div class="site_note" id="sn${id}"><a
-href="/${id}" target="_blank" onclick="fdh_open(${id})">${name}</a>{{if tag_id}}<span class="split">-</span><span><a
+href="/${id}" class="fdh" target="_blank" onclick="fdh_open(${id})">${name}</a>{{if tag_id}}<span class="split">-</span><span><a
 href="${zsite.link}" class="c0" target="_blank">${zsite.name}</a> . <a
 href="/tag/${tag_id}" class="c0">${tag_name}</a></span>{{/if}}</div>
 {{else}}

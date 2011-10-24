@@ -72,7 +72,7 @@ fdh_open = function (e){
 })();
 
 
-$(".dcid62 a").live('click',function(){
+$(".dcid62 .fdh").live('click',function(){
     var self=$(this), prh=$('<div class="sdw"><div class="sd cid62"><pre class="fdh"></pre><div class="fdbarload"></div></div></div>'), href=this.href,pn=$(this.parentNode.parentNode.parentNode), fdnt=pn.find('.fdnt')
     if(!fdnt.hasClass('adot')){
         fdnt.addClass("adot")
