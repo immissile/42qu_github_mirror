@@ -9,7 +9,7 @@ from zweb.orm import ormiter
 from model.zsite_site import zsite_id_list_by_user_id
 from model.site_rec import SiteRecHistory, SiteRec, site_rec_set
 from random import choice
-from model.top_rec import top_rec, TOP_REC_CID_OAUTH_BINDED, TOP_REC_CID_SITE_REC 
+from model.top_rec import top_rec, TOP_REC_CID_OAUTH_BINDED, TOP_REC_CID_SITE_REC
 
 def can_rec_site_id_list():
     result = []
@@ -26,7 +26,7 @@ def user_id_site_can_rec():
 
     for i in ormiter(Zsite, 'cid=%s'%CID_USER):
         user_id = i.id
-        if TOP_REC_CID_SITE_REC&top_rec(user_id):
+        if TOP_REC_CID_SITE_REC&top_rec(user_id) and SiteRec.get(user_id):
             continue
         fav_list = list(zsite_id_list_by_user_id(user_id))
         fav_list.extend(
@@ -59,5 +59,11 @@ def main():
 
 
 if __name__ == '__main__':
+    print TOP_REC_CID_SITE_REC&top_rec(10001542)
+    from model.zsite import Zsite
+    for i in ormiter(Zsite, 'cid=%s'%CID_USER):
+        zsite_id = SiteRec.get(i.id)
+        if zsite_id and not Zsite.mc_get(zsite_id):
+            SiteRec.set(i.id, 0)
+            print "site reset" , i.id
     main()
-    print TOP_REC_CID_SITE_REC&top_rec(10000000)

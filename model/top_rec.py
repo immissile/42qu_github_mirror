@@ -6,7 +6,7 @@ from kv import Kv
 from model.zsite import  Zsite
 from model.cid import CID_SITE
 
-TopRec = Kv('site_rec', 0)
+TopRec = Kv('top_rec', 0)
 
 TOP_REC_CID   = 0b11111111111111111111111111111111 
 TOP_REC_CID_OAUTH_BINDED = 0b00000000000000000000000000000001
