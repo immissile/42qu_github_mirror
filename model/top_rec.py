@@ -28,6 +28,6 @@ def top_rec_unmark(user_id, cid):
     return old
 
 if __name__ == "__main__":
-    print top_rec_mark(1, TOP_REC_CID_SITE_REC)
-    print top_rec_unmark(1, TOP_REC_CID_SITE_REC)
+    print top_rec_mark(10008640, TOP_REC_CID_SITE_REC)
+
 

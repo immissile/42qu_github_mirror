@@ -14,7 +14,7 @@ from kv import Kv
 from model.zsite import  Zsite
 from model.cid import CID_SITE
 from model.zsite_fav import zsite_fav_new
-
+from model.top_rec import top_rec_unmark, TOP_REC_CID_SITE_REC
 
 
 SiteRec = Kv('site_rec', 0)
@@ -43,10 +43,10 @@ def site_rec_feeckback(user_id, zsite_id, state):
     if state == SITE_REC_STATE_FAV:
         zsite_fav_new(site, user_id)
 
-
     SiteRecHistory(
         user_id=user_id, zsite_id=zsite_id, state=state
     ).save()
 
     SiteRec.set(user_id, 0)
+    top_rec_unmark(user_id, TOP_REC_CID_SITE_REC)
 

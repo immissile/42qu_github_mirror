@@ -61,7 +61,7 @@ margin-right:5px;vertical-align:-3px;
     }
     site_x = function(id){
         site_rec.remove()
-        _(id, 1)
+        $.postJSON("/j/site/oauth")
     }
     site_to('da1')
 });
