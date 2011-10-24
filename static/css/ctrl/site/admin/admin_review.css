@@ -32,11 +32,11 @@ padding-left:14px;
 padding-left:14px;
 }
 .refused,.passed{
-background:url(http://s4.42qu.us/img/gif/icons/gif/black/to_size/check.gif) no-repeat scroll 0 50%  transparent;
+background:url(/img/gif/icons/gif/black/to_size/check.gif) no-repeat scroll 0 50%  transparent;
 color:#000;
 }
 .refused:hover,.passed:hover{
-background:url(http://s4.42qu.us/img/gif/icons/gif/orange/to_size/check.gif) no-repeat scroll 0 50%  transparent;
+background:url(/img/gif/icons/gif/orange/to_size/check.gif) no-repeat scroll 0 50%  transparent;
 color:#f10;
 }
 .pop_reason{
@@ -63,14 +63,14 @@ color:#999;
 }
 .pop_close{
 float:right;
-background:url(http://s4.42qu.us/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat scroll 50% 50%  transparent;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat scroll 50% 50%  transparent;
 height:8px;
 width:8px;
 padding:16px;
 margin-bottom:4px;
 }
 .pop_close:hover{
-background:url(http://s4.42qu.us/img/gif/icons/gif/black/to_size/close.gif) no-repeat scroll 50% 50%  transparent;
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat scroll 50% 50%  transparent;
 }
 .pop_submit:hover{
 background-color:#F9F9F9;

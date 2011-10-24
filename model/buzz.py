@@ -33,6 +33,7 @@ buzz_unread = Kv('buzz_unread', None)
 buzz_count = McNum(lambda user_id: Buzz.where(to_id=user_id).count(), 'BuzzCount.%s')
 #buzz_unread_count = McNum(lambda user_id: Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count(), 'BuzzUnreadCount.%s')
 
+
 def buzz_unread_count(user_id):
     count = buzz_unread.get(user_id)
     if count is None or count is False:
@@ -172,9 +173,8 @@ class BuzzEntry(object):
         self.from_id_list = OrderedSet([from_id])
 
 def buzz_pos_update(user_id, li):
-    if buzz_unread_count(user_id) and li:
+    if li:
         id = li[0][0]
-        #print id,buzz_pos.get(user_id)
         if id > buzz_pos.get(user_id):
             buzz_pos.set(user_id, id)
             buzz_unread_update(user_id)
@@ -222,8 +222,9 @@ def buzz_career_bind(li):
             i.entry.career = c_dict[i.rid]
     return li
 
-def _buzz_show(user_id, limit):
-    unread = buzz_unread_count(user_id)
+def _buzz_show(user_id, limit, unread=None):
+    if unread is None:
+        unread = buzz_unread_count(user_id)
     if not unread:
         return []
     limit = min(unread, limit)
@@ -231,8 +232,8 @@ def _buzz_show(user_id, limit):
     li = _buzz_list(user_id, limit, offset)
     return li
 
-def buzz_show(user_id, limit):
-    _li = _buzz_show(user_id, limit)
+def buzz_show(user_id, limit, unread=None):
+    _li = _buzz_show(user_id, limit, unread)
     if not _li:
         return []
     buzz_pos_update(user_id, _li)

@@ -30,7 +30,7 @@ OAUTH2NAME_DICT = {
 
 OAUTH_TUPLE = (
     OAUTH_DOUBAN    ,
-    #OAUTH_RENREN    ,
+    OAUTH_RENREN    ,
     OAUTH_SINA      ,
     OAUTH_QQ        ,
     OAUTH_WWW163    ,
@@ -38,12 +38,6 @@ OAUTH_TUPLE = (
     #OAUTH_TWITTER   ,
 )
 
-OAUTH2URL = {
-    OAUTH_DOUBAN:'http://www.douban.com/people/%s/',
-    OAUTH_SINA:'http://weibo.com/%s',
-    OAUTH_TWITTER:'http://twitter.com/%s',
-    OAUTH_QQ:'http://t.qq.com/%s',
-}
 
 
 OAUTH2URL = {
@@ -52,6 +46,7 @@ OAUTH2URL = {
     OAUTH_TWITTER:'http://twitter.com/%s',
     OAUTH_WWW163:'http://t.163.com/%s',
     OAUTH_SOHU:'http://t.sohu.com/%s',
+    OAUTH_RENREN:'http://www.renren.com/profile.do?id=%s',
 #    OAUTH_BUZZ:'%s',
     OAUTH_QQ:'http://t.qq.com/%s',
 }
@@ -64,6 +59,7 @@ OAUTH2TABLE = {
     OAUTH_DOUBAN:'oauth_token_douban',
     OAUTH_WWW163:'oauth_token_www163',
     OAUTH_QQ:'oauth_token_qq',
+    OAUTH_RENREN:'oauth_token_renren'
 }
 
 
@@ -151,8 +147,8 @@ def oauth_save(app_id, zsite_id, token_key, token_secret):
 def oauth_save_google(zsite_id, token_key, token_secret):
     oauth_save(OAUTH_GOOGLE, zsite_id, token_key, token_secret)
 
-def oauth_save_renren(zsite_id, token_key, token_secret):
-    oauth_save(OAUTH_RENREN, zsite_id, token_key, token_secret)
+def oauth_save_renren(zsite_id, token_key, refresh_token, name, uid):
+    oauth_save_with_uid(OAUTH_RENREN, zsite_id, token_key, refresh_token, name, uid)
 
 def oauth_save_with_uid(app_id, zsite_id, token_key, token_secret, name, uid):
     id = oauth_save(app_id, zsite_id, token_key, token_secret)

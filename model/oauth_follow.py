@@ -6,8 +6,8 @@ OAUTH_SINA, OAUTH_TWITTER,\
 OAUTH_WWW163,\
 OAUTH_SOHU, OAUTH_QQ,\
 OAUTH_RENREN, OAUTH_LINKEDIN
-from oauth_update import api_qq, api_www163, api_sina, api_network_http
-from config import SINA_FOLLOW, QQ_FOLLOW, WWW163_FOLLOW
+from oauth_update import api_qq, api_www163, api_sina, api_network_http, api_renren
+from config import SINA_FOLLOW, QQ_FOLLOW, WWW163_FOLLOW, RENREN_FOLLOW
 
 
 def api_sina_follow(key, secret, id=SINA_FOLLOW):

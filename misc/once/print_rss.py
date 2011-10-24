@@ -102,5 +102,5 @@ if __name__ == '__main__':
     for i in Rss.where():
         zsite = Zsite.mc_get( i.user_id )
         if zsite.cid == CID_SITE:
-            print  "http:%s"%zsite.link,"\t\t\t", zsite.name
+            print  'http:%s'%zsite.link, '\t\t\t', zsite.name
 

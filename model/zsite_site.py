@@ -9,7 +9,7 @@ from model.zsite_show import zsite_show_new
 from model.buzz import mq_buzz_site_new
 from model.search_zsite import search_new
 from model.zsite_list import zsite_id_list, MC_LIMIT_ZSITE_LIST, zsite_list_count,\
-zsite_id_list_sample
+zsite_id_list_sample, STATE_ADMIN, STATE_ACTIVE
 from zkit.algorithm.wrandom import sample_or_shuffle
 
 ZSITE_STATE_SITE_PUBLIC = 40
@@ -60,11 +60,11 @@ def site_can_view(zsite, user_id):
         return True
 
     zsite_id = zsite.id
-    if zsite_user_state(zsite_id, user_id):
+    if zsite_user_state(zsite_id, user_id) >= STATE_ACTIVE:
         return True
 
 def site_can_admin(zsite_id, user_id):
-    if zsite_user_state(zsite_id, user_id):
+    if zsite_user_state(zsite_id, user_id) >= STATE_ADMIN:
         return True
 
 def zsite_id_by_zsite_user_id(zsite, user_id):
@@ -78,7 +78,7 @@ def zsite_site_by_user_id_sample(user_id, k):
     return Zsite.mc_get_list(id_list)
 
 def zsite_site_count(zsite_id):
-    return zsite_list_count(zsite_id, CID_SITE) 
+    return zsite_list_count(zsite_id, CID_SITE)
 
 def zsite_id_list_by_user_id(user_id):
     return zsite_id_list(user_id, CID_SITE)

@@ -161,6 +161,6 @@ class Read(LoginBase):
         current_user_id = self.current_user_id
         zsite_fav_get_and_touch(zsite, current_user_id)
 
-        li, page = render_zsite_site(self, n, "/read-%s")
+        li, page = render_zsite_site(self, n, '/read-%s')
         self.render(li=li, page=page)
 

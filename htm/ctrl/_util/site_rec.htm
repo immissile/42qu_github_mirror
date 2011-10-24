@@ -1,0 +1,53 @@
+<%!
+from model.ico import ico_url_with_default
+from config import FS_URL
+from model.motto import motto_get
+from model.site_po import po_list_by_zsite_list
+from model.cid import CID_NOTE
+from config import SITE_DOMAIN
+%>
+<%def name="site_rec_render(site)">
+%if site:
+<%
+site_id=site.id
+site_link=site.link
+%>\
+<script id="site_rec" type="text/x-jquery-tmpl">
+<div class="site_rec">
+    <div class="site_to"></div>
+    <a class="site_x" href="javascript:site_x(${site_id});void(0)"></a>
+    <div class="site_title">
+        <div class="site_img">
+<a href="${site_link}"><img
+class="site_avatar" src="${ico_url_with_default(site_id)}"></a>
+        </div>
+        <div class="site_info">
+<span class="site_name"><a
+target="_blank" id="site_name_a"
+href="${site_link}">${site_rec.name}</a></span>
+<span class="site_bio"><a href="${site_link}"
+target="_blank">${motto_get(site_id)}</a></span>
+        </div>
+    </div>
+    <div class="site_cont">
+        <div class="site_act">
+<a class="site_unfav"
+href="javascript:site_unfav(${site_id});void(0)">不感兴趣</a>
+<a class="site_fav"
+href="javascript:site_fav(${site_id});void(0)">收藏站点</a>
+<a class="site_more"
+href="//site.${SITE_DOMAIN}">浏览更新</a>
+        </div>
+        <div class="site_txt">
+%for i in po_list_by_zsite_list(site_id, CID_NOTE, 4, 0):
+<a class="site_txt_a" target="_blank" href="${i.link}">${i.name}</a>\
+%endfor
+        </div>
+    </div>
+</div>
+</script>
+<script src="${js.ctrl_site_rec}"></script>
+%endif
+</%def>
+
+

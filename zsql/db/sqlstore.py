@@ -280,4 +280,7 @@ class CursorWrapper() :
             if e.args[0] == 2014:
                 self.farm._cursor = None
             raise
+        except MySQLdb.IntegrityError, e:
+            self._cursor.connection.rollback()
+            raise
 

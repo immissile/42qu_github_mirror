@@ -7,7 +7,9 @@ import urllib
 from tornado import httpclient
 import logging
 import json
-from config import DOUBAN_CONSUMER_KEY, DOUBAN_CONSUMER_SECRET, WWW163_CONSUMER_KEY, WWW163_CONSUMER_SECRET, QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY, SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY, SOHU_CONSUMER_SECRET, SOHU_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY
+import urlparse
+from tornado import httpclient
+from config import DOUBAN_CONSUMER_KEY, DOUBAN_CONSUMER_SECRET, WWW163_CONSUMER_KEY, WWW163_CONSUMER_SECRET, QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY, SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY, SOHU_CONSUMER_SECRET, SOHU_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY, RENREN_CONSUMER_KEY, RENREN_CONSUMER_SECRET
 
 def callback_url(self):
     redirect_url = self.get_argument('path', None)
@@ -34,7 +36,6 @@ def xxx_request(self, path, callback, access_token=None, post_args=None, **args)
     callback = self.async_callback(self._on_request, callback)
     http = httpclient.AsyncHTTPClient()
     if post_args is not None:
-        print url, post_args
         http.fetch(url, method='POST', body=urllib.urlencode(post_args),
                    callback=callback)
     else:
@@ -131,6 +132,35 @@ class GoogleMixin(tornado.auth.GoogleMixin):
     """
     _OAUTH_VERSION = '1.0'
     callback_url = callback_url
+
+class RenrenMixin(tornado.auth.OAuth2Mixin):
+    _OAUTH_AUTHORIZE_URL = 'https://graph.renren.com/oauth/authorize'
+    _OAUTH_ACCESS_TOKEN_URL = 'https://graph.renren.com/oauth/token' 
+    callback_url = callback_url
+    
+    def get_authenticated_user(self,callback_func,http_client=None):
+        callback = urlparse.urljoin(self.request.full_url(),self.callback_url())
+        oauth_request_token_url = self._oauth_request_token_url(callback,self._oauth_consumer_token()['client_id'],self._oauth_consumer_token()['client_secret'],self.get_argument('code',None),{'grant_type':'authorization_code'})
+        if http_client is None:
+            http_client = httpclient.AsyncHTTPClient()
+        http_client.fetch(oauth_request_token_url,
+                          self.async_callback(self._on_access_token, callback_func))
+
+    def _on_access_token(self, callback, response):
+        if response.error:
+            logging.warning("Could not fetch access token")
+            callback(None)
+            return
+        body = json.loads(response.body)
+        callback(body)
+    
+    def _oauth_consumer_token(self):
+        return dict(
+                client_id = RENREN_CONSUMER_KEY,
+                client_secret = RENREN_CONSUMER_SECRET
+                )
+
+
 
 
 class Www163Mixin(tornado.auth.OAuthMixin):
