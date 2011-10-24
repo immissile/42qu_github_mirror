@@ -7,14 +7,10 @@ from model.motto import motto_get
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/zsite/_util/wall.htm" import="reply_render, reply_textarea"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
-<%namespace file="/ctrl/_util/site_rec.htm" import="site_rec_render"/>
-<%namespace file="/ctrl/_util/site_sync.htm" import="oauth_sync"/>
+<%namespace file="/ctrl/_util/top_rec.htm" import="top_rec"/>
 
 <%def name="htm_head()">
 ${css.ctrl_live|n}
-%if site_rec:
-${css.ctrl_site_rec|n}
-%endif
 </%def>
 
 <%def name="htm_foot()">
@@ -60,8 +56,7 @@ id="po_word_txt" name="txt"></textarea>\
 </div>
 
 %endif
-##${site_rec_render(site_rec)}
-${oauth_sync()}
+${top_rec()}
 
 <div id="main"><div id="feeds"><input id="begin_id" type="hidden"></div></div>
 

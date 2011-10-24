@@ -5,8 +5,12 @@ from model.motto import motto_get
 from model.site_po import po_list_by_zsite_list
 from model.cid import CID_NOTE
 from config import SITE_DOMAIN
+from model.site_rec import site_rec
 %>
-<%def name="site_rec_render(site)">
+<%def name="site_rec_render()">
+<%
+site=site_rec(current_user_id)
+%>
 %if site:
 <%
 site_id=site.id
@@ -24,7 +28,7 @@ class="site_avatar" src="${ico_url_with_default(site_id)}"></a>
         <div class="site_info">
 <span class="site_name"><a
 target="_blank" id="site_name_a"
-href="${site_link}">${site_rec.name}</a></span>
+href="${site_link}">${site.name}</a></span>
 <span class="site_bio"><a href="${site_link}"
 target="_blank">${motto_get(site_id)}</a></span>
         </div>
