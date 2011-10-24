@@ -41,6 +41,12 @@ class Logout(Base):
             user_session_rm(current_user.id)
         self.redirect('/')
 
+@urlmap('/po')
+class Po(LoginBase):
+    def get(self):
+        self.render()
+
+
 @urlmap('/login')
 class Login(NoLoginBase):
     def get(self):
