@@ -371,7 +371,7 @@ class InviteShow(LoginBase):
         fid_list = self.get_argument('follow_id_list', None)
         if fid_list:
             for i in Zsite.mc_get_list(fid_list):
-                if i.id != uid:
+                if i.id != user_id:
                     follow_new(user_id, i.id)
 
         self.redirect('/i/invite/email/%s'%cid)
