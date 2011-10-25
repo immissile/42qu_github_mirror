@@ -17,13 +17,13 @@ SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY,\
 QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY,\
 TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY,\
 WWW163_CONSUMER_SECRET, WWW163_CONSUMER_KEY,\
-GOOGLE_CONSUMER_SECRET, RENREN_CONSUMER_SECRET
+GOOGLE_CONSUMER_SECRET, RENREN_CONSUMER_SECRET, KAIXIN_CONSUMER_KEY, KAIXIN_CONSUMER_SECRET, FANFOU_CONSUMER_SECRET, FANFOU_CONSUMER_KEY
 from oauth import oauth_token_by_oauth_id,\
 OAUTH_GOOGLE, OAUTH_DOUBAN,\
 OAUTH_SINA, OAUTH_TWITTER,\
 OAUTH_WWW163,\
 OAUTH_SOHU, OAUTH_QQ,\
-OAUTH_RENREN, OAUTH_LINKEDIN
+OAUTH_RENREN, OAUTH_LINKEDIN, OAUTH_KAIXIN, OAUTH_FANFOU
 
 from collections import defaultdict
 from oauth import oauth_rm_by_oauth_id
@@ -153,6 +153,21 @@ def api_sina(netloc, parameters, key, secret, method='POST'):
         method
     )
 
+
+def  api_fanfou(netloc, parameters,key,secret,method='POST'):
+    host = 'api.fanfou.com'
+    api_key = FANFOU_CONSUMER_KEY
+    api_secret = FANFOU_CONSUMER_SECRET
+    return api_xxx(api_key,api_secret,
+            host,
+            netloc,
+            parameters,
+            key,
+            secret,
+            method,
+            )
+
+
 def api_douban(netloc, parameters, key, secret, method='POST', data=None):
     host = 'api.douban.com'
     api_key = DOUBAN_CONSUMER_KEY
@@ -168,6 +183,20 @@ def api_douban(netloc, parameters, key, secret, method='POST', data=None):
         'application/atom+xml'
     )
 
+
+
+def api_kaixin(netloc,key,secret,data=None):
+    host = 'api.kaixin001.com'
+    _body={
+            'access_token':key,
+            }
+    if data:
+        _body.update(data)
+    body = urlencode(_body)
+    method = 'POST'
+    headers = {}
+    headers['Content-Type'] = 'application/x-www-form-urlencoded' 
+    return  host, netloc, headers, body, method
 
 
 def api_renren(key,secret,data=None):
@@ -198,9 +227,16 @@ def api_renren_say(key, secret,word):
             'method':'status.set',}
             )
 
+def api_kaixin_say(key,secret,word):
+    return api_kaixin(
+            '/records/add.json',
+            key,
+            secret,
+            {'content':word},
+            )
+
+
 def api_twitter_say(key, secret, word):
-    return
-    #TODO
     return api_twitter(
         '/statuses/update.json',
         {'status':word},
@@ -233,6 +269,17 @@ def api_qq_say(key, secret, word):
     )
     #print r
     return r
+
+
+def api_fanfou_say(key,secret,word):
+    return api_fanfou(
+            '/statuses/update.json',
+            {'status':word },
+            key,
+            secret,
+            'POST',
+            )
+
 
 def api_sina_say(key, secret, word):
     return api_sina(
@@ -286,7 +333,9 @@ DICT_API_SAY = {
         OAUTH_WWW163:api_www163_say,
         OAUTH_TWITTER:api_twitter_say,
         OAUTH_DOUBAN:api_douban_say,
-        OAUTH_RENREN:api_renren_say
+        OAUTH_RENREN:api_renren_say,
+        OAUTH_KAIXIN:api_kaixin_say,
+        OAUTH_FANFOU:api_fanfou_say,
         }
 
 def oauth_txt_cat(cid, txt, url):
@@ -311,11 +360,14 @@ def sync_by_oauth_id(oauth_id, txt, url=None):
         txt = oauth_txt_cat(cid, txt, url)
         re = DICT_API_SAY[cid](key, secret, txt)
         if re:
-            mes = api_network_http(*re)
+            mes = api_network_http(cid,*re)
             #oauth_res_check(mes, oauth_id)
             return mes
 
-def api_network_http(host, netloc, headers, body, method, connection=httplib.HTTPConnection):
+def api_network_http(cid,host, netloc, headers, body, method, connection=httplib.HTTPConnection):
+    if cid == OAUTH_KAIXIN:
+        conn = httplib.HTTPSConnection
+        print cid,'!!!'
     conn = connection(host, timeout=30)
     conn.set_debuglevel(0)
     conn.request(method, netloc, headers=headers, body=body)
@@ -326,5 +378,5 @@ def api_network_http(host, netloc, headers, body, method, connection=httplib.HTT
     return r
 
 if __name__ == '__main__':
-    p = sync_by_oauth_id(29, '''42qu.com : 我很牛逼哟！！加入我们把！！''', 'http://42qu.com/zhendi')
+    p = sync_by_oauth_id(42, '''42qu.com : 我很牛逼哟！！加入我们把！！''', 'http://42qu.com/zhendi')
     print p

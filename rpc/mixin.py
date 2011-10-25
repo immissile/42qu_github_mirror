@@ -290,6 +290,36 @@ class QqMixin(tornado.auth.OAuthMixin):
         )
 
 
+
+class FanfouMixin(tornado.auth.OAuthMixin):
+    _OAUTH_REQUEST_TOKEN_URL = 'http://fanfou.com/oauth/request_token'
+    _OAUTH_AUTHORIZE_URL = 'http://fanfou.com/oauth/authorize'
+    _OAUTH_ACCESS_TOKEN_URL = 'http://fanfou.com/oauth/access_token'
+    _OAUTH_VERSION = '1.0a'
+    _OAUTH_NO_CALLBACKS = False
+    _API_URL = 'http://api.fanfou.com%s.json'
+
+    callback_url = callback_url
+    _parse_user_response = _parse_user_response
+    _on_request = _on_request
+    
+    def fanfou_request(self, path, callback, access_token=None, post_args=None,**args):
+        return xxx_request(
+                self,path,callback,access_token,post_args,**args
+                )
+    
+    def _oauth_consumer_token(self):
+        return dict(
+            key=FANFOU_CONSUMER_KEY,
+            secret=FANFOU_CONSUMER_SECRET)
+
+    def _oauth_get_user(self, access_token, callback):
+        callback = self.async_callback(self._parse_user_response, callback)
+        self.fanfou_request(
+            '/users/show',
+            access_token=access_token, callback=callback
+        )
+
 class SinaMixin(tornado.auth.OAuthMixin):
     _OAUTH_REQUEST_TOKEN_URL = 'http://api.t.sina.com.cn/oauth/request_token'
     _OAUTH_ACCESS_TOKEN_URL = 'http://api.t.sina.com.cn/oauth/access_token'
@@ -393,3 +423,8 @@ class SohuMixin(tornado.auth.OAuthMixin):
 
 class TwitterMixin(tornado.auth.TwitterMixin):
     callback_url = callback_url
+    
+    def _oauth_consumer_token(self):
+        return dict(
+            key=TWITTER_CONSUMER_KEY,
+            secret=TWITTER_CONSUMER_SECRET)
