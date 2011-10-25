@@ -29,6 +29,15 @@ $(function(){
             }
         }
     )
+
+    $("form").submit(function(){
+        var select_ids = ''
+        $('.f_item2').each(function(){
+            select_ids += $(this).attr('id')+'-'
+        })
+        $(this).prepend('<input type="hidden" name="follow_id_list" value="'+select_ids+'" />')
+        return true
+    })
 })
 </script>
 

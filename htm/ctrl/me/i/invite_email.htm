@@ -66,7 +66,7 @@ height:85px;
 margin:27px 0 0 210px;
 }
 .mail_sub{
-margin:20px 0 40px 758px;
+margin:0 0 40px 0;
 }
 .e_name{
 display:inline-block;
@@ -76,12 +76,30 @@ height:21px;
 line-height:21px;
 vertical-align:-4px;
 }
+.mail_act{
+margin:32px 0 0 210px;
+overflow:auto;
+width:554px;
+text-align:right;
+}
+.mail_skip{
+font-size:16px;
+float:left;
+color:#999;
+margin-top:6px;
+display:block;
+}
 </style>
 
-<p class="tip">
-邀请其他朋友 <input type="checkbox" id="select_all" checked><label for="select_all"> 全选</label>
-</p>
 <%htm:form>
+<p class="tip">
+邀请朋友们来围观 :
+</p>
+<textarea class="mail_txt" name="mail_txt"></textarea>
+
+<p class="tip">
+<input type="checkbox" id="select_all" checked><label for="select_all"> 全选</label>
+</p>
 <div class="e_items">
         %for pos,email in enumerate(emails):
     <div class="e_item">
@@ -93,10 +111,7 @@ vertical-align:-4px;
     </div>
     %endfor
 </div>
+<div class="mail_act"><a href="" class="mail_skip">跳过</a><div class="mail_sub"><span class="btnw"><button type="submit">发送邀请</button></span></div></div>
 
-<p class="tip">
-附言 :
-</p>
-<textarea class="mail_txt" name="mail_txt"></textarea>
-<div class="mail_sub"><span class="btnw"><button type="submit">发送邀请</button></span></div>
+
 </%htm:form>
