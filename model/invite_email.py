@@ -53,7 +53,7 @@ def invite_user_id_by_cid(user_id, cid):
     if uid:
         return True
 
-def get_invite_email_list_by_cid(user_id, cid):
+def invite_email_list_by_cid(user_id, cid):
     emails = InviteEmail.raw_sql('select email,name from invite_email where user_id = %s and cid=%s and email_user_id = 0', user_id, cid).fetchall()
     return emails
 

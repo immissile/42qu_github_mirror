@@ -24,7 +24,7 @@ from model.zsite import Zsite
 from collections import defaultdict
 from model.sync import sync_state_set, sync_all, sync_follow_new, SYNC_CID
 from model.search_zsite import search_new
-from model.invite_email import get_invite_user_id_list_by_cid, CID_MSN, CID_QQ, get_invite_email_list_by_cid, new_invite_message
+from model.invite_email import get_invite_user_id_list_by_cid, CID_MSN, CID_QQ, invite_email_list_by_cid, new_invite_message
 from model.follow import follow_id_list_by_from_id, follow_new
 
 def _upload_pic(files, current_user_id):
@@ -380,7 +380,7 @@ class InviteShow(LoginBase):
 @urlmap('/i/invite/email/(\d+)')
 class InviteEmail(LoginBase):
     def get(self,cid=CID_MSN):
-        emails = get_invite_email_list_by_cid(self.current_user_id,cid)
+        emails = invite_email_list_by_cid(self.current_user_id,cid)
         self.render(emails = emails,
                 cid=cid)
 
