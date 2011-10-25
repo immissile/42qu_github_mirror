@@ -226,34 +226,36 @@ function doc_height(){
 (function(){
 var doc=$(document), h=doc_height();
 fcm = function (id,count){
-    var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
-    self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
-    var self_a = self.parent().find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
-    self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
-    if(count){
-        fcmtxt.before('<div class="fcmload"></div>')
-        $.postJSON(
-        "/j/po/reply/json/"+id,
-        function(data){
-            self.find($('.fcmload')).replaceWith(fcml)
-            for(i=0;i<data.length;i++){
-                t=data[i]
-                html = $('<div class="fcmi"><a target="_blank" class="fcmname c9" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
-                $('#fcml_'+id).append(html)
-                html.find(".fcmname").text(t[2])
-            }
-            $('#fcml_'+id).slideDown(function(){$(this).show()})
-            var e = $('#txt_'+id)
-            if(e.offset().top-doc.scrollTop()>h){
-                scrolls(id)             
-            }
-            
-        })
-    }else{
-        fcmtxt.before(fcml)
+    if(!$('#fcmpop_'+id)[0]){
+        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
+        self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
+        var self_a = self.parent().find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
+        self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
+        if(count){
+            fcmtxt.before('<div class="fcmload"></div>')
+            $.postJSON(
+            "/j/po/reply/json/"+id,
+            function(data){
+                self.find($('.fcmload')).replaceWith(fcml)
+                for(i=0;i<data.length;i++){
+                    t=data[i]
+                    html = $('<div class="fcmi"><a target="_blank" class="fcmname c9" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
+                    $('#fcml_'+id).append(html)
+                    html.find(".fcmname").text(t[2])
+                }
+                $('#fcml_'+id).slideDown(function(){$(this).show()})
+                var e = $('#txt_'+id)
+                if(e.offset().top-doc.scrollTop()>h){
+                    scrolls(id)             
+                }
+                
+            })
+        }else{
+            fcmtxt.before(fcml)
+        }
+        $("#txt_"+id).pop_at("/j/at/reply/"+id)
+        self.find('textarea').focus().elastic()
     }
-    $("#txt_"+id).pop_at("/j/at/reply/"+id)
-    self.find('textarea').focus().elastic()
 }
 
 function scrolls(id){
