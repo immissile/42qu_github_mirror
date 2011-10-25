@@ -1,0 +1,129 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="head()">
+${css.ctrl_i_password|n}
+</%def>
+<%!
+from model.zsite import Zsite
+from model.user_mail import mail_by_user_id
+from model.invite_email import INVITE_CID2CN
+%>
+<script>
+$(function(){
+    $('.f_item').toggle(
+        function(){ 
+            $(this).toggleClass('f_item2')
+            $(this).toggleClass('f_item')
+        },
+        function(){ 
+            $(this).toggleClass('f_item2')
+            $(this).toggleClass('f_item')
+        })
+    $('#select_all').click(
+        function(){
+            if($(this).attr('checked')){
+                $('.f_item').attr('class','f_item2')
+            } else{
+                $('.f_item2').attr('class','f_item')
+            }
+        }
+    )
+})
+</script>
+<style>
+.items{
+margin:27px auto 0;
+overflow:auto;
+}
+.f_item, .f_item2{
+display:block;
+width:224px;
+height:48px;
+padding:6px;
+margin:0 5px 5px 0;
+float:left;
+overflow:hidden;
+color:#444;
+border:1px solid #fff;
+}
+.f_item2{
+background:#a10;
+color:#fff;
+}
+.f_item2:hover{
+color:#fff;
+}
+.f_item:hover{
+color:#444;
+border:1px solid #ccc;
+}
+.f_img{
+width:48px;
+height:48px;
+float:left;
+margin-right:6px;
+}
+.f_icon{
+margin-left:5px;
+vertical-align:-2px;
+background:url(/img/gif/icons/gif/white/16x16/tick.gif);
+width:16px;
+height:16px;
+display:inline-block;
+}
+.f_email{
+margin-top:-4px;
+}
+.tip{
+margin-top:27px;
+font-size:16px;
+}
+.acts{
+text-align:left;
+overflow:auto;
+margin-top:27px;
+clear:both;
+}
+.act{
+margin:0 37px 0 0;
+}
+.item_wrap{
+overflow:auto;
+}
+.select_all{
+margin-top:16px;
+float:right;
+line-height:14px;
+margin-right:15px;
+}
+#select_all{
+margin-right:2px;
+}
+</style>
+
+<p class="tip">
+你有${len(uid_list)}个${INVITE_CID2CN[int(cid)]}联系人也在使用42区 , 你可以选择一些来关注 :
+</p>
+<div class="items">
+    <div class="item_wrap">
+% for uid in uid_list:
+<%
+zsite = Zsite.mc_get(uid)
+%>
+<a class="f_item" href="javascript:void(0)" id="${uid}"><img class="f_img" src="${zsite.ico96}">
+    <span class="f_name">${zsite.name}</span>
+    <span class="f_icon"></span>
+    <div class="f_email">${mail_by_user_id(uid)}</div>
+</a>
+%endfor
+</div>
+<div class="acts">
+    <%htm:form method="POST" >
+        <input type="hidden" name="follow_id_list" value="10021794" />
+        <span class="btnw act R"><button type="submit">关注所选</button></span>
+    </%htm:form>
+    <span class="btnw act"><button type="button" onclick="location='/i/invite/email'">跳过</button></span>
+    <label for="select_all" class="select_all">全选</label><input type="checkbox" id="select_all" class="select_all"/>
+</div>
+</div>
+

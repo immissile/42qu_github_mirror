@@ -7,9 +7,17 @@ import urllib
 from tornado import httpclient
 import logging
 import json
+import time
+import binascii
+import time
 import urlparse
 from tornado import httpclient
-from config import DOUBAN_CONSUMER_KEY, DOUBAN_CONSUMER_SECRET, WWW163_CONSUMER_KEY, WWW163_CONSUMER_SECRET, QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY, SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY, SOHU_CONSUMER_SECRET, SOHU_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY, RENREN_CONSUMER_KEY, RENREN_CONSUMER_SECRET
+from config import DOUBAN_CONSUMER_KEY, DOUBAN_CONSUMER_SECRET, WWW163_CONSUMER_KEY, WWW163_CONSUMER_SECRET, QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY, SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY, SOHU_CONSUMER_SECRET, SOHU_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY, RENREN_CONSUMER_KEY, RENREN_CONSUMER_SECRET, GOOGLE_CONSUMER_KEY, GOOGLE_CONSUMER_SECRET
+import uuid
+import base64
+import hashlib
+import hmac
+from tornado.auth import _oauth_escape, _oauth_signature
 
 def callback_url(self):
     redirect_url = self.get_argument('path', None)
@@ -115,7 +123,7 @@ class DoubanMixin(tornado.auth.OAuthMixin):
         callback(user)
 
 
-class GoogleMixin(tornado.auth.GoogleMixin):
+class GoogleMixin(tornado.auth.OAuthMixin):
     """
     http://openid.net.cn/specs/openid-authentication-2_0-zh_CN.html
     OpenID认证2.0——最终版
@@ -130,8 +138,61 @@ class GoogleMixin(tornado.auth.GoogleMixin):
 
     http://code.google.com/intl/zh-CN/apis/contacts/docs/1.0/developers_guide_python.html
     """
+    _OAUTH_REQUEST_TOKEN_URL = 'https://www.google.com/accounts/OAuthGetRequestToken'
+    _OAUTH_ACCESS_TOKEN_URL = 'https://www.google.com/accounts/OAuthGetAccessToken'
+    _OAUTH_AUTHORIZE_URL = 'https://www.google.com/accounts/OAuthAuthorizeToken'
+    _OAUTH_NO_CALLBACKS = False
+    _API_URL = 'https://www.google.com/m8/feeds/contacts/%s/full'
     _OAUTH_VERSION = '1.0'
     callback_url = callback_url
+    _on_request = _on_request
+    def _oauth_request_token_url(self, callback_uri= None, extra_params=None):
+        consumer_token = self._oauth_consumer_token()
+        url = self._OAUTH_REQUEST_TOKEN_URL
+        args = dict(
+            oauth_consumer_key=consumer_token["key"],
+            oauth_signature_method="HMAC-SHA1",
+            oauth_timestamp=str(int(time.time())),
+            oauth_nonce=binascii.b2a_hex(uuid.uuid4().bytes),
+            oauth_version=getattr(self, "_OAUTH_VERSION", "1.0a"),
+        )
+        args["scope"] = 'http://www.google.com/m8/feeds/contacts/default/full'
+        signature = _oauth_signature(consumer_token, "GET", url, args)
+
+        args["oauth_signature"] = signature
+        return url + "?" + urllib.urlencode(args)
+
+    def google_request(self, path, callback, access_token=None,
+                               post_args=None, **args):
+        return xxx_request(
+                self, path, callback, access_token, post_args, **args
+            )
+
+    def _oauth_consumer_token(self):
+        return dict(
+                key = GOOGLE_CONSUMER_KEY,
+                secret = GOOGLE_CONSUMER_SECRET
+                )
+
+    def _oauth_get_user(self, access_token, callback):
+        callback = self.async_callback(self._parse_user_response, callback)
+        user_id = access_token.get('user_id') or 'default'
+        self.google_request(
+                user_id,
+                access_token=access_token,callback=callback
+                ) 
+    
+    def _parse_user_response(self, callback, xml):
+        if xml:
+            from zkit.bot_txt import txt_wrap_by
+            soup = txt_wrap_by('<author>','</author>',xml)
+            user = dict(
+                uid=txt_wrap_by('<email>','</email>',soup),
+                name=txt_wrap_by('<name>','</name>',soup)
+            )
+        else:
+            user = None
+        callback(user)
 
 class RenrenMixin(tornado.auth.OAuth2Mixin):
     _OAUTH_AUTHORIZE_URL = 'https://graph.renren.com/oauth/authorize'

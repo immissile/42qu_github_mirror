@@ -24,7 +24,8 @@ from model.zsite import Zsite
 from collections import defaultdict
 from model.sync import sync_state_set, sync_all, sync_follow_new, SYNC_CID
 from model.search_zsite import search_new
-
+from model.invite_email import get_invite_uid_list_by_cid, CID_MSN, CID_QQ, get_invite_email_list_by_cid, new_invite_message
+from model.follow import follow_id_list_by_from_id
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -341,7 +342,50 @@ class MailNotice(LoginBase):
             mail_notice_set(user_id, cid, state)
         self.get()
 
+@urlmap('/i/invite')
+class Invite(LoginBase):
+    def get(self):
+        self.render()
 
+
+@urlmap('/i/invite/login/(\d+)')
+class InviteLogin(LoginBase):
+    def get(self,cid=CID_MSN):
+        if cid != CID_QQ:
+            self.render(cid=cid)
+        else:
+            self.render('/ctrl/me/i/import_qq.htm')
+
+@urlmap('/i/invite/show')
+@urlmap('/i/invite/show/(\d+)')
+class InviteShow(LoginBase):
+    def get(self,cid=CID_MSN):
+        uid = self.current_user_id
+        uid_list = get_invite_uid_list_by_cid(uid,cid)
+        follow_id_list = follow_id_list_by_from_id(uid)
+        uid_list = set(uid_list) - set(follow_id_list)
+        self.render(cid=cid, uid_list = uid_list)
+
+    def post(self,cid=CID_MSN):
+        fid_list = self.get_argument('follow_id_list',None)
+        if fid_list:
+            print fid_list
+        self.redirect('/i/invite/email/%s'%cid)
+
+@urlmap('/i/invite/email')
+@urlmap('/i/invite/email/(\d+)')
+class InviteEmail(LoginBase):
+    def get(self,cid=CID_MSN):
+        emails = get_invite_email_list_by_cid(self.current_user_id,cid)
+        self.render(emails = emails,
+                cid=cid)
+
+    def post(self,cid=CID_MSN):
+        emails = self.get_arguments('mails',None)
+        mail_txt = self.get_argument('mail_txt',None)
+        if emails:
+            new_invite_message(self.current_user_id,emails,mail_txt)
+        self.render('ctrl/me/i/invite.htm',success='success')
 
 @urlmap('/i/password')
 class Password(LoginBase):

@@ -43,10 +43,21 @@ class DoubanOauthHandler(LoginBase, DoubanMixin):
 class GoogleOauthHandler(LoginBase, GoogleMixin):
     @tornado.web.asynchronous
     def get(self):
-        if self.get_argument('openid.mode', None):
+        if self.get_argument('oauth_token', None):
             self.get_authenticated_user(self.async_callback(self._on_auth))
             return
+        self.authorize_redirect(
+                self.callback_url()
+                )
 
+    def _on_auth(self, user):
+        man = self.current_user
+        if user:
+            access_token = user.get('access_token')
+            if access_token:
+                print access_token
+        return self.redirect(BACK_URL)
+                    
 
 @urlmap('/oauth/%s'%OAUTH_SINA)
 class SinaOauthHandler(LoginBase, SinaMixin):

@@ -13,6 +13,8 @@ from collections import defaultdict
 from model.days import today_seconds
 
 
+
+
 @single_process
 def notice_day():
     prev_pos = kv_int.get(KV_NOTICE_POS)
@@ -36,6 +38,7 @@ def notice_day():
             sleep(0.1)
 
         kv_int.set(KV_NOTICE_POS, pos)
+
 
 
 if __name__ == '__main__':
