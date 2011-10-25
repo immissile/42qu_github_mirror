@@ -47,23 +47,21 @@ user_id, cid,  email, name, user_id_by_mail(email)
     return True
 
 def get_invite_uid_by_cid(user_id, cid):
-    uid = InviteEmail.raw_sql('select email_user_id from invite_email where user_id = %s and cid=%s', user_id, cid).fetchone()
+    uid = InviteEmail.raw_sql(
+        'select email_user_id from invite_email where user_id = %s and cid=%s', user_id, cid
+    ).fetchone()
     if uid:
         return True
+
 def get_invite_email_list_by_cid(user_id, cid):
     emails = InviteEmail.raw_sql('select email,name from invite_email where user_id = %s and cid=%s and email_user_id = 0', user_id, cid).fetchall()
     return emails
 
 def get_invite_uid_list_by_cid(user_id, cid):
-    uid_list = InviteEmail.raw_sql('select email_user_id from invite_email where user_id = %s and cid = %s', user_id, cid).fetchall()
-    full_uid = []
-    for uid in uid_list:
-        if uid[0]:
-            full_uid.append(uid[0])
-    return full_uid
+    return InviteEmail.where('email_user_id>0').where(user_id=user_id, cid=cid).col_list(col='email_user_id')
 
 def get_email_by_cid(user_id, cid):
-    return [i.email for i in InviteEmail.where(user_id=user_id).where(cid=cid)]
+    return InviteEmail.where(user_id=user_id,cid=cid).col_list(col="email")
 
 if __name__ == '__main__':
     print msn_friend_get('wsyupeng@hotmail.com', 'yu6171446')
