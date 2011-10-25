@@ -26,7 +26,7 @@ class InviteEmail(Model):
 class InviteMessage(Model):
     pass
 
-def new_invite_message(user_id, email_list, txt):
+def invite_message_new(user_id, email_list, txt):
     InviteMessage.raw_sql(
         'insert into invite_message (email,user_id,txt) values (%s,%s,%s)', 
         dumps(email_list), 

@@ -24,7 +24,7 @@ from model.zsite import Zsite
 from collections import defaultdict
 from model.sync import sync_state_set, sync_all, sync_follow_new, SYNC_CID
 from model.search_zsite import search_new
-from model.invite_email import get_invite_user_id_list_by_cid, CID_MSN, CID_QQ, invite_email_list_by_cid, new_invite_message
+from model.invite_email import get_invite_user_id_list_by_cid, CID_MSN, CID_QQ, invite_email_list_by_cid, invite_message_new
 from model.follow import follow_id_list_by_from_id, follow_new
 
 def _upload_pic(files, current_user_id):
@@ -388,7 +388,7 @@ class InviteEmail(LoginBase):
         emails = self.get_arguments('mails',None)
         mail_txt = self.get_argument('mail_txt',None)
         if emails:
-            new_invite_message(self.current_user_id,emails,mail_txt)
+            invite_message_new(self.current_user_id,emails,mail_txt)
         self.render('ctrl/me/i/invite.htm',success='success')
 
 @urlmap('/i/password')
