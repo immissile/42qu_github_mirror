@@ -16,6 +16,7 @@ $(function(){
             }
         }
     )
+    $("#mail_txt").focus().select()
 })
 </script>
 <style>
@@ -25,7 +26,8 @@ margin:27px auto 0;
 overflow:auto;
 border:1px solid #eee;
 padding:12px;
-max-height:400px;
+max-height:150px;
+*height:150px;
 overflow:auto;
 }
 .e_item{
@@ -63,7 +65,7 @@ padding:6px 0;
 padding:6px;
 width:540px;
 height:85px;
-margin:27px 0 0 210px;
+margin:14px 0 0 210px;
 }
 .mail_sub{
 margin:0 0 40px 0;
@@ -87,19 +89,13 @@ font-size:16px;
 float:left;
 color:#999;
 margin-top:6px;
+margin-right:38px;
 display:block;
 }
 </style>
 
 <%htm:form>
-<p class="tip">
-邀请朋友们来围观 :
-</p>
-<textarea class="mail_txt" name="mail_txt"></textarea>
 
-<p class="tip">
-<input type="checkbox" id="select_all" checked><label for="select_all"> 全选</label>
-</p>
 <div class="e_items">
         %for pos,email in enumerate(emails):
     <div class="e_item">
@@ -111,7 +107,15 @@ display:block;
     </div>
     %endfor
 </div>
-<div class="mail_act"><a href="" class="mail_skip">跳过</a><div class="mail_sub"><span class="btnw"><button type="submit">发送邀请</button></span></div></div>
+<div style="width:554px;margin:7px auto 0">
+<input type="checkbox" id="select_all" checked><label for="select_all"> 全选</label>
+</div>
 
+<p class="tip"> 邀请朋友们来围观 : </p>
+<textarea id="mail_txt" class="mail_txt" name="mail_txt">如果我说 : 42区(42qu.com) 将会领军下一波互联网 , 你信吗 ? </textarea>
+<div class="mail_act">
+<a href="/i/invite" class="mail_skip">以后再说</a>
+    <div class="mail_sub"><span class="btnw"><button type="submit">广而告之</button></span></div>
+</div>
 
 </%htm:form>

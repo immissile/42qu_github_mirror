@@ -30,13 +30,15 @@ $(function(){
         }
     )
 
-    $("form").submit(function(){
-        var select_ids = ''
+    $("#follow_form").submit(function(){
+        var select_ids = [];
+
         $('.f_item2').each(function(){
-            select_ids += $(this).attr('id')+'-'
+            select_ids.push(this.id)
         })
-        $(this).prepend('<input type="hidden" name="follow_id_list" value="'+select_ids+'" />')
-        return true
+
+        $("#follow_id_list").val(select_ids.join(' '))
+        
     })
 })
 </script>
@@ -58,9 +60,9 @@ zsite = Zsite.mc_get(uid)
 %endfor
 </div>
 <div class="acts">
-    <%htm:form method="POST" >
-        <input type="hidden" name="follow_id_list" value="10021794" />
+    <%htm:form method="POST" id="follow_form">
         <span class="btnw act R"><button type="submit">关注所选</button></span>
+        <input type="hidden" id="follow_id_list" name="follow_id_list" value="">
     </%htm:form>
     <span class="btnw act"><button type="button" onclick="location='/i/invite/email'">跳过</button></span>
     <label for="select_all" class="select_all">全选</label><input type="checkbox" id="select_all" class="select_all"/>
