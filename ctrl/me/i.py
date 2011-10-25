@@ -24,8 +24,8 @@ from model.zsite import Zsite
 from collections import defaultdict
 from model.sync import sync_state_set, sync_all, sync_follow_new, SYNC_CID
 from model.search_zsite import search_new
-from model.invite_email import get_invite_uid_list_by_cid, CID_MSN, CID_QQ, get_invite_email_list_by_cid, new_invite_message
-from model.follow import follow_id_list_by_from_id
+from model.invite_email import get_invite_user_id_list_by_cid, CID_MSN, CID_QQ, get_invite_email_list_by_cid, new_invite_message
+from model.follow import follow_id_list_by_from_id, follow_new
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -361,15 +361,19 @@ class InviteLogin(LoginBase):
 class InviteShow(LoginBase):
     def get(self,cid=CID_MSN):
         uid = self.current_user_id
-        uid_list = get_invite_uid_list_by_cid(uid,cid)
+        user_id_list = get_invite_user_id_list_by_cid(uid,cid)
         follow_id_list = follow_id_list_by_from_id(uid)
-        uid_list = set(uid_list) - set(follow_id_list)
-        self.render(cid=cid, uid_list = uid_list)
+        user_id_list = set(user_id_list) - set(follow_id_list)
+        self.render(cid=cid, user_id_list = user_id_list)
 
     def post(self,cid=CID_MSN):
+        user_id = self.current_user_id
         fid_list = self.get_argument('follow_id_list',None)
         if fid_list:
-            print fid_list
+            for i in Zsite.mc_get_list(fid_list):
+                if i.id!=uid:
+                    follow_new(user_id, i.id)
+
         self.redirect('/i/invite/email/%s'%cid)
 
 @urlmap('/i/invite/email')
