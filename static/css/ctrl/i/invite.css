@@ -16,7 +16,7 @@ border:1px solid #fff;
 }
 .f_item2{
 background:#fc0;
-color:#03f;
+color:#009;
 }
 .f_item2:hover{
 color:#00f;
@@ -37,7 +37,7 @@ display:none;
 .f_icon{
 margin-left:5px;
 vertical-align:-1px;
-background:url(/img/gif/yes_bg006.gif);
+background:url(/img/gif/yes_bgfc0.gif);
 width:16px;
 height:16px;
 display:inline-block;
