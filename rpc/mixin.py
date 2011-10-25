@@ -4,7 +4,6 @@ import tornado.auth
 from tornado import escape
 from urllib import quote
 import urllib
-from tornado import httpclient
 import logging
 import json
 import time
@@ -12,6 +11,7 @@ import binascii
 import time
 import urlparse
 from tornado import httpclient
+import urllib
 from config import DOUBAN_CONSUMER_KEY, DOUBAN_CONSUMER_SECRET, WWW163_CONSUMER_KEY, WWW163_CONSUMER_SECRET, QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY, SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY, SOHU_CONSUMER_SECRET, SOHU_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY, RENREN_CONSUMER_KEY, RENREN_CONSUMER_SECRET, KAIXIN_CONSUMER_KEY, KAIXIN_CONSUMER_SECRET, FANFOU_CONSUMER_KEY, FANFOU_CONSUMER_SECRET
 import uuid
 import base64
@@ -331,7 +331,7 @@ class KaixinMixin(tornado.auth.OAuth2Mixin):
     callback_url = callback_url
     def get_authenticated_user(self,callback_func,http_client=None):
         callback = urlparse.urljoin(self.request.full_url(),self.callback_url())
-        oauth_request_token_url = self._oauth_request_token_url(callback,self._oauth_consumer_token()['client_id'],self._oauth_consumer_token()['client_secret'],self.get_argument('code',None),{'scope':'create_records'})
+        oauth_request_token_url = self._oauth_request_token_url(callback,self._oauth_consumer_token()['key'],self._oauth_consumer_token()['secret'],self.get_argument('code',None),{'grant_type':'authorization_code'})
         if http_client is None:
             http_client = httpclient.AsyncHTTPClient()
         http_client.fetch(oauth_request_token_url,
@@ -343,6 +343,11 @@ class KaixinMixin(tornado.auth.OAuth2Mixin):
             callback(None)
             return
         body = json.loads(response.body)
+        access_token = body.get('access_token')
+        if access_token:
+            user =  urllib.urlopen('https://api.kaixin001.com/users/me.json?access_token=%s'%access_token).read()
+        user = json.loads(user)
+        body.update(user)
         callback(body)
 
 

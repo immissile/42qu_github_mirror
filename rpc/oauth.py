@@ -95,24 +95,26 @@ class KaixinOauthHandler(LoginBase, KaixinMixin):
             return
         callback = urlparse.urljoin(self.request.full_url(),self.callback_url())
         token = self._oauth_consumer_token()
+        print callback
         self.authorize_redirect(
             callback,
-            token['client_id'],
-            token['client_secret'],
+            token['key'],
+            token['secret'],
             {'response_type':'code',
-                'scope':'status_update publish_share'}
+                'scope':'create_records'}
         )
     def _on_auth(self,user):
         uid = self.current_user_id
         if user:
             access_token = user.get('access_token')
             if access_token:
-                oauth_save_renren(
+                print user
+                oauth_save_kaixin(
                         uid,
                         access_token,
                         user.get('refresh_token'),
-                        user.get('user').get('name'),
-                        user.get('user').get('id')
+                        user.get('name'),
+                        user.get('uid')
                         )
             return self.redirect(BACK_URL)
 
