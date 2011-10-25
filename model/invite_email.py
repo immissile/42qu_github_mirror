@@ -46,7 +46,7 @@ user_id, cid,  email, name, user_id_by_mail(email)
         )
     return True
 
-def get_invite_uid_by_cid(user_id, cid):
+def invite_user_id_by_cid(user_id, cid):
     uid = InviteEmail.raw_sql(
         'select email_user_id from invite_email where user_id = %s and cid=%s', user_id, cid
     ).fetchone()

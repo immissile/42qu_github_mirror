@@ -3,7 +3,7 @@
 from _handler import LoginBase
 from _urlmap import urlmap
 from config import SITE_URL, SITE_DOMAIN
-from model.invite_email import CID_GOOGLE, CID_QQ, CID_MSN, invite_email_new, get_email_by_cid, msn_friend_get, get_invite_uid_by_cid
+from model.invite_email import CID_GOOGLE, CID_QQ, CID_MSN, invite_email_new, get_email_by_cid, msn_friend_get, invite_user_id_by_cid
 import tornado.web
 import thread
 from zweb.json import jsonp
@@ -41,7 +41,7 @@ class MsnAsync(LoginBase):
         res = msn_friend_get(email, passwd)
         if res:
             invite_email_new(self.current_user_id, CID_MSN, res)
-            return self.finish(jsonp(self, dumps({'error':False, 'next':get_invite_uid_by_cid(self.current_user_id, CID_MSN)})))
+            return self.finish(jsonp(self, dumps({'error':False, 'next':invite_user_id_by_cid(self.current_user_id, CID_MSN)})))
         else:
             return self.finish(jsonp(self, dumps({'error':'邮箱或密码错误'})))
 
@@ -90,13 +90,13 @@ class GoogleAsync(LoginBase, GoogleMixin):
 
             invite_email_new(user_id, CID_GOOGLE, _result)
 
-            if get_invite_uid_by_cid(self.current_user_id, CID_GOOGLE):
+            if invite_user_id_by_cid(self.current_user_id, CID_GOOGLE):
                 return self.redirect('http://%s.%s/i/invite/show/%s'%(self.current_user_id, SITE_DOMAIN, CID_GOOGLE))
             else:
                 self.redirect('http://%s.%s/i/invite/email'%(self.current_user_id, SITE_DOMAIN))
 
 
-#return self.finish(jsonp(self,dumps({"error":False,"next":get_invite_uid_by_cid(self.current_user_id,CID_GOOGLE)})))
+#return self.finish(jsonp(self,dumps({"error":False,"next":invite_user_id_by_cid(self.current_user_id,CID_GOOGLE)})))
 
 
 
