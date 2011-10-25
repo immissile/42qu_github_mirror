@@ -9,7 +9,7 @@ import logging
 import json
 import urlparse
 from tornado import httpclient
-from config import DOUBAN_CONSUMER_KEY, DOUBAN_CONSUMER_SECRET, WWW163_CONSUMER_KEY, WWW163_CONSUMER_SECRET, QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY, SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY, SOHU_CONSUMER_SECRET, SOHU_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY, RENREN_CONSUMER_KEY, RENREN_CONSUMER_SECRET
+from config import DOUBAN_CONSUMER_KEY, DOUBAN_CONSUMER_SECRET, WWW163_CONSUMER_KEY, WWW163_CONSUMER_SECRET, QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY, SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY, SOHU_CONSUMER_SECRET, SOHU_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_CONSUMER_KEY, RENREN_CONSUMER_KEY, RENREN_CONSUMER_SECRET, KAIXIN_CONSUMER_KEY, KAIXIN_CONSUMER_SECRET, FANFOU_CONSUMER_KEY, FANFOU_CONSUMER_SECRET
 
 def callback_url(self):
     redirect_url = self.get_argument('path', None)
@@ -260,6 +260,36 @@ class SinaMixin(tornado.auth.OAuthMixin):
             '/users/show/%s'%sina_user_id,
             access_token=access_token, callback=callback
         )
+
+
+
+
+class KaixinMixin(tornado.auth.OAuth2Mixin):
+    _OAUTH_AUTHORIZE_URL = 'http://api.kaixin001.com/oauth2/authorize'
+    _OAUTH_ACCESS_TOKEN_URL = 'https://api.kaixin001.com/oauth2/access_token'
+    callback_url = callback_url
+    def get_authenticated_user(self,callback_func,http_client=None):
+        callback = urlparse.urljoin(self.request.full_url(),self.callback_url())
+        oauth_request_token_url = self._oauth_request_token_url(callback,self._oauth_consumer_token()['client_id'],self._oauth_consumer_token()['client_secret'],self.get_argument('code',None),{'scope':'create_records'})
+        if http_client is None:
+            http_client = httpclient.AsyncHTTPClient()
+        http_client.fetch(oauth_request_token_url,
+                          self.async_callback(self._on_access_token, callback_func))
+
+    def _on_access_token(self, callback, response):
+        if response.error:
+            logging.warning("Could not fetch access token")
+            callback(None)
+            return
+        body = json.loads(response.body)
+        callback(body)
+
+
+    
+    def _oauth_consumer_token(self):
+        return dict(
+            key=KAIXIN_CONSUMER_KEY,
+            secret=KAIXIN_CONSUMER_SECRET)
 
 
 class SohuMixin(tornado.auth.OAuthMixin):
