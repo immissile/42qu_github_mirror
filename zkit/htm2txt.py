@@ -133,7 +133,8 @@ if __name__ == '__main__':
     reload(sys)
     sys.setdefaultencoding('utf-8')
     print htm2txt("""
-<p>1.结合蓝牙4.0或者耳机唤醒手机。语音搜索和语音输入等技术都要用户手动点击按钮触发语音功能，这事本身就不够酷。但是不借助设备还存在困难，语音功能实时开启探测声波会耗费电量。</p>
-<a href="http://s.click.taobao.com/t_8?e=7HZ6jHSTbIKlPmx3I8jQNkStCTbEkQKlZsvg9GbV%2FWqDj5qh0SFCLeoyLzeq8YtJ18fjoRevav0Je6BzSvsi2e8Oqn1r%2BKdXSyoYFAxWa054G4DkCA%3D%3D&amp;p=mm_12328700_0_0&amp;n=19&amp;u=17f3980" rel="nofollow"><img src="http://www.chong4.com.cn/image/readmore.gif">点击这里购买&mdash;&mdash;流苏不规则毛衣披肩</a>
+
+<pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;"><span class="cc"><table><tr><td><img src="http://img3.douban.com/view/note/large/public/p180084057-2.jpg" alt=""/></td></tr><tr><td align='center' class="wr pl"></td></tr></table></span>
+如果某一天，你身上多了一个“恢复出厂设置”按钮，一按身体和记忆一切归为出生时。 你会去按它吗？</pre>
 """)[0]
 
