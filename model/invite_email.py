@@ -34,12 +34,15 @@ def new_invite_message(user_id, email_list, txt):
         txt
     )
 
-def new_invite_email(user_id, cid, res):
-    InviteEmail.raw_sql('update invite_email set cid = %s where user_id =%s and cid=%s ', -cid, user_id, cid)
-    for email, name in res.items():
+def invite_email_new(user_id, cid, res):
+    InviteEmail.raw_sql(
+        'update invite_email set cid = %s where user_id =%s and cid=%s ', 
+        -cid, user_id, cid
+    )
+    for email, name in res.iteritems():
         InviteEmail.raw_sql(
-            'insert into invite_email (user_id,cid, email,name,email_user_id) values (%s,%s,%s,%s,%s)', 
-            user_id, cid,  email, name, user_id_by_mail(email)
+'insert into invite_email (user_id, cid, email, name, email_user_id) values (%s,%s,%s,%s,%s)', 
+user_id, cid,  email, name, user_id_by_mail(email)
         )
     return True
 
