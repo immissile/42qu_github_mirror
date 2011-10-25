@@ -350,7 +350,7 @@ class Invite(LoginBase):
 
 @urlmap('/i/invite/login/(\d+)')
 class InviteLogin(LoginBase):
-    def get(self,cid=CID_MSN):
+    def get(self, cid=CID_MSN):
         if cid != CID_QQ:
             self.render(cid=cid)
         else:
@@ -359,19 +359,19 @@ class InviteLogin(LoginBase):
 @urlmap('/i/invite/show')
 @urlmap('/i/invite/show/(\d+)')
 class InviteShow(LoginBase):
-    def get(self,cid=CID_MSN):
+    def get(self, cid=CID_MSN):
         uid = self.current_user_id
-        user_id_list = invite_user_id_list_by_cid(uid,cid)
+        user_id_list = invite_user_id_list_by_cid(uid, cid)
         follow_id_list = follow_id_list_by_from_id(uid)
         user_id_list = set(user_id_list) - set(follow_id_list)
-        self.render(cid=cid, user_id_list = user_id_list)
+        self.render(cid=cid, user_id_list=user_id_list)
 
-    def post(self,cid=CID_MSN):
+    def post(self, cid=CID_MSN):
         user_id = self.current_user_id
-        fid_list = self.get_argument('follow_id_list',None)
+        fid_list = self.get_argument('follow_id_list', None)
         if fid_list:
             for i in Zsite.mc_get_list(fid_list):
-                if i.id!=uid:
+                if i.id != uid:
                     follow_new(user_id, i.id)
 
         self.redirect('/i/invite/email/%s'%cid)
@@ -379,17 +379,17 @@ class InviteShow(LoginBase):
 @urlmap('/i/invite/email')
 @urlmap('/i/invite/email/(\d+)')
 class InviteEmail(LoginBase):
-    def get(self,cid=CID_MSN):
-        emails = invite_invite_email_list_by_cid(self.current_user_id,cid)
-        self.render(emails = emails,
+    def get(self, cid=CID_MSN):
+        emails = invite_invite_email_list_by_cid(self.current_user_id, cid)
+        self.render(emails=emails,
                 cid=cid)
 
-    def post(self,cid=CID_MSN):
-        emails = self.get_arguments('mails',None)
-        mail_txt = self.get_argument('mail_txt',None)
+    def post(self, cid=CID_MSN):
+        emails = self.get_arguments('mails', None)
+        mail_txt = self.get_argument('mail_txt', None)
         if emails:
-            invite_message_new(self.current_user_id,emails,mail_txt)
-        self.render('ctrl/me/i/invite.htm',success='success')
+            invite_message_new(self.current_user_id, emails, mail_txt)
+        self.render('ctrl/me/i/invite.htm', success=True)
 
 @urlmap('/i/password')
 class Password(LoginBase):
