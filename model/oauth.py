@@ -242,7 +242,10 @@ def linkify(link, cid=0):
 
 
 if __name__ == '__main__':
-    oauth_by_zsite_id(10017321)
+    for i in OauthToken.where(zsite_id=10001280):
+        print i.id
+    o = OauthToken.get(428)
+    print o.zsite_id 
     #oauth_save(OAUTH_BUZZ, 2, '2', '1')
     #print oauth_sync_sum('11')
 
