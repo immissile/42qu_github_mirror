@@ -94,7 +94,6 @@ def _site_save(self):
     url = self.get_argument('url', None)
     txt = self.get_argument('txt', None)
 
-
     for cid, link in zip(arguments.get('cid', []), arguments.get('link', [])):
         cid = int(cid)
         link_name = SITE_LINK_ZSITE_DICT[cid]
@@ -111,7 +110,6 @@ def _site_save(self):
     ):
         id = int(id)
         link = linkify(value)
-
         link_kv.append(
             (id, key.strip() or urlparse(link).netloc, link)
         )

@@ -1,0 +1,97 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="head()">
+${css.ctrl_i_password|n}
+</%def>
+<%!
+from model.invite_email import INVITE_CID2CN
+%>
+<script>
+$(function(){ 
+    $('#select_all').click(
+        function(){
+            if($(this).attr('checked')){
+                $('.ck').attr('checked',true)
+            } else{
+                $('.ck').removeAttr('checked')
+            }
+        }
+    )
+})
+</script>
+<style>
+.e_items{
+width:528px;
+margin:27px auto 0;
+overflow:auto;
+border:1px solid #ccc;
+padding:12px;
+max-height:400px;
+overflow:auto;
+}
+.e_item{
+display:block;
+padding:6px;
+overflow:hidden;
+border-bottom:1px dashed #ccc;
+position:relative;
+}
+.e_email{
+color:#999;
+position:absolute;
+left:250px;
+text-align:left;
+}
+.tip{
+margin-top:27px;
+font-size:16px;
+margin-left:207px;
+}
+.act{
+margin:0 10px 0 0;
+}
+#select_all{
+padding:12px;
+margin-left:18px;
+}
+.select_all{
+width:552px;
+border:1px solid #ccc;
+border:0 1px 1px;
+margin:-1px auto 0;
+padding:6px 0;
+}
+.mail_txt{
+padding:6px;
+width:540px;
+height:85px;
+margin:27px 0 0 210px;
+}
+.mail_sub{
+margin:20px 0 40px 758px;
+}
+</style>
+
+<p class="tip">
+你有${len(emails)}个${INVITE_CID2CN[int(cid)]}联系人不在42区上,你可以在下面的列表中选择你想邀请的联系人
+</p>
+<%htm:form>
+    <div class="e_items">
+        %for email in emails:
+    <div class="e_item">
+        <input type="checkbox" name="mails" value="${email[0]}" class="ck">
+        <label for="e_check1">${email[0]}</label>
+        <span class="e_email">${email[1]}</span>
+    </div>
+    %endfor
+</div>
+<div class="select_all">
+    <input type="checkbox" id="select_all"><label for="select_all"> 全选</label>
+</div>
+
+<p class="tip">
+想在42区发出的邀请信中加几句话吗？
+</p>
+<textarea class="mail_txt" name="mail_txt"></textarea>
+<div class="mail_sub"><span class="btnw"><button type="submit">发送邀请</button></span></div>
+</%htm:form>

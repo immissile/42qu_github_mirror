@@ -260,10 +260,9 @@ def linkify(link, cid=0):
 
 
 if __name__ == '__main__':
-    oauth_by_zsite_id(10017321)
     #oauth_save(OAUTH_BUZZ, 2, '2', '1')
     #print oauth_sync_sum('11')
-
+    pass
 #def oauth_url(
 #url, api_key, api_secret, access_token, access_token_secret, parameters={}, method="GET", data=None
 #)

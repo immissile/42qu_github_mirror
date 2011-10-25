@@ -1,0 +1,48 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="head()">
+${css.ctrl_i_password|n}
+</%def>
+<%!
+from model.invite_email import CID_MSN,CID_GOOGLE,CID_QQ
+from config import SITE_DOMAIN
+%>
+<style>
+.s_items{
+width:528px;
+margin:20px auto 0;
+overflow:auto;
+}
+.s_item{
+width:234px;
+margin-right:16px;
+padding:16px 0;
+float:left;
+overflow:hidden;
+border-bottom:1px dashed #ccc;
+font-size:16px;
+}
+.s_item a{
+color:#444;
+}
+.s_item a:hover{
+color:#000;
+}
+.tip{
+margin-top:22px;
+margin-left:220px;
+font-size:16px;
+padding-bottom:22px;
+border-bottom:1px dotted #ccc;
+}
+
+</style>
+
+<p class="tip">
+寻找你在42区上的好友</p>
+<div class="s_items">
+    <div class="s_item"><a href="invite/login/${CID_MSN}">寻找MSN好友</a></div>
+    <div class="s_item"><a href="//rpc.${SITE_DOMAIN}/invite/${CID_GOOGLE}">寻找Gmail好友</a></div>
+    <div class="s_item"><a href="invite/login/${CID_QQ}">寻找QQ好友</a></div>
+
+</div>

@@ -1,0 +1,122 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="head()">
+<script src="${js.i_qqrsa|n}"></script>
+</%def>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script>
+HOST_SUFFIX=location.host.slice(location.host.indexOf("."));
+QqCookie = ""
+QqAction = ""
+PublicKey = "";
+PublicTs="";
+PublicMark = "10001"
+
+function qqrsa(ps){
+    var RSA = new RSAKey();
+    RSA.setPublic(PublicKey, PublicMark);
+    var Res = RSA.encrypt(ps + '\n' + PublicTs+ '\n');
+    if (Res){
+        return hex2b64(Res) ;
+    }
+}
+function qqpasswd(ps){
+    var MaskValue = "";
+    for (var Loop = 0; Loop < ps.length; Loop++, MaskValue += "0");
+    return MaskValue;
+}
+function qqpara(qq,ps,verifycode){
+    return {
+        sid:'0,2,zh_CN',
+        aliastype:"@qq.com",
+        p:qqrsa(ps),
+        pp:qqpasswd(ps),
+        verifycode:verifycode,
+        uin:qq,
+        starttime:new Date()-1,
+        s:'',
+        firstlogin:"false",
+        redirecturl:"",
+        ts:PublicTs
+    }
+}
+var QQ_VERIFY_IMG; 
+function qq_verify_img(){
+    if(!QQ_VERIFY_IMG){
+        QQ_VERIFY_IMG=true;
+        var qqsmb=$("#qqsmb");
+        qqsmb.attr("disabled",true)
+        var tip = $("#qq_img_tip").text("验证码加载中...")
+        var ip = $("#qqimginput").hide(),im=$("#qqimg").attr("src","#")
+        var imgp=$("#qqimgp").show()
+        $("#qqimgval").val('')
+        $.getJSON('//rpc'+HOST_SUFFIX+'/invite/qq_verify?_='+Math.random(),function(r){
+            PublicTs = r.ts;
+            QqCookie = r.jar
+            QqAction = r.action
+            PublicKey = r.key;
+            $("#jar").val(r.jar)
+            im.attr('src','//rpc'+HOST_SUFFIX+'/invite/qq_img/'+r.img)
+            tip.text("验证码")
+            ip.show()
+            qqsmb.attr("disabled",false)
+        })
+    }
+}
+$(function(){
+    $("#qq_password").val('').focus(qq_verify_img)
+})
+function xxx(){
+    var psw=$("#qq_password").val(),pno=$("#qq_no").val(),para=qqpara(pno,psw,$("#qqimgval").val()),qq_err=$("#qq_err"),qqsmb=$("#qqsmb"),imgp=$("#qqimgp");
+    imgp.fadeOut();
+    para.qq_cookie = QqCookie;
+    para.qq_action= QqAction;
+    $.post("//rpc"+HOST_SUFFIX+'/invite/qq/',para,function(r){
+        r=eval("("+r+")")
+        if(r.error){
+            QQ_VERIFY_IMG = false;
+            qq_verify_img()
+            qq_err.text(r.err).show()
+        }else{
+            console.info(r)
+            var i=r.length-1,txt = []
+            for(;i>=0;--i){
+                txt.push(r[i][0]+" "+r[i][1])
+            }
+            $("#friend").text(txt.join("\n")) 
+        }
+        qqsmb.attr("disabled",false)
+    })
+    qq_err.text("导入中...").show()
+    qqsmb.attr("disabled",true)
+}
+
+</script>
+</head><body>
+
+<input type="hidden" id="jar">
+<p><label for="qq_no">号码</label>
+<input type="text" class="text" id="qq_no" value=""/>
+</p>
+
+<p>
+<label for="qq_password">密码</label>
+<input type="password" id="qq_password" class="text" value=""/>
+</p>
+
+
+<p id="qqimgp" style="display:none">
+<label for="qq_password" id="qq_img_tip">验证码</label>
+<span id="qqimginput">
+<input type="text" id="qqimgval" class="text" value=""/>
+<img src="#" id="qqimg">
+</span>
+</p>
+<p id="qq_err"></p>
+<p>
+<button id="qqsmb" disabled="true" onclick="xxx()">找朋友</button>
+</p>
+<pre id="friend"></pre>
+</body>
+
+

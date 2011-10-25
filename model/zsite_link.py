@@ -82,6 +82,7 @@ def link_id_cid(id):
 #    return z
 #
 def link_list_save(zsite_id, link_cid, link_kv):
+    print link_cid
     for cid, name, link in link_cid:
         zsite_link = ZsiteLink.get_or_create(zsite_id=zsite_id, cid=cid)
         if not link:
