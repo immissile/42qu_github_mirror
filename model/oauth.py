@@ -159,6 +159,7 @@ def oauth_save_with_uid(app_id, zsite_id, token_key, token_secret, name, uid):
     name_uid_set(id, name, uid, OAUTH2TABLE[app_id])
     from model.zsite_link import  link_cid_new
     link_cid_new(zsite_id, app_id, (OAUTH2URL[app_id])%uid)
+    return id
 
 #def oauth_save_buzz(zsite_id, token_key, token_secret, name, uid):
 #    oauth_save_with_uid(OAUTH_BUZZ, zsite_id, token_key, token_secret, name, uid)

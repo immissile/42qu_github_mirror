@@ -9,6 +9,7 @@ from model.user_session import user_session, user_session_rm
 from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
 from model.zsite import Zsite
 from cgi import escape
+from model.po import po_word_new, Po, po_rm
 LOGIN_REDIRECT = '/'
 
 class NoLoginBase(Base):
@@ -45,6 +46,13 @@ class Logout(Base):
 class Po(LoginBase):
     def get(self):
         self.render()
+    
+    def post(self):
+        user_id = self.current_user_id
+        txt = self.get_argument('txt')
+        if txt.strip():
+            m = po_word_new(user_id, txt)
+        self.redirect('/')
 
 
 @urlmap('/login')
@@ -53,6 +61,8 @@ class Login(NoLoginBase):
         self.render(
                 errtip = Errtip()
                 )
+
+
     
     def post(self):
         mail = self.get_argument('mail', None)
