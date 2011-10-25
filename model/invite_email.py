@@ -56,14 +56,14 @@ def invite_user_id_by_cid(user_id, cid):
     if uid:
         return True
 
-def invite_email_list_by_cid(user_id, cid):
+def invite_invite_email_list_by_cid(user_id, cid):
     emails = InviteEmail.raw_sql('select email,name from invite_email where user_id = %s and cid=%s and email_user_id = 0', user_id, cid).fetchall()
     return emails
 
-def get_invite_user_id_list_by_cid(user_id, cid):
+def invite_user_id_list_by_cid(user_id, cid):
     return InviteEmail.where('email_user_id>0').where(user_id=user_id, cid=cid).col_list(col='email_user_id')
 
-def get_email_by_cid(user_id, cid):
+def invite_email_list_by_cid(user_id, cid):
     return InviteEmail.where(user_id=user_id, cid=cid).col_list(col='email')
 
 if __name__ == '__main__':
