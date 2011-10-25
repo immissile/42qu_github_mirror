@@ -18,6 +18,7 @@ import base64
 import hashlib
 import hmac
 from tornado.auth import _oauth_escape, _oauth_signature
+from tornado.util import b
 
 def callback_url(self):
     redirect_url = self.get_argument('path', None)
@@ -399,6 +400,28 @@ class SohuMixin(tornado.auth.OAuthMixin):
     callback_url = callback_url
     _parse_user_response = _parse_user_response
     _on_request = _on_request
+    def _on_access_token(self, callback, response):
+        if response.error:
+            logging.warning("Could not fetch access token")
+            callback(None)
+            return
+
+        access_token = self._oauth_parse_response(response.body,'access')
+        self._oauth_get_user(access_token, self.async_callback(
+             self._on_oauth_get_user, access_token, callback))
+    
+    def _on_request_token(self, authorize_url, callback_uri, response):
+        if response.error:
+            raise Exception("Could not get request token")
+        request_token = self._oauth_parse_response(response.body,'request')
+        data = (base64.b64encode(request_token["key"]) + b("|") +
+                base64.b64encode(request_token["secret"]))
+        self.set_cookie("_oauth_request_token", data)
+        args = dict(oauth_token=request_token["key"])
+        if callback_uri:
+            args["oauth_callback"] = urlparse.urljoin(
+                self.request.full_url(), callback_uri)
+        self.redirect(authorize_url + "?" + urllib.urlencode(args))
 
     def sohu_request(self, path, callback, access_token=None,
                            post_args=None, **args):
@@ -414,12 +437,22 @@ class SohuMixin(tornado.auth.OAuthMixin):
 
     def _oauth_get_user(self, access_token, callback):
         callback = self.async_callback(self._parse_user_response, callback)
+        print access_token,'!!!'
         sohu_user_id = access_token['user_id']
         self.sohu_request(
             '/users/show/%s'%sohu_user_id,
             access_token=access_token, callback=callback
         )
 
+    def _oauth_parse_response(self,body,_type):
+        p = escape.parse_qs(body, keep_blank_values=False)
+        print body,'!!!'
+        token = dict(key=p[b("%s_token"%_type)][0], secret=p[b("%s_token_secret"%_type)][0])
+
+    #    # Add the extra parameters the Provider included to the token
+    #    special = (b("%s_token"%_type), b("%s_token_secret"%_type))
+    #    token.update((k, p[k][0]) for k in p if k not in special)
+    #    return token
 
 class TwitterMixin(tornado.auth.TwitterMixin):
     callback_url = callback_url

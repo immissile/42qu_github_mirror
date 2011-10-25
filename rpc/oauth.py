@@ -76,7 +76,6 @@ class FanfouOauthHandler(LoginBase, FanfouMixin):
         if user:
             access_token = user.get('access_token')
             if access_token:
-                print user
                 oauth_save_fanfou(
                         man.id,
                         access_token['key'],
@@ -86,6 +85,32 @@ class FanfouOauthHandler(LoginBase, FanfouMixin):
                     )
             return self.redirect(BACK_URL)
         
+
+@urlmap('/oauth/%s'%OAUTH_SOHU)
+class SohuOauthHandler(LoginBase, SohuMixin):
+    @tornado.web.asynchronous
+    def get(self):
+        if self.get_argument('oauth_token', None):
+            self.get_authenticated_user(self.async_callback(self._on_auth))
+            return
+        self.authorize_redirect(
+                self.callback_url()
+                )
+
+    def _on_auth(self,user):
+        man = self.current_user
+        if user:
+            access_token = user.get('access_token')
+            if access_token:
+                print user
+                #oauth_save_fanfou(
+                #        man.id,
+                #        access_token['key'],
+                #        access_token['secret'],
+                #        user['name'],
+                #        user['id']
+                #    )
+            return self.redirect(BACK_URL)
 
 
 @urlmap('/oauth/%s'%OAUTH_TWITTER)

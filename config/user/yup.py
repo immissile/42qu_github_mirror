@@ -14,4 +14,7 @@ def prepare(o):
 
     o.FANFOU_CONSUMER_KEY = 'f66cdc6f256a85df7e7cf7d9dc126244'
     o.FANFOU_CONSUMER_SECRET = '61029c640042dbd49e8a17432e15bc34'
+    o.SOHU_CONSUMER_KEY = '0sI4DojQ0jqi97zmUc9y'
+    o.SOHU_CONSUMER_SECRET = '56acjZDMsrG(KeSo=l0vFF=*o7mdXVk5=UAG1Ff='
+
     return o
