@@ -64,4 +64,4 @@ def get_email_by_cid(user_id, cid):
     return InviteEmail.where(user_id=user_id,cid=cid).col_list(col="email")
 
 if __name__ == '__main__':
-    print msn_friend_get('wsyupeng@hotmail.com', 'yu6171446')
+    pass
