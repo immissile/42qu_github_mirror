@@ -88,7 +88,7 @@ color:#000;
 background:url(/img/gif/redplay.gif) no-repeat;
 }
 #feeds .fdvideo:hover{
-color:#a10;
+color:#d10;
 }
 #feeds .video{
 width:677px;
@@ -136,7 +136,7 @@ color:#999;
 margin-left:14px
 }
 #feeds .tag:hover{
-color:#a10;
+color:#d10;
 }
 #feeds .fdtxtin{
 margin-bottom:6px;
@@ -182,7 +182,7 @@ font-size: 16px; margin-right: 24px; vertical-align: 9px;
 color:#999;
 }
 #feeds .fcm2:hover{
-color:#a10;
+color:#d10;
 }
 
 #feeds .feed_event_img{
@@ -214,7 +214,7 @@ color:#999;
 color:#000
 }
 #feeds .fdopt a:hover, #feeds .fdopt .faved:hover{
-color:#a10;
+color:#d10;
 }
 .at_list{
 position:absolute;
@@ -274,7 +274,7 @@ overflow:hidden;
 color:#999;
 }
  .fdh a:hover{
-color:#a10;
+color:#d10;
 }
 .aH{
 background:url(/img/gif/icons/gif/black/to_size/arrow1_ne.gif) no-repeat scroll 50% 50%; 
@@ -375,5 +375,5 @@ padding:0 0 27px;
 color:#000;
 }
 .site_note a:hover{
-color:#a10;
+color:#d10;
 }

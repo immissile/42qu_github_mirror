@@ -4,15 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-comment_txt
-comment_i
-comment_list
+#a10
 """
 
 TO_STRING = """
-fcmtxt
-fcmi
-fcml
+#d10
 """
 
 def run():

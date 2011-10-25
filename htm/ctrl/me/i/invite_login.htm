@@ -47,8 +47,11 @@ margin:6px 66px 0 0;
 寻找${INVITE_CID2CN[int(cid)]}好友 (我们不会记录你的密码, 请放心)
     </p>
     <script>
-        function rex(){
-            $('.s_tip').text("我们不会记录你的密码, 请放心");
+        function rex(e){
+            $.fancybox.showActivity()
+            e.disabled = true
+            e.style.color = "#ccc"
+            var s_tip = $('.s_tip')
             $.ajax('//rpc'+HOST_SUFFIX+'/invite/${cid}',
             {
                 cache:true,
@@ -65,9 +68,10 @@ margin:6px 66px 0 0;
                                 window.location.href = "/i/invite/email/${cid}";
                             }
                          }
-                         else{
-                             $('.s_tip').text(data.error);
-                         }
+                     else{
+                         s_tip.text(data.error).css('color':"#c10");
+                         $.fancybox.showActivity()
+                     }
                 }
             }
             )
@@ -82,11 +86,11 @@ margin:6px 66px 0 0;
 <label for="password">${INVITE_CID2CN[int(cid)]}密码 </label><input name="passwd" id='passwd' class="text"  type="password">
     </p>
 <p class="s_tip">
-(我们不会记录你的密码, 请放心)
+我们不会记录你的密码, 请放心
 </p>
 <p>
     <a href="javascript:history.go(-1);void(0)" class="bk_a">返回</a>
-    <span class="btnw txt_sub"><button type="button" onclick="javascript:rex()">找好友</button></span>
+    <span class="btnw txt_sub"><button type="button" onclick="javascript:rex(this);void(0)">找好友</button></span>
 </p>
 </form>
 

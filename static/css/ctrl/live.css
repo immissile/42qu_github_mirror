@@ -49,7 +49,7 @@ margin:0 12px;
 _margin:0 11px;
 }
 #po_all a:hover{
-color:#a10;
+color:#d10;
 text-decoration:underline
 }
 #po_ext:hover{
@@ -141,7 +141,7 @@ float:right;
 color:#000;
 }
 .site_po a:hover{
-color:#a10;
+color:#d10;
 }
 .site_po{
 margin-top:-9px;

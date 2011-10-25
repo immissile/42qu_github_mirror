@@ -188,7 +188,7 @@ border-top:1px dotted #ccc;padding:32px;margin-top:48px;text-align:center;
 font-size:23px;font-family:Trebuchet MS;color:#666;
 }
 a.zsite_foot:hover{
-color:#a10;
+color:#d10;
 }
 
 .zsite_ico_div{
@@ -248,8 +248,8 @@ padding-bottom:4px;
 }
 .qaword_title a:hover{
 text-decoration:none;
-color:#a10;
-border-bottom-color:#a10;
+color:#d10;
+border-bottom-color:#d10;
 }
 .video{
 display:block;
@@ -272,7 +272,7 @@ color:#999;
 padding:7px 0 0;
 }
 .fdbar a:hover{
-color:#a10;
+color:#d10;
 }
 .fdbar a{
 color:#999;

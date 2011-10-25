@@ -49,7 +49,7 @@ margin-top:5px;
 color:#01a;
 }
 #H #site_name_a:hover{
-color:#a10;
+color:#d10;
 }
 .site_bio{
 overflow:hidden;
@@ -92,7 +92,7 @@ color:#01a;
 display:none;
 }
 #H .site_more:hover{
-color:#a10;
+color:#d10;
 }
 .site_x{
 display:block;
@@ -124,6 +124,6 @@ height:32px;
 overflow:hidden;
 }
 #H .site_txt_a:hover{
-color:#a10;
+color:#d10;
 }
 
