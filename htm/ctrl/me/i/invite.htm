@@ -41,3 +41,8 @@ border-bottom:1px dotted #ccc;
     <div class="s_item"><a href="invite/login/${CID_QQ}">QQ</a></div>
 </div>
 
+<%def name="saved()">
+%if request.method == "POST" and success:
+<div class="saved">导入成功了 ! <a href="/">点返回首页</a></div>
+%endif
+</%def>
