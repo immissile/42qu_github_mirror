@@ -60,3 +60,14 @@ margin-right:15px;
 #select_all{
 margin-right:2px;
 }
+
+.tip{
+margin-top:27px;
+text-align:center;
+border-bottom:1px dotted #ccc;
+padding-bottom:27px;
+font-size:16px;
+}
+.acts{
+margin-top:27px;
+}
