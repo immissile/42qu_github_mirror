@@ -51,7 +51,8 @@ margin:6px 66px 0 0;
             $.fancybox.showActivity()
             e.disabled = true
             e.style.color = "#ccc"
-            var s_tip = $('.s_tip')
+            e.blur()
+            var s_tip = $('.s_tip').text('通讯中 ...').css('color',"#666")
             $.ajax('//rpc'+HOST_SUFFIX+'/invite/${cid}',
             {
                 cache:true,
@@ -69,8 +70,9 @@ margin:6px 66px 0 0;
                             }
                          }
                      else{
-                         s_tip.text(data.error).css('color':"#c10");
-                         $.fancybox.showActivity()
+                         s_tip.text(data.error).css({'color':"#d10"});
+                         $.fancybox.hideActivity()
+                         e.disabled = false
                      }
                 }
             }
