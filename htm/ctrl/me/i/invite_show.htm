@@ -2,6 +2,7 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="head()">
 ${css.ctrl_i_password|n}
+${css.ctrl_i_invite|n}
 </%def>
 <%!
 from model.zsite import Zsite
@@ -30,66 +31,6 @@ $(function(){
     )
 })
 </script>
-<style>
-.items{
-margin:27px auto 0;
-overflow:auto;
-}
-.f_item, .f_item2{
-display:block;
-width:224px;
-height:48px;
-padding:6px;
-margin:0 5px 5px 0;
-float:left;
-overflow:hidden;
-color:#444;
-border:1px solid #fff;
-}
-.f_item2{
-background:#006;
-color:#fff;
-}
-.f_item2:hover{
-color:#fff;
-}
-.f_item:hover{
-color:#444;
-border:1px solid #ccc;
-}
-.f_img{
-width:48px;
-height:48px;
-float:left;
-margin-right:6px;
-}
-.f_icon{
-margin-left:5px;
-vertical-align:-2px;
-background:url(/img/gif/icons/gif/white/16x16/tick.gif);
-width:16px;
-height:16px;
-display:inline-block;
-}
-.f_email{
-margin-top:-4px;
-}
-.act{
-margin:0 37px 0 0;
-}
-.item_wrap{
-overflow:auto;
-}
-.select_all{
-margin-top:16px;
-float:right;
-line-height:14px;
-margin-right:15px;
-}
-#select_all{
-margin-right:2px;
-}
-</style>
 
 <p class="tip">
 你有${len(uid_list)}个${INVITE_CID2CN[int(cid)]}联系人也在使用42区 , 你可以选择一些来关注 :
