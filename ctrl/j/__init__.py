@@ -8,7 +8,7 @@ from model.follow import follow_rm, follow_new
 from model.zsite import Zsite
 from model.zsite import user_can_reply
 from ctrl.zsite.wall import post_reply
-from buzz import mq_buzz_follow_new
+from model.buzz import mq_buzz_follow_new
 
 @urlmap('/j/login')
 class Login(Base):

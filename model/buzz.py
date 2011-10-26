@@ -307,10 +307,10 @@ mq_buzz_site_new = mq_client(buzz_site_new)
 
 if __name__ == '__main__':
     pass
-    from model.zsite import Zsite
-    from model.cid import CID_USER
-    print buzz_unread_update(10000000)
-    print buzz_unread_count(10000000)
-    print buzz_show(10000000, 3)
+#    from model.zsite import Zsite
+#    from model.cid import CID_USER
+#    print buzz_unread_update(10000000)
+#    print buzz_unread_count(10000000)
+#    print buzz_show(10000000, 3)
 
 
