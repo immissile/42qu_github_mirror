@@ -6,11 +6,12 @@ from model.oauth import linkify
 from model.motto import motto_set
 from model.ico import site_ico_new, site_ico_bind
 from model.zsite_link import ZsiteLink, mc_flush
+from model.rss import rss_new
 from zkit.pic import picopen
 import urllib
 import json
 
-def make_site(name,link,motto,img_src,current_user_id=10017321):
+def make_site(name,link,motto,img_src,site_num,current_user_id=10017321):
     f = urllib.urlopen(img_src).read()
     if  f:
         pic = picopen(f)
@@ -25,14 +26,15 @@ def make_site(name,link,motto,img_src,current_user_id=10017321):
     zsite_link.save()
     mc_flush(site_id)
     motto_set(site_id, motto)
+    rss_new(site_id, 'http://rss-tidy.42qu.com/douban/site/%s'%site_num, name, link, auto=1)
     print site_id
 
 def get_in(id):
-    with open('intro') as i:
+    with open('data/intro') as i:
         intro = json.loads(i.read())
-    with open('info') as i:
+    with open('data/info') as i:
         info = json.loads(i.read())
-    with open('meta') as i:
+    with open('data/meta') as i:
         meta = json.loads(i.read())
     idintro = intro.get(id)
     if info.get(id):
@@ -41,9 +43,10 @@ def get_in(id):
         print id,'数据未录入'
     if meta.get(id):
         motto = meta.get(id)[0][0]
+        motto = motto.split('<br \>')[0]
         img_src = meta.get(id)[0][1]
     else:
         print id,'no motto data'
-    make_site(name,link,motto,img_src)
+    make_site(name,link,motto,img_src,id)
 if __name__ == "__main__":
-    get_in('42qu')
+    get_in('107747')
