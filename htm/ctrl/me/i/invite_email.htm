@@ -99,7 +99,7 @@ display:block;
 <div class="e_items">
         %for pos,email in enumerate(emails):
     <div class="e_item">
-        <input type="checkbox" id="e_check${pos}" name="mails" checked value="${email[0]}" class="ck">
+        <input type="checkbox" id="e_check${pos}" name="mails" checked value="${email[0]} ${email[1]}" class="ck">
         <label for="e_check${pos}">
         <span class="e_name">${email[1]}</span>
         <span class="e_email">${email[0]}</span>
