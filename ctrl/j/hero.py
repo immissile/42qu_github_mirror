@@ -27,6 +27,5 @@ class HeroJson(JLoginBase):
                 word = "淡忘"
             else:
                 word = "关注"
-            fo_num = follow_count_by_to_id(i.id)
-            result = [i.name, ','.join(i.career), i.ico, fo_num, i.id, word, url_or_id(i.id)]
+            result = [i.name, ','.join(i.career), i.ico, i.link, i.id, word]
         return self.finish(dumps(result))

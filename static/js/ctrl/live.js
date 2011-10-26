@@ -180,7 +180,7 @@ pop_hero = function(elem){
         $.postJSON('j/hero',{url:self.attr('href')},function(result){
             var title = result[1].split()
             if(!$('.pop_hero')[0]){
-                $('body').prepend('<div class="pop_hero"><div class="pop_hero_to"></div><a href="//'+result[6]+'.42qu.com"><img class="pop_hero_avatar" src="'+result[2]+'"></a><a href="//'+result[6]+'.42qu.com" class="pop_hero_name">'+result[0]+'</a><div class="pop_hero_bio">'+title[0]+'<span class="pop_hero_title">'+title[1]+'</span></div><div class="pop_hero_banner"><a href="javascript:follow_a('+result[4]+');void(0)" id="follow_a'+result[4]+'" class="xa pop_hero_follow">'+result[5]+'</a></div></div>')
+                $('body').prepend('<div class="pop_hero"><div class="pop_hero_to"></div><a href="'+result[3]+'"><img class="pop_hero_avatar" src="'+result[2]+'"></a><a href="'+result[3]+'" class="pop_hero_name">'+result[0]+'</a><div class="pop_hero_bio">'+title[0]+'<span class="pop_hero_title">'+title[1]+'</span></div><div class="pop_hero_banner"><a href="javascript:follow_a('+result[4]+');void(0)" id="follow_a'+result[4]+'" class="xa pop_hero_follow">'+result[5]+'</a></div></div>')
                 $('.pop_hero').offset({top:self.offset().top-126,left:self.offset().left-30})
             }
         })
