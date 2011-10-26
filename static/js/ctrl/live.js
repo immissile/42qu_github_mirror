@@ -117,17 +117,15 @@
     }
     var po_all=$("#po_all"),po_ext=$('<a href="javascript:void(0)" id="po_ext"></a>').click(po_all_show_ext_hide);
     po_all.after(po_ext)
-	$("#po_word_form").submit(
-        txt_maxlen(
-            po_word_txt, 
-            $("#po_word_tip"), 
-            142, 
-            function(){
-                po_all.hide()
-                po_ext.show()
-            },
-            po_all_show_ext_hide
-        )
+    var can_say = txt_maxlen(
+        po_word_txt, 
+        $("#po_word_tip"), 
+        142, 
+        function(){
+            po_all.hide()
+            po_ext.show()
+        },
+        po_all_show_ext_hide
     )
 
     
@@ -141,29 +139,34 @@
     $(recover) 
     
     $('#po_word_form').submit(function(){
-        var val = txt.val(),btn=$('#po_word_btn'); 
-        if($.trim(val)=='')return false;
-        $('#po_ext, #po_word_tip').hide()
+        if(can_say()){
+            var val = txt.val(),btn=$('#po_word_btn'); 
+            if($.trim(val)=='')return false;
+            $('#po_ext, #po_word_tip').hide()
 
-        btn.append('<div class="po_loading"></div>')
-        btn.find('button').blur() 
+            btn.append('<div class="po_loading"></div>')
+            btn.find('button').blur() 
 
-        txt.attr('disabled',true)
-        $('.btnw').hide()
-        $.postJSON(
-            '/j/po/word',
-            {
-                "txt":val
-            },
-            function(result){
-                recover()
-                if(result){
-                    $('#feed').tmpl(init_result(result)).prependTo("#feeds")
+            txt.attr('disabled',true)
+            $('.btnw').hide()
+            $.postJSON(
+                '/j/po/word',
+                {
+                    "txt":val
+                },
+                function(result){
+                    recover()
+                    if(result){
+                        $('#feed').tmpl(init_result(result)).prependTo("#feeds")
+                    }
+                    txt.val('').attr('disabled',false).attr("class","po_word_txt po_word_txt_sayed")
+                    $('#po_word_tip').show()
+                    
                 }
-                txt.val('').attr('disabled',false).attr("class","po_word_txt po_word_txt_sayed")
-                 
-            }
-        )
+            )
+        } else{
+            $('#po_word_tip').fadeOut(function(){$('#po_word_tip').fadeIn()})
+        }
         return false
     })   
 
