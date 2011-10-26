@@ -131,7 +131,7 @@ def rss_feed_update(res, id, user_id, limit=None):
                 htm = txttidy(htm)
                 htm = txt_map("<pre","</pre>", htm, pre_br) 
                 htm = tidy_fragment(htm, {'indent': 0})[0]
-                
+                htm = htm.replace("<br />","\n")    
 #                print htm
                 txt, pic_list = htm2txt(htm)
 
@@ -233,7 +233,6 @@ def rss_subscribe(greader=None):
 if __name__ == '__main__':
     pass
 
-    greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-    feed = "feed/http://rss-tidy.42qu.com/douban/site/107747"
-    rss_feed_update(greader.feed(feed), 292, 10126043, 512)
+    from zkit.rss.txttidy import txttidy
+    from tidylib import  tidy_fragment
 
