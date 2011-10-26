@@ -43,10 +43,10 @@ def get_in(id):
         print id,'数据未录入'
     if meta.get(id):
         motto = meta.get(id)[0][0]
-        motto = motto.split('<br \>')[0]
+        motto = motto.split('<br />')[0]
         img_src = meta.get(id)[0][1]
     else:
         print id,'no motto data'
     make_site(name,link,motto,img_src,id)
 if __name__ == "__main__":
-    get_in('106545')
+    get_in('106782')
