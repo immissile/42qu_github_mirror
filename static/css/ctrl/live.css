@@ -180,9 +180,10 @@ display:block;
 }
 .pop_hero_bio{
 color:#444;
-}
-.pop_hero_title{
-margin-left:6px;
+height:28px;
+line-height:28px;
+overflow:hidden;
+display:inline-block;
 }
 .pop_hero_banner{
 overflow:auto;
