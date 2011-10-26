@@ -15,7 +15,8 @@ from model.cid import CID_USER
 class HeroJson(JLoginBase):
     def get(self,id):
         result = None
-        id = id_by_url(id)
+        if not id.isdigit():
+            id = id_by_url(id)
         zsite = Zsite.mc_get(id)
         if zsite:
             career = career_current(id) 
