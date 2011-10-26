@@ -182,7 +182,8 @@ pop_hero = function(elem){
         function(result){
             if(!result)return;
             if(!$('.pop_hero')[0]){
-                    $('body').prepend('<div class="pop_hero"><div class="pop_hero_to"></div><a href="'+result[3]+'"><img class="pop_hero_avatar" src="'+result[2]+'"></a><a href="'+result[3]+'" class="pop_hero_name">'+result[0]+'</a><div class="pop_hero_bio">'+result[1]+'</div><div class="pop_hero_banner"><a href="javascript:follow_a('+result[4]+');void(0)" id="follow_a'+result[4]+'" class="xa pop_hero_follow">'+result[5]+'</a></div></div>')
+                    $('body').prepend(
+'<div class="pop_hero"><div class="pop_hero_to"></div><div class="pop_hero_banner"><a href="'+result[3]+'"><img class="pop_hero_avatar" src="'+result[2]+'"></a><a href="javascript:follow_a('+result[4]+');void(0)" id="follow_a'+result[4]+'" class="xa pop_hero_follow">'+result[5]+'</a></div><a href="'+result[3]+'" class="pop_hero_name">'+result[0]+'</a><div class="pop_hero_bio">'+result[1]+'</div></div>')
                     $('.pop_hero').offset({top:self.offset().top-126,left:self.offset().left-30})
                 }
             })

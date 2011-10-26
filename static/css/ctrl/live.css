@@ -173,7 +173,6 @@ float:left;
 width:48px;
 height:48px;
 margin-right:6px;
-padding:6px;
 }
 .pop_hero_name{
 display:block;
@@ -187,8 +186,12 @@ display:inline-block;
 width:184px;
 }
 .pop_hero_banner{
+padding-right:12px;
+padding-top:3px;
+padding-left:3px;
 overflow:auto;
-width:242px;
+width:48px;
+float:left;
 }
 .pop_hero_num{
 float:right;
@@ -197,12 +200,12 @@ color:#444;
 }
 .pop_hero_follow{
 font-size:14px;
-width:48px;
+width:46px;
 height:27px;
+margin-top:7px;
 line-height:27px;
 text-align:center;
 display:inline-block;
-margin-left:5px;
 }
 .xa{background:#f8f8f9;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f9',endColorstr='#e6e6e8');background:-webkit-gradient(linear,0 0,0 100%,from(#f8f8f9),to(#e6e6e8));background:-moz-linear-gradient(top,#f8f8f9,#e6e6e8);-webkit-box-shadow:0 1px 0 #fff inset,0 1px 0 rgba(0,0,0,.1);-moz-box-shadow:0 1px 0 #fff inset,0 1px 0 rgba(0,0,0,.1);-o-box-shadow:0 1px 0 #fff inset,0 1px 0 rgba(0,0,0,.1);box-shadow:0 1px 0 #fff inset,0 1px 0 rgba(0,0,0,.1);text-shadow:0 1px 0 #fff;border:1px solid #bbb;color:#666!important;}
 .xa:active{
