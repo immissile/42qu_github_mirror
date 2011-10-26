@@ -133,8 +133,8 @@ if __name__ == '__main__':
     reload(sys)
     sys.setdefaultencoding('utf-8')
     print htm2txt("""
-
 <pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;"><span class="cc"><table><tr><td><img src="http://img3.douban.com/view/note/large/public/p180084057-2.jpg" alt=""/></td></tr><tr><td align='center' class="wr pl"></td></tr></table></span>
-如果某一天，你身上多了一个“恢复出厂设置”按钮，一按身体和记忆一切归为出生时。 你会去按它吗？</pre>
+如果某一天，
+你身上多了一个“恢复出厂设置”按钮，一按身体和记忆一切归为出生时。 你会去按它吗？</pre>
 """)[0]
 

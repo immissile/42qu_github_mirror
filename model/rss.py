@@ -11,7 +11,7 @@ from model.mail import rendermail
 from model.user_mail import mail_by_user_id
 from model.zsite import Zsite
 from model.cid import CID_USER
-
+from zkit.bot_txt import txt_map
 
 RSS_UNCHECK = 0
 RSS_RM = 1
@@ -103,6 +103,9 @@ def unread_feed_update(greader, feed):
         res = greader.unread(feed)
         rss_feed_update(res, id , user_id)
 
+def pre_br(txt):
+    r = txt.replace("\r\n","\n").replace("\r","\n").replace("\n\n","\n").replace("\n","<br>")
+    return r
 
 def rss_feed_update(res, id, user_id, limit=None):
     from zkit.rss.txttidy import txttidy
@@ -124,11 +127,12 @@ def rss_feed_update(res, id, user_id, limit=None):
 
         if snippet:
             htm = snippet['content']
-
             if htm:
                 htm = txttidy(htm)
+                htm = txt_map("<pre","</pre>", htm, pre_br) 
                 htm = tidy_fragment(htm, {'indent': 0})[0]
                 
+#                print htm
                 txt, pic_list = htm2txt(htm)
 
                 pic_list = json.dumps(pic_list)
@@ -228,4 +232,8 @@ def rss_subscribe(greader=None):
 
 if __name__ == '__main__':
     pass
+
+    greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+    feed = "feed/http://rss-tidy.42qu.com/douban/site/107747"
+    rss_feed_update(greader.feed(feed), 292, 10126043, 512)
 
