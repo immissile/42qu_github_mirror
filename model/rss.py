@@ -128,7 +128,7 @@ def rss_feed_update(res, id, user_id, limit=None):
             if htm:
                 htm = txttidy(htm)
                 htm = tidy_fragment(htm, {'indent': 0})[0]
-
+                
                 txt, pic_list = htm2txt(htm)
 
                 pic_list = json.dumps(pic_list)
@@ -138,9 +138,11 @@ def rss_feed_update(res, id, user_id, limit=None):
                         state = RSS_PRE_PO
                     else:
                         state = RSS_UNCHECK
+
                     RssPo.raw_sql(
 'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
-user_id, id, rss_uid, title, txt, link, pic_list, state, title, txt, pic_list
+user_id, id, rss_uid, title, txt, link, pic_list, state, 
+title, txt, pic_list
                     )
 
 
@@ -228,15 +230,5 @@ if __name__ == '__main__':
     pass
 
     greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-    for i in greader.feed('feed/http://rss-tidy.42qu.com/douban_site/106407'):
-        title = i['title']
-        rss_uid = i.get('id') or 1
-        snippet = i.get('summary') or i.get('content') or None
-
-        from zkit.rss.txttidy import txttidy
-        from tidylib import  tidy_fragment
-        if snippet:
-            htm = snippet['content']
-            htm = txttidy(htm)
-            htm = tidy_fragment(htm, {'indent': 0})[0]
-            print htm
+    feed = greader.feed('feed/http://rss-tidy.42qu.com/douban_site/106407')
+    rss_feed_update(feed, 290, 10124529, 512)
