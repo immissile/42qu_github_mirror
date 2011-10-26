@@ -30,9 +30,10 @@ def invite_message():
                 else:
                     email = email[0]
                     name = email.split("@",1)[0]
-
+                
+                #print email
                 #raw_input(email)
-                email = "zsp007@gmail.com"
+                #email = "zsp007@gmail.com"
 
                 rendermail(
                     '/mail/invite/invite_message.txt',
@@ -48,3 +49,4 @@ def invite_message():
 
 if __name__ == '__main__':
     invite_message()
+
