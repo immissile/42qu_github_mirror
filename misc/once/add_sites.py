@@ -44,6 +44,7 @@ def get_in(id):
         if meta.get(id):
             motto = meta.get(id)[0][0]
             motto = motto.split('<br />')[0]
+            motto = motto.split('<a')[0]
             img_src = meta.get(id)[0][1]
             make_site(name,link,motto,img_src,id)
         else:
