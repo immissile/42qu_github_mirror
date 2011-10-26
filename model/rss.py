@@ -225,21 +225,18 @@ def rss_subscribe(greader=None):
 
 
 if __name__ == '__main__':
-    print rss_po_list_by_state(0)
-    #rss_subscribe()
-    # from collections import defaultdict
-    # user_id = defaultdict()
-    # for i in RssPo.where():
-    #     pass
-
-    #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-    #greader.empty_subscription_list()
     pass
-    #rss = Rss.get(202)
-    #rss.gid = 0
-    #rss.save() 
-    #RssPo.where(user_id=10098398).delete()
-    for i in Rss.where():
-        print i.url
-        if 'http://rss-tidy/' in i.url:
-            print i
+
+    greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
+    for i in greader.feed('feed/http://rss-tidy.42qu.com/douban_site/106407'):
+        title = i['title']
+        rss_uid = i.get('id') or 1
+        snippet = i.get('summary') or i.get('content') or None
+
+        from zkit.rss.txttidy import txttidy
+        from tidylib import  tidy_fragment
+        if snippet:
+            htm = snippet['content']
+            htm = txttidy(htm)
+            htm = tidy_fragment(htm, {'indent': 0})[0]
+            print htm
