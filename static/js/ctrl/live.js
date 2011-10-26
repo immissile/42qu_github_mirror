@@ -174,7 +174,7 @@
 })()
 
 
-pop_hero = function(elem){
+function pop_hero(elem){
     elem.live('mouseover',function(){
         var self = $(this)
         $.getJSON(
@@ -187,18 +187,18 @@ pop_hero = function(elem){
                     $('.pop_hero').offset({top:self.offset().top-126,left:self.offset().left-30})
                 }
             })
-        }).live('mouseout',function(){
-            var on = false
-            var pop_hero_remove = function(){$('.pop_hero').remove()}
-            clear_pop_hero = function(){
-                if(!on){
-                    pop_hero_remove()
-                }else{
-                    $('.pop_hero').bind('mouseleave',pop_hero_remove)
-                }
+    }).live('mouseout',function(){
+        var on = false
+        var pop_hero_remove = function(){$('.pop_hero').remove()}
+        clear_pop_hero = function(){
+            if(!on){
+                pop_hero_remove()
+            }else{
+                $('.pop_hero').bind('mouseleave',pop_hero_remove)
             }
-            $('.pop_hero').live('mouseover',function(){on = true}).unbind('mouseleave')
-            setTimeout("clear_pop_hero()",300)
+        }
+        $('.pop_hero').live('mouseover',function(){on = true}).unbind('mouseleave')
+        setTimeout("clear_pop_hero()",300)
     })
 }
 
