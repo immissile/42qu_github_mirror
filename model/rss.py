@@ -229,6 +229,3 @@ def rss_subscribe(greader=None):
 if __name__ == '__main__':
     pass
 
-    greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-    feed = greader.feed('feed/http://rss-tidy.42qu.com/douban_site/106407')
-    rss_feed_update(feed, 290, 10124529, 512)
