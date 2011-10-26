@@ -312,5 +312,8 @@ if __name__ == '__main__':
 #    print buzz_unread_update(10000000)
 #    print buzz_unread_count(10000000)
 #    print buzz_show(10000000, 3)
-
-
+    import time
+    for i in range(100): 
+        print Buzz.where(cid=CID_BUZZ_FOLLOW).delete()
+        time.sleep(1)
+        print Buzz.where(cid=CID_BUZZ_FOLLOW).count()
