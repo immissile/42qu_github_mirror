@@ -32,7 +32,7 @@ def new_invite_message(uid,email_list,txt):
 def new_invite_email(usr_id,cid_email,cid,res):
     InviteEmail.raw_sql('update invite_email set cid = %s where usr_id =%s and cid=%s ',-cid,usr_id,cid)
     for email,name in res.items():
-        InviteEmail.raw_sql('insert into invite_email (usr_id,cid,cid_email,email,name,email_uid) values(%s,%s,%s,%s,%s,%s)',usr_id,cid,cid_email,email,name,user_id_by_mail(email))
+        InviteEmail.raw_sql('insert into invite_email (usr_id,cid,cid_email,email,name,email_uid) values(%s,%s,%s,%s,%s,%s)',usr_id,cid,cid_email,email,name or email.split('@')[0],user_id_by_mail(email))
     return True
 
 def get_invite_uid_by_cid(usr_id,cid):
