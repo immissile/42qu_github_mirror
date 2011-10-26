@@ -48,5 +48,6 @@ def get_in(id):
     else:
         print id,'no motto data'
     make_site(name,link,motto,img_src,id)
+
 if __name__ == "__main__":
     get_in('106782')
