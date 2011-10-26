@@ -12,6 +12,7 @@ from json import loads
 @single_process
 def invite_message():
     pre_pos = kv_int.get(KV_INVITE_MESSAGE)
+    #print pre_pos
     c = InviteMessage.raw_sql( 'select max(id) from invite_message')
     pos = c.fetchone()[0]
     if pos > pre_pos:
