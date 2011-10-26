@@ -6,10 +6,12 @@ from model.oauth import linkify
 from model.motto import motto_set
 from model.ico import site_ico_new, site_ico_bind
 from model.zsite_link import ZsiteLink, mc_flush
-from model.rss import rss_new
+from model.rss import rss_new, Rss
 from zkit.pic import picopen
 import urllib
 import json
+import time
+
 
 def make_site(name,link,motto,img_src,site_num,current_user_id=10017321):
     f = urllib.urlopen(img_src).read()
@@ -39,15 +41,38 @@ def get_in(id):
     idintro = intro.get(id)
     if info.get(id):
         like,link,img,name = info.get(id)
+        if meta.get(id):
+            motto = meta.get(id)[0][0]
+            motto = motto.split('<br />')[0]
+            img_src = meta.get(id)[0][1]
+            make_site(name,link,motto,img_src,id)
+        else:
+            print id,'no motto data'
     else:
         print id,'数据未录入'
-    if meta.get(id):
-        motto = meta.get(id)[0][0]
-        motto = motto.split('<br />')[0]
-        img_src = meta.get(id)[0][1]
-    else:
-        print id,'no motto data'
-    make_site(name,link,motto,img_src,id)
+
+def check():
+    s = set()
+    for r in Rss.where():
+        s.add(r.url.split('/')[-1] or r.url.split('/')[-2])
+    with open('makeexcel.txt') as me:
+        for i in me:
+            i = i.strip()
+            if i not in s:
+                get_in(i)
+                time.sleep(1)
+    
+
+def get_douban_site():
+    zs = ZsiteLink.where(link='http://site.douban.com/110633/（1号厅的光影传奇）')
+    if zs:
+        zs = zs[0]
+        zs.link = 'http://site.douban.com/110633/'
+        zs.save()
+    for zl in ZsiteLink.where(name='豆瓣小站').clo_list('zsite_id'):
+        print Rss.where(user_id=zl).link 
 
 if __name__ == "__main__":
-    get_in('106782')
+    get_douban_site()
+    #check()
+    #get_in('106782')
