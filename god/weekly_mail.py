@@ -3,7 +3,7 @@
 from _handler import Base
 from _urlmap import urlmap
 from zkit.page import page_limit_offset
-from model.weekly_mail import weekly_mail_new, weekly_mail_list, weekly_mail_total, weekly_mail_list_limit,weekly_mail_rm, WeeklyMail,weekly_mail_update
+from model.weekly_mail import weekly_mail_new, weekly_mail_list_limit, weekly_mail_total, weekly_mail_rm, WeeklyMail,weekly_mail_update
 from zkit.page import page_limit_offset
 
 PAGE_LIMIT = 20
