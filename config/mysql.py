@@ -81,8 +81,6 @@ DB_MAIN_TABLE = (
 DB_GOOGLE_TABLE = (
     'google_rank',
     'rss_po',
-    
-
 )
 
 
