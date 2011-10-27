@@ -68,6 +68,10 @@ def event_weekly_mail(user, event_city_list):
 
             name = user.name
 
+            print mail
+            mail = "zsp007@gmail.com"
+            raw_input()
+
             rendermail(
                 '/mail/event/weekly.htm',
                 mail,
