@@ -24,6 +24,8 @@ def txttidy_wumii(txt):
     first_pos = txt.find('<table class="wumii-related-items"')
     if first_pos <= 0:
         tmp = txt.find('猜您也喜欢')
+        if tmp < 0:
+            tmp = tmp.find("相关文章")
         if tmp >= 0 and txt.rfind('wumii.com') > 0:
              return txt[:tmp]
     else:

@@ -7,6 +7,7 @@ from zkit.pic import pic_fit_width_cut_height_if_large
 from pic import pic_new, pic_save, PicMixin
 from cid import CID_PO_PIC
 from fs import fs_set_jpg, fs_url_jpg
+import traceback
 
 PIC_HTM = '<div class="PIC%s"><img src="%s"%s>%s</div>'
 
@@ -44,7 +45,11 @@ def seq_gen(user_id, po_id):
 def po_pic_new(user_id, po_id, pic, seq=None):
     pic_id = pic_new(CID_PO_PIC, user_id)
     pic_save(pic_id, pic)
-    po_pic_save(pic_id, pic)
+    try:
+        po_pic_save(pic_id, pic)
+    except:
+        traceback.print_exc()
+        return
 
     if seq is None:
         seq = seq_gen(user_id, po_id)
