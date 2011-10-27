@@ -33,9 +33,9 @@ def weekly_mail_pop():
     return mail
 
 if __name__ == '__main__':
-    print weekly_mail_pop()
-    mail = WeeklyMail.get(id=17)
-    mail.state = 1
-    mail.save()
-    print mail.title
-
+#    print weekly_mail_pop()
+#    mail = WeeklyMail.get(id=17)
+#    mail.state = 1
+#    mail.save()
+#    print mail.title
+    pass
