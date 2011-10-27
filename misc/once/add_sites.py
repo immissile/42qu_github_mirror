@@ -47,6 +47,8 @@ def get_in(id):
             motto = meta.get(id)[0][0]
             motto = motto.split('<br />')[0]
             motto = motto.split('<a')[0]
+            motto = motto.replace('豆瓣','')
+            motto = motto.replace('豆子','')
             img_src = meta.get(id)[0][1]
             make_site(name,link,motto,img_src,id)
         else:
@@ -84,7 +86,7 @@ def get_douban_site():
     #    zs.save()
     for zl in ZsiteLink.where(name='豆瓣小站').order_by('id desc').col_list(col='zsite_id'):
         if not Rss.where(user_id=zl):
-            zs =  ZsiteLink.raw_sql('select link from zsite_link where link like %s and zsite_id=%s','http://site.douban.com%',zl).fetchone() 
+            zs =  ZsiteLink.raw_sql('select link from zsite_link where link like %s and zsite_id=%s and cid=2','http://site.douban.com%',zl).fetchone() 
             if zs:
                 id= zs[0].split('/')[-1] or zs[0].split('/')[-2]
                 if info.get(id):
@@ -94,7 +96,7 @@ def get_douban_site():
                         motto = motto.split('<br />')[0]
                         motto = motto.split('<a')[0]
                         img_src = meta.get(id)[0][1]
-                        #rss_new(zl, 'http://rss-tidy.42qu.com/douban/site/%s'%id, name, link, auto=1)
+                        rss_new(zl, 'http://rss-tidy.42qu.com/douban/site/%s'%id, name, link, auto=1)
                         print zl
                     else:
                         print id,'no motto data'
