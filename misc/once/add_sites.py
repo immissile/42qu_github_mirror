@@ -11,7 +11,9 @@ from zkit.pic import picopen
 import urllib
 import json
 import time
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 def make_site(name,link,motto,img_src,site_num,current_user_id=10017321):
     f = urllib.urlopen(img_src).read()
@@ -62,18 +64,45 @@ def check():
             if i not in s:
                 get_in(i)
                 time.sleep(1)
+
+
+def add_rss_url():
+   pass 
     
 
 def get_douban_site():
-    zs = ZsiteLink.where(link='http://site.douban.com/110633/（1号厅的光影传奇）')
-    if zs:
-        zs = zs[0]
-        zs.link = 'http://site.douban.com/110633/'
-        zs.save()
-    for zl in ZsiteLink.where(name='豆瓣小站').clo_list('zsite_id'):
-        print Rss.where(user_id=zl).link 
-
+    with open('data/intro') as i:
+        intro = json.loads(i.read())
+    with open('data/info') as i:
+        info = json.loads(i.read())
+    with open('data/meta') as i:
+        meta = json.loads(i.read())
+    #zs = ZsiteLink.where(link='http://site.douban.com/110633/（1号厅的光影传奇）')
+    #if zs:
+    #    zs = zs[0]
+    #    zs.link = 'http://site.douban.com/110633/'
+    #    zs.save()
+    for zl in ZsiteLink.where(name='豆瓣小站').order_by('id desc').col_list(col='zsite_id'):
+        if not Rss.where(user_id=zl):
+            zs =  ZsiteLink.raw_sql('select link from zsite_link where link like %s and zsite_id=%s','http://site.douban.com%',zl).fetchone() 
+            if zs:
+                id= zs[0].split('/')[-1] or zs[0].split('/')[-2]
+                if info.get(id):
+                    like,link,img,name = info.get(id)
+                    if meta.get(id):
+                        motto = meta.get(id)[0][0]
+                        motto = motto.split('<br />')[0]
+                        motto = motto.split('<a')[0]
+                        img_src = meta.get(id)[0][1]
+                        #rss_new(zl, 'http://rss-tidy.42qu.com/douban/site/%s'%id, name, link, auto=1)
+                        print zl
+                    else:
+                        print id,'no motto data'
+                else:
+                    print id,'数据未录入',zl
 if __name__ == "__main__":
+    #for zl in ZsiteLink.where(name='豆瓣小站').clo_list('zsite_id'):
+    #    print zl.link 
     get_douban_site()
     #check()
     #get_in('106782')
