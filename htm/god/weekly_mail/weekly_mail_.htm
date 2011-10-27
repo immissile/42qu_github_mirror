@@ -1,0 +1,44 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="htm_head()">
+<style>
+.mail{
+overflow:auto;
+padding-bottom:12px;
+border-bottom:1px dotted #ccc;
+margin-bottom:12px;
+color:#444;
+}
+.mail_title{
+margin-right:12px;
+color:#000;
+}
+.mail_a{
+margin-right:6px;
+}
+.mail_txt{
+margin-top:6px;
+}
+</style>
+<script>
+function delete_mail(id){
+    if(confirm('删除 , 确定?')){
+        window.location.href="/weekly_mail/rm/"+id
+    }
+}
+</script>
+</%def>
+% for wm in wm_list:
+<%
+id,title,txt,state = wm
+str_state = '已发' if state==0 else '未发' 
+%>
+<div class="mail">
+    <div><span class="mail_title">${title} (${str_state})</span>
+    <a class="mail_a"  href="/weekly_mail/edit/${id}">编辑</a>
+    <a class="mail_a" href="javascript:delete_mail(${id});void(0)">删除</a>
+    </div>
+    <div class="mail_txt">${txt}</div>
+</div>
+%endfor
+${page|n}
