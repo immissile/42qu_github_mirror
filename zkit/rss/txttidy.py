@@ -24,12 +24,10 @@ def txttidy_wumii(txt):
     first_pos = txt.find('<table class="wumii-related-items"')
     if first_pos <= 0:
         tmp = txt.find('猜您也喜欢')
-        if tmp >= 0:
-            txt = txt[:tmp]
-        first_pos = txt.rfind('<table')
-        if first_pos <= 0:
-            return txt
-    txt = txt[:first_pos]
+        if tmp >= 0 and txt.rfind('wumii.com') > 0:
+             return txt[:tmp]
+    else:
+        txt = txt[:first_pos]
     return txt
 
 def txttidy_other_relate(txt):

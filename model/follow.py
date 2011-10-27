@@ -99,8 +99,6 @@ def follow_rm(from_id, to_id):
 def follow_new(from_id, to_id):
     if not _follow_new(from_id, to_id):
         return
-    from buzz import mq_buzz_follow_new
-    mq_buzz_follow_new(from_id, to_id)
     return True
 
 def _follow_new(from_id, to_id):

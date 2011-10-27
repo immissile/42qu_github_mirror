@@ -16,13 +16,15 @@ padding:6px;
 
 </style>
 </%def>
-<%
-select = 'selected' if wm.state==1 else ''
-%>
+
 <%htm:form className="weekly_mail">
-<label>邮件标题</label><div><input type="text" name="title" class="title" value="${wm.title}" /></div>
-<label>邮件附言</label><div><textarea name="txt" class="cont_txt" />${wm.txt}</textarea></div>
+<label>邮件标题</label>
+<div><input value="${wm.title if wm else ''}" type="text" name="title" class="title" ></div>
+<label>邮件附言</label>
+<div><textarea name="txt" class="cont_txt" />${wm.txt if wm else ''}</textarea></div>
+%if wm:
 <label>邮件状态</label><div><select name="state" /><option value="0">已发</option><option value="1" ${select}>未发</option></select></div>
-<div class="mt27"> <span class="btnw"><button type="submit">修改</button></span> </div>
+%endif
+<div class="mt27"> <span class="btnw"><button type="submit">提交</button></span> </div>
 </%htm:form>
 
