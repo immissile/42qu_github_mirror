@@ -97,7 +97,7 @@ def get_douban_site():
                         motto = motto.split('<a')[0]
                         img_src = meta.get(id)[0][1]
                         rss_new(zl, 'http://rss-tidy.42qu.com/douban/site/%s'%id, name, link, auto=1)
-                        print zl
+                        print zl,'http://site.douban.com/%s'%id
                     else:
                         print id,'no motto data'
                 else:
