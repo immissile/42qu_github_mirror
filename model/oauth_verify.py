@@ -99,7 +99,7 @@ DICT_API_VERIFY = {
 def oauth_verify_by_oauth_id(oauth_id):
     out = oauth_token_by_oauth_id(oauth_id)
     if out:
-        cid, key, secret = out
+        cid, key, secret = out.cid, out.key, out.secret
         if cid not in DICT_API_VERIFY:
             return
         re = DICT_API_VERIFY[cid](key, secret, oauth_id)

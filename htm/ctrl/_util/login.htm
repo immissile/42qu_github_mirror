@@ -2,6 +2,11 @@
 
 
 <%def name="login_form(id='')">
+<%!
+from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH2NAME_DICT, OAUTH_TUPLE , oauth_name_by_oauth_id
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
+from config import SITE_DOMAIN
+%>
 <%htm:form id="login">
 <p>
 <label class="label_input" for="login_mail${id}">邮箱</label>\
@@ -22,6 +27,21 @@ ${errtip.password|n}
 没有账号 ? <a href="/auth/reg">点此注册</a>
 </span>
 <span class="btnw"><button type="submit" >登录</button></span>
+%for cid in OAUTH_TUPLE:
+<%
+name = OAUTH2NAME_DICT[cid]
+%>
+<div class="sync">
+    <div class="G">
+        <div class="G1">
+            <div class="g1bk">
+                <span class="L">${name}</span>
+                <a href="//rpc.${SITE_DOMAIN}/oauth/${cid}">登录</a>
+            </div>
+        </div>
+    </div>
+</div>
+%endfor
 </div>
 </%htm:form>
 </%def>
