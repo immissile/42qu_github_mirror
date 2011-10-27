@@ -25,6 +25,17 @@ def weekly_mail_rm(id):
 def weekly_mail_update(id, title, txt, state):
     WeeklyMail.raw_sql('update weekly_mail set title=%s,txt=%s,state=%s where id=%s', title, txt, state, id)
 
+def weekly_mail_pop():
+    mail = WeeklyMail.where(state=1).order_by('id')[0]
+    if mail:
+        mail.state = 0
+        mail.save()
+    return mail
+
 if __name__ == '__main__':
-    print dir(WeeklyMail)
+    print weekly_mail_pop()
+    mail = WeeklyMail.get(id=17)
+    mail.state = 1
+    mail.save()
+    print mail.title
 
