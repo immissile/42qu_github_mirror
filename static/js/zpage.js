@@ -239,7 +239,7 @@ fcm = function (id,count){
                 self.find($('.fcmload')).replaceWith(fcml)
                 for(i=0;i<data.length;i++){
                     t=data[i]
-                    html = $('<div class="fcmi"><a target="_blank" class="fcmname c9" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
+                    html = $('<div class="fcmi"><a target="_blank" class="fcmname c9 to_pop_hero" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
                     $('#fcml_'+id).append(html)
                     html.find(".fcmname").text(t[2])
                 }
@@ -387,3 +387,35 @@ function init_say(){
     })
 }
 
+$(function(){
+    function pop_hero(elem){
+        elem.live('mouseover',function(){
+            var self = $(this)
+            var href = self.attr('href')
+            $.getJSON(
+            '/j/hero/'+href.slice(href.indexOf('\/\/')+2).split('.')[0],
+            function(result){
+                if(!result)return;
+                if(!$('.pop_hero')[0]){
+                        $('body').prepend(
+    '<div class="pop_hero"><div class="pop_hero_to"></div><div class="pop_hero_banner"><a href="'+result[3]+'" target="_blank"><img class="pop_hero_avatar" src="'+result[2]+'"></a><a href="javascript:follow_a('+result[4]+');void(0)" id="follow_a'+result[4]+'" class="xa pop_hero_follow">'+result[5]+'</a></div><a href="'+result[3]+'" target="_blank" class="pop_hero_name">'+result[0]+'</a><div class="pop_hero_bio">'+result[1]+'</div><div class="pop_hero_motto">'+result[6]+'</div></div>')
+                        $('.pop_hero').offset({top:self.offset().top-126,left:self.offset().left-30})
+                    }
+                })
+        }).live('mouseout',function(){
+            var on = false
+            var pop_hero_remove = function(){$('.pop_hero').remove()}
+            clear_pop_hero = function(){
+                if(!on){
+                    pop_hero_remove()
+                }else{
+                    $('.pop_hero').bind('mouseleave',pop_hero_remove)
+                }
+            }
+            $('.pop_hero').live('mouseover',function(){on = true}).unbind('mouseleave')
+            setTimeout("clear_pop_hero()",300)
+        })
+    }
+    pop_hero($('.to_pop_hero'))
+
+})
