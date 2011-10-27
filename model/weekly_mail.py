@@ -39,3 +39,5 @@ if __name__ == '__main__':
 #    mail.save()
 #    print mail.title
     pass
+    mail = WeeklyMail.where(state=1).order_by('id')[0]
+    print mail
