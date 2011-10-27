@@ -1,0 +1,30 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="htm_head()">
+<style>
+.title{
+width:90%;
+padding:3px 6px;
+height:22px;
+margin-bottom:20px;
+}
+.cont_txt{
+width:90%;
+height:350px;
+padding:6px;
+}
+
+</style>
+</%def>
+
+<%htm:form className="weekly_mail">
+<label>邮件标题</label>
+<div><input value="${wm.title if wm else ''}" type="text" name="title" class="title" ></div>
+<label>邮件附言</label>
+<div><textarea name="txt" class="cont_txt">${wm.txt if wm else ''}</textarea></div>
+%if wm:
+<label>邮件状态</label><div><select name="state" /><option value="0">已发</option><option value="1" ${select}>未发</option></select></div>
+%endif
+<div class="mt27"> <span class="btnw"><button type="submit">提交</button></span> </div>
+</%htm:form>
+

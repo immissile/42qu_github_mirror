@@ -72,7 +72,10 @@ DB_MAIN_TABLE = (
     'rss_update',
     'site_rec',
     'site_rec_history',
-
+    'top_rec',
+    'invite_email',
+    'invite_message',
+    'weekly_mail',
 )
 
 DB_GOOGLE_TABLE = (
