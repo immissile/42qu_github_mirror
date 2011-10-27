@@ -19,7 +19,7 @@ class Po(Base):
 
         self.render(wm = wm)
 
-    def post(self, id):
+    def post(self, id=0):
         title = self.get_argument('title', None)
         txt = self.get_argument('txt', None)
         if id:
