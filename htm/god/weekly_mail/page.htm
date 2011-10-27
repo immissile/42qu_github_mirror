@@ -23,7 +23,7 @@ margin-top:6px;
 <script>
 function delete_mail(id){
     if(confirm('删除 , 确定?')){
-        window.location.href="/weekly_mail/rm/"+id
+        window.location.href="/weekly/mail/rm/"+id
     }
 }
 </script>
@@ -35,7 +35,7 @@ str_state = '已发' if state==0 else '未发'
 %>
 <div class="mail">
     <div><span class="mail_title">${title} (${str_state})</span>
-    <a class="mail_a"  href="/weekly_mail/edit/${id}">编辑</a>
+    <a class="mail_a"  href="/weekly/mail/${id}">编辑</a>
     <a class="mail_a" href="javascript:delete_mail(${id});void(0)">删除</a>
     </div>
     <div class="mail_txt">${txt}</div>

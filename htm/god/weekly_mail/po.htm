@@ -23,7 +23,7 @@ padding:6px;
 <label>邮件附言</label>
 <div><textarea name="txt" class="cont_txt">${wm.txt if wm else ''}</textarea></div>
 %if wm:
-<label>邮件状态</label><div><select name="state" /><option value="0">已发</option><option value="1" ${select}>未发</option></select></div>
+<label>邮件状态</label><div><select name="state"><option value="0" ${'selected' if wm.state==0 else ''}>已发</option><option ${'selected' if wm.state==1 else ''} value="1" >未发</option></select></div>
 %endif
 <div class="mt27"> <span class="btnw"><button type="submit">提交</button></span> </div>
 </%htm:form>
