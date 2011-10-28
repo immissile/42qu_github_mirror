@@ -44,6 +44,12 @@ def update_pic(form, user_id, po_id, id):
         pic.po_id = po_id
         pic.save()
 
+@urlmap("/po/rss/(\d+)")
+class PoRss(ZsiteBase):
+    def get(self, id):
+        from model.rss import rss_link_by_po_id
+        link = rss_link_by_po_id(id) or '/'
+        self.redirect(link, True)
 
 @urlmap('/po/word')
 class PoWord(LoginBase):
