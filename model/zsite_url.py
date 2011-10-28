@@ -147,3 +147,4 @@ def name_dict_url_dict_by_zsite_id_list(zsite_id_list):
 if __name__ == '__main__':
     #print url_by_digit_domain("10000000.zuroc.xxx")
     id = id_by_url('blogtd')
+
