@@ -113,6 +113,7 @@ def rss_feed_update(res, id, user_id, limit=None):
 
 
     rss = Rss.mc_get(id)
+    zsite = Zsite.mc_get(user_id)
     for count , i in enumerate(res):
         if limit:
             if count > limit:
@@ -121,7 +122,10 @@ def rss_feed_update(res, id, user_id, limit=None):
             link = i['alternate'][0]['href']
         else:
             link = ''
-        title = i['title']
+        if 'title' in i:
+            title = i['title']
+        else:
+            title = zsite.name
         rss_uid = i.get('id') or 1
         snippet = i.get('summary') or i.get('content') or None
 
