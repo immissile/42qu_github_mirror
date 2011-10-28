@@ -287,7 +287,10 @@ padding:0;
 .aH:hover{
 background-image:url(/img/gif/icons/gif/red/to_size/arrow1_ne.gif);
 }
-
+.fdh .aH{
+margin-left:2px;
+vertical-align:-3px;
+}
 .site_a{
 border-bottom:1px dotted #ccc;
 display:block;
@@ -377,3 +380,4 @@ color:#000;
 .site_note a:hover{
 color:#d10;
 }
+
