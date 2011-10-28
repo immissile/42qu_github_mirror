@@ -1,6 +1,7 @@
 <%!
 from model.zsite import Zsite
 from model.cid import CID_SITE
+from model.rss import rss_link_by_po_id
 %>\
 <%
 zsite_url = zsite.link
@@ -14,7 +15,12 @@ po_zsite = Zsite.mc_get(po.zsite_id)
     %endif
 %endif
 %if po_zsite.cid == CID_SITE:
-<a href="${zsite_url}/po/link/${po.id}">原文</a> @
+<%
+    rss_link = rss_link_by_po_id(po.id)
+%>
+%if rss_link:
+<a target="_blank" href="${rss_link}">原文</a> @ \
+%endif
 %endif
 <a href="${zsite_url}">${zsite.name}</a>\
 % if zsite_tag_id:
