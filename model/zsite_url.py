@@ -145,6 +145,5 @@ def name_dict_url_dict_by_zsite_id_list(zsite_id_list):
 
 
 if __name__ == '__main__':
-    id = id_by_url('blogtd')
     print id
     Url.where(id=id).update(id= 10003425)
