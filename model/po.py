@@ -430,5 +430,9 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 if __name__ == '__main__':
     pass
-    #for i in Po.where(user_id=10126043):
+    from model.zsite_url import id_by_url
+    jid = id_by_url("jandan")
+    for i in Po.where(user_id=jid):
+        po_rm(i.user_id, i.id)
+   #     pass
     #    po_rm(i.user_id, i.id)
