@@ -1,5 +1,6 @@
 <%!
 from model.zsite import Zsite
+from model.cid import CID_SITE
 %>\
 <%
 zsite_url = zsite.link
@@ -11,6 +12,9 @@ po_zsite = Zsite.mc_get(po.zsite_id)
     %if po_zsite and po.zsite_id!=po_zsite.id:
 <a href="${po_zsite.link}">${po_zsite.name}</a> &gt; \
     %endif
+%endif
+%if po_zsite.cid == CID_SITE:
+<a href="${zsite_url}/po/link/${po.id}">原文</a> @
 %endif
 <a href="${zsite_url}">${zsite.name}</a>\
 % if zsite_tag_id:
