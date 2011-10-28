@@ -25,9 +25,9 @@ class Po(Base):
         if id:
             state = int(self.get_argument('state', None)) 
             weekly_mail_update(id,title,txt,state)
-            return self.redirect('/weekly/mail-1')
         else:
             wm = weekly_mail_new(title, txt)
+        return self.redirect('/weekly/mail-1')
 
 
 @urlmap('/weekly/mail-(\d+)')
