@@ -21,7 +21,7 @@ $(".site_note .fdh_open").live('click',function(){
         }
         var id=result.id
         result.tag_id = ID2TAG_ID[id]
-        result.tag_tag = ID2TAG_NAME[id]
+        result.tag_name = ID2TAG_NAME[id]
 
         prh.replaceWith(
             $("#feed61").tmpl(result)
