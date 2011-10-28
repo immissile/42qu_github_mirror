@@ -54,3 +54,9 @@ def site_rec_set(user_id, site_id):
     SiteRec.set(user_id, site_id)
     top_rec_mark(user_id, TOP_REC_CID_SITE_REC)
 
+if __name__ == "__main__":
+    from model.zsite_url import id_by_url
+    jid = id_by_url("jandan")
+    from zweb.orm import ormiter
+    for i in ormiter(SiteRecHistory):
+        print i.id
