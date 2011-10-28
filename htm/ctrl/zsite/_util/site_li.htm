@@ -90,9 +90,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 <script id="feed61" type="text/x-jquery-tmpl">
 <%text>
 <div class="G" id="G${id}"><div class="G3"><div class="sdw"><div class="sd cid62">
-<div class="fdh"><a href="/${id}" target="_blank">${name}</a>
-{{if tag_id}}{{else}}<a title="浏览原文" target="_blank" href="${zsite.link}/po/rss/${id}" class="aH"></a>{{/if}}
-<a class="fdh_close R" href="javascript:fdh_close(${id});void(0)"></a>
+<div class="fdh"><a class="fdh_close R" href="javascript:fdh_close(${id});void(0)"></a><a href="/${id}" target="_blank">${name}</a>{{if tag_id}}{{else}}<a title="浏览原文" target="_blank" href="${zsite.link}/po/rss/${id}" class="aH"></a>{{/if}}
 </div>
 <div class="fdtxt" id="fdtxt${id}"><pre>{{html txt}}</pre></div><div
 class="fdbar"><span class="L">
