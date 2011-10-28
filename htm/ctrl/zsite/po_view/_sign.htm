@@ -12,15 +12,16 @@ po_zsite = Zsite.mc_get(po.zsite_id)
 %>\
     %if po_zsite and po.zsite_id!=po_zsite.id:
 <a href="${po_zsite.link}">${po_zsite.name}</a> &gt; \
-    %endif
-%endif
-%if po_zsite.cid == CID_SITE:
+%else:
+        %if po_zsite.cid == CID_SITE:
 <%
     rss_link = rss_link_by_po_id(po.id)
 %>
-%if rss_link:
+            %if rss_link:
 <a target="_blank" href="${rss_link}">原文</a> @ \
-%endif
+            %endif
+        %endif
+    %endif
 %endif
 <a href="${zsite_url}">${zsite.name}</a>\
 % if zsite_tag_id:
