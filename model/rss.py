@@ -46,11 +46,11 @@ class RssUpdate(McModel):
 def rss_po_id(rss_po_id, po_id):
     RssPoId.raw_sql('insert into rss_po_id (id, po_id, state) values (%s, %s, 0)', rss_po_id, po_id)
 
-mc_rss_link_by_po_id = "RssLinkByPoId:%s"
+mc_rss_link_by_po_id = McCache("RssLinkByPoId:%s")
 
 @mc_rss_link_by_po_id("{id}")
 def rss_link_by_po_id(id):
-    rss_po = RssPoId.get(po_id=po_id)
+    rss_po = RssPoId.get(po_id=id)
     if rss_po:
         rss_po = RssPo.mc_get(rss_po.id)
         if rss_po:
