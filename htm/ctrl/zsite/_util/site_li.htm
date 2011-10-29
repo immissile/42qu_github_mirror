@@ -90,8 +90,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 <script id="feed61" type="text/x-jquery-tmpl">
 <%text>
 <div class="G" id="G${id}"><div class="G3"><div class="sdw"><div class="sd cid62">
-<div class="fdh"><a href="/${id}" target="_blank">${name}</a>
-<a class="fdh_close R" href="javascript:fdh_close(${id});void(0)"></a>
+<div class="fdh"><a class="fdh_close R" href="javascript:fdh_close(${id});void(0)"></a><a href="/${id}" target="_blank">${name}</a>{{if tag_id}}{{else}}<a title="浏览原文" target="_blank" href="${zsite.link}/po/rss/${id}" class="aH"></a>{{/if}}
 </div>
 <div class="fdtxt" id="fdtxt${id}"><pre>{{html txt}}</pre></div><div
 class="fdbar"><span class="L">
@@ -107,7 +106,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 >收藏</a></span>
 </span>
 {{if tag_id}}
-<a href="${zsite.link}">${zsite.name}{{if zsite.unit||zsite.title}} , ${zsite.unit} ${zsite.title}{{/if}}</a>{{if tag_id}} , <a href="/tag/${tag_id}">${tag_name}</a>{{/if}}
+<a href="${zsite.link}">${zsite.name}{{if zsite.unit||zsite.title}} , ${zsite.unit} ${zsite.title}{{/if}}</a> , <a href="/tag/${tag_id}">${tag_name}</a>
 {{else}}
 <a class="fdh_close" href="javascript:fdh_close(${id});void(0)"></a>
 {{/if}}

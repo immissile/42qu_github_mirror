@@ -1,8 +1,10 @@
+ID2TAG_ID = {}
+ID2TAG_NAME = {}
+
 $(".site_note .fdh_open").live('click',function(){
     var self=$(this), prh=$('<div class="sdw"><div class="sd cid62"><pre class="fdh"></pre><div class="fdbarload"></div></div></div>'), href=this.href;
     $(this.parentNode).replaceWith(prh)
     prh.find(".fdh").text(self.text())
-
     $.getJSON("/j/po"+href.slice(href.lastIndexOf("/")),function(r){
         var zsite=r.pop(), result = {
             zsite : {
@@ -17,6 +19,10 @@ $(".site_note .fdh_open").live('click',function(){
         for (; j < attr.length; ++j) {
             result[attr[j]]=r[j]
         }
+        var id=result.id
+        result.tag_id = ID2TAG_ID[id]
+        result.tag_name = ID2TAG_NAME[id]
+
         prh.replaceWith(
             $("#feed61").tmpl(result)
         )
@@ -51,7 +57,8 @@ function render_site(data){
             z.unit = o[0]
             z.title = o[1] 
         }
-
+        ID2TAG_ID[t.id] = t.tag_id 
+        ID2TAG_NAME[t.id] = t.tag_name
         r.push(t)
     }
     $('#feed').tmpl(r).appendTo("#feeds");
