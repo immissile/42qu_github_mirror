@@ -432,7 +432,9 @@ if __name__ == '__main__':
     pass
     from model.zsite_url import id_by_url
     jid = id_by_url("jandan")
-    for i in Po.where(user_id=jid):
-        po_rm(i.user_id, i.id)
+    for i in Po.where(cid=CID_NOTE):
+        if "豆友" in i.txt:
+           # print i.name
+            po_rm(i.user_id, i.id)
    #     pass
     #    po_rm(i.user_id, i.id)
