@@ -10,6 +10,7 @@ from logging import info
 from model.zsite_url import id_by_url, url_or_id
 from model.follow import follow_count_by_to_id, follow_get
 from model.cid import CID_USER
+from model.motto import motto_get
 
 @urlmap('/j/hero/(\w+)')
 class HeroJson(JLoginBase):
@@ -27,5 +28,5 @@ class HeroJson(JLoginBase):
                     word = "淡忘"
                 else:
                     word = "关注"
-                result = [zsite.name, ' , '.join(career), ico_url_with_default(id), zsite.link, zsite.id, word]
+                result = [zsite.name, ' , '.join(career), ico_url_with_default(id), zsite.link, zsite.id, word, motto_get(zsite.id)]
         return self.finish(dumps(result))

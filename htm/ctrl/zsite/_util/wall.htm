@@ -52,9 +52,9 @@ ${reply_render_body(i)}\
 <%
 other = Zsite.mc_get(other_id)
 %>
-@<a href="${other.link}">${other.name}</a>\
+@<a href="${other.link}" class="TPH">${other.name}</a>\
 %else:
-<a href="${user.link}">${user.name}</a>\
+<a href="${user.link}" class="TPH">${user.name}</a>\
 %endif
  , ${friendly_time(i.create_time)}</span>\
 <a class="reply" href="/wall/reply2txt/${i.id}"></a>\

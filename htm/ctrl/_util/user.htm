@@ -3,14 +3,14 @@ from cgi import escape
 %>
 
 <%def name="user_link(user)">
-<a target="_blank" href="http:${user.link}">${user.name}</a>\
+<a target="_blank" href="http:${user.link}" class="TPH">${user.name}</a>\
 </%def>
 
 <%def name="user_career_link(user)">
 <%
 career = ' , '.join(filter(bool, user.career))
 %>
-<a href="http:${user.link}" target="_blank">${user.name}\
+<a href="http:${user.link}" target="_blank" class="TPH">${user.name}\
 % if career:
  - ${career}\
 % endif
@@ -18,7 +18,7 @@ career = ' , '.join(filter(bool, user.career))
 </%def>
 
 <%def name="user_link_list(user_list)">
-${' , '.join(['<a target="_blank" href="http:%s">%s</a>' % (i.link, escape(i.name)) for i in filter(bool,user_list)])|n}
+${' , '.join(['<a target="_blank" href="http:%s" class="TPH">%s</a>' % (i.link, escape(i.name)) for i in filter(bool,user_list)])|n}
 </%def>
 
 <%def name="user_link_list_with_career(user_list)">
