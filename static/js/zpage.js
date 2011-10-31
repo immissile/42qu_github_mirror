@@ -388,8 +388,12 @@ function init_say(){
 }
 
 $(function(){
+    var tt
     function pop_hero(elem){
+        var pop_hero_remove = function(){$('.pop_hero').remove()}
         elem.live('mouseover',function(){
+            if($('.pop_hero')[0]) pop_hero_remove()
+            clearTimeout(tt)
             var self = $(this)
             var href = self.attr('href')
             $.getJSON(
@@ -403,8 +407,8 @@ $(function(){
                     }
                 })
         }).live('mouseout',function(){
+            var ctrl = false
             var on = false
-            var pop_hero_remove = function(){$('.pop_hero').remove()}
             clear_pop_hero = function(){
                 if(!on){
                     pop_hero_remove()
@@ -413,7 +417,7 @@ $(function(){
                 }
             }
             $('.pop_hero').live('mouseover',function(){on = true}).unbind('mouseleave')
-            setTimeout("clear_pop_hero()",300)
+           tt=setTimeout("clear_pop_hero()",300)
         })
     }
     pop_hero($('.TPH'))
