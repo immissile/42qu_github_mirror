@@ -228,7 +228,19 @@ def reply_count(self):
     return WallReply.where(zsite_id=self.id).count()
 
 
+def replys_by_site_id(site_id):
+    walls = Wall.where(cid=CID_SITE).where(to_id=site_id)
+    for wall in walls:
+        for i in wall.reply_list():
+            if i:
+                yield i.txt
+
 Zsite.reply_new = reply_new
 Zsite.reply_count = reply_count
 Zsite.reply_id_list_reversed = reply_id_list_reversed
 Zsite.reply_list_reversed = reply_list_reversed
+
+if __name__ == "__main__":
+    z = Zsite.mc_get(561)
+    for i in replys_by_site_id(561):
+        print i

@@ -27,7 +27,7 @@ ${css.ctrl_zsite_site|n}
 %if wall:
 <%
     reply_list = wall.reply_list()
-%>
+    %>
 %if reply_list:
         <div id="reply_list">
         <%
@@ -54,7 +54,7 @@ ${css.ctrl_zsite_site|n}
 %endif
 %endif
 %endif
-    % if reply:
+% if reply:
 <%htm:form id="mk_form">
 <textarea name="txt" class="mk_txt">
     ${reply.txt}
