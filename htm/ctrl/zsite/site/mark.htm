@@ -23,17 +23,16 @@ ${css.ctrl_zsite_site|n}
 <%
     wall = wall_by_from_id_to_id(current_user_id, zsite_id)
 %>\
+% if not reply:        
 %if wall:
 <%
     reply_list = wall.reply_list()
 %>
 %if reply_list:
         <div id="reply_list">
-        %for i in reply_list:
-            <%
-                can_rm = i.can_rm(current_user_id)
-            %>
         <%
+        i = reply_list[0]
+        can_rm = i.can_rm(current_user_id)
         id = i.id
         user = i.user
         %>\
@@ -45,22 +44,38 @@ ${css.ctrl_zsite_site|n}
         ${friendly_time(i.create_time)} 
         </span>
         %if can_rm:
-        <a href="javascript:rm(${id});void(0)">删除</a>
+        ##<a href="javascript:rm(${id});void(0)">删除</a>
+        <a href="/mark/${id}">编辑</a>
         %endif
         </div>\
         </div>\
         </div></div>\
-        %endfor
         </div>
 %endif
 %endif
+%endif
+    % if reply:
 <%htm:form id="mk_form">
-<textarea name="txt" class="mk_txt"></textarea>\
+<textarea name="txt" class="mk_txt">
+    ${reply.txt}
+</textarea>\
+<script> $(".mk_txt").focus() </script>\
+<div class="tr">
+        <a href="javascript:rm(${reply.id});void(0)">删除</a>
+    <span class='btnw'><button type="submit">添加备注</button></span>
+</div>
+</%htm:form>
+%endif
+    % if not (reply or  wall) :
+<%htm:form id="mk_form">
+<textarea name="txt" class="mk_txt">
+</textarea>\
 <script> $(".mk_txt").focus() </script>\
 <div class="tr">
     <span class='btnw'><button type="submit">添加备注</button></span>
 </div>
 </%htm:form>
+    %endif
     </div>
 </div>
 

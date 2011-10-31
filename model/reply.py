@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 from gid import gid
 from _db import cursor_by_table, McModel, McLimitA, McCache, McCacheA
-from txt import txt_new
 from spammer import is_same_post, is_spammer, mc_lastest_hash
 from time import time
-from txt import txt_bind, txt_get
+from txt import txt_bind, txt_get, txt_new
 from model.txt2htm import txt_withlink
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from cid import CID_PO
@@ -152,6 +151,10 @@ class Reply(McModel):
     @attrcache
     def txt(self):
         return txt_get(self.id)
+  
+    def txt_set(self,txt):
+        return txt_new(self.id,txt)
+
 
     @property
     def htm(self):
