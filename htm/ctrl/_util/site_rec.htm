@@ -11,6 +11,7 @@ from model.site_rec import site_rec
 <%
 site=site_rec(current_user_id)
 %>
+${site}
 %if site:
 <%
 site_id=site.id
