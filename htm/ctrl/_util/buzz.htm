@@ -103,6 +103,7 @@ ${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}
 <%
 unread = buzz_unread_count(user_id)
 buzz_list = _buzz_show(user_id, 3, unread)
+unread = unread-len(buzz_list)
 %>
 % if buzz_list:
 <div class="c" id="buzz"><div class="G2">\
