@@ -10,7 +10,7 @@ from model.site_po import po_cid_count_by_zsite_id
 from model.zsite_admin import admin_id_list_by_zsite_id, zsite_admin_empty
 from model.zsite import Zsite
 from model.zsite_show import zsite_show_rm
-from model.zsite_fav import zsite_fav_rm
+from model.zsite_fav import zsite_fav_rm_all_by_zsite_id
 from model.cid import CID_SITE, CID_NOTE, CID_USER
 from model.rss import rss_new, Rss
 from zkit.pic import picopen
@@ -77,10 +77,7 @@ def check():
                 count = po_cid_count_by_zsite_id(r.user_id, CID_NOTE)
                 if count == 0:
                     zsite_show_rm(Zsite.mc_get(r.user_id))
-                    admin_id = admin_id_list_by_zsite_id(r.user_id) or None
-                    z = Zsite.mc_get(r.user_id)
-                        admin_id = admin_id[0]
-                        zsite_fav_rm(z,admin_id or r.user_id)
+                    #zsite_fav_rm_all_by_zsite_id(r.user_id)
                     zsite_admin_empty(r.user_id)
                     
                     print r.user_id,'!!'
