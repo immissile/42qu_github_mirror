@@ -24,7 +24,8 @@ from model.cid import CID_SITE
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from model.zsite_fav import zsite_fav_get_and_touch
-from model.wall import Wall
+from model.wall import Wall, wall_by_from_id_to_id
+
 
 PAGE_LIMIT = 56
 
@@ -106,7 +107,7 @@ class Mark(LoginBase):
 
         if can_admin:
             return self.redirect('/admin')
-        wall = Wall.where(from_id=current_user_id,to_id=zsite_id)[0]
+        wall = wall_by_from_id_to_id(current_user_id, zsite_id)
         if wall:
             reply_last =  wall.reply_last()
             if reply_last and reply_last.can_rm(current_user_id):
