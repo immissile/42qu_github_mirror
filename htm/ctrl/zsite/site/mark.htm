@@ -20,60 +20,57 @@ ${css.ctrl_zsite_site|n}
             <span class="c0">设置</span>\
         </div>
 
-<%
-    wall = wall_by_from_id_to_id(current_user_id, zsite_id)
-%>\
-% if not reply:        
-%if wall:
-<%
-    reply_last= wall.reply_last()
-    %>
-%if reply_last:
-        <div id="reply_last">
-        <%
-        can_rm = reply_last.can_rm(current_user_id)
-        id = reply_last.id
-        user = reply_last.user
-        %>\
-        <div id="reply${id}" class="sdw"><div class="sd c"> 
-        <div>\
-        ${reply_render_body(reply_last, can_rm)}\
-        <div class="bar">
-        <span class="L">
-        ${friendly_time(reply_last.create_time)} 
-        </span>
-        %if can_rm:
-        <a href="/mark/${id}">编辑</a>
-        %endif
-        </div>\
-        </div>\
-        </div></div>\
-        </div>
-%endif
-%endif
-%endif
+##% if not reply:        
+##%if wall:
+##<%
+##    reply_last= wall.reply_last()
+##    %>
+##%if reply_last:
+##        <div id="reply_last">
+##        <%
+##        can_rm = reply_last.can_rm(current_user_id)
+##        id = reply_last.id
+##        user = reply_last.user
+##        %>\
+##        <div id="reply${id}" class="sdw"><div class="sd c"> 
+##        <div>\
+##        ${reply_render_body(reply_last, can_rm)}\
+##        <div class="bar">
+##        <span class="L">
+##        ${friendly_time(reply_last.create_time)} 
+##        </span>
+##        %if can_rm:
+##        <a href="/mark/${id}">编辑</a>
+##        %endif
+##        </div>\
+##        </div>\
+##        </div></div>\
+##        </div>
+##%endif
+##%endif
+##%endif
+<%htm:form id="mk_form">
+<textarea name="txt" class="mk_txt">
 % if reply:
-<%htm:form id="mk_form">
-<textarea name="txt" class="mk_txt">
     ${reply.txt}
-</textarea>\
-<script> $(".mk_txt").focus() </script>\
-<div class="tr">
-        <a href="javascript:rm(${reply.id});void(0)">删除</a>
-    <span class='btnw'><button type="submit">添加备注</button></span>
-</div>
-</%htm:form>
 %endif
-    % if not (reply or  wall) :
-<%htm:form id="mk_form">
-<textarea name="txt" class="mk_txt">
 </textarea>\
 <script> $(".mk_txt").focus() </script>\
 <div class="tr">
+##        <a href="javascript:rm(${reply.id});void(0)">删除</a>
     <span class='btnw'><button type="submit">添加备注</button></span>
 </div>
 </%htm:form>
-    %endif
+##    % if not (reply or  wall) :
+##<%htm:form id="mk_form">
+##<textarea name="txt" class="mk_txt">
+##</textarea>\
+##<script> $(".mk_txt").focus() </script>\
+##<div class="tr">
+##    <span class='btnw'><button type="submit">添加备注</button></span>
+##</div>
+##</%htm:form>
+##    %endif
     </div>
 </div>
 
