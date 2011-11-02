@@ -77,8 +77,10 @@ def check():
                 count = po_cid_count_by_zsite_id(r.user_id, CID_NOTE)
                 if count == 0:
                     zsite_show_rm(Zsite.mc_get(r.user_id))
-                    admin_id = admin_id_list_by_zsite_id(r.user_id)[0]
-                    zsite_fav_rm(r,admin_id)
+                    admin_id = admin_id_list_by_zsite_id(r.user_id) or None
+                    z = Zsite.mc_get(r.user_id)
+                        admin_id = admin_id[0]
+                        zsite_fav_rm(z,admin_id or r.user_id)
                     zsite_admin_empty(r.user_id)
                     
                     print r.user_id,'!!'
