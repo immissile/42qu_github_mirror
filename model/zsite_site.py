@@ -84,6 +84,8 @@ def zsite_id_list_by_user_id(user_id):
     return zsite_id_list(user_id, CID_SITE)
 
 def zsite_site_rm(zsite_id):
+    from model.zsite_fav import zsite_fav_rm_all_by_ziste_id
+    from model.zsite_admin import  zsite_admin_empty
     zsite_show_rm(Zsite.mc_get(zsite_id))
     zsite_fav_rm_all_by_zsite_id(zsite_id)
     zsite_admin_empty(zsite_id)
