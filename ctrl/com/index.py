@@ -45,6 +45,8 @@ class New(Base):
         motto = self.get_argument('motto', None)
         url = self.get_argument('url', None)
         txt = self.get_argument('txt', None)
+        pid = self.get_arguments('pid', None)
+        print pid,'!!!!!!!!!!!!!'
         if not name:
             errtip.name = '请输入名称'
 
