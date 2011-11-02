@@ -5,18 +5,20 @@
 CID_USER = 1
 CID_CHANNEL = 2
 CID_SITE = 3
-
+CID_COM = 4
 
 
 CID_ZSITE = (
     CID_USER,
     CID_CHANNEL,
     CID_SITE,
+    CID_COM
 )
 
 CID_ZSITE_CN = {
     CID_SITE:'站点',
     CID_USER:'用户',
+    CID_COM:'公司'
 }
 
 # Pic
