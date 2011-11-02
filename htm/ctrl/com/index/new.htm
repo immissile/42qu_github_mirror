@@ -1,9 +1,14 @@
 <%inherit file="../base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
 <%def name="head()">
 <script src="${js.ctrl_site_new}"></script>
+<script src="${js.pid}"></script>
+<script src="${js.z}"></script>
 ${css.ctrl_site_new|n}
+${css.ctrl_po_event|n}
 </%def>
+${head()}
 <style>
 .addr_input{
 width:290px;
@@ -113,22 +118,27 @@ $(function(){
 <span class="c0">创建公司</span>&gt;<span>产品演示</span>&gt;<span>发布职位</span>&gt;<span>企业介绍</span>&gt;<span>照片风景</span>&gt;<span>添加成员</span>&gt;<span>邀请评价</span>
 </div>
 
-<%htm:form class="site_new" enctype="multipart/form-data" onsubmit="return com_new()">
+<%htm:form enctype="multipart/form-data" className="site_new" onsubmit="return com_new()">
 <div>
 标识图片<input class="file" name="pic" id="pic" type="file">
 ${errtip.pic|n}
 </div>
 <div>
 显示名称<input autocomplete="off" class="input" name="name" id="name" value="" type="text">
+${errtip.name|n}
 </div>
 <div>
 口号宣言<input class="input" autocomplete="off" name="motto" id="motto" value="" type="text">
+${errtip.motto|n}
 </div>
 <div>
 个性域名<input autocomplete="off" class="input" name="url" value="" type="text" id="url"><span class="ltip">域名由英语字母，数字，和 - 构成，长度在5-32个字符</span>
+${errtip.url|n}
 </div>
 <div>
-文字介绍<textarea name="txt" class="txt" id="txt"></textarea>
+    文字介绍<textarea name="txt" class="txt" id="txt">
+        ${txt or ''}
+    </textarea>
 </div>
 <div class="address" style="margin-top:16px;">
 公司地址<span class="addr_block"><script>select_pid("pid", 0)</script></span><input type="text" class="input addr_input" name="address1" />
@@ -137,7 +147,6 @@ ${errtip.pic|n}
 <div>
 <span class="btnw"><button type="submit" id="submit">提交</button></span>
 </div>
-<input name="_xsrf" value="52aa1ffecf2f4f02a63c67237e4a57f3" type="hidden">
 
 </%htm:form>
 

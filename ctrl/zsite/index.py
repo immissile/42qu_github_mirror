@@ -4,7 +4,7 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase
 from model.motto import motto
 from ctrl._urlmap.zsite import urlmap
 from model.zsite_link import link_by_id
-from model.cid import CID_USER, CID_SITE
+from model.cid import CID_USER, CID_SITE, CID_COM
 from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id, PAGE_LIMIT
 from zkit.page import page_limit_offset
 from model.zsite_fav import zsite_fav_get_and_touch
@@ -43,6 +43,10 @@ class Index(ZsiteBase):
                 '/ctrl/zsite/po_view/site_po_page.htm',
                 li=li, page=page
             )
+        elif zsite.cid == CID_COM:
+            self.render(
+                    '/ctrl/com/index/com.htm'
+                    )
         else:
             self.render( motto=motto.get(zsite_id) )
 

@@ -22,7 +22,7 @@ def zsite_com_place_new(zsite_id,pid,com_dname):
     zsite_com.save()
     return zsite_com
 
-def com_new(name,admin_id,state):
+def com_new(name,admin_id,state=40):
     com = zsite_new(name, CID_COM,state)
     com_id = com.id
     zsite_admin_new(com_id, admin_id)
