@@ -25,7 +25,7 @@ event_po = po.target
 %else:
 <h1><a href="${po.link}" class="c0">${po.name_htm|n}</a></h1>
 %endif
-<pre class="prebody">${po.htm|n}\
+<pre class="prebody"><div class="c">${po.htm|n}</div>\
 <p class="po_bar po_bar1">\
 %if can_admin:
     <a class="L" href="${po.link_edit}">编辑</a>\

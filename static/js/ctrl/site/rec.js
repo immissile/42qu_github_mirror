@@ -7,7 +7,7 @@
     }
     function site_to(id){
         var num = $('.D').length
-        $('.site_to').css('margin-left',401-(num-Number(id.slice(2)))*64)
+        $('.site_to').css('margin-left',401-(num-Number(id.slice(2)))*64) 
     }
     site_x = function(id){
         site_rec.remove()
@@ -25,5 +25,10 @@
         site_rec.remove()
     }
     site_to('da2')
+
+    site_rec.hide()
+    setTimeout(function(){
+        site_rec.slideDown('slow')
+    },1000)
 });
 

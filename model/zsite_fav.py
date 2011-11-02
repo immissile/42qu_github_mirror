@@ -1,11 +1,12 @@
 #coding:utf-8
+import _db
 from model.zsite_list import zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id
 from model.zsite import Zsite
 from model.buzz import mq_buzz_site_fav
 
 def zsite_fav_rm(zsite, owner_id):
-    zsite = zsite_fav_get(zsite, owner_id)
-    if zsite.state <= STATE_ACTIVE:
+    fav = zsite_fav_get(zsite, owner_id)
+    if fav.state <= STATE_ACTIVE:
         zsite_list_rm(
             zsite.id,
             owner_id,
@@ -71,3 +72,8 @@ def zsite_fav_count_by_zsite(zsite):
     return zsite_list_count_by_zsite_id(
         zsite.id, zsite.cid
     )
+
+if __name__ == '__main__':
+    from zsite_url import id_by_url
+    zsite_id = id_by_url('dongxi')
+    from model.zsite import Zsite

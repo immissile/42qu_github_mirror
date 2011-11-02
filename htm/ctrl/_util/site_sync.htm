@@ -64,6 +64,10 @@ margin-right:5px;vertical-align:-3px;
         $.postJSON("/j/site/oauth")
     }
     site_to('da1')
+    site_rec.hide()
+    setTimeout(function(){
+        site_rec.slideDown('slow')
+    },1000)
 });
 </script>
 

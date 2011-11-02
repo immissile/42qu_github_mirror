@@ -6,6 +6,12 @@ from model.oauth import linkify
 from model.motto import motto_set
 from model.ico import site_ico_new, site_ico_bind
 from model.zsite_link import ZsiteLink, mc_flush
+from model.site_po import po_cid_count_by_zsite_id
+from model.zsite_admin import admin_id_list_by_zsite_id, zsite_admin_empty
+from model.zsite import Zsite
+from model.zsite_show import zsite_show_rm
+from model.zsite_fav import zsite_fav_rm
+from model.cid import CID_SITE, CID_NOTE, CID_USER
 from model.rss import rss_new, Rss
 from zkit.pic import picopen
 import urllib
@@ -64,8 +70,21 @@ def check():
         for i in me:
             i = i.strip()
             if i not in s:
+                print r.user_id                
                 get_in(i)
                 time.sleep(1)
+            else:
+                count = po_cid_count_by_zsite_id(r.user_id, CID_NOTE)
+                if count == 0:
+                    zsite_show_rm(Zsite.mc_get(r.user_id))
+                    admin_id = admin_id_list_by_zsite_id(r.user_id) or None
+                    z = Zsite.mc_get(r.user_id)
+                        admin_id = admin_id[0]
+                        zsite_fav_rm(z,admin_id or r.user_id)
+                    zsite_admin_empty(r.user_id)
+                    
+                    print r.user_id,'!!'
+                print i
 
 
 def add_rss_url():
@@ -105,6 +124,6 @@ def get_douban_site():
 if __name__ == "__main__":
     #for zl in ZsiteLink.where(name='豆瓣小站').clo_list('zsite_id'):
     #    print zl.link 
-    get_douban_site()
-    #check()
+    #get_douban_site()
+    check()
     #get_in('106782')
