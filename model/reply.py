@@ -38,15 +38,17 @@ class ReplyMixin(object):
     def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
         from zsite import user_can_reply
         user_id = user.id
-
-        if not user_can_reply(user):
-            return
+        cid = self.cid
+        if cid not in (CID_SITE,CID_COM):
+            if not user_can_reply(user):
+                return
         if is_spammer(user_id):
             return
 
         txt = txt.rstrip()
-        cid = self.cid
         rid = self.id
+
+
         if not txt or is_same_post(user_id, cid, rid, txt, state):
             return
 
