@@ -24,6 +24,7 @@ from model.cid import CID_SITE
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from model.zsite_fav import zsite_fav_get_and_touch
+from model.reply import Reply
 
 PAGE_LIMIT = 56
 
@@ -92,29 +93,46 @@ class MarkRm(XsrfGetBase):
         zsite_fav_rm(zsite, current_user_id)
         return self.redirect(zsite.link)
 
+
+
+
 @urlmap('/mark')
+@urlmap('/mark/(\d+)')
 class Mark(LoginBase):
-    def get(self):
+    def get(self,id=None):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
-
+        
         can_admin = site_can_admin(zsite_id, current_user_id)
 
         if can_admin:
             return self.redirect('/admin')
+        if id:
+            reply = Reply.mc_get(id)
+
+            if reply:
+                if reply.can_rm(current_user_id):
+                    self.render(
+                                reply = reply,
+                                 )
 
         self.render()
 
 
-    def post(self):
-        zsite = self.zsite
+    def post(self,id=None):
         current_user = self.current_user
         txt = self.get_argument('txt', None)
-
         if txt:
-            from model.reply import STATE_ACTIVE
-            zsite.reply_new(current_user, txt, STATE_ACTIVE)
+            if id:
+                reply = Reply.mc_get(id)
 
+                if reply:
+                    if reply.can_rm(current_user.id):
+                        reply.txt_set(txt)
+            else:
+                zsite = self.zsite
+                from model.reply import STATE_ACTIVE
+                zsite.reply_new(current_user,txt,STATE_ACTIVE)
         self.get()
 
 
