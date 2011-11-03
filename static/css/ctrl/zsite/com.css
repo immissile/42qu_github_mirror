@@ -103,7 +103,9 @@ background:url(/img/gif/marking.gif) no-repeat 0 4px;
 .com_jobs a:hover,.com_jobs a:hover span{
 color:#d10;
 }
-
+.com_jobs a:hover{
+background-image:url(/img/gif/marking_red.gif);
+}
 .com_jobs{
 margin-left:-18px;
 margin-top:18px;
