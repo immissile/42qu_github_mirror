@@ -1,10 +1,18 @@
 <%inherit file="../base.htm" />
-
+<%!
+from model.zsite import Zsite
+%>
 
 <div class="G zsite_mb64 c">
     <a href="/new">新建</a>
     ${page|n}
     ${total}
-    ${page_list}
-    niubi
+    %if page_list:
+    %for pages in page_list:
+    <%zsite = Zsite.mc_get(pages)%>
+    <div>
+        <a href="${zsite.link}">${zsite.name}</a>
+    </div>
+    %endfor
+    %endif
 </div>
