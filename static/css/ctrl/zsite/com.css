@@ -85,16 +85,23 @@ margin-left: 21px;
 .com_q_w{
 margin-top:18px;margin-bottom:-32px
 }
-
-.com_job{
+.com_jobs span{
+float:right;
+color:#666;
+}
+.com_jobs a{
+color:#000;
 text-align:left;
-width:239px;
+width:251px;
 float:left;
 padding-left:14px;
 line-height:16px;
 margin-bottom:16px;
 margin-left:18px;
-background:url(/img/gif/marking.gif) no-repeat 0 3px;
+background:url(/img/gif/marking.gif) no-repeat 0 4px;
+}
+.com_jobs a:hover,.com_jobs a:hover span{
+color:#d10;
 }
 
 .com_jobs{
