@@ -3,7 +3,7 @@ from _handler import Base, LoginBase, XsrfGetBase
 from ctrl._urlmap.com import urlmap
 from ctrl._util.site import _SiteListBase as _ComListBase, FavBase, MyBase
 from model.cid import CID_COM
-from model.zsite_com import zsite_com_count, zsite_com_list, com_new
+from model.zsite_com import zsite_com_count, zsite_com_list, com_new, zsite_com_place_new
 from model.ico import site_ico_new, site_ico_bind
 from zkit.jsdict import JsDict
 from model.motto import motto_set
@@ -11,6 +11,7 @@ from model.txt import txt_new
 from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from zkit.pic import picopen
 from zkit.errtip import Errtip
+
 
 class ComListBase(_ComListBase):
     template = '/ctrl/com/index/index.htm'
@@ -46,7 +47,8 @@ class New(Base):
         url = self.get_argument('url', None)
         txt = self.get_argument('txt', None)
         pid = self.get_arguments('pid', None)
-        print pid,'!!!!!!!!!!!!!'
+        address = self.get_arguments('address',None)
+        pid_add = zip(pid,address)
         if not name:
             errtip.name = '请输入名称'
 
@@ -72,22 +74,23 @@ class New(Base):
                 errtip.pic = '请上传图片'
 
         if not errtip:
+            print 'caocaoaoca!!'
             com = com_new(name, current_user_id )
             com_id = com.id
             site_ico_bind(current_user_id, pic_id, com_id)
             motto_set(com_id, motto)
             txt_new(com_id, txt)
+            if pid_add:
+                for pa in pid_add:
+                    zsite_com_place_new(com_id,pa[0],pa[1])
             if url:
                 url_new(com_id, url)
-            print com.link,'!!'
             self.redirect(com.link)
             return
 
 
         return self.render(
             errtip=errtip,
-            link_cid=link_cid,
-            link_list=link_kv,
             name=name,
             motto=motto,
             url=url,
