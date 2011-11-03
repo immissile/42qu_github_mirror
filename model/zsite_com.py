@@ -33,7 +33,11 @@ def com_can_admin(zsite_id, user_id):
         return True
 
 def zsite_com_count(cid):
-    return ZsiteList.where(cid=cid).count()
+    return Zsite.where(cid=cid).count()
 
 def zsite_com_list(cid,limit,offset):
-    return ZsiteList.where(cid=cid).col_list(limit, offset,'zsite_id')
+    return Zsite.where(cid=cid).col_list(limit, offset,'id')
+
+
+if __name__ == "__main__":
+    print zsite_com_count(3)

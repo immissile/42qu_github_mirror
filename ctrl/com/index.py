@@ -74,7 +74,6 @@ class New(Base):
                 errtip.pic = '请上传图片'
 
         if not errtip:
-            print 'caocaoaoca!!'
             com = com_new(name, current_user_id )
             com_id = com.id
             site_ico_bind(current_user_id, pic_id, com_id)
