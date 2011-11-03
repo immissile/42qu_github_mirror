@@ -1,0 +1,54 @@
+h1{
+color:#000;
+font-family:黑体;
+text-align:center;
+padding-bottom:32px;
+margin:27px 0 0 0;
+font-size:28px;
+}
+.com_main{
+width:548px;
+float:left;
+border:1px solid #f3f3f3;
+padding-right:27px;
+margin-bottom:27px;
+box-shadow:2px 2px 2px #f3f3f3;
+padding-bottom:27px;
+overflow:hidden;
+padding-left:27px;
+position:relative;
+}
+.com_video .video{
+padding-top:27px;
+width:548px;
+height:448px;
+}
+.com_item{
+overflow:auto;
+margin-top:32px;
+}
+.com_title{
+border-bottom:1px dotted #ccc;
+font-size:14px;
+padding:12px 0;
+margin-bottom:6px;
+border-top:1px dotted #ccc;
+line-height:16px;
+color:#222;
+}
+.com_side{
+width:357px;
+float:left;
+padding-left:32px;
+overflow:hidden;
+position:relative;
+}
+.com_main_img{
+text-align:center
+}
+.com_main_img img{
+width:450px;
+margin:18px 0;
+}
+
+

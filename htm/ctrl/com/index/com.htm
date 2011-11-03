@@ -1,45 +1,9 @@
 <%inherit file="../base.htm" />
+<%!
+from model.po_video import HTM_YOUKU
+%>
 <style>
-h1{
-color:#000;
-text-align:center;
-padding-bottom:32px;
-margin:27px 0 0 0;
-font-size:28px;
-}
-.left2{
-width:548px;
-float:left;
-border:1px solid #f3f3f3;
-padding-right:32px;
-margin-bottom:32px;
-box-shadow:2px 2px 2px #f3f3f3;
-padding-bottom:32px;
-overflow:hidden;
-padding-left:32px;
-position:relative;
-}
-.top_video{
-padding-top:32px;
-}
-.show_video{
-width:548px;
-height:448px;
-}
-.info_item{
-margin-top:32px;
-overflow:auto;
-}
-.info_title{
-border-bottom:1px dotted #ccc;
-font-size:14px;
-padding:12px 0;
-margin-bottom:6px;
-border-top:1px dotted #ccc;
-line-height:16px;
-color:#222;
-}
-.info_text{
+.com_text{
 margin-top:12px;
 color:#444;
 font-size:14px;
@@ -65,14 +29,7 @@ float:right;
 .job_r{
 float:right;
 }
-.right1{
-width:357px;
-float:left;
-padding-left:32px;
-overflow:hidden;
-position:relative;
-}
-.info_item_r{
+.com_item_r{
 overflow:auto;
 clear:both;
 margin-bottom:32px;
@@ -145,28 +102,34 @@ height:128px;
 float:left;
 }
 </style>
-
+<h1>点名时间</h1>
+<div class="G">
+<div class="com_main">
+    <div class="com_video">${HTM_YOUKU%"XMjMxOTYxNDk2"|n}</div>
+    <div class="com_item">
+        <div class="com_title">公司产品</div>
+        <div class="com_text">小米手机是中国首款双核1.5GHz高性能发烧级智能手机，由小米公司独立研发完成。小米手机于2011年10月正式发售，售价为1999元，小米网是唯一官方销售渠道。
+1. 双核1.5GHz处理器，主频速度比一般单核手机快近2倍。同时它采用异步电压技术，流畅与省电兼备。
+2. Adreno 220图形处理芯片堪比电视游戏机的图形能力，流畅运行大型3D游戏、播放1080p高清大片。
+3. 1GB大内存，让你的应用启动更快，同时可安装更多大型应用和游戏。
+<div class="com_main_img">\
+<img src="http://p.www.xiaomi.com/images/about/about_product_01.jpg"></div>\
+4. 夏普原装4吋屏。握感舒适、独特的半反半透技术，阳光下清晰可见、854x480分辨率。
+5. 1930mAh锂聚合物电池，容量比一般智能手机电池大30%。
+6. 高清晰相机。800万像素摄像头，F2.4大光圈，数字防抖。
+7. 独有的无锁双系统。开放刷机设置，提供MIUI和Android原生两个系统。 
+        </div>
+    </div>
+</div>
+<div class="com_side"></div>
+</div>
+<%doc>
 <div> 
 <div>
 <div>
     <div >
-        <h1>点名时间</h1>
         <div class="G">
-            <div class="left2">
-                <div class="top_video">
-                    <embed align="middle" wmode="Opaque" type="application/x-shockwave-flash" allowscriptaccess="sameDomain" allowfullscreen="true" class="show_video" quality="high" src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=XMjMxOTYxNDk2=&amp;isShowRelatedVideo=false&amp;showAd=0&amp;winType=interior">
-                </div>
-                <div class="info_item">
-                    <div class="info_title">公司产品</div>
-                    <div class="info_text">小米手机是中国首款双核1.5GHz高性能发烧级智能手机，由小米公司独立研发完成。小米手机于2011年10月正式发售，售价为1999元，小米网是唯一官方销售渠道。
-    1. 双核1.5GHz处理器，主频速度比一般单核手机快近2倍。同时它采用异步电压技术，流畅与省电兼备。
-    2. Adreno 220图形处理芯片堪比电视游戏机的图形能力，流畅运行大型3D游戏、播放1080p高清大片。
-    3. 1GB大内存，让你的应用启动更快，同时可安装更多大型应用和游戏。<div style="text-align:center;"><img src="http://p.www.xiaomi.com/images/about/about_product_01.jpg" style="width:450px;margin:18px 0;"></div>
-    4. 夏普原装4吋屏。握感舒适、独特的半反半透技术，阳光下清晰可见、854x480分辨率。
-    5. 1930mAh锂聚合物电池，容量比一般智能手机电池大30%。
-    6. 高清晰相机。800万像素摄像头，F2.4大光圈，数字防抖。
-    7. 独有的无锁双系统。开放刷机设置，提供MIUI和Android原生两个系统。 
-                    </div>
+            <div class="com_main">
 
                     <div class="c" style="margin-top:24px;">
                         <div style="border: 1px dotted rgb(204, 204, 204); padding: 16px; line-height: 0;" class="c">
@@ -181,13 +144,13 @@ float:left;
                     </div>
 
                 </div>
-                <div class="info_item">
-                    <div class="info_title">市场环境</div>
-                    <div class="info_text">小米手机是中国首款双核1.5GHz高性能发烧级智能手机，由小米公司独立研发完成。小米手机于　　如果把这个问题抛给小米的投资人，他们一定会愿意比照一家手机制造公司的估值基础的，他们的理由也振振有词：在苹果最早找风险投资的时候，那是一家制造公司；而今的小米手机，是这家公司最主打的产品之一；把这个问题抛给创业者，他们的回答是“一家互联网公司”，手机只是我们业务一部分，我们更重要是做移动互联产业，创业者的脚注也很有基础：这家公司的第一款产品，是米聊，一款IM软件。 
+                <div class="com_item">
+                    <div class="com_title">市场环境</div>
+                    <div class="com_text">小米手机是中国首款双核1.5GHz高性能发烧级智能手机，由小米公司独立研发完成。小米手机于　　如果把这个问题抛给小米的投资人，他们一定会愿意比照一家手机制造公司的估值基础的，他们的理由也振振有词：在苹果最早找风险投资的时候，那是一家制造公司；而今的小米手机，是这家公司最主打的产品之一；把这个问题抛给创业者，他们的回答是“一家互联网公司”，手机只是我们业务一部分，我们更重要是做移动互联产业，创业者的脚注也很有基础：这家公司的第一款产品，是米聊，一款IM软件。 
                     </div>
                 </div>
-                <div class="info_item">
-                    <div class="info_title">招聘职位</div>
+                <div class="com_item">
+                    <div class="com_title">招聘职位</div>
                     <div class="jobs_text">
                         <div class="job_wrap"><span class="job_l">6 人</span>资深iOS开发工程师</div>
                         <div class="job_wrap"><span class="job_r">4 人</span>交互设计师</div>
@@ -197,8 +160,8 @@ float:left;
                     </div>
                 </div>
             </div>
-            <div class="right1">
-                <div class="info_item_r" style="line-height:0;">
+            <div class="com_side">
+                <div class="com_item_r" style="line-height:0;">
         
 
 
@@ -217,9 +180,9 @@ float:left;
                     </div>                  
                 </div>
                 
-                <div class="info_item_r">
-                    <div class="info_title">创始人</div>
-                    <div class="info_text">
+                <div class="com_item_r">
+                    <div class="com_title">创始人</div>
+                    <div class="com_text">
                         <a href="//tobeyouth.42qu.com" class="avatar"><img src="http://p4.42qu.us/96/200/37064.jpg"></a>
                         <div><a target="_blank" href="//tobeyouth.42qu.com">张沈鹏</a></div>
                         <div class="mt6">中关村在线</div>
@@ -229,8 +192,8 @@ float:left;
                         </div>
                     </div>
                 </div>
-                <div style="margin-bottom:9px" class="info_item_r">
-                    <div class="info_title">团队成员</div>
+                <div style="margin-bottom:9px" class="com_item_r">
+                    <div class="com_title">团队成员</div>
                     <div class="member">
                     <a href="//linghucong.42qu.com" class="avatar"><img src="http://p4.42qu.us/96/468/39380.jpg"></a>
                     <div><a target="_blank" href="//linghucong.42qu.com">令狐葱</a></div>
@@ -252,9 +215,9 @@ float:left;
                     <div class="mt6">首席产品设计师</div>
                     </div>
                 </div>
-                <div class="info_item_r">
-                    <div class="info_title">联系方式</div>
-                        <div class="info_text">
+                <div class="com_item_r">
+                    <div class="com_title">联系方式</div>
+                        <div class="com_text">
                             <div>官网 : 42qu.com</div>
                             <div>微博 : <a href="#">新浪</a> <a href="#">腾讯</a></div>
                             <div>地址 : 北京市 朝阳区</div>
@@ -277,3 +240,4 @@ float:left;
 
 
 </div>
+</%doc>
