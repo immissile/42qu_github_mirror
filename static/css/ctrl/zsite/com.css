@@ -85,3 +85,22 @@ margin-left: 21px;
 .com_q_w{
 margin-top:18px;margin-bottom:-32px
 }
+
+.com_job{
+text-align:left;
+width:239px;
+float:left;
+padding-left:14px;
+line-height:16px;
+margin-bottom:16px;
+margin-left:18px;
+background:url(/img/gif/marking.gif) no-repeat 0 3px;
+}
+
+.com_jobs{
+margin-left:-18px;
+margin-top:18px;
+color:#444;
+font-size:14px;
+}
+
