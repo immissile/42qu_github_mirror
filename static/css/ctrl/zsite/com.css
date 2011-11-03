@@ -51,10 +51,25 @@ width:450px;
 margin:18px 0;
 }
 .com_q{
-border: 1px dotted #ccc; padding: 16px; line-height: 0;
-margin-top:24px;
+border: 1px dotted #ccc;  line-height: 0;
+margin-top:24px;padding:14px 0;
+border-left:0;
+border-right:0;
 }
 .com_q div{line-height:27px;}
 .com_q img{
 float: left; margin-top: 4px; margin-right: 14px; width: 64px; height: 64px;
 }
+.com_q1,.com_q2{
+font-size:26px; 
+color:#999;
+font-family:Georgia;  
+}
+.com_q1{
+margin-top:5px;
+float: left; width: 21px;
+}
+.com_q2{
+margin-left:3px;
+vertical-align: -9px;
+} 
