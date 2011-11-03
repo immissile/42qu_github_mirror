@@ -27,6 +27,11 @@ height:448px;
 overflow:auto;
 margin-top:32px;
 }
+.com_text{
+margin-top:12px;
+color:#444;
+font-size:14px;
+}
 .com_title{
 border-bottom:1px dotted #ccc;
 font-size:14px;
@@ -51,10 +56,8 @@ width:450px;
 margin:18px 0;
 }
 .com_q{
-border: 1px dotted #ccc;  line-height: 0;
-margin-top:24px;padding:14px 0;
-border-left:0;
-border-right:0;
+border-top: 1px dotted #ccc;  line-height: 0;
+padding:18px 0;
 }
 .com_q div{line-height:27px;}
 .com_q img{
@@ -72,4 +75,13 @@ float: left; width: 21px;
 .com_q2{
 margin-left:3px;
 vertical-align: -9px;
+}
+.com_q_a{
+overflow: hidden; zoom:1;
 } 
+.com_q_a div{
+margin-left: 21px;
+}
+.com_q_w{
+margin-top:18px;margin-bottom:-32px
+}
