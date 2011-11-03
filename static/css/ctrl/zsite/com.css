@@ -138,3 +138,17 @@ float:left;
 margin-right:12px;
 margin-bottom:4px;
 }
+
+.com_logo{
+width:96px;height:96px;display:block;
+}
+.mt6{
+margin-top:6px;
+}
+.com_member{
+margin-top:18px;
+oveflow:auto;
+}
+.com_team{
+margin-bottom:8px;
+}

@@ -2,15 +2,6 @@
 <%!
 from model.po_video import HTM_YOUKU
 %>
-<style>
-.mt6{
-margin-top:6px;
-}
-.member{
-margin-top:18px;
-oveflow:auto;
-}
-</style>
 <h1>点名时间</h1>
 <div class="G">
 <div class="com_main">
@@ -67,6 +58,7 @@ oveflow:auto;
 <div  class="com_pic"><img src="http://help.42qu.com/file/hr/peitu5.jpg"></div>
                 <div class="com_ir">
                     <div class="com_title">创始人</div>
+%for i in range(2):
                     <div class="com_text com_author">
 <div class="c">
                         <a href="//tobeyouth.42qu.com" class="com_avatar"><img src="http://p4.42qu.us/96/200/37064.jpg"></a>
@@ -78,36 +70,21 @@ oveflow:auto;
 在校(电子科技大学)负责教育网十大门户网站的前台和后台有2年的Web2.0网站开发经验。07年暑期在北京华美汉盛实习用Django开发其公司网站。好钻研技术敏感性高自学能力强，熟悉各种开源库。
                         </div>
                     </div>
+%endfor
                 </div>
-</div>
-</div>
-<%doc>
-            </div>
-            <div class="com_side">
-                
-                <div style="margin-bottom:9px" class="com_ir">
+                <div class="com_ir com_team">
                     <div class="com_title">团队成员</div>
-                    <div class="member">
-                    <a href="//linghucong.42qu.com" class="com_avatar"><img src="http://p4.42qu.us/96/468/39380.jpg"></a>
-                    <div><a target="_blank" href="//linghucong.42qu.com">令狐葱</a></div>
+            %for i in range(3):
+                    <div class="com_member">
+                    <a class="com_avatar" href="//linghucong.42qu.com"><img src="http://p4.42qu.us/96/468/39380.jpg"></a>
+                    <div><a class="c0" href="//linghucong.42qu.com" target="_blank">令狐葱</a></div>
                     <div class="mt6">34ways.com</div>
                     <div class="mt6">Co-founder</div>
                     </div>
-
-                    <div class="member">
-                    <a href="//tobeyouth.42qu.com"  class="com_avatar"><img src="http://p4.42qu.us/96/310/40246.jpg"></a>
-                    <div><a target="_blank" href="//tobeyouth.42qu.com">季楠</a></div>
-                    <div class="mt6">中关村在线</div>
-                    <div class="mt6">助理前端开发工程师</div>
-                    </div>
-
-                    <div class="member">
-                    <a href="//baiya.42qu.com"  class="com_avatar"><img src="http://p4.42qu.us/96/175/30895.jpg"></a>
-                    <div><a target="_blank" href="//baiya.42qu.com">白鸦</a></div>
-                    <div class="mt6">支付宝</div>
-                    <div class="mt6">首席产品设计师</div>
-                    </div>
+            %endfor
                 </div>
+
+
                 <div class="com_ir">
                     <div class="com_title">联系方式</div>
                         <div class="com_text">
@@ -116,21 +93,11 @@ oveflow:auto;
                             <div>地址 : 北京市 朝阳区</div>
                             <div style="margin-left:40px">望京西路甲50号-1卷石天地大厦A座12层</div>
                             <div>电话 : 13896232423</div>
-                            <div>邮箱 : 2323@zsp.com</div>
                         </div>
                     </div>
 
-                                            <img alt="小米文化" src="1.png" class="photo6">
+                    <img alt="小米文化" src="http://help.42qu.com/file/hr/favicon512.gif" class="com_logo">
 
                 </div>
-            </div>
-        </div>
-    </div>
 </div>
-
-
-
-
-
 </div>
-</%doc>
