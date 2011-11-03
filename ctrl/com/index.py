@@ -31,6 +31,11 @@ class Index(ComListBase, Base):
     def _page_list(self,limit,offset):
         return zsite_com_list(CID_COM, limit, offset)
 
+@urlmap('/job')
+class Job(Base):
+    def get(self):
+        self.finish('it"s jobs')
+
 
 @urlmap('/new')
 class New(Base):
