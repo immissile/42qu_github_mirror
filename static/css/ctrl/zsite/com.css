@@ -29,7 +29,7 @@ margin-top:32px;
 }
 .com_text{
 margin-top:12px;
-color:#444;
+color:#333;
 font-size:14px;
 }
 .com_title{
@@ -90,7 +90,7 @@ float:right;
 color:#666;
 }
 .com_jobs a{
-color:#000;
+color:#333;
 text-align:left;
 width:251px;
 float:left;
@@ -109,7 +109,32 @@ background-image:url(/img/gif/marking_red.gif);
 .com_jobs{
 margin-left:-18px;
 margin-top:18px;
-color:#444;
+color:#333;
 font-size:14px;
 }
 
+.com_pic img{
+width:357px;
+margin-bottom:0;
+height:160px;
+}
+.com_pic{
+margin-bottom:18px;
+line-height:0;
+}
+.com_ir{
+overflow:auto;
+clear:both;
+margin-bottom:32px;
+}
+.com_qt{
+overflow:hidden;zoom:1
+}
+.com_author{
+margin-top:18px;
+}
+.com_avatar{
+float:left;
+margin-right:12px;
+margin-bottom:4px;
+}
