@@ -1,4 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
+<%!
+from zkit.earth import place_name
+%>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_head()">
 ${css.ctrl_zsite_site|n}
@@ -218,7 +221,12 @@ $(function(){
             $('.salary1,.salary2').click(function(){err.remove()})
             return false
         }
+        get_departs()
         return true
+    }
+
+    function get_departs(){
+         
     }
 
     job_new = function (){
@@ -301,12 +309,15 @@ $(function(){
     })
 })
 </script>
-
+${job_prof}
 <div class="head">
+%for com_place in com_place_list:
+${com_place.com_pid},${place_name(com_place.com_pid)},${com_place.com_dname},'!!!!!!!!!!!!!'
+%endfor
 <span>1. 创建公司</span>&gt;<span>2. 添加照片</a></span>&gt;<span class="c0">3. 添加职位</span>
 </div>
 
-<form method="POST" id="event_form" enctype="multipart/form-data" onsubmit="return job_new()">
+<%htm:form method="POST" id="event_form" enctype="multipart/form-data" onsubmit="return job_new()">
 <div class="po_line">
     <label>所属部门</label><select name="depart" id="depart">
         <option value="1">研发部</option>
@@ -368,5 +379,5 @@ $(function(){
     <div class="errtip" id="errtip_other"></div>
 </div>
 <span class="btnw"><button type="submit">下一步</button></span>
-</form>
+</%htm:form>
 </div></div>

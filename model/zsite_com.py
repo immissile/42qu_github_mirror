@@ -38,6 +38,8 @@ def zsite_com_count(cid):
 def zsite_com_list(cid,limit,offset):
     return Zsite.where(cid=cid).col_list(limit, offset,'id')
 
+def get_zsite_com(com_id):
+    return ZsiteComPlace.where(zsite_id=com_id)
 
 if __name__ == "__main__":
     print zsite_com_count(3)
