@@ -1,0 +1,51 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%!
+from model.user_mail import mail_by_user_id
+%>
+
+<%def name="htm_head()">
+${css.ctrl_zsite_site|n}
+${css.ctrl_event_admin|n}
+${css.ctrl_po_event|n}
+<script src="${js.ctrl_zsite|n}"></script>
+<script src="${js.ctrl_zsite_site|n}"></script>
+<link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章">
+</%def>
+
+
+<style>
+.input{
+width:300px;
+}
+.reg_mail{
+font-size:16px;
+margin-left:12px;
+}
+</style>
+
+<script type="text/javascript">
+function reg_mail(){
+    $('#hr_mail').val('${mail_by_user_id(current_user_id)}')
+}
+</script>
+
+<div class="head">
+<span>1. 创建公司</span>&gt;<span>2. 添加照片</a></span>&gt;<span class="c0">3. 添加职位</span>
+</div>
+
+<%htm:form method="POST" id="event_form" enctype="multipart/form-data" onsubmit="return job_new()" style="margin-left:269px;">
+
+<div class="po_line">
+    <label for="title">填写HR邮箱</label>
+</div>
+<div class="po_line">
+    <div><input value="" name="hr_mail" class="input" id="hr_mail" ><a href="javascript:reg_mail();void(0)" class="reg_mail">使用注册邮箱</a>
+    </div>
+    <div class="errtip" id="errtip_title"></div>
+</div>
+<span class="btnw"><button type="submit">下一步</button></span>
+</%htm:form>
+</div></div>
+

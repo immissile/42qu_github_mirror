@@ -3184,6 +3184,9 @@ function option_loc(pid){
 
 function select_pid(id,now){
     document.write('<span id="'+id+'"/>')
+    _(id,now)
+}
+function _(id,now){
     function select(name){
         return pid.find("select[name="+name+"]")
     }
@@ -3252,4 +3255,5 @@ function select_pid(id,now){
             else if(now in PLACE_L2L1)select_town(now);
             else if(now in PLACE_L3L2)select_loc(now);
         }
+
 }
