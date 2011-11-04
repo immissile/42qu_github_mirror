@@ -7,8 +7,8 @@ from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM
 from model.zsite_com import get_zsite_com
 from zkit.job import JOB_KIND 
-from model.com import com_department_new, com_job_new, com_job_needs_new
-
+from model.com import com_department_new, com_job_new, com_job_needs_new, com_department_by_com_id, com_department_rm_by_id, com_department_edit
+import json
 
 
 @urlmap('/job/new')
@@ -17,7 +17,9 @@ class JobNew(ZsiteBase):
         if get_job_mail_state(self.zsite_id) == STATE_VERIFIED:
             com_place_list = get_zsite_com(self.zsite_id)
             print com_place_list,self.zsite_id,'!!!!!!!!!'
-            return self.render(com_place_list=com_place_list,job_prof=JOB_KIND)
+            job_prof = json.dumps(JOB_KIND)
+            com_department_list = com_department_by_com_id(self.zsite_id)
+            return self.render(com_place_list=com_place_list,job_prof=job_prof, com_department_list=com_department_list)
             #self.finish({'zsite_id':self.zsite_id,'usr_id':self.current_user_id})
         else:
             return self.redirect('/job/mail')
@@ -49,6 +51,29 @@ class JobNew(ZsiteBase):
                 
         
         self.finish('/'.join(dir(self)))
+
+@urlmap('/job/department/rm')
+class JobDepartmentRm(ZsiteBase):
+    def post(self):
+        id = self.get_argument(id)
+        if id:
+            com_department_rm_by_id(id)
+            self.finsih({'result':True})
+
+@urlmap('/job/depart/add')
+class JobDepartAdd(ZsiteBase):
+    def post(self):
+        txt = self.get_argument('txt')
+        cd = com_department_new(self.zsite_id,txt)
+        self.finsih(cd.id)
+
+@urlmap('/job/depart/write')
+class JobDepartWrite(ZsiteBase):
+    def post(self):
+        kv = self.get_argument('kv',None)
+        for k,v in kv:
+            com_department_edit(k,v)
+            self.finsih({'result':True})
 
 @urlmap('/job/mail')
 class JobMail(ZsiteBase):

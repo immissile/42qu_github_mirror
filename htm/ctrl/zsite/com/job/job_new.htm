@@ -180,7 +180,7 @@ function man_de(){
 function rm_de(id){
     if(confirm('删除,确定?')){
         $.postJSON(
-            '/job/depart/rm',
+            '/job/department/rm',
             {'id':id}
         )
         $('#pop_de'+id).remove()
@@ -198,7 +198,7 @@ function man_done(){
     })
     $.postJSON(
         '/job/depart/write',
-        kv    
+        'kv':kv
     )
     $('#depart').html(result)
 }
@@ -315,8 +315,7 @@ $(function(){
         if(!check_tip('type'))return false;
         return money_tip()
     }
-
-
+    var prof_list = ${job_prof.replace('&quot;','"')}
     var prof_content = '<div class="prof_banner">选择行业类别 (<span class="limit_tip">最多三项</span>)</div><div class="pop_prof">'
     for(var i=0;i<prof_list.length;i++){
         var li = prof_list[i]
@@ -392,7 +391,8 @@ $(function(){
     })
 })
 </script>
-${job_prof}
+    var prof_list = ${job_prof.replace('&quot;','"')}
+    ${type(job_prof)}
 <div class="head">
 %for com_place in com_place_list:
 ${com_place.pid},${place_name(com_place.pid) or '取不到的地址'},${com_place.address},'!!!!!!!!!!!!!'
@@ -403,9 +403,12 @@ ${com_place.pid},${place_name(com_place.pid) or '取不到的地址'},${com_plac
 <%htm:form method="POST" id="event_form" enctype="multipart/form-data" onsubmit="return job_new()">
 <div class="po_line">
     <label>所属部门</label><select name="depart" id="depart">
-        <option value="1" class="de_opt">研发部</option>
-        <option value="2" class="de_opt">产品部</option>
-        <option value="3" class="de_opt">运营部</option>
+%if com_department_list:
+%for department in com_department_list:
+<option value="${department.id}" class="de_opt">${department.name}</option>
+%endfor
+
+%endif
     </select><a class="c9 add_de" href="javascript:add_de();void(0)">添加部门</a><a class="c9 man_de" href="javascript:man_de();void(0)">管理部门</a>
 
     <div class="errtip" id="errtip_depart"></div>

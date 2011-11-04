@@ -24,10 +24,18 @@ class ComJobNeeds(McModel):
 def job_place_list(self):
     return JobPlace.where(com_id=self.id)
 
+def com_department_edit(id,name):
+    cd = ComDepartment.get_or_create(id=id)
+    cd.name=name
+    cd.save()
+
 def com_department_new(com_id,name):
     cd = ComDepartment(com_id=com_id,name=name)
     cd.save()
     return cd
+
+def com_department_rm_by_id(id):
+    return ComDepartment.where(id=id).delete()
 
 def com_job_new(com_id,comdepartment_id,title,jd):
     cj = ComJob(com_id=com_id,department_id=comdepartment_id)
