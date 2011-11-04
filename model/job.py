@@ -8,10 +8,11 @@ class JobPlace(McModel):
 class JobType(McModel):
     pass
 
-def job_place_new(com_id,pid,name):
-    jp = JobPlace(com_id=com_id)
-    jp.pid = pid
-    jp.name = name
+class JobPid(McModel):
+    pass
+
+def job_place_new(job_id,com_pid):
+    jp = JobPlace.get_or_create(job_id=job_id,com_pid=com_pid)
     jp.save()
     return jp
 

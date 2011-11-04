@@ -8,8 +8,7 @@ from model.zsite import Zsite
     ${page|n}
     ${total}
     %if page_list:
-    %for pages in page_list:
-    <%zsite = Zsite.mc_get(pages)%>
+    %for zsite in page_list:
     <div>
         <a href="${zsite.link}">${zsite.name}</a>
     </div>

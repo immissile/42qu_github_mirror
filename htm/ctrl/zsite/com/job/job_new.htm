@@ -135,16 +135,86 @@ margin-left:12px;
 font-size: 14px; 
 margin-bottom:6px;
 }
+.man_de{
+margin-left:6px;
+}
+.pop_de{
+margin-bottom:12px;
+width:200px;
+}
+.pop_de_name{
+font-size:14px;
+padding:6px;
+width:150px;
+margin-right:8px;
+}
+.pop_hint{
+margin:0 0 12px 6px;
+font-size:16px;
+}
+.man_done{
+border:1px solid #ccc;
+padding:2px 6px;
+display:block;
+margin:12px 0;
+font-size:16px;
+color:#999;
+width:60px;
+text-align:center;
+}
+.man_done:hover{
+background:#f9f9f9;
+}
 </style>
 
 <script type="text/javascript">
+function man_de(){
+    var fancybox = $.fancybox
+    var cont='<div class="pop_hint">管理部门</div>',opts = $('.de_opt')
+    opts.each(function(){
+        cont += '<div class="pop_de" id="pop_de'+$(this).val()+'"><input type="text" class="pop_de_name" name="pop_de_name" value="'+$(this).text()+'"><input type="hidden" name="pop_de_id" value="'+$(this).val()+'"><a href="javascript:rm_de('+$(this).val()+');void(0)" class="rm_addr"></a></div>'
+    })
+    cont += '<a href="javascript:man_done();void(0)" class="man_done">保存</a>'
+    fancybox({content:cont})
+}
+function rm_de(id){
+    if(confirm('删除,确定?')){
+        $.postJSON(
+            '/job/depart/rm',
+            {'id':id}
+        )
+        $('#pop_de'+id).remove()
+    }
+}
+function man_done(){
+    var pop_des = $('.pop_de'),kv,result=''
+    pop_des.each(function(){
+        var de = $(this),
+        id = de.find('.pop_de_id').val(),
+        name = de.find('.pop_de_name').val()
+        var a = {id:name}
+        kv.push(a)
+        result += '<option class="de_opt" value="'+$(this).val()+'">'+$(this).text()+'</option>'
+    })
+    $.postJSON(
+        '/job/depart/write',
+        kv    
+    )
+    $('#depart').html(result)
+}
 function add_de_a(){
     val = $('.add_de_txt').val()
-    de = $('#depart')
-    num = de.children().length + 1
-    de.append('<option selected value="'+num+'">'+val+'</option>')
-    $('.add_de_txt,.add_de_a').remove()
-    de.after('<a class="c9 add_de" href="javascript:add_de();void(0)">添加部门</a>')
+    if($.trim(val)=='') return
+    $.postJSON(
+        '/job/depart/add',
+        {'txt':val},
+        function(id){
+            de = $('#depart')
+            de.append('<option class="de_opt" selected value="'+id+'">'+val+'</option>')
+            $('.add_de_txt,.add_de_a').remove()
+            de.after('<a class="c9 add_de" href="javascript:add_de();void(0)">添加部门</a>')          
+        }
+    )
 }
 function add_ad_a(){
     co = $("select[name='country']").val()
@@ -246,10 +316,23 @@ $(function(){
         return money_tip()
     }
 
+
+    var prof_content = '<div class="prof_banner">选择行业类别 (<span class="limit_tip">最多三项</span>)</div><div class="pop_prof">'
+    for(var i=0;i<prof_list.length;i++){
+        var li = prof_list[i]
+        prof_content += i%2==0?'<ul class="bgc1>"':'<ul class="bgc2">'
+        for(var j=0;j<li.length;j++){
+            prof_content += '<li><label><input type="checkbox" value="'+li[0]+'" class="prof_cb" name="prof'+li[0]+'"></label><span class="prof_word">'+li[1]+'</span></li>'
+        }
+        prof_content += '</ul>'
+    }
+    prof_content += '<div style="height:10px;"></div></div><button class="prof_btn" type="button">确 定</button>'
+
+
     $('#prof').click(function(){
         var fancybox = $.fancybox
         fancybox({
-            content: '<div class="prof_banner">选择行业类别 (<span class="limit_tip">最多三项</span>)</div><div class="pop_prof"><ul class="bgc1"><li><label><input type="checkbox" value="2" class="prof_cb" name="prof2"></label><span class="prof_word">计算机软件</span></li><li><label><input type="checkbox" value="3" class="prof_cb" name="prof3"></label><span class="prof_word">计算机硬件</span></li><li class=""><label><input type="checkbox" value="4" class="prof_cb" name="prof4"></label><span class="prof_word">计算机服务(系统、数据服务，维修)</span></li><li><label><input type="checkbox" value="5" class="prof_cb" name="prof5"></label><span class="prof_word">通信/电信/网络设备</span></li><li><label><input type="checkbox" value="6" class="prof_cb" name="prof6"></label><span class="prof_word">通信/电信运营、增值服务</span></li><li class=""><label><input type="checkbox" value="7" class="prof_cb" name="prof7"></label><span class="prof_word">互联网/电子商务</span></li><li><label><input type="checkbox" value="8" class="prof_cb" name="prof8"></label><span class="prof_word">网络游戏</span></li><li><label><input type="checkbox" value="9" class="prof_cb" name="prof9"></label><span class="prof_word">电子技术/半导体/集成电路</span></li><li class=""><label><input type="checkbox" value="10" class="prof_cb" name="prof10"></label><span class="prof_word">仪器仪表/工业自动化</span></li></ul><ul class="bgc2"><li><label><input type="checkbox" value="12" class="prof_cb" name="prof12"></label><span class="prof_word">会计/审计</span></li><li class=""><label><input type="checkbox" value="13" class="prof_cb" name="prof13"></label><span class="prof_word">金融/投资/证券</span></li><li class=""><label><input type="checkbox" value="14" class="prof_cb" name="prof14"></label><span class="prof_word">银行</span></li><li class=""><label><input type="checkbox" value="15" class="prof_cb" name="prof15"></label><span class="prof_word">保险</span></li></ul><ul class="bgc1"><li><label><input type="checkbox" value="17" class="prof_cb" name="prof17"></label><span class="prof_word">贸易/进出口</span></li><li class=""><label><input type="checkbox" value="18" class="prof_cb" name="prof18"></label><span class="prof_word">批发/零售</span></li><li class=""><label><input type="checkbox" value="20" class="prof_cb" name="prof20"></label><span class="prof_word">服装/纺织/皮革</span></li><li><label><input type="checkbox" value="21" class="prof_cb" name="prof21"></label><span class="prof_word">家具/家电/工艺品/玩具/珠宝</span></li><li class=""><label><input type="checkbox" value="22" class="prof_cb" name="prof22"></label><span class="prof_word">办公用品及设备</span></li><li class=""><label><input type="checkbox" value="23" class="prof_cb" name="prof23"></label><span class="prof_word">机械/设备/重工</span></li><li class=""><label><input type="checkbox" value="24" class="prof_cb" name="prof24"></label><span class="prof_word">汽车及零配件</span></li></ul><ul class="bgc2"><li><label><input type="checkbox" value="26" class="prof_cb" name="prof26"></label><span class="prof_word">制药/生物工程</span></li><li class=""><label><input type="checkbox" value="27" class="prof_cb" name="prof27"></label><span class="prof_word">医疗/护理/保健/卫生</span></li><li class=""><label><input type="checkbox" value="28" class="prof_cb" name="prof28"></label><span class="prof_word">医疗设备/器械</span></li></ul><ul class="bgc1"><li class=""><label><input type="checkbox" value="30" class="prof_cb" name="prof30"></label><span class="prof_word">广告</span></li><li class=""><label><input type="checkbox" value="31" class="prof_cb" name="prof31"></label><span class="prof_word">公关/市场推广/会展</span></li><li class=""><label><input type="checkbox" value="32" class="prof_cb" name="prof32"></label><span class="prof_word">影视/媒体/艺术</span></li><li><label><input type="checkbox" value="33" class="prof_cb" name="prof33"></label><span class="prof_word">文字媒体/出版</span></li><li class=""><label><input type="checkbox" value="34" class="prof_cb" name="prof34"></label><span class="prof_word">印刷/包装/造纸</span></li></ul><ul class="bgc2"><li><label><input type="checkbox" value="36" class="prof_cb" name="prof36"></label><span class="prof_word">房地产开发</span></li><li class=""><label><input type="checkbox" value="37" class="prof_cb" name="prof37"></label><span class="prof_word">建筑/建材/工程</span></li><li><label><input type="checkbox" value="38" class="prof_cb" name="prof38"></label><span class="prof_word">家居/室内设计/装潢</span></li><li class=""><label><input type="checkbox" value="39" class="prof_cb" name="prof39"></label><span class="prof_word">物业管理/商业中心</span></li></ul><ul class="bgc1"><li><label><input type="checkbox" value="41" class="prof_cb" name="prof41"></label><span class="prof_word">中介服务</span></li><li><label><input type="checkbox" value="42" class="prof_cb" name="prof42"></label><span class="prof_word">专业服务(咨询，人力资源)</span></li><li><label><input type="checkbox" value="43" class="prof_cb" name="prof43"></label><span class="prof_word">外包服务</span></li><li><label><input type="checkbox" value="44" class="prof_cb" name="prof44"></label><span class="prof_word">检测，认证</span></li><li><label><input type="checkbox" value="45" class="prof_cb" name="prof45"></label><span class="prof_word">法律</span></li><li><label><input type="checkbox" value="46" class="prof_cb" name="prof46"></label><span class="prof_word">教育/培训</span></li><li><label><input type="checkbox" value="47" class="prof_cb" name="prof47"></label><span class="prof_word">学术/科研</span></li></ul><ul class="bgc2"><li><label><input type="checkbox" value="49" class="prof_cb" name="prof49"></label><span class="prof_word">餐饮业</span></li><li><label><input type="checkbox" value="50" class="prof_cb" name="prof50"></label><span class="prof_word">酒店/旅游</span></li><li><label><input type="checkbox" value="51" class="prof_cb" name="prof51"></label><span class="prof_word">娱乐/休闲/体育</span></li><li><label><input type="checkbox" value="52" class="prof_cb" name="prof52"></label><span class="prof_word">美容/保健</span></li><li><label><input type="checkbox" value="53" class="prof_cb" name="prof53"></label><span class="prof_word">生活服务</span></li></ul><ul class="bgc1"><li><label><input type="checkbox" value="55" class="prof_cb" name="prof55"></label><span class="prof_word">交通/运输/物流</span></li><li><label><input type="checkbox" value="56" class="prof_cb" name="prof56"></label><span class="prof_word">航天/航空</span></li></ul><ul class="bgc2"><li><label><input type="checkbox" value="58" class="prof_cb" name="prof58"></label><span class="prof_word">石油/化工/矿产/地质</span></li><li><label><input type="checkbox" value="59" class="prof_cb" name="prof59"></label><span class="prof_word">采掘业/冶炼</span></li><li><label><input type="checkbox" value="60" class="prof_cb" name="prof60"></label><span class="prof_word">电力/水利</span></li><li><label><input type="checkbox" value="61" class="prof_cb" name="prof61"></label><span class="prof_word">原材料和加工</span></li></ul><ul class="bgc1"><li><label><input type="checkbox" value="63" class="prof_cb" name="prof63"></label><span class="prof_word">政府</span></li><li><label><input type="checkbox" value="64" class="prof_cb" name="prof64"></label><span class="prof_word">非盈利机构</span></li><li><label><input type="checkbox" value="65" class="prof_cb" name="prof65"></label><span class="prof_word">环保</span></li><li><label><input type="checkbox" value="66" class="prof_cb" name="prof66"></label><span class="prof_word">农业/渔业/林业</span></li><li class=""><label><input type="checkbox" value="67" class="prof_cb" name="prof67"></label><span class="prof_word">多元化业务集团公司</span></li><li><label><input type="checkbox" value="68" class="prof_cb" name="prof68"></label><span class="prof_word">其他行业</span></li></ul><div style="height:10px;"></div></div><button class="prof_btn" type="button">确 定</button>',
+            'content':prof_content,
             'hideOnOverlayClick': false
         })
         if($('#prof_input').val().length>0){
@@ -312,7 +395,7 @@ $(function(){
 ${job_prof}
 <div class="head">
 %for com_place in com_place_list:
-${com_place.com_pid},${place_name(com_place.com_pid)},${com_place.com_dname},'!!!!!!!!!!!!!'
+${com_place.pid},${place_name(com_place.pid) or '取不到的地址'},${com_place.address},'!!!!!!!!!!!!!'
 %endfor
 <span>1. 创建公司</span>&gt;<span>2. 添加照片</a></span>&gt;<span class="c0">3. 添加职位</span>
 </div>
@@ -320,10 +403,11 @@ ${com_place.com_pid},${place_name(com_place.com_pid)},${com_place.com_dname},'!!
 <%htm:form method="POST" id="event_form" enctype="multipart/form-data" onsubmit="return job_new()">
 <div class="po_line">
     <label>所属部门</label><select name="depart" id="depart">
-        <option value="1">研发部</option>
-        <option value="2">产品部</option>
-        <option value="3">运营部</option>
-    </select><a class="c9 add_de" href="javascript:add_de();void(0)">添加部门</a>
+        <option value="1" class="de_opt">研发部</option>
+        <option value="2" class="de_opt">产品部</option>
+        <option value="3" class="de_opt">运营部</option>
+    </select><a class="c9 add_de" href="javascript:add_de();void(0)">添加部门</a><a class="c9 man_de" href="javascript:man_de();void(0)">管理部门</a>
+
     <div class="errtip" id="errtip_depart"></div>
 </div>
 

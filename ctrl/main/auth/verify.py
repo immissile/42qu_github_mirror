@@ -65,21 +65,17 @@ class VerifyMail(VerifyBase):
 
 @urlmap('/job/auth/verify/mail/(\d+)/(.+)')
 class JobVerifyMail(LoginBase):
-    cid = CID_VERIFY_COM
-    def handler_verify(self, id, ck, delete=False):
-        user_id, cid = verifyed(id, ck, delete)
-        if user_id and self.cid == cid and site_can_admin(user_id,self.current_user_id) :
-            return user_id
-        else:
-            self.redirect('/')
     def get(self, id, ck):
-        user_id = self.handler_verify(id, ck)
-        if user_id:
+        user_id, cid = verifyed(id, ck, delete=False)
+        if user_id and CID_VERIFY_COM == cid and site_can_admin(user_id,self.current_user_id):
             jm = JobMail.get(zsite_id=user_id)
             if jm.state == STATE_VERIFY:
                 jm.state = STATE_VERIFIED
                 jm.save()
             self.render(jm=jm)
+            return user_id
+        else:
+            self.redirect('/')
 
 @urlmap('/auth/password/reset/(.+)')
 class PasswordReset(Base):

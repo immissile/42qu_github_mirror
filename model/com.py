@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from job import JobType, JobPlace
+from zkit.attrcache import attrcache
+
 
 class ComJob(McModel):
     @attrcache
@@ -10,10 +12,8 @@ class ComJob(McModel):
 
     @property
     def com_job_needs(self):
-        return ComJobNeeds.mc_get(com_id=self.id)
+        return ComJobNeeds.mc_get(self.id)
 
-    def job_place_list(self):
-        return JobPlace.where(com_id=self.id)
 
 class ComDepartment(McModel):
     pass
@@ -21,20 +21,22 @@ class ComDepartment(McModel):
 class ComJobNeeds(McModel):
     pass
 
+def job_place_list(self):
+    return JobPlace.where(com_id=self.id)
 
-def new_com_department(com_id,name):
+def com_department_new(com_id,name):
     cd = ComDepartment(com_id=com_id,name=name)
     cd.save()
     return cd
 
-def new_com_job(com_id,comdepartment_id,title,jd):
+def com_job_new(com_id,comdepartment_id,title,jd):
     cj = ComJob(com_id=com_id,department_id=comdepartment_id)
     cj.title=title
     cj.jd = jd
     cj.save()
     return cj.id
 
-def new_com_job_needs(job_id,acquirs,salary,salary_type,stock_option,welfare,desirable,time_limit,job_type):
+def com_job_needs_new(job_id,acquirs,stock_option,welfare,priority):
     cjn = ComJobNeeds(job_id=job_id,salary=salary,salary_type=salary_type)
     cjn.stock_option=stock_option
     cjn.welfare=welfare
@@ -45,6 +47,6 @@ def new_com_job_needs(job_id,acquirs,salary,salary_type,stock_option,welfare,des
     return cjn
 
 
-def get_com_department(com_id):
+def com_department_by_com_id(com_id):
     return ComDepartment.where(com_id=com_id)
 

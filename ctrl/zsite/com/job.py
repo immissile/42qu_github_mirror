@@ -6,7 +6,9 @@ from model.job_mail import get_job_mail_state, job_mail_new, STATE_VERIFIED
 from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM
 from model.zsite_com import get_zsite_com
-from zkit.jobs import JOB_PROF 
+from zkit.job import JOB_KIND 
+from model.com import com_department_new, com_job_new, com_job_needs_new
+
 
 
 @urlmap('/job/new')
@@ -15,13 +17,36 @@ class JobNew(ZsiteBase):
         if get_job_mail_state(self.zsite_id) == STATE_VERIFIED:
             com_place_list = get_zsite_com(self.zsite_id)
             print com_place_list,self.zsite_id,'!!!!!!!!!'
-            return self.render(com_place_list=com_place_list,job_prof=JOB_PROF)
+            return self.render(com_place_list=com_place_list,job_prof=JOB_KIND)
             #self.finish({'zsite_id':self.zsite_id,'usr_id':self.current_user_id})
         else:
             return self.redirect('/job/mail')
 
 
     def post(self):
+        depart = self.get_argument('depart',None)
+        title = self.get_argument('title',None)
+        prof = self.get_argument('prof',None)
+        option_share = self.get_argument('share',None)
+        acquires = self.get_argument('more',None)
+        job_type = self.get_argument('type',None)
+        requ = self.get_argument('requ',None)
+        job_descripe = self.get_argument('desc',None)
+        desirable = self.get_argument('other',None)
+        salary = self.get_argument('salary1-salary2',None)
+        salary_type = self.get_argument('salary_type',None)
+        print depart ,'depart'
+        print desirable,'desirable'
+        print job_descripe,'desc'
+        print acquires,'acquires'
+        print requ,'requ'
+        print job_type,'job_type'
+        print salary_type,'salary_type'
+        print salary,'salary'
+        print title,'title'
+        print prof,'prof'
+        print option_share,'option_share'
+                
         
         self.finish('/'.join(dir(self)))
 
@@ -38,8 +63,10 @@ class JobMail(ZsiteBase):
             job_mail_new(zsite_id,hr_mail)
             verify_mail_new(zsite_id,zsite.name,hr_mail,CID_VERIFY_COM)
             return self.redirect('/mail/verify')
+        else:
+            return self.get()
 
 @urlmap('/mail/verify')
 class MailVerify(ZsiteBase):
     def get(self):
-        self.render(zsite_id = self.zsite_id)
+        self.render()
