@@ -12,14 +12,14 @@ def event_begin(begin, end):
     for i in ormiter(Event, 'state=%s and begin_time>%s and begin_time<=%s' % (EVENT_STATE_BEGIN, begin, end)):
         event_begin2now(i)
 
-def _event_end(begin, end):
-    for i in ormiter(Event, 'state=%s and end_time>%s and end_time<=%s' % (EVENT_STATE_NOW, begin, end)):
+def _event_end(end):
+    for i in ormiter(Event, 'state=%s and end_time<=%s' % (EVENT_STATE_NOW, end)):
         event_end(i)
 
 def event_begin_end(begin):
-    end = (time() - timezone) // 60 + 1
+    end = time()  // 60 + 1
     event_begin(begin, end)
-    _event_end(begin, end)
+    _event_end(end)
     return end
 
 @single_process
@@ -28,3 +28,11 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+#    from model.po import Po
+#    end = (time() - timezone) // 60 + 1
+#    
+#    for i in ormiter(Event, ' end_time<=%s' % ( end)):
+#        po = Po.mc_get(i.id)
+#        print po.name, i.end_time
+#    print time()/60
