@@ -54,6 +54,14 @@ class ZsiteTagPo(McModel):
 def zsite_tag_id_list_by_zsite_id(zsite_id):
     return ZsiteTag.where(zsite_id=zsite_id).order_by('id desc').col_list(col='tag_id')
 
+def link_by_zsite_id_tag_id(zsite_id, tag_id):
+    t = ZsiteTag.get(zsite_id=zsite_id,tag_id=tag_id)
+    if t:
+        link = "/tag/%s"%t.id
+    else:
+        link = "/"
+    return link
+
 def zsite_tag_list_by_zsite_id(zsite_id):
     tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
     return Tag.value_by_id_list(tag_id_list)
@@ -237,5 +245,5 @@ if __name__ == '__main__':
     #from model.cid import CID_AUDIO
     #print tag_id_by_user_id_cid(10000212, CID_AUDIO)
 
-
+    print zsite_tag_list_by_zsite_id(10000000)
     pass

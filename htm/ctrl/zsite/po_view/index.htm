@@ -1,5 +1,5 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo, tag_list_video, tag_list_audio, tag_list_event, tag_list_site"/>
+<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo, tag_list_video, tag_list_audio, tag_list_event, tag_list_site, tag_list_tag"/>
 <%!
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_SITE
 from model.po import PO_CN_EN, PO_EN
@@ -8,6 +8,7 @@ from model.event import event_join_count_by_user_id, event_list_join_by_user_id
 from model.zsite import Zsite
 from model.zsite_list import zsite_list_count, zsite_id_list
 from model.zsite_site import zsite_site_by_user_id_sample, zsite_site_count
+from model.zsite_tag import zsite_tag_list_by_zsite_id
 %>
 
 <%def name="htm_head()">
@@ -43,9 +44,13 @@ po_event_count = event_join_count_by_user_id(zsite_id)
 
 po_site_list = zsite_site_by_user_id_sample(zsite_id, 6)
 po_site_count = zsite_site_count(zsite_id)
+
+po_tag_list = zsite_tag_list_by_zsite_id(zsite_id)
+po_tag_count = len(po_tag_list) 
 %>
 
 ${tag_list_word(po_word_count, po_word_list)}
+${tag_list_tag(po_tag_count, po_tag_list)}
 ${tag_list_note(po_note_count, po_note_list)}
 ${tag_list_answer(po_answer_count, po_answer_list)}
 ${tag_list_question(po_question_count, po_question_list)}
@@ -54,6 +59,7 @@ ${tag_list_video(po_video_count, po_video_list)}
 ${tag_list_audio(po_audio_count, po_audio_list)}
 ${tag_list_event(po_event_count, po_event_list)}
 ${tag_list_site(po_site_count, po_site_list)}
+
 </%def>
 
 <%
