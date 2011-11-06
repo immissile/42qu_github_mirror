@@ -25,6 +25,10 @@ po_tag_count = len(po_tag_list)
 </div>
 
 
+<div class="zsite_block" style="margin-top:14px">\
+<div class="zsite_block_tag">\
 % for tag_id, tag_name in po_tag_list.iteritems():
-<span><a href="/tag-${tag_id}">${tag_name}</a></span>
+<a href="/tag-${tag_id}">${tag_name}</a>
 % endfor
+</div>\
+</div>\
