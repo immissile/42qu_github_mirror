@@ -145,7 +145,6 @@ function follow_a(id) {
 	url = "/j/follow",
 	follow = "关注",
 	follow_rm = "淡忘";
-
 	if (text == follow) {
 		text = follow_rm;
 		fancybox = $.fancybox;

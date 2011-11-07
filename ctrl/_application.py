@@ -15,6 +15,12 @@ RE_SITE_DOMAIN = SITE_DOMAIN.replace('.', r"\.")
 import _urlmap.auth
 import _urlmap.j
 
+import _urlmap.com
+application.add_handlers(
+        'com\.%s'%RE_SITE_DOMAIN,
+        handlers(_urlmap.com, _urlmap.auth,_urlmap.j)
+        )
+
 import _urlmap.hero
 application.add_handlers(
     'hero\.%s'%RE_SITE_DOMAIN,

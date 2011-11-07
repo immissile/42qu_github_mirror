@@ -6,23 +6,35 @@ CID_USER = 1
 CID_CHANNEL = 2
 CID_SITE = 3
 CID_COM = 4
+<<<<<<< local
+=======
+
+>>>>>>> other
 
 
 CID_ZSITE = (
     CID_USER,
     CID_CHANNEL,
     CID_SITE,
+<<<<<<< local
     CID_COM
+=======
+    CID_COM,
+>>>>>>> other
 )
 
 CID_ZSITE_CN = {
     CID_SITE:'站点',
     CID_USER:'用户',
+<<<<<<< local
     CID_COM:'公司'
+=======
+    CID_COM:'公司',
+>>>>>>> other
 }
 
 # Pic
-CID_ICO = 31
+CID_ZSITE_LIST_MEMBER = CID_ICO = 31
 CID_ICO96 = 32
 CID_PO_PIC = 35
 CID_SITE_ICO = 36
@@ -88,6 +100,7 @@ CID_MAIL_WEEK = 114
 CID_VERIFY_MAIL = 121
 CID_VERIFY_PASSWORD = 122
 CID_VERIFY_MONEY = 123
+CID_VERIFY_COM = 124
 
 # Trade Order
 CID_TRADE_CHARDE = 151

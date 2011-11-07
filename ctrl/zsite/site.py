@@ -99,7 +99,12 @@ class MarkRm(XsrfGetBase):
 
 @urlmap('/mark')
 class Mark(LoginBase):
+<<<<<<< local
     def get(self,id=None):
+=======
+    def get(self):
+        print 'what!!!'
+>>>>>>> other
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
         

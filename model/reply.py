@@ -7,7 +7,11 @@ from time import time
 from txt import txt_bind, txt_get, txt_new
 from model.txt2htm import txt_withlink
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
+<<<<<<< local
 from cid import CID_PO, CID_SITE, CID_COM
+=======
+from cid import CID_PO, CID_SITE, CID_COM 
+>>>>>>> other
 from zkit.attrcache import attrcache
 from user_mail import mail_by_user_id
 from mail import rendermail
