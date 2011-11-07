@@ -17,10 +17,10 @@ def zsite_member_new(zsite_id, member_id, cid, state):
 def zsite_member_rm(zsite_id, member_id):
     pass
 
-def zsite_member_list(zsite_id, member_id):
+def zsite_member_list(zsite_id, member_id, limit=None, offset=None):
     pass
 
-def zsite_member_list_leave(zsite_id, member_id):
+def zsite_member_list_leave(zsite_id, member_id, limit=None, offset=None):
     pass
 
 if __name__ == '__main__':
