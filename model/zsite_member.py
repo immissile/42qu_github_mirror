@@ -23,6 +23,9 @@ def zsite_member_list(zsite_id, member_id, limit=None, offset=None):
 def zsite_member_list_leave(zsite_id, member_id, limit=None, offset=None):
     pass
 
+def zsite_member_can_admin(zsite_id, member_id):
+    return True
+
 if __name__ == '__main__':
     pass
 
