@@ -9,7 +9,11 @@ from zkit.earth import place_name
 from model.com import com_job_by_com_id, com_department_by_com_id, com_job_by_department_and_com 
 from model.zsite import Zsite
 %>
-<script scr="${js.ctrl}"></script>
+<%def name="htm_title()">
+${motto_get(com.id)}
+</%def>
+<script src="${js.ctrl_site_rec}"></script>
+<script src="${js.ctrl}"></script>
 <h1>${com.name}</h1>
 <div class="G">
 <div class="com_main">
@@ -40,11 +44,13 @@ career = ' , '.join(filter(bool, i.career))
 <div class="c com_q" >
     <img src="${ico_url(i.id)}">
     <div class="com_q_a"><div>${career}</div></div>
+    %if i.txt:
     <div class="com_q1">“ </div>
     <div class="com_qt">
         ${i.txt}
     <span class="com_q2">”</span>
     </div>
+    %endif
 </div>
 %endfor
 </div>
@@ -99,19 +105,20 @@ is_owner = com.id == user_id
 <%
 career = ' , '.join(filter(bool, i.career))
 %>
-                    <div class="com_text com_author">
+<div class="com_text com_author">
 <div class="c">
     <a href="${i.link}" class="com_avatar"><img src="${ico_url(i.id)}"></a>
     <div><a target="_blank" class="c0" href="${i.link}">${i.name}</a></div>
        
-
     <div class="mt6">${i.career[0]}</div>
     <div class="mt6">${i.career[1]}</div>
 </div>
                         <div>
 <div class="com_q1">“ </div><div class="com_qt">
+   %if i.txt:
     ${i.txt}
     <span class="com_q2">”</span></div>
+    %endif
                        </div>
                    </div>
 %endfor

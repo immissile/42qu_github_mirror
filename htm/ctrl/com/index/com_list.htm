@@ -1,0 +1,18 @@
+<%inherit file="../base.htm" />
+<%!
+from model.zsite import Zsite
+%>
+
+<div class="G zsite_mb64 c">
+    <a href="/new">新建</a>
+    %if page_list:
+    %for zsite in page_list:
+    <div class="G1">
+        <a href="${zsite.link}">${zsite.name}</a>
+    </div>
+    %endfor
+    %endif
+    ${page|n}
+
+</div>
+

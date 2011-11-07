@@ -50,12 +50,12 @@ def com_job_new(com_id,department_id,title,job_description,create_time,salary_up
     cj.save()
     return cj
 
-def com_job_needs_new(job_id,acquirs,stock_option,welfare,priority):
+def com_job_needs_new(job_id,requires,stock_option,welfare,priority):
     cjn = ComJobNeeds(job_id=job_id)
     cjn.stock_option=stock_option
     cjn.welfare=welfare
     cjn.priority = priority
-    cjn.acquirs = acquirs
+    cjn.requires = requires
     cjn.save()
     return cjn
 

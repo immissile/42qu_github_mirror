@@ -13,23 +13,27 @@ from zkit.pic import picopen
 from zkit.errtip import Errtip
 
 
-class ComListBase(_ComListBase,Base):
-    template = '/ctrl/com/index/index.htm'
+
+@urlmap('/com_list')
+@urlmap('/com_list/-(\d+)')
+class ComList(_ComListBase,Base):
+    template = '/ctrl/com/index/com_list.htm'
     
     @property
     def user_id(self):
         return self.current_user_id
-
-@urlmap('/')
-@urlmap('/-(\d+)')
-class Index(ComListBase):
-    page_url = '/-%s'
+    page_url = '/com_list/-%s'
 
     def _total(self):
         return zsite_com_count(CID_COM)
 
     def _page_list(self,limit,offset):
         return zsite_com_list(CID_COM, limit, offset)
+
+@urlmap('/')
+class Index(Base):
+    def get(self):
+        self.render()
 
 @urlmap('/job')
 class Job(Base):
@@ -60,8 +64,6 @@ class New(Base):
         address = self.get_arguments('address',None)
         pid_add = zip(pid,address)
         
-        print pid,'!!!!!',address
-        print pid_add,'!!!!!!!!'
         if not name:
             errtip.name = '请输入名称'
 
