@@ -105,7 +105,6 @@ class JobDepartWrite(ZsiteBase):
         id = self.get_arguments('pop_de_id',None)
         name = self.get_arguments('pop_de_name',None)
         kv = zip(id,name)
-        print kv,'!!!!!!!!'
         for k,v in kv:
             com_department_edit(k,v)
         self.finish({'result':True})
