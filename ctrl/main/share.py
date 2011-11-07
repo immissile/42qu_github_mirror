@@ -40,7 +40,10 @@ class Share(LoginBase):
         if href:
             if name:
                 name = ''.join([name, '[[', href, ']]'])
-                txt = name+txt
+                if txt:
+                    txt = name+txt
+                else:
+                    txt = name
             else:
                 txt = '[['+href+']]'+txt
         elif name:
