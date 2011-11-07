@@ -5,7 +5,7 @@ from ctrl._urlmap.zsite import urlmap
 from model.job_mail import get_job_mail_state, job_mail_new, STATE_VERIFIED
 from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM
-from model.zsite_com import get_zsite_com
+from model.zsite_com import get_zsite_com_place
 from zkit.job import JOB_KIND 
 from model.com import com_department_new, com_job_new, com_job_needs_new, com_department_by_com_id, com_department_rm_by_id, com_department_edit
 import json
@@ -16,7 +16,7 @@ from model.days import today_days
 class JobNew(ZsiteBase):
     def get(self):
         if get_job_mail_state(self.zsite_id) == STATE_VERIFIED:
-            com_place_list1 = get_zsite_com(self.zsite_id)
+            com_place_list1 = get_zsite_com_place(self.zsite_id)
             com_place_list2 = job_pid_by_com_id(self.zsite_id)
             com_place_list = com_place_list2 or com_place_list1
             job_kind = json.dumps(JOB_KIND)
@@ -41,9 +41,9 @@ class JobNew(ZsiteBase):
         salary_type = self.get_argument('sal_type',None)
         dead_line = self.get_argument('deadline',None)
         pids = self.get_argument('pid',None)
-        
+        people_num = self.get_argument('people_num',None) 
        
-        if department_id and title and job_description and dead_line and salary_up and salary_type and salary_down:
+        if department_id and title and job_description and dead_line and salary_up and salary_type and salary_down and people_num:
             cj = com_job_new(
                     self.zsite_id,
                     department_id,
@@ -53,7 +53,9 @@ class JobNew(ZsiteBase):
                     salary_up,
                     salary_down,
                     salary_type,
-                    int(dead_line)*30+today_days())
+                    int(dead_line)*30+today_days(),
+                    people_num
+                    )
         
         
         if acquires and stock_option and welfare and priority and cj:

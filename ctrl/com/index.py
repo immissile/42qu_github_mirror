@@ -55,7 +55,7 @@ class New(Base):
         name = self.get_argument('name', None)
         motto = self.get_argument('motto', None)
         url = self.get_argument('url', None)
-        txt = self.get_argument('txt', None)
+        #txt = self.get_argument('txt', None)
         pid = self.get_arguments('pid', None)
         address = self.get_arguments('address',None)
         pid_add = zip(pid,address)
@@ -91,7 +91,7 @@ class New(Base):
             com_id = com.id
             site_ico_bind(current_user_id, pic_id, com_id)
             motto_set(com_id, motto)
-            txt_new(com_id, txt)
+            #txt_new(com_id, txt)
             if pid_add:
                 for pa in pid_add:
                     zsite_com_place_new(com_id,int(pa[0]),pa[1])
@@ -106,7 +106,7 @@ class New(Base):
             name=name,
             motto=motto,
             url=url,
-            txt=txt,
+            #txt=txt,
             pic_id=pic_id
         )
 

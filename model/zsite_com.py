@@ -54,7 +54,7 @@ def com_can_admin(zsite_id, user_id):
 
 
 
-def get_zsite_com(com_id):
+def get_zsite_com_place(com_id):
     return ZsiteComPlace.where(com_id=com_id)
 
 if __name__ == "__main__":

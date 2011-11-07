@@ -16,6 +16,11 @@ class ComJob(McModel):
     def com_job_needs(self):
         return ComJobNeeds.mc_get(self.id)
 
+def com_job_by_com_id(com_id):
+    return ComJob.where(com_id=com_id)
+
+def com_job_by_department_and_com(department_id,com_id):
+    return ComJob.where(department_id=department_id,com_id=com_id)
 
 class ComDepartment(McModel):
     pass
@@ -39,8 +44,8 @@ def com_department_new(com_id,name):
 def com_department_rm_by_id(id):
     return ComDepartment.where(id=id).delete()
 
-def com_job_new(com_id,department_id,title,job_description,create_time,salary_up,salary_down,salary_type,end_time,state=JOB_ACTIVE):
-    cj = ComJob(com_id=com_id,department_id=department_id,title=title,job_description=job_description,create_time=create_time,salary_up=salary_up,salary_down=salary_down,salary_type=salary_type,end_time=end_time)
+def com_job_new(com_id,department_id,title,job_description,create_time,salary_up,salary_down,salary_type,end_time,people_num,state=JOB_ACTIVE):
+    cj = ComJob(com_id=com_id,department_id=department_id,title=title,job_description=job_description,create_time=create_time,salary_up=salary_up,salary_down=salary_down,salary_type=salary_type,end_time=end_time,people_num=people_num)
     cj.state = state
     cj.save()
     return cj
