@@ -51,9 +51,6 @@ padding:5px 12px 7px;
 .add_addr{
 display:none;
 }
-.add_ad_txt{
-width:200px;
-}
 #prof{
 background:#fff;
 border:1px solid #ccc;
@@ -66,7 +63,6 @@ height:40px;
 .pop_prof{
 width:653px;
 height:500px;
-overflow-x:hidden;
 overflow-y:auto;
 }
 .bgc1{
@@ -170,12 +166,12 @@ background:#f9f9f9;
 <script type="text/javascript">
 function man_de(){
     var fancybox = $.fancybox
-    var cont='<div class="pop_hint">管理部门</div>',opts = $('.de_opt')
+    var cont='<form id="de_form"><div class="pop_hint">管理部门</div>',opts = $('.de_opt')
     opts.each(function(){
         cont += '<div class="pop_de" id="pop_de'+$(this).val()+'"><input type="text" class="pop_de_name" name="pop_de_name" value="'+$(this).text()+'"><input type="hidden" name="pop_de_id" value="'+$(this).val()+'"><a href="javascript:rm_de('+$(this).val()+');void(0)" class="rm_addr"></a></div>'
     })
-    cont += '<a href="javascript:man_done();void(0)" class="man_done">保存</a>'
-    fancybox({content:cont})
+    cont += '<a href="javascript:man_done();void(0)" class="man_done">保存</a></form>'
+    fancybox({content:cont,'hideOnOverlayClick': false})
 }
 function rm_de(id){
     if(confirm('删除,确定?')){
@@ -187,24 +183,32 @@ function rm_de(id){
     }
 }
 function man_done(){
-    var pop_des = $('.pop_de'),kv,result=''
+    var pop_des = $('.pop_de'),result='',ctrl=false
     pop_des.each(function(){
         var de = $(this),
-        id = de.find('.pop_de_id').val(),
-        name = de.find('.pop_de_name').val()
-        var a = {id:name}
-        kv.push(a)
-        result += '<option class="de_opt" value="'+$(this).val()+'">'+$(this).text()+'</option>'
+        id = de.find('input[name="pop_de_id"]').val(),
+        name = $.trim(de.find('.pop_de_name').val())
+        if(name==''){
+            alert('部门名称不能为空')
+            ctrl = true
+            return
+        }
+        result += '<option class="de_opt" value="'+id+'">'+name+'</option>'
     })
+    if(ctrl) return
     $.postJSON(
         '/job/depart/write',
-        'kv':kv
+        $('#de_form').serialize()
     )
     $('#depart').html(result)
+    $('#fancybox-close').click()  
 }
 function add_de_a(){
     val = $('.add_de_txt').val()
-    if($.trim(val)=='') return
+    if($.trim(val)==''){
+        alert('部门名称不能为空')
+        return
+    }
     $.postJSON(
         '/job/depart/add',
         {'txt':val},
@@ -217,15 +221,20 @@ function add_de_a(){
     )
 }
 function add_ad_a(){
-    co = $("select[name='country']").val()
-    coun = $("select[name='country']").find("option:selected").text()
-    city = $("select[name='city']").find("option:selected").text()+'市'
+    var co = $("select[name='country']").val(),
+    coun = $("select[name='country']").find("option:selected").text(),
+    city = $("select[name='city']").find("option:selected").text(),
     town = $("select[name='town']").find("option:selected").text()
-    detail = $('.add_ad_txt').val()
-    if(co==1) addr=city+town; else addr=coun;
+    if(!(coun && city && town && city!="- 请选择 -" && town!="- 请选择 -") && coun=='中国' ){
+        alert('请选择完整的城市及县区')
+        return
+    }
+    if(co==1) addr=city+'市'+town; else addr=coun;
     num = $('#addr').children().length + 1
-    $('#addr').append('<div class="address"><input name="addr" id="addr'+num+'" type="checkbox" checked><label for="addr'+num+'"> '+addr+'</label><label for="addr'+num+'">'+detail+'</label><a href="javascript:rm_addr('+num+');void(0)" class="rm_addr"></a></div>')
-    $('.add_ad_txt,.add_de_a,.add_addr').remove()
+    var addr_val = $('#pid').find('input').val()
+    $('#addr').append('<div class="address"><input name="addr" value="'+addr_val+'" id="addr'+num+'" type="checkbox" checked><label for="addr'+num+'"> '+addr+'</label><a href="javascript:rm_addr('+num+');void(0)" class="rm_addr"></a></div>')
+    $('.add_ad_txt, .add_de_a').remove()
+    $('.add_addr').hide()
     $('#add_addr').show()
 }
 function add_de(){
@@ -234,7 +243,7 @@ function add_de(){
 function add_addr(){
     $('#add_addr').hide()
     $('.add_addr').css('display','inline')
-    $('.add_addr').after('<input type="text" class="input add_ad_txt"><a class="c9 add_de_a" href="javascript:add_ad_a();void(0)">添加</a>')
+    $('.add_addr').after('<a class="c9 add_de_a" href="javascript:add_ad_a();void(0)">添加</a>')
 }
 function rm_addr(id){
     $('#addr'+id).parent().remove()
@@ -291,12 +300,13 @@ $(function(){
             $('.salary1,.salary2').click(function(){err.remove()})
             return false
         }
-        get_departs()
+        if(!$('input[name="addr"]:checked')[0]){
+            var err=$('#errtip_addr')
+            err.fadeOut(function(){err.fadeIn()})
+            $('input[name="addr"], #add_addr').click(function(){err.remove()})
+            return false
+        }
         return true
-    }
-
-    function get_departs(){
-         
     }
 
     job_new = function (){
@@ -315,13 +325,13 @@ $(function(){
         if(!check_tip('type'))return false;
         return money_tip()
     }
-    var prof_list = ${job_prof.replace('&quot;','"')}
+    var prof_list = ${job_prof|n}
     var prof_content = '<div class="prof_banner">选择行业类别 (<span class="limit_tip">最多三项</span>)</div><div class="pop_prof">'
     for(var i=0;i<prof_list.length;i++){
         var li = prof_list[i]
-        prof_content += i%2==0?'<ul class="bgc1>"':'<ul class="bgc2">'
+        prof_content += i%2==0?'<ul class="bgc1">':'<ul class="bgc2">'
         for(var j=0;j<li.length;j++){
-            prof_content += '<li><label><input type="checkbox" value="'+li[0]+'" class="prof_cb" name="prof'+li[0]+'"></label><span class="prof_word">'+li[1]+'</span></li>'
+            prof_content += '<li><label><input type="checkbox" value="'+li[j][0]+'" class="prof_cb" name="prof'+li[j][0]+'"></label><span class="prof_word">'+li[j][1]+'</span></li>'
         }
         prof_content += '</ul>'
     }
@@ -391,12 +401,7 @@ $(function(){
     })
 })
 </script>
-    var prof_list = ${job_prof.replace('&quot;','"')}
-    ${type(job_prof)}
 <div class="head">
-%for com_place in com_place_list:
-${com_place.pid},${place_name(com_place.pid) or '取不到的地址'},${com_place.address},'!!!!!!!!!!!!!'
-%endfor
 <span>1. 创建公司</span>&gt;<span>2. 添加照片</a></span>&gt;<span class="c0">3. 添加职位</span>
 </div>
 
@@ -426,10 +431,11 @@ ${com_place.pid},${place_name(com_place.pid) or '取不到的地址'},${com_plac
 <div class="po_line">
     <label>公司地址</label><a class="c9" href="javascript:add_addr();void(0)" id="add_addr">添加地址</a><div class="add_addr"><script>select_pid("pid", 0)</script></div>
     <div id="addr">
-        <div class="address"><input name="addr" id="addr1" type="checkbox"><label for="addr1"> 北京市朝阳区</label><label for="addr1">朝阳公园尼玛了隔壁5号楼4单元601</label></div>
-        <div class="address"><input name="addr" id="addr2" type="checkbox"><label for="addr2"> 北京市朝阳区</label><label for="addr2">朝阳公园索尼探梦馆A123寝室</label></div>
-        <div class="address"><input name="addr" id="addr3" type="checkbox"><label for="addr3"> 北京市朝阳区</label><label for="addr3">朝阳公园索尼探梦馆A123寝室</label></div>
+%for com_place in com_place_list:
+<div class="address"><input name="addr" id="addr1" type="checkbox" value="${com_place.pid or ''}"><label for="addr1"> ${place_name(com_place.pid) or '无'}</label></div>
+%endfor
     </div>
+    <div class="errtip" id="errtip_addr"></div>
 </div>
 <div class="po_line">
     <label>职位描述</label><textarea class="txt" name="desc" id="desc"></textarea>
@@ -451,7 +457,7 @@ ${com_place.pid},${place_name(com_place.pid) or '取不到的地址'},${com_plac
     </select>
 </div>
 <div class="po_line" id="type">
-    <label>招聘类型</label><input name="type" id="type1" type="checkbox"><label for="type1"> 兼职</label><input name="type" id="type2" type="checkbox"><label for="type2"> 实习生</label><input name="type" id="type3" type="checkbox"><label for="type3"> 全职</label><input name="type" id="type4" type="checkbox"><label for="type4"> 合伙人</label>
+    <label>招聘类型</label><input name="type" id="type1" type="checkbox" value="1"><label for="type1"> 兼职</label><input name="type" id="type2" type="checkbox" value="2"><label for="type2"> 实习生</label><input name="type" id="type3" type="checkbox"value="3"><label for="type3"> 全职</label><input name="type" id="type4" type="checkbox" value="4"><label for="type4"> 合伙人</label>
 </div>
 <div class="po_line" id="salary">
     <label>工资范围</label><select name="sal_type"><option value="1">月薪</option><option value="2">年薪</option></select><input name="salary1" class="input salary1"> 元<span class="split">——</span><input name="salary2" class="input salary2"> 元

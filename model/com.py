@@ -5,6 +5,8 @@ from job import JobType, JobPlace
 from zkit.attrcache import attrcache
 
 
+JOB_ACTIVE = 5
+
 class ComJob(McModel):
     @attrcache
     def job_department_list(self):
@@ -37,20 +39,18 @@ def com_department_new(com_id,name):
 def com_department_rm_by_id(id):
     return ComDepartment.where(id=id).delete()
 
-def com_job_new(com_id,comdepartment_id,title,jd):
-    cj = ComJob(com_id=com_id,department_id=comdepartment_id)
-    cj.title=title
-    cj.jd = jd
+def com_job_new(com_id,department_id,title,job_description,create_time,salary_up,salary_down,salary_type,end_time,state=JOB_ACTIVE):
+    cj = ComJob(com_id=com_id,department_id=department_id,title=title,job_description=job_description,create_time=create_time,salary_up=salary_up,salary_down=salary_down,salary_type=salary_type,end_time=end_time)
+    cj.state = state
     cj.save()
-    return cj.id
+    return cj
 
 def com_job_needs_new(job_id,acquirs,stock_option,welfare,priority):
-    cjn = ComJobNeeds(job_id=job_id,salary=salary,salary_type=salary_type)
+    cjn = ComJobNeeds(job_id=job_id)
     cjn.stock_option=stock_option
     cjn.welfare=welfare
-    cjn.desirable=desirable
-    cjn.time_limit=time_limit
-    cjn.job_type=job_type
+    cjn.priority = priority
+    cjn.acquirs = acquirs
     cjn.save()
     return cjn
 
