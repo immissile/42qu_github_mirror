@@ -64,11 +64,9 @@ class Fav(JLoginBase):
         host = self.request.host
         zsite = zsite_by_domain(host)
 
-        if zsite and zsite.cid == CID_SITE:
+        if zsite and zsite.cid in (CID_SITE, CID_COM):
             zsite_fav_new(zsite, current_user_id)
         
-        if zsite and zsite.cid == CID_COM:
-            zsite_fav_new(zsite, current_user_id)
 
         txt = self.get_argument('txt', None)
         if txt:

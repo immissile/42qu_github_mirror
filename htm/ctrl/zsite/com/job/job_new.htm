@@ -387,16 +387,16 @@ $(function(){
                 return
             }
             var words = ''
-            var ids = ''
+            var ids = []
             $('.prof_word_on').each(function(){
                 words += $(this).text() +　' + '
-                ids += $(this).parent().find('.prof_cb').val() + '-'
+                ids.push($(this).parent().find('.prof_cb').val())
             })
-            ids = ids.substr(0,words.length-2)
+            //ids = ids.substr(0,words.length-2)
             words = words.substr(0,words.length-2)
             $('#fancybox-close').click()
             $('#prof').text(words).css({'color':'#000','width':'auto','overflow':'hidden','text-align':'left'})
-            $('#prof_input').val(ids)
+            $('#prof_input').val(ids.join('-'))
         })
     })
 })
