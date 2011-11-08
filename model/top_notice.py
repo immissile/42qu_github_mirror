@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
+from _db import Model, McModel, McCache, McCacheA,  McNum
 from time import time
 from state import STATE_DEL, STATE_APPLY, STATE_ACTIVE
 from mail import rendermail, render_template, sendmail
