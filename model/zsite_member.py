@@ -21,9 +21,9 @@ def zsite_member_list(zsite_id, member_id, state, limit=None, offset=None):
     return zsite_list_by_zsite_id_state(zsite_id, member_id, state, limit, offset)
 
 def zsite_member_can_admin(zsite_id, member_id):
-    return True
-
-
+    id, state = zsite_list_id_state(zsite_id, owner_id, CID_ZSITE_LIST_MEMBER)
+    if id:
+        return state >= ZSITE_MEMBER_STATE_ACTIVE
 
 if __name__ == '__main__':
     pass
