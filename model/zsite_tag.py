@@ -36,7 +36,7 @@ ZSITE_TAG = (
 )
 
 
-mc_zsite_tag_id_list_by_zsite_id = McCacheA('ZsiteTagIdListByZsiteId:%s')
+mc_tag_id_list_by_zsite_id = McCacheA('ZsiteTagIdListByZsiteId:%s')
 mc_tag_by_po_id = McCacheM('TagIdByPoId:%s')
 mc_po_id_list_by_zsite_tag_id = McLimitA('PoIdListByZsiteTagId:%s', 128)
 zsite_tag_count = McNum(lambda id: ZsiteTagPo.where(zsite_tag_id=id).count(), 'ZsiteTagCount:%s')
@@ -50,8 +50,8 @@ class ZsiteTag(McModel):
 class ZsiteTagPo(McModel):
     pass
 
-@mc_zsite_tag_id_list_by_zsite_id('{zsite_id}')
-def zsite_tag_id_list_by_zsite_id(zsite_id):
+@mc_tag_id_list_by_zsite_id('{zsite_id}')
+def tag_id_list_by_zsite_id(zsite_id):
     return ZsiteTag.where(zsite_id=zsite_id).order_by('id desc').col_list(col='tag_id')
 
 def link_by_zsite_id_tag_id(zsite_id, tag_id):
@@ -63,18 +63,20 @@ def link_by_zsite_id_tag_id(zsite_id, tag_id):
     return link
 
 def zsite_tag_list_by_zsite_id(zsite_id):
-    tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
+    tag_id_list = tag_id_list_by_zsite_id(zsite_id)
     return Tag.value_by_id_list(tag_id_list)
+
+
 
 def zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id):
     zsite_tag = ZsiteTag.get_or_create(zsite_id=zsite_id, tag_id=tag_id)
     if not zsite_tag.id:
         zsite_tag.save()
-        mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
+        mc_tag_id_list_by_zsite_id.delete(zsite_id)
     return zsite_tag.id
 
 def zsite_tag_id_list_with_init(zsite_id):
-    tag_id_list = zsite_tag_id_list_by_zsite_id(zsite_id)
+    tag_id_list = tag_id_list_by_zsite_id(zsite_id)
     if not tag_id_list:
         for tag_id in ZSITE_TAG:
             zsite_tag_new_by_zsite_id_tag_id(zsite_id, tag_id)
@@ -140,14 +142,14 @@ def zsite_tag_id_mv(zsite_id, from_tag_id, to_tag_id=1):
         mc_tag_by_po_id.delete('%s_%s'%(zsite_id, po_id))
     #print "delete zsite", zsite_id, from_tag_id
     ZsiteTag.where(zsite_id=zsite_id, tag_id=from_tag_id).delete()
-    mc_zsite_tag_id_list_by_zsite_id.delete(zsite_id)
+    mc_tag_id_list_by_zsite_id.delete(zsite_id)
     mc_flush_zsite_tag_id(from_tag_id)
     mc_flush_zsite_tag_id(to_tag_id)
 
 
 def zsite_tag_rm_by_tag_id(zsite_id, tag_id):
     tag_id = int(tag_id)
-    if tag_id == 1 or tag_id not in zsite_tag_id_list_by_zsite_id(zsite_id):
+    if tag_id == 1 or tag_id not in tag_id_list_by_zsite_id(zsite_id):
         return
     zsite_tag_id_mv(zsite_id, tag_id, 1)
 
@@ -175,7 +177,7 @@ def zsite_tag_rename(zsite_id, tag_id, tag_name):
 
 def mc_flush_zsite_tag_id(id):
     zsite_tag_count.delete(id)
-    mc_zsite_tag_id_list_by_zsite_id.delete(id)
+    mc_tag_id_list_by_zsite_id.delete(id)
     mc_po_id_list_by_zsite_tag_id.delete(id)
     for cid in CID_PO:
         zsite_tag_cid_count.delete(id, cid)

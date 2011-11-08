@@ -84,6 +84,32 @@ def check():
                 print i
 
 
+def rm_same():
+    sites=[]
+    result = {}
+    for site in Zsite.where(cid=3,state=40):
+        if site.name in result:
+            #print site.id,site.name,result.get(site.name)
+            sites.append([site.id,result.get(site.name),site.name])
+        else:
+            result[site.name]=site.id
+    print len(sites)
+    rm =[]
+    for site in sites:
+        if Rss.where(user_id=site[0]):
+            rm.append([site[1],site[2]])
+        elif Rss.where(user_id=site[1]):
+            rm.append([site[0],site[2]])
+            
+    for i,j in rm:
+        print i,j             
+        zsite_show_rm(Zsite.mc_get(i))
+        zsite_fav_rm_all_by_zsite_id(i)
+        zsite_admin_empty(i)
+    print len(rm)   
+#rss = Rss.mc_get_list(sites)
+    
+
 def add_rss_url():
    pass 
     
@@ -119,8 +145,9 @@ def get_douban_site():
                 else:
                     print id,'数据未录入',zl
 if __name__ == "__main__":
+    rm_same()
     #for zl in ZsiteLink.where(name='豆瓣小站').clo_list('zsite_id'):
     #    print zl.link 
     #get_douban_site()
-    check()
+    #check()
     #get_in('106782')

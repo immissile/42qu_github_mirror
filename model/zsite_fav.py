@@ -73,7 +73,7 @@ def zsite_fav_count_by_zsite(zsite):
         zsite.id, zsite.cid
     )
 
-def zsite_fav_rm_all_by_ziste_id(zsite_id):
+def zsite_fav_rm_all_by_zsite_id(zsite_id):
     zsite = Zsite.mc_get(zsite_id)
     fav_list = ZsiteList.where(zsite_id=zsite_id)
     for fav in fav_list:
