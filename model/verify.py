@@ -17,7 +17,7 @@ VERIFY_TEMPLATE = {
     CID_VERIFY_MAIL: '/mail/auth/verify/mail.txt',
     CID_VERIFY_PASSWORD: '/mail/auth/verify/password.txt',
     CID_VERIFY_COM:'/mail/auth/verify/com_mail.txt'
-    }
+}
 
 class Verify(Model):
     pass
