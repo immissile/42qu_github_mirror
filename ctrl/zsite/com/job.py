@@ -11,9 +11,17 @@ from model.com import com_department_new, com_job_new, com_job_needs_new, com_de
 import json
 from model.job import job_type_new, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_new
 from model.days import today_days
+from model.zsite_member import zsite_member_can_admin
+
+class AdminBase(ZsiteBase):
+    def prepare(self):
+        super(AdminBase,self).prepare()
+        if not zsite_member_can_admin(self.zsite_id,self.current_user_id):
+            self.redirect('/')
+
 
 @urlmap('/job/new')
-class JobNew(ZsiteBase):
+class JobNew(AdminBase):
     def get(self):
         if get_job_mail_state(self.zsite_id) == STATE_VERIFIED:
             com_place_list1 = get_zsite_com_place(self.zsite_id)
@@ -43,6 +51,7 @@ class JobNew(ZsiteBase):
         pids = self.get_argument('pid',None)
         people_num = self.get_argument('people_num',None) 
        
+        cj,cjn = None,None
         if department_id and title and job_description and dead_line and salary_up and salary_type and salary_down and people_num:
             cj = com_job_new(
                     self.zsite_id,
@@ -78,7 +87,7 @@ class JobNew(ZsiteBase):
         
         
         if kinds and cj:
-            kinds = kinds.split('-')[:-1]
+            kinds = kinds.split('-')
             for kind in kinds:
                 job_kind_new(cj.id,kind)
         
@@ -87,32 +96,36 @@ class JobNew(ZsiteBase):
         
 
 @urlmap('/job/department/rm')
-class JobDepartmentRm(ZsiteBase):
+class JobDepartmentRm(AdminBase):
     def post(self):
         id = self.get_argument('id',None)
+        result = None
         if id:
             com_department_rm_by_id(id)
-            self.finish({'result':True})
+            result = True
+        self.finish({'result':result})
 
 @urlmap('/job/depart/add')
-class JobDepartAdd(ZsiteBase):
+class JobDepartAdd(AdminBase):
     def post(self):
         txt = self.get_argument('txt',None)
         cd = com_department_new(self.zsite_id,txt)
         self.finish(str(cd.id))
 
 @urlmap('/job/depart/write')
-class JobDepartWrite(ZsiteBase):
+class JobDepartWrite(AdminBase):
     def post(self):
         id = self.get_arguments('pop_de_id',None)
         name = self.get_arguments('pop_de_name',None)
         kv = zip(id,name)
+        result = None
         for k,v in kv:
             com_department_edit(k,v)
-        self.finish({'result':True})
+            result = True
+        self.finish({'result':result})
 
 @urlmap('/job/mail')
-class JobMail(ZsiteBase):
+class JobMail(AdminBase):
     def get(self):
         self.render(current_user_id=self.current_user_id)
 
@@ -128,6 +141,6 @@ class JobMail(ZsiteBase):
             return self.get()
 
 @urlmap('/mail/verify')
-class MailVerify(ZsiteBase):
+class MailVerify(AdminBase):
     def get(self):
         self.render()

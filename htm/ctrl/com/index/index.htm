@@ -16,7 +16,7 @@ from model.zsite import Zsite
 ##    %endif
 ##</div>
 
-<script src="https://github.com/desandro/isotope/blob/master/jquery.isotope.js"></script>
+<script src="${js.ctrl_com_isotope|n}"></script>
 <script>
 $(function(){
     $("#com_product").isotope({
@@ -87,7 +87,7 @@ border-width:1px 0 0;
     <form class="search" action=""><input type="text" autocomplete="off" id="search" name="q" value=""><input type="submit" class="search_btn" value=""></form>
 </span>
 <span class="nav C">
-    <a href="" class="c0">产品</a><span class="c9 split">-</span><a href="" class="c9">公司</a><span class="c9 split">-</span><a href="" class="c9">创建</a>
+    <a href="/" class="c0">产品</a><span class="c9 split">-</span><a href="/com_list" class="c9">公司</a><span class="c9 split">-</span><a href="/new" class="c9">创建</a>
 </span>
 </h1>
 <div id="com_product" class="G isotope">

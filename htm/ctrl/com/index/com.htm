@@ -6,10 +6,17 @@ from model.motto import motto_get
 from model.follow import follow_get
 from model.zsite_com import get_zsite_com_place
 from zkit.earth import place_name
+from model.zsite_site import site_can_view, site_can_admin
+from model.zsite_fav import zsite_fav_id_get
 from model.com import com_job_by_com_id, com_department_by_com_id, com_job_by_department_and_com 
 from model.zsite import Zsite
 %>
-<script scr="${js.ctrl}"></script>
+<%def name="htm_title()">
+${motto_get(com.id)}
+</%def>
+##<script src="${js.ctrl_site_rec}"></script>
+<script src="${js.ctrl_zsite_site}"></script>
+<script src="${js.ctrl}"></script>
 <h1>${com.name}</h1>
 <div class="G">
 <div class="com_main">
@@ -40,11 +47,13 @@ career = ' , '.join(filter(bool, i.career))
 <div class="c com_q" >
     <img src="${ico_url(i.id)}">
     <div class="com_q_a"><div>${career}</div></div>
+    %if i.txt:
     <div class="com_q1">“ </div>
     <div class="com_qt">
         ${i.txt}
     <span class="com_q2">”</span>
     </div>
+    %endif
 </div>
 %endfor
 </div>
@@ -82,16 +91,31 @@ jobs = com_job_by_department_and_com(department.id,com.id)
 is_owner = com.id == user_id
 %>
 
-%if not is_owner and user_id:
+<%
+can_admin = site_can_admin(com.id, user_id)
+%>
+
+##%if site_can_view(com, user_id): 
+<div id="nav2">
 <a href="#" class="c0" style="font-size:16px;margin-right:14px"><span class="mr3">${com.reply_count}</span>评价</a>\
-<a id="follow_a${com.id}"href="javascript:follow_a(${com.id});void(0)" class="xa" style="padding:7px 14px;font-size:16px;">\
-%if follow_get(user_id, com.id):
-淡忘\
+%if can_admin:
+<a href="/admin" class="xa" style="font-size:16px;padding:7px 14px;">管理</a>\
 %else:
-关注\
+    %if zsite_fav_id_get(com, user_id):
+<a href="/mark" class="xa" style="padding:7px 14px;font-size:16px;" id="fav_a">设置</a>\
+    %else:
+<a class="xa" style="padding:7px 14px;font-size:16px;"href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
+    %endif
 %endif
-</a>\
-%endif
+##%if not is_owner and user_id:
+##<a id="fav_a"href="javascript:sitefav();void(0)" class="xa" style="padding:7px 14px;font-size:16px;">\
+##%if follow_get(user_id, com.id):
+##淡忘\
+##%else:
+##关注\
+##%endif
+##</a>\
+##%endif
 </div>
                 <div class="com_ir">
                     <div class="com_title">创始人</div>
@@ -99,19 +123,20 @@ is_owner = com.id == user_id
 <%
 career = ' , '.join(filter(bool, i.career))
 %>
-                    <div class="com_text com_author">
+<div class="com_text com_author">
 <div class="c">
     <a href="${i.link}" class="com_avatar"><img src="${ico_url(i.id)}"></a>
     <div><a target="_blank" class="c0" href="${i.link}">${i.name}</a></div>
        
-
     <div class="mt6">${i.career[0]}</div>
     <div class="mt6">${i.career[1]}</div>
 </div>
                         <div>
 <div class="com_q1">“ </div><div class="com_qt">
+   %if i.txt:
     ${i.txt}
     <span class="com_q2">”</span></div>
+    %endif
                        </div>
                    </div>
 %endfor

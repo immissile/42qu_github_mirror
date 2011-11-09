@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="http://s.realfex.xxx/js/z.js"></script>
+<link href="http://s.realfex.xxx/css/z.css" rel="stylesheet" type="text/css">
+
+<title>
+realfex
+</title>
+
+<link rel="stylesheet" type="text/css" href="index.css" media="all">
+</head>
+<body id="B">
+
+<div id="H"><div class="H c">
+
+<div class="L">
+<a href="http://realfex.42qu.com/" class="site">realfex.42qu.com</a>
+</div><div class="HN">
+</div>
+<div class="D_nav"><div class="D"><a class="DA" id="da6" href="javascript:void(0)">更多</a><div> <a href="http://realfex.42qu.com/i">资料</a> <a href="http://realfex.42qu.com/money/bill">账目</a> <a href="http://help.42qu.com/">帮助</a> <a href="http://realfex.42qu.com/logout?_xsrf=52aa1ffecf2f4f02a63c67237e4a57f3">退出</a></div></div><div class="D"><a class="DA" id="da5" href="javascript:void(0)">我的</a><div> <a href="http://realfex.42qu.com/">主页</a> <a href="http://realfex.42qu.com/following">关注</a> <a href="http://realfex.42qu.com/wall">留言</a> <a href="http://realfex.42qu.com/notice">提醒</a> <a href="http://realfex.42qu.com/fav">收藏</a> <a href="http://realfex.42qu.com/po">发布</a></div></div><div class="D"><a class="DA" id="da4" href="http://hero.42qu.com/">人物</a></div><div class="D"><a class="DA" id="da3" href="http://meet.42qu.com/">活动</a></div><div class="D"><a class="DA" id="da2" href="http://site.42qu.com/">站点</a></div>
+<div class="D"><a class="DA" id="da1" href="http://realfex.42qu.com/live">动态</a></div></div></div></div><div class="c C"><div class="G"><div class="G4">
+
+
+
+<div class="G i_div">
+<div class="G4">
+
+
+<div class="head" style="color: rgb(204, 204, 204);">
+<span>创建公司</span>&gt;<span class="c0">产品演示</span>&gt;<span>发布职位</span>&gt;<span>企业介绍</span>&gt;<span>照片风景</span>&gt;<span>添加成员</span>&gt;<span>邀请评价</span>
+</div>
+
+<style>
+.pro_name,.pro_bio,.pro_url{
+border:1px solid #ccc;
+width:280px;
+margin-right:12px;
+}
+.line{
+margin-top:32px;
+overflow:auto;
+}
+.close_item{
+display:inline-block;
+width:16px;
+height:16px;
+margin-left:16px;
+background:url(http://s.realfex.xxx/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;
+padding:4px;
+vertical-align:-10px;
+}
+.close_item:hover{
+background:url(http://s.realfex.xxx/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
+}
+</style>
+
+<script>
+$(function(){
+    $('.pro_name:last').live('blur',function(){
+        var self = $(this)
+        if($.trim($('.line:last').find('input[name="pro_name"]').val()).length>0){
+            var wrap = self.parent().parent(),
+            id = parseInt(wrap.attr('id').substr(4))+1
+            wrap.after('<div class="line" id="line'+id+'"> <span class="L"><input name="pro_name" class="pro_name" value="" autocomplete="off"><input value="" name="pro_bio" class="pro_bio" autocomplete="off"><input value="" name="pro_url" class="pro_url"></span><a href="javascript:close_item('+id+');void(0)" class="close_item"></a></div>')
+        }
+        self.unbind('blur')
+    })
+})
+
+function close_item(id){
+    $('#line'+id).remove()
+}
+</script>
+<p class="tl career career_job">添加产品</p>
+
+<form action="http://realfex.42qu.com/i/career" method="POST" id="career_form">
+<div class="career c" id="career_job">
+    <div class="line" id="line1"> 
+        <span class="L">
+            <input placeholder="产品名称" name="pro_name" class="pro_name" value="" autocomplete="off"><input value="" placeholder="一句话描述" name="pro_bio" class="pro_bio" autocomplete="off"><input value="" placeholder="相关链接" name="pro_url" class="pro_url">
+        </span>
+    </div>
+    <div class="line" id="line2"> 
+        <span class="L">
+            <input name="pro_name" class="pro_name" value="" autocomplete="off"><input value="" name="pro_bio" class="pro_bio" autocomplete="off"><input value="" name="pro_url" class="pro_url">
+        </span>
+    </div>
+    <div class="line" id="line3"> 
+        <span class="L">
+            <input name="pro_name" class="pro_name" value="" autocomplete="off"><input value="" name="pro_bio" class="pro_bio" autocomplete="off"><input value="" name="pro_url" class="pro_url">
+        </span>
+    </div>
+</div>
+
+
+<div class="btns">
+<span class="btnw"><button class="btn" type="submit">下一步</button></span>
+</div>
+<input name="_xsrf" value="52aa1ffecf2f4f02a63c67237e4a57f3" type="hidden"></form>
+
+
+
+</div>
+</div>
+
+
+
+
+</div></div></div>
+
+
+
+<div id="fancybox-tmp"></div><div id="fancybox-loading"><div></div></div><div id="fancybox-overlay"></div><div id="fancybox-wrap"><div id="fancybox-outer"><div class="fancybox-bg" id="fancybox-bg-n"></div><div class="fancybox-bg" id="fancybox-bg-ne"></div><div class="fancybox-bg" id="fancybox-bg-e"></div><div class="fancybox-bg" id="fancybox-bg-se"></div><div class="fancybox-bg" id="fancybox-bg-s"></div><div class="fancybox-bg" id="fancybox-bg-sw"></div><div class="fancybox-bg" id="fancybox-bg-w"></div><div class="fancybox-bg" id="fancybox-bg-nw"></div><div id="fancybox-content"></div><a id="fancybox-close"></a><div id="fancybox-title"></div><a href="javascript:;" id="fancybox-left"><span class="fancy-ico" id="fancybox-left-ico"></span></a><a href="javascript:;" id="fancybox-right"><span class="fancy-ico" id="fancybox-right-ico"></span></a></div></div><a class="zsite_foot" href="#B">site.42qu.com</a><a style="display: none;" href="#B" id="sB"></a></body>
+</html>
+
