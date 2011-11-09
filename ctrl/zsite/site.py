@@ -95,7 +95,7 @@ class MarkRm(XsrfGetBase):
 @urlmap('/mark')
 class Mark(LoginBase):
     def get(self):
-        #print 'what!!!'
+        print 'what!!!'
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
 
@@ -109,6 +109,7 @@ class Mark(LoginBase):
 
     def post(self):
         zsite = self.zsite
+        print zsite,'!!!!!!!'
         current_user = self.current_user
         txt = self.get_argument('txt', None)
 
