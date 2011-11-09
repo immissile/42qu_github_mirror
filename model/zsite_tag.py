@@ -42,7 +42,7 @@ mc_po_id_list_by_zsite_tag_id = McLimitA('PoIdListByZsiteTagId:%s', 128)
 zsite_tag_count = McNum(lambda id: ZsiteTagPo.where(zsite_tag_id=id).count(), 'ZsiteTagCount:%s')
 zsite_tag_cid_count = McNum(lambda id, cid: ZsiteTagPo.where(zsite_tag_id=id, cid=cid).count(), 'ZsiteTagCount:%s')
 mc_po_id_list_by_zsite_tag_id_cid = McLimitA('PoIdListByTagIdCid:%s', 128)
-mc_zsite_tag_list_by_zsite_id_if_len = McCache('ZsiteTagListByZsiteIdIfLen:%s')
+mc_zsite_tag_list_by_zsite_id_if_len = McCache('ZsiteTagListByZsiteIdIfLen*%s')
 
 class ZsiteTag(McModel):
     pass
@@ -59,10 +59,12 @@ def zsite_tag_list_by_zsite_id_if_len(zsite_id):
     tag_id_list = tag_id_list_by_zsite_id(zsite_id)
     tid = zsite_tag_id_list_by_zsite_id(zsite_id)
     r = []
-    for i, count in zip(tag_id_list, zsite_tag_count.get_list(tid)):
+    tid_list = []
+    for i, count, t in zip(tag_id_list, zsite_tag_count.get_list(tid), tid):
         if count:
             r.append(i)
-    return Tag.value_by_id_list(r).items()
+            tid_list.append(t)
+    return tuple(zip(tid_list, Tag.value_by_id_list(r).itervalues()))
 
 
 @mc_zsite_tag_id_list_by_zsite_id('{zsite_id}')
@@ -265,5 +267,6 @@ if __name__ == '__main__':
     #from model.cid import CID_AUDIO
     #print tag_id_by_user_id_cid(10000212, CID_AUDIO)
 
-    print zsite_tag_list_by_zsite_id(10000000)
+    print zsite_tag_list_by_zsite_id_if_len(10000000)
     pass
+

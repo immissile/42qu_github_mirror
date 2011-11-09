@@ -205,11 +205,11 @@ rid = po.rid
 
 
 <%def name="tag_list_tag(po_tag_count, po_tag_list)">
-% if po_tag_count:
+% if po_tag_count  and po_tag_count > 1:
 <div class="zsite_block">\
 <div class="zsite_block_tag">\
-% for tag_id, tag_name in po_tag_list.iteritems():
-<a href="/tag-${tag_id}">${tag_name}</a>
+% for tag_id, tag_name in po_tag_list:
+<a href="/tag/${tag_id}">${tag_name}</a>
 % endfor
 </div>\
 <div class="zsite_num_div zsite_num_tag">\

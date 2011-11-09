@@ -8,7 +8,7 @@ from model.event import event_join_count_by_user_id, event_list_join_by_user_id
 from model.zsite import Zsite
 from model.zsite_list import zsite_list_count, zsite_id_list
 from model.zsite_site import zsite_site_by_user_id_sample, zsite_site_count
-from model.zsite_tag import zsite_tag_list_by_zsite_id
+from model.zsite_tag import zsite_tag_list_by_zsite_id, zsite_tag_list_by_zsite_id_if_len
 %>
 
 <%def name="htm_head()">
@@ -45,7 +45,7 @@ po_event_count = event_join_count_by_user_id(zsite_id)
 po_site_list = zsite_site_by_user_id_sample(zsite_id, 6)
 po_site_count = zsite_site_count(zsite_id)
 
-po_tag_list = zsite_tag_list_by_zsite_id(zsite_id)
+po_tag_list = zsite_tag_list_by_zsite_id_if_len(zsite_id)
 po_tag_count = len(po_tag_list) 
 %>
 
