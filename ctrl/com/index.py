@@ -40,14 +40,18 @@ class Job(Base):
     def get(self):
         self.finish('it"s jobs')
 
+@urlmap('/new_product')
+class NewProduct(Base):
+    def get(self):
+        self.render()
 
 @urlmap('/product')
 class Product(Base):
     def get(self):
         self.render()
 
-@urlmap('/new')
-class New(Base):
+@urlmap('/new_com')
+class NewCom(Base):
     def get(self):
         self.render(errtip=JsDict())
 
