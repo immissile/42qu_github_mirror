@@ -1,5 +1,6 @@
 #coding:utf-8
-import _db
+from _db import Model
+
 from model.zsite_list import zsite_list, zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state
 from model.zsite import Zsite
 from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_COM_MEMBER
