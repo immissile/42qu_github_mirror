@@ -1,0 +1,25 @@
+
+<%inherit file="/ctrl/_base/zsite.htm" />
+
+<%def name="htm_head()">
+${css.ctrl_zsite_com|n}
+</%def>
+
+<%def name="htm_title()">
+公司
+</%def>
+
+
+<%def name="h_nav_more()">\
+</%def>
+##<%def name="htm_R()">
+<h1>
+<span class="R">
+    <form class="search" action=""><input type="text" autocomplete="off" id="search" name="q" value=""><input type="submit" class="search_btn" value=""></form>
+</span>
+<span class="nav C">
+    <a href="/" class="c9">产品</a><span class="c9 split">-</span><a href="/com_list" class="c9">公司</a><span class="c9 split">-</span><a href="/new_com" class="c9">创建</a>
+</span>
+</h1>
+##</%def>
+${next.body()}

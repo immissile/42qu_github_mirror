@@ -2,14 +2,15 @@
 from ctrl.main._handler import Base, LoginBase, XsrfGetBase
 from cgi import escape
 from ctrl._urlmap.auth import urlmap
-from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_USER
+from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_USER, CID_VERIFY_COM
 from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.user_session import user_session, user_session_rm
 from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from model.user_auth import user_password_new, user_password_verify
 from zkit.txt import EMAIL_VALID, mail2link
-
+from model.zsite_site import site_can_admin
+from model.job_mail import JobMail, STATE_VERIFIED, STATE_VERIFY 
 
 @urlmap('/auth/verify/send/(\d+)')
 class Send(Base):
@@ -62,6 +63,19 @@ class VerifyMail(VerifyBase):
             self.__dict__['_current_user'] = user
             self.render()
 
+@urlmap('/job/auth/verify/mail/(\d+)/(.+)')
+class JobVerifyMail(LoginBase):
+    def get(self, id, ck):
+        user_id, cid = verifyed(id, ck, delete=False)
+        if user_id and CID_VERIFY_COM == cid and site_can_admin(user_id,self.current_user_id):
+            jm = JobMail.get(zsite_id=user_id)
+            if jm.state == STATE_VERIFY:
+                jm.state = STATE_VERIFIED
+                jm.save()
+            self.render(jm=jm)
+            return user_id
+        else:
+            self.redirect('/')
 
 @urlmap('/auth/password/reset/(.+)')
 class PasswordReset(Base):

@@ -13,3 +13,5 @@ import rss
 import event
 import fav
 import site
+from com import job
+from com import product

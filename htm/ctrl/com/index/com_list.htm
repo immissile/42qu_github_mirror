@@ -1,0 +1,53 @@
+<%inherit file="../base.htm" />
+<%!
+from model.zsite import Zsite
+%>
+
+<style>
+ h1{
+border-bottom:1px dotted #CCCCCC;
+font-size:14px;
+margin:auto;
+padding:16px 0;
+text-align:left;
+}
+.split{
+margin:0 12px;
+}
+#search{
+border:1px solid #ddd;
+float:left;
+height:26px;
+line-height:26px;
+padding:1px 3px;
+width:100px;
+}
+.search_btn {
+background:url(http://s4.42qu.us/img/png/search_btn.png) no-repeat;
+border:none;
+cursor:pointer;
+height:30px;
+width:31px;
+}   
+.com_a{
+font-size:14px;
+padding:7px 0;
+color:#444;
+border-bottom:1px dotted #ccc;
+display:block;
+text-align:center;
+height:28px;
+}
+</style>
+<div class="G c">
+    %if page_list:
+    %for zsite in page_list:
+    <div class="G1">
+        <a href="${zsite.link}" class="com_a">${zsite.name}</a>
+    </div>
+    %endfor
+    %endif
+
+</div>
+${page|n}
+

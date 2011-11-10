@@ -1,0 +1,173 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+${css.ctrl_zsite_com|n}
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.zsite_url import host
+%>
+<%
+if zsite_id:
+    request_host = host(zsite_id)
+else:
+    request_host = request.host
+%>
+<%def name="head()">
+<script src="${js.ctrl_site_new}"></script>
+<script src="${js.pid}"></script>
+<script src="${js.z}"></script>
+${css.ctrl_site_new|n}
+${css.ctrl_po_event|n}
+</%def>
+${head()}
+<style>
+.addr_input{
+width:290px;
+}
+.pid{
+margin:15px 0 0 72px;
+}
+.pid select{
+margin-right:8px;
+}
+.close_addr{
+display:inline-block;
+width:16px;
+height:16px;
+margin-left:16px;
+background:url(http://s.realfex.xxx/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;
+padding:4px;
+vertical-align:-4px;
+}
+.close_addr:hover{
+background:url(http://s.realfex.xxx/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
+}
+.addr_block{
+margin-left:8px;
+}
+</style>
+<script type="text/javascript">
+$(function(){
+    function empty(self){
+        var val=self.val();
+        return !val||$.trim(val)==''
+    }
+    function verify(){
+        var self=$(this);
+        tip(self)
+    }
+    function tip(self){
+        var id=self[0].id;
+        if(empty(self)){
+            $("#errtip_"+id).remove()
+            var tip=$('<div class="errtip" id="errtip_'+id+'"/>');
+            self.parent().append(tip);
+            tip.fadeOut(function(){tip.fadeIn()})
+            tip.html("此项必填")
+        }
+    }
+    var elem="#pic,#name,#motto,#url,#txt"
+    elem=$(elem)
+    elem.blur(verify).focus(function(){
+        $("#errtip_"+this.id).remove()
+    })
+    com_new = function(){
+        var i=0
+        for(;i<elem.length;++i){
+            var self=$(elem[i])
+            if(empty(self)){
+                self.focus()
+                $(window).scrollTop(Math.max(self.offset().top-50,0))
+                tip(self)
+                return false
+            }
+        }
+        if($('#pid')[0] && $('#pid>select[name="city"]').val()==0){
+            $('#errtip_addr').html('请填写完整地址')
+            return false
+        }
+        if(!$('#pid')[0] && $('.pid:first>select[name="city"]').val()==0){
+            $('#errtip_addr').html('请填写完整地址')
+            return false
+        }
+        $('.pid:last').parent().remove()
+        $('input[type="hidden"]').each(function(){
+            var self = $(this)
+            if(self.attr('name').substr(0,3)=='pid') self.attr('name','pid')
+        })
+        return true 
+    }
+    $("select[name='city']").bind('change',addr_change)
+
+    var addr_num = 2
+    function addr_change(){
+        var self = $('.addr_input:last')
+        $("select[name='city']").unbind('change',addr_change)
+        $('.addr_block').append('<div><span id="pid'+addr_num+'" class="pid"></span><script>_("pid'+addr_num+'",0)<\/script><input type="text" class="input addr_input" name="address" /></div>')
+            self.after('<a href="javascript:close_addr('+(addr_num-1)+');void(0)" class="close_addr"></a>')
+        addr_num++
+        $("select[name='city']:last").bind('change',addr_change)
+    }
+    close_addr = function(id){
+        var fir_id = $('.pid:first').attr('id').substr(3)
+        var fir = fir_id.length>0 && !$('#pid')[0]
+        if(id==1){
+            $('#pid').remove()
+            $('.addr_input:first').remove()
+            $('.close_addr:first').remove()
+            $('.pid:first').parent().css('display','inline')
+            $('.pid:first').css('margin-left','-4px')
+        } else if(fir){
+            $('#pid'+id).parent().remove()
+            $('.pid:first').parent().css('display','inline')
+            $('.pid:first').css('margin-left','-4px')
+        } else{
+            $('#pid'+id).parent().remove()
+        }
+    }
+})
+</script>
+
+<div style="color:#ccc" class="head">
+<span class="c0">创建公司</span>&gt;<span>产品演示</span>&gt;<span>发布职位</span>&gt;<span>企业介绍</span>&gt;<span>照片风景</span>&gt;<span>添加成员</span>&gt;<span>邀请评价</span>
+</div>
+
+<%htm:form enctype="multipart/form-data" className="site_new" onsubmit="return com_new()">
+<div>
+标识图片<input class="file" name="pic" id="pic" type="file">
+${errtip.pic|n}
+</div>
+<div>
+显示名称<input autocomplete="off" class="input" name="name" id="name" value="" type="text">
+${errtip.name|n}
+</div>
+<div>
+口号宣言<input class="input" autocomplete="off" name="motto" id="motto" value="" type="text">
+${errtip.motto|n}
+</div>
+<div>
+个性域名<input autocomplete="off" class="input" name="url" value="" type="text" id="url"><span class="ltip">域名由英语字母，数字，和 - 构成，长度在5-32个字符</span>
+${errtip.url|n}
+</div>
+##<div>
+##    文字介绍<textarea name="txt" class="txt" id="txt">
+##        ${txt or ''}
+##    </textarea>
+##</div>
+<div class="address" style="margin-top:16px;">
+公司地址<span class="addr_block"><script>select_pid("pid", 0)</script></span><input type="text" class="input addr_input" name="address" />
+</div>
+<div class="errtip" id="errtip_addr"></div>
+<div>
+<span class="btnw"><button type="submit" id="submit">下一步</button></span>
+</div>
+
+</%htm:form>
+
+
+
+</div></div></div>
+
+
+
+<div id="fancybox-tmp"></div><div id="fancybox-loading"><div></div></div><div id="fancybox-overlay"></div><div id="fancybox-wrap"><div id="fancybox-outer"><div class="fancybox-bg" id="fancybox-bg-n"></div><div class="fancybox-bg" id="fancybox-bg-ne"></div><div class="fancybox-bg" id="fancybox-bg-e"></div><div class="fancybox-bg" id="fancybox-bg-se"></div><div class="fancybox-bg" id="fancybox-bg-s"></div><div class="fancybox-bg" id="fancybox-bg-sw"></div><div class="fancybox-bg" id="fancybox-bg-w"></div><div class="fancybox-bg" id="fancybox-bg-nw"></div><div id="fancybox-content"></div><a id="fancybox-close"></a><div id="fancybox-title"></div><a href="javascript:;" id="fancybox-left"><span class="fancy-ico" id="fancybox-left-ico"></span></a><a href="javascript:;" id="fancybox-right"><span class="fancy-ico" id="fancybox-right-ico"></span></a></div></div><a class="zsite_foot" href="#B">${request_host}</a><a style="display: none;" href="#B" id="sB"></a></body>
+</html>
+

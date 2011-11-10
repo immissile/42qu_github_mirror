@@ -1,0 +1,39 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%def name="htm_nav()"></%def>
+<%def name="h_nav()"></%def>
+<%def name="T()"></%def>
+<%
+from model.zsite import Zsite
+%>
+<style>
+.fullscreen_line{
+margin-top:20%;
+font-size:16px;
+text-align:center;
+}
+.fullscreen_line p{
+line-height:64px;
+}
+</style>
+<%def name="H()">
+<div id="H"><div class="H tc">
+<div style="color:#d10">
+%if jm:
+账号激活成功 !
+%else:
+验证码失效了 !
+%endif 
+</div>
+</div></div>
+</%def>
+
+
+%if jm:
+<div class="fullscreen_line">
+<a id="next" href="${Zsite.mc_get(jm.zsite_id).link}/">点击这里 , 继续旅程 ...</a>
+</div>
+%else:
+<div class="fullscreen_line">
+验证码已失效 ,  <a id="next" href="/">点此重新</a>
+</div>
+%endif

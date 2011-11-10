@@ -1,0 +1,183 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+${css.ctrl_zsite_com|n}
+<%!
+from model.po_video import HTM_YOUKU
+from model.ico import pic211_url, ico_url
+from model.motto import motto_get
+from model.follow import follow_get
+from model.zsite_com import get_zsite_com_place
+from zkit.earth import place_name
+from model.zsite_site import site_can_view, site_can_admin
+from model.zsite_fav import zsite_fav_id_get
+from model.com import com_job_by_com_id, com_department_by_com_id, com_job_by_department_and_com 
+from model.zsite import Zsite
+%>
+<%def name="htm_title()">
+${motto_get(com.id)}
+</%def>
+##<script src="${js.ctrl_site_rec}"></script>
+<script src="${js.ctrl_zsite_site}"></script>
+<script src="${js.ctrl}"></script>
+<h1>${com.name}</h1>
+<div class="G">
+<div class="com_main">
+    <div class="com_video">${HTM_YOUKU%"XMjMxOTYxNDk2"|n}</div>
+    <div class="com_item">
+        <div class="com_title">${motto_get(com.id)}</div>
+        <div class="com_text">小米手机是中国首款双核1.5GHz高性能发烧级智能手机，由小米公司独立研发完成。小米手机于2011年10月正式发售，售价为1999元，小米网是唯一官方销售渠道。
+1. 双核1.5GHz处理器，主频速度比一般单核手机快近2倍。同时它采用异步电压技术，流畅与省电兼备。
+2. Adreno 220图形处理芯片堪比电视游戏机的图形能力，流畅运行大型3D游戏、播放1080p高清大片。
+3. 1GB大内存，让你的应用启动更快，同时可安装更多大型应用和游戏。
+<div class="com_main_img">\
+<img src="http://p.www.xiaomi.com/images/about/about_product_01.jpg"></div>\
+4. 夏普原装4吋屏。握感舒适、独特的半反半透技术，阳光下清晰可见、854x480分辨率。
+5. 1930mAh锂聚合物电池，容量比一般智能手机电池大30%。
+6. 高清晰相机。800万像素摄像头，F2.4大光圈，数字防抖。
+7. 独有的无锁双系统。开放刷机设置，提供MIUI和Android原生两个系统。 
+        </div>
+        
+<div class="com_q_w">
+<%
+sta_list=[10001299,10000000,10030281]
+starter_list = Zsite.mc_get_list(sta_list)
+%>    
+%for i in starter_list:
+<%
+career = ' , '.join(filter(bool, i.career))
+%>
+<div class="c com_q" >
+    <img src="${ico_url(i.id)}">
+    <div class="com_q_a"><div>${career}</div></div>
+    %if i.txt:
+    <div class="com_q1">“ </div>
+    <div class="com_qt">
+        ${i.txt}
+    <span class="com_q2">”</span>
+    </div>
+    %endif
+</div>
+%endfor
+</div>
+<div class="com_item">
+    <div class="com_title">市场环境</div>
+    <div class="com_text">小米手机是中国首款双核1.5GHz高性能发烧级智能手机，由小米公司独立研发完成。小米手机于　　如果把这个问题抛给小米的投资人，他们一定会愿意比照一家手机制造公司的估值基础的，他们的理由也振振有词：在苹果最早找风险投资的时候，那是一家制造公司；而今的小米手机，是这家公司最主打的产品之一；把这个问题抛给创业者，他们的回答是“一家互联网公司”，手机只是我们业务一部分，我们更重要是做移动互联产业，创业者的脚注也很有基础：这家公司的第一款产品，是米聊，一款IM软件。 
+    </div>
+</div>
+% if com_job_by_com_id(com.id):
+<div class="com_item">
+    <div class="com_title">招聘职位</div>
+<%
+departments = com_department_by_com_id(com.id)
+%>
+%if departments:
+<div class="com_jobs">
+%for department in departments:
+<%
+jobs = com_job_by_department_and_com(department.id,com.id) 
+%>
+%for job in jobs:
+   <a href="#"><span>${job.people_num}人</span>${job.title}</a>
+%endfor
+%endfor
+</div>
+%endif
+</div>
+%endif
+</div>
+</div>
+<div class="com_side">
+<div class="com_pic"><img src="http://help.42qu.com/file/hr/peitu5.jpg"></div>
+<div style="margin:18px 0;text-align:right">
+<%
+is_owner = com.id == user_id
+%>
+
+<%
+can_admin = site_can_admin(com.id, user_id)
+%>
+
+##%if site_can_view(com, user_id): 
+<div id="nav2">
+<a href="#" class="c0" style="font-size:16px;margin-right:14px"><span class="mr3">${com.reply_count}</span>评价</a>\
+%if can_admin:
+<a href="/admin" class="xa" style="font-size:16px;padding:7px 14px;">管理</a>\
+%else:
+    %if zsite_fav_id_get(com, user_id):
+<a href="/mark" class="xa" style="padding:7px 14px;font-size:16px;" id="fav_a">设置</a>\
+    %else:
+<a class="xa" style="padding:7px 14px;font-size:16px;"href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
+    %endif
+%endif
+##%if not is_owner and user_id:
+##<a id="fav_a"href="javascript:sitefav();void(0)" class="xa" style="padding:7px 14px;font-size:16px;">\
+##%if follow_get(user_id, com.id):
+##淡忘\
+##%else:
+##关注\
+##%endif
+##</a>\
+##%endif
+</div>
+                <div class="com_ir">
+                    <div class="com_title">创始人</div>
+%for i in starter_list:
+<%
+career = ' , '.join(filter(bool, i.career))
+%>
+<div class="com_text com_author">
+<div class="c">
+    <a href="${i.link}" class="com_avatar"><img src="${ico_url(i.id)}"></a>
+    <div><a target="_blank" class="c0" href="${i.link}">${i.name}</a></div>
+       
+    <div class="mt6">${i.career[0]}</div>
+    <div class="mt6">${i.career[1]}</div>
+</div>
+                        <div>
+<div class="com_q1">“ </div><div class="com_qt">
+   %if i.txt:
+    ${i.txt}
+    <span class="com_q2">”</span></div>
+    %endif
+                       </div>
+                   </div>
+%endfor
+               </div>
+                <div class="com_ir com_team">
+                    <div class="com_title">团队成员</div>
+            %for i in starter_list:
+                    <div class="com_member">
+                        <a class="com_avatar" href="${i.link}"><img src="${ico_url(i.id)}"></a>
+                        <div><a class="c0" href="${i.link}" target="_blank">${i.name}</a></div>
+                        <div class="mt6">${i.career[0]}</div>
+                        <div class="mt6">${i.career[1]}</div>
+                   </div>
+            %endfor
+
+                <div class="com_ir">
+                    <div class="com_title">联系方式</div>
+                        <div class="com_text">
+               </div>
+                           <div>官网 : 42qu.com</div>
+                           <div>微博 : <a href="#">新浪</a> <a href="#">腾讯</a></div>
+                           <div>地址 :
+                               %for place in get_zsite_com_place(com.id):
+                               <div>
+                            ${place_name(place.pid)}
+                           <div style="margin-left:40px">${place.address}望京西路甲50号-1卷石天地大厦A座12层</div>
+                           </div>
+                           %endfor
+                            </div>
+                           <div>电话 : 13896232423</div>
+                       </div>
+                   </div>
+
+                   <img alt="${com.name}" src="${pic211_url(com.id)}" class="com_logo">
+
+    </div>
+</div>
+
+
+
+
+
+</div>

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, CID_EVENT_NOTICE
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, CID_EVENT_NOTICE, CID_PRODUCT
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -28,6 +28,7 @@ PO_CN_EN = (
     (CID_VIDEO, 'video', '视频', '场'),
     (CID_AUDIO, 'audio', '音乐', '段'),
     (CID_EVENT, 'event', '活动', '次'),
+    (CID_PRODUCT, 'product','产品','个'),
 )
 PO_CID = tuple([
     i[0] for i in PO_CN_EN
@@ -356,7 +357,16 @@ def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
             m.feed_new()
         return m
 
-
+def po_product_new(user_id,name,txt,zsite_id=0,state=STATE_ACTIVE,):
+    if not name and not txt and not zsite_id:
+        return
+    name = name
+    if not is_same_post(user_id,name,txt,zsite_id):
+        m = po_new(CID_PRODUCT, user_id,name,state,0,None,zsite_id)
+        txt_new(m.id,txt)
+        if state > STATE_SECRET:
+            m.feed_new()
+        return m
 
 PO_LIST_STATE = {
     True: 'state>%s' % STATE_DEL,

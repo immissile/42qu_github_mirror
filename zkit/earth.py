@@ -10726,3 +10726,4 @@ def pid_province(code):
 
 if __name__ == '__main__':
     print place_name(pid_city(4295098368))
+    print pid_city(4294967295)

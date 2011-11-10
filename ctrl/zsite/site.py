@@ -99,7 +99,7 @@ class MarkRm(XsrfGetBase):
 
 @urlmap('/mark')
 class Mark(LoginBase):
-    def get(self,id=None):
+    def get(self):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
         
@@ -118,7 +118,8 @@ class Mark(LoginBase):
         self.render()
 
 
-    def post(self,id=None):
+    def post(self):
+        zsite = self.zsite
         current_user = self.current_user
         txt = self.get_argument('txt', None)
         if txt:

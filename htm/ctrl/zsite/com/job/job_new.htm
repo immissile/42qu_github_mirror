@@ -1,0 +1,480 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%!
+from zkit.earth import place_name
+%>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="htm_head()">
+${css.ctrl_zsite_site|n}
+${css.ctrl_event_admin|n}
+${css.ctrl_po_event|n}
+<script src="${js.ctrl_zsite|n}"></script>
+<script src="${js.pid|n}"></script>
+<script src="${js.ctrl_zsite_site|n}"></script>
+<link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章">
+</%def>
+
+
+
+
+<style>
+.address{
+margin:10px 80px;
+}
+.txt{
+width:452px;
+height:120px;
+border:1px solid #ccc;
+padding:6px 8px 8px;
+vertical-align:0;
+}
+.split{
+margin:0 10px;
+}
+.salary1, .salary2{
+width:60px;
+}
+.salary1{
+margin-left:30px;
+}
+.add_de{
+margin-left:12px;
+}
+.add_de_txt{
+margin-left:20px;
+width:160px;
+}
+.add_de_a{
+margin-left:10px;
+border:1px solid #ccc;
+padding:5px 12px 7px;
+}
+.add_addr{
+display:none;
+}
+#prof{
+background:#fff;
+border:1px solid #ccc;
+padding:4px 8px;
+font-size:16px;
+color:#999;
+cursor:pointer;
+height:40px;
+}
+.pop_prof{
+width:653px;
+height:500px;
+overflow-y:auto;
+}
+.bgc1{
+background:#f3f3f3;
+}
+.bgc1, .bgc2{
+line-height:20px;
+margin:1px;
+overflow:hidden;
+width:100%;
+}
+.bgc1 li, .bgc2 li{
+display: inline;
+width:200px;
+float: left;
+font-size: 12px;
+height: 20px;
+margin: 0 0 0 6px;
+overflow: hidden;
+padding: 3px 0;
+text-align: left;
+}
+.prof_cb{
+float:left;
+vertical-align:middle;
+margin:4px 4px 0 6px;
+}
+.prof_word{
+display:block;
+color:#222;
+padding-left:3px;
+}
+.prof_word_on{
+background:#b2d235;
+}
+.bgc1 li:hover, .bgc2 li:hover{
+background:#d4f457;
+cursor:pointer;
+}
+.prof_btn{
+background:#fff;
+border:1px solid #ccc;
+width:100%;
+position:absolute;
+bottom:0;
+left:0;
+cursor:pointer;
+color:#222;
+}
+.prof_btn:hover{
+background:#eee;
+}
+.rm_addr{
+display:inline-block;
+height:16px;
+width:16px;
+padding:4px;
+background:url(http://s.realfex.xxx/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;
+vertical-align:-6px;
+}
+.rm_addr:hover{
+background:url(http://s.realfex.xxx/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
+}
+.prof_banner{
+margin-left:12px;
+font-size: 14px; 
+margin-bottom:6px;
+}
+.man_de{
+margin-left:6px;
+}
+.pop_de{
+margin-bottom:12px;
+width:200px;
+}
+.pop_de_name{
+font-size:14px;
+padding:6px;
+width:150px;
+margin-right:8px;
+}
+.pop_hint{
+margin:0 0 12px 6px;
+font-size:16px;
+}
+.man_done{
+border:1px solid #ccc;
+padding:2px 6px;
+display:block;
+margin:12px 0;
+font-size:16px;
+color:#999;
+width:60px;
+text-align:center;
+}
+.man_done:hover{
+background:#f9f9f9;
+}
+</style>
+
+<script type="text/javascript">
+function man_de(){
+    var fancybox = $.fancybox
+    var cont='<form id="de_form"><div class="pop_hint">管理部门</div>',opts = $('.de_opt')
+    opts.each(function(){
+        cont += '<div class="pop_de" id="pop_de'+$(this).val()+'"><input type="text" class="pop_de_name" name="pop_de_name" value="'+$(this).text()+'"><input type="hidden" name="pop_de_id" value="'+$(this).val()+'"><a href="javascript:rm_de('+$(this).val()+');void(0)" class="rm_addr"></a></div>'
+    })
+    cont += '<a href="javascript:man_done();void(0)" class="man_done">保存</a></form>'
+    fancybox({content:cont,'hideOnOverlayClick': false})
+}
+function rm_de(id){
+    if(confirm('删除,确定?')){
+        $.postJSON(
+            '/job/department/rm',
+            {'id':id}
+        )
+        $('#pop_de'+id).remove()
+    }
+}
+function man_done(){
+    var pop_des = $('.pop_de'),result='',ctrl=false
+    pop_des.each(function(){
+        var de = $(this),
+        id = de.find('input[name="pop_de_id"]').val(),
+        name = $.trim(de.find('.pop_de_name').val())
+        if(name==''){
+            alert('部门名称不能为空')
+            ctrl = true
+            return
+        }
+        result += '<option class="de_opt" value="'+id+'">'+name+'</option>'
+    })
+    if(ctrl) return
+    $.postJSON(
+        '/job/depart/write',
+        $('#de_form').serialize()
+    )
+    $('#depart').html(result)
+    $('#fancybox-close').click()  
+}
+function add_de_a(){
+    val = $('.add_de_txt').val()
+    if($.trim(val)==''){
+        alert('部门名称不能为空')
+        return
+    }
+    $.postJSON(
+        '/job/depart/add',
+        {'txt':val},
+        function(id){
+            de = $('#depart')
+            de.append('<option class="de_opt" selected value="'+id+'">'+val+'</option>')
+            $('.add_de_txt,.add_de_a').remove()
+            de.after('<a class="c9 add_de" href="javascript:add_de();void(0)">添加部门</a>')          
+        }
+    )
+}
+function add_ad_a(){
+    var co = $("select[name='country']").val(),
+    coun = $("select[name='country']").find("option:selected").text(),
+    city = $("select[name='city']").find("option:selected").text(),
+    town = $("select[name='town']").find("option:selected").text()
+    if(!(coun && city && town && city!="- 请选择 -" && town!="- 请选择 -") && coun=='中国' ){
+        alert('请选择完整的城市及县区')
+        return
+    }
+    if(co==1) addr=city+'市'+town; else addr=coun;
+    num = $('#addr').children().length + 1
+    var addr_val = $('#pid').find('input').val()
+    $('#addr').append('<div class="address"><input name="addr" value="'+addr_val+'" id="addr'+num+'" type="checkbox" checked><label for="addr'+num+'"> '+addr+'</label><a href="javascript:rm_addr('+num+');void(0)" class="rm_addr"></a></div>')
+    $('.add_ad_txt, .add_de_a').remove()
+    $('.add_addr').hide()
+    $('#add_addr').show()
+}
+function add_de(){
+    $('.add_de').replaceWith('<input type="text" class="input add_de_txt"><a class="c9 add_de_a" href="javascript:add_de_a();void(0)">添加</a>')
+}
+function add_addr(){
+    $('#add_addr').hide()
+    $('.add_addr').css('display','inline')
+    $('.add_addr').after('<a class="c9 add_de_a" href="javascript:add_ad_a();void(0)">添加</a>')
+}
+function rm_addr(id){
+    $('#addr'+id).parent().remove()
+}
+
+$(function(){
+    function empty(self){
+        var val=self.val();
+        return !val||$.trim(val)==''
+    }
+    function verify(){
+        var self=$(this);
+        tip(self)
+    }
+    function tip(self){
+        var id=self[0].id;
+        if(empty(self)){
+            $("#errtip_"+id).remove()
+            var tip=$('<div class="errtip" id="errtip_'+id+'"/>');
+            self.after(tip);
+            tip.fadeOut(function(){tip.fadeIn()})
+            tip.html("此项必填")
+        }
+    }
+
+    var elem="#title,#desc,#requ,#more,#prof_input"
+    elem=$(elem)
+    elem.blur(verify).focus(function(){
+        $("#errtip_"+this.id).remove()
+    })
+
+    function check_tip(name){
+        var s = ':checkbox[name='+name+']'
+        var cb = $(s)
+        var par = $('#'+name)
+        if($(s+':checked').length<1){
+            $('#errtip_'+name).remove()
+            par.after('<div class="errtip" id="errtip_'+name+'">请至少选择一项</div>')
+            $(window).scrollTop(Math.max(par.offset().top-50,0))
+            var err = $('#errtip_'+name)
+            err.fadeOut(function(){err.fadeIn()})
+            cb.click(function(){err.remove()})
+            return false
+        }
+        return true
+    }
+
+    function money_tip(){
+        if(empty($('.salary1')) || empty($('.salary2'))){
+            $('#errtip_salary').remove()
+            $('#salary').after('<div class="errtip" id="errtip_salary">此项必填</div>')
+            var err=$('#errtip_salary')
+            err.fadeOut(function(){err.fadeIn()})
+            $('.salary1,.salary2').click(function(){err.remove()})
+            return false
+        }
+        if(!$('input[name="addr"]:checked')[0]){
+            var err=$('#errtip_addr')
+            err.fadeOut(function(){err.fadeIn()})
+            $('input[name="addr"], #add_addr').click(function(){err.remove()})
+            return false
+        }
+        return true
+    }
+
+    job_new = function (){
+        var submit,i=0;
+        for(;i<elem.length;++i){
+            var self=$(elem[i]);
+            if(empty(self)){
+                self.focus();
+                $(window).scrollTop(Math.max(self.offset().top-50,0))
+                tip(self)
+                submit = false
+                return submit;
+            }
+        }
+        if(!check_tip('addr'))return false;
+        if(!check_tip('type'))return false;
+        return money_tip()
+    }
+    var prof_list = ${job_prof|n}
+    var prof_content = '<div class="prof_banner">选择行业类别 (<span class="limit_tip">最多三项</span>)</div><div class="pop_prof">'
+    for(var i=0;i<prof_list.length;i++){
+        var li = prof_list[i]
+        prof_content += i%2==0?'<ul class="bgc1">':'<ul class="bgc2">'
+        for(var j=0;j<li.length;j++){
+            prof_content += '<li><label><input type="checkbox" value="'+li[j][0]+'" class="prof_cb" name="prof'+li[j][0]+'"></label><span class="prof_word">'+li[j][1]+'</span></li>'
+        }
+        prof_content += '</ul>'
+    }
+    prof_content += '<div style="height:10px;"></div></div><button class="prof_btn" type="button">确 定</button>'
+
+
+    $('#prof').click(function(){
+        var fancybox = $.fancybox
+        fancybox({
+            'content':prof_content,
+            'hideOnOverlayClick': false
+        })
+        if($('#prof_input').val().length>0){
+            var ids = $('#prof_input').val().split('-')
+            for(i=0;i<ids.length;i++){
+                $(".prof_cb[name='prof"+ids[i]+"']").attr('checked','checked')
+                $(".prof_cb[name='prof"+ids[i]+"']").parent().parent().find('.prof_word').addClass('prof_word_on')
+            }
+        }
+        $('.prof_word').click(function(){
+            if($(this).css('background-color')=='transparent'){
+                if($('.prof_word_on').length>=3){
+                    $('.limit_tip').css({'color':'#D10','font-size':'16px'}).fadeOut(function(){$('.limit_tip').fadeIn()})
+                    return
+                }
+                $(this).toggleClass('prof_word_on')
+                $(this).parent().find('input').attr('checked','checked')
+            } else{
+                $('.limit_tip').css({'color':'#000','font-size':'14px'})
+                $(this).toggleClass('prof_word_on')
+                $(this).parent().find('input').removeAttr('checked')
+            }
+        })
+
+        $('.prof_cb').click(function(){
+            var word = $(this).parent().parent().find('.prof_word')
+            if(word.css('background-color')=='transparent'){
+                if($('.prof_word_on').length>=3){
+                    $('.limit_tip').css({'color':'#D10','font-size':'16px'}).fadeOut(function(){$('.limit_tip').fadeIn()})
+                    $(this).removeAttr('checked')
+                    return
+                }
+                word.toggleClass('prof_word_on')
+            } else{
+                $('.limit_tip').css({'color':'#000','font-size':'14px'})
+                word.toggleClass('prof_word_on')
+            }
+        })
+
+        $('.prof_btn').click(function(){
+            if($('.prof_word_on').length<1){
+                $('#fancybox-close').click()
+                return
+            }
+            var words = ''
+            var ids = []
+            $('.prof_word_on').each(function(){
+                words += $(this).text() +　' + '
+                ids.push($(this).parent().find('.prof_cb').val())
+            })
+            //ids = ids.substr(0,words.length-2)
+            words = words.substr(0,words.length-2)
+            $('#fancybox-close').click()
+            $('#prof').text(words).css({'color':'#000','width':'auto','overflow':'hidden','text-align':'left'})
+            $('#prof_input').val(ids.join('-'))
+        })
+    })
+})
+</script>
+<div class="head">
+<span>1. 创建公司</span>&gt;<span>2. 添加照片</a></span>&gt;<span class="c0">3. 添加职位</span>
+</div>
+
+<%htm:form method="POST" id="event_form" enctype="multipart/form-data" onsubmit="return job_new()">
+<div class="po_line">
+    <label>所属部门</label><select name="depart" id="depart">
+%if com_department_list:
+%for department in com_department_list:
+<option value="${department.id}" class="de_opt">${department.name}</option>
+%endfor
+
+%endif
+    </select><a class="c9 add_de" href="javascript:add_de();void(0)">添加部门</a><a class="c9 man_de" href="javascript:man_de();void(0)">管理部门</a>
+
+    <div class="errtip" id="errtip_depart"></div>
+</div>
+
+<div class="po_line">
+    <label for="title">工种头衔</label><input value="" name="title" class="input" id="title" >
+    <div class="errtip" id="errtip_title"></div>
+</div>
+<div class="po_line">
+    <label for="prof">行业类别</label><button type="button" id="prof">请选择</button>
+    <input type="hidden" id="prof_input" name="prof" value="" />
+    <div class="errtip" id="errtip_prof"></div>
+</div>
+<div class="po_line">
+    <label>公司地址</label><a class="c9" href="javascript:add_addr();void(0)" id="add_addr">添加地址</a><div class="add_addr"><script>select_pid("pid", 0)</script></div>
+    <div id="addr">
+%for com_place in com_place_list:
+<div class="address"><input name="addr" id="addr1" type="checkbox" value="${com_place.pid or ''}"><label for="addr1"> ${place_name(com_place.pid) or '无'}</label></div>
+%endfor
+    </div>
+    <div class="errtip" id="errtip_addr"></div>
+</div>
+<div class="po_line">
+    <label>职位描述</label><textarea class="txt" name="desc" id="desc"></textarea>
+    <div class="errtip" id="errtip_desc"></div>
+</div>
+<div class="po_line">
+    <label>技能要求</label><textarea class="txt" name="requ" id="requ"></textarea>
+    <div class="errtip" id="errtip_requ"></div>
+</div>
+<div class="po_line">
+    <label>优先条件</label><textarea class="txt" name="more" id="more"></textarea>
+    <div class="errtip" id="errtip_more"></div>
+</div>
+<div class="po_line">
+    <label>有效时限</label><select name="deadline" id="deadline">
+        <option value="1">一个月</option>
+        <option value="2">两个月</option>
+        <option value="3">三个月</option>
+    </select>
+</div>
+<div class="po_line" id="type">
+    <label>招聘类型</label><input name="type" id="type1" type="checkbox" value="1"><label for="type1"> 兼职</label><input name="type" id="type2" type="checkbox" value="2"><label for="type2"> 实习生</label><input name="type" id="type3" type="checkbox"value="3"><label for="type3"> 全职</label><input name="type" id="type4" type="checkbox" value="4"><label for="type4"> 合伙人</label>
+</div>
+<div class="po_line" id="salary">
+    <label>工资范围</label><select name="sal_type"><option value="1">月薪</option><option value="2">年薪</option></select><input name="salary1" class="input salary1"> 元<span class="split">——</span><input name="salary2" class="input salary2"> 元
+    <div class="errtip" id="errtip_salary"></div>
+</div>
+<div class="po_line">
+    <label>招聘人数</label><input name="people_num" class="input">
+    <div class="errtip" id="errtip_share"></div>
+</div>
+<div class="po_line">
+    <label>股份期权</label><input name="share" class="input">
+    <div class="errtip" id="errtip_share"></div>
+</div>
+<div class="po_line">
+    <label>其他福利</label><input name="other" class="input">
+    <div class="errtip" id="errtip_other"></div>
+</div>
+<span class="btnw"><button type="submit">下一步</button></span>
+</%htm:form>
+</div></div>
