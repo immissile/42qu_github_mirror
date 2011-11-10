@@ -12,6 +12,8 @@ import json
 from model.job import job_type_new, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_new
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
+from model.job_mail import JobMail as _JobMail
+from zkit.errtip import Errtip
 
 class AdminBase(ZsiteBase):
     def prepare(self):
@@ -91,9 +93,17 @@ class JobNew(AdminBase):
             for kind in kinds:
                 job_kind_new(cj.id,kind)
         
-        self.finish(str(cj.id))
+        self.finish('/job/choice')
                 
-        
+
+
+
+@urlmap('/job/choice')
+class JobChoice(AdminBase):
+    def get(self):
+        self.render()
+
+
 
 @urlmap('/job/department/rm')
 class JobDepartmentRm(AdminBase):
@@ -127,18 +137,38 @@ class JobDepartWrite(AdminBase):
 @urlmap('/job/mail')
 class JobMail(AdminBase):
     def get(self):
-        self.render(current_user_id=self.current_user_id)
+        err = Errtip()
+        self.render(current_user_id=self.current_user_id,errtip=err)
 
     def post(self):
         hr_mail = self.get_argument('hr_mail',None)
         zsite_id = self.zsite_id
         zsite = Zsite.mc_get(zsite_id)
-        if hr_mail:
+        if hr_mail and EMAIL_VALID.match(hr_mail):
             job_mail_new(zsite_id,hr_mail)
             verify_mail_new(zsite_id,zsite.name,hr_mail,CID_VERIFY_COM)
             return self.redirect('/mail/verify')
         else:
-            return self.get()
+            err = Errtip()
+            err.mail = '邮件格式错误'
+            return self.render(errtip=err,current_user_id=self.current_user_id)
+
+
+
+@urlmap('/mail/verified')
+class MailVerified(AdminBase):
+    def get(self):
+        zsite_id = self.zsite_id
+        zsite = Zsite.mc_get(zsite_id)
+        from model.user_mail import mail_by_user_id
+        jm = job_mail_new(zsite_id,mail_by_user_id(self.current_user_id))
+        verify_mail_new(zsite_id,zsite.name,mail_by_user_id(self.current_user_id),CID_VERIFY_COM)
+        jm.state = STATE_VERIFIED
+        jm.save()
+        self.redirect('/job/new')
+
+
+
 
 @urlmap('/mail/verify')
 class MailVerify(AdminBase):

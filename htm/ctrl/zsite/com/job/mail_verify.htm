@@ -3,6 +3,7 @@
 <%!
 from model.user_mail import mail_by_user_id
 from model.job_mail import get_job_mail
+from zkit.txt import EMAIL_VALID, mail2link
 %>
 
 <%def name="htm_head()">
@@ -36,7 +37,7 @@ function reg_mail(){
 <div style="margin-left:269px;">
 <div class="po_line">
     <p class="word">HR邮箱填写成功</p>
-    <p class="word">${get_job_mail(zsite_id) or ''}<a href="" class="word_a">去验证</a><a href="/job/mail" class="word_a">重新填写</a></p>
+    <p class="word">${get_job_mail(zsite_id) or ''}<a href="${mail2link(get_job_mail(zsite_id)) or ''}" class="word_a">去验证</a><a href="/job/mail" class="word_a">重新填写</a></p>
 </div>
 </div>
 </div></div>

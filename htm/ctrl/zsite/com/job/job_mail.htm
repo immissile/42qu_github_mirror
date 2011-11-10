@@ -41,7 +41,8 @@ function reg_mail(){
     <label for="title">填写HR邮箱</label>
 </div>
 <div class="po_line">
-    <div><input value="" name="hr_mail" class="input" id="hr_mail" ><a href="javascript:reg_mail();void(0)" class="reg_mail">使用注册邮箱</a>
+    <div><input value="" name="hr_mail" class="input" id="hr_mail" ><a href="/mail/verified" class="reg_mail">使用注册邮箱</a>
+        ${errtip.mail|n}
     </div>
     <div class="errtip" id="errtip_title"></div>
 </div>

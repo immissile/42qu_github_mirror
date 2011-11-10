@@ -13,6 +13,9 @@ ${css.ctrl_po_event|n}
 <link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章">
 </%def>
 
+<div class="head" style="color: rgb(204, 204, 204);">
+<span>创建公司</span>&gt;<span >产品演示</span>&gt;<span class="c0">发布职位</span>&gt;<span>企业介绍</span>&gt;<span>照片风景</span>&gt;<span>添加成员</span>&gt;<span>邀请评价</span>
+</div>
 
 
 
@@ -401,9 +404,6 @@ $(function(){
     })
 })
 </script>
-<div class="head">
-<span>1. 创建公司</span>&gt;<span>2. 添加照片</a></span>&gt;<span class="c0">3. 添加职位</span>
-</div>
 
 <%htm:form method="POST" id="event_form" enctype="multipart/form-data" onsubmit="return job_new()">
 <div class="po_line">
@@ -429,7 +429,7 @@ $(function(){
     <div class="errtip" id="errtip_prof"></div>
 </div>
 <div class="po_line">
-    <label>公司地址</label><a class="c9" href="javascript:add_addr();void(0)" id="add_addr">添加地址</a><div class="add_addr"><script>select_pid("pid", 0)</script></div>
+    <label>工作地点</label><a class="c9" href="javascript:add_addr();void(0)" id="add_addr">添加地址</a><div class="add_addr"><script>select_pid("pid", 0)</script></div>
     <div id="addr">
 %for com_place in com_place_list:
 <div class="address"><input name="addr" id="addr1" type="checkbox" value="${com_place.pid or ''}"><label for="addr1"> ${place_name(com_place.pid) or '无'}</label></div>
@@ -464,7 +464,7 @@ $(function(){
     <div class="errtip" id="errtip_salary"></div>
 </div>
 <div class="po_line">
-    <label>招聘人数</label><input name="people_num" class="input">
+    <label>招聘人数</label><input name="people_num" class="input" style="width:50px;">
     <div class="errtip" id="errtip_share"></div>
 </div>
 <div class="po_line">

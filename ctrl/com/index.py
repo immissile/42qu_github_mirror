@@ -15,15 +15,15 @@ from model.zsite_member import zsite_member_new
 
 
 
-@urlmap('/com_list')
-@urlmap('/com_list/-(\d+)')
+@urlmap('/com/list')
+@urlmap('/com/list-(\d+)')
 class ComList(_ComListBase,Base):
     template = '/ctrl/com/index/com_list.htm'
     
     @property
     def user_id(self):
         return self.current_user_id
-    page_url = '/com_list/-%s'
+    page_url = '/com/list-%s'
 
     def _total(self):
         return zsite_com_count(CID_COM)
@@ -48,8 +48,8 @@ class Product(Base):
         self.render()
 
 
-@urlmap('/new_com')
-class NewCom(Base):
+@urlmap('/com/new')
+class ComNew(Base):
     def get(self):
         self.render(errtip=JsDict())
 
@@ -102,7 +102,7 @@ class NewCom(Base):
                     zsite_com_place_new(com_id,int(pa[0]),pa[1])
             if url:
                 url_new(com_id, url)
-            return self.redirect('%s/new_product'%com.link)
+            return self.redirect('%s/product/new'%com.link)
 
 
         return self.render(

@@ -10,8 +10,8 @@ from zkit.jsdict import JsDict
 from zkit.pic import picopen
 from model.ico import site_ico_new, site_ico_bind
 
-@urlmap('/new_product')
-class NewProduct(AdminBase):
+@urlmap('/product/new')
+class ProductNew(AdminBase):
     def get(self):
         self.render()
     
@@ -36,25 +36,28 @@ class NewProduct(AdminBase):
                 info_json.pro_url = pro_u
                 product_new(po_pro.id,info_json
                         )
-            self.redirect('/new_product_n')
+            self.redirect('/product/new/%s'%'0')
         self.get()
 
-@urlmap('/new_product_n')
-@urlmap('/new_product_n/(\d+)')
-class NewProductN(AdminBase):
-    def get(self,id=None):
+@urlmap('/product/new/(\d+)')
+class ProductNewN(AdminBase):
+    def get(self,id=0):
+        id = int(id)
         product_list = product_by_com_id(self.zsite.id)
+        if id+1 > len(product_list):
+            self.redirect('/job/new')
         position = self.get_argument('position',0)
         if not id:
             product_list = product_by_com_id(self.zsite.id)
         else:
-            position = int(position)+1
+            position = id
             print position
         self.render(product_list=product_list,position=position)
 
 
 
-    def post(self):
+    def post(self,id=0):
+        id = int(id)
         current_user = self.current_user
         current_user_id = current_user.id
         product_list = product_by_com_id(self.zsite.id)
@@ -74,7 +77,7 @@ class NewProductN(AdminBase):
         hope = self.get_argument('hope',None)
 
         files = self.request.files
-        product = product_list[position] or None
+        product = product_list[id] or None
         if product:
             _info = JsDict(json.loads(product.info_json))
 
@@ -105,8 +108,8 @@ class NewProductN(AdminBase):
 
 
         print len(product_list),position
-        if len(product_list)>int(position):
-            return self.get(product_list[position].id)
+        if int(position)-1<len(product_list):
+            return self.redirect('/product/new/%s'%(id+1))
         else:
-            return self.finish('yes!!')
+            return self.redirect('/job/new')
 
