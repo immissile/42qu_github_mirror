@@ -4,7 +4,7 @@ from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
 from model.job_mail import get_job_mail_state, job_mail_new, STATE_VERIFIED
 from model.zsite import Zsite
-from model.verify import verify_mail_new, CID_VERIFY_COM
+from model.verify import verify_mail_new, CID_VERIFY_COM_HR
 from model.zsite_com import get_zsite_com_place
 from zkit.job import JOB_KIND 
 from model.com import com_department_new, com_job_new, com_job_needs_new, com_department_by_com_id, com_department_rm_by_id, com_department_edit
@@ -135,7 +135,7 @@ class JobMail(AdminBase):
         zsite = Zsite.mc_get(zsite_id)
         if hr_mail:
             job_mail_new(zsite_id,hr_mail)
-            verify_mail_new(zsite_id,zsite.name,hr_mail,CID_VERIFY_COM)
+            verify_mail_new(zsite_id,zsite.name,hr_mail,CID_VERIFY_COM_HR)
             return self.redirect('/mail/verify')
         else:
             return self.get()

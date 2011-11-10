@@ -2,7 +2,7 @@
 from ctrl.main._handler import Base, LoginBase, XsrfGetBase
 from cgi import escape
 from ctrl._urlmap.auth import urlmap
-from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_USER, CID_VERIFY_COM
+from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_USER, CID_VERIFY_COM_HR
 from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.user_session import user_session, user_session_rm
 from model.verify import verify_mail_new, verifyed
@@ -67,7 +67,7 @@ class VerifyMail(VerifyBase):
 class JobVerifyMail(LoginBase):
     def get(self, id, ck):
         user_id, cid = verifyed(id, ck, delete=False)
-        if user_id and CID_VERIFY_COM == cid and site_can_admin(user_id,self.current_user_id):
+        if user_id and CID_VERIFY_COM_HR == cid and site_can_admin(user_id,self.current_user_id):
             jm = JobMail.get(zsite_id=user_id)
             if jm.state == STATE_VERIFY:
                 jm.state = STATE_VERIFIED
