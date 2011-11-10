@@ -11,6 +11,7 @@ from model.txt import txt_new
 from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from zkit.pic import picopen
 from zkit.errtip import Errtip
+from model.zsite_member import zsite_member_new
 
 
 
@@ -40,15 +41,12 @@ class Job(Base):
     def get(self):
         self.finish('it"s jobs')
 
-@urlmap('/new_product')
-class NewProduct(Base):
-    def get(self):
-        self.render()
 
 @urlmap('/product')
 class Product(Base):
     def get(self):
         self.render()
+
 
 @urlmap('/new_com')
 class NewCom(Base):
@@ -97,14 +95,14 @@ class NewCom(Base):
             com_id = com.id
             site_ico_bind(current_user_id, pic_id, com_id)
             motto_set(com_id, motto)
+            zsite_member_new(com_id, current_user_id)
             #txt_new(com_id, txt)
             if pid_add:
                 for pa in pid_add:
                     zsite_com_place_new(com_id,int(pa[0]),pa[1])
             if url:
                 url_new(com_id, url)
-            self.redirect(com.link)
-            return
+            return self.redirect('%s/new_product'%com.link)
 
 
         return self.render(
