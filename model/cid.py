@@ -8,7 +8,6 @@ CID_SITE = 3
 CID_COM = 4
 
 
-
 CID_ZSITE = (
     CID_USER,
     CID_CHANNEL,

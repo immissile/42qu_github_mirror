@@ -13,7 +13,7 @@ from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE, CID_SITE
 from zkit.page import page_limit_offset
 from zkit.txt import cnenlen
-from model.zsite_tag import ZsiteTag
+from model.zsite_tag import ZsiteTag , link_by_zsite_id_tag_id
 from model.feed_render import feed_tuple_list
 from model.tag import Tag
 from model.event import Event, EVENT_STATE_TO_REVIEW
@@ -367,6 +367,17 @@ class Question(PoOne):
             link = '%s#reply_txt' % question.link
         self.redirect(link)
 
+@urlmap('/tag')
+class TagIndex(ZsiteBase):
+    def get(self):
+        return self.render()
+
+@urlmap('/tag-(\d+)')
+class TagRedirect(ZsiteBase):
+    def get(self, id):
+        zsite_id = self.zsite_id
+        link = link_by_zsite_id_tag_id(zsite_id, id)
+        return self.redirect(link)
 
 @urlmap('/tag/(\d+)')
 class PoTag(ZsiteBase):

@@ -2,13 +2,12 @@
 # -*- coding: utf-8 -*-
 from gid import gid
 from _db import cursor_by_table, McModel, McLimitA, McCache, McCacheA
-from txt import txt_new
 from spammer import is_same_post, is_spammer, mc_lastest_hash
 from time import time
-from txt import txt_bind, txt_get
+from txt import txt_bind, txt_get, txt_new
 from model.txt2htm import txt_withlink
 from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
-from cid import CID_PO, CID_SITE, CID_COM 
+from cid import CID_PO, CID_SITE, CID_COM
 from zkit.attrcache import attrcache
 from user_mail import mail_by_user_id
 from mail import rendermail
@@ -39,15 +38,17 @@ class ReplyMixin(object):
     def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
         from zsite import user_can_reply
         user_id = user.id
-
-        if not user_can_reply(user):
-            return
+        cid = self.cid
+        if cid not in (CID_SITE,CID_COM):
+            if not user_can_reply(user):
+                return
         if is_spammer(user_id):
             return
 
         txt = txt.rstrip()
-        cid = self.cid
         rid = self.id
+
+
         if not txt or is_same_post(user_id, cid, rid, txt, state):
             return
 
@@ -125,6 +126,11 @@ class ReplyMixin(object):
             return li[0]
         return 0
 
+    def reply_last(self):
+        id = self.reply_id_last
+        if id:
+            return Reply.mc_get(id)
+
     @mc_reply_id_list_reversed('{self.cid}_{self.id}')
     def reply_id_list_reversed(self, limit=None, offset=None):
         return self._reply_id_list(limit, offset, 'order by id desc')
@@ -152,6 +158,10 @@ class Reply(McModel):
     @attrcache
     def txt(self):
         return txt_get(self.id)
+  
+    def txt_set(self,txt):
+        return txt_new(self.id,txt)
+
 
     @property
     def htm(self):

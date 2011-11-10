@@ -1,0 +1,34 @@
+<%!
+from model.vote import vote_state, vote_count
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO
+from datetime import datetime
+from model.zsite_tag import count_po_list_by_zsite_tag_id_cid
+from model.zsite_tag import zsite_tag_list_by_zsite_id_if_len
+%>
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo, tag_list_video, tag_list_audio"/>
+<%def name="htm_head()">
+${css.ctrl_tag|n}
+</%def>
+
+<a class="back_a" href="/po"></a>
+
+
+<%
+po_tag_list = zsite_tag_list_by_zsite_id_if_len(zsite_id)
+po_tag_count = len(po_tag_list) 
+%>
+
+
+<div class="po_tag">
+<h1><a class="c0" href="${zsite.link}">${zsite.name}</a> : 分类</h1>
+</div>
+
+
+<div class="zsite_block" style="margin-top:14px">\
+<div class="zsite_block_tag">\
+% for tag_id, tag_name in po_tag_list:
+<a href="/tag/${tag_id}">${tag_name}</a>
+% endfor
+</div>\
+</div>\

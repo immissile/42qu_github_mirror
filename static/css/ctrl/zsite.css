@@ -152,6 +152,23 @@ color:#fff;padding:7px 9px;
 .zsite_num_div{
 margin-top: 32px; margin-bottom: 16px; 
 }
+.zsite_num_tag{
+margin-top:25px;
+}
+.zsite_block_tag{
+margin-top:-7px;
+margin-left:-7px;
+}
+.zsite_block_tag a{
+display:inline-block;
+border-bottom:1px dotted #ccc;
+margin:7px;
+color:#000;
+}
+.zsite_block_tag a:hover{
+border-bottom:1px dotted #000;
+color:#d20;
+}
 .zsite_ol li{
 margin-top:22px;
 }

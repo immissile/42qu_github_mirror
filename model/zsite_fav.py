@@ -73,7 +73,25 @@ def zsite_fav_count_by_zsite(zsite):
         zsite.id, zsite.cid
     )
 
+def zsite_fav_rm_all_by_zsite_id(zsite_id):
+    zsite = Zsite.mc_get(zsite_id)
+    fav_list = ZsiteList.where(zsite_id=zsite_id)
+    for fav in fav_list:
+        zsite_list_rm(
+            zsite.id,
+            fav.owner_id,
+            zsite.cid
+        )
+        #zsite_fav_rm(zsite,fav.owner_id)
+
 if __name__ == '__main__':
-    from zsite_url import id_by_url
-    zsite_id = id_by_url('dongxi')
-    from model.zsite import Zsite
+    zsite_fav_rm_all_by_ziste_id(561)
+    #from zsite_url import id_by_url
+    #zsite_id = id_by_url('dongxi')
+    #from model.zsite import Zsite
+
+#
+#
+#if __name__ == "__main__":
+#    z = Zsite.mc_get(561)
+#    print zsite_fav_rm_all_by_ziste_id(z)

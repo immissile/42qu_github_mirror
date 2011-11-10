@@ -1,5 +1,5 @@
 JS = [
-'jquery-1.6.1.min.js.h',
+'jquery.js',
 'jquery.input.js.h',
 #'jquery.poshytip.js',
 'jquery.tmpl.js.h',
