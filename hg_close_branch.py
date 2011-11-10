@@ -3,13 +3,11 @@
 
 
 branches = """
-
-realfex_20111026_weekly_mail 6848:b07e0aa9185d (inactive)
-realfex_20111021_hero_pop   6743:3f670d1fab80 (inactive)
-zuroc_20111014_siterec      6720:1e8b8c5d064e (inactive)
-yup_20111021_xiaonei        6713:7776b4c3c82e (inactive)
-yup_20111017_google_contacts 6712:21251b9c0552 (inactive)
-realfex_20111017_add_friends 6669:b251e1028a78 (inactive)
+zuroc_20111108_com          7005:1fe04896e043
+zuroc_20111104_com          6987:cd71e64408f3
+realfex_20111101_job        6940:82cdb26bdf18 (inactive)
+yup_1031_site_note          6928:3816219f8044 (inactive)
+realfex_20111027_pop_hero   6872:5ad7a2956f08 (inactive)
 """
 
 branches = branches.strip()
