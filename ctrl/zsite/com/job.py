@@ -122,19 +122,33 @@ class JobDepartWrite(AdminBase):
 @urlmap('/job/mail')
 class JobMail(AdminBase):
     def get(self):
-        self.render(current_user_id=self.current_user_id)
+        err = Errtip()
+        self.render(current_user_id=self.current_user_id,errtip=err)
 
     def post(self):
         hr_mail = self.get_argument('hr_mail',None)
         zsite_id = self.zsite_id
         zsite = Zsite.mc_get(zsite_id)
-        if hr_mail:
+        if hr_mail and EMAIL_VALID.match(hr_mail):
             job_mail_new(zsite_id,hr_mail)
             verify_mail_new(zsite_id,zsite.name,hr_mail,CID_VERIFY_COM_HR)
             return self.redirect('/mail/verify')
         else:
-            return self.get()
+            err = Errtip()
+            err.mail = '邮件格式错误'
+            return self.render(errtip=err,current_user_id=self.current_user_id)
 
+@urlmap('/mail/verified')
+class MailVerified(AdminBase):
+    def get(self):
+        zsite_id = self.zsite_id
+        zsite = Zsite.mc_get(zsite_id)
+        from model.user_mail import mail_by_user_id
+        jm = job_mail_new(zsite_id,mail_by_user_id(self.current_user_id))
+        verify_mail_new(zsite_id,zsite.name,mail_by_user_id(self.current_user_id),CID_VERIFY_COM)
+        jm.state = STATE_VERIFIED
+        jm.save()
+        self.redirect('/job/new')
 @urlmap('/mail/verify')
 class MailVerify(AdminBase):
     def get(self):

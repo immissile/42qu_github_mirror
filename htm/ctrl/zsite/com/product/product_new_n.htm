@@ -104,11 +104,16 @@ $(function(){
     <%
     info = JsDict(json.loads(product.info_json))
     %>
-    <div class="left_item"><span class="left_arrow_0"></span><span \
+    <div class="left_item \
             %if i == position:
-            class="c0"\
+            c0\
             %endif
-            >${info.name or None}</span></div>
+        "><span class="left_arrow"></span>
+        <a href="/product/new/${i}" class="left_item
+            %if i == position:
+            c0\
+            %endif
+            ">${info.name or None}</a></div>
     %endfor
     %endif
 </div>
@@ -122,8 +127,6 @@ $(function(){
     <textarea name="bio" class="info_txt" id="txt_bio" placeholder="142字以内"></textarea>
     <p class="info_title">想法起源</p>
     <textarea name="origin" class="info_txt" id="txt_origin" placeholder="你受什么启发 , 看到了什么机会 ? 如何解读大趋势?"></textarea>
-    <p class="info_title">近期计划</p>
-    <textarea name="plan" class="info_txt" id="txt_plan" placeholder="接下来想做什么?"></textarea>
 </div>
 <p class="hint_wrap">同类产品</p>
 <div style="clear:both;">
@@ -153,9 +156,11 @@ $(function(){
     <p class="info_title">融资</p>
     <textarea name="money" class="info_txt" id="txt_money" placeholder="谁投钱 ? 投多少 ? 盈利的模式是 ?  何时开始盈利 ?"></textarea>
 </div>
-<p class="hint_wrap">最终愿景</p>
+<p class="hint_wrap">关于未来</p>
 <div style="clear:both;">
     <div>
+    <p class="info_title">近期计划</p>
+    <textarea name="plan" class="info_txt" id="txt_plan" placeholder="接下来想做什么?"></textarea>
     <p class="info_title">最终愿景</p>
     <textarea name="hope" class="info_txt" id="txt_hope" placeholder="在十年之后 , 你想这会是个怎样的公司 ?
 "></textarea>

@@ -136,15 +136,15 @@ $(function(){
 ${errtip.pic|n}
 </div>
 <div>
-显示名称<input autocomplete="off" class="input" name="name" id="name" value="" type="text">
+    显示名称<input autocomplete="off" class="input" name="name" id="name" value="${name or ''}" type="text">
 ${errtip.name|n}
 </div>
 <div>
-口号宣言<input class="input" autocomplete="off" name="motto" id="motto" value="" type="text">
+    口号宣言<input class="input" autocomplete="off" name="motto" id="motto" value="${motto or ''}" type="text">
 ${errtip.motto|n}
 </div>
 <div>
-个性域名<input autocomplete="off" class="input" name="url" value="" type="text" id="url"><span class="ltip">域名由英语字母，数字，和 - 构成，长度在5-32个字符</span>
+    个性域名<input autocomplete="off" class="input" name="url" value="${url or ''}" type="text" id="url"><span class="ltip">域名由英语字母，数字，和 - 构成，长度在5-32个字符</span>
 ${errtip.url|n}
 </div>
 ##<div>
