@@ -12,12 +12,7 @@ import json
 from model.job import job_type_new, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_new
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
-
-class AdminBase(ZsiteBase):
-    def prepare(self):
-        super(AdminBase,self).prepare()
-        if not zsite_member_can_admin(self.zsite_id,self.current_user_id):
-            self.redirect('/')
+from _handler import AdminBase
 
 
 @urlmap('/job/new')
@@ -144,3 +139,4 @@ class JobMail(AdminBase):
 class MailVerify(AdminBase):
     def get(self):
         self.render()
+
