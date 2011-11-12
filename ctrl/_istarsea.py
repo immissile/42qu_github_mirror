@@ -43,6 +43,7 @@ import _urlmap.auth
 import _urlmap.me
 import _urlmap.zsite
 import _urlmap.j
+import _urlmap.istarsea
 
 application.add_handlers(
     '.*',
