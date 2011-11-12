@@ -3,7 +3,7 @@ from config import LOGO_TEXT, SITE_DOMAIN
 from tornado.escape import json_encode 
 %>
 
-<%inherit file="/ctrl/_base/zsite.htm" />
+<%inherit file="/ctrl/_base/istarsea.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%def name="H()">
@@ -16,7 +16,7 @@ from tornado.escape import json_encode
 <%def name="h_nav()"></%def>
 
 <%htm:form id="form_reg" action="/auth/reg">
-<div style="line-height:96px;font-size:64px;margin-top:14%;text-align:center">
+<div style="line-height:96px;font-size:64px;margin-top:14%;text-align:center;color:#fff">
 小小水 , 你是个梦幻般的女孩 <br>
 我要抱抱你
 </div>
