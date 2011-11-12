@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import config
 from zweb.server_tornado import WSGIServer
-from ctrl._application import application
+from ctrl._istarsea import application
 import sys
 if len(sys.argv) > 1 and sys.argv[1].isdigit():
     port = int(sys.argv[1])
