@@ -8,7 +8,6 @@ from zkit.jsdict import JsDict
 import glob
 from os import makedirs
 from os.path import exists, dirname
-from config import MYSQL_MAIN
 
 CONFIG_DIR = join(PREFIX, 'config/nginx')
 
@@ -38,7 +37,7 @@ def render_conf(name, base_path, o):
     txt = TEMPLATE.render(
         this=o,
         fs_path=fs_path,
-        project_name=MYSQL_MAIN,
+        project_name=o.MYSQL_MAIN,
         base_path=base_path,
         port_list=port_list,
         god_port_list=god_port_list,
