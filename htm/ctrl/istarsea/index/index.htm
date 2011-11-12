@@ -10,17 +10,18 @@ from tornado.escape import json_encode
 </%def>
 
 <%def name="htm_head()">
-body{overflow:hidden}
+<style>body{overflow:hidden}</style>
+<script src="${js.jquery_tickertype}"></script>
 </%def>
 
 
 <%def name="h_nav()"></%def>
 
 <%htm:form id="form_reg" action="/auth/reg">
-<div style="line-height:96px;font-size:64px;margin-top:14%;text-align:center;color:#fff;font-family:Helvetica">
-小小水 , 你是个梦幻般的女孩 <br>
-我要抱抱你
-<p>2011-11-12 11:20</p>
+<div style="line-height:96px;font-size:64px;margin-top:10%;text-align:center;color:#fff;font-family:Helvetica;display:none" id="ticker-area">\
+<div><pre>小小水 , 你是个梦幻般的女孩<br>\
+我要抱抱你<br>\
+2011-11-12 11:20</pre></div>
 </div>
 </%htm:form>
 
