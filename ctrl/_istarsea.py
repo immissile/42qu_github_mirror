@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import _url
+import _url_istarsea
 import tornado.wsgi
 from config import SITE_DOMAIN
 from zweb.urlmap import handlers
