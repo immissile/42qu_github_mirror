@@ -1,0 +1,21 @@
+<%!
+from config import LOGO_TEXT, SITE_DOMAIN
+from tornado.escape import json_encode 
+%>
+
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="H()">
+</%def>
+
+<%def name="htm_head()">
+</%def>
+
+
+<%def name="h_nav()"></%def>
+
+<%htm:form id="form_reg" action="/auth/reg">
+小小水 , 你是个梦幻般的女孩
+</%htm:form>
+
