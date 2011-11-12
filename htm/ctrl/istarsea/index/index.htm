@@ -23,3 +23,26 @@ from tornado.escape import json_encode
 </div>
 </%htm:form>
 
+<div style="position:absolute;left:-9999px">
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="165" height="37" id="niftyPlayer1" align="">
+<param name=movie value="http://audio.b0.upaiyun.com/niftyplayer.swf?file=http://audio.b0.upaiyun.com/starsea&as=1">
+<param name=quality value=high>
+<param name=bgcolor value=#FFFFFF>
+<embed src="http://audio.b0.upaiyun.com/niftyplayer.swf?file=http://audio.b0.upaiyun.com/starsea&as=1" quality=high bgcolor=#FFFFFF width="165" height="37" name="niftyPlayer1" align="" type="application/x-shockwave-flash" swLiveConnect="true" pluginspage="http://www.macromedia.com/go/getflashplayer">
+</embed>
+</object>
+</div>
+
+<script src="http://audio.b0.upaiyun.com/niftyplayer.js"></script>
+<script>
+window.onload=function(){
+setTimeout(function(){
+niftyplayer('niftyPlayer1').registerEvent(
+    "onSongOver",
+    "niftyplayer('niftyPlayer1').play()"
+)
+},1000)
+}
+</script>
+
+
