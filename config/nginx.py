@@ -85,6 +85,7 @@ work
 
 render_machine('potato', """
 work
+istarsea
 """)
 #    render_conf(1)
 #@render_conf
