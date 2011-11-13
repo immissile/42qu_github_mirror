@@ -2,6 +2,7 @@
 <%!
 from model.txt import txt_get
 from model.motto import motto
+from model.user_mail import mail_by_user_id
 from model.ico import ico_url_with_default
 from model.career import career_current
 %>
@@ -32,9 +33,9 @@ user_career = career_current(user.id)
             <a href="${user.link}" target="_blank"><img src="${ico_url}"></a>
         </div>
         <div id="career">
-            <p><a href="/zsite/${user.id}">  管理  </a></p>
+            <p><a href="${user.link}" target="_blank">${user.id}</a><a href="/zsite/${user.id}">  管理  </a></p>
 
-            <p><a href="${user.link}" target="_blank">${user.id}</a></p>  
+            <p> ${mail_by_user_id(user.id)}</p>  
             <p>${user.name}</p>
                 %if any(user_career):
                     <p>${user_career[0]}  ${user_career[1]}</p>
