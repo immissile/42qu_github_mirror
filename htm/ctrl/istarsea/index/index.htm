@@ -10,7 +10,9 @@ from tornado.escape import json_encode
 </%def>
 
 <%def name="htm_head()">
-<style>body{overflow:hidden}
+<style>body{overflow:hidden;
+font-family:Helvetica;
+}
 .input{
     width:220px;
     font-size:16px;
@@ -37,8 +39,8 @@ from tornado.escape import json_encode
 
 <%htm:form id="form_reg" >
 <div style="margin:auto;text-align:center;color:#fff">
-<p><label>姓名</label><input name="name" class="input" autocomplete="off"></p>
 <p><label>邮箱</label><input name="mail" class="input" autocomplete="off"></p>
+<p><label>姓名</label><input name="name" class="input" autocomplete="off"></p>
 <p>
     <button class="submit" type="submit">等待那时的到来</button>
 </p>
@@ -46,7 +48,7 @@ from tornado.escape import json_encode
 $("input[name=name]").focus()
 </script>
 </div>
-<div style="line-height:96px;font-size:64px;margin-top:10%;text-align:center;color:#fff;font-family:Helvetica;display:none" id="ticker-area">\
+<div style="line-height:96px;font-size:64px;margin-top:10%;text-align:center;color:#fff;display:none" id="ticker-area">\
 <div><pre>小小水 , 你是个梦幻般的女孩<br>\
 我要抱抱你<br>\
 2011-11-12 11:20</pre></div>

@@ -19,6 +19,7 @@ class Index(Base):
     def post(self):
         name = self.get_argument('name', '')
         mail = self.get_argument('mail', '')
+        errtip=Errtip()
         if mail:
             mail = mail.lower()
         if not mail:
@@ -46,7 +47,7 @@ class Index(Base):
             errtip=errtip
         )
 
-@urlmap('/reged')
+@urlmap('/reged/(\d+)')
 class Reged(Base):
-    def get(self):
+    def get(self, user_id):
         return self.render()
