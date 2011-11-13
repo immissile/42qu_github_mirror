@@ -6,13 +6,12 @@ from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD
 from model.namecard import namecard_get, namecard_new
 from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
 from model.user_mail import mail_by_user_id, user_id_by_mail
-from model.user_info import user_info_new
 from model.user_session import user_session, user_session_rm
 from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 from zkit.errtip import Errtip
-from model.search_zsite import search_new
+from model.user_new import user_new
 
 LOGIN_REDIRECT = '%s/live'
 
@@ -88,10 +87,7 @@ class Reg(NoLoginBase):
             errtip.sex = '请选择性别'
 
         if not errtip:
-            user = user_new_by_mail(mail, password)
-            user_id = user.id
-            user_info_new(user_id, sex=sex)
-            search_new(user_id)
+            user_id = user_new(mail,password,sex=sex)
             return self.redirect('/auth/verify/send/%s'%user_id)
 
         self.render(
