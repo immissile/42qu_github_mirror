@@ -5,18 +5,12 @@ from zkit.txt import EMAIL_VALID, mail2link
 from zkit.errtip import Errtip
 from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
+from model.user_new import user_new
+from model.user_session import user_session, user_session_rm
 
 @urlmap('/')
 class Index(Base):
     def get(self):
-#        current_user = self.current_user
-#        if current_user:
-#            self.redirect(
-#                '%s/live'%current_user.link
-#            )
-#        else:
-#            self.redirect('/login')
-
         return self.render(
             errtip=Errtip()
         )
@@ -38,13 +32,21 @@ class Index(Base):
         if not errtip:
             user_id = user_id_by_mail(mail)
             if not user_id:
-                user = user_new_by_mail(mail, 'istarsea')
-                user_id = user.id
-                user_info_new(user_id, sex=sex)
-                search_new(user_id)        
-    
+                user_id = user_new(mail,name=name)
+
+                session = user_session(user_id)
+                self.set_cookie('S', session)
+                self.set_cookie('E', mail)
+
+                return self.redirect("/reged/%s"%user_id)
+ 
         self.render(
             mail=mail,
             name=name,
             errtip=errtip
         )
+
+@urlmap('/reged')
+class Reged(Base):
+    def get(self):
+        return self.render()
