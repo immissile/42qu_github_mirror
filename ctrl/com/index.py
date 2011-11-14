@@ -64,6 +64,7 @@ class ComNew(Base):
         #txt = self.get_argument('txt', None)
         pid = self.get_arguments('pid', None)
         address = self.get_arguments('address',None)
+        
         pid_add = zip(pid,address)
         
         if not name:
@@ -100,6 +101,8 @@ class ComNew(Base):
             if pid_add:
                 for pa in pid_add:
                     zsite_com_place_new(com_id,int(pa[0]),pa[1])
+            else:
+                pid_add = self.get_argument('pid_add',None)
             if url:
                 url_new(com_id, url)
             return self.redirect('%s/product/new'%com.link)
@@ -111,6 +114,7 @@ class ComNew(Base):
             motto=motto,
             url=url,
             #txt=txt,
-            pic_id=pic_id
+            pic_id=pic_id,
+            pid_add = pid_add
         )
 

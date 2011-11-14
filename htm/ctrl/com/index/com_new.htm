@@ -3,6 +3,7 @@ ${css.ctrl_zsite_com|n}
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.zsite_url import host
+from model.ico import fs_url_jpg
 %>
 <%
 if zsite_id:
@@ -48,6 +49,9 @@ margin-left:8px;
 $(function(){
     function empty(self){
         var val=self.val();
+        if(self.attr('id')=='pic'){
+            return !val||$.trim(val)==''||$('#pic_id')[0]
+        }
         return !val||$.trim(val)==''
     }
     function verify(){
@@ -131,6 +135,10 @@ $(function(){
 </div>
 
 <%htm:form enctype="multipart/form-data" className="site_new" onsubmit="return com_new()">
+%if pic_id:
+<img class="imgpic" src="${fs_url_jpg('96',pic_id)}">
+<input class="file" type="hidden" name="pic_id" value="${pic_id}" id="pic_id">
+%endif
 <div>
 标识图片<input class="file" name="pic" id="pic" type="file">
 ${errtip.pic|n}
@@ -153,7 +161,20 @@ ${errtip.url|n}
 ##    </textarea>
 ##</div>
 <div class="address" style="margin-top:16px;">
-公司地址<span class="addr_block"><script>select_pid("pid", 0)</script></span><input type="text" class="input addr_input" name="address" />
+    公司地址
+    <span class="addr_block">
+        %if not pid_add:
+        <script>select_pid("pid", 0)</script>
+    <input type="text" class="input addr_input" name="address" />
+        %else:
+        %for x,p in enumerate(pid_add):
+        <div>
+            <script>select_pid("pid${x}", ${p[0] or 0})</script>
+    <input type="text" class="input addr_input" name="address" value="${p[1] or ''}"/>
+        </div> 
+        %endfor
+        %endif
+    </span>
 </div>
 <div class="errtip" id="errtip_addr"></div>
 <div>
