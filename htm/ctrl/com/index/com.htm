@@ -2,6 +2,7 @@
 ${css.ctrl_zsite_com|n}
 <%!
 from model.po_video import HTM_YOUKU
+from model.po import Po
 from model.ico import pic211_url, ico_url
 from model.motto import motto_get
 from model.follow import follow_get
@@ -11,6 +12,9 @@ from model.zsite_site import site_can_view, site_can_admin
 from model.zsite_fav import zsite_fav_id_get
 from model.com import com_job_by_com_id, com_department_by_com_id, com_job_by_department_and_com 
 from model.zsite import Zsite
+from model.product import product_by_com_id
+import json
+from zkit.jsdict import JsDict
 %>
 <%def name="htm_title()">
 ${motto_get(com.id)}
@@ -23,18 +27,33 @@ ${motto_get(com.id)}
 <div class="com_main">
     <div class="com_video">${HTM_YOUKU%"XMjMxOTYxNDk2"|n}</div>
     <div class="com_item">
-        <div class="com_title">${motto_get(com.id)}</div>
-        <div class="com_text">小米手机是中国首款双核1.5GHz高性能发烧级智能手机，由小米公司独立研发完成。小米手机于2011年10月正式发售，售价为1999元，小米网是唯一官方销售渠道。
-1. 双核1.5GHz处理器，主频速度比一般单核手机快近2倍。同时它采用异步电压技术，流畅与省电兼备。
-2. Adreno 220图形处理芯片堪比电视游戏机的图形能力，流畅运行大型3D游戏、播放1080p高清大片。
-3. 1GB大内存，让你的应用启动更快，同时可安装更多大型应用和游戏。
+        <%
+        products = product_by_com_id(com.id)
+        %>
+        %if products:
+        % for product in products:
+    <%
+    info = JsDict(json.loads(product.info_json))
+    po = Po.mc_get(product.id)
+    %>
+        <div class="com_title">${info.name}</div>
+        <div class="com_text">
+            ${po.txt}
 <div class="com_main_img">\
 <img src="http://p.www.xiaomi.com/images/about/about_product_01.jpg"></div>\
-4. 夏普原装4吋屏。握感舒适、独特的半反半透技术，阳光下清晰可见、854x480分辨率。
-5. 1930mAh锂聚合物电池，容量比一般智能手机电池大30%。
-6. 高清晰相机。800万像素摄像头，F2.4大光圈，数字防抖。
-7. 独有的无锁双系统。开放刷机设置，提供MIUI和Android原生两个系统。 
-        </div>
+            <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px;"><span>想法起源</span></p>
+            ${info.origin}。
+                                    <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;"><span>当前进展</span></p>
+                                    <p class="info_title3"><span class="info_title4">产品</span><span class="dot_split">:</span>${info.product}</p>
+                                    <p class="info_title3"><span class="info_title4">市场</span><span class="dot_split">:</span>${info.market}</p>
+                                    <p class="info_title3"><span class="info_title4">团队</span><span class="dot_split">:</span>${info.team}</p>
+                                    <p class="info_title3"><span class="info_title4">文化</span><span class="dot_split">:</span>${info.culture}</p>
+                                    <p class="info_title3"><span class="info_title4">融资</span><span class="dot_split">:</span>${info.money}</p>
+                                    <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;"><span>${info.plan}</span></p>
+
+                                </div>
+        %endfor
+        %endif
         
 <div class="com_q_w">
 <%
@@ -96,8 +115,7 @@ is_owner = com.id == user_id
 can_admin = site_can_admin(com.id, user_id)
 %>
 
-##%if site_can_view(com, user_id): 
-<div id="nav2">
+<div id="nav">
 <a href="#" class="c0" style="font-size:16px;margin-right:14px"><span class="mr3">${com.reply_count}</span>评价</a>\
 %if can_admin:
 <a href="/admin" class="xa" style="font-size:16px;padding:7px 14px;">管理</a>\
@@ -108,18 +126,10 @@ can_admin = site_can_admin(com.id, user_id)
 <a class="xa" style="padding:7px 14px;font-size:16px;"href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
     %endif
 %endif
-##%if not is_owner and user_id:
-##<a id="fav_a"href="javascript:sitefav();void(0)" class="xa" style="padding:7px 14px;font-size:16px;">\
-##%if follow_get(user_id, com.id):
-##淡忘\
-##%else:
-##关注\
-##%endif
-##</a>\
-##%endif
 </div>
-                <div class="com_ir">
-                    <div class="com_title">创始人</div>
+</div>
+<div class="com_ir">
+<div class="com_title">创始人</div>
 %for i in starter_list:
 <%
 career = ' , '.join(filter(bool, i.career))
@@ -132,9 +142,9 @@ career = ' , '.join(filter(bool, i.career))
     <div class="mt6">${i.career[0]}</div>
     <div class="mt6">${i.career[1]}</div>
 </div>
-                        <div>
-<div class="com_q1">“ </div><div class="com_qt">
+<div>
    %if i.txt:
+<div class="com_q1">“ </div><div class="com_qt">
     ${i.txt}
     <span class="com_q2">”</span></div>
     %endif
@@ -163,7 +173,7 @@ career = ' , '.join(filter(bool, i.career))
                                %for place in get_zsite_com_place(com.id):
                                <div>
                             ${place_name(place.pid)}
-                           <div style="margin-left:40px">${place.address}望京西路甲50号-1卷石天地大厦A座12层</div>
+                           <div style="margin-left:40px">${place.address}</div>
                            </div>
                            %endfor
                             </div>
