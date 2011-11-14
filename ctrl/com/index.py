@@ -12,7 +12,7 @@ from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from zkit.pic import picopen
 from zkit.errtip import Errtip
 from model.zsite_member import zsite_member_new
-
+from model.product import product_all
 
 
 @urlmap('/com/list')
@@ -34,7 +34,7 @@ class ComList(_ComListBase,Base):
 @urlmap('/')
 class Index(Base):
     def get(self):
-        self.render()
+        self.render(product_list = product_all())
 
 @urlmap('/job')
 class Job(Base):
@@ -45,7 +45,7 @@ class Job(Base):
 @urlmap('/product')
 class Product(Base):
     def get(self):
-        self.render()
+        self.render(product_list = product_all())
 
 
 @urlmap('/com/new')
