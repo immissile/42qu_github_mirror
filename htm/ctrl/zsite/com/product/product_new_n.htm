@@ -1,5 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/product.htm" import="product_form"/>
+<%namespace file="/ctrl/_util/product.htm" import="product_bar"/>
 <%!
 import json
 from zkit.jsdict import JsDict
@@ -99,87 +101,13 @@ $(function(){
 })
 </script>
 <div class="left1">
-    %if product_list:
-    %for i,product in enumerate(product_list):
-    <%
-    info = JsDict(json.loads(product.info_json))
-    %>
-    <div class="left_item \
-            %if i == position:
-            c0\
-            %endif
-        "><span class="left_arrow"></span>
-        <a href="/product/new/${i}" class="left_item
-            %if i == position:
-            c0\
-            %endif
-            ">${info.name or None}</a></div>
-    %endfor
-    %endif
+    ${product_bar(product_list,position)}
 </div>
 
 <div class="right3">
-    <%htm:form classname="site_new" enctype="multipart/form-data">
-<div style="clear:both;margin-top:27px;">
-    <p class="info_title">产品图片</p>
-    <input class="file" name="pic" id="pic" type="file">
-    <p class="info_title">一句话介绍<span class="txt_bio_tip"></span></p>
-    <textarea name="bio" class="info_txt" id="txt_bio" placeholder="142字以内"></textarea>
-    <p class="info_title">想法起源</p>
-    <textarea name="origin" class="info_txt" id="txt_origin" placeholder="你受什么启发 , 看到了什么机会 ? 如何解读大趋势?"></textarea>
+    ${product_form(None,position)}
 </div>
-<p class="hint_wrap">同类产品</p>
-<div style="clear:both;">
-    <div style="height:20px;"></div>
-    <div id="line1" class="line"> 
-        <div class="pro_ot_wrap" id="pro_ot_wrap1">
-            <input autocomplete="off" value="" class="pro_ot_name" name="pro_ot_name" placeholder="产品名称"><input class="pro_ot_url" name="pro_ot_url" placeholder="相关链接" value="">
-        </div>
-        <p class="info_title">相同点</p>
-        <textarea name="same" class="info_txt" id="txt_same" placeholder="一样会关注的点"></textarea>
-        <p class="info_title">区别点</p>
-        <textarea name="dist" class="info_txt" id="txt_title" placeholder="你们之间的不同"></textarea>
-        <p class="info_title">竞争力</p>
-        <textarea name="advan" class="info_txt" id="txt_advan" placeholder="为什么这件事情你能做，而别人不能做? 你有什么与众不同的地方?"></textarea>
-    </div>
 </div>
-<p class="hint_wrap">当前进展</p>
-<div style="clear:both;">
-    <p class="info_title">产品</p>
-    <textarea name="product" class="info_txt" id="txt_product" placeholder="当前的进展如何 ? 提供了什么功能, 取得了哪些成绩？"></textarea>
-    <p class="info_title">市场</p>
-    <textarea name="market" class="info_txt" id="txt_market" placeholder="面向的人群是 ? 规模有多大 ? 种子用户从何而来 ? 会在那些渠道推广 ?"></textarea>
-    ##<p class="info_title">团队</p>
-    ##<textarea name="team" class="info_txt" id="txt_team" placeholder="现在已有多少人 ? 核心成员又曾经有过怎样的光辉岁月 ?"></textarea>
-    ##<p class="info_title">文化</p>
-    ##<textarea name="culture" class="info_txt" id="txt_culture" placeholder="你们喜欢什么 , 讨厌什么 ? 欣赏哪些公司 ? 如何看待加班 ?"></textarea>
-    ##<p class="info_title">融资</p>
-    ##<textarea name="money" class="info_txt" id="txt_money" placeholder="谁投钱 ? 投多少 ? 盈利的模式是 ?  何时开始盈利 ?"></textarea>
-</div>
-<p class="hint_wrap">关于未来</p>
-<div style="clear:both;">
-    <div>
-    <p class="info_title">近期计划</p>
-    <textarea name="plan" class="info_txt" id="txt_plan" placeholder="接下来想做什么?"></textarea>
-    <p class="info_title">最终愿景</p>
-    <textarea name="hope" class="info_txt" id="txt_hope" placeholder="在十年之后 , 你想这会是个怎样的公司 ?
-"></textarea>
-    </div>
-</div>
-
-<div>
-<span class="btnw" style="margin-left:0;"><button type="submit" id="submit">下一步</button></span>
-</div>
-<input type="hidden" value="${position }" name="position"/>
-</%htm:form>
-</div>
-
-
-</div>
-
-
-
-
 </div></div></div>
 
 

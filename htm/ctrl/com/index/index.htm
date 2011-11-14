@@ -1,6 +1,10 @@
 <%inherit file="../base.htm" />
 <%!
 from model.zsite import Zsite
+import json
+from zkit.jsdict import JsDict
+from model.po import Po
+from model.ico import fs_url_jpg
 %>
 
 ##<div class="G zsite_mb64 c">
@@ -82,81 +86,24 @@ border-width:1px 0 0;
 }
 </style>
 <div id="com_product" class="G isotope">
+            %if product_list:
+            %for product in product_list:
+    <%
+    info = JsDict(json.loads(product.info_json))
+    po = Po.mc_get(product.id)
+    %>
     <div class="G1">
         <div class="sdw">
             <div class="sd">
-                <div class="pro_title">小米科技</div>
-                <div class="pro_img_wrap"><img src="http://ww2.sinaimg.cn/thumbnail/6877f28etw1dmvjevmq7dj.jpg" class="pro_img"></div>
-                <div class="pro_desc">中国有世界上最多的手机用户。根据移动应用分析公司Flurry的调查，中国手机用户对App的使用达到前所未有的程度。今年1月到10月 ...</div>
+                <div class="pro_title">${info.name}</div>
+                %if info.pic_id:
+                <div class="pro_img_wrap"><img src="${fs_url_jpg('96',info.pic_id)}" class="pro_img"></div>
+                %endif
+                <div class="pro_desc">${po.txt}</div>
             </div>
         </div>
     </div>
-    <div class="G1">
-        <div class="sdw">
-            <div class="sd">
-                <div class="pro_title">小米科技</div>
-                <div class="pro_desc">中国有世界上最多的手机用户。根据移动应用分析公司Flurry的调查，中国手机用户对App的使用达到前所未有的程度。今年1月到10月 ...</div>
-            </div>
-        </div>
-    </div>
-    <div class="G1">
-        <div class="sdw">
-            <div class="sd">
-                <div class="pro_title">小米科技</div>
-                <div class="pro_img_wrap"><img src="http://ww2.sinaimg.cn/thumbnail/6877f28etw1dmvjevmq7dj.jpg" class="pro_img"></div>
-                <div class="pro_desc">中国有世界上最多的手机用户。根据移动应用分析公司Flurry的调查，中国手机用户对App的使用达到前所未有的程度。今年1月到10月 ...</div>
-            </div>
-        </div>
-    </div>
-    <div class="G1">
-        <div class="sdw">
-            <div class="sd">
-                <div class="pro_title">小米科技</div>
-                <div class="pro_img_wrap"><img src="http://ww2.sinaimg.cn/thumbnail/6877f28etw1dmvjevmq7dj.jpg" class="pro_img"></div>
-                <div class="pro_desc">中国有世界上最多的手机用户。根据移动应用分析公司Flurry的调查，中国手机用户对App的使用达到前所未有的程度。今年1月到10月 ...</div>
-            </div>
-        </div>
-    </div>
-    <div class="G1">
-        <div class="sdw">
-            <div class="sd">
-                <div class="pro_title">小米科技</div>
-                <div class="pro_desc">中国有世界上最多的手机用户。根据移动应用分析公司Flurry的调查，中国手机用户对App的使用达到前所未有的程度。今年1月到10月 ...</div>
-            </div>
-        </div>
-    </div>
-    <div class="G1">
-        <div class="sdw">
-            <div class="sd">
-                <div class="pro_title">小米科技</div>
-                <div class="pro_img_wrap"><img src="http://ww2.sinaimg.cn/thumbnail/6877f28etw1dmvjevmq7dj.jpg" class="pro_img"></div>
-                <div class="pro_desc">中国有世界上最多的手机用户。根据移动应用分析公司Flurry的调查，中国手机用户对App的使用达到前所未有的程度。今年1月到10月 ...</div>
-            </div>
-        </div>
-    </div>
-    <div class="G1">
-        <div class="sdw">
-            <div class="sd">
-                <div class="pro_title">小米科技</div>
-                <div class="pro_desc">中国有世界上最多的手机用户。根据移动应用分析公司Flurry的调查，中国手机用户对App的使用达到前所未有的程度。今年1月到10月 ...</div>
-            </div>
-        </div>
-    </div>
-    <div class="G1">
-        <div class="sdw">
-            <div class="sd">
-                <div class="pro_title">小米科技</div>
-                <div class="pro_desc">中国有世界上最多的手机用户。根据移动应用分析公司Flurry的调查，中国手机用户对App的使用达到前所未有的程度。今年1月到10月 ...</div>
-            </div>
-        </div>
-    </div>
-    <div class="G1">
-        <div class="sdw">
-            <div class="sd">
-                <div class="pro_title">小米科技</div>
-                <div class="pro_desc">中国有世界上最多的手机用户。根据移动应用分析公司Flurry的调查，中国手机用户对App的使用达到前所未有的程度。今年1月到10月 ...</div>
-            </div>
-        </div>
-    </div>
+    %endfor
+    %endif
 
 </div>
