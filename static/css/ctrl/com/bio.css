@@ -1,0 +1,39 @@
+.form_wrap{
+overflow:auto;
+margin-left:125px;
+}
+.file_hint{
+font-size:16px;
+color:#444;
+margin-left:34px;
+}
+.file{
+margin-left:34px;
+}
+.files{
+margin-left:-34px;
+}
+.info_title{
+line-height:28px;
+padding-bottom:16px;
+font-size:16px;
+}
+.com_bio{
+padding-top:16px;
+}
+.bio_btn{
+margin-top:16px;
+}
+.video_input{
+padding:3px 5px;
+width:676px;
+height:28px;
+margin:0 0 16px;
+border:1px solid #ccc;
+}
+.add_pic{
+display:block;
+margin-bottom:22px;
+width:56px;
+line-height:14px;
+}

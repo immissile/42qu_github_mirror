@@ -1,0 +1,81 @@
+<%inherit file="/ctrl/_base/com.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.zsite_url import host
+%>
+<%
+if zsite_id:
+    request_host = host(zsite_id)
+else:
+    request_host = request.host
+%>
+<%def name="head()">
+${css.ctrl_i_invite|n}
+${css.ctrl_com_member|n}
+<script src="${js.ctrl_com_member|n}"></script>
+</%def>
+${head()}
+
+<div class="G i_div">
+<div class="G4">
+<div class="result_wrap">
+<div class="p_wrap">
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+    </a>
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+
+    </a>
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+    </a>
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+    </a>
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+
+    </a>
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+    </a>
+</div>
+<div class="acts"> <form id="follow_form" method="POST">
+
+    <span class="btnw R skip"><button type="submit">跳过</button></span><span class="btnw R" style="margin-left:0;"><button type="submit">添加所选</button></span>
+    <input type="hidden" value="" name="follow_id_list" id="follow_id_list"></form>
+    <label class="select_all" for="select_all">全选</label><input type="checkbox" class="select_all" id="select_all">
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+
+
+</div></div></div>
+
+
+
+<a class="zsite_foot" href="#B">${request_host}</a>
+
+</body>
+</html>
+

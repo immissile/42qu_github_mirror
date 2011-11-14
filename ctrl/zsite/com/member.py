@@ -4,6 +4,10 @@ from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
 from _handler import AdminBase
 
+@urlmap('/member/new/result')
+class MemberNewResult(AdminBase):
+    def get(self):
+        return self.render()
 
 @urlmap('/member/new/search')
 class MemberNewSearch(AdminBase):

@@ -13,7 +13,8 @@ from model.job import job_type_new, job_pid_new, job_place_new, job_pid_by_com_i
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
-
+from zkit.errtip import Errtip
+from zkit.txt import EMAIL_VALID
 
 @urlmap('/job/new')
 class JobNew(AdminBase):
