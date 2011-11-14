@@ -4,7 +4,7 @@ from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
 from model.product import product_new, product_by_com_id
 from model.po import po_product_new
-from job import AdminBase
+from _handler import AdminBase
 import json
 from zkit.jsdict import JsDict
 from zkit.pic import picopen
@@ -21,6 +21,8 @@ class ProductNew(AdminBase):
         zsite = self.zsite
 
         arguments = self.request.arguments
+
+        print arguments
         pro_url = arguments.get('pro_url',[])
         pro_name = arguments.get('pro_name',[])
         pro_bio = arguments.get('pro_bio',[])
