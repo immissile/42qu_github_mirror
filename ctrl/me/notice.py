@@ -8,7 +8,7 @@ from model.buzz import buzz_list, buzz_count
 
 PAGE_LIMIT = 20
 
-@urlmap('/notice')
+@urlmap('/notice/?')
 @urlmap('/notice-(\d+)')
 class Page(LoginBase):
     def get(self, n=1):
