@@ -22,7 +22,7 @@ is_my = path.startswith("/my")
 is_show = path.startswith("/show")
 is_all = not path.split("-",1)[0].strip("/")
 %>
-<h1>
+<h1 class="h1nav">
     <span class="R">
         <form action="${site_link|n}/q" class="search"><input type="text" value="\
 %if q:
