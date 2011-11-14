@@ -13,15 +13,6 @@ padding:16px 0;
 h1 .new:visited{
 color:#999;
 }
-h1 .nav a{
-color:#999
-}
-h1 .nav .c0{
-color:#000
-}
-h1 .nav a:hover{
-color:#d10
-}
 #search{
 border: 1px solid #DDDDDD;
 height: 26px;

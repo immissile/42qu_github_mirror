@@ -332,3 +332,12 @@ font-size:16px;
 color:#999;
 }
 
+h1 .nav a{
+color:#999
+}
+h1 .nav .c0{
+color:#000
+}
+h1 .nav a:hover{
+color:#d10
+}

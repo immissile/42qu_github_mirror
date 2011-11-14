@@ -33,7 +33,7 @@ var search=$("#search").focus(),val=search.val();
 search.val('').val(val);
 })()</script>
     </span>
-    <span class="nav C">
+    <span class="nav">
         <a ${'class="c0"' if is_all else ''|n} href="${site_link|n}">阅读</a><span class="c9 split">-</span><a ${'class="c0"' if is_show else ''|n} href="${site_link|n}/show">目录</a><span class="c9 split">-</span><a href="${site_link|n}/fav" ${'class="c0"' if is_fav else ''|n}>收藏</a><span class="c9 split">-</span><a href="${site_link|n}/my" ${'class="c0"' if is_my else ''|n}>我的</a><span class="c9 split">-</span><a class="new" href="${site_link|n}/new">创建</a>
     </span>
 </h1>
