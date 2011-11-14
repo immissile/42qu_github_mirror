@@ -8,6 +8,11 @@ from model.buzz import buzz_list, buzz_count
 
 PAGE_LIMIT = 20
 
+@urlmap('/notice/resume')
+class Resume(LoginBase):
+    def get(self):
+        pass
+
 @urlmap('/notice/?')
 @urlmap('/notice-(\d+)')
 class Page(LoginBase):
