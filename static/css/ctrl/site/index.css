@@ -2,14 +2,6 @@
 margin:auto;
 float:none;
 }
-h1{
-margin: auto;
-text-align:left;
-border-bottom:1px dotted #ccc;
-font-size:14px;
-padding:16px 0;
-*margin:0 auto;
-}
 h1 .new:visited{
 color:#999;
 }
