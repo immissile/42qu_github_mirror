@@ -19,15 +19,15 @@ class ProductNew(AdminBase):
     def post(self):
         user_id = self.current_user_id
         zsite = self.zsite
-        pro_url = self.get_arguments('pro_url',None)
-        pro_name = self.get_arguments('pro_name',None)
-        pro_bio = self.get_arguments('pro_bio',None)
+        pro_url = self.request.arguments.get('pro_url',None)
+        pro_name = self.request.arguments.get('pro_name',None)
+        pro_bio = self.request.arguments.get('pro_bio',None)
         pros = None
         po_pre = None
 
         if pro_url and pro_name and pro_bio:
             pros = zip(pro_url,pro_name,pro_bio)
-        if pros:
+        if pro_name:
             for pro_u,pro_n,pro_b in pros:
                 po_pro = po_product_new(user_id,pro_n,pro_b,zsite.id)
         
