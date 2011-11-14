@@ -11,7 +11,7 @@ PAGE_LIMIT = 20
 @urlmap('/notice/resume')
 class Resume(LoginBase):
     def get(self):
-        pass
+        self.render()
 
 @urlmap('/notice/?')
 @urlmap('/notice-(\d+)')
