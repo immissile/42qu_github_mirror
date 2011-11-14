@@ -13,7 +13,7 @@ from model.job import job_type_new, job_pid_new, job_place_new, job_pid_by_com_i
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
-
+from zkit.errtip import Errtip
 
 @urlmap('/job/new')
 class JobNew(AdminBase):
@@ -145,7 +145,7 @@ class MailVerified(AdminBase):
         zsite = Zsite.mc_get(zsite_id)
         from model.user_mail import mail_by_user_id
         jm = job_mail_new(zsite_id,mail_by_user_id(self.current_user_id))
-        verify_mail_new(zsite_id,zsite.name,mail_by_user_id(self.current_user_id),CID_VERIFY_COM)
+        verify_mail_new(zsite_id,zsite.name,mail_by_user_id(self.current_user_id),CID_VERIFY_COM_HR)
         jm.state = STATE_VERIFIED
         jm.save()
         self.redirect('/job/new')
