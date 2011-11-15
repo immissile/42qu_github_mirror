@@ -4,6 +4,7 @@ ${css.ctrl_zsite_com|n}
 from model.po_video import HTM_YOUKU
 from model.po import Po
 from model.ico import pic211_url, ico_url
+from model.ico import fs_url_jpg
 from model.motto import motto_get
 from model.follow import follow_get
 from model.zsite_com import get_zsite_com_place
@@ -36,11 +37,14 @@ ${motto_get(com.id)}
     info = JsDict(json.loads(product.info_json))
     po = Po.mc_get(product.id)
     %>
+    <a href="/product/edit/${product.id}">编辑</a>
         <div class="com_title">${info.name}</div>
         <div class="com_text">
             ${po.txt}
+%if info.pic_id:
 <div class="com_main_img">\
-<img src="http://p.www.xiaomi.com/images/about/about_product_01.jpg"></div>\
+<img src="${fs_url_jpg('96',info.pic_id)}"></div>\
+%endif
             <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px;"><span>想法起源</span></p>
             ${info.origin}。
                                     <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;"><span>当前进展</span></p>
@@ -49,9 +53,22 @@ ${motto_get(com.id)}
                                     <p class="info_title3"><span class="info_title4">团队</span><span class="dot_split">:</span>${info.team}</p>
                                     <p class="info_title3"><span class="info_title4">文化</span><span class="dot_split">:</span>${info.culture}</p>
                                     <p class="info_title3"><span class="info_title4">融资</span><span class="dot_split">:</span>${info.money}</p>
-                                    <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;"><span>${info.plan}</span></p>
-
-                                </div>
+<p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;"><span>近期计划</span></p>
+${info.plan}                        
+<p style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;" class=""><span>同类产品</span></p>
+%if info.pro_ot:                        
+<p class="other_pros">
+%for pro in info.pro_ot:
+                            <span class="other_pro">${pro[0]}<a class="aH" href="${pro[1]}" target="_top" ></a></span>
+%endfor
+%endif                            
+</p><p class="info_title3"><span class="info_title4">共同点</span><span class="dot_split">:</span>${info.same}</p>
+                            <p class="info_title3"><span class="info_title4">区别点</span><span class="dot_split">:</span>${info.dist}</p>
+                            <p class="info_title3"><span class="info_title4">竞争力</span><span class="dot_split">:</span>${info.advan}</p>        
+                        <p></p>
+                        <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;"><span>最终愿景</span></p>
+${info.hope}                                
+</div>
         %endfor
         %endif
         

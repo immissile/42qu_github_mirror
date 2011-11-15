@@ -19,3 +19,5 @@ def product_by_com_id(com_id):
     if po_product:
         return Product.mc_get_list([i.id for i in po_product])
 
+def product_all():
+    return Product.where()

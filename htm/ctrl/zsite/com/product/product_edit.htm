@@ -1,0 +1,12 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/product.htm" import="product_form"/>
+<%namespace file="/ctrl/_util/product.htm" import="product_bar"/>
+${css.ctrl_po_event|n}
+${css.ctrl_product|n}
+<div class="left1">
+    ${product_bar(product)}
+</div>
+<div class="right3">
+    ${product_form(product)}
+</div>
