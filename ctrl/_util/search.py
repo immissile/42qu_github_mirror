@@ -5,7 +5,7 @@ from zkit.page import limit_offset, Page
 
 PAGE_LIMIT = 64
 
-def search_get(self, n=1):
+def search_get(self, n=1, link='/q-%%s?q=%s'):
     q = self.get_argument('q', '')
     if q:
         try:
@@ -16,7 +16,7 @@ def search_get(self, n=1):
         now, list_limit, offset = limit_offset(n, PAGE_LIMIT)
         zsite_list, total = self.search(q, offset, list_limit)
         page = str(Page(
-            '/q-%%s?q=%s' % quote(q).replace('%', '%%'),
+            link % quote(q).replace('%', '%%'),
             total,
             now,
             PAGE_LIMIT
