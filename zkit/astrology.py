@@ -26,7 +26,7 @@ def astrology_int(date):
         return 12
     elif date < 219:
         return 1
-    elif date < 320:
+    elif date < 321:
         return 2
     elif date < 420:
         return 3
