@@ -1,3 +1,26 @@
+.line input, .line select{
+padding: 8px;
+}
+.line input{
+line-height:20px;
+}
+.line .txt { width: 180px; }
+.head { font-size: 16px; text-align: center; padding: 14px 0pt; border-bottom: 1px solid #f3f3f3;color:#ccc; }
+.head span { margin: 0pt 14px; color: rgb(153, 153, 153); }
+.head .c0 { color: rgb(0, 0, 0); }
+.info_title{
+line-height:16px;
+padding-bottom:16px;
+}
+select{
+text-align:center;
+padding:8px;
+font-size:16px;
+border:1px solid #ccc;
+}
+#pid select, #begin_time select, #end_time select{
+    margin-right: 8px;
+}
 h1{
 color:#000;
 text-align:center;
@@ -150,4 +173,34 @@ oveflow:auto;
 }
 .com_team{
 margin-bottom:8px;
+}
+.addr_input{
+width:290px;
+}   
+.pid{   
+margin:15px 0 0 72px;                                                                                                 
+}   
+.pid select{
+margin-right:8px;
+}           
+.close_addr{
+display:inline-block;
+width:16px;     
+height:16px;    
+margin-left:16px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;                
+padding:4px;                                                                                                          
+vertical-align:-4px;
+}           
+.close_addr:hover{ 
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;                     
+}       
+.addr_block{
+margin-left:8px;
+}
+.add_addr{
+display:block;
+margin:8px 0 10px 72px;
+width:64px;
+color:#999;
 }

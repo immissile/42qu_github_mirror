@@ -1,153 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="http://s.realfex.xxx/js/z.js"></script>
-<link href="http://s.realfex.xxx/css/z.css" rel="stylesheet" type="text/css">
-
-<title>
-realfex
-</title>
-<link href="http://s.realfex.xxx/css/ctrl/po/event.css" rel="stylesheet" type="text/css">
-<link href="http://s.realfex.xxx/css/ctrl/i/invite.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="index.css" media="all">
-</head>
-<body id="B">
-
-<div id="H"><div class="H c">
-
-<div class="L">
-<a href="http://realfex.42qu.com/" class="site">realfex.42qu.com</a>
-</div><div class="HN">
-</div>
-<div class="D_nav"><div class="D"><a class="DA" id="da6" href="javascript:void(0)">更多</a><div> <a href="http://realfex.42qu.com/i">资料</a> <a href="http://realfex.42qu.com/money/bill">账目</a> <a href="http://help.42qu.com/">帮助</a> <a href="http://realfex.42qu.com/logout?_xsrf=52aa1ffecf2f4f02a63c67237e4a57f3">退出</a></div></div><div class="D"><a class="DA" id="da5" href="javascript:void(0)">我的</a><div> <a href="http://realfex.42qu.com/">主页</a> <a href="http://realfex.42qu.com/following">关注</a> <a href="http://realfex.42qu.com/wall">留言</a> <a href="http://realfex.42qu.com/notice">提醒</a> <a href="http://realfex.42qu.com/fav">收藏</a> <a href="http://realfex.42qu.com/po">发布</a></div></div><div class="D"><a class="DA" id="da4" href="http://hero.42qu.com/">人物</a></div><div class="D"><a class="DA" id="da3" href="http://meet.42qu.com/">活动</a></div><div class="D"><a class="DA" id="da2" href="http://site.42qu.com/">站点</a></div>
-
-<div class="D"><a class="DA" id="da1" href="http://realfex.42qu.com/live">动态</a></div></div></div></div><div class="c C"><div class="G"><div class="G4">
-
-
+<%inherit file="/ctrl/_base/com.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.zsite_url import host
+%>
+<%
+if zsite_id:
+    request_host = host(zsite_id)
+else:
+    request_host = request.host
+%>
+<%def name="head()">
+${css.ctrl_i_invite|n}
+${css.ctrl_com_member|n}
+<script src="${js.ctrl_com_member|n}"></script>
+</%def>
+${head()}
 
 <div class="G i_div">
 <div class="G4">
 
-
-<div class="head" style="color: rgb(204, 204, 204);">
-<span>创建公司</span>&gt;<span class="c0">产品演示</span>&gt;<span>发布职位</span>&gt;<span>企业介绍</span>&gt;<span>照片风景</span>&gt;<span>添加成员</span>&gt;<span>邀请评价</span>
-
-</div>
-
-<style>
-.search_input{
-padding:8px;
-height:29px;
-border:dotted #ccc;
-border-width:0 0 1px;
-}
-.search_btn{
-padding:8px;
-background:#f9f9f9;
-border:dotted #ccc;
-border-width:0 1px 1px;
-cursor:pointer;
-font-size:16px;
-}
-.search_btn:hover{
-color:#d10;
-}
-.search_wrap{
-min-height:300px;
-}
-.f_icon {
-    background: url(http://s4.42qu.us/img/gif/yes_bgfc0.gif);
-    display: inline-block;
-    height: 16px;
-    margin-left: 5px;
-    vertical-align: -1px;
-    width: 16px;
-}
-.p_wrap{
-overflow:auto;
-margin-top:32px;
-}
-</style>
-
-<script>
-$(function(){
-    $('.search_input').focus()
-    $('.f_item').toggle(
-        function(){ 
-            $(this).toggleClass('f_item2')
-            $(this).toggleClass('f_item')
-        },
-        function(){ 
-            $(this).toggleClass('f_item2')
-            $(this).toggleClass('f_item')
-        })
-    $('#select_all').click(
-        function(){
-            if($(this).attr('checked')){
-                $('.f_item').attr('class','f_item2')
-            } else{
-                $('.f_item2').attr('class','f_item')
-            }
-        }
-    )
-
-    $("#follow_form").submit(function(){
-        var select_ids = [];
-
-        $('.f_item2').each(function(){
-            select_ids.push(this.id)
-        })
-
-        $("#follow_id_list").val(select_ids.join(' '))
-        
-    })
-})
-</script>
-<p class="tl career career_job c9"><span class="c0">查找成员</span><span class="gt">&gt;</span>邀请成员<span class="gt">&gt;</span>选择核心</p>
-<div class="search_wrap"><input type="text" name="search" class="search_input"><button class="search_btn">查找</button>
-<div class="p_wrap">
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p4.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-    </a>
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p4.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-
-    </a>
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p4.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-    </a>
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p4.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-    </a>
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p4.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-
-    </a>
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p4.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-    </a>
-</div>
-<div class="acts"> <form id="follow_form" method="POST">
-
-    <span class="btnw R" style="margin-left:0;"><button type="submit">添加所选</button></span>
-    <input type="hidden" value="" name="follow_id_list" id="follow_id_list"></form>
-    <label class="select_all" for="select_all" style="margin-top:30px;">全选</label><input type="checkbox" class="select_all" id="select_all" style="margin-top:30px;">
-</div>
+<div class="search_wrap">
+    <p class="info_hint">已添加成员 : </p>
+    <div class="added_wrap">
+        <a class="added_member" href="" target="_blank">realfex</a>
+        <a class="added_member" href="" target="_blank">章泽天</a>
+        <a class="added_member" href="" target="_blank">若爆尿</a>
+        <a class="added_member" href="" target="_blank">非死不可</a>
+        <a class="added_member" href="" target="_blank">骂了隔壁</a>
+        <a class="added_member" href="" target="_blank">操蛋一糊涂</a>
+        <a class="added_member" href="" target="_blank">章泽天</a>
+        <a class="added_member" href="" target="_blank">若爆尿</a>
+        <a class="added_member" href="" target="_blank">非死不可</a>
+        <a class="added_member" href="" target="_blank">骂了隔壁</a>
+    </div>
+    <p class="info_hint">继续搜索 : </p>
+    <form action="/q" class="search"><input type="text" value="" name="q" id="search" autocomplete="off"><input type="submit" value="" class="search_btn"></form>
 </div>
 
 
@@ -161,7 +48,7 @@ $(function(){
 
 
 
-<div id="fancybox-tmp"></div><div id="fancybox-loading"><div></div></div><div id="fancybox-overlay"></div><div id="fancybox-wrap"><div id="fancybox-outer"><div class="fancybox-bg" id="fancybox-bg-n"></div><div class="fancybox-bg" id="fancybox-bg-ne"></div><div class="fancybox-bg" id="fancybox-bg-e"></div><div class="fancybox-bg" id="fancybox-bg-se"></div><div class="fancybox-bg" id="fancybox-bg-s"></div><div class="fancybox-bg" id="fancybox-bg-sw"></div><div class="fancybox-bg" id="fancybox-bg-w"></div><div class="fancybox-bg" id="fancybox-bg-nw"></div><div id="fancybox-content"></div><a id="fancybox-close"></a><div id="fancybox-title"></div><a href="javascript:;" id="fancybox-left"><span class="fancy-ico" id="fancybox-left-ico"></span></a><a href="javascript:;" id="fancybox-right"><span class="fancy-ico" id="fancybox-right-ico"></span></a></div></div><a class="zsite_foot" href="#B">site.42qu.com</a><a style="display: none;" href="#B" id="sB"></a></body>
+<a class="zsite_foot" href="#B">${request_host}</a>
 
 </body>
 </html>
