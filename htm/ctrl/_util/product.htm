@@ -70,28 +70,18 @@ from model.ico import fs_url_jpg
         <textarea name="advan" class="info_txt" id="txt_advan" placeholder="为什么这件事情你能做，而别人不能做? 你有什么与众不同的地方?">${advan or ''}</textarea>
     </div>
 </div>
+
+<div class="pro_btn">
+<span class="btnw" style="margin-left:0;"><button type="submit" id="submit">下一步</button></span>
+</div>
 <p class="hint_wrap">当前进展</p>
 <div style="clear:both;">
     <p class="info_title">产品</p>
     <textarea name="product" class="info_txt" id="txt_product" placeholder="当前的进展如何 ? 提供了什么功能, 取得了哪些成绩？">${product_ or ''}</textarea>
     <p class="info_title">市场</p>
     <textarea name="market" class="info_txt" id="txt_market" placeholder="面向的人群是 ? 规模有多大 ? 种子用户从何而来 ? 会在那些渠道推广 ?">${market or ''}</textarea>
-    ##<p class="info_title">团队</p>
-    ##<textarea name="team" class="info_txt" id="txt_team" placeholder="现在已有多少人 ? 核心成员又曾经有过怎样的光辉岁月 ?">${team}</textarea>
-    ##<p class="info_title">文化</p>
-    ##<textarea name="culture" class="info_txt" id="txt_culture" placeholder="你们喜欢什么 , 讨厌什么 ? 欣赏哪些公司 ? 如何看待加班 ?">${culture}</textarea>
-    ##<p class="info_title">融资</p>
-    ##<textarea name="money" class="info_txt" id="txt_money" placeholder="谁投钱 ? 投多少 ? 盈利的模式是 ?  何时开始盈利 ?"></textarea>
-</div>
-<p class="hint_wrap">关于未来</p>
-<div style="clear:both;">
-    <div>
-    <p class="info_title">近期计划</p>
+    <p class="info_title">计划</p>
     <textarea name="plan" class="info_txt" id="txt_plan" placeholder="接下来想做什么?">${plan or ''}</textarea>
-##    <p class="info_title">最终愿景</p>
-##    <textarea name="hope" class="info_txt" id="txt_hope" placeholder="在十年之后 , 你想这会是个怎样的公司 ?
-##"></textarea>
-    </div>
 </div>
 
 <div>
@@ -133,3 +123,6 @@ from model.ico import fs_url_jpg
     %endif
 
 </%def>
+
+
+
