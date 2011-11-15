@@ -5,11 +5,21 @@ border:none;
 font-size:16px;
 border-bottom:1px dotted #ccc;
 padding-bottom:16px;
-color:#444;
+text-align:right;
+color:#222;
+margin-bottom:8px;
+}
+.info_cont{
+padding:8px 0;
+color:#222;
 }
 .info_title{
-padding-left:16px;
-background:url(/img/gif/adot.gif) no-repeat 0 8px;
+padding:8px 0 8px 16px;
+background:url(/img/gif/adot.gif) no-repeat 0 16px;
 color:#444;
 float:left;
+margin-right:32px;
+}
+.job_btn{
+margin:22px 0 0 104px;
 }
