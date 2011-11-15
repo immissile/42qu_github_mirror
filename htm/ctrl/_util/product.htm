@@ -105,16 +105,11 @@ from model.ico import fs_url_jpg
     <%
     info = JsDict(json.loads(product.info_json))
     %>
-    <div class="left_item \
-            %if i == position:
-            c0\
-            %endif
-        "><span class="left_arrow"></span>
         <a href="/product/new/${i}" class="left_item
             %if i == position:
             c0\
             %endif
-            ">${info.name or None}</a></div>
+            ">${info.name or None}<span class="left_arrow"></span></a>
     %endfor
     %endif
 
