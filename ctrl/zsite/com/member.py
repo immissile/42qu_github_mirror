@@ -12,12 +12,11 @@ from model.search import search_com
 #        return self.render()
 
 @urlmap('/member/new/search')
+@urlmap('/member/new/search-(\d+)')
 class MemberNewSearch(AdminBase):
     search = staticmethod(search_com)
+    link = "/member/new/search-%%s?q=%s"
     get = search_get
-    def get(self):
-        q = 
-        return self.render()
 
 
 @urlmap('/member/new/invite')
