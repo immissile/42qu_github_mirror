@@ -14,6 +14,7 @@ from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
 from zkit.errtip import Errtip
+from zkit.txt import EMAIL_VALID
 
 @urlmap('/job/new')
 class JobNew(AdminBase):
@@ -88,7 +89,10 @@ class JobNew(AdminBase):
         
         self.finish(str(cj.id))
                 
-        
+@urlmap('/job/(\d+)')
+class Job(AdminBase):
+    def get(self,id):
+        self.render()
 
 @urlmap('/job/department/rm')
 class JobDepartmentRm(AdminBase):

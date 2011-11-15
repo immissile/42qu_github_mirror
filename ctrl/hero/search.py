@@ -10,3 +10,5 @@ from ctrl._util.search import search_get
 class Search(Base):
     search = staticmethod(search_user)
     get = search_get
+
+

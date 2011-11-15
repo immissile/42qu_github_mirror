@@ -16,7 +16,7 @@ def search_get(self, n=1):
         now, list_limit, offset = limit_offset(n, PAGE_LIMIT)
         zsite_list, total = self.search(q, offset, list_limit)
         page = str(Page(
-            '/q-%%s?q=%s' % quote(q).replace('%', '%%'),
+            getattr(self,'link','/q-%%s?q=%s') % quote(q).replace('%', '%%'),
             total,
             now,
             PAGE_LIMIT

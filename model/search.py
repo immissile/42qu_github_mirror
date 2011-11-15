@@ -10,7 +10,7 @@ from model.motto import motto_get
 from os.path import join
 from time import sleep
 import xapian
-from model.cid import CID_USER, CID_SITE
+from model.cid import CID_USER, CID_SITE, CID_COM
 
 DATEBASE = None
 ENQUIRE = None
@@ -103,6 +103,8 @@ def _search(enquire, keywords, cid=None, offset=0, limit=50):
         matches = enquire.get_mset(offset, limit, None, match)
     return matches, matches.get_matches_estimated()
 
+def search_com(keywords, offset, limit):
+    return search(keywords, CID_COM, offset, limit)
 
 def search_user(keywords, offset, limit):
     return search(keywords, CID_USER, offset, limit)

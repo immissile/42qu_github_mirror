@@ -44,11 +44,18 @@ from model.ico import fs_url_jpg
 <img class="imgpic" src="${fs_url_jpg('251',pic_id)}">
 <input class="file" type="hidden" name="pic_id" value="${pic_id}" id="pic_id">
 %endif
-    <p class="info_title">产品图片</p>
+    <p class="info_title">图片 </p>
     <input class="file" name="pic" id="pic" type="file">
-    <p class="info_title">想法起源</p>
-    <textarea name="origin" class="info_txt" id="txt_origin" placeholder="你受什么启发 , 看到了什么机会 ? 如何解读大趋势?">
-        ${origin or '' } </textarea>
+</div>
+<div style="clear:both;">
+    <p class="info_title">想法</p>
+    <textarea name="origin" class="info_txt" id="txt_origin" placeholder="你受什么启发 , 看到了什么机会 ? 如何解读大趋势?">${origin or '' }</textarea>
+    <p class="info_title">产品</p>
+    <textarea name="product" class="info_txt" id="txt_product" placeholder="当前的进展如何 ? 提供了什么功能, 取得了哪些成绩？">${product_ or ''}</textarea>
+    <p class="info_title">市场</p>
+    <textarea name="market" class="info_txt" id="txt_market" placeholder="面向的人群是 ? 规模有多大 ? 种子用户从何而来 ? 会在那些渠道推广 ?">${market or ''}</textarea>
+    <p class="info_title">计划</p>
+    <textarea name="plan" class="info_txt" id="txt_plan" placeholder="接下来想做什么? ">${plan or ''}</textarea>
 </div>
 <p class="hint_wrap">同类产品</p>
 <div style="clear:both;">
@@ -70,20 +77,7 @@ from model.ico import fs_url_jpg
         <textarea name="advantage" class="info_txt" id="txt_advantage" placeholder="为什么这件事情你能做，而别人不能做? 你有什么与众不同的地方?">${advantage or ''}</textarea>
     </div>
 </div>
-<p class="hint_wrap">当前进展</p>
-<div style="clear:both;">
-    <p class="info_title">产品</p>
-    <textarea name="product" class="info_txt" id="txt_product" placeholder="当前的进展如何 ? 提供了什么功能, 取得了哪些成绩？">${product_ or ''}</textarea>
-    <p class="info_title">市场</p>
-    <textarea name="market" class="info_txt" id="txt_market" placeholder="面向的人群是 ? 规模有多大 ? 种子用户从何而来 ? 会在那些渠道推广 ?">${market or ''}</textarea>
-</div>
-<p class="hint_wrap">关于未来</p>
-<div style="clear:both;">
-    <div>
-    <p class="info_title">近期计划</p>
-    <textarea name="plan" class="info_txt" id="txt_plan" placeholder="接下来想做什么?">${plan or ''}</textarea>
-    </div>
-</div>
+
 
 <div>
     <span class="btnw" style="margin-left:0;"><button type="submit" id="submit">
@@ -110,17 +104,15 @@ from model.ico import fs_url_jpg
     <%
     info = JsDict(json.loads(product.info_json))
     %>
-    <div class="left_item \
-            %if i == position:
-            c0\
-            %endif
-        "><span class="left_arrow"></span>
         <a href="/product/new/${i}" class="left_item
             %if i == position:
             c0\
             %endif
-            ">${info.name or None}</a></div>
+            ">${info.name or None}<span class="left_arrow"></span></a>
     %endfor
     %endif
 
 </%def>
+
+
+
