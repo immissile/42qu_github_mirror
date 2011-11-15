@@ -11,7 +11,7 @@ from zkit.pic import picopen
 from model.ico import site_ico_new, site_ico_bind
 from zkit.pic import pic_fit_width_cut_height_if_large
 from urlparse import urlparse
-
+from model.po_pic import product_pic_new
 
 
 @urlmap('/product/new')
@@ -27,63 +27,74 @@ class ProductNew(AdminBase):
         arguments = self.request.arguments
 
         print arguments
-        pro_url = arguments.get('pro_url',[])
-        pro_name = arguments.get('pro_name',[])
-        pro_bio = arguments.get('pro_bio',[])
+        pro_url = arguments.get('pro_url')
+        pro_name = arguments.get('pro_name')
+        pro_bio = arguments.get('pro_bio')
 
         pros = None
         po_pre = None
 
         pros = zip(pro_url,pro_name,pro_bio)
+        for i,p in enumerate(pros):
+            if p[1] is None:
+                del pros[i]
         if pro_name:
             for pro_u,pro_n,pro_b in pros:
+                print user_id,pro_n,pro_b,zsite.id,'!(*&'
                 po_pro = po_product_new(user_id,pro_n,pro_b,zsite.id)
         
                 info_json = JsDict()
                 info_json.name = pro_n
                 info_json.pro_url = pro_u
-                product_new(po_pro.id,info_json
-                        )
+                p = product_new(po_pro.id,info_json)
+                print p,'!@@#'
             self.redirect('/product/new/%s'%'0')
         self.get()
 
 
-def _product_save(self):
+def _product_save(self,product):
     current_user_id = self.current_user.id
-    product_list = product_by_com_id(self.zsite.id)
     position = int(self.get_argument('position',0))
     origin = self.get_argument('origin',None)
     plan = self.get_argument('plan',None)
-    pro_ot_name = self.get_arguments('pro_ot_name',None)
-    pro_ot_url = self.get_arguments('pro_ot_url',None)
+    similar_product_name = self.get_arguments('similar_product_name',None)
+    similar_product_url = self.get_arguments('similar_product_url',None)
     same = self.get_argument('same',None)
-    dist = self.get_argument('dist',None)
-    advan = self.get_argument('advan',None)
+    different = self.get_argument('different',None)
+    advantage = self.get_argument('advantage',None)
     _product = self.get_argument('product',None)
     market = self.get_argument('market',None)
-    team = self.get_argument('team',None)
-    culture = self.get_argument('culture',None)
-    money = self.get_argument('money',None)
-    hope = self.get_argument('hope',None)
-    pro_ot = zip(pro_ot_name,pro_ot_url)
+    pro_ot = zip(similar_product_name,similar_product_url)
     _pro = []
     if pro_ot:
-        for pro in pro_ot:
-            if pro[1] or pro[0]:
-                if not pro[0]:
-                    _pro.append([urlparse(pro[1]).netloc,pro[1]])
+        for _name,_url in pro_ot:
+            if _name or _url:
+                if not _name:
+                    _pro.append([urlparse(_url).netloc,_url])
                 else:
-                    _pro.append([pro[0],pro[1]])
+                    _pro.append([_name,_url])
         pro_ot = _pro
     pic_id = None
     files = self.request.files
-    if 'pic' in files:
-        pic = files['pic'][0]['body']
-        pic = picopen(pic)
-        if pic:
-            pic = pic_fit_width_cut_height_if_large(pic,215)
-            pic_id = site_ico_new(current_user_id, pic)
-    return product_list,position,origin,plan,pro_ot,same,dist,advan,_product,market,team,culture,money,hope,pic_id
+    if product:
+        if 'pic' in files:
+            pic = files['pic'][0]['body']
+            pic = picopen(pic)
+            if pic:
+                pic_id = product_pic_new(self.zsite_id, product.id,pic).id
+        
+        _info = JsDict(json.loads(product.info_json))
+        _info.pic_id = pic_id
+        _info.pro_ot = pro_ot
+        _info.origin = origin
+        _info.plan = plan
+        _info.same = same
+        _info.different = different
+        _info.advantage = advantage
+        _info.product = _product
+        _info.market = market
+        product.info_json = json.dumps(dict(iter(_info)))
+        product.save()
 
 @urlmap('/product/new/(\d+)')
 class ProductNewN(AdminBase):
@@ -103,34 +114,17 @@ class ProductNewN(AdminBase):
     _product_save = _product_save
     
     def post(self,id=0):
+        product_list = product_by_com_id(self.zsite.id)
         id = int(id)
-        product_list,position,origin,plan,pro_ot,same,dist,advan,_product,market,team,culture,money,hope,pic_id = self._product_save()
         product = product_list[id] or None
-        
         if product:
-            _info = JsDict(json.loads(product.info_json))
-            _info.pic_id = pic_id
-            _info.pro_ot = pro_ot
-            _info.origin = origin
-            _info.plan = plan
-            _info.same = same
-            _info.different = dist
-            _info.advan = advan
-            _info.product = _product
-            _info.market = market
-            _info.team = team
-            _info.culture = culture
-            _info.money = money
-            _info.hope =hope
-            product.info_json = json.dumps(dict(iter(_info)))
-            product.save()
+            self._product_save(product)
 
-
-
-        if int(position)-1<len(product_list):
+        if id <len(product_list):
             return self.redirect('/product/new/%s'%(id+1))
         else:
             return self.redirect('/job/new')
+
 
 @urlmap('/product/edit/(\d+)')
 class ProductEdit(AdminBase):
@@ -148,23 +142,23 @@ class ProductEdit(AdminBase):
     
     
     def post(self,id):
-        product_list,position,origin,plan,pro_ot,same,dist,advan,_product,market,team,culture,money,hope,pic_id = self._product_save()
         product = Product.mc_get(id)
-        if product:
-            _info = JsDict(json.loads(product.info_json))
-            _info.pic_id = pic_id
-            _info.pro_ot = pro_ot
-            _info.origin = origin
-            _info.plan = plan
-            _info.same = same
-            _info.different = dist
-            _info.advan = advan
-            _info.product = _product
-            _info.market = market
-            _info.team = team
-            _info.culture = culture
-            _info.money = money
-            _info.hope =hope
-            product.info_json = json.dumps(dict(iter(_info)))
-            product.save()
+        _product_save(product)
+        #if product:
+        #    _info = JsDict(json.loads(product.info_json))
+        #    _info.pic_id = pic_id
+        #    _info.pro_ot = pro_ot
+        #    _info.origin = origin
+        #    _info.plan = plan
+        #    _info.same = same
+        #    _info.different = different
+        #    _info.advantage = advantage
+        #    _info.product = _product
+        #    _info.market = market
+        #    _info.team = team
+        #    _info.culture = culture
+        #    _info.money = money
+        #    _info.hope =hope
+        #    product.info_json = json.dumps(dict(iter(_info)))
+        #    product.save()
         self.redirect('/')

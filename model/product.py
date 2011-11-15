@@ -4,7 +4,7 @@ from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from po import Po
 from cid import CID_PRODUCT,CID_COM
 import json
-from zsite_show import zsite_show_get
+from zsite_show import zsite_show_get,zsite_show_list
 
 class Product(McModel):
     pass
@@ -26,5 +26,5 @@ def product_all(limit=None,offset=None):
     if com_list:
         com_id_list = [c.id for c in com]
         if com_id_list:
-            return [product_by_com_id(c) for c in com_id_list]
+            return [product_by_com_id(c) for c in com_id_list][limit,limit+offset]
 

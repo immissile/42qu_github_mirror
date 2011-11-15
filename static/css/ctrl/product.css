@@ -276,7 +276,7 @@ margin-left:219px;
 text-align:center;
 display:block;
 }
-.pro_ot_name,.pro_ot_url{
+.similar_product_name,.similar_product_url{
 width:319px;
 margin-left:14px;
 border:1px solid #ccc;
@@ -295,7 +295,7 @@ box-shadow:-1px 1px 1px #F3F3F3;
 .file{
 margin-bottom:16px;
 }
-.pro_ot_wrap{
+.similar_product_wrap{
 margin:0 0 20px -14px;
 }
 .place_hint{

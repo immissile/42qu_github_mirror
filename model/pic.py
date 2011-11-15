@@ -31,6 +31,7 @@ def pic_save(pic_id, pic):
     fs_set_jpg('0', pic_id, pic)
 
 
+
 def pic_new_save(cid, user_id, pic):
     pic_id = pic_new(cid, user_id)
     pic_save(pic_id, pic)

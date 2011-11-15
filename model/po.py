@@ -358,7 +358,7 @@ def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
         return m
 
 def po_product_new(user_id,name,txt,zsite_id=0,state=STATE_ACTIVE,):
-    if not name and not txt and not zsite_id:
+    if not name and not txt :
         return
     name = name
     if not is_same_post(user_id,name,txt,zsite_id):
