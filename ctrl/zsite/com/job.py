@@ -89,7 +89,10 @@ class JobNew(AdminBase):
         
         self.finish(str(cj.id))
                 
-        
+@urlmap('/job/(\d+)')
+class Job(AdminBase):
+    def get(self,id):
+        self.render()
 
 @urlmap('/job/department/rm')
 class JobDepartmentRm(AdminBase):

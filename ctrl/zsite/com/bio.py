@@ -5,8 +5,8 @@ from ctrl._urlmap.zsite import urlmap
 from _handler import AdminBase
 
 
-@urlmap('/bio/add')
-class BioAdd(AdminBase):
+@urlmap('/bio/new')
+class BioNew(AdminBase):
     def get(self):
         return self.render()
 

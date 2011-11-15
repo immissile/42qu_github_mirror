@@ -39,24 +39,24 @@ width:578px;
 }
 .info_hint{
 font-size:14px;
-padding:8px 0;
-border-bottom:1px dotted #ccc;
+padding:16px 0;
 width:120px;
-margin-bottom:8px;
+color:#444;
 }
 .added_wrap{
 clear:both;
 margin-bottom:16px;
 overflow:auto;
-margin-left:-80px;
+margin-left:-19px;
 }
 .added_member{
 display:block;
 float:left;
-width:auto;
-margin-left:80px;
-margin-bottom:12px;
+width:80px;
+overflow:hidden;
+margin:0 0 16px 19px;
 border-bottom:1px dotted #ccc;
+text-align:center;
 }
 .search input {
 border:1px solid #DDD;
@@ -77,4 +77,7 @@ border:none;
 line-height:26px;
 padding:1px 3px;
 vertical-align:middle;
+}
+.search{
+margin-left:18px;
 }
