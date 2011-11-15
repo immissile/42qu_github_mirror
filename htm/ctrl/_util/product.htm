@@ -1,0 +1,135 @@
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+import json
+from zkit.jsdict import JsDict
+from model.po import Po
+from model.ico import fs_url_jpg
+%>
+<%def name="product_form(product=None,position=None)">
+    <%htm:form classname="site_new" enctype="multipart/form-data">
+    <%
+    pic_id = None
+    origin = None
+    product_ = None
+    market = None
+    team = None
+    culture = None
+    money = None
+    plan = None
+    pro_ot = None
+    same = None
+    dist = None
+    advan = None
+    %>
+    %if product:
+        <%
+    info = JsDict(json.loads(product.info_json))
+    po = Po.mc_get(product.id)
+    pic_id = info.pic_id
+    origin = info.origin
+    product_ = info.product
+    market = info.market
+    team = info.team
+    culture = info.culture
+    money = info.money
+    plan = info.plan
+    pro_ot = info.pro_ot
+    same = info.same
+    dist = info.dist
+    advan = info.advan
+    %>
+        %endif
+<div style="clear:both;margin-top:27px;">
+%if pic_id:
+<img class="imgpic" src="${fs_url_jpg('96',pic_id)}">
+<input class="file" type="hidden" name="pic_id" value="${pic_id}" id="pic_id">
+%endif
+    <p class="info_title">产品图片</p>
+    <input class="file" name="pic" id="pic" type="file">
+    <p class="info_title">想法起源</p>
+    <textarea name="origin" class="info_txt" id="txt_origin" placeholder="你受什么启发 , 看到了什么机会 ? 如何解读大趋势?">
+        ${origin or '' } </textarea>
+</div>
+<p class="hint_wrap">同类产品</p>
+<div style="clear:both;">
+    <div style="height:20px;"></div>
+    <div id="line1" class="line"> 
+        <div class="pro_ot_wrap" id="pro_ot_wrap1">
+            %if pro_ot:
+            %for pro in pro_ot:
+            <input autocomplete="off" value="${pro[0]}" class="pro_ot_name" name="pro_ot_name" placeholder="产品名称"><input class="pro_ot_url" name="pro_ot_url" placeholder="相关链接" value="${pro[1]}">
+            %endfor
+            %endif
+            <input autocomplete="off" value="" class="pro_ot_name" name="pro_ot_name" placeholder="产品名称"><input class="pro_ot_url" name="pro_ot_url" placeholder="相关链接" value="">
+        </div>
+        <p class="info_title">相同点</p>
+        <textarea name="same" class="info_txt" id="txt_same" placeholder="一样会关注的点">${same or ''}</textarea>
+        <p class="info_title">区别点</p>
+        <textarea name="dist" class="info_txt" id="txt_title" placeholder="你们之间的不同">${dist or ''}</textarea>
+        <p class="info_title">竞争力</p>
+        <textarea name="advan" class="info_txt" id="txt_advan" placeholder="为什么这件事情你能做，而别人不能做? 你有什么与众不同的地方?">${advan or ''}</textarea>
+    </div>
+</div>
+<p class="hint_wrap">当前进展</p>
+<div style="clear:both;">
+    <p class="info_title">产品</p>
+    <textarea name="product" class="info_txt" id="txt_product" placeholder="当前的进展如何 ? 提供了什么功能, 取得了哪些成绩？">${product_ or ''}</textarea>
+    <p class="info_title">市场</p>
+    <textarea name="market" class="info_txt" id="txt_market" placeholder="面向的人群是 ? 规模有多大 ? 种子用户从何而来 ? 会在那些渠道推广 ?">${market or ''}</textarea>
+    ##<p class="info_title">团队</p>
+    ##<textarea name="team" class="info_txt" id="txt_team" placeholder="现在已有多少人 ? 核心成员又曾经有过怎样的光辉岁月 ?">${team}</textarea>
+    ##<p class="info_title">文化</p>
+    ##<textarea name="culture" class="info_txt" id="txt_culture" placeholder="你们喜欢什么 , 讨厌什么 ? 欣赏哪些公司 ? 如何看待加班 ?">${culture}</textarea>
+    ##<p class="info_title">融资</p>
+    ##<textarea name="money" class="info_txt" id="txt_money" placeholder="谁投钱 ? 投多少 ? 盈利的模式是 ?  何时开始盈利 ?"></textarea>
+</div>
+<p class="hint_wrap">关于未来</p>
+<div style="clear:both;">
+    <div>
+    <p class="info_title">近期计划</p>
+    <textarea name="plan" class="info_txt" id="txt_plan" placeholder="接下来想做什么?">${plan or ''}</textarea>
+##    <p class="info_title">最终愿景</p>
+##    <textarea name="hope" class="info_txt" id="txt_hope" placeholder="在十年之后 , 你想这会是个怎样的公司 ?
+##"></textarea>
+    </div>
+</div>
+
+<div>
+    <span class="btnw" style="margin-left:0;"><button type="submit" id="submit">
+            %if position is None:
+            保存
+            %else:
+            下一步
+            %endif
+    </button></span>
+</div>
+<input type="hidden" value="${position or 0 }" name="position"/>
+</%htm:form>
+</%def>
+
+
+<%def name="product_bar(product_list,position=0)">
+%if product_list:
+% if not isinstance(product_list,list):
+    <%
+    product_list = [product_list]
+    %>
+%endif
+    %for i,product in enumerate(product_list):
+    <%
+    info = JsDict(json.loads(product.info_json))
+    %>
+    <div class="left_item \
+            %if i == position:
+            c0\
+            %endif
+        "><span class="left_arrow"></span>
+        <a href="/product/new/${i}" class="left_item
+            %if i == position:
+            c0\
+            %endif
+            ">${info.name or None}</a></div>
+    %endfor
+    %endif
+
+</%def>

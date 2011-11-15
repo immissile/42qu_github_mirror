@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from po import Po
-from cid import CID_PRODUCT
+from cid import CID_PRODUCT,CID_COM
 import json
+from zsite_show import zsite_show_get
+
 class Product(McModel):
     pass
 
@@ -19,5 +21,10 @@ def product_by_com_id(com_id):
     if po_product:
         return Product.mc_get_list([i.id for i in po_product])
 
-def product_all():
-    return Product.where()
+def product_all(limit=None,offset=None):
+    com_list = zsite_show_list(CID_COM)
+    if com_list:
+        com_id_list = [c.id for c in com]
+        if com_id_list:
+            return [product_by_com_id(c) for c in com_id_list]
+

@@ -13,7 +13,7 @@ from zkit.pic import picopen
 from zkit.errtip import Errtip
 from model.zsite_member import zsite_member_new
 from model.product import product_all
-
+from model.zsite_show import zsite_show_list, zsite_show_count
 
 @urlmap('/com/list')
 @urlmap('/com/list-(\d+)')
@@ -26,10 +26,10 @@ class ComList(_ComListBase,Base):
     page_url = '/com/list-%s'
 
     def _total(self):
-        return zsite_com_count(CID_COM)
+        return zsite_show_count(CID_COM)
 
     def _page_list(self,limit,offset):
-        return zsite_com_list(CID_COM, limit, offset)
+        return zsite_show_list(CID_COM, limit, offset)
 
 @urlmap('/')
 class Index(Base):
