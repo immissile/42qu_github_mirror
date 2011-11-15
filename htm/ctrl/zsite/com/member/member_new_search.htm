@@ -19,6 +19,57 @@ ${head()}
 <div class="G i_div">
 <div class="G4">
 
+%if q:
+<div class="result_wrap">
+<div class="p_wrap">
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+    </a>
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+
+    </a>
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+    </a>
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+    </a>
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+
+    </a>
+    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
+        <span class="f_name">章泽天</span>
+        <span class="f_icon"></span>
+        <div class="f_email">42区 , 前端工程师</div>
+    </a>
+</div>
+    <div class="acts">
+<form id="follow_form" method="POST">
+<span class="btnw R skip"><button type="submit">跳过</button></span>\
+<span class="btnw R" style="margin-left:0;">\
+<button type="submit">添加所选</button></span>
+<input type="hidden" value="" name="follow_id_list" id="follow_id_list">\
+</form>\
+<label class="select_all" for="select_all">全选</label><input type="checkbox" class="select_all" id="select_all">\
+    </div>
+</div>
+
+
+%else:
 <div class="search_wrap">
     <p class="info_hint">已添加成员 : </p>
     <div class="added_wrap">
@@ -36,7 +87,7 @@ ${head()}
     <p class="info_hint">继续搜索 : </p>
     <form action="/q" class="search"><input type="text" value="" name="q" id="search" autocomplete="off"><input type="submit" value="" class="search_btn"></form>
 </div>
-
+%endif
 
 
 </div>
