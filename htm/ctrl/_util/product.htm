@@ -47,8 +47,7 @@ from model.ico import fs_url_jpg
     <p class="info_title">产品图片</p>
     <input class="file" name="pic" id="pic" type="file">
     <p class="info_title">想法起源</p>
-    <textarea name="origin" class="info_txt" id="txt_origin" placeholder="你受什么启发 , 看到了什么机会 ? 如何解读大趋势?">
-        ${origin or '' } </textarea>
+    <textarea name="origin" class="info_txt" id="txt_origin" placeholder="你受什么启发 , 看到了什么机会 ? 如何解读大趋势?">${origin or '' }</textarea>
 </div>
 <p class="hint_wrap">同类产品</p>
 <div style="clear:both;">
@@ -71,9 +70,6 @@ from model.ico import fs_url_jpg
     </div>
 </div>
 
-<div class="pro_btn">
-<span class="btnw" style="margin-left:0;"><button type="submit" id="submit">下一步</button></span>
-</div>
 <p class="hint_wrap">当前进展</p>
 <div style="clear:both;">
     <p class="info_title">产品</p>
