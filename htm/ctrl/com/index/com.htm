@@ -33,42 +33,72 @@ ${motto_get(com.id)}
         %>
         %if products:
         % for product in products:
-    <%
+       %if product:
+        <%
     info = JsDict(json.loads(product.info_json))
     po = Po.mc_get(product.id)
     %>
     <a href="/product/edit/${product.id}">编辑</a>
-        <div class="com_title">${info.name}</div>
+        <div class="com_title">${po.name}</div>
         <div class="com_text">
+            %if po.txt:
             ${po.txt}
+            %endif
 %if info.pic_id:
 <div class="com_main_img">\
-<img src="${fs_url_jpg('96',info.pic_id)}"></div>\
+<img src="${fs_url_jpg('548',info.pic_id)}"></div>\
 %endif
-            <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px;"><span>想法起源</span></p>
-            ${info.origin}。
-                                    <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;"><span>当前进展</span></p>
-                                    <p class="info_title3"><span class="info_title4">产品</span><span class="dot_split">:</span>${info.product}</p>
-                                    <p class="info_title3"><span class="info_title4">市场</span><span class="dot_split">:</span>${info.market}</p>
-                                    <p class="info_title3"><span class="info_title4">团队</span><span class="dot_split">:</span>${info.team}</p>
-                                    <p class="info_title3"><span class="info_title4">文化</span><span class="dot_split">:</span>${info.culture}</p>
-                                    <p class="info_title3"><span class="info_title4">融资</span><span class="dot_split">:</span>${info.money}</p>
+%if info.origin:
+<p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px;"><span>想法起源</span></p>
+<pre>  ${info.origin}</pre>
+%endif
+%if info.product or info.market or info.team or info.culture or info.money:
+<p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;"><span>当前进展</span></p>
+%if info.product:
+<p class="info_title3"><span class="info_title4">产品</span><span class="dot_split">:</span>${info.product}</p>
+%endif
+%if info.market:
+<p class="info_title3"><span class="info_title4">市场</span><span class="dot_split">:</span>${info.market}</p>
+%endif
+%if info.team:
+<p class="info_title3"><span class="info_title4">团队</span><span class="dot_split">:</span>${info.team}</p>
+%endif
+%if info.culture:
+<p class="info_title3"><span class="info_title4">文化</span><span class="dot_split">:</span>${info.culture}</p>
+%endif
+%if info.money:
+<p class="info_title3"><span class="info_title4">融资</span><span class="dot_split">:</span>${info.money}</p>
+%endif
+%endif
+%if info.plan:
 <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;"><span>近期计划</span></p>
-${info.plan}                        
-<p style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;" class=""><span>同类产品</span></p>
+<pre>${info.plan}  </pre>
+%endif
 %if info.pro_ot:                        
+<p style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;" class=""><span>同类产品</span></p>
 <p class="other_pros">
 %for pro in info.pro_ot:
                             <span class="other_pro">${pro[0]}<a class="aH" href="${pro[1]}" target="_top" ></a></span>
 %endfor
-%endif                            
-</p><p class="info_title3"><span class="info_title4">共同点</span><span class="dot_split">:</span>${info.same}</p>
-                            <p class="info_title3"><span class="info_title4">区别点</span><span class="dot_split">:</span>${info.different}</p>
-                            <p class="info_title3"><span class="info_title4">竞争力</span><span class="dot_split">:</span>${info.advantage}</p>        
+</p>
+%if info.same:
+<p class="info_title3"><span class="info_title4">共同点</span><span class="dot_split">:</span>${info.same}</p>
+%endif
+%if info.different:
+<p class="info_title3"><span class="info_title4">区别点</span><span class="dot_split">:</span>${info.different}</p>
+%endif
+%if info.advantage:
+<p class="info_title3"><span class="info_title4">竞争力</span><span class="dot_split">:</span>${info.advantage}</p>        
+%endif 
+%endif
                         <p></p>
+     %if info.hope:
                         <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;"><span>最终愿景</span></p>
-${info.hope}                                
+                        <pre>${info.hope} </pre>
+%endif                        
 </div>
+
+%endif
         %endfor
         %endif
         

@@ -1,9 +1,7 @@
 <%inherit file="../base.htm" />
 <%!
 from model.zsite import Zsite
-from model.product import product_by_com_id
-import json
-from zkit.jsdict import JsDict
+from model.po import Po, po_id_list_by_com_id
 %>
 
 <style>
@@ -47,19 +45,19 @@ height:28px;
     %if page_list:
     %for zsite in page_list:
         <%
-        products = product_by_com_id(zsite.id)
+        product_pos = po_id_list_by_com_id(zsite.id)
         %>
     <div class="G1">
 <div class="sdw"><div class="sd" style="padding: 0pt;">
 <div style="padding: 7px 14px; text-align: center;">
 <a href="${zsite.link}" class="com_a">${zsite.name}</a></div>
     <div>
-        %if products:
-        % for product in products:
-    <%
-    info = JsDict(json.loads(product.info_json))
-    %>
-    <a style="color: rgb(0, 0, 0); display: block; border-top: 1px dotted rgb(204, 204, 204);background:url(marking2.gif) no-repeat 8px 16px;padding:7px;padding-left:26px;padding-right:26px;text-align:center;" href="${zsite.link}#${product.id}">${info.name}</a>
+        %if product_pos:
+        <%
+            pos = Po.mc_get_list(product_pos)
+        %>
+        % for po in pos:
+    <a style="color: rgb(0, 0, 0); display: block; border-top: 1px dotted rgb(204, 204, 204);background:url(marking2.gif) no-repeat 8px 16px;padding:7px;padding-left:26px;padding-right:26px;text-align:center;" href="${zsite.link}#${po.id}">${po.name}</a>
 %endfor
 %endif
 </div>

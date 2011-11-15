@@ -5,6 +5,8 @@ from po import Po
 from cid import CID_PRODUCT,CID_COM
 import json
 from zsite_show import zsite_show_get,zsite_show_list
+from itertools import  chain
+
 
 class Product(McModel):
     pass
@@ -24,7 +26,7 @@ def product_by_com_id(com_id):
 def product_all(limit=None,offset=None):
     com_list = zsite_show_list(CID_COM)
     if com_list:
-        com_id_list = [c.id for c in com]
+        com_id_list = [c.id for c in com_list]
         if com_id_list:
-            return [product_by_com_id(c) for c in com_id_list][limit,limit+offset]
+            return chain.from_iterable([product_by_com_id(c) for c in com_id_list])
 

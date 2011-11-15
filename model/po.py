@@ -392,6 +392,10 @@ def po_id_list(user_id, cid, is_self, limit, offset):
         qs = qs.where(cid=cid)
     return qs.where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
 
+def po_id_list_by_com_id(com_id):
+    print com_id
+    return Po.where(zsite_id=com_id,cid=CID_PRODUCT).col_list(col='id')
+
 def po_view_list(user_id, cid, is_self, limit, offset=0):
     id_list = po_id_list(user_id, cid, is_self, limit, offset)
     return Po.mc_get_list(id_list)

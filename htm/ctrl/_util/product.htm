@@ -4,6 +4,7 @@ import json
 from zkit.jsdict import JsDict
 from model.po import Po
 from model.ico import fs_url_jpg
+from model.po import po_id_list_by_com_id
 %>
 <%def name="product_form(product=None,position=None)">
     <%htm:form classname="site_new" enctype="multipart/form-data">
@@ -40,8 +41,8 @@ from model.ico import fs_url_jpg
     %>
         %endif
 <div style="clear:both;margin-top:27px;">
-%if pic_id:
-<img class="imgpic" src="${fs_url_jpg('251',pic_id)}">
+    %if pic_id:
+<img class="imgpic" src="${fs_url_jpg('215',pic_id)}">
 <input class="file" type="hidden" name="pic_id" value="${pic_id}" id="pic_id">
 %endif
     <p class="info_title">图片 </p>
@@ -93,25 +94,20 @@ from model.ico import fs_url_jpg
 </%def>
 
 
-<%def name="product_bar(product_list,position=0)">
-%if product_list:
-% if not isinstance(product_list,list):
-    <%
-    product_list = [product_list]
-    %>
-%endif
-    %for i,product in enumerate(product_list):
-    <%
-    info = JsDict(json.loads(product.info_json))
-    %>
-        <a href="/product/new/${i}" class="left_item
-            %if i == position:
+<%def name="product_bar(link_template,com_id,product_id=None)">
+<%
+po_ids= po_id_list_by_com_id(com_id)
+pos = Po.mc_get_list(po_ids)
+%>
+%if pos:
+%for po in pos:
+<a href="${link_template%po.id}" class="left_item
+            %if po.id == product_id:
             c0\
             %endif
-            ">${info.name or None}<span class="left_arrow"></span></a>
-    %endfor
-    %endif
-
+            ">${po.name or None}<span class="left_arrow"></span></a>
+        %endfor
+        %endif
 </%def>
 
 

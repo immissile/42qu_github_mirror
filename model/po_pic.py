@@ -61,18 +61,12 @@ def po_pic_new(user_id, po_id, pic, seq=None):
 def product_pic_new(com_id,product_id,pic,seq=None):
     pic_id = pic_new(CID_PRODUCT_PIC, com_id)
     pic_save(pic_id, pic)
-    try:
-        po_pic_save(pic_id, pic)
-    except:
-        traceback.print_exc()
-        return
+    product_pic_save(pic_id, pic)
 
     if seq is None:
         seq = seq_gen(com_id, product_id)
-    pp = PoPic(id=pic_id, user_id=com_id, po_id=product_id, seq=seq)
-    pp.save()
     mc_flush(com_id, product_id)
-    return pp
+    return pic_id
 
 def product_pic_save(pic_id,pic):
     p1 = pic_fit_width_cut_height_if_large(pic,548)
