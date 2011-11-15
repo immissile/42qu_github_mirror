@@ -14,10 +14,7 @@ from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
 from zkit.errtip import Errtip
-<<<<<<< local
-=======
 from zkit.txt import EMAIL_VALID
->>>>>>> other
 
 @urlmap('/job/new')
 class JobNew(AdminBase):
