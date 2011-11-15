@@ -1,0 +1,23 @@
+h1 {
+border-bottom:1px dotted #CCCCCC;
+margin:16px auto 0;
+padding-bottom:16px;
+text-align:right;
+width:470px;
+}
+.comment_txt {
+border:1px solid #CCCCCC;
+padding:3px 6px;
+resize:none;
+width:456px;
+overflow:hidden;
+height:80px;
+}
+.zsite_block{
+border:none;
+}
+.comment_cont{
+border-top:1px dotted #ccc;
+padding-top:14px;
+margin-top:14px;
+}
