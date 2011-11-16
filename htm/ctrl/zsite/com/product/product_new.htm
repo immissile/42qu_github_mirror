@@ -6,12 +6,12 @@ ${css.ctrl_product|n}
 
 <script>
 $(function(){
-    $('.pro_name:last').live('blur',function(){
+    $('.product_name:last').live('blur',function(){
         var self = $(this)
-        if($.trim($('.line:last').find('input[name="pro_name"]').val()).length>0){
+        if($.trim($('.line:last').find('input[name="product_name"]').val()).length>0){
             var wrap = self.parent().parent(),
             id = parseInt(wrap.attr('id').substr(4))+1
-            wrap.after('<div class="line" id="line'+id+'"> <span class="L"><input name="pro_name" class="pro_name" value="" autocomplete="off"><input value="" name="pro_bio" class="pro_bio" autocomplete="off"><input value="" name="pro_url" class="pro_url"></span><a href="javascript:close_item('+id+');void(0)" class="close_item"></a></div>')
+            wrap.after('<div class="line" id="line'+id+'"> <span class="L"><input name="product_name" class="product_name" value="" autocomplete="off"><input value="" name="product_about" class="product_about" autocomplete="off"><input value="" name="product_url" class="product_url"></span><a href="javascript:close_item('+id+');void(0)" class="close_item"></a></div>')
         }
         self.unbind('blur')
     })
@@ -27,17 +27,17 @@ function close_item(id){
 <div>
     <div class="line" id="line1"> 
         <span class="L">
-            <input placeholder="产品名称" name="pro_name" class="pro_name" value="" autocomplete="off"><input value="" placeholder="一句话描述" name="pro_bio" class="pro_bio" autocomplete="off"><input value="" placeholder="相关链接" name="pro_url" class="pro_url">
+            <input placeholder="产品名称" name="product_name" class="product_name" value="" autocomplete="off"><input value="" placeholder="一句话描述" name="product_about" class="product_about" autocomplete="off"><input value="" placeholder="相关链接" name="product_url" class="product_url">
         </span>
     </div>
     <div class="line" id="line2"> 
         <span class="L">
-            <input name="pro_name" class="pro_name" value="" autocomplete="off"><input value="" name="pro_bio" class="pro_bio" autocomplete="off"><input value="" name="pro_url" class="pro_url">
+            <input name="product_name" class="product_name" value="" autocomplete="off"><input value="" name="product_about" class="product_about" autocomplete="off"><input value="" name="product_url" class="product_url">
         </span>
     </div>
     <div class="line" id="line3"> 
         <span class="L">
-            <input name="pro_name" class="pro_name" value="" autocomplete="off"><input value="" name="pro_bio" class="pro_bio" autocomplete="off"><input value="" name="pro_url" class="pro_url">
+            <input name="product_name" class="product_name" value="" autocomplete="off"><input value="" name="product_about" class="product_about" autocomplete="off"><input value="" name="product_url" class="product_url">
         </span>
     </div>
 </div>

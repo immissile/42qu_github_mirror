@@ -42,8 +42,8 @@ ${motto_get(com.id)}
     <a href="/product/rm/${product.id}"style="float:right;">删除</a>
         <div class="com_title">${po.name}</div>
         <div class="com_text">
-            %if info.pro_bio:
-            ${info.pro_bio}
+            %if info.product_about:
+            ${info.product_about}
             %endif
 %if info.pic_id:
 <div class="com_main_img">\
@@ -75,10 +75,10 @@ ${motto_get(com.id)}
 <p class="" style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;"><span>近期计划</span></p>
 <pre>${info.plan}  </pre>
 %endif
-%if info.pro_ot:                        
+%if info.product_similar:                        
 <p style="background: url('adot.gif') no-repeat scroll 4px 11px transparent; border: 0pt none; padding-top: 5px; padding-bottom: 5px; padding-left: 29px; margin-top: 14px;" class=""><span>同类产品</span></p>
 <p class="other_pros">
-%for pro in info.pro_ot:
+%for pro in info.product_similar:
                             <span class="other_pro">${pro[0]}<a class="aH" href="${pro[1]}" target="_top" ></a></span>
 %endfor
 </p>

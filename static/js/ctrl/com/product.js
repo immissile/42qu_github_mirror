@@ -15,18 +15,18 @@ $(function(){
     var tip = $('.txt_bio_tip')
     txt_maxlen($('#txt_bio'),tip,142)
 
-    $('.pro_ot_name:last').live('blur',function(){
+    $('.product_similar_name:last').live('blur',function(){
         var self = $(this)
         if($.trim(self.val()).length>0){
             var wrap = self.parent(),
             id = parseInt(self.parent().attr('id').substr(11))+1
-            wrap.after('<div class="pro_ot_wrap" id="pro_ot_wrap'+id+'"><input name="pro_ot_name" class="pro_ot_name" autocomplete="off" placeholder="产品名称"><input placeholder="相关链接" name="pro_ot_url" class="pro_ot_url"><a href="javascript:close_item('+id+');void(0)" class="close_ot_item"></a></div>')
+            wrap.after('<div class="product_similar_wrap" id="product_similar_wrap'+id+'"><input name="product_similar_name" class="product_similar_name" autocomplete="off" placeholder="产品名称"><input placeholder="相关链接" name="product_similar_url" class="product_similar_url"><a href="javascript:close_item('+id+');void(0)" class="close_ot_item"></a></div>')
         }
         self.unbind('blur')
     })
 
     close_item = function(id){
-        $('#pro_ot_wrap'+id).remove()
+        $('#product_similar_wrap'+id).remove()
     }
 
     function empty(self){

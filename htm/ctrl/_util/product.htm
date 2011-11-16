@@ -17,7 +17,7 @@ from model.po import po_id_list_by_com_id
     culture = None
     money = None
     plan = None
-    pro_ot = None
+    product_similar = None
     same = None
     different = None
     advantage = None
@@ -33,7 +33,7 @@ from model.po import po_id_list_by_com_id
     culture = info.culture
     money = info.money
     plan = info.plan
-    pro_ot = info.pro_ot
+    product_similar = info.product_similar
     same = info.same
     different = info.different
     advantage = info.advantage
@@ -62,8 +62,8 @@ from model.po import po_id_list_by_com_id
     <div style="height:20px;"></div>
     <div id="line1" class="line"> 
         <div class="similar_product_wrap" id="similar_product_wrap1">
-            %if pro_ot:
-            %for pro in pro_ot:
+            %if product_similar:
+            %for pro in product_similar:
             <input autocomplete="off" value="${pro[0]}" class="similar_product_name" name="similar_product_name" placeholder="产品名称"><input class="similar_product_url" name="similar_product_url" placeholder="相关链接" value="${pro[1]}">
             %endfor
             %endif
