@@ -110,15 +110,15 @@ class JobDepartmentRm(AdminBase):
             result = True
         self.finish({'result':result})
 
-@urlmap('/job/depart/add')
-class JobDepartAdd(AdminBase):
+@urlmap('/job/department/add')
+class JobDepartmentAdd(AdminBase):
     def post(self):
         txt = self.get_argument('txt',None)
         cd = com_department_new(self.zsite_id,txt)
         self.finish(str(cd.id))
 
-@urlmap('/job/depart/write')
-class JobDepartWrite(AdminBase):
+@urlmap('/job/department/write')
+class JobDepartmentWrite(AdminBase):
     def post(self):
         id = self.get_arguments('pop_de_id',None)
         name = self.get_arguments('pop_de_name',None)

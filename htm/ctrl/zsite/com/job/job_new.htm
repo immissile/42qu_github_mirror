@@ -200,7 +200,7 @@ function man_done(){
     })
     if(ctrl) return
     $.postJSON(
-        '/job/depart/write',
+        '/job/department/write',
         $('#de_form').serialize()
     )
     $('#depart').html(result)
@@ -213,7 +213,7 @@ function add_de_a(){
         return
     }
     $.postJSON(
-        '/job/depart/add',
+        '/job/department/add',
         {'txt':val},
         function(id){
             de = $('#depart')
