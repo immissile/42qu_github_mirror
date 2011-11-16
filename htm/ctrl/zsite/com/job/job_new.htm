@@ -232,7 +232,7 @@ function add_ad_a(){
         alert('请选择完整的城市及县区')
         return
     }
-    if(co==1) addr=city+'市'+town; else addr=coun;
+    if(co==1) addr=city+' '+town; else addr=coun;
     num = $('#addr').children().length + 1
     var addr_val = $('#pid').find('input').val()
     $('#addr').append('<div class="address"><input name="addr" value="'+addr_val+'" id="addr'+num+'" type="checkbox" checked><label for="addr'+num+'"> '+addr+'</label><a href="javascript:rm_addr('+num+');void(0)" class="rm_addr"></a></div>')
@@ -431,8 +431,8 @@ $(function(){
 <div class="po_line">
     <label>工作地点</label><a class="c9" href="javascript:add_addr();void(0)" id="add_addr">添加地址</a><div class="add_addr"><script>select_pid("pid", 0)</script></div>
     <div id="addr">
-%for com_place in com_place_list:
-<div class="address"><input name="addr" id="addr1" type="checkbox" value="${com_place.pid or ''}"><label for="addr1"> ${place_name(com_place.pid) or '无'}</label></div>
+%for i,com_place in enumerate(com_place_list):
+<div class="address"><input name="addr" id="addr${i}" type="checkbox" value="${com_place.pid or ''}"><label for="addr${i}"> ${place_name(com_place.pid) or '无'}</label></div>
 %endfor
     </div>
     <div class="errtip" id="errtip_addr"></div>

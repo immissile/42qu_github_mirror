@@ -24,8 +24,7 @@ from model.po import po_id_list_by_com_id
     %>
     %if product:
         <%
-    info = JsDict(json.loads(product.info_json))
-    po = Po.mc_get(product.id)
+    info = JsDict(json.loads(product.txt))
     pic_id = info.pic_id
     origin = info.origin
     product_ = info.product

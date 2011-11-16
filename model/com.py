@@ -6,6 +6,10 @@ from zkit.attrcache import attrcache
 
 
 JOB_ACTIVE = 5
+JOBSALARY2CN = {
+        1:'月薪',
+        2:'年薪'
+        }
 
 class ComJob(McModel):
     @attrcache
@@ -14,8 +18,8 @@ class ComJob(McModel):
 
     @property
     def com_job_needs(self):
-        return ComJobNeeds.mc_get(self.id)
-
+        return ComJobNeeds.get(job_id=self.id)
+    
 def com_job_by_com_id(com_id):
     return ComJob.where(com_id=com_id)
 

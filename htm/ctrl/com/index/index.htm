@@ -86,11 +86,11 @@ border-width:1px 0 0;
 }
 </style>
 <div id="com_product" class="G isotope">
-            %if product_list:
+    %if product_list:
             %for product in product_list:
             %if product:
             <%
-    info = JsDict(json.loads(product.info_json))
+    info = JsDict(json.loads(product.txt))
     po = Po.mc_get(product.id)
     %>
     <div class="G1">
@@ -100,7 +100,7 @@ border-width:1px 0 0;
                 %if info.pic_id:
                 <div class="pro_img_wrap"><img src="${fs_url_jpg('215',info.pic_id)}" class="pro_img"></div>
                 %endif
-                <div class="pro_desc">${po.txt}</div>
+                <div class="pro_desc">${info.pro_bio}</div>
             </div>
         </div>
     </div>

@@ -13,7 +13,7 @@ from model.zsite_site import site_can_view, site_can_admin
 from model.zsite_fav import zsite_fav_id_get
 from model.com import com_job_by_com_id, com_department_by_com_id, com_job_by_department_and_com 
 from model.zsite import Zsite
-from model.product import product_by_com_id
+from model.po import product_list_by_com_id 
 import json
 from zkit.jsdict import JsDict
 %>
@@ -29,20 +29,21 @@ ${motto_get(com.id)}
     <div class="com_video">${HTM_YOUKU%"XMjMxOTYxNDk2"|n}</div>
     <div class="com_item">
         <%
-        products = product_by_com_id(com.id)
+        products = product_list_by_com_id(com.id)
         %>
         %if products:
         % for product in products:
        %if product:
         <%
-    info = JsDict(json.loads(product.info_json))
+    info = JsDict(json.loads(product.txt))
     po = Po.mc_get(product.id)
     %>
     <a href="/product/edit/${product.id}">编辑</a>
+    <a href="/product/rm/${product.id}"style="float:right;">删除</a>
         <div class="com_title">${po.name}</div>
         <div class="com_text">
-            %if po.txt:
-            ${po.txt}
+            %if info.pro_bio:
+            ${info.pro_bio}
             %endif
 %if info.pic_id:
 <div class="com_main_img">\
@@ -142,7 +143,7 @@ departments = com_department_by_com_id(com.id)
 jobs = com_job_by_department_and_com(department.id,com.id) 
 %>
 %for job in jobs:
-   <a href="#"><span>${job.people_num}人</span>${job.title}</a>
+<a href="/job/${job.id}"><span>${job.people_num}人</span>${job.title}</a>
 %endfor
 %endfor
 </div>

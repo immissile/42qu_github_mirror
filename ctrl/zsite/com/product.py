@@ -3,7 +3,7 @@
 from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
 from model.product import product_new, product_by_com_id, Product
-from model.po import po_product_new
+from model.po import po_product_new, po_product_update, Po
 from _handler import AdminBase
 import json
 from zkit.jsdict import JsDict
@@ -12,7 +12,7 @@ from model.ico import site_ico_new, site_ico_bind
 from zkit.pic import pic_fit_width_cut_height_if_large
 from urlparse import urlparse
 from model.po_pic import product_pic_new
-from model.po import po_id_list_by_com_id
+from model.po import po_id_list_by_com_id,po_rm
 
 @urlmap('/product/new')
 class ProductNew(AdminBase):
@@ -36,12 +36,12 @@ class ProductNew(AdminBase):
         if pros:
             for pro_u,pro_n,pro_b in pros:
                 print pros,'!!'
-                po_pro = po_product_new(user_id,pro_n,pro_b,zsite.id)
                 info_json = JsDict()
                 info_json.pro_url = pro_u
-                p = product_new(po_pro.id,info_json)
+                info_json.pro_bio = pro_b
+                po_product_new(user_id,pro_n,info_json,zsite.id)
             pos = po_id_list_by_com_id(zsite.id)
-            self.redirect('/product/new/%s'%pos[0])
+            return self.redirect('/product/new/%s'%pos[0])
         self.get()
 
 
@@ -76,7 +76,7 @@ def _product_save(self,product):
             if pic:
                 pic_id = product_pic_new(self.zsite_id, product.id,pic)
         
-        _info = JsDict(json.loads(product.info_json))
+        _info = JsDict(json.loads(product.txt))
         _info.pic_id = pic_id
         _info.pro_ot = pro_ot
         _info.origin = origin
@@ -86,33 +86,32 @@ def _product_save(self,product):
         _info.advantage = advantage
         _info.product = _product
         _info.market = market
-        product.info_json = json.dumps(dict(iter(_info)))
+        product.txt_set(json.dumps(dict(iter(_info))))
         product.save()
 
 @urlmap('/product/new/(\d+)')
 class ProductNewN(AdminBase):
     def get(self,id):
         id = int(id)
-        product_list = product_by_com_id(self.zsite.id)
-        product = Product.mc_get(id)
+        product_list = po_id_list_by_com_id(self.zsite.id)
+        product = Po.mc_get(id)
         if product:
-            if product_list.index(product) > len(product_list):
+            if product_list.index(id) > len(product_list):
                 self.redirect('/job/new')
-            product_list = product_by_com_id(self.zsite.id)
-            return self.render(product_list=product_list,product=product,com_id=self.zsite.id,position=1)
+            return self.render(product_list=Po.mc_get_list(product_list),product=product,com_id=self.zsite.id,position=1)
         self.redirect('/')
 
     _product_save = _product_save
     
     def post(self,id=0):
-        product_list = product_by_com_id(self.zsite.id)
+        product_list = po_id_list_by_com_id(self.zsite.id)
         id = int(id)
-        product = Product.mc_get(id)
+        product = Po.mc_get(id)
         if product:
             self._product_save(product)
 
-            if product_list.index(product) <len(product_list):
-                return self.redirect('/product/new/%s'%(product_list[product_list.index(product)+1].id))
+            if product_list.index(id) <len(product_list):
+                return self.redirect('/product/new/%s'%(product_list[product_list.index(id)+1]))
             else:
                 return self.redirect('/job/new')
         self.redirect('/')
@@ -122,7 +121,7 @@ class ProductEdit(AdminBase):
     def get(self,id):
         product = None
         if id:
-            product = Product.mc_get(id)
+            product = Po.mc_get(id)
         if product:
             self.render(product=product,com_id=self.zsite.id)
         else:
@@ -133,6 +132,13 @@ class ProductEdit(AdminBase):
     
     
     def post(self,id):
-        product = Product.mc_get(id)
+        product = Po.mc_get(id)
         self._product_save(product)
         self.redirect('/')
+
+@urlmap('/product/rm/(\d+)')
+class ProductRm(AdminBase):
+    def get(self,id):
+        if id:
+            po_rm(self.current_user_id,id)
+            self.redirect('/')

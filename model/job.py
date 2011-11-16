@@ -2,6 +2,13 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 
+JOBTYPE2CN={
+        1:'兼职',
+        2:'实习生',
+        3:'全职',
+        4:'合伙人',
+        }
+
 class JobPlace(McModel):
     pass
 
@@ -34,6 +41,15 @@ def job_pid_new(com_id,pid):
     return jp
 
 def job_kind_new(job_id,kind_id):
-    jt = JobType(job_id=job_id,kind_id=kind_id)
+    jt = JobKind(job_id=job_id,kind_id=kind_id)
     jt.save()
     return jt
+
+def job_place_by_job_id(job_id):
+    return JobPlace.where(job_id=job_id).col_list(col='pid')
+
+def job_type_by_job_id(job_id):
+    return JobType.where(job_id=job_id).col_list(col='type_id')
+
+def job_kind_by_job_id(job_id):
+    return JobKind.where(job_id=job_id).col_list(col='kin_id')

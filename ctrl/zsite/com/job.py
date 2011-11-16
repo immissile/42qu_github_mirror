@@ -15,7 +15,7 @@ from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
 from zkit.errtip import Errtip
 from zkit.txt import EMAIL_VALID
-
+from model.com import ComJob
 @urlmap('/job/new')
 class JobNew(AdminBase):
     def get(self):
@@ -36,7 +36,7 @@ class JobNew(AdminBase):
         kinds = self.get_argument('prof',None)
         stock_option = self.get_argument('share',None)
         priority = self.get_argument('more',None)
-        job_type = self.get_argument('type',None)
+        job_type = self.get_arguments('type',None)
         acquires = self.get_argument('requ',None)
         job_description = self.get_argument('desc',None)
         welfare = self.get_argument('other',None)
@@ -44,7 +44,7 @@ class JobNew(AdminBase):
         salary_down = self.get_argument('salary2',None)
         salary_type = self.get_argument('sal_type',None)
         dead_line = self.get_argument('deadline',None)
-        pids = self.get_argument('pid',None)
+        pids = self.get_arguments('addr',None)
         people_num = self.get_argument('people_num',None) 
        
         cj,cjn = None,None
@@ -79,7 +79,10 @@ class JobNew(AdminBase):
         
         
         if job_type and cj:
-            job_type_new(cj.id,job_type)
+            for job_t in job_type:
+                if int(job_t):
+                    print job_t
+                    job_type_new(cj.id,job_t)
         
         
         if kinds and cj:
@@ -87,12 +90,15 @@ class JobNew(AdminBase):
             for kind in kinds:
                 job_kind_new(cj.id,kind)
         
-        self.finish(str(cj.id))
+        self.redirect('/job/%s'%cj.id)
                 
 @urlmap('/job/(\d+)')
-class Job(AdminBase):
+class JobD(AdminBase):
     def get(self,id):
-        self.render()
+        if id:
+            job = ComJob.mc_get(id)
+            return self.render(job = job)
+        self.redirect('/')
 
 @urlmap('/job/department/rm')
 class JobDepartmentRm(AdminBase):
