@@ -85,10 +85,12 @@ class JobNew(AdminBase):
         
         job_type_set(id, job_type)
 
-        if kinds and cj:
-            kinds = kinds.split('-')
-            for kind in kinds:
-                job_kind_new(cj.id, kind)
+        
+        #TODO !!! job_kind_set(id, kinds)
+        #if kinds and cj:
+        #    kinds = kinds.split('-')
+        #    for kind in kinds:
+        #        job_kind_new(cj.id, kind)
 
         self.redirect('/job/%s'%cj.id)
 
