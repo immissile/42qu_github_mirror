@@ -9,12 +9,11 @@ if zsite_id:
 else:
     request_host = request.host
 %>
-<%def name="head()">
+<%def name="htm_head()">
 ${css.ctrl_i_invite|n}
 ${css.ctrl_com_member|n}
 <script src="${js.ctrl_com_member|n}"></script>
 </%def>
-${head()}
 
 <div class="G i_div">
 <div class="G4">
@@ -70,23 +69,24 @@ ${head()}
 
 
 %else:
-<div class="search_wrap">
-    <p class="info_hint">已添加成员 : </p>
-    <div class="added_wrap">
-        <a class="added_member" href="" target="_blank">realfex</a>
-        <a class="added_member" href="" target="_blank">章泽天</a>
-        <a class="added_member" href="" target="_blank">若爆尿</a>
-        <a class="added_member" href="" target="_blank">非死不可</a>
-        <a class="added_member" href="" target="_blank">骂了隔壁</a>
-        <a class="added_member" href="" target="_blank">操蛋一糊涂</a>
-        <a class="added_member" href="" target="_blank">章泽天</a>
-        <a class="added_member" href="" target="_blank">若爆尿</a>
-        <a class="added_member" href="" target="_blank">非死不可</a>
-        <a class="added_member" href="" target="_blank">骂了隔壁</a>
-    </div>
-    <p class="info_hint">继续搜索 : </p>
+<div class="c">
+<div style="float:left;border-right:1px dotted #ccc;padding:27px 256px 27px;">
+    <h3 style="margin-bottom:14px;">搜索同事 , 邀请加入</h3>
     <form class="search"><input type="text" value="" name="q" id="search" autocomplete="off"><input type="submit" value="" class="search_btn"></form>
 </div>
+<a href="/member/new/search" class="member_new_invite">下一步</a>
+
+</div>
+    <h2 class="info_hint">已有成员</h2>
+<div class="B">
+%for i in range(12):
+    <DIV CLASS="B4"> <div class="added_member">
+<a href="javascript:rm()" class="rm"></a>
+<a href="#">realfex</a>
+</div> </DIV>
+%endfor
+</div>
+<script>$("#search").focus()</script>
 %endif
 
 
