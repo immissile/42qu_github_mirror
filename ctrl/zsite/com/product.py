@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
-from model.product import product_new, product_by_com_id, Product
 from model.po import po_product_new, po_product_update, Po
 from _handler import AdminBase
 import json
