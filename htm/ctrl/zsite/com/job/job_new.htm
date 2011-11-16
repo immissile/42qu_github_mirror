@@ -1,6 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%!
 from zkit.earth import place_name
+from model.job import JOBTYPE
 %>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_head()">
@@ -54,7 +55,7 @@ padding:5px 12px 7px;
 .add_addr{
 display:none;
 }
-#prof{
+#kinds{
 background:#fff;
 border:1px solid #ccc;
 padding:4px 8px;
@@ -63,7 +64,7 @@ color:#999;
 cursor:pointer;
 height:40px;
 }
-.pop_prof{
+.pop_kinds{
 width:653px;
 height:500px;
 overflow-y:auto;
@@ -88,24 +89,24 @@ overflow: hidden;
 padding: 3px 0;
 text-align: left;
 }
-.prof_cb{
+.kinds_cb{
 float:left;
 vertical-align:middle;
 margin:4px 4px 0 6px;
 }
-.prof_word{
+.kinds_word{
 display:block;
 color:#222;
 padding-left:3px;
 }
-.prof_word_on{
+.kinds_word_on{
 background:#b2d235;
 }
 .bgc1 li:hover, .bgc2 li:hover{
 background:#d4f457;
 cursor:pointer;
 }
-.prof_btn{
+.kinds_btn{
 background:#fff;
 border:1px solid #ccc;
 width:100%;
@@ -115,7 +116,7 @@ left:0;
 cursor:pointer;
 color:#222;
 }
-.prof_btn:hover{
+.kinds_btn:hover{
 background:#eee;
 }
 .rm_addr{
@@ -129,7 +130,7 @@ vertical-align:-6px;
 .rm_addr:hover{
 background:url(http://s.realfex.xxx/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
 }
-.prof_banner{
+.kinds_banner{
 margin-left:12px;
 font-size: 14px; 
 margin-bottom:6px;
@@ -272,7 +273,7 @@ $(function(){
         }
     }
 
-    var elem="#title,#desc,#requ,#more,#prof_input"
+    var elem="#title,#desc,#acquires,#more,#kinds_input"
     elem=$(elem)
     elem.blur(verify).focus(function(){
         $("#errtip_"+this.id).remove()
@@ -328,78 +329,78 @@ $(function(){
         if(!check_tip('type'))return false;
         return money_tip()
     }
-    var prof_list = ${job_prof|n}
-    var prof_content = '<div class="prof_banner">选择行业类别 (<span class="limit_tip">最多三项</span>)</div><div class="pop_prof">'
-    for(var i=0;i<prof_list.length;i++){
-        var li = prof_list[i]
-        prof_content += i%2==0?'<ul class="bgc1">':'<ul class="bgc2">'
+    var kinds_list = ${job_kind|n}
+    var kinds_content = '<div class="kinds_banner">选择行业类别 (<span class="limit_tip">最多三项</span>)</div><div class="pop_kinds">'
+    for(var i=0;i<kinds_list.length;i++){
+        var li = kinds_list[i]
+        kinds_content += i%2==0?'<ul class="bgc1">':'<ul class="bgc2">'
         for(var j=0;j<li.length;j++){
-            prof_content += '<li><label><input type="checkbox" value="'+li[j][0]+'" class="prof_cb" name="prof'+li[j][0]+'"></label><span class="prof_word">'+li[j][1]+'</span></li>'
+            kinds_content += '<li><label><input type="checkbox" value="'+li[j][0]+'" class="kinds_cb" name="kinds'+li[j][0]+'"></label><span class="kinds_word">'+li[j][1]+'</span></li>'
         }
-        prof_content += '</ul>'
+        kinds_content += '</ul>'
     }
-    prof_content += '<div style="height:10px;"></div></div><button class="prof_btn" type="button">确 定</button>'
+    kinds_content += '<div style="height:10px;"></div></div><button class="kinds_btn" type="button">确 定</button>'
 
 
-    $('#prof').click(function(){
+    $('#kinds').click(function(){
         var fancybox = $.fancybox
         fancybox({
-            'content':prof_content,
+            'content':kinds_content,
             'hideOnOverlayClick': false
         })
-        if($('#prof_input').val().length>0){
-            var ids = $('#prof_input').val().split('-')
+        if($('#kinds_input').val().length>0){
+            var ids = $('#kinds_input').val().split('-')
             for(i=0;i<ids.length;i++){
-                $(".prof_cb[name='prof"+ids[i]+"']").attr('checked','checked')
-                $(".prof_cb[name='prof"+ids[i]+"']").parent().parent().find('.prof_word').addClass('prof_word_on')
+                $(".kinds_cb[name='kinds"+ids[i]+"']").attr('checked','checked')
+                $(".kinds_cb[name='kinds"+ids[i]+"']").parent().parent().find('.kinds_word').addClass('kinds_word_on')
             }
         }
-        $('.prof_word').click(function(){
+        $('.kinds_word').click(function(){
             if($(this).css('background-color')=='transparent'){
-                if($('.prof_word_on').length>=3){
+                if($('.kinds_word_on').length>=3){
                     $('.limit_tip').css({'color':'#D10','font-size':'16px'}).fadeOut(function(){$('.limit_tip').fadeIn()})
                     return
                 }
-                $(this).toggleClass('prof_word_on')
+                $(this).toggleClass('kinds_word_on')
                 $(this).parent().find('input').attr('checked','checked')
             } else{
                 $('.limit_tip').css({'color':'#000','font-size':'14px'})
-                $(this).toggleClass('prof_word_on')
+                $(this).toggleClass('kinds_word_on')
                 $(this).parent().find('input').removeAttr('checked')
             }
         })
 
-        $('.prof_cb').click(function(){
-            var word = $(this).parent().parent().find('.prof_word')
+        $('.kinds_cb').click(function(){
+            var word = $(this).parent().parent().find('.kinds_word')
             if(word.css('background-color')=='transparent'){
-                if($('.prof_word_on').length>=3){
+                if($('.kinds_word_on').length>=3){
                     $('.limit_tip').css({'color':'#D10','font-size':'16px'}).fadeOut(function(){$('.limit_tip').fadeIn()})
                     $(this).removeAttr('checked')
                     return
                 }
-                word.toggleClass('prof_word_on')
+                word.toggleClass('kinds_word_on')
             } else{
                 $('.limit_tip').css({'color':'#000','font-size':'14px'})
-                word.toggleClass('prof_word_on')
+                word.toggleClass('kinds_word_on')
             }
         })
 
-        $('.prof_btn').click(function(){
-            if($('.prof_word_on').length<1){
+        $('.kinds_btn').click(function(){
+            if($('.kinds_word_on').length<1){
                 $('#fancybox-close').click()
                 return
             }
             var words = ''
             var ids = []
-            $('.prof_word_on').each(function(){
+            $('.kinds_word_on').each(function(){
                 words += $(this).text() +　' + '
-                ids.push($(this).parent().find('.prof_cb').val())
+                ids.push($(this).parent().find('.kinds_cb').val())
             })
             //ids = ids.substr(0,words.length-2)
             words = words.substr(0,words.length-2)
             $('#fancybox-close').click()
-            $('#prof').text(words).css({'color':'#000','width':'auto','overflow':'hidden','text-align':'left'})
-            $('#prof_input').val(ids.join('-'))
+            $('#kinds').text(words).css({'color':'#000','width':'auto','overflow':'hidden','text-align':'left'})
+            $('#kinds_input').val(ids.join('-'))
         })
     })
 })
@@ -424,9 +425,9 @@ $(function(){
     <div class="errtip" id="errtip_title"></div>
 </div>
 <div class="po_line">
-    <label for="prof">行业类别</label><button type="button" id="prof">请选择</button>
-    <input type="hidden" id="prof_input" name="prof" value="" />
-    <div class="errtip" id="errtip_prof"></div>
+    <label for="kinds">行业类别</label><button type="button" id="kinds">请选择</button>
+    <input type="hidden" id="kinds_input" name="kinds" value="" />
+    <div class="errtip" id="errtip_kinds"></div>
 </div>
 <div class="po_line">
     <label>工作地点</label><a class="c9" href="javascript:add_addr();void(0)" id="add_addr">添加地址</a><div class="add_addr"><script>select_pid("pid", 0)</script></div>
@@ -442,8 +443,8 @@ $(function(){
     <div class="errtip" id="errtip_desc"></div>
 </div>
 <div class="po_line">
-    <label>技能要求</label><textarea class="txt" name="requ" id="requ"></textarea>
-    <div class="errtip" id="errtip_requ"></div>
+    <label>技能要求</label><textarea class="txt" name="acquires" id="acquires"></textarea>
+    <div class="errtip" id="errtip_acquires"></div>
 </div>
 <div class="po_line">
     <label>优先条件</label><textarea class="txt" name="more" id="more"></textarea>
@@ -451,13 +452,22 @@ $(function(){
 </div>
 <div class="po_line">
     <label>有效时限</label><select name="deadline" id="deadline">
-        <option value="1">一个月</option>
-        <option value="2">两个月</option>
-        <option value="3">三个月</option>
+        <option value="30">一个月</option>
+        <option value="60">两个月</option>
+        <option value="90">三个月</option>
     </select>
 </div>
 <div class="po_line" id="type">
-    <label>招聘类型</label><input name="type" id="type1" type="checkbox" value="1"><label for="type1"> 兼职</label><input name="type" id="type2" type="checkbox" value="2"><label for="type2"> 实习生</label><input name="type" id="type3" type="checkbox"value="3"><label for="type3"> 全职</label><input name="type" id="type4" type="checkbox" value="4"><label for="type4"> 合伙人</label>
+<label>招聘类型</label>
+%for _job_cid, _job_name in JOBTYPE:
+<input name="type" id="type${_job_cid}" 
+    %if _job_cid == job_cid:
+        checked
+    %endif
+    type="checkbox" value="${_job_cid}">\
+<label
+    for="type${_job_cid}">${_job_name}</label>\
+%endfor
 </div>
 <div class="po_line" id="salary">
     <label>工资范围</label><select name="sal_type"><option value="1">月薪</option><option value="2">年薪</option></select><input name="salary1" class="input salary1"> 元<span class="split">——</span><input name="salary2" class="input salary2"> 元

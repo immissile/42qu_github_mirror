@@ -17,7 +17,10 @@ $(function(){
             tip.html("此项必填")
         }
     }
-    var elem="#pic,#name,#motto,#url,#txt"
+    var elem="#name,#motto,#url,#txt"
+    if(!$("#pic_id")[0]){
+        elem+=",#pic"
+    }
     elem=$(elem)
     elem.blur(verify).focus(function(){
         $("#errtip_"+this.id).remove()

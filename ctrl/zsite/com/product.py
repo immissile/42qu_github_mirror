@@ -109,10 +109,11 @@ class ProductNewN(AdminBase):
         if product:
             self._product_save(product)
 
-            if product_list.index(id) <len(product_list):
+            if product_list[-1] != id:
                 return self.redirect('/product/new/%s'%(product_list[product_list.index(id)+1]))
             else:
                 return self.redirect('/job/new')
+
         self.redirect('/')
 
 @urlmap('/product/edit/(\d+)')

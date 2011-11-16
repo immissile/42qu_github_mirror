@@ -9,7 +9,7 @@ from model.zsite_com import get_zsite_com_place
 from zkit.job import JOB_KIND
 from model.com import com_department_new, com_job_new, com_job_needs_new, com_department_by_com_id, com_department_rm_by_id, com_department_edit
 import json
-from model.job import job_type_new, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_new
+from model.job import job_type_set, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_new
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
@@ -25,7 +25,7 @@ class JobNew(AdminBase):
             com_place_list = com_place_list2 or com_place_list1
             job_kind = json.dumps(JOB_KIND)
             com_department_list = com_department_by_com_id(self.zsite_id)
-            return self.render(com_place_list=com_place_list, job_prof=job_kind, com_department_list=com_department_list)
+            return self.render(com_place_list=com_place_list, job_kind=job_kind, com_department_list=com_department_list)
         else:
             return self.redirect('/job/mail')
 
@@ -33,11 +33,11 @@ class JobNew(AdminBase):
     def post(self):
         department_id = self.get_argument('depart', None)
         title = self.get_argument('title', None)
-        kinds = self.get_argument('prof', None)
+        kinds = self.get_argument('kinds', None)
         stock_option = self.get_argument('share', None)
         priority = self.get_argument('more', None)
         job_type = self.get_arguments('type', None)
-        acquires = self.get_argument('requ', None)
+        acquires = self.get_argument('acquires', None)
         job_description = self.get_argument('desc', None)
         welfare = self.get_argument('other', None)
         salary_up = self.get_argument('salary1', None)
@@ -48,6 +48,7 @@ class JobNew(AdminBase):
         people_num = self.get_argument('people_num', None)
 
         cj, cjn = None, None
+
         if department_id and title and job_description and dead_line and salary_up and salary_type and salary_down and people_num:
             cj = com_job_new(
                     self.zsite_id,
@@ -58,11 +59,14 @@ class JobNew(AdminBase):
                     salary_up,
                     salary_down,
                     salary_type,
-                    int(dead_line)*30+today_days(),
+                    int(dead_line)+today_days(),
                     people_num
                     )
+        if cj is None:
+            return
 
-
+        id = cj.id
+ 
         if acquires and stock_option and welfare and priority and cj:
             cjn = com_job_needs_new(cj.id, acquires, stock_option, welfare, priority)
 
@@ -78,11 +82,8 @@ class JobNew(AdminBase):
                 job_place_new(cj.id, pid)
 
 
-        if job_type and cj:
-            for job_t in job_type:
-                if job_t.isdigit():
-                    job_type_new(cj.id, job_t)
-
+        
+        job_type_set(id, job_type)
 
         if kinds and cj:
             kinds = kinds.split('-')

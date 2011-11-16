@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-#a10
+job_prof
 """
 
 TO_STRING = """
-#d10
+job_kind
 """
 
 def run():
