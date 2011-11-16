@@ -405,7 +405,7 @@ $(function(){
     })
 })
 </script>
-
+<%def name="job_form( edit=None)">
 <%htm:form method="POST" id="event_form" enctype="multipart/form-data" onsubmit="return job_new()">
 <div class="po_line">
     <label>所属部门</label><select name="depart" id="depart">
@@ -416,17 +416,19 @@ $(function(){
 
 %endif
     </select><a class="c9 add_de" href="javascript:add_de();void(0)">添加部门</a><a class="c9 man_de" href="javascript:man_de();void(0)">管理部门</a>
-
+    ${errtip.department_id}
     <div class="errtip" id="errtip_depart"></div>
 </div>
 
 <div class="po_line">
-    <label for="title">工种头衔</label><input value="" name="title" class="input" id="title" >
+    <label for="title">工种头衔</label><input value="${title or ''}" name="title" class="input" id="title" >
+    ${errtip.title}
     <div class="errtip" id="errtip_title"></div>
 </div>
 <div class="po_line">
     <label for="kinds">行业类别</label><button type="button" id="kinds">请选择</button>
-    <input type="hidden" id="kinds_input" name="kinds" value="" />
+    <input type="hidden" id="kinds_input" name="kinds" value="${kinds or ''}" />
+    ${errtip.kinds}
     <div class="errtip" id="errtip_kinds"></div>
 </div>
 <div class="po_line">
@@ -439,22 +441,40 @@ $(function(){
     <div class="errtip" id="errtip_addr"></div>
 </div>
 <div class="po_line">
-    <label>职位描述</label><textarea class="txt" name="desc" id="desc"></textarea>
-    <div class="errtip" id="errtip_desc"></div>
+    <label>职位描述</label><textarea class="txt" name="desc" id="desc">
+${job_description or ''}
+</textarea>
+${errtip.job_description}
+<div class="errtip" id="errtip_desc"></div>
 </div>
 <div class="po_line">
-    <label>技能要求</label><textarea class="txt" name="acquires" id="acquires"></textarea>
+    <label>技能要求</label><textarea class="txt" name="acquires" id="acquires">
+ ${acquires or ''}
+   </textarea>
     <div class="errtip" id="errtip_acquires"></div>
 </div>
 <div class="po_line">
-    <label>优先条件</label><textarea class="txt" name="more" id="more"></textarea>
+    <label>优先条件</label><textarea class="txt" name="more" id="more">
+        ${priority or ''}
+</textarea>
     <div class="errtip" id="errtip_more"></div>
 </div>
 <div class="po_line">
     <label>有效时限</label><select name="deadline" id="deadline">
-        <option value="30">一个月</option>
-        <option value="60">两个月</option>
-        <option value="90">三个月</option>
+        <%
+        DeadLine=(
+            (30,'一个月'),
+            (60,'两个月'),
+            (90,'三个月')
+            )
+        %>
+        %for time,cn in DeadLine:
+        <option value="${time}"\
+        %if deadline and deadline == time :
+        checked\
+        %endif
+        > ${cn}</option>
+        %endfor
     </select>
 </div>
 <div class="po_line" id="type">
@@ -463,28 +483,58 @@ $(function(){
 <input name="type" id="type${_job_cid}" 
     %if _job_cid == job_cid:
         checked
-    %endif
+        %endif
+        %if job_type:
+            %for _job_type in job_type:
+                %if _job_type == _job_cid:
+                    checked
+                %endif
+            %endfor
+        %endif
     type="checkbox" value="${_job_cid}">\
 <label
     for="type${_job_cid}">${_job_name}</label>\
 %endfor
 </div>
 <div class="po_line" id="salary">
-    <label>工资范围</label><select name="sal_type"><option value="1">月薪</option><option value="2">年薪</option></select><input name="salary1" class="input salary1"> 元<span class="split">——</span><input name="salary2" class="input salary2"> 元
+    <label>工资范围</label><select name="sal_type">
+        <%
+            SalaryType=(
+                (1,'月薪'),
+                (2,'年薪')
+            )
+        %>
+        %for salary,cn in SalaryType:
+        <option value="${salary}"\
+        %if salary_type and salary_type == salary:
+        checked
+       %endif 
+        >${cn}</option>
+        %endfor
+    </select><input name="salary1" class="input salary1" value="${salary1 or''}"> 元<span class="split">——</span><input name="salary2" class="input salary2" value="${salary2 or ''}"> 元
+    ${errtip.salary}
     <div class="errtip" id="errtip_salary"></div>
 </div>
 <div class="po_line">
-    <label>招聘人数</label><input name="people_num" class="input" style="width:50px;">
+    <label>招聘人数</label><input name="people_num" class="input" style="width:50px;" value="${people_num or ''}">
     <div class="errtip" id="errtip_share"></div>
 </div>
 <div class="po_line">
-    <label>股份期权</label><input name="share" class="input">
+    <label>股份期权</label><input name="share" class="input" value="${stock_option or ''}">
     <div class="errtip" id="errtip_share"></div>
 </div>
 <div class="po_line">
-    <label>其他福利</label><input name="other" class="input">
+    <label>其他福利</label><input name="other" class="input" value="${welfare or ''}">
     <div class="errtip" id="errtip_other"></div>
 </div>
-<span class="btnw"><button type="submit">下一步</button></span>
+<span class="btnw"><button type="submit">
+        %if edit is not None:
+        保存
+        %else:
+        下一步
+        %endif
+</button></span>
 </%htm:form>
+</%def>
+${job_form()}
 </div></div>

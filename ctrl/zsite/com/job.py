@@ -9,47 +9,60 @@ from model.zsite_com import get_zsite_com_place
 from zkit.job import JOB_KIND
 from model.com import com_department_new, com_job_new, com_job_needs_new, com_department_by_com_id, com_department_rm_by_id, com_department_edit
 import json
-from model.job import job_type_set, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_new
+from model.job import job_type_set, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
 from zkit.errtip import Errtip
 from zkit.txt import EMAIL_VALID
-from model.com import ComJob
-@urlmap('/job/new')
-class JobNew(AdminBase):
-    def get(self):
-        if get_job_mail_state(self.zsite_id) == STATE_VERIFIED:
-            com_place_list1 = get_zsite_com_place(self.zsite_id)
-            com_place_list2 = job_pid_by_com_id(self.zsite_id)
-            com_place_list = com_place_list2 or com_place_list1
-            job_kind = json.dumps(JOB_KIND)
-            com_department_list = com_department_by_com_id(self.zsite_id)
-            return self.render(com_place_list=com_place_list, job_kind=job_kind, com_department_list=com_department_list)
-        else:
-            return self.redirect('/job/mail')
+from model.com import ComJob, JOB_ACTIVE
+from zkit.jsdict import JsDict
 
 
-    def post(self):
-        department_id = self.get_argument('depart', None)
-        title = self.get_argument('title', None)
-        kinds = self.get_argument('kinds', None)
-        stock_option = self.get_argument('share', None)
-        priority = self.get_argument('more', None)
-        job_type = self.get_arguments('type', None)
-        acquires = self.get_argument('acquires', None)
-        job_description = self.get_argument('desc', None)
-        welfare = self.get_argument('other', None)
-        salary_up = self.get_argument('salary1', None)
-        salary_down = self.get_argument('salary2', None)
-        salary_type = self.get_argument('sal_type', None)
-        dead_line = self.get_argument('deadline', None)
-        pids = self.get_arguments('addr', None)
-        people_num = self.get_argument('people_num', None)
+def _job_save(self,job=None):
+    errtip = Errtip()
+    department_id = self.get_argument('depart', None)
+    title = self.get_argument('title', None)
+    kinds = self.get_argument('kinds', None)
+    stock_option = self.get_argument('share', None)
+    priority = self.get_argument('more', None)
+    job_type = self.get_arguments('type', None)
+    acquires = self.get_argument('acquires', None)
+    job_description = self.get_argument('desc', None)
+    welfare = self.get_argument('other', None)
+    salary_up = self.get_argument('salary1', None)
+    salary_down = self.get_argument('salary2', None)
+    salary_type = self.get_argument('sal_type', None)
+    dead_line = self.get_argument('deadline', None)
+    pids = self.get_arguments('addr', None)
+    people_num = self.get_argument('people_num', None)
 
-        cj, cjn = None, None
+    if not department_id:
+        errtip.department_id = '请选择部门'
+    if not title:
+        errtip.title = '请输入职位头衔'
+    if not kinds:
+        errtip.title='请选择行业'
+    if not job_type:
+        errtip.job_type='请选择工作种类'
+    if not pids:
+        errtip.addr='请选择工作地址'
+    if not people_num:
+        errtip.people_num='请设定人数'
+    if not (salary_up and salary_down):
+        errtip.salary = '必须设定薪水'
+    if not(salary_up.isdigit() and salary_down.isdigit()):
+        errtip.salary = '请输入正确的薪水'
+    if not job_description:
+        errtip.job_description='请填写职位描述'
+    if not dead_line:
+        errtip.dead_line='必须选择过期时间'
+    if not salary_type:
+        errtip.salary_type='必须选择工资类型'
 
-        if department_id and title and job_description and dead_line and salary_up and salary_type and salary_down and people_num:
+    if not errtip:
+        if not job:
+            cj, cjn = None, None
             cj = com_job_new(
                     self.zsite_id,
                     department_id,
@@ -61,44 +74,140 @@ class JobNew(AdminBase):
                     salary_type,
                     int(dead_line)+today_days(),
                     people_num
-                    )
+                )
+        else:
+            cj = job
         if cj is None:
             return
 
         id = cj.id
  
-        if acquires and stock_option and welfare and priority and cj:
-            cjn = com_job_needs_new(cj.id, acquires, stock_option, welfare, priority)
+        cjn = com_job_needs_new(cj.id, acquires, stock_option, welfare, priority)
 
 
-        if pids and cjn:
-            if isinstance(pids, list):
-                for pid in pids:
-                    job_pid_new(self.zsite_id, pid)
-                    job_place_new(cj.id, pid)
-            else:
-                pid = pids
+        if isinstance(pids, list):
+            for pid in pids:
                 job_pid_new(self.zsite_id, pid)
                 job_place_new(cj.id, pid)
+        else:
+            pid = pids
+            job_pid_new(self.zsite_id, pid)
+            job_place_new(cj.id, pid)
 
 
-        
+    
         job_type_set(id, job_type)
+        job_kind_set(cj.id, kinds.split('-'))
 
-        
-        #TODO !!! job_kind_set(id, kinds)
-        #if kinds and cj:
-        #    kinds = kinds.split('-')
-        #    for kind in kinds:
-        #        job_kind_new(cj.id, kind)
+    
 
         self.redirect('/job/%s'%cj.id)
+    else:
+        com_place_list1 = get_zsite_com_place(self.zsite_id)
+        com_place_list2 = job_pid_by_com_id(self.zsite_id)
+        com_place_list = com_place_list2 or com_place_list1
+        job_kind = json.dumps(JOB_KIND)
+        com_department_list = com_department_by_com_id(self.zsite_id)
+        self.render(
+                com_place_list=com_place_list, 
+                job_kind=job_kind, 
+                com_department_list=com_department_list,
+                errtip = errtip,
+                title=title,
+                stock_option=stock_option,
+                kinds = kinds,
+                priority=priority,
+                job_type=job_type,
+                acquires=acquires,
+                job_description=job_description,
+                welfare=welfare,
+                salary_type=salary_type,
+                salary1=salary_up,
+                salary2=salary_down,
+                dead_line=dead_line,
+                addr=addr,
+                people_num=people_num,
+                )
+
+
+
+@urlmap('/job/new')
+class JobNew(AdminBase):
+    def get(self):
+        if get_job_mail_state(self.zsite_id) == STATE_VERIFIED:
+            com_place_list1 = get_zsite_com_place(self.zsite_id)
+            com_place_list2 = job_pid_by_com_id(self.zsite_id)
+            com_place_list = com_place_list2 or com_place_list1
+            job_kind = json.dumps(JOB_KIND)
+            com_department_list = com_department_by_com_id(self.zsite_id)
+            return self.render(
+                    com_place_list=com_place_list, 
+                    job_kind=job_kind, 
+                    com_department_list=com_department_list,
+                    errtip = JsDict()
+                    )
+        else:
+            return self.redirect('/job/mail')
+
+    _job_save = _job_save
+    
+    
+    
+    def post(self):
+        self._job_save()
+
+
+
+
+@urlmap('/job/edit/(\d+)')
+class JobEdit(AdminBase):
+    def get(self,id):
+        job = ComJob.mc_get(id)
+        if job:
+            com_place_list1 = get_zsite_com_place(self.zsite_id)
+            com_place_list2 = job_pid_by_com_id(self.zsite_id)
+            com_place_list = com_place_list2 or com_place_list1
+            job_kind = json.dumps(JOB_KIND)
+            com_department_list = com_department_by_com_id(self.zsite_id)
+            self.render(
+                        com_place_list=com_place_list, 
+                        job_kind=job_kind, 
+                        com_department_list=com_department_list,
+                        errtip = JsDict(),
+                        title=job.title,
+                        stock_option=job.com_job_needs.stock_option,
+                        kinds = job_kind_by_job_id(job.id),
+                        priority=job.com_job_needs.priority,
+                        job_type = job_type_by_job_id(job.id),
+                        acquires =job.com_job_needs.requires,
+                        job_description = job.job_description,
+                        welfare = job.com_job_needs.welfare,
+                        salary_type=job.salary_type,
+                        salary1=job.salary_up,
+                        salary2=job.salary_down,
+                        dead_line=90,
+                        people_num=job.people_num
+                        )
+    
+    _job_save = _job_save
+    
+    def post(self,id):
+        job = ComJob.mc_get(id)
+        if job:
+            self._job_save()
+        else:
+            self.get()
+
 
 @urlmap('/job/(\d+)')
 class JobD(ZsiteBase):
     def get(self, id):
         job = ComJob.mc_get(id)
-        return self.render(job=job)
+        if job.state >= JOB_ACTIVE:
+            return self.render(job=job,com_id=self.zsite_id,current_user_id=self.current_user_id)
+        else:
+            self.redirect('/')
+
 
 @urlmap('/job/department/rm')
 class JobDepartmentRm(AdminBase):
@@ -159,6 +268,8 @@ class MailVerified(AdminBase):
         jm.state = STATE_VERIFIED
         jm.save()
         self.redirect('/job/new')
+
+
 @urlmap('/mail/verify')
 class MailVerify(AdminBase):
     def get(self):

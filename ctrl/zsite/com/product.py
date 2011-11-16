@@ -47,7 +47,8 @@ class ProductNew(AdminBase):
 
 def _product_save(self, product):
     current_user_id = self.current_user_id
-
+    if not product.can_admin(current_user_id): 
+        return
     #TODO ! 判断current_user_id 是不是有com的管理权限
     if 0:
         return

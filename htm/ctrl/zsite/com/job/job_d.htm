@@ -3,12 +3,16 @@
 from model.job import job_type_by_job_id, job_place_by_job_id, JOBTYPE2CN
 from zkit.earth import place_name
 from model.com import JOBSALARY2CN
+from model.zsite_member import zsite_member_can_admin
 %>
 ${css.ctrl_com_job|n}
 
 <a class="back_a" href="/"></a>
 <div class="zsite_block">
 %if job:
+%if zsite_member_can_admin(com_id,current_user_id): 
+<a href="/job/edit/${job.id}">编辑</a>
+%endif
 <div class="job_title">${job.title}</div>
     <div class="info_title">招聘类型</div>
     <div class="info_cont">
