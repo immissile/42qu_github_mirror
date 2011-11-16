@@ -6,7 +6,7 @@ from model.job_mail import get_job_mail_state, job_mail_new, STATE_VERIFIED
 from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM_HR
 from model.zsite_com import get_zsite_com_place
-from zkit.job import JOB_KIND 
+from zkit.job import JOB_KIND
 from model.com import com_department_new, com_job_new, com_job_needs_new, com_department_by_com_id, com_department_rm_by_id, com_department_edit
 import json
 from model.job import job_type_new, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_new
@@ -25,29 +25,29 @@ class JobNew(AdminBase):
             com_place_list = com_place_list2 or com_place_list1
             job_kind = json.dumps(JOB_KIND)
             com_department_list = com_department_by_com_id(self.zsite_id)
-            return self.render(com_place_list=com_place_list,job_prof=job_kind, com_department_list=com_department_list)
+            return self.render(com_place_list=com_place_list, job_prof=job_kind, com_department_list=com_department_list)
         else:
             return self.redirect('/job/mail')
 
 
     def post(self):
-        department_id = self.get_argument('depart',None)
-        title = self.get_argument('title',None)
-        kinds = self.get_argument('prof',None)
-        stock_option = self.get_argument('share',None)
-        priority = self.get_argument('more',None)
-        job_type = self.get_arguments('type',None)
-        acquires = self.get_argument('requ',None)
-        job_description = self.get_argument('desc',None)
-        welfare = self.get_argument('other',None)
-        salary_up  = self.get_argument('salary1',None)
-        salary_down = self.get_argument('salary2',None)
-        salary_type = self.get_argument('sal_type',None)
-        dead_line = self.get_argument('deadline',None)
-        pids = self.get_arguments('addr',None)
-        people_num = self.get_argument('people_num',None) 
-       
-        cj,cjn = None,None
+        department_id = self.get_argument('depart', None)
+        title = self.get_argument('title', None)
+        kinds = self.get_argument('prof', None)
+        stock_option = self.get_argument('share', None)
+        priority = self.get_argument('more', None)
+        job_type = self.get_arguments('type', None)
+        acquires = self.get_argument('requ', None)
+        job_description = self.get_argument('desc', None)
+        welfare = self.get_argument('other', None)
+        salary_up = self.get_argument('salary1', None)
+        salary_down = self.get_argument('salary2', None)
+        salary_type = self.get_argument('sal_type', None)
+        dead_line = self.get_argument('deadline', None)
+        pids = self.get_arguments('addr', None)
+        people_num = self.get_argument('people_num', None)
+
+        cj, cjn = None, None
         if department_id and title and job_description and dead_line and salary_up and salary_type and salary_down and people_num:
             cj = com_job_new(
                     self.zsite_id,
@@ -61,49 +61,46 @@ class JobNew(AdminBase):
                     int(dead_line)*30+today_days(),
                     people_num
                     )
-        
-        
+
+
         if acquires and stock_option and welfare and priority and cj:
-            cjn = com_job_needs_new(cj.id,acquires,stock_option,welfare,priority)
-        
-        
+            cjn = com_job_needs_new(cj.id, acquires, stock_option, welfare, priority)
+
+
         if pids and cjn:
-            if isinstance(pids,list):
+            if isinstance(pids, list):
                 for pid in pids:
-                    job_pid_new(self.zsite_id,pid)
-                    job_place_new(cj.id,pid)
+                    job_pid_new(self.zsite_id, pid)
+                    job_place_new(cj.id, pid)
             else:
                 pid = pids
-                job_pid_new(self.zsite_id,pid)
-                job_place_new(cj.id,pid)
-        
-        
+                job_pid_new(self.zsite_id, pid)
+                job_place_new(cj.id, pid)
+
+
         if job_type and cj:
             for job_t in job_type:
-                if int(job_t):
-                    print job_t
-                    job_type_new(cj.id,job_t)
-        
-        
+                if job_t.isdigit():
+                    job_type_new(cj.id, job_t)
+
+
         if kinds and cj:
             kinds = kinds.split('-')
             for kind in kinds:
-                job_kind_new(cj.id,kind)
-        
+                job_kind_new(cj.id, kind)
+
         self.redirect('/job/%s'%cj.id)
-                
+
 @urlmap('/job/(\d+)')
-class JobD(AdminBase):
-    def get(self,id):
-        if id:
-            job = ComJob.mc_get(id)
-            return self.render(job = job)
-        self.redirect('/')
+class JobD(ZsiteBase):
+    def get(self, id):
+        job = ComJob.mc_get(id)
+        return self.render(job=job)
 
 @urlmap('/job/department/rm')
 class JobDepartmentRm(AdminBase):
     def post(self):
-        id = self.get_argument('id',None)
+        id = self.get_argument('id', None)
         result = None
         if id:
             com_department_rm_by_id(id)
@@ -113,19 +110,19 @@ class JobDepartmentRm(AdminBase):
 @urlmap('/job/depart/add')
 class JobDepartAdd(AdminBase):
     def post(self):
-        txt = self.get_argument('txt',None)
-        cd = com_department_new(self.zsite_id,txt)
+        txt = self.get_argument('txt', None)
+        cd = com_department_new(self.zsite_id, txt)
         self.finish(str(cd.id))
 
 @urlmap('/job/depart/write')
 class JobDepartWrite(AdminBase):
     def post(self):
-        id = self.get_arguments('pop_de_id',None)
-        name = self.get_arguments('pop_de_name',None)
-        kv = zip(id,name)
+        id = self.get_arguments('pop_de_id', None)
+        name = self.get_arguments('pop_de_name', None)
+        kv = zip(id, name)
         result = None
-        for k,v in kv:
-            com_department_edit(k,v)
+        for k, v in kv:
+            com_department_edit(k, v)
             result = True
         self.finish({'result':result})
 
@@ -133,20 +130,20 @@ class JobDepartWrite(AdminBase):
 class JobMail(AdminBase):
     def get(self):
         err = Errtip()
-        self.render(current_user_id=self.current_user_id,errtip=err)
+        self.render(current_user_id=self.current_user_id, errtip=err)
 
     def post(self):
-        hr_mail = self.get_argument('hr_mail',None)
+        hr_mail = self.get_argument('hr_mail', None)
         zsite_id = self.zsite_id
         zsite = Zsite.mc_get(zsite_id)
         if hr_mail and EMAIL_VALID.match(hr_mail):
-            job_mail_new(zsite_id,hr_mail)
-            verify_mail_new(zsite_id,zsite.name,hr_mail,CID_VERIFY_COM_HR)
+            job_mail_new(zsite_id, hr_mail)
+            verify_mail_new(zsite_id, zsite.name, hr_mail, CID_VERIFY_COM_HR)
             return self.redirect('/mail/verify')
         else:
             err = Errtip()
             err.mail = '邮件格式错误'
-            return self.render(errtip=err,current_user_id=self.current_user_id)
+            return self.render(errtip=err, current_user_id=self.current_user_id)
 
 @urlmap('/mail/verified')
 class MailVerified(AdminBase):
@@ -154,8 +151,8 @@ class MailVerified(AdminBase):
         zsite_id = self.zsite_id
         zsite = Zsite.mc_get(zsite_id)
         from model.user_mail import mail_by_user_id
-        jm = job_mail_new(zsite_id,mail_by_user_id(self.current_user_id))
-        verify_mail_new(zsite_id,zsite.name,mail_by_user_id(self.current_user_id),CID_VERIFY_COM_HR)
+        jm = job_mail_new(zsite_id, mail_by_user_id(self.current_user_id))
+        verify_mail_new(zsite_id, zsite.name, mail_by_user_id(self.current_user_id), CID_VERIFY_COM_HR)
         jm.state = STATE_VERIFIED
         jm.save()
         self.redirect('/job/new')
