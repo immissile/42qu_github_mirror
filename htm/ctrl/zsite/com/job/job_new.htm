@@ -2,6 +2,7 @@
 <%!
 from zkit.earth import place_name
 from model.job import JOBTYPE
+from zkit.job import JOBKIND2CN
 %>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="htm_head()">
@@ -426,17 +427,31 @@ $(function(){
     <div class="errtip" id="errtip_title"></div>
 </div>
 <div class="po_line">
-    <label for="kinds">行业类别</label><button type="button" id="kinds">请选择</button>
+    <label for="kinds">行业类别</label>
+    %if not kinds:
+    <button type="button" id="kinds">请选择</button>
     <input type="hidden" id="kinds_input" name="kinds" value="${kinds or ''}" />
     ${errtip.kinds}
+    %else:
+    <button type="button"id="kinds">${'+'.join(map(lambda x:JOBKIND2CN[x],kinds))}</button>
+    <input type="hidden" id="kinds_input" name="kinds" value="${'-'.join(map(str,kinds))}" />
+    %endif
     <div class="errtip" id="errtip_kinds"></div>
 </div>
 <div class="po_line">
     <label>工作地点</label><a class="c9" href="javascript:add_addr();void(0)" id="add_addr">添加地址</a><div class="add_addr"><script>select_pid("pid", 0)</script></div>
     <div id="addr">
-%for i,com_place in enumerate(com_place_list):
-<div class="address"><input name="addr" id="addr${i}" type="checkbox" value="${com_place.pid or ''}"><label for="addr${i}"> ${place_name(com_place.pid) or '无'}</label></div>
+        %if com_place_list:
+        %for i,com_place in enumerate(com_place_list):
+<div class="address"><input name="addr" id="addr${i}" type="checkbox"\
+    %if addr:
+    %if com_place.pid in addr:
+    checked\
+    %endif
+    %endif
+    value="${com_place.pid or ''}"><label for="addr${i}"> ${place_name(com_place.pid) or '无'}</label></div>
 %endfor
+%endif
     </div>
     <div class="errtip" id="errtip_addr"></div>
 </div>
@@ -481,15 +496,10 @@ ${errtip.job_description}
 <label>招聘类型</label>
 %for _job_cid, _job_name in JOBTYPE:
 <input name="type" id="type${_job_cid}" 
-    %if _job_cid == job_cid:
+        %if job_type:
+        %if _job_cid in job_type:
         checked
         %endif
-        %if job_type:
-            %for _job_type in job_type:
-                %if _job_type == _job_cid:
-                    checked
-                %endif
-            %endfor
         %endif
     type="checkbox" value="${_job_cid}">\
 <label
@@ -511,7 +521,8 @@ ${errtip.job_description}
        %endif 
         >${cn}</option>
         %endfor
-    </select><input name="salary1" class="input salary1" value="${salary1 or''}"> 元<span class="split">——</span><input name="salary2" class="input salary2" value="${salary2 or ''}"> 元
+    </select><input name="salary1" class="input salary1" value="${salary1 or''}"> 元<span class="split">——</span>
+    <input name="salary2" class="input salary2" value="${salary2 or ''}"> 元
     ${errtip.salary}
     <div class="errtip" id="errtip_salary"></div>
 </div>
@@ -534,6 +545,9 @@ ${errtip.job_description}
         下一步
         %endif
 </button></span>
+%if edit is not None:
+<a href="/job/close/${job.id}">关闭职位</a>
+%endif
 </%htm:form>
 </%def>
 ${job_form()}
