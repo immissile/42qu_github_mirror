@@ -30,8 +30,12 @@ def zsite_member_can_admin(zsite_id, member_id):
     if id:
         return state >= ZSITE_MEMBER_STATE_ACTIVE
 
-def zsite_member_invite(zsite_id, member_id):
-    return zsite_member_invite_email_name_unit_title(zsite_id, name, '', '')
+def zsite_member_invite(zsite_id, member_id_list):
+    if type(member_id_list) in (str, int):
+        member_id_list = (member_id_list,)
+
+    print member_id_list
+    #return zsite_member_invite_email_name_unit_title(zsite_id, name, '', '')
 
 def zsite_member_invite_email_name_unit_title(zsite_id, name, unit, title):
     id, value = verify_new(member_id, CID_VERIFY_COM_MEMBER)

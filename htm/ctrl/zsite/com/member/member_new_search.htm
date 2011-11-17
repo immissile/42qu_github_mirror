@@ -31,19 +31,19 @@ ${css.ctrl_com_member|n}
 </a>\
 %endfor
 </div>
-    <div class="acts">
-<form action="/member/new/search">\
-<span class="btnw R skip"><button type="submit">跳过</button></span>\
-</form>\
-<form id="follow_form">\
+<div class="acts">\
+<%htm:form id="follow_form">\
 <span class="btnw R" style="margin-left:0;">\
-<button type="submit">添加所选</button></span>\
-</form>\
+<button type="submit">邀请所选成员入驻</button></span>\
 <input type="hidden" value="" name="follow_id_list" id="follow_id_list">\
+</%htm:form>\
+<form class="L" action="/member/new/search">\
+<span class="btnw skip"><button type="submit">跳过</button></span>\
 </form>\
-<label class="select_all" for="select_all">全选</label><input type="checkbox" class="select_all" id="select_all">\
-    </div>
-</div>
+<label class="select_all" for="select_all">全选</label>\
+<input type="checkbox" class="select_all" id="select_all">\
+</div>\
+</div>\
 %else:
 <div class="c">
 <div style="float:left;border-right:1px dotted #ccc;padding:27px 256px 27px;">
