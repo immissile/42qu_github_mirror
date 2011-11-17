@@ -26,15 +26,11 @@ class MemberNewSearch(AdminBase):
 
         follow_id_list = self.get_argument('follow_id_list', None)
         if follow_id_list:
-            follow_id_list = map(int,follow_id_list.split())
-
-            follow_id_list = [
-                i.id for i in
-                Zsite.mc_get_list(follow_id_list)
-                if i and i.cid == CID_USER
-            ]
-
-            zsite_member_invite(zsite_id, follow_id_list)
+            zsite_member_invite(
+                self.zsite, 
+                follow_id_list.split(), 
+                self.current_user
+            )
 
         return self.redirect(self.request.path)
 

@@ -35,7 +35,7 @@ ${css.ctrl_com_member|n}
 <div class="acts">\
 <%htm:form id="follow_form">\
 <span class="btnw R" style="margin-left:0;">\
-<button type="submit">邀请所选成员入驻</button></span>\
+<button type="submit">邀请所选成员</button></span>\
 <input type="hidden" value="" name="follow_id_list" id="follow_id_list">\
 </%htm:form>\
 <form class="L" action="/member/new/search">\
@@ -52,7 +52,7 @@ ${css.ctrl_com_member|n}
 %if q:
 <span style="color:#a20">查无结果 </span>, 换个关键词试试?
 %else:
-搜索同事 , 邀请加入
+搜索并添加同事 , 邀请他们写几句对未来新人的寄语吧 ...
 %endif
     </h3>
     <form class="search"><input type="text" value="${q or ''}" name="q" id="search" autocomplete="off"><input type="submit" value="" class="search_btn"></form>
