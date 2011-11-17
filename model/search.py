@@ -10,6 +10,9 @@ from model.motto import motto_get
 from os.path import join
 from time import sleep
 import xapian
+from urlparse import urlparse
+from config import SITE_DOMAIN_SUFFIX
+from model.zsite_url import id_by_url
 from model.cid import CID_USER, CID_SITE, CID_COM
 
 DATEBASE = None
@@ -118,6 +121,15 @@ def search_site(keywords, offset, limit):
 
 @retry
 def search(keywords, cid, offset, limit):
+
+    netloc = urlparse(keywords).netloc 
+    if netloc and netloc.endswith(SITE_DOMAIN_SUFFIX):
+        url = netloc[:-len(SITE_DOMAIN_SUFFIX)]
+        if url:
+            id = id_by_url(url)
+            if id:
+                return  Zsite.mc_get_list([id]), 1
+
     e = ENQUIRE
     keywords = make_query(keywords)
 
@@ -131,7 +143,7 @@ def search(keywords, cid, offset, limit):
     return Zsite.mc_get_list(r), count
 
 if __name__ == '__main__':
-    print search_user('awerewar', 0, 111)
+    print search_user('http://zuroc.zuroc.xxx', 0, 111)[0][0].id
     print search_site('awerewar', 0, 111)
 
     cid = CID_USER
