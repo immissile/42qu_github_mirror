@@ -1,6 +1,7 @@
 <%inherit file="/ctrl/_base/com.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
+from model.ico import ico_url_with_default
 from model.zsite_url import host
 %>
 <%
@@ -18,61 +19,42 @@ ${css.ctrl_com_member|n}
 <div class="G i_div">
 <div class="G4">
 
-%if q:
+%if q and page_list:
 <div class="result_wrap">
 <div class="p_wrap">
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-    </a>
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-
-    </a>
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-    </a>
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-    </a>
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-
-    </a>
-    <a id="10010725" href="javascript:void(0)" class="f_item"><img src="http://p5.42qu.us/96/855/53079.jpg" class="f_img">
-        <span class="f_name">章泽天</span>
-        <span class="f_icon"></span>
-        <div class="f_email">42区 , 前端工程师</div>
-    </a>
+%for i in page_list:
+<a id="${i.id}" href="javascript:void(0)" class="f_item">\
+<img src="${ico_url_with_default(i.id)}" class="f_img">\
+<span class="f_name">${i.name}</span>\
+<span class="f_icon"></span>\
+<div class="f_email">${','.join(filter(bool,i.career))}</div>\
+</a>\
+%endfor
 </div>
     <div class="acts">
-<form id="follow_form" method="POST">
+<form action="/member/new/search">\
 <span class="btnw R skip"><button type="submit">跳过</button></span>\
+</form>\
+<form id="follow_form">\
 <span class="btnw R" style="margin-left:0;">\
-<button type="submit">添加所选</button></span>
+<button type="submit">添加所选</button></span>\
+</form>\
 <input type="hidden" value="" name="follow_id_list" id="follow_id_list">\
 </form>\
 <label class="select_all" for="select_all">全选</label><input type="checkbox" class="select_all" id="select_all">\
     </div>
 </div>
-
-
 %else:
 <div class="c">
 <div style="float:left;border-right:1px dotted #ccc;padding:27px 256px 27px;">
-    <h3 style="margin-bottom:14px;">搜索同事 , 邀请加入</h3>
-    <form class="search"><input type="text" value="" name="q" id="search" autocomplete="off"><input type="submit" value="" class="search_btn"></form>
+    <h3 style="margin-bottom:14px;">
+%if q:
+<span style="color:#a20">查无结果 </span>, 换个关键词试试?
+%else:
+搜索同事 , 邀请加入
+%endif
+    </h3>
+    <form class="search"><input type="text" value="${q or ''}" name="q" id="search" autocomplete="off"><input type="submit" value="" class="search_btn"></form>
 </div>
 <a href="/member/new/search" class="member_new_invite">下一步</a>
 
@@ -86,7 +68,7 @@ ${css.ctrl_com_member|n}
 </div> </DIV>
 %endfor
 </div>
-<script>$("#search").focus()</script>
+<script>$("#search").focus().select()</script>
 %endif
 
 
