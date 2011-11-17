@@ -158,3 +158,8 @@ class MailVerify(AdminBase):
     def get(self):
         self.render()
 
+@urlmap('/job/admin')
+class JobAdmin(AdminBase):
+    def get(self):
+        self.render()
+
