@@ -3,7 +3,7 @@ from _db import Model
 from model.mail import mq_rendermail
 from model.zsite_list import zsite_list, zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state,STATE_INVITE
 from model.zsite import Zsite
-from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_COM_MEMBER
+from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_COM_MEMBER, CID_USER
 from model.verify import verify_new
 from user_mail import mail_by_user_id
 
@@ -43,15 +43,16 @@ def zsite_member_invite(
 ):
     if type(member_id_list) in (str, int):
         member_id_list = [member_id_list,]
+    
+    member_id_list = map(int,member_id_list)
 
     follower_list = [
         i for i in
-        Zsite.mc_get_list(follow_id_list)
+        Zsite.mc_get_list(member_id_list)
         if i and i.cid == CID_USER
     ]
-    member_id_list = map(int,member_id_list)
 
-    for i in member_id_list:
+    for i in follower_list:
         _zsite_member_invite(zsite, i, current_user)
 
 def _zsite_member_invite(zsite, member, current_user):
@@ -72,8 +73,10 @@ def _zsite_member_invite(zsite, member, current_user):
                 current_user.name, 
                 zsite.name
             ),
-            from_user=from_user,
-            com = zsite
+            from_user_name = current_user.name,
+            from_user_link = current_user.link,
+            com_link = com.link,
+            com_name = com.name,
         )
 
 def zsite_member_invite_email_name_unit_title(zsite_id, name, unit, title):
