@@ -66,12 +66,12 @@ def _zsite_member_invite(zsite, member, current_user):
             '/mail/com/invite_member.htm', 
             mail, 
             member.name,
-            sender_name = current_user.name
+            sender_name = current_user.name,
             format='html',
             subject='%s 邀请您给 %s 未来的同事写几句话' % (
                 current_user.name, 
                 zsite.name
-            )
+            ),
             from_user=from_user,
             com = zsite
         )
