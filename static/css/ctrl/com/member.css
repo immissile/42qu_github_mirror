@@ -76,6 +76,9 @@ vertical-align:middle;
 .member_new_invite{
 display:block;padding:48px 0;text-align:center;
 }
+.search{
+margin-left:20px;
+}
 .rm{
 float:right;
 width:8px;

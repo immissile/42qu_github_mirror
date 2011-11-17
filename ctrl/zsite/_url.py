@@ -17,3 +17,4 @@ import com.job
 import com.product
 import com.member
 import com.bio
+import com.resume
