@@ -15,7 +15,7 @@ from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
 from zkit.errtip import Errtip
 from zkit.txt import EMAIL_VALID
-from model.com import ComJob, JOB_ACTIVE, JOB_CLOSE
+from model.com import ComJob, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id
 from zkit.jsdict import JsDict
 
 
@@ -286,7 +286,17 @@ class MailVerify(AdminBase):
         self.render()
 
 @urlmap('/job/admin')
+@urlmap('/job/admin/(\d+)')
 class JobAdmin(AdminBase):
-    def get(self):
-        self.render()
+    def get(self,state=JOB_ACTIVE):
+        job_list = com_job_by_state_com_id(self.zsite_id,state)
+        self.render(job_list=job_list,state=state)
 
+@urlmap('/job/rm/(\d+)')
+class JobRm(AdminBase):
+    def post(self,state):
+        id = self.get_argument('id',None)
+        job = ComJob.mc_get(id)
+        if job.state == int(state):
+            job.state = job.state-1
+            job.save()

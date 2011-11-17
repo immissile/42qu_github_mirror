@@ -7,6 +7,9 @@ from zkit.attrcache import attrcache
 
 JOB_ACTIVE = 5
 JOB_CLOSE = 4
+JOB_DEL = 3
+
+
 JOBSALARY2CN = {
         1:'月薪',
         2:'年薪'
@@ -23,6 +26,9 @@ class ComJob(McModel):
     
 def com_job_by_com_id(com_id):
     return ComJob.where(com_id=com_id)
+
+def com_job_by_state_com_id(com_id,state):
+    return ComJob.where(state=state,com_id=com_id)
 
 def com_job_by_department_and_com(department_id,com_id):
     return ComJob.where(department_id=department_id,com_id=com_id,state=JOB_ACTIVE)
