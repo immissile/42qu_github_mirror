@@ -11,7 +11,7 @@ from model.txt import txt_new
 from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from zkit.pic import picopen
 from zkit.errtip import Errtip
-from model.zsite_member import zsite_member_new
+from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE
 from model.po import product_show_list
 from model.zsite_show import zsite_show_list, zsite_show_count
 
@@ -96,7 +96,7 @@ class ComNew(Base):
             com_id = com.id
             site_ico_bind(current_user_id, pic_id, com_id)
             motto_set(com_id, motto)
-            zsite_member_new(com_id, current_user_id)
+            zsite_member_new(com_id, current_user_id, ZSITE_MEMBER_STATE_ACTIVE)
             #txt_new(com_id, txt)
             if pid_add:
                 for pa in pid_add:
