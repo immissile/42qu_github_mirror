@@ -1,8 +1,7 @@
 #coding:utf-8
 from _db import Model
-
+from model.mail import mq_rendermail
 from model.zsite_list import zsite_list, zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state,STATE_INVITE
-
 from model.zsite import Zsite
 from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_COM_MEMBER
 from model.verify import verify_new
@@ -22,6 +21,23 @@ def zsite_member_new(zsite_id, member_id, cid=CID_ZSITE_LIST_MEMBER, state=ZSITE
     id, _state = zsite_list_id_state(zsite_id, member_id, CID_ZSITE_LIST_MEMBER)
     if _state < state:
         zsite_list_new(zsite_id, member_id, CID_ZSITE_LIST_MEMBER, state=state)
+        return True
+
+def zsite_member_invite(zsite_id, member_id):
+    if zsite_member_new(zsite_id, member_id):
+
+        mail = "zsp007@gmail.com"
+
+        mq_rendermail(
+            '/mail/buzz/follow_new.htm', 
+            mail, name,
+            from_user=from_user,
+            format='html',
+            subject='%s ( %s ) 关注 你' % (
+                from_user.name,
+                ' , '.join(career),
+            )
+        )
 
 def zsite_member_rm(zsite_id, member_id):
     zsite_list_rm(zsite_id, member_id, cid=CID_ZSITE_LIST_MEMBER)
@@ -38,10 +54,10 @@ def zsite_member_can_admin(zsite_id, member_id):
 
 def zsite_member_invite(zsite_id, member_id_list):
     if type(member_id_list) in (str, int):
-        zsite_member_new(zsite_id, member_id_list)
+        zsite_member_invite(zsite_id, member_id_list)
     else:
         for i in member_id_list:
-            zsite_member_new(zsite_id, i)
+            zsite_member_invite(zsite_id, i)
 
 
 def zsite_member_invite_email_name_unit_title(zsite_id, name, unit, title):
