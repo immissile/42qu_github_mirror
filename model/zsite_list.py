@@ -17,10 +17,14 @@ CREATE TABLE `zsite_list` (
 ) ENGINE=MyISAM;
 '''
 
-STATE_OWNER = 60
-STATE_ADMIN = 40
+STATE_OWNER  = 60
+STATE_ADMIN  = 40
 STATE_ACTIVE = 20
-STATE_DEL = 0
+STATE_INVITE = 10
+STATE_DEL    = 0
+
+STATE_LIST = ( STATE_OWNER , STATE_ADMIN  , STATE_ACTIVE , STATE_INVITE , STATE_DEL )
+
 
 STATE_EGT_ACTIVE = 'state>=%s'%STATE_ACTIVE
 
@@ -97,10 +101,10 @@ def zsite_list_new(zsite_id, owner_id, cid, rank=1, state=STATE_ACTIVE):
     if not zsite.rank:
         zsite.rank = rank
     zsite.save()
-    mc_flush(owner_id, cid, zsite_id)
+    mc_flush(owner_id, cid, zsite_id, state)
 
 
-def mc_flush(owner_id, cid, zsite_id=0):
+def mc_flush(owner_id, cid, zsite_id=0, state=None):
     key = '%s_%s' % (owner_id, cid)
     mc_zsite_id_list.delete(key)
     zsite_list_count.delete(key)
@@ -109,7 +113,9 @@ def mc_flush(owner_id, cid, zsite_id=0):
 
     if zsite_id:
         mc_zsite_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, cid))
-        mc_zsite_id_list_by_zsite_id_state.delete('%s_%s'%(zsite_id, cid))
+        for state in STATE_LIST: 
+            mc_zsite_id_list_by_zsite_id_state.delete('%s_%s_%s'%(zsite_id, cid, state))
+
         mc_zsite_list_id_state.delete(
             '%s_%s_%s'%(
                 zsite_id, owner_id , cid
@@ -122,7 +128,6 @@ def mc_flush(owner_id, cid, zsite_id=0):
         )
 
 
-
 def zsite_list_rm(zsite_id, owner_id, cid=None):
     if cid is None:
         cid_list = ZsiteList.where(zsite_id=zsite_id, owner_id=owner_id, state=1).col_list(col='cid')
@@ -130,7 +135,7 @@ def zsite_list_rm(zsite_id, owner_id, cid=None):
         for cid in cid_list:
             mc_flush(owner_id, cid, zsite_id)
     else:
-        id = zsite_list_id_get(zsite_id, owner_id, cid)
+        id, state = zsite_list_id_state(zsite_id, owner_id, cid)
         if id:
             ZsiteList.where(id=id).delete()
             mc_flush(owner_id, cid, zsite_id)
