@@ -96,7 +96,7 @@ class ComNew(Base):
             com_id = com.id
             site_ico_bind(current_user_id, pic_id, com_id)
             motto_set(com_id, motto)
-            zsite_member_new(com_id, current_user_id, ZSITE_MEMBER_STATE_ACTIVE)
+            zsite_member_new(com_id, current_user_id, state=ZSITE_MEMBER_STATE_ACTIVE)
             #txt_new(com_id, txt)
             if pid_add:
                 for pa in pid_add:

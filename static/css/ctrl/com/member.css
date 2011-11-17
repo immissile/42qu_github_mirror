@@ -59,7 +59,7 @@ height:26px;
 line-height:26px;
 padding:1px 3px;
 vertical-align:middle;
-width:320px;
+width:360px;
 }
 .search .search_btn{
 background:url(/img/png/search_btn.png) no-repeat;
@@ -75,9 +75,6 @@ vertical-align:middle;
 }
 .member_new_invite{
 display:block;padding:48px 0;text-align:center;
-}
-.search{
-margin-left:20px;
 }
 .rm{
 float:right;
