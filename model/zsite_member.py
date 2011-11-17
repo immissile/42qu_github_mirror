@@ -75,8 +75,8 @@ def _zsite_member_invite(zsite, member, current_user):
             ),
             from_user_name = current_user.name,
             from_user_link = current_user.link,
-            com_link = com.link,
-            com_name = com.name,
+            com_link = zsite.link,
+            com_name = zsite.name,
         )
 
 def zsite_member_invite_email_name_unit_title(zsite_id, name, unit, title):
