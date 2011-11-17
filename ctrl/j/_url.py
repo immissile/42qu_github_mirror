@@ -6,3 +6,4 @@ import top_notice
 import mark
 import site
 import hero
+import com 

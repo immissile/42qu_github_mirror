@@ -29,7 +29,7 @@ class MemberNewSearch(AdminBase):
             follow_id_list = map(int,follow_id_list.split())
 
             follow_id_list = [
-                i for i in
+                i.id for i in
                 Zsite.mc_get_list(follow_id_list)
                 if i and i.cid == CID_USER
             ]

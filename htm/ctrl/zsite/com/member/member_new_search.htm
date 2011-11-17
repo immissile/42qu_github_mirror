@@ -3,6 +3,7 @@
 <%!
 from model.ico import ico_url_with_default
 from model.zsite_url import host
+from model.zsite_member import zsite_member_list, ZSITE_MEMBER_STATE_INVITE 
 %>
 <%
 if zsite_id:
@@ -59,21 +60,45 @@ ${css.ctrl_com_member|n}
 <a href="/member/new/search" class="member_new_invite">下一步</a>
 
 </div>
-    <h2 class="info_hint">已有成员</h2>
-<div class="B">
-%for i in range(12):
-    <DIV CLASS="B4"> <div class="added_member">
-<a href="javascript:rm()" class="rm"></a>
-<a href="#">realfex</a>
-</div> </DIV>
-%endfor
-</div>
+
 <script>$("#search").focus().select()</script>
+<%
+mlist = zsite_member_list(zsite_id, ZSITE_MEMBER_STATE_INVITE )
+%>
+%if mlist:
+<h2 class="info_hint">已邀请成员</h2>\
+<div class="B">\
+%for i in mlist:
+<div class="B4" id="invited${i.id}"><div class="added_member">\
+<a href="javascript:rm(${i.id})" class="rm"></a>\
+<a href="${i.link}" target="_blank">${i.name}</a>\
+</div></div>\
+%endfor
+</div>\
+<script>
+function rm(id){
+    if(confirm("确定取消邀请?")){
+        $.fancybox.showActivity();
+        $.postJSON(
+            "/j/member/invite/rm/"+id,
+            function(){
+                $.fancybox.hideActivity();
+                $("#invited"+id).fadeOut()
+            }
+        )
+    }
+}
+</script>
+%else:
+<div style="border-top:1px dotted #ccc"></div>
+%endif
+
 %endif
 
 
 </div>
 </div>
+
 
 
 
