@@ -8,6 +8,8 @@ from model.search import search_user
 from model.zsite import Zsite
 from model.zsite_member import zsite_member_invite
 from model.cid import CID_USER
+from zkit.txt import EMAIL_VALID
+from model.user_mail import user_id_by_mail 
 
 #@urlmap('/member/new/result')
 #class MemberNewResult(AdminBase):
@@ -42,7 +44,14 @@ class MemberNewInvite(AdminBase):
     def post(self):
         arguments = self.request.arguments
         for mail, name in zip(arguments['mail'], arguments['name']):
-            pass
+            mail = mail.strip().lower()
+            name = name.strip()
+            if EMAIL_VALID.match(mail):
+                user_id = user_id_by_mail(mail)
+                if user_id:
+                    zsite_member_invite(self.zsite, user_id, self.current_user)
+                else:
+                    pass
         #return self.redirect("")
 
 
