@@ -1,0 +1,53 @@
+<%inherit file="../base.htm" />
+<%!
+from model.zsite import Zsite
+%>
+<style>
+ h1{
+border-bottom:1px dotted #CCCCCC;
+font-size:14px;
+margin:auto;
+padding:16px 0;
+text-align:left;
+}
+.split{
+margin:0 12px;
+}
+#search{
+border:1px solid #ddd;
+float:left;
+height:26px;
+line-height:26px;
+padding:1px 3px;
+width:100px;
+}
+.search_btn {
+background:url(http://s4.42qu.us/img/png/search_btn.png) no-repeat;
+border:none;
+cursor:pointer;
+height:30px;
+width:31px;
+}   
+.com_a{
+font-size:14px;
+padding:7px 0;
+color:#444;
+border-bottom:1px dotted #ccc;
+display:block;
+text-align:center;
+height:28px;
+}
+</style>
+%if com_id_list:
+<%
+ com_list = Zsite.mc_get_list(com_id_list)
+ %>
+ %for com in com_list:
+ %if com:
+ <div class="G1">
+     <a class="c0" style="border-bottom:1px dotted #ccc;display:block;padding:7px 0;text-align:center;" href="${com.link}">${com.name}</a></div>
+ %endif
+ %endfor
+ %else:
+ <a href="/com/new">创建您的公司吧！</a>
+ %endif
