@@ -36,7 +36,7 @@ application.add_handlers(
 import _urlmap.com
 application.add_handlers(
     'com\.%s'%RE_SITE_DOMAIN,
-    handlers(_urlmap.site, _urlmap.auth, _urlmap.j)
+    handlers(_urlmap.com, _urlmap.auth, _urlmap.j)
 )
 
 import _urlmap.main
