@@ -60,8 +60,11 @@ class MemberNewInvite(AdminBase):
 
                 zsite_member_invite(self.zsite, user_id, self.current_user)
 
-        return self.redirect('/bio/new')
+        return self.redirect('/review/invite')
 
-
+@urlmap('/review/invite')
+class ReviewInvite(AdminBase):
+    def get(self):
+        return self.render()
 
 
