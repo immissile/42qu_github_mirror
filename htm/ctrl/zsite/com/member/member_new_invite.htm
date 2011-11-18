@@ -9,7 +9,7 @@ from model.zsite_member import zsite_member_list, ZSITE_MEMBER_STATE_INVITE
 ${css.ctrl_zsite_com_member_invite|n}
 <script>
 $(function(){
-    $('.member_mail:last').live('blur',function(){
+    $('.mail:last').live('blur',function(){
         var self = $(this)
         if($.trim(self.val()).length>0){
             self.parent().after(

@@ -6,7 +6,7 @@ from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_USER, CID_VERIFY
 from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.user_session import user_session, user_session_rm
 from model.verify import verify_mail_new, verifyed
-from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
+from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE, ZSITE_STATE_NO_PASSWORD
 from model.user_auth import user_password_new, user_password_verify
 from zkit.txt import EMAIL_VALID, mail2link
 from model.zsite_site import site_can_admin
@@ -57,10 +57,15 @@ class VerifyMail(VerifyBase):
         user_id = self.handler_verify(id, ck)
         if user_id:
             user = Zsite.mc_get(user_id)
-            if user.state == ZSITE_STATE_APPLY:
+            if user.state == ZSITE_STATE_APPLY or user.state == ZSITE_STATE_NO_PASSWORD:
                 user.state = ZSITE_STATE_ACTIVE
                 user.save()
             self.__dict__['_current_user'] = user
+
+            redirect = self.get_argument('next', None)
+            if redirect:
+                return self.redirect(redirect)
+
             self.render()
 
 @urlmap('/job/auth/verify/mail/(\d+)/(.+)')

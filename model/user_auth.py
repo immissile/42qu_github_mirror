@@ -41,7 +41,7 @@ def user_password_verify(user_id, password):
         return True
 
 def user_new_by_mail(mail, password=None, name=None):
-    if name is None:
+    if not name:
         name = mail.split('@', 1)[0].split('+', 1)[0]
     if password:
         state = ZSITE_STATE_APPLY

@@ -9,7 +9,8 @@ from model.zsite import Zsite
 from model.zsite_member import zsite_member_invite
 from model.cid import CID_USER
 from zkit.txt import EMAIL_VALID
-from model.user_mail import user_id_by_mail 
+from model.user_mail import user_id_by_mail
+from model.user_auth import user_new_by_mail
 
 #@urlmap('/member/new/result')
 #class MemberNewResult(AdminBase):
@@ -53,11 +54,13 @@ class MemberNewInvite(AdminBase):
             name = name.strip()
             if EMAIL_VALID.match(mail):
                 user_id = user_id_by_mail(mail)
-                if user_id:
-                    zsite_member_invite(self.zsite, user_id, self.current_user)
-                else:
-                    pass
-        #return self.redirect("")
+                if not user_id:
+                    user = user_new_by_mail(mail, name=name)
+                    user_id = user.id
+
+                zsite_member_invite(self.zsite, user_id, self.current_user)
+
+        return self.redirect('/bio/new')
 
 
 
