@@ -84,13 +84,11 @@ def _zsite_member_invite(zsite, member, current_user):
             com_name = zsite.name,
         )
 
-def zsite_member_invite_email_name_unit_title(zsite_id, name, unit, title):
+def zsite_member_invite_mail_name(zsite_id, mail, name):
     id, value = verify_new(member_id, CID_VERIFY_COM_MEMBER)
     invite = ZsiteMemberInvite(
         id=id,
         zsite_id=zsite_id,
-        unit=unit,
-        title=title
     )
     invite.save()
     return id, value 
