@@ -68,6 +68,9 @@ class VerifyMail(VerifyBase):
 
             self.render()
 
+
+
+
 @urlmap('/job/auth/verify/mail/(\d+)/(.+)')
 class JobVerifyMail(LoginBase):
     def get(self, id, ck):

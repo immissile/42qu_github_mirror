@@ -4,7 +4,7 @@ from config import SITE_HTTP
 from model.mail import mq_rendermail, rendermail
 from model.zsite_list import zsite_list, zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state,STATE_INVITE, zsite_id_list_order_id_desc
 from model.zsite import Zsite, ZSITE_STATE_APPLY
-from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_COM_MEMBER, CID_USER
+from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_MAIL, CID_USER
 from model.verify import verify_new
 from user_mail import mail_by_user_id
 
@@ -64,7 +64,7 @@ def _zsite_member_invite(zsite, member, current_user):
     member_id =  member.id
 
     if member.state <= ZSITE_STATE_APPLY:
-        verify_id, verify_value = verify_new(member_id, CID_VERIFY_COM_MEMBER)
+        verify_id, verify_value = verify_new(member_id, CID_VERIFY_MAIL)
         http = "%s/auth/verify/mail/%s/%s?next="%(
             SITE_HTTP,
             verify_id, 
