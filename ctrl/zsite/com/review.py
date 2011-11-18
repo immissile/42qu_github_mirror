@@ -9,4 +9,9 @@ class ReviewAdmin(AdminBase):
     def get(self):
         return self.render()
 
+@urlmap('/review/invite')
+class ReviewInvite(AdminBase):
+    def get(self):
+        return self.render()
+
 
