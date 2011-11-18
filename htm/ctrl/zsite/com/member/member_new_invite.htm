@@ -30,13 +30,13 @@ $(function(){
 <div>
 %for i in range(5):
     <div class="line" > 
-<input placeholder="邮箱" name="mail" class="mail" value="" autocomplete="off">\
-<input value="" placeholder="姓名" name="name" class="member_name" autocomplete="off">\
+<input placeholder="邮箱" name="mail" class="member_mail" value="">\
+<input value="" placeholder="姓名" name="name" class="member_name">\
     </div>
 %endfor
 </div>
-<div class="btns" style="margin-top:22px;">
-    <span class="btnw" style="margin-left:0;"><button class="btn" type="submit">下一步</button></span>
+<div class="btns member_btn">
+    <span class="btnw"><button class="btn" type="submit">下一步</button></span>
 </div>
 </%htm:form>
 

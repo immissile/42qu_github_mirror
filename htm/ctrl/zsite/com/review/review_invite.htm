@@ -1,30 +1,21 @@
 <%inherit file="/ctrl/_base/com.htm" />
-<style>
+${css.ctrl_com_review|n}
+<script src="${js.ctrl_com_review|n}"></script>
 
-</style>
 <form enctype="multipart/form-data" id="invite_form" method="POST">
 <p class="hint">
-通过链接邀请你认识的好友来写评价 , 这是文案
+你可以通过链接邀请你认识的好友来写评价
 </p>
 <div class="line">
-    <input class="invite_link" value="http:${zsite.link}/review
-"></div>
-<p class="hint">
-通过邮件邀请你认识的好友来写评价 , 他们会收到一封来自42区的邮件 
-</p>
-
-<div>
- <div class="line">
-<input autocomplete="off" value="" class="mail" name="mail" placeholder="好友邮箱"><input autocomplete="off" class="member_name" name="name" placeholder="好友姓名" value=""> </div>
- <div class="line">
-<input autocomplete="off" value="" class="mail" name="mail" placeholder="好友邮箱"><input autocomplete="off" class="member_name" name="name" placeholder="好友姓名" value=""> </div>
- <div class="line">
-<input autocomplete="off" value="" class="mail" name="mail" placeholder="好友邮箱"><input autocomplete="off" class="member_name" name="name" placeholder="好友姓名" value=""> </div>
- <div class="line">
-<input autocomplete="off" value="" class="mail" name="mail" placeholder="好友邮箱"><input autocomplete="off" class="member_name" name="name" placeholder="好友姓名" value=""> </div>
- <div class="line">
-<input autocomplete="off" value="" class="mail" name="mail" placeholder="好友邮箱"><input autocomplete="off" class="member_name" name="name" placeholder="好友姓名" value=""> </div><div class="line"><input autocomplete="off" value="" class="mail" name="mail" placeholder="好友邮箱"><input autocomplete="off" class="member_name" name="name" placeholder="好友姓名" value=""></div>
+    <input class="invite_link" value="http:${zsite.link}/review">
 </div>
-<div style="margin-top:22px;" class="btns">
-<span style="margin-left:0;" class="btnw"><button type="submit" class="btn">完成邀请</button></span>
+<p class="hint">
+或者通过邮件邀请你认识的好友来写评价 , 他们会收到一封来自42区的邮件 
+</p>
+%for i in range(5):
+<div class="line">
+<input value="" class="member_mail" name="mail" placeholder="好友邮箱"><input  class="member_name" name="name" placeholder="好友姓名" value=""> </div>
+%endfor
+<div class="btns member_btn">
+<span class="btnw"><button type="submit" class="btn">完成邀请</button></span>
 </form>

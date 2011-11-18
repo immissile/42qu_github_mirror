@@ -48,3 +48,37 @@ vertical-align:-9px;
 .review_cb{
 margin-right:14px;
 }
+#invite_form{
+width:690px;
+margin:auto;
+}
+.line{
+margin-bottom:14px;
+}
+.line input, .line select{
+padding: 8px;
+}
+.line input{
+line-height: 20px;
+}
+.member_name,.member_mail{
+border:1px solid #ccc;
+padding:7px;
+width:320px;
+}
+.member_name{
+margin-left:14px;
+}
+.invite_link{
+border:1px solid #ccc;
+width:480px;
+margin-right:12px;
+color:#999;
+}
+.hint{
+font-size:16px;
+padding:16px 0;
+}
+.member_btn{
+margin-top:22px;
+}
