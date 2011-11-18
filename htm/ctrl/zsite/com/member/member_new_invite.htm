@@ -7,34 +7,22 @@ from model.zsite_member import zsite_member_list, ZSITE_MEMBER_STATE_INVITE
 %>
 <%def name="htm_head()">
 <style>
-.line{
-margin-top:14px;
-}
 #invite_form{
 width:690px;
 margin:auto;
 padding-top:14px;
 }
-.line input, .line select { padding: 8px; }
-.line input { line-height: 20px; }
+.line{
+margin-top:14px;
+}
+.line input, .line select{padding: 8px;}
+.line input{line-height: 20px;}
 .member_name,.member_mail{
 border:1px solid #ccc;
 padding:7px;
 width:320px;
 }
 .member_name{margin-left:14px;}
-.close_item{
-display:inline-block;
-width:16px;
-height:16px;
-margin-left:16px;
-background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;
-padding:4px;
-vertical-align:-10px;
-}
-.close_item:hover{
-background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
-}
 </style>
 
 <script>
