@@ -53,6 +53,8 @@ def _job_save(self,job=None):
         errtip.salary = '必须设定薪水'
     if not(salary_up.isdigit() and salary_down.isdigit()):
         errtip.salary = '请输入正确的薪水'
+    if salary_down.isdigit() and salary_up.isdigit() and int(salary_up) > int(salary_down):
+        errtip.salary = '最低薪水必须大于最高薪水'
     if not job_description:
         errtip.job_description='请填写职位描述'
     if not dead_line:
