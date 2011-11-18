@@ -1,7 +1,7 @@
 #coding:utf-8
 from _db import Model
 from model.mail import mq_rendermail, rendermail
-from model.zsite_list import zsite_list, zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state,STATE_INVITE
+from model.zsite_list import zsite_list, zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state,STATE_INVITE, zsite_id_list_order_id_desc
 from model.zsite import Zsite
 from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_COM_MEMBER, CID_USER
 from model.verify import verify_new
@@ -17,12 +17,16 @@ class ZsiteMemberInvite(Model):
     pass
 
 def zsite_id_list_by_member_admin(id):
-    return ZsiteList.where(
-            cid = CID_ZSITE_LIST_MEMBER,
-            owner_id=id
-            ).order_by('id desc').col_list(col='zsite_id')
+    return zsite_id_list_order_id_desc(
+        id, CID_ZSITE_LIST_MEMBER
+    )
 
-def zsite_member_new(zsite_id, member_id,  state=ZSITE_MEMBER_STATE_INVITE, cid=CID_ZSITE_LIST_MEMBER):
+def zsite_member_new(
+    zsite_id, 
+    member_id,  
+    state=ZSITE_MEMBER_STATE_INVITE, 
+    cid=CID_ZSITE_LIST_MEMBER
+):
     id, _state = zsite_list_id_state(zsite_id, member_id, CID_ZSITE_LIST_MEMBER)
     if _state < state:
         zsite_list_new(zsite_id, member_id, CID_ZSITE_LIST_MEMBER, state=state)
