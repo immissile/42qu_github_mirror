@@ -17,7 +17,7 @@ from model.cid import CID_USER
 @urlmap('/member/new/search')
 class MemberNewSearch(AdminBase):
     search = staticmethod(search_user)
-    link = "/member/new/search-%%s?q=%s"
+    link = '/member/new/search-%%s?q=%s'
     PAGE_LIMIT = 1024
     get = search_get
 
@@ -27,8 +27,8 @@ class MemberNewSearch(AdminBase):
         follow_id_list = self.get_argument('follow_id_list', None)
         if follow_id_list:
             zsite_member_invite(
-                self.zsite, 
-                follow_id_list.split(), 
+                self.zsite,
+                follow_id_list.split(),
                 self.current_user
             )
 
@@ -38,4 +38,13 @@ class MemberNewSearch(AdminBase):
 class MemberNewInvite(AdminBase):
     def get(self):
         return self.render()
+
+    def post(self):
+        arguments = self.request.arguments
+        for mail, name in zip(arguments['mail'], arguments['name']):
+            pass
+        #return self.redirect("")
+
+
+
 
