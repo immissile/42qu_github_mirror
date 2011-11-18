@@ -1,0 +1,113 @@
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+import json
+from zkit.jsdict import JsDict
+from model.po import Po
+from model.ico import fs_url_jpg
+from model.po import po_id_list_by_com_id
+%>
+<%def name="product_form(product=None,position=None)">
+    <%htm:form classname="site_new" enctype="multipart/form-data">
+    <%
+    pic_id = None
+    origin = None
+    product_ = None
+    market = None
+    team = None
+    culture = None
+    money = None
+    plan = None
+    product_similar = None
+    same = None
+    different = None
+    advantage = None
+    %>
+    %if product:
+        <%
+    info = JsDict(json.loads(product.txt))
+    pic_id = info.pic_id
+    origin = info.origin
+    product_ = info.product
+    market = info.market
+    team = info.team
+    culture = info.culture
+    money = info.money
+    plan = info.plan
+    product_similar = info.product_similar
+    same = info.same
+    different = info.different
+    advantage = info.advantage
+    %>
+        %endif
+<div style="clear:both;margin-top:27px;">
+    %if pic_id:
+<img class="imgpic" src="${fs_url_jpg('215',pic_id)}">
+<input class="file" type="hidden" name="pic_id" value="${pic_id}" id="pic_id">
+%endif
+    <p class="info_title">图片 </p>
+    <input class="file" name="pic" id="pic" type="file">
+</div>
+<div style="clear:both;">
+    <p class="info_title">想法</p>
+    <textarea name="origin" class="info_txt" id="txt_origin" placeholder="你受什么启发 , 看到了什么机会 ? 如何解读大趋势?">${origin or '' }</textarea>
+    <p class="info_title">产品</p>
+    <textarea name="product" class="info_txt" id="txt_product" placeholder="当前的进展如何 ? 提供了什么功能, 取得了哪些成绩？">${product_ or ''}</textarea>
+    <p class="info_title">市场</p>
+    <textarea name="market" class="info_txt" id="txt_market" placeholder="面向的人群是 ? 规模有多大 ? 种子用户从何而来 ? 会在那些渠道推广 ?">${market or ''}</textarea>
+    <p class="info_title">计划</p>
+    <textarea name="plan" class="info_txt" id="txt_plan" placeholder="接下来想做什么? ">${plan or ''}</textarea>
+</div>
+<p class="hint_wrap">同类产品</p>
+<div style="clear:both;">
+    <div style="height:20px;"></div>
+    <div id="line1" class="line"> 
+        <div class="similar_product_wrap" id="similar_product_wrap1">
+            %if product_similar:
+            %for pro in product_similar:
+            <input autocomplete="off" value="${pro[0]}" class="similar_product_name" name="similar_product_name" placeholder="产品名称"><input class="similar_product_url" name="similar_product_url" placeholder="相关链接" value="${pro[1]}">
+            %endfor
+            %endif
+            <input autocomplete="off" value="" class="similar_product_name" name="similar_product_name" placeholder="产品名称"><input class="similar_product_url" name="similar_product_url" placeholder="相关链接" value="">
+        </div>
+        <p class="info_title">相同点</p>
+        <textarea name="same" class="info_txt" id="txt_same" placeholder="一样会关注的点">${same or ''}</textarea>
+        <p class="info_title">区别点</p>
+        <textarea name="different" class="info_txt" id="txt_title" placeholder="你们之间的不同">${different or ''}</textarea>
+        <p class="info_title">竞争力</p>
+        <textarea name="advantage" class="info_txt" id="txt_advantage" placeholder="为什么这件事情你能做，而别人不能做? 你有什么与众不同的地方?">${advantage or ''}</textarea>
+    </div>
+</div>
+
+
+<div>
+    <span class="btnw" style="margin-left:0;"><button type="submit" id="submit">
+            %if position is None:
+            保存
+            %else:
+            下一步
+            %endif
+    </button></span>
+</div>
+<input type="hidden" value="${position or 0 }" name="position"/>
+</%htm:form>
+</%def>
+
+
+<%def name="product_bar(link_template,com_id,product_id=None)">
+<%
+po_ids= po_id_list_by_com_id(com_id)
+pos = Po.mc_get_list(po_ids)
+%>
+%if pos:
+%for po in pos:
+<a href="${link_template%po.id}" class="left_item
+            %if po.id == product_id:
+            c0\
+            %endif
+            ">${po.name or None}<span class="left_arrow"></span></a>
+        %endfor
+        %endif
+</%def>
+
+
+

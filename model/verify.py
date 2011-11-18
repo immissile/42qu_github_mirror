@@ -5,7 +5,10 @@ from os import urandom
 from time import time
 from _db import Model, McModel, McCache, mc, cursor_by_table
 from mail import mq_rendermail
-from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY
+from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY, CID_VERIFY_COM_HR 
+
+from config import SITE_DOMAIN
+
 from days import ONE_DAY
 
 TIME_LIMIT = ONE_DAY * 7
@@ -13,6 +16,7 @@ TIME_LIMIT = ONE_DAY * 7
 VERIFY_TEMPLATE = {
     CID_VERIFY_MAIL: '/mail/auth/verify/mail.txt',
     CID_VERIFY_PASSWORD: '/mail/auth/verify/password.txt',
+    CID_VERIFY_COM_HR:'/mail/auth/verify/com_mail.txt'
 }
 
 class Verify(Model):
@@ -37,6 +41,7 @@ def verify_new_one(user_id, cid):
 def verify_mail_new(user_id, name, mail, cid):
     id, ck = verify_new_one(user_id, cid)
     template = VERIFY_TEMPLATE[cid]
+    print '%s/job/auth/verify/mail/%s/%s'%(SITE_DOMAIN,id,ck)
     mq_rendermail(template, mail, name, id=id, ck=ck)
 
 def verifyed(id, value, delete=False):

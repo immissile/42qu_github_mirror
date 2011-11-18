@@ -1,0 +1,45 @@
+<%inherit file="/ctrl/_base/_tidy_base.htm" />
+<%!
+from model.com import JOB_CLOSE
+%>
+${css.ctrl_com_job|n}
+<script src=${js.ctrl_com_job|n}></script>
+<%!
+NAV = (
+    ('admin',"当前"),
+    ('admin/%s'%JOB_CLOSE,"往期")
+)
+%>
+<%
+path = request.path[5:].split("-",1)[0]
+%>
+<a class="back_a" href="http://zuroc.42qu.com/"></a>
+
+<span class="nav">\
+%for pos,(href,name) in enumerate(NAV):
+    %if pos:
+<span class="c9 split">-</span>\
+    %endif
+<a href="/job/${href}"
+%if path==href:
+class="c0"\
+%else:
+class="c9"\
+%endif
+>${name|n}</a>\
+%endfor
+<span class="c9 split">-</span>\
+<a href="/job/new" class="c9">新建</a>
+</span>\
+
+%if job_list:
+<div class="zsite_block">
+<ol class="job_ol">
+    %for job in job_list:
+    <li class="job_li">
+    <a href="" class="job_a" id="job_${job.id}">${job.title}</a>
+    <a href="javascript:rm_job(${job.id},${state});void(0)" class="rm_job_a"></a></li>
+%endfor
+</ol>
+</div>
+%endif

@@ -40,6 +40,7 @@ def zsite_show_rank(zsite_id, rank):
 
 
 if __name__ == '__main__':
+    zsite_show_new(820,4)
     pass
     print zsite_show_get( 127, CID_SITE )
 

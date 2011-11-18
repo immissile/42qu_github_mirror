@@ -1,0 +1,132 @@
+.pro_nav{
+padding:18px 0;
+font-size:16px;
+}
+.info_txt{
+width:676px;
+height:28px;
+border:1px solid #ccc;
+font-size:14px;
+margin:0 0 16px;
+padding:3px 5px;
+}
+.gt{
+margin:0 12px;
+color:#ccc;
+}
+.c9{
+color:#999;
+}
+.product_name,.product_about,.product_url{
+border:1px solid #ccc;
+width:280px;
+margin-right:10px;
+}
+.line{
+margin-bottom:32px;
+overflow:auto;
+}
+.close_item, .close_ot_item{
+display:inline-block;
+width:16px;
+height:16px;
+margin-left:16px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;
+padding:4px;
+vertical-align:-10px;
+}
+.close_item:hover, .close_ot_item:hover{
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
+}
+.close_ot_item{
+margin-left:4px;
+vertical-align:-7px;
+}
+.left1{
+width:219px;
+float:left;
+}
+.left_item{
+padding:16px 0;
+display:block;
+border-bottom:1px solid #f3f3f3;
+color:#999;
+font-size:16px;
+}
+.right3{
+width:718px;
+float:left;
+padding:0 0 32px 32px;
+border:solid #f3f3f3;
+border-width:0 1px 1px;
+box-shadow:2px 2px 2px #f3f3f3;
+}
+.c0{
+color:#000;
+}
+.left_arrow{
+display:block;
+float:right;
+width:16px;
+height:16px;
+padding:4px;
+background:url(/img/gif/icons/gif/tan/to_size/next2.gif) 8px 8px no-repeat;
+margin-right:12px;
+}
+.c0 .left_arrow{
+display:block;
+float:right;
+width:16px;
+height:16px;
+padding:4px;
+background:url(/img/gif/icons/gif/black/to_size/next2.gif) 8px 8px no-repeat;
+margin-right:12px;
+}
+.now_item{
+display:block;
+float:left;
+color:#000;
+width:219px;
+}
+.step_wrap{
+width:721px;
+padding-left:32px;
+margin-left:219px;
+text-align:center;
+display:block;
+}
+.similar_product_name,.similar_product_url{
+width:319px;
+margin-left:14px;
+border:1px solid #ccc;
+}
+.hint_wrap{
+padding:8px;
+font-size:16px;
+width:200px;
+border:solid #eee;
+border-width:1px 0 1px 1px;
+text-align:center;
+margin:27px -6px 27px 0;
+float:right;
+box-shadow:-1px 1px 1px #F3F3F3;
+}
+.file{
+margin-bottom:16px;
+}
+.similar_product_wrap{
+margin:0 0 20px -14px;
+}
+.place_hint{
+color:#999;
+margin-left:12px;
+font-size:14px;
+}
+.txt_bio_tip{
+float:right;
+margin-right:32px;
+font-size:14px;
+}
+.pro_btn{
+margin:16px 0 6px;
+}

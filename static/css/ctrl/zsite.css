@@ -332,3 +332,23 @@ font-size:16px;
 color:#999;
 }
 
+.h1nav .nav a{
+color:#999
+}
+.h1nav .nav .c0{
+color:#000
+}
+.h1nav .nav a:hover{
+color:#d10
+}
+.h1nav .nav .split{
+margin:0 12px;
+}
+.h1nav{
+margin: auto;
+text-align:left;
+border-bottom:1px dotted #ccc;
+font-size:14px;
+padding:16px 0;
+*margin:0 auto;
+}

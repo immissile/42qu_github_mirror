@@ -1,0 +1,42 @@
+<%inherit file="/ctrl/_base/com.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.ico import ico_url_with_default
+from model.zsite_url import host
+from model.zsite_member import zsite_member_list, ZSITE_MEMBER_STATE_INVITE 
+%>
+<%def name="htm_head()">
+${css.ctrl_zsite_com_member_invite|n}
+<script>
+$(function(){
+    $('.member_mail:last').live('blur',function(){
+        var self = $(this)
+        if($.trim(self.val()).length>0){
+            self.parent().after(
+'<div class="line"><input placeholder="邮箱" name="mail" class="mail" value="" autocomplete="off"><input value="" placeholder="姓名" name="name" class="member_name" autocomplete="off"></div>'
+            )
+        }
+    })
+})
+
+</script>
+</%def>
+
+
+<%htm:form enctype="multipart/form-data" id="invite_form">
+<p class="hint">
+你也可以输入邮箱 , 邀请同事写写对未来新人的寄语 ...
+</p>
+<div>
+%for i in range(5):
+    <div class="line" > 
+<input placeholder="邮箱" name="mail" class="mail" value="" autocomplete="off">\
+<input value="" placeholder="姓名" name="name" class="member_name" autocomplete="off">\
+    </div>
+%endfor
+</div>
+<div class="btns" style="margin-top:22px;">
+    <span class="btnw" style="margin-left:0;"><button class="btn" type="submit">下一步</button></span>
+</div>
+</%htm:form>
+

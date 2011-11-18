@@ -1,0 +1,206 @@
+.line input, .line select{
+padding: 8px;
+}
+.line input{
+line-height:20px;
+}
+.line .txt { width: 180px; }
+.head { font-size: 16px; text-align: center; padding: 14px 0pt; border-bottom: 1px solid #f3f3f3;color:#ccc; }
+.head span { margin: 0pt 14px; color: rgb(153, 153, 153); }
+.head .c0 { color: rgb(0, 0, 0); }
+.info_title{
+line-height:16px;
+padding-bottom:16px;
+}
+select{
+text-align:center;
+padding:8px;
+font-size:16px;
+border:1px solid #ccc;
+}
+#pid select, #begin_time select, #end_time select{
+    margin-right: 8px;
+}
+h1{
+color:#000;
+text-align:center;
+padding-bottom:32px;
+margin:27px 0 0 0;
+font-size:28px;
+}
+.com_main{
+width:548px;
+float:left;
+border:1px solid #f3f3f3;
+padding-right:27px;
+margin-bottom:27px;
+box-shadow:2px 2px 2px #f3f3f3;
+padding-bottom:27px;
+overflow:hidden;
+padding-left:27px;
+position:relative;
+}
+.com_video .video{
+padding-top:27px;
+width:548px;
+height:448px;
+}
+.com_item{
+overflow:auto;
+margin-top:32px;
+}
+.com_text{
+margin-top:12px;
+color:#333;
+font-size:14px;
+}
+.com_title{
+border-bottom:1px dotted #ccc;
+font-size:14px;
+padding:12px 0;
+margin-bottom:6px;
+border-top:1px dotted #ccc;
+line-height:16px;
+color:#222;
+}
+.com_side{
+width:357px;
+float:left;
+padding-left:32px;
+overflow:hidden;
+position:relative;
+}
+.com_main_img{
+text-align:center
+}
+.com_main_img img{
+width:450px;
+margin:18px 0;
+}
+.com_q{
+border-top: 1px dotted #ccc;  line-height: 0;
+padding:18px 0;
+}
+.com_q div{line-height:27px;}
+.com_q img{
+float: left; margin-top: 4px; margin-right: 14px; width: 64px; height: 64px;
+}
+.com_q1,.com_q2{
+font-size:26px; 
+color:#999;
+font-family:Georgia;  
+}
+.com_q1{
+margin-top:5px;
+float: left; width: 21px;
+}
+.com_q2{
+margin-left:3px;
+vertical-align: -9px;
+}
+.com_q_a{
+overflow: hidden; zoom:1;
+} 
+.com_q_a div{
+margin-left: 21px;
+}
+.com_q_w{
+margin-top:18px;margin-bottom:-32px
+}
+.com_jobs span{
+float:right;
+color:#666;
+}
+.com_jobs a{
+color:#333;
+text-align:left;
+width:251px;
+float:left;
+padding-left:14px;
+line-height:16px;
+margin-bottom:16px;
+margin-left:18px;
+background:url(/img/gif/marking.gif) no-repeat 0 4px;
+}
+.com_jobs a:hover,.com_jobs a:hover span{
+color:#d10;
+}
+.com_jobs a:hover{
+background-image:url(/img/gif/marking_red.gif);
+}
+.com_jobs{
+margin-left:-18px;
+margin-top:18px;
+color:#333;
+font-size:14px;
+}
+
+.com_pic img{
+width:357px;
+margin-bottom:0;
+height:160px;
+}
+.com_pic{
+margin-bottom:3px;
+line-height:0;
+}
+.com_ir{
+overflow:auto;
+clear:both;
+margin-bottom:32px;
+}
+.com_qt{
+overflow:hidden;zoom:1
+}
+.com_author{
+margin-top:18px;
+}
+.com_avatar{
+float:left;
+margin-right:12px;
+margin-bottom:4px;
+}
+
+.com_logo{
+width:96px;height:96px;display:block;
+}
+.mt6{
+margin-top:6px;
+}
+.com_member{
+margin-top:18px;
+oveflow:auto;
+}
+.com_team{
+margin-bottom:8px;
+}
+.addr_input{
+width:290px;
+}   
+.pid{   
+margin:15px 0 0 72px;                                                                                                 
+}   
+.pid select{
+margin-right:8px;
+}           
+.close_addr{
+display:inline-block;
+width:16px;     
+height:16px;    
+margin-left:16px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;                
+padding:4px;                                                                                                          
+vertical-align:-4px;
+}           
+.close_addr:hover{ 
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;                     
+}       
+.addr_block{
+margin-left:8px;
+}
+.add_addr{
+display:block;
+margin:8px 0 10px 72px;
+width:64px;
+color:#999;
+}

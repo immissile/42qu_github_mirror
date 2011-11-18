@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, CID_EVENT_NOTICE
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, CID_EVENT_NOTICE, CID_PRODUCT
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -17,6 +17,11 @@ from zsite import Zsite
 from zkit.txt import cnencut
 from zkit.attrcache import attrcache
 from cgi import escape
+import json
+from zkit.jsdict import JsDict
+from zsite_show import zsite_show_list
+from cid import CID_COM
+from itertools import  chain
 #from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
@@ -28,6 +33,7 @@ PO_CN_EN = (
     (CID_VIDEO, 'video', '视频', '场'),
     (CID_AUDIO, 'audio', '音乐', '段'),
     (CID_EVENT, 'event', '活动', '次'),
+    (CID_PRODUCT, 'product','产品','个'),
 )
 PO_CID = tuple([
     i[0] for i in PO_CN_EN
@@ -356,6 +362,23 @@ def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
             m.feed_new()
         return m
 
+def po_product_new(user_id,name,_info_json,zsite_id=0,state=STATE_ACTIVE,):
+    if not name and not _info_json :
+        return
+    info_json = json.dumps(dict(iter(_info_json)))
+    if not is_same_post(user_id,name,info_json,zsite_id):
+        m = po_new(CID_PRODUCT, user_id,name,state,0,None,zsite_id)
+        txt_new(m.id,info_json)
+        if state > STATE_SECRET:
+            m.feed_new()
+        return m
+
+def po_product_update(po_id,_info_json):
+    po = Po.mc_get(po_id)
+    if po:
+        info_json = json.dumps(dict(iter(_info_json)))
+        po.txt_set(info_json)
+        po.save()
 
 
 PO_LIST_STATE = {
@@ -381,6 +404,19 @@ def po_id_list(user_id, cid, is_self, limit, offset):
     if cid:
         qs = qs.where(cid=cid)
     return qs.where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
+
+def po_id_list_by_com_id(com_id):
+    return Po.where(zsite_id=com_id,cid=CID_PRODUCT,state=STATE_ACTIVE).col_list(col='id')
+
+def product_list_by_com_id(com_id):
+    return Po.mc_get_list(po_id_list_by_com_id(com_id))
+
+def product_show_list():
+    com_list = zsite_show_list(CID_COM)
+    if com_list:
+        com_id_list = [c.id for c in com_list]
+        if com_id_list:
+            return chain.from_iterable([product_list_by_com_id(c) for c in com_id_list])
 
 def po_view_list(user_id, cid, is_self, limit, offset=0):
     id_list = po_id_list(user_id, cid, is_self, limit, offset)

@@ -1,0 +1,71 @@
+<%inherit file="../base.htm" />
+<%!
+from model.zsite import Zsite
+from model.po import Po, po_id_list_by_com_id
+%>
+
+<style>
+ h1{
+border-bottom:1px dotted #CCCCCC;
+font-size:14px;
+margin:auto;
+padding:16px 0;
+text-align:left;
+}
+.split{
+margin:0 12px;
+}
+#search{
+border:1px solid #ddd;
+float:left;
+height:26px;
+line-height:26px;
+padding:1px 3px;
+width:100px;
+}
+.search_btn {
+background:url(http://s4.42qu.us/img/png/search_btn.png) no-repeat;
+border:none;
+cursor:pointer;
+height:30px;
+width:31px;
+}   
+.com_a{
+font-size:14px;
+padding:7px 0;
+color:#444;
+border-bottom:1px dotted #ccc;
+display:block;
+text-align:center;
+height:28px;
+}
+</style>
+<div class="G c">
+    %if page_list:
+    %for zsite in page_list:
+        <%
+        product_pos = po_id_list_by_com_id(zsite.id)
+        %>
+    <div class="G1">
+<div class="sdw"><div class="sd" style="padding: 0pt;">
+<div style="padding: 7px 14px; text-align: center;">
+<a href="${zsite.link}" class="com_a">${zsite.name}</a></div>
+    <div>
+        %if product_pos:
+        <%
+            pos = Po.mc_get_list(product_pos)
+        %>
+        % for po in pos:
+    <a style="color: rgb(0, 0, 0); display: block; border-top: 1px dotted rgb(204, 204, 204);background:url(marking2.gif) no-repeat 8px 16px;padding:7px;padding-left:26px;padding-right:26px;text-align:center;" href="${zsite.link}#${po.id}">${po.name}</a>
+%endfor
+%endif
+</div>
+    </div>
+    </div>
+    </div>
+    %endfor
+    %endif
+
+${page|n}
+</div>
+

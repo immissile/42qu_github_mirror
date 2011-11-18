@@ -76,6 +76,17 @@ DB_MAIN_TABLE = (
     'invite_email',
     'invite_message',
     'weekly_mail',
+    'job_mail',
+
+    'zsite_com_place',
+    'job_place',
+    'job_type',
+    'job_pid',
+    'job_kind',
+    'com_job',
+    'com_department',
+    'com_job_needs',
+
 )
 
 DB_GOOGLE_TABLE = (

@@ -25,7 +25,7 @@ from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from model.zsite_fav import zsite_fav_get_and_touch
 from model.wall import Wall, wall_by_from_id_to_id
-
+from model.reply import Reply
 
 PAGE_LIMIT = 56
 
@@ -99,7 +99,7 @@ class MarkRm(XsrfGetBase):
 
 @urlmap('/mark')
 class Mark(LoginBase):
-    def get(self,id=None):
+    def get(self):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
         
@@ -118,7 +118,8 @@ class Mark(LoginBase):
         self.render()
 
 
-    def post(self,id=None):
+    def post(self):
+        zsite = self.zsite
         current_user = self.current_user
         txt = self.get_argument('txt', None)
         if txt:
