@@ -1,0 +1,75 @@
+<%inherit file="/ctrl/_base/com.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.ico import ico_url_with_default
+from model.zsite_url import host
+from model.zsite_member import zsite_member_list, ZSITE_MEMBER_STATE_INVITE 
+%>
+<%def name="htm_head()">
+<style>
+.line input, .line select { padding: 8px; }
+.line input { line-height: 20px; }
+.member_name,.member_mail{
+border:1px solid #ccc;
+}
+.close_item{
+display:inline-block;
+width:16px;
+height:16px;
+margin-left:16px;
+background:url(http://s.realfex.xxx/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;
+padding:4px;
+vertical-align:-10px;
+}
+.close_item:hover{
+background:url(http://s.realfex.xxx/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
+}
+</style>
+
+<script>
+$(function(){
+    $('.member_mail:last').live('blur',function(){
+        var self = $(this)
+        if($.trim($('.line:last').find('input[name="member_mail"]').val()).length>0){
+            var wrap = self.parent().parent(),
+            id = parseInt(wrap.attr('id').substr(4))+1
+            wrap.after('<div class="line" id="line'+id+'"> <span class="L"><input name="member_mail" class="member_mail" value="" autocomplete="off"><input value="" name="pro_bio" class="pro_bio" autocomplete="off"><input value="" name="pro_url" class="pro_url"></span><a href="javascript:close_item('+id+');void(0)" class="close_item"></a></div>')
+        }
+        self.unbind('blur')
+    })
+})
+
+function close_item(id){
+    $('#line'+id).remove()
+}
+</script>
+</%def>
+
+
+
+
+
+
+<p class="hint">
+邀请你公司的成员来写评价 , 他们会收到一封来自42区的邮件
+</p>
+<%htm:form action="http://realfex.42qu.com/i/career" method="POST" id="career_form">
+<div class="career c" id="career_job">
+%for i in range(3):
+    <div class="line" id="line1"> 
+<input placeholder="成员邮箱" name="member_mail" class="member_mail" value="" autocomplete="off">\
+<input value="" placeholder="成员姓名" name="pro_bio" class="member_name" autocomplete="off">\
+    </div>
+%endfor
+</div>
+<div class="word">
+    <p>顺便附上几句吧 , 会一同显示在邮件中</p>
+    <textarea class="txt" style="margin-left:0;height:100px;"></textarea>
+</div>
+<div class="btns" style="margin-top:22px;">
+    <span class="btnw" style="margin-left:0;"><button class="btn" type="submit">下一步</button></span>
+</div>
+
+
+</%htm:form>
+

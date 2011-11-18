@@ -5,12 +5,6 @@ from model.ico import ico_url_with_default
 from model.zsite_url import host
 from model.zsite_member import zsite_member_list, ZSITE_MEMBER_STATE_INVITE 
 %>
-<%
-if zsite_id:
-    request_host = host(zsite_id)
-else:
-    request_host = request.host
-%>
 <%def name="htm_head()">
 ${css.ctrl_i_invite|n}
 ${css.ctrl_com_member|n}
