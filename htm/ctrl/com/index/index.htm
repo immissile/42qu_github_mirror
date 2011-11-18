@@ -3,7 +3,6 @@
 from model.zsite import Zsite
 import json
 from zkit.jsdict import JsDict
-from model.po import Po
 from model.ico import fs_url_jpg
 %>
 
@@ -91,14 +90,15 @@ border-width:1px 0 0;
             %if product:
             <%
     info = JsDict(json.loads(product.txt))
-    po = Po.mc_get(product.id)
+    po = product
+    com = Zsite.mc_get(po.zsite_id)
     %>
     <div class="G1">
         <div class="sdw">
             <div class="sd">
-                <div class="pro_title">${po.name}</div>
+                <div class="pro_title" ><a class="c0"href="${com.link}/#product_${po.id}">${po.name}</a></div>
                 %if info.pic_id:
-                <div class="pro_img_wrap"><img src="${fs_url_jpg('215',info.pic_id)}" class="pro_img"></div>
+                <div class="pro_img_wrap"><a href="${com.link}/#product_${po.id}"><img src="${fs_url_jpg('215',info.pic_id)}" class="pro_img" /></a></div>
                 %endif
                 <div class="pro_desc">${info.product_about}</div>
             </div>

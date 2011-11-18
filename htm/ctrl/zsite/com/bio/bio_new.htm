@@ -4,10 +4,10 @@ ${css.ctrl_product|n}
 ${css.ctrl_com_bio|n}
 <script src="${js.ctrl_com_product|n}"></script> 
 <div class="form_wrap">
-    <form method="POST" class="com_bio" enctype="multipart/form-data" onsubmit="return com_new()">
+    <%htm:form class_name="com_bio" enctype="multipart/form-data" onsubmit="return com_new()">
     <div>
     <p class="info_title">封面照片</p>
-    <div class="files"><input class="file" name="pic" type="file" size=35></div>
+    <div class="files"><input class="file" name="cover" type="file" size=35></div>
     <p class="info_title">公司照片</p>
     <div class="files"><input class="file" name="pic" type="file" size=35><input class="file" name="pic" type="file" size=35></div>
     <a href="javascript:add_pic();void(0)" class="add_pic">添加更多</a>
@@ -38,7 +38,7 @@ ${css.ctrl_com_bio|n}
     <div class="bio_btn">
     <span class="btnw"><button type="submit" id="submit">下一步</button></span>
     </div>
-</form>
+</%htm:form>
 </div>
 
 </div>

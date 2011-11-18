@@ -34,6 +34,11 @@ class MemberNewSearch(AdminBase):
 
         return self.redirect(self.request.path)
 
+@urlmap('/member/admin')
+class MemberAdmin(AdminBase):
+    def get(self):
+        self.render()
+
 @urlmap('/member/new/invite')
 class MemberNewInvite(AdminBase):
     def get(self):

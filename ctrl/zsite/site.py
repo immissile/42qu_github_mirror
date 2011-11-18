@@ -25,7 +25,7 @@ from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from model.zsite_fav import zsite_fav_get_and_touch
 from model.wall import Wall, wall_by_from_id_to_id
-
+from model.reply import Reply
 
 PAGE_LIMIT = 56
 
