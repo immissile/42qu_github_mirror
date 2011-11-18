@@ -6,32 +6,14 @@ from model.zsite_url import host
 from model.zsite_member import zsite_member_list, ZSITE_MEMBER_STATE_INVITE 
 %>
 <%def name="htm_head()">
-<style>
-#invite_form{
-width:690px;
-margin:auto;
-padding-top:14px;
-}
-.line{
-margin-top:14px;
-}
-.line input, .line select{padding: 8px;}
-.line input{line-height: 20px;}
-.member_name,.member_mail{
-border:1px solid #ccc;
-padding:7px;
-width:320px;
-}
-.member_name{margin-left:14px;}
-</style>
-
+${css.ctrl_zsite_com_member_invite|n}
 <script>
 $(function(){
     $('.member_mail:last').live('blur',function(){
         var self = $(this)
         if($.trim(self.val()).length>0){
             var wrap = self.parent();
-            wrap.after('<div class="line"><input placeholder="成员邮箱" name="member_mail" class="member_mail" value="" autocomplete="off"><input value="" placeholder="成员姓名" name="pro_bio" class="member_name" autocomplete="off"></div>')
+            wrap.after('<div class="line"><input placeholder="邮箱" name="member_mail" class="member_mail" value="" autocomplete="off"><input value="" placeholder="姓名" name="pro_bio" class="member_name" autocomplete="off"></div>')
         }
     })
 })
@@ -47,8 +29,8 @@ $(function(){
 <div>
 %for i in range(5):
     <div class="line" > 
-<input placeholder="成员邮箱" name="member_mail" class="member_mail" value="" autocomplete="off">\
-<input value="" placeholder="成员姓名" name="pro_bio" class="member_name" autocomplete="off">\
+<input placeholder="邮箱" name="member_mail" class="member_mail" value="" autocomplete="off">\
+<input value="" placeholder="姓名" name="pro_bio" class="member_name" autocomplete="off">\
     </div>
 %endfor
 </div>
