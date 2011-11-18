@@ -9,13 +9,13 @@ from model.motto import motto_get
 from model.follow import follow_get
 from model.zsite_com import get_zsite_com_place
 from zkit.earth import place_name
-from model.zsite_site import site_can_view, site_can_admin
 from model.zsite_fav import zsite_fav_id_get
 from model.com import com_job_by_com_id, com_department_by_com_id, com_job_by_department_and_com 
 from model.zsite import Zsite
 from model.po import product_list_by_com_id 
 import json
 from zkit.jsdict import JsDict
+from model.zsite_member import zsite_member_can_admin
 %>
 <%def name="htm_title()">
 ${motto_get(com.id)}
@@ -130,9 +130,22 @@ career = ' , '.join(filter(bool, i.career))
     <div class="com_text">小米手机是中国首款双核1.5GHz高性能发烧级智能手机，由小米公司独立研发完成。小米手机于　　如果把这个问题抛给小米的投资人，他们一定会愿意比照一家手机制造公司的估值基础的，他们的理由也振振有词：在苹果最早找风险投资的时候，那是一家制造公司；而今的小米手机，是这家公司最主打的产品之一；把这个问题抛给创业者，他们的回答是“一家互联网公司”，手机只是我们业务一部分，我们更重要是做移动互联产业，创业者的脚注也很有基础：这家公司的第一款产品，是米聊，一款IM软件。 
     </div>
 </div>
+<%
+can_admin = zsite_member_can_admin(com.id, user_id)
+%>
+%if can_admin and not com_job_by_com_id(com.id):
+<div class="com_item">
+    <div class="com_title">招聘职位
+    <a style="float:right;"href="/job/admin">管理</a></div>
+</div>
+%endif
 % if com_job_by_com_id(com.id):
 <div class="com_item">
-    <div class="com_title">招聘职位</div>
+    <div class="com_title">招聘职位
+    %if can_admin:
+    <a style="float:right;"href="/job/admin">管理</a>
+    %endif
+    </div>
 <%
 departments = com_department_by_com_id(com.id)
 %>
@@ -148,8 +161,8 @@ jobs = com_job_by_department_and_com(department.id,com.id)
 %endfor
 </div>
 %endif
-</div>
 %endif
+</div>
 </div>
 </div>
 <div class="com_side">
@@ -159,14 +172,11 @@ jobs = com_job_by_department_and_com(department.id,com.id)
 is_owner = com.id == user_id
 %>
 
-<%
-can_admin = site_can_admin(com.id, user_id)
-%>
 
 <div id="nav">
 <a href="#" class="c0" style="font-size:16px;margin-right:14px"><span class="mr3">${com.reply_count}</span>评价</a>\
 %if can_admin:
-<a href="/admin" class="xa" style="font-size:16px;padding:7px 14px;">管理</a>\
+<a href="/job/new" class="xa" style="font-size:16px;padding:7px 14px;">发布职位</a>\
 %else:
     %if zsite_fav_id_get(com, user_id):
 <a href="/mark" class="xa" style="padding:7px 14px;font-size:16px;" id="fav_a">设置</a>\

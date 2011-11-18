@@ -14,6 +14,7 @@ from zkit.errtip import Errtip
 from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE
 from model.po import product_show_list
 from model.zsite_show import zsite_show_list, zsite_show_count
+from model.zsite_member import zsite_id_list_by_member_admin
 
 @urlmap('/com/list')
 @urlmap('/com/list-(\d+)')
@@ -35,6 +36,13 @@ class ComList(_ComListBase,Base):
 class Index(Base):
     def get(self):
         self.render(product_list = product_show_list())
+
+@urlmap('/mine')
+class Mine(Base):
+    def get(self):
+        current_user_id = self.current_user_id
+        com_id_list = zsite_id_list_by_member_admin(current_user_id)
+        self.render(com_id_list=com_id_list)
 
 @urlmap('/job')
 class Job(Base):
@@ -61,7 +69,6 @@ class ComNew(Base):
         name = self.get_argument('name', None)
         motto = self.get_argument('motto', None)
         url = self.get_argument('url', None)
-        #txt = self.get_argument('txt', None)
         pid = self.get_arguments('pid', None)
         address = self.get_arguments('address',None)
         
@@ -97,7 +104,6 @@ class ComNew(Base):
             site_ico_bind(current_user_id, pic_id, com_id)
             motto_set(com_id, motto)
             zsite_member_new(com_id, current_user_id, state=ZSITE_MEMBER_STATE_ACTIVE)
-            #txt_new(com_id, txt)
             if pid_add:
                 for pa in pid_add:
                     zsite_com_place_new(com_id,int(pa[0]),pa[1])
