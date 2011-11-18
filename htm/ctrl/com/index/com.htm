@@ -15,7 +15,7 @@ from model.zsite import Zsite
 from model.po import product_list_by_com_id 
 import json
 from zkit.jsdict import JsDict
-from model.zsite_member import zsite_member_can_admin
+from model.zsite_member import zsite_member_can_admin, zsite_member_list, ZSITE_MEMBER_STATE_ACTIVE
 %>
 <%def name="htm_title()">
 ${motto_get(com.id)}
@@ -24,6 +24,9 @@ ${motto_get(com.id)}
 <script src="${js.ctrl_zsite_site}"></script>
 <script src="${js.ctrl}"></script>
 <h1>${com.name}</h1>
+<%
+can_admin = zsite_member_can_admin(com.id, user_id)
+%>
 <div class="G">
 <div class="com_main">
     <div class="com_video">${HTM_YOUKU%"XMjMxOTYxNDk2"|n}</div>
@@ -38,9 +41,11 @@ ${motto_get(com.id)}
     info = JsDict(json.loads(product.txt))
     po = Po.mc_get(product.id)
     %>
+%if can_admin:
     <a href="/product/edit/${product.id}">编辑</a>
     <a href="/product/rm/${product.id}"style="float:right;">删除</a>
-        <div class="com_title">${po.name}</div>
+    %endif
+    <div class="com_title" id="product_${po.id}">${po.name}</div>
         <div class="com_text">
             %if info.product_about:
             ${info.product_about}
@@ -130,9 +135,6 @@ career = ' , '.join(filter(bool, i.career))
     <div class="com_text">小米手机是中国首款双核1.5GHz高性能发烧级智能手机，由小米公司独立研发完成。小米手机于　　如果把这个问题抛给小米的投资人，他们一定会愿意比照一家手机制造公司的估值基础的，他们的理由也振振有词：在苹果最早找风险投资的时候，那是一家制造公司；而今的小米手机，是这家公司最主打的产品之一；把这个问题抛给创业者，他们的回答是“一家互联网公司”，手机只是我们业务一部分，我们更重要是做移动互联产业，创业者的脚注也很有基础：这家公司的第一款产品，是米聊，一款IM软件。 
     </div>
 </div>
-<%
-can_admin = zsite_member_can_admin(com.id, user_id)
-%>
 %if can_admin and not com_job_by_com_id(com.id):
 <div class="com_item">
     <div class="com_title">招聘职位
@@ -211,22 +213,35 @@ career = ' , '.join(filter(bool, i.career))
 %endfor
                </div>
                 <div class="com_ir com_team">
-                    <div class="com_title">团队成员</div>
-            %for i in starter_list:
+                    <%
+                    member_list=zsite_member_list(com.id,ZSITE_MEMBER_STATE_ACTIVE)
+                    %>
+                    %if can_admin and not member_list:
+                    <div class="com_title">团队成员
+                        <a style="float:right;" href="/member/admin"> 管理</a></div>
+                    %endif
+           %if member_list:
+           <div class="com_title">团队成员
+               %if can_admin:
+                        <a style="float:right;" href="/member/admin"> 管理</a>
+
+               %endif
+           </div>
+            %for i in member_list:
                     <div class="com_member">
                         <a class="com_avatar" href="${i.link}"><img src="${ico_url(i.id)}"></a>
                         <div><a class="c0" href="${i.link}" target="_blank">${i.name}</a></div>
                         <div class="mt6">${i.career[0]}</div>
                         <div class="mt6">${i.career[1]}</div>
-                   </div>
-            %endfor
-
+                   %endfor
+               </div>
+               %endif
                 <div class="com_ir">
                     <div class="com_title">联系方式</div>
                         <div class="com_text">
                </div>
-                           <div>官网 : 42qu.com</div>
-                           <div>微博 : <a href="#">新浪</a> <a href="#">腾讯</a></div>
+                          ## <div>官网 : 42qu.com</div>
+                         ##  <div>微博 : <a href="#">新浪</a> <a href="#">腾讯</a></div>
                            <div>地址 :
                                %for place in get_zsite_com_place(com.id):
                                <div>
@@ -235,7 +250,7 @@ career = ' , '.join(filter(bool, i.career))
                            </div>
                            %endfor
                             </div>
-                           <div>电话 : 13896232423</div>
+                         ##  <div>电话 : 13896232423</div>
                        </div>
                    </div>
 
