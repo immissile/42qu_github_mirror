@@ -9,8 +9,7 @@ from model.zsite_admin import zsite_admin_new, zsite_user_state, zsite_id_list_b
 from model.zsite_show import zsite_show_new
 from model.buzz import mq_buzz_site_new
 from model.search_zsite import search_new
-from model.zsite_list import ZsiteList
-
+from model.zsite_list import ZsiteList, zsite_list_new
 from zkit.algorithm.wrandom import sample_or_shuffle
 
 
@@ -39,8 +38,6 @@ zsite_com_count = McNum(lambda cid: Zsite.where(cid= cid).count(), 'ZsiteComCoun
 def com_new(name,admin_id,state=ZSITE_STATE_VERIFY):
     com = zsite_new(name, CID_COM,state)
     com_id = com.id
-    zsite_admin_new(com_id, admin_id)
-
     zsite_com_count.delete(CID_COM)
     mc_zsite_com_id_list.delete(CID_COM)
     return com

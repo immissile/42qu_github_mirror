@@ -9,13 +9,13 @@ from model.zsite_com import get_zsite_com_place
 from zkit.job import JOB_KIND
 from model.com import com_department_new, com_job_new, com_job_needs_new, com_department_by_com_id, com_department_rm_by_id, com_department_edit
 import json
-from model.job import job_type_set, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id
+from model.job import job_type_set, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_place_by_job_id
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
 from zkit.errtip import Errtip
 from zkit.txt import EMAIL_VALID
-from model.com import ComJob, JOB_ACTIVE
+from model.com import ComJob, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id
 from zkit.jsdict import JsDict
 
 
@@ -186,7 +186,9 @@ class JobEdit(AdminBase):
                         salary1=job.salary_up,
                         salary2=job.salary_down,
                         dead_line=90,
-                        people_num=job.people_num
+                        people_num=job.people_num,
+                        job=job,
+                        addr = job_place_by_job_id(job.id)
                         )
     
     _job_save = _job_save
@@ -198,6 +200,14 @@ class JobEdit(AdminBase):
         else:
             self.get()
 
+@urlmap('/job/close/(\d+)')
+class JobClose(AdminBase):
+    def get(self,id):
+        job = ComJob.mc_get(id)
+        if job:
+            job.state = JOB_CLOSE
+            job.save()
+            return self.redirect('/')
 
 @urlmap('/job/(\d+)')
 class JobD(ZsiteBase):
@@ -276,7 +286,17 @@ class MailVerify(AdminBase):
         self.render()
 
 @urlmap('/job/admin')
+@urlmap('/job/admin/(\d+)')
 class JobAdmin(AdminBase):
-    def get(self):
-        self.render()
+    def get(self,state=JOB_ACTIVE):
+        job_list = com_job_by_state_com_id(self.zsite_id,state)
+        self.render(job_list=job_list,state=state)
 
+@urlmap('/job/rm/(\d+)')
+class JobRm(AdminBase):
+    def post(self,state):
+        id = self.get_argument('id',None)
+        job = ComJob.mc_get(id)
+        if job.state == int(state):
+            job.state = job.state-1
+            job.save()

@@ -1,7 +1,30 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 ${css.ctrl_zsite_com|n}
-<div class="head">
-<span>创建公司</span>&gt;<span class="c0">产品演示</span>&gt;<span>发布职位</span>&gt;<span>企业介绍</span>&gt;<span>添加成员</span>&gt;<span>邀请评价</span>
+
+<%
+    NAV = (
+     ('/com/new','创建公司'),
+     ( '/product/new', '产品演示'),
+     ( '/job/new' ,'发布职位'),
+     ( '#' ,'企业介绍'),
+     ( '#' ,'添加成员'),
+     ( '#' ,'邀请评价'),
+    )
+    path = request.path
+    %>
+    
+    <div class="head">
+    %for pos,(url,name) in enumerate(NAV):
+    <span\
+        %if path[:len(url)] == url:
+        class="c0"\
+        %endif
+        >${name}</span>
+    %if pos+1 != len(NAV):
+    &gt;
+    %endif
+    %endfor
+    ##<span class="c0">产品演示</span>&gt;<span>发布职位</span>&gt;<span>企业介绍</span>&gt;<span>添加成员</span>&gt;<span>邀请评价</span>
 </div>
 ${next.body()}
 
