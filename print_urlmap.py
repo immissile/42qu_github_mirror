@@ -27,7 +27,7 @@ def print_urlmap(module):
         )
 
 
-import ctrl._url
+import ctrl._url_zpage
 print_urlmap('ctrl._urlmap.main')
 print_urlmap('ctrl._urlmap.hero')
 print_urlmap('ctrl._urlmap.auth')
