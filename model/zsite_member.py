@@ -65,7 +65,11 @@ def _zsite_member_invite(zsite, member, current_user):
 
     if member.state <= ZSITE_STATE_APPLY:
         verify_id, verify_value = verify_new(member_id, CID_VERIFY_COM_MEMBER)
-        http = SITE_HTTP+"/auth/"
+        http = "%s/auth/verify/mail/%s/%s?next="%(
+            SITE_HTTP,
+            verify_id, 
+            verify_value
+        )
     else:
         http = "http:"
 
