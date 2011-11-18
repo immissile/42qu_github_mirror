@@ -7,11 +7,20 @@ from model.zsite_member import zsite_member_list, ZSITE_MEMBER_STATE_INVITE
 %>
 <%def name="htm_head()">
 <style>
+.line{
+margin-top:14px;
+}
+#invite_form{
+padding-top:14px;
+}
 .line input, .line select { padding: 8px; }
 .line input { line-height: 20px; }
 .member_name,.member_mail{
 border:1px solid #ccc;
+padding:7px;
+width:320px;
 }
+.member_name{margin-left:14px;}
 .close_item{
 display:inline-block;
 width:16px;
@@ -50,21 +59,17 @@ function close_item(id){
 
 
 
+<%htm:form action="http://realfex.42qu.com/i/career" method="POST" id="invite_form">
 <p class="hint">
-邀请你公司的成员来写评价 , 他们会收到一封来自42区的邮件
+你也可以输入同事邮箱 , 邀请他们写几句对未来新人的寄语 ...
 </p>
-<%htm:form action="http://realfex.42qu.com/i/career" method="POST" id="career_form">
 <div class="career c" id="career_job">
 %for i in range(3):
-    <div class="line" id="line1"> 
+    <div class="line" > 
 <input placeholder="成员邮箱" name="member_mail" class="member_mail" value="" autocomplete="off">\
 <input value="" placeholder="成员姓名" name="pro_bio" class="member_name" autocomplete="off">\
     </div>
 %endfor
-</div>
-<div class="word">
-    <p>顺便附上几句吧 , 会一同显示在邮件中</p>
-    <textarea class="txt" style="margin-left:0;height:100px;"></textarea>
 </div>
 <div class="btns" style="margin-top:22px;">
     <span class="btnw" style="margin-left:0;"><button class="btn" type="submit">下一步</button></span>
