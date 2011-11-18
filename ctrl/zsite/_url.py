@@ -18,3 +18,4 @@ import com.product
 import com.member
 import com.bio
 import com.resume
+import com.review
