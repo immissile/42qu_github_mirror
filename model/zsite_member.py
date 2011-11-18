@@ -45,7 +45,7 @@ def zsite_member_can_admin(zsite_id, member_id):
 def zsite_member_invite(
     zsite, member_id_list, current_user
 ):
-    if type(member_id_list) in (str, int):
+    if type(member_id_list) in (str, int, long):
         member_id_list = [member_id_list,]
     
     member_id_list = map(int,member_id_list)
