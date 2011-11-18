@@ -56,7 +56,7 @@ class Product(Base):
         self.render(product_list = product_all())
 
 
-@urlmap('/com/new')
+@urlmap('/new')
 class ComNew(Base):
     def get(self):
         self.render(errtip=JsDict())
