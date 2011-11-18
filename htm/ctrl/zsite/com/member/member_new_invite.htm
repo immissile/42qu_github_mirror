@@ -12,8 +12,9 @@ $(function(){
     $('.member_mail:last').live('blur',function(){
         var self = $(this)
         if($.trim(self.val()).length>0){
-            var wrap = self.parent();
-            wrap.after('<div class="line"><input placeholder="邮箱" name="member_mail" class="member_mail" value="" autocomplete="off"><input value="" placeholder="姓名" name="pro_bio" class="member_name" autocomplete="off"></div>')
+            self.parent().after(
+'<div class="line"><input placeholder="邮箱" name="mail" class="mail" value="" autocomplete="off"><input value="" placeholder="姓名" name="name" class="member_name" autocomplete="off"></div>'
+            )
         }
     })
 })
@@ -29,8 +30,8 @@ $(function(){
 <div>
 %for i in range(5):
     <div class="line" > 
-<input placeholder="邮箱" name="member_mail" class="member_mail" value="" autocomplete="off">\
-<input value="" placeholder="姓名" name="pro_bio" class="member_name" autocomplete="off">\
+<input placeholder="邮箱" name="member_mail" class="mail" value="" autocomplete="off">\
+<input value="" placeholder="姓名" name="name" class="member_name" autocomplete="off">\
     </div>
 %endfor
 </div>
