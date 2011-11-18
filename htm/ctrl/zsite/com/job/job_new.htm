@@ -417,13 +417,13 @@ $(function(){
 
 %endif
     </select><a class="c9 add_de" href="javascript:add_de();void(0)">添加部门</a><a class="c9 man_de" href="javascript:man_de();void(0)">管理部门</a>
-    ${errtip.department_id}
+    ${errtip.department_id|n}
     <div class="errtip" id="errtip_depart"></div>
 </div>
 
 <div class="po_line">
     <label for="title">工种头衔</label><input value="${title or ''}" name="title" class="input" id="title" >
-    ${errtip.title}
+    ${errtip.title|n}
     <div class="errtip" id="errtip_title"></div>
 </div>
 <div class="po_line">
@@ -433,7 +433,7 @@ $(function(){
     <input type="hidden" id="kinds_input" name="kinds" value="${kinds or ''}" />
     ${errtip.kinds}
     %else:
-    <button type="button"id="kinds">${'+'.join(map(lambda x:JOBKIND2CN[x],kinds))}</button>
+    <button type="button"id="kinds">${'+'.join(map(lambda x:JOBKIND2CN[int(x)],kinds))}</button>
     <input type="hidden" id="kinds_input" name="kinds" value="${'-'.join(map(str,kinds))}" />
     %endif
     <div class="errtip" id="errtip_kinds"></div>
@@ -445,7 +445,7 @@ $(function(){
         %for i,com_place in enumerate(com_place_list):
 <div class="address"><input name="addr" id="addr${i}" type="checkbox"\
     %if addr:
-    %if com_place.pid in addr:
+    %if com_place.pid in map(int,addr):
     checked\
     %endif
     %endif
@@ -457,21 +457,16 @@ $(function(){
 </div>
 <div class="po_line">
     <label>职位描述</label><textarea class="txt" name="desc" id="desc">
-${job_description or ''}
-</textarea>
-${errtip.job_description}
+${job_description or ''}</textarea>
+${errtip.job_description|n}
 <div class="errtip" id="errtip_desc"></div>
 </div>
 <div class="po_line">
-    <label>技能要求</label><textarea class="txt" name="acquires" id="acquires">
- ${acquires or ''}
-   </textarea>
+    <label>技能要求</label><textarea class="txt" name="acquires" id="acquires">${acquires or ''}</textarea>
     <div class="errtip" id="errtip_acquires"></div>
 </div>
 <div class="po_line">
-    <label>优先条件</label><textarea class="txt" name="more" id="more">
-        ${priority or ''}
-</textarea>
+    <label>优先条件</label><textarea class="txt" name="more" id="more">${priority or ''}</textarea>
     <div class="errtip" id="errtip_more"></div>
 </div>
 <div class="po_line">
@@ -493,11 +488,11 @@ ${errtip.job_description}
     </select>
 </div>
 <div class="po_line" id="type">
-<label>招聘类型</label>
+    <label>招聘类型</label>
 %for _job_cid, _job_name in JOBTYPE:
 <input name="type" id="type${_job_cid}" 
         %if job_type:
-        %if _job_cid in job_type:
+        %if _job_cid in map(int,job_type):
         checked
         %endif
         %endif
@@ -523,11 +518,12 @@ ${errtip.job_description}
         %endfor
     </select><input name="salary1" class="input salary1" value="${salary1 or''}"> 元<span class="split">——</span>
     <input name="salary2" class="input salary2" value="${salary2 or ''}"> 元
-    ${errtip.salary}
+    ${errtip.salary|n}
     <div class="errtip" id="errtip_salary"></div>
 </div>
 <div class="po_line">
     <label>招聘人数</label><input name="people_num" class="input" style="width:50px;" value="${people_num or ''}">
+    ${errtip.people_num|n}
     <div class="errtip" id="errtip_share"></div>
 </div>
 <div class="po_line">
@@ -545,7 +541,7 @@ ${errtip.job_description}
         下一步
         %endif
 </button></span>
-%if edit is not None:
+%if edit is not None and job:
 <a href="/job/close/${job.id}">关闭职位</a>
 %endif
 </%htm:form>

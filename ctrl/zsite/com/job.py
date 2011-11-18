@@ -42,12 +42,12 @@ def _job_save(self,job=None):
     if not title:
         errtip.title = '请输入职位头衔'
     if not kinds:
-        errtip.title='请选择行业'
+        errtip.kinds='请选择行业'
     if not job_type:
         errtip.job_type='请选择工作种类'
     if not pids:
         errtip.addr='请选择工作地址'
-    if not people_num:
+    if not people_num.isdigit():
         errtip.people_num='请设定人数'
     if not (salary_up and salary_down):
         errtip.salary = '必须设定薪水'
@@ -115,7 +115,7 @@ def _job_save(self,job=None):
                 errtip = errtip,
                 title=title,
                 stock_option=stock_option,
-                kinds = kinds,
+                kinds = kinds.split('-'),
                 priority=priority,
                 job_type=job_type,
                 acquires=acquires,
@@ -125,7 +125,7 @@ def _job_save(self,job=None):
                 salary1=salary_up,
                 salary2=salary_down,
                 dead_line=dead_line,
-                addr=addr,
+                addr=pids,
                 people_num=people_num,
                 )
 
