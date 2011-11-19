@@ -1,4 +1,5 @@
 <%!
+import json
 from zkit.job import JOB_KIND
 from zkit.earth import place_name
 from model.job import JOBTYPE, SALARY_TYPE, job_pid_default_by_com_id
@@ -14,7 +15,7 @@ ${css.ctrl_zsite_com_job|n}
 <script src="${js.ctrl_zsite|n}"></script>
 <script src="${js.pid|n}"></script>
 <script src="${js.ctrl_zsite_site|n}"></script>
-<script>JOB_KIND = ${json.dumps(JOB_KIND)}</script>
+<script>JOB_KIND = ${json.dumps(JOB_KIND)|n}</script>
 <script src="${js.ctrl_zsite_com_job|n}"></script>
 </%def>
 
@@ -51,7 +52,7 @@ ${css.ctrl_zsite_com_job|n}
     %if not kinds:
     <button type="button" id="kinds">请选择</button>
     <input type="hidden" id="kinds_input" name="kinds" value="${kinds or ''}" />
-    ${errtip.kinds}
+    ${errtip.kinds|n}
     %else:
     <button type="button"id="kinds">${'+'.join(map(lambda x:JOBKIND2CN[int(x)],kinds))}</button>
     <input type="hidden" id="kinds_input" name="kinds" value="${'-'.join(map(str,kinds))}" />
