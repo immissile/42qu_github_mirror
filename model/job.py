@@ -163,8 +163,8 @@ def job_new(
     job.state = JOB_ACTIVE
     job.save()
 
-    job_id = job.id
-    cjn = ComJobNeeds.get_or_create(id=job_id)
+    id = job.id
+    cjn = ComJobNeeds.get_or_create(id=id)
 
     cjn.stock_option=stock_option
     cjn.welfare=welfare
@@ -173,18 +173,19 @@ def job_new(
     cjn.require = require
     cjn.save()
 
+    com_id = job.com_id
     if isinstance(pids, list):
         for pid in pids:
-            job_pid_default_new(self.zsite_id, pid)
-            job_pid_new(cj.id, pid)
+            job_pid_default_new(com_id, pid)
+            job_pid_new(id, pid)
     else:
         pid = pids
-        job_pid_default_new(self.zsite_id, pid)
-        job_pid_new(cj.id, pid)
+        job_pid_default_new(com_id, pid)
+        job_pid_new(id, pid)
 
-    job_type_set(job_id, job_type)
-    job_kind_set(job_id, kinds)
-    return cj
+    job_type_set(id, job_type)
+    job_kind_set(id, kinds)
+    return job
 
 def com_job_by_com_id(com_id):
     return ComJob.where(com_id=com_id)
