@@ -14,7 +14,7 @@ from zkit.errtip import Errtip
 from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE
 from model.po import product_show_list
 from model.zsite_show import zsite_show_list, zsite_show_count
-from model.zsite_member import zsite_id_list_by_member_admin
+from model.zsite_member import zsite_list_by_member_admin
 
 @urlmap('/com/list')
 @urlmap('/com/list-(\d+)')
@@ -41,8 +41,8 @@ class Index(Base):
 class Mine(Base):
     def get(self):
         current_user_id = self.current_user_id
-        com_id_list = zsite_id_list_by_member_admin(current_user_id)
-        self.render(com_id_list=com_id_list)
+        com_list = zsite_list_by_member_admin(current_user_id)
+        self.render(com_list=com_list)
 
 @urlmap('/job')
 class Job(Base):

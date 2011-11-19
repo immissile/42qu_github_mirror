@@ -17,6 +17,10 @@ ZSITE_MEMBER_STATE_LEAVE = STATE_DEL      # 已离职
 def zsite_id_list_by_member_admin(id, limit=None, offset=None):
     return zsite_id_list_order_id_desc( id, CID_ZSITE_LIST_MEMBER, limit, offset)
 
+def zsite_list_by_member_admin(id, limit=None, offset=None):
+    return Zsite.mc_get_list(zsite_id_list_by_member_admin(id, limit, offset))
+
+
 def zsite_member_new(
     zsite_id, 
     member_id,  
