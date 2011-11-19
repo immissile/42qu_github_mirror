@@ -17,7 +17,7 @@ def encode_utf8(txt):
 def style_txt(txt):
     txt = '\n\n'.join(filter(bool,
         map(
-            str.strip, txt.replace('　', ' ').split('\n')
+            str.strip, txt.replace("　"," ").replace(""," ").replace(""," ").split("\n") 
         )
     ))
     return txt
@@ -31,19 +31,21 @@ for root, dirs, files in walk(path):
         if file.lower().endswith('.txt'):
             path = join(root, file)
             with open(path, 'rb') as f:
-                oldtxt = encode_utf8(f.read().strip())
-                hash = md5(oldtxt).digest()
+                oldtxt = f.read().strip())
+                txt = encode_utf8(style_txt(oldtxt))
+                hash = md5(txt).digest()
 
             if hash in exist:
+                print path
                 remove(path)
                 continue
 
             exist.add(hash)
 
-            txt = style_txt(oldtxt)
 
             if txt != oldtxt:
                 with open(path, 'wb') as f:
                     f.write(txt)
+
 
 
