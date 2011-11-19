@@ -40,13 +40,14 @@ def com_pic_new(com_id,pic):
     fs_set_jpg('357',pic_id,p1)
     return pic_id
 
-def zsite_com_new(com_id,hope,money,culture,team,cover_id):
+def zsite_com_new(com_id,hope,money,culture,team,cover_id,video_cid):
     zsite_com = ZsiteCom.get_or_create(id=com_id)
     zsite_com.hope=hope
     zsite_com.money=money
     zsite_com.culture = culture
     zsite_com.cover_id = cover_id
     zsite_com.team = team
+    zsite_com.video_cid = video_cid
     zsite_com.save()
 
 def com_job_by_com_id(com_id):

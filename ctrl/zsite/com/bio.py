@@ -4,7 +4,7 @@ from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
 from _handler import AdminBase
 from model.com import com_pic_new, zsite_com_new
-from model.po_video import video_new
+from model.po_video import video_new, video_filter
 from zkit.pic import picopen
 @urlmap('/bio/new')
 class BioNew(AdminBase):
@@ -38,8 +38,9 @@ class BioNew(AdminBase):
                         com_pic_new(com_id,pic)
         
         if video:
+            video,video_site = video_filter(video)
             video_new(com_id,video)
-        zsite_com_new(com_id,hope,money,culture,team,cover_id)
+        zsite_com_new(com_id,hope,money,culture,team,cover_id,video_site)
         self.redirect('/')
 
 

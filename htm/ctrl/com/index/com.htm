@@ -1,7 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 ${css.ctrl_zsite_com|n}
 <%!
-from model.po_video import HTM_YOUKU
+from model.po_video import VIDEO_CID2HTM
 from model.po import Po
 from model.ico import pic211_url, ico_url
 from model.ico import fs_url_jpg
@@ -31,13 +31,14 @@ ${motto_get(com.id)}
 <h1>${com.name}</h1>
 <%
 can_admin = zsite_member_can_admin(com.id, user_id)
+zsite_com = ZsiteCom.mc_get(com.id)
 %>
 <div class="G">
     <div class="com_main">
        %if video_uri(com.id): 
        <div class="com_video">
            ##${HTM_YOUKU%"XMjMxOTYxNDk2"|n}
-           ${video_uri(com.id)|n}</div>
+           ${VIDEO_CID2HTM[zsite_com.video_cid]%video_uri(com.id)|n}</div>
         %endif
         <div class="com_item">
             <%
@@ -182,8 +183,10 @@ can_admin = zsite_member_can_admin(com.id, user_id)
 
 
 <div class="com_side" style="float:right;">
-<div class="com_pic"><img src="http://help.42qu.com/file/hr/peitu5.jpg"></div>
-<div style="margin:18px 0;text-align:right">
+    %if zsite_com and zsite_com.cover_id:
+    <div class="com_pic"><img src="${fs_url_jpg('357',zsite_com.cover_id)}"></div>
+    %endif
+    <div style="margin:18px 0;text-align:right">
 <%
 is_owner = com.id == user_id
 %>
@@ -258,10 +261,8 @@ career = ' , '.join(filter(bool, i.career))
                          ##  <div>微博 : <a href="#">新浪</a> <a href="#">腾讯</a></div>
                            <div>地址 :
                                %for place in get_zsite_com_place(com.id):
-                               <div>
                             ${place_name(place.pid)}
                            <div style="margin-left:40px">${place.address}</div>
-                           </div>
                            %endfor
                             </div>
                          ##  <div>电话 : 13896232423</div>
