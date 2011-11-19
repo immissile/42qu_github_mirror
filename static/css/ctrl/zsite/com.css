@@ -4,6 +4,12 @@ padding: 8px;
 .line input{
 line-height:20px;
 }
+.line input_, .line select{
+padding: 8px;
+}
+.line input_{
+line-height:20px;
+}
 .line .txt { width: 180px; }
 .info_title{
 line-height:16px;
