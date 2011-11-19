@@ -3,7 +3,7 @@
 from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
 from _handler import AdminBase
-from model.com import com_pic_new, zsite_com_new
+from model.zsite_com import com_pic_new, zsite_com_new
 from model.po_video import video_new, video_filter
 from zkit.pic import picopen
 @urlmap('/bio/new')

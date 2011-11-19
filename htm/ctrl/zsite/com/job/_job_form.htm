@@ -2,7 +2,7 @@
 from zkit.job import JOB_KIND
 from zkit.earth import place_name
 from model.job import JOBTYPE, SALARY_TYPE, job_pid_by_com_id
-from model.com import com_department_by_com_id
+from model.job import com_department_by_com_id
 from zkit.job import JOBKIND2CN
 %>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -83,7 +83,7 @@ ${css.ctrl_zsite_com_job|n}
 
 
 <div class="po_line">
-    <label>职位描述</label><textarea class="txt" name="txt" id="txt">
+    <label>职位描述</label><textarea class="txt" name="txt" id="txt">\
 ${txt or ''}</textarea>
 ${errtip.txt|n}
 <div class="errtip" id="errtip_txt"></div>

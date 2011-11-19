@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/com/new
+model.com
 """
 
 TO_STRING = """
-/new
+model.job
 """
 
 def run():

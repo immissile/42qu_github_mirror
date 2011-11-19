@@ -5,15 +5,14 @@ from ctrl._urlmap.zsite import urlmap
 from model.job_mail import get_job_mail_state, job_mail_new, STATE_VERIFIED
 from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM_HR
-from model.com import com_department_new, com_job_new, com_job_needs_new, com_department_rm_by_id, com_department_edit
 import json
-from model.job import job_type_set, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_place_by_job_id
+from model.job import job_type_set, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_place_by_job_id, job_new, \
+ComJob, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id, com_department_new,   com_department_rm_by_id, com_department_edit
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
 from zkit.errtip import Errtip
 from zkit.txt import EMAIL_VALID
-from model.com import ComJob, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id
 from zkit.jsdict import JsDict
 
 
@@ -61,28 +60,23 @@ def _job_save(self, job=None):
         errtip.salary_type = '必须选择工资类型'
 
     if not errtip:
-        if not job:
-            cj, cjn = None, None
-            cj = com_job_new(
-                    self.zsite_id,
-                    department_id,
-                    title,
-                    txt,
-                    today_days(),
-                    salary_up,
-                    salary_down,
-                    salary_type,
-                    int(dead_line)+today_days(),
-                    quota
-                )
-        else:
-            cj = job
-        if cj is None:
-            return
+        cj = com_job_new(
+                self.zsite_id,
+                department_id,
+                title,
+                today_days(),
+                salary_up,
+                salary_down,
+                salary_type,
+                int(dead_line)+today_days(),
+                quota,
+                txt,
+                require, stock_option, welfare, priority,
+                job
+            )
 
         id = cj.id
 
-        cjn = com_job_needs_new(cj.id, require, stock_option, welfare, priority)
 
 
         if isinstance(pids, list):
@@ -95,11 +89,8 @@ def _job_save(self, job=None):
             job_place_new(cj.id, pid)
 
 
-
         job_type_set(id, job_type)
         job_kind_set(cj.id, kinds.split('-'))
-
-
 
         self.redirect('/job/%s'%cj.id)
     else:
@@ -120,7 +111,7 @@ def _job_save(self, job=None):
                 dead_line=dead_line,
                 addr=pids,
                 quota=quota,
-                )
+        )
 
 
 
@@ -128,7 +119,7 @@ def _job_save(self, job=None):
 class JobNew(AdminBase):
     def get(self):
         if get_job_mail_state(self.zsite_id) == STATE_VERIFIED:
-            return self.render(errtip=JsDict())
+            return self.render(errtip=Errtip())
         else:
             return self.redirect('/job/mail')
 
@@ -141,7 +132,7 @@ class JobEdit(AdminBase):
         if job and job.com_id == self.zsite_id:
             needs = job.needs
             self.render(
-                errtip=JsDict(),
+                errtip=Errtip(),
                 title=job.title,
                 kinds=job_kind_by_job_id(job.id),
                 job_type=job_type_by_job_id(job.id),
