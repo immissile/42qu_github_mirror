@@ -274,7 +274,7 @@ $(function(){
         }
     }
 
-    var elem="#title,#desc,#acquires,#more,#kinds_input"
+    var elem="#title,#txt,#acquires,#more,#kinds_input"
     elem=$(elem)
     elem.blur(verify).focus(function(){
         $("#errtip_"+this.id).remove()
@@ -456,10 +456,10 @@ $(function(){
     <div class="errtip" id="errtip_addr"></div>
 </div>
 <div class="po_line">
-    <label>职位描述</label><textarea class="txt" name="desc" id="desc">
+    <label>职位描述</label><textarea class="txt" name="txt" id="txt">
 ${txt or ''}</textarea>
 ${errtip.txt|n}
-<div class="errtip" id="errtip_desc"></div>
+<div class="errtip" id="errtip_txt"></div>
 </div>
 <div class="po_line">
     <label>技能要求</label><textarea class="txt" name="acquires" id="acquires">${acquires or ''}</textarea>
