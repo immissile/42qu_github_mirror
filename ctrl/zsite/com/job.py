@@ -5,7 +5,6 @@ from ctrl._urlmap.zsite import urlmap
 from model.job_mail import get_job_mail_state, job_mail_new, STATE_VERIFIED
 from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM_HR
-from zkit.job import JOB_KIND
 from model.com import com_department_new, com_job_new, com_job_needs_new, com_department_by_com_id, com_department_rm_by_id, com_department_edit
 import json
 from model.job import job_type_set, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_place_by_job_id
@@ -104,8 +103,6 @@ def _job_save(self, job=None):
 
         self.redirect('/job/%s'%cj.id)
     else:
-        com_place_list = job_pid_by_com_id(self.zsite_id)
-        job_kind = json.dumps(JOB_KIND)
         com_department_list = com_department_by_com_id(self.zsite_id)
         self.render(
                 com_place_list=com_place_list,
@@ -134,12 +131,9 @@ def _job_save(self, job=None):
 class JobNew(AdminBase):
     def get(self):
         if get_job_mail_state(self.zsite_id) == STATE_VERIFIED:
-            com_place_list = job_pid_by_com_id(self.zsite_id)
-            job_kind = json.dumps(JOB_KIND)
             com_department_list = com_department_by_com_id(self.zsite_id)
             return self.render(
                 com_place_list=com_place_list,
-                job_kind=job_kind,
                 com_department_list=com_department_list,
                 errtip=JsDict()
             )
@@ -158,13 +152,9 @@ class JobEdit(AdminBase):
     def get(self, id):
         job = ComJob.mc_get(id)
         if job and job.com_id == self.zsite_id:
-            com_place_list = job_pid_by_com_id(self.zsite_id)
-            job_kind = json.dumps(JOB_KIND)
             com_department_list = com_department_by_com_id(self.zsite_id)
             needs = job.needs
             self.render(
-                com_place_list=com_place_list,
-                job_kind=job_kind,
                 com_department_list=com_department_list,
                 errtip=JsDict(),
                 title=job.title,

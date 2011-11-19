@@ -1,7 +1,9 @@
-<%inherit file="/ctrl/_base/zsite.htm" />
+<%inherit file="/ctrl/_base/com.htm" />
 <%!
+from zkit.job import JOB_KIND
 from zkit.earth import place_name
 from model.job import JOBTYPE
+from model.job import job_pid_by_com_id
 from zkit.job import JOBKIND2CN
 %>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -15,9 +17,6 @@ ${css.ctrl_po_event|n}
 <link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章">
 </%def>
 
-<div class="head" style="color: rgb(204, 204, 204);">
-<span>创建公司</span>&gt;<span >产品演示</span>&gt;<span class="c0">发布职位</span>&gt;<span>企业介绍</span>&gt;<span>照片风景</span>&gt;<span>添加成员</span>&gt;<span>邀请评价</span>
-</div>
 
 
 
@@ -168,7 +167,11 @@ background:#f9f9f9;
 }
 </style>
 
-<script type="text/javascript">
+<script>
+JOB_KIND = ${json.dumps(JOB_KIND)}
+</script>
+
+<script>
 function man_de(){
     var fancybox = $.fancybox
     var cont='<form id="de_form"><div class="pop_hint">管理部门</div>',opts = $('.de_opt')
@@ -330,10 +333,11 @@ $(function(){
         if(!check_tip('type'))return false;
         return money_tip()
     }
-    var kinds_list = ${job_kind|n}
+
+             
     var kinds_content = '<div class="kinds_banner">选择行业类别 (<span class="limit_tip">最多三项</span>)</div><div class="pop_kinds">'
-    for(var i=0;i<kinds_list.length;i++){
-        var li = kinds_list[i]
+    for(var i=0;i<JOB_KIND.length;i++){
+        var li = JOB_KIND[i]
         kinds_content += i%2==0?'<ul class="bgc1">':'<ul class="bgc2">'
         for(var j=0;j<li.length;j++){
             kinds_content += '<li><label><input type="checkbox" value="'+li[j][0]+'" class="kinds_cb" name="kinds'+li[j][0]+'"></label><span class="kinds_word">'+li[j][1]+'</span></li>'
@@ -440,6 +444,9 @@ $(function(){
 </div>
 <div class="po_line">
     <label>工作地点</label><a class="c9" href="javascript:add_addr();void(0)" id="add_addr">添加地址</a><div class="add_addr"><script>select_pid("pid", 0)</script></div>
+<%
+    com_place_list = job_pid_by_com_id(zsite_id)
+%>
     <div id="addr">
         %if com_place_list:
         %for i,com_place in enumerate(com_place_list):
