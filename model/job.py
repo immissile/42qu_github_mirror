@@ -23,7 +23,7 @@ SALARY_TYPE=(
     (1,'月薪'),
     (2,'年薪')
 )
-JOBSALARY2CN = dict(SALARY_TYPE) 
+SALARY_TYPE2CN = dict(SALARY_TYPE) 
 JOBTYPE2CN = dict(JOBTYPE)
 
 class ComJobNeeds(McModel):

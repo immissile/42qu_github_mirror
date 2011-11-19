@@ -2,7 +2,7 @@
 <%!
 from model.job import job_type_by_job_id, job_pid_by_job_id, JOBTYPE2CN
 from zkit.earth import place_name
-from model.job import JOBSALARY2CN
+from model.job import SALARY_TYPE2CN
 from model.zsite_member import zsite_member_can_admin
 %>
 ${css.ctrl_com_job|n}
@@ -30,7 +30,7 @@ ${job.title}\
     </div>
     %endif
     <div class="info_title">工资范围</div>
-    <div class="info_cont">${JOBSALARY2CN[job.salary_type]} ${job.salary_up} - ${job.salary_down}</div>    
+    <div class="info_cont">${SALARY_TYPE2CN[job.salary_type]} ${job.salary_up} - ${job.salary_down}</div>    
     <div class="info_title">招聘人数</div>
     <div class="info_cont">${job.quota}</div>    
     <div class="info_title">工作地址</div>
