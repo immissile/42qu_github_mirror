@@ -1,0 +1,18 @@
+.com_wrap{
+margin-top:32px;
+}
+.sd{
+padding:0;
+}
+.com_link{
+padding:7px 14px;
+text-align:center;
+}
+.product_link{
+color:#000;
+display:block;
+border-top: 1px dotted #ccc;
+background:url(/img/gif/marking.gif) no-repeat 8px 16px;
+padding:7px 26px;
+text-align:center;
+}
