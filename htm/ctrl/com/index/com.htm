@@ -7,7 +7,7 @@ from model.ico import pic211_url, ico_url
 from model.ico import fs_url_jpg
 from model.motto import motto_get
 from model.follow import follow_get
-from model.zsite_com import get_zsite_com_place
+from model.zsite_com import pid_by_com_id
 from zkit.earth import place_name
 from model.zsite_fav import zsite_fav_id_get
 from model.com import com_job_by_com_id, com_department_by_com_id, com_job_by_department_and_com 
@@ -260,7 +260,7 @@ career = ' , '.join(filter(bool, i.career))
                           ## <div>官网 : 42qu.com</div>
                          ##  <div>微博 : <a href="#">新浪</a> <a href="#">腾讯</a></div>
                            <div>地址 :
-                               %for place in get_zsite_com_place(com.id):
+                               %for place in pid_by_com_id(com.id):
                             ${place_name(place.pid)}
                            <div style="margin-left:40px">${place.address}</div>
                            %endfor
