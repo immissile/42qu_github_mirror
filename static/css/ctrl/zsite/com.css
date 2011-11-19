@@ -4,6 +4,12 @@ padding: 8px;
 .line input{
 line-height:20px;
 }
+.line input_, .line select{
+padding: 8px;
+}
+.line input_{
+line-height:20px;
+}
 .line .txt { width: 180px; }
 .head { font-size: 16px; text-align: center; padding: 14px 0pt; border-bottom: 1px solid #f3f3f3;color:#ccc; }
 .head span { margin: 0pt 14px; color: rgb(153, 153, 153); }

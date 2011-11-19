@@ -40,14 +40,22 @@ def com_pic_new(com_id,pic):
     fs_set_jpg('357',pic_id,p1)
     return pic_id
 
-def zsite_com_new(com_id,hope,money,culture,team,cover_id,video_cid):
+def zsite_com_new(com_id,hope=None,money=None,culture=None,team=None,cover_id=None,video_cid=None,phone=None):
     zsite_com = ZsiteCom.get_or_create(id=com_id)
-    zsite_com.hope=hope
-    zsite_com.money=money
-    zsite_com.culture = culture
-    zsite_com.cover_id = cover_id
-    zsite_com.team = team
-    zsite_com.video_cid = video_cid
+    if hope:
+        zsite_com.hope=hope
+    if money:
+        zsite_com.money=money
+    if culture:
+        zsite_com.culture = culture
+    if cover_id:
+        zsite_com.cover_id = cover_id
+    if team:
+        zsite_com.team = team
+    if video_cid:
+        zsite_com.video_cid = video_cid
+    if phone:
+        zsite_com.phone = phone
     zsite_com.save()
 
 def com_job_by_com_id(com_id):
@@ -87,12 +95,12 @@ def com_job_new(com_id,department_id,title,job_description,create_time,salary_up
     cj.save()
     return cj
 
-def com_job_needs_new(job_id,requires,stock_option,welfare,priority):
+def com_job_needs_new(job_id,require,stock_option,welfare,priority):
     cjn = ComJobNeeds(job_id=job_id)
     cjn.stock_option=stock_option
     cjn.welfare=welfare
     cjn.priority = priority
-    cjn.requires = requires
+    cjn.require = require
     cjn.save()
     return cjn
 

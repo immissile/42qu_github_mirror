@@ -15,6 +15,9 @@ from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE
 from model.po import product_show_list
 from model.zsite_show import zsite_show_list, zsite_show_count
 from model.zsite_member import zsite_id_list_by_member_admin
+from model.com import zsite_com_new
+
+
 
 @urlmap('/com/list')
 @urlmap('/com/list-(\d+)')
@@ -71,7 +74,7 @@ class ComNew(Base):
         url = self.get_argument('url', None)
         pid = self.get_arguments('pid', None)
         address = self.get_arguments('address',None)
-        
+        phone = self.get_argument('phone',None)        
         pid_add = zip(pid,address)
         
         if not name:
@@ -79,6 +82,7 @@ class ComNew(Base):
 
         if not motto:
             errtip.motto = '请编写签名'
+        
 
         if url:
             errtip.url = url_valid(url)
@@ -101,6 +105,7 @@ class ComNew(Base):
         if not errtip:
             com = com_new(name, current_user_id )
             com_id = com.id
+            zsite_com_new(com_id,phone=phone)
             site_ico_bind(current_user_id, pic_id, com_id)
             motto_set(com_id, motto)
             zsite_member_new(com_id, current_user_id, state=ZSITE_MEMBER_STATE_ACTIVE)

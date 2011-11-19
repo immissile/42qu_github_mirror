@@ -35,11 +35,12 @@ zsite_com = ZsiteCom.mc_get(com.id)
 %>
 <div class="G">
     <div class="com_main">
-       %if video_uri(com.id): 
        <div class="com_video">
+       %if video_uri(com.id): 
            ##${HTM_YOUKU%"XMjMxOTYxNDk2"|n}
-           ${VIDEO_CID2HTM[zsite_com.video_cid]%video_uri(com.id)|n}</div>
+           ${VIDEO_CID2HTM[zsite_com.video_cid]%video_uri(com.id)|n}
         %endif
+       </div>
         <div class="com_item">
             <%
             products = product_list_by_com_id(com.id)
@@ -265,7 +266,10 @@ career = ' , '.join(filter(bool, i.career))
                            <div style="margin-left:40px">${place.address}</div>
                            %endfor
                             </div>
-                         ##  <div>电话 : 13896232423</div>
+                            ##  
+                            %if zsite_com.phone:
+                            <div>电话 : ${zsite_com.phone}</div>
+                            %endif
                        </div>
                    </div>
 
