@@ -87,3 +87,28 @@ background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 50% 50
 .rm:hover{
 background-image:url(/img/gif/icons/gif/black/to_size/close.gif);
 }
+#invite_form{
+width:690px;
+margin:auto;
+padding-top:14px;
+}
+.line{
+margin-top:14px;
+}
+.line input, .line select{
+padding: 8px;
+}
+.line input{
+line-height: 20px;
+}
+.member_name,.member_mail{
+border:1px solid #ccc;
+padding:7px;
+width:320px;
+}
+.member_name{
+margin-left:14px;
+}
+.member_btn{
+margin-top:22px;
+}

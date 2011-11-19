@@ -64,6 +64,24 @@ def video_new(id, uri):
     v.save()
     mc_video_uri.set(id, uri)
 
+def video_filter(url):
+    if url.startswith('http://v.youku.com/v_show/id_'):
+        video = url[29:url.rfind('.')]
+        video_site = VIDEO_CID_YOUKU
+    elif url.startswith('http://player.youku.com/player.php/sid/'):
+        video = url[39:url.find('/', 39)]
+        video_site = VIDEO_CID_YOUKU
+    elif url.startswith('http://www.tudou.com/programs/view/'):
+        video = url[35:].rstrip('/')
+        video_site = VIDEO_CID_TUDOU
+    elif url.startswith('http://video.sina.com.cn/v/b/'):
+        video = url[29:url.rfind('.')]
+        video_site = VIDEO_CID_SINA
+    else:
+        video = None
+        video_site = None
+    return video, video_site
+
 def po_video_new(user_id, name, txt, uri, video_site, state, zsite_id):
 
     if not name and not txt:

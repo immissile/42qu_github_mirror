@@ -9,6 +9,10 @@ class ReviewAdmin(AdminBase):
     def get(self):
         return self.render()
 
+@urlmap('/review/invite')
+class ReviewInvite(AdminBase):
+    def get(self):
+        return self.render()
 
 @urlmap('/review')
 class Review(LoginBase):
@@ -16,12 +20,5 @@ class Review(LoginBase):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
         
-        wall = wall_by_from_id_to_id(current_user_id, zsite_id)
-        if wall:
-            reply_last =  wall.reply_last()
-            if reply_last:
-                self.render(reply = reply_last)
-
         self.render()
-
 
