@@ -80,18 +80,33 @@ def com_department_new(com_id,name):
 def com_department_rm_by_id(id):
     return ComDepartment.where(id=id).delete()
 
-def com_job_new(com_id,department_id,title,txt,create_time,salary_up,salary_down,salary_type,end_time,people_num,state=JOB_ACTIVE):
-    cj = ComJob(com_id=com_id,department_id=department_id,title=title,txt=txt,create_time=create_time,salary_up=salary_up,salary_down=salary_down,salary_type=salary_type,end_time=end_time,people_num=people_num)
-    cj.state = state
+def com_job_new(
+        com_id, department_id, 
+        title, create_time, salary_up, salary_down, salary_type, end_time,
+        people_num,
+        txt, require,stock_option,welfare,priority
+    ):
+    cj = ComJob(
+        com_id = com_id,
+    )
+    cj.department_id=department_id
+    cj.title=title
+    cj.create_time=create_time
+    cj.salary_up=salary_up
+    cj.salary_down=salary_down
+    cj.salary_type=salary_type
+    cj.end_time=end_time
+    cj.people_num=people_num
+    cj.state = JOB_ACTIVE
     cj.save()
     return cj
 
-def com_job_needs_new(job_id,requires,stock_option,welfare,priority):
+def com_job_needs_new(job_id,):
     cjn = ComJobNeeds(id=job_id)
     cjn.stock_option=stock_option
     cjn.welfare=welfare
     cjn.priority = priority
-    cjn.requires = requires
+    cjn.require = require
     cjn.save()
     return cjn
 

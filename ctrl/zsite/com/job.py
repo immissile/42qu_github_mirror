@@ -27,8 +27,8 @@ def _job_save(self,job=None):
     stock_option = self.get_argument('share', None)
     priority = self.get_argument('more', None)
     job_type = self.get_arguments('type', None)
-    acquires = self.get_argument('acquires', None)
-    txt = self.get_argument('desc', None)
+    require = self.get_argument('require', None)
+    txt = self.get_argument('txt', None)
     welfare = self.get_argument('other', None)
     salary_up = self.get_argument('salary1', None)
     salary_down = self.get_argument('salary2', None)
@@ -84,7 +84,7 @@ def _job_save(self,job=None):
 
         id = cj.id
  
-        cjn = com_job_needs_new(cj.id, acquires, stock_option, welfare, priority)
+        cjn = com_job_needs_new(cj.id, require, stock_option, welfare, priority)
 
 
         if isinstance(pids, list):
@@ -120,7 +120,7 @@ def _job_save(self,job=None):
                 kinds = kinds.split('-'),
                 priority=priority,
                 job_type=job_type,
-                acquires=acquires,
+                require=require,
                 txt=txt,
                 welfare=welfare,
                 salary_type=salary_type,
@@ -181,7 +181,7 @@ class JobEdit(AdminBase):
                         kinds = job_kind_by_job_id(job.id),
                         priority=job.com_job_needs.priority,
                         job_type = job_type_by_job_id(job.id),
-                        acquires =job.com_job_needs.requires,
+                        require =job.com_job_needs.requires,
                         txt = job.txt,
                         welfare = job.com_job_needs.welfare,
                         salary_type=job.salary_type,
