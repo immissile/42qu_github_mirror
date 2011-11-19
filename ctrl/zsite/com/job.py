@@ -28,7 +28,7 @@ def _job_save(self,job=None):
     priority = self.get_argument('more', None)
     job_type = self.get_arguments('type', None)
     acquires = self.get_argument('acquires', None)
-    job_description = self.get_argument('desc', None)
+    txt = self.get_argument('desc', None)
     welfare = self.get_argument('other', None)
     salary_up = self.get_argument('salary1', None)
     salary_down = self.get_argument('salary2', None)
@@ -55,8 +55,8 @@ def _job_save(self,job=None):
         errtip.salary = '请输入正确的薪水'
     if salary_down.isdigit() and salary_up.isdigit() and int(salary_up) > int(salary_down):
         errtip.salary = '最低薪水必须大于最高薪水'
-    if not job_description:
-        errtip.job_description='请填写职位描述'
+    if not txt:
+        errtip.txt='请填写职位描述'
     if not dead_line:
         errtip.dead_line='必须选择过期时间'
     if not salary_type:
@@ -69,7 +69,7 @@ def _job_save(self,job=None):
                     self.zsite_id,
                     department_id,
                     title,
-                    job_description,
+                    txt,
                     today_days(),
                     salary_up,
                     salary_down,
@@ -121,7 +121,7 @@ def _job_save(self,job=None):
                 priority=priority,
                 job_type=job_type,
                 acquires=acquires,
-                job_description=job_description,
+                txt=txt,
                 welfare=welfare,
                 salary_type=salary_type,
                 salary1=salary_up,
@@ -182,7 +182,7 @@ class JobEdit(AdminBase):
                         priority=job.com_job_needs.priority,
                         job_type = job_type_by_job_id(job.id),
                         acquires =job.com_job_needs.requires,
-                        job_description = job.job_description,
+                        txt = job.txt,
                         welfare = job.com_job_needs.welfare,
                         salary_type=job.salary_type,
                         salary1=job.salary_up,
