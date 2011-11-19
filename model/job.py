@@ -143,23 +143,27 @@ def job_new(
         title, create_time, salary_up, salary_down, salary_type, end_time,
         quota,
         txt, require,stock_option,welfare,priority,
+        pids,
+        job_type,
+        kinds,
         job=None
     ):
     if not job:
         job = ComJob(
             com_id = com_id,
         )
-    cj.department_id=department_id
-    cj.title=title
-    cj.create_time=create_time
-    cj.salary_up=salary_up
-    cj.salary_down=salary_down
-    cj.salary_type=salary_type
-    cj.end_time=end_time
-    cj.quota=quota
-    cj.state = JOB_ACTIVE
-    cj.save()
+    job.department_id=department_id
+    job.title=title
+    job.create_time=create_time
+    job.salary_up=salary_up
+    job.salary_down=salary_down
+    job.salary_type=salary_type
+    job.end_time=end_time
+    job.quota=quota
+    job.state = JOB_ACTIVE
+    job.save()
 
+    job_id = job.id
     cjn = ComJobNeeds.get_or_create(id=job_id)
 
     cjn.stock_option=stock_option
@@ -169,6 +173,17 @@ def job_new(
     cjn.require = require
     cjn.save()
 
+    if isinstance(pids, list):
+        for pid in pids:
+            job_pid_default_new(self.zsite_id, pid)
+            job_pid_new(cj.id, pid)
+    else:
+        pid = pids
+        job_pid_default_new(self.zsite_id, pid)
+        job_pid_new(cj.id, pid)
+
+    job_type_set(job_id, job_type)
+    job_kind_set(job_id, kinds)
     return cj
 
 def com_job_by_com_id(com_id):

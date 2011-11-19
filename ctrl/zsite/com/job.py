@@ -60,7 +60,7 @@ def _job_save(self, job=None):
         errtip.salary_type = '必须选择工资类型'
 
     if not errtip:
-        cj = com_job_new(
+        cj = job_new(
                 self.zsite_id,
                 department_id,
                 title,
@@ -72,25 +72,11 @@ def _job_save(self, job=None):
                 quota,
                 txt,
                 require, stock_option, welfare, priority,
+                pids,
+                job_type,
+                kinds.split('-'),
                 job
             )
-
-        id = cj.id
-
-
-
-        if isinstance(pids, list):
-            for pid in pids:
-                job_pid_default_new(self.zsite_id, pid)
-                job_pid_new(cj.id, pid)
-        else:
-            pid = pids
-            job_pid_default_new(self.zsite_id, pid)
-            job_pid_new(cj.id, pid)
-
-
-        job_type_set(id, job_type)
-        job_kind_set(cj.id, kinds.split('-'))
 
         self.redirect('/job/%s'%cj.id)
     else:

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _db
-from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, McCacheA
+from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, McCacheA, McLimitA
 from model.zsite import zsite_new, ZSITE_STATE_ACTIVE, Zsite, ZSITE_STATE_VERIFY
 from model.cid import CID_COM
 from model.zsite_admin import zsite_admin_new, zsite_user_state, zsite_id_list_by_admin_id_sample, zsite_by_admin_id_count, zsite_id_list_by_admin_id
