@@ -21,13 +21,17 @@ margin-left:30px;
 margin-left:12px;
 }
 .add_de_txt{
-margin-left:20px;
-width:160px;
+margin:12px 0 12px 16px;
+width:200px;
 }
 .add_de_a{
-margin-left:10px;
-border:1px solid #ccc;
-padding:5px 12px 7px;
+background-color:#FFFFFF;
+background-image:-moz-linear-gradient(#FFFFFF, #F3F3F3);
+border:1px solid #CCCCCC;
+color:#666666;
+font-size:14px;
+padding:8px 14px;
+margin:0 16px 0 16px;
 }
 .add_addr{
 display:none;
@@ -143,3 +147,20 @@ text-align:center;
 background:#f9f9f9;
 }
 
+.job_next_a{
+font-size:16px;
+color:#444;
+display:block;
+padding-bottom:6px;
+border-bottom:1px solid #999;
+}
+.job_next{
+float:left;
+padding:80px 70px 180px 0;
+margin:62px 70px 0 329px;
+border-right:1px dotted #ccc;
+}
+.job_next_r{
+margin-left:0;
+border:none;
+}

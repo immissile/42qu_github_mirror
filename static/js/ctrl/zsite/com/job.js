@@ -73,7 +73,7 @@ function add_ad_a(){
 function add_de(){
     var fancybox = $.fancybox
     fancybox({
-        'content':'<input type="text" class="input add_de_txt"><a class="c9 add_de_a" href="javascript:add_de_a();void(0)">添加</a>',
+        'content':'<input type="text" class="input add_de_txt"><a class="add_de_a" href="javascript:add_de_a();void(0)">添加部门</a>',
         'hideOnOverlayClick': false
     })
 }

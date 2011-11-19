@@ -110,6 +110,12 @@ class JobNew(AdminBase):
 
     post = _job_save
 
+@urlmap('/job/next')
+class JobNext(AdminBase):
+    def get(self):
+        self.render()
+
+
 @urlmap('/job/edit/(\d+)')
 class JobEdit(AdminBase):
     def get(self, id):

@@ -5,12 +5,20 @@ padding: 8px;
 line-height:20px;
 }
 .line .txt { width: 180px; }
-.head { font-size: 16px; text-align: center; padding: 14px 0pt; border-bottom: 1px solid #f3f3f3;color:#ccc; }
-.head span { margin: 0pt 14px; color: rgb(153, 153, 153); }
-.head .c0 { color: rgb(0, 0, 0); }
 .info_title{
 line-height:16px;
 padding-bottom:16px;
+}
+.head {
+border-bottom:1px dotted #CCCCCC;
+font-size:16px;
+padding:14px 0;
+text-align:center;
+color:#333;
+}
+.head span{
+color:#999;
+margin:0 14px;
 }
 select{
 text-align:center;
@@ -198,7 +206,7 @@ background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
 .addr_block{
 margin-left:8px;
 }
-.add_addr{
+.add_addr_a{
 display:block;
 margin:8px 0 10px 72px;
 width:64px;
