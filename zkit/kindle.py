@@ -31,17 +31,19 @@ for root, dirs, files in walk(path):
         if file.lower().endswith('.txt'):
             path = join(root, file)
             with open(path, 'rb') as f:
-                oldtxt = f.read().strip()
-                txt = style_txt(encode_utf8(oldtxt))
-                hash = md5(txt).digest()
-
-            if txt != oldtxt:
-                with open(path, 'wb') as f:
-                    f.write(txt)
+                oldtxt = encode_utf8(f.read().strip())
+                hash = md5(oldtxt).digest()
 
             if hash in exist:
                 remove(path)
                 continue
 
             exist.add(hash)
+
+            txt = style_txt(oldtxt)
+
+            if txt != oldtxt:
+                with open(path, 'wb') as f:
+                    f.write(txt)
+
 
