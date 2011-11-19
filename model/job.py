@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from zkit.job import JOBKIND2CN
+from zsite_com import get_zsite_com_place
 
 mc_job_type_by_job_id = McCacheA("JobTypeByJobId:%s")
 mc_job_kind_by_job_id = McCacheA("JobKindByJobId:%s")
@@ -69,8 +70,10 @@ def job_type_set(id, type_list):
 
 
 def job_pid_by_com_id(com_id):
-    jp = JobPid.where(com_id=com_id)
-    return JobPid.where(com_id=com_id)
+    p = JobPid.where(com_id=com_id)
+    if not p:
+        p = get_zsite_com_place(com_id)
+    return p
 
 def job_pid_new(com_id, pid):
     jp = JobPid.get_or_create(com_id=com_id, pid=pid)

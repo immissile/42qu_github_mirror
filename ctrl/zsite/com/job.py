@@ -5,7 +5,6 @@ from ctrl._urlmap.zsite import urlmap
 from model.job_mail import get_job_mail_state, job_mail_new, STATE_VERIFIED
 from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM_HR
-from model.zsite_com import get_zsite_com_place
 from zkit.job import JOB_KIND
 from model.com import com_department_new, com_job_new, com_job_needs_new, com_department_by_com_id, com_department_rm_by_id, com_department_edit
 import json
@@ -19,7 +18,7 @@ from model.com import ComJob, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id
 from zkit.jsdict import JsDict
 
 
-def _job_save(self,job=None):
+def _job_save(self, job=None):
     errtip = Errtip()
     department_id = self.get_argument('depart', None)
     title = self.get_argument('title', None)
@@ -42,13 +41,13 @@ def _job_save(self,job=None):
     if not title:
         errtip.title = '请输入职位头衔'
     if not kinds:
-        errtip.kinds='请选择行业'
+        errtip.kinds = '请选择行业'
     if not job_type:
-        errtip.job_type='请选择工作种类'
+        errtip.job_type = '请选择工作种类'
     if not pids:
-        errtip.addr='请选择工作地址'
+        errtip.addr = '请选择工作地址'
     if not quota.isdigit():
-        errtip.quota='请设定人数'
+        errtip.quota = '请设定人数'
     if not (salary_up and salary_down):
         errtip.salary = '必须设定薪水'
     if not(salary_up.isdigit() and salary_down.isdigit()):
@@ -56,11 +55,11 @@ def _job_save(self,job=None):
     if salary_down.isdigit() and salary_up.isdigit() and int(salary_up) > int(salary_down):
         errtip.salary = '最低薪水必须大于最高薪水'
     if not txt:
-        errtip.txt='请填写职位描述'
+        errtip.txt = '请填写职位描述'
     if not dead_line:
-        errtip.dead_line='必须选择过期时间'
+        errtip.dead_line = '必须选择过期时间'
     if not salary_type:
-        errtip.salary_type='必须选择工资类型'
+        errtip.salary_type = '必须选择工资类型'
 
     if not errtip:
         if not job:
@@ -83,7 +82,7 @@ def _job_save(self,job=None):
             return
 
         id = cj.id
- 
+
         cjn = com_job_needs_new(cj.id, require, stock_option, welfare, priority)
 
 
@@ -97,27 +96,25 @@ def _job_save(self,job=None):
             job_place_new(cj.id, pid)
 
 
-    
+
         job_type_set(id, job_type)
         job_kind_set(cj.id, kinds.split('-'))
 
-    
+
 
         self.redirect('/job/%s'%cj.id)
     else:
-        com_place_list1 = get_zsite_com_place(self.zsite_id)
-        com_place_list2 = job_pid_by_com_id(self.zsite_id)
-        com_place_list = com_place_list2 or com_place_list1
+        com_place_list = job_pid_by_com_id(self.zsite_id)
         job_kind = json.dumps(JOB_KIND)
         com_department_list = com_department_by_com_id(self.zsite_id)
         self.render(
-                com_place_list=com_place_list, 
-                job_kind=job_kind, 
+                com_place_list=com_place_list,
+                job_kind=job_kind,
                 com_department_list=com_department_list,
-                errtip = errtip,
+                errtip=errtip,
                 title=title,
                 stock_option=stock_option,
-                kinds = kinds.split('-'),
+                kinds=kinds.split('-'),
                 priority=priority,
                 job_type=job_type,
                 require=require,
@@ -137,52 +134,48 @@ def _job_save(self,job=None):
 class JobNew(AdminBase):
     def get(self):
         if get_job_mail_state(self.zsite_id) == STATE_VERIFIED:
-            com_place_list1 = get_zsite_com_place(self.zsite_id)
-            com_place_list2 = job_pid_by_com_id(self.zsite_id)
-            com_place_list = com_place_list2 or com_place_list1
+            com_place_list = job_pid_by_com_id(self.zsite_id)
             job_kind = json.dumps(JOB_KIND)
             com_department_list = com_department_by_com_id(self.zsite_id)
             return self.render(
-                com_place_list=com_place_list, 
-                job_kind=job_kind, 
+                com_place_list=com_place_list,
+                job_kind=job_kind,
                 com_department_list=com_department_list,
-                errtip = JsDict()
+                errtip=JsDict()
             )
         else:
             return self.redirect('/job/mail')
 
     post = _job_save
-    
-    
+
+
 
 
 
 
 @urlmap('/job/edit/(\d+)')
 class JobEdit(AdminBase):
-    def get(self,id):
+    def get(self, id):
         job = ComJob.mc_get(id)
         if job and job.com_id == self.zsite_id:
-            com_place_list1 = get_zsite_com_place(self.zsite_id)
-            com_place_list2 = job_pid_by_com_id(self.zsite_id)
-            com_place_list = com_place_list2 or com_place_list1
+            com_place_list = job_pid_by_com_id(self.zsite_id)
             job_kind = json.dumps(JOB_KIND)
             com_department_list = com_department_by_com_id(self.zsite_id)
             needs = job.needs
             self.render(
-                com_place_list=com_place_list, 
-                job_kind=job_kind, 
+                com_place_list=com_place_list,
+                job_kind=job_kind,
                 com_department_list=com_department_list,
-                errtip = JsDict(),
+                errtip=JsDict(),
                 title=job.title,
-                kinds = job_kind_by_job_id(job.id),
-                job_type = job_type_by_job_id(job.id),
-                
-                txt = needs.txt,
-                stock_option = needs.stock_option,
-                priority = needs.priority,
-                require = needs.requires,
-                welfare = needs.welfare,
+                kinds=job_kind_by_job_id(job.id),
+                job_type=job_type_by_job_id(job.id),
+
+                txt=needs.txt,
+                stock_option=needs.stock_option,
+                priority=needs.priority,
+                require=needs.requires,
+                welfare=needs.welfare,
 
                 salary_type=job.salary_type,
                 salary1=job.salary_up,
@@ -191,23 +184,23 @@ class JobEdit(AdminBase):
                 quota=job.quota,
 
                 job=job,
-                addr = job_place_by_job_id(job.id)
+                addr=job_place_by_job_id(job.id)
             )
         else:
-            return self.redirect("/job/admin")
-    
+            return self.redirect('/job/admin')
+
     _job_save = _job_save
-    
-    def post(self,id):
+
+    def post(self, id):
         job = ComJob.mc_get(id)
         if job and job.com_id == self.zsite_id:
             self._job_save(job)
         else:
-            return self.redirect("/job/admin")
+            return self.redirect('/job/admin')
 
 @urlmap('/job/close/(\d+)')
 class JobClose(AdminBase):
-    def get(self,id):
+    def get(self, id):
         job = ComJob.mc_get(id)
         if job:
             job.state = JOB_CLOSE
@@ -219,7 +212,7 @@ class JobD(ZsiteBase):
     def get(self, id):
         job = ComJob.mc_get(id)
         if job.state >= JOB_ACTIVE:
-            return self.render(job=job,com_id=self.zsite_id,current_user_id=self.current_user_id)
+            return self.render(job=job, com_id=self.zsite_id, current_user_id=self.current_user_id)
         else:
             self.redirect('/')
 
@@ -293,14 +286,14 @@ class MailVerify(AdminBase):
 @urlmap('/job/admin')
 @urlmap('/job/admin/(\d+)')
 class JobAdmin(AdminBase):
-    def get(self,state=JOB_ACTIVE):
-        job_list = com_job_by_state_com_id(self.zsite_id,state)
-        self.render(job_list=job_list,state=state)
+    def get(self, state=JOB_ACTIVE):
+        job_list = com_job_by_state_com_id(self.zsite_id, state)
+        self.render(job_list=job_list, state=state)
 
 @urlmap('/job/rm/(\d+)')
 class JobRm(AdminBase):
-    def post(self,state):
-        id = self.get_argument('id',None)
+    def post(self, state):
+        id = self.get_argument('id', None)
         job = ComJob.mc_get(id)
         if job.state == int(state):
             job.state = job.state-1
