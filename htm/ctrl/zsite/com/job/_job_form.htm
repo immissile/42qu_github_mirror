@@ -1,8 +1,7 @@
 <%!
 from zkit.job import JOB_KIND
 from zkit.earth import place_name
-from model.job import JOBTYPE
-from model.job import job_pid_by_com_id
+from model.job import JOBTYPE, SALARY_TYPE, job_pid_by_com_id
 from model.com import com_department_by_com_id
 from zkit.job import JOBKIND2CN
 %>
@@ -25,6 +24,7 @@ ${css.ctrl_zsite_com_job|n}
 
 <%def name="job_form( edit=None)">
 <%htm:form method="POST" id="event_form" enctype="multipart/form-data" onsubmit="return job_new()">
+
 <div class="po_line">
     <label>所属部门</label><select name="depart" id="depart">
 <%
@@ -58,6 +58,8 @@ ${css.ctrl_zsite_com_job|n}
     %endif
     <div class="errtip" id="errtip_kinds"></div>
 </div>
+
+
 <div class="po_line">
     <label>工作地点</label><a class="c9" href="javascript:add_addr();void(0)" id="add_addr">添加地址</a><div class="add_addr"><script>select_pid("pid", 0)</script></div>
 <%
@@ -78,20 +80,28 @@ ${css.ctrl_zsite_com_job|n}
     </div>
     <div class="errtip" id="errtip_addr"></div>
 </div>
+
+
 <div class="po_line">
     <label>职位描述</label><textarea class="txt" name="txt" id="txt">
 ${txt or ''}</textarea>
 ${errtip.txt|n}
 <div class="errtip" id="errtip_txt"></div>
 </div>
+
+
 <div class="po_line">
     <label>技能要求</label><textarea class="txt" name="require" id="require">${require or ''}</textarea>
     <div class="errtip" id="errtip_require"></div>
 </div>
+
+
 <div class="po_line">
     <label>优先条件</label><textarea class="txt" name="more" id="more">${priority or ''}</textarea>
     <div class="errtip" id="errtip_more"></div>
 </div>
+
+
 <div class="po_line">
     <label>有效时限</label><select name="deadline" id="deadline">
         <%
@@ -110,6 +120,8 @@ ${errtip.txt|n}
         %endfor
     </select>
 </div>
+
+
 <div class="po_line" id="type">
     <label>招聘类型</label>
 %for _job_cid, _job_name in JOBTYPE:
@@ -124,39 +136,46 @@ ${errtip.txt|n}
     for="type${_job_cid}">${_job_name}</label>\
 %endfor
 </div>
+
+
+
 <div class="po_line" id="salary">
     <label>工资范围</label><select name="sal_type">
-        <%
-            SalaryType=(
-                (1,'月薪'),
-                (2,'年薪')
-            )
-        %>
-        %for salary,cn in SalaryType:
+        %for salary,cn in SALARY_TYPE:
         <option value="${salary}"\
         %if salary_type and salary_type == salary:
         checked
        %endif 
         >${cn}</option>
         %endfor
-    </select><input name="salary1" class="input salary1" value="${salary1 or''}"> 元<span class="split">——</span>
-    <input name="salary2" class="input salary2" value="${salary2 or ''}"> 元
+    </select>\
+<input name="salary1" class="input salary1" value="${salary1 or''}"> 元\
+<span class="split">—</span>\
+<input name="salary2" class="input salary2" value="${salary2 or ''}"> 元\
     ${errtip.salary|n}
     <div class="errtip" id="errtip_salary"></div>
 </div>
+
+
 <div class="po_line">
     <label>招聘人数</label><input name="quota" class="input" style="width:50px;" value="${quota or ''}">
     ${errtip.quota|n}
     <div class="errtip" id="errtip_share"></div>
 </div>
+
+
 <div class="po_line">
     <label>股份期权</label><input name="share" class="input" value="${stock_option or ''}">
     <div class="errtip" id="errtip_share"></div>
 </div>
+
+
 <div class="po_line">
     <label>其他福利</label><input name="other" class="input" value="${welfare or ''}">
     <div class="errtip" id="errtip_other"></div>
 </div>
+
+
 <span class="btnw"><button type="submit">
         %if edit is not None:
         保存
@@ -164,7 +183,8 @@ ${errtip.txt|n}
         下一步
         %endif
 </button></span>
-%if edit is not None and job:
+
+%if job:
 <a href="/job/close/${job.id}">关闭职位</a>
 %endif
 </%htm:form>

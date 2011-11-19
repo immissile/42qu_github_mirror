@@ -13,6 +13,10 @@ JOBTYPE = (
     (4, '合伙人'),
 )
 
+SALARY_TYPE=(
+    (1,'月薪'),
+    (2,'年薪')
+)
 JOBTYPE2CN = dict(JOBTYPE)
 
 class JobPlace(McModel):
