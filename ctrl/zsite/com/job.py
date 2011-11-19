@@ -35,7 +35,7 @@ def _job_save(self,job=None):
     salary_type = self.get_argument('sal_type', None)
     dead_line = self.get_argument('deadline', None)
     pids = self.get_arguments('addr', None)
-    people_num = self.get_argument('people_num', None)
+    quota = self.get_argument('quota', None)
 
     if not department_id:
         errtip.department_id = '请选择部门'
@@ -47,8 +47,8 @@ def _job_save(self,job=None):
         errtip.job_type='请选择工作种类'
     if not pids:
         errtip.addr='请选择工作地址'
-    if not people_num.isdigit():
-        errtip.people_num='请设定人数'
+    if not quota.isdigit():
+        errtip.quota='请设定人数'
     if not (salary_up and salary_down):
         errtip.salary = '必须设定薪水'
     if not(salary_up.isdigit() and salary_down.isdigit()):
@@ -75,7 +75,7 @@ def _job_save(self,job=None):
                     salary_down,
                     salary_type,
                     int(dead_line)+today_days(),
-                    people_num
+                    quota
                 )
         else:
             cj = job
@@ -128,7 +128,7 @@ def _job_save(self,job=None):
                 salary2=salary_down,
                 dead_line=dead_line,
                 addr=pids,
-                people_num=people_num,
+                quota=quota,
                 )
 
 
@@ -143,20 +143,17 @@ class JobNew(AdminBase):
             job_kind = json.dumps(JOB_KIND)
             com_department_list = com_department_by_com_id(self.zsite_id)
             return self.render(
-                    com_place_list=com_place_list, 
-                    job_kind=job_kind, 
-                    com_department_list=com_department_list,
-                    errtip = JsDict()
-                    )
+                com_place_list=com_place_list, 
+                job_kind=job_kind, 
+                com_department_list=com_department_list,
+                errtip = JsDict()
+            )
         else:
             return self.redirect('/job/mail')
 
-    _job_save = _job_save
+    post = _job_save
     
     
-    
-    def post(self):
-        self._job_save()
 
 
 
@@ -165,42 +162,48 @@ class JobNew(AdminBase):
 class JobEdit(AdminBase):
     def get(self,id):
         job = ComJob.mc_get(id)
-        if job:
+        if job and job.com_id == self.zsite_id:
             com_place_list1 = get_zsite_com_place(self.zsite_id)
             com_place_list2 = job_pid_by_com_id(self.zsite_id)
             com_place_list = com_place_list2 or com_place_list1
             job_kind = json.dumps(JOB_KIND)
             com_department_list = com_department_by_com_id(self.zsite_id)
+            needs = job.needs
             self.render(
-                        com_place_list=com_place_list, 
-                        job_kind=job_kind, 
-                        com_department_list=com_department_list,
-                        errtip = JsDict(),
-                        title=job.title,
-                        stock_option=job.com_job_needs.stock_option,
-                        kinds = job_kind_by_job_id(job.id),
-                        priority=job.com_job_needs.priority,
-                        job_type = job_type_by_job_id(job.id),
-                        require =job.com_job_needs.requires,
-                        txt = job.txt,
-                        welfare = job.com_job_needs.welfare,
-                        salary_type=job.salary_type,
-                        salary1=job.salary_up,
-                        salary2=job.salary_down,
-                        dead_line=90,
-                        people_num=job.people_num,
-                        job=job,
-                        addr = job_place_by_job_id(job.id)
-                        )
+                com_place_list=com_place_list, 
+                job_kind=job_kind, 
+                com_department_list=com_department_list,
+                errtip = JsDict(),
+                title=job.title,
+                kinds = job_kind_by_job_id(job.id),
+                job_type = job_type_by_job_id(job.id),
+                
+                txt = needs.txt,
+                stock_option = needs.stock_option,
+                priority = needs.priority,
+                require = needs.requires,
+                welfare = needs.welfare,
+
+                salary_type=job.salary_type,
+                salary1=job.salary_up,
+                salary2=job.salary_down,
+                dead_line=90,
+                quota=job.quota,
+
+                job=job,
+                addr = job_place_by_job_id(job.id)
+            )
+        else:
+            return self.redirect("/job/admin")
     
     _job_save = _job_save
     
     def post(self,id):
         job = ComJob.mc_get(id)
-        if job:
-            self._job_save()
+        if job and job.com_id == self.zsite_id:
+            self._job_save(job)
         else:
-            self.get()
+            return self.redirect("/job/admin")
 
 @urlmap('/job/close/(\d+)')
 class JobClose(AdminBase):

@@ -83,7 +83,7 @@ def com_department_rm_by_id(id):
 def com_job_new(
         com_id, department_id, 
         title, create_time, salary_up, salary_down, salary_type, end_time,
-        people_num,
+        quota,
         txt, require,stock_option,welfare,priority
     ):
     cj = ComJob(
@@ -96,7 +96,7 @@ def com_job_new(
     cj.salary_down=salary_down
     cj.salary_type=salary_type
     cj.end_time=end_time
-    cj.people_num=people_num
+    cj.quota=quota
     cj.state = JOB_ACTIVE
     cj.save()
     return cj

@@ -31,7 +31,7 @@ ${job.title}\
     <div class="info_title">工资范围</div>
     <div class="info_cont">${JOBSALARY2CN[job.salary_type]} ${job.salary_up} - ${job.salary_down}</div>    
     <div class="info_title">招聘人数</div>
-    <div class="info_cont">${job.people_num}</div>    
+    <div class="info_cont">${job.quota}</div>    
     <div class="info_title">工作地址</div>
     <div class="info_cont">
     %for pid in job_place_by_job_id(job.id):
