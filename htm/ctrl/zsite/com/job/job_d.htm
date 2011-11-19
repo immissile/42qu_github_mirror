@@ -7,13 +7,18 @@ from model.zsite_member import zsite_member_can_admin
 %>
 ${css.ctrl_com_job|n}
 
+<%
+can_admin = zsite_member_can_admin(com_id,current_user_id)
+%>
 <a class="back_a" href="/"></a>
 <div class="zsite_block">
 %if job:
-%if zsite_member_can_admin(com_id,current_user_id): 
-<a href="/job/edit/${job.id}">编辑</a>
+<div class="job_title ${'tl' if can_admin else 'tc'}">\
+%if can_admin: 
+<a href="/job/edit/${job.id}" class="R">编辑</a>\
 %endif
-<div class="job_title">${job.title}</div>
+${job.title}\
+</div>\
     <div class="info_title">招聘类型</div>
     %if job_type_by_job_id(job.id):
     <div class="info_cont">
@@ -34,14 +39,10 @@ ${css.ctrl_com_job|n}
     %endfor
     </div>
     <div class="info_title">职位描述</div>
-    <div class="info_cont"><pre> 
-${job.job_description}
-</pre></div>    
+    <div class="info_cont"><pre>${job.job_description}</pre></div>    
     %if job.com_job_needs.requires:
     <div class="info_title">技能要求</div>
-    <div class="info_cont"><pre>
-${job.com_job_needs.requires} 
-</pre></div>    
+    <div class="info_cont"><pre> ${job.com_job_needs.requires}</pre></div>    
     %endif
     %if job.com_job_needs.priority:
     <div class="info_title">优先条件</div>

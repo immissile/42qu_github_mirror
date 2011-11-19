@@ -28,10 +28,9 @@ class ComJob(McModel):
     def job_department_list(self):
         return ComDepartment.where(com_id=self.id)
 
-    @property
-    def com_job_needs(self):
-        return ComJobNeeds.get(job_id=self.id)
-    
+    @attrcache
+    def needs(self):
+        return ComJobNeeds.mc_get(self.id)
 
 def com_pic_new(com_id,pic):
     pic_id = pic_new(CID_COM_PIC,com_id)
@@ -88,7 +87,7 @@ def com_job_new(com_id,department_id,title,job_description,create_time,salary_up
     return cj
 
 def com_job_needs_new(job_id,requires,stock_option,welfare,priority):
-    cjn = ComJobNeeds(job_id=job_id)
+    cjn = ComJobNeeds(id=job_id)
     cjn.stock_option=stock_option
     cjn.welfare=welfare
     cjn.priority = priority
