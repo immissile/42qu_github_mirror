@@ -9,6 +9,7 @@ ${css.ctrl_com_job|n}
 
 <%
 can_admin = zsite_member_can_admin(com_id,current_user_id)
+needs = job.needs
 %>
 <a class="back_a" href="/"></a>
 <div class="zsite_block">
@@ -39,26 +40,26 @@ ${job.title}\
     %endfor
     </div>
     <div class="info_title">职位描述</div>
-    <div class="info_cont"><pre>${job.txt}</pre></div>    
-    %if job.com_job_needs.requires:
+    <div class="info_cont"><pre>${needs.txt}</pre></div>    
+    %if needs.require:
     <div class="info_title">技能要求</div>
-    <div class="info_cont"><pre> ${job.com_job_needs.requires}</pre></div>    
+    <div class="info_cont"><pre> ${needs.require}</pre></div>    
     %endif
-    %if job.com_job_needs.priority:
+    %if needs.priority:
     <div class="info_title">优先条件</div>
     <div class="info_cont"><pre>
-${job.com_job_needs.priority}
+${needs.priority}
 </pre></div>    
     %endif
-    %if job.com_job_needs.stock_option:
+    %if needs.stock_option:
     <div class="info_title">股票期权</div>
     <div class="info_cont"><pre>
-${job.com_job_needs.stock_option}
+${needs.stock_option}
 </pre></div>    
     %endif
-    %if job.com_job_needs.welfare:
+    %if needs.welfare:
     <div class="info_title">其他福利</div>
-    <div class="info_cont">${job.com_job_needs.welfare}</div>
+    <div class="info_cont">${needs.welfare}</div>
     %endif
 
     <div class="btns job_btn"><span class="btnw"><button class="btn" type="submit">投递简历</button></span>

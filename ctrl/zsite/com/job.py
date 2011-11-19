@@ -81,7 +81,6 @@ def _job_save(self, job=None):
         self.redirect('/job/%s'%cj.id)
     else:
         self.render(
-                job_kind=job_kind,
                 errtip=errtip,
                 title=title,
                 stock_option=stock_option,
