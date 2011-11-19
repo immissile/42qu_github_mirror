@@ -20,7 +20,7 @@ from model.po import Po, po_id_list_by_com_id
             pos = Po.mc_get_list(product_pos)
         %>
         % for po in pos:
-    <a style="color: rgb(0, 0, 0); display: block; border-top: 1px dotted rgb(204, 204, 204);background:url(marking2.gif) no-repeat 8px 16px;padding:7px;padding-left:26px;padding-right:26px;text-align:center;" href="${zsite.link}#${po.id}">${po.name}</a>
+    <a style="color: rgb(0, 0, 0); display: block; border-top: 1px dotted rgb(204, 204, 204);background:url(marking2.gif) no-repeat 8px 16px;padding:7px;padding-left:26px;padding-right:26px;text-align:center;" href="${zsite.link}#product_${po.id}">${po.name}</a>
 %endfor
 %endif
 </div>
