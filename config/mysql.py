@@ -79,9 +79,9 @@ DB_MAIN_TABLE = (
     'job_mail',
 
     'zsite_com_place',
-    'job_place',
-    'job_type',
     'job_pid',
+    'job_type',
+    'job_pid_default',
     'job_kind',
     'com_job',
     'com_department',

@@ -1,7 +1,7 @@
 <%!
 from zkit.job import JOB_KIND
 from zkit.earth import place_name
-from model.job import JOBTYPE, SALARY_TYPE, job_pid_by_com_id
+from model.job import JOBTYPE, SALARY_TYPE, job_pid_default_by_com_id
 from model.job import com_department_by_com_id
 from zkit.job import JOBKIND2CN
 %>
@@ -63,7 +63,7 @@ ${css.ctrl_zsite_com_job|n}
 <div class="po_line">
     <label>工作地点</label><a class="c9" href="javascript:add_addr();void(0)" id="add_addr">添加地址</a><div class="add_addr"><script>select_pid("pid", 0)</script></div>
 <%
-    com_place_list = job_pid_by_com_id(zsite_id)
+    com_place_list = job_pid_default_by_com_id(zsite_id)
 %>
     <div id="addr">
         %if com_place_list:

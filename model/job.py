@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
+from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, McCacheA
 from zkit.job import JOBKIND2CN
 from zsite_com import pid_by_com_id
 from zkit.attrcache import attrcache
@@ -37,13 +37,14 @@ class ComJob(McModel):
     @attrcache
     def needs(self):
         return ComJobNeeds.mc_get(self.id)
-class JobPlace(McModel):
+
+class JobPid(McModel):
     pass
 
 class JobType(McModel):
     pass
 
-class JobPid(McModel):
+class JobPidDefault(McModel):
     pass
 
 class JobKind(McModel):
@@ -73,10 +74,6 @@ def com_department_by_com_id(com_id):
     return ComDepartment.where(com_id=com_id)
 
 
-def job_place_new(job_id, com_pid):
-    jp = JobPlace.get_or_create(job_id=job_id, pid=com_pid)
-    jp.save()
-    return jp
 
 @mc_job_kind_by_job_id("{id}")
 def job_kind_by_job_id(id):
@@ -115,14 +112,19 @@ def job_type_set(id, type_list):
     mc_job_type_by_job_id.delete(id)
 
 
-def job_pid_by_com_id(com_id):
-    p = JobPid.where(com_id=com_id)
+def job_pid_default_by_com_id(com_id):
+    p = JobPidDefault.where(com_id=com_id)
     if not p:
         p = pid_by_com_id(com_id)
     return p
 
-def job_pid_new(com_id, pid):
-    jp = JobPid.get_or_create(com_id=com_id, pid=pid)
+def job_pid_new(job_id, com_pid):
+    jp = JobPid.get_or_create(job_id=job_id, pid=com_pid)
+    jp.save()
+    return jp
+
+def job_pid_default_new(com_id, pid):
+    jp = JobPidDefault.get_or_create(com_id=com_id, pid=pid)
     jp.save()
     return jp
 
@@ -131,8 +133,8 @@ def job_kind_new(job_id, kind_id):
     jt.save()
     return jt
 
-def job_place_by_job_id(job_id):
-    return JobPlace.where(job_id=job_id).col_list(col='pid')
+def job_pid_by_job_id(job_id):
+    return JobPid.where(job_id=job_id).col_list(col='pid')
 
 
 
@@ -159,6 +161,7 @@ def job_new(
     cj.save()
 
     cjn = ComJobNeeds.get_or_create(id=job_id)
+
     cjn.stock_option=stock_option
     cjn.welfare=welfare
     cjn.txt = txt
@@ -177,8 +180,8 @@ def com_job_by_state_com_id(com_id,state):
 def com_job_by_department_and_com(department_id,com_id):
     return ComJob.where(department_id=department_id,com_id=com_id,state=JOB_ACTIVE)
 
-def job_place_list(self):
-    return JobPlace.where(com_id=self.id)
+def job_pid_list(self):
+    return JobPid.where(com_id=self.id)
 
 if __name__ == "__main__":
     job_type_set(25, [2,3225])

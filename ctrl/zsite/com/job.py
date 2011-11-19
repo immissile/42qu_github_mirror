@@ -6,7 +6,7 @@ from model.job_mail import get_job_mail_state, job_mail_new, STATE_VERIFIED
 from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM_HR
 import json
-from model.job import job_type_set, job_pid_new, job_place_new, job_pid_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_place_by_job_id, job_new, \
+from model.job import job_type_set, job_pid_default_new, job_pid_new, job_pid_default_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_pid_by_job_id, job_new, \
 ComJob, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id, com_department_new,   com_department_rm_by_id, com_department_edit
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
@@ -81,12 +81,12 @@ def _job_save(self, job=None):
 
         if isinstance(pids, list):
             for pid in pids:
-                job_pid_new(self.zsite_id, pid)
-                job_place_new(cj.id, pid)
+                job_pid_default_new(self.zsite_id, pid)
+                job_pid_new(cj.id, pid)
         else:
             pid = pids
-            job_pid_new(self.zsite_id, pid)
-            job_place_new(cj.id, pid)
+            job_pid_default_new(self.zsite_id, pid)
+            job_pid_new(cj.id, pid)
 
 
         job_type_set(id, job_type)
@@ -149,7 +149,7 @@ class JobEdit(AdminBase):
                 dead_line=90,
                 quota=job.quota,
                 job=job,
-                addr=job_place_by_job_id(job.id)
+                addr=job_pid_by_job_id(job.id)
             )
         else:
             return self.redirect('/job/admin')
