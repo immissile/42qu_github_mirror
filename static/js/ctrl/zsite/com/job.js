@@ -49,8 +49,7 @@ function add_de_a(){
         function(id){
             de = $('#depart')
             de.append('<option class="de_opt" selected value="'+id+'">'+val+'</option>')
-            $('.add_de_txt,.add_de_a').remove()
-            de.after('<a class="c9 add_de" href="javascript:add_de();void(0)">添加部门</a>')          
+            $('#fancybox-close').click()
         }
     )
 }
@@ -72,7 +71,11 @@ function add_ad_a(){
     $('#add_addr').show()
 }
 function add_de(){
-    $('.add_de').replaceWith('<input type="text" class="input add_de_txt"><a class="c9 add_de_a" href="javascript:add_de_a();void(0)">添加</a>')
+    var fancybox = $.fancybox
+    fancybox({
+        'content':'<input type="text" class="input add_de_txt"><a class="c9 add_de_a" href="javascript:add_de_a();void(0)">添加</a>',
+        'hideOnOverlayClick': false
+    })
 }
 function add_addr(){
     $('#add_addr').hide()
