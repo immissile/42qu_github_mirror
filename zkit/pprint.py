@@ -70,7 +70,7 @@ def isreadable(object):
     return _safe_repr(object, {}, None, 0)[1]
 
 def isrecursive(object):
-    """Determine if object requires a recursive representation."""
+    """Determine if object require a recursive representation."""
     return _safe_repr(object, {}, None, 0)[2]
 
 class PrettyPrinter:

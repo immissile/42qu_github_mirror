@@ -3,7 +3,7 @@
  * An exquisite jQuery plugin for magical layouts
  * http://isotope.metafizzy.co
  *
- * Commercial use requires one-time license fee
+ * Commercial use require one-time license fee
  * http://metafizzy.co/#licenses
  *
  * Copyright 2011 David DeSandro / Metafizzy
@@ -833,7 +833,7 @@
     // ====================== LAYOUTS ======================
     
     // calculates number of rows or columns
-    // requires columnWidth or rowHeight to be set on namespaced object
+    // require columnWidth or rowHeight to be set on namespaced object
     // i.e. this.masonry.columnWidth = 200
     _getSegments : function( isRows ) {
       var namespace = this.options.layoutMode,

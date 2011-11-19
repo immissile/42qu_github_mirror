@@ -125,7 +125,7 @@ class JobEdit(AdminBase):
                 txt=needs.txt,
                 stock_option=needs.stock_option,
                 priority=needs.priority,
-                require=needs.requires,
+                require=needs.require,
                 welfare=needs.welfare,
 
                 salary_type=job.salary_type,

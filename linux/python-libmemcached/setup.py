@@ -9,7 +9,7 @@ setup(
                 maintainer='davies',
                 maintainer_email='davies.liu@gmail.com',
 
-        requires=['pyrex'],
+        require=['pyrex'],
         ext_modules=[Extension('cmemcached_imp',
             ['cmemcached_imp.pyx', 'split_mc.c'],
             libraries=['memcached'],

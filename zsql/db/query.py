@@ -24,7 +24,7 @@ class Query(object):
     Instance Methods
     ----------------
 
-    Creating a Query object requires a Model class at the bare minimum. The
+    Creating a Query object require a Model class at the bare minimum. The
     doesn't run until results are pulled using a slice, ``list()`` or iterated
     over.
 
