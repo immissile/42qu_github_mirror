@@ -7,12 +7,14 @@ from cid import CID_REVIEW
 from kv import Kv
 from array import array
 from model.site_po import po_cid_count_by_zsite_id
+from state import STATE_PO_ZSITE_SHOW_THEN_REVIEW
 
 po_review_show = Kv('po_review_show', '')
 
 mc_po_review_id_get = McCache("PoReviewIdGet:%s")
 
 def po_review_new(zsite_id, user_id, name):
+    from model.zsite_member import zsite_member_can_admin
     if zsite_member_can_admin(zsite_id, user_id):
         state = STATE_ACTIVE
     else:
@@ -20,7 +22,6 @@ def po_review_new(zsite_id, user_id, name):
 
     review = po_review_get(zsite_id,user_id)
     if review:
-        review.rid = rid
         review.state = state
         review.name = name
         review.save() 
@@ -38,6 +39,7 @@ def po_review_new(zsite_id, user_id, name):
         )
 
     return review
+
 
 def po_review_rm(zsite_id, user_id):
     id = po_review_id_get(zsite_id, user_id)
@@ -82,6 +84,12 @@ def po_review_show_id_list_new(id, po_id):
     po_review_show.set(id, id_list.tostring())
 
 if __name__ == "__main__":
-    po_review_show_id_list_new(1, 2)
-    print po_review_show_id_list(1)
+    #po_review_show_id_list_new(1, 2)
+    #print po_review_show_id_list(1)
+    user_id =893
+    zsite_id = 895
+    name = "gw"
+    po_review_new(zsite_id, user_id, name)
 
+
+    print po_review_id_get(895, 893)
