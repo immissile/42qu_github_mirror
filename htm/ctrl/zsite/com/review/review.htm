@@ -1,4 +1,8 @@
 <%inherit file="/ctrl/_base/_tidy_base.htm" />
+<%!
+from model.zsite_member import zsite_member_can_admin
+%>
+
 <%def name="htm_head()">
 <style>
 h1{
@@ -7,6 +11,7 @@ h1{
     padding:16px 0;
     width:470px;
     margin:auto;
+    margin-bottom:8px;
 }
 .comment_txt{
 border:1px solid #ccc;
@@ -16,11 +21,27 @@ height:100px;
 }
 </style>
 </%def>
+<%
+can_admin = zsite_member_can_admin(zsite_id, current_user_id)
+%>
+
 <a href="/" class="back_a"></a>
-<h1 class="c"><span class="L">${zsite.name} 我</span></h1>
-<div style="padding-top:22px;border:none;" class="zsite_block">
+
+<h1 class="c">${zsite.name} : \
+%if can_admin:
+写几句给未来同事的寄语吧 ...
+%else:
+评价
+%endif
+</h1>\
+
+<div style="border:0" class="zsite_block">
 <textarea class="comment_txt"></textarea>
 <div style="margin-top:22px;" class="btns">
-<span style="margin-left:0;" class="btnw"><button type="submit" class="btn">下一步</button></span>
+<span style="margin-left:0;" class="btnw"><button type="submit" class="btn">保存</button></span>
 </div>
+
 </div>
+<script>
+$(".comment_txt").focus()
+</script>
