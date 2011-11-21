@@ -112,3 +112,64 @@ margin-left:14px;
 .member_btn{
 margin-top:22px;
 }
+.nav{
+width:470px;
+margin:0 auto;
+text-align:center;
+display:block;
+padding:16px 0;
+border-bottom:1px dotted #ccc;
+}
+.split{
+margin:0 12px;
+}
+.member_hint{
+color:#444;
+float:left;
+margin-right:20px;
+}
+.zsite_block{
+padding:0;
+border:none;
+}
+.member_item{
+width:160px;
+margin-left:30px;
+float:left;
+padding-bottom:4px;
+border-bottom:1px dotted #ccc;
+text-align:left;
+overflow:hidden;
+margin-bottom:16px;
+}
+.member_long{
+width:350px;
+}
+.member_block{
+float:left;
+width:380px;
+}
+.member_wrap{
+margin-top:32px;
+overflow:auto;
+}
+.member_a{
+color:#444;
+}
+.member_rm_a{
+float:right;
+display:block;
+padding:4px;
+margin-top:4px;
+width:16px;
+height:16px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;
+}
+.member_rm_a:hover{
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
+}
+.member_pass_a{
+float:right;
+display:block;
+margin-left:22px;
+}
