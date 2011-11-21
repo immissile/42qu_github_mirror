@@ -7,6 +7,7 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY
 from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_MAIL, CID_USER
 from model.verify import verify_new
 from user_mail import mail_by_user_id
+from model.po_review import po_review_state_set
 
 ZSITE_MEMBER_STATE_OWNER = STATE_OWNER    # 创始人 
 ZSITE_MEMBER_STATE_KERNEL = STATE_ADMIN   # 决策层
@@ -33,6 +34,7 @@ def zsite_member_new(
     id, _state = zsite_list_id_state(zsite_id, member_id, CID_ZSITE_LIST_MEMBER)
     if _state < state:
         zsite_list_new(zsite_id, member_id, CID_ZSITE_LIST_MEMBER, state=state)
+        po_review_state_set(zsite_id, member_id, 1)
         return True
 
 def zsite_member_admin_list(com_id):
@@ -41,6 +43,7 @@ def zsite_member_admin_list(com_id):
 
 def zsite_member_rm(zsite_id, member_id):
     zsite_list_rm(zsite_id, member_id, cid=CID_ZSITE_LIST_MEMBER)
+    po_review_state_set(zsite_id, member_id, 0)
 
 def zsite_member_list(zsite_id, state, limit=None, offset=None):
     return zsite_list_by_zsite_id_state(

@@ -1,8 +1,7 @@
-<%inherit file="/ctrl/_base/_tidy_base.htm" />
+<%inherit file="_base.htm" />
 
-${css.ctrl_com_review|n}
+
 <script src="${js.ctrl_com_review|n}"></script>
-
 
 <%!
 NAV = (
@@ -13,7 +12,6 @@ NAV = (
 <%
 path = request.path[8:].split("-",1)[0]
 %>
-<a class="back_a" href="http://zuroc.42qu.com/"></a>
 
 <span class="nav">\
 %for pos,(href,name) in enumerate(NAV):
@@ -39,7 +37,7 @@ class="c9"\
         <img src="http://p4.42qu.us/96/310/40246.jpg" class="review_avatar">
         <span class="review_quot_l">“ </span>
         <div class="review_cont">
-            <p>马云, 淘宝 , 创始人</p>
+            <p><a href="" target="_blank" class="review_a">马云, 淘宝 , 创始人</a></p>
             <div>
                 重视监控，有助于更早发现潜在问题，提升网站可用率。对于不能自建监控系统的电子商务中小站点，监控宝是个不错的选择。
                 <span class="review_quot_r">”</span>
@@ -55,7 +53,7 @@ class="c9"\
         <img src="http://p4.42qu.us/96/310/40246.jpg" class="review_avatar">
         <span class="review_quot_l">“ </span>
         <div class="review_cont">
-            <p>马云, 淘宝 , 创始人</p>
+            <p><a href="" target="_blank" class="review_a">马云, 淘宝 , 创始人</a></p>
             <div>
                 重视监控，有助于更早发现潜在问题，提升网站可用率。对于不能自建监控系统的电子商务中小站点，监控宝是个不错的选择。
                 <span class="review_quot_r">”</span>
@@ -71,7 +69,7 @@ class="c9"\
         <img src="http://p4.42qu.us/96/310/40246.jpg" class="review_avatar">
         <span class="review_quot_l">“ </span>
         <div class="review_cont">
-            <p>马云, 淘宝 , 创始人</p>
+            <p><a href="" target="_blank" class="review_a">马云, 淘宝 , 创始人</a></p>
             <div>
                 重视监控，有助于更早发现潜在问题，提升网站可用率。对于不能自建监控系统的电子商务中小站点，监控宝是个不错的选择。
                 <span class="review_quot_r">”</span>
@@ -87,7 +85,7 @@ class="c9"\
         <img src="http://p4.42qu.us/96/310/40246.jpg" class="review_avatar">
         <span class="review_quot_l">“ </span>
         <div class="review_cont">
-            <p>马云, 淘宝 , 创始人</p>
+            <p><a href="" target="_blank" class="review_a">马云, 淘宝 , 创始人</a></p>
             <div>
                 重视监控，有助于更早发现潜在问题，提升网站可用率。对于不能自建监控系统的电子商务中小站点，监控宝是个不错的选择。
                 <span class="review_quot_r">”</span>

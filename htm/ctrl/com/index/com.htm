@@ -12,13 +12,14 @@ from zkit.earth import place_name
 from model.zsite_fav import zsite_fav_id_get
 from model.job import com_job_by_com_id, com_department_by_com_id, com_job_by_department_and_com 
 from model.zsite import Zsite
-from model.po import product_list_by_com_id 
+from model.po_product import product_list_by_com_id 
 import json
 from zkit.jsdict import JsDict
 from model.zsite_member import zsite_member_can_admin, zsite_member_list, ZSITE_MEMBER_STATE_ACTIVE
 from model.zsite_com import ZsiteCom
 from model.po_video import video_uri
 from model.com_apply import com_apply_get
+from model.po_review import po_review_count
 %>
 <%def name="htm_title()">
 ${zsite.name} : ${motto_get(zsite.id)}
@@ -184,11 +185,11 @@ _com_job_by_com_id = com_job_by_com_id(zsite.id)
                     %>
                     <div id="nav">
 <%
-review_count = zsite.reply_count
+review_count = po_review_count(zsite_id)
 %>
 <a 
 %if reply_count:
-    href="/review-0" 
+    href="/review-1" 
 %else:
     href="/review" 
 %endif
