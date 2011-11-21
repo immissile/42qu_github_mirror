@@ -20,7 +20,7 @@ needs = job.needs
 %endif
 ${job.title}\
 </div>\
-    <div class="info_title">招聘类型</div>
+    <div class="inft">招聘类型</div>
     %if job_type_by_job_id(job.id):
     <div class="info_cont">
         
@@ -29,36 +29,36 @@ ${job.title}\
         %endfor
     </div>
     %endif
-    <div class="info_title">工资范围</div>
+    <div class="inft">工资范围</div>
     <div class="info_cont">${SALARY_TYPE2CN[job.salary_type]} ${job.salary_up} - ${job.salary_down}</div>    
-    <div class="info_title">招聘人数</div>
+    <div class="inft">招聘人数</div>
     <div class="info_cont">${job.quota}</div>    
-    <div class="info_title">工作地址</div>
+    <div class="inft">工作地址</div>
     <div class="info_cont">
     %for pid in job_pid_by_job_id(job.id):
     ${place_name(pid)}
     %endfor
     </div>
-    <div class="info_title">职位描述</div>
+    <div class="inft">职位描述</div>
     <div class="info_cont"><pre>${needs.txt}</pre></div>    
     %if needs.require:
-    <div class="info_title">技能要求</div>
+    <div class="inft">技能要求</div>
     <div class="info_cont"><pre> ${needs.require}</pre></div>    
     %endif
     %if needs.priority:
-    <div class="info_title">优先条件</div>
+    <div class="inft">优先条件</div>
     <div class="info_cont"><pre>
 ${needs.priority}
 </pre></div>    
     %endif
     %if needs.stock_option:
-    <div class="info_title">股票期权</div>
+    <div class="inft">股票期权</div>
     <div class="info_cont"><pre>
 ${needs.stock_option}
 </pre></div>    
     %endif
     %if needs.welfare:
-    <div class="info_title">其他福利</div>
+    <div class="inft">其他福利</div>
     <div class="info_cont">${needs.welfare}</div>
     %endif
 

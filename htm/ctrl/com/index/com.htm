@@ -24,7 +24,6 @@ ${zsite.name} : ${motto_get(zsite.id)}
 </%def>
 
 <%def name="htm_head()">
-##<script src="${js.ctrl_site_rec}"></script>
 <script src="${js.ctrl}"></script>
 </%def>
 <h1>${zsite.name}</h1>
@@ -64,33 +63,31 @@ ${po.name}</div>
                 ${info.product_about}
                 %endif
                 %if info.pic_id:
-                    <div class="com_main_img"><img src="${fs_url_jpg('548',info.pic_id)}"></div>
+<div class="com_main_img"><img src="${fs_url_jpg('548',info.pic_id)}"></div>
                 %endif
                 %if info.origin:
-                    <p class="com_p"><span>想法起源</span></p>
-                    <pre>  ${info.origin}</pre>
+<p class="com_p"><span>想法起源</span></p><pre>${info.origin}</pre>
                 %endif
                 %if info.product or info.market or info.team or info.culture or info.money:
                     <p class="com_p"><span>当前进展</span></p>
                     %if info.product:
-                        <p class="info_title3"><span class="info_title4">产品</span><span class="dot_split">:</span>${info.product}</p>
+<pre class="inft3"><span class="inft4">产品</span><span class="dot_split">:</span>${info.product}</pre>
                     %endif
                     %if info.market:
-                        <p class="info_title3"><span class="info_title4">市场</span><span class="dot_split">:</span>${info.market}</p>
+<pre class="inft3"><span class="inft4">市场</span><span class="dot_split">:</span>${info.market}</pre>
                     %endif
                     %if info.team:
-                        <p class="info_title3"><span class="info_title4">团队</span><span class="dot_split">:</span>${info.team}</p>
+<pre class="inft3"><span class="inft4">团队</span><span class="dot_split">:</span>${info.team}</pre>
                     %endif
                     %if info.culture:
-                        <p class="info_title3"><span class="info_title4">文化</span><span class="dot_split">:</span>${info.culture}</p>
+<pre class="inft3"><span class="inft4">文化</span><span class="dot_split">:</span>${info.culture}</pre>
                     %endif
                     %if info.money:
-                        <p class="info_title3"><span class="info_title4">融资</span><span class="dot_split">:</span>${info.money}</p>
+<pre class="inft3"><span class="inft4">融资</span><span class="dot_split">:</span>${info.money}</pre>
                     %endif
                 %endif
                 %if info.plan:
-                    <p class="com_p"><span>近期计划</span></p>
-                    <pre>${info.plan}  </pre>
+<p class="com_p"><span>近期计划</span></p><pre>${info.plan}</pre>
                 %endif
                 %if info.product_similar:                        
                     <p class="com_p"><span>同类产品</span></p>
@@ -100,18 +97,17 @@ ${po.name}</div>
                         %endfor
                     </p>
                     %if info.same:
-<p class="info_title3"><span class="info_title4">共同点</span><span class="dot_split">:</span>${info.same}</p>
+<pre class="inft3"><span class="inft4">共同点</span><span class="dot_split">:</span>${info.same}</pre>
                     %endif
                     %if info.different:
-<p class="info_title3"><span class="info_title4">区别点</span><span class="dot_split">:</span>${info.different}</p>
+<pre class="inft3"><span class="inft4">区别点</span><span class="dot_split">:</span>${info.different}</pre>
                     %endif
                     %if info.advantage:
-                        <p class="info_title3"><span class="info_title4">竞争力</span><span class="dot_split">:</span>${info.advantage}</p>        
+<pre class="inft3"><span class="inft4">竞争力</span><span class="dot_split">:</span>${info.advantage}</pre>        
                     %endif 
                 %endif
                 %if info.hope:
-                    <p class="com_p"><span>最终愿景</span></p>
-                    <pre>${info.hope} </pre>
+<p class="com_p"><span>最终愿景</span></p><pre>${info.hope}</pre>
                 %endif                        
 
         </div>
