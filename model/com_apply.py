@@ -17,6 +17,8 @@ class ComApply(McModel):
 def com_apply_list(com_id,state=STATE_APPLY):
     return ComApply.where(com_id=com_id,state=state)
 
+def com_apply_get(user_id,state=STATE_APPLY):
+    return ComApply.get(user_id=user_id,state=state)
 
 def com_apply_new(user_id,com_id):
     ca = ComApply.get_or_create(com_id=com_id,user_id=user_id)

@@ -12,7 +12,7 @@ from zkit.txt import EMAIL_VALID
 from model.user_mail import user_id_by_mail
 from model.user_auth import user_new_by_mail
 from zkit.errtip import Errtip
-from model.com_apply import com_apply_list
+from model.com_apply import com_apply_new
 #@urlmap('/member/new/result')
 #class MemberNewResult(AdminBase):
 #    def get(self):
@@ -38,6 +38,24 @@ class MemberNewSearch(AdminBase):
 
         return self.redirect(self.request.path)
 
+@urlmap('/member/apply')
+class MemberApply(AdminBase):
+    def post(self):
+        self.finish(True)
+
+@urlmap('/member/invite')
+class MemberInvite(AdminBase):
+    def post(self):
+        self.finish(True)
+
+@urlmap('/member/rm')
+def MemberRm(AdminBase):
+    def post(self):
+        id = self.get_argument('id',None)
+        if id:
+            zsite_member_rm(self.zsite_id,id)
+        self.redirect('/member/admin')
+
 @urlmap('/member/admin')
 class MemberAdmin(AdminBase):
     def get(self):
@@ -46,7 +64,8 @@ class MemberAdmin(AdminBase):
 @urlmap('/member/join')
 class MemberJoin(ZsiteBase):
     def get(self):
-        print '!!!'
+        com_apply_new(self.current_user_id,self.zsite_id)
+        self.redirect('/')
 
 @urlmap('/member/new/invite')
 class MemberNewInvite(AdminBase):
