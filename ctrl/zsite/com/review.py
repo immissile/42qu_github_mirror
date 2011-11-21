@@ -28,6 +28,8 @@ class Review(LoginBase):
 @urlmap('/review-(\d+)')
 class ReviewPage(ZsiteBase):
     def get(self, n):
+        zsite_id = self.zsite_id
+        current_user_id = self.current_user_id
         can_admin = zsite_member_can_admin(zsite_id, current_user_id)
         self.render(can_admin=can_admin)
         
