@@ -40,7 +40,7 @@ class Index(Base):
         self.render(product_list = product_show_list())
 
 @urlmap('/mine')
-class Mine(Base):
+class Mine(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
         com_list = zsite_list_by_member_admin(current_user_id)
@@ -59,7 +59,7 @@ class Product(Base):
 
 
 @urlmap('/new')
-class ComNew(Base):
+class ComNew(LoginBase):
     def get(self):
         self.render(errtip=JsDict())
 
