@@ -16,7 +16,7 @@ from model.po import product_show_list
 from model.zsite_show import zsite_show_list, zsite_show_count
 from model.zsite_member import zsite_list_by_member_admin
 from model.zsite_member import zsite_id_list_by_member_admin
-from model.com import zsite_com_new
+#from model.com import zsite_com_new
 
 @urlmap('/com/list')
 @urlmap('/com/list-(\d+)')
