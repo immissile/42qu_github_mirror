@@ -14,7 +14,7 @@ from txt import txt_new, txt_get, txt_property
 
 mc_product_id_list_by_com_id = McCacheA("ProductIdListByComId:%s") 
 
-def po_product_new(user_id, name, _info_json, zsite_id=0, state=STATE_ACTIVE, ):
+def po_product_new(user_id, name, _info_json, zsite_id=0, state=STATE_ACTIVE):
     if not name and not _info_json :
         return
     info_json = json.dumps(dict(iter(_info_json)))
