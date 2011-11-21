@@ -190,3 +190,23 @@ width:452px;
 .mt16{
 margin-top:16px;
 }
+.admin_ol{
+color:#666;
+list-style-position:inside;
+list-style-type:square;
+margin-top:32px;
+padding-bottom:32px;
+border-bottom:1px dotted #ccc;
+}
+.admin_ol li{
+margin-top:22px;
+}
+.admin_link{
+color:#000;
+margin-left:3px;
+letter-spacing:1px;
+}
+.admin_link:hover{
+color:#000;
+text-decoration:underline;
+}
