@@ -25,7 +25,6 @@ ${motto_get(com.id)}
 
 <%def name="htm_head()">
 ##<script src="${js.ctrl_site_rec}"></script>
-<script src="${js.ctrl_zsite_site}"></script>
 <script src="${js.ctrl}"></script>
 </%def>
 <h1>${com.name}</h1>
@@ -206,10 +205,10 @@ review_count = com.reply_count
 href="/admin">管理</a>\
                         %else:
                         %if zsite_fav_id_get(com, user_id):
-href="/admin" id="fav_a">设置</a>\
+id="fav_a">淡忘</a>\
                         %else:
-href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
-                            %endif
+id="fav_a">收藏</a>\
+                        %endif
                         %endif
                     </div>
                 </div>
