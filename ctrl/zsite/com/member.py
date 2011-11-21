@@ -67,10 +67,8 @@ class MemberInvite(AdminBase):
 class MemberRm(AdminBase):
     def post(self):
         id = self.get_argument('id',None)
-        print zsite_id_count_by_member_admin(com_id)
         com_id = self.zsite_id
         if id and zsite_id_count_by_member_admin(com_id)>1:
-            print zsite_id_count_by_member_admin(com_id)
             zsite_member_rm(com_id,id)
         self.finish(True)
 
@@ -98,7 +96,6 @@ class MemberAdminInvite(AdminBase):
         self.render()
 
     def post(self):
-        print self.request.arguments,'!!!'
         links = self.get_arguments('link',None)
         links = filter(lambda x:x.lstrip('http://').split('.')[0],links)
         uids = filter(lambda x:id_by_url(x),links)
