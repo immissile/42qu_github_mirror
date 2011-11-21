@@ -1,0 +1,42 @@
+<%inherit file="/ctrl/_base/_tidy_base.htm" />
+
+<%def name="htm_head()">
+<style>
+h1{
+    border-bottom:1px dotted #ccc;
+    padding-bottom:16px;
+    padding:16px 0;
+    width:470px;
+    margin:auto;
+    margin-bottom:8px;
+}
+.comment_txt{
+border:1px solid #ccc;
+width:456px;
+padding:3px 6px;
+height:100px;
+}
+h1 .split {
+    color: #ccc;
+    margin:0 14px;
+}
+</style>
+</%def>
+<%
+path = this.request.uri
+
+%>
+<a href="/" class="back_a"></a>
+
+<h1 class="tr">\
+<span class="L">${zsite.name}</span>\
+<a href="/review" class="c0">评论</a>\
+<span class="split">-</span>\
+%if can_admin:
+<a href="/review/admin" class="c9">管理</a>\
+%else:
+<a href="/review-1" class="c9">一览</a>\
+%endif
+</h1>
+
+${next.body()}
