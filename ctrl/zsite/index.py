@@ -46,9 +46,8 @@ class Index(ZsiteBase):
         elif zsite.cid == CID_COM:
             self.render(
                     '/ctrl/com/index/com.htm',
-                    com = zsite,
                     user_id = current_user_id
-                    )
+            )
         else:
             self.render( motto=motto.get(zsite_id) )
 

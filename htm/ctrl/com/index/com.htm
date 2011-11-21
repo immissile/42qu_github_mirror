@@ -20,20 +20,20 @@ from model.zsite_com import ZsiteCom
 from model.po_video import video_uri
 %>
 <%def name="htm_title()">
-${motto_get(com.id)}
+${zsite.name} : ${motto_get(zsite.id)}
 </%def>
 
 <%def name="htm_head()">
 ##<script src="${js.ctrl_site_rec}"></script>
 <script src="${js.ctrl}"></script>
 </%def>
-<h1>${com.name}</h1>
+<h1>${zsite.name}</h1>
 <%
 sta_list=[10001299,10000000,10030281]
 starter_list = Zsite.mc_get_list(sta_list)
-can_admin = zsite_member_can_admin(com.id, user_id)
-zsite_com = ZsiteCom.mc_get(com.id)
-_video_uri = video_uri(com.id)
+can_admin = zsite_member_can_admin(zsite.id, user_id)
+zsite_com = ZsiteCom.mc_get(zsite.id)
+_video_uri = video_uri(zsite.id)
 %>
 <div class="G">
     <div class="com_main">
@@ -45,7 +45,7 @@ _video_uri = video_uri(com.id)
         %endif
         <div class="com_item">
             <%
-            products = product_list_by_com_id(com.id)
+            products = product_list_by_com_id(zsite_id)
             %>
         %if products:
         % for product in products:
@@ -145,7 +145,7 @@ ${po.name}</div>
 
         <div class="com_item">
 <%
-_com_job_by_com_id = com_job_by_com_id(com.id)
+_com_job_by_com_id = com_job_by_com_id(zsite.id)
 %>
         %if can_admin or _com_job_by_com_id:
         <div class="com_title">\
@@ -157,13 +157,13 @@ _com_job_by_com_id = com_job_by_com_id(com.id)
         %endif
         % if _com_job_by_com_id:
             <%
-            departments = com_department_by_com_id(com.id)
+            departments = com_department_by_com_id(zsite.id)
             %>
             %if departments:
                 <div class="com_jobs">
                 %for department in departments:
                 <%
-                jobs = com_job_by_department_and_com(department.id,com.id) 
+                jobs = com_job_by_department_and_com(department.id,zsite.id) 
                 %>
                 %for job in jobs:
                 <a href="/job/${job.id}"><span>${job.quota}</span>${job.title}</a>
@@ -183,11 +183,11 @@ _com_job_by_com_id = com_job_by_com_id(com.id)
                 %endif
                 <div class="com_fbar">
                     <%
-                    is_owner = com.id == user_id
+                    is_owner = zsite.id == user_id
                     %>
                     <div id="nav">
 <%
-review_count = com.reply_count
+review_count = zsite.reply_count
 %>
 <a 
 %if reply_count:
@@ -204,7 +204,7 @@ review_count = com.reply_count
                         %if can_admin:
 href="/admin">管理</a>\
                         %else:
-                        %if zsite_fav_id_get(com, user_id):
+                        %if zsite_fav_id_get(zsite, user_id):
 id="fav_a">淡忘</a>\
                         %else:
 id="fav_a">收藏</a>\
@@ -214,7 +214,7 @@ id="fav_a">收藏</a>\
                 </div>
                 <div class="com_ir com_team">
                     <%
-                    member_list=zsite_member_list(com.id,ZSITE_MEMBER_STATE_ACTIVE)
+                    member_list=zsite_member_list(zsite.id,ZSITE_MEMBER_STATE_ACTIVE)
                     %>
                     <div class="com_title">\
 %if can_admin:
@@ -253,7 +253,7 @@ id="fav_a">收藏</a>\
                     <div class="com_ir">
                             <div class="com_title">联系方式</div>
                                <div>地址 :
-                                   %for place in pid_by_com_id(com.id):
+                                   %for place in pid_by_com_id(zsite.id):
                                      ${place_name(place.pid)}
                                    <div style="margin-left:40px">${place.address}</div>
                                    %endfor
@@ -263,7 +263,7 @@ id="fav_a">收藏</a>\
                                     %endif
                      </div>
 
-                   <img alt="${com.name}" src="${pic211_url(com.id)}" class="com_logo">
+                   <img alt="${zsite.name}" src="${pic211_url(zsite.id)}" class="com_logo">
 
                  </div>
 </div>
