@@ -33,7 +33,7 @@ def zsite_member_new(
         return True
 
 def zsite_member_admin_list(com_id):
-    return zsite_id_list_by_zsite_id(com_id,CID_ZSITE_LIST_MEMBER)
+    return Zsite.mc_get_list(zsite_id_list_by_zsite_id(com_id,CID_ZSITE_LIST_MEMBER))
 
 
 def zsite_member_rm(zsite_id, member_id):
