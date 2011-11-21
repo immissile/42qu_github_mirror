@@ -1,38 +1,11 @@
-<%inherit file="/ctrl/_base/_tidy_base.htm" />
+<%inherit file="base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-${css.ctrl_com_member|n}
-<script src="${js.ctrl_com_member|n}"></script>
 
 <%!
 from model.zsite import Zsite
-from model.zsite_member import zsite_member_admin_list, zsite_member_invite_list
+from model.zsite_member import zsite_member_admin_list, zsite_member_invite_list, zsite_id_count_by_member_admin
 from model.com_apply import com_apply_list
 %>
-<%!
-NAV = (
-    ('admin',"成员列表"),
-    ('admin/invite',"邀请成员")
-)
-%>
-<%
-path = request.path[8:].split("-",1)[0]
-%>
-<a class="back_a" href="http://zuroc.42qu.com/"></a>
-
-<span class="nav">\
-%for pos,(href,name) in enumerate(NAV):
-    %if pos:
-<span class="c9 split">-</span>\
-    %endif
-<a href="/member/${href}"
-%if path==href:
-class="c0"\
-%else:
-class="c9"\
-%endif
->${name|n}</a>\
-%endfor
-</span>\
 
 <%
         apply_member_list = com_apply_list(com_id)
@@ -61,11 +34,15 @@ class="c9"\
     <div class="member_wrap">
         <div class="member_hint">已加入成员</div>
         <div class="member_block">
-            %for admin_member in admin_member_list:
+            %for pos,admin_member in enumerate(admin_member_list):
             <%
             admin_member_id = admin_member.id
             %>
-            <div class="member_item"><a class="member_rm_a" id="in_${admin_member.id}" href="javascript:void(0)"></a><a class="member_a" href="${admin_member.link}" target="_blank">${admin_member.name}</a></div>
+            <div class="member_item">
+            %if zsite_id_count_by_member_admin(com_id)>1:
+            <a class="member_rm_a" id="in_${admin_member.id}" href="javascript:void(0)"></a>
+            %endif
+            <a class="member_a" href="${admin_member.link}" target="_blank">${admin_member.name}</a></div>
             %endfor
         </div>
     </div>

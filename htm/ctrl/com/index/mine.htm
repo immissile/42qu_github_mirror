@@ -7,10 +7,12 @@ border-bottom:1px dotted #ccc;display:block;padding:7px 0;text-align:center;
 </style>
 %if com_list:
 <div class="G">
-     %for com in com_list:
+    %for com in com_list:
+    %if com:
  <div class="G1">
      <a class="c0 comli" href="${com.link}">${com.name}</a>
-</div>
+ </div>
+    %endif
      %endfor
 </div>
  %else:

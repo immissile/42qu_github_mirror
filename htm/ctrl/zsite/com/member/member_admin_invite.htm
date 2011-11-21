@@ -1,46 +1,23 @@
-<%inherit file="/ctrl/_base/_tidy_base.htm" />
+<%inherit file="base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-${css.ctrl_com_member|n}
-<script src="${js.ctrl_com_member|n}"></script>
-
-<%!
-NAV = (
-    ('admin',"成员列表"),
-    ('admin/invite',"邀请成员")
-)
-%>
-<%
-path = request.path[8:].split("-",1)[0]
-%>
-<a class="back_a" href="http://zuroc.42qu.com/"></a>
-
-<span class="nav">\
-%for pos,(href,name) in enumerate(NAV):
-    %if pos:
-<span class="c9 split">-</span>\
-    %endif
-<a href="/member/${href}"
-%if path==href:
-class="c0"\
-%else:
-class="c9"\
-%endif
->${name|n}</a>\
-%endfor
-</span>\
-
+%if not success:
 <div class="zsite_block">
     <div class="invite_hint">你可以通过输入对方在42区的网址进行邀请</div>
+    <%htm:form>
     <div class="line"><input class="member_link" name="link" placeholder="用户网址"></div>
     <div class="line"><input class="member_link" name="link" placeholder="用户网址"></div>
     <div class="line"><input class="member_link" name="link" placeholder="用户网址"></div>
 
     <div class="invite_hint mt16">或者通过邮件邀请</div>
-    <div class="line"><input class="member_mail_short" name="link" placeholder="邮箱"><input class="member_name_short" name="link" placeholder="姓名"></div>
-    <div class="line"><input class="member_mail_short" name="link" placeholder="邮箱"><input class="member_name_short" name="link" placeholder="姓名"></div>
-    <div class="line"><input class="member_mail_short" name="link" placeholder="邮箱"><input class="member_name_short" name="link" placeholder="姓名"></div>
+    <div class="line"><input class="member_mail_short" name="mail" placeholder="邮箱"><input class="member_name_short" name="name" placeholder="姓名"></div>
+    <div class="line"><input class="member_mail_short" name="mail" placeholder="邮箱"><input class="member_name_short" name="name" placeholder="姓名"></div>
+    <div class="line"><input class="member_mail_short" name="mail" placeholder="邮箱"><input class="member_name_short" name="name" placeholder="姓名"></div>
 
 <div class="btns member_btn">
 <span class="btnw"><button type="submit" class="btn">发送邀请</button></span>
 </div>
+    </%htm:form>
 </div>
+%else:
+<div class="zsite_block" style="text-align:center;margin-top=50px">邀请成功，<a href="/">点此返回</a></div>
+%endif

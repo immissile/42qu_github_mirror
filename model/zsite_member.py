@@ -2,7 +2,7 @@
 from _db import Model
 from config import SITE_HTTP
 from model.mail import mq_rendermail, rendermail
-from model.zsite_list import zsite_list, zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state,STATE_INVITE, zsite_id_list_order_id_desc
+from model.zsite_list import zsite_list, zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state,STATE_INVITE, zsite_id_list_order_id_desc, ZsiteList
 from model.zsite import Zsite, ZSITE_STATE_APPLY
 from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_MAIL, CID_USER
 from model.verify import verify_new
@@ -20,6 +20,8 @@ def zsite_id_list_by_member_admin(id, limit=None, offset=None):
 def zsite_list_by_member_admin(id, limit=None, offset=None):
     return Zsite.mc_get_list(zsite_id_list_by_member_admin(id, limit, offset))
 
+def zsite_id_count_by_member_admin(id):
+    return ZsiteList.where(zsite_id=id,cid=CID_ZSITE_LIST_MEMBER).where('state>=%s',STATE_ACTIVE).count()
 
 def zsite_member_new(
     zsite_id, 
