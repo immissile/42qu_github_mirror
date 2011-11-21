@@ -14,7 +14,7 @@ class ComApply(McModel):
     pass
 
 
-def com_apply_list(com_id,state):
+def com_apply_list(com_id,state=STATE_APPLY):
     return ComApply.where(com_id=com_id,state=state)
 
 

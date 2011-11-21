@@ -13,7 +13,7 @@ from model.user_mail import user_id_by_mail
 from model.user_auth import user_new_by_mail
 from ctrl.main.auth.__init__ import SHOW_LIST
 from zkit.errtip import Errtip
-
+from model.com_apply import com_apply_list
 #@urlmap('/member/new/result')
 #class MemberNewResult(AdminBase):
 #    def get(self):
@@ -42,7 +42,12 @@ class MemberNewSearch(AdminBase):
 @urlmap('/member/admin')
 class MemberAdmin(AdminBase):
     def get(self):
-        self.render()
+        self.render(com_id=self.zsite_id)
+
+@urlmap('/member/join')
+class MemberJoin(ZsiteBase):
+    def get(self):
+        print '!!!'
 
 @urlmap('/member/new/invite')
 class MemberNewInvite(AdminBase):
