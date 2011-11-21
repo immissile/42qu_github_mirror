@@ -44,6 +44,11 @@ class MemberAdmin(AdminBase):
     def get(self):
         self.render()
 
+@urlmap('/member/admin/invite')
+class MemberAdminInvite(AdminBase):
+    def get(self):
+        self.render()
+
 @urlmap('/member/new/invite')
 class MemberNewInvite(AdminBase):
     def get(self):
@@ -63,6 +68,11 @@ class MemberNewInvite(AdminBase):
                 zsite_member_invite(self.zsite, user_id, self.current_user)
 
         return self.redirect('/review/invite')
+
+@urlmap('/review/invite')
+class ReviewInvite(AdminBase):
+    def get(self):
+        return self.render()
 
 @urlmap('/member/new/reg')
 class MemberNewReg(AdminBase):
