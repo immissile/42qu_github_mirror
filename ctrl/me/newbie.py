@@ -2,6 +2,9 @@
 from ctrl._urlmap.me import urlmap
 from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit, LinkEdit
 from _handler import LoginBase , XsrfGetBase
+from model.zsite import Zsite
+from zkit.errtip import Errtip
+from model.zsite_show import SHOW_LIST
 
 @urlmap('/me/newbie/1')
 class Career(CareerEdit):
@@ -34,15 +37,13 @@ class Link(LinkEdit):
         current_user = self.current_user
         self.redirect('%s/live'%current_user.link)
 
-@urlmap('/newbie/0')
+@urlmap('/me/newbie/0')
 class Newbie0(LoginBase):
     def get(self):
         id_list = SHOW_LIST
         zsite_list = filter(bool, Zsite.mc_get_list(id_list))
         self.render(
-            sex=0,
-            password='',
-            errtip=Errtip(),
             zsite_list=zsite_list,
+            errtip=Errtip(),
         )
 
