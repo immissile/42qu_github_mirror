@@ -26,7 +26,10 @@ line-height:0;
 border:1px solid #ccc;
 background-color: #F3F3F3;
 background-image: -moz-linear-gradient(#F3F3F3, #FFFFFF);
-color: #666666;
+color: #666;
+}
+.selected .review_a{
+color: #666;
 }
 .review_avatar{
 float:left;
@@ -93,5 +96,11 @@ border:none;
 padding:0;
 }
 .review_a{
-color:#666;
+color:#333;
+}
+.ick{
+display:inline;
+}
+.ick input{
+margin-top:5px;
 }
