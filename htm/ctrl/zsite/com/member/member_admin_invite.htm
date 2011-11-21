@@ -1,6 +1,7 @@
 <%inherit file="/ctrl/_base/_tidy_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 ${css.ctrl_com_member|n}
+<script src="${js.ctrl_com_member|n}"></script>
 
 <%!
 NAV = (
@@ -28,31 +29,18 @@ class="c9"\
 %endfor
 </span>\
 
-<div class="zsite_block"> 
-    <div class="member_wrap">
-        <div class="member_hint">待审核成员</div>
-        <div class="member_block">
-            <div class="member_item member_long"><a class="member_pass_a" href="javascript:member_do(1001,1);void(0)">通过</a><a class="member_pass_a" href="javascript:member_do(1001,2);void(0)">拒绝</a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-            <div class="member_item member_long"><a class="member_pass_a" href="javascript:member_do(1001,1);void(0)">通过</a><a class="member_pass_a" href="javascript:member_do(1001,2);void(0)">拒绝</a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-        </div>
-    </div>
+<div class="zsite_block">
+    <div class="invite_hint">你可以通过输入对方在42区的网址进行邀请</div>
+    <div class="line"><input class="member_link" name="link" placeholder="用户网址"></div>
+    <div class="line"><input class="member_link" name="link" placeholder="用户网址"></div>
+    <div class="line"><input class="member_link" name="link" placeholder="用户网址"></div>
 
-    <div class="member_wrap">
-        <div class="member_hint">已加入成员</div>
-        <div class="member_block">
-            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
+    <div class="invite_hint mt16">或者通过邮件邀请</div>
+    <div class="line"><input class="member_mail_short" name="link" placeholder="邮箱"><input class="member_name_short" name="link" placeholder="姓名"></div>
+    <div class="line"><input class="member_mail_short" name="link" placeholder="邮箱"><input class="member_name_short" name="link" placeholder="姓名"></div>
+    <div class="line"><input class="member_mail_short" name="link" placeholder="邮箱"><input class="member_name_short" name="link" placeholder="姓名"></div>
 
-        </div>
-    </div>
-    
-    <div class="member_wrap">
-        <div class="member_hint">已加入成员</div>
-        <div class="member_block">
-            <div class="member_item"><a class="member_rm_a" href="javascript:rm_member(1);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-            <div class="member_item"><a class="member_rm_a" href="javascript:rm_member(1);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-        </div>
-    </div>
-
+<div class="btns member_btn">
+<span class="btnw"><button type="submit" class="btn">发送邀请</button></span>
+</div>
+</div>

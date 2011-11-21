@@ -44,17 +44,17 @@ from model.po import po_id_list_by_com_id
 <img class="imgpic" src="${fs_url_jpg('215',pic_id)}">
 <input class="file" type="hidden" name="pic_id" value="${pic_id}" id="pic_id">
 %endif
-    <p class="info_title">图片 </p>
+    <p class="inft">图片 </p>
     <input class="file" name="pic" id="pic" type="file">
 </div>
 <div style="clear:both;">
-    <p class="info_title">想法</p>
+    <p class="inft">想法</p>
     <textarea name="origin" class="info_txt" id="txt_origin" placeholder="你受什么启发 , 看到了什么机会 ? 如何解读大趋势?">${origin or '' }</textarea>
-    <p class="info_title">产品</p>
+    <p class="inft">产品</p>
     <textarea name="product" class="info_txt" id="txt_product" placeholder="当前的进展如何 ? 提供了什么功能, 取得了哪些成绩？">${product_ or ''}</textarea>
-    <p class="info_title">市场</p>
+    <p class="inft">市场</p>
     <textarea name="market" class="info_txt" id="txt_market" placeholder="面向的人群是 ? 规模有多大 ? 种子用户从何而来 ? 会在那些渠道推广 ?">${market or ''}</textarea>
-    <p class="info_title">计划</p>
+    <p class="inft">计划</p>
     <textarea name="plan" class="info_txt" id="txt_plan" placeholder="接下来想做什么? ">${plan or ''}</textarea>
 </div>
 <p class="hint_wrap">同类产品</p>
@@ -69,11 +69,11 @@ from model.po import po_id_list_by_com_id
             %endif
             <input autocomplete="off" value="" class="similar_product_name" name="similar_product_name" placeholder="产品名称"><input class="similar_product_url" name="similar_product_url" placeholder="相关链接" value="">
         </div>
-        <p class="info_title">相同点</p>
+        <p class="inft">相同点</p>
         <textarea name="same" class="info_txt" id="txt_same" placeholder="一样会关注的点">${same or ''}</textarea>
-        <p class="info_title">区别点</p>
+        <p class="inft">区别点</p>
         <textarea name="different" class="info_txt" id="txt_title" placeholder="你们之间的不同">${different or ''}</textarea>
-        <p class="info_title">竞争力</p>
+        <p class="inft">竞争力</p>
         <textarea name="advantage" class="info_txt" id="txt_advantage" placeholder="为什么这件事情你能做，而别人不能做? 你有什么与众不同的地方?">${advantage or ''}</textarea>
     </div>
 </div>

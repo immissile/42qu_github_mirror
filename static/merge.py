@@ -66,7 +66,8 @@ class ChangeFilter():
 
         has_change = False
         for i in filelist:
-            with open(join(basedir, i)) as inf:
+            fpath = join(basedir, i) 
+            with open(fpath) as inf:
                 txt = inf.read()
                 hash = md5(txt).hexdigest()
                 result = self.filename2hash.get(i)
@@ -77,6 +78,7 @@ class ChangeFilter():
                 else:
                     self.filename2num[i] += 1
                     has_change = True
+                print fpath
                 self.filename2hash[i] = hash
                 #    print i,hash,result,self.filename2hash
                 yield i

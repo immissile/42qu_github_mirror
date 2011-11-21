@@ -20,21 +20,19 @@ from model.zsite_com import ZsiteCom
 from model.po_video import video_uri
 %>
 <%def name="htm_title()">
-${motto_get(com.id)}
+${zsite.name} : ${motto_get(zsite.id)}
 </%def>
 
 <%def name="htm_head()">
-##<script src="${js.ctrl_site_rec}"></script>
-<script src="${js.ctrl_zsite_site}"></script>
 <script src="${js.ctrl}"></script>
 </%def>
-<h1>${com.name}</h1>
+<h1>${zsite.name}</h1>
 <%
 sta_list=[10001299,10000000,10030281]
 starter_list = Zsite.mc_get_list(sta_list)
-can_admin = zsite_member_can_admin(com.id, user_id)
-zsite_com = ZsiteCom.mc_get(com.id)
-_video_uri = video_uri(com.id)
+can_admin = zsite_member_can_admin(zsite.id, user_id)
+zsite_com = ZsiteCom.mc_get(zsite.id)
+_video_uri = video_uri(zsite.id)
 %>
 <div class="G">
     <div class="com_main">
@@ -46,7 +44,7 @@ _video_uri = video_uri(com.id)
         %endif
         <div class="com_item">
             <%
-            products = product_list_by_com_id(com.id)
+            products = product_list_by_com_id(zsite_id)
             %>
         %if products:
         % for product in products:
@@ -65,33 +63,31 @@ ${po.name}</div>
                 ${info.product_about}
                 %endif
                 %if info.pic_id:
-                    <div class="com_main_img"><img src="${fs_url_jpg('548',info.pic_id)}"></div>
+<div class="com_main_img"><img src="${fs_url_jpg('548',info.pic_id)}"></div>
                 %endif
                 %if info.origin:
-                    <p class="com_p"><span>想法起源</span></p>
-                    <pre>  ${info.origin}</pre>
+<p class="com_p"><span>想法起源</span></p><pre>${info.origin}</pre>
                 %endif
                 %if info.product or info.market or info.team or info.culture or info.money:
                     <p class="com_p"><span>当前进展</span></p>
                     %if info.product:
-                        <p class="info_title3"><span class="info_title4">产品</span><span class="dot_split">:</span>${info.product}</p>
+<pre class="inft3"><span class="inft4">产品</span><span class="dot_split">:</span>${info.product}</pre>
                     %endif
                     %if info.market:
-                        <p class="info_title3"><span class="info_title4">市场</span><span class="dot_split">:</span>${info.market}</p>
+<pre class="inft3"><span class="inft4">市场</span><span class="dot_split">:</span>${info.market}</pre>
                     %endif
                     %if info.team:
-                        <p class="info_title3"><span class="info_title4">团队</span><span class="dot_split">:</span>${info.team}</p>
+<pre class="inft3"><span class="inft4">团队</span><span class="dot_split">:</span>${info.team}</pre>
                     %endif
                     %if info.culture:
-                        <p class="info_title3"><span class="info_title4">文化</span><span class="dot_split">:</span>${info.culture}</p>
+<pre class="inft3"><span class="inft4">文化</span><span class="dot_split">:</span>${info.culture}</pre>
                     %endif
                     %if info.money:
-                        <p class="info_title3"><span class="info_title4">融资</span><span class="dot_split">:</span>${info.money}</p>
+<pre class="inft3"><span class="inft4">融资</span><span class="dot_split">:</span>${info.money}</pre>
                     %endif
                 %endif
                 %if info.plan:
-                    <p class="com_p"><span>近期计划</span></p>
-                    <pre>${info.plan}  </pre>
+<p class="com_p"><span>近期计划</span></p><pre>${info.plan}</pre>
                 %endif
                 %if info.product_similar:                        
                     <p class="com_p"><span>同类产品</span></p>
@@ -101,18 +97,17 @@ ${po.name}</div>
                         %endfor
                     </p>
                     %if info.same:
-<p class="info_title3"><span class="info_title4">共同点</span><span class="dot_split">:</span>${info.same}</p>
+<pre class="inft3"><span class="inft4">共同点</span><span class="dot_split">:</span>${info.same}</pre>
                     %endif
                     %if info.different:
-<p class="info_title3"><span class="info_title4">区别点</span><span class="dot_split">:</span>${info.different}</p>
+<pre class="inft3"><span class="inft4">区别点</span><span class="dot_split">:</span>${info.different}</pre>
                     %endif
                     %if info.advantage:
-                        <p class="info_title3"><span class="info_title4">竞争力</span><span class="dot_split">:</span>${info.advantage}</p>        
+<pre class="inft3"><span class="inft4">竞争力</span><span class="dot_split">:</span>${info.advantage}</pre>        
                     %endif 
                 %endif
                 %if info.hope:
-                    <p class="com_p"><span>最终愿景</span></p>
-                    <pre>${info.hope} </pre>
+<p class="com_p"><span>最终愿景</span></p><pre>${info.hope}</pre>
                 %endif                        
 
         </div>
@@ -146,7 +141,7 @@ ${po.name}</div>
 
         <div class="com_item">
 <%
-_com_job_by_com_id = com_job_by_com_id(com.id)
+_com_job_by_com_id = com_job_by_com_id(zsite.id)
 %>
         %if can_admin or _com_job_by_com_id:
         <div class="com_title">\
@@ -158,13 +153,13 @@ _com_job_by_com_id = com_job_by_com_id(com.id)
         %endif
         % if _com_job_by_com_id:
             <%
-            departments = com_department_by_com_id(com.id)
+            departments = com_department_by_com_id(zsite.id)
             %>
             %if departments:
                 <div class="com_jobs">
                 %for department in departments:
                 <%
-                jobs = com_job_by_department_and_com(department.id,com.id) 
+                jobs = com_job_by_department_and_com(department.id,zsite.id) 
                 %>
                 %for job in jobs:
                 <a href="/job/${job.id}"><span>${job.quota}</span>${job.title}</a>
@@ -184,11 +179,11 @@ _com_job_by_com_id = com_job_by_com_id(com.id)
                 %endif
                 <div class="com_fbar">
                     <%
-                    is_owner = com.id == user_id
+                    is_owner = zsite.id == user_id
                     %>
                     <div id="nav">
 <%
-review_count = com.reply_count
+review_count = zsite.reply_count
 %>
 <a 
 %if reply_count:
@@ -205,17 +200,17 @@ review_count = com.reply_count
                         %if can_admin:
 href="/admin">管理</a>\
                         %else:
-                        %if zsite_fav_id_get(com, user_id):
-href="/admin" id="fav_a">设置</a>\
+                        %if zsite_fav_id_get(zsite, user_id):
+id="fav_a">淡忘</a>\
                         %else:
-href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
-                            %endif
+id="fav_a">收藏</a>\
+                        %endif
                         %endif
                     </div>
                 </div>
                 <div class="com_ir com_team">
                     <%
-                    member_list=zsite_member_list(com.id,ZSITE_MEMBER_STATE_ACTIVE)
+                    member_list=zsite_member_list(zsite.id,ZSITE_MEMBER_STATE_ACTIVE)
                     %>
                     <div class="com_title">\
 %if can_admin:
@@ -254,7 +249,7 @@ href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
                     <div class="com_ir">
                             <div class="com_title">联系方式</div>
                                <div>地址 :
-                                   %for place in pid_by_com_id(com.id):
+                                   %for place in pid_by_com_id(zsite.id):
                                      ${place_name(place.pid)}
                                    <div style="margin-left:40px">${place.address}</div>
                                    %endfor
@@ -264,7 +259,7 @@ href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
                                     %endif
                      </div>
 
-                   <img alt="${com.name}" src="${pic211_url(com.id)}" class="com_logo">
+                   <img alt="${zsite.name}" src="${pic211_url(zsite.id)}" class="com_logo">
 
                  </div>
 </div>

@@ -57,5 +57,7 @@ JOB_KIND =[[[0, '计算机软件'],
 JOBKIND2CN=dict(chain.from_iterable(JOB_KIND))
 
 if __name__ == "__main__":
-    print dict(chain.from_iterable(JOB_KIND))
-    #print JOB_KIND
+    #print dict(chain.from_iterable(JOB_KIND))
+    from json import dumps
+    print dumps(JOB_KIND)
+
