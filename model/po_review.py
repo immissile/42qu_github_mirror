@@ -1,10 +1,12 @@
 #coding:utf-8
 
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
-from po import po_new, Po, STATE_ACTIVE, STATE_SECRET
+from po import po_new, Po, STATE_ACTIVE, STATE_SECRET, po_list_count
+from site_po import mc_flush_zsite_cid
 from cid import CID_REVIEW
 from kv import Kv
 from array import array
+from model.site_po import po_cid_count_by_zsite_id
 
 po_review_show = Kv('po_review_show', '')
 
@@ -12,9 +14,9 @@ mc_po_review_id_get = McCache("PoReviewIdGet:%s")
 
 def po_review_new(zsite_id, user_id, name):
     if zsite_member_can_admin(zsite_id, user_id):
-        state = STATE_SECRET
-    else:
         state = STATE_ACTIVE
+    else:
+        state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
 
     review = po_review_get(zsite_id,user_id)
     if review:
@@ -55,6 +57,8 @@ zsite_id, user_id, CID_REVIEW
         return r[0]
     return 0
 
+def po_review_count(zsite_id):
+    return po_cid_count_by_zsite_id(zsite_id, CID_REVIEW)
 
 def po_review_get(zsite_id, user_id):
     id = po_review_id_get(zsite_id, user_id)
@@ -63,7 +67,7 @@ def po_review_get(zsite_id, user_id):
 def po_review_state_set(zsite_id, user_id, rid):
     review = po_review_get(zsite_id, user_id)
     if review:
-        review.state = STATE_SECRET if rid else STATE_ACTIVE
+        review.state = STATE_ACTIVE if rid else STATE_PO_ZSITE_SHOW_THEN_REVIEW
         review.save()
 
 def po_review_show_id_list(id):

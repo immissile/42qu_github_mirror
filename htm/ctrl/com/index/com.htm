@@ -18,6 +18,7 @@ from zkit.jsdict import JsDict
 from model.zsite_member import zsite_member_can_admin, zsite_member_list, ZSITE_MEMBER_STATE_ACTIVE
 from model.zsite_com import ZsiteCom
 from model.po_video import video_uri
+from model.po_review import po_review_count
 %>
 <%def name="htm_title()">
 ${zsite.name} : ${motto_get(zsite.id)}
@@ -183,7 +184,7 @@ _com_job_by_com_id = com_job_by_com_id(zsite.id)
                     %>
                     <div id="nav">
 <%
-review_count = zsite.reply_count
+review_count = po_review_count(zsite_id)
 %>
 <a 
 %if reply_count:
