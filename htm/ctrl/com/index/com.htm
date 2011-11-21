@@ -203,13 +203,14 @@ review_count = com.reply_count
 <span class="mr3">${review_count}</span>\
 %endif
 评价</a>\
+<a class="xa fbtn"
                         %if can_admin:
-                        <a href="/job/new" class="xa" style="font-size:16px;padding:7px 14px;">发布职位</a>\
+href="/admin">管理</a>\
                         %else:
-                            %if zsite_fav_id_get(com, user_id):
-                        <a href="/mark" class="xa" style="padding:7px 14px;font-size:16px;" id="fav_a">设置</a>\
-                            %else:
-                        <a class="xa" style="padding:7px 14px;font-size:16px;"href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
+                        %if zsite_fav_id_get(com, user_id):
+href="/admin" id="fav_a">设置</a>\
+                        %else:
+href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
                             %endif
                         %endif
                     </div>
