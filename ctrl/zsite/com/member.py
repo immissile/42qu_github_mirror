@@ -11,6 +11,8 @@ from model.cid import CID_USER
 from zkit.txt import EMAIL_VALID
 from model.user_mail import user_id_by_mail
 from model.user_auth import user_new_by_mail
+from ctrl.main.auth.__init__ import SHOW_LIST
+from zkit.errtip import Errtip
 
 #@urlmap('/member/new/result')
 #class MemberNewResult(AdminBase):
@@ -61,4 +63,16 @@ class MemberNewInvite(AdminBase):
                 zsite_member_invite(self.zsite, user_id, self.current_user)
 
         return self.redirect('/review/invite')
+
+@urlmap('/member/new/reg')
+class MemberNewReg(AdminBase):
+    def get(self):
+        id_list = SHOW_LIST
+        zsite_list = filter(bool, Zsite.mc_get_list(id_list))
+        self.render(
+            sex=0,
+            password='',
+            errtip=Errtip(),
+            zsite_list=zsite_list,
+        )
 
