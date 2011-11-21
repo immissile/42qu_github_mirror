@@ -231,3 +231,8 @@ color:#999;
 .com_fbar{
 margin-bottom:18px;margin-top:4px;text-align:right
 }
+.com_p{
+background: url(/img/gif/adot.gif) no-repeat scroll 4px 11px transparent; 
+border:0; 
+padding-top: 5px; padding-bottom: 5px; padding-left: 29px;
+}
