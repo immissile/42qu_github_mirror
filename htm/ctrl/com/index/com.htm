@@ -267,7 +267,7 @@ career = ' , '.join(filter(bool, i.career))
                            %endfor
                             </div>
                             ##  
-                            %if zsite_com.phone:
+                            %if zsite_com and zsite_com.phone:
                             <div>电话 : ${zsite_com.phone}</div>
                             %endif
                        </div>
