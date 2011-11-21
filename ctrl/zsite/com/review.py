@@ -35,6 +35,6 @@ class ReviewPage(ZsiteBase):
         current_user_id = self.current_user_id
         can_admin = zsite_member_can_admin(zsite_id, current_user_id)
         if can_admin:
-            return.self.redirect("/review/admin")
+            return self.redirect("/review/admin")
         self.render(can_admin=can_admin)
         
