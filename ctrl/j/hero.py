@@ -1,7 +1,7 @@
 #coding:utf-8
 from zkit.bot_txt import txt_wrap_by
 from ctrl._urlmap.j import urlmap
-from _handler import JLoginBase
+from _handler import Base
 from yajl import dumps
 from model.ico import ico_url_bind_with_default , ico_url_with_default
 from model.career import career_bind,career_current
@@ -13,7 +13,7 @@ from model.cid import CID_USER
 from model.motto import motto_get
 
 @urlmap('/j/hero/(.+)')
-class HeroJson(JLoginBase):
+class HeroJson(Base):
     def get(self,id):
         result = None
         if not id.isdigit():
