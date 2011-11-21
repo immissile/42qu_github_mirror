@@ -1,8 +1,7 @@
-<%inherit file="/ctrl/_base/_tidy_base.htm" />
+<%inherit file="_base.htm" />
 
-${css.ctrl_com_review|n}
+
 <script src="${js.ctrl_com_review|n}"></script>
-
 
 <%!
 NAV = (
@@ -13,7 +12,6 @@ NAV = (
 <%
 path = request.path[8:].split("-",1)[0]
 %>
-<a class="back_a" href="http://zuroc.42qu.com/"></a>
 
 <span class="nav">\
 %for pos,(href,name) in enumerate(NAV):
