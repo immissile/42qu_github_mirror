@@ -106,7 +106,12 @@ border:1px solid #ccc;
 padding:7px;
 width:320px;
 }
-.member_name{
+.member_name_short,.member_mail_short{
+border:1px solid #ccc;
+padding:7px;
+width:210px;
+}
+.member_name,.member_name_short{
 margin-left:14px;
 }
 .member_btn{
@@ -173,4 +178,35 @@ background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
 float:right;
 display:block;
 margin-left:22px;
+}
+.invite_hint{
+padding-top:16px;
+color:#444;
+}
+.member_link{
+border:1px solid #ccc;
+width:452px;
+}
+.mt16{
+margin-top:16px;
+}
+.admin_ol{
+color:#666;
+list-style-position:inside;
+list-style-type:square;
+margin-top:32px;
+padding-bottom:32px;
+border-bottom:1px dotted #ccc;
+}
+.admin_ol li{
+margin-top:22px;
+}
+.admin_link{
+color:#000;
+margin-left:3px;
+letter-spacing:1px;
+}
+.admin_link:hover{
+color:#000;
+text-decoration:underline;
 }
