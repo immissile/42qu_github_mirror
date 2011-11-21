@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
-from model.po import po_product_new, po_product_update, Po
 from _handler import AdminBase
 import json
 from zkit.jsdict import JsDict
@@ -11,7 +10,7 @@ from model.ico import site_ico_new, site_ico_bind
 from zkit.pic import pic_fit_width_cut_height_if_large
 from urlparse import urlparse
 from model.po_pic import product_pic_new
-from model.po import po_id_list_by_com_id, po_rm
+from model.po_product import Po, po_product_new, po_product_update, product_id_list_by_com_id, product_rm
 
 @urlmap('/product/new')
 class ProductNew(AdminBase):
@@ -39,7 +38,7 @@ class ProductNew(AdminBase):
                 info_json.product_about = about
                 po_product_new(user_id, name, info_json, zsite.id)
 
-            next_id = po_id_list_by_com_id(zsite.id)[0]
+            next_id = product_id_list_by_com_id(zsite.id)[0]
             return self.redirect('/product/new/%s'%next_id)
 
         self.get()
@@ -101,7 +100,7 @@ def _product_save(self, product):
 class ProductNewN(AdminBase):
     def get(self, id):
         id = int(id)
-        product_list = po_id_list_by_com_id(self.zsite.id)
+        product_list = product_id_list_by_com_id(self.zsite.id)
         product = Po.mc_get(id)
         if product:
             if id not in product_list:
@@ -118,7 +117,7 @@ class ProductNewN(AdminBase):
     _product_save = _product_save
 
     def post(self, id=0):
-        product_list = po_id_list_by_com_id(self.zsite.id)
+        product_list = product_id_list_by_com_id(self.zsite.id)
         id = int(id)
         product = Po.mc_get(id)
         if product:
