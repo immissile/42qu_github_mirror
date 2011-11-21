@@ -1,7 +1,11 @@
 <%inherit file="/ctrl/_base/_tidy_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 ${css.ctrl_com_member|n}
-
+<%!
+from model.zsite import Zsite
+from model.zsite_member import zsite_member_admin_list, zsite_member_invite_list
+from model.com_apply import com_apply_list
+%>
 <%!
 NAV = (
     ('admin',"成员列表"),
@@ -28,31 +32,54 @@ class="c9"\
 %endfor
 </span>\
 
+<%
+        apply_member_list = com_apply_list(com_id)
+        admin_member_list = zsite_member_admin_list(com_id)
+        invite_member_list = zsite_member_invite_list(com_id)
+
+%>
+
 <div class="zsite_block"> 
+    %if apply_member_list:
     <div class="member_wrap">
         <div class="member_hint">待审核成员</div>
         <div class="member_block">
-            <div class="member_item member_long"><a class="member_pass_a" href="javascript:member_do(1001,1);void(0)">通过</a><a class="member_pass_a" href="javascript:member_do(1001,2);void(0)">拒绝</a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-            <div class="member_item member_long"><a class="member_pass_a" href="javascript:member_do(1001,1);void(0)">通过</a><a class="member_pass_a" href="javascript:member_do(1001,2);void(0)">拒绝</a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
+            %for apply_member in apply_member_list:
+            <%
+            apply_member_id = apply_member.user_id
+            apply_member = Zsite.mc_get(apply_member_id)
+            %>
+            <div class="member_item member_long"><a class="member_pass_a" href="javascript:member_do($(apply_member_id},1);void(0)">通过</a><a class="member_pass_a" href="javascript:member_do(${apply_member_id},2);void(0)">拒绝</a><a class="member_a" href="${apply_member.link}" target="_blank">${apply_member.name}</a></div>
+            %endfor
         </div>
     </div>
+    %endif
 
+    %if admin_member_list:
     <div class="member_wrap">
         <div class="member_hint">已加入成员</div>
         <div class="member_block">
-            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-
+            %for admin_member in admin_member_list:
+            <%
+            admin_member_id = admin_member.id
+            %>
+            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(${admin_member_id},3);void(0)"></a><a class="member_a" href="${admin_member.link}" target="_blank">${admin_member.name}</a></div>
+            %endfor
         </div>
     </div>
-    
+    %endif
+
+    %if invite_member_list:
     <div class="member_wrap">
-        <div class="member_hint">已加入成员</div>
+        <div class="member_hint">已邀请成员</div>
         <div class="member_block">
-            <div class="member_item"><a class="member_rm_a" href="javascript:rm_member(1);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
-            <div class="member_item"><a class="member_rm_a" href="javascript:rm_member(1);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
+            %for invite_member in invite_member_list:
+            <%
+            invite_member_id = invite_member.id
+            %>
+            <div class="member_item"><a class="member_rm_a" href="javascript:rm_member(${invite_member_id});void(0)"></a><a class="member_a" href="${invite_member.link}" target="_blank">${invite_member.name}</a></div>
+            %endfor
         </div>
     </div>
-
+    %endif
+</div>

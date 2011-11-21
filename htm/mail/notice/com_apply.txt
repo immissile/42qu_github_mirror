@@ -1,0 +1,8 @@
+<%
+user_name = user.name
+%>
+您好，${user_name}申请加入您的公司
+
+您好，我是${user_name}(${user.link})，申请加入${com.name}:${com.link}
+
+点击这里审核${com.link}/member/admin ：）

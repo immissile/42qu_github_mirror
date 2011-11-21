@@ -32,6 +32,9 @@ def zsite_member_new(
         zsite_list_new(zsite_id, member_id, CID_ZSITE_LIST_MEMBER, state=state)
         return True
 
+def zsite_member_admin_list(com_id):
+    return zsite_id_list_by_zsite_id(com_id,CID_ZSITE_LIST_MEMBER)
+
 
 def zsite_member_rm(zsite_id, member_id):
     zsite_list_rm(zsite_id, member_id, cid=CID_ZSITE_LIST_MEMBER)
@@ -40,6 +43,10 @@ def zsite_member_list(zsite_id, state, limit=None, offset=None):
     return zsite_list_by_zsite_id_state(
         zsite_id, CID_ZSITE_LIST_MEMBER, state, limit, offset
     )
+
+    
+def zsite_member_invite_list(com_id):
+    return zsite_member_list(com_id,ZSITE_MEMBER_STATE_INVITE)
 
 def zsite_member_can_admin(zsite_id, member_id):
     id, state = zsite_list_id_state(zsite_id, member_id, CID_ZSITE_LIST_MEMBER)
