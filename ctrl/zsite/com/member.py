@@ -48,6 +48,11 @@ class MemberJoin(ZsiteBase):
     def get(self):
         print '!!!'
 
+@urlmap('/member/admin/invite')
+class MemberAdminInvite(AdminBase):
+    def get(self):
+        self.render()
+
 @urlmap('/member/new/invite')
 class MemberNewInvite(AdminBase):
     def get(self):
@@ -67,4 +72,22 @@ class MemberNewInvite(AdminBase):
                 zsite_member_invite(self.zsite, user_id, self.current_user)
 
         return self.redirect('/review/invite')
+
+@urlmap('/review/invite')
+class ReviewInvite(AdminBase):
+    def get(self):
+        return self.render()
+
+@urlmap('/member/new/reg')
+class MemberNewReg(AdminBase):
+    def get(self):
+        id_list = SHOW_LIST
+        zsite_list = filter(bool, Zsite.mc_get_list(id_list))
+        self.render(
+            sex=0,
+            password='',
+            errtip=Errtip(),
+            zsite_list=zsite_list,
+        )
+
 

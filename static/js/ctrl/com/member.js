@@ -29,4 +29,30 @@ $(function(){
         $("#follow_id_list").val(select_ids.join(' '))
         
     })
+
+    $('.member_mail:last').live('blur',function(){
+        var self = $(this)
+        if($.trim(self.val()).length>0){
+            self.parent().after(
+'<div class="line"><input placeholder="邮箱" name="mail" class="member_mail"><input placeholder="姓名" name="name" class="member_name"></div>'
+            )
+        }
+    })
+    $('.member_link:last').live('blur',function(){
+        var self = $(this)
+        if($.trim(self.val()).length>0){
+            self.parent().after(
+'<div class="line"><input placeholder="用户网址" name="link" class="member_link"></div>'
+            )
+        }
+    })
+    $('.member_mail_short:last').live('blur',function(){
+        var self = $(this)
+        if($.trim(self.val()).length>0){
+            self.parent().after(
+'<div class="line"><input placeholder="邮箱" name="mail" class="member_mail_short"><input placeholder="姓名" name="name" class="member_name_short"></div>'
+            )
+        }
+    })
+
 })

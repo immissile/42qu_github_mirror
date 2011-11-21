@@ -106,7 +106,12 @@ border:1px solid #ccc;
 padding:7px;
 width:320px;
 }
-.member_name{
+.member_name_short,.member_mail_short{
+border:1px solid #ccc;
+padding:7px;
+width:210px;
+}
+.member_name,.member_name_short{
 margin-left:14px;
 }
 .member_btn{
@@ -173,4 +178,15 @@ background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
 float:right;
 display:block;
 margin-left:22px;
+}
+.invite_hint{
+padding-top:16px;
+color:#444;
+}
+.member_link{
+border:1px solid #ccc;
+width:452px;
+}
+.mt16{
+margin-top:16px;
 }
