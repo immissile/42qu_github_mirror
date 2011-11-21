@@ -64,15 +64,3 @@ class MemberNewInvite(AdminBase):
 
         return self.redirect('/review/invite')
 
-@urlmap('/member/new/reg')
-class MemberNewReg(AdminBase):
-    def get(self):
-        id_list = SHOW_LIST
-        zsite_list = filter(bool, Zsite.mc_get_list(id_list))
-        self.render(
-            sex=0,
-            password='',
-            errtip=Errtip(),
-            zsite_list=zsite_list,
-        )
-
