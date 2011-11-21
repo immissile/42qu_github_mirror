@@ -151,9 +151,15 @@ font-size:14px;
 
 .com_pic img{
 width:357px;
-margin-bottom:0;
+margin-bottom:18px;
 height:160px;
 }
+
+.com_review{
+font-size:16px;
+margin-right:14px
+}
+
 .com_pic{
 margin-bottom:3px;
 line-height:0;

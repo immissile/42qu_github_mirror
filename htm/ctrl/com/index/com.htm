@@ -145,12 +145,6 @@ _video_uri = video_uri(com.id)
         </div>
 
 
-        <div class="com_item">
-            <div class="com_title">市场环境</div>
-            <pre class="com_text">小米手机是中国首款双核1.5GHz高性能发烧级智能手机，由小米公司独立研发完成。小米手机于　　如果把这个问题抛给小米的投资人，他们一定会愿意比照一家手机制造公司的估值基础的，他们的理由也振振有词：在苹果最早找风险投资的时候，那是一家制造公司；而今的小米手机，是这家公司最主打的产品之一；把这个问题抛给创业者，他们的回答是“一家互联网公司”，手机只是我们业务一部分，我们更重要是做移动互联产业，创业者的脚注也很有基础：这家公司的第一款产品，是米聊，一款IM软件。 
-            </pre>
-        </div>
-
 
         <div class="com_item">
 <%
@@ -190,12 +184,25 @@ _com_job_by_com_id = com_job_by_com_id(com.id)
                 %if zsite_com and zsite_com.cover_id:
                 <div class="com_pic"><img src="${fs_url_jpg('357',zsite_com.cover_id)}"></div>
                 %endif
-                <div style="margin:18px 0;text-align:right">
+                <div style="margin-bottom:18px;text-align:right">
                     <%
                     is_owner = com.id == user_id
                     %>
                     <div id="nav">
-                     <a href="#" class="c0" style="font-size:16px;margin-right:14px"><span class="mr3">${com.reply_count}</span>评价</a>\
+<%
+review_count = com.reply_count
+%>
+<a 
+%if reply_count:
+    href="/review-0" 
+%else:
+    href="/review" 
+%endif
+    class="c0 com_review">\
+%if review_count:
+<span class="mr3">${review_count}</span>\
+%endif
+评价</a>\
                         %if can_admin:
                         <a href="/job/new" class="xa" style="font-size:16px;padding:7px 14px;">发布职位</a>\
                         %else:
