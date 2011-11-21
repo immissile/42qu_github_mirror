@@ -25,7 +25,14 @@ class Review(LoginBase):
         current_user_id = self.current_user_id
         can_admin = zsite_member_can_admin(zsite_id, current_user_id)
         current_user_id = self.current_user_id
-        self.render(can_admin=can_admin)
+        review = po_review_get(zsite_id, user_id)
+        self.render(can_admin=can_admin, review=review)
+
+    def post(self):
+        zsite_id = self.zsite_id
+        current_user_id = self.current_user_id
+        can_admin = zsite_member_can_admin(zsite_id, current_user_id)
+        self.render(can_admin=can_admin) 
 
 
 @urlmap('/review-(\d+)')

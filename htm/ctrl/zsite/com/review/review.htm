@@ -1,22 +1,29 @@
 <%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>  
 
 
 
-<h1 class="c">
+<div style="width:470px;margin:16px auto 0">
 %if can_admin:
 写几句给未来同事的寄语吧 ...
 %else:
 说说你的看法吧 ...
 %endif
-</h1>\
+</div>\
 
+<%htm:form>
 <div style="border:0" class="zsite_block">
-<textarea class="comment_txt"></textarea>
+<textarea name="txt" class="comment_txt">\
+%if review:
+${review.txt}\
+%endif
+</textarea>\
 <div style="margin-top:22px;" class="btns">
 <span style="margin-left:0;" class="btnw"><button type="submit" class="btn">保存</button></span>
 </div>
 
 </div>
+</%htm:form>
 <script>
 $(".comment_txt").focus()
 </script>
