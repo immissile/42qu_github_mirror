@@ -10,7 +10,7 @@ class ReviewAdmin(AdminBase):
         return self.render()
 
 @urlmap('/review/invite')
-class ReviewInvite(AdminBase):
+class ReviewInvite(LoginBase):
     def get(self):
         return self.render()
 
@@ -19,6 +19,5 @@ class Review(LoginBase):
     def get(self):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
-        
         self.render()
 

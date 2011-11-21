@@ -62,9 +62,3 @@ class MemberNewInvite(AdminBase):
 
         return self.redirect('/review/invite')
 
-@urlmap('/review/invite')
-class ReviewInvite(AdminBase):
-    def get(self):
-        return self.render()
-
-
