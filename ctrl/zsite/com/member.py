@@ -38,23 +38,34 @@ class MemberNewSearch(AdminBase):
 
         return self.redirect(self.request.path)
 
-@urlmap('/member/apply')
+@urlmap('/member/apply/(\d+)/(\d+)')
 class MemberApply(AdminBase):
-    def post(self):
-        self.finish(True)
+    def post(self,state,id):
+        if state.isdigit and id.isdigit:
+            state = int(state)
+            id = int(id)
+            if state:
+                zsite_member_new(self.zsite_id,id,ZSITE_MEMBER_STATE_ACTIVE)
+                com_apply_accept(id,self.zsite_id,self.current_user_id)
+            else:
+                com_apply_rm(id,self.zsite_id,self.current_user_id)
+        self.redirect('/member/admin')
 
-@urlmap('/member/invite')
+@urlmap('/member/invite/rm')
 class MemberInvite(AdminBase):
-    def post(self):
-        self.finish(True)
-
-@urlmap('/member/rm')
-def MemberRm(AdminBase):
     def post(self):
         id = self.get_argument('id',None)
         if id:
             zsite_member_rm(self.zsite_id,id)
         self.redirect('/member/admin')
+
+@urlmap('/member/rm')
+def MemberRm(AdminBase):
+    def post(self):
+        print '!!!'
+        id = self.get_argument('id',None)
+        if id:
+            zsite_member_rm(self.zsite_id,id)
 
 @urlmap('/member/admin')
 class MemberAdmin(AdminBase):
@@ -64,7 +75,12 @@ class MemberAdmin(AdminBase):
 @urlmap('/member/join')
 class MemberJoin(ZsiteBase):
     def get(self):
-        com_apply_new(self.current_user_id,self.zsite_id)
+        user_id = self.current_user_id
+        com_id = self.zsite_id
+        if com_apply_get(user_id,com_id):
+            zsite_member_new(com_id,user_id,ZSITE_MEMBER_STATE_ACTIVE)
+        else:
+            com_apply_new(user_id,com_id)
         self.redirect('/')
 
 @urlmap('/member/admin/invite')

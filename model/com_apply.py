@@ -41,4 +41,10 @@ def com_apply_rm(user_id,com_id,admin_id):
         ca.create_time = today_seconds()
         ca.save()
 
+def com_apply_accept(user_id,com_id,admin_id):
+    ca = ComApply.get_or_create(user_id=user_id,com_id=com_id,)
+    ca.admin_id=admin_id
+    ca.create_time = today_seconds()
+    ca.state = STATE_APPLY_ACCEPT
+    ca.save()
 

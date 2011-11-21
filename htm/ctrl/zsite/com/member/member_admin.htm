@@ -51,7 +51,7 @@ class="c9"\
             apply_member_id = apply_member.user_id
             apply_member = Zsite.mc_get(apply_member_id)
             %>
-            <div class="member_item member_long"><a class="member_pass_a" href="javascript:member_do($(apply_member_id},1);void(0)">通过</a><a class="member_pass_a" href="javascript:member_do(${apply_member_id},2);void(0)">拒绝</a><a class="member_a" href="${apply_member.link}" target="_blank">${apply_member.name}</a></div>
+            <div class="member_item member_long"><a class="member_pass_a" href="/member/apply/1/${apply_member_id}">通过</a><a class="member_pass_a" href="/member/apply/0/${apply_member_id}">拒绝</a><a class="member_a" href="${apply_member.link}" target="_blank">${apply_member.name}</a></div>
             %endfor
         </div>
     </div>
