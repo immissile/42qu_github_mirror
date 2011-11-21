@@ -140,7 +140,7 @@ function add_addr(){
 }
 function rm_addr(id){
     $('#addr'+id).parent().remove()
-}
+};
 
 $(function(){
     function empty(self){
@@ -283,7 +283,7 @@ $(function(){
             var words = ''
             var ids = []
             $('.kinds_word_on').each(function(){
-                words += $(this).text() +　' + '
+                words += $(this).text()+' + '
                 ids.push($(this).parent().find('.kinds_cb').val())
             })
             //ids = ids.substr(0,words.length-2)
