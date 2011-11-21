@@ -188,7 +188,7 @@ _com_job_by_com_id = com_job_by_com_id(zsite.id)
 review_count = po_review_count(zsite_id)
 %>
 <a 
-%if reply_count:
+%if review_count:
     href="/review-1" 
 %else:
     href="/review" 
