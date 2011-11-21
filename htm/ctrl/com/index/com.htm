@@ -217,14 +217,14 @@ href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
                     <%
                     member_list=zsite_member_list(com.id,ZSITE_MEMBER_STATE_ACTIVE)
                     %>
-                    %if can_admin or member_list:
                     <div class="com_title">\
 %if can_admin:
-<a class="c9 R" href="/member/admin"> 管理</a>
+<a class="c9 R" href="/member/admin">管理</a>
+%else:
+<a class="c9 R" href="/member/join">加入</a>
 %endif
 团队成员
                        </div>
-                    %endif
                    %if member_list:
                         %for i in starter_list:
                         <%
