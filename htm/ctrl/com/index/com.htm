@@ -153,15 +153,18 @@ _video_uri = video_uri(com.id)
 
 
         <div class="com_item">
-        %if can_admin and not com_job_by_com_id(com.id):
-            <div class="com_title">招聘职位 <a style="float:right;"href="/job/admin">管理</a></div>
+<%
+_com_job_by_com_id = com_job_by_com_id(com.id)
+%>
+        %if can_admin or _com_job_by_com_id:
+        <div class="com_title">\
+            %if can_admin: 
+<a class="R c9"href="/job/admin">管理</a> 
+            %endif 
+招聘职位 
+        </div>
         %endif
-        % if com_job_by_com_id(com.id):
-            <div class="com_title">招聘职位
-            %if can_admin:
-            <a style="float:right;"href="/job/admin">管理</a>
-            %endif
-            </div>
+        % if _com_job_by_com_id:
             <%
             departments = com_department_by_com_id(com.id)
             %>
@@ -172,7 +175,7 @@ _video_uri = video_uri(com.id)
                 jobs = com_job_by_department_and_com(department.id,com.id) 
                 %>
                 %for job in jobs:
-                <a href="/job/${job.id}"><span>${job.quota}人</span>${job.title}</a>
+                <a href="/job/${job.id}"><span>${job.quota}</span>${job.title}</a>
                 %endfor
                 %endfor
                 </div>
