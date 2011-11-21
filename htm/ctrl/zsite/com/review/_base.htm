@@ -40,7 +40,13 @@ class="c0"
 %else:
 class="c9"
 %endif
->评论</a>\
+>\
+%if can_admin:
+撰写寄语\
+%else:
+评论\
+%endif
+</a>\
 <span class="split">-</span>\
 <a 
 %if is_review:
@@ -49,7 +55,7 @@ class="c9"
 class="c0"
 %endif
 %if can_admin:
-href="/review/admin">管理</a>\
+href="/review/admin">评论管理</a>\
 %else:
 href="/review-1">一览</a>\
 %endif
