@@ -215,8 +215,19 @@ href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
                         %endif
                     </div>
                 </div>
-                <div class="com_ir">
-                        <div class="com_title">创始人</div>
+                <div class="com_ir com_team">
+                    <%
+                    member_list=zsite_member_list(com.id,ZSITE_MEMBER_STATE_ACTIVE)
+                    %>
+                    %if can_admin or member_list:
+                    <div class="com_title">\
+%if can_admin:
+<a class="c9" href="/member/admin"> 管理</a>
+%endif
+团队成员
+                       </div>
+                    %endif
+                   %if member_list:
                         %for i in starter_list:
                         <%
                         career = ' , '.join(filter(bool, i.career))
@@ -238,31 +249,10 @@ href="javascript:sitefav();void(0)" class="nav_a" id="fav_a">收藏</a>\
                                 </div>
                             </div>
                         %endfor
-                </div>
-                <div class="com_ir com_team">
-                    <%
-                    member_list=zsite_member_list(com.id,ZSITE_MEMBER_STATE_ACTIVE)
-                    %>
-                    %if can_admin and not member_list:
-                    <div class="com_title">团队成员
-                        <a style="float:right;" href="/member/admin"> 管理</a></div>
                     %endif
-                   %if member_list:
-                       <div class="com_title">团队成员
-                           %if can_admin:
-                                <a style="float:right;" href="/member/admin"> 管理</a>
 
-                           %endif
-                       </div>
-                        %for i in member_list:
-                            <div class="com_member">
-                                <a class="com_avatar" href="${i.link}"><img src="${ico_url(i.id)}"></a>
-                                <div><a class="c0" href="${i.link}" target="_blank">${i.name}</a></div>
-                                <div class="mt6">${i.career[0]}</div>
-                                <div class="mt6">${i.career[1]}</div>
-                            </div>
-                           %endfor
-                    %endif
+
+
                     <div class="com_ir">
                             <div class="com_title">联系方式</div>
                                <div>地址 :
