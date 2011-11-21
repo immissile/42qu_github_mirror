@@ -1,4 +1,58 @@
 <%inherit file="/ctrl/_base/_tidy_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+${css.ctrl_com_member|n}
 
-still need work
+<%!
+NAV = (
+    ('admin',"成员列表"),
+    ('admin/invite',"邀请成员")
+)
+%>
+<%
+path = request.path[8:].split("-",1)[0]
+%>
+<a class="back_a" href="http://zuroc.42qu.com/"></a>
+
+<span class="nav">\
+%for pos,(href,name) in enumerate(NAV):
+    %if pos:
+<span class="c9 split">-</span>\
+    %endif
+<a href="/member/${href}"
+%if path==href:
+class="c0"\
+%else:
+class="c9"\
+%endif
+>${name|n}</a>\
+%endfor
+</span>\
+
+<div class="zsite_block"> 
+    <div class="member_wrap">
+        <div class="member_hint">待审核成员</div>
+        <div class="member_block">
+            <div class="member_item member_long"><a class="member_pass_a" href="javascript:member_do(1001,1);void(0)">通过</a><a class="member_pass_a" href="javascript:member_do(1001,2);void(0)">拒绝</a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
+            <div class="member_item member_long"><a class="member_pass_a" href="javascript:member_do(1001,1);void(0)">通过</a><a class="member_pass_a" href="javascript:member_do(1001,2);void(0)">拒绝</a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
+        </div>
+    </div>
+
+    <div class="member_wrap">
+        <div class="member_hint">已加入成员</div>
+        <div class="member_block">
+            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
+            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
+            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
+            <div class="member_item"><a class="member_rm_a" href="javascript:member_do(1001,3);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
+
+        </div>
+    </div>
+    
+    <div class="member_wrap">
+        <div class="member_hint">已加入成员</div>
+        <div class="member_block">
+            <div class="member_item"><a class="member_rm_a" href="javascript:rm_member(1);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
+            <div class="member_item"><a class="member_rm_a" href="javascript:rm_member(1);void(0)"></a><a class="member_a" href="" target="_blank">张沈鹏</a></div>
+        </div>
+    </div>
+
