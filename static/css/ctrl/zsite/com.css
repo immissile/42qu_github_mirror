@@ -155,7 +155,7 @@ font-size:16px;padding:7px 14px;
 
 .com_pic img{
 width:357px;
-margin-bottom:18px;
+margin-bottom:14px;
 height:160px;
 }
 
@@ -227,4 +227,7 @@ display:block;
 margin:8px 0 10px 72px;
 width:64px;
 color:#999;
+}
+.com_fbar{
+margin-bottom:18px;margin-top:4px;text-align:right
 }
