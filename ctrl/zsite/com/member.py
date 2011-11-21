@@ -15,6 +15,8 @@ from model.com_apply import com_apply_new, com_apply_get, com_apply_rm, com_appl
 from model.zsite_member import zsite_member_rm, zsite_member_invite, zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE, zsite_id_count_by_member_admin
 from zkit.txt import EMAIL_VALID
 from model.zsite_url import id_by_url
+from model.zsite import zsite_by_query
+from itertools import chain
 
 #@urlmap('/member/new/result')
 #class MemberNewResult(AdminBase):
@@ -59,8 +61,9 @@ class MemberApply(AdminBase):
 class MemberInvite(AdminBase):
     def post(self):
         id = self.get_argument('id',None)
+        com_id = self.zsite_id
         if id and zsite_id_count_by_member_admin(com_id)>1:
-            zsite_member_rm(self.zsite_id,id)
+            zsite_member_rm(com_id,id)
         self.redirect('/member/admin')
 
 @urlmap('/member/rm')
@@ -97,23 +100,25 @@ class MemberAdminInvite(AdminBase):
 
     def post(self):
         links = self.get_arguments('link',None)
-        links = filter(lambda x:x.lstrip('http://').split('.')[0],links)
-        uids = filter(lambda x:id_by_url(x),links)
-        emails = self.get_arguments('email',None)
+        uids = map(lambda x:zsite_by_query(x),links)
+        uids = chain(filter(lambda x:x.isdigit(),map(lambda x:x.lstrip('http://').split('.')[0],links)),filter(int,map(lambda x:zsite_by_query(x),links)))
+        emails = self.get_arguments('mail',None)
         names = self.get_arguments('name',None)
         invite_address =  zip(emails,names)
         com = self.zsite
         current_user = self.current_user
         
         
-        for n,(i,j) in invite_address:
-            if i or j:
+        for n,(i,j) in enumerate(invite_address):
+            if not(i or j):
                 del invite_address[n]
             if not EMAIL_VALID.match(i):
                 del invite_address[n]
+        
+        
         if uids:
-            for uesr_id in uids:
-                zsite_member_invite(com, user_id, current_user)
+            for uid in uids:
+                zsite_member_invite(com, uid, current_user)
 
 
 

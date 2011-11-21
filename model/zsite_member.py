@@ -22,7 +22,8 @@ def zsite_list_by_member_admin(id, limit=None, offset=None):
     return Zsite.mc_get_list(zsite_id_list_by_member_admin(id, limit, offset))
 
 def zsite_id_count_by_member_admin(id):
-    return ZsiteList.where(zsite_id=id,cid=CID_ZSITE_LIST_MEMBER).where('state>=%s',STATE_ACTIVE).count()
+    r =  ZsiteList.where(zsite_id=id,cid=CID_ZSITE_LIST_MEMBER).where('state>=%s',STATE_ACTIVE)
+    return r.count()
 
 def zsite_member_new(
     zsite_id, 

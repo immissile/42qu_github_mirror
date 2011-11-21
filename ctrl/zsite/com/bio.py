@@ -9,7 +9,6 @@ from zkit.pic import picopen
 @urlmap('/bio/new')
 class BioNew(AdminBase):
     def get(self):
-        print self.request.arguments
         return self.render()
 
     def post(self):
@@ -26,7 +25,6 @@ class BioNew(AdminBase):
             cover = files['cover'][0]['body']
             if cover:
                 cover = picopen(cover)
-                print cover,'!!!'
                 if cover:
                     cover_id = com_pic_new(com_id,cover)
         

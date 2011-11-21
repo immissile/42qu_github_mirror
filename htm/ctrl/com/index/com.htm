@@ -218,7 +218,7 @@ id="fav_a">收藏</a>\
 %if can_admin:
 <a class="c9 R" href="/member/admin">管理</a>
 %else:
-%if com_apply_get(user_id):
+%if com_apply_get(zsite.id,user_id):
 <span class="c9 R">申请已经提交</span>
 %else:
 <a class="c9 R" href="/member/join">加入</a>
