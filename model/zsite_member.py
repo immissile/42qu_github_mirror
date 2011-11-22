@@ -114,8 +114,6 @@ def _zsite_member_invite(zsite, member, current_user):
         )
 
 
-def zsite_review_invite(zsite, member):
-    pass
 
 def zsite_member_with_review(id):
     member_list = zsite_member_admin_list(id)

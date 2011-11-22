@@ -1,6 +1,8 @@
 <%inherit file="/ctrl/_base/com.htm" />
+<%def name="htm_head()">
 ${css.ctrl_com_review|n}
 <script src="${js.ctrl_com_review|n}"></script>
+</%def>
 
 <form enctype="multipart/form-data" id="invite_form" method="POST">
 <p class="hint">

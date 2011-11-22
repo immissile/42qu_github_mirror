@@ -124,6 +124,8 @@ def po_review_list_active_by_zsite_id(id):
         po_review_id_list_active_by_zsite_id(id)
     )
 
+def zsite_review_invite(zsite, member):
+    pass
 
 if __name__ == '__main__':
     #po_review_show_id_list_new(1, 2)

@@ -46,8 +46,23 @@ class ReviewAdmin(AdminBase):
 
 @urlmap('/review/invite')
 class ReviewInvite(LoginBase):
-    def get(self):
+    def get(self): 
         return self.render()
+
+    def post(self):
+        arguments = self.request.arguments
+        for mail, name in zip(arguments['mail'], arguments['name']):
+            mail = mail.strip().lower()
+            name = name.strip()
+            if EMAIL_VALID.match(mail):
+                user_id = user_id_by_mail(mail)
+                if not user_id:
+                    user = user_new_by_mail(mail, name=name)
+                    user_id = user.id
+
+                zsite_member_invite(self.zsite, user_id, self.current_user)
+
+        return self.redirect('/review')
 
 @urlmap('/review')
 class Review(LoginBase):
