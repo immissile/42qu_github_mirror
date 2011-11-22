@@ -132,6 +132,7 @@ function add_de(){
         'content':'<input type="text" class="input add_de_txt"><a class="add_de_a" href="javascript:add_de_a();void(0)">添加部门</a>',
         'hideOnOverlayClick': false
     })
+    $('.add_de_txt').focus()
 }
 function add_addr(){
     $('#add_addr').hide()
