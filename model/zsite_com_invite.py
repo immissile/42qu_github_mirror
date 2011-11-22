@@ -7,6 +7,8 @@ from user_mail import mail_by_user_id
 from config import SITE_HTTP
 from model.career import career_current
 from user_mail import user_id_by_mail
+from model.cid import CID_USER, CID_VERIFY_MAIL
+from model.mail import mq_rendermail, rendermail
 
 def member_list_by_id_list(member_id_list): 
     if type(member_id_list) in (str, int, long):
@@ -22,6 +24,7 @@ def member_list_by_id_list(member_id_list):
     return follower_list
 
 def http_by_member(member):
+    member_id =  member.id
     if member.state <= ZSITE_STATE_APPLY:
         verify_id, verify_value = verify_new(member_id, CID_VERIFY_MAIL)
         http = "%s/auth/verify/mail/%s/%s?next="%(
@@ -66,11 +69,11 @@ def _zsite_member_invite(zsite, member, current_user):
             http = http 
         )
 
-def zsite_review_invite(zsite, member, current_user):
+def zsite_review_invite(zsite, member_id_list, current_user):
     for i in member_list_by_id_list(member_id_list):
         _zsite_review_invite(zsite, i, current_user)
 
-def _zsite_member_invite(zsite, member, current_user):
+def _zsite_review_invite(zsite, member, current_user):
     zsite_id = zsite.id
     member_id =  member.id
 
