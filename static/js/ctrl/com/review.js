@@ -1,5 +1,5 @@
 $(function(){
-    $('selected').find('review_cb').attr('checked','checked')
+    $('.review_cb:checked').parent().parent().addClass('selected')
     $('.review_cb').change(function(){
         var self = $(this)
         var id = self.attr('id').substr(3)
