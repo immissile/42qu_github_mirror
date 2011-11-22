@@ -39,6 +39,9 @@ ico_url_bind_with_default(i.user for i in review_list)
 <%
 id = review.id
 user = review.user
+name = [user.name]
+name.extend(user.career or ())
+name = ' , '.join(filter(bool, name))
 %>
     <div class="review_wrap" id="review_${id}">
         <table><tr>
@@ -47,11 +50,9 @@ user = review.user
         <label for="cb_${id}"><img src="${user.ico}" class="review_avatar"></label>
         <span class="review_quot_l">“ </span>
         <div class="review_cont">
-            <p><a href="" target="_blank" class="review_a">${user.name} 淘宝 , 创始人</a></p>
-            <div>
-                重视监控，有助于更早发现潜在问题，提升网站可用率。对于不能自建监控系统的电子商务中小站点，监控宝是个不错的选择。
-                <span class="review_quot_r">”</span>
-            </div>
+            <p><a href="${user.link}" target="_blank" class="review_a">${name}</a></p>
+            <pre>${review.name}\
+<span class="review_quot_r">”</span></pre>
         </div>
         </td>
         </tr></table>

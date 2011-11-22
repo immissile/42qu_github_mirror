@@ -52,7 +52,9 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
         %for i in po_review_show_list:
         <%
         user = i.user
-        career = ' , '.join(filter(bool, user.career))
+        name = [user.name]
+        name.extend(user.career)
+        name = ' , '.join(filter(bool, name))
         img = ico_url(i.id)
         txt = i.name
         %>
@@ -61,7 +63,7 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
     %if img:
             <img src="${img}">
     %endif
-            <div class="com_q_a"><div>${user.name} ${career}</div></div>
+            <div class="com_q_a"><a target="_blank" href="${user.link}">${name}</a></div></div>
             <div class="com_q1">“ </div>
             <pre class="com_qt">${txt}<span class="com_q2">”</span></pre>
         </div>
