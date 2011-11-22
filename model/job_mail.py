@@ -24,3 +24,8 @@ def job_mail_new(zsite_id,mail,department_id=0,state=STATE_VERIFY):
     jm.state = state
     jm.save()
     return jm
+
+def job_mail_by_com_id(com_id):
+    jm = JobMail.get(zsite_id=com_id)
+    if jm and jm.state >= STATE_VERIFIED:
+        return jm.mail

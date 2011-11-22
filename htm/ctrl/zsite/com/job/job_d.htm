@@ -4,6 +4,7 @@ from model.job import job_type_by_job_id, job_pid_by_job_id, JOBTYPE2CN
 from zkit.earth import place_name
 from model.job import SALARY_TYPE2CN
 from model.zsite_member import zsite_member_can_admin
+from model.job_mail import job_mail_by_com_id
 %>
 ${css.ctrl_com_job|n}
 
@@ -61,9 +62,15 @@ ${needs.stock_option}
     <div class="inft">其他福利</div>
     <div class="info_cont">${needs.welfare}</div>
     %endif
-
-    <div class="btns job_btn"><span class="btnw"><button class="btn" type="submit">投递简历</button></span>
+    <%
+        job_mail = job_mail_by_com_id(com_id)
+        %>
+    %if job_mail:
+    <div class="btns job_btn">
+        简历投递邮箱:${job_mail}
+        ##<span class="btnw"><button class="btn" type="submit">${job_mail}</button></span>
     </div>
+    %endif
 %endif
 </div>
 

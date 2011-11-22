@@ -124,6 +124,7 @@ class ComNew(LoginBase):
             motto=motto,
             url=url,
             #txt=txt,
+            phone = phone,
             pic_id=pic_id,
             pid_add = pid_add
         )
