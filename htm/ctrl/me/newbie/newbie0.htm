@@ -4,6 +4,7 @@ from config import LOGO_TEXT, SITE_DOMAIN
 from model.ico import ico_url_bind_with_default
 from model.career import career_bind
 from tornado.escape import json_encode 
+from model.user_auth import user_password_verify, UserPassword, user_password_new
 %>
 
 <%inherit file="/ctrl/_base/zsite.htm" />
@@ -62,12 +63,13 @@ ${errtip.sex|n}
 <input class="login_mail" id="name" autocomplete="off" type="text" name="name" value="${name or current_user.name or ''}"></p>
 ${errtip.name|n}
 
+%if not UserPassword.get(current_user_id):
 <p class="line">
 <label class="label_input" for="password">密码</label>\
 <input class="login_password" id="password" autocomplete="off" type="password" name="password">
 </p>
 ${errtip.password|n}
-
+%endif
 
 <div class="cl btns" id="form_btn">
 <span class="L btnw next_btn"><button type="submit" >下一步</button></span>
