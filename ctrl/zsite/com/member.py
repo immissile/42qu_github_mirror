@@ -17,7 +17,7 @@ from zkit.txt import EMAIL_VALID
 from model.zsite_url import id_by_url
 from model.zsite import zsite_by_query
 from itertools import chain
-from model.zsite_com_invite import zsite_member_invite
+from model.zsite_com_invite import zsite_member_invite,zsite_review_invite
 
 #@urlmap('/member/new/result')
 #class MemberNewResult(AdminBase):
