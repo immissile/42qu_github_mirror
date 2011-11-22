@@ -235,18 +235,17 @@ id="fav_a" href="javascript:fav_com();void(0)">收藏</a>\
                        </div>
                    %if member_list:
                         %for i in member_list:
-                        <%
-        name = [i.name]
-        name.extend(i.career or ())
-        name = ' , '.join(filter(bool, name))
-                        %>
 <div class="com_text com_author">
     <div class="c">
         <a href="${i.link}" class="com_avatar"><img src="${ico_url(i.id)}"></a>
-        <div><a target="_blank" class="c0" href="${i.link}">${name}</a></div>
-           
-        <div class="mt6">${i.career[0]}</div>
-        <div class="mt6">${i.career[1]}</div>
+<a target="_blank" class="c0" href="${i.link}">\
+<div>${i.name}</div>\
+%for j in i.career:
+    %if j:
+<div class="mt6">${j}</div>\
+    %endif
+%endfor
+</a>
     </div>
 %if i.review:
 <%
