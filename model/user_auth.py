@@ -57,6 +57,8 @@ def user_new_by_mail(mail, password=None, name=None):
     return zsite
 
 if __name__ == '__main__':
+    z = Zsite.mc_get(10001299)
+    print z.sex,'!'
     print user_password_sha256(1)
 
 
