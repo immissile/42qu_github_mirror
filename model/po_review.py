@@ -13,7 +13,7 @@ from model.zsite import Zsite
 
 po_review_show = Kv('po_review_show', '')
 
-mc_po_review_id_get = McCache("PoReviewIdGet:%s")
+mc_po_review_id_get = McCache('PoReviewIdGet:%s')
 
 def po_review_new(zsite_id, user_id, name):
     from model.zsite_member import zsite_member_can_admin
@@ -22,11 +22,11 @@ def po_review_new(zsite_id, user_id, name):
     else:
         state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
 
-    review = po_review_get(zsite_id,user_id)
+    review = po_review_get(zsite_id, user_id)
     if review:
         review.state = state
         review.name = name
-        review.save() 
+        review.save()
     else:
         review = po_new(
             CID_REVIEW,
@@ -36,7 +36,7 @@ def po_review_new(zsite_id, user_id, name):
             zsite_id=zsite_id
         )
         mc_po_review_id_get.set(
-            "%s_%s"%(zsite_id, user_id),
+            '%s_%s'%(zsite_id, user_id),
             review.id
         )
     if state == STATE_ACTIVE:
@@ -49,12 +49,12 @@ def po_review_rm(zsite_id, user_id):
     if id:
         po_rm(user_id, id)
 
-    
 
-@mc_po_review_id_get("{zsite_id}_{user_id}")
+
+@mc_po_review_id_get('{zsite_id}_{user_id}')
 def po_review_id_get(zsite_id, user_id):
     c = Po.raw_sql(
-"select id from po where zsite_id=%s and user_id=%s and cid=%s",
+'select id from po where zsite_id=%s and user_id=%s and cid=%s',
 zsite_id, user_id, CID_REVIEW
     )
     r = c.fetchone()
@@ -66,7 +66,9 @@ def po_review_count(zsite_id):
     return po_cid_count_by_zsite_id(zsite_id, CID_REVIEW)
 
 def po_review_list_by_zsite_id(zsite_id, limit, offset):
-    po_list_by_zsite_id(zsite_id, CID_REVIEW , limit, offset)
+    review_list = po_list_by_zsite_id(zsite_id, CID_REVIEW , limit, offset)
+    po_review_bind(review_list)
+    return review_list
 
 def po_review_get(zsite_id, user_id):
     id = po_review_id_get(zsite_id, user_id)
@@ -80,24 +82,27 @@ def po_review_state_set(zsite_id, user_id, rid):
 
 def po_review_show_id_list(id):
     a = array('I')
-    a.fromstring(po_review_show.get(id)) 
-    return a 
+    a.fromstring(po_review_show.get(id))
+    return a
 
-def po_review_show_list_with_user(id):
-    review_list = Po.mc_get_list(po_review_show_id_list(id)) 
+def po_review_bind(review_list):
     Zsite.mc_bind(review_list, 'user', 'user_id')
     career_bind(i.user for i in review_list)
+
+def po_review_show_list_with_user(id):
+    review_list = Po.mc_get_list(po_review_show_id_list(id))
+    po_review_bind(review_list)
     return review_list
 
 def po_review_show_id_list_new(id, po_id):
     id_list = po_review_show_id_list(id)
     if po_id not in id_list:
-        id_list.insert(0,po_id)
+        id_list.insert(0, po_id)
     po_review_show.set(id, id_list.tostring())
 
 mc_po_review_id_list_active_by_zsite_id = McCacheA('PoReviewIdListActiveByZsiteId:%s')
 
-@mc_po_review_id_list_active_by_zsite_id("{id}")
+@mc_po_review_id_list_active_by_zsite_id('{id}')
 def po_review_id_list_active_by_zsite_id(id):
     qs = Po.where(
         zsite_id=id
@@ -110,7 +115,7 @@ def po_review_list_active_by_zsite_id(id):
     )
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     #po_review_show_id_list_new(1, 2)
     #print po_review_show_id_list(1)
     #name = "gw"
@@ -121,6 +126,8 @@ if __name__ == "__main__":
 #    zsite_id = 895
 #    for i in po_review_list_active_by_zsite_id(zsite_id):
 #        print i.name
-    895
+    zsite_id = 895
 
+    print po_review_count(zsite_id)
+    print po_review_list_by_zsite_id(zsite_id, 0, 1111)
 
