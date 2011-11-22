@@ -12,11 +12,12 @@ from model.user_mail import user_id_by_mail
 from model.user_auth import user_new_by_mail
 from zkit.errtip import Errtip
 from model.com_apply import com_apply_new, com_apply_get, com_apply_rm, com_apply_accept
-from model.zsite_member import zsite_member_rm, zsite_member_invite, zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE, zsite_id_count_by_member_admin
+from model.zsite_member import zsite_member_rm,  zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE, zsite_id_count_by_member_admin
 from zkit.txt import EMAIL_VALID
 from model.zsite_url import id_by_url
 from model.zsite import zsite_by_query
 from itertools import chain
+from model.zsite_com_invite import zsite_member_invite
 
 #@urlmap('/member/new/result')
 #class MemberNewResult(AdminBase):
