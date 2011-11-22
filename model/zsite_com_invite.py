@@ -6,6 +6,7 @@ from model.zsite_member import zsite_member_new
 from user_mail import mail_by_user_id
 from config import SITE_HTTP
 from model.career import career_current
+from user_mail import user_id_by_mail
 
 def member_list_by_id_list(member_id_list): 
     if type(member_id_list) in (str, int, long):
@@ -32,9 +33,7 @@ def http_by_member(member):
         http = "http:"
     return http
 
-def zsite_member_invite(
-    zsite, member_id_list, current_user
-):
+def zsite_member_invite( zsite, member_id_list, current_user):
 
     for i in member_list_by_id_list(member_id_list):
         _zsite_member_invite(zsite, i, current_user)
@@ -67,7 +66,7 @@ def _zsite_member_invite(zsite, member, current_user):
             http = http 
         )
 
-def zsite_review_invite(zsite, member):
+def zsite_review_invite(zsite, member, current_user):
     for i in member_list_by_id_list(member_id_list):
         _zsite_review_invite(zsite, i, current_user)
 
