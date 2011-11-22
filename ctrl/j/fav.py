@@ -1,9 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
 from model.zsite_url import zsite_by_domain
-from model.zsite_fav import zsite_fav_new
+from model.zsite_fav import zsite_fav_new, zsite_fav_rm
+from model.cid import CID_SITE, CID_COM
+
+@urlmap('/j/fav/rm')
+class FavRm(JLoginBase):
+    def post(self):
+        current_user = self.current_user
+        current_user_id = self.current_user_id
+
+        host = self.request.host
+        zsite = zsite_by_domain(host)
+
+        if zsite and zsite.cid in (CID_SITE, CID_COM):
+            zsite_fav_rm(zsite, current_user_id)
+
+        self.finish('{}')
+
 
 @urlmap('/j/fav')
 class Fav(JLoginBase):
