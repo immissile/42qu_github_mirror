@@ -5,7 +5,7 @@ from model.motto import motto
 from ctrl._urlmap.zsite import urlmap
 from model.zsite_link import link_by_id
 from model.cid import CID_USER, CID_SITE, CID_COM
-from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id, PAGE_LIMIT
+from model.site_po import feed_po_list_by_zsite_id, po_cid_count_by_zsite_id, PAGE_LIMIT
 from zkit.page import page_limit_offset
 from model.zsite_fav import zsite_fav_get_and_touch
 
@@ -20,7 +20,7 @@ def render_zsite_site(self, n=1, page_template='/-%s'):
         n,
         PAGE_LIMIT
     )
-    li = po_list_by_zsite_id(
+    li = feed_po_list_by_zsite_id(
         user_id, zsite_id, 0, limit, offset
     )
     page = page

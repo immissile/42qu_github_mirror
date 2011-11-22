@@ -19,7 +19,7 @@ margin-bottom:12px;
 .review_wrap_show{
 clear:both;
 border-bottom:1px dotted #ccc;
-padding:12px;
+padding:12px 0;
 line-height:0;
 }
 .selected{

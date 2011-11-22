@@ -25,11 +25,21 @@ ${review.name}\
 </textarea>\
 <div style="margin-top:22px;" class="btns">
 <span style="margin-left:0;" class="btnw"><button type="submit" class="btn">保存</button></span>
+<span class="tip R c9 f14">142字以内</span>
 </div>
 </div>
 </%htm:form>
 <script>
 $(".comment_txt").focus()
+var tip = $('.tip')
+can_say = txt_maxlen($('.comment_txt'),tip,142)
+post_say = function(){
+    if(!can_say()){
+        tip.fadeOut(function(){tip.fadeIn()})
+        return false
+    }
+}
+$('form:first').submit(post_say)
 </script>
 
 

@@ -19,7 +19,7 @@ from model.tag import Tag
 from model.event import Event, EVENT_STATE_TO_REVIEW
 from model.fav import fav_user_count_by_po_id, fav_user_list_by_po_id
 from model.vote import vote_up_count, vote_user_id_list
-from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id, PAGE_LIMIT
+from model.site_po import feed_po_list_by_zsite_id, po_cid_count_by_zsite_id, PAGE_LIMIT
 
 @urlmap('/po')
 class Index(ZsiteBase):
@@ -88,7 +88,7 @@ class PoPage(ZsiteBase):
             return self.redirect(page_template[:-3])
 
         if zsite_cid == CID_SITE:
-            po_list = po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset)
+            po_list = feed_po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset)
             back_a = None
             total = 0
         else:
