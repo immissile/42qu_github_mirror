@@ -31,7 +31,7 @@ def po_count_by_zsite_id(zsite_id):
         PO_CID, _po_count_by_zsite_id(zsite_id)
     )
 
-def po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset):
+def feed_po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset):
     return render_zsite_feed_list(
             user_id,
             po_id_list_by_zsite_id(zsite_id, cid, limit, offset)
@@ -48,7 +48,7 @@ def po_id_list_by_zsite_id(zsite_id, cid, limit, offset):
 
     return qs.order_by('id desc').col_list(limit, offset)
 
-def po_list_by_zsite_list(zsite_id, cid , limit, offset):
+def po_list_by_zsite_id(zsite_id, cid , limit, offset):
     return Po.mc_get_list(po_id_list_by_zsite_id(
         zsite_id, cid , limit, offset
     ))

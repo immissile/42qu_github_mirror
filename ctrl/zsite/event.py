@@ -15,7 +15,7 @@ from ctrl.me.i import NameCardEdit
 from model.zsite import ZSITE_STATE_VERIFY
 from model.zsite_url import link, id_by_url
 from config import SITE_DOMAIN
-from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id
+from model.site_po import feed_po_list_by_zsite_id, po_cid_count_by_zsite_id
 #from model.sync import mq_sync_join_event_by_zsite_id
 
 
@@ -72,7 +72,7 @@ class EventJoined(ZsiteBase):
         )
 
         if zsite.cid == CID_SITE:
-            li = po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset)
+            li = feed_po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset)
         else:
             li = event_list_join_by_user_id(zsite_id, limit, offset)
 
