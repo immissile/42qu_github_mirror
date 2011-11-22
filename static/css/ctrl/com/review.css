@@ -15,12 +15,14 @@ border:1px dotted #ccc;
 padding:12px;
 line-height:0;
 margin-bottom:12px;
+overflow:auto;
 }
 .review_wrap_show{
 clear:both;
 border-bottom:1px dotted #ccc;
 padding:12px 0;
 line-height:0;
+overflow:auto;
 }
 .selected{
 border:1px solid #ccc;
@@ -53,6 +55,7 @@ margin-top:42px;
 font-size:27px;
 color:#999;
 vertical-align:-9px;
+margin-left:8px;
 }
 .review_cb{
 margin-right:14px;

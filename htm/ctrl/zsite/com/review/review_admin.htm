@@ -46,21 +46,19 @@ name.extend(user.career or ())
 name = ' , '.join(filter(bool, name))
 %>
     <div class="review_wrap" id="review_${id}">
-        <table><tr>
-        <td class="ick"><input type="checkbox" 
+        <div class="ick L"><input type="checkbox" 
 %if id in po_review_id_list:
 checked
 %endif
-class="review_cb" id="cb_${id}"></td>
-        <td>
+class="review_cb" id="cb_${id}"></div>
+        <div>
         <label for="cb_${id}"><img src="${user.ico}" class="review_avatar"></label>
         <span class="review_quot_l">“ </span>
         <div class="review_cont">
             <p><a href="${user.link}" target="_blank" class="review_a">${name}</a></p>
             <pre>${review.name}<span class="review_quot_r">”</span></pre>
         </div>
-        </td>
-        </tr></table>
+        </div>
     </div>
     %if page:
     ${page|str,n}
