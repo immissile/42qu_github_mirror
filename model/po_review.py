@@ -89,7 +89,6 @@ def po_review_show_id_list_new(id, po_id):
         id_list.insert(0,po_id)
     po_review_show.set(id, id_list.tostring())
 
-
 mc_po_review_id_list_active_by_zsite_id = McCacheA('PoReviewIdListActiveByZsiteId:%s')
 
 @mc_po_review_id_list_active_by_zsite_id("{id}")
