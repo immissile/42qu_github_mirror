@@ -3,28 +3,28 @@ ${css.ctrl_zsite_com|n}
 %if not edit:
 <%
     NAV = (
-     ('/new','创建公司'),
-     ( '/product/new', '产品演示'),
-     ( '/job/new' ,'发布职位'),
-     ( '/bio/new' ,'企业介绍'),
-     ( '#' ,'添加成员'),
-     ( '#' ,'邀请评价'),
+     (['/new'],'创建公司'),
+     ( ['/product/new'], '产品演示'),
+     ( ['/job/new','/job/next'] ,'发布职位'),
+     ( ['/bio/new'] ,'企业介绍'),
+     ( ['/member/new/search'] ,'添加成员'),
+     ( ['/member/new/invite'] ,'邀请评价'),
     )
     path = request.path
     %>
-    
     <div class="head">
-    %for pos,(url,name) in enumerate(NAV):
+    %for pos,(urls,name) in enumerate(NAV):
     <span\
+        %for url in urls:
         %if path[:len(url)] == url:
         class="c0"\
         %endif
+        %endfor
         >${name}</span>
     %if pos+1 != len(NAV):
     &gt;
     %endif
     %endfor
-    ##<span class="c0">产品演示</span>&gt;<span>发布职位</span>&gt;<span>企业介绍</span>&gt;<span>添加成员</span>&gt;<span>邀请评价</span>
 </div>
 %endif
 ${next.body()}

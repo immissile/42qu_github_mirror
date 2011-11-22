@@ -25,7 +25,8 @@ class BioNew(AdminBase):
         com_id = self.zsite.id
         files = self.request.files
         cover_id = None
-        
+        video_site = None
+
         if files.get('cover'):
             cover = files['cover'][0]['body']
             if cover:
@@ -44,7 +45,7 @@ class BioNew(AdminBase):
             video,video_site = video_filter(video)
             video_new(com_id,video)
         zsite_com_new(com_id,hope,money,culture,team,cover_id,video_site)
-        self.redirect('/')
+        self.redirect('/member/new/search')
 
 
 @urlmap('/guide')
