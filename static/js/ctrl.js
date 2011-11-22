@@ -187,6 +187,46 @@ function follow_a(id) {
 	a.html(text)
 }
 
+function fav_com(){
+    var a = $('#fav_a'),
+    text = a.html(),
+    url = '/j/fav',
+    fav = '收藏',
+    fav_rm = '淡忘';
+    if(text == fav){
+        text = fav_rm,
+        fancybox = $.fancybox
+        fancybox({
+            content:'<form id="fav_reply" class="fancyreply"><h3>写写你对它的看法吧 ...</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">确定</button></span></div></form>',
+            onComplete: function() {
+                var reply = $('#fav_reply'),
+				textarea = reply.find('textarea');
+				reply.submit(function() {
+					var txt = $.trim(textarea.val());
+					if (txt && txt.length) {
+						fancybox.showActivity()
+						$.postJSON("/j/fav", {
+							'txt': txt
+						})
+						fancybox.close()
+					} else {
+						fancybox.close()
+					}
+					return false
+				})
+				textarea.focus()
+            }
+        })
+    } else {
+        if(confirm("取消收藏 , 确定 ?")){
+    		text = fav;
+	    	url += "/rm"
+        }
+	}
+	$.postJSON(url)
+	a.html(text)
+}
+
 function txt_maxlen(txt, tip,  maxlen, update, cancel) {
 	function po_word_update(value) {
 		var len = cnenlen(value),
