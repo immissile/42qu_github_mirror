@@ -96,12 +96,14 @@ def po_review_show_list_with_user(id):
 
 def po_review_show_new(id, po_id):
     id_list = po_review_show_id_list(id)
+    po_id = int(po_id)
     if po_id not in id_list:
         id_list.insert(0, po_id)
     po_review_show.set(id, id_list.tostring())
 
 def po_review_show_rm(id, po_id):
     id_list = po_review_show_id_list(id)
+    po_id = int(po_id)
     try:
         id_list.remove(po_id)
     except ValueError:
