@@ -248,6 +248,7 @@ id="fav_a">收藏</a>\
         <div class="mt6">${i.career[0]}</div>
         <div class="mt6">${i.career[1]}</div>
     </div>
+%if i.review:
 <%
 review = i.review
 txt = review.name
@@ -258,10 +259,10 @@ txt = review.name
             <pre class="com_qt">${txt}<span class="com_q2">”</span></pre>
     </div>
             %endif
+%endif
 </div>
                         %endfor
                     %endif
-
 </div>
 
                     <div class="com_ir">
