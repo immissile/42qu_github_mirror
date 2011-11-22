@@ -19,7 +19,7 @@ from model.zsite_member import zsite_member_can_admin, zsite_member_list, ZSITE_
 from model.zsite_com import ZsiteCom
 from model.po_video import video_uri
 from model.com_apply import com_apply_get
-from model.po_review import po_review_count
+from model.po_review import po_review_count,po_review_show_list_with_user
 %>
 <%def name="htm_title()">
 ${zsite.name} : ${motto_get(zsite.id)}
@@ -30,11 +30,9 @@ ${zsite.name} : ${motto_get(zsite.id)}
 </%def>
 <h1>${zsite.name}</h1>
 <%
-sta_list=[10001299,10000000,10030281]
-starter_list = Zsite.mc_get_list(sta_list)
-can_admin = zsite_member_can_admin(zsite.id, user_id)
-zsite_com = ZsiteCom.mc_get(zsite.id)
-_video_uri = video_uri(zsite.id)
+can_admin = zsite_member_can_admin(zsite_id, user_id)
+zsite_com = ZsiteCom.mc_get(zsite_id)
+_video_uri = video_uri(zsite_id)
 %>
 <div class="G">
     <div class="com_main">
@@ -44,6 +42,35 @@ _video_uri = video_uri(zsite.id)
            ${VIDEO_CID2HTM[zsite_com.video_cid]%_video_uri|n}
        </div>
         %endif
+<%
+po_review_show_list = po_review_show_list_with_user(zsite_id)
+%>
+%if po_review_show_list:
+        <div class="com_q_w">
+        <%
+        %>    
+        %for i in po_review_show_list:
+        <%
+        user = i.user
+        career = ' , '.join(filter(bool, user.career))
+        img = ico_url(i.id)
+        %>
+        <div class="c com_q" >
+%if img:
+            <img src="${img}">
+%endif
+            <div class="com_q_a"><div>${user.name} ${career}</div></div>
+            %if i.txt:
+            <div class="com_q1">“ </div>
+            <div class="com_qt">
+                ${i.txt}
+            <span class="com_q2">”</span>
+            </div>
+            %endif
+        </div>
+        %endfor
+        </div>
+%endif
         <div class="com_item">
             <%
             products = product_list_by_com_id(zsite_id)
@@ -117,26 +144,6 @@ ${po.name}</div>
         %endfor
         %endif
         
-        </div>
-        <div class="com_q_w">
-        <%
-        %>    
-        %for i in starter_list:
-        <%
-        career = ' , '.join(filter(bool, i.career))
-        %>
-        <div class="c com_q" >
-            <img src="${ico_url(i.id)}">
-            <div class="com_q_a"><div>${career}</div></div>
-            %if i.txt:
-            <div class="com_q1">“ </div>
-            <div class="com_qt">
-                ${i.txt}
-            <span class="com_q2">”</span>
-            </div>
-            %endif
-        </div>
-        %endfor
         </div>
 
 
@@ -227,7 +234,7 @@ id="fav_a">收藏</a>\
 团队成员
                        </div>
                    %if member_list:
-                        %for i in starter_list:
+                        %for i in []:
                         <%
                         career = ' , '.join(filter(bool, i.career))
                         %>

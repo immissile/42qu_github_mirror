@@ -8,6 +8,8 @@ from kv import Kv
 from array import array
 from model.site_po import po_cid_count_by_zsite_id
 from state import STATE_PO_ZSITE_SHOW_THEN_REVIEW
+from career import career_bind
+from model.zsite import Zsite
 
 po_review_show = Kv('po_review_show', '')
 
@@ -81,6 +83,7 @@ def po_review_show_id_list(id):
 def po_review_show_list_with_user(id):
     review_list = Po.mc_get_list(po_review_show_id_list(id)) 
     Zsite.mc_bind(review_list, 'user', 'user_id')
+    career_bind(i.user for i in review_list)
     return review_list
 
 def po_review_show_id_list_new(id, po_id):
