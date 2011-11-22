@@ -7,7 +7,7 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY
 from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_MAIL, CID_USER
 from model.verify import verify_new
 from user_mail import mail_by_user_id
-from model.po_review import po_review_state_set
+from model.po_review import po_review_state_set, po_review_list_active_by_zsite_id
 
 ZSITE_MEMBER_STATE_OWNER = STATE_OWNER    # 创始人 
 ZSITE_MEMBER_STATE_KERNEL = STATE_ADMIN   # 决策层
@@ -113,7 +113,32 @@ def _zsite_member_invite(zsite, member, current_user):
         )
 
 
+def zsite_member_with_review(id):
+    member_list = zsite_member_admin_list(id)
+    review_list = po_review_list_active_by_zsite_id(id)
+    review2member = dict((i.user_id,i) for i in review_list)
+    
+    result_with_review = []
+    result_without_review = []
+       
+    for i in member_list:
+        mid = i.id
+        if mid in review2member:
+            i.review = review2member[mid]
+            result_with_review.append(i)
+        else:
+            i.review = None
+            result_without_review.append(i)
+            
+    result_with_review.extend(result_without_review)
+    return result_with_review
+
 if __name__ == '__main__':
-    print ZSITE_MEMBER_STATE_ACTIVE,ZSITE_MEMBER_STATE_INVITE
-    pass
+    zsite_id = 895
+    for i in zsite_member_with_review(zsite_id):
+        review = i.review
+        print i.name
+        if review:
+            print "\t",review.name
+
 

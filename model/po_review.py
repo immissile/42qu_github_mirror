@@ -37,7 +37,8 @@ def po_review_new(zsite_id, user_id, name):
             "%s_%s"%(zsite_id, user_id),
             review.id
         )
-
+    if state == STATE_ACTIVE:
+        mc_po_review_id_list_active_by_zsite_id.delete(zsite_id)
     return review
 
 
@@ -89,18 +90,24 @@ mc_po_review_id_list_active_by_zsite_id = McCacheA('PoReviewIdListActiveByZsiteI
 @mc_po_review_id_list_active_by_zsite_id("{id}")
 def po_review_id_list_active_by_zsite_id(id):
     qs = Po.where(
-        zsite_id=zsite_id
+        zsite_id=id
     ).where('state=%s'%STATE_ACTIVE).order_by('id desc')
     return qs.col_list()
+
+def po_review_list_active_by_zsite_id(id):
+    return Po.mc_get_list(
+        po_review_id_list_active_by_zsite_id(id)
+    )
 
 if __name__ == "__main__":
     #po_review_show_id_list_new(1, 2)
     #print po_review_show_id_list(1)
-    user_id =893
-    zsite_id = 895
-    print po_review_id_list_active_by_zsite_id(zsite_id)
     #name = "gw"
     #po_review_new(zsite_id, user_id, name)
-
-
     #print po_review_id_get(895, 893)
+
+    user_id =893
+    zsite_id = 895
+    for i in po_review_list_active_by_zsite_id(zsite_id):
+        print i.name
+
