@@ -1,26 +1,7 @@
 <%inherit file="/ctrl/_base/_tidy_base.htm" />
-<style>
-.guide{
-    width:219px;
-    margin:auto;
-    border:1px dotted #ccc;
-    border-bottom:0
-}
-h1{
-font-size:16px;
-text-align:center;
-margin:27px;
-}
-.admin_link{
-    display:block;
-    color:#000;
-    font-size:16px;
-    border-bottom:1px dotted #ccc;
-    padding:16px;
-    background: url(http://s.realfex.xxx/img/gif/bnext.gif) no-repeat scroll 100% 50% transparent;
-}
-</style>
-
+<%def name="htm_head()">
+${css.ctrl_zsite_com_guide|n}
+</%def>
 
 <a class="back_a" href="/"></a>
 <h1 class="tc">${zsite.name}</h1>

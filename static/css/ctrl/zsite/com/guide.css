@@ -1,0 +1,20 @@
+
+.guide{
+    width:219px;
+    margin:auto;
+    border:1px dotted #ccc;
+    border-bottom:0
+}
+h1{
+font-size:16px;
+text-align:center;
+margin:27px;
+}
+.admin_link{
+    display:block;
+    color:#000;
+    font-size:16px;
+    border-bottom:1px dotted #ccc;
+    padding:16px;
+    background: url(http://s.realfex.xxx/img/gif/bnext.gif) no-repeat scroll 100% 50% transparent;
+}
