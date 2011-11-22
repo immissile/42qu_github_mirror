@@ -7,25 +7,6 @@ from model.ico import fs_url_jpg
 from model.po_product import product_id_list_by_com_id
 %>
 
-<script>
-$(function(){
-    $('.similar_product_name:last').live('blur',function(){
-        var self = $(this)
-        if($.trim($('.line:last').find('input[name="similar_product_name"]').val()).length>0){
-            var wrap = self.parent().parent(),
-            wrap.after('<div class="line"> <input name="similar_product_name" class="similar_product_name"><input name="similar_product_url" class="similar_product_url"><a href="javascript:void(0)" class="close_item"></a></div>')
-        }
-        self.unbind('blur')
-    })
-    $('.close_item').click(function(){
-        $(this).parent().remove()
-    })
-alert(0)
-
-})
-</script>
-
-
 <%def name="product_form(product=None,position=None)">
     <%htm:form classname="site_new" enctype="multipart/form-data">
     <%
