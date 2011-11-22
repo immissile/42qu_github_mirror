@@ -58,9 +58,9 @@ type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></span>
 ${errtip.sex|n}
 
 <p class="line">
-<label class="label_input" for="mail">名字</label>\
-<input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value=""></p>
-${errtip.mail|n}
+<label class="label_input" for="name">名字</label>\
+<input class="login_mail" id="name" autocomplete="off" type="text" name="name" value="${name or current_user.name or ''}"></p>
+${errtip.name|n}
 
 <p class="line">
 <label class="label_input" for="password">密码</label>\
