@@ -22,7 +22,7 @@ po_review_id_list = set(po_review_show_id_list(zsite_id))
 <span class="c9 split">-</span>\
     %endif
 <a href="/review/${href}"
-%if path.startswith(href):
+%if path == href:
 class="c0"\
 %else:
 class="c9"\
