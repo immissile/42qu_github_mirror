@@ -6,7 +6,7 @@ from site_po import mc_flush_zsite_cid
 from cid import CID_REVIEW
 from kv import Kv
 from array import array
-from model.site_po import po_cid_count_by_zsite_id
+from model.site_po import po_cid_count_by_zsite_id, po_list_by_zsite_id
 from state import STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from career import career_bind
 from model.zsite import Zsite
@@ -65,6 +65,9 @@ zsite_id, user_id, CID_REVIEW
 def po_review_count(zsite_id):
     return po_cid_count_by_zsite_id(zsite_id, CID_REVIEW)
 
+def po_review_list_by_zsite_id(zsite_id, limit, offset):
+    po_list_by_zsite_id(zsite_id, CID_REVIEW , limit, offset)
+
 def po_review_get(zsite_id, user_id):
     id = po_review_id_get(zsite_id, user_id)
     return id and Po.mc_get(id)
@@ -114,8 +117,10 @@ if __name__ == "__main__":
     #po_review_new(zsite_id, user_id, name)
     #print po_review_id_get(895, 893)
 
-    user_id =893
-    zsite_id = 895
-    for i in po_review_list_active_by_zsite_id(zsite_id):
-        print i.name
+#    user_id =893
+#    zsite_id = 895
+#    for i in po_review_list_active_by_zsite_id(zsite_id):
+#        print i.name
+    895
+
 

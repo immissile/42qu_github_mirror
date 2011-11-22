@@ -48,6 +48,9 @@ class="c9"\
         </td>
         </tr></table>
     </div>
+    %if page:
+    ${page|str,n}
+    %endif
 %endfor
 %else:
 <div class="tc mt27">暂无内容</div>
