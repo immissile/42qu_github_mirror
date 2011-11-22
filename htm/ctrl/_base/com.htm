@@ -1,5 +1,6 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 ${css.ctrl_zsite_com|n}
+%if not edit:
 <%
     NAV = (
      ('/new','创建公司'),
@@ -25,5 +26,6 @@ ${css.ctrl_zsite_com|n}
     %endfor
     ##<span class="c0">产品演示</span>&gt;<span>发布职位</span>&gt;<span>企业介绍</span>&gt;<span>添加成员</span>&gt;<span>邀请评价</span>
 </div>
+%endif
 ${next.body()}
 

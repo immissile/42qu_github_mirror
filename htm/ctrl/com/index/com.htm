@@ -266,7 +266,12 @@ txt = review.name
 </div>
 
                     <div class="com_ir">
-                            <div class="com_title">联系方式</div>
+                        <div class="com_title">
+            %if can_admin: 
+<a class="R c9"href="/bio/admin">管理</a> 
+            %endif 
+                            
+                            联系方式</div>
                                <div>地址 :
                                    %for place in pid_by_com_id(zsite.id):
                                      ${place_name(place.pid)}
