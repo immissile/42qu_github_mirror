@@ -4,6 +4,7 @@ from _handler import JLoginBase
 from model.zsite_member import zsite_member_can_admin, zsite_member_rm
 from model.zsite_url import zsite_by_domain, url_by_digit_domain
 from model.cid import CID_COM
+from model.po_review import po_review_show_new, po_review_show_rm
 
 class AdminBase(JLoginBase):
     def prepare(self):
@@ -31,3 +32,20 @@ class MemberInviteRm(AdminBase):
         if id != current_user_id:
             zsite_member_rm(zsite_id, id)
         self.finish('{}')
+
+
+@urlmap('/j/review/show/rm/(\d+)')
+class ReviewShowRm(AdminBase):
+    def get(self, id):
+        zsite_id = self.zsite_id
+        po_review_show_rm(zsite_id, id)
+        self.finish('{}')
+
+@urlmap('/j/review/show/new/(\d+)')
+class ReviewShowNew(AdminBase):
+    def get(self, id):
+        zsite_id = self.zsite_id
+        po_review_show_new(zsite_id, id)
+        self.finish('{}')
+
+

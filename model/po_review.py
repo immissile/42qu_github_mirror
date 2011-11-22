@@ -94,10 +94,18 @@ def po_review_show_list_with_user(id):
     po_review_bind(review_list)
     return review_list
 
-def po_review_show_id_list_new(id, po_id):
+def po_review_show_new(id, po_id):
     id_list = po_review_show_id_list(id)
     if po_id not in id_list:
         id_list.insert(0, po_id)
+    po_review_show.set(id, id_list.tostring())
+
+def po_review_show_rm(id, po_id):
+    id_list = po_review_show_id_list(id)
+    try:
+        id_list.remove(po_id)
+    except ValueError:
+        pass
     po_review_show.set(id, id_list.tostring())
 
 mc_po_review_id_list_active_by_zsite_id = McCacheA('PoReviewIdListActiveByZsiteId:%s')

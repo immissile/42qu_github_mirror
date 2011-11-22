@@ -1,15 +1,10 @@
 $(function(){
     $('selected').find('review_cb').attr('checked','checked')
-    $('.review_cb').click(function(){
+    $('.review_cb').change(function(){
         var self = $(this)
         var id = self.attr('id').substr(3)
         $('#review_'+id).toggleClass('selected')
-        $.postJSON(
-            'url',
-            {
-                'id':id
-            }
-        )
+        $.postJSON('/j/review/show/'+(this.checked?"new":"rm")+"/"+id)
     })
 
     $('.member_mail:last').live('blur',function(){
