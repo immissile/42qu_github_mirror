@@ -4,7 +4,7 @@ from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
 from _handler import AdminBase
 from model.zsite_member import zsite_member_can_admin
-from model.po_review import po_review_get, po_review_new
+from model.po_review import po_review_get, po_review_new, po_review_show_list_with_user
 
 @urlmap('/review/admin')
 class ReviewAdmin(AdminBase):
@@ -12,7 +12,22 @@ class ReviewAdmin(AdminBase):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
         can_admin = zsite_member_can_admin(zsite_id, current_user_id)
-        return self.render(can_admin=can_admin)
+        review_list = po_review_show_list_with_user(zsite_id)
+        return self.render(
+            can_admin=can_admin,review_list=review_list
+        )
+
+@urlmap('/review/admin/show')
+class ReviewAdmin(AdminBase):
+    def get(self):
+        zsite_id = self.zsite_id
+        current_user_id = self.current_user_id
+        can_admin = zsite_member_can_admin(zsite_id, current_user_id)
+        review_list = po_review_show_list_with_user(zsite_id)
+        return self.render(can_admin=can_admin,review_list=review_list)
+
+
+
 
 @urlmap('/review/invite')
 class ReviewInvite(LoginBase):

@@ -30,7 +30,8 @@ class="c9"\
 
 
 <div class="zsite_block">
-%for id in range(3):
+%if review_list:
+%for id in review_list:
     <div class="review_wrap" id="review_${id}">
         <table><tr>
         <td class="ick"><input type="checkbox" class="review_cb" id="cb_${id}"></td>
@@ -48,4 +49,7 @@ class="c9"\
         </tr></table>
     </div>
 %endfor
+%else:
+<div class="tc mt27">暂无内容</div>
+%endif
 </div>
