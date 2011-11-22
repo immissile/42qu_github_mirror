@@ -81,10 +81,6 @@ class Admin(AdminBase):
             url=url
         )
 
-@urlmap('/guide')
-class Guide(AdminBase):
-    def get(self):
-        self.render()
 
 @urlmap('/admin/review')
 class AdminReview(LoginBase):

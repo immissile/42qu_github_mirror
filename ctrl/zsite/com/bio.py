@@ -42,3 +42,7 @@ class BioNew(AdminBase):
         self.redirect('/')
 
 
+@urlmap('/guide')
+class Guide(AdminBase):
+    def get(self):
+        self.render()

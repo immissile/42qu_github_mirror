@@ -13,3 +13,4 @@ class AdminBase(ZsiteBase):
         zsite = self.zsite
         if not zsite.cid == CID_COM or not zsite_member_can_admin(self.zsite_id,self.current_user_id):
             self.redirect('/')
+
