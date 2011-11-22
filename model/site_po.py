@@ -48,7 +48,6 @@ def po_id_list_by_zsite_id(zsite_id, cid, limit, offset):
 
     return qs.order_by('id desc').col_list(limit, offset)
 
-
 def po_list_by_zsite_list(zsite_id, cid , limit, offset):
     return Po.mc_get_list(po_id_list_by_zsite_id(
         zsite_id, cid , limit, offset
