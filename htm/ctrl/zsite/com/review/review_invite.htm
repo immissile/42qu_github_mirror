@@ -4,17 +4,17 @@ ${css.ctrl_com_review|n}
 
 <form enctype="multipart/form-data" id="invite_form" method="POST">
 <p class="hint">
-你可以通过链接邀请你认识的好友来写评价
+通过链接请朋友来写推荐语
 </p>
 <div class="line">
     <input class="invite_link" value="http:${zsite.link}/review">
 </div>
 <p class="hint">
-或者通过邮件邀请你认识的好友来写评价 , 他们会收到一封来自42区的邮件 
+或者直接发送邮件进行邀请
 </p>
 %for i in range(5):
 <div class="line">
-<input value="" class="member_mail" name="mail" placeholder="好友邮箱"><input  class="member_name" name="name" placeholder="好友姓名" value=""> </div>
+<input value="" class="member_mail" name="mail" placeholder="邮箱"><input  class="member_name" name="name" placeholder="姓名" value=""> </div>
 %endfor
 <div class="btns member_btn">
 <span class="btnw"><button type="submit" class="btn">完成邀请</button></span>
