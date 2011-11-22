@@ -6,6 +6,7 @@ from _handler import AdminBase
 from model.zsite_member import zsite_member_can_admin
 from model.po_review import po_review_get, po_review_new, po_review_show_list_with_user, po_review_count, po_review_list_by_zsite_id
 from zkit.page import page_limit_offset
+from model.user_auth import newbie_redirect 
 
 PAGE_LIMIT = 40
 
@@ -60,8 +61,15 @@ class Review(LoginBase):
     def post(self):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
+        current_user = self.current_user
+
         name = self.get_argument('txt','')
         po_review_new(zsite_id, current_user_id, name)
+
+        path = newbie_redirect(current_user)
+        if path:
+            return self.redirect(path)
+
         return self.get()
 
 @urlmap('/review-(\d+)')
