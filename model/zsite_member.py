@@ -8,6 +8,7 @@ from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_MAIL, CID_USER
 from model.verify import verify_new
 from user_mail import mail_by_user_id
 from model.po_review import po_review_state_set, po_review_list_active_by_zsite_id
+from career import career_bind
 
 ZSITE_MEMBER_STATE_OWNER = STATE_OWNER    # 创始人 
 ZSITE_MEMBER_STATE_KERNEL = STATE_ADMIN   # 决策层
@@ -117,7 +118,9 @@ def zsite_member_with_review(id):
     member_list = zsite_member_admin_list(id)
     review_list = po_review_list_active_by_zsite_id(id)
     review2member = dict((i.user_id,i) for i in review_list)
-    
+
+    career_bind(member_list)
+ 
     result_with_review = []
     result_without_review = []
        
@@ -131,6 +134,7 @@ def zsite_member_with_review(id):
             result_without_review.append(i)
             
     result_with_review.extend(result_without_review)
+
     return result_with_review
 
 
