@@ -56,6 +56,12 @@ def user_new_by_mail(mail, password=None, name=None):
     buzz_sys_new_user(user_id)
     return zsite
 
+
+def newbie_redirect(user, link="/"):
+    if user.state == ZSITE_STATE_NO_PASSWORD:
+        return "/me/newbie/0"        
+    return link
+
 if __name__ == '__main__':
     z = Zsite.mc_get(10001299)
     print z.sex,'!'
