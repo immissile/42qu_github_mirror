@@ -5,7 +5,6 @@ from model.mail import mq_rendermail, rendermail
 from model.zsite_list import zsite_list, zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state,STATE_INVITE, zsite_id_list_order_id_desc, ZsiteList
 from model.zsite import Zsite, ZSITE_STATE_APPLY
 from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_MAIL, CID_USER
-from model.verify import verify_new
 from user_mail import mail_by_user_id
 from model.po_review import po_review_state_set, po_review_list_active_by_zsite_id
 from career import career_bind
@@ -60,58 +59,6 @@ def zsite_member_can_admin(zsite_id, member_id):
     if id:
         return state >= ZSITE_MEMBER_STATE_INVITE
 
-def zsite_member_invite(
-    zsite, member_id_list, current_user
-):
-    if type(member_id_list) in (str, int, long):
-        member_id_list = [member_id_list,]
-    
-    member_id_list = map(int,member_id_list)
-
-    follower_list = [
-        i for i in
-        Zsite.mc_get_list(member_id_list)
-        if i and i.cid == CID_USER
-    ]
-
-    for i in follower_list:
-        _zsite_member_invite(zsite, i, current_user)
-
-def _zsite_member_invite(zsite, member, current_user):
-    zsite_id = zsite.id
-    member_id =  member.id
-
-    if member.state <= ZSITE_STATE_APPLY:
-        verify_id, verify_value = verify_new(member_id, CID_VERIFY_MAIL)
-        http = "%s/auth/verify/mail/%s/%s?next="%(
-            SITE_HTTP,
-            verify_id, 
-            verify_value
-        )
-    else:
-        http = "http:"
-
-    if zsite_member_new(zsite_id, member_id):
-        #TODO !
-        mail = mail_by_user_id(member_id)
-        mail = "zsp007@gmail.com"
-
-        rendermail(
-            '/mail/com/invite_member.htm', 
-            mail, 
-            member.name,
-            sender_name = current_user.name,
-            format='html',
-            subject='%s 邀请您给 %s 未来的同事写几句话' % (
-                current_user.name, 
-                zsite.name
-            ),
-            from_user_name = current_user.name,
-            from_user_link = current_user.link,
-            com_link = zsite.link,
-            com_name = zsite.name,
-            http = http 
-        )
 
 
 
