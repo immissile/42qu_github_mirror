@@ -11,7 +11,6 @@ from model.po_question import answer_word2note
 from model.zsite import user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_id, zsite_tag_new_by_tag_id, zsite_tag_new_by_tag_name, zsite_tag_rm_by_tag_id, zsite_tag_rename
 from zkit.pic import picopen
-from model.zsite_fav import zsite_fav_new
 from model.cid import CID_SITE, CID_COM
 from model.zsite_url import url_or_id
 from model.career import career_dict
@@ -54,27 +53,6 @@ class PoReplyJson(JLoginBase):
         return self.finish(dumps(result))
 
 
-
-@urlmap('/j/fav')
-class Fav(JLoginBase):
-    def get(self):
-        current_user = self.current_user
-        current_user_id = self.current_user_id
-
-        host = self.request.host
-        zsite = zsite_by_domain(host)
-
-        if zsite and zsite.cid in (CID_SITE, CID_COM):
-            zsite_fav_new(zsite, current_user_id)
-        
-
-        txt = self.get_argument('txt', None)
-        if txt:
-            from model.reply import STATE_ACTIVE
-            zsite.reply_new(current_user, txt, STATE_ACTIVE)
-
-
-        self.finish('{}')
 
 @urlmap('/j/po/(\d+)')
 class JPo(JLoginBase):
