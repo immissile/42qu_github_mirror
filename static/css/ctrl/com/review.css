@@ -45,15 +45,16 @@ overflow:hidden;
 line-height:27px;
 }
 .review_quot_l{
-font-size:30px;
-color:#999;
 float:left;
 width:21px;
 margin-top:42px;
 }
-.review_quot_r{
-font-size:27px;
+.review_quot_l, .review_quot_r{
+font-size:26px;
 color:#999;
+font-family:Georgia;
+}
+.review_quot_r{
 vertical-align:-9px;
 margin-left:8px;
 }

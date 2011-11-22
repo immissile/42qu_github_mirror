@@ -72,5 +72,13 @@ class ReviewPage(ZsiteBase):
         can_admin = zsite_member_can_admin(zsite_id, current_user_id)
         if can_admin:
             return self.redirect("/review/admin")
-        self.render(can_admin=can_admin)
+        count = po_review_count(zsite_id)
+        page, limit, offset = page_limit_offset(
+            "/review-%s",
+            count,
+            n,
+            PAGE_LIMIT,
+        )
+        review_list = po_review_list_by_zsite_id(zsite_id, limit, offset)
+        self.render(can_admin=can_admin,page=page,review_list=review_list)
         
