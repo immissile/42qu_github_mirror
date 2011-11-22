@@ -6,6 +6,26 @@ from model.po import Po
 from model.ico import fs_url_jpg
 from model.po_product import product_id_list_by_com_id
 %>
+
+<script>
+$(function(){
+    $('.similar_product_name:last').live('blur',function(){
+        var self = $(this)
+        if($.trim($('.line:last').find('input[name="similar_product_name"]').val()).length>0){
+            var wrap = self.parent().parent(),
+            wrap.after('<div class="line"> <input name="similar_product_name" class="similar_product_name"><input name="similar_product_url" class="similar_product_url"><a href="javascript:void(0)" class="close_item"></a></div>')
+        }
+        self.unbind('blur')
+    })
+    $('.close_item').click(function(){
+        $(this).parent().remove()
+    })
+alert(0)
+
+})
+</script>
+
+
 <%def name="product_form(product=None,position=None)">
     <%htm:form classname="site_new" enctype="multipart/form-data">
     <%
@@ -60,8 +80,8 @@ from model.po_product import product_id_list_by_com_id
 <p class="hint_wrap">同类产品</p>
 <div style="clear:both;">
     <div style="height:20px;"></div>
-    <div id="line1" class="line"> 
-        <div class="similar_product_wrap" id="similar_product_wrap1">
+    <div class="line"> 
+        <div class="similar_product_wrap">
             %if product_similar:
             %for pro in product_similar:
             <input autocomplete="off" value="${pro[0]}" class="similar_product_name" name="similar_product_name" placeholder="产品名称"><input class="similar_product_url" name="similar_product_url" placeholder="相关链接" value="${pro[1]}">

@@ -34,7 +34,7 @@ function reg_mail(){
 <div style="margin-left:269px;">
 <div class="po_line">
     <p class="word">HR邮箱填写成功</p>
-    <p class="word">${get_job_mail(zsite_id) or ''}<a href="${mail2link(get_job_mail(zsite_id)) or ''}" class="word_a">去验证</a><a href="/job/mail" class="word_a">重新填写</a></p>
+    <p class="word"> ${mail2link(get_job_mail(zsite_id)) or ''|n} 去验证 <a href="/job/mail" class="word_a">重新填写</a></p>
 </div>
 </div>
 </div></div>
