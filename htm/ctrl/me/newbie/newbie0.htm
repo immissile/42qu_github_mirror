@@ -11,6 +11,7 @@ from tornado.escape import json_encode
 
 <%def name="H()">
 </%def>
+<%def name="T()"></%def>
 
 <%def name="htm_head()">
 <meta name="description" content=" 无数故事，读完后， 一笑而过。下班的地铁，你还是你，我还是我。认识一个人， 要多少缘分？茫茫人海，擦肩而过多少陌生人。42区，这是相遇的地方 ...">
@@ -25,7 +26,7 @@ ${css.ctrl_com_invite_reg|n}
 
 <%def name="h_nav()"></%def>
 
-<%htm:form id="form_reg" action="/auth/reg">
+<%htm:form id="form_reg" >
 
 %if zsite_list:
 <div class="L">
@@ -57,8 +58,8 @@ type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></span>
 ${errtip.sex|n}
 
 <p class="line">
-<label class="label_input" for="mail">邮箱</label>\
-<input class="login_mail" id="mail" autocomplete="off" type="text" name="mail"></p>
+<label class="label_input" for="mail">名字</label>\
+<input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value=""></p>
 ${errtip.mail|n}
 
 <p class="line">

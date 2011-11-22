@@ -5,7 +5,7 @@ from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
 from cid import CID_PRODUCT, CID_COM
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from spammer import is_same_post
-from po import Po, po_rm
+from po import Po, po_rm, po_new
 import json
 from zsite_show import zsite_show_list
 from itertools import  chain
