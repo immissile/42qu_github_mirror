@@ -76,31 +76,31 @@ def _zsite_member_invite(zsite, member, current_user):
     member_id =  member.id
 
     http = http_by_member(member)
-    if zsite_member_new(zsite_id, member_id):
-        #TODO !
-        mail = mail_by_user_id(member_id)
-        mail = "zsp007@gmail.com"
+    
+    #TODO !
+    mail = mail_by_user_id(member_id)
+    mail = "zsp007@gmail.com"
 
-        name = [member.name]
-        name.extend( career_current(member_id) )
-        name = " , ".join(filter(bool, name))
+    name = [member.name]
+    name.extend( career_current(member_id) )
+    name = " , ".join(filter(bool, name))
 
-        rendermail(
-            '/mail/com/invite_review.htm', 
-            mail, 
-            member.name,
-            sender_name = current_user.name,
-            format='html',
-            subject='%s 邀请您给 %s 未来的同事写几句话' % (
-                name, 
-                zsite.name
-            ),
-            from_user_name = name,
-            from_user_link = current_user.link,
-            com_link = zsite.link,
-            com_name = zsite.name,
-            http = http 
-        )
+    rendermail(
+        '/mail/com/invite_review.htm', 
+        mail, 
+        member.name,
+        sender_name = current_user.name,
+        format='html',
+        subject='%s 邀请您给 %s 写推荐语' % (
+            name, 
+            zsite.name
+        ),
+        from_user_name = name,
+        from_user_link = current_user.link,
+        com_link = zsite.link,
+        com_name = zsite.name,
+        http = http 
+    )
 
 
 
