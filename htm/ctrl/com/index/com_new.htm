@@ -10,13 +10,12 @@ if zsite_id:
 else:
     request_host = request.host
 %>
-<%def name="head()">
+<%def name="htm_head()">
 ${css.ctrl_zsite_com|n}
 ${css.ctrl_site_new|n}
 <script src="${js.pid}"></script>
 <script src="${js.ctrl_com|n}"></script>
 </%def>
-${head()}
 
 <%htm:form enctype="multipart/form-data" className="site_new" onsubmit="return com_new()">
 %if pic_id:
@@ -48,10 +47,8 @@ ${errtip.url|n}
 <input type="text" class="input addr_input" name="address">\
         %else:
         %for x,p in enumerate(pid_add):
-<div>\
 <script>select_pid("pid${x}", ${p[0] or 0})</script>\
 <input type="text" class="input addr_input" name="address" value="${p[1] or ''}">\
-</div>\
         %endfor
         %endif
 <a href="javascript:add_addr();void(0)" class="add_addr_a">添加地址</a>

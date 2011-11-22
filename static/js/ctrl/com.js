@@ -54,7 +54,7 @@ $(function(){
 
     var addr_num = 2
     add_addr = function(){
-        var self = $('.add_addr')
+        var self = $('.add_addr_a')
         self.before('<div><span id="pid'+addr_num+'" class="pid"></span><script>_("pid'+addr_num+'",0)<\/script><input type="text" class="input addr_input" name="address" /><a href="javascript:close_addr('+addr_num+');void(0)" class="close_addr"></a></div>')
         addr_num++
     }
