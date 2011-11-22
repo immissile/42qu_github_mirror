@@ -78,6 +78,11 @@ def po_review_show_id_list(id):
     a.fromstring(po_review_show.get(id)) 
     return a 
 
+def po_review_show_list_with_user(id):
+    review_list = Po.mc_get_list(po_review_show_id_list(id)) 
+    Zsite.mc_bind(review_list, 'user', 'user_id')
+    return review_list
+
 def po_review_show_id_list_new(id, po_id):
     id_list = po_review_show_id_list(id)
     if po_id not in id_list:
@@ -98,6 +103,7 @@ def po_review_list_active_by_zsite_id(id):
     return Po.mc_get_list(
         po_review_id_list_active_by_zsite_id(id)
     )
+
 
 if __name__ == "__main__":
     #po_review_show_id_list_new(1, 2)
