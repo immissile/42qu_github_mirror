@@ -30,16 +30,21 @@ class Fav(JLoginBase):
 
         host = self.request.host
         zsite = zsite_by_domain(host)
+        zsite_id = zsite.id
+        cid = zsite.cid
 
-        if zsite and zsite.cid in (CID_SITE, CID_COM):
+        if zsite and cid in (CID_SITE, CID_COM):
             zsite_fav_new(zsite, current_user_id)
         
 
         txt = self.get_argument('txt', None)
         if txt:
-            from model.reply import STATE_ACTIVE
-            zsite.reply_new(current_user, txt, STATE_ACTIVE)
-
+            if cid == CID_SITE:
+                from model.reply import STATE_ACTIVE
+                zsite.reply_new(current_user, txt, STATE_ACTIVE)
+            elif cid == CID_COM:
+                from model.po_review import po_review_new
+                po_review_new(zsite_id, current_user_id, name)
 
         self.finish('{}')
 
