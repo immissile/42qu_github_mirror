@@ -1,21 +1,31 @@
+
+<%!
+    from zkit.jsdict import JsDict
+    import json
+%>
 %if admin:
 <%inherit file="/ctrl/_base/com.htm" />
 %else:
 <%inherit file="/ctrl/_base/zsite.htm" />
 %endif
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/> 
 <%def name="htm_head()"> 
 ${css.ctrl_product|n}
 <script src="${js.ctrl_com_product_new|n}"></script>
-<%!
-    from zkit.jsdict import JsDict
-    import json
-%>
 </%def>
 
-<p class="pro_nav">添加产品</p>
 
-<%htm:form id="career_form" enctype="multipart/form-data">
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/> 
+
+%if not admin:
+<p class="pro_nav">添加产品</p>
+%endif
+%if admin and not po_list:
+<script>$(function(){
+    product_add()
+    $("#fancybox-close").remove()
+})</script>
+%else:
+<%htm:form id="product_form" enctype="multipart/form-data">
 <div>
     %if po_list:    
     %for po in po_list:
@@ -68,7 +78,7 @@ ${css.ctrl_product|n}
 
 </div>
 </%htm:form>
-
+%endif
 
 
 
