@@ -32,20 +32,23 @@ class ProductAdmin(AdminBase):
         
         pros = zip(id, product_url, product_name, product_about)
         pros = filter(lambda p : bool(p[2]), pros)
+
         if pros:
             for id, product_url, product_name, product_about in pros:
 
                 po = Po.mc_get(id)
-                if po.user_id == zsite_id:
-                    po.name = product_name
-                    po.save()
-                
-                info_json = JsDict()
+                if po.zsite_id != zsite_id:
+                    continue
+
+                po.name = product_name
+                po.save()
+                info_json = JsDict(json.loads(po.txt or '{}'))
                 info_json.product_url = product_url
                 info_json.product_about = product_about
 
                 po_product_update(id,info_json)
         
+
         return self.get()
 
 
@@ -77,10 +80,13 @@ class ProductNew(AdminBase):
                 po_product_new(user_id, name, info_json, zsite.id)
 
             next_id = product_id_list_by_com_id(zsite.id)[0]
+
             if edit:
-                return self.redirect('/product/edit/%s'%next_id)
+                path = '/product/edit/%s'
             else:
-                return self.redirect('/product/new/%s'%next_id)
+                path = '/product/new/%s'
+
+            return self.redirect(path%next_id)
 
         self.get()
 
