@@ -5,7 +5,7 @@ from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
 from cid import CID_PRODUCT, CID_COM
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from spammer import is_same_post
-from po import Po, po_rm, po_new
+from po import Po, _po_rm, po_new
 import json
 from zsite_show import zsite_show_list
 from itertools import  chain
@@ -47,7 +47,9 @@ def product_show_list():
                 [product_list_by_com_id(c) for c in com_id_list]
             )
 
-def product_rm(user_id, id):
-    po_rm(user_id, id)
-    mc_product_id_list_by_com_id.delete(zsite_id)
+def product_rm(com_id , user_id, id):
+    po = Po.mc_get(id)
+    if po and po.zsite_id == com_id and po.cid == CID_PRODUCT:
+        _po_rm(user_id, po)
+        mc_product_id_list_by_com_id.delete(com_id)
 

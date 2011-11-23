@@ -198,5 +198,7 @@ class ProductEdit(AdminBase):
 class ProductRm(AdminBase):
     def get(self, id):
         if id:
-            po_rm(self.current_user_id, id)
-            self.redirect('/product/admin')
+            product_rm(self.zsite_id, self.current_user_id, id)
+        self.redirect('/product/admin')
+
+
