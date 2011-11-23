@@ -29,7 +29,7 @@ def com_apply_list(id):
 def com_apply_get(com_id,user_id):
     return int(user_id) in com_apply_id_list(com_id)
 
-def com_apply_new(user_id,com_id):
+def com_apply_new(com_id, user_id):
     ca = ComApply.get_or_create(com_id=com_id,user_id=user_id)
     ca.state = COM_APPLY_STATE_APPLY
     ca.create_time = today_seconds()
