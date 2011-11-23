@@ -28,11 +28,11 @@ hope = zsite_com.hope
 <div class="form_wrap">
     <%htm:form class_name="com_bio" enctype="multipart/form-data" onsubmit="return com_new()">
     <div>
+    <p class="inft">公司风景</p>
         %if cover_id:
 <img class="imgpic" src="${fs_url_jpg('357',cover_id)}">
 <input class="file" type="hidden" name="pic_id" value="${cover_id}" id="pic_id">
 %endif
-    <p class="inft">公司风景</p>
     <div class="files"><input class="file" name="cover" type="file" size=35></div>
 ##    <p class="inft">公司照片</p>
 ##    <div class="files"><input class="file" name="pic" type="file" size=35><input class="file" name="pic" type="file" size=35></div>
