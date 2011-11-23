@@ -11,7 +11,7 @@ from model.ico import ico96
 from model.motto import motto as _motto, motto_set
 from model.ico import site_ico_new, site_ico_bind
 from model.zsite_com import ZsiteCom
-from gid import gid
+from model.gid import gid
 
 def _bio_save(self,edit=None):
     hope = self.get_argument('hope',None)
