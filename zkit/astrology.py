@@ -28,7 +28,7 @@ def astrology_int(date):
         return 1
     elif date < 321:
         return 2
-    elif date < 420:
+    elif date < 421:
         return 3
     elif date < 521:
         return 4
@@ -51,4 +51,4 @@ def astrology_int(date):
 
 
 if __name__ == '__main__':
-    print astrology(19900929)
+    print astrology(19900320) 

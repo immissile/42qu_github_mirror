@@ -332,3 +332,41 @@ font-size:16px;
 color:#999;
 }
 
+.h1nav .nav a{
+color:#999
+}
+.h1nav .nav .c0{
+color:#000
+}
+.h1nav .nav a:hover{
+color:#d10
+}
+.h1nav .nav .split{
+margin:0 12px;
+}
+.h1nav{
+margin: auto;
+text-align:left;
+border-bottom:1px dotted #ccc;
+font-size:14px;
+padding:16px 0;
+*margin:0 auto;
+}
+.inft3{
+margin-bottom:8px;
+}
+.inft4{
+border-bottom:1px dotted #999;
+}
+.dot_split{
+margin:0 8px;
+}
+.other_pros{
+margin-bottom:7px;
+}
+.other_pros .aH{
+background-image:url(/img/gif/icons/gif/light_gray/to_size/arrow1_ne.gif);
+}
+.other_pros .aH:hover{
+background-image:url(/img/gif/icons/gif/red/to_size/arrow1_ne.gif);
+}

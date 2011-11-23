@@ -1,0 +1,21 @@
+<%!
+from model.days import cn_diff_weekday, minute2date, minute2hour
+%>
+<%inherit file="/mail/_base/base.htm"/>
+
+<tr valign="top">
+<td width="630" style="padding:0;line-height:24px">
+
+<p>你好 , 我是 <a target="_blank" href="${http|n}${from_user_link}">${from_user_name}</a></p>
+
+<p>我在42区创建了一个公司招聘的页面 ( <a target="_blank" href="${http|n}${from_user_link}">http:${com_link}</a> )</p>
+
+<p>想请您来写几句推荐语 , 多谢</p>
+
+<p><a href="${http|n}${com_link}/review">点此评价</a></p>
+
+
+</tr>
+
+
+

@@ -1,0 +1,195 @@
+<%!
+import json
+from zkit.job import JOB_KIND
+from zkit.earth import place_name
+from model.job import JOBTYPE, SALARY_TYPE, job_pid_default_by_com_id
+from model.job import com_department_by_com_id
+from zkit.job import JOBKIND2CN
+%>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="head()">
+${css.ctrl_zsite_site|n}
+${css.ctrl_event_admin|n}
+${css.ctrl_po_event|n}
+${css.ctrl_zsite_com_job|n}
+<script src="${js.ctrl_zsite|n}"></script>
+<script src="${js.pid|n}"></script>
+<script src="${js.ctrl_zsite_site|n}"></script>
+<script src="${js.ctrl_zsite_com_job|n}"></script>
+</%def>
+
+
+
+
+
+<%def name="job_form( edit=None)">
+<%htm:form method="POST" id="event_form" enctype="multipart/form-data" onsubmit="return job_new()">
+
+<div class="po_line">
+    <label>所属部门</label><select name="depart" id="depart">
+<%
+    com_department_list = com_department_by_com_id(zsite_id)
+%>
+%if com_department_list:
+%for department in com_department_list:
+<option value="${department.id}" class="de_opt">${department.name}</option>
+%endfor
+
+%endif
+    </select><a class="c9 add_de" href="javascript:add_de();void(0)">添加部门</a><a class="c9 man_de" href="javascript:man_de();void(0)">管理部门</a>
+    ${errtip.department_id|n}
+    <div class="errtip" id="errtip_depart"></div>
+</div>
+
+<div class="po_line">
+    <label for="title">工种头衔</label><input value="${title or ''}" name="title" class="input" id="title" >
+    ${errtip.title|n}
+    <div class="errtip" id="errtip_title"></div>
+</div>
+<div class="po_line">
+    <label for="kinds">行业类别</label>
+    %if not kinds:
+    <button type="button" id="kinds">请选择</button>
+    <input type="hidden" id="kinds_input" name="kinds" value="${kinds or ''}" />
+    ${errtip.kinds|n}
+    %else:
+    <button type="button"id="kinds">${'+'.join(map(lambda x:JOBKIND2CN[int(x)],kinds))}</button>
+    <input type="hidden" id="kinds_input" name="kinds" value="${'-'.join(map(str,kinds))}" />
+    %endif
+    <div class="errtip" id="errtip_kinds"></div>
+</div>
+
+
+<div class="po_line">
+    <label>工作地点</label><a class="c9" href="javascript:add_addr();void(0)" id="add_addr">添加地址</a><div class="add_addr"><script>select_pid("pid", 0)</script></div>
+<%
+    com_place_list = job_pid_default_by_com_id(zsite_id)
+%>
+    <div id="addr">
+        %if com_place_list:
+        %for i,com_place in enumerate(com_place_list):
+<div class="address"><input name="addr" id="addr${i}" type="checkbox"\
+    %if not edit:
+    checked\
+    %else:
+    %if addr:
+    %if com_place.pid in map(int,addr):
+    checked\
+    %endif
+    %endif
+    %endif
+    value="${com_place.pid or ''}"><label for="addr${i}"> ${place_name(com_place.pid) or '无'}</label></div>
+%endfor
+%endif
+    </div>
+    <div class="errtip" id="errtip_addr"></div>
+</div>
+
+
+<div class="po_line">
+    <label>职位描述</label><textarea class="txt" name="txt" id="txt">\
+${txt or ''}</textarea>
+${errtip.txt|n}
+<div class="errtip" id="errtip_txt"></div>
+</div>
+
+
+<div class="po_line">
+    <label>技能要求</label><textarea class="txt" name="require" id="require">${require or ''}</textarea>
+    <div class="errtip" id="errtip_require"></div>
+</div>
+
+
+<div class="po_line">
+    <label>优先条件</label><textarea class="txt" name="more" id="more">${priority or ''}</textarea>
+    <div class="errtip" id="errtip_more"></div>
+</div>
+
+
+<div class="po_line">
+    <label>有效时限</label><select name="deadline" id="deadline">
+        <%
+        DeadLine=(
+            (30,'一个月'),
+            (60,'两个月'),
+            (90,'三个月')
+            )
+        %>
+        %for time,cn in DeadLine:
+        <option value="${time}"\
+        %if deadline and deadline == time :
+        checked\
+        %endif
+        > ${cn}</option>
+        %endfor
+    </select>
+</div>
+
+
+<div class="po_line" id="type">
+    <label>招聘类型</label>
+%for _job_cid, _job_name in JOBTYPE:
+<input name="type" id="type${_job_cid}" 
+        %if job_type:
+        %if _job_cid in map(int,job_type):
+        checked
+        %endif
+        %endif
+    type="checkbox" value="${_job_cid}">\
+<label
+    for="type${_job_cid}">${_job_name}</label>\
+%endfor
+</div>
+
+
+
+<div class="po_line" id="salary">
+    <label>工资范围</label><select name="sal_type">
+        %for salary,cn in SALARY_TYPE:
+        <option value="${salary}"\
+        %if salary_type and salary_type == salary:
+        checked
+       %endif 
+        >${cn}</option>
+        %endfor
+    </select>\
+<input name="salary1" class="input salary1" value="${salary1 or''}"> 元\
+<span class="split">—</span>\
+<input name="salary2" class="input salary2" value="${salary2 or ''}"> 元\
+    ${errtip.salary|n}
+    <div class="errtip" id="errtip_salary"></div>
+</div>
+
+
+<div class="po_line">
+    <label>招聘人数</label><input name="quota" class="input" style="width:50px;" value="${quota or ''}">
+    ${errtip.quota|n}
+    <div class="errtip" id="errtip_share"></div>
+</div>
+
+
+<div class="po_line">
+    <label>股份期权</label><input name="share" class="input" value="${stock_option or ''}">
+    <div class="errtip" id="errtip_share"></div>
+</div>
+
+
+<div class="po_line">
+    <label>其他福利</label><input name="other" class="input" value="${welfare or ''}">
+    <div class="errtip" id="errtip_other"></div>
+</div>
+
+<div class="btn_line">
+<span class="btnw"><button type="submit">发布</button></span>
+        %if edit:
+<a href="/job/admin">返回管理</a>
+        %else:
+<a href="/bio/new">跳过</a>
+        %endif
+%if job:
+<a href="/job/close/${job.id}" style="margin-left:64px">关闭职位</a>
+%endif
+</div>
+</%htm:form>
+</%def>
+

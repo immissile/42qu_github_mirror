@@ -1,0 +1,16 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/product.htm" import="product_form"/>
+<%namespace file="/ctrl/_util/product.htm" import="product_bar"/>
+<%def name="htm_head()">
+${css.ctrl_product|n}
+<script src="${js.ctrl_com_product|n}"></script>
+</%def>
+<div class="left1">
+    <a style="margin-left:80px" href="/product/admin" class="back_a"></a>
+    &nbsp;
+</div>
+<div class="right3">
+    <h1 style="text-align:center;margin:27px 0 0">${product.name}</h1>
+    ${product_form(product)}
+</div>

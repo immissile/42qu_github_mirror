@@ -17,7 +17,7 @@ from model.cid import CID_NOTE, CID_SITE
 from cgi import escape
 from model.motto import motto_get
 from model.zsite_url import host
-from model.site_po import po_list_by_zsite_id
+from model.site_po import feed_po_list_by_zsite_id
 
 def format_rfc822_data(sec):
     return strftime('%a, %d %b %Y %H:%M:%S +0800', gmtime(sec))
@@ -39,7 +39,7 @@ class Rss(ZsiteBase):
         limit = 25
         offset = 0
         if zsite.cid == CID_SITE:
-            site_po_list = po_list_by_zsite_id(self.current_user_id, id, CID_NOTE, limit, offset)[0]
+            site_po_list = feed_po_list_by_zsite_id(self.current_user_id, id, CID_NOTE, limit, offset)[0]
             po_id_list = []
             for i in site_po_list:
                 po_id_list.append(i[1])

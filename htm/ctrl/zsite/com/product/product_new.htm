@@ -1,0 +1,35 @@
+
+
+<%inherit file="/ctrl/_base/com.htm" />
+
+
+<%def name="htm_head()"> 
+${css.ctrl_product|n}
+<script src="${js.ctrl_com_product_new|n}"></script>
+</%def>
+
+
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/> 
+<%htm:form id="product_form" enctype="multipart/form-data">
+<div>
+    %for i in xrange(5):
+        <div class="line" id="line${i}"> 
+        <input placeholder="产品名称" name="product_name" class="product_name"value=""  autocomplete="off">
+        <input value="" placeholder="一句话描述" name="product_about" class="product_about" autocomplete="off">
+        <input value="" placeholder="相关链接" name="product_url" class="product_url">
+        </div>
+    %endfor
+</div>
+
+
+<div class="btns">
+    <span class="btnw"><button class="btn" type="submit">
+            下一步
+    </button></span>
+
+</div>
+</%htm:form>
+
+
+
+

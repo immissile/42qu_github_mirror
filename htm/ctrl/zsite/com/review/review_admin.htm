@@ -1,0 +1,70 @@
+<%inherit file="_base.htm" />
+
+
+<script src="${js.ctrl_com_review|n}"></script>
+
+<%!
+from model.po_review import po_review_show_id_list
+from model.ico import ico_url_bind_with_default
+NAV = (
+    ('admin',"所有"),
+    ('admin/show',"展示")
+)
+%>
+<%
+path = request.path[8:].split("-",1)[0]
+po_review_id_list = set(po_review_show_id_list(zsite_id))
+%>
+
+<span class="nav">\
+%for pos,(href,name) in enumerate(NAV):
+    %if pos:
+<span class="c9 split">-</span>\
+    %endif
+<a href="/review/${href}"
+%if path == href:
+class="c0"\
+%else:
+class="c9"\
+%endif
+>${name|n}</a>\
+%endfor
+</span>\
+
+
+<div style="width:470px;margin:14px auto">
+%if review_list:
+<%
+ico_url_bind_with_default(i.user for i in review_list)
+%>
+%for review in review_list:
+<%
+id = review.id
+user = review.user
+name = [user.name]
+name.extend(user.career or ())
+name = ' , '.join(filter(bool, name))
+%>
+    <div class="review_wrap" id="review_${id}">
+        <div class="ick L"><input type="checkbox" 
+%if id in po_review_id_list:
+checked
+%endif
+class="review_cb" id="cb_${id}"></div>
+        <div>
+        <label for="cb_${id}"><img src="${user.ico}" class="review_avatar"></label>
+        <span class="review_quot_l">“ </span>
+        <div class="review_cont">
+            <p><a href="${user.link}" target="_blank" class="review_a">${name}</a></p>
+            <pre>${review.name}<span class="review_quot_r">”</span></pre>
+        </div>
+        </div>
+    </div>
+    %if page:
+    ${page|str,n}
+    %endif
+%endfor
+%else:
+<div class="tc mt27">暂无内容</div>
+%endif
+</div>

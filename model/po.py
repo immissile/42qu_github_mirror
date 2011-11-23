@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, CID_EVENT_NOTICE
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, CID_EVENT_NOTICE, CID_PRODUCT
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -17,6 +17,9 @@ from zsite import Zsite
 from zkit.txt import cnencut
 from zkit.attrcache import attrcache
 from cgi import escape
+import json
+from zkit.jsdict import JsDict
+from cid import CID_COM
 #from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
@@ -29,6 +32,7 @@ PO_CN_EN = (
     (CID_AUDIO, 'audio', '音乐', '段'),
     (CID_EVENT, 'event', '活动', '次'),
 )
+
 PO_CID = tuple([
     i[0] for i in PO_CN_EN
 ])
@@ -357,7 +361,6 @@ def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
         return m
 
 
-
 PO_LIST_STATE = {
     True: 'state>%s' % STATE_DEL,
     False: 'state>%s' % STATE_SECRET,
@@ -381,6 +384,7 @@ def po_id_list(user_id, cid, is_self, limit, offset):
     if cid:
         qs = qs.where(cid=cid)
     return qs.where(PO_LIST_STATE[is_self]).order_by('id desc').col_list(limit, offset)
+
 
 def po_view_list(user_id, cid, is_self, limit, offset=0):
     id_list = po_id_list(user_id, cid, is_self, limit, offset)
@@ -434,7 +438,5 @@ if __name__ == '__main__':
     jid = id_by_url("jandan")
     for i in Po.where(cid=CID_NOTE):
         if "豆友" in i.txt:
-           # print i.name
             po_rm(i.user_id, i.id)
-   #     pass
-    #    po_rm(i.user_id, i.id)
+           # print i.name

@@ -1,0 +1,23 @@
+.guide{
+width:219px;
+margin:auto;
+border:1px dotted #ccc;
+border-bottom:0
+}
+h1{
+font-size:16px;
+text-align:center;
+margin:27px;
+}
+.admin_link{
+display:block;
+color:#666;
+font-size:16px;
+border-bottom:1px dotted #ccc;
+padding:16px;
+background:url(/img/gif/snext_gray.gif) no-repeat 188px 50%;
+}
+.admin_link:hover{
+background:url(/img/gif/snext_black.gif) no-repeat 194px 50%;
+color:#000;
+}
