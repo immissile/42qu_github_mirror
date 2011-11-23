@@ -56,7 +56,7 @@ def zsite_member_invite_list(com_id):
 def zsite_member_can_admin(zsite_id, member_id):
     id, state = zsite_list_id_state(zsite_id, member_id, CID_ZSITE_LIST_MEMBER)
     if id:
-        return state >= ZSITE_MEMBER_STATE_INVITE
+        return state >= ZSITE_MEMBER_STATE_ACTIVE
 
 
 
