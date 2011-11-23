@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
-from model.job_mail import job_mail_state, job_mail_new, JOB_MAIL_STATE_VERIFIED
+from model.job_mail import  job_mail_new, JOB_MAIL_STATE_VERIFIED, job_mail_by_com_id
 from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM_HR
 import json
@@ -104,7 +104,7 @@ def _job_save(self, job=None):
 @urlmap('/job/new')
 class JobNew(AdminBase):
     def get(self):
-        if job_mail_state(self.zsite_id) == JOB_MAIL_STATE_VERIFIED:
+        if job_mail_by_com_id(self.zsite_id):
             return self.render(errtip=Errtip())
         else:
             return self.redirect('/job/mail')
