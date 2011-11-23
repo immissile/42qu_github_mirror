@@ -10,8 +10,12 @@ JOB_MAIL_STATE_VERIFIED = 2
 class JobMail(McModel):
     pass
 
-def get_job_mail(zsite_id):
-    jm = JobMail.get(zsite_id=zsite_id)
+
+mc_job_mail_by_zsite_id = McCache("JobMailByZsiteId:%s")
+
+@mc_job_mail_by_zsite_id("{id}")
+def job_mail_by_zsite_id(id):
+    jm = JobMail.get(zsite_id=id)
     if jm:
         return jm.mail
 
