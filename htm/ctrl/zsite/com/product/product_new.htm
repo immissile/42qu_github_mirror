@@ -18,6 +18,13 @@ $(function(){
 function close_item(id){
     $('#line'+id).remove()
 }
+function pop_add(){
+    $.fancybox({'content':'<div class="line" style="font-size:16px;padding:0 14px;margin-top:7px;margin-bottom:7px"><div>产品名称<input autocomplete="off" value="" style="margin:14px 0 14px 7px" class="product_name" name="product_name" id="pop_name"></div><div>简单描述<input style="margin:14px 0 14px 7px" autocomplete="off" class="product_about" name="product_about" value=""></div><div>相关链接<input style="margin:14px 0 14px 7px" class="product_url" name="product_url" value=""></div><div style="margin:7px 0 0 70px"><span class="btnw"><button type="submit">添加产品</button></span></div></div>','onComplete':function(){
+
+        $('#pop_name').focus()
+    }
+    })
+}
 </script>
 </%def>
 
@@ -43,6 +50,7 @@ function close_item(id){
 
 <div class="btns">
 <span class="btnw"><button class="btn" type="submit">下一步</button></span>
+
 </div>
 </%htm:form>
 
