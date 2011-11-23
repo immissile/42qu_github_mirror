@@ -1,9 +1,7 @@
 <%inherit file="/ctrl/_base/com.htm" />
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>  
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/> 
+<%def name="htm_head()"> 
 ${css.ctrl_product|n}
-
-
-
 <script>
 $(function(){
     $('.product_name:last').live('blur',function(){
@@ -21,25 +19,19 @@ function close_item(id){
     $('#line'+id).remove()
 }
 </script>
+</%def>
+
 <p class="pro_nav">添加产品</p>
 
 <%htm:form id="career_form" enctype="multipart/form-data">
 <div>
-    <div class="line" id="line1"> 
+%for i in range(5): 
+    <div class="line" id="line${i}"> 
         <span class="L">
             <input placeholder="产品名称" name="product_name" class="product_name" value="" autocomplete="off"><input value="" placeholder="一句话描述" name="product_about" class="product_about" autocomplete="off"><input value="" placeholder="相关链接" name="product_url" class="product_url">
         </span>
     </div>
-    <div class="line" id="line2"> 
-        <span class="L">
-            <input name="product_name" class="product_name" value="" autocomplete="off"><input value="" name="product_about" class="product_about" autocomplete="off"><input value="" name="product_url" class="product_url">
-        </span>
-    </div>
-    <div class="line" id="line3"> 
-        <span class="L">
-            <input name="product_name" class="product_name" value="" autocomplete="off"><input value="" name="product_about" class="product_about" autocomplete="off"><input value="" name="product_url" class="product_url">
-        </span>
-    </div>
+%endfor
 </div>
 
 
@@ -50,16 +42,5 @@ function close_item(id){
 
 
 
-</div>
-</div>
 
-
-
-
-</div></div></div>
-
-
-
-<a class="zsite_foot" href="#B">site.42qu.com</a><a style="display: none;" href="#B" id="sB"></a></body>
-</html>
 
