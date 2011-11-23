@@ -70,7 +70,7 @@ class MemberJoin(ZsiteBase):
     def get(self):
         user_id = self.current_user_id
         com_id = self.zsite_id
-        if com_apply_get(user_id,com_id):
+        if com_apply_get(com_id, user_id):
             zsite_member_new(com_id,user_id,ZSITE_MEMBER_STATE_ACTIVE)
         else:
             com_apply_new(user_id,com_id)
