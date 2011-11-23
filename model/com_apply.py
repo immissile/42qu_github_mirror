@@ -5,10 +5,12 @@ from mail import rendermail
 from model.days import today_seconds
 from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE
 
-COM_APPLY_STATE_APPLY_MAILED = 40
-COM_APPLY_STATE_APPLY = 30
-COM_APPLY_STATE_ACCEPT_MAILED = 20
-COM_APPLY_STATE_ACCEPT = 10
+COM_APPLY_STATE_APPLY_MAILED = 50
+COM_APPLY_STATE_APPLY = 40
+
+COM_APPLY_STATE_ACCEPT_MAILED = 30
+COM_APPLY_STATE_ACCEPT = 20
+COM_APPLY_STATE_DEL_MAILED = 10
 COM_APPLY_STATE_DEL = 0
 
 mc_com_apply_id_list = McCacheA("ComApplyIdList:%s")
@@ -24,10 +26,8 @@ def com_apply_id_list(id):
 def com_apply_list(id):
     return ComApply.mc_get_list(com_apply_id_list(id))
 
-def com_apply_get(com_id,user_id,state=COM_APPLY_STATE_APPLY):
-    c = ComApply.get(com_id=com_id,user_id=user_id)
-    if c: 
-        return c.state >= COM_APPLY_STATE_APPLY 
+def com_apply_get(com_id,user_id):
+    return int(user_id) in com_apply_id_list(com_id)
 
 def com_apply_new(user_id,com_id):
     ca = ComApply.get_or_create(com_id=com_id,user_id=user_id)
