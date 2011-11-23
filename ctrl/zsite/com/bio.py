@@ -11,7 +11,7 @@ from model.ico import ico96
 from model.motto import motto as _motto, motto_set
 from model.ico import site_ico_new, site_ico_bind
 from model.zsite_com import ZsiteCom
-
+from gid import gid
 
 def _bio_save(self,edit=None):
     hope = self.get_argument('hope',None)
@@ -22,7 +22,6 @@ def _bio_save(self,edit=None):
     com_id = self.zsite.id
     files = self.request.files
     cover_id = None
-    video_site = None
 
     if files.get('cover'):
         cover = files['cover'][0]['body']
@@ -39,9 +38,15 @@ def _bio_save(self,edit=None):
                         com_pic_new(com_id,pic)
     
     if video:
+        video_id = gid()
         video,video_site = video_filter(video)
-        video_new(com_id,video)
-    zsite_com_new(com_id,hope,money,culture,team,cover_id,video_site)
+        video_new(video_id,video)
+    else:
+        video_id = 0
+        video_site = None
+
+    zsite_com_new(com_id,hope,money,culture,team,cover_id,video_site, video_id)
+    
     if edit:
         self.redirect('/')
     else:
