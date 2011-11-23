@@ -35,7 +35,7 @@ def imerge_with_key(iterables, key=None):
     iterables is already sorted (smallest to largest).
 
     Unlike heapq.merge, accepts an infinite number of input iterables, 
-    but requires all of them to come in ascending order (that is, 
+    but require all of them to come in ascending order (that is, 
     their starting point must come in ascending order).
 
     In addition, accepts a *key* function (like `sorted`, `min`, 

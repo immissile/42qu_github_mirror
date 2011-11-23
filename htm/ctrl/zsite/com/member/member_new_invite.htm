@@ -1,0 +1,30 @@
+<%inherit file="/ctrl/_base/com.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.ico import ico_url_with_default
+from model.zsite_url import host
+from model.zsite_member import zsite_member_list, ZSITE_MEMBER_STATE_INVITE 
+%>
+<%def name="htm_head()">
+${css.ctrl_com_member|n}
+<script src="${js.ctrl_com_member|n}"></script>
+</%def>
+
+
+<%htm:form enctype="multipart/form-data" id="invite_form">
+<p class="hint">
+你也可以输入邮箱 , 邀请同事写写对未来新人的寄语 ...
+</p>
+<div>
+%for i in range(5):
+    <div class="line" > 
+<input placeholder="邮箱" name="mail" class="member_mail" value="">\
+<input value="" placeholder="姓名" name="name" class="member_name">\
+    </div>
+%endfor
+</div>
+<div class="btns member_btn">
+    <span class="btnw"><button class="btn" type="submit">下一步</button></span>
+</div>
+</%htm:form>
+

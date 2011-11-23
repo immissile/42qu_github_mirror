@@ -2,7 +2,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model.po import Po
-from model.po_video import po_video_new, VIDEO_CID_YOUKU, VIDEO_CID_TUDOU, VIDEO_CID_SINA
+from model.po_video import po_video_new, VIDEO_CID_YOUKU, VIDEO_CID_TUDOU, VIDEO_CID_SINA, video_filter
 from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.state import STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from model.zsite_site import zsite_id_by_zsite_user_id
@@ -31,7 +31,7 @@ class PoVideo(LoginBase):
                 link = '/po/tag/%s' % po_id
         else:
             if url:
-                video, video_site = self._video(url)
+                video, video_site = video_filter(url)
                 if video:
                     user_id = self.current_user_id
                     zsite_id = zsite_id_by_zsite_user_id(self.zsite, user_id)
@@ -48,21 +48,4 @@ class PoVideo(LoginBase):
 
         return self.redirect(link)
 
-    def _video(self, url):
-        if url.startswith('http://v.youku.com/v_show/id_'):
-            video = url[29:url.rfind('.')]
-            video_site = VIDEO_CID_YOUKU
-        elif url.startswith('http://player.youku.com/player.php/sid/'):
-            video = url[39:url.find('/', 39)]
-            video_site = VIDEO_CID_YOUKU
-        elif url.startswith('http://www.tudou.com/programs/view/'):
-            video = url[35:].rstrip('/')
-            video_site = VIDEO_CID_TUDOU
-        elif url.startswith('http://video.sina.com.cn/v/b/'):
-            video = url[29:url.rfind('.')]
-            video_site = VIDEO_CID_SINA
-        else:
-            video = None
-            video_site = None
-        return video, video_site
 

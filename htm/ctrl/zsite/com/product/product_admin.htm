@@ -1,0 +1,69 @@
+
+<%!
+    from zkit.jsdict import JsDict
+    import json
+%>
+
+<%inherit file="/ctrl/_base/zsite.htm" />
+
+
+<%def name="htm_head()"> 
+${css.ctrl_product|n}
+<script src="${js.ctrl_com_product_new|n}"></script>
+</%def>
+
+
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/> 
+
+%if not po_list:
+<script>$(function(){
+    product_add()
+    $("#fancybox-close").remove()
+})</script>
+%else:
+%if request.method == "POST":
+<div class="tc f16" style="padding:27px;border-bottom:1px dotted #ccc;">保存成功 , <a href="/">点此返回</a></div>
+%endif
+<%htm:form id="product_form" enctype="multipart/form-data">
+<div>
+    %if po_list:    
+    %for po in po_list:
+<%
+    id = po.id
+    product_url = None
+    product_about = None
+    info = JsDict(json.loads(po.txt))
+%>
+    %if info:
+    <%
+    product_about = info.product_about
+    product_url = info.product_url
+    %>
+    %endif
+    <div class="line" id="line${id}"> 
+        <input placeholder="产品名称" name="product_name" class="product_name" value="${po.name or ''}" autocomplete="off">
+        <input value="${product_about}" placeholder="一句话描述" name="product_about" class="product_about" autocomplete="off">
+        <input value="${product_url}" placeholder="相关链接" name="product_url" class="product_url">
+        <input type="hidden" name="id" value="${id}"/>
+        <div class="editbar"><a class="edit" href="/product/edit/${id}">编辑</a><a href="/product/rm/${id}" onclick="if(!confirm('删除 , 真的吗?'))return false;">删除</a></div>
+
+    </div>
+    %endfor
+    %endif
+    
+</div>
+
+
+<div class="btns">
+    <span class="btnw"><button class="btn" type="submit">
+            保存
+    </button></span>
+    <a href="javascript:void(0)" id="pop_add">添加产品</a>
+    <a href="/" id="pop_add">返回首页</a>
+</div>
+</%htm:form>
+%endif
+
+
+
+

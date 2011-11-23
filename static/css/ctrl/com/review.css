@@ -1,0 +1,110 @@
+.nav{
+width:470px;
+margin:0 auto;
+text-align:center;
+display:block;
+padding:16px 0;
+border-bottom:1px dotted #ccc;
+}
+.split{
+margin:0 12px;
+}
+.review_wrap{
+clear:both;
+border:1px dotted #ccc;
+padding:12px;
+line-height:0;
+margin-bottom:12px;
+overflow:auto;
+}
+.review_wrap_show{
+clear:both;
+border-bottom:1px dotted #ccc;
+padding:12px 0;
+line-height:0;
+overflow:auto;
+}
+.selected{
+border:1px solid #ccc;
+background-color: #F3F3F3;
+background-image: -moz-linear-gradient(#F3F3F3, #FFFFFF);
+color: #666;
+}
+.selected .review_a{
+color: #666;
+}
+.review_avatar{
+float:left;
+margin-top:4px;
+margin-right:14px;
+width:64px;
+height:64px;
+}
+.review_cont{
+overflow:hidden;
+line-height:27px;
+}
+.review_quot_l{
+float:left;
+width:21px;
+margin-top:42px;
+}
+.review_quot_l, .review_quot_r{
+font-size:26px;
+color:#999;
+font-family:Georgia;
+}
+.review_quot_r{
+vertical-align:-9px;
+margin-left:8px;
+}
+.review_cb{
+margin-right:14px;
+}
+#invite_form{
+width:690px;
+margin:auto;
+}
+.line{
+margin-bottom:14px;
+}
+.line input, .line select{
+padding: 8px;
+}
+.line input{
+line-height: 20px;
+}
+.member_name,.member_mail{
+border:1px solid #ccc;
+padding:7px;
+width:320px;
+}
+.member_name{
+margin-left:14px;
+}
+.invite_link{
+border:1px solid #ccc;
+width:480px;
+margin-right:12px;
+color:#999;
+}
+.hint{
+font-size:16px;
+padding:16px 0;
+}
+.member_btn{
+margin-top:22px;
+}
+.bdn{
+border:none;
+padding:0;
+}
+.review_a{
+color:#333;
+}
+.ick{
+display:inline;
+}
+.ick input{
+margin-top:5px;
+}

@@ -25,7 +25,7 @@ from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from model.zsite_fav import zsite_fav_get_and_touch
 from model.wall import Wall, wall_by_from_id_to_id
-
+from model.reply import Reply
 
 PAGE_LIMIT = 56
 
@@ -81,6 +81,7 @@ class Admin(AdminBase):
             url=url
         )
 
+
 @urlmap('/admin/review')
 class AdminReview(LoginBase):
     def get(self):
@@ -99,7 +100,7 @@ class MarkRm(XsrfGetBase):
 
 @urlmap('/mark')
 class Mark(LoginBase):
-    def get(self,id=None):
+    def get(self):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
         
@@ -110,24 +111,28 @@ class Mark(LoginBase):
         wall = wall_by_from_id_to_id(current_user_id, zsite_id)
         if wall:
             reply_last =  wall.reply_last()
-            if reply_last and reply_last.can_rm(current_user_id):
-                self.render(
-                                reply = reply_last
-                                 )
+            if reply_last:
+                self.render(reply = reply_last)
 
         self.render()
 
 
-    def post(self,id=None):
+    def post(self):
+        zsite = self.zsite
         current_user = self.current_user
+        zsite_id = self.zsite_id
+        current_user_id = self.current_user_id
         txt = self.get_argument('txt', None)
-        if txt:
-            if id:
-                reply = Reply.mc_get(id)
 
-                if reply:
-                    if reply.can_rm(current_user.id):
-                        reply.txt_set(txt)
+        if txt:
+            wall = wall_by_from_id_to_id(current_user_id, zsite_id)
+            if wall: 
+                reply_last =  wall.reply_last()
+            else:
+                reply_last = None
+
+            if reply_last:
+                reply_last.txt_set(txt)
             else:
                 zsite = self.zsite
                 from model.reply import STATE_ACTIVE

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
-from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum, McCacheM
+from _db import Model, McModel, McCache, McCacheA,  McNum, McCacheM
 from cgi import escape
 from cid import CID_AUDIO
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title

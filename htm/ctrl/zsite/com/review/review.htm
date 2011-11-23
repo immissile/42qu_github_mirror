@@ -1,0 +1,45 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>  
+
+
+<%
+is_post = request.method=="POST"
+%>
+<div style="width:470px;margin:16px auto 0">
+%if not is_post:
+%if can_admin:
+写几句给未来同事吧 ...
+%else:
+说说你的看法吧 ...
+%endif
+%else:
+<div class="tc" style="padding:27px;border:1px dotted #ccc">保存成功 , <a href="/">点此返回</a></div>
+%endif
+</div>\
+<%htm:form>
+<div style="border:0" class="zsite_block">
+<textarea name="txt" class="comment_txt">\
+%if review:
+${review.name}\
+%endif
+</textarea>\
+<div style="margin-top:22px;" class="btns">
+<span style="margin-left:0;" class="btnw"><button type="submit" class="btn">保存</button></span>
+<span class="tip R c9 f14">142字以内</span>
+</div>
+</div>
+</%htm:form>
+<script>
+$(".comment_txt").focus()
+var tip = $('.tip')
+can_say = txt_maxlen($('.comment_txt'),tip,142)
+post_say = function(){
+    if(!can_say()){
+        tip.fadeOut(function(){tip.fadeIn()})
+        return false
+    }
+}
+$('form:first').submit(post_say)
+</script>
+
+

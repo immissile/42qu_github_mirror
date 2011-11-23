@@ -4,7 +4,7 @@
 <%namespace file="/_util/event.htm" import="event_show, event_content"/>
 <%namespace file="/ctrl/zsite/event/event_feedback_list.htm" import="feedback_list"/>
 <%!
-from zkit.itertools import chunkiter
+from zkit.zitertools import chunkiter
 from model.ico import pic_url_bind_with_default
 from model.career import career_bind
 from model.event import Event, event_joiner_check_count, event_joiner_user_list, event_joiner_user_id_list, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END, event_joiner_state, EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_NEW

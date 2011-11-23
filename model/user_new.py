@@ -10,3 +10,12 @@ def user_new(mail, password=None, name=None, sex=0):
     user_info_new(user_id, sex=sex)
     search_new(user_id)
     return user_id
+
+
+
+
+
+if __name__ == '__main__':
+    from zsite import Zsite
+    z = Zsite.mc_get(10001229)
+    print z.name

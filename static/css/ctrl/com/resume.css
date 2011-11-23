@@ -1,0 +1,72 @@
+h1 {
+border-bottom:1px dotted #CCCCCC;
+margin:16px auto 0;
+padding-bottom:16px;
+text-align:right;
+width:470px;
+}
+.comment_txt {
+border:1px solid #CCCCCC;
+padding:3px 6px;
+resize:none;
+width:456px;
+overflow:hidden;
+height:80px;
+}
+.zsite_block{
+border:none;
+}
+.comment_cont{
+border-top:1px dotted #ccc;
+padding-top:14px;
+margin-top:14px;
+}
+.friend_a{
+color:#444;
+margin:0 8px;
+}
+.rsm_img{
+width:450px;
+padding-left:20px;
+margin-bottom:12px;
+
+}
+.rsm_img_wrap{
+line-height:0;
+}
+.rsm_name{
+font-size:14px;
+line-height:18px;
+border-bottom:1px dotted #ccc;
+padding-bottom:16px;
+text-align:right;
+color:#444;
+margin-bottom:16px;
+}
+.rsm_l{
+padding:8px 0;
+color:#222;
+width:78px;
+text-align:right;
+float:left;
+margin-right:22px;
+line-height:16px;
+}
+.rsm_r{
+padding:8px 0;
+color:#222;
+text-align:left;
+line-height:16px;
+}
+.rsm_title{
+padding:6px 0 6px 22px;
+background:url(/img/gif/adot.gif) no-repeat 0 14px;
+color:#444;
+border:dotted #ccc;
+border-width:1px 0;
+margin:22px 0 6px;
+}
+.rsm_pre{
+margin-top:-5px;
+}
+
