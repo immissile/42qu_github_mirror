@@ -1,4 +1,3 @@
-%if admin:
 <%inherit file="/ctrl/_base/com.htm" />
 %else:
 <%inherit file="/ctrl/_base/zsite.htm" />
@@ -6,27 +5,11 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/> 
 <%def name="htm_head()"> 
 ${css.ctrl_product|n}
+<script src="${js.ctrl_com_product_new|n}"></script>
 <%!
     from zkit.jsdict import JsDict
     import json
 %>
-<script>
-$(function(){
-    $('.product_name:last').live('blur',function(){
-        var self = $(this)
-        if($.trim($('.line:last').find('input[name="product_name"]').val()).length>0){
-            var wrap = self.parent().parent(),
-            id = parseInt(wrap.attr('id').substr(4))+1
-            wrap.after('<div class="line" id="line'+id+'"> <span class="L"><input name="product_name" class="product_name" value="" autocomplete="off"><input value="" name="product_about" class="product_about" autocomplete="off"><input value="" name="product_url" class="product_url"></span><a href="javascript:close_item('+id+');void(0)" class="close_item"></a></div>')
-        }
-        self.unbind('blur')
-    })
-})
-
-function close_item(id){
-    $('#line'+id).remove()
-}
-</script>
 </%def>
 
 <p class="pro_nav">添加产品</p>
@@ -35,7 +18,6 @@ function close_item(id){
 <div>
 %if po_list:    
 %for po in po_list:
-
 <%
     id = po.id
     product_url = None
@@ -54,8 +36,9 @@ function close_item(id){
         <input value="${product_url}" placeholder="相关链接" name="product_url" class="product_url">
         <input type="hidden" name="id" value="${id}"/>
         <div class="editbar"><a class="edit" href="/product/edit/${id}">编辑</a><a href="/product/rm/${id}" onclick="if(!confirm('删除 , 真的吗?'))return false;">删除</a></div>
+
     </div>
-    %endfor
+%endfor
     %endif
     %if not admin:
     %for i in xrange(5):
