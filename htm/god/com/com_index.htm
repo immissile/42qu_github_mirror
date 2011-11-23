@@ -6,24 +6,19 @@ from model.zsite_rank import zsite_rank_max
 %>
 <%def name="htm_head()">
 </%def>
-%if li:
-    %for l in li:
-    <div>
-    ${l.name}
-    <br />
-    ${l.id}
-    <br />
-    %if zsite_list_get(l.id,OWNER_ID,l.cid):
-        当前rank值：${zsite_list_get(l.id,OWNER_ID,l.cid).rank}
-        <br />
-        <a href="/zsite/show/rm/${l.id}"> 移除秀</a>
-    %else:
-        <form action="/zsite/show/${l.id}"> 
-            <input id="rank" type="text" name="rank" value="${zsite_rank_max(6)}">
-            <button type="submit">加入秀</button>
-        </form>
-    %endif
-    </div>
-    %endfor
-    ${page|n}
-    %endif
+%for l in li:
+<div>
+<div>${l.id} <a href="${l.link}" target="_blank">${l.name}</a></div>
+%if zsite_list_get(l.id,OWNER_ID,l.cid):
+    当前rank值：${zsite_list_get(l.id,OWNER_ID,l.cid).rank}
+    <a href="/zsite/show/rm/${l.id}"> 移除秀</a>
+%else:
+    <form action="/zsite/show/${l.id}"> 
+        <input id="rank" type="text" name="rank" value="${zsite_rank_max(6)}">
+        <button type="submit">加入秀</button>
+    </form>
+%endif
+</div>
+%endfor
+
+${page|n}
