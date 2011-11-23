@@ -1,33 +1,71 @@
+%if admin:
 <%inherit file="/ctrl/_base/com.htm" />
+%else:
+<%inherit file="/ctrl/_base/zsite.htm" />
+%endif
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/> 
 <%def name="htm_head()"> 
 ${css.ctrl_product|n}
 <script src="${js.ctrl_com_product_new|n}"></script>
+<%!
+    from zkit.jsdict import JsDict
+    import json
+%>
 </%def>
 
 <p class="pro_nav">添加产品</p>
 
 <%htm:form id="career_form" enctype="multipart/form-data">
 <div>
-%for i in range(5): 
-    <div class="line" id="line${i}"> 
-        <input placeholder="产品名称" name="product_name" class="product_name" value="" autocomplete="off"><input value="" placeholder="一句话描述" name="product_about" class="product_about" autocomplete="off"><input value="" placeholder="相关链接" name="product_url" class="product_url">
-
-##        %if edit:
-%if 1:
-    ##/product/edit/${id}
-    <div class="editbar"><a class="edit" href="">编辑</a><a href="" onclick="if(!confirm('删除 , 真的吗?'))return false;">删除</a></div>
-%endif 
-
+    %if po_list:    
+    %for po in po_list:
+<%
+    id = po.id
+    product_url = None
+    product_about = None
+    info = JsDict(json.loads(po.txt))
+%>
+    %if info:
+    <%
+    product_about = info.product_about
+    product_url = info.product_url
+    %>
+    %endif
+    <div class="line" id="line${id}"> 
+        <input placeholder="产品名称" name="product_name" class="product_name" value="${po.name or ''}" autocomplete="off">
+        <input value="${product_about}" placeholder="一句话描述" name="product_about" class="product_about" autocomplete="off">
+        <input value="${product_url}" placeholder="相关链接" name="product_url" class="product_url">
+        <input type="hidden" name="id" value="${id}"/>
+        <div class="editbar"><a class="edit" href="/product/edit/${id}">编辑</a><a href="/product/rm/${id}" onclick="if(!confirm('删除 , 真的吗?'))return false;">删除</a></div>
 
     </div>
-%endfor
+    %endfor
+    %endif
+    
+    %if not admin:
+    %for i in xrange(5):
+        <div class="line" id="line${i}"> 
+        <input placeholder="产品名称" name="product_name" class="product_name"value=""  autocomplete="off">
+        <input value="" placeholder="一句话描述" name="product_about" class="product_about" autocomplete="off">
+        <input value="" placeholder="相关链接" name="product_url" class="product_url">
+        </div>
+    %endfor
+    %endif
 </div>
 
 
 <div class="btns">
-<span class="btnw"><button class="btn" type="submit">下一步</button></span>
-<a id="pop_add" href="javascript:void(0)">添加产品</a>
+    <span class="btnw"><button class="btn" type="submit">
+            %if admin:
+            保存
+            %else:
+            下一步
+            %endif
+    </button></span>
+    %if admin:
+    <a href="javascript:void(0)" id="pop_add">添加产品</a>
+    %endif
+
 </div>
 </%htm:form>
 

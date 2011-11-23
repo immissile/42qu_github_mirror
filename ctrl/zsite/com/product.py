@@ -10,7 +10,40 @@ from model.ico import site_ico_new, site_ico_bind
 from zkit.pic import pic_fit_width_cut_height_if_large
 from urlparse import urlparse
 from model.po_pic import product_pic_new
-from model.po_product import Po, po_product_new, po_product_update, product_id_list_by_com_id, product_rm
+from model.po_product import Po, po_product_new, po_product_update, product_id_list_by_com_id, product_rm, product_list_by_com_id
+
+@urlmap('/product/admin')
+class ProductAdmin(AdminBase):
+    def get(self):
+        po_list = product_list_by_com_id(self.zsite_id)
+        self.render(
+                '/ctrl/zsite/com/product/product_new.htm',
+                admin = True,
+                po_list = po_list,
+                )
+
+    def post(self):
+        arguments = self.request.arguments
+        id = arguments.get('id')
+        product_url = arguments.get('product_url')
+        product_name = arguments.get('product_name')
+        product_about = arguments.get('product_about')
+        
+        pros = zip(id,product_url, product_name, product_about)
+        pros = filter(lambda p : p[2] is not '', pros)
+        if pros:
+            for id,product_url,product_name,product_about in pros:
+                info_json = JsDict()
+                info_json.product_url = product_url
+                info_json.product_about = product_about
+                po = Po.mc_get(id)
+                po.name = product_name
+                po.save()
+                po_product_update(id,info_json)
+        
+        return self.get()
+
+
 
 @urlmap('/product/new')
 class ProductNew(AdminBase):
@@ -23,7 +56,7 @@ class ProductNew(AdminBase):
         zsite = self.zsite
 
         arguments = self.request.arguments
-
+        edit = self.get_argument('edit',None)
         product_url = arguments.get('product_url')
         product_name = arguments.get('product_name')
         product_about = arguments.get('product_about')
@@ -39,7 +72,10 @@ class ProductNew(AdminBase):
                 po_product_new(user_id, name, info_json, zsite.id)
 
             next_id = product_id_list_by_com_id(zsite.id)[0]
-            return self.redirect('/product/new/%s'%next_id)
+            if edit:
+                return self.redirect('/product/edit/%s'%next_id)
+            else:
+                return self.redirect('/product/new/%s'%next_id)
 
         self.get()
 
@@ -137,7 +173,10 @@ class ProductEdit(AdminBase):
         if id:
             product = Po.mc_get(id)
         if product:
-            self.render(product=product, com_id=self.zsite.id)
+            self.render(
+                        product=product, 
+                        com_id=self.zsite.id,
+                        edit=True)
         else:
             self.redirect('/')
 
@@ -148,11 +187,11 @@ class ProductEdit(AdminBase):
     def post(self, id):
         product = Po.mc_get(id)
         self._product_save(product)
-        self.redirect('/')
+        self.redirect('/product/admin')
 
 @urlmap('/product/rm/(\d+)')
 class ProductRm(AdminBase):
     def get(self, id):
         if id:
             po_rm(self.current_user_id, id)
-            self.redirect('/')
+            self.redirect('/product/admin')
