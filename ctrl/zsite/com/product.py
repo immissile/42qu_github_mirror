@@ -23,7 +23,26 @@ class ProductAdmin(AdminBase):
                 )
 
     def post(self):
-        pass
+        arguments = self.request.arguments
+        id = arguments.get('id')
+        product_url = arguments.get('product_url')
+        product_name = arguments.get('product_name')
+        product_about = arguments.get('product_about')
+        
+        pros = zip(id,product_url, product_name, product_about)
+        pros = filter(lambda p : p[2] is not '', pros)
+        if pros:
+            for id,product_url,product_name,product_about in pros:
+                info_json = JsDict()
+                info_json.product_url = product_url
+                info_json.product_about = product_about
+                po = Po.mc_get(id)
+                po.name = product_name
+                po.save()
+                po_product_update(id,info_json)
+        
+        return self.get()
+
 
 
 @urlmap('/product/new')
@@ -37,7 +56,7 @@ class ProductNew(AdminBase):
         zsite = self.zsite
 
         arguments = self.request.arguments
-
+        edit = self.get_argument('edit',None)
         product_url = arguments.get('product_url')
         product_name = arguments.get('product_name')
         product_about = arguments.get('product_about')
@@ -53,7 +72,10 @@ class ProductNew(AdminBase):
                 po_product_new(user_id, name, info_json, zsite.id)
 
             next_id = product_id_list_by_com_id(zsite.id)[0]
-            return self.redirect('/product/new/%s'%next_id)
+            if edit:
+                return self.redirect('/product/edit/%s'%next_id)
+            else:
+                return self.redirect('/product/new/%s'%next_id)
 
         self.get()
 
@@ -151,7 +173,10 @@ class ProductEdit(AdminBase):
         if id:
             product = Po.mc_get(id)
         if product:
-            self.render(product=product, com_id=self.zsite.id)
+            self.render(
+                        product=product, 
+                        com_id=self.zsite.id,
+                        edit=True)
         else:
             self.redirect('/')
 
