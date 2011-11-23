@@ -233,9 +233,9 @@ class JobMail(AdminBase):
             else:
                 verify_mail_new(zsite_id, zsite.name, hr_mail, CID_VERIFY_COM_HR)
 
-            return self.redirect('/mail/verify')
+            return self.redirect('/job/mail/verify')
 
-@urlmap('/mail/verified')
+@urlmap('/job/mail/now')
 class MailVerified(AdminBase):
     def get(self):
         zsite_id = self.zsite_id
@@ -247,7 +247,7 @@ class MailVerified(AdminBase):
 
         self.redirect('/job/new')
 
-@urlmap('/mail/verify')
+@urlmap('/job/mail/verify')
 class MailVerify(AdminBase):
     def get(self):
         self.render()

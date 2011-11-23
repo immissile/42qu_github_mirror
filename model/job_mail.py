@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 
+
+
 JOB_MAIL_STATE_VERIFY = 1
 JOB_MAIL_STATE_VERIFIED = 2
 
