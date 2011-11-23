@@ -167,3 +167,10 @@ border-right:1px dotted #ccc;
 margin-left:0;
 border:none;
 }
+.btn_line a{
+margin-left: 64px; font-size: 16px; vertical-align: 12px;
+}
+.btn_line{
+margin-left:80px
+}
+

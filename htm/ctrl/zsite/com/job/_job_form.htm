@@ -175,17 +175,17 @@ ${errtip.txt|n}
     <div class="errtip" id="errtip_other"></div>
 </div>
 
-
-<span class="btnw"><button type="submit">
-        %if edit is not None:
-        保存
+<div class="btn_line">
+<span class="btnw"><button type="submit">发布</button></span>
+        %if edit:
+<a href="/job/admin">返回</a>
         %else:
-        下一步
+<a href="/bio/new">跳过</a>
         %endif
-</button></span>
-
+</div>
 %if job:
 <a href="/job/close/${job.id}">关闭职位</a>
 %endif
 </%htm:form>
 </%def>
+
