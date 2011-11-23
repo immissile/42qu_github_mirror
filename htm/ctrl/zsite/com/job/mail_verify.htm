@@ -7,29 +7,26 @@ from zkit.txt import EMAIL_VALID, mail_link
 %>
 
 <%def name="htm_head()">
-${css.ctrl_zsite_site|n}
-${css.ctrl_event_admin|n}
-${css.ctrl_po_event|n}
-<script src="${js.ctrl_zsite|n}"></script>
-<script src="${js.ctrl_zsite_site|n}"></script>
-<script>
-function reg_mail(){
-    $('#hr_mail').val('i@realfex.com')
+<style>
+.po_line{
+margin:64px 0;
+text-align:center;
+font-size:16px;
 }
-</script>
+.word_a{
+margin:27px 0;
+display:block;
+}
+</style>
 </%def>
 
 <%
 mail = get_job_mail(zsite_id)
 %>
 
-<div style="width:300px;margin:auto">
 <div class="po_line">
     <div>请验证邮箱 : ${get_job_mail(zsite_id) or ''}</div>
     <div><a href="${mail_link(mail)|n}" target="_blank" class="word_a">点此验证</a></div>
     <div><a href="/job/mail" class="word_a">重新填写</a></div>
 </div>
-
-</div>
-
 
