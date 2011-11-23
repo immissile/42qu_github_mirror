@@ -43,7 +43,7 @@ def _bio_save(self,edit=None):
         video_new(com_id,video)
     zsite_com_new(com_id,hope,money,culture,team,cover_id,video_site)
     if edit:
-        self.redirect('/guide')
+        self.redirect('/')
     else:
         self.redirect('/member/new/search')
 
