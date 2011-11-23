@@ -58,23 +58,7 @@ class MemberApply(AdminBase):
                 com_apply_rm(id,com_id,self.current_user_id)
         self.redirect('/member/admin')
 
-@urlmap('/member/invite/rm')
-class MemberInvite(AdminBase):
-    def post(self):
-        id = self.get_argument('id',None)
-        com_id = self.zsite_id
-        if id and zsite_id_count_by_member_admin(com_id)>1:
-            zsite_member_rm(com_id,id)
-        self.redirect('/member/admin')
 
-@urlmap('/member/rm')
-class MemberRm(AdminBase):
-    def post(self):
-        id = self.get_argument('id',None)
-        com_id = self.zsite_id
-        if id and zsite_id_count_by_member_admin(com_id)>1:
-            zsite_member_rm(com_id,id)
-        self.finish(True)
 
 @urlmap('/member/admin')
 class MemberAdmin(AdminBase):

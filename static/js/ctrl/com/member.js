@@ -58,13 +58,10 @@ $(function(){
 
     $('.member_rm_a').click(function(){
         var self = $(this)
-        var url = $(this).attr('id').split('_')[0]=='in'?'/member/rm':'/member/invite/rm'
-        var id = $(this).attr('id').split('_')[1]
+        var url = self.attr('id').split('_')[0]=='in'?'':'/invite'
+        var id = self.attr('id').split('_')[1]
         self.parent().remove()
-        $.postJSON(
-            url,
-            {'id':id}
-        ) 
+        $.postJSON("/j/member" +url+"/rm/"+id) 
     })
 })
 

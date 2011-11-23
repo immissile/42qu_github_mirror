@@ -32,7 +32,15 @@ class MemberInviteRm(AdminBase):
         if id != current_user_id:
             zsite_member_rm(zsite_id, id)
         self.finish('{}')
+    post = get
 
+@urlmap('/j/member/rm/(\d+)')
+class MemberRm(AdminBase):
+    def post(self, id):
+        com_id = self.zsite_id
+        if id and zsite_id_count_by_member_admin(com_id) > 1:
+            zsite_member_rm(com_id, id)
+        self.finish('{}')
 
 @urlmap('/j/review/show/rm/(\d+)')
 class ReviewShowRm(AdminBase):
