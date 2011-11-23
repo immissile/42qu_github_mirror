@@ -76,6 +76,18 @@ class MemberJoin(ZsiteBase):
             com_apply_new(user_id,com_id)
         self.redirect('/')
 
+def _invite(self):
+    arguments = self.request.arguments
+    for mail, name in zip(arguments['mail'], arguments['name']):
+        mail = mail.strip().lower()
+        name = name.strip()
+        if EMAIL_VALID.match(mail):
+            user_id = user_id_by_mail(mail)
+            if not user_id:
+                user = user_new_by_mail(mail, name=name)
+                user_id = user.id
+
+            zsite_member_invite(self.zsite, user_id, self.current_user)
 
 
 @urlmap('/member/admin/invite')
@@ -83,40 +95,19 @@ class MemberAdminInvite(AdminBase):
     def get(self):
         self.render()
 
+    _invite = _invite
+
     def post(self):
-        links = self.get_arguments('link',None)
-        uids = map(lambda x:zsite_by_query(x),links)
-        uids = chain(filter(lambda x:x.isdigit(),map(lambda x:x.lstrip('http://').split('.')[0],links)),filter(int,map(lambda x:zsite_by_query(x),links)))
-        emails = self.get_arguments('mail',None)
-        names = self.get_arguments('name',None)
-        invite_address =  zip(emails,names)
         com = self.zsite
         current_user = self.current_user
-        
-        
-        for n,(i,j) in enumerate(invite_address):
-            if not(i or j):
-                del invite_address[n]
-            if not EMAIL_VALID.match(i):
-                del invite_address[n]
-        
-        
-        if uids:
-            for uid in uids:
-                zsite_member_invite(com, uid, current_user)
 
+        links = self.get_arguments('link',())
+        uids = filter(bool,map(zsite_by_query,links))
+        zsite_member_invite(com, uids, current_user)
 
-
-        if invite_address:
-            for mail,name in invite_address:
-                user_id = user_id_by_mail(mail)
-                if not user_id:
-                    user = user_new_by_mail(mail, name=name)
-                    user_id = user.id
-
-                zsite_member_invite(self.zsite, user_id, self.current_user)
-
+        self._invite()
         self.render(success=True)
+
 
 
 @urlmap('/member/new/invite')
@@ -124,19 +115,10 @@ class MemberNewInvite(AdminBase):
     def get(self):
         return self.render()
 
+    _invite = _invite
+
     def post(self):
-        arguments = self.request.arguments
-        for mail, name in zip(arguments['mail'], arguments['name']):
-            mail = mail.strip().lower()
-            name = name.strip()
-            if EMAIL_VALID.match(mail):
-                user_id = user_id_by_mail(mail)
-                if not user_id:
-                    user = user_new_by_mail(mail, name=name)
-                    user_id = user.id
-
-                zsite_member_invite(self.zsite, user_id, self.current_user)
-
+        self._invite()
         return self.redirect('/review/invite')
 
 
