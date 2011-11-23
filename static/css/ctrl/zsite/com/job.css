@@ -152,7 +152,10 @@ font-size:16px;
 color:#444;
 display:block;
 padding-bottom:6px;
-border-bottom:1px solid #999;
+border-bottom:3px dotted #ccc;
+}
+.job_next_a:hover{
+border-color:#000
 }
 .job_next{
 float:left;

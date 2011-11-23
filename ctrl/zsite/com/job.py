@@ -79,7 +79,7 @@ def _job_save(self, job=None):
                 job
             )
 
-        self.redirect('/job/%s'%cj.id)
+        self.redirect('/job/next')
     else:
         self.render(
                 errtip=errtip,
@@ -163,6 +163,8 @@ class JobClose(AdminBase):
             job.state = JOB_CLOSE
             job.save()
             return self.redirect('/')
+
+
 
 @urlmap('/job/(\d+)')
 class JobD(ZsiteBase):

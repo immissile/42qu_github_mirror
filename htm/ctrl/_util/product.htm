@@ -6,6 +6,7 @@ from model.po import Po
 from model.ico import fs_url_jpg
 from model.po_product import product_id_list_by_com_id
 %>
+
 <%def name="product_form(product=None,position=None)">
     <%htm:form classname="site_new" enctype="multipart/form-data">
     <%
@@ -60,8 +61,8 @@ from model.po_product import product_id_list_by_com_id
 <p class="hint_wrap">同类产品</p>
 <div style="clear:both;">
     <div style="height:20px;"></div>
-    <div id="line1" class="line"> 
-        <div class="similar_product_wrap" id="similar_product_wrap1">
+    <div class="line"> 
+        <div class="similar_product_wrap">
             %if product_similar:
             %for pro in product_similar:
             <input autocomplete="off" value="${pro[0]}" class="similar_product_name" name="similar_product_name" placeholder="产品名称"><input class="similar_product_url" name="similar_product_url" placeholder="相关链接" value="${pro[1]}">

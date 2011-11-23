@@ -30,10 +30,10 @@ overflow:auto;
 display:inline-block;
 width:16px;
 height:16px;
-margin-left:16px;
+margin-left:8px;
 background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;
 padding:4px;
-vertical-align:-10px;
+vertical-align:-6px;
 }
 .close_item:hover, .close_ot_item:hover{
 background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
@@ -96,7 +96,7 @@ text-align:center;
 display:block;
 }
 .similar_product_name,.similar_product_url{
-width:319px;
+width:306px;
 margin-left:14px;
 border:1px solid #ccc;
 }

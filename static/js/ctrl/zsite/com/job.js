@@ -163,7 +163,7 @@ $(function(){
         }
     }
 
-    var elem="#title,#txt,#require,#more,#kinds_input"
+    var elem="#title,#txt,#kinds_input"
     elem=$(elem)
     elem.blur(verify).focus(function(){
         $("#errtip_"+this.id).remove()

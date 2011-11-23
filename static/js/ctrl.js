@@ -192,23 +192,30 @@ function fav_com(){
     text = a.html(),
     url = '/j/fav',
     fav = '收藏',
-    fav_rm = '淡忘';
+    fav_rm = '淡忘'
     if(text == fav){
         text = fav_rm,
         fancybox = $.fancybox
         fancybox({
-            content:'<form id="fav_reply" class="fancyreply"><h3>写写你对它的看法吧 ...</h3><textarea name="txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">确定</button></span></div></form>',
+            content:'<form id="fav_reply" class="fancyreply"><h3>写写你对它的看法吧 ...</h3><textarea name="txt" class="fav_txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">确定</button></span><span class="R fav_tip c9">142字以内</span></div></form>',
             onComplete: function() {
                 var reply = $('#fav_reply'),
-				textarea = reply.find('textarea');
-				reply.submit(function() {
+				textarea = $('.fav_txt'),
+                tip = $('.fav_tip'),
+                can_say = txt_maxlen(textarea, tip, 142)
+   				reply.submit(function() {
 					var txt = $.trim(textarea.val());
 					if (txt && txt.length) {
-						fancybox.showActivity()
-						$.postJSON("/j/fav", {
-							'txt': txt
-						})
-						fancybox.close()
+                        if(can_say()){
+						    fancybox.showActivity()
+						    $.postJSON("/j/fav", {
+							    'txt': txt
+						    })
+						    fancybox.close()
+                        }else{
+                            tip.fadeOut(function(){tip.fadeIn()})
+                            return false
+                        }
 					} else {
 						fancybox.close()
 					}
