@@ -52,7 +52,7 @@ def _zsite_member_invite(zsite, member, current_user):
         mail = mail_by_user_id(member_id)
         #mail = "zsp007@gmail.com"
 
-        rendermail(
+        mq_rendermail(
             '/mail/com/invite_member.htm', 
             mail, 
             member.name,
@@ -87,7 +87,7 @@ def _zsite_review_invite(zsite, member, current_user):
     name.extend( career_current(member_id) )
     name = " , ".join(filter(bool, name))
 
-    rendermail(
+    mq_rendermail(
         '/mail/com/invite_review.htm', 
         mail, 
         member.name,
