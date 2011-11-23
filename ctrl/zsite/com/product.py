@@ -189,8 +189,9 @@ class ProductEdit(AdminBase):
 
     def post(self, id):
         product = Po.mc_get(id)
-        self._product_save(product)
-        self.redirect('/product/admin')
+        if product.zsite_id == self.zsite_id:
+            self._product_save(product)
+        self.redirect('/#product_%s'%id)
 
 @urlmap('/product/rm/(\d+)')
 class ProductRm(AdminBase):

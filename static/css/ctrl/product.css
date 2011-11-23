@@ -112,6 +112,9 @@ margin-bottom:16px;
 .similar_product_wrap{
 margin:0 0 20px -14px;
 }
+.similar_product_wrap input{
+padding:8px;
+}
 .place_hint{
 color:#999;
 margin-left:12px;
