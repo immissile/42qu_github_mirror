@@ -53,12 +53,13 @@ def com_apply_rm(user_id,com_id,admin_id):
         ca.save()
 
 def com_apply_accept(user_id,com_id,admin_id):
+    zsite_member_new(com_id, user_id, ZSITE_MEMBER_STATE_ACTIVE)
+
     ca = ComApply.get_or_create(user_id=user_id,com_id=com_id,)
     ca.admin_id=admin_id
     ca.create_time = today_seconds()
     ca.state = COM_APPLY_STATE_APPLY_ACCEPT
     ca.save()
     
-    zsite_member_new(com_id, user_id, ZSITE_MEMBER_STATE_ACTIVE)
 
 
