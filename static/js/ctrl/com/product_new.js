@@ -6,8 +6,14 @@ $(function(){
             $.fancybox({
                 'content':'<form enctype="multipart/form-data" method="POST" action="/product/new" id="popline"><input name="_xsrf" type="hidden"><div class="line"><div>产品名称<input autocomplete="off" value="" class="input" name="product_name" id="pop_name"></div><div>简单描述<input autocomplete="off" class="input" name="product_about" value=""></div><div>相关链接<input class="input" autocomplete="off" name="product_url" value=""></div><div style="margin:7px 0 0 70px"><span class="btnw"><button type="submit">添加产品</button></span></div></div><input type="hidden" name="edit" value="1">','onComplete':function(){
 
-                $('#pop_name').focus()
-                $("#popline").find("input[name=_xsrf]").val($.cookie.get("_xsrf"))
+                var pop_name = $('#pop_name').focus()
+                $("#popline").submit(function(){
+                    if(!pop_name.val().length){
+                        alert("请输入产品名称 !")
+                        pop_name.focus()
+                        return false
+                    }
+                }).find("input[name=_xsrf]").val($.cookie.get("_xsrf"))
             }, 
             'hideOnOverlayClick':false
             })
