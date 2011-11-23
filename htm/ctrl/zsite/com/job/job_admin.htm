@@ -37,7 +37,7 @@ class="c9"\
 <ol class="job_ol">
     %for job in job_list:
     <li class="job_li">
-    <a href="/job/${job.id}" class="job_a" id="job_${job.id}">${job.title}</a>
+    <a href="/job/edit/${job.id}" class="job_a" id="job_${job.id}">${job.title}</a>
     <a href="javascript:rm_job(${job.id},${state});void(0)" class="rm_job_a"></a></li>
 %endfor
 </ol>

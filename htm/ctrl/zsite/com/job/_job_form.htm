@@ -182,14 +182,14 @@ ${errtip.txt|n}
 <div class="btn_line">
 <span class="btnw"><button type="submit">发布</button></span>
         %if edit:
-<a href="/job/admin">返回</a>
+<a href="/job/admin">返回管理</a>
         %else:
 <a href="/bio/new">跳过</a>
         %endif
-</div>
 %if job:
-<a href="/job/close/${job.id}">关闭职位</a>
+<a href="/job/close/${job.id}" style="margin-left:64px">关闭职位</a>
 %endif
+</div>
 </%htm:form>
 </%def>
 

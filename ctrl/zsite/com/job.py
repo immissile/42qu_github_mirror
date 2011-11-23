@@ -175,10 +175,10 @@ class JobEdit(AdminBase):
 class JobClose(AdminBase):
     def get(self, id):
         job = ComJob.mc_get(id)
-        if job:
+        if job and job.com_id == self.zsite_id:
             job.state = JOB_CLOSE
             job.save()
-            return self.redirect('/')
+        return self.redirect('/job/admin')
 
 
 
