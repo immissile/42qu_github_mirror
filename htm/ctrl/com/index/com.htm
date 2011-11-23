@@ -17,7 +17,7 @@ import json
 from zkit.jsdict import JsDict
 from model.zsite_member import zsite_member_can_admin, zsite_member_list, ZSITE_MEMBER_STATE_ACTIVE, zsite_member_with_review
 from model.zsite_com import ZsiteCom
-from model.po_video import video_uri
+from model.po_video import video_htm
 from model.com_apply import com_apply_get
 from model.po_review import po_review_count,po_review_show_list_with_user
 %>
@@ -32,15 +32,22 @@ ${zsite.name} : ${motto_get(zsite.id)}
 <%
 can_admin = zsite_member_can_admin(zsite_id, user_id)
 zsite_com = ZsiteCom.mc_get(zsite_id)
-_video_uri = video_uri(zsite_id)
+_video_uri = None
 %>
 <div class="G">
     <div class="com_main">
-       %if _video_uri and zsite_com: 
+       %if zsite_com:
+%if zsite_com.video_cid: 
+<%
+_video_uri = video_htm(zsite_com.video_cid ,zsite_id)
+%>
+%endif
+%if _video_uri:
        <div class="com_video">
            ##${HTM_YOUKU%"XMjMxOTYxNDk2"|n}
-           ${VIDEO_CID2HTM[zsite_com.video_cid]%_video_uri|n}
+           ${_video_uri|n}
        </div>
+%endif
         %endif
 <%
 po_review_show_list = po_review_show_list_with_user(zsite_id)
