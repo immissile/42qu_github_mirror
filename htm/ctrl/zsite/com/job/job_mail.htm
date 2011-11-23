@@ -6,15 +6,7 @@ from model.user_mail import mail_by_user_id
 %>
 
 <%def name="htm_head()">
-${css.ctrl_zsite_site|n}
-${css.ctrl_event_admin|n}
 ${css.ctrl_po_event|n}
-<script src="${js.ctrl_zsite|n}"></script>
-<script src="${js.ctrl_zsite_site|n}"></script>
-<link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章">
-</%def>
-
-
 <style>
 .input{
 width:300px;
@@ -30,10 +22,12 @@ function reg_mail(){
     $('#hr_mail').val('${mail_by_user_id(current_user_id)}')
 }
 </script>
+</%def>
 
 
-<%htm:form method="POST" id="event_form" enctype="multipart/form-data" onsubmit="return job_new()" style="margin-left:269px;">
 
+
+<%htm:form method="POST" id="event_form" style="margin-left:269px;">
 <div class="po_line">
     <label for="title">请填写招聘邮箱</label>
 </div>
@@ -45,5 +39,7 @@ function reg_mail(){
 </div>
 <span class="btnw"><button type="submit">下一步</button></span>
 </%htm:form>
-</div></div>
 
+<script>
+$("#hr_mail").focus()
+</script>
