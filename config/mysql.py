@@ -86,6 +86,9 @@ DB_MAIN_TABLE = (
     'com_job',
     'com_department',
     'com_job_needs',
+    'po_review_show',
+    'zsite_com',
+    'com_apply',
 
 )
 

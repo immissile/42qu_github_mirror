@@ -30,3 +30,4 @@ class HeroJson(Base):
                     word = "关注"
                 result = [zsite.name, ' , '.join(career), ico_url_with_default(id), zsite.link, zsite.id, word, motto_get(zsite.id)]
         return self.finish(dumps(result))
+
