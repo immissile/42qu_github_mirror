@@ -4,8 +4,8 @@ from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 
 
 
-JOB_MAIL_STATE_VERIFY = 1
-JOB_MAIL_STATE_VERIFIED = 2
+JOB_MAIL_STATE_VERIFY = 10
+JOB_MAIL_STATE_VERIFIED = 20
 
 class JobMail(McModel):
     pass
