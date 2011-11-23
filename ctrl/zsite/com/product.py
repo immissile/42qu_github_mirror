@@ -24,21 +24,26 @@ class ProductAdmin(AdminBase):
 
     def post(self):
         arguments = self.request.arguments
+        zsite_id = self.zsite_id
         id = arguments.get('id')
-        product_url = arguments.get('product_url')
-        product_name = arguments.get('product_name')
-        product_about = arguments.get('product_about')
+        product_url = arguments.get('product_url', ())
+        product_name = arguments.get('product_name',())
+        product_about = arguments.get('product_about',())
         
-        pros = zip(id,product_url, product_name, product_about)
-        pros = filter(lambda p : p[2] is not '', pros)
+        pros = zip(id, product_url, product_name, product_about)
+        pros = filter(lambda p : bool(p[2]), pros)
         if pros:
-            for id,product_url,product_name,product_about in pros:
+            for id, product_url, product_name, product_about in pros:
+
+                po = Po.mc_get(id)
+                if po.user_id == zsite_id:
+                    po.name = product_name
+                    po.save()
+                
                 info_json = JsDict()
                 info_json.product_url = product_url
                 info_json.product_about = product_about
-                po = Po.mc_get(id)
-                po.name = product_name
-                po.save()
+
                 po_product_update(id,info_json)
         
         return self.get()
@@ -83,9 +88,6 @@ class ProductNew(AdminBase):
 def _product_save(self, product):
     current_user_id = self.current_user_id
     if not product.can_admin(current_user_id): 
-        return
-    #TODO ! 判断current_user_id 是不是有com的管理权限
-    if 0:
         return
 
     position = int(self.get_argument('position', 0))
@@ -173,10 +175,7 @@ class ProductEdit(AdminBase):
         if id:
             product = Po.mc_get(id)
         if product:
-            self.render(
-                        product=product, 
-                        com_id=self.zsite.id,
-                        edit=True)
+            self.render( product=product, com_id=self.zsite.id, edit=True)
         else:
             self.redirect('/')
 
