@@ -62,12 +62,16 @@ hope = zsite_com.hope
 </textarea>
     </div>
     <div class="bio_btn">
-        <span class="btnw"><button type="submit" id="submit">
-                %if edit:
-                保存
-                %else:
-                下一步
-        %endif</button></span>
+        <span class="btnw"><button type="submit" id="submit">\
+%if edit:
+保存
+%else:
+下一步
+%endif
+</button></span>
+%if edit:
+<a href="/">返回</a>
+%endif
     </div>
 </%htm:form>
 </div>
