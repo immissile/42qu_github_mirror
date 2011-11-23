@@ -27,9 +27,14 @@ function close_item(id){
 <div>
 %for i in range(5): 
     <div class="line" id="line${i}"> 
-        <span class="L">
-            <input placeholder="产品名称" name="product_name" class="product_name" value="" autocomplete="off"><input value="" placeholder="一句话描述" name="product_about" class="product_about" autocomplete="off"><input value="" placeholder="相关链接" name="product_url" class="product_url">
-        </span>
+        <input placeholder="产品名称" name="product_name" class="product_name" value="" autocomplete="off"><input value="" placeholder="一句话描述" name="product_about" class="product_about" autocomplete="off"><input value="" placeholder="相关链接" name="product_url" class="product_url">
+
+##        %if edit:
+%if 1:
+    <div class="editbar"><a class="edit" href="">编辑</a><a href="" onclick="if(!confirm('删除 , 真的吗?'))return false;">删除</a></div>
+%endif 
+
+
     </div>
 %endfor
 </div>

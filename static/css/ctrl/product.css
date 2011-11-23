@@ -23,7 +23,7 @@ width:280px;
 margin-right:10px;
 }
 .line{
-margin-bottom:32px;
+margin-bottom:16px;
 overflow:auto;
 }
 .close_item, .close_ot_item{
@@ -130,3 +130,18 @@ font-size:14px;
 .pro_btn{
 margin:16px 0 6px;
 }
+.editbar{
+width:280px;
+padding:0 9px;
+text-align:right;
+}
+.editbar a:hover{
+color:#d20;
+}
+.editbar a{
+color:#999;
+}
+.editbar .edit{
+float:left;
+}
+
