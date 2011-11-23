@@ -1,54 +1,27 @@
 <%inherit file="/ctrl/_base/com.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>  
 ${css.ctrl_product|n}
+<script src="${js.ctrl_com_product|n}"></script>
 
-
-
-<script>
-$(function(){
-    $('.product_name:last').live('blur',function(){
-        var self = $(this)
-        if($.trim($('.line:last').find('input[name="product_name"]').val()).length>0){
-            var wrap = self.parent().parent(),
-            id = parseInt(wrap.attr('id').substr(4))+1
-            wrap.after('<div class="line" id="line'+id+'"> <span class="L"><input name="product_name" class="product_name" value="" autocomplete="off"><input value="" name="product_about" class="product_about" autocomplete="off"><input value="" name="product_url" class="product_url"></span><a href="javascript:close_item('+id+');void(0)" class="close_item"></a></div>')
-        }
-        self.unbind('blur')
-    })
-})
-
-function close_item(id){
-    $('#line'+id).remove()
-}
-</script>
 <p class="pro_nav">添加产品</p>
 
 <%htm:form id="career_form" enctype="multipart/form-data">
-<div>
-    <div class="line" id="line1"> 
-        <span class="L">
-            <input placeholder="产品名称" name="product_name" class="product_name" value="" autocomplete="off"><input value="" placeholder="一句话描述" name="product_about" class="product_about" autocomplete="off"><input value="" placeholder="相关链接" name="product_url" class="product_url">
-        </span>
+<div class="product_block">
+    <div class="line"> 
+        <input placeholder="产品名称" name="product_name" class="product_name"><input placeholder="一句话描述" name="product_about" class="product_about"><input placeholder="相关链接" name="product_url" class="product_url">
     </div>
-    <div class="line" id="line2"> 
-        <span class="L">
-            <input name="product_name" class="product_name" value="" autocomplete="off"><input value="" name="product_about" class="product_about" autocomplete="off"><input value="" name="product_url" class="product_url">
-        </span>
+    <div class="line"> 
+        <input name="product_name" class="product_name"><input name="product_about" class="product_about"><input name="product_url" class="product_url">
     </div>
-    <div class="line" id="line3"> 
-        <span class="L">
-            <input name="product_name" class="product_name" value="" autocomplete="off"><input value="" name="product_about" class="product_about" autocomplete="off"><input value="" name="product_url" class="product_url">
-        </span>
+    <div class="line"> 
+        <input name="product_name" class="product_name"><input name="product_about" class="product_about"><input name="product_url" class="product_url">
     </div>
 </div>
-
 
 <div class="btns">
 <span class="btnw"><button class="btn" type="submit">下一步</button></span>
 </div>
 </%htm:form>
-
-
 
 </div>
 </div>
@@ -58,8 +31,4 @@ function close_item(id){
 
 </div></div></div>
 
-
-
-<a class="zsite_foot" href="#B">site.42qu.com</a><a style="display: none;" href="#B" id="sB"></a></body>
-</html>
 

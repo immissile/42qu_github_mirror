@@ -423,3 +423,14 @@ $(function(){
     pop_hero($('.TPH'))
 
 })
+
+function auto_add(item,toadd,wrap,close,act){
+    $('.'+item+':last').live(act,function(){
+        $('.'+wrap).append(toadd)
+    })
+    if(close!=''){
+        $('.'+close).live('click',function(){
+            $(this).parent().remove()
+        })
+    }
+}
