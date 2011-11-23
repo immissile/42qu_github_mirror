@@ -1,10 +1,13 @@
 <%inherit file="/ctrl/_base/com.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>  
+<%def name="htm_head()">
 ${css.ctrl_product|n}
 ${css.ctrl_com_bio|n}
+<script src="${js.ctrl_com_product|n}"></script> 
+</%def>
+
 <%!
 from model.ico import fs_url_jpg
-
 %>
 <%
 cover_id = None
@@ -22,7 +25,6 @@ team = zsite_com.team
 hope = zsite_com.hope
 %>
 %endif
-<script src="${js.ctrl_com_product|n}"></script> 
 <div class="form_wrap">
     <%htm:form class_name="com_bio" enctype="multipart/form-data" onsubmit="return com_new()">
     <div>
