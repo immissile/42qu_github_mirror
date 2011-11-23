@@ -3,7 +3,7 @@ $(function(){
     var pop_add = $("#pop_add")
     if(pop_add[0]){
         pop_add.click(function(){
-            $.fancybox({'content':'<form method="POST" action="/product/new" id="popline"><input name="_xsrf" type="hidden"><div class="line"><div>产品名称<input autocomplete="off" value="" class="input" name="product_name" id="pop_name"></div><div>简单描述<input autocomplete="off" class="input" name="product_about" value=""></div><div>相关链接<input class="input" name="product_url" value=""></div><div style="margin:7px 0 0 70px"><span class="btnw"><button type="submit">添加产品</button></span></div></div>','onComplete':function(){
+            $.fancybox({'content':'<form method="POST" action="/product/new" id="popline"><input name="_xsrf" type="hidden"><div class="line"><div>产品名称<input autocomplete="off" value="" class="input" name="product_name" id="pop_name"></div><div>简单描述<input autocomplete="off" class="input" name="product_about" value=""></div><div>相关链接<input class="input" name="product_url" value=""></div><div style="margin:7px 0 0 70px"><span class="btnw"><button type="submit">添加产品</button></span></div></div><input type="hidden" name="edit" value="1">','onComplete':function(){
 
                 $('#pop_name').focus()
                 $("#popline").find("input[name=_xsrf]").val($.cookie.get("_xsrf"))
