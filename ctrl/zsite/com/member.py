@@ -78,7 +78,7 @@ class MemberJoin(ZsiteBase):
 
 def _invite(self):
     arguments = self.request.arguments
-    for mail, name in zip(arguments['mail'], arguments['name']):
+    for mail, name in zip(arguments.get('mail',()), arguments.get('name',())):
         mail = mail.strip().lower()
         name = name.strip()
         if EMAIL_VALID.match(mail):
