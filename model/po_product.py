@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
-from cid import CID_PRODUCT, CID_COM
+from cid import CID_PRODUCT, CID_COM, CID_PRODUCT_PIC
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from spammer import is_same_post
 from po import Po, _po_rm, po_new
@@ -10,6 +10,9 @@ import json
 from zsite_show import zsite_show_list
 from itertools import  chain
 from txt import txt_new, txt_get, txt_property
+from pic import pic_new, pic_save, PicMixin
+from fs import fs_set_jpg, fs_url_jpg
+from zkit.pic import pic_fit_width_cut_height_if_large
 
 
 mc_product_id_list_by_com_id = McCacheA("ProductIdListByComId:%s") 
@@ -53,3 +56,13 @@ def product_rm(com_id , user_id, id):
         _po_rm(user_id, po)
         mc_product_id_list_by_com_id.delete(com_id)
 
+def product_pic_new(com_id, product_id, pic):
+    pic_id = pic_new(CID_PRODUCT_PIC, com_id)
+    pic_save(pic_id, pic)
+
+    p1 = pic_fit_width_cut_height_if_large(pic, 548)
+    fs_set_jpg('548', pic_id, p1)
+
+    p2 = pic_fit_width_cut_height_if_large(pic, 215)
+    fs_set_jpg('215', pic_id, p2)
+    return pic_id
