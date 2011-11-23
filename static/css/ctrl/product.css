@@ -17,11 +17,6 @@ color:#ccc;
 .c9{
 color:#999;
 }
-.product_name,.product_about,.product_url{
-border:1px solid #ccc;
-width:280px;
-margin-right:10px;
-}
 .line{
 margin-bottom:16px;
 overflow:auto;
@@ -145,3 +140,18 @@ color:#999;
 float:left;
 }
 
+.btns a{
+margin-left: 64px; font-size: 16px; vertical-align: 12px;
+}
+#popline .input,.product_name,.product_about,.product_url{
+border:1px solid #ccc;
+width:280px;
+margin-right:10px;
+}
+#popline{
+font-size:16px;padding:0 14px;margin-top:7px;margin-bottom:7px;
+width:382px;
+}
+ .input{
+margin:14px 0 14px 7px
+}
