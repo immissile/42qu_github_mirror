@@ -10,7 +10,7 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE, ZSITE_STAT
 from model.user_auth import user_password_new, user_password_verify
 from zkit.txt import EMAIL_VALID, mail2link
 from model.zsite_site import site_can_admin
-from model.job_mail import JobMail, STATE_VERIFIED, STATE_VERIFY 
+from model.job_mail import JobMail, JOB_MAIL_STATE_VERIFIED, JOB_MAIL_STATE_VERIFY 
 
 @urlmap('/auth/verify/send/(\d+)')
 class Send(Base):
@@ -77,8 +77,8 @@ class JobVerifyMail(LoginBase):
         user_id, cid = verifyed(id, ck, delete=False)
         if user_id and CID_VERIFY_COM_HR == cid and site_can_admin(user_id,self.current_user_id):
             jm = JobMail.get(zsite_id=user_id)
-            if jm.state == STATE_VERIFY:
-                jm.state = STATE_VERIFIED
+            if jm.state == JOB_MAIL_STATE_VERIFY:
+                jm.state = JOB_MAIL_STATE_VERIFIED
                 jm.save()
             self.render(jm=jm)
             return user_id

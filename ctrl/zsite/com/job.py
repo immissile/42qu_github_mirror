@@ -247,12 +247,11 @@ class MailVerified(AdminBase):
 
         self.redirect('/job/new')
 
-
-
 @urlmap('/mail/verify')
 class MailVerify(AdminBase):
     def get(self):
         self.render()
+
 
 @urlmap('/job/admin')
 @urlmap('/job/admin/(\d+)')
