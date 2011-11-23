@@ -6,8 +6,8 @@ from model.job_mail import  job_mail_new, JOB_MAIL_STATE_VERIFIED, job_mail_by_c
 from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM_HR
 import json
-from model.job import job_type_set, job_pid_default_new, job_pid_new, job_pid_default_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_pid_by_job_id, job_new, \
-ComJob, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id, com_department_new,   com_department_rm_by_id, com_department_edit
+from model.job import job_type_set, job_pid_default_new, job_pid_new, job_pid_default_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_pid_by_job_id, job_new,\
+ComJob, JOB_DEL, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id, com_department_new, com_department_rm_by_id, com_department_edit
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
@@ -17,7 +17,7 @@ from zkit.jsdict import JsDict
 from model.user_mail import mail_by_user_id
 
 
-def _job_save(self, job=None,add=None):
+def _job_save(self, job=None, add=None):
     errtip = Errtip()
     department_id = self.get_argument('depart', None)
     title = self.get_argument('title', None)
@@ -52,10 +52,10 @@ def _job_save(self, job=None,add=None):
     if not(salary_from.isdigit() and salary_to.isdigit()):
         errtip.salary = '请输入正确的薪水'
     else:
-        salary_from  = int(salary_from) 
+        salary_from = int(salary_from)
         salary_to = int(salary_to)
         if salary_from > salary_to:
-           salary_to, salary_from = salary_from, salary_to 
+            salary_to, salary_from = salary_from, salary_to
 
     if not txt:
         errtip.txt = '请填写职位描述'
@@ -126,7 +126,7 @@ class JobAdd(AdminBase):
             return self.render(errtip=Errtip())
         else:
             return self.redirect('/job/mail')
-    _job_save  = _job_save
+    _job_save = _job_save
 
     def post(self):
         self._job_save(add=True)
@@ -236,13 +236,13 @@ class JobMail(AdminBase):
         hr_mail = self.get_argument('hr_mail', '').strip().lower()
         zsite_id = self.zsite_id
         zsite = Zsite.mc_get(zsite_id)
-        
+
         errtip = Errtip()
         if hr_mail:
             if not EMAIL_VALID.match(hr_mail):
                 errtip.mail = '邮件格式错误'
         else:
-            errtip.mail = "请输入邮箱"
+            errtip.mail = '请输入邮箱'
 
         if errtip:
             return self.render(errtip=errtip, current_user_id=self.current_user_id)
@@ -285,8 +285,17 @@ class JobAdmin(AdminBase):
 @urlmap('/job/rm/(\d+)')
 class JobRm(AdminBase):
     def post(self, state):
+        state = int(state)
         id = self.get_argument('id', None)
         job = ComJob.mc_get(id)
-        if job.state == int(state):
-            job.state = job.state-1
+
+        if job and job.com_id == self.zsite_id:
+            if job.state == JOB_ACTIVE:
+                job.state = JOB_CLOSE
+            elif job.state == JOB_CLOSE:
+                job.state == JOB_DEL
             job.save()
+
+        self.finish('{}')
+
+
