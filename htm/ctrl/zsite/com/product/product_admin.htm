@@ -21,6 +21,9 @@ ${css.ctrl_product|n}
     $("#fancybox-close").remove()
 })</script>
 %else:
+%if request.method == "POST":
+<div class="tc f16" style="padding:27px;border-bottom:1px dotted #ccc;">保存成功 , <a href="/">点此返回</a></div>
+%endif
 <%htm:form id="product_form" enctype="multipart/form-data">
 <div>
     %if po_list:    
