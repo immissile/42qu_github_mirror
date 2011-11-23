@@ -50,7 +50,7 @@ def _zsite_member_invite(zsite, member, current_user):
     if zsite_member_new(zsite_id, member_id):
         #TODO !
         mail = mail_by_user_id(member_id)
-        mail = "zsp007@gmail.com"
+        #mail = "zsp007@gmail.com"
 
         rendermail(
             '/mail/com/invite_member.htm', 
@@ -81,7 +81,7 @@ def _zsite_review_invite(zsite, member, current_user):
     
     #TODO !
     mail = mail_by_user_id(member_id)
-    mail = "zsp007@gmail.com"
+#    mail = "zsp007@gmail.com"
 
     name = [member.name]
     name.extend( career_current(member_id) )
