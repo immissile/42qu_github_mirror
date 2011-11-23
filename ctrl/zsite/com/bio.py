@@ -11,7 +11,7 @@ from model.ico import ico96
 from model.motto import motto as _motto, motto_set
 from model.ico import site_ico_new, site_ico_bind
 from model.zsite_com import ZsiteCom
-from gid import gid
+from model.gid import gid
 
 def _bio_save(self,edit=None):
     hope = self.get_argument('hope',None)
@@ -23,24 +23,25 @@ def _bio_save(self,edit=None):
     files = self.request.files
     cover_id = None
 
-    if files.get('cover'):
+    if 'cover' in files:
         cover = files['cover'][0]['body']
         if cover:
             cover = picopen(cover)
             if cover:
                 cover_id = com_pic_new(com_id,cover)
-    if not edit: 
-        if files.get('pic'):
-            for pic in files['pic']:
-                if pic['body']:
-                    pic = picopen(pic['body'])
-                    if pic:
-                        com_pic_new(com_id,pic)
+    
+    for pic in files.get('pic',()):
+        if pic['body']:
+            pic = picopen(pic['body'])
+            if pic:
+                com_pic_new(com_id,pic)
     
     if video:
         video_id = gid()
         video,video_site = video_filter(video)
         video_new(video_id,video)
+<<<<<<< local
+=======
     else:
         video_id = 0
         video_site = None
@@ -49,8 +50,13 @@ def _bio_save(self,edit=None):
     
     if edit:
         self.redirect('/')
+>>>>>>> other
     else:
-        self.redirect('/member/new/search')
+        video_id = 0
+        video_site = None
+
+    zsite_com_new(com_id,hope,money,culture,team,cover_id,video_site, video_id)
+    
 
 
 @urlmap('/bio/edit')
@@ -67,6 +73,7 @@ class BioEdit(AdminBase):
 
     def post(self):
         self._bio_save(edit=True)
+        self.redirect('/')
 
 
 
@@ -78,6 +85,7 @@ class BioNew(AdminBase):
     _bio_save = _bio_save
     def post(self):
         self._bio_save()
+        self.redirect('/member/new/search')
 
 
 @urlmap('/guide')

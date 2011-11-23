@@ -6,8 +6,8 @@ from model.job_mail import  job_mail_new, JOB_MAIL_STATE_VERIFIED, job_mail_by_c
 from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM_HR
 import json
-from model.job import job_type_set, job_pid_default_new, job_pid_new, job_pid_default_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_pid_by_job_id, job_new, \
-ComJob, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id, com_department_new,   com_department_rm_by_id, com_department_edit
+from model.job import job_type_set, job_pid_default_new, job_pid_new, job_pid_default_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_pid_by_job_id, job_new,\
+ComJob, JOB_DEL, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id, com_department_new, com_department_rm_by_id, com_department_edit
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
@@ -17,7 +17,7 @@ from zkit.jsdict import JsDict
 from model.user_mail import mail_by_user_id
 
 
-def _job_save(self, job=None,add=None):
+def _job_save(self, job=None, add=None):
     errtip = Errtip()
     department_id = self.get_argument('depart', None)
     title = self.get_argument('title', None)
@@ -28,8 +28,8 @@ def _job_save(self, job=None,add=None):
     require = self.get_argument('require', None)
     txt = self.get_argument('txt', None)
     welfare = self.get_argument('other', None)
-    salary_up = self.get_argument('salary1', None)
-    salary_down = self.get_argument('salary2', None)
+    salary_from = self.get_argument('salary1', None)
+    salary_to = self.get_argument('salary2', None)
     salary_type = self.get_argument('sal_type', None)
     dead_line = self.get_argument('deadline', None)
     pids = self.get_arguments('addr', None)
@@ -47,12 +47,16 @@ def _job_save(self, job=None,add=None):
         errtip.addr = '请选择工作地址'
     if not quota.isdigit():
         errtip.quota = '请设定人数'
-    if not (salary_up and salary_down):
+    if not (salary_from and salary_to):
         errtip.salary = '必须设定薪水'
-    if not(salary_up.isdigit() and salary_down.isdigit()):
+    if not(salary_from.isdigit() and salary_to.isdigit()):
         errtip.salary = '请输入正确的薪水'
-    if salary_down.isdigit() and salary_up.isdigit() and int(salary_up) > int(salary_down):
-        errtip.salary = '最低薪水必须大于最高薪水'
+    else:
+        salary_from = int(salary_from)
+        salary_to = int(salary_to)
+        if salary_from > salary_to:
+            salary_to, salary_from = salary_from, salary_to
+
     if not txt:
         errtip.txt = '请填写职位描述'
     if not dead_line:
@@ -66,8 +70,8 @@ def _job_save(self, job=None,add=None):
                 department_id,
                 title,
                 today_days(),
-                salary_up,
-                salary_down,
+                salary_from,
+                salary_to,
                 salary_type,
                 int(dead_line)+today_days(),
                 quota,
@@ -96,8 +100,8 @@ def _job_save(self, job=None,add=None):
                 txt=txt,
                 welfare=welfare,
                 salary_type=salary_type,
-                salary1=salary_up,
-                salary2=salary_down,
+                salary1=salary_from,
+                salary2=salary_to,
                 dead_line=dead_line,
                 addr=pids,
                 quota=quota,
@@ -122,7 +126,7 @@ class JobAdd(AdminBase):
             return self.render(errtip=Errtip())
         else:
             return self.redirect('/job/mail')
-    _job_save  = _job_save
+    _job_save = _job_save
 
     def post(self):
         self._job_save(add=True)
@@ -152,8 +156,8 @@ class JobEdit(AdminBase):
                 welfare=needs.welfare,
 
                 salary_type=job.salary_type,
-                salary1=job.salary_up,
-                salary2=job.salary_down,
+                salary1=job.salary_from,
+                salary2=job.salary_to,
                 dead_line=90,
                 quota=job.quota,
                 job=job,
@@ -232,13 +236,13 @@ class JobMail(AdminBase):
         hr_mail = self.get_argument('hr_mail', '').strip().lower()
         zsite_id = self.zsite_id
         zsite = Zsite.mc_get(zsite_id)
-        
+
         errtip = Errtip()
         if hr_mail:
             if not EMAIL_VALID.match(hr_mail):
                 errtip.mail = '邮件格式错误'
         else:
-            errtip.mail = "请输入邮箱"
+            errtip.mail = '请输入邮箱'
 
         if errtip:
             return self.render(errtip=errtip, current_user_id=self.current_user_id)
@@ -281,8 +285,17 @@ class JobAdmin(AdminBase):
 @urlmap('/job/rm/(\d+)')
 class JobRm(AdminBase):
     def post(self, state):
+        state = int(state)
         id = self.get_argument('id', None)
         job = ComJob.mc_get(id)
-        if job.state == int(state):
-            job.state = job.state-1
+
+        if job and job.com_id == self.zsite_id:
+            if job.state == JOB_ACTIVE:
+                job.state = JOB_CLOSE
+            elif job.state == JOB_CLOSE:
+                job.state == JOB_DEL
             job.save()
+
+        self.finish('{}')
+
+

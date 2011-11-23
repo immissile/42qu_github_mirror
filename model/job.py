@@ -15,8 +15,8 @@ JOBTYPE = (
 )
 
 JOB_ACTIVE = 5
-JOB_CLOSE = 4
-JOB_DEL = 3
+JOB_CLOSE = 3
+JOB_DEL = 0
 
 
 SALARY_TYPE=(
@@ -140,7 +140,7 @@ def job_pid_by_job_id(job_id):
 
 def job_new(
         com_id, department_id, 
-        title, create_time, salary_up, salary_down, salary_type, end_time,
+        title, create_time, salary_from, salary_to, salary_type, end_time,
         quota,
         txt, require,stock_option,welfare,priority,
         pids,
@@ -155,8 +155,8 @@ def job_new(
     job.department_id=department_id
     job.title=title
     job.create_time=create_time
-    job.salary_up=salary_up
-    job.salary_down=salary_down
+    job.salary_from=salary_from
+    job.salary_to=salary_to
     job.salary_type=salary_type
     job.end_time=end_time
     job.quota=quota

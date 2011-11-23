@@ -39,7 +39,7 @@ _video_uri = None
        %if zsite_com:
 %if zsite_com.video_cid: 
 <%
-_video_uri = video_htm(zsite_com.video_cid ,zsite_id)
+_video_uri = video_htm(zsite_com.video_cid , zsite_com.video_id)
 %>
 %endif
 %if _video_uri:

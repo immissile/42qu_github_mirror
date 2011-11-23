@@ -71,9 +71,7 @@ class Newbie0(LoginBase):
             else:
                 user_password_new(current_user_id, password)
 
-        if not name:
-            errtip.name = '必须输入名字'
-        else:
+        if name:
             current_user.name = name
             current_user.save()
 

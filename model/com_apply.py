@@ -3,28 +3,40 @@
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from mail import rendermail
 from model.days import today_seconds
+from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE
 
+COM_APPLY_STATE_APPLY_MAILED = 50
+COM_APPLY_STATE_APPLY = 40
 
-STATE_APPLY_ACCEPT = 4
-STATE_APPLY_MAILED = 3
-STATE_APPLY = 2
-STATE_DEL = 1
+COM_APPLY_STATE_ACCEPT_MAILED = 30
+COM_APPLY_STATE_ACCEPT = 20
+COM_APPLY_STATE_DEL_MAILED = 10
+COM_APPLY_STATE_DEL = 0
+
+mc_com_apply_id_list = McCacheA("ComApplyIdList:%s")
 
 class ComApply(McModel):
     pass
 
+@mc_com_apply_id_list("{id}")
+def com_apply_id_list(id):
+    return ComApply.where(com_id=id).where("state>=%s"%COM_APPLY_STATE_APPLY).col_list()
 
-def com_apply_list(com_id,state=STATE_APPLY):
-    return ComApply.where(com_id=com_id,state=state)
 
-def com_apply_get(com_id,user_id,state=STATE_APPLY):
-    return ComApply.get(com_id=com_id,user_id=user_id,state=state)
+def com_apply_list(id):
+    return ComApply.mc_get_list(com_apply_id_list(id))
+
+def com_apply_get(com_id,user_id):
+    return int(user_id) in com_apply_id_list(com_id)
 
 def com_apply_new(user_id,com_id):
     ca = ComApply.get_or_create(com_id=com_id,user_id=user_id)
-    ca.state = STATE_APPLY
+    ca.state = COM_APPLY_STATE_APPLY
     ca.create_time = today_seconds()
     ca.save()
+
+    mc_com_apply_id_list.delete(com_id)
+
     #admin_id_list = admin_id_list_by_zsite_id(com_id)
     #rendermail(
     #        '/mail/notice/com_apply.txt',
@@ -36,15 +48,19 @@ def com_apply_new(user_id,com_id):
 def com_apply_rm(user_id,com_id,admin_id):
     ca = ComApply.get(user_id=user_id,com_id=com_id)
     if ca:
-        ca.state = STATE_DEL
+        ca.state = COM_APPLY_STATE_DEL
         ca.admin_id = admin_id
         ca.create_time = today_seconds()
         ca.save()
 
 def com_apply_accept(user_id,com_id,admin_id):
+    zsite_member_new(com_id, user_id, ZSITE_MEMBER_STATE_ACTIVE)
+
     ca = ComApply.get_or_create(user_id=user_id,com_id=com_id,)
     ca.admin_id=admin_id
     ca.create_time = today_seconds()
-    ca.state = STATE_APPLY_ACCEPT
+    ca.state = COM_APPLY_STATE_ACCEPT
     ca.save()
+    
+
 

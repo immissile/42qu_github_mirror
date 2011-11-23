@@ -46,10 +46,6 @@ class Mine(LoginBase):
         com_list = zsite_list_by_member_admin(current_user_id)
         self.render(com_list=com_list)
 
-@urlmap('/job')
-class Job(Base):
-    def get(self):
-        self.finish('it"s jobs')
 
 
 @urlmap('/product')

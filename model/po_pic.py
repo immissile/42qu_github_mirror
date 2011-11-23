@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
-from _db import Model, McModel, McCache, McCacheA,  McNum
+from _db import Model, McModel, McCache, McCacheA, McNum
 from cgi import escape
 from zkit.pic import pic_fit_width_cut_height_if_large
 from pic import pic_new, pic_save, PicMixin
-from cid import CID_PO_PIC,CID_PRODUCT_PIC
+from cid import CID_PO_PIC
 from fs import fs_set_jpg, fs_url_jpg
 import traceback
 
@@ -58,21 +58,17 @@ def po_pic_new(user_id, po_id, pic, seq=None):
     mc_flush(user_id, po_id)
     return pp
 
-def product_pic_new(com_id,product_id,pic,seq=None):
+def product_pic_new(com_id, product_id, pic):
     pic_id = pic_new(CID_PRODUCT_PIC, com_id)
     pic_save(pic_id, pic)
-    product_pic_save(pic_id, pic)
 
-    if seq is None:
-        seq = seq_gen(com_id, product_id)
-    mc_flush(com_id, product_id)
+    p1 = pic_fit_width_cut_height_if_large(pic, 548)
+    fs_set_jpg('548', pic_id, p1)
+
+    p2 = pic_fit_width_cut_height_if_large(pic, 215)
+    fs_set_jpg('215', pic_id, p2)
     return pic_id
 
-def product_pic_save(pic_id,pic):
-    p1 = pic_fit_width_cut_height_if_large(pic,548)
-    fs_set_jpg('548',pic_id,p1)
-    p2 = pic_fit_width_cut_height_if_large(pic,215)
-    fs_set_jpg('215',pic_id,p2)
 
 def po_pic_save(pic_id, pic):
     p1 = pic_fit_width_cut_height_if_large(pic, 721)
