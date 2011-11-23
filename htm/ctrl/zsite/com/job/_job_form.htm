@@ -69,9 +69,13 @@ ${css.ctrl_zsite_com_job|n}
         %if com_place_list:
         %for i,com_place in enumerate(com_place_list):
 <div class="address"><input name="addr" id="addr${i}" type="checkbox"\
+    %if not edit:
+    checked\
+    %else:
     %if addr:
     %if com_place.pid in map(int,addr):
     checked\
+    %endif
     %endif
     %endif
     value="${com_place.pid or ''}"><label for="addr${i}"> ${place_name(com_place.pid) or '无'}</label></div>

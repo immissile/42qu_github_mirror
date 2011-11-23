@@ -17,7 +17,7 @@ from zkit.jsdict import JsDict
 from model.user_mail import mail_by_user_id
 
 
-def _job_save(self, job=None):
+def _job_save(self, job=None,add=None):
     errtip = Errtip()
     department_id = self.get_argument('depart', None)
     title = self.get_argument('title', None)
@@ -78,8 +78,12 @@ def _job_save(self, job=None):
                 kinds.split('-'),
                 job
             )
-
-        self.redirect('/job/next')
+        if add:
+            return self.redirect('/job/admin')
+        elif not job:
+            return self.redirect('/job/next')
+        else:
+            return self.redirect('/job/admin')
     else:
         self.render(
                 errtip=errtip,
@@ -110,6 +114,18 @@ class JobNew(AdminBase):
             return self.redirect('/job/mail')
 
     post = _job_save
+
+@urlmap('/job/add')
+class JobAdd(AdminBase):
+    def get(self):
+        if job_mail_by_com_id(self.zsite_id):
+            return self.render(errtip=Errtip())
+        else:
+            return self.redirect('/job/mail')
+    _job_save  = _job_save
+
+    def post(self):
+        self._job_save(add=True)
 
 @urlmap('/job/next')
 class JobNext(AdminBase):
@@ -170,7 +186,7 @@ class JobClose(AdminBase):
 class JobD(ZsiteBase):
     def get(self, id):
         job = ComJob.mc_get(id)
-        if job.state >= JOB_ACTIVE:
+        if job.state >= JOB_CLOSE:
             return self.render(job=job, com_id=self.zsite_id, current_user_id=self.current_user_id)
         else:
             self.redirect('/')
@@ -247,7 +263,7 @@ class MailVerified(AdminBase):
         jm.state = JOB_MAIL_STATE_VERIFIED
         jm.save()
 
-        self.redirect('/job/new')
+        self.redirect('/job/admin')
 
 @urlmap('/job/mail/verify')
 class MailVerify(AdminBase):
