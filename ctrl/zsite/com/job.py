@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
-from model.job_mail import get_job_mail_state, job_mail_new, STATE_VERIFIED
+from model.job_mail import job_mail_state, job_mail_new, JOB_MAIL_STATE_VERIFIED
 from model.zsite import Zsite
 from model.verify import verify_mail_new, CID_VERIFY_COM_HR
 import json
@@ -14,6 +14,7 @@ from _handler import AdminBase
 from zkit.errtip import Errtip
 from zkit.txt import EMAIL_VALID
 from zkit.jsdict import JsDict
+from model.user_mail import mail_by_user_id
 
 
 def _job_save(self, job=None):
@@ -103,7 +104,7 @@ def _job_save(self, job=None):
 @urlmap('/job/new')
 class JobNew(AdminBase):
     def get(self):
-        if get_job_mail_state(self.zsite_id) == STATE_VERIFIED:
+        if job_mail_state(self.zsite_id) == JOB_MAIL_STATE_VERIFIED:
             return self.render(errtip=Errtip())
         else:
             return self.redirect('/job/mail')
@@ -209,29 +210,43 @@ class JobMail(AdminBase):
         self.render(current_user_id=self.current_user_id, errtip=err)
 
     def post(self):
-        hr_mail = self.get_argument('hr_mail', None)
+
+        hr_mail = self.get_argument('hr_mail', '').strip().lower()
         zsite_id = self.zsite_id
         zsite = Zsite.mc_get(zsite_id)
-        if hr_mail and EMAIL_VALID.match(hr_mail):
-            job_mail_new(zsite_id, hr_mail)
-            verify_mail_new(zsite_id, zsite.name, hr_mail, CID_VERIFY_COM_HR)
-            return self.redirect('/mail/verify')
+        
+        errtip = Errtip()
+        if hr_mail:
+            if not EMAIL_VALID.match(hr_mail):
+                errtip.mail = '邮件格式错误'
         else:
-            err = Errtip()
-            err.mail = '邮件格式错误'
-            return self.render(errtip=err, current_user_id=self.current_user_id)
+            errtip.mail = "请输入邮箱"
+
+        if errtip:
+            return self.render(errtip=errtip, current_user_id=self.current_user_id)
+        else:
+            jm = job_mail_new(zsite_id, hr_mail)
+
+            if hr_mail == mail_by_user_id(self.current_user_id):
+                jm.state = JOB_MAIL_STATE_VERIFIED
+                jm.save()
+            else:
+                verify_mail_new(zsite_id, zsite.name, hr_mail, CID_VERIFY_COM_HR)
+
+            return self.redirect('/mail/verify')
 
 @urlmap('/mail/verified')
 class MailVerified(AdminBase):
     def get(self):
         zsite_id = self.zsite_id
         zsite = Zsite.mc_get(zsite_id)
-        from model.user_mail import mail_by_user_id
+
         jm = job_mail_new(zsite_id, mail_by_user_id(self.current_user_id))
-        verify_mail_new(zsite_id, zsite.name, mail_by_user_id(self.current_user_id), CID_VERIFY_COM_HR)
-        jm.state = STATE_VERIFIED
+        jm.state = JOB_MAIL_STATE_VERIFIED
         jm.save()
+
         self.redirect('/job/new')
+
 
 
 @urlmap('/mail/verify')
