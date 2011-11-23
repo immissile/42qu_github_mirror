@@ -67,7 +67,7 @@ overflow:auto;
 margin-top:32px;
 }
 .com_text{
-margin-top:12px;
+margin:7px 0 14px;
 color:#333;
 font-size:14px;
 }
@@ -91,8 +91,7 @@ position:relative;
 text-align:center
 }
 .com_main_img img{
-width:450px;
-margin:18px 0;
+margin:14px 0 0;
 }
 .com_q{
 border-top: 1px dotted #ccc;  line-height: 0;
