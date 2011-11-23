@@ -10,7 +10,21 @@ from model.ico import site_ico_new, site_ico_bind
 from zkit.pic import pic_fit_width_cut_height_if_large
 from urlparse import urlparse
 from model.po_pic import product_pic_new
-from model.po_product import Po, po_product_new, po_product_update, product_id_list_by_com_id, product_rm
+from model.po_product import Po, po_product_new, po_product_update, product_id_list_by_com_id, product_rm, product_list_by_com_id
+
+@urlmap('/product/admin')
+class ProductAdmin(AdminBase):
+    def get(self):
+        po_list = product_list_by_com_id(self.zsite_id)
+        self.render(
+                '/ctrl/zsite/com/product/product_new.htm',
+                admin = True,
+                po_list = po_list,
+                )
+
+    def post(self):
+        pass
+
 
 @urlmap('/product/new')
 class ProductNew(AdminBase):
@@ -148,11 +162,11 @@ class ProductEdit(AdminBase):
     def post(self, id):
         product = Po.mc_get(id)
         self._product_save(product)
-        self.redirect('/')
+        self.redirect('/product/admin')
 
 @urlmap('/product/rm/(\d+)')
 class ProductRm(AdminBase):
     def get(self, id):
         if id:
             po_rm(self.current_user_id, id)
-            self.redirect('/')
+            self.redirect('/product/admin')
