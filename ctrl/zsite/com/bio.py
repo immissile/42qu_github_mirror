@@ -40,17 +40,6 @@ def _bio_save(self,edit=None):
         video_id = gid()
         video,video_site = video_filter(video)
         video_new(video_id,video)
-<<<<<<< local
-=======
-    else:
-        video_id = 0
-        video_site = None
-
-    zsite_com_new(com_id,hope,money,culture,team,cover_id,video_site, video_id)
-    
-    if edit:
-        self.redirect('/')
->>>>>>> other
     else:
         video_id = 0
         video_site = None
