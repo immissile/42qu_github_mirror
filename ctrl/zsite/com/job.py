@@ -267,7 +267,7 @@ class MailVerified(AdminBase):
         jm.state = JOB_MAIL_STATE_VERIFIED
         jm.save()
 
-        self.redirect('/job/admin')
+        self.redirect('/job/new')
 
 @urlmap('/job/mail/verify')
 class MailVerify(AdminBase):
