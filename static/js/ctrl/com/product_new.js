@@ -22,11 +22,11 @@ $(function(){
         $('.product_name:last').live('blur',function(){
             var self = $(this)
             if($.trim($('.line:last').find('input[name="product_name"]').val()).length>0){
-                var wrap = self.parent().parent(),
+                var wrap = self.parent(),
                 id = parseInt(wrap.attr('id').substr(4))+1
                 wrap.after('<div class="line" id="line'+id+'"> <span class="L"><input name="product_name" class="product_name" value="" autocomplete="off"><input value="" name="product_about" class="product_about" autocomplete="off"><input value="" name="product_url" class="product_url"></span><a href="javascript:close_item('+id+');void(0)" class="close_item"></a></div>')
             }
-            self.unbind('blur')
+
         })
     }
 })

@@ -17,10 +17,8 @@ class ProductAdmin(AdminBase):
     def get(self):
         po_list = product_list_by_com_id(self.zsite_id)
         self.render(
-                '/ctrl/zsite/com/product/product_new.htm',
-                admin = True,
                 po_list = po_list,
-                )
+        )
 
     def post(self):
         arguments = self.request.arguments
