@@ -65,7 +65,7 @@ class MemberApplyRm(AdminBase):
 
 @urlmap('/j/com/apply/new/(\d+)')
 class MemberApplyNew(AdminBase):
-    def post(self,  id):
+    def post(self, id):
         com_apply_accept(id, com_id, self.current_user_id)
         self.finish('{}')
 
