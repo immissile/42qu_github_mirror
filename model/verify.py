@@ -32,6 +32,9 @@ def verify_new(user_id, cid):
     return id, value
 
 
+def verify_rm(user_id, cid):
+    Verify.where(user_id=user_id, cid=cid).delete()
+
 def verify_new_one(user_id, cid):
     v = Verify.get(user_id=user_id, cid=cid)
     if not v:

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from user_mail import mail_by_user_id
-from model.verify import verify_mail_new, CID_VERIFY_COM_HR
+from model.verify import verify_mail_new, CID_VERIFY_COM_HR, verify_rm
 
 
 
@@ -20,9 +20,12 @@ def job_mail_new_with_verify_mail(zsite, user_id, mail):
     zsite_id = zsite.id
     mail = mail.strip().lower()
 
+    if job_mail_if_exist(zsite_id) != mail:
+        verify_rm(zsite_id, CID_VERIFY_COM_HR)
+
     jm = job_mail_new(zsite_id, mail)
 
-    if mail == mail_by_user_id(user_id):
+    if mail == mail_by_user_id(user_id) or mail == job_mail_by_com_id(zsite_id) :
         jm.state = JOB_MAIL_STATE_VERIFIED
         jm.save()
     else:
