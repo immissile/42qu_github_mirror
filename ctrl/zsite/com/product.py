@@ -10,6 +10,7 @@ from model.ico import site_ico_new, site_ico_bind
 from zkit.pic import pic_fit_width_cut_height_if_large
 from urlparse import urlparse
 from model.po_product import Po, po_product_new, po_product_update, product_id_list_by_com_id, product_rm, product_list_by_com_id, product_pic_new
+from model.zsite_member import zsite_member_can_admin
 
 @urlmap('/product/admin')
 class ProductAdmin(AdminBase):
@@ -90,7 +91,7 @@ class ProductNew(AdminBase):
 
 def _product_save(self, product):
     current_user_id = self.current_user_id
-    if not product.can_admin(current_user_id): 
+    if not zsite_member_can_admin(self.zsite_id,current_user_id):
         return
 
     position = int(self.get_argument('position', 0))
