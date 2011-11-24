@@ -285,7 +285,24 @@ class JobAdmin(AdminBase):
 @urlmap('/job/admin/mail')
 class JobAdminMail(AdminBase):
     def get(self):
-       self.render()
+        errtip = Errtip()
+        self.render(
+                errtip = errtip
+                )
+
+    def post(self):
+        hr_mail = self.get_argument('hr_mail',None)
+        errtip = Errtip()
+        if not EMAIL_VALID.match(hr_mail):
+            errtip.hr_mail='请输入正确的邮箱'
+        if not errtip:
+            job_mail_new(self.zsite_id,hr_mail)
+        else:
+            self.render(
+                    errtip = errtip,
+                    hr_mail = hr_mail,
+                    )
+
 
 @urlmap('/job/rm/(\d+)')
 class JobRm(AdminBase):
