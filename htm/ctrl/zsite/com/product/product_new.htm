@@ -7,16 +7,12 @@ ${css.ctrl_product|n}
 </%def>
 
 <%htm:form id="career_form" enctype="multipart/form-data">
-<div class="product_block">
+<div class="product_block" style="margin-top:27px">
+%for i in range(5):
     <div class="line"> 
         <input placeholder="产品名称" name="product_name" class="product_name"><input placeholder="一句话描述" name="product_about" class="product_about"><input placeholder="相关链接" name="product_url" class="product_url">
     </div>
-    <div class="line"> 
-        <input name="product_name" class="product_name"><input name="product_about" class="product_about"><input name="product_url" class="product_url">
-    </div>
-    <div class="line"> 
-        <input name="product_name" class="product_name"><input name="product_about" class="product_about"><input name="product_url" class="product_url">
-    </div>
+%endfor
 </div>
 
 <div class="btns">
