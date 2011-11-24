@@ -282,6 +282,11 @@ class JobAdmin(AdminBase):
         job_list = com_job_by_state_com_id(self.zsite_id, state)
         self.render(job_list=job_list, state=state)
 
+@urlmap('/job/admin/mail')
+class JobAdminMail(AdminBase):
+    def get(self):
+       self.render()
+
 @urlmap('/job/rm/(\d+)')
 class JobRm(AdminBase):
     def post(self, state):

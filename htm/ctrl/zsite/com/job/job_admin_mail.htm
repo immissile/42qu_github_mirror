@@ -3,12 +3,13 @@
 from model.job import JOB_CLOSE
 %>
 ${css.ctrl_com_job|n}
+${css.ctrl_po_event|n}
 <script src=${js.ctrl_com_job|n}></script>
 <%!
 NAV = (
     ('admin',"当前"),
     ('admin/%s'%JOB_CLOSE,"往期"),
-    ('admin/mail',"邮件")
+    ('admin/mail',"邮箱")
 )
 %>
 <%
@@ -33,16 +34,14 @@ class="c9"\
 <a href="/job/add" class="c9">新建</a>
 </span>\
 
-%if job_list:
-<div class="zsite_block">
-<ol class="job_ol">
-    %for job in job_list:
-    <li class="job_li">
-    <a href="/job/edit/${job.id}" class="job_a" id="job_${job.id}">${job.title}</a>
-    <a href="javascript:rm_job(${job.id},${state});void(0)" class="rm_job_a"></a></li>
-%endfor
-</ol>
+<form id="event_form" style="margin-left:252px;" method="POST">
+<div class="po_line">
+<label for="title">修改招聘邮箱</label>
 </div>
-%endif
-
-
+<div class="po_line">
+<div><input id="hr_mail" class="hr_mail_input" name="hr_mail" value="realfex@gmail.com"><a class="reg_mail" href="/job/mail/now">使用注册邮箱</a> <div id="errtip_mail" class="errtip"></div>
+</div>
+<div id="errtip_title" class="errtip"></div>
+</div>
+<span class="btnw"><button type="submit">完成</button></span>
+</form>

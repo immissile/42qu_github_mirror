@@ -62,3 +62,10 @@ background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) 8px 8px no-repea
 .rm_job_a:hover{
 background:url(/img/gif/icons/gif/black/to_size/close.gif) 8px 8px no-repeat
 }
+.hr_mail_input{
+width:340px;
+padding:8px;
+margin-right:12px;
+border:1px solid #ccc; 
+font-size:16px;
+}
