@@ -5,7 +5,7 @@ from os import urandom
 from time import time
 from _db import Model, McModel, McCache, mc, cursor_by_table
 from mail import mq_rendermail
-from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY, CID_VERIFY_COM_HR 
+from cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_VERIFY_MONEY, CID_VERIFY_COM_HR
 
 from config import SITE_DOMAIN
 
@@ -52,3 +52,6 @@ def verifyed(id, value, delete=False):
         if v.value == value and v.create_time + TIME_LIMIT > time():
             return v.user_id, v.cid
     return 0, 0
+
+if __name__ == '__main__':
+    print verifyed(10264, 'uhzJQCEtDPpHxQw5')

@@ -23,7 +23,7 @@ def job_mail_new_with_verify_mail(zsite, user_id, mail):
         jm.state = JOB_MAIL_STATE_VERIFIED
         jm.save()
     else:
-        verify_mail_new(zsite, zsite.name, mail, CID_VERIFY_COM_HR)
+        verify_mail_new(zsite_id, zsite.name, mail, CID_VERIFY_COM_HR)
 
 
 mc_job_mail_by_com_id = McCache("JobMailByComId:%s")

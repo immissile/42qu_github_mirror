@@ -68,14 +68,11 @@ class VerifyMail(VerifyBase):
 
             self.render()
 
-
-
-
 @urlmap('/job/auth/verify/mail/(\d+)/(.+)')
 class JobVerifyMail(LoginBase):
     def get(self, id, ck):
         user_id, cid = verifyed(id, ck, delete=False)
-        if user_id and CID_VERIFY_COM_HR == cid and site_can_admin(user_id,self.current_user_id):
+        if user_id and CID_VERIFY_COM_HR == cid and site_can_admin(user_id, self.current_user_id):
             job_mail_verifyed(user_id)
             self.render(jm=jm)
             return user_id
