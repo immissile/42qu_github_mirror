@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from user_mail import mail_by_user_id
-from model.verify import verify_mail_new, CID_VERIFY_COM_HR
+from model.verify import verify_mail_new, CID_VERIFY_COM_HR, verify_rm
 
 
 
@@ -20,9 +20,12 @@ def job_mail_new_with_verify_mail(zsite, user_id, mail):
     zsite_id = zsite.id
     mail = mail.strip().lower()
 
+    if job_mail_if_exist(zsite_id) != mail:
+        verify_rm(zsite_id, CID_VERIFY_COM_HR)
+
     jm = job_mail_new(zsite_id, mail)
 
-    if mail == mail_by_user_id(user_id):
+    if mail == mail_by_user_id(user_id) or mail == job_mail_by_com_id(zsite_id) :
         jm.state = JOB_MAIL_STATE_VERIFIED
         jm.save()
     else:
@@ -32,18 +35,18 @@ def job_mail_new_with_verify_mail(zsite, user_id, mail):
 def job_mail_new(zsite_id, mail, department_id=0, state=JOB_MAIL_STATE_VERIFY):
     mail = mail.strip().lower()
     if mail:
-        jm = JobMail.get_or_create(zsite_id=zsite_id, department_id=department_id)
+        job = JobMail.get_or_create(zsite_id=zsite_id, department_id=department_id)
 
         if job.mail == mail and state == JOB_MAIL_STATE_VERIFY and job.state == JOB_MAIL_STATE_VERIFIED:
             state = JOB_MAIL_STATE_VERIFIED
 
-        jm.state = state
-        jm.mail = mail
-        jm.save()
+        job.state = state
+        job.mail = mail
+        job.save()
 
         mc_flush(zsite_id, department_id)
 
-    return jm
+        return job
 
 def mc_flush(zsite_id, department_id):
     key = '%s_%s'%(zsite_id, department_id)
