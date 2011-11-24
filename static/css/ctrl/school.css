@@ -47,21 +47,35 @@ margin-bottom:8px;
 
 .prov,.coun,.univ{
 color:#444;
-font-size:14px;
+font-size:12px;
+padding:3px;
 }
 .search_univ{
 clear:both;
 margin-bottom:8px;
 color:#444;
+font-size:12px;
 }
 .search_univ input{
 border:1px solid #ccc;
+padding:4px;
+margin:4px;
+font-size:12px;
+width:163px;
 }
 .coun_now, .prov_now{
-background:#B2D235;
+background:#d20;
+color:#fff;
+}
+.coun:hover, .prov:hover{
+color:#d20;
+}
+.coun_now:hover, .prov_now:hover{
+color:#fff;
 }
 .univ:hover{
-background:#B2D235;
+background:#d20;
+color:#fff;
 }
 .school_year,.school_type,.dep{
 border:1px solid #CCCCCC;

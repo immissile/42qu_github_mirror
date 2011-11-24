@@ -1,6 +1,7 @@
 function school_college(id,dep_id){
     $('#'+id).click(pop_school)
     select_univ = function(uid,uname){
+        $.fancybox.showActivity()
         $.getScript("http://realfex.com/"+uid+".js",function(){
             $('#'+id).val(uname)
             var deps = depList['deps']
@@ -11,14 +12,14 @@ function school_college(id,dep_id){
             for(var i=0;i<deps.length;i++){
                 dep_node.append('<option value='+deps[i]['id']+'>'+deps[i]['name']+'</option>')
             }
-            $('#fancybox-close').click()
+            $.fancybox.close()
         });
     }
 }
 function pop_school(){
     var fancybox = $.fancybox
     fancybox({
-        content:'<div class="school_wrap"><div class="couns">'+get_couns()+'</div><div class="provs">'+get_provs(0)+'</div><div class="search_univ">搜索 : <input type="text" id="univ_txt"></div>'+'<div class="univs">'+get_univ_by_prov(0,0)+'</div></div>'
+        content:'<div class="school_wrap"><div class="couns">'+get_couns()+'</div><div class="provs">'+get_provs(0)+'</div><div class="search_univ">搜索 <input type="text" id="univ_txt"></div>'+'<div class="univs">'+get_univ_by_prov(0,0)+'</div></div>'
     })
     $('#prov_0').addClass('prov_now')
     $('#coun_0').addClass('coun_now')
