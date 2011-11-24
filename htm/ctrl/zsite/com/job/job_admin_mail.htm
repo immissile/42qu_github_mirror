@@ -1,47 +1,31 @@
-<%inherit file="/ctrl/_base/_tidy_base.htm" />
-<%!
-from model.job import JOB_CLOSE
-%>
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="htm_head()">
 ${css.ctrl_com_job|n}
 ${css.ctrl_po_event|n}
 <script src=${js.ctrl_com_job|n}></script>
-<%!
-NAV = (
-    ('admin',"当前"),
-    ('admin/%s'%JOB_CLOSE,"往期"),
-    ('admin/mail',"邮箱")
-)
-%>
-<%
-path = request.path[5:].split("-",1)[0]
-%>
-<a class="back_a" href="/"></a>
+</%def>
 
-<span class="nav">\
-%for pos,(href,name) in enumerate(NAV):
-    %if pos:
-<span class="c9 split">-</span>\
-    %endif
-<a href="/job/${href}"
-%if path==href:
-class="c0"\
-%else:
-class="c9"\
-%endif
->${name|n}</a>\
-%endfor
-<span class="c9 split">-</span>\
-<a href="/job/add" class="c9">新建</a>
-</span>\
 
-<form id="event_form" style="margin-left:252px;" method="POST">
+<%htm:form  style="margin-left:252px;" method="POST">
 <div class="po_line">
-<label for="title">修改招聘邮箱</label>
+<label for="title">招聘邮箱</label>
 </div>
+
 <div class="po_line">
-<div><input id="hr_mail" class="hr_mail_input" name="hr_mail" value="realfex@gmail.com"><a class="reg_mail" href="/job/mail/now">使用注册邮箱</a> <div id="errtip_mail" class="errtip"></div>
+请验证
 </div>
-<div id="errtip_title" class="errtip"></div>
-</div>
-<span class="btnw"><button type="submit">完成</button></span>
-</form>
+
+<div class="po_line">\
+
+<input id="hr_mail" class="hr_mail_input" name="hr_mail" value="z@b.com">\
+<a class="reg_mail" href="/job/mail/now">使用注册邮箱</a>\
+
+</div>\
+
+
+<span class="btnw"><button type="submit">修改</button></span>
+</%htm:form>
+
+
