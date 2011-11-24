@@ -81,11 +81,18 @@ color:#222;
 padding-left:3px;
 }
 .kinds_word_on{
-background:#b2d235;
+background:#d20;
+color:#fff;
 }
 .bgc1 li:hover, .bgc2 li:hover{
-background:#d4f457;
+background:#e30;
 cursor:pointer;
+}
+.bgc1 li:hover .kinds_word{
+color:#fff;
+}
+.bgc2 li:hover .kinds_word{
+color:#fff;
 }
 .kinds_btn{
 background:#fff;
