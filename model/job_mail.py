@@ -32,18 +32,18 @@ def job_mail_new_with_verify_mail(zsite, user_id, mail):
 def job_mail_new(zsite_id, mail, department_id=0, state=JOB_MAIL_STATE_VERIFY):
     mail = mail.strip().lower()
     if mail:
-        jm = JobMail.get_or_create(zsite_id=zsite_id, department_id=department_id)
+        job = JobMail.get_or_create(zsite_id=zsite_id, department_id=department_id)
 
         if job.mail == mail and state == JOB_MAIL_STATE_VERIFY and job.state == JOB_MAIL_STATE_VERIFIED:
             state = JOB_MAIL_STATE_VERIFIED
 
-        jm.state = state
-        jm.mail = mail
-        jm.save()
+        job.state = state
+        job.mail = mail
+        job.save()
 
         mc_flush(zsite_id, department_id)
 
-    return jm
+        return job
 
 def mc_flush(zsite_id, department_id):
     key = '%s_%s'%(zsite_id, department_id)
