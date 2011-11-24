@@ -17,13 +17,13 @@ def job_mail_new_with_verify_mail(zsite, user_id, mail):
     zsite_id = zsite.id
     mail = mail.strip().lower()
 
-    jm = job_mail_new(zsite_id, hr_mail)
+    jm = job_mail_new(zsite_id, mail)
 
     if mail == mail_by_user_id(user_id):
         jm.state = JOB_MAIL_STATE_VERIFIED
         jm.save()
     else:
-        verify_mail_new(zsite, zsite.name, hr_mail, CID_VERIFY_COM_HR)
+        verify_mail_new(zsite, zsite.name, mail, CID_VERIFY_COM_HR)
 
 
 mc_job_mail_by_com_id = McCache("JobMailByComId:%s")
