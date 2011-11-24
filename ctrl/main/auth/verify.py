@@ -83,8 +83,7 @@ class JobVerifyMail(LoginBase):
                 path = "%s/job/admin/mail"
             else:
                 path = "%s/job/new"
-
-             path = path%link
+            path = path%link
         else:
             path = "/"
         
