@@ -1,0 +1,35 @@
+<%inherit file="/ctrl/_base/_tidy_base.htm" />
+<%!
+from model.job import JOB_CLOSE
+%>
+<%!
+NAV = (
+    ('admin',"当前"),
+    ('admin/%s'%JOB_CLOSE,"往期"),
+    ('admin/mail',"邮箱")
+)
+%>
+<%
+path = request.path[5:].split("-",1)[0]
+%>
+<a class="back_a" href="/"></a>
+
+<span class="nav">\
+%for pos,(href,name) in enumerate(NAV):
+    %if pos:
+<span class="c9 split">-</span>\
+    %endif
+<a href="/job/${href}"
+%if path==href:
+class="c0"\
+%else:
+class="c9"\
+%endif
+>${name|n}</a>\
+%endfor
+<span class="c9 split">-</span>\
+<a href="/job/add" class="c9">新建</a>
+</span>\
+
+${next.body()}
+
