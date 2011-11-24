@@ -74,7 +74,7 @@ class BioNew(AdminBase):
     _bio_save = _bio_save
     def post(self):
         self._bio_save()
-        self.redirect('/member/new/search')
+        self.redirect('/job/new')
 
 
 @urlmap('/guide')

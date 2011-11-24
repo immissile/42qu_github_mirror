@@ -145,7 +145,7 @@ class ProductNewN(AdminBase):
         product = Po.mc_get(id)
         if product:
             if id not in product_list:
-                self.redirect('/job/new')
+                self.redirect('/bio/new')
 
             return self.render(
                         product_list=Po.mc_get_list(product_list), 
@@ -167,7 +167,7 @@ class ProductNewN(AdminBase):
             if product_list[-1] != id:
                 return self.redirect('/product/new/%s'%(product_list[product_list.index(id)+1]))
             else:
-                return self.redirect('/job/new')
+                return self.redirect('/bio/new')
 
         self.redirect('/')
 
