@@ -260,14 +260,17 @@ class JobMail(AdminBase):
 @urlmap('/job/mail/now')
 class MailVerified(AdminBase):
     def get(self):
+        admin = self.get_argument('admin',None)
         zsite_id = self.zsite_id
         zsite = Zsite.mc_get(zsite_id)
 
         jm = job_mail_new(zsite_id, mail_by_user_id(self.current_user_id))
         jm.state = JOB_MAIL_STATE_VERIFIED
         jm.save()
-
-        self.redirect('/job/new')
+        if admin:
+            self.redirect('/job/admin/mail')
+        else:
+            self.redirect('/job/new')
 
 @urlmap('/job/mail/verify')
 class MailVerify(AdminBase):
@@ -297,6 +300,7 @@ class JobAdminMail(AdminBase):
             errtip.hr_mail='请输入正确的邮箱'
         if not errtip:
             job_mail_new(self.zsite_id,hr_mail)
+            self.get()
         else:
             self.render(
                     errtip = errtip,
