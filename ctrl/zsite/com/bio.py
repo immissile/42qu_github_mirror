@@ -53,7 +53,6 @@ class Guide(AdminBase):
     def get(self):
         self.render()
 
-
 @urlmap('/bio/admin')
 class BioAdmin(AdminBase):
     def get(self):

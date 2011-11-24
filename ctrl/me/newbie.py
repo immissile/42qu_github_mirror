@@ -15,7 +15,6 @@ class Career(CareerEdit):
         self.save()
         self.redirect('/me/newbie/2')
 
-
 @urlmap('/me/newbie/2')
 class Pic(PicEdit):
     def post(self):
@@ -93,4 +92,15 @@ class Newbie0(LoginBase):
 
 
 
-
+@urlmap('/me/newbie/5')
+class Newbie5(LoginBase):
+    def get(self):
+        id_list = SHOW_LIST
+        zsite_list = filter(bool, Zsite.mc_get_list(id_list))
+        current_user = self.current_user
+        self.render(
+            zsite_list=zsite_list,
+            errtip=Errtip(),
+            current_user=current_user
+        )
+ 

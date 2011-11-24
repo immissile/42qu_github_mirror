@@ -1,0 +1,86 @@
+.school_wrap{
+width:640px;
+}
+.couns, .provs, .univs{
+margin-bottom:8px;
+clear:both;
+padding-top:8px;
+overflow:auto;
+overflow-x:hidden;
+}
+.couns{
+}
+.provs{
+border:1px solid #ccc;
+}
+.univs{
+height:260px;
+padding:12px;
+border:1px solid #ccc;
+}
+.univ_ul{
+list-style-position:outside;
+list-style-type:square;
+color:#666;
+}
+.univ_li{
+float:left;
+width:182px;
+line-height:28px;
+margin-left:16px;
+}
+.coun_li{
+border-right:1px solid #ccc;
+padding:0 4px 2px 0;
+margin-right:4px;
+float:left;
+line-height:14px;
+margin-bottom:8px;
+}
+.prov_li{
+float:left;
+width:42px;
+text-align:center;
+line-height:16px;
+margin-bottom:8px;
+}
+
+.prov,.coun,.univ{
+color:#444;
+font-size:14px;
+}
+.search_univ{
+clear:both;
+margin-bottom:8px;
+color:#444;
+}
+.search_univ input{
+border:1px solid #ccc;
+}
+.coun_now, .prov_now{
+background:#B2D235;
+}
+.univ:hover{
+background:#B2D235;
+}
+.school_year,.school_type,#dep{
+border:1px solid #CCCCCC;
+font-size:16px;
+padding:7px;
+text-align:center
+}
+.school_select{
+padding:8px;
+text-align:center;
+width:200px;
+margin-right:8px;
+cursor:pointer;
+}
+#dep{
+margin-left:41px;
+width:218px;
+margin-right:8px;
+}
+.add_school_a{
+margin-left:41px;
+}
