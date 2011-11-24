@@ -60,13 +60,13 @@ class ReviewShowNew(AdminBase):
 @urlmap('/j/com/apply/rm/(\d+)')
 class MemberApplyRm(AdminBase):
     def post(self, id):
-        com_apply_rm(id, com_id, self.current_user_id)
+        com_apply_rm(id, self.zsite_id, self.current_user_id)
         self.finish('{}')
 
 @urlmap('/j/com/apply/new/(\d+)')
 class MemberApplyNew(AdminBase):
     def post(self, id):
-        com_apply_accept(id, com_id, self.current_user_id)
+        com_apply_accept(id, self.zsite_id, self.current_user_id)
         self.finish('{}')
 
 
