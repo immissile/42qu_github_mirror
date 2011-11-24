@@ -25,7 +25,7 @@ Zsite.mc_bind(apply_member_list, 'user', 'user_id')
         <div class="member_block">
             %for apply in apply_member_list:
             <%
-id = apply.id
+id = apply.user_id
 user = apply.user
             %>
 <div id="apply${id}" class="member_item member_long">\
