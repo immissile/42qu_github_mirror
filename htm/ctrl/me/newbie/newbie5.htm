@@ -30,12 +30,24 @@ ${css.ctrl_com_invite_reg|n}
 
 <script>
 $(function(){
-    school_college('school_select')
+    var j=2
+    school_college('school_select1','dep1')
     $('.main_block1').hide()
     $('.school_year').prepend('<option value="">入学年份</option>')
     for(var i=2011;i>1899;i--){
         $('.school_year').append('<option value='+i+'>'+i+'</option>')
     }
+    var part1 = $('.part1').html(),
+    part2 = $('.part2').html()
+    $('.part1').append('<input type="hidden" name="univ_id" id="univ_id1" value="" />')
+    $('.add_school_a').click(function(){
+        $(this).parent().before('<p>'+part1+'<input type="hidden" name="univ_id" id="univ_id'+j+'" value="" /></p>')
+        $(this).parent().before('<p>'+part2+'</p>')
+        $('.school_select:last').attr('id','school_select'+j)
+        $('.dep:last').attr('id','dep'+j)
+        school_college('school_select'+j,'dep'+j)
+        j++
+    })
 })
 </script>
 <%def name="h_nav()"></%def>
@@ -91,13 +103,12 @@ $(function(){
         </div>
     </div>
     <div class="main_block2">
-        <p>
-            <label class="label_input" for="school_select">学校</label><input id="school_select" value="请选择学校" autocomplete="off" type="text" class="school_select">
-            <input type="hidden" name="univ_id" id="univ_id" value="" />
+        <p class="part1">
+            <label class="label_input" for="school_select">学校</label><input id="school_select1" value="请选择学校" autocomplete="off" type="text" class="school_select">
             <select name="school_year" class="school_year"></select>
         </p>
-        <p>
-            <select name="dep" id="dep"><option value=0>选择院系</option></select>
+        <p class="part2">
+            <select name="dep" id="dep1" class="dep"><option value=0>选择院系</option></select>
             <select name="school_type" class="school_type">
                 <option value="">选择类型</option>
                 <option value="1">本科</option>
@@ -110,7 +121,7 @@ $(function(){
             </select>
         </p>
         <p>
-            <a href="" class="add_school_a">添加学校</a>
+            <a href="javascript:void(0)" class="add_school_a">添加学校</a>
         </p>
         <div class="cl btns" id="form_btn">
         <span class="L btnw next_btn"><button type="submit" >下一步</button></span>

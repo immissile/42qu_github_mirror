@@ -1,15 +1,15 @@
-function school_college(id){
+function school_college(id,dep_id){
     $('#'+id).click(pop_school)
     select_univ = function(uid,uname){
         $.getScript("http://realfex.com/"+uid+".js",function(){
-            $('#univ_id').val(uid)
             $('#'+id).val(uname)
             var deps = depList['deps']
-            $('#univ_id').val(uid)
-            $('#dep').children().remove()
-            $('#dep').append('<option value="">选择院系</option>')
+            $('#univ_id'+dep_id.substr(3)).val(uid)
+            var dep_node = $('#'+dep_id)
+            dep_node.children().remove()
+            dep_node.append('<option value="">选择院系</option>')
             for(var i=0;i<deps.length;i++){
-                $('#dep').append('<option value='+deps[i]['id']+'>'+deps[i]['name']+'</option>')
+                dep_node.append('<option value='+deps[i]['id']+'>'+deps[i]['name']+'</option>')
             }
             $('#fancybox-close').click()
         });

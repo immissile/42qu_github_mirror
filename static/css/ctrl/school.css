@@ -63,7 +63,7 @@ background:#B2D235;
 .univ:hover{
 background:#B2D235;
 }
-.school_year,.school_type,#dep{
+.school_year,.school_type,.dep{
 border:1px solid #CCCCCC;
 font-size:16px;
 padding:7px;
@@ -76,7 +76,7 @@ width:200px;
 margin-right:8px;
 cursor:pointer;
 }
-#dep{
+.dep{
 margin-left:41px;
 width:218px;
 margin-right:8px;
