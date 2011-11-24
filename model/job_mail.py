@@ -50,7 +50,7 @@ def job_mail_if_exist(id,department_id=0):
     return ''
 
 def job_mail_verifyed(id,department_id=0):
-    jm = JobMail.get(zsite_id=id,department_id)
+    jm = JobMail.get(zsite_id=id,department_id=department_id)
     if jm:
         jm.state = JOB_MAIL_STATE_VERIFIED
         jm.save()
