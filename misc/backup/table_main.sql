@@ -73,6 +73,65 @@ CREATE TABLE `career` (
   KEY `index2` (`user_id`,`cid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `com_apply`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `com_apply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `com_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `state` int(10) unsigned NOT NULL,
+  `admin_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `create_time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`com_id`,`state`) USING BTREE,
+  KEY `Index_3` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `com_department`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `com_department` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `com_id` int(10) unsigned NOT NULL,
+  `name` varbinary(1024) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`com_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `com_job`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `com_job` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `com_id` int(10) unsigned NOT NULL,
+  `department_id` int(10) unsigned NOT NULL,
+  `title` varbinary(1024) NOT NULL,
+  `create_time` int(10) unsigned NOT NULL,
+  `state` int(10) unsigned NOT NULL,
+  `salary_from` int(10) unsigned NOT NULL,
+  `salary_to` int(10) unsigned NOT NULL,
+  `salary_type` tinyint(3) unsigned NOT NULL,
+  `end_time` int(10) unsigned NOT NULL,
+  `quota` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`state`,`end_time`),
+  KEY `Index_3` (`com_id`,`department_id`,`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `com_job_needs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `com_job_needs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `require` blob NOT NULL,
+  `stock_option` varbinary(512) NOT NULL,
+  `welfare` varbinary(512) NOT NULL,
+  `priority` blob NOT NULL,
+  `txt` blob NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -240,6 +299,67 @@ CREATE TABLE `invite_message` (
   `email` mediumblob NOT NULL,
   `txt` blob,
   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `job_kind`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `job_kind` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `job_id` int(10) unsigned NOT NULL,
+  `kind_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`job_id`,`kind_id`),
+  KEY `Index_3` (`kind_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `job_mail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `job_mail` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `department_id` int(10) unsigned NOT NULL,
+  `zsite_id` int(10) unsigned NOT NULL,
+  `mail` varbinary(255) NOT NULL,
+  `state` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`zsite_id`,`department_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `job_pid`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `job_pid` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `job_id` int(10) unsigned NOT NULL,
+  `pid` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `Index_2` (`job_id`),
+  KEY `Index_3` (`pid`)
+) ENGINE=InnoDB DEFAULT CHARSET=binary ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `job_pid_default`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `job_pid_default` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `com_id` int(10) unsigned NOT NULL,
+  `pid` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`com_id`),
+  KEY `Index_3` (`pid`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `job_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `job_type` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `job_id` int(10) unsigned NOT NULL,
+  `type_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Index_2` (`job_id`,`type_id`) USING BTREE,
+  KEY `Index_3` (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `kv_int`;
@@ -611,6 +731,15 @@ CREATE TABLE `po_pos` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `index2` (`po_id`,`user_id`),
   KEY `index3` (`po_id`,`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `po_review_show`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `po_review_show` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `value` blob NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `po_show_channel`;
@@ -1028,6 +1157,35 @@ CREATE TABLE `zsite_admin` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `Index_3` (`zsite_id`,`admin_id`),
   KEY `index2` (`admin_id`,`state`,`zsite_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `zsite_com`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `zsite_com` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cover_id` int(10) unsigned DEFAULT NULL,
+  `team` blob,
+  `culture` blob,
+  `money` blob,
+  `hope` blob,
+  `video_cid` tinyint(3) unsigned DEFAULT '0',
+  `phone` blob,
+  `video_id` int(10) unsigned DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `zsite_com_place`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `zsite_com_place` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `com_id` int(10) unsigned NOT NULL,
+  `pid` bigint(20) unsigned NOT NULL,
+  `address` varbinary(1024) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`com_id`),
+  KEY `Index_3` (`pid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `zsite_link`;
