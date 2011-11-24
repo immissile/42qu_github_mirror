@@ -30,30 +30,11 @@ $(function(){
         
     })
 
-    $('.member_mail:last').live('blur',function(){
-        var self = $(this)
-        if($.trim(self.val()).length>0){
-            self.parent().after(
-'<div class="line"><input placeholder="邮箱" name="mail" class="member_mail"><input placeholder="姓名" name="name" class="member_name"></div>'
-            )
-        }
-    })
-    $('.member_link:last').live('blur',function(){
-        var self = $(this)
-        if($.trim(self.val()).length>0){
-            self.parent().after(
-'<div class="line"><input placeholder="用户网址" name="link" class="member_link"></div>'
-            )
-        }
-    })
-    $('.member_mail_short:last').live('blur',function(){
-        var self = $(this)
-        if($.trim(self.val()).length>0){
-            self.parent().after(
-'<div class="line"><input placeholder="邮箱" name="mail" class="member_mail_short"><input placeholder="姓名" name="name" class="member_name_short"></div>'
-            )
-        }
-    })
+auto_add('member_mail','<div class="line"><input placeholder="邮箱" name="mail" class="member_mail"><input placeholder="姓名" name="name" class="member_name"></div>','mail_block','','blur')
+
+auto_add('member_mail_short','<div class="line"><input placeholder="邮箱" name="mail" class="member_mail_short"><input placeholder="姓名" name="name" class="member_name_short"></div>','mail_block','','blur')
+
+auto_add('member_link','<div class="line"><input class="member_link" name="link" placeholder="用户网址"></div>','link_block','','focus')
 
 
     $('.member_rm_a').click(function(){
@@ -63,5 +44,6 @@ $(function(){
         self.parent().remove()
         $.postJSON("/j/member" +url+"/rm/"+id) 
     })
+
 })
 
