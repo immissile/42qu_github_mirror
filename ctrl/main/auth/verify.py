@@ -11,6 +11,7 @@ from model.user_auth import user_password_new, user_password_verify
 from zkit.txt import EMAIL_VALID, mail2link
 from model.zsite_member import zsite_member_can_admin 
 from model.job_mail import job_mail_verifyed 
+from model.job import _job_pid_default_by_com_id
 from model.zsite_url import link as _link
 
 @urlmap('/auth/verify/send/(\d+)')
@@ -77,7 +78,12 @@ class JobVerifyMail(LoginBase):
         if user_id and CID_VERIFY_COM_HR == cid and zsite_member_can_admin(user_id, self.current_user_id):
             job_mail_verifyed(user_id)
             link = _link(user_id)
-            path = "%s/job/new"%link
+
+            if _job_pid_default_by_com_id(user_id):
+                path = "%s/job/admin/mail"
+            else:
+                path = "%s/job/new"
+            path = path%link
         else:
             path = "/"
         

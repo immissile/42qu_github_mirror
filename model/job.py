@@ -111,9 +111,11 @@ def job_type_set(id, type_list):
 
     mc_job_type_by_job_id.delete(id)
 
+def _job_pid_default_by_com_id(com_id):
+    return list(JobPidDefault.where(com_id=com_id))
 
 def job_pid_default_by_com_id(com_id):
-    p = JobPidDefault.where(com_id=com_id)
+    p = _job_pid_default_by_com_id(com_id)
     if not p:
         p = pid_by_com_id(com_id)
     return p
@@ -196,8 +198,6 @@ def com_job_by_state_com_id(com_id,state):
 def com_job_by_department_and_com(department_id,com_id):
     return ComJob.where(department_id=department_id,com_id=com_id,state=JOB_ACTIVE)
 
-def job_pid_list(self):
-    return JobPid.where(com_id=self.id)
 
 if __name__ == "__main__":
     job_type_set(25, [2,3225])
