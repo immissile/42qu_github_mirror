@@ -54,4 +54,6 @@ def verifyed(id, value, delete=False):
     return 0, 0
 
 if __name__ == '__main__':
-    print verifyed(10264, 'uhzJQCEtDPpHxQw5')
+    user_id , cid = verifyed(10266,"kvfUEfwjyOyUaHQ3")
+    print user_id, cid == CID_VERIFY_COM_HR
+    

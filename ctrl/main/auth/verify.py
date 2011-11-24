@@ -9,8 +9,9 @@ from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE, ZSITE_STATE_NO_PASSWORD
 from model.user_auth import user_password_new, user_password_verify
 from zkit.txt import EMAIL_VALID, mail2link
-from model.zsite_site import site_can_admin
+from model.zsite_member import zsite_member_can_admin 
 from model.job_mail import job_mail_verifyed 
+from model.zsite_url import link as _link
 
 @urlmap('/auth/verify/send/(\d+)')
 class Send(Base):
@@ -72,12 +73,15 @@ class VerifyMail(VerifyBase):
 class JobVerifyMail(LoginBase):
     def get(self, id, ck):
         user_id, cid = verifyed(id, ck, delete=False)
-        if user_id and CID_VERIFY_COM_HR == cid and site_can_admin(user_id, self.current_user_id):
+
+        if user_id and CID_VERIFY_COM_HR == cid and zsite_member_can_admin(user_id, self.current_user_id):
             job_mail_verifyed(user_id)
-            self.render(jm=jm)
-            return user_id
+            link = _link(user_id)
+            path = "%s/job/new"%link
         else:
-            self.redirect('/')
+            path = "/"
+        
+        self.redirect(path)
 
 @urlmap('/auth/password/reset/(.+)')
 class PasswordReset(Base):
