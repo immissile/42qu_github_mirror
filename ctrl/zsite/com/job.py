@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
-from model.job_mail import  job_mail_new, JOB_MAIL_STATE_VERIFIED, job_mail_by_com_id
+from model.job_mail import  job_mail_new, JOB_MAIL_STATE_VERIFIED, job_mail_by_com_id, job_mail_new_with_verify_mail
 from model.zsite import Zsite
-from model.verify import verify_mail_new, CID_VERIFY_COM_HR
 import json
 from model.job import job_type_set, job_pid_default_new, job_pid_new, job_pid_default_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_pid_by_job_id, job_new,\
 ComJob, JOB_DEL, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id, com_department_new, com_department_rm_by_id, com_department_edit
@@ -232,10 +231,10 @@ class JobMail(AdminBase):
         self.render(current_user_id=self.current_user_id, errtip=err)
 
     def post(self):
-
+        current_user_id = self.current_user_id
         hr_mail = self.get_argument('hr_mail', '').strip().lower()
         zsite_id = self.zsite_id
-        zsite = Zsite.mc_get(zsite_id)
+        zsite = self.zsite
 
         errtip = Errtip()
         if hr_mail:
@@ -245,22 +244,15 @@ class JobMail(AdminBase):
             errtip.mail = '请输入邮箱'
 
         if errtip:
-            return self.render(errtip=errtip, current_user_id=self.current_user_id)
+            return self.render(errtip=errtip, current_user_id=current_user_id)
         else:
-            jm = job_mail_new(zsite_id, hr_mail)
-
-            if hr_mail == mail_by_user_id(self.current_user_id):
-                jm.state = JOB_MAIL_STATE_VERIFIED
-                jm.save()
-            else:
-                verify_mail_new(zsite_id, zsite.name, hr_mail, CID_VERIFY_COM_HR)
-
+            job_mail_new_with_verify_mail(zsite, current_user_id, hr_mail)
             return self.redirect('/job/mail/verify')
 
 @urlmap('/job/mail/now')
 class MailVerified(AdminBase):
     def get(self):
-        admin = self.get_argument('admin',None)
+        admin = self.get_argument('admin', None)
         zsite_id = self.zsite_id
         zsite = Zsite.mc_get(zsite_id)
 
@@ -290,22 +282,22 @@ class JobAdminMail(AdminBase):
     def get(self):
         errtip = Errtip()
         self.render(
-                errtip = errtip
+                errtip=errtip
                 )
 
     def post(self):
-        hr_mail = self.get_argument('hr_mail',None)
+        hr_mail = self.get_argument('hr_mail', None)
         errtip = Errtip()
         if not EMAIL_VALID.match(hr_mail):
-            errtip.hr_mail='请输入正确的邮箱'
+            errtip.hr_mail = '请输入正确的邮箱'
         if not errtip:
-            job_mail_new(self.zsite_id,hr_mail)
+            job_mail_new_with_verify_mail(self.zsite, self.current_user_id, hr_mail)
             self.get()
         else:
             self.render(
-                    errtip = errtip,
-                    hr_mail = hr_mail,
-                    )
+                errtip=errtip,
+                hr_mail=hr_mail,
+            )
 
 
 @urlmap('/job/rm/(\d+)')
