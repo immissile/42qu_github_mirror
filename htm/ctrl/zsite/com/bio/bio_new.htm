@@ -1,42 +1,77 @@
 <%inherit file="/ctrl/_base/com.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>  
+<%def name="htm_head()">
 ${css.ctrl_product|n}
 ${css.ctrl_com_bio|n}
 <script src="${js.ctrl_com_product|n}"></script> 
+</%def>
+
+<%!
+from model.ico import fs_url_jpg
+%>
+<%
+cover_id = None
+money = None
+culture = None
+team = None
+hope = None
+%>
+%if zsite_com:
+<%
+cover_id = zsite_com.cover_id
+money = zsite_com.money
+culture = zsite_com.culture
+team = zsite_com.team
+hope = zsite_com.hope
+%>
+%endif
 <div class="form_wrap">
     <%htm:form class_name="com_bio" enctype="multipart/form-data" onsubmit="return com_new()">
     <div>
-    <p class="inft">封面照片</p>
+    <p class="inft">公司风景</p>
+        %if cover_id:
+<img class="imgpic" src="${fs_url_jpg('357',cover_id)}">
+<input class="file" type="hidden" name="pic_id" value="${cover_id}" id="pic_id">
+%endif
     <div class="files"><input class="file" name="cover" type="file" size=35></div>
-    <p class="inft">公司照片</p>
-    <div class="files"><input class="file" name="pic" type="file" size=35><input class="file" name="pic" type="file" size=35></div>
-    <a href="javascript:add_pic();void(0)" class="add_pic">添加更多</a>
+##    <p class="inft">公司照片</p>
+##    <div class="files"><input class="file" name="pic" type="file" size=35><input class="file" name="pic" type="file" size=35></div>
+##    <a href="javascript:add_pic();void(0)" class="add_pic">添加更多</a>
     </div>
     <div>
-    <p class="inft">公司视频</p>
-    <input placeholder="优酷/土豆/新浪的视频网址 ..." name="video" class="video_input">
+    <p class="inft">介绍视频</p>
+    <input placeholder="优酷/土豆/新浪的视频网址 ..." name="video" class="video_input" value="">
     </div>  
     <div>
     <p class="inft">团队背景</p>
     <textarea name="team" class="info_txt" id="txt" placeholder="现在有多少人 ? 核心成员又曾经有过怎样的光辉岁月 ?
-"></textarea>
+        ">${team or ''}</textarea>
     </div>
     <div>
     <p class="inft">企业文化</p>
     <textarea name="culture" class="info_txt" id="txt" placeholder="喜欢什么 , 讨厌什么 ? 欣赏哪些公司 ? 如何看待加班 ?
-"></textarea>
+        ">${culture or ''}</textarea>
     </div>
     <div>
     <p class="inft">资金情况</p>
-    <textarea name="money" class="info_txt" id="txt" placeholder="谁投资? 准备了多少钱? 主要开销是? 打算何时,如何盈利?"></textarea>
+    <textarea name="money" class="info_txt" id="txt" placeholder="谁投资? 准备了多少钱? 主要开销是? 打算何时,如何盈利?">${money or ''}</textarea>
     </div>
     <div>
     <p class="inft">最终愿景</p>
-    <textarea name="hope" class="info_txt" id="txt" placeholder="想象一下 , 十年之后 , 这会是个怎样的公司 ? 你们如何改变世界 ?">
+    <textarea style="overflow-y:hidden;"name="hope" class="info_txt" id="txt" placeholder="想象一下 , 十年之后 , 这会是个怎样的公司 ? 你们如何改变世界 ?">${hope or ''}
 </textarea>
     </div>
     <div class="bio_btn">
-    <span class="btnw"><button type="submit" id="submit">下一步</button></span>
+        <span class="btnw"><button type="submit" id="submit">\
+%if edit:
+保存
+%else:
+下一步
+%endif
+</button></span>
+%if edit:
+<a href="/">返回</a>
+%endif
     </div>
 </%htm:form>
 </div>

@@ -69,9 +69,13 @@ ${css.ctrl_zsite_com_job|n}
         %if com_place_list:
         %for i,com_place in enumerate(com_place_list):
 <div class="address"><input name="addr" id="addr${i}" type="checkbox"\
+    %if not edit:
+    checked\
+    %else:
     %if addr:
     %if com_place.pid in map(int,addr):
     checked\
+    %endif
     %endif
     %endif
     value="${com_place.pid or ''}"><label for="addr${i}"> ${place_name(com_place.pid) or '无'}</label></div>
@@ -175,17 +179,17 @@ ${errtip.txt|n}
     <div class="errtip" id="errtip_other"></div>
 </div>
 
-
-<span class="btnw"><button type="submit">
-        %if edit is not None:
-        保存
+<div class="btn_line">
+<span class="btnw"><button type="submit">发布</button></span>
+        %if edit:
+<a href="/job/admin">返回管理</a>
         %else:
-        下一步
+<a href="/bio/new">跳过</a>
         %endif
-</button></span>
-
 %if job:
-<a href="/job/close/${job.id}">关闭职位</a>
+<a href="/job/close/${job.id}" style="margin-left:64px">关闭职位</a>
 %endif
+</div>
 </%htm:form>
 </%def>
+

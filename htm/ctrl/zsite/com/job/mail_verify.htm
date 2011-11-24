@@ -2,39 +2,31 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.user_mail import mail_by_user_id
-from model.job_mail import get_job_mail
-from zkit.txt import EMAIL_VALID, mail2link
+from model.job_mail import job_mail_if_exist
+from zkit.txt import EMAIL_VALID, mail_link
 %>
 
 <%def name="htm_head()">
-${css.ctrl_zsite_site|n}
-${css.ctrl_event_admin|n}
-${css.ctrl_po_event|n}
-<script src="${js.ctrl_zsite|n}"></script>
-<script src="${js.ctrl_zsite_site|n}"></script>
-<link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章">
-</%def>
-
 <style>
-.word{
+.po_line{
+margin:64px 0;
+text-align:center;
 font-size:16px;
-line-height:34px;
 }
 .word_a{
-margin-left:12px;
+margin:27px 0;
+display:block;
 }
 </style>
+</%def>
 
-<script type="text/javascript">
-function reg_mail(){
-    $('#hr_mail').val('i@realfex.com')
-}
-</script>
+<%
+mail = job_mail_if_exist(zsite_id)
+%>
 
-<div style="margin-left:269px;">
 <div class="po_line">
-    <p class="word">HR邮箱填写成功</p>
-    <p class="word"> ${mail2link(get_job_mail(zsite_id)) or ''|n} 去验证 <a href="/job/mail" class="word_a">重新填写</a></p>
+    <div>请验证邮箱 : ${job_mail_if_exist(zsite_id) or ''}</div>
+    <div><a href="${mail_link(mail)|n}" target="_blank" class="word_a">点此验证</a></div>
+    <div><a href="/job/mail" class="word_a">重新填写</a></div>
 </div>
-</div>
-</div></div>
+

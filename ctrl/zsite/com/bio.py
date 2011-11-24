@@ -10,42 +10,74 @@ from zkit.errtip import Errtip
 from model.ico import ico96
 from model.motto import motto as _motto, motto_set
 from model.ico import site_ico_new, site_ico_bind
+from model.zsite_com import ZsiteCom
+from gid import gid
 
-@urlmap('/bio/new')
-class BioNew(AdminBase):
-    def get(self):
-        return self.render()
+def _bio_save(self,edit=None):
+    hope = self.get_argument('hope',None)
+    money = self.get_argument('money',None)
+    culture = self.get_argument('culture',None)
+    team = self.get_argument('team',None)
+    video = self.get_argument('video',None)
+    com_id = self.zsite.id
+    files = self.request.files
+    cover_id = None
 
-    def post(self):
-        hope = self.get_argument('hope',None)
-        money = self.get_argument('money',None)
-        culture = self.get_argument('culture',None)
-        team = self.get_argument('team',None)
-        video = self.get_argument('video',None)
-        com_id = self.zsite.id
-        files = self.request.files
-        cover_id = None
-        video_site = None
-
-        if files.get('cover'):
-            cover = files['cover'][0]['body']
+    if files.get('cover'):
+        cover = files['cover'][0]['body']
+        if cover:
+            cover = picopen(cover)
             if cover:
-                cover = picopen(cover)
-                if cover:
-                    cover_id = com_pic_new(com_id,cover)
-        
+                cover_id = com_pic_new(com_id,cover)
+    if not edit: 
         if files.get('pic'):
             for pic in files['pic']:
                 if pic['body']:
                     pic = picopen(pic['body'])
                     if pic:
                         com_pic_new(com_id,pic)
-        
-        if video:
-            video,video_site = video_filter(video)
-            video_new(com_id,video)
-        zsite_com_new(com_id,hope,money,culture,team,cover_id,video_site)
+    
+    if video:
+        video_id = gid()
+        video,video_site = video_filter(video)
+        video_new(video_id,video)
+    else:
+        video_id = 0
+        video_site = None
+
+    zsite_com_new(com_id,hope,money,culture,team,cover_id,video_site, video_id)
+    
+    if edit:
+        self.redirect('/')
+    else:
         self.redirect('/member/new/search')
+
+
+@urlmap('/bio/edit')
+class BioEdit(AdminBase):
+    def get(self):
+        zsite_com = ZsiteCom.mc_get(self.zsite_id)
+        return self.render(
+                '/ctrl/zsite/com/bio/bio_new.htm',
+                edit=True,
+                zsite_com = zsite_com,
+                )
+    
+    _bio_save = _bio_save
+
+    def post(self):
+        self._bio_save(edit=True)
+
+
+
+@urlmap('/bio/new')
+class BioNew(AdminBase):
+    def get(self):
+        return self.render()
+
+    _bio_save = _bio_save
+    def post(self):
+        self._bio_save()
 
 
 @urlmap('/guide')

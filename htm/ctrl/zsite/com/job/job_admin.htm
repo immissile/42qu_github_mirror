@@ -29,7 +29,7 @@ class="c9"\
 >${name|n}</a>\
 %endfor
 <span class="c9 split">-</span>\
-<a href="/job/new" class="c9">新建</a>
+<a href="/job/add" class="c9">新建</a>
 </span>\
 
 %if job_list:
@@ -37,7 +37,7 @@ class="c9"\
 <ol class="job_ol">
     %for job in job_list:
     <li class="job_li">
-    <a href="" class="job_a" id="job_${job.id}">${job.title}</a>
+    <a href="/job/edit/${job.id}" class="job_a" id="job_${job.id}">${job.title}</a>
     <a href="javascript:rm_job(${job.id},${state});void(0)" class="rm_job_a"></a></li>
 %endfor
 </ol>

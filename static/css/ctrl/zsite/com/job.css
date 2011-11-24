@@ -152,15 +152,25 @@ font-size:16px;
 color:#444;
 display:block;
 padding-bottom:6px;
-border-bottom:1px solid #999;
+border-bottom:3px dotted #ccc;
+}
+.job_next_a:hover{
+border-color:#000
 }
 .job_next{
 float:left;
 padding:80px 70px 180px 0;
-margin:62px 70px 0 329px;
+margin:62px 70px 0 285px;
 border-right:1px dotted #ccc;
 }
 .job_next_r{
 margin-left:0;
 border:none;
 }
+.btn_line a{
+margin-left: 64px; font-size: 16px; vertical-align: 12px;
+}
+.btn_line{
+margin-left:80px
+}
+

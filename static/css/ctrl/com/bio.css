@@ -1,6 +1,7 @@
 .form_wrap{
 overflow:auto;
 margin-left:125px;
+margin-top:32px;
 }
 .file{
 margin-left:34px;
@@ -31,4 +32,7 @@ display:block;
 margin-bottom:22px;
 width:56px;
 line-height:14px;
+}
+.bio_btn a{
+margin-left: 64px; font-size: 16px; vertical-align: 12px;
 }

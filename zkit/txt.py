@@ -47,13 +47,16 @@ EMAIL_DICT = {
 
 import cgi
 def mail2link(mail):
+    return '<a href="%s" target="_blank">%s</a>' % (mail_link(mail), mail)
+
+def mail_link(mail):
     mail = cgi.escape(mail)
     if mail and mail.find('@') > 0:
         e_domain = mail.split(str('@'))[1]
         link = EMAIL_DICT.get(e_domain)
         if link:
-            return '<a href="%s" target="_blank">%s</a>' % (link[1], mail)
-    return '<a href="http://%s" target="_blank">%s</a>' % (mail.rsplit('@', 1)[-1], mail)
+            return link[1]
+    return 'http://%s'%mail.rsplit('@', 1)[-1]
 
 def cnenlen(s):
     if type(s) is str:
@@ -79,5 +82,7 @@ def cnenoverflow(s, length):
     return txt, has_more
 
 #<span style="margin-left:4px"><a href="#">显示全部</a></span>
-
+if __name__ == '__main__':
+    print mail_link('zsp007@gmail.com')
+    print mail_link('zsp007@42qu.com')
 

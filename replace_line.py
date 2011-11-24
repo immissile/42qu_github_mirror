@@ -4,13 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-job_place
-JobPlace
+<a class="back_a" href="http://zuroc.42qu.com/"></a>
 """
 
 TO_STRING = """
-job_pid
-JobPid
+<a class="back_a" href="/"></a>
 """
 
 def run():

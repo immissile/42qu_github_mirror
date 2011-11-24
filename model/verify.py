@@ -41,7 +41,7 @@ def verify_new_one(user_id, cid):
 def verify_mail_new(user_id, name, mail, cid):
     id, ck = verify_new_one(user_id, cid)
     template = VERIFY_TEMPLATE[cid]
-    print '%s/job/auth/verify/mail/%s/%s'%(SITE_DOMAIN,id,ck)
+    #print '%s/job/auth/verify/mail/%s/%s'%(SITE_DOMAIN,id,ck)
     mq_rendermail(template, mail, name, id=id, ck=ck)
 
 def verifyed(id, value, delete=False):

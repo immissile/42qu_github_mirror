@@ -17,13 +17,8 @@ color:#ccc;
 .c9{
 color:#999;
 }
-.product_name,.product_about,.product_url{
-border:1px solid #ccc;
-width:280px;
-margin-right:10px;
-}
 .line{
-margin-bottom:32px;
+margin-bottom:16px;
 overflow:auto;
 }
 .close_item, .close_ot_item{
@@ -117,6 +112,9 @@ margin-bottom:16px;
 .similar_product_wrap{
 margin:0 0 20px -14px;
 }
+.similar_product_wrap input{
+padding:8px;
+}
 .place_hint{
 color:#999;
 margin-left:12px;
@@ -129,4 +127,38 @@ font-size:14px;
 }
 .pro_btn{
 margin:16px 0 6px;
+}
+.editbar{
+width:280px;
+padding:0 9px;
+text-align:right;
+}
+.editbar a:hover{
+color:#d20;
+}
+.editbar a{
+color:#999;
+}
+.editbar .edit{
+float:left;
+}
+
+.btns a{
+margin-left: 64px; font-size: 16px; vertical-align: 12px;
+}
+#popline .input,.product_name,.product_about,.product_url{
+border:1px solid #ccc;
+width:280px;
+margin-right:10px;
+padding:8px;
+}
+#popline{
+font-size:16px;padding:0 14px;margin-top:7px;margin-bottom:7px;
+width:382px;
+}
+ .input{
+margin:14px 0 14px 7px
+}
+#product_form{
+margin-top:32px
 }

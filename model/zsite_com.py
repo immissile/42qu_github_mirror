@@ -35,6 +35,7 @@ def zsite_com_new(
     team=None,
     cover_id=None,
     video_cid=None,
+    video_id=None,
     phone=None
 ):
     zsite_com = ZsiteCom.get_or_create(id=com_id)
@@ -48,8 +49,9 @@ def zsite_com_new(
         zsite_com.cover_id = cover_id
     if team:
         zsite_com.team = team
-    if video_cid:
+    if video_cid and video_id:
         zsite_com.video_cid = video_cid
+        zsite_com.video_id = video_id
     if phone:
         zsite_com.phone = phone
     zsite_com.save()
