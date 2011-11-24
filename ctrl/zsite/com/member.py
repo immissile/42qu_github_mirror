@@ -44,19 +44,6 @@ class MemberNewSearch(AdminBase):
 
         return self.redirect(self.request.path)
 
-@urlmap('/member/apply/(\d+)/(\d+)')
-class MemberApply(AdminBase):
-    def get(self,state,id):
-        if state.isdigit and id.isdigit:
-            state = int(state)
-            com_id = self.zsite_id
-            id = int(id)
-            if state:
-                zsite_member_new(com_id,id,ZSITE_MEMBER_STATE_ACTIVE)
-                com_apply_accept(id,com_id,self.current_user_id)
-            else:
-                com_apply_rm(id,com_id,self.current_user_id)
-        self.redirect('/member/admin')
 
 
 

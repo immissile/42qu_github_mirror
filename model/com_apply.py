@@ -34,8 +34,7 @@ def com_apply_new(com_id, user_id):
     ca.state = COM_APPLY_STATE_APPLY
     ca.create_time = today_seconds()
     ca.save()
-
-    mc_com_apply_id_list.delete(com_id)
+    mc_flush(id)
 
     #admin_id_list = admin_id_list_by_zsite_id(com_id)
     #rendermail(
@@ -45,6 +44,10 @@ def com_apply_new(com_id, user_id):
     #        com = Zsite.mc_get(com_id)
     #        )
 
+def mc_flush(id):
+    mc_com_apply_id_list.delete(com_id)
+    
+
 def com_apply_rm(user_id,com_id,admin_id):
     ca = ComApply.get(user_id=user_id,com_id=com_id)
     if ca:
@@ -52,6 +55,8 @@ def com_apply_rm(user_id,com_id,admin_id):
         ca.admin_id = admin_id
         ca.create_time = today_seconds()
         ca.save()
+
+        mc_flush(id)
 
 def com_apply_accept(user_id,com_id,admin_id):
     zsite_member_new(com_id, user_id, ZSITE_MEMBER_STATE_ACTIVE)
@@ -61,6 +66,7 @@ def com_apply_accept(user_id,com_id,admin_id):
     ca.create_time = today_seconds()
     ca.state = COM_APPLY_STATE_ACCEPT
     ca.save()
+    mc_flush(id)
     
 
 
