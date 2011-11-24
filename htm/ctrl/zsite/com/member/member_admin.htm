@@ -1,6 +1,8 @@
 <%inherit file="base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-
+<%def name="htm_head()">
+<script src="${js.ctrl_zsite_com_member}"></script>
+</%def>
 <%!
 from model.zsite import Zsite
 from model.zsite_member import zsite_member_admin_list, zsite_member_invite_list, zsite_id_count_by_member_admin
@@ -11,19 +13,26 @@ from model.com_apply import com_apply_list
         apply_member_list = com_apply_list(com_id)
         admin_member_list = zsite_member_admin_list(com_id)
         invite_member_list = zsite_member_invite_list(com_id)
-
+        
 %>
 <div class="zsite_block"> 
     %if apply_member_list:
+<%
+Zsite.mc_bind(apply_member_list, 'user', 'user_id')
+%>
     <div class="member_wrap">
         <div class="member_hint">待审核成员</div>
         <div class="member_block">
-            %for apply_member in apply_member_list:
+            %for apply in apply_member_list:
             <%
-            apply_member_id = apply_member.user_id
-            apply_member = Zsite.mc_get(apply_member_id)
+id = apply.user_id
+user = apply.user
             %>
-            <div class="member_item member_long"><a class="member_pass_a" href="/member/apply/1/${apply_member_id}">通过</a><a class="member_pass_a" href="/member/apply/0/${apply_member_id}">拒绝</a><a class="member_a" href="${apply_member.link}" target="_blank">${apply_member.name}</a></div>
+<div id="apply${id}" class="member_item member_long">\
+<a class="member_pass_a" href="javascript:apply_new(${id});void(0)">通过</a>\
+<a class="member_pass_a" href="javascript:apply_rm(${id});void(0)">拒绝</a>\
+<a class="member_a" href="${user.link}" target="_blank">${user.name}</a>\
+</div>
             %endfor
         </div>
     </div>
@@ -61,3 +70,4 @@ from model.com_apply import com_apply_list
     </div>
     %endif
 </div>
+

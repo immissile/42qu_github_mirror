@@ -12,7 +12,7 @@ from model.user_mail import user_id_by_mail
 from model.user_auth import user_new_by_mail
 from zkit.errtip import Errtip
 from model.com_apply import com_apply_new, com_apply_get, com_apply_rm, com_apply_accept
-from model.zsite_member import zsite_member_rm,  zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE, zsite_id_count_by_member_admin
+from model.zsite_member import zsite_member_rm,  zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE, zsite_id_count_by_member_admin, zsite_member_is_invite
 from zkit.txt import EMAIL_VALID
 from model.zsite_url import id_by_url
 from model.zsite import zsite_by_query
@@ -44,19 +44,6 @@ class MemberNewSearch(AdminBase):
 
         return self.redirect(self.request.path)
 
-@urlmap('/member/apply/(\d+)/(\d+)')
-class MemberApply(AdminBase):
-    def get(self,state,id):
-        if state.isdigit and id.isdigit:
-            state = int(state)
-            com_id = self.zsite_id
-            id = int(id)
-            if state:
-                zsite_member_new(com_id,id,ZSITE_MEMBER_STATE_ACTIVE)
-                com_apply_accept(id,com_id,self.current_user_id)
-            else:
-                com_apply_rm(id,com_id,self.current_user_id)
-        self.redirect('/member/admin')
 
 
 
@@ -70,7 +57,7 @@ class MemberJoin(ZsiteBase):
     def get(self):
         user_id = self.current_user_id
         com_id = self.zsite_id
-        if com_apply_get(com_id, user_id):
+        if zsite_member_is_invite(com_id, user_id):
             zsite_member_new(com_id,user_id,ZSITE_MEMBER_STATE_ACTIVE)
         else:
             com_apply_new(com_id, user_id)
