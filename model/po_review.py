@@ -24,9 +24,12 @@ def po_review_new(zsite_id, user_id, name):
 
     review = po_review_get(zsite_id, user_id)
     if review:
-        review.state = state
-        review.name_ = name
-        review.save()
+        if not name:
+            po_review_rm(zsite_id, user_id)
+        else: 
+            review.state = state
+            review.name_ = name
+            review.save()
     else:
         review = po_new(
             CID_REVIEW,
