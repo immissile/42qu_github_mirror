@@ -4,13 +4,15 @@ from _db import Model, McModel, McCache, cursor_by_table, McCacheA, McLimitA, Mc
 from po import Po
 from cid import CID_PRODUCT
 
-class PoShow(McModel):
+class ProductShow(McModel):
     pass
 
 mc_product_show_get = McCache('ProductNewGet:%s')
 mc_product_show_id_list = McLimitA('ProductShowIdList:%s',512)
-product_show_count = McNum(lambda x: ProductShow.where("rank>0").count(), 'ProductShowCount:%s')
+_product_show_count = McNum(lambda x: ProductShow.where("rank>0").count(), 'ProductShowCount%s')
 
+def product_show_count():
+    return _product_show_count('')
 
 def po_show_new(product, rank=None):
     id = product.id
@@ -35,7 +37,7 @@ def po_show_new(product, rank=None):
     return ps
 
 @mc_product_show_id_list('')
-def product_show_id_list(com_id=0, limit=None, offset=None):
+def product_show_id_list(limit=None, offset=None):
     q = ProductShow.where('rank>0')
     return q.order_by('rank desc').col_list(limit, offset, 'id')
 
@@ -54,6 +56,7 @@ def product_show_rm(product):
 def mc_flush(id):
     mc_product_show_get.delete(id)
     mc_product_show_id_list.delete('')
+    _product_show_count.delete('')
 
 @mc_product_show_get('{id}')
 def product_show_get(id):
@@ -70,3 +73,4 @@ if __name__ == '__main__':
     #product_show_new(13)
 
     print product_show_count()
+    print product_show_id_list()
