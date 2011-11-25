@@ -20,6 +20,7 @@ from model.zsite_com import ZsiteCom
 from model.po_video import video_htm
 from model.com_apply import com_apply_get
 from model.po_review import po_review_count,po_review_show_list_with_user
+from model.txt2htm import txt_withlink
 %>
 <%def name="htm_title()">
 ${zsite.name} : ${motto_get(zsite.id)}
@@ -102,24 +103,14 @@ ${po.name}</div>
                 ${info.product_about}
                 %endif
                 %if info.origin:
-<p class="com_p"><span>想法起源</span></p><pre>${info.origin}</pre>
+<p class="com_p"><span>想法起源</span></p><pre>${txt_withlink(info.origin)|n}</pre>
                 %endif
                 %if info.product or info.market or info.team or info.culture or info.money:
-                    <p class="com_p"><span>当前进展</span></p>
                     %if info.product:
-<pre class="inft3"><span class="inft4">产品</span><span class="dot_split">:</span>${info.product}</pre>
+<p class="com_p"><span>产品介绍</span></p><pre>${txt_withlink(info.product)|n}</pre>
                     %endif
                     %if info.market:
-<pre class="inft3"><span class="inft4">市场</span><span class="dot_split">:</span>${info.market}</pre>
-                    %endif
-                    %if info.team:
-<pre class="inft3"><span class="inft4">团队</span><span class="dot_split">:</span>${info.team}</pre>
-                    %endif
-                    %if info.culture:
-<pre class="inft3"><span class="inft4">文化</span><span class="dot_split">:</span>${info.culture}</pre>
-                    %endif
-                    %if info.money:
-<pre class="inft3"><span class="inft4">融资</span><span class="dot_split">:</span>${info.money}</pre>
+<p class="com_p"><span>市场分析</span></p><pre>${info.market}</pre>
                     %endif
                 %endif
                 %if info.plan:
