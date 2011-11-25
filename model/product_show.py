@@ -7,6 +7,9 @@ from po import Po
 class ProductShow(Model):
     pass
 
+def product_get(product_id):
+    if ProductShow.get(id=product_id):
+        return True
 
 def product_show_new(product_id,rank=1):
     ps = ProductShow.get_or_create(id = product_id)
@@ -29,6 +32,7 @@ def product_show_rm(product_id):
 
 
 if __name__ == "__main__":
+    print product_get(13)
     #print product_show_rm(12)
     print product_show_list()
     #print product_show_id_list()
