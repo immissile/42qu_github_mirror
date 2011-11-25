@@ -4,11 +4,13 @@ from _db import Model, McModel, McCache, cursor_by_table, McCacheA, McLimitA, Mc
 from po import Po
 from cid import CID_PRODUCT
 
-mc_product_show_get = McCache('ProductNewGet:%s')
-mc_product_show_id_list = McLimitA('ProductShowIdList:%s')
-
 class ProductShow(McModel):
     pass
+
+mc_product_show_get = McCache('ProductNewGet:%s')
+mc_product_show_id_list = McLimitA('ProductShowIdList:%s',512)
+product_show_count = McNum(lambda x: ProductShow.where("rank>0").count(), 'ProductShowCount:%s')
+
 
 def product_show_new(product, rank=None):
     id = product.id
@@ -29,17 +31,15 @@ def product_show_new(product, rank=None):
     ps.rank = rank
 
     ps.save()
-    mc_flush(id, product.zsite_id)
+    mc_flush(id)
     return ps
 
-@mc_product_show_id_list('{com_id}')
+@mc_product_show_id_list('')
 def product_show_id_list(com_id=0, limit=None, offset=None):
     q = ProductShow.where('rank>0')
-    if com_id:
-        q = q.where(com_id=com_id)
     return q.order_by('rank desc').col_list(limit, offset, 'id')
 
-def product_show_list(com_id=0, limit=None, offset=None):
+def product_show_list(limit=None, offset=None):
     return Po.mc_get_list(product_show_id_list(com_id, limit, offset))
 
 def product_show_rm(product):
@@ -49,12 +49,11 @@ def product_show_rm(product):
         return
 
     ProductShow.where(id=id).delete()
-    mc_flush(id, product.zsite_id)
+    mc_flush(id)
 
-def mc_flush(id, com_id):
+def mc_flush(id):
     mc_product_show_get.delete(id)
-    mc_product_show_id_list.delete(com_id)
-    mc_product_show_id_list.delete(0)
+    mc_product_show_id_list.delete('')
 
 @mc_product_show_get('{id}')
 def product_show_get(id):
@@ -63,8 +62,11 @@ def product_show_get(id):
         return i.rank
     return 0
 
+
 if __name__ == '__main__':
     #print product_show_rm(12)
-    print product_show_list()
+    #print product_show_list()
     #print product_show_id_list()
     #product_show_new(13)
+
+    print product_show_count()
