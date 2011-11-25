@@ -111,7 +111,11 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
                 %if can_admin:
                 <a class="R c9" href="/product/edit/${product.id}">编辑</a>
                 %endif
-${po.name}</div>
+${po.name}\
+%if info.product_url:
+<a target="_blank" href="${info.product_url}" class="aH"></a>\
+%endif
+</div>
         <div class="com_text">
                 %if info.pic_id:
 <div class="com_main_img"><img src="${fs_url_jpg('548',info.pic_id)}"></div>
