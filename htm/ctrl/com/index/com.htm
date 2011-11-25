@@ -1,5 +1,4 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-${css.ctrl_zsite_com|n}
 <%!
 from model.po_video import VIDEO_CID2HTM
 from model.po import Po
@@ -27,6 +26,7 @@ ${zsite.name} : ${motto_get(zsite.id)}
 </%def>
 
 <%def name="htm_head()">
+${css.ctrl_zsite_com|n}
 <script src="${js.ctrl}"></script>
 </%def>
 <h1>${zsite.name}</h1>
