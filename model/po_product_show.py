@@ -42,7 +42,7 @@ def product_show_id_list(limit=None, offset=None):
     return q.order_by('rank desc').col_list(limit, offset, 'id')
 
 def product_show_list(limit=None, offset=None):
-    return Po.mc_get_list(product_show_id_list(com_id, limit, offset))
+    return Po.mc_get_list(product_show_id_list(limit, offset))
 
 def product_show_rm(product):
     id = product.id

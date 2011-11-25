@@ -41,14 +41,6 @@ def product_id_list_by_com_id(id):
 def product_list_by_com_id(com_id):
     return Po.mc_get_list(product_id_list_by_com_id(com_id))
 
-def product_show_list():
-    com_list = zsite_show_list(CID_COM)
-    if com_list:
-        com_id_list = [c.id for c in com_list]
-        if com_id_list:
-            return chain.from_iterable(
-                [product_list_by_com_id(c) for c in com_id_list]
-            )
 
 def product_rm(com_id , user_id, id):
     po = Po.mc_get(id)

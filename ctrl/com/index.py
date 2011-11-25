@@ -12,7 +12,7 @@ from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from zkit.pic import picopen
 from zkit.errtip import Errtip
 from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE
-from model.po_product import product_show_list
+from model.po_product_show import product_show_list
 from model.zsite_show import zsite_show_list, zsite_show_count
 from model.zsite_member import zsite_list_by_member_admin
 from model.zsite_member import zsite_id_list_by_member_admin
