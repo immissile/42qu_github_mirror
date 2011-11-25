@@ -25,7 +25,7 @@ def po_review_new(zsite_id, user_id, name):
     review = po_review_get(zsite_id, user_id)
     if review:
         review.state = state
-        review.name = name
+        review.name_ = name
         review.save()
     else:
         review = po_new(
@@ -138,6 +138,10 @@ if __name__ == '__main__':
 #        print i.name
     zsite_id = 895
 
-    print po_review_count(zsite_id)
-    print po_review_list_by_zsite_id(zsite_id, 0, 1111)
-
+#    print po_review_count(zsite_id)
+#    print po_review_list_by_zsite_id(zsite_id, 0, 1111)
+    zsite_id = 10163143
+    user_id = 10000000
+    po = po_review_get(zsite_id, user_id)
+    print po.name
+    po_review_new(zsite_id, user_id, 't')
