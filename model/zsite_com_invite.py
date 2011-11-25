@@ -84,7 +84,7 @@ def _zsite_review_invite(zsite, member, current_user):
 #    mail = "zsp007@gmail.com"
 
     name = [current_user.name]
-    name.extend( career_current(self.current_user_id) )
+    name.extend( career_current(current_user.id) )
     name = " , ".join(filter(bool, name))
 
     mq_rendermail(
