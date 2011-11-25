@@ -1,7 +1,7 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_USER
-from model.state import STATE_DEL,STATE_SECRET
+from model.state import STATE_RM,STATE_SECRET
 from config import SITE_URL
 %>
 <%def name="htm_head()">
@@ -50,7 +50,7 @@ else:
 ${reply.txt or '[]'}
 </p>
 <p class="tr">
-%if state == STATE_DEL:
+%if state == STATE_RM:
 已删
 %elif state == STATE_SECRET:
 私密

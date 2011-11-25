@@ -3,7 +3,7 @@
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from time import time
 from cid import CID_INVITE_REGISTER, CID_NOTICE_REGISTER, CID_NOTICE_WALL, CID_NOTICE_WALL_REPLY, CID_INVITE_QUESTION, CID_NOTICE_QUESTION, CID_NOTICE_PAY, CID_NOTICE_EVENT_YES, CID_NOTICE_EVENT_NO, CID_NOTICE_EVENT_JOIN_YES, CID_NOTICE_EVENT_JOIN_NO, CID_NOTICE_EVENT_NOTICE, CID_NOTICE_EVENT_KILL, CID_NOTICE_EVENT_ORGANIZER_SUMMARY, CID_NOTICE_EVENT_JOINER_FEEDBACK
-from state import STATE_DEL, STATE_APPLY, STATE_ACTIVE
+from state import STATE_RM, STATE_APPLY, STATE_ACTIVE
 from po import Po
 from zsite import Zsite
 from wall import Wall, WallReply
@@ -72,8 +72,8 @@ class Notice(McModel):
     def rm(self, to_id):
         if self.to_id == to_id:
             state = self.state
-            if state > STATE_DEL:
-                self.state = STATE_DEL
+            if state > STATE_RM:
+                self.state = STATE_RM
                 self.save()
                 mc_flush(to_id)
                 if state == STATE_APPLY:

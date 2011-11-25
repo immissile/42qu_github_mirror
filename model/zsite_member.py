@@ -2,7 +2,7 @@
 from _db import Model
 from config import SITE_HTTP
 from model.mail import mq_rendermail, rendermail
-from model.zsite_list import zsite_list, zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state,STATE_INVITE, zsite_id_list_order_id_desc, ZsiteList
+from model.zsite_list import zsite_list, zsite_list_new, STATE_RM, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state,STATE_INVITE, zsite_id_list_order_id_desc, ZsiteList
 from model.zsite import Zsite, ZSITE_STATE_APPLY
 from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_MAIL, CID_USER
 from model.po_review import po_review_state_set, po_review_list_active_by_zsite_id
@@ -12,7 +12,7 @@ ZSITE_MEMBER_STATE_OWNER = STATE_OWNER    # 创始人
 ZSITE_MEMBER_STATE_KERNEL = STATE_ADMIN   # 决策层
 ZSITE_MEMBER_STATE_ACTIVE = STATE_ACTIVE  # 团队成员
 ZSITE_MEMBER_STATE_INVITE = STATE_INVITE  # 已邀请
-ZSITE_MEMBER_STATE_LEAVE = STATE_DEL      # 已离职
+ZSITE_MEMBER_STATE_LEAVE = STATE_RM      # 已离职
 
 def zsite_id_list_by_member_admin(id, limit=None, offset=None):
     return zsite_id_list_order_id_desc( id, CID_ZSITE_LIST_MEMBER, limit, offset)
@@ -93,9 +93,7 @@ def zsite_member_with_review(id):
 if __name__ == '__main__':
     zsite_id = 10163143 
     member_id = 10000000
-    print zsite_member_can_admin(zsite_id, member_id)
-    zsite_member_new(
-        zsite_id, 
-        member_id,  
-        state=ZSITE_MEMBER_STATE_ACTIVE, 
-    )
+    for i in zsite_member_with_review(zsite_id):
+        print i.review.name_
+        print i.review.name
+        print "_____________"

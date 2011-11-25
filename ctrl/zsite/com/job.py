@@ -6,7 +6,7 @@ from model.job_mail import  job_mail_new, JOB_MAIL_STATE_VERIFIED, job_mail_by_c
 from model.zsite import Zsite
 import json
 from model.job import job_type_set, job_pid_default_new, job_pid_new, job_pid_default_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_pid_by_job_id, job_new,\
-ComJob, JOB_DEL, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id, com_department_new, com_department_rm_by_id, com_department_edit
+ComJob, JOB_RM, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id, com_department_new, com_department_rm_by_id, com_department_edit
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
@@ -311,7 +311,7 @@ class JobRm(AdminBase):
             if job.state == JOB_ACTIVE:
                 job.state = JOB_CLOSE
             elif job.state == JOB_CLOSE:
-                job.state == JOB_DEL
+                job.state == JOB_RM
             job.save()
 
         self.finish('{}')

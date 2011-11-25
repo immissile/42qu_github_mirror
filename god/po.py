@@ -8,7 +8,7 @@ from model.mail import sendmail
 from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION, CID_CHANNEL
 from model.po import Po, po_state_set
 from model.po_show import po_show_new, po_show_count, po_show_list, po_show_rm
-from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
+from model.state import STATE_RM, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from zkit.page import page_limit_offset
 from model.god_po_show import mc_po_show_zsite_channel
 
@@ -17,7 +17,7 @@ PAGE_LIMIT = 50
 @urlmap('/po(?:-(\d+))?')
 class PoList(Base):
     def get(self, n=1):
-        qs = Po.where('state>%s', STATE_DEL).where('zsite_id!=user_id')
+        qs = Po.where('state>%s', STATE_RM).where('zsite_id!=user_id')
         total = qs.count()
         page, limit, offset = page_limit_offset(
             '/po-%s',
@@ -36,7 +36,7 @@ class PoList(Base):
 @urlmap('/po/zsite(?:-(\d+))?')
 class PoList(Base):
     def get(self, n=1):
-        qs = Po.where('state>%s', STATE_DEL).where('zsite_id=user_id')
+        qs = Po.where('state>%s', STATE_RM).where('zsite_id=user_id')
         total = qs.count()
         page, limit, offset = page_limit_offset(
             '/po/zsite-%s',

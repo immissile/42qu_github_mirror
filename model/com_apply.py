@@ -10,8 +10,8 @@ COM_APPLY_STATE_APPLY = 40
 
 COM_APPLY_STATE_ACCEPT_MAILED = 30
 COM_APPLY_STATE_ACCEPT = 20
-COM_APPLY_STATE_DEL_MAILED = 10
-COM_APPLY_STATE_DEL = 0
+COM_APPLY_STATE_RM_MAILED = 10
+COM_APPLY_STATE_RM = 0
 
 mc_com_apply_id_list = McCacheA("ComApplyIdList:%s")
 
@@ -51,7 +51,7 @@ def mc_flush(id):
 def com_apply_rm(user_id,com_id,admin_id):
     ca = ComApply.get(user_id=user_id,com_id=com_id)
     if ca:
-        ca.state = COM_APPLY_STATE_DEL
+        ca.state = COM_APPLY_STATE_RM
         ca.admin_id = admin_id
         ca.create_time = today_seconds()
         ca.save()

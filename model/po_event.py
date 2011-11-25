@@ -3,7 +3,7 @@
 from _db import McCacheA, McCache, McNum
 from cid import CID_EVENT
 from po import Po, po_new, po_word_new, po_note_new, po_rm, po_cid_set
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from state import STATE_RM, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from zsite import Zsite
@@ -19,7 +19,7 @@ mc_event_feedback_id_get = McCache('EventFeedBackGet.%s')
 @mc_event_feedback_id_get('{user_id}_{event_id}')
 def event_feedback_id_get(user_id, event_id):
     c = Po.raw_sql(
-            'select id from po where rid=%s and cid=%s and user_id=%s and state>%s', event_id, CID_EVENT_FEEDBACK, user_id, STATE_DEL
+            'select id from po where rid=%s and cid=%s and user_id=%s and state>%s', event_id, CID_EVENT_FEEDBACK, user_id, STATE_RM
         )
     r = c.fetchone()
     if r:

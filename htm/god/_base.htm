@@ -4,7 +4,7 @@ from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTI
 from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY 
 from model.money import withdraw_open_count, withdraw_max
 from model.po import Po
-from model.state import STATE_DEL
+from model.state import STATE_RM
 from model.po_show import po_show_count
 from model.pic_review import pic_to_review_count_by_cid
 from model.reply import Reply
@@ -81,8 +81,8 @@ event_to_review_max = event_to_review_max_li and event_to_review_max_li[0] or 0
 <a class="cola" href="/user_list#${Zsite.raw_sql('select max(id) from zsite where cid=%s',CID_USER).fetchone()[0] or ''}"><span class="R">${Zsite.where('state>=%s', ZSITE_STATE_ACTIVE).where(cid=CID_USER).count()}</span>用户</a>
 <a class="cola" href="/com"><span class="R">${Zsite.where(cid=CID_COM).count()}</span>全部公司</a>
 ##<a class="cola" href="/com/${ZSITE_STATE_ACTIVE}"><span class="R">${Zsite.where(cid=CID_COM,state=ZSITE_STATE_ACTIVE).count()}</span>认证公司</a>
-<a class="cola" href="/po?${Po.raw_sql('select max(id) from po where zsite_id != user_id').fetchone()[0] or ''}"><span class="R">${Po.where('state>%s', STATE_DEL).where('zsite_id!=user_id').count()}</span>最新发布</a>
-<a class="cola" href="/po/zsite?${Po.raw_sql('select max(id) from po where zsite_id=user_id').fetchone()[0] or ''}"><span class="R">${Po.where('state>%s', STATE_DEL).where('zsite_id=user_id').count()}</span>RSS同步</a>
+<a class="cola" href="/po?${Po.raw_sql('select max(id) from po where zsite_id != user_id').fetchone()[0] or ''}"><span class="R">${Po.where('state>%s', STATE_RM).where('zsite_id!=user_id').count()}</span>最新发布</a>
+<a class="cola" href="/po/zsite?${Po.raw_sql('select max(id) from po where zsite_id=user_id').fetchone()[0] or ''}"><span class="R">${Po.where('state>%s', STATE_RM).where('zsite_id=user_id').count()}</span>RSS同步</a>
 <a class="cola" href="/po/show"><span class="R">${po_show_count()}</span>广播</a>
 <a class="cola" href="/event"><span class="R">${Event.where().count()}</span>全部活动</a>
 <a class="cola" href="/site"><span class="R">${Zsite.where(cid=CID_SITE).count()}</span>全部小组</a>
