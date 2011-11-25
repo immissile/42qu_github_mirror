@@ -18,42 +18,36 @@ def _mc_decorator(self, key=None, expire=0):
     if type(key) is str:
         _key = key
         key = lambda x:_key.format(**x)
-        def _func(func):
-            arg_names, varargs, varkw, defaults = inspect.getargspec(func)
-
-            if varargs or varkw:
-                raise Exception('do not support varargs')
-
-            defaults = defaults or {}
-            if defaults:
-                args = dict(zip(arg_names[-len(defaults):], defaults))
-            else:
-                args = {}
-
-
-            def _(f, *a, **kw):
-                aa = args.copy()
-                aa.update(zip(arg_names, a))
-                aa.update(kw)
-                mc_key = key(aa)
-
-                #print mc_key
-                r = self.get(mc_key)
-                if r is None:
-                    r = f(*a, **kw)
-                    self.set(mc_key, r, expire)
-                return r
-
-            return decorator(_, func)
     elif key is None:
-        def _func(func):
-            def _(f, *a, **kw):
-                r = self.get(None)
-                if r is None:
-                    r = f(*a, **kw)
-                    self.set(None, r, expire)
-                return r
-            return decorator(_, func)
+        key = lambda x:""   
+ 
+    def _func(func):
+        arg_names, varargs, varkw, defaults = inspect.getargspec(func)
+
+        if varargs or varkw:
+            raise Exception('do not support varargs')
+
+        defaults = defaults or {}
+        if defaults:
+            args = dict(zip(arg_names[-len(defaults):], defaults))
+        else:
+            args = {}
+
+
+        def _(f, *a, **kw):
+            aa = args.copy()
+            aa.update(zip(arg_names, a))
+            aa.update(kw)
+            mc_key = key(aa)
+
+            #print mc_key
+            r = self.get(mc_key)
+            if r is None:
+                r = f(*a, **kw)
+                self.set(mc_key, r, expire)
+            return r
+
+        return decorator(_, func)
     
     return _func
 
