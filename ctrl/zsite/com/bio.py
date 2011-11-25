@@ -14,10 +14,10 @@ from model.zsite_com import ZsiteCom
 from model.gid import gid
 
 def _bio_save(self,edit=None):
-    hope = self.get_argument('hope',None, False)
-    money = self.get_argument('money',None, False)
-    culture = self.get_argument('culture',None, False)
-    team = self.get_argument('team',None, False)
+    hope = self.get_argument('hope',None, False).rstrip()
+    money = self.get_argument('money',None, False).rstrip()
+    culture = self.get_argument('culture',None, False).rstrip()
+    team = self.get_argument('team',None, False).rstrip()
     video = self.get_argument('video',None)
     com_id = self.zsite.id
     files = self.request.files
