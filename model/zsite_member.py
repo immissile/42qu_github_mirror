@@ -93,9 +93,5 @@ def zsite_member_with_review(id):
 if __name__ == '__main__':
     zsite_id = 10163143 
     member_id = 10000000
-    print zsite_member_can_admin(zsite_id, member_id)
-    zsite_member_new(
-        zsite_id, 
-        member_id,  
-        state=ZSITE_MEMBER_STATE_ACTIVE, 
-    )
+    for i in zsite_member_with_review(zsite_id):
+        print i.review.name

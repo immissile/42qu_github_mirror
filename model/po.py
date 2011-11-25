@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, CID_EVENT_NOTICE, CID_PRODUCT
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, \
+CID_EVENT_NOTICE, CID_PRODUCT, CID_COM, CID_REVIEW 
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -19,7 +20,6 @@ from zkit.attrcache import attrcache
 from cgi import escape
 import json
 from zkit.jsdict import JsDict
-from cid import CID_COM
 #from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
@@ -43,12 +43,15 @@ PO_COUNT_CN = dict((i[0], i[3]+i[2]) for i in PO_CN_EN)
 
 mc_htm = McCache('PoHtm.%s')
 
+
+NAME_CID = set((CID_WORD, CID_EVENT_NOTICE, CID_REVIEW))
+
 class Po(McModel, ReplyMixin):
 
     @property
     def txt(self):
         cid = self.cid
-        if cid in (CID_WORD, CID_EVENT_NOTICE):
+        if cid in NAME_CID:
             return self.name_
         elif cid == CID_ANSWER:
             return txt_get(self.id) or self.name_
