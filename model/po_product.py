@@ -68,8 +68,8 @@ def product_id_list(limit, offset):
 def product_count():
     return po_list_count(None,CID_PRODUCT, False)
 
-def product_list():
-    return po_view_list(None,CID_PRODUCT,False)
+def product_list(limit, offset):
+    return po_view_list(None,CID_PRODUCT,False, limit, offset)
 
 if __name__ == "__main__":
 

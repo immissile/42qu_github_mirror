@@ -36,7 +36,7 @@ def product_show_new(product, rank=None):
     mc_flush(id)
     return ps
 
-@mc_product_show_id_list()
+@mc_product_show_id_list('')
 def product_show_id_list(limit=None, offset=None):
     q = ProductShow.where('rank>0')
     return q.order_by('rank desc').col_list(limit, offset, 'id')

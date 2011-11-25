@@ -62,10 +62,11 @@ class ProductShowNew(Base):
         product_show_new(po)
         return self.redirect("/product") 
 
+@urlmap('/product')
 @urlmap('/product-(\d+)')
 class Product(Base):
     def get(self, n=1):
-        count = product.count()
+        count = product_count()
         page, limit, offset = page_limit_offset(
             '/product-%s',
             count,
