@@ -110,11 +110,11 @@ ${po.name}</div>
 <p class="com_p"><span>产品介绍</span></p><pre>${txt_withlink(info.product)|n}</pre>
                     %endif
                     %if info.market:
-<p class="com_p"><span>市场分析</span></p><pre>${info.market}</pre>
+<p class="com_p"><span>市场分析</span></p><pre>${txt_withlink(info.market)|n}</pre>
                     %endif
                 %endif
                 %if info.plan:
-<p class="com_p"><span>近期计划</span></p><pre>${info.plan}</pre>
+<p class="com_p"><span>近期计划</span></p><pre>${txt_withlink(info.plan)|n}</pre>
                 %endif
                 %if info.product_similar:                        
                     <p class="com_p"><span>同类产品</span></p>
@@ -124,18 +124,15 @@ ${po.name}</div>
                         %endfor
                     </p>
                     %if info.same:
-<pre class="inft3"><span class="inft4">共同点</span><span class="dot_split">:</span>${info.same}</pre>
+<pre class="inft3"><span class="inft4">共同点</span><span class="dot_split">:</span>${txt_withlink(info.same)|n}</pre>
                     %endif
                     %if info.different:
-<pre class="inft3"><span class="inft4">区别点</span><span class="dot_split">:</span>${info.different}</pre>
+<pre class="inft3"><span class="inft4">区别点</span><span class="dot_split">:</span>${txt_withlink(info.different)|n}</pre>
                     %endif
                     %if info.advantage:
-<pre class="inft3"><span class="inft4">竞争力</span><span class="dot_split">:</span>${info.advantage}</pre>        
+<pre class="inft3"><span class="inft4">竞争力</span><span class="dot_split">:</span>${txt_withlink(info.advantage)|n}</pre>        
                     %endif 
                 %endif
-                %if info.hope:
-<p class="com_p"><span>最终愿景</span></p><pre>${info.hope}</pre>
-                %endif                        
 
         </div>
         %endif
