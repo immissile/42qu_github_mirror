@@ -95,11 +95,11 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
                 %endif
 ${po.name}</div>
         <div class="com_text">
-                %if info.product_about:
-                ${info.product_about}
-                %endif
                 %if info.pic_id:
 <div class="com_main_img"><img src="${fs_url_jpg('548',info.pic_id)}"></div>
+                %endif
+                %if info.product_about:
+                ${info.product_about}
                 %endif
                 %if info.origin:
 <p class="com_p"><span>想法起源</span></p><pre>${info.origin}</pre>
