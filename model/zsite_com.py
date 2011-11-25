@@ -39,47 +39,46 @@ def zsite_com_new(
     phone=None
 ):
     zsite_com = ZsiteCom.get_or_create(id=com_id)
-    if hope:
-        zsite_com.hope=hope
-    if money:
-        zsite_com.money=money
-    if culture:
-        zsite_com.culture = culture
-    if cover_id:
-        zsite_com.cover_id = cover_id
-    if team:
-        zsite_com.team = team
+
+    zsite_com.hope = hope or ''
+    zsite_com.money = money or ''
+    zsite_com.culture = culture
+    zsite_com.team = team or ''
+    zsite_com.phone = phone or ''
+
     if video_cid and video_id:
         zsite_com.video_cid = video_cid
         zsite_com.video_id = video_id
-    if phone:
-        zsite_com.phone = phone
+
+    if cover_id:
+        zsite_com.cover_id = cover_id
+
     zsite_com.save()
 
 class ZsiteComPlace(McModel):
     pass
 
-mc_zsite_com_id_list = McLimitA('ZsiteComList.%s',128)
+mc_zsite_com_id_list = McLimitA('ZsiteComList.%s', 128)
 
 @mc_zsite_com_id_list('{cid}')
-def zsite_com_id_list(cid,limit,offset):
-    return Zsite.where(cid=cid).col_list(limit, offset,'id')
+def zsite_com_id_list(cid, limit, offset):
+    return Zsite.where(cid=cid).col_list(limit, offset, 'id')
 
-def zsite_com_list(cid,limit,offset):
-    return Zsite.mc_get_list(zsite_com_id_list(cid,limit,offset))
+def zsite_com_list(cid, limit, offset):
+    return Zsite.mc_get_list(zsite_com_id_list(cid, limit, offset))
 
-def zsite_com_place_new(zsite_id,pid,address):
+def zsite_com_place_new(zsite_id, pid, address):
     zsite_com = ZsiteComPlace.get_or_create(com_id=zsite_id, pid=pid)
     zsite_com.address = address
     zsite_com.save()
     return zsite_com
 
 
-zsite_com_count = McNum(lambda cid: Zsite.where(cid= cid).count(), 'ZsiteComCount.%s')
+zsite_com_count = McNum(lambda cid: Zsite.where(cid=cid).count(), 'ZsiteComCount.%s')
 
 
-def com_new(name,admin_id,state=ZSITE_STATE_VERIFY):
-    com = zsite_new(name, CID_COM,state)
+def com_new(name, admin_id, state=ZSITE_STATE_VERIFY):
+    com = zsite_new(name, CID_COM, state)
     com_id = com.id
     zsite_com_count.delete(CID_COM)
     mc_zsite_com_id_list.delete(CID_COM)
@@ -97,5 +96,5 @@ def com_can_admin(zsite_id, user_id):
 def pid_by_com_id(com_id):
     return ZsiteComPlace.where(com_id=com_id)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print zsite_com_count(3)
