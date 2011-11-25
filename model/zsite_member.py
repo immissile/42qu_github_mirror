@@ -75,13 +75,22 @@ def zsite_member_with_review(id):
        
     for i in member_list:
         mid = i.id
+
         if mid in review2member:
-            i.review = review2member[mid]
-            result_with_review.append(i)
+            review = review2member[mid]
+            if not review.name_:
+                review = None
         else:
-            i.review = None
+            review = None
+        
+        i.review = review
+
+        if review is None:
             result_without_review.append(i)
+        else:
+            result_with_review.append(i)
             
+
     result_with_review.extend(result_without_review)
 
     return result_with_review
