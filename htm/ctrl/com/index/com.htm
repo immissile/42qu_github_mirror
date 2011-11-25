@@ -79,6 +79,23 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
         %endfor
         </div>
 %endif
+
+%if zsite_com:
+        <div class="com_item">
+%if zsite_com.team:
+<p class="com_p"><span>团队背景</span></p><pre>${txt_withlink(zsite_com.team)|n}</pre>
+%endif
+%if zsite_com.culture:
+<p class="com_p"><span>企业文化</span></p><pre>${txt_withlink(zsite_com.culture)|n}</pre>
+%endif
+%if zsite_com.money:
+<p class="com_p"><span>资金情况</span></p><pre>${txt_withlink(zsite_com.money)|n}</pre>
+%endif
+%if zsite_com.hope:
+<p class="com_p"><span>最终愿景</span></p><pre>${txt_withlink(zsite_com.hope)|n}</pre>
+%endif
+        </div>
+%endif
         <div class="com_item">
             <%
             products = product_list_by_com_id(zsite_id)
