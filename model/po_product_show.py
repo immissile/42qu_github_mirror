@@ -14,7 +14,7 @@ _product_show_count = McNum(lambda x: ProductShow.where("rank>0").count(), 'Prod
 def product_show_count():
     return _product_show_count('')
 
-def po_show_new(product, rank=None):
+def product_show_new(product, rank=None):
     id = product.id
 
     if product.cid != CID_PRODUCT:

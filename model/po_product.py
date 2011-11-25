@@ -47,6 +47,8 @@ def product_rm(com_id , user_id, id):
     if po and po.zsite_id == com_id and po.cid == CID_PRODUCT:
         _po_rm(user_id, po)
         mc_product_id_list_by_com_id.delete(com_id)
+        from model.po_product_show import product_show_rm
+        product_show_rm(po)
 
 def product_pic_new(com_id, product_id, pic):
     pic_id = pic_new(CID_PRODUCT_PIC, com_id)
