@@ -19,9 +19,9 @@ zsite = i.zsite
 <div class="product">${i.id}
     <a class="R"
     %if product_show_get(i.id):
-href="/product/show/new/${i.id}">移除秀
+href="/product/show/rm/${i.id}">移除秀
     %else:
-href="/product/show/rm/${i.id}">加入秀
+href="/product/show/new/${i.id}">加入秀
     %endif
     </a>
     <a href="${zsite.link}#product_${i.id}" target="_blank">${i.name}</a>

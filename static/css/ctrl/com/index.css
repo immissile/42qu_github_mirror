@@ -1,0 +1,55 @@
+
+h1{
+border-bottom:1px dotted #CCCCCC;
+font-size:14px;
+margin:auto;
+padding:16px 0;
+text-align:left;
+}
+.split{
+margin:0 12px;
+}
+#search{
+border:1px solid #ddd;
+float:left;
+height:26px;
+line-height:26px;
+padding:1px 3px;
+width:100px;
+}
+.search_btn {
+background:url(/img/png/search_btn.png) no-repeat;
+border:none;
+cursor:pointer;
+height:30px;
+width:31px;
+}
+#com_product{
+margin-top:27px;
+overflow:hidden;
+position:relative;
+height:963px;
+}
+.pro_title{
+padding:7px 14px;
+text-align:center;
+}
+.pro_desc{
+overflow:hidden;
+font-size:12px;
+padding:5px 10px;
+text-align:left;
+border-top:1px solid #e9e9e9;
+line-height:22px;
+}
+.sd{
+padding:0;
+}
+.pro_img_wrap{
+line-height:0;
+}
+.pro_img{
+width:215px;
+border:#e9e9e9  solid;
+border-width:1px 0 0;
+}

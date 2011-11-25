@@ -25,7 +25,7 @@ def product_show_new(product, rank=None):
     if rank is None:
         c = ProductShow.raw_sql('select max(rank) from product_show')
         r = c.fetchone()
-        if r:
+        if r and r[0]:
             rank = r[0]+1
         else:
             rank = 1
