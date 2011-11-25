@@ -4,7 +4,7 @@ from _db import Model, McModel, McCache, cursor_by_table, McCacheA, McLimitA, Mc
 from po import Po
 from cid import CID_PRODUCT
 
-class ProductShow(McModel):
+class PoShow(McModel):
     pass
 
 mc_product_show_get = McCache('ProductNewGet:%s')
@@ -12,7 +12,7 @@ mc_product_show_id_list = McLimitA('ProductShowIdList:%s',512)
 product_show_count = McNum(lambda x: ProductShow.where("rank>0").count(), 'ProductShowCount:%s')
 
 
-def product_show_new(product, rank=None):
+def po_show_new(product, rank=None):
     id = product.id
 
     if product.cid != CID_PRODUCT:
