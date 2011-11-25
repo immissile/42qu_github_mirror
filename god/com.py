@@ -5,16 +5,17 @@ from _urlmap import urlmap
 from model.cid import CID_COM
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
+from model.po_product import product_list, product_count
 
 PAGE_LIMIT = 48
 
 @urlmap('/com')
 @urlmap('/com-(\d+)')
 class ComIndex(Base):
-    def get(self,n=1):
+    def get(self, n=1):
         qs = Zsite.where(cid=CID_COM)
         total = qs.count()
-        page,limit,offset = page_limit_offset(
+        page, limit, offset = page_limit_offset(
                 '/com-%s',
                 total,
                 n,
@@ -29,11 +30,11 @@ class ComIndex(Base):
 @urlmap('/com/(\d+)')
 @urlmap('/com/(\d+)-(\d+)')
 class ComPage(Base):
-    def get(self,state,n=1):
-        state=int(state)
+    def get(self, state, n=1):
+        state = int(state)
         qs = Zsite.where(cid=CID_COM)
         total = qs.count()
-        page.limit,offset = page_limit_offset(
+        page, limit, offset = page_limit_offset(
                 '/com/%s-%%s'%state,
                 total,
                 n,
@@ -46,3 +47,19 @@ class ComPage(Base):
                 page=page
                 )
 
+
+@urlmap('/product-(\d+)')
+class Product(Base):
+    def get(self, n=1):
+        count = product.count()
+        page, limit, offset = page_limit_offset(
+            '/product-%s',
+            count,
+            n,
+            PAGE_LIMIT,
+        )
+        li = product_list(limit, offset)
+        self.render(
+            li = li,
+            page=page
+        )
