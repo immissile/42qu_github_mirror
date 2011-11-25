@@ -94,4 +94,6 @@ if __name__ == '__main__':
     zsite_id = 10163143 
     member_id = 10000000
     for i in zsite_member_with_review(zsite_id):
+        print i.review.name_
         print i.review.name
+        print "_____________"
