@@ -302,9 +302,7 @@ class JobAdminMail(AdminBase):
 
 @urlmap('/job/rm/(\d+)')
 class JobRm(AdminBase):
-    def post(self, state):
-        state = int(state)
-        id = self.get_argument('id', None)
+    def post(self, id):
         job = ComJob.mc_get(id)
 
         if job and job.com_id == self.zsite_id:
