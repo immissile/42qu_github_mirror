@@ -3,7 +3,7 @@
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from po import Po, PO_SHARE_FAV_CID
 from event import Event
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from state import STATE_RM, STATE_SECRET, STATE_ACTIVE
 from cid import CID_EVENT
 from zsite import Zsite
 from collections import defaultdict

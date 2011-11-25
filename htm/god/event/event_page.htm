@@ -4,7 +4,7 @@ from zkit.time_format import friendly_time
 from model.fs import fs_url_jpg
 from model.zsite import Zsite
 from zkit.txt import cnenoverflow
-from model.event import EVENT_STATE_CN_TUPLE, EVENT_STATE_DEL, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
+from model.event import EVENT_STATE_CN_TUPLE, EVENT_STATE_RM, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_BEGIN, EVENT_STATE_NOW, EVENT_STATE_END
 %>
 <%def name="htm_head()">
 <style>
@@ -50,7 +50,7 @@ user = po.user
                     ${friendly_time(po.create_time)}
                 </p>
                 <p>
-% if state == EVENT_STATE_DEL:
+% if state == EVENT_STATE_RM:
 已删除
 % elif state == EVENT_STATE_INIT:
 刚创建
