@@ -12,6 +12,9 @@ padding:14px;
 </%def>
 <div class="G">
 %for i in li:
+<%
+zsite = i.zsite
+%>
 <div class="G2">
 <div class="product">${i.id}
     <a class="R"
@@ -21,7 +24,7 @@ href="/product/show/new/${i.id}">移除秀
 href="/product/show/rm/${i.id}">加入秀
     %endif
     </a>
-    <a href="${i.link}" target="_blank">${i.name}</a>
+    <a href="${zsite.link}#product_${i.id}" target="_blank">${i.name}</a>
 </div>
 </div>
 %endfor

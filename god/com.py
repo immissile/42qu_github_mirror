@@ -8,6 +8,7 @@ from model.zsite import Zsite
 from model.po_product import product_list, product_count
 from model.po_product_show import product_show_new, product_show_rm
 from model.po import Po
+
 PAGE_LIMIT = 48
 
 @urlmap('/com')
@@ -74,6 +75,7 @@ class Product(Base):
             PAGE_LIMIT,
         )
         li = product_list(limit, offset)
+        Zsite.mc_bind(li,"zsite","zsite_id")
         self.render(
             li = li,
             page=str(page)
