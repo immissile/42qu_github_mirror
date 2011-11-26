@@ -46,7 +46,7 @@ class ReviewAdmin(AdminBase):
         return self.render(can_admin=can_admin, review_list=review_list)
 
 
-def _invite_friend(mail_name_list):
+def _invite_friend(self, mail_name_list):
     for mail, name in mail_name_list:
         mail = mail.strip().lower()
         name = name.strip()
@@ -118,6 +118,8 @@ class ReviewPage(ZsiteBase):
         review_list = po_review_list_by_zsite_id(zsite_id, limit, offset)
         self.render(can_admin=can_admin, page=page, review_list=review_list)
 
+from ctrl.zsite.com.member import _invite_member
+
 @urlmap('/review/admin/invite')
 class ReviewAdminInvite(LoginBase):
     def get(self):
@@ -130,6 +132,7 @@ class ReviewAdminInvite(LoginBase):
         arguments = self.request.arguments
         self._invite_friend( zip(arguments['mail_friend'], arguments['name_friend']) )
         self._invite_member( zip(arguments['mail_member'], arguments['name_member']) )
-    
+        self.get()
+
     _invite_friend = _invite_friend
     _invite_member = _invite_member
