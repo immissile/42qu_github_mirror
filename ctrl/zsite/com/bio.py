@@ -119,9 +119,13 @@ class BioAdmin(AdminBase):
         address = self.get_arguments('address',None)
         phone = self.get_argument('phone',None)        
         pid_add = zip(pid,address)
-        
+        zsite = self.zsite
+
         if not name:
             errtip.name = '请输入名称'
+        else:
+            zsite.name_ = name
+            zsite.save()
 
         if not motto:
             errtip.motto = '请编写签名'

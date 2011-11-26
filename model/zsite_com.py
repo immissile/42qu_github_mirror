@@ -39,8 +39,8 @@ def zsite_com_new(
     phone=None
 ):
     zsite_com = ZsiteCom.get_or_create(id=com_id)
-
-    zsite_com.hope = hope or ''
+    if hope is not None:
+        zsite_com.hope = hope
     if money is not None:
         zsite_com.money = money 
     if culture is not None: 
@@ -58,6 +58,7 @@ def zsite_com_new(
         zsite_com.cover_id = cover_id
 
     zsite_com.save()
+
 
 class ZsiteComPlace(McModel):
     pass
