@@ -25,8 +25,13 @@ margin:0 14px;
 
 <%
 path = this.request.uri
+is_invite = False
 if path == "/review":
-    is_review = True
+    if can_admin and path == "/review/admin/invite":
+        is_review = False
+        is_invite = True
+    else:
+        is_review = True
 else:
     is_review = False
 %>
@@ -49,7 +54,7 @@ class="c9"
 </a>\
 <span class="split">-</span>\
 <a 
-%if is_review:
+%if is_review or is_invite:
 class="c9"
 %else:
 class="c0"
@@ -58,6 +63,16 @@ class="c0"
 href="/review/admin">评论管理</a>\
 %else:
 href="/review-1">一览</a>\
+%endif
+%if can_admin:
+<span class="split">-</span>\
+<a 
+%if is_invite:
+class="c0"
+%else:
+class="c9"
+%endif
+href="/review/admin/invite">邮件邀请</a>\
 %endif
 </h1>
 
