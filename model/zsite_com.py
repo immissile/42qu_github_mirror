@@ -41,10 +41,14 @@ def zsite_com_new(
     zsite_com = ZsiteCom.get_or_create(id=com_id)
 
     zsite_com.hope = hope or ''
-    zsite_com.money = money or ''
-    zsite_com.culture = culture
-    zsite_com.team = team or ''
-    zsite_com.phone = phone or ''
+    if money is not None:
+        zsite_com.money = money 
+    if culture is not None: 
+        zsite_com.culture = culture
+    if team is not None:
+        zsite_com.team = team
+    if phone is not None:
+        zsite_com.phone = phone
 
     if video_cid and video_id:
         zsite_com.video_cid = video_cid
