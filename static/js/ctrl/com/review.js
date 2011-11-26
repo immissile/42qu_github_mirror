@@ -9,8 +9,8 @@ $(function(){
 
     $('.invite_link').mouseover(function(){$(this).select()})
 
-auto_add('admin_member_mail','<div class="line"><input class="admin_member_mail" name="mail" placeholder="邮箱"><input  class="admin_member_name" name="name" placeholder="姓名"></div>','mate_mail','','focus')
+auto_add('admin_member_mail','<div class="line"><input class="admin_member_mail" name="mail_member" placeholder="邮箱"><input  class="admin_member_name" name="name_member" placeholder="姓名"></div>','mate_mail','','focus')
 
-auto_add('admin_friend_mail','<div class="line"><input class="admin_friend_mail" name="mail" placeholder="邮箱"><input  class="admin_friend_name" name="name" placeholder="姓名"></div>','friend_mail','','focus')
+auto_add('admin_friend_mail','<div class="line"><input class="admin_friend_mail" name="mail_friend" placeholder="邮箱"><input  class="admin_friend_name" name="name_friend" placeholder="姓名"></div>','friend_mail','','focus')
 
 })
