@@ -53,7 +53,6 @@ _video_uri = video_htm(zsite_com.video_cid , zsite_com.video_id)
 <%
 po_review_show_list = po_review_show_list_with_user(zsite_id)
 %>
-%if po_review_show_list:
         <div class="com_q_w">
         <%
         %>    
@@ -77,8 +76,8 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
         </div>
 %endif
         %endfor
+        <div class="com_review_new"><a href="/review">写评价</a></div>
         </div>
-%endif
 
         <div class="com_item">
             <%
