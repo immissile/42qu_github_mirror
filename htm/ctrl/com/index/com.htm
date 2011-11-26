@@ -63,7 +63,7 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
         name = [user.name]
         name.extend(user.career or ())
         name = ' , '.join(filter(bool, name))
-        img = ico_url(i.id)
+        img = ico_url(i.user_id)
         txt = i.name
         %>
 %if txt:
