@@ -128,13 +128,13 @@ ${po.name}\
                         %endfor
                     </p>
                     %if info.same:
-<pre class="inft3"><span class="inft4">共同点</span><span class="dot_split">:</span>${txt_withlink(info.same)|n}</pre>
+<pre class="inft3"><span class="inft4 L">共同点</span><span class="dot_split L">:</span><div class="pro_info">${txt_withlink(info.same)|n}</div></pre>
                     %endif
                     %if info.different:
-<pre class="inft3"><span class="inft4">区别点</span><span class="dot_split">:</span>${txt_withlink(info.different)|n}</pre>
+<pre class="inft3"><span class="inft4 L">区别点</span><span class="dot_split L">:</span><div class="pro_info">${txt_withlink(info.different)|n}</div></pre>
                     %endif
                     %if info.advantage:
-<pre class="inft3"><span class="inft4">竞争力</span><span class="dot_split">:</span>${txt_withlink(info.advantage)|n}</pre>        
+<pre class="inft3"><span class="inft4 L">竞争力</span><span class="dot_split L">:</span><div class="pro_info">${txt_withlink(info.advantage)|n}</div></pre>      
                     %endif 
                 %endif
 
