@@ -7,10 +7,15 @@ $(function(){
         $.postJSON('/j/review/show/'+(this.checked?"new":"rm")+"/"+id)
     })
 
+    $('.member_mail:last').live('blur',function(){
+        var self = $(this)
+        if($.trim($('.line:last').find('input[name="mail"]').val()).length>0){
+            var wrap = self.parent()
+            wrap.after('<div class="line"><input name="mail" class="member_mail" placeholder="好友邮箱"><input name="name" class="member_name" placeholder="好友姓名"></div>')
+        }
+    })
     $('.invite_link').mouseover(function(){$(this).select()})
 
-auto_add('admin_member_mail','<div class="line"><input class="admin_member_mail" name="mail_member" placeholder="邮箱"><input  class="admin_member_name" name="name_member" placeholder="姓名"></div>','mate_mail','','focus')
-
-auto_add('admin_friend_mail','<div class="line"><input class="admin_friend_mail" name="mail_friend" placeholder="邮箱"><input  class="admin_friend_name" name="name_friend" placeholder="姓名"></div>','friend_mail','','focus')
 
 })
+

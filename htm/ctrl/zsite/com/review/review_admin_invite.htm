@@ -1,16 +1,13 @@
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
-${css.ctrl_com_review|n}
-<script src="${js.ctrl_com_review|n}"></script>
-
 <%htm:form enctype="multipart/form-data" method="POST">
 <div class="zsite_block">
 <p class="invite_hint">邀请同事写评价</p>
 <div class="mate_mail">
 %for i in range(3):
 <div class="line">
-<input class="admin_member_mail" name="mail" placeholder="邮箱"><input  class="admin_member_name" name="name" placeholder="姓名">
+<input class="admin_member_mail" name="mail_member" placeholder="邮箱"><input  class="admin_member_name" name="name_member" placeholder="姓名">
 </div>
 %endfor
 </div>
@@ -19,7 +16,7 @@ ${css.ctrl_com_review|n}
 <div class="friend_mail">
 %for i in range(3):
 <div class="line">
-<input class="admin_friend_mail" name="mail" placeholder="邮箱"><input  class="admin_friend_name" name="name" placeholder="姓名">
+<input class="admin_friend_mail" name="mail_friend" placeholder="邮箱"><input  class="admin_friend_name" name="name_friend" placeholder="姓名">
 </div>
 %endfor
 </div>
@@ -30,3 +27,7 @@ ${css.ctrl_com_review|n}
 </div>
 </%htm:form>
 
+<script>
+auto_add('admin_member_mail','<div class="line"><input class="admin_member_mail" name="mail_member" placeholder="邮箱"><input  class="admin_member_name" name="name_member" placeholder="姓名"></div>','mate_mail','','focus')
+auto_add('admin_friend_mail','<div class="line"><input class="admin_friend_mail" name="mail_friend" placeholder="邮箱"><input  class="admin_friend_name" name="name_friend" placeholder="姓名"></div>','friend_mail','','focus')
+</script>
