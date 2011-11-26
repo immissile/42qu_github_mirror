@@ -21,11 +21,15 @@ from model.ico import fs_url_jpg
 <%def name="htm_head()">
 <script src="${js.ctrl_com_isotope|n}"></script>
 <script>
-$(function(){
+(function(){
+function _(){
     $("#com_product").isotope({
         itemSelector : '.G1'
     });
-})
+}
+$(_)
+$(window).load(_)
+})()
 </script>
 ${css.ctrl_com_index|n}
 </%def>
