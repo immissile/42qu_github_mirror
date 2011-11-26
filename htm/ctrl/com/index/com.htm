@@ -9,7 +9,7 @@ from model.follow import follow_get
 from model.zsite_com import pid_by_com_id
 from zkit.earth import place_name
 from model.zsite_fav import zsite_fav_id_get
-from model.job import com_job_by_com_id, com_department_by_com_id, com_job_by_department_and_com 
+from model.job import com_job_by_com_id, com_department_by_com_id
 from model.zsite import Zsite
 from model.po_product import product_list_by_com_id 
 import json
@@ -79,6 +79,30 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
         <div class="com_review_new"><a href="/review">我来评价</a></div>
         </div>
 
+<%
+_com_job_by_com_id = com_job_by_com_id(zsite.id)
+%>
+        <div class="com_item\
+%if _com_job_by_com_id:
+ com_jobs_h\
+%endif
+">
+        %if can_admin or _com_job_by_com_id:
+        <div class="com_title">\
+            %if can_admin: 
+<a class="R c9"href="/job/admin">编辑</a> 
+            %endif 
+招聘职位 
+        </div>
+        %endif
+        % if _com_job_by_com_id:
+            <div class="com_jobs">
+                %for job in _com_job_by_com_id:
+                <a href="/job/${job.id}"><span>${job.quota}</span>${job.title}</a>
+                %endfor
+            </div>
+        %endif
+        </div>
         <div class="com_item">
             <%
             products = product_list_by_com_id(zsite_id)
@@ -173,36 +197,6 @@ show = any_zsite_com or can_admin
     %endif
 %endif
 
-        <div class="com_item">
-<%
-_com_job_by_com_id = com_job_by_com_id(zsite.id)
-%>
-        %if can_admin or _com_job_by_com_id:
-        <div class="com_title">\
-            %if can_admin: 
-<a class="R c9"href="/job/admin">编辑</a> 
-            %endif 
-招聘职位 
-        </div>
-        %endif
-        % if _com_job_by_com_id:
-            <%
-            departments = com_department_by_com_id(zsite.id)
-            %>
-            %if departments:
-                <div class="com_jobs">
-                %for department in departments:
-                <%
-                jobs = com_job_by_department_and_com(department.id,zsite.id) 
-                %>
-                %for job in jobs:
-                <a href="/job/${job.id}"><span>${job.quota}</span>${job.title}</a>
-                %endfor
-                %endfor
-                </div>
-            %endif
-        %endif
-        </div>
 </div>
 
 
