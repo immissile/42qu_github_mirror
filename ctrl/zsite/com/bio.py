@@ -124,7 +124,7 @@ class BioAdmin(AdminBase):
         if not name:
             errtip.name = '请输入名称'
         else:
-            zsite.name_ = name
+            zsite.name = name
             zsite.save()
 
         if not motto:
