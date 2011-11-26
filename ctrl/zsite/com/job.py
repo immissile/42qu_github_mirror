@@ -6,7 +6,7 @@ from model.job_mail import  job_mail_new, JOB_MAIL_STATE_VERIFIED, job_mail_by_c
 from model.zsite import Zsite
 import json
 from model.job import job_type_set, job_pid_default_new, job_pid_new, job_pid_default_by_com_id, job_kind_set, job_kind_by_job_id, job_type_by_job_id, job_pid_by_job_id, job_new,\
-ComJob, JOB_RM, JOB_ACTIVE, JOB_CLOSE, com_job_by_state_com_id, com_department_new, com_department_rm_by_id, com_department_edit
+ComJob, JOB_RM, JOB_ACTIVE, JOB_CLOSE, com_job_by_com_id_state, com_department_new, com_department_rm_by_id, com_department_edit, com_job_close
 from model.days import today_days
 from model.zsite_member import zsite_member_can_admin
 from _handler import AdminBase
@@ -177,10 +177,7 @@ class JobEdit(AdminBase):
 @urlmap('/job/close/(\d+)')
 class JobClose(AdminBase):
     def get(self, id):
-        job = ComJob.mc_get(id)
-        if job and job.com_id == self.zsite_id:
-            job.state = JOB_CLOSE
-            job.save()
+        com_job_close(id, self.zsite_id)
         return self.redirect('/job/admin')
 
 
@@ -274,7 +271,7 @@ class MailVerify(AdminBase):
 @urlmap('/job/admin/(\d+)')
 class JobAdmin(AdminBase):
     def get(self, state=JOB_ACTIVE):
-        job_list = com_job_by_state_com_id(self.zsite_id, state)
+        job_list = com_job_by_com_id_state(self.zsite_id, state)
         self.render(job_list=job_list, state=state)
 
 @urlmap('/job/admin/mail')
@@ -303,15 +300,8 @@ class JobAdminMail(AdminBase):
 @urlmap('/job/rm/(\d+)')
 class JobRm(AdminBase):
     def post(self, id):
-        job = ComJob.mc_get(id)
-
-        if job and job.com_id == self.zsite_id:
-            if job.state == JOB_ACTIVE:
-                job.state = JOB_CLOSE
-            elif job.state == JOB_CLOSE:
-                job.state == JOB_RM
-            job.save()
-
+        com_job_close(id, self.zsite_id)
         self.finish('{}')
+
 
 

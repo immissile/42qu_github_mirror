@@ -151,6 +151,9 @@ color:#333;
 font-size:14px;
 }
 
+.com_jobs_h{
+margin-bottom:-22px;
+}
 .fbtn{
 font-size:16px;padding:6px 14px;
 }
@@ -247,4 +250,10 @@ padding-bottom:16px
 
 .com_review_new a:visited{
 color:#999;
+}
+.pro_info{
+overflow:hidden;
+}
+.com_title .aH{
+height:13px;
 }
