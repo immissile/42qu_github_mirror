@@ -425,12 +425,16 @@ $(function(){
 })
 
 function auto_add(item,toadd,wrap,close,act){
+    var wrap = $('.'+wrap)
     $('.'+item+':last').live(act,function(){
-        $('.'+wrap).append(toadd)
+        wrap.append(toadd)
     })
     if(close!=''){
         $('.'+close).live('click',function(){
             $(this).parent().remove()
+            if(!wrap.children()[0]){
+                wrap.append(toadd)
+            }
         })
     }
 }
