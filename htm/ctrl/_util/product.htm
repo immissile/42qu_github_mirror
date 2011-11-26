@@ -67,7 +67,9 @@ from model.po_product import product_id_list_by_com_id
             <div class="similar_product_wrap">
                 %if product_similar:
                 %for pro in product_similar:
+<div class="similar_product_wrap">
                 <input autocomplete="off" value="${pro[0]}" class="similar_product_name" name="similar_product_name" placeholder="产品名称"><input class="similar_product_url" name="similar_product_url" placeholder="相关链接" value="${pro[1]}">
+</div>
                 %endfor
                 %endif
                 <input autocomplete="off" value="" class="similar_product_name" name="similar_product_name" placeholder="产品名称"><input class="similar_product_url" name="similar_product_url" placeholder="相关链接" value="">
