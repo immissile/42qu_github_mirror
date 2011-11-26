@@ -69,7 +69,7 @@ margin:auto;
 margin-bottom:14px;
 }
 .line input, .line select{
-padding: 8px;
+padding: 7px;
 }
 .line input{
 line-height: 20px;
@@ -80,6 +80,15 @@ padding:7px;
 width:320px;
 }
 .member_name{
+margin-left:14px;
+}
+.admin_member_mail, .admin_member_name, .admin_friend_mail, .admin_friend_name{
+border:1px solid #ccc;
+padding:8px;
+width:210px;
+line-height:20px;
+}
+.admin_member_name, .admin_friend_name{
 margin-left:14px;
 }
 .invite_link{
@@ -107,4 +116,22 @@ display:inline;
 }
 .ick input{
 margin-top:5px;
+}
+.zsite_block{
+border:none;
+padding:0;
+}
+.invite_hint{
+padding:10px 0;
+border-bottom:1px dotted #ccc;
+font-size:14px;
+color:#444;
+margin-bottom:22px;
+}
+.bdt{
+border-top:1px dotted #ccc;
+margin-top:38px;
+}
+.invite_btn{
+margin-top:38px;
 }

@@ -1,0 +1,32 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+${css.ctrl_com_review|n}
+<script src="${js.ctrl_com_review|n}"></script>
+
+<%htm:form enctype="multipart/form-data" method="POST">
+<div class="zsite_block">
+<p class="invite_hint">邀请同事写评价</p>
+<div class="mate_mail">
+%for i in range(3):
+<div class="line">
+<input class="admin_member_mail" name="mail" placeholder="邮箱"><input  class="admin_member_name" name="name" placeholder="姓名">
+</div>
+%endfor
+</div>
+
+<p class="invite_hint bdt">邀请朋友写评价</p>
+<div class="friend_mail">
+%for i in range(3):
+<div class="line">
+<input class="admin_friend_mail" name="mail" placeholder="邮箱"><input  class="admin_friend_name" name="name" placeholder="姓名">
+</div>
+%endfor
+</div>
+
+
+<div class="btns invite_btn">
+<span class="btnw"><button type="submit" class="btn">发送邀请</button></span>
+</div>
+</%htm:form>
+

@@ -113,3 +113,13 @@ class ReviewPage(ZsiteBase):
         review_list = po_review_list_by_zsite_id(zsite_id, limit, offset)
         self.render(can_admin=can_admin, page=page, review_list=review_list)
 
+@urlmap('/review/admin/invite')
+class ReviewAdminInvite(LoginBase):
+    def get(self):
+        zsite_id = self.zsite_id
+        current_user_id = self.current_user_id
+        can_admin = zsite_member_can_admin(zsite_id, current_user_id)
+        review = po_review_get(zsite_id, current_user_id)
+        self.render(can_admin=can_admin, review=review)
+
+
