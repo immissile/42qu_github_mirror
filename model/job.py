@@ -189,8 +189,10 @@ def job_new(
     job_kind_set(id, kinds)
     return job
 
+
+
 def com_job_by_com_id(com_id):
-    return ComJob.where(com_id=com_id)
+    return ComJob.where(com_id=com_id).where(state=JOB_ACTIVE)
 
 def com_job_by_state_com_id(com_id,state):
     return ComJob.where(state=state,com_id=com_id)
