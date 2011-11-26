@@ -30,9 +30,9 @@ $(function(){
         
     })
 
-auto_add('member_mail','<div class="line"><input placeholder="邮箱" name="mail" class="member_mail"><input placeholder="姓名" name="name" class="member_name"></div>','mail_block','','blur')
+auto_add('member_mail','<div class="line"><input placeholder="邮箱" name="mail" class="member_mail"><input placeholder="姓名" name="name" class="member_name"></div>','mail_block','','focus')
 
-auto_add('member_mail_short','<div class="line"><input placeholder="邮箱" name="mail" class="member_mail_short"><input placeholder="姓名" name="name" class="member_name_short"></div>','mail_block','','blur')
+auto_add('member_mail_short','<div class="line"><input placeholder="邮箱" name="mail" class="member_mail_short"><input placeholder="姓名" name="name" class="member_name_short"></div>','mail_block','','focus')
 
 auto_add('member_link','<div class="line"><input class="member_link" name="link" placeholder="用户网址"></div>','link_block','','focus')
 

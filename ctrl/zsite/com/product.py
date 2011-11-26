@@ -110,6 +110,9 @@ def _product_save(self, product):
     if product_similar:
         for _name, _url in product_similar:
             if _name or _url:
+                if _url:
+                    if not (_url.startswith("http://") or _url.startswith("https://")):
+                        _url = "http://%s"%_url 
                 if not _name:
                     _pro.append([urlparse(_url).netloc or _url, _url])
                 else:
