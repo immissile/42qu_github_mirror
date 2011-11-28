@@ -3,7 +3,7 @@
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from mail import rendermail
 from model.days import today_seconds
-from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE
+from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE, zsite_member_can_admin
 
 COM_APPLY_STATE_APPLY_MAILED = 50
 COM_APPLY_STATE_APPLY = 40
@@ -30,6 +30,10 @@ def com_apply_get(com_id,user_id):
     return int(user_id) in com_apply_id_list(com_id)
 
 def com_apply_new(com_id, user_id):
+
+    if zsite_member_can_admin(com_id, user_id):
+        return
+
     ca = ComApply.get_or_create(com_id=com_id,user_id=user_id)
     ca.state = COM_APPLY_STATE_APPLY
     ca.create_time = today_seconds()
