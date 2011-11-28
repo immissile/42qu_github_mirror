@@ -54,8 +54,6 @@ class Po(McModel, ReplyMixin):
             return self.name_
         elif cid == CID_ANSWER:
             return txt_get(self.id) or self.name_
-        elif cid == CID_REVIEW:
-            return ''
         else:
             return txt_get(self.id)
 
