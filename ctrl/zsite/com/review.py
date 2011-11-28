@@ -3,7 +3,7 @@
 from ctrl.zsite._handler import ZsiteBase, LoginBase, XsrfGetBase
 from ctrl._urlmap.zsite import urlmap
 from _handler import AdminBase
-from model.zsite_member import zsite_member_can_admin, zsite_member_is_invite, zsite_member_new
+from model.zsite_member import zsite_member_can_admin, zsite_member_is_invite, zsite_member_new,  ZSITE_MEMBER_STATE_ACTIVE
 from model.po_review import po_review_get, po_review_new, po_review_show_list_with_user, po_review_count, po_review_list_by_zsite_id
 from zkit.page import page_limit_offset
 from model.user_auth import newbie_redirect, user_new_by_mail
