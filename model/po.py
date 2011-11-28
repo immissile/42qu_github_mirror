@@ -81,10 +81,12 @@ class Po(McModel, ReplyMixin):
     def htm(self):
         cid = self.cid
         id = self.id
-        s = txt_withlink(self.txt)
         if cid not in (CID_WORD, CID_REVIEW):
+            s = txt_withlink(self.txt)
             user_id = self.user_id
             s = pic_htm(s, user_id, id)
+        else:
+            s = txt_withlink(self.name_)
         return s
 
     def txt_set(self, txt):
