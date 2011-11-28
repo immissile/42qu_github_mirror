@@ -53,7 +53,7 @@ class MemberAdmin(AdminBase):
         self.render(com_id=self.zsite_id)
 
 @urlmap('/member/join')
-class MemberJoin(ZsiteBase):
+class MemberJoin(LoginBase):
     def get(self):
         user_id = self.current_user_id
         com_id = self.zsite_id
