@@ -81,7 +81,7 @@ class Po(McModel, ReplyMixin):
     def htm(self):
         cid = self.cid
         id = self.id
-        if cid not in (CID_WORD, CID_REVIEW):
+        if cid != CID_WORD:
             s = txt_withlink(self.txt)
             user_id = self.user_id
             s = pic_htm(s, user_id, id)
@@ -447,9 +447,5 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 if __name__ == '__main__':
     pass
-    from model.zsite_url import id_by_url
-    jid = id_by_url("jandan")
-    for i in Po.where(cid=CID_NOTE):
-        if "豆友" in i.txt:
-            po_rm(i.user_id, i.id)
-           # print i.name
+    po = Po.mc_get(10167996)
+    print po.txt

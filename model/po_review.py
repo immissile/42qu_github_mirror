@@ -84,6 +84,11 @@ def po_review_state_set(zsite_id, user_id, rid):
     if review:
         review.state = STATE_ACTIVE if rid else STATE_PO_ZSITE_SHOW_THEN_REVIEW
         review.save()
+        mc_po_review_id_get.set(
+            '%s_%s'%(zsite_id, user_id),
+            review.id
+        )
+        mc_po_review_id_list_active_by_zsite_id.delete(zsite_id)
 
 def po_review_show_id_list(id):
     a = array('I')
