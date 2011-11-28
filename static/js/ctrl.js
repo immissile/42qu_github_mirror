@@ -284,7 +284,8 @@ function feed_load_maker(FEED_ATTR_BASE ){
 		66: FEED_ATTR_TXT_BASE,
 		67: FEED_ATTR_TXT_BASE,
 		68: FEED_ATTR_BASE + " place_name address time_row1 time_row2 time_diff_day",
-		69: FEED_ATTR_BASE
+		69: FEED_ATTR_BASE,
+        72: FEED_ATTR_BASE
 	}
 	for (var i in FEED_ATTR) {
 		FEED_ATTR[i] = (FEED_ATTR[i] + "").split(' ')
