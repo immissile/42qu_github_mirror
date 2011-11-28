@@ -44,17 +44,18 @@ PO_COUNT_CN = dict((i[0], i[3]+i[2]) for i in PO_CN_EN)
 mc_htm = McCache('PoHtm.%s')
 
 
-NAME_CID = set((CID_WORD, CID_EVENT_NOTICE, CID_REVIEW))
 
 class Po(McModel, ReplyMixin):
 
     @property
     def txt(self):
         cid = self.cid
-        if cid in NAME_CID:
+        if cid in (CID_WORD, CID_EVENT_NOTICE):
             return self.name_
         elif cid == CID_ANSWER:
             return txt_get(self.id) or self.name_
+        elif cid == CID_REVIEW:
+            return ''
         else:
             return txt_get(self.id)
 
