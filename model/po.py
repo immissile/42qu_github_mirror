@@ -84,7 +84,7 @@ class Po(McModel, ReplyMixin):
         cid = self.cid
         id = self.id
         s = txt_withlink(self.txt)
-        if cid != CID_WORD:
+        if cid not in (CID_WORD, CID_REVIEW):
             user_id = self.user_id
             s = pic_htm(s, user_id, id)
         return s
