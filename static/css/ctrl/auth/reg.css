@@ -158,10 +158,10 @@ text-align:center;
 }
 .reg_page{
 width:448px;
-margin-left:32px;
+margin:16px auto 0;
 }
 .reg_page_hint{
 width:414px;
-margin-left:40px;
-margin-top:64px;
+margin:48px auto 0;
+font-size:14px;
 }
