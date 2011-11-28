@@ -85,13 +85,16 @@ function init_none() {
 		back = $('<a href="#B" id="sB"></a>'),
 		win = $(window);
 		if ((body.height() - 128) > $(window).height()) {
-			body.append($('<a class="zsite_foot" href="#B"></a>').click(function() {
+            var foot = $('<div class="zsite_foot"><a href="#B"></a></div>')
+			body.append(foot)
+            foot.find('a').click(function() {
 				if (!IE6) {
 					win.scrollTop(0)
 					return false
 				}
 			}).html(
-			$(".site").html() || location.host))
+                $(".site").html() || location.host
+            )
 		}
 
 		if (!IE6) {
