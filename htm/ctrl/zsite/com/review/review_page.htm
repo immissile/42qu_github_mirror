@@ -16,11 +16,11 @@ name.extend(user.career or ())
 name = ' , '.join(filter(bool, name))
 %>
     <div class="review_wrap_show">
-        <a href="${i.link|n}" target="_blank"><img src="${user.ico|n}" class="review_avatar"></a>
+        <a href="${user.link|n}" target="_blank"><img src="${user.ico|n}" class="review_avatar"></a>
         <span class="review_quot_l">“ </span>
         <div class="review_cont">
-            <p><a href="${i.link}" target="_blank" class="review_a">${name}</a></p>
-            <pre>${i.name|n}<span class="review_quot_r">”</pre>
+            <p><a href="${user.link}" target="_blank" class="review_a">${name}</a></p>
+            <pre>${i.name|n}<span class="review_quot_r">”</span><a target="_blank" href="${i.link}" class="zsite_reply"></a></pre>
         </div>
     </div>
 %endfor
