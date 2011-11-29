@@ -12,6 +12,9 @@ cid = po.cid
 %>\
 <pre class="prebody">\
 %if cid == CID_REVIEW :
+<%
+po_zsite = Zsite.mc_get(po.zsite_id)
+%>\
 <h1 style="text-align:center;margin-bottom:0" id="po_answer_name"><a href="${po_zsite.link|n}">${po_zsite.name}</a></h1>\
 %elif  po.rid :
 <h1 id="po_answer_name">${po.name_htm|n}</h1>\
