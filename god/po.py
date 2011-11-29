@@ -11,6 +11,7 @@ from model.po_show import po_show_new, po_show_count, po_show_list, po_show_rm
 from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from zkit.page import page_limit_offset
 from model.god_po_show import mc_po_show_zsite_channel
+from model.site_sync import site_sync_rm, site_sync_new
 
 PAGE_LIMIT = 50
 
@@ -106,6 +107,11 @@ class PoShowRm(Base):
         po_show_rm(id)
         self.redirect('/po/show/set/%s'%id)
 
+@urlmap('/po/sync/rm/(\d+)')
+class PoSyncRm(Base):
+    def get(self, id):
+        site_sync_rm(id)
+        self.redirect('/po/show/set/%s'%id)
 
 @urlmap('/po/show/set/(\d+)')
 class PoShowSet(Base):
@@ -123,12 +129,17 @@ class PoShowSet(Base):
         next = self.get_argument('next', '/po')
         broad = self.get_argument('broad', None)
         site = self.get_argument('site', None)
-
+        sync = self.get_argument('sync',None)
         if po:
             if broad:
                 po_show_new(po)
             else:
                 po_show_rm(po)
+            
+            if sync:
+                site_sync_new(id)
+            else:
+                site_sync_rm(id)
 
             if site:
                 po.zsite_id_set(site)

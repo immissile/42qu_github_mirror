@@ -302,6 +302,19 @@ def oauth_txt_cat(cid, txt, url):
         txt = cnenoverflow(str(txt), 139-url_len)[0]+' '+url
         return txt
 
+def oauth_site_txt_cat(cid,txt,name,url):
+    url_len = len(str(url))
+    by_len = len('By:%s'%name)
+    if cid == OAUTH_DOUBAN:
+        txt = str(txt).decode('utf-8')
+        tword = txt[:140-url_len-by_len]
+        if tword != txt:
+            txt = txt[:137-url_len-by_len]+'...'
+        txt = str(txt)+' '+url+' #%s#'%name
+    else:
+        txt = cnenoverflow(str(txt),138-url_len-by_len)[0]+' '+url+' #%s#'%name
+    
+    return txt
 
 def sync_by_oauth_id(oauth_id, txt, url=None):
     out = oauth_token_by_oauth_id(oauth_id)
@@ -314,6 +327,19 @@ def sync_by_oauth_id(oauth_id, txt, url=None):
             mes = api_network_http(*re)
             #oauth_res_check(mes, oauth_id)
             return mes
+
+def sync_site_by_oauth_id(oauth_id,txt,name,url=None):
+    out = oauth_token_by_oauth_id(oauth_id)
+    if out:
+        cid,key,secret = out
+        url = shorturl(url)
+        txt = oauth_site_txt_cat(cid,txt,name,url)
+        re = DICT_API_SAY[cid](key, secret, txt)
+        if re:
+            mes = api_network_http(*re)
+            #oauth_res_check(mes, oauth_id)
+            return mes
+
 
 def api_network_http(host, netloc, headers, body, method, connection=httplib.HTTPConnection):
     conn = connection(host, timeout=30)
