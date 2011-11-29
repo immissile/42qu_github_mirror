@@ -62,7 +62,8 @@ CID_PO = (
     CID_EVENT,
     CID_EVENT_FEEDBACK,
     CID_EVENT_NOTICE,
-    CID_PRODUCT
+    CID_PRODUCT,
+    CID_REVIEW, 
 )
 
 # Notice
