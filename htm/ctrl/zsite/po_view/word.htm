@@ -1,6 +1,6 @@
 <%!
 from model.zsite import Zsite
-from model.cid import CID_REVIEW
+from model.cid import CID_REVIEW, CID_WORD
 from model.txt2htm import txt_withlink
 %>
 <%inherit file="_po.htm" />
@@ -11,7 +11,7 @@ from model.txt2htm import txt_withlink
 cid = po.cid
 %>\
 <pre class="prebody">\
-%if po.rid:
+%if cid == CID_WORD and po.rid :
 <h1 id="po_answer_name">${po.name_htm|n}</h1>\
 %elif po.zsite_id:
 <%

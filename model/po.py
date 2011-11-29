@@ -82,9 +82,11 @@ class Po(McModel, ReplyMixin):
         cid = self.cid
         id = self.id
         if cid != CID_WORD:
-            s = txt_withlink(self.txt)
-            user_id = self.user_id
-            s = pic_htm(s, user_id, id)
+            s = self.txt
+            if s:
+                s = txt_withlink(s)
+                user_id = self.user_id
+                s = pic_htm(s, user_id, id)
         else:
             s = txt_withlink(self.name_)
         return s
@@ -447,5 +449,5 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 if __name__ == '__main__':
     pass
-    po = Po.mc_get(10167996)
-    print po.txt
+    po = Po.mc_get(10164890)
+    print len(po.htm)
