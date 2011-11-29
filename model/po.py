@@ -148,7 +148,7 @@ class Po(McModel, ReplyMixin):
         q = self.target
         cid = self.cid
 
-        if cid == CID_EVENT_NOTICE:
+        if cid in (CID_EVENT_NOTICE, CID_REVIEW):
             return txt_withlink(self.name_)
 
         if q:

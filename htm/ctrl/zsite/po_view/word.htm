@@ -6,10 +6,10 @@ from model.txt2htm import txt_withlink
 <%inherit file="_po.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="_vote.htm" import="po_bar_vote"/>
+<%def name="po_body()">
 <%
 cid = po.cid
 %>\
-<%def name="po_body()">
 <pre class="prebody">\
 %if po.rid:
 <h1 id="po_answer_name">${po.name_htm|n}</h1>\
@@ -23,13 +23,13 @@ po_zsite = Zsite.mc_get(po.zsite_id)
 <%
 htm = po.htm
 %>
-<pre><a href="${zsite.link}">${zsite.name}</a> : ${txt_withlink(po.name)|n}\
+<pre><a href="${zsite.link}">${zsite.name}</a> :<div>${po.name_htm|n}</div>\
 %if htm:
 <div>${htm|n}</div>\
 %endif
 </pre>\
 %else:
-<p><a href="${zsite.link}">${zsite.name}</a> : ${po.htm|n}</p>\
+<pre><a href="${zsite.link}">${zsite.name}</a> :<div>${po.htm|n}</div></pre>\
 %endif
 ${po_bar_vote(po)}\
 <p class="po_bar">\
