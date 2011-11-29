@@ -5,7 +5,7 @@ from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
 from cid import CID_PRODUCT, CID_COM, CID_PRODUCT_PIC
 from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from spammer import is_same_post
-from po import Po, _po_rm, po_new
+from po import Po, _po_rm, po_new, po_id_list, po_list_count, po_view_list
 import json
 from zsite_show import zsite_show_list
 from itertools import  chain
@@ -41,20 +41,14 @@ def product_id_list_by_com_id(id):
 def product_list_by_com_id(com_id):
     return Po.mc_get_list(product_id_list_by_com_id(com_id))
 
-def product_show_list():
-    com_list = zsite_show_list(CID_COM)
-    if com_list:
-        com_id_list = [c.id for c in com_list]
-        if com_id_list:
-            return chain.from_iterable(
-                [product_list_by_com_id(c) for c in com_id_list]
-            )
 
 def product_rm(com_id , user_id, id):
     po = Po.mc_get(id)
     if po and po.zsite_id == com_id and po.cid == CID_PRODUCT:
         _po_rm(user_id, po)
         mc_product_id_list_by_com_id.delete(com_id)
+        from model.po_product_show import product_show_rm
+        product_show_rm(po)
 
 def product_pic_new(com_id, product_id, pic):
     pic_id = pic_new(CID_PRODUCT_PIC, com_id)
@@ -66,3 +60,19 @@ def product_pic_new(com_id, product_id, pic):
     p2 = pic_fit_width_cut_height_if_large(pic, 215)
     fs_set_jpg('215', pic_id, p2)
     return pic_id
+
+
+def product_id_list(limit, offset):
+    return po_id_list(None,CID_PRODUCT,False,limit,offset)
+
+def product_count():
+    return po_list_count(None,CID_PRODUCT, False)
+
+def product_list():
+    return po_view_list(None,CID_PRODUCT,False)
+
+if __name__ == "__main__":
+
+    print product_id_list(100,0)
+    print product_count()
+

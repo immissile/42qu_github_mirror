@@ -14,11 +14,13 @@ def _mc_get_dict(self, args_list):
         return dict(zip(args_list, result))
     return {}
 
-def _mc_decorator(self, key, expire=0):
+def _mc_decorator(self, key=None, expire=0):
     if type(key) is str:
         _key = key
         key = lambda x:_key.format(**x)
-
+    elif key is None:
+        key = lambda x:""   
+ 
     def _func(func):
         arg_names, varargs, varkw, defaults = inspect.getargspec(func)
 
@@ -46,6 +48,7 @@ def _mc_decorator(self, key, expire=0):
             return r
 
         return decorator(_, func)
+    
     return _func
 
 def _mc_delete(self, *args):
