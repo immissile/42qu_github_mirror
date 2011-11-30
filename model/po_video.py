@@ -22,7 +22,7 @@ HTM_AUTOPLAY_SINA = """<embed wmode="opaque" src="http://p.you.video.sina.com.cn
 
 HTM_SINA = """<embed wmode="opaque" src="http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?vid=%s&uid=%s&autoPlay=0" class="video" allowFullScreen="true" "></embed>"""
 
-HTM_SLIDESHARE  = """<embed wmode="opaque" src="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=%s" class="video" allowFullScreen="true" "></embed>"""
+HTM_SLIDESHARE  = """<embed wmode="opaque" src="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=%s&rel=0" class="video" allowFullScreen="true" "></embed>"""
 
 
 
