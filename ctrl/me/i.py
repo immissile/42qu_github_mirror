@@ -23,6 +23,7 @@ from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth
 from model.zsite import Zsite
 from collections import defaultdict
 from model.sync import sync_state_set, sync_all, sync_follow_new, SYNC_CID
+from zkit.errtip import Errtip
 from model.search_zsite import search_new
 from model.invite_email import invite_user_id_list_by_cid, CID_MSN, CID_QQ, invite_invite_email_list_by_cid, invite_message_new
 from model.follow import follow_id_list_by_from_id, follow_new
@@ -326,6 +327,20 @@ class Namecard(NameCardEdit, LoginBase):
         self.save()
         self.get()
 
+@urlmap('/i/mail/notice')
+class MailNotice(LoginBase):
+    def get(self):
+        user_id = self.current_user_id
+        self.render(
+            mail_notice_all=mail_notice_all(user_id)
+        )
+
+    def post(self):
+        user_id = self.current_user_id
+        for cid in CID_MAIL_NOTICE_ALL:
+            state = self.get_argument('mn%s' % cid, None)
+            mail_notice_set(user_id, cid, state)
+        self.get()
 
 @urlmap('/i/mail/notice')
 class MailNotice(LoginBase):
@@ -396,10 +411,21 @@ class InviteEmail(LoginBase):
             invite_message_new(self.current_user_id, emails, mail_txt)
         self.render('ctrl/me/i/invite.htm', success=True)
 
+@urlmap('/i/account/mail/success')
+class AccountMailSuccess(LoginBase):
+    def get(self):
+        self.render()
+
+
 @urlmap('/i/account/mail')
 class AccountMail(LoginBase):
     def get(self):
         self.render()
+
+    def post(self):
+        errtip = Errtip()
+        mail = "zsp007@gmail.com"
+        self.render(mail=mail, errtip=errtip)
 
 @urlmap('/i/account')
 class Account(LoginBase):
