@@ -28,8 +28,8 @@ OAUTH2NAME_DICT = {
     OAUTH_BUZZ      : 'Buzz'        ,
     OAUTH_TWITTER   : 'Twitter'     ,
     OAUTH_LINKEDIN  : 'LinkedIn'    ,
-    OAUTH_KAIXIN    : '开心网'        ,
-    OAUTH_FANFOU    : '饭否微博'        ,
+    OAUTH_KAIXIN    : '开心'        ,
+    OAUTH_FANFOU    : '饭否'        ,
 }
 OAUTH2NAME_DICT_SHORT = {
     OAUTH_WWW163    : '网易'    ,
@@ -44,13 +44,13 @@ OAUTH2NAME_DICT_SHORT = {
 
 OAUTH_TUPLE = (
     OAUTH_DOUBAN    ,
-    OAUTH_RENREN    ,
     OAUTH_SINA      ,
     OAUTH_QQ        ,
+    OAUTH_RENREN    ,
+    OAUTH_KAIXIN  ,
     OAUTH_WWW163    ,
     #OAUTH_SOHU      ,
     #OAUTH_TWITTER   ,
-    OAUTH_KAIXIN  ,
     OAUTH_FANFOU,
 )
 
