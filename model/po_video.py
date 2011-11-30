@@ -4,6 +4,7 @@ import re
 from _db import Model, McModel, McCache, McCacheA,  McNum, McCacheM
 from cid import CID_VIDEO
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
+from config import FS_URL
 
 VIDEO_CID_YOUKU = 1
 VIDEO_CID_TUDOU = 2
@@ -22,7 +23,7 @@ HTM_AUTOPLAY_SINA = """<embed wmode="opaque" src="http://p.you.video.sina.com.cn
 
 HTM_SINA = """<embed wmode="opaque" src="http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?vid=%s&uid=%s&autoPlay=0" class="video" allowFullScreen="true" "></embed>"""
 
-HTM_SLIDESHARE  = """<embed wmode="opaque" src="http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=%s&rel=0" class="video" allowFullScreen="true" "></embed>"""
+HTM_SLIDESHARE  = """<embed wmode="opaque" src="%s/swf/ssplayer2.swf?doc=%%s&rel=0" class="video" allowFullScreen="true" "></embed>"""%FS_URL
 
 
 
