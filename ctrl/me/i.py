@@ -8,12 +8,11 @@ from model.user_info import UserInfo, user_info_new
 from model.namecard import namecard_get, namecard_new
 from model.ico import ico_new, ico_pos, ico_pos_new
 from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
-from model.user_mail import mail_by_user_id
+from model.user_mail import mail_by_user_id, user_mail_new
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
 from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_APPLY
 from model.user_auth import user_password_new, user_password_verify
-from model.user_mail import mail_by_user_id
 from cgi import escape
 from urlparse import parse_qs, urlparse
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT, link_list_cid_by_zsite_id
@@ -27,6 +26,9 @@ from zkit.errtip import Errtip
 from model.search_zsite import search_new
 from model.invite_email import invite_user_id_list_by_cid, CID_MSN, CID_QQ, invite_invite_email_list_by_cid, invite_message_new
 from model.follow import follow_id_list_by_from_id, follow_new
+from zkit.txt import EMAIL_VALID
+from model.verify import verify_mail_new
+from model.cid import CID_VERIFY_LOGIN_MAIL
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -420,11 +422,32 @@ class AccountMailSuccess(LoginBase):
 @urlmap('/i/account/mail')
 class AccountMail(LoginBase):
     def get(self):
-        self.render()
+        errtip = Errtip()
+        self.render(errtip = errtip)
 
     def post(self):
         errtip = Errtip()
-        mail = "zsp007@gmail.com"
+        user_id = self.current_user_id
+        password = self.get_argument('password',None)
+        mail = self.get_argument('mail',None)
+        
+        if not (mail and EMAIL_VALID.match(mail)):
+            errtip.mail = '请注意邮件格式'
+        
+        if not (password and user_password_verify(user_id,password)):
+            errtip.password = '请输入正确的密码'
+
+        if not errtip:
+            from model.user_mail import user_mail_new, user_mail_by_state, MAIL_VERIFIED, user_mail_login_by_user_id
+            if mail in user_mail_by_state(user_id,MAIL_VERIFIED):
+                user_mail_login_by_user_id(user_id,mail)
+                return self.redirect('/i/account/mail/success')
+            t = user_mail_new(user_id,mail)
+            if t:
+                verify_mail_new(user_id,self.current_user.name,mail,CID_VERIFY_LOGIN_MAIL)
+            else:
+                errtip.mail='该邮箱已经注册'
+        
         self.render(mail=mail, errtip=errtip)
 
 @urlmap('/i/account')
