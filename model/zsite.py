@@ -117,6 +117,7 @@ def zsite_by_query(query):
     from config import SITE_DOMAIN
     from urlparse import urlparse
     from model.zsite_url import id_by_url
+    from model.user_mail import user_id_by_mail
     user_id = None
 
     if '@' in query:
