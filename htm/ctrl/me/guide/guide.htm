@@ -1,0 +1,345 @@
+
+<%!
+from config import LOGO_TEXT, SITE_DOMAIN
+from model.ico import ico_url_bind_with_default
+from model.career import career_bind
+from tornado.escape import json_encode 
+from config import FS_DOMAIN
+from tornado.escape import json_encode 
+from model.user_auth import user_password_verify, UserPassword, user_password_new
+
+%>
+
+<%inherit file="/ctrl/_base/_reg_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="H()">
+</%def>
+
+<%def name="htm_head()">
+<meta name="description" content=" 无数故事，读完后， 一笑而过。下班的地铁，你还是你，我还是我。认识一个人， 要多少缘分？茫茫人海，擦肩而过多少陌生人。42区，这是相遇的地方 ...">
+<script src="${js.reg}"></script>
+<script src="${js.pid}"></script>
+<script src="${js.date}"></script>
+<script src="${js.school}"></script>
+<script src="${js.school_ctrl}"></script>
+
+${css.ctrl_school|n}
+${css.ctrl_com_invite_reg|n}
+${css.ctrl_auth_reg|n}
+
+<style>
+select{
+padding:8px;
+text-align:center;
+border:1px solid #ccc;
+}
+.sex_select{
+width:70px;
+}
+.sex_hint{
+margin-left:1em;
+font-size:14px;
+color:#999;
+margin-right:154px;
+}
+.job_unit{
+padding:8px;
+width:180px;
+border:1px solid #ccc;
+}
+.job_title{
+padding:8px;
+width:180px;
+margin-left:12px;
+border:1px solid #ccc;
+}
+.job_txt{
+padding:8px;
+width:390px;
+border:1px solid #ccc;
+margin-top:16px;
+}
+.job_begin_year, .job_end_year{
+margin:16px 8px 0 0;
+}
+.job_begin{
+margin-right:12px;
+}
+.job_end{
+margin-left:12px;
+}
+.motto{
+padding:8px;
+width:363px;
+text-align:center;
+border:1px solid #ccc;
+margin-left:8px;
+}
+#birthday select{
+margin-right:8px;
+width:90px;
+}
+#birthday{
+margin-right:-8px;
+}
+.marry{
+margin-left:8px;
+}
+#pid_now select, #pid_home select
+{
+margin-left:8px;
+}
+#txt{
+width:474px;
+height:123px;
+overflow:hidden;
+padding:3px 5px;
+border:1px solid #ccc;
+margin:0 0 16px;
+font-size:14px;
+}
+.p_addr{
+width:650px;
+}
+#form_reg input, #form_reg select{
+font-size:14px;
+}
+.job_icon{
+color:#666;
+margin:0 12px 0 -28px;
+vertical-align:1px;
+}
+.school_year,.school_type{
+width:116px;
+}
+.school_select{
+padding:8px;
+text-align:center;
+width:200px;
+margin-right:8px;
+cursor:pointer;
+}
+.dep{
+width:218px;
+margin-right:8px;
+}
+.add_school_a, .add_job_a{
+font-size:14px;
+display:block;
+margin-top:-14px;
+width:60px;
+}
+</style>
+
+<script>
+$(function(){
+    var j=2
+    $('.add_job_a').click(function(){
+        var block = $(this).parent()
+        if(!block.parent().find('.job_icon')[0]){
+            $('.job_block').prepend('<span class="job_icon">■</span>')
+        }
+        var job_html = $('.job_block').html()
+        block.before('<p>'+job_html+'</p>')
+    })
+    $('.school_select').live('click',pop_school)
+    $('#txt').elastic()
+    $('#mb1').show()
+    $('.step_btn').click(function(){
+        var num = parseInt($(this).attr('id').substr(4)) + 1
+        $('#mb'+(num-1)).hide()
+        $('#mb'+num).show()
+    })
+    $('.school_year').prepend('<option value="">入学年份</option>')
+    for(var i=2011;i>1899;i--){
+        $('.school_year, .job_begin_year, .job_end_year').append('<option value='+i+'>'+i+'</option>')
+    }
+    for(var i=1;i<=12;i++){
+        $('.job_begin_month, .job_end_month').append('<option value='+i+'>'+i+'</option>')
+    }
+    var part1 = $('.part1').html(),
+    part2 = $('.part2').html()
+    $('.part1').append('<input type="hidden" name="univ_id" id="univ_id1" value="" />')
+    $('.add_school_a').click(function(){
+        var icon = '<span class="job_icon">■</span>'
+        if(!$('.part1').find('.job_icon')[0]){
+        $('.part1').prepend($(icon))
+}
+        var block = $(this).parent()
+        block.before('<p>'+icon+part1+'<input type="hidden" name="univ_id" id="univ_id'+j+'" value="" /></p>')
+        block.before('<p>'+part2+'</p>')
+        $('.school_select:last').attr('id','school_select'+j)
+        $('.dep:last').attr('id','dep'+j)
+        j++
+    })
+})
+</script>
+
+</%def>
+
+
+<%def name="h_nav()"></%def>
+
+<div id="form_reg">
+
+
+<div class="main_block" id="mb1">
+<h1 id="form_reg_h1">${LOGO_TEXT|n}</h1>
+
+<p class="line">
+<label class="label_input" for="mail">性别</label>\
+<select name="sex" class="sex_select">
+<option value="1">男</option>
+<option value="2">女</option>
+</select>
+<span class="sex_hint">* 注册后不可修改</span>
+</p>
+${errtip.sex|n}
+
+<p class="line">
+<label class="label_input" for="mail">邮箱</label>\
+<input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
+${errtip.mail|n}
+
+<p class="line">
+<label class="label_input" for="password">密码</label>\
+<input class="login_password" id="password" autocomplete="off" type="password" name="password" value="${password}">
+</p>
+${errtip.password|n}
+
+
+<div class="cl btns" id="form_btn">
+<span id="login_link">已有账号 ? <a href="/auth/login">点此登录</a></span>
+<span class="R btnw"><button type="button" class="step_btn" id="step1">注册</button></span>
+</div>
+<div class="other_hint reg_page_hint">
+使用合作网站账号登录
+</div>
+<div class="other_login reg_page">
+    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/2.ico" class="other_login_img">豆瓣</a>
+    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/9.ico" class="other_login_img">人人</a>
+    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/3.ico" class="other_login_img">新浪</a>
+    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/8.ico" class="other_login_img">腾讯</a>
+    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/5.ico" class="other_login_img">网易</a>
+    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/12.ico" class="other_login_img">饭否</a>
+    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/11.ico" class="other_login_img">开心</a>
+    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/1.ico" class="other_login_img">谷歌</a>
+</div>
+</div>
+<div class="main_block" id="mb2">
+    <div class="head_hint">
+        <p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>
+        <p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
+        <p class="hint_p">首先 ，请介绍一下自己 :)</p>
+    </div>
+
+    <p class="part1">
+        <input id="school_select1" value="请选择学校" autocomplete="off" type="text" class="school_select">
+        <select name="school_year" class="school_year"></select>
+    </p>
+    <p class="part2">
+        <select name="dep" id="dep1" class="dep"><option value=0>选择院系</option></select>
+        <select name="school_type" class="school_type">
+            <option value="">选择类型</option>
+            <option value="1">本科</option>
+            <option value="2">大专</option>
+            <option value="3">硕士</option>
+            <option value="4">博士</option>
+            <option value="5">博士后</option>
+            <option value="6">校工</option>
+            <option value="7">教师</option>
+        </select>
+    </p>
+    <p>
+        <a href="javascript:void(0)" class="add_school_a">添加学校</a>
+    </p>
+    <div class="cl btns">
+    <span class="L btnw"><button type="button" class="step_btn" id="step2">下一步</button></span>
+    </div>
+</div>
+<div class="main_block" id="mb3">
+    <div class="head_hint">
+        <p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>
+        <p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
+        <p class="hint_p">首先 ，请介绍一下自己 :)</p>
+    </div>
+
+    <p class="job_block">
+        <input class="job_unit" name="job_unit" placeholder="单位"><input class="job_title" name="job_title" placeholder="头衔"><input class="job_txt" name="job_txt" placeholder="经历简述 ... ..."><br/>
+        <span class="job_begin">
+        <select name="job_begin_year" class="job_begin_year"><option value=0> - 年 - </option></select>
+        <select name="job_begin_month" class="job_begin_month"><option value=0> - 月 - </option></select>
+        </span>-
+        <span class="job_end">
+        <select name="job_end_year" class="job_end_year"><option value=0> - 年 - </option></select>
+        <select name="job_end_month" class="job_end_month"><option value=0> - 月 - </option></select>
+        </span>
+    </p>
+    <p>
+        <a href="javascript:void(0)" class="add_job_a">添加经历</a>
+    </p>
+    <div class="cl btns">
+    <span class="L btnw job_next_btn"><button type="button" class="step_btn" id="step3">下一步</button></span>
+    </div>
+</div>
+<div class="main_block" id="mb4">
+    <div class="head_hint">
+        <p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>
+        <p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
+        <p class="hint_p">首先 ，请介绍一下自己 :)</p>
+    </div>
+
+    <p class="f14">
+        我的座右铭是<input type="text" name="motto" class="motto">
+    </p>
+    <p class="f14">
+        <script>select_birthday("birthday",'00000000')</script>
+        <span id="birthday"></span>出生 , 如今<select name="marry" class="marry"><option value="1">尚是单身</option><option value="2">正在恋爱</option><option value="3">已经结婚</option></select>
+    </p>
+    <p class="p_addr f14">
+       现居<script>select_pid("pid_now", 0)</script><span id="pid_now"></span>
+    </p>
+    <p class="p_addr f14">
+       家乡<script>select_pid("pid_home", 0)</script><span id="pid_home"></span>
+    </p>
+    <p class="f14">我会向别人这样介绍自己</p>
+    <textarea class="f14" placeholder="爱吃什么 , 偶像是谁 , 想去的地方 , 追逐的理想 。 人生是一场旅行 ..." name="txt" id="txt" class=""></textarea>
+    
+    <div class="cl btns">
+    <span class="L btnw job_next_btn"><button type="button" class="step_btn" id="step4">下一步</button></span>
+    </div>
+</div>
+
+
+</div>
+
+</div>
+</div>
+<script id="zsite_ico" type="text/x-jquery-tmpl">
+<%text>
+<div class="zsite_ico c">
+<img src="${$data[0]}">
+<div>${$data[1]}</div>
+<div>${$data[2]}</div>
+<div>${$data[3]}</div>
+</div>
+</%text>
+</script>
+
+%if zsite_list:
+<%
+ico_url_bind_with_default(zsite_list)
+career_bind(zsite_list)
+zsite_ico_list = []
+for i in zsite_list:
+    unit , title = i.career
+    zsite_ico_list.append(
+        ( i.ico, i.name, unit, title)
+    )
+%>
+<script>
+zsite_ico_list(${json_encode(zsite_ico_list)|n})
+</script>
+%endif
+

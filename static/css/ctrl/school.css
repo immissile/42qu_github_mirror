@@ -77,24 +77,4 @@ color:#fff;
 background:#d20;
 color:#fff;
 }
-.school_year,.school_type,.dep{
-border:1px solid #CCCCCC;
-font-size:16px;
-padding:7px;
-text-align:center
-}
-.school_select{
-padding:8px;
-text-align:center;
-width:200px;
-margin-right:8px;
-cursor:pointer;
-}
-.dep{
-margin-left:41px;
-width:218px;
-margin-right:8px;
-}
-.add_school_a{
-margin-left:41px;
-}
+
