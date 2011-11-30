@@ -1,0 +1,73 @@
+
+.items{
+margin:27px auto 0;
+overflow:auto;
+}
+.f_item, .f_item2{
+display:block;
+width:224px;
+height:48px;
+padding:6px;
+margin:0 5px 5px 0;
+float:left;
+overflow:hidden;
+color:#444;
+border:1px solid #fff;
+}
+.f_item2{
+background:#fc0;
+color:#003;
+}
+.f_item2:hover{
+color:#666;
+}
+.f_item:hover{
+color:#444;
+border:1px solid #ccc;
+}
+.f_img{
+width:48px;
+height:48px;
+float:left;
+margin-right:6px;
+}
+.f_item .f_icon{
+display:none;
+}
+.f_icon{
+margin-left:5px;
+vertical-align:-1px;
+background:url(/img/gif/yes_bgfc0.gif);
+width:16px;
+height:16px;
+display:inline-block;
+}
+.f_email{
+margin-top:-4px;
+}
+.act{
+margin:0 37px 0 0;
+}
+.item_wrap{
+overflow:auto;
+}
+.select_all{
+margin-top:16px;
+float:right;
+line-height:14px;
+margin-right:15px;
+}
+#select_all{
+margin-right:2px;
+}
+
+.tip{
+margin-top:27px;
+text-align:center;
+border-bottom:1px dotted #ccc;
+padding-bottom:27px;
+font-size:16px;
+}
+.acts{
+margin-top:27px;
+}

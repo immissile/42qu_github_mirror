@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import _url
+import _url_zpage
 import tornado.wsgi
 from config import SITE_DOMAIN
 from zweb.urlmap import handlers
@@ -31,6 +31,12 @@ import _urlmap.site
 application.add_handlers(
     'site\.%s'%RE_SITE_DOMAIN,
     handlers(_urlmap.site, _urlmap.auth, _urlmap.j)
+)
+
+import _urlmap.com
+application.add_handlers(
+    'com\.%s'%RE_SITE_DOMAIN,
+    handlers(_urlmap.com, _urlmap.auth, _urlmap.j)
 )
 
 import _urlmap.main

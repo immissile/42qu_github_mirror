@@ -1,0 +1,79 @@
+<%inherit file="/ctrl/_base/com.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.zsite_url import host
+from model.ico import fs_url_jpg
+%>
+<%
+if zsite_id:
+    request_host = host(zsite_id)
+else:
+    request_host = request.host
+%>
+<%def name="htm_head()">
+${css.ctrl_zsite_com|n}
+${css.ctrl_site_new|n}
+<script src="${js.pid}"></script>
+<script src="${js.ctrl_com|n}"></script>
+</%def>
+
+<%htm:form enctype="multipart/form-data" className="site_new" onsubmit="return com_new()">
+%if pic_id:
+<img class="imgpic" src="${fs_url_jpg('96',pic_id)}">
+<input class="file" type="hidden" name="pic_id" value="${pic_id}" id="pic_id">
+%endif
+<div>
+图片标识<input class="file" name="pic" id="pic" type="file">
+${errtip.pic|n}
+</div>
+<div>
+    显示名称<input autocomplete="off" class="input" name="name" id="name" value="${name or ''}" type="text">
+${errtip.name|n}
+</div>
+<div>
+    口号宣言<input class="input" autocomplete="off" name="motto" id="motto" value="${motto or ''}" type="text">
+${errtip.motto|n}
+</div>
+%if not edit:
+<div>
+    个性域名<input autocomplete="off" class="input" name="url" value="${url or ''}" type="text" id="url"><span class="ltip">域名由英语字母，数字，和 - 构成，长度在5-32个字符</span>
+${errtip.url|n}
+</div>
+%endif
+<div class="address" style="margin-top:16px;">
+    公司地址<span class="addr_block">\
+        %if not pid_add:
+<script>select_pid("pid", 0)</script>\
+<input type="text" class="input addr_input" name="address">\
+        %else:
+        %for x,p in enumerate(pid_add):
+<script>select_pid("pid${x}", ${p[0] or 0})</script>\
+<input type="text" class="input addr_input" name="address" value="${p[1] or ''}">\
+        %endfor
+        %endif
+<a href="javascript:add_addr();void(0)" class="add_addr_a">添加地址</a>
+    </span>
+</div>
+<div class="errtip" id="errtip_addr"></div>
+<div>
+    联系电话<input class="input_" autocomplete="off" name="phone" id="motto" value="${phone or ''}" style="width:300px"type="text">
+${errtip.phone|n}
+</div>
+<div>
+    <span class="btnw"><button type="submit" id="submit">
+            %if edit:
+            保存
+            %else:
+            下一步
+            %endif
+    </button></span>
+</div>
+
+</%htm:form>
+
+
+
+</div></div></div>
+
+
+

@@ -145,7 +145,6 @@ function follow_a(id) {
 	url = "/j/follow",
 	follow = "关注",
 	follow_rm = "淡忘";
-
 	if (text == follow) {
 		text = follow_rm;
 		fancybox = $.fancybox;
@@ -185,6 +184,53 @@ function follow_a(id) {
         }
 	}
 	$.postJSON(url + "/" + id)
+	a.html(text)
+}
+
+function fav_com(){
+    var a = $('#fav_a'),
+    text = a.html(),
+    url = '/j/fav',
+    fav = '收藏',
+    fav_rm = '淡忘'
+    if(text == fav){
+        text = fav_rm,
+        fancybox = $.fancybox
+        fancybox({
+            content:'<form id="fav_reply" class="fancyreply"><h3>写写你对它的看法吧 ...</h3><textarea name="txt" class="fav_txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">确定</button></span><span class="R fav_tip c9">142字以内</span></div></form>',
+            onComplete: function() {
+                var reply = $('#fav_reply'),
+				textarea = $('.fav_txt'),
+                tip = $('.fav_tip'),
+                can_say = txt_maxlen(textarea, tip, 142)
+   				reply.submit(function() {
+					var txt = $.trim(textarea.val());
+					if (txt && txt.length) {
+                        if(can_say()){
+						    fancybox.showActivity()
+						    $.postJSON("/j/fav", {
+							    'txt': txt
+						    })
+						    fancybox.close()
+                        }else{
+                            tip.fadeOut(function(){tip.fadeIn()})
+                            return false
+                        }
+					} else {
+						fancybox.close()
+					}
+					return false
+				})
+				textarea.focus()
+            }
+        })
+    } else {
+        if(confirm("取消收藏 , 确定 ?")){
+    		text = fav;
+	    	url += "/rm"
+        }
+	}
+	$.postJSON(url)
 	a.html(text)
 }
 
@@ -238,7 +284,8 @@ function feed_load_maker(FEED_ATTR_BASE ){
 		66: FEED_ATTR_TXT_BASE,
 		67: FEED_ATTR_TXT_BASE,
 		68: FEED_ATTR_BASE + " place_name address time_row1 time_row2 time_diff_day",
-		69: FEED_ATTR_BASE
+		69: FEED_ATTR_BASE,
+        72: FEED_ATTR_BASE
 	}
 	for (var i in FEED_ATTR) {
 		FEED_ATTR[i] = (FEED_ATTR[i] + "").split(' ')

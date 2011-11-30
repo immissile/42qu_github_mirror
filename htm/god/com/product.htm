@@ -1,0 +1,32 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from model.po_product_show import product_show_get
+%>
+<%def name="htm_head()">
+<style>
+.product{
+border-bottom:1px dotted #ccc;
+padding:14px;
+}
+</style>
+</%def>
+<div class="G">
+%for i in li:
+<%
+zsite = i.zsite
+%>
+<div class="G2">
+<div class="product">${i.id}
+    <a class="R"
+    %if product_show_get(i.id):
+href="/product/show/rm/${i.id}">移除秀
+    %else:
+href="/product/show/new/${i.id}">加入秀
+    %endif
+    </a>
+    <a href="${zsite.link}#product_${i.id}" target="_blank">${i.name}</a>
+</div>
+</div>
+%endfor
+</div>
+${page|n}

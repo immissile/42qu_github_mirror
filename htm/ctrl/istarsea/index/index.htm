@@ -1,0 +1,80 @@
+<%!
+from config import LOGO_TEXT, SITE_DOMAIN
+from tornado.escape import json_encode 
+%>
+
+<%inherit file="/ctrl/_base/istarsea.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="H()">
+</%def>
+
+<%def name="htm_head()">
+<style>body{overflow:hidden;
+font-family:Helvetica;
+}
+.input{
+    width:220px;
+    font-size:16px;
+    margin-left:7px;
+    padding:7px;
+    background:#000;
+    color:#fff;
+    border:1px solid #999;
+}
+.submit{
+    font-size:16px;
+    border:1px solid #ccc;
+    padding:7px;
+    background:#000;
+    color:#fff;
+    cursor:pointer;
+}
+</style>
+<script src="${js.jquery_tickertype}"></script>
+</%def>
+
+
+<%def name="h_nav()"></%def>
+
+<%htm:form id="form_reg" >
+<div style="margin:auto;text-align:center;color:#fff">
+<p><label>邮箱</label><input name="mail" class="input" autocomplete="off"></p>
+<p><label>姓名</label><input name="name" class="input" autocomplete="off"></p>
+<p>
+    <button class="submit" type="submit">等待那时的到来</button>
+</p>
+<script>
+$("input[name=name]").focus()
+</script>
+</div>
+<div style="line-height:96px;font-size:64px;margin-top:10%;text-align:center;color:#fff;display:none" id="ticker-area">\
+<div><pre>小小水 , 你是个梦幻般的女孩<br>\
+我要抱抱你<br>\
+2011-11-12 11:20</pre></div>
+</div>
+</%htm:form>
+
+<div style="position:absolute;left:-9999px">
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="165" height="37" id="niftyPlayer1" align="">
+<param name=movie value="http://s.istarsea.co/file/niftyplayer.swf?file=http://s.istarsea.co/file/starsea&as=1">
+<param name=quality value=high>
+<param name=bgcolor value=#FFFFFF>
+<embed src="http://s.istarsea.co/file/niftyplayer.swf?file=http://s.istarsea.co/file/starsea&as=1" quality=high bgcolor=#FFFFFF width="165" height="37" name="niftyPlayer1" align="" type="application/x-shockwave-flash" swLiveConnect="true" pluginspage="http://www.macromedia.com/go/getflashplayer">
+</embed>
+</object>
+</div>
+
+<script src="http://audio.b0.upaiyun.com/niftyplayer.js"></script>
+<script>
+window.onload=function(){
+setTimeout(function(){
+niftyplayer('niftyPlayer1').registerEvent(
+    "onSongOver",
+    "niftyplayer('niftyPlayer1').play()"
+)
+},1000)
+}
+</script>
+
+

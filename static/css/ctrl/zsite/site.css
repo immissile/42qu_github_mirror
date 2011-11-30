@@ -12,6 +12,9 @@ float:left;
 position:relative;
 z-index:1;
 }
+#mk_form{
+margin-top:1px;
+}
 .mk_ti{
 font-size:16px;
 color:#999;
@@ -71,7 +74,7 @@ padding-bottom:27px;
 border-bottom:1px dotted #ccc;
 }
 #nav2 .verify span{
-background:#a10;
+background:#d10;
 color:#fff;
 padding:4px 7px;
 vertical-align:1px;
@@ -185,7 +188,7 @@ height:26px;
 margin-top:2px;
 }
 .pop_ok{
-color:#a10;
+color:#d10;
 }
 #sidebar_nav .now{
 color:#000

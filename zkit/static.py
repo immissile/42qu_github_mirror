@@ -323,7 +323,7 @@ class BaseMagic(object):
 class StringMagic(BaseMagic):
     """Magic to replace variables in file contents using string.Template.
 
-    Using this requires Python2.4.
+    Using this require Python2.4.
     """
 
     extension = '.stp'
@@ -351,7 +351,7 @@ class StringMagic(BaseMagic):
 class KidMagic(StringMagic):
     """Like StringMagic only using the Kid templating language.
 
-    Using this requires Kid: http://kid.lesscode.org/
+    Using this require Kid: http://kid.lesscode.org/
     """
 
     extension = '.kid'

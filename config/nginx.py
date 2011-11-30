@@ -37,6 +37,7 @@ def render_conf(name, base_path, o):
     txt = TEMPLATE.render(
         this=o,
         fs_path=fs_path,
+        project_name=o.MYSQL_MAIN,
         base_path=base_path,
         port_list=port_list,
         god_port_list=god_port_list,
@@ -85,6 +86,7 @@ work
 
 render_machine('potato', """
 work
+istarsea
 """)
 #    render_conf(1)
 #@render_conf

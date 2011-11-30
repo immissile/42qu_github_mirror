@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel
+from _db import Model, McModel, McCache
 from zkit.google.greader import Reader
 import json
 import sys
@@ -11,7 +11,7 @@ from model.mail import rendermail
 from model.user_mail import mail_by_user_id
 from model.zsite import Zsite
 from model.cid import CID_USER
-
+from zkit.bot_txt import txt_map
 
 RSS_UNCHECK = 0
 RSS_RM = 1
@@ -45,6 +45,16 @@ class RssUpdate(McModel):
 
 def rss_po_id(rss_po_id, po_id):
     RssPoId.raw_sql('insert into rss_po_id (id, po_id, state) values (%s, %s, 0)', rss_po_id, po_id)
+
+mc_rss_link_by_po_id = McCache("RssLinkByPoId:%s")
+
+@mc_rss_link_by_po_id("{id}")
+def rss_link_by_po_id(id):
+    rss_po = RssPoId.get(po_id=id)
+    if rss_po:
+        rss_po = RssPo.mc_get(rss_po.id)
+        if rss_po:
+            return rss_po.link
 
 def rss_po_total(state):
     return RssPo.where(state=state).count()
@@ -103,6 +113,9 @@ def unread_feed_update(greader, feed):
         res = greader.unread(feed)
         rss_feed_update(res, id , user_id)
 
+def pre_br(txt):
+    r = txt.replace("\r\n","\n").replace("\r","\n").replace("\n\n","\n").replace("\n","<br>")
+    return r
 
 def rss_feed_update(res, id, user_id, limit=None):
     from zkit.rss.txttidy import txttidy
@@ -110,6 +123,7 @@ def rss_feed_update(res, id, user_id, limit=None):
 
 
     rss = Rss.mc_get(id)
+    zsite = Zsite.mc_get(user_id)
     for count , i in enumerate(res):
         if limit:
             if count > limit:
@@ -118,17 +132,21 @@ def rss_feed_update(res, id, user_id, limit=None):
             link = i['alternate'][0]['href']
         else:
             link = ''
-        title = i['title']
+        if 'title' in i:
+            title = i['title']
+        else:
+            title = zsite.name
         rss_uid = i.get('id') or 1
         snippet = i.get('summary') or i.get('content') or None
 
         if snippet:
             htm = snippet['content']
-
             if htm:
                 htm = txttidy(htm)
+                htm = txt_map("<pre","</pre>", htm, pre_br) 
                 htm = tidy_fragment(htm, {'indent': 0})[0]
-
+                htm = htm.replace("<br />","\n")    
+#                print htm
                 txt, pic_list = htm2txt(htm)
 
                 pic_list = json.dumps(pic_list)
@@ -138,9 +156,11 @@ def rss_feed_update(res, id, user_id, limit=None):
                         state = RSS_PRE_PO
                     else:
                         state = RSS_UNCHECK
+
                     RssPo.raw_sql(
 'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
-user_id, id, rss_uid, title, txt, link, pic_list, state, title, txt, pic_list
+user_id, id, rss_uid, title, txt, link, pic_list, state, 
+title, txt, pic_list
                     )
 
 
@@ -225,21 +245,8 @@ def rss_subscribe(greader=None):
 
 
 if __name__ == '__main__':
-    print rss_po_list_by_state(0)
-    #rss_subscribe()
-    # from collections import defaultdict
-    # user_id = defaultdict()
-    # for i in RssPo.where():
-    #     pass
-
-    #greader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
-    #greader.empty_subscription_list()
     pass
-    #rss = Rss.get(202)
-    #rss.gid = 0
-    #rss.save() 
-    #RssPo.where(user_id=10098398).delete()
-    for i in Rss.where():
-        print i.url
-        if 'http://rss-tidy/' in i.url:
-            print i
+
+    from zkit.rss.txttidy import txttidy
+    from tidylib import  tidy_fragment
+

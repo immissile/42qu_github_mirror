@@ -99,8 +99,6 @@ def follow_rm(from_id, to_id):
 def follow_new(from_id, to_id):
     if not _follow_new(from_id, to_id):
         return
-    from buzz import mq_buzz_follow_new
-    mq_buzz_follow_new(from_id, to_id)
     return True
 
 def _follow_new(from_id, to_id):
@@ -137,12 +135,4 @@ if __name__ == '__main__':
     #print mc_follow_id_list_by_to_id
     #print following_id_rank_tuple(10000000)
     #print follow_list_show_by_from_id(10000000, 1)
-    from model.cid import CID_USER
-    #name_dict, url_dict = follow_name_dict_url_dict_by_from_id_cid(10000000, CID_USER)
-    from zkit.at_match import zsite_by_key
-
-    name_dict, url_dict = follow_reply_name_dict_url_dict_by_from_id_cid(10000000, 10096459)
-
-
-    print zsite_by_key('kab', name_dict, url_dict, 4)
-
+    print Follow.count()

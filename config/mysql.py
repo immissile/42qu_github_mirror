@@ -72,6 +72,23 @@ DB_MAIN_TABLE = (
     'rss_update',
     'site_rec',
     'site_rec_history',
+    'top_rec',
+    'invite_email',
+    'invite_message',
+    'weekly_mail',
+    'job_mail',
+
+    'zsite_com_place',
+    'job_pid',
+    'job_type',
+    'job_pid_default',
+    'job_kind',
+    'com_job',
+    'com_department',
+    'com_job_needs',
+    'po_review_show',
+    'zsite_com',
+    'com_apply',
 
 )
 

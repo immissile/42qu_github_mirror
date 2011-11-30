@@ -4,7 +4,7 @@ from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from config import SITE_HTTP, RPC_HTTP
 from zkit.page import page_limit_offset
-from model.event import Event, EVENT_STATE_DEL, event_joiner_new, event_joiner_state, event_joiner_list, event_joiner_user_list,\
+from model.event import Event, EVENT_STATE_RM, event_joiner_new, event_joiner_state, event_joiner_list, event_joiner_user_list,\
 event_count_by_zsite_id, event_join_count_by_user_id,\
 event_list_by_zsite_id, event_list_join_by_user_id,\
 EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END, EVENT_STATE_BEGIN, EVENT_STATE_END
@@ -15,7 +15,7 @@ from ctrl.me.i import NameCardEdit
 from model.zsite import ZSITE_STATE_VERIFY
 from model.zsite_url import link, id_by_url
 from config import SITE_DOMAIN
-from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id
+from model.site_po import feed_po_list_by_zsite_id, po_cid_count_by_zsite_id
 #from model.sync import mq_sync_join_event_by_zsite_id
 
 
@@ -72,7 +72,7 @@ class EventJoined(ZsiteBase):
         )
 
         if zsite.cid == CID_SITE:
-            li = po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset)
+            li = feed_po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset)
         else:
             li = event_list_join_by_user_id(zsite_id, limit, offset)
 
@@ -88,7 +88,7 @@ class EventJoined(ZsiteBase):
 class EventBase(LoginBase):
     def _event(self, id):
         o = Event.mc_get(id)
-        if o and o.state > EVENT_STATE_DEL:
+        if o and o.state > EVENT_STATE_RM:
             if o.zsite_id == self.zsite_id:
                 return o
             return self.redirect(link(o.zsite_id)+self.request.path)

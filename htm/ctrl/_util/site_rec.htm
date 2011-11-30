@@ -2,7 +2,7 @@
 from model.ico import ico_url_with_default
 from config import FS_URL
 from model.motto import motto_get
-from model.site_po import po_list_by_zsite_list
+from model.site_po import po_list_by_zsite_id
 from model.cid import CID_NOTE
 from config import SITE_DOMAIN
 from model.site_rec import site_rec
@@ -43,7 +43,7 @@ href="javascript:site_fav(${site_id});void(0)">收藏站点</a>
 href="//site.${SITE_DOMAIN}">浏览更新</a>
         </div>
         <div class="site_txt">
-%for i in po_list_by_zsite_list(site_id, CID_NOTE, 4, 0):
+%for i in po_list_by_zsite_id(site_id, CID_NOTE, 4, 0):
 <a class="site_txt_a" target="_blank" href="${i.link}">${i.name}</a>\
 %endfor
         </div>

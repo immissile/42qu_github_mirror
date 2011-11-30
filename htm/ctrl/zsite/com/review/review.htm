@@ -1,0 +1,51 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>  
+<%!
+from model.zsite_member import zsite_member_is_invite
+%>
+
+<%
+is_post = request.method=="POST"
+is_invite = zsite_member_is_invite(zsite_id, current_user_id)
+%>
+<div style="width:470px;margin:16px auto 0">
+%if not is_post:
+%if can_admin or is_invite:
+写几句给未来同事吧 ...
+%else:
+说说你的看法吧 ...
+%endif
+%else:
+<div class="tc" style="padding:27px;border:1px dotted #ccc;margin-bottom:27px">保存成功 , <a href="/">点此返回</a></div>
+%endif
+</div>\
+<%htm:form>
+<div style="border:0" class="zsite_block">
+<textarea name="txt" class="comment_txt">\
+%if review:
+${review.name}\
+%endif
+</textarea>\
+<div style="margin-top:22px;" class="btns">
+<span style="margin-left:0;" class="btnw"><button type="submit" class="btn">保存</button></span>
+%if is_invite:
+<span style="vertical-align: 10px; font-size: 16px;"><input type="checkbox" style="margin:0 3px 0 16px" checked name="join" value="1"><label>加入公司</label></span>
+%endif
+<span class="tip R c9 f14">142字以内</span>
+</div>
+</div>
+</%htm:form>
+<script>
+$(".comment_txt").focus()
+var tip = $('.tip')
+can_say = txt_maxlen($('.comment_txt'),tip,142)
+post_say = function(){
+    if(!can_say()){
+        tip.fadeOut(function(){tip.fadeIn()})
+        return false
+    }
+}
+$('form:first').submit(post_say)
+</script>
+
+

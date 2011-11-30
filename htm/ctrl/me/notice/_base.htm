@@ -1,0 +1,25 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%!
+NAV = (
+    ('',"提醒"),
+    ('buzz',"流言"),
+)
+%>
+<%
+path = request.path[8:].split("-",1)[0]
+%>
+<h1 class="h1nav">\
+<span class="nav">\
+%for pos,(href,name) in enumerate(NAV):
+    %if pos:
+<span class="c9 split">-</span>\
+    %endif
+<a href="/notice/${href}"
+%if path==href:
+class="c0"\
+%endif
+>${name|n}</a>\
+%endfor
+</span>\
+</h1>\
+${next.body()}

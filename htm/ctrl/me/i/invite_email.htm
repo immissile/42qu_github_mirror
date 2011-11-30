@@ -8,15 +8,15 @@ from model.invite_email import INVITE_CID2CN
 %>
 <script>
 $(function(){ 
-    $('#select_all').click(
-        function(){
-            if($(this).attr('checked')){
+    $('#select_all').change(function(){
+            if(this.checked){
                 $('.ck').attr('checked',true)
             } else{
-                $('.ck').removeAttr('checked')
+                $('.ck').attr('checked',false)
             }
         }
     )
+    $("#mail_txt").focus().select()
 })
 </script>
 <style>
@@ -24,28 +24,27 @@ $(function(){
 width:528px;
 margin:27px auto 0;
 overflow:auto;
-border:1px solid #ccc;
+border:1px solid #eee;
 padding:12px;
-max-height:400px;
+max-height:150px;
+*height:150px;
 overflow:auto;
 }
 .e_item{
 display:block;
 padding:6px;
 overflow:hidden;
-border-bottom:1px dashed #ccc;
+border-bottom:1px dashed #eee;
 position:relative;
 }
 .e_email{
 color:#999;
-position:absolute;
-left:250px;
 text-align:left;
 }
 .tip{
+width:552px;
+margin:auto;
 margin-top:27px;
-font-size:16px;
-margin-left:207px;
 }
 .act{
 margin:0 10px 0 0;
@@ -56,7 +55,7 @@ margin-left:18px;
 }
 .select_all{
 width:552px;
-border:1px solid #ccc;
+border:1px solid #eee;
 border:0 1px 1px;
 margin:-1px auto 0;
 padding:6px 0;
@@ -64,34 +63,63 @@ padding:6px 0;
 .mail_txt{
 padding:6px;
 width:540px;
-height:85px;
-margin:27px 0 0 210px;
+margin:14px 0 0 210px;
 }
 .mail_sub{
-margin:20px 0 40px 758px;
+margin:0 0 40px 0;
+}
+.e_name{
+display:inline-block;
+width:200px;
+overflow:hidden;
+height:21px;
+line-height:21px;
+vertical-align:-4px;
+}
+.mail_act{
+margin:32px 0 0 210px;
+overflow:auto;
+width:554px;
+text-align:right;
+}
+.mail_skip{
+font-size:16px;
+float:left;
+color:#999;
+margin-top:6px;
+margin-right:38px;
+display:block;
 }
 </style>
 
-<p class="tip">
-你有${len(emails)}个${INVITE_CID2CN[int(cid)]}联系人不在42区上,你可以在下面的列表中选择你想邀请的联系人
-</p>
 <%htm:form>
-    <div class="e_items">
-        %for email in emails:
+
+<div class="e_items">
+        %for pos,email in enumerate(emails):
     <div class="e_item">
-        <input type="checkbox" name="mails" value="${email[0]}" class="ck">
-        <label for="e_check1">${email[0]}</label>
-        <span class="e_email">${email[1]}</span>
+        <input type="checkbox" id="e_check${pos}" name="mails" checked value="${email[0]} ${email[1]}" class="ck">
+        <label for="e_check${pos}">
+        <span class="e_name">${email[1]}</span>
+        <span class="e_email">${email[0]}</span>
+        </label>
     </div>
     %endfor
 </div>
-<div class="select_all">
-    <input type="checkbox" id="select_all"><label for="select_all"> 全选</label>
+<div style="width:554px;margin:7px auto 0">
+<input type="checkbox" id="select_all" checked><label for="select_all"> 全选</label>
 </div>
 
-<p class="tip">
-想在42区发出的邀请信中加几句话吗？
-</p>
-<textarea class="mail_txt" name="mail_txt"></textarea>
-<div class="mail_sub"><span class="btnw"><button type="submit">发送邀请</button></span></div>
+<p class="tip f14"> 邀请朋友们来围观 : </p>
+<input 
+    type="text" 
+    id="mail_txt" 
+    class="mail_txt" 
+    name="mail_txt" 
+    value="邀请你来这个网站看看 :)"
+> 
+<div class="mail_act">
+<a href="/i/invite" class="mail_skip">以后再说</a>
+<div class="mail_sub"><span class="btnw"><button type="submit">广而告之</button></span></div>
+</div>
+
 </%htm:form>

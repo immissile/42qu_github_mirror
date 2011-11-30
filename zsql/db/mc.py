@@ -14,11 +14,13 @@ def _mc_get_dict(self, args_list):
         return dict(zip(args_list, result))
     return {}
 
-def _mc_decorator(self, key, expire=0):
+def _mc_decorator(self, key=None, expire=0):
     if type(key) is str:
         _key = key
         key = lambda x:_key.format(**x)
-
+    elif key is None:
+        key = lambda x:""   
+ 
     def _func(func):
         arg_names, varargs, varkw, defaults = inspect.getargspec(func)
 
@@ -46,6 +48,7 @@ def _mc_decorator(self, key, expire=0):
             return r
 
         return decorator(_, func)
+    
     return _func
 
 def _mc_delete(self, *args):
@@ -193,8 +196,10 @@ class McLimitA(object):
                 mc_key = key(aa)
                 offset = aa.get('offset', 0)
                 limit = aa.get('limit')
-                if limit is None or offset+limit > self.limit:
+
+                if limit is not None and offset+limit > self.limit:
                     return func(*a, **kw)
+
                 smc = self.mc
                 r = smc.get(mc_key)
                 #print  mc_key,r
@@ -203,7 +208,14 @@ class McLimitA(object):
                     aa['limit'] = self.limit
                     r = f(**aa)
                     smc.set(mc_key, r, expire)
+
+                if limit is None:
+                    if self.limit > len(r):
+                        return r[offset:]   
+                    return func(*a, **kw)
+
                 return r[offset:limit+offset]
+
             return decorator(_, func)
         return _func
 

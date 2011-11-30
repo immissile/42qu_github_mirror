@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
-from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
+from _db import Model, McModel, McCache, McCacheA, McNum
 from cgi import escape
 from zkit.pic import pic_fit_width_cut_height_if_large
 from pic import pic_new, pic_save, PicMixin
 from cid import CID_PO_PIC
 from fs import fs_set_jpg, fs_url_jpg
+import traceback
 
 PIC_HTM = '<div class="PIC%s"><img src="%s"%s>%s</div>'
 
@@ -14,7 +15,7 @@ PIC_LIMIT = 42
 
 #PIC_SAFE = 30
 #PIC_ADD = 20
-#PIC_SELF_DELETE = 10
+#PIC_SELF_RMETE = 10
 #PIC_UNSAFE = 5
 #PIC_ANTI = 0
 
@@ -44,7 +45,11 @@ def seq_gen(user_id, po_id):
 def po_pic_new(user_id, po_id, pic, seq=None):
     pic_id = pic_new(CID_PO_PIC, user_id)
     pic_save(pic_id, pic)
-    po_pic_save(pic_id, pic)
+    try:
+        po_pic_save(pic_id, pic)
+    except:
+        traceback.print_exc()
+        return
 
     if seq is None:
         seq = seq_gen(user_id, po_id)
@@ -52,6 +57,18 @@ def po_pic_new(user_id, po_id, pic, seq=None):
     pp.save()
     mc_flush(user_id, po_id)
     return pp
+
+def product_pic_new(com_id, product_id, pic):
+    pic_id = pic_new(CID_PRODUCT_PIC, com_id)
+    pic_save(pic_id, pic)
+
+    p1 = pic_fit_width_cut_height_if_large(pic, 548)
+    fs_set_jpg('548', pic_id, p1)
+
+    p2 = pic_fit_width_cut_height_if_large(pic, 215)
+    fs_set_jpg('215', pic_id, p2)
+    return pic_id
+
 
 def po_pic_save(pic_id, pic):
     p1 = pic_fit_width_cut_height_if_large(pic, 721)

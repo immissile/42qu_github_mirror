@@ -10,6 +10,14 @@ padding:7px;
 margin-top:16px;
 margin-left:8px;
 }
+.input_{
+border:1px solid #ccc;
+width:300px;
+font-size:16px;
+padding:7px;
+margin-top:16px;
+margin-left:8px;
+}
 .btnw{
 margin-left:72px;
 margin-top:16px;
@@ -55,7 +63,7 @@ border:1px solid #ccc;width:62px;font-size:16px;padding:7px 0;text-align:center
 margin-left:8px;
 }
 .warn{
-color:#a10;margin-left:16px
+color:#d10;margin-left:16px
 }
 .imgpic{
 margin-left:72px

@@ -226,34 +226,36 @@ function doc_height(){
 (function(){
 var doc=$(document), h=doc_height();
 fcm = function (id,count){
-    var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
-    self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
-    var self_a = self.parent().find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
-    self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
-    if(count){
-        fcmtxt.before('<div class="fcmload"></div>')
-        $.postJSON(
-        "/j/po/reply/json/"+id,
-        function(data){
-            self.find($('.fcmload')).replaceWith(fcml)
-            for(i=0;i<data.length;i++){
-                t=data[i]
-                html = $('<div class="fcmi"><a target="_blank" class="fcmname c9" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
-                $('#fcml_'+id).append(html)
-                html.find(".fcmname").text(t[2])
-            }
-            $('#fcml_'+id).slideDown(function(){$(this).show()})
-            var e = $('#txt_'+id)
-            if(e.offset().top-doc.scrollTop()>h){
-                scrolls(id)             
-            }
-            
-        })
-    }else{
-        fcmtxt.before(fcml)
+    if(!$('#fcmpop_'+id)[0]){
+        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
+        self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
+        var self_a = self.parent().find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
+        self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
+        if(count){
+            fcmtxt.before('<div class="fcmload"></div>')
+            $.postJSON(
+            "/j/po/reply/json/"+id,
+            function(data){
+                self.find($('.fcmload')).replaceWith(fcml)
+                for(i=0;i<data.length;i++){
+                    t=data[i]
+                    html = $('<div class="fcmi"><a target="_blank" class="fcmname c9 TPH" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
+                    $('#fcml_'+id).append(html)
+                    html.find(".fcmname").text(t[2])
+                }
+                $('#fcml_'+id).slideDown(function(){$(this).show()})
+                var e = $('#txt_'+id)
+                if(e.offset().top-doc.scrollTop()>h){
+                    scrolls(id)             
+                }
+                
+            })
+        }else{
+            fcmtxt.before(fcml)
+        }
+        $("#txt_"+id).pop_at("/j/at/reply/"+id)
+        self.find('textarea').focus().elastic()
     }
-    $("#txt_"+id).pop_at("/j/at/reply/"+id)
-    self.find('textarea').focus().elastic()
 }
 
 function scrolls(id){
@@ -385,3 +387,54 @@ function init_say(){
     })
 }
 
+$(function(){
+    var tt
+    function pop_hero(elem){
+        var pop_hero_remove = function(){$('.pop_hero').remove()}
+        elem.live('mouseover',function(){
+            if($('.pop_hero')[0]) pop_hero_remove()
+            clearTimeout(tt)
+            var self = $(this)
+            var href = self.attr('href')
+            $.getJSON(
+            '/j/hero/'+href.slice(href.indexOf('\/\/')+2).split('.')[0],
+            function(result){
+                if(!result)return;
+                if(!$('.pop_hero')[0]){
+                        $('body').prepend(
+    '<div class="pop_hero"><div class="pop_hero_to"></div><div class="pop_hero_banner"><a href="'+result[3]+'" target="_blank"><img class="pop_hero_avatar" src="'+result[2]+'"></a><a href="javascript:follow_a('+result[4]+');void(0)" id="follow_a'+result[4]+'" class="xa pop_hero_follow">'+result[5]+'</a></div><a href="'+result[3]+'" target="_blank" class="pop_hero_name">'+result[0]+'</a><div class="pop_hero_bio">'+result[1]+'</div><div class="pop_hero_motto">'+result[6]+'</div></div>')
+                        $('.pop_hero').offset({top:self.offset().top-126,left:self.offset().left-30})
+                    }
+                })
+        }).live('mouseout',function(){
+            var ctrl = false
+            var on = false
+            clear_pop_hero = function(){
+                if(!on){
+                    pop_hero_remove()
+                }else{
+                    $('.pop_hero').bind('mouseleave',pop_hero_remove)
+                }
+            }
+            $('.pop_hero').live('mouseover',function(){on = true}).unbind('mouseleave')
+           tt=setTimeout("clear_pop_hero()",300)
+        })
+    }
+    pop_hero($('.TPH'))
+
+})
+
+function auto_add(item,toadd,wrap,close,act){
+    var wrap = $('.'+wrap)
+    $('.'+item+':last').live(act,function(){
+        wrap.append(toadd)
+    })
+    if(close!=''){
+        $('.'+close).live('click',function(){
+            $(this).parent().remove()
+            if(!wrap.children()[0]){
+                wrap.append(toadd)
+            }
+        })
+    }
+}

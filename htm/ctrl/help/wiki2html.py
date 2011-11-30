@@ -28,7 +28,7 @@ HTML_TEMPLATE = ''.join(['''
 </head>
 <body>
 <div style="border-bottom:1px dotted #ccc;padding:22px 0 27px;margin-bottom:14px;text-align:center">
-<a style="font-size:23px;font-family:Trebuchet MS;color:#a10" href="/">42qu.com</a></div>
+<a style="font-size:23px;font-family:Trebuchet MS;color:#d10" href="/">42qu.com</a></div>
 <div class="content">%s</div>
 <div style="border-top:1px dotted #ccc;padding:27px;margin-top:27px;text-align:center">
 <a href="/" style="font-size:23px;font-family:Trebuchet MS;margin-top:27px;color:#666;padding:14px 28px">42qu.com</a>

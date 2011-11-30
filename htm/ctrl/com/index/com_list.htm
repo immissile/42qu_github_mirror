@@ -1,0 +1,39 @@
+<%inherit file="../base.htm" />
+<%!
+from model.zsite import Zsite
+from model.po_product import Po, product_id_list_by_com_id
+%>
+<%def name="htm_head()">
+${css.ctrl_zsite_com_list|n}
+<script src="${js.ctrl_com_com_list|n}"></script>
+</%def>
+
+<div class="G c com_wrap">
+    %if page_list:
+    %for zsite in page_list:
+        <%
+        product_pos = product_id_list_by_com_id(zsite.id)
+        %>
+<div class="G1">
+    <div class="sdw">
+        <div class="sd">
+            <div class="com_link">
+                <a href="${zsite.link}" class="c0">${zsite.name}</a>
+            </div>
+        %if product_pos:
+        <%
+            pos = Po.mc_get_list(product_pos)
+        %>
+        % for po in pos:
+            <a class="product_link" href="${zsite.link}#product_${po.id}">${po.name}</a>
+%endfor
+%endif
+        </div>
+    </div>
+</div>
+    %endfor
+    %endif
+
+${page|n}
+</div>
+

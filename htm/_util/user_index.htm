@@ -16,9 +16,9 @@ from model.career import career_list_all
     <h1 class="zsite_title">\
     ${zsite.name}\
     %if motto:
-     - ${motto}\
+     . ${motto}\
     %elif is_owner:
-     - <a href="/i" class="c00f">点击这里 , 设置座右铭</a>\
+     . <a href="/i" class="c00f">点击这里 , 设置座右铭</a>\
     %endif
     </h1>
 

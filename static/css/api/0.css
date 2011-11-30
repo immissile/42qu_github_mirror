@@ -1,6 +1,6 @@
 
 a{text-decoration:none;color:#01c}
-a:hover{text-decoration:none;color:#a10}
+a:hover{text-decoration:none;color:#d10}
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -65,7 +65,7 @@ margin-bottom:14px;
 border-bottom:1px dotted #ccc;padding:22px 0 27px;margin-bottom:14px;text-align:center
 }
 #head a{
-font-size:23px;font-family:Trebuchet MS;color:#a10
+font-size:23px;font-family:Trebuchet MS;color:#d10
 }
 #foot{
 border-top:1px dotted #ccc;padding:27px;margin-top:27px;text-align:center

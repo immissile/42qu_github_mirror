@@ -2,10 +2,18 @@
 from model.days import cn_diff_weekday, minute2date, minute2hour
 %>
 <%inherit file="/mail/_base/base.htm"/>
+
 <tr valign="top">
 <td width="630" style="padding:0;line-height:24px">
+%if write_htm:
+<div style="border-bottom:1px dotted #ccc;line-height:32px;padding-bottom:24px;margin-bottom:24px;margin-top:0">${write_htm|n}</div>
+%if event_city_list:
+<p>活动周报</p>
+%endif
+%else:
 <p style="margin:0;padding-top:0;border-bottom:1px dotted #ccc;padding-bottom: 4px;text-align:center;">很多故事 , 起于一次机缘巧合的遇见 ; 人生奇妙 ,  常在那些不期而至的相逢 </p>
 <p style="margin-top:6px;text-align:center;margin-bottom:24px">如有闲暇时光 , 不妨到处看看 :)</p>
+%endif
 
 % for city in event_city_list:
 
@@ -33,7 +41,6 @@ ${begin_hour}</p>
 % endfor
 
 <p>没有感兴趣的? <a href="${site_http}/po/event" target="_blank">点击这里</a> , 创建自己的同城活动</p>
-
 
 
 

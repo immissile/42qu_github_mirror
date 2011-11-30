@@ -20,7 +20,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     author_email='underdarkeye@gmail.com',
-    requires=['pyrex'],
+    require=['pyrex'],
     version='0.001',
     description='zrank',
 )

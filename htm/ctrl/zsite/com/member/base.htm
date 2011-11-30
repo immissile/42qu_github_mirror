@@ -1,0 +1,29 @@
+<%inherit file="/ctrl/_base/_tidy_base.htm" />
+<script src="${js.ctrl_com_member|n}"></script>
+${css.ctrl_com_member|n}
+<%!
+NAV = (
+    ('admin',"成员列表"),
+    ('admin/invite',"邀请成员")
+)
+%>
+<%
+path = request.path[8:].split("-",1)[0]
+%>
+<a class="back_a" href="/"></a>
+
+<span class="nav">\
+%for pos,(href,name) in enumerate(NAV):
+    %if pos:
+<span class="c9 split">-</span>\
+    %endif
+<a href="/member/${href}"
+%if path==href:
+class="c0"\
+%else:
+class="c9"\
+%endif
+>${name|n}</a>\
+%endfor
+</span>\
+${next.body()}

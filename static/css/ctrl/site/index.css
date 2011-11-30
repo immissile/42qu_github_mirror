@@ -2,25 +2,8 @@
 margin:auto;
 float:none;
 }
-h1{
-margin: auto;
-text-align:left;
-border-bottom:1px dotted #ccc;
-font-size:14px;
-padding:16px 0;
-*margin:0 auto;
-}
 h1 .new:visited{
 color:#999;
-}
-h1 .nav a{
-color:#999
-}
-h1 .nav .c0{
-color:#000
-}
-h1 .nav a:hover{
-color:#a10
 }
 #search{
 border: 1px solid #DDDDDD;
@@ -150,17 +133,17 @@ color:#666
 }
 .sfptxt a:hover,
 .sfpa:hover{
-color:#a10
+color:#d10
 }
 .siteread .site_a{
-background:url(/img/gif/icons/gif/tan/to_size/next.gif) no-repeat 100% 50%;
+background:url(/img/gif/icons/gif/tan/to_size/next2.gif) no-repeat 100% 50%;
 }
 .siteread .site_a:hover{
-background-image:url(/img/gif/icons/gif/orange/to_size/next.gif);
+background-image:url(/img/gif/icons/gif/orange/to_size/next2.gif);
 }
 .siteread .now{
 color:#000;
-background-image:url(/img/gif/icons/gif/black/to_size/next.gif);
+background-image:url(/img/gif/icons/gif/black/to_size/next2.gif);
 }
 
 h2{

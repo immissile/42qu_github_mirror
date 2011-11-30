@@ -1,0 +1,28 @@
+<%inherit file="_base.htm" />
+<%!
+from model.ico import ico_url_bind_with_default
+%>
+<%
+
+ico_url_bind_with_default(i.user for i in review_list)
+%>
+
+<div class="zsite_block bdn"> 
+%for i in review_list:
+<%
+user = i.user
+name = [user.name]
+name.extend(user.career or ())
+name = ' , '.join(filter(bool, name))
+%>
+    <div class="review_wrap_show">
+        <a href="${user.link|n}" target="_blank"><img src="${user.ico|n}" class="review_avatar"></a>
+        <span class="review_quot_l">“ </span>
+        <div class="review_cont">
+            <p><a href="${user.link}" target="_blank" class="review_a">${name}</a></p>
+            <pre>${i.name|n}<span class="review_quot_r">”</span><a target="_blank" href="${i.link}" class="zsite_reply"></a></pre>
+        </div>
+    </div>
+%endfor
+</div>
+${page|str,n}

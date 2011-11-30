@@ -2,7 +2,7 @@
 *	@name							Defaultvalue
 *	@descripton						Gives value to empty inputs
 *	@version						1.4.2
-*	@requires						Jquery 1.3.2
+*	@require						Jquery 1.3.2
 *
 *	@author							Jan Jarfalk
 *	@author-email					jan.jarfalk@unwrongest.com

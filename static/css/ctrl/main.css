@@ -63,7 +63,7 @@
 #H .site{
     font-size: 16px;
     font-family: Trebuchet MS;
-    color: #a10;
+    color: #d10;
     margin-right:16px;
 }
 
@@ -112,7 +112,7 @@ display:inline;
     display:none;
 }
 #H .notice span{
-    line-height:12px;background:#a10;
+    line-height:12px;background:#d10;
     position:absolute;
     color:#fff;margin-left:3px;
     font-size:10px;padding:3px 6px;margin-top: -4px;
