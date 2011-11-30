@@ -12,12 +12,13 @@ path_name = (
    ('/i/invite',"寻友"),
    ('/i/invoke',"授权"),
 )
-path_sp = path.split('/')
+path_sp = path.split('/',4)
+path_sp = '/'.join(path_sp[0:3])
 %>
 <div class="i_nav">\
 %for nav_path, nav_name in path_name:
 <a
-%if nav_path == '/'.join(path_sp[0:3]):
+%if nav_path.startswith(path_sp):
 class="now"
 %endif
 href="${nav_path}">${nav_name}</a>\
