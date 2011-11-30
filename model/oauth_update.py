@@ -366,9 +366,9 @@ def sync_by_oauth_id(oauth_id, txt, url=None):
 
 def api_network_http(cid,host, netloc, headers, body, method, connection=httplib.HTTPConnection):
     if cid == OAUTH_KAIXIN:
-        conn = httplib.HTTPSConnection
-        print cid,'!!!'
-    conn = connection(host, timeout=30)
+        conn = httplib.HTTPSConnection(host,timeout=30)
+    else:
+        conn = connection(host, timeout=30)
     conn.set_debuglevel(0)
     conn.request(method, netloc, headers=headers, body=body)
     resp = conn.getresponse()
@@ -378,5 +378,8 @@ def api_network_http(cid,host, netloc, headers, body, method, connection=httplib
     return r
 
 if __name__ == '__main__':
-    p = sync_by_oauth_id(42, '''42qu.com : 我很牛逼哟！！加入我们把！！''', 'http://42qu.com/zhendi')
+    from oauth import OauthToken
+    oauth_id = OauthToken.where(app_id=11).where(zsite_id=10001542)[0].id
+    print oauth_id 
+    p = sync_by_oauth_id(oauth_id, '''42qu.com : 我很牛逼哟！！加入我们把！！''', 'http://42qu.com/zhendi')
     print p
