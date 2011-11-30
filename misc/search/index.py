@@ -15,8 +15,6 @@ if not exists(PATH):
 
 SEARCH_DB = xapian.WritableDatabase(PATH, xapian.DB_CREATE_OR_OPEN)
 
-#print PATH
-
 def flush_db():
     SEARCH_DB.flush()
 
