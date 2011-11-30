@@ -8,4 +8,8 @@ def prepare(o):
     o.RENREN_CONSUMER_SECRET = '6f7226df5c804053abf523080387f2b0'
     o.GOOGLE_CONSUMER_KEY = '518129477934.apps.googleusercontent.com'
     o.GOOGLE_CONSUMER_SECRET = 'FRWbGhiNb8gau-Ku2i5Fnh-J'
+
+    o.SOHU_CONSUMER_KEY = '0sI4DojQ0jqi97zmUc9y'
+    o.SOHU_CONSUMER_SECRET = '56acjZDMsrG(KeSo=l0vFF=*o7mdXVk5=UAG1Ff='
+
     return o
