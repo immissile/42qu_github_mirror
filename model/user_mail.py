@@ -41,7 +41,7 @@ def user_id_by_mail(mail):
 def user_mail_new(user_id, mail,state=MAIL_UNVERIFY):
     mail = mail.strip().lower()
     id = user_id_by_mail(mail)
-    if id != user_id:
+    if  id and id != user_id:
         return False
     
     if UserMail.where(user_id=user_id,state=MAIL_UNVERIFY):
@@ -59,20 +59,20 @@ def user_mail_login_by_user_id(user_id,mail=None):
         for u in um0:
             u.state = MAIL_VERIFIED
             u.save()
+    um = None
     if not mail: 
         um = UserMail.get(user_id=user_id,state=MAIL_UNVERIFY)
-        
-        if um:
-            um.state = MAIL_LOGIN
-            um.save()
-            mc_mail_by_user_id.set(user_id, um.mail)
-            mc_user_id_by_mail.set(um.mail, user_id)
-            return um
+        mail = um.mail
     else:
         um = UserMail.get(user_id=user_id,mail=mail)
+    
+    if um is not None:
         um.state = MAIL_LOGIN
         um.save()
-        return um
+        mc_mail_by_user_id.set(user_id, mail)
+        mc_user_id_by_mail.set(mail, user_id)
+    
+    return um
 
 def user_mail_by_state(user_id,state):
     return UserMail.where(user_id=user_id).where('state>=%s',state).col_list(col='mail')
