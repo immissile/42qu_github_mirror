@@ -23,7 +23,7 @@ $(function(){
         return !val||$.trim(val)==''
     }
 
-    var elem="#txt_bio,#txt_plan,#txt_hope"
+    var elem="#txt_bio,#txt_origin,#txt_hope"
     elem=$(elem)
 
     $('form:first').submit(function(){
