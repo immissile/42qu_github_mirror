@@ -6,7 +6,7 @@ path_name = (
    ('/i/namecard',"名片"), 
    ('/i/career',"履历"), 
    ('/i/link',"链接"), 
-   ('/i/password',"账号"),
+   ('/i/account',"账号"),
    ('/i/mail/notice',"推送"), 
    ('/i/bind',"同步"),
    ('/i/invite',"寻友"),
@@ -14,12 +14,16 @@ path_name = (
 )
 path_sp = path.split('/',4)
 path_sp = '/'.join(path_sp[0:3])
+highlight = False
 %>
 <div class="i_nav">\
 %for nav_path, nav_name in path_name:
 <a
-%if nav_path.startswith(path_sp):
+%if not highlight and nav_path.startswith(path_sp):
 class="now"
+<%
+highlight=True
+%>
 %endif
 href="${nav_path}">${nav_name}</a>\
 %endfor

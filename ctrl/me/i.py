@@ -396,13 +396,13 @@ class InviteEmail(LoginBase):
             invite_message_new(self.current_user_id, emails, mail_txt)
         self.render('ctrl/me/i/invite.htm', success=True)
 
-@urlmap('/i/mail')
-class Mail(LoginBase):
+@urlmap('/i/account/mail')
+class AccountMail(LoginBase):
     def get(self):
         self.render()
 
-@urlmap('/i/password')
-class Password(LoginBase):
+@urlmap('/i/account')
+class Account(LoginBase):
     def get(self):
         self.render()
 
