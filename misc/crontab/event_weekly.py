@@ -17,6 +17,8 @@ from zweb.orm import ormiter
 from collections import defaultdict
 from zkit.ordereddict import OrderedDict
 from zkit.orderedset import OrderedSet
+from model.txt2htm import txt_withlink
+from model.weekly_mail import weekly_mail_pop
 import time
 import sys
 
@@ -40,7 +42,7 @@ def event_city_info(event_city_list, pid):
     return event_city_list, count, place
 
 
-def event_weekly_mail(user, event_city_list):
+def event_weekly_mail(user, event_city_list, write_mail):
     user_id = user.id
     if mail_notice_state(user_id, CID_MAIL_WEEK):
         mail = mail_by_user_id(user_id)
@@ -48,8 +50,12 @@ def event_weekly_mail(user, event_city_list):
         #sys.stdout.flush()
         if mail:
             title = [
-                '线下活动 . 周报汇总'
             ]
+            if not write_mail or not write_mail.title:
+                title.append('线下活动 . 周报汇总')
+            else:
+                title.append("%s ;"%write_mail.title )
+
             pid = 0
             namecard = namecard_get(user_id)
             if namecard:
@@ -63,16 +69,29 @@ def event_weekly_mail(user, event_city_list):
                     '%s +%s 活动' % (place, event_incr)
                 )
 
-            title.append(today_cn_date())
-            title = ' . '.join(title)
+            if not write_mail or not write_mail.title:
+                title.append(today_cn_date())
+                title = ' . '.join(title)
+            else:
+                title = " ".join(title)
 
             name = user.name
+            if write_mail and write_mail.txt:
+                htm = txt_withlink(write_mail.txt).replace("\n","</p><p>")
+                htm = "<p>%s</p>"%htm
+            else:
+                htm = None
+
+#            print mail
+#            mail = "zsp007@gmail.com"
+#            raw_input()
 
             rendermail(
                 '/mail/event/weekly.htm',
                 mail,
                 name,
                 event_city_list=event_city_list,
+                write_htm = htm,
                 format='html',
                 subject=title
             )
@@ -115,12 +134,13 @@ def event_city_list(event_list):
     return li
 
 def event_weekly(begin):
+    mail = weekly_mail_pop()
     event_list = Event.where(state=EVENT_STATE_BEGIN).where('id>%s', begin)
     if event_list:
         last_id = event_list[-1].id
         event_li = event_city_list(event_list)
         for i in ormiter(Zsite, 'cid=%s and state>=%s' % (CID_USER, ZSITE_STATE_ACTIVE)):
-            event_weekly_mail(i, event_li)
+            event_weekly_mail(i, event_li, mail)
             #print i.id
             #sys.stdout.flush()
             time.sleep(0.01)

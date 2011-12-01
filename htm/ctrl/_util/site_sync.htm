@@ -2,7 +2,7 @@
 from model.ico import ico_url_with_default
 from config import FS_URL
 from model.motto import motto_get
-from model.site_po import po_list_by_zsite_list
+from model.site_po import po_list_by_zsite_id
 from model.cid import CID_NOTE
 from config import SITE_DOMAIN, FS_DOMAIN 
 from model.oauth import OAUTH_TUPLE, OAUTH2NAME_DICT_SHORT
@@ -10,7 +10,7 @@ from model.oauth import OAUTH_TUPLE, OAUTH2NAME_DICT_SHORT
 <%def name="oauth_sync()">
 <style>
 .site_rec{
-height:106px;
+height:147px;
 }
 .sync_title{
 font-size:14px;
@@ -26,7 +26,7 @@ padding:0 10px;
 color:#01a;
 display:block;
 float:left;
-padding:12px 0;
+padding:12px 0 0 0;
 text-align:left;
 width:93px;
 font-size:14px;
@@ -64,6 +64,10 @@ margin-right:5px;vertical-align:-3px;
         $.postJSON("/j/site/oauth")
     }
     site_to('da1')
+    site_rec.hide()
+    setTimeout(function(){
+        site_rec.slideDown('slow')
+    },1000)
 });
 </script>
 

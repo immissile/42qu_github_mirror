@@ -1,0 +1,44 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.job_mail import job_mail_if_exist, job_mail_by_com_id
+from zkit.txt import EMAIL_VALID, mail_link
+%>
+<%def name="htm_head()">
+${css.ctrl_com_job|n}
+${css.ctrl_po_event|n}
+</%def>
+
+
+<%
+job_mail = job_mail_by_com_id(zsite_id)
+job_mail_exist = job_mail_if_exist(zsite_id)
+%>
+
+<%htm:form  style="margin-left:252px;" method="POST">
+<div class="po_line">
+%if not errtip and job_mail_exist and (not job_mail):
+    新的招聘邮箱将在验证后启用 , 
+    <a href="${mail_link(job_mail_exist)|n}" target="_blank" class="word_a">请点此验证</a>
+%else:
+<label for="title">招聘邮箱</label>
+%endif
+</div>
+
+
+<div class="po_line">\
+
+<input id="hr_mail" class="hr_mail_input" name="hr_mail" value="${hr_mail or job_mail_exist}" autocomplete="off">\
+<a class="reg_mail" href="/job/mail/now?admin=1">使用注册邮箱</a>\
+%if errtip:
+${errtip.hr_mail|n}
+%endif
+</div>\
+
+
+<span class="btnw"><button type="submit">修改</button></span>
+</%htm:form>
+
+<script>
+$("#hr_mail").focus().select()
+</script>

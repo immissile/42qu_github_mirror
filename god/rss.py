@@ -110,7 +110,7 @@ class RssNew(Base):
         next = self.get_argument('next', None) or '/rss_index'
         url , link , user_id , name , auto = _rss_post_argument(self)
         if url and user_id:
-            rss = rss_new(user_id, url, name, link, auto=auto)
+            rss = rss_new(user_id, url, name, link, auto=1)
             self.redirect(next)
         else:
             self.get()

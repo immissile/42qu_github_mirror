@@ -4,7 +4,7 @@
 <%!
 from config import SITE_DOMAIN, SITE_NAME
 from zkit.time_format import friendly_time
-from model.state import STATE_SECRET, STATE_DEL
+from model.state import STATE_SECRET, STATE_RM
 from model.zsite_url import url_or_id
 from model.cid import CID_QUESTION, CID_PHOTO, CID_EVENT, CID_EVENT_NOTICE, CID_EVENT_FEEDBACK
 from datetime import datetime
@@ -60,7 +60,7 @@ font-size:16px;text-align:center;margin-top:10%;
 </style>
 <div class="fullscreen">
 <p>
-    %if po_state == STATE_DEL:
+    %if po_state == STATE_RM:
 啊 , 被删除了 !!!
     %elif po_state == STATE_SECRET:
 私密文件 , 无权浏览
@@ -97,7 +97,7 @@ user_id = user.id
 %else:
     <span class="c9 L">${friendly_time(reply.create_time)}</span>
 %endif
-<a href="${user.link}" class="replyer">${user.name}</a> 
+<a href="${user.link}" class="replyer TPH">${user.name}</a> 
 <a class="reply_at" rel="${url_or_id(user_id)}" href="javascript:void(0)"></a>
     </div>
 </div></div>

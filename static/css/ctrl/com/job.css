@@ -1,0 +1,71 @@
+.zsite_block{
+border:none;
+}
+.job_title{
+font-size:14px;
+border-bottom:1px dotted #ccc;
+padding-bottom:16px;
+color:#222;
+margin-bottom:8px;
+}
+.info_cont{
+padding:8px 0;
+color:#222;
+}
+.inft{
+padding:8px 0 8px 20px;
+background:url(/img/gif/adot.gif) no-repeat 0 14px;
+color:#444;
+float:left;
+margin-right:32px;
+}
+.job_btn{
+margin:22px 0 0 104px;
+}
+.split{
+margin:0 12px;
+}
+.nav{
+width:470px;
+margin:0 auto;
+text-align:center;
+display:block;
+padding:16px 0;
+border-bottom:1px dotted #ccc;
+}
+.job_ol{
+list-style-type:square;
+list-style-position:inside;
+color:#666;
+}
+.job_li{
+margin-top:16px;
+margin-left:2px;
+}
+.job_a{
+color:#000;
+margin-left:8px;
+}
+.job_a:hover{
+color:#000;
+text-decoration:underline;
+}
+.rm_job_a{
+display:inline-block;
+margin-left:16px;
+width:16px;
+height:16px;
+padding:4px;
+vertical-align:-6px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) 8px 8px no-repeat;
+}
+.rm_job_a:hover{
+background:url(/img/gif/icons/gif/black/to_size/close.gif) 8px 8px no-repeat
+}
+.hr_mail_input{
+width:340px;
+padding:8px;
+margin-right:12px;
+border:1px solid #ccc; 
+font-size:16px;
+}

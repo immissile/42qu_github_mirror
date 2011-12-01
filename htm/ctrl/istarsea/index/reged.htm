@@ -1,0 +1,44 @@
+<%!
+from config import LOGO_TEXT, SITE_DOMAIN
+from tornado.escape import json_encode 
+%>
+
+<%inherit file="/ctrl/_base/istarsea.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="H()">
+</%def>
+
+<%def name="htm_head()">
+<style>body{overflow:hidden;
+font-family:Helvetica;
+color:#fff
+}
+a{color:#99f}
+a:hover{color:#ccf}
+.input{
+    width:220px;
+    font-size:16px;
+    margin-left:7px;
+    padding:7px;
+    background:#000;
+    color:#fff;
+    border:1px solid #999;
+}
+.submit{
+    font-size:16px;
+    border:1px solid #ccc;
+    padding:7px;
+    background:#000;
+    color:#fff;
+    cursor:pointer;
+}
+</style>
+<script src="${js.jquery_tickertype}"></script>
+</%def>
+
+
+<%def name="h_nav()"></%def>
+
+
+登记成功 , <a href="/">点此返回</a>

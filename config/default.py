@@ -96,10 +96,12 @@ def debug(o):
 
 
 def finish(o):
-    o.MQ_USE = o.MYSQL_MAIN
+    MYSQL_MAIN = o.MYSQL_MAIN
+    
+    o.MQ_USE = MYSQL_MAIN
 
-    o.FILE_PATH = '/mnt/zpage'
-    o.SEARCH_DB_PATH = '/mnt/zpage_searchdb'
+    o.FILE_PATH = '/mnt/%s'%MYSQL_MAIN
+    o.SEARCH_DB_PATH = '/mnt/%s_searchdb'%MYSQL_MAIN
 
 
     if not o.GOD_PORT:

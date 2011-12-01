@@ -1,0 +1,26 @@
+<%inherit file="base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+%if not success:
+<div class="zsite_block">
+    <div class="invite_hint">你可以通过输入对方在42区的网址进行邀请</div>
+    <%htm:form>
+    <div class="link_block">
+        <div class="line"><input class="member_link" name="link" placeholder="用户网址"></div>
+        <div class="line"><input class="member_link" name="link" placeholder="用户网址"></div>
+        <div class="line"><input class="member_link" name="link" placeholder="用户网址"></div>
+    </div>
+
+    <div class="invite_hint mt16">或者通过邮件邀请</div>
+    <div class="mail_block">
+        <div class="line"><input class="member_mail_short" name="mail" placeholder="邮箱"><input class="member_name_short" name="name" placeholder="姓名"></div>
+        <div class="line"><input class="member_mail_short" name="mail" placeholder="邮箱"><input class="member_name_short" name="name" placeholder="姓名"></div>
+        <div class="line"><input class="member_mail_short" name="mail" placeholder="邮箱"><input class="member_name_short" name="name" placeholder="姓名"></div>
+    </div>
+<div class="btns member_btn">
+<span class="btnw"><button type="submit" class="btn">添加成员</button></span>
+</div>
+    </%htm:form>
+</div>
+%else:
+<div class="zsite_block" style="text-align:center;padding:27px;margin-top:27px;border:1px dotted #ccc">添加成功 ，<a href="/member/admin">点此返回</a></div>
+%endif

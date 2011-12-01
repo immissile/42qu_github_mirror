@@ -13,3 +13,9 @@ import rss
 import event
 import fav
 import site
+import com.job
+import com.product
+import com.member
+import com.bio
+import com.resume
+import com.review

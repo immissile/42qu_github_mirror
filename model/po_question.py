@@ -5,7 +5,7 @@ from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO
 from spammer import is_same_post
 from po import Po, po_new, po_word_new, po_note_new, po_rm, po_cid_set
 from rank import rank_po_id_list, rank_new
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from state import STATE_RM, STATE_SECRET, STATE_ACTIVE
 from txt import txt_new, txt_get
 from zkit.time_format import time_title
 from zsite import Zsite
@@ -24,12 +24,12 @@ def po_question_new(user_id, name, txt, state, zsite_id):
         return m
 
 mc_answer_id_get = McCache('AnswerIdGet.%s')
-answer_count = McNum(lambda id:Po.where(rid=id).where('state>%s', STATE_DEL).count(), 'AnswerCount:%s')
+answer_count = McNum(lambda id:Po.where(rid=id).where('state>%s', STATE_RM).count(), 'AnswerCount:%s')
 
 
 @mc_answer_id_get('{user_id}_{question_id}')
 def answer_id_get(user_id, question_id):
-    for i in Po.where(user_id=user_id, rid=question_id).where('cid in (%s,%s)'%(CID_WORD, CID_ANSWER)).where('state>%s', STATE_DEL).col_list(1, 0):
+    for i in Po.where(user_id=user_id, rid=question_id).where('cid in (%s,%s)'%(CID_WORD, CID_ANSWER)).where('state>%s', STATE_RM).col_list(1, 0):
         return i
     return 0
 

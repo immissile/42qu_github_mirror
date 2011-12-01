@@ -1,0 +1,30 @@
+<%inherit file="/ctrl/_base/com.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="htm_head()"> 
+${css.ctrl_product|n}
+<script src="${js.ctrl_com_product|n}"></script>
+</%def>
+
+<%htm:form id="career_form" enctype="multipart/form-data">
+<div class="product_block" style="margin-top:27px">
+%for i in range(5):
+    <div class="line"> 
+        <input placeholder="产品名称" name="product_name" class="product_name"><input placeholder="一句话描述" name="product_about" class="product_about"><input placeholder="相关链接" name="product_url" class="product_url">
+    </div>
+%endfor
+</div>
+
+<div class="btns">
+    <span class="btnw"><button class="btn" type="submit">
+            下一步
+    </button></span>
+
+</div>
+</%htm:form>
+
+</div>
+</div>
+
+</div></div></div>
+

@@ -8,12 +8,11 @@ from model.user_info import UserInfo, user_info_new
 from model.namecard import namecard_get, namecard_new
 from model.ico import ico_new, ico_pos, ico_pos_new
 from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
-from model.user_mail import mail_by_user_id
+from model.user_mail import mail_by_user_id, user_mail_new
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
 from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_APPLY
 from model.user_auth import user_password_new, user_password_verify
-from model.user_mail import mail_by_user_id
 from cgi import escape
 from urlparse import parse_qs, urlparse
 from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT, link_list_cid_by_zsite_id
@@ -23,9 +22,13 @@ from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth
 from model.zsite import Zsite
 from collections import defaultdict
 from model.sync import sync_state_set, sync_all, sync_follow_new, SYNC_CID
+from zkit.errtip import Errtip
 from model.search_zsite import search_new
 from model.invite_email import invite_user_id_list_by_cid, CID_MSN, CID_QQ, invite_invite_email_list_by_cid, invite_message_new
 from model.follow import follow_id_list_by_from_id, follow_new
+from zkit.txt import EMAIL_VALID
+from model.verify import verify_mail_new
+from model.cid import CID_VERIFY_LOGIN_MAIL
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -326,6 +329,20 @@ class Namecard(NameCardEdit, LoginBase):
         self.save()
         self.get()
 
+@urlmap('/i/mail/notice')
+class MailNotice(LoginBase):
+    def get(self):
+        user_id = self.current_user_id
+        self.render(
+            mail_notice_all=mail_notice_all(user_id)
+        )
+
+    def post(self):
+        user_id = self.current_user_id
+        for cid in CID_MAIL_NOTICE_ALL:
+            state = self.get_argument('mn%s' % cid, None)
+            mail_notice_set(user_id, cid, state)
+        self.get()
 
 @urlmap('/i/mail/notice')
 class MailNotice(LoginBase):
@@ -365,7 +382,7 @@ class InviteShow(LoginBase):
         follow_id_list = follow_id_list_by_from_id(uid)
         user_id_list = set(user_id_list) - set(follow_id_list)
         if not user_id_list:
-            return self.redirect("/i/invite/email/%s"%cid)
+            return self.redirect('/i/invite/email/%s'%cid)
         self.render(cid=cid, user_id_list=user_id_list)
 
     def post(self, cid=CID_MSN):
@@ -386,7 +403,7 @@ class InviteEmail(LoginBase):
         emails = invite_invite_email_list_by_cid(self.current_user_id, cid)
         if not emails:
             return self.render('ctrl/me/i/invite.htm', success=True)
-            
+
         self.render(emails=emails, cid=cid)
 
     def post(self, cid=CID_MSN):
@@ -396,8 +413,51 @@ class InviteEmail(LoginBase):
             invite_message_new(self.current_user_id, emails, mail_txt)
         self.render('ctrl/me/i/invite.htm', success=True)
 
-@urlmap('/i/password')
-class Password(LoginBase):
+@urlmap('/i/account/mail/success')
+class AccountMailSuccess(LoginBase):
+    def get(self):
+        self.render()
+
+
+@urlmap('/i/account/mail')
+class AccountMail(LoginBase):
+    def get(self):
+        errtip = Errtip()
+        self.render(errtip=errtip)
+
+    def post(self):
+        errtip = Errtip()
+        user_id = self.current_user_id
+        password = self.get_argument('password', None)
+        mail = self.get_argument('mail', None)
+        if not mail:
+            errtip.mail = '请输入邮箱'
+        elif not EMAIL_VALID.match(mail):
+            errtip.mail = '邮件格式不正确'
+
+        if not password:
+            errtip.password = '请输入密码'
+        elif not user_password_verify(user_id, password):
+            errtip.password = '密码有误'
+            password = ''
+
+        if not errtip:
+            from model.user_mail import user_mail_new, user_mail_by_state, MAIL_VERIFIED, user_mail_active_by_user_id
+            if mail in user_mail_by_state(user_id, MAIL_VERIFIED):
+                user_mail_active_by_user_id(user_id, mail)
+                return self.redirect('/i/account/mail/success')
+
+            if user_mail_new(user_id, mail):
+                verify_mail_new(
+                    user_id, self.current_user.name, mail, CID_VERIFY_LOGIN_MAIL
+                )
+            else:
+                errtip.mail = '该邮箱已经注册'
+
+        self.render(mail=mail, errtip=errtip, password=password)
+
+@urlmap('/i/account')
+class Account(LoginBase):
     def get(self):
         self.render()
 

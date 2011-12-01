@@ -1,5 +1,4 @@
 syntax: glob
-*.orig
 *.elc
 *.pyc
 *~
@@ -26,5 +25,4 @@ table_main
 zpage_private_config
 misc/sitemap/file/
 htm/api/help/build/
-static/file/*.ppt
-static/file/*.7z
+static/file/*

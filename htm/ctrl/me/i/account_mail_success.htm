@@ -1,0 +1,13 @@
+<%!
+from model.user_mail import mail_by_user_id
+%>
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="head()">
+${css.ctrl_i_password|n}
+</%def>
+
+<div class="fullscreen">
+<p>登录邮箱成功修改为 : ${mail_by_user_id(current_user_id)} </p>
+<p>如想重新修改 , <a href="/i/account/mail">请您点击这里</a></p>
+</div>

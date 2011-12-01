@@ -28,7 +28,7 @@ else:
 
 def run():
     from zweb.server_cherry import WSGIServer
-    from ctrl._application import application
+    from ctrl._zpage import application
 
     from config import SITE_DOMAIN
     print '\nhttp://%s'%SITE_DOMAIN

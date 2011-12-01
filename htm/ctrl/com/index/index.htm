@@ -1,0 +1,60 @@
+<%inherit file="../base.htm" />
+<%!
+from model.zsite import Zsite
+import json
+from zkit.jsdict import JsDict
+from model.ico import fs_url_jpg
+%>
+
+##<div class="G zsite_mb64 c">
+##    <a href="/new">新建</a>
+##    ${page|n}
+##    ${total}
+##    %if page_list:
+##    %for zsite in page_list:
+##    <div>
+##        <a href="${zsite.link}">${zsite.name}</a>
+##    </div>
+##    %endfor
+##    %endif
+##</div>
+<%def name="htm_head()">
+<script src="${js.ctrl_com_isotope|n}"></script>
+<script>
+(function(){
+function _(){
+    $("#com_product").isotope({
+        itemSelector : '.G1'
+    });
+}
+$(_)
+$(window).load(_)
+})()
+</script>
+${css.ctrl_com_index|n}
+</%def>
+<div id="com_product" class="G isotope">
+    %if product_list:
+            %for product in product_list:
+            %if product:
+            <%
+    info = JsDict(json.loads(product.txt))
+    po = product
+    com = Zsite.mc_get(po.zsite_id)
+    %>
+    <div class="G1">
+        <div class="sdw">
+            <div class="sd">
+                <div class="pro_title" ><a class="c0"href="${com.link}">${po.name}</a></div>
+                %if info.pic_id:
+                <div class="pro_img_wrap"><a href="${com.link}"><img src="${fs_url_jpg('215',info.pic_id)}" class="pro_img" /></a></div>
+                %endif
+                <div class="pro_desc">${info.product_about}</div>
+            </div>
+        </div>
+    </div>
+    %endif
+    %endfor
+    %endif
+
+</div>

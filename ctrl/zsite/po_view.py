@@ -10,16 +10,17 @@ from model.po_pos import po_pos_get, po_pos_set, po_pos_state, STATE_BUZZ
 from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE, CID_SITE
+from model.cid import CID_REVIEW, CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, \
+CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE, CID_SITE
 from zkit.page import page_limit_offset
 from zkit.txt import cnenlen
-from model.zsite_tag import ZsiteTag
+from model.zsite_tag import ZsiteTag , link_by_zsite_id_tag_id
 from model.feed_render import feed_tuple_list
 from model.tag import Tag
 from model.event import Event, EVENT_STATE_TO_REVIEW
 from model.fav import fav_user_count_by_po_id, fav_user_list_by_po_id
 from model.vote import vote_up_count, vote_user_id_list
-from model.site_po import po_list_by_zsite_id, po_cid_count_by_zsite_id, PAGE_LIMIT
+from model.site_po import feed_po_list_by_zsite_id, po_cid_count_by_zsite_id, PAGE_LIMIT
 
 @urlmap('/po')
 class Index(ZsiteBase):
@@ -88,7 +89,7 @@ class PoPage(ZsiteBase):
             return self.redirect(page_template[:-3])
 
         if zsite_cid == CID_SITE:
-            po_list = po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset)
+            po_list = feed_po_list_by_zsite_id(user_id, zsite_id, cid, limit, offset)
             back_a = None
             total = 0
         else:
@@ -236,6 +237,7 @@ class AudioPage(TagPoPage):
 PO_TEMPLATE = '/ctrl/zsite/po_view/po.htm'
 CID2TEMPLATE = {
     CID_WORD:'/ctrl/zsite/po_view/word.htm',
+    CID_REVIEW:'/ctrl/zsite/po_view/word.htm',
     CID_NOTE: PO_TEMPLATE,
     CID_QUESTION:'/ctrl/zsite/po_view/question.htm',
     CID_ANSWER: PO_TEMPLATE,
@@ -367,6 +369,17 @@ class Question(PoOne):
             link = '%s#reply_txt' % question.link
         self.redirect(link)
 
+@urlmap('/tag')
+class TagIndex(ZsiteBase):
+    def get(self):
+        return self.render()
+
+@urlmap('/tag-(\d+)')
+class TagRedirect(ZsiteBase):
+    def get(self, id):
+        zsite_id = self.zsite_id
+        link = link_by_zsite_id_tag_id(zsite_id, id)
+        return self.redirect(link)
 
 @urlmap('/tag/(\d+)')
 class PoTag(ZsiteBase):

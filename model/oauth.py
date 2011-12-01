@@ -12,6 +12,8 @@ OAUTH_SOHU = 7
 OAUTH_QQ = 8
 OAUTH_RENREN = 9
 OAUTH_LINKEDIN = 10
+OAUTH_KAIXIN = 11
+OAUTH_FANFOU = 12
 OAUTH_MY = 100
 
 OAUTH2NAME_DICT = {
@@ -26,6 +28,8 @@ OAUTH2NAME_DICT = {
     OAUTH_BUZZ      : 'Buzz'        ,
     OAUTH_TWITTER   : 'Twitter'     ,
     OAUTH_LINKEDIN  : 'LinkedIn'    ,
+    OAUTH_KAIXIN    : '开心'        ,
+    OAUTH_FANFOU    : '饭否'        ,
 }
 OAUTH2NAME_DICT_SHORT = {
     OAUTH_WWW163    : '网易'    ,
@@ -34,16 +38,20 @@ OAUTH2NAME_DICT_SHORT = {
     OAUTH_RENREN    : '人人'      ,
     OAUTH_DOUBAN    : '豆瓣'        ,
     OAUTH_SINA      : '新浪'    ,
+    OAUTH_KAIXIN    : '开心'  ,
+    OAUTH_FANFOU    : '饭否' ,
 }
 
 OAUTH_TUPLE = (
     OAUTH_DOUBAN    ,
-    OAUTH_RENREN    ,
     OAUTH_SINA      ,
     OAUTH_QQ        ,
+    OAUTH_RENREN    ,
+    OAUTH_KAIXIN  ,
     OAUTH_WWW163    ,
     #OAUTH_SOHU      ,
     #OAUTH_TWITTER   ,
+    OAUTH_FANFOU,
 )
 
 
@@ -57,6 +65,8 @@ OAUTH2URL = {
     OAUTH_RENREN:'http://www.renren.com/profile.do?id=%s',
 #    OAUTH_BUZZ:'%s',
     OAUTH_QQ:'http://t.qq.com/%s',
+    OAUTH_KAIXIN:'http://www.kaixin001.com/home/?uid=%s',
+    OAUTH_FANFOU:'http://fanfou.com/%s'
 }
 
 OAUTH2TABLE = {
@@ -67,7 +77,9 @@ OAUTH2TABLE = {
     OAUTH_DOUBAN:'oauth_token_douban',
     OAUTH_WWW163:'oauth_token_www163',
     OAUTH_QQ:'oauth_token_qq',
-    OAUTH_RENREN:'oauth_token_renren'
+    OAUTH_RENREN:'oauth_token_renren',
+    OAUTH_KAIXIN:'oauth_token_kaixin',
+    OAUTH_FANFOU:'oauth_token_fanfou'
 }
 
 
@@ -195,6 +207,12 @@ def oauth_save_douban(zsite_id, token_key, token_secret, name, uid):
 
 def oauth_save_www163(zsite_id, token_key, token_secret, name, uid):
     return oauth_save_with_uid(OAUTH_WWW163, zsite_id, token_key, token_secret, name, uid)
+
+def oauth_save_kaixin(zsite_id, token_key, token_secret, name, uid):
+    oauth_save_with_uid(OAUTH_KAIXIN, zsite_id, token_key, token_secret, name, uid)
+
+def oauth_save_fanfou(zsite_id, token_key, token_secret, name, uid):
+    oauth_save_with_uid(OAUTH_FANFOU, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_by_zsite_id(zsite_id):
     cursor = OauthToken.raw_sql(

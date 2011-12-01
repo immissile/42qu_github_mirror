@@ -1,13 +1,22 @@
 <%!
 from model.zsite import Zsite
+from model.cid import CID_REVIEW, CID_WORD
+from model.txt2htm import txt_withlink
 %>
 <%inherit file="_po.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="_vote.htm" import="po_bar_vote"/>
-
 <%def name="po_body()">
+<%
+cid = po.cid
+%>\
 <pre class="prebody">\
-%if po.rid:
+%if cid == CID_REVIEW :
+<%
+po_zsite = Zsite.mc_get(po.zsite_id)
+%>\
+<h1 style="text-align:center;margin-bottom:0" id="po_answer_name">@<a href="${po_zsite.link|n}">${po_zsite.name}</a></h1>\
+%elif  po.rid :
 <h1 id="po_answer_name">${po.name_htm|n}</h1>\
 %elif po.zsite_id:
 <%
@@ -15,7 +24,18 @@ po_zsite = Zsite.mc_get(po.zsite_id)
 %>\
 <h1 id="po_answer_name"><a href="${po_zsite.link|n}">${po_zsite.name}</a></h1>\
 %endif
-<p><a href="${zsite.link}">${zsite.name}</a> : ${po.htm|n}</p>\
+%if cid == CID_REVIEW:
+<%
+htm = po.htm
+%>
+<pre><a href="${zsite.link}">${zsite.name}</a> :<div>${po.name_htm|n}</div>\
+%if htm:
+<div>${htm|n}</div>\
+%endif
+</pre>\
+%else:
+<pre><a href="${zsite.link}">${zsite.name}</a> :<div>${po.htm|n}</div></pre>\
+%endif
 ${po_bar_vote(po)}\
 <p class="po_bar">\
     %if can_admin:

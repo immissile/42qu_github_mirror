@@ -113,6 +113,26 @@ def zsite_name_rm(id):
                    link=zsite.link,
                   )
 
+def zsite_by_query(query):
+    from config import SITE_DOMAIN
+    from urlparse import urlparse
+    from model.zsite_url import id_by_url
+    from model.user_mail import user_id_by_mail
+    user_id = None
+
+    if '@' in query:
+        user_id = user_id_by_mail(query)
+    elif SITE_DOMAIN in query:
+        key = urlparse(query).netloc.split('.', 1)[0]
+        user_id = id_by_url(key)
+    elif query.isdigit():
+        if Zsite.mc_get(query):
+            user_id = query
+    else:
+        query = query.replace('http://', '')
+        user_id = id_by_url(query)
+
+    return user_id
 
 
 

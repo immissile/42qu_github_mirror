@@ -275,10 +275,12 @@ class CursorWrapper() :
             error_no = e.args[0]
             if 2000 <= error_no < 3000  :
                 self.farm._cursor = None
+            self._cursor.connection.rollback()
             raise
         except MySQLdb.ProgrammingError, e:
             if e.args[0] == 2014:
                 self.farm._cursor = None
+            self._cursor.connection.rollback()
             raise
         except MySQLdb.IntegrityError, e:
             self._cursor.connection.rollback()

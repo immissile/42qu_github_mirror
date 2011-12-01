@@ -20,6 +20,7 @@ def rank_po_id_count(to_id, cid):
         qs = qs.where(cid=cid)
     return qs.count()
 
+
 mc_rank_po_id_list = McLimitA('RankPoIdList.%s', 512)
 
 @mc_rank_po_id_list('{to_id}_{cid}_{order}')
@@ -28,6 +29,7 @@ def rank_po_id_list(to_id, cid, order, limit=512, offset=0):
     if int(cid):
         qs = qs.where(cid=cid)
     return qs.order_by('%s desc' % order).col_list(limit, offset, 'po_id')
+
 
 #mc_rank_to_id_by_po_id_cid = McCache('RankToIdByPoIdCid.%s')
 #
@@ -109,6 +111,8 @@ def mc_flush_cid(to_id, cid):
 
 if __name__ == '__main__':
     pass
+
+    print mc_rank_po_id_list.count()
 ################################################################################
 #mc_rid_list_by_po_id = McCacheA('RIdListByPoId:%s')
 #

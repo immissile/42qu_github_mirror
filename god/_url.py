@@ -13,3 +13,5 @@ import event
 import rss
 import site
 import mail_notify
+import weekly_mail
+import com

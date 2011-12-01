@@ -1,0 +1,311 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%!
+from model.po_video import VIDEO_CID2HTM
+from model.po import Po
+from model.ico import pic211_url, ico_url
+from model.ico import fs_url_jpg
+from model.motto import motto_get
+from model.follow import follow_get
+from model.zsite_com import pid_by_com_id
+from zkit.earth import place_name
+from model.zsite_fav import zsite_fav_id_get
+from model.job import com_job_by_com_id, com_department_by_com_id
+from model.zsite import Zsite
+from model.po_product import product_list_by_com_id 
+import json
+from zkit.jsdict import JsDict
+from model.zsite_member import zsite_member_can_admin, zsite_member_list, ZSITE_MEMBER_STATE_ACTIVE, zsite_member_with_review
+from model.zsite_com import ZsiteCom
+from model.po_video import video_htm
+from model.com_apply import com_apply_get
+from model.po_review import po_review_count,po_review_show_list_with_user
+from model.txt2htm import txt_withlink
+%>
+<%def name="htm_title()">
+${zsite.name} : ${motto_get(zsite.id)}
+</%def>
+
+<%def name="htm_head()">
+${css.ctrl_zsite_com|n}
+<script src="${js.ctrl}"></script>
+</%def>
+<h1>${zsite.name}</h1>
+<%
+can_admin = zsite_member_can_admin(zsite_id, user_id)
+zsite_com = ZsiteCom.mc_get(zsite_id)
+_video_uri = None
+%>
+<div class="G">
+    <div class="com_main">
+       %if zsite_com:
+%if zsite_com.video_cid: 
+<%
+_video_uri = video_htm(zsite_com.video_cid , zsite_com.video_id)
+%>
+%endif
+%if _video_uri:
+       <div class="com_video">
+           ##${HTM_YOUKU%"XMjMxOTYxNDk2"|n}
+           ${_video_uri|n}
+       </div>
+%endif
+        %endif
+<%
+po_review_show_list = po_review_show_list_with_user(zsite_id)
+%>
+        <div class="com_q_w">
+        <%
+        %>    
+        %for i in po_review_show_list:
+        <%
+        user = i.user
+        name = [user.name]
+        name.extend(user.career or ())
+        name = ' , '.join(filter(bool, name))
+        img = ico_url(i.user_id)
+        txt = i.name
+        %>
+%if txt:
+        <div class="c com_q" >
+    %if img:
+            <img src="${img}">
+    %endif
+            <div class="com_q_a"><a target="_blank" href="${user.link}" class="c0">${name}</a></div>
+            <div class="com_q1">“ </div>
+            <pre class="com_qt">${txt}<span class="com_q2">”</span><a class="zsite_reply" href="${i.link}" target="_blank"></a></pre>
+        </div>
+%endif
+        %endfor
+        <div class="com_review_new"><a href="/review">我来评价</a></div>
+        </div>
+
+<%
+_com_job_by_com_id = com_job_by_com_id(zsite.id)
+%>
+        <div class="com_item\
+%if _com_job_by_com_id:
+ com_jobs_h\
+%endif
+">
+        %if can_admin or _com_job_by_com_id:
+        <div class="com_title">\
+            %if can_admin: 
+<a class="R c9"href="/job/admin">编辑</a> 
+            %endif 
+招聘职位 
+        </div>
+        %endif
+        % if _com_job_by_com_id:
+            <div class="com_jobs">
+                %for job in _com_job_by_com_id:
+                <a href="/job/${job.id}"><span>${job.quota}</span>${job.title}</a>
+                %endfor
+            </div>
+        %endif
+        </div>
+        <div class="com_item">
+            <%
+            products = product_list_by_com_id(zsite_id)
+            %>
+        %if products:
+        % for product in products:
+        %if product:
+                <%
+                    info = JsDict(json.loads(product.txt))
+                    po = Po.mc_get(product.id)
+                %>
+        <div class="com_title" id="product_${po.id}">
+                %if can_admin:
+                <a class="R c9" href="/product/edit/${product.id}">编辑</a>
+                %endif
+${po.name}\
+%if info.product_url:
+<a target="_blank" href="${info.product_url}" class="aH"></a>\
+%endif
+</div>
+        <div class="com_text">
+                %if info.pic_id:
+<div class="com_main_img"><img src="${fs_url_jpg('548',info.pic_id)}"></div>
+                %endif
+                %if info.product_about:
+                ${info.product_about}
+                %endif
+                %if info.origin:
+<p class="com_p"><span>想法起源</span></p><pre>${txt_withlink(info.origin)|n}</pre>
+                %endif
+                %if info.product or info.market or info.team or info.culture or info.money:
+                    %if info.product:
+<p class="com_p"><span>产品介绍</span></p><pre>${txt_withlink(info.product)|n}</pre>
+                    %endif
+                    %if info.market:
+<p class="com_p"><span>市场分析</span></p><pre>${txt_withlink(info.market)|n}</pre>
+                    %endif
+                %endif
+                %if info.plan:
+<p class="com_p"><span>近期计划</span></p><pre>${txt_withlink(info.plan)|n}</pre>
+                %endif
+                %if info.product_similar:                        
+                    <p class="com_p"><span>同类产品</span></p>
+                    <p class="other_pros">
+                        %for pro in info.product_similar:
+<span class="other_pro">${pro[0]}<a class="aH" href="${pro[1]}" target="_top" ></a></span>
+                        %endfor
+                    </p>
+                    %if info.same:
+<pre class="inft3"><span class="inft4 L">共同点</span><span class="dot_split L">:</span><div class="pro_info">${txt_withlink(info.same)|n}</div></pre>
+                    %endif
+                    %if info.different:
+<pre class="inft3"><span class="inft4 L">区别点</span><span class="dot_split L">:</span><div class="pro_info">${txt_withlink(info.different)|n}</div></pre>
+                    %endif
+                    %if info.advantage:
+<pre class="inft3"><span class="inft4 L">竞争力</span><span class="dot_split L">:</span><div class="pro_info">${txt_withlink(info.advantage)|n}</div></pre>      
+                    %endif 
+                %endif
+
+        </div>
+        %endif
+        %endfor
+        %endif
+        
+        </div>
+%if zsite_com:
+<%
+any_zsite_com = any((zsite_com.team, zsite_com.culture, zsite_com.money , zsite_com.hope))
+show = any_zsite_com or can_admin
+%>
+    %if show:
+        <div class="com_item">
+        <div class="com_title">\
+            %if can_admin: 
+<a class="R c9"href="/bio/edit">编辑</a> 
+            %endif 
+关于我们
+        </div>
+            %if zsite_com.team:
+<p class="com_p"><span>团队背景</span></p><pre>${txt_withlink(zsite_com.team)|n}</pre>
+            %endif
+            %if zsite_com.culture:
+<p class="com_p"><span>企业文化</span></p><pre>${txt_withlink(zsite_com.culture)|n}</pre>
+            %endif
+            %if zsite_com.money:
+<p class="com_p"><span>资金情况</span></p><pre>${txt_withlink(zsite_com.money)|n}</pre>
+            %endif
+            %if zsite_com.hope:
+<p class="com_p" id="com_hope"><span>最终愿景</span></p><pre>${txt_withlink(zsite_com.hope)|n}</pre>
+            %endif
+        </div>
+    %endif
+%endif
+
+</div>
+
+
+
+<div class="com_side" >
+                %if zsite_com and zsite_com.cover_id:
+                <div class="com_pic"><img src="${fs_url_jpg('357',zsite_com.cover_id)}"></div>
+                %endif
+                <div class="com_fbar">
+                    <%
+                    is_owner = zsite.id == user_id
+                    %>
+                    <div id="nav">
+<%
+review_count = po_review_count(zsite_id)
+%>
+<a 
+%if review_count:
+    href="/review-1" 
+%else:
+    href="/review" 
+%endif
+    class="c0 com_review">\
+%if review_count:
+<span class="mr3">${review_count}</span>\
+%endif
+评价</a>\
+<a class="xa fbtn"
+                        %if can_admin:
+href="/guide">管理</a>\
+                        %else:
+                        %if zsite_fav_id_get(zsite, user_id):
+id="fav_a" href="javascript:fav_com();void(0)">淡忘</a>\
+                        %else:
+id="fav_a" href="javascript:fav_com();void(0)">收藏</a>\
+                        %endif
+                        %endif
+                    </div>
+                </div>
+                <div class="com_ir com_team" style="overflow-y:hidden">
+                    <%
+                    member_list=zsite_member_with_review(zsite.id)
+                    %>
+                    <div class="com_title">\
+%if can_admin:
+<a class="c9 R" href="/member/admin">管理</a>
+%else:
+%if com_apply_get(zsite.id,user_id):
+<span class="c9 R">申请已提交</span>
+%else:
+<a class="c9 R" onclick="if(!confirm('您已经入职该公司?'))return false" href="/member/join">加入</a>
+%endif
+%endif
+团队成员
+                       </div>
+                   %if member_list:
+                        %for i in member_list:
+<div class="com_text com_author">
+    <div class="c">
+        <a href="${i.link}" class="com_avatar"><img src="${ico_url(i.id)}"></a>
+<a target="_blank" class="c0" href="${i.link}">\
+<div>${i.name}</div>\
+%for j in i.career:
+    %if j:
+<div class="mt6">${j}</div>\
+    %endif
+%endfor
+</a>
+    </div>
+%if i.review:
+<%
+review = i.review
+txt = review.name
+%>
+           %if txt:
+    <div>
+            <div class="com_q1">“ </div>
+            <pre class="com_qt">${txt}<span class="com_q2">”</span><a class="zsite_reply" href="${review.link}" target="_blank"></a></pre>
+    </div>
+            %endif
+%endif
+</div>
+                        %endfor
+                    %endif
+</div>
+
+                    <div class="com_ir">
+                        <div class="com_title">
+            %if can_admin: 
+<a class="R c9"href="/bio/admin">管理</a> 
+            %endif 
+                            
+                            联系方式</div>
+                               <div>地址 :
+                                   %for place in pid_by_com_id(zsite.id):
+                                     ${place_name(place.pid)}
+                                   <div style="margin-left:40px">${place.address}</div>
+                                   %endfor
+                                </div>
+                                    %if zsite_com and zsite_com.phone:
+                                    <div>电话 : ${zsite_com.phone}</div>
+                                    %endif
+                     </div>
+
+                   <img alt="${zsite.name}" src="${pic211_url(zsite.id)}" class="com_logo">
+
+                 </div>
+</div>
+
+
+</div>
+</div>

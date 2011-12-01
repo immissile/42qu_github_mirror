@@ -1,7 +1,7 @@
 #coding:utf-8
 from zkit.bot_txt import txt_wrap_by
 from ctrl._urlmap.j import urlmap
-from _handler import JLoginBase
+from _handler import Base
 from yajl import dumps
 from model.ico import ico_url_bind_with_default , ico_url_with_default
 from model.career import career_bind,career_current
@@ -10,9 +10,10 @@ from logging import info
 from model.zsite_url import id_by_url, url_or_id
 from model.follow import follow_count_by_to_id, follow_get
 from model.cid import CID_USER
+from model.motto import motto_get
 
-@urlmap('/j/hero/(\w+)')
-class HeroJson(JLoginBase):
+@urlmap('/j/hero/(.+)')
+class HeroJson(Base):
     def get(self,id):
         result = None
         if not id.isdigit():
@@ -27,5 +28,6 @@ class HeroJson(JLoginBase):
                     word = "淡忘"
                 else:
                     word = "关注"
-                result = [zsite.name, ' , '.join(career), ico_url_with_default(id), zsite.link, zsite.id, word]
+                result = [zsite.name, ' , '.join(career), ico_url_with_default(id), zsite.link, zsite.id, word, motto_get(zsite.id)]
         return self.finish(dumps(result))
+

@@ -1,7 +1,7 @@
 <%!
 from datetime import datetime
 from model.po_question import answer_id_get, po_answer_list
-from model.state import STATE_SECRET, STATE_DEL
+from model.state import STATE_SECRET, STATE_RM
 from model.cid import CID_NOTE
 from model.zsite_url import url_or_id
 %>
@@ -55,7 +55,7 @@ if user:
 <div class="sdw" id="reply${answer.id}"><div class="sd">
 <p>
 %if answer.state != STATE_SECRET and user:
-<a href="${user.link}" id="replyer${user.id}" class="replyer">${user.name}</a>
+<a href="${user.link}" id="replyer${user.id}" class="replyer TPH">${user.name}</a>
 %else:
 匿名
 %endif

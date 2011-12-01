@@ -1,0 +1,24 @@
+<%!
+from config import SITE_DOMAIN, SITE_URL, LOGO_TEXT
+from model.zsite_url import host
+%>
+<%
+if zsite_id:
+    request_host = host(zsite_id)
+else:
+    request_host = request.host
+%>
+
+
+<%inherit file="/ctrl/_base/_base.htm" />
+
+<div id="H"><div class="H c">
+<div class="L" style="margin-left:250px;">
+<a href="//${request_host}" class="site">\
+${request_host}\
+</a>
+</div></div></div>
+
+<div class="c C"><div class="G"><div class="G4">
+${next.body()}
+</div></div></div>

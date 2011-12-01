@@ -7,7 +7,7 @@ from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
 from model.zsite import Zsite
 from model.po_video import video_htm
-from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from model.state import STATE_RM, STATE_SECRET, STATE_ACTIVE
 from zkit.txt import cnenoverflow
 from model.fs import fs_url_jpg, fs_url_audio
 %>
@@ -118,7 +118,7 @@ ${friendly_time(po.create_time)}
     % endif
 </a>
 <span id="po_state_${id}">
-% if state == STATE_DEL:
+% if state == STATE_RM:
 已删除
 % elif state == STATE_SECRET:
 <b>私密</b> , <a href="javascript:void(0)" rel="${id}" class="po2a" style="color:#999">公开</a>

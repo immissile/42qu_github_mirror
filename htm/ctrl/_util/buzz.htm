@@ -1,5 +1,5 @@
 <%!
-from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_CN , CID_BUZZ_WORD
+from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_CN , CID_BUZZ_WORD, CID_REVIEW
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 from zkit.txt import cnenoverflow
@@ -63,7 +63,7 @@ po_id = entry.rid
 po = Po.mc_get(po_id)
 %>
 ${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${po_id}">\
-    % if entry.cid in (CID_WORD , CID_EVENT_NOTICE):
+    % if entry.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
 ${cnenoverflow(po.name,30)[0]}\
     % else:
 ${po.name_with_user}\
@@ -103,6 +103,7 @@ ${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}
 <%
 unread = buzz_unread_count(user_id)
 buzz_list = _buzz_show(user_id, 3, unread)
+unread = unread-len(buzz_list)
 %>
 % if buzz_list:
 <div class="c" id="buzz"><div class="G2">\
@@ -114,7 +115,7 @@ buzz_list = _buzz_show(user_id, 3, unread)
 </div>\
 <p class="tr">\
 <a href="javascript:$('#buzz').slideUp();void(0)" id="buzzrm"></a>\
-<a class="unread" href="/buzz">\
+<a class="unread" href="/notice/buzz">\
     % if unread:
 未读<span class="mg03">${unread}</span>条\
     % else:

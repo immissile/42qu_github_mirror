@@ -1,0 +1,47 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.ico import ico_url_with_default
+from model.zsite_url import host
+from model.zsite_member import zsite_member_list, ZSITE_MEMBER_STATE_INVITE 
+%>
+<%def name="htm_head()">
+${css.ctrl_i_invite|n}
+${css.ctrl_com_member|n}
+<script src="${js.ctrl_com_member|n}"></script>
+<style>
+.head_hint{
+padding:16px 0;
+text-align:center;
+color:#444;
+border-bottom:1px dotted #ccc;
+font-size:16px;
+}
+</style>
+</%def>
+
+<div class="G i_div">
+<div class="G4">
+
+<div class="head_hint">这是为你推荐的好友 ， 你可以选中并关注</div>
+<div class="head_hint">
+<form class="search"><input type="text" autocomplete="off" id="search" name="q" value=""><input type="submit" class="search_btn" value=""></form>
+</div>
+
+<div class="result_wrap">
+<div class="p_wrap" style="border-bottom:1px dotted #ccc;margin-bottom:32px;padding-bottom:32px;">
+
+<a class="f_item" href="javascript:void(0)" id="10008726"><img class="f_img" src="http://p4.42qu.us/96/71/28743.jpg"><span class="f_name">张迪</span><span class="f_icon"></span><div class="f_email">搜狐,程序猿</div></a><a class="f_item" href="javascript:void(0)" id="10011504"><img class="f_img" src="http://p4.42qu.us/96/173/40109.jpg"><span class="f_name">张龙</span><span class="f_icon"></span><div class="f_email">热酷,程序员</div></a><a class="f_item" href="javascript:void(0)" id="10019612"><img class="f_img" src="http://p4.42qu.us/96/650/43658.jpg"><span class="f_name">张俊平</span><span class="f_icon"></span><div class="f_email">360buy,android工程师</div></a><a class="f_item" href="javascript:void(0)" id="10029177"><img class="f_img" src="http://p4.42qu.us/96/747/39659.jpg"><span class="f_name">张俊娥</span><span class="f_icon"></span><div class="f_email">Redhat,交互设计师</div></a><a class="f_item" href="javascript:void(0)" id="10044949"><img class="f_img" src="http://p4.42qu.us/96/823/37687.jpg"><span class="f_name">张云飞</span><span class="f_icon"></span><div class="f_email">搜狐,技术经理</div></a><a class="f_item" href="javascript:void(0)" id="10099557"><img class="f_img" src="http://p4.42qu.us/96/297/57641.jpg"><span class="f_name">张浩鹏</span><span class="f_icon"></span><div class="f_email">NEC Labs,Research Intern</div></a>
+
+</div>
+<div class="acts tc">\
+<%htm:form id="follow_form">\
+<span class="btnw">\
+<button type="submit">关注所选</button></span>\
+<input type="hidden" value="" name="follow_id_list" id="follow_id_list">\
+</%htm:form>\
+</div>\
+</div>\
+</div>
+</div>
+

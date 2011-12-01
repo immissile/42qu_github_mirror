@@ -9,6 +9,7 @@ SPAM_USER_ID = set((
     10003899, #欲望清单 www.desirelist.nst
     10011921,
     10022520,
+    10133407,
 ))
 
 def is_spammer(user_id):

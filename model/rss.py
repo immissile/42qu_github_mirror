@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel
+from _db import Model, McModel, McCache
 from zkit.google.greader import Reader
 import json
 import sys
@@ -45,6 +45,16 @@ class RssUpdate(McModel):
 
 def rss_po_id(rss_po_id, po_id):
     RssPoId.raw_sql('insert into rss_po_id (id, po_id, state) values (%s, %s, 0)', rss_po_id, po_id)
+
+mc_rss_link_by_po_id = McCache("RssLinkByPoId:%s")
+
+@mc_rss_link_by_po_id("{id}")
+def rss_link_by_po_id(id):
+    rss_po = RssPoId.get(po_id=id)
+    if rss_po:
+        rss_po = RssPo.mc_get(rss_po.id)
+        if rss_po:
+            return rss_po.link
 
 def rss_po_total(state):
     return RssPo.where(state=state).count()
@@ -113,6 +123,7 @@ def rss_feed_update(res, id, user_id, limit=None):
 
 
     rss = Rss.mc_get(id)
+    zsite = Zsite.mc_get(user_id)
     for count , i in enumerate(res):
         if limit:
             if count > limit:
@@ -121,7 +132,10 @@ def rss_feed_update(res, id, user_id, limit=None):
             link = i['alternate'][0]['href']
         else:
             link = ''
-        title = i['title']
+        if 'title' in i:
+            title = i['title']
+        else:
+            title = zsite.name
         rss_uid = i.get('id') or 1
         snippet = i.get('summary') or i.get('content') or None
 
@@ -143,11 +157,16 @@ def rss_feed_update(res, id, user_id, limit=None):
                     else:
                         state = RSS_UNCHECK
 
-                    RssPo.raw_sql(
-'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
-user_id, id, rss_uid, title, txt, link, pic_list, state, 
-title, txt, pic_list
-                    )
+                    c = RssPo.raw_sql("select title from rss_po where user_id=%s and rss_id=%s order by id desc limit 1") 
+                    r = c.fetchone()
+                    if r and r[0]==title:
+                        continue
+                    else:
+                        RssPo.raw_sql(
+    'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
+    user_id, id, rss_uid, title, txt, link, pic_list, state, 
+    title, txt, pic_list
+                        )
 
 
 def mail_by_rss_id(rss_id):

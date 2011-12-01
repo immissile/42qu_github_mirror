@@ -1,3 +1,7 @@
+<%!
+from config import FS_DOMAIN
+%>
+
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 
@@ -27,21 +31,7 @@ ${errtip.password|n}
 没有账号 ? <a href="/auth/reg">点此注册</a>
 </span>
 <span class="btnw"><button type="submit" >登录</button></span>
-%for cid in OAUTH_TUPLE:
-<%
-name = OAUTH2NAME_DICT[cid]
-%>
-<div class="sync">
-    <div class="G">
-        <div class="G1">
-            <div class="g1bk">
-                <span class="L">${name}</span>
-                <a href="//rpc.${SITE_DOMAIN}/oauth/${cid}">登录</a>
-            </div>
-        </div>
-    </div>
-</div>
-%endfor
 </div>
 </%htm:form>
+<%include file="/ctrl/_util/oauth_login.htm"/>
 </%def>

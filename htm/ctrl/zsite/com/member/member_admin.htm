@@ -1,0 +1,77 @@
+<%inherit file="base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="htm_head()">
+<script src="${js.ctrl_zsite_com_member}"></script>
+</%def>
+<%!
+from model.zsite import Zsite
+from model.zsite_member import zsite_member_admin_list, zsite_member_invite_list, zsite_id_count_by_member_admin
+from model.com_apply import com_apply_list
+%>
+
+<%
+        apply_member_list = com_apply_list(com_id)
+        admin_member_list = zsite_member_admin_list(com_id)
+        invite_member_list = zsite_member_invite_list(com_id)
+        
+%>
+<div class="zsite_block"> 
+    %if apply_member_list:
+<%
+Zsite.mc_bind(apply_member_list, 'user', 'user_id')
+%>
+    <div class="member_wrap">
+        <div class="member_hint">待审核成员</div>
+        <div class="member_block">
+            %for apply in apply_member_list:
+            <%
+id = apply.user_id
+user = apply.user
+            %>
+<div id="apply${id}" class="member_item member_long">\
+<a class="member_pass_a" href="javascript:apply_new(${id});void(0)">通过</a>\
+<a class="member_pass_a" href="javascript:apply_rm(${id});void(0)">拒绝</a>\
+%if user:
+<a class="member_a" href="${user.link}" target="_blank">${user.name}</a>\
+%else:
+${apply.user_id}
+%endif
+</div>
+            %endfor
+        </div>
+    </div>
+    %endif
+
+    %if admin_member_list:
+    <div class="member_wrap">
+        <div class="member_hint">已加入成员</div>
+        <div class="member_block">
+            %for pos,admin_member in enumerate(admin_member_list):
+            <%
+            admin_member_id = admin_member.id
+            %>
+            <div class="member_item">
+            %if zsite_id_count_by_member_admin(com_id)>1:
+            <a class="member_rm_a" id="in_${admin_member.id}" href="javascript:void(0)"></a>
+            %endif
+            <a class="member_a" href="${admin_member.link}" target="_blank">${admin_member.name}</a></div>
+            %endfor
+        </div>
+    </div>
+    %endif
+
+    %if invite_member_list:
+    <div class="member_wrap">
+        <div class="member_hint">已邀请成员</div>
+        <div class="member_block">
+            %for invite_member in invite_member_list:
+            <%
+            invite_member_id = invite_member.id
+            %>
+            <div class="member_item"><a class="member_rm_a" id="rm_${invite_member_id}" href="javascript:void(0)"></a><a class="member_a" href="${invite_member.link}" target="_blank">${invite_member.name}</a></div>
+            %endfor
+        </div>
+    </div>
+    %endif
+</div>
+
