@@ -98,8 +98,15 @@ def rm_same():
     for i,j in sites:
         zsite_site_rm(i)
 #rss = Rss.mc_get_list(sites)
-    
 
+
+def recover():
+    rec =[]
+    for z in Zsite.where(cid=3,state=0):
+        if Rss.get(user_id=z.id):
+            rec.append(z)
+
+    print rec
 def add_rss_url():
    pass 
     
@@ -138,7 +145,7 @@ if __name__ == "__main__":
     #zsite_show_rm(Zsite.mc_get(10133601))
     #zsite_fav_rm_all_by_zsite_id(10133601)
     #zsite_admin_empty(10133601)
-    rm_same()
+    recover()
     #for zl in ZsiteLink.where(name='豆瓣小站').clo_list('zsite_id'):
     #    print zl.link 
     #get_douban_site()
