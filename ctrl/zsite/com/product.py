@@ -67,12 +67,13 @@ class ProductNew(AdminBase):
         product_name = arguments.get('product_name')
         product_about = arguments.get('product_about')
 
-
         pros = zip(product_url, product_name, product_about)
         pros = filter(lambda p : p[1] is not '', pros)
         if pros:
             for url, name, about in pros:
                 info_json = JsDict()
+                if url and not (url.startswith('http://') or url.startswith('https://')):
+                    url = 'http://'+url
                 info_json.product_url = url
                 info_json.product_about = about
                 po_product_new(user_id, name, info_json, zsite.id)
