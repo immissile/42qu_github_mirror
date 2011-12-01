@@ -27,9 +27,9 @@ href="/product/show/new/${i.id}">加入秀
     %endif
     </a>
     <a href="${zsite.link}#product_${i.id}" target="_blank">${i.name}</a>
-    %for i in zsite_member_admin_list:
-<div class="tr"><a class="L" href="${i.link}" target="_blank">${i.name}</a> ${mail_by_user_id(i.id)}</div>
-    %endif
+    %for user in zsite_member_admin_list(zsite.id):
+<div class="tr"><a class="L" href="${user.link}" target="_blank">${user.name}</a> ${mail_by_user_id(user.id)}</div>
+    %endfor
 </div>
 </div>
 %endfor
