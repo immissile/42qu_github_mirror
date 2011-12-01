@@ -3,6 +3,7 @@
 from _db import Model, McModel, McCache, cursor_by_table, McCacheA, McLimitA, McNum, McCacheM
 from po import Po
 from cid import CID_PRODUCT
+from zsite_show import zsite_show_new
 
 class ProductShow(McModel):
     pass
@@ -17,8 +18,11 @@ def product_show_count():
 def product_show_new(product, rank=None):
     id = product.id
 
-    if product.cid != CID_PRODUCT:
+    cid = product.cid
+    if cid != CID_PRODUCT:
         return
+
+    zsite_show_new(product.zsite_id, cid)
 
     ps = ProductShow.get_or_create(id=id)
 
