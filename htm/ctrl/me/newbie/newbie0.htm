@@ -1,6 +1,5 @@
 
 <%!
-from model.user_info import UserInfo, MARRY_ONE
 from config import LOGO_TEXT, SITE_DOMAIN
 from model.ico import ico_url_bind_with_default
 from model.career import career_bind
@@ -8,7 +7,7 @@ from tornado.escape import json_encode
 from model.user_auth import user_password_verify, UserPassword, user_password_new
 %>
 
-<%inherit file="/ctrl/_base/_reg_base.htm" />
+<%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%def name="H()">
@@ -22,12 +21,60 @@ from model.user_auth import user_password_verify, UserPassword, user_password_ne
 <script src="${js.date}"></script>
 ${css.ctrl_auth_reg|n}
 ${css.ctrl_com_invite_reg|n}
+
+
 </%def>
 
 <%def name="h_nav()"></%def>
 
 <%htm:form id="form_reg" >
 
+%if zsite_list:
+<div class="L">
+<div class="logo_txt"><div id="zsite_list"></div></div>
+</div>
+
+<div class="L">
+%else:
+<div>
+%endif
+<div class="head_hint">
+<p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>
+<p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
+<p class="hint_p">首先 ，请介绍一下自己 :)</p>
+</div>
+<p class="line">
+性别
+<span class="sex"><input
+%if sex==1:
+checked
+%endif
+type="radio" name="sex" id="sex1" value="1"><label for="sex1">男</label></span>
+<span class="sex"><input
+%if sex==2:
+checked
+%endif
+type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></span>
+</p>
+${errtip.sex|n}
+
+<p class="line">
+<label class="label_input" for="name">名字</label>\
+<input class="login_mail" id="name" autocomplete="off" type="text" name="name" value="${name or current_user.name or ''}"></p>
+${errtip.name|n}
+
+%if not UserPassword.get(current_user_id):
+<p class="line">
+<label class="label_input" for="password">密码</label>\
+<input class="login_password" id="password" autocomplete="off" type="password" name="password">
+</p>
+${errtip.password|n}
+%endif
+
+<div class="cl btns" id="form_btn">
+<span class="L btnw next_btn"><button type="submit" >下一步</button></span>
+</div>
+</div>
 </%htm:form>
 
 <script id="zsite_ico" type="text/x-jquery-tmpl">
