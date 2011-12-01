@@ -157,9 +157,9 @@ def rss_feed_update(res, id, user_id, limit=None):
                     else:
                         state = RSS_UNCHECK
 
-                    c = RssPo.raw_sql("select title from rss_po where user_id=%s and rss_id=%s order by id desc limit 1") 
-                    r = c.fetchone()
-                    if r and r[0]==title:
+                    c = RssPo.raw_sql("select title from rss_po where user_id=%s and rss_id=%s order by id desc limit 20", user_id, rss_id) 
+                    r = set([i[0] for i in c])
+                    if title in r:
                         continue
                     else:
                         RssPo.raw_sql(
