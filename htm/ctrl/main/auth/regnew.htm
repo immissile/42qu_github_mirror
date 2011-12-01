@@ -4,7 +4,6 @@ from config import LOGO_TEXT, SITE_DOMAIN
 from model.ico import ico_url_bind_with_default
 from model.career import career_bind
 from tornado.escape import json_encode 
-from config import FS_DOMAIN
 %>
 
 <%inherit file="/ctrl/_base/_reg_base.htm" />
@@ -31,6 +30,7 @@ ${css.ctrl_auth_reg|n}
 <label class="label_input" for="mail">邮箱</label>\
 <input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
 ${errtip.mail|n}
+
 <p class="line">
 <label class="label_input" for="mail">性别</label>\
 <select name="sex" class="sex_select">
@@ -41,26 +41,11 @@ ${errtip.mail|n}
 </p>
 ${errtip.sex|n}
 
-
-
 <div class="cl btns" id="form_btn">
 <span id="login_link">已有账号 ? <a href="/auth/login">点此登录</a></span>
 <span class="R btnw"><button type="submit" >注册</button></span>
 </div>
-<div class="other_hint reg_page_hint">
-使用合作网站账号登录
-</div>
-<div class="other_login reg_page">
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/2.ico" class="other_login_img">豆瓣</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/9.ico" class="other_login_img">人人</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/3.ico" class="other_login_img">新浪</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/8.ico" class="other_login_img">腾讯</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/5.ico" class="other_login_img">网易</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/6.ico" class="other_login_img">饭否</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/7.ico" class="other_login_img">开心</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/1.ico" class="other_login_img">谷歌</a>
-</div>
-</div>
+<%include file="/ctrl/_util/oauth_login.htm"/>
 </%htm:form>
 
 <script id="zsite_ico" type="text/x-jquery-tmpl">
