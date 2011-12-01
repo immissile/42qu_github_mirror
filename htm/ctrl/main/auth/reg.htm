@@ -4,7 +4,6 @@ from config import LOGO_TEXT, SITE_DOMAIN
 from model.ico import ico_url_bind_with_default
 from model.career import career_bind
 from tornado.escape import json_encode 
-from config import FS_DOMAIN
 %>
 
 <%inherit file="/ctrl/_base/_reg_base.htm" />
@@ -16,8 +15,6 @@ from config import FS_DOMAIN
 <%def name="htm_head()">
 <meta name="description" content=" 无数故事，读完后， 一笑而过。下班的地铁，你还是你，我还是我。认识一个人， 要多少缘分？茫茫人海，擦肩而过多少陌生人。42区，这是相遇的地方 ...">
 <script src="${js.reg}"></script>
-<script src="${js.pid}"></script>
-<script src="${js.date}"></script>
 ${css.ctrl_auth_reg|n}
 </%def>
 
@@ -26,31 +23,8 @@ ${css.ctrl_auth_reg|n}
 
 <%htm:form id="form_reg" action="/auth/reg">
 
-%if zsite_list:
-<div class="L">
-<div class="logo_txt"><div id="zsite_list"></div></div>
-</div>
-
-<div class="L">
-%else:
-<div>
-%endif
 <h1 id="form_reg_h1">${LOGO_TEXT|n}</h1>
 
-<p class="line">
-性别
-<span class="sex"><input
-%if sex==1:
-checked
-%endif
-type="radio" name="sex" id="sex1" value="1"><label for="sex1">男</label></span>
-<span class="sex"><input
-%if sex==2:
-checked
-%endif
-type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></span>
-</p>
-${errtip.sex|n}
 
 <p class="line">
 <label class="label_input" for="mail">邮箱</label>\
@@ -58,31 +32,20 @@ ${errtip.sex|n}
 ${errtip.mail|n}
 
 <p class="line">
-<label class="label_input" for="password">密码</label>\
-<input class="login_password" id="password" autocomplete="off" type="password" name="password" value="${password}">
+<label class="label_input" for="mail">性别</label>\
+<select name="sex" class="sex_select">
+<option value="1">男</option>
+<option value="2">女</option>
+</select>\
+<span class="sex_hint">注意 : 创建账号之后 , 无法修改此项</span>
 </p>
-${errtip.password|n}
-
+${errtip.sex|n}
 
 <div class="cl btns" id="form_btn">
 <span id="login_link">已有账号 ? <a href="/auth/login">点此登录</a></span>
 <span class="R btnw"><button type="submit" >注册</button></span>
 </div>
-<div class="other_hint reg_page_hint">
-使用合作网站账号登录
-</div>
-<div class="other_login reg_page">
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/2.ico" class="other_login_img">豆瓣</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/9.ico" class="other_login_img">人人</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/3.ico" class="other_login_img">新浪</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/8.ico" class="other_login_img">腾讯</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/5.ico" class="other_login_img">网易</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/6.ico" class="other_login_img">饭否</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/7.ico" class="other_login_img">开心</a>
-    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/1.ico" class="other_login_img">谷歌</a>
-</div>
-
-</div>
+<%include file="/ctrl/_util/oauth_login.htm"/>
 </%htm:form>
 
 <script id="zsite_ico" type="text/x-jquery-tmpl">
@@ -109,11 +72,7 @@ for i in zsite_list:
 %>
 <script>
 zsite_ico_list(${json_encode(zsite_ico_list)|n})
+$("#mail").focus()
 </script>
 %endif
-<div style="display:none">
-<a href="//hero.${SITE_DOMAIN}">人物</a>
-<a href="//meet.${SITE_DOMAIN}">活动</a>
-<a href="http://www.xinmeiad.com">广告</a>
-<a href="http://xinmeidm.com">广告</a>
-</div>
+
