@@ -33,18 +33,15 @@ ${css.ctrl_com_invite_reg|n}
 <p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
 <p class="hint_p">首先 ，请介绍一下自己 :)</p>
 </div>
+
 <p class="line">
-性别
-<span class="sex"><input
-%if sex==1:
-checked
-%endif
-type="radio" name="sex" id="sex1" value="1"><label for="sex1">男</label></span>
-<span class="sex"><input
-%if sex==2:
-checked
-%endif
-type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></span>
+<label class="label_input" for="mail">性别</label>\
+<select name="sex" class="sex_select">
+<option value=""></option>
+<option ${'selected' if sex==1 else ''} value="1">男</option>
+<option ${'selected' if sex==2 else ''} value="2">女</option>
+</select>\
+<span class="sex_hint">注意 : 创建账号之后 , 无法修改此项</span>
 </p>
 ${errtip.sex|n}
 
