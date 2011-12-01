@@ -14,8 +14,8 @@ class UserMail(Model):
 mc_mail_by_user_id = McCache('MailByUserId.%s')
 
 @mc_mail_by_user_id('{user_id}')
-def mail_by_user_id(user_id, state=MAIL_LOGIN):
-    c = UserMail.raw_sql('select mail from user_mail where user_id=%s and state=%s', user_id, state).fetchone()
+def mail_by_user_id(user_id):
+    c = UserMail.raw_sql('select mail from user_mail where user_id=%s and state=%s', user_id, MAIL_LOGIN).fetchone()
     if c:
         return c[0]
     return ''
@@ -44,7 +44,7 @@ def user_mail_new(user_id, mail, state=MAIL_UNVERIFY):
     if  id and id != user_id:
         return False
 
-    if UserMail.where(user_id=user_id, state=MAIL_UNVERIFY):
+    if state == MAIL_UNVERIFY:
         UserMail.where(user_id=user_id, state=MAIL_UNVERIFY).delete()
 
     u = UserMail(mail=mail, user_id=user_id, state=state)
@@ -54,11 +54,10 @@ def user_mail_new(user_id, mail, state=MAIL_UNVERIFY):
     return user_id
 
 def user_mail_active_by_user_id(user_id, mail=None):
-    um0 = UserMail.where(user_id=user_id, state=MAIL_LOGIN)
-    if um0:
-        for u in um0:
-            u.state = MAIL_VERIFIED
-            u.save()
+    for u in UserMail.where(user_id=user_id, state=MAIL_LOGIN):
+        u.state = MAIL_VERIFIED
+        u.save()
+
     um = None
     if not mail:
         um = UserMail.get(user_id=user_id, state=MAIL_UNVERIFY)
