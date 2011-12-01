@@ -42,6 +42,7 @@ width:604px;
 </head>\
 
 <body id="B">
+
 <div class="reg_wrap">
     <div class="L left_wrap">
         <div class="logo_txt zsite_list_wrap">
@@ -54,10 +55,8 @@ width:604px;
         </div>
     </div>
 </div>
-${self.htm_foot()}</body>\
-<%def name="htm_title()">${SITE_DOMAIN} - ${LOGO_TEXT}</%def>\
-<%def name="htm_head()"></%def>\
-<%def name="htm_foot()"></%def>\
+${self.htm_foot()}
+
 
 <%
 zsite_list = filter(bool, Zsite.mc_get_list(SHOW_LIST))
@@ -88,4 +87,8 @@ zsite_ico_list(${json_encode(zsite_ico_list)|n})
 $("#mail").focus()
 </script>
 %endif
+</body>\
+<%def name="htm_title()">${SITE_DOMAIN} - ${LOGO_TEXT}</%def>\
+<%def name="htm_head()"></%def>\
+<%def name="htm_foot()"></%def>\
 
