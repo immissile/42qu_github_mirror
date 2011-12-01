@@ -16,8 +16,6 @@ from config import FS_DOMAIN
 <%def name="htm_head()">
 <meta name="description" content=" 无数故事，读完后， 一笑而过。下班的地铁，你还是你，我还是我。认识一个人， 要多少缘分？茫茫人海，擦肩而过多少陌生人。42区，这是相遇的地方 ...">
 <script src="${js.reg}"></script>
-<script src="${js.pid}"></script>
-<script src="${js.date}"></script>
 ${css.ctrl_auth_reg|n}
 </%def>
 
@@ -29,17 +27,12 @@ ${css.ctrl_auth_reg|n}
 <h1 id="form_reg_h1">${LOGO_TEXT|n}</h1>
 
 <p class="line">
-性别
-<span class="sex"><input
-%if sex==1:
-checked
-%endif
-type="radio" name="sex" id="sex1" value="1"><label for="sex1">男</label></span>
-<span class="sex"><input
-%if sex==2:
-checked
-%endif
-type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></span>
+<label class="label_input" for="mail">性别</label>\
+<select name="sex" class="sex_select">
+<option value="1">男</option>
+<option value="2">女</option>
+</select>\
+<span class="sex_hint">注意 : 创建账号之后 , 无法再次修改</span>
 </p>
 ${errtip.sex|n}
 
