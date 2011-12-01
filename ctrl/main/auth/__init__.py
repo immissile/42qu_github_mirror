@@ -12,7 +12,7 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 from zkit.errtip import Errtip
 from model.user_new import user_new
-from model.zsite_show import SHOW_LIST
+
 LOGIN_REDIRECT = '%s/live'
 
 @urlmap('/logout')
@@ -45,19 +45,14 @@ class NoLoginBase(Base):
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
     def get(self, mail=''):
-        id_list = SHOW_LIST
-        zsite_list = filter(bool, Zsite.mc_get_list(id_list))
         self.render(
             mail=mail,
             sex=0,
-            password='',
             errtip=Errtip(),
-            zsite_list=zsite_list,
         )
 
     def post(self, mail=None):
         mail = self.get_argument('mail', '')
-        password = self.get_argument('password', '')
         sex = self.get_argument('sex', '0')
         errtip = Errtip()
         if sex:
@@ -72,26 +67,27 @@ class Reg(NoLoginBase):
         elif not EMAIL_VALID.match(mail):
             errtip.mail = '邮箱格式有误'
 
-        if not password:
-            errtip.password = '请输入密码'
+        #if not password:
+        #    errtip.password = '请输入密码'
 
         if not errtip:
             user_id = user_id_by_mail(mail)
             if user_id:
-                if user_password_verify(user_id, password):
-                    return self._login(user_id, mail)
-                else:
-                    errtip.password = '邮箱已注册。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
+                #if user_password_verify(user_id, password):
+                #    return self._login(user_id, mail)
+                #else:
+                errtip.password = '邮箱已注册。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
 
         if not sex:
             errtip.sex = '请选择性别'
 
         if not errtip:
-            user_id = user_new(mail,password,sex=sex)
+            user_id = user_new(mail,sex=sex)
             return self.redirect('/auth/verify/send/%s'%user_id)
 
         self.render(
-            sex=sex, password=password, mail=mail,
+            sex=sex,  
+            mail=mail,
             errtip=errtip
         )
 

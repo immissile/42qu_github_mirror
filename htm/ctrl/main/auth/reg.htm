@@ -1,9 +1,6 @@
 
 <%!
 from config import LOGO_TEXT, SITE_DOMAIN
-from model.ico import ico_url_bind_with_default
-from model.career import career_bind
-from tornado.escape import json_encode 
 %>
 
 <%inherit file="/ctrl/_base/_reg_base.htm" />
@@ -47,32 +44,3 @@ ${errtip.sex|n}
 </div>
 <%include file="/ctrl/_util/oauth_login.htm"/>
 </%htm:form>
-
-<script id="zsite_ico" type="text/x-jquery-tmpl">
-<%text>
-<div class="zsite_ico c">
-<img src="${$data[0]}">
-<div>${$data[1]}</div>
-<div>${$data[2]}</div>
-<div>${$data[3]}</div>
-</div>
-</%text>
-</script>
-
-%if zsite_list:
-<%
-ico_url_bind_with_default(zsite_list)
-career_bind(zsite_list)
-zsite_ico_list = []
-for i in zsite_list:
-    unit , title = i.career
-    zsite_ico_list.append(
-        ( i.ico, i.name, unit, title)
-    )
-%>
-<script>
-zsite_ico_list(${json_encode(zsite_ico_list)|n})
-$("#mail").focus()
-</script>
-%endif
-
