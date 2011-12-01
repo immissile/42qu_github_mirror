@@ -9,8 +9,8 @@ from shutil import rmtree
 
 @single_process
 def main():
-    #rmtree(PATH)
-    #makedirs(PATH)
+    rmtree(PATH)
+    makedirs(PATH)
     index(zsite_keyword_iter)
 
 
