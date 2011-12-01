@@ -164,6 +164,7 @@ def oauth_save(app_id, zsite_id, token_key, token_secret):
     return id
 
 
+
 def oauth_save_google(zsite_id, token_key, token_secret):
     oauth_save(OAUTH_GOOGLE, zsite_id, token_key, token_secret)
 
@@ -259,6 +260,25 @@ def linkify(link, cid=0):
 #    if r:
 #        return c[0]
 
+def token_key_login_set(app_id, token_key, zsite_id):
+    cursor = OauthToken.raw_sql(
+        'select id from oauth_token where app_id=%s and token_key=%s and (zsite_id=0 or zsite_id=%s)',
+         app_id, token_key , zsite_id
+    )
+    r = cursor.fetchone()
+    if r and r[0]:
+        id = r[0]
+        OauthToken.raw_sql('update oauth_token set (zsite_id, login) values (%s, 1) where id=%s', zsite_id, id) 
+     
+
+def zsite_id_by_token_key_login(app_id, token_key):
+    cursor = OauthToken.raw_sql(
+        'select zsite_id from oauth_token where app_id=%s and token_key=%s and login=1',
+         app_id, token_key 
+    )
+    r = cursor.fetchone()
+    if r:
+        return r[0]
 
 if __name__ == '__main__':
     #oauth_save(OAUTH_BUZZ, 2, '2', '1')
