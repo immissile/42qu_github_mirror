@@ -164,8 +164,8 @@ $(function(){
     $('.add_school_a').click(function(){
         var icon = '<span class="job_icon">■</span>'
         if(!$('.part1').find('.job_icon')[0]){
-        $('.part1').prepend($(icon))
-}
+            $('.part1').prepend($(icon))
+        }
         var block = $(this).parent()
         block.before('<p>'+icon+part1+'<input type="hidden" name="univ_id" id="univ_id'+j+'" value="" /></p>')
         block.before('<p>'+part2+'</p>')
@@ -181,7 +181,7 @@ $(function(){
 
 <%def name="h_nav()"></%def>
 
-<div id="form_reg">
+<%htm:form id="form_reg" action="/me/search">
 
 
 <div class="main_block" id="mb1">
@@ -201,13 +201,6 @@ ${errtip.sex|n}
 <label class="label_input" for="mail">邮箱</label>\
 <input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
 ${errtip.mail|n}
-
-<p class="line">
-<label class="label_input" for="password">密码</label>\
-<input class="login_password" id="password" autocomplete="off" type="password" name="password" value="${password}">
-</p>
-${errtip.password|n}
-
 
 <div class="cl btns" id="form_btn">
 <span id="login_link">已有账号 ? <a href="/auth/login">点此登录</a></span>
@@ -307,12 +300,12 @@ ${errtip.password|n}
     <textarea class="f14" placeholder="爱吃什么 , 偶像是谁 , 想去的地方 , 追逐的理想 。 人生是一场旅行 ..." name="txt" id="txt" class=""></textarea>
     
     <div class="cl btns">
-    <span class="L btnw job_next_btn"><button type="button" class="step_btn" id="step4">下一步</button></span>
+    <span class="L btnw job_next_btn"><button type="submit">保存</button></span>
     </div>
 </div>
 
 
-</div>
+</%htm:form>
 
 </div>
 </div>
