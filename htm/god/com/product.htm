@@ -12,6 +12,11 @@ padding:14px;
 }
 </style>
 </%def>
+
+<%
+com_set = set()
+%>
+
 <div class="G">
 %for i in li:
 <%
@@ -27,9 +32,14 @@ href="/product/show/new/${i.id}">加入秀
     %endif
     </a>
     <a href="${zsite.link}#product_${i.id}" target="_blank">${i.name}</a>
+%if zsite.id not in com_set:
     %for user in zsite_member_admin_list(zsite.id):
 <div class="tr"><a class="L" href="${user.link}" target="_blank">${user.name}</a> ${mail_by_user_id(user.id)}</div>
     %endfor
+<%
+com_set.add(zsite.id)
+%>
+%endif
 </div>
 </div>
 %endfor
