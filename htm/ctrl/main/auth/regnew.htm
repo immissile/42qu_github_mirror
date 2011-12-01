@@ -26,20 +26,20 @@ ${css.ctrl_auth_reg|n}
 
 <h1 id="form_reg_h1">${LOGO_TEXT|n}</h1>
 
+
+<p class="line">
+<label class="label_input" for="mail">邮箱</label>\
+<input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
+${errtip.mail|n}
 <p class="line">
 <label class="label_input" for="mail">性别</label>\
 <select name="sex" class="sex_select">
 <option value="1">男</option>
 <option value="2">女</option>
 </select>\
-<span class="sex_hint">注意 : 创建账号之后 , 无法再次修改</span>
+<span class="sex_hint">注意 : 创建账号之后 , 无法修改此项</span>
 </p>
 ${errtip.sex|n}
-
-<p class="line">
-<label class="label_input" for="mail">邮箱</label>\
-<input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
-${errtip.mail|n}
 
 
 
@@ -87,6 +87,7 @@ for i in zsite_list:
 %>
 <script>
 zsite_ico_list(${json_encode(zsite_ico_list)|n})
+$("#mail").focus()
 </script>
 %endif
 

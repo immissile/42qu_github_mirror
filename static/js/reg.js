@@ -1,10 +1,4 @@
 (function(){
-    var mail=$("#mail");
-    if(mail.val()==''){
-        mail.focus();
-    }else{
-        $('#password').focus();
-    }
     function load(ico_list){
         var t=ico_list.shift();
         ico_list.push(t);

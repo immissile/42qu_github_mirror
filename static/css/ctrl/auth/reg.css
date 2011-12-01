@@ -166,9 +166,10 @@ font-size:14px;
 }
 
 .sex_hint{
-margin-left:32px;
 color:#666;
-width:68px;
+width:296px;
+text-align:center;
+display:inline-block;
 }
 .sex_select{
 padding:8px;
