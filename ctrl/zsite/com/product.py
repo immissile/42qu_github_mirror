@@ -38,7 +38,7 @@ class ProductAdmin(AdminBase):
                 if po.zsite_id != zsite_id:
                     continue
 
-                po.name = product_name
+                po.name_ = product_name
                 po.save()
                 info_json = JsDict(json.loads(po.txt or '{}'))
                 info_json.product_url = product_url
