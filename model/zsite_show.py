@@ -27,6 +27,8 @@ def zsite_show_update():
         mc_flush(OWNER_ID, cid)
 
 def zsite_show_new(zsite_id, cid, rank=1):
+    if zsite_show_get(zsite_id, cid):
+        return
     zsite_list_new(zsite_id, OWNER_ID, cid, rank)
 
 def zsite_show_rm(zsite):

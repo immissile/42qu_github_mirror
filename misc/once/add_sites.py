@@ -106,7 +106,14 @@ def recover():
         if Rss.get(user_id=z.id):
             rec.append(z)
 
-    print rec
+  #  print rec
+    rec_name = [i.name for i in rec]
+   # print rec_name
+    
+    for z in Zsite.where(cid=3,state=40):
+        if z.name in rec_name:
+            print z.id
+
 def add_rss_url():
    pass 
     

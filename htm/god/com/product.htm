@@ -1,6 +1,8 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.po_product_show import product_show_get
+from model.user_mail import mail_by_user_id
+from model.zsite_member import zsite_member_admin_list
 %>
 <%def name="htm_head()">
 <style>
@@ -25,6 +27,9 @@ href="/product/show/new/${i.id}">加入秀
     %endif
     </a>
     <a href="${zsite.link}#product_${i.id}" target="_blank">${i.name}</a>
+    %for i in zsite_member_admin_list:
+<div class="tr"><a class="L" href="${i.link}" target="_blank">${i.name}</a> ${mail_by_user_id(i.id)}</div>
+    %endif
 </div>
 </div>
 %endfor
