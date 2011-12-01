@@ -150,7 +150,8 @@ def oauth_save(app_id, zsite_id, token_key, token_secret):
     )
     r = cursor.fetchone()
     if r:
-        oauth_rm_by_oauth_id(r[0])
+        #oauth_rm_by_oauth_id(r[0])
+        return r[0]
 
     id = OauthToken.raw_sql(
         'insert into oauth_token (app_id,zsite_id,token_key,token_secret) values (%s,%s,%s,%s)',
