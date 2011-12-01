@@ -1,16 +1,7 @@
-<<<<<<< local
-from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH_RENREN,OAUTH_RENREN, oauth_save_douban, oauth_save_www163, oauth_save_qq, oauth_save_sohu, oauth_save_twitter, oauth_save_sina, oauth_save_renren, OAUTH_KAIXIN, oauth_save_kaixin, OAUTH_FANFOU, oauth_save_fanfou
-=======
-from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH_RENREN,OAUTH_RENREN, oauth_save_douban, oauth_save_www163, oauth_save_qq, oauth_save_sohu, oauth_save_twitter, oauth_save_sina, oauth_save_renren, oauth_token_id_by_token_key
->>>>>>> other
+from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH_RENREN,OAUTH_RENREN, oauth_save_douban, oauth_save_www163, oauth_save_qq, oauth_save_sohu, oauth_save_twitter, oauth_save_sina, oauth_save_renren, OAUTH_KAIXIN, oauth_save_kaixin, OAUTH_FANFOU, oauth_save_fanfou, oauth_token_id_by_token_key
 from model.zsite_url import url_or_id
-<<<<<<< local
-from _handler import LoginBase
 from mixin import DoubanMixin, GoogleMixin, Www163Mixin, QqMixin, TwitterMixin, SinaMixin, SohuMixin, RenrenMixin, KaixinMixin, FanfouMixin
-=======
 from _handler import LoginBase, Base as BaseBase
-from mixin import DoubanMixin, GoogleMixin, Www163Mixin, QqMixin, TwitterMixin, SinaMixin, SohuMixin, RenrenMixin
->>>>>>> other
 import tornado.web
 from model.user_session import user_session, user_session_rm
 from model.zsite import Zsite
