@@ -6,11 +6,6 @@ from config import FS_DOMAIN
 
 
 <%def name="login_form(id='')">
-<%!
-from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH2NAME_DICT, OAUTH_TUPLE , oauth_name_by_oauth_id
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO
-from config import SITE_DOMAIN
-%>
 <%htm:form id="login">
 <p>
 <label class="label_input" for="login_mail${id}">邮箱</label>\

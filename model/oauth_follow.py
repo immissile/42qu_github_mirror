@@ -47,7 +47,7 @@ DICT_API_FOLLOW = {
 def oauth_follow_by_oauth_id(oauth_id):
     out = oauth_token_by_oauth_id(oauth_id)
     if out:
-        cid, key, secret = out.cid, out.key, out.secret
+        cid, key, secret = out
         if cid not in DICT_API_FOLLOW:
             return
         re = DICT_API_FOLLOW[cid](key, secret)
