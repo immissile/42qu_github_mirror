@@ -20,7 +20,7 @@ class Send(Base):
     def get(self, id):
         user_id = int(id)
         user = Zsite.mc_get(id)
-        if user.state == ZSITE_STATE_APPLY and user.cid == CID_USER:
+        if user.state in (ZSITE_STATE_NO_PASSWORD,ZSITE_STATE_APPLY) and user.cid == CID_USER:
             mail = mail_by_user_id(user_id)
             verify_mail_new(user_id, user.name, mail, self.cid)
             path = '/auth/verify/sended/%s'%user_id
