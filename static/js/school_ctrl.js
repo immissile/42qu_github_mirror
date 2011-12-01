@@ -1,22 +1,23 @@
-function school_college(id,dep_id){
-    $('#'+id).click(pop_school)
-    select_univ = function(uid,uname){
-        $.fancybox.showActivity()
-        $.getScript("http://realfex.com/"+uid+".js",function(){
-            $('#'+id).val(uname)
-            var deps = depList['deps']
-            $('#univ_id'+dep_id.substr(3)).val(uid)
-            var dep_node = $('#'+dep_id)
-            dep_node.children().remove()
-            dep_node.append('<option value="">选择院系</option>')
-            for(var i=0;i<deps.length;i++){
-                dep_node.append('<option value='+deps[i]['id']+'>'+deps[i]['name']+'</option>')
-            }
-            $.fancybox.close()
-        });
-    }
+var select_id, dep_id
+select_univ = function(uid,uname){
+    $.fancybox.showActivity()
+    $.getScript("http://realfex.com/"+uid+".js",function(){
+        $('#'+select_id).val(uname)
+        var deps = depList['deps']
+        $('#univ_id'+dep_id.substr(3)).val(uid)
+        var dep_node = $('#'+dep_id)
+        dep_node.children().remove()
+        dep_node.append('<option value="">选择院系</option>')
+        for(var i=0;i<deps.length;i++){
+            dep_node.append('<option value='+deps[i]['id']+'>'+deps[i]['name']+'</option>')
+        }
+        $.fancybox.close()
+    });
 }
+
 function pop_school(){
+    select_id = $(this).attr('id')
+    dep_id = $(this).attr('id').replace('school_select','dep')
     var fancybox = $.fancybox
     fancybox({
         content:'<div class="school_wrap"><div class="couns">'+get_couns()+'</div><div class="provs">'+get_provs(0)+'</div><div class="search_univ">搜索 <input type="text" id="univ_txt"></div>'+'<div class="univs">'+get_univ_by_prov(0,0)+'</div></div>'

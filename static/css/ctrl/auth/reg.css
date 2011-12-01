@@ -1,7 +1,8 @@
 #form_reg{
 font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
 line-height:36px;
-padding:64px 0 48px;
+padding:48px 0 48px;
+
 }
 #form_reg p{
 padding:16px 0;
@@ -41,7 +42,7 @@ overflow:hidden;
 text-align:center;
 }
 #form_reg #form_reg_h1{
-margin-bottom:72px;
+margin-bottom:48px;
 background:url(/img/gif/logo.gif) no-repeat;
 text-indent:-999px;
 }
@@ -95,7 +96,7 @@ text-align:center;
 }
 .logo_txt{
 font-size:14px;
-height:432px;
+height:576px;
 overflow:hidden;
 text-align: right;
 width:304px;
@@ -126,4 +127,41 @@ float:right;margin:0 0 0 32px;
 #zsite_list{
 margin-top:-13px;
 }
-
+.other_login{
+clear:both;
+margin-top:9px;
+margin-right:-50px;
+}
+.other_login_a, .other_login_reg_a{
+color:#0011AA;
+display:block;
+float:left;
+font-size:14px;
+padding:9px 0;
+text-align:left;
+width:65px;
+margin-right:47px;
+}
+.other_login_reg_a{
+margin:0 23px;
+}
+.other_login_img{
+margin-right:8px;
+vertical-align:-3px;
+}
+.other_hint{
+border:dotted #ccc;
+border-width:1px 0;
+margin-top:48px;
+padding:14px 0;
+text-align:center;
+}
+.reg_page{
+width:448px;
+margin:16px auto 0;
+}
+.reg_page_hint{
+width:414px;
+margin:48px auto 0;
+font-size:14px;
+}

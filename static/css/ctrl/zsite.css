@@ -199,15 +199,17 @@ color:#000;
 .num_normal span{
 margin-right:3px;
 }
-a.zsite_foot{
+.zsite_foot a{
 display:block;
-border-top:1px dotted #ccc;padding:32px;margin-top:48px;text-align:center;
+border-top:1px dotted #ccc;padding:32px;text-align:center;
 font-size:23px;font-family:Trebuchet MS;color:#666;
 }
-a.zsite_foot:hover{
+.zsite_foot a:hover{
 color:#d10;
 }
-
+.zsite_foot{
+padding-top:48px;
+}
 .zsite_ico_div{
 margin-top:-16px;
 *margin-top:0;

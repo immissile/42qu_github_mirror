@@ -144,3 +144,18 @@ class AuthLogin(NoLoginBase):
             password=password,
             errtip=errtip
         )
+
+
+@urlmap('/regnew')
+class Regnew(NoLoginBase):
+    def get(self, mail=''):
+        id_list = SHOW_LIST
+        zsite_list = filter(bool, Zsite.mc_get_list(id_list))
+        self.render(
+            mail=mail,
+            sex=0,
+            password='',
+            errtip=Errtip(),
+            zsite_list=zsite_list,
+        )
+

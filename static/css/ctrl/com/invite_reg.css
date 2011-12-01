@@ -13,10 +13,12 @@ color:#d10;
 margin-left:6px;
 }
 .head_hint{
-margin-bottom:16px;
+margin:112px 0 22px -10px;
 border-bottom:1px dotted #ccc;
 padding-bottom:19px;
 }
-.next_btn{
-margin-left:40px;
+
+.main_block{
+display:none;
+margin-left:98px;
 }
