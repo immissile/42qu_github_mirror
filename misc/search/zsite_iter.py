@@ -78,7 +78,7 @@ def search_zsite_keyword_iter():
         id = i.id
         i.delete()
         zsite = Zsite.mc_get(id)
-        if zsite:
+        if zsite and zsite.state:
             kw = zsite2keyword(zsite)
             if kw:
                 yield zsite_keyword(zsite, kw)
@@ -86,7 +86,7 @@ def search_zsite_keyword_iter():
 
 
 def zsite_keyword_iter():
-    for zsite in ormiter(Zsite):
+    for zsite in ormiter(Zsite,"state>0"):
         kw = zsite2keyword(zsite)
         if kw:
             yield zsite_keyword(zsite, kw)

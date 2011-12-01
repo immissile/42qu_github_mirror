@@ -15,15 +15,12 @@ if not exists(PATH):
 
 SEARCH_DB = xapian.WritableDatabase(PATH, xapian.DB_CREATE_OR_OPEN)
 
-#print PATH
-
 def flush_db():
     SEARCH_DB.flush()
 
 
 def index(keyword_iter):
     for id, cid, rank, kw in keyword_iter():
-
         doc = xapian.Document()
         doc.add_value(0, id)
         doc.add_value(1, xapian.sortable_serialise(rank))
@@ -47,6 +44,7 @@ def main():
     from zsite_iter import search_zsite_keyword_iter, zsite_keyword_iter
     index(search_zsite_keyword_iter)
     #index(zsite_keyword_iter)
+
 
 if __name__ == '__main__':
     main()

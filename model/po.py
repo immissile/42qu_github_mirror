@@ -449,5 +449,14 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 if __name__ == '__main__':
     pass
-    po = Po.mc_get(10164890)
-    print len(po.htm)
+    exist = set()
+    for i in Po.where(cid=CID_NOTE).where("zsite_id!=0").where("state>%s"%STATE_RM):
+        name = i.name
+        if name in exist:
+            print len(exist), name
+            _po_rm(i.user_id, i)
+        else:
+            exist.add(name)
+        
+
+ 

@@ -157,11 +157,16 @@ def rss_feed_update(res, id, user_id, limit=None):
                     else:
                         state = RSS_UNCHECK
 
-                    RssPo.raw_sql(
-'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
-user_id, id, rss_uid, title, txt, link, pic_list, state, 
-title, txt, pic_list
-                    )
+                    c = RssPo.raw_sql("select title from rss_po where user_id=%s and rss_id=%s order by id desc limit 1") 
+                    r = c.fetchone()
+                    if r and r[0]==title:
+                        continue
+                    else:
+                        RssPo.raw_sql(
+    'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
+    user_id, id, rss_uid, title, txt, link, pic_list, state, 
+    title, txt, pic_list
+                        )
 
 
 def mail_by_rss_id(rss_id):
