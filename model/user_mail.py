@@ -3,9 +3,9 @@
 from _db import Model, McModel, McCache
 from model.zsite import Zsite
 
-MAIL_UNVERIFY = 4
-MAIL_VERIFIED = 5
-MAIL_LOGIN = 6
+MAIL_UNVERIFY = 40
+MAIL_VERIFIED = 50
+MAIL_LOGIN = 60
 
 
 class UserMail(Model):
