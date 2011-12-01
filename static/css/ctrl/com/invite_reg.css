@@ -13,11 +13,15 @@ color:#d10;
 margin-left:6px;
 }
 .head_hint{
-margin:112px 0 22px -10px;
+margin:0 0 22px 0;
+padding-left:98px;
 border-bottom:1px dotted #ccc;
 padding-bottom:19px;
 }
 
+#form_reg{
+padding-top:16px;
+}
 .main_block{
 display:none;
 margin-left:98px;
