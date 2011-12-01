@@ -29,44 +29,6 @@ ${css.ctrl_com_invite_reg|n}
 
 <%htm:form id="form_reg" >
 
-<div class="head_hint">
-<p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>
-<p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
-<p class="hint_p">首先 ，请介绍一下自己 :)</p>
-</div>
-<%
-info = UserInfo.mc_get(zsite_id)
-%>
-%if not (info and info.sex):
-<p class="line">
-<label class="label_input" for="mail">性别</label>\
-<select name="sex" class="sex_select">
-<option value=""></option>
-<option ${'selected' if sex==1 else ''} value="1">男</option>
-<option ${'selected' if sex==2 else ''} value="2">女</option>
-</select>\
-<span class="sex_hint">注意 : 创建账号之后 , 无法修改此项</span>
-</p>
-${errtip.sex|n}
-%endif
-
-<p class="line">
-<label class="label_input" for="name">名字</label>\
-<input class="login_mail" id="name" autocomplete="off" type="text" name="name" value="${name or current_user.name or ''}"></p>
-${errtip.name|n}
-
-%if not UserPassword.get(current_user_id):
-<p class="line">
-<label class="label_input" for="password">密码</label>\
-<input class="login_password" id="password" autocomplete="off" type="password" name="password">
-</p>
-${errtip.password|n}
-%endif
-
-<div class="cl btns" id="form_btn">
-<span class="L btnw next_btn"><button type="submit" >下一步</button></span>
-</div>
-</div>
 </%htm:form>
 
 <script id="zsite_ico" type="text/x-jquery-tmpl">

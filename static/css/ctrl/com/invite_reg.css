@@ -1,6 +1,7 @@
 #form_reg .hint_p{
 padding:8px;
 letter-spacing:1px;
+line-height:21px;
 }
 #form_reg p{
 padding:12px 0;
@@ -16,11 +17,11 @@ margin-left:6px;
 margin:0 0 22px 0;
 padding-left:98px;
 border-bottom:1px dotted #ccc;
-padding-bottom:19px;
+padding-bottom:20px;
 }
 
 #form_reg{
-padding-top:16px;
+padding-top:20px;
 }
 .main_block{
 display:none;
