@@ -76,7 +76,7 @@ class Reg(NoLoginBase):
                 #if user_password_verify(user_id, password):
                 #    return self._login(user_id, mail)
                 #else:
-                errtip.password = '邮箱已注册。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
+                errtip.mail = '邮箱已注册。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
 
         if not sex:
             errtip.sex = '请选择性别'

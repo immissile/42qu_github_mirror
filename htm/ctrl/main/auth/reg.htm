@@ -32,8 +32,8 @@ ${errtip.mail|n}
 <label class="label_input" for="mail">性别</label>\
 <select name="sex" class="sex_select">
 <option value=""></option>
-<option value="1">男</option>
-<option value="2">女</option>
+<option ${'selected' if sex==1 else ''} value="1">男</option>
+<option ${'selected' if sex==2 else ''} value="2">女</option>
 </select>\
 <span class="sex_hint">注意 : 创建账号之后 , 无法修改此项</span>
 </p>
