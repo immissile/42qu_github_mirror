@@ -7,9 +7,9 @@ from model.motto import motto_set
 from model.ico import site_ico_new, site_ico_bind
 from model.zsite_link import ZsiteLink, mc_flush
 from model.site_po import po_cid_count_by_zsite_id
-from model.zsite_admin import admin_id_list_by_zsite_id, zsite_admin_empty
+from model.zsite_admin import admin_id_list_by_zsite_id, zsite_admin_empty, zsite_admin_new
 from model.zsite import Zsite
-from model.zsite_show import zsite_show_rm
+from model.zsite_show import zsite_show_rm, zsite_show_new
 from model.zsite_fav import zsite_fav_rm_all_by_zsite_id
 from model.cid import CID_SITE, CID_NOTE, CID_USER
 from model.rss import rss_new, Rss
@@ -110,9 +110,20 @@ def recover():
     rec_name = [i.name for i in rec]
    # print rec_name
     
+    rm = []
     for z in Zsite.where(cid=3,state=40):
         if z.name in rec_name:
-            print z.id
+            rm.append(z)
+    
+    for z in rec:
+        z.state =40
+        zsite_admin_new(z.id,10017321)
+        z.save()
+        zsite_show_new(z.id,3)
+    
+    for z in rm:
+        zsite_site_rm(z.id) 
+     
 
 def add_rss_url():
    pass 
