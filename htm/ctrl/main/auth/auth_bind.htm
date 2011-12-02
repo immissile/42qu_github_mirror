@@ -1,5 +1,8 @@
 <%inherit file="/ctrl/_base/slideico.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.oauth import OAUTH_SYNC_TXT
+%>
 
 <div class="head_hint">                                                             
 <p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>              
@@ -19,9 +22,9 @@ ${errtip.password|n}
 <p><span class="btnw"><button type="submit" >确定</button></span></p>
 
 <div class="sync">
-<div><input type="checkbox" class="ck" name="fstate" checked="" id="fstate"><label for="fstate">关注我们</label></div>
+<textarea id="weibo" name="weibo" class="txt">${txt or OAUTH_SYNC_TXT}</textarea>
 <div><input type="checkbox" class="ck" name="tstate" checked="" id="tstate"><label for="tstate">介绍这里</label></div>
-<textarea id="weibo" name="weibo" class="txt">42区 , 网海茫茫 , 这是你我相遇的地方 -&gt; http://42qu.com</textarea>
+<div><input type="checkbox" class="ck" name="fstate" checked="" id="fstate"><label for="fstate">关注我们</label></div>
 </div>
 </%htm:form>
 
