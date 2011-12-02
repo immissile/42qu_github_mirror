@@ -1,5 +1,8 @@
 <%inherit file="/ctrl/_base/slideico.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.oauth import OAUTH_SYNC_TXT
+%>
 
 <div class="head_hint">                                                             
 <p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>              
@@ -11,11 +14,18 @@
  
 <%htm:form action="/auth/reg" id="login">
 <p>邮箱<input id="login_mail" type="text" value="${mail or ''}"></p>
+${errtip.mail|n}
 <p>密码<input id="login_password" type="password" value="${password or ''}"></p>
-<p><input type="radio" id="radio_new" name="radio_which"><label for="radio_new">创建新的用户</label><p>
-<p><input type="radio" id="radio_old" name="radio_which"><label for="radio_old">关联已有账号</label><p>
-<p>
-<span class="btnw"><button type="submit" >确定</button></span>
+${errtip.password|n}
+<p><input value="1" type="radio" id="radio_new" name="radio_which"><label for="radio_new">创建新的用户</label><p>
+<p><input value="2" type="radio" id="radio_old" name="radio_which"><label for="radio_old">关联已有账号</label><p>
+<p><span class="btnw"><button type="submit" >确定</button></span></p>
+
+<div class="sync">
+<textarea id="weibo" name="weibo" class="txt">${txt or OAUTH_SYNC_TXT}</textarea>
+<div><input type="checkbox" class="ck" name="tstate" checked="" id="tstate"><label for="tstate">介绍这里</label></div>
+<div><input type="checkbox" class="ck" name="fstate" checked="" id="fstate"><label for="fstate">关注我们</label></div>
+</div>
 </%htm:form>
 
 <script>\

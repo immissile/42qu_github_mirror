@@ -9,6 +9,7 @@ import urlparse
 from urllib import quote
 from model.user_session import user_session, user_session_rm
 from model.user_mail import mail_by_user_id
+from model.oauth import zsite_id_by_token_key_login
 
 BACK_URL = 'http://%s/i/bind'%SITE_DOMAIN
 
@@ -35,16 +36,15 @@ class Base(_Base):
     def _on_auth(self, user):
         if user:
             current_user_id = self.current_user_id
-
+            key = self._on_auth_key(user)
             if not current_user_id: 
-                user_id = zsite_id_by_token_key_login(self.cid, self._on_auth_key(user))
+                user_id = zsite_id_by_token_key_login(self.cid, key)
                 if user_id:
                     return self._login(user_id)
 
-            if access_token:
-                id = self._on_auth_save(user)
-                if not current_user_id and id:
-                    return self.redirect("http://%s/auth/bind/%s?key=%s"%(SITE_DOMAIN,id,quote(key)))
+            id = self._on_auth_save(user)
+            if not current_user_id and id:
+                return self.redirect("http://%s/auth/bind/%s?key=%s"%(SITE_DOMAIN,id,quote(key)))
 
             return self.redirect(BACK_URL)
     
@@ -264,6 +264,9 @@ class TwitterOauthHandler(Base, TwitterMixin):
                         user['username'],
                         )
                 return self.redirect(BACK_URL)
+
+
+
 @urlmap('/oauth/%s'%OAUTH_GOOGLE)
 class GoogleOauthHandler(Base, GoogleMixin):
     @tornado.web.asynchronous
