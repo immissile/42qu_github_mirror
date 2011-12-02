@@ -37,7 +37,7 @@ class Base(_Base):
             current_user_id = self.current_user_id
 
             if not current_user_id: 
-                user_id = zsite_id_by_token_key_login(self.cid, self._on_auth_key(user)):
+                user_id = zsite_id_by_token_key_login(self.cid, self._on_auth_key(user))
                 if user_id:
                     return self._login(user_id)
 
