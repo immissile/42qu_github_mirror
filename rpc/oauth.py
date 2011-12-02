@@ -12,7 +12,7 @@ from model.user_mail import mail_by_user_id
 from model.oauth import zsite_id_by_token_key_login
 from model.zsite import Zsite
 
-BACK_URL = '/i/bind'
+BACK_URL = '//%s/i/bind'%SITE_DOMAIN
 
 LOGIN_REDIRECT = '%s/live'
 
@@ -240,7 +240,7 @@ class QqOauthHandler(Base, QqMixin):
 
     def _on_auth_save(self, user):
         access_token = user.get('access_token')
-        oauth_save_qq(
+        return oauth_save_qq(
             self.current_user_id,
             access_token['key'],
             access_token['secret'],
@@ -250,51 +250,51 @@ class QqOauthHandler(Base, QqMixin):
 
 
 
-@urlmap('/oauth/%s'%OAUTH_TWITTER)
-class TwitterOauthHandler(Base, TwitterMixin):
-    @tornado.web.asynchronous
-    def get(self):
-        if self.get_argument('oauth_token', None):
-            self.get_authenticated_user(self.async_callback(self._on_auth))
-            return
-        self.authenticate_redirect(
-                self.callback_url()
-                )
-
-    def _on_auth(self, user):
-        man = self.current_user
-        if user:
-            access_token = user.get('access_token')
-            if access_token:
-                oauth_save_twitter(
-                        man.id,
-                        access_token['key'],
-                        access_token['secret'],
-                        user['name'],
-                        user['username'],
-                        )
-                return self.redirect(BACK_URL)
-
-
-
-@urlmap('/oauth/%s'%OAUTH_GOOGLE)
-class GoogleOauthHandler(Base, GoogleMixin):
-    @tornado.web.asynchronous
-    def get(self):
-        if self.get_argument('oauth_token', None):
-            self.get_authenticated_user(self.async_callback(self._on_auth))
-            return
-        self.authorize_redirect(
-                self.callback_url()
-                )
-
-    def _on_auth(self, user):
-        man = self.current_user
-        if user:
-            access_token = user.get('access_token')
-            if access_token:
-                print access_token
-        return self.redirect(BACK_URL)
+##@urlmap('/oauth/%s'%OAUTH_TWITTER)
+##class TwitterOauthHandler(Base, TwitterMixin):
+##    @tornado.web.asynchronous
+##    def get(self):
+##        if self.get_argument('oauth_token', None):
+##            self.get_authenticated_user(self.async_callback(self._on_auth))
+##            return
+##        self.authenticate_redirect(
+##                self.callback_url()
+##                )
+##
+##    def _on_auth(self, user):
+##        man = self.current_user
+##        if user:
+##            access_token = user.get('access_token')
+##            if access_token:
+##                oauth_save_twitter(
+##                        man.id,
+##                        access_token['key'],
+##                        access_token['secret'],
+##                        user['name'],
+##                        user['username'],
+##                        )
+##                return self.redirect(BACK_URL)
+##
+##
+##
+##@urlmap('/oauth/%s'%OAUTH_GOOGLE)
+##class GoogleOauthHandler(Base, GoogleMixin):
+##    @tornado.web.asynchronous
+##    def get(self):
+##        if self.get_argument('oauth_token', None):
+##            self.get_authenticated_user(self.async_callback(self._on_auth))
+##            return
+##        self.authorize_redirect(
+##                self.callback_url()
+##                )
+##
+##    def _on_auth(self, user):
+##        man = self.current_user
+##        if user:
+##            access_token = user.get('access_token')
+##            if access_token:
+##                print access_token
+##        return self.redirect(BACK_URL)
 
 #@urlmap('/oauth/%s'%OAUTH_TWITTER)
 #class TwitterOauthHandler(Base, TwitterMixin):
