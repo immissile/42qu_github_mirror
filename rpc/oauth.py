@@ -6,28 +6,57 @@ import tornado.web
 from _urlmap import urlmap
 from config import SITE_DOMAIN
 import urlparse
+from urllib import quote
+from model.user_session import user_session, user_session_rm
+from model.user_mail import mail_by_user_id
 
 BACK_URL = 'http://%s/i/bind'%SITE_DOMAIN
+
+LOGIN_REDIRECT = '%s/live'
 
 class Base(_Base):
     def prepare(self):
         super(Base, self).prepare()
-        self.oauth_id = 0
         self.oauth_key = 0
+    
+    def _login(self, user_id):
+        session = user_session(user_id)
+        mail = mail_by_user_id(user_id)
 
-    def _on_auth_redirect(self):
-        if self.current_user_id or not self.oauth_id:
-            url = BACK_URL
-        else:
-            url = "http://%s/auth/bind/%s/%s"%(
-                SITE_DOMAIN,
-                self.oauth_id,
-                self.oauth_key
-            )
-        return self.redirect(url) 
+        self.set_cookie('S', session)
+        self.set_cookie('E', mail)
+
+        current_user = Zsite.mc_get(user_id)
+
+        redirect = self.get_argument('next', LOGIN_REDIRECT%current_user.link)
+        self.redirect(redirect)
+
+
+    def _on_auth(self, user):
+        if user:
+            current_user_id = self.current_user_id
+
+            if not current_user_id: 
+                user_id = zsite_id_by_token_key_login(self.cid, self._on_auth_key(user)):
+                if user_id:
+                    return self._login(user_id)
+
+            if access_token:
+                id = self._on_auth_save(user)
+                if not current_user_id and id:
+                    return self.redirect("http://%s/auth/bind/%s?key=%s"%(SITE_DOMAIN,id,quote(key)))
+
+            return self.redirect(BACK_URL)
+    
+    def _on_auth_key(self, user):
+        access_token = user.get('access_token')
+        key = access_token['key']
+        return key
 
 @urlmap('/oauth/%s'%OAUTH_DOUBAN)
 class DoubanOauthHandler(Base, DoubanMixin):
+    cid = OAUTH_DOUBAN
+
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
@@ -37,47 +66,21 @@ class DoubanOauthHandler(Base, DoubanMixin):
             self.callback_url()
         )
 
-    def _on_auth(self, user):
-        if user:
-            access_token = user.get('access_token')
-            current_user_id = self.current_user_id
-
-            self.oauth_key = key = access_token['key']
-
-            if access_token:
-                self.oauth_id = oauth_save_douban(
-                    current_user_id,
-                    key,
-                    access_token['secret'],
-                    user['name'],
-                    user['uid'],
-                )
-
-        return self._on_auth_redirect()
-
-
-@urlmap('/oauth/%s'%OAUTH_GOOGLE)
-class GoogleOauthHandler(Base, GoogleMixin):
-    @tornado.web.asynchronous
-    def get(self):
-        if self.get_argument('oauth_token', None):
-            self.get_authenticated_user(self.async_callback(self._on_auth))
-            return
-        self.authorize_redirect(
-                self.callback_url()
-                )
-
-    def _on_auth(self, user):
-        man = self.current_user
-        if user:
-            access_token = user.get('access_token')
-            if access_token:
-                print access_token
-        return self.redirect(BACK_URL)
-                    
+ 
+    def _on_auth_save(self, user):
+        access_token = user.get('access_token')
+        return oauth_save_douban(
+            self.current_user_id,
+            access_token['key'],
+            access_token['secret'],
+            user['name'],
+            user['uid'],
+        )
 
 @urlmap('/oauth/%s'%OAUTH_FANFOU)
 class FanfouOauthHandler(Base, FanfouMixin):
+    cid = OAUTH_FANFOU
+
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
@@ -87,46 +90,24 @@ class FanfouOauthHandler(Base, FanfouMixin):
                 self.callback_url()
                 )
 
-    def _on_auth(self, user):
-        if user:
-            access_token = user.get('access_token')
-            if access_token:
-                oauth_save_fanfou(
-                        self.current_user_id,
-                        access_token['key'],
-                        access_token['secret'],
-                        user['name'],
-                        user['id']
-                    )
-            return self.redirect(BACK_URL)
+    def _on_auth_save(self, user):
+        access_token = user.get('access_token')
+        return oauth_save_fanfou(
+            self.current_user_id,
+            access_token['key'],
+            access_token['secret'],
+            user['name'],
+            user['id']
+        )
         
 
 
-@urlmap('/oauth/%s'%OAUTH_TWITTER)
-class TwitterOauthHandler(Base, TwitterMixin):
-    @tornado.web.asynchronous
-    def get(self):
-        if self.get_argument("oauth_token", None):
-            self.get_authenticated_user(self.async_callback(self._on_auth))
-            return
-        self.authorize_redirect()
-
-    def _on_auth(self, user):
-        if user:
-            access_token = user.get('access_token')
-            if access_token:
-                oauth_save_fanfou(
-                        self.current_user_id,
-                        access_token['key'],
-                        access_token['secret'],
-                        user['name'],
-                        user['id']
-                    )
-            return self.redirect(BACK_URL)
 
 
 @urlmap('/oauth/%s'%OAUTH_SINA)
 class SinaOauthHandler(Base, SinaMixin):
+    cid = OAUTH_SINA
+
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
@@ -136,22 +117,20 @@ class SinaOauthHandler(Base, SinaMixin):
                 self.callback_url()
                 )
 
-    def _on_auth(self, user):
-        if user:
-            access_token = user.get('access_token')
-            if access_token:
-                oauth_save_sina(
-                        self.current_user_id,
-                        access_token['key'],
-                        access_token['secret'],
-                        user['name'],
-                        user['domain'] or user['id']
-                    )
+    def _on_auth_save(self, user):
+        access_token = user.get('access_token')
+        return oauth_save_sina(
+                self.current_user_id,
+                access_token['key'],
+                access_token['secret'],
+                user['name'],
+                user['domain'] or user['id']
+            )
 
-            return self.redirect(BACK_URL)
 
 @urlmap('/oauth/%s'%OAUTH_KAIXIN)
 class KaixinOauthHandler(Base, KaixinMixin):
+    cid = OAUTH_KAIXIN
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('code',None):
@@ -166,73 +145,23 @@ class KaixinOauthHandler(Base, KaixinMixin):
             {'response_type':'code',
                 'scope':'create_records'}
         )
-    def _on_auth(self,user):
-        uid = self.current_user_id
-        if user:
-            access_token = user.get('access_token')
-            if access_token:
-                oauth_save_kaixin(
-                        uid,
-                        access_token,
-                        user.get('refresh_token'),
-                        user.get('name'),
-                        user.get('uid')
-                        )
-            return self.redirect(BACK_URL)
 
-@urlmap('/oauth/%s'%OAUTH_WWW163)
-class Www163OauthHandler(Base, Www163Mixin):
-    @tornado.web.asynchronous
-    def get(self):
-        if self.get_argument('oauth_token', None):
-            self.get_authenticated_user(self.async_callback(self._on_auth))
-            return
-        self.authorize_redirect(
-                self.callback_url()
-                )
-    def _on_auth(self, user):
-        if user:
-            access_token = user.get('access_token')
-            if access_token:
-                oauth_save_www163(
-                        self.current_user_id,
-                        access_token['key'],
-                        access_token['secret'],
-                        user['name'],
-                        user['screen_name'],
-                            )
-                return self.redirect(BACK_URL)
+    def _on_auth_key(self, user):
+        return user.get('access_token')
 
-
-
-
-@urlmap('/oauth/%s'%OAUTH_QQ)
-class QqOauthHandler(Base, QqMixin):
-    @tornado.web.asynchronous
-    def get(self):
-        if self.get_argument('oauth_token', None):
-            self.get_authenticated_user(self.async_callback(self._on_auth))
-            return
-        self.authorize_redirect(
-            self.callback_url()
-                )
-
-
-    def _on_auth(self, user):
-        if user:
-            access_token = user.get('access_token')
-            if access_token:
-                oauth_save_qq(
-                            self.current_user_id,
-                            access_token['key'],
-                            access_token['secret'],
-                            access_token['name'],
-                            access_token['name']                        )
-                return self.redirect(BACK_URL)
-
+    def _on_auth_save(self, user):
+        access_token = user.get('access_token')
+        return oauth_save_kaixin(
+            self.current_user_id,
+            access_token,
+            user.get('refresh_token'),
+            user.get('name'),
+            user.get('uid')
+        )
 
 @urlmap('/oauth/%s'%OAUTH_RENREN)
 class RenrenOauthHandler(Base, RenrenMixin):
+    cid = OAUTH_RENREN
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('code',None):
@@ -247,19 +176,69 @@ class RenrenOauthHandler(Base, RenrenMixin):
             {'response_type':'code',
                 'scope':'status_update publish_share'}
         )
-    def _on_auth(self,user):
-        uid = self.current_user_id
-        if user:
-            access_token = user.get('access_token')
-            if access_token:
-                oauth_save_renren(
-                        uid,
-                        access_token,
-                        user.get('refresh_token'),
-                        user.get('user').get('name'),
-                        user.get('user').get('id')
-                        )
-            return self.redirect(BACK_URL)
+    
+    def _on_auth_key(self, user):
+        return user.get('access_token')
+
+    def _on_auth_save(self,user):
+        access_token = user.get('access_token')
+        return oauth_save_renren(
+                    self.current_user_id,
+                    access_token,
+                    user.get('refresh_token'),
+                    user.get('user').get('name'),
+                    user.get('user').get('id')
+                )
+
+@urlmap('/oauth/%s'%OAUTH_WWW163)
+class Www163OauthHandler(Base, Www163Mixin):
+    cid = OAUTH_WWW163
+    @tornado.web.asynchronous
+    def get(self):
+        if self.get_argument('oauth_token', None):
+            self.get_authenticated_user(self.async_callback(self._on_auth))
+            return
+        self.authorize_redirect(
+                self.callback_url()
+        )
+
+    def _on_auth_save(self, user):
+        access_token = user.get('access_token')
+        return oauth_save_www163(
+                self.current_user_id,
+                access_token['key'],
+                access_token['secret'],
+                user['name'],
+                user['screen_name'],
+            )
+
+
+
+
+@urlmap('/oauth/%s'%OAUTH_QQ)
+class QqOauthHandler(Base, QqMixin):
+    cid = OAUTH_QQ
+    @tornado.web.asynchronous
+    def get(self):
+        if self.get_argument('oauth_token', None):
+            self.get_authenticated_user(self.async_callback(self._on_auth))
+            return
+        self.authorize_redirect(
+            self.callback_url()
+        )
+
+
+    def _on_auth_save(self, user):
+        access_token = user.get('access_token')
+        oauth_save_qq(
+            self.current_user_id,
+            access_token['key'],
+            access_token['secret'],
+            access_token['name'],
+            access_token['name']                        
+        )
+
+
 
 @urlmap('/oauth/%s'%OAUTH_TWITTER)
 class TwitterOauthHandler(Base, TwitterMixin):
@@ -285,7 +264,46 @@ class TwitterOauthHandler(Base, TwitterMixin):
                         user['username'],
                         )
                 return self.redirect(BACK_URL)
+@urlmap('/oauth/%s'%OAUTH_GOOGLE)
+class GoogleOauthHandler(Base, GoogleMixin):
+    @tornado.web.asynchronous
+    def get(self):
+        if self.get_argument('oauth_token', None):
+            self.get_authenticated_user(self.async_callback(self._on_auth))
+            return
+        self.authorize_redirect(
+                self.callback_url()
+                )
 
+    def _on_auth(self, user):
+        man = self.current_user
+        if user:
+            access_token = user.get('access_token')
+            if access_token:
+                print access_token
+        return self.redirect(BACK_URL)
+
+#@urlmap('/oauth/%s'%OAUTH_TWITTER)
+#class TwitterOauthHandler(Base, TwitterMixin):
+#    @tornado.web.asynchronous
+#    def get(self):
+#        if self.get_argument("oauth_token", None):
+#            self.get_authenticated_user(self.async_callback(self._on_auth))
+#            return
+#        self.authorize_redirect()
+#
+#    def _on_auth(self, user):
+#        if user:
+#            access_token = user.get('access_token')
+#            if access_token:
+#                oauth_save_fanfou(
+#                        self.current_user_id,
+#                        access_token['key'],
+#                        access_token['secret'],
+#                        user['name'],
+#                        user['id']
+#                    )
+#            return self.redirect(BACK_URL)
 
 #@urlmap('/oauth/%s'%OAUTH_SOHU)
 #class SohuOauthHandler(Base, SohuMixin):
