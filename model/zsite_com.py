@@ -83,6 +83,7 @@ zsite_com_count = McNum(lambda cid: Zsite.where(cid=cid).count(), 'ZsiteComCount
 
 
 def com_new(name, admin_id, state=ZSITE_STATE_VERIFY):
+    name = name.replace("科技有限公司","")
     com = zsite_new(name, CID_COM, state)
     com_id = com.id
     zsite_com_count.delete(CID_COM)
@@ -102,4 +103,7 @@ def pid_by_com_id(com_id):
     return ZsiteComPlace.where(com_id=com_id)
 
 if __name__ == '__main__':
-    print zsite_com_count(3)
+    for i in Zsite.where(cid=CID_COM):
+        print i.name
+        i.name = i.name.replace("科技有限公司","")
+        i.save()

@@ -7,13 +7,14 @@ from model.motto import motto_set
 from model.ico import site_ico_new, site_ico_bind
 from model.zsite_link import ZsiteLink, mc_flush
 from model.site_po import po_cid_count_by_zsite_id
-from model.zsite_admin import admin_id_list_by_zsite_id, zsite_admin_empty
+from model.zsite_admin import admin_id_list_by_zsite_id, zsite_admin_empty, zsite_admin_new
 from model.zsite import Zsite
-from model.zsite_show import zsite_show_rm
+from model.zsite_show import zsite_show_rm, zsite_show_new
 from model.zsite_fav import zsite_fav_rm_all_by_zsite_id
 from model.cid import CID_SITE, CID_NOTE, CID_USER
 from model.rss import rss_new, Rss
 from zkit.pic import picopen
+from model.zsite_site import zsite_site_rm
 import urllib
 import json
 import time
@@ -89,26 +90,40 @@ def rm_same():
     result = {}
     for site in Zsite.where(cid=3,state=40):
         if site.name in result:
-            #print site.id,site.name,result.get(site.name)
-            sites.append([site.id,result.get(site.name),site.name])
+            sites.append([site.id,site.name])
         else:
             result[site.name]=site.id
     print len(sites)
-    rm =[]
-    for site in sites:
-        if Rss.where(user_id=site[0]):
-            rm.append([site[1],site[2]])
-        elif Rss.where(user_id=site[1]):
-            rm.append([site[0],site[2]])
             
-    for i,j in rm:
-        print i,j             
-        zsite_show_rm(Zsite.mc_get(i))
-        zsite_fav_rm_all_by_zsite_id(i)
-        zsite_admin_empty(i)
-    print len(rm)   
+    for i,j in sites:
+        zsite_site_rm(i)
 #rss = Rss.mc_get_list(sites)
+
+
+def recover():
+    rec =[]
+    for z in Zsite.where(cid=3,state=0):
+        if Rss.get(user_id=z.id):
+            rec.append(z)
+
+  #  print rec
+    rec_name = [i.name for i in rec]
+   # print rec_name
     
+    rm = []
+    for z in Zsite.where(cid=3,state=40):
+        if z.name in rec_name:
+            rm.append(z)
+    
+    for z in rec:
+        z.state =40
+        zsite_admin_new(z.id,10017321)
+        z.save()
+        zsite_show_new(z.id,3)
+    
+    for z in rm:
+        zsite_site_rm(z.id) 
+     
 
 def add_rss_url():
    pass 
@@ -145,7 +160,10 @@ def get_douban_site():
                 else:
                     print id,'数据未录入',zl
 if __name__ == "__main__":
-    rm_same()
+    #zsite_show_rm(Zsite.mc_get(10133601))
+    #zsite_fav_rm_all_by_zsite_id(10133601)
+    #zsite_admin_empty(10133601)
+    recover()
     #for zl in ZsiteLink.where(name='豆瓣小站').clo_list('zsite_id'):
     #    print zl.link 
     #get_douban_site()
