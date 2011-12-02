@@ -216,8 +216,11 @@ margin-top:-16px;
 padding-bottom:16px;
 }
 .zsite_ico{
-line-height: 32px; padding-bottom: 32px; border-bottom: 1px dotted #ccc;
+line-height:32px;
+padding-bottom:32px;
+border-bottom:1px dotted #ccc;
 margin-top:32px;
+_height:96px;
 }
 .zsite_ico img{
 float:left;
