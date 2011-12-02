@@ -26,11 +26,13 @@ class DoubanOauthHandler(Base, DoubanMixin):
     def _on_auth(self, user):
         if user:
             access_token = user.get('access_token')
-            
+            current_user_id = self.current_user_id
+            key = access_token['key']
+
             if access_token:
                 oauth_save_douban(
-                    self.current_user_id,
-                    access_token['key'],
+                    current_user_id,
+                    key,
                     access_token['secret'],
                     user['name'],
                     user['uid'],
