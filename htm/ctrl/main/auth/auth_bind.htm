@@ -1,4 +1,5 @@
 <%inherit file="/ctrl/_base/slideico.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <div class="head_hint">                                                             
 <p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>              
@@ -8,3 +9,9 @@
 
 
  
+<%htm:form action="/auth/reg" id="login">
+<p><input type="radio">创建新的用户<input place><p>
+<p>或者</p>
+<p><input type="radio">关联现有账号<p>
+<p>
+</%htm:form>

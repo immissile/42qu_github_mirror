@@ -45,7 +45,6 @@ function career(
         title_placeholder;
 
 
-        career.find('[placeholder]').placeholder()
 
         now.change(function(){
             if(this.checked){
