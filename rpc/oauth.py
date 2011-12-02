@@ -36,16 +36,15 @@ class Base(_Base):
     def _on_auth(self, user):
         if user:
             current_user_id = self.current_user_id
-
+            key = self._on_auth_key(user)
             if not current_user_id: 
-                user_id = zsite_id_by_token_key_login(self.cid, self._on_auth_key(user))
+                user_id = zsite_id_by_token_key_login(self.cid, key)
                 if user_id:
                     return self._login(user_id)
 
-            if access_token:
-                id = self._on_auth_save(user)
-                if not current_user_id and id:
-                    return self.redirect("http://%s/auth/bind/%s?key=%s"%(SITE_DOMAIN,id,quote(key)))
+            id = self._on_auth_save(user)
+            if not current_user_id and id:
+                return self.redirect("http://%s/auth/bind/%s?key=%s"%(SITE_DOMAIN,id,quote(key)))
 
             return self.redirect(BACK_URL)
     
