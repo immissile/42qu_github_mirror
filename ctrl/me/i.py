@@ -545,17 +545,14 @@ class Binded(LoginBase):
         self.render(cid=cid, txt=OAUTH_SYNC_TXT)
 
     def post(self, cid):
-        fstate = self.get_argument('fstate', None)
-        tstate = self.get_argument('tstate', None)
+        sync_txt = self.get_argument('sync_txt', None)
         txt = self.get_argument('weibo', None)
 
         user_id = self.current_user_id
 
         flag = 0
-        if fstate:
-            flag += 0b1
-        if tstate:
-            flag += 0b10
+        if sync_txt:
+            flag |= 0b10
 
         sync_follow_new(user_id, flag, cid, txt)
 

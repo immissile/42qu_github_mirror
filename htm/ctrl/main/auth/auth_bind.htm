@@ -23,6 +23,7 @@ padding-bottom:10px;
 }
 .line_hint{
 margin-bottom:22px;
+margin-left:44px;
 font-size:16px;
 }
 .line_input{
@@ -57,15 +58,16 @@ vertical-align:1px;
  
 <%htm:form id="login">
 <p class="line_hint">请创建新用户 或 关联已有账号</p>
-<p class="line">邮箱<input class="line_input" id="login_mail" type="text" value="${mail or ''}"></p>
+<p class="line">邮箱<input name="mail" class="line_input" id="login_mail" type="text" value="${mail or ''}"></p>
 ${errtip.mail|n}
-<p class="line">密码<input class="line_input" id="login_password" type="password" value="${password or ''}"></p>
+<p class="line">密码<input name="password" class="line_input" id="login_password" type="password" value="${password or ''}"></p>
 ${errtip.password|n}
+%if not this.token_user_id:
 <div class="sync">
 <textarea id="weibo" name="weibo" class="txt">${txt or OAUTH_SYNC_TXT}</textarea>
-<div><input type="checkbox" class="ck" name="tstate" checked="" id="tstate"><label for="tstate" class="label">介绍这里</label>
-<input type="checkbox" class="ck ck_right" name="fstate" checked="" id="fstate"><label for="fstate" class="label">关注我们</label></div>
+<div><input type="checkbox" class="ck" name="sync_txt" checked="" id="sync_txt"><label for="sync_txt" class="label">介绍这里</label></div>
 </div>
+%endif
 <p><span class="btnw auth_btn"><button type="submit" >确定</button></span></p>
 </%htm:form>
 
