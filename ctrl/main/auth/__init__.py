@@ -40,7 +40,10 @@ class NoLoginBase(Base):
             redirect = LOGIN_REDIRECT%current_user.link
         self.redirect(redirect)
 
-
+@urlmap('/auth/bind')
+class AuthBind(NoLoginBase):
+    def get(self):
+        self.render()
 
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
