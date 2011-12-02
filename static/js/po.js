@@ -24,7 +24,7 @@ function po_(id, action, name, input, oncomplete){
                 form.attr(
                     'action',
                     "/po/"+action+(id?("/"+id):"")
-                ).find(' [placeholder]').placeholder()
+                )
 
                 if(id){
                     po_name.val($.trim($('#po_name').text()))
