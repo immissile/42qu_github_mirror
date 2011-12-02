@@ -34,7 +34,6 @@ class Index(Base):
             user_id = user_id_by_mail(mail)
             if not user_id:
                 user_id = user_new(mail,name=name)
-
                 session = user_session(user_id)
                 self.set_cookie('S', session)
                 self.set_cookie('E', mail)

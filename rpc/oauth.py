@@ -10,6 +10,7 @@ from urllib import quote
 from model.user_session import user_session, user_session_rm
 from model.user_mail import mail_by_user_id
 from model.oauth import zsite_id_by_token_key_login
+from model.zsite import Zsite
 
 BACK_URL = 'http://%s/i/bind'%SITE_DOMAIN
 

@@ -12,7 +12,8 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 from zkit.errtip import Errtip
 from model.user_new import user_new
-from model.oauth import oauth_token_key_by_id
+from model.oauth import oauth_token_key_by_id, token_key_login_set
+from config import SITE_URL
 
 LOGIN_REDIRECT = '%s/live'
 
@@ -41,22 +42,6 @@ class NoLoginBase(Base):
             redirect = LOGIN_REDIRECT%current_user.link
         self.redirect(redirect)
 
-@urlmap('/auth/bind/(\d+)')
-class AuthBind(NoLoginBase):
-    def _prepare(self, id):
-        key = self.get_argument('key', None)
-        if not key or key!=oauth_token_key_by_id(id):
-            return self.redirect("/")
-
-    def get(self, id):
-        self._prepare(id)
-        errtip = Errtip()
-        errtip.password="密码有误"
-        self.render(errtip=errtip)
-
-    def post(self, id):
-        errtip=Errtip()
-        self.render(errtip=errtip)
 
 
 
@@ -120,6 +105,30 @@ class Login(NoLoginBase):
         self.redirect(url)
 
 
+def _mail_password_post(self):
+    mail = self.get_argument('mail', None)
+    password = self.get_argument('password', None)
+    errtip = Errtip()
+
+    if mail:
+        mail = mail.lower()
+    if not mail:
+        errtip.mail = '请输入邮箱'
+    elif not EMAIL_VALID.match(mail):
+        errtip.mail = '邮箱格式有误'
+
+    if not password:
+        errtip.password = '请输入密码'
+
+    user_id = 0
+    if not errtip:
+        user_id = user_id_by_mail(mail)
+        if user_id:
+            if not user_password_verify(user_id, password):
+                errtip.password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
+
+    return user_id , mail, password, errtip
+
 @urlmap('/auth/login')
 class AuthLogin(NoLoginBase):
 
@@ -128,29 +137,13 @@ class AuthLogin(NoLoginBase):
             errtip=Errtip()
         )
 
+    _mail_password_post = _mail_password_post
 
     def post(self):
-        mail = self.get_argument('mail', None)
-        password = self.get_argument('password', None)
-        errtip = Errtip()
-
-        if mail:
-            mail = mail.lower()
-        if not mail:
-            errtip.mail = '请输入邮箱'
-        elif not EMAIL_VALID.match(mail):
-            errtip.mail = '邮箱格式有误'
-
-        if not password:
-            errtip.password = '请输入密码'
-
+        user_id, mail, password, errtip = self._mail_password_post()
         if not errtip:
-            user_id = user_id_by_mail(mail)
             if user_id:
-                if user_password_verify(user_id, password):
-                    return self._login(user_id, mail, self.get_argument('next', None))
-                else:
-                    errtip.password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
+                return self._login(user_id, mail, self.get_argument('next', None))
             else:
                 errtip.mail = """此账号不存在 , <a href="/auth/reg/%s">点此注册</a>"""%escape(mail)
 
@@ -159,5 +152,37 @@ class AuthLogin(NoLoginBase):
             password=password,
             errtip=errtip
         )
+
+
+@urlmap('/auth/bind/(\d+)')
+class AuthBind(NoLoginBase):
+    def _prepare(self, id):
+        key = self.get_argument('key', None)
+        if not key or key != oauth_token_key_by_id(id):
+            return self.redirect('/')
+
+    def get(self, id):
+        self._prepare(id)
+        errtip = Errtip()
+        self.render(errtip=errtip)
+
+    def post(self, id):
+        self._prepare(id)
+        errtip = Errtip()
+        user_id, mail, password, errtip = self._mail_password_post()
+
+        if not errtip:
+
+            if user_id:
+                token_key_login_set(id, user_id)
+                return self._login(user_id, mail, self.get_argument('next', None))
+            else:
+                token_key_login_set(id, user_id)
+                user_id = user_new(mail, password=password)
+                return self.redirect('/auth/verify/send/%s'%user_id)
+
+        self.render(errtip=errtip)
+
+    _mail_password_post = _mail_password_post
 
 

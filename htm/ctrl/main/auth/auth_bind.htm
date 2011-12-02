@@ -14,9 +14,9 @@ from model.oauth import OAUTH_SYNC_TXT
  
 <%htm:form id="login">
 <p>请创建新用户 或 关联已有账号</p>
-<p>邮箱<input id="login_mail" type="text" value="${mail or ''}"></p>
+<p>邮箱<input name="mail" id="login_mail" type="text" value="${mail or ''}"></p>
 ${errtip.mail|n}
-<p>密码<input id="login_password" type="password" value="${password or ''}"></p>
+<p>密码<input name="password" id="login_password" type="password" value="${password or ''}"></p>
 ${errtip.password|n}
 <div class="sync">
 <textarea id="weibo" name="weibo" class="txt">${txt or OAUTH_SYNC_TXT}</textarea>
