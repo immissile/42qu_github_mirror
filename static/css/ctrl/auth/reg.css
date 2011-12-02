@@ -1,10 +1,8 @@
 #form_reg{
 font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
 line-height:36px;
-padding:64px 0 48px;
-}
-#form_reg p{
-padding:16px 0;
+padding:48px 0 24px;
+
 }
 #form_reg input, #form_reg, #form_reg select{
 font-size:16px;
@@ -16,13 +14,11 @@ margin-right:8px;
 }
 .login_mail, .login_password, #sex {
 width:334px;
-text-align:center;
 padding:8px;
 }
 #form_btn{
 width:389px;
 margin:auto;
-margin-top:16px;
 }
 #login_link{
 margin-left:36px;
@@ -41,7 +37,7 @@ overflow:hidden;
 text-align:center;
 }
 #form_reg #form_reg_h1{
-margin-bottom:72px;
+margin-bottom:48px;
 background:url(/img/gif/logo.gif) no-repeat;
 text-indent:-999px;
 }
@@ -58,8 +54,8 @@ margin:auto;
 width:auto;
 }
 #form_btn{
-line-height:46px;
-_line-height:44px;
+line-height:42px;
+_line-height:40px;
 }
 #form_reg .errtip{
 width:334px;
@@ -90,12 +86,9 @@ display:inline-block;
 #sex1{
 margin-left:104px
 }
-#errtip_sex{
-text-align:center;
-}
 .logo_txt{
 font-size:14px;
-height:432px;
+height:576px;
 overflow:hidden;
 text-align: right;
 width:304px;
@@ -126,4 +119,81 @@ float:right;margin:0 0 0 32px;
 #zsite_list{
 margin-top:-13px;
 }
+.other_login{
+clear:both;
+margin-top:9px;
+margin-right:-50px;
+}
+.other_login_a, .other_login_reg_a{
+color:#0011AA;
+display:block;
+float:left;
+font-size:14px;
+padding:9px 0;
+text-align:left;
+width:65px;
+margin-right:47px;
+}
+.other_login_reg_a{
+margin:0 23px;
+}
+.other_login_img{
+margin-right:8px;
+vertical-align:-3px;
+}
+.other_hint{
+border:dotted #ccc;
+border-width:1px 0;
+margin-top:48px;
+padding:14px 0;
+text-align:center;
+}
+.reg_page{
+width:448px;
+margin:16px auto 0;
+}
+.reg_page_hint{
+width:414px;
+margin:48px auto 0;
+font-size:14px;
+}
 
+.sex_hint{
+color:#666;
+width:296px;
+text-align:center;
+display:inline-block;
+}
+.sex_select{
+padding:8px;
+}
+
+.hint_p{
+padding:8px;
+letter-spacing:1px;
+line-height:21px;
+font-size:16px;
+}
+#form_reg p{
+padding:12px 0;
+}
+.p_b{
+font-weight:bold;
+}
+.hint_logo{
+color:#d10;
+margin-left:6px;
+}
+.head_hint{
+margin:20px 0 22px 0;
+padding-left:98px;
+border-bottom:1px dotted #ccc;
+padding-bottom:20px;
+}
+.main_block{
+display:none;
+margin-left:98px;
+}
+#form_btn .next_btn{
+margin-left:37px;
+}

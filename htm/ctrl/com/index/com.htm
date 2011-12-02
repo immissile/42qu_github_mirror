@@ -114,7 +114,7 @@ _com_job_by_com_id = com_job_by_com_id(zsite.id)
                     info = JsDict(json.loads(product.txt))
                     po = Po.mc_get(product.id)
                 %>
-        <div class="com_title" id="product_${po.id}">
+        <div class="com_title c" id="product_${po.id}">
                 %if can_admin:
                 <a class="R c9" href="/product/edit/${product.id}">编辑</a>
                 %endif

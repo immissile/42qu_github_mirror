@@ -1,0 +1,54 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.ico import ico_url_with_default
+from model.zsite_url import host
+from model.zsite_member import zsite_member_list, ZSITE_MEMBER_STATE_INVITE 
+%>
+<%def name="htm_head()">
+${css.ctrl_i_invite|n}
+${css.ctrl_com_member|n}
+<script src="${js.ctrl_com_member|n}"></script>
+<style>
+.head_hint{
+padding:16px 0;
+text-align:center;
+color:#444;
+border-bottom:1px dotted #ccc;
+font-size:16px;
+}
+.search_p{
+margin-bottom:32px;
+}
+.search_block{
+text-align:center;
+color:#444;
+border-bottom:1px dotted #ccc;
+font-size:16px;
+padding:48px 0;
+}
+</style>
+</%def>
+
+<div class="G i_div">
+<div class="G4">
+
+<div class="search_block">
+<p class="search_p">你可以继续搜索</p>
+<form class="search"><input type="text" autocomplete="off" id="search" name="q" value=""><input type="submit" class="search_btn" value=""></form>
+</div>
+
+<div class="search_block" style="border:0;">
+<p class="search_p">
+或者
+</p>
+<%htm:form id="follow_form">\
+<span class="btnw">\
+<button type="submit">完成 & 去首页</button></span>\
+<input type="hidden" value="" name="follow_id_list" id="follow_id_list">\
+</%htm:form>\
+</div>
+</div>\
+</div>
+</div>
+

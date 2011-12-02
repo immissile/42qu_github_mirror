@@ -9,7 +9,6 @@ from txt import txt_property
 from zkit.attrcache import attrcache
 
 ZSITE_STATE_BAN = 1
-ZSITE_STATE_NO_MAIL = 5
 ZSITE_STATE_NO_PASSWORD = 6
 ZSITE_STATE_APPLY = 10
 ZSITE_STATE_ACTIVE = 15

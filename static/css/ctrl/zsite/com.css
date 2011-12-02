@@ -65,6 +65,8 @@ height:448px;
 .com_item{
 overflow:auto;
 margin-top:32px;
+_height:100%;
+_clear:both;
 }
 .com_text{
 margin:7px 0 14px;
@@ -79,6 +81,7 @@ margin-bottom:6px;
 border-top:1px dotted #ccc;
 line-height:16px;
 color:#222;
+_height:100%;
 }
 .com_side{
 width:357px;
@@ -176,6 +179,7 @@ line-height:0;
 overflow:auto;
 clear:both;
 margin-bottom:32px;
+_height:100%;
 }
 .com_qt{
 overflow:hidden;zoom:1
