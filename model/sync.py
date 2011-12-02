@@ -118,6 +118,7 @@ def sync_follow_oauth_id_bind(user_id, cid, oauth_id):
 
 
 def sync_follow(follow):
+    oauth_id = follow.oauth_id
     sync_txt = follow.state&0b10
 
     if sync_txt:
