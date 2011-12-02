@@ -264,6 +264,9 @@ class TwitterOauthHandler(Base, TwitterMixin):
                         user['username'],
                         )
                 return self.redirect(BACK_URL)
+
+
+
 @urlmap('/oauth/%s'%OAUTH_GOOGLE)
 class GoogleOauthHandler(Base, GoogleMixin):
     @tornado.web.asynchronous
