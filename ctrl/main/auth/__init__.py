@@ -50,7 +50,9 @@ class AuthBind(NoLoginBase):
 
     def get(self, id):
         self._prepare(id)
-        self.render(errtip=Errtip())
+        errtip = Errtip()
+        errtip.password="密码有误"
+        self.render(errtip=errtip)
 
     def post(self, id):
         errtip=Errtip()

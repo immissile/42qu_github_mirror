@@ -12,7 +12,8 @@ from model.oauth import OAUTH_SYNC_TXT
 
 
  
-<%htm:form action="/auth/reg" id="login">
+<%htm:form id="login">
+<p>请创建新用户 或 关联已有账号</p>
 <p>邮箱<input id="login_mail" type="text" value="${mail or ''}"></p>
 ${errtip.mail|n}
 <p>密码<input id="login_password" type="password" value="${password or ''}"></p>
