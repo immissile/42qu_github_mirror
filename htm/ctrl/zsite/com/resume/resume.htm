@@ -1,24 +1,49 @@
 <%inherit file="/ctrl/_base/_tidy_base.htm" />
 ${css.ctrl_com_resume|n}
+<script src="${js.pid}"></script>
+<script>
+$(function(){
+    var fancybox = $.fancybox
+
+   $('#bio_edit').click(function(){
+        $('#bio_addr').hide()
+        $('.bio_addr').show()
+        $('#bio_home').hide()
+        $('.bio_home').show()
+        $('.bio_text').each(function(){
+            $(this).html('<input class="rsm_r bio_text" value="'+$(this).text()+'">')
+        })
+    })
+})
+</script>
 
 <a class="back_a" href="/"></a>
 <div class="zsite_block">
     <div class="rsm_name">张妮美</div>
     <div class="rsm_img_wrap"><img src="http://p4.42qu.us/721/834/57154.jpg" class="rsm_img"></div>
 
-    <div class="rsm_title">基本信息</div>
+    <div class="rsm_title" id="rsm_bio">
+    <a class="R c9" id="bio_edit"  href="javascript:void(0);">编辑</a>基本信息</div>
     <div class="rsm_l">现居</div>
-    <div class="rsm_r">北京市 昌平区</div>
+    <div class="rsm_r" id="bio_addr">北京市 昌平区</div>
+        <div class="rsm_r bio_addr" style="display:none;">
+            <script>select_pid("pid_addr", 0)</script>
+            <span id="pid_addr"></span>
+        </div>
     <div class="rsm_l">家乡</div>
-    <div class="rsm_r">江苏省南京市 雨花台区</div>
+    <div class="rsm_r" id="bio_home">江苏省南京市 雨花台区</div>
+        <div class="rsm_r bio_home" style="display:none;">
+            <script>select_pid("pid_home", 0)</script>
+            <span id="pid_home"></span>
+        </div>
     <div class="rsm_l">薪资</div>
-    <div class="rsm_r">&gt;=8000元/月</div>
+    <div class="rsm_r" id="bio_salary">&gt;=8000元/月</div>
     <div class="rsm_l">手机</div>
-    <div class="rsm_r">13886689123</div>
+    <div class="rsm_r bio_text">13886689123</div>
     <div class="rsm_l">邮箱</div>
-    <div class="rsm_r">zhangnimei@gmail.com</div> 
+    <div class="rsm_r bio_text">zhangnimei@gmail.com</div> 
     <div class="rsm_l">语言</div>
-    <div class="rsm_r">英语六级</div>
+    <div class="rsm_r" id="bio_lang">英语六级</div>
 
     <div class="rsm_title">教育经历</div>
     <div class="rsm_l">2004 - 2008</div>

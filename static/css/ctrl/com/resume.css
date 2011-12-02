@@ -69,4 +69,6 @@ margin:22px 0 6px;
 .rsm_pre{
 margin-top:-5px;
 }
-
+.bio_addr, .bio_home{
+margin-right:-200px;
+}
