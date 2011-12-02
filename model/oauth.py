@@ -166,43 +166,44 @@ def oauth_save(app_id, zsite_id, token_key, token_secret):
 
 
 def oauth_save_google(zsite_id, token_key, token_secret):
-    oauth_save(OAUTH_GOOGLE, zsite_id, token_key, token_secret)
+    return oauth_save(OAUTH_GOOGLE, zsite_id, token_key, token_secret)
 
 def oauth_save_renren(zsite_id, token_key, refresh_token, name, uid):
-    oauth_save_with_uid(OAUTH_RENREN, zsite_id, token_key, refresh_token, name, uid)
+    return oauth_save_with_uid(OAUTH_RENREN, zsite_id, token_key, refresh_token, name, uid)
 
 def oauth_save_with_uid(app_id, zsite_id, token_key, token_secret, name, uid):
     id = oauth_save(app_id, zsite_id, token_key, token_secret)
     name_uid_set(id, name, uid, OAUTH2TABLE[app_id])
     from model.zsite_link import  link_cid_new
     link_cid_new(zsite_id, app_id, (OAUTH2URL[app_id])%uid)
+    return id
 
 #def oauth_save_buzz(zsite_id, token_key, token_secret, name, uid):
 #    oauth_save_with_uid(OAUTH_BUZZ, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_save_twitter(zsite_id, token_key, token_secret, name, uid):
-    oauth_save_with_uid(OAUTH_TWITTER, zsite_id, token_key, token_secret, name, uid)
+    return oauth_save_with_uid(OAUTH_TWITTER, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_save_sohu(zsite_id, token_key, token_secret, name, uid):
-    oauth_save_with_uid(OAUTH_SOHU, zsite_id, token_key, token_secret, name, uid)
+    return oauth_save_with_uid(OAUTH_SOHU, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_save_qq(zsite_id, token_key, token_secret, name, uid):
-    oauth_save_with_uid(OAUTH_QQ, zsite_id, token_key, token_secret, name, uid)
+    return oauth_save_with_uid(OAUTH_QQ, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_save_sina(zsite_id, token_key, token_secret, name, uid):
-    oauth_save_with_uid(OAUTH_SINA, zsite_id, token_key, token_secret, name, uid)
+    return oauth_save_with_uid(OAUTH_SINA, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_save_douban(zsite_id, token_key, token_secret, name, uid):
-    oauth_save_with_uid(OAUTH_DOUBAN, zsite_id, token_key, token_secret, name, uid)
+    return oauth_save_with_uid(OAUTH_DOUBAN, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_save_www163(zsite_id, token_key, token_secret, name, uid):
-    oauth_save_with_uid(OAUTH_WWW163, zsite_id, token_key, token_secret, name, uid)
+    return oauth_save_with_uid(OAUTH_WWW163, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_save_kaixin(zsite_id, token_key, token_secret, name, uid):
-    oauth_save_with_uid(OAUTH_KAIXIN, zsite_id, token_key, token_secret, name, uid)
+    return oauth_save_with_uid(OAUTH_KAIXIN, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_save_fanfou(zsite_id, token_key, token_secret, name, uid):
-    oauth_save_with_uid(OAUTH_FANFOU, zsite_id, token_key, token_secret, name, uid)
+    return oauth_save_with_uid(OAUTH_FANFOU, zsite_id, token_key, token_secret, name, uid)
 
 def oauth_by_zsite_id(zsite_id):
     cursor = OauthToken.raw_sql(

@@ -10,7 +10,21 @@ import urlparse
 BACK_URL = 'http://%s/i/bind'%SITE_DOMAIN
 
 class Base(_Base):
-    pass
+    def prepare(self):
+        super(Base, self).prepare()
+        self.oauth_id = 0
+        self.oauth_key = 0
+
+    def _on_auth_redirect(self):
+        if self.current_user_id or not self.oauth_id:
+            url = BACK_URL
+        else:
+            url = "http://%s/auth/bind/%s/%s"%(
+                SITE_DOMAIN,
+                self.oauth_id,
+                self.oauth_key
+            )
+        return self.redirect(url) 
 
 @urlmap('/oauth/%s'%OAUTH_DOUBAN)
 class DoubanOauthHandler(Base, DoubanMixin):
@@ -20,24 +34,26 @@ class DoubanOauthHandler(Base, DoubanMixin):
             self.get_authenticated_user(self.async_callback(self._on_auth))
             return
         self.authorize_redirect(
-                self.callback_url()
-                )
+            self.callback_url()
+        )
 
     def _on_auth(self, user):
         if user:
             access_token = user.get('access_token')
             current_user_id = self.current_user_id
-            key = access_token['key']
+
+            self.oauth_key = key = access_token['key']
 
             if access_token:
-                oauth_save_douban(
+                self.oauth_id = oauth_save_douban(
                     current_user_id,
                     key,
                     access_token['secret'],
                     user['name'],
                     user['uid'],
                 )
-        return self.redirect(BACK_URL)
+
+        return self._on_auth_redirect()
 
 
 @urlmap('/oauth/%s'%OAUTH_GOOGLE)
