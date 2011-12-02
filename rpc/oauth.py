@@ -9,9 +9,11 @@ import urlparse
 
 BACK_URL = 'http://%s/i/bind'%SITE_DOMAIN
 
+class Base(LoginBase):
+    pass
 
 @urlmap('/oauth/%s'%OAUTH_DOUBAN)
-class DoubanOauthHandler(LoginBase, DoubanMixin):
+class DoubanOauthHandler(Base, DoubanMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
@@ -36,12 +38,11 @@ class DoubanOauthHandler(LoginBase, DoubanMixin):
                     user['name'],
                     user['uid'],
                 )
-        print BACK_URL
         return self.redirect(BACK_URL)
 
 
 @urlmap('/oauth/%s'%OAUTH_GOOGLE)
-class GoogleOauthHandler(LoginBase, GoogleMixin):
+class GoogleOauthHandler(Base, GoogleMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
@@ -61,7 +62,7 @@ class GoogleOauthHandler(LoginBase, GoogleMixin):
                     
 
 @urlmap('/oauth/%s'%OAUTH_FANFOU)
-class FanfouOauthHandler(LoginBase, FanfouMixin):
+class FanfouOauthHandler(Base, FanfouMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
@@ -87,7 +88,7 @@ class FanfouOauthHandler(LoginBase, FanfouMixin):
         
 
 @urlmap('/oauth/%s'%OAUTH_SOHU)
-class SohuOauthHandler(LoginBase, SohuMixin):
+class SohuOauthHandler(Base, SohuMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
@@ -114,7 +115,7 @@ class SohuOauthHandler(LoginBase, SohuMixin):
 
 
 @urlmap('/oauth/%s'%OAUTH_TWITTER)
-class TwitterOauthHandler(LoginBase, TwitterMixin):
+class TwitterOauthHandler(Base, TwitterMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument("oauth_token", None):
@@ -140,7 +141,7 @@ class TwitterOauthHandler(LoginBase, TwitterMixin):
 
 
 @urlmap('/oauth/%s'%OAUTH_SINA)
-class SinaOauthHandler(LoginBase, SinaMixin):
+class SinaOauthHandler(Base, SinaMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
@@ -166,7 +167,7 @@ class SinaOauthHandler(LoginBase, SinaMixin):
             return self.redirect(BACK_URL)
 
 @urlmap('/oauth/%s'%OAUTH_KAIXIN)
-class KaixinOauthHandler(LoginBase, KaixinMixin):
+class KaixinOauthHandler(Base, KaixinMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('code',None):
@@ -198,7 +199,7 @@ class KaixinOauthHandler(LoginBase, KaixinMixin):
             return self.redirect(BACK_URL)
 
 @urlmap('/oauth/%s'%OAUTH_WWW163)
-class Www163OauthHandler(LoginBase, Www163Mixin):
+class Www163OauthHandler(Base, Www163Mixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
@@ -225,7 +226,7 @@ class Www163OauthHandler(LoginBase, Www163Mixin):
 
 
 @urlmap('/oauth/%s'%OAUTH_QQ)
-class QqOauthHandler(LoginBase, QqMixin):
+class QqOauthHandler(Base, QqMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
@@ -250,7 +251,7 @@ class QqOauthHandler(LoginBase, QqMixin):
                 return self.redirect(BACK_URL)
 
 @urlmap('/oauth/%s'%OAUTH_SOHU)
-class SohuOauthHandler(LoginBase, SohuMixin):
+class SohuOauthHandler(Base, SohuMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
@@ -276,7 +277,7 @@ class SohuOauthHandler(LoginBase, SohuMixin):
                 return self.redirect(back)
 
 @urlmap('/oauth/%s'%OAUTH_RENREN)
-class RenrenOauthHandler(LoginBase, RenrenMixin):
+class RenrenOauthHandler(Base, RenrenMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('code',None):
@@ -306,7 +307,7 @@ class RenrenOauthHandler(LoginBase, RenrenMixin):
             return self.redirect(BACK_URL)
 
 @urlmap('/oauth/%s'%OAUTH_TWITTER)
-class TwitterOauthHandler(LoginBase, TwitterMixin):
+class TwitterOauthHandler(Base, TwitterMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument('oauth_token', None):
