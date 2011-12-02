@@ -12,6 +12,7 @@ from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE
 from zkit.txt import EMAIL_VALID, mail2link
 from zkit.errtip import Errtip
 from model.user_new import user_new
+from model.oauth import oauth_token_key_by_id
 
 LOGIN_REDIRECT = '%s/live'
 
@@ -40,10 +41,22 @@ class NoLoginBase(Base):
             redirect = LOGIN_REDIRECT%current_user.link
         self.redirect(redirect)
 
-@urlmap('/auth/bind')
+@urlmap('/auth/bind/(\d+)')
 class AuthBind(NoLoginBase):
-    def get(self):
-        self.render()
+    def _prepare(self, id):
+        key = self.get_argument('key', None)
+        if not key or key!=oauth_token_key_by_id(id):
+            return self.redirect("/")
+
+    def get(self, id):
+        self._prepare(id)
+        self.render(errtip=Errtip())
+
+    def post(self, id):
+        errtip=Errtip()
+        self.render(errtip=errtip)
+
+
 
 @urlmap('/auth/reg/?(.*)')
 class Reg(NoLoginBase):
@@ -85,11 +98,11 @@ class Reg(NoLoginBase):
             errtip.sex = '请选择性别'
 
         if not errtip:
-            user_id = user_new(mail,sex=sex)
+            user_id = user_new(mail, sex=sex)
             return self.redirect('/auth/verify/send/%s'%user_id)
 
         self.render(
-            sex=sex,  
+            sex=sex,
             mail=mail,
             errtip=errtip
         )

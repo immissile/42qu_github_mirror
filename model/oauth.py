@@ -290,7 +290,19 @@ def zsite_id_by_token_key_login(app_id, token_key):
     if r:
         return r[0]
 
+def oauth_token_key_by_id(id):
+    cursor = OauthToken.raw_sql(
+        'select token_key from oauth_token where id=%s', id
+    )
+    r = cursor.fetchone()
+    if r:
+        return r[0]
+
+
+
 if __name__ == '__main__':
+#    print http://zuroc.xxx/auth/bind/73?key=140505-98e90d530cb976ebd7242a9282f32c17
+    print oauth_token_key_by_id(73)
     #oauth_save(OAUTH_BUZZ, 2, '2', '1')
     #print oauth_sync_sum('11')
     pass
