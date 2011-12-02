@@ -287,12 +287,10 @@ def zsite_id_by_token_key_login(app_id, token_key):
 
 def oauth_token_key_by_id(id):
     cursor = OauthToken.raw_sql(
-        'select token_key from oauth_token where id=%s', id
+        'select app_id, zsite_id,token_key from oauth_token where id=%s', id
     )
     r = cursor.fetchone()
-    if r:
-        return r[0]
-
+    return r or (None, None, None)
 
 
 if __name__ == '__main__':

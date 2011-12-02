@@ -56,10 +56,12 @@ font-size:16px;
 ${errtip.mail|n}
 <p class="line">密码<input name="password" class="line_input" id="login_password" type="password" value="${password or ''}"></p>
 ${errtip.password|n}
+%if not this.token_user_id:
 <div class="sync">
 <textarea id="weibo" name="weibo" class="txt">${txt or OAUTH_SYNC_TXT}</textarea>
-<div><input type="checkbox" class="ck" name="tstate" checked="" id="tstate"><label for="tstate" class="label">介绍这里</label></div>
+<div><input type="checkbox" class="ck" name="sync_txt" checked="" id="sync_txt"><label for="sync_txt" class="label">介绍这里</label></div>
 </div>
+%endif
 <p><span class="btnw auth_btn"><button type="submit" >确定</button></span></p>
 </%htm:form>
 

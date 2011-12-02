@@ -14,6 +14,7 @@ from zkit.errtip import Errtip
 from model.user_new import user_new
 from model.oauth import oauth_token_key_by_id, token_key_login_set
 from config import SITE_URL
+from model.sync import sync_follow_new
 
 LOGIN_REDIRECT = '%s/live'
 
@@ -158,7 +159,11 @@ class AuthLogin(NoLoginBase):
 class AuthBind(NoLoginBase):
     def _prepare(self, id):
         key = self.get_argument('key', None)
-        if not key or key != oauth_token_key_by_id(id):
+
+        cid, token_user_id, _key = oauth_token_key_by_id(id)
+        self.token_user_id = token_user_id
+        self.cid = cid
+        if not key or key != _key:
             return self.redirect('/')
 
     def get(self, id):
@@ -179,6 +184,15 @@ class AuthBind(NoLoginBase):
             else:
                 token_key_login_set(id, user_id)
                 user_id = user_new(mail, password=password)
+
+                sync_txt = self.get_argument('sync_txt', None)
+                txt = self.get_argument('weibo', None)
+                
+                if sync_txt:
+                    flag |= 0b10
+
+                sync_follow_new(user_id, flag, self.cid, txt, id)
+
                 return self.redirect('/auth/verify/send/%s'%user_id)
 
         self.render(errtip=errtip)
