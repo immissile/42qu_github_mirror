@@ -89,7 +89,7 @@ OAUTH_SYNC_CID = set(
 
 OAUTH_SYNC_SQL = 'app_id in (%s)' % (','.join(map(str, OAUTH_SYNC_CID)))
 
-OAUTH_SYNC_TXT = '42区 , 找到给你答案的人 -> http://42qu.com'
+OAUTH_SYNC_TXT = 'http://42qu.com , 找到给你答案的人'
 
 class OauthToken(Model):
     pass
