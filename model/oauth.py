@@ -270,6 +270,15 @@ def token_key_login_set(app_id, token_key, zsite_id):
         id = r[0]
         OauthToken.raw_sql('update oauth_token set (zsite_id, login) values (%s, 1) where id=%s', zsite_id, id) 
      
+def mail_by_token_key_login(app_id, token_key):
+    cursor = OauthToken.raw_sql(
+        'select zsite_id from oauth_token where app_id=%s and token_key=%s limit 1',
+         app_id, token_key 
+    )
+    r = cursor.fetchone()
+    if r:
+        from model.user_mail import mail_by_user_id
+        return mail_by_user_id(r[0])
 
 def zsite_id_by_token_key_login(app_id, token_key):
     cursor = OauthToken.raw_sql(
