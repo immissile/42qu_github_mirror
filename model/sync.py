@@ -56,7 +56,7 @@ class SyncFollow(McModel):
 
 def sync_follow_new(zsite_id, state, cid, txt, oauth_id=0):
     SyncFollow.raw_sql(
-        'insert into sync_follow (zsite_id,state,cid,txt) values(%s,%s,%s,%s,%s) ',
+        'insert into sync_follow (zsite_id,state,cid,txt,oauth_id) values(%s,%s,%s,%s,%s) ',
          zsite_id, state, cid, txt, oauth_id
     )
 

@@ -12,7 +12,7 @@ from model.user_mail import mail_by_user_id
 from model.oauth import zsite_id_by_token_key_login
 from model.zsite import Zsite
 
-BACK_URL = 'http://%s/i/bind'%SITE_DOMAIN
+BACK_URL = '/i/bind'
 
 LOGIN_REDIRECT = '%s/live'
 
@@ -30,7 +30,7 @@ class Base(_Base):
 
         current_user = Zsite.mc_get(user_id)
 
-        redirect = self.get_argument('next', LOGIN_REDIRECT%current_user.link)
+        redirect = LOGIN_REDIRECT%current_user.link
         self.redirect(redirect)
 
 
@@ -53,6 +53,15 @@ class Base(_Base):
         access_token = user.get('access_token')
         key = access_token['key']
         return key
+
+@urlmap('/oauth/(\d+)/login')
+class OauthLogin(Base):
+    def get(self, id):
+        if self.current_user:
+            url =  LOGIN_REDIRECT%self.current_user.link
+        else:
+            url = "/oauth/%s"%id
+        return self.redirect(url)
 
 @urlmap('/oauth/%s'%OAUTH_DOUBAN)
 class DoubanOauthHandler(Base, DoubanMixin):
