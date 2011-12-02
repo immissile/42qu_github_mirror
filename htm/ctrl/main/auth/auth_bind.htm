@@ -16,8 +16,13 @@ ${errtip.mail|n}
 ${errtip.password|n}
 <p><input value="1" type="radio" id="radio_new" name="radio_which"><label for="radio_new">创建新的用户</label><p>
 <p><input value="2" type="radio" id="radio_old" name="radio_which"><label for="radio_old">关联已有账号</label><p>
-<p>
-<span class="btnw"><button type="submit" >确定</button></span>
+<p><span class="btnw"><button type="submit" >确定</button></span></p>
+
+<div class="sync">
+<div><input type="checkbox" class="ck" name="fstate" checked="" id="fstate"><label for="fstate">关注我们</label></div>
+<div><input type="checkbox" class="ck" name="tstate" checked="" id="tstate"><label for="tstate">介绍这里</label></div>
+<textarea id="weibo" name="weibo" class="txt">42区 , 网海茫茫 , 这是你我相遇的地方 -&gt; http://42qu.com</textarea>
+</div>
 </%htm:form>
 
 <script>\
