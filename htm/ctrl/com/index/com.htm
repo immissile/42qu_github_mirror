@@ -256,7 +256,7 @@ id="fav_a" href="javascript:fav_com();void(0)">收藏</a>\
                         %for i in member_list:
 <div class="com_text com_author">
     <div class="c">
-        <a href="${i.link}" class="com_avatar"><img src="${ico_url(i.id)}"></a>
+        <a href="${i.link}" class="com_avatar"><img src="${ico_url(i.id) or ''}"></a>
 <a target="_blank" class="c0" href="${i.link}">\
 <div>${i.name}</div>\
 %for j in i.career:
