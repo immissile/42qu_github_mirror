@@ -12,25 +12,55 @@ from model.oauth import OAUTH_SYNC_TXT
 
 <style>
 .line{
-padding:10px 0;
+font-size:16px;
+padding-bottom:10px;
+}
+.line_hint{
+margin-bottom:22px;
 font-size:16px;
 }
 .line_input{
 padding:6px;
 font-size:16px;
 margin-left:12px;
-width:220px;
+width:270px;
 }
-
+.errtip{
+margin:-6px 0 0 30px;
+}
+.txt{
+width:266px;
+height:58px;
+padding:8px;
+font-size:16px;
+margin:0 0 8px 44px;
+}
+.ck{
+margin:0 4px 32px 44px;
+}
+.ck_right{
+margin-left:22px;
+}
+#login .auth_btn{
+margin-left:44px;
+}
+.label{
+font-size:16px;
+}
 </style>
  
-<%htm:form action="/auth/reg" id="login">
-<p class="line">邮箱<input id="login_mail" class="line_input" type="text" value="${mail or ''}"></p>
-<p class="line">密码<input id="login_password" class="line_input" type="password" value="${password or ''}"></p>
-<p><input type="radio" id="radio_new" name="radio_which"><label for="radio_new">创建新的用户</label><p>
-<p><input type="radio" id="radio_old" name="radio_which"><label for="radio_old">关联已有账号</label><p>
-<p>
-<span class="btnw"><button type="submit" >确定</button></span>
+<%htm:form id="login">
+<p class="line_hint">请创建新用户 或 关联已有账号</p>
+<p class="line">邮箱<input class="line_input" id="login_mail" type="text" value="${mail or ''}"></p>
+${errtip.mail|n}
+<p class="line">密码<input class="line_input" id="login_password" type="password" value="${password or ''}"></p>
+${errtip.password|n}
+<div class="sync">
+<textarea id="weibo" name="weibo" class="txt">${txt or OAUTH_SYNC_TXT}</textarea>
+<div><input type="checkbox" class="ck" name="tstate" checked="" id="tstate"><label for="tstate" class="label">介绍这里</label>
+<input type="checkbox" class="ck ck_right" name="fstate" checked="" id="fstate"><label for="fstate" class="label">关注我们</label></div>
+</div>
+<p><span class="btnw auth_btn"><button type="submit" >确定</button></span></p>
 </%htm:form>
 
 <script>\
