@@ -10,10 +10,13 @@
 
  
 <%htm:form action="/auth/reg" id="login">
-<p>邮箱<input type="text" value="${mail or ''}"></p>
+<p>邮箱<input id="mail" type="text" value="${mail or ''}"></p>
 <p>密码<input type="password" value="${password or ''}"></p>
 <p><input type="radio" id="radio_new" name="radio_which"><label for="radio_new">创建新的用户</label><p>
 <p><input type="radio" id="radio_old" name="radio_which"><label for="radio_old">关联已有账号</label><p>
 <p>
 <span class="btnw"><button type="submit" >确定</button></span>
 </%htm:form>
+<script>
+$("#mail").focus()
+</script>
