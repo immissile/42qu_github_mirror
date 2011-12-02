@@ -1,20 +1,4 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-<%!
-from config import LOGO_TEXT, SITE_DOMAIN
-from model.ico import ico_url_bind_with_default
-from model.career import career_bind
-from tornado.escape import json_encode 
-from config import FS_DOMAIN
-from tornado.escape import json_encode 
-from model.user_auth import user_password_verify, UserPassword, user_password_new
-
-from model.user_info import UserInfo, MARRY_ONE
-from config import LOGO_TEXT, SITE_DOMAIN
-from model.ico import ico_url_bind_with_default
-from model.career import career_bind
-from tornado.escape import json_encode 
-from model.user_auth import user_password_verify, UserPassword, user_password_new
-%>
 
 <%inherit file="/ctrl/_base/_reg_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -31,15 +15,7 @@ ${next.head()}
 
 <%def name="h_nav()"></%def>
 
-
-
-
-<div class="head_hint">
-<p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>
-<p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
-<p class="hint_p">首先 ，请介绍一下自己 :)</p>
-</div>
-
 ${next.body()}
+
 <%def name="head()">
 </%def>
