@@ -61,6 +61,15 @@ ico_url = pic_url_with_default(current_user_id, 219)
 </div>
 </%htm:form>
 </div>
+##在
+##<input type="text" name="com" id="com" placeholder="请填写当下的单位">
+##<select id="com_state" name="com_state"><option>工作 , 职业是</option><option>读书 , 专业是</option></select>
+##<input type="text" id="job" autocomplete="off" name="job" value="">
+</p>
+##<p class="tc">每天勤勤恳恳地 <input type="text" name="work" id="work" placeholder="干着什么活 ?" style="width:500px"></p>
+
+##htm_foot is used to hack for ie6:
+<%def name="htm_foot()">
 <script>
 (function(){
 var com_txt = $("#com,#txt")
@@ -73,12 +82,7 @@ $("#form_reg").submit(function(){
 })
 $("#name").focus()
 $("#txt").elastic().blur()
-
-})()
+})();
 </script>
-##在
-##<input type="text" name="com" id="com" placeholder="请填写当下的单位">
-##<select id="com_state" name="com_state"><option>工作 , 职业是</option><option>读书 , 专业是</option></select>
-##<input type="text" id="job" autocomplete="off" name="job" value="">
-</p>
-##<p class="tc">每天勤勤恳恳地 <input type="text" name="work" id="work" placeholder="干着什么活 ?" style="width:500px"></p>
+
+</%def>\
