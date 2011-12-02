@@ -65,7 +65,7 @@ def main():
     kv_int_call(KV_SYNC_JOIN_EVENT_BY_ZSITE_ID, _sync_join_event)
     kv_int_call(KV_SYNC_RECOMMEND_BY_ZSITE_ID, _sync_recommend)
 
-    for i in SyncFollow.where('oauth_id!=0').where('cid!=11'):
+    for i in SyncFollow.where('oauth_id!=0'):
         sync_follow(i)
 
 if __name__ == '__main__':

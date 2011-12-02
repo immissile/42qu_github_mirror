@@ -552,9 +552,11 @@ CREATE TABLE `oauth_token` (
   `zsite_id` int(10) unsigned NOT NULL,
   `token_key` varbinary(256) NOT NULL,
   `token_secret` varbinary(256) NOT NULL,
+  `login` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `index` (`zsite_id`) USING BTREE,
-  KEY `app_id` (`app_id`,`zsite_id`) USING BTREE
+  KEY `app_id` (`app_id`,`zsite_id`) USING BTREE,
+  KEY `Index_4` (`app_id`,`token_key`,`login`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `oauth_token_backup`;
@@ -1058,8 +1060,9 @@ CREATE TABLE `user_mail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `mail` varchar(255) COLLATE utf8_bin NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL DEFAULT '60',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Index_2` (`user_id`,`mail`),
+  UNIQUE KEY `Index_2` (`user_id`,`state`,`mail`),
   KEY `mail` (`mail`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
