@@ -19,5 +19,8 @@
 </%htm:form>
 
 <script>\
-login_autofill()\
+login_autofill()
+if($.cookie.get("E")){
+    $("#radio_old").attr('checked',true) 
+}
 </script>\
