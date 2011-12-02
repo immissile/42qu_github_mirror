@@ -372,3 +372,29 @@ background-image:url(/img/gif/icons/gif/light_gray/to_size/arrow1_ne.gif);
 .other_pros .aH:hover{
 background-image:url(/img/gif/icons/gif/red/to_size/arrow1_ne.gif);
 }
+#fancybox-content .other_login_reg_a{
+display:block;
+float:left;
+line-height:20px;
+width:60px;
+margin:0 0 12px 40px;
+font-size:14px;
+}
+#fancybox-content .other_login{
+margin-left:-40px;
+overflow:auto;
+}
+#fancybox-content .other_login_img{
+margin-right:8px;
+vertical-align:-3px;
+}
+#fancybox-content .other_hint{
+padding:14px 0;
+font-size:14px;
+color:#444;
+text-align:center;
+border:dotted #ccc;
+border-width:1px 0;
+margin:16px 0 14px;
+line-height:14px;
+}
