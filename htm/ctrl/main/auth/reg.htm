@@ -3,32 +3,27 @@
 from config import LOGO_TEXT, SITE_DOMAIN
 %>
 
-<%inherit file="/ctrl/_base/_reg_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%inherit file="/ctrl/_base/slideico.htm" />
 
-<%def name="H()">
-</%def>
 
-<%def name="htm_head()">
+<%def name="head()">
 <meta name="description" content=" 无数故事，读完后， 一笑而过。下班的地铁，你还是你，我还是我。认识一个人， 要多少缘分？茫茫人海，擦肩而过多少陌生人。42区，这是相遇的地方 ...">
-<script src="${js.reg}"></script>
-${css.ctrl_auth_reg|n}
 </%def>
 
+<div id="form_reg" >
+<a href="//hero.${SITE_DOMAIN}"><h1 class="logo">${LOGO_TEXT|n}</h1></a>
 
-<%def name="h_nav()"></%def>
-
-<%htm:form id="form_reg" action="/auth/reg">
-
-<h1 id="form_reg_h1">${LOGO_TEXT|n}</h1>
+<%htm:form action="/auth/reg" id="login">
 
 
-<p class="line">
+
+<p>
 <label class="label_input" for="mail">邮箱</label>\
 <input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
 ${errtip.mail|n}
 
-<p class="line">
+<p>
 <label class="label_input" for="mail">性别</label>\
 <select name="sex" class="sex_select">
 <option value=""></option>
@@ -43,5 +38,6 @@ ${errtip.sex|n}
 <span id="login_link">已有账号 ? <a href="/auth/login">点此登录</a></span>
 <span class="R btnw"><button type="submit" >注册</button></span>
 </div>
-<%include file="/ctrl/_util/oauth_login.htm"/>
 </%htm:form>
+<%include file="/ctrl/_util/oauth_login.htm"/>
+</div>

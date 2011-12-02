@@ -1,11 +1,8 @@
 #form_reg{
 font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
 line-height:36px;
-padding:48px 0 48px;
+padding:48px 0 24px;
 
-}
-#form_reg p{
-padding:16px 0;
 }
 #form_reg input, #form_reg, #form_reg select{
 font-size:16px;
@@ -57,8 +54,8 @@ margin:auto;
 width:auto;
 }
 #form_btn{
-line-height:46px;
-_line-height:44px;
+line-height:42px;
+_line-height:40px;
 }
 #form_reg .errtip{
 width:334px;
@@ -171,3 +168,32 @@ display:inline-block;
 padding:8px;
 }
 
+.hint_p{
+padding:8px;
+letter-spacing:1px;
+line-height:21px;
+font-size:16px;
+}
+#form_reg p{
+padding:12px 0;
+}
+.p_b{
+font-weight:bold;
+}
+.hint_logo{
+color:#d10;
+margin-left:6px;
+}
+.head_hint{
+margin:20px 0 22px 0;
+padding-left:98px;
+border-bottom:1px dotted #ccc;
+padding-bottom:20px;
+}
+.main_block{
+display:none;
+margin-left:98px;
+}
+#form_btn .next_btn{
+margin-left:37px;
+}

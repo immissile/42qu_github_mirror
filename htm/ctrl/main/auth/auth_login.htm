@@ -1,14 +1,10 @@
-<%inherit file="/ctrl/_base/zsite.htm" />
+<%inherit file="/ctrl/_base/slideico.htm" />
 <%!
 from config import LOGO_TEXT,SITE_DOMAIN
 %>
 <%namespace file="/ctrl/_util/login.htm" import="login_form"/>
-<%def name="h_nav()"></%def>
-<%def name="H()"></%def>
-<%def name="htm_head()">
-${css.ctrl_auth_reg|n}
-</%def>
-<div id="form_reg" class="btns">
+
+<div id="form_reg">
 %if this.get_argument('next',None):
     <h1>登录 ， 然后 ， 继续</h1>
 %else:
