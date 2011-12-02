@@ -10,22 +10,27 @@ from model.oauth import OAUTH_SYNC_TXT
 <p class="hint_p">能看见答案，是幸运的。但问题，还得去找。 - <a href="http://www.douban.com/note/172807027/" target="_blank">阿北</a></p>                                      
 </div>
 
+<style>
+.line{
+padding:10px 0;
+font-size:16px;
+}
+.line_input{
+padding:6px;
+font-size:16px;
+margin-left:12px;
+width:220px;
+}
 
+</style>
  
 <%htm:form action="/auth/reg" id="login">
-<p>邮箱<input id="login_mail" type="text" value="${mail or ''}"></p>
-${errtip.mail|n}
-<p>密码<input id="login_password" type="password" value="${password or ''}"></p>
-${errtip.password|n}
-<p><input value="1" type="radio" id="radio_new" name="radio_which"><label for="radio_new">创建新的用户</label><p>
-<p><input value="2" type="radio" id="radio_old" name="radio_which"><label for="radio_old">关联已有账号</label><p>
-<p><span class="btnw"><button type="submit" >确定</button></span></p>
-
-<div class="sync">
-<textarea id="weibo" name="weibo" class="txt">${txt or OAUTH_SYNC_TXT}</textarea>
-<div><input type="checkbox" class="ck" name="tstate" checked="" id="tstate"><label for="tstate">介绍这里</label></div>
-<div><input type="checkbox" class="ck" name="fstate" checked="" id="fstate"><label for="fstate">关注我们</label></div>
-</div>
+<p class="line">邮箱<input id="login_mail" class="line_input" type="text" value="${mail or ''}"></p>
+<p class="line">密码<input id="login_password" class="line_input" type="password" value="${password or ''}"></p>
+<p><input type="radio" id="radio_new" name="radio_which"><label for="radio_new">创建新的用户</label><p>
+<p><input type="radio" id="radio_old" name="radio_which"><label for="radio_old">关联已有账号</label><p>
+<p>
+<span class="btnw"><button type="submit" >确定</button></span>
 </%htm:form>
 
 <script>\
