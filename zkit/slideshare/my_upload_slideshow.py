@@ -28,14 +28,31 @@ def slideshare_url(api_key, secret_key, id):
         verbose=False
     )
     json = obj.get_slideshow(slideshow_id=id)
-    return state, json
+    show = json['Slideshows']['Slideshow']
+    status = show['Status']['value']
+
+    swf = None     
+    if int(status) == 2:
+        swf = show['EmbedCode']['value']
+        begin = swf.find('data="')+6
+        end = swf.find('"',begin)
+        swf = swf[begin:end]
+
+        begin = swf.find("doc=")+4
+        swf = swf[begin:swf.find("&",begin)]
+
+    return status, swf
 
 
 if __name__ == '__main__':
-    api_key     = 'WcxW55e6'
-    secret_key  = 'L7bFrKKX'
-    username    = 'zuroc'
-    password    = '198662'
+    api_key = 'WcxW55e6'
+    secret_key = 'L7bFrKKX'
+    username = 'zuroc'
+    password = '198662'
+
     id = slideshare_upload(api_key, secret_key, username, password, 'test.ppt')
+
     print slideshare_url(api_key, secret_key, id)
     print slideshare_url(api_key, secret_key, 10442155)
+
+
