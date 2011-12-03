@@ -45,10 +45,10 @@ def slideshare_url(api_key, secret_key, id):
 
 
 if __name__ == '__main__':
-    api_key = 'WcxW55e6'
-    secret_key = 'L7bFrKKX'
-    username = 'zuroc'
-    password = '198662'
+    api_key = ''
+    secret_key = ''
+    username = ''
+    password = ''
 
     id = slideshare_upload(api_key, secret_key, username, password, 'test.ppt')
 
