@@ -47,7 +47,7 @@ def _bio_save(self,edit=None):
 
         ppt = files.get('ppt')
         if ppt:
-            ppt = ppt['body']
+            ppt = ppt[0]['body']
             ppt_new(com_id, ppt)
 
     zsite_com_new(com_id,hope,money,culture,team,cover_id, video_site, video_id)

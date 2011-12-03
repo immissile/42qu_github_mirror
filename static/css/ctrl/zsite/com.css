@@ -260,3 +260,8 @@ overflow:hidden;
 .com_title .aH{
 height:13px;
 }
+.com_ppt{
+padding-bottom:18px;
+border-bottom:1px dotted #ccc;
+margin-top:27px;
+}
