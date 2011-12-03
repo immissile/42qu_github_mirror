@@ -45,12 +45,13 @@ class Ppt(Model):
             self.slideshare_id
         )
         if state >= STATE_PPT_CONVERTED:
+            com_id = self.com_id
             self.state = state
             self.save()
             vid = False
             if state == STATE_PPT_CONVERTED:
                 vid = video_new(com_id, swf)
-            com_ppt_set(self.com_id, vid)
+            com_ppt_set(com_id, vid)
         else:
             self.time = int(time())
             self.save()
