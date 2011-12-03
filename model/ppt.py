@@ -6,7 +6,6 @@ from model.fs import fs_set, fs_path, fs_url, fs_file
 class Ppt(Model):
     pass
 
-
 def ppt_new(com_id, ppt):
     p = Ppt(com_id=com_id)
     p.save()
