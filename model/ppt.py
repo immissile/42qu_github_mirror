@@ -7,6 +7,7 @@ from config import SLIDESHARE_KEY, SLIDESHARE_SECRET , SLIDESHARE_USERNAME , SLI
 from model.zsite_com import ZsiteCom
 from model.po_video import VIDEO_CID_SLIDESHARE, video_new
 from time import time
+from model.gid import gid
 
 def com_ppt_set(com_id, video_id=0):
     zc = ZsiteCom.mc_get(com_id)
@@ -50,7 +51,8 @@ class Ppt(Model):
             self.save()
             vid = False
             if state == STATE_PPT_CONVERTED:
-                vid = video_new(com_id, swf)
+                vid = gid()
+                video_new(vid, swf)
             com_ppt_set(com_id, vid)
         else:
             self.time = int(time())
