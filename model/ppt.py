@@ -8,6 +8,21 @@ from model.com import com
 from model.zsite_com import ZsiteCom
 from model.po_video import VIDEO_CID_SLIDESHARE
 
+def com_ppt_set(com_id, video_id=0):
+    zc = ZsiteCom.mc_get(com_id)
+    if zc is None:
+        zc = ZsiteCom(com_id=com_id)
+    if video_id is False:
+        zc.video_cid = 0
+        zc.video_id = 0
+    else:
+        zc.video_cid = VIDEO_CID_SLIDESHARE
+        zc.video_id = video_id
+    zc.save()
+
+STATE_PPT_CONVERTED = 2
+STATE_PPT_CONVERTE_FAILED = 3
+
 class Ppt(Model):
     def upload(self):
         id = self.id
@@ -20,26 +35,27 @@ class Ppt(Model):
         )
         self.state = 1
         self.slideshare_id = sid
+
+        com_ppt_set(self.com_id)
+
         self.save()
 
     def publish(self):
         state , swf = slideshare_url(
-            SLIDESHARE_KEY, 
+            SLIDESHARE_KEY,
             SLIDESHARE_SECRET,
             p.slideshare_id
         )
-        if state >= 2:
+        if state >= STATE_PPT_CONVERTED:
             self.state = state
             self.save()
-            if state == 2:
-                com_id = self.com_id
-                video_id = video_new(com_id,swf)
-                zc = ZsiteCom.mc_get(com_id)
-                zc.video_cid = VIDEO_CID_SLIDESHARE
-                zc.video_id = video_id
-                zc.save()
- 
-        return sid 
+            if state == STATE_PPT_CONVERTED:
+                vid = video_new(com_id, swf)
+            elif state == STATE_PPT_CONVERTE_FAILED:
+                vid = False
+            com_ppt_set(self.com_id, vid)
+
+        return sid
 
 def ppt_new(com_id, ppt):
     p = Ppt(com_id=com_id)
