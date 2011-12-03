@@ -17,9 +17,14 @@
 
 import urllib, urllib2
 import mimetools, mimetypes
+import warnings
+
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore",category=DeprecationWarning)
+    import sha
+
 import os, stat, time,  sys
 from cStringIO import StringIO
-import sha
 import socket
 
 from xml2dict import fromstring
