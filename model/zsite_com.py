@@ -42,8 +42,8 @@ def zsite_com_new(
     if hope is not None:
         zsite_com.hope = hope
     if money is not None:
-        zsite_com.money = money 
-    if culture is not None: 
+        zsite_com.money = money
+    if culture is not None:
         zsite_com.culture = culture
     if team is not None:
         zsite_com.team = team
@@ -83,7 +83,7 @@ zsite_com_count = McNum(lambda cid: Zsite.where(cid=cid).count(), 'ZsiteComCount
 
 
 def com_new(name, admin_id, state=ZSITE_STATE_VERIFY):
-    name = name.replace("科技有限公司","")
+    name = name.replace('科技有限公司', '')
     com = zsite_new(name, CID_COM, state)
     com_id = com.id
     zsite_com_count.delete(CID_COM)
@@ -103,7 +103,7 @@ def pid_by_com_id(com_id):
     return ZsiteComPlace.where(com_id=com_id)
 
 if __name__ == '__main__':
-    for i in Zsite.where(cid=CID_COM):
-        print i.name
-        i.name = i.name.replace("科技有限公司","")
-        i.save()
+    for j,i in enumerate(Zsite.where(cid=CID_COM)):
+        print i.name, j
+        #i.name = i.name.replace("科技有限公司","")
+        #i.save()
