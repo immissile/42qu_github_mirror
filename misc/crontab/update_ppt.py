@@ -7,7 +7,7 @@ from model.zsite_com import ZsiteCom
 from model.po_video import VIDEO_CID_SLIDESHARE, video_new, video_filter
 
 def update():
-    for p in Ppt.where():
+    for p in Ppt.where(is_upload=0):
         url = ppt_upload(p.com_id)
         zc = ZsiteCom.mc_get(p.com_id)
         video,video_cid = video_filter(url)
