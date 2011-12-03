@@ -4,7 +4,6 @@ from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from model.fs import fs_set, fs_path, fs_url, fs_file
 from zkit.slideshare import slideshare_upload, slideshare_url
 from config import SLIDESHARE_KEY, SLIDESHARE_SECRET , SLIDESHARE_USERNAME , SLIDESHARE_PASSWORD
-from model.com import com
 from model.zsite_com import ZsiteCom
 from model.po_video import VIDEO_CID_SLIDESHARE
 

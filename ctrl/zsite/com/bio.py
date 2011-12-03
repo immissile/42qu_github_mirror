@@ -37,11 +37,6 @@ def _bio_save(self,edit=None):
             if pic:
                 com_pic_new(com_id,pic)
 
-    ppt = files.get('ppt')
-    if ppt:
-        ppt = ppt['body']
-        ppt_new(com_id, ppt)
- 
     if video:
         video_id = gid()
         video,video_site = video_filter(video)
@@ -50,7 +45,12 @@ def _bio_save(self,edit=None):
         video_id = 0
         video_site = None
 
-    zsite_com_new(com_id,hope,money,culture,team,cover_id,video_site, video_id)
+        ppt = files.get('ppt')
+        if ppt:
+            ppt = ppt['body']
+            ppt_new(com_id, ppt)
+
+    zsite_com_new(com_id,hope,money,culture,team,cover_id, video_site, video_id)
     
 
 
