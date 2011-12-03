@@ -32,7 +32,7 @@ def slideshare_url(api_key, secret_key, id):
     status = int(show['Status']['value'])
 
     swf = None    
-    print json 
+    #print json 
     if status == 2:
         swf = show['EmbedCode']['value']
         begin = swf.find('data="')+6
