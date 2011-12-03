@@ -36,7 +36,6 @@ class Ppt(Model):
         self.state = 1
         self.slideshare_id = sid
 
-        com_ppt_set(self.com_id)
 
         self.save()
 
@@ -61,6 +60,7 @@ def ppt_new(com_id, ppt):
     p = Ppt(com_id=com_id)
     p.save()
     fs_set('ppt', p.id, 'ppt', ppt)
+    com_ppt_set(com_id)
     return p.id
 
 def ppt_file(id):
