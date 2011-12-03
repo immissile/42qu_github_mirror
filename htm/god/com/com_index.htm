@@ -3,12 +3,21 @@
 from model.zsite_list import zsite_list_get
 from model.zsite_show import OWNER_ID
 from model.zsite_rank import zsite_rank_max
+from model.zsite_member import zsite_member_admin_list
 %>
 <%def name="htm_head()">
 </%def>
 %for l in li:
 <div>
-<div>${l.id} <a href="${l.link}" target="_blank">${l.name}</a></div>
+    <div>${l.id} <a href="${l.link}" target="_blank">${l.name}</a></div>
+    <div class="item">
+    <%
+    admin =  zsite_member_admin_list(l.id)
+     %>
+     %if admin:
+    <a target="_blank" href="/sudo/${admin[0].id}?next=${l.link}/guide">修改介绍 </a>
+    %endif
+</div>
 %if zsite_list_get(l.id,OWNER_ID,l.cid):
     当前rank值：${zsite_list_get(l.id,OWNER_ID,l.cid).rank}
     <a href="/zsite/show/rm/${l.id}"> 移除秀</a>
