@@ -17,9 +17,9 @@
 
 import urllib, urllib2
 import mimetools, mimetypes
-import os, stat, time, sha, sys
+import os, stat, time,  sys
 from cStringIO import StringIO
-
+import sha
 import socket
 
 from xml2dict import fromstring

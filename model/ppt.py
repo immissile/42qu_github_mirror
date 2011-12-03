@@ -5,7 +5,8 @@ from model.fs import fs_set, fs_path, fs_url, fs_file
 from zkit.slideshare import slideshare_upload, slideshare_url
 from config import SLIDESHARE_KEY, SLIDESHARE_SECRET , SLIDESHARE_USERNAME , SLIDESHARE_PASSWORD
 from model.zsite_com import ZsiteCom
-from model.po_video import VIDEO_CID_SLIDESHARE
+from model.po_video import VIDEO_CID_SLIDESHARE, video_new
+from time import time
 
 def com_ppt_set(com_id, video_id=0):
     zc = ZsiteCom.mc_get(com_id)
@@ -34,26 +35,25 @@ class Ppt(Model):
         )
         self.state = 1
         self.slideshare_id = sid
-
-
+        self.time = int(time())
         self.save()
 
     def publish(self):
         state , swf = slideshare_url(
             SLIDESHARE_KEY,
             SLIDESHARE_SECRET,
-            p.slideshare_id
+            self.slideshare_id
         )
         if state >= STATE_PPT_CONVERTED:
             self.state = state
             self.save()
+            vid = False
             if state == STATE_PPT_CONVERTED:
                 vid = video_new(com_id, swf)
-            elif state == STATE_PPT_CONVERTE_FAILED:
-                vid = False
             com_ppt_set(self.com_id, vid)
-
-        return sid
+        else:
+            self.time = int(time())
+            self.save()
 
 def ppt_new(com_id, ppt):
     p = Ppt(com_id=com_id)
