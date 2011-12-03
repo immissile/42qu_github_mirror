@@ -1,5 +1,6 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%!
+from config import FS_URL 
 from model.po_video import VIDEO_CID2HTM
 from model.po import Po
 from model.ico import pic211_url, ico_url
@@ -33,21 +34,25 @@ ${css.ctrl_zsite_com|n}
 <%
 can_admin = zsite_member_can_admin(zsite_id, user_id)
 zsite_com = ZsiteCom.mc_get(zsite_id)
-_video_uri = None
 %>
 <div class="G">
     <div class="com_main">
        %if zsite_com:
 %if zsite_com.video_cid: 
-<%
+%if zsite_com.video_id:
+    <%
 _video_uri = video_htm(zsite_com.video_cid , zsite_com.video_id)
-%>
-%endif
-%if _video_uri:
+    %>
+    %if _video_uri:
        <div class="com_video">
-           ##${HTM_YOUKU%"XMjMxOTYxNDk2"|n}
            ${_video_uri|n}
        </div>
+    %endif
+%else:
+       <div class="com_video">
+            <img src="${FS_URL}/img/gif/ppt_upload.gif">
+       </div>
+%endif
 %endif
         %endif
 <%
