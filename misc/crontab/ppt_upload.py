@@ -8,7 +8,7 @@ from time import time
 
 @single_process
 def main():
-    now = time() - 121
+    now = time() - 201
     for p in Ppt.where(state=1).where('time<%s'%now):
         p.publish()
     
