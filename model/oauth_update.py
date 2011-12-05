@@ -363,7 +363,7 @@ def sync_by_oauth_id(oauth_id, txt, url=None, name=None):
         txt = oauth_txt_cat(cid, txt, url)
         re = DICT_API_SAY[cid](key, secret, txt)
 
-        if cid = OAUTH_KAIXIN:
+        if cid == OAUTH_KAIXIN:
             conn = httplib.HTTPSConnection
         else:
             conn = httplib.HTTPConnection
