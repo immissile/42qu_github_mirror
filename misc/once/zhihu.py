@@ -32,6 +32,7 @@ def read_next(start, offset):
     )
     urlopener = urllib2.build_opener()
     r = urlopener.open(request)
+
     j = r.read()
     j = loads(j)
     html = j['msg'][1]
