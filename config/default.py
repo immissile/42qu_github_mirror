@@ -39,6 +39,8 @@ def prepare(o):
     o.SMTP_PASSWORD = '42qu.com'
     o.SENDER_MAIL = '42qutest@sina.com'
 
+    o.SYNC_ZSITE = 10000000
+
     if not getattr(o, 'ADMIN_MAIL', None):
         o.ADMIN_MAIL = o.SENDER_MAIL
 #    o.SMTP = 'smtp.163.com'
