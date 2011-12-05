@@ -1,19 +1,168 @@
 <%inherit file="/ctrl/_base/_tidy_base.htm" />
 ${css.ctrl_com_resume|n}
 <script src="${js.pid}"></script>
+<script src="${js.date}"></script>
+
 <script>
 $(function(){
     var fancybox = $.fancybox
 
    $('#bio_edit').click(function(){
-        $('#bio_addr').hide()
-        $('.bio_addr').show()
-        $('#bio_home').hide()
-        $('.bio_home').show()
-        $('.bio_text').each(function(){
-            $(this).html('<input class="rsm_r bio_text" value="'+$(this).text()+'">')
+        if($(this).text()=="编辑"){
+            $('#bio_addr').hide()
+            $('.bio_addr').show()
+            $('#bio_home').hide()
+            $('.bio_home').show()
+            $('.bio_text').each(function(){
+                $(this).html('<input class="rsm_r bio_input" value="'+$(this).text()+'">')
+            })
+            $('#bio_salary').html('<input class="bio_salary" value="'+$('#bio_salary').text()+'">')
+            $('#bio_lang').html('<select class="bio_lang"><option value="1">英语四级</option><option value="2">英语六级</option></select>')
+            $(this).text('保存')
+        } else if($(this).text()=='保存'){
+            $('#bio_addr').text(get_addr_str('pid_addr')).show()
+            $('#bio_home').text(get_addr_str('pid_home')).show()
+            $('.bio_home').hide()
+            $('.bio_addr').hide()
+            $('.bio_input, .bio_salary').each(function(){
+                var self = $(this)
+                self.replaceWith(self.val()) 
+            })
+            $('.bio_lang').replaceWith($('.bio_lang').find("option:selected").text())
+            $(this).text('编辑')
+        }
+    })
+    function get_addr_str(addr_id){
+        var co = $('#' + addr_id + ">select[name='country']").val(),
+        coun = $('#' + addr_id + ">select[name='country']").find("option:selected").text(),
+        city = $('#' + addr_id + ">select[name='city']").find("option:selected").text(),
+        town = $('#' + addr_id + ">select[name='town']").find("option:selected").text()
+        if(!(coun && city && town && city!="- 请选择 -" && town!="- 请选择 -") && coun=='中国' ){
+            alert('请选择完整的城市及县区')
+            return
+        }
+        if(co==1) addr=city+' '+town; else addr=coun;
+        return addr
+    }
+    $('#career_edit').click(function(){
+        if($(this).text()=="编辑"){
+            $('.career_block>.rsm_l').each(function(){
+                $(this).html($(this).text()+'<a href="javascript:void(0);" class="add_career">添加</a>')
+            })
+            $('.career_date').each(function(){
+                $(this).html(get_date()+' - '+get_date())
+            })
+            $('.career_com').each(function(){
+                $(this).replaceWith('<input type="text" name="'+$(this).attr('class')+'" class="input_'+$(this).attr('class')+'" value="'+$(this).text()+'" placeholder="学校/公司">')
+            })
+            $('.career_job').each(function(){
+                $(this).after('<a href="javascript:void(0)" class="close_career"></a>').replaceWith('<input type="text" name="'+$(this).attr('class')+'" class="input_'+$(this).attr('class')+'" value="'+$(this).text()+'" placeholder="专业/职位">')
+            })
+            $(this).text('保存')
+        } else if($(this).text()=='保存'){
+            var ctr = true,
+            dates = []
+            $('.career_date').each(function(){
+                if(!ctr) return false
+                var arr=[]
+                $(this).find('select').each(function(){
+                    if(!ctr)return
+                    var val = $(this).find('option:selected').val()
+                    if(val==0){
+                        alert('请选择年/月')
+                        ctr = false
+                        return false 
+                    }
+                    arr.push(val)
+                })
+                if(!ctr) return false
+                dates.push(arr[0]+'.'+arr[1]+' - '+arr[2]+'.'+arr[3])
+            })
+            if(ctr){
+                $('.career_date').each(function(){
+                    $(this).text(dates.shift())
+                })
+                $('.input_career_com,.input_career_job').each(function(){
+                    $(this).replaceWith('<span class="'+$(this).attr('class').substr(6)+'">'+$(this).val()+'</span>')
+                })
+                $(this).text('编辑')
+            }
+        }
+        $('.close_career').live('click',function(){
+            if(confirm('删除 , 确定？')){
+                $(this).parent().remove()
+                $('.rsm_career').each(function(){
+                    if(!$(this).find('.career_li')[0]){
+                        $(this).parent().find('.add_career').click()
+                    }
+                })
+            }
+        })
+        $('.add_career').click(function(){
+            $(this).parent().next().append('<div class="career_li"><span class="career_date">'+get_date()+' - '+get_date()+'</span><input type="text" class="input_career_com" name="career_com" value="" placeholder="学校/公司"><input type="text" class="input_career_job" name="career_job" value="" placeholder="专业/职位"><a href="javascript:void(0)" class="close_career"></a></div>')
         })
     })
+    $('#expr_edit').click(function(){
+        if($(this).text()=="编辑"){
+            $(this).after('<a href="javascript:void(0)" class="add_expr R">添加</a>')
+            $('.expr_cont').each(function(){
+                $(this).prepend('<a href="javascript:void(0);" class="close_expr"></a>')
+            })
+            $('.expr_text').each(function(){
+                $(this).html('<input type="text" class="input_expr_text" name="expr_text" value="'+$(this).text()+'">')
+            })
+            $('.expr_txt').each(function(){
+                $(this).html('<textarea class="input_expr_txt" name="expr_txt">'+$(this).text()+'</textarea>')
+                $('.input_expr_txt').elastic(140)
+            })
+            $(this).text('保存')
+        } else if($(this).text()=="保存"){
+            $('.input_expr_text').each(function(){
+                $(this).replaceWith($(this).val())
+            })
+            $('.input_expr_txt').each(function(){
+                $(this).replaceWith('<pre class="rsm_pre">'+$(this).val()+'</pre>')
+            })
+            $(this).text('编辑')
+        }
+        var expr_cont = '<div class="expr_cont"><a class="close_expr" href="javascript:void(0);"></a><div class="rsm_l">项目名称</div><div class="rsm_r expr_text"><input type="text" value="" name="expr_text" class="input_expr_text"></div><div class="rsm_l">团队规模</div><div class="rsm_r expr_text"><input type="text" value="" name="expr_text" class="input_expr_text"></div><div class="rsm_l">担任职务</div><div class="rsm_r expr_text"><input type="text" value="" name="expr_text" class="input_expr_text"></div><div class="rsm_l">项目简介</div><div class="rsm_r expr_txt"><textarea name="expr_txt" class="input_expr_txt"></textarea></div></div>'
+        $('.add_expr').click(function(){
+            $('#rsm_expr_form').prepend(expr_cont)
+        })
+        $('.close_expr').live('click',function(){
+            if(confirm('删除该项目所有信息 , 确定？')){
+                $(this).parent().remove()
+                if(!$('.expr_cont')[0]){
+                    $('#rsm_expr_form').append(expr_cont)
+                }
+            }
+        })
+    })
+    $('#plan_edit').click(function(){
+        if($(this).text()=="编辑"){
+            var txt = $('.plan_txt')
+            txt.html('<textarea class="input_plan_txt" name="plan_txt">'+txt.text()+'</textarea>')
+            $('.input_plan_txt').elastic(140)
+            $(this).text('保存')
+        } else if($(this).text()=="保存"){
+            $('.input_plan_txt').replaceWith('<pre class="rsm_pre">'+$('.input_plan_txt').val()+'</pre>')
+            $(this).text('编辑')
+        }
+    })
+    function get_date(){
+        var now = new Date()
+        var end = parseInt(now.getFullYear())
+        var result = '<select class="career_select_year"><option value="0">- 年 -</option>'
+        for(var i=end;i>1900;i--){
+            result += '<option value="'+i+'">'+i+'</option>'
+        }
+        result += '</select><select class="career_select_month"><option value="0">- 月 -</option>'
+        for(var i=1;i<13;i++){
+            result += '<option value="'+i+'">'+i+'</option>'
+        }
+        result += '</select>'
+        return result
+    }
 })
 </script>
 
@@ -22,8 +171,8 @@ $(function(){
     <div class="rsm_name">张妮美</div>
     <div class="rsm_img_wrap"><img src="http://p4.42qu.us/721/834/57154.jpg" class="rsm_img"></div>
 
-    <div class="rsm_title" id="rsm_bio">
-    <a class="R c9" id="bio_edit"  href="javascript:void(0);">编辑</a>基本信息</div>
+    <div class="rsm_title" id="rsm_bio"><a class="R c9" id="bio_edit"  href="javascript:void(0);">编辑</a>基本信息</div>
+    <form id="rsm_bio_form">
     <div class="rsm_l">现居</div>
     <div class="rsm_r" id="bio_addr">北京市 昌平区</div>
         <div class="rsm_r bio_addr" style="display:none;">
@@ -37,43 +186,52 @@ $(function(){
             <span id="pid_home"></span>
         </div>
     <div class="rsm_l">薪资</div>
-    <div class="rsm_r" id="bio_salary">&gt;=8000元/月</div>
+    <div class="rsm_r">&gt;=<span id="bio_salary">8000</span>元/月</div>
     <div class="rsm_l">手机</div>
     <div class="rsm_r bio_text">13886689123</div>
     <div class="rsm_l">邮箱</div>
     <div class="rsm_r bio_text">zhangnimei@gmail.com</div> 
     <div class="rsm_l">语言</div>
     <div class="rsm_r" id="bio_lang">英语六级</div>
+    </form>
 
-    <div class="rsm_title">教育经历</div>
-    <div class="rsm_l">2004 - 2008</div>
-    <div class="rsm_r">西南财经大学</div>
-    <div class="rsm_l">2001 - 2004</div>
-    <div class="rsm_r">安徽省庐江中学</div>
+    <div class="rsm_title"><a class="R c9" id="career_edit"  href="javascript:void(0);">编辑</a>个人履历</div>
+    <form id="rsm_career_form">
+    <div class="career_block">
+    <div class="rsm_l">教育经历</div>
+    <div class="rsm_r rsm_career">
+        <div class="career_li"><span class="career_date">2004.09 - 2011.06</span><span class="career_com">西南财经大学</span><span class="career_job"></span></div>
+        <div class="career_li"><span class="career_date">2004.09 - 2008.06</span><span class="career_com">安徽省庐江中学</span><span class="career_job"></span></div>
+    </div>
+    </div>
+    <div class="career_block">
+    <div class="rsm_l">工作经历</div>
+    <div class="rsm_r rsm_career">
+        <div class="career_li"><span class="career_date">2004.09 - 2011.06</span><span class="career_com">中国人民银行</span><span class="career_job">风险估算师</span></div>
+        <div class="career_li"><span class="career_date">2004.09 - 2008.06</span><span class="career_com">IDG中国</span><span class="career_job">客户咨询经理</span></div>
+    </div>
+    </div>
+    </form>
 
-    <div class="rsm_title">工作经历</div>
-    <div class="rsm_l">2008 - 2010</div>
-    <div class="rsm_r">中国人民银行 分析师</div>
-    <div class="rsm_l">2010 - 2011</div>
-    <div class="rsm_r">新浪微博 程序员</div>
-
-    <div class="rsm_title">项目经验</div>
-    <div class="rsm_cont">
+    <div class="rsm_title"><a class="R c9" id="expr_edit"  href="javascript:void(0);">编辑</a>项目经验</div>
+    <form id="rsm_expr_form">
+    <div class="expr_cont">
     <div class="rsm_l">项目名称</div>
-    <div class="rsm_r">中国人口第五次普查</div>
+    <div class="rsm_r expr_text">中国人口第五次普查</div>
     <div class="rsm_l">团队规模</div>
-    <div class="rsm_r">16人</div>
+    <div class="rsm_r expr_text">16人</div>
     <div class="rsm_l">担任职务</div>
-    <div class="rsm_r">主要程序员</div>
+    <div class="rsm_r expr_text">主要程序员</div>
     <div class="rsm_l">项目简介</div>
-    <div class="rsm_r">
+    <div class="rsm_r expr_txt">
     <pre class="rsm_pre">普查时间，1953年6月12日至7月2日为准备工作阶段，7月3日至1954年6月为登记阶段及全面复查和重点抽查、统计、小结、公布等。
 　　1954年11月1日由国家统计局发表了《关于全国人口普查登记结果的公报》，公布了这次普查的主要数字：全国在1953年6月30日24时总人口为601938035人，其中直接调查的人口为574205940人，用其他办法间接调查到的人口为27732095人。 
     </pre></div>
-
-    <div class="rsm_title">职业规划</div>
+    </div>
+    </form>
+    <div class="rsm_title"><a class="R c9" id="plan_edit"  href="javascript:void(0);">编辑</a>职业规划</div>
     <div class="rsm_l"></div>
-    <div class="rsm_r">
+    <div class="rsm_r plan_txt">
     <pre class="rsm_pre">1. 负责豆瓣电影产品的技术开发、优化和维护工作:你有机会在整体架构下,开发出 性能卓越、创新的电影产品 
 2. 参与豆瓣电影产品设计过程并出谋划策 
 3. 提供豆瓣电影产品运营的技术支持

@@ -72,3 +72,70 @@ margin-top:-5px;
 .bio_addr, .bio_home{
 margin-right:-200px;
 }
+.bio_input{
+padding:0;
+width:220px;
+}
+.bio_salary{
+width:80px;
+margin:0 8px;
+}
+.career_date{
+margin-right:14px;
+}
+.career_li{
+margin:0 0 14px 100px;
+}
+.career_com,.career_job,.input_career_com,.input_career_job{
+margin-right:14px;
+}
+.rsm_career{
+margin-right:-250px;
+}
+.close_career{
+width:16px;
+height:16px;
+padding:4px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;
+display:inline-block;
+vertical-align:-6px;
+}
+.close_career:hover{
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
+}
+.add_career{
+display:block;
+margin-top:14px;
+}
+.input_expr_text{
+width:200px;
+}
+.input_expr_txt{
+width:330px;
+height:140px;
+}
+.add_expr{
+margin-right:14px;
+color:#999;
+}
+.expr_cont{
+margin-bottom:22px;
+}
+.close_expr{
+width:16px;
+height:16px;
+padding:4px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;
+float:right;
+margin-top:8px;
+}
+.close_expr:hover{
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
+}
+.career_block{
+clear:both;
+}
+.input_plan_txt{
+width:330px;
+height:140px;
+}
