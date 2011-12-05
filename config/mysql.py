@@ -89,6 +89,7 @@ DB_MAIN_TABLE = (
     'po_review_show',
     'zsite_com',
     'com_apply',
+    'site_sync',
     'ppt',
 )
 
