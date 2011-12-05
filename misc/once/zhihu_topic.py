@@ -59,7 +59,9 @@ def read_next(start, offset):
 
 
 def main():
-    start = 9937205
+    #start = 9937205
+    #start = 7084667
+    start = 7085090
     offset = 0
     while True:
         offset, result = read_next(start, offset)
@@ -67,7 +69,7 @@ def main():
             break
         start = int(result[-1][2])
         for i in result:
-            print i[2], i[0], i[3], i[4].replace(" ","_"),  unescape(i[1])
+            print i[2], i[0], i[3], i[4].replace(" ","_"),  unescape(i[1]).replace("\r"," ").replace("\n"," ")
 
         sleep(1)
 
