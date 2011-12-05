@@ -7,6 +7,7 @@ from oauth import OauthToken
 from config import SITE_DOMAIN
 from cid import CID_EVENT, CID_NOTE, CID_WORD, CID_AUDIO, CID_VIDEO, CID_PHOTO, CID_REVIEW
 from mq import mq_client
+from model.zsite import Zsite
 from oauth_follow import oauth_follow_by_oauth_id
 from model.po import Po
 

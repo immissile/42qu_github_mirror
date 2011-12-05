@@ -199,8 +199,8 @@ if __name__ == '__main__':
     # s = ['<div class="PIC"><img src="%s"></div>'%i for i in m]
     # print s
 
-    #print PIC_SUB.sub('!','收到撒uyiasyduiasyduaysd 图:1 是的撒旦一udyu')
-    print pic_htm('萨顶顶顶顶的 图:1 的的', 10001299, 6)
+    print PIC_SUB.sub('','收到撒uyiasyduiasyduaysd 图:1 是的撒旦一udyu')
+    #print pic_htm('萨顶顶顶顶的 图:1 的的', 10001299, 6)
     #PIC_SPACE = re.compile(r'\s{1,3}[ \t]*(图:\d+)[ \t]*(\s*)', re.MULTILINE)
 # print PIC_SPACE.sub(re_pic_space, """1
 

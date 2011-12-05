@@ -27,6 +27,9 @@ OAUTH_RENREN, OAUTH_LINKEDIN, OAUTH_KAIXIN, OAUTH_FANFOU
 
 from collections import defaultdict
 from oauth import oauth_rm_by_oauth_id
+import re
+
+PIC_SUB = re.compile(r'图:([\d]+)')
 
 def api_xxx(
         api_key, api_secret,
@@ -338,18 +341,26 @@ DICT_API_SAY = {
         OAUTH_FANFOU:api_fanfou_say,
         }
 
-def oauth_txt_cat(cid, txt, url):
-    url_len = len(str(url))
+def oauth_txt_cat(cid, txt, url=None):
+    txt = PIC_SUB.sub('', txt)
+
+    if url:
+        url_len = len(str(url))
+    else:
+        url_len = 0
+
     if cid == OAUTH_DOUBAN:
         txt = str(txt).decode('utf-8')
         tword = txt[:140-url_len]
         if tword != txt:
             txt = txt[:137-url_len]+'...'
-        txt = str(txt)+' '+url
-        return txt
     else:
-        txt = cnenoverflow(str(txt), 139-url_len)[0]+' '+url
-        return txt
+        txt = cnenoverflow(str(txt), 139-url_len)[0]
+
+    if url:
+        txt = '%s %s'%(txt, url)
+
+    return txt
 
 
 def sync_by_oauth_id(oauth_id, txt, url=None, name=None):
@@ -358,7 +369,7 @@ def sync_by_oauth_id(oauth_id, txt, url=None, name=None):
         cid, key, secret = out
         url = shorturl(url)
         if name:
-            txt = "#%s# %s"%(name,txt)
+            txt = '#%s# %s'%(name, txt)
 
         txt = oauth_txt_cat(cid, txt, url)
         re = DICT_API_SAY[cid](key, secret, txt)
