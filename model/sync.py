@@ -99,7 +99,13 @@ def sync_po(po):
 
 def sync_site_po(po, zsite):
     id = zsite.id
-    name = zsite.name
+
+    user = Zsite.mc_get(po.user_id)
+    if user:
+        name = user.name
+    else:
+        name = None 
+
     sync_cid = SYNC_GET_CID.get(po.cid)
     if not sync_cid:
         return
