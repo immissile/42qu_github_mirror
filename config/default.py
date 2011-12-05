@@ -39,7 +39,7 @@ def prepare(o):
     o.SMTP_PASSWORD = '42qu.com'
     o.SENDER_MAIL = '42qutest@sina.com'
 
-    o.ZSITE_BIND_FOR_SYNC = 10000000
+    o.ZSITE_BIND_FOR_SYNC = 10008639
 
     if not getattr(o, 'ADMIN_MAIL', None):
         o.ADMIN_MAIL = o.SENDER_MAIL
