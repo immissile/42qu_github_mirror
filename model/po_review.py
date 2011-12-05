@@ -24,9 +24,12 @@ def po_review_new(zsite_id, user_id, name):
 
     review = po_review_get(zsite_id, user_id)
     if review:
-        review.state = state
-        review.name = name
-        review.save()
+        if not name:
+            po_review_rm(zsite_id, user_id)
+        else: 
+            review.state = state
+            review.name_ = name
+            review.save()
     else:
         review = po_new(
             CID_REVIEW,
@@ -39,6 +42,8 @@ def po_review_new(zsite_id, user_id, name):
             '%s_%s'%(zsite_id, user_id),
             review.id
         )
+        review.feed_new()
+
     if state == STATE_ACTIVE:
         mc_po_review_id_list_active_by_zsite_id.delete(zsite_id)
     return review
@@ -79,6 +84,11 @@ def po_review_state_set(zsite_id, user_id, rid):
     if review:
         review.state = STATE_ACTIVE if rid else STATE_PO_ZSITE_SHOW_THEN_REVIEW
         review.save()
+        mc_po_review_id_get.set(
+            '%s_%s'%(zsite_id, user_id),
+            review.id
+        )
+        mc_po_review_id_list_active_by_zsite_id.delete(zsite_id)
 
 def po_review_show_id_list(id):
     a = array('I')
@@ -110,12 +120,13 @@ def po_review_show_rm(id, po_id):
         pass
     po_review_show.set(id, id_list.tostring())
 
-mc_po_review_id_list_active_by_zsite_id = McCacheA('PoReviewIdListActiveByZsiteId:%s')
+mc_po_review_id_list_active_by_zsite_id = McCacheA('PoReviewIdListActiveByZsiteId.%s')
 
 @mc_po_review_id_list_active_by_zsite_id('{id}')
 def po_review_id_list_active_by_zsite_id(id):
     qs = Po.where(
-        zsite_id=id
+        zsite_id=id,
+        cid=CID_REVIEW
     ).where('state=%s'%STATE_ACTIVE).order_by('id desc')
     return qs.col_list()
 
@@ -138,6 +149,14 @@ if __name__ == '__main__':
 #        print i.name
     zsite_id = 895
 
-    print po_review_count(zsite_id)
-    print po_review_list_by_zsite_id(zsite_id, 0, 1111)
+#    print po_review_count(zsite_id)
+#    print po_review_list_by_zsite_id(zsite_id, 0, 1111)
+    zsite_id = 10163143
+    user_id = 10002411
+    po_review_get(zsite_id, user_id)
+
+    for i in Po.where(
+        zsite_id=zsite_id
+    ).where('state=%s'%STATE_ACTIVE).order_by('id desc'):
+        print i.user_id, i.state
 

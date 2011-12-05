@@ -6,14 +6,14 @@ from spammer import is_same_post, is_spammer, mc_lastest_hash
 from time import time
 from txt import txt_bind, txt_get, txt_new
 from model.txt2htm import txt_withlink
-from state import STATE_DEL, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
+from state import STATE_RM, STATE_APPLY, STATE_SECRET, STATE_ACTIVE
 from cid import CID_PO, CID_SITE, CID_COM
 from zkit.attrcache import attrcache
 from user_mail import mail_by_user_id
 from mail import rendermail
 
 REPLY_STATE = (
-    STATE_DEL,
+    STATE_RM,
     STATE_APPLY,
     STATE_ACTIVE,
 )
@@ -169,8 +169,8 @@ class Reply(McModel):
 
     def rm(self):
         from buzz import mq_buzz_po_reply_rm
-        if self.state != STATE_DEL:
-            self.state = STATE_DEL
+        if self.state != STATE_RM:
+            self.state = STATE_RM
             self.save()
             mc_flush_reply_id_list(self.cid, self.rid)
             mq_buzz_po_reply_rm(self.id)

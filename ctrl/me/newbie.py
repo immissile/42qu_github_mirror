@@ -6,7 +6,7 @@ from model.zsite import Zsite
 from zkit.errtip import Errtip
 from model.zsite_show import SHOW_LIST
 from model.user_auth import user_password_verify, UserPassword, user_password_new
-from model.user_info import user_info_new
+from model.user_info import user_info_new, UserInfo as _UserInfo
 
 
 @urlmap('/me/newbie/1')
@@ -59,8 +59,10 @@ class Newbie0(LoginBase):
         current_user = self.current_user
         current_user_id = current_user.id
  
-        if not(sex and int(sex) in (1,2)):
-            errtip.sex = '请选择性别'
+        info = _UserInfo.mc_get(current_user_id)
+        if not (info and info.sex):
+            if not(sex and int(sex) in (1,2)):
+                errtip.sex = '请选择性别'
 
         password = UserPassword.get(current_user_id)
         if not password:

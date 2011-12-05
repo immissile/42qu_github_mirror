@@ -10,7 +10,8 @@ from model.po_pos import po_pos_get, po_pos_set, po_pos_state, STATE_BUZZ
 from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE, CID_SITE
+from model.cid import CID_REVIEW, CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, \
+CID_VIDEO, CID_AUDIO, CID_PO, CID_EVENT, CID_EVENT_FEEDBACK, CID_EVENT_NOTICE, CID_SITE
 from zkit.page import page_limit_offset
 from zkit.txt import cnenlen
 from model.zsite_tag import ZsiteTag , link_by_zsite_id_tag_id
@@ -236,6 +237,7 @@ class AudioPage(TagPoPage):
 PO_TEMPLATE = '/ctrl/zsite/po_view/po.htm'
 CID2TEMPLATE = {
     CID_WORD:'/ctrl/zsite/po_view/word.htm',
+    CID_REVIEW:'/ctrl/zsite/po_view/word.htm',
     CID_NOTE: PO_TEMPLATE,
     CID_QUESTION:'/ctrl/zsite/po_view/question.htm',
     CID_ANSWER: PO_TEMPLATE,

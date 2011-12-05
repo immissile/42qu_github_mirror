@@ -21,9 +21,9 @@ STATE_OWNER  = 60
 STATE_ADMIN  = 40
 STATE_ACTIVE = 20
 STATE_INVITE = 10
-STATE_DEL    = 0
+STATE_RM    = 0
 
-STATE_LIST = ( STATE_OWNER , STATE_ADMIN  , STATE_ACTIVE , STATE_INVITE , STATE_DEL )
+STATE_LIST = ( STATE_OWNER , STATE_ADMIN  , STATE_ACTIVE , STATE_INVITE , STATE_RM )
 
 
 STATE_EGT_ACTIVE = 'state>=%s'%STATE_ACTIVE
@@ -186,7 +186,6 @@ def zsite_list_sample(zsite_id, cid, k):
 
 if __name__ == '__main__':
     pass
-    for i in ZsiteList.where(state=1):
-        print i.state
-        i.state = 20
-        i.save()
+    from model.cid import CID_PRODUCT
+    for i in ZsiteList.where(cid=CID_PRODUCT):
+        i.delete()

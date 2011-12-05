@@ -28,7 +28,7 @@ def txttidy_wumii(txt):
 
         tmp = txt.find('猜您也喜欢')
         if tmp < 0:
-            tmp = tmp.find("相关文章")
+            tmp = txt.find("相关文章")
         if tmp >= 0:
              return txt[:tmp]
 

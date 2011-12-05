@@ -1,104 +1,43 @@
 
 <%!
 from config import LOGO_TEXT, SITE_DOMAIN
-from model.ico import ico_url_bind_with_default
-from model.career import career_bind
-from tornado.escape import json_encode 
 %>
 
-<%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%inherit file="/ctrl/_base/slideico.htm" />
 
-<%def name="H()">
-</%def>
 
-<%def name="htm_head()">
+<%def name="head()">
 <meta name="description" content=" 无数故事，读完后， 一笑而过。下班的地铁，你还是你，我还是我。认识一个人， 要多少缘分？茫茫人海，擦肩而过多少陌生人。42区，这是相遇的地方 ...">
-<script src="${js.reg}"></script>
-<script src="${js.pid}"></script>
-<script src="${js.date}"></script>
-${css.ctrl_auth_reg|n}
 </%def>
 
+<div id="form_reg" >
+<a href="//hero.${SITE_DOMAIN}"><h1 class="logo">${LOGO_TEXT|n}</h1></a>
 
-<%def name="h_nav()"></%def>
+<%htm:form action="/auth/reg" id="login">
 
-<%htm:form id="form_reg" action="/auth/reg">
 
-%if zsite_list:
-<div class="L">
-<div class="logo_txt"><div id="zsite_list"></div></div>
-</div>
 
-<div class="L">
-%else:
-<div>
-%endif
-<h1 id="form_reg_h1">${LOGO_TEXT|n}</h1>
-
-<p class="line">
-性别
-<span class="sex"><input
-%if sex==1:
-checked
-%endif
-type="radio" name="sex" id="sex1" value="1"><label for="sex1">男</label></span>
-<span class="sex"><input
-%if sex==2:
-checked
-%endif
-type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></span>
-</p>
-${errtip.sex|n}
-
-<p class="line">
+<p>
 <label class="label_input" for="mail">邮箱</label>\
 <input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
 ${errtip.mail|n}
 
-<p class="line">
-<label class="label_input" for="password">密码</label>\
-<input class="login_password" id="password" autocomplete="off" type="password" name="password" value="${password}">
+<p>
+<label class="label_input" for="mail">性别</label>\
+<select name="sex" class="sex_select">
+<option value=""></option>
+<option ${'selected' if sex==1 else ''} value="1">男</option>
+<option ${'selected' if sex==2 else ''} value="2">女</option>
+</select>\
+<span class="sex_hint">注意 : 创建账号之后 , 无法修改此项</span>
 </p>
-${errtip.password|n}
-
+${errtip.sex|n}
 
 <div class="cl btns" id="form_btn">
 <span id="login_link">已有账号 ? <a href="/auth/login">点此登录</a></span>
 <span class="R btnw"><button type="submit" >注册</button></span>
 </div>
-</div>
 </%htm:form>
-
-<script id="zsite_ico" type="text/x-jquery-tmpl">
-<%text>
-<div class="zsite_ico c">
-<img src="${$data[0]}">
-<div>${$data[1]}</div>
-<div>${$data[2]}</div>
-<div>${$data[3]}</div>
-</div>
-</%text>
-</script>
-
-%if zsite_list:
-<%
-ico_url_bind_with_default(zsite_list)
-career_bind(zsite_list)
-zsite_ico_list = []
-for i in zsite_list:
-    unit , title = i.career
-    zsite_ico_list.append(
-        ( i.ico, i.name, unit, title)
-    )
-%>
-<script>
-zsite_ico_list(${json_encode(zsite_ico_list)|n})
-</script>
-%endif
-<div style="display:none">
-<a href="//hero.${SITE_DOMAIN}">人物</a>
-<a href="//meet.${SITE_DOMAIN}">活动</a>
-<a href="http://www.xinmeiad.com">广告</a>
-<a href="http://xinmeidm.com">广告</a>
+<%include file="/ctrl/_util/oauth_login.htm"/>
 </div>

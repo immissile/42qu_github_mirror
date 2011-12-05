@@ -53,7 +53,7 @@ class MemberAdmin(AdminBase):
         self.render(com_id=self.zsite_id)
 
 @urlmap('/member/join')
-class MemberJoin(ZsiteBase):
+class MemberJoin(LoginBase):
     def get(self):
         user_id = self.current_user_id
         com_id = self.zsite_id
@@ -63,9 +63,9 @@ class MemberJoin(ZsiteBase):
             com_apply_new(com_id, user_id)
         self.redirect('/')
 
-def _invite(self):
-    arguments = self.request.arguments
-    for mail, name in zip(arguments.get('mail',()), arguments.get('name',())):
+def _invite_member(self, mail_name_list):
+
+    for mail, name in mail_name_list:
         mail = mail.strip().lower()
         name = name.strip()
         if EMAIL_VALID.match(mail):
@@ -75,6 +75,11 @@ def _invite(self):
                 user_id = user.id
 
             zsite_member_invite(self.zsite, user_id, self.current_user)
+
+def _invite(self):
+    arguments = self.request.arguments
+   
+    _invite_member(self, zip(arguments.get('mail',()), arguments.get('name',())))
 
 
 @urlmap('/member/admin/invite')

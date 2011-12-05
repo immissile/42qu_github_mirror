@@ -3,7 +3,7 @@
 
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum, McCacheA
 from cid import CID_PRODUCT, CID_COM, CID_PRODUCT_PIC
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
+from state import STATE_RM, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from spammer import is_same_post
 from po import Po, _po_rm, po_new, po_id_list, po_list_count, po_view_list
 import json
@@ -68,8 +68,8 @@ def product_id_list(limit, offset):
 def product_count():
     return po_list_count(None,CID_PRODUCT, False)
 
-def product_list():
-    return po_view_list(None,CID_PRODUCT,False)
+def product_list(limit, offset):
+    return po_view_list(None,CID_PRODUCT,False, limit, offset)
 
 if __name__ == "__main__":
 

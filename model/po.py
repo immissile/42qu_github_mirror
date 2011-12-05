@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, CID_EVENT_NOTICE, CID_PRODUCT
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, \
+CID_EVENT_NOTICE, CID_PRODUCT, CID_COM, CID_REVIEW 
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
 from spammer import is_same_post
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
+from state import STATE_RM, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from txt import txt_new, txt_get, txt_property
 from zkit.time_format import time_title
 from reply import ReplyMixin, Reply
@@ -19,7 +20,6 @@ from zkit.attrcache import attrcache
 from cgi import escape
 import json
 from zkit.jsdict import JsDict
-from cid import CID_COM
 #from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
@@ -42,6 +42,8 @@ PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
 PO_COUNT_CN = dict((i[0], i[3]+i[2]) for i in PO_CN_EN)
 
 mc_htm = McCache('PoHtm.%s')
+
+
 
 class Po(McModel, ReplyMixin):
 
@@ -79,10 +81,14 @@ class Po(McModel, ReplyMixin):
     def htm(self):
         cid = self.cid
         id = self.id
-        s = txt_withlink(self.txt)
         if cid != CID_WORD:
-            user_id = self.user_id
-            s = pic_htm(s, user_id, id)
+            s = self.txt
+            if s:
+                s = txt_withlink(s)
+                user_id = self.user_id
+                s = pic_htm(s, user_id, id)
+        else:
+            s = txt_withlink(self.name_)
         return s
 
     def txt_set(self, txt):
@@ -144,7 +150,7 @@ class Po(McModel, ReplyMixin):
         q = self.target
         cid = self.cid
 
-        if cid == CID_EVENT_NOTICE:
+        if cid in (CID_EVENT_NOTICE, CID_REVIEW):
             return txt_withlink(self.name_)
 
         if q:
@@ -202,7 +208,7 @@ class Po(McModel, ReplyMixin):
         feed_new(self.id, self.user_id, self.cid)
 
     def can_view(self, user_id):
-        if self.state <= STATE_DEL:
+        if self.state <= STATE_RM:
             return False
         if self.state == STATE_SECRET:
             if (not user_id) or ( self.user_id != user_id ):
@@ -317,7 +323,7 @@ def po_rm(user_id, id):
 
 
 def _po_rm(user_id, po):
-    po.state = STATE_DEL
+    po.state = STATE_RM
     po.save()
     id = po.id
     feed_rm(id)
@@ -362,7 +368,7 @@ def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
 
 
 PO_LIST_STATE = {
-    True: 'state>%s' % STATE_DEL,
+    True: 'state>%s' % STATE_RM,
     False: 'state>%s' % STATE_SECRET,
 }
 
@@ -443,9 +449,14 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 if __name__ == '__main__':
     pass
-    from model.zsite_url import id_by_url
-    jid = id_by_url("jandan")
-    for i in Po.where(cid=CID_NOTE):
-        if "豆友" in i.txt:
-            po_rm(i.user_id, i.id)
-           # print i.name
+    exist = set()
+    for i in Po.where(cid=CID_NOTE).where("zsite_id!=0").where("state>%s"%STATE_RM):
+        name = i.name
+        if name in exist:
+            print len(exist), name
+            _po_rm(i.user_id, i)
+        else:
+            exist.add(name)
+        
+
+ 

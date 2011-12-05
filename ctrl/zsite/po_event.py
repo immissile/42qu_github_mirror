@@ -11,9 +11,9 @@ from zkit.earth import pid_city
 from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from model.pic import Pic
 from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_NOTICE_EVENT_JOINER_FEEDBACK, CID_NOTICE_EVENT_ORGANIZER_SUMMARY
-from model.state import STATE_DEL, STATE_SECRET, STATE_ACTIVE
+from model.state import STATE_RM, STATE_SECRET, STATE_ACTIVE
 from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_NOW, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_FEEDBACK_GOOD, EVENT_JOIN_STATE_FEEDBACK_NORMAL, event_new_if_can_change, EventJoiner, event_joiner_user_id_list, event_joiner_get, event_joiner_state, last_event_by_zsite_id
-from model.po import po_new, STATE_DEL
+from model.po import po_new, STATE_RM
 from zkit.jsdict import JsDict
 from model.po_pic import pic_list_edit
 from model.notice import notice_new

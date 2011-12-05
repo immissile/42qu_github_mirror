@@ -1,6 +1,6 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
-${css.ctrl_zsite_com|n}
 <%!
+from config import FS_URL 
 from model.po_video import VIDEO_CID2HTM
 from model.po import Po
 from model.ico import pic211_url, ico_url
@@ -10,7 +10,7 @@ from model.follow import follow_get
 from model.zsite_com import pid_by_com_id
 from zkit.earth import place_name
 from model.zsite_fav import zsite_fav_id_get
-from model.job import com_job_by_com_id, com_department_by_com_id, com_job_by_department_and_com 
+from model.job import com_job_by_com_id, com_department_by_com_id
 from model.zsite import Zsite
 from model.po_product import product_list_by_com_id 
 import json
@@ -20,39 +20,44 @@ from model.zsite_com import ZsiteCom
 from model.po_video import video_htm
 from model.com_apply import com_apply_get
 from model.po_review import po_review_count,po_review_show_list_with_user
+from model.txt2htm import txt_withlink
 %>
 <%def name="htm_title()">
 ${zsite.name} : ${motto_get(zsite.id)}
 </%def>
 
 <%def name="htm_head()">
+${css.ctrl_zsite_com|n}
 <script src="${js.ctrl}"></script>
 </%def>
 <h1>${zsite.name}</h1>
 <%
 can_admin = zsite_member_can_admin(zsite_id, user_id)
 zsite_com = ZsiteCom.mc_get(zsite_id)
-_video_uri = None
 %>
 <div class="G">
     <div class="com_main">
        %if zsite_com:
 %if zsite_com.video_cid: 
-<%
+%if zsite_com.video_id:
+    <%
 _video_uri = video_htm(zsite_com.video_cid , zsite_com.video_id)
-%>
-%endif
-%if _video_uri:
+    %>
+    %if _video_uri:
        <div class="com_video">
-           ##${HTM_YOUKU%"XMjMxOTYxNDk2"|n}
            ${_video_uri|n}
        </div>
+    %endif
+%else:
+       <div class="com_ppt">
+            <img src="${FS_URL}/img/gif/ppt_upload.gif">
+       </div>
+%endif
 %endif
         %endif
 <%
 po_review_show_list = po_review_show_list_with_user(zsite_id)
 %>
-%if po_review_show_list:
         <div class="com_q_w">
         <%
         %>    
@@ -62,7 +67,7 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
         name = [user.name]
         name.extend(user.career or ())
         name = ' , '.join(filter(bool, name))
-        img = ico_url(i.id)
+        img = ico_url(i.user_id)
         txt = i.name
         %>
 %if txt:
@@ -72,12 +77,37 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
     %endif
             <div class="com_q_a"><a target="_blank" href="${user.link}" class="c0">${name}</a></div>
             <div class="com_q1">“ </div>
-            <pre class="com_qt">${txt}<span class="com_q2">”</span></pre>
+            <pre class="com_qt">${txt}<span class="com_q2">”</span><a class="zsite_reply" href="${i.link}" target="_blank"></a></pre>
         </div>
 %endif
         %endfor
+        <div class="com_review_new"><a href="/review">我来评价</a></div>
         </div>
+
+<%
+_com_job_by_com_id = com_job_by_com_id(zsite.id)
+%>
+        <div class="com_item\
+%if _com_job_by_com_id:
+ com_jobs_h\
 %endif
+">
+        %if can_admin or _com_job_by_com_id:
+        <div class="com_title">\
+            %if can_admin: 
+<a class="R c9"href="/job/admin">编辑</a> 
+            %endif 
+招聘职位 
+        </div>
+        %endif
+        % if _com_job_by_com_id:
+            <div class="com_jobs">
+                %for job in _com_job_by_com_id:
+                <a href="/job/${job.id}"><span>${job.quota}</span>${job.title}</a>
+                %endfor
+            </div>
+        %endif
+        </div>
         <div class="com_item">
             <%
             products = product_list_by_com_id(zsite_id)
@@ -89,62 +119,53 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
                     info = JsDict(json.loads(product.txt))
                     po = Po.mc_get(product.id)
                 %>
-        <div class="com_title" id="product_${po.id}">
+        <div class="com_title c" id="product_${po.id}">
                 %if can_admin:
                 <a class="R c9" href="/product/edit/${product.id}">编辑</a>
                 %endif
-${po.name}</div>
+${po.name}\
+%if info.product_url:
+<a target="_blank" href="${info.product_url}" class="aH"></a>\
+%endif
+</div>
         <div class="com_text">
-                %if info.product_about:
-                ${info.product_about}
-                %endif
                 %if info.pic_id:
 <div class="com_main_img"><img src="${fs_url_jpg('548',info.pic_id)}"></div>
                 %endif
+                %if info.product_about:
+                ${info.product_about}
+                %endif
                 %if info.origin:
-<p class="com_p"><span>想法起源</span></p><pre>${info.origin}</pre>
+<p class="com_p"><span>想法起源</span></p><pre>${txt_withlink(info.origin)|n}</pre>
                 %endif
                 %if info.product or info.market or info.team or info.culture or info.money:
-                    <p class="com_p"><span>当前进展</span></p>
                     %if info.product:
-<pre class="inft3"><span class="inft4">产品</span><span class="dot_split">:</span>${info.product}</pre>
+<p class="com_p"><span>产品介绍</span></p><pre>${txt_withlink(info.product)|n}</pre>
                     %endif
                     %if info.market:
-<pre class="inft3"><span class="inft4">市场</span><span class="dot_split">:</span>${info.market}</pre>
-                    %endif
-                    %if info.team:
-<pre class="inft3"><span class="inft4">团队</span><span class="dot_split">:</span>${info.team}</pre>
-                    %endif
-                    %if info.culture:
-<pre class="inft3"><span class="inft4">文化</span><span class="dot_split">:</span>${info.culture}</pre>
-                    %endif
-                    %if info.money:
-<pre class="inft3"><span class="inft4">融资</span><span class="dot_split">:</span>${info.money}</pre>
+<p class="com_p"><span>市场分析</span></p><pre>${txt_withlink(info.market)|n}</pre>
                     %endif
                 %endif
                 %if info.plan:
-<p class="com_p"><span>近期计划</span></p><pre>${info.plan}</pre>
+<p class="com_p"><span>近期计划</span></p><pre>${txt_withlink(info.plan)|n}</pre>
                 %endif
                 %if info.product_similar:                        
                     <p class="com_p"><span>同类产品</span></p>
                     <p class="other_pros">
                         %for pro in info.product_similar:
-<span class="other_pro">${pro[0]}<a class="aH" href="${pro[1]}" target="_top" ></a></span>
+<span class="other_pro">${pro[0]}<a class="aH" href="${pro[1]}" target="_blank" ></a></span>
                         %endfor
                     </p>
                     %if info.same:
-<pre class="inft3"><span class="inft4">共同点</span><span class="dot_split">:</span>${info.same}</pre>
+<pre class="inft3"><span class="inft4 L">共同点</span><span class="dot_split L">:</span><div class="pro_info">${txt_withlink(info.same)|n}</div></pre>
                     %endif
                     %if info.different:
-<pre class="inft3"><span class="inft4">区别点</span><span class="dot_split">:</span>${info.different}</pre>
+<pre class="inft3"><span class="inft4 L">区别点</span><span class="dot_split L">:</span><div class="pro_info">${txt_withlink(info.different)|n}</div></pre>
                     %endif
                     %if info.advantage:
-<pre class="inft3"><span class="inft4">竞争力</span><span class="dot_split">:</span>${info.advantage}</pre>        
+<pre class="inft3"><span class="inft4 L">竞争力</span><span class="dot_split L">:</span><div class="pro_info">${txt_withlink(info.advantage)|n}</div></pre>      
                     %endif 
                 %endif
-                %if info.hope:
-<p class="com_p"><span>最终愿景</span></p><pre>${info.hope}</pre>
-                %endif                        
 
         </div>
         %endif
@@ -152,39 +173,35 @@ ${po.name}</div>
         %endif
         
         </div>
-
-
-
-        <div class="com_item">
+%if zsite_com:
 <%
-_com_job_by_com_id = com_job_by_com_id(zsite.id)
+any_zsite_com = any((zsite_com.team, zsite_com.culture, zsite_com.money , zsite_com.hope))
+show = any_zsite_com or can_admin
 %>
-        %if can_admin or _com_job_by_com_id:
+    %if show:
+        <div class="com_item">
         <div class="com_title">\
             %if can_admin: 
-<a class="R c9"href="/job/admin">编辑</a> 
+<a class="R c9"href="/bio/edit">编辑</a> 
             %endif 
-招聘职位 
+关于我们
         </div>
-        %endif
-        % if _com_job_by_com_id:
-            <%
-            departments = com_department_by_com_id(zsite.id)
-            %>
-            %if departments:
-                <div class="com_jobs">
-                %for department in departments:
-                <%
-                jobs = com_job_by_department_and_com(department.id,zsite.id) 
-                %>
-                %for job in jobs:
-                <a href="/job/${job.id}"><span>${job.quota}</span>${job.title}</a>
-                %endfor
-                %endfor
-                </div>
+            %if zsite_com.team:
+<p class="com_p"><span>团队背景</span></p><pre>${txt_withlink(zsite_com.team)|n}</pre>
             %endif
-        %endif
+            %if zsite_com.culture:
+<p class="com_p"><span>企业文化</span></p><pre>${txt_withlink(zsite_com.culture)|n}</pre>
+            %endif
+            %if zsite_com.money:
+<p class="com_p"><span>资金情况</span></p><pre>${txt_withlink(zsite_com.money)|n}</pre>
+            %endif
+            %if zsite_com.hope:
+<p class="com_p" id="com_hope"><span>最终愿景</span></p><pre>${txt_withlink(zsite_com.hope)|n}</pre>
+            %endif
         </div>
+    %endif
+%endif
+
 </div>
 
 
@@ -244,7 +261,7 @@ id="fav_a" href="javascript:fav_com();void(0)">收藏</a>\
                         %for i in member_list:
 <div class="com_text com_author">
     <div class="c">
-        <a href="${i.link}" class="com_avatar"><img src="${ico_url(i.id)}"></a>
+        <a href="${i.link}" class="com_avatar"><img src="${ico_url(i.id) or ''}"></a>
 <a target="_blank" class="c0" href="${i.link}">\
 <div>${i.name}</div>\
 %for j in i.career:
@@ -262,7 +279,7 @@ txt = review.name
            %if txt:
     <div>
             <div class="com_q1">“ </div>
-            <pre class="com_qt">${txt}<span class="com_q2">”</span></pre>
+            <pre class="com_qt">${txt}<span class="com_q2">”</span><a class="zsite_reply" href="${review.link}" target="_blank"></a></pre>
     </div>
             %endif
 %endif

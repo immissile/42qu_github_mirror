@@ -9,7 +9,6 @@ from txt import txt_property
 from zkit.attrcache import attrcache
 
 ZSITE_STATE_BAN = 1
-ZSITE_STATE_NO_MAIL = 5
 ZSITE_STATE_NO_PASSWORD = 6
 ZSITE_STATE_APPLY = 10
 ZSITE_STATE_ACTIVE = 15
@@ -117,6 +116,7 @@ def zsite_by_query(query):
     from config import SITE_DOMAIN
     from urlparse import urlparse
     from model.zsite_url import id_by_url
+    from model.user_mail import user_id_by_mail
     user_id = None
 
     if '@' in query:

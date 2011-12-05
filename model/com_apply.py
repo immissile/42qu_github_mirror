@@ -3,15 +3,15 @@
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from mail import rendermail
 from model.days import today_seconds
-from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE
+from model.zsite_member import zsite_member_new, ZSITE_MEMBER_STATE_ACTIVE, zsite_member_can_admin
 
 COM_APPLY_STATE_APPLY_MAILED = 50
 COM_APPLY_STATE_APPLY = 40
 
 COM_APPLY_STATE_ACCEPT_MAILED = 30
 COM_APPLY_STATE_ACCEPT = 20
-COM_APPLY_STATE_DEL_MAILED = 10
-COM_APPLY_STATE_DEL = 0
+COM_APPLY_STATE_RM_MAILED = 10
+COM_APPLY_STATE_RM = 0
 
 mc_com_apply_id_list = McCacheA("ComApplyIdList:%s")
 
@@ -30,6 +30,10 @@ def com_apply_get(com_id,user_id):
     return int(user_id) in com_apply_id_list(com_id)
 
 def com_apply_new(com_id, user_id):
+
+    if zsite_member_can_admin(com_id, user_id):
+        return
+
     ca = ComApply.get_or_create(com_id=com_id,user_id=user_id)
     ca.state = COM_APPLY_STATE_APPLY
     ca.create_time = today_seconds()
@@ -51,7 +55,7 @@ def mc_flush(id):
 def com_apply_rm(user_id,com_id,admin_id):
     ca = ComApply.get(user_id=user_id,com_id=com_id)
     if ca:
-        ca.state = COM_APPLY_STATE_DEL
+        ca.state = COM_APPLY_STATE_RM
         ca.admin_id = admin_id
         ca.create_time = today_seconds()
         ca.save()

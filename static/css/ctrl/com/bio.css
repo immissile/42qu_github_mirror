@@ -20,13 +20,6 @@ padding-top:16px;
 .bio_btn{
 margin-top:16px;
 }
-.video_input{
-padding:3px 5px;
-width:676px;
-height:28px;
-margin:0 0 16px;
-border:1px solid #ccc;
-}
 .add_pic{
 display:block;
 margin-bottom:22px;
@@ -35,4 +28,19 @@ line-height:14px;
 }
 .bio_btn a{
 margin-left: 64px; font-size: 16px; vertical-align: 12px;
+}
+.video_div span{
+font-size:16px;
+margin-left:10px;
+}
+.ppt{
+margin-left:7px;
+display:inline-block;
+}
+.video_input{
+padding:3px 5px;
+width:310px;
+height:28px;
+margin:0 0 16px;
+border:1px solid #ccc;
 }

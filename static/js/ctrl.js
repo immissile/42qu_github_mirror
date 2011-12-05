@@ -85,13 +85,16 @@ function init_none() {
 		back = $('<a href="#B" id="sB"></a>'),
 		win = $(window);
 		if ((body.height() - 128) > $(window).height()) {
-			body.append($('<a class="zsite_foot" href="#B"></a>').click(function() {
+            var foot = $('<div class="zsite_foot"><a href="#B"></a></div>')
+			body.append(foot)
+            foot.find('a').click(function() {
 				if (!IE6) {
 					win.scrollTop(0)
 					return false
 				}
 			}).html(
-			$(".site").html() || location.host))
+                $(".site").html() || location.host
+            )
 		}
 
 		if (!IE6) {
@@ -284,7 +287,8 @@ function feed_load_maker(FEED_ATTR_BASE ){
 		66: FEED_ATTR_TXT_BASE,
 		67: FEED_ATTR_TXT_BASE,
 		68: FEED_ATTR_BASE + " place_name address time_row1 time_row2 time_diff_day",
-		69: FEED_ATTR_BASE
+		69: FEED_ATTR_BASE,
+        72: FEED_ATTR_BASE
 	}
 	for (var i in FEED_ATTR) {
 		FEED_ATTR[i] = (FEED_ATTR[i] + "").split(' ')

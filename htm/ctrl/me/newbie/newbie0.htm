@@ -4,6 +4,7 @@ from config import LOGO_TEXT, SITE_DOMAIN
 from model.ico import ico_url_bind_with_default
 from model.career import career_bind
 from tornado.escape import json_encode 
+from model.user_info import UserInfo
 from model.user_auth import user_password_verify, UserPassword, user_password_new
 %>
 
@@ -20,7 +21,7 @@ from model.user_auth import user_password_verify, UserPassword, user_password_ne
 <script src="${js.pid}"></script>
 <script src="${js.date}"></script>
 ${css.ctrl_auth_reg|n}
-${css.ctrl_com_invite_reg|n}
+
 
 
 </%def>
@@ -43,6 +44,11 @@ ${css.ctrl_com_invite_reg|n}
 <p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
 <p class="hint_p">首先 ，请介绍一下自己 :)</p>
 </div>
+
+<%
+info = UserInfo.mc_get(current_user_id)
+%>
+%if not (info and info.sex):
 <p class="line">
 性别
 <span class="sex"><input
@@ -57,6 +63,7 @@ checked
 type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></span>
 </p>
 ${errtip.sex|n}
+%endif
 
 <p class="line">
 <label class="label_input" for="name">名字</label>\

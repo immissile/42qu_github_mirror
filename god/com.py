@@ -8,6 +8,7 @@ from model.zsite import Zsite
 from model.po_product import product_list, product_count
 from model.po_product_show import product_show_new, product_show_rm
 from model.po import Po
+
 PAGE_LIMIT = 48
 
 @urlmap('/com')
@@ -36,17 +37,17 @@ class ComPage(Base):
         qs = Zsite.where(cid=CID_COM)
         total = qs.count()
         page, limit, offset = page_limit_offset(
-                '/com/%s-%%s'%state,
-                total,
-                n,
-                PAGE_LIMIT,
-                )
+            '/com/%s-%%s'%state,
+            total,
+            n,
+            PAGE_LIMIT,
+        )
         li = qs.order_by('id desc')[offset:offset+limit]
         self.render(
-                state=state,
-                li=li,
-                page=page
-                )
+            state=state,
+            li=li,
+            page=page
+        )
 
 @urlmap('/product/show/rm/(\d+)')
 class ProductShowRm(Base):
@@ -62,10 +63,11 @@ class ProductShowNew(Base):
         product_show_new(po)
         return self.redirect("/product") 
 
+@urlmap('/product')
 @urlmap('/product-(\d+)')
 class Product(Base):
     def get(self, n=1):
-        count = product.count()
+        count = product_count()
         page, limit, offset = page_limit_offset(
             '/product-%s',
             count,
@@ -73,6 +75,7 @@ class Product(Base):
             PAGE_LIMIT,
         )
         li = product_list(limit, offset)
+        Zsite.mc_bind(li,"zsite","zsite_id")
         self.render(
             li = li,
             page=str(page)

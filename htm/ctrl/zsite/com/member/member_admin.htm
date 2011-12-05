@@ -31,7 +31,11 @@ user = apply.user
 <div id="apply${id}" class="member_item member_long">\
 <a class="member_pass_a" href="javascript:apply_new(${id});void(0)">通过</a>\
 <a class="member_pass_a" href="javascript:apply_rm(${id});void(0)">拒绝</a>\
+%if user:
 <a class="member_a" href="${user.link}" target="_blank">${user.name}</a>\
+%else:
+${apply.user_id}
+%endif
 </div>
             %endfor
         </div>

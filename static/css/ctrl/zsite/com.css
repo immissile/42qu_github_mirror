@@ -65,10 +65,12 @@ height:448px;
 .com_item{
 overflow:auto;
 margin-top:32px;
+_height:100%;
+_clear:both;
 }
 .com_text{
 margin:7px 0 14px;
-color:#333;
+color:#000;
 font-size:14px;
 }
 .com_title{
@@ -79,6 +81,7 @@ margin-bottom:6px;
 border-top:1px dotted #ccc;
 line-height:16px;
 color:#222;
+_height:100%;
 }
 .com_side{
 width:357px;
@@ -151,6 +154,9 @@ color:#333;
 font-size:14px;
 }
 
+.com_jobs_h{
+margin-bottom:-22px;
+}
 .fbtn{
 font-size:16px;padding:6px 14px;
 }
@@ -173,6 +179,7 @@ line-height:0;
 overflow:auto;
 clear:both;
 margin-bottom:32px;
+_height:100%;
 }
 .com_qt{
 overflow:hidden;zoom:1
@@ -237,4 +244,24 @@ background: url(/img/gif/adot.gif) no-repeat scroll 4px 11px transparent;
 border:0; 
 padding-top: 5px; padding-bottom: 5px; padding-left: 29px;
 }
+.aH{
+background-image:url(/img/gif/icons/gif/light_gray/to_size/arrow1_ne.gif);
+}
+.com_review_new{
+padding-bottom:16px
+}
 
+.com_review_new a:visited{
+color:#999;
+}
+.pro_info{
+overflow:hidden;
+}
+.com_title .aH{
+height:13px;
+}
+.com_ppt{
+padding-bottom:18px;
+border-bottom:1px dotted #ccc;
+margin-top:27px;
+}

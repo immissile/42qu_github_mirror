@@ -11,7 +11,7 @@ from ico import pic_url_bind_with_default
 from operator import itemgetter
 from gid import gid
 from po import Po, po_rm, po_state_set
-from state import STATE_DEL, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
+from state import STATE_RM, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from feed_po import mc_feed_po_dict
 from mail import mq_rendermail, rendermail
 from notice import notice_event_yes, notice_event_no, notice_event_join_yes, notice_event_join_no
@@ -99,7 +99,7 @@ EVENT_CID_CN = (
 
 EVENT_CID = tuple(map(itemgetter(0), EVENT_CID_CN))
 
-EVENT_STATE_DEL = 10
+EVENT_STATE_RM = 10
 EVENT_STATE_INIT = 20
 EVENT_STATE_REJECT = 30
 EVENT_STATE_TO_REVIEW = 40
@@ -108,7 +108,7 @@ EVENT_STATE_NOW = 60
 EVENT_STATE_END = 70
 
 EVENT_STATE_CN_TUPLE = (
-    (EVENT_STATE_DEL, '已删除'),
+    (EVENT_STATE_RM, '已删除'),
     (EVENT_STATE_REJECT, '被拒绝'),
     (EVENT_STATE_TO_REVIEW, '待审核'),
     (EVENT_STATE_BEGIN, '未开始'),
@@ -577,12 +577,12 @@ mq_event_kill_extra = mq_client(event_kill_extra)
 
 def event_kill(user_id, event, txt):
     from po_event import _po_event_notice_new
-    if EVENT_STATE_DEL < event.state < EVENT_STATE_END:
+    if EVENT_STATE_RM < event.state < EVENT_STATE_END:
         event_id = event.id
         if event.can_change():
             po_rm(user_id, event_id)
         else:
-            event.state = EVENT_STATE_DEL
+            event.state = EVENT_STATE_RM
             event.save()
 
             feed_rm(event_id)
@@ -598,7 +598,7 @@ def event_kill(user_id, event, txt):
 def event_rm(user_id, id):
     event = Event.mc_get(id)
     if event and event.can_change():
-        event.state = EVENT_STATE_DEL
+        event.state = EVENT_STATE_RM
         event.save()
 
         mc_flush_by_zsite_id(event.zsite_id)

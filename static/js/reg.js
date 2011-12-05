@@ -1,10 +1,4 @@
 (function(){
-    var mail=$("#mail");
-    if(mail.val()==''){
-        mail.focus();
-    }else{
-        $('#password').focus();
-    }
     function load(ico_list){
         var t=ico_list.shift();
         ico_list.push(t);
@@ -12,7 +6,7 @@
     }
 
      zsite_ico_list = function(ico_list){
-        for(var i=0;i<5;++i){
+        for(var i=0;i<12;++i){
             load(ico_list)
         }
         function _(){

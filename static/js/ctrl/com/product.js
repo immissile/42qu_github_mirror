@@ -1,4 +1,15 @@
 $(function(){
+    function _ppt_video(a,b){
+        $(a).change(function(){
+            if($.trim(this.value).length){
+                $(b).val('')
+            }
+        })
+    }
+    _ppt_video("#ppt","#video_input")
+    _ppt_video("#video_input","#ppt")
+
+    
     $('.info_txt').focus(function(){
         var self = $(this)
         self.css('height','120px')
@@ -15,15 +26,15 @@ $(function(){
     var tip = $('.txt_bio_tip')
     txt_maxlen($('#txt_bio'),tip,142)
 
-    auto_add('similar_product_name','<div class="similar_product_wrap"> <input name="similar_product_name" class="similar_product_name" placeholder="产品名称"><input name="similar_product_url" placeholder="相关链接" class="similar_product_url"><a href="javascript:void(0)" class="close_item"></a></div>','similar_product_block','close_item','blur')
+    auto_add('similar_product_name','<div class="similar_product_wrap"> <input name="similar_product_name" class="similar_product_name" placeholder="产品名称"><input name="similar_product_url" placeholder="相关链接" class="similar_product_url"><a href="javascript:void(0)" class="close_item"></a></div>','similar_product_block','close_item','focus')
 
-    auto_add('product_name','<div class="line"><input name="product_name" class="product_name"><input name="product_about" class="product_about"><input name="product_url" class="product_url"><a href="javascript:void(0)" class="close_item"></a></div>','product_block','close_item','blur')
+    auto_add('product_name','<div class="line"><input name="product_name" class="product_name"><input name="product_about" class="product_about"><input name="product_url" class="product_url"><a href="javascript:void(0)" class="close_item"></a></div>','product_block','close_item','focus')
     function empty(self){
         var val=self.val();
         return !val||$.trim(val)==''
     }
 
-    var elem="#txt_bio,#txt_plan,#txt_hope"
+    var elem="#txt_bio,#txt_origin,#txt_hope"
     elem=$(elem)
 
     $('form:first').submit(function(){

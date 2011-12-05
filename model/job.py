@@ -7,6 +7,8 @@ from zkit.attrcache import attrcache
 
 mc_job_type_by_job_id = McCacheA("JobTypeByJobId:%s")
 mc_job_kind_by_job_id = McCacheA("JobKindByJobId:%s")
+mc_com_job_id_list_by_com_id_state = McCacheA("ComJobIdListByComIdState:%s")
+
 JOBTYPE = (
     (1, '兼职'),
     (2, '实习生'),
@@ -16,8 +18,11 @@ JOBTYPE = (
 
 JOB_ACTIVE = 5
 JOB_CLOSE = 3
-JOB_DEL = 0
+JOB_RM = 0
 
+JOB_STATE = (
+    JOB_ACTIVE, JOB_CLOSE, JOB_RM
+)
 
 SALARY_TYPE=(
     (1,'月薪'),
@@ -187,17 +192,40 @@ def job_new(
 
     job_type_set(id, job_type)
     job_kind_set(id, kinds)
+    mc_flush(com_id)
     return job
 
+
+
 def com_job_by_com_id(com_id):
-    return ComJob.where(com_id=com_id)
+    return com_job_by_com_id_state(com_id, JOB_ACTIVE)
 
-def com_job_by_state_com_id(com_id,state):
-    return ComJob.where(state=state,com_id=com_id)
+def com_job_by_com_id_state(com_id,state):
+    return ComJob.mc_get_list(com_job_id_list_by_com_id_state(com_id,state))
 
-def com_job_by_department_and_com(department_id,com_id):
-    return ComJob.where(department_id=department_id,com_id=com_id,state=JOB_ACTIVE)
 
+@mc_com_job_id_list_by_com_id_state("{com_id}_{state}")
+def com_job_id_list_by_com_id_state(com_id,state):
+    return ComJob.where(state=state,com_id=com_id).col_list(col='id')
+
+def com_job_close(id, com_id):
+    job = ComJob.mc_get(id)
+    if job and job.com_id == com_id:
+        if job.state == JOB_ACTIVE:
+            job.state = JOB_CLOSE
+        elif job.state == JOB_CLOSE:
+            job.state == JOB_RM
+        job.save()
+        mc_flush(com_id)
+
+def mc_flush(com_id):
+    for state in JOB_STATE:
+        mc_com_job_id_list_by_com_id_state.delete("%s_%s"%(com_id,state)) 
 
 if __name__ == "__main__":
-    job_type_set(25, [2,3225])
+    #job_type_set(25, [2,3225])
+    coms = set() 
+    for i in ComJob.where():
+        coms.add(i.com_id)
+    print len(coms)
+    print coms

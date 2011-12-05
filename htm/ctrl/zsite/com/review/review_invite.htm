@@ -15,10 +15,12 @@ ${css.ctrl_com_review|n}
 <p class="hint">
 或者直接发送邮件进行邀请
 </p>
+<div class="mail_block">
 %for i in range(5):
 <div class="line">
 <input value="" class="member_mail" name="mail" placeholder="邮箱"><input  class="member_name" name="name" placeholder="姓名" value=""> </div>
 %endfor
+</div>
 <div class="btns member_btn">
 <span class="btnw"><button type="submit" class="btn">完成邀请</button></span>
 </%htm:form>

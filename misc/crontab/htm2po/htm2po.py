@@ -11,7 +11,7 @@ import json
 from zkit.htm2txt import htm2txt
 from model.po import po_note_new, Po
 from model.po_pic import po_pic_new
-from model.state import STATE_DEL, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
+from model.state import STATE_RM, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from model.rss import rss_po_id, RSS_RT_PO, RssPoId
 from model.po_show import po_show_new
 from model.zsite import Zsite
@@ -40,7 +40,7 @@ def htm2po_by_po(pre):
             po.save()
     else:
         po = po_note_new(
-            pre.user_id, pre.title, '', STATE_DEL, group_id
+            pre.user_id, pre.title, '', STATE_RM, group_id
         )
 
     if not po:

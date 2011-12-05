@@ -1,0 +1,16 @@
+<%!
+from config import FS_URL, RPC_HTTP
+from model.oauth import OAUTH_TUPLE, OAUTH2NAME_DICT_SHORT
+%>
+<div class="other_hint reg_page_hint">
+使用合作网站账号登录
+</div>
+<div class="other_login reg_page">
+%for i in OAUTH_TUPLE:
+<a href="${RPC_HTTP}/oauth/${i}/login" target="_blank" class="other_login_reg_a">\
+<img src="${FS_URL}/img/ico/oauth/${i}.ico" class="other_login_img">\
+${OAUTH2NAME_DICT_SHORT[i]}\
+</a>
+%endfor
+</div>
+</div>

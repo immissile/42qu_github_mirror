@@ -1,0 +1,37 @@
+<%!
+from model.user_mail import mail_by_user_id
+from zkit.txt import EMAIL_VALID, mail_link
+%>
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="saved()">
+</%def>
+<%def name="head()">
+${css.ctrl_i_password|n}
+</%def>
+
+
+%if mail and not errtip:
+<div class="fullscreen">
+<p>验证邮件已发送到 ${mail}</p>
+<p><a target="_blank" href="${mail_link(mail)|n}">请点此查收</a></p>
+</div>
+%else:
+<%htm:form className="fullscreen">
+<p>
+<label for="password">登录密码</label><input name="password" type="password" id="password"value="${password or ''}">
+    ${errtip.password|n}    
+</p>
+<p>
+<label for="mail">新设邮箱</label><input name="mail" type="mail" id="mail" value="${mail or ''}">
+    ${errtip.mail|n}    
+</p>
+<p style="width:392px;margin:auto;text-align:right;line-height:42px;">
+<a href="/i/account">返回</a>
+<span class="L btnw" style="margin-left:70px;"><button type="submit">修改登录邮箱</button></span>
+</p>
+<script>
+$("#password").focus()
+</script>
+</%htm:form>
+%endif

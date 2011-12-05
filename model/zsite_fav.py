@@ -1,6 +1,6 @@
 #coding:utf-8
 import _db
-from model.zsite_list import zsite_list_new, STATE_DEL, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id
+from model.zsite_list import zsite_list_new, STATE_RM, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id
 from model.zsite import Zsite
 from model.buzz import mq_buzz_site_fav
 
@@ -34,7 +34,7 @@ def zsite_fav_touch(zsite, owner_id):
         owner_id,
         zsite.cid,
         1,
-        STATE_DEL
+        STATE_RM
     )
 
 def zsite_fav_get(zsite, owner_id):
