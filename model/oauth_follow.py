@@ -52,7 +52,7 @@ def oauth_follow_by_oauth_id(oauth_id):
             return
         re = DICT_API_FOLLOW[cid](key, secret)
         mes = api_network_http(*re)
-        print mes
+        return mes
         #oauth_res_check(mes,oauth_id)
 
 

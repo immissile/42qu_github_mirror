@@ -199,23 +199,28 @@ color:#000;
 .num_normal span{
 margin-right:3px;
 }
-a.zsite_foot{
+.zsite_foot a{
 display:block;
-border-top:1px dotted #ccc;padding:32px;margin-top:48px;text-align:center;
+border-top:1px dotted #ccc;padding:32px;text-align:center;
 font-size:23px;font-family:Trebuchet MS;color:#666;
 }
-a.zsite_foot:hover{
+.zsite_foot a:hover{
 color:#d10;
 }
-
+.zsite_foot{
+padding-top:48px;
+}
 .zsite_ico_div{
 margin-top:-16px;
 *margin-top:0;
 padding-bottom:16px;
 }
 .zsite_ico{
-line-height: 32px; padding-bottom: 32px; border-bottom: 1px dotted #ccc;
+line-height:32px;
+padding-bottom:32px;
+border-bottom:1px dotted #ccc;
 margin-top:32px;
+_height:96px;
 }
 .zsite_ico img{
 float:left;
@@ -369,4 +374,30 @@ background-image:url(/img/gif/icons/gif/light_gray/to_size/arrow1_ne.gif);
 }
 .other_pros .aH:hover{
 background-image:url(/img/gif/icons/gif/red/to_size/arrow1_ne.gif);
+}
+#fancybox-content .other_login_reg_a{
+display:block;
+float:left;
+line-height:20px;
+width:60px;
+margin:0 0 12px 40px;
+font-size:14px;
+}
+#fancybox-content .other_login{
+margin-left:-40px;
+overflow:auto;
+}
+#fancybox-content .other_login_img{
+margin-right:8px;
+vertical-align:-3px;
+}
+#fancybox-content .other_hint{
+padding:14px 0;
+font-size:14px;
+color:#444;
+text-align:center;
+border:dotted #ccc;
+border-width:1px 0;
+margin:16px 0 14px;
+line-height:14px;
 }

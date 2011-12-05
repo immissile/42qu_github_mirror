@@ -1,3 +1,7 @@
+<%!
+from config import FS_DOMAIN
+%>
+
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 
@@ -24,4 +28,5 @@ ${errtip.password|n}
 <span class="btnw"><button type="submit" >登录</button></span>
 </div>
 </%htm:form>
+<%include file="/ctrl/_util/oauth_login.htm"/>
 </%def>

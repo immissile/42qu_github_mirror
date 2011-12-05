@@ -1,0 +1,94 @@
+<%!
+from static import js
+from model.zsite_show import SHOW_LIST
+from model.ico import ico_url_bind_with_default
+from model.career import career_bind
+from tornado.escape import json_encode 
+from model.zsite import Zsite
+from static import css
+from config import SITE_DOMAIN, LOGO_TEXT
+%>\
+<!doctype html>\
+<head>\
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">\
+<script src="${js.z}"></script>\
+<script src="${js.reg}"></script>
+${css.ctrl_auth_reg|n}
+${css.z|n}
+${self.htm_head()}\
+<title>${self.htm_title()}</title>\
+<style>
+html,body,.reg_wrap{
+height:100%;
+overflow:hidden;
+}
+.left_wrap{
+width:38%;
+height:100%;
+}
+.zsite_list_wrap{
+float:right;
+height:100%;
+margin-right:0;
+}
+.right_wrap{
+height:100%;
+overflow:auto;
+}
+.form_wrap{
+width:604px;
+}
+</style>
+</head>\
+
+<body id="B">
+
+<div class="reg_wrap">
+    <div class="L left_wrap">
+        <div class="logo_txt zsite_list_wrap">
+        <div id="zsite_list"></div>
+        </div>
+    </div>
+    <div class="right_wrap">
+        <div class="form_wrap">
+        ${next.body()}
+        </div>
+    </div>
+</div>
+${self.htm_foot()}
+
+
+<%
+zsite_list = filter(bool, Zsite.mc_get_list(SHOW_LIST))
+%>
+%if zsite_list:
+<%
+ico_url_bind_with_default(zsite_list)
+career_bind(zsite_list)
+zsite_ico_list = []
+for i in zsite_list:
+    unit , title = i.career
+    zsite_ico_list.append(
+        ( i.ico, i.name, unit, title)
+    )
+%>
+<script id="zsite_ico" type="text/x-jquery-tmpl">
+<%text>
+<div class="zsite_ico c">
+<img src="${$data[0]}">
+<div>${$data[1]}</div>
+<div>${$data[2]}</div>
+<div>${$data[3]}</div>
+</div>
+</%text>
+</script>
+<script>
+zsite_ico_list(${json_encode(zsite_ico_list)|n})
+$("#mail").focus()
+</script>
+%endif
+</body>\
+<%def name="htm_title()">${SITE_DOMAIN} - ${LOGO_TEXT}</%def>\
+<%def name="htm_head()"></%def>\
+<%def name="htm_foot()"></%def>\
+

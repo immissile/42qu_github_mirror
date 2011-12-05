@@ -7,7 +7,7 @@ from tornado.escape import json_encode
 from model.user_auth import user_password_verify, UserPassword, user_password_new
 %>
 
-<%inherit file="/ctrl/_base/zsite.htm" />
+<%inherit file="/ctrl/_base/_reg_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%def name="H()">
@@ -24,7 +24,7 @@ from model.user_auth import user_password_verify, UserPassword, user_password_ne
 
 ${css.ctrl_auth_reg|n}
 ${css.ctrl_school|n}
-${css.ctrl_com_invite_reg|n}
+
 
 </%def>
 
@@ -54,15 +54,6 @@ $(function(){
 
 <%htm:form id="form_reg" >
 
-%if zsite_list:
-<div class="L">
-<div class="logo_txt"><div id="zsite_list"></div></div>
-</div>
-
-<div class="L">
-%else:
-<div>
-%endif
     <div class="head_hint">
         <p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>
         <p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>

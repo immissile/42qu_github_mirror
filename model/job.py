@@ -223,4 +223,9 @@ def mc_flush(com_id):
         mc_com_job_id_list_by_com_id_state.delete("%s_%s"%(com_id,state)) 
 
 if __name__ == "__main__":
-    job_type_set(25, [2,3225])
+    #job_type_set(25, [2,3225])
+    coms = set() 
+    for i in ComJob.where():
+        coms.add(i.com_id)
+    print len(coms)
+    print coms

@@ -3,14 +3,14 @@ from ctrl.main._handler import Base, LoginBase, XsrfGetBase
 from cgi import escape
 from ctrl._urlmap.auth import urlmap
 from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD, CID_USER, CID_VERIFY_COM_HR, CID_VERIFY_LOGIN_MAIL
-from model.user_mail import mail_by_user_id, user_id_by_mail, user_mail_login_by_user_id
+from model.user_mail import mail_by_user_id, user_id_by_mail, user_mail_active_by_user_id
 from model.user_session import user_session, user_session_rm
 from model.verify import verify_mail_new, verifyed
 from model.zsite import Zsite, ZSITE_STATE_APPLY, ZSITE_STATE_ACTIVE, ZSITE_STATE_NO_PASSWORD
 from model.user_auth import user_password_new, user_password_verify
 from zkit.txt import EMAIL_VALID, mail2link
-from model.zsite_member import zsite_member_can_admin 
-from model.job_mail import job_mail_verifyed 
+from model.zsite_member import zsite_member_can_admin
+from model.job_mail import job_mail_verifyed
 from model.job import _job_pid_default_by_com_id
 from model.zsite_url import link as _link
 
@@ -20,7 +20,7 @@ class Send(Base):
     def get(self, id):
         user_id = int(id)
         user = Zsite.mc_get(id)
-        if user.state == ZSITE_STATE_APPLY and user.cid == CID_USER:
+        if user.state in (ZSITE_STATE_NO_PASSWORD, ZSITE_STATE_APPLY) and user.cid == CID_USER:
             mail = mail_by_user_id(user_id)
             verify_mail_new(user_id, user.name, mail, self.cid)
             path = '/auth/verify/sended/%s'%user_id
@@ -54,9 +54,9 @@ class VerifyBase(Base):
 @urlmap('/auth/verify/login/mail/(\d+)/(.+)')
 class VerifyLoginMail(LoginBase):
     def get(self, id, ck):
-        user_id, cid = verifyed(id,ck,delete=False)
+        user_id, cid = verifyed(id, ck, delete=False)
         if user_id and CID_VERIFY_LOGIN_MAIL == cid:
-            user_mail_login_by_user_id(user_id)
+            user_mail_active_by_user_id(user_id)
 
         self.redirect('%s/i/account/mail/success'%self.current_user.link)
 
@@ -72,11 +72,11 @@ class VerifyMail(VerifyBase):
                 user.save()
             self.__dict__['_current_user'] = user
 
-            redirect = self.get_argument('next', None)
+            redirect = self.get_argument('next', '%s/me/newbie/0'%user.link)
+
             if redirect:
                 return self.redirect(redirect)
 
-            self.render()
 
 @urlmap('/job/auth/verify/mail/(\d+)/(.+)')
 class JobVerifyMail(LoginBase):
@@ -88,13 +88,13 @@ class JobVerifyMail(LoginBase):
             link = _link(user_id)
 
             if _job_pid_default_by_com_id(user_id):
-                path = "%s/job/admin/mail"
+                path = '%s/job/admin/mail'
             else:
-                path = "%s/job/new"
+                path = '%s/job/new'
             path = path%link
         else:
-            path = "/"
-        
+            path = '/'
+
         self.redirect(path)
 
 @urlmap('/auth/password/reset/(.+)')

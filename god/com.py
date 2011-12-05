@@ -37,17 +37,17 @@ class ComPage(Base):
         qs = Zsite.where(cid=CID_COM)
         total = qs.count()
         page, limit, offset = page_limit_offset(
-                '/com/%s-%%s'%state,
-                total,
-                n,
-                PAGE_LIMIT,
-                )
+            '/com/%s-%%s'%state,
+            total,
+            n,
+            PAGE_LIMIT,
+        )
         li = qs.order_by('id desc')[offset:offset+limit]
         self.render(
-                state=state,
-                li=li,
-                page=page
-                )
+            state=state,
+            li=li,
+            page=page
+        )
 
 @urlmap('/product/show/rm/(\d+)')
 class ProductShowRm(Base):

@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-<a class="back_a" href="http://zuroc.42qu.com/"></a>
+${css.ctrl_com_invite_reg|n}
 """
 
 TO_STRING = """
-<a class="back_a" href="/"></a>
+
 """
 
 def run():

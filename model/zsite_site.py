@@ -84,11 +84,17 @@ def zsite_id_list_by_user_id(user_id):
     return zsite_id_list(user_id, CID_SITE)
 
 def zsite_site_rm(zsite_id):
-    from model.zsite_fav import zsite_fav_rm_all_by_ziste_id
+    from model.zsite_fav import zsite_fav_rm_all_by_zsite_id
     from model.zsite_admin import  zsite_admin_empty
-    zsite_show_rm(Zsite.mc_get(zsite_id))
+    from model.zsite_show import zsite_show_rm
+    zsite = Zsite.mc_get(zsite_id)
+
+    zsite_show_rm(zsite)
     zsite_fav_rm_all_by_zsite_id(zsite_id)
     zsite_admin_empty(zsite_id)
+
+    zsite.state = 0
+    zsite.save()
 
 if __name__ == '__main__':
     print zsite_site_by_user_id_sample(10000000, 3)

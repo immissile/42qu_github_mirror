@@ -186,7 +186,6 @@ def zsite_list_sample(zsite_id, cid, k):
 
 if __name__ == '__main__':
     pass
-    for i in ZsiteList.where(state=1):
-        print i.state
-        i.state = 20
-        i.save()
+    from model.cid import CID_PRODUCT
+    for i in ZsiteList.where(cid=CID_PRODUCT):
+        i.delete()

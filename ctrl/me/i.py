@@ -382,7 +382,7 @@ class InviteShow(LoginBase):
         follow_id_list = follow_id_list_by_from_id(uid)
         user_id_list = set(user_id_list) - set(follow_id_list)
         if not user_id_list:
-            return self.redirect("/i/invite/email/%s"%cid)
+            return self.redirect('/i/invite/email/%s'%cid)
         self.render(cid=cid, user_id_list=user_id_list)
 
     def post(self, cid=CID_MSN):
@@ -403,7 +403,7 @@ class InviteEmail(LoginBase):
         emails = invite_invite_email_list_by_cid(self.current_user_id, cid)
         if not emails:
             return self.render('ctrl/me/i/invite.htm', success=True)
-            
+
         self.render(emails=emails, cid=cid)
 
     def post(self, cid=CID_MSN):
@@ -423,32 +423,38 @@ class AccountMailSuccess(LoginBase):
 class AccountMail(LoginBase):
     def get(self):
         errtip = Errtip()
-        self.render(errtip = errtip)
+        self.render(errtip=errtip)
 
     def post(self):
         errtip = Errtip()
         user_id = self.current_user_id
-        password = self.get_argument('password',None)
-        mail = self.get_argument('mail',None)
-        
-        if not (mail and EMAIL_VALID.match(mail)):
-            errtip.mail = '请注意邮件格式'
-        
-        if not (password and user_password_verify(user_id,password)):
-            errtip.password = '请输入正确的密码'
+        password = self.get_argument('password', None)
+        mail = self.get_argument('mail', None)
+        if not mail:
+            errtip.mail = '请输入邮箱'
+        elif not EMAIL_VALID.match(mail):
+            errtip.mail = '邮件格式不正确'
+
+        if not password:
+            errtip.password = '请输入密码'
+        elif not user_password_verify(user_id, password):
+            errtip.password = '密码有误'
+            password = ''
 
         if not errtip:
-            from model.user_mail import user_mail_new, user_mail_by_state, MAIL_VERIFIED, user_mail_login_by_user_id
-            if mail in user_mail_by_state(user_id,MAIL_VERIFIED):
-                user_mail_login_by_user_id(user_id,mail)
+            from model.user_mail import user_mail_new, user_mail_by_state, MAIL_VERIFIED, user_mail_active_by_user_id
+            if mail in user_mail_by_state(user_id, MAIL_VERIFIED):
+                user_mail_active_by_user_id(user_id, mail)
                 return self.redirect('/i/account/mail/success')
-            t = user_mail_new(user_id,mail)
-            if t:
-                verify_mail_new(user_id,self.current_user.name,mail,CID_VERIFY_LOGIN_MAIL)
+
+            if user_mail_new(user_id, mail):
+                verify_mail_new(
+                    user_id, self.current_user.name, mail, CID_VERIFY_LOGIN_MAIL
+                )
             else:
-                errtip.mail='该邮箱已经注册'
-        
-        self.render(mail=mail, errtip=errtip)
+                errtip.mail = '该邮箱已经注册'
+
+        self.render(mail=mail, errtip=errtip, password=password)
 
 @urlmap('/i/account')
 class Account(LoginBase):
@@ -539,17 +545,14 @@ class Binded(LoginBase):
         self.render(cid=cid, txt=OAUTH_SYNC_TXT)
 
     def post(self, cid):
-        fstate = self.get_argument('fstate', None)
-        tstate = self.get_argument('tstate', None)
+        sync_txt = self.get_argument('sync_txt', None)
         txt = self.get_argument('weibo', None)
 
         user_id = self.current_user_id
 
         flag = 0
-        if fstate:
-            flag += 0b1
-        if tstate:
-            flag += 0b10
+        if sync_txt:
+            flag |= 0b10
 
         sync_follow_new(user_id, flag, cid, txt)
 

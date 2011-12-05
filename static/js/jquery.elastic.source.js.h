@@ -1,6 +1,7 @@
 (function (jQuery) {
     jQuery.fn.extend({
-        elastic: function () {
+        elastic: function (origin_h) {
+            origin_h = origin_h || 80
             return this.each(function () {
                 var self = this;
                 if (self.type !== 'textarea') {
@@ -23,8 +24,7 @@
 
                     inp.css('overflow','hidden')
                     h = textarea_clone.val(inp.val()).height(0).scrollTop(999).scrollTop();
-                    
-                    inp.css('height', Math.max(h+7, 80));
+                    inp.css('height', Math.max(h+7, origin_h));
 
                 }
                 check();

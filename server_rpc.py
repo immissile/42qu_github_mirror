@@ -10,7 +10,9 @@ def run():
         port = int(sys.argv[1])
     else:
         port = config.RPC_PORT
-    print 'server on port %s'%port
+        if type(port) in (tuple, list):
+            port = port[0]
+    print 'server on port %s'%str(port)
     application.listen(port)
     tornado.ioloop.IOLoop.instance().start()
 

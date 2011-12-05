@@ -438,3 +438,9 @@ function auto_add(item,toadd,wrap,close,act){
         })
     }
 }
+
+$(function(){
+    if(!('placeholder' in document.createElement('input'))){
+        $('[placeholder]').addPlaceholder()
+    }
+})

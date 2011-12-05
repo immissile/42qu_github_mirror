@@ -12,6 +12,7 @@ from model.motto import motto as _motto, motto_set
 from model.ico import site_ico_new, site_ico_bind
 from model.zsite_com import ZsiteCom
 from model.gid import gid
+from model.ppt import ppt_new
 
 def _bio_save(self,edit=None):
     hope = self.get_argument('hope',None, False).rstrip()
@@ -35,7 +36,7 @@ def _bio_save(self,edit=None):
             pic = picopen(pic['body'])
             if pic:
                 com_pic_new(com_id,pic)
-    
+
     if video:
         video_id = gid()
         video,video_site = video_filter(video)
@@ -44,7 +45,12 @@ def _bio_save(self,edit=None):
         video_id = 0
         video_site = None
 
-    zsite_com_new(com_id,hope,money,culture,team,cover_id,video_site, video_id)
+        ppt = files.get('ppt')
+        if ppt:
+            ppt = ppt[0]['body']
+            ppt_new(com_id, ppt)
+
+    zsite_com_new(com_id,hope,money,culture,team,cover_id, video_site, video_id)
     
 
 

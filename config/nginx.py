@@ -76,6 +76,7 @@ render_machine('krios', """
 zuroc
 zjd
 yup
+wooparadog
 work
 realfex
 """)

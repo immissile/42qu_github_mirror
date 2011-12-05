@@ -1,5 +1,6 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%!
+from config import FS_URL 
 from model.po_video import VIDEO_CID2HTM
 from model.po import Po
 from model.ico import pic211_url, ico_url
@@ -33,21 +34,25 @@ ${css.ctrl_zsite_com|n}
 <%
 can_admin = zsite_member_can_admin(zsite_id, user_id)
 zsite_com = ZsiteCom.mc_get(zsite_id)
-_video_uri = None
 %>
 <div class="G">
     <div class="com_main">
        %if zsite_com:
 %if zsite_com.video_cid: 
-<%
+%if zsite_com.video_id:
+    <%
 _video_uri = video_htm(zsite_com.video_cid , zsite_com.video_id)
-%>
-%endif
-%if _video_uri:
+    %>
+    %if _video_uri:
        <div class="com_video">
-           ##${HTM_YOUKU%"XMjMxOTYxNDk2"|n}
            ${_video_uri|n}
        </div>
+    %endif
+%else:
+       <div class="com_ppt">
+            <img src="${FS_URL}/img/gif/ppt_upload.gif">
+       </div>
+%endif
 %endif
         %endif
 <%
@@ -114,7 +119,7 @@ _com_job_by_com_id = com_job_by_com_id(zsite.id)
                     info = JsDict(json.loads(product.txt))
                     po = Po.mc_get(product.id)
                 %>
-        <div class="com_title" id="product_${po.id}">
+        <div class="com_title c" id="product_${po.id}">
                 %if can_admin:
                 <a class="R c9" href="/product/edit/${product.id}">编辑</a>
                 %endif
@@ -148,7 +153,7 @@ ${po.name}\
                     <p class="com_p"><span>同类产品</span></p>
                     <p class="other_pros">
                         %for pro in info.product_similar:
-<span class="other_pro">${pro[0]}<a class="aH" href="${pro[1]}" target="_top" ></a></span>
+<span class="other_pro">${pro[0]}<a class="aH" href="${pro[1]}" target="_blank" ></a></span>
                         %endfor
                     </p>
                     %if info.same:
@@ -256,7 +261,7 @@ id="fav_a" href="javascript:fav_com();void(0)">收藏</a>\
                         %for i in member_list:
 <div class="com_text com_author">
     <div class="c">
-        <a href="${i.link}" class="com_avatar"><img src="${ico_url(i.id)}"></a>
+        <a href="${i.link}" class="com_avatar"><img src="${ico_url(i.id) or ''}"></a>
 <a target="_blank" class="c0" href="${i.link}">\
 <div>${i.name}</div>\
 %for j in i.career:

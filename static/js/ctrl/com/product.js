@@ -1,4 +1,15 @@
 $(function(){
+    function _ppt_video(a,b){
+        $(a).change(function(){
+            if($.trim(this.value).length){
+                $(b).val('')
+            }
+        })
+    }
+    _ppt_video("#ppt","#video_input")
+    _ppt_video("#video_input","#ppt")
+
+    
     $('.info_txt').focus(function(){
         var self = $(this)
         self.css('height','120px')
@@ -23,7 +34,7 @@ $(function(){
         return !val||$.trim(val)==''
     }
 
-    var elem="#txt_bio,#txt_plan,#txt_hope"
+    var elem="#txt_bio,#txt_origin,#txt_hope"
     elem=$(elem)
 
     $('form:first').submit(function(){

@@ -14,7 +14,7 @@ ${css.ctrl_i_password|n}
 %if mail and not errtip:
 <div class="fullscreen">
 <p>验证邮件已发送到 ${mail}</p>
-<p><a href="${mail_link(mail)|n}">请点此查收</a></p>
+<p><a target="_blank" href="${mail_link(mail)|n}">请点此查收</a></p>
 </div>
 %else:
 <%htm:form className="fullscreen">

@@ -552,9 +552,11 @@ CREATE TABLE `oauth_token` (
   `zsite_id` int(10) unsigned NOT NULL,
   `token_key` varbinary(256) NOT NULL,
   `token_secret` varbinary(256) NOT NULL,
+  `login` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `index` (`zsite_id`) USING BTREE,
-  KEY `app_id` (`app_id`,`zsite_id`) USING BTREE
+  KEY `app_id` (`app_id`,`zsite_id`) USING BTREE,
+  KEY `Index_4` (`app_id`,`token_key`,`login`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `oauth_token_backup`;
@@ -592,6 +594,28 @@ CREATE TABLE `oauth_token_douban` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `oauth_token_fanfou`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_token_fanfou` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varbinary(45) NOT NULL,
+  `uid` varbinary(45) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `oauth_token_kaixin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oauth_token_kaixin` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varbinary(45) NOT NULL,
+  `uid` varbinary(45) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `oauth_token_qq`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -748,6 +772,19 @@ DROP TABLE IF EXISTS `po_show_channel`;
 CREATE TABLE `po_show_channel` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `ppt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ppt` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `com_id` int(10) unsigned NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `slideshare_id` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `time` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`com_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `product_show`;
@@ -1036,8 +1073,9 @@ CREATE TABLE `user_mail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `mail` varchar(255) COLLATE utf8_bin NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL DEFAULT '60',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Index_2` (`user_id`,`mail`),
+  UNIQUE KEY `Index_2` (`user_id`,`state`,`mail`),
   KEY `mail` (`mail`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
