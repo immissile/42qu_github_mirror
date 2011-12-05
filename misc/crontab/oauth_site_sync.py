@@ -10,12 +10,11 @@ from model.kv_misc import KV_SYNC_SITE_PO_BY_ZSITE_ID, kv_int_call
 from zweb.orm import ormiter
 from config import SYNC_ZSITE
 
-
 def _sync_site_po(begin_id):
     ss = SiteSync.where('id>%s',begin_id).order_by('id')[0]
     if ss:
         begin_id = ss.id
-        zsite = Zsite.mc_get(SITE_ZSITE)
+        zsite = Zsite.mc_get(SYNC_ZSITE)
         po = Po.mc_get(ss.po_id)
         sync_site_po(po,zsite)
         return begin_id
