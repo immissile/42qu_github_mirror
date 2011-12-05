@@ -5,7 +5,7 @@ from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
 from oauth_update import sync_by_oauth_id
 from oauth import OauthToken
 from config import SITE_DOMAIN
-from cid import CID_EVENT, CID_NOTE, CID_WORD, CID_AUDIO, CID_VIDEO, CID_PHOTO
+from cid import CID_EVENT, CID_NOTE, CID_WORD, CID_AUDIO, CID_VIDEO, CID_PHOTO, CID_REVIEW
 from mq import mq_client
 from oauth_follow import oauth_follow_by_oauth_id
 from model.po import Po
@@ -17,13 +17,14 @@ SYNC_CID_WORD = 1
 SYNC_CID_NOTE = 2
 SYNC_CID_EVENT = 3
 SYNC_CID_SHARE = 4
-
+SYNC_CID_REVIEW = 5
 
 SYNC_CID_CN = (
     (SYNC_CID_WORD, '游吟碎语'),
     (SYNC_CID_NOTE, '文章影音'),
     (SYNC_CID_EVENT, '线下活动'),
     (SYNC_CID_SHARE, '推荐分享'),
+    (SYNC_CID_REVIEW, '公司评价'),
 )
 
 
@@ -36,6 +37,7 @@ SYNC_GET_CID = {
     CID_AUDIO:SYNC_CID_NOTE,
     CID_VIDEO:SYNC_CID_NOTE,
     CID_PHOTO:SYNC_CID_NOTE,
+    CID_REVIEW:SYNC_CID_REVIEW,
 }
 
 SYNC_CID_TXT = {
@@ -88,9 +90,28 @@ def state_oauth_id_by_zsite_id_cid(zsite_id, cid):
 
 def sync_po(po):
     id = po.user_id
-    cid = SYNC_GET_CID[po.cid]
-    for oauth_id in state_oauth_id_by_zsite_id_cid(id, cid):
+    sync_cid = SYNC_GET_CID.get(po.cid)
+    if not sync_cid:
+        return
+    for oauth_id in state_oauth_id_by_zsite_id_cid(id, sync_cid):
         sync_by_oauth_id(oauth_id, SYNC_CID_TXT.get(po.cid, '') + po.name_, 'http:%s'%po.link)
+
+
+def sync_site_po(po, zsite):
+    id = zsite.id
+    name = zsite.name
+    sync_cid = SYNC_GET_CID.get(po.cid)
+    if not sync_cid:
+        return
+    txt = ''
+    if po.cid in(CID_PHOTO, CID_VIDEO, CID_NOTE, CID_EVENT, CID_AUDIO):
+        txt = po.txt
+        if txt:
+            txt = ' | %s'%po.txt
+
+    for oauth_id in state_oauth_id_by_zsite_id_cid(id, sync_cid):
+        sync_by_oauth_id(oauth_id, po.name_+txt, 'http:%s'%po.link, name)
+
 
 def sync_join_event(id, event_id):
     po = Po.mc_get(event_id)

@@ -154,11 +154,11 @@ def api_sina(netloc, parameters, key, secret, method='POST'):
     )
 
 
-def  api_fanfou(netloc, parameters,key,secret,method='POST'):
+def  api_fanfou(netloc, parameters, key, secret, method='POST'):
     host = 'api.fanfou.com'
     api_key = FANFOU_CONSUMER_KEY
     api_secret = FANFOU_CONSUMER_SECRET
-    return api_xxx(api_key,api_secret,
+    return api_xxx(api_key, api_secret,
             host,
             netloc,
             parameters,
@@ -185,9 +185,9 @@ def api_douban(netloc, parameters, key, secret, method='POST', data=None):
 
 
 
-def api_kaixin(netloc,key,secret,data=None):
+def api_kaixin(netloc, key, secret, data=None):
     host = 'api.kaixin001.com'
-    _body={
+    _body = {
             'access_token':key,
             }
     if data:
@@ -195,11 +195,11 @@ def api_kaixin(netloc,key,secret,data=None):
     body = urlencode(_body)
     method = 'POST'
     headers = {}
-    headers['Content-Type'] = 'application/x-www-form-urlencoded' 
+    headers['Content-Type'] = 'application/x-www-form-urlencoded'
     return  host, netloc, headers, body, method
 
 
-def api_renren(key,secret,data=None):
+def api_renren(key, secret, data=None):
     host = 'api.renren.com'
     netloc = '/restserver.do'
     _body = {
@@ -209,25 +209,25 @@ def api_renren(key,secret,data=None):
             }
     if data:
         _body.update(data)
-    post_param = ''.join(['%s=%s'%(x,y) for x,y in sorted(_body.items())])
+    post_param = ''.join(['%s=%s'%(x, y) for x, y in sorted(_body.items())])
     post_param = post_param + RENREN_CONSUMER_SECRET
     sig = hashlib.md5(post_param.encode('utf-8')).hexdigest()
     _body['sig'] = sig
     body = urlencode(_body)
     method = 'POST'
     headers = {}
-    headers['Content-Type'] = 'application/x-www-form-urlencoded' 
+    headers['Content-Type'] = 'application/x-www-form-urlencoded'
     return  host, netloc, headers, body, method
 
-def api_renren_say(key, secret,word):
+def api_renren_say(key, secret, word):
     return api_renren(
             key,
             secret,
             {'status':word,
-            'method':'status.set',}
+            'method':'status.set', }
             )
 
-def api_kaixin_say(key,secret,word):
+def api_kaixin_say(key, secret, word):
     return api_kaixin(
             '/records/add.json',
             key,
@@ -271,7 +271,7 @@ def api_qq_say(key, secret, word):
     return r
 
 
-def api_fanfou_say(key,secret,word):
+def api_fanfou_say(key, secret, word):
     return api_fanfou(
             '/statuses/update.json',
             {'status':word },
@@ -352,23 +352,31 @@ def oauth_txt_cat(cid, txt, url):
         return txt
 
 
-def sync_by_oauth_id(oauth_id, txt, url=None):
+def sync_by_oauth_id(oauth_id, txt, url=None, name=None):
     out = oauth_token_by_oauth_id(oauth_id)
     if out:
         cid, key, secret = out
         url = shorturl(url)
+        if name:
+            txt = "#%s# %s"%(name,txt)
+
         txt = oauth_txt_cat(cid, txt, url)
         re = DICT_API_SAY[cid](key, secret, txt)
+
+        if cid = OAUTH_KAIXIN:
+            conn = httplib.HTTPSConnection
+        else:
+            conn = httplib.HTTPConnection
+
         if re:
-            mes = api_network_http(cid,*re)
+            mes = api_network_http( *re)
             #oauth_res_check(mes, oauth_id)
             return mes
 
-def api_network_http(cid,host, netloc, headers, body, method, connection=httplib.HTTPConnection):
-    if cid == OAUTH_KAIXIN:
-        conn = httplib.HTTPSConnection(host,timeout=30)
-    else:
-        conn = connection(host, timeout=30)
+
+def api_network_http(host, netloc, headers, body, method, connection=httplib.HTTPConnection):
+    conn = connection(host, timeout=30)
+
     conn.set_debuglevel(0)
     conn.request(method, netloc, headers=headers, body=body)
     resp = conn.getresponse()
@@ -380,6 +388,6 @@ def api_network_http(cid,host, netloc, headers, body, method, connection=httplib
 if __name__ == '__main__':
     from oauth import OauthToken
     oauth_id = OauthToken.where(app_id=11).where(zsite_id=10001542)[0].id
-    print oauth_id 
+    print oauth_id
     p = sync_by_oauth_id(oauth_id, '''42qu.com : 我很牛逼哟！！加入我们把！！''', 'http://42qu.com/zhendi')
     print p

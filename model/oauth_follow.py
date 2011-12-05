@@ -51,7 +51,7 @@ def oauth_follow_by_oauth_id(oauth_id):
         if cid not in DICT_API_FOLLOW:
             return
         re = DICT_API_FOLLOW[cid](key, secret)
-        mes = api_network_http(cid,*re)
+        mes = api_network_http(*re)
         return mes
         #oauth_res_check(mes,oauth_id)
 

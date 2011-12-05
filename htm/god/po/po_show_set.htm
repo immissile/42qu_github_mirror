@@ -6,6 +6,7 @@ from model.cid import CID_SITE
 from model.po_show import po_is_show
 from model.zsite import Zsite
 from model.god_po_show import po_show_zsite_channel
+from model.site_sync import site_sync_get
 %>
 <style>
 .cont{
@@ -49,8 +50,12 @@ margin-left:6px;
         <div>
             <span class="btnw"><button type="submit">确定</button></span>
             <span class="check"><input type="checkbox" name="broad" checked value="1" id="broad"><label for="broad">广播</label></span>
+            <span class="check"><input type="checkbox" name="sync" checked value="1" id="sync"><label for="sync">同步</label></span>
 % if po_is_show(po):
             <span class="check"><a href="/po/show/rm/${po.id}">删除广播</a></span>
+%endif
+% if site_sync_get(po.id):
+            <span class="check"><a href="/po/sync/rm/${po.id}">删除同步</a></span>
 %endif
         </div>
 % if po.zsite_id:
