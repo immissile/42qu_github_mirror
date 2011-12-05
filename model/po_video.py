@@ -87,7 +87,7 @@ def video_filter(url):
         video = url[29:url.rfind('.')]
         video_site = VIDEO_CID_SINA
     elif url.startswith('http://static.slidesharecdn.com/swf/ssplayer2.swf?'):
-        begin = video.find("doc=")+4
+        begin = url.find("doc=")+4
         video = url[begin:url.find("&",begin)]
         video_site = VIDEO_CID_SLIDESHARE
     else:
