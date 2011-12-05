@@ -26,6 +26,8 @@ def uploadFile(file_path):
     result = connection.getresponse()
     print result.status, result.reason
 
+
+
 if __name__ == '__main__':
     for image in getNewImages():
         print image
