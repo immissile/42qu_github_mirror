@@ -369,7 +369,7 @@ def sync_by_oauth_id(oauth_id, txt, url=None, name=None):
         cid, key, secret = out
         url = shorturl(url)
         if name:
-            txt = '#%s# %s'%(name, txt)
+            txt = '#%s# %s'%(name.replace(" ","_"), txt)
 
         txt = oauth_txt_cat(cid, txt, url)
         re = DICT_API_SAY[cid](key, secret, txt)
