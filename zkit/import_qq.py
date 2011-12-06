@@ -106,6 +106,12 @@ class PYQQ:
             }
             s1Back = self.httpRequest('post','http://pt.3g.qq.com/handleLogin',postData)
         
+        print s1Back.decode('gb18030')
+        if '登录密码错误' in s1Back.decode('gb18030'):
+            print '登陆失败,登录密码错误'
+            import sys
+            sys.exit(1)
+            return
         self.sid = self.getCon('sid=','&')
         print '登陆成功'
         #self.getMsgFun()    
