@@ -139,3 +139,54 @@ clear:both;
 width:330px;
 height:140px;
 }
+.review_avatar{
+width:64px;
+height:64px;
+}
+.pop_wrap{
+overflow:auto;
+padding:0 12px;
+}
+.pop_line{
+margin-bottom:12px;
+overflow:auto;
+}
+.pop_name{
+margin-left:14px;
+}
+.pop_mail,.pop_name{
+padding:7px;
+width:180px;
+border:1px solid #ccc;
+}
+.review_remove{
+display:inline-block;
+}
+.pop_file_txt{
+width:220px;
+border:1px solid #ccc;
+}
+.pop_file_title{
+width:216px;
+padding:2px;
+margin-top:6px;
+border:1px solid #ccc;
+}
+.rsm_file_li{
+margin-bottom:20px;
+overflow:hidden;
+margin-left:100px;
+}
+.file_title{
+margin-bottom:10px;
+}
+.file_remove{
+width:16px;
+height:16px;
+padding:4px;
+background:url(/img/gif/icons/gif/light_gray/to_size/close.gif) no-repeat 8px 8px;
+float:right;
+}
+.file_remove:hover{
+background:url(/img/gif/icons/gif/black/to_size/close.gif) no-repeat 8px 8px;
+}

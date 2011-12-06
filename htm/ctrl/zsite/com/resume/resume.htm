@@ -120,7 +120,7 @@ $(function(){
             $('.input_expr_text').each(function(){
                 $(this).replaceWith($(this).val())
             })
-            $('.input_expr_txt').each(function(){
+            $('.expr_txt>.input_expr_txt').each(function(){
                 $(this).replaceWith('<pre class="rsm_pre">'+$(this).val()+'</pre>')
             })
             $(this).text('编辑')
@@ -128,6 +128,7 @@ $(function(){
         var expr_cont = '<div class="expr_cont"><a class="close_expr" href="javascript:void(0);"></a><div class="rsm_l">项目名称</div><div class="rsm_r expr_text"><input type="text" value="" name="expr_text" class="input_expr_text"></div><div class="rsm_l">团队规模</div><div class="rsm_r expr_text"><input type="text" value="" name="expr_text" class="input_expr_text"></div><div class="rsm_l">担任职务</div><div class="rsm_r expr_text"><input type="text" value="" name="expr_text" class="input_expr_text"></div><div class="rsm_l">项目简介</div><div class="rsm_r expr_txt"><textarea name="expr_txt" class="input_expr_txt"></textarea></div></div>'
         $('.add_expr').click(function(){
             $('#rsm_expr_form').prepend(expr_cont)
+            $('.input_expr_txt:first').elastic(140)
         })
         $('.close_expr').live('click',function(){
             if(confirm('删除该项目所有信息 , 确定？')){
@@ -145,8 +146,28 @@ $(function(){
             $('.input_plan_txt').elastic(140)
             $(this).text('保存')
         } else if($(this).text()=="保存"){
-            $('.input_plan_txt').replaceWith('<pre class="rsm_pre">'+$('.input_plan_txt').val()+'</pre>')
+            $('.plan_txt>.input_plan_txt').replaceWith('<pre class="rsm_pre">'+$('.input_plan_txt').val()+'</pre>')
             $(this).text('编辑')
+        }
+    })
+    $('#review_add').click(function(){
+        $.fancybox({
+            'content':'<div class="pop_wrap"><div class="pop_line">邀请好友评价</div><div class="pop_line"><input type="text" name="mail" placeholder="邮箱" class="pop_mail"><input type="text" name="name" placeholder="姓名" class="pop_name"></div><div class="pop_line"><input type="text" name="mail" placeholder="邮箱" class="pop_mail"><input type="text" name="name" placeholder="姓名" class="pop_name"></div><div class="pop_line"><input type="text" name="mail" placeholder="邮箱" class="pop_mail"><input type="text" name="name" placeholder="姓名" class="pop_name"></div><div class="btns review_btn"><span class="btnw"><button class="btn" type="submit">发送邀请</button></span></div></div>'
+        }) 
+    })
+    $('.review_remove').click(function(){
+        if(confirm('删除该条好友评价 , 确定?')){
+            $(this).parent().parent().parent().remove()
+        }
+    })
+    $('#file_add').click(function(){
+        $.fancybox({
+            'content':'<div class="pop_wrap"><div class="pop_line">上传附件</div><div class="pop_line"><input type="file" name="file" class="pop_file"></div><div class="pop_line"><input type="text" class="pop_file_title" name="title" placeholder="附件标题"></div><div class="pop_line">附件说明<br/><textarea name="_file_txt" class="pop_file_txt"></textarea></div><div class="btns review_btn"><span class="btnw"><button class="btn" type="submit">上传</button></span></div></div>'
+        })
+    })
+    $('.file_remove').click(function(){
+        if(confirm('删除该附件 , 确定?')){
+            $(this).parent().parent().remove()
         }
     })
     function get_date(){
@@ -230,26 +251,35 @@ $(function(){
     </div>
     </form>
     <div class="rsm_title"><a class="R c9" id="plan_edit"  href="javascript:void(0);">编辑</a>职业规划</div>
+    <form id="rsm_plan_form">
     <div class="rsm_l"></div>
     <div class="rsm_r plan_txt">
     <pre class="rsm_pre">1. 负责豆瓣电影产品的技术开发、优化和维护工作:你有机会在整体架构下,开发出 性能卓越、创新的电影产品 
 2. 参与豆瓣电影产品设计过程并出谋划策 
 3. 提供豆瓣电影产品运营的技术支持
-    </pre></div>    
+    </pre></div>
+    </form>
 
-    <div class="rsm_title">朋友评价</div>
-    <div class="rsm_l"></div>
+    <div class="rsm_title"><a class="R c9" id="review_add"  href="javascript:void(0);">添加</a>朋友评价</div>
+    <div class="rsm_review_li">
+    <div class="rsm_l"><img src="http://p4.42qu.us/96/855/53079.jpg" class="review_avatar"><p><a href="javascript:void(0)" class="review_remove">删除</a></p></div>
     <div class="rsm_r">
     <pre class="rsm_pre">" 重视监控，有助于更早发现潜问题，提升网站可用率。不能自建监控系统的电子商务中小站点，监控宝是个不错的选择。 "
     </pre><div class="tr">——<a href="" class="friend_a">武则天</a>苹果公司，设计师</div>
     </div>
-
-    <div class="rsm_title">附件作品</div>
+    </div>
+    <div class="rsm_title"><a class="R c9" id="file_add"  href="javascript:void(0);">添加</a>附件作品</div>
     <div class="rsm_l"></div>
-    <div class="rsm_r"><pre>1.有电影类相关网络产品开发经验者
-2. 有移动、桌面软件开发经验者
-3. 乐于分享,各类流行互联网服务的热心参与和内容贡献者
-    </pre></div>    
+    <div class="rsm_r">
+        <div class="rsm_file_li">
+            <div class="file_title"><a class="file_remove" href="javascript:void(0)"></a><a class="file_link" href="">监控红宝书</a></div>
+            <div class="file_cont">重视监控，世界上最好的流程控制说明书宝典。</div>
+        </div>
+        <div class="rsm_file_li">
+            <div class="file_title"><a class="file_remove" href="javascript:void(0)"></a><a class="file_link" href="">监控红宝书</a></div>
+            <div class="file_cont">重视监控，世界上最好的流程控制说明书宝典。</div>
+        </div>
+    </div>    
 
 
 </div>
