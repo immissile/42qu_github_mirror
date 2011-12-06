@@ -9,13 +9,6 @@ import os
 
 PARSED_FILENAME = 'out.js'
 SOURCE_ROOT = 'misc/once/zhihu/'
-out_file = open(PARSED_FILENAME,'w')
-
-def crawl_files():
-    for root,dirs,files in os.walk(SOURCE_ROOT):
-        for i in files:
-            print (os.path.join(root,i))
-
 
 def page_parse(htm_file):
 
@@ -26,7 +19,7 @@ def page_parse(htm_file):
 
     replies = [ htm2txt(x)[0] for x in reply_raw_list ]
 
-    js = '["current_question",' +txt_wrap_by("DZMT.push(['current_question', ",');',html)
+    js = '["current_question",' +txt_wrap_by("(['current_question', ",');',html)
     a = loads(js)
 
     answer_list=[]
@@ -49,9 +42,17 @@ def page_parse(htm_file):
             answer_list.append(new_ans)
         except:
             continue
-    out_file.write(dumps(question_info))
+    out_file.write(dumps(question_info)+'\n')
+
+def main():
+    out_file = open(PARSED_FILENAME,'w')
+    for root,dirs,files in os.walk(SOURCE_ROOT):
+        for i in files:
+            try:
+                page_parse(os.path.join(root,i))
+            except:
+                print i
+    out_file.close()
 
 if __name__ == '__main__':
-    #page_parse("test.html")
-    #out_file.close()
-    crawl_files()
+    main()
