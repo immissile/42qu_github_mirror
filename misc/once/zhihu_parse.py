@@ -8,12 +8,13 @@ from json import loads,dumps
 import os
 
 PARSED_FILENAME = 'out.js'
-SOURCE_ROOT = 'zhihu'
+SOURCE_ROOT = 'misc/once/zhihu/'
 out_file = open(PARSED_FILENAME,'w')
 
-def crawl_files(path):
+def crawl_files():
     for root,dirs,files in os.walk(SOURCE_ROOT):
-        print files
+        for i in files:
+            print (os.path.join(root,i))
 
 
 def page_parse(htm_file):
@@ -51,5 +52,6 @@ def page_parse(htm_file):
     out_file.write(dumps(question_info))
 
 if __name__ == '__main__':
-    page_parse("test.html")
-    out_file.close()
+    #page_parse("test.html")
+    #out_file.close()
+    crawl_files()
