@@ -11,7 +11,6 @@ PARSED_FILENAME = 'list.js'
 SOURCE_ROOT = 'misc/once/'
 SOURCE_DIR = 'zhihu/'
 
-out_file = open(os.path.join(SOURCE_ROOT,SOURCE_DIR,PARSED_FILENAME),'w')
 question_set = set()
 question_set_fetched = set()
 

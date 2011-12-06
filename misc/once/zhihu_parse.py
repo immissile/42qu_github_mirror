@@ -9,6 +9,7 @@ import os
 
 PARSED_FILENAME = 'out.js'
 SOURCE_ROOT = 'misc/once/zhihu/'
+out_file = open(PARSED_FILENAME,'w')
 
 def page_parse(htm_file):
 
@@ -45,7 +46,6 @@ def page_parse(htm_file):
     out_file.write(dumps(question_info)+'\n')
 
 def main():
-    out_file = open(PARSED_FILENAME,'w')
     for root,dirs,files in os.walk(SOURCE_ROOT):
         for i in files:
             try:
