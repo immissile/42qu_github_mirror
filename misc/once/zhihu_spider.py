@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python 
+# -*- coding: utf-8 -*- 
 import _env
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from zkit.htm2txt import htm2txt
@@ -7,8 +7,7 @@ from json import loads,dumps
 from zhihu_page import page_fetch
 import os
 
-PARSED_FILENAME = 'list.js'
-SOURCE_ROOT = 'misc/once/'
+SOURCE_ROOT = './'
 SOURCE_DIR = 'zhihu/'
 
 question_set = set()
@@ -20,8 +19,7 @@ def main():
             try:
                 find_next(os.path.join(root,i))
             except:
-                continue
-                print i
+                print 'error ',i
     find_not_fetched()
 
 def find_next(page_file):
@@ -35,7 +33,7 @@ def find_not_fetched():
     with open(SOURCE_ROOT+'zhihu.txt') as page:
         for line in page:
             try:
-                question_set_fetched|={line.strip().split()[1]}
+                question_set_fetched|=set(line.strip().split()[1])
             except:
                 continue
     with open(SOURCE_ROOT+'zhihu.txt','a') as zhihu:

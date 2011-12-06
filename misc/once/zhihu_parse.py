@@ -8,7 +8,7 @@ from json import loads,dumps
 import os
 
 PARSED_FILENAME = 'out.js'
-SOURCE_ROOT = 'misc/once/zhihu/'
+SOURCE_ROOT = './zhihu/'
 out_file = open(PARSED_FILENAME,'w')
 
 def page_parse(htm_file):
