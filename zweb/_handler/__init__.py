@@ -88,6 +88,7 @@ def _login_redirect(self):
             if host != SITE_DOMAIN and next_url.startswith('/') and not next_url.startswith('//'):
                 next_url = '//%s%s'%(host, next_url)
             url += '?' + urllib.urlencode(dict(next=next_url))
+        self.clear_cookie('S')
         self.redirect(url)
         return True
 
