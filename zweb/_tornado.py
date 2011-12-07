@@ -71,7 +71,7 @@ def set_cookie(self, name, value, domain=None, expires=None, path='/',
             )
         new_cookie[name]['expires'] = expires
     else:
-        new_cookie[name]['expires'] = 'Sat, 20-Aug-2099 03:38:00 GMT'
+        new_cookie[name]['expires'] = 'Tue, 01 Jan 2030 00:00:00 GMT'
 
     if path:
         new_cookie[name]['path'] = path
