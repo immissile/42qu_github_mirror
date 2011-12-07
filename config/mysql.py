@@ -10,6 +10,7 @@ DB_MAIN_TABLE = (
     'buzz_pos',
     'buzz_sys',
     'buzz_unread',
+    'rec_rep',
     'career',
     'event',
     'event_joiner',
