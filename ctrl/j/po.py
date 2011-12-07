@@ -31,9 +31,10 @@ def post_reply(self, id):
             user_id = self.current_user_id
             po = Po.mc_get(id)
             if po.can_view(user_id):
-                po.reply_new(user, txt, po.state)
+                reply_id = po.reply_new(user, txt, po.state)
 
         self.finish(result)
+        return reply_id
 
 
 @urlmap('/j/po/reply/json/(\d+)')
@@ -49,7 +50,6 @@ class PoReplyJson(JLoginBase):
                 result.append(
                     (url_or_id(user.id), reply.htm, user.name)
                 )
-
         return self.finish(dumps(result))
 
 
@@ -113,8 +113,6 @@ class Word(JLoginBase):
                     []
                 ]
         self.finish(dumps(result))
-
-
 
 @urlmap('/j/po/reply/(\d+)')
 class Reply(JLoginBase):

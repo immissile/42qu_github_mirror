@@ -1,6 +1,7 @@
 <%!
 from model.zsite import Zsite
-from model.cid import CID_REVIEW, CID_WORD
+from model.po import Po
+from model.cid import CID_REVIEW, CID_WORD,CID_REC
 from model.txt2htm import txt_withlink
 %>
 <%inherit file="_po.htm" />
@@ -16,6 +17,11 @@ cid = po.cid
 po_zsite = Zsite.mc_get(po.zsite_id)
 %>\
 <h1 style="text-align:center;margin-bottom:0" id="po_answer_name">@<a href="${po_zsite.link|n}">${po_zsite.name}</a></h1>\
+%elif cid == CID_REC:
+<%
+pre_po = Po.mc_get(po.rid)
+%>
+<h1 style="text-align:left;margin-bottom:0" id="po_answer_name">@<a href="${pre_po.link|n}">${pre_po.name}</a></h1>\
 %elif  po.rid :
 <h1 id="po_answer_name">${po.name_htm|n}</h1>\
 %elif po.zsite_id:

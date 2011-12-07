@@ -39,7 +39,8 @@ function share(id) {
                 if(can_say()){
 				fancybox.showActivity()
 				$.postJSON("/j/feed/up/" + id, {
-					'txt': txt
+					'txt': txt,
+                    'sync': $(".sync").is(":checked")
 				},
 				function(r) {
 					if (r.can_not_reply) {

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, \
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO,CID_REC, \
 CID_EVENT_NOTICE, CID_PRODUCT, CID_COM, CID_REVIEW 
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
@@ -31,6 +31,7 @@ PO_CN_EN = (
     (CID_VIDEO, 'video', '视频', '场'),
     (CID_AUDIO, 'audio', '音乐', '段'),
     (CID_EVENT, 'event', '活动', '次'),
+    (CID_REC, 'recommend', '推荐', '回'),
 )
 
 PO_CID = tuple([
@@ -50,7 +51,7 @@ class Po(McModel, ReplyMixin):
     @property
     def txt(self):
         cid = self.cid
-        if cid in (CID_WORD, CID_EVENT_NOTICE):
+        if cid in (CID_WORD, CID_EVENT_NOTICE, CID_REC):
             return self.name_
         elif cid == CID_ANSWER:
             return txt_get(self.id) or self.name_
@@ -77,7 +78,7 @@ class Po(McModel, ReplyMixin):
         super(Po, self).save()
 
     @property
-    @mc_htm('{self.id}')
+    #@mc_htm('{self.id}')
     def htm(self):
         cid = self.cid
         id = self.id
@@ -89,6 +90,7 @@ class Po(McModel, ReplyMixin):
                 s = pic_htm(s, user_id, id)
         else:
             s = txt_withlink(self.name_)
+        print s
         return s
 
     def txt_set(self, txt):
@@ -102,7 +104,7 @@ class Po(McModel, ReplyMixin):
 
     @attrcache
     def target(self):
-        if self.cid in (CID_WORD, CID_ANSWER, CID_EVENT_NOTICE, CID_EVENT_FEEDBACK):
+        if self.cid in (CID_WORD, CID_ANSWER, CID_EVENT_NOTICE, CID_EVENT_FEEDBACK,CID_REC):
             return Po.mc_get(self.rid)
 
     question = target
@@ -163,6 +165,12 @@ class Po(McModel, ReplyMixin):
                 else:
                     name = '评价 : %s'
                 return name%link
+            #elif cid == CID_REC:
+            #    if q.user_id == self.user_id:
+            #        name = '自我推荐 : %s'
+            #    else:
+            #        name = '推荐 : %s'
+            #    return name%link
             else:
                 if q.user_id == self.user_id:
                     return '自问自答 : %s' % link

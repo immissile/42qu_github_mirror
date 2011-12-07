@@ -23,6 +23,7 @@ def po_review_new(zsite_id, user_id, name):
         state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
 
     review = po_review_get(zsite_id, user_id)
+
     if review:
         if not name:
             po_review_rm(zsite_id, user_id)

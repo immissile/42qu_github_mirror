@@ -91,6 +91,7 @@ def feed_tuple_by_db(id):
         )
 
 
+    print result
     return result
 
 
@@ -134,6 +135,9 @@ def render_feed_list(id_list, rt_dict, zsite_id):
     r = []
     for id, i in zip(id_list, feed_tuple_list(id_list)):
         rt_id_list = rt_dict[id]
+        print "li",rt_id_list
+        print "us",map(dump_zsite, map(zsite_dict.get, rt_id_list))
+
         result = [
             i[0],
             id,
@@ -207,6 +211,6 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
 
 if __name__ == '__main__':
-    pass
-    for i in render_feed_by_zsite_id(10000000, 100):
+    for i in render_feed_by_zsite_id(10031395, 100):
+        break
         print i
