@@ -136,3 +136,6 @@ def feed_merge_iter(
 
 if __name__ == '__main__':
     pass
+
+    id = 10179667 
+    feed_rm(id)
