@@ -1,3 +1,9 @@
+.rel
+{
+    border-bottom: 1px dotted #CCC;
+    margin-bottom: 6px;
+    padding-bottom: 8px;
+}
 #TW{
     padding-bottom:48px;
     _padding-bottom:0;

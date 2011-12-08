@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from collections import defaultdict
 from _db import McCacheM
 from collections import namedtuple
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO, CID_EVENT, CID_USER
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_AUDIO, CID_VIDEO, CID_EVENT, CID_USER, CID_REC
 from operator import itemgetter
 from po import Po
 from po_question import answer_count
@@ -118,25 +119,32 @@ def feed_tuple_list(id_list):
 
 def dump_zsite(zsite):
     if zsite:
-        return (zsite.name, zsite.link)
+        return (zsite.name, zsite.link, zsite.id)
     return (0, 0)
 
 
-def render_feed_list(id_list, rt_dict, zsite_id):
+
+def render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict ):
     zsite_id_list = []
 
-    for i in rt_dict.itervalues():
+    for i in rt_user_dict.itervalues():
         zsite_id_list.extend(i)
 
     zsite_dict = Zsite.mc_get_dict(filter(bool, zsite_id_list))
     fav_dict = fav_cid_dict(zsite_id, id_list)
     r = []
     for id, i in zip(id_list, feed_tuple_list(id_list)):
-        rt_id_list = rt_dict[id]
+        rt_id_list = rt_user_dict[id]
+
+        recommends = map(dump_zsite, map(zsite_dict.get, rt_id_list))
+        out = []
+        for tmp in recommends:
+            out.append(tmp + (tuple(rt_dict['%s_%s'%(str(tmp[2]), str(id))]), ))
+
         result = [
             i[0],
             id,
-            map(dump_zsite, map(zsite_dict.get, rt_id_list)),
+            out,
             fav_dict[id],
         ]
         result.extend(i[1:])
@@ -188,21 +196,30 @@ def zsite_id_list_by_follow(zsite_id):
     r.append(zsite_id)
     return r
 
-from collection import defaultdict
+
 def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     zsite_id_list = zsite_id_list_by_follow(zsite_id)
-    rt_dict = {}
+    rt_user_dict = defaultdict(set)
+    rt_dict = defaultdict(set)
     id_list = []
     id = 0
     for i in feed_merge_iter(zsite_id_list, limit, begin_id):
-        rid = i.rid
-        id = rid or i.id
-        if id not in rt_dict:
-            rt_dict[id] = []
-            id_list.append(id)
-        if rid:
-            rt_dict[id].append(i.zsite_id)
-    return render_feed_list(id_list, rt_dict, zsite_id), id
+        id = i.id
+        po = Po.mc_get(id)
+        if po.cid == CID_REC:
+            rt_user_dict[po.rid].add(po.user_id)
+            rt_dict['%s_%s'%(str(po.user_id), str(po.rid))].add((po.txt, po.id))
+            id_list.append(po.rid)
+        else:
+            id_list.append(i.id)
+
+        id_list = list(set(id_list))
+
+        #if id not in rt_user_dict:
+        #    rt_user_dict[id] = []
+        #if rid:
+        #    rt_user_dict[id].append(i.zsite_id)
+    return render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict), id
 
 
 

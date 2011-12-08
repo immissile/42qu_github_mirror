@@ -66,13 +66,10 @@ class FeedUp(JLoginBase):
         current_user_id = self.current_user_id
 
         sync = self.get_argument('sync')
-        txt = self.get_argument('txt')
+        txt = self.get_argument('txt',default='')
 
         po = Po.mc_get(id)
-        if po and po.cid in PO_SHARE_FAV_CID:
-            vote_up(current_user_id, id)
-            feed_rt_rm(current_user_id, id)
-            feed_rt(current_user_id, id)
+        po.feed_new()
 
         reply_id=None
         if sync == 'true':

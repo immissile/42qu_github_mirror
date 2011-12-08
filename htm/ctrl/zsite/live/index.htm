@@ -82,6 +82,16 @@ target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}{{/eac
     <div class="G3">
 {{each item}}
 <div class="sdw"><div class="sd cid${cid}">
+{{if rt_list.length}} 
+<div class='rel'>
+{{each rt_list}}
+{{each(i,v) $value.txt}}
+<a target="_blank"  href="${$value.link}">${$value.name}</a> : ${v[0]} <a class="zsite_reply" href="/po/${v[1]}" target="_top"></a> <br/>
+{{/each}}
+{{/each}}
+</div>
+{{/if}}
+
 {{if cid==68}}
 <a href="/${id}"><img class="feed_event_img" src="${rid}"></a>
 {{/if}}

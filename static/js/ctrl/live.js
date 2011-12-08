@@ -10,7 +10,8 @@
 	function array2zsite(a) {
 		return {
 			name: a[0],
-			link: a[1]
+            link:a[1],
+            txt: a[3],
 		}
 	}
 
