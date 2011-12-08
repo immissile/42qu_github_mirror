@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import JLoginBase, Base
 from ctrl._urlmap.j import urlmap
-from model.po_recommend import po_recommend_new 
+from model.po_recommend import po_recommend_new ,po_recommend_get_reply
 from model.po import Po, PO_SHARE_FAV_CID
 from yajl import dumps
 from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
@@ -76,7 +76,10 @@ class FeedUp(JLoginBase):
 
         reply_id=None
         if sync == 'true':
+            #old_reply = po_recommend_get_reply(id,current_user_id)
+            #if not old_reply:
             reply_id = post_reply(self, id)
+
         po_recommend_new(id,current_user_id,txt,reply_id)
         
         if not self._finished:

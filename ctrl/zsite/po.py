@@ -2,7 +2,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model import reply
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE,CID_REC
 from model.po import Po, po_rm, po_word_new, po_note_new, po_state_set
 from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW, STATE_SECRET, STATE_ACTIVE
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
@@ -243,6 +243,8 @@ class Edit(LoginBase):
             if cid == CID_WORD:
                 link = po.link_target
             elif po.state == STATE_SECRET:
+                link = po.link
+            elif cid == CID_REC:
                 link = po.link
             else:
                 link = '/po/tag/%s' % id

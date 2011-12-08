@@ -90,7 +90,6 @@ class Po(McModel, ReplyMixin):
                 s = pic_htm(s, user_id, id)
         else:
             s = txt_withlink(self.name_)
-        print s
         return s
 
     def txt_set(self, txt):
@@ -120,6 +119,9 @@ class Po(McModel, ReplyMixin):
                 else:
                     name = '评价 : %s'
                 return name % q.name
+            if cid == CID_REC:
+                return '推荐 : %s' % q.name
+
 
             if cid != CID_EVENT_NOTICE:
                 return '答 : %s' % q.name
@@ -326,6 +328,10 @@ def po_rm(user_id, id):
         elif cid == CID_EVENT_NOTICE:
             from model.po_event import mc_po_event_notice_id_list_by_event_id
             mc_po_event_notice_id_list_by_event_id.delete(rid)
+        elif cid == CID_REC:
+            from model.po_recommend import po_recommend_rm_reply
+            po_recommend_rm_reply(id, user_id)
+
 
         return _po_rm(user_id, po)
 
