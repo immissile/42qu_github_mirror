@@ -449,15 +449,20 @@ def mc_flush_zsite_cid(zsite_id, cid):
     _(zsite_id, cid)
 
 if __name__ == '__main__':
-    pass
-    exist = set()
-    for i in Po.where(cid=CID_NOTE).where("zsite_id!=0").where("state>%s"%STATE_RM):
-        name = i.name
-        if name in exist:
-            print len(exist), name
-            _po_rm(i.user_id, i)
-        else:
-            exist.add(name)
+    from zsite_list import zsite_id_list
+    from cid import CID_USER
+    id_list = zsite_id_list(0,CID_USER)
+    for id in id_list:
+        for i in Po.where(user_id = id).where(zsite_id =0).where("state>%s"%STATE_RM):
+            print i.link
+    #exist = set()
+    #for i in Po.where(cid=CID_NOTE).where("zsite_id!=0").where("state>%s"%STATE_RM):
+    #    name = i.name
+    #    if name in exist:
+    #        print len(exist), name
+    #        _po_rm(i.user_id, i)
+    #    else:
+    #        exist.add(name)
         
 
  
