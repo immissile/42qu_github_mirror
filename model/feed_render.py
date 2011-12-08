@@ -90,8 +90,6 @@ def feed_tuple_by_db(id):
             (question.id, user.name, user.link)
         )
 
-
-    print result
     return result
 
 
@@ -135,9 +133,6 @@ def render_feed_list(id_list, rt_dict, zsite_id):
     r = []
     for id, i in zip(id_list, feed_tuple_list(id_list)):
         rt_id_list = rt_dict[id]
-        print "li",rt_id_list
-        print "us",map(dump_zsite, map(zsite_dict.get, rt_id_list))
-
         result = [
             i[0],
             id,
@@ -193,6 +188,7 @@ def zsite_id_list_by_follow(zsite_id):
     r.append(zsite_id)
     return r
 
+from collection import defaultdict
 def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     zsite_id_list = zsite_id_list_by_follow(zsite_id)
     rt_dict = {}
@@ -211,6 +207,5 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
 
 if __name__ == '__main__':
-    for i in render_feed_by_zsite_id(10031395, 100):
-        break
+    for i in render_feed_by_zsite_id(10071241, 100):
         print i
