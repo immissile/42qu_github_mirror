@@ -69,6 +69,9 @@ class FeedUp(JLoginBase):
         txt = self.get_argument('txt',default='')
 
         po = Po.mc_get(id)
+
+        vote_up(current_user_id, id)
+
         po.feed_new()
 
         reply_id=None
