@@ -29,7 +29,6 @@ from model.user_auth import user_password_verify, UserPassword, user_password_ne
 <script src="${js.school}"></script>
 <script src="${js.school_ctrl}"></script>
 
-${css.ctrl_auth_reg|n}
 ${css.ctrl_school|n}
 ${css.ctrl_me_guide|n}
 
@@ -90,7 +89,7 @@ $(function(){
 <p class="hint_p">首先 ，请介绍一下自己 :)</p>
 </div>
 
-<%htm:form id="form_reg" action="/me/search">
+<%htm:form className="form_reg" action="/me/search">
 
 
 <%
