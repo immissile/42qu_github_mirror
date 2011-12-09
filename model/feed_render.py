@@ -124,7 +124,7 @@ def dump_zsite(zsite):
 
 
 
-def render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict , sort_dict):
+def render_feed_list(id_list,  zsite_id, rt_dict , sort_dict):
     #zsite_id_list = []
 
     #for i in rt_dict['author'].itervalues():
@@ -212,7 +212,6 @@ def zsite_id_list_by_follow(zsite_id):
 
 def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     zsite_id_list = zsite_id_list_by_follow(zsite_id)
-    rt_user_dict = defaultdict(set)
     rt_dict = defaultdict(dict)
     id_list = []
     ###
@@ -236,8 +235,10 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
                     rt_dict[po.rid]['commends'][po.user_id] = [(po.txt, po.id), ]
 
             id_list.append(po.rid)
-            if sort_dict[po.rid] < po.id:
-                sort_dict[po.rid] = po.id
+
+            if po.rid not in sort_dict or \
+                    sort_dict[po.rid] < po.id:
+                        sort_dict[po.rid] = po.id
         else:
             id_list.append(i.id)
             if po.id not in sort_dict or \
@@ -250,7 +251,7 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
         #    rt_user_dict[id] = []
         #if rid:
         #    rt_user_dict[id].append(i.zsite_id)
-    return render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict, sort_dict), id
+    return render_feed_list(id_list,  zsite_id, rt_dict, sort_dict), id
 
 
 
