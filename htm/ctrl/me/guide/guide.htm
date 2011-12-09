@@ -127,7 +127,31 @@ ${errtip.password|n}
 </div>
 
 </%htm:form>
-
+<%htm:form className="form_reg" id="form2">
+    <p class="part1">
+        <input id="school_select1" value="请选择学校" autocomplete="off" type="text" class="school_select">
+        <select name="school_year" class="school_year"></select>
+    </p>
+    <p class="part2">
+        <select name="dep" id="dep1" class="dep"><option value=0>选择院系</option></select>
+        <select name="school_type" class="school_type">
+            <option value="">选择类型</option>
+            <option value="1">本科</option>
+            <option value="2">大专</option>
+            <option value="3">硕士</option>
+            <option value="4">博士</option>
+            <option value="5">博士后</option>
+            <option value="6">校工</option>
+            <option value="7">教师</option>
+        </select>
+    </p>
+    <p>
+        <a href="javascript:void(0)" class="add_school_a">添加学校</a>
+    </p>
+    <div class="cl btns">
+    <span class="L btnw"><button type="button" class="step_btn" id="step2">下一步</button></span>
+    </div>
+</%htm:form>
 <script>
 $("button[type=submit]").attr('disabled',false)
 $("#form1").submit(function(){
@@ -144,7 +168,7 @@ $("#form1").submit(function(){
         //$.fancybox.hideActivity();
         
     })
-    var next=$("form"+(this.id.slice(4)-0+1));
+    var next=$("#form"+(this.id.slice(4)-0+1));
     if(next[0]){
         self.slideUp()
         next.slideDown()
@@ -201,29 +225,6 @@ $("#form1").submit(function(){
 ##        <p class="hint_p">首先 ，请介绍一下自己 :)</p>
 ##    </div>
 ##
-##    <p class="part1">
-##        <input id="school_select1" value="请选择学校" autocomplete="off" type="text" class="school_select">
-##        <select name="school_year" class="school_year"></select>
-##    </p>
-##    <p class="part2">
-##        <select name="dep" id="dep1" class="dep"><option value=0>选择院系</option></select>
-##        <select name="school_type" class="school_type">
-##            <option value="">选择类型</option>
-##            <option value="1">本科</option>
-##            <option value="2">大专</option>
-##            <option value="3">硕士</option>
-##            <option value="4">博士</option>
-##            <option value="5">博士后</option>
-##            <option value="6">校工</option>
-##            <option value="7">教师</option>
-##        </select>
-##    </p>
-##    <p>
-##        <a href="javascript:void(0)" class="add_school_a">添加学校</a>
-##    </p>
-##    <div class="cl btns">
-##    <span class="L btnw"><button type="button" class="step_btn" id="step2">下一步</button></span>
-##    </div>
 ##</div>
 ##<div class="main_block" id="mb3">
 ##    <div class="head_hint">
