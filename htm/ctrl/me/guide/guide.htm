@@ -89,7 +89,7 @@ $(function(){
 <p class="hint_p">首先 ，请介绍一下自己 :)</p>
 </div>
 
-<%htm:form className="form_reg" action="/me/search">
+<%htm:form className="form_reg" id="form1">
 
 
 <%
@@ -128,7 +128,30 @@ ${errtip.password|n}
 
 </%htm:form>
 
-
+<script>
+$("button[type=submit]").attr('disabled',false)
+$("#form1").submit(function(){
+    var self=$(this), btn=self.find("button[type=submit]");
+    $(btn.blur().attr("disabled",true).css({'background':"#fff","color":"#aaa"})[0].parentNode).after(
+        '<span class="form_loading"/>'
+    )
+    $.post("/j/auth/guide/1",self.serialize(),function(o){
+        if(1){
+            btn.attr('disabled',false);
+            $(".form_loading").remove()
+            return
+        }   
+        //$.fancybox.hideActivity();
+        
+    })
+    var next=$("form"+(this.id.slice(4)-0+1));
+    if(next[0]){
+        self.slideUp()
+        next.slideDown()
+        return false
+    }
+})
+</script>
 
 
 

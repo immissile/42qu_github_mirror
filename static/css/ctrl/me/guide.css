@@ -139,3 +139,11 @@ width:467px;
 overflow:hidden;
 text-align:center;
 }
+.form_loading{
+height:8px;
+width:26px;
+margin-left:21px;
+display:inline-block;
+background:url(/img/gif/loading_bar.gif) no-repeat 50% 50%;
+vertical-align:4px;
+}
