@@ -149,165 +149,95 @@ ${errtip.password|n}
         <a href="javascript:void(0)" class="add_school_a">添加学校</a>
     </p>
     <div class="cl btns">
-    <span class="L btnw"><button type="button" class="step_btn" id="step2">下一步</button></span>
+    <span class="L btnw"><button type="submit" class="step_btn" id="step2">下一步</button></span>
     </div>
 </%htm:form>
+
+
+<%htm:form className="form_reg" id="form3">
+    <p class="job_block">
+        <input class="job_unit" name="job_unit" placeholder="单位"><input class="job_title" name="job_title" placeholder="头衔"><input class="job_txt" name="job_txt" placeholder="经历简述 ... ..."><br/>
+        <span class="job_begin">
+        <select name="job_begin_year" class="job_begin_year"><option value=0> - 年 - </option></select>
+        <select name="job_begin_month" class="job_begin_month"><option value=0> - 月 - </option></select>
+        </span>-
+        <span class="job_end">
+        <select name="job_end_year" class="job_end_year"><option value=0> - 年 - </option></select>
+        <select name="job_end_month" class="job_end_month"><option value=0> - 月 - </option></select>
+        </span>
+    </p>
+    <p>
+        <a href="javascript:void(0)" class="add_job_a">添加经历</a>
+    </p>
+    <div class="cl btns">
+    <span class="L btnw job_next_btn">\
+<button type="submit" type="submit" class="step_btn" id="step3">下一步</button>\
+</span>
+    </div>
+</%htm:form>
+
+
+<%htm:form className="form_reg" id="form4">
+    <p class="f14">
+        我的座右铭是<input type="text" name="motto" class="motto">
+    </p>
+    <p class="f14">
+        <script>select_birthday("birthday",'00000000')</script>
+        <span id="birthday"></span>出生 , 如今<select name="marry" class="marry"><option value="1">尚是单身</option><option value="2">正在恋爱</option><option value="3">已经结婚</option></select>
+    </p>
+    <p class="p_addr f14">
+       现居<script>select_pid("pid_now", 0)</script><span id="pid_now"></span>
+    </p>
+    <p class="p_addr f14">
+       家乡<script>select_pid("pid_home", 0)</script><span id="pid_home"></span>
+    </p>
+    <p class="f14">我会向别人这样介绍自己</p>
+    <textarea class="f14" placeholder="爱吃什么 , 偶像是谁 , 想去的地方 , 追逐的理想 。 人生是一场旅行 ..." name="txt" id="txt" class=""></textarea>
+    
+    <div class="cl btns">
+    <span class="L btnw job_next_btn"><button type="submit">保存</button></span>
+    </div>
+</%htm:form>
+
+
 <script>
-$("button[type=submit]").attr('disabled',false)
-$("#form1").submit(function(){
-    var self=$(this), btn=self.find("button[type=submit]");
-    $(btn.blur().attr("disabled",true).css({'background':"#fff","color":"#aaa"})[0].parentNode).after(
-        '<span class="form_loading"/>'
-    )
-    $.post("/j/auth/guide/1",self.serialize(),function(o){
-        if(1){
-            btn.attr('disabled',false);
-            $(".form_loading").remove()
-            return
-        }   
-        //$.fancybox.hideActivity();
-        
+$("button[type=submit]").attr('disabled',false);
+function form(form_id, error){
+
+    $(form_id).submit(function(){
+        var self=$(this), btn=self.find("button[type=submit]"),
+            id=this.id.slice(4)-0;
+        $(btn.blur().attr("disabled",true).css({'background':"#fff","color":"#aaa"})[0].parentNode).after(
+            '<span class="form_loading"/>'
+        )
+        $.post("/j/auth/guide/"+id,self.serialize(),function(o){
+            if(o.error){
+                btn.attr('disabled',false);
+                $(".form_loading").remove()
+                error(o)
+                return
+            }   
+            //$.fancybox.hideActivity();
+            
+        })
+        var next=$("#form"+(id+1));
+        if(next[0]){
+            self.slideUp()
+            next.slideDown()
+            return false
+        }
     })
-    var next=$("#form"+(this.id.slice(4)-0+1));
-    if(next[0]){
-        self.slideUp()
-        next.slideDown()
-        return false
-    }
+}
+form("#form1",function(o){
+
+})
+form("#form2",function(o){
+
+})
+form("#form3",function(o){
+
 })
 </script>
 
 
 
-##<%htm:form id="form_reg" action="/me/search">
-##
-##
-##<div class="main_block" id="mb1">
-##<h1 id="form_reg_h1">${LOGO_TEXT|n}</h1>
-##
-##<p class="line">
-##<label class="label_input" for="mail">性别</label>\
-##<select name="sex" class="sex_select">
-##<option value="1">男</option>
-##<option value="2">女</option>
-##</select>
-##<span class="sex_hint">* 注册后不可修改</span>
-##</p>
-##${errtip.sex|n}
-##
-##<p class="line">
-##<label class="label_input" for="mail">邮箱</label>\
-##<input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
-##${errtip.mail|n}
-##
-##<div class="cl btns" id="form_btn">
-##<span id="login_link">已有账号 ? <a href="/auth/login">点此登录</a></span>
-##<span class="R btnw"><button type="button" class="step_btn" id="step1">注册</button></span>
-##</div>
-##<div class="other_hint reg_page_hint">
-##使用合作网站账号登录
-##</div>
-##<div class="other_login reg_page">
-##    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/2.ico" class="other_login_img">豆瓣</a>
-##    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/9.ico" class="other_login_img">人人</a>
-##    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/3.ico" class="other_login_img">新浪</a>
-##    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/8.ico" class="other_login_img">腾讯</a>
-##    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/5.ico" class="other_login_img">网易</a>
-##    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/12.ico" class="other_login_img">饭否</a>
-##    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/11.ico" class="other_login_img">开心</a>
-##    <a href="" class="other_login_reg_a"><img src="//${FS_DOMAIN}/img/ico/oauth/1.ico" class="other_login_img">谷歌</a>
-##</div>
-##</div>
-##<div class="main_block" id="mb2">
-##    <div class="head_hint">
-##        <p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>
-##        <p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
-##        <p class="hint_p">首先 ，请介绍一下自己 :)</p>
-##    </div>
-##
-##</div>
-##<div class="main_block" id="mb3">
-##    <div class="head_hint">
-##        <p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>
-##        <p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
-##        <p class="hint_p">首先 ，请介绍一下自己 :)</p>
-##    </div>
-##
-##    <p class="job_block">
-##        <input class="job_unit" name="job_unit" placeholder="单位"><input class="job_title" name="job_title" placeholder="头衔"><input class="job_txt" name="job_txt" placeholder="经历简述 ... ..."><br/>
-##        <span class="job_begin">
-##        <select name="job_begin_year" class="job_begin_year"><option value=0> - 年 - </option></select>
-##        <select name="job_begin_month" class="job_begin_month"><option value=0> - 月 - </option></select>
-##        </span>-
-##        <span class="job_end">
-##        <select name="job_end_year" class="job_end_year"><option value=0> - 年 - </option></select>
-##        <select name="job_end_month" class="job_end_month"><option value=0> - 月 - </option></select>
-##        </span>
-##    </p>
-##    <p>
-##        <a href="javascript:void(0)" class="add_job_a">添加经历</a>
-##    </p>
-##    <div class="cl btns">
-##    <span class="L btnw job_next_btn"><button type="button" class="step_btn" id="step3">下一步</button></span>
-##    </div>
-##</div>
-##<div class="main_block" id="mb4">
-##    <div class="head_hint">
-##        <p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>
-##        <p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
-##        <p class="hint_p">首先 ，请介绍一下自己 :)</p>
-##    </div>
-##
-##    <p class="f14">
-##        我的座右铭是<input type="text" name="motto" class="motto">
-##    </p>
-##    <p class="f14">
-##        <script>select_birthday("birthday",'00000000')</script>
-##        <span id="birthday"></span>出生 , 如今<select name="marry" class="marry"><option value="1">尚是单身</option><option value="2">正在恋爱</option><option value="3">已经结婚</option></select>
-##    </p>
-##    <p class="p_addr f14">
-##       现居<script>select_pid("pid_now", 0)</script><span id="pid_now"></span>
-##    </p>
-##    <p class="p_addr f14">
-##       家乡<script>select_pid("pid_home", 0)</script><span id="pid_home"></span>
-##    </p>
-##    <p class="f14">我会向别人这样介绍自己</p>
-##    <textarea class="f14" placeholder="爱吃什么 , 偶像是谁 , 想去的地方 , 追逐的理想 。 人生是一场旅行 ..." name="txt" id="txt" class=""></textarea>
-##    
-##    <div class="cl btns">
-##    <span class="L btnw job_next_btn"><button type="submit">保存</button></span>
-##    </div>
-##</div>
-##
-##
-##</%htm:form>
-##
-##</div>
-##</div>
-##<script id="zsite_ico" type="text/x-jquery-tmpl">
-##<%text>
-##<div class="zsite_ico c">
-##<img src="${$data[0]}">
-##<div>${$data[1]}</div>
-##<div>${$data[2]}</div>
-##<div>${$data[3]}</div>
-##</div>
-##</%text>
-##</script>
-##
-##%if zsite_list:
-##<%
-##Ico_url_bind_with_default(zsite_list)
-##Career_bind(zsite_list)
-##Zsite_ico_list = []
-##For i in zsite_list:
-##    unit , title = i.career
-##    zsite_ico_list.append(
-##        ( i.ico, i.name, unit, title)
-##    )
-##%>
-##<script>
-##Zsite_ico_list(${json_encode(zsite_ico_list)|n})
-##</script>
-##%endif
-##

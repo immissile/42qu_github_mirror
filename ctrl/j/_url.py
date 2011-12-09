@@ -7,4 +7,5 @@ import mark
 import site
 import hero
 import fav
+import auth
 import com 
