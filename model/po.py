@@ -31,7 +31,6 @@ PO_CN_EN = (
     (CID_VIDEO, 'video', '视频', '场'),
     (CID_AUDIO, 'audio', '音乐', '段'),
     (CID_EVENT, 'event', '活动', '次'),
-    (CID_REC, 'recommend', '推荐', '回'),
 )
 
 PO_CID = tuple([
