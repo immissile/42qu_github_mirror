@@ -214,7 +214,6 @@ function form(form_id, error){
             if(o.error){
                 btn.attr('disabled',false);
                 $(".form_loading").remove()
-                error(o)
                 return
             }   
             //$.fancybox.hideActivity();
