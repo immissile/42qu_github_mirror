@@ -58,18 +58,13 @@ def feed_tuple_by_db(id):
     else:
         _rid = rid
 
-    if cid == CID_REC:
-        _create_time = Po.mc_get(m.rid).create_time
-    else:
-        _create_time = m.create_time
-
     result = [
         m.user_id,
         cid,
         _rid,
         m.zsite_id,
         reply_count,
-        _create_time,
+        m.create_time,
         name,
         #vote_count(id)
     ]
@@ -129,20 +124,32 @@ def dump_zsite(zsite):
 
 
 
-def render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict ,sort_dict):
-    zsite_id_list = []
+def render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict , sort_dict):
+    #zsite_id_list = []
 
-    for i in rt_user_dict.itervalues():
-        zsite_id_list.extend(i)
+    #for i in rt_dict['author'].itervalues():
+    #    zsite_id_list.extend(i)
 
-    zsite_dict = Zsite.mc_get_dict(filter(bool, zsite_id_list))
+    #zsite_dict = Zsite.mc_get_dict(filter(bool, zsite_id_list))
     fav_dict = fav_cid_dict(zsite_id, id_list)
     r = []
     for id, i in zip(id_list, feed_tuple_list(id_list)):
-        rt_id_list = rt_user_dict[id]
+        #rt_id_list = rt_dict[id]['author']
 
-        recommends = map(dump_zsite, map(zsite_dict.get, rt_id_list))
-        out = [tmp + (tuple(rt_dict['%s_%s'%(str(tmp[2]), str(id))]), ) for tmp in recommends]
+        #recommends = [ Zsite.mc_get(rt_dict[id]['author']).name,
+        #recommends = map(dump_zsite, map(zsite_dict.get, rt_id_list))
+        #out = [tmp + (tuple(rt_dict['%s_%s'%(str(tmp[2]), str(id))]), ) for tmp in recommends]
+
+        out = []
+        if id in rt_dict:
+            recom = []
+
+            for k, v in rt_dict[id]['commends'].items():
+                entry = []
+                zsite = Zsite.mc_get(k)
+                entry.extend([zsite.name, zsite.link, zsite.id])
+                entry[2] = v
+                out.append(entry)
 
         result = [
             i[0],
@@ -151,9 +158,12 @@ def render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict ,sort_dict):
             fav_dict[id],
         ]
         result.extend(i[1:])
+
+        if out:
+            result[8] = rt_dict[id]['newest']
         r.append(result)
 
-    return sorted(r,key = lambda x: sort_dict.get(x[1]),reverse=True)
+    return sorted(r, key=lambda x: sort_dict.get(x[1]), reverse=True)
 
 def render_zsite_feed_list(user_id, id_list):
     fav_dict = fav_cid_dict(user_id, id_list)
@@ -203,7 +213,7 @@ def zsite_id_list_by_follow(zsite_id):
 def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     zsite_id_list = zsite_id_list_by_follow(zsite_id)
     rt_user_dict = defaultdict(set)
-    rt_dict = defaultdict(set)
+    rt_dict = defaultdict(dict)
     id_list = []
     ###
     sort_dict = defaultdict(list)
@@ -213,14 +223,26 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
         id = i.id
         po = Po.mc_get(id)
         if po.cid == CID_REC:
-            rt_user_dict[po.rid].add(po.user_id)
-            rt_dict['%s_%s'%(str(po.user_id), str(po.rid))].add((po.txt, po.id))
+            if 'newest' not in rt_dict[po.rid]:
+                rt_dict[po.rid]['newest'] = po.create_time
+
+            if 'commends' not in rt_dict[po.rid]:
+                rt_dict[po.rid]['commends'] = {}
+                rt_dict[po.rid]['commends'][po.user_id] = [(po.txt, po.id), ]
+            else:
+                if po.user_id in rt_dict[po.rid]['commends']:
+                    rt_dict[po.rid]['commends'][po.user_id].append((po.txt, po.id))
+                else:
+                    rt_dict[po.rid]['commends'][po.user_id] = [(po.txt, po.id), ]
+
             id_list.append(po.rid)
-            if po.rid not in sort_dict:
-                sort_dict[po.rid]= po.id
+            if sort_dict[po.rid] < po.id:
+                sort_dict[po.rid] = po.id
         else:
             id_list.append(i.id)
-            sort_dict[po.id]= po.id
+            if po.id not in sort_dict or \
+                    sort_dict[po.id] < po.id:
+                sort_dict[po.id] = po.id
 
         id_list = list(set(id_list))
 
