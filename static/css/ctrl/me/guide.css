@@ -113,7 +113,7 @@ margin-right:8px;
 .add_school_a, .add_job_a{
 font-size:14px;
 display:block;
-margin-top:-14px;
+margin-top:-10px;
 width:60px;
 }
 .form_reg{
@@ -149,4 +149,13 @@ vertical-align:4px;
 }
 #form2, #form4,#form3{
 display:none
+}
+#form2{
+margin-left:109px;
+}
+#form3,#form4{
+margin-left:108px;
+}
+.cl{
+margin-top:6px;
 }
