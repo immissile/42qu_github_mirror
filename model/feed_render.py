@@ -58,13 +58,18 @@ def feed_tuple_by_db(id):
     else:
         _rid = rid
 
+    if cid == CID_REC:
+        _create_time = Po.mc_get(m.rid).create_time
+    else:
+        _create_time = m.create_time
+
     result = [
         m.user_id,
         cid,
         _rid,
         m.zsite_id,
         reply_count,
-        m.create_time,
+        _create_time,
         name,
         #vote_count(id)
     ]
@@ -124,7 +129,7 @@ def dump_zsite(zsite):
 
 
 
-def render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict ):
+def render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict ,sort_dict):
     zsite_id_list = []
 
     for i in rt_user_dict.itervalues():
@@ -137,9 +142,7 @@ def render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict ):
         rt_id_list = rt_user_dict[id]
 
         recommends = map(dump_zsite, map(zsite_dict.get, rt_id_list))
-        out = []
-        for tmp in recommends:
-            out.append(tmp + (tuple(rt_dict['%s_%s'%(str(tmp[2]), str(id))]), ))
+        out = [tmp + (tuple(rt_dict['%s_%s'%(str(tmp[2]), str(id))]), ) for tmp in recommends]
 
         result = [
             i[0],
@@ -150,7 +153,7 @@ def render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict ):
         result.extend(i[1:])
         r.append(result)
 
-    return r
+    return sorted(r,key = lambda x: sort_dict.get(x[1]),reverse=True)
 
 def render_zsite_feed_list(user_id, id_list):
     fav_dict = fav_cid_dict(user_id, id_list)
@@ -202,6 +205,9 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     rt_user_dict = defaultdict(set)
     rt_dict = defaultdict(set)
     id_list = []
+    ###
+    sort_dict = defaultdict(list)
+    ###
     id = 0
     for i in feed_merge_iter(zsite_id_list, limit, begin_id):
         id = i.id
@@ -210,8 +216,11 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
             rt_user_dict[po.rid].add(po.user_id)
             rt_dict['%s_%s'%(str(po.user_id), str(po.rid))].add((po.txt, po.id))
             id_list.append(po.rid)
+            if po.rid not in sort_dict:
+                sort_dict[po.rid]= po.id
         else:
             id_list.append(i.id)
+            sort_dict[po.id]= po.id
 
         id_list = list(set(id_list))
 
@@ -219,7 +228,7 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
         #    rt_user_dict[id] = []
         #if rid:
         #    rt_user_dict[id].append(i.zsite_id)
-    return render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict), id
+    return render_feed_list(id_list, rt_user_dict, zsite_id, rt_dict, sort_dict), id
 
 
 
