@@ -1,14 +1,14 @@
-.form_reg{
+#form_reg{
 font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
 line-height:36px;
 padding:48px 0 24px;
 
 }
-.form_reg input, .form_reg, .form_reg select{
+#form_reg input, #form_reg, #form_reg select{
 font-size:16px;
 line-height:18px;
 }
-.form_reg .label_input{
+#form_reg .label_input{
 margin-right:8px;
 *vertical-align:8px;
 }
@@ -26,22 +26,22 @@ margin-left:36px;
 #login .btnw{
 margin-left:40px;
 }
-.form_reg .line{
+#form_reg .line{
 text-align:center;
 }
-.form_reg h1{
+#form_reg h1{
 margin:0 auto 64px;
 height:54px;
 width:467px;
 overflow:hidden;
 text-align:center;
 }
-.form_reg .form_reg_h1{
+#form_reg #form_reg_h1{
 margin-bottom:48px;
 background:url(/img/gif/logo.gif) no-repeat;
 text-indent:-999px;
 }
-.form_reg .logo{
+#form_reg .logo{
 background:url(/img/gif/logo.gif) no-repeat;
 text-indent:-999px;
 height:54px;
@@ -57,11 +57,11 @@ width:auto;
 line-height:42px;
 _line-height:40px;
 }
-.form_reg .errtip{
+#form_reg .errtip{
 width:334px;
 margin:auto;
 }
-.form_reg .errtip{
+#form_reg .errtip{
 color:#f00;
 padding:0 0 16px 21px;
 }
@@ -101,11 +101,11 @@ padding-top:4px;
 margin-right:128px;
 line-height:32px
 }
-.form_reg .logo_txt p{
+#form_reg .logo_txt p{
 line-height:32px;
 padding:0;
 }
-.form_reg .logo_txt .tr{
+#form_reg .logo_txt .tr{
 padding-top:7px;
 }
 .logo_txt .zsite_ico{
@@ -174,7 +174,7 @@ letter-spacing:1px;
 line-height:21px;
 font-size:16px;
 }
-.form_reg p{
+#form_reg p{
 padding:12px 0;
 }
 .p_b{
