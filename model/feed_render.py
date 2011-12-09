@@ -20,8 +20,6 @@ from days import begin_end_by_minute
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from event import Event
 from fav import fav_cid_dict
-
-
 FEED_TUPLE_DEFAULT_LEN = 12
 
 FEED_TUPLE_DEFAULT_LEN_FOR_ZSITE = 10
@@ -46,8 +44,6 @@ def feed_tuple_by_db(id):
         reply_count = answer_count(id)
     else:
         reply_count = m.reply_count
-
-
     if cid == CID_PHOTO:
         _rid = fs_url_jpg(677, rid)
     elif cid == CID_AUDIO:
@@ -92,8 +88,6 @@ def feed_tuple_by_db(id):
         )
 
     return result
-
-
 class FeedBase(object):
     def __init__(self, id, rt_id_list, cid, reply_count, zsite_id, vote, name):
         self.id = id
@@ -121,29 +115,12 @@ def dump_zsite(zsite):
     if zsite:
         return (zsite.name, zsite.link, zsite.id)
     return (0, 0)
-
-
-
 def render_feed_list(id_list,  zsite_id, rt_dict , sort_dict):
-    #zsite_id_list = []
-
-    #for i in rt_dict['author'].itervalues():
-    #    zsite_id_list.extend(i)
-
-    #zsite_dict = Zsite.mc_get_dict(filter(bool, zsite_id_list))
     fav_dict = fav_cid_dict(zsite_id, id_list)
     r = []
     for id, i in zip(id_list, feed_tuple_list(id_list)):
-        #rt_id_list = rt_dict[id]['author']
-
-        #recommends = [ Zsite.mc_get(rt_dict[id]['author']).name,
-        #recommends = map(dump_zsite, map(zsite_dict.get, rt_id_list))
-        #out = [tmp + (tuple(rt_dict['%s_%s'%(str(tmp[2]), str(id))]), ) for tmp in recommends]
-
         out = []
         if id in rt_dict:
-            recom = []
-
             for k, v in rt_dict[id]['commends'].items():
                 entry = []
                 zsite = Zsite.mc_get(k)
@@ -189,8 +166,6 @@ def render_zsite_feed_list(user_id, id_list):
             id,
             fav_dict[id],
         ]
-
-
         if cid not in (CID_WORD, CID_EVENT):
             result.extend(i[1:9])
             result.extend(zsite_tag_id_tag_name_by_po_id(zsite_id, id))
@@ -208,8 +183,6 @@ def zsite_id_list_by_follow(zsite_id):
     r.append(0)
     r.append(zsite_id)
     return r
-
-
 def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     zsite_id_list = zsite_id_list_by_follow(zsite_id)
     rt_dict = defaultdict(dict)
@@ -247,14 +220,7 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
         id_list = list(set(id_list))
 
-        #if id not in rt_user_dict:
-        #    rt_user_dict[id] = []
-        #if rid:
-        #    rt_user_dict[id].append(i.zsite_id)
     return render_feed_list(id_list,  zsite_id, rt_dict, sort_dict), id
-
-
-
 if __name__ == '__main__':
     for i in render_feed_by_zsite_id(10071241, 100):
         print i
