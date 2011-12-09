@@ -15,6 +15,11 @@ mc_po_recommend_id_by_rid_user_id = McCache('PoRecommendIdByRidUserId:%s')
 mc_reply_id_by_recommend = McCache('ReplyIdByRecommend:%s')
 
 
+def rm_rec_po_by_poid(user_id,id):
+    ''' DANGEROUS USE WITH CAUTION '''
+    for po in Po.where('cid = %s and rid=%s',CID_REC,id):
+        po_rm(po.user_id,po.id)
+
 def po_recommend_new(rid, user_id, name, reply_id=None):
     rec_po = Po.mc_get(rid)
 
@@ -22,7 +27,7 @@ def po_recommend_new(rid, user_id, name, reply_id=None):
         CID_REC,
         user_id,
         name,
-        state=state,
+        state=STATE_ACTIVE,
         rid=rid
     )
     recommend.feed_new()

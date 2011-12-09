@@ -85,10 +85,15 @@ target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}{{/eac
 {{if rt_list.length}} 
 <div class='rel'>
 {{each rt_list}}
-{{each(i,v) $value.txt}}
-<a target="_blank" class='fcmname c9 TPH'  href="${$value.link}">${$value.name}</a> : ${v[0]} <a class="zsite_reply" href="/po/${v[1]}" target="_top"></a> <br/>
+{{if $value.txt[1]!=""}}
+<a target="_blank" class='fcmname c9 TPH'  href="${$value.link}">${$value.name}</a> : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_top"></a> <br/>
+{{/if}}
 {{/each}}
-{{/each}}
+{{each rt_list}}
+{{if $value.txt[1]==""}}
+<a target="_blank" class='fcmname c9 TPH'  href="${$value.link}">${$value.name}</a>
+{{/if}}
+{{/each}}推荐
 </div>
 {{/if}}
 
@@ -162,16 +167,10 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
     </span>
         <a href="/${id}" target="_blank">${create_time}</a>
         {{if rt_list.length}} 
-<span class="mr3">,</span>
+<span class="mr3"></span>
             {{if rt_list.length == 1 && rt_list[0] == 0}}
 广播
             {{else}}
-        <span>
-            {{each rt_list}}
-<a href="${$value.link}" target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}
-            {{/each}}
-        </span>
-        {{if rt_list.length > 1}}, ${rt_list.length}人{{/if}} 推荐
             {{/if}}
         {{/if}}
     </div>

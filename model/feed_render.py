@@ -119,17 +119,16 @@ def dump_zsite(zsite):
     return (0, 0)
 
 
-def render_feed_list(id_list, zsite_id, rt_dict , sort_dict):
+def render_feed_list(id_list, zsite_id, rt_dict) :
     fav_dict = fav_cid_dict(zsite_id, id_list)
     r = []
     for id, i in zip(id_list, feed_tuple_list(id_list)):
         out = []
         if id in rt_dict:
-            for k, v in rt_dict[id]['commends'].items():
+            for  v in rt_dict[id]:
                 entry = []
-                zsite = Zsite.mc_get(k)
-                entry.extend([zsite.name, zsite.link, zsite.id])
-                entry[2] = v
+                zsite = Zsite.mc_get(v[2])
+                entry.extend([zsite.name, zsite.link, zsite.id,v])
                 out.append(entry)
 
         result = [
@@ -140,11 +139,10 @@ def render_feed_list(id_list, zsite_id, rt_dict , sort_dict):
         ]
         result.extend(i[1:])
 
-        if out:
-            result[8] = rt_dict[id]['newest']
         r.append(result)
 
-    return sorted(r, key=lambda x: sort_dict.get(x[1]), reverse=True)
+    return r
+    #return sorted(r, key=lambda x: sort_dict.get(x[1]), reverse=True)
 
 def render_zsite_feed_list(user_id, id_list):
     fav_dict = fav_cid_dict(user_id, id_list)
@@ -190,7 +188,7 @@ def zsite_id_list_by_follow(zsite_id):
 
 def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     zsite_id_list = zsite_id_list_by_follow(zsite_id)
-    rt_dict = defaultdict(OrderedDict)
+    rt_dict = defaultdict(list)
 
     id_list = []
     id = 0
@@ -201,16 +199,13 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
             id = po.rid
             od = rt_dict[id]
             user_id = po.user_id
-            data = (po.id, po.txt)
-            if user_id in od:
-                od[user_id].append(data)
-            else:
-                od[user_id] = [data]
+            data = (po.id, po.txt,po.user_id)
+            od.append(data)
         else:
             id = po.id
 
-        if id not in rt_dict:
-            feed_id_list.append(id)
+        if id not in id_list:
+            id_list.append(id)
 
 
     return render_feed_list(id_list, zsite_id, rt_dict), id
