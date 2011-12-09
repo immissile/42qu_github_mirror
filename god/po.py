@@ -129,13 +129,13 @@ class PoShowSet(Base):
         next = self.get_argument('next', '/po')
         broad = self.get_argument('broad', None)
         site = self.get_argument('site', None)
-        sync = self.get_argument('sync',None)
+        sync = self.get_argument('sync', None)
         if po:
             if broad:
                 po_show_new(po)
             else:
                 po_show_rm(po)
-            
+
             if sync:
                 site_sync_new(id)
             else:

@@ -3,7 +3,7 @@
 from _handler import Base
 from _urlmap import urlmap
 from zkit.page import page_limit_offset
-from model.weekly_mail import weekly_mail_new, weekly_mail_list_limit, weekly_mail_total, weekly_mail_rm, WeeklyMail,weekly_mail_update
+from model.weekly_mail import weekly_mail_new, weekly_mail_list_limit, weekly_mail_total, weekly_mail_rm, WeeklyMail, weekly_mail_update
 from zkit.page import page_limit_offset
 
 PAGE_LIMIT = 20
@@ -17,14 +17,14 @@ class Po(Base):
         else:
             wm = None
 
-        self.render(wm = wm)
+        self.render(wm=wm)
 
     def post(self, id=0):
         title = self.get_argument('title', None)
         txt = self.get_argument('txt', None)
         if id:
-            state = int(self.get_argument('state', None)) 
-            weekly_mail_update(id,title,txt,state)
+            state = int(self.get_argument('state', None))
+            weekly_mail_update(id, title, txt, state)
         else:
             wm = weekly_mail_new(title, txt)
         return self.redirect('/weekly/mail-1')

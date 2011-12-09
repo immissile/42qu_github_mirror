@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
-from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO,CID_REC, \
-CID_EVENT_NOTICE, CID_PRODUCT, CID_COM, CID_REVIEW 
+from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, CID_REC,\
+CID_EVENT_NOTICE, CID_PRODUCT, CID_COM, CID_REVIEW
 from feed import feed_new, mc_feed_tuple, feed_rm
 from feed_po import mc_feed_po_iter, mc_feed_po_dict
 from gid import gid
@@ -102,7 +102,7 @@ class Po(McModel, ReplyMixin):
 
     @attrcache
     def target(self):
-        if self.cid in (CID_WORD, CID_ANSWER, CID_EVENT_NOTICE, CID_EVENT_FEEDBACK,CID_REC):
+        if self.cid in (CID_WORD, CID_ANSWER, CID_EVENT_NOTICE, CID_EVENT_FEEDBACK, CID_REC):
             return Po.mc_get(self.rid)
 
     question = target
@@ -327,10 +327,13 @@ def po_rm(user_id, id):
         elif cid == CID_EVENT_NOTICE:
             from model.po_event import mc_po_event_notice_id_list_by_event_id
             mc_po_event_notice_id_list_by_event_id.delete(rid)
-        elif cid == CID_REC:
+
+        if cid == CID_REC:
             from model.po_recommend import po_recommend_rm_reply
             po_recommend_rm_reply(id, user_id)
-
+        else:
+            #TODO : 删除所有的推荐, 用mq实现
+            pass
 
         return _po_rm(user_id, po)
 
@@ -436,7 +439,7 @@ def mc_flush_cid(user_id, cid, is_self):
     for i in key:
         po_list_count.delete(i)
         mc_po_id_list.delete(i)
-    
+
 
 def mc_flush_cid_list_all(user_id, cid_list):
     for is_self in (True, False):
@@ -463,13 +466,13 @@ def mc_flush_zsite_cid(zsite_id, cid):
 if __name__ == '__main__':
     pass
     exist = set()
-    for i in Po.where(cid=CID_NOTE).where("zsite_id!=0").where("state>%s"%STATE_RM):
+    for i in Po.where(cid=CID_NOTE).where('zsite_id!=0').where('state>%s'%STATE_RM):
         name = i.name
         if name in exist:
             print len(exist), name
             _po_rm(i.user_id, i)
         else:
             exist.add(name)
-        
 
- 
+
+

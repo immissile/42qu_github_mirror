@@ -1,7 +1,7 @@
 #coding:utf-8
 from itertools import chain
 
-JOB_KIND =[[[0, '计算机软件'],
+JOB_KIND = [[[0, '计算机软件'],
   [1, '计算机硬件'],
   [2, '计算机服务(系统、数据服务，维修)'],
   [3, '通信/电信/网络设备'],
@@ -54,9 +54,9 @@ JOB_KIND =[[[0, '计算机软件'],
  [[1000, '农业/渔业/林业'],
   [1001, '多元化业务集团公司'],
   [1002, '其他行业']]]
-JOBKIND2CN=dict(chain.from_iterable(JOB_KIND))
+JOBKIND2CN = dict(chain.from_iterable(JOB_KIND))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     #print dict(chain.from_iterable(JOB_KIND))
     from json import dumps
     print dumps(JOB_KIND)

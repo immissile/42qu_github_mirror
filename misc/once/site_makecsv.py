@@ -20,9 +20,9 @@ def can_rec_site_id_list():
             result.append(zsite_id)
     return set(result)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     result = []
     for z in Zsite.mc_get_list(can_rec_site_id_list()):
-        result.append([z.id,z.name])
-    writer = csv.writer(open('site_id_name.csv',"wb"),quoting=csv.QUOTE_ALL) 
+        result.append([z.id, z.name])
+    writer = csv.writer(open('site_id_name.csv', 'wb'), quoting=csv.QUOTE_ALL)
     writer.writerows(result)

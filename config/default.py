@@ -99,7 +99,7 @@ def debug(o):
 
 def finish(o):
     MYSQL_MAIN = o.MYSQL_MAIN
-    
+
     o.MQ_USE = MYSQL_MAIN
 
     o.FILE_PATH = '/mnt/%s'%MYSQL_MAIN

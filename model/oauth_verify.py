@@ -81,7 +81,7 @@ def api_renren_verify(key, secret, oauth_id):
         ))
     if json.loads(res):
         m = json.loads(res)
-        if isinstance(m,dict) and m.get('error_code'):
+        if isinstance(m, dict) and m.get('error_code'):
             oauth_rm_by_oauth_id(oauth_id)
         else:
             return True

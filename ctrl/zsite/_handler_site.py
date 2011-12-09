@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from _handler import ZsiteBase, _login_redirect
-from model.cid import CID_SITE,CID_COM
+from model.cid import CID_SITE, CID_COM
 from model.zsite_site import ZSITE_STATE_SITE_SECRET, site_can_admin
 
 class SiteBase(ZsiteBase):
@@ -9,7 +9,7 @@ class SiteBase(ZsiteBase):
         zsite = self.zsite
         current_user_id = self.current_user_id
 
-        if zsite.cid not in (CID_SITE,CID_COM):
+        if zsite.cid not in (CID_SITE, CID_COM):
             return self.redirect('/')
 
 

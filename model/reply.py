@@ -39,7 +39,7 @@ class ReplyMixin(object):
         from zsite import user_can_reply
         user_id = user.id
         cid = self.cid
-        if cid not in (CID_SITE,CID_COM):
+        if cid not in (CID_SITE, CID_COM):
             if not user_can_reply(user):
                 return
         if is_spammer(user_id):
@@ -158,9 +158,9 @@ class Reply(McModel):
     @attrcache
     def txt(self):
         return txt_get(self.id)
-  
-    def txt_set(self,txt):
-        return txt_new(self.id,txt)
+
+    def txt_set(self, txt):
+        return txt_new(self.id, txt)
 
 
     @property

@@ -15,7 +15,7 @@ from fs import fs_set_jpg, fs_url_jpg
 from zkit.pic import pic_fit_width_cut_height_if_large
 
 
-mc_product_id_list_by_com_id = McCacheA("ProductIdListByComId:%s") 
+mc_product_id_list_by_com_id = McCacheA('ProductIdListByComId:%s')
 
 def po_product_new(user_id, name, _info_json, zsite_id=0, state=STATE_ACTIVE):
     if not name and not _info_json :
@@ -34,7 +34,7 @@ def po_product_update(po_id, _info_json):
         po.txt_set(info_json)
         po.save()
 
-@mc_product_id_list_by_com_id("{id}")
+@mc_product_id_list_by_com_id('{id}')
 def product_id_list_by_com_id(id):
     return Po.where(zsite_id=id, cid=CID_PRODUCT, state=STATE_ACTIVE).col_list(col='id')
 
@@ -63,16 +63,16 @@ def product_pic_new(com_id, product_id, pic):
 
 
 def product_id_list(limit, offset):
-    return po_id_list(None,CID_PRODUCT,False,limit,offset)
+    return po_id_list(None, CID_PRODUCT, False, limit, offset)
 
 def product_count():
-    return po_list_count(None,CID_PRODUCT, False)
+    return po_list_count(None, CID_PRODUCT, False)
 
 def product_list(limit, offset):
-    return po_view_list(None,CID_PRODUCT,False, limit, offset)
+    return po_view_list(None, CID_PRODUCT, False, limit, offset)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 
-    print product_id_list(100,0)
+    print product_id_list(100, 0)
     print product_count()
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from _db import cursor_by_table, McModel,  McCache, McNum, McCacheA
+from _db import cursor_by_table, McModel, McCache, McNum, McCacheA
 from zsite import Zsite
 from model.cid import CID_SITE
 from zkit.algorithm.wrandom import sample_or_shuffle

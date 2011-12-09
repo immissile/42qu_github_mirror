@@ -34,21 +34,21 @@ def page_fetch(id):
 
 def main():
     count = 0
-    with open("zhihu.txt") as zhihu:
+    with open('zhihu.txt') as zhihu:
         for line in zhihu:
-            line = line.strip().split(" ", 2)
+            line = line.strip().split(' ', 2)
             id = line[1]
             if id.isdigit():
                 count += 1
                 print line[0], count
-                path = "zhihu/%s.html"%id
+                path = 'zhihu/%s.html'%id
                 if exists(path):
                     continue
                 try:
-                    html =  page_fetch(id)
+                    html = page_fetch(id)
                 except:
                     continue
-                with open(path,"w") as zhihu:
+                with open(path, 'w') as zhihu:
                     zhihu.write(html)
             sleep(.5)
 

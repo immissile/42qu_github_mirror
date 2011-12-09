@@ -147,21 +147,21 @@ class GoogleMixin(tornado.auth.OAuthMixin):
     _OAUTH_VERSION = '1.0'
     callback_url = callback_url
     _on_request = _on_request
-    def _oauth_request_token_url(self, callback_uri= None, extra_params=None):
+    def _oauth_request_token_url(self, callback_uri=None, extra_params=None):
         consumer_token = self._oauth_consumer_token()
         url = self._OAUTH_REQUEST_TOKEN_URL
         args = dict(
-            oauth_consumer_key=consumer_token["key"],
-            oauth_signature_method="HMAC-SHA1",
+            oauth_consumer_key=consumer_token['key'],
+            oauth_signature_method='HMAC-SHA1',
             oauth_timestamp=str(int(time.time())),
             oauth_nonce=binascii.b2a_hex(uuid.uuid4().bytes),
-            oauth_version=getattr(self, "_OAUTH_VERSION", "1.0a"),
+            oauth_version=getattr(self, '_OAUTH_VERSION', '1.0a'),
         )
-        args["scope"] = 'http://www.google.com/m8/feeds/contacts/default/full'
-        signature = _oauth_signature(consumer_token, "GET", url, args)
+        args['scope'] = 'http://www.google.com/m8/feeds/contacts/default/full'
+        signature = _oauth_signature(consumer_token, 'GET', url, args)
 
-        args["oauth_signature"] = signature
-        return url + "?" + urllib.urlencode(args)
+        args['oauth_signature'] = signature
+        return url + '?' + urllib.urlencode(args)
 
     def google_request(self, path, callback, access_token=None,
                                post_args=None, **args):
@@ -171,8 +171,8 @@ class GoogleMixin(tornado.auth.OAuthMixin):
 
     def _oauth_consumer_token(self):
         return dict(
-                key = GOOGLE_CONSUMER_KEY,
-                secret = GOOGLE_CONSUMER_SECRET
+                key=GOOGLE_CONSUMER_KEY,
+                secret=GOOGLE_CONSUMER_SECRET
                 )
 
     def _oauth_get_user(self, access_token, callback):
@@ -180,16 +180,16 @@ class GoogleMixin(tornado.auth.OAuthMixin):
         user_id = access_token.get('user_id') or 'default'
         self.google_request(
                 user_id,
-                access_token=access_token,callback=callback
-                ) 
-    
+                access_token=access_token, callback=callback
+                )
+
     def _parse_user_response(self, callback, xml):
         if xml:
             from zkit.bot_txt import txt_wrap_by
-            soup = txt_wrap_by('<author>','</author>',xml)
+            soup = txt_wrap_by('<author>', '</author>', xml)
             user = dict(
-                uid=txt_wrap_by('<email>','</email>',soup),
-                name=txt_wrap_by('<name>','</name>',soup)
+                uid=txt_wrap_by('<email>', '</email>', soup),
+                name=txt_wrap_by('<name>', '</name>', soup)
             )
         else:
             user = None
@@ -197,12 +197,12 @@ class GoogleMixin(tornado.auth.OAuthMixin):
 
 class RenrenMixin(tornado.auth.OAuth2Mixin):
     _OAUTH_AUTHORIZE_URL = 'https://graph.renren.com/oauth/authorize'
-    _OAUTH_ACCESS_TOKEN_URL = 'https://graph.renren.com/oauth/token' 
+    _OAUTH_ACCESS_TOKEN_URL = 'https://graph.renren.com/oauth/token'
     callback_url = callback_url
-    
-    def get_authenticated_user(self,callback_func,http_client=None):
-        callback = urlparse.urljoin(self.request.full_url(),self.callback_url())
-        oauth_request_token_url = self._oauth_request_token_url(callback,self._oauth_consumer_token()['client_id'],self._oauth_consumer_token()['client_secret'],self.get_argument('code',None),{'grant_type':'authorization_code'})
+
+    def get_authenticated_user(self, callback_func, http_client=None):
+        callback = urlparse.urljoin(self.request.full_url(), self.callback_url())
+        oauth_request_token_url = self._oauth_request_token_url(callback, self._oauth_consumer_token()['client_id'], self._oauth_consumer_token()['client_secret'], self.get_argument('code', None), {'grant_type':'authorization_code'})
         if http_client is None:
             http_client = httpclient.AsyncHTTPClient()
         http_client.fetch(oauth_request_token_url,
@@ -210,16 +210,16 @@ class RenrenMixin(tornado.auth.OAuth2Mixin):
 
     def _on_access_token(self, callback, response):
         if response.error:
-            logging.warning("Could not fetch access token")
+            logging.warning('Could not fetch access token')
             callback(None)
             return
         body = json.loads(response.body)
         callback(body)
-    
+
     def _oauth_consumer_token(self):
         return dict(
-                client_id = RENREN_CONSUMER_KEY,
-                client_secret = RENREN_CONSUMER_SECRET
+                client_id=RENREN_CONSUMER_KEY,
+                client_secret=RENREN_CONSUMER_SECRET
                 )
 
 
@@ -303,12 +303,12 @@ class FanfouMixin(tornado.auth.OAuthMixin):
     callback_url = callback_url
     _parse_user_response = _parse_user_response
     _on_request = _on_request
-    
-    def fanfou_request(self, path, callback, access_token=None, post_args=None,**args):
+
+    def fanfou_request(self, path, callback, access_token=None, post_args=None, **args):
         return xxx_request(
-                self,path,callback,access_token,post_args,**args
+                self, path, callback, access_token, post_args, **args
                 )
-    
+
     def _oauth_consumer_token(self):
         return dict(
             key=FANFOU_CONSUMER_KEY,
@@ -360,9 +360,9 @@ class KaixinMixin(tornado.auth.OAuth2Mixin):
     _OAUTH_AUTHORIZE_URL = 'http://api.kaixin001.com/oauth2/authorize'
     _OAUTH_ACCESS_TOKEN_URL = 'https://api.kaixin001.com/oauth2/access_token'
     callback_url = callback_url
-    def get_authenticated_user(self,callback_func,http_client=None):
-        callback = urlparse.urljoin(self.request.full_url(),self.callback_url())
-        oauth_request_token_url = self._oauth_request_token_url(callback,self._oauth_consumer_token()['key'],self._oauth_consumer_token()['secret'],self.get_argument('code',None),{'grant_type':'authorization_code'})
+    def get_authenticated_user(self, callback_func, http_client=None):
+        callback = urlparse.urljoin(self.request.full_url(), self.callback_url())
+        oauth_request_token_url = self._oauth_request_token_url(callback, self._oauth_consumer_token()['key'], self._oauth_consumer_token()['secret'], self.get_argument('code', None), {'grant_type':'authorization_code'})
         if http_client is None:
             http_client = httpclient.AsyncHTTPClient()
         http_client.fetch(oauth_request_token_url,
@@ -370,19 +370,19 @@ class KaixinMixin(tornado.auth.OAuth2Mixin):
 
     def _on_access_token(self, callback, response):
         if response.error:
-            logging.warning("Could not fetch access token")
+            logging.warning('Could not fetch access token')
             callback(None)
             return
         body = json.loads(response.body)
         access_token = body.get('access_token')
         if access_token:
-            user =  urllib.urlopen('https://api.kaixin001.com/users/me.json?access_token=%s'%access_token).read()
+            user = urllib.urlopen('https://api.kaixin001.com/users/me.json?access_token=%s'%access_token).read()
         user = json.loads(user)
         body.update(user)
         callback(body)
 
 
-    
+
     def _oauth_consumer_token(self):
         return dict(
             key=KAIXIN_CONSUMER_KEY,
@@ -402,50 +402,50 @@ class SohuMixin(tornado.auth.OAuthMixin):
     _on_request = _on_request
     def _on_access_token(self, callback, response):
         if response.error:
-            logging.warning("Could not fetch access token")
+            logging.warning('Could not fetch access token')
             callback(None)
             return
 
-        access_token = self._oauth_parse_response(response.body,'access')
+        access_token = self._oauth_parse_response(response.body, 'access')
         self._oauth_get_user(access_token, self.async_callback(
              self._on_oauth_get_user, access_token, callback))
-    
-    def _oauth_request_token_url(self, callback_uri= None, extra_params=None):
+
+    def _oauth_request_token_url(self, callback_uri=None, extra_params=None):
         consumer_token = self._oauth_consumer_token()
         url = self._OAUTH_REQUEST_TOKEN_URL
         args = dict(
-            oauth_consumer_key=consumer_token["key"],
-            oauth_signature_method="HMAC-SHA1",
+            oauth_consumer_key=consumer_token['key'],
+            oauth_signature_method='HMAC-SHA1',
             oauth_timestamp=str(int(time.time())),
             oauth_nonce=binascii.b2a_hex(uuid.uuid4().bytes),
-            oauth_version=getattr(self, "_OAUTH_VERSION", "1.0a"),
+            oauth_version=getattr(self, '_OAUTH_VERSION', '1.0a'),
         )
-        if getattr(self, "_OAUTH_VERSION", "1.0a") == "1.0a":
+        if getattr(self, '_OAUTH_VERSION', '1.0a') == '1.0a':
             if callback_uri:
-                args["oauth_callback"] = urlparse.urljoin(
+                args['oauth_callback'] = urlparse.urljoin(
                     self.request.full_url(), callback_uri)
             if extra_params: args.update(extra_params)
-            signature = _oauth10a_signature(consumer_token, "GET", url, args)
+            signature = _oauth10a_signature(consumer_token, 'GET', url, args)
         else:
-            signature = _oauth_signature(consumer_token, "GET", url, args)
+            signature = _oauth_signature(consumer_token, 'GET', url, args)
 
-        print signature,'!!'
-        args["oauth_signature"] = signature
-        print url + "?" + urllib.urlencode(args)
-        return url + "?" + urllib.urlencode(args)
-    
+        print signature, '!!'
+        args['oauth_signature'] = signature
+        print url + '?' + urllib.urlencode(args)
+        return url + '?' + urllib.urlencode(args)
+
     def _on_request_token(self, authorize_url, callback_uri, response):
         if response.error:
-            raise Exception("Could not get request token")
-        request_token = self._oauth_parse_response(response.body,'request')
-        data = (base64.b64encode(request_token["key"]) + b("|") +
-                base64.b64encode(request_token["secret"]))
-        self.set_cookie("_oauth_request_token", data)
-        args = dict(oauth_token=request_token["key"])
+            raise Exception('Could not get request token')
+        request_token = self._oauth_parse_response(response.body, 'request')
+        data = (base64.b64encode(request_token['key']) + b('|') +
+                base64.b64encode(request_token['secret']))
+        self.set_cookie('_oauth_request_token', data)
+        args = dict(oauth_token=request_token['key'])
         if callback_uri:
-            args["oauth_callback"] = urlparse.urljoin(
+            args['oauth_callback'] = urlparse.urljoin(
                 self.request.full_url(), callback_uri)
-        self.redirect(authorize_url + "?" + urllib.urlencode(args))
+        self.redirect(authorize_url + '?' + urllib.urlencode(args))
 
     def sohu_request(self, path, callback, access_token=None,
                            post_args=None, **args):
@@ -461,26 +461,26 @@ class SohuMixin(tornado.auth.OAuthMixin):
 
     def _oauth_get_user(self, access_token, callback):
         callback = self.async_callback(self._parse_user_response, callback)
-        print access_token,'!!!'
+        print access_token, '!!!'
         sohu_user_id = access_token['user_id']
         self.sohu_request(
             '/users/show/%s'%sohu_user_id,
             access_token=access_token, callback=callback
         )
 
-    def _oauth_parse_response(self,body,_type):
+    def _oauth_parse_response(self, body, _type):
         p = escape.parse_qs(body, keep_blank_values=False)
-        print body,'!!!'
-        token = dict(key=p[b("%s_token"%_type)][0], secret=p[b("%s_token_secret"%_type)][0])
+        print body, '!!!'
+        token = dict(key=p[b('%s_token'%_type)][0], secret=p[b('%s_token_secret'%_type)][0])
 
         # Add the extra parameters the Provider included to the token
-        special = (b("%s_token"%_type), b("%s_token_secret"%_type))
+        special = (b('%s_token'%_type), b('%s_token_secret'%_type))
         token.update((k, p[k][0]) for k in p if k not in special)
         return token
 
 class TwitterMixin(tornado.auth.TwitterMixin):
     callback_url = callback_url
-    
+
     def _oauth_consumer_token(self):
         return dict(
             key=TWITTER_CONSUMER_KEY,

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import re
-from _db import Model, McModel, McCache, McCacheA,  McNum, McCacheM
+from _db import Model, McModel, McCache, McCacheA, McNum, McCacheM
 from cid import CID_VIDEO
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
 from config import FS_URL
@@ -23,7 +23,7 @@ HTM_AUTOPLAY_SINA = """<embed wmode="opaque" src="http://p.you.video.sina.com.cn
 
 HTM_SINA = """<embed wmode="opaque" src="http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?vid=%s&uid=%s&autoPlay=0" class="video" allowFullScreen="true" "></embed>"""
 
-HTM_SLIDESHARE  = """<embed wmode="opaque" src="%s/swf/ssplayer2.swf?doc=%%s&rel=0" class="video" allowFullScreen="true" "></embed>"""%FS_URL
+HTM_SLIDESHARE = """<embed wmode="opaque" src="%s/swf/ssplayer2.swf?doc=%%s&rel=0" class="video" allowFullScreen="true" "></embed>"""%FS_URL
 
 
 
@@ -87,8 +87,8 @@ def video_filter(url):
         video = url[29:url.rfind('.')]
         video_site = VIDEO_CID_SINA
     elif url.startswith('http://static.slidesharecdn.com/swf/ssplayer2.swf?'):
-        begin = url.find("doc=")+4
-        video = url[begin:url.find("&",begin)]
+        begin = url.find('doc=')+4
+        video = url[begin:url.find('&', begin)]
         video_site = VIDEO_CID_SLIDESHARE
     else:
         video = None
@@ -115,10 +115,10 @@ def po_video_new(user_id, name, txt, uri, video_site, state, zsite_id):
 
 if __name__ == '__main__':
     pass
-    print 
-    s = "http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=bp2011-111130022417-phpapp02&"
-    s = s[54:s.find("&",54)]
-    print s 
+    print
+    s = 'http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=bp2011-111130022417-phpapp02&'
+    s = s[54:s.find('&', 54)]
+    print s
 
 
 

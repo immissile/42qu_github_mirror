@@ -116,7 +116,7 @@ class sbd:
         return self.fd.fileno()
 
     def get_tid(self):
-        "Returns a valid tid as string"
+        'Returns a valid tid as string'
         self.tid = self.tid + 1
         return str(self.tid - 1)
 
@@ -196,18 +196,18 @@ class msnd:
                 self.email, self.tid)
 
     def fileno(self):
-        "Useful for select()"
+        'Useful for select()'
         return self.fd.fileno()
 
     def encode(self, s):
-        "Encodes a string from local encoding to utf8"
+        'Encodes a string from local encoding to utf8'
         try:
             return s.decode(self.encoding).encode('utf-8')
         except:
             return s
 
     def decode(self, s):
-        "Decodes a string from utf8 to local encoding"
+        'Decodes a string from utf8 to local encoding'
         try:
             return s.decode('utf-8').encode(self.encoding)
         except:
@@ -246,7 +246,7 @@ class msnd:
 
 
     def get_tid(self):
-        "Returns a valid tid as string"
+        'Returns a valid tid as string'
         self.tid = self.tid + 1
         return str(self.tid - 1)
 
@@ -269,7 +269,7 @@ class msnd:
 
 
     def _recv(self, fd=None):
-        "Reads a command from the server, returns (cmd, tid, params)"
+        'Reads a command from the server, returns (cmd, tid, params)'
         if not fd:
             fd = self.fd
         # cheap and dirty readline, FIXME
@@ -304,7 +304,7 @@ class msnd:
 
 
     def _recvmsg(self, msglen, fd=None):
-        "Read a message from the server, returns it"
+        'Read a message from the server, returns it'
         if not fd:
             fd = self.fd
         left = msglen
@@ -362,20 +362,20 @@ class msnd:
 
 
     def change_nick(self, nick):
-        "Changes our nick"
+        'Changes our nick'
         nick = nickquote(nick)
         self._send('REA', self.email + ' ' + nick)
         return 1
 
 
     def sync(self):
-        "Syncronizes the tables"
+        'Syncronizes the tables'
         self._send('SYN', '0')
         return 1
 
 
     def useradd(self, email, nick=None, gid='0'):
-        "Adds a user"
+        'Adds a user'
         if not nick: nick = email
         nick = nickquote(nick)
         self._send('ADD', 'AL ' + email + ' ' + nick)
@@ -384,13 +384,13 @@ class msnd:
 
 
     def userdel(self, email):
-        "Removes a user"
+        'Removes a user'
         self._send('REM', 'AL ' + email)
         self._send('REM', 'FL ' + email)
         return 1
 
     def userren(self, email, newnick):
-        "Renames a user"
+        'Renames a user'
         newnick = nickquote(newnick)
         self._send('REA', email + ' ' + newnick)
         return 1
@@ -408,13 +408,13 @@ class msnd:
             self.users[email].lists.remove('B')
 
     def groupadd(self, name):
-        "Adds a group"
+        'Adds a group'
         name = nickquote(name)
         self._send('ADG', name + ' 0')
         return 1
 
     def groupdel(self, gid):
-        "Removes a group"
+        'Removes a group'
         self._send('RMG', gid)
         return 1
 
@@ -424,13 +424,13 @@ class msnd:
         return 1
 
     def disconnect(self):
-        "Disconnect from the server"
+        'Disconnect from the server'
         self.fd.send('OUT\r\n')
         self.fd.close()
 
 
     def close(self, sb):
-        "Closes a given sbd"
+        'Closes a given sbd'
         self.sb_fds.remove(sb)
         self.users[sb.emails[0]].sbd = None
         try:
@@ -442,11 +442,11 @@ class msnd:
 
 
     def invite(self, email, sbd):
-        "Invites a user into an existing sbd"
+        'Invites a user into an existing sbd'
         self._send('CAL', email, nd=sbd)
 
     def login(self):
-        "Logins to the server, really boring"
+        'Logins to the server, really boring'
 
         # open socket
         self.fd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -673,7 +673,7 @@ class msnd:
         elif type == 'NOT':
             mlen = int(tid)
             msg = self._recvmsg(mlen, nd.fd)
-            self.cb.notice(self, type, "", msg, nd)
+            self.cb.notice(self, type, '', msg, nd)
 
         else:
             # catch server errors - always numeric type
@@ -742,9 +742,9 @@ class msnd:
                 pend.append(msg)
             while len(pend):
                 m = pend[0]
-                header = "MIME-Version: 1.0\r\n" + \
-                                        "Content-Type: text/plain; " + \
-                                        "charset=UTF-8\r\n\r\n"
+                header = 'MIME-Version: 1.0\r\n' + \
+                                        'Content-Type: text/plain; ' + \
+                                        'charset=UTF-8\r\n\r\n'
                 m = header + m
                 msize = len(self.encode(m))
                 params = 'A ' + str(msize) + '\r\n' + m

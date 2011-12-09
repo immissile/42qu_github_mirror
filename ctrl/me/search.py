@@ -12,13 +12,13 @@ from model.user_info import user_info_new
 @urlmap('/me/search')
 class Search(LoginBase):
     def get(self):
-       self.render()
+        self.render()
 
     def post(self):
-       self.render()
+        self.render()
 
 @urlmap('/me/search/next')
 class SearchNext(LoginBase):
     def get(self):
-       self.render()
+        self.render()
 

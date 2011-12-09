@@ -103,7 +103,7 @@ def pid_by_com_id(com_id):
     return ZsiteComPlace.where(com_id=com_id)
 
 if __name__ == '__main__':
-    for j,i in enumerate(Zsite.where(cid=CID_COM)):
+    for j, i in enumerate(Zsite.where(cid=CID_COM)):
         print i.name, j
         #i.name = i.name.replace("科技有限公司","")
         #i.save()

@@ -46,9 +46,9 @@ class RssUpdate(McModel):
 def rss_po_id(rss_po_id, po_id):
     RssPoId.raw_sql('insert into rss_po_id (id, po_id, state) values (%s, %s, 0)', rss_po_id, po_id)
 
-mc_rss_link_by_po_id = McCache("RssLinkByPoId:%s")
+mc_rss_link_by_po_id = McCache('RssLinkByPoId:%s')
 
-@mc_rss_link_by_po_id("{id}")
+@mc_rss_link_by_po_id('{id}')
 def rss_link_by_po_id(id):
     rss_po = RssPoId.get(po_id=id)
     if rss_po:
@@ -114,7 +114,7 @@ def unread_feed_update(greader, feed):
         rss_feed_update(res, id , user_id)
 
 def pre_br(txt):
-    r = txt.replace("\r\n","\n").replace("\r","\n").replace("\n\n","\n").replace("\n","<br>")
+    r = txt.replace('\r\n', '\n').replace('\r', '\n').replace('\n\n', '\n').replace('\n', '<br>')
     return r
 
 def rss_feed_update(res, id, user_id, limit=None):
@@ -143,9 +143,9 @@ def rss_feed_update(res, id, user_id, limit=None):
             htm = snippet['content']
             if htm:
                 htm = txttidy(htm)
-                htm = txt_map("<pre","</pre>", htm, pre_br) 
+                htm = txt_map('<pre', '</pre>', htm, pre_br)
                 htm = tidy_fragment(htm, {'indent': 0})[0]
-                htm = htm.replace("<br />","\n")    
+                htm = htm.replace('<br />', '\n')
 #                print htm
                 txt, pic_list = htm2txt(htm)
 
@@ -157,15 +157,15 @@ def rss_feed_update(res, id, user_id, limit=None):
                     else:
                         state = RSS_UNCHECK
 
-                    c = RssPo.raw_sql("select title from rss_po where user_id=%s and rss_id=%s order by id desc limit 20", user_id, id) 
+                    c = RssPo.raw_sql('select title from rss_po where user_id=%s and rss_id=%s order by id desc limit 20', user_id, id)
                     r = set([i[0] for i in c])
                     if title in r:
                         continue
                     else:
                         RssPo.raw_sql(
-    'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
-    user_id, id, rss_uid, title, txt, link, pic_list, state, 
-    title, txt, pic_list
+                        'insert into rss_po (user_id,rss_id,rss_uid,title,txt,link,pic_list,state) values (%s,%s,%s,%s,%s,%s,%s,%s) on duplicate key update title=%s , txt=%s , pic_list=%s',
+                        user_id, id, rss_uid, title, txt, link, pic_list, state,
+                        title, txt, pic_list
                         )
 
 

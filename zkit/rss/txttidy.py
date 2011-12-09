@@ -21,16 +21,16 @@ def txttidy_42qu(txt):
     return txt
 
 def txttidy_wumii(txt):
-    pos = txt.find("http://app.wumii.com")
+    pos = txt.find('http://app.wumii.com')
     if pos > 0:
         txt = txt[:pos]
-        txt = txt[:txt.rfind("<table")]
+        txt = txt[:txt.rfind('<table')]
 
         tmp = txt.find('猜您也喜欢')
         if tmp < 0:
-            tmp = txt.find("相关文章")
+            tmp = txt.find('相关文章')
         if tmp >= 0:
-             return txt[:tmp]
+            return txt[:tmp]
 
     return txt
 

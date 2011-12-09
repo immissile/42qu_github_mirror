@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import JLoginBase, Base
 from ctrl._urlmap.j import urlmap
-from model.po_recommend import po_recommend_new 
+from model.po_recommend import po_recommend_new
 from model.po import Po, PO_SHARE_FAV_CID
 from yajl import dumps
 from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
@@ -66,24 +66,24 @@ class FeedUp(JLoginBase):
         current_user_id = self.current_user_id
 
         sync = self.get_argument('sync')
-        txt = self.get_argument('txt',default='')
+        txt = self.get_argument('txt', '')
 
         po = Po.mc_get(id)
 
-        vote_up(current_user_id, id)
 
-        po.feed_new()
+        if po and po.cid in PO_SHARE_FAV_CID:
+            vote_up(current_user_id, id)
+            reply_id = None
 
-        reply_id=None
-        if sync == 'true':
-            reply_id = post_reply(self, id)
+            if sync == 'true':
+                reply_id = post_reply(self, id)
 
-        po_recommend_new(id,current_user_id,txt,reply_id)
-        
+            po_recommend_new(id, current_user_id, txt, reply_id)
+
         if not self._finished:
-            self.finish({})
+            self.finish('{}')
 
-        #mq_sync_recommend_by_zsite_id(current_user_id,id)
+#mq_sync_recommend_by_zsite_id(current_user_id,id)
 
 
 @urlmap('/j/feed/(\d+)')

@@ -105,7 +105,7 @@ def sync_site_po(po, zsite):
     if user:
         name = user.name
     else:
-        name = None 
+        name = None
 
     sync_cid = SYNC_GET_CID.get(po.cid)
     if not sync_cid:

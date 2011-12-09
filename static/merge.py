@@ -66,7 +66,7 @@ class ChangeFilter():
 
         has_change = False
         for i in filelist:
-            fpath = join(basedir, i) 
+            fpath = join(basedir, i)
             with open(fpath) as inf:
                 txt = inf.read()
                 hash = md5(txt).hexdigest()

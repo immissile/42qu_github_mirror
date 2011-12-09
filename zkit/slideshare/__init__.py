@@ -31,16 +31,16 @@ def slideshare_url(api_key, secret_key, id):
     show = json['Slideshows']['Slideshow']
     status = int(show['Status']['value'])
 
-    swf = None    
+    swf = None
     #print json 
     if status == 2:
         swf = show['EmbedCode']['value']
         begin = swf.find('data="')+6
-        end = swf.find('"',begin)
+        end = swf.find('"', begin)
         swf = swf[begin:end]
 
-        begin = swf.find("doc=")+4
-        swf = swf[begin:swf.find("&",begin)]
+        begin = swf.find('doc=')+4
+        swf = swf[begin:swf.find('&', begin)]
 
     return status, swf
 

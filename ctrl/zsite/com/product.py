@@ -17,7 +17,7 @@ class ProductAdmin(AdminBase):
     def get(self):
         po_list = product_list_by_com_id(self.zsite_id)
         self.render(
-                po_list = po_list,
+                po_list=po_list,
         )
 
     def post(self):
@@ -25,9 +25,9 @@ class ProductAdmin(AdminBase):
         zsite_id = self.zsite_id
         id = arguments.get('id')
         product_url = arguments.get('product_url', ())
-        product_name = arguments.get('product_name',())
-        product_about = arguments.get('product_about',())
-        
+        product_name = arguments.get('product_name', ())
+        product_about = arguments.get('product_about', ())
+
         pros = zip(id, product_url, product_name, product_about)
         pros = filter(lambda p : bool(p[2]), pros)
 
@@ -44,8 +44,8 @@ class ProductAdmin(AdminBase):
                 info_json.product_url = product_url
                 info_json.product_about = product_about
 
-                po_product_update(id,info_json)
-        
+                po_product_update(id, info_json)
+
 
         return self.get()
 
@@ -62,7 +62,7 @@ class ProductNew(AdminBase):
         zsite = self.zsite
 
         arguments = self.request.arguments
-        edit = self.get_argument('edit',None)
+        edit = self.get_argument('edit', None)
         product_url = arguments.get('product_url')
         product_name = arguments.get('product_name')
         product_about = arguments.get('product_about')
@@ -92,7 +92,7 @@ class ProductNew(AdminBase):
 
 def _product_save(self, product):
     current_user_id = self.current_user_id
-    if not zsite_member_can_admin(self.zsite_id,current_user_id):
+    if not zsite_member_can_admin(self.zsite_id, current_user_id):
         return
 
     position = int(self.get_argument('position', 0))
@@ -112,8 +112,8 @@ def _product_save(self, product):
         for _name, _url in product_similar:
             if _name or _url:
                 if _url:
-                    if not (_url.startswith("http://") or _url.startswith("https://")):
-                        _url = "http://%s"%_url 
+                    if not (_url.startswith('http://') or _url.startswith('https://')):
+                        _url = 'http://%s'%_url
                 if not _name:
                     _pro.append([urlparse(_url).netloc or _url, _url])
                 else:
@@ -153,9 +153,9 @@ class ProductNewN(AdminBase):
                 self.redirect('/bio/new')
 
             return self.render(
-                        product_list=Po.mc_get_list(product_list), 
-                        product=product, 
-                        com_id=self.zsite.id, 
+                        product_list=Po.mc_get_list(product_list),
+                        product=product,
+                        com_id=self.zsite.id,
                         position=1
                    )
         self.redirect('/')

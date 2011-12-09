@@ -4,7 +4,7 @@ from urllib import urlencode
 from json import loads
 import _env
 from zkit.bot_txt import txt_wrap_by_all
-from xml.sax.saxutils import unescape 
+from xml.sax.saxutils import unescape
 from time import sleep
 
 def read_next(start, offset):
@@ -49,9 +49,9 @@ def read_next(start, offset):
     for id, name, i in zip(id_list, name_list, txt_wrap_by_all(begin, end, html)):
         i = i.split('">', 1)
         i.append(id)
-        name = unescape(name).strip()[14:].split('">',1)
+        name = unescape(name).strip()[14:].split('">', 1)
         if len(name) < 2:
-            name = "?","?"
+            name = '?', '?'
         i.extend(name)
         result.append(i)
 
@@ -69,7 +69,7 @@ def main():
             break
         start = int(result[-1][2])
         for i in result:
-            print i[2], i[0], i[3], i[4].replace(" ","_"),  unescape(i[1]).replace("\r"," ").replace("\n"," ")
+            print i[2], i[0], i[3], i[4].replace(' ', '_'), unescape(i[1]).replace('\r', ' ').replace('\n', ' ')
 
         sleep(1)
 

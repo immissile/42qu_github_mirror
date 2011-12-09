@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, McCacheA,  McNum
+from _db import Model, McModel, McCache, McCacheA, McNum
 
 STATE_NEW = 0
 STATE_USED = 1

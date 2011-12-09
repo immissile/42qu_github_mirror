@@ -19,7 +19,7 @@ class Index(Base):
     def post(self):
         name = self.get_argument('name', '')
         mail = self.get_argument('mail', '')
-        errtip=Errtip()
+        errtip = Errtip()
         if mail:
             mail = mail.lower()
         if not mail:
@@ -33,13 +33,13 @@ class Index(Base):
         if not errtip:
             user_id = user_id_by_mail(mail)
             if not user_id:
-                user_id = user_new(mail,name=name)
+                user_id = user_new(mail, name=name)
                 session = user_session(user_id)
                 self.set_cookie('S', session)
                 self.set_cookie('E', mail)
 
-                return self.redirect("/reged/%s"%user_id)
- 
+                return self.redirect('/reged/%s'%user_id)
+
         self.render(
             mail=mail,
             name=name,

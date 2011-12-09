@@ -41,11 +41,11 @@ import sys as _sys
 
 from cStringIO import StringIO as _StringIO
 
-__all__ = ["pprint", "pformat", "isreadable", "isrecursive", "saferepr",
-           "PrettyPrinter"]
+__all__ = ['pprint', 'pformat', 'isreadable', 'isrecursive', 'saferepr',
+           'PrettyPrinter']
 
 # cache these for faster access:
-_commajoin = ", ".join
+_commajoin = ', '.join
 _id = id
 _len = len
 _type = type
@@ -94,9 +94,9 @@ class PrettyPrinter:
         """
         indent = int(indent)
         width = int(width)
-        assert indent >= 0, "indent must be >= 0"
-        assert depth is None or depth > 0, "depth must be > 0"
-        assert width, "width must be != 0"
+        assert indent >= 0, 'indent must be >= 0'
+        assert depth is None or depth > 0, 'depth must be > 0'
+        assert width, 'width must be != 0'
         self._depth = depth
         self._indent_per_level = indent
         self._width = width
@@ -107,7 +107,7 @@ class PrettyPrinter:
 
     def pprint(self, object):
         self._format(object, self._stream, 0, 0, {}, 0)
-        self._stream.write("\n")
+        self._stream.write('\n')
 
     def pformat(self, object):
         sio = _StringIO()
@@ -138,7 +138,7 @@ class PrettyPrinter:
             write(rep)
             return
 
-        r = getattr(typ, "__repr__", None)
+        r = getattr(typ, '__repr__', None)
         if issubclass(typ, dict) and r is dict.__repr__:
             write('{\n ')
             if self._indent_per_level > 1:
@@ -199,8 +199,8 @@ class PrettyPrinter:
                 object = sorted(object)
                 indent += 10
             else:
-                write('(\n'+" "*indent)
-                endchar = "\n"+" "*indent+')'
+                write('(\n'+' '*indent)
+                endchar = '\n'+' '*indent+')'
             if self._indent_per_level > 1 and sepLines:
                 write((self._indent_per_level - 1) * ' ')
             if length:
@@ -262,10 +262,10 @@ def _safe_repr(object, context, maxlevels, level):
             quotes = {"'": "\\'"}
             string = string.replace("'", "\\'")
 
-        return ("%s%s%s" % (closure, string, closure)), True, False
+        return ('%s%s%s' % (closure, string, closure)), True, False
 
     if typ is unicode:
-        string = object.encode("utf8")
+        string = object.encode('utf8')
         string = string.replace('\n', '\\n').replace('\r', '\\r').replace('\t', '\\t')
         if "'" in object and '"' not in object:
             closure = '"'
@@ -275,16 +275,16 @@ def _safe_repr(object, context, maxlevels, level):
             closure = "'"
             quotes = {"'": "\\'"}
             string = string.replace("'", "\\'")
-        return ("u%s%s%s" % (closure, string, closure)), True, False
+        return ('u%s%s%s' % (closure, string, closure)), True, False
 
 
-    r = getattr(typ, "__repr__", None)
+    r = getattr(typ, '__repr__', None)
     if issubclass(typ, dict) and r is dict.__repr__:
         if not object:
-            return "{}", True, False
+            return '{}', True, False
         objid = _id(object)
         if maxlevels and level >= maxlevels:
-            return "{...}", False, objid in context
+            return '{...}', False, objid in context
         if objid in context:
             return _recursion(object), False, True
         context[objid] = 1
@@ -297,28 +297,28 @@ def _safe_repr(object, context, maxlevels, level):
         for k, v in sorted(object.items()):
             krepr, kreadable, krecur = saferepr(k, context, maxlevels, level)
             vrepr, vreadable, vrecur = saferepr(v, context, maxlevels, level)
-            append("%s: %s" % (krepr, vrepr))
+            append('%s: %s' % (krepr, vrepr))
             readable = readable and kreadable and vreadable
             if krecur or vrecur:
                 recursive = True
         del context[objid]
-        return "{\n%s\n}" % _commajoin(components), readable, recursive
+        return '{\n%s\n}' % _commajoin(components), readable, recursive
 
     if (issubclass(typ, list) and r is list.__repr__) or \
        (issubclass(typ, tuple) and r is tuple.__repr__):
         if issubclass(typ, list):
             if not object:
-                return "[]", True, False
-            format = "[%s]"
+                return '[]', True, False
+            format = '[%s]'
         elif _len(object) == 1:
-            format = "(%s,)"
+            format = '(%s,)'
         else:
             if not object:
-                return "()", True, False
-            format = "(%s)"
+                return '()', True, False
+            format = '(%s)'
         objid = _id(object)
         if maxlevels and level >= maxlevels:
-            return format % "...", False, objid in context
+            return format % '...', False, objid in context
         if objid in context:
             return _recursion(object), False, True
         context[objid] = 1
@@ -342,23 +342,23 @@ def _safe_repr(object, context, maxlevels, level):
 
 
 def _recursion(object):
-    return ("<Recursion on %s with id=%s>"
+    return ('<Recursion on %s with id=%s>'
             % (_type(object).__name__, _id(object)))
 
 
 def _perfcheck(object=None):
     import time
     if object is None:
-        object = [("string", (1, 2), [3, 4], {5: 6, 7: 8})] * 100000
+        object = [('string', (1, 2), [3, 4], {5: 6, 7: 8})] * 100000
     p = PrettyPrinter()
     t1 = time.time()
     _safe_repr(object, {}, None, 0)
     t2 = time.time()
     p.pformat(object)
     t3 = time.time()
-    print "_safe_repr:", t2 - t1
-    print "pformat:", t3 - t2
+    print '_safe_repr:', t2 - t1
+    print 'pformat:', t3 - t2
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     _perfcheck()
 

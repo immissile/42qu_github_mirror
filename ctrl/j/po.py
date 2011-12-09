@@ -27,6 +27,8 @@ def post_reply(self, id):
     else:
         result = {}
         txt = self.get_argument('txt', None)
+
+        reply_id = None
         if txt:
             user_id = self.current_user_id
             po = Po.mc_get(id)

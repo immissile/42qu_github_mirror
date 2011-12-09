@@ -187,7 +187,7 @@ class AuthBind(NoLoginBase):
 
                 sync_txt = self.get_argument('sync_txt', None)
                 txt = self.get_argument('weibo', None)
-                flag = 0 
+                flag = 0
                 if sync_txt:
                     flag |= 0b10
 

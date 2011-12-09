@@ -264,12 +264,12 @@ def linkify(link, cid=0):
 def token_key_login_set(id, zsite_id):
     OauthToken.raw_sql(
 'update oauth_token set zsite_id=%s, login=1 where id=%s', zsite_id, id
-    ) 
-     
+    )
+
 def mail_by_token_key_login(app_id, token_key):
     cursor = OauthToken.raw_sql(
         'select zsite_id from oauth_token where app_id=%s and token_key=%s limit 1',
-         app_id, token_key 
+         app_id, token_key
     )
     r = cursor.fetchone()
     if r:
@@ -279,7 +279,7 @@ def mail_by_token_key_login(app_id, token_key):
 def zsite_id_by_token_key_login(app_id, token_key):
     cursor = OauthToken.raw_sql(
         'select zsite_id from oauth_token where app_id=%s and token_key=%s and login=1',
-         app_id, token_key 
+         app_id, token_key
     )
     r = cursor.fetchone()
     if r:
@@ -294,7 +294,7 @@ def oauth_token_key_by_id(id):
 
 
 if __name__ == '__main__':
-    print zsite_id_by_token_key_login(OAUTH_FANFOU, "140505-98e90d530cb976ebd7242a9282f32c17")
+    print zsite_id_by_token_key_login(OAUTH_FANFOU, '140505-98e90d530cb976ebd7242a9282f32c17')
 #    print http://zuroc.xxx/auth/bind/73?key=140505-98e90d530cb976ebd7242a9282f32c17
     print oauth_token_key_by_id(73)
     #oauth_save(OAUTH_BUZZ, 2, '2', '1')

@@ -104,7 +104,7 @@ def zsite_name_rm(id):
     from zsite_url import url_by_id
     url = url_by_id(id)
     if url:
-        zsite_name_edit(id,url)
+        zsite_name_edit(id, url)
     else:
         zsite_name_edit(id, '代号:%s'%id)
     zsite = Zsite.mc_get(id)

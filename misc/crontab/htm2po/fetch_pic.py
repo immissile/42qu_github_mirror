@@ -20,7 +20,7 @@ def fetch_pic(url, referer=None):
 
     img = picopen(raw)
     exist[url] = img
-    return img 
+    return img
 
 
 def main():

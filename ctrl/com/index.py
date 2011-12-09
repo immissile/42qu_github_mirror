@@ -20,9 +20,9 @@ from model.zsite_com import zsite_com_new
 
 @urlmap('/com/list')
 @urlmap('/com/list-(\d+)')
-class ComList(_ComListBase,Base):
+class ComList(_ComListBase, Base):
     template = '/ctrl/com/index/com_list.htm'
-    
+
     @property
     def user_id(self):
         return self.current_user_id
@@ -31,13 +31,13 @@ class ComList(_ComListBase,Base):
     def _total(self):
         return zsite_show_count(CID_COM)
 
-    def _page_list(self,limit,offset):
+    def _page_list(self, limit, offset):
         return zsite_show_list(CID_COM, limit, offset)
 
 @urlmap('/')
 class Index(Base):
     def get(self):
-        self.render(product_list = product_show_list())
+        self.render(product_list=product_show_list())
 
 @urlmap('/mine')
 class Mine(LoginBase):
@@ -51,7 +51,7 @@ class Mine(LoginBase):
 @urlmap('/product')
 class Product(Base):
     def get(self):
-        self.render(product_list = product_all())
+        self.render(product_list=product_all())
 
 
 @urlmap('/new')
@@ -68,16 +68,16 @@ class ComNew(LoginBase):
         motto = self.get_argument('motto', None)
         url = self.get_argument('url', None)
         pid = self.get_arguments('pid', None)
-        address = self.get_arguments('address',None)
-        phone = self.get_argument('phone',None)        
-        pid_add = zip(pid,address)
-        
+        address = self.get_arguments('address', None)
+        phone = self.get_argument('phone', None)
+        pid_add = zip(pid, address)
+
         if not name:
             errtip.name = '请输入名称'
 
         if not motto:
             errtip.motto = '请编写签名'
-        
+
 
         if url:
             errtip.url = url_valid(url)
@@ -100,15 +100,15 @@ class ComNew(LoginBase):
         if not errtip:
             com = com_new(name, current_user_id )
             com_id = com.id
-            zsite_com_new(com_id,phone=phone)
+            zsite_com_new(com_id, phone=phone)
             site_ico_bind(current_user_id, pic_id, com_id)
             motto_set(com_id, motto)
             zsite_member_new(com_id, current_user_id, state=ZSITE_MEMBER_STATE_ACTIVE)
             if pid_add:
                 for pa in pid_add:
-                    zsite_com_place_new(com_id,int(pa[0]),pa[1])
+                    zsite_com_place_new(com_id, int(pa[0]), pa[1])
             else:
-                pid_add = self.get_argument('pid_add',None)
+                pid_add = self.get_argument('pid_add', None)
             if url:
                 url_new(com_id, url)
             return self.redirect('%s/product/new'%com.link)
@@ -120,8 +120,8 @@ class ComNew(LoginBase):
             motto=motto,
             url=url,
             #txt=txt,
-            phone = phone,
+            phone=phone,
             pic_id=pic_id,
-            pid_add = pid_add
+            pid_add=pid_add
         )
 

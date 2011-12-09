@@ -2,7 +2,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model import reply
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE,CID_REC
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE, CID_REC
 from model.po import Po, po_rm, po_word_new, po_note_new, po_state_set
 from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW, STATE_SECRET, STATE_ACTIVE
 from model.po_pic import pic_list, pic_list_edit, mc_pic_id_list
@@ -44,7 +44,7 @@ def update_pic(form, user_id, po_id, id):
         pic.po_id = po_id
         pic.save()
 
-@urlmap("/po/rss/(\d+)")
+@urlmap('/po/rss/(\d+)')
 class PoRss(ZsiteBase):
     def get(self, id):
         from model.rss import rss_link_by_po_id

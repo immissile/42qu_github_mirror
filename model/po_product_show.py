@@ -9,8 +9,8 @@ class ProductShow(McModel):
     pass
 
 mc_product_show_get = McCache('ProductNewGet:%s')
-mc_product_show_id_list = McLimitA('ProductShowIdList:%s',512)
-_product_show_count = McNum(lambda x: ProductShow.where("rank>0").count(), 'ProductShowCount%s')
+mc_product_show_id_list = McLimitA('ProductShowIdList:%s', 512)
+_product_show_count = McNum(lambda x: ProductShow.where('rank>0').count(), 'ProductShowCount%s')
 
 def product_show_count():
     return _product_show_count('')

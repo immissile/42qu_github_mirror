@@ -51,4 +51,4 @@ def astrology_int(date):
 
 
 if __name__ == '__main__':
-    print astrology(19900320) 
+    print astrology(19900320)

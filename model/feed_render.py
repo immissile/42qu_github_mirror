@@ -20,6 +20,8 @@ from days import begin_end_by_minute
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from event import Event
 from fav import fav_cid_dict
+from zkit.ordereddict import OrderedDict
+
 FEED_TUPLE_DEFAULT_LEN = 12
 
 FEED_TUPLE_DEFAULT_LEN_FOR_ZSITE = 10
@@ -115,7 +117,9 @@ def dump_zsite(zsite):
     if zsite:
         return (zsite.name, zsite.link, zsite.id)
     return (0, 0)
-def render_feed_list(id_list,  zsite_id, rt_dict , sort_dict):
+
+
+def render_feed_list(id_list, zsite_id, rt_dict , sort_dict):
     fav_dict = fav_cid_dict(zsite_id, id_list)
     r = []
     for id, i in zip(id_list, feed_tuple_list(id_list)):
@@ -183,44 +187,35 @@ def zsite_id_list_by_follow(zsite_id):
     r.append(0)
     r.append(zsite_id)
     return r
+
 def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     zsite_id_list = zsite_id_list_by_follow(zsite_id)
-    rt_dict = defaultdict(dict)
+    rt_dict = defaultdict(OrderedDict)
+
     id_list = []
-    ###
-    sort_dict = defaultdict(list)
-    ###
     id = 0
     for i in feed_merge_iter(zsite_id_list, limit, begin_id):
         id = i.id
         po = Po.mc_get(id)
         if po.cid == CID_REC:
-            if 'newest' not in rt_dict[po.rid]:
-                rt_dict[po.rid]['newest'] = po.create_time
-
-            if 'commends' not in rt_dict[po.rid]:
-                rt_dict[po.rid]['commends'] = {}
-                rt_dict[po.rid]['commends'][po.user_id] = [(po.txt, po.id), ]
+            id = po.rid
+            od = rt_dict[id]
+            user_id = po.user_id
+            data = (po.id, po.txt)
+            if user_id in od:
+                od[user_id].append(data)
             else:
-                if po.user_id in rt_dict[po.rid]['commends']:
-                    rt_dict[po.rid]['commends'][po.user_id].append((po.txt, po.id))
-                else:
-                    rt_dict[po.rid]['commends'][po.user_id] = [(po.txt, po.id), ]
-
-            id_list.append(po.rid)
-
-            if po.rid not in sort_dict or \
-                    sort_dict[po.rid] < po.id:
-                        sort_dict[po.rid] = po.id
+                od[user_id] = [data]
         else:
-            id_list.append(i.id)
-            if po.id not in sort_dict or \
-                    sort_dict[po.id] < po.id:
-                sort_dict[po.id] = po.id
+            id = po.id
 
-        id_list = list(set(id_list))
+        if id not in rt_dict:
+            feed_id_list.append(id)
 
-    return render_feed_list(id_list,  zsite_id, rt_dict, sort_dict), id
+
+    return render_feed_list(id_list, zsite_id, rt_dict), id
+
+
 if __name__ == '__main__':
     for i in render_feed_by_zsite_id(10071241, 100):
         print i

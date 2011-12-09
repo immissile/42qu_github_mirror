@@ -240,9 +240,9 @@ Zsite.reply_count = reply_count
 Zsite.reply_id_list_reversed = reply_id_list_reversed
 Zsite.reply_list_reversed = reply_list_reversed
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     for txt in reply_list_by_site_id(561):
         print txt.txt
-    #z = Zsite.mc_get(561)
-    #for i in reply_list_by_site_id(561):
-    #    print i
+#z = Zsite.mc_get(561)
+#for i in reply_list_by_site_id(561):
+#    print i

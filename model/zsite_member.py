@@ -2,7 +2,7 @@
 from _db import Model
 from config import SITE_HTTP
 from model.mail import mq_rendermail, rendermail
-from model.zsite_list import zsite_list, zsite_list_new, STATE_RM, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state,STATE_INVITE, zsite_id_list_order_id_desc, ZsiteList
+from model.zsite_list import zsite_list, zsite_list_new, STATE_RM, STATE_ACTIVE, zsite_list_get, zsite_list_id_get, zsite_list_rm, zsite_list_count_by_zsite_id , zsite_list_id_state, ZsiteList, zsite_id_list_by_zsite_id, STATE_ADMIN , STATE_OWNER, zsite_list_by_zsite_id_state, STATE_INVITE, zsite_id_list_order_id_desc, ZsiteList
 from model.zsite import Zsite, ZSITE_STATE_APPLY
 from model.cid import CID_ZSITE_LIST_MEMBER, CID_VERIFY_MAIL, CID_USER
 from model.po_review import po_review_state_set, po_review_list_active_by_zsite_id
@@ -21,13 +21,13 @@ def zsite_list_by_member_admin(id, limit=None, offset=None):
     return Zsite.mc_get_list(zsite_id_list_by_member_admin(id, limit, offset))
 
 def zsite_id_count_by_member_admin(id):
-    r =  ZsiteList.where(zsite_id=id,cid=CID_ZSITE_LIST_MEMBER).where('state>=%s',STATE_ACTIVE)
+    r = ZsiteList.where(zsite_id=id, cid=CID_ZSITE_LIST_MEMBER).where('state>=%s', STATE_ACTIVE)
     return r.count()
 
 def zsite_member_new(
-    zsite_id, 
-    member_id,  
-    state=ZSITE_MEMBER_STATE_INVITE, 
+    zsite_id,
+    member_id,
+    state=ZSITE_MEMBER_STATE_INVITE,
     cid=CID_ZSITE_LIST_MEMBER
 ):
     id, _state = zsite_list_id_state(zsite_id, member_id, CID_ZSITE_LIST_MEMBER)
@@ -37,7 +37,7 @@ def zsite_member_new(
         return True
 
 def zsite_member_admin_list(com_id):
-    return Zsite.mc_get_list(zsite_id_list_by_zsite_id(com_id,CID_ZSITE_LIST_MEMBER))
+    return Zsite.mc_get_list(zsite_id_list_by_zsite_id(com_id, CID_ZSITE_LIST_MEMBER))
 
 
 def zsite_member_rm(zsite_id, member_id):
@@ -49,9 +49,9 @@ def zsite_member_list(zsite_id, state, limit=None, offset=None):
         zsite_id, CID_ZSITE_LIST_MEMBER, state, limit, offset
     )
 
-    
+
 def zsite_member_invite_list(com_id):
-    return zsite_member_list(com_id,ZSITE_MEMBER_STATE_INVITE)
+    return zsite_member_list(com_id, ZSITE_MEMBER_STATE_INVITE)
 
 def zsite_member_can_admin(zsite_id, member_id):
     id, state = zsite_list_id_state(zsite_id, member_id, CID_ZSITE_LIST_MEMBER)
@@ -60,19 +60,19 @@ def zsite_member_can_admin(zsite_id, member_id):
 
 def zsite_member_is_invite(zsite_id, member_id):
     id, state = zsite_list_id_state(zsite_id, member_id, CID_ZSITE_LIST_MEMBER)
-    return state == ZSITE_MEMBER_STATE_INVITE 
+    return state == ZSITE_MEMBER_STATE_INVITE
 
 
 def zsite_member_with_review(id):
     member_list = zsite_member_admin_list(id)
     review_list = po_review_list_active_by_zsite_id(id)
-    review2member = dict((i.user_id,i) for i in review_list)
+    review2member = dict((i.user_id, i) for i in review_list)
 
     career_bind(member_list)
- 
+
     result_with_review = []
     result_without_review = []
-       
+
     for i in member_list:
         mid = i.id
 
@@ -82,14 +82,14 @@ def zsite_member_with_review(id):
                 review = None
         else:
             review = None
-        
+
         i.review = review
 
         if review is None:
             result_without_review.append(i)
         else:
             result_with_review.append(i)
-            
+
 
     result_with_review.extend(result_without_review)
 
@@ -100,9 +100,9 @@ def zsite_member_with_review(id):
 
 
 if __name__ == '__main__':
-    zsite_id = 10163143 
+    zsite_id = 10163143
     member_id = 10000000
     for i in zsite_member_with_review(zsite_id):
         print i.review.name_
         print i.review.name
-        print "_____________"
+        print '_____________'

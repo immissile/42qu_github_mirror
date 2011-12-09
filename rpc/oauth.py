@@ -1,4 +1,4 @@
-from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH_RENREN,OAUTH_RENREN, oauth_save_douban, oauth_save_www163, oauth_save_qq, oauth_save_sohu, oauth_save_twitter, oauth_save_sina, oauth_save_renren, OAUTH_KAIXIN, oauth_save_kaixin, OAUTH_FANFOU, oauth_save_fanfou
+from model.oauth import OAUTH_GOOGLE, OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_WWW163, OAUTH_SOHU, OAUTH_QQ, OAUTH_RENREN, OAUTH_RENREN, oauth_save_douban, oauth_save_www163, oauth_save_qq, oauth_save_sohu, oauth_save_twitter, oauth_save_sina, oauth_save_renren, OAUTH_KAIXIN, oauth_save_kaixin, OAUTH_FANFOU, oauth_save_fanfou
 from model.zsite_url import url_or_id
 from _handler import LoginBase, Base as _Base
 from mixin import DoubanMixin, GoogleMixin, Www163Mixin, QqMixin, TwitterMixin, SinaMixin, SohuMixin, RenrenMixin, KaixinMixin, FanfouMixin
@@ -20,7 +20,7 @@ class Base(_Base):
     def prepare(self):
         super(Base, self).prepare()
         self.oauth_key = 0
-    
+
     def _login(self, user_id):
         session = user_session(user_id)
         mail = mail_by_user_id(user_id)
@@ -38,17 +38,17 @@ class Base(_Base):
         if user:
             current_user_id = self.current_user_id
             key = self._on_auth_key(user)
-            if not current_user_id: 
+            if not current_user_id:
                 user_id = zsite_id_by_token_key_login(self.cid, key)
                 if user_id:
                     return self._login(user_id)
 
             id = self._on_auth_save(user)
             if not current_user_id and id:
-                return self.redirect("http://%s/auth/bind/%s?key=%s"%(SITE_DOMAIN,id,quote(key)))
+                return self.redirect('http://%s/auth/bind/%s?key=%s'%(SITE_DOMAIN, id, quote(key)))
 
             return self.redirect(BACK_URL)
-    
+
     def _on_auth_key(self, user):
         access_token = user.get('access_token')
         key = access_token['key']
@@ -58,9 +58,9 @@ class Base(_Base):
 class OauthLogin(Base):
     def get(self, id):
         if self.current_user:
-            url =  LOGIN_REDIRECT%self.current_user.link
+            url = LOGIN_REDIRECT%self.current_user.link
         else:
-            url = "/oauth/%s"%id
+            url = '/oauth/%s'%id
         return self.redirect(url)
 
 @urlmap('/oauth/%s'%OAUTH_DOUBAN)
@@ -76,7 +76,7 @@ class DoubanOauthHandler(Base, DoubanMixin):
             self.callback_url()
         )
 
- 
+
     def _on_auth_save(self, user):
         access_token = user.get('access_token')
         return oauth_save_douban(
@@ -109,7 +109,7 @@ class FanfouOauthHandler(Base, FanfouMixin):
             user['name'],
             user['id']
         )
-        
+
 
 
 
@@ -143,10 +143,10 @@ class KaixinOauthHandler(Base, KaixinMixin):
     cid = OAUTH_KAIXIN
     @tornado.web.asynchronous
     def get(self):
-        if self.get_argument('code',None):
+        if self.get_argument('code', None):
             self.get_authenticated_user(self.async_callback(self._on_auth))
             return
-        callback = urlparse.urljoin(self.request.full_url(),self.callback_url())
+        callback = urlparse.urljoin(self.request.full_url(), self.callback_url())
         token = self._oauth_consumer_token()
         self.authorize_redirect(
             callback,
@@ -174,10 +174,10 @@ class RenrenOauthHandler(Base, RenrenMixin):
     cid = OAUTH_RENREN
     @tornado.web.asynchronous
     def get(self):
-        if self.get_argument('code',None):
+        if self.get_argument('code', None):
             self.get_authenticated_user(self.async_callback(self._on_auth))
             return
-        callback = urlparse.urljoin(self.request.full_url(),self.callback_url())
+        callback = urlparse.urljoin(self.request.full_url(), self.callback_url())
         token = self._oauth_consumer_token()
         self.authorize_redirect(
             callback,
@@ -186,11 +186,11 @@ class RenrenOauthHandler(Base, RenrenMixin):
             {'response_type':'code',
                 'scope':'status_update publish_share'}
         )
-    
+
     def _on_auth_key(self, user):
         return user.get('access_token')
 
-    def _on_auth_save(self,user):
+    def _on_auth_save(self, user):
         access_token = user.get('access_token')
         return oauth_save_renren(
                     self.current_user_id,
@@ -245,7 +245,7 @@ class QqOauthHandler(Base, QqMixin):
             access_token['key'],
             access_token['secret'],
             access_token['name'],
-            access_token['name']                        
+            access_token['name']
         )
 
 

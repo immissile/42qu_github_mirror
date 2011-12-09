@@ -54,7 +54,7 @@ def event_weekly_mail(user, event_city_list, write_mail):
             if not write_mail or not write_mail.title:
                 title.append('线下活动 . 周报汇总')
             else:
-                title.append("%s ;"%write_mail.title )
+                title.append('%s ;'%write_mail.title )
 
             pid = 0
             namecard = namecard_get(user_id)
@@ -73,12 +73,12 @@ def event_weekly_mail(user, event_city_list, write_mail):
                 title.append(today_cn_date())
                 title = ' . '.join(title)
             else:
-                title = " ".join(title)
+                title = ' '.join(title)
 
             name = user.name
             if write_mail and write_mail.txt:
-                htm = txt_withlink(write_mail.txt).replace("\n","</p><p>")
-                htm = "<p>%s</p>"%htm
+                htm = txt_withlink(write_mail.txt).replace('\n', '</p><p>')
+                htm = '<p>%s</p>'%htm
             else:
                 htm = None
 
@@ -91,7 +91,7 @@ def event_weekly_mail(user, event_city_list, write_mail):
                 mail,
                 name,
                 event_city_list=event_city_list,
-                write_htm = htm,
+                write_htm=htm,
                 format='html',
                 subject=title
             )

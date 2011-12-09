@@ -13,17 +13,17 @@ try:
 except AttributeError:
     next_function_getter = attrgetter('__next__')
     class IterRecord(list):
-      def __eq__(self, other): return self[0]==other[0]
-      def __lt__(self, other): return self[0]<other[0]
-      def __le__(self, other): return self[0]<=other[0]
-      def __ne__(self, other): return self[0]!=other[0]
-      def __gt__(self, other): return self[0]>other[0]
-      def __ge__(self, other): return self[0]>=other[0]
-else:    
+        def __eq__(self, other): return self[0] == other[0]
+        def __lt__(self, other): return self[0] < other[0]
+        def __le__(self, other): return self[0] <= other[0]
+        def __ne__(self, other): return self[0] != other[0]
+        def __gt__(self, other): return self[0] > other[0]
+        def __ge__(self, other): return self[0] >= other[0]
+else:
     next_function_getter = attrgetter('next')
     IterRecord = list
 
-    
+
 def imerge_with_key(iterables, key=None):
     '''Merge a (possibly infinite) number of already sorted inputs 
     (each of possibly infinite length) into a single sorted output.
@@ -52,11 +52,11 @@ def imerge_with_key(iterables, key=None):
             pass
         else:
             _.append(i)
- 
+
     if key:
-        iterables = sorted(iterables, key=lambda x:key(x[0]) ) 
+        iterables = sorted(iterables, key=lambda x:key(x[0]) )
     else:
-        iterables = sorted(iterables, key=itemgetter(0)) 
+        iterables = sorted(iterables, key=itemgetter(0))
 
     _heappop, _heapreplace, _heapify, _StopIteration = heappop, heapreplace, heapify, StopIteration
     _iter, _next, _len, _next_function_getter = iter, next, len, next_function_getter
@@ -66,7 +66,7 @@ def imerge_with_key(iterables, key=None):
     iterables = _iter(iterables)
 
     more_iterables = True
-    while _len(h)<2:
+    while _len(h) < 2:
         try:
             # raises StopIteration when no more iterables
             next_item = _next_function_getter(_iter(_next(iterables)))
@@ -125,7 +125,7 @@ def imerge_with_key(iterables, key=None):
         # greater than 'highest', we must bring more enough iterables
         # into play to ensure no items are missed.
         if more_iterables and (cur >= highest or _len(h) < 2):
-            while cur >= highest or _len(h)<2:
+            while cur >= highest or _len(h) < 2:
                 try:
                     # raises StopIteration when no more iterables
                     next_item = _next_function_getter(_iter(_next(iterables)))
@@ -144,14 +144,14 @@ def imerge_with_key(iterables, key=None):
                 h_append(IterRecord([highest, v, next_item]))
             _heapify(h)
 
-if __name__ == "__main__":
-    
+if __name__ == '__main__':
+
     rss_list = [
-        [ (235, "weewew"), (239, "weewew"), ],
-        [ (234, "xxx"), (23123, "xxx"),],
-        [ (234, "xxx"), ]
+        [ (235, 'weewew'), (239, 'weewew'), ],
+        [ (234, 'xxx'), (23123, 'xxx'), ],
+        [ (234, 'xxx'), ]
     ]
-    for pos,i in enumerate(imerge_with_key(
+    for pos, i in enumerate(imerge_with_key(
         rss_list,
         itemgetter(0)
     )):

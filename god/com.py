@@ -54,14 +54,14 @@ class ProductShowRm(Base):
     def get(self, id):
         po = Po.mc_get(id)
         product_show_rm(po)
-        return self.redirect("/product") 
+        return self.redirect('/product')
 
 @urlmap('/product/show/new/(\d+)')
 class ProductShowNew(Base):
     def get(self, id):
         po = Po.mc_get(id)
         product_show_new(po)
-        return self.redirect("/product") 
+        return self.redirect('/product')
 
 @urlmap('/product')
 @urlmap('/product-(\d+)')
@@ -75,9 +75,9 @@ class Product(Base):
             PAGE_LIMIT,
         )
         li = product_list(limit, offset)
-        Zsite.mc_bind(li,"zsite","zsite_id")
+        Zsite.mc_bind(li, 'zsite', 'zsite_id')
         self.render(
-            li = li,
+            li=li,
             page=str(page)
         )
 

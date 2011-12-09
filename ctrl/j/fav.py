@@ -35,7 +35,7 @@ class Fav(JLoginBase):
 
         if zsite and cid in (CID_SITE, CID_COM):
             zsite_fav_new(zsite, current_user_id)
-        
+
 
         txt = self.get_argument('txt', None)
         if txt:

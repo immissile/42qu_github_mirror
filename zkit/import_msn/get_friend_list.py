@@ -52,16 +52,16 @@ def get_friend_list(email, password):
         nick = m.users[i].nick
         i_lower = i.lower()
         if nick.lower() == i_lower:
-            nick = nick.split("@", 1)[0]
+            nick = nick.split('@', 1)[0]
         result[i_lower] = nick
 
     return result
 
-if __name__ == "__main__":
-    result = get_friend_list(raw_input("email:"), raw_input("password:"))
+if __name__ == '__main__':
+    result = get_friend_list(raw_input('email:'), raw_input('password:'))
     if result is False:
-        print "email or password or network error , login failed"
+        print 'email or password or network error , login failed'
     else:
         for k, v in result.iteritems():
-            print k, v.decode("utf-8", "ignore")
+            print k, v.decode('utf-8', 'ignore')
 

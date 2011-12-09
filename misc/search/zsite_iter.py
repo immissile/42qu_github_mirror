@@ -86,7 +86,7 @@ def search_zsite_keyword_iter():
 
 
 def zsite_keyword_iter():
-    for zsite in ormiter(Zsite,"state>0"):
+    for zsite in ormiter(Zsite, 'state>0'):
         kw = zsite2keyword(zsite)
         if kw:
             yield zsite_keyword(zsite, kw)

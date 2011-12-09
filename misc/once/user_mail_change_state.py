@@ -7,14 +7,14 @@ from model.user_mail import UserMail, MAIL_LOGIN, MAIL_VERIFIED, MAIL_UNVERIFY
 
 def check():
     for z in Zsite.where():
-        um = UserMail.get(user_id = z.id)
+        um = UserMail.get(user_id=z.id)
         if um:
-            if z.state <=ZSITE_STATE_APPLY:
+            if z.state <= ZSITE_STATE_APPLY:
                 um.state = MAIL_UNVERIFY
                 um.save()
             else:
                 um.state = MAIL_LOGIN
                 um.save()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     check()

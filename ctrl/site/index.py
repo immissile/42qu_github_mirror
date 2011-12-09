@@ -25,14 +25,14 @@ from model.po import Po
 
 PAGE_LIMIT = 20
 
-@urlmap("/(\d+)")
+@urlmap('/(\d+)')
 class PoId(Base):
     def get(self, id):
         po = Po.mc_get(id)
         if po:
             link = po.link
         else:
-            link = "/"
+            link = '/'
         return self.redirect(link, True)
 
 class SiteListBase(_SiteListBase):

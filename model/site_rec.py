@@ -4,11 +4,11 @@
 SITE_REC_STATE_REJECT = 0
 SITE_REC_STATE_PASS = 1
 SITE_REC_STATE_FAV = 2
-SITE_REC_STATE = (0,1,2)
+SITE_REC_STATE = (0, 1, 2)
 
 
 
-from _db import cursor_by_table, McModel,  McCache, McNum, Model, McCacheM, McCacheA
+from _db import cursor_by_table, McModel, McCache, McNum, Model, McCacheM, McCacheA
 from model.zsite import Zsite
 from kv import Kv
 from model.zsite import  Zsite
@@ -54,9 +54,9 @@ def site_rec_set(user_id, site_id):
     SiteRec.set(user_id, site_id)
     top_rec_mark(user_id, TOP_REC_CID_SITE_REC)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     from model.zsite_url import id_by_url
-    jid = id_by_url("jandan")
+    jid = id_by_url('jandan')
     from zweb.orm import ormiter
     for i in ormiter(SiteRecHistory):
         print i.id

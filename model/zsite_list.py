@@ -17,11 +17,11 @@ CREATE TABLE `zsite_list` (
 ) ENGINE=MyISAM;
 '''
 
-STATE_OWNER  = 60
-STATE_ADMIN  = 40
+STATE_OWNER = 60
+STATE_ADMIN = 40
 STATE_ACTIVE = 20
 STATE_INVITE = 10
-STATE_RM    = 0
+STATE_RM = 0
 
 STATE_LIST = ( STATE_OWNER , STATE_ADMIN  , STATE_ACTIVE , STATE_INVITE , STATE_RM )
 
@@ -113,7 +113,7 @@ def mc_flush(owner_id, cid, zsite_id=0, state=None):
 
     if zsite_id:
         mc_zsite_id_list_by_zsite_id.delete('%s_%s'%(zsite_id, cid))
-        for state in STATE_LIST: 
+        for state in STATE_LIST:
             mc_zsite_id_list_by_zsite_id_state.delete('%s_%s_%s'%(zsite_id, cid, state))
 
         mc_zsite_list_id_state.delete(

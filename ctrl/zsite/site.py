@@ -103,16 +103,16 @@ class Mark(LoginBase):
     def get(self):
         zsite_id = self.zsite_id
         current_user_id = self.current_user_id
-        
+
         can_admin = site_can_admin(zsite_id, current_user_id)
 
         if can_admin:
             return self.redirect('/admin')
         wall = wall_by_from_id_to_id(current_user_id, zsite_id)
         if wall:
-            reply_last =  wall.reply_last()
+            reply_last = wall.reply_last()
             if reply_last:
-                self.render(reply = reply_last)
+                self.render(reply=reply_last)
 
         self.render()
 
@@ -126,8 +126,8 @@ class Mark(LoginBase):
 
         if txt:
             wall = wall_by_from_id_to_id(current_user_id, zsite_id)
-            if wall: 
-                reply_last =  wall.reply_last()
+            if wall:
+                reply_last = wall.reply_last()
             else:
                 reply_last = None
 
@@ -136,7 +136,7 @@ class Mark(LoginBase):
             else:
                 zsite = self.zsite
                 from model.reply import STATE_ACTIVE
-                zsite.reply_new(current_user,txt,STATE_ACTIVE)
+                zsite.reply_new(current_user, txt, STATE_ACTIVE)
         self.get()
 
 

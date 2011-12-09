@@ -122,7 +122,7 @@ def search_site(keywords, offset, limit):
 @retry
 def search(keywords, cid, offset, limit):
 
-    netloc = urlparse(keywords).netloc 
+    netloc = urlparse(keywords).netloc
     if netloc and netloc.endswith(SITE_DOMAIN_SUFFIX):
         url = netloc[:-len(SITE_DOMAIN_SUFFIX)]
         if url:

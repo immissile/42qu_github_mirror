@@ -45,7 +45,7 @@ def verify_new_one(user_id, cid):
 def verify_mail_new(user_id, name, mail, cid):
     id, ck = verify_new_one(user_id, cid)
     template = VERIFY_TEMPLATE[cid]
-    print '%s/auth/verify/login/mail/%s/%s'%(SITE_DOMAIN,id,ck)
+    print '%s/auth/verify/login/mail/%s/%s'%(SITE_DOMAIN, id, ck)
     mq_rendermail(template, mail, name, id=id, ck=ck)
 
 def verifyed(id, value, delete=False):
@@ -58,6 +58,6 @@ def verifyed(id, value, delete=False):
     return 0, 0
 
 if __name__ == '__main__':
-    user_id , cid = verifyed(10266,"kvfUEfwjyOyUaHQ3")
+    user_id , cid = verifyed(10266, 'kvfUEfwjyOyUaHQ3')
     print user_id, cid == CID_VERIFY_COM_HR
-    
+

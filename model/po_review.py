@@ -27,7 +27,7 @@ def po_review_new(zsite_id, user_id, name):
     if review:
         if not name:
             po_review_rm(zsite_id, user_id)
-        else: 
+        else:
             review.state = state
             review.name_ = name
             review.save()

@@ -19,8 +19,8 @@ def _mc_decorator(self, key=None, expire=0):
         _key = key
         key = lambda x:_key.format(**x)
     elif key is None:
-        key = lambda x:""   
- 
+        key = lambda x:''
+
     def _func(func):
         arg_names, varargs, varkw, defaults = inspect.getargspec(func)
 
@@ -48,7 +48,7 @@ def _mc_decorator(self, key=None, expire=0):
             return r
 
         return decorator(_, func)
-    
+
     return _func
 
 def _mc_delete(self, *args):
@@ -211,7 +211,7 @@ class McLimitA(object):
 
                 if limit is None:
                     if self.limit > len(r):
-                        return r[offset:]   
+                        return r[offset:]
                     return func(*a, **kw)
 
                 return r[offset:limit+offset]

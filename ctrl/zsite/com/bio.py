@@ -14,12 +14,12 @@ from model.zsite_com import ZsiteCom
 from model.gid import gid
 from model.ppt import ppt_new
 
-def _bio_save(self,edit=None):
-    hope = self.get_argument('hope',None, False).rstrip()
-    money = self.get_argument('money',None, False).rstrip()
-    culture = self.get_argument('culture',None, False).rstrip()
-    team = self.get_argument('team',None, False).rstrip()
-    video = self.get_argument('video',None)
+def _bio_save(self, edit=None):
+    hope = self.get_argument('hope', None, False).rstrip()
+    money = self.get_argument('money', None, False).rstrip()
+    culture = self.get_argument('culture', None, False).rstrip()
+    team = self.get_argument('team', None, False).rstrip()
+    video = self.get_argument('video', None)
     com_id = self.zsite.id
     files = self.request.files
     cover_id = None
@@ -29,18 +29,18 @@ def _bio_save(self,edit=None):
         if cover:
             cover = picopen(cover)
             if cover:
-                cover_id = com_pic_new(com_id,cover)
-    
-    for pic in files.get('pic',()):
+                cover_id = com_pic_new(com_id, cover)
+
+    for pic in files.get('pic', ()):
         if pic['body']:
             pic = picopen(pic['body'])
             if pic:
-                com_pic_new(com_id,pic)
+                com_pic_new(com_id, pic)
 
     if video:
         video_id = gid()
-        video,video_site = video_filter(video)
-        video_new(video_id,video)
+        video, video_site = video_filter(video)
+        video_new(video_id, video)
     else:
         video_id = 0
         video_site = None
@@ -50,8 +50,8 @@ def _bio_save(self,edit=None):
             ppt = ppt[0]['body']
             ppt_new(com_id, ppt)
 
-    zsite_com_new(com_id,hope,money,culture,team,cover_id, video_site, video_id)
-    
+    zsite_com_new(com_id, hope, money, culture, team, cover_id, video_site, video_id)
+
 
 
 @urlmap('/bio/edit')
@@ -61,9 +61,9 @@ class BioEdit(AdminBase):
         return self.render(
                 '/ctrl/zsite/com/bio/bio_new.htm',
                 edit=True,
-                zsite_com = zsite_com,
+                zsite_com=zsite_com,
                 )
-    
+
     _bio_save = _bio_save
 
     def post(self):
@@ -97,24 +97,24 @@ class BioAdmin(AdminBase):
         pic_id = ico96.get(com_id)
         motto = _motto.get(com_id)
         pid_add = pid_by_com_id(com_id)
-        pid_add = [[i.pid,i.address] for i in pid_add]
+        pid_add = [[i.pid, i.address] for i in pid_add]
         zc = ZsiteCom.mc_get(com_id)
         phone = None
         if zc:
             phone = zc.phone
-        
-        
+
+
         self.render(
                     '/ctrl/com/index/com_new.htm',
                     errtip=errtip,
-                    motto = motto,
-                    pic_id = pic_id,
-                    name = name,
-                    phone = phone,
-                    pid_add = pid_add,
+                    motto=motto,
+                    pic_id=pic_id,
+                    name=name,
+                    phone=phone,
+                    pid_add=pid_add,
                     edit=True)
-    
-        
+
+
     def post(self):
         errtip = Errtip()
         current_user = self.current_user
@@ -122,9 +122,9 @@ class BioAdmin(AdminBase):
         name = self.get_argument('name', None)
         motto = self.get_argument('motto', None)
         pid = self.get_arguments('pid', None)
-        address = self.get_arguments('address',None)
-        phone = self.get_argument('phone',None)        
-        pid_add = zip(pid,address)
+        address = self.get_arguments('address', None)
+        phone = self.get_argument('phone', None)
+        pid_add = zip(pid, address)
         zsite = self.zsite
 
         if not name:
@@ -135,7 +135,7 @@ class BioAdmin(AdminBase):
 
         if not motto:
             errtip.motto = '请编写签名'
-        
+
 
 
         files = self.request.files
@@ -152,29 +152,29 @@ class BioAdmin(AdminBase):
             pic_id = self.get_argument('pic_id', None)
             if not pic_id:
                 errtip.pic = '请上传图片'
-        
+
 
         if not errtip:
             current_user_id = self.current_user_id
             com_id = self.zsite_id
-            zsite_com_new(com_id,phone=phone)
+            zsite_com_new(com_id, phone=phone)
             site_ico_bind(current_user_id, pic_id, com_id)
             motto_set(com_id, motto)
             if pid_add:
                 for pa in pid_add:
-                    zsite_com_place_new(com_id,int(pa[0]),pa[1])
+                    zsite_com_place_new(com_id, int(pa[0]), pa[1])
             else:
-                pid_add = self.get_argument('pid_add',None)
+                pid_add = self.get_argument('pid_add', None)
             return self.redirect('/')
-        
-        
+
+
         return self.render(
             errtip=errtip,
             name=name,
             motto=motto,
             #txt=txt,
-            phone = phone,
+            phone=phone,
             pic_id=pic_id,
-            pid_add = pid_add
+            pid_add=pid_add
         )
 

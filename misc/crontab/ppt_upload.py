@@ -11,13 +11,13 @@ def main():
     now = time() - 200
     for p in Ppt.where(state=1).where('time<%s'%now):
         p.publish()
-    
+
     for p in Ppt.where(state=0):
         p.upload()
 
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 
 
