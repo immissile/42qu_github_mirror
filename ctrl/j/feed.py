@@ -65,7 +65,7 @@ class FeedUp(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
 
-        sync = self.get_argument('sync')
+        sync = self.get_argument('sync','')
         txt = self.get_argument('txt', '')
 
         po = Po.mc_get(id)

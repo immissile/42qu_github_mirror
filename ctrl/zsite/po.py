@@ -54,6 +54,15 @@ class PoRss(ZsiteBase):
             link = po.link
         self.redirect(link, True)
 
+@urlmap('/po/rec/(\d+)')
+class PoRec(LoginBase):
+    def post(self,id):
+        name = self.get_argument('txt', '')
+        rec_po = Po.mc_get(id)
+        rec_po.name_ = name
+        rec_po.save()
+        self.finish('{}')
+        
 @urlmap('/po/word')
 class PoWord(LoginBase):
     def post(self):
