@@ -13,6 +13,8 @@ json.dumps = yajl.dumps
 json.loads = yajl.loads
 json.load = yajl.load
 
+import zkit.cookie_morsel 
+
 def prepare(o):
     o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
