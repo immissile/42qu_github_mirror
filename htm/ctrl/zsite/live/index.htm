@@ -87,7 +87,7 @@ target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}{{/eac
 <div class='rel'>
 {{each rt_list}}
 {{if $value.txt[1]!=""}}
-<a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a> : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_blank"></a> <br/>
+<p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a> : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_blank"></a></p> 
 {{/if}}
 {{/each}}
 {{if authors.length>0}}
