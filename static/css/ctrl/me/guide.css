@@ -131,6 +131,7 @@ margin-right:8px;
 .login_mail, .login_password, #sex {
 width:334px;
 padding:8px;
+border:1px solid #ccc;
 }
 .form_reg h1{
 margin:0 auto 64px;

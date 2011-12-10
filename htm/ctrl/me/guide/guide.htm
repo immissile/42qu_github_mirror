@@ -95,7 +95,7 @@ $(function(){
 <%
 info = UserInfo.mc_get(zsite_id)
 %>
-%if not (info and info.sex):
+%if not (info and info.sex) or 1:
 <p class="line">
 <label class="label_input" for="mail">性别</label>\
 <select name="sex" class="sex_select">
@@ -113,7 +113,7 @@ ${errtip.sex|n}
 <input class="login_mail" id="name" autocomplete="off" type="text" name="name" value="${name or current_user.name or ''}"></p>
 ${errtip.name|n}
 
-%if not UserPassword.get(current_user_id):
+%if not UserPassword.get(current_user_id) or 1:
 <p class="line">
 <label class="label_input" for="password">密码</label>\
 <input class="login_password" id="password" autocomplete="off" type="password" name="password">
