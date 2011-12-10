@@ -90,7 +90,7 @@ target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}{{/eac
 <p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a> : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_blank"></a></p> 
 {{/if}}
 {{/each}}
-{{if authors['has']==1}}
+{{if authors}}
 {{each(k,v) authors}}
 {{if zsite_name==v}}
 <span class='fcmname c9 ' >${v}</span>

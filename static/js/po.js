@@ -139,7 +139,7 @@ po_audio = function(id){
 po_rec= function(id) {
 	var fancybox = $.fancybox;
 	fancybox({
-        content: '<form id="vote_reply" class="fancyreply"><h3>推荐语</h3><textarea name="txt" style="height:140px" class="txt_ar"></textarea><div class="btns"><span class="rec_tip share_sync"></span><span class="btnw"><button class="btn" type="submit">修改</button></span><span class="syncp"><a href="/po/rm/'+id +'?_xsrf=+'+ $.cookie.get("_xsrf")
+        content: '<form id="vote_reply" class="fancyreply"><h3>推荐语</h3><textarea name="txt" style="height:140px" class="txt_ar">' + $(".prebody pre p").text() +'</textarea><div class="btns"><span class="rec_tip share_sync"></span><span class="btnw"><button class="btn" type="submit">修改</button></span><span class="syncp"><a href="/po/rm/'+id +'?_xsrf=+'+ $.cookie.get("_xsrf")
 + '">删除</a></span></div></form>',
 		onComplete: function() {
 			var reply = $("#vote_reply"),
@@ -155,14 +155,7 @@ po_rec= function(id) {
                     '_xsrf' : $.cookie.get("_xsrf")
 				},
 				function(r) {
-					if (r.can_not_reply) {
-						fancybox({
-							content: CANNOT_REPLY
-						})
-					} else {
-						fancybox.close()
-					}
-
+                    fancybox.close()
 				})}else{
                     tip.fadeOut(function(){tip.fadeIn()})
                     return false

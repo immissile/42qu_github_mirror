@@ -46,10 +46,8 @@
 					}
 					t.rt_list = $.map(t.rt_list, array2zsite);
                     t.authors={};
-                    t.authors['has']=0;
                     for(j=0;j<rt_list.length;j++)
                     {
-                        t.authors['has']=1;
                         if(rt_list[j][3][1]==''){
                             t.authors[rt_list[j][1]]=rt_list[j][0];}
                     }
