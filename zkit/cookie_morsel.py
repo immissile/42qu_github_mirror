@@ -14,11 +14,11 @@ class MorselHook(_Morsel):
     Set-Cookie: webpy_session_id=75eb60dcc83e2d902146af0bb7f47afe61fbd2b2;
     Set-Cookie: ys-tab:entrance:e=abc;
     """
-    def set(self, key, val, coded_val, 
-            LegalChars=Cookie._LegalChars+':,', 
-            idmap=string._idmap, 
+    def set(self, key, val, coded_val,
+            LegalChars=Cookie._LegalChars+':,',
+            idmap=string._idmap,
             translate=string.translate):
-        return super(MorselHook, self).set(key, val, 
+        return super(MorselHook, self).set(key, val,
                 coded_val, LegalChars, idmap, translate)
 
 Cookie.Morsel = MorselHook
