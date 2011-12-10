@@ -21,7 +21,7 @@ po_zsite = Zsite.mc_get(po.zsite_id)
 <%
 pre_po = Po.mc_get(po.rid)
 %>
-<h1 style="text-align:left;margin-bottom:17px" id="po_answer_name"><a href="${zsite.link}">${zsite.name}</a> ${po.name}</h1>\
+<h1 style="text-align:left;margin-bottom:17px" id="po_answer_name"><a href="${zsite.link}">${zsite.name}</a> : <a href="${pre_po.link|n}">${pre_po.name}</a></h1>\
 %elif  po.rid :
 <h1 id="po_answer_name">${po.name_htm|n}</h1>\
 %elif po.zsite_id:
