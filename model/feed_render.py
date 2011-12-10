@@ -127,8 +127,17 @@ def render_feed_list(id_list, zsite_id, rt_dict) :
         if id in rt_dict:
             for  v in rt_dict[id]:
                 entry = []
-                zsite = Zsite.mc_get(v[2])
-                entry.extend([zsite.name, zsite.link, zsite.id,v])
+                if v[2]>0:
+                    zsite = Zsite.mc_get(v[2])
+                    _name = zsite.name
+                    _link = zsite.link
+                    _user_id = v[2]
+                else:
+                    _name = 's'
+                    _link = 's'
+                    _user_id = v[2]
+
+                entry.extend([_name,_link, _user_id,v])
                 out.append(entry)
 
         result = [

@@ -30,7 +30,9 @@ def po_recommend_new(rid, user_id, name, reply_id=None):
         state=STATE_ACTIVE,
         rid=rid
     )
+
     recommend.feed_new()
+
     mc_po_recommend_id_by_rid_user_id.set(
         '%s_%s'%(rid, user_id),
         recommend.id
