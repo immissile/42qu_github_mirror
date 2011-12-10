@@ -162,6 +162,7 @@ po_rec= function(id) {
 					} else {
 						fancybox.close()
 					}
+
 				})}else{
                     tip.fadeOut(function(){tip.fadeIn()})
                     return false
