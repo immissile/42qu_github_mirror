@@ -5,7 +5,7 @@ from _urlmap import urlmap
 from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, zsite_new
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
-from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION, CID_CHANNEL
+from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION, CID_CHANNEL, CID_REC
 from model.po import Po, po_state_set
 from model.po_show import po_show_new, po_show_count, po_show_list, po_show_rm
 from model.state import STATE_RM, STATE_SECRET, STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
@@ -132,7 +132,10 @@ class PoShowSet(Base):
         sync = self.get_argument('sync', None)
         if po:
             if broad:
-                po_show_new(po)
+                if po.cid != CID_REC:
+                    from model.po_recommend import po_recommend_new
+                    po_recommend_new(po.id,0,'')
+                #po_show_new(po)
             else:
                 po_show_rm(po)
 

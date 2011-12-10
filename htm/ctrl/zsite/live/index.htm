@@ -83,18 +83,24 @@ target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}{{/eac
 {{each item}}
 <div class="sdw"><div class="sd cid${cid}">
 {{if rt_list.length}} 
+{{if !(rt_list.length==1 && rt_list[0].txt[2]==0)}}
 <div class='rel'>
 {{each rt_list}}
 {{if $value.txt[1]!=""}}
 <a target="_blank" class='fcmname c9 TPH'  href="${$value.link}">${$value.name}</a> : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_top"></a> <br/>
 {{/if}}
 {{/each}}
-{{each rt_list}}
-{{if $value.txt[1]==""}}
-<a target="_blank" class='fcmname c9 TPH'  href="${$value.link}">${$value.name}</a>
+{{if authors.length>0}}
+{{each(k,v) authors}}
+{{if zsite_name==v}}
+<span class='fcmname c9 ' >${v}</span>
+{{else}}
+<a target="_blank" class='fcmname c9 TPH' href="${k}">${v}</a>
 {{/if}}
 {{/each}}推荐
+{{/if}}
 </div>
+{{/if}}
 {{/if}}
 
 {{if cid==68}}
@@ -168,7 +174,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
         <a href="/${id}" target="_blank">${create_time}</a>
         {{if rt_list.length}} 
 <span class="mr3"></span>
-            {{if rt_list.length == 1 && rt_list[0] == 0}}
+            {{if rt_list.length  && rt_list[0].txt[2] == 0 }}
 广播
             {{else}}
             {{/if}}

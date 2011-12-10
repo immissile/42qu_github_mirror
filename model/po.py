@@ -166,12 +166,8 @@ class Po(McModel, ReplyMixin):
                 else:
                     name = '评价 : %s'
                 return name%link
-            #elif cid == CID_REC:
-            #    if q.user_id == self.user_id:
-            #        name = '自我推荐 : %s'
-            #    else:
-            #        name = '推荐 : %s'
-            #    return name%link
+            elif cid == CID_REC:
+                return '<a href="%s">推荐</a> : %s' %(self.link,escape(self.name_))
             else:
                 if q.user_id == self.user_id:
                     return '自问自答 : %s' % link
