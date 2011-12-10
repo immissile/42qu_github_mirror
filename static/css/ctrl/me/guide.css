@@ -1,0 +1,161 @@
+
+.form_btn{
+width:393px;
+margin:14px auto 0;
+}
+.form_btn .next_btn{
+margin-left:0;
+}
+.form_reg .line{
+text-align:left;
+margin-left:66px;
+}
+.form_reg p{
+padding:8px 0;
+}
+select{
+padding:8px;
+text-align:center;
+border:1px solid #ccc;
+}
+.sex_select{
+width:70px;
+}
+.sex_hint{
+margin-left:1em;
+font-size:14px;
+color:#999;
+}
+.job_unit{
+padding:8px;
+width:180px;
+border:1px solid #ccc;
+}
+.job_title{
+padding:8px;
+width:180px;
+margin-left:12px;
+border:1px solid #ccc;
+}
+.job_txt{
+padding:8px;
+width:390px;
+border:1px solid #ccc;
+margin-top:16px;
+}
+.job_begin_year, .job_end_year{
+margin:16px 8px 0 0;
+}
+.job_begin{
+margin-right:12px;
+}
+.job_end{
+margin-left:12px;
+}
+.motto{
+padding:8px;
+width:363px;
+text-align:center;
+border:1px solid #ccc;
+margin-left:8px;
+}
+#birthday select{
+margin-right:8px;
+width:90px;
+}
+#birthday{
+margin-right:-8px;
+}
+.marry{
+margin-left:8px;
+}
+#pid_now select, #pid_home select
+{
+margin-left:8px;
+}
+#txt{
+width:474px;
+height:123px;
+overflow:hidden;
+padding:3px 5px;
+border:1px solid #ccc;
+margin:0 0 16px;
+font-size:14px;
+}
+.p_addr{
+width:650px;
+}
+.form_reg input, .form_reg select{
+font-size:14px;
+}
+.form_reg{
+margin-top:0;padding-top:0
+}
+.job_icon{
+color:#666;
+margin:0 12px 0 -28px;
+vertical-align:1px;
+}
+.school_year,.school_type{
+width:116px;
+}
+.school_select{
+padding:8px;
+text-align:center;
+width:200px;
+margin-right:8px;
+cursor:pointer;
+}
+.dep{
+width:218px;
+margin-right:8px;
+}
+.add_school_a, .add_job_a{
+font-size:14px;
+display:block;
+margin-top:-10px;
+width:60px;
+}
+.form_reg{
+font-family:'lucida grande',tahoma,helvetica,arial,'bitstream vera sans',sans-serif;
+
+}
+.form_reg input, .form_reg, .form_reg select{
+font-size:16px;
+line-height:18px;
+}
+.form_reg .label_input{
+margin-right:8px;
+*vertical-align:8px;
+}
+.login_mail, .login_password, #sex {
+width:334px;
+padding:8px;
+}
+.form_reg h1{
+margin:0 auto 64px;
+height:54px;
+width:467px;
+overflow:hidden;
+text-align:center;
+}
+.form_loading{
+height:8px;
+width:26px;
+margin-left:21px;
+display:inline-block;
+background:url(/img/gif/loading_bar.gif) no-repeat 50% 50%;
+vertical-align:4px;
+}
+#form2, #form4,#form3{
+display:none
+}
+#form2{
+margin-left:109px;
+}
+#form3,#form4{
+margin-left:108px;
+}
+.cl{
+margin-top:6px;
+}
