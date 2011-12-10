@@ -1,7 +1,7 @@
 <%inherit file="/god/_base.htm" />
 <%!
 from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC, \
-CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_SITE, CID_USER
+CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PO, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_SITE, CID_USER,CID_REC
 from model.po_show import po_is_show
 from zkit.time_format import friendly_time
 from model.ico import ico_url as _ico_url
@@ -40,6 +40,9 @@ margin-right:32px
 
 <ol>
 % for po in po_list:
+% if po.cid == CID_REC and po.name_=='':
+    
+% else:
 <li>
 <%
 id = po.id
@@ -84,7 +87,7 @@ site = Zsite.get(po.zsite_id)
 </a>
 ${po.name_htm|n}
 </p>
-%if cid!=CID_WORD:
+%if cid!=CID_WORD and cid!=CID_REC:
 <p>${cnenoverflow(po.txt, 60)[0]}</p>
 %endif
 
@@ -140,6 +143,7 @@ ${friendly_time(po.create_time)}
 % endif
 </a>\
 </div>
+%endif
 %endif
 % endfor
 </ol>
