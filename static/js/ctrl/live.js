@@ -45,7 +45,13 @@
 						}
 					}
 					t.rt_list = $.map(t.rt_list, array2zsite);
-				} else {
+                    t.authors={};
+                    for(j=0;j<rt_list.length;j++)
+                    {
+                        if(rt_list[j][3][1]==''){
+                        t.authors[rt_list[j][1]]=rt_list[j][0];}
+                    }
+                    } else {
 					t.rt_list = [0]
 				}
 			}

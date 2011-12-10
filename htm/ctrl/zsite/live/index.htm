@@ -89,9 +89,11 @@ target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}{{/eac
 <a target="_blank" class='fcmname c9 TPH'  href="${$value.link}">${$value.name}</a> : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_top"></a> <br/>
 {{/if}}
 {{/each}}
-{{each rt_list}}
-{{if $value.txt[1]==""}}
-<a target="_blank" class='fcmname c9 TPH'  href="${$value.link}">${$value.name}</a>
+{{each(k,v) authors}}
+{{if zsite_name==v}}
+<span class='fcmname c9 ' >${v}</span>
+{{else}}
+<a target="_blank" class='fcmname c9 TPH' href="${k}">${v}</a>
 {{/if}}
 {{/each}}推荐
 </div>
