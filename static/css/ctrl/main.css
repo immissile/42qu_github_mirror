@@ -4,6 +4,10 @@
     margin-bottom: 6px;
     padding-bottom: 8px;
 }
+.syncp
+{
+   margin-left:15px;
+}
 #TW{
     padding-bottom:48px;
     _padding-bottom:0;
@@ -129,10 +133,6 @@ display:inline;
 }
 
 
-.syncp
-{
-   margin-left:15px;
-}
 .btnw{
     border: 1px solid #ccc;
 /*
@@ -141,7 +141,6 @@ display:inline;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #eee;
 */
     height:42px;
-    float:left;
     display:inline-block;
 }
 .btn::-moz-focus-inner {
