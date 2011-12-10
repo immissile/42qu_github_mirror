@@ -1,12 +1,14 @@
 .rel
 {
     border-bottom: 1px dotted #CCC;
-    margin-bottom: 6px;
-    padding-bottom: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
 }
 .syncp
 {
-   margin-left:15px;
+vertical-align:11px;
+font-size:16px;
+margin-left:15px;
 }
 #TW{
     padding-bottom:48px;
