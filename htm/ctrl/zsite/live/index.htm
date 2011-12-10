@@ -92,11 +92,7 @@ target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}{{/eac
 {{/each}}
 {{if authors}}
 {{each(k,v) authors}}
-{{if zsite_name==v}}
-<span class='fcmname c9 ' >${v}</span>
-{{else}}
-<a target="_blank" class='fcmname c9 TPH' href="${k}">${v}</a>
-{{/if}}
+<a target="_blank" class='fcmname c0 TPH' href="${k}">${v}</a>
 {{/each}}推荐
 {{/if}}
 </div>
