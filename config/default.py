@@ -1,19 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-from hmako.lookup import TemplateLookup
-import sys
-from os.path import join
+
+import zkit.cookie_morsel 
+
 import yajl
 import json
-from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
-
 json.dump = yajl.dump
 json.dumps = yajl.dumps
 json.loads = yajl.loads
 json.load = yajl.load
 
-import zkit.cookie_morsel 
+
+from hmako.lookup import TemplateLookup
+import sys
+from os.path import join
+from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
+
 
 def prepare(o):
     o.SITE_DOMAIN = '42qu.test'
