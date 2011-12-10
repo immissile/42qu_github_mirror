@@ -200,7 +200,7 @@ function fav_com(){
         text = fav_rm,
         fancybox = $.fancybox
         fancybox({
-            content:'<form id="fav_reply" class="fancyreply"><h3>写写你对它的看法吧 ...</h3><textarea name="txt" class="fav_txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">确定</button></span><span class="R fav_tip c9">142字以内</span></div></form>',
+            content:'<form id="fav_reply" class="fancyreply"><h3>写写你对它的看法吧 ...</h3><textarea name="txt" class="fav_txt"></textarea><div class="btns"><span class="btnw"><button class="btn" type="submit">确定</button></span><span class="R fav_tip c9"></span></div></form>',
             onComplete: function() {
                 var reply = $('#fav_reply'),
 				textarea = $('.fav_txt'),

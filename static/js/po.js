@@ -9,7 +9,7 @@ function po_(id, action, name, input, oncomplete){
         '<div id="po_pop_main">',
         id?'':input,
         '<input id="po_pop_name" autocomplete="off" name="name" type="text"><textarea id="po_pop_txt" name="txt" class="po_pop_txt"></textarea></div><div class="btns">',
-        id?'<a href="javascript:void(0)" id="po_pop_rm">删除</a>':'<span id="po_pop_error"></span>',
+        id?'<a href="javascript:void(0)"  id="po_pop_rm">删除</a>':'<span id="po_pop_error"></span>',
         '<span class="btnw"><button type="submit">提交</button></span></div><input type="hidden" name="_xsrf" value=""></form>'
         ].join(''),
         hideOnOverlayClick:false,
@@ -139,7 +139,7 @@ po_audio = function(id){
 po_rec= function(id) {
 	var fancybox = $.fancybox;
 	fancybox({
-        content: '<form id="vote_reply" class="fancyreply"><h3>推荐语</h3><textarea name="txt" class="txt_ar"></textarea><div class="btns"><span class="rec_tip share_sync">142字以内</span><span class="btnw"><button class="btn" type="submit">修改</button></span><span class="syncp"><a href="/po/rm/'+id +'?_xsrf=+'+ $.cookie.get("_xsrf")
+        content: '<form id="vote_reply" class="fancyreply"><h3>推荐语</h3><textarea name="txt" class="txt_ar"></textarea><div class="btns"><span class="rec_tip share_sync"></span><span class="btnw"><button class="btn" type="submit">修改</button></span><span class="syncp"><a href="/po/rm/'+id +'?_xsrf=+'+ $.cookie.get("_xsrf")
 + '">删除</a></span></div></form>',
 		onComplete: function() {
 			var reply = $("#vote_reply"),
