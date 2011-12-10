@@ -67,6 +67,7 @@ follow_fav_tuple = filter(lambda x: x[0], (
 %if follow_list:
 <div class="zsite_ico_div">\
 %for i in follow_list:
+%if i:
 <%
 i_career = i.career
 %>
@@ -76,6 +77,7 @@ i_career = i.career
     <div>${i_career[0]}</div>
     <div>${i_career[1]}</div>
 </div>
+%endif
 %endfor
 </div>\
 %endif
