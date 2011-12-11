@@ -15,11 +15,11 @@ from model.gid import gid
 from model.ppt import ppt_new
 
 def _bio_save(self, edit=None):
-    hope = self.get_argument('hope', None, False).rstrip()
-    money = self.get_argument('money', None, False).rstrip()
-    culture = self.get_argument('culture', None, False).rstrip()
-    team = self.get_argument('team', None, False).rstrip()
-    video = self.get_argument('video', None)
+    hope = self.get_argument('hope', '', False).rstrip()
+    money = self.get_argument('money', '', False).rstrip()
+    culture = self.get_argument('culture', '', False).rstrip()
+    team = self.get_argument('team', '', False).rstrip()
+    video = self.get_argument('video', '')
     com_id = self.zsite.id
     files = self.request.files
     cover_id = None

@@ -328,8 +328,8 @@ def po_rm(user_id, id):
             from model.po_recommend import po_recommend_rm_reply
             po_recommend_rm_reply(id, user_id)
         else:
-            from model.po_recommend import rm_rec_po_by_poid
-            rm_rec_po_by_poid(user_id,id)
+            from model.po_recommend import rm_rec_po_by_po_id
+            rm_rec_po_by_po_id(user_id,id)
 
         return _po_rm(user_id, po)
 

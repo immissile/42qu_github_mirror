@@ -17,7 +17,7 @@ faved = fav_cid(current_user_id, po_id)
 %else:
 <span class="pnum">0</span>\
 % endif
-<a class="vote" href="javascript:share(${po_id});void(0)">分享</a>\
+<a class="vote" href="javascript:share(${po_id});void(0)">推荐</a>\
 <span class="split">&amp;</span>\
 % if fav_count:
 <a class="pnum" href="/${po_id}/fav">${fav_count}</a>\
