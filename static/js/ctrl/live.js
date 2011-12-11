@@ -49,7 +49,8 @@
                     for(j=0;j<rt_list.length;j++)
                     {
                         if(rt_list[j][3][1]==''){
-                            t.authors[rt_list[j][1]]=rt_list[j][0];}
+                            t.authors[rt_list[j][1]]=[rt_list[j][0],rt_list[j][2]];
+                        }
                     }
                     } else {
 					t.rt_list = [0]

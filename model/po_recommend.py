@@ -21,7 +21,9 @@ def rm_rec_po_by_po_id(user_id,id):
         po_rm(po.user_id,po.id)
 
 def po_recommend_new(rid, user_id, name, reply_id=None):
-    rec_po = Po.mc_get(rid)
+    '''新建推荐'''
+    #判定?
+    #rec_po = Po.mc_get(rid)
 
     recommend = po_new(
         CID_REC,

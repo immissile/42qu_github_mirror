@@ -132,9 +132,8 @@ class PoShowSet(Base):
         sync = self.get_argument('sync', None)
         if po:
             if broad:
-                if po.cid != CID_REC:
-                    from model.po_recommend import po_recommend_new
-                    po_recommend_new(po.id,0,'')
+                from model.po_recommend import po_recommend_new
+                po_recommend_new(po.id,0,'')
                 #po_show_new(po)
             else:
                 po_show_rm(po)

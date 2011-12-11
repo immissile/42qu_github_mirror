@@ -92,7 +92,9 @@ target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}{{/eac
 {{/each}}
 {{if authors}}
 {{each(k,v) authors}}
-<a target="_blank" class='fcmname c0 TPH' href="${k}">${v}</a>
+{{if v[1]!=0}}
+<a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>
+{{/if}}
 {{/each}}推荐
 {{/if}}
 </div>
@@ -172,7 +174,6 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 <span class="mr3"></span>
             {{if rt_list.length  && rt_list[0].txt[2] == 0 }}
 广播
-            {{else}}
             {{/if}}
         {{/if}}
     </div>
