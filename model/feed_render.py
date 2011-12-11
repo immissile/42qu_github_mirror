@@ -133,8 +133,8 @@ def render_feed_list(id_list, zsite_id, rt_dict) :
                     _link = zsite.link
                     _user_id = v[2]
                 else:
-                    _name = 's'
-                    _link = 's'
+                    _name = '1'
+                    _link = '1'
                     _user_id = v[2]
 
                 entry.extend([_name,_link, _user_id,v])
@@ -151,7 +151,6 @@ def render_feed_list(id_list, zsite_id, rt_dict) :
         r.append(result)
 
     return r
-    #return sorted(r, key=lambda x: sort_dict.get(x[1]), reverse=True)
 
 def render_zsite_feed_list(user_id, id_list):
     fav_dict = fav_cid_dict(user_id, id_list)

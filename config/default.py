@@ -7,6 +7,7 @@ from os.path import join
 import yajl
 import json
 from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
+import redis
 
 json.dump = yajl.dump
 json.dumps = yajl.dumps
@@ -14,6 +15,8 @@ json.loads = yajl.loads
 json.load = yajl.load
 
 def prepare(o):
+    
+    o.REDIS_DB = redis.Redis()
     o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
     o.PORT = 6666
