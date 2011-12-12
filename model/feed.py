@@ -63,7 +63,7 @@ def feed_rt(zsite_id, rid):
 
 def feed_rt_list(zsite_id, limit, offset):
     return Feed.where(zsite_id=zsite_id).where('cid = 73').order_by('id desc').col_list(
-        limit, offset, 'rid'
+        limit, offset, 'id'
     )
 
 def feed_rt_count(zsite_id):
