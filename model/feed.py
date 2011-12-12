@@ -72,7 +72,6 @@ def feed_rt_count(zsite_id):
 
 @mc_feed_rt_id('{zsite_id}_{rid}')
 def feed_rt_id(zsite_id, rid):
-    print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     cursor.execute(
         'select po.id from po JOIN feed on po.id=feed.id where po.user_id=%s and po.rid=%s',
         (zsite_id, rid)
