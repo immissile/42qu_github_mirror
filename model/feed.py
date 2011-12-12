@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+from state import STATE_RM, STATE_SECRET, STATE_ACTIVE
 from _db import McModel, McCache, cursor_by_table, McCacheA, McCacheM
 from mq import mq_client
 from zkit.algorithm.merge import imerge
@@ -14,8 +15,8 @@ mc_feed_iter = McCacheM('FeedIter:%s')
 mc_feed_tuple = McCacheM('F%s')
 mc_feed_rt_id = McCache('R%s')
 
-cursor = cursor_by_table('feed')
-
+cursor = cursor_by_table('feed') 
+cursor_po = cursor_by_table('po') 
 class Feed(McModel):
     pass
 
@@ -48,12 +49,16 @@ def feed_rt_rm_by_rid(rid):
 mq_feed_rt_rm_by_rid = mq_client(feed_rt_rm_by_rid)
 
 def feed_rt_rm(zsite_id, rid):
-    id = feed_rt_id(zsite_id, rid)
-    if id:
-        cursor.execute('delete from feed where id=%s', id)
-        cursor.connection.commit()
-        mc_feed_iter.delete(zsite_id)
-        mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
+    ids = feed_rt_id_list(zsite_id, rid)
+    if ids:
+        for id in ids:
+            _id = id[0]
+            cursor.execute('delete from feed where id=%s', _id)
+            from po import po_rm
+            po_rm(zsite_id,_id)
+            cursor.connection.commit()
+            mc_feed_iter.delete(zsite_id)
+            mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
 
 def feed_rt(zsite_id, rid):
     feed = Feed.mc_get(rid)
@@ -69,6 +74,16 @@ def feed_rt_list(zsite_id, limit, offset):
 def feed_rt_count(zsite_id):
     return Feed.where(zsite_id=zsite_id).where('cid = 73').count()
 
+
+def feed_rt_id_list(zsite_id, rid):
+    cursor.execute(
+        'select id from po where user_id=%s and rid=%s and state = %s',
+        (zsite_id, rid, STATE_ACTIVE )
+    )
+    result = cursor.fetchall()
+    if result:
+        return result
+    return 0
 
 @mc_feed_rt_id('{zsite_id}_{rid}')
 def feed_rt_id(zsite_id, rid):
