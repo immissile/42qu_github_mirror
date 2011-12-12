@@ -246,7 +246,7 @@ fcm = function (id,count){
                 $('#fcml_'+id).slideDown(function(){$(this).show()})
                 var e = $('#txt_'+id)
                 if(e.offset().top-doc.scrollTop()>h){
-                    scrolls(id)             
+                    doc.scrollTop($("#fcml_"+id).offset().top-50)             
                 }
                 
             })
