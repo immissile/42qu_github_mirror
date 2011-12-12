@@ -4,6 +4,12 @@
     margin-bottom: 10px;
     padding-bottom: 10px;
 }
+.syncp input{
+vertical-align:-1px;
+}
+.syncp label{
+margin-left:5px;
+}
 .syncp
 {
 vertical-align:11px;
