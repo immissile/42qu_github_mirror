@@ -9,8 +9,6 @@ from model.feed import Feed
 
 def po_recommend_new(rid, user_id, name, reply_id=None):
     '''新建推荐'''
-    #判定?
-    #rec_po = Po.mc_get(rid)
 
     recommend = po_new(
         CID_REC,
@@ -33,6 +31,7 @@ def po_recommend_new(rid, user_id, name, reply_id=None):
         rr.save()
 
     change_feed = Feed.where('rid = %s and user_id = %s',rid, user_id)
+    change_feed.cid = CID_REC
     
 
     return recommend

@@ -47,19 +47,19 @@ def feed_tuple_by_db(id):
     else:
         reply_count = m.reply_count
     if cid == CID_PHOTO:
-        _rid = fs_url_jpg(677, rid)
+        rid = fs_url_jpg(677, rid)
     elif cid == CID_AUDIO:
-        _rid = fs_url_audio(id, '')
+        rid = fs_url_audio(id, '')
     elif cid == CID_EVENT:
         event = Event.mc_get(id)
-        _rid = fs_url_jpg(162, event.pic_id)
+        rid = fs_url_jpg(162, event.pic_id)
     else:
-        _rid = rid
+        rid = rid
 
     result = [
         m.user_id,
         cid,
-        _rid,
+        rid,
         m.zsite_id,
         reply_count,
         m.create_time,
