@@ -139,11 +139,13 @@ po_audio = function(id){
 po_rec= function(id) {
 	var fancybox = $.fancybox;
 	fancybox({
-        content: '<form id="vote_reply" class="fancyreply"><h3>推荐语</h3><textarea name="txt" style="height:140px" class="txt_ar">' + $(".prebody pre p").text() +'</textarea><div class="btns"><span class="rec_tip share_sync"></span><span class="btnw"><button class="btn" type="submit">修改</button></span><span class="syncp"><a href="/po/rm/'+id +'?_xsrf=+'+ $.cookie.get("_xsrf")
+        content: '<form id="vote_reply" class="fancyreply"><h3>推荐语</h3><textarea name="txt" style="height:140px" class="txt_ar"></textarea><div class="btns"><span class="rec_tip share_sync"></span><span class="btnw"><button class="btn" type="submit">修改</button></span><span class="syncp"><a href="/po/rm/'+id +'?_xsrf=+'+ $.cookie.get("_xsrf")
 + '">删除</a></span></div></form>',
 		onComplete: function() {
 			var reply = $("#vote_reply"),
 			textarea = reply.find("textarea"),
+            text= $(".prebody pre p").text();
+            textarea.focus().text(text);
             tip = $('.rec_tip');
             can_say = txt_maxlen(textarea, tip, 142);
 			reply.submit(function() {
@@ -151,11 +153,11 @@ po_rec= function(id) {
                 if(can_say()){
 				fancybox.showActivity()
 				$.postJSON("/po/rec/" + id, {
-					'txt': txt,
-                    '_xsrf' : $.cookie.get("_xsrf")
+					'txt': txt
 				},
 				function(r) {
-                    fancybox.close()
+                    fancybox.close();
+                    location.reload(true);
 				})}else{
                     tip.fadeOut(function(){tip.fadeIn()})
                     return false

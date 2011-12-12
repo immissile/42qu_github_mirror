@@ -7,18 +7,23 @@ from po import po_new, Po, STATE_ACTIVE, STATE_SECRET, po_list_count
 from state import STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from model.zsite import Zsite
 from model.po import po_rm, reply_rm_if_can
-from model.rec2rep import RecRep
 from model.reply import Reply
 from cid import CID_REC
 
 mc_po_recommend_id_by_rid_user_id = McCache('PoRecommendIdByRidUserId:%s')
 mc_reply_id_by_recommend = McCache('ReplyIdByRecommend:%s')
 
+class RecRep(McModel):
+    pass
+
 
 def rm_rec_po_by_po_id(user_id,id):
     ''' DANGEROUS USE WITH CAUTION '''
     for po in Po.where('cid = %s and rid=%s',CID_REC,id):
         po_rm(po.user_id,po.id)
+
+from mq import mq_client
+mq_rm_rec_po_by_po_id = mq_client(rm_rec_po_by_po_id)
 
 def po_recommend_new(rid, user_id, name, reply_id=None):
     '''新建推荐'''
