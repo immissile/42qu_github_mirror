@@ -361,8 +361,9 @@ def _po_rm(user_id, po):
 
 
 def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
-
-    if name and not is_same_post(user_id, name, zsite_id):
+    _is_same_post = is_same_post(user_id, name, zsite_id)
+    print _is_same_post, "_is_same_post", name
+    if name and not _is_same_post:
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
             m.feed_new()
@@ -464,6 +465,20 @@ def mc_flush_zsite_cid(zsite_id, cid):
     _(zsite_id, cid)
 
 if __name__ == '__main__':
+    from zsite_list import zsite_id_list
+    from cid import CID_USER
+    id_list = zsite_id_list(0,CID_USER)
+    for id in id_list:
+        for i in Po.where(user_id = id).where(zsite_id =0).where("state>%s"%STATE_RM):
+            print i.link
+    #exist = set()
+    #for i in Po.where(cid=CID_NOTE).where("zsite_id!=0").where("state>%s"%STATE_RM):
+    #    name = i.name
+    #    if name in exist:
+    #        print len(exist), name
+    #        _po_rm(i.user_id, i)
+    #    else:
+    #        exist.add(name)
 #    pass
 #    exist = set()
 #    for i in Po.where(cid=CID_NOTE).where('zsite_id!=0').where('state>%s'%STATE_RM):
@@ -474,8 +489,3 @@ if __name__ == '__main__':
 #        else:
 #            exist.add(name)
 #
-
-    p =    Po.mc_get(1881)
-    p.zsite_id = 1880
-    p.user_id = 1880
-    p.save()

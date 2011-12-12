@@ -18,6 +18,7 @@ def po_show_rm(po_id):
 def po_show_list(limit, offset):
     ids = feed_rt_list(0, limit, offset)
     li = Po.mc_get_list(ids)
+    li = Po.mc_get_list(i.rid for i in li)
     Zsite.mc_bind(li, 'user', 'user_id')
     return li
 

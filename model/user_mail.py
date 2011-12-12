@@ -77,5 +77,9 @@ def user_mail_by_state(user_id, state):
     return UserMail.where(user_id=user_id).where('state>=%s', state).col_list(col='mail')
 
 if __name__ == '__main__':
-    for i in UserMail.where():
-        i.delete()
+    pass
+    #from zsite import Zsite, CID_USER, STATE_ACTIVE
+    #for i in Zsite.where(cid=CID_USER).where("state>=%s"%STATE_ACTIVE):
+    #    print i.id
+
+

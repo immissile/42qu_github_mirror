@@ -16,7 +16,7 @@ a{text-decoration:none;color:#01a}
 a:hover{text-decoration:none;color:#d10}
 sup{vertical-align:text-top;}
 sub{vertical-align:text-bottom;}
-textarea{overflow:auto;resize:none;}
+textarea{overflow:auto;resize:none;border:1px solid #ccc}
 input,button,select,textarea{font-size:14px;line-height:28px;}
 textarea,input,a{outline: none;}
 div{cursor:default;}

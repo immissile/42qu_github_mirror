@@ -18,6 +18,7 @@ import time
 from model.ico import pic_url_with_default
 from model.feed_render import feed_tuple_by_db
 from model.career import career_current
+from model.txt2htm import txt_withlink
 
 def post_reply(self, id):
     user = self.current_user
@@ -102,7 +103,6 @@ class Word(JLoginBase):
                 zsite_id = 0
 
             m = po_word_new(current_user_id, txt, zsite_id=zsite_id)
-
             if not zsite_id and m:
                 c_dict = career_dict(set([current_user_id]))
                 unit, title = c_dict[current_user_id]
@@ -110,7 +110,7 @@ class Word(JLoginBase):
                     [
                         1, zsite.name, zsite.link, unit,
                         title, pic_url_with_default(current_user_id, '219'),
-                        [[m.id, [], 0, 61, 0, 0, 0, time.time(), None, txt, False]]
+                        [[m.id, [], 0, 61, 0, 0, 0, time.time(), None, txt_withlink(txt), False]]
                     ],
                     []
                 ]

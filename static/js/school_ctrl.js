@@ -1,7 +1,7 @@
 var select_id, dep_id
 select_univ = function(uid,uname){
     $.fancybox.showActivity()
-    $.getScript("http://realfex.com/"+uid+".js",function(){
+    $.getScript("http://0.42qu.us/college/department/"+uid+".js",function(){
         $('#'+select_id).val(uname)
         var deps = depList['deps']
         $('#univ_id'+dep_id.substr(3)).val(uid)

@@ -81,7 +81,11 @@ po_review_show_list = po_review_show_list_with_user(zsite_id)
         </div>
 %endif
         %endfor
-        <div class="com_review_new"><a href="/review">我来评价</a></div>
+        <div class="com_review_new
+%if not po_review_show_list:
+tr
+%endif
+"><a href="/review">我来评价</a></div>
         </div>
 
 <%

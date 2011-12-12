@@ -42,10 +42,10 @@ def feed_tuple_by_db(id):
     else:
         name = None
 
-    if cid == CID_QUESTION:
-        reply_count = answer_count(id)
-    else:
-        reply_count = m.reply_count
+    #if cid == CID_QUESTION:
+    #    reply_count = answer_count(id)
+    #else:
+    reply_count = m.reply_count
     if cid == CID_PHOTO:
         rid = fs_url_jpg(677, rid)
     elif cid == CID_AUDIO:

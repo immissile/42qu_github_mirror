@@ -12,15 +12,18 @@ from model.follow import follow_count_by_to_id, follow_get
 from model.cid import CID_USER
 from model.motto import motto_get
 
-@urlmap('/j/hero/(\d+)')
+@urlmap('/j/hero/(.+)')
 class HeroJson(Base):
     def get(self, id):
         current_user_id = self.current_user_id
-        if current_user_id == int(id):
-            return self.finish('null')
         result = None
         if not id.isdigit():
             id = id_by_url(id)
+        if id:
+            id = int(id)
+        if not id or current_user_id == id:
+            return self.finish('null')
+
         zsite = Zsite.mc_get(id)
         if zsite:
             career = career_current(id)
