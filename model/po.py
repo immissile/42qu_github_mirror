@@ -306,7 +306,7 @@ def po_rm(user_id, id):
     po = Po.mc_get(id)
     cid = po.cid
     rid = po.rid
-    print po,user_id,id
+    #print po,user_id,id
     if po.can_admin(user_id):
         from po_question import answer_count
         if cid == CID_QUESTION:
