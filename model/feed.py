@@ -21,23 +21,21 @@ class Feed(McModel):
 
 def feed_new(id, zsite_id, cid, rid=0):
     cursor.execute(
-        'insert into feed (id, zsite_id, cid, rid) values (%s,%s,%s,%s) on duplicate key update id=id',
-        (id, zsite_id, cid, rid)
+        'insert into feed (id, zsite_id, cid) values (%s,%s,%s) on duplicate key update id=id',
+        (id, zsite_id, cid)
     )
     cursor.connection.commit()
     mc_feed_iter.delete(zsite_id)
     return id
 
 def feed_rm(id):
-    cursor.execute('select zsite_id, rid from feed where id=%s', id)
+    cursor.execute('select zsite_id from feed where id=%s', id)
     r = cursor.fetchone()
     if r:
-        zsite_id, rid = r
+        zsite_id = r[0]
         cursor.execute('delete from feed where id=%s', id)
         cursor.connection.commit()
         mc_feed_iter.delete(zsite_id)
-        if not rid:
-            mq_feed_rt_rm_by_rid(id)
 
 
 def feed_rt_rm_by_rid(rid):
@@ -64,18 +62,18 @@ def feed_rt(zsite_id, rid):
         mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
 
 def feed_rt_list(zsite_id, limit, offset):
-    return Feed.where(zsite_id=zsite_id).where('rid>0').order_by('id desc').col_list(
+    return Feed.where(zsite_id=zsite_id).where('cid = 73').order_by('id desc').col_list(
         limit, offset, 'rid'
     )
 
 def feed_rt_count(zsite_id):
-    return Feed.where(zsite_id=zsite_id).where('rid>0').count()
+    return Feed.where(zsite_id=zsite_id).where('cid = 73').count()
 
 
 @mc_feed_rt_id('{zsite_id}_{rid}')
 def feed_rt_id(zsite_id, rid):
     cursor.execute(
-        'select id from feed where zsite_id=%s and rid=%s',
+        'select po.id from po JOIN feed on po.id=feed.id where po.user_id=%s and po.rid=%s',
         (zsite_id, rid)
     )
     result = cursor.fetchone()
@@ -83,8 +81,8 @@ def feed_rt_id(zsite_id, rid):
         return result[0]
     return 0
 
-FEED_ID_LASTEST_SQL = 'select id, rid from feed where zsite_id=%%s order by id desc limit %s'%PAGE_LIMIT
-FEED_ID_ITER_SQL = 'select id, rid from feed where zsite_id=%%s and id<%%s order by id desc limit %s'%PAGE_LIMIT
+FEED_ID_LASTEST_SQL = 'select id from feed where zsite_id=%%s order by id desc limit %s'%PAGE_LIMIT
+FEED_ID_ITER_SQL = 'select id from feed where zsite_id=%%s and id<%%s order by id desc limit %s'%PAGE_LIMIT
 
 @mc_feed_iter('{feed_id}')
 def feed_id_lastest(feed_id):
@@ -111,10 +109,9 @@ def feed_iter(zsite_id, start_id=MAXINT):
             yield i
         start_id = i[0]
 
-
 def feed_cmp_iter(zsite_id, start_id=MAXINT):
-    for id, rid in feed_iter(zsite_id, start_id):
-        yield FeedCmp(id, rid, zsite_id)
+    for id in feed_iter(zsite_id, start_id):
+        yield FeedCmp(id[0], 0, zsite_id)
 
 class FeedCmp(object):
     def __init__(self, id, rid, zsite_id):

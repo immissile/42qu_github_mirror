@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from model.zsite import Zsite
-from model.po_show import po_show_list
 from model.po import po_view_list, Po
 from model.user_mail import mail_by_user_id
 from model.zsite_tag import tag_by_po_id
