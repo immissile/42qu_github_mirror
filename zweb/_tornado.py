@@ -59,6 +59,7 @@ def set_cookie(self, name, value, domain=None, expires=None, path='/',
     new_cookie[name] = value
     if domain:
         new_cookie[name]['domain'] = domain
+
     if expires_days is not None and not expires:
         expires = datetime.datetime.utcnow() + datetime.timedelta(
             days=expires_days)
@@ -69,8 +70,8 @@ def set_cookie(self, name, value, domain=None, expires=None, path='/',
                 timestamp, localtime=False, usegmt=True
             )
         new_cookie[name]['expires'] = expires
-    elif expires is None:
-        new_cookie[name]['expires'] = 'Sat, 20-Aug-2999 03:38:00 GMT'
+    else:
+        new_cookie[name]['expires'] = 'Tue, 01 Jan 2030 00:00:00 GMT'
 
     if path:
         new_cookie[name]['path'] = path

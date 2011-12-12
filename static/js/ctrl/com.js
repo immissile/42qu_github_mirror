@@ -44,7 +44,6 @@ $(function(){
             $('#errtip_addr').html('请填写完整地址')
             return false
         }
-        $('.pid:last').parent().remove()
         $('input[type="hidden"]').each(function(){
             var self = $(this)
             if(self.attr('name').substr(0,3)=='pid') self.attr('name','pid')
