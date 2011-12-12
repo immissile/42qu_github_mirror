@@ -64,17 +64,20 @@ ${top_rec()}
 <%text>
 {{if zsite_cid == 3}}
 {{each item}}
-<div class="G"><div class="G4 site_po"><div><a href="/${id}" target="_blank">${name}</a><span class="split">-</span><a
-target="_blank"
-class="c0"
-href="${zsite_link}">${zsite_name}</a> {{if rt_list.length}} {{if rt_list.length == 1 && rt_list[0] == 0}}{{else}}<span
-class="split">-</span><span>{{each rt_list}}<a
-href="${$value.link}"
-class="c0"
-target="_blank">${$value.name}</a>{{if $index<rt_list.length-1}} , {{/if}}{{/each}}
-        </span>
-            {{if rt_list.length > 1}}, ${rt_list.length}人{{/if}} 推荐{{/if}}
-        {{/if}}
+<div class="G"><div class="G4 site_po"><div>
+{{if rt_list.length}} 
+{{if (rt_list.length==1 && rt_list[0].txt[2]==0)}}{{else}}
+<p>
+{{each rt_list}}
+{{if $value.txt[1]!=""}}
+    <p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a>{{if rt_list.length==1}} 推荐{{/if}} : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_blank"></a></p> 
+{{/if}}
+{{/each}}
+            {{if has_rter}}共 ${rt_list.length}人 推荐{{/if}} {{/if}}
+{{/if}}
+</p>
+<a href="/${id}" target="_blank">${name}</a><span class="split">-</span><a target="_blank"
+class="c0" href="${zsite_link}">${zsite_name}</a> 
 </div></div></div>
 {{/each}}
 {{else}}

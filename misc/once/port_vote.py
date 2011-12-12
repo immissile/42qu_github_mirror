@@ -5,6 +5,7 @@ from model.vote import Vote
 from model.po import po_new, Po, STATE_ACTIVE, STATE_SECRET, po_list_count
 from model.cid import CID_REC
 from model.po_recommend import mc_po_recommend_id_by_rid_user_id,RecRep
+from model.feed import Feed
 
 def po_recommend_new(rid, user_id, name, reply_id=None):
     '''新建推荐'''
@@ -30,6 +31,9 @@ def po_recommend_new(rid, user_id, name, reply_id=None):
             reply_id=reply_id
         )
         rr.save()
+
+    change_feed = Feed.where('rid = %s and user_id = %s',rid, user_id)
+    
 
     return recommend
 
