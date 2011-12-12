@@ -8,14 +8,17 @@ from model.po_recommend import mc_po_recommend_id_by_rid_user_id,RecRep
 from model.feed import Feed
 
 def po_recommend_new(rid, user_id, name, reply_id=None):
-    '''新建推荐'''
 
+    change_feed = Feed.where('rid = %s and zsite_id = %s',rid, user_id)[0]
+    change_feed.cid = CID_REC
+    
     recommend = po_new(
         CID_REC,
         user_id,
         name,
         state=STATE_ACTIVE,
-        rid=rid
+        rid=rid,
+        id=change_feed.id
     )
 
     mc_po_recommend_id_by_rid_user_id.set(
@@ -30,8 +33,6 @@ def po_recommend_new(rid, user_id, name, reply_id=None):
         )
         rr.save()
 
-    change_feed = Feed.where('rid = %s and user_id = %s',rid, user_id)
-    change_feed.cid = CID_REC
     
 
     return recommend
