@@ -78,3 +78,8 @@ def user_mail_by_state(user_id, state):
 
 if __name__ == '__main__':
     pass
+    #from zsite import Zsite, CID_USER, STATE_ACTIVE
+    #for i in Zsite.where(cid=CID_USER).where("state>=%s"%STATE_ACTIVE):
+    #    print i.id
+
+

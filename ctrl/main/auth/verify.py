@@ -69,6 +69,7 @@ class VerifyMail(VerifyBase):
             user = Zsite.mc_get(user_id)
             if user.state == ZSITE_STATE_APPLY or user.state == ZSITE_STATE_NO_PASSWORD:
                 user.state = ZSITE_STATE_ACTIVE
+                user_mail_active_by_user_id(user_id)
                 user.save()
             self.__dict__['_current_user'] = user
 
