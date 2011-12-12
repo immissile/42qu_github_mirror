@@ -58,9 +58,9 @@ class PoRss(ZsiteBase):
 class PoRec(LoginBase):
     def post(self,id):
         current_user_id = self.current_user_id
-        name = self.get_argument('txt', '')
         rec_po = Po.mc_get(id)
-        if rec_po.user_id == current_user_id:
+        if rec_po and rec_po.cid == CID_REC and rec_po.user_id == current_user_id:
+            name = self.get_argument('txt', '')
             rec_po.name_ = name
             rec_po.save()
         self.finish('{}')

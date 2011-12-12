@@ -25,7 +25,8 @@
 		item = result[6],
 		t,
 		rt_list,
-        site_id;
+        site_id,
+        rter;
 
 		for (; i < DATE_ATTR.length; ++i) {
 			data[DATE_ATTR[i]] = result[i]
@@ -44,17 +45,24 @@
 							t.rt_list.push(rt_list[j])
 						}
 					}
+                    t.rter=rter={};
 					t.rt_list = $.map(t.rt_list, array2zsite);
-                    t.authors={};
                     for(j=0;j<rt_list.length;j++)
                     {
+                        var rter_id=rt_list[j][1]
                         if(rt_list[j][3][1]==''){
-                            t.authors[rt_list[j][1]]=[rt_list[j][0],rt_list[j][2]];
+                            rter[rter_id]=[rt_list[j][0],rt_list[j][2]];
+                        }else{
+                            delete rter[rter_id]
                         }
                     }
-                    } else {
-					t.rt_list = [0]
-				}
+                    for(j in rter){
+                        t.has_rter = 1
+                        break
+                    }
+                } else {
+                        t.rt_list = [0]
+                }
 			}
 
 			t.create_time = $.timeago(t.create_time);
