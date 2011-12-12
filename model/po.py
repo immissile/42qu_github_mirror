@@ -224,10 +224,8 @@ class Po(McModel, ReplyMixin):
     def can_admin(self, user_id):
         if user_id:
             return self.user_id == user_id
-        #!!!!!!!!!#
-        if user_id==0:
-            return True
-        #!!!!!!!!!#
+#        if user_id==0:
+#            return True
 
     def reply_new(self, user, txt, state=STATE_ACTIVE):
         result = super(Po, self).reply_new(user, txt, state)
@@ -311,7 +309,7 @@ def po_rm(user_id, id):
     po = Po.mc_get(id)
     cid = po.cid
     rid = po.rid
-    print po,user_id,id
+    #print po,user_id,id
     if po.can_admin(user_id):
         from po_question import answer_count
         if cid == CID_QUESTION:
