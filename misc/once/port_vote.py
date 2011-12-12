@@ -25,7 +25,7 @@ def main():
             recommend.id
         )
         vote.cid  =CID_REC
-        voie.rid = 0
+        vote.rid = 0
         vote.save()
 
 if __name__ == '__main__':
