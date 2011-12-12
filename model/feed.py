@@ -16,7 +16,6 @@ mc_feed_tuple = McCacheM('F%s')
 mc_feed_rt_id = McCache('R%s')
 
 cursor = cursor_by_table('feed') 
-cursor_po = cursor_by_table('po') 
 class Feed(McModel):
     pass
 

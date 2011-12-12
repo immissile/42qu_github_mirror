@@ -27,15 +27,9 @@ def po_show_count():
     return feed_rt_count(0)
 
 def po_is_show(po):
-    cursor.execute(
-        'select 1 from feed where user_id=0 and id=%s and cid=%s',
-        (0, po.id, CID_REC)
-    )
-    result = cursor.fetchone()
-    if result:
-        return result[0]
-    return 0
-
+    r = Po.get(user_id=0, rid=po.id, cid=CID_REC, state=STATE_ACTIVE)
+    if r:
+        return r.id
 
 
 if __name__ == '__main__':
