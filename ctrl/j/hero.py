@@ -12,7 +12,7 @@ from model.follow import follow_count_by_to_id, follow_get
 from model.cid import CID_USER
 from model.motto import motto_get
 
-@urlmap('/j/hero/(\d+)')
+@urlmap('/j/hero/(.+)')
 class HeroJson(Base):
     def get(self, id):
         current_user_id = self.current_user_id
