@@ -7,6 +7,7 @@ from state import STATE_RM, STATE_SECRET, STATE_ACTIVE
 from zsite import Zsite
 #from rank import Rank, rank_po_id_list, rank_new, rank_rm, rank_po_id_count, rank_id_by_po_id_to_id, _rank_mv
 from _db import cursor_by_table
+from cid import CID_REC
 
 cursor = cursor_by_table('feed')
 def po_show_new(po):
@@ -27,8 +28,8 @@ def po_show_count():
 
 def po_is_show(po):
     cursor.execute(
-        'select po.id from po join feed on feed.id=po.id where po.user_id=%s and po.rid=%s  ',
-        (0, po.id)
+        'select 1 from feed where user_id=0 and id=%s and cid=%s',
+        (0, po.id, CID_REC)
     )
     result = cursor.fetchone()
     if result:

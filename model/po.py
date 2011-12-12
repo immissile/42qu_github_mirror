@@ -222,7 +222,8 @@ class Po(McModel, ReplyMixin):
         return True
 
     def can_admin(self, user_id):
-        return self.user_id == user_id
+        if user_id is not None:
+            return self.user_id == user_id
 #        if user_id==0:
 #            return True
 
