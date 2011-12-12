@@ -201,6 +201,8 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     id_list = []
     id = 0
     for i in feed_merge_iter(zsite_id_list, limit, begin_id):
+        if i.rid!=0:
+            continue
         id = i.id
         po = Po.mc_get(id)
         if po.cid == CID_REC:
