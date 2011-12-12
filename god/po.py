@@ -134,7 +134,7 @@ class PoShowSet(Base):
             if broad:
                 from model.po_recommend import po_recommend_new
                 test_po = Po.where('rid = %s & user_id=%s', po.id, 0)
-                if not test_po:
+                if not len(test_po):
                     po_recommend_new(po.id,0,'')
                 #po_show_new(po)
             else:
