@@ -131,7 +131,9 @@ def sync_recommend(id, po_id):
     p = Po.mc_get(po_id)
     s = state_oauth_id_by_zsite_id_cid(id, SYNC_CID_SHARE)
     for oauth_id in s:
-        sync_by_oauth_id(oauth_id, '分享 : ' + p.name_, 'http:%s'%p.link)
+        rec_po = Po.mc_get(p.rid)
+        if rec_po:
+            sync_by_oauth_id(oauth_id, '分享 : ' + rec_po.name_[:20] + '评语 : '+ p.name_[:20] , 'http:%s'%p.link)
 
 
 def sync_follow_oauth_id_bind(user_id, cid, oauth_id):
