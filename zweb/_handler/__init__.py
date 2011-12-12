@@ -5,7 +5,8 @@ import urllib
 import urlparse
 from zsql.metamodel import lower_name
 from zweb._tornado import web
-from config import render, SITE_DOMAIN, SITE_URL, REDIS_DB 
+from config import render, SITE_DOMAIN, SITE_URL
+#, REDIS_DB 
 from model._db import mc
 from model.user_session import user_id_by_session
 from model.zsite import Zsite
@@ -20,9 +21,9 @@ class BaseBase(web.RequestHandler):
     def decode_argument(self, value, name=None):
         return value
 
-    def finish(self,*args,**argd):
-        super(BaseBase, self).finish(*args,**argd)
-        REDIS_DB.incr(self.request.uri)
+#    def finish(self,*args,**argd):
+#        super(BaseBase, self).finish(*args,**argd)
+#        REDIS_DB.incr(self.request.uri)
 
     def prepare(self):
         mc.reset()
