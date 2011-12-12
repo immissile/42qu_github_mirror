@@ -28,12 +28,13 @@ function share(id) {
 	}
 	var fancybox = $.fancybox;
 	fancybox({
-        content: '<form id="vote_reply" class="fancyreply"><h3>推荐语</h3><textarea tabindex="1" style="height:140px" name="txt"></textarea><div class="btns"><span class="rec_tip share_sync"></span><span class="btnw"><button class="btn" tabindex="3" type="submit">分享</button></span><span class="syncp"><input tabindex="2" type="checkbox" name="sync" class="sync" /> 同时发表评论</span></div></form>',
+        content: '<form id="vote_reply" class="fancyreply"><h3>推荐语</h3><textarea tabindex="1" style="height:140px" name="txt"></textarea><div class="btns"><span class="rec_tip share_sync"></span><span class="btnw"><button class="btn" tabindex="3" type="submit">分享</button></span><span class="syncp"><input tabindex="2" id="sync" type="checkbox" name="sync" class="sync" /><label for="sync">同时发表评论</label></span><span class="sync_show"><a href="/i/bind" target="_blank" class="share_sync">微博同步</a></span></div></form>',
 		onComplete: function() {
 			var reply = $("#vote_reply"),
 			textarea = reply.find("textarea"),
             tip = $('.rec_tip');
-            can_say = txt_maxlen(textarea, tip, 142);
+            change = function(){$('.sync_show').hide();};
+            can_say = txt_maxlen(textarea, tip, 142, change);
 			reply.submit(function() {
 				var txt = $.trim(textarea.val());
                 if(can_say()){
