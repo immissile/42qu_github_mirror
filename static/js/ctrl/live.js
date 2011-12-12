@@ -26,7 +26,8 @@
 		t,
 		rt_list,
         site_id,
-        rter;
+        rter,
+        exist_rter;
 
 		for (; i < DATE_ATTR.length; ++i) {
 			data[DATE_ATTR[i]] = result[i]
@@ -46,14 +47,16 @@
 						}
 					}
                     t.rter=rter={};
+                    exist_rter={};
 					t.rt_list = $.map(t.rt_list, array2zsite);
                     for(j=0;j<rt_list.length;j++)
                     {
                         var rter_id=rt_list[j][1]
-                        if(rt_list[j][3][1]==''){
+                        if(rt_list[j][3][1]==''&&!exist_rter[rter_id]){
                             rter[rter_id]=[rt_list[j][0],rt_list[j][2]];
                         }else{
                             delete rter[rter_id]
+                            exist_rter[rter_id] = 1
                         }
                     }
                     for(j in rter){
