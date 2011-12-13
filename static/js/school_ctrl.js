@@ -11,6 +11,7 @@ select_univ = function(uid,uname){
         for(var i=0;i<deps.length;i++){
             dep_node.append('<option value='+deps[i]['id']+'>'+deps[i]['name']+'</option>')
         }
+        $.fancybox.hideActivity()
         $.fancybox.close()
     });
 }
