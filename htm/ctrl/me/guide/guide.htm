@@ -36,12 +36,16 @@ ${css.ctrl_me_guide|n}
 $(function(){
     var j=2
     function job_now_label(elem){
-
+        var id = uuid();
+        elem.find('.job_now').attr('id',id)
+        elem.find('.label_now').attr('for',id)
         return elem
     }
+    var job_block = job_now_label($('.job_block'));
+
     $('.add_job_a').click(function(){
         var block = $(this).parent();
-        var job_html = job_now_label($('.job_block')).html()
+        var job_html = job_block.html()
         block.before(
             job_now_label($('<div class="job_more"/>').html(job_html))
         )
