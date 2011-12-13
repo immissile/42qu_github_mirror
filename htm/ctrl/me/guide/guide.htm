@@ -37,9 +37,6 @@ $(function(){
     var j=2
     $('.add_job_a').click(function(){
         var block = $(this).parent()
-        if(!block.parent().find('.job_icon')[0]){
-            $('.job_block').prepend('<span class="job_icon">■</span>')
-        }
         var job_html = $('.job_block').html()
         block.before('<p>'+job_html+'</p>')
     })
@@ -155,7 +152,7 @@ ${errtip.password|n}
 
 
 <%htm:form className="form_reg" id="form3">
-    <p class="job_block">
+    <div class="job_block">
         <div><input class="job_unit" name="job_unit" placeholder="单位"><input class="job_title" name="job_title" placeholder="头衔"></div><input class="job_txt" name="job_txt" placeholder="经历简述 ... ..."><br/>
         <span class="job_begin">
         <select name="job_begin_year" class="job_begin_year"><option value=0> - 年 - </option></select>
@@ -165,7 +162,7 @@ ${errtip.password|n}
         <select name="job_end_year" class="job_end_year"><option value=0> - 年 - </option></select>
         <select name="job_end_month" class="job_end_month"><option value=0> - 月 - </option></select>
         </span>
-    </p>
+    </div>
     <p>
         <a href="javascript:void(0)" class="add_job_a">添加经历</a>
     </p>

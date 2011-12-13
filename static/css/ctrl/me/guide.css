@@ -28,7 +28,7 @@ color:#999;
 }
 .job_unit{
 padding:8px;
-width:180px;
+width:183px;
 border:1px solid #ccc;
 }
 .job_title{
@@ -39,7 +39,7 @@ border:1px solid #ccc;
 }
 .job_txt{
 padding:8px;
-width:390px;
+width:393px;
 border:1px solid #ccc;
 margin-top:16px;
 }
@@ -151,6 +151,12 @@ vertical-align:4px;
 #form2, #form4,#form3{
 display:none
 }
+#form3{
+margin-top:30px;
+}
+#form3 select{
+width:86px
+}
 #form2{
 margin-left:109px;
 }
@@ -160,3 +166,7 @@ margin-left:108px;
 .cl{
 margin-top:6px;
 }
+.job_block{
+margin-bottom:14px;
+}
+
