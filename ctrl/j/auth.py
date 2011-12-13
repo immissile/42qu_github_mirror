@@ -4,6 +4,7 @@ from _handler import JLoginBase
 from zkit.errtip import Errtip
 from model.user_auth import user_password_verify, UserPassword, user_password_new
 from model.user_info import user_info_new, UserInfo as _UserInfo
+from tornado.escape import utf8, native_str, parse_qs_bytes
 
 @urlmap("/j/auth/guide/1")
 class AuthGuide1(JLoginBase):
@@ -49,13 +50,25 @@ class AuthGuide1(JLoginBase):
 @urlmap("/j/auth/guide/2")
 class AuthGuide2(JLoginBase):
     def post(self):
-        result = {}
-        self.finish(result)
+        arguments = parse_qs_bytes(native_str(self.request.body), True)
+        
+        for univ_id , school_year, school_type, dep in zip(
+            arguments['univ_id'],
+            arguments['school_year'],
+            arguments['school_type'],
+            arguments['dep'],
+        ):
+            if not univ_id:
+                continue
+            print univ_id, school_year, school_type, dep
+
+        self.finish('{}')
 
 
 @urlmap("/j/auth/guide/3")
 class AuthGuide3(JLoginBase):
     def post(self):
+        arguments = parse_qs_bytes(native_str(self.request.body), True)
         result = {}
         self.finish(result)
 
