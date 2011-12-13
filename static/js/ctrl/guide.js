@@ -76,6 +76,9 @@ $(function(){
             job_now_label($('<div class="job_more"/>').html(job_html))
         )
     })
+
+
+    
     $('.school_select').live('focus',pop_school)
     $('#txt').elastic()
     $('#mb1').show()
@@ -91,21 +94,30 @@ $(function(){
     for(var i=1;i<=12;i++){
         $('.job_begin_month, .job_end_month').append('<option value='+i+'>'+i+'</option>')
     }
-    var part1 = $('.part1').html(),
-    part2 = $('.part2').html()
-    $('.part1').append('<input type="hidden" name="univ_id" id="univ_id1" value="" />')
+
+    var school_block = $(".school_block"),
+        school_html = school_block.html();
+
+    school_block.find(".x").remove()
+    
     $('.add_school_a').click(function(){
         var icon = '<span class="job_icon">■</span>'
         if(!$('.part1').find('.job_icon')[0]){
             $('.part1').prepend($(icon))
         }
-        var block = $('<div class="school_block"/>')
+        var block = $('<div class="school_block"/>').html(school_html)
         $(this).parent().before(block)
-        
-        block.before('<p>'+icon+part1+'<input type="hidden" name="univ_id" id="univ_id'+j+'" value="" /></p>')
-        block.before('<p>'+part2+'</p>')
+
+        block.find('.part1').prepend($(icon))
+
         $('.school_select:last').attr('id','school_select'+j)
         $('.dep:last').attr('id','dep'+j)
+        $('input[name=univ_id]:last').attr('id','univ_id'+j)
+
         j++
     })
+
 })
+function school_x(e){
+    $(e).parents(".school_block").remove()
+}

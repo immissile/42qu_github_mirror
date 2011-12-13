@@ -87,6 +87,8 @@ ${errtip.password|n}
 
 </%htm:form>
 <%htm:form className="form_reg" id="form2">
+<div class="school_block">
+    <input type="hidden" name="univ_id" id="univ_id1" value="" >
     <p class="part1">
         <input id="school_select1" value="请选择学校" autocomplete="off" type="text" class="school_select">
         <select name="school_year" class="school_year"></select>
@@ -105,6 +107,7 @@ ${errtip.password|n}
             <option value="7">教师</option>
         </select>
     </p>
+</div>
     <p>
         <a href="javascript:void(0)" class="add_school_a">添加学校</a>
     </p>
