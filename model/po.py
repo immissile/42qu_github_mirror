@@ -222,7 +222,7 @@ class Po(McModel, ReplyMixin):
         return True
 
     def can_admin(self, user_id):
-        if user_id:
+        if user_id is not None:
             return self.user_id == user_id
 
     def reply_new(self, user, txt, state=STATE_ACTIVE):
@@ -307,9 +307,9 @@ def po_rm(user_id, id):
     po = Po.mc_get(id)
     cid = po.cid
     rid = po.rid
+    #print po,user_id,id
     if po.can_admin(user_id):
         from po_question import answer_count
-
         if cid == CID_QUESTION:
             if answer_count(id):
                 return
@@ -324,7 +324,6 @@ def po_rm(user_id, id):
         elif cid == CID_EVENT_NOTICE:
             from model.po_event import mc_po_event_notice_id_list_by_event_id
             mc_po_event_notice_id_list_by_event_id.delete(rid)
-
         if cid == CID_REC:
             from model.po_recommend import po_recommend_rm_reply
             po_recommend_rm_reply(id, user_id)

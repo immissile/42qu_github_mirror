@@ -10,7 +10,7 @@ from model.po import Po
 from model.state import STATE_ACTIVE
 from model.sync import sync_po, sync_join_event,\
 sync_recommend, sync_follow, SyncFollow
-from model.cid import CID_WORD, CID_NOTE, CID_EVENT, CID_AUDIO, CID_VIDEO, CID_PHOTO
+from model.cid import CID_WORD, CID_NOTE, CID_EVENT, CID_AUDIO, CID_VIDEO, CID_PHOTO, CID_REC
 from model.event import EventJoiner, EVENT_JOIN_STATE_NO
 from model.feed import Feed
 from traceback import print_exc
@@ -46,8 +46,8 @@ def _sync_join_event(begin_id):
 
 def _sync_recommend(begin_id):
     for i in ormiter(Feed,
-        'id>%s and rid!=0'%(
-            begin_id,
+        'id>%s and cid=%s'%(
+            begin_id,CID_REC
         )
     ):
         begin_id = i.id

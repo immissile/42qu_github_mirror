@@ -7,7 +7,7 @@ from model.po import Po, PO_SHARE_FAV_CID
 from yajl import dumps
 from model.vote import vote_down_x, vote_down, vote_up_x, vote_up
 from model.feed_render import MAXINT, PAGE_LIMIT, render_feed_by_zsite_id, FEED_TUPLE_DEFAULT_LEN, dump_zsite
-from model.feed import feed_rt, feed_rt_rm, feed_rt_id, feed_rm
+from model.feed import feed_rm
 from model.ico import pic_url_with_default
 from model.cid import CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_WORD, CID_EVENT
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
