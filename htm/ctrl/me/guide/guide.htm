@@ -37,11 +37,14 @@ $(function(){
     var j=2
     function job_now_label(elem){
         var id = uuid();
-        elem.find('.job_now').attr('id',id)
+        elem.find('.job_now').attr('id',id).change()
         elem.find('.label_now').attr('for',id)
         return elem
     }
+
     var job_block = job_now_label($('.job_block'));
+    job_block.find('.job_now').attr('checked',true)
+    job_block.find('.job_end').hide()
 
     $('.add_job_a').click(function(){
         var block = $(this).parent();
