@@ -2,9 +2,6 @@
 $("button[type=submit]").attr('disabled',false);
 $("input:first").focus().select()
 
-function school_x(elem){
-    
-}
 
 function form(id){
     form_id=$("#form"+id)
@@ -69,6 +66,7 @@ $(function(){
     job_block.find('.job_now').attr('checked',true)
     job_block.find('.job_end').hide()
     job_block.find('input[name=job_now]').val(1)
+    job_block.find('.x').remove()
 
     $('.add_job_a').click(function(){
         var block = $(this).parent();
@@ -121,3 +119,8 @@ $(function(){
 function school_x(e){
     $(e).parents(".school_block").remove()
 }
+function job_x(e){
+    $(e).parents(".job_more").remove()
+}
+
+

@@ -6,7 +6,7 @@ from model.user_auth import user_password_verify, UserPassword, user_password_ne
 from model.user_info import user_info_new, UserInfo as _UserInfo
 from tornado.escape import utf8, native_str, parse_qs_bytes
 
-@urlmap("/j/auth/guide/1")
+@urlmap('/j/auth/guide/1')
 class AuthGuide1(JLoginBase):
     def post(self):
 
@@ -15,10 +15,10 @@ class AuthGuide1(JLoginBase):
         result = {}
         error = {}
 
-        
+
         name = self.get_argument('name', None)
         if not name:
-            error['name'] = "请输入姓名"
+            error['name'] = '请输入姓名'
 
         sex = None
         info = _UserInfo.mc_get(current_user_id)
@@ -46,12 +46,12 @@ class AuthGuide1(JLoginBase):
             result['error'] = error
 
         self.finish(result)
- 
-@urlmap("/j/auth/guide/2")
+
+@urlmap('/j/auth/guide/2')
 class AuthGuide2(JLoginBase):
     def post(self):
         arguments = parse_qs_bytes(native_str(self.request.body), True)
-        
+
         for univ_id , school_year, school_type, dep in zip(
             arguments['univ_id'],
             arguments['school_year'],
@@ -65,13 +65,34 @@ class AuthGuide2(JLoginBase):
         self.finish('{}')
 
 
-@urlmap("/j/auth/guide/3")
+@urlmap('/j/auth/guide/3')
 class AuthGuide3(JLoginBase):
     def post(self):
         arguments = parse_qs_bytes(native_str(self.request.body), True)
+
+        for job_begin_month, job_begin_year, job_end_month, job_end_year, job_now, job_title, job_txt, job_unit in zip(
+            *map(
+                arguments.get,
+                (
+                    'job_begin_month',
+                    'job_begin_year',
+                    'job_end_month',
+                    'job_end_year',
+                    'job_now',
+                    'job_title',
+                    'job_txt',
+                    'job_unit',
+                )
+            )
+        ):
+            print job_begin_month, job_begin_year, job_end_month, job_end_year, job_now, job_title, job_txt, job_unit
+
         self.finish('{}')
 
-@urlmap("/j/auth/guide/4")
+@urlmap('/j/auth/guide/4')
 class AuthGuide4(JLoginBase):
     def post(self):
         self.finish('{}')
+
+
+
