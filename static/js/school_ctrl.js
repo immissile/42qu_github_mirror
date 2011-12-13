@@ -1,8 +1,9 @@
 var select_id, dep_id
 select_univ = function(uid,uname){
+    $.fancybox.close()
+    $('#'+select_id).val(uname)
     $.fancybox.showActivity()
     $.getScript("http://0.42qu.us/college/department/"+uid+".js",function(){
-        $('#'+select_id).val(uname)
         var deps = depList['deps']
         $('#univ_id'+dep_id.substr(3)).val(uid)
         var dep_node = $('#'+dep_id)
@@ -12,7 +13,6 @@ select_univ = function(uid,uname){
             dep_node.append('<option value='+deps[i]['id']+'>'+deps[i]['name']+'</option>')
         }
         $.fancybox.hideActivity()
-        $.fancybox.close()
     });
 }
 

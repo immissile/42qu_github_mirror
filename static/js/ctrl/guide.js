@@ -1,6 +1,11 @@
 
 $("button[type=submit]").attr('disabled',false);
 $("input:first").focus().select()
+
+function school_x(elem){
+    
+}
+
 function form(id){
     form_id=$("#form"+id)
     $(form_id).submit(function(){
@@ -94,7 +99,9 @@ $(function(){
         if(!$('.part1').find('.job_icon')[0]){
             $('.part1').prepend($(icon))
         }
-        var block = $(this).parent()
+        var block = $('<div class="school_block"/>')
+        $(this).parent().before(block)
+        
         block.before('<p>'+icon+part1+'<input type="hidden" name="univ_id" id="univ_id'+j+'" value="" /></p>')
         block.before('<p>'+part2+'</p>')
         $('.school_select:last').attr('id','school_select'+j)
