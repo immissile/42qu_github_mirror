@@ -22,6 +22,8 @@ function pop_school(){
     fancybox({
         content:'<div class="school_wrap"><div class="couns">'+get_couns()+'</div><div class="provs">'+get_provs(0)+'</div><div class="search_univ">搜索 <input type="text" id="univ_txt"></div>'+'<div class="univs">'+get_univ_by_prov(0,0)+'</div></div>'
     })
+
+    $("#univ_txt").focus()
     $('#prov_0').addClass('prov_now')
     $('#coun_0').addClass('coun_now')
     var txt = $('#univ_txt')
@@ -91,6 +93,7 @@ select_prov = function(cid,pid){
     $('#prov_'+pid).addClass('prov_now')
     var univs = get_univ_by_prov(cid,pid)
     $('.univs').html(univs)
+    $("#univ_txt").focus().val('')
 }
 
 function get_univ_by_coun(cid){
