@@ -16,8 +16,9 @@ select_univ = function(uid,uname){
 }
 
 function pop_school(){
-    select_id = $(this).attr('id')
-    dep_id = $(this).attr('id').replace('school_select','dep')
+    var self=$(this).blur()
+    select_id = self.attr('id')
+    dep_id = self.attr('id').replace('school_select','dep')
     var fancybox = $.fancybox
     fancybox({
         content:'<div class="school_wrap"><div class="couns">'+get_couns()+'</div><div class="provs">'+get_provs(0)+'</div><div class="search_univ">搜索 <input type="text" id="univ_txt"></div>'+'<div class="univs">'+get_univ_by_prov(0,0)+'</div></div>'

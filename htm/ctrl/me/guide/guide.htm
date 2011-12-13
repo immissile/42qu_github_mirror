@@ -43,7 +43,7 @@ $(function(){
         var job_html = $('.job_block').html()
         block.before('<p>'+job_html+'</p>')
     })
-    $('.school_select').live('click',pop_school)
+    $('.school_select').live('focus',pop_school)
     $('#txt').elastic()
     $('#mb1').show()
     $('.step_btn').click(function(){
