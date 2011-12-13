@@ -143,10 +143,16 @@ def search(keywords, cid, offset, limit):
     return Zsite.mc_get_list(r), count
 
 if __name__ == '__main__':
-    print search_user('http://zuroc.zuroc.xxx', 0, 111)[0][0].id
-    print search_site('awerewar', 0, 111)
+    man =  search('python',CID_USER,0,508)
+    from zsite_link import ZsiteLink
+    from user_mail import mail_by_user_id
+    for t in [i.id for i in man[0]]: 
+        for i in  ZsiteLink.where(zsite_id = t).where(cid=0):
+            print Zsite.mc_get(i.zsite_id).name,mail_by_user_id(i.zsite_id),i.link
+    #print search_user('http://zuroc.zuroc.xxx', 0, 111)[0][0].id
+    #print search_site('awerewar', 0, 111)
 
-    cid = CID_USER
+    #cid = CID_USER
 
 
 
