@@ -1,12 +1,11 @@
 
 $("button[type=submit]").attr('disabled',false);
 $("input:first").focus().select()
-function form(form_id, error){
-
+function form(id){
+    form_id=$("#form"+id)
     $(form_id).submit(function(){
         $(".errtip").hide()
-        var self=$(this), btn=self.find("button[type=submit]"),
-            id=this.id.slice(4)-0, errtip, error;
+        var self=$(this), btn=self.find("button[type=submit]"), errtip, error;
         $(btn.blur().attr("disabled",true).css({'background':"#fff","color":"#aaa"})[0].parentNode).after(
             '<span class="form_loading"/>'
         )
@@ -30,22 +29,17 @@ function form(form_id, error){
                 self.slideUp()
                 next.slideDown()
             }else{
-                location="/"
+                //location="/"
             }
-            //$.fancybox.hideActivity();
         })
         return false
     })
 }
-form("#form1",function(o){
+form(1)
+form(2)
+form(3)
+form(4)
 
-})
-form("#form2",function(o){
-
-})
-form("#form3",function(o){
-
-})
 $(function(){
     var j=2
     function job_now_label(elem){
