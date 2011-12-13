@@ -73,17 +73,11 @@ ${top_rec()}
     <p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a>{{if rt_list.length==1}} 推荐{{/if}} : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_blank"></a></p> 
 {{/if}}
 {{/each}}
-            {{if has_rter}}
-            {{each(k,v) rter}}
-            {{if v[1]!=0}}
-                <a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>
-            {{/if}}
-            {{/each}}推荐
-             {{/if}} {{/if}}
+{{/if}}
 {{/if}}
 </p>
 <a href="/${id}" target="_blank">${name}</a><span class="split">-</span><a target="_blank"
-class="c0" href="${zsite_link}">${zsite_name}</a> 
+class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="split">-</span>{{each(k,v) rter}}{{if v[1]!=0}}<a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>{{/if}}{{/each}} 推荐{{/if}} 
 </div></div></div>
 {{/each}}
 {{else}}

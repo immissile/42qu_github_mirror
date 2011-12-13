@@ -52,7 +52,7 @@
                     for(j=0;j<rt_list.length;j++)
                     {
                         var rter_id=rt_list[j][1]
-                        if(rt_list[j][3][1]==''&&!exist_rter[rter_id]){
+                        if(rt_list[j][3][1]==''&&!exist_rter[rter_id]&&rt_list[j][2]!=0){
                             rter[rter_id]=[rt_list[j][0],rt_list[j][2]];
                         }else{
                             delete rter[rter_id]
