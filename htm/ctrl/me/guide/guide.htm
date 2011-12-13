@@ -33,57 +33,6 @@ ${css.ctrl_school|n}
 ${css.ctrl_me_guide|n}
 
 <script>
-$(function(){
-    var j=2
-    function job_now_label(elem){
-        var id = uuid();
-        elem.find('.job_now').attr('id',id).change()
-        elem.find('.label_now').attr('for',id)
-        return elem
-    }
-
-    var job_block = job_now_label($('.job_block'));
-    job_block.find('.job_now').attr('checked',true)
-    job_block.find('.job_end').hide()
-
-    $('.add_job_a').click(function(){
-        var block = $(this).parent();
-        var job_html = job_block.html()
-        block.before(
-            job_now_label($('<div class="job_more"/>').html(job_html))
-        )
-    })
-    $('.school_select').live('focus',pop_school)
-    $('#txt').elastic()
-    $('#mb1').show()
-    $('.step_btn').click(function(){
-        var num = parseInt($(this).attr('id').substr(4)) + 1
-        $('#mb'+(num-1)).hide()
-        $('#mb'+num).show()
-    })
-    $('.school_year').prepend('<option value="">入学年份</option>')
-    for(var i=2011;i>1899;i--){
-        $('.school_year, .job_begin_year, .job_end_year').append('<option value='+i+'>'+i+'</option>')
-    }
-    for(var i=1;i<=12;i++){
-        $('.job_begin_month, .job_end_month').append('<option value='+i+'>'+i+'</option>')
-    }
-    var part1 = $('.part1').html(),
-    part2 = $('.part2').html()
-    $('.part1').append('<input type="hidden" name="univ_id" id="univ_id1" value="" />')
-    $('.add_school_a').click(function(){
-        var icon = '<span class="job_icon">■</span>'
-        if(!$('.part1').find('.job_icon')[0]){
-            $('.part1').prepend($(icon))
-        }
-        var block = $(this).parent()
-        block.before('<p>'+icon+part1+'<input type="hidden" name="univ_id" id="univ_id'+j+'" value="" /></p>')
-        block.before('<p>'+part2+'</p>')
-        $('.school_select:last').attr('id','school_select'+j)
-        $('.dep:last').attr('id','dep'+j)
-        j++
-    })
-})
 </script>
 
 </%def>
@@ -176,7 +125,8 @@ ${errtip.password|n}
         <select name="job_end_year" class="job_end_year"><option value=0> - 年 - </option></select>
         <select name="job_end_month" class="job_end_month"><option value=0> - 月 - </option></select>
         </span>\
-<input type="checkbox" name="job_now" class="job_now"><label class="label_now">当前</label>
+<input type="hidden" name="job_now" value="0">
+<input type="checkbox" class="job_now"><label class="label_now">当前</label>
     </div>
     <p>
         <a href="javascript:void(0)" class="add_job_a">添加经历</a>
@@ -212,55 +162,7 @@ ${errtip.password|n}
 </%htm:form>
 
 
-<script>
-$("button[type=submit]").attr('disabled',false);
-$("input:first").focus().select()
-function form(form_id, error){
-
-    $(form_id).submit(function(){
-        $(".errtip").hide()
-        var self=$(this), btn=self.find("button[type=submit]"),
-            id=this.id.slice(4)-0, errtip, error;
-        $(btn.blur().attr("disabled",true).css({'background':"#fff","color":"#aaa"})[0].parentNode).after(
-            '<span class="form_loading"/>'
-        )
-        $.post("/j/auth/guide/"+id,self.serialize(),function(o){
-            error = o.error
-            if(error){
-                btn.attr('disabled',false).css({'background':'',"color":''});
-                for(var i in error){
-                    errtip = $("#errtip_"+i) 
-                    errtip.html(error[i])
-                    errtip.slideDown()
-                }
-
-                $(".form_loading").remove()
-                return
-            }  
-
-
-            var next=$("#form"+(id+1));
-            if(next[0]){
-                self.slideUp()
-                next.slideDown()
-            }else{
-                location="/"
-            }
-            //$.fancybox.hideActivity();
-        })
-        return false
-    })
-}
-form("#form1",function(o){
-
-})
-form("#form2",function(o){
-
-})
-form("#form3",function(o){
-
-})
-</script>
+<script src="${js.ctrl_guide}"></script>
 
 
 
