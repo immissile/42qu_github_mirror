@@ -69,6 +69,9 @@ class AuthGuide2(JLoginBase):
 class AuthGuide3(JLoginBase):
     def post(self):
         arguments = parse_qs_bytes(native_str(self.request.body), True)
-        result = {}
-        self.finish(result)
+
+
+
+
+        self.finish('')
 

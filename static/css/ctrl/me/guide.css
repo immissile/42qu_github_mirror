@@ -163,8 +163,11 @@ margin-left:106px;
 .cl{
 margin-top:6px;
 }
-.job_block{
+.job_block, .job_more{
 margin-bottom:14px;
+}
+.job_more{
+padding-top:14px;
 }
 .errtip{
 color:#d20;
@@ -173,3 +176,15 @@ color:#d20;
 margin-left:106px;
 padding-bottom:7px;
 }
+.job_now{
+margin-right:2px;
+margin-left:14px;
+}
+.job_more .job_line_1{
+border-top:1px dotted #ccc;
+width:412px;
+padding-top:24px;
+}
+
+
+

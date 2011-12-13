@@ -35,10 +35,16 @@ ${css.ctrl_me_guide|n}
 <script>
 $(function(){
     var j=2
+    function job_now_label(elem){
+
+        return elem
+    }
     $('.add_job_a').click(function(){
-        var block = $(this).parent()
-        var job_html = $('.job_block').html()
-        block.before('<p>'+job_html+'</p>')
+        var block = $(this).parent();
+        var job_html = job_now_label($('.job_block')).html()
+        block.before(
+            job_now_label($('<div class="job_more"/>').html(job_html))
+        )
     })
     $('.school_select').live('focus',pop_school)
     $('#txt').elastic()
@@ -153,7 +159,8 @@ ${errtip.password|n}
 
 <%htm:form className="form_reg" id="form3">
     <div class="job_block">
-        <div><input class="job_unit" name="job_unit" placeholder="单位"><input class="job_title" name="job_title" placeholder="头衔"></div><input class="job_txt" name="job_txt" placeholder="经历简述 ... ..."><br/>
+        <div class="job_line_1"><input class="job_unit" name="job_unit" placeholder="单位"><input class="job_title" name="job_title" placeholder="头衔"></div>
+        <div><input class="job_txt" name="job_txt" placeholder="经历简述 ... ..."></div>
         <span class="job_begin">
         <select name="job_begin_year" class="job_begin_year"><option value=0> - 年 - </option></select>
         <select name="job_begin_month" class="job_begin_month"><option value=0> - 月 - </option></select>
@@ -161,7 +168,8 @@ ${errtip.password|n}
         <span class="job_end">
         <select name="job_end_year" class="job_end_year"><option value=0> - 年 - </option></select>
         <select name="job_end_month" class="job_end_month"><option value=0> - 月 - </option></select>
-        </span>
+        </span>\
+<input type="checkbox" name="job_now" class="job_now"><label class="label_now">当前</label>
     </div>
     <p>
         <a href="javascript:void(0)" class="add_job_a">添加经历</a>
