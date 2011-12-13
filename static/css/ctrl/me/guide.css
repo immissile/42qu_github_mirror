@@ -166,4 +166,10 @@ margin-top:6px;
 .job_block{
 margin-bottom:14px;
 }
-
+.errtip{
+color:#d20;
+}
+#form1 .errtip{
+margin-left:106px;
+padding-bottom:7px;
+}

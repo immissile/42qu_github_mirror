@@ -92,7 +92,7 @@ $(function(){
 <%
 info = UserInfo.mc_get(zsite_id)
 %>
-%if not (info and info.sex) or 1:
+%if not (info and info.sex):
 <p class="line">
 <label class="label_input" for="mail">性别</label>\
 <select name="sex" class="sex_select">
@@ -110,7 +110,7 @@ ${errtip.sex|n}
 <input class="login_mail" id="name" autocomplete="off" type="text" name="name" value="${name or current_user.name or ''}"></p>
 ${errtip.name|n}
 
-%if not UserPassword.get(current_user_id) or 1:
+%if not UserPassword.get(current_user_id):
 <p class="line">
 <label class="label_input" for="password">密码</label>\
 <input class="login_password" id="password" autocomplete="off" type="password" name="password">
@@ -199,29 +199,41 @@ ${errtip.password|n}
 
 <script>
 $("button[type=submit]").attr('disabled',false);
+$("input:first").focus().select()
 function form(form_id, error){
 
     $(form_id).submit(function(){
+        $(".errtip").hide()
         var self=$(this), btn=self.find("button[type=submit]"),
-            id=this.id.slice(4)-0;
+            id=this.id.slice(4)-0, errtip, error;
         $(btn.blur().attr("disabled",true).css({'background':"#fff","color":"#aaa"})[0].parentNode).after(
             '<span class="form_loading"/>'
         )
         $.post("/j/auth/guide/"+id,self.serialize(),function(o){
-            if(o.error){
-                btn.attr('disabled',false);
+            error = o.error
+            if(error){
+                btn.attr('disabled',false).css({'background':'',"color":''});
+                for(var i in error){
+                    errtip = $("#errtip_"+i) 
+                    errtip.html(error[i])
+                    errtip.slideDown()
+                }
+
                 $(".form_loading").remove()
                 return
-            }   
+            }  
+
+
+            var next=$("#form"+(id+1));
+            if(next[0]){
+                self.slideUp()
+                next.slideDown()
+            }else{
+                location="/"
+            }
             //$.fancybox.hideActivity();
-            
         })
-        var next=$("#form"+(id+1));
-        if(next[0]){
-            self.slideUp()
-            next.slideDown()
-            return false
-        }
+        return false
     })
 }
 form("#form1",function(o){
