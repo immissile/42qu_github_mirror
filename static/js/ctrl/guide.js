@@ -110,7 +110,7 @@ $(function(){
 
         $('.school_select:last').attr('id','school_select'+j)
         $('.dep:last').attr('id','dep'+j)
-        $('input[name=univ_id]:last').attr('id','univ_id'+j)
+        $('input[name=school_id]:last').attr('id','school_id'+j)
 
         j++
     })

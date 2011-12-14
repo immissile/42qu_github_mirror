@@ -88,15 +88,15 @@ ${errtip.password|n}
 </%htm:form>
 <%htm:form className="form_reg" id="form2">
 <div class="school_block">
-    <input type="hidden" name="univ_id" id="univ_id1" value="" >
+    <input type="hidden" name="school_id" id="school_id1" value="" >
     <p class="part1">
         <input id="school_select1" value="请选择学校" autocomplete="off" type="text" class="school_select">
         <select name="school_year" class="school_year"></select>
         <a onclick="school_x(this)" href="javascript:void(0)" class="x"></a>
     </p>
     <p class="part2">
-        <select name="dep" id="dep1" class="dep"><option value=0>选择院系</option></select>
-        <select name="school_type" class="school_type">
+        <select name="department_id" id="dep1" class="dep"><option value=0>选择院系</option></select>
+        <select name="school_degree" class="school_degree">
             <option value="">选择类型</option>
             <option value="1">本科</option>
             <option value="2">大专</option>

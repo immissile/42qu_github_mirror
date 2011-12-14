@@ -4,7 +4,7 @@ select_univ = function(uid,uname){
     $.fancybox.showActivity()
     $.getScript("http://0.42qu.us/college/department/"+uid+".js",function(){
         var deps = depList['deps']
-        $('#univ_id'+dep_id.substr(3)).val(uid)
+        $('#school_id'+dep_id.substr(3)).val(uid)
         var dep_node = $('#'+dep_id)
         dep_node.children().remove()
         dep_node.append('<option value="">选择院系</option>')
