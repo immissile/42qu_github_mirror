@@ -14075,14 +14075,30 @@ COUNTRY = {
 23 : "比利时",
 }
 
+def school_university_country_province(school_id):
+    country_id = school_id//100000
+    if country_id in COUNTRY_PROVINCE:
+        province_id = (school_id//1000)%100
+    else:
+        province_id = 0
+    return country_id, province_id
+
+def school_university_country_province_range(school_id):
+    country_id = school_id//100000
+    if country_id in COUNTRY_PROVINCE:
+        province_id = (school_id//1000)%100
+        begin = country_id*100000+province_id*1000
+        return begin, begin+999
+    else:
+        province_id = 0
+        begin = country_id*100000
+        return begin, begin+99999
+
+
 if __name__ == "__main__":
-    for i,name in sorted(SCHOOL_UNIVERSITY.iteritems(),key=lambda x:x[0]):
-        country_id = i//100000
-        if country_id in COUNTRY_PROVINCE:
-            province_id = (i//1000)%100
-        else:
-            province_id = 0
-        if province_id:
-            print COUNTRY[country_id], 
-            print COUNTRY_PROVINCE[country_id][province_id],
-            print name
+    print school_university_country_province_range(15003)
+    #for i,name in sorted(SCHOOL_UNIVERSITY.iteritems(),key=lambda x:x[0]):
+    #    if province_id:
+    #        print COUNTRY[country_id], 
+    #        print COUNTRY_PROVINCE[country_id][province_id],
+    #        print name
