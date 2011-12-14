@@ -27,8 +27,7 @@ def zsite_id_count_by_member_admin(id):
 def zsite_member_new(
     zsite_id,
     member_id,
-    state=ZSITE_MEMBER_STATE_INVITE,
-    cid=CID_ZSITE_LIST_MEMBER
+    state=ZSITE_MEMBER_STATE_INVITE
 ):
     id, _state = zsite_list_id_state(zsite_id, member_id, CID_ZSITE_LIST_MEMBER)
     if _state < state:
