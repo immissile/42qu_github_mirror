@@ -105,7 +105,7 @@ DROP TABLE IF EXISTS `com_job`;
 CREATE TABLE `com_job` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `com_id` int(10) unsigned NOT NULL,
-  `school_department` int(10) unsigned NOT NULL,
+  `department_id` int(10) unsigned NOT NULL,
   `title` varbinary(1024) NOT NULL,
   `create_time` int(10) unsigned NOT NULL,
   `state` int(10) unsigned NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE `com_job` (
   `quota` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Index_2` (`state`,`end_time`),
-  KEY `Index_3` (`com_id`,`school_department`,`state`)
+  KEY `Index_3` (`com_id`,`department_id`,`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `com_job_needs`;
@@ -316,12 +316,12 @@ DROP TABLE IF EXISTS `job_mail`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `job_mail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `school_department` int(10) unsigned NOT NULL,
+  `department_id` int(10) unsigned NOT NULL,
   `zsite_id` int(10) unsigned NOT NULL,
   `mail` varbinary(255) NOT NULL,
   `state` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `Index_2` (`zsite_id`,`school_department`)
+  KEY `Index_2` (`zsite_id`,`department_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `job_pid`;

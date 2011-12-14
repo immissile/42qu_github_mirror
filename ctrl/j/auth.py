@@ -52,15 +52,15 @@ class AuthGuide2(JLoginBase):
     def post(self):
         arguments = parse_qs_bytes(native_str(self.request.body), True)
 
-        for school_id , school_year, school_degree, school_department in zip(
+        for school_id , school_year, school_degree, department_id in zip(
             arguments['school_id'],
             arguments['school_year'],
             arguments['school_degree'],
-            arguments['school_department'],
+            arguments['department_id'],
         ):
             if not school_id:
                 continue
-            print school_id, school_year, school_degree, school_department
+            print school_id, school_year, school_degree, department_id
 
         self.finish('{}')
 

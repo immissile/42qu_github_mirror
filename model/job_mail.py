@@ -32,10 +32,10 @@ def job_mail_new_with_verify_mail(zsite, user_id, mail):
         verify_mail_new(zsite_id, zsite.name, mail, CID_VERIFY_COM_HR)
 
 
-def job_mail_new(zsite_id, mail, school_department=0, state=JOB_MAIL_STATE_VERIFY):
+def job_mail_new(zsite_id, mail, department_id=0, state=JOB_MAIL_STATE_VERIFY):
     mail = mail.strip().lower()
     if mail:
-        job = JobMail.get_or_create(zsite_id=zsite_id, school_department=school_department)
+        job = JobMail.get_or_create(zsite_id=zsite_id, department_id=department_id)
 
         if job.mail == mail and state == JOB_MAIL_STATE_VERIFY and job.state == JOB_MAIL_STATE_VERIFIED:
             state = JOB_MAIL_STATE_VERIFIED
@@ -44,37 +44,37 @@ def job_mail_new(zsite_id, mail, school_department=0, state=JOB_MAIL_STATE_VERIF
         job.mail = mail
         job.save()
 
-        mc_flush(zsite_id, school_department)
+        mc_flush(zsite_id, department_id)
 
         return job
 
-def mc_flush(zsite_id, school_department):
-    key = '%s_%s'%(zsite_id, school_department)
+def mc_flush(zsite_id, department_id):
+    key = '%s_%s'%(zsite_id, department_id)
     mc_job_mail_by_com_id.delete(key)
     mc_job_mail_if_exist.delete(key)
 
 
-@mc_job_mail_by_com_id('{id}_{school_department}')
-def job_mail_by_com_id(id, school_department=0):
-    jm = JobMail.get(zsite_id=id, school_department=school_department)
+@mc_job_mail_by_com_id('{id}_{department_id}')
+def job_mail_by_com_id(id, department_id=0):
+    jm = JobMail.get(zsite_id=id, department_id=department_id)
     if jm and jm.state >= JOB_MAIL_STATE_VERIFIED:
         return jm.mail
     return ''
 
 
-@mc_job_mail_if_exist('{id}_{school_department}')
-def job_mail_if_exist(id, school_department=0):
-    jm = JobMail.get(zsite_id=id, school_department=school_department)
+@mc_job_mail_if_exist('{id}_{department_id}')
+def job_mail_if_exist(id, department_id=0):
+    jm = JobMail.get(zsite_id=id, department_id=department_id)
     if jm:
         return jm.mail
     return ''
 
-def job_mail_verifyed(id, school_department=0):
-    jm = JobMail.get(zsite_id=id, school_department=school_department)
+def job_mail_verifyed(id, department_id=0):
+    jm = JobMail.get(zsite_id=id, department_id=department_id)
     if jm:
         jm.state = JOB_MAIL_STATE_VERIFIED
         jm.save()
-        mc_flush(id, school_department)
+        mc_flush(id, department_id)
 
 
 if __name__ == '__main__':
@@ -82,8 +82,8 @@ if __name__ == '__main__':
         print i
         job_mail_verifyed(i.zsite_id)
    # zsite_id = 10163143
-   # school_department = 0
-   # jm = JobMail.get(zsite_id=zsite_id, school_department=school_department)
+   # department_id = 0
+   # jm = JobMail.get(zsite_id=zsite_id, department_id=department_id)
    # print jm.mail
-   # mc_flush(zsite_id, school_department)
+   # mc_flush(zsite_id, department_id)
    # print job_mail_if_exist(zsite_id)

@@ -146,7 +146,7 @@ def job_pid_by_job_id(job_id):
 
 
 def job_new(
-        com_id, school_department,
+        com_id, department_id,
         title, create_time, salary_from, salary_to, salary_type, end_time,
         quota,
         txt, require, stock_option, welfare, priority,
@@ -159,7 +159,7 @@ def job_new(
         job = ComJob(
             com_id=com_id,
         )
-    job.school_department = school_department
+    job.department_id = department_id
     job.title = title
     job.create_time = create_time
     job.salary_from = salary_from
