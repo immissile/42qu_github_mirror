@@ -58,10 +58,11 @@ class SyncFollow(McModel):
     pass
 
 def sync_follow_new(zsite_id, state, cid, txt, oauth_id=0):
-    SyncFollow.raw_sql(
-        'insert into sync_follow (zsite_id,state,cid,txt,oauth_id) values(%s,%s,%s,%s,%s) ',
-         zsite_id, state, cid, txt or '', oauth_id
-    )
+    if txt:
+        SyncFollow.raw_sql(
+            'insert into sync_follow (zsite_id,state,cid,txt,oauth_id) values(%s,%s,%s,%s,%s) ',
+             zsite_id, state, cid, txt, oauth_id
+        )
 
 @mc_sync_state('{user_id}_{oauth_id}_{cid}')
 def sync_state(user_id, oauth_id, cid):
