@@ -119,7 +119,8 @@ class Po(McModel, ReplyMixin):
                 else:
                     name = '评价 : %s'
                 return name % q.name
-
+            if cid == CID_REC:
+                return '推荐 : %s' % q.name
 
             if cid != CID_EVENT_NOTICE:
                 return '答 : %s' % q.name
