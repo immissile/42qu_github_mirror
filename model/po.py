@@ -122,7 +122,6 @@ class Po(McModel, ReplyMixin):
             if cid == CID_REC:
                 return '推荐 : %s' % q.name
 
-
             if cid != CID_EVENT_NOTICE:
                 return '答 : %s' % q.name
 
@@ -168,7 +167,12 @@ class Po(McModel, ReplyMixin):
                     name = '评价 : %s'
                 return name%link
             elif cid == CID_REC:
-                return '<a href="%s">推荐</a> %s'%(self.link,self.name_)
+                pre_po_zsite = Zsite.mc_get(q.user_id)
+                if q.cid != CID_WORD:
+                    name = '推荐 <a href="%s">%s</a> - <a href="%s" >%s</a>' % (pre_po_zsite.link,pre_po_zsite.name,q.link,q.name)
+                else:
+                    name = '推荐 <a href="%s" class="fcmname c0 TPH" >%s</a> - %s <a class="zsite_reply" href="%s" target="_blank"></a>'%(pre_po_zsite.link,pre_po_zsite.name,q.name,q.link)
+                return name
             else:
                 if q.user_id == self.user_id:
                     return '自问自答 : %s' % link
@@ -176,7 +180,6 @@ class Po(McModel, ReplyMixin):
                     return '答 <a href="%s">%s</a> 问 : %s' % (
                         u.link, escape(u.name), link
                     )
-
         if cid == CID_WORD:
             return txt_withlink(self.name)
 
