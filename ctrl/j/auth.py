@@ -5,6 +5,7 @@ from zkit.errtip import Errtip
 from model.user_auth import user_password_verify, UserPassword, user_password_new
 from model.user_info import user_info_new, UserInfo as _UserInfo
 from tornado.escape import utf8, native_str, parse_qs_bytes
+from model.user_school import user_school_new
 
 @urlmap('/j/auth/guide/1')
 class AuthGuide1(JLoginBase):
@@ -51,6 +52,7 @@ class AuthGuide1(JLoginBase):
 class AuthGuide2(JLoginBase):
     def post(self):
         arguments = parse_qs_bytes(native_str(self.request.body), True)
+        user_id = self.current_user_id
 
         for school_id , school_year, school_degree, school_department in zip(
             arguments['school_id'],
@@ -60,8 +62,10 @@ class AuthGuide2(JLoginBase):
         ):
             if not school_id:
                 continue
-            print school_id, school_year, school_degree, school_department
-
+            user_school_new(
+                 user_id,
+                 school_id, school_year, school_degree, school_department
+            )
         self.finish('{}')
 
 
