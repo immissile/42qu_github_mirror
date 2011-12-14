@@ -66,6 +66,7 @@ function get_couns(){
 }
 function get_provs(cid){
     var provs = allUnivList[cid]['provs']
+    if(!provs)return;
     var cont = '<ul class="prov_ul">'
     if(provs.length>0){
         for(var i=0;i<provs.length;i++){
@@ -78,9 +79,13 @@ function get_provs(cid){
 select_coun = function(cid){
     $('.coun_now').removeClass('coun_now')
     $('#coun_'+cid).addClass('coun_now')
-    var provs = get_provs(cid)
     var univs = ''
-    $('.provs').html(provs)
+    var provs = get_provs(cid)
+    if(provs){
+        $('.provs').html(provs)
+    }else{
+        $('.provs').hide()
+    }
     $('.prov_now').removeClass('prov_now')
     $('#prov_0').addClass('prov_now')
     if(provs!='<ul class="prov_ul"></ul>'){
@@ -103,8 +108,10 @@ function get_univ_by_coun(cid){
     return get_univs(univs)
 }
 function get_univ_by_prov(cid,pid){
-    var univs = allUnivList[cid]['provs'][pid]['univs']
-    return get_univs(univs)
+    var univs = allUnivList[cid]['provs']
+    if(univs){
+        return get_univs(univs[pid]['univs'])
+    }
 }
 function get_univs(univs){
     var cont = '<ul class="univ_ul">'
