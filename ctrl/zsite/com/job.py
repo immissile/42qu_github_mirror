@@ -18,7 +18,7 @@ from model.user_mail import mail_by_user_id
 
 def _job_save(self, job=None, add=None):
     errtip = Errtip()
-    department_id = self.get_argument('depart', None)
+    school_department = self.get_argument('depart', None)
     title = self.get_argument('title', None)
     kinds = self.get_argument('kinds', None)
     stock_option = self.get_argument('share', None)
@@ -34,8 +34,8 @@ def _job_save(self, job=None, add=None):
     pids = self.get_arguments('addr', None)
     quota = self.get_argument('quota', None)
 
-    if not department_id:
-        errtip.department_id = '请选择部门'
+    if not school_department:
+        errtip.school_department = '请选择部门'
     if not title:
         errtip.title = '请输入职位头衔'
     if not kinds:
@@ -66,7 +66,7 @@ def _job_save(self, job=None, add=None):
     if not errtip:
         cj = job_new(
                 self.zsite_id,
-                department_id,
+                school_department,
                 title,
                 today_days(),
                 salary_from,
