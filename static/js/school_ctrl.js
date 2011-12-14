@@ -79,21 +79,19 @@ function get_provs(cid){
 select_coun = function(cid){
     $('.coun_now').removeClass('coun_now')
     $('#coun_'+cid).addClass('coun_now')
-    var univs = ''
-    var provs = get_provs(cid)
+    var univs, 
+        provs = get_provs(cid)
     if(provs){
-        $('.provs').html(provs)
+        $('.provs').html(provs).show()
+        univs = get_univ_by_prov(cid,0)
     }else{
         $('.provs').hide()
+        univs = get_univ_by_coun(cid)
     }
     $('.prov_now').removeClass('prov_now')
     $('#prov_0').addClass('prov_now')
-    if(provs!='<ul class="prov_ul"></ul>'){
-        univs = get_univ_by_prov(cid,0)
-    } else{
-        univs = get_univ_by_coun(cid)
-    }
     $('.univs').html(univs)
+    $("#univ_txt").focus().val('')
 }
 select_prov = function(cid,pid){
     $('.prov_now').removeClass('prov_now')
