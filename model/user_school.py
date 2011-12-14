@@ -4,7 +4,7 @@ from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, Mc
 from zkit.job import JOBKIND2CN
 from zsite_com import pid_by_com_id
 from zkit.attrcache import attrcache
-from zkit.school_university import SCHOOL_UNIVERSITY
+from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME, SCHOOL_UNIVERSITY_DEPARTMENT_ID
 
 class UserSchool(McModel):
     pass
