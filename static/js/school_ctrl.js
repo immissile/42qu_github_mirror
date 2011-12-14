@@ -1,19 +1,17 @@
 var select_id, dep_id
 select_univ = function(uid,uname){
     $('#'+select_id).val(uname)
-    $.fancybox.showActivity()
-    $.getScript("http://0.42qu.us/college/department/"+uid+".js",function(){
-        var deps = depList['deps']
-        $('#school_id'+dep_id.substr(3)).val(uid)
-        var dep_node = $('#'+dep_id)
-        dep_node.children().remove()
-        dep_node.append('<option value="">选择院系</option>')
-        for(var i=0;i<deps.length;i++){
-            dep_node.append('<option value='+deps[i]['id']+'>'+deps[i]['name']+'</option>')
-        }
-        $.fancybox.close()
-        $.fancybox.hideActivity()
-    });
+    var deps = SCHOOL_UNIVERSITY_DEPARTMENT_ID[parseInt(uid)] || [];
+    $('#school_id'+dep_id.substr(3)).val(uid)
+    var dep_node = $('#'+dep_id)
+    dep_node.children().remove()
+    dep_node.append('<option value="">选择院系</option>')
+    for(var j=0;j<deps.length;j++){
+        var i=deps[j]
+        dep_node.append('<option value="'+i+'">'+SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[i]+'</option>')
+    }
+    dep_node.append('<option value="0">其它院系</option>')
+    $.fancybox.close()
 }
 
 function pop_school(){
