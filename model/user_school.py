@@ -9,12 +9,13 @@ from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTME
 class UserSchool(McModel):
     pass
 
+
 def user_school_new(user_id, school_id, school_year, school_degree, school_department):
-    school_id = int(school_id)
+    school_id = int(school_id or 0)
     if school_id and school_id in SCHOOL_UNIVERSITY and user_id:
-        school_year = int(school_year)
-        school_degree = int(school_degree)
-        school_department = int(school_department)
+        school_year = int(school_year or 0)
+        school_degree = int(school_degree or 0)
+        school_department = int(school_department or 0)
         u = UserSchool(
             user_id=user_id,
             school_id=school_id,
