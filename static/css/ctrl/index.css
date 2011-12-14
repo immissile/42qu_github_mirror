@@ -1,8 +1,11 @@
-#H .D_nav
+#H .H
+{
+    max-width:1338px;
+    width:auto!important;
+}
+#H .D_na
 {
     margin-right:0;
-    width:auto!important;
-    max-width:1338px;
 }
 .fav_loading
 {

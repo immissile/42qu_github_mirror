@@ -169,9 +169,9 @@ class Po(McModel, ReplyMixin):
             elif cid == CID_REC:
                 pre_po_zsite = Zsite.mc_get(q.user_id)
                 if q.cid != CID_WORD:
-                    name = '@<a href="%s">%s</a> : <a href="%s" >%s</a>' % (pre_po_zsite.link,pre_po_zsite.name,q.link,q.name)
+                    name = '推荐 <a href="%s">%s</a> - <a href="%s" >%s</a>' % (pre_po_zsite.link,pre_po_zsite.name,q.link,q.name)
                 else:
-                    name = '<a href="%s" class="fcmname c0 TPH" >%s</a> : %s <a class="zsite_reply" href="%s" target="_blank"></a>'%(pre_po_zsite.link,pre_po_zsite.name,q.name,q.link)
+                    name = '推荐 <a href="%s" class="fcmname c0 TPH" >%s</a> - %s <a class="zsite_reply" href="%s" target="_blank"></a>'%(pre_po_zsite.link,pre_po_zsite.name,q.name,q.link)
                 return name
             else:
                 if q.user_id == self.user_id:
