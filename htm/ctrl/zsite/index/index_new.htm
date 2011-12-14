@@ -3,10 +3,9 @@ from model.ico import ico_url_with_default
 from model.career import career_current
 from config import FS_URL
 %>
-<script src="${js.index|n}" type="text/javascript"></script>
 <%namespace file="/ctrl/_util/user.htm" import="user_career_link, po_link"/>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
-${css.ctrl_index|n}
 <%inherit file="/ctrl/_base/_index_new_style.htm" />
 
 <%def name="h_nav_more()"></%def>
@@ -20,6 +19,12 @@ ${css.ctrl_index|n}
 ${self.h_nav_more()}\
 </div>\
 </%def>
+
+<%def name="htm_head()">
+${css.ctrl_live|n}
+${css.ctrl_index|n}
+</%def>
+
 <%
 _ico = ico_url_with_default(zsite_id) 
 career = career_current(current_user.id)
@@ -27,124 +32,219 @@ career = career_current(current_user.id)
 
 
 <script id="feed" type="text/x-jquery-tmpl">
+<%text>
+{{if zsite_cid == 3}}
+{{each item}}
+<div class="G"><div class="G4 site_po"><div>
+{{if rt_list.length}} 
+{{if (rt_list.length==1 && rt_list[0].txt[2]==0)}}{{else}}
+<p>
+{{each rt_list}}
+{{if $value.txt[1]!=""}}
+    <p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a>{{if rt_list.length==1}} 推荐{{/if}} : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_blank"></a></p> 
+{{/if}}
+{{/each}}
+{{/if}}
+{{/if}}
+</p>
+<a href="/${id}" target="_blank">${name}</a><span class="split">-</span><a target="_blank"
+class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="split">-</span>{{each(k,v) rter}}{{if v[1]!=0}}<a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>{{/if}}{{/each}} 推荐{{/if}} 
+</div></div></div>
+{{/each}}
+{{else}}
+<div class="feed_li">
+    <div class="feed_left">
+        <a class="c0" target="_blank" href="${zsite_link}">
+        <div><img src="${pic}"></div>
+        <div>${zsite_name}</div>
+{{if unit}}
+        <div class="tr">${unit}</div>
+{{/if}}
+{{if title}}
+        <div class="tr">${title}</div>
+{{/if}}
+        </a>
+    </div>
+    <div class="feed_part">
+    <div class="feed_right">
+{{each item}}
+<div class="sdw"><div class="sd cid${cid}">
+{{if rt_list.length}} 
+{{if !(rt_list.length==1 && rt_list[0].txt[2]==0)}}
+<div class='rel'>
+{{each rt_list}}
+{{if $value.txt[1]!=""}}
+<p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a>{{if rt_list.length==1}} 推荐{{/if}} : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_blank"></a></p> 
+{{/if}}
+{{/each}}
+
+{{if has_rter}} 
+{{each(k,v) rter}}
+{{if v[1]!=0}}
+<a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>
+{{/if}}
+{{/each}} 推荐
+{{/if}}
+</div>
+{{/if}}
+{{/if}}
+
+{{if cid==68}}
+<a href="/${id}"><img class="feed_event_img" src="${rid}"></a>
+{{/if}}
+{{if cid!=61 || rid }}
+<pre class="fdh">{{if cid==72}}@<a href="//${site_url}"
+target="_blank">${site_name}</a> : ${name}{{else}}{{if cid==61 || cid==64 || cid==63 }}{{if cid==63}}问 : {{/if}}{{if rid}}{{if question_user_link==zsite_link}}自问自答{{else}}答 <a
+target="_blank"
+href="${question_user_link}">${question_user}</a> 问{{/if}} : {{/if}}{{/if}}{{if cid==67}}<embed
+flashvars="foreColor=#aa1100&amp;analytics=false&amp;filename=${rid}</%text>\
+${this.xsrf_token}"
+quality="high" bgcolor="#FFFFFF" class="audio"
+src="${FS_URL}/swf/1bit.swf"
+<%text>type="application/x-shockwave-flash"
+wmode= "Opaque"></embed>{{/if}}{{if name}}{{if cid == 73}}{{html name}}{{else}}
+<a target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}
+{{/if}}
+{{/if}}
+</a>
+{{/if}}
+
+{{if tag_id}}
+<a class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
+{{/if}}
+{{if cid==65}}
+<a class="fdimga" target="_blank" href="/${id}"><img class="fdimg" src="${rid}"></a>
+{{/if}}
+{{if cid==68}}
+<div class="feed_event_prop">
+<p >地点<span class="colon">:</span>${place_name}</p>
+<p class="ml48 feed_event_pid">${address}</p>
+<p>时间<span class="colon">:</span>${time_row1}</p>
+{{if time_diff_day}}
+<p class="ml14">至<span class="ml20">${time_row2}</span></p>
+{{else}}
+<p class="ml48">${time_row2}</span></p>
+{{/if}}
+</div>
+{{/if}}
+<div class="fdtxt" id="fdtxt${id}">
+        {{if cid==61 || cid == 66}}
+<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}
+{{if txt_more}}<a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
+{{if cid == 66}}<a onclick="fdvideo(this,${id});" class="fdvideo" href="javascript:void(0)">播放视频</a>{{/if}}
+        {{else}}
+            {{if cid==68}}
+<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}</div>
+<div class="fdall"><a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">显示详情</a>{{if cid==68}}<a href="/event/join/${id}" target="_blank">报名参加</a>{{/if}}</div>
+            {{else}} 
+                {{if txt_more}}
+<div class="fdtxtin">${txt}</div>
+<div class="fdall"><a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">显示全部</a></div>
+                 {{else}}
+{{html txt}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    </div>
+    <div class="fdbar">
+    <span class="L">
+<span class="fdopt">{{if cid!=72}}{{if site_id}}<a href="//${site_url}"
+target="_blank">${site_name}</a><span
+class="split">-</span>{{/if}}{{/if}}<a
+class="fcma"
+href="javascript:fcm(${id},${reply_count});void(0)">{{if reply_count}}<span
+class="mr3">${reply_count}</span>{{/if}}评论</a><span
+class="split">-</span><a
+class="vote" href="javascript:share(${id});void(0)">推荐</a><span
+class="split">-</span><a
+rel="${id}" href="javascript:void(0)"
+class="{{if fav}}faved{{else}}fav{{/if}}"
+>收藏</a></span>
+    </span>
+        <a href="/${id}" target="_blank">${create_time}</a>
+        {{if rt_list.length}} 
+<span class="mr3"></span>
+            {{if rt_list.length  && rt_list[0].txt[2] == 0 }}
+, 广播
+            {{/if}}
+        {{/if}}
+    </div>
+</div></div>
+{{/each}}
+    </div>
+    </div>
+</div>
+{{/if}}
+</%text>
 </script>
 
 <div class="index_wrap">
     <div class="left_wrap">
-            <div class="feed_li">
-                <div class="feed_left">
-                    <a href="${current_user.link}" target="_blank" class="c0">
+        <div class="feed_li">
+            <div class="feed_left">
+                <a href="${current_user.link}" target="_blank" class="c0">
                     <div><img src="${_ico|n}"></div><div>${current_user.name}</div><div class="tr">${career[0]}</div><div class="tr">${career[1]}</div></a>
-                </div>
-                <div class="feed_part">
+            </div>
+            <div class="feed_part">
                 <div class="feed_right">
                     <div class="sdw">
                         <div class="sd cid62">
+                            <%htm:form  action="/po/word" >
                             <div class="fdtxt">
                                 <div class="fdtxtin">
-                                    <textarea class="say_txt"></textarea>
+                                    <textarea class="say_txt" name="txt"></textarea>
                                 </div>
                             </div>
                             <div class="fdbar">
                                 <span class="say_type">
                                     <span class="fdopt">
-                                        <a href="">文章</a><span class="split">-</span>
-                                        <a href="">图片</a><span class="split">-</span>
-                                        <a href="">问题</a><span class="split">-</span>
-                                        <a href="">活动</a><span class="split">-</span>
-                                        <a href="">声音</a><span class="split">-</span>
-                                        <a href="">视频</a>
+                                        <a href="/po/note">文章</a><span class="split">-</span>
+                                        <a href="javascript:po_photo();void(0)">图片</a><span class="split">-</span>
+                                        <a href="/po/question">问题</a><span class="split">-</span>
+                                        <a href="/po/event">活动</a><span class="split">-</span>
+                                        <a href="javascript:po_audio();void(0)">声音</a><span class="split">-</span>
+                                        <a href="javascript:po_video();void(0)">视频</a>
                                     </span>
                                 </span>
-                                <a class="say_btn" href="javascript:void(0)">游吟</a>
+                                <span class="btnw">
+                                    <button type="submit">游吟</button>
+                                </span>
                             </div>
+                            </%htm:form>
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
-        <div id="feeds">
-<input id="begin_id" type="hidden"/>
-            <div class="feed_li">
-                <div class="feed_left">
-                    <a href="//hannah.42qu.com" target="_blank" class="c0">
-                    <div><img src="http://p4.42qu.us/219/819/147251.jpg"></div><div>Hannah</div><div class="tr">零食控</div><div class="tr">CEO</div></a>
-                </div>
-                <div class="feed_part">
-                <div class="feed_right">
-                    <div class="sdw"><div class="sd cid62">   <pre class="fdh"><a href="/10178162" target="_blank">王尔德：夜莺与玫瑰</a><a href="/tag/1675" class="tag">#转载收藏#</a></pre>    <div id="fdtxt10178162" class="fdtxt">                                         <div class="fdtxtin"> 图:1 
-    　“她说过只要我送给她一些红玫瑰，她就愿意与我跳舞，”一位年轻的学生大声说道，“可是在我的花园里，连一朵红玫瑰也没有。”
-    这番话给在圣栎树上自己巢中的夜莺听见了，她从绿叶丛中探出头来，四处张望着。
-    “我的花园里哪儿都找不到红玫瑰，”他哭着说，一双美丽的眼睛充满了泪水。“唉，难道幸福竟依赖于这么细小的东西！我读过智者们写 ...</div> <div class="fdall"><a onclick="fdtxt(this,10178162);" class="fdext" href="javascript:void(0)">显示全部</a></div>                                             </div>     <div class="fdbar">     <span class="L"> <span class="fdopt"><a href="javascript:fcm(10178162,2);void(0)" class="fcma"><span class="mr3">2</span>评论</a><span class="split">-</span><a href="javascript:share(10178162);void(0)" class="vote">分享</a><span class="split">-</span><a class="fav" href="javascript:void(0)" rel="10178162">收藏</a></span>     </span>         <a target="_blank" href="/10178162">2011-12-7 23:53</a>           <span class="mr3">,</span>              广播                           </div> </div></div>
-                </div>
-                </div>
-            </div>
-            <div class="feed_li">
-                <div class="feed_left">
-                    <a href="//hannah.42qu.com" target="_blank" class="c0">
-                    <div><img src="http://p4.42qu.us/219/260/139524.jpg"></div><div>卢松松</div><div class="tr">在家soho</div><div class="tr">站长</div></a>
-                </div>
-                <div class="feed_part">
-                <div class="feed_right">
-                    <div class="sdw"><div class="sd cid61">     <div id="fdtxt10178515" class="fdtxt">          <div class="fdtxtin">北京一家已完成第3轮融资的网站寻找优秀COO，有兴趣的兔子可留言，或邮件我：una@p-infinity.com </div>               </div>     <div class="fdbar">     <span class="L"> <span class="fdopt"><a href="javascript:fcm(10178515,0);void(0)" class="fcma">评论</a><span class="split">-</span><a href="javascript:share(10178515);void(0)" class="vote">分享</a><span class="split">-</span><a class="fav" href="javascript:void(0)" rel="10178515">收藏</a></span>     </span>         <a target="_blank" href="/10178515">2011-12-8 11:18</a>           <span class="mr3">,</span>              广播                           </div> </div></div>
-                </div>
-                <div class="feed_right">
-                    <div class="sdw"><div class="sd cid61">     <div id="fdtxt10176609" class="fdtxt">          <div class="fdtxtin">有一段时间没来了。今天感觉有点累，要开始接触财经类的东西了，也糊里糊涂地接了个职务，无形的压力若隐若现。实在是矛盾的人，渴望接触新鲜事物，又害怕改变现状。很多事情可以做好，关键是自己愿不愿意吧。告诉自己，年轻怕什么。多尝试，多挑战，不要永远活在舒适圈里不愿碰壁和受伤。放开心，去努力！ </div>               </div>     <div class="fdbar">     <span class="L"> <span class="fdopt"><a href="javascript:fcm(10176609,2);void(0)" class="fcma"><span class="mr3">2</span>评论</a><span class="split">-</span><a href="javascript:share(10176609);void(0)" class="vote">分享</a><span class="split">-</span><a class="fav" href="javascript:void(0)" rel="10176609">收藏</a></span>     </span>         <a target="_blank" href="/10176609">2011-12-6 19:19</a>           <span class="mr3">,</span>              广播                           </div> </div></div>
-                </div>
-                </div>
-            </div>
-            <div class="feed_li">
-                <div class="feed_left">
-                    <a href="//hannah.42qu.com" target="_blank" class="c0">
-                    <div><img src="http://p4.42qu.us/219/617/10857.jpg"></div><div>奇异果</div><div class="tr">某康复机构</div><div class="tr">孤独症康复师+音乐治疗师</div></a>
-                </div>
-                <div class="feed_part">
-                <div class="feed_right">
-                    <div class="sdw"><div class="sd cid61">     <div id="fdtxt10178018" class="fdtxt">          <div class="fdtxtin">愿做你的向日葵伙伴~ </div>               </div>     <div class="fdbar">     <span class="L"> <span class="fdopt"><a href="javascript:fcm(10178018,9);void(0)" class="fcma"><span class="mr3">9</span>评论</a><span class="split">-</span><a href="javascript:share(10178018);void(0)" class="vote">分享</a><span class="split">-</span><a class="fav" href="javascript:void(0)" rel="10178018">收藏</a></span>     </span>         <a target="_blank" href="/10178018">2011-12-7 22:08</a>           <span class="mr3">,</span>              广播                           </div> </div></div>
-                </div>
-                </div>
-            </div>
-            <div class="feed_li">
-                <div class="feed_left">
-                    <a href="//hannah.42qu.com" target="_blank" class="c0">
-                    <div><img src="http://p4.42qu.us/219/297/46377.jpg"></div><div>胡凯</div><div class="tr">ThoughtWorks</div><div class="tr">西安办公室负责人，程序员</div></a>
-                </div>
-                <div class="feed_part">
-                <div class="feed_right">
-                    <div class="sdw"><div class="sd cid68">  <a href="/10177477"><img src="http://p4.42qu.us/162/449/147905.jpg" class="feed_event_img"></a>   <pre class="fdh"><a href="/10177477" target="_blank">AgileTour西安站活动</a></pre>    <div class="feed_event_prop"> <p>地点<span class="colon">:</span>陕西 西安市 高新区</p> <p class="ml48 feed_event_pid">西安软件园秦风阁七层多功能厅</p> <p>时间<span class="colon">:</span>2011年12月10日 本周六</p>  <p class="ml48">13:30 - 16:30</p>  </div>  <div id="fdtxt10177477" class="fdtxt">                       <div class="fdtxtin">AgileTour是最具影响力的社区活动之一，它是全世界最盛大的敏捷话题活动,　也是中国唯一的大型、非盈利敏捷技术交流活动。
-                                    来自于全球的支持让AgileTour在全球范围拥有超过30家的赞助合作伙伴和100多名志愿者。
-                                </div>
-                                依托于社区力量使得每一年得敏捷之旅有都有超过50人在不同活动中分享超过100个话题,演讲人当中不乏敏捷领域的领军人物，比如Jame Grenning, ...</div> <div class="fdall"><a onclick="fdtxt(this,10177477);" class="fdext" href="javascript:void(0)">显示详情</a><a target="_blank" href="/event/join/10177477">报名参加</a></div>                           </div>     <div class="fdbar">     <span class="L"> <span class="fdopt"><a href="javascript:fcm(10177477,1);void(0)" class="fcma"><span class="mr3">1</span>评论</a><span class="split">-</span><a href="javascript:share(10177477);void(0)" class="vote">分享</a><span class="split">-</span><a class="fav" href="javascript:void(0)" rel="10177477">收藏</a></span>     </span>         <a target="_blank" href="/10177477">2011-12-7 15:31</a>           <span class="mr3">,</span>              广播                           </div> </div></div>				</div>
         </div>
+    <div id="feeds">
+        <input id="begin_id" type="hidden"/>
     </div>
-</div>
-<div class="right_wrap">
-
-
-    <p class="right_title">新的回复</p>
-    <div class="buzz_win">
-        <div class="buzz_w">
-            <div><a href="#">iphone挺好但是基本已经人手一台，而且 ...</a></div>
-            <div class="buzz_au">5分钟前 , 张沈鹏 , 王栋明 等<span class="buzz_cou">3</span>人回复</div></div>
-        <div class="buzz_w">
-            <div><a href="#">基因……天天准备考试，并且作为人生目的 ...</a></div>
-            <div class="buzz_au">昨天 , 张沈鹏 , 王栋明 等<span class="buzz_cou">3</span>人回复</div></div>
-        <div class="buzz_w">
-            <div><a href="#">团队在站立非正式会议。_kit @yiqiat ...</a></div>
-            <div class="buzz_au">昨天 , 张沈鹏 , 王栋明 等<span class="buzz_cou">3</span>人回复</div></div>
-
-        <div><a href="#">等<span class="mg03">3</span>条 ...</a></div>
     </div>
-    <p class="right_title">站点推荐</p>
-    <div class="site_rec">
-        <div class="site_li" id='abc123'>
-            <div class="site_left"><div class="site_img"><a href="http://36kr-com.42qu.com/"><img class="site_avatar" src="http://p4.42qu.us/96/492/55788.jpg"></a></div></div>
-            <div class="site_info">
-                <span class="site_name"><a target="_top" id="site_name_a" href="http://36kr-com.42qu.com/">36kr.com</a></span>
-                <a class="site_faved" href="#"></a>
-                <div class="site_bio">36氪是一个关注互联网创业的科技博客旨在为互联网创业者和投资者提供有价值的科技资讯，打造一个创</div>
-            </div><div class="delbtn"><a href="javascript:del('abc123')" onclick=""></a></div>
+    <div class="right_wrap">
+        <p class="right_title">新的回复</p>
+        <div class="buzz_win">
+            <div class="buzz_w">
+                <div><a href="#">iphone挺好但是基本已经人手一台，而且 ...</a></div>
+                <div class="buzz_au">5分钟前 , 张沈鹏 , 王栋明 等<span class="buzz_cou">3</span>人回复</div></div>
+            <div class="buzz_w">
+                <div><a href="#">基因……天天准备考试，并且作为人生目的 ...</a></div>
+                <div class="buzz_au">昨天 , 张沈鹏 , 王栋明 等<span class="buzz_cou">3</span>人回复</div></div>
+            <div class="buzz_w">
+                <div><a href="#">团队在站立非正式会议。_kit @yiqiat ...</a></div>
+                <div class="buzz_au">昨天 , 张沈鹏 , 王栋明 等<span class="buzz_cou">3</span>人回复</div></div>
+
+            <div><a href="#">等<span class="mg03">3</span>条 ...</a></div>
         </div>
+        <p class="right_title">站点推荐</p>
+        <div class="site_rec">
+            <div class="site_li" id='abc123'>
+                <div class="site_left"><div class="site_img"><a href="http://36kr-com.42qu.com/"><img class="site_avatar" src="http://p4.42qu.us/96/492/55788.jpg"></a></div></div>
+                <div class="site_info">
+                    <span class="site_name"><a target="_top" id="site_name_a" href="http://36kr-com.42qu.com/">36kr.com</a></span>
+                    <a class="site_faved" href="#"></a>
+                    <div class="site_bio">36氪是一个关注互联网创业的科技博客旨在为互联网创业者和投资者提供有价值的科技资讯，打造一个创</div>
+                </div><div class="delbtn"><a href="javascript:del('abc123')" onclick=""></a></div>
+            </div>
         <div class="site_li" id="a1">
             <div class="site_left"><div class="site_img"><a href="http://36kr-com.42qu.com/"><img class="site_avatar" src="http://p4.42qu.us/96/558/66094.jpg"></a></div></div>
             <div class="site_info">
@@ -194,9 +294,11 @@ career = career_current(current_user.id)
 
     <div id="fancybox-tmp"></div><div id="fancybox-loading"><div></div></div><div id="fancybox-overlay"></div><div id="fancybox-wrap"><div id="fancybox-outer"><div class="fancybox-bg" id="fancybox-bg-n"></div><div class="fancybox-bg" id="fancybox-bg-ne"></div><div class="fancybox-bg" id="fancybox-bg-e"></div><div class="fancybox-bg" id="fancybox-bg-se"></div><div class="fancybox-bg" id="fancybox-bg-s"></div><div class="fancybox-bg" id="fancybox-bg-sw"></div><div class="fancybox-bg" id="fancybox-bg-w"></div><div class="fancybox-bg" id="fancybox-bg-nw"></div><div id="fancybox-content"></div><a id="fancybox-close"></a><div id="fancybox-title"></div><a href="javascript:;" id="fancybox-left"><span class="fancy-ico" id="fancybox-left-ico"></span></a><a href="javascript:;" id="fancybox-right"><span class="fancy-ico" id="fancybox-right-ico"></span></a></div></div>
 
-    <script>init_user()</script>
     <%def name="htm_foot()">
     <a id="feed_load" href="javascript:void(0)">加载更多</a>
     <div id="feed_loading"></div>
     <script src="${js.ctrl_live}"></script>
     </%def>
+
+<script>init_user()</script>
+<script src="${js.index|n}" type="text/javascript"></script>

@@ -1,3 +1,12 @@
+.site_po
+{
+    margin-bottom: 36px;
+    margin-left: 260px;
+}
+#H .D_nav
+{
+    margin:0;
+}
 #H .H
 {
     max-width:1338px;
@@ -24,11 +33,11 @@
 }
 .delbtn:hover
 {
-	background: url("plus11.png") repeat scroll 240px 41px ;
+	background: url("/img/png/plus11.png") repeat scroll 240px 41px ;
 }
 .show_x
 {
-	background: url("plus11.png") repeat scroll 220px 41px ;
+	background: url("/img/png/plus11.png") repeat scroll 220px 41px ;
 }
 .delbtn
 {
@@ -183,11 +192,11 @@ font-size:12px;
 	width:20px;
 	height:16px;
 	margin-top:2px;
-	background:url(plus.png) #fff no-repeat 0 -16px;
+	background:url("/img/png/plus.png") #fff no-repeat 0 -16px;
 	float:right;
 }
 .site_fav_a:hover{
-	background:url(plus.png) no-repeat 0 0px #fff;
+	background:url("/img/png/plus.png") no-repeat 0 0px #fff;
 }
 .site_faved
 {
@@ -195,7 +204,7 @@ font-size:12px;
 	width:20px;
 	height:16px;
 	margin-top:2px;
-	background:url(plus.png) #fff no-repeat 0 -30px;
+	background:url("/img/png/plus.png") #fff no-repeat 0 -30px;
 	float:right;
 }
 .site_fav_a:visited{
