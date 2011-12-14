@@ -1,7 +1,7 @@
 <%!
-from model.ico import ico_url_with_default
 from model.career import career_current
 from config import FS_URL
+from model.ico import pic_url_with_default
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_career_link, po_link"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -26,16 +26,17 @@ ${css.ctrl_index|n}
 </%def>
 
 <%
-_ico = ico_url_with_default(zsite_id) 
+_ico = pic_url_with_default(zsite_id,219) 
 career = career_current(current_user.id)
 %>\
 
 
 <script id="feed" type="text/x-jquery-tmpl">
 <%text>
+${ WINDOW_WIDTH}
 {{if zsite_cid == 3}}
 {{each item}}
-<div class="G"><div class="G4 site_po"><div>
+<div class="G"><div class="site_po"><div>
 {{if rt_list.length}} 
 {{if (rt_list.length==1 && rt_list[0].txt[2]==0)}}{{else}}
 <p>
@@ -189,7 +190,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
                 <div class="feed_right">
                     <div class="sdw">
                         <div class="sd cid62">
-                            <%htm:form  action="/po/word" >
+                            <%htm:form  action="/po/new_word" >
                             <div class="fdtxt">
                                 <div class="fdtxtin">
                                     <textarea class="say_txt" name="txt"></textarea>
@@ -206,9 +207,9 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
                                         <a href="javascript:po_video();void(0)">视频</a>
                                     </span>
                                 </span>
-                                <span class="btnw">
-                                    <button type="submit">游吟</button>
-                                </span>
+                                <a id="po_ext" href="javascript:void(0)" style="display:none"></a>
+                                <span id="txt_tip"></span>
+                                    <button type="submit" class="say_btn">游吟</button>
                             </div>
                             </%htm:form>
                         </div>

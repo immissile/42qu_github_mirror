@@ -1,6 +1,15 @@
+.fdtxt
+{
+}
+#po_ext{
+    height: 32px;
+    margin-top: 2px;
+}
+#txt_tip{
+    margin:15px;
+}
 .site_po
 {
-    margin-bottom: 36px;
     margin-left: 260px;
 }
 #H .D_nav
@@ -107,6 +116,9 @@ margin-left:12px;
 	color:#000;
 	background-image:-moz-linear-gradient(#F3F3F3, #FFFFFF);
 	background-color:#f3f3f3;
+}
+.saying{
+background:none!important;
 }
 .say_txt{
 	height: 96px;

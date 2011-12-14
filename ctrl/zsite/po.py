@@ -74,6 +74,15 @@ class PoWord(LoginBase):
             po_word_new(current_user.id, txt)
         return self.redirect('/live')
 
+@urlmap('/po/new_word')
+class PoWord(LoginBase):
+    def post(self):
+        current_user = self.current_user
+        txt = self.get_argument('txt', '')
+        if txt:
+            po_word_new(current_user.id, txt)
+        return self.redirect('/index_new')
+
 
 def po_post(self):
     user_id = self.current_user_id
