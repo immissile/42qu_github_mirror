@@ -37,6 +37,8 @@ def feed_tuple_by_db(id):
     if rid and has_question:
         question = m.target
         name = question.name
+    elif cid == CID_REC:
+        name = m.name_htm
     elif cid != CID_WORD:
         name = m.name
     else:
