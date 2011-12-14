@@ -11,7 +11,7 @@ ${css.ctrl_zsite_com_list|n}
 
 <div class="G c com_wrap">
     %if page_list:
-    %for zsite in page_list:
+%for zsite in page_list:
         <%
         product_pos = product_id_list_by_com_id(zsite.id)
         %>
@@ -21,20 +21,20 @@ ${css.ctrl_zsite_com_list|n}
             <div class="com_link">
                 <a href="${zsite.link}" class="c0">${zsite.name}</a>
             </div>
-        %if product_pos:
+            %if product_pos:
         <%
             pos = Po.mc_get_list(product_pos)
         %>
-        % for po in pos:
+                % for po in pos:
             <a class="product_link" href="${zsite.link}#product_${po.id}">${po.name}</a>
-%endfor
-%endif
+                % endfor
+            %endif
         </div>
     </div>
 </div>
-    %endfor
+%endfor
     %endif
 
-${page|n}
 </div>
+${page|n}
 
