@@ -171,7 +171,7 @@ class FavSite( SiteListBase, FavBase, ZsiteBase):
     page_url = '/site/fav-%s'
 
 @urlmap('/site/rec/new')
-class SiteRecNewsdfsdf(LoginBase):
+class SiteRecNew(LoginBase):
     def post(self):
         self.finish("{}")
         return
