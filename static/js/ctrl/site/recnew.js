@@ -17,8 +17,6 @@
         });
     }
     loadrec(0);
-    loadrec(1);
-    loadrec(2);
 
     function _(id, state, callback){
         $.postJSON( '/j/site/rec/'+id+'-'+state,{},function(r)
