@@ -1,8 +1,23 @@
 ;$(function(){
 
-    site = $.parseJSON($("#site_data").html())    
-    $("#site_rec").tmpl().appendTo("#rec_wrapper");
-    refreshState();
+    data = $.parseJSON($("#site_data").html());
+
+    function addRec(){
+        if(data&&data.length){
+            site = data.pop();
+            $("#rec_wrapper").html($("#site_rec").tmpl());
+
+            $("#rec_wrapper").show();
+            $("#rec_"+ site[0]).hide().show("slow");
+            $("#rec_title").show();
+
+            refreshState();
+        }else{
+                $("#rec_title").hide("fast");
+                $("#rec_wrapper").hide("fast");
+        }
+    }
+    addRec();
 
     function loadrec(id){
         $.postJSON("/j/site/rec/new",{},function(r){
@@ -31,8 +46,7 @@
 
         del=function(r){
             i = $('#rec_'+r);
-            i.hide("slow");
-
+            i.hide("slow",addRec);
             callback=function(){
                 loadrec(0);
             };

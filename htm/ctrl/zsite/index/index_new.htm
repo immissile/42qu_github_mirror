@@ -245,21 +245,19 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
             <div class="buzz_c"><a href="#">等<span class="mg03">3</span>条 ...</a></div>
         </div>
 
+    <p class="right_title" id="rec_title">站点推荐</p>
     <div class="site_rec" id="rec_wrapper" ></div>
 <script id="site_rec" type="text/x-jquery-tmpl">
     <%text>
     {{if site.length}}
-    <p class="right_title">站点推荐</p>
-    {{each site}}
-    <div class="site_li" id='rec_${$value[0]}'>
-                <div class="site_left"><div class="site_img"><a href="${$value[1]}"><img class="site_avatar" src="${$value[3]}"></a></div></div>
+    <div class="site_li" id='rec_${site[0]}'>
+                <div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
                 <div class="site_info">
-                    <span class="site_name"><a target="_top" id="site_name_a" href="${$value[1]}">${$value[2]}</a></span>
-                    <a class="site_fav_a" id="rec_id${$value[0]}" href="javascript:fav('${$value[0]}')"></a>
-                    <div class="site_bio">${$value[4]}</div>
-                </div><div class="delbtn"><a href="javascript:del('${$value[0]}')" onclick=""></a></div>
+                    <span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
+                    <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:fav('${site[0]}')"></a>
+                    <div class="site_bio">${site[4]}</div>
+                </div><div class="delbtn"><a href="javascript:del('${site[0]}')" onclick=""></a></div>
             </div>
-            {{/each}}
             {{/if}}
     </%text>
 </script>
