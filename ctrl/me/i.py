@@ -246,8 +246,8 @@ class Verify(LoginBase):
 
 
 
-@urlmap('/i/career')
-class Career(LoginBase):
+@urlmap('/i/link')
+class Link(LinkEdit):
     def post(self):
         self.save()
         self.get()
@@ -267,7 +267,7 @@ def save_school(self):
     arguments = parse_qs(self.request.body, True)
 
 
-    for school_id , school_year, school_degree, school_department, txt, id in zip(
+    for i in zip(
         arguments['school_id'],
         arguments['school_year'],
         arguments['school_degree'],
@@ -275,13 +275,11 @@ def save_school(self):
         arguments['txt'],
         arguments['id'],
     ):
-        if not school_id:
-            continue
 
         user_school_new(current_user_id, *i)
 
-@urlmap('/i/link')
-class Link(LinkEdit):
+@urlmap('/i/career')
+class Career(LoginBase):
     def get(self):
         from model.career import CID_JOB, career_list
         current_user_id = self.current_user_id

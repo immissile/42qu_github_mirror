@@ -46,17 +46,18 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
             return
 
         if id:
-            u = UserSchool(id=id)
+            u = UserSchool.mc_get(id)
         else:
             u = UserSchool()
 
-        u.user_id=user_id,
-        u.school_id=school_id,
-        u.school_year=school_year,
-        u.school_degree=school_degree,
-        u.school_department=school_department,
+        u.user_id=user_id
+        u.school_id=school_id
+        u.school_year=school_year
+        u.school_degree=school_degree
+        u.school_department=school_department
         u.txt=txt
         u.save()
+        print id
         mc_user_school_id_list.delete(user_id)
         return u
 
