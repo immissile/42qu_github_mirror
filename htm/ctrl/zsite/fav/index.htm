@@ -1,7 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo, tag_list_video, tag_list_audio, tag_list_event, tag_list_site"/>
 <%!
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_SITE
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_SITE, CID_REC
 from model.fav import fav_po_list_by_user_id_cid, fav_po_count_by_user_id_cid
 from model.po import PO_CN_EN, PO_EN
 from model.zsite import Zsite
@@ -24,7 +24,8 @@ else:
 FUNC_DICT = {}
 _DICT = vars()['_import_ns']
 for cid, en in PO_EN.iteritems():
-    FUNC_DICT[cid] = _DICT['tag_list_%s' % en]
+    if cid!=CID_REC:
+        FUNC_DICT[cid] = _DICT['tag_list_%s' % en]
 
 po_total_count = 0 
 %>
@@ -38,6 +39,10 @@ po_total_count = 0
 % for i in PO_CN_EN:
 <%
 cid = i[0]
+if cid not in FUNC_DICT:
+    continue
+%>
+<%
 limit = 1 if cid == CID_WORD else 6
 po_list = fav_po_list_by_user_id_cid(zsite_id, cid, limit)
 po_count = fav_po_count_by_user_id_cid(zsite_id, cid)

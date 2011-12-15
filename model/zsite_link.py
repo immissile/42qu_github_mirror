@@ -142,8 +142,80 @@ def link_list_cid_by_zsite_id(zsite_id, cid_name_dict=dict(OAUTH2NAME)):
     return link_list, link_cid
 
 if __name__ == '__main__':
+    
+    from cid import CID_USER
+    from user_mail import mail_by_user_id
+    from zsite import Zsite
+    link = []
+    sites = {}
+    for zs in ZsiteLink.where(cid=0):
+        link.extend([zs.zsite_id])
+        sites[zs.link.rstrip('/')] = zs.zsite_id
+    print len(link)
+    link = filter(lambda x:Zsite.mc_get(x).cid == CID_USER,link)
+    print len(link)
+    s = """
+    http://zerolabrary.appspot.com
+    http://www.dongwm.com
+    http://stonelee.info
+    http://blog.chen-yuan.me
+    http://www.cnxct.com
+    http://blog.sina.com.cn/ggsddunet
+    http://www.91python.com
+    http://blog.linjunhalida.com
+    http://bss.appspot.com
+    http://www.imchao.net
+    http://blog.timger.info
+    http://heroicyang.com
+    http://www.felizin.com
+    http://fuzhijie.me
+    http://zhwen.org/xlog
+    http://pipa.tk
+    http://freefis.appspot.com
+    http://sebug.net
+    http://magicoding.appspot.com
+    http://www.cnblogs.com/yuxc
+    http://pythonee.blogspot.com
+    http://blog.lxneng.com
+    http://ly50247.appspot.com
+    http://feisan.net
+    http://mikespook.com
+    http://fendou.org
+    http://tech.crandom.com
+    http://www.wzxue.com
+    http://linnchord.me
+    http://www.162cm.com
+    http://blog.sina.com.cn/u/1301719222
+    http://blog.leezhong.com
+    http://t-y.me
+    http://blog.u250.info
+    http://shiweifu.cnblogs.com
+    http://blog.labikyo.com
+    http://blog.heartoutside.com
+    http://daijun.info
+    http://brightwang.cnblogs.com
+    http://haipo.me
+    http://pythoner.net
+    http://www.zaykl.co.cc
+    http://ui.hi.cn
+    http://nius.me
+    http://blog.qiaoy.net
+    http://sunxiunan.com
+    http://subin.org.cn/blog
+    http://xiayf.sinaapp.com
+    http://www.zhourongyu.info
+    http://hi.baidu.com/yinkeju/blog
+    http://www.wifihack.net
+    http://jasonwu.me
+    http://yangzt.com
+    http://hi.csdn.net/lgxwqq111
+    http://chuangbo.li
+    http://weiye.info    
+    """
+    for i in s.split():
+        print i,mail_by_user_id(sites[i]) , sites[i]
     #print link_id_cid(1)
     #print link_id_name_by_zsite_id(1)
-
-    pass
-    print link_list_cid_by_zsite_id(67)
+    #print ZsiteLink.raw_sql('select max(id) from zsite_link').fetchone()
+    #pass
+    #print link_list_cid_by_zsite_id(67)
