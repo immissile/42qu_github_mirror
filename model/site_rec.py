@@ -18,16 +18,16 @@ from model.top_rec import top_rec_unmark, TOP_REC_CID_SITE_REC, top_rec_mark
 
 
 SiteRec = Kv('site_rec', 0)
-SiteRec_New = Kv('site_rec_new', 0)
+SiteRecNew = Kv('site_rec_new', 0)
 
 
 class SiteRecHistory(Model):
     pass
 
 def site_rec(user_id):
-    zsite_id = SiteRec_New.get(user_id)
+    zsite_id = SiteRecNew.get(user_id)
     if zsite_id:
-        return Zsite.mc_get_list([int(i) for i in zsite_id.split(',')])
+        return Zsite.mc_get_list(map(int,zsite_id.split()))
 
 def site_rec_feeckback(user_id, zsite_id, state):
     site = Zsite.mc_get(zsite_id)
@@ -50,16 +50,16 @@ def site_rec_feeckback(user_id, zsite_id, state):
         user_id=user_id, zsite_id=zsite_id, state=state
     ).save()
 
-    id_list = SiteRec_New.get(user_id).split(',')
+    id_list = SiteRecNew.get(user_id).split(',')
     if zsite_id in id_list:
         id_list.remove(zsite_id)
 
-    SiteRec_New.set(user_id, ','.join([str(i) for i in id_list]))
+    SiteRecNew.set(user_id, ' '.join(map(str,id_list)))
 
     top_rec_unmark(user_id, TOP_REC_CID_SITE_REC)
 
 def site_rec_set(user_id, site_id):
-    SiteRec_New.set(user_id, ','.join([str(i) for i in site_id]))
+    SiteRecNew.set(user_id, ','.join([str(i) for i in site_id]))
     top_rec_mark(user_id, TOP_REC_CID_SITE_REC)
 
 if __name__ == '__main__':
