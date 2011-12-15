@@ -4,7 +4,6 @@ from config import FS_URL
 from model.ico import pic_url_with_default
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_career_link, po_link"/>
-<%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%inherit file="/ctrl/_base/_index_new_style.htm" />
@@ -31,24 +30,10 @@ _ico = pic_url_with_default(zsite_id,219)
 career = career_current(current_user.id)
 %>\
 
-##${site_rec_render()}
-
-<script src="${js.ctrl_site_recnew |n}"></script>
-<script id="site_rec" type="text/x-jquery-tmpl">
-    <%text>
-    <div class="site_li" id='rec_${site.id}'>
-                <div class="site_left"><div class="site_img"><a href="${site.link}"><img class="site_avatar" src="${site.ico}"></a></div></div>
-                <div class="site_info">
-                    <span class="site_name"><a target="_top" id="site_name_a" href="${site.link}">${site.name}</a></span>
-                    <a class="site_fav_a" id="rec_id${site.id}" href="javascript:fav('${site.id}')"></a>
-                    <div class="site_bio">${site.motto}</div>
-                </div><div class="delbtn"><a href="javascript:del('${site.id}')" onclick=""></a></div>
-            </div>
-            </%text>
-</script>
 
 <script id="feed" type="text/x-jquery-tmpl">
 <%text>
+${ WINDOW_WIDTH}
 {{if zsite_cid == 3}}
 {{each item}}
 <div class="G"><div class="site_po"><div>
@@ -64,12 +49,7 @@ career = career_current(current_user.id)
 {{/if}}
 </p>
 <a href="/${id}" target="_blank">${name}</a><span class="split">-</span><a target="_blank"
-class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="split">-</span>
-{{each rtL}}
-{{if $value[1][1]!=0}}<a target="_blank" class='fcmname c0 TPH' href="${$value[0]}">${$value[1][0]}</a>{{/if}}
-{{if $index<rtL.length-1}},{{/if}}
-{{/each}}
-推荐{{/if}} 
+class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="split">-</span>{{each(k,v) rter}}{{if v[1]!=0}}<a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>{{/if}}{{/each}} 推荐{{/if}} 
 </div></div></div>
 {{/each}}
 {{else}}
@@ -100,11 +80,10 @@ class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="spl
 {{/each}}
 
 {{if has_rter}} 
-{{each rtL}}
-{{if $value[1][1]!=0}}
-<a target="_blank" class='fcmname c0 TPH' href="${$value[0]}">${$value[1][0]}</a>
+{{each(k,v) rter}}
+{{if v[1]!=0}}
+<a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>
 {{/if}}
-{{if $index < rtL.length-1}},{{/if}}
 {{/each}} 推荐
 {{/if}}
 </div>
@@ -258,7 +237,32 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
             <div><a href="#">等<span class="mg03">3</span>条 ...</a></div>
         </div>
         <p class="right_title">站点推荐</p>
-        <div class="site_rec" id="rec_wrapper" ></div>
+        <div class="site_rec">
+            <div class="site_li" id='abc123'>
+                <div class="site_left"><div class="site_img"><a href="http://36kr-com.42qu.com/"><img class="site_avatar" src="http://p4.42qu.us/96/492/55788.jpg"></a></div></div>
+                <div class="site_info">
+                    <span class="site_name"><a target="_top" id="site_name_a" href="http://36kr-com.42qu.com/">36kr.com</a></span>
+                    <a class="site_faved" href="#"></a>
+                    <div class="site_bio">36氪是一个关注互联网创业的科技博客旨在为互联网创业者和投资者提供有价值的科技资讯，打造一个创</div>
+                </div><div class="delbtn"><a href="javascript:del('abc123')" onclick=""></a></div>
+            </div>
+        <div class="site_li" id="a1">
+            <div class="site_left"><div class="site_img"><a href="http://36kr-com.42qu.com/"><img class="site_avatar" src="http://p4.42qu.us/96/558/66094.jpg"></a></div></div>
+            <div class="site_info">
+                <span class="site_name"><a target="_top" id="site_name_a" href="http://36kr-com.42qu.com/">有意思吧</a></span>
+                <a class="site_fav_a" href="#"></a>
+                <div class="site_bio">有意思吧是一个专业扯淡社区，拥有超过800为专业红娘教你扯淡</div>
+            </div><div class="delbtn"><a href="javascript:del('a1')" ></a></div>
+        </div>
+        <div class="site_li" id="a2">
+            <div class="site_left"><div class="site_img"><a href="http://36kr-com.42qu.com/"><img class="site_avatar" src="http://p4.42qu.us/96/607/100959.jpg"></a></div></div>
+            <div class="site_info">
+                <span class="site_name"><a target="_top" id="site_name_a" href="http://36kr-com.42qu.com/">犯罪心理学研究</a></span>
+                <a class="site_fav_a" href="javascript:void(0)"></a>
+                <div class="site_bio">这是一个神秘的国度，这是一个神秘的小组，这是个神奇的时代</div>
+            </div><div  class="delbtn"><a href="javascript:del('a2')" ></a></div>
+        </div>
+    </div>
     <p class="right_title">人物推荐</p>
     <div class="site_rec">
         <div class="site_li">
