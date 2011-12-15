@@ -1,7 +1,7 @@
 ;$(function(){
 
-    function loadrec(){
-        $.postJSON("/site/rec_new",{},function(r){
+    function loadrec(id){
+        $.postJSON("/site/rec_new/"+id,{},function(r){
             if(r!='')
         {
             site={
@@ -16,6 +16,10 @@
         }
         });
     }
+    loadrec(0);
+    loadrec(1);
+    loadrec(2);
+
 
     function _(id, state, callback){
         $.postJSON( '/j/site/rec/'+id+'-'+state,{},function(r)
@@ -44,7 +48,7 @@
             i.hide("slow");
 
             callback=function(){
-                loadrec();
+                loadrec(0);
             };
             _(r, 1,callback);
         };
@@ -55,7 +59,7 @@
                 $("#rec_id"+id).removeClass("fav_loading");
                 $("#rec_id"+id).addClass("site_faved");
                 $("#rec_id"+id).attr("href","javascript:unfav("+id+")");
-                loadrec();
+                loadrec(0);
             };
             _(id, 2,callback);
         };
