@@ -19,6 +19,10 @@ def user_school_id_list(user_id):
 def user_school_list(user_id):
     return UserSchool.mc_get_list(user_school_id_list(user_id))
 
+def user_school_rm(id, user_id):
+    UserSchool.where(id=id, user_id=user_id).delete()
+    mc_user_school_id_list.delete(user_id) 
+
 def user_school_json(user_id):
     return dumps([
         (i.id, i.school_id, i.school_year, i.school_degree, i.school_department, i.txt)
