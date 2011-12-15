@@ -98,4 +98,14 @@ function loads(name){
 
 loads(job)
 
+
+function school(){
+     var div=$("#school"),
+        s = $('#edu_tmpl').tmpl().appendTo(div);
+        s.find(".school").focus(function(){
+            this.blur()
+        })
+}
+school()
+
 })()

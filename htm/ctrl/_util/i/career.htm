@@ -13,8 +13,8 @@ ${css.ctrl_i_career|n}
 <%htm:form id="career_form">
 <p class="tl career career_job">职业生涯</p>
 <div class="career c" id="career_job"></div>
-<p class="tl career career_edu">教育背景</p>
-<div class="career c" id="career_edu"></div>
+<p class="tl career school_h">教育背景</p>
+<div class="career c" id="school"></div>
 <div class="btns">
     <span class="btnw"><button class="btn" type="submit">保存</button></span>
 </div>
@@ -31,12 +31,11 @@ ${css.ctrl_i_career|n}
         name="school_id"
         class="school"
         value="请选择学校"
-        autocomplete="off">\
-<select name="school_department"  class="school_department"><option value="0">选择院系</option></select>\
-<select name="school_degree" class="school_degree">
-    <option value="0">入学年份</option>
-</select>\
-<select name="school_degree" class="school_degree">
+        autocomplete="off"><select
+            name="school_department"  class="school_department"><option value="0">选择院系</option></select><select 
+            name="school_degree" class="school_degree"><option 
+            value="0">入学年份</option></select><select 
+            name="school_degree" class="school_degree">
         <option value="0">选择类型</option>
         <option value="1">本科</option>
         <option value="2">大专</option>
@@ -45,11 +44,8 @@ ${css.ctrl_i_career|n}
         <option value="5">博士后</option>
         <option value="6">校工</option>
         <option value="7">教师</option>
-</select>
-
-
-    <input
-        value="{txt}"
+</select><input
+        value="${txt}"
         placeholder="经历简述 ... ..."
         name="{name}_txt"
         class="txt">
