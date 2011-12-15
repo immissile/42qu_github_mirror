@@ -64,7 +64,7 @@ def mc_flush(id):
 
 @mc_product_show_get('{id}')
 def product_show_get(id):
-    i = ProductShow.mc_get(id)
+    i = ProductShow.get(id)
     if i:
         return i.rank
     return 0
