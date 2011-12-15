@@ -30,6 +30,7 @@ def user_school_json(user_id):
     ])
     
 
+
 def user_school_new(user_id, school_id, school_year, school_degree, school_department,txt=''):
     school_id = int(school_id or 0)
     if school_id and school_id in SCHOOL_UNIVERSITY and user_id:
