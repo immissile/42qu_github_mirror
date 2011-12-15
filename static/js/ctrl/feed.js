@@ -4,7 +4,8 @@ $('.fav').live('click', function() {
 	}
 	var self = this, pnum=$(self).prev();
 	self.className = 'faving'
-	$.postJSON('/j/feed/fav/' + this.rel, function() { self.className = 'faved';
+	$.postJSON('/j/feed/fav/' + this.rel, function() {
+		self.className = 'faved';
         if(pnum.hasClass("pnum")){
             pnum.html(pnum.html()-0+1)
         }
