@@ -17,7 +17,7 @@ height: 100%;
 #istarsea_bg {
 min-height: 100%;
 _height: 100%;
-background:url(http://0.42qu.us/istarsea/img/png/istarsea_bg.png);
+background:url(http://0.42qu.us/istarsea/img/png/istarsea_bg.png) #000;
 }
 #istarsea_book{
 background:url(http://0.42qu.us/istarsea/img/png/book1.png) no-repeat;
@@ -63,7 +63,6 @@ margin-top:84px
 
 <%def name="h_nav()"></%def>
 
-<%htm:form id="form_reg" >
 <div id="istarsea_bg">
     <div style="z-index:1;position:absolute;background:url(http://0.42qu.us/istarsea/img/png/title_bg.png) no-repeat;top:3%;left:3%;height:137px;width:1024px">
         <div class="istarsea_nav">
@@ -82,7 +81,7 @@ margin-top:84px
         </div>
     </div>
 
-    <form id="istarsea_form">
+    <%htm:form id="istarsea_form" >
     <div id="istarsea_book">
         <div id="istarsea_sumbit" style="width:103px;height:32px;cursor:pointer;position:absolute;background:#fff;margin-top:240px;margin-left:800px"></div>
         <div id="istarsea_input">
@@ -91,7 +90,8 @@ margin-top:84px
             <div><input id="istarsea_input3" type="text" name="name" autocomplete="off"></div>
         </div>
     </div>
-    </form>
+    </%htm:form>
+
 </div>
 <script>
 $("#istarsea_input1").focus();
@@ -115,5 +115,3 @@ $("#istarsea_sumbit").click(function(){
     $("#istarsea_form").submit()
 })
 </script>
-</%htm:form>
-
