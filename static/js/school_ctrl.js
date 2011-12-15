@@ -124,13 +124,13 @@ function school(div){
         ;
 
         tmpl.find(".school_id").attr("id","school_id"+uid)
+        tmpl.find(".school_department").attr("id","dep"+uid)
         tmpl.find(".school").focus(function(){
             this.blur()
         }).attr('id',"school_select"+uid).focus(pop_school).css({
             'color':"#999",
             "border-color":"#aaa",
         })
-        tmpl.find(".school_department").attr("id","dep"+uid)
         for(i=year;i+128>year;--i){
             r.push('<option value="'+i+'">'+i+'</option>')
         }

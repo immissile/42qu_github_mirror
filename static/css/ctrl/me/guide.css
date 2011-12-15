@@ -99,14 +99,15 @@ vertical-align:1px;
 .school_year,.school_degree{
 width:116px;
 }
-.school_select{
+.school{
+border:1px solid #ccc;
 padding:8px;
 text-align:center;
 width:200px;
 margin-right:8px;
 cursor:pointer;
 }
-.dep{
+.school_department{
 width:218px;
 margin-right:8px;
 }

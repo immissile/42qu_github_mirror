@@ -87,26 +87,7 @@ ${errtip.password|n}
 
 </%htm:form>
 <%htm:form className="form_reg" id="form2">
-<div class="school_block">
-    <input type="hidden" name="school_id" id="school_id1" value="" >
-    <p class="part1">
-        <input id="school_select1" value="请选择学校" autocomplete="off" type="text" class="school_select">
-        <select name="school_year" class="school_year"></select>
-        <a onclick="school_x(this)" href="javascript:void(0)" class="x"></a>
-    </p>
-    <p class="part2">
-        <select name="school_department" id="dep1" class="dep"><option value="0">选择院系</option></select>
-        <select name="school_degree" class="school_degree">
-            <option value="0">选择类型</option>
-            <option value="1">本科</option>
-            <option value="2">大专</option>
-            <option value="3">硕士</option>
-            <option value="4">博士</option>
-            <option value="5">博士后</option>
-            <option value="6">校工</option>
-            <option value="7">教师</option>
-        </select>
-    </p>
+<div id="school">
 </div>
     <p>
         <a href="javascript:void(0)" class="add_school_a">添加学校</a>
@@ -168,7 +149,29 @@ ${errtip.password|n}
     </div>
 </%htm:form>
 
-
+<script id="school_tmpl" type="text/x-jquery-tmpl">
+<div class="school_block">
+    <input type="hidden" name="school_id"  value="" class="school_id">
+    <p class="part1">
+<input  value="请选择学校" autocomplete="off" type="text" class="school">
+<select name="school_year" class="school_year"></select>
+<a href="javascript:void(0)" class="x rm"></a>
+    </p>
+    <p class="part2">
+        <select name="school_department" class="school_department"><option value="0">选择院系</option></select></select>
+        <select name="school_degree" class="school_degree">
+            <option value="0">选择类型</option>
+            <option value="1">本科</option>
+            <option value="2">大专</option>
+            <option value="3">硕士</option>
+            <option value="4">博士</option>
+            <option value="5">博士后</option>
+            <option value="6">校工</option>
+            <option value="7">教师</option>
+        </select>
+    </p>
+</div>
+</script>
 <script src="${js.ctrl_guide}"></script>
 
 

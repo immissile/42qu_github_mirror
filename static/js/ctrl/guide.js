@@ -77,7 +77,6 @@ $(function(){
 
 
     
-    $('.school_select').live('focus',pop_school)
     $('#txt').elastic()
     $('#mb1').show()
     $('.step_btn').click(function(){
@@ -85,14 +84,24 @@ $(function(){
         $('#mb'+(num-1)).hide()
         $('#mb'+num).show()
     })
-    $('.school_year').prepend('<option value="">入学年份</option>')
-    for(var i=2011;i>1899;i--){
-        $('.school_year, .job_begin_year, .job_end_year').append('<option value='+i+'>'+i+'</option>')
-    }
-    for(var i=1;i<=12;i++){
-        $('.job_begin_month, .job_end_month').append('<option value='+i+'>'+i+'</option>')
-    }
 
+
+})
+
+function job_x(e){
+    $(e).parents(".job_more").remove()
+}
+
+(function(){
+    var school_div=$("#school")
+    school(school_div)
+    $(".add_school_a").click(function(){
+        school(school_div)
+        return false
+    })
+})()
+
+/*
     var school_block = $(".school_block"),
         school_html = school_block.html();
 
@@ -114,13 +123,4 @@ $(function(){
 
         j++
     })
-
-})
-function school_x(e){
-    $(e).parents(".school_block").remove()
-}
-function job_x(e){
-    $(e).parents(".job_more").remove()
-}
-
-
+*/
