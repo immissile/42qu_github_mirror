@@ -59,9 +59,12 @@
                             exist_rter[rter_id] = 1
                         }
                     }
+                    t.rtL=rtL=[];
+                    t.rtC=rtC=0;
                     for(j in rter){
-                        t.has_rter = 1
-                        break
+                        t.has_rter = 1;
+                        rtC++;
+                        rtL.push([j,rter[j]]);
                     }
                 } else {
                         t.rt_list = [0]

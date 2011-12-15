@@ -3,10 +3,14 @@
 
 from ctrl._urlmap.zsite import urlmap
 from model.motto import motto_get
+from model.motto import motto_get
+from model.ico import ico_url_with_default
 from _handler_site import SiteBase, LoginBase, XsrfGetBase, AdminBase
+from model.site_rec import site_rec
 from model.zsite_admin import admin_id_list_by_zsite_id
 from model.zsite_site import site_can_admin
 from zkit.jsdict import JsDict
+from yajl import dumps
 from model.zsite_link import link_list_cid_by_zsite_id, SITE_LINK_ZSITE_DICT, link_list_save
 from model.ico import site_ico_bind
 from model.motto import motto_set
@@ -169,7 +173,15 @@ class FavSite( SiteListBase, FavBase, ZsiteBase):
 @urlmap('/site/rec_new')
 class SiteRec(ZsiteBase):
     def post(self):
-        self.render()
+        current_user_id = self.current_user_id
+        site=site_rec(current_user_id)
+        out=[]
+        if site:
+            out = site[0]
+            ico = ico_url_with_default(out.id)
+            motto =motto_get(out.id) 
+            out = (out.id,out.link,out.name,ico,motto)
+        self.finish(dumps(out))
 
 @urlmap('/site/my')
 @urlmap('/site/my-(\d+)')
