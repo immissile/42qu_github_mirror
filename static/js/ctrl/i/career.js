@@ -1,6 +1,6 @@
 
 (function(){
-var edu = "edu", job = "job";
+var job = "job";
 function select_workday(prefix, elem, val, year_end){
     val = val||0;
     var date=new Date(), year=date.getFullYear();
@@ -9,17 +9,11 @@ function select_workday(prefix, elem, val, year_end){
 }
 
 function career(
-    name,
     unit, title, txt, begin_val, end_val, id
 ){
-    var unit_placeholder, title_placeholder, date_year = '.date_year';
-    if(name == edu){
-        unit_placeholder = "学校"
-        title_placeholder = "专业"
-    }else{
-        unit_placeholder = "单位"
-        title_placeholder = "头衔"
-    }
+    var unit_placeholder, title_placeholder, date_year = '.date_year', name="job";
+    unit_placeholder = "单位"
+    title_placeholder = "头衔"
 
     var result = {
             "name" : name, 
@@ -79,7 +73,7 @@ function career(
 $(".career").delegate('.unit:last,.title:last', "change", function(){
     var val = $.trim(this.value);
     if(val&&val.length&&val!=this.placeholder){
-        career(this.name.split("_")[0]);
+        career();
     }
 })
 
@@ -99,10 +93,9 @@ function loads(name){
         t.unshift(name)
         career.apply(this,t)
     }
-    career(name)
+    career()
 }
 
-loads(edu)
 loads(job)
 
 })()
