@@ -7,6 +7,7 @@ from model.user_mail import mail_by_user_id, user_id_by_mail
 from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
 from model.user_new import user_new
 from model.user_session import user_session, user_session_rm
+from model.namecard import namecard_new
 
 @urlmap('/')
 class Index(Base):
@@ -28,7 +29,8 @@ class Index(Base):
             errtip.mail = '邮箱格式有误'
 
         if not name:
-            errtip.password = '请输入姓名'
+            errtip.name = '请输入姓名'
+
 
         if not errtip:
             user_id = user_id_by_mail(mail)
@@ -37,6 +39,8 @@ class Index(Base):
                 session = user_session(user_id)
                 self.set_cookie('S', session)
                 self.set_cookie('E', mail)
+
+                namecard_new(user_id,phone=phone)
 
                 return self.redirect('/reged/%s'%user_id)
 
