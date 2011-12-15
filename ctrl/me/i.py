@@ -29,7 +29,7 @@ from model.follow import follow_id_list_by_from_id, follow_new
 from zkit.txt import EMAIL_VALID
 from model.verify import verify_mail_new
 from model.cid import CID_VERIFY_LOGIN_MAIL
-from model.user_school import user_school_json
+from model.user_school import user_school_json, user_school_new
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -81,31 +81,6 @@ class LinkEdit(LoginBase):
 
 
 
-class CareerEdit(LoginBase):
-    def get(self):
-        from model.career import CID_JOB, CID_EDU, career_list
-        current_user_id = self.current_user_id
-        self.render(
-            job_list=career_list(current_user_id, CID_JOB),
-            school_list=user_school_json(current_user_id),
-        )
-
-    def save(self):
-        from model.career import CID_TUPLE, career_list_set
-        current_user_id = self.current_user_id
-        #Tornado会忽略掉默认为空的参数
-        arguments = parse_qs(self.request.body, True)
-
-        for cid, prefix in CID_TUPLE:
-            id = arguments.get('%s_id' % prefix, [])
-            unit = arguments.get('%s_unit' % prefix, [])
-            title = arguments.get('%s_title' % prefix, [])
-            txt = arguments.get('%s_txt' % prefix, [])
-            begin = arguments.get('%s_begin' % prefix, [])
-            end = arguments.get('%s_end' % prefix, [])
-            career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
-
-        search_new(current_user_id)
 
 
 class PicEdit(LoginBase):
@@ -270,8 +245,9 @@ class Verify(LoginBase):
         self.render()
 
 
+
 @urlmap('/i/career')
-class Career(CareerEdit):
+class Career(LoginBase):
     def post(self):
         self.save()
         self.get()
@@ -285,11 +261,53 @@ class Index(UserInfoEdit):
         self.save()
         self.get()
 
+def save_school(self):
+    current_user_id = self.current_user_id
+    search_new(current_user_id)
+    arguments = parse_qs(self.request.body, True)
+
+
+    for school_id , school_year, school_degree, school_department, txt, id in zip(
+        arguments['school_id'],
+        arguments['school_year'],
+        arguments['school_degree'],
+        arguments['school_department'],
+        arguments['txt'],
+        arguments['id'],
+    ):
+        if not school_id:
+            continue
+
+        user_school_new(current_user_id, *i)
 
 @urlmap('/i/link')
 class Link(LinkEdit):
+    def get(self):
+        from model.career import CID_JOB, career_list
+        current_user_id = self.current_user_id
+        self.render(
+            job_list=career_list(current_user_id, CID_JOB),
+            school_list=user_school_json(current_user_id),
+        )
+
+    save_school = save_school
+
     def post(self):
-        self.save()
+        from model.career import CID_JOB, career_list_set
+        current_user_id = self.current_user_id
+
+        #Tornado会忽略掉默认为空的参数
+        arguments = parse_qs(self.request.body, True)
+
+        id = arguments.get('job_id' , [])
+        unit = arguments.get('job_unit' , [])
+        title = arguments.get('job_title' , [])
+        txt = arguments.get('job_txt' , [])
+        begin = arguments.get('job_begin' , [])
+        end = arguments.get('job_end' , [])
+        career_list_set(id, current_user_id, unit, title, txt, begin, end, CID_JOB)
+
+        self.save_school()
         self.get()
 
 

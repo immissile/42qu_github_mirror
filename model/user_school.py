@@ -31,7 +31,7 @@ def user_school_json(user_id):
     
 
 
-def user_school_new(user_id, school_id, school_year, school_degree, school_department,txt=''):
+def user_school_new(user_id, school_id, school_year, school_degree, school_department,txt='', id=None):
     school_id = int(school_id or 0)
     if school_id and school_id in SCHOOL_UNIVERSITY and user_id:
         school_year = int(school_year or 0)
@@ -44,15 +44,18 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
             return
         if school_department and school_department not in SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME:
             return
-    
-        u = UserSchool(
-            user_id=user_id,
-            school_id=school_id,
-            school_year=school_year,
-            school_degree=school_degree,
-            school_department=school_department,
-            txt=txt
-        )
+
+        if id:
+            u = UserSchool(id=id)
+        else:
+            u = UserSchool()
+
+        u.user_id=user_id,
+        u.school_id=school_id,
+        u.school_year=school_year,
+        u.school_degree=school_degree,
+        u.school_department=school_department,
+        u.txt=txt
         u.save()
         mc_user_school_id_list.delete(user_id)
         return u

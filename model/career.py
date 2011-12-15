@@ -11,7 +11,7 @@ CID_EDU = 2
 
 CID_TUPLE = (
     (CID_JOB, 'job'),
-    (CID_EDU, 'edu'),
+#    (CID_EDU, 'edu'),
 )
 
 CID_NAME = dict(CID_TUPLE)

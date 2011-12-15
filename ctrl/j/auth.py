@@ -6,6 +6,7 @@ from model.user_auth import user_password_verify, UserPassword, user_password_ne
 from model.user_info import user_info_new, UserInfo as _UserInfo
 from tornado.escape import utf8, native_str, parse_qs_bytes
 from model.user_school import user_school_new
+from ctrl.me.i import save_school
 
 @urlmap('/j/auth/guide/1')
 class AuthGuide1(JLoginBase):
@@ -50,22 +51,9 @@ class AuthGuide1(JLoginBase):
 
 @urlmap('/j/auth/guide/2')
 class AuthGuide2(JLoginBase):
+    save_school = save_school
     def post(self):
-        arguments = parse_qs_bytes(native_str(self.request.body), True)
-        user_id = self.current_user_id
-
-        for school_id , school_year, school_degree, school_department in zip(
-            arguments['school_id'],
-            arguments['school_year'],
-            arguments['school_degree'],
-            arguments['school_department'],
-        ):
-            if not school_id:
-                continue
-            user_school_new(
-                 user_id,
-                 school_id, school_year, school_degree, school_department
-            )
+        self.save_school()
         self.finish('{}')
 
 

@@ -4,7 +4,7 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-<script src="${js.jquery}"></script>\
+from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit, LinkEdit
 """
 
 TO_STRING = """
