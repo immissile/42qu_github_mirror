@@ -97,6 +97,8 @@ function job_x(e){
     school(school_div)
     $(".add_school_a").click(function(){
         school(school_div)
+        $('.job_icon').remove()
+        $('.part1').prepend('<span class="job_icon">■</span>')
         return false
     })
 })()
@@ -108,18 +110,6 @@ function job_x(e){
     school_block.find(".x").remove()
     
     $('.add_school_a').click(function(){
-        var icon = '<span class="job_icon">■</span>'
-        if(!$('.part1').find('.job_icon')[0]){
-            $('.part1').prepend($(icon))
-        }
-        var block = $('<div class="school_block"/>').html(school_html)
-        $(this).parent().before(block)
-
-        block.find('.part1').prepend($(icon))
-
-        $('.school_select:last').attr('id','school_select'+j)
-        $('.dep:last').attr('id','dep'+j)
-        $('input[name=school_id]:last').attr('id','school_id'+j)
 
         j++
     })
