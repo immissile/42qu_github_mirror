@@ -170,18 +170,11 @@ class SiteListBase(_SiteListBase):
 class FavSite( SiteListBase, FavBase, ZsiteBase):
     page_url = '/site/fav-%s'
 
-@urlmap('/site/rec_new')
-class SiteRec(ZsiteBase):
+@urlmap('/site/rec/new')
+class SiteRecNewsdfsdf(LoginBase):
     def post(self):
-        current_user_id = self.current_user_id
-        site=site_rec(current_user_id)
-        out=[]
-        if site:
-            out = site[0]
-            ico = ico_url_with_default(out.id)
-            motto =motto_get(out.id) 
-            out = (out.id,out.link,out.name,ico,motto)
-        self.finish(dumps(out))
+        self.finish("{}")
+        return
 
 @urlmap('/site/my')
 @urlmap('/site/my-(\d+)')
