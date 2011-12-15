@@ -67,3 +67,17 @@ padding: 8px;
 .unit,.title,.txt{
 border: 1px solid #CCC;
 }
+.school{
+width:150px;
+border:1px solid #CCC;
+}
+#career_edu select{
+text-align:center;
+border:1px solid #CCC;
+}
+#career_edu .txt{
+width:250px;
+}
+.school_department{
+width:200px;
+}
