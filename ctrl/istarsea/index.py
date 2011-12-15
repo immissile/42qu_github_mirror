@@ -40,6 +40,7 @@ class Index(Base):
                 self.set_cookie('S', session)
                 self.set_cookie('E', mail)
 
+                phone = self.get_argument('phone', '')
                 namecard_new(user_id,phone=phone)
 
                 return self.redirect('/reged/%s'%user_id)
