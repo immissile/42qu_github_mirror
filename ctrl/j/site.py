@@ -19,3 +19,8 @@ class Oauth(JLoginBase):
         user_id = self.current_user_id
         top_rec_mark(user_id, TOP_REC_CID_OAUTH_BINDED)
 
+@urlmap('/j/site/rec/new')
+class SiteRecNew(JLoginBase):
+    def post(self):
+        self.finish("{}")
+        return

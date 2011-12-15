@@ -1,15 +1,15 @@
 ;$(function(){
-
+/*
     function loadrec(id){
-        $.postJSON("/site/rec/new",{},function(r){
+        $.postJSON("/j/site/rec/new",{},function(r){
             if(r!='')
         {
             site={
                 "id":r[0],
-        "link":r[1],
-        "name":r[2],
-        "ico":r[3],
-        "motto":r[4]
+                "link":r[1],
+                "name":r[2],
+                "ico":r[3],
+                "motto":r[4]
             };
             $("#site_rec").tmpl(site).appendTo("#rec_wrapper");
             refreshState();
@@ -19,7 +19,7 @@
     loadrec(0);
     loadrec(1);
     loadrec(2);
-
+*/
     function _(id, state, callback){
         $.postJSON( '/j/site/rec/'+id+'-'+state,{},function(r)
                 {
