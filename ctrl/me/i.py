@@ -29,6 +29,7 @@ from model.follow import follow_id_list_by_from_id, follow_new
 from zkit.txt import EMAIL_VALID
 from model.verify import verify_mail_new
 from model.cid import CID_VERIFY_LOGIN_MAIL
+from model.user_school import user_school_json
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -86,7 +87,7 @@ class CareerEdit(LoginBase):
         current_user_id = self.current_user_id
         self.render(
             job_list=career_list(current_user_id, CID_JOB),
-            edu_list=career_list(current_user_id, CID_EDU),
+            school_list=user_school_json(current_user_id),
         )
 
     def save(self):
