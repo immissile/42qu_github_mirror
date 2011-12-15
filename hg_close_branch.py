@@ -3,8 +3,8 @@
 
 
 branches = """
-wooparadog_20111207_recommend_post 8080:94b7f5a9d5f5 (inactive)
-zuroc_20111209_newbie       8010:abec2214e9a8 (inactive)
+wooparadog_20111215_feed_new
+wooparadog_20111215_feed_new2
 """
 
 branches = branches.strip()
