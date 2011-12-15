@@ -213,7 +213,7 @@ if __name__ == '__main__':
     http://weiye.info    
     """
     for i in s.split():
-        print i,mail_by_user_id(sites.get(i)) , sites.get[i]
+        print i,mail_by_user_id(sites[i]) , sites[i]
     #print link_id_cid(1)
     #print link_id_name_by_zsite_id(1)
     #print ZsiteLink.raw_sql('select max(id) from zsite_link').fetchone()
