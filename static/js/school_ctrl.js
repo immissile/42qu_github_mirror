@@ -1,8 +1,8 @@
 var select_id, dep_id
 select_univ = function(uid,uname){
-    $('#'+select_id).val(uname)
+    $('#'+select_id).val(uname).css({'color':'',border:''})
     var deps = SCHOOL_UNIVERSITY_DEPARTMENT_ID[parseInt(uid)] || [];
-    $('#school_id'+dep_id.substr(3)).val(uid)
+    $('#school_id'+dep_id.substr(3)).val(uid).trigger('change')
     var dep_node = $('#'+dep_id)
     dep_node.children().remove()
     dep_node.append('<option value="">选择院系</option>')

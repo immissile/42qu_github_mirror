@@ -62,7 +62,7 @@ border-top:1px dotted #ccc;margin-top:32px
 .begin select, .end select {
 border: 1px solid #CCC;
 margin-right: 8px;
-padding: 8px;
+padding: 7px;
 }
 
 .unit,.title,.txt{
@@ -85,6 +85,5 @@ width:200px;
 }
 .school{
 cursor:pointer;
-border:1px solid #aaa;
 text-align:center;
 }

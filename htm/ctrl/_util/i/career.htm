@@ -5,8 +5,11 @@ from cgi import escape
 
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="css_js()">
-<script src="${js.date}"></script>
+<script src="${js.date|n}"></script>
+<script src="${js.school|n}"></script>
+<script src="${js.school_ctrl|n}"></script>
 ${css.ctrl_i_career|n}
+${css.ctrl_school|n}
 </%def>
 
 
@@ -26,15 +29,13 @@ ${css.ctrl_i_career|n}
 <script id="edu_tmpl" type="text/x-jquery-tmpl">
 <div class="line">
 <span class="L">
-    <input type="hidden" name="{name}_id" value="{id}">
+    <input type="hidden" class="school_id" name="school_id" value="${id}">
     <input
-        name="school_id"
         class="school"
         value="请选择学校"
-        autocomplete="off"><select
+        autocomplete="off"><select 
+            name="school_year" class="school_year"></select><select
             name="school_department"  class="school_department"><option value="0">选择院系</option></select><select 
-            name="school_degree" class="school_degree"><option 
-            value="0">入学年份</option></select><select 
             name="school_degree" class="school_degree">
         <option value="0">选择类型</option>
         <option value="1">本科</option>

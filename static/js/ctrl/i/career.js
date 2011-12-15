@@ -70,7 +70,7 @@ function career(
 }
 
 
-$(".career").delegate('.unit:last,.title:last', "change", function(){
+$("#career_job").delegate('.unit:last,.title:last', "change", function(){
     var val = $.trim(this.value);
     if(val&&val.length&&val!=this.placeholder){
         career();
@@ -101,11 +101,36 @@ loads(job)
 
 function school(){
      var div=$("#school"),
-        s = $('#edu_tmpl').tmpl().appendTo(div);
-        s.find(".school").focus(function(){
+        tmpl = $('#edu_tmpl').tmpl().appendTo(div),
+        year=(new Date()).getFullYear(),r =['<option value="">入学年份</option>'],i, uid=uuid()
+        ;
+
+        tmpl.find(".school_id").attr("id","school_id"+uid)
+        tmpl.find(".school").focus(function(){
             this.blur()
+        }).attr('id',"school_select"+uid).focus(pop_school).css({
+            'color':"#999",
+            "border-color":"#aaa",
         })
+        tmpl.find(".school_department").attr("id","dep"+uid)
+        for(i=year;i+128>year;--i){
+            r.push('<option value="'+i+'">'+i+'</option>')
+        }
+        tmpl.find(".school_year").html(r.join(''))
+        div.find(".rm").show();
+        div.find(".rm:last").hide(); 
+        tmpl.find('.rm').click(function(){
+            tmpl.fadeOut(function(){
+                tmpl.remove()
+            })
+            if(id){
+                $.postJSON("/j/school/rm/"+id);
+            }
+        });
 }
 school()
+$('.school_id:last').live("change", function(){
+    school();
+})
 
 })()
