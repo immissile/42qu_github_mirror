@@ -31,21 +31,8 @@ _ico = pic_url_with_default(zsite_id,219)
 career = career_current(current_user.id)
 %>\
 
-##${site_rec_render()}
+${site_rec_render()}
 
-<script src="${js.ctrl_site_recnew |n}"></script>
-<script id="site_rec" type="text/x-jquery-tmpl">
-    <%text>
-    <div class="site_li" id='rec_${site.id}'>
-                <div class="site_left"><div class="site_img"><a href="${site.link}"><img class="site_avatar" src="${site.ico}"></a></div></div>
-                <div class="site_info">
-                    <span class="site_name"><a target="_top" id="site_name_a" href="${site.link}">${site.name}</a></span>
-                    <a class="site_fav_a" id="rec_id${site.id}" href="javascript:fav('${site.id}')"></a>
-                    <div class="site_bio">${site.motto}</div>
-                </div><div class="delbtn"><a href="javascript:del('${site.id}')" onclick=""></a></div>
-            </div>
-            </%text>
-</script>
 
 <script id="feed" type="text/x-jquery-tmpl">
 <%text>
@@ -246,19 +233,36 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
         <p class="right_title">新的回复</p>
         <div class="buzz_win">
             <div class="buzz_w">
-                <div><a href="#">iphone挺好但是基本已经人手一台，而且 ...</a></div>
-                <div class="buzz_au">5分钟前 , 张沈鹏 , 王栋明 等<span class="buzz_cou">3</span>人回复</div></div>
+                <div><a href="#" class="buzz_li">iphone挺好但是基本已经人手一台，而且 ...</a></div>
+                <div class="buzz_au">5分钟前 , <a>张沈鹏</a> ,<a> 王栋明</a> 等<span class="buzz_cou">3</span>人回复</div></div>
             <div class="buzz_w">
-                <div><a href="#">基因……天天准备考试，并且作为人生目的 ...</a></div>
-                <div class="buzz_au">昨天 , 张沈鹏 , 王栋明 等<span class="buzz_cou">3</span>人回复</div></div>
+                <div><a href="#" class="buzz_li">基因……天天准备考试，并人生目的 ...</a></div>
+                <div class="buzz_au">昨天 , <a>张沈鹏</a>, <a>王栋明</a> 等<span class="buzz_cou">3</span>人回复</div></div>
             <div class="buzz_w">
-                <div><a href="#">团队在站立非正式会议。_kit @yiqiat ...</a></div>
-                <div class="buzz_au">昨天 , 张沈鹏 , 王栋明 等<span class="buzz_cou">3</span>人回复</div></div>
+                <div><a href="#" class="buzz_li">团队在站立非正式会议。_kit @yiqiat ...</a></div>
+                <div class="buzz_au">昨天 ,<a>张沈鹏</a> , <a>栋明</a> 等<span class="buzz_cou">3</span>人回复</div></div>
 
-            <div><a href="#">等<span class="mg03">3</span>条 ...</a></div>
+            <div class="buzz_c"><a href="#">等<span class="mg03">3</span>条 ...</a></div>
         </div>
-        <p class="right_title">站点推荐</p>
-        <div class="site_rec" id="rec_wrapper" ></div>
+
+    <div class="site_rec" id="rec_wrapper" ></div>
+<script id="site_rec" type="text/x-jquery-tmpl">
+    <%text>
+    {{if site.length}}
+    <p class="right_title">站点推荐</p>
+    {{each site}}
+    <div class="site_li" id='rec_${$value[0]}'>
+                <div class="site_left"><div class="site_img"><a href="${$value[1]}"><img class="site_avatar" src="${$value[3]}"></a></div></div>
+                <div class="site_info">
+                    <span class="site_name"><a target="_top" id="site_name_a" href="${$value[1]}">${$value[2]}</a></span>
+                    <a class="site_fav_a" id="rec_id${$value[0]}" href="javascript:fav('${$value[0]}')"></a>
+                    <div class="site_bio">${$value[4]}</div>
+                </div><div class="delbtn"><a href="javascript:del('${$value[0]}')" onclick=""></a></div>
+            </div>
+            {{/each}}
+            {{/if}}
+    </%text>
+</script>
     <p class="right_title">人物推荐</p>
     <div class="site_rec">
         <div class="site_li">
@@ -298,3 +302,4 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 
 <script>init_user()</script>
 <script src="${js.index|n}" ></script>
+<script src="${js.ctrl_site_recnew |n}"></script>

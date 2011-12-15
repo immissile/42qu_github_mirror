@@ -6,23 +6,19 @@ from model.site_po import po_list_by_zsite_id
 from model.cid import CID_NOTE
 from config import SITE_DOMAIN
 from model.site_rec import site_rec
+from yajl import dumps
+from cgi import escape
 %>
 <%def name="site_rec_render()">
 <%
 site_list=site_rec(current_user_id)
 %>
 %if site_list:
-<script id="site_rec" type="text/x-jquery-tmpl">
-    %for site in site_list:
-    <div class="site_li" id='rec_${site.id}'>
-                <div class="site_left"><div class="site_img"><a href="${site.link}"><img class="site_avatar" src="${ico_url_with_default(site.id)}"></a></div></div>
-                <div class="site_info">
-                    <span class="site_name"><a target="_top" id="site_name_a" href="${site.link}">${site.name}</a></span>
-                    <a class="site_fav_a" id="rec_id${site.id}" href="javascript:fav('${site.id}')"></a>
-                    <div class="site_bio">${motto_get(site.id)}</div>
-                </div><div class="delbtn"><a href="javascript:del('${site.id}')" onclick=""></a></div>
-            </div>
-            %endfor
+<%
+site_list=[(i.id,i.link,i.name,ico_url_with_default(i.id),motto_get(i.id)) for i in site_list]
+%>
+<script type="text/x-json" id="site_data">
+    ${escape(dumps(site_list))|n}
 </script>
 %endif
 </%def>

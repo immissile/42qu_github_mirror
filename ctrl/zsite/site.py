@@ -170,11 +170,6 @@ class SiteListBase(_SiteListBase):
 class FavSite( SiteListBase, FavBase, ZsiteBase):
     page_url = '/site/fav-%s'
 
-@urlmap('/site/rec/new')
-class SiteRecNewsdfsdf(LoginBase):
-    def post(self):
-        self.finish("{}")
-        return
 
 @urlmap('/site/my')
 @urlmap('/site/my-(\d+)')

@@ -50,7 +50,7 @@ def site_rec_feeckback(user_id, zsite_id, state):
         user_id=user_id, zsite_id=zsite_id, state=state
     ).save()
 
-    id_list = SiteRecNew.get(user_id).split(',')
+    id_list = SiteRecNew.get(user_id).split()
     if zsite_id in id_list:
         id_list.remove(zsite_id)
 
@@ -59,7 +59,7 @@ def site_rec_feeckback(user_id, zsite_id, state):
     top_rec_unmark(user_id, TOP_REC_CID_SITE_REC)
 
 def site_rec_set(user_id, site_id):
-    SiteRecNew.set(user_id, ','.join([str(i) for i in site_id]))
+    SiteRecNew.set(user_id, ' '.join([str(i) for i in site_id]))
     top_rec_mark(user_id, TOP_REC_CID_SITE_REC)
 
 if __name__ == '__main__':
