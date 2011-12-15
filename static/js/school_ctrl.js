@@ -109,10 +109,40 @@ function get_univ_by_prov(cid,pid){
         return get_univs(univs[pid]['univs'])
     }
 }
+
+
 function get_univs(univs){
     var cont = '<ul class="univ_ul">'
     for(var i=0;i<univs.length;i++){
         cont += '<li class="univ_li"><a class="univ" id="univ_'+univs[i]['id']+'" href="javascript:select_univ('+univs[i]['id']+",'"+univs[i]['name']+"');void(0)\">"+univs[i]['name']+'</a></li>'
     }
     return cont+'</ul>'
+}
+function school(div){
+     var tmpl = $('#school_tmpl').tmpl().appendTo(div),
+        year=(new Date()).getFullYear(),r =['<option value="">入学年份</option>'],i, uid=uuid()
+        ;
+
+        tmpl.find(".school_id").attr("id","school_id"+uid)
+        tmpl.find(".school").focus(function(){
+            this.blur()
+        }).attr('id',"school_select"+uid).focus(pop_school).css({
+            'color':"#999",
+            "border-color":"#aaa",
+        })
+        tmpl.find(".school_department").attr("id","dep"+uid)
+        for(i=year;i+128>year;--i){
+            r.push('<option value="'+i+'">'+i+'</option>')
+        }
+        tmpl.find(".school_year").html(r.join(''))
+        div.find(".rm").show();
+        div.find(".rm:last").hide(); 
+        tmpl.find('.rm').click(function(){
+            tmpl.fadeOut(function(){
+                tmpl.remove()
+            })
+            if(id){
+                $.postJSON("/j/school/rm/"+id);
+            }
+        });
 }
