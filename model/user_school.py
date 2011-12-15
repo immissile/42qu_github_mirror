@@ -21,7 +21,7 @@ def user_school_list(user_id):
 
 def user_school_json(user_id):
     return dumps([
-        (i.school_id, i.school_year, i.school_degree, i.school_department, i.txt)
+        (i.id, i.school_id, i.school_year, i.school_degree, i.school_department, i.txt)
         for i in user_school_list(user_id)
     ])
     

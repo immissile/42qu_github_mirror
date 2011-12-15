@@ -1,9 +1,13 @@
 var select_id, dep_id
-select_univ = function(uid,uname){
-    $('#'+select_id).val(uname).css({'color':'',border:''})
-    var deps = SCHOOL_UNIVERSITY_DEPARTMENT_ID[parseInt(uid)] || [];
+function select_univ(uid){
+    $('#'+select_id).val(SCHOOL_UNIVERSITY[uid]).css({'color':'',border:''})
     $('#school_id'+dep_id.substr(3)).val(uid).trigger('change')
-    var dep_node = $('#'+dep_id)
+    school_department($('#'+dep_id), uid)
+    $.fancybox.close()
+}
+
+function school_department(dep_node, uid){
+    var deps = SCHOOL_UNIVERSITY_DEPARTMENT_ID[parseInt(uid)] || [];
     dep_node.children().remove()
     dep_node.append('<option value="">选择院系</option>')
     for(var j=0;j<deps.length;j++){
@@ -11,7 +15,6 @@ select_univ = function(uid,uname){
         dep_node.append('<option value="'+i+'">'+SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[i]+'</option>')
     }
     dep_node.append('<option value="0">其它院系</option>')
-    $.fancybox.close()
 }
 
 function pop_school(){
@@ -114,35 +117,65 @@ function get_univ_by_prov(cid,pid){
 function get_univs(univs){
     var cont = '<ul class="univ_ul">'
     for(var i=0;i<univs.length;i++){
-        cont += '<li class="univ_li"><a class="univ" id="univ_'+univs[i]['id']+'" href="javascript:select_univ('+univs[i]['id']+",'"+univs[i]['name']+"');void(0)\">"+univs[i]['name']+'</a></li>'
+        cont += '<li class="univ_li"><a class="univ" id="univ_'+univs[i]['id']+'" href="javascript:select_univ('+univs[i]['id']+");void(0)\">"+univs[i]['name']+'</a></li>'
     }
     return cont+'</ul>'
 }
-function school(div){
-     var tmpl = $('#school_tmpl').tmpl().appendTo(div),
-        year=(new Date()).getFullYear(),r =['<option value="">入学年份</option>'],i, uid=uuid()
+function school(div,data){
+     var tmpl = $('#school_tmpl').tmpl(data).appendTo(div),
+        year=(new Date()).getFullYear(),
+        r =['<option value="">入学年份</option>'],i, uid=uuid()
+        sc=tmpl.find(".school"),
+        dep_node = tmpl.find(".school_department").attr("id","dep"+uid)
         ;
-
+        
         tmpl.find(".school_id").attr("id","school_id"+uid)
-        tmpl.find(".school_department").attr("id","dep"+uid)
-        tmpl.find(".school").focus(function(){
+        sc.focus(function(){
             this.blur()
-        }).attr('id',"school_select"+uid).focus(pop_school).css({
-            'color':"#999",
-            "border-color":"#aaa",
-        })
+        }).attr('id',"school_select"+uid).focus(pop_school)
+
         for(i=year;i+128>year;--i){
             r.push('<option value="'+i+'">'+i+'</option>')
         }
-        tmpl.find(".school_year").html(r.join(''))
+        year = tmpl.find(".school_year").html(r.join(''))
+       
+        if(data){
+            year.val(data.year)
+            school_department(dep_node, data.school_id)
+            dep_node.val(data.department)
+            tmpl.find(".school_degree").val(data.degree)
+        }else{
+            sc.css({
+                'color':"#999",
+                "border-color":"#aaa",
+            })
+        }
+ 
+
         div.find(".rm").show();
         div.find(".rm:last").hide(); 
         tmpl.find('.rm').click(function(){
             tmpl.fadeOut(function(){
                 tmpl.remove()
             })
-            if(id){
-                $.postJSON("/j/school/rm/"+id);
+            if(data){
+                $.postJSON("/j/school/rm/"+data.id);
             }
         });
+}
+function load_school(div, data){
+    var i=0,j;
+    for(;i<data.length;++i){
+        j = data[i];
+        j = {
+            id: j[0],
+            school_id: j[1],
+            year:j[2],
+            degree:j[3],
+            department:j[4],
+            txt:j[5],
+            name: SCHOOL_UNIVERSITY[j[1]]
+        }
+        school(div, j)
+    }
 }

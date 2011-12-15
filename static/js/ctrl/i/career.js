@@ -100,6 +100,12 @@ loads(job)
 
 
 var school_div=$("#school")
+
+load_school(
+    school_div,
+    $.parseJSON($("#school_data").html())
+)
+
 school(school_div)
 $('.school_id:last').live("change", function(){
     school(school_div);

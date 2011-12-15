@@ -27,12 +27,13 @@ ${css.ctrl_school|n}
 <%text>
 
 <script id="school_tmpl" type="text/x-jquery-tmpl">
-<div class="line">
+<div class="line c">
 <span class="L">
-    <input type="hidden" class="school_id" name="school_id" value="${id}">
+    <input type="hidden" class="id" name="id">
+    <input type="hidden" class="school_id" name="school_id" value="${school_id}">
     <input
         class="school"
-        value="请选择学校"
+        value="{{if name}}${name}{{else}}请选择学校{{/if}}"
         autocomplete="off"><select 
             name="school_year" class="school_year"></select><select
             name="school_department"  class="school_department"><option value="0">选择院系</option></select><select 
@@ -48,7 +49,7 @@ ${css.ctrl_school|n}
 </select><input
         value="${txt}"
         placeholder="经历简述 ... ..."
-        name="{name}_txt"
+        name="txt"
         class="txt">
 </span>
 <a href="javascript:void(0)" title="删除" class="rm"></a>
@@ -91,7 +92,7 @@ ${css.ctrl_school|n}
 <%
 # unit, title, txt, begin_val, end_val, id
 %>
-<script type="text/x-json" id="career_data_school">
+<script type="text/x-json" id="school_data">
 ${escape(school_list)|n}
 </script>
 <script type="text/x-json" id="career_data_job">
