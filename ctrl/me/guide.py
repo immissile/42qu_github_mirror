@@ -7,7 +7,7 @@ from zkit.errtip import Errtip
 from model.zsite_show import SHOW_LIST
 from model.user_auth import user_password_verify, UserPassword, user_password_new
 from model.user_info import user_info_new
-
+from ctrl.me.i import PicEdit
 
 @urlmap('/me/guide')
 class Guide(LoginBase):
@@ -23,3 +23,11 @@ class Guide(LoginBase):
         )
 
 
+@urlmap('/me/guide/photo')
+class Pic(PicEdit):
+    def post(self):
+        error_pic = self.save()
+        if error_pic is None:
+            if self.get_argument('pos', ''):
+                self.redirect('/')
+        self.render(error_pic=error_pic, pos='')
