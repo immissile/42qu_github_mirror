@@ -108,16 +108,23 @@ end_time = career.end_time
 <div class="zsite_item">
     <p>\
 %if school_degree:
-${SCHOOL_DEGREE[school_degree]} ,
+${SCHOOL_DEGREE[school_degree]} ,\
 %endif
 ${SCHOOL_UNIVERSITY[school_id]}
     </p>
+%if school_year or school_department:
     <p>\
-%if school_year:
-${school_year}级 ,
+    %if school_year:
+${school_year}级\
+    %endif
+%if school_year and school_department:
+ , \
 %endif
-${school_department}
+    %if school_department:
+${school_department}\
+    %endif
     </p>
+%endif
 </div>
 %endfor
 %endif
