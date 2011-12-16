@@ -1,4 +1,6 @@
-
+<%!
+from config import SITE_URL
+%>
 
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/i/info.htm" name="info"/>
@@ -28,4 +30,4 @@ padding-bottom:32px;
 
 
 ${pic.body()}
-<a href="/" style="text-align:center;display:block;font-size:16px;border-top:1px dotted #ccc;padding:16px 0 32px">完成注册 ; 银河的历史 , 又翻开了新的一页</a>
+<a href="${SITE_URL}" style="text-align:center;display:block;font-size:16px;border-top:1px dotted #ccc;padding:16px 0 32px">完成注册 ; 银河的历史 , 又翻开了新的一页</a>

@@ -51,6 +51,7 @@ class AuthGuide1(JLoginBase):
 
 class JSaveBase(JLoginBase):
     def post(self):
+        self.zsite_id = self.current_user_id
         self.save()
         self.finish('{}')
 
