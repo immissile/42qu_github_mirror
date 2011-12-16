@@ -86,17 +86,16 @@ $("#career_form").submit(function(){
     })
 })
 
-function loads(name){
-    var data = $.parseJSON($("#career_data_"+name).html()),i=0,t;
+function loads(){
+    var data = $.parseJSON($("#career_data_job").html()),i=0,t;
     for(;i<data.length;++i){
         t=data[i];
-        t.unshift(name)
         career.apply(this,t)
     }
     career()
 }
 
-loads(job)
+loads()
 
 
 var school_div=$("#school")
