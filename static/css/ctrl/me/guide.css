@@ -28,7 +28,7 @@ color:#999;
 }
 .job_unit{
 padding:8px;
-width:183px;
+width:184px;
 border:1px solid #ccc;
 }
 .job_title{
@@ -39,7 +39,7 @@ border:1px solid #ccc;
 }
 .job_txt{
 padding:8px;
-width:393px;
+width:394px;
 border:1px solid #ccc;
 margin-top:16px;
 }
@@ -156,7 +156,7 @@ display:none
 margin-top:30px;
 }
 #form3 select{
-width:86px
+width:89px
 }
 #form2,#form3,#form4{
 margin-left:106px;
@@ -199,4 +199,9 @@ vertical-align: -3px;
 .school_block .job_txt{
 margin-top:8px;
 }
-
+.job_begin_end,.job_end_day{
+display:none;
+}
+.job_begin_day{
+display:none;
+}
