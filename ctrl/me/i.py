@@ -291,6 +291,7 @@ def save_career(self):
     txt = arguments.get('job_txt' , [])
     begin = arguments.get('job_begin' , [])
     end = arguments.get('job_end' , [])
+#    print id, unit, title, txt, begin, end, CID_JOB
     career_list_set(id, current_user_id, unit, title, txt, begin, end, CID_JOB)
 
 @urlmap('/i/career')

@@ -116,7 +116,7 @@ def career_set(id, user_id, unit, title, txt, begin, end, cid):
         career_new(user_id, unit_id, title_id, txt, begin, end, cid)
 
 def career_list_set(id, user_id, unit, title, txt, begin, end, cid):
-    for id, unit, title, txt, begin, end in zip(id, unit, title, txt, begin, end)[:-1]:
+    for id, unit, title, txt, begin, end in zip(id, unit, title, txt, begin, end):
         career_set(id, user_id, unit, title, txt, begin, end, cid)
     mc_flush(user_id, cid)
 
