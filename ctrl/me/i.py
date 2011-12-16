@@ -278,6 +278,21 @@ def save_school(self):
 
         user_school_new(current_user_id, *i)
 
+def save_career(self):
+    from model.career import CID_JOB, career_list_set
+    current_user_id = self.current_user_id
+
+    #Tornado会忽略掉默认为空的参数
+    arguments = parse_qs(self.request.body, True)
+
+    id = arguments.get('job_id' , [])
+    unit = arguments.get('job_unit' , [])
+    title = arguments.get('job_title' , [])
+    txt = arguments.get('job_txt' , [])
+    begin = arguments.get('job_begin' , [])
+    end = arguments.get('job_end' , [])
+    career_list_set(id, current_user_id, unit, title, txt, begin, end, CID_JOB)
+
 @urlmap('/i/career')
 class Career(LoginBase):
     def get(self):
@@ -288,23 +303,11 @@ class Career(LoginBase):
             school_list=user_school_json(current_user_id),
         )
 
+    save_career = save_career
     save_school = save_school
 
     def post(self):
-        from model.career import CID_JOB, career_list_set
-        current_user_id = self.current_user_id
-
-        #Tornado会忽略掉默认为空的参数
-        arguments = parse_qs(self.request.body, True)
-
-        id = arguments.get('job_id' , [])
-        unit = arguments.get('job_unit' , [])
-        title = arguments.get('job_title' , [])
-        txt = arguments.get('job_txt' , [])
-        begin = arguments.get('job_begin' , [])
-        end = arguments.get('job_end' , [])
-        career_list_set(id, current_user_id, unit, title, txt, begin, end, CID_JOB)
-
+        self.save_career()
         self.save_school()
         self.get()
 
