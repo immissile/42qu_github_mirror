@@ -31,3 +31,6 @@ class Pic(PicEdit):
             if self.get_argument('pos', ''):
                 self.redirect('/')
         self.render(error_pic=error_pic, pos='')
+
+
+
