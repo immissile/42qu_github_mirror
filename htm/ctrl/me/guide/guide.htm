@@ -18,6 +18,7 @@ from model.user_auth import user_password_verify, UserPassword, user_password_ne
 
 <%inherit file="/ctrl/_base/_reg_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/i/link.htm" name="link"/>
 
 <%def name="H()">
 </%def>
@@ -100,27 +101,21 @@ ${errtip.password|n}
 
 <%htm:form className="form_reg" id="form3">
     <div class="job_block">
+        <input type="hidden" name="job_id" value="">
         <div class="job_line_1"><input class="job_unit" name="job_unit" placeholder="单位"><input class="job_title" name="job_title" placeholder="头衔">
 
         <a class="x" href="javascript:void(0)" onclick="job_x(this)"></a>
         </div>
-        <div><input class="job_txt" name="job_txt" placeholder="经历简述 ... ..."></div>
-        <span class="job_begin">
-        <select name="job_begin_year" class="job_begin_year"><option value=0> - 年 - </option></select>
-        <select name="job_begin_month" class="job_begin_month"><option value=0> - 月 - </option></select>
-        </span>-
-        <span class="job_end">
-        <select name="job_end_year" class="job_end_year"><option value=0> - 年 - </option></select>
-        <select name="job_end_month" class="job_end_month"><option value=0> - 月 - </option></select>
+        <div><input class="job_txt" autocomplete="off" name="job_txt" placeholder="经历简述 ... ..."></div>
+            <span class="job_begin"></span> - <span class="job_end"></span>
         </span>\
-<input type="hidden" name="job_now" value="0">
 <input type="checkbox" class="job_now"><label class="label_now">当前</label>
     </div>
     <p>
         <a href="javascript:void(0)" class="add_job_a">添加经历</a>
     </p>
     <div class="cl btns">
-    <span class="L btnw job_next_btn">\
+<span class="L btnw job_next_btn">\
 <button type="submit" type="submit" class="step_btn" id="step3">下一步</button>\
 </span>
     </div>
@@ -145,13 +140,22 @@ ${errtip.password|n}
     <textarea class="f14" placeholder="爱吃什么 , 偶像是谁 , 想去的地方 , 追逐的理想 。 人生是一场旅行 ..." name="txt" id="txt" class=""></textarea>
     
     <div class="cl btns">
-    <span class="L btnw job_next_btn"><button type="submit">保存</button></span>
+    <span class="L btnw job_next_btn"><button type="submit">下一步</button></span>
     </div>
 </%htm:form>
 
+<%htm:form className="form_reg" id="form5">
+${link.link_form()}
+    <div class="cl btns">
+<span class="L btnw job_next_btn">\
+<button type="submit" type="submit" class="step_btn" id="step3">保存</button>\
+</span>
+    </div>
+</%htm:form>
+
+
 <script id="school_tmpl" type="text/x-jquery-tmpl">
 <div class="school_block">
-    <input type="hidden" name="txt" value="">
     <input type="hidden" class="id" name="id">
     <input type="hidden" name="school_id"  value="" class="school_id">
     <p class="part1">
@@ -171,6 +175,7 @@ ${errtip.password|n}
             <option value="6">校工</option>
             <option value="7">教师</option>
         </select>
+        <div><input class="job_txt" autocomplete="off" name="txt" placeholder="经历简述 ... ..."></div>
     </p>
 </div>
 </script>

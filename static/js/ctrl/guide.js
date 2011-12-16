@@ -1,6 +1,4 @@
 
-$("button[type=submit]").attr('disabled',false);
-$("input:first").focus().select()
 
 
 function form(id){
@@ -28,40 +26,58 @@ function form(id){
 
             var next=$("#form"+(id+1));
             if(next[0]){
+
                 self.slideUp()
                 next.slideDown()
+                next.find("input:first").focus().select()
             }else{
-                //location="/"
+                window.location="/i/guide/pic"
             }
         })
         return false
     })
 }
-form(1)
-form(2)
-form(3)
-form(4)
+(function(){
+$("button[type=submit]").attr('disabled',false);
+$("input:first").focus().select()
+for(var i=0;i<6;++i){
+    form(i)
+}
+})()
 
 $(function(){
     var j=2
     function job_now_label(elem){
         var id = uuid();
         elem.find('.job_now').attr('id',id).change(function(){
-            var last = elem.find('.job_end'),
-                job_now = elem.find('input[name=job_now]')
+            var last = elem.find('.job_end');
             if(this.checked){
-                job_now.val(1)
                 last.hide()
+                last.find("input[name=job_end]").val(0)
             }else{
                 last.show()
-                job_now.val(0)
             }
         })
         elem.find('.label_now').attr('for',id)
         return elem
     }
 
+    $("#career_job").delegate('.unit:last,.title:last', "change", function(){
+        var val = $.trim(this.value);
+        if(val&&val.length&&val!=this.placeholder){
+            career();
+        }
+    })
+
     var job_block = job_now_label($('.job_block'));
+
+    function select_workday(name){
+        var date=new Date(), year=date.getFullYear();
+        select_span($(".job_"+name), "job_"+name, 0, year, year-99)
+    }
+    select_workday("begin")
+    select_workday("end")
+
     var job_html = job_block.html()
     job_block.find('.job_now').attr('checked',true)
     job_block.find('.job_end').hide()
