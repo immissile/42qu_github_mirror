@@ -3,6 +3,8 @@ from model.user_info import UserInfo, MARRY_ONE
 from model.career import career_list_all
 from model.namecard import namecard_get
 from model.days import year_month_begin_end
+from model.user_school import user_school_tuple
+from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME, SCHOOL_UNIVERSITY_DEPARTMENT_ID, SCHOOL_DEGREE
 %>
 <%def name="about_me(zsite_id, is_owner)">
 <%
@@ -60,9 +62,12 @@ if info:
             line3 = "家乡 : "+info.place_home
 
 
+school_tuple = user_school_tuple(current_user_id)
 %>
-%if is_owner and not career_list:
-<div class="zsite_item"><a class="c00f" href="/i/career">点击这里 , 补充履历</a></div>
+%if is_owner and not career_list and not school_tuple:
+<div class="zsite_item">\
+<a class="c00f" href="/i/career">点击这里 , 补充履历</a>\
+</div>\
 %endif
 %if not sex and is_owner:
 <div class="zsite_item"><a class="c00f" href="/i">点击这里 , 设置性别</a></div>
@@ -98,6 +103,24 @@ end_time = career.end_time
 %endfor
 %endif
 
+%if school_tuple:
+%for id, school_id, school_year, school_degree, school_department, txt in school_tuple:
+<div class="zsite_item">
+    <p>\
+%if school_degree:
+${SCHOOL_DEGREE[school_degree]} ,
+%endif
+${SCHOOL_UNIVERSITY[school_id]}
+    </p>
+    <p>\
+%if school_year:
+${school_year}级 ,
+%endif
+${school_department}
+    </p>
+</div>
+%endfor
+%endif
 
 %if line2 or line3:
 <div class="zsite_item">

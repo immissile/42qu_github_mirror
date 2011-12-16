@@ -19,7 +19,7 @@ def mc_flush(user_id):
 
 @mc_user_school_id_list('{user_id}')
 def user_school_id_list(user_id):
-    return UserSchool.where(user_id=user_id).order_by('id desc').col_list()
+    return UserSchool.where(user_id=user_id).order_by('school_year desc, id desc').col_list()
 
 def user_school_list(user_id):
     return UserSchool.mc_get_list(user_school_id_list(user_id))
