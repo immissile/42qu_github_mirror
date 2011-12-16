@@ -6,7 +6,7 @@ from model.ico import pic_url_with_default
 <%namespace file="/ctrl/_util/user.htm" import="user_career_link, po_link"/>
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-
+<%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 <%inherit file="/ctrl/_base/_index_new_style.htm" />
 
 <%def name="h_nav_more()"></%def>
@@ -231,10 +231,12 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
     </div>
     <div class="right_wrap">
         <p class="right_title">新的回复</p>
+        ${buzz_show(zsite_id)}
         <div class="buzz_win">
             <div class="buzz_w">
                 <div><a href="#" class="buzz_li">iphone挺好但是基本已经人手一台，而且 ...</a></div>
-                <div class="buzz_au">5分钟前 , <a>张沈鹏</a> ,<a> 王栋明</a> 等<span class="buzz_cou">3</span>人回复</div></div>
+                <div class="buzz_au">5分钟前 , <a>张沈鹏</a> ,<a> 王栋明</a> 等<span class="buzz_cou">3</span>人回复</div>
+            </div>
             <div class="buzz_w">
                 <div><a href="#" class="buzz_li">基因……天天准备考试，并人生目的 ...</a></div>
                 <div class="buzz_au">昨天 , <a>张沈鹏</a>, <a>王栋明</a> 等<span class="buzz_cou">3</span>人回复</div></div>

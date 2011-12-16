@@ -9,6 +9,7 @@
 .buzz_c
 {
     margin-left:17px;
+    margin-bottom:10px;
 }
 .buzz_win a
 {
@@ -19,7 +20,8 @@
 }
 .fdtxt
 {
-    height:150px;
+    _height:150px;
+    margin-top:3px;
 }
 #po_ext{
     height: 32px;
