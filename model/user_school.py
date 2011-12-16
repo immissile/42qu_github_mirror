@@ -8,7 +8,7 @@ from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTME
 from json import dumps
 
 mc_user_school_id_list = McCacheA('UserSchoolIdList:%s')
-mc_user_school_tuple = McCache('UserSchoolTuple:%s')
+mc_user_school_tuple = McCacheM('UserSchoolTuple:%s')
 
 class UserSchool(McModel):
     pass
@@ -30,7 +30,7 @@ def user_school_rm(id, user_id):
 
 @mc_user_school_tuple('{user_id}')
 def user_school_tuple(user_id):
-    return (
+    return tuple(
         (i.id, i.school_id, i.school_year, i.school_degree, i.school_department, i.txt)
         for i in user_school_list(user_id)
     )
