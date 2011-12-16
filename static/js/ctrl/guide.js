@@ -31,7 +31,7 @@ function form(id){
                 self.slideUp()
                 next.slideDown()
             }else{
-                window.location="/guide/photo"
+                window.location="/i/guide/pic"
             }
         })
         return false

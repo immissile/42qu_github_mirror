@@ -9,7 +9,7 @@ from model.user_auth import user_password_verify, UserPassword, user_password_ne
 from model.user_info import user_info_new
 from ctrl.me.i import PicEdit
 
-@urlmap('/me/guide')
+@urlmap('/i/guide')
 class Guide(LoginBase):
     def get(self, mail=''):
         id_list = SHOW_LIST
@@ -23,7 +23,7 @@ class Guide(LoginBase):
         )
 
 
-@urlmap('/me/guide/photo')
+@urlmap('/i/guide/pic')
 class Pic(PicEdit):
     def post(self):
         error_pic = self.save()
