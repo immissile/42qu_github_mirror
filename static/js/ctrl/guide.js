@@ -1,6 +1,4 @@
 
-$("button[type=submit]").attr('disabled',false);
-$("input:first").focus().select()
 
 
 function form(id){
@@ -39,10 +37,13 @@ function form(id){
         return false
     })
 }
-form(1)
-form(2)
-form(3)
-form(4)
+(function(){
+$("button[type=submit]").attr('disabled',false);
+$("input:first").focus().select()
+for(var i=0;i<6;++i){
+    form(i)
+}
+})()
 
 $(function(){
     var j=2
