@@ -104,7 +104,7 @@ ${errtip.password|n}
 
         <a class="x" href="javascript:void(0)" onclick="job_x(this)"></a>
         </div>
-        <div><input class="job_txt" name="job_txt" placeholder="经历简述 ... ..."></div>
+        <div><input class="job_txt" autocomplete="off" name="job_txt" placeholder="经历简述 ... ..."></div>
         <span class="job_begin">
         <select name="job_begin_year" class="job_begin_year"><option value=0> - 年 - </option></select>
         <select name="job_begin_month" class="job_begin_month"><option value=0> - 月 - </option></select>
@@ -151,7 +151,6 @@ ${errtip.password|n}
 
 <script id="school_tmpl" type="text/x-jquery-tmpl">
 <div class="school_block">
-    <input type="hidden" name="txt" value="">
     <input type="hidden" class="id" name="id">
     <input type="hidden" name="school_id"  value="" class="school_id">
     <p class="part1">
@@ -171,6 +170,7 @@ ${errtip.password|n}
             <option value="6">校工</option>
             <option value="7">教师</option>
         </select>
+        <div><input class="job_txt" autocomplete="off" name="txt" placeholder="经历简述 ... ..."></div>
     </p>
 </div>
 </script>

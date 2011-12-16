@@ -103,12 +103,12 @@ width:116px;
 border:1px solid #ccc;
 padding:8px;
 text-align:center;
-width:200px;
+width:264px;
 margin-right:8px;
 cursor:pointer;
 }
 .school_department{
-width:218px;
+width:282px;
 margin-right:8px;
 }
 .add_school_a, .add_job_a{
@@ -196,5 +196,7 @@ padding: 5px;
 vertical-align: -3px;
 }
 
-
+.school_block .job_txt{
+margin-top:8px;
+}
 
