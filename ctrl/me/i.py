@@ -98,6 +98,62 @@ class PicEdit(LoginBase):
         error_pic = _upload_pic(files, current_user_id)
         return error_pic
 
+def save_user_info(self):
+    current_user_id = self.current_user_id
+
+    name = self.get_argument('name', None)
+    if name:
+        zsite_name_edit(current_user_id, name)
+
+    motto = self.get_argument('motto', None)
+    if motto:
+        _motto.set(current_user_id, motto)
+
+    txt = self.get_argument('txt', '')
+    if txt:
+        txt_new(current_user_id, txt)
+
+    birthday = self.get_argument('birthday', '0')
+    birthday = int(birthday)
+    marry = self.get_argument('marry', '')
+    pid_home = self.get_argument('pid_home', '1')
+    pid_now = self.get_argument('pid_now', '1')
+    try:
+        pid_now = int(pid_now)
+    except ValueError:
+        pid_now = 0
+    try:
+        pid_home = int(pid_home)
+    except ValueError:
+        pid_home = 0
+
+    marry = int(marry)
+    if marry not in (1, 2, 3):
+        marry = 0
+
+    o = user_info_new(current_user_id, birthday, marry, pid_home)
+    if pid_now:
+        c = namecard_get(current_user_id)
+        if c:
+            c.pid_now = pid_now
+            c.save()
+        else:
+            c = namecard_new(current_user_id, pid_now=pid_now)
+
+    if not o.sex:
+        sex = self.get_argument('sex', 0)
+        if sex and not o.sex:
+            sex = int(sex)
+            if sex not in (1, 2):
+                sex = 0
+            if sex:
+                if o:
+                    o.sex = sex
+                    o.save()
+                else:
+                    user_info_new(current_user_id, sex=sex)
+
+    search_new(current_user_id)
 
 
 class UserInfoEdit(LoginBase):
@@ -119,62 +175,7 @@ class UserInfoEdit(LoginBase):
             sex=o.sex
         )
 
-    def save(self):
-        current_user_id = self.current_user_id
-
-        name = self.get_argument('name', None)
-        if name:
-            zsite_name_edit(current_user_id, name)
-
-        motto = self.get_argument('motto', None)
-        if motto:
-            _motto.set(current_user_id, motto)
-
-        txt = self.get_argument('txt', '')
-        if txt:
-            txt_new(current_user_id, txt)
-
-        birthday = self.get_argument('birthday', '0')
-        birthday = int(birthday)
-        marry = self.get_argument('marry', '')
-        pid_home = self.get_argument('pid_home', '1')
-        pid_now = self.get_argument('pid_now', '1')
-        try:
-            pid_now = int(pid_now)
-        except ValueError:
-            pid_now = 0
-        try:
-            pid_home = int(pid_home)
-        except ValueError:
-            pid_home = 0
-
-        marry = int(marry)
-        if marry not in (1, 2, 3):
-            marry = 0
-
-        o = user_info_new(current_user_id, birthday, marry, pid_home)
-        if pid_now:
-            c = namecard_get(current_user_id)
-            if c:
-                c.pid_now = pid_now
-                c.save()
-            else:
-                c = namecard_new(current_user_id, pid_now=pid_now)
-
-        if not o.sex:
-            sex = self.get_argument('sex', 0)
-            if sex and not o.sex:
-                sex = int(sex)
-                if sex not in (1, 2):
-                    sex = 0
-                if sex:
-                    if o:
-                        o.sex = sex
-                        o.save()
-                    else:
-                        user_info_new(current_user_id, sex=sex)
-
-        search_new(current_user_id)
+    save = save_user_info
 
 
 @urlmap('/i/pic')
