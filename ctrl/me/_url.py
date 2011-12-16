@@ -3,4 +3,3 @@ import money
 import notice
 import guide
 import search
-#import newbie
