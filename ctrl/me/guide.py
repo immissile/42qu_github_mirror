@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from ctrl._urlmap.me import urlmap
-
+from config import SITE_URL
 from _handler import LoginBase , XsrfGetBase
 from model.zsite import Zsite
 from zkit.errtip import Errtip
@@ -29,7 +29,7 @@ class Pic(PicEdit):
         error_pic = self.save()
         if error_pic is None:
             if self.get_argument('pos', ''):
-                self.redirect('/')
+                self.redirect(SITE_URL)
         self.render(error_pic=error_pic, pos='')
 
 
