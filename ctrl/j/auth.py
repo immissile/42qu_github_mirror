@@ -6,7 +6,7 @@ from model.user_auth import user_password_verify, UserPassword, user_password_ne
 from model.user_info import user_info_new, UserInfo as _UserInfo
 from tornado.escape import utf8, native_str, parse_qs_bytes
 from model.user_school import user_school_new
-from ctrl.me.i import save_school, save_career, save_user_info
+from ctrl.me.i import save_school, save_career, save_user_info, save_link
 
 @urlmap('/j/auth/guide/1')
 class AuthGuide1(JLoginBase):
@@ -67,5 +67,7 @@ class AuthGuide3(JSaveBase):
 class AuthGuide4(JSaveBase):
     save = save_user_info
 
-
+@urlmap('/j/auth/guide/5')
+class AuthGuide5(JSaveBase):
+    save = save_link
 

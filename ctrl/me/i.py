@@ -44,6 +44,29 @@ def _upload_pic(files, current_user_id):
     return error_pic
 
 
+def save_link(self):
+    zsite_id = self.zsite_id
+
+    arguments = parse_qs(self.request.body, True)
+    link_cid = []
+    link_kv = []
+    for cid, link in zip(arguments.get('cid'), arguments.get('link')):
+        cid = int(cid)
+        name = OAUTH2NAME_DICT[cid]
+        link_cid.append((cid, name, linkify(link, cid)))
+
+
+    for id, key, value in zip(
+        arguments.get('id'),
+        arguments.get('key'),
+        arguments.get('value')
+    ):
+        id = int(id)
+        link = linkify(value)
+
+        link_kv.append((id, key.strip() or urlparse(link).netloc, link))
+
+    link_list_save(zsite_id, link_cid, link_kv)
 
 class LinkEdit(LoginBase):
 
@@ -51,30 +74,7 @@ class LinkEdit(LoginBase):
         zsite_id = self.zsite_id
         return self.render()
 
-    def save(self):
-        zsite_id = self.zsite_id
-
-        arguments = parse_qs(self.request.body, True)
-        link_cid = []
-        link_kv = []
-        for cid, link in zip(arguments.get('cid'), arguments.get('link')):
-            cid = int(cid)
-            name = OAUTH2NAME_DICT[cid]
-            link_cid.append((cid, name, linkify(link, cid)))
-
-
-        for id, key, value in zip(
-            arguments.get('id'),
-            arguments.get('key'),
-            arguments.get('value')
-        ):
-            id = int(id)
-            link = linkify(value)
-
-            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
-
-        link_list_save(zsite_id, link_cid, link_kv)
-
+    save = save_link
 
 
 
