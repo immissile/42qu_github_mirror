@@ -149,11 +149,40 @@ display:inline-block;
 background:url(/img/gif/loading_bar.gif) no-repeat 50% 50%;
 vertical-align:4px;
 }
+#form5 input{
+font-size:12px;
+}
 #form2, #form4,#form3, #form5{
 display:none
 }
 #form3{
 margin-top:30px;
+}
+#form5{
+font-size:14px;
+margin-top:-10px;
+margin-left:-36px;
+}
+#form5 label{
+    width:128px;
+    text-align:right;
+    display:inline-block;
+}
+#form5 .value{
+    width:340px;
+    margin-left:14px;
+}
+#form5 .key{
+    width:55px;
+    margin-left:66px;
+    text-align:center;
+}
+#form5 .btns{
+padding-left:143px;
+}
+#form5 .value,#form5 .key{
+    padding:3px;
+    border:1px solid #ccc;
 }
 #form3 select{
 width:89px

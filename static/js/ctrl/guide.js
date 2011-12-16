@@ -28,8 +28,10 @@ function form(id){
 
             var next=$("#form"+(id+1));
             if(next[0]){
+
                 self.slideUp()
                 next.slideDown()
+                next.find("input:first").focus().select()
             }else{
                 window.location="/i/guide/pic"
             }
