@@ -1,6 +1,6 @@
 <%!
 from yajl import dumps
-from model.zsite_link import OAUTH2NAME 
+from model.zsite_link import OAUTH2NAME , link_list_cid_by_zsite_id
 %>
 
 
@@ -10,9 +10,11 @@ from model.zsite_link import OAUTH2NAME
 ${css.ctrl_i_link|n}
 </%def>
 
-<%htm:form className="link_form">
-##<a href="/"></a>
 
+<%def name="link_form()">
+<%
+    link_list, link_cid = link_list_cid_by_zsite_id(zsite_id)
+%>
 %for cid, name, link in link_cid:
 <p>
     <label for="cid${cid}">${name}</label><input
@@ -49,6 +51,9 @@ class="value" type="text" name="value" value="${v}">\
 </p>
 %endfor
 
+</%def>
+
+<%htm:form className="link_form">
 <div class="btns">
     <span class="btnw"><button class="btn" type="submit">保存</button></span>
 </div>

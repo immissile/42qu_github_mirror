@@ -18,6 +18,7 @@ from model.user_auth import user_password_verify, UserPassword, user_password_ne
 
 <%inherit file="/ctrl/_base/_reg_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/i/link.htm" name="link"/>
 
 <%def name="H()">
 </%def>
@@ -139,9 +140,14 @@ ${errtip.password|n}
     <textarea class="f14" placeholder="爱吃什么 , 偶像是谁 , 想去的地方 , 追逐的理想 。 人生是一场旅行 ..." name="txt" id="txt" class=""></textarea>
     
     <div class="cl btns">
-    <span class="L btnw job_next_btn"><button type="submit">保存</button></span>
+    <span class="L btnw job_next_btn"><button type="submit">下一步</button></span>
     </div>
 </%htm:form>
+
+<%htm:form className="form_reg" id="form5">
+${link.link_form()}
+</%htm:form>
+
 
 <script id="school_tmpl" type="text/x-jquery-tmpl">
 <div class="school_block">

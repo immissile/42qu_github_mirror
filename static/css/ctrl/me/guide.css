@@ -149,7 +149,7 @@ display:inline-block;
 background:url(/img/gif/loading_bar.gif) no-repeat 50% 50%;
 vertical-align:4px;
 }
-#form2, #form4,#form3{
+#form2, #form4,#form3, #form5{
 display:none
 }
 #form3{
@@ -205,3 +205,4 @@ display:none;
 .job_begin_day{
 display:none;
 }
+
