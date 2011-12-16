@@ -109,6 +109,7 @@ buzz_list = _buzz_show(user_id, 3, unread)
 unread = unread-len(buzz_list)
 %>
 % if buzz_list:
+<p class="right_title">新提醒</p>
 <div class="buzz_win">\
     % for i in buzz_list:
     <div class="buzz_w">
