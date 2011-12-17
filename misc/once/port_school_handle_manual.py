@@ -110,16 +110,25 @@ def handle(school):
     return [school[0], school_id, dep_id]
 
 def main():
-    w = open('verified', 'w')
+    w = open('verified', 'aw')
+    handled = open('logging').read().split()
+    logging = open('logging','w')
+    
+    print handled
+    for i in handled:
+        logging.write("\n"+i)
+
     with open('to_be_verified') as f:
         data = loads(f.read())
         count = 0
         for school in data:
-            print '====%s===='%str(count)
+            if str(count) not in handled:
+                print '====%s===='%str(count)
+                out = dumps(handle(school))
+                if out != 'null':
+                    w.write('\n'+out)
+                logging.write("\n"+str(count))
             count += 1
-            out = dumps(handle(school))
-            if out != 'null':
-                w.write(out+'\n')
 
 if __name__ == '__main__':
     main()
