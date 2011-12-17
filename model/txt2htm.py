@@ -70,7 +70,12 @@ if __name__ == '__main__':
     print txt_withlink( """
 http://zuroc.42qu.com/live我 [[http://zuroc.42qu.com/live]]
 yup_20111011_shareyup_20111011_share [[http:/xfbss.com]]
+dfasdf
 
+
+{{{
+    thhis is code
+}}}
 """)
 
 #    print txt_withlink("""
