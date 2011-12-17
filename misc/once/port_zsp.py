@@ -53,7 +53,7 @@ for pos, i in enumerate(data):
             ok = True
 
     if ok:
-        name = i[2]
+        name = i[2].encode('utf-8')
         if not name:
             continue
         p = []
@@ -67,10 +67,8 @@ for pos, i in enumerate(data):
                 depDict[SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[id]] = id
 
             for j, id in depDict.iteritems():
-                print name,j
-                raw_input()
                 if len(set(name)&set(j)) >= 2:
-                    llen = find_lcs_len(name, j)
+                    llen = find_lcs_len(name, j.encode('utf-8'))
                     if llen > maxlen:
                         p = [j]
                         maxlen = llen
@@ -78,12 +76,12 @@ for pos, i in enumerate(data):
                         p.append(j)
             if p:
                 p.sort(key=len)
-                if (maxlen / float(len(name)) ) > 0.6 and maxlen/float(len(p[0])) > 0.6:
+                if (maxlen / float(len(name)) ) > 0.4 and maxlen/float(len(p[0])) > 0.4:
                     pok = True
 
         if pok:
-            print name, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[p[0]]
-            f.write("\n"+dumps([i[0],_SCHOOL_UNIVERSITY[c[0]],p[0]]))
+            print name, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[depDict[p[0]]]
+            f.write("\n"+dumps([i[0],_SCHOOL_UNIVERSITY[c[0]],depDict[p[0]]]))
             f.flush()
         else:
             f.write("\n"+dumps([i[0],_SCHOOL_UNIVERSITY[c[0]],' ']))
