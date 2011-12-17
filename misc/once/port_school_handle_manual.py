@@ -30,6 +30,7 @@ def handle(school):
     name = name.replace('理工大学', '理工')
     name = name.replace('浙江工业大学', '浙江工大')
     name = name.replace('科学技术', '科技')
+    name = name.replace('四川师范大学', '四川师大')
     name = name.replace('北航', '北京航空航天大学')
     name = name.replace('华中师范大学', '华中师大')
     name = name.replace('中国科学院', '中科院')
@@ -62,14 +63,17 @@ def handle(school):
     if not school_id:
         match = [(i, find_lcs_len(v.encode('utf-8'), name.encode('utf-8'))) for i, v in SCHOOL_UNIVERSITY.iteritems() if i <= top]
         match = sorted(match, key=lambda x:x[1], reverse=True)[:10]
-        print '\n--------%s--------\n'% name
-        get = getIndex('\n'.join(['选择:\t'+str(match.index(i))+' '+SCHOOL_UNIVERSITY[i[0]] for i in match]))
-        if get < 10:
-            school_id = match[get][0]
-            print '\n\n++++++%s++++++++'%SCHOOL_UNIVERSITY[school_id]
+        if match[0][1]>4:
+            school_id = match[0][0]
         else:
-            log.write(dumps(school)+'\n')
-            return
+            print '\n--------%s--------\n'% name
+            get = getIndex('\n'.join(['选择:\t'+str(match.index(i))+' '+SCHOOL_UNIVERSITY[i[0]] for i in match]))
+            if get < 10:
+                school_id = match[get][0]
+            else:
+                log.write(dumps(school)+'\n')
+                return
+        print '\n\n++++++%s++++++++'%SCHOOL_UNIVERSITY[school_id]
     else:
         school_id = school_id[0]
 
@@ -109,7 +113,10 @@ def main():
     w = open('verified', 'w')
     with open('to_be_verified') as f:
         data = loads(f.read())
+        count = 0
         for school in data:
+            print '====%s===='%str(count)
+            count += 1
             out = dumps(handle(school))
             if out != 'null':
                 w.write(out+'\n')
