@@ -1,0 +1,13 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%htm:form id="book_form">
+    <div id="book_tip" class="c">
+    <div id="isbn">请输入 书 的 ISBN / 豆瓣链接 查询</div>
+    <div id="book_query_loading">查询中 , 如果长时间无结果, 那就是找不到</div>
+    </div>
+    <input type="text" value="" id="book_query">
+    <span class="btnw"><button type="submit">查询</button></span>
+</%htm:form>
+
+<script src="${js.book_new}"></script>
