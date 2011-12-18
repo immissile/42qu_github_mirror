@@ -42,5 +42,6 @@ def prepare(o):
         40081,
     )
     o.DOUBAN_CONSUMER_KEY="087dc9c5696088b319795d503c219a19"
+    o.DOUBAN_CONSUMER_SECRET="f9bad3647db753bc"
     return o
 
