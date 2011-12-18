@@ -15,4 +15,4 @@ import site
 import mail_notify
 import weekly_mail
 import com
-import book
+import zsite_book
