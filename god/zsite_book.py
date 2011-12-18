@@ -33,8 +33,8 @@ class BookNewDouban(Base):
     def post(self, douban_id):
         name =  self.get_argument('title', '无题') 
         pic_id = self.get_argument('pic_id', 0)
-        author = self.get_argument('author',[])
-        translator = self.get_argument('translator',[])
+        author = self.get_argument('author','')
+        translator = self.get_argument('translator','')
         pages = self.get_argument('pages','')
         publisher = self.get_argument('publisher','')
 

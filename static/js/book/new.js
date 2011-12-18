@@ -6,11 +6,11 @@ var book_query = $("#book_query").focus(),
 function book_query_begin(){
     book_query_loading.show()
     isbn.hide()
+    book_query.focus().select()
 }
 function book_query_end(){
     book_query_loading.hide()
     isbn.show()
-    book_query.focus().select()
 }
 
 function name_join(name_list){
@@ -85,7 +85,6 @@ function douban_book_jsonp(url){
             $.postJSON(
             "/book/new/douban/"+id, data, 
             function(book){
-                return
                 window.location = "/book/new/"+book.id
             })
             return

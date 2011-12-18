@@ -50,7 +50,7 @@ def zsite_book_new(
     txt_new(id, txt)
     book = ZsiteBook.get_or_create(id=id)
     book.douban_id = douban_id
-    book.douban_pid_id = pic_id
+    book.douban_pic_id = pic_id
     book.author = author
     book.translator = translator
     book.pages = pages
@@ -59,6 +59,7 @@ def zsite_book_new(
     book.rating = rating
     book.rating_num = rating_num
     book.author_intro = author_intro
+    print author_intro,"author_intro"
     book.save()
     return id
 
