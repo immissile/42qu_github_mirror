@@ -7,6 +7,8 @@ from model.zsite import zsite_new, ZSITE_STATE_ACTIVE, Zsite, ZSITE_STATE_VERIFY
 from model.cid import CID_BOOK
 from txt import txt_new
 
+
+
 mc_zsite_book_id_by_isbn = McCache('ZsiteBookIdByIsbn:%s')
 
 # CREATE TABLE `zpage`.`zsite_book_lib` (
@@ -20,6 +22,8 @@ mc_zsite_book_id_by_isbn = McCache('ZsiteBookIdByIsbn:%s')
 #   INDEX `Index_2`(`from_id`),
 #   INDEX `Index_3`(`book_id`, `state`)
 # )
+
+ZSITE_BOOK_LIB_STATE_EXIST = 10
 
 class ZsiteBookLib(McModel):
     pass
@@ -45,6 +49,20 @@ def zsite_book_id_by_isbn(isbn):
             return book.id
 
     return 0
+
+def zsite_book_lib():
+    return list(ZsiteBookLib.where())
+
+def zsite_book_lib_new(book_id, total):
+    if not ZsiteBook.mc_get(book_id):
+        return
+    for i in range(total):
+        book = ZsiteBookLib(
+            book_id = book_id,
+            state=ZSITE_BOOK_LIB_STATE_EXIST
+        )
+        book.save()
+
 
 def zsite_book_new(
     name,
