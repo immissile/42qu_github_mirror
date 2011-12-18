@@ -1,0 +1,30 @@
+
+#book_form{
+margin-top:16px;
+}
+#book_query{
+padding:10px 3px 9px;
+border:1px solid #ccc;
+font-size:16px;
+width:320px;
+vertical-align:9px;
+}
+#book_nav{
+padding:16px;
+text-align:center;
+border-bottom:1px dotted #ccc;
+}
+#book_nav a{
+margin:0 14px;
+font-size:16px;
+}
+#book_query_loading{
+background:url(/img/gif/loading_bar.gif) no-repeat 100% 11px;
+padding-right:40px;
+float:left;
+display:none;
+}
+#book_tip{
+font-size:16px;
+margin-bottom:7px;
+}
