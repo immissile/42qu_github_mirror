@@ -5,7 +5,8 @@ from _urlmap import urlmap
 from tornado import httpclient
 import tornado.web
 import logging
-from model.zsite_book import zsite_book_new
+from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn
+
 
 @urlmap('/book')
 class Index(Base):
@@ -15,7 +16,11 @@ class Index(Base):
 @urlmap("/j/book/isbn/(\d+)")
 class BookIsbn(Base):
     def get(self, isbn):
-        self.finish("{}")
+        id = zsite_book_id_by_isbn(isbn)
+        result = {}
+        if id:
+            result['id']=id
+        self.finish(result)
 
 
 @urlmap("/book/(\d+)")

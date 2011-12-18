@@ -50,6 +50,9 @@ def zsite_book_new(
             return book_id
     zsite = zsite_new(name, CID_BOOK)
     id = zsite.id
+    if isbn:
+        mc_zsite_book_id_by_isbn.set(isbn, id)
+
     txt_new(id, txt)
     book = ZsiteBook.get_or_create(id=id)
     book.douban_id = douban_id
@@ -62,7 +65,7 @@ def zsite_book_new(
     book.rating = rating
     book.rating_num = rating_num
     book.author_intro = author_intro
-    print author_intro,"author_intro"
+    #print author_intro,"author_intro"
     book.save()
     return id
 
