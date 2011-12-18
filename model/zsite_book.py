@@ -31,8 +31,10 @@ def zsite_book_id_by_isbn(isbn):
 def zsite_book_new(
     name, 
     douban_id,
-    doubna_pic_id,
-    author_list, tranlator_list, pages, publisher,  isbn, price,
+    pic_id,
+    author, tranlator, pages,
+    publisher,  isbn, 
+    rating, rating_num,
     author_intro, txt,
 ):
     if douban_id:
@@ -43,8 +45,8 @@ def zsite_book_new(
     zsite = zsite_new(name, CID_BOOK)
     id = zsite.id
     book = ZsiteBook.get_or_create(id=id)
-    book.author = name_join(author_list)
-    book.tranlator = name_join(tranlator_list) 
+    book.author = author
+    book.tranlator = tranlator 
 
 
 
