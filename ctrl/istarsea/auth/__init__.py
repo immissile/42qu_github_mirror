@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from ctrl.istarsea._handler import Base, LoginBase, XsrfGetBase
 from cgi import escape
-from ctrl._urlmap.auth import urlmap
+from ctrl._urlmap.istarsea import urlmap
 from model.cid import CID_VERIFY_MAIL, CID_VERIFY_PASSWORD
 from model.namecard import namecard_get, namecard_new
 from model.user_auth import user_password_new, user_password_verify, user_new_by_mail
