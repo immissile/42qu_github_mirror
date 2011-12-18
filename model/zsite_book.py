@@ -41,10 +41,13 @@ def zsite_book_new(
     author_intro, txt,
 ):
     if douban_id:
-        if ZsiteBook.get(douban_id=douban_id):
-            return
-    if isbn and zsite_book_id_by_isbn(isbn):
-        return
+        book = ZsiteBook.get(douban_id=douban_id)
+        if book:
+            return book.id
+    if isbn:
+        book_id = zsite_book_id_by_isbn(isbn)
+        if book_id:
+            return book_id
     zsite = zsite_new(name, CID_BOOK)
     id = zsite.id
     txt_new(id, txt)
