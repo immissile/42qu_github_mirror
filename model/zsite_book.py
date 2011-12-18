@@ -9,6 +9,21 @@ from txt import txt_new
 
 mc_zsite_book_id_by_isbn = McCache('ZsiteBookIdByIsbn:%s')
 
+# CREATE TABLE `zpage`.`zsite_book_lib` (
+#   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+#   `book_id` INTEGER UNSIGNED NOT NULL,
+#   `from_id` INTEGER UNSIGNED NOT NULL DEFAULT 0,
+#   `state` INTEGER UNSIGNED NOT NULL DEFAULT 0,
+#   `pid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
+#   `address_id` INTEGER UNSIGNED NOT NULL DEFAULT 0,
+#   PRIMARY KEY (`id`),
+#   INDEX `Index_2`(`from_id`),
+#   INDEX `Index_3`(`book_id`, `state`)
+# )
+
+class ZsiteBookLib(McModel):
+    pass
+
 class ZsiteBook(McModel):
     pass
 
