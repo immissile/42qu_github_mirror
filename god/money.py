@@ -7,7 +7,7 @@ from model.mail import sendmail, rendermail
 from model.user_mail import mail_by_user_id
 
 CID2CN = {
-    '152': '支付宝'
+    152: '支付宝'
 }
 
 @urlmap('/withdraw')
@@ -24,7 +24,7 @@ class WithDraw(Base):
         if 'reject=' in body:
             cid = i.cid
             i.account, i.name = pay_account_name_get(i.from_id, i.rid)
-            txt = '%s 提现失败'%CID2CN[cid]
+            txt = '%s 提现失败'%CID2CN[int(cid)]
             withdraw_fail(id, txt)
         else:
             trade_no = self.get_argument('trade_no', '').strip()
