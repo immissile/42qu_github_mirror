@@ -5,7 +5,7 @@ from _urlmap import urlmap
 from tornado import httpclient
 import tornado.web
 import logging
-from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn
+from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite
 
 
 @urlmap('/book')
@@ -31,7 +31,11 @@ class Book(Base):
 @urlmap("/book/new/(\d+)")
 class BookNew(Base):
     def get(self,id):
-        self.render()
+        book = ZsiteBook.mc_get(id)
+        if not book:
+            return self.redirect("/")
+        book_zsite = Zsite.mc_get(id) 
+        self.render(book=book, book_zsite=book_zsite)
 
 @urlmap("/book/new/douban/(\d+)")
 class BookNewDouban(Base):

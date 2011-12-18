@@ -1,13 +1,30 @@
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
-<%htm:form id="book_form">
-    <div id="book_tip" class="c">
-    <div id="isbn">请输入 书 的 ISBN / 豆瓣链接 查询</div>
-    <div id="book_query_loading">查询中 , 如果长时间无结果, 那就是找不到</div>
-    </div>
-    <input type="text" value="" id="book_query">
-    <span class="btnw"><button type="submit">查询</button></span>
+<div style="font-size:16px;">
+<div class="L" style="margin-right:32px;padding-right:32px;border-right:1px dotted #ccc">
+<div style="padding:14px 0">
+%if book.douban_id:
+<a target="_blank" 
+href="http://book.douban.com/subject/${book.douban_id}/">豆瓣链接</a>
+%endif
+</div>
+    %if book.douban_pic_id:
+<img src="http://img3.douban.com/lpic/s${book.douban_pic_id}.jpg">
+    %endif
+</div>
+<%htm:form id="book_form_new">
+<p>《${book_zsite.name}》</p>
+<p>作者 : ${book.author}</p>
+<p>
+ <span class="btnw"><button type="submit">添加</button>
+ </span>
+ <input id="total" value="1" style="width:3em" id="total" type="text" name="total" class="book_input"> 本 
+</p>
+<script>$("#total").focus().select()</script>
 </%htm:form>
+<div style="margin-top:64px">
+   或者 <a href="/book">点此重新搜索其它书</a>
+</div>
+</div>
 
-<script src="${js.book_new}"></script>

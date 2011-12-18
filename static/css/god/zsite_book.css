@@ -2,7 +2,7 @@
 #book_form{
 margin-top:16px;
 }
-#book_query{
+.book_input{
 padding:10px 3px 9px;
 border:1px solid #ccc;
 font-size:16px;
@@ -27,4 +27,12 @@ display:none;
 #book_tip{
 font-size:16px;
 margin-bottom:7px;
+}
+
+#book_form_new p{
+margin-bottom:16px;
+}
+#book_form_new{
+padding-top:16px;
+
 }
