@@ -5,7 +5,7 @@ from _urlmap import urlmap
 from tornado import httpclient
 import tornado.web
 import logging
-
+from model.zsite_book import zsite_book_new
 
 @urlmap('/book')
 class Index(Base):
@@ -34,21 +34,25 @@ class BookNewDouban(Base):
         name =  self.get_argument('title', '无题') 
         pic_id = self.get_argument('pic_id', 0)
         author = self.get_argument('author',[])
-        tranlator = self.get_argument('tranlator',[])
+        translator = self.get_argument('translator',[])
         pages = self.get_argument('pages','')
         publisher = self.get_argument('publisher','')
 
+        isbn = self.get_argument('isbn',0)
         rating = self.get_argument('rating','')
         rating_num = self.get_argument('rating_num','')
 
         author_intro = self.get_argument('author-intro','')
         txt = self.get_argument('txt','')
 
-        print name, douban_id, pic_id, tranlator, author, pages,  publisher
-        print rating, rating_num
-        print txt, author_intro
+        id = zsite_book_new(
+            name, douban_id, pic_id,
+            author, translator, pages,  
+            publisher, isbn,
+            int(float(rating)*100), rating_num,
+            author_intro, txt
+        )
 
-        id = douban_id
         self.finish({"id":id})
 
 
