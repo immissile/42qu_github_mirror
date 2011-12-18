@@ -51,7 +51,13 @@ def zsite_book_id_by_isbn(isbn):
     return 0
 
 def zsite_book_lib():
-    return list(ZsiteBookLib.where())
+    l = list(ZsiteBookLib.where())
+    Zsite.mc_bind(l,"zsite","book_id")
+    return l
+
+def zsite_book_by_lib(book_id):
+    l = ZsiteBookLib.where(book_id=book_id).col_list()
+    return l
 
 def zsite_book_lib_new(book_id, total):
     if not ZsiteBook.mc_get(book_id):
