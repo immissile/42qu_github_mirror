@@ -97,5 +97,21 @@ def main():
                 logging.write("\n"+str(count))
             count += 1
 
+
+def ba():
+    a = open("verified")
+    b = open("logging2")
+    new = open("newestEx","w")
+    extraInfo= []
+    out = []
+    for line in b:
+        extraInfo.append(loads(line))
+
+    for pos,data in enumerate(a):
+        olddata = loads(data)
+        olddata.extend([extraInfo[pos][3],extraInfo[pos][4]])
+        new.write(dumps(olddata)+"\n")
+
+
 if __name__ == '__main__':
-    main()
+    ba()

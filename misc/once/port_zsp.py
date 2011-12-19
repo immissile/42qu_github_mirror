@@ -81,10 +81,10 @@ for pos, i in enumerate(data):
 
         if pok:
             print name, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[depDict[p[0]]]
-            f.write("\n"+dumps([i[0],_SCHOOL_UNIVERSITY[c[0]],depDict[p[0]]]))
+            f.write("\n"+dumps([i[0],_SCHOOL_UNIVERSITY[c[0]],depDict[p[0]],i[3],i[4]]))
             f.flush()
         else:
-            f.write("\n"+dumps([i[0],_SCHOOL_UNIVERSITY[c[0]],' ']))
+            f.write("\n"+dumps([i[0],_SCHOOL_UNIVERSITY[c[0]],' ',i[3],i[4]]))
             f.flush()
             pass
         pass

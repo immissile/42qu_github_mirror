@@ -21,7 +21,7 @@ def handleSchool(school):
     if school_id and dep_id:
         school_id=school_id[0]
         dep_id=dep_id[0]
-        return (school[0],school_id,dep_id)
+        return (school[0],school_id,dep_id,school[3],school[4])
 
     MANUAL_LIST.append(school)
     
