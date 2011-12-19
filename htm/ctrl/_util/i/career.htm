@@ -5,16 +5,19 @@ from cgi import escape
 
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="css_js()">
-<script src="${js.date}"></script>
+<script src="${js.date|n}"></script>
+<script src="${js.school|n}"></script>
+<script src="${js.school_ctrl|n}"></script>
 ${css.ctrl_i_career|n}
+${css.ctrl_school|n}
 </%def>
 
 
 <%htm:form id="career_form">
 <p class="tl career career_job">职业生涯</p>
 <div class="career c" id="career_job"></div>
-<p class="tl career career_edu">教育背景</p>
-<div class="career c" id="career_edu"></div>
+<p class="tl career school_h">教育背景</p>
+<div class="career c" id="school"></div>
 <div class="btns">
     <span class="btnw"><button class="btn" type="submit">保存</button></span>
 </div>
@@ -22,6 +25,37 @@ ${css.ctrl_i_career|n}
 
 
 <%text>
+
+<script id="school_tmpl" type="text/x-jquery-tmpl">
+<div class="line c">
+<span class="L">
+    <input type="hidden" class="id" name="id" value="${id}">
+    <input type="hidden" class="school_id" name="school_id" value="${school_id}">
+    <input
+        class="school"
+        value="{{if name}}${name}{{else}}请选择学校{{/if}}"
+        autocomplete="off"><select 
+            name="school_year" class="school_year"></select><select
+            name="school_department"  class="school_department"><option value="0">选择院系</option></select><select 
+        name="school_degree" class="school_degree">
+        <option value="0">选择类型</option>
+        <option value="1">本科</option>
+        <option value="2">大专</option>
+        <option value="3">硕士</option>
+        <option value="4">博士</option>
+        <option value="5">博士后</option>
+        <option value="6">校工</option>
+        <option value="7">教师</option>
+</select><input
+        value="${txt}"
+        placeholder="经历简述 ... ..."
+        name="txt"
+        class="txt">
+</span>
+<a href="javascript:void(0)" title="删除" class="rm"></a>
+</div>
+</script>
+
 <script id="career_tmpl" type="text/x-jquery-tmpl">
 <div class="line">
 <span class="L">
@@ -58,11 +92,11 @@ ${css.ctrl_i_career|n}
 <%
 # unit, title, txt, begin_val, end_val, id
 %>
-
-<script type="text/x-json" id="career_data_edu">
-${escape(dumps(edu_list))|n}
+<script type="text/x-json" id="school_data">
+${escape(school_list)|n}
 </script>
 <script type="text/x-json" id="career_data_job">
 ${escape(dumps(job_list))|n}
 </script>
 <script src="${js.ctrl_i_career}"></script>
+

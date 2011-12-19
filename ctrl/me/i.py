@@ -15,7 +15,7 @@ from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSI
 from model.user_auth import user_password_new, user_password_verify
 from cgi import escape
 from urlparse import parse_qs, urlparse
-from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT, link_list_cid_by_zsite_id
+from model.zsite_link import OAUTH2NAME_DICT, link_list_save, link_id_name_by_zsite_id, link_id_cid, link_by_id, OAUTH_LINK_DEFAULT
 from model.oauth2 import oauth_access_token_by_user_id, oauth_token_rm_if_can, OauthClient
 from config import SITE_URL, SITE_DOMAIN
 from model.oauth import OAUTH_DOUBAN, OAUTH_SINA, OAUTH_TWITTER, OAUTH_QQ, oauth_by_zsite_id, oauth_rm_by_oauth_id, OAUTH_SYNC_TXT, linkify
@@ -29,6 +29,7 @@ from model.follow import follow_id_list_by_from_id, follow_new
 from zkit.txt import EMAIL_VALID
 from model.verify import verify_mail_new
 from model.cid import CID_VERIFY_LOGIN_MAIL
+from model.user_school import user_school_json, user_school_new
 
 def _upload_pic(files, current_user_id):
     error_pic = None
@@ -43,68 +44,39 @@ def _upload_pic(files, current_user_id):
     return error_pic
 
 
+def save_link(self):
+    zsite_id = self.zsite_id
+
+    arguments = parse_qs(self.request.body, True)
+    link_cid = []
+    link_kv = []
+    for cid, link in zip(arguments.get('cid'), arguments.get('link')):
+        cid = int(cid)
+        name = OAUTH2NAME_DICT[cid]
+        link_cid.append((cid, name, linkify(link, cid)))
+
+
+    for id, key, value in zip(
+        arguments.get('id'),
+        arguments.get('key'),
+        arguments.get('value')
+    ):
+        id = int(id)
+        link = linkify(value)
+
+        link_kv.append((id, key.strip() or urlparse(link).netloc, link))
+
+    link_list_save(zsite_id, link_cid, link_kv)
 
 class LinkEdit(LoginBase):
 
     def get(self):
         zsite_id = self.zsite_id
-        link_list, link_cid = link_list_cid_by_zsite_id(zsite_id)
-        return self.render(
-            link_list=link_list,
-            link_cid=link_cid
-        )
+        return self.render()
 
-    def save(self):
-        zsite_id = self.zsite_id
-
-        arguments = parse_qs(self.request.body, True)
-        link_cid = []
-        link_kv = []
-        for cid, link in zip(arguments.get('cid'), arguments.get('link')):
-            cid = int(cid)
-            name = OAUTH2NAME_DICT[cid]
-            link_cid.append((cid, name, linkify(link, cid)))
+    save = save_link
 
 
-        for id, key, value in zip(
-            arguments.get('id'),
-            arguments.get('key'),
-            arguments.get('value')
-        ):
-            id = int(id)
-            link = linkify(value)
-
-            link_kv.append((id, key.strip() or urlparse(link).netloc, link))
-
-        link_list_save(zsite_id, link_cid, link_kv)
-
-
-
-class CareerEdit(LoginBase):
-    def get(self):
-        from model.career import CID_JOB, CID_EDU, career_list
-        current_user_id = self.current_user_id
-        self.render(
-            job_list=career_list(current_user_id, CID_JOB),
-            edu_list=career_list(current_user_id, CID_EDU),
-        )
-
-    def save(self):
-        from model.career import CID_TUPLE, career_list_set
-        current_user_id = self.current_user_id
-        #Tornado会忽略掉默认为空的参数
-        arguments = parse_qs(self.request.body, True)
-
-        for cid, prefix in CID_TUPLE:
-            id = arguments.get('%s_id' % prefix, [])
-            unit = arguments.get('%s_unit' % prefix, [])
-            title = arguments.get('%s_title' % prefix, [])
-            txt = arguments.get('%s_txt' % prefix, [])
-            begin = arguments.get('%s_begin' % prefix, [])
-            end = arguments.get('%s_end' % prefix, [])
-            career_list_set(id, current_user_id, unit, title, txt, begin, end, cid)
-
-        search_new(current_user_id)
 
 
 class PicEdit(LoginBase):
@@ -122,6 +94,62 @@ class PicEdit(LoginBase):
         error_pic = _upload_pic(files, current_user_id)
         return error_pic
 
+def save_user_info(self):
+    current_user_id = self.current_user_id
+
+    name = self.get_argument('name', None)
+    if name:
+        zsite_name_edit(current_user_id, name)
+
+    motto = self.get_argument('motto', None)
+    if motto:
+        _motto.set(current_user_id, motto)
+
+    txt = self.get_argument('txt', '')
+    if txt:
+        txt_new(current_user_id, txt)
+
+    birthday = self.get_argument('birthday', '0')
+    birthday = int(birthday)
+    marry = self.get_argument('marry', '')
+    pid_home = self.get_argument('pid_home', '1')
+    pid_now = self.get_argument('pid_now', '1')
+    try:
+        pid_now = int(pid_now)
+    except ValueError:
+        pid_now = 0
+    try:
+        pid_home = int(pid_home)
+    except ValueError:
+        pid_home = 0
+
+    marry = int(marry)
+    if marry not in (1, 2, 3):
+        marry = 0
+
+    o = user_info_new(current_user_id, birthday, marry, pid_home)
+    if pid_now:
+        c = namecard_get(current_user_id)
+        if c:
+            c.pid_now = pid_now
+            c.save()
+        else:
+            c = namecard_new(current_user_id, pid_now=pid_now)
+
+    if not o.sex:
+        sex = self.get_argument('sex', 0)
+        if sex and not o.sex:
+            sex = int(sex)
+            if sex not in (1, 2):
+                sex = 0
+            if sex:
+                if o:
+                    o.sex = sex
+                    o.save()
+                else:
+                    user_info_new(current_user_id, sex=sex)
+
+    search_new(current_user_id)
 
 
 class UserInfoEdit(LoginBase):
@@ -143,62 +171,7 @@ class UserInfoEdit(LoginBase):
             sex=o.sex
         )
 
-    def save(self):
-        current_user_id = self.current_user_id
-
-        name = self.get_argument('name', None)
-        if name:
-            zsite_name_edit(current_user_id, name)
-
-        motto = self.get_argument('motto', None)
-        if motto:
-            _motto.set(current_user_id, motto)
-
-        txt = self.get_argument('txt', '')
-        if txt:
-            txt_new(current_user_id, txt)
-
-        birthday = self.get_argument('birthday', '0')
-        birthday = int(birthday)
-        marry = self.get_argument('marry', '')
-        pid_home = self.get_argument('pid_home', '1')
-        pid_now = self.get_argument('pid_now', '1')
-        try:
-            pid_now = int(pid_now)
-        except ValueError:
-            pid_now = 0
-        try:
-            pid_home = int(pid_home)
-        except ValueError:
-            pid_home = 0
-
-        marry = int(marry)
-        if marry not in (1, 2, 3):
-            marry = 0
-
-        o = user_info_new(current_user_id, birthday, marry, pid_home)
-        if pid_now:
-            c = namecard_get(current_user_id)
-            if c:
-                c.pid_now = pid_now
-                c.save()
-            else:
-                c = namecard_new(current_user_id, pid_now=pid_now)
-
-        if not o.sex:
-            sex = self.get_argument('sex', 0)
-            if sex and not o.sex:
-                sex = int(sex)
-                if sex not in (1, 2):
-                    sex = 0
-                if sex:
-                    if o:
-                        o.sex = sex
-                        o.save()
-                    else:
-                        user_info_new(current_user_id, sex=sex)
-
-        search_new(current_user_id)
+    save = save_user_info
 
 
 @urlmap('/i/pic')
@@ -269,8 +242,9 @@ class Verify(LoginBase):
         self.render()
 
 
-@urlmap('/i/career')
-class Career(CareerEdit):
+
+@urlmap('/i/link')
+class Link(LinkEdit):
     def post(self):
         self.save()
         self.get()
@@ -284,11 +258,55 @@ class Index(UserInfoEdit):
         self.save()
         self.get()
 
+def save_school(self):
+    current_user_id = self.current_user_id
+    search_new(current_user_id)
+    arguments = parse_qs(self.request.body, True)
 
-@urlmap('/i/link')
-class Link(LinkEdit):
+
+    for i in zip(
+        arguments['school_id'],
+        arguments['school_year'],
+        arguments['school_degree'],
+        arguments['school_department'],
+        arguments['txt'],
+        arguments['id'],
+    ):
+
+        user_school_new(current_user_id, *i)
+
+def save_career(self):
+    from model.career import CID_JOB, career_list_set
+    current_user_id = self.current_user_id
+
+    #Tornado会忽略掉默认为空的参数
+    arguments = parse_qs(self.request.body, True)
+
+    id = arguments.get('job_id' , [])
+    unit = arguments.get('job_unit' , [])
+    title = arguments.get('job_title' , [])
+    txt = arguments.get('job_txt' , [])
+    begin = arguments.get('job_begin' , [])
+    end = arguments.get('job_end' , [])
+#    print id, unit, title, txt, begin, end, CID_JOB
+    career_list_set(id, current_user_id, unit, title, txt, begin, end, CID_JOB)
+
+@urlmap('/i/career')
+class Career(LoginBase):
+    def get(self):
+        from model.career import CID_JOB, career_list
+        current_user_id = self.current_user_id
+        self.render(
+            job_list=career_list(current_user_id, CID_JOB),
+            school_list=user_school_json(current_user_id),
+        )
+
+    save_career = save_career
+    save_school = save_school
+
     def post(self):
-        self.save()
+        self.save_career()
+        self.save_school()
         self.get()
 
 

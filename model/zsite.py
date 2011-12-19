@@ -78,16 +78,6 @@ def zsite_is_verify(id):
     zsite = Zsite.mc_get(id)
     return zsite.state >= ZSITE_STATE_VERIFY
 
-def zsite_new(name, cid, state):
-    zsite = Zsite(id=gid(), cid=cid, name=name, state=state)
-    zsite.save()
-#    page = Zpage(
-#        zsite_id=zsite.id,
-#        name=ZPAGE_NAME,
-#        state=ZPAGE_STATE_INDEX
-#    )
-#    page.save()
-    return zsite
 
 def zsite_name_edit(id, name):
     from feed_po import mc_feed_user_dict
@@ -134,6 +124,16 @@ def zsite_by_query(query):
     return user_id
 
 
+def zsite_new(name, cid, state=ZSITE_STATE_APPLY):
+    zsite = Zsite(id=gid(), cid=cid, name=name, state=state)
+    zsite.save()
+#    page = Zpage(
+#        zsite_id=zsite.id,
+#        name=ZPAGE_NAME,
+#        state=ZPAGE_STATE_INDEX
+#    )
+#    page.save()
+    return zsite
 
 def zsite_new_user(name, state=ZSITE_STATE_APPLY):
     return zsite_new(name, CID_USER, state)

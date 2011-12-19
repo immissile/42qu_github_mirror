@@ -9,6 +9,7 @@ from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
 from po import Po
 from po_pos import PoPos, STATE_BUZZ
+from state import STATE_BUZZ_ACTIVE, STATE_BUZZ_RM
 from buzz_sys import BuzzSys
 from wall import Wall
 from kv import Kv
@@ -33,14 +34,22 @@ buzz_unread = Kv('buzz_unread', None)
 buzz_count = McNum(lambda user_id: Buzz.where(to_id=user_id).count(), 'BuzzCount.%s')
 #buzz_unread_count = McNum(lambda user_id: Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count(), 'BuzzUnreadCount.%s')
 
+def buzz_set_read(user_id, buzz_id):
+    buzz = Buzz.get(buzz_id)
+    if buzz:
+        buzz.state = STATE_BUZZ_RM
+        buzz.save()
+    mc_flush(user_id)
 
 def buzz_unread_count(user_id):
-    count = buzz_unread.get(user_id)
-    if count is None or count is False:
-        count = Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count()
-        buzz_unread.set(
-            user_id, count
-        )
+    #count = buzz_unread.get(user_id)
+    count = Buzz.where("state >%s"%STATE_BUZZ_RM).where(to_id=user_id).count()
+
+    #if count is None or count is False:
+    #    count = Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count()
+    #    #buzz_unread.set(
+    #    #    user_id, count
+    #    #)
     return count
 
 BUZZ_DIC = {
@@ -66,7 +75,7 @@ def mc_flush(user_id):
     #buzz_unread_count.delete(user_id)
 
 def buzz_new(from_id, to_id, cid, rid):
-    b = Buzz(from_id=from_id, to_id=to_id, cid=cid, rid=rid, create_time=int(time()))
+    b = Buzz(from_id=from_id, to_id=to_id, cid=cid, rid=rid, create_time=int(time()), state=STATE_BUZZ_ACTIVE)
     b.save()
     mc_flush(to_id)
     buzz_unread_update(to_id)
@@ -183,16 +192,16 @@ CACHE_LIMIT = 256
 
 mc_buzz_list = McLimitM('BuzzList.%s', CACHE_LIMIT)
 
-@mc_buzz_list('{user_id}')
-def _buzz_list(user_id, limit, offset):
-    c = Buzz.raw_sql('select id, from_id, cid, rid from buzz where to_id=%s order by id desc limit %s offset %s', user_id, limit, offset)
+#@mc_buzz_list('{user_id}')
+def _buzz_list(user_id, limit, offset, state=STATE_BUZZ_ACTIVE):
+    c = Buzz.raw_sql('select id, from_id, cid, rid from buzz where to_id=%s and state >= %s order by id desc limit %s offset %s', user_id, state, limit, offset)
     return c.fetchall()
 
-def buzz_list(user_id, limit, offset):
-    li = _buzz_list(user_id, limit, offset)
+def buzz_list(user_id, limit, offset,state = STATE_BUZZ_ACTIVE):
+    li = _buzz_list(user_id, limit, offset,state = state)
     if not li:
         return []
-    buzz_pos_update(user_id, li)
+    #buzz_pos_update(user_id, li)
     dic = OrderedDict()
     cls_dic = defaultdict(set)
     for id, from_id, cid, rid in li:
@@ -223,11 +232,11 @@ def buzz_career_bind(li):
     return li
 
 def _buzz_show(user_id, limit, unread=None):
-    if unread is None:
-        unread = buzz_unread_count(user_id)
-    if not unread:
-        return []
-    limit = min(unread, limit)
+    #if unread is None:
+    #    unread = buzz_unread_count(user_id)
+    #if not unread:
+    #    return []
+    #limit = min(unread, limit)
     offset = max(unread - limit, 0)
     li = _buzz_list(user_id, limit, offset)
     return li
@@ -236,7 +245,7 @@ def buzz_show(user_id, limit, unread=None):
     _li = _buzz_show(user_id, limit, unread)
     if not _li:
         return []
-    buzz_pos_update(user_id, _li)
+    #buzz_pos_update(user_id, _li)
     li = []
     dic = OrderedDict()
     cls_dic = defaultdict(set)
@@ -307,13 +316,16 @@ mq_buzz_site_new = mq_client(buzz_site_new)
 
 if __name__ == '__main__':
     pass
+    #listB = _buzz_list(10031395,1000,0)
+    #for id, from_id, cid, rid in listB:
+    #    buzz_set_read(10031395,id)
 #    from model.zsite import Zsite
 #    from model.cid import CID_USER
 #    print buzz_unread_update(10000000)
 #    print buzz_unread_count(10000000)
 #    print buzz_show(10000000, 3)
-    import time
-    for i in range(100):
-        print Buzz.where(cid=CID_BUZZ_FOLLOW).delete()
-        time.sleep(1)
-        print Buzz.where(cid=CID_BUZZ_FOLLOW).count()
+    #import time
+    #for i in range(100):
+    #    print Buzz.where(cid=CID_BUZZ_FOLLOW).delete()
+    #    time.sleep(1)
+    #    print Buzz.where(cid=CID_BUZZ_FOLLOW).count()

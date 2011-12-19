@@ -4,7 +4,7 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-${css.ctrl_com_invite_reg|n}
+from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit, LinkEdit
 """
 
 TO_STRING = """

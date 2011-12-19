@@ -2,7 +2,7 @@
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
 from model.notice import notice_list, notice_count, notice_unread, Notice as N
-from model.state import STATE_APPLY
+from model.state import STATE_APPLY,STATE_BUZZ_ACTIVE, STATE_BUZZ_RM
 from zkit.page import page_limit_offset
 from model.buzz import buzz_list, buzz_count
 
@@ -65,6 +65,6 @@ class Buzz(LoginBase):
         if type(n) == str and offset >= total:
             return self.redirect('/notice/buzz')
         self.render(
-            buzz_list=buzz_list(user_id, limit, offset),
+            buzz_list=buzz_list(user_id, limit, offset,STATE_BUZZ_RM),
             page=page,
         )

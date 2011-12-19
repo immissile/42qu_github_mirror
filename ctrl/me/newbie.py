@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from ctrl._urlmap.me import urlmap
-from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit, LinkEdit
+
 from _handler import LoginBase , XsrfGetBase
 from model.zsite import Zsite
 from zkit.errtip import Errtip
@@ -15,14 +15,6 @@ class Career(CareerEdit):
         self.save()
         self.redirect('/me/newbie/2')
 
-@urlmap('/me/newbie/2')
-class Pic(PicEdit):
-    def post(self):
-        error_pic = self.save()
-        if error_pic is None:
-            if self.get_argument('pos', ''):
-                self.redirect('/me/newbie/3')
-        self.render(error_pic=error_pic, pos='')
 
 
 @urlmap('/me/newbie/3')
