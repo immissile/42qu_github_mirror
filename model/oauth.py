@@ -39,6 +39,7 @@ OAUTH2NAME_DICT_SHORT = {
     OAUTH_DOUBAN    : '豆瓣'        ,
     OAUTH_SINA      : '新浪'    ,
     OAUTH_KAIXIN    : '开心'  ,
+    OAUTH_GOOGLE    :'google',
     OAUTH_FANFOU    : '饭否' ,
 }
 
@@ -51,6 +52,7 @@ OAUTH_TUPLE = (
     OAUTH_WWW163    ,
     #OAUTH_SOHU      ,
     #OAUTH_TWITTER   ,
+    OAUTH_GOOGLE   ,
     OAUTH_FANFOU,
 )
 
@@ -64,6 +66,7 @@ OAUTH2URL = {
     OAUTH_SOHU:'http://t.sohu.com/%s',
     OAUTH_RENREN:'http://www.renren.com/profile.do?id=%s',
 #    OAUTH_BUZZ:'%s',
+    OAUTH_GOOGLE:'%s',
     OAUTH_QQ:'http://t.qq.com/%s',
     OAUTH_KAIXIN:'http://www.kaixin001.com/home/?uid=%s',
     OAUTH_FANFOU:'http://fanfou.com/%s'
@@ -71,6 +74,7 @@ OAUTH2URL = {
 
 OAUTH2TABLE = {
     #OAUTH_BUZZ:"oauth_token_buzz",
+    OAUTH_GOOGLE:"oauth_token_google",
     OAUTH_TWITTER:'oauth_token_twitter',
     OAUTH_SOHU:'oauth_token_sohu',
     OAUTH_SINA:'oauth_token_sina',
@@ -180,6 +184,9 @@ def oauth_save_with_uid(app_id, zsite_id, token_key, token_secret, name, uid):
 
 #def oauth_save_buzz(zsite_id, token_key, token_secret, name, uid):
 #    oauth_save_with_uid(OAUTH_BUZZ, zsite_id, token_key, token_secret, name, uid)
+
+def oauth_save_google(zsite_id,token_key,token_secret,name,uid):
+    return oauth_save_with_uid(OAUTH_GOOGLE,zsite_id,token_key,token_secret,name,uid)
 
 def oauth_save_twitter(zsite_id, token_key, token_secret, name, uid):
     return oauth_save_with_uid(OAUTH_TWITTER, zsite_id, token_key, token_secret, name, uid)
