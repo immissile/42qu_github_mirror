@@ -1,6 +1,6 @@
 var select_id, dep_id
 function select_univ(uid){
-    $('#'+select_id).val(SCHOOL_UNIVERSITY[uid]).css({'color':'',border:''})
+    $('#'+select_id).val(SCHOOL_UNIVERSITY[uid]).css({'color':'',border:'1px solid #ccc'})
     $('#school_id'+dep_id.substr(3)).val(uid).trigger('change')
     school_department($('#'+dep_id), uid)
     $.fancybox.close()
