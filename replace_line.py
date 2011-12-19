@@ -4,7 +4,7 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit, LinkEdit
+,monospace;
 """
 
 TO_STRING = """
