@@ -239,5 +239,6 @@ if __name__ == '__main__':
         com1.add(i.id)
     for i in ZsiteCom.where('video_id != %s', 0):
         com2.add(i.id)
+    print len(com0-com2-com3)
     print';'.join( [mail_by_user_id(zsite_member_admin_list(i)[0].id) for i in com0-com2-com3])
     print len(com0), len(com1), len(com2), len(com3), len(com0-com2-com3)
