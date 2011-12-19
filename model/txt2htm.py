@@ -17,7 +17,6 @@ r'(?:\?[\w\-.;%/=+#:~!,\'\*&$@]*)?)(\]\])?'
 RE_SPACE = re.compile(""" ( +)""")
 RE_AT = re.compile(r'(\s|^)@([^@\(\)\s]+(?:\s+[^@\(\)\s]+)*)\(([a-zA-Z0-9][a-zA-Z0-9\-]{,31})\)(?=\s|$)')
 RE_BOLD = re.compile(r'\*{2}([^\*].*?)\*{2}')
-
 RE_CODE = re.compile(r'\{\{\{(.*)\}\}\}', re.S)
 
 HTM_SWF = """<embed src="%s" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>"""
@@ -29,15 +28,17 @@ def replace_space(match):
 def replace_code(match):
     gs = match.groups(0)
     for line in gs:
-        if line != '\n':
-            if 'javascript' in line:
-                typ = 'js'
-            elif 'python' in line:
-                typ = 'python'
-            elif 'c++' in line:
-                typ = 'cpp'
-            break
-    builder = "<script class='brush: %s' type='syntaxhighlighter'>%s</script>"%(typ, gs[0])
+        if 'javascript' in line:
+            typ = 'js'
+        elif 'python' in line:
+            typ = 'python'
+            line = ''
+        elif 'c++' in line:
+            typ = 'cpp'
+        break
+
+    coding = gs[0].replace('\r\n','\n').replace('\n','\r\n')
+    builder = "<script class='brush: %s' type='syntaxhighlighter'>%s</script>"%(typ, coding)
     return builder
 
 
