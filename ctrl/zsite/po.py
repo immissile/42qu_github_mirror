@@ -2,6 +2,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model import reply
+from model.feed import feed_merge_iter, MAXINT, Feed, mc_feed_tuple, PAGE_LIMIT, feed_rm
 from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_EVENT, CID_EVENT_FEEDBACK, CID_SITE, CID_REC
 from model.po import Po, po_rm, po_word_new, po_note_new, po_state_set
 from model.state import STATE_PO_ZSITE_SHOW_THEN_REVIEW, STATE_SECRET, STATE_ACTIVE
@@ -104,6 +105,7 @@ def po_post(self):
             secret = self.get_argument('secret', None)
             if secret:
                 state = STATE_SECRET
+                feed_rm(self.id)
             else:
                 state = STATE_ACTIVE
 
