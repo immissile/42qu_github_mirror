@@ -44,7 +44,7 @@
   vertical-align: baseline !important;
   width: auto !important;
   box-sizing: content-box !important;
-  font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier!important;
+  font-family:Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,serif !important;
   font-weight: normal !important;
   font-style: normal !important;
   font-size: 1em !important;
@@ -329,6 +329,6 @@ margin:14px 0;
 }
 .codesh pre{
 padding:12px 14px;
-font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier;
+font-family:Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,serif;
 line-height: 1.1em !important;
 }
