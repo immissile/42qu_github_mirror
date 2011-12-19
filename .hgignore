@@ -26,9 +26,6 @@ zpage_private_config
 misc/sitemap/file/
 htm/api/help/build/
 static/file/*
-<<<<<<< local
 .ropeproject/*
 *.orig
-=======
 .*.ropeproject
->>>>>>> other

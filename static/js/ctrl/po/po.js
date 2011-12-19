@@ -37,7 +37,9 @@ if(!IE6){
 }
 $(function(){
     if($(".code_brush")[0]){
-        $.getScript("http://0.42qu.us/sh.js")
+        $.getCss("http://alexgorbatchev.com/pub/sh/current/styles/shThemeDefault.css")
+        $.getScript("http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js")
+        $.getScript("http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js")
     }
 
     if($(window).width()<827){
