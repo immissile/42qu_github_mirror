@@ -104,6 +104,8 @@ def po_post(self):
             secret = self.get_argument('secret', None)
             if secret:
                 state = STATE_SECRET
+                from model.feed import feed_rm
+                feed_rm(self.id)
             else:
                 state = STATE_ACTIVE
 
