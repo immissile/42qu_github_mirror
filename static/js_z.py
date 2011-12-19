@@ -1,7 +1,7 @@
 JS = [
 'jquery.js',
 'jquery.input.js.h',
-#'jquery.poshytip.js',
+'jquery.poshytip.js',
 'jquery.tmpl.js.h',
 'jquery.fancybox-1.3.4.js.h',
 #'jquery.fancybox204.js',
