@@ -36,6 +36,10 @@ if(!IE6){
     })
 }
 $(function(){
+    if($(".code_brush")[0]){
+        $.getScript("http://0.42qu.us/sh1.js")
+    }
+
     if($(window).width()<827){
         $(".sprev,.snext").hide()
         
@@ -77,3 +81,4 @@ $(function(){
     $(document).ajaxComplete(input_ban)
 
 })();
+
