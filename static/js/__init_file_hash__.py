@@ -22,7 +22,7 @@ if ORG_CSS_JS:
 
     z = '%s/js/z.js' % FS_URL
 
-    ctrl_com_job = '%s/js/ctrl/com/job.js' % FS_URL
+    synhigh_shBrushBash = '%s/js/synhigh/shBrushBash.js' % FS_URL
 
     jquery_jticker = '%s/js/jquery.jticker.js' % FS_URL
 
@@ -46,7 +46,7 @@ if ORG_CSS_JS:
 
     ctrl_can_not_reply = '%s/js/ctrl/can_not_reply.js' % FS_URL
 
-    synhigh_shBrushErlang = '%s/js/synhigh/shBrushErlang.js' % FS_URL
+    synhigh_shAutoloader = '%s/js/synhigh/shAutoloader.js' % FS_URL
 
     synhigh_shBrushColdFusion = '%s/js/synhigh/shBrushColdFusion.js' % FS_URL
 
@@ -60,7 +60,7 @@ if ORG_CSS_JS:
 
     synhigh_shBrushCpp = '%s/js/synhigh/shBrushCpp.js' % FS_URL
 
-    synhigh_shBrushJava = '%s/js/synhigh/shBrushJava.js' % FS_URL
+    synhign = '%s/js/synhign.js' % FS_URL
 
     ctrl_at = '%s/js/ctrl/at.js' % FS_URL
 
@@ -114,7 +114,7 @@ if ORG_CSS_JS:
 
     synhigh_shBrushCss = '%s/js/synhigh/shBrushCss.js' % FS_URL
 
-    upload = '%s/js/upload.js' % FS_URL
+    ctrl_po_event = '%s/js/ctrl/po/event.js' % FS_URL
 
     feed = '%s/js/feed.js' % FS_URL
 
@@ -124,25 +124,25 @@ if ORG_CSS_JS:
 
     ctrl_com_product_new = '%s/js/ctrl/com/product_new.js' % FS_URL
 
-    synhigh_shAutoloader = '%s/js/synhigh/shAutoloader.js' % FS_URL
+    ctrl_com_job = '%s/js/ctrl/com/job.js' % FS_URL
 
-    synhigh_shBrushBash = '%s/js/synhigh/shBrushBash.js' % FS_URL
+    ctrl_com_review = '%s/js/ctrl/com/review.js' % FS_URL
 
     ctrl_po_tag = '%s/js/ctrl/po/tag.js' % FS_URL
 
     synhigh_shBrushPowerShell = '%s/js/synhigh/shBrushPowerShell.js' % FS_URL
 
-    ctrl_po_event = '%s/js/ctrl/po/event.js' % FS_URL
+    upload = '%s/js/upload.js' % FS_URL
 
     jquery_tickertype = '%s/js/jquery.tickertype.js' % FS_URL
 
-    synhigh_shBrushScala = '%s/js/synhigh/shBrushScala.js' % FS_URL
+    synhigh_shBrushErlang = '%s/js/synhigh/shBrushErlang.js' % FS_URL
 
     ctrl_zsite_com_member = '%s/js/ctrl/zsite/com/member.js' % FS_URL
 
-    ctrl_com_review = '%s/js/ctrl/com/review.js' % FS_URL
-
     synhigh_shBrushRuby = '%s/js/synhigh/shBrushRuby.js' % FS_URL
+
+    po = '%s/js/po.js' % FS_URL
 
     ctrl_pay = '%s/js/ctrl/pay.js' % FS_URL
 
@@ -160,9 +160,9 @@ if ORG_CSS_JS:
 
     ctrl_site_new = '%s/js/ctrl/site/new.js' % FS_URL
 
-    po = '%s/js/po.js' % FS_URL
+    synhigh_shBrushScala = '%s/js/synhigh/shBrushScala.js' % FS_URL
 
-    synhign = '%s/js/synhign.js' % FS_URL
+    synhigh_shBrushJava = '%s/js/synhigh/shBrushJava.js' % FS_URL
 
     synhigh_shBrushJavaFX = '%s/js/synhigh/shBrushJavaFX.js' % FS_URL
 
@@ -186,9 +186,9 @@ else:
 
     ctrl_live = '%s/js/ctrl/~RQaAw~live.js' % FS_URL
 
-    z = '%s/js/~RQaBg~z.js' % FS_URL
+    z = '%s/js/~RQaCA~z.js' % FS_URL
 
-    ctrl_com_job = '%s/js/ctrl/com/~RQaAQ~job.js' % FS_URL
+    synhigh_shBrushBash = '%s/js/synhigh/~RQaAQ~shBrushBash.js' % FS_URL
 
     jquery_jticker = '%s/js/~RQaAQ~jquery.jticker.js' % FS_URL
 
@@ -206,13 +206,13 @@ else:
 
     ctrl_com = '%s/js/ctrl/~RQaAg~com.js' % FS_URL
 
-    ctrl_site_rec = '%s/js/ctrl/site/~RQaBQ~rec.js' % FS_URL
+    ctrl_site_rec = '%s/js/ctrl/site/~RQaBw~rec.js' % FS_URL
 
     ctrl_site_feed = '%s/js/ctrl/site/~RQaAQ~feed.js' % FS_URL
 
     ctrl_can_not_reply = '%s/js/ctrl/~RQaAQ~can_not_reply.js' % FS_URL
 
-    synhigh_shBrushErlang = '%s/js/synhigh/~RQaAQ~shBrushErlang.js' % FS_URL
+    synhigh_shAutoloader = '%s/js/synhigh/~RQaAQ~shAutoloader.js' % FS_URL
 
     synhigh_shBrushColdFusion = '%s/js/synhigh/~RQaAQ~shBrushColdFusion.js' % FS_URL
 
@@ -226,7 +226,7 @@ else:
 
     synhigh_shBrushCpp = '%s/js/synhigh/~RQaAQ~shBrushCpp.js' % FS_URL
 
-    synhigh_shBrushJava = '%s/js/synhigh/~RQaAQ~shBrushJava.js' % FS_URL
+    synhign = '%s/js/~RQaAQ~synhign.js' % FS_URL
 
     ctrl_at = '%s/js/ctrl/~RQaAQ~at.js' % FS_URL
 
@@ -274,13 +274,13 @@ else:
 
     swf = '%s/js/~RQaAQ~swf.js' % FS_URL
 
-    zpage = '%s/js/~RQaBA~zpage.js' % FS_URL
+    zpage = '%s/js/~RQaBg~zpage.js' % FS_URL
 
     reg = '%s/js/~RQaAQ~reg.js' % FS_URL
 
     synhigh_shBrushCss = '%s/js/synhigh/~RQaAQ~shBrushCss.js' % FS_URL
 
-    upload = '%s/js/~RQaAQ~upload.js' % FS_URL
+    ctrl_po_event = '%s/js/ctrl/po/~RQaAQ~event.js' % FS_URL
 
     feed = '%s/js/~RQaAQ~feed.js' % FS_URL
 
@@ -290,25 +290,25 @@ else:
 
     ctrl_com_product_new = '%s/js/ctrl/com/~RQaAQ~product_new.js' % FS_URL
 
-    synhigh_shAutoloader = '%s/js/synhigh/~RQaAQ~shAutoloader.js' % FS_URL
+    ctrl_com_job = '%s/js/ctrl/com/~RQaAQ~job.js' % FS_URL
 
-    synhigh_shBrushBash = '%s/js/synhigh/~RQaAQ~shBrushBash.js' % FS_URL
+    ctrl_com_review = '%s/js/ctrl/com/~RQaAQ~review.js' % FS_URL
 
     ctrl_po_tag = '%s/js/ctrl/po/~RQaAQ~tag.js' % FS_URL
 
     synhigh_shBrushPowerShell = '%s/js/synhigh/~RQaAQ~shBrushPowerShell.js' % FS_URL
 
-    ctrl_po_event = '%s/js/ctrl/po/~RQaAQ~event.js' % FS_URL
+    upload = '%s/js/~RQaAQ~upload.js' % FS_URL
 
     jquery_tickertype = '%s/js/~RQaAQ~jquery.tickertype.js' % FS_URL
 
-    synhigh_shBrushScala = '%s/js/synhigh/~RQaAQ~shBrushScala.js' % FS_URL
+    synhigh_shBrushErlang = '%s/js/synhigh/~RQaAQ~shBrushErlang.js' % FS_URL
 
     ctrl_zsite_com_member = '%s/js/ctrl/zsite/com/~RQaAQ~member.js' % FS_URL
 
-    ctrl_com_review = '%s/js/ctrl/com/~RQaAQ~review.js' % FS_URL
-
     synhigh_shBrushRuby = '%s/js/synhigh/~RQaAQ~shBrushRuby.js' % FS_URL
+
+    po = '%s/js/~RQaAg~po.js' % FS_URL
 
     ctrl_pay = '%s/js/ctrl/~RQaAQ~pay.js' % FS_URL
 
@@ -320,21 +320,21 @@ else:
 
     synhigh_shBrushVb = '%s/js/synhigh/~RQaAQ~shBrushVb.js' % FS_URL
 
-    ctrl_feed = '%s/js/ctrl/~RQaBg~feed.js' % FS_URL
+    ctrl_feed = '%s/js/ctrl/~RQaCA~feed.js' % FS_URL
 
     ctrl_com_member = '%s/js/ctrl/com/~RQaAQ~member.js' % FS_URL
 
     ctrl_site_new = '%s/js/ctrl/site/~RQaAQ~new.js' % FS_URL
 
-    po = '%s/js/~RQaAg~po.js' % FS_URL
+    synhigh_shBrushScala = '%s/js/synhigh/~RQaAQ~shBrushScala.js' % FS_URL
 
-    synhign = '%s/js/~RQaAg~synhign.js' % FS_URL
+    synhigh_shBrushJava = '%s/js/synhigh/~RQaAQ~shBrushJava.js' % FS_URL
 
     synhigh_shBrushJavaFX = '%s/js/synhigh/~RQaAQ~shBrushJavaFX.js' % FS_URL
 
     synhigh_shBrushDiff = '%s/js/synhigh/~RQaAQ~shBrushDiff.js' % FS_URL
 
-    index = '%s/js/~RQaBg~index.js' % FS_URL
+    index = '%s/js/~RQaCA~index.js' % FS_URL
 
     synhigh_shCore = '%s/js/synhigh/~RQaAQ~shCore.js' % FS_URL
 

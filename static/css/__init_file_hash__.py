@@ -90,6 +90,9 @@ if ORG_CSS_JS:
     synhigh_shCoreEclipse_ = "%s/css/synhigh/shCoreEclipse.css"%FS_URL
     synhigh_shCoreEclipse = '<link href="%s" rel="stylesheet" type="text/css">' % synhigh_shCoreEclipse_
 
+    ctrl_event_joiner_ = "%s/css/ctrl/event/joiner.css"%FS_URL
+    ctrl_event_joiner = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_event_joiner_
+
     ctrl_event_join_ = "%s/css/ctrl/event/join.css"%FS_URL
     ctrl_event_join = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_event_join_
 
@@ -168,8 +171,8 @@ if ORG_CSS_JS:
     ctrl_zsite_com_ = "%s/css/ctrl/zsite/com.css"%FS_URL
     ctrl_zsite_com = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_zsite_com_
 
-    ctrl_event_joiner_ = "%s/css/ctrl/event/joiner.css"%FS_URL
-    ctrl_event_joiner = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_event_joiner_
+    ctrl_com_member_ = "%s/css/ctrl/com/member.css"%FS_URL
+    ctrl_com_member = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_com_member_
 
     ctrl_box_login_ = "%s/css/ctrl/box/login.css"%FS_URL
     ctrl_box_login = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_box_login_
@@ -228,8 +231,8 @@ if ORG_CSS_JS:
     ctrl_com_review_ = "%s/css/ctrl/com/review.css"%FS_URL
     ctrl_com_review = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_com_review_
 
-    ctrl_com_member_ = "%s/css/ctrl/com/member.css"%FS_URL
-    ctrl_com_member = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_com_member_
+    ctrl_pay_ = "%s/css/ctrl/pay.css"%FS_URL
+    ctrl_pay = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_pay_
 
     ctrl_tag_ = "%s/css/ctrl/tag.css"%FS_URL
     ctrl_tag = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_tag_
@@ -245,9 +248,6 @@ if ORG_CSS_JS:
 
     ctrl_i_career_ = "%s/css/ctrl/i/career.css"%FS_URL
     ctrl_i_career = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_i_career_
-
-    ctrl_pay_ = "%s/css/ctrl/pay.css"%FS_URL
-    ctrl_pay = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_pay_
 
     ctrl_i_link_ = "%s/css/ctrl/i/link.css"%FS_URL
     ctrl_i_link = '<link href="%s" rel="stylesheet" type="text/css">' % ctrl_i_link_
@@ -275,7 +275,7 @@ else:
     ctrl_zsite_com_list_ = "%s/css/ctrl/zsite/~rPiAQ~com_list.css"%FS_URL
     ctrl_zsite_com_list = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_zsite_com_list_
 
-    ctrl_index_ = "%s/css/ctrl/~rPiBg~index.css"%FS_URL
+    ctrl_index_ = "%s/css/ctrl/~rPiCA~index.css"%FS_URL
     ctrl_index = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_index_
 
     ctrl_hero_ = "%s/css/ctrl/~rPiAQ~hero.css"%FS_URL
@@ -323,7 +323,7 @@ else:
     ctrl_site_rec_ = "%s/css/ctrl/site/~rPiAQ~rec.css"%FS_URL
     ctrl_site_rec = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_site_rec_
 
-    istarsea_ = "%s/css/~rPiBA~istarsea.css"%FS_URL
+    istarsea_ = "%s/css/~rPiBg~istarsea.css"%FS_URL
     istarsea = '<link href="%s" rel="stylesheet" type="text/css">'%istarsea_
 
     synhigh_shCoreMidnight_ = "%s/css/synhigh/~rPiAQ~shCoreMidnight.css"%FS_URL
@@ -334,6 +334,9 @@ else:
 
     synhigh_shCoreEclipse_ = "%s/css/synhigh/~rPiAQ~shCoreEclipse.css"%FS_URL
     synhigh_shCoreEclipse = '<link href="%s" rel="stylesheet" type="text/css">'%synhigh_shCoreEclipse_
+
+    ctrl_event_joiner_ = "%s/css/ctrl/event/~rPiAQ~joiner.css"%FS_URL
+    ctrl_event_joiner = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_event_joiner_
 
     ctrl_event_join_ = "%s/css/ctrl/event/~rPiAQ~join.css"%FS_URL
     ctrl_event_join = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_event_join_
@@ -413,8 +416,8 @@ else:
     ctrl_zsite_com_ = "%s/css/ctrl/zsite/~rPiAg~com.css"%FS_URL
     ctrl_zsite_com = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_zsite_com_
 
-    ctrl_event_joiner_ = "%s/css/ctrl/event/~rPiAQ~joiner.css"%FS_URL
-    ctrl_event_joiner = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_event_joiner_
+    ctrl_com_member_ = "%s/css/ctrl/com/~rPiAQ~member.css"%FS_URL
+    ctrl_com_member = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_com_member_
 
     ctrl_box_login_ = "%s/css/ctrl/box/~rPiAQ~login.css"%FS_URL
     ctrl_box_login = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_box_login_
@@ -473,8 +476,8 @@ else:
     ctrl_com_review_ = "%s/css/ctrl/com/~rPiAQ~review.css"%FS_URL
     ctrl_com_review = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_com_review_
 
-    ctrl_com_member_ = "%s/css/ctrl/com/~rPiAQ~member.css"%FS_URL
-    ctrl_com_member = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_com_member_
+    ctrl_pay_ = "%s/css/ctrl/~rPiAQ~pay.css"%FS_URL
+    ctrl_pay = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_pay_
 
     ctrl_tag_ = "%s/css/ctrl/~rPiAQ~tag.css"%FS_URL
     ctrl_tag = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_tag_
@@ -490,9 +493,6 @@ else:
 
     ctrl_i_career_ = "%s/css/ctrl/i/~rPiAQ~career.css"%FS_URL
     ctrl_i_career = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_i_career_
-
-    ctrl_pay_ = "%s/css/ctrl/~rPiAQ~pay.css"%FS_URL
-    ctrl_pay = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_pay_
 
     ctrl_i_link_ = "%s/css/ctrl/i/~rPiAQ~link.css"%FS_URL
     ctrl_i_link = '<link href="%s" rel="stylesheet" type="text/css">'%ctrl_i_link_
