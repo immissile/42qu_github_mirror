@@ -254,6 +254,7 @@ fcm = function (id,count){
                     doc.scrollTop($("#fcml_"+id).offset().top-50)             
                 }
                 
+                codesh();
             })
         }else{
             fcmtxt.before(fcml)
