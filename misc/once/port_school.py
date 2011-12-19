@@ -11,11 +11,11 @@ from model.user_school import user_school_json, user_school_new
 user = defaultdict(list)
 
 
-#for i in Career.where():
-#    if i.unit == "单位":
-#        print i.unit , i.title, i.id
-#        if i.title=="头衔":
-#            i.delete()
+for i in Career.where():
+    if i.unit == "单位":
+        print i.unit , i.title, i.id
+        if i.title=="头衔":
+            i.delete()
 
 #with open("exported2") as f:
 #    for line in f:

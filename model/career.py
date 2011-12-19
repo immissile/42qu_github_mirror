@@ -69,6 +69,7 @@ class Career(McModel):
 
 
 def _career_new(user_id, unit_id, title_id, txt, begin, end, cid):
+
     o = Career(
         user_id=user_id,
         unit_id=unit_id,
@@ -100,6 +101,13 @@ def career_rm(id, user_id):
         mc_flush(user_id, o.cid)
 
 def career_set(id, user_id, unit, title, txt, begin, end, cid):
+    if unit == "单位":
+        unit = ""
+    if title == "头衔":
+        title = ""
+    if txt.startswith("经历简述 "):
+        txt = ""
+
     if not any((txt, title , unit)):
         career_rm(id, user_id)
         return
