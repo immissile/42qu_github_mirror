@@ -29,12 +29,14 @@ color:#999;
 .job_unit{
 padding:8px;
 width:184px;
+_width:150px;
 border:1px solid #ccc;
 }
 .job_title{
 padding:8px;
 width:180px;
 margin-left:12px;
+_width:150px;
 border:1px solid #ccc;
 }
 .job_txt{
@@ -223,7 +225,9 @@ margin-left: 14px;
 padding: 5px; 
 vertical-align: -3px;
 }
-
+.job_line_1 .x{
+float:right;
+}
 .school_block .job_txt{
 margin-top:8px;
 }
