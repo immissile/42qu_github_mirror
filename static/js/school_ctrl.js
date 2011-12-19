@@ -132,7 +132,6 @@ function school(div,data){
         sc=tmpl.find(".school"),
         dep_node = tmpl.find(".school_department").attr("id","dep"+uid)
         ;
-        
         tmpl.find(".school_id").attr("id","school_id"+uid)
         sc.focus(function(){
             this.blur()
@@ -154,7 +153,6 @@ function school(div,data){
                 "border-color":"#aaa"
             })
         }
- 
 
         div.find(".rm").show();
         div.find(".rm:last").hide(); 
