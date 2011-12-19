@@ -147,7 +147,7 @@ function school(div,data){
         }else{
             sc.css({
                 'color':"#999",
-                "border-color":"#aaa",
+                "border-color":"#aaa"
             })
         }
  
