@@ -4,6 +4,7 @@ import _env
 import re
 from cgi import escape
 from config import SITE_DOMAIN
+from zkit.bot_txt import  txt_wrap_by
 RE_LINK = re.compile(
 r'((?:https?://[\w\-]+\.)'
 r'[\w\-.%/=+#:~!,\'\*\^@]+'
@@ -17,7 +18,7 @@ r'(?:\?[\w\-.;%/=+#:~!,\'\*&$@]*)?)(\]\])?'
 RE_SPACE = re.compile(""" ( +)""")
 RE_AT = re.compile(r'(\s|^)@([^@\(\)\s]+(?:\s+[^@\(\)\s]+)*)\(([a-zA-Z0-9][a-zA-Z0-9\-]{,31})\)(?=\s|$)')
 RE_BOLD = re.compile(r'\*{2}([^\*].*?)\*{2}')
-RE_CODE = re.compile(r'\{\{\{(.*)\}\}\}', re.S)
+RE_CODE = re.compile(r'\{\{\{(.*?)\}\}\}', re.S)
 
 HTM_SWF = """<embed src="%s" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>"""
 HTM_YOUKU = HTM_SWF%'''http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior'''
@@ -27,18 +28,10 @@ def replace_space(match):
 
 def replace_code(match):
     gs = match.groups(0)
-    for line in gs:
-        if 'javascript' in line:
-            typ = 'js'
-        elif 'python' in line:
-            typ = 'python'
-            line = ''
-        elif 'c++' in line:
-            typ = 'cpp'
-        break
-
-    coding = gs[0].replace('\r\n','\n').replace('\n','\r\n')
-    builder = "<script class='brush: %s' type='syntaxhighlighter'>%s</script>"%(typ, coding)
+    typ = txt_wrap_by('[[[',']]]',gs[0])
+    text = re.sub('\[\[\[.*?\]\]\]','',gs[0])
+    coding = text.replace('\r\n','\n').replace('\n','\r\n')
+    builder = "<pre class='brush: %s' type='syntaxhighlighter'>%s</pre>"%(typ, coding)
     return builder
 
 
