@@ -1,6 +1,9 @@
 var select_id, dep_id
 function select_univ(uid){
-    $('#'+select_id).val(SCHOOL_UNIVERSITY[uid]).css({'color':'',border:'1px solid #ccc'})
+    var select = $('#'+select_id).val(SCHOOL_UNIVERSITY[uid])
+    if(!IE6){
+        select.css({'color':'',border:'1px solid #ccc'})
+    }
     $('#school_id'+dep_id.substr(3)).val(uid).trigger('change')
     school_department($('#'+dep_id), uid)
     $.fancybox.close()
@@ -23,7 +26,8 @@ function pop_school(){
     dep_id = self.attr('id').replace('school_select','dep')
     var fancybox = $.fancybox
     fancybox({
-        content:'<div class="school_wrap"><div class="couns">'+get_couns()+'</div><div class="provs">'+get_provs(0)+'</div><div class="search_univ">搜索 <input type="text" id="univ_txt"></div>'+'<div class="univs">'+get_univ_by_prov(0,0)+'</div></div>'
+        content:'<div class="school_wrap"><div class="couns">'+get_couns()+'</div><div class="provs">'+get_provs(0)+'</div><div class="search_univ">搜索 <input type="text" id="univ_txt"></div>'+'<div class="univs">'+get_univ_by_prov(0,0)+'</div></div>',
+        overlayShow:false // fuck for ie6  , ctrl/i/guide
     })
 
     $("#univ_txt").focus()
@@ -55,7 +59,7 @@ function pop_school(){
 }
 function get_couns(){
     var cont = '<ul class="coun_ul">'
-    var sort = [0,7,6,5,1,2,8,4,3]
+    var sort = [0,7,6,5,1,11,2,8,4,3]
     for(var j=0;j<9;j++){
         var i = sort[j]
         cont += '<li class="coun_li"><a class="coun" id="coun_'+i+'" href="javascript:select_coun('+i+');void(0)">'+allUnivList[i]['name']+'</a></li>'
@@ -128,7 +132,6 @@ function school(div,data){
         sc=tmpl.find(".school"),
         dep_node = tmpl.find(".school_department").attr("id","dep"+uid)
         ;
-        
         tmpl.find(".school_id").attr("id","school_id"+uid)
         sc.focus(function(){
             this.blur()
@@ -147,10 +150,9 @@ function school(div,data){
         }else{
             sc.css({
                 'color':"#999",
-                "border-color":"#aaa",
+                "border-color":"#aaa"
             })
         }
- 
 
         div.find(".rm").show();
         div.find(".rm:last").hide(); 
