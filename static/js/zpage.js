@@ -452,6 +452,7 @@ $(function(){
 
 var _CODESH;
 function codesh(){
+    if(IE6)return;
     if($(".codebrush")[0]){
         if(!_CODESH){
             $.ajax({
