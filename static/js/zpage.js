@@ -448,3 +448,18 @@ $(function(){
         $('[placeholder]').addPlaceholder()
     }
 })
+
+var _CODESH;
+function codesh(){
+    if($(".codebrush")[0]){
+        if(!_CODESH){
+            $.ajax({
+                url: "http://0.42qu.us/SyntaxHighlighter/sh.js",
+                dataType: "script",
+                cache: true
+            })
+        }else{
+            SyntaxHighlighter.all();
+        }
+    }
+}

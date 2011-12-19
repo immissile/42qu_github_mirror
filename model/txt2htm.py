@@ -35,7 +35,7 @@ def replace_code(txt):
         typ = ''
     coding = coding[pos:coding.rfind("\n")]
     if typ:
-        builder = '<pre class="brush: %s" type="syntaxhighlighter">%s</pre>'%(typ, coding)
+        builder = '<pre class="codebrush brush: %s" type="syntaxhighlighter">%s</pre>'%(typ, coding)
     else:
         builder = '<pre>%s</pre>'%coding
 

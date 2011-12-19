@@ -36,14 +36,7 @@ if(!IE6){
     })
 }
 $(function(){
-    if($(".codesh")[0]){
-        $.ajax({
-            url: "http://0.42qu.us/SyntaxHighlighter/sh.js",
-            dataType: "script",
-            cache: true
-        });
-    }
-
+    codesh()
     if($(window).width()<827){
         $(".sprev,.snext").hide()
         
