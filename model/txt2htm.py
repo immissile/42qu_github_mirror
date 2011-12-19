@@ -26,7 +26,7 @@ def replace_space(match):
     return ' '+len(match.groups()[0])*'&nbsp;'
 
 def replace_code(txt):
-    coding = txt[1:].replace('\r','\n')
+    coding = txt[1:-1].replace('\r','\n')
     pos = coding.find("\n")
     typ = coding[3:pos]
     if typ.startswith("#!"):
@@ -35,9 +35,11 @@ def replace_code(txt):
         typ = ''
     coding = coding[pos:coding.rfind("\n")]
     if typ:
-        builder = '<pre class="code code_brush brush: %s" type="syntaxhighlighter">%s</pre>'%(typ, coding)
+        builder = '<pre class="brush: %s" type="syntaxhighlighter">%s</pre>'%(typ, coding)
     else:
-        builder = '<pre class="code">%s</pre>'%( coding)
+        builder = '<pre>%s</pre>'%coding
+
+    builder = '<div class="codesh">%s</div>'%builder
 
     return builder
 
@@ -65,12 +67,12 @@ def replace_bold(match):
     return '<b>%s</b>' % txt.strip()
 
 def txt_withlink(s):
-    s = s.replace("\r\n","\r").replace("\n","\r")
+    s = "\r".join(map(str.strip,s.replace("\r\n","\r").replace("\n","\r").split("\r")))
     s = escape(s)
     s = RE_BOLD.sub(replace_bold, s)
     s = RE_LINK_TARGET.sub(replace_link, s)
     s = RE_AT.sub(replace_at, s)
-    s = txt_map("\r{{{","\r}}}","\r"+s, replace_code).strip()
+    s = txt_map("\r{{{","\r}}}\r","\r%s\r"%s, replace_code).strip()
     return s
 
 def txt2htm_withlink(s):

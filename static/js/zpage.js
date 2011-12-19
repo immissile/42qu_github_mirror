@@ -99,14 +99,15 @@ jQuery.extend({
             }
         }
         return jQuery.isotime(timestamp)
-    },
-    getCss: function(url){
-        $("head").appendChild($('<link type="text/css" rel="stylesheet"/>').attr('href',url));
     }
+/*,
+    getCss: function(url){
+        $("head").append($('<link type="text/css" rel="stylesheet"/>').attr('href',url));
+    }
+*/
 })
 })(jQuery);
 
-alert(1)
 function uuid(){
     return (""+ Math.random()).slice(2)
 }

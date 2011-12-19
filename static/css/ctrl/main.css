@@ -273,7 +273,7 @@ padding-top:36px;
 .page721{
 width:721px;margin:auto;padding:36px 0 64px;
 }
-pre p{
+pre p, pre .p{
     line-height:28px;
     padding-bottom:14px;
 }
