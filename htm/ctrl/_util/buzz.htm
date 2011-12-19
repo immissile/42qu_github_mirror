@@ -19,14 +19,14 @@ id = i.id
 %>\
 <a href="/buzz/rm/${id}">X</a>
 % if cid == CID_BUZZ_SYS:
-<s class="buzz_sys">${entry.htm|n}</span>
+<span class="buzz_sys">${entry.htm|n}</span>
 % elif cid == CID_BUZZ_SHOW:
 <span class="buzz_user">${user_career_link(entry)}</span> 入驻
 % elif cid == CID_BUZZ_FOLLOW:
     % if rid == current_user_id:
-    ${user_link_list_with_career(from_list)} 关注了我
+${user_link_list_with_career(from_list)} 关注了我
     % else:
-    ${user_link_list(from_list)} 关注了 ${user_career_link(entry)}
+${user_link_list(from_list)} 关注了 ${user_career_link(entry)}
     % endif
 % elif cid == CID_BUZZ_WALL:
 <%
@@ -64,19 +64,16 @@ from_id = from_user.id
 po_id = entry.rid
 po = Po.mc_get(po_id)
 %>
-<div>
-<a href="#" class="buzz_li">
+${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${po_id}">\
     % if entry.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
 ${cnenoverflow(po.name,30)[0]}\
     % else:
 ${po.name_with_user}\
     % endif
-</a></div>
-<div class="buzz_au">5分钟前 , ${user_link_list(from_list)} 等<span class="buzz_cou">${len(from_list)}</span>人回复</div>
-
+</a> :
+<span class="buzz_txt">${cnenoverflow(entry.txt, 30)[0]}<a class="zsite_reply" href="/po/${po_id}" target="_blank"></a></span>
 % elif cid == CID_BUZZ_ANSWER:
 ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}\
-
 %if from_list:
 #replyer${from_list[0].id}\
 %endif
@@ -110,19 +107,24 @@ unread = buzz_unread_count(user_id)
 buzz_list = _buzz_show(user_id, 3, unread)
 %>
 % if buzz_list:
-<p class="right_title">新提醒</p>
-<div class="buzz_win">\
+<div class="c" id="buzz"><div class="G2">\
+<div class="buzz">\
+<div id="buzz_p">\
     % for i in buzz_list:
-    <div class="buzz_w">
-${buzz_render(i)}\
-    </div>
+<p>${buzz_render(i)}</p>\
     % endfor
 </div>\
-##<a href="javascript:$('#buzz').slideUp();void(0)" id="buzzrm"></a>
-##% if unread:
-##未读
-##<div class="buzz_c"><a href="#">等<span class="mg03">${unread}</span>条 ...</a></div>
-##% endif
-##</div>
+<p class="tr">\
+<a href="javascript:$('#buzz').slideUp();void(0)" id="buzzrm"></a>\
+<a class="unread" href="/notice/buzz">\
+    % if unread:
+未读<span class="mg03">${unread}</span>条\
+    % else:
+浏览全部\
+    % endif
+</a>\
+</p>\
+</div>\
+</div></div>\
 % endif
 </%def>

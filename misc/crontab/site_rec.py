@@ -27,9 +27,7 @@ def user_id_site_can_rec():
     for i in ormiter(Zsite, 'cid=%s'%CID_USER):
         user_id = i.id
         if TOP_REC_CID_SITE_REC&top_rec(user_id) and SiteRec.get(user_id):
-            print ">"
             continue
-
         fav_list = list(zsite_id_list_by_user_id(user_id))
         fav_list.extend(
             SiteRecHistory.where(user_id=user_id).col_list(col='zsite_id')

@@ -17,30 +17,12 @@ r'(?:\?[\w\-.;%/=+#:~!,\'\*&$@]*)?)(\]\])?'
 RE_SPACE = re.compile(""" ( +)""")
 RE_AT = re.compile(r'(\s|^)@([^@\(\)\s]+(?:\s+[^@\(\)\s]+)*)\(([a-zA-Z0-9][a-zA-Z0-9\-]{,31})\)(?=\s|$)')
 RE_BOLD = re.compile(r'\*{2}([^\*].*?)\*{2}')
-RE_CODE = re.compile(r'\{\{\{(.*)\}\}\}', re.S)
 
 HTM_SWF = """<embed src="%s" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>"""
 HTM_YOUKU = HTM_SWF%'''http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior'''
 
 def replace_space(match):
     return ' '+len(match.groups()[0])*'&nbsp;'
-
-def replace_code(match):
-    gs = match.groups(0)
-    for line in gs:
-        if 'javascript' in line:
-            typ = 'js'
-        elif 'python' in line:
-            typ = 'python'
-            line = ''
-        elif 'c++' in line:
-            typ = 'cpp'
-        break
-
-    coding = gs[0].replace('\r\n','\n').replace('\n','\r\n')
-    builder = "<script class='brush: %s' type='syntaxhighlighter'>%s</script>"%(typ, coding)
-    return builder
-
 
 def replace_link(match):
     gs = match.groups()
@@ -69,7 +51,6 @@ def txt_withlink(s):
     s = RE_BOLD.sub(replace_bold, s)
     s = RE_LINK_TARGET.sub(replace_link, s)
     s = RE_AT.sub(replace_at, s)
-    s = RE_CODE.sub(replace_code,s)
     return s
 
 def txt2htm_withlink(s):
