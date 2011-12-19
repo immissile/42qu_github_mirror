@@ -67,7 +67,7 @@ def replace_bold(match):
     return '<b>%s</b>' % txt.strip()
 
 def txt_withlink(s):
-    s = "\r".join(map(str.strip,s.replace("\r\n","\r").replace("\n","\r").split("\r")))
+    s = "\r".join(map(str.rstrip,s.replace("\r\n","\r").replace("\n","\r").split("\r")))
     s = escape(s)
     s = RE_BOLD.sub(replace_bold, s)
     s = RE_LINK_TARGET.sub(replace_link, s)
