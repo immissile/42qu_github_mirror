@@ -109,6 +109,11 @@ function job_x(e){
 (function(){
     var school_div=$("#school")
     school(school_div)
+    if(IE6){
+        school(school_div)
+        $(".school_block:first").css({"top":"-9999px",position:"relative"})
+        $("#school").css({"margin-top":"-155px"})
+    }
     $(".add_school_a").click(function(){
         school(school_div)
         $('.job_icon').remove()
