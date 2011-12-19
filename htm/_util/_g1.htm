@@ -128,7 +128,10 @@ ${school_year}级\
     %if school_department:
 ${SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[school_department]}\
     %endif
-    </p>
+    </p>\
+%if txt:
+<p>${txt}</p>\
+%endif
 %endif
 </div>
 %endfor

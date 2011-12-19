@@ -12,7 +12,7 @@ user = defaultdict(list)
 
 
 
-for i in Career.where(cid=CID_EDU):
+for pos, i in enumerate(Career.where(cid=CID_EDU)):
     result = {}
     for j in i._fields:
         result[j]=getattr(i,j)
