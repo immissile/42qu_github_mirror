@@ -4,6 +4,7 @@ import _env
 import re
 from cgi import escape
 from config import SITE_DOMAIN
+from zkit.bot_txt import  txt_wrap_by, txt_map
 RE_LINK = re.compile(
 r'((?:https?://[\w\-]+\.)'
 r'[\w\-.%/=+#:~!,\'\*\^@]+'
@@ -23,6 +24,19 @@ HTM_YOUKU = HTM_SWF%'''http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&is
 
 def replace_space(match):
     return ' '+len(match.groups()[0])*'&nbsp;'
+
+def replace_code(txt):
+    coding = txt[1:].replace('\r','\n')
+    pos = coding.find("\n")
+    typ = coding[3:pos]
+    if typ.startswith("#!"):
+        typ = typ[2:]
+    else:
+        typ = ''
+    coding = coding[pos:coding.rfind("\n")]
+    builder = "<pre class='brush: %s' type='syntaxhighlighter'>%s</pre>"%(typ, coding)
+    return builder
+
 
 def replace_link(match):
     gs = match.groups()
@@ -47,10 +61,12 @@ def replace_bold(match):
     return '<b>%s</b>' % txt.strip()
 
 def txt_withlink(s):
+    s = s.replace("\r\n","\r").replace("\n","\r")
     s = escape(s)
     s = RE_BOLD.sub(replace_bold, s)
     s = RE_LINK_TARGET.sub(replace_link, s)
     s = RE_AT.sub(replace_at, s)
+    s = txt_map("\r{{{","\r}}}","\r"+s, replace_code).strip()
     return s
 
 def txt2htm_withlink(s):
@@ -68,13 +84,14 @@ def replace_at(match):
 if __name__ == '__main__':
 
     print txt_withlink( """
-http://zuroc.42qu.com/live我 [[http://zuroc.42qu.com/live]]
-yup_20111011_shareyup_20111011_share [[http:/xfbss.com]]
-dfasdf
+{{{#!python
+
+def replace_at(match):
+
+    prefix, name, url = match.groups()
+    return '%s@<a target="_blank" href="//%s.%s">%s</a>' % (prefix, url, SITE_DOMAIN, name)
 
 
-{{{
-    thhis is code
 }}}
 """)
 

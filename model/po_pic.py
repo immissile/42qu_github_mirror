@@ -175,21 +175,21 @@ def pic_htm(htm, user_id, po_id):
     htm = PIC_SPACE.sub(re_pic_space, htm)
     pic_dict = pic_seq_dict_html(user_id, po_id)
     htm = PIC_SUB.sub(lambda x: re_pic2htm(x, pic_dict), htm)
-    htm = htm.replace('\n\n', '</p><p>')
+    htm = htm.replace('\r\r', '</p><p>')
     htm = '<p>%s</p>' % htm
     return htm
 
 def pic_rss(htm, pic_list):
     htm = PIC_SPACE.sub(re_pic_space, htm)
     htm = PIC_SUB.sub(lambda x: re_pic2htm_list(x, pic_list), htm)
-    htm = htm.replace('\n\n', '</p><p>')
+    htm = htm.replace('\r\r', '</p><p>')
     htm = '<p>%s</p>' % htm
     return htm
 
 def re_pic_space(match):
     s, n = match.groups()
-    if n.count('\n') > 1:
-        n = n.split('\n', 1)[1]
+    if n.count('\r') > 1:
+        n = n.split('\r', 1)[1]
     return ' %s %s'%(s, n)
 
 
