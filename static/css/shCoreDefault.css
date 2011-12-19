@@ -247,10 +247,10 @@
   color: #afafaf !important;
 }
 .syntaxhighlighter .gutter .line {
-  border-right: 3px solid #6ce26c !important;
+  border-right: 3px solid #eef !important;
 }
 .syntaxhighlighter .gutter .line.highlighted {
-  background-color: #6ce26c !important;
+  background-color: #eef !important;
   color: white !important;
 }
 .syntaxhighlighter.printing .line .content {
@@ -262,7 +262,7 @@
 .syntaxhighlighter.collapsed .toolbar {
   color: blue !important;
   background: white !important;
-  border: 1px solid #6ce26c !important;
+  border: 1px solid #eef !important;
 }
 .syntaxhighlighter.collapsed .toolbar a {
   color: blue !important;
@@ -272,7 +272,7 @@
 }
 .syntaxhighlighter .toolbar {
   color: white !important;
-  background: #6ce26c !important;
+  background: #eef !important;
   border: none !important;
 }
 .syntaxhighlighter .toolbar a {
@@ -331,6 +331,7 @@ border:1px dotted #ccc;
 margin:14px 0;
 }
 .codesh pre{
-padding:7px 14px;
+padding:12px 14px;
 font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+line-height: 1.1em !important;
 }
