@@ -202,9 +202,9 @@ filename = join(pathdir, '~%s~%s.js' % (num, pathfile)).replace('\\\\', '/')
 '''
 
 #swf = 'http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js'
-#jquery = 'http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js'
-#jquery_ui_prefix = 'http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.10'
-#jquery_ui = '%s/jquery-ui.min.js'%jquery_ui_prefix
+jquery = 'http://lib.sinaapp.com/js/jquery/1.6.2/jquery.min.js'
+jquery_ui_prefix = 'http://lib.sinaapp.com/js/jquery-ui/1.8.11'
+jquery_ui = '%s/jquery-ui.min.js'%jquery_ui_prefix
 #jquery_ui_date_cn = '%s/i18n/jquery.ui.datepicker-zh-CN.js'%jquery_ui_prefix
 #
 #

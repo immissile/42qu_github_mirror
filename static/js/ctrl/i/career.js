@@ -1,6 +1,6 @@
 
 (function(){
-var edu = "edu", job = "job";
+var job = "job";
 function select_workday(prefix, elem, val, year_end){
     val = val||0;
     var date=new Date(), year=date.getFullYear();
@@ -9,17 +9,11 @@ function select_workday(prefix, elem, val, year_end){
 }
 
 function career(
-    name,
     unit, title, txt, begin_val, end_val, id
 ){
-    var unit_placeholder, title_placeholder, date_year = '.date_year';
-    if(name == edu){
-        unit_placeholder = "学校"
-        title_placeholder = "专业"
-    }else{
-        unit_placeholder = "单位"
-        title_placeholder = "头衔"
-    }
+    var unit_placeholder, title_placeholder, date_year = '.date_year', name="job";
+    unit_placeholder = "单位"
+    title_placeholder = "头衔"
 
     var result = {
             "name" : name, 
@@ -76,10 +70,10 @@ function career(
 }
 
 
-$(".career").delegate('.unit:last,.title:last', "change", function(){
+$("#career_job").delegate('.unit:last,.title:last', "change", function(){
     var val = $.trim(this.value);
     if(val&&val.length&&val!=this.placeholder){
-        career(this.name.split("_")[0]);
+        career();
     }
 })
 
@@ -92,17 +86,28 @@ $("#career_form").submit(function(){
     })
 })
 
-function loads(name){
-    var data = $.parseJSON($("#career_data_"+name).html()),i=0,t;
+function loads(){
+    var data = $.parseJSON($("#career_data_job").html()),i=0,t;
     for(;i<data.length;++i){
         t=data[i];
-        t.unshift(name)
         career.apply(this,t)
     }
-    career(name)
+    career()
 }
 
-loads(edu)
-loads(job)
+loads()
+
+
+var school_div=$("#school")
+
+load_school(
+    school_div,
+    $.parseJSON($("#school_data").html())
+)
+
+school(school_div)
+$('.school_id:last').live("change", function(){
+    school(school_div);
+})
 
 })()

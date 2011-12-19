@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from ctrl._urlmap.me import urlmap
-from ctrl.me.i import UserInfoEdit, CareerEdit , PicEdit, LinkEdit
+
 from _handler import LoginBase , XsrfGetBase
 from model.zsite import Zsite
 from zkit.errtip import Errtip
