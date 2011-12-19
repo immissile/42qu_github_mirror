@@ -206,6 +206,7 @@ function fancybox_word(title, path, finish, can_post){
     $.get("/j/fdtxt/" + id, function(htm) {
         txt.find('.fdtxtin').html('<pre class="fdpre">' + htm + "</pre>")
         all.remove()
+        codesh()
     })
 }
  function fdvideo(e, id) {
