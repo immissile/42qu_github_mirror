@@ -291,6 +291,7 @@ def po_state_set(po, state):
     cid = po.cid
     mc_flush_other(po.user_id, cid)
     mc_flush_zsite_cid(po.zsite_id, cid)
+    id = po.id
     if old_state > STATE_SECRET and state == STATE_SECRET:
         feed_rm(id)
         po.tag_rm()
