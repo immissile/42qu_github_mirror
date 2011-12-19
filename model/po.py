@@ -37,7 +37,7 @@ PO_CN_EN = (
 PO_CID = tuple([
     i[0] for i in PO_CN_EN
 ])
-PO_SHARE_FAV_CID = set([i[0] for i in PO_CN_EN])
+PO_SHARE_FAV_CID = set([i[0] for i in PO_CN_EN if i[0]!=CID_REC])
 PO_EN = dict((i[0], i[1]) for i in PO_CN_EN)
 PO_CN = dict((i[0], i[2]) for i in PO_CN_EN)
 PO_COUNT_CN = dict((i[0], i[3]+i[2]) for i in PO_CN_EN)
@@ -78,7 +78,7 @@ class Po(McModel, ReplyMixin):
         super(Po, self).save()
 
     @property
-    #@mc_htm('{self.id}')
+    @mc_htm('{self.id}')
     def htm(self):
         cid = self.cid
         id = self.id
@@ -121,7 +121,6 @@ class Po(McModel, ReplyMixin):
                 return name % q.name
             if cid == CID_REC:
                 return '推荐 : %s' % q.name
-
 
             if cid != CID_EVENT_NOTICE:
                 return '答 : %s' % q.name
@@ -168,7 +167,14 @@ class Po(McModel, ReplyMixin):
                     name = '评价 : %s'
                 return name%link
             elif cid == CID_REC:
-                return '<a href="%s">推荐</a> %s'%(self.link,self.name_)
+                pre_po_zsite = Zsite.mc_get(q.user_id)
+                if q.cid != CID_WORD:
+                    name = '推荐 <a href="%s" >%s</a> ~ <a href="%s">%s</a>' % (q.link, q.name, pre_po_zsite.link, pre_po_zsite.name, )
+                else:
+                    name = '推荐 <a href="%s" class="fcmname c0 TPH" >%s</a> : %s <a class="zsite_reply" href="%s" target="_blank"></a>'%(
+                        pre_po_zsite.link, pre_po_zsite.name, q.htm, q.link
+                    )
+                return name
             else:
                 if q.user_id == self.user_id:
                     return '自问自答 : %s' % link
@@ -176,7 +182,6 @@ class Po(McModel, ReplyMixin):
                     return '答 <a href="%s">%s</a> 问 : %s' % (
                         u.link, escape(u.name), link
                     )
-
         if cid == CID_WORD:
             return txt_withlink(self.name)
 
@@ -329,7 +334,7 @@ def po_rm(user_id, id):
             po_recommend_rm_reply(id, user_id)
 
         from model.po_recommend import mq_rm_rec_po_by_po_id
-        mq_rm_rec_po_by_po_id(user_id,id)
+        mq_rm_rec_po_by_po_id(user_id, id)
 
         return _po_rm(user_id, po)
 
@@ -358,7 +363,7 @@ def _po_rm(user_id, po):
 
 def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
     _is_same_post = is_same_post(user_id, name, zsite_id)
-    print _is_same_post, "_is_same_post", name
+    print _is_same_post, '_is_same_post', name
     if name and not _is_same_post:
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
@@ -463,18 +468,18 @@ def mc_flush_zsite_cid(zsite_id, cid):
 if __name__ == '__main__':
     from zsite_list import zsite_id_list
     from cid import CID_USER
-    id_list = zsite_id_list(0,CID_USER)
+    id_list = zsite_id_list(0, CID_USER)
     for id in id_list:
-        for i in Po.where(user_id = id).where(zsite_id =0).where("state>%s"%STATE_RM):
+        for i in Po.where(user_id=id).where(zsite_id=0).where('state>%s'%STATE_RM):
             print i.link
-    #exist = set()
-    #for i in Po.where(cid=CID_NOTE).where("zsite_id!=0").where("state>%s"%STATE_RM):
-    #    name = i.name
-    #    if name in exist:
-    #        print len(exist), name
-    #        _po_rm(i.user_id, i)
-    #    else:
-    #        exist.add(name)
+#exist = set()
+#for i in Po.where(cid=CID_NOTE).where("zsite_id!=0").where("state>%s"%STATE_RM):
+#    name = i.name
+#    if name in exist:
+#        print len(exist), name
+#        _po_rm(i.user_id, i)
+#    else:
+#        exist.add(name)
 #    pass
 #    exist = set()
 #    for i in Po.where(cid=CID_NOTE).where('zsite_id!=0').where('state>%s'%STATE_RM):

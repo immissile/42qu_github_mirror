@@ -37,6 +37,8 @@ def feed_tuple_by_db(id):
     if rid and has_question:
         question = m.target
         name = question.name
+    elif cid == CID_REC:
+        name = m.name_htm
     elif cid != CID_WORD:
         name = m.name
     else:
@@ -203,6 +205,8 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
     for i in feed_merge_iter(zsite_id_list, limit, begin_id):
         id = i.id
         po = Po.mc_get(id)
+        if po is None:
+            continue
         if po.cid == CID_REC:
             id = po.rid
             od = rt_dict[id]
@@ -220,5 +224,6 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
 
 
 if __name__ == '__main__':
+    feed_rm(10187807)
     for i in render_feed_by_zsite_id(10071241, 100):
-        print i
+        pass

@@ -6,12 +6,12 @@ from config import SITE_DOMAIN, LOGO_TEXT
 <!doctype html>\
 <head>\
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">\
-<script src="${js.jquery}"></script>\
-${css.istarsea|n}
+<script src="${js.z}"></script>\
+${css.z|n}
 ${self.htm_head()}\
 <title>${self.htm_title()}</title>\
 </head>\
 <body id="B">${next.body()}${self.htm_foot()}</body>\
-<%def name="htm_title()">${SITE_DOMAIN} , 我们的征途是星辰大海 ...</%def>\
+<%def name="htm_title()">${SITE_DOMAIN} - ${LOGO_TEXT}</%def>\
 <%def name="htm_head()"></%def>\
 <%def name="htm_foot()"></%def>\

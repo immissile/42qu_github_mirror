@@ -1,0 +1,109 @@
+<%!
+from config import SITE_DOMAIN, SITE_URL, LOGO_TEXT
+from model.zsite_url import host
+from model.notice import notice_unread as _notice_unread
+%>
+
+<%def name="h_nav_notice()">
+%if current_user_id:
+<%
+    link = current_user.link
+%>\
+<%
+notice_unread = _notice_unread.get(current_user_id)
+%>\
+<div class="D">\
+<a class="DA notice" href="${link}/notice">消息\
+    %if notice_unread:
+<%
+if notice_unread > 99:
+    notice_unread = "99+"
+%>\
+<span href="${link}/notice">${notice_unread}</span>\
+    %endif
+</a>\
+</div>\
+%endif
+</%def>
+
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>\
+<%inherit file="_base.htm" />\
+${self.T()}\
+${self.H()}\
+<div class="H"><div class="H c">${next.body()}</div></div>\
+
+<%def name="_H(htm)">
+<div id="H"><div class="H c">
+<%
+if zsite_id:
+    request_host = host(zsite_id)
+else:
+    request_host = request.host
+%>
+<div class="L">
+%if request_host.startswith("hero."):
+<form class="search"  action="/q">\
+<input autocomplete="off" id="search" type="text" name="q" value="${q or ''}">\
+<input class="search_btn" type="submit" value="">\
+</form>\
+<script>\
+$("#search").focus()\
+</script> 
+%else:
+<a
+href="//${request_host}"
+class="site">\
+${request_host}\
+</a>
+%endif
+</div>\
+%if htm:
+${htm|n}\
+%endif
+%if current_user_id:
+<%
+link = current_user.link
+%>
+<div class="D_nav">\
+<div class="D">\
+<a class="DA" id="da6" href="javascript:void(0)">更多</a>\
+<div>\
+    <a href="${link}/i">资料</a>\
+    <a href="${link}/money/bill">账目</a>\
+    <a href="//help.${SITE_DOMAIN}">帮助</a>\
+    <a href="/logout?${_xsrf}">退出</a>\
+</div>\
+</div>\
+${h_nav_notice()}\
+<div class="D">\
+<a class="DA" id="da5" href="javascript:void(0)">我的</a>\
+<div>\
+    <a href="${link}">主页</a>\
+    <a href="${link}/following">关注</a>\
+    <a href="${link}/wall">留言</a>\
+    <a href="${link}/fav">收藏</a>\
+    <a href="${link}/po">发布</a>\
+</div>\
+</div>\
+<div class="D"><a class="DA" id="da4" href="//hero.${SITE_DOMAIN}">人物</a></div>\
+<div class="D"><a class="DA" id="da3" href="//meet.${SITE_DOMAIN}">活动</a></div>\
+<div class="D"><a class="DA" id="da2" href="//com.${SITE_DOMAIN}">招聘</a></div>
+<div class="D"><a class="DA" id="da2" href="//site.${SITE_DOMAIN}">站点</a></div>
+<div class="D"><a class="DA" id="da1" href="${link}/live">动态</a></div>\
+</div>\
+%endif
+</div>\
+</div>\
+</%def>
+
+
+<%def name="H()" filter="trim,_H">
+${self.h_nav()}
+</%def>
+
+
+
+<%def name="T()">\
+<%include file="_t.htm"/>\
+</%def>\
+

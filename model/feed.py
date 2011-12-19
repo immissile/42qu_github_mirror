@@ -8,6 +8,7 @@ from mq import mq_client
 from zkit.algorithm.merge import imerge
 from gid import gid
 from zkit.feed_merge import MAXINT, merge_iter as _merge_iter
+from cid import CID_REC
 
 PAGE_LIMIT = 50
 
@@ -61,7 +62,7 @@ def feed_rt_rm(zsite_id, rid):
 
 def feed_rt(zsite_id, rid):
     feed = Feed.mc_get(rid)
-    if feed and not feed.rid and not feed_rt_id(zsite_id, rid):
+    if feed and not feed.cid==CID_REC and not feed_rt_id(zsite_id, rid):
         feed_new(gid(), zsite_id, feed.cid, rid)
         mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
 

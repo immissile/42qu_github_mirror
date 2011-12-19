@@ -41,8 +41,6 @@ po_total_count = 0
 cid = i[0]
 if cid not in FUNC_DICT:
     continue
-%>
-<%
 limit = 1 if cid == CID_WORD else 6
 po_list = fav_po_list_by_user_id_cid(zsite_id, cid, limit)
 po_count = fav_po_count_by_user_id_cid(zsite_id, cid)

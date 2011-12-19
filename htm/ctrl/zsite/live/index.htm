@@ -73,17 +73,13 @@ ${top_rec()}
     <p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a>{{if rt_list.length==1}} 推荐{{/if}} : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_blank"></a></p> 
 {{/if}}
 {{/each}}
-            {{if has_rter}}
-            {{each(k,v) rter}}
-            {{if v[1]!=0}}
-                <a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>
-            {{/if}}
-            {{/each}}推荐
-             {{/if}} {{/if}}
+{{/if}}
 {{/if}}
 </p>
 <a href="/${id}" target="_blank">${name}</a><span class="split">-</span><a target="_blank"
-class="c0" href="${zsite_link}">${zsite_name}</a> 
+class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="split">-</span>{{each rtL}}{{if $value[1][1]!=0}}<a target="_blank" class='fcmname c0 TPH' href="${$value[0]}">${$value[1][0]}</a>{{/if}}
+{{if $index<rtL.length-1}},{{/if}}
+{{/each}} 推荐{{/if}} 
 </div></div></div>
 {{/each}}
 {{else}}
@@ -101,10 +97,11 @@ class="c0" href="${zsite_link}">${zsite_name}</a>
 {{/each}}
 
 {{if has_rter}} 
-{{each(k,v) rter}}
-{{if v[1]!=0}}
-<a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>
+{{each rtL}}
+{{if $value[1][1]!=0}}
+<a target="_blank" class='fcmname c0 TPH' href="${$value[0]}">${$value[1][0]}</a>
 {{/if}}
+{{if $index<rtL.length-1}},{{/if}}
 {{/each}} 推荐
 {{/if}}
 </div>
@@ -123,12 +120,16 @@ flashvars="foreColor=#aa1100&amp;analytics=false&amp;filename=${rid}</%text>\
 ${this.xsrf_token}"
 quality="high" bgcolor="#FFFFFF" class="audio"
 src="${FS_URL}/swf/1bit.swf"
-<%text>
-type="application/x-shockwave-flash"
-wmode= "Opaque"></embed>{{/if}}{{if name}}<a
-target="_blank"
-href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}{{/if}}</a>{{/if}}{{if tag_id}}<a
-class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
+<%text>type="application/x-shockwave-flash"
+wmode= "Opaque"></embed>{{/if}}{{if name}}{{if cid == 73}}{{html name}}{{else}}
+<a target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}
+{{/if}}
+{{/if}}
+</a>
+{{/if}}
+
+{{if tag_id}}
+<a class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}
 {{if cid==65}}
 <a class="fdimga" target="_blank" href="/${id}"><img class="fdimg" src="${rid}"></a>
@@ -183,7 +184,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
         {{if rt_list.length}} 
 <span class="mr3"></span>
             {{if rt_list.length  && rt_list[0].txt[2] == 0 }}
-广播
+, 广播
             {{/if}}
         {{/if}}
     </div>

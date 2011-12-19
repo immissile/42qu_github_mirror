@@ -62,7 +62,7 @@ if info:
             line3 = "家乡 : "+info.place_home
 
 
-school_tuple = user_school_tuple(current_user_id)
+school_tuple = user_school_tuple(zsite_id)
 %>
 %if is_owner and not career_list and not school_tuple:
 <div class="zsite_item">\
@@ -108,9 +108,14 @@ end_time = career.end_time
 <div class="zsite_item">
     <p>\
 %if school_degree:
-${SCHOOL_DEGREE[school_degree]} , \
+${SCHOOL_DEGREE[school_degree]}\
 %endif
+%if school_id and school_degree:
+ , \
+%endif
+%if school_id:
 ${SCHOOL_UNIVERSITY[school_id]}
+%endif
     </p>
 %if school_year or school_department:
     <p>\

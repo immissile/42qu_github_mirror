@@ -166,7 +166,10 @@ class SiteListBase(_SiteListBase):
 class FavSite( SiteListBase, FavBase, ZsiteBase):
     page_url = '/site/fav-%s'
 
-
+@urlmap('/site/rec_new/(\d+)')
+class SiteRec(ZsiteBase):
+    def post(self,id):
+        return self.finish("{}")
 
 @urlmap('/site/my')
 @urlmap('/site/my-(\d+)')

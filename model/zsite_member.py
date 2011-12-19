@@ -99,9 +99,24 @@ def zsite_member_with_review(id):
 
 
 if __name__ == '__main__':
-    zsite_id = 10163143
-    member_id = 10000000
-    for i in zsite_member_with_review(zsite_id):
-        print i.review.name_
-        print i.review.name
-        print '_____________'
+    user = """
+http://gongjun.42qu.com/
+http://zhengtao.42qu.com/
+http://shanfeng.42qu.com/
+http://hijava.42qu.com/
+http://10027580.42qu.com/
+http://10020850.42qu.com/
+"""
+    zsite_id = 10186434 
+    from zsite_url import id_by_url
+    for i in user.split():
+        url = i[7:i.find(".")]
+        if url.isdigit():
+            id = int(url)
+        else:
+            id = id_by_url(url)
+        zsite_member_new(
+            zsite_id,
+            id,
+            ZSITE_MEMBER_STATE_ACTIVE
+        )
