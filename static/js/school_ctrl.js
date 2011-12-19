@@ -1,27 +1,32 @@
 var select_id, dep_id
-select_univ = function(uid,uname){
-    $.fancybox.showActivity()
-    $.getScript("http://0.42qu.us/college/department/"+uid+".js",function(){
-        $('#'+select_id).val(uname)
-        var deps = depList['deps']
-        $('#univ_id'+dep_id.substr(3)).val(uid)
-        var dep_node = $('#'+dep_id)
-        dep_node.children().remove()
-        dep_node.append('<option value="">选择院系</option>')
-        for(var i=0;i<deps.length;i++){
-            dep_node.append('<option value='+deps[i]['id']+'>'+deps[i]['name']+'</option>')
-        }
-        $.fancybox.close()
-    });
+function select_univ(uid){
+    $('#'+select_id).val(SCHOOL_UNIVERSITY[uid]).css({'color':'',border:''})
+    $('#school_id'+dep_id.substr(3)).val(uid).trigger('change')
+    school_department($('#'+dep_id), uid)
+    $.fancybox.close()
+}
+
+function school_department(dep_node, uid){
+    var deps = SCHOOL_UNIVERSITY_DEPARTMENT_ID[parseInt(uid)] || [];
+    dep_node.children().remove()
+    dep_node.append('<option value="">选择院系</option>')
+    for(var j=0;j<deps.length;j++){
+        var i=deps[j]
+        dep_node.append('<option value="'+i+'">'+SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[i]+'</option>')
+    }
+    dep_node.append('<option value="0">其它院系</option>')
 }
 
 function pop_school(){
-    select_id = $(this).attr('id')
-    dep_id = $(this).attr('id').replace('school_select','dep')
+    var self=$(this).blur()
+    select_id = self.attr('id')
+    dep_id = self.attr('id').replace('school_select','dep')
     var fancybox = $.fancybox
     fancybox({
         content:'<div class="school_wrap"><div class="couns">'+get_couns()+'</div><div class="provs">'+get_provs(0)+'</div><div class="search_univ">搜索 <input type="text" id="univ_txt"></div>'+'<div class="univs">'+get_univ_by_prov(0,0)+'</div></div>'
     })
+
+    $("#univ_txt").focus()
     $('#prov_0').addClass('prov_now')
     $('#coun_0').addClass('coun_now')
     var txt = $('#univ_txt')
@@ -62,6 +67,7 @@ function get_couns(){
 }
 function get_provs(cid){
     var provs = allUnivList[cid]['provs']
+    if(!provs)return;
     var cont = '<ul class="prov_ul">'
     if(provs.length>0){
         for(var i=0;i<provs.length;i++){
@@ -74,23 +80,26 @@ function get_provs(cid){
 select_coun = function(cid){
     $('.coun_now').removeClass('coun_now')
     $('#coun_'+cid).addClass('coun_now')
-    var provs = get_provs(cid)
-    var univs = ''
-    $('.provs').html(provs)
-    $('.prov_now').removeClass('prov_now')
-    $('#prov_0').addClass('prov_now')
-    if(provs!='<ul class="prov_ul"></ul>'){
+    var univs, 
+        provs = get_provs(cid)
+    if(provs){
+        $('.provs').html(provs).show()
         univs = get_univ_by_prov(cid,0)
-    } else{
+    }else{
+        $('.provs').hide()
         univs = get_univ_by_coun(cid)
     }
+    $('.prov_now').removeClass('prov_now')
+    $('#prov_0').addClass('prov_now')
     $('.univs').html(univs)
+    $("#univ_txt").focus().val('')
 }
 select_prov = function(cid,pid){
     $('.prov_now').removeClass('prov_now')
     $('#prov_'+pid).addClass('prov_now')
     var univs = get_univ_by_prov(cid,pid)
     $('.univs').html(univs)
+    $("#univ_txt").focus().val('')
 }
 
 function get_univ_by_coun(cid){
@@ -98,13 +107,75 @@ function get_univ_by_coun(cid){
     return get_univs(univs)
 }
 function get_univ_by_prov(cid,pid){
-    var univs = allUnivList[cid]['provs'][pid]['univs']
-    return get_univs(univs)
+    var univs = allUnivList[cid]['provs']
+    if(univs){
+        return get_univs(univs[pid]['univs'])
+    }
 }
+
+
 function get_univs(univs){
     var cont = '<ul class="univ_ul">'
     for(var i=0;i<univs.length;i++){
-        cont += '<li class="univ_li"><a class="univ" id="univ_'+univs[i]['id']+'" href="javascript:select_univ('+univs[i]['id']+",'"+univs[i]['name']+"');void(0)\">"+univs[i]['name']+'</a></li>'
+        cont += '<li class="univ_li"><a class="univ" id="univ_'+univs[i]['id']+'" href="javascript:select_univ('+univs[i]['id']+");void(0)\">"+univs[i]['name']+'</a></li>'
     }
     return cont+'</ul>'
+}
+function school(div,data){
+     var tmpl = $('#school_tmpl').tmpl(data).appendTo(div),
+        year=(new Date()).getFullYear(),
+        r =['<option value="">入学年份</option>'],i, uid=uuid()
+        sc=tmpl.find(".school"),
+        dep_node = tmpl.find(".school_department").attr("id","dep"+uid)
+        ;
+        
+        tmpl.find(".school_id").attr("id","school_id"+uid)
+        sc.focus(function(){
+            this.blur()
+        }).attr('id',"school_select"+uid).focus(pop_school)
+
+        for(i=year;i+128>year;--i){
+            r.push('<option value="'+i+'">'+i+'</option>')
+        }
+        year = tmpl.find(".school_year").html(r.join(''))
+       
+        if(data){
+            year.val(data.year)
+            school_department(dep_node, data.school_id)
+            dep_node.val(data.department)
+            tmpl.find(".school_degree").val(data.degree)
+        }else{
+            sc.css({
+                'color':"#999",
+                "border-color":"#aaa",
+            })
+        }
+ 
+
+        div.find(".rm").show();
+        div.find(".rm:last").hide(); 
+        tmpl.find('.rm').click(function(){
+            tmpl.fadeOut(function(){
+                tmpl.remove()
+            })
+            if(data){
+                $.postJSON("/j/school/rm/"+data.id);
+            }
+        });
+}
+function load_school(div, data){
+    var i=0,j;
+    for(;i<data.length;++i){
+        j = data[i];
+        j = {
+            id: j[0],
+            school_id: j[1],
+            year:j[2],
+            degree:j[3],
+            department:j[4],
+            txt:j[5],
+            name: SCHOOL_UNIVERSITY[j[1]]
+        }
+        school(div, j)
+    }
 }

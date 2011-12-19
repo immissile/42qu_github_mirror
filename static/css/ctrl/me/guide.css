@@ -28,7 +28,7 @@ color:#999;
 }
 .job_unit{
 padding:8px;
-width:180px;
+width:184px;
 border:1px solid #ccc;
 }
 .job_title{
@@ -39,7 +39,7 @@ border:1px solid #ccc;
 }
 .job_txt{
 padding:8px;
-width:390px;
+width:394px;
 border:1px solid #ccc;
 margin-top:16px;
 }
@@ -96,18 +96,19 @@ color:#666;
 margin:0 12px 0 -28px;
 vertical-align:1px;
 }
-.school_year,.school_type{
+.school_year,.school_degree{
 width:116px;
 }
-.school_select{
+.school{
+border:1px solid #ccc;
 padding:8px;
 text-align:center;
-width:200px;
+width:264px;
 margin-right:8px;
 cursor:pointer;
 }
-.dep{
-width:218px;
+.school_department{
+width:282px;
 margin-right:8px;
 }
 .add_school_a, .add_job_a{
@@ -148,15 +149,89 @@ display:inline-block;
 background:url(/img/gif/loading_bar.gif) no-repeat 50% 50%;
 vertical-align:4px;
 }
-#form2, #form4,#form3{
+#form5 input{
+font-size:12px;
+}
+#form2, #form4,#form3, #form5{
 display:none
 }
-#form2{
-margin-left:109px;
+#form3{
+margin-top:30px;
 }
-#form3,#form4{
-margin-left:108px;
+#form5{
+font-size:14px;
+margin-top:-10px;
+margin-left:-36px;
+}
+#form5 label{
+    width:128px;
+    text-align:right;
+    display:inline-block;
+}
+#form5 .value{
+    width:340px;
+    margin-left:14px;
+}
+#form5 .key{
+    width:55px;
+    margin-left:66px;
+    text-align:center;
+}
+#form5 .btns{
+padding-left:143px;
+}
+#form5 .value,#form5 .key{
+    padding:3px;
+    border:1px solid #ccc;
+}
+#form3 select{
+width:89px
+}
+#form2,#form3,#form4{
+margin-left:106px;
 }
 .cl{
 margin-top:6px;
 }
+.job_block, .job_more{
+margin-bottom:14px;
+}
+.job_more{
+padding-top:14px;
+}
+.errtip{
+color:#d20;
+}
+#form1 .errtip{
+margin-left:106px;
+padding-bottom:7px;
+}
+.job_now{
+margin-right:2px;
+margin-left:14px;
+}
+.job_more .job_line_1{
+border-top:1px dotted #ccc;
+width:470px;
+padding-top:24px;
+}
+.x{
+background: url(/img/gif/x.gif) no-repeat scroll 50% 50% transparent;
+display:inline-block; 
+width: 9px; 
+height: 9px; 
+margin-left: 14px; 
+padding: 5px; 
+vertical-align: -3px;
+}
+
+.school_block .job_txt{
+margin-top:8px;
+}
+.job_begin_end,.job_end_day{
+display:none;
+}
+.job_begin_day{
+display:none;
+}
+

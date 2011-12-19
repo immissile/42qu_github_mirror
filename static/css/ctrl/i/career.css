@@ -1,13 +1,14 @@
 .line{
-margin-top:32px;
+margin-top:16px;
 font-size:16px;
 text-align:right;
 }
-.line input, .line select{
+.line input{
 padding:8px;
 }
 .line select{
-margin:0 8px;
+padding:7px;
+margin-left:5px;
 }
 .line input{
 line-height:20px;
@@ -30,7 +31,7 @@ display:none;
 text-align:center;padding:14px 0;font-size:16px;
 text-align:left;
 }
-.career_edu,.career_job{
+.school_h,.career_job{
 border-bottom:1px dotted #ccc;
 }
 .line .label_now{
@@ -54,16 +55,35 @@ margin-top:4px;
 .unit,.title{
 width:100px;
 }
-.career_edu{
+.school_h{
 border-top:1px dotted #ccc;margin-top:32px
 }
 
 .begin select, .end select {
 border: 1px solid #CCC;
 margin-right: 8px;
-padding: 8px;
+padding: 7px;
 }
 
 .unit,.title,.txt{
 border: 1px solid #CCC;
+}
+.school{
+width:150px;
+border:1px solid #CCC;
+}
+#school select{
+text-align:center;
+border:1px solid #CCC;
+}
+#school .txt{
+margin-left:5px;
+width:273px;
+}
+.school_department{
+width:200px;
+}
+.school{
+cursor:pointer;
+text-align:center;
 }
