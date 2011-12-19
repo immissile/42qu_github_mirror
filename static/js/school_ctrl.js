@@ -1,6 +1,9 @@
 var select_id, dep_id
 function select_univ(uid){
-    $('#'+select_id).val(SCHOOL_UNIVERSITY[uid]).css({'color':'',border:'1px solid #ccc'})
+    var select = $('#'+select_id).val(SCHOOL_UNIVERSITY[uid])
+    if(!IE6){
+        select.css({'color':'',border:'1px solid #ccc'})
+    }
     $('#school_id'+dep_id.substr(3)).val(uid).trigger('change')
     school_department($('#'+dep_id), uid)
     $.fancybox.close()
@@ -56,7 +59,7 @@ function pop_school(){
 }
 function get_couns(){
     var cont = '<ul class="coun_ul">'
-    var sort = [0,7,6,5,1,2,8,4,3]
+    var sort = [0,7,6,5,1,11,2,8,4,3]
     for(var j=0;j<9;j++){
         var i = sort[j]
         cont += '<li class="coun_li"><a class="coun" id="coun_'+i+'" href="javascript:select_coun('+i+');void(0)">'+allUnivList[i]['name']+'</a></li>'
