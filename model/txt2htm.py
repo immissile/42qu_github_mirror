@@ -31,6 +31,8 @@ def replace_code(txt):
     typ = coding[3:pos]
     if typ.startswith("#!"):
         typ = typ[2:]
+        if typ in ('c','c++'):
+            typ = 'cpp'
     else:
         typ = ''
     coding = coding[pos:coding.rfind("\n")]
