@@ -26,8 +26,11 @@ function _rm(prefix, url) {
 }
 jQuery.fn.extend({
 	elastic_login: function() {
-		this.find('input').focus(islogin)
-		this.find('textarea').elastic().focus(islogin)
+        var self=this;
+        $(function(){
+            self.find('input').focus(islogin)
+            self.find('textarea').elastic().focus(islogin)
+        })
 		return this.submit(islogin)
 	}
 })
