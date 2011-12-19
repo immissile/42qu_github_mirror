@@ -15,7 +15,9 @@ rid = i.rid
 from_list = i.from_list
 from_list = filter(bool, from_list)
 entry = i.entry
+id = i.id
 %>\
+<a href="/buzz/rm/${id}">X</a>
 % if cid == CID_BUZZ_SYS:
 <span class="buzz_sys">${entry.htm|n}</span>
 % elif cid == CID_BUZZ_SHOW:
@@ -103,7 +105,6 @@ ${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}
 <%
 unread = buzz_unread_count(user_id)
 buzz_list = _buzz_show(user_id, 3, unread)
-unread = unread-len(buzz_list)
 %>
 % if buzz_list:
 <div class="c" id="buzz"><div class="G2">\
