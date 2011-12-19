@@ -112,7 +112,7 @@ function job_x(e){
     $(".add_school_a").click(function(){
         school(school_div)
         $('.job_icon').remove()
-        $('.part1').prepend('<span class="job_icon">■</span>')
+        $('.job_txt').css({"margin-bottom":"27px"})
         return false
     })
 })()
