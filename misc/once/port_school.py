@@ -17,7 +17,7 @@ user = defaultdict(list)
 #        if i.title=="头衔":
 #            i.delete()
 
-#with open("exported") as f:
+#with open("exported2") as f:
 #    for line in f:
 #        data = loads(line)
 #        print data[0],data[1],int(data[3]/10000),0,data[2],data[4]
