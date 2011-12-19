@@ -23,12 +23,10 @@ function form(id){
                 return
             }  
 
-
             var next=$("#form"+(id+1));
             if(next[0]){
-
                 self.slideUp()
-                next.slideDown()
+                next.show()
                 next.find("input:first").focus().select()
             }else{
                 window.location="/i/guide/pic"
