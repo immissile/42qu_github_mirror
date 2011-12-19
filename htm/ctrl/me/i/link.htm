@@ -4,4 +4,9 @@
 ${link.css_js()}
 </%def>
 
-${link.body()}
+<%htm:form className="link_form">
+${link.link_form()}
+<div class="btns">
+    <span class="btnw"><button class="btn" type="submit">保存</button></span>
+</div>
+</%htm:form>
