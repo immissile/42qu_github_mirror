@@ -4,9 +4,9 @@ from model.zsite_book import ZSITE_BOOK_LIB_STATE2CN, ZSITE_BOOK_LIB_STATE_EXIST
 
 <%def name="book_browse_link(book)">
 %if book.is_exist:
-<a href="/book/browse/${book.id}">借阅</a>
+<a href="/book/lib/${book.id}">借阅</a>
 %elif book.state == ZSITE_BOOK_LIB_STATE_BROWSE:
-<a href="/book/return/${book.id}">归还</a>
+<a href="/book/lib/${book.id}">归还</a>
 %else:
 ${ZSITE_BOOK_LIB_STATE2CN[book.state]}\
 %endif
