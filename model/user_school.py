@@ -75,6 +75,44 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
         mc_flush(user_id)
         return u
 
+def _user_school_search(school_id, school_year, school_department, school_degree):
+    pass
+
+def user_school_search(school_id, school_year, school_department, school_degree):
+    result = []
+    if not school_id:
+        return []
+
+    user_list = _user_school_search(
+        school_id, school_year, school_department, school_degree
+    )
+    user_list_len = len(user_list)
+    if user_list_len:
+        result.append(
+            school_id, school_year, school_department, school_degree,
+            user_list,
+        ) 
+    while user_list_len < page:
+        if school_department:
+           school_department = 0
+        elif school_year:
+            school_year = 0
+        elif school_degree:
+            school_degree = 0 
+        else:
+            break
+        
+        user_list = _user_school_search(
+            school_id, school_year, school_department, school_degree
+        )
+        result.append(
+            school_id, school_year, school_department, school_degree,
+            user_list,
+        ) 
+        user_list_len += len(user_list)
+
+    return result
+
 if __name__ == '__main__':
     pass
     print mc_flush(10000000)
