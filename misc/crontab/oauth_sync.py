@@ -63,7 +63,7 @@ def _sync_recommend(begin_id):
 def main():
     kv_int_call(KV_SYNC_PO_BY_ZSITE_ID, _sync_po)
     kv_int_call(KV_SYNC_JOIN_EVENT_BY_ZSITE_ID, _sync_join_event)
-    #kv_int_call(KV_SYNC_RECOMMEND_BY_ZSITE_ID, _sync_recommend)
+    kv_int_call(KV_SYNC_RECOMMEND_BY_ZSITE_ID, _sync_recommend)
 
     for i in SyncFollow.where('oauth_id!=0'):
         sync_follow(i)
