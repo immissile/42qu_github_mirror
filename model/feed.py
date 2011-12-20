@@ -63,8 +63,9 @@ def feed_rt_rm(zsite_id, rid):
 def feed_rt(zsite_id, rid):
     feed = Feed.mc_get(rid)
     if feed and not feed.cid==CID_REC and not feed_rt_id(zsite_id, rid):
-        print "test"
-        feed_new(gid(), zsite_id, feed.cid, rid)
+        from po_recommend import po_recommend_new
+        po_recommend_new(rid,zsite_id,'')
+        #feed_new(gid(), zsite_id, feed.cid, rid)
         mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
 
 def feed_rt_list(zsite_id, limit, offset):
