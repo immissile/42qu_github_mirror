@@ -82,3 +82,5 @@ $(function(){
     $(document).ajaxComplete(input_ban)
 
 })();
+
+
