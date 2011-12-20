@@ -1,5 +1,8 @@
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="_util.htm" import="book_browse_link"/>
+
+
 <%!
 from model.zsite_book import zsite_book_by_lib
 %>
@@ -23,12 +26,13 @@ href="http://book.douban.com/subject/${book.douban_id}/">豆瓣链接</a>
 <%
 book_list = zsite_book_by_lib(book.id)
 %>
-<p>当前库存 ${len(book_list)} 本 
-</p>
+<p>共 ${len(book_list)} 本</p>
 %if book_list:
 <div class="bookli">
 %for bk in book_list:
-<div><span>编号 : ${bk.id}</span> <a href="/book/browse/${bk.id}">借阅</a></div>
+<div><span>编号 : ${bk.id}</span>\
+${book_browse_link(bk)}
+</div>
 %endfor
 </div>
 %endif

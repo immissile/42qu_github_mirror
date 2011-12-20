@@ -5,7 +5,7 @@ from _urlmap import urlmap
 from tornado import httpclient
 import tornado.web
 import logging
-from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite, zsite_book_lib_new, zsite_book_lib
+from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite, zsite_book_lib_new, zsite_book_lib, ZsiteBookLib
 
 
 @urlmap('/book/browse/(\d+)')
