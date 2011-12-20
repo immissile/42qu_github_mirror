@@ -324,6 +324,7 @@
   font-weight: bold !important;
 }
 .codesh{
+word-break:normal;
 border:1px dotted #ccc;
 margin:14px 0;
 }
