@@ -5,6 +5,7 @@ from tag import tag_new, tag_get
 from zkit.attrcache import attrcache
 from zkit.mc_func import mc_func_get_list, mc_func_get_dict
 from spammer import anti_same_post
+from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME
 
 CID_JOB = 1
 CID_EDU = 2
@@ -155,7 +156,6 @@ def career_current(user_id):
         return o.unit, o.title
     else:
         from user_school import user_school_tuple
-        from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME
         school = user_school_tuple(user_id)
         if school:
             school = school[0]
@@ -193,4 +193,3 @@ def mc_flush(user_id, cid):
 
 if __name__ == '__main__':
     from yajl import dumps
-    print career_list_all(10026433)[0].unit
