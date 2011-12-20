@@ -8,6 +8,8 @@ from model.cid import CID_BOOK
 from txt import txt_new
 
 
+
+# DROP TABLE IF EXISTS `zpage`.`zsite_book_lib`;
 # CREATE TABLE  `zpage`.`zsite_book_lib` (
 #   `id` int(10) unsigned NOT NULL auto_increment,
 #   `book_id` int(10) unsigned NOT NULL default '0',
@@ -19,20 +21,16 @@ from txt import txt_new
 #   KEY `Index_3` (`book_id`,`state`),
 #   KEY `Index_2` USING BTREE (`owner_id`)
 # ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=binary;
-
+# 
+# DROP TABLE IF EXISTS `zpage`.`zsite_book_browse`;
 # CREATE TABLE `zpage`.`zsite_book_browse` (
 #   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-#   `owner_id` INTEGER UNSIGNED NOT NULL,
-#   `to_id` INTEGER UNSIGNED NOT NULL,
 #   `expire` INTEGER UNSIGNED NOT NULL,
-#   `book_id` INTEGER UNSIGNED NOT NULL,
-#   `create_time` INTEGER UNSIGNED NOT NULL,
-#   `book_lib_id` INTEGER UNSIGNED NOT NULL,
+#   `begin_time` INTEGER UNSIGNED NOT NULL,
 #   PRIMARY KEY (`id`),
-#   INDEX `Index_2`(`owner_id`, `to_id`),
-#   INDEX `Index_3`(`to_id`)
 # )
-
+# 
+# DROP TABLE IF EXISTS `zpage`.`zsite_book`;
 # CREATE TABLE  `zpage`.`zsite_book` (
 #   `id` int(10) unsigned NOT NULL auto_increment,
 #   `douban_id` int(10) unsigned NOT NULL default '0',
@@ -49,12 +47,30 @@ from txt import txt_new
 #   KEY `Index_2` USING BTREE (`douban_id`),
 #   KEY `Index_3` USING BTREE (`isbn`)
 # ) ENGINE=MyISAM AUTO_INCREMENT=2389 DEFAULT CHARSET=binary;
+# 
+# DROP TABLE IF EXISTS `zpage`.`zsite_book_browse_history`;
+# CREATE TABLE `zpage`.`zsite_book_browse_history` (
+#   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+#   `book_lib_id` INTEGER UNSIGNED NOT NULL,
+#   `begin_time` INTEGER UNSIGNED NOT NULL,
+#   `end_time` INTEGER UNSIGNED NOT NULL,
+#   `user_id` INTEGER UNSIGNED NOT NULL,
+#   PRIMARY KEY (`id`),
+#   INDEX `Index_2`(`user_id`),
+#   INDEX `Index_3`(`book_lib_id`)
+# )
+# ENGINE = MyISAM;
 
 mc_zsite_book_id_by_isbn = McCache('ZsiteBookIdByIsbn:%s')
 
-ZSITE_BOOK_LIB_STATE_EXIST = 10
+ZSITE_BOOK_LIB_STATE_EXIST  = 10
+ZSITE_BOOK_LIB_STATE_BROWSE = 20
+ZSITE_BOOK_LIB_STATE_LOST = 30
 
-class ZsiteBookBrowse(McModel):
+class ZsiteBookBrowseHistory(Model):
+    pass
+
+class ZsiteBookBrowse(Model):
     pass
 
 class ZsiteBookLib(McModel):
