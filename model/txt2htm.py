@@ -5,6 +5,8 @@ import re
 from cgi import escape
 from config import SITE_DOMAIN
 from zkit.bot_txt import  txt_wrap_by, txt_map
+from uuid import uuid4
+
 RE_LINK = re.compile(
 r'((?:https?://[\w\-]+\.)'
 r'[\w\-.%/=+#:~!,\'\*\^@]+'
@@ -25,26 +27,38 @@ HTM_YOUKU = HTM_SWF%'''http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&is
 def replace_space(match):
     return ' '+len(match.groups()[0])*'&nbsp;'
 
-def replace_code(txt):
-    coding = txt[1:-1].replace('\r','\n')
-    pos = coding.find("\n")
-    typ = coding[3:pos]
-    if typ.startswith("#!"):
-        typ = typ[2:]
-        if typ in ('c','c++'):
-            typ = 'cpp'
-    else:
-        typ = ''
-    coding = coding[pos:coding.rfind("\n")]
-    if typ:
-        builder = '<pre class="codebrush brush: %s" type="syntaxhighlighter">%s</pre>'%(typ, coding)
-    else:
-        builder = '<pre>%s</pre>'%coding
 
-    builder = '<div class="codesh">%s</div>'%builder
+class ReplaceCode(object):
+    def __init__(self):
+        self._u2s = {}
 
-    return builder
+    def __call__(self, txt):
+        coding = txt[1:-1].replace('\r','\n')
+        pos = coding.find("\n")
+        typ = coding[3:pos]
+        if typ.startswith("#!"):
+            typ = typ[2:]
+            if typ in ('c','c++'):
+                typ = 'cpp'
+        else:
+            typ = ''
+        coding = coding[pos:coding.rfind("\n")]
+        if typ:
+            builder = '<pre class="codebrush brush: %s" type="syntaxhighlighter">%s</pre>'%(typ, coding)
+        else:
+            builder = '<pre>%s</pre>'%coding
 
+        builder = '<div class="codesh">%s</div>'%builder
+       
+        uuid = uuid4().hex 
+        self._u2s[uuid] = builder 
+
+        return uuid
+
+    def loads(self, txt):
+        for k,v in self._u2s.iteritems():
+            txt = txt.replace(k, v)
+        return txt
 
 def replace_link(match):
     gs = match.groups()
@@ -73,10 +87,12 @@ def txt_withlink(s):
         s = str(s)
     s = "\r".join(map(str.rstrip,s.replace("\r\n","\r").replace("\n","\r").split("\r")))
     s = escape(s)
+    replace_code = ReplaceCode()
+    s = txt_map("\r{{{","\r}}}\r","\r%s\r"%s, replace_code).strip()
     s = RE_BOLD.sub(replace_bold, s)
     s = RE_LINK_TARGET.sub(replace_link, s)
     s = RE_AT.sub(replace_at, s)
-    s = txt_map("\r{{{","\r}}}\r","\r%s\r"%s, replace_code).strip()
+    s = replace_code.loads(s)
     return s
 
 def txt2htm_withlink(s):
@@ -95,7 +111,9 @@ if __name__ == '__main__':
 
     print txt_withlink( """
 {{{#!python
-
+/**
+s
+**/
 def replace_at(match):
 
     prefix, name, url = match.groups()
