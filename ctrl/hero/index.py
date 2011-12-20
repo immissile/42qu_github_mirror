@@ -27,18 +27,32 @@ class Index(Base):
         self.render(zsite_list=zsite_list, page=page)
 
 
-@urlmap("/q/school")
+@urlmap('/q/school')
+@urlmap('/q/school/(\d+)/(\d+)/(\d+)-(\d+)')
 class School(Base):
-    def get(self, n=1):
-        school_id = self.get_argument("school_id", None)
+    def get(self, id=0, year=0, degree=0, n=1):
+        school_id         = self.get_argument('school_id', None)
+        school_year       = self.get_argument('school_year', 0)
+        school_degree     = self.get_argument('school_degree', 0)
+        school_department = self.get_argument('school_department', 0)
+        is_my = int(bool(self.get_argument('is_my', None) == 'on'))
+
         if school_id:
-            school_year = self.get_argument("school_year", 0)
-            school_degree = self.get_argument("school_degree", 0)
-            school_department = self.get_argument('school_department', 0)
-            is_my = (self.get_argument("is_my", None) == 'on')
+            return self.redirect(
+                '/q/school/%s/%s/%s-%s'%(
+                    school_id, school_year, school_degree, school_department
+                )
+            )
 
         zsite_list , page = hero_page(n)
-        self.render(zsite_list=zsite_list, page=page)
+        self.render(
+            zsite_list        = zsite_list        , 
+            page              = page              ,
+            school_id         = school_id         , 
+            school_year       = school_year       ,
+            school_degree     = school_degree     ,
+            school_department = school_department ,       
+        )
 
 
 
