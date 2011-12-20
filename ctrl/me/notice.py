@@ -68,3 +68,5 @@ class Buzz(LoginBase):
             buzz_list=buzz_list(user_id, limit, offset,STATE_BUZZ_RM),
             page=page,
         )
+        raise
+

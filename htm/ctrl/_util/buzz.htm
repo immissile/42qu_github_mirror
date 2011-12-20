@@ -64,26 +64,37 @@ ${title_name('活动')}
 % endif
 </%def>
 
-<%def name="buzz_render_reply(list)">
-% if list:
+<%def name="buzz_render_reply(rlist)">
+% if rlist:
+<%
+from collections import defaultdict
+tlist = defaultdict(list)
+for i in rlist:
+    tlist[i.entry.rid].append(i) 
+%>
 ${title_name('回复')}
 <div class="buzz_win">\
-    % for i in list:
+    % for key,i in tlist.items():
     <%
-    po_id = i.entry.rid
+    po_id = key
     po = Po.mc_get(po_id)
     %>
     <div class="buzz_w">
         <div>
-            <a href="#" class="buzz_li">
-                % if i.entry.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
+            <a href="/j/reply/rm/${key}" style="float:right">X</a>
+        <a href="${po.link}" class="buzz_li">
+                % if po.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
                 ${cnenoverflow(po.name,30)[0]}\
                 % else:
                 ${po.name_with_user}\
                 % endif
             </a>
         </div>
-        <div class="buzz_au">5分钟前 , ${user_link_list(i.from_list)} 等<span class="buzz_cou">${len(i.from_list)}</span>人回复</div>
+        <div class="buzz_au">5分钟前 , 
+            %for c in i:
+            ${user_link_list(c.from_list)}
+            %endfor
+            等<span class="buzz_cou">${len(i)}</span>人回复</div>
     </div>
 % endfor
 </div>
@@ -109,7 +120,7 @@ ${title_name('动态')}
 <div class="buzz_win">\
     % for i in list:
     <div class="buzz_w">
-        %if i.cid == buzz_render_word:
+        %if i.cid == CID_BUZZ_FOLLOW:
             % if i.rid == current_user_id:
             ${user_link_list_with_career(i.from_list)} 关注了我
             % else:
@@ -129,6 +140,7 @@ ${title_name('动态')}
             ${user_link_list(i.from_list)} 参加 ${po_link(i.entry)} 活动
         %endif
     </div>
+##TODO:删除
     %endfor
 </div>
 %endif
@@ -142,7 +154,6 @@ at_list = buzz_show_by_cid(user_id,3,CID_BUZZ_WORD)
 event_list = buzz_show_by_cid(user_id,3,CID_BUZZ_EVENT_JOIN_APPLY)
 event_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_EVENT_FEEDBACK_JOINER))
 event_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_EVENT_FEEDBACK_OWNER))
-event_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_JOIN))
 
 follow_list = buzz_show_by_cid(user_id,3,CID_BUZZ_FOLLOW)
 follow_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_SITE_NEW))

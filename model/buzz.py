@@ -179,7 +179,7 @@ class BuzzEntry(object):
         self.id = id
         self.cid = cid
         self.rid = rid
-        self.from_id_list = OrderedSet([from_id])
+        self.from_id_list = OrderedSet(from_id)
 
 def buzz_pos_update(user_id, li):
     if li:
@@ -210,7 +210,7 @@ def buzz_list(user_id, limit, offset,state = STATE_BUZZ_ACTIVE):
         if key in dic:
             dic[key].from_id_list.add(from_id)
         else:
-            dic[key] = BuzzEntry(id, cid, rid, from_id)
+            dic[key] = BuzzEntry(id, cid, rid, [from_id])
             cls_dic[BUZZ_DIC[cid]].add(rid)
     li = dic.values()
     for cls, id_list in cls_dic.items():
@@ -252,12 +252,20 @@ def buzz_show_by_cid(user_id,limit,cid,state=STATE_BUZZ_ACTIVE):
     li = []
     dic = OrderedDict()
     cls_dic = defaultdict(set)
+    buzz_dic = defaultdict(list)
     for id, from_id, cid, rid in _li:
         cls_dic[Zsite].add(from_id)
         cls_dic[BUZZ_DIC[cid]].add(rid)
-        li.append(BuzzEntry(id, cid, rid, from_id))
+        li.append(BuzzEntry(id, cid, rid, [from_id]))
+        if id not in buzz_dic:
+            buzz_dic[id] =[id, cid,rid,[from_id]]
+        else:
+            buzz_dic[id][3].append(from_id)
+            buzz_dic[id][3]= list(set(buzz_dic[id][3]))
+
     for cls, id_list in cls_dic.items():
         cls_dic[cls] = cls.mc_get_dict(id_list)
+
     for be in li:
         be.from_list = [cls_dic[Zsite][i] for i in be.from_id_list]
         be.entry = cls_dic[BUZZ_DIC[be.cid]][be.rid]
@@ -274,7 +282,7 @@ def buzz_show(user_id, limit, unread=None):
     for id, from_id, cid, rid in _li:
         cls_dic[Zsite].add(from_id)
         cls_dic[BUZZ_DIC[cid]].add(rid)
-        li.append(BuzzEntry(id, cid, rid, from_id))
+        li.append(BuzzEntry(id, cid, rid, [from_id]))
     for cls, id_list in cls_dic.items():
         cls_dic[cls] = cls.mc_get_dict(id_list)
     for be in li:
@@ -296,7 +304,8 @@ def buzz_event_join_new(user_id, event_id, zsite_id):
         if to_id != zsite_id:
             buzz_new(user_id, to_id, CID_BUZZ_JOIN, event_id)
 
-mq_buzz_event_join_new = mq_client(buzz_event_join_new)
+#mq_buzz_event_join_new = mq_client(buzz_event_join_new)
+mq_buzz_event_join_new = buzz_event_join_new
 
 
 def buzz_event_join_apply_new(user_id, zsite_id, event_id):
