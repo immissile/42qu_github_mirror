@@ -9,9 +9,28 @@ from model.zsite_book import zsite_book_by_lib , Zsite
 
 
 <%htm:form id="book_form_new">
-
-w
+%if booklib.is_exist:
+<%htm:form id="book_form_new">
+<div style="margin-bottom:4px">借阅人的邮箱</div>
+<div style="margin-bottom:16px">
+<input type="text" id="mail" name="mail" class="book_input">
+</div>
+<div style="margin-bottom:4px">借阅天数</div> 
+<div style="margin-bottom:16px">
+<input type="text" name="days" value="42"
+class="book_input"
+>
+</div>
+<div>
+<span class="btnw"><button type="submit">新建借阅</button>
+</div>
 </%htm:form>
+<script>$("#mail").focus()</script>
+%elif booklib.is_browse:
+#TODO
+%endif
+</%htm:form>
+
 <div style="margin-top:64px">
    或者 <a href="/book/new/${book.id}">编辑库存</a>
 </div>
