@@ -37,8 +37,7 @@ def po_pos_set(user_id, po, force_buzz=False):
     po_id = po.id
     pos_old, _ = po_pos_get(user_id, po_id)
     if pos > pos_old:
-
-        if force_buzz or (user_id in follow_id_list_by_to_id(po.id)):
+        if force_buzz or (user_id in follow_id_list_by_to_id(po.id,1000,0)):
             po_state = STATE_BUZZ
         else:
             po_state = STATE_MUTE

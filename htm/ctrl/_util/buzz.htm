@@ -22,42 +22,6 @@ id = i.id
 % elif cid == CID_BUZZ_SHOW:
 <span class="buzz_user">${user_career_link(entry)}</span> 入驻
 % elif cid == CID_BUZZ_FOLLOW:
-    % if rid == current_user_id:
-    ${user_link_list_with_career(from_list)} 关注了我
-    % else:
-    ${user_link_list(from_list)} 关注了 ${user_career_link(entry)}
-    % endif
-% elif cid == CID_BUZZ_WALL:
-<%
-to = Zsite.mc_get(entry.to_id)
-%>
-${user_link_list(from_list)} 对话 ${user_link(to)}, <a href="${to.link}${entry.link}" target="_blank">点此浏览</a>
-% elif cid == CID_BUZZ_WALL_REPLY:
-${user_link_list(from_list)} \
-<%
-e_from_id = entry.from_id
-e_to_id = entry.to_id
-e_from = Zsite.mc_get(e_from_id)
-e_to = Zsite.mc_get(e_to_id)
-%>
-% if len(from_list) == 1:
-<%
-from_user = from_list[0]
-from_id = from_user.id
-%>
-% if from_id == e_from_id:
-答复 ${user_link(e_to)} 的 \
-% elif from_id == e_to_id:
-答复 ${user_link(e_from)} 的 \
-% else:
-回复 ${user_link(e_from)} 给 ${user_link(e_to)} 的 \
-% endif
-% elif set(i.from_id_list) & entry.zsite_id_list():
-相互 \
-% else:
-回复 ${user_link(e_from)} 给 ${user_link(e_to)} 的 \
-% endif
-留言, <a href="${e_to.link}${entry.link}" target="_blank">点此浏览</a>
 
 % elif cid == CID_BUZZ_ANSWER:
 ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}\
@@ -66,26 +30,6 @@ ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}\
 #replyer${from_list[0].id}\
 %endif
 ">${entry.name}</a>\
-%elif cid == CID_BUZZ_WORD:
-${user_link_list(from_list)} : <span class="buzz_txt">${entry.htm|n}</span><a target="_blank" class="zsite_reply" href="${entry.link}"></a>
-% elif cid == CID_BUZZ_JOIN:
-${user_link_list(from_list)} 参加 ${po_link(entry)} 活动
-% elif cid == CID_BUZZ_EVENT_JOIN_APPLY:
-${user_link_list(from_list)} 报名 ${po_link(entry)} 活动 , <a href="/event/check/${rid}" target="_blank">点此确认</a> 
-% elif cid == CID_BUZZ_EVENT_FEEDBACK_OWNER:
-${user_link_list(from_list)} 总结了 ${po_link(entry)} 活动 , <a href="/${rid}" target="_blank">点此浏览</a>
-% elif cid == CID_BUZZ_EVENT_FEEDBACK_JOINER:
-${user_link_list(from_list)} 评论了 ${po_link(entry)} 活动 , <a href="/${rid}" target="_blank">点此浏览</a>
-%elif cid in (CID_BUZZ_SITE_NEW,CID_BUZZ_SITE_FAV):
-${user_link_list(from_list)} 
-    %if cid == CID_BUZZ_SITE_NEW:
-创建
-    %else:
-收藏
-    %endif
-%if entry:
-${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}</a>
-%endif
 % endif
 </%def>
 
@@ -98,8 +42,22 @@ ${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}
 ${title_name('活动')}
 <div class="buzz_win">\
     % for i in event_list:
+    <%
+    cid = i.cid
+    from_list = i.from_list
+    entry = i.entry
+    rid = i.rid
+    %>
     <div class="buzz_w">
-        ${buzz_render(i)}\
+        % if cid == CID_BUZZ_JOIN:
+        ${user_link_list(from_list)} 参加 ${po_link(entry)} 活动
+        % elif cid == CID_BUZZ_EVENT_JOIN_APPLY:
+        ${user_link_list(from_list)} 报名 ${po_link(entry)} 活动 , <a href="/event/check/${rid}" target="_blank">点此确认</a> 
+        % elif cid == CID_BUZZ_EVENT_FEEDBACK_OWNER:
+        ${user_link_list(from_list)} 总结了 ${po_link(entry)} 活动 , <a href="/${rid}" target="_blank">点此浏览</a>
+        % elif cid == CID_BUZZ_EVENT_FEEDBACK_JOINER:
+        ${user_link_list(from_list)} 评论了 ${po_link(entry)} 活动 , <a href="/${rid}" target="_blank">点此浏览</a>
+        %endif
     </div>
     % endfor
 </div>\
@@ -132,24 +90,73 @@ ${title_name('回复')}
 % endif
 </%def>
 
-<%def name="buzz_render_()">
+<%def name="buzz_render_at(list)">
+% if list:
+    ${title_name('@了我')}
+    <div class="buzz_win">\
+        % for i in list:
+            <div class="buzz_w">
+                ${user_link_list(i.from_list)} : <span class="buzz_txt">${i.entry.htm|n}</span><a target="_blank" class="zsite_reply" href="${i.entry.link}"></a>
+            </div>
+        %endfor
+    </div>
+%endif
+</%def>
 
+<%def name="buzz_render_follow(list)">
+% if list:
+${title_name('动态')}
+<div class="buzz_win">\
+    % for i in list:
+    <div class="buzz_w">
+        %if i.cid == buzz_render_word:
+            % if i.rid == current_user_id:
+            ${user_link_list_with_career(i.from_list)} 关注了我
+            % else:
+            ${user_link_list(i.from_list)} 关注了 ${user_career_link(i.entry)}
+            % endif
+        %elif i.cid in (CID_BUZZ_SITE_NEW,CID_BUZZ_SITE_FAV):
+            ${user_link_list(i.from_list)} 
+                %if i.cid == CID_BUZZ_SITE_NEW:
+            创建
+                %else:
+            收藏
+                %endif
+            %if i.entry:
+            ${CID_ZSITE_CN[i.entry.cid]} <a href="${i.entry.link}" target="_blank">${i.entry.name}</a>
+            %endif
+        %elif i.cid == CID_BUZZ_JOIN:
+            ${user_link_list(i.from_list)} 参加 ${po_link(i.entry)} 活动
+        %endif
+    </div>
+    %endfor
+</div>
+%endif
 </%def>
 
 
 <%def name="buzz_show(user_id)">
 <%
+at_list = buzz_show_by_cid(user_id,3,CID_BUZZ_WORD)
+
 event_list = buzz_show_by_cid(user_id,3,CID_BUZZ_EVENT_JOIN_APPLY)
 event_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_EVENT_FEEDBACK_JOINER))
 event_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_EVENT_FEEDBACK_OWNER))
-reply_list = buzz_show_by_cid(user_id,3,CID_BUZZ_PO_REPLY)
-wall_list = buzz_show_by_cid(user_id,3,CID_BUZZ_WALL_REPLY) 
+event_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_JOIN))
+
 follow_list = buzz_show_by_cid(user_id,3,CID_BUZZ_FOLLOW)
-unread = buzz_unread_count(user_id)
-buzz_list = _buzz_show(user_id, 3, unread)
+follow_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_SITE_NEW))
+follow_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_SITE_FAV))
+follow_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_JOIN))
+
+reply_list = buzz_show_by_cid(user_id,3,CID_BUZZ_PO_REPLY)
+reply_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_ANSWER))
+
 %>
 
+${buzz_render_at(at_list)}
 ${buzz_render_event(event_list)}
 ${buzz_render_reply(reply_list)}
+${buzz_render_follow(follow_list)}
 
 </%def>
