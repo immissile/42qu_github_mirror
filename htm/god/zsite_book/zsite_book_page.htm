@@ -13,7 +13,7 @@ zsite = book.zsite
 <a href="/book/new/${book.book_id}">${zsite.name}</a>
 <div>
 <span class="R">\
-%if book.state == ZSITE_BOOK_LIB_STATE_EXIST:
+%if book.is_exist:
 <a href="/book/browse/${book.book_id}">借阅</a>
 %else:
 ${ZSITE_BOOK_LIB_STATE2CN[book.state]}\

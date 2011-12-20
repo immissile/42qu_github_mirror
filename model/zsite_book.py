@@ -80,7 +80,9 @@ class ZsiteBookBrowse(Model):
     pass
 
 class ZsiteBookLib(McModel):
-    pass
+    @property
+    def is_exist(self):
+        return self.state == ZSITE_BOOK_LIB_STATE_EXIST
 
 class ZsiteBook(McModel):
     pass
