@@ -1,16 +1,18 @@
 <%inherit file="../base.htm" />
-<%namespace file="/ctrl/_util/hero.htm" import="hero_list"/>
+<%namespace file="/ctrl/_util/hero.htm" import="hero_list_with_star"/>
 <%def name="head()">
 ${css.ctrl_school|n}
+${css.ctrl_index|n}
 <script src="${js.date}"></script>
 <script src="${js.school}"></script>
 <script src="${js.school_ctrl}"></script>
 </%def>
 
 <script id="school_tmpl" type="text/x-jquery-tmpl">
-    <input type="hidden" class="id" name="id">
-    <input type="hidden" name="school_id"  value="" class="school_id">
-<input  value="请选择学校" autocomplete="off" type="text" class="school">
+<div>
+<input type="hidden" class="id" name="id">
+<input type="hidden" name="school_id"  value="" class="school_id">
+<input value="请选择学校" autocomplete="off" type="text" class="school">
 <a href="javascript:void(0)" class="x rm"></a>
         <select name="school_department" class="school_department"><option value="0">选择院系</option></select></select>
 <select name="school_year" class="school_year"></select>
@@ -26,6 +28,7 @@ ${css.ctrl_school|n}
         </select>
 <button type="submit">搜索</button>
 <input type="checkbox">添加到我的履历
+</div>
 </script>
 
 <div class="G c">
@@ -37,7 +40,7 @@ ${css.ctrl_school|n}
 <form style="border-bottom:1px dotted #ccc"  action="/q" id="school">\
 </form>\
 <div class="G">
-${hero_list(zsite_list,3)}
+${hero_list_with_star(zsite_list,3)}
 </div></div>
 ${page|n}
 </div>
