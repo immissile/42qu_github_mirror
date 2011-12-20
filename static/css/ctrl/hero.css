@@ -38,3 +38,23 @@ _margin-top:12px;
 .C{
 padding-bottom:16px;
 }
+.site_fav_a{
+	display:inline-block;
+	width:20px;
+	height:16px;
+	margin-top:2px;
+	background:url("/img/png/plus.png") #fff no-repeat 0 -16px;
+	float:right;
+}
+.site_fav_a:hover{
+	background:url("/img/png/plus.png") no-repeat 0 0px #fff;
+}
+.site_faved
+{
+	display:inline-block;
+	width:20px;
+	height:16px;
+	margin-top:2px;
+	background:url("/img/png/plus.png") #fff no-repeat 0 -30px;
+	float:right;
+}
