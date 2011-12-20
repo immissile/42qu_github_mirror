@@ -27,3 +27,7 @@ class Index(Base):
         self.render(zsite_list=zsite_list, page=page)
 
 
+@urlmap("/q/school")
+class School(Base):
+    def get(self):
+        self.render()
