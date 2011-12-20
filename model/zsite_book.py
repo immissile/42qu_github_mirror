@@ -52,7 +52,7 @@ def zsite_book_id_by_isbn(isbn):
 
 def zsite_book_lib():
     l = list(ZsiteBookLib.where())
-    Zsite.mc_bind(l,"zsite","book_id")
+    Zsite.mc_bind(l, 'zsite', 'book_id')
     return l
 
 def zsite_book_by_lib(book_id):
@@ -64,7 +64,7 @@ def zsite_book_lib_new(book_id, total):
         return
     for i in range(total):
         book = ZsiteBookLib(
-            book_id = book_id,
+            book_id=book_id,
             state=ZSITE_BOOK_LIB_STATE_EXIST
         )
         book.save()
@@ -131,4 +131,5 @@ def isbn10to13(number):
 if __name__ == '__main__':
     #for j, i in enumerate(Zsite.where(cid=CID_COM)):
     #print i.name, j
-    print isbn10to13(7543639130)
+    #print isbn10to13(7543639130)
+    pass
