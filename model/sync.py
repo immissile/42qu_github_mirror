@@ -6,6 +6,7 @@ from oauth_update import sync_by_oauth_id
 from oauth import OauthToken
 from config import SITE_DOMAIN
 from cid import CID_EVENT, CID_NOTE, CID_WORD, CID_AUDIO, CID_VIDEO, CID_PHOTO, CID_REVIEW
+from zkit.txt import cnencut
 from mq import mq_client
 from model.zsite import Zsite
 from oauth_follow import oauth_follow_by_oauth_id
@@ -127,6 +128,8 @@ def sync_join_event(id, event_id):
     for oauth_id in s:
         sync_by_oauth_id(oauth_id, '报名活动 : '+ po.name_, 'http:%s'%po.link)
 
+
+
 def sync_recommend(id, po_id):
     from po import Po
     p = Po.mc_get(po_id)
@@ -134,7 +137,10 @@ def sync_recommend(id, po_id):
     for oauth_id in s:
         rec_po = Po.mc_get(p.rid)
         if rec_po:
-            sync_by_oauth_id(oauth_id, '分享 : ' + rec_po.name_[:20] + ' 评语 : '+ p.name_[:20] , 'http:%s'%p.link)
+            txt = cnencut(p.name_, 20)
+            if txt:
+                txt = '%s -> '%txt
+            sync_by_oauth_id(oauth_id, txt + cnencut(rec_po.name_,50)  , 'http:%s'%rec_po.link)
 
 mq_sync_recommend_by_zsite_id = mq_client(sync_recommend)
 
@@ -165,5 +171,5 @@ def sync_follow(follow):
 
 
 if __name__ == '__main__':
-    sync_po_by_zsite_id(10076346, 10076346)
+    #sync_po_by_zsite_id(10076346, 10076346)
     pass
