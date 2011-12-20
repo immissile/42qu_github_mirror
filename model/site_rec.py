@@ -13,21 +13,21 @@ from model.zsite import Zsite
 from kv import Kv
 from model.zsite import  Zsite
 from model.cid import CID_SITE
-from model.zsite_fav import zsite_fav_new, zsite_fav_rm
+from model.zsite_fav import zsite_fav_new
 from model.top_rec import top_rec_unmark, TOP_REC_CID_SITE_REC, top_rec_mark
 
 
 SiteRec = Kv('site_rec', 0)
-SiteRecNew = Kv('site_rec_new', 0)
-
 
 class SiteRecHistory(Model):
     pass
 
 def site_rec(user_id):
-    zsite_id = SiteRecNew.get(user_id)
+    zsite_id = SiteRec.get(user_id)
     if zsite_id:
-        return Zsite.mc_get_list(map(int,zsite_id.split()))
+        return Zsite.mc_get(zsite_id)
+
+
 
 def site_rec_feeckback(user_id, zsite_id, state):
     site = Zsite.mc_get(zsite_id)
@@ -42,9 +42,6 @@ def site_rec_feeckback(user_id, zsite_id, state):
 
     if state == SITE_REC_STATE_FAV:
         zsite_fav_new(site, user_id)
-    if state ==SITE_REC_STATE_REJECT : 
-        zsite_fav_rm(site,user_id)
-
 
     SiteRecHistory(
         user_id=user_id, zsite_id=zsite_id, state=state

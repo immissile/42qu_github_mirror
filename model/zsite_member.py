@@ -27,8 +27,7 @@ def zsite_id_count_by_member_admin(id):
 def zsite_member_new(
     zsite_id,
     member_id,
-    state=ZSITE_MEMBER_STATE_INVITE,
-    cid=CID_ZSITE_LIST_MEMBER
+    state=ZSITE_MEMBER_STATE_INVITE
 ):
     id, _state = zsite_list_id_state(zsite_id, member_id, CID_ZSITE_LIST_MEMBER)
     if _state < state:
@@ -100,12 +99,15 @@ def zsite_member_with_review(id):
 
 
 if __name__ == '__main__':
-    user = """http://shenpeng.42qu.com/
-http://wangx.42qu.com/
-http://yuanqz.42qu.com/
-http://10178419.42qu.com/
+    user = """
+http://gongjun.42qu.com/
+http://zhengtao.42qu.com/
+http://shanfeng.42qu.com/
+http://hijava.42qu.com/
+http://10027580.42qu.com/
+http://10020850.42qu.com/
 """
-    zsite_id = 10178529
+    zsite_id = 10186434 
     from zsite_url import id_by_url
     for i in user.split():
         url = i[7:i.find(".")]

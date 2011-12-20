@@ -1,3 +1,88 @@
 body{
-background:#000  url(/img/jpg/bg/starsea.jpg) repeat;
 }
+input,pre,body,button,select,textarea{
+font:14px/28px Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif;
+}
+body,img,a,div,span,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,textarea,th,td,tr,input{
+margin:0;padding:0;
+}
+h1,h2,h3,h4,h5,h6,p{
+font-size:100%;
+font-weight:normal;
+line-height:28px;
+}
+b{font-weight:bold}
+code{font-family:courier new,courier,monospace;}
+small{font-size:12px;}
+a{text-decoration:none;color:#01a}
+a:hover{text-decoration:none;color:#d10}
+sup{vertical-align:text-top;}
+sub{vertical-align:text-bottom;}
+textarea{overflow:auto;resize:none;border:1px solid #ccc}
+input,button,select,textarea{font-size:14px;line-height:28px;}
+textarea,input,a{outline: none;}
+div{cursor:default;}
+a div,a p{cursor:pointer;}
+pre{
+word-wrap:break-word;
+overflow:hidden;
+word-break:break-all;
+white-space: pre-wrap;
+white-space:-moz-pre-wrap;
+*white-space: pre;
+*word-wrap: break-word;
+}
+table{
+border-collapse:collapse;
+border-spacing:0;
+border:0;
+}
+.table td,.table th{padding:6px;border-bottom:1px solid #eee;}
+.table th{border-bottom:1px solid #eee;}
+.table{
+margin:auto;
+border:1px solid #f3f3f3;
+}
+fieldset,img {border:0;}
+address,caption,cite,code,dfn,em,strong,var {font-style:normal;font-weight:normal;}
+ul {list-style:none;}
+caption,th {text-align:left;}
+q:before,q:after {content:'';}
+
+/*清除浮动*/
+/*
+.c:after {
+    content: ".";
+    display: block;
+    height: 0;
+    font-size: 0;
+    clear: both;
+    visibility: hidden;
+}
+.c {zoom:1;}
+*/
+.c9{color:#999}
+.tr{text-align:right}
+.tl{text-align:left}
+.tc{text-align:center}
+.L{float:left}
+.R{float:right}
+.f16{
+font-size:16px;
+}
+.pd16{padding:16px}
+.pb14{padding-bottom:14px;}
+.mg03{ margin:0 3px; }
+.mt32{margin-top:32px;}
+.mt27{margin-top:27px;}
+.c0{
+color:#000;
+}
+.c00f{
+color:#00f
+}
+.f12{font-size:12px}
+.f13{font-size:13px}
+.f14{font-size:14px}
+.f16{font-size:16px}
+embed{outline:0}

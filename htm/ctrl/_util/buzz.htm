@@ -1,7 +1,7 @@
 <%!
 from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_CN , CID_BUZZ_WORD, CID_REVIEW
 from model.zsite import Zsite
-from model.buzz import buzz_show as _buzz_show, buzz_unread_count
+from model.buzz import buzz_show as _buzz_show, buzz_unread_count, buzz_show_by_cid
 from zkit.txt import cnenoverflow
 from model.po_event import event_feedback_id_get
 from model.po import Po
@@ -15,6 +15,7 @@ rid = i.rid
 from_list = i.from_list
 from_list = filter(bool, from_list)
 entry = i.entry
+id = i.id
 %>\
 % if cid == CID_BUZZ_SYS:
 <s class="buzz_sys">${entry.htm|n}</span>
@@ -57,20 +58,6 @@ from_id = from_user.id
 回复 ${user_link(e_from)} 给 ${user_link(e_to)} 的 \
 % endif
 留言, <a href="${e_to.link}${entry.link}" target="_blank">点此浏览</a>
-% elif cid == CID_BUZZ_PO_REPLY:
-<%
-po_id = entry.rid
-po = Po.mc_get(po_id)
-%>
-<div>
-<a href="#" class="buzz_li">
-    % if entry.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
-${cnenoverflow(po.name,30)[0]}\
-    % else:
-${po.name_with_user}\
-    % endif
-</a></div>
-<div class="buzz_au">5分钟前 , ${user_link_list(from_list)} 等<span class="buzz_cou">${len(from_list)}</span>人回复</div>
 
 % elif cid == CID_BUZZ_ANSWER:
 ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}\
@@ -102,26 +89,67 @@ ${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}
 % endif
 </%def>
 
-<%def name="buzz_show(user_id)">
-<%
-unread = buzz_unread_count(user_id)
-buzz_list = _buzz_show(user_id, 3, unread)
-unread = unread-len(buzz_list)
-%>
-% if buzz_list:
-<p class="right_title">新提醒</p>
+<%def name="title_name(i)">
+<p class="right_title">${i}</p>
+</%def>
+
+<%def name="buzz_render_event(event_list)">
+% if event_list:
+${title_name('活动')}
 <div class="buzz_win">\
-    % for i in buzz_list:
+    % for i in event_list:
     <div class="buzz_w">
-${buzz_render(i)}\
+        ${buzz_render(i)}\
     </div>
     % endfor
 </div>\
-##<a href="javascript:$('#buzz').slideUp();void(0)" id="buzzrm"></a>
-##% if unread:
-##未读
-##<div class="buzz_c"><a href="#">等<span class="mg03">${unread}</span>条 ...</a></div>
-##% endif
-##</div>
 % endif
+</%def>
+
+<%def name="buzz_render_reply(list)">
+% if list:
+${title_name('回复')}
+<div class="buzz_win">\
+    % for i in list:
+    <%
+    po_id = i.entry.rid
+    po = Po.mc_get(po_id)
+    %>
+    <div class="buzz_w">
+        <div>
+            <a href="#" class="buzz_li">
+                % if i.entry.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
+                ${cnenoverflow(po.name,30)[0]}\
+                % else:
+                ${po.name_with_user}\
+                % endif
+            </a>
+        </div>
+        <div class="buzz_au">5分钟前 , ${user_link_list(i.from_list)} 等<span class="buzz_cou">${len(i.from_list)}</span>人回复</div>
+    </div>
+% endfor
+</div>
+% endif
+</%def>
+
+<%def name="buzz_render_()">
+
+</%def>
+
+
+<%def name="buzz_show(user_id)">
+<%
+event_list = buzz_show_by_cid(user_id,3,CID_BUZZ_EVENT_JOIN_APPLY)
+event_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_EVENT_FEEDBACK_JOINER))
+event_list.extend(buzz_show_by_cid(user_id,3,CID_BUZZ_EVENT_FEEDBACK_OWNER))
+reply_list = buzz_show_by_cid(user_id,3,CID_BUZZ_PO_REPLY)
+wall_list = buzz_show_by_cid(user_id,3,CID_BUZZ_WALL_REPLY) 
+follow_list = buzz_show_by_cid(user_id,3,CID_BUZZ_FOLLOW)
+unread = buzz_unread_count(user_id)
+buzz_list = _buzz_show(user_id, 3, unread)
+%>
+
+${buzz_render_event(event_list)}
+${buzz_render_reply(reply_list)}
+
 </%def>

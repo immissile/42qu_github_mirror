@@ -1,0 +1,13 @@
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+
+
+%for book in page_list:
+<%
+zsite = book.zsite
+%>
+<div>
+${zsite.id} <a href="/book/new/${book.book_id}">${zsite.name}</a>
+</div>
+%endfor

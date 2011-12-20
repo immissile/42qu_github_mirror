@@ -16,7 +16,7 @@ def can_rec_site_id_list():
     for i in ormiter(Zsite, 'cid=%s'%CID_SITE):
         zsite_id = i.id
         count = po_cid_count_by_zsite_id(zsite_id, CID_NOTE)
-        if count > 1:
+        if count > 5:
             result.append(zsite_id)
     return set(result)
 
@@ -45,8 +45,8 @@ def user_id_site_can_rec():
 
 
 def site_rec_by_user_id(user_id, can_rec_id_list):
-    #site_id = choice(list(can_rec_id_list))
-    return list(can_rec_id_list)[:3]
+    site_id = choice(list(can_rec_id_list))
+    return site_id
 
 def run():
     for user_id, can_rec_id_list in user_id_site_can_rec():
