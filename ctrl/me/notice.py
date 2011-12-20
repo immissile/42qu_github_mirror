@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
+from model.buzz import Buzz as _Buzz,buzz_set_read
 from model.notice import notice_list, notice_count, notice_unread, Notice as N
 from model.state import STATE_APPLY,STATE_BUZZ_ACTIVE, STATE_BUZZ_RM
 from zkit.page import page_limit_offset
@@ -48,8 +49,6 @@ class Notice(LoginBase):
                 return self.redirect(link)
         return self.redirect('/notice')
 
-
-
 @urlmap('/notice/buzz')
 @urlmap('/notice/buzz-(\d+)')
 class Buzz(LoginBase):
@@ -68,5 +67,7 @@ class Buzz(LoginBase):
             buzz_list=buzz_list(user_id, limit, offset,STATE_BUZZ_RM),
             page=page,
         )
-        raise
+        a_buzz_list = _Buzz.where(to_id=user_id)
+        for buzz in a_buzz_list:
+            buzz_set_read(user_id,buzz.id)
 

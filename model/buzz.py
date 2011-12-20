@@ -22,6 +22,7 @@ from zkit.ordereddict import OrderedDict
 from zsite_url import id_by_url
 from collections import defaultdict
 
+
 class Buzz(Model):
     pass
 
@@ -40,6 +41,17 @@ def buzz_set_read(user_id, buzz_id):
         buzz.state = STATE_BUZZ_RM
         buzz.save()
     mc_flush(user_id)
+
+
+def clear_buzz_by_po_id(user_id,po_id):
+    po = Po.mc_get(po_id)
+    if po:
+        reply_id_list = po.reply_id_list()
+        for reply in reply_id_list:
+            buzz_list = Buzz.where(to_id = user_id).where(cid=CID_BUZZ_PO_REPLY).where(rid = reply)
+            if buzz_list:
+                for buzz in buzz_list:
+                    buzz_set_read(user_id,buzz.id)
 
 def buzz_unread_count(user_id):
     #count = buzz_unread.get(user_id)
