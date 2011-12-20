@@ -10,24 +10,22 @@ ${css.ctrl_index|n}
 
 <script id="school_tmpl" type="text/x-jquery-tmpl">
 <div>
-<input type="hidden" class="id" name="id">
 <input type="hidden" name="school_id"  value="" class="school_id">
 <input value="请选择学校" autocomplete="off" type="text" class="school">
-<a href="javascript:void(0)" class="x rm"></a>
-        <select name="school_department" class="school_department"><option value="0">选择院系</option></select></select>
+<select name="school_department" class="school_department"><option value="0">选择院系</option></select></select>
 <select name="school_year" class="school_year"></select>
-        <select name="school_degree" class="school_degree">
-            <option value="0">选择类型</option>
-            <option value="1">本科</option>
-            <option value="2">大专</option>
-            <option value="3">硕士</option>
-            <option value="4">博士</option>
-            <option value="5">博士后</option>
-            <option value="6">校工</option>
-            <option value="7">教师</option>
-        </select>
+<select name="school_degree" class="school_degree">
+<option value="0">选择类型</option>
+<option value="1">本科</option>
+<option value="2">大专</option>
+<option value="3">硕士</option>
+<option value="4">博士</option>
+<option value="5">博士后</option>
+<option value="6">校工</option>
+<option value="7">教师</option>
+</select>
 <button type="submit">搜索</button>
-<input type="checkbox">添加到我的履历
+<input name="is_my" type="checkbox" id="is_my"><label for="is_my">追加到我的履历</label>
 </div>
 </script>
 
