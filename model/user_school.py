@@ -16,6 +16,8 @@ class UserSchool(McModel):
 def mc_flush(user_id):
     mc_user_school_id_list.delete(user_id)
     mc_user_school_tuple.delete(user_id)
+    from model.career import mc_career_current
+    mc_career_current.delete(user_id) 
 
 @mc_user_school_id_list('{user_id}')
 def user_school_id_list(user_id):
@@ -75,4 +77,4 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
 
 if __name__ == '__main__':
     pass
-    print user_school_json(10000000)
+    print mc_flush(10000000)
