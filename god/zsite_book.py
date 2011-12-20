@@ -7,22 +7,14 @@ import tornado.web
 import logging
 from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite, zsite_book_lib_new, zsite_book_lib, ZsiteBookLib
 
-@urlmap('/book/return/(\d+)')
-class BookReturn(Base):
-    def get(self, id):
-        booklib = ZsiteBookLib.mc_get(id)
-        if booklib and booklib.is_browse:
-            self.render(booklib=booklib)
-        return self.redirect("/book")
 
 
-@urlmap('/book/browse/(\d+)')
-class BookBrowse(Base):
+@urlmap('/book/lib/(\d+)')
+class BookLib(Base):
     def get(self, id):
         booklib = ZsiteBookLib.mc_get(id)
-        if booklib and booklib.is_exist:
-            self.render(booklib=booklib)
-        return self.redirect("/book")
+        book = ZsiteBook.mc_get(booklib.book_id)
+        self.render(booklib=booklib, book=book)
 
 @urlmap('/book-(\d+)')
 class ZsiteBookPage(Base):
