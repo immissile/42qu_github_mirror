@@ -9,6 +9,7 @@ from model.pic import mq_pic_rm_mail
 from model.zsite import mq_zsite_verify_mail
 from model.event import mq_event_kill_extra
 from model.po_recommend import mq_rm_rec_po_by_po_id
+from model.sync import mq_sync_recommend_by_zsite_id
 
 def run():
     mq_server()

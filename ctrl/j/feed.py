@@ -19,7 +19,7 @@ from model.po_video import CID_VIDEO, video_htm_autoplay
 from model.event import Event
 from zkit.time_format import friendly_time
 from model.fav import fav_add, fav_rm
-#from model.sync import mq_sync_recommend_by_zsite_id
+from model.sync import mq_sync_recommend_by_zsite_id,sync_recommend
 from cgi import escape
 from ctrl.j.po import post_reply
 from model.zsite import zsite_name_id_dict
@@ -78,12 +78,13 @@ class FeedUp(JLoginBase):
             if sync == 'true':
                 reply_id = post_reply(self, id)
 
-            po_recommend_new(id, current_user_id, txt, reply_id)
+            rec = po_recommend_new(id, current_user_id, txt, reply_id)
 
         if not self._finished:
             self.finish('{}')
 
-#mq_sync_recommend_by_zsite_id(current_user_id,id)
+        mq_sync_recommend_by_zsite_id(current_user_id,rec.id)
+        #sync_recommend(current_user_id,rec.id)
 
 
 @urlmap('/j/feed/(\d+)')
