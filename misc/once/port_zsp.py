@@ -32,8 +32,8 @@ for pos, i in enumerate(data):
 
     _name = i[1]
     name = replace_name(_name)
-    if not name:
-        continue
+    print name
+    if not name: continue
     c = []
     maxlen = 0
 
@@ -54,8 +54,6 @@ for pos, i in enumerate(data):
 
     if ok:
         name = i[2].encode('utf-8')
-        if not name:
-            continue
         p = []
         maxlen = 0
 
