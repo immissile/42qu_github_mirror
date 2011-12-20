@@ -30,5 +30,14 @@ class Index(Base):
 @urlmap("/q/school")
 class School(Base):
     def get(self, n=1):
+        school_id = self.get_argument("school_id", None)
+        school_year = self.get_argument("school_year", None)
+        school_degree = self.get_argument("school_degree", None)
+        school_department = self.get_argument('school_department', None)
+        is_my = self.get_argument("is_my", None) == 'on'
+
         zsite_list , page = hero_page(n)
         self.render(zsite_list=zsite_list, page=page)
+
+
+
