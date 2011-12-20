@@ -67,6 +67,12 @@ ZSITE_BOOK_LIB_STATE_EXIST  = 10
 ZSITE_BOOK_LIB_STATE_BROWSE = 20
 ZSITE_BOOK_LIB_STATE_LOST = 30
 
+ZSITE_BOOK_LIB_STATE2CN = {
+    ZSITE_BOOK_LIB_STATE_EXIST  : "在库" ,
+    ZSITE_BOOK_LIB_STATE_BROWSE : "借出" , 
+    ZSITE_BOOK_LIB_STATE_LOST   : "丢失" ,
+}
+
 class ZsiteBookBrowseHistory(Model):
     pass
 
@@ -99,7 +105,7 @@ def zsite_book_id_by_isbn(isbn):
     return 0
 
 def zsite_book_lib():
-    l = list(ZsiteBookLib.where())
+    l = list(ZsiteBookLib.where().order_by('book_id desc'))
     Zsite.mc_bind(l, 'zsite', 'book_id')
     return l
 

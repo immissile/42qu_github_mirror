@@ -1,13 +1,26 @@
+<%!
+from model.zsite_book import ZSITE_BOOK_LIB_STATE2CN, ZSITE_BOOK_LIB_STATE_EXIST 
+%>
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
-
-
+<div class="G bookG">
 %for book in page_list:
 <%
 zsite = book.zsite
 %>
+<div class="G1">
+<a href="/book/new/${book.book_id}">${zsite.name}</a>
 <div>
-${zsite.id} <a href="/book/new/${book.book_id}">${zsite.name}</a>
+<span class="R">\
+%if book.state == ZSITE_BOOK_LIB_STATE_EXIST:
+<a href="/book/browse/${book.book_id}">借阅</a>
+%else:
+${ZSITE_BOOK_LIB_STATE2CN[book.state]}\
+%endif
+</span>
+编号 . ${book.id} 
+</div>
 </div>
 %endfor
+</div>
