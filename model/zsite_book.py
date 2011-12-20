@@ -16,7 +16,7 @@ from txt import txt_new
 #   `owner_id` int(10) unsigned NOT NULL default '0',
 #   `state` int(10) unsigned NOT NULL default '0',
 #   `pid` int(10) unsigned NOT NULL default '0',
-#   `address_id` int(10) unsigned NOT NULL default '0',
+#   `from_id` int(10) unsigned NOT NULL default '0',
 #   PRIMARY KEY  (`id`),
 #   KEY `Index_3` (`book_id`,`state`),
 #   KEY `Index_2` USING BTREE (`owner_id`)
