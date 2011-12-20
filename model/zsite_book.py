@@ -7,7 +7,7 @@ from model.zsite import zsite_new, ZSITE_STATE_ACTIVE, Zsite, ZSITE_STATE_VERIFY
 from model.cid import CID_BOOK
 from txt import txt_new
 from time import time
-
+from model.days import today_days, days2today
 
 # DROP TABLE IF EXISTS `zpage`.`zsite_book_lib`;
 # CREATE TABLE  `zpage`.`zsite_book_lib` (
@@ -78,12 +78,19 @@ class ZsiteBookBrowseHistory(Model):
 
 class ZsiteBookBrowse(McModel):
     @property
-    def expire_days(self):
-        now = time()
+    def expired_days(self):
+        now = today_days()
         if self.expire > now:
-            return int(self.expire - now)/(3600*24)
+            return self.expire - now
         return 0
     
+    @property
+    def expire_date(self):
+        return days2today(self.expire)
+
+    @property
+    def begin_date(self):
+        return days2today(self.begin_days)
 
 
 class ZsiteBookLib(McModel):
