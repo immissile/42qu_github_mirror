@@ -6,16 +6,32 @@ ${css.ctrl_hero|n}
 <%def name="htm_title()">
 人物
 </%def>
+<%
+name_tuple = (
+    ("/","认证用户"),
+    ("/q/com","公司同事"),
+    ("/q/school","同学校友"),
+    ("/q/villager","同城老乡"),
+    ("/q/invite","导入朋友"),
+)
+path = request.path
+c0pos = 0
+for pos, i in enumerate(name_tuple[1:],1):
+    link = i[0]
+    if len(path)>=len(link) and link.startswith(path):
+        c0pos = pos
+        break
+%>
+<div id="hero_nav">
+%for pos , ( link , name ) in enumerate(name_tuple):
+<a
+%if pos == c0pos:
+ class="c0" 
+%endif
+href="${link|n}">${name}</a>\
+%endfor
+</div>
 
 
-<%def name="h_nav_more()">\
-##<form class="search" action="/q">\
-##<input autocomplete="off" id="search" type="text" name="q" value="${q or ''}">\
-##<input class="search_btn" type="submit" value="">\
-##</form>\
-##<script>\
-##$("#search").focus()\
-##</script>
-</%def>
 
 ${next.body()}

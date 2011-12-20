@@ -1,13 +1,6 @@
 <%inherit file="../base.htm" />
 <%namespace file="/ctrl/_util/hero.htm" import="hero_list"/>
 
-<div id="hero_nav">
-<a class="c0" href="/">认证用户</a>\
-<a href="/q/com">公司同事</a>\
-<a href="/q/school">同学校友</a>\
-<a href="/q/villager">同城老乡</a>\
-<a href="/q/invite">导入朋友</a>\
-</div>
 <form class="search"  action="/q">\
 ${page|n}
 <input autocomplete="off" id="search" type="text" name="q" value="${q or ''}">\
