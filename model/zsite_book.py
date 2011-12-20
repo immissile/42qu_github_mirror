@@ -84,6 +84,9 @@ class ZsiteBookLib(McModel):
     def is_exist(self):
         return self.state == ZSITE_BOOK_LIB_STATE_EXIST
 
+    @property
+    def is_browse(self):
+        return self.state == ZSITE_BOOK_LIB_STATE_BROWSE
 
 class ZsiteBook(McModel):
     pass
