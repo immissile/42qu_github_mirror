@@ -55,8 +55,7 @@ class BookNew(Base):
         book = ZsiteBook.mc_get(id)
         if not book:
             return self.redirect("/")
-        book_zsite = Zsite.mc_get(id) 
-        self.render(book=book, book_zsite=book_zsite)
+        self.render(book=book)
 
     def post(self, id):
         total = self.get_argument('total',0)
