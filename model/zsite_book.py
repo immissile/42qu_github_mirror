@@ -112,8 +112,8 @@ def zsite_book_lib():
     return l
 
 def zsite_book_by_lib(book_id):
-    l = ZsiteBookLib.where(book_id=book_id).col_list()
-    return l
+    l = ZsiteBookLib.where(book_id=book_id)
+    return list(l)
 
 def zsite_book_lib_new(book_id, total):
     if not ZsiteBook.mc_get(book_id):
