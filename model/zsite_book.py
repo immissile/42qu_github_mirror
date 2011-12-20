@@ -8,22 +8,54 @@ from model.cid import CID_BOOK
 from txt import txt_new
 
 
+# CREATE TABLE  `zpage`.`zsite_book_lib` (
+#   `id` int(10) unsigned NOT NULL auto_increment,
+#   `book_id` int(10) unsigned NOT NULL default '0',
+#   `owner_id` int(10) unsigned NOT NULL default '0',
+#   `state` int(10) unsigned NOT NULL default '0',
+#   `pid` int(10) unsigned NOT NULL default '0',
+#   `address_id` int(10) unsigned NOT NULL default '0',
+#   PRIMARY KEY  (`id`),
+#   KEY `Index_3` (`book_id`,`state`),
+#   KEY `Index_2` USING BTREE (`owner_id`)
+# ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=binary;
+
+# CREATE TABLE `zpage`.`zsite_book_browse` (
+#   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+#   `owner_id` INTEGER UNSIGNED NOT NULL,
+#   `to_id` INTEGER UNSIGNED NOT NULL,
+#   `expire` INTEGER UNSIGNED NOT NULL,
+#   `book_id` INTEGER UNSIGNED NOT NULL,
+#   `create_time` INTEGER UNSIGNED NOT NULL,
+#   `book_lib_id` INTEGER UNSIGNED NOT NULL,
+#   PRIMARY KEY (`id`),
+#   INDEX `Index_2`(`owner_id`, `to_id`),
+#   INDEX `Index_3`(`to_id`)
+# )
+
+# CREATE TABLE  `zpage`.`zsite_book` (
+#   `id` int(10) unsigned NOT NULL auto_increment,
+#   `douban_id` int(10) unsigned NOT NULL default '0',
+#   `isbn` bigint(20) unsigned NOT NULL default '0',
+#   `pages` int(10) unsigned NOT NULL,
+#   `author` varbinary(512) NOT NULL,
+#   `translator` varbinary(512) NOT NULL,
+#   `publisher` varbinary(128) NOT NULL,
+#   `author_intro` blob NOT NULL,
+#   `douban_pic_id` int(10) unsigned NOT NULL default '0',
+#   `rating` smallint(5) unsigned NOT NULL default '0',
+#   `rating_num` int(10) unsigned NOT NULL default '0',
+#   PRIMARY KEY  (`id`),
+#   KEY `Index_2` USING BTREE (`douban_id`),
+#   KEY `Index_3` USING BTREE (`isbn`)
+# ) ENGINE=MyISAM AUTO_INCREMENT=2389 DEFAULT CHARSET=binary;
 
 mc_zsite_book_id_by_isbn = McCache('ZsiteBookIdByIsbn:%s')
 
-# CREATE TABLE `zpage`.`zsite_book_lib` (
-#   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-#   `book_id` INTEGER UNSIGNED NOT NULL,
-#   `from_id` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-#   `state` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-#   `pid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-#   `address_id` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-#   PRIMARY KEY (`id`),
-#   INDEX `Index_2`(`from_id`),
-#   INDEX `Index_3`(`book_id`, `state`)
-# )
-
 ZSITE_BOOK_LIB_STATE_EXIST = 10
+
+class ZsiteBookBrowse(McModel):
+    pass
 
 class ZsiteBookLib(McModel):
     pass
