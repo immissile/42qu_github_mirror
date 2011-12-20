@@ -1,7 +1,8 @@
 <%inherit file="_base_book.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.zsite_book import zsite_book_by_lib , Zsite
+from model.zsite_book import zsite_book_by_lib , Zsite, ZsiteBookBrowse
+from model.days import date_time_by_minute
 %>
 
 
@@ -27,7 +28,16 @@ class="book_input"
 </%htm:form>
 <script>$("#mail").focus()</script>
 %elif booklib.is_browse:
-#TODO
+<%
+browse = ZsiteBookBrowse.mc_get(id=book.id)
+%>
+%if browse:
+<div>借阅于</div>
+%if is_expire:
+<div>应还于</div>
+<div>超期了</div>
+%endif
+%endif
 %endif
 </%htm:form>
 

@@ -6,7 +6,7 @@ from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, Mc
 from model.zsite import zsite_new, ZSITE_STATE_ACTIVE, Zsite, ZSITE_STATE_VERIFY
 from model.cid import CID_BOOK
 from txt import txt_new
-
+from time import time
 
 
 # DROP TABLE IF EXISTS `zpage`.`zsite_book_lib`;
@@ -76,8 +76,15 @@ ZSITE_BOOK_LIB_STATE2CN = {
 class ZsiteBookBrowseHistory(Model):
     pass
 
-class ZsiteBookBrowse(Model):
-    pass
+class ZsiteBookBrowse(McModel):
+    @property
+    def expire_days(self):
+        now = time()
+        if self.expire > now:
+            return int(self.expire - now)/(3600*24)
+        return 0
+    
+
 
 class ZsiteBookLib(McModel):
     @property
