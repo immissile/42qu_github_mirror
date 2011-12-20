@@ -83,7 +83,7 @@ class FeedUp(JLoginBase):
         if not self._finished:
             self.finish('{}')
 
-        mq_sync_recommend_by_zsite_id(current_user_id,rec.id)
+        #mq_sync_recommend_by_zsite_id(current_user_id,rec.id)
         #sync_recommend(current_user_id,rec.id)
 
 

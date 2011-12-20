@@ -77,7 +77,7 @@ rid = po.rid
 %>
 % if rid and cid in (CID_WORD, CID_NOTE):
 <p class="rid_title">${po.name_htm|n}</p>
-<textarea id="txt" onkeydown="insertTab(this, event);" name="txt">${po.name if cid == CID_WORD and not rid else po.txt}</textarea>
+<textarea id="txt" name="txt">${po.name if cid == CID_WORD and not rid else po.txt}</textarea>
 % else:
     %if cid == CID_EVENT_FEEDBACK:
 <p class="rid_title">
@@ -93,7 +93,7 @@ rid = po.rid
         %endif
 <input id="name" type="text" autocomplete="off" name="name" value="${po.name}">\
     %endif
-<textarea id="txt" onkeydown="insertTab(event);" name="txt">${po.txt}</textarea>
+<textarea id="txt"  name="txt">${po.txt}</textarea>
 % endif
 <div class="btns c" id="po_btn">
     <a id="upload" href="javascript:upload();void(0)">传图</a>

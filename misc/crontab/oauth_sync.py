@@ -52,7 +52,7 @@ def _sync_recommend(begin_id):
     ):
         begin_id = i.id
         try:
-            sync_recommend(i.zsite_id, i.rid)
+            sync_recommend(i.zsite_id, i.id)
         except:
             print_exc()
     return begin_id
