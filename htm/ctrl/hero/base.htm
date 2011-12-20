@@ -1,7 +1,9 @@
 
 <%inherit file="/ctrl/_base/zsite.htm" />
+<%def name="head()"></%def>
 <%def name="htm_head()">
 ${css.ctrl_hero|n}
+${self.head()}
 </%def>
 <%def name="htm_title()">
 人物

@@ -4,13 +4,13 @@ from model.ico import pic_url_bind_with_default
 from model.career import career_bind
 %>
 
-<%def name="hero_list(zsite_list)">
+<%def name="hero_list(zsite_list, chunk=4)">
 <%
 career_bind(zsite_list)
 pic_url_bind_with_default(zsite_list, "219")
 %>
 <div class="zsite_list">
-    %for chunk in chunkiter(zsite_list,4):
+    %for chunk in chunkiter(zsite_list,chunk):
 <div class="hero_line c">
         %for i in chunk:
 <a href="${i.link}">
