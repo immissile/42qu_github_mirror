@@ -153,6 +153,19 @@ def career_current(user_id):
     if li:
         o = li[0]
         return o.unit, o.title
+    else:
+        from user_school import user_school_tuple
+        from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME
+        school = user_school_tuple(user_id)
+        if school:
+            school = school[0]
+            school_id = school[1]
+            if school_id:
+                school_id = SCHOOL_UNIVERSITY[school_id]
+            school_department = school[4]
+            if school_department:
+                school_department = SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[school_department]
+            return  school_id or '', school_department or '' 
     return '', ''
 
 

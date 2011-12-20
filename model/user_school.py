@@ -36,6 +36,8 @@ def user_school_tuple(user_id):
     )
 
 
+
+
 def user_school_json(user_id):
     return dumps(user_school_tuple(user_id))
 
