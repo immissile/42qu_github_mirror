@@ -131,8 +131,12 @@ def zsite_book_id_by_isbn(isbn):
 
     return 0
 
-def zsite_book_lib():
-    l = list(ZsiteBookLib.where().order_by('book_id desc'))
+def zsite_book_lib(limit=None, offset=0):
+        
+    l = ZsiteBookLib.where().order_by('book_id desc')
+    if offset and limit:
+        limit = offset+limit
+    l = l[offset:limit]
     Zsite.mc_bind(l, 'zsite', 'book_id')
     return l
 

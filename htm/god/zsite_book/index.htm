@@ -1,6 +1,9 @@
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
-
+<%!
+from model.zsite_book import zsite_book_lib
+from model.zsite import Zsite
+%>
 <%htm:form id="book_form">
     <div id="book_tip" class="c">
     <div id="isbn">请输入 书 的 ISBN / 豆瓣链接 查询</div>
@@ -13,3 +16,15 @@ type="text" value="" id="book_query">
 </%htm:form>
 
 <script src="${js.book_new}"></script>
+<div style="font-size:16px;margin-top:27px">
+<%
+lastest = zsite_book_lib(10)
+Zsite.mc_bind(lastest, 'zsite', 'book_id')
+%>
+%if lastest:
+<h2>最新入库的十本书</h2>
+%endif
+%for book in lastest:
+<div><a href="/book/lib/${book.id}">借阅</a>  ${book.zsite.name}</div>
+%endfor
+</div>
