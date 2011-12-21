@@ -123,6 +123,7 @@ def add_event(phone,address,begin_time,end_time,pic,title,intro):
     po.name_= title
     po.txt_set(htm2txt(intro)[0])
     po.save()
+
     event_init2to_review(po.id)
 
 
@@ -131,13 +132,13 @@ def handle_page(page):
     pic_url = txt_wrap_by('href="','"',txt_wrap_by('class="album_photo"','>',page))
     begin_time = txt_wrap_by('ail">','<',txt_wrap_by('开始时间','/div',page))
     end_time = txt_wrap_by('ail">','<',txt_wrap_by('结束时间','/div',page))
-
     address = unicode(txt_wrap_by('span>','<',txt_wrap_by('地点','br/>',txt_wrap_by('class="obmo">','</div',page)))).split(' ')
     typ = txt_wrap_by('类型: </span>','<br/',page)
     intro = txt_wrap_by('play:none">','<a href="javasc',page)
     phone = txt_wrap_by('电话','<br/',intro)
     if phone:
         phone = phone.replace('：','').replace(':','')
+
     add_event(phone,address,begin_time,end_time,pic_url,title,intro)
     
 
@@ -147,8 +148,8 @@ def handle_link(link):
         with open(filename,'w') as f:
             print "writing",filename
             page = page_fetch(link)
-            f.write(page)
             handle_page(page)
+            f.write(page)
 
 
 def main():
