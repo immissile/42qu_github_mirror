@@ -5,10 +5,11 @@ from _urlmap import urlmap
 from tornado import httpclient
 import tornado.web
 import logging
-from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite, zsite_book_lib_new, zsite_book_lib, ZsiteBookLib
+from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite, zsite_book_lib_new, zsite_book_lib, ZsiteBookLib, zsite_book_lib_browse, zsite_book_lib_return
 from model.user_mail import user_id_by_mail
 from model.user_new import user_new
 from model.zsite import Zsite
+from model.namecard import namecard_get
 
 @urlmap('/book/lib/(\d+)')
 class BookLib(Base):
@@ -31,19 +32,50 @@ class BookLib(Base):
                 return self.redirect(
                     '/book/lib/browse/%s/%s'%(id, user_id)
                 )
+        elif booklib.is_browse:
+            if self.get_argument("return",""):
+                zsite_book_lib_return(id, self.current_user_id)
         return self.get(id)       
 
  
 @urlmap('/book/lib/browse/(\d+)/(\d+)')
 class BookLibBrowse(Base):
-    def get(self, id, user_id):
+    def _fetch(self, id , user_id):
         booklib = ZsiteBookLib.mc_get(id)
         book = ZsiteBook.mc_get(booklib.book_id)
-        if not booklib.is_exist:
-            return self.redirect("/book/lib/%s"%id)
+        return book, booklib
 
+    
+    def get(self, id, user_id):
+        book, booklib = self._fetch(id, user_id)
         zsite = Zsite.mc_get(user_id) 
         self.render(booklib=booklib, book=book, zsite=zsite)
+
+    def post(self, id, user_id):
+        book, booklib = self._fetch(id, user_id)
+             
+        zsite = Zsite.mc_get(user_id)
+        namecard = namecard_get(user_id)
+        zsite_name = self.get_argument('zsite_name','')
+        name = self.get_argument('name','')
+        phone = self.get_argument('phone','')
+        days = self.get_argument('days','1')
+
+        if zsite_name:
+            zsite.name = zsite_name
+            zsite.save()
+        if phone:
+            namecard.phone = phone
+        if name:
+            namecard.name = name
+        if days and days.isdigit():
+            days = int(days)
+            zsite_book_lib_browse(id, user_id, days, self.current_user_id)
+
+        namecard.save()
+        self.redirect("/book/lib/%s"%id)
+
+
 
 @urlmap('/book-(\d+)')
 class ZsiteBookPage(Base):

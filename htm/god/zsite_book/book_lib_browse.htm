@@ -19,15 +19,15 @@ namecard = namecard_get(zsite.id)
 </div>
 <div style="margin-bottom:4px">借阅者网名</div> 
 <div style="margin-bottom:16px">
-<input id="name" type="text" name="name" value="${zsite.name}"class="book_input">
+<input autocomplete="off" id="name" type="text" name="zsite_name" value="${zsite.name}"class="book_input">
 </div>
 <div style="margin-bottom:4px">借阅者真名</div> 
 <div style="margin-bottom:16px">
-<input id="name" type="text" name="name" value="${namecard.name}"class="book_input">
+<input autocomplete="off" id="name" type="text" name="name" value="${namecard.name}"class="book_input">
 </div>
 <div style="margin-bottom:4px">借阅者手机</div> 
 <div style="margin-bottom:16px">
-<input type="text" name="cell" value="${namecard.phone}" class="book_input">
+<input type="text" autocomplete="off" name="phone" value="${namecard.phone}" class="book_input">
 </div>
 <div style="margin-bottom:4px">借阅者邮箱</div>
 <div style="margin-bottom:16px">

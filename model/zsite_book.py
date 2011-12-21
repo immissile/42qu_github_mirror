@@ -26,7 +26,7 @@ from model.days import today_days, days2today
 # CREATE TABLE `zpage`.`zsite_book_browse` (
 #   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 #   `expire` INTEGER UNSIGNED NOT NULL,
-#   `begin_time` INTEGER UNSIGNED NOT NULL,
+#   `begin_days` INTEGER UNSIGNED NOT NULL,
 #   PRIMARY KEY (`id`),
 # )
 # 
@@ -52,8 +52,8 @@ from model.days import today_days, days2today
 # CREATE TABLE `zpage`.`zsite_book_browse_history` (
 #   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 #   `book_lib_id` INTEGER UNSIGNED NOT NULL,
-#   `begin_time` INTEGER UNSIGNED NOT NULL,
-#   `end_time` INTEGER UNSIGNED NOT NULL,
+#   `begin_days` INTEGER UNSIGNED NOT NULL,
+#   `end_days` INTEGER UNSIGNED NOT NULL,
 #   `user_id` INTEGER UNSIGNED NOT NULL,
 #   PRIMARY KEY (`id`),
 #   INDEX `Index_2`(`user_id`),
@@ -80,8 +80,8 @@ class ZsiteBookBrowse(McModel):
     @property
     def expired_days(self):
         now = today_days()
-        if self.expire > now:
-            return self.expire - now
+        if self.expire < now:
+            return now - self.expire 
         return 0
     
     @property
@@ -92,6 +92,9 @@ class ZsiteBookBrowse(McModel):
     def begin_date(self):
         return days2today(self.begin_days)
 
+    @property
+    def admin(self):
+        return Zsite.mc_get(self.admin_id)
 
 class ZsiteBookLib(McModel):
     @property
@@ -147,6 +150,35 @@ def zsite_book_lib_new(book_id, total):
         )
         book.save()
 
+def zsite_book_lib_return(id, admin_id):
+    zsite_book_lib = ZsiteBookLib.mc_get(id)
+    if not zsite_book_lib.is_exist:
+
+        browse = ZsiteBookBrowse.mc_get(id)
+        if browse:
+            ZsiteBookBrowseHistory(
+                book_lib_id = id,
+                begin_days  = browse.begin_days,
+                end_days    = today_days(),
+                user_id     = zsite_book_lib.owner_id,
+                admin_id    = admin_id
+            ).save()
+            browse.delete()
+        zsite_book_lib.owner_id = 0
+        zsite_book_lib.state = ZSITE_BOOK_LIB_STATE_EXIST
+        zsite_book_lib.save()
+
+def zsite_book_lib_browse(id, user_id, days, admin_id):
+    zsite_book_lib = ZsiteBookLib.mc_get(id)
+    b = ZsiteBookBrowse.get_or_create(id=id)
+    b.begin_days = today_days()
+    b.expire = b.begin_days+days
+    b.admin_id = admin_id
+    b.save()
+    if zsite_book_lib.is_exist:
+        zsite_book_lib.owner_id = user_id
+        zsite_book_lib.state = ZSITE_BOOK_LIB_STATE_BROWSE
+        zsite_book_lib.save()
 
 def zsite_book_new(
     name,
