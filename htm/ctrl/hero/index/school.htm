@@ -2,6 +2,7 @@
 <%namespace file="/ctrl/_util/hero.htm" import="hero_list_with_star"/>
 <%def name="head()">
 ${css.ctrl_school|n}
+${css.ctrl_hero_school|n}
 <script src="${js.date}"></script>
 <script src="${js.school}"></script>
 <script src="${js.school_ctrl}"></script>
@@ -10,10 +11,10 @@ ${css.ctrl_school|n}
 <script id="school_tmpl" type="text/x-jquery-tmpl">
 <div>
 <input type="hidden" name="school_id"  value="" class="school_id">
-<input value="请选择学校" autocomplete="off" type="text" class="school">
-<select name="school_department" class="school_department"><option value="0">选择院系</option></select></select>
-<select name="school_year" class="school_year"></select>
-<select name="school_degree" class="school_degree">
+<input value="请选择学校" autocomplete="off" type="text" class="school"><select 
+name="school_department" class="school_department"><option value="0">选择院系</option></select></select><select 
+name="school_year" class="school_year"></select><select
+name="school_degree" class="school_degree">
 <option value="0">选择类型</option>
 <option value="1">本科</option>
 <option value="2">大专</option>
@@ -22,24 +23,25 @@ ${css.ctrl_school|n}
 <option value="5">博士后</option>
 <option value="6">校工</option>
 <option value="7">教师</option>
-</select>
-<button type="submit">搜索</button>
-<input name="is_my" type="checkbox" id="is_my"><label for="is_my">追加到我的履历</label>
+</select><input
+id="school_search" type="submit" value="" class="search_btn"><input 
+name="is_my" type="checkbox" id="is_my"><label id="is_my_label" for="is_my">追加到我的履历</label>
 </div>
 </script>
 
 <div class="G c">
 <div class="G1 f16" style="">
-<h2 style="border-bottom:1px dotted #ccc;"><a href="/i/career" class="R">编辑</a>我的履历</h2>
+<h2  class="my_career"><a href="/i/career" class="R">编辑</a>我的履历</h2>
 <div style="border-bottom: 1px dotted rgb(204, 204, 204);"><input type="radio"> 电子科大<div style="margin-left: 16px;"> 生物医学工程 2011级</div></div>
 </div>
-<div class="G3 zsite_mb64">
+<div class="G3 mb32">
 <form style="border-bottom:1px dotted #ccc"  id="school" action="/q/school">\
 </form>\
 <div class="G">
 ${hero_list_with_star(zsite_list,3)}
-</div></div>
+</div>
 ${page|n}
+</div>
 </div>
 <script>
 (function(){
