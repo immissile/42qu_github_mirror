@@ -43,6 +43,9 @@ class School(LoginBase):
                     school_id, school_year, school_degree, school_department
                 )
             )
+        if not id:
+            
+
 
         zsite_list , page = hero_page(n)
         self.render(
