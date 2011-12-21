@@ -58,12 +58,26 @@ ${school_show(school_id, school_year, school_degree, school_department)}
 <form style="border-bottom:1px dotted #ccc"  id="school" action="/q/school">\
 </form>\
 <div class="G">
+%if _id and not result:
+<div class="G3"><div class="tc" style="font-size:16px;padding:27px;border-bottom:1px dotted #ccc">查无结果</div></div>
+%elif result[0] != (year, department, degree):
+<style>
+.school_split0 .school_split{
+margin-top:0;padding-top:0;border-top:0;
+}
+.school_split0{
+margin-top:-12px;
+}
+</style>
+%endif
 
-
-    %for school_degree_ , school_department_ ,school_year_ , k_ in result:
-%if any((school_degree_ , school_department_ ,school_year_)):
-<div class="G3">
+    %for pos, (i , k_) in enumerate(result):
+<%
+school_degree_ , school_department_ ,school_year_ = i
+%>
+<div class="G3 school_split${pos}">
 <div class="school_split">
+%if any(i):
 %if school_department_:
 ${SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[school_department_]} 
 %endif
@@ -79,9 +93,11 @@ SCHOOL_DEGREE[school_degree_]
 %if school_year_:
 ${school_year_}
 %endif
-</div>
-</div>
+%else:
+其它
 %endif
+</div>
+</div>
 ${hero_list_with_star(Zsite.mc_get_list(k_),3)}
     %endfor
 
@@ -91,7 +107,7 @@ ${page|n}
 </div>
 </div>
 
-%if school_id:
+%if _id:
 <script type="text/x-json" id="school_data">\
 ${escape(dumps([school_data]))|n}\
 </script>\

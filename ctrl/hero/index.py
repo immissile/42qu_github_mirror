@@ -76,7 +76,7 @@ class School(LoginBase):
                                     department ,     
                                     '' 
                                 ),
-            school_id         = id, 
+            _id                = id, 
             school_tuple      = school_tuple          ,
             result            = user_school_search(id, year, degree, department),
             year              = year,

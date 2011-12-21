@@ -11,7 +11,7 @@ from model.zsite import Zsite
 
 mc_user_school_id_list = McCacheA('UserSchoolIdList:%s')
 mc_user_school_tuple = McCacheM('UserSchoolTuple:%s')
-mc_user_school_dict = McCacheM('UserSchoolDict~%s')
+mc_user_school_dict = McCacheM('UserSchoolDict<%s')
 
 class UserSchool(McModel):
     pass
@@ -90,6 +90,8 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
 
 @mc_user_school_dict ('{school_id}')
 def user_school_dict(school_id):
+    if not school_id:
+        return []
     result = rs = {}
     for i in UserSchool.where(school_id=school_id):
 
@@ -116,16 +118,33 @@ def user_school_dict(school_id):
     for i, _i in result.iteritems():
         for j, _j in _i.iteritems():
             for k, _k in _j.iteritems():
-                rs.append((i, j, k, _k))
+                rs.append(((i, j, k), tuple(set(_k))))
 
-    return tuple(rs)
+    return rs
+
+class UserSchoolSorter(object):
+    def __init__(self, school_year, school_degree, school_department):
+        self.school_year = school_year
+        self.school_degree = school_degree
+        self.school_department = school_department
+
+    def __call__(self, key):
+        school_year, school_degree, school_department = key[0]
+        result = 0
+        result += abs(school_degree-self.school_degree)*10000000
+        result += abs(school_year-self.school_year)*1000
+        result += abs(self.school_department-school_department)
+        return result
 
 def user_school_search(school_id, school_year, school_degree, school_department):
+    if not school_id:
+        return []
     result = user_school_dict(school_id)
     zsite_id_list = []
     for i in result:
-        zsite_id_list.extend(i[3])
+        zsite_id_list.extend(i[1])
     Zsite.mc_get_list(zsite_id_list)
+    result.sort(key=UserSchoolSorter(school_year,school_degree, school_department),reverse=True)
     return result
 
 if __name__ == '__main__':
