@@ -168,7 +168,7 @@ def career_current(user_id):
             if school_id:
                 school_id = SCHOOL_UNIVERSITY[school_id]
             school_department = school[4]
-            school_year = school_year[2]
+            school_year = school[2]
             if school_department:
                 title2 = SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[school_department]
             elif school_year:
