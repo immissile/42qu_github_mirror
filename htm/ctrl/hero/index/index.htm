@@ -1,14 +1,6 @@
 <%inherit file="../base.htm" />
 <%namespace file="/ctrl/_util/hero.htm" import="hero_list"/>
-
-<form class="search"  action="/q">\
-${page|n}
-<input autocomplete="off" id="search" type="text" name="q" value="${q or ''}">\
-<input class="search_btn" type="submit" value="">\
-</form>\
-<script>\
-$("#search").focus()\
-</script> 
+<%include file="/ctrl/hero/_util/search.htm"/>
 
 <div class="G c zsite_mb64">
 ${hero_list(zsite_list)}
