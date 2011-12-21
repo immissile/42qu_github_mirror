@@ -172,7 +172,7 @@ def career_current(user_id):
             if school_department:
                 title2 = SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[school_department]
             elif school_year:
-                title2 = "%s级"%school_year
+                title2 = "%s 级"%school_year
             return  school_id or '', title2 or '' 
     return '', ''
 
