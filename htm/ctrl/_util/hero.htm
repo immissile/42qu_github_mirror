@@ -38,25 +38,26 @@ unit, title = i.career
 %endif
 </div>
         %endfor
+</div>\
     %endfor
     %for chunk in chunkiter(no_pic,chunk_size):
 <div class="hero_line c">
         %for i in chunk:
-<div class="G1">
-<div>
-<a href="${i.link}" style="color:#01a" target="blank">${i.name}</a>
-</div>
+<div class="G1"><div class="carerrnopic">\
+<div><a href="${i.link}" style="color:#01a" target="blank">${i.name}</a></div>\
 <%
 unit, title = i.career
 %>
 %if unit:
-<div class="tr">${unit}</div>
+<div class="tr">${unit}</div>\
 %endif
 %if title:
-<div class="tr">${title}</div>
+<div class="tr">${title}</div>\
 %endif
 </div>
+</div>\
         %endfor
+</div>
     %endfor
 
 </div>
