@@ -316,8 +316,8 @@ def buzz_event_join_new(user_id, event_id, zsite_id):
         if to_id != zsite_id:
             buzz_new(user_id, to_id, CID_BUZZ_JOIN, event_id)
 
-#mq_buzz_event_join_new = mq_client(buzz_event_join_new)
-mq_buzz_event_join_new = buzz_event_join_new
+mq_buzz_event_join_new = mq_client(buzz_event_join_new)
+#mq_buzz_event_join_new = buzz_event_join_new
 
 
 def buzz_event_join_apply_new(user_id, zsite_id, event_id):

@@ -145,10 +145,10 @@ ${title_name('回复')}
     po_id = key
     po = Po.mc_get(po_id)
     %>
-    <div class="buzz_w">
+    <div class="buzz_w" id="bz_${key}">
         <div>
-            <a href="/j/reply/rm/${key}" style="float:right">X</a>
-        <a href="${po.link}" class="buzz_li">
+            <a href="javascript:closeBuzz(${key},1)" id="rp_${key}" style="float:right">X</a>
+            <a href="javascript:visit('${po.link}',${key})" target="_blank" class="buzz_li">
                 % if po.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
                 ${cnenoverflow(po.name,30)[0]}\
                 % else:
@@ -157,10 +157,13 @@ ${title_name('回复')}
             </a>
         </div>
         <div class="buzz_au">5分钟前 , 
-            %for c in i:
-            ${user_link_list(c.from_list)}
+            <%
+            repliers = set([c.from_list[0].name for c in i])
+            %>
+            %for x in repliers:
+                ${x}
             %endfor
-            等<span class="buzz_cou">${len(i)}</span>人回复</div>
+            等<span class="buzz_cou">${len(repliers)}</span>人回复</div>
     </div>
 % endfor
 </div>

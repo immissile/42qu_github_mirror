@@ -1,22 +1,22 @@
 WINDOW_WIDTH = document.documentElement.clientWidth;
 textarea = $('.say_txt');
 $(".site_li").mouseenter(
-function(r){
-i=$(this).find(".delbtn");
-i.addClass("show_x")
-}
-);
+        function(r){
+            i=$(this).find(".delbtn");
+            i.addClass("show_x")
+        }
+        );
 $(".site_li").mouseleave(
-function(r){
-$(this).find(".delbtn").removeClass("show_x")
-}
-);
+        function(r){
+            $(this).find(".delbtn").removeClass("show_x")
+        }
+        );
 del=function(r){
-	i = $('#'+r);
-	i.hide("slow");
+    i = $('#'+r);
+    i.hide("slow");
 }
 $(".site_fav_a").click(function(){
-$(this).addClass("fav_loading");
+    $(this).addClass("fav_loading");
 });
 
 change = function(){
@@ -39,3 +39,16 @@ $('#po_ext').click(function(){
     $('.say_type').show();
 });
 
+function visit(link,id){
+$("#rp_"+id).attr("href","javascript: closeBuzz("+id+",0)");
+window.open(link,"_blank");
+}
+
+function closeBuzz(id,state){
+		$.postJSON(
+                '/j/reply/rm/'+state+'/'+id,
+                function(result){
+                    alert(result);
+                })
+        $("#bz_"+id).hide('slow');
+}
