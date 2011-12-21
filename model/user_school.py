@@ -131,9 +131,12 @@ class UserSchoolSorter(object):
     def __call__(self, key):
         school_year, school_degree, school_department = key[0]
         result = 0
-        result += abs(school_degree-self.school_degree)*1000000000
-        result += abs(school_year-self.school_year)*100000
-        result += abs(self.school_department-school_department)
+        if school_degree:
+            result += abs(school_degree-self.school_degree)*1000000000
+        if school_year:
+            result += abs(school_year-self.school_year)*100000
+        if school_department:
+            result += abs(self.school_department-school_department)
         return result
 
 def user_school_search(school_id, school_year, school_degree, school_department):

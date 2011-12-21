@@ -128,6 +128,7 @@ ${school_show(school_id, school_year, school_degree, school_department)}
 </%def>
 
 <%def name="school_show(school_id, school_year, school_degree, school_department)">
+<a href="/q/school/${school_id, school_year, school_degree, school_department}">
     <p>\
     %if school_id:
 ${SCHOOL_UNIVERSITY[school_id]}
@@ -152,4 +153,5 @@ ${SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[school_department]}\
     %endif
     </p>\
     %endif
+</a>
 </%def>
