@@ -13,11 +13,21 @@ mc_user_school_tuple = McCacheM('UserSchoolTuple:%s')
 class UserSchool(McModel):
     pass
 
-def mc_flush(user_id):
+
+user_school_count = McNum(lambda school_id:UserSchool.where(school_id=school_id).count(), 'UserSchoolCount:%s')
+user_school_year_count = McNum(lambda school_id, year:UserSchool.where(school_id=school_id, school_year=year).count(), 'UserSchoolYearCount:%s')
+
+def mc_flush(user_id, school_id=0, year=0):
     mc_user_school_id_list.delete(user_id)
     mc_user_school_tuple.delete(user_id)
     from model.career import mc_career_current
-    mc_career_current.delete(user_id) 
+    mc_career_current.delete(user_id)
+    if school_id:
+        user_school_count.delete(school_id)
+        if year:
+            user_school_year_count.delete('%s_%s'%(school_id, year))
+
+
 
 @mc_user_school_id_list('{user_id}')
 def user_school_id_list(user_id):
@@ -27,8 +37,10 @@ def user_school_list(user_id):
     return UserSchool.mc_get_list(user_school_id_list(user_id))
 
 def user_school_rm(id, user_id):
-    UserSchool.where(id=id, user_id=user_id).delete()
-    mc_flush(user_id)
+    us = UserSchool.mc_get(id=id)
+    if us:
+        us.delete()
+        mc_flush(user_id, us.school_id, us.school_year)
 
 @mc_user_school_tuple('{user_id}')
 def user_school_tuple(user_id):
@@ -38,14 +50,13 @@ def user_school_tuple(user_id):
     )
 
 
-
 def user_school_json(user_id):
     return dumps(user_school_tuple(user_id))
 
 
 def user_school_new(user_id, school_id, school_year, school_degree, school_department, txt='', id=None):
-    if txt.startswith("经历简述 "):
-        txt = ""
+    if txt.startswith('经历简述 '):
+        txt = ''
     school_id = int(school_id or 0)
     if school_id and school_id in SCHOOL_UNIVERSITY and user_id:
         school_year = int(school_year or 0)
@@ -71,51 +82,38 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
         u.school_department = school_department
         u.txt = txt
         u.save()
-        mc_flush(user_id)
+        mc_flush(user_id, school_id, school_year)
         return u
 
 
-def user_school_count(school_id):
-    return 
 
-def _user_school_search(school_id, school_year, school_department, school_degree):
-    pass
 
 def user_school_search(school_id, school_year, school_department, school_degree):
-    result = []
     if not school_id:
         return []
 
-    user_list = _user_school_search(
-        school_id, school_year, school_department, school_degree
-    )
-    user_list_len = len(user_list)
-    if user_list_len:
-        result.append(
-            school_id, school_year, school_department, school_degree,
-            user_list,
-        ) 
-    while user_list_len < page:
-        if school_department:
-           school_department = 0
-        elif school_year:
-            school_year = 0
-        elif school_degree:
-            school_degree = 0 
+    us = UserSchool.where(school_id=school_id)
+    if user_school_count(school_id) > 32:
+        if school_year:
+            us = us.where(school_year=school_year)
+            if user_school_year_count(school_id, year) > 32:
+                if school_department:
+                    us = us.where(school_department=school_department)
+                if school_degree:
+                    us = us.where(school_degree=school_degree)
+                user_school_year_department_dergee_count
         else:
-            break
-        
-        user_list = _user_school_search(
-            school_id, school_year, school_department, school_degree
-        )
-        result.append(
-            school_id, school_year, school_department, school_degree,
-            user_list,
-        ) 
-        user_list_len += len(user_list)
-
+            count = user_school_count(school_id)     
     return result
 
 if __name__ == '__main__':
     pass
-    print mc_flush(10000000)
+    #print mc_flush(10000000)
+    for i in SCHOOL_UNIVERSITY:
+        if i:
+            us = UserSchool.where(school_id=i)
+            if us.count():
+                print list(us)
+                us.count()
+
+
