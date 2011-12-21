@@ -93,18 +93,19 @@ def user_school_search(school_id, school_year, school_department, school_degree)
         return []
 
     us = UserSchool.where(school_id=school_id)
-    if user_school_count(school_id) > 32:
+    count = user_school_count(school_id)
+    if count > 32:
         if school_year:
             us = us.where(school_year=school_year)
-            if user_school_year_count(school_id, year) > 32:
+            count = user_school_year_count(school_id, year)
+            if count > 32:
                 if school_department:
                     us = us.where(school_department=school_department)
                 if school_degree:
                     us = us.where(school_degree=school_degree)
-                user_school_year_department_dergee_count
-        else:
-            count = user_school_count(school_id)     
-    return result
+                count = us.count()
+                user_id_list = us 
+    return count, result
 
 if __name__ == '__main__':
     pass
