@@ -7,9 +7,11 @@ from zkit.attrcache import attrcache
 from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME, SCHOOL_UNIVERSITY_DEPARTMENT_ID, SCHOOL_DEGREE
 from json import dumps
 from zkit.algorithm.unique import unique
+from model.zsite import Zsite
 
 mc_user_school_id_list = McCacheA('UserSchoolIdList:%s')
 mc_user_school_tuple = McCacheM('UserSchoolTuple:%s')
+mc_user_school_dict = McCacheM('UserSchoolDict:%s')
 
 class UserSchool(McModel):
     pass
@@ -27,7 +29,7 @@ def mc_flush(user_id, school_id=0, year=0):
         user_school_count.delete(school_id)
         if year:
             user_school_year_count.delete('%s_%s'%(school_id, year))
-
+        mc_user_school_dict.delete(school_id)
 
 
 @mc_user_school_id_list('{user_id}')
@@ -86,28 +88,40 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
         mc_flush(user_id, school_id, school_year)
         return u
 
+@mc_user_school_dict ('{school_id}')
+def user_school_dict(school_id):
+    result = {}
+    for i in UserSchool.where(school_id=school_id):
+        school_department = i.school_department
+        if school_department not in result:
+            result[school_department] = {}
+        rs = result[school_department]
 
+        school_degree = i.school_degree
+        if school_degree not in rs:
+            rs[school_degree] = {}
+        rs = rs[school_degree]
 
+        school_year = i.school_year
+        if school_year not in rs:
+            rs[school_year] = []
+        rs = rs[school_year]
+
+        rs.append(i.user_id)
+    return result
 
 def user_school_search(school_id, school_year, school_department, school_degree):
-    if not school_id:
-        return []
-
-    us = UserSchool.where(school_id=school_id)
-    count = user_school_count(school_id)
-    if count > 32:
-        if school_year:
-            us = us.where(school_year=school_year)
-            count = user_school_year_count(school_id, year)
-            if count > 32:
-                if school_department:
-                    us = us.where(school_department=school_department)
-                if school_degree:
-                    us = us.where(school_degree=school_degree)
-    user_id_list = unique(us.col_list(col="user_id")) 
-    return user_id_list 
+    result = user_school_dict(school_id)
+    zsite_id_list = []
+    for i in result.itervalues():
+        for j in result.itervalues():
+            for k in j.itervalues():
+                for m in k.itervalues():
+                    zsite_id_list.extend(m)
+    Zsite.mc_get_list(zsite_id_list) 
+    return result
 
 if __name__ == '__main__':
-    pass
-
+    for i in SCHOOL_UNIVERSITY:
+        r = user_school_search(i, 0 , 0, 0)
 
