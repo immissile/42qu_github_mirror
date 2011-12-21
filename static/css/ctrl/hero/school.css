@@ -59,3 +59,10 @@ font-size:14px;
 .school_year, .school_degree, .school_department, .school{
 margin-right:7px;
 }
+.school_split{
+padding:14px 0;
+border:1px dotted #ccc;
+margin-bottom:27px;
+margin-top:27px;
+border-left:0;border-right:0
+}

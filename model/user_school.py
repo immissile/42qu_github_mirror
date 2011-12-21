@@ -6,6 +6,7 @@ from zsite_com import pid_by_com_id
 from zkit.attrcache import attrcache
 from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME, SCHOOL_UNIVERSITY_DEPARTMENT_ID, SCHOOL_DEGREE
 from json import dumps
+from zkit.algorithm.unique import unique
 
 mc_user_school_id_list = McCacheA('UserSchoolIdList:%s')
 mc_user_school_tuple = McCacheM('UserSchoolTuple:%s')
@@ -103,18 +104,10 @@ def user_school_search(school_id, school_year, school_department, school_degree)
                     us = us.where(school_department=school_department)
                 if school_degree:
                     us = us.where(school_degree=school_degree)
-                count = us.count()
-                user_id_list = us 
-    return count, result
+    user_id_list = unique(us.col_list(col="user_id")) 
+    return user_id_list 
 
 if __name__ == '__main__':
     pass
-    #print mc_flush(10000000)
-    for i in SCHOOL_UNIVERSITY:
-        if i:
-            us = UserSchool.where(school_id=i)
-            if us.count():
-                print list(us)
-                us.count()
 
 
