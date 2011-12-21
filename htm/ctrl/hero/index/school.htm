@@ -32,12 +32,14 @@ name="is_my" type="checkbox" id="is_my"><label id="is_my_label" for="is_my">追�
 <div class="G c">
 <div class="G1 f16">
 <h2  class="my_career"><a href="${current_user.link}/i/career" class="R">编辑</a>我的履历</h2>
+%for id, school_id, school_year, school_degree, school_department, txt in school_tuple:
 <div class="school_li c">\
-<input type="radio" value="1" id="school_li1" class="school_li_radio">\
-<label for="school_li1">\
+<input type="radio" value="${id}" id="school_li${id}" class="school_li_radio">\
+<label for="school_li${id}">\
 <div class="school_li_div">电子科大<div> 生物医学工程 2011级</div></div>\
 </label>\
 </div>
+%endfor           
 </div>
 <div class="G3 mb32">
 <form style="border-bottom:1px dotted #ccc"  id="school" action="/q/school">\
