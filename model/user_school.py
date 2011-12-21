@@ -39,7 +39,6 @@ def user_school_tuple(user_id):
 
 
 
-
 def user_school_json(user_id):
     return dumps(user_school_tuple(user_id))
 
@@ -74,6 +73,10 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
         u.save()
         mc_flush(user_id)
         return u
+
+
+def user_school_count(school_id):
+    return 
 
 def _user_school_search(school_id, school_year, school_department, school_degree):
     pass
