@@ -6,7 +6,7 @@ from model.cid import CID_USER
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from config import SITE_DOMAIN
-from model.user_school import user_school_tuple
+from model.user_school import user_school_tuple, user_school_new
 
 def hero_page(n):
     n = int(n)
@@ -41,6 +41,12 @@ class School(LoginBase):
         is_my = int(bool(self.get_argument('is_my', None) == 'on'))
 
         if school_id:
+            if is_my:
+                user_school_new(
+                    self.current_user_id, 
+                    school_id, school_year, school_degree,
+                    school_department
+                ) 
             return self.redirect(
                 SCHOOL_LINK%(
                     school_id, school_year, school_degree, school_department

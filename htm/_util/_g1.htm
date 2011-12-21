@@ -129,14 +129,14 @@ ${school_show(school_id, school_year, school_degree, school_department)}
 
 <%def name="school_show(school_id, school_year, school_degree, school_department)">
     <p>\
-    %if school_degree:
-${SCHOOL_DEGREE[school_degree]}\
+    %if school_id:
+${SCHOOL_UNIVERSITY[school_id]}
     %endif
     %if school_id and school_degree:
  , \
     %endif
-    %if school_id:
-${SCHOOL_UNIVERSITY[school_id]}
+    %if school_degree:
+${SCHOOL_DEGREE[school_degree]}\
     %endif
     </p>
     %if school_year or school_department:

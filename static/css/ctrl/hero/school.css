@@ -3,6 +3,7 @@ margin-bottom:32px;
 }
 .school_li{
 border-bottom: 1px dotted #ccc;padding:16px 0;
+font-size:14px;
 }
 .school_li_radio{
 margin-top:7px;
@@ -10,6 +11,9 @@ margin-right:7px;
 }
 .school_li_div,.school_li_radio{
 float:left
+}
+.school_li_div p{
+width:196px;
 }
 #school{
 padding:14px 0;
@@ -25,7 +29,8 @@ font-size:16px;
 margin-left:3px;
 }
 .my_career{
-padding:16px 0;
+font-size:14px;
+padding:17px 0 16px;
 border-bottom:1px dotted #ccc;
 }
 #school_search{
