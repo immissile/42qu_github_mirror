@@ -91,9 +91,9 @@ class GoogleAsync(LoginBase, GoogleMixin):
             invite_email_new(user_id, CID_GOOGLE, _result)
 
             if invite_user_id_by_cid(self.current_user_id, CID_GOOGLE):
-                return self.redirect('http://%s.%s/i/invite/show/%s'%(self.current_user_id, SITE_DOMAIN, CID_GOOGLE))
+                return self.redirect('http://%s.%s/invite/show/%s'%(self.current_user_id, SITE_DOMAIN, CID_GOOGLE))
             else:
-                self.redirect('http://%s.%s/i/invite/email'%(self.current_user_id, SITE_DOMAIN))
+                self.redirect('http://%s.%s/invite/email'%(self.current_user_id, SITE_DOMAIN))
 
 
 #return self.finish(jsonp(self,dumps({"error":False,"next":invite_user_id_by_cid(self.current_user_id,CID_GOOGLE)})))

@@ -140,6 +140,8 @@ def sync_recommend(id, po_id):
             txt = cnencut(p.name_, 20)
             if txt:
                 txt = '%s -> '%txt
+            else:
+                txt = txt+"分享: "
             sync_by_oauth_id(oauth_id, txt + cnencut(rec_po.name_,50)  , 'http:%s'%rec_po.link)
 
 mq_sync_recommend_by_zsite_id = mq_client(sync_recommend)

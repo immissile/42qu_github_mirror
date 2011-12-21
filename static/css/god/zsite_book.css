@@ -1,4 +1,3 @@
-
 #book_form{
 margin-top:16px;
 }
@@ -34,4 +33,19 @@ margin-bottom:16px;
 }
 #book_form_new{
 padding-top:16px;
+}
+.bookG .G1{
+border-bottom:1px dotted #ccc;
+margin-top:7px;
+padding-bottom:7px;
+}
+.bookli{
+margin-bottom:27px
+}
+.bookli div{
+padding-bottom:16px;
+border-bottom:1px dotted #ccc;
+}
+.bookli span{
+display:inline-block;width:130px
 }

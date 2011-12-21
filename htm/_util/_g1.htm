@@ -106,32 +106,9 @@ end_time = career.end_time
 %if school_tuple:
 %for id, school_id, school_year, school_degree, school_department, txt in school_tuple:
 <div class="zsite_item">
-    <p>\
-%if school_degree:
-${SCHOOL_DEGREE[school_degree]}\
-%endif
-%if school_id and school_degree:
- , \
-%endif
-%if school_id:
-${SCHOOL_UNIVERSITY[school_id]}
-%endif
-    </p>
-%if school_year or school_department:
-    <p>\
-    %if school_year:
-${school_year}级\
-    %endif
-%if school_year and school_department:
- , \
-%endif
-    %if school_department:
-${SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[school_department]}\
-    %endif
-    </p>\
+${school_show(school_id, school_year, school_degree, school_department)}
 %if txt:
 <p>${txt}</p>\
-%endif
 %endif
 </div>
 %endfor
@@ -148,4 +125,31 @@ ${SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[school_department]}\
 </div>
 %endif
 </div>
+</%def>
+
+<%def name="school_show(school_id, school_year, school_degree, school_department)">
+    <p>\
+    %if school_id:
+${SCHOOL_UNIVERSITY[school_id]}
+    %endif
+    %if school_id and school_degree:
+ , \
+    %endif
+    %if school_degree:
+${SCHOOL_DEGREE[school_degree]}\
+    %endif
+    </p>
+    %if school_year or school_department:
+    <p>\
+    %if school_year:
+${school_year}级\
+    %endif
+    %if school_year and school_department:
+ , \
+    %endif
+    %if school_department:
+${SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[school_department]}\
+    %endif
+    </p>\
+    %endif
 </%def>

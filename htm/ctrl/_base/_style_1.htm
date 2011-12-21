@@ -43,21 +43,11 @@ else:
     request_host = request.host
 %>
 <div class="L">
-%if request_host.startswith("hero."):
-<form class="search"  action="/q">\
-<input autocomplete="off" id="search" type="text" name="q" value="${q or ''}">\
-<input class="search_btn" type="submit" value="">\
-</form>\
-<script>\
-$("#search").focus()\
-</script> 
-%else:
 <a
 href="//${request_host}"
 class="site">\
 ${request_host}\
 </a>
-%endif
 </div>\
 %if htm:
 ${htm|n}\

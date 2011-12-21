@@ -1,0 +1,71 @@
+.mb32{
+margin-bottom:32px;
+}
+.school_li{
+border-bottom: 1px dotted #ccc;padding:16px 0;
+font-size:14px;
+}
+.school_li_radio{
+margin-top:7px;
+margin-right:7px;
+}
+.school_li_div,.school_li_radio{
+float:left
+}
+.school_li_div p{
+width:196px;
+}
+#school{
+padding:14px 0;
+}
+.my_career .R{
+color:#999;
+}
+#is_my{
+margin-left:14px;
+}
+#is_my_label{
+font-size:16px;
+margin-left:3px;
+}
+.my_career{
+font-size:14px;
+padding:17px 0 16px;
+border-bottom:1px dotted #ccc;
+}
+#school_search{
+background:url(/img/png/search_btn.png) no-repeat;
+width:32px;height:30px;border:none;cursor:pointer;
+border-left:1px solid #ccc;
+line-height:31px;
+}
+.school_year, .school_degree, .school_department{
+line-height:30px;
+height:30px;
+border:1px solid #ccc;
+padding:4px 3px 3px;
+margin:0;
+width:90px;
+}
+
+.school{
+text-align:center;
+border:1px solid #ccc !important;
+cursor:pointer;
+line-height:30px;
+height:30px;
+font-size:14px;
+}
+.school_year, .school_degree, .school_department, .school{
+margin-right:7px;
+}
+.school_split{
+padding:14px 0;
+border:1px dotted #ccc;
+margin-bottom:27px;
+margin-top:27px;
+border-left:0;border-right:0
+}
+.hero_line img{
+margin-top:7px;
+}

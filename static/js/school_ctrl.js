@@ -128,7 +128,7 @@ function get_univs(univs){
 function school(div,data){
      var tmpl = $('#school_tmpl').tmpl(data).appendTo(div),
         year=(new Date()).getFullYear(),
-        r =['<option value="">入学年份</option>'],i, uid=uuid()
+        r =['<option value="">开始时间</option>'],i, uid=uuid()
         sc=tmpl.find(".school"),
         dep_node = tmpl.find(".school_department").attr("id","dep"+uid)
         ;

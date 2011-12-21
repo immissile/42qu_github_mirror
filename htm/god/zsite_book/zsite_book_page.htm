@@ -1,13 +1,20 @@
 <%inherit file="_base.htm" />
+<%namespace file="_util.htm" import="book_browse_link"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
-
-
+<div class="G bookG">
 %for book in page_list:
 <%
 zsite = book.zsite
 %>
+<div class="G1">
+<a href="/book/new/${book.book_id}">${zsite.name}</a>
 <div>
-${zsite.id} <a href="/book/new/${book.book_id}">${zsite.name}</a>
+<span class="R">\
+${book_browse_link(book)}\
+</span>\
+编号 . ${book.id} 
+</div>
 </div>
 %endfor
+</div>

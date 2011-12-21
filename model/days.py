@@ -11,7 +11,7 @@ DATETIME_BEGIN = datetime.datetime(1970, 1, 1)
 
 
 def today_days():
-    return (time() - timezone) // ONE_DAY
+    return int((time() - timezone) // ONE_DAY)
 
 def today_seconds():
     return today_days() * ONE_DAY + timezone
@@ -34,6 +34,11 @@ def ymd2days(ymd):
 
 def minute2date(minute):
     return datetime.timedelta(minute/ONE_DAY_MINUTE)+DATE_BEGIN
+
+def days2today(days):
+    return datetime.timedelta(days)+DATE_BEGIN
+
+
 
 def minute2hour(minute):
     minute = minute % ONE_DAY_MINUTE
@@ -154,4 +159,4 @@ def begin_end_by_minute(begin_time, end_time):
 
 
 if __name__ == '__main__':
-    print today_days()
+    print days2today(today_days())

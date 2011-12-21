@@ -1,0 +1,48 @@
+<%inherit file="_base_book.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.zsite_book import zsite_book_by_lib , Zsite, ZsiteBookBrowse
+from model.days import date_time_by_minute
+%>
+
+
+
+
+
+<%htm:form id="book_form_new">
+%if booklib.is_exist:
+<div style="margin-bottom:4px">借阅人的邮箱</div>
+<div style="margin-bottom:16px">
+<input type="text" id="mail" name="mail" class="book_input">
+</div>
+<div style="margin-bottom:4px">借阅天数</div> 
+<div style="margin-bottom:16px">
+<input type="text" name="days" value="42"
+class="book_input"
+>
+</div>
+<div>
+<span class="btnw"><button type="submit">新建借阅</button></span>
+</div>
+<script>$("#mail").focus()</script>
+%elif booklib.is_browse:
+<%
+browse = ZsiteBookBrowse.mc_get(id=book.id)
+expired_days = browse.expired_days
+%>
+%if browse:
+<div>借阅于 ${browse.begin_date}</div>
+%if expired_days:
+<div>应还于 ${browse.expire_date}</div>
+<div>超期了 ${expired_days}</div>
+%endif
+%endif
+<input type="hidden" name="return" value="1">
+<span class="btnw"><button type="submit">归还本书</button></span>
+%endif
+</%htm:form>
+
+<div style="margin-top:64px">
+   或者 <a href="/book/new/${book.id}">编辑库存</a>
+</div>
+

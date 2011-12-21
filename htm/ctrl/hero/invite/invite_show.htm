@@ -1,4 +1,4 @@
-<%inherit file="_base.htm" />
+<%inherit file="/ctrl/hero/base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%def name="head()">
 ${css.ctrl_i_password|n}
@@ -64,7 +64,7 @@ zsite = Zsite.mc_get(uid)
         <span class="btnw act R"><button type="submit">关注所选</button></span>
         <input type="hidden" id="follow_id_list" name="follow_id_list" value="">
     </%htm:form>
-    <span class="btnw act"><button type="button" onclick="location='/i/invite/email'">跳过</button></span>
+    <span class="btnw act"><button type="button" onclick="location='/invite/email'">跳过</button></span>
     <label for="select_all" class="select_all">全选</label><input type="checkbox" id="select_all" class="select_all"/>
 </div>
 </div>

@@ -6,27 +6,105 @@ from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, Mc
 from model.zsite import zsite_new, ZSITE_STATE_ACTIVE, Zsite, ZSITE_STATE_VERIFY
 from model.cid import CID_BOOK
 from txt import txt_new
+from time import time
+from model.days import today_days, days2today
 
-
+# DROP TABLE IF EXISTS `zpage`.`zsite_book_lib`;
+# CREATE TABLE  `zpage`.`zsite_book_lib` (
+#   `id` int(10) unsigned NOT NULL auto_increment,
+#   `book_id` int(10) unsigned NOT NULL default '0',
+#   `owner_id` int(10) unsigned NOT NULL default '0',
+#   `state` int(10) unsigned NOT NULL default '0',
+#   `pid` int(10) unsigned NOT NULL default '0',
+#   `from_id` int(10) unsigned NOT NULL default '0',
+#   PRIMARY KEY  (`id`),
+#   KEY `Index_3` (`book_id`,`state`),
+#   KEY `Index_2` USING BTREE (`owner_id`)
+# ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=binary;
+# 
+# DROP TABLE IF EXISTS `zpage`.`zsite_book_browse`;
+# CREATE TABLE `zpage`.`zsite_book_browse` (
+#   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+#   `expire` INTEGER UNSIGNED NOT NULL,
+#   `begin_time` INTEGER UNSIGNED NOT NULL,
+#   PRIMARY KEY (`id`),
+# )
+# 
+# DROP TABLE IF EXISTS `zpage`.`zsite_book`;
+# CREATE TABLE  `zpage`.`zsite_book` (
+#   `id` int(10) unsigned NOT NULL auto_increment,
+#   `douban_id` int(10) unsigned NOT NULL default '0',
+#   `isbn` bigint(20) unsigned NOT NULL default '0',
+#   `pages` int(10) unsigned NOT NULL,
+#   `author` varbinary(512) NOT NULL,
+#   `translator` varbinary(512) NOT NULL,
+#   `publisher` varbinary(128) NOT NULL,
+#   `author_intro` blob NOT NULL,
+#   `douban_pic_id` int(10) unsigned NOT NULL default '0',
+#   `rating` smallint(5) unsigned NOT NULL default '0',
+#   `rating_num` int(10) unsigned NOT NULL default '0',
+#   PRIMARY KEY  (`id`),
+#   KEY `Index_2` USING BTREE (`douban_id`),
+#   KEY `Index_3` USING BTREE (`isbn`)
+# ) ENGINE=MyISAM AUTO_INCREMENT=2389 DEFAULT CHARSET=binary;
+# 
+# DROP TABLE IF EXISTS `zpage`.`zsite_book_browse_history`;
+# CREATE TABLE `zpage`.`zsite_book_browse_history` (
+#   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+#   `book_lib_id` INTEGER UNSIGNED NOT NULL,
+#   `begin_time` INTEGER UNSIGNED NOT NULL,
+#   `end_time` INTEGER UNSIGNED NOT NULL,
+#   `user_id` INTEGER UNSIGNED NOT NULL,
+#   PRIMARY KEY (`id`),
+#   INDEX `Index_2`(`user_id`),
+#   INDEX `Index_3`(`book_lib_id`)
+# )
+# ENGINE = MyISAM;
 
 mc_zsite_book_id_by_isbn = McCache('ZsiteBookIdByIsbn:%s')
 
-# CREATE TABLE `zpage`.`zsite_book_lib` (
-#   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-#   `book_id` INTEGER UNSIGNED NOT NULL,
-#   `from_id` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-#   `state` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-#   `pid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-#   `address_id` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-#   PRIMARY KEY (`id`),
-#   INDEX `Index_2`(`from_id`),
-#   INDEX `Index_3`(`book_id`, `state`)
-# )
+ZSITE_BOOK_LIB_STATE_EXIST  = 10
+ZSITE_BOOK_LIB_STATE_BROWSE = 20
+ZSITE_BOOK_LIB_STATE_LOST = 30
 
-ZSITE_BOOK_LIB_STATE_EXIST = 10
+ZSITE_BOOK_LIB_STATE2CN = {
+    ZSITE_BOOK_LIB_STATE_EXIST  : "在库" ,
+    ZSITE_BOOK_LIB_STATE_BROWSE : "借出" , 
+    ZSITE_BOOK_LIB_STATE_LOST   : "丢失" ,
+}
+
+class ZsiteBookBrowseHistory(Model):
+    pass
+
+class ZsiteBookBrowse(McModel):
+    @property
+    def expired_days(self):
+        now = today_days()
+        if self.expire > now:
+            return self.expire - now
+        return 0
+    
+    @property
+    def expire_date(self):
+        return days2today(self.expire)
+
+    @property
+    def begin_date(self):
+        return days2today(self.begin_days)
+
 
 class ZsiteBookLib(McModel):
-    pass
+    @property
+    def is_exist(self):
+        return self.state == ZSITE_BOOK_LIB_STATE_EXIST
+    
+    @property
+    def is_lost(self):
+        return self.state == ZSITE_BOOK_LIB_STATE_LOST
+
+    @property
+    def is_browse(self):
+        return self.state == ZSITE_BOOK_LIB_STATE_BROWSE
 
 class ZsiteBook(McModel):
     pass
@@ -51,20 +129,20 @@ def zsite_book_id_by_isbn(isbn):
     return 0
 
 def zsite_book_lib():
-    l = list(ZsiteBookLib.where())
-    Zsite.mc_bind(l,"zsite","book_id")
+    l = list(ZsiteBookLib.where().order_by('book_id desc'))
+    Zsite.mc_bind(l, 'zsite', 'book_id')
     return l
 
 def zsite_book_by_lib(book_id):
-    l = ZsiteBookLib.where(book_id=book_id).col_list()
-    return l
+    l = ZsiteBookLib.where(book_id=book_id)
+    return list(l)
 
 def zsite_book_lib_new(book_id, total):
     if not ZsiteBook.mc_get(book_id):
         return
     for i in range(total):
         book = ZsiteBookLib(
-            book_id = book_id,
+            book_id=book_id,
             state=ZSITE_BOOK_LIB_STATE_EXIST
         )
         book.save()
@@ -131,4 +209,5 @@ def isbn10to13(number):
 if __name__ == '__main__':
     #for j, i in enumerate(Zsite.where(cid=CID_COM)):
     #print i.name, j
-    print isbn10to13(7543639130)
+    #print isbn10to13(7543639130)
+    pass

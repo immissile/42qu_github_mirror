@@ -5,7 +5,16 @@ from _urlmap import urlmap
 from tornado import httpclient
 import tornado.web
 import logging
-from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite, zsite_book_lib_new, zsite_book_lib
+from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite, zsite_book_lib_new, zsite_book_lib, ZsiteBookLib
+
+
+
+@urlmap('/book/lib/(\d+)')
+class BookLib(Base):
+    def get(self, id):
+        booklib = ZsiteBookLib.mc_get(id)
+        book = ZsiteBook.mc_get(booklib.book_id)
+        self.render(booklib=booklib, book=book)
 
 @urlmap('/book-(\d+)')
 class ZsiteBookPage(Base):
@@ -38,8 +47,7 @@ class BookNew(Base):
         book = ZsiteBook.mc_get(id)
         if not book:
             return self.redirect("/")
-        book_zsite = Zsite.mc_get(id) 
-        self.render(book=book, book_zsite=book_zsite)
+        self.render(book=book)
 
     def post(self, id):
         total = self.get_argument('total',0)
