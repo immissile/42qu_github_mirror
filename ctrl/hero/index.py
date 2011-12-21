@@ -29,7 +29,7 @@ class Index(Base):
 
 @urlmap('/q/school')
 @urlmap('/q/school/(\d+)/(\d+)/(\d+)-(\d+)')
-class School(Base):
+class School(LoginBase):
     def get(self, id=0, year=0, degree=0, n=1):
         school_id         = self.get_argument('school_id', None)
         school_year       = self.get_argument('school_year', 0)

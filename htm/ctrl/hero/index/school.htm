@@ -30,9 +30,14 @@ name="is_my" type="checkbox" id="is_my"><label id="is_my_label" for="is_my">追�
 </script>
 
 <div class="G c">
-<div class="G1 f16" style="">
-<h2  class="my_career"><a href="/i/career" class="R">编辑</a>我的履历</h2>
-<div style="border-bottom: 1px dotted rgb(204, 204, 204);"><input type="radio"> 电子科大<div style="margin-left: 16px;"> 生物医学工程 2011级</div></div>
+<div class="G1 f16">
+<h2  class="my_career"><a href="${current_user.link}/i/career" class="R">编辑</a>我的履历</h2>
+<div class="school_li c">\
+<input type="radio" value="1" id="school_li1" class="school_li_radio">\
+<label for="school_li1">\
+<div class="school_li_div">电子科大<div> 生物医学工程 2011级</div></div>\
+</label>\
+</div>
 </div>
 <div class="G3 mb32">
 <form style="border-bottom:1px dotted #ccc"  id="school" action="/q/school">\
