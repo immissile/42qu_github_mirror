@@ -60,7 +60,7 @@ ${school_show(school_id, school_year, school_degree, school_department)}
 <div class="G">
 %if _id and not result:
 <div class="G3"><div class="tc" style="font-size:16px;padding:27px;border-bottom:1px dotted #ccc">查无结果</div></div>
-%elif result[0] != (year, department, degree):
+%elif result and result[0] != (year, department, degree):
 <style>
 .school_split0 .school_split{
 margin-top:0;padding-top:0;border-top:0;
