@@ -98,7 +98,10 @@ ${school_year_}
 %endif
 </div>
 </div>
-${hero_list_with_star(Zsite.mc_get_list(k_),3)}
+<%
+zsite_list = [i for i in Zsite.mc_get_list(k_) if i.id != current_user_id]
+%>
+${hero_list_with_star(zsite_list,3)}
     %endfor
 
 
