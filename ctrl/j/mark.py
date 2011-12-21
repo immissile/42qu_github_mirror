@@ -8,9 +8,7 @@ from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WAL
 from model.po import Po, PO_SHARE_FAV_CID
 from json import dumps
 
-
-CID_EVENT=[
-        CID_BUZZ_EVENT_JOIN_APPLY,
+CID_EVENT=[ CID_BUZZ_EVENT_JOIN_APPLY,
         CID_BUZZ_EVENT_FEEDBACK_JOINER,
         CID_BUZZ_EVENT_FEEDBACK_JOINER
         ]
