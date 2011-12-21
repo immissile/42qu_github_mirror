@@ -1,7 +1,14 @@
 <%inherit file="_base.htm" />
-
+<%
+from config import SITE_DOMAIN_SUFFIX
+%>
 <%namespace file="/ctrl/_util/i/career.htm" name="career"/>
 
+<%def name="saved()">
+%if request.method == "POST":
+<div class="saved">保存成功 ! 去找找 <a href="//hero.${SITE_DOMAIN_SUFFIX}/q/school">同学校友</a> 吧</div>
+%endif
+</%def>
 
 <%def name="head()">
 ${career.css_js()}
