@@ -60,10 +60,8 @@ ${school_show(school_id, school_year, school_degree, school_department)}
 <div class="G">
 
 
-%for school_degree_ , i_  in result.iteritems():
-    %for school_department_ , j_ in i_.iteritems():
-        %for school_year_ , k_ in j_.iteritems():
-%if school_department_ or school_year_ or school_degree_:
+    %for school_degree_ , school_department_ ,school_year_ , k_ in result:
+%if any((school_degree_ , school_department_ ,school_year_)):
 <div class="G3">
 <div class="school_split">
 %if school_department_:
@@ -84,10 +82,8 @@ ${school_year_}
 </div>
 </div>
 %endif
-            ${hero_list_with_star(Zsite.mc_get_list(k_),3)}
-        %endfor
+${hero_list_with_star(Zsite.mc_get_list(k_),3)}
     %endfor
-%endfor
 
 
 </div>

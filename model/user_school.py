@@ -11,7 +11,7 @@ from model.zsite import Zsite
 
 mc_user_school_id_list = McCacheA('UserSchoolIdList:%s')
 mc_user_school_tuple = McCacheM('UserSchoolTuple:%s')
-mc_user_school_dict = McCacheM('UserSchoolDict;%s')
+mc_user_school_dict = McCacheM('UserSchoolDict~%s')
 
 class UserSchool(McModel):
     pass
@@ -109,16 +109,22 @@ def user_school_dict(school_id):
         rs = rs[school_year]
 
         rs.append(i.user_id)
-    return result
+
+    rs = []
+
+
+    for i, _i in result.iteritems():
+        for j, _j in _i.iteritems():
+            for k, _k in _j.iteritems():
+                rs.append((i, j, k, _k))
+
+    return tuple(rs)
 
 def user_school_search(school_id, school_year, school_degree, school_department):
     result = user_school_dict(school_id)
     zsite_id_list = []
-    for i in result.itervalues():
-        for j in result.itervalues():
-            for k in j.itervalues():
-                for m in k.itervalues():
-                    zsite_id_list.extend(m)
+    for i in result:
+        zsite_id_list.extend(i[3])
     Zsite.mc_get_list(zsite_id_list)
     return result
 
