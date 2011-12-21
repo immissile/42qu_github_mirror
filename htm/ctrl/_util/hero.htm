@@ -4,7 +4,7 @@ from model.ico import pic_url_bind
 from model.career import career_bind
 %>
 
-<%def name="hero_list_with_star(zsite_list, chunk=4)">
+<%def name="hero_list_with_star(zsite_list, chunk_size=4)">
 <%
 career_bind(zsite_list)
 pic_url_bind(zsite_list, "219")
@@ -18,7 +18,7 @@ for i in zsite_list:
 zsite_list = has_pic
 %>
 <div class="zsite_list">
-    %for chunk in chunkiter(zsite_list,chunk):
+    %for chunk in chunkiter(zsite_list,chunk_size):
 <div class="hero_line c">
         %for i in chunk:
 <div class="G1">
@@ -39,7 +39,7 @@ unit, title = i.career
 </div>
         %endfor
     %endfor
-    %for chunk in chunkiter(no_pic,chunk):
+    %for chunk in chunkiter(no_pic,chunk_size):
 <div class="hero_line c">
         %for i in chunk:
 <div class="G1">
