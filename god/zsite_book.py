@@ -21,16 +21,17 @@ class BookLib(Base):
         booklib = ZsiteBookLib.mc_get(id)
         book = ZsiteBook.mc_get(booklib.book_id)
 
-        if booklib.is_browse:
+        if booklib.is_exist:
             mail = self.get_argument("mail","")
             mail = mail.strip().lower()
-            user_id = user_id_by_mail(mail)
-            if not user_id:
-                user_id = user_new(mail)
-            return self.redirect(
-                '/book/lib/browse/%s/%s'%(id, user_id)
-            )
-        return self.get()       
+            if mail:
+                user_id = user_id_by_mail(mail)
+                if not user_id:
+                    user_id = user_new(mail)
+                return self.redirect(
+                    '/book/lib/browse/%s/%s'%(id, user_id)
+                )
+        return self.get(id)       
 
  
 @urlmap('/book/lib/browse/(\d+)/(\d+)')
@@ -38,7 +39,7 @@ class BookLibBrowse(Base):
     def get(self, id, user_id):
         booklib = ZsiteBookLib.mc_get(id)
         book = ZsiteBook.mc_get(booklib.book_id)
-        if not booklib.is_browse:
+        if not booklib.is_exist:
             return self.redirect("/book/lib/%s"%id)
 
         zsite = Zsite.mc_get(zsite) 
