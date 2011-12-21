@@ -55,3 +55,11 @@ function closeBuzz(id,state){
         }
         $("#bz_"+id).hide('slow');
 }
+function clear_part(id)
+{
+    $.postJSON(
+            '/j/buzz/clean/'+id,
+            function(result){
+                location.reload(true);
+            })
+}

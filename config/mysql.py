@@ -7,6 +7,7 @@ DB_MAIN_TABLE = (
     'log_history',
     'shorturl',
     'buzz',
+    'site_rec_new',
     'buzz_pos',
     'buzz_sys',
     'buzz_unread',

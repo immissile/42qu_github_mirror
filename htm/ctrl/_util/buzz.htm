@@ -103,7 +103,7 @@ ${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}
 
 <%def name="buzz_render_event(event_list)">
 % if event_list:
-<p class="right_title">活动<a href="javascript:alert(0)">X</a></p>
+<p class="right_title">活动<a href="javascript:clear_part(0)" class="clp">X</a></p>
 <div class="buzz_win">\
     
     % for i in event_list:
@@ -137,7 +137,7 @@ tlist = defaultdict(list)
 for i in rlist:
     tlist[i.entry.rid].append(i) 
 %>
-<p class="right_title">回复<a href="javascript:alert(2)">X</a></p>
+<p class="right_title">回复<a href="javascript:clear_part(2)" class="clp">X</a></p>
 <div class="buzz_win">\
     
     % for pos,(key,i) in enumerate(tlist.items()):
@@ -149,7 +149,7 @@ for i in rlist:
     %>
     <div class="buzz_w" id="bz_${key}">
         <div>
-            <a href="javascript:closeBuzz(${key},1)" id="rp_${key}" style="float:right">X</a>
+            <a href="javascript:closeBuzz(${key},1)" class="bzr" id="rp_${key}" style="float:right">X</a>
             <a href="javascript:visit('${po.link}',${key})" target="_blank" class="buzz_li">
                 % if po.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
                 ${cnenoverflow(po.name,30)[0]}\
@@ -160,10 +160,14 @@ for i in rlist:
         </div>
         <div class="buzz_au">5分钟前 , 
             <%
-            repliers = set([c.from_list[0].name for c in i])
+            repliers = set([c.from_list[0] for c in i])
             %>
-            %for x in repliers:
-                ${x}
+            %for pos,x in enumerate(repliers):
+            <a href="${x.link}" class="TPH">${x.name}</a>,
+            <% 
+            if pos>2:
+                break
+            %>
             %endfor
             等<span class="buzz_cou">${len(repliers)}</span>人回复</div>
     </div>
@@ -174,9 +178,8 @@ for i in rlist:
 
 <%def name="buzz_render_at(list)">
 % if list:
-<p class="right_title">@了我<a href="javascript:alert(1)">X</a></p>
+<p class="right_title">@了我<a href="javascript:clear_part(1)" class="clp">X</a></p>
     <div class="buzz_win">\
-    
         % for i in list:
             <div class="buzz_w">
                 ${user_link_list(i.from_list)} : <span class="buzz_txt">${i.entry.htm|n}</span><a target="_blank" class="zsite_reply" href="${i.entry.link}"></a>
@@ -188,7 +191,7 @@ for i in rlist:
 
 <%def name="buzz_render_follow(list)">
 % if list:
-<p class="right_title">动态<a href="javascript:alert(1)">X</a></p>
+<p class="right_title">动态<a href="javascript:clear_part(1)" class="clp">X</a></p>
 
 <div class="buzz_win">\
     % for i in list:

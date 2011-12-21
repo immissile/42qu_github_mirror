@@ -76,13 +76,17 @@
                 $("#rec_id"+id).attr("href","javascript:unfav("+id+")");
             };
             _(id, 2,callback);
-
+        }
 
         unfav=function(id){
             callback=function(){};
             _(id, 0,callback);
             $("#rec_id"+id).removeClass("site_faved");
-        };
-    }
+            $("#rec_id"+id).attr("href","javascript:fav("+id+")");
+        }
+        $(".right_title").hover(function(){$(this).find("a").show()},function(){$(this).find("a").hide()});
+        $(".buzz_w").hover(function(){$(this).find('.bzr').show()},function(){$(this).find(".bzr").hide()});
+
+
 });
 
