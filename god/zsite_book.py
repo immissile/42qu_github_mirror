@@ -16,6 +16,13 @@ class BookLib(Base):
         book = ZsiteBook.mc_get(booklib.book_id)
         self.render(booklib=booklib, book=book)
 
+    def post(self, id):
+        mail = self.get_argument("mail","")
+        mail = mail.strip().lower()
+        
+        return self.get()
+        
+
 @urlmap('/book-(\d+)')
 class ZsiteBookPage(Base):
     def get(self, n):
