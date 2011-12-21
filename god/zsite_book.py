@@ -42,7 +42,7 @@ class BookLibBrowse(Base):
         if not booklib.is_exist:
             return self.redirect("/book/lib/%s"%id)
 
-        zsite = Zsite.mc_get(zsite) 
+        zsite = Zsite.mc_get(user_id) 
         self.render(booklib=booklib, book=book, zsite=zsite)
 
 @urlmap('/book-(\d+)')

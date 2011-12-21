@@ -1,0 +1,40 @@
+<%inherit file="_base_book.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.zsite_book import zsite_book_by_lib , Zsite, ZsiteBookBrowse
+from model.user_mail import mail_by_user_id_if_exist
+%>
+
+
+
+
+
+<%htm:form id="book_form_new">
+<div style="margin-bottom:4px">借阅天数</div> 
+<div style="margin-bottom:16px">
+<input type="text" name="days" value="42"class="book_input">
+</div>
+<div style="margin-bottom:4px">借阅者姓名</div> 
+<div style="margin-bottom:16px">
+<input id="name" type="text" name="name" value="${zsite.name}"class="book_input">
+</div>
+<div style="margin-bottom:4px">借阅者手机</div> 
+<div style="margin-bottom:16px">
+<input type="text" name="cell" value="42"class="book_input">
+</div>
+<div style="margin-bottom:4px">借阅人的邮箱</div>
+<div style="margin-bottom:16px">
+${mail_by_user_id_if_exist(zsite.id)}
+</div>
+<div>
+<span class="btnw"><button type="submit">确认</button></span>
+</div>
+<script>$("#mail").focus()</script>
+</%htm:form>
+
+<div style="margin-top:64px">
+   或者 <a href="/book/lib/${booklib.id}">重新输入邮箱</a>
+</div>
+<script>
+$("#name").focus().select()
+</script>
