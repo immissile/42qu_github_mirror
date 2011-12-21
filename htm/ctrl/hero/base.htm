@@ -21,7 +21,7 @@ prefix = "//hero%s"%SITE_DOMAIN_SUFFIX
 for i in name_tuple:
     i[0] = prefix+i[0]
 if current_user_id:
-    name_tuple.append(("%s/i/invite"%current_user.link,"导入朋友"))
+    name_tuple.append(("%s/invite"%current_user.link,"导入朋友"))
 
 path = request.path
 c0pos = 0
