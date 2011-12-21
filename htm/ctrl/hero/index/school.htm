@@ -13,10 +13,13 @@ ${css.ctrl_hero_school|n}
 <script src="${js.school_ctrl}"></script>
 </%def>
 
+<%text>
 <script id="school_tmpl" type="text/x-jquery-tmpl">
 <div>
-<input type="hidden" name="school_id"  value="" class="school_id">
-<input value="请选择学校" autocomplete="off" type="text" class="school"><select 
+<input type="hidden" class="school_id" name="school_id" value="${school_id}">
+<input 
+value="{{if name}}${name}{{else}}请选择学校{{/if}}"
+autocomplete="off" type="text" class="school"><select 
 name="school_department" class="school_department"><option value="0">选择院系</option></select></select><select 
 name="school_year" class="school_year"></select><select
 name="school_degree" class="school_degree">
@@ -33,6 +36,7 @@ id="school_search" type="submit" value="" class="search_btn"><input
 name="is_my" type="checkbox" id="is_my"><label id="is_my_label" for="is_my">追加到我的履历</label>
 </div>
 </script>
+</%text>
 
 <div class="G c">
 <div class="G1 f16">
