@@ -32,6 +32,8 @@ $(function(){
         }
     }) 
 
-
+    $("#txt").bind("keydown",insertTab);
 })
+
+
 

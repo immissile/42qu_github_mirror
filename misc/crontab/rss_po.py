@@ -14,7 +14,6 @@ def rss_po():
 
     for pre in RssPo.where(state=RSS_RT_PO):
         po = htm2po_by_po(pre)
-        print po.id
         if po:
             feed_rt(0, po.id)
         pre.state = RSS_POED

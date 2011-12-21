@@ -1,4 +1,5 @@
-#!/usr/bin/env python # -*- coding: utf-8 -*-
+#!/usr/bin/env python 
+# -*- coding: utf-8 -*-
 from time import time
 from _db import cursor_by_table, McModel, McLimitA, McCache, McNum
 from cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_EVENT_FEEDBACK, CID_PO, CID_REC,\

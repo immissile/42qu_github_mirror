@@ -306,7 +306,6 @@ class EventCheck(EventAdmin):
         )
 
         li, pos_id = event_joiner_list(id, limit, offset)
-
         return self.render(
             event_joiner_list=li,
             pos_id=pos_id,

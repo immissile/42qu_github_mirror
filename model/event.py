@@ -486,8 +486,10 @@ def event_joiner_no(o, txt=''):
             event.save()
         if txt:
             notice_event_join_no(zsite_id, user_id, event_id, txt)
+        mc_flush_by_user_id(user_id)
         mc_event_joiner_user_id_list.delete(event_id)
         mc_event_joining_id_list.delete(event_id)
+        mc_event_joined_id_list.delete(event_id)
         event_joiner_check_count.delete(event_id)
 
 def event_joiner_yes(o):
@@ -530,6 +532,7 @@ def event_ready(event):
 def mc_flush_by_user_id(user_id):
     mc_event_id_list_join_by_user_id.delete(user_id)
     event_join_count_by_user_id.delete(user_id)
+
 
 def mc_flush_by_city_pid_cid(city_pid, cid):
     for _cid in set([0, cid]):
