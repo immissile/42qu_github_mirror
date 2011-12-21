@@ -1,5 +1,6 @@
 <%inherit file="../base.htm" />
 <%namespace file="/ctrl/_util/hero.htm" import="hero_list_with_star"/>
+<%namespace file="/_util/_g1.htm" import="school_show"/>
 <%def name="head()">
 ${css.ctrl_school|n}
 ${css.ctrl_hero_school|n}
@@ -36,7 +37,9 @@ name="is_my" type="checkbox" id="is_my"><label id="is_my_label" for="is_my">追�
 <div class="school_li c">\
 <input type="radio" value="${id}" id="school_li${id}" class="school_li_radio">\
 <label for="school_li${id}">\
-<div class="school_li_div">电子科大<div> 生物医学工程 2011级</div></div>\
+<div class="school_li_div">
+${school_show(school_id, school_year, school_degree, school_department)}
+</div>\
 </label>\
 </div>
 %endfor           
