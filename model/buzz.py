@@ -43,6 +43,12 @@ def buzz_set_read(user_id, buzz_id):
     mc_flush(user_id)
 
 
+def clear_buzz_by_user_id_cid(user_id,cid):
+    buzz_list = Buzz.where(to_id=user_id).where(cid=cid)
+    if buzz_list:
+        for buzz in buzz_list:
+            buzz_set_read(user_id,buzz.id)
+
 def clear_buzz_by_po_id(user_id,po_id):
     po = Po.mc_get(po_id)
     if po:

@@ -45,10 +45,13 @@ window.open(link,"_blank");
 }
 
 function closeBuzz(id,state){
-		$.postJSON(
-                '/j/reply/rm/'+state+'/'+id,
-                function(result){
-                    alert(result);
-                })
+        if (state>0)
+        {
+            $.postJSON(
+                    '/j/reply/rm/'+state+'/'+id,
+                    function(result){
+                        
+                    })
+        }
         $("#bz_"+id).hide('slow');
 }
