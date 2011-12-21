@@ -136,6 +136,9 @@ def career_id_list(user_id, cid):
     li.sort(reverse=True)
     return [i.id for i in li]
 
+def career_job_id_list(user_id):
+    return career_id_list(user_id, CID_JOB)
+
 def career_list(user_id, cid):
     id_list = career_id_list(user_id, cid)
     li = Career.mc_get_list(id_list)
@@ -177,6 +180,17 @@ def career_dict(id_list):
         career_current,
         id_list,
     )
+
+def career_job_bind(li, key='id'):
+    d = set()
+    for i in li:
+        k = getattr(i, key)
+        if career_job_id_list(k):
+            d.add(k)
+             
+    o_dict = career_dict(d)
+    for i in li:
+        i.career = o_dict.get(getattr(i, key, ('','')))
 
 def career_bind(li, key='id'):
     d = set()

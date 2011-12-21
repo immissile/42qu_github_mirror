@@ -1,13 +1,13 @@
 <%!
 from zkit.zitertools import chunkiter
 from model.ico import pic_url_bind
-from model.career import career_bind
+from model.career import career_bind, career_job_bind
 %>
 
 <%def name="hero_list_with_star(zsite_list, chunk_size=4)">
 <%
-career_bind(zsite_list)
 pic_url_bind(zsite_list, "219")
+career_job_bind(zsite_list)
 no_pic = []
 has_pic = []
 for i in zsite_list:
