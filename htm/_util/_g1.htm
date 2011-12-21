@@ -4,6 +4,7 @@ from model.career import career_list_all
 from model.namecard import namecard_get
 from model.days import year_month_begin_end
 from model.user_school import user_school_tuple
+from config import SITE_DOMAIN_SUFFIX
 from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME, SCHOOL_UNIVERSITY_DEPARTMENT_ID, SCHOOL_DEGREE
 %>
 <%def name="about_me(zsite_id, is_owner)">
@@ -128,7 +129,7 @@ ${school_show(school_id, school_year, school_degree, school_department)}
 </%def>
 
 <%def name="school_show(school_id, school_year, school_degree, school_department)">
-<a href="/q/school/${school_id, school_year, school_degree, school_department}">
+<a class="c0" href="//hero${SITE_DOMAIN_SUFFIX}/q/school/${school_id}/${school_year}/${school_degree}/${school_department}">
     <p>\
     %if school_id:
 ${SCHOOL_UNIVERSITY[school_id]}
