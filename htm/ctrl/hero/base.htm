@@ -23,7 +23,7 @@ path = request.path
 c0pos = 0
 for pos, i in enumerate(name_tuple[1:],1):
     link = i[0]
-    if len(path)>=len(link) and link.startswith(path):
+    if len(path)>=len(link) and path.startswith(link):
         c0pos = pos
         break
 %>

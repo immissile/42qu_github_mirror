@@ -1,4 +1,10 @@
-.search, #hero_nav{
+.search{
+margin-top:27px
+}
+.hero_line{
+margin-top:27px
+}
+#hero_nav{
 margin-top:12px;
 padding-bottom:12px;
 border-bottom:1px dotted #ccc;
