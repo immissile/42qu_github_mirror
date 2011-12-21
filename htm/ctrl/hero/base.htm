@@ -1,4 +1,6 @@
-
+<%!
+from config import SITE_DOMAIN_SUFFIX
+%>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%def name="head()"></%def>
 <%def name="htm_head()">
@@ -9,17 +11,23 @@ ${self.head()}
 人物
 </%def>
 <%
-name_tuple = (
-    ("/","认证用户"),
+name_tuple = [
+    ["/","认证用户"],
+    ["/q/school","同学校友"],
 ##    ("/q/com","公司同事"),
-    ("/q/school","同学校友"),
 ##    ("/q/villager","同城老乡"),
-    ("/i/invite","导入朋友"),
-)
+]
+prefix = "//hero%s"%SITE_DOMAIN_SUFFIX 
+for i in name_tuple:
+    i[0] = prefix+i[0]
+if current_user_id:
+    name_tuple.append(("%s/i/invite"%current_user.link,"导入朋友"))
+
 path = request.path
 c0pos = 0
 for pos, i in enumerate(name_tuple[1:],1):
     link = i[0]
+    link = link[link.find(SITE_DOMAIN_SUFFIX)+len(SITE_DOMAIN_SUFFIX):]
     if len(path)>=len(link) and link.startswith(path):
         c0pos = pos
         break
