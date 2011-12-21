@@ -65,10 +65,7 @@ class School(LoginBase):
         department = int(department)
 
 
-        zsite_list , page = hero_page(n)
         self.render(
-            zsite_list        = zsite_list        , 
-            page              = page              ,
             school_data       = (   0                 ,
                                     id         , 
                                     year       ,
