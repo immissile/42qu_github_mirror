@@ -55,11 +55,15 @@ class School(LoginBase):
         self.render(
             zsite_list        = zsite_list        , 
             page              = page              ,
-            school_id         = school_id         , 
-            school_year       = school_year       ,
-            school_degree     = school_degree     ,
-            school_department = school_department ,      
-            school_tuple      = school_tuple
+            school_data       = (   0                 ,
+                                    id         , 
+                                    year       ,
+                                    degree     ,
+                                    department ,     
+                                    '' 
+                                ),
+            school_id         = id, 
+            school_tuple      = school_tuple          ,
         )
 
 

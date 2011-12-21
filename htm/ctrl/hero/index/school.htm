@@ -1,3 +1,7 @@
+<%!
+from cgi import escape
+from yajl import dumps
+%>
 <%inherit file="../base.htm" />
 <%namespace file="/ctrl/_util/hero.htm" import="hero_list_with_star"/>
 <%namespace file="/_util/_g1.htm" import="school_show"/>
@@ -53,10 +57,25 @@ ${hero_list_with_star(zsite_list,3)}
 ${page|n}
 </div>
 </div>
+
+%if school_id:
+<script type="text/x-json" id="school_data">\
+${escape(dumps([school_data]))|n}\
+</script>\
+%endif
+ 
 <script>
 (function(){
-    var school_div=$("#school")
-    school(school_div)
+    var school_data=$("#school_data"), school_div=$("#school");
+    if(school_data[0]){
+        load_school(
+            school_div,
+            $.parseJSON(school_data.html())
+        )
+    }else{
+        school(school_div)
+    }
+
     $(".add_school_a").click(function(){
         school(school_div)
         $('.job_icon').remove()
