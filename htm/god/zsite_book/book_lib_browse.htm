@@ -3,9 +3,12 @@
 <%!
 from model.zsite_book import zsite_book_by_lib , Zsite, ZsiteBookBrowse
 from model.user_mail import mail_by_user_id_if_exist
+from model.namecard import namecard_get
 %>
 
-
+<%
+namecard = namecard_get(zsite.id)
+%>
 
 
 
@@ -14,13 +17,17 @@ from model.user_mail import mail_by_user_id_if_exist
 <div style="margin-bottom:16px">
 <input type="text" name="days" value="42"class="book_input">
 </div>
-<div style="margin-bottom:4px">借阅者姓名</div> 
+<div style="margin-bottom:4px">借阅者网名</div> 
 <div style="margin-bottom:16px">
 <input id="name" type="text" name="name" value="${zsite.name}"class="book_input">
 </div>
+<div style="margin-bottom:4px">借阅者真名</div> 
+<div style="margin-bottom:16px">
+<input id="name" type="text" name="name" value="${namecard.name}"class="book_input">
+</div>
 <div style="margin-bottom:4px">借阅者手机</div> 
 <div style="margin-bottom:16px">
-<input type="text" name="cell" value=""class="book_input">
+<input type="text" name="cell" value="${namecard.phone}" class="book_input">
 </div>
 <div style="margin-bottom:4px">借阅者邮箱</div>
 <div style="margin-bottom:16px">
