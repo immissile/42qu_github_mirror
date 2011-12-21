@@ -69,3 +69,7 @@ border-left:0;border-right:0
 .hero_line img{
 margin-top:7px;
 }
+
+.carerrnopic{
+border-bottom:1px dotted #ccc;
+}
