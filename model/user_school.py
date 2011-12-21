@@ -11,7 +11,7 @@ from model.zsite import Zsite
 
 mc_user_school_id_list = McCacheA('UserSchoolIdList:%s')
 mc_user_school_tuple = McCacheM('UserSchoolTuple:%s')
-mc_user_school_dict = McCacheM('UserSchoolDict:%s')
+mc_user_school_dict = McCacheM('UserSchoolDict;%s')
 
 class UserSchool(McModel):
     pass
@@ -90,18 +90,18 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
 
 @mc_user_school_dict ('{school_id}')
 def user_school_dict(school_id):
-    result = {}
+    result = rs = {}
     for i in UserSchool.where(school_id=school_id):
 
         school_degree = i.school_degree
-        if school_degree not in rs:
-            rs[school_degree] = {}
-        rs = rs[school_degree]
-        
+        if school_degree not in result:
+            result[school_degree] = {}
+        rs = result[school_degree]
+
         school_department = i.school_department
-        if school_department not in result:
-            result[school_department] = {}
-        rs = result[school_department]
+        if school_department not in rs:
+            rs[school_department] = {}
+        rs = rs[school_department]
 
         school_year = i.school_year
         if school_year not in rs:
@@ -119,7 +119,7 @@ def user_school_search(school_id, school_year, school_degree, school_department)
             for k in j.itervalues():
                 for m in k.itervalues():
                     zsite_id_list.extend(m)
-    Zsite.mc_get_list(zsite_id_list) 
+    Zsite.mc_get_list(zsite_id_list)
     return result
 
 if __name__ == '__main__':

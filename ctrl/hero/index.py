@@ -53,9 +53,17 @@ class School(LoginBase):
                 )
             )
         school_tuple = user_school_tuple(self.current_user_id)
+
+
+
         if not id and school_tuple:
             id, school_id, school_year, school_degree, school_department, txt = school_tuple[0]           
             return self.redirect(SCHOOL_LINK%(school_id, school_year, school_degree, school_department))
+        
+        year = int(year)
+        degree = int(degree)
+        department = int(department)
+
 
         zsite_list , page = hero_page(n)
         self.render(
@@ -70,7 +78,10 @@ class School(LoginBase):
                                 ),
             school_id         = id, 
             school_tuple      = school_tuple          ,
-            result            = user_school_search(id, year, degree, department)
+            result            = user_school_search(id, year, degree, department),
+            year              = year,
+            degree            = degree,
+            department        = department,     
         )
 
 
