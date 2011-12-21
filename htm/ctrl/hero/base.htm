@@ -11,23 +11,18 @@ ${self.head()}
 人物
 </%def>
 <%
-name_tuple = [
-    ["/","认证用户"],
-    ["/q/school","同学校友"],
+name_tuple = (
+    ("/","认证用户"),
+    ("/q/school","同学校友"),
+    ("/invite"k,"导入朋友"),
 ##    ("/q/com","公司同事"),
 ##    ("/q/villager","同城老乡"),
-]
-prefix = "//hero%s"%SITE_DOMAIN_SUFFIX 
-for i in name_tuple:
-    i[0] = prefix+i[0]
-if current_user_id:
-    name_tuple.append(("%s/invite"%current_user.link,"导入朋友"))
+)
 
 path = request.path
 c0pos = 0
 for pos, i in enumerate(name_tuple[1:],1):
     link = i[0]
-    link = link[link.find(SITE_DOMAIN_SUFFIX)+len(SITE_DOMAIN_SUFFIX):]
     if len(path)>=len(link) and link.startswith(path):
         c0pos = pos
         break
