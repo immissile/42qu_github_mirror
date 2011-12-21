@@ -27,9 +27,10 @@ class Index(Base):
         zsite_list , page = hero_page(n)
         self.render(zsite_list=zsite_list, page=page)
 
-SCHOOL_LINK = '/q/school/%s/%s/%s/%s-1'
+SCHOOL_LINK = '/q/school/%s/%s/%s/%s'
 
 @urlmap('/q/school')
+@urlmap('/q/school/(\d+)/(\d+)/(\d+)/(\d+)')
 @urlmap('/q/school/(\d+)/(\d+)/(\d+)/(\d+)-(\d+)')
 class School(LoginBase):
     def get(self, id=0, year=0, degree=0, department=0, n=1):

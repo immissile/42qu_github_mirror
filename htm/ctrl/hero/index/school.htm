@@ -35,7 +35,7 @@ name="is_my" type="checkbox" id="is_my"><label id="is_my_label" for="is_my">追�
 <h2  class="my_career"><a href="${current_user.link}/i/career" class="R">编辑</a>我的履历</h2>
 %for id, school_id, school_year, school_degree, school_department, txt in school_tuple:
 <div class="school_li c">\
-<input type="radio" value="${id}" id="school_li${id}" class="school_li_radio">\
+<input type="radio" value="${school_id}/${school_year}/${school_degree}/${school_department}" id="school_li${id}" class="school_li_radio" name="school_li">\
 <label for="school_li${id}">\
 <div class="school_li_div">
 ${school_show(school_id, school_year, school_degree, school_department)}
@@ -62,6 +62,13 @@ ${page|n}
         $('.job_icon').remove()
         $('.job_txt').css({"margin-bottom":"27px"})
         return false
+    })
+    $(".school_li_radio").click(function(){
+        window.location = "/q/school/"+this.value
+    }).attr('checked',false).each(function(){
+        if(location.pathname.split("-")[0]=="/q/school/"+this.value){
+            this.checked = true;
+        }
     })
 })()
 </script>
