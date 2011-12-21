@@ -190,7 +190,7 @@ def career_job_bind(li, key='id'):
              
     o_dict = career_dict(d)
     for i in li:
-        i.career = o_dict.get(getattr(i, key, ('','')))
+        i.career = o_dict.get(getattr(i, key, ), ('',''))
 
 def career_bind(li, key='id'):
     d = set()
