@@ -131,9 +131,9 @@ class UserSchoolSorter(object):
     def __call__(self, key):
         school_year, school_degree, school_department = key[0]
         result = 0
-        result += abs(school_degree-self.school_degree)*10000000
-        result += abs(school_year-self.school_year)*1000
-        result += abs(self.school_department-school_department)
+        result += abs(self.school_department-school_department)*1000000000
+        result += abs(school_year-self.school_year)*100000
+        result += abs(school_degree-self.school_degree)
         return result
 
 def user_school_search(school_id, school_year, school_degree, school_department):
@@ -144,7 +144,7 @@ def user_school_search(school_id, school_year, school_degree, school_department)
     for i in result:
         zsite_id_list.extend(i[1])
     Zsite.mc_get_list(zsite_id_list)
-    result.sort(key=UserSchoolSorter(school_year,school_degree, school_department),reverse=True)
+    result.sort(key=UserSchoolSorter(school_year,school_degree, school_department))
     return result
 
 if __name__ == '__main__':
