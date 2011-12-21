@@ -92,15 +92,16 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
 def user_school_dict(school_id):
     result = {}
     for i in UserSchool.where(school_id=school_id):
-        school_department = i.school_department
-        if school_department not in result:
-            result[school_department] = {}
-        rs = result[school_department]
 
         school_degree = i.school_degree
         if school_degree not in rs:
             rs[school_degree] = {}
         rs = rs[school_degree]
+        
+        school_department = i.school_department
+        if school_department not in result:
+            result[school_department] = {}
+        rs = result[school_department]
 
         school_year = i.school_year
         if school_year not in rs:
@@ -110,7 +111,7 @@ def user_school_dict(school_id):
         rs.append(i.user_id)
     return result
 
-def user_school_search(school_id, school_year, school_department, school_degree):
+def user_school_search(school_id, school_year, school_degree, school_department):
     result = user_school_dict(school_id)
     zsite_id_list = []
     for i in result.itervalues():

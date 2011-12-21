@@ -6,7 +6,7 @@ from model.cid import CID_USER
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from config import SITE_DOMAIN
-from model.user_school import user_school_tuple, user_school_new
+from model.user_school import user_school_tuple, user_school_new, user_school_search
 
 def hero_page(n):
     n = int(n)
@@ -70,6 +70,7 @@ class School(LoginBase):
                                 ),
             school_id         = id, 
             school_tuple      = school_tuple          ,
+            result            = user_school_search(id, year, degree, department)
         )
 
 
