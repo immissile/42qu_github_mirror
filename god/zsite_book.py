@@ -6,8 +6,9 @@ from tornado import httpclient
 import tornado.web
 import logging
 from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite, zsite_book_lib_new, zsite_book_lib, ZsiteBookLib
-
-
+from model.user_mail import user_id_by_mail
+from model.user_new import user_new
+from model.zsite import Zsite
 
 @urlmap('/book/lib/(\d+)')
 class BookLib(Base):
@@ -17,11 +18,31 @@ class BookLib(Base):
         self.render(booklib=booklib, book=book)
 
     def post(self, id):
-        mail = self.get_argument("mail","")
-        mail = mail.strip().lower()
-        
-        return self.get()
-        
+        booklib = ZsiteBookLib.mc_get(id)
+        book = ZsiteBook.mc_get(booklib.book_id)
+
+        if booklib.is_browse:
+            mail = self.get_argument("mail","")
+            mail = mail.strip().lower()
+            user_id = user_id_by_mail(mail)
+            if not user_id:
+                user_id = user_new(mail)
+            return self.redirect(
+                '/book/lib/browse/%s/%s'%(id, user_id)
+            )
+        return self.get()       
+
+ 
+@urlmap('/book/lib/browse/(\d+)/(\d+)')
+class BookLibBrowse(Base):
+    def get(self, id, user_id):
+        booklib = ZsiteBookLib.mc_get(id)
+        book = ZsiteBook.mc_get(booklib.book_id)
+        if not booklib.is_browse:
+            return self.redirect("/book/lib/%s"%id)
+
+        zsite = Zsite.mc_get(zsite) 
+        self.render(booklib=booklib, book=book, zsite=zsite)
 
 @urlmap('/book-(\d+)')
 class ZsiteBookPage(Base):
