@@ -82,10 +82,10 @@ school_degree_ , school_department_ ,school_year_ = i
 ${SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[school_department_]} 
 %endif
 %if school_department_ and school_degree_:
-. 
+.
 %endif
 %if school_degree_:
-SCHOOL_DEGREE[school_degree_]
+${SCHOOL_DEGREE[school_degree_]}
 %endif
 %if (school_department_ or school_degree_) and school_year_:
 .

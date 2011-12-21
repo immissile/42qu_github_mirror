@@ -148,6 +148,8 @@ def career_list_all(user_id):
     li.sort(reverse=True)
     return li
 
+
+
 @mc_career_current('{user_id}')
 def career_current(user_id):
     li = career_list_all(user_id)
