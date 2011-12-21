@@ -129,6 +129,14 @@ def ico_url_bind_with_default(zsite_list):
             ico_url_with_default(i.id)
         )
 
+def pic_url_bind(zsite_list, size):
+    key = 'pic%s' % size
+    for i in zsite_list:
+        setattr(
+            i,
+            key,
+            pic_url(i.id, size)
+        )
 
 def pic_url_bind_with_default(zsite_list, size):
     key = 'pic%s' % size
