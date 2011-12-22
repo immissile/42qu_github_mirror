@@ -58,16 +58,18 @@ ${school_show(school_id, school_year, school_degree, school_department)}
 <form style="border-bottom:1px dotted #ccc"  id="school" action="/q/school">\
 </form>\
 <div class="G">
-%if _id and not result:
-<div class="G3"><div class="tc" style="font-size:16px;padding:27px;border-bottom:1px dotted #ccc">查无结果</div></div>
-%endif
 %if school_count and _id:
 <div class="G3 school_split_g3">
     <div class="school_split">
-<span class="mr3">${school_count}</span>人 来自 ${SCHOOL_UNIVERSITY[_id]} , <a href="/q/school/${_id}">点此浏览</a>
+<span class="mr3">${school_count}</span>人 来自 ${SCHOOL_UNIVERSITY[_id]} , <a href="/q/school/${_id}">点此浏览全部</a>
     </div>
 </div>
 %endif
+
+%if _id and not result:
+<div class="G3"><div class="tc" style="font-size:16px;padding:27px;border-bottom:1px dotted #ccc">查无结果</div></div>
+%endif
+
 ${hero_list_with_star(result,3)}
 
 

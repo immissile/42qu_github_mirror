@@ -41,6 +41,10 @@ class School(LoginBase):
         school_department = self.get_argument('school_department', 0)
         is_my = int(bool(self.get_argument('is_my', None) == 'on'))
         id = int(id)
+        year = int(year)
+        degree = int(degree)
+        department = int(department)
+
         if school_id:
             if is_my:
                 user_school_new(
@@ -67,7 +71,8 @@ class School(LoginBase):
 
         result = user_school_search(id, year, degree, department)
         result_len = len(result)
-        if len(result) < 64 and id and not any((year, degree, department)):
+        
+        if len(result) < 64 and id and any((year, degree, department)):
             school_count =  user_school_count(id)
             if school_count <= result_len:
                 school_count = 0
