@@ -64,7 +64,7 @@ class School(LoginBase):
         degree = int(degree)
         department = int(department)
 
-        user_school_search(id, year, degree, department)
+        result = user_school_search(id, year, degree, department)
 
         self.render(
             school_data       = (   0                 ,
