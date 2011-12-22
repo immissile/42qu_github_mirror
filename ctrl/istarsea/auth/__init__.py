@@ -129,7 +129,7 @@ class Reg(NoLoginBase):
                 phone = self.get_argument('phone', '')
                 namecard_new(user_id,phone=phone)
 
-                return self.redirect('/reged/%s'%user_id)
+                return self.redirect('/auth/reged/%s'%user_id)
 
         self.render(
             mail=mail,
@@ -137,7 +137,7 @@ class Reg(NoLoginBase):
             errtip=errtip
         )
 
-@urlmap('/auth/reged')
+@urlmap('/auth/reged/(\d+)')
 class Reged(NoLoginBase):
     def get(self):
         self.render()
