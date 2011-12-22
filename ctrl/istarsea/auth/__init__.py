@@ -23,7 +23,6 @@ from model.user_new import user_new
 from model.user_session import user_session, user_session_rm
 from model.namecard import namecard_new
 
-LOGIN_REDIRECT = '%s/live'
 
 @urlmap('/logout')
 class Logout(XsrfGetBase):
@@ -53,7 +52,7 @@ class NoLoginBase(Base):
 
 
 
-@urlmap('/auth/reg/?(.*)')
+@urlmap('/auth/reg')
 class Reg(NoLoginBase):
     def get(self, mail=''):
         self.render(
@@ -122,8 +121,8 @@ class Reg(NoLoginBase):
             user_id = user_id_by_mail(mail)
             if not user_id:
                 user_id = user_new(mail, name=name)
-                session = user_session(user_id)
-                self.set_cookie('S', session)
+                #session = user_session(user_id)
+                #self.set_cookie('S', session)
                 self.set_cookie('E', mail)
 
                 phone = self.get_argument('phone', '')
@@ -139,5 +138,5 @@ class Reg(NoLoginBase):
 
 @urlmap('/auth/reged/(\d+)')
 class Reged(NoLoginBase):
-    def get(self):
+    def get(self, id):
         self.render()
