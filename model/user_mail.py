@@ -12,14 +12,14 @@ class UserMail(Model):
     pass
 
 mc_mail_by_user_id = McCache('MailByUserId.%s')
-mc_mail_by_user_id_if_login = McCache('MailByUserIdIfLogin.%s')
+#mc_mail_by_user_id_if_login = McCache('MailByUserIdIfLogin.%s')
 
-@mc_mail_by_user_id_if_login('{user_id}')
-def mail_by_user_id_if_login(user_id):
-    c = UserMail.raw_sql('select mail from user_mail where user_id=%s and state=%s', user_id, MAIL_LOGIN).fetchone()
-    if c:
-        return c[0]
-    return ''
+#@mc_mail_by_user_id_if_login('{user_id}')
+#def mail_by_user_id_if_login(user_id):
+#    c = UserMail.raw_sql('select mail from user_mail where user_id=%s and state=%s', user_id, MAIL_LOGIN).fetchone()
+#    if c:
+#        return c[0]
+#    return ''
 
 @mc_mail_by_user_id('{user_id}')
 def mail_by_user_id(user_id):
