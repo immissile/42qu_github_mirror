@@ -12,7 +12,7 @@ function select_univ(uid){
 function school_department(dep_node, uid){
     var deps = SCHOOL_UNIVERSITY_DEPARTMENT_ID[parseInt(uid)] || [];
     dep_node.children().remove()
-    dep_node.append('<option value="">选择院系</option>')
+    dep_node.append('<option value="0">选择院系</option>')
     for(var j=0;j<deps.length;j++){
         var i=deps[j]
         dep_node.append('<option value="'+i+'">'+SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[i]+'</option>')
