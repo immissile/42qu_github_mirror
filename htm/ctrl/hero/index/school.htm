@@ -12,7 +12,10 @@ from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTME
 
 <%def name="hero_list_with_star(zsite_list, chunk_size, department, year)">
 <%
-school_name = SCHOOL_UNIVERSITY[_id]
+if _id:
+    school_name = SCHOOL_UNIVERSITY[_id]
+else:
+    school_name = ''
 if department:
     department_name = SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[department]
 else:
