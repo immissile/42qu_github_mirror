@@ -58,6 +58,7 @@ def verifyed(id, value, delete=False):
     return 0, 0
 
 if __name__ == '__main__':
+    #verify_mail_new(10193518,'safsadf','guohao.chu.an@gmail.com',CID_VERIFY_MAIL)
     user_id , cid = verifyed(10266, 'kvfUEfwjyOyUaHQ3')
     print user_id, cid == CID_VERIFY_COM_HR
 

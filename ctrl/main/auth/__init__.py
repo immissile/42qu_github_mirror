@@ -199,4 +199,5 @@ class AuthBind(NoLoginBase):
 
     _mail_password_post = _mail_password_post
 
-
+if __name__ == '__main__':
+    user_id = user_new('guohao.chua.n@gmail.com', sex=1)

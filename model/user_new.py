@@ -16,6 +16,7 @@ def user_new(mail, password=None, name=None, sex=0):
 
 
 if __name__ == '__main__':
-    from zsite import Zsite
-    z = Zsite.mc_get(10001229)
-    print z.name
+    #from zsite import Zsite
+    #z = Zsite.mc_get(10001229)
+    #print z.name
+    user_id = user_new('g.u.oha.o.chua.n@gmail.com', sex=1)
