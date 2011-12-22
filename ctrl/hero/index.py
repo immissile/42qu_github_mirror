@@ -40,7 +40,7 @@ class School(LoginBase):
         school_degree     = self.get_argument('school_degree', 0)
         school_department = self.get_argument('school_department', 0)
         is_my = int(bool(self.get_argument('is_my', None) == 'on'))
-
+        id = int(id)
         if school_id:
             if is_my:
                 user_school_new(
