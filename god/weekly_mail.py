@@ -47,7 +47,7 @@ class Page(Base):
                 page=page
         )
 
-@urlmap('/weekly_mail/rm/(\d+)')
+@urlmap('/weekly/mail/rm/(\d+)')
 class WeeklyMailRm(Base):
     def get(self, id):
         weekly_mail_rm(id)
