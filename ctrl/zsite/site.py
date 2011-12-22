@@ -13,7 +13,7 @@ from model.motto import motto_set
 from model.txt import txt_get, txt_new
 from model.ico import ico96
 from ctrl.site.index import _site_save
-from model.zsite_url import url_by_id
+from model.zsite_url import url_by_id, url_new
 from model.zsite_fav import zsite_fav_rm
 from model.search_zsite import search_new
 from ctrl.zsite.index import render_zsite_site

@@ -103,18 +103,19 @@ def zsite_user_state(zsite_id, user_id):
 
 
 if __name__ == '__main__':
-    from model.zsite import Zsite
-    class ZsiteAdmin(McModel):
-        pass
-    for i in ZsiteAdmin.where('state>0'):
+    zsite_admin_new(10124529,10162769)
+    #from model.zsite import Zsite
+    #class ZsiteAdmin(McModel):
+    #    pass
+    #for i in ZsiteAdmin.where('state>0'):
 
-        zsite_id = i.zsite_id
-        admin_id = i.admin_id
+    #    zsite_id = i.zsite_id
+    #    admin_id = i.admin_id
 
-        site = Zsite.mc_get(zsite_id)
-        if site.cid == CID_SITE:
-            if zsite_id and admin_id:
-                zsite_admin_new(zsite_id, admin_id)
-                print zsite_id, admin_id
+    #    site = Zsite.mc_get(zsite_id)
+    #    if site.cid == CID_SITE:
+    #        if zsite_id and admin_id:
+    #            zsite_admin_new(zsite_id, admin_id)
+    #            print zsite_id, admin_id
 
 
