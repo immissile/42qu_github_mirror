@@ -64,6 +64,7 @@ class School(LoginBase):
         degree = int(degree)
         department = int(department)
 
+        user_school_search(id, year, degree, department)
 
         self.render(
             school_data       = (   0                 ,
@@ -75,7 +76,7 @@ class School(LoginBase):
                                 ),
             _id                = id, 
             school_tuple      = school_tuple          ,
-            result            = user_school_search(id, year, degree, department),
+            result            = result,
             year              = year,
             degree            = degree,
             department        = department,     

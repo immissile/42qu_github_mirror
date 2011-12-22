@@ -8,6 +8,8 @@ from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTME
 from json import dumps
 from zkit.algorithm.unique import unique
 from model.zsite import Zsite
+from zkit.mc_func import mc_func_get_list
+from model.zsite_rank import zsite_rank
 
 mc_user_school_id_list = McCacheA('UserSchoolIdList:%s')
 mc_user_school_tuple = McCacheM('UserSchoolTuple:%s')
@@ -107,8 +109,10 @@ def user_school_search(school_id, school_year, school_degree, school_department)
     #    user_school = user_school.where(school_degree=school_degree) 
     if school_department and int(school_department):
         user_school = user_school.where(school_department=school_department)
-    id_list = user_school.col_list(col="user_id") 
-    return Zsite.mc_get_list(id_list)
+    id_list = user_school.col_list(col="user_id")
+    rank_dict = zsite_rank.get_dict(id_list)
+    items = sorted(rank_dict.iteritems(), key=lambda x:-x[1])
+    return Zsite.mc_get_list(i[0] for i in items)
 
 
 if __name__ == '__main__':
@@ -116,5 +120,6 @@ if __name__ == '__main__':
         #r = user_school_search(i, 0 , 0, 0)
         t = user_school_search(i,0,0,0)
         if t:
-            print t
+            pass
+            #print t
             
