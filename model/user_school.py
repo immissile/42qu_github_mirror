@@ -88,69 +88,33 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
         mc_flush(user_id, school_id, school_year)
         return u
 
-@mc_user_school_dict ('{school_id}')
-def user_school_dict(school_id):
-    if not school_id:
-        return []
-    result = rs = {}
-    for i in UserSchool.where(school_id=school_id):
-
-        school_degree = i.school_degree
-        if school_degree not in result:
-            result[school_degree] = {}
-        rs = result[school_degree]
-
-        school_department = i.school_department
-        if school_department not in rs:
-            rs[school_department] = {}
-        rs = rs[school_department]
-
-        school_year = i.school_year
-        if school_year not in rs:
-            rs[school_year] = []
-        rs = rs[school_year]
-
-        rs.append(i.user_id)
-
-    rs = []
-
-
-    for i, _i in result.iteritems():
-        for j, _j in _i.iteritems():
-            for k, _k in _j.iteritems():
-                rs.append(((i, j, k), tuple(set(_k))))
-
-    return rs
-
-class UserSchoolSorter(object):
-    def __init__(self, school_year, school_degree, school_department):
-        self.school_year = school_year
-        self.school_degree = school_degree
-        self.school_department = school_department
-
-    def __call__(self, key):
-        school_year, school_degree, school_department = key[0]
-        result = 0
-        if school_degree:
-            result += abs(school_degree-self.school_degree)*1000000000
-        if school_year:
-            result += abs(school_year-self.school_year)*100000
-        if school_department:
-            result += abs(self.school_department-school_department)
-        return result
 
 def user_school_search(school_id, school_year, school_degree, school_department):
     if not school_id:
         return []
-    result = user_school_dict(school_id)
-    zsite_id_list = []
-    for i in result:
-        zsite_id_list.extend(i[1])
-    Zsite.mc_get_list(zsite_id_list)
-    result.sort(key=UserSchoolSorter(school_year,school_degree, school_department))
-    return result
+    #result = user_school_dict(school_id)
+    #zsite_id_list = []
+    #for i in result:
+    #    zsite_id_list.extend(i[1])
+    #Zsite.mc_get_list(zsite_id_list)
+    #result.sort(key=UserSchoolSorter(school_year,school_degree, school_department))
+    #return result
+
+    user_school = UserSchool.where(school_id=school_id)
+    if school_year and int(school_year):
+        user_school = user_school.where(school_year=school_year) 
+    #if school_degree:
+    #    user_school = user_school.where(school_degree=school_degree) 
+    if school_department and int(school_department):
+        user_school = user_school.where(school_department=school_department)
+    id_list = user_school.col_list(col="user_id") 
+    return Zsite.mc_get_list(id_list)
+
 
 if __name__ == '__main__':
     for i in SCHOOL_UNIVERSITY:
-        r = user_school_search(i, 0 , 0, 0)
-
+        #r = user_school_search(i, 0 , 0, 0)
+        t = user_school_search(i,0,0,0)
+        if t:
+            print t
+            
