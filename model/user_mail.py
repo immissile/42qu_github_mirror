@@ -29,13 +29,6 @@ def mail_by_user_id(user_id):
     return ''
 
 
-@mc_mail_by_user_id('{user_id}')
-def mail_by_user_id(user_id):
-    c = UserMail.raw_sql('select mail from user_mail where user_id=%s and state=%s', user_id, MAIL_LOGIN).fetchone()
-    if c:
-        return c[0]
-    return ''
-
 mc_user_id_by_mail = McCache('UserIdByMail:%s')
 
 @mc_user_id_by_mail('{mail}')
