@@ -46,6 +46,7 @@ site = Zsite.get(po.user_id)
 <div class="mt27">作者: <a href="${site.link}" target="_blank">${site.name}</a></div> 
 %endif
 <span><input type="checkbox" name="rt" id="checkbox${id}"  checked ><label for="checkbox${id}">全站转发</label></span>
+<span><input type="checkbox" name="sync" id="checkbox${id}"  checked ><label for="checkbox${id}">同步</label></span>
     <div><textarea name="txt" class="txt_cont">${po.txt}</textarea></div>
     <input type="hidden" name="next" value="${next}">
 选择小组：

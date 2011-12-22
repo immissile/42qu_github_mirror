@@ -13,6 +13,7 @@
 }
 .fcmtxt{
 width:auto!important;
+margin-top:15px;
 padding:0 2px!important;
 }
 #rec_title
@@ -158,13 +159,15 @@ li
     background-image:-moz-linear-gradient(#F3F3F3, #FFFFFF);
     background-color:#f3f3f3;
 }
-.saying{
-    background:none!important;
+#po_word_txt
+{
+    width:100%!important;
+    height: 96px;
+    border: none!important;
 }
 .say_txt{
     height: 96px;
     border: 0;
-    background: url(http://s4.42qu.us/img/gif/today.gif) no-repeat 50% 50%;
     width: 100%;
 }
 }
