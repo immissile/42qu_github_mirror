@@ -17,7 +17,7 @@ function school_department(dep_node, uid){
         var i=deps[j]
         dep_node.append('<option value="'+i+'">'+SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[i]+'</option>')
     }
-    dep_node.append('<option value="0">其它院系</option>')
+    dep_node.append('<option value="">其它院系</option>')
 }
 
 function pop_school(){
