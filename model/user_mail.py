@@ -23,7 +23,7 @@ def mail_by_user_id_if_login(user_id):
 
 @mc_mail_by_user_id('{user_id}')
 def mail_by_user_id(user_id):
-    c = UserMail.raw_sql('select mail from user_mail where user_id=%s', user_id).fetchone()
+    c = UserMail.raw_sql('select mail from user_mail where user_id=%s order by state desc limit 1', user_id).fetchone()
     if c:
         return c[0]
     return ''
