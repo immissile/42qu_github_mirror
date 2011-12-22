@@ -1,67 +1,9 @@
 <%!
 from zkit.zitertools import chunkiter
 from model.ico import pic_url_bind, pic_url_bind_with_default
-from model.career import career_bind, career_job_bind
+from model.career import career_bind, career_bind
 %>
 
-<%def name="hero_list_with_star(zsite_list, chunk_size=4)">
-<%
-pic_url_bind(zsite_list, "219")
-career_job_bind(zsite_list)
-no_pic = []
-has_pic = []
-for i in zsite_list:
-    if i.pic219:
-        has_pic.append(i)
-    else:
-        no_pic.append(i)
-zsite_list = has_pic
-%>
-<div class="zsite_list">
-    %for chunk in chunkiter(zsite_list,chunk_size):
-<div class="hero_line c">
-        %for i in chunk:
-<div class="G1">
-<div>
-##<a href="javascript:void(0)" class="site_fav_a R"></a>
-<a href="${i.link}" style="color:#01a" target="blank">${i.name}</a>
-</div>
-<a href="${i.link}" target="blank"><img src="${i.pic219}"></a>
-<%
-unit, title = i.career
-%>
-%if unit:
-<div class="tr">${unit}</div>
-%endif
-%if title:
-<div class="tr">${title}</div>
-%endif
-</div>
-        %endfor
-</div>\
-    %endfor
-    %for chunk in chunkiter(no_pic,chunk_size):
-<div class="hero_line c">
-        %for i in chunk:
-<div class="G1"><div class="carerrnopic">\
-<div><a href="${i.link}" style="color:#01a" target="blank">${i.name}</a></div>\
-<%
-unit, title = i.career
-%>
-%if unit:
-<div class="tr">${unit}</div>\
-%endif
-%if title:
-<div class="tr">${title}</div>\
-%endif
-</div>
-</div>\
-        %endfor
-</div>
-    %endfor
-
-</div>
-</%def>
 
 
 <%def name="hero_list(zsite_list, chunk=4)">

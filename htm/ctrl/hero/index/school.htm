@@ -1,12 +1,97 @@
 <%!
 from cgi import escape
+from zkit.zitertools import chunkiter
+from model.ico import pic_url_bind, pic_url_bind_with_default
+from model.career import career_bind, career_bind
 from yajl import dumps
 from model.zsite import Zsite
 from zkit.school_university import SCHOOL_UNIVERSITY, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME, SCHOOL_UNIVERSITY_DEPARTMENT_ID, SCHOOL_DEGREE
 %>
 <%inherit file="../base.htm" />
-<%namespace file="/ctrl/_util/hero.htm" import="hero_list_with_star"/>
 <%namespace file="/_util/_g1.htm" import="school_show"/>
+
+<%def name="hero_list_with_star(zsite_list, chunk_size, department, year)">
+<%
+school_name = SCHOOL_UNIVERSITY[_id]
+if department:
+    department_name = SCHOOL_UNIVERSITY_DEPARTMENT[department]
+else:
+    department_name = 0
+
+if year:
+    year_name = "%s 级"%year
+else:
+    year_name = 0
+
+pic_url_bind(zsite_list, "219")
+career_bind(zsite_list)
+no_pic = []
+has_pic = []
+for i in zsite_list:
+    unit , title = i.career
+    unit  = unit.replace(school_name,'')
+    if department_name:
+        title = title.replace(department_name,'')
+    if year_name:
+        title = title.replace(year_name, '')
+    i.career = (unit, title)
+
+for i in zsite_list:
+    if i.pic219:
+        has_pic.append(i)
+    else:
+        no_pic.append(i)
+zsite_list = has_pic
+
+
+%>
+<div class="zsite_list">
+    %for chunk in chunkiter(zsite_list,chunk_size):
+<div class="hero_line c">
+        %for i in chunk:
+<div class="G1">
+<div>
+##<a href="javascript:void(0)" class="site_fav_a R"></a>
+<a href="${i.link}" style="color:#01a" target="blank">${i.name}</a>
+</div>
+<a href="${i.link}" target="blank"><img src="${i.pic219}"></a>
+<%
+unit , title = i.career
+%>
+%if unit:
+<div class="tr">${unit}</div>
+%endif
+%if title:
+<div class="tr">${title}</div>
+%endif
+</div>
+        %endfor
+</div>\
+    %endfor
+    %for chunk in chunkiter(no_pic,chunk_size):
+<div class="hero_line c">
+        %for i in chunk:
+<div class="G1"><div class="carerrnopic">\
+<div><a href="${i.link}" style="color:#01a" target="blank">${i.name}</a></div>\
+<%
+unit, title = i.career
+%>
+%if unit:
+<div class="tr">${unit}</div>\
+%endif
+%if title:
+<div class="tr">${title}</div>\
+%endif
+</div>
+</div>\
+        %endfor
+</div>
+    %endfor
+
+</div>
+</%def>
+
+
 <%def name="head()">
 ${css.ctrl_school|n}
 ${css.ctrl_hero_school|n}
@@ -70,7 +155,7 @@ ${school_show(school_id, school_year, school_degree, school_department)}
 <div class="G3"><div class="tc" style="font-size:16px;padding:27px;border-bottom:1px dotted #ccc">查无结果</div></div>
 %endif
 
-${hero_list_with_star(result,3)}
+${hero_list_with_star(result, 3, department, year)}
 
 
 </div>
