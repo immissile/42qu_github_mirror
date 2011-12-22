@@ -1,0 +1,55 @@
+
+html, body {
+height: 100%;
+}
+#istarsea_bg {
+min-height: 100%;
+_height: 100%;
+background:url(http://0.42qu.us/istarsea/img/png/istarsea_bg.png) #000;
+}
+#istarsea_book{
+background:url(http://0.42qu.us/istarsea/img/png/book1.png) no-repeat;
+_background:none;
+_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="http://0.42qu.us/istarsea/img/png/book1.png" ,sizingMethod="crop");
+width:995px;height:454px;
+position: absolute;
+top:50%;
+margin-top:-170px;
+left:50%;
+margin-left:-497px
+}
+#istarsea_input input{
+border:0;
+color:#fff;
+outline:0;
+font-size:16px;
+padding:0;
+background:transparent;
+font-size:16px;
+font-family:Comic Sans MS,Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif;
+}
+#istarsea_input{
+margin-top: 185px; margin-left: 648px; font-size: 16px;
+}
+#istarsea_input2{
+margin-left:24px;
+}
+#istarsea_input3{
+margin-left:42px;font-weight:bold;
+}
+.istarsea_nav a{
+    float:left;
+    height:42px;
+}
+.istarsea_nav{
+position:absolute;
+margin-top:84px
+}
+
+.title_bg_regd,.title_bg_reg{
+z-index:1;position:absolute;background:url(http://0.42qu.us/istarsea/img/png/title_bg.png) no-repeat;top:3%;left:3%;height:137px;width:1024px
+}
+
+.title_bg_reg{
+background-image:url(http://0.42qu.us/istarsea/img/png/title_bg1.png);
+}

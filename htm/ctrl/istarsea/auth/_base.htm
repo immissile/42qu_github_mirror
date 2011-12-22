@@ -1,0 +1,23 @@
+<%!
+from config import LOGO_TEXT, SITE_DOMAIN
+from tornado.escape import json_encode 
+%>
+
+<%inherit file="/ctrl/_base/istarsea.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="H()">
+</%def>
+
+<%def name="htm_head()">
+${css.istarsea_auth_base|n}
+${self.head()}
+</%def>
+
+
+<%def name="head()"></%def>
+<%def name="h_nav()"></%def>
+
+<div id="istarsea_bg">
+${next.body()}
+</div>
