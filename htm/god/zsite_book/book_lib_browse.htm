@@ -2,7 +2,7 @@
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
 from model.zsite_book import zsite_book_by_lib , Zsite, ZsiteBookBrowse
-from model.user_mail import mail_by_user_id_if_exist
+from model.user_mail import mail_by_user_id
 from model.namecard import namecard_get
 %>
 
@@ -31,7 +31,7 @@ namecard = namecard_get(zsite.id)
 </div>
 <div style="margin-bottom:4px">借阅者邮箱</div>
 <div style="margin-bottom:16px">
-${mail_by_user_id_if_exist(zsite.id)}
+${mail_by_user_id(zsite.id)}
 </div>
 <div>
 <span class="btnw"><button type="submit">确认</button></span>

@@ -59,7 +59,7 @@ def user_mail_new(user_id, mail, state=MAIL_UNVERIFY):
     u = UserMail(mail=mail, user_id=user_id, state=state)
     u.save()
     mc_mail_by_user_id.delete(user_id)
-    mc_mail_by_user_id_if_exist.set(user_id, mail)
+    mc_mail_by_user_id.set(user_id, mail)
     mc_user_id_by_mail.set(mail, user_id)
     return user_id
 
@@ -91,5 +91,7 @@ if __name__ == '__main__':
     #from zsite import Zsite, CID_USER, STATE_ACTIVE
     #for i in Zsite.where(cid=CID_USER).where("state>=%s"%STATE_ACTIVE):
     #    print i.id
+    print mail_by_user_id(10017321)
+    print mail_by_user_id_if_login(10017321)
 
 
