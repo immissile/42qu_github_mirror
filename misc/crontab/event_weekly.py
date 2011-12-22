@@ -77,14 +77,14 @@ def event_weekly_mail(user, event_city_list, write_mail):
 
             name = user.name
             if write_mail and write_mail.txt:
-                htm = txt_withlink(write_mail.txt).replace('\n', '</p><p>')
+                htm = txt_withlink(write_mail.txt).replace('\r', '</p><p>')
                 htm = '<p>%s</p>'%htm
             else:
                 htm = None
 
-#            print mail
-#            mail = "zsp007@gmail.com"
-#            raw_input()
+            #print mail
+            #mail = 'zsp007@gmail.com'
+            #raw_input()
 
             rendermail(
                 '/mail/event/weekly.htm',
