@@ -6,7 +6,7 @@ from model.cid import CID_USER
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
 from config import SITE_DOMAIN
-from model.user_school import user_school_tuple, user_school_new, user_school_search
+from model.user_school import user_school_tuple, user_school_new, user_school_search, user_school_count
 
 def hero_page(n):
     n = int(n)
@@ -30,6 +30,7 @@ class Index(Base):
 SCHOOL_LINK = '/q/school/%s/%s/%s/%s'
 
 @urlmap('/q/school')
+@urlmap('/q/school/(\d+)')
 @urlmap('/q/school/(\d+)/(\d+)/(\d+)/(\d+)')
 @urlmap('/q/school/(\d+)/(\d+)/(\d+)/(\d+)-(\d+)')
 class School(LoginBase):
@@ -65,6 +66,14 @@ class School(LoginBase):
         department = int(department)
 
         result = user_school_search(id, year, degree, department)
+        result_len = len(result)
+        if len(result) < 64 and id and not any((year, degree, department)):
+            school_count =  user_school_count(id)
+            if school_count <= result_len:
+                school_count = 0
+        else:
+            school_count = 0
+
 
         self.render(
             school_data       = (   0                 ,
@@ -79,7 +88,8 @@ class School(LoginBase):
             result            = result,
             year              = year,
             degree            = degree,
-            department        = department,     
+            department        = department,    
+            school_count      = school_count 
         )
 
 

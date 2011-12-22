@@ -61,7 +61,13 @@ ${school_show(school_id, school_year, school_degree, school_department)}
 %if _id and not result:
 <div class="G3"><div class="tc" style="font-size:16px;padding:27px;border-bottom:1px dotted #ccc">查无结果</div></div>
 %endif
-
+%if school_count and _id:
+<div class="G3 school_split_g3">
+    <div class="school_split">
+${SCHOOL_UNIVERSITY[_id]} , <a href="">点此浏览</a>
+    </div>
+</div>
+%endif
 ${hero_list_with_star(result,3)}
 
 

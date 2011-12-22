@@ -20,6 +20,8 @@ class UserSchool(McModel):
 
 
 user_school_count = McNum(lambda school_id:UserSchool.where(school_id=school_id).count(), 'UserSchoolCount:%s')
+
+
 user_school_year_count = McNum(lambda school_id, year:UserSchool.where(school_id=school_id, school_year=year).count(), 'UserSchoolYearCount:%s')
 
 def mc_flush(user_id, school_id=0, year=0):
