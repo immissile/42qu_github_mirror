@@ -64,7 +64,7 @@ ${school_show(school_id, school_year, school_degree, school_department)}
 %if school_count and _id:
 <div class="G3 school_split_g3">
     <div class="school_split">
-${SCHOOL_UNIVERSITY[_id]} , <a href="">点此浏览</a>
+<span class="mr3">${school_count}</span>人 来自 ${SCHOOL_UNIVERSITY[_id]} , <a href="/q/school/${_id}">点此浏览</a>
     </div>
 </div>
 %endif

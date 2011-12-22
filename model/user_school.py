@@ -19,7 +19,7 @@ class UserSchool(McModel):
     pass
 
 
-user_school_count = McNum(lambda school_id:UserSchool.where(school_id=school_id).count(), 'UserSchoolCount:%s')
+user_school_count = McNum(lambda school_id:UserSchool.raw_sql('select distinct user_id from user_school where school_id=%s',school_id).fetchone()[0], 'UserSchoolCount:%s')
 
 
 user_school_year_count = McNum(lambda school_id, year:UserSchool.where(school_id=school_id, school_year=year).count(), 'UserSchoolYearCount:%s')
