@@ -13,10 +13,10 @@ application = tornado.wsgi.WSGIApplication(
 RE_SITE_DOMAIN = SITE_DOMAIN.replace('.', r"\.")
 
 
-import _urlmap.istarsea
+import _urlmap_istarsea.istarsea
 
 application.add_handlers(
     '.*',
-    handlers(_urlmap.istarsea)
+    handlers(_urlmap_istarsea.istarsea)
 )
 
