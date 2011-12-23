@@ -24,6 +24,29 @@ from model.user_session import user_session, user_session_rm
 from model.namecard import namecard_new
 
 
+def _mail_password_post(self):
+    mail = self.get_argument('mail', None)
+    password = self.get_argument('password', None)
+    errtip = Errtip()
+
+    if mail:
+        mail = mail.lower()
+    if not mail:
+        errtip.mail = '请输入邮箱'
+    elif not EMAIL_VALID.match(mail):
+        errtip.mail = '邮箱格式有误'
+
+    if not password:
+        errtip.password = '请输入密码'
+
+    user_id = 0
+    if not errtip:
+        user_id = user_id_by_mail(mail)
+        if user_id:
+            if not user_password_verify(user_id, password):
+                errtip.password = '密码有误。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
+
+    return user_id , mail, password, errtip
 
 class NoLoginBase(Base):
     def prepare(self):
@@ -55,7 +78,7 @@ class Reg(NoLoginBase):
 
 
 @urlmap('/auth/reg2/?(.*)')
-class Reg(NoLoginBase):
+class Reg2(NoLoginBase):
     def get(self, mail=''):
         self.render(
             mail=mail,
@@ -138,3 +161,4 @@ class AuthLogin(NoLoginBase):
             password=password,
             errtip=errtip
         )
+
