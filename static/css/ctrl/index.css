@@ -120,21 +120,24 @@ li
 }
 #feeds{
     clear:both;
-    margin-top:32px;
+    padding-top:32px;
     overflow:hidden;
 }
 .zname{
 margin-top:5px;
 }
 .imgw{line-height:0}
-.feed_left{
+.feed_left,.feed_self{
     width: 219px;
     padding-right: 24px;
     margin-bottom: 32px;
-    background: url(http://s4.42qu.us/img/gif/comment.gif) no-repeat 228px 20px;
+    background: url(/img/gif/comment.gif) no-repeat 228px 20px;
     position: relative;
     margin-right: -1px;
     float: left;
+}
+.feed_self{
+    margin-bottom:0;
 }
 .feed_right{
     margin-right:335px;
@@ -162,17 +165,16 @@ margin-top:5px;
     background-image:-moz-linear-gradient(#F3F3F3, #FFFFFF);
     background-color:#f3f3f3;
 }
-#po_word_txt
-{
+#po_word_txt{
     width:100%!important;
-    height: 29px;
     border: none!important;
 }
 .say_txt{
-    height: 29px;
     border: 0;
     width: 100%;
 }
+#po_word_txt, .say_txt{
+    height:29px;
 }
 .split{
     margin:0 12px;
