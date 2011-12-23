@@ -7,6 +7,7 @@ from model.ico import pic_url_with_default
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
+<%namespace file="/ctrl/_util/friend_rec.htm" import="friend_rec_render"/>
 
 
 <%inherit file="/ctrl/_base/_index_new_style.htm" />
@@ -34,6 +35,7 @@ career = career_current(current_user.id)
 %>\
 
 ${site_rec_render()}
+${friend_rec_render()}
 
 
 <script id="feed" type="text/x-jquery-tmpl">
@@ -194,7 +196,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
                 <div class="feed_right">
                     <div class="sdw">
                         <div class="sd cid62">
-                            <%htm:form  action="/po/new_word" >
+                            <%htm:form  action="/po/new_word" id='po_word_form'  >
                             <div class="fdtxt">
                                 <div class="fdtxtin">
                                     <textarea class="po_word_txt po_word_txt_bg" id="po_word_txt" name="txt"></textarea>
@@ -230,47 +232,30 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 
     <p class="right_title" id="rec_title">站点推荐</p>
     <div class="site_rec" id="rec_wrapper" ></div>
-<script id="site_rec" type="text/x-jquery-tmpl">
-    <%text>
-    {{if site.length}}
-    <div class="site_li" id='rec_${site[0]}'>
-                <div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
-                <div class="site_info">
-                    <span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
-                    <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:fav('${site[0]}')"></a>
-                    <div class="site_bio">${site[4]}</div>
-                </div><div class="delbtn"><a href="javascript:del('${site[0]}')" onclick=""></a></div>
+    <script id="site_rec" type="text/x-jquery-tmpl">
+        <%text>
+        {{if site.length}}
+        <div class="site_li" id='rec_${site[0]}'>
+            <div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
+            <div class="site_info">
+                <span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
+                {{if site[5] == 3}}
+                <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:fav('${site[0]}')"></a>
+                <div class="site_bio">${site[3]}</div>
             </div>
+            <div class="delbtn"><a href="javascript:del('${site[0]}')" onclick=""></a></div>
             {{/if}}
+            {{if site[5] == 1}}
+            <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:follow_a(${site[0]});void(0)"></a>
+            <div class="site_bio">${site[3]}</div>
+        </div>
+        <div class="delbtn"><a href="javascript:follow_a(${site[0]});void(0)" onclick=""></a></div>
+        {{/if}}
+
+    </div>
+    {{/if}}
     </%text>
 </script>
-    <p class="right_title">人物推荐</p>
-    <div class="site_rec">
-        <div class="site_li">
-            <div class="site_left"><div class="site_img"><a href="http://36kr-com.42qu.com/"><img class="site_avatar" src="http://p4.42qu.us/96/855/53079.jpg"></a></div></div>
-            <div class="site_info">
-                <span class="site_name"><a target="_top" id="site_name_a" href="http://36kr-com.42qu.com/">章泽天</a></span>
-                <a class="site_fav_a" href="javascript:void(0)"></a>
-                <div class="site_bio">清华大学 , 人文科学</div>
-            </div>
-        </div>
-        <div class="site_li">
-            <div class="site_left"><div class="site_img"><a href="http://36kr-com.42qu.com/"><img class="site_avatar" src="http://p4.42qu.us/96/664/26264.jpg"></a></div></div>
-            <div class="site_info">
-                <span class="site_name"><a target="_top" id="site_name_a" href="http://36kr-com.42qu.com/">真谛~</a></span>
-                <a class="site_fav_a" href="javascript:void(0)"></a>
-                <div class="site_bio">42区 , 运营&amp;死coder</div>
-            </div>
-        </div>
-        <div class="site_li">
-            <div class="site_left"><div class="site_img"><a href="http://36kr-com.42qu.com/"><img class="site_avatar" src="http://p4.42qu.us/96/657/47761.jpg"></a></div></div>
-            <div class="site_info">
-                <span class="site_name"><a target="_top" id="site_name_a" href="http://36kr-com.42qu.com/">许朝军</a></span>
-                <a class="site_fav_a" href="javascript:void(0)"></a>
-                <div class="site_bio">点点网 , 创始人</div>
-            </div>
-        </div>
-    </div>
 </div>
     </div>
 
@@ -281,6 +266,6 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
     <script src="${js.ctrl_live}"></script>
     </%def>
 
-<script>init_user()</script>
-<script src="${js.index|n}" ></script>
-<script src="${js.ctrl_site_recnew |n}"></script>
+    <script>init_user()</script>
+    <script src="${js.index|n}" ></script>
+    <script src="${js.ctrl_site_recnew |n}"></script>
