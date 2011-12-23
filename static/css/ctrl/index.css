@@ -162,11 +162,11 @@ li
 #po_word_txt
 {
     width:100%!important;
-    height: 96px;
+    height: 29px;
     border: none!important;
 }
 .say_txt{
-    height: 96px;
+    height: 29px;
     border: 0;
     width: 100%;
 }
@@ -236,8 +236,8 @@ li
     color:#999;
     margin-top:4px;
     height:40px;
-    padding-top:10px;
-    margin-top:-9px;
+    padding-top:11px;
+    margin-top:-11px;
     border-top:1px dotted #ccc;
 }
 .site_txt_a{

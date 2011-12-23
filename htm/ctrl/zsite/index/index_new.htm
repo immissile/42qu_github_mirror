@@ -187,8 +187,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
     <div class="left_wrap">
         <div class="feed_li">
             <div class="feed_left">
-                <a href="${current_user.link}" target="_blank" class="c0">
-                    <div><img src="${_ico|n}"></div><div>${current_user.name}</div><div class="tr">${career[0]}</div><div class="tr">${career[1]}</div></a>
+                <a href="${current_user.link}" target="_blank" class="c0"><img src="${_ico|n}"></a>
             </div>
             <div class="feed_part">
                 <div class="feed_right">
@@ -213,7 +212,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
                                 </span>
                                 <a id="po_ext" href="javascript:void(0)" style="display:none"></a>
                                 <span id="txt_tip"></span>
-                                    <button type="submit" class="say_btn">游吟</button>
+                                <button type="submit" class="say_btn">游吟</button>
                             </div>
                             </%htm:form>
                         </div>
