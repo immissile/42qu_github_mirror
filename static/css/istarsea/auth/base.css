@@ -19,7 +19,6 @@ left:50%;
 margin-left:-497px
 }
 #istarsea_input input{
-border:0;
 color:#fff;
 outline:0;
 font-size:16px;
@@ -27,15 +26,14 @@ padding:0;
 background:transparent;
 font-size:16px;
 font-family:Comic Sans MS,Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif;
-}
-#istarsea_input{
-margin-top: 185px; margin-left: 648px; font-size: 16px;
+border:0;
 }
 #istarsea_input2{
 margin-left:24px;
 }
 #istarsea_input3{
 margin-left:42px;font-weight:bold;
+width:110px
 }
 .istarsea_nav a{
     float:left;
@@ -53,10 +51,6 @@ z-index:1;position:absolute;background:url(http://0.42qu.us/istarsea/img/png/tit
 .title_bg_reg{
 background-image:url(http://0.42qu.us/istarsea/img/png/title_bg1.png);
 }
-#istarsea_sumbit{
-width:103px;height:32px;cursor:pointer;position:absolute;
-background:#fff;margin-top:240px;margin-left:800px
-}
 #istarsea_reged{
 width:224px;height:49px;position:absolute;
 background:url(http://0.42qu.us/istarsea/img/gif/reged.gif) no-repeat;
@@ -66,8 +60,27 @@ margin-left:567px;
 #istarsea_logoreg{
 width:93px;height:93px;position:absolute;
 background:url(http://0.42qu.us/istarsea/img/png/logoreg.png) no-repeat;
+_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="http://0.42qu.us/istarsea/img/png/logoreg.png" ,sizingMethod="crop");
 margin-top:203px;
 margin-left:809px;
+z-index:4;
 }
-
-
+#istarsea_input_bg{
+width:337px;height:130px;position:absolute;
+background:url(http://0.42qu.us/istarsea/img/gif/mailx.gif) no-repeat;
+margin-top:187px;
+margin-left:579px;
+}
+#istarsea_sumbit{
+width:103px;height:32px;cursor:pointer;position:absolute;
+margin-top:240px;margin-left:800px;z-index:2;
+}
+#istarsea_hide_submit{
+margin-left:-9999px;
+position:absolute;
+}
+#istarsea_input{
+margin-top: 185px; margin-left: 648px; font-size: 16px;
+position:absolute;
+z-index:1;
+}
