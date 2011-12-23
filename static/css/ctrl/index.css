@@ -154,15 +154,19 @@ margin-top:5px;
     clear:both;
     overflow:hidden;
 }
+.fdbar .btnw{
+    height:28px;
+    margin-top:-1px;
+}
 .fdbar .say_btn{
     background-color: #FFFFFF;
-    background-image: -moz-linear-gradient(#FFFFFF, #F3F3F3);
-    border: 1px solid #CCCCCC;
+    cursor:pointer;
     color: #666666;
     font-size: 14px;
     padding:0 10px;
-    margin-top:-1px;
     display:inline-block;
+    line-height:28px;
+    height:28px;
 }
 .fdbar .say_btn:hover{
     color:#000;
