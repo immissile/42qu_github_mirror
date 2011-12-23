@@ -1,0 +1,18 @@
+<%namespace file="/ctrl/_util/base.htm" import="verify_sended"/>\
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%def name="T()"></%def>
+<%def name="h_nav()"></%def>
+<style>
+.fullscreen_line span{
+display:block;
+line-height:64px;
+font-size:16px;
+}
+.fullscreen_line{
+margin-top:15%;
+text-align:center;
+}
+</style>
+<div class="fullscreen_line">
+${verify_sended(user_id)}
+</div>

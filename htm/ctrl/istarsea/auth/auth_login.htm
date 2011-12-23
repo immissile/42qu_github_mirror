@@ -1,0 +1,18 @@
+<%inherit file="/ctrl/_base/slideico.htm" />
+<%!
+from config import LOGO_TEXT,SITE_DOMAIN
+%>
+<%namespace file="/ctrl/_util/login.htm" import="login_form"/>
+
+<div id="form_reg">
+%if this.get_argument('next',None):
+    <h1>登录 ， 然后 ， 继续</h1>
+%else:
+    <a href="//hero.${SITE_DOMAIN}"><h1 class="logo">${LOGO_TEXT|n}</h1></a>
+%endif
+${login_form()}\
+</div>
+<script>\
+login_autofill()\
+</script>\
+

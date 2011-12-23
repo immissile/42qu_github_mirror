@@ -1,0 +1,57 @@
+<%!
+from config import LOGO_TEXT, SITE_DOMAIN
+from tornado.escape import json_encode 
+%>
+
+<%def name="head()"></%def>
+<%inherit file="_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<div class="title_bg_reg"></div>
+<%htm:form id="istarsea_form" >
+<div id="istarsea_book">
+<div id="istarsea_logoreg" style="display:none"></div>
+<div id="istarsea_sumbit"></div>
+<div id="istarsea_input">
+<div><input id="istarsea_input1" type="text" name="mail" autocomplete="off"></div>
+<div><input id="istarsea_input2" type="text" name="phone" autocomplete="off"></div>
+<div><input id="istarsea_input3" type="text" name="name" autocomplete="off"></div>
+<input type="submit" id="istarsea_hide_submit">
+</div>
+<div id="istarsea_input_bg"></div>
+</div>
+</%htm:form>
+<script>
+$("#istarsea_input1").focus();
+$("#istarsea_form").submit(function(){
+    var check= [
+        ["mail","邮箱"],
+        ["phone","手机"],
+        ["name","姓名"]
+    ]
+    for(var i=0;i<check.length;++i){
+        var input=$("input[name="+check[i][0]+"]"),v = input.val();
+        if(!$.trim(v).length){
+            alert("请输入"+check[i][1]);
+            input.focus();
+            return false
+        }
+    }
+    var mail = $("input[name=mail]");
+    if(!/^\w+[-+.\w]*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(mail.val())){
+            alert("邮箱格式不正确")
+            mail.focus().select()
+            return false
+    }
+
+})
+$("#istarsea_sumbit,#istarsea_logoreg").click(function(){
+    $("#istarsea_form").submit()
+})
+$("#istarsea_sumbit").hover(function(){
+    $("#istarsea_logoreg").fadeIn()
+})
+$("#istarsea_logoreg").mouseout(function(){
+    $(this).fadeOut()
+}).css("cursor","pointer")
+</script>

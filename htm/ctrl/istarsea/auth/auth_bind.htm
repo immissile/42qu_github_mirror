@@ -1,0 +1,76 @@
+<%inherit file="/ctrl/_base/slideico.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.oauth import OAUTH_SYNC_TXT
+%>
+
+<div class="head_hint">                                                             
+<p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>              
+<p class="hint_p">42是答案和意义之间的分界，是一个里程碑。</p>                    
+<p class="hint_p">能看见答案，是幸运的。但问题，还得去找。 - <a href="http://www.douban.com/note/172807027/" target="_blank">阿北</a></p>                                      
+</div>
+
+<script>
+$(function(){
+    $('.txt').elastic(58)
+})
+</script>
+
+<style>
+.line{
+font-size:16px;
+padding-bottom:10px;
+}
+.line_hint{
+margin-bottom:22px;
+margin-left:44px;
+font-size:16px;
+}
+.line_input{
+padding:6px;
+font-size:16px;
+margin-left:12px;
+width:270px;
+}
+.errtip{
+margin:-6px 0 0 30px;
+}
+.txt{
+width:268px;
+padding:6px;
+font-size:14px;
+margin:0 0 8px 44px;
+}
+.ck{
+margin:0 4px 32px 44px;
+}
+.ck_right{
+margin-left:22px;
+}
+#login .auth_btn{
+margin-left:44px;
+}
+.label{
+font-size:14px;
+vertical-align:1px;
+}
+</style>
+ 
+<%htm:form id="login">
+<p class="line_hint">请创建新用户 或 关联已有账号</p>
+<p class="line">邮箱<input name="mail" class="line_input" id="login_mail" type="text" value="${mail or ''}"></p>
+${errtip.mail|n}
+<p class="line">密码<input name="password" class="line_input" id="login_password" type="password" value="${password or ''}"></p>
+${errtip.password|n}
+%if not this.token_user_id:
+<div class="sync">
+<textarea id="weibo" name="weibo" class="txt">${txt or OAUTH_SYNC_TXT}</textarea>
+<div><input type="checkbox" class="ck" name="sync_txt" checked="" id="sync_txt"><label for="sync_txt" class="label">介绍这里</label></div>
+</div>
+%endif
+<p><span class="btnw auth_btn"><button type="submit" >确定</button></span></p>
+</%htm:form>
+
+<script>\
+login_autofill()
+</script>\

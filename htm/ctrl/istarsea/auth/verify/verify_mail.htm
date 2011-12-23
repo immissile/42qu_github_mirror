@@ -1,0 +1,41 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%def name="htm_nav()"></%def>
+<%def name="h_nav()"></%def>
+<%def name="T()"></%def>
+<style>
+.fullscreen_line{
+margin-top:20%;
+font-size:16px;
+text-align:center;
+}
+.fullscreen_line p{
+line-height:64px;
+}
+</style>
+<%def name="H()">
+<div id="H"><div class="H tc">
+<div style="color:#d10">
+%if current_user:
+账号激活成功 !
+%else:
+验证码失效了 !
+%endif 
+</div>
+</div></div>
+</%def>
+
+
+%if current_user:
+<div class="fullscreen_line">
+<a id="next" href="${current_user.link}/me/newbie/1">点击这里 , 继续旅程 ...</a>
+</div>
+<script>
+setTimeout(function(){
+    location.href=$("#next").attr('href');
+},3000)
+</script>
+%else:
+<div class="fullscreen_line">
+验证码已失效 ,  <a id="next" href="/auth/reg">点此重新注册</a>
+</div>
+%endif
