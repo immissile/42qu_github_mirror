@@ -24,14 +24,6 @@ from model.user_session import user_session, user_session_rm
 from model.namecard import namecard_new
 
 
-@urlmap('/logout')
-class Logout(XsrfGetBase):
-    def get(self):
-        self.clear_cookie('S')
-        current_user = self.current_user
-        if current_user:
-            user_session_rm(current_user.id)
-        self.redirect('/')
 
 class NoLoginBase(Base):
     def prepare(self):
@@ -61,51 +53,25 @@ class Reg(NoLoginBase):
             errtip=Errtip(),
         )
 
-#    def post(self, mail=None):
-#        mail = self.get_argument('mail', '')
-#        sex = self.get_argument('sex', '0')
-#        errtip = Errtip()
-#        if sex:
-#            sex = int(sex)
-#            if sex not in (1, 2):
-#                sex = 0
-#
-#        if mail:
-#            mail = mail.lower()
-#        if not mail:
-#            errtip.mail = '请输入邮箱'
-#        elif not EMAIL_VALID.match(mail):
-#            errtip.mail = '邮箱格式有误'
-#
-#        #if not password:
-#        #    errtip.password = '请输入密码'
-#
-#        if not errtip:
-#            user_id = user_id_by_mail(mail)
-#            if user_id:
-#                #if user_password_verify(user_id, password):
-#                #    return self._login(user_id, mail)
-#                #else:
-#                errtip.mail = '邮箱已注册。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
-#
-#        if not sex:
-#            errtip.sex = '请选择性别'
-#
-#        if not errtip:
-#            user_id = user_new(mail, sex=sex)
-#            return self.redirect('/auth/verify/send/%s'%user_id)
-#
-#        self.render(
-#            sex=sex,
-#            mail=mail,
-#            errtip=errtip
-#        )
 
+@urlmap('/auth/reg2/?(.*)')
+class Reg(NoLoginBase):
+    def get(self, mail=''):
+        self.render(
+            mail=mail,
+            sex=0,
+            errtip=Errtip(),
+        )
 
-    def post(self):
-        name = self.get_argument('name', '')
+    def post(self, mail=None):
         mail = self.get_argument('mail', '')
+        sex = self.get_argument('sex', '0')
         errtip = Errtip()
+        if sex:
+            sex = int(sex)
+            if sex not in (1, 2):
+                sex = 0
+
         if mail:
             mail = mail.lower()
         if not mail:
@@ -113,30 +79,62 @@ class Reg(NoLoginBase):
         elif not EMAIL_VALID.match(mail):
             errtip.mail = '邮箱格式有误'
 
-        if not name:
-            errtip.name = '请输入姓名'
-
+        #if not password:
+        #    errtip.password = '请输入密码'
 
         if not errtip:
             user_id = user_id_by_mail(mail)
-            if not user_id:
-                user_id = user_new(mail, name=name)
-                #session = user_session(user_id)
-                #self.set_cookie('S', session)
-                self.set_cookie('E', mail)
+            if user_id:
+                #if user_password_verify(user_id, password):
+                #    return self._login(user_id, mail)
+                #else:
+                errtip.mail = '邮箱已注册。忘记密码了？<a href="/auth/password/reset/%s">点此找回</a>' % escape(mail)
 
-                phone = self.get_argument('phone', '')
-                namecard_new(user_id,phone=phone)
+        if not sex:
+            errtip.sex = '请选择性别'
 
-            return self.redirect('/auth/reged/%s'%user_id)
+        if not errtip:
+            user_id = user_new(mail, sex=sex)
+            return self.redirect('/auth/verify/send/%s'%user_id)
 
         self.render(
+            sex=sex,
             mail=mail,
-            name=name,
             errtip=errtip
         )
 
-@urlmap('/auth/reged/(\d+)')
-class Reged(NoLoginBase):
-    def get(self, id):
-        self.render()
+
+@urlmap('/logout')
+class Logout(XsrfGetBase):
+    def get(self):
+        self.clear_cookie('S')
+        current_user = self.current_user
+        if current_user:
+            user_session_rm(current_user.id)
+        self.redirect('/')
+
+
+
+@urlmap('/auth/login')
+class AuthLogin(NoLoginBase):
+
+    def get(self):
+        self.render(
+            errtip=Errtip()
+        )
+
+    _mail_password_post = _mail_password_post
+
+    def post(self):
+        user_id, mail, password, errtip = self._mail_password_post()
+        if not errtip:
+            if user_id:
+                return self._login(user_id, mail, self.get_argument('next', None))
+            else:
+                errtip.mail = """此账号不存在 , <a href="/auth/reg/%s">点此注册</a>"""%escape(mail)
+
+        self.render(
+            mail=mail,
+            password=password,
+            errtip=errtip
+        )
