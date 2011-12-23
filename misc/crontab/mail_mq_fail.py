@@ -20,10 +20,10 @@ def main():
 
     out = ''
     for id, body, exc, func, ctime in cursor.fetchall():
-        out += '---------Traceback----------\n'
-        out += exc
         out += '\n--------function----------\n'
         out += func
+        out += '---------Traceback----------\n'
+        out += exc
         out += '\n-----------time-----------\n'
         out += ctime
         out += '\n******************************\n'
