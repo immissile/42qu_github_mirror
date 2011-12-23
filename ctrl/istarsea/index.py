@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from _handler import Base, LoginBase, XsrfGetBase
-from ctrl._urlmap.istarsea import urlmap
+from ctrl._urlmap_istarsea.istarsea import urlmap
 
 @urlmap('/')
 class Index(Base):
