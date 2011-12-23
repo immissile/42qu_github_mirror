@@ -14,9 +14,13 @@ RE_SITE_DOMAIN = SITE_DOMAIN.replace('.', r"\.")
 
 
 import _urlmap_istarsea.istarsea
+import _urlmap_istarsea.i
 
 application.add_handlers(
     '.*',
-    handlers(_urlmap_istarsea.istarsea)
+    handlers(
+        _urlmap_istarsea.istarsea,
+        _urlmap_istarsea.i
+    )
 )
 

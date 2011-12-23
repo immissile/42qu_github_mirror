@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ctrl._urlmap.me import urlmap
+from ctrl._urlmap_istarsea.i import urlmap
 from config import SITE_URL
 from _handler import LoginBase , XsrfGetBase
 from model.zsite import Zsite
