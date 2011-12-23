@@ -61,7 +61,7 @@ margin:0 7px;
 }
 #H .H
 {
-    max-width:1338px;
+    max-width:1296px;
     width:auto!important;
 }
 #H .D_na
@@ -106,7 +106,7 @@ li
 }
 .index_wrap{
     margin:36px auto 0;
-    max-width:1338px;
+    max-width:1296px;
     overflow:hidden;
 }
 .form_wrap{
@@ -201,8 +201,8 @@ margin-top:5px;
 .right_wrap{
     float:left;
     width:250px;
-    margin:0 12px 0 -190px;
-    _margin:0 12px 0 -210px;
+    margin:0 0 0 -190px;
+    _margin:0 0 0 -210px;
     font-size:12px;
 }
 .right_title{
