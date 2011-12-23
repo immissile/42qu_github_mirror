@@ -1,0 +1,183 @@
+
+<%!
+from config import LOGO_TEXT, SITE_DOMAIN
+from model.ico import ico_url_bind_with_default
+from model.career import career_bind
+from tornado.escape import json_encode 
+from config import FS_DOMAIN
+from tornado.escape import json_encode 
+from model.user_auth import user_password_verify, UserPassword, user_password_new
+
+from model.user_info import UserInfo, MARRY_ONE
+from config import LOGO_TEXT, SITE_DOMAIN
+from model.ico import ico_url_bind_with_default
+from model.career import career_bind
+from tornado.escape import json_encode 
+from model.user_auth import user_password_verify, UserPassword, user_password_new
+%>
+
+<%inherit file="/ctrl/_base/_reg_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%namespace file="/ctrl/_util/i/link.htm" name="link"/>
+
+<%def name="H()">
+</%def>
+
+<%def name="htm_head()">
+<meta name="description" content=" 无数故事，读完后， 一笑而过。下班的地铁，你还是你，我还是我。认识一个人， 要多少缘分？茫茫人海，擦肩而过多少陌生人。42区，这是相遇的地方 ...">
+<script src="${js.pid}"></script>
+<script src="${js.date}"></script>
+<script src="${js.school}"></script>
+<script src="${js.school_ctrl}"></script>
+
+${css.ctrl_school|n}
+${css.ctrl_me_guide|n}
+
+<script>
+</script>
+
+</%def>
+
+
+<%def name="h_nav()"></%def>
+
+
+
+<div class="head_hint" >
+<p class="hint_p p_b">欢迎来到<span class="hint_logo">42区</span> </p>
+<p class="hint_p">人生初见 ，故事伊始 ，我们在此相遇相识 ...</p>
+<p class="hint_p">首先 ，请您介绍一下自己 :)</p>
+</div>
+
+<%htm:form className="form_reg" id="form1">
+
+
+<%
+info = UserInfo.mc_get(zsite_id)
+%>
+%if not (info and info.sex):
+<p class="line">
+<label class="label_input" for="mail">性别</label>\
+<select name="sex" class="sex_select">
+<option value=""></option>
+<option ${'selected' if sex==1 else ''} value="1">男</option>
+<option ${'selected' if sex==2 else ''} value="2">女</option>
+</select>\
+<span class="sex_hint">注意 : 创建账号之后 , 无法修改此项</span>
+</p>
+${errtip.sex|n}
+%endif
+
+<p class="line">
+<label class="label_input" for="name">名字</label>\
+<input class="login_mail" id="name" autocomplete="off" type="text" name="name" value="${name or current_user.name or ''}"></p>
+${errtip.name|n}
+
+%if not UserPassword.get(current_user_id):
+<p class="line">
+<label class="label_input" for="password">密码</label>\
+<input class="login_password" id="password" autocomplete="off" type="password" name="password">
+</p>
+${errtip.password|n}
+%endif
+
+<div class="cl btns form_btn">
+<span class="L btnw next_btn"><button type="submit" >下一步</button></span>
+</div>
+</div>
+
+</%htm:form>
+<%htm:form className="form_reg" id="form2">
+<div id="school">
+</div>
+    <p>
+        <a href="javascript:void(0)" class="add_school_a">添加学校</a>
+    </p>
+    <div class="cl btns">
+    <span class="L btnw"><button type="submit" class="step_btn" id="step2">下一步</button></span>
+    </div>
+</%htm:form>
+
+
+<%htm:form className="form_reg" id="form3">
+    <div class="job_block">
+        <input type="hidden" name="job_id" value="">
+        <div class="job_line_1"><a class="x" href="javascript:void(0)" onclick="job_x(this)"></a><input class="job_unit" name="job_unit" placeholder="单位"><input class="job_title" name="job_title" placeholder="头衔">
+        </div>
+        <div><input class="job_txt" autocomplete="off" name="job_txt" placeholder="经历简述 ... ..."></div>
+            <span class="job_begin"></span> - <span class="job_end"></span>
+        </span>\
+<input type="checkbox" class="job_now"><label class="label_now">当前</label>
+    </div>
+    <p>
+        <a href="javascript:void(0)" class="add_job_a">添加经历</a>
+    </p>
+    <div class="cl btns">
+<span class="L btnw job_next_btn">\
+<button type="submit" type="submit" class="step_btn" id="step3">下一步</button>\
+</span>
+    </div>
+</%htm:form>
+
+
+<%htm:form className="form_reg" id="form4">
+    <p class="f14">
+        我的座右铭是<input type="text" name="motto" class="motto">
+    </p>
+    <p class="f14">
+        <script>select_birthday("birthday",'00000000')</script>
+        <span id="birthday"></span>出生 , 如今<select name="marry" class="marry"><option value="1">尚是单身</option><option value="2">正在恋爱</option><option value="3">已经结婚</option></select>
+    </p>
+    <p class="p_addr f14">
+       现居<script>select_pid("pid_now", 0)</script><span id="pid_now"></span>
+    </p>
+    <p class="p_addr f14">
+       家乡<script>select_pid("pid_home", 0)</script><span id="pid_home"></span>
+    </p>
+    <p class="f14">我会向别人这样介绍自己</p>
+    <textarea class="f14" placeholder="爱吃什么 , 偶像是谁 , 想去的地方 , 追逐的理想 。 人生是一场旅行 ..." name="txt" id="txt" class=""></textarea>
+    
+    <div class="cl btns">
+    <span class="L btnw job_next_btn"><button type="submit">下一步</button></span>
+    </div>
+</%htm:form>
+
+<%htm:form className="form_reg" id="form5">
+${link.link_form()}
+    <div class="cl btns">
+<span class="L btnw job_next_btn">\
+<button type="submit" type="submit" class="step_btn" id="step3">保存</button>\
+</span>
+    </div>
+</%htm:form>
+
+
+<script id="school_tmpl" type="text/x-jquery-tmpl">
+<div class="school_block">
+    <input type="hidden" class="id" name="id">
+    <input type="hidden" name="school_id"  value="" class="school_id">
+    <p class="part1">
+<input  value="请选择学校" autocomplete="off" type="text" class="school">
+<select name="school_year" class="school_year"></select>
+<a href="javascript:void(0)" class="x rm"></a>
+    </p>
+    <p class="part2">
+        <select name="school_department" class="school_department"><option value="0">选择院系</option></select></select>
+        <select name="school_degree" class="school_degree">
+            <option value="0">选择类型</option>
+            <option value="1">本科</option>
+            <option value="2">大专</option>
+            <option value="3">硕士</option>
+            <option value="4">博士</option>
+            <option value="5">博士后</option>
+            <option value="6">校工</option>
+            <option value="7">教师</option>
+        </select>
+        <div><input class="job_txt" autocomplete="off" name="txt" placeholder="经历简述 ... ..."></div>
+    </p>
+</div>
+</script>
+<script src="${js.ctrl_guide}"></script>
+
+
+
