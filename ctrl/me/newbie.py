@@ -9,7 +9,7 @@ from model.user_auth import user_password_verify, UserPassword, user_password_ne
 from model.user_info import user_info_new, UserInfo as _UserInfo
 
 
-@urlmap('/me/newbie/1')
+@urlmap('/i/guide')
 class Career(CareerEdit):
     def post(self):
         self.save()
@@ -69,7 +69,7 @@ class Newbie0(LoginBase):
             current_user.save()
 
         if not errtip:
-            path = '/me/newbie/1'
+            path = '/i/guide'
             user_info_new(current_user.id, sex=sex)
             return self.redirect(path)
 

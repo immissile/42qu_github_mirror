@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/i/invite
+/me/newbie/1
 """
 
 TO_STRING = """
-/invite
+/i/guide
 """
 
 def run():
