@@ -31,7 +31,7 @@ class Link(LinkEdit):
         current_user = self.current_user
         self.redirect('%s/live'%current_user.link)
 
-@urlmap('/me/newbie/0')
+@urlmap('/i/guide')
 class Newbie0(LoginBase):
     def get(self):
         id_list = SHOW_LIST

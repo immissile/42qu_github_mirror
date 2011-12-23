@@ -73,7 +73,7 @@ class VerifyMail(VerifyBase):
                 user.save()
             self.__dict__['_current_user'] = user
 
-            redirect = self.get_argument('next', '%s/me/newbie/0'%user.link)
+            redirect = self.get_argument('next', '%s/i/guide'%user.link)
 
             if redirect:
                 return self.redirect(redirect)

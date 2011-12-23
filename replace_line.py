@@ -4,7 +4,7 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/me/newbie/1
+/me/newbie/0
 """
 
 TO_STRING = """
