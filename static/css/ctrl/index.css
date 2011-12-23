@@ -16,6 +16,9 @@ width:auto!important;
 margin-top:15px;
 padding:0 2px!important;
 }
+.say_type .split{
+margin:0 7px;
+}
 #rec_title
 {
     display:none;
@@ -157,7 +160,8 @@ margin-top:5px;
     border: 1px solid #CCCCCC;
     color: #666666;
     font-size: 14px;
-    padding: 2px 14px;
+    padding:0 10px;
+    margin-top:-1px;
     display:inline-block;
 }
 .fdbar .say_btn:hover{
@@ -174,7 +178,7 @@ margin-top:5px;
     width: 100%;
 }
 #po_word_txt, .say_txt{
-    height:29px;
+    height:34px;
 }
 .split{
     margin:0 12px;
