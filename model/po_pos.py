@@ -3,6 +3,8 @@
 from time import time
 from _db import cursor_by_table, Model, McModel, McLimitA, McCache, McCacheA, McCacheM
 from po import Po
+from zsite import Zsite
+from follow import follow_id_list_by_to_id
 
 STATE_BUZZ = 1
 STATE_MUTE = 0
@@ -30,14 +32,19 @@ def po_buzz_list(po_id):
     qs = PoPos.where(po_id=po_id, state=STATE_BUZZ)
     return [i.user_id for i in qs]
 
-def po_pos_set(user_id, po):
+def po_pos_set(user_id, po, force_buzz=False):
     pos = po.reply_id_last
     po_id = po.id
     pos_old, _ = po_pos_get(user_id, po_id)
     if pos > pos_old:
+        if force_buzz or (user_id in follow_id_list_by_to_id(po.id,1000,0)):
+            po_state = STATE_BUZZ
+        else:
+            po_state = STATE_MUTE
+
         PoPos.raw_sql(
             'insert delayed into po_pos (user_id, po_id, pos, state) values (%s, %s, %s, %s) on duplicate key update pos=values(pos), state=values(state)',
-            user_id, po_id, pos, STATE_BUZZ
+            user_id, po_id, pos, po_state
         )
         mc_po_pos.delete('%s_%s' % (user_id, po_id))
     if pos_old == -1:

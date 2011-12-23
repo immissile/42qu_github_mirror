@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
+from model.buzz import Buzz,buzz_set_read, clear_buzz_by_po_id
 from model.po_prev_next import po_prev_next
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN, PO_SHARE_FAV_CID, reply_rm_if_can
@@ -310,6 +311,8 @@ class PoOne(ZsiteBase):
         prev_id, next_id = po_prev_next(
             po, zsite_tag_id
         )
+
+        clear_buzz_by_po_id(user_id,po.id)
 
         return self.render(
             self.template,

@@ -3,10 +3,12 @@
 DB_MAIN_TABLE = (
     '*',
     'notice_txt',
+    'event_import',
     'bank',
     'log_history',
     'shorturl',
     'buzz',
+    'site_rec_new',
     'buzz_pos',
     'buzz_sys',
     'buzz_unread',

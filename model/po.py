@@ -270,8 +270,13 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
     )
     m.save()
 
-    #from po_pos import po_pos_set
-    #po_pos_set(user_id, m)
+    from po_pos import po_pos_set
+    from follow import follow_id_list_by_to_id
+
+    po_pos_set(user_id, m)
+    followers = follow_id_list_by_to_id(user_id,99999,0)
+    for follower in followers:
+        po_pos_set(follower,m)
 
     mc_flush(user_id, cid)
     m.tag_new()
