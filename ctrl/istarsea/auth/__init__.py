@@ -128,7 +128,7 @@ class Reg(NoLoginBase):
                 phone = self.get_argument('phone', '')
                 namecard_new(user_id,phone=phone)
 
-                return self.redirect('/auth/reged/%s'%user_id)
+            return self.redirect('/auth/reged/%s'%user_id)
 
         self.render(
             mail=mail,

@@ -53,3 +53,21 @@ z-index:1;position:absolute;background:url(http://0.42qu.us/istarsea/img/png/tit
 .title_bg_reg{
 background-image:url(http://0.42qu.us/istarsea/img/png/title_bg1.png);
 }
+#istarsea_sumbit{
+width:103px;height:32px;cursor:pointer;position:absolute;
+background:#fff;margin-top:240px;margin-left:800px
+}
+#istarsea_reged{
+width:224px;height:49px;position:absolute;
+background:url(http://0.42qu.us/istarsea/img/gif/reged.gif) no-repeat;
+margin-top:192px;
+margin-left:567px;
+}
+#istarsea_logoreg{
+width:93px;height:93px;position:absolute;
+background:url(http://0.42qu.us/istarsea/img/png/logoreg.png) no-repeat;
+margin-top:203px;
+margin-left:809px;
+}
+
+
