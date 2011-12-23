@@ -1,5 +1,5 @@
 WINDOW_WIDTH = document.documentElement.clientWidth;
-textarea = $('.say_txt');
+textarea = $('#po_word_txt');
 $(".site_li").mouseenter(
         function(r){
             i=$(this).find(".delbtn");

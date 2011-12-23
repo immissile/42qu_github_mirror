@@ -34,6 +34,7 @@ def prepare(o):
     o.MYSQL_PASSWD = '42qu'
 
     o.MQ_PORT = 11300
+    o.MQ_FAIL_MAIL_ADDR = 'dev@42qu.com'
 
     o.FILE_DOMAIN = 'p.%s'%o.SITE_DOMAIN
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
