@@ -1,0 +1,43 @@
+
+<%!
+from config import LOGO_TEXT, SITE_DOMAIN
+%>
+
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%inherit file="/ctrl/_base/slideico.htm" />
+
+
+<%def name="head()">
+<meta name="description" content=" 无数故事，读完后， 一笑而过。下班的地铁，你还是你，我还是我。认识一个人， 要多少缘分？茫茫人海，擦肩而过多少陌生人。42区，这是相遇的地方 ...">
+</%def>
+
+<div id="form_reg" >
+<a href="//hero.${SITE_DOMAIN}"><h1 class="logo">${LOGO_TEXT|n}</h1></a>
+
+<%htm:form  id="login">
+
+
+
+<p>
+<label class="label_input" for="mail">邮箱</label>\
+<input class="login_mail" id="mail" autocomplete="off" type="text" name="mail" value="${mail}"></p>
+${errtip.mail|n}
+
+<p>
+<label class="label_input" for="mail">性别</label>\
+<select name="sex" class="sex_select">
+<option value=""></option>
+<option ${'selected' if sex==1 else ''} value="1">男</option>
+<option ${'selected' if sex==2 else ''} value="2">女</option>
+</select>\
+<span class="sex_hint">注意 : 创建账号之后 , 无法修改此项</span>
+</p>
+${errtip.sex|n}
+
+<div class="cl btns" id="form_btn">
+<span id="login_link">已有账号 ? <a href="/auth/login">点此登录</a></span>
+<span class="R btnw"><button type="submit" >注册</button></span>
+</div>
+</%htm:form>
+<%include file="/ctrl/_util/oauth_login.htm"/>
+</div>

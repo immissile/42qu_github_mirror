@@ -45,7 +45,10 @@ pic_to_review_count = pic_to_review_count_by_cid(CID_ICO)
 <input id="search" type="text" name="input" value="${value or ''}">\
 <input class="search_btn" type="submit" value="">\
 </form>\
-<p class="coltitle">请求</p>
+<p class="coltitle">
+    <a class="logout" href="${SITE_URL}/logout?${_xsrf}">登出</a>
+    <a href="${current_user.link}" >${current_user.name}</a>
+</p>
 
 
 <div>

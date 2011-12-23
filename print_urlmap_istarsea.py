@@ -29,14 +29,6 @@ import ctrl._url_istarsea
 
 
 
-import god._url
-print_urlmap('god._urlmap')
-
-import api._url
-print_urlmap('api._urlmap')
-
-import rpc._url
-print_urlmap('rpc._urlmap')
-
-
-print_urlmap('ctrl._urlmap.istarsea')
+print_urlmap('ctrl._urlmap_istarsea.i')
+print_urlmap('ctrl._urlmap_istarsea.istarsea')
+print_urlmap('ctrl._urlmap_istarsea.j')

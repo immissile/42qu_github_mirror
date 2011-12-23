@@ -4,11 +4,15 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/me/newbie/0
+ctrl._urlmap.me
+ctrl._urlmap.istarsea
+ctrl._urlmap.j 
 """
 
 TO_STRING = """
-/i/guide
+ctrl._urlmap_istarsea.i
+ctrl._urlmap_istarsea.istarsea
+ctrl._urlmap_istarsea.j
 """
 
 def run():

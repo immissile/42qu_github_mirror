@@ -89,6 +89,13 @@ padding-bottom:32px;
 .colblock{
 margin-bottom:8px
 }
+.coltitle a{
+color:#01a;
+}
 .coltitle{
 padding-left:8px
+}
+.logout{
+margin-right:8px;
+float:right;
 }
