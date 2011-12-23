@@ -15,7 +15,7 @@ site_list=site_rec(current_user_id)
 %>
 %if site_list:
 <%
-site_list=[(i.id,i.link,i.name,ico_url_with_default(i.id),motto_get(i.id)) for i in site_list]
+site_list=[(i.id,i.link,i.name,ico_url_with_default(i.id),motto_get(i.id),i.cid) for i in site_list]
 %>
 <script type="text/x-json" id="site_data">
     ${escape(dumps(site_list))|n}

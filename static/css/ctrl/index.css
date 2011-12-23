@@ -1,3 +1,7 @@
+.fdimg
+{
+    width: 100%;
+}
 .bzr
 {
     display:none;
@@ -172,9 +176,6 @@ margin-top:5px;
 #po_word_txt, .say_txt{
     height:34px;
 }
-.split{
-    margin:0 12px;
-}
 .fdbar{
     padding-top:12px;
     padding-bottom:4px;
@@ -201,7 +202,7 @@ margin-top:5px;
 }
 .split
 {
-    margin: 0 12px;
+    margin: 0 11px;
 }
 .site_avatar{
     width:48px;
