@@ -154,24 +154,12 @@ margin-top:5px;
     clear:both;
     overflow:hidden;
 }
-.fdbar .btnw{
-    height:28px;
-    margin-top:-1px;
-}
 .fdbar .say_btn{
-    background-color: #FFFFFF;
-    cursor:pointer;
-    color: #666666;
-    font-size: 14px;
-    padding:0 10px;
-    display:inline-block;
-    line-height:28px;
-    height:28px;
+    border:1px solid #ccc;
+    padding:3px 14px;
 }
 .fdbar .say_btn:hover{
-    color:#000;
-    background-image:-moz-linear-gradient(#F3F3F3, #FFFFFF);
-    background-color:#f3f3f3;
+    border:1px solid #eee;
 }
 #po_word_txt{
     width:100%!important;
@@ -200,7 +188,6 @@ margin-top:5px;
 .say_type{
     display:block;
     float:left;
-    margin-top:2px;
 }
 .right_wrap{
     float:left;
