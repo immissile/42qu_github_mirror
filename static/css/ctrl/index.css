@@ -123,8 +123,11 @@ li
     margin-top:32px;
     overflow:hidden;
 }
+.zname{
+margin-top:5px;
+}
+.imgw{line-height:0}
 .feed_left{
-    text-align: right;
     width: 219px;
     padding-right: 24px;
     margin-bottom: 32px;

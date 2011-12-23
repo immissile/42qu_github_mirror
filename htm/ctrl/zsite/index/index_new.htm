@@ -60,8 +60,8 @@ class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="spl
 <div class="feed_li">
     <div class="feed_left">
         <a class="c0" target="_blank" href="${zsite_link}">
-        <div><img src="${pic}"></div>
-        <div>${zsite_name}</div>
+        <div class="imgw"><img src="${pic}"></div>
+        <div class="zname">${zsite_name}</div>
 {{if unit}}
         <div class="tr">${unit}</div>
 {{/if}}
@@ -187,7 +187,8 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
     <div class="left_wrap">
         <div class="feed_li">
             <div class="feed_left">
-                <a href="${current_user.link}" target="_blank" class="c0"><img src="${_ico|n}"></a>
+<a href="${current_user.link}" class="c0 imgw">\
+<img src="${_ico|n}"></a>
             </div>
             <div class="feed_part">
                 <div class="feed_right">
