@@ -143,7 +143,7 @@ margin-top:5px;
     margin-bottom:0;
 }
 .feed_right{
-    margin-right:335px;
+    margin-right:300px;
 }
 .sdw{
     box-shadow:2px 2px 1px #f3f3f3;
@@ -201,8 +201,8 @@ margin-top:5px;
 .right_wrap{
     float:left;
     width:250px;
-    margin:0 0 0 -190px;
-    _margin:0 0 0 -210px;
+    margin:0 0 0 -174px;
+    _margin:0 0 0 -194px;
     font-size:12px;
 }
 .right_title{
@@ -285,9 +285,6 @@ margin-top:5px;
 .site_li{
     margin-top:16px;
     margin-left:-30px;
-    clear:both;
-    width:290px;
-    overflow:auto;
 }
 tr,td,table
 {
