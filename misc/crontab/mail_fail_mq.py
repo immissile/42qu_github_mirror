@@ -7,28 +7,26 @@ from model.kv_misc import kv_int_call, KV_EVENT_STATE
 from model._db import cursor_by_table
 from model.mail import sendmail
 import time
+from config import MQ_FAIL_MAIL_ADDR
 
-mail_addr = 'dev@42qu.com'
 
-def event_begin_end(begin):
-    pass
 
 def main():
     cursor = cursor_by_table('failed_mq')
     now = datetime.datetime.now().strftime('%Y%m%d')
     cursor.execute('select id,body,exc,func,time from failed_mq where time>%s'%str(int(now)-1))
 
-    out = ''
+    out = []
     for id, body, exc, func, ctime in cursor.fetchall():
-        out += '---------Traceback----------\n'
-        out += exc
-        out += '\n--------function----------\n'
-        out += func
-        out += '\n-----------time-----------\n'
-        out += ctime
-        out += '\n******************************\n'
+        out.append('---------Traceback----------\n')
+        out.append(exc)
+        out.append('\n--------function----------\n')
+        out.append(func)
+        out.append('\n-----------time-----------\n')
+        out.append(ctime)
+        out.append('\n******************************\n')
 
-    sendmail(now, out, mail_addr, name=now+'42qu_mq_error')
+    sendmail(now,''.join(out), MQ_FAIL_MAIL_ADDR, name='failed_mq')
 
 if __name__ == '__main__':
     main()

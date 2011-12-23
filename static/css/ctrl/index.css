@@ -1,3 +1,7 @@
+.fdimg
+{
+    width: 100%;
+}
 .bzr
 {
     display:none;
@@ -171,9 +175,6 @@ li
     width: 100%;
 }
 }
-.split{
-    margin:0 12px;
-}
 .fdbar{
     padding-top:12px;
     padding-bottom:4px;
@@ -201,7 +202,7 @@ li
 }
 .split
 {
-    margin: 0 12px;
+    margin: 0 11px;
 }
 .site_avatar{
     width:48px;
