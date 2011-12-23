@@ -23,6 +23,7 @@ from model.user_new import user_new
 from model.user_session import user_session, user_session_rm
 from model.namecard import namecard_new
 
+LOGIN_REDIRECT = '%s/live'
 
 def _mail_password_post(self):
     mail = self.get_argument('mail', None)
