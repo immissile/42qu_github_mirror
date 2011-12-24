@@ -20,6 +20,7 @@
     }
     addRec();
     addRec();
+    addRec();
 
     function loadrec(id){
         $.postJSON("/j/site/rec/new",{},function(r){

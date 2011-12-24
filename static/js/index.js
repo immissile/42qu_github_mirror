@@ -30,6 +30,15 @@ calcel = function(){
     textarea.removeClass('saying')
 };
 
+textarea.click(function(){
+    $("#po_word_txt").animate({"height":"78px"},"fast");
+})
+
+textarea.blur(function(){
+    if($(this).val()==''){
+        $("#po_word_txt").animate({"height":"34px"},"fast");
+    }
+})
 tip = $('#txt_tip');
 can_say = txt_maxlen(textarea, tip, 142, change,calcel);
 

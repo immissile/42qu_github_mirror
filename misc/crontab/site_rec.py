@@ -10,6 +10,7 @@ from model.zsite_site import zsite_id_list_by_user_id
 from model.site_rec import SiteRecHistory, SiteRec, site_rec_set
 from random import choice
 from model.top_rec import top_rec, TOP_REC_CID_OAUTH_BINDED, TOP_REC_CID_SITE_REC
+from friend_rec import handleUser
 
 def can_rec_site_id_list():
     result = []
@@ -18,6 +19,7 @@ def can_rec_site_id_list():
         count = po_cid_count_by_zsite_id(zsite_id, CID_NOTE)
         if count > 5:
             result.append(zsite_id)
+        result.extend(handleUser(zsite_id).keys())
     return set(result)
 
 
@@ -27,7 +29,6 @@ def user_id_site_can_rec():
     for i in ormiter(Zsite, 'cid=%s'%CID_USER):
         user_id = i.id
         if TOP_REC_CID_SITE_REC&top_rec(user_id) and SiteRec.get(user_id):
-            print ">"
             continue
 
         fav_list = list(zsite_id_list_by_user_id(user_id))

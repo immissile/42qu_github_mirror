@@ -1,7 +1,8 @@
 <%!
 from model.career import career_current
 from config import FS_URL
-from model.ico import pic_url_with_default
+from model.ico import pic_url_with_default,PIC_DEFAULT
+from config import FS_URL
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_career_link, po_link"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -186,8 +187,14 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
     <div class="left_wrap">
         <div class="feed_li">
             <div class="feed_self">
-<a href="${current_user.link}" class="c0 imgw">\
-<img src="${_ico|n}"></a>
+    %if _ico == PIC_DEFAULT%'219':
+<a href="/i/pic" class="c0 imgw">
+    <img src="http://i.imgur.com/0BATN.jpg" style="height:140px;margin-left:40px">
+    %else:
+<a href="${current_user.link}" class="c0 imgw">
+<img src="${_ico|n}">
+    %endif
+</a>
             </div>
             <div class="feed_part">
                 <div class="feed_right">
