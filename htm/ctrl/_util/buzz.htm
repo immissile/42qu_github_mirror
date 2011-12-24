@@ -142,10 +142,12 @@ for i in rlist:
     
     % for pos,(key,i) in enumerate(tlist.items()):
     <%
-    if pos > 2:
-        break;
-    po_id = key
-    po = Po.mc_get(po_id)
+if pos > 2:
+    break
+po_id = key
+po = Po.mc_get(po_id)
+if not po:
+    continue
     %>
     <div class="buzz_w" id="bz_${key}">
         <div>
