@@ -197,3 +197,8 @@ class AuthLogin(NoLoginBase):
             errtip=errtip
         )
 
+
+@urlmap('/auth/reged/(\d+)')
+class Reged(NoLoginBase):
+    def get(self, id):
+        self.render()
