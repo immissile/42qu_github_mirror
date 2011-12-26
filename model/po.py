@@ -20,6 +20,7 @@ from zkit.attrcache import attrcache
 from cgi import escape
 import json
 from zkit.jsdict import JsDict
+from buzz_reply import mq_buzz_po_rm
 #from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
@@ -296,7 +297,6 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
 
 
 def po_state_set(po, state):
-    from buzz import mq_buzz_po_rm
     old_state = po.state
     if old_state == state:
         return
@@ -369,7 +369,6 @@ def _po_rm(user_id, po):
         mc_answer_id_get.delete('%s_%s' % (user_id, rid))
         answer_count.delete(rid)
     mc_flush(user_id, po.cid)
-    from buzz import mq_buzz_po_rm
     mq_buzz_po_rm(id)
     from fav import fav_rm_by_po
     fav_rm_by_po(po)
