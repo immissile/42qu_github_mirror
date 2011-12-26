@@ -441,7 +441,7 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
         event.join_count += 1
         event.save()
 
-    mc_flush_by_user_id(user_id, event_id, event.zsite_id)
+    mc_flush_by_user_id_event_id_owner_id(user_id, event_id, event.zsite_id)
     return o
 
 
@@ -477,7 +477,7 @@ def event_joiner_no(o, txt=''):
             event.save()
         if txt:
             notice_event_join_no(zsite_id, user_id, event_id, txt)
-        mc_flush_by_user_id(user_id, event_id, zsite_id)
+        mc_flush_by_user_id_event_id_owner_id(user_id, event_id, zsite_id)
 
 def event_joiner_yes(o):
     event_id = o.event_id
@@ -490,7 +490,7 @@ def event_joiner_yes(o):
         notice_event_join_yes(zsite_id, user_id, event_id)
         from model.buzz import mq_buzz_event_join_new
         mq_buzz_event_join_new(user_id, event_id, zsite_id)
-        mc_flush_by_user_id(user_id, event_id, event.zsite_id)
+        mc_flush_by_user_id_event_id_owner_id(user_id, event_id, event.zsite_id)
 
 def event_ready(event):
     join_count = event.join_count
@@ -513,15 +513,16 @@ def event_ready(event):
         sleep(0.1)
 
 
-def mc_flush_by_user_id(user_id, event_id, owner_id):
-    mc_event_id_list_join_by_user_id.delete(user_id)
-    event_join_count_by_user_id.delete(user_id)
-    
+def mc_flush_by_user_id_event_id_owner_id(user_id, event_id, owner_id):
+    if user_id:
+        mc_event_id_list_join_by_user_id.delete(user_id)
+        event_join_count_by_user_id.delete(user_id)
+
     mc_event_joiner_user_id_list.delete(event_id)
     mc_event_joining_id_list.delete(event_id)
     mc_event_joined_id_list.delete(event_id)
     event_joiner_new_count.delete(event_id)
-    
+
     mc_event_joiner_by_owner_id.delete(owner_id)
 
 def mc_flush_by_city_pid_cid(city_pid, cid):
@@ -582,7 +583,7 @@ def event_kill(user_id, event, txt):
             feed_rm(event_id)
             mc_flush_by_zsite_id(zsite_id)
             event_to_review_count_by_zsite_id.delete(user_id)
-            mc_flush_by_user_id(user_id, id, zsite_id)
+            mc_flush_by_user_id_event_id_owner_id(user_id, id, zsite_id)
 
         o = _po_event_notice_new(user_id, event_id, txt)
         mq_event_kill_extra(user_id, event_id, o.id)
@@ -597,7 +598,7 @@ def event_rm(user_id, id):
         zsite_id = event.zsite_id
         mc_flush_by_zsite_id(event.zsite_id)
         event_to_review_count_by_zsite_id.delete(user_id)
-        mc_flush_by_user_id(user_id, id, zsite_id)
+        mc_flush_by_user_id_event_id_owner_id(user_id, id, zsite_id)
 
 
 def event_review_yes(id):
