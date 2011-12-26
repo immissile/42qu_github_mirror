@@ -14,6 +14,13 @@ class PoPos(Model):
 
 mc_po_pos = McCacheM('PoPos.%s')
 
+def user_id_list_by_po_pos_buzz(po_id)
+    return set(
+        PoPos.where(
+            po_id=po_id, state=STATE_BUZZ
+        ).col_list(col_list="user_id")
+    )
+
 @mc_po_pos('{user_id}_{po_id}')
 def po_pos_get(user_id, po_id):
     p = PoPos.get(user_id=user_id, po_id=po_id)
