@@ -28,7 +28,7 @@ mc_event_all_id_list = McLimitA('EventAllIdList.%s', 128)
 event_joiner_new_count = McNum(
     lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCheckCount.%s'
 )
-mc_event_joiner_by_user_id = McCacheM('EventJoinerByUserId:%s')
+mc_event_joiner_by_user_id = McCacheM('EventJoinerByUserId.%s')
 
 event_joiner_feedback_normal_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_NORMAL).count(), 'EventJoinerFeedbackNormalCount:%s')
 
@@ -767,9 +767,19 @@ def event_joiner_by_user_id(user_id):
     event_id_list = event_id_list_by_zsite_id(user_id, False, None, None)
     result = []
     if event_id_list:
-        for po, event in zip(
-            Po.mc_get_list(event_id_list),
+        event_id_list_with_count = []
+        event_id_count_list = []
+        for id, count in zip(
+            event_id_list,
             event_joiner_new_count.get_list(event_id_list)
+        ):
+            if count:
+                event_id_list_with_count.append(id)
+                event_id_count_list.append(count)
+
+        for po, count in zip(
+            Po.mc_get_list(event_id_list_with_count),
+            event_id_count_list
         ):
             result.append((po.id, po.name, event))
     return result
