@@ -26,9 +26,9 @@ mc_event_cid_count_by_city_pid = McCacheA('EventCidCountByCityPid.%s')
 mc_event_end_id_list_by_city_pid = McLimitA('EventEndIdListByCityPid.%s', 128)
 mc_event_all_id_list = McLimitA('EventAllIdList.%s', 128)
 event_joiner_new_count = McNum(
-    lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCheckCount.%s'
+    lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCheckCount!%s'
 )
-mc_event_joiner_by_owner_id = McCacheM('EventJoinerByUserId.%s')
+mc_event_joiner_by_owner_id = McCacheM('EventJoinerByUserId&%s')
 
 event_joiner_feedback_normal_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_NORMAL).count(), 'EventJoinerFeedbackNormalCount:%s')
 
@@ -782,7 +782,7 @@ def event_joiner_by_owner_id(user_id):
             Po.mc_get_list(event_id_list_with_count),
             event_id_count_list
         ):
-            result.append((po.id, po.name, event))
+            result.append((po.id, po.name, count))
     return result
 
 if __name__ == '__main__':
@@ -798,4 +798,4 @@ if __name__ == '__main__':
     for id , name, j in event_joiner_by_owner_id(10000000):
         print id, name, j
 
-
+    print event_joiner_new_count(2803)

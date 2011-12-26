@@ -206,12 +206,11 @@ if not po:
 li = event_joiner_by_owner_id(user_id)
 %>
 %if li:
-<div class="right_title">${name}</div>\
+<div class="right_title">活动</div>\
 <div class="buzz_win">\
 %for id, name, count in li:
 <div class="buzz_w">\
-<a href="/${id}" class="TPH" target="_blank">${name}</a> : ${count}人报名 , \
-<a href="/event/check/${id}" target="_blank">点此确认</a>\
+<a href="/event/check/${id}" target="_blank"><span class="c0">${name}</span> : ${count}人新报名 , 请确认</a>\
 </div>\
 %endfor
 </div>\
