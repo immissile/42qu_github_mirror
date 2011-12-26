@@ -10,11 +10,6 @@ from config import FS_URL
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 ##<%namespace file="/ctrl/_util/friend_rec.htm" import="friend_rec_render"/>
 
-
-<%inherit file="/ctrl/_base/_base2.htm" />
-
-<%def name="h_nav_more()"></%def>
-
 <%def name="h_nav()">
 <div class="HN">\
 %if not current_user:
@@ -28,6 +23,11 @@ ${self.h_nav_more()}\
 <%def name="htm_head()">
 ${css.ctrl_index|n}
 </%def>
+
+
+<%inherit file="/ctrl/_base/_base2.htm" />
+
+<%def name="h_nav_more()"></%def>
 
 <%
 _ico = pic_url_with_default(zsite_id,219) 
@@ -268,4 +268,5 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 
 <script>init_user()</script>
 <script src="${js.ctrl_zsite_feed}"></script>
+
 
