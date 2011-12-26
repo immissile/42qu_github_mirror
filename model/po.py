@@ -14,7 +14,7 @@ from zkit.time_format import time_title
 from reply import ReplyMixin, Reply
 from po_pic import pic_htm
 from txt2htm import txt_withlink
-from zsite import Zsite
+from zsite import Zsite,Banned
 from zkit.txt import cnencut
 from zkit.attrcache import attrcache
 from cgi import escape
@@ -250,13 +250,17 @@ class Po(McModel, ReplyMixin):
         zsite_tag_rm_by_po(self)
 
 
-def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
 
+def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
     if state is None:
         if zsite_id and zsite_id != user_id:
             state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
         else:
             state = STATE_ACTIVE
+
+    banned = Banned.mc_get(user_id)
+    if banned:
+        state = STATE_RM 
 
     m = Po(
         id=id or gid(),
@@ -283,6 +287,7 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
 
     mc_flush_zsite_cid(zsite_id, cid)
     return m
+
 
 
 

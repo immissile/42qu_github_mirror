@@ -1,7 +1,7 @@
 <%inherit file="/god/_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.zsite import zsite_is_verify
+from model.zsite import zsite_is_verify,Banned
 from model.zsite_show import zsite_show_get
 from model.ico import ico_url as _ico_url, pic_url_with_default, ico
 from model.zsite_url import url_by_id
@@ -91,6 +91,16 @@ float:left;
     </div>
     <div class="item">
     <a href="/zsite/name/rm/${zsite_id}">删除昵称</a>
+    </div>
+    <div class="item">
+        <%
+        banned = Banned.mc_get(zsite_id)
+        %>
+        %if banned:
+        <a href="/zsite/name/banned/${zsite_id}/0">移除黑名单</a>
+        %else:
+        <a href="/zsite/name/banned/${zsite_id}/1">黑名单</a>
+        %endif
     </div>
     <div class="item">
     %if pic_id:
