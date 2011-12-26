@@ -62,7 +62,7 @@ event_join_count_by_user_id = McNum(
     ).count(), 'EventJoinCountByUserId.%s'
 )
 
-event_joiner_check_count = McNum(
+event_joiner_new_count = McNum(
     lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCheckCount.%s'
 )
 
@@ -442,7 +442,7 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
         event.join_count += 1
         event.save()
 
-    event_joiner_check_count.delete(event_id)
+    event_joiner_new_count.delete(event_id)
     mc_flush_by_user_id(user_id)
     return o
 
@@ -483,7 +483,7 @@ def event_joiner_no(o, txt=''):
         mc_event_joiner_user_id_list.delete(event_id)
         mc_event_joining_id_list.delete(event_id)
         mc_event_joined_id_list.delete(event_id)
-        event_joiner_check_count.delete(event_id)
+        event_joiner_new_count.delete(event_id)
 
 def event_joiner_yes(o):
     event_id = o.event_id
@@ -499,7 +499,7 @@ def event_joiner_yes(o):
         mc_flush_by_user_id(user_id)
         mc_event_joining_id_list.delete(event_id)
         mc_event_joined_id_list.delete(event_id)
-        event_joiner_check_count.delete(event_id)
+        event_joiner_new_count.delete(event_id)
 
 def event_ready(event):
     join_count = event.join_count
