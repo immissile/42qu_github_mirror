@@ -21,6 +21,7 @@ from cgi import escape
 import json
 from zkit.jsdict import JsDict
 from buzz_reply import mq_buzz_po_rm
+from buzz_at import mq_buzz_at_new
 #from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
@@ -382,8 +383,7 @@ def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
             m.feed_new()
-        from model.buzz import mq_buzz_word_new
-        mq_buzz_word_new(user_id, m.id, name)
+        mq_buzz_at_new(user_id, m.id, name)
         return m
 
 

@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from txt2htm import RE_AT
 from cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_EVENT_JOIN,  CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_WORD_AT
 
 from zsite import Zsite, ZSITE_STATE_ACTIVE
@@ -126,12 +125,6 @@ def buzz_wall_reply_new(from_id, to_id, wall_id):
     buzz_new(from_id, to_id, CID_BUZZ_WALL_REPLY, wall_id)
 
 
-def buzz_word_new(user_id, po_id, txt ):
-    ated = set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)]))
-    for to_id in ated:
-        buzz_new(user_id, to_id, CID_BUZZ_WORD_AT, po_id)
-
-mq_buzz_word_new = mq_client(buzz_word_new)
 
 
 
