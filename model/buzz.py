@@ -3,7 +3,7 @@
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
 from txt2htm import RE_AT
-from cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_WORD
+from cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_WORD
 
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -72,7 +72,6 @@ def buzz_unread_count(user_id):
 
 BUZZ_DIC = {
     CID_BUZZ_SYS: BuzzSys,
-    CID_BUZZ_SHOW: Zsite,
     CID_BUZZ_FOLLOW: Zsite,
     CID_BUZZ_WALL: Wall,
     CID_BUZZ_WALL_REPLY: Wall,
@@ -108,8 +107,6 @@ def buzz_sys_new_all(rid):
 
 #mq_buzz_sys_new_all = mq_client(buzz_sys_new_all)
 
-def buzz_show_new(user_id, zsite_id):
-    buzz_new(0, user_id, CID_BUZZ_SHOW, zsite_id)
 
 def buzz_show_new_all(zsite_id):
     for i in ormiter(BuzzUnread, 'value < 10'):
@@ -241,11 +238,11 @@ def buzz_list(user_id, limit, offset,state = STATE_BUZZ_ACTIVE):
 def buzz_career_bind(li):
     id_list = []
     for i in li:
-        if i.cid in (CID_BUZZ_SHOW, CID_BUZZ_FOLLOW):
+        if i.cid in ( CID_BUZZ_FOLLOW,):
             id_list.append(i.rid)
     c_dict = career_dict(id_list)
     for i in li:
-        if i.cid in (CID_BUZZ_SHOW, CID_BUZZ_FOLLOW):
+        if i.cid in ( CID_BUZZ_FOLLOW,):
             i.entry.career = c_dict[i.rid]
     return li
 
