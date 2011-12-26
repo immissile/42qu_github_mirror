@@ -265,9 +265,10 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
     <%def name="htm_foot()">
     <a id="feed_load" href="javascript:void(0)">加载更多</a>
     <div id="feed_loading"></div>
-    <script src="${js.ctrl_live}"></script>
     </%def>
 
     <script>init_user()</script>
+    <script src="${js.ctrl_live}"></script>
     <script src="${js.index|n}" ></script>
     <script src="${js.ctrl_site_recnew|n}"></script>
+

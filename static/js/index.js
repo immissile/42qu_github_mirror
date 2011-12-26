@@ -1,3 +1,7 @@
+$(".say_btn").click(function(){
+    $("#po_word_form").submit()
+})
+
 WINDOW_WIDTH = document.documentElement.clientWidth;
 textarea = $('#po_word_txt');
 $(".site_li").mouseenter(
