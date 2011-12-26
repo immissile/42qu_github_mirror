@@ -361,6 +361,14 @@ def buzz_site_new(user_id, site_id):
 
 mq_buzz_site_new = mq_client(buzz_site_new)
 
+def buzz_event_read(event_id , to_id, from_id):
+    for i in Buzz.where(
+        cid=CID_BUZZ_EVENT_JOIN_APPLY, 
+        rid=event_id,
+        to_id=to_id,
+        from_id=from_id 
+    ):
+        buzz_set_read(current_user_id,i.id)
 
 
 if __name__ == '__main__':

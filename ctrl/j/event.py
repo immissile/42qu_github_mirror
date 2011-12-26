@@ -28,11 +28,7 @@ class EventCheck(JLoginBase):
                             if txt:
                                 event_joiner_no(o, txt)
 
-
-        buzz = Buzz.where(cid=CID_BUZZ_EVENT_JOIN_APPLY).where(to_id=current_user_id).where(rid=o.event_id).where(from_id=o.user_id)
-        if buzz:
-            for i in buzz:
-                buzz_set_read(current_user_id,i.id)
+            buzz_event_read(id, current_user_id,  o.user_id)
 
         self.finish('{}')
 
