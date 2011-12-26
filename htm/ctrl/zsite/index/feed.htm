@@ -34,7 +34,6 @@ _ico = pic_url_with_default(zsite_id,219)
 %>\
 
 ${site_rec_render()}
-##${friend_rec_render()}
 
 
 <script id="feed" type="text/x-jquery-tmpl">
@@ -268,5 +267,4 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 
     <script>init_user()</script>
     <script src="${js.ctrl_zsite_feed}"></script>
-    ##<script src="${js.ctrl_site_recnew|n}"></script>
 
