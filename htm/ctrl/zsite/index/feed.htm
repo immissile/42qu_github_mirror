@@ -33,7 +33,6 @@ ${css.ctrl_index|n}
 _ico = pic_url_with_default(zsite_id,219) 
 %>\
 
-${site_rec_render()}
 
 
 <script id="feed" type="text/x-jquery-tmpl">
@@ -229,34 +228,36 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
     </div>
     <div class="right_wrap">
         ${buzz_show(current_user_id)}
-
-    <p class="right_title" id="rec_title">站点推荐</p>
-    <div class="site_rec" id="rec_wrapper" ></div>
-    <script id="site_rec" type="text/x-jquery-tmpl">
-        <%text>
-        {{if site.length}}
-        <div class="site_li" id='rec_${site[0]}'>
-            <div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
-            <div class="site_info">
-                <span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
-                {{if site[5] == 3}}
-                <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:fav('${site[0]}')"></a>
-                <div class="site_bio">${site[3]}</div>
-            </div>
-            <div class="delbtn"><a href="javascript:del('${site[0]}')" onclick=""></a></div>
-            {{/if}}
-            {{if site[5] == 1}}
-            <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:follow_a(${site[0]});void(0)"></a>
-            <div class="site_bio">${site[3]}</div>
-        </div>
-        <div class="delbtn"><a href="javascript:follow_a(${site[0]});void(0)" onclick=""></a></div>
-        {{/if}}
-
+<%doc>
+        ${site_rec_render()}
+        <p class="right_title" id="rec_title">站点推荐</p>
+        <div class="site_rec" id="rec_wrapper" ></div>
+        <script id="site_rec" type="text/x-jquery-tmpl">
+<%text>
+{{if site.length}}
+<div class="site_li" id='rec_${site[0]}'>
+    <div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
+    <div class="site_info">
+        <span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
+        {{if site[5] == 3}}
+        <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:fav('${site[0]}')"></a>
+        <div class="site_bio">${site[3]}</div>
     </div>
+    <div class="delbtn"><a href="javascript:del('${site[0]}')" onclick=""></a></div>
     {{/if}}
-    </%text>
-</script>
+    {{if site[5] == 1}}
+    <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:follow_a(${site[0]});void(0)"></a>
+    <div class="site_bio">${site[3]}</div>
 </div>
+<div class="delbtn"><a href="javascript:follow_a(${site[0]});void(0)" onclick=""></a></div>
+{{/if}}
+
+</div>
+{{/if}}
+</%text>
+        </script>
+</%doc>
+    </div>
     </div>
 
 
