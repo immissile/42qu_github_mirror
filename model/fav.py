@@ -43,7 +43,7 @@ def fav_add(user_id, po_id):
         mc_fav_cid.set('%s_%s' % (user_id, po_id), cid)
         mc_flush_by_user_id(user_id, cid)
         mc_flush_by_po_id(po_id)
-        po_pos_set(user_id, po, force_buzz=True)
+        po_pos_set(user_id, po)
 
 
 def fav_rm(user_id, po_id):
