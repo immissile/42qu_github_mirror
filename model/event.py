@@ -62,10 +62,10 @@ event_join_count_by_user_id = McNum(
     ).count(), 'EventJoinCountByUserId.%s'
 )
 
-event_joiner_check_query = lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW)
+event_joiner_new_query = lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW)
 
 event_joiner_check_count = McNum(
-    lambda event_id: event_joiner_check_query(
+    lambda event_id: event_joiner_new_query(
         event_id
     ).count(), 'EventJoinerCheckCount.%s'
 )
