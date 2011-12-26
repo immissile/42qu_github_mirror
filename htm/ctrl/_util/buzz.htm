@@ -1,5 +1,5 @@
 <%!
-from model.cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_TUPLE_CN , CID_BUZZ_WORD, CID_REVIEW
+from model.cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_TUPLE_CN , CID_BUZZ_WORD_AT, CID_REVIEW
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count, buzz_show_by_cid,buzz_set_read
 from zkit.txt import cnenoverflow
@@ -76,7 +76,7 @@ ${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}\
 #replyer${from_list[0].id}\
 %endif
 ">${entry.name}</a>\
-%elif cid == CID_BUZZ_WORD:
+%elif cid == CID_BUZZ_WORD_AT:
 ${user_link_list(from_list)} : <span class="buzz_txt">${entry.htm|n}</span><a target="_blank" class="zsite_reply" href="${entry.link}"></a>
 % elif cid == CID_BUZZ_JOIN:
 ${user_link_list(from_list)} 参加 ${po_link(entry)} 活动
@@ -207,7 +207,7 @@ if not po:
 <%def name="buzz_show(user_id)">
 <%
 limit = 300
-at_list = buzz_show_by_cid(user_id,limit,CID_BUZZ_WORD)
+at_list = buzz_show_by_cid(user_id,limit,CID_BUZZ_WORD_AT)
 
 event_list = buzz_show_by_cid(user_id,limit,CID_BUZZ_EVENT_JOIN_APPLY)
 event_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_EVENT_FEEDBACK_JOINER))
