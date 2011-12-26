@@ -159,8 +159,8 @@ margin-top:5px;
     overflow:hidden;
 }
 .fdbar .say_btn{
-    background:#fff url("/img/png/btn.png");
-    color: #666;
+    background:#fff url(/img/png/btn.png);
+    color: #999;
     font-size: 14px;
     padding:0 10px;
     margin-top:-1px;
@@ -168,7 +168,7 @@ margin-top:5px;
     border:1px solid #ccc;
 }
 .fdbar .say_btn:hover{
-    border-color:#999;
+    border-color:#aaa;
     color:#000;
     background:#f3f3f3 url(/img/png/btn.png) 0 30px;
 }
