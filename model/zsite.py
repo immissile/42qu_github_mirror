@@ -22,8 +22,6 @@ ZSITE_STATE_VERIFY = 40
 #
 #ZPAGE_STATE_INDEX = 10
 
-class Banned(McModel):
-    pass
 
 class Zsite(McModel):
     txt = txt_property

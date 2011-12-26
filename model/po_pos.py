@@ -12,7 +12,7 @@ class PoPos(Model):
 
 mc_po_pos = McCacheM('PoPos.%s')
 
-def user_id_list_by_po_pos_buzz(po_id)
+def user_id_list_by_po_pos_buzz(po_id):
     return set(
         PoPos.where(
             po_id=po_id, state=STATE_BUZZ

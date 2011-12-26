@@ -24,8 +24,8 @@ from config import SITE_DOMAIN, ADMIN_MAIL
 from urlparse import urlparse
 from model.zsite_url import id_by_url
 from model.zsite import Zsite, zsite_by_query
-from model.zsite import Banned
 from model.user_mail import user_id_by_mail
+from model.spammer import spammer_new , spammer_rm
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -229,18 +229,14 @@ class TestAccount(Base):
     def get(self):
         self.render()
 
+@urlmap('/zsite/spammer/rm/(\d+)')
+class SpammerRm(Base):
+    def get(self,id):
+        spammer_rm(id)
+        self.redirect('/zsite/%s' % id)
 
-@urlmap('/zsite/name/banned/(\d+)/(0|1)')
-class BanUser(Base):
-    def get(self,id,op):
-        id  = int(id)
-        banned = Banned.mc_get(id)
-        if not banned:
-            if int(op) ==1:
-                banned = Banned(id=id)
-                banned.save()
-        else:
-            if int(op) == 0:
-                Banned.delete(banned)
-
+@urlmap('/zsite/spammer/new/(\d+)')
+class SpammerNew(Base):
+    def get(self,id):
+        spammer_new(id)
         self.redirect('/zsite/%s' % id)
