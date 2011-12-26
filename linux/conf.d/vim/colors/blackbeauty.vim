@@ -23,7 +23,7 @@ hi MoreMsg		  term=bold  cterm=bold  ctermfg=darkgreen	gui=bold  guifg=SeaGreen
 hi ModeMsg		  term=bold  cterm=bold  gui=bold  guifg=White	guibg=Blue
 hi LineNr		  term=underline  cterm=bold  ctermfg=darkcyan	guibg=brown guifg=white
 hi Question		  term=standout  cterm=bold  ctermfg=darkgreen	gui=bold  guifg=Green
-hi Title		  term=bold  cterm=bold  ctermfg=darkmagenta  gui=bold	guifg=Magenta
+hi Title		  term=bold  cterm=bold  ctermfg=darkmagenta  gui=bold	guifg=#222222
 hi Visual		  term=reverse	cterm=reverse  gui=reverse
 hi Cursor		  guifg=bg	guibg=cyan
 hi Comment		  term=bold  cterm=bold ctermfg=cyan  guifg=#80a0ff
@@ -37,7 +37,7 @@ hi PreProc		  term=underline  ctermfg=darkblue	guifg=#ff80ff
 hi Type			  term=underline  cterm=bold ctermfg=lightgreen  gui=bold  guifg=#60ff60
 hi Error		    gui=bold guifg=Yellow	guibg=Black
 hi Todo			  term=standout  ctermfg=black	ctermbg=darkcyan  guifg=Blue  guibg=Yellow
-"hi VertSplit	guifg=#00FFFF guibg=#000000 gui=bold
+hi VertSplit	guifg=#00FFFF guibg=#000000 gui=bold
 hi link IncSearch		Visual
 hi link Character		Constant
 hi link Boolean			Constant
