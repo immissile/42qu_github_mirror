@@ -92,6 +92,15 @@ def buzz_reply_hide_or_rm(id):
             from model.po_pos import po_pos_state_mute
             po_pos_state_mute(buzz.user_id, buzz.po_id)
                
+def buzz_reply_hide(user_id, po_id):
+    buzz_reply = BuzzReply.get(
+        user_id=user_id, po_id=po_id, state=BUZZ_REPLY_STATE_SHOW
+    )
+    if buzz_reply:
+        buzz_reply.state = BUZZ_REPLY_STATE_HIDE
+        buzz_reply.save() 
+        if buzz_reply.id in po_id_list_by_buzz_reply_user_id(user_id):
+            mc_flush(user_id)
  
 def po_id_list_by_buzz_reply_user_id_rm(user_id):
     for i in po_id_list_by_buzz_reply_user_id(user_id):
