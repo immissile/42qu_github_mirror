@@ -27,7 +27,7 @@ def render_zsite_site(self, n=1, page_template='/-%s'):
     return li, page
 
 @urlmap('/feed')
-class IndexNew(ZsiteBase):
+class Feed(ZsiteBase):
     def get(self):
         self.render()
 
