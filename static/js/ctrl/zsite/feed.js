@@ -128,7 +128,7 @@
     saying=$('<div id="saying"></div>'),
     po_word_form=$('#po_word_form').submit(function(){
         if(can_say()){
-            var val = txt.val(); 
+            var val = textarea.val(); 
             if($.trim(val)=='')return false;
             txt_tip.html('')
             say_btn.hide().after(saying)
@@ -136,14 +136,13 @@
             $.postJSON(
                 '/j/po/word',
                 {
-                    "txt":val
+                    txt:val
                 },
                 function(result){
-                    recover()
                     if(result){
                         $('#feed').tmpl(init_result(result)).prependTo("#feeds")
                     }
-                    txt.val('').attr('disabled',false).attr("class","po_word_txt po_word_txt_sayed")
+                    textarea.val('').attr("class","po_word_txt po_word_txt_sayed").removeAttr('disabled')
                     say_btn.show();
                     saying.remove() 
                 }
@@ -162,7 +161,7 @@
         if(textarea.val()==''){
             textarea.animate({"height":"34px"},"fast");
         }
-    })
+    }).pop_at("/j/at")
 
     ;
 
@@ -183,14 +182,6 @@
     )
 
     
-    var txt = $('#po_word_txt')
-    function recover(){
-        txt.removeAttr('disabled')
-        $('.btnw').show() 
-        $('.po_loading').remove()
-        $('#po_all').show() 
-    }
-    $(recover) 
     
 
 })()
@@ -199,5 +190,4 @@
 
 
 
-$('#po_word_txt').pop_at("/j/at")
 
