@@ -7,7 +7,7 @@ from model.po_event import event_feedback_id_get
 from model.po import Po
 from model.event import event_list_by_zsite_id
 from model.cid_buzz import  CID_BUZZ_BLOCK_FOLLOW, CID_BUZZ_BLOCK_AT, CID_BUZZ_BLOCK_REPLY
-from model.event import event_joiner_by_user_id
+from model.event import event_joiner_by_owner_id
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career, po_link"/>
 
@@ -203,7 +203,7 @@ if not po:
 
 <%def name="buzz_render_event(user_id)">
 <%
-li = event_joiner_by_user_id(user_id)
+li = event_joiner_by_owner_id(user_id)
 %>
 %if li:
 <div class="right_title">${name}</div>\

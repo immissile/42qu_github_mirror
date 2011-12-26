@@ -72,8 +72,8 @@ class Po(McModel, ReplyMixin):
                 mc_feed_tuple.delete(id)
                 mc_feed_po_dict.delete(id)
                 if self.cid == CID_EVENT:
-                    from model.event import mc_event_joiner_by_user_id
-                    mc_event_joiner_by_user_id.delete(id)
+                    from model.event import mc_event_joiner_by_owner_id
+                    mc_event_joiner_by_owner_id.delete(id)
 
             self._mc_flush = True
 

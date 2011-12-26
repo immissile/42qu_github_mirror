@@ -28,7 +28,7 @@ mc_event_all_id_list = McLimitA('EventAllIdList.%s', 128)
 event_joiner_new_count = McNum(
     lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCheckCount.%s'
 )
-mc_event_joiner_by_user_id = McCacheM('EventJoinerByUserId.%s')
+mc_event_joiner_by_owner_id = McCacheM('EventJoinerByUserId.%s')
 
 event_joiner_feedback_normal_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_NORMAL).count(), 'EventJoinerFeedbackNormalCount:%s')
 
@@ -436,14 +436,12 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
         mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
 
 
-    mc_event_joiner_user_id_list.delete(event_id)
-    mc_event_joining_id_list.delete(event_id)
 
     if event.zsite_id != user_id:
         event.join_count += 1
         event.save()
 
-    mc_flush_by_user_id(user_id)
+    mc_flush_by_user_id(user_id, event_id)
     return o
 
 
@@ -515,14 +513,16 @@ def event_ready(event):
         sleep(0.1)
 
 
-def mc_flush_by_user_id(user_id):
+def mc_flush_by_user_id(user_id, event_id):
     mc_event_id_list_join_by_user_id.delete(user_id)
     event_join_count_by_user_id.delete(user_id)
+    
+    mc_event_joiner_user_id_list.delete(event_id)
     mc_event_joining_id_list.delete(event_id)
     mc_event_joined_id_list.delete(event_id)
     event_joiner_new_count.delete(event_id)
-    mc_event_joiner_user_id_list.delete(event_id)
-    mc_event_joiner_by_user_id.delete(user_id)
+    
+    mc_event_joiner_by_owner_id.delete(owner_id)
 
 def mc_flush_by_city_pid_cid(city_pid, cid):
     for _cid in set([0, cid]):
@@ -582,7 +582,7 @@ def event_kill(user_id, event, txt):
             feed_rm(event_id)
             mc_flush_by_zsite_id(event.zsite_id)
             event_to_review_count_by_zsite_id.delete(user_id)
-            mc_flush_by_user_id(user_id)
+            mc_flush_by_user_id(user_id, id)
 
         o = _po_event_notice_new(user_id, event_id, txt)
         mq_event_kill_extra(user_id, event_id, o.id)
@@ -597,7 +597,7 @@ def event_rm(user_id, id):
 
         mc_flush_by_zsite_id(event.zsite_id)
         event_to_review_count_by_zsite_id.delete(user_id)
-        mc_flush_by_user_id(user_id)
+        mc_flush_by_user_id(user_id, id)
 
 
 def event_review_yes(id):
@@ -762,8 +762,8 @@ def event_cid_name_count_by_city_pid(city_pid):
     for (event_cid, event_cid_name), count in zip(EVENT_CID_CN, event_cid_count_by_city_pid(city_pid)):
         yield event_cid, event_cid_name, count
 
-@mc_event_joiner_by_user_id('{user_id}')
-def event_joiner_by_user_id(user_id):
+@mc_event_joiner_by_owner_id('{user_id}')
+def event_joiner_by_owner_id(user_id):
     event_id_list = event_id_list_by_zsite_id(user_id, False, None, None)
     result = []
     if event_id_list:
@@ -794,7 +794,7 @@ if __name__ == '__main__':
 #        print 'http:%s'%i.link, '---', mail_by_user_id(i.id), '---', 'http:%s'%e.link, '---', Po.mc_get(e.id).name_
 #print last_event_by_zsite_id(10001299).id
 
-    for id , name, j in event_joiner_by_user_id(10000000):
+    for id , name, j in event_joiner_by_owner_id(10000000):
         print id, name, j
 
 
