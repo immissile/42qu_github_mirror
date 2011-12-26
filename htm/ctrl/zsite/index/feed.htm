@@ -8,10 +8,10 @@ from config import FS_URL
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
-<%namespace file="/ctrl/_util/friend_rec.htm" import="friend_rec_render"/>
+##<%namespace file="/ctrl/_util/friend_rec.htm" import="friend_rec_render"/>
 
 
-<%inherit file="/ctrl/_base/_index_new_style.htm" />
+<%inherit file="/ctrl/_base/_base2.htm" />
 
 <%def name="h_nav_more()"></%def>
 
@@ -32,11 +32,10 @@ ${css.ctrl_index|n}
 
 <%
 _ico = pic_url_with_default(zsite_id,219) 
-career = career_current(current_user.id)
 %>\
 
 ${site_rec_render()}
-${friend_rec_render()}
+##${friend_rec_render()}
 
 
 <script id="feed" type="text/x-jquery-tmpl">
@@ -217,9 +216,8 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
                                         <a href="javascript:po_video();void(0)">视频</a>
                                     </span>
                                 </span>
-                                <a id="po_ext" href="javascript:void(0)" style="display:none"></a>
                                 <span id="txt_tip"></span>
-                                <button type="submit" class="say_btn">游吟</button>
+                                <a href="javascript:void(0)" class="say_btn">游吟</a>
                             </div>
                             </%htm:form>
                         </div>

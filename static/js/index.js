@@ -20,13 +20,9 @@ $(".site_fav_a").click(function(){
 });
 
 change = function(){
-    $('.say_type').hide();
-    $('#po_ext').show();
     textarea.addClass('saying')
 };
 calcel = function(){
-    $('#po_ext').hide();
-    $('.say_type').show();
     textarea.removeClass('saying')
 };
 

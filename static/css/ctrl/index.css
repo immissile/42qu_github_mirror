@@ -53,7 +53,7 @@ margin:0 7px;
     margin-top: 2px;
 }
 #txt_tip{
-    margin:15px;
+    margin-right:10px;
 }
 .site_po
 {
@@ -159,6 +159,7 @@ margin-top:5px;
     overflow:hidden;
 }
 .fdbar .say_btn{
+<<<<<<< local
     background-color: #FFFFFF;
     /*background-image: -moz-linear-gradient(#FFFFFF, #F3F3F3);*/
     background:url("/img/png/btn.png");
@@ -168,12 +169,20 @@ margin-top:5px;
     padding:0 10px;
     margin-top:-1px;
     display:inline-block;
+=======
+    border:1px solid #ccc;
+    padding:3px 14px;
+>>>>>>> other
 }
 .fdbar .say_btn:hover{
+    border:1px solid #999;
     color:#000;
+<<<<<<< local
     /*background-image:-moz-linear-gradient(#F3F3F3, #FFFFFF);*/
     background:url("/img/png/btn.png") 0 30px;
     background-color:#f3f3f3;
+=======
+>>>>>>> other
 }
 #po_word_txt{
     width:100%!important;
@@ -199,7 +208,6 @@ margin-top:5px;
 .say_type{
     display:block;
     float:left;
-    margin-top:2px;
 }
 .right_wrap{
     float:left;
@@ -328,4 +336,7 @@ ul
 .buzz_cou
 {
     margin:3px 0
+}
+#txt_tip span span{
+margin:0 3px;
 }
