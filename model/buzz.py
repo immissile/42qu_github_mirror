@@ -3,7 +3,7 @@
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
 from txt2htm import RE_AT
-from cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN,  CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_WORD_AT
+from cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_EVENT_JOIN,  CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_WORD_AT
 
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -78,7 +78,7 @@ BUZZ_DIC = {
     CID_BUZZ_PO_REPLY: Reply,
     CID_BUZZ_ANSWER: Po,
     CID_BUZZ_WORD_AT: Po,
-    CID_BUZZ_JOIN: Po,
+    CID_BUZZ_EVENT_JOIN: Po,
     CID_BUZZ_EVENT_FEEDBACK_OWNER: Po,
     CID_BUZZ_EVENT_FEEDBACK_JOINER: Po,
     CID_BUZZ_SITE_NEW : Zsite,
@@ -312,7 +312,7 @@ def buzz_event_join_new(user_id, event_id, zsite_id):
     followed = [i.from_id for i in ormiter(Follow, 'to_id=%s' % user_id)]
     for to_id in followed:
         if to_id != zsite_id:
-            buzz_new(user_id, to_id, CID_BUZZ_JOIN, event_id)
+            buzz_new(user_id, to_id, CID_BUZZ_EVENT_JOIN, event_id)
 
 mq_buzz_event_join_new = mq_client(buzz_event_join_new)
 #mq_buzz_event_join_new = buzz_event_join_new
