@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
+from mq import mq_client
 
 ##CREATE TABLE `zpage`.`buzz_reply` (
 ##  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,

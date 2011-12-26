@@ -11,6 +11,7 @@ from cid import CID_PO, CID_SITE, CID_COM
 from zkit.attrcache import attrcache
 from user_mail import mail_by_user_id
 from mail import rendermail
+from buzz_reply import mq_buzz_po_reply_rm
 
 REPLY_STATE = (
     STATE_RM,
@@ -168,7 +169,6 @@ class Reply(McModel):
         return txt_withlink(self.txt)
 
     def rm(self):
-        from buzz import mq_buzz_po_reply_rm
         if self.state != STATE_RM:
             self.state = STATE_RM
             self.save()
