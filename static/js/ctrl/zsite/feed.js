@@ -123,7 +123,8 @@
 
 	/* 发微博 */
 	var po_word_txt = $("#po_word_txt"),
-	po_word_txt_bg = "po_word_txt_bg";
+	po_word_txt_bg = "po_word_txt_bg",
+    txt_tip=$("#txt_tip");
 	po_word_txt.blur().val('').focus(function() {
 		this.className="po_word_txt"
 	}).blur(function() {
@@ -142,7 +143,7 @@
     po_all.after(po_ext)
     var can_say = txt_maxlen(
         po_word_txt, 
-        $("#txt_tip"), 
+        txt_tip, 
         142, 
         function(){
             po_all.hide()
@@ -163,12 +164,11 @@
     
     $('#po_word_form').submit(function(){
         if(can_say()){
-            var val = txt.val(),btn=$('#po_word_btn'); 
+            var val = txt.val(),btn=$('#say_btn'); 
             if($.trim(val)=='')return false;
-            $('#po_ext, #po_word_tip').hide()
+            txt_tip.hide()
 
-            btn.append('<div class="po_loading"></div>')
-            btn.find('button').blur() 
+            btn.insertBefore('<div class="saying"></div>')
 
             txt.attr('disabled',true)
             $('.btnw').hide()
@@ -183,21 +183,21 @@
                         $('#feed').tmpl(init_result(result)).prependTo("#feeds")
                     }
                     txt.val('').attr('disabled',false).attr("class","po_word_txt po_word_txt_sayed")
-                    $('#po_word_tip').show()
+                    txt_tip.show().html('')
                     
                 }
             )
         } else{
-            $('#po_word_tip').fadeOut(function(){$('#po_word_tip').fadeIn()})
+            txt_tip.fadeOut(function(){txt_tip.fadeIn()})
         }
         return false
     })   
 
     var textarea = $('#po_word_txt').click(function(){
-        $("#po_word_txt").animate({"height":"78px"},"fast");
+        textarea.animate({"height":"78px"},"fast");
     }).blur(function(){
-        if($(this).val()==''){
-            $("#po_word_txt").animate({"height":"34px"},"fast");
+        if(textarea.val()==''){
+            textarea.animate({"height":"34px"},"fast");
         }
     })
 

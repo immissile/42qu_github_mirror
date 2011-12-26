@@ -328,3 +328,9 @@ ul
 #txt_tip span span{
 margin:0 3px;
 }
+.saying{
+background:url(/img/gif/loading_bar.gif);
+height:8px;
+width:26px;
+margin:15px 24px 0 0;
+}
