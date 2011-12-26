@@ -108,10 +108,6 @@ def buzz_sys_new_all(rid):
 #mq_buzz_sys_new_all = mq_client(buzz_sys_new_all)
 
 
-def buzz_show_new_all(zsite_id):
-    for i in ormiter(BuzzUnread, 'value < 10'):
-        buzz_show_new(i.id, zsite_id)
-#        print i.id, zsite_id
 
 def buzz_follow_new(from_id, to_id):
     if not Buzz.where(from_id=from_id, to_id=to_id, cid=CID_BUZZ_FOLLOW, rid=to_id).count():
