@@ -1,8 +1,7 @@
 <%!
 from model.career import career_current
-from config import FS_URL
+from config import SITE_DOMAIN 
 from model.ico import pic_url_with_default,PIC_DEFAULT
-from config import FS_URL
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_career_link, po_link"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -207,7 +206,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
                                     <span class="fdopt">
                                         <a href="/po/note">文章</a><span class="split">-</span>
                                         <a href="javascript:po_photo();void(0)">图片</a><span class="split">-</span>
-                                        <a href="/po/question">问题</a><span class="split">-</span>
+                                        <a href="//com.${SITE_DOMAIN}/new">招聘</a><span class="split">-</span>
                                         <a href="/po/event">活动</a><span class="split">-</span>
                                         <a href="javascript:po_audio();void(0)">声音</a><span class="split">-</span>
                                         <a href="javascript:po_video();void(0)">视频</a>
