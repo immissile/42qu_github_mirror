@@ -6,7 +6,8 @@ from zkit.txt import cnenoverflow
 from model.po_event import event_feedback_id_get
 from model.po import Po
 from model.event import event_list_by_zsite_id
-from model.cid_buzz import CID_BUZZ_BLOCK_EVENT, CID_BUZZ_BLOCK_FOLLOW, CID_BUZZ_BLOCK_AT, CID_BUZZ_BLOCK_REPLY
+from model.cid_buzz import  CID_BUZZ_BLOCK_FOLLOW, CID_BUZZ_BLOCK_AT, CID_BUZZ_BLOCK_REPLY
+from model.event import event_joiner_by_user_id
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career, po_link"/>
 
@@ -200,7 +201,25 @@ if not po:
     %>
 </%def>
 
+<%def name="buzz_render_event(user_id)">
+<%
+li event_joiner_by_user_id(user_id)
+%>
+%if li:
+<div class="right_title">${name}</div>\
+<div class="buzz_win">\
+%for id, name, count in li:
+<div class="buzz_w">\
+<a href="/${id}" class="TPH" target="_blank">${name}</a> : ${count}人报名 , \
+<a href="/event/check/${id}" target="_blank">点此确认</a>\
+</div>\
+%endfor
+</div>\
+%endif
+</%def>
+
 <%def name="buzz_show(user_id)">
+${buzz_render_event(user_id)}
 <%
 limit = 300
 at_list = buzz_show_by_cid(user_id,limit,CID_BUZZ_WORD_AT)
@@ -223,8 +242,8 @@ reply_list.extend(buzz_show_by_cid(user_id,10,CID_BUZZ_ANSWER))
     (buzz_render_reply  , reply_list  , CID_BUZZ_BLOCK_REPLY  ,  "提醒"),\
 ):
     %if li:
-<p class="right_title">${name}\
-<a href="javascript:void(0)" class="buzz_block_x" rel="${cid}">X</a></p>\
+<div class="right_title">${name}\
+<a href="javascript:void(0)" class="buzz_block_x" rel="${cid}">X</a></div>\
 <div class="buzz_win">\
 ${render(li)}\
 </div>\
