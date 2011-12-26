@@ -3,7 +3,7 @@
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
 from txt2htm import RE_AT
-from cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_WORD
+from cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN,  CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_WORD
 
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -79,7 +79,6 @@ BUZZ_DIC = {
     CID_BUZZ_ANSWER: Po,
     CID_BUZZ_WORD: Po,
     CID_BUZZ_JOIN: Po,
-    CID_BUZZ_EVENT_JOIN_APPLY: Po,
     CID_BUZZ_EVENT_FEEDBACK_OWNER: Po,
     CID_BUZZ_EVENT_FEEDBACK_JOINER: Po,
     CID_BUZZ_SITE_NEW : Zsite,
@@ -319,9 +318,6 @@ mq_buzz_event_join_new = mq_client(buzz_event_join_new)
 #mq_buzz_event_join_new = buzz_event_join_new
 
 
-def buzz_event_join_apply_new(user_id, zsite_id, event_id):
-    buzz_new(user_id, zsite_id, CID_BUZZ_EVENT_JOIN_APPLY, event_id)
-
 
 # 张沈鹏 评论了 <a>去看电影</a> , 点此浏览
 # 只显示给发起人
@@ -354,14 +350,6 @@ def buzz_site_new(user_id, site_id):
 
 mq_buzz_site_new = mq_client(buzz_site_new)
 
-def buzz_event_read(event_id , to_id, from_id):
-    for i in Buzz.where(
-        cid=CID_BUZZ_EVENT_JOIN_APPLY, 
-        rid=event_id,
-        to_id=to_id,
-        from_id=from_id 
-    ):
-        buzz_set_read(current_user_id,i.id)
 
 
 if __name__ == '__main__':

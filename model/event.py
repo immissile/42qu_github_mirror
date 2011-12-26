@@ -438,9 +438,6 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
         o.save()
         mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
 
-    if state == EVENT_JOIN_STATE_NEW:
-        from buzz import buzz_event_join_apply_new
-        buzz_event_join_apply_new(user_id, event.zsite_id, event_id)
 
     mc_event_joiner_user_id_list.delete(event_id)
     mc_event_joining_id_list.delete(event_id)
