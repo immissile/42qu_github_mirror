@@ -17,9 +17,9 @@
     width:100%;
 }
 .fcmtxt{
-width:auto!important;
+width:auto;
 margin-top:15px;
-padding:0 2px!important;
+padding:0 2px;
 }
 .say_type .split{
 margin:0 7px;
@@ -46,7 +46,7 @@ margin:0 7px;
     color:#d20;
 }
 .site_po {
-    margin-top: -6px!important;
+    margin-top: -6px;
 }
 .fdtxt
 {
@@ -70,8 +70,8 @@ margin:0 7px;
 }
 #H .H
 {
-    max-width:1305px;
-    width:auto!important;
+    max-width:1296px;
+    width:auto;
 }
 #H .D_na
 {
@@ -79,9 +79,9 @@ margin:0 7px;
 }
 .fav_loading
 {
-    background: url("http://s4.42qu.us/img/gif/loading12.gif") 0px 0px white !important;
-    width: 14px!important;
-    height: 14px!important;
+    background: url(/img/gif/loading12.gif) 0 0 #fff ;
+    width: 14px;
+    height: 14px;
     top: 2px;
     position: relative;
 
@@ -178,8 +178,8 @@ margin-top:5px;
     background:#f3f3f3 url(/img/png/btn.png) 0 30px;
 }
 #po_word_txt{
-    width:100%!important;
-    border: none!important;
+    width:100%;
+    border: none;
 }
 .say_txt{
     border: 0;
@@ -210,7 +210,7 @@ margin-top:5px;
     font-size:12px;
 }
 .right_title{
-    border: 0pt none; text-align: left; font-size: 14px; background: url("http://s4.42qu.us/img/gif/adot.gif") no-repeat scroll -4px 7px transparent;padding-left:16px;color:#000;
+    border: 0pt none; text-align: left; font-size: 14px; background: url(/img/gif/adot.gif) no-repeat scroll -4px 7px transparent;padding-left:16px;color:#000;
 }
 .split
 {
