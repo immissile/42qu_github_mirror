@@ -52,6 +52,9 @@ def po_recommend_new(rid, user_id, name, reply_id=None):
         )
         rr.save()
 
+    from po_pos import po_pos_state, STATE_BUZZ
+    po_pos_state(user_id, rid, STATE_BUZZ)
+
     return recommend
 
 

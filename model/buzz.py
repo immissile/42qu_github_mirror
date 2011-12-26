@@ -9,6 +9,7 @@ from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
 from po import Po
 from po_pos import PoPos, STATE_BUZZ
+from state import STATE_BUZZ_ACTIVE, STATE_BUZZ_RM
 from buzz_sys import BuzzSys
 from wall import Wall
 from kv import Kv
@@ -20,6 +21,7 @@ from zkit.orderedset import OrderedSet
 from zkit.ordereddict import OrderedDict
 from zsite_url import id_by_url
 from collections import defaultdict
+
 
 class Buzz(Model):
     pass
@@ -33,14 +35,39 @@ buzz_unread = Kv('buzz_unread', None)
 buzz_count = McNum(lambda user_id: Buzz.where(to_id=user_id).count(), 'BuzzCount.%s')
 #buzz_unread_count = McNum(lambda user_id: Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count(), 'BuzzUnreadCount.%s')
 
+def buzz_set_read(user_id, buzz_id):
+    buzz = Buzz.get(buzz_id)
+    if buzz:
+        buzz.state = STATE_BUZZ_RM
+        buzz.save()
+    mc_flush(user_id)
+
+
+def clear_buzz_by_user_id_cid(user_id,cid):
+    buzz_list = Buzz.where(to_id=user_id).where(cid=cid)
+    if buzz_list:
+        for buzz in buzz_list:
+            buzz_set_read(user_id,buzz.id)
+
+def clear_buzz_by_po_id(user_id,po_id):
+    po = Po.mc_get(po_id)
+    if po:
+        reply_id_list = po.reply_id_list()
+        for reply in reply_id_list:
+            buzz_list = Buzz.where(to_id = user_id).where(cid=CID_BUZZ_PO_REPLY).where(rid = reply)
+            if buzz_list:
+                for buzz in buzz_list:
+                    buzz_set_read(user_id,buzz.id)
 
 def buzz_unread_count(user_id):
-    count = buzz_unread.get(user_id)
-    if count is None or count is False:
-        count = Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count()
-        buzz_unread.set(
-            user_id, count
-        )
+    #count = buzz_unread.get(user_id)
+    count = Buzz.where("state >%s"%STATE_BUZZ_RM).where(to_id=user_id).count()
+
+    #if count is None or count is False:
+    #    count = Buzz.where('id>%s', buzz_pos.get(user_id)).where(to_id=user_id).count()
+    #    #buzz_unread.set(
+    #    #    user_id, count
+    #    #)
     return count
 
 BUZZ_DIC = {
@@ -66,7 +93,7 @@ def mc_flush(user_id):
     #buzz_unread_count.delete(user_id)
 
 def buzz_new(from_id, to_id, cid, rid):
-    b = Buzz(from_id=from_id, to_id=to_id, cid=cid, rid=rid, create_time=int(time()))
+    b = Buzz(from_id=from_id, to_id=to_id, cid=cid, rid=rid, create_time=int(time()), state=STATE_BUZZ_ACTIVE)
     b.save()
     mc_flush(to_id)
     buzz_unread_update(to_id)
@@ -170,7 +197,7 @@ class BuzzEntry(object):
         self.id = id
         self.cid = cid
         self.rid = rid
-        self.from_id_list = OrderedSet([from_id])
+        self.from_id_list = OrderedSet(from_id)
 
 def buzz_pos_update(user_id, li):
     if li:
@@ -183,16 +210,16 @@ CACHE_LIMIT = 256
 
 mc_buzz_list = McLimitM('BuzzList.%s', CACHE_LIMIT)
 
-@mc_buzz_list('{user_id}')
-def _buzz_list(user_id, limit, offset):
-    c = Buzz.raw_sql('select id, from_id, cid, rid from buzz where to_id=%s order by id desc limit %s offset %s', user_id, limit, offset)
+#@mc_buzz_list('{user_id}')
+def _buzz_list(user_id, limit, offset, state=STATE_BUZZ_ACTIVE):
+    c = Buzz.raw_sql('select id, from_id, cid, rid from buzz where to_id=%s and state >= %s order by id desc limit %s offset %s', user_id, state, limit, offset)
     return c.fetchall()
 
-def buzz_list(user_id, limit, offset):
-    li = _buzz_list(user_id, limit, offset)
+def buzz_list(user_id, limit, offset,state = STATE_BUZZ_ACTIVE):
+    li = _buzz_list(user_id, limit, offset,state = state)
     if not li:
         return []
-    buzz_pos_update(user_id, li)
+    #buzz_pos_update(user_id, li)
     dic = OrderedDict()
     cls_dic = defaultdict(set)
     for id, from_id, cid, rid in li:
@@ -201,7 +228,7 @@ def buzz_list(user_id, limit, offset):
         if key in dic:
             dic[key].from_id_list.add(from_id)
         else:
-            dic[key] = BuzzEntry(id, cid, rid, from_id)
+            dic[key] = BuzzEntry(id, cid, rid, [from_id])
             cls_dic[BUZZ_DIC[cid]].add(rid)
     li = dic.values()
     for cls, id_list in cls_dic.items():
@@ -223,27 +250,57 @@ def buzz_career_bind(li):
     return li
 
 def _buzz_show(user_id, limit, unread=None):
-    if unread is None:
-        unread = buzz_unread_count(user_id)
-    if not unread:
-        return []
-    limit = min(unread, limit)
+    #if unread is None:
+    #    unread = buzz_unread_count(user_id)
+    #if not unread:
+    #    return []
+    #limit = min(unread, limit)
     offset = max(unread - limit, 0)
     li = _buzz_list(user_id, limit, offset)
     return li
+
+def _buzz_list_by_cid(user_id, limit, cid, state=STATE_BUZZ_ACTIVE):
+    c = Buzz.raw_sql('select id, from_id, cid, rid from buzz where to_id=%s and state >= %s and cid=%s order by id desc limit %s ', user_id, state,cid, limit)
+    return c.fetchall()
+
+def buzz_show_by_cid(user_id,limit,cid,state=STATE_BUZZ_ACTIVE):
+    _li = _buzz_list_by_cid(user_id, limit, cid,state = state)
+    if not _li:
+        return []
+    li = []
+    dic = OrderedDict()
+    cls_dic = defaultdict(set)
+    buzz_dic = defaultdict(list)
+    for id, from_id, cid, rid in _li:
+        cls_dic[Zsite].add(from_id)
+        cls_dic[BUZZ_DIC[cid]].add(rid)
+        li.append(BuzzEntry(id, cid, rid, [from_id]))
+        if id not in buzz_dic:
+            buzz_dic[id] =[id, cid,rid,[from_id]]
+        else:
+            buzz_dic[id][3].append(from_id)
+            buzz_dic[id][3]= list(set(buzz_dic[id][3]))
+
+    for cls, id_list in cls_dic.items():
+        cls_dic[cls] = cls.mc_get_dict(id_list)
+
+    for be in li:
+        be.from_list = [cls_dic[Zsite][i] for i in be.from_id_list]
+        be.entry = cls_dic[BUZZ_DIC[be.cid]][be.rid]
+    return buzz_career_bind(li)
 
 def buzz_show(user_id, limit, unread=None):
     _li = _buzz_show(user_id, limit, unread)
     if not _li:
         return []
-    buzz_pos_update(user_id, _li)
+    #buzz_pos_update(user_id, _li)
     li = []
     dic = OrderedDict()
     cls_dic = defaultdict(set)
     for id, from_id, cid, rid in _li:
         cls_dic[Zsite].add(from_id)
         cls_dic[BUZZ_DIC[cid]].add(rid)
-        li.append(BuzzEntry(id, cid, rid, from_id))
+        li.append(BuzzEntry(id, cid, rid, [from_id]))
     for cls, id_list in cls_dic.items():
         cls_dic[cls] = cls.mc_get_dict(id_list)
     for be in li:
@@ -266,6 +323,7 @@ def buzz_event_join_new(user_id, event_id, zsite_id):
             buzz_new(user_id, to_id, CID_BUZZ_JOIN, event_id)
 
 mq_buzz_event_join_new = mq_client(buzz_event_join_new)
+#mq_buzz_event_join_new = buzz_event_join_new
 
 
 def buzz_event_join_apply_new(user_id, zsite_id, event_id):
@@ -307,13 +365,16 @@ mq_buzz_site_new = mq_client(buzz_site_new)
 
 if __name__ == '__main__':
     pass
+    #listB = _buzz_list(10031395,1000,0)
+    #for id, from_id, cid, rid in listB:
+    #    buzz_set_read(10031395,id)
 #    from model.zsite import Zsite
 #    from model.cid import CID_USER
 #    print buzz_unread_update(10000000)
 #    print buzz_unread_count(10000000)
 #    print buzz_show(10000000, 3)
-    import time
-    for i in range(100):
-        print Buzz.where(cid=CID_BUZZ_FOLLOW).delete()
-        time.sleep(1)
-        print Buzz.where(cid=CID_BUZZ_FOLLOW).count()
+    #import time
+    #for i in range(100):
+    #    print Buzz.where(cid=CID_BUZZ_FOLLOW).delete()
+    #    time.sleep(1)
+    #    print Buzz.where(cid=CID_BUZZ_FOLLOW).count()

@@ -3,9 +3,10 @@
 from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
 from model.event import Event, EventJoiner, event_joiner_yes, event_joiner_no, event_joiner_state, event_kill
+from model.buzz import Buzz,buzz_set_read
 from model.po_event import po_event_notice_new
 from model.event import EVENT_JOIN_STATE_NO, EVENT_JOIN_STATE_NEW, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_END
-
+from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_WORD
 
 @urlmap('/j/event/check/(\d+)/(0|1)')
 class EventCheck(JLoginBase):
@@ -26,6 +27,13 @@ class EventCheck(JLoginBase):
                             txt = self.get_argument('txt', '')
                             if txt:
                                 event_joiner_no(o, txt)
+
+
+        buzz = Buzz.where(cid=CID_BUZZ_EVENT_JOIN_APPLY).where(to_id=current_user_id).where(rid=o.event_id).where(from_id=o.user_id)
+        if buzz:
+            for i in buzz:
+                buzz_set_read(current_user_id,i.id)
+
         self.finish('{}')
 
 

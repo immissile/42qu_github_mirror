@@ -1,10 +1,12 @@
 <%!
 from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_CN , CID_BUZZ_WORD, CID_REVIEW
 from model.zsite import Zsite
-from model.buzz import buzz_show as _buzz_show, buzz_unread_count
+from model.buzz import buzz_show as _buzz_show, buzz_unread_count, buzz_show_by_cid,buzz_set_read
 from zkit.txt import cnenoverflow
 from model.po_event import event_feedback_id_get
 from model.po import Po
+from model.event import event_list_by_zsite_id
+from model.cid_buzz import CID_BUZZ_BLOCK_EVENT, CID_BUZZ_BLOCK_FOLLOW, CID_BUZZ_BLOCK_AT, CID_BUZZ_BLOCK_REPLY
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career, po_link"/>
 
@@ -99,31 +101,141 @@ ${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}
 % endif
 </%def>
 
+##########################################################
+
+<%def name="buzz_render_event(event_list)">
+    
+    % for i in event_list:
+    <%
+    cid = i.cid
+    from_list = i.from_list
+    entry = i.entry
+    rid = i.rid
+    %>
+    <div class="buzz_w">
+        % if cid == CID_BUZZ_JOIN:
+        ${user_link_list(from_list)} 参加 ${po_link(entry)} 活动
+        % elif cid == CID_BUZZ_EVENT_JOIN_APPLY:
+        ${user_link_list(from_list)} 报名 ${po_link(entry)} 活动 , <a href="/event/check/${rid}" target="_blank">点此确认</a> 
+        % elif cid == CID_BUZZ_EVENT_FEEDBACK_OWNER:
+        ${user_link_list(from_list)} 总结了 ${po_link(entry)} 活动 , <a href="/${rid}" target="_blank">点此浏览</a>
+        % elif cid == CID_BUZZ_EVENT_FEEDBACK_JOINER:
+        ${user_link_list(from_list)} 评论了 ${po_link(entry)} 活动 , <a href="/${rid}" target="_blank">点此浏览</a>
+        %endif
+    </div>
+    % endfor
+</%def>
+
+<%def name="buzz_render_reply(rlist)">
+<%
+from collections import defaultdict
+tlist = defaultdict(list)
+for i in rlist:
+    tlist[i.entry.rid].append(i) 
+%>
+    
+% for pos,(po_id,i) in enumerate(tlist.items()):
+    <%
+if pos > 2:
+    break
+po = Po.mc_get(po_id)
+if not po:
+    continue
+    %>
+    <div class="buzz_w" id="buzz${po_id}">
+        <div>
+            <a href="javascript:void(0)" class="buzz_x" >X</a>
+            <a href="${po.link}"  target="_blank" class="buzz_li">
+                % if po.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
+                ${cnenoverflow(po.name,30)[0]}\
+                % else:
+                ${po.name_with_user}\
+                % endif
+            </a>
+        </div>
+        <div class="buzz_au">5分钟前 , 
+            <%
+            repliers = set([c.from_list[0] for c in i])
+            %>
+            %for pos,x in enumerate(repliers):
+            <a href="${x.link}" class="TPH">${x.name}</a>,
+            <% 
+            if pos>2:
+                break
+            %>
+            %endfor
+            等<span class="buzz_cou">${len(repliers)}</span>人回复</div>
+    </div>
+% endfor
+</%def>
+
+<%def name="buzz_render_at(list)">
+        % for i in list:
+            <div class="buzz_w">
+                ${user_link_list(i.from_list)} : <span class="buzz_txt">${i.entry.htm|n}</span><a target="_blank" class="zsite_reply" href="${i.entry.link}"></a>
+            </div>
+        %endfor
+</%def>
+
+<%def name="buzz_render_follow(li)">
+    % for i in list:
+    <div class="buzz_w">
+        %if i.cid == CID_BUZZ_FOLLOW:
+            % if i.rid == current_user_id:
+            ${user_link_list_with_career(i.from_list)} 关注了我
+            % else:
+            ${user_link_list(i.from_list)} 关注了 ${user_career_link(i.entry)}
+            % endif
+        %elif i.cid in (CID_BUZZ_SITE_NEW,CID_BUZZ_SITE_FAV):
+            ${user_link_list(i.from_list)} 
+                %if i.cid == CID_BUZZ_SITE_NEW:
+            创建
+                %else:
+            收藏
+                %endif
+            %if i.entry:
+            ${CID_ZSITE_CN[i.entry.cid]} <a href="${i.entry.link}" target="_blank">${i.entry.name}</a>
+            %endif
+        %elif i.cid == CID_BUZZ_JOIN:
+            ${user_link_list(i.from_list)} 参加 ${po_link(i.entry)} 活动
+        %endif
+    </div>
+    %endfor
+    <%
+    ##buzz_set_read(current_user_id,i.id)
+    %>
+</%def>
+
 <%def name="buzz_show(user_id)">
 <%
-unread = buzz_unread_count(user_id)
-buzz_list = _buzz_show(user_id, 3, unread)
-unread = unread-len(buzz_list)
+limit = 300
+at_list = buzz_show_by_cid(user_id,limit,CID_BUZZ_WORD)
+
+event_list = buzz_show_by_cid(user_id,limit,CID_BUZZ_EVENT_JOIN_APPLY)
+event_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_EVENT_FEEDBACK_JOINER))
+event_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_EVENT_FEEDBACK_OWNER))
+
+follow_list = buzz_show_by_cid(user_id,limit,CID_BUZZ_FOLLOW)
+follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_SITE_NEW))
+follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_SITE_FAV))
+follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_JOIN))
+
+reply_list = buzz_show_by_cid(user_id,10,CID_BUZZ_PO_REPLY)
+reply_list.extend(buzz_show_by_cid(user_id,10,CID_BUZZ_ANSWER))
+
 %>
-% if buzz_list:
-<div class="c" id="buzz"><div class="G2">\
-<div class="buzz">\
-<div id="buzz_p">\
-    % for i in buzz_list:
-<p>${buzz_render(i)}</p>\
-    % endfor
+%for render, li, cid , name in (\
+    (buzz_render_at     ,    at_list  , CID_BUZZ_BLOCK_AT     , "@了我"),\
+    (buzz_render_event  , event_list  , CID_BUZZ_BLOCK_EVENT  , "动态"),\
+    (buzz_render_reply  , reply_list  , CID_BUZZ_BLOCK_REPLY  , "回复"),\
+    (buzz_render_follow , follow_list , CID_BUZZ_BLOCK_FOLLOW  , "关注"),\
+):
+    %if li:
+<p class="right_title">${name}\
+<a href="javascript:void(0)" class="buzz_block_x" rel="${cid}">X</a></p>\
+<div class="buzz_win">\
+${render(li)}\
 </div>\
-<p class="tr">\
-<a href="javascript:$('#buzz').slideUp();void(0)" id="buzzrm"></a>\
-<a class="unread" href="/notice/buzz">\
-    % if unread:
-未读<span class="mg03">${unread}</span>条\
-    % else:
-浏览全部\
-    % endif
-</a>\
-</p>\
-</div>\
-</div></div>\
-% endif
+    %endif
+%endfor
 </%def>

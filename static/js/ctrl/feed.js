@@ -52,7 +52,9 @@ function share(id) {
 						fancybox.close()
 					}
 				})}else{
-                    tip.fadeOut(function(){tip.fadeIn()})
+                    tip.fadeOut(function(){
+                        tip.fadeIn()
+                    })
                     return false
                 }
 				return false;

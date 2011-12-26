@@ -5,10 +5,10 @@ from os import walk
 
 FROM_STRING = """
 /me/newbie/0
+>>>>>>> other
 """
 
 TO_STRING = """
-/i/guide
 """
 
 def run():

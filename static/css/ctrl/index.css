@@ -1,12 +1,60 @@
+.fdimg
+{
+    width: 100%;
+}
+.buzz_x
+{
+    float:right;
+    display:none;
+}
+.buzz_block_x
+{
+    display:none;
+    float:right;
+}
+.txta
+{
+    width:100%;
+}
+.fcmtxt{
+width:auto!important;
+margin-top:15px;
+padding:0 2px!important;
+}
+.say_type .split{
+margin:0 7px;
+}
+#rec_title
+{
+    display:none;
+}
+#rec_wrapper{
+    height:62px;
+    display:none;
+}
+.buzz_c
+{
+    margin-left:17px;
+    margin-bottom:10px;
+}
+.buzz_win a
+{
+    color:#004276;
+}
+.site_po {
+    margin-top: -6px!important;
+}
 .fdtxt
 {
+    _height:150px;
+    margin-top:3px;
 }
 #po_ext{
     height: 32px;
     margin-top: 2px;
 }
 #txt_tip{
-    margin:15px;
+    margin-right:10px;
 }
 .site_po
 {
@@ -18,7 +66,7 @@
 }
 #H .H
 {
-    max-width:1338px;
+    max-width:1305px;
     width:auto!important;
 }
 #H .D_na
@@ -27,248 +75,264 @@
 }
 .fav_loading
 {
-	background: url("http://s4.42qu.us/img/gif/loading12.gif") 0px 0px white !important;
-	width: 14px!important;
-	height: 14px!important;
-	top: 2px;
-	position: relative;
+    background: url("http://s4.42qu.us/img/gif/loading12.gif") 0px 0px white !important;
+    width: 14px!important;
+    height: 14px!important;
+    top: 2px;
+    position: relative;
 
 }
 .delbtn a
 {
-	display:block;
-	height:16px;
-	width:16px;
+    display:block;
+    height:16px;
+    width:16px;
 }
 .delbtn:hover
 {
-	background: url("/img/png/plus11.png") repeat scroll 240px 41px ;
+    background: url("/img/png/plus11.png") repeat scroll 240px 41px ;
 }
 .show_x
 {
-	background: url("/img/png/plus11.png") repeat scroll 220px 41px ;
+    background: url("/img/png/plus11.png") repeat scroll 220px 41px ;
 }
 .delbtn
 {
-	height: 16px; width: 16px; position: relative; top: 18px; left: 8px;
+    height: 16px; width: 16px; position: relative; top: 18px; left: 8px;
+    _margin:-60px 0 0 10px;
 }
 li
 {
-	line-height:14px;
+    line-height:14px;
 }
 .feed_part
 {
-	margin-left:242px;
+    margin-left:242px;
 }
 .index_wrap{
-margin:36px auto 0;
-max-width:1338px;
-overflow:hidden;
+    margin:36px auto 0;
+    max-width:1296px;
+    overflow:hidden;
 }
 .form_wrap{
-	overflow:auto;
+    overflow:auto;
 }
 #po_word_form{
-	padding-left:0;
+    padding-left:0;
 }
 .left_wrap{
-width:100%;
-float:left;
-margin-left:12px;
+    width:100%;
+    float:left;
+    margin-left:12px;
+    margin-right:-100px;
 }
 #feeds{
-	clear:both;
-	margin-top:32px;
-	overflow:auto;
+    clear:both;
+    padding-top:32px;
+    overflow:hidden;
 }
-.feed_left{
-	text-align: right;
-	width: 219px;
-	padding-right: 24px;
-	margin-bottom: 32px;
-	background: url(http://s4.42qu.us/img/gif/comment.gif) no-repeat 228px 20px;
-	position: relative;
-	margin-right: -1px;
-	float: left;
+.zname{
+margin-top:5px;
+}
+.imgw{line-height:0}
+.feed_left,.feed_self{
+    width: 219px;
+    padding-right: 24px;
+    margin-bottom: 32px;
+    background: url(/img/gif/comment.gif) no-repeat 228px 20px;
+    position: relative;
+    margin-right: -1px;
+    float: left;
+}
+.feed_self{
+    margin-bottom:0;
 }
 .feed_right{
-	margin-right:335px;
+    margin-right:300px;
 }
 .sdw{
-	box-shadow:2px 2px 1px #f3f3f3;
-	background:none;
-	padding:0;
+    box-shadow:2px 2px 1px #f3f3f3;
+    background:none;
+    padding:0;
 }
 .feed_li{
-	clear:both;
-	overflow:auto;
+    clear:both;
+    overflow:hidden;
 }
 .fdbar .say_btn{
-	background-color: #FFFFFF;
-	background-image: -moz-linear-gradient(#FFFFFF, #F3F3F3);
-	border: 1px solid #CCCCCC;
-	color: #666666;
-	font-size: 14px;
-	padding: 2px 14px;
-	display:inline-block;
+    background:#fff url(/img/png/btn.png);
+    color: #999;
+    font-size: 14px;
+    padding:0 10px;
+    margin-top:-1px;
+    display:inline-block;
+    border:1px solid #ccc;
 }
 .fdbar .say_btn:hover{
-	color:#000;
-	background-image:-moz-linear-gradient(#F3F3F3, #FFFFFF);
-	background-color:#f3f3f3;
+    border-color:#aaa;
+    color:#000;
+    background:#f3f3f3 url(/img/png/btn.png) 0 30px;
 }
-.saying{
-background:none!important;
+#po_word_txt{
+    width:100%!important;
+    border: none!important;
 }
 .say_txt{
-	height: 96px;
-	border: 0;
-	background: url(http://s4.42qu.us/img/gif/today.gif) no-repeat 50% 50%;
-	width: 100%;
+    border: 0;
+    width: 100%;
 }
-}
-.split{
-	margin:0 12px;
+#po_word_txt, .say_txt{
+    height:34px;
 }
 .fdbar{
-	padding-top:12px;
-	padding-bottom:4px;
+    padding-top:12px;
+    padding-bottom:4px;
 }
 .fdbar .fcma{
-	color:#666;
+    color:#666;
 }
 .fcma:hover{
-	text-decoration:underline;
+    text-decoration:underline;
 }
 .say_type{
-	display:block;
-	float:left;
-	margin-top:2px;
+    display:block;
+    float:left;
 }
 .right_wrap{
-	float:left;
-	width:250px;
-	margin:0 12px 0 -300px;
-font-size:12px;
+    float:left;
+    width:250px;
+    margin:0 0 0 -174px;
+    _margin:0 0 0 -194px;
+    font-size:12px;
 }
 .right_title{
-	border: 0pt none; text-align: left; font-size: 14px; background: url("http://s4.42qu.us/img/gif/adot.gif") no-repeat scroll -4px 7px transparent;padding-left:16px;color:#000;
+    border: 0pt none; text-align: left; font-size: 14px; background: url("http://s4.42qu.us/img/gif/adot.gif") no-repeat scroll -4px 7px transparent;padding-left:16px;color:#000;
 }
 .split
 {
-	margin: 0 12px;
+    margin: 0 11px;
 }
 .site_avatar{
-	width:48px;
-	height:48px;
+    width:48px;
+    height:48px;
 }
 .site_name{
-	background:#fff;
-	padding-right:2px;
+    background:#fff;
+    padding-right:2px;
 }
 .site_title{
-	overflow:auto;
-	margin-top:12px;
+    overflow:auto;
+    margin-top:12px;
 }
 .site_left{
-	float:left;
-	margin-left:30px;
+    float:left;
+    margin-left:30px;
+    _margin-left:23px;
 }
 .site_img{
-	margin-top:2px;
-	clear:both;
+    margin-top:2px;
+    clear:both;
 }
 .site_info{
-	float:left;
-	overflow:hidden;
-	width:180px;
-	margin-left:12px;
-	margin-top:0;
-	line-height:20px;
+    float:left;
+    overflow:hidden;
+    width:190px;
+    margin-left:12px;
+    margin-top:0;
+    line-height:20px;
 }
 .site_bio{
-	color:#999;
-	margin-top:4px;
-	height:40px;
-	padding-top:10px;
-	margin-top:-9px;
-	border-top:1px dotted #ccc;
+    color:#999;
+    margin-top:4px;
+    height:40px;
+    padding-top:11px;
+    margin-top:-11px;
+    border-top:1px dotted #ccc;
 }
 .site_txt_a{
-	height:32px;
-	overflow:hidden;
-	display:block;
+    height:32px;
+    overflow:hidden;
+    display:block;
 }
 .site_fav_a{
-	display:inline-block;
-	width:20px;
-	height:16px;
-	margin-top:2px;
-	background:url("/img/png/plus.png") #fff no-repeat 0 -16px;
-	float:right;
+    display:inline-block;
+    width:20px;
+    height:16px;
+    margin-top:2px;
+    background:url("/img/png/plus.png") #fff no-repeat 0 -16px;
+    float:right;
+    _margin-top:-17px;
 }
 .site_fav_a:hover{
-	background:url("/img/png/plus.png") no-repeat 0 0px #fff;
+    background:url("/img/png/plus.png") no-repeat 0 0px #fff;
 }
 .site_faved
 {
-	display:inline-block;
-	width:20px;
-	height:16px;
-	margin-top:2px;
-	background:url("/img/png/plus.png") #fff no-repeat 0 -30px;
-	float:right;
+    background:url("/img/png/plus.png") #fff no-repeat 0 -32px;
 }
 .site_fav_a:visited{
 }
 .site_txt{
-	overflow:hidden;
-	float:left;
-	width:260px;
-	margin-left:12px;
+    overflow:hidden;
+    float:left;
+    width:260px;
+    margin-left:12px;
 }
 .site_rec{
-	margin-top:16px;
-	margin-bottom:48px;
+    margin-top:16px;
+    margin-bottom:18px;
 }
 .site_li{
-	margin-bottom:16px;
-	margin-left:-30px;
-	clear:both;
-	width:290px;
-	overflow:auto;
+    margin-top:16px;
+    height:50px;
+    margin-left:-30px;
 }
 tr,td,table
 {
-	border-spacing:0;
+    border-spacing:0;
 }
 ul
 {
-	margin-left:30px
+    margin-left:30px
 }
 .dot_line
 {
-	border-bottom: 1px dotted #CCCCCC;
-	margin-bottom:-10px;
-	padding-bottom:10px;
+    border-bottom: 1px dotted #CCCCCC;
+    margin-bottom:-10px;
+    padding-bottom:10px;
 }
 .buzz_text *
 {
-	background:white;
-	overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+    background:white;
+    overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
 }
 
 .buzz_win
 {
-	padding:7px 0 20px
+    padding:7px 0 0 0 ;
 }
 .buzz_w
-{line-height:22px;border-bottom:1px dotted #ccc;padding-bottom:8px;margin-bottom:8px;
+{
+    line-height: 22px;
+    /*border-bottom: 1px dotted #CCC;*/
+    padding-bottom: 8px;
+    padding-left: 17px;
+    background: url("/img/png/list_style_disc.png") no-repeat;
 }
 .buzz_au{
-	color:#999
+    color:#999
 }
 .buzz_cou
 {
-	margin:3px 0
+    margin:3px 0
+}
+#txt_tip span span{
+margin:0 3px;
+}
+#saying{
+background:url(/img/gif/loading_bar.gif);
+height:8px;
+width:26px;
+margin-right:12px;
+display:inline-block;
 }
