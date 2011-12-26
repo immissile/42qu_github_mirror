@@ -765,6 +765,11 @@ def event_cid_name_count_by_city_pid(city_pid):
     for (event_cid, event_cid_name), count in zip(EVENT_CID_CN, event_cid_count_by_city_pid(city_pid)):
         yield event_cid, event_cid_name, count
 
+def event_joiner_by_user_id(user_id):
+    result = []
+    for i in event_id_list_by_zsite_id(user_id, False, None, None):
+        result.append((i.id , event_joiner_new_count(i) ))
+    return result
 
 if __name__ == '__main__':
 #    print last_event_by_zsite_id(10001299).id
@@ -776,4 +781,4 @@ if __name__ == '__main__':
 #        print 'http:%s'%i.link, '---', mail_by_user_id(i.id), '---', 'http:%s'%e.link, '---', Po.mc_get(e.id).name_
 #print last_event_by_zsite_id(10001299).id
 
-    print 1
+    print event_joiner_by_user_id(10000000)
