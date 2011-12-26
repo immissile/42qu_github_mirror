@@ -125,12 +125,13 @@
 	var po_word_txt = $("#po_word_txt"),
 	po_word_txt_bg = "po_word_txt_bg",
     txt_tip=$("#txt_tip"),
+    saying=$('<div id="saying"></div>'),
     po_word_form=$('#po_word_form').submit(function(){
         if(can_say()){
             var val = txt.val(); 
             if($.trim(val)=='')return false;
             txt_tip.html('')
-            say_btn.hide().after('<div id="saying"></div>')
+            say_btn.hide().after(saying)
 
             $.postJSON(
                 '/j/po/word',
@@ -143,7 +144,8 @@
                         $('#feed').tmpl(init_result(result)).prependTo("#feeds")
                     }
                     txt.val('').attr('disabled',false).attr("class","po_word_txt po_word_txt_sayed")
-                    say_btn.show() 
+                    say_btn.show();
+                    saying.remove() 
                 }
             )
         } else{
@@ -174,21 +176,10 @@
 		}
 	}).addClass(po_word_txt_bg);
     
-    function po_all_show_ext_hide(){
-            po_all.show()
-            po_ext.hide()
-    }
-    var po_all=$("#po_all"),po_ext=$('<a href="javascript:void(0)" id="po_ext"></a>').click(po_all_show_ext_hide);
-    po_all.after(po_ext)
     var can_say = txt_maxlen(
         po_word_txt, 
         txt_tip, 
-        142, 
-        function(){
-            po_all.hide()
-            po_ext.show()
-        },
-        po_all_show_ext_hide
+        142
     )
 
     
