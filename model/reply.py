@@ -172,7 +172,7 @@ class Reply(McModel):
             self.state = STATE_RM
             self.save()
             mc_flush_reply_id_list(self.cid, self.rid)
-            mq_buzz_po_reply_rm(self.id)
+            mq_buzz_po_reply_rm(self.rid, self.id)
 
         user_id = self.user_id
         mc_lastest_hash.delete(user_id)

@@ -2,9 +2,12 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from mq import mq_client
 from buzz_at import buzz_at_new
 from txt import txt_get
+
+#from mq import mq_client
+def mq_client(f):
+    return f
 
 ##CREATE TABLE `zpage`.`buzz_reply` (
 ##  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -17,9 +20,10 @@ from txt import txt_get
 ##)
 ##ENGINE = MyISAM;
 
-BUZZ_STATE_SHOW = 30
-BUZZ_STATE_HIDE = 20
-BUZZ_STATE_RM   = 10
+BUZZ_REPLY_STATE_SHOW = 30
+BUZZ_REPLY_STATE_HIDE = 20
+BUZZ_REPLY_STATE_RM   = 10
+BUZZ_REPLY_STATE_PO_RMED   = 0
 
 class BuzzReply(McModel):
     pass
@@ -43,35 +47,31 @@ def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
     for user_id in :
         buzz_reply = BuzzReply.get_or_create(po_id=po_id, user_id=user_id)
         buzz_reply.update_time = now
-        buzz_reply.state = BUZZ_STATE_SHOW
+        buzz_reply.state = BUZZ_REPLY_STATE_SHOW
         buzz_reply.save()
 
 
 mq_buzz_po_reply_new = mq_client(buzz_po_reply_new)
 
-def buzz_po_reply_rm(reply_id):
-    for i in ormiter(Buzz, 'cid=%s and rid=%s' % (CID_BUZZ_PO_REPLY, reply_id)):
-        to_id = i.to_id
-        i.delete()
-        mc_flush(to_id)
-        buzz_unread_update(to_id)
+def buzz_po_reply_rm(po_id, reply_id):
+    from po_pos import PoPos, STATE_BUZZ
+    from model.po import Po
+    po = Po.mc_get(po_id)
+    if po and reply_id >= po.reply_id_last:
+        for user_id in PoPos.where(po_id=po_id, state=STATE_BUZZ).where("po_pos>%s",reply_id).col_list(col="user_id"):
+            BuzzReply.where(po_id=po_id, user_id=user_id, state=BUZZ_REPLY_STATE_SHOW).update(state=BUZZ_REPLY_STATE_HIDE)
 
 mq_buzz_po_reply_rm = mq_client(buzz_po_reply_rm)
 
 
 def buzz_po_rm(po_id):
-    to_id_list = set()
-    po = Po.mc_get(po_id)
-    to_id_list = set()
-    for reply_id in po.reply_id_list():
-        for i in ormiter(Buzz, 'cid=%s and rid=%s' % (CID_BUZZ_PO_REPLY, reply_id)):
-            to_id_list.add(i.to_id)
-            i.delete()
-    for to_id in to_id_list:
-        mc_flush(to_id)
-        buzz_unread_update(to_id)
+    BuzzReply.where(po_id=po_id).update(state=BUZZ_REPLY_STATE_PO_RMED )
 
 mq_buzz_po_rm = mq_client(buzz_po_rm)
+
+
+def buzz_reply_show_list_by_user_id(user_id):
+    pass
 
 if __name__ == "__main__":
     pass
