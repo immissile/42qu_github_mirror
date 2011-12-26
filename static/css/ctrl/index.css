@@ -41,6 +41,10 @@ margin:0 7px;
 {
     color:#004276;
 }
+.buzz_win a:hover
+{
+    color:#d20;
+}
 .site_po {
     margin-top: -6px!important;
 }
@@ -317,7 +321,7 @@ ul
     /*border-bottom: 1px dotted #CCC;*/
     padding-bottom: 8px;
     padding-left: 17px;
-    background: url("/img/png/list_style_disc.png") no-repeat;
+    background: url(/img/png/list_style_disc.png) no-repeat 4px 1px;
 }
 .buzz_au{
     color:#999
