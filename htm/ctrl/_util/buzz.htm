@@ -6,7 +6,7 @@ from zkit.txt import cnenoverflow
 from model.po_event import event_feedback_id_get
 from model.po import Po
 from model.event import event_list_by_zsite_id
-from model.cid_buzz import  CID_BUZZ_BLOCK_8G, CID_BUZZ_BLOCK_AT, CID_BUZZ_BLOCK_REPLY
+from model.cid_buzz import  CID_BUZZ_BLOCK_8GUA, CID_BUZZ_BLOCK_AT, CID_BUZZ_BLOCK_REPLY
 from model.event import event_joiner_by_owner_id
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career, po_link"/>
@@ -237,7 +237,7 @@ reply_list.extend(buzz_show_by_cid(user_id,10,CID_BUZZ_ANSWER))
 %>
 %for render, li, cid , name in (\
     (buzz_render_at     ,    at_list  , CID_BUZZ_BLOCK_AT     ,  "@我" ),\
-    (buzz_render_follow , follow_list , CID_BUZZ_BLOCK_8G  , "八卦"),\
+    (buzz_render_follow , follow_list , CID_BUZZ_BLOCK_8GUA  , "八卦"),\
     (buzz_render_reply  , reply_list  , CID_BUZZ_BLOCK_REPLY  ,  "提醒"),\
 ):
     %if li:
