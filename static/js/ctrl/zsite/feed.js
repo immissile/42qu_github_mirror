@@ -126,43 +126,47 @@
 	po_word_txt_bg = "po_word_txt_bg",
     txt_tip=$("#txt_tip"),
     saying=$('<div id="saying"></div>'),
-    po_word_form=$('#po_word_form').submit(function(){
-        if(can_say()){
-            var val = textarea.val(); 
-            if($.trim(val)=='')return false;
-            txt_tip.html('')
-            say_btn.hide().after(saying)
+    po_word_form=$('#po_word_form').submit(
+        function(){
+            if(can_say()){
+                var val = textarea.val(); 
+                if($.trim(val)=='')return false;
+                txt_tip.html('')
+                say_btn.hide().after(saying)
 
-            $.postJSON(
-                '/j/po/word',
-                {
-                    txt:val
-                },
-                function(result){
-                    if(result){
-                        $('#feed').tmpl(init_result(result)).prependTo("#feeds")
+                $.postJSON(
+                    '/j/po/word',
+                    {
+                        txt:val
+                    },
+                    function(result){
+                        if(result){
+                            $('#feed').tmpl(init_result(result)).prependTo("#feeds")
+                        }
+                        textarea.val('').attr(
+                            "class","po_word_txt po_word_txt_sayed"
+                        ).removeAttr('disabled')
+                        say_btn.show();
+                        saying.remove() 
                     }
-                    textarea.val('').attr("class","po_word_txt po_word_txt_sayed").removeAttr('disabled')
-                    say_btn.show();
-                    saying.remove() 
-                }
-            )
-        } else{
-            txt_tip.fadeOut(function(){txt_tip.fadeIn()})
-        }
-        return false
-    }),
-    say_btn = $(".say_btn").click(function(){
-        po_word_form.submit()
-    }),
-    textarea = $('#po_word_txt').click(function(){
-        textarea.animate({"height":"78px"},"fast");
-    }).blur(function(){
-        if(textarea.val()==''){
-            textarea.animate({"height":"34px"},"fast");
-        }
-    }).pop_at("/j/at")
-
+                )
+            } else{
+                txt_tip.fadeOut(function(){txt_tip.fadeIn()})
+            }
+            return false
+        }),
+    say_btn = $(".say_btn").click(
+        function(){
+            po_word_form.submit()
+        }),
+    textarea = $('#po_word_txt').click(
+        function(){
+            textarea.animate({"height":"78px"},"fast");
+        }).blur(function(){
+            if(textarea.val()==''){
+                textarea.animate({"height":"34px"},"fast");
+            }
+        }).pop_at("/j/at")
     ;
 
 	po_word_txt.blur().val('').focus(function() {
@@ -181,13 +185,45 @@
         142
     )
 
+    /* 站点推荐 */
     
+    $(".site_li").hover(
+        function(r){
+            $(this).find(".delbtn")
+                   .addClass("show_x")
+        },
+        function(r){
+            $(this).find(".delbtn")
+                   .removeClass("show_x")
+        }
+    );
     
+    $(".site_fav_a").click(function(){
+        $(this).addClass("fav_loading");
+    });
 
 })()
 
 
 
 
+
+$(".buzz_li").live("click",function(){
+    $(this.parentNode).find(".buzz_x")[0].visited = 1;
+
+})
+$(".buzz_x").live("click", function(){
+    if(this.visited){
+        $.postJSON( '/j/reply/rm/'+id)
+    }
+    $("#buzz"+id).hide('slow');
+})
+$(".buzz_block_x").click(function(){
+    $.postJSON(
+        '/j/buzz/block/x/'+this.rel,
+        function(){
+            $(this).fadeOut() 
+    })
+})
 
 

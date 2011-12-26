@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/i/invite
+BUZZ_CID_
 """
 
 TO_STRING = """
-/invite
+CID_BUZZ_BLOCK_
 """
 
 def run():

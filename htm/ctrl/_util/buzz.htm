@@ -6,6 +6,7 @@ from zkit.txt import cnenoverflow
 from model.po_event import event_feedback_id_get
 from model.po import Po
 from model.event import event_list_by_zsite_id
+from model.cid_buzz import CID_BUZZ_BLOCK_EVENT, CID_BUZZ_BLOCK_FOLLOW, CID_BUZZ_BLOCK_AT, CID_BUZZ_BLOCK_REPLY
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career, po_link"/>
 
@@ -100,11 +101,9 @@ ${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}
 % endif
 </%def>
 
+##########################################################
 
 <%def name="buzz_render_event(event_list)">
-% if event_list:
-<p class="right_title">活动<a href="javascript:clear_part(0)" class="clp">X</a></p>
-<div class="buzz_win">\
     
     % for i in event_list:
     <%
@@ -125,34 +124,28 @@ ${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}
         %endif
     </div>
     % endfor
-</div>\
-% endif
 </%def>
 
 <%def name="buzz_render_reply(rlist)">
-% if rlist:
 <%
 from collections import defaultdict
 tlist = defaultdict(list)
 for i in rlist:
     tlist[i.entry.rid].append(i) 
 %>
-<p class="right_title">回复<a href="javascript:clear_part(2)" class="clp">X</a></p>
-<div class="buzz_win">\
     
-    % for pos,(key,i) in enumerate(tlist.items()):
+% for pos,(po_id,i) in enumerate(tlist.items()):
     <%
 if pos > 2:
     break
-po_id = key
 po = Po.mc_get(po_id)
 if not po:
     continue
     %>
-    <div class="buzz_w" id="bz_${key}">
+    <div class="buzz_w" id="buzz${po_id}">
         <div>
-            <a href="javascript:closeBuzz(${key},1)" class="bzr" id="rp_${key}" style="float:right">X</a>
-            <a href="javascript:visit('${po.link}',${key})" target="_blank" class="buzz_li">
+            <a href="javascript:void(0)" class="buzz_x" >X</a>
+            <a href="${po.link}"  target="_blank" class="buzz_li">
                 % if po.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
                 ${cnenoverflow(po.name,30)[0]}\
                 % else:
@@ -174,28 +167,17 @@ if not po:
             等<span class="buzz_cou">${len(repliers)}</span>人回复</div>
     </div>
 % endfor
-</div>
-% endif
 </%def>
 
 <%def name="buzz_render_at(list)">
-% if list:
-<p class="right_title">@了我<a href="javascript:clear_part(1)" class="clp">X</a></p>
-    <div class="buzz_win">\
         % for i in list:
             <div class="buzz_w">
                 ${user_link_list(i.from_list)} : <span class="buzz_txt">${i.entry.htm|n}</span><a target="_blank" class="zsite_reply" href="${i.entry.link}"></a>
             </div>
         %endfor
-    </div>
-%endif
 </%def>
 
-<%def name="buzz_render_follow(list)">
-% if list:
-<p class="right_title">动态<a href="javascript:clear_part(1)" class="clp">X</a></p>
-
-<div class="buzz_win">\
+<%def name="buzz_render_follow(li)">
     % for i in list:
     <div class="buzz_w">
         %if i.cid == CID_BUZZ_FOLLOW:
@@ -218,14 +200,11 @@ if not po:
             ${user_link_list(i.from_list)} 参加 ${po_link(i.entry)} 活动
         %endif
     </div>
+    %endfor
     <%
     ##buzz_set_read(current_user_id,i.id)
     %>
-    %endfor
-</div>
-%endif
 </%def>
-
 
 <%def name="buzz_show(user_id)">
 <%
@@ -245,10 +224,18 @@ reply_list = buzz_show_by_cid(user_id,10,CID_BUZZ_PO_REPLY)
 reply_list.extend(buzz_show_by_cid(user_id,10,CID_BUZZ_ANSWER))
 
 %>
-
-${buzz_render_at(at_list)}
-${buzz_render_event(event_list)}
-${buzz_render_reply(reply_list)}
-${buzz_render_follow(follow_list)}
-
+%for render, li, cid , name in (\
+    (buzz_render_at     ,    at_list  , CID_BUZZ_BLOCK_AT     , "@了我"),\
+    (buzz_render_event  , event_list  , CID_BUZZ_BLOCK_EVENT  , "动态"),\
+    (buzz_render_reply  , reply_list  , CID_BUZZ_BLOCK_REPLY  , "回复"),\
+    (buzz_render_follow , follow_list , CID_BUZZ_BLOCK_FOLLOW  , "关注"),\
+):
+    %if li:
+<p class="right_title">${name}\
+<a href="javascript:void(0)" class="buzz_block_x" rel="${cid}">X</a></p>\
+<div class="buzz_win">\
+${render(li)}\
+</div>\
+    %endif
+%endfor
 </%def>

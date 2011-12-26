@@ -2,11 +2,12 @@
 {
     width: 100%;
 }
-.bzr
+.buzz_x
 {
+    float:right;
     display:none;
 }
-.clp
+.buzz_block_x
 {
     display:none;
     float:right;
