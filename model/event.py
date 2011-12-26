@@ -775,12 +775,12 @@ def event_cid_name_count_by_city_pid(city_pid):
 
 if __name__ == '__main__':
 #    print last_event_by_zsite_id(10001299).id
-    from zsite import Zsite
-    from po import Po
-    from user_mail import mail_by_user_id
-    for i in Zsite.mc_get_list(set(Event.where('state>=%s', EVENT_STATE_BEGIN).order_by('id desc').col_list(col='zsite_id'))):
-        e = Event.where(zsite_id=i.id)[0]
-        print 'http:%s'%i.link,'---',mail_by_user_id(i.id),'---','http:%s'%e.link,'---',Po.mc_get(e.id).name_
-    #print last_event_by_zsite_id(10001299).id
+#    from zsite import Zsite
+#    from po import Po
+#    from user_mail import mail_by_user_id
+#    for i in Zsite.mc_get_list(set(Event.where('state>=%s', EVENT_STATE_BEGIN).order_by('id desc').col_list(col='zsite_id'))):
+#        e = Event.where(zsite_id=i.id)[0]
+#        print 'http:%s'%i.link, '---', mail_by_user_id(i.id), '---', 'http:%s'%e.link, '---', Po.mc_get(e.id).name_
+#print last_event_by_zsite_id(10001299).id
 
-
+    print 1

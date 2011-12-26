@@ -5,10 +5,21 @@ from model.zsite_list import ZsiteList
 from model.zsite import Zsite
 from model.buzz import Buzz
 from model.kv_misc import kv_int
+
+
 CID_BUZZ_SHOW = 212
+CID_BUZZ_EVENT_JOIN_APPLY = 219
+
 for i in Buzz.where(cid=CID_BUZZ_SHOW):
     i.delete()
     print "delete buzz show", i.id
 
-    KV_SHOW_BUZZ_POS = 1 # 加入Show的非重要通知
-    kv_int.delete(KV_SHOW_BUZZ_POS)
+for i in Buzz.where(cid=CID_BUZZ_EVENT_JOIN_APPLY):
+    i.delete()
+    print "delete buzz event join apply", i.id
+
+
+KV_SHOW_BUZZ_POS = 1 # 加入Show的非重要通知
+kv_int.delete(KV_SHOW_BUZZ_POS)
+
+
