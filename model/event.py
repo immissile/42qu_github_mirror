@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
+from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum, McCacheM
 from time import time, sleep
 from zkit.attrcache import attrcache
 from money import read_cent, pay_event_get, trade_fail, trade_finish
@@ -25,6 +25,10 @@ mc_event_id_list_by_city_pid_cid = McLimitA('EventIdListByCityPidCid.%s', 128)
 mc_event_cid_count_by_city_pid = McCacheA('EventCidCountByCityPid.%s')
 mc_event_end_id_list_by_city_pid = McLimitA('EventEndIdListByCityPid.%s', 128)
 mc_event_all_id_list = McLimitA('EventAllIdList.%s', 128)
+event_joiner_new_count = McNum(
+    lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCheckCount.%s'
+)
+mc_event_joiner_by_user_id = McCacheM('EventJoinerByUserId:%s')
 
 event_joiner_feedback_normal_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_NORMAL).count(), 'EventJoinerFeedbackNormalCount:%s')
 
@@ -62,9 +66,6 @@ event_join_count_by_user_id = McNum(
     ).count(), 'EventJoinCountByUserId.%s'
 )
 
-event_joiner_new_count = McNum(
-    lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCheckCount.%s'
-)
 
 mc_event_id_list_join_by_user_id = McLimitA('EventIdListJoinByUserId.%s', 128)
 
@@ -442,7 +443,6 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
         event.join_count += 1
         event.save()
 
-    event_joiner_new_count.delete(event_id)
     mc_flush_by_user_id(user_id)
     return o
 
@@ -480,10 +480,6 @@ def event_joiner_no(o, txt=''):
         if txt:
             notice_event_join_no(zsite_id, user_id, event_id, txt)
         mc_flush_by_user_id(user_id)
-        mc_event_joiner_user_id_list.delete(event_id)
-        mc_event_joining_id_list.delete(event_id)
-        mc_event_joined_id_list.delete(event_id)
-        event_joiner_new_count.delete(event_id)
 
 def event_joiner_yes(o):
     event_id = o.event_id
@@ -497,9 +493,6 @@ def event_joiner_yes(o):
         from model.buzz import mq_buzz_event_join_new
         mq_buzz_event_join_new(user_id, event_id, zsite_id)
         mc_flush_by_user_id(user_id)
-        mc_event_joining_id_list.delete(event_id)
-        mc_event_joined_id_list.delete(event_id)
-        event_joiner_new_count.delete(event_id)
 
 def event_ready(event):
     join_count = event.join_count
@@ -525,7 +518,11 @@ def event_ready(event):
 def mc_flush_by_user_id(user_id):
     mc_event_id_list_join_by_user_id.delete(user_id)
     event_join_count_by_user_id.delete(user_id)
-
+    mc_event_joining_id_list.delete(event_id)
+    mc_event_joined_id_list.delete(event_id)
+    event_joiner_new_count.delete(event_id)
+    mc_event_joiner_user_id_list.delete(event_id)
+    mc_event_joiner_by_user_id.delete(user_id)
 
 def mc_flush_by_city_pid_cid(city_pid, cid):
     for _cid in set([0, cid]):
@@ -765,10 +762,16 @@ def event_cid_name_count_by_city_pid(city_pid):
     for (event_cid, event_cid_name), count in zip(EVENT_CID_CN, event_cid_count_by_city_pid(city_pid)):
         yield event_cid, event_cid_name, count
 
+@mc_event_joiner_by_user_id('{user_id}')
 def event_joiner_by_user_id(user_id):
+    event_id_list = event_id_list_by_zsite_id(user_id, False, None, None)
     result = []
-    for i in event_id_list_by_zsite_id(user_id, False, None, None):
-        result.append((i.id , event_joiner_new_count(i) ))
+    if event_id_list:
+        for po, event in zip(
+            Po.mc_get_list(event_id_list),
+            event_joiner_new_count.get_list(event_id_list)
+        ):
+            result.append((po.id, po.name, event))
     return result
 
 if __name__ == '__main__':
@@ -781,4 +784,7 @@ if __name__ == '__main__':
 #        print 'http:%s'%i.link, '---', mail_by_user_id(i.id), '---', 'http:%s'%e.link, '---', Po.mc_get(e.id).name_
 #print last_event_by_zsite_id(10001299).id
 
-    print event_joiner_by_user_id(10000000)
+    for id , name, j in event_joiner_by_user_id(10000000):
+        print id, name, j
+
+
