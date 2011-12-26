@@ -1,5 +1,5 @@
 <%!
-from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_TUPLE_CN , CID_BUZZ_WORD, CID_REVIEW
+from model.cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_TUPLE_CN , CID_BUZZ_WORD, CID_REVIEW
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count, buzz_show_by_cid,buzz_set_read
 from zkit.txt import cnenoverflow
@@ -20,8 +20,6 @@ entry = i.entry
 %>\
 % if cid == CID_BUZZ_SYS:
 <span class="buzz_sys">${entry.htm|n}</span>
-% elif cid == CID_BUZZ_SHOW:
-<span class="buzz_user">${user_career_link(entry)}</span> 入驻
 % elif cid == CID_BUZZ_FOLLOW:
     % if rid == current_user_id:
 ${user_link_list_with_career(from_list)} 关注了我
