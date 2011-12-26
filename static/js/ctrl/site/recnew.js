@@ -1,11 +1,12 @@
 ;$(function(){
 
-    data = $.parseJSON($("#site_data").html());
+    var data = $.parseJSON($("#site_data").html()),
+        rec_wrapper=$("#rec_wrapper");
 
     function addRec(){
         if(data&&data.length){
             site = data.pop();
-            $("#rec_wrapper").append($("#site_rec").tmpl());
+            rec_wrapper.append($("#site_rec").tmpl());
 
             $("#rec_wrapper").show();
             $("#rec_"+ site[0]).hide().show("slow");
@@ -13,9 +14,9 @@
 
             refreshState();
         }
-        if(!$('#rec_wrapper').find("*:visible").html()){
+        if(!rec_wrapper.find("*:visible").html()){
             $("#rec_title").hide("fast");
-            $("#rec_wrapper").hide("fast");
+            rec_wrapper.hide("fast");
         }
     }
     addRec();
