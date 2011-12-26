@@ -124,7 +124,46 @@
 	/* 发微博 */
 	var po_word_txt = $("#po_word_txt"),
 	po_word_txt_bg = "po_word_txt_bg",
-    txt_tip=$("#txt_tip");
+    txt_tip=$("#txt_tip"),
+    po_word_form=$('#po_word_form').submit(function(){
+        if(can_say()){
+            var val = txt.val(); 
+            if($.trim(val)=='')return false;
+            txt_tip.html('')
+            say_btn.hide().after('<div id="saying"></div>')
+
+            $.postJSON(
+                '/j/po/word',
+                {
+                    "txt":val
+                },
+                function(result){
+                    recover()
+                    if(result){
+                        $('#feed').tmpl(init_result(result)).prependTo("#feeds")
+                    }
+                    txt.val('').attr('disabled',false).attr("class","po_word_txt po_word_txt_sayed")
+                    say_btn.show() 
+                }
+            )
+        } else{
+            txt_tip.fadeOut(function(){txt_tip.fadeIn()})
+        }
+        return false
+    }),
+    say_btn = $(".say_btn").click(function(){
+        po_word_form.submit()
+    }),
+    textarea = $('#po_word_txt').click(function(){
+        textarea.animate({"height":"78px"},"fast");
+    }).blur(function(){
+        if(textarea.val()==''){
+            textarea.animate({"height":"34px"},"fast");
+        }
+    })
+
+    ;
+
 	po_word_txt.blur().val('').focus(function() {
 		this.className="po_word_txt"
 	}).blur(function() {
@@ -162,53 +201,12 @@
     }
     $(recover) 
     
-    $('#po_word_form').submit(function(){
-        if(can_say()){
-            var val = txt.val(),btn=$('#say_btn'); 
-            if($.trim(val)=='')return false;
-            txt_tip.hide()
-
-            btn.insertBefore('<div class="saying"></div>')
-
-            txt.attr('disabled',true)
-            $('.btnw').hide()
-            $.postJSON(
-                '/j/po/word',
-                {
-                    "txt":val
-                },
-                function(result){
-                    recover()
-                    if(result){
-                        $('#feed').tmpl(init_result(result)).prependTo("#feeds")
-                    }
-                    txt.val('').attr('disabled',false).attr("class","po_word_txt po_word_txt_sayed")
-                    txt_tip.show().html('')
-                    
-                }
-            )
-        } else{
-            txt_tip.fadeOut(function(){txt_tip.fadeIn()})
-        }
-        return false
-    })   
-
-    var textarea = $('#po_word_txt').click(function(){
-        textarea.animate({"height":"78px"},"fast");
-    }).blur(function(){
-        if(textarea.val()==''){
-            textarea.animate({"height":"34px"},"fast");
-        }
-    })
 
 })()
 
 
 
 
-$(".say_btn").click(function(){
-    $("#po_word_form").submit()
-})
 
 $('#po_word_txt').pop_at("/j/at")
 
