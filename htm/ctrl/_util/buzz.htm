@@ -218,9 +218,9 @@ reply_list.extend(buzz_show_by_cid(user_id,10,CID_BUZZ_ANSWER))
 
 %>
 %for render, li, cid , name in (\
-    (buzz_render_at     ,    at_list  , CID_BUZZ_BLOCK_AT     , "@我"),\
-    (buzz_render_reply  , reply_list  , CID_BUZZ_BLOCK_REPLY  , "回复"),\
-    (buzz_render_follow , follow_list , CID_BUZZ_BLOCK_FOLLOW  , "去向"),\
+    (buzz_render_at     ,    at_list  , CID_BUZZ_BLOCK_AT     ,  "@我" ),\
+    (buzz_render_follow , follow_list , CID_BUZZ_BLOCK_FOLLOW  , "琐碎"),\
+    (buzz_render_reply  , reply_list  , CID_BUZZ_BLOCK_REPLY  ,  "提醒"),\
 ):
     %if li:
 <p class="right_title">${name}\
