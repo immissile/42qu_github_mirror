@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA
-from buzz_at import buzz_at_new
+from buzz_at import buzz_at_po_new
 from txt import txt_get
 
 #from mq import mq_client
@@ -34,7 +34,7 @@ def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
     from po_pos import user_id_list_by_po_pos_buzz
     buzz_to = user_id_list_by_po_pos_buzz(po_id)
     txt = txt_get(reply_id)
-    excepted = buzz_at_new(from_id, po_id, txt)
+    excepted = buzz_at_po_new(from_id, po_id, txt)
 
     for user_id in excepted:
         buzz_reply_hide(user_id, po_id)

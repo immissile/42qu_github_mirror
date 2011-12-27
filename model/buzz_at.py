@@ -3,9 +3,13 @@
 from txt2htm import RE_AT
 from mq import mq_client
 
+# id
+# from_id
+# to_id
+# cid
+# rid
 
-
-def buzz_at_new(user_id, po_id, txt ):
+def buzz_at_po_new(user_id, po_id, txt):
     at_id_set = set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)]))
 
     for to_id in at_id_set:
@@ -15,6 +19,6 @@ def buzz_at_new(user_id, po_id, txt ):
 
     return at_id_set
 
-mq_buzz_at_new = mq_client(buzz_at_new)
+mq_buzz_at_po_new = mq_client(buzz_at_po_new)
 
 
