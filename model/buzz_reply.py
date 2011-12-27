@@ -117,19 +117,33 @@ def mc_flush(user_id):
 def po_list_by_buzz_reply_user_id(user_id):
     from model.po import Po
     from model.po_pos import po_pos_get
+    from model.reply import Reply
+    from model.zsite import Zsite
+
     show_limt = 3
     id_list = po_id_list_by_buzz_reply_user_id(user_id)
     po_list = Po.mc_get_list(id_list)
 
     for i in po_list:
         pos = po_pos_get(user_id, i.id)[0]
-        new_reply_id_list = [] 
+        new_reply_id_list = []
         for reply_id in i.reply_id_list():
             if reply_id > pos:
                 new_reply_id_list.append(reply_id)
 
-        i.new_reply_show  = new_reply_id_list[-3:]
-        i.new_reply_count = max((len(new_reply_id_list) - show_limt, 0))
+        user_id_list = []
+        for reply in Reply.mc_get_list(reversed(new_reply_id_list)):
+            user_id_list.append(reply.user_id)
+        
+        new_reply_show = []
+        for uid in user_id_list:
+            if uid not in new_reply_show and user_id!=uid:
+                new_reply_show.append(uid)
+                if len(new_reply_show) == show_limt:
+                    break
+ 
+        i.new_reply_show = [(z.id, z.name) for z in Zsite.mc_get_list(new_reply_show)]
+        i.new_reply_count = max((len(set(user_id_list)) - show_limt, 0))
 
     return po_list
 
