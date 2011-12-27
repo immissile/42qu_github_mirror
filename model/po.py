@@ -376,7 +376,7 @@ def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
             m.feed_new()
-        mq_buzz_at_new(user_id, m.id, name)
+        mq_buzz_at_new(user_id, name, m.id)
         return m
 
 

@@ -10,7 +10,7 @@ from mq import mq_client
 # reply_id
 
 
-def buzz_at_new(from_id, po_id, reply_id, txt):
+def buzz_at_new(from_id, txt, po_id, reply_id=0):
     at_id_set = set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)]))
 
     for to_id in at_id_set:

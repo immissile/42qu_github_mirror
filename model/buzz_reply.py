@@ -34,7 +34,7 @@ def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
     from po_pos import user_id_list_by_po_pos_buzz
     buzz_to = user_id_list_by_po_pos_buzz(po_id)
     txt = txt_get(reply_id)
-    excepted = buzz_at_new(from_id, po_id, reply_id, txt)
+    excepted = buzz_at_new(from_id, txt, po_id, reply_id)
 
     for user_id in excepted:
         buzz_reply_hide(user_id, po_id)
@@ -134,14 +134,14 @@ def po_list_by_buzz_reply_user_id(user_id):
         user_id_list = []
         for reply in Reply.mc_get_list(reversed(new_reply_id_list)):
             user_id_list.append(reply.user_id)
-        
+
         new_reply_show = []
         for uid in user_id_list:
-            if uid not in new_reply_show and user_id!=uid:
+            if uid not in new_reply_show and user_id != uid:
                 new_reply_show.append(uid)
                 if len(new_reply_show) == show_limt:
                     break
- 
+
         i.new_reply_show = [(z.id, z.name) for z in Zsite.mc_get_list(new_reply_show)]
         i.new_reply_count = max((len(set(user_id_list)) - show_limt, 0))
 
