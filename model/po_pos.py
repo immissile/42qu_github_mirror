@@ -16,7 +16,7 @@ def user_id_list_by_po_pos_buzz(po_id):
     return set(
         PoPos.where(
             po_id=po_id, state=STATE_BUZZ
-        ).col_list(col_list="user_id")
+        ).col_list(col="user_id")
     )
 
 @mc_po_pos('{user_id}_{po_id}')
