@@ -114,8 +114,29 @@ def po_id_list_by_buzz_reply_user_id_rm(user_id):
 def mc_flush(user_id):
     mc_po_id_list_by_buzz_reply_user_id.delete(user_id)
 
+def po_list_by_buzz_reply_user_id(user_id):
+    from model.po import Po
+    from model.po_pos import po_pos_get
+    show_limt = 3
+    id_list = po_id_list_by_buzz_reply_user_id(user_id)
+    po_list = Po.mc_get_list(id_list)
+
+    for i in po_list:
+        pos = po_pos_get(user_id, i.id)[0]
+        new_reply_id_list = [] 
+        for reply_id in i.reply_id_list():
+            if reply_id > pos:
+                new_reply_id_list.append(reply_id)
+
+        i.new_reply_show  = new_reply_id_list[-3:]
+        i.new_reply_count = max((len(new_reply_id_list) - show_limt, 0))
+
+    return po_list
+
 if __name__ == '__main__':
     pass
     user_id = 10000000
-    print po_id_list_by_buzz_reply_user_id(user_id)
+    for i in po_list_by_buzz_reply_user_id(user_id):
+        print i.new_reply_show
+        print i.new_reply_count
 
