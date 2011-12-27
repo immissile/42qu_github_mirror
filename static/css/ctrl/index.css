@@ -16,9 +16,9 @@
 {
     width:100%;
 }
-.fcmtxt{
+#feeds .fcmtxt{
 width:auto;
-margin-top:15px;
+margin:14px 0;
 padding:0 2px;
 }
 .say_type .split{
