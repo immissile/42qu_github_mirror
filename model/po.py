@@ -371,7 +371,7 @@ def _po_rm(user_id, po):
 
 def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
     _is_same_post = is_same_post(user_id, name, zsite_id)
-    print _is_same_post, '_is_same_post', name
+    #print _is_same_post, '_is_same_post', name
     if name and not _is_same_post:
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
