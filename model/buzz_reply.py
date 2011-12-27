@@ -83,7 +83,7 @@ mc_po_id_list_by_buzz_reply_user_id = McCacheA('PoIdListByBuzzReplyUserId:%s')
 
 @mc_po_id_list_by_buzz_reply_user_id('{user_id}')
 def po_id_list_by_buzz_reply_user_id(user_id):
-    return BuzzReply.where(user_id=user_id, state=BUZZ_REPLY_STATE_SHOW).order_by('update_time desc').col_list(0, 7, 'po_id')
+    return BuzzReply.where(user_id=user_id, state=BUZZ_REPLY_STATE_SHOW).order_by('update_time desc').col_list(7, 0, 'po_id')
 
 
 def buzz_reply_hide_or_rm(id):
@@ -116,7 +116,6 @@ def mc_flush(user_id):
 
 if __name__ == '__main__':
     pass
-    user_id = 10016605
+    user_id = 10000000
     print po_id_list_by_buzz_reply_user_id(user_id)
-
 
