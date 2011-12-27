@@ -217,8 +217,26 @@ li = event_joiner_by_owner_id(user_id)
 %endif
 </%def>
 
+<%def name="buzz_render_reply(user_id)">
+<%
+
+replier_count = 3
+%>
+<div class="right_title">讨论区\
+<a href="javascript:void(0)" class="buzz_block_x" rel="reply">X</a></div>\
+<div class="buzz_win">\
+    <div class="buzz_au">5分钟前 , 
+        %for x in replier_list:
+        <a href="${x.link}" class="TPH">${x.name}</a>,
+        %endfor
+        等<span class="buzz_cou">${replyer_count}</span>人回复
+    </div>
+</div>\
+</%def>
+
 <%def name="buzz_show(user_id)">
 ${buzz_render_event(user_id)}
+${buzz_render_reply(user_id)}
 <%
 limit = 300
 at_list = buzz_show_by_cid(user_id,limit,CID_BUZZ_WORD_AT)
