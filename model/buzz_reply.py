@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA
-from buzz_at import buzz_at_new
+from buzz_at import buzz_at_new, buzz_at_reply_rm
 from txt import txt_get
 
 #from mq import mq_client
@@ -66,6 +66,7 @@ def buzz_po_reply_rm(po_id, reply_id):
         for user_id in PoPos.where(po_id=po_id, state=STATE_BUZZ).where('po_pos>%s', reply_id).col_list(col='user_id'):
             BuzzReply.where(po_id=po_id, user_id=user_id, state=BUZZ_REPLY_STATE_SHOW).update(state=BUZZ_REPLY_STATE_HIDE)
             mc_flush(user_id)
+    buzz_at_reply_rm(reply_id)
 
 mq_buzz_po_reply_rm = mq_client(buzz_po_reply_rm)
 
