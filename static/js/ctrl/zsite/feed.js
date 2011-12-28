@@ -221,7 +221,7 @@ $(".buzz_x").live("click", function(){
         buzz.hide(buzz.remove);
     }
     if(!this.visited){
-        $.postJSON( '/j/buzz/reply/rm/'+id)
+        $.postJSON( '/j/buzz/reply/x/'+id)
     }
 
 })
