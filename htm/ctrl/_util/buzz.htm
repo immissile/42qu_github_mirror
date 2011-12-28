@@ -165,7 +165,7 @@ ${CID_ZSITE_TUPLE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry
 li = event_joiner_by_owner_id(user_id)
 %>
 %if li:
-<div class="buzz_box">活动</div>\
+<div class="buzz_h1">活动</div>\
 <div class="buzz_win">\
 %for id, name, count in li:
 <div class="buzz_w">\
@@ -181,8 +181,8 @@ li = event_joiner_by_owner_id(user_id)
 li = po_list_by_buzz_reply_user_id(user_id)
 %>
 %if li:
-<div id="buzz_win_reply">
-<div class="buzz_box"><a href="javascript:void(0)" class="buzz_box_x" rel="reply"></a>讨论区</div>\
+<div id="buzz_win_reply" class="buzz_box">\
+<div class="buzz_h1"><a href="javascript:void(0)" class="buzzX" rel="reply"></a>讨论区</div>\
 <div class="buzz_win buzz_win_reply">\
     %for po_id, po_name, new_reply_count, user_li in li:
 <%
@@ -237,8 +237,8 @@ reply_list.extend(buzz_show_by_cid(user_id,10,CID_BUZZ_ANSWER))
 ##    (buzz_render_reply    , reply_list  , CID_BUZZ_BLOCK_REPLY    ,   "讨论区" ),\
 ):
     %if li:
-<div class="buzz_box">${name}\
-<a href="javascript:void(0)" class="buzz_box_x" rel="${cid}">X</a></div>\
+<div class="buzz_h1">${name}\
+<a href="javascript:void(0)" class="buzzX" rel="${cid}">X</a></div>\
 <div class="buzz_win">\
 ${render(li)}\
 </div>\

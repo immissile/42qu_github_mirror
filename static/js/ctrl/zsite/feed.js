@@ -225,12 +225,9 @@ $(".buzz_x").live("click", function(){
     }
 
 })
-$(".buzz_box_x").click(function(){
-    $.postJSON(
-        '/j/buzz/block/x/'+this.rel,
-        function(){
-            $(this).fadeOut() 
-    })
+$(".buzzX").click(function(){
+    $.postJSON( '/j/buzz/x/'+this.rel);
+    $(this).parents('.buzz_box').hide() 
 })
 ;$(function(){
 
@@ -306,7 +303,7 @@ $(".buzz_box_x").click(function(){
         $("#rec_id"+id).removeClass("site_faved");
         $("#rec_id"+id).attr("href","javascript:fav("+id+")");
     }
-    $(".buzz_box").hover(function(){$(this).find("a").show()},function(){$(this).find("a").hide()});
+    $(".buzz_h1").hover(function(){$(this).find("a").show()},function(){$(this).find("a").hide()});
     $(".buzz_w").hover(function(){$(this).find('.bzr').show()},function(){$(this).find(".bzr").hide()});
 */
 });

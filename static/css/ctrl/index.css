@@ -23,7 +23,7 @@ padding-left:0
 .buzz_au{
     margin-left:17px;
 }
-.buzz_box_x
+.buzzX
 {
     background:url(/img/gif/xx.gif) no-repeat -50px 9px;
     height:28px;
@@ -32,10 +32,10 @@ padding-left:0
     float:right;
     _display:inline-block;
 }
-.buzz_box:hover .buzz_box_x{
+.buzz_h1:hover .buzzX{
     display:inline-block;
 }
-.buzz_box:hover .buzz_box_x:hover{
+.buzz_h1:hover .buzzX:hover{
     background-position:-21px 9px;
 }
 .txta
@@ -240,7 +240,7 @@ margin-top:5px;
     font-size:12px;
     font-family:'Trebuchet MS', Helvetica, sans-serif;
 }
-.buzz_box{
+.buzz_h1{
     border: 0pt none; text-align: left; font-size: 14px; background: url(/img/gif/adot.gif) no-repeat scroll -4px 7px transparent;padding-left:16px;color:#000;
 }
 .split
