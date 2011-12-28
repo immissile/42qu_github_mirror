@@ -214,10 +214,16 @@ $(".buzz_li").live("click",function(){
 
 })
 $(".buzz_x").live("click", function(){
-    if(this.visited){
-        $.postJSON( '/j/reply/rm/'+id)
+    var id=this.rel, buzz=$("#buzz"+id)
+    if($("#buzz_win_reply .buzz_li").length<=1){
+        $("#buzz_win_reply").hide()
+    }else{
+        buzz.hide(buzz.remove);
     }
-    $("#buzz"+id).hide('slow');
+    if(!this.visited){
+        $.postJSON( '/j/buzz/reply/rm/'+id)
+    }
+
 })
 $(".buzz_block_x").click(function(){
     $.postJSON(
