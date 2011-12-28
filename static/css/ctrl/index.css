@@ -212,6 +212,7 @@ margin-top:5px;
     margin:0 0 0 -174px;
     _margin:0 0 0 -194px;
     font-size:12px;
+    font-family:'Trebuchet MS', Helvetica, sans-serif;
 }
 .right_title{
     border: 0pt none; text-align: left; font-size: 14px; background: url(/img/gif/adot.gif) no-repeat scroll -4px 7px transparent;padding-left:16px;color:#000;
@@ -317,13 +318,13 @@ ul
 
 .buzz_win
 {
-    padding:7px 0 14px 0;
+    padding:6px 0 6px 0;
 }
 .buzz_w
 {
     line-height: 22px;
     /*border-bottom: 1px dotted #CCC;*/
-    padding-bottom: 8px;
+    padding-bottom: 6px;
     padding-left: 17px;
     background: url(/img/png/list_style_disc.png) no-repeat 4px 1px;
 }
