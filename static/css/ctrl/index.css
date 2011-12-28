@@ -12,6 +12,7 @@ padding-left:0
     height:14px;
     width:17px;
     background:url(/img/gif/xx.gif) no-repeat 4px 5px;
+    _background-position:-50px 5px;
 }
 .buzz_win_reply .buzz_w:hover .buzz_x{
     background-position:-50px 5px;
