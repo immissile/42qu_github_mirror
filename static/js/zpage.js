@@ -423,11 +423,10 @@ $(function(){
                 }
             }
             $('.pop_hero').live('mouseover',function(){on = true}).unbind('mouseleave')
-           tt=setTimeout("clear_pop_hero()",300)
+           tt=setTimeout("clear_pop_hero()",100)
         })
     }
     pop_hero($('.TPH'))
-
 })
 
 function auto_add(item,toadd,wrap,close,act){

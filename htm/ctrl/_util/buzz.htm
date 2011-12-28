@@ -195,7 +195,7 @@ user_li_len = len(user_li)
     </div>
     <div class="buzz_au">
 %for pos, (user_id, user_name) in enumerate(user_li,1):
-<a href="${user_id}.${SITE_DOMAIN}" class="TPH">${user_name}</a>
+<a href="//${user_id}.${SITE_DOMAIN}" class="TPH">${user_name}</a>
 %if pos!=user_li_len:
 ,
 %endif
