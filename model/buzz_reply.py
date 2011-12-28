@@ -107,7 +107,7 @@ def buzz_reply_hide(user_id, po_id):
         if buzz_reply.id in po_id_list_by_buzz_reply_user_id(user_id):
             mc_flush(user_id)
 
-def po_id_list_by_buzz_reply_user_id_rm(user_id):
+def buzz_reply_hide_or_rm_by_user_id(user_id):
     for i in po_id_list_by_buzz_reply_user_id(user_id):
         buzz_reply_hide_or_rm(i)
     mc_flush(user_id)
