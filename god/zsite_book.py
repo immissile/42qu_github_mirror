@@ -97,10 +97,6 @@ class BookIsbn(Base):
         self.finish(result)
 
 
-@urlmap("/book/(\d+)")
-class Book(Base):
-    def get(self, id):
-        self.render() 
 
 @urlmap("/book/new/(\d+)")
 class BookNew(Base):
