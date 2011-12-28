@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import cursor_by_table, McModel, McLimitA, McCache, McCacheA
+from _db import cursor_by_table, McModel, McLimitA, McCache, McCacheA, Model
 from txt2htm import RE_AT
 from txt import txt_bind, txt_get, txt_new
 from mq import mq_client
-from buzz_at import buzz_at_new
 from kv import Kv
 
 # buzz_at
