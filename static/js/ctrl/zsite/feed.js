@@ -206,6 +206,10 @@
 
 
 
+$(".buzz_win_reply .buzz_w").hover(function(){
+},function(){
+})
+
 
 
 $(".buzz_li").live("click",function(){

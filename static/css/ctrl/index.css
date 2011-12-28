@@ -2,11 +2,21 @@
 {
     width: 100%;
 }
-.buzz_x
-{
-    float:right;
-    display:none;
+
+.buzz_win_reply .buzz_w{
+background:#fff;
+padding-left:0
 }
+.buzz_win_reply .buzz_x{
+    display:inline-block;
+    height:9px;
+    width:17px;
+    background:url(/img/gif/x.gif) no-repeat 1px 0;
+}
+.buzz_au{
+    margin-left:17px;
+}
+
 .buzz_block_x
 {
     display:none;
