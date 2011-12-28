@@ -78,17 +78,29 @@ BUZZ_AT_COL = 'id,from_id,po_id,reply_id'
 
 mc_buzz_at_by_user_id_for_show = McCache('BuzzAtByUserIdForShow:%s')
 
+def _buzz_fetch(li):
+    po_id_list = []
+    reply_id_list = []
+    for id,from_id,po_id,reply_id in li:
+        if reply_id:
+            reply_id_list.append(po_id) 
+        elif po_id:
+            po_id_list.append(po_id)
+    result = []
+    return result        
+
 def buzz_at_by_user_id_for_show(user_id):
-    if mc_buzz_at_by_user_id_for_show.get(user_id) == 0:
-        return 0
-    begin_id = buzz_at_pos.get(user_id)
+    #if mc_buzz_at_by_user_id_for_show.get(user_id) == 0:
+    #    return ()
+    #begin_id = buzz_at_pos.get(user_id) 
+    begin_id = 0
     result = tuple(reversed(BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).where('id>%s', begin_id).order_by('id').col_list(5, 0, BUZZ_AT_COL)))
     if result:
         buzz_at_pos.set(user_id, result[0][0])
         return result
     else:
         mc_buzz_at_by_user_id_for_show.set(user_id, 0)
-        return 0
+        return ()
 
 buzz_at_count = McNum(lambda user_id: BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).count() , 'BuzzAtCount:%s')
 
@@ -103,6 +115,6 @@ def _buzz_at_list(user_id, limit, offset):
 if __name__ == '__main__':
     pass
 
-    print buzz_at_by_user_id_for_show(10001299)
+    print buzz_at_by_user_id_for_show(10000000)
 
 
