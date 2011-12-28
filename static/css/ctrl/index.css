@@ -23,11 +23,14 @@ padding-left:0
 .buzz_au{
     margin-left:17px;
 }
-
 .buzz_block_x
 {
     display:none;
+    _display:inline-block;
     float:right;
+}
+.right_title:hover .buzz_block_x{
+    display:inline-block;
 }
 .txta
 {

@@ -182,8 +182,7 @@ li = po_list_by_buzz_reply_user_id(user_id)
 %>
 %if li:
 <div id="buzz_win_reply">
-<div class="right_title">讨论区\
-<a href="javascript:void(0)" class="buzz_block_x" rel="reply">X</a></div>\
+<div class="right_title"><a href="javascript:void(0)" class="buzz_block_x" rel="reply">X</a>讨论区</div>\
 <div class="buzz_win buzz_win_reply">\
     %for po_id, po_name, new_reply_count, user_li in li:
 <%
