@@ -9,9 +9,9 @@ padding-left:0
 }
 .buzz_win_reply .buzz_x{
     display:inline-block;
-    height:9px;
+    height:14px;
     width:17px;
-    background:url(/img/gif/x.gif) no-repeat 1px 0;
+    background:url(/img/gif/x.gif) no-repeat 1px 5px;
 }
 .buzz_au{
     margin-left:17px;
