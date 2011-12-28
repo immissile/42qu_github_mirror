@@ -153,9 +153,9 @@ li = event_joiner_by_owner_id(user_id)
 li = po_list_by_buzz_reply_user_id(user_id)
 %>
 %if li:
-<div id="buzz_win_reply" class="buzz_box">\
-<div class="buzz_h1"><a href="javascript:void(0)" class="buzzX" rel="reply"></a>提到我</div>\
-<div class="buzz_win buzz_win_reply">\
+<div id="buzz_win_at" class="buzz_box">\
+<div class="buzz_h1"><a href="javascript:void(0)" class="buzzX" rel="at"></a>提到我</div>\
+<div class="buzz_win buzz_win_at">\
     %for po_id, po_name, new_reply_count, user_li in li:
 <%
 user_li_len = len(user_li)
