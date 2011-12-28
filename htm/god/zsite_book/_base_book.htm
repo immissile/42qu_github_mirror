@@ -10,7 +10,9 @@ book_zsite = Zsite.mc_get(book.id)
 <div style="font-size:16px;">
 <div class="L" style="margin-right:32px;padding-right:32px;border-right:1px dotted #ccc">
 <div style="padding:14px 0">
-<p>${book_zsite.name}</p>
+<div>
+<span class="R">评分 : ${book.rating/2}/${book.rating_num}人</span>
+${book_zsite.name}</div>
 </div>
     %if book.douban_pic_id:
 <img src="http://img3.douban.com/lpic/s${book.douban_pic_id}.jpg">
