@@ -336,7 +336,7 @@ ul
     /*border-bottom: 1px dotted #CCC;*/
     padding-bottom: 6px;
     padding-left: 17px;
-    background: url(/img/png/list_style_disc.png) no-repeat 4px 1px;
+    background: url(/img/png/list_style_disc.png) no-repeat 4px 0;
 }
 .buzz_au, .buzz_au a{
     color:#999
