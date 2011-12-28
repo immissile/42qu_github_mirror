@@ -146,12 +146,14 @@ def po_list_by_buzz_reply_user_id(user_id):
         i.new_reply_show = [(z.id, z.name) for z in Zsite.mc_get_list(new_reply_show)]
         i.new_reply_count = max((len(set(user_id_list)) - show_limt, 0))
 
-    return po_list
+    result = []
+    for po in po_list:
+        t = (po.id, po.name, po.new_reply_count, po.new_reply_show)
+        result.append(t)
+    return result
 
 if __name__ == '__main__':
     pass
     user_id = 10000000
     for i in po_list_by_buzz_reply_user_id(user_id):
-        print i.new_reply_show
-        print i.new_reply_count
-
+        print i
