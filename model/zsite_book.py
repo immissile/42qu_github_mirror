@@ -65,12 +65,12 @@ mc_zsite_book_id_by_isbn = McCache('ZsiteBookIdByIsbn:%s')
 
 ZSITE_BOOK_LIB_STATE_EXIST  = 10
 ZSITE_BOOK_LIB_STATE_BROWSE = 20
-ZSITE_BOOK_LIB_STATE_LOST = 30
+ZSITE_BOOK_LIB_STATE_RMED = 30
 
 ZSITE_BOOK_LIB_STATE2CN = {
     ZSITE_BOOK_LIB_STATE_EXIST  : "在库" ,
     ZSITE_BOOK_LIB_STATE_BROWSE : "借出" , 
-    ZSITE_BOOK_LIB_STATE_LOST   : "丢失" ,
+    ZSITE_BOOK_LIB_STATE_RMED   : "丢失" ,
 }
 
 class ZsiteBookBrowseHistory(Model):
@@ -102,8 +102,8 @@ class ZsiteBookLib(McModel):
         return self.state == ZSITE_BOOK_LIB_STATE_EXIST
     
     @property
-    def is_lost(self):
-        return self.state == ZSITE_BOOK_LIB_STATE_LOST
+    def is_rmed(self):
+        return self.state == ZSITE_BOOK_LIB_STATE_RMED
 
     @property
     def is_browse(self):
@@ -131,9 +131,12 @@ def zsite_book_id_by_isbn(isbn):
 
     return 0
 
-def zsite_book_lib(limit=None, offset=0):
+def zsite_book_lib(limit=None, offset=0, state=0):
         
-    l = ZsiteBookLib.where().order_by('book_id desc')
+    l = ZsiteBookLib.where()
+    if state:
+        l = l.where("state<=%s", state)
+    l.order_by('book_id desc')
     if offset and limit:
         limit = offset+limit
     l = l[offset:limit]
