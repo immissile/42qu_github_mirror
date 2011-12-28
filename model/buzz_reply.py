@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from time import time
-from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA
+from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from buzz_at import buzz_at_new, buzz_at_reply_rm
 from txt import txt_get
 
@@ -114,7 +114,11 @@ def po_id_list_by_buzz_reply_user_id_rm(user_id):
 
 def mc_flush(user_id):
     mc_po_id_list_by_buzz_reply_user_id.delete(user_id)
+    mc_po_list_by_buzz_reply_user_id.delete(user_id)
 
+mc_po_list_by_buzz_reply_user_id = McCacheM('PoListByBuzzReplyUserId:%s')
+
+@mc_po_list_by_buzz_reply_user_id('{user_id}')
 def po_list_by_buzz_reply_user_id(user_id):
     from model.po import Po
     from model.po_pos import po_pos_get
