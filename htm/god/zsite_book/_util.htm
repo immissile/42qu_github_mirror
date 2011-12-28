@@ -10,4 +10,5 @@ from model.zsite_book import ZSITE_BOOK_LIB_STATE2CN, ZSITE_BOOK_LIB_STATE_EXIST
 %else:
 ${ZSITE_BOOK_LIB_STATE2CN[book.state]}\
 %endif
+<a href="/book/lib/rm/${book.id}" style="margin-left:200px" onclick="return confirm('真的要删除吗?')">删除</a>
 </%def>

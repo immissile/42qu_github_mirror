@@ -63,9 +63,9 @@ from model.days import today_days, days2today
 
 mc_zsite_book_id_by_isbn = McCache('ZsiteBookIdByIsbn:%s')
 
+ZSITE_BOOK_LIB_STATE_RMED = 0
 ZSITE_BOOK_LIB_STATE_EXIST  = 10
 ZSITE_BOOK_LIB_STATE_BROWSE = 20
-ZSITE_BOOK_LIB_STATE_RMED = 30
 
 ZSITE_BOOK_LIB_STATE2CN = {
     ZSITE_BOOK_LIB_STATE_EXIST  : "在库" ,
@@ -135,7 +135,7 @@ def zsite_book_lib(limit=None, offset=0, state=0):
         
     l = ZsiteBookLib.where()
     if state:
-        l = l.where("state<=%s", state)
+        l = l.where("state>=%s", state)
     l.order_by('book_id desc')
     if offset and limit:
         limit = offset+limit
@@ -156,6 +156,12 @@ def zsite_book_lib_new(book_id, total):
             state=ZSITE_BOOK_LIB_STATE_EXIST
         )
         book.save()
+
+def zsite_book_lib_rm(id):
+    bl = ZsiteBookLib.mc_get(id)
+    bl.state = ZSITE_BOOK_LIB_STATE_RMED
+    bl.save()
+    return bl
 
 def zsite_book_lib_return(id, admin_id):
     zsite_book_lib = ZsiteBookLib.mc_get(id)
@@ -186,6 +192,8 @@ def zsite_book_lib_browse(id, user_id, days, admin_id):
         zsite_book_lib.owner_id = user_id
         zsite_book_lib.state = ZSITE_BOOK_LIB_STATE_BROWSE
         zsite_book_lib.save()
+
+
 
 def zsite_book_new(
     name,
