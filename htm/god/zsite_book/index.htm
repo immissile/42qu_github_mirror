@@ -1,7 +1,7 @@
 <%inherit file="_base.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.zsite_book import zsite_book_lib
+from model.zsite_book import zsite_book_lib, ZSITE_BOOK_LIB_STATE_EXIST 
 from model.zsite import Zsite
 %>
 <%htm:form id="book_form">
@@ -18,7 +18,7 @@ type="text" value="" id="book_query">
 <script src="${js.book_new}"></script>
 <div style="font-size:16px;margin-top:27px">
 <%
-lastest = zsite_book_lib(10)
+lastest = zsite_book_lib(10, 0 , ZSITE_BOOK_LIB_STATE_EXIST )
 Zsite.mc_bind(lastest, 'zsite', 'book_id')
 %>
 %if lastest:
