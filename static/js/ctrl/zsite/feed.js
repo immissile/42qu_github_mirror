@@ -306,7 +306,7 @@ $(".buzz_box_x").click(function(){
         $("#rec_id"+id).removeClass("site_faved");
         $("#rec_id"+id).attr("href","javascript:fav("+id+")");
     }
-    $(".right_title").hover(function(){$(this).find("a").show()},function(){$(this).find("a").hide()});
+    $(".buzz_box").hover(function(){$(this).find("a").show()},function(){$(this).find("a").hide()});
     $(".buzz_w").hover(function(){$(this).find('.bzr').show()},function(){$(this).find(".bzr").hide()});
 */
 });

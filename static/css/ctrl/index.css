@@ -29,7 +29,7 @@ padding-left:0
     _display:inline-block;
     float:right;
 }
-.right_title:hover .buzz_box_x{
+.buzz_box:hover .buzz_box_x{
     display:inline-block;
 }
 .txta
@@ -234,7 +234,7 @@ margin-top:5px;
     font-size:12px;
     font-family:'Trebuchet MS', Helvetica, sans-serif;
 }
-.right_title{
+.buzz_box{
     border: 0pt none; text-align: left; font-size: 14px; background: url(/img/gif/adot.gif) no-repeat scroll -4px 7px transparent;padding-left:16px;color:#000;
 }
 .split
