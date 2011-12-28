@@ -185,18 +185,25 @@ li = po_list_by_buzz_reply_user_id(user_id)
 <a href="javascript:void(0)" class="buzz_block_x" rel="reply">X</a></div>\
 <div class="buzz_win">\
     %for po_id, po_name, new_reply_count, user_li in li:
+<%
+user_li_len = len(user_li)
+%>
     <div class="buzz_w">
     <div>
         <a href="javascript:void(0)" class="buzz_x" >X</a>
-        <a href="/${po_id}"  target="_blank" class="buzz_li">${cnenoverflow(po_name)[0]}</a>
+        <a href="/${po_id}"  target="_blank" class="buzz_li">${cnenoverflow(po_name,15)[0]}</a>
     </div>
     <div class="buzz_au">
-        %for user_id, user_name in user_li:
-        <a href="${user_id}.${SITE_DOMAIN}" class="TPH">${user_name}</a>,
-        %endfor
-        %if new_reply_count:
-        等<span class="buzz_cou">${new_reply_count}</span>人回复
-        %endif
+%for pos, (user_id, user_name) in enumerate(user_li,1):
+<a href="${user_id}.${SITE_DOMAIN}" class="TPH">${user_name}</a>
+%if pos!=user_li_len:
+,
+%endif
+%endfor
+%if new_reply_count:
+等<span class="buzz_cou">${new_reply_count}</span>人
+%endif
+回复
     </div>
     </div>
     %endfor

@@ -327,8 +327,11 @@ ul
     padding-left: 17px;
     background: url(/img/png/list_style_disc.png) no-repeat 4px 1px;
 }
-.buzz_au{
+.buzz_au, .buzz_au a{
     color:#999
+}
+.buzz_au a:hover{
+    color:#d20;
 }
 .buzz_cou
 {
