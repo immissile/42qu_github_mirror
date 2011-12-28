@@ -98,7 +98,7 @@ function book_query_isbn(isbn){
     book_query_begin()
     $.getJSON("/j/book/isbn/"+isbn, function(o){
         if(o.id){
-            window.location = "/book/lib/"+o.id
+            window.location = "/book/new/"+o.id
         }else{
             douban_book_jsonp( 'isbn/'+isbn) 
         }
