@@ -25,12 +25,18 @@ padding-left:0
 }
 .buzz_box_x
 {
+    background:url(/img/gif/xx.gif) no-repeat -50px 9px;
+    height:28px;
+    width:16px;
     display:none;
-    _display:inline-block;
     float:right;
+    _display:inline-block;
 }
 .buzz_box:hover .buzz_box_x{
     display:inline-block;
+}
+.buzz_box:hover .buzz_box_x:hover{
+    background-position:-21px 9px;
 }
 .txta
 {
