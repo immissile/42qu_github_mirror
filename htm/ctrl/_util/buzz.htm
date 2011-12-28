@@ -138,11 +138,10 @@ evnet_li = event_joiner_by_owner_id(user_id)
 %>
 %if any((evnet_li,)):
 <div class="buzz_h1">小提醒</div>\
-${buzz_render_at(user_id)}
 <div class="buzz_win">\
 %for id, name, count in evnet_li:
 <div class="buzz_w">\
-<a href="/event/check/${id}" target="_blank"><span class="c0">${name}</span> <span class="c9">:</span> <span class="mr3">+${count}</span>报名 , 请确认</a>\
+<a href="/event/check/${id}" target="_blank">${name} : <span class="mr3">+${count}</span>报名 , 请确认</a>\
 </div>\
 %endfor
 <div class="buzz_w">
