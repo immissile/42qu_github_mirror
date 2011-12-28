@@ -225,7 +225,7 @@ $(".buzz_x").live("click", function(){
     }
 
 })
-$(".buzz_block_x").click(function(){
+$(".buzz_box_x").click(function(){
     $.postJSON(
         '/j/buzz/block/x/'+this.rel,
         function(){
