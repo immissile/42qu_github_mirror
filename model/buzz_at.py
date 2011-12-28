@@ -3,8 +3,15 @@
 from _db import cursor_by_table, McModel, McLimitA, McCache, McCacheA, Model, McNum
 from txt2htm import RE_AT
 from txt import txt_bind, txt_get, txt_new
-from mq import mq_client
 from kv import Kv
+from zsite_url import id_by_url
+
+
+#from mq import mq_client
+def mq_client(f):
+    return f
+
+
 
 # buzz_at
 # id
@@ -46,7 +53,7 @@ def at_id_set_by_txt(txt):
 
 def buzz_at_new(from_id, txt, po_id, reply_id=0):
     at_id_set = at_id_set_by_txt(txt)
-
+    print at_id_set, "at_id_set"
     for to_id in at_id_set:
         buzz_at = BuzzAt(from_id=from_id, to_id=to_id, reply_id=reply_id, po_id=po_id, state=BUZZ_AT_SHOW)
         buzz_at.save()
@@ -76,7 +83,7 @@ def buzz_at_by_user_id_for_show(user_id):
     if mc_buzz_at_by_user_id_for_show.get(user_id) == 0:
         return 0
     begin_id = buzz_at_pos.get(user_id)
-    result = reversed(BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).where('id>%s', begin_id).order_by('id').col_list(5, 0, BUZZ_AT_COL))
+    result = tuple(reversed(BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).where('id>%s', begin_id).order_by('id').col_list(5, 0, BUZZ_AT_COL)))
     if result:
         buzz_at_pos.set(user_id, result[0][0])
         return result
@@ -93,5 +100,10 @@ def _buzz_at_list(user_id, limit, offset):
     return BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).order_by('id desc').col_list(limit, offset, BUZZ_AT_COL)
 
 
+
+if __name__ == '__main__':
+    pass
+
+    print buzz_at_by_user_id_for_show(10001299)
 
 

@@ -5,9 +5,9 @@ from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from buzz_at import buzz_at_new, buzz_at_reply_rm
 from txt import txt_get
 
-#from mq import mq_client
-def mq_client(f):
-    return f
+from mq import mq_client
+#def mq_client(f):
+#    return f
 
 ##CREATE TABLE `zpage`.`buzz_reply` (
 ##  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
