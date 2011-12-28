@@ -70,7 +70,7 @@ ZSITE_BOOK_LIB_STATE_BROWSE = 20
 ZSITE_BOOK_LIB_STATE2CN = {
     ZSITE_BOOK_LIB_STATE_EXIST  : "在库" ,
     ZSITE_BOOK_LIB_STATE_BROWSE : "借出" , 
-    ZSITE_BOOK_LIB_STATE_RMED   : "丢失" ,
+    ZSITE_BOOK_LIB_STATE_RMED   : "删除" ,
 }
 
 class ZsiteBookBrowseHistory(Model):
