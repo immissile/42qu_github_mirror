@@ -9,7 +9,7 @@ from json import dumps
 from model.cid_buzz import BUZZ_CID2LIST
 from model.buzz_reply import buzz_reply_hide_or_rm
 
-@urlmap('/j/buzz/x/reply')
+@urlmap('/j/buzz/reply/x')
 class BuzzX(JLoginBase):
     def post(self):
         current_user_id = self.current_user_id
@@ -29,5 +29,6 @@ class BuzzClean(JLoginBase):
 @urlmap("/j/buzz/reply/x/(\d+)")
 class BuzzReplyX(JLoginBase):
     def post(self, id):
-        buzz_reply_hide_or_rm(id)
+        current_user_id = self.current_user_id
+        buzz_reply_hide_or_rm(id, current_user_id)
         self.finish('{}')

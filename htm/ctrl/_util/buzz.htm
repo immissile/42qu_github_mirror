@@ -137,7 +137,7 @@ ${CID_ZSITE_TUPLE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry
 evnet_li = event_joiner_by_owner_id(user_id)
 %>
 %if any((evnet_li,)):
-<div class="buzz_h1">提醒区</div>\
+<div class="buzz_h1">小提醒</div>\
 <div class="buzz_win">\
 %for id, name, count in evnet_li:
 <div class="buzz_w">\
@@ -158,7 +158,8 @@ li = po_list_by_buzz_reply_user_id(user_id)
 %>
 %if li:
 <div id="buzz_win_reply" class="buzz_box">\
-<div class="buzz_h1"><a href="javascript:void(0)" class="buzzX" rel="reply"></a>议事堂</div>\
+<div class="buzz_h1">\
+<a href="javascript:void(0)" class="buzzX" rel="reply"></a>讨论区</div>\
 <div class="buzz_win buzz_win_reply">\
     %for po_id, po_name, new_reply_count, user_li in li:
 <%

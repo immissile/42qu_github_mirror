@@ -87,8 +87,8 @@ def po_id_list_by_buzz_reply_user_id(user_id):
     return BuzzReply.where(user_id=user_id, state=BUZZ_REPLY_STATE_SHOW).order_by('update_time desc').col_list(7, 0, 'po_id')
 
 
-def buzz_reply_hide_or_rm(id):
-    buzz = BuzzReply.get(id=id)
+def buzz_reply_hide_or_rm(po_id, user_id):
+    buzz = BuzzReply.get(po_id=po_id, user_id=user_id)
     if buzz:
         state = buzz.state
         if state == BUZZ_REPLY_STATE_SHOW :
@@ -109,7 +109,7 @@ def buzz_reply_hide(user_id, po_id):
 
 def buzz_reply_hide_or_rm_by_user_id(user_id):
     for i in po_id_list_by_buzz_reply_user_id(user_id):
-        buzz_reply_hide_or_rm(i)
+        buzz_reply_hide_or_rm(i, user_id)
     mc_flush(user_id)
 
 def mc_flush(user_id):
