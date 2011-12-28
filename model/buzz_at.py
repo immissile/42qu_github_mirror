@@ -14,6 +14,19 @@ from kv import Kv
 # reply_id
 # state
 
+#CREATE TABLE `zpage`.`buzz_at` (
+#  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+#  `from_id` INTEGER UNSIGNED NOT NULL,
+#  `to_id` INTEGER UNSIGNED NOT NULL,
+#  `reply_id` INTEGER UNSIGNED NOT NULL,
+#  `state` TINYINT UNSIGNED NOT NULL DEFAULT 30,
+#  `po_id` INTEGER UNSIGNED NOT NULL,
+#  PRIMARY KEY (`id`),
+#  INDEX `Index_2`(`to_id`, `state`, `id`),
+#  INDEX `Index_3`(`po_id`)
+#)
+#ENGINE = MyISAM;
+
 # buzz_at_pos
 # id
 # value
@@ -71,7 +84,7 @@ def buzz_at_by_user_id_for_show(user_id):
         mc_buzz_at_by_user_id_for_show.set(user_id, 0)
         return 0
 
-buzz_at_count = McNum(lambda user_id: BuzzAt.where(user_id=user_id,state=BUZZ_AT_SHOW).count() , 'BuzzAtCount:%s')
+buzz_at_count = McNum(lambda user_id: BuzzAt.where(to_id=user_id,state=BUZZ_AT_SHOW).count() , 'BuzzAtCount:%s')
 
 def mc_flush(user_id):
     buzz_at_count.delete(user_id)
