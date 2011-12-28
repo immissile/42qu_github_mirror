@@ -397,10 +397,11 @@ $(function(){
     var tt
     function pop_hero(elem){
         var pop_hero_remove = function(){$('.pop_hero').remove()}
-        elem.live('mouseover',function(){
+        elem.live('mouseenter',function(){
+            var self = $(this)
+            tt=setTimeout(function(){
             if($('.pop_hero')[0]) pop_hero_remove()
             clearTimeout(tt)
-            var self = $(this)
             var href = self.attr('href')
             $.getJSON(
             '/j/hero/'+href.slice(href.indexOf('\/\/')+2).split('.')[0],
@@ -412,7 +413,9 @@ $(function(){
                         $('.pop_hero').offset({top:self.offset().top-126,left:self.offset().left-30})
                     }
                 })
+            },200)
         }).live('mouseout',function(){
+            clearTimeout(tt)
             var ctrl = false
             var on = false
             clear_pop_hero = function(){
@@ -423,7 +426,7 @@ $(function(){
                 }
             }
             $('.pop_hero').live('mouseover',function(){on = true}).unbind('mouseleave')
-           tt=setTimeout("clear_pop_hero()",100)
+           tt=setTimeout(clear_pop_hero,100)
         })
     }
     pop_hero($('.TPH'))

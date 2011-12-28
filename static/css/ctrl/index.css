@@ -11,7 +11,13 @@ padding-left:0
     display:inline-block;
     height:14px;
     width:17px;
-    background:url(/img/gif/x.gif) no-repeat 1px 5px;
+    background:url(/img/gif/xx.gif) no-repeat 4px 5px;
+}
+.buzz_win_reply .buzz_w:hover .buzz_x{
+    background-position:-50px 5px;
+}
+.buzz_win_reply .buzz_w .buzz_x:hover{
+    background-position:-21px 5px;
 }
 .buzz_au{
     margin-left:17px;
