@@ -17,7 +17,11 @@ book_list = zsite_book_by_lib(book.id)
 %if book_list:
 <div class="bookli">
 %for bk in book_list:
-<div><span>编号 : ${bk.id}</span>\
+<div><span
+%if bk.is_rmed:
+style="text-decoration:line-through"
+%endif
+>编号 : ${bk.id}</span>\
 ${book_browse_link(bk)}
 </div>
 %endfor
