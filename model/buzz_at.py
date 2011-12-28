@@ -53,12 +53,11 @@ def at_id_set_by_txt(txt):
 
 def buzz_at_new(from_id, txt, po_id, reply_id=0):
     at_id_set = at_id_set_by_txt(txt)
-    print at_id_set, "at_id_set"
     for to_id in at_id_set:
         buzz_at = BuzzAt(from_id=from_id, to_id=to_id, reply_id=reply_id, po_id=po_id, state=BUZZ_AT_SHOW)
         buzz_at.save()
         mc_flush(to_id)
-        mc_buzz_at_by_user_id_for_show.delete(user_id)
+        mc_buzz_at_by_user_id_for_show.delete(to_id)
 
     return at_id_set
 
