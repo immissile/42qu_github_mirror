@@ -415,3 +415,22 @@ min-height:41px;
     height:auto;
     border:0;margin:0 -1px 0 0;padding:0 9px 0 0;
 }
+.bkimg{
+width:242px;padding:3px;
+}
+.buzz_win_book .sdw{
+padding:0
+}
+.buzz_win_book .sd{
+padding:3px
+}
+.buzz_win_book a:hover{
+    color:#000;
+}
+.buzz_win_book a{
+    color:#000;
+    display:block;
+}
+.buzz_win_book .bktxt{
+line-height:21px;padding:3px 7px;border-top:1px solid #eee;
+}
