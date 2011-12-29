@@ -6,6 +6,7 @@ from model.reply import STATE_SECRET, STATE_ACTIVE
 from model.wall import Wall
 from model.reply import Reply
 from zkit.page import page_limit_offset
+from model.buzz_at import buzz_at_count,buzz_at_list
 from model.zsite import Zsite
 from model.cid import CID_SITE
 
@@ -23,9 +24,6 @@ def post_reply(self, reply_new=None):
         )
         return reply
 
-
-
-
 @urlmap('/wall')
 @urlmap('/wall-(\-?\d+)')
 class Page(ZsiteBase):
@@ -33,6 +31,7 @@ class Page(ZsiteBase):
         zsite = self.zsite
         zsite_url = zsite.link
         total = zsite.reply_count
+
         page, limit, offset = page_limit_offset(
             '%s/wall-%%s' % zsite_url,
             total,
@@ -131,3 +130,4 @@ class ReplyRm(ZsiteBase):
         if can_rm:
             wall.reply_rm(r)
         self.finish({'success':can_rm})
+
