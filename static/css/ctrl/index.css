@@ -380,16 +380,23 @@ display:inline-block;
 .m01{
 margin:0 1px;
 }
-#feeds .fav:hover , #feeds .faving,  #feeds .faved{
-padding:0 0 0 14px;
-background:url(/img/gif/icons/gif/orange/to_size/check.gif) no-repeat 0 8px;
+#feeds .fav, #feeds .fav:hover , #feeds .faving,  #feeds .faved{
+padding:0;
+display:inline-block;
+background:url(/img/png/plus.png) no-repeat scroll -2px -15px;
+display: inline-block;
+height: 15px;
+vertical-align: -2px;
+width: 18px;
+}
+#feeds .fav:hover{
+background-position:-2px 1px;
 }
 #feeds .faved{
-color:#000;
-background-image:url(/img/gif/icons/gif/black/to_size/check.gif);
+background-position:-2px -31px;
 }
 #feeds .faving{
-background:url(/img/gif/loading12.gif) no-repeat 0 3px;
+background:url(/img/gif/loading12.gif) no-repeat 0 1px;
 }
 #feeds .fdtxt0{
 min-height:41px;
@@ -399,4 +406,12 @@ min-height:41px;
 }
 #feeds .sdwb{
     margin-bottom:32px;
+}
+#feeds .txta{
+    border:1px dotted #ccc;
+    padding:2px 3px;
+}
+#feeds .fcmtxt{
+    height:auto;
+    border:0;margin:0 -1px 0 0;padding:0 9px 0 0;
 }
