@@ -1,5 +1,5 @@
 <%!
-from model.cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY,  CID_BUZZ_EVENT_JOIN,  CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_TUPLE_CN , CID_BUZZ_WORD_AT, CID_REVIEW
+from model.cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW,  CID_BUZZ_PO_REPLY,  CID_BUZZ_EVENT_JOIN,  CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_TUPLE_CN , CID_BUZZ_WORD_AT, CID_REVIEW
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count, buzz_show_by_cid,buzz_set_read
 from zkit.txt import cnenoverflow
@@ -30,58 +30,6 @@ ${user_link_list_with_career(from_list)} 关注了我
     % else:
 ${user_link_list(from_list)} 关注了 ${user_career_link(entry)}
     % endif
-% elif cid == CID_BUZZ_WALL:
-<%
-to = Zsite.mc_get(entry.to_id)
-%>
-${user_link_list(from_list)} 对话 ${user_link(to)}, <a href="${to.link}${entry.link}" target="_blank">点此浏览</a>
-% elif cid == CID_BUZZ_WALL_REPLY:
-${user_link_list(from_list)} \
-<%
-e_from_id = entry.from_id
-e_to_id = entry.to_id
-e_from = Zsite.mc_get(e_from_id)
-e_to = Zsite.mc_get(e_to_id)
-%>
-% if len(from_list) == 1:
-<%
-from_user = from_list[0]
-from_id = from_user.id
-%>
-% if from_id == e_from_id:
-答复 ${user_link(e_to)} 的 \
-% elif from_id == e_to_id:
-答复 ${user_link(e_from)} 的 \
-% else:
-回复 ${user_link(e_from)} 给 ${user_link(e_to)} 的 \
-% endif
-% elif set(i.from_id_list) & entry.zsite_id_list():
-相互 \
-% else:
-回复 ${user_link(e_from)} 给 ${user_link(e_to)} 的 \
-% endif
-留言, <a href="${e_to.link}${entry.link}" target="_blank">点此浏览</a>
-% elif cid == CID_BUZZ_PO_REPLY:
-<%
-po_id = entry.rid
-po = Po.mc_get(po_id)
-%>
-${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${po_id}">\
-    % if entry.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
-${cnenoverflow(po.name,30)[0]}\
-    % else:
-${po.name_with_user}\
-    % endif
-</a> :
-<span class="buzz_txt">${cnenoverflow(entry.txt, 30)[0]}<a class="zsite_reply" href="/po/${po_id}" target="_blank"></a></span>
-% elif cid == CID_BUZZ_ANSWER:
-${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}\
-%if from_list:
-#replyer${from_list[0].id}\
-%endif
-">${entry.name}</a>\
-%elif cid == CID_BUZZ_WORD_AT:
-${user_link_list(from_list)} : <span class="buzz_txt">${entry.htm|n}</span><a target="_blank" class="zsite_reply" href="${entry.link}"></a>
 % elif cid == CID_BUZZ_EVENT_JOIN:
 ${user_link_list(from_list)} 参加 ${po_link(entry)} 活动
 % elif cid == CID_BUZZ_EVENT_FEEDBACK_OWNER:
