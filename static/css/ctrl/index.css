@@ -172,7 +172,7 @@ color:#d20
 .feed_left,.feed_self{
     width: 219px;
     padding-right: 24px;
-    margin-bottom: 32px;
+    margin-bottom: 64px;
     background: url(/img/gif/comment.gif) no-repeat 228px 20px;
     position: relative;
     margin-right: -1px;
