@@ -29,7 +29,7 @@ ${css.ctrl_index|n}
 <%def name="h_nav_more()"></%def>
 
 <%
-_ico = pic_url_with_default(zsite_id,219) 
+_ico = pic_url_with_default(current_user_id,219) 
 %>\
 
 
@@ -186,7 +186,7 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
             <div class="feed_self">
     %if _ico == PIC_DEFAULT%'219':
 <a href="/i/pic" class="c0 imgw">
-    <img src="${FS_URL}/img/png/noicon.png" style="">
+    <img src="${FS_URL}/img/png/noicon.png">
     %else:
 <a href="${current_user.link}" class="c0 imgw">
 <img src="${_ico|n}">
