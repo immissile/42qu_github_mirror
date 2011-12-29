@@ -380,3 +380,14 @@ display:inline-block;
 .m01{
 margin:0 1px;
 }
+#feeds .fav:hover , #feeds .faving,  #feeds .faved{
+padding:0 0 0 14px;
+background:url(/img/gif/icons/gif/orange/to_size/check.gif) no-repeat 0 8px;
+}
+#feeds .faved{
+color:#000;
+background-image:url(/img/gif/icons/gif/black/to_size/check.gif);
+}
+#feeds .faving{
+background:url(/img/gif/loading12.gif) no-repeat 0 3px;
+}
