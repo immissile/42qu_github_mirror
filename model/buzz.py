@@ -121,7 +121,7 @@ CACHE_LIMIT = 256
 
 mc_buzz_list = McLimitM('BuzzList.%s', CACHE_LIMIT)
 
-#@mc_buzz_list('{user_id}')
+@mc_buzz_list('{user_id}')
 def _buzz_list(user_id, limit, offset, state=STATE_BUZZ_ACTIVE):
     c = Buzz.raw_sql('select id, from_id, cid, rid from buzz where to_id=%s and state >= %s order by id desc limit %s offset %s', user_id, state, limit, offset)
     return c.fetchall()
