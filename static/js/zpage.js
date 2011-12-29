@@ -78,8 +78,13 @@ jQuery.extend({
         if(minute<9){
             minute = "0"+minute
         }
+        var result = [],
+            now = new Date();
+        if(now.getFullYear()!=date.getFullYear()){
+            result.push(date.getFullYear())
+        } 
         return [
-            date.getFullYear(), date.getMonth() + 1, date.getDate()
+            date.getMonth() + 1, date.getDate()
         ].join("-")+" "+[
             hour,minute 
         ].join(":") 
