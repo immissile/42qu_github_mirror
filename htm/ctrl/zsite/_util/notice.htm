@@ -1,12 +1,7 @@
 <%!
-from model.reply import STATE_SECRET, STATE_ACTIVE
 from zkit.time_format import friendly_time
-from model.zsite import Zsite
 from model.po import Po
-from model.wall import Wall
-from model.zsite_url import at_zsite
 %>
-<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 
 <%def name="reply_render(i)">
 <%
