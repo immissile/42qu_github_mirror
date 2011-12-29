@@ -3,7 +3,7 @@
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
 from txt2htm import RE_AT
-from cid import CID_BUZZ_SYS, CID_BUZZ_FOLLOW, CID_BUZZ_EVENT_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV
+from cid import CID_BUZZ_SYS, CID_BUZZ_FOLLOW, CID_BUZZ_EVENT_JOIN,  CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV
 
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -45,15 +45,8 @@ def buzz_unread_count(user_id):
 
 BUZZ_DIC = {
     CID_BUZZ_SYS: BuzzSys,
-    CID_BUZZ_SHOW: Zsite,
     CID_BUZZ_FOLLOW: Zsite,
-    CID_BUZZ_WALL: Wall,
-    CID_BUZZ_WALL_REPLY: Wall,
-    CID_BUZZ_PO_REPLY: Reply,
-    CID_BUZZ_ANSWER: Po,
-    CID_BUZZ_WORD: Po,
     CID_BUZZ_EVENT_JOIN: Po,
-    CID_BUZZ_EVENT_JOIN_APPLY: Po,
     CID_BUZZ_EVENT_FEEDBACK_OWNER: Po,
     CID_BUZZ_EVENT_FEEDBACK_JOINER: Po,
     CID_BUZZ_SITE_NEW : Zsite,
@@ -313,7 +306,3 @@ if __name__ == '__main__':
 #    print buzz_unread_count(10000000)
 #    print buzz_show(10000000, 3)
     import time
-    for i in range(100):
-        print Buzz.where(cid=CID_BUZZ_FOLLOW).delete()
-        time.sleep(1)
-        print Buzz.where(cid=CID_BUZZ_FOLLOW).count()
