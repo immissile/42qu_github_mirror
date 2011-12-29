@@ -101,27 +101,6 @@ def buzz_follow_new(from_id, to_id):
 
 mq_buzz_follow_new = mq_client(buzz_follow_new)
 
-def buzz_wall_new(from_id, to_id, wall_id):
-    for i in ormiter(Follow, 'to_id=%s and from_id!=%s' % (from_id, to_id)):
-        buzz_new(from_id, i.from_id, CID_BUZZ_WALL, wall_id)
-
-mq_buzz_wall_new = mq_client(buzz_wall_new)
-
-def buzz_wall_reply_new(from_id, to_id, wall_id):
-    buzz_new(from_id, to_id, CID_BUZZ_WALL_REPLY, wall_id)
-
-
-
-
-
-
-#def buzz_answer_new(from_id, po_id):
-#    from po_question import po_user_id_list
-#    for user_id in po_user_id_list(po_id):
-#        if user_id != from_id:
-#            buzz_new(from_id, user_id, CID_BUZZ_ANSWER, po_id)
-#
-#mq_buzz_answer_new = mq_client(buzz_answer_new)
 
 
 class BuzzEntry(object):
