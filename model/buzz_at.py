@@ -117,21 +117,42 @@ buzz_at_user_count = McNum(
     'BuzzAtUserCount+%s'
 )
 
-buzz_at_count = McNum(lambda user_id: BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW),'BuzzAtCount+%s')
+buzz_at_count = McNum(lambda user_id: BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW), 'BuzzAtCount+%s')
 
 def mc_flush(user_id):
     buzz_at_user_count.delete(user_id)
     buzz_at_count.delete(user_id)
     mc_buzz_at_by_user_id_for_show.delete(user_id)
 
-def _buzz_at_list(user_id, limit, offset):
+def buzz_at_col_list(user_id, limit, offset):
     return BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).order_by('id desc').col_list(limit, offset, BUZZ_AT_COL)
 
+def buzz_at_list(user_id, limit, offset):
+    po_id_list = []
+    reply_id_list = []
+    user_id_list = []
+    id_list = []
+    for id,from_id,po_id,reply_id in buzz_at_col_list(user_id, limit, offset):
+        id_list.append(id)
+        po_id_list.append(po_id)
+        reply_id_list.append(reply_id) 
+        user_id_list.append(from_id)
+   
+    from model.zsite import Zsite
+    from model.po import Po
+    from model.reply import Reply
+    return tuple(zip(        
+        id_list, 
+        Zsite.mc_get_list(user_id_list),
+        Po.mc_get_list(po_id_list),
+        Reply.mc_get_list(reply_id_list),
+    ))
 
+
+        
 
 if __name__ == '__main__':
     pass
 
-    print buzz_at_by_user_id_for_show(10000000)
 
-
+    print buzz_at_list(10000000, 10, 0)
