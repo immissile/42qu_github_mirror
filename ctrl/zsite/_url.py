@@ -19,3 +19,4 @@ import com.bio
 import com.resume
 import com.review
 import buzz
+import notice
