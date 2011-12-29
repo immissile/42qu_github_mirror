@@ -166,7 +166,10 @@ li
     overflow:hidden;
 }
 .zname{
-margin-top:5px;
+color:#999;
+}
+.zname:hover{
+color:#d20
 }
 .imgw{line-height:0}
 .feed_left,.feed_self{
