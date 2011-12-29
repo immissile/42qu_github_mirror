@@ -235,3 +235,5 @@ if __name__ == '__main__':
 #    print buzz_unread_count(10000000)
 #    print buzz_show(10000000, 3)
     import time
+    for i in Buzz.where(cid=216)[:3]:
+        print i
