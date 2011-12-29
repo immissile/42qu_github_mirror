@@ -7,9 +7,9 @@ from kv import Kv
 from zsite_url import id_by_url
 from zkit.algorithm.unique import unique
 
-#from mq import mq_client
-def mq_client(f):
-    return f
+from mq import mq_client
+#def mq_client(f):
+#    return f
 
 
 
