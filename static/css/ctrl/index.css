@@ -72,7 +72,8 @@ margin:0 7px;
     color:#d20;
 }
 .site_po {
-    margin-top: -6px;
+    margin: -6px 0 27px 275px;
+    margin-left: 275px;
 }
 .fdtxt
 {
@@ -85,10 +86,6 @@ margin:0 7px;
 }
 #txt_tip{
     margin-right:10px;
-}
-.site_po
-{
-    margin-left: 260px;
 }
 #H .D_nav
 {
