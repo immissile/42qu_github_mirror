@@ -33,7 +33,7 @@ class Live(ZsiteBase):
         self.redirect("/feed", True)
 
 @urlmap('/feed')
-class Feed(ZsiteBase):
+class Feed(LoginBase):
     def get(self):
         self.render()
 
