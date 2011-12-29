@@ -1,0 +1,41 @@
+<%!
+from model.reply import STATE_SECRET, STATE_ACTIVE
+from zkit.time_format import friendly_time
+from model.zsite import Zsite
+from model.po import Po
+from model.wall import Wall
+from model.zsite_url import at_zsite
+%>
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+
+<%def name="reply_render(i)">
+<%
+buzz_at_id = i[0]
+from_user = i[1]
+po = i[2]
+reply = i[3]
+%>
+<div class="c sdw"><div class="sd">
+<pre>
+        %if reply:
+        ${reply.htm|n}
+        % else:
+        ${po.htm|n}
+        %endif
+</pre>
+<div class="bar">
+<span class="L">
+@<a href="${from_user.link}" class="TPH">${from_user.name}</a>
+, ${friendly_time(po.create_time)}
+    %if reply:
+    : ${po.mc_get(reply.rid).htm|n}
+    %endif
+</span>
+%if reply:
+<a class="reply" href="${po.link+"#reply"+str(reply.id)}"></a>
+%else:
+<a class="reply" href="${po.link}"></a>
+%endif
+</div>\
+</div></div>\
+</%def>
