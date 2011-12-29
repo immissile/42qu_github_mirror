@@ -49,3 +49,22 @@ class Notice(LoginBase):
                 return self.redirect(link)
         return self.redirect('/notice')
 
+
+@urlmap('/notice/buzz')
+@urlmap('/notice/buzz-(\d+)')
+class Buzz(LoginBase):
+    def get(self, n=1):
+        user_id = self.current_user_id
+        total = buzz_count(user_id)
+        page, limit, offset = page_limit_offset(
+            '/notice/buzz-%s',
+            total,
+            n,
+            100
+        )
+        if type(n) == str and offset >= total:
+            return self.redirect('/notice/buzz')
+        self.render(
+            buzz_list=buzz_list(user_id, limit, offset),
+            page=page,
+        )

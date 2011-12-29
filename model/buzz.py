@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum
-from cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW, CID_BUZZ_PO_REPLY,  CID_BUZZ_EVENT_JOIN,  CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_WORD_AT
+from cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW,   CID_BUZZ_EVENT_JOIN,  CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_USER, CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_BUZZ_WORD_AT
 
 from zsite import Zsite, ZSITE_STATE_ACTIVE
 from follow import Follow
@@ -48,15 +48,6 @@ def clear_buzz_by_user_id_cid(user_id,cid):
         for buzz in buzz_list:
             buzz_set_read(user_id,buzz.id)
 
-def clear_buzz_by_po_id(user_id,po_id):
-    po = Po.mc_get(po_id)
-    if po:
-        reply_id_list = po.reply_id_list()
-        for reply in reply_id_list:
-            buzz_list = Buzz.where(to_id = user_id).where(cid=CID_BUZZ_PO_REPLY).where(rid = reply)
-            if buzz_list:
-                for buzz in buzz_list:
-                    buzz_set_read(user_id,buzz.id)
 
 def buzz_unread_count(user_id):
     #count = buzz_unread.get(user_id)
@@ -303,16 +294,3 @@ mq_buzz_site_new = mq_client(buzz_site_new)
 
 if __name__ == '__main__':
     pass
-    #listB = _buzz_list(10031395,1000,0)
-    #for id, from_id, cid, rid in listB:
-    #    buzz_set_read(10031395,id)
-#    from model.zsite import Zsite
-#    from model.cid import CID_USER
-#    print buzz_unread_update(10000000)
-#    print buzz_unread_count(10000000)
-#    print buzz_show(10000000, 3)
-    #import time
-    #for i in range(100):
-    #    print Buzz.where(cid=CID_BUZZ_FOLLOW).delete()
-    #    time.sleep(1)
-    #    print Buzz.where(cid=CID_BUZZ_FOLLOW).count()
