@@ -137,8 +137,9 @@ ${CID_ZSITE_TUPLE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry
 <%
 evnet_li = event_joiner_by_owner_id(user_id)
 buzz_at = buzz_at_by_user_id_for_show(user_id)
+show = any((evnet_li,buzz_at))
 %>
-%if any((evnet_li,)):
+%if show:
 <div class="buzz_h1">小提醒</div>\
 <div class="buzz_win">\
 %for id, name, count in evnet_li:
@@ -171,7 +172,8 @@ li = po_list_by_buzz_reply_user_id(user_id)
 %if li:
 <div id="buzz_win_reply" class="buzz_box">\
 <div class="buzz_h1">\
-<a href="javascript:void(0)" class="buzzX" rel="reply"></a>讨论区</div>\
+<a href="javascript:void(0)" class="buzzX" rel="reply"></a>讨论区\
+</div>\
 <div class="buzz_win buzz_win_reply">\
     %for po_id, po_name, new_reply_count, user_li in li:
 <%
@@ -201,36 +203,46 @@ user_li_len = len(user_li)
 %endif
 </%def>
 
+<%def name="buzz_render_fresh(user_id)">
+<div id="buzz_win_fresh" class="buzz_box">\
+<div class="buzz_h1">\
+<a href="javascript:void(0)" class="buzzX" rel="fresh"></a>新鲜事\
+</div>\
+</div>\
+</%def>
+
 <%def name="buzz_show(user_id)">
 ${buzz_render_tip(user_id)}
 ${buzz_render_reply(user_id)}
-<%
-limit = 300
-at_list = buzz_show_by_cid(user_id,limit,CID_BUZZ_WORD_AT)
-
-
-follow_list = buzz_show_by_cid(user_id,limit,CID_BUZZ_FOLLOW)
-follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_SITE_NEW))
-follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_SITE_FAV))
-follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_EVENT_JOIN))
-follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_EVENT_FEEDBACK_JOINER))
-follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_EVENT_FEEDBACK_OWNER))
-
-reply_list = buzz_show_by_cid(user_id,10,CID_BUZZ_PO_REPLY)
-reply_list.extend(buzz_show_by_cid(user_id,10,CID_BUZZ_ANSWER))
-
-%>
-%for render, li, cid , name in (\
-##    (buzz_render_at       ,    at_list  , CID_BUZZ_BLOCK_AT       ,   "提到我" ),\
-##    (buzz_render_around   , follow_list , CID_BUZZ_BLOCK_AROUND   ,   "新鲜事" ),\
-##    (buzz_render_reply    , reply_list  , CID_BUZZ_BLOCK_REPLY    ,   "讨论区" ),\
-):
-    %if li:
-<div class="buzz_h1">${name}\
-<a href="javascript:void(0)" class="buzzX" rel="${cid}">X</a></div>\
-<div class="buzz_win">\
-${render(li)}\
-</div>\
-    %endif
-%endfor
+${buzz_render_fresh(user_id)}
 </%def>
+
+
+##<%
+##limit = 300
+##
+##
+##follow_list = buzz_show_by_cid(user_id,limit,CID_BUZZ_FOLLOW)
+##follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_SITE_NEW))
+##follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_SITE_FAV))
+##follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_EVENT_JOIN))
+##follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_EVENT_FEEDBACK_JOINER))
+##follow_list.extend(buzz_show_by_cid(user_id,limit,CID_BUZZ_EVENT_FEEDBACK_OWNER))
+##
+##reply_list = buzz_show_by_cid(user_id,10,CID_BUZZ_PO_REPLY)
+##reply_list.extend(buzz_show_by_cid(user_id,10,CID_BUZZ_ANSWER))
+##
+##%>
+##%for render, li, cid , name in (\
+####    (buzz_render_at       ,    at_list  , CID_BUZZ_BLOCK_AT       ,   "提到我" ),\
+####    (buzz_render_around   , follow_list , CID_BUZZ_BLOCK_AROUND   ,   "新鲜事" ),\
+####    (buzz_render_reply    , reply_list  , CID_BUZZ_BLOCK_REPLY    ,   "讨论区" ),\
+##):
+##    %if li:
+##<div class="buzz_h1">${name}\
+##<a href="javascript:void(0)" class="buzzX" rel="${cid}">X</a></div>\
+##<div class="buzz_win">\
+##${render(li)}\
+##</div>\
+##    %endif
+##%endfor
