@@ -60,7 +60,7 @@ class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="spl
     <div class="feed_part">
     <div class="feed_right">
 {{each item}}
-<div class="sdw"><div class="sd cid${cid}">
+<div class="sdw {{if $index+1==item.length}}sdwb{{/if}}"><div class="sd cid${cid}">
 {{if rt_list.length}} 
 {{if !(rt_list.length==1 && rt_list[0].txt[2]==0)}}
 <div class='rel'>
@@ -119,7 +119,7 @@ wmode= "Opaque"></embed>{{/if}}{{if name}}{{if cid == 73}}{{html name}}{{else}}
 {{/if}}
 </div>
 {{/if}}
-<div class="fdtxt" id="fdtxt${id}">
+<div class="fdtxt fdtxt${$index}" id="fdtxt${id}">
         {{if cid==61 || cid == 66}}
 <div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}
 {{if txt_more}}<a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
@@ -140,6 +140,7 @@ wmode= "Opaque"></embed>{{/if}}{{if name}}{{if cid == 73}}{{html name}}{{else}}
     </div>
     <div class="fdbar">
     <span class="L">
+{{if !$index}}
 <a class="zname" target="_blank" href="${zsite_link}">${zsite_name}
 {{if unit||title}}({{/if}}
 {{if unit}}${unit}{{/if}}
@@ -147,6 +148,7 @@ wmode= "Opaque"></embed>{{/if}}{{if name}}{{if cid == 73}}{{html name}}{{else}}
 {{if title}}${title}{{/if}} 
 {{if unit||title}}){{/if}} , 
 </a>
+{{/if}}
 <a href="/${id}" target="_blank">${create_time}</a>
         {{if rt_list.length}} 
 <span class="mr3"></span>

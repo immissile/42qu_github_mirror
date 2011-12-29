@@ -391,3 +391,12 @@ background-image:url(/img/gif/icons/gif/black/to_size/check.gif);
 #feeds .faving{
 background:url(/img/gif/loading12.gif) no-repeat 0 3px;
 }
+#feeds .fdtxt0{
+min-height:41px;
+}
+#feeds .sdw{
+    margin-bottom:16px
+}
+#feeds .sdwb{
+    margin-bottom:32px;
+}
