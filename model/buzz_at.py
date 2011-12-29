@@ -153,6 +153,4 @@ def buzz_at_list(user_id, limit, offset):
 
 if __name__ == '__main__':
     pass
-
-
     print buzz_at_list(10000000, 10, 0)
