@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from _handler import LoginBase
 from ctrl._urlmap.me import urlmap
-from model.buzz import Buzz as _Buzz,buzz_set_read
 from model.notice import notice_list, notice_count, notice_unread, Notice as N
 from model.state import STATE_APPLY,STATE_BUZZ_ACTIVE, STATE_BUZZ_RM
 from zkit.page import page_limit_offset
