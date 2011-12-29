@@ -226,7 +226,10 @@ $(".buzz_x").live("click", function(){
 
 })
 $(".buzzX").click(function(){
-    $.postJSON( '/j/buzz/'+this.rel+"/x");
+    var rel=this.rel
+    if(rel){
+        $.postJSON( '/j/buzz/'+rel+"/x")
+    }
     $(this).parents('.buzz_box').hide() 
 })
 ;$(function(){
