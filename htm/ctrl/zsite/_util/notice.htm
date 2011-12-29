@@ -5,29 +5,26 @@ from model.po import Po
 
 <%def name="reply_render(i)">
 <%
-buzz_at_id = i[0]
-from_user = i[1]
-po = i[2]
-reply = i[3]
+buzz_at_id,from_user,po,reply = i
 %>
 <div class="c sdw"><div class="sd">
 <pre>
-        %if reply:
-        ${reply.htm|n}
-        % else:
-        ${po.htm|n}
-        %endif
+%if reply:
+${reply.htm|n}\
+% else:
+${po.htm|n}\
+%endif
 </pre>
 <div class="bar">
 <span class="L">
-@<a href="${from_user.link}" class="TPH">${from_user.name}</a>
+<a href="${from_user.link}" class="TPH">${from_user.name}</a>
 , ${friendly_time(po.create_time)}
     %if reply:
-    : ${po.mc_get(reply.rid).htm|n}
+    : ${po.htm|n}
     %endif
 </span>
 %if reply:
-<a class="reply" href="${po.link+"#reply"+str(reply.id)}"></a>
+<a class="reply" href="${po.link}#reply${reply.id}"></a>
 %else:
 <a class="reply" href="${po.link}"></a>
 %endif
