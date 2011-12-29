@@ -148,11 +148,27 @@ user_li_len = len(user_li)
 </%def>
 
 <%def name="buzz_render_fresh(user_id)">
+<%
+unread = buzz_unread_count(user_id)
+buzz_list = _buzz_show(user_id, 3, unread)
+unread = unread-len(buzz_list)
+%>
+% if buzz_list:
 <div id="buzz_win_fresh" class="buzz_box">\
 <div class="buzz_h1">\
 <a href="javascript:void(0)" class="buzzX" rel="fresh"></a>新鲜事\
 </div>\
+<div class="buzz_win">\
+    % for i in buzz_list:
+    <div class="buzz_w">${buzz_render(i)}</div>\
+    % endfor
+    % if unread:
+        <a class="unread" href="/notice/buzz">未读<span class="mg03">${unread}</span>条</a>
+    % endif
 </div>\
+</div>\
+% endif
+
 </%def>
 
 <%def name="buzz_show(user_id)">
