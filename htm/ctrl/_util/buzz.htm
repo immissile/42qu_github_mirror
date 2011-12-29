@@ -10,6 +10,7 @@ from model.cid_buzz import  CID_BUZZ_BLOCK_AROUND, CID_BUZZ_BLOCK_AT, CID_BUZZ_B
 from model.event import event_joiner_by_owner_id
 from model.buzz_reply import po_list_by_buzz_reply_user_id
 from config import SITE_DOMAIN
+from model.buzz_at import buzz_at_by_user_id_for_show
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career, po_link"/>
 
@@ -135,6 +136,7 @@ ${CID_ZSITE_TUPLE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry
 <%def name="buzz_render_tip(user_id)">
 <%
 evnet_li = event_joiner_by_owner_id(user_id)
+buzz_at = buzz_at_by_user_id_for_show(user_id)
 %>
 %if any((evnet_li,)):
 <div class="buzz_h1">小提醒</div>\
@@ -144,9 +146,19 @@ evnet_li = event_joiner_by_owner_id(user_id)
 <a href="/event/check/${id}" target="_blank">${name} : <span class="mr3">+${count}</span>报名 , 请确认</a>\
 </div>\
 %endfor
-<div class="buzz_w">
-<a href="#">张沈鹏 , 王栋明 等3人 @我</a>
+    %if buzz_at:
+<%
+count, buzz_at_from_user_list  = buzz_at
+buzz_at_from_user_list = " , ".join(buzz_at_from_user_list)
+%>
+<div class="buzz_w"><a href="/notice/buzz/at">\
+${buzz_at_from_user_list}
+    %if count: 
+等<span class="m01">${count}</span>人
+    %endif
+@我</a>
 </div>\
+    %endif
 </div>\
 %endif
 </%def>

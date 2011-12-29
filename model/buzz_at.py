@@ -5,7 +5,7 @@ from txt2htm import RE_AT
 from txt import txt_bind, txt_get, txt_new
 from kv import Kv
 from zsite_url import id_by_url
-
+from zkit.algorithm.unique import unique
 
 #from mq import mq_client
 def mq_client(f):
@@ -92,7 +92,7 @@ def buzz_at_dump_for_show(li):
     result = []
     return result
 
-mc_buzz_at_by_user_id_for_show = McCacheM('BuzzAtByUserIdForShow*%s')
+mc_buzz_at_by_user_id_for_show = McCacheM('BuzzAtByUserIdForShow+%s')
 
 @mc_buzz_at_by_user_id_for_show('{user_id}')
 def buzz_at_by_user_id_for_show(user_id):
@@ -101,18 +101,14 @@ def buzz_at_by_user_id_for_show(user_id):
     #begin_id = buzz_at_pos.get(user_id)
     from model.zsite import Zsite
     begin_id = 0
-    result = tuple(reversed( BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).where('id>%s', begin_id).order_by('id').col_list(3, 0, 'id, from_id')))
+    result = tuple(reversed( BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).where('id>%s', begin_id).order_by('id').col_list(10, 0, 'id, from_id')))
     count = buzz_at_count(user_id)
     if result:
-        buzz_at_pos.set(user_id, result[0][0])
-        result = tuple(i[1] for i in result)
+        result = unique(tuple(i[1] for i in result))[:3]
         count = buzz_at_count(user_id) - len(result)
         from model.zsite import Zsite
         result = Zsite.mc_get_list(result)
-        return max(count, 0), tuple((i.id,i.name) for i in result)
-    else:
-        mc_buzz_at_by_user_id_for_show.set(user_id, 0)
-        return None
+        return max(count, 0), tuple(i.name for i in result)
 
 buzz_at_count = McNum(
     lambda user_id: BuzzAt.raw_sql(
