@@ -152,7 +152,7 @@ methods={
  
 
 $.fn.pop_at = function(url, line_height){
-    if(!islogin())return;
+    if(!islogin())return this;
     line_height = line_height||21
 
     atComplete = function(t,w){
@@ -268,5 +268,6 @@ $.fn.pop_at = function(url, line_height){
         }
     }
     })
+    return this
 }
 })(jQuery);

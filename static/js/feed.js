@@ -46,7 +46,6 @@ function feed_page(feed_url, feeds_id, parse_result, loaded, end){
 			autocount += 1;
 			render_feed();
 		}
-
 	})
 
 };

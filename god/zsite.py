@@ -8,7 +8,7 @@ from model.zsite_show import zsite_show_new, zsite_show_rm
 from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
-from model.cid import CID_ZSITE, CID_USER
+from model.cid import CID_ZSITE_TUPLE, CID_USER
 from zkit.page import page_limit_offset
 
 from model.pic import pic_no
@@ -25,6 +25,7 @@ from urlparse import urlparse
 from model.zsite_url import id_by_url
 from model.zsite import Zsite, zsite_by_query
 from model.user_mail import user_id_by_mail
+from model.spammer import spammer_new , spammer_rm
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -156,7 +157,7 @@ class Verify(Base):
 
 PAGE_LIMIT = 100
 
-@urlmap('/zsite/verify(%s)' % '|'.join(map(str, CID_ZSITE)))
+@urlmap('/zsite/verify(%s)' % '|'.join(map(str, CID_ZSITE_TUPLE)))
 class VerifyList(Base):
     def get(self, cid):
         zsite = Zsite.get(cid=cid, state=ZSITE_STATE_WAIT_VERIFY)
@@ -228,4 +229,14 @@ class TestAccount(Base):
     def get(self):
         self.render()
 
+@urlmap('/zsite/spammer/rm/(\d+)')
+class SpammerRm(Base):
+    def get(self,id):
+        spammer_rm(id)
+        self.redirect('/zsite/%s' % id)
 
+@urlmap('/zsite/spammer/new/(\d+)')
+class SpammerNew(Base):
+    def get(self,id):
+        spammer_new(id)
+        self.redirect('/zsite/%s' % id)

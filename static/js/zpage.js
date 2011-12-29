@@ -233,7 +233,7 @@ var doc=$(document), h=doc_height();
 fcm = function (id,count){
     if(!$('#fcmpop_'+id)[0]){
         var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
-        self.append('<div id="fcmpop_'+id+'" class="fcmpop"><textarea class="fcmtxt" id="txt_'+id+'"></textarea><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
+        self.append('<div id="fcmpop_'+id+'" class="fcmpop"><div class="fcmtxt"><textarea class="txta" id="txt_'+id+'"></textarea></div><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
         var self_a = self.parent().find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
         self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
         if(count){
@@ -397,10 +397,11 @@ $(function(){
     var tt
     function pop_hero(elem){
         var pop_hero_remove = function(){$('.pop_hero').remove()}
-        elem.live('mouseover',function(){
+        elem.live('mouseenter',function(){
+            var self = $(this)
+            tt=setTimeout(function(){
             if($('.pop_hero')[0]) pop_hero_remove()
             clearTimeout(tt)
-            var self = $(this)
             var href = self.attr('href')
             $.getJSON(
             '/j/hero/'+href.slice(href.indexOf('\/\/')+2).split('.')[0],
@@ -412,7 +413,9 @@ $(function(){
                         $('.pop_hero').offset({top:self.offset().top-126,left:self.offset().left-30})
                     }
                 })
+            },200)
         }).live('mouseout',function(){
+            clearTimeout(tt)
             var ctrl = false
             var on = false
             clear_pop_hero = function(){
@@ -423,11 +426,10 @@ $(function(){
                 }
             }
             $('.pop_hero').live('mouseover',function(){on = true}).unbind('mouseleave')
-           tt=setTimeout("clear_pop_hero()",300)
+           tt=setTimeout(clear_pop_hero,100)
         })
     }
     pop_hero($('.TPH'))
-
 })
 
 function auto_add(item,toadd,wrap,close,act){

@@ -11,6 +11,7 @@ from cid import CID_PO, CID_SITE, CID_COM
 from zkit.attrcache import attrcache
 from user_mail import mail_by_user_id
 from mail import rendermail
+from buzz_reply import mq_buzz_po_reply_rm , mq_buzz_po_reply_new
 
 REPLY_STATE = (
     STATE_RM,
@@ -69,7 +70,6 @@ class ReplyMixin(object):
         mc_flush_reply_id_list(cid, rid)
 
         if cid in CID_PO:
-            from buzz import mq_buzz_po_reply_new
             from po_pos import po_pos_state, STATE_BUZZ
             po_pos_state(user_id, rid, STATE_BUZZ)
             mq_buzz_po_reply_new(user_id, id, rid, self.user_id)
@@ -168,12 +168,11 @@ class Reply(McModel):
         return txt_withlink(self.txt)
 
     def rm(self):
-        from buzz import mq_buzz_po_reply_rm
         if self.state != STATE_RM:
             self.state = STATE_RM
             self.save()
             mc_flush_reply_id_list(self.cid, self.rid)
-            mq_buzz_po_reply_rm(self.id)
+            mq_buzz_po_reply_rm(self.rid, self.id)
 
         user_id = self.user_id
         mc_lastest_hash.delete(user_id)

@@ -59,7 +59,6 @@ class Wall(McModel, ReplyMixin):
     def reply_new(self, user, txt, state, create_time=None):
         user_id = user.id
         from notice import notice_wall_new, notice_wall_reply_new
-        from buzz import buzz_wall_reply_new
         id = self.id
         reply_id = super(Wall, self).reply_new(user, txt, state, create_time)
         if reply_id:
@@ -84,9 +83,6 @@ class Wall(McModel, ReplyMixin):
                 for zsite_id in zsite_id_list:
                     notice_wall_reply_new(user_id, zsite_id, id)
 
-            if state == STATE_ACTIVE:
-                for i in self.reply_user_id_list():
-                    buzz_wall_reply_new(user_id, i, id)
 
             return reply_id
 
@@ -196,13 +192,6 @@ def reply_new(self, user, txt, state=STATE_ACTIVE, create_time=None):
     if not reply_id:
         return
 
-    if not wall_id:
-        if not_self:
-            from buzz import mq_buzz_wall_new
-            if state == STATE_ACTIVE:
-                if self.cid != CID_SITE:
-                    #TODO
-                    mq_buzz_wall_new(user_id, zsite_id, new_wall_id)
 
 
 def mc_flush(zsite_id):

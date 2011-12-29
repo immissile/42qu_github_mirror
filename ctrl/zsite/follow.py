@@ -3,7 +3,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase
 from zkit.page import page_limit_offset
 from ctrl._urlmap.zsite import urlmap
-from model.cid import CID_ZSITE, CID_SITE
+from model.cid import CID_ZSITE_TUPLE, CID_SITE
 from model.follow import follow_count_by_to_id, follow_id_list_by_to_id, follow_id_list_by_from_id, follow_id_list_by_from_id_cid
 from model.zsite import Zsite
 from model.zsite_fav import zsite_fav_list, zsite_fav_count_by_zsite
@@ -56,7 +56,7 @@ class Following(ZsiteBase):
     def get(self, cid=0, n=1):
         if cid:
             cid = int(cid)
-            if cid not in CID_ZSITE:
+            if cid not in CID_ZSITE_TUPLE:
                 return self.redirect('/following')
 
         zsite_id = self.zsite_id

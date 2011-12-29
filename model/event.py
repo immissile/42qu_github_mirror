@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
+from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum, McCacheM
 from time import time, sleep
 from zkit.attrcache import attrcache
 from money import read_cent, pay_event_get, trade_fail, trade_finish
@@ -25,6 +25,10 @@ mc_event_id_list_by_city_pid_cid = McLimitA('EventIdListByCityPidCid.%s', 128)
 mc_event_cid_count_by_city_pid = McCacheA('EventCidCountByCityPid.%s')
 mc_event_end_id_list_by_city_pid = McLimitA('EventEndIdListByCityPid.%s', 128)
 mc_event_all_id_list = McLimitA('EventAllIdList.%s', 128)
+event_joiner_new_count = McNum(
+    lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW).count(), 'EventJoinerCheckCount!%s'
+)
+mc_event_joiner_by_owner_id = McCacheM('EventJoinerByUserId&%s')
 
 event_joiner_feedback_normal_count = McNum( lambda event_id : EventJoiner.where( event_id=event_id, state=EVENT_JOIN_STATE_FEEDBACK_NORMAL).count(), 'EventJoinerFeedbackNormalCount:%s')
 
@@ -62,13 +66,6 @@ event_join_count_by_user_id = McNum(
     ).count(), 'EventJoinCountByUserId.%s'
 )
 
-event_joiner_check_query = lambda event_id: EventJoiner.where(event_id=event_id, state=EVENT_JOIN_STATE_NEW)
-
-event_joiner_check_count = McNum(
-    lambda event_id: event_joiner_check_query(
-        event_id
-    ).count(), 'EventJoinerCheckCount.%s'
-)
 
 mc_event_id_list_join_by_user_id = McLimitA('EventIdListJoinByUserId.%s', 128)
 
@@ -438,19 +435,13 @@ def event_joiner_new(event_id, user_id, state=EVENT_JOIN_STATE_NEW):
         o.save()
         mc_event_joiner_id_get.set('%s_%s' % (event_id, user_id), o.id)
 
-    if state == EVENT_JOIN_STATE_NEW:
-        from buzz import buzz_event_join_apply_new
-        buzz_event_join_apply_new(user_id, event.zsite_id, event_id)
 
-    mc_event_joiner_user_id_list.delete(event_id)
-    mc_event_joining_id_list.delete(event_id)
 
     if event.zsite_id != user_id:
         event.join_count += 1
         event.save()
 
-    event_joiner_check_count.delete(event_id)
-    mc_flush_by_user_id(user_id)
+    mc_flush_by_user_id_event_id_owner_id(user_id, event_id, event.zsite_id)
     return o
 
 
@@ -486,11 +477,7 @@ def event_joiner_no(o, txt=''):
             event.save()
         if txt:
             notice_event_join_no(zsite_id, user_id, event_id, txt)
-        mc_flush_by_user_id(user_id)
-        mc_event_joiner_user_id_list.delete(event_id)
-        mc_event_joining_id_list.delete(event_id)
-        mc_event_joined_id_list.delete(event_id)
-        event_joiner_check_count.delete(event_id)
+        mc_flush_by_user_id_event_id_owner_id(user_id, event_id, zsite_id)
 
 def event_joiner_yes(o):
     event_id = o.event_id
@@ -503,10 +490,7 @@ def event_joiner_yes(o):
         notice_event_join_yes(zsite_id, user_id, event_id)
         from model.buzz import mq_buzz_event_join_new
         mq_buzz_event_join_new(user_id, event_id, zsite_id)
-        mc_flush_by_user_id(user_id)
-        mc_event_joining_id_list.delete(event_id)
-        mc_event_joined_id_list.delete(event_id)
-        event_joiner_check_count.delete(event_id)
+        mc_flush_by_user_id_event_id_owner_id(user_id, event_id, event.zsite_id)
 
 def event_ready(event):
     join_count = event.join_count
@@ -529,10 +513,17 @@ def event_ready(event):
         sleep(0.1)
 
 
-def mc_flush_by_user_id(user_id):
-    mc_event_id_list_join_by_user_id.delete(user_id)
-    event_join_count_by_user_id.delete(user_id)
+def mc_flush_by_user_id_event_id_owner_id(user_id, event_id, owner_id):
+    if user_id:
+        mc_event_id_list_join_by_user_id.delete(user_id)
+        event_join_count_by_user_id.delete(user_id)
 
+    mc_event_joiner_user_id_list.delete(event_id)
+    mc_event_joining_id_list.delete(event_id)
+    mc_event_joined_id_list.delete(event_id)
+    event_joiner_new_count.delete(event_id)
+
+    mc_event_joiner_by_owner_id.delete(owner_id)
 
 def mc_flush_by_city_pid_cid(city_pid, cid):
     for _cid in set([0, cid]):
@@ -566,6 +557,7 @@ def event_kill_extra(from_id, event_id, po_id):
     from notice import notice_event_kill_one, notice_event_kill_mail
     event_po = Po.mc_get(event_id)
     title = event_po.name
+    event = Event.mc_get(event_id)
     link = event.link
     po = Po.mc_get(event_id)
     txt = po.name
@@ -587,11 +579,11 @@ def event_kill(user_id, event, txt):
         else:
             event.state = EVENT_STATE_RM
             event.save()
-
+            zsite_id = event.zsite_id
             feed_rm(event_id)
-            mc_flush_by_zsite_id(event.zsite_id)
+            mc_flush_by_zsite_id(zsite_id)
             event_to_review_count_by_zsite_id.delete(user_id)
-            mc_flush_by_user_id(user_id)
+            mc_flush_by_user_id_event_id_owner_id(user_id, id, zsite_id)
 
         o = _po_event_notice_new(user_id, event_id, txt)
         mq_event_kill_extra(user_id, event_id, o.id)
@@ -603,10 +595,10 @@ def event_rm(user_id, id):
     if event and event.can_change():
         event.state = EVENT_STATE_RM
         event.save()
-
+        zsite_id = event.zsite_id
         mc_flush_by_zsite_id(event.zsite_id)
         event_to_review_count_by_zsite_id.delete(user_id)
-        mc_flush_by_user_id(user_id)
+        mc_flush_by_user_id_event_id_owner_id(user_id, id, zsite_id)
 
 
 def event_review_yes(id):
@@ -771,15 +763,39 @@ def event_cid_name_count_by_city_pid(city_pid):
     for (event_cid, event_cid_name), count in zip(EVENT_CID_CN, event_cid_count_by_city_pid(city_pid)):
         yield event_cid, event_cid_name, count
 
+@mc_event_joiner_by_owner_id('{user_id}')
+def event_joiner_by_owner_id(user_id):
+    event_id_list = event_id_list_by_zsite_id(user_id, False, None, None)
+    result = []
+    if event_id_list:
+        event_id_list_with_count = []
+        event_id_count_list = []
+        for id, count in zip(
+            event_id_list,
+            event_joiner_new_count.get_list(event_id_list)
+        ):
+            if count:
+                event_id_list_with_count.append(id)
+                event_id_count_list.append(count)
+
+        for po, count in zip(
+            Po.mc_get_list(event_id_list_with_count),
+            event_id_count_list
+        ):
+            result.append((po.id, po.name, count))
+    return result
 
 if __name__ == '__main__':
 #    print last_event_by_zsite_id(10001299).id
-    from zsite import Zsite
-    from po import Po
-    from user_mail import mail_by_user_id
-    for i in Zsite.mc_get_list(set(Event.where('state>=%s', EVENT_STATE_BEGIN).order_by('id desc').col_list(col='zsite_id'))):
-        e = Event.where(zsite_id=i.id)[0]
-        print 'http:%s'%i.link,'---',mail_by_user_id(i.id),'---','http:%s'%e.link,'---',Po.mc_get(e.id).name_
-    #print last_event_by_zsite_id(10001299).id
+#    from zsite import Zsite
+#    from po import Po
+#    from user_mail import mail_by_user_id
+#    for i in Zsite.mc_get_list(set(Event.where('state>=%s', EVENT_STATE_BEGIN).order_by('id desc').col_list(col='zsite_id'))):
+#        e = Event.where(zsite_id=i.id)[0]
+#        print 'http:%s'%i.link, '---', mail_by_user_id(i.id), '---', 'http:%s'%e.link, '---', Po.mc_get(e.id).name_
+#print last_event_by_zsite_id(10001299).id
 
+    for id , name, j in event_joiner_by_owner_id(10000000):
+        print id, name, j
 
+    print event_joiner_new_count(2803)

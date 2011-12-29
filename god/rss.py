@@ -5,7 +5,7 @@ from _urlmap import urlmap
 from model.rss import rss_po_list_by_state, RssPo, RSS_UNCHECK, RSS_PRE_PO, RSS_RM, rss_po_total, get_rss_by_gid, rss_total_gid, RSS_RT_PO, Rss, rss_new, mail_by_rss_id
 from zkit.page import page_limit_offset
 from model.zsite import Zsite
-
+from model.site_sync import site_sync_rm, site_sync_new
 PAGE_LIMIT = 50
 
 @urlmap('/rss_index')
@@ -192,6 +192,7 @@ class RssPoEdit(Base):
         txt = self.get_argument('txt', None)
         rt = self.get_argument('rt', None)
         title = self.get_argument('name', None)
+        sync = self.get_argument('sync',None)
         po = RssPo.mc_get(id)
         po.txt = txt
         next = self.get_argument('next', None) or '/rss_index'
@@ -205,6 +206,11 @@ class RssPoEdit(Base):
         if title:
             po.title = title
         po.save()
+        
+        if sync:
+            site_sync_new(id)
+        else:
+            site_sync_rm(id)
 
         self.redirect(next)
 

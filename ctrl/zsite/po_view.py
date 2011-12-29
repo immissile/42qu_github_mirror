@@ -6,7 +6,7 @@ from model.po_prev_next import po_prev_next
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
 from model.po import po_rm, po_word_new, Po, STATE_SECRET, STATE_ACTIVE, po_list_count, po_view_list, CID_QUESTION, PO_EN, PO_SHARE_FAV_CID, reply_rm_if_can
 from model.po_question import po_answer_new
-from model.po_pos import po_pos_get, po_pos_set, po_pos_state, STATE_BUZZ
+from model.po_pos import po_pos_get, po_pos_mark, po_pos_state, STATE_BUZZ
 from model import reply
 from model.zsite import Zsite, user_can_reply
 from model.zsite_tag import zsite_tag_list_by_zsite_id, po_id_list_by_zsite_tag_id_cid, zsite_tag_cid_count
@@ -21,6 +21,7 @@ from model.event import Event, EVENT_STATE_TO_REVIEW
 from model.fav import fav_user_count_by_po_id, fav_user_list_by_po_id
 from model.vote import vote_up_count, vote_user_id_list
 from model.site_po import feed_po_list_by_zsite_id, po_cid_count_by_zsite_id, PAGE_LIMIT
+from model.buzz_reply import buzz_reply_hide
 
 @urlmap('/po')
 class Index(ZsiteBase):
@@ -271,7 +272,7 @@ class PoOne(ZsiteBase):
         user_id = self.current_user_id
         cid = po.cid
         if cid != CID_QUESTION:
-            po_pos_set(user_id, po)
+            po_pos_mark(user_id, po)
             po_pos_state(user_id, po.id, STATE_BUZZ)
 
     def get(self, id):
@@ -311,6 +312,8 @@ class PoOne(ZsiteBase):
             po, zsite_tag_id
         )
 
+        buzz_reply_hide(user_id,po.id)
+
         return self.render(
             self.template,
             po=po,
@@ -331,7 +334,7 @@ class Question(PoOne):
     def mark(self):
         po = self._po
         user_id = self.current_user_id
-        po_pos_set(user_id, po)
+        po_pos_mark(user_id, po)
         po_pos_state(user_id, po.id, STATE_BUZZ)
 
     def post(self, id):

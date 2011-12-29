@@ -1,8 +1,9 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%!
 NAV = (
-    ('',"提醒"),
-    ('buzz',"流言"),
+    ('',"收件箱"),
+    ('buzz/at',"提到我"),
+    ('buzz',"新鲜事"),
 )
 %>
 <%
@@ -21,5 +22,5 @@ class="c0"\
 >${name|n}</a>\
 %endfor
 </span>\
-</h1>\
+</h1>
 ${next.body()}

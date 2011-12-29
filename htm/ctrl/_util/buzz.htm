@@ -1,10 +1,15 @@
 <%!
-from model.cid import CID_BUZZ_SYS, CID_BUZZ_SHOW, CID_BUZZ_FOLLOW, CID_BUZZ_WALL, CID_BUZZ_WALL_REPLY, CID_BUZZ_PO_REPLY, CID_BUZZ_ANSWER, CID_BUZZ_JOIN, CID_BUZZ_EVENT_JOIN_APPLY, CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_CN , CID_BUZZ_WORD, CID_REVIEW
+from model.cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW,  CID_BUZZ_PO_REPLY,  CID_BUZZ_EVENT_JOIN,  CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_TUPLE_CN ,  CID_REVIEW
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 from zkit.txt import cnenoverflow
 from model.po_event import event_feedback_id_get
 from model.po import Po
+from model.event import event_list_by_zsite_id
+from model.event import event_joiner_by_owner_id
+from model.buzz_reply import po_list_by_buzz_reply_user_id
+from config import SITE_DOMAIN
+from model.buzz_at import buzz_at_by_user_id_for_show
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career, po_link"/>
 
@@ -18,70 +23,14 @@ entry = i.entry
 %>\
 % if cid == CID_BUZZ_SYS:
 <span class="buzz_sys">${entry.htm|n}</span>
-% elif cid == CID_BUZZ_SHOW:
-<span class="buzz_user">${user_career_link(entry)}</span> 入驻
 % elif cid == CID_BUZZ_FOLLOW:
     % if rid == current_user_id:
 ${user_link_list_with_career(from_list)} 关注了我
     % else:
 ${user_link_list(from_list)} 关注了 ${user_career_link(entry)}
     % endif
-% elif cid == CID_BUZZ_WALL:
-<%
-to = Zsite.mc_get(entry.to_id)
-%>
-${user_link_list(from_list)} 对话 ${user_link(to)}, <a href="${to.link}${entry.link}" target="_blank">点此浏览</a>
-% elif cid == CID_BUZZ_WALL_REPLY:
-${user_link_list(from_list)} \
-<%
-e_from_id = entry.from_id
-e_to_id = entry.to_id
-e_from = Zsite.mc_get(e_from_id)
-e_to = Zsite.mc_get(e_to_id)
-%>
-% if len(from_list) == 1:
-<%
-from_user = from_list[0]
-from_id = from_user.id
-%>
-% if from_id == e_from_id:
-答复 ${user_link(e_to)} 的 \
-% elif from_id == e_to_id:
-答复 ${user_link(e_from)} 的 \
-% else:
-回复 ${user_link(e_from)} 给 ${user_link(e_to)} 的 \
-% endif
-% elif set(i.from_id_list) & entry.zsite_id_list():
-相互 \
-% else:
-回复 ${user_link(e_from)} 给 ${user_link(e_to)} 的 \
-% endif
-留言, <a href="${e_to.link}${entry.link}" target="_blank">点此浏览</a>
-% elif cid == CID_BUZZ_PO_REPLY:
-<%
-po_id = entry.rid
-po = Po.mc_get(po_id)
-%>
-${user_link_list(from_list)} 跟帖 <a target="_blank" href="/po/${po_id}">\
-    % if entry.cid in (CID_WORD , CID_EVENT_NOTICE, CID_REVIEW):
-${cnenoverflow(po.name,30)[0]}\
-    % else:
-${po.name_with_user}\
-    % endif
-</a> :
-<span class="buzz_txt">${cnenoverflow(entry.txt, 30)[0]}<a class="zsite_reply" href="/po/${po_id}" target="_blank"></a></span>
-% elif cid == CID_BUZZ_ANSWER:
-${user_link_list(from_list)} 回答 <a target="_blank" href="${entry.link}\
-%if from_list:
-#replyer${from_list[0].id}\
-%endif
-">${entry.name}</a>\
-%elif cid == CID_BUZZ_WORD:
-${user_link_list(from_list)} : <span class="buzz_txt">${entry.htm|n}</span><a target="_blank" class="zsite_reply" href="${entry.link}"></a>
-% elif cid == CID_BUZZ_JOIN:
+% elif cid == CID_BUZZ_EVENT_JOIN:
 ${user_link_list(from_list)} 参加 ${po_link(entry)} 活动
-% elif cid == CID_BUZZ_EVENT_JOIN_APPLY:
-${user_link_list(from_list)} 报名 ${po_link(entry)} 活动 , <a href="/event/check/${rid}" target="_blank">点此确认</a> 
 % elif cid == CID_BUZZ_EVENT_FEEDBACK_OWNER:
 ${user_link_list(from_list)} 总结了 ${po_link(entry)} 活动 , <a href="/${rid}" target="_blank">点此浏览</a>
 % elif cid == CID_BUZZ_EVENT_FEEDBACK_JOINER:
@@ -94,36 +43,152 @@ ${user_link_list(from_list)}
 收藏
     %endif
 %if entry:
-${CID_ZSITE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}</a>
+${CID_ZSITE_TUPLE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry.name}</a>
 %endif
 % endif
 </%def>
 
-<%def name="buzz_show(user_id)">
+##########################################################
+
+
+<%def name="buzz_render_around(li)">
+    % for i in list:
+    <div class="buzz_w">
+        %if i.cid == CID_BUZZ_FOLLOW:
+            % if i.rid == current_user_id:
+            ${user_link_list_with_career(i.from_list)} 关注了我
+            % else:
+            ${user_link_list(i.from_list)} 关注了 ${user_career_link(i.entry)}
+            % endif
+        %elif i.cid in (CID_BUZZ_SITE_NEW,CID_BUZZ_SITE_FAV):
+            ${user_link_list(i.from_list)} 
+                %if i.cid == CID_BUZZ_SITE_NEW:
+            创建
+                %else:
+            收藏
+                %endif
+            %if i.entry:
+            ${CID_ZSITE_TUPLE_CN[i.entry.cid]} <a href="${i.entry.link}" target="_blank">${i.entry.name}</a>
+            %endif
+        %elif i.cid == CID_BUZZ_EVENT_JOIN:
+            ${user_link_list(i.from_list)} 参加 ${po_link(i.entry)} 活动
+        %endif
+    </div>
+    %endfor
+</%def>
+
+<%def name="buzz_render_tip(user_id)">
+<%
+evnet_li = event_joiner_by_owner_id(user_id)
+buzz_at = buzz_at_by_user_id_for_show(user_id)
+show = any((evnet_li,buzz_at))
+%>
+%if show:
+<div class="buzz_h1">小提醒</div>\
+<div class="buzz_win">\
+%for id, name, count in evnet_li:
+<div class="buzz_w">\
+<a href="/event/check/${id}" target="_blank">${name} : <span class="mr3">+${count}</span>报名 , 请确认</a>\
+</div>\
+%endfor
+    %if buzz_at:
+<%
+count, buzz_at_from_user_list  = buzz_at
+buzz_at_from_user_list = " , ".join(buzz_at_from_user_list)
+%>
+<div class="buzz_w"><a href="/notice/buzz/at">\
+${buzz_at_from_user_list}
+    %if count: 
+等<span class="m01">${count}</span>人
+    %endif
+<span class="m01">@</span>我</a>
+</div>\
+    %endif
+</div>\
+%endif
+</%def>
+
+
+<%def name="buzz_render_reply(user_id)">
+<%
+li = po_list_by_buzz_reply_user_id(user_id)
+%>
+%if li:
+<div id="buzz_win_reply" class="buzz_box">\
+<div class="buzz_h1">\
+<a href="javascript:void(0)" class="buzzX" rel="reply"></a>讨论区\
+</div>\
+<div class="buzz_win buzz_win_reply">\
+    %for po_id, po_name, new_reply_count, user_li in li:
+<%
+user_li_len = len(user_li)
+%>
+    <div class="buzz_w" id="buzz${po_id}">
+    <div>\
+<a href="javascript:void(0)" rel="${po_id}" class="buzz_x"></a>\
+<a href="/${po_id}"  target="_blank" class="buzz_li">${cnenoverflow(po_name,15)[0]}</a>
+    </div>
+    <div class="buzz_au">
+%for pos, (user_id, user_name) in enumerate(user_li,1):
+<a href="//${user_id}.${SITE_DOMAIN}" class="TPH">${user_name}</a>
+%if pos!=user_li_len:
+,
+%endif
+%endfor
+%if new_reply_count:
+等<span class="buzz_cou">${new_reply_count}</span>人
+%endif
+跟帖
+    </div>
+    </div>
+    %endfor
+</div>\
+</div>\
+%endif
+</%def>
+
+<%def name="buzz_render_fresh(user_id)">
 <%
 unread = buzz_unread_count(user_id)
 buzz_list = _buzz_show(user_id, 3, unread)
 unread = unread-len(buzz_list)
 %>
 % if buzz_list:
-<div class="c" id="buzz"><div class="G2">\
-<div class="buzz">\
-<div id="buzz_p">\
+<div id="buzz_win_fresh" class="buzz_box">\
+<div class="buzz_h1">\
+<a href="javascript:void(0)" class="buzzX"></a>新鲜事\
+</div>\
+<div class="buzz_win">\
     % for i in buzz_list:
-<p>${buzz_render(i)}</p>\
+    <div class="buzz_w">${buzz_render(i)}</div>\
     % endfor
-</div>\
-<p class="tr">\
-<a href="javascript:$('#buzz').slideUp();void(0)" id="buzzrm"></a>\
-<a class="unread" href="/notice/buzz">\
     % if unread:
-未读<span class="mg03">${unread}</span>条\
-    % else:
-浏览全部\
+        <div><a class="unread" href="/notice/buzz">等<span class="mg03">${unread}</span>条</a></div>
     % endif
-</a>\
-</p>\
 </div>\
-</div></div>\
+</div>\
 % endif
+
 </%def>
+
+<%def name="buzz_show(user_id)">
+${buzz_render_tip(user_id)}
+${buzz_render_reply(user_id)}
+${buzz_render_fresh(user_id)}
+
+<div class="buzz_h1">荐书单</div>\
+<div class="buzz_win buzz_win_book">
+    <div class="sdw">
+        <div class="sd">
+<a href="http://goo.gl/U5Hjn" target="_blank">
+            <img class="bkimg" src="http://img1.douban.com/lpic/s6987692.jpg">
+            <div class="bktxt">
+韩寒说：“我只是站在这个舞台上被灯光照着的小人物”。
+            </div>
+</a>
+        </div>
+    </div>
+</div>
+</%def>
+
+

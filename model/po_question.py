@@ -40,7 +40,7 @@ def answer_word2note(po):
         answer_count.delete(rid)
 
 def po_answer_new(user_id, question_id, name, txt, state):
-    from buzz import buzz_answer_new
+#    from buzz import buzz_answer_new
     id = answer_id_get(user_id, question_id)
 
     if id:
@@ -53,7 +53,7 @@ def po_answer_new(user_id, question_id, name, txt, state):
 
         if m:
             id = m.id
-            buzz_answer_new(user_id, question_id)
+            #buzz_answer_new(user_id, question_id)
             rank_new(m, question_id, CID_QUESTION)
             mq_notice_question(user_id, id)
             mc_answer_id_get.set('%s_%s' % (user_id, question_id), id)

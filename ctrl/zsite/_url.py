@@ -7,7 +7,6 @@ import po_view
 import wall
 import follow
 import index
-import live
 import pay
 import rss
 import event
@@ -19,3 +18,4 @@ import com.member
 import com.bio
 import com.resume
 import com.review
+import notice

@@ -20,6 +20,7 @@ r'(?:\?[\w\-.;%/=+#:~!,\'\*&$@]*)?)(\]\])?'
 RE_SPACE = re.compile(""" ( +)""")
 RE_AT = re.compile(r'(\s|^)@([^@\(\)\s]+(?:\s+[^@\(\)\s]+)*)\(([a-zA-Z0-9][a-zA-Z0-9\-]{,31})\)(?=\s|$)')
 RE_BOLD = re.compile(r'\*{2}([^\*].*?)\*{2}')
+RE_CODE = re.compile(r'\{\{\{(.*)\}\}\}', re.S)
 
 HTM_SWF = """<embed src="%s" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>"""
 HTM_YOUKU = HTM_SWF%'''http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior'''
@@ -33,30 +34,29 @@ class ReplaceCode(object):
         self._u2s = {}
 
     def __call__(self, txt):
-        coding = txt[1:-1].replace('\r','\n')
-        pos = coding.find("\n")
+        coding = txt[1:-1].replace('\r', '\n')
+        pos = coding.find('\n')
         typ = coding[3:pos]
-        if typ.startswith("#!"):
+        if typ.startswith('#!'):
             typ = typ[2:]
-            if typ in ('c','c++'):
+            if typ in ('c', 'c++'):
                 typ = 'cpp'
         else:
             typ = ''
-        coding = coding[pos:coding.rfind("\n")]
+        coding = coding[pos:coding.rfind('\n')]
         if typ:
             builder = '<pre class="codebrush brush: %s" type="syntaxhighlighter">%s</pre>'%(typ, coding)
         else:
             builder = '<pre>%s</pre>'%coding
-
         builder = '<div class="codesh">%s</div>'%builder
-       
-        uuid = uuid4().hex 
-        self._u2s[uuid] = builder 
+
+        uuid = uuid4().hex
+        self._u2s[uuid] = builder
 
         return uuid
 
     def loads(self, txt):
-        for k,v in self._u2s.iteritems():
+        for k, v in self._u2s.iteritems():
             txt = txt.replace(k, v)
         return txt
 
@@ -85,10 +85,10 @@ def replace_bold(match):
 def txt_withlink(s):
     if type(s) is unicode:
         s = str(s)
-    s = "\r".join(map(str.rstrip,s.replace("\r\n","\r").replace("\n","\r").split("\r")))
+    s = '\r'.join(map(str.rstrip, s.replace('\r\n', '\r').replace('\n', '\r').split('\r')))
     s = escape(s)
     replace_code = ReplaceCode()
-    s = txt_map("\r{{{","\r}}}\r","\r%s\r"%s, replace_code).strip()
+    s = txt_map('\r{{{', '\r}}}\r', '\r%s\r'%s, replace_code).strip()
     s = RE_BOLD.sub(replace_bold, s)
     s = RE_LINK_TARGET.sub(replace_link, s)
     s = RE_AT.sub(replace_at, s)
@@ -119,9 +119,7 @@ def replace_at(match):
     prefix, name, url = match.groups()
     return '%s@<a target="_blank" href="//%s.%s">%s</a>' % (prefix, url, SITE_DOMAIN, name)
 
-
-}}}
-""")
+}}}""")
 
 #    print txt_withlink("""
 #输出 :

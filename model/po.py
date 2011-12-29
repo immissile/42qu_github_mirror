@@ -20,6 +20,8 @@ from zkit.attrcache import attrcache
 from cgi import escape
 import json
 from zkit.jsdict import JsDict
+from buzz_reply import mq_buzz_po_rm
+from buzz_at import mq_buzz_at_new
 #from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
@@ -71,6 +73,10 @@ class Po(McModel, ReplyMixin):
                 mc_htm.delete(id)
                 mc_feed_tuple.delete(id)
                 mc_feed_po_dict.delete(id)
+                if self.cid == CID_EVENT:
+                    from model.event import mc_event_joiner_by_owner_id
+                    mc_event_joiner_by_owner_id.delete(self.user_id)
+
             self._mc_flush = True
 
     def save(self):
@@ -250,13 +256,14 @@ class Po(McModel, ReplyMixin):
         zsite_tag_rm_by_po(self)
 
 
-def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
 
+def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
     if state is None:
         if zsite_id and zsite_id != user_id:
             state = STATE_PO_ZSITE_SHOW_THEN_REVIEW
         else:
             state = STATE_ACTIVE
+
 
     m = Po(
         id=id or gid(),
@@ -270,8 +277,9 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
     )
     m.save()
 
-    #from po_pos import po_pos_set
-    #po_pos_set(user_id, m)
+    from po_pos import po_pos_set
+
+    po_pos_set(user_id, m)
 
     mc_flush(user_id, cid)
     m.tag_new()
@@ -281,8 +289,8 @@ def po_new(cid, user_id, name, state, rid=0, id=None, zsite_id=0):
 
 
 
+
 def po_state_set(po, state):
-    from buzz import mq_buzz_po_rm
     old_state = po.state
     if old_state == state:
         return
@@ -355,7 +363,6 @@ def _po_rm(user_id, po):
         mc_answer_id_get.delete('%s_%s' % (user_id, rid))
         answer_count.delete(rid)
     mc_flush(user_id, po.cid)
-    from buzz import mq_buzz_po_rm
     mq_buzz_po_rm(id)
     from fav import fav_rm_by_po
     fav_rm_by_po(po)
@@ -364,13 +371,12 @@ def _po_rm(user_id, po):
 
 def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
     _is_same_post = is_same_post(user_id, name, zsite_id)
-    print _is_same_post, '_is_same_post', name
+    #print _is_same_post, '_is_same_post', name
     if name and not _is_same_post:
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
             m.feed_new()
-        from model.buzz import mq_buzz_word_new
-        mq_buzz_word_new(user_id, m.id, name)
+        mq_buzz_at_new(user_id, name, m.id)
         return m
 
 

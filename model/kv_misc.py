@@ -18,7 +18,6 @@ def kv_int_call(key, f):
     return new
 
 # Key
-KV_SHOW_BUZZ_POS = 1 # 加入Show的非重要通知
 KV_NOTICE_POS = 2 # 重要通知邮件
 KV_ZSITE_RANK_POWER = 3 # 排序的基数
 KV_BUZZ_SYS_POS = 4 # 全站buzz通知
