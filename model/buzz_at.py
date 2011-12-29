@@ -117,7 +117,7 @@ buzz_at_user_count = McNum(
     'BuzzAtUserCount+%s'
 )
 
-buzz_at_count = McNum(lambda user_id: BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW), 'BuzzAtCount+%s')
+buzz_at_count = McNum(lambda user_id: BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).count(), 'BuzzAtCount+%s')
 
 def mc_flush(user_id):
     buzz_at_user_count.delete(user_id)
