@@ -105,7 +105,7 @@ def buzz_at_by_user_id_for_show(user_id):
     count = buzz_at_user_count(user_id)
     if result:
         result = unique(tuple(i[1] for i in result))[:3]
-        count = len(buzz_at_count(user_id)) - len(result)
+        count = buzz_at_count(user_id) - len(result)
         from model.zsite import Zsite
         result = Zsite.mc_get_list(result)
         return max(count, 0), tuple(i.name for i in result)
