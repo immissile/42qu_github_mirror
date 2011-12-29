@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _db import cursor_by_table, McModel, McLimitA, McCache, McCacheA, Model, McNum
+from _db import cursor_by_table, McModel, McLimitA, McCache, McCacheA, Model, McNum, McCacheM
 from txt2htm import RE_AT
 from txt import txt_bind, txt_get, txt_new
 from kv import Kv
@@ -81,34 +81,46 @@ mc_buzz_at_by_user_id_for_show = McCache('BuzzAtByUserIdForShow:%s')
 def buzz_at_dump_for_show(li):
     po_id_list = []
     reply_id_list = []
-    for id,from_id,po_id,reply_id in li:
+    for id, from_id, po_id, reply_id in li:
         po_id_list.append(po_id)
         if reply_id:
-            reply_id_list.append(po_id) 
+            reply_id_list.append(po_id)
 
     from model.reply import Reply
-    from model.po import Po 
+    from model.po import Po
     po_mc_get_dict = Po.mc_get_dict(po_id_list)
     result = []
-    return result        
+    return result
 
+mc_buzz_at_by_user_id_for_show = McCacheM('BuzzAtByUserIdForShow:%s')
+
+@mc_buzz_at_by_user_id_for_show('{user_id}')
 def buzz_at_by_user_id_for_show(user_id):
     #if mc_buzz_at_by_user_id_for_show.get(user_id) == 0:
     #    return ()
     #begin_id = buzz_at_pos.get(user_id) 
     begin_id = 0
-    result = tuple(reversed(BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).where('id>%s', begin_id).order_by('id').col_list(5, 0, BUZZ_AT_COL)))
+    result = tuple(reversed( BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).where('id>%s', begin_id).order_by('id').col_list(3, 0, 'id, from_id')))
+    count = buzz_at_count(user_id)
     if result:
         buzz_at_pos.set(user_id, result[0][0])
-        return buzz_at_dump_for_show(result)
+        result = tuple(i[1] for i in result)
+        count = buzz_at_count(user_id) - len(result)
+        return max(count,0), result
     else:
         mc_buzz_at_by_user_id_for_show.set(user_id, 0)
-        return ()
+        return None
 
-buzz_at_count = McNum(lambda user_id: BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).count() , 'BuzzAtCount:%s')
+buzz_at_count = McNum(
+    lambda user_id: BuzzAt.raw_sql(
+        'select distinct user_id from buzz_at where to_id=%s and state=%s', user_id, BUZZ_AT_SHOW
+    ).count() ,
+    'BuzzAtCount+%s'
+)
 
 def mc_flush(user_id):
     buzz_at_count.delete(user_id)
+    mc_buzz_at_by_user_id_for_show.delete(user_id)
 
 def _buzz_at_list(user_id, limit, offset):
     return BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).order_by('id desc').col_list(limit, offset, BUZZ_AT_COL)
