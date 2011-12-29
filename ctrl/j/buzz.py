@@ -3,7 +3,7 @@
 
 from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase, Base
-from model.buzz import Buzz, buzz_set_read, clear_buzz_by_po_id, clear_buzz_by_user_id_cid
+from model.buzz import Buzz, buzz_set_read
 from model.po import Po, PO_SHARE_FAV_CID
 from json import dumps
 from model.buzz_reply import buzz_reply_hide_or_rm
