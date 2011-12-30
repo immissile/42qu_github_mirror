@@ -25,6 +25,9 @@ class At(ZsiteBase):
         )
 
         reply_list = buzz_at_list(zsite.id,limit,offset)
+        if n==1:
+            if reply_list:
+                buzz_at_pos.set(zsite.id,reply_list[0][0])
 
         self.render(
             reply_list=reply_list,
