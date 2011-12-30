@@ -1,6 +1,8 @@
 <%!
 from zkit.time_format import friendly_time
 from model.po import Po
+from model.zsite_url import url_or_id
+from zkit.txt import cnenoverflow
 %>
 
 <%def name="reply_render(i)">
@@ -14,20 +16,20 @@ ${reply.htm|n}\
 % else:
 ${po.htm|n}\
 %endif
+<a class="zsite_reply" href="javascript:reply(${po.id},'@${from_user.name}(${url_or_id(from_user.id)}) ')"></a>
 </pre>
 <div class="bar">
 <span class="L">
 <a href="${from_user.link}" class="TPH">${from_user.name}</a>
-, ${friendly_time(po.create_time)}
     %if reply:
-    : ${po.htm|n}
+    跟帖 <a href="${po.link}#reply${reply.id}">${cnenoverflow(po.name,15)[0]|n}</a>
     %endif
 </span>
-%if reply:
-<a class="reply" href="${po.link}#reply${reply.id}"></a>
-%else:
-<a class="reply" href="${po.link}"></a>
-%endif
+<span>
+    <a  href="${po.link}">
+${friendly_time(po.create_time)}
+    </a>
+</span>
 </div>\
 </div></div>\
 </%def>
