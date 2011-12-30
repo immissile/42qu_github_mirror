@@ -1,6 +1,7 @@
 <%!
 from zkit.time_format import friendly_time
 from model.po import Po
+from zkit.txt import cnenoverflow
 %>
 
 <%def name="reply_render(i)">
@@ -20,7 +21,7 @@ ${po.htm|n}\
 <a href="${from_user.link}" class="TPH">${from_user.name}</a>
 , ${friendly_time(po.create_time)}
     %if reply:
-    跟帖 ${po.name|n}
+    跟帖 <a href="${po.link}#reply${reply.id}">${cnenoverflow(po.name,15)[0]|n}</a>
     %endif
 </span>
 %if reply:
