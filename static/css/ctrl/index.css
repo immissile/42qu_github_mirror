@@ -1,6 +1,3 @@
-#feed .fdh{
-margin-top:14px;
-}
 .fdimg
 {
     width: 100%;
@@ -446,4 +443,7 @@ padding-top:9px;
 }
 #feeds .video{
 width:100%;
+}
+#feeds .fdh{
+margin-top:14px;
 }
