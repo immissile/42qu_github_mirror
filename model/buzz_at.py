@@ -50,6 +50,9 @@ class BuzzAt(Model):
 def at_id_set_by_txt(txt):
     return set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)]))
 
+def buzz_at_pos_set(id,pos):
+    buzz_at_pos.set(id,pos)
+    buzz_at_pos.mc_flush(id)
 
 def buzz_at_new(from_id, txt, po_id, reply_id=0):
     at_id_set = at_id_set_by_txt(txt)
