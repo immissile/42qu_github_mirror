@@ -172,9 +172,9 @@ unread = unread-len(buzz_list)
 </%def>
 
 <%def name="buzz_show(user_id)">
+${buzz_render_fresh(user_id)}
 ${buzz_render_tip(user_id)}
 ${buzz_render_reply(user_id)}
-${buzz_render_fresh(user_id)}
 
 <div class="buzz_h1">荐书单</div>\
 <div class="buzz_win buzz_win_book">

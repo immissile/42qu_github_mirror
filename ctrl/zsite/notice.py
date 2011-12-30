@@ -4,7 +4,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from zkit.page import page_limit_offset
-from model.buzz_at import buzz_at_count,buzz_at_list
+from model.buzz_at import buzz_at_count,buzz_at_list,buzz_at_pos
 from model.zsite import Zsite
 from model.cid import CID_SITE
 
