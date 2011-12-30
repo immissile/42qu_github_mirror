@@ -109,6 +109,7 @@ def buzz_at_by_user_id_for_show(user_id):
         from model.zsite import Zsite
         result = Zsite.mc_get_list(result)
         return max(count, 0), tuple(i.name for i in result)
+    return 0
 
 buzz_at_user_count = McNum(
     lambda user_id: BuzzAt.raw_sql(
