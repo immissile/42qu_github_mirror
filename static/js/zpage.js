@@ -237,9 +237,9 @@ function doc_height(){
 var doc=$(document), h=doc_height();
 fcm = function (id,count){
     if(!$('#fcmpop_'+id)[0]){
-        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
-        self.append('<div id="fcmpop_'+id+'" class="fcmpop"><div class="fcmtxt"><textarea class="txta" id="txt_'+id+'"></textarea></div><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
-        var self_a = self.parent().find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
+        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html, self_parent=self.parent();
+        self_parent.find('.fdbar').before('<div id="fcmpop_'+id+'" class="fcmpop"><div class="fcmtxt"><textarea class="txta" id="txt_'+id+'"></textarea></div><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
+        var self_a = self_parent.find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
         self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
         if(count){
             fcmtxt.before('<div class="fcmload"></div>')
@@ -265,7 +265,7 @@ fcm = function (id,count){
             fcmtxt.before(fcml)
         }
         $("#txt_"+id).pop_at("/j/at/reply/"+id)
-        self.find('textarea').focus().elastic()
+        self_parent.find('textarea').focus().elastic()
     }
 }
 
