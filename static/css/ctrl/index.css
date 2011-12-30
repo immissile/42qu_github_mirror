@@ -232,6 +232,7 @@ padding-top:14px;
 }
 #po_word_txt, .say_txt{
     min-height:44px;
+    height:44px;
 }
 .fdbar{
     padding-top:12px;
