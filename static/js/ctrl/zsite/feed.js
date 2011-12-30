@@ -129,7 +129,7 @@
     po_word_form=$('#po_word_form').submit(
         function(){
             if(can_say()){
-                var val = textarea.val(); 
+                var val = po_word_txt.val(); 
                 if($.trim(val)=='')return false;
                 txt_tip.html('')
                 say_btn.hide().after(saying)
@@ -143,7 +143,7 @@
                         if(result){
                             $('#feed').tmpl(init_result(result)).prependTo("#feeds")
                         }
-                        textarea.val('').attr(
+                        po_word_txt.val('').attr(
                             "class","po_word_txt po_word_txt_sayed"
                         ).removeAttr('disabled')
                         say_btn.show();
@@ -158,16 +158,8 @@
     say_btn = $(".say_btn").click(
         function(){
             po_word_form.submit()
-        }),
-    textarea = $('#po_word_txt').click(
-        function(){
-            textarea.animate({"height":"78px"},"fast");
-        }).blur(function(){
-            if(textarea.val()==''){
-                textarea.animate({"height":"34px"},"fast");
-            }
-        }).pop_at("/j/at")
-    ;
+        });
+    
 
 	po_word_txt.blur().val('').focus(function() {
 		this.className="po_word_txt"
@@ -177,7 +169,15 @@
 		if (!val || ! val.length) {
 			self.addClass(po_word_txt_bg)
 		}
-	}).addClass(po_word_txt_bg);
+	}).addClass(po_word_txt_bg).click(
+    function(){
+        po_word_txt.animate({"height":"78px"},"fast");
+    }).blur(function(){
+        if(po_word_txt.val()==''){
+            po_word_txt.animate({"height":"44px"},"fast");
+        }
+    }).pop_at("/j/at")
+    ;
     
     var can_say = txt_maxlen(
         po_word_txt, 

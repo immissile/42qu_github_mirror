@@ -8,9 +8,9 @@ _height: 100%;
 background:url(http://0.42qu.us/istarsea/img/png/istarsea_bg.png) #000;
 }
 #istarsea_book{
-background:url(http://0.42qu.us/istarsea/img/png/book1.png) no-repeat;
+background:url(http://0.42qu.us/istarsea/img/png/booxx.png) no-repeat;
 _background:none;
-_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="http://0.42qu.us/istarsea/img/png/book1.png" ,sizingMethod="crop");
+_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="http://0.42qu.us/istarsea/img/png/booxx.png" ,sizingMethod="crop");
 width:995px;height:454px;
 position: absolute;
 top:50%;

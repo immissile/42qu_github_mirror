@@ -78,8 +78,13 @@ jQuery.extend({
         if(minute<9){
             minute = "0"+minute
         }
+        var result = [],
+            now = new Date();
+        if(now.getFullYear()!=date.getFullYear()){
+            result.push(date.getFullYear())
+        } 
         return [
-            date.getFullYear(), date.getMonth() + 1, date.getDate()
+            date.getMonth() + 1, date.getDate()
         ].join("-")+" "+[
             hour,minute 
         ].join(":") 
@@ -232,16 +237,16 @@ function doc_height(){
 var doc=$(document), h=doc_height();
 fcm = function (id,count){
     if(!$('#fcmpop_'+id)[0]){
-        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html;
-        self.append('<div id="fcmpop_'+id+'" class="fcmpop"><div class="fcmtxt"><textarea class="txta" id="txt_'+id+'"></textarea></div><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
-        var self_a = self.parent().find($(".fcma")).hide(),fcmtxt=self.find('.fcmtxt');
+        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html, self_parent=self.parent();
+        self_parent.find('.fdbar').before('<div id="fcmpop_'+id+'" class="fcmpop"><div class="fcmtxt"><textarea class="txta" id="txt_'+id+'"></textarea></div><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
+        var self_a = self_parent.find($(".fcma")).hide(),fcmtxt=self_parent.find('.fcmtxt');
         self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
         if(count){
             fcmtxt.before('<div class="fcmload"></div>')
             $.postJSON(
             "/j/po/reply/json/"+id,
             function(data){
-                self.find($('.fcmload')).replaceWith(fcml)
+                self_parent.find($('.fcmload')).replaceWith(fcml)
                 for(i=0;i<data.length;i++){
                     t=data[i]
                     html = $('<div class="fcmi"><a target="_blank" class="fcmname c9 TPH" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
@@ -260,7 +265,7 @@ fcm = function (id,count){
             fcmtxt.before(fcml)
         }
         $("#txt_"+id).pop_at("/j/at/reply/"+id)
-        self.find('textarea').focus().elastic()
+        self_parent.find('textarea').focus().elastic()
     }
 }
 
