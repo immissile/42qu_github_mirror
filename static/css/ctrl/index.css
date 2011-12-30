@@ -163,6 +163,9 @@ li
     clear:both;
     overflow:hidden;
 }
+.zname{
+text-align:right;
+}
 .zname span{
 border-bottom:1px dotted #aaa;
 display:inline-block;
@@ -185,7 +188,7 @@ color:#d20
     padding-left: 24px;
     float:right;
     margin-bottom: 64px;
-    background: url(/img/gif/comment.gif) no-repeat -47px 20px;
+    background:url(/img/gif/comment.gif) no-repeat -48px 20px;
     position: relative;
     margin-right:300px;
 }
