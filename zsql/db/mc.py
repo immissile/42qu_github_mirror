@@ -280,7 +280,7 @@ class McNum(object):
         mc.delete(mk)
     
     def set(self, key, value):
-        mk = self.mc_key % '_'.join(map(str, key))
+        mk = self.mc_key % key
         mc.set(mk, value)
 
     def get_list(self, keys):
