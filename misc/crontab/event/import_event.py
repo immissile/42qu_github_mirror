@@ -30,6 +30,7 @@ event_cid = 9 #其他
 DOUBAN_SITE_LIST = (
         #url,userid,zsiteid
         #('http://site.douban.com/widget/events/117123/',10031395,10133826),
+        ('http://site.douban.com/widget/events/117123/',10074584,10199666),
         )
 
 def page_fetch(url):
