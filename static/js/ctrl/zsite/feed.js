@@ -164,7 +164,7 @@
             textarea.animate({"height":"78px"},"fast");
         }).blur(function(){
             if(textarea.val()==''){
-                textarea.animate({"height":"34px"},"fast");
+                textarea.animate({"height":"44px"},"fast");
             }
         }).pop_at("/j/at")
     ;
