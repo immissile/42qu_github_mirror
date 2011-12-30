@@ -29,7 +29,7 @@ class At(ZsiteBase):
         if n==1:
             if reply_list:
                 max_id = reply_list[0][0]
-                buzz_at_pos_set(zsite.id,max_id)
+                buzz_at_pos_set(self.current_user_id,max_id)
 
         self.render(
             reply_list=reply_list,
