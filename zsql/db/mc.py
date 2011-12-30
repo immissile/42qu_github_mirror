@@ -238,6 +238,7 @@ class McNum(object):
         self.get_num = get_num
         self.timeout = timeout
 
+
     def __call__(self, *key):
         mk = self.mc_key % '_'.join(map(str, key))
         num = mc.get(mk)
@@ -277,6 +278,10 @@ class McNum(object):
     def delete(self, *key):
         mk = self.mc_key % '_'.join(map(str, key))
         mc.delete(mk)
+    
+    def set(self, key, value):
+        mk = self.mc_key % '_'.join(map(str, key))
+        mc.set(mk, value)
 
     def get_list(self, keys):
         r = self.get_dict(keys)
