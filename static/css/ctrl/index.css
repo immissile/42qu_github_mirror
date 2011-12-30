@@ -1,4 +1,4 @@
-.fdtxtin{
+.fdh,.fdtxtin{
 margin-bottom:0
 }
 .fdimg
@@ -140,7 +140,7 @@ li
 }
 .feed_part
 {
-    margin-left:242px;
+    margin-right:239px;
 }
 .index_wrap{
     margin:36px auto 0;
@@ -161,7 +161,6 @@ li
 }
 #feeds{
     clear:both;
-    padding-top:32px;
     overflow:hidden;
 }
 .zname span{
@@ -181,20 +180,29 @@ margin-top:10px
 color:#d20
 }
 .imgw{line-height:0}
-.feed_left,.feed_self{
+.feed_left{
     width: 219px;
-    padding-right: 24px;
+    padding-left: 24px;
+    float:right;
     margin-bottom: 64px;
-    background: url(/img/gif/comment.gif) no-repeat 228px 20px;
+    background: url(/img/gif/comment.gif) no-repeat -47px 20px;
     position: relative;
-    margin-right: -1px;
-    float: left;
+    margin-right:300px;
 }
-.feed_self{
+#feed_self .feed_left{
+float:left;
+background-position:228px 20px;
+padding-right:24px;
+padding-left:0;
+margin-right:0;
     margin-bottom:0;
 }
 .feed_right{
     margin-right:300px;
+}
+#feed_self .feed_part{
+    margin-right:0;
+    margin-left:242px;
 }
 #feed .sd{
 padding-top:14px;
