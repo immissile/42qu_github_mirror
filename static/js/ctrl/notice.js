@@ -4,7 +4,7 @@ function reply(id,at_txt){
 	}
 	var fancybox = $.fancybox;
 	fancybox({
-        content: '<form id="vote_reply" class="fancyreply"><h3>回复</h3><textarea tabindex="1" style="height:140px" name="txt"></textarea><div class="btns"><span class="rec_tip share_sync"></span><span class="btnw"><button class="btn" tabindex="3" type="submit">回复</button></span><span class="syncp"></div></form>',
+        content: '<form id="vote_reply" class="fancyreply"><h3>回复</h3><textarea tabindex="1" style="height:140px" name="txt"></textarea><div class="btns"><span class="rec_tip share_sync"></span><span class="btnw"><button class="btn" tabindex="3" type="submit">确定</button></span><span class="syncp"></div></form>',
 		onComplete: function() {
 			var reply = $("#vote_reply"),
 			textarea = reply.find("textarea")
