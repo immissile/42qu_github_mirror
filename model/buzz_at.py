@@ -53,6 +53,7 @@ def at_id_set_by_txt(txt):
 def buzz_at_pos_set(id,pos):
     buzz_at_pos.set(id,pos)
     mc_buzz_at_by_user_id_for_show.set(id,0)
+    buzz_at_user_count.set(user_id, 0)
 
 def buzz_at_new(from_id, txt, po_id, reply_id=0):
     at_id_set = at_id_set_by_txt(txt)
@@ -117,8 +118,8 @@ def buzz_at_by_user_id_for_show(user_id):
     return 0
 
 buzz_at_user_count = McNum(
-    lambda user_id,begin_id: BuzzAt.raw_sql(
-        'select count(DISTINCT from_id) from buzz_at where to_id=%s and state=%s and id>%s', user_id, BUZZ_AT_SHOW,begin_id
+    lambda user_id: BuzzAt.raw_sql(
+        'select count(DISTINCT from_id) from buzz_at where to_id=%s and state=%s and id>%s', user_id, BUZZ_AT_SHOW, buzz_at_pos.get(user_id)
     ).fetchone()[0] ,
     'BuzzAtUserCount+%s'
 )
