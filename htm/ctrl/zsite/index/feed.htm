@@ -82,6 +82,15 @@ class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="spl
 {{/if}}
 {{/if}}
 
+{{if !$index}}
+<div class="zname"><a target="_blank" href="${zsite_link}">${zsite_name}
+{{if unit||title}}({{/if}}
+{{if unit}}${unit}{{/if}}
+{{if unit&&title}}.{{/if}}
+{{if title}}${title}{{/if}} 
+{{if unit||title}}){{/if}}</a><span>:</span></div> 
+{{/if}}
+
 {{if cid==68}}
 <a href="/${id}"><img class="feed_event_img" src="${rid}"></a>
 {{/if}}
@@ -141,15 +150,6 @@ target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_i
     </div>
     <div class="fdbar">
     <span class="L">
-{{if !$index}}
-<a class="zname" target="_blank" href="${zsite_link}">${zsite_name}
-{{if unit||title}}({{/if}}
-{{if unit}}${unit}{{/if}}
-{{if unit&&title}}.{{/if}}
-{{if title}}${title}{{/if}} 
-{{if unit||title}}){{/if}} , 
-</a>
-{{/if}}
 <a href="/${id}" target="_blank">${create_time}</a>
         {{if rt_list.length}} 
 <span class="mr3"></span>

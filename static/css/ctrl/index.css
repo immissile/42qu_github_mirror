@@ -162,10 +162,14 @@ li
     padding-top:32px;
     overflow:hidden;
 }
-.zname{
+.zname span{
 color:#999;
+margin-left:4px
 }
-.zname:hover{
+.zname a{
+color:#369;
+}
+.zname a:hover{
 color:#d20
 }
 .imgw{line-height:0}
@@ -183,6 +187,9 @@ color:#d20
 }
 .feed_right{
     margin-right:300px;
+}
+#feed .sd{
+padding-top:14px;
 }
 .sdw{
     box-shadow:2px 2px 1px #f3f3f3;
@@ -394,9 +401,6 @@ background-position:-2px -31px;
 }
 #feeds .faving{
 background:url(/img/gif/loading12.gif) no-repeat 0 1px;
-}
-#feeds .fdtxt0{
-min-height:44px;
 }
 #feeds .sdw{
     margin-bottom:16px
