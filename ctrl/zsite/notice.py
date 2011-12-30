@@ -25,11 +25,15 @@ class At(ZsiteBase):
         )
 
         reply_list = buzz_at_list(zsite.id,limit,offset)
+
         if n==1:
             if reply_list:
-                
+                max_id = reply_list[0][0]
+                buzz_at_pos_set(zsite.id,max_id)
+
         self.render(
             reply_list=reply_list,
             page=page
         )
+
 

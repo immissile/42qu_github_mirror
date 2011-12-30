@@ -52,7 +52,7 @@ def at_id_set_by_txt(txt):
 
 def buzz_at_pos_set(id,pos):
     buzz_at_pos.set(id,pos)
-    buzz_at_pos.mc_flush(id)
+    mc_buzz_at_by_user_id_for_show.set(id,0)
 
 def buzz_at_new(from_id, txt, po_id, reply_id=0):
     at_id_set = at_id_set_by_txt(txt)
