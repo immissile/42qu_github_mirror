@@ -165,7 +165,7 @@ li
     overflow:hidden;
 }
 .zname span{
-border-bottom:1px solid #aaa;
+border-bottom:1px dotted #aaa;
 display:inline-block;
 width:21px;
 margin-right: 7px;
