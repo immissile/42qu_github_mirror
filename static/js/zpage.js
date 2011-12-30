@@ -246,7 +246,7 @@ fcm = function (id,count){
             $.postJSON(
             "/j/po/reply/json/"+id,
             function(data){
-                self.find($('.fcmload')).replaceWith(fcml)
+                self_parent.find($('.fcmload')).replaceWith(fcml)
                 for(i=0;i<data.length;i++){
                     t=data[i]
                     html = $('<div class="fcmi"><a target="_blank" class="fcmname c9 TPH" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
