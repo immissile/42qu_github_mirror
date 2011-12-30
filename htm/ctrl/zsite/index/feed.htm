@@ -82,14 +82,6 @@ class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="spl
 {{/if}}
 {{/if}}
 
-{{if !$index}}
-<div class="zname"><a target="_blank" href="${zsite_link}">${zsite_name}
-{{if unit||title}}({{/if}}
-{{if unit}}${unit}{{/if}}
-{{if unit&&title}}.{{/if}}
-{{if title}}${title}{{/if}} 
-{{if unit||title}}){{/if}}</a><span>:</span></div> 
-{{/if}}
 
 {{if cid==68}}
 <a href="/${id}"><img class="feed_event_img" src="${rid}"></a>
@@ -119,7 +111,7 @@ target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_i
 {{/if}}
 {{if cid==68}}
 <div class="feed_event_prop">
-<p >地点<span class="colon">:</span>${place_name}</p>
+<p>地点<span class="colon">:</span>${place_name}</p>
 <p class="ml48 feed_event_pid">${address}</p>
 <p>时间<span class="colon">:</span>${time_row1}</p>
 {{if time_diff_day}}
@@ -203,6 +195,14 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
                                     <textarea class="po_word_txt po_word_txt_bg" id="po_word_txt" name="txt"></textarea>
                                 </div>
                             </div>
+{{if !$index}}
+<span></span><div class="zname"><a target="_blank" href="${zsite_link}">${zsite_name}
+{{if unit||title}}({{/if}}
+{{if unit}}${unit}{{/if}}
+{{if unit&&title}}.{{/if}}
+{{if title}}${title}{{/if}} 
+{{if unit||title}}){{/if}}</a></div> 
+{{/if}}
                             <div class="fdbar">
                                 <span class="say_type">
                                     <span class="fdopt">

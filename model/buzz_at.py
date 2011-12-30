@@ -99,11 +99,13 @@ mc_buzz_at_by_user_id_for_show = McCacheM('BuzzAtByUserIdForShow+%s')
 
 @mc_buzz_at_by_user_id_for_show('{user_id}')
 def buzz_at_by_user_id_for_show(user_id):
-    #if mc_buzz_at_by_user_id_for_show.get(user_id) == 0:
-    #    return ()
-    #begin_id = buzz_at_pos.get(user_id)
     from model.zsite import Zsite
-    begin_id = 0
+
+    if mc_buzz_at_by_user_id_for_show.get(user_id) == 0:
+        return ()
+
+    begin_id = buzz_at_pos.get(user_id)
+    #begin_id = 0
     result = tuple(reversed( BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).where('id>%s', begin_id).order_by('id').col_list(10, 0, 'id, from_id')))
     count = buzz_at_user_count(user_id)
     if result:
@@ -115,8 +117,8 @@ def buzz_at_by_user_id_for_show(user_id):
     return 0
 
 buzz_at_user_count = McNum(
-    lambda user_id: BuzzAt.raw_sql(
-        'select count(DISTINCT from_id) from buzz_at where to_id=%s and state=%s', user_id, BUZZ_AT_SHOW
+    lambda user_id,begin_id: BuzzAt.raw_sql(
+        'select count(DISTINCT from_id) from buzz_at where to_id=%s and state=%s and id>%s', user_id, BUZZ_AT_SHOW,begin_id
     ).fetchone()[0] ,
     'BuzzAtUserCount+%s'
 )
@@ -157,4 +159,5 @@ def buzz_at_list(user_id, limit, offset):
 
 if __name__ == '__main__':
     pass
-    print buzz_at_list(10000000, 10, 0)
+    #print buzz_at_list(10031395, 10, 0)
+    print buzz_at_by_user_id_for_show(10031395)

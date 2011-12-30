@@ -164,7 +164,9 @@ li
 }
 .zname span{
 color:#999;
-margin-left:4px
+display:inline-block;
+width:28px;
+text-decoration: line-through;
 }
 .zname a{
 color:#999;
