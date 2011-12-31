@@ -129,8 +129,8 @@ class ParseEventIndex(object):
 
             event = EventImport.get(id)
             if not event:
-                yield self.parse_event_page, link ,  id
-    
+                yield self.parse_event_page, link , id
+
     def parse_event_page(self, page, url, douban_event_id):
         title = txt_wrap_by('h1>', '</h1>', page)
         pic_url = txt_wrap_by('href="', '"', txt_wrap_by('class="album_photo"', '>', page))
@@ -147,9 +147,9 @@ class ParseEventIndex(object):
         
         event = save_event(self, phone, address, begin_time, end_time, pic_url, title, intro, douban_event_id)
 
-        yield save_pic, pic_url,  event
-            # pic = page_fetch(pic)
-                
+        yield save_pic, pic_url, event
+# pic = page_fetch(pic)
+
 
 def main():
     url_list = []
