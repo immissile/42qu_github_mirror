@@ -97,16 +97,11 @@ quality="high" bgcolor="#FFFFFF" class="audio"
 src="${FS_URL}/swf/1bit.swf"
 <%text>type="application/x-shockwave-flash"
 wmode= "Opaque"></embed>{{/if}}{{if name}}{{if cid == 73}}{{html name}}{{else}}<a
-target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}
-{{/if}}
-{{/if}}
-</a>
-{{/if}}
-
-{{if tag_id}}
-<a class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
-{{/if}}
-{{if cid==65}}
+target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}{{/if}}{{/if}}</a>{{/if}}{{if tag_id}}<a 
+    class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}{{if !$index}}<div 
+    class="zname"><span></span><a 
+    target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}</pre>
+{{/if}}{{if cid==65}}
 <a class="fdimga" target="_blank" href="/${id}"><img class="fdimg" src="${rid}"></a>
 {{/if}}
 {{if cid==68}}
@@ -123,8 +118,10 @@ target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_i
 {{/if}}
 <div class="fdtxt fdtxt${$index}" id="fdtxt${id}">
         {{if cid==61 || cid == 66}}
-<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}
-{{if txt_more}}<a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
+<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}{{if !$index && cid==61}}<div 
+    class="zname"><span></span><a 
+    target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}{{if txt_more}}<a 
+    href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
 {{if cid == 66}}<a onclick="fdvideo(this,${id});" class="fdvideo" href="javascript:void(0)">播放视频</a>{{/if}}
         {{else}}
             {{if cid==68}}
@@ -140,15 +137,6 @@ target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_i
             {{/if}}
         {{/if}}
     </div>
-{{if !$index}}
-<div class="zname"><span></span><a 
-target="_blank" href="${zsite_link}">${zsite_name}
-{{if unit||title}}({{/if}}
-{{if unit}}${unit}{{/if}}
-{{if unit&&title}}.{{/if}}
-{{if title}}${title}{{/if}} 
-{{if unit||title}}){{/if}}</a></div> 
-{{/if}}
     <div class="fdbar">
     <span class="L"><span class="fdopt"><a
 rel="${id}" href="javascript:void(0)"
@@ -165,8 +153,7 @@ class="mr3">${reply_count}</span>{{/if}}评论</a></span>
 {{if cid!=72}}{{if site_id}}<a href="//${site_url}"
 target="_blank">${site_name}</a><span
 class="split">,</span>{{/if}}{{/if}}<a
-href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[0].txt[2] == 0 }}<span class="split">,</span>广播
-            {{/if}}
+href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[0].txt[2] == 0 }}<span class="split">,</span>广播{{/if}}
 
 
     </div>
