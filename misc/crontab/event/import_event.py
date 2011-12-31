@@ -18,6 +18,7 @@ from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from xml.sax.saxutils import unescape
 from zkit.htm2txt import htm2txt
+from zkit.spider import Rolling,Fetch, NoCacheFetch, GCrawler
 from time import sleep
 from os.path import exists
 import os.path
@@ -29,7 +30,7 @@ event_cid = 9 #其他
 
 DOUBAN_SITE_LIST = (
         #url,userid,zsiteid
-        #('http://site.douban.com/widget/events/117123/',10031395,10133826),
+        ('http://site.douban.com/widget/events/117123/',10031395,10133826),
         )
 
 def page_fetch(url):
@@ -53,17 +54,36 @@ class DoubanSite(object):
     def __init__(self, url, user_id, zsite_id):
         super(DoubanSite, self).__init__()
         self.url, self.user_id, self.zsite_id = url, user_id, zsite_id
-        self.page = page_fetch(self.url)
-        self.page = txt_wrap_by('<ul class="list-m">', '</ul>', self.page)
-        self.items = txt_wrap_by_all('<li class="item">', '</div>', self.page)
+        headers = {
+                'Cookie':'bid=i9gsK/lU40A'
+                }
+        self.fetcher = NoCacheFetch(headers = headers) 
+        self.spider = Rolling(
+                self.fetcher,
+                (
+                    (self.parse_entry,self.url),
+                )
+            )
+        self.spider_runner = GCrawler(self.spider,workers_count=10)
+        self.spider_runner.start()
 
-        self.links = []
-        for item in self.items:
-            self.links.append(txt_wrap_by('href="', '"', item))
+    def parse_entry(self,html,url,*args,**kwds):
+        html = txt_wrap_by('<ul class="list-m">', '</ul>', html)
+        items = txt_wrap_by_all('<li class="item">', '</div>', html)
 
-        self.handle_link()
+        links = []
+        for item in items:
+            link = txt_wrap_by('href="', '"', item)
 
-    def add_event(self, phone, address, begin_time, end_time, pic, title, intro):
+            id = txt_wrap_by('http://www.douban.com/event/', '/', link)
+            id = int(id)
+
+            event = EventImport.get(id)
+            if not event:
+                self.spider.push(self.handle_page,link,douban_event_id=id,*args,**kwds)
+
+        
+    def add_event(self, phone, address, begin_time, end_time, pic, title, intro,douban_event_id):
 
         city = address[0]
         place = address[1]
@@ -150,10 +170,9 @@ class DoubanSite(object):
         po.save()
 
         event_init2to_review(po.id)
-        return id
+        sync_db(id, douban_event_id)
 
-
-    def handle_page(self, page):
+    def handle_page(self, page, url, *args, **kwds):
         title = txt_wrap_by('h1>', '</h1>', page)
         pic_url = txt_wrap_by('href="', '"', txt_wrap_by('class="album_photo"', '>', page))
         begin_time = txt_wrap_by('ail">', '<', txt_wrap_by('开始时间', '/div', page))
@@ -165,29 +184,7 @@ class DoubanSite(object):
         if phone:
             phone = phone.replace('：', '').replace(':', '')
 
-        return self.add_event(phone, address, begin_time, end_time, pic_url, title, intro)
-
-    def handle_link(self):
-        for link in self.links:
-            id = txt_wrap_by('http://www.douban.com/event/', '/', link)
-            id = int(id)
-
-            event = EventImport.get(id)
-            if not event:
-                page = page_fetch(link)
-                event_id = self.handle_page(page)
-                sync_db(id, event_id)
-
-#filename = os.path.join('danxiangjie', id)
-#if not exists(filename):
-#    with open(filename, 'w') as f:
-#        event = EventImport.get(id)
-#        if not event:
-#            print 'writing', filename
-#            page = page_fetch(link)
-#            event_id = handle_page(page)
-#            sync_db(id, event_id)
-#            f.write(page)
+        self.add_event(phone, address, begin_time, end_time, pic_url, title, intro, douban_event_id = kwds.get('douban_event_id'))
 
 def main():
     for url,user_id,zsite_id in DOUBAN_SITE_LIST:
