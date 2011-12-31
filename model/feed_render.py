@@ -54,6 +54,7 @@ def feed_tuple_by_db(id):
         rid = fs_url_audio(id, '')
     elif cid == CID_EVENT:
         event = Event.mc_get(id)
+        feed_rm(id)
         rid = fs_url_jpg(162, event.pic_id)
     else:
         rid = rid

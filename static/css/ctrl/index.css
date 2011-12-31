@@ -193,8 +193,6 @@ color:#d20
     margin-bottom: 64px;
     background:url(/img/gif/comment.gif) no-repeat -48px 20px;
     position: relative;
-    margin-right:300px;
-    margin-right:300px;
 }
 #feed_self .feedB{
 float:left;
@@ -204,7 +202,7 @@ padding-left:0;
 margin-right:0;
     margin-bottom:0;
 }
-.feedS{
+.feedB,.feedS{
     margin-right:300px;
 }
 #feed_self .feed_part{
@@ -236,18 +234,6 @@ padding-top:14px;
     border-color:#aaa;
     color:#000;
     background:#f3f3f3 url(/img/png/btn.png) 0 30px;
-}
-#po_word_txt{
-    width:100%;
-    border: none;
-}
-.say_txt{
-    border: 0;
-    width: 100%;
-}
-#po_word_txt, .say_txt{
-    min-height:44px;
-    height:44px;
 }
 .fdbar{
     padding-top:12px;
@@ -476,4 +462,17 @@ padding:10px 17px 7px
 }
 #feeds .fdtxt0{
 min-height:44px;
+}
+#po_word_txt{
+    width:100%;
+    border:0;
+    min-height:47px;
+    height:47px;
+    _width:90%;
+}
+.feedS{
+    _margin-right:320px
+}
+#feeds .feedB{
+    _margin-right:160px
 }
