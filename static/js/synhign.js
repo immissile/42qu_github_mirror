@@ -5,7 +5,7 @@ function path()
 			      ;
 	       
 		  for(var i = 0; i < args.length; i++)
-		      {result.push(args[i].replace('@', 'http://0.42qu.us/js/synhigh/'));
+		      {result.push(args[i].replace('@', 'http://0.42qu.us/SyntaxHighlighter/scripts/'));
 		}
 	       
 		  return result
