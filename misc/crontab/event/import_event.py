@@ -30,7 +30,12 @@ event_cid = 9 #其他
 DOUBAN_SITE_LIST = (
         #url,userid,zsiteid
         #('http://site.douban.com/widget/events/117123/',10031395,10133826),
-        ('http://site.douban.com/widget/events/117123/',10074584,10199666),
+        ('http://site.douban.com/widget/events/117123/',10074584,10199666),#单向街
+        ('http://site.douban.com/widget/events/1409398/',10000065,10091192),#Python
+        ('http://site.douban.com/widget/events/326387/',10018609,10133826),#真人图书馆
+        ('http://site.douban.com/widget/events/1226483/',10010448,10126347),#科学松鼠会
+        ('http://site.douban.com/widget/events/4134513/',10018576,10200247),#豆瓣公开课
+        ('http://site.douban.com/widget/events/3954604/',10019039,10200245), #草地音乐
         )
 
 def page_fetch(url):
