@@ -77,20 +77,20 @@ class Buzz(LoginBase):
 
 @urlmap('/notice/buzz/at')
 @urlmap('/notice/buzz/at-(\-?\d+)')
-class At(ZsiteBase):
+class At(LoginBase):
     def get(self, n=1):
-        zsite = self.zsite
-        zsite_url = zsite.link
-        total =  buzz_at_count(zsite.id)
+        current_user = self.current_user
+        current_user_url = current_user.link
+        total =  buzz_at_count(current_user.id)
 
         page, limit, offset = page_limit_offset(
-            '%s/notice/buzz/at-%%s' % zsite_url,
+            '%s/notice/buzz/at-%%s' % current_user_url,
             total,
             n,
             PAGE_LIMIT
         )
 
-        reply_list = buzz_at_list(zsite.id,limit,offset)
+        reply_list = buzz_at_list(current_user.id,limit,offset)
 
         if n==1:
             if reply_list:
