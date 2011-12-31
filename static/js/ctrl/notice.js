@@ -22,7 +22,8 @@ function reply(id,at_txt){
 						fancybox.close()
 					}
 				})
-                })
+                return false;
+            })
 			textarea.focus()
 		}
 	})
