@@ -19,6 +19,7 @@ from model.ico import pic_url_with_default
 from model.feed_render import feed_tuple_by_db
 from model.career import career_current
 from model.txt2htm import txt_withlink
+from model.buzz_reply import buzz_reply_hide
 
 def post_reply(self, id):
     user = self.current_user
@@ -46,7 +47,7 @@ class PoReplyJson(JLoginBase):
         po = Po.mc_get(id)
         user_id = self.current_user_id
         result = []
-
+        buzz_reply_hide(user_id, id)
         if po and po.can_view(user_id):
             for reply in po.reply_list():
                 user = reply.user
