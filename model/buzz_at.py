@@ -111,7 +111,7 @@ def buzz_at_by_user_id_for_show(user_id):
     count = buzz_at_user_count(user_id)
     if result:
         result = unique(tuple(i[1] for i in result))[:3]
-        count = buzz_at_count(user_id) - len(result)
+        count = buzz_at_user_count(user_id) - len(result)
         from model.zsite import Zsite
         result = Zsite.mc_get_list(result)
         return max(count, 0), tuple(i.name for i in result)
@@ -160,5 +160,7 @@ def buzz_at_list(user_id, limit, offset):
 
 if __name__ == '__main__':
     pass
-    #print buzz_at_list(10031395, 10, 0)
-    print buzz_at_by_user_id_for_show(10031395)
+    #print buzz_at_list(     10031395, 10, 0)
+    print buzz_at_user_count(10000000)
+    print buzz_at_by_user_id_for_show(10000000)
+    mc_buzz_at_by_user_id_for_show.delete(10000000)
