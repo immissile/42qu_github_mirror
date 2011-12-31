@@ -153,9 +153,7 @@ class ParseEventIndex(object):
 
         event = save_event(phone, address, begin_time, end_time, pic_url, title, intro, douban_event_id)
 
-        return (
-            (save_pic, pic_url,  event)
-        )
+        yield save_pic, pic_url,  event
             # pic = page_fetch(pic)
                 
 
@@ -168,7 +166,7 @@ def main():
     headers = {
         'Cookie':'bid=i9gsK/lU40A'
     }
-    self.fetcher = NoCacheFetch(headers=headers)
+    self.fetcher = NoCacheFetch(20, headers=headers)
     self.spider = Rolling( self.fetcher, url_list )
     spider_runner = GCrawler(self.spider, workers_count=10)
     spider_runner.start()
