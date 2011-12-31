@@ -163,7 +163,8 @@ li
     overflow:hidden;
 }
 .zname{
-text-align:right;
+display:inline;
+margin-left:21px;
 }
 .zname span{
 border-bottom:1px dotted #aaa;
@@ -468,4 +469,7 @@ margin-bottom:3px
 }
 #feeds .sd{
 padding:10px 17px 7px
+}
+#feeds .fdtxt0{
+min-height:44px;
 }
