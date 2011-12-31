@@ -2,12 +2,27 @@
 # -*- coding: utf-8 -*-
 from time import time, mktime, strptime, strftime, timezone
 import datetime
+import  re
 
 ONE_DAY = 3600 * 24
 ONE_DAY_MINUTE = 60*24
 TIMEZONE_OFFSET = mktime((1970, 1, 1, 0, 0, 0, 0, 0, 0))
 DATE_BEGIN = datetime.date(1970, 1, 1)
 DATETIME_BEGIN = datetime.datetime(1970, 1, 1)
+TIME_BY_DOUBAN = re.compile('(\d+)')
+
+def datetime_to_minutes(datetime):
+    y, m, d, h, M = datetime.timetuple()[:5]
+    y,m,d =str(y), str(m),str(d)
+    if len(m) < 2:
+        m = '0'+m
+    if len(d) < 2:
+        d = '0'+d
+    time = int(y+m+d)
+    return ymd2minute(time)+h*60+M
+
+def time_by_string(s):
+    return datetime.datetime(*map(int, TIME_BY_DOUBAN.findall(s)))
 
 
 def today_days():

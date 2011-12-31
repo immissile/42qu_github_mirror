@@ -1,5 +1,6 @@
 from os import path
 from hashlib import md5
+import  time
 import urllib2
 import urlparse
 
@@ -56,10 +57,12 @@ class Fetch(object):
         return data
 
 class NoCacheFetch(object):
-    def __init__(self, headers={}):
+    def __init__(self,sleep, headers={} ):
         self.headers = headers
+        self.sleep = sleep
 
     def read(self, url):
+        #time.sleep(self.sleep)
         print "reading url",url
         conn = urllib2.urlopen(url, timeout=30)
         data = conn.read()

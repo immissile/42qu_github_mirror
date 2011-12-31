@@ -24,63 +24,55 @@ from os.path import exists
 import os.path
 from zkit.earth import PID2NAME
 import re
+from model.days import time_by_string, datetime_to_minutes
 
 event_cid = 9 #其他
 
-
+PLACE_DICT = dict([(unicode(v),k) for k,v in PID2NAME.items()])
 class EventImport(Model):
     pass
 
 DOUBAN_SITE_LIST = (
         # url , user_id , zsite_id
-        (' http://site.douban.com/widget/events/117123/',10074584,10199666),#单向街      
-        (' http://site.douban.com/widget/events/1409398/',10000065,10091192),#Python     
-        (' http://site.douban.com/widget/events/326387/',10018609,10133826),#真人图书馆  
-        (' http://site.douban.com/widget/events/1226483/',10010448,10126347),#科学松鼠会 
-        (' http://site.douban.com/widget/events/4134513/',10018576,10200247),#豆瓣公开课 
-        (' http://site.douban.com/widget/events/3954604/',10019039,10200245), #草地音乐 
+        #(' http://site.douban.com/widget/events/117123/',10074584,10199666),#单向街      
+        #(' http://site.douban.com/widget/events/1409398/',10000065,10091192),#Python     
+        #(' http://site.douban.com/widget/events/326387/',10018609,10133826),#真人图书馆  
+        #(' http://site.douban.com/widget/events/1226483/',10010448,10126347),#科学松鼠会 
+        #(' http://site.douban.com/widget/events/4134513/',10018576,10200247),#豆瓣公开课 
+        #(' http://site.douban.com/widget/events/3954604/',10019039,10200245), #草地音乐 
 )
 
 
-
-
-TIME_BY_DOUBAN = re.compile('(\d+)')
-
-def time_by_douban(s):
-    return datetime(*map(int, TIME_BY_DOUBAN.findall(s)))
- 
-def save_event( phone, address, begin_time, end_time, pic, title, intro, douban_event_id):
+def save_event(self, phone, address, begin_time, end_time, pic, title, intro, douban_event_id):
 
     city = address[0]
     place = address[1]
-    address = address[2]
+    if len(address) ==2:
+        address = address[1]
+    else:
+        address = address[2]
 
-    begin_time = time_by_douban(begin_time)
-    end_time = time_by_douban(end_time)
+    begin_time = time_by_string(begin_time)
+    end_time = time_by_string(end_time)
 
+    pid = 1 
+    if place in PLACE_DICT:
+        pid = PLACE_DICT[place]
 
-    pid = 1
-    for k, v in PID2NAME.items():
-        if v == place:
-            pid = k
-            break
-
-    city_pid = 1
-    for k, v in PID2NAME.items():
-        if v == city:
-            city_pid = k
-            break
+    city_pid = 1 
+    if city in PLACE_DICT:
+        city_pid = PLACE_DICT[city]
 
 
-    #TODO datetime -> int model/days.py
-    begin = ymd2minute(begin_time)+begin_time_hour*60+begin_time_minute
-    end = ymd2minute(end_time)+end_time_hour*60+end_time_minute
+    begin = datetime_to_minutes(begin_time)
+    end = datetime_to_minutes(end_time)
 
     id = 0
     limit_up = 42
     limit_down = 0
     transport = ''
     price = 0
+
     event = event_new(
         self.user_id,
         event_cid,
@@ -106,7 +98,7 @@ def save_event( phone, address, begin_time, end_time, pic, title, intro, douban_
     po.save()
 
     event_init2to_review(po.id)
-    EventImport(id, int(event_id)).save()
+    EventImport(id, int(douban_event_id)).save()
 
     return event
 
@@ -115,7 +107,7 @@ def save_pic(pic, pic_url, event):
     if not pic:
         return
     else:
-        pic_id = po_event_pic_new(event.user_id, pic)
+        pic_id = po_event_pic_new(event.zsite_id, pic)
         event.pic_id = pic_id
         event.save()
 
@@ -148,10 +140,12 @@ class ParseEventIndex(object):
         typ = txt_wrap_by('类型: </span>', '<br/', page)
         intro = txt_wrap_by('play:none">', '<a href="javasc', page)
         phone = txt_wrap_by('电话', '<br/', intro)
+        if not intro:
+            intro = txt_wrap_by('<div class="wr">','</div>',page)
         if phone:
             phone = phone.replace('：', '').replace(':', '')
-
-        event = save_event(phone, address, begin_time, end_time, pic_url, title, intro, douban_event_id)
+        
+        event = save_event(self, phone, address, begin_time, end_time, pic_url, title, intro, douban_event_id)
 
         yield save_pic, pic_url,  event
             # pic = page_fetch(pic)
@@ -160,15 +154,15 @@ class ParseEventIndex(object):
 def main():
     url_list = []
     for url, user_id, zsite_id in DOUBAN_SITE_LIST:
-        url_list(ParseEventIndex(user_id, zsite_id), url)
+        url_list.append((ParseEventIndex(user_id, zsite_id), url))
 
-    self.url, self.user_id, self.zsite_id = url, user_id, zsite_id
+    #self.url, self.user_id, self.zsite_id = url, user_id, zsite_id
     headers = {
-        'Cookie':'bid=i9gsK/lU40A'
+        'Cookie':'bid=i9gsK/lU40A',
     }
-    self.fetcher = NoCacheFetch(20, headers=headers)
-    self.spider = Rolling( self.fetcher, url_list )
-    spider_runner = GCrawler(self.spider, workers_count=10)
+    fetcher = NoCacheFetch(0,headers=headers)
+    spider = Rolling( fetcher, url_list )
+    spider_runner = GCrawler(spider, workers_count=1)
     spider_runner.start()
 
 if __name__ == '__main__':
