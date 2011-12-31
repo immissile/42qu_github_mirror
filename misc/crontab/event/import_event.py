@@ -32,13 +32,13 @@ class EventImport(Model):
     pass
 
 DOUBAN_SITE_LIST = (
-        # url , user_id , zsite_id
-        (' http://site.douban.com/widget/events/117123/',10074584,10199666),#单向街      
-        (' http://site.douban.com/widget/events/1409398/',10000065,10091192),#Python     
-        (' http://site.douban.com/widget/events/326387/',10018609,10133826),#真人图书馆  
-        (' http://site.douban.com/widget/events/1226483/',10010448,10126347),#科学松鼠会 
-        (' http://site.douban.com/widget/events/4134513/',10018576,10200247),#豆瓣公开课 
-        (' http://site.douban.com/widget/events/3954604/',10019039,10200245), #草地音乐 
+        # site_event_id , user_id , zsite_id
+        (117123, 10074584, 10199666), #单向街      
+        (1409398, 10000065, 10091192), #Python     
+        (326387, 10018609, 10133826), #真人图书馆  
+        (1226483, 10010448, 10126347), #科学松鼠会 
+        (4134513, 10018576, 10200247), #豆瓣公开课 
+        (3954604, 10019039, 10200245), #草地音乐 
 )
 
 
@@ -48,7 +48,7 @@ TIME_BY_DOUBAN = re.compile('(\d+)')
 
 def time_by_douban(s):
     return datetime(*map(int, TIME_BY_DOUBAN.findall(s)))
- 
+
 def save_event( phone, address, begin_time, end_time, pic, title, intro, douban_event_id):
 
     city = address[0]
@@ -137,8 +137,8 @@ class ParseEventIndex(object):
 
             event = EventImport.get(id)
             if not event:
-                yield self.parse_event_page, link ,  id
-    
+                yield self.parse_event_page, link , id
+
     def parse_event_page(self, page, url, douban_event_id):
         title = txt_wrap_by('h1>', '</h1>', page)
         pic_url = txt_wrap_by('href="', '"', txt_wrap_by('class="album_photo"', '>', page))
@@ -153,14 +153,14 @@ class ParseEventIndex(object):
 
         event = save_event(phone, address, begin_time, end_time, pic_url, title, intro, douban_event_id)
 
-        yield save_pic, pic_url,  event
-            # pic = page_fetch(pic)
-                
+        yield save_pic, pic_url, event
+# pic = page_fetch(pic)
+
 
 def main():
     url_list = []
-    for url, user_id, zsite_id in DOUBAN_SITE_LIST:
-        url_list(ParseEventIndex(user_id, zsite_id), url)
+    for site_event_id, user_id, zsite_id in DOUBAN_SITE_LIST:
+        url_list(ParseEventIndex(user_id, zsite_id), 'http://site.douban.com/widget/events/%s'%site_event_id)
 
     self.url, self.user_id, self.zsite_id = url, user_id, zsite_id
     headers = {
