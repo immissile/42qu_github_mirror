@@ -186,7 +186,7 @@ margin-top:10px
 color:#d20
 }
 .imgw{line-height:0}
-.feed_left{
+.feedB{
     width: 219px;
     padding-left: 24px;
     float:right;
@@ -194,8 +194,9 @@ color:#d20
     background:url(/img/gif/comment.gif) no-repeat -48px 20px;
     position: relative;
     margin-right:300px;
+    margin-right:300px;
 }
-#feed_self .feed_left{
+#feed_self .feedB{
 float:left;
 background-position:228px 20px;
 padding-right:24px;
@@ -203,7 +204,7 @@ padding-left:0;
 margin-right:0;
     margin-bottom:0;
 }
-.feed_right{
+.feedS{
     margin-right:300px;
 }
 #feed_self .feed_part{
