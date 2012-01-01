@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
-import urllib2
-from urllib2 import urlopen
-from model._db import Model, McModel, McCache, McCacheA, McLimitA, McNum
+from model._db import Model, McModel, McCache, McNum
 from model.po import po_new, STATE_RM
 from model.po_event import po_event_pic_new , EVENT_CID, po_event_feedback_new
 from model.event import Event, event_init2to_review
-from model.state import STATE_RM, STATE_SECRET, STATE_ACTIVE
-from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_NOTICE_EVENT_JOINER_FEEDBACK, CID_NOTICE_EVENT_ORGANIZER_SUMMARY
-from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_NOW, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_FEEDBACK_GOOD, EVENT_JOIN_STATE_FEEDBACK_NORMAL, event_new_if_can_change, EventJoiner, event_joiner_user_id_list, event_joiner_get, event_joiner_state, last_event_by_zsite_id, event_new
+from model.state import STATE_SECRET
+from model.cid import CID_EVENT, CID_NOTICE_EVENT_JOINER_FEEDBACK
+from model.event import Event, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_FEEDBACK_GOOD, EVENT_JOIN_STATE_FEEDBACK_NORMAL, event_new_if_can_change, EventJoiner, event_joiner_user_id_list, event_joiner_get, event_joiner_state, last_event_by_zsite_id, event_new
 from model.po_event import po_event_pic_new , EVENT_CID, po_event_feedback_new
 from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from urllib import urlencode
@@ -22,13 +20,14 @@ from zkit.spider import Rolling, Fetch, NoCacheFetch, GCrawler
 from time import sleep
 from os.path import exists
 import os.path
-from zkit.earth import PID2NAME
+from zkit.earth import PID2NAME, PLACE_L1L2
 import re
 from model.days import time_by_string, datetime_to_minutes
+from model.event import EVENT_CID_CN
 
-event_cid = 9 #其他
+EVENT_DICT = dict([(unicode(k), v) for k, v in EVENT_CID_CN])
 
-PLACE_DICT = dict([(unicode(v),k) for k,v in PID2NAME.items()])
+PLACE_DICT = dict([(unicode(v), k) for k, v in PID2NAME.items()])
 class EventImport(Model):
     pass
 
@@ -42,12 +41,14 @@ DOUBAN_SITE_LIST = (
         #(' http://site.douban.com/widget/events/3954604/',10019039,10200245), #草地音乐 
 )
 
+def save_event(self, phone, address, begin_time, end_time, pic, title, intro, douban_event_id , typ):
 
-def save_event(self, phone, address, begin_time, end_time, pic, title, intro, douban_event_id):
+    if typ in EVENT_DICT:
+        event_cid = EVENT_CID_CN[typ]
 
     city = address[0]
     place = address[1]
-    if len(address) ==2:
+    if len(address) == 2:
         address = address[1]
     else:
         address = address[2]
@@ -55,13 +56,16 @@ def save_event(self, phone, address, begin_time, end_time, pic, title, intro, do
     begin_time = time_by_string(begin_time)
     end_time = time_by_string(end_time)
 
-    pid = 1 
+    pid = 1
     if place in PLACE_DICT:
         pid = PLACE_DICT[place]
 
-    city_pid = 1 
+    city_pid = 1
     if city in PLACE_DICT:
         city_pid = PLACE_DICT[city]
+
+    if city_pid not in PLACE_L1L2[city_pid]:
+        city_pid = pid
 
 
     begin = datetime_to_minutes(begin_time)
@@ -138,14 +142,15 @@ class ParseEventIndex(object):
         end_time = txt_wrap_by('ail">', '<', txt_wrap_by('结束时间', '/div', page))
         address = unicode(txt_wrap_by('span>', '<', txt_wrap_by('地点', 'br/>', txt_wrap_by('class="obmo">', '</div', page)))).split(' ')
         typ = txt_wrap_by('类型: </span>', '<br/', page)
+        typ = txt_wrap_by('">', '/', typ)
         intro = txt_wrap_by('play:none">', '<a href="javasc', page)
         phone = txt_wrap_by('电话', '<br/', intro)
         if not intro:
-            intro = txt_wrap_by('<div class="wr">','</div>',page)
+            intro = txt_wrap_by('<div class="wr">', '</div>', page)
         if phone:
             phone = phone.replace('：', '').replace(':', '')
-        
-        event = save_event(self, phone, address, begin_time, end_time, pic_url, title, intro, douban_event_id)
+
+        event = save_event(self, phone, address, begin_time, end_time, pic_url, title, intro, douban_event_id, typ)
 
         yield save_pic, pic_url, event
 # pic = page_fetch(pic)
@@ -160,7 +165,7 @@ def main():
     headers = {
         'Cookie':'bid=i9gsK/lU40A',
     }
-    fetcher = NoCacheFetch(0,headers=headers)
+    fetcher = NoCacheFetch(0, headers=headers)
     spider = Rolling( fetcher, url_list )
     spider_runner = GCrawler(spider, workers_count=1)
     spider_runner.start()
