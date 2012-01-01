@@ -421,7 +421,6 @@ height:27px;
 line-height:27px;
 overflow:hidden;
 display:inline-block;
-min-width:184px;
 }
 .pop_hero_banner{
 padding-right:12px;
@@ -449,7 +448,9 @@ color:#666;
 height:16px;
 line-height:16px;
 white-space:nowrap;
-margin:0 8px 0 63px;
+}
+.pop_hero_motto , .pop_hero_bio{
+margin:0 8px 0 0;
 }
 .xa{
 background:#f8f8f9;
