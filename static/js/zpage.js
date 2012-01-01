@@ -78,16 +78,11 @@ jQuery.extend({
         if(minute<9){
             minute = "0"+minute
         }
-        var result = [],
-            now = new Date();
-        if(now.getFullYear()!=date.getFullYear()){
-            result.push(date.getFullYear())
+        var result = [ date.getMonth() + 1, date.getDate() ], now = new Date(), full_year=date.getFullYear();
+        if(now.getFullYear()!=full_year){
+            result.unshift(full_year)
         } 
-        return [
-            date.getMonth() + 1, date.getDate()
-        ].join("-")+" "+[
-            hour,minute 
-        ].join(":") 
+        return result.join("-")+" "+[ hour,minute ].join(":") 
     },
     timeago : function(timestamp){
         var date = new Date(timestamp*1000);
@@ -399,10 +394,11 @@ function init_say(){
 }
 
 $(function(){
-    var tt
+    var tt;
     function pop_hero(elem){
         var pop_hero_remove = function(){$('.pop_hero').remove()}
         elem.live('mouseenter',function(){
+            console.info('mouse enter', elem)
             var self = $(this)
             tt=setTimeout(function(){
             if($('.pop_hero')[0]) pop_hero_remove()
@@ -421,18 +417,17 @@ $(function(){
             },200)
         }).live('mouseout',function(){
             clearTimeout(tt)
-            var ctrl = false
-            var on = false
-            clear_pop_hero = function(){
-                if(!on){
-                    pop_hero_remove()
-                }else{
-                    $('.pop_hero').bind('mouseleave',pop_hero_remove)
-                }
-            }
-            $('.pop_hero').live('mouseover',function(){on = true}).unbind('mouseleave')
-           tt=setTimeout(clear_pop_hero,100)
+            tt=setTimeout(pop_hero_remove,200)
         })
+        $('.pop_hero').live(
+            'mouseenter',
+            pop_hero_remove
+        ).live(
+            'mouseout',
+            function(){
+                clearTimeout(tt)
+            }
+        )
     }
     pop_hero($('.TPH'))
 })
