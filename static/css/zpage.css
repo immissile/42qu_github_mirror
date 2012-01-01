@@ -464,3 +464,18 @@ box-shadow:0 1px 0 #fff inset,0 1px 0 rgba(0,0,0,.1);text-shadow:0 1px 0 #fff;bo
 .xa:active{
 background:#fff;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd',endColorstr='#dddddd');background:-webkit-gradient(linear,0 0,0 100%,from(#ddd),to(#ddd));background:-moz-linear-gradient(top,#ddd,#ddd);-webkit-box-shadow:none;-moz-box-shadow:none;-o-box-shadow:none;box-shadow:none;
 }
+
+.gask{
+border:1px dotted #ccc;
+padding:7px;
+display:block;
+text-align:center;
+font-size:14px;
+margin-bottom:14px;
+}
+
+.gask:visited{
+color:#333;
+}
+
+
