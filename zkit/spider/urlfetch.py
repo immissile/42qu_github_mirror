@@ -57,12 +57,13 @@ class Fetch(object):
         return data
 
 class NoCacheFetch(object):
-    def __init__(self,sleep, headers={} ):
+    def __init__(self,sleep = 0, headers={} ):
         self.headers = headers
         self.sleep = sleep
 
     def read(self, url):
-        #time.sleep(self.sleep)
+        if self.sleep:
+            time.sleep(self.sleep)
         print "reading url",url
         conn = urllib2.urlopen(url, timeout=30)
         data = conn.read()
