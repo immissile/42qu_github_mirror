@@ -78,16 +78,11 @@ jQuery.extend({
         if(minute<9){
             minute = "0"+minute
         }
-        var result = [],
-            now = new Date();
-        if(now.getFullYear()!=date.getFullYear()){
-            result.push(date.getFullYear())
+        var result = [ date.getMonth() + 1, date.getDate() ], now = new Date(), full_year=date.getFullYear();
+        if(now.getFullYear()!=full_year){
+            result.unshift(full_year)
         } 
-        return [
-            date.getMonth() + 1, date.getDate()
-        ].join("-")+" "+[
-            hour,minute 
-        ].join(":") 
+        return result.join("-")+" "+[ hour,minute ].join(":") 
     },
     timeago : function(timestamp){
         var date = new Date(timestamp*1000);
@@ -398,8 +393,8 @@ function init_say(){
     })
 }
 
-$(function(){
-    var tt
+(function(){
+    var tt;
     function pop_hero(elem){
         var pop_hero_remove = function(){$('.pop_hero').remove()}
         elem.live('mouseenter',function(){
@@ -413,29 +408,29 @@ $(function(){
             function(result){
                 if(!result)return;
                 if(!$('.pop_hero')[0]){
-                        $('body').prepend(
-    '<div class="pop_hero"><div class="pop_hero_to"></div><div class="pop_hero_banner"><a href="'+result[3]+'" target="_blank"><img class="pop_hero_avatar" src="'+result[2]+'"></a><a href="javascript:follow_a('+result[4]+');void(0)" id="follow_a'+result[4]+'" class="xa pop_hero_follow">'+result[5]+'</a></div><a href="'+result[3]+'" target="_blank" class="pop_hero_name">'+result[0]+'</a><div class="pop_hero_bio">'+result[1]+'</div><div class="pop_hero_motto">'+result[6]+'</div></div>')
-                        $('.pop_hero').offset({top:self.offset().top-126,left:self.offset().left-30})
+                        var pop = $('<div class="pop_hero"><div class="pop_hero_to"></div><div class="pop_hero_banner"><a href="'+result[3]+'" target="_blank"><img class="pop_hero_avatar" src="'+result[2]+'"></a><a href="javascript:follow_a('+result[4]+');void(0)" id="follow_a'+result[4]+'" class="xa pop_hero_follow">'+result[5]+'</a></div><a href="'+result[3]+'" target="_blank" class="pop_hero_name">'+result[0]+'</a><div class="pop_hero_bio">'+result[1]+'</div><div class="pop_hero_motto">'+result[6]+'</div></div>')
+                        $('body').prepend(pop)
+                        
+                        pop.offset({top:self.offset().top-126,left:self.offset().left-30}).mouseleave(
+                            function(e){
+                                pop_hero_remove()
+                            }
+                        ).mouseenter(
+                            function(){
+                                clearTimeout(tt)
+                            }
+                        )
                     }
                 })
             },200)
         }).live('mouseout',function(){
             clearTimeout(tt)
-            var ctrl = false
-            var on = false
-            clear_pop_hero = function(){
-                if(!on){
-                    pop_hero_remove()
-                }else{
-                    $('.pop_hero').bind('mouseleave',pop_hero_remove)
-                }
-            }
-            $('.pop_hero').live('mouseover',function(){on = true}).unbind('mouseleave')
-           tt=setTimeout(clear_pop_hero,100)
+            tt=setTimeout(pop_hero_remove,200)
         })
+            
     }
     pop_hero($('.TPH'))
-})
+})()
 
 function auto_add(item,toadd,wrap,close,act){
     var wrap = $('.'+wrap)
