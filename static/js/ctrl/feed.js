@@ -63,3 +63,16 @@ function share(id) {
 		}
 	})
 }
+
+
+$(function(){
+var isCtrl = false;
+$("#po_word_txt").keyup(function (e) {
+    if(e.which == 17) isCtrl=false;
+}).keydown(function (e) {
+    if(e.which == 17) isCtrl=true;
+    if(e.which == 13 && isCtrl == true) {
+        $(".say_btn").trigger("click")
+    }
+});
+})
