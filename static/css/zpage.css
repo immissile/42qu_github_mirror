@@ -399,11 +399,11 @@ padding:7px 7px 0;
 .pop_hero_to{
 background:url(/img/gif/uparrow_small.gif) no-repeat 0 7px;
 height:22px;
-margin-left:27px;
 margin-top:93px;
 position:absolute;
 width:220px;
 z-index:4;
+margin-left:27px;
 *margin-left:-35px;
 }
 .pop_hero_avatar{
