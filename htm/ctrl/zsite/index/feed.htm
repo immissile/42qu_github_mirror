@@ -117,7 +117,7 @@ target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_i
 {{/if}}
 <div class="fdtxt fdtxt${$index}" id="fdtxt${id}">
         {{if cid==61 || cid == 66}}
-<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}{{if !$index && cid==61}}<div 
+<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}{{if !$index && cid==61 &&  !rid}}<div 
     class="zname"><span></span><a 
     target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}{{if txt_more}}<a 
     href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
