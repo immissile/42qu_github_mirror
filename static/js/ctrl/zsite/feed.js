@@ -160,6 +160,17 @@
             po_word_form.submit()
         });
     
+    $(function(){
+        var isCtrl = false;
+        $("#po_word_txt").keyup(function (e) {
+            if(e.which == 17) isCtrl=false;
+        }).keydown(function (e) {
+            if(e.which == 17) isCtrl=true;
+            if(e.which == 13 && isCtrl == true) {
+                $(".say_btn").trigger("click")
+            }
+        });
+    })
 
 	po_word_txt.blur().val('').focus(function() {
 		this.className="po_word_txt"
