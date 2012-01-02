@@ -196,22 +196,6 @@
         142
     )
 
-    /* 站点推荐 */
-    
-    $(".site_li").hover(
-        function(r){
-            $(this).find(".delbtn")
-                   .addClass("show_x")
-        },
-        function(r){
-            $(this).find(".delbtn")
-                   .removeClass("show_x")
-        }
-    );
-    
-    $(".site_fav_a").click(function(){
-        $(this).addClass("fav_loading");
-    });
 
 })()
 
@@ -243,6 +227,7 @@ $(".buzzX").click(function(){
     }
     $(this).parents('.buzz_box').hide() 
 })
+/*站点推荐*/
 ;$(function(){
 
     var data = $.parseJSON($("#site_data").html()),
@@ -265,7 +250,6 @@ $(".buzzX").click(function(){
         }
     }
     addRec();
-/*
 
     function loadrec(id){
         $.postJSON("/j/site/rec/new",{},function(r){
@@ -319,5 +303,20 @@ $(".buzzX").click(function(){
     }
     $(".buzz_h1").hover(function(){$(this).find("a").show()},function(){$(this).find("a").hide()});
     $(".buzz_w").hover(function(){$(this).find('.bzr').show()},function(){$(this).find(".bzr").hide()});
-*/
+    
+    $(".site_li").hover(
+        function(r){
+            $(this).find(".delbtn")
+                   .addClass("show_x")
+        },
+        function(r){
+            $(this).find(".delbtn")
+                   .removeClass("show_x")
+        }
+    );
+    
+    $(".site_fav_a").click(function(){
+        $(this).addClass("fav_loading");
+    });
+/**/
 });

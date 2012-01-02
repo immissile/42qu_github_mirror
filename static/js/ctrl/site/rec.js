@@ -31,4 +31,3 @@
         site_rec.slideDown('slow')
     },1000)
 });
-
