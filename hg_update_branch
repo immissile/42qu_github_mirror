@@ -86,8 +86,7 @@ def main():
             i = i.strip()
             if i and i.find(":") > 0:
                 name = i.split(" ", 1)
-                if name[0] != "default":
-                    t.append(map(str.strip, name))
+                t.append(map(str.strip, name))
         print "\n"
         for pos, i in enumerate(t, 1):
             print "%s\t%s\t%s"%(str(pos).ljust(3), i[0].ljust(35), i[1])
