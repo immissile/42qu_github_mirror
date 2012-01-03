@@ -57,7 +57,7 @@ def zsite_verify_ajust(zsite):
     if not ico.get(id):
         need |= ZSITE_VERIFY_NEED_ICO 
     
-    if not career_current(id):
+    if not any(career_current(id)):
         need |= ZSITE_VERIFY_NEED_CAREER
  
     if need:

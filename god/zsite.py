@@ -124,7 +124,7 @@ class VerifyUncheck(Base):
     def get(self):
         from model.zsite_verify import ZsiteUserVerifyed, ZSITE_USER_VERIFYED_UNCHECK
         zsite_user_verifyed = ZsiteUserVerifyed.get(state=ZSITE_USER_VERIFYED_UNCHECK)
-        zsite = zsite_user_verifyed.zsite_id
+        zsite = Zsite.mc_get(zsite_user_verifyed.user_id)
         self.render(zsite=zsite)
 
 PAGE_LIMIT = 100
