@@ -36,7 +36,7 @@ def _upload_pic(files, current_user):
         pic = files['pic'][0]['body']
         pic = picopen(pic)
         if pic:
-            user_ico_new(current_user_id, pic)
+            user_ico_new(current_user, pic)
             error_pic = False
         else:
             error_pic = '图片格式有误'
@@ -86,6 +86,7 @@ class PicEdit(LoginBase):
 
     def save(self):
         current_user_id = self.current_user_id
+        current_user = self.current_user
         files = self.request.files
         pos = self.get_argument('pos', '')
         if pos:
