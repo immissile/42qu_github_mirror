@@ -264,7 +264,7 @@ class Index(UserInfoEdit):
 
 def save_school(self):
     current_user_id = self.current_user_id
-    current_user_id = self.current_user
+    current_user = self.current_user
     search_new(current_user_id)
     arguments = parse_qs(self.request.body, True)
 
