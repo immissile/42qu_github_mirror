@@ -110,7 +110,7 @@ hg update %s
                     print ">>>%s"%i
                     if os.system(i) != 0:
                          success = False
-                         break
+                         return
 
 
 
