@@ -76,7 +76,12 @@ def parse_index(page, url):
         else:
             parse_page(filename)
 
-def yeeyan_url_builder():
+def ucdchina_daily():
+    word_list = ['PM','UCD','UR','ia-id','VD','HappyDesign']
+    for typ in word_list:
+        yield parse_index, 'http://ucdchina.com/%s'%str(typ)
+
+def ucd_url_builder():
     for page in xrange(68):
         yield parse_index, 'http://ucdchina.com/PM?p=%s'%str(page)
     for page in xrange(1256):
@@ -100,7 +105,7 @@ def main():
     }
 
     fetcher = NoCacheFetch(0, headers=headers)
-    spider = Rolling( fetcher, yeeyan_url_builder() )
+    spider = Rolling( fetcher, ucd_url_builder() )
     spider_runner = GCrawler(spider, workers_count=1)
     spider_runner.start()
 
