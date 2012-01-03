@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+
+import earth
+from earth import PID2NAME
+
 EVENT_LOCATION = {
 "ali":"阿里",
 "yushu":"玉树",
@@ -388,3 +393,9 @@ EVENT_LOCATION = {
 "suining":"遂宁",
 "taiyuan":"太原",
 }
+for key,city in PID2NAME.iteritems():
+    for pinyin, pin_city  in EVENT_LOCATION.iteritems():
+        match = len(set(pin_city)&set(city)) 
+        if match == len(pin_city) and len(city) - match<4:
+            print '"%s" : "%s" '%(pinyin,key)
+            
