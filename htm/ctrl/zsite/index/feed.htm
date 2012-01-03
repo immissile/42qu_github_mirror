@@ -115,7 +115,7 @@ target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_i
 {{/if}}
 </div>
 {{/if}}
-<div class="fdtxt fdtxt${$index}" id="fdtxt${id}">
+<div class="fdtxt{{if !$index}}{{if !rt_list.length || (rt_list.length==1 && rt_list[0].txt[2]==0)}} fdtxt${$index}{{/if}}{{/if}}" id="fdtxt${id}">
         {{if cid==61 || cid == 66}}
 <div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}{{if !$index && cid==61 &&  !rid}}<div 
     class="zname"><span></span><a 
