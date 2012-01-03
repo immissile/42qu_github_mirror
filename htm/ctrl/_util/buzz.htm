@@ -85,7 +85,7 @@ show = any((evnet_li,buzz_at))
 %>
 %if show:
 <div class="buzz_h1">小提醒</div>\
-<div class="buzz_win">\
+<div class="buzz_win buzz_win_tip">\
 %for id, name, count in evnet_li:
 <div class="buzz_w">\
 <a href="/event/check/${id}" target="_blank">${name} : <span class="mr3">+${count}</span>报名 , 请确认</a>\
@@ -159,9 +159,11 @@ unread = unread-len(buzz_list)
 <a href="javascript:void(0)" class="buzzX"></a>新鲜事\
 </div>\
 <div class="buzz_win">\
+    <div class="buzz_av">
     % for i in buzz_list:
     <div class="buzz_w">${buzz_render(i)}</div>\
     % endfor
+    </div>
     % if unread:
         <div><a class="unread" href="/notice/buzz">等<span class="mg03">${unread}</span>条</a></div>
     % endif
