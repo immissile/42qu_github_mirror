@@ -99,7 +99,7 @@ wmode= "Opaque"></embed>{{/if}}{{if name}}{{if cid == 73}}{{html name}}{{else}}<
 target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}{{/if}}{{/if}}</a>{{/if}}{{if tag_id}}<a 
     class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}{{if !$index}}<div 
     class="zname"><span></span><a 
-    target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}</pre>
+    target="_blank" class="TPH" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}</pre>
 {{/if}}{{if cid==65}}
 <a class="fdimga" target="_blank" href="/${id}"><img class="fdimg" src="${rid}"></a>
 {{/if}}
@@ -119,7 +119,7 @@ target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_i
         {{if cid==61 || cid == 66}}
 <div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}{{if !$index && cid==61 &&  !rid}}<div 
     class="zname"><span></span><a 
-    target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}{{if txt_more}}<a 
+class="TPH" target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}{{if txt_more}}<a 
     href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
 {{if cid == 66}}<a onclick="fdvideo(this,${id});" class="fdvideo" href="javascript:void(0)">播放视频</a>{{/if}}
         {{else}}
