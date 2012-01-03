@@ -2,11 +2,6 @@
 # -*- coding: utf-8 -*-
 
 
-
-
-
-from fetch_pic import fetch_pic
-
 import json
 from zkit.htm2txt import htm2txt
 from model.po import po_note_new, Po
@@ -68,6 +63,7 @@ def htm2po_by_po(pre):
         else:
             txt = re.sub('\s*图:%s\s*'%seq, '', txt, re.MULTILINE)
 
+    txt = re.sub("(\*)+","**",txt)
     po.txt_set(txt)
 
     if group_id:
@@ -89,3 +85,7 @@ def htm2po_by_po(pre):
     return po
 
 
+if __name__ =="__main__":
+    txt="****this****"
+    txt = re.sub("(\*)+","**",txt)
+    print txt
