@@ -481,3 +481,7 @@ min-height:44px;
 .fdbar .L{
 _margin-top:5px;
 }
+.buzz_av a:visited, .buzz_win_reply a:visited, .buzz_win_tip a:visited{
+color:#669;
+}
+
