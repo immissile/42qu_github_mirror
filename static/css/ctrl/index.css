@@ -485,3 +485,12 @@ _margin-top:5px;
 color:#99a;
 }
 
+.b1024 .feedB{
+display:none;
+}
+.b1024 .feed_part{
+margin-right:0;
+}
+.b1024 #feed_self .feed_part{
+margin-left:0;
+}
