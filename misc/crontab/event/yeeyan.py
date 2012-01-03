@@ -17,6 +17,7 @@ import threading
 CURRNET_PATH = path.dirname(path.abspath(__file__))
 #WRITER = open('yeeyan.data','w')
 
+
 def name_builder(url):
     return os.path.join(CURRNET_PATH,"yeeyan", md5(url).hexdigest())
 
@@ -38,7 +39,6 @@ def parse_page(filepath):
             reply_list.append(txt_wrap_by('<p>', '</p', reply_wrapper))
 
         out = dumps([ title, tags, author, rating , reply_list])
-        print title,tags,author,rating,reply_list
 
 def save_page(page,url):
     with open(name_builder(url),'w') as f:
