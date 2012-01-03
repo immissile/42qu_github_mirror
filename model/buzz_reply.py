@@ -117,7 +117,7 @@ def mc_flush(user_id):
     mc_po_id_list_by_buzz_reply_user_id.delete(user_id)
     mc_po_list_by_buzz_reply_user_id.delete(user_id)
 
-mc_po_list_by_buzz_reply_user_id = McCacheM('PoListByBuzzReplyUserId:%s')
+mc_po_list_by_buzz_reply_user_id = McCacheM('PoListByBuzzReplyUserId-%s')
 
 @mc_po_list_by_buzz_reply_user_id('{user_id}')
 def po_list_by_buzz_reply_user_id(user_id):
@@ -153,7 +153,7 @@ def po_list_by_buzz_reply_user_id(user_id):
 
     result = []
     for po in po_list:
-        t = (po.id, po.name, po.new_reply_count, po.new_reply_show)
+        t = (po.id, po.name, po.new_reply_count, po.new_reply_show, po.last_reply_id)
         result.append(t)
     return result
 
