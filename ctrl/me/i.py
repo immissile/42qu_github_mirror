@@ -259,6 +259,7 @@ class Index(UserInfoEdit):
 
 def save_school(self):
     current_user_id = self.current_user_id
+    current_user_id = self.current_user
     search_new(current_user_id)
     arguments = parse_qs(self.request.body, True)
 
@@ -272,7 +273,7 @@ def save_school(self):
         arguments['id'],
     ):
 
-        user_school_new(current_user_id, *i)
+        user_school_new(current_user, *i)
 
 def save_career(self):
     from model.career import CID_JOB, career_list_set
