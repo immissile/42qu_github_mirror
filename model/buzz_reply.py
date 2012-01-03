@@ -153,7 +153,7 @@ def po_list_by_buzz_reply_user_id(user_id):
 
     result = []
     for po in po_list:
-        t = (po.id, po.name, po.new_reply_count, po.new_reply_show, po.last_reply_id)
+        t = (po.id, po.name, po.new_reply_count, po.new_reply_show, po.reply_id_last)
         result.append(t)
     return result
 
