@@ -67,6 +67,7 @@ def pic_no(id, admin_id):
     if user_id:
         from zsite_show import zsite_show_rm
         from zsite_verify import zsite_verify_ajust
+        from model.zsite import Zsite
         zsite = Zsite.mc_get(user_id)
         zsite_verify_ajust(zsite)
 

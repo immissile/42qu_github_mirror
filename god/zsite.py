@@ -141,18 +141,6 @@ class VerifyUncheck(Base):
 
 PAGE_LIMIT = 100
 
-@urlmap('/zsite/verify(%s)' % '|'.join(map(str, CID_ZSITE_TUPLE)))
-class VerifyList(Base):
-    def get(self, cid):
-        zsite = Zsite.get(cid=cid, state=ZSITE_STATE_WAIT_VERIFY)
-        if zsite:
-            zsite_id = zsite.id
-            self.render(
-                zsite=zsite,
-                motto=_motto.get(zsite_id)
-            )
-        else:
-            self.redirect('/')
 
 
 

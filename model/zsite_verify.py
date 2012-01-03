@@ -32,9 +32,11 @@ def zsite_verify_rm(zsite):
 def zsite_verify_new(zsite):
     if zsite.state >= ZSITE_STATE_VERIFY:
         return
+
     zsite.state = ZSITE_STATE_VERIFY
     zsite.save()
 
+    user_id = zsite.id
     if ZsiteUserVerifyed.get(user_id=user_id, state=ZSITE_USER_VERIFYED_UNCHECK):
         return
 
