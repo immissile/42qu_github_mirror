@@ -156,35 +156,24 @@ ZSITE_VERIFY_TEMPLATE = {
         ZSITE_STATE_FAILED_VERIFY: '/mail/verify/user_no.txt',
     }
 }
-
-def zsite_verify_yes(zsite):
-    zsite.state = ZSITE_STATE_VERIFY
-    zsite.save()
-    zsite_verify_mail(zsite.id, zsite.cid, zsite.state)
-
-def zsite_verify_no(zsite, txt):
-    zsite.state = ZSITE_STATE_FAILED_VERIFY
-    zsite.save()
-    zsite_verify_mail(zsite.id, zsite.cid, zsite.state, txt)
-
-def zsite_verify_no_without_notify(zsite):
-    zsite.state = ZSITE_STATE_FAILED_VERIFY
-    zsite.save()
-
+#
+#def zsite_verify_yes(zsite):
+#    zsite.state = ZSITE_STATE_VERIFY
+#    zsite.save()
+#    zsite_verify_mail(zsite.id, zsite.cid, zsite.state)
+#
+#def zsite_verify_no(zsite, txt):
+#    zsite.state = ZSITE_STATE_FAILED_VERIFY
+#    zsite.save()
+#    zsite_verify_mail(zsite.id, zsite.cid, zsite.state, txt)
+#
+#def zsite_verify_no_without_notify(zsite):
+#    zsite.state = ZSITE_STATE_FAILED_VERIFY
+#    zsite.save()
+#
 def zsite_user_verify_count():
     count = Zsite.raw_sql( 'select count(1) from zsite where cid=%s and state=%s'%( CID_USER, ZSITE_STATE_VERIFY ) ).fetchone()[0]
     return count
-
-def zsite_verify_mail(zsite_id, cid, state, txt=''):
-    from mail import rendermail
-    from user_mail import mail_by_user_id
-    template = ZSITE_VERIFY_TEMPLATE.get(cid, {}).get(state)
-    if template:
-        name = Zsite.mc_get(zsite_id).name
-        mail = mail_by_user_id(zsite_id)
-        rendermail(template, mail, name,
-                   txt=txt,
-                  )
 
 def zsite_name_id_dict(id_set):
     d = Zsite.mc_get_dict(id_set)
@@ -195,10 +184,22 @@ def zsite_name_id_dict(id_set):
             r[i] = t.name
     return r
 
-from mq import mq_client
-mq_zsite_verify_mail = mq_client(zsite_verify_mail)
+#from mq import mq_client
+#mq_zsite_verify_mail = mq_client(zsite_verify_mail)
+#
+#def zsite_verify_mail(zsite_id, cid, state, txt=''):
+#    from mail import rendermail
+#    from user_mail import mail_by_user_id
+#    template = ZSITE_VERIFY_TEMPLATE.get(cid, {}).get(state)
+#    if template:
+#        name = Zsite.mc_get(zsite_id).name
+#        mail = mail_by_user_id(zsite_id)
+#        rendermail(template, mail, name,
+#                   txt=txt,
+#                  )
 
 if __name__ == '__main__':
     #zsite_name_rm(10017321)
     #print zsite_user_verify_count()
     print 1
+

@@ -3,7 +3,7 @@
 import urllib
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite,  zsite_verify_yes, zsite_verify_no, zsite_verify_no_without_notify, zsite_name_rm, ZSITE_STATE_ACTIVE 
+from model.zsite import Zsite,   zsite_name_rm, ZSITE_STATE_ACTIVE 
 from model.zsite_show import zsite_show_new, zsite_show_rm
 from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
@@ -23,7 +23,7 @@ from model.search_zsite import search_new
 from config import SITE_DOMAIN, ADMIN_MAIL
 from urlparse import urlparse
 from model.zsite_url import id_by_url
-from model.zsite import Zsite, zsite_by_query
+from model.zsite import  zsite_by_query
 from model.user_mail import user_id_by_mail
 from model.spammer import spammer_new , spammer_rm
 
@@ -119,25 +119,13 @@ class Mail(Base):
         self.redirect('/zsite/%s' % id)
 
 
-@urlmap('/zsite/verify/new/(0|1)/(\d+)')
-class VerifyNew(Base):
-    def get(self, state, id):
-        state = int(state)
-        zsite = Zsite.mc_get(id)
-
-        if zsite:
-            if state:
-                zsite_verify_yes(zsite)
-            else:
-                zsite_verify_no_without_notify(zsite)
-
-        self.redirect('/zsite/%s'%id)
-
 @urlmap('/zsite/verify/uncheck')
 class VerifyUncheck(Base):
-    def post(self):
-        pass
-
+    def get(self):
+        from model.zsite_verify import ZsiteUserVerifyed, ZSITE_USER_VERIFYED_UNCHECK
+        zsite_user_verifyed = ZsiteUserVerifyed.get(state=ZSITE_USER_VERIFYED_UNCHECK)
+        zsite = zsite_user_verifyed.zsite_id
+        self.render(zsite=zsite)
 
 PAGE_LIMIT = 100
 
