@@ -223,10 +223,10 @@ class Verify(LoginBase):
     def get(self):
         super(Verify, self).prepare()
         from model.zsite_verify import zsite_verify_ajust
+        current_user = self.current_user
         ajust = zsite_verify_ajust(current_user)
 
         if not self._finished:
-            current_user = self.current_user
             current_user_id = self.current_user_id
             state = current_user.state
 
