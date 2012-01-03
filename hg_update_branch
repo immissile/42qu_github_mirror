@@ -91,7 +91,7 @@ def main():
         print "\n"
         for pos, i in enumerate(t, 1):
             print "%s\t%s\t%s"%(str(pos).ljust(3), i[0].ljust(35), i[1])
-        num = raw_input("\nCLOSE BRANCH  : ").strip()
+        num = raw_input("\nUPDATE TO  : ").strip()
         if num.isdigit():
             num = int(num) - 1
             if num < 0:
@@ -110,7 +110,7 @@ hg update %s
                     print ">>>%s"%i
                     if os.system(i) != 0:
                          success = False
-                         return
+                return
 
 
 
