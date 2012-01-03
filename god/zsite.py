@@ -3,7 +3,7 @@
 import urllib
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite,  zsite_verify_yes, zsite_verify_no, zsite_verify_no_without_notify, zsite_name_rm, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY
+from model.zsite import Zsite,  zsite_verify_yes, zsite_verify_no, zsite_verify_no_without_notify, zsite_name_rm, ZSITE_STATE_ACTIVE 
 from model.zsite_show import zsite_show_new, zsite_show_rm
 from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
@@ -138,26 +138,6 @@ class VerifyUncheck(Base):
     def post(self):
         pass
 
-@urlmap('/zsite/verify/(0|1|2)/(\d+)')
-class Verify(Base):
-    def post(self, state, id):
-        state = int(state)
-        txt = self.get_argument('txt', '')
-        zsite = Zsite.mc_get(id)
-        if zsite and zsite.state in (
-            ZSITE_STATE_WAIT_VERIFY,
-            ZSITE_STATE_ACTIVE,
-            ZSITE_STATE_FAILED_VERIFY,
-        ):
-            if state:
-                zsite_verify_yes(zsite)
-                if state == 2:
-                    zsite_show_new(id, zsite.cid, zsite_rank_max(6))
-            else:
-                zsite_verify_no(zsite, txt)
-            self.finish({'state': True})
-        else:
-            self.finish({'state': False})
 
 PAGE_LIMIT = 100
 

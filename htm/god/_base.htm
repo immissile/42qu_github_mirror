@@ -1,7 +1,7 @@
 <%!
 from config import SITE_URL, SITE_DOMAIN
 from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_SITE
-from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY 
+from model.zsite import Zsite,  ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY 
 from model.money import withdraw_open_count, withdraw_max
 from model.po import Po
 from model.state import STATE_RM
@@ -53,10 +53,13 @@ pic_to_review_count = pic_to_review_count_by_cid(CID_ICO)
 
 
 <div>
+<%
+uncheck_count = ZsiteUserVerifyed.where(state=ZSITE_USER_VERIFYED_UNCHECK).count()
+%>
 <a class="cola"
   %if pic_to_review_count > 0:
 href="/pic/review${CID_ICO}"
-  %elif Zsite.where(cid=CID_USER, state=ZSITE_STATE_WAIT_VERIFY).count() > 0:
+  %elif uncheck_count > 0:
 href="/zsite/verify/uncheck#${ZsiteUserVerifyed.raw_sql('select max(id) from zsite_user_verifyed').fetchone()[0] or ''}"
   %else:
 href = "/chart"
@@ -64,7 +67,7 @@ href = "/chart"
   >
 
     <span class="R">
-        ${ZsiteUserVerifyed.where(state=ZSITE_USER_VERIFYED_UNCHECK).count()}
+        ${uncheck_count}
     </span>
     用户认证
 </a>
