@@ -26,6 +26,7 @@ from model.zsite_url import id_by_url
 from model.zsite import  zsite_by_query
 from model.user_mail import user_id_by_mail
 from model.spammer import spammer_new , spammer_rm
+from model.career import career_rm
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -149,6 +150,28 @@ class VerifyUncheck(Base):
             return self.redirect("/")
         zsite = Zsite.mc_get(zsite_user_verifyed.user_id)
         self.render(zsite=zsite)
+
+    def post(self):
+        id = self.get_argument('id')
+        name = self.get_argument('name',None)
+        pic = self.get_argument('pic',None)
+        career_id_list = map(int,self.get_arguments('career',()))
+
+        admin_id = self.current_user.id
+        user = Zsite.mc_get(id)
+
+        if career_id_list:
+            for career_id in career_id_list:
+                career_rm(career_id, int(id))
+            from model.zsite_verify import zsite_verify_ajust
+            zsite_verify_ajust(user)
+        if name:
+            zsite_name_rm(id)
+        if pic:
+            from model.ico import ico
+            pic_no(ico.get(id), admin_id)
+        return self.redirect("/zsite/verify/next/%s"%id)
+        #return self.redirect("/zsite/verify/uncheck")
 
 PAGE_LIMIT = 100
 
