@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, zsite_new
+from model.zsite import Zsite
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_PO, CID_WORD, CID_NOTE, CID_QUESTION, CID_CHANNEL, CID_REC
