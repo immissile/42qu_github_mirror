@@ -98,7 +98,7 @@ def save_user_info(self):
     current_user_id = self.current_user_id
 
     name = self.get_argument('name', None)
-    if name:
+    if name and not name.isdigit():
         zsite_name_edit(current_user_id, name)
 
     motto = self.get_argument('motto', None)
@@ -160,8 +160,13 @@ class UserInfoEdit(LoginBase):
         txt = txt_get(current_user_id)
         o = UserInfo.mc_get(current_user_id) or JsDict()
         c = namecard_get(current_user_id) or JsDict()
+
+        name=current_user.name
+        if name.isdigit():
+            name = ""
+
         self.render(
-            name=current_user.name,
+            name=name,
             motto=motto,
             txt=txt,
             birthday='%08d' % (o.birthday or 0),
