@@ -2,6 +2,7 @@
 
 import earth
 from earth import PID2NAME
+from lcs import  ordered_LSS_list
 
 EVENT_LOCATION = {
 "ali":"阿里",
@@ -393,9 +394,8 @@ EVENT_LOCATION = {
 "suining":"遂宁",
 "taiyuan":"太原",
 }
-for key,city in PID2NAME.iteritems():
-    for pinyin, pin_city  in EVENT_LOCATION.iteritems():
-        match = len(set(pin_city)&set(city)) 
-        if match == len(pin_city) and len(city) - match<4:
-            print '"%s" : "%s" '%(pinyin,key)
-            
+SEARCH = dict([(v,k) for k,v in PID2NAME.iteritems()])
+for pinyin, pin_city  in EVENT_LOCATION.iteritems():
+    best_match, match = ordered_LSS_list(pin_city,SEARCH.keys())[0]
+    print pin_city, pinyin  , best_match ,SEARCH[best_match] 
+
