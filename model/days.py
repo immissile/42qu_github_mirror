@@ -14,8 +14,8 @@ TIME_BY_STRING = re.compile('(\d+)')
 def datetime_to_minutes(datetime):
     y, m, d, h, M = datetime.timetuple()[:5]
     y,m,d =str(y), str(m),str(d)
-    m.zfill(2)
-    d.zfill(2)
+    m=m.zfill(2)
+    d=d.zfill(2)
     time = int(y+m+d)
     return ymd2minute(time)+h*60+M
 

@@ -603,6 +603,8 @@ def event_rm(user_id, id):
 
 def event_review_yes(id):
     event = Event.mc_get(id)
+    print event,id, event.state
+
     if event and event.state == EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_BEGIN
         event.save()
