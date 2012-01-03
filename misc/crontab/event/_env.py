@@ -5,6 +5,6 @@ from os.path import dirname, abspath, join
 PWD = dirname(abspath(__file__))
 sys.path.append(dirname(dirname(dirname(PWD))))
 
-import config
-config.DISABLE_LOCAL_CACHED = True
+#import config
+#config.DISABLE_LOCAL_CACHED = True
 
