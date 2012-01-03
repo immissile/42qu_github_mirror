@@ -143,7 +143,7 @@ function init_user() {
 	init_none()
 }
 
-CANNOT_REPLY = '<div class="fancyban"><p>啊 , 出错了 !</p><p>为了假装一本正经的讨论气氛</p><p>未认证用户没有发言权</p><p><a href="/i/verify">点此申请认证吧</a></p></div>'
+CANNOT_REPLY = '<div class="fancyban"><p>啊 , 出错了 !</p><p>为了维护讨论的气氛</p><p><a href="/i/verify">点此补充您的资料吧</a></p></div>'
 
 function follow_a(id) {
 	var a = $("#follow_a" + id),
