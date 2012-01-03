@@ -23,38 +23,39 @@ from os.path import exists
 import os.path
 from zkit.earth import PID2NAME
 import re
-from yajl import dumps
+from yajl import dumps,loads
 from hashlib import md5
 from model.days import time_by_string, datetime_to_minutes
 import threading
 
 def name_builder(url):
-    return os.path.join(CURRNET_PATH,"yeeyan", md5(url).hexdigest())
+    return os.path.join(CURRNET_PATH,"dongxi", md5(url).hexdigest())
 
 def dongxi_url_builder():
     for i in xrange(1,695):
         yield parse_index,'http://dongxi.net/index/original?type=channel&slug=all&cate=havetrans&page=%s'%str(i)
 
 def parse_index(page,url):
-    link_wrap_list = txt_wrap_by_all('<p class="status_name">','">',page)
+    link_wrap_list = txt_wrap_by_all('<h3','</h3>',page)
     link_list = []
     for link_wrap in link_wrap_list:
         url = txt_wrap_by(' <a target="_blank" href="','">',link_wrap)
-        yield parse_page,'http://dongxi.net%s'%url
+        yield parse_page,'http://dongxi.net/%s'%url
 
 def parse_page(page,url):
-    title = txt_wrap_by('<div class="content_title clearfix">','</h1>',page).strip().split('>')[-1]
-    author = txt_wrap_by('<a class="link_text_blue" href="','</a>',page).strip().split('>')[-1]
+    title = txt_wrap_by('<div class="content_title clearfix">','</h1>',page).strip().split('>')[-1].strip()
+    author = txt_wrap_by('<a class="link_text_blue" href="','</a>',page).strip().split('>')[-1].strip()
 
     tags = map(lambda x:x.split('>')[-1],txt_wrap_by_all("<a  class='link_text_blue'",'</a>',page))
     rating_num = txt_wrap_by('onclick="favorate(',')',page)
     yield parse_rat,'http://dongxi.net/content/widget/page_id/%s'%rating_num,title,author,tags, url
 
-def page_rat(page,url,title,author,tags, po_url):
-    dic = json.loads(page)
+def parse_rat(page,url,title,author,tags, po_url):
+    dic = loads(page)
     rating = dic['fav_count']
-    with open(name_builder(url),'w') as f:
-        f.write(dumps([ title, author, tags, rating, po_url ]))
+    print [ title, author, tags, rating, po_url ]
+    #with open(name_builder(url),'w') as f:
+    #    f.write(dumps([ title, author, tags, rating, po_url ]))
 
 def main():
     headers = {
@@ -62,7 +63,7 @@ def main():
 
     fetcher = NoCacheFetch(0, headers=headers)
     spider = Rolling(fetcher,dongxi_url_builder())
-    spider_runner = GCrawler(spider, workers_count=100)
+    spider_runner = GCrawler(spider, workers_count=1)
     spider_runner.start()
 
 if __name__ == '__main__':
