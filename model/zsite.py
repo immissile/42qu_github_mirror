@@ -89,7 +89,6 @@ def zsite_name_edit(id, name):
             from zsite_verify import zsite_verify_ajust
             zsite_verify_ajust(zsite)
 
-ZSITE_NAME_RM = '代号:'
 
 def zsite_name_rm(id):
     from mail import rendermail
@@ -99,7 +98,7 @@ def zsite_name_rm(id):
     if url:
         zsite_name_edit(id, url)
     else:
-        zsite_name_edit(id, ZSITE_NAME_RM+str(id))
+        zsite_name_edit(id, '0'+str(id))
     zsite = Zsite.mc_get(id)
     rendermail(
         '/mail/notice/name_rm.txt', 

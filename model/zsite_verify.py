@@ -1,7 +1,7 @@
 #coding:utf-8
 
 from zsite import Zsite, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY, \
-CID_USER, ZSITE_NAME_RM, ZSITE_STATE_FAILED_VERIFY
+CID_USER,  ZSITE_STATE_FAILED_VERIFY
 from model.ico import ico
 from model.career import career_current
 from model.zsite_show import zsite_show_rm
