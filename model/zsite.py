@@ -88,6 +88,8 @@ def zsite_name_edit(id, name):
             zsite.save()
             mc_feed_user_dict.delete(id)
 
+ZSITE_NAME_RM = '代号:'
+
 def zsite_name_rm(id):
     from mail import rendermail
     from user_mail import mail_by_user_id
@@ -96,7 +98,7 @@ def zsite_name_rm(id):
     if url:
         zsite_name_edit(id, url)
     else:
-        zsite_name_edit(id, '代号:%s'%id)
+        zsite_name_edit(id, ZSITE_NAME_RM+str(id))
     zsite = Zsite.mc_get(id)
     rendermail('/mail/notice/name_rm.txt', mail_by_user_id(id), zsite.name,
                    link=zsite.link,
