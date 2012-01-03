@@ -81,16 +81,17 @@ def main():
     sys.argv = sys.argv[:1]
 
     hg_branch = os.popen("hg branches").readlines()
-    t = []
-    for i in hg_branch:
-        i = i.strip()
-        if i and i.find(":") > 0:
-            name = i.split(" ", 1)
-            if name[0] != "default":
-                t.append(map(str.strip, name))
-    for pos, i in enumerate(t, 1):
-        print "%s\t%s\t%s"%(str(pos).ljust(3), i[0].ljust(35), i[1])
     while True:
+        t = []
+        for i in hg_branch:
+            i = i.strip()
+            if i and i.find(":") > 0:
+                name = i.split(" ", 1)
+                if name[0] != "default":
+                    t.append(map(str.strip, name))
+        print "\n"
+        for pos, i in enumerate(t, 1):
+            print "%s\t%s\t%s"%(str(pos).ljust(3), i[0].ljust(35), i[1])
         num = raw_input("\nCLOSE BRANCH  : ").strip()
         if num.isdigit():
             num = int(num) - 1
@@ -102,7 +103,7 @@ def main():
 hg update %s
 hg commit --close-branch -m close
 hg update default
-"""%branch
+    """%branch
                 line_break = "-"*64
                 cmd = [i.strip() for i in cmd.split("\n") if i]
                 print "\n关闭分支 %s ?(Y确认,否则取消)"%branch
