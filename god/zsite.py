@@ -10,7 +10,7 @@ from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_ZSITE_TUPLE, CID_USER
 from zkit.page import page_limit_offset
-
+from model.zsite_verify import ZsiteUserVerifyed, ZSITE_USER_VERIFYED_CHECKED,ZSITE_USER_VERIFYED_UNCHECK
 from model.pic import pic_no
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
@@ -119,11 +119,34 @@ class Mail(Base):
         self.redirect('/zsite/%s' % id)
 
 
+@urlmap('/zsite/verify/show/new/(\d+)')
+class VerifyShowNew(Base):
+    def get(self, id):
+        zsite = Zsite.mc_get(id)
+        zsite_show_new(id, zsite.cid)
+        return self.redirect("/zsite/verify/next/%s"%id)
+
+
+@urlmap('/zsite/verify/next/(\d+)')
+class VerifyShowNext(Base):
+    def get(self, id):
+        zsite_user_verifyed = ZsiteUserVerifyed.get(
+            user_id=id,
+            state=ZSITE_USER_VERIFYED_UNCHECK
+        )
+        if zsite_user_verifyed:
+            zsite_user_verifyed.state = ZSITE_USER_VERIFYED_CHECKED
+            zsite_user_verifyed.save()
+        return self.redirect("/zsite/verify/uncheck")
+
 @urlmap('/zsite/verify/uncheck')
 class VerifyUncheck(Base):
     def get(self):
-        from model.zsite_verify import ZsiteUserVerifyed, ZSITE_USER_VERIFYED_UNCHECK
-        zsite_user_verifyed = ZsiteUserVerifyed.get(state=ZSITE_USER_VERIFYED_UNCHECK)
+        zsite_user_verifyed = ZsiteUserVerifyed.get(
+            state=ZSITE_USER_VERIFYED_UNCHECK
+        )
+        if not zsite_user_verifyed:
+            return self.redirect("/")
         zsite = Zsite.mc_get(zsite_user_verifyed.user_id)
         self.render(zsite=zsite)
 
