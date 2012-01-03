@@ -94,6 +94,7 @@ DB_MAIN_TABLE = (
     'com_apply',
     'site_sync',
     'ppt',
+    'failed_mq',
 )
 
 DB_GOOGLE_TABLE = (
