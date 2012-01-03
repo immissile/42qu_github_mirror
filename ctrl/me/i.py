@@ -277,6 +277,7 @@ def save_school(self):
 def save_career(self):
     from model.career import CID_JOB, career_list_set
     current_user_id = self.current_user_id
+    current_user = self.current_user
 
     #Tornado会忽略掉默认为空的参数
     arguments = parse_qs(self.request.body, True)
@@ -288,7 +289,7 @@ def save_career(self):
     begin = arguments.get('job_begin' , [])
     end = arguments.get('job_end' , [])
 #    print id, unit, title, txt, begin, end, CID_JOB
-    career_list_set(id, current_user_id, unit, title, txt, begin, end, CID_JOB)
+    career_list_set(id, current_user, unit, title, txt, begin, end, CID_JOB)
 
 @urlmap('/i/career')
 class Career(LoginBase):
