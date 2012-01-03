@@ -6,9 +6,9 @@ from model.ico import ico
 from model.career import career_current
 from model.zsite_show import zsite_show_rm
 
-ZSITE_VERIFY_NEED_NAME = 0b1
-ZSITE_VERIFY_NEED_ICO  = 0b10
-ZSITE_VERIFY_NEED_CAREER  = 0b100
+ZSITE_VERIFY_NEED_NAME     = 0b1
+ZSITE_VERIFY_NEED_ICO      = 0b10
+ZSITE_VERIFY_NEED_CAREER   = 0b100
 
 def zsite_verify_rm(zsite):
     zsite.state = ZSITE_STATE_FAILED_VERIFY
