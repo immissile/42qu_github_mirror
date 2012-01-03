@@ -133,6 +133,10 @@ class VerifyNew(Base):
 
         self.redirect('/zsite/%s'%id)
 
+@urlmap('/zsite/verify/uncheck')
+class VerifyUncheck(Base):
+    def post(self):
+        pass
 
 @urlmap('/zsite/verify/(0|1|2)/(\d+)')
 class Verify(Base):

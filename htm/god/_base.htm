@@ -12,6 +12,7 @@ from model.rss import rss_po_total, RSS_UNCHECK,Rss,RSS_RM,RSS_POED,RSS_RT_PO,RS
 from model.event import Event, EVENT_STATE_TO_REVIEW
 from model.cid import CID_COM
 from model.po_product import product_count
+from model.zsite_verify import ZsiteUserVerifyed, ZSITE_USER_VERIFYED_UNCHECK
 %>\
 <!doctype html>\
 <head>\
@@ -56,14 +57,14 @@ pic_to_review_count = pic_to_review_count_by_cid(CID_ICO)
   %if pic_to_review_count > 0:
 href="/pic/review${CID_ICO}"
   %elif Zsite.where(cid=CID_USER, state=ZSITE_STATE_WAIT_VERIFY).count() > 0:
-href="/zsite/verify${CID_USER}#${Zsite.raw_sql('select max(id) from zsite where state = %s and cid = %s',ZSITE_STATE_WAIT_VERIFY,CID_USER).fetchone()[0] or ''}"
+href="/zsite/verify/uncheck#${ZsiteUserVerifyed.raw_sql('select max(id) from zsite_user_verifyed').fetchone()[0] or ''}"
   %else:
 href = "/chart"
   %endif
   >
 
     <span class="R">
-        ${Zsite.where(cid=CID_USER, state=ZSITE_STATE_WAIT_VERIFY).count()}
+        ${ZsiteUserVerifyed.where(state=ZSITE_USER_VERIFYED_UNCHECK).count()}
     </span>
     用户认证
 </a>
