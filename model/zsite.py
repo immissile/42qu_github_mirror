@@ -100,9 +100,14 @@ def zsite_name_rm(id):
     else:
         zsite_name_edit(id, ZSITE_NAME_RM+str(id))
     zsite = Zsite.mc_get(id)
-    rendermail('/mail/notice/name_rm.txt', mail_by_user_id(id), zsite.name,
-                   link=zsite.link,
-                  )
+    from zsite_verify import zsite_verify_rm
+    zsite_verify_rm(zsite)
+    rendermail(
+        '/mail/notice/name_rm.txt', 
+        mail_by_user_id(id), 
+        zsite.name,
+        link=zsite.link,
+    )
 
 def zsite_by_query(query):
     from config import SITE_DOMAIN
