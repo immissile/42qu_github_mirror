@@ -102,17 +102,15 @@ def main():
 hg update %s
     """%branch
                 line_break = "-"*64
-                cmd = [i.strip() for i in cmd.split("\n") if i]
-                print "\n关闭分支 %s ?(Y确认,否则取消)"%branch
-                if getch() in ["y", "Y"]:
-                    print line_break
-                    import os
-                    success = True
-                    for i in cmd:
-                        print ">>>%s"%i
-                        if os.system(i) != 0:
-                             success = False
-                             break
+                cmd = [i.strip() for i in cmd.split("\n") if i.strip()]
+                print line_break
+                import os
+                success = True
+                for i in cmd:
+                    print ">>>%s"%i
+                    if os.system(i) != 0:
+                         success = False
+                         break
 
 
 
