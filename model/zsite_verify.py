@@ -26,7 +26,7 @@ def zsite_verify_ajust(zsite):
     need = 0
     id = zsite.id
 
-    if zsite.name.replace(ZSITE_NAME_RM,'').isdigit():
+    if zsite.name.isdigit():
         need |= ZSITE_VERIFY_NEED_NAME 
 
     if not ico.get(id):
