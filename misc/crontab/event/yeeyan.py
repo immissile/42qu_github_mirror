@@ -13,9 +13,7 @@ from yajl import dumps
 from hashlib import md5
 import threading
 
-#FILE_LOCK = threading.RLock()
 CURRNET_PATH = path.dirname(path.abspath(__file__))
-#WRITER = open('yeeyan.data','w')
 
 
 def name_builder(url):
