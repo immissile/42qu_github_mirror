@@ -25,16 +25,17 @@ import re
 from model.days import time_by_string, datetime_to_minutes
 from model.event import EVENT_CID_CN
 
-EVENT_DICT = dict([(unicode(k), v) for k, v in EVENT_CID_CN])
+EVENT_DICT = dict([(unicode(v), k) for k, v in EVENT_CID_CN])
 
 PLACE_DICT = dict([(unicode(v), k) for k, v in PID2NAME.items()])
 class EventImport(Model):
     pass
 
+
 DOUBAN_SITE_LIST = (
         # url , user_id , zsite_id
         #(' http://site.douban.com/widget/events/117123/',10074584,10199666),#单向街      
-        #(' http://site.douban.com/widget/events/1409398/',10000065,10091192),#Python     
+        (' http://site.douban.com/widget/events/1409398/',10000065,10091192),#Python     
         #(' http://site.douban.com/widget/events/326387/',10018609,10133826),#真人图书馆  
         #(' http://site.douban.com/widget/events/1226483/',10010448,10126347),#科学松鼠会 
         #(' http://site.douban.com/widget/events/4134513/',10018576,10200247),#豆瓣公开课 
@@ -43,8 +44,11 @@ DOUBAN_SITE_LIST = (
 
 def save_event(self, phone, address, begin_time, end_time, pic, title, intro, douban_event_id , typ):
 
+    
     if typ in EVENT_DICT:
-        event_cid = EVENT_CID_CN[typ]
+        event_cid = EVENT_DICT[typ]
+    else:
+        event_cid = EVENT_DICT[u'其他']
 
     city = address[0]
     place = address[1]
@@ -101,7 +105,7 @@ def save_event(self, phone, address, begin_time, end_time, pic, title, intro, do
     po.txt_set(htm2txt(intro)[0])
     po.save()
 
-    event_init2to_review(po.id)
+    event_init2to_review(id)
     EventImport(id, int(douban_event_id)).save()
 
     return event
@@ -153,7 +157,6 @@ class ParseEventIndex(object):
         event = save_event(self, phone, address, begin_time, end_time, pic_url, title, intro, douban_event_id, typ)
 
         yield save_pic, pic_url, event
-# pic = page_fetch(pic)
 
 
 def main():

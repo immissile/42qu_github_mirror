@@ -161,18 +161,16 @@
         });
     
     $(function(){
-        var isCtrl = false;
-        $("#po_word_txt").keyup(function (e) {
-            if(e.which == 17) isCtrl=false;
-        }).keydown(function (e) {
-            if(e.which == 17) isCtrl=true;
-            if(e.which == 13 && isCtrl == true) {
-                $(".say_btn").trigger("click")
-            }
-        });
+        keyboard_shortcut(
+            $("#po_word_txt"),
+            function(){$(".say_btn").trigger("click")}
+            );
     })
 
+
+    txt_tip.html('Ctrl + Enter 直接发布')
 	po_word_txt.blur().val('').focus(function() {
+        txt_tip.show()
 		this.className="po_word_txt"
 	}).blur(function() {
 		var self = $(this),
@@ -185,7 +183,9 @@
         po_word_txt.animate({"height":"78px"},"fast");
     }).blur(function(){
         if(po_word_txt.val()==''){
+            txt_tip.html('Ctrl + Enter 直接发布')
             po_word_txt.animate({"height":"44px"},"fast");
+            txt_tip.hide();
         }
     }).pop_at("/j/at")
     ;

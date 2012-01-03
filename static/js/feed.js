@@ -1,6 +1,5 @@
 function feed_page(feed_url, feeds_id, parse_result, loaded, end){
 
-
     var begin_id = $("#begin_id").val(0),
         autocount=0,
         feed_load = $("#feed_load").click(function() {
@@ -50,3 +49,4 @@ function feed_page(feed_url, feeds_id, parse_result, loaded, end){
         })
     })
 };
+
