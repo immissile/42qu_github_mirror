@@ -1,4 +1,5 @@
-#!/usr/bin/env python # -*- coding: utf-8 -*-
+#!/usr/bin/env python 
+# -*- coding: utf-8 -*-
 
 import _env
 import urllib2
@@ -14,29 +15,11 @@ from yajl import dumps
 from hashlib import md5
 import threading
 from zkit.lock_file import LockFile
+from writer import Writer,CURRNET_PATH
 
-CURRNET_PATH = path.dirname(path.abspath(__file__))
-
-class Writer(object):
-    instance = None
-    WRITTER_DICT = {}
-    def __init__(self):
-        pass
-
-    def get_writer(self,name):
-        if name not in Writer.WRITTER_DICT:
-            Writer.WRITTER_DICT[name]=LockFile(path.join(CURRNET_PATH, name),'wa')
-        return Writer.WRITTER_DICT[name]
-
-    @staticmethod
-    def get_instance():
-        if not Writer.instance:
-            Writer.instance = Writer()
-        return Writer.instance
-        
 
 def name_builder(url):
-    return os.path.join(CURRNET_PATH,"ucdchina", url)
+    return os.path.join(CURRNET_PATH,"ucdchina",path.basename(url))
 
 def parse_page(filepath):
     with open(filepath) as f:
@@ -55,7 +38,7 @@ def parse_page(filepath):
         out = dumps([ title,  content, author ])
 
         writer = Writer.get_instance()
-        writer = writer.get_writer('ucdchina.data')
+        writer = writer.choose_writer('ucdchina.data')
         writer.write(out+'\n')
 
 def save_page(page,url):
@@ -69,7 +52,6 @@ def parse_index(page, url):
     link_list = []
     for link_wrapper in link_wrapper_list:
         url = txt_wrap_by('/snap/', '"', link_wrapper)
-        print url
         filename = name_builder(url)
         if not exists(filename):
             yield save_page, 'http://ucdchina.com/snap/'+url
