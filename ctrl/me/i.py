@@ -231,7 +231,12 @@ class Verify(LoginBase):
             zsite_verify_ajust(current_user)
 
             if state >= ZSITE_STATE_VERIFY:
-                return self.redirect('/')
+                from model.zsite_url import url_by_id
+                if url_by_id(current_user_id):
+                    link = "/i/url"
+                else:
+                    link = '/'
+                return self.redirect(link)
             elif state <= ZSITE_STATE_APPLY:
                 return self.redirect('/auth/verify/sended/%s' % current_user_id)
 
