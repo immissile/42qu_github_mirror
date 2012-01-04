@@ -129,12 +129,12 @@ def htm2txt(htm):
     return txt , pic_list
 
 if __name__ == '__main__':
-#    import sys
-#    reload(sys)
-#    sys.setdefaultencoding('utf-8')
-#    print htm2txt("""
-#<pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;"><span class="cc"><table><tr><td><img src="http://img3.douban.com/view/note/large/public/p180084057-2.jpg" alt=""/></td></tr><tr><td align='center' class="wr pl"></td></tr></table></span>
-#如果某一天，
-#你身上多了一个“恢复出厂设置”按钮，一按身体和记忆一切归为出生时。 你会去按它吗？</pre>
-#""")[0]
-    print unescape("""<option value='&#20013;&#22269;&#35821;&#35328;&#25991;&#23398;&#31995;'>&#20013;&#22269;&#35821;&#35328;&#25991;&#23398;&#31995;</option>""")
+    import sys
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
+    print htm2txt("""
+<pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;"><span class="cc"><table><tr><td><img src="http://img3.douban.com/view/note/large/public/p180084057-2.jpg" alt=""/></td></tr><tr><td align='center' class="wr pl"></td></tr></table></span>
+如果<h1><h2>某一天</h2></h1>，
+你身上多了一个“恢复出厂设置”按钮，一按身体和记忆一切归为出生时。 你会去按它吗？</pre>
+""")[0]
+    #print unescape("""<option value='&#20013;&#22269;&#35821;&#35328;&#25991;&#23398;&#31995;'>&#20013;&#22269;&#35821;&#35328;&#25991;&#23398;&#31995;</option>""")

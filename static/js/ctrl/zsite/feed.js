@@ -3,11 +3,61 @@
 61 word
 62 note
 */
+$(".buzz_li").live("click",function(){
+    $(this.parentNode).find(".buzz_x")[0].visited = 1;
+    var content = $(
+'<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
+    ), self = $(this), 
+    href = this.href, 
+    cbody = content.find('#reply_reply_body'), t=cbody[0],
+    textarea = content.find('textarea'),
+    fancybox = $.fancybox,
+    id = href.split("/")[4].split("#")[0];
 
-(function() {
+    self.css({color:"#99a"});
+
+    content.find('#reply_name').html(self.html()).attr('href',href)
+    content.find('button').click(function(){
+        post_reply(id, textarea.val(),function(data){
+            textarea.val('')
+            textarea.focus()
+            _(data)
+        })
+    })
+    function _(data){
+        cbody.removeClass('reply_reply_loading').append(render_reply(data))
+        codesh()
+        var height = t.scrollHeight+2, 
+            winheight=$(window).height() - 260;
+
+        if(height>winheight){
+            height = winheight;
+        }else{
+            cbody.css("padding","0")
+        }
+
+        cbody.css({
+            height:height
+        })
+        t.scrollTop=t.scrollHeight-t.offsetHeight-5
+
+        fancybox.resize()
+
+    }
+    fancybox({
+        content:content, 
+        onComplete:function(){
+            textarea.focus()
+            $.getJSON( '/j/po/reply/json/'+id, _)
+        }
+    })
+    return false
+
+})
+
+;(function() {
     function winresize(){
         var body=$("#B")
-        console.info(body.width())
         if(body.width() < 1024){
             body.addClass('b1024') 
         }else{
@@ -233,10 +283,6 @@
 
 
 
-$(".buzz_li").live("click",function(){
-    $(this.parentNode).find(".buzz_x")[0].visited = 1;
-
-})
 $(".buzz_x").live("click", function(){
     var id=this.rel, buzz=$("#buzz"+id)
     if($("#buzz_win_reply .buzz_li").length<=1){

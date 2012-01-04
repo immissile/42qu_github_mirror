@@ -6,12 +6,12 @@ from zkit.jsdict import JsDict
 from model.motto import motto as _motto
 from model.user_info import UserInfo, user_info_new
 from model.namecard import namecard_get, namecard_new
-from model.ico import ico_new, ico_pos, ico_pos_new
+from model.ico import ico_new, ico_pos, ico_pos_new, user_ico_new
 from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from model.user_mail import mail_by_user_id, user_mail_new
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
-from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_WAIT_VERIFY, ZSITE_STATE_APPLY
+from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE,  ZSITE_STATE_APPLY
 from model.user_auth import user_password_new, user_password_verify
 from cgi import escape
 from urlparse import parse_qs, urlparse
@@ -30,13 +30,13 @@ from model.verify import verify_mail_new
 from model.cid import CID_VERIFY_LOGIN_MAIL
 from model.user_school import user_school_json, user_school_new
 
-def _upload_pic(files, current_user_id):
+def _upload_pic(files, current_user):
     error_pic = None
     if 'pic' in files:
         pic = files['pic'][0]['body']
         pic = picopen(pic)
         if pic:
-            ico_new(current_user_id, pic)
+            user_ico_new(current_user, pic)
             error_pic = False
         else:
             error_pic = '图片格式有误'
@@ -86,18 +86,19 @@ class PicEdit(LoginBase):
 
     def save(self):
         current_user_id = self.current_user_id
+        current_user = self.current_user
         files = self.request.files
         pos = self.get_argument('pos', '')
         if pos:
             ico_pos_new(current_user_id, pos)
-        error_pic = _upload_pic(files, current_user_id)
+        error_pic = _upload_pic(files, current_user)
         return error_pic
 
 def save_user_info(self):
     current_user_id = self.current_user_id
 
     name = self.get_argument('name', None)
-    if name:
+    if name and not name.isdigit():
         zsite_name_edit(current_user_id, name)
 
     motto = self.get_argument('motto', None)
@@ -159,8 +160,13 @@ class UserInfoEdit(LoginBase):
         txt = txt_get(current_user_id)
         o = UserInfo.mc_get(current_user_id) or JsDict()
         c = namecard_get(current_user_id) or JsDict()
+
+        name=current_user.name
+        if name.isdigit():
+            name = ""
+
         self.render(
-            name=current_user.name,
+            name=name,
             motto=motto,
             txt=txt,
             birthday='%08d' % (o.birthday or 0),
@@ -220,26 +226,30 @@ class Url(LoginBase):
 
 @urlmap('/i/verify')
 class Verify(LoginBase):
-    def prepare(self):
+    def get(self):
         super(Verify, self).prepare()
+        from model.zsite_verify import zsite_verify_ajust
+        current_user = self.current_user
+        ajust = zsite_verify_ajust(current_user)
+
         if not self._finished:
-            current_user = self.current_user
             current_user_id = self.current_user_id
             state = current_user.state
+
+
             if state >= ZSITE_STATE_VERIFY:
-                return self.redirect('/')
+                from model.zsite_url import url_by_id
+                if not url_by_id(current_user_id):
+                    link = "/i/url"
+                else:
+                    link = '/'
+                return self.redirect(link)
             elif state <= ZSITE_STATE_APPLY:
                 return self.redirect('/auth/verify/sended/%s' % current_user_id)
 
-    def post(self):
-        current_user = self.current_user
-        current_user.state = ZSITE_STATE_WAIT_VERIFY
-        current_user.save()
-        return self.get()
-
-    def get(self):
-        self.render()
-
+        self.render(ajust = ajust)
+    
+    post = get
 
 
 @urlmap('/i/link')
@@ -259,6 +269,7 @@ class Index(UserInfoEdit):
 
 def save_school(self):
     current_user_id = self.current_user_id
+    current_user = self.current_user
     search_new(current_user_id)
     arguments = parse_qs(self.request.body, True)
 
@@ -272,11 +283,12 @@ def save_school(self):
         arguments['id'],
     ):
 
-        user_school_new(current_user_id, *i)
+        user_school_new(current_user, *i)
 
 def save_career(self):
     from model.career import CID_JOB, career_list_set
     current_user_id = self.current_user_id
+    current_user = self.current_user
 
     #Tornado会忽略掉默认为空的参数
     arguments = parse_qs(self.request.body, True)
@@ -288,7 +300,7 @@ def save_career(self):
     begin = arguments.get('job_begin' , [])
     end = arguments.get('job_end' , [])
 #    print id, unit, title, txt, begin, end, CID_JOB
-    career_list_set(id, current_user_id, unit, title, txt, begin, end, CID_JOB)
+    career_list_set(id, current_user, unit, title, txt, begin, end, CID_JOB)
 
 @urlmap('/i/career')
 class Career(LoginBase):

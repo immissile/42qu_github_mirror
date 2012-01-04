@@ -136,7 +136,7 @@ function fancybox_txt(tip, action, complete, post,  submit, can_post) {
     }
 	var fancybox = $.fancybox;
 	fancybox({
-		'content': '<form method="POST" id="po_pop_form" class="po_pop_form"><div class="po_pop_tip">　</div><div id="po_pop_main"><textarea id="po_pop_txt" name="txt" class="po_pop_txt"></textarea></div><div class="btns"><span id="po_pop_error"></span><span class="btnw"><button type="submit">确认</button></span></div></form>',
+		'content': '<form method="POST" id="po_pop_form" class="po_pop_form"><div class="po_pop_tip"></div><div id="po_pop_main"><textarea id="po_pop_txt" name="txt" class="po_pop_txt"></textarea></div><div class="btns"><span id="po_pop_error"></span><span class="btnw"><button type="submit">确认</button></span></div></form>',
 		"onComplete": function() {
 			$('.po_pop_tip').text(tip)
 			var form = $('#po_pop_form'),
@@ -228,33 +228,44 @@ function doc_height(){
     return document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight
 }
 
+var TMPL_REPLY;
+
+function render_reply(data){
+    TMPL_REPLY = TMPL_REPLY||$('<script type="text/x-jquery-tmpl"><div class="fcmi">{{if $data[3]}}<a target="_blank" href="//${$data[0]}'+HOST_SUFFIX+'" ><img class="fcico" src="${$data[3]}"></a>{{else}}<div class="fcico"></div>{{/if}}<div class="fcrb">{{each $data[4]}}<pre class="fcpre${$index}">{{html $value}}</pre>{{/each}}<div class="fcname"><a href="//${$data[0]}'+HOST_SUFFIX+'" class="fcmname c9 TPH" target="_blank"><span>${$data[1]}</span>{{if $data[2]}} ( ${$data[2]} ){{/if}}</a><a class="zsite_reply reply_at" rel="${$data[0]}" href="javascript:void(0)"></a></div></div></div></script>');
+    return TMPL_REPLY.tmpl(data)
+}
+
 (function(){
 var doc=$(document), h=doc_height();
 fcm = function (id,count){
     if(!$('#fcmpop_'+id)[0]){
-        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html, self_parent=self.parent();
+        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>', self_parent=self.parent(), fcmload=$('<div class="fcmload"/>');
         self_parent.find('.fdbar').before('<div id="fcmpop_'+id+'" class="fcmpop"><div class="fcmtxt"><textarea class="txta" id="txt_'+id+'"></textarea></div><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
         var self_a = self_parent.find($(".fcma")).hide(),fcmtxt=self_parent.find('.fcmtxt');
         self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
         if(count){
-            fcmtxt.before('<div class="fcmload"></div>')
+            fcmtxt.before(fcmload)
             $.postJSON(
             "/j/po/reply/json/"+id,
             function(data){
-                self_parent.find($('.fcmload')).replaceWith(fcml)
+/*
                 for(i=0;i<data.length;i++){
                     t=data[i]
                     html = $('<div class="fcmi"><a target="_blank" class="fcmname c9 TPH" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
                     $('#fcml_'+id).append(html)
                     html.find(".fcmname").text(t[2])
                 }
-                $('#fcml_'+id).slideDown(function(){$(this).show()})
+*/
+                fcml = $(fcml)
+                fcmload.replaceWith(fcml)
+                fcml.append(render_reply(data)) ; codesh();
+                fcml.slideDown(function(){fcml.show()})
+
                 var e = $('#txt_'+id)
                 if(e.offset().top-doc.scrollTop()>h){
-                    doc.scrollTop($("#fcml_"+id).offset().top-50)             
+                    doc.scrollTop(fcml.offset().top-50)             
                 }
                 
-                codesh();
             })
         }else{
             fcmtxt.before(fcml)
@@ -276,36 +287,27 @@ fcmc = function (id,count){
     $('#fcmpop_'+id).remove();
     $('#fcmx_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="fcma"><span class="mr3">'+count+'</span>评论</a>')
 }
-fcmcbtn = function (id){
-    var textarea=$('#txt_'+id) , cont = textarea.val()
-    var my = $('<div class="fcmi" ><div class="c9">我</div><pre></pre></div>')
+fcmcbtn = function  (id){
+    var textarea=$('#txt_'+id) , 
+        cont = textarea.val(),
+        fcmload=$('<div class="fcmload"/>');
+
     if(!cont.length){
         return;
     }
+    $('#fcml_'+id).append(fcmload)
+    textarea.focus().val('').height(80)
+    post_reply(id, cont, function(r){
+            fcmload.replaceWith(render_reply(r)) ; 
+            codesh()
 
-    $.postJSON(
-        '/j/po/reply/'+id,
-        {
-            "txt":cont
-        },function(r){
-            if(r.can_not_reply){
-                $.fancybox({
-                    content: CANNOT_REPLY
-                })
-                return
-            } 
-            textarea.focus().val('').height(100)
-            my.find('pre').text(cont)
-            $('#fcml_'+id).append(my)
-    
-        }
-    )
+    })
 }
-$("#feeds .reply_at").live("click", function(){
+$(".reply_at").live("click", function(){
     var self=$(this),
         txt= self.parents('.fcmpop').find('textarea').focus(),
         val=txt.val(),
-        name=$(this.previousSibling).text(),
+        name=$(this.previousSibling).find('span').text(),
         add;
 
     add =  "@"+name+'('+this.rel+') '
@@ -319,6 +321,23 @@ $("#feeds .reply_at").live("click", function(){
     txt.val(val)
 })
 })()
+
+function post_reply(id, txt ,recall){
+    $.postJSON(
+        '/j/po/reply/'+id,
+        {
+            "txt":txt
+        },function(r){
+            if(r.can_not_reply){
+                $.fancybox({
+                    content: CANNOT_REPLY
+                })
+                return
+            } 
+            recall && recall(r); 
+        }
+    )
+}
 
 function nav2_touch(){
     if(!islogin())return;
@@ -397,7 +416,7 @@ function init_say(){
     var tt;
     function pop_hero(elem){
         var pop_hero_remove = function(){$('.pop_hero').remove()}
-        elem.live('mouseenter',function(){
+        elem.live('mouseenter',function(e){
             var self = $(this)
             tt=setTimeout(function(){
             if($('.pop_hero')[0]) pop_hero_remove()
@@ -408,18 +427,22 @@ function init_say(){
             function(result){
                 if(!result)return;
                 if(!$('.pop_hero')[0]){
-                        var pop = $('<div class="pop_hero"><div class="pop_hero_to"></div><div class="pop_hero_banner"><a href="'+result[3]+'" target="_blank"><img class="pop_hero_avatar" src="'+result[2]+'"></a><a href="javascript:follow_a('+result[4]+');void(0)" id="follow_a'+result[4]+'" class="xa pop_hero_follow">'+result[5]+'</a></div><div class="L"><a href="'+result[3]+'" target="_blank" class="pop_hero_name"></a><div class="pop_hero_bio"></div><div class="pop_hero_motto"></div></div>')
+                        var pop = $('<div class="pop_hero"><div class="pop_hero_to"></div><div class="pop_hero_banner"><a href="'+result[3]+'" target="_blank"><img class="pop_hero_avatar" src="'+result[2]+'"></a><a href="javascript:follow_a('+result[4]+');void(0)" id="follow_a'+result[4]+'" class="xa pop_hero_follow">'+result[5]+'</a></div><div class="pop_hero_txt"><a href="'+result[3]+'" target="_blank" class="pop_hero_name"></a><div class="pop_hero_bio"></div><div class="pop_hero_motto"></div></div>')
 
                         pop.find('.pop_hero_bio').text(result[1])
                         pop.find('.pop_hero_motto').text(result[6])
                         pop.find('.pop_hero_name').text(result[0])
 
                         $('body').prepend(pop)
-                        
-                        pop.offset({top:self.offset().top-126,left:self.offset().left-30}).mouseleave(
-                            function(e){
-                                pop_hero_remove()
-                            }
+                       
+                        var left = 30,base_left=self.offset().left;
+                        if(base_left*1.5>$('body').width()){ 
+                            left = pop.width()-50;
+                            pop.addClass("pop_heroR")
+                            pop.find('.pop_hero_to').css('marginLeft',IE6?left-62:left)
+                        }
+                        pop.offset({top:self.offset().top-126,left:base_left-left}).mouseleave(
+                                pop_hero_remove
                         ).mouseenter(
                             function(){
                                 clearTimeout(tt)
@@ -462,14 +485,15 @@ var _CODESH;
 function codesh(){
     if(IE6)return;
     if($(".codebrush")[0]){
-        if(!_CODESH){
+        if(_CODESH){
+            SyntaxHighlighter.highlight();
+        }else{
             $.ajax({
                 url: "http://0.42qu.us/SyntaxHighlighter/sh.js",
                 dataType: "script",
                 cache: true
             })
-        }else{
-            SyntaxHighlighter.all();
+            _CODESH=1
         }
     }
 }

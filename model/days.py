@@ -13,10 +13,11 @@ TIME_BY_STRING = re.compile('(\d+)')
 
 def datetime_to_minutes(datetime):
     y, m, d, h, M = datetime.timetuple()[:5]
-    y,m,d =str(y), str(m),str(d)
-    m=m.zfill(2)
-    d=d.zfill(2)
-    time = int(y+m+d)
+#    y,m,d =str(y), str(m),str(d)
+#    m=m.zfill(2)
+#    d=d.zfill(2)
+#    time = int(y+m+d)
+    time = year*1000+m*100+d
     return ymd2minute(time)+h*60+M
 
 def time_by_string(s):

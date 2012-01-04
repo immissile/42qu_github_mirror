@@ -79,6 +79,11 @@ def site_ico_new(user_id, pic, site_id=None):
 
     return pic_id
 
+def user_ico_new(user, pic):
+    from zsite_verify import zsite_verify_ajust
+    ico_new(user.id, pic)
+    zsite_verify_ajust(user)
+
 def ico_new(id, pic):
     pic_id = pic_new_save(CID_ICO, id, pic)
     ico_save(pic_id, pic)
