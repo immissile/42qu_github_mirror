@@ -55,6 +55,12 @@ def buzz_at_pos_set(id,pos):
     mc_buzz_at_by_user_id_for_show.set(id,0)
     buzz_at_user_count.set(id, 0)
 
+def buzz_at_pos_set_max(id):
+    reply_list = buzz_at_list(id,1,0)
+    if reply_list:
+        max_id = reply_list[0][0]
+        buzz_at_pos_set(id,max_id)
+
 def buzz_at_new(from_id, txt, po_id, reply_id=0):
     at_id_set = at_id_set_by_txt(txt)
     for to_id in at_id_set:

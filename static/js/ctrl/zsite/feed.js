@@ -286,7 +286,15 @@ $(".buzz_li").live("click",function(){
 
 
 $(".buzz_at .x").click(function(){
-    $(this.parentNode).fadeOut();
+    var me = this,
+        p = me.parentNode,
+        pp = p.parentNode;
+    p=$(p).fadeOut(function(){
+        p.remove()
+        if(!$(pp).find('div')[0]){
+            $(pp.parentNode).remove()
+        }
+    })
     $.postJSON("/j/buzz/at/x")
 })
 

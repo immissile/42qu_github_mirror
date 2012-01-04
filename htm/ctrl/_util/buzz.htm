@@ -84,6 +84,7 @@ buzz_at = buzz_at_by_user_id_for_show(user_id)
 show = any((evnet_li,buzz_at))
 %>
 %if show:
+<div>
 <div class="buzz_h1">小提醒</div>\
 <div class="buzz_win">\
 %for id, name, count in evnet_li:
@@ -107,6 +108,7 @@ ${buzz_at_from_user_list}
 </div>\
     %endif
 </div>\
+</div>
 %endif
 </%def>
 

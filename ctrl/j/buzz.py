@@ -6,6 +6,7 @@ from _handler import JLoginBase, Base
 from model.po import Po, PO_SHARE_FAV_CID
 from json import dumps
 from model.buzz_reply import buzz_reply_hide_or_rm, buzz_reply_hide_or_rm_by_user_id
+from model.buzz_at import buzz_at_pos_set_max
 
 @urlmap('/j/buzz/reply/x')
 class BuzzX(JLoginBase):
@@ -14,6 +15,12 @@ class BuzzX(JLoginBase):
         buzz_reply_hide_or_rm_by_user_id(current_user_id)
         self.finish('{}')
 
+@urlmap("/j/buzz/at/x")
+class BuzzAtX(JLoginBase):
+    def post(self):
+        current_user_id = self.current_user_id
+        buzz_at_pos_set_max(current_user_id)
+        self.finish('{}')
 
 @urlmap("/j/buzz/reply/x/(\d+)")
 class BuzzReplyX(JLoginBase):
