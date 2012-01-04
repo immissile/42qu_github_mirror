@@ -231,7 +231,7 @@ function doc_height(){
 var TMPL_REPLY;
 
 function render_reply(data){
-    TMPL_REPLY = TMPL_REPLY||$('<script type="text/x-jquery-tmpl"><div class="fcmi"><img style="float: left; width: 45px; margin-top: 6px; margin-right: 14px;" src="http://p.zuroc.xxx/96/614/614.jpg"><div style="overflow: hidden;"><pre>跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址 </pre><a href="//dfengyang.42qu.com" class="fcmname c9 TPH">${$data[1]}</a><a class="zsite_reply reply_at" rel="${$data[0]}"></a> </div></div></script>');
+    TMPL_REPLY = TMPL_REPLY||$('<script type="text/x-jquery-tmpl"><div class="fcmi"><img style="float: left; width: 45px; margin-top: 6px; margin-right: 14px;" src="http://p.zuroc.xxx/96/614/614.jpg"><div style="overflow:hidden;zoom:1"><pre>${$data[1]}</pre><a href="//${$data[0]}'+HOST_SUFFIX+'" class="fcmname c9 TPH">${$data[2]}</a><a class="zsite_reply reply_at" rel="${$data[0]}" href="javascript:void(0)"></a></div></div></script>');
     return TMPL_REPLY.tmpl(data)
 }
 
@@ -248,7 +248,6 @@ fcm = function (id,count){
             $.postJSON(
             "/j/po/reply/json/"+id,
             function(data){
-                self_parent.find($('.fcmload')).replaceWith(render_reply(data))
 /*
                 for(i=0;i<data.length;i++){
                     t=data[i]
@@ -257,10 +256,14 @@ fcm = function (id,count){
                     html.find(".fcmname").text(t[2])
                 }
 */
-                var _fcml = $('#fcml_'+id).slideDown(function(){$(this).show()})
+                fcml = $(fcml)
+                self_parent.find($('.fcmload')).replaceWith(fcml)
+                fcml.append(render_reply(data))
+                fcml.slideDown(function(){_fcml.show()})
+
                 var e = $('#txt_'+id)
                 if(e.offset().top-doc.scrollTop()>h){
-                    doc.scrollTop(_fcml.offset().top-50)             
+                    doc.scrollTop(fcml.offset().top-50)             
                 }
                 
                 codesh();
