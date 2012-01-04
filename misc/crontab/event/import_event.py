@@ -68,9 +68,8 @@ def save_event(self, phone, address, begin_time, end_time, pic, title, intro, do
     if city in PLACE_DICT:
         city_pid = PLACE_DICT[city]
 
-    if city_pid not in PLACE_L1L2[city_pid]:
+    if pid not in PLACE_L1L2[city_pid]:
         city_pid = pid
-
 
     begin = datetime_to_minutes(begin_time)
     end = datetime_to_minutes(end_time)
