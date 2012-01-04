@@ -423,9 +423,7 @@ function init_say(){
                             pop.find('.pop_hero_to').css('marginLeft',IE6?left-62:left)
                         }
                         pop.offset({top:self.offset().top-126,left:base_left-left}).mouseleave(
-                            function(e){
-                                pop_hero_remove()
-                            }
+                                pop_hero_remove
                         ).mouseenter(
                             function(){
                                 clearTimeout(tt)
