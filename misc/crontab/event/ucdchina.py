@@ -22,7 +22,7 @@ from rss_po import RssPo
 TAGGER = GetTag()
 
 def name_builder(url):
-    return os.path.join(CURRNET_PATH,"ucdchina",path.basename(url))
+    return os.path.join(CURRNET_PATH, "ucdchina", path.basename( url))
 
 def parse_page(filepath):
     with open(filepath) as f:
@@ -30,8 +30,8 @@ def parse_page(filepath):
 
         title = txt_wrap_by('<title>', '- UCD大社区', page)
         author = txt_wrap_by('style=" float:left; color:#999;">', '</span', page)
-        author = txt_wrap_by('作者：','|',author)
-        content_wrapper = txt_wrap_by('<div id="pageContentWrap" style="font-size:13px; ">','</div',page)
+        author = txt_wrap_by('作者：', '|', author)
+        content_wrapper = txt_wrap_by('<div id="pageContentWrap" style="font-size:13px; ">', '</div', page)
 
         if content_wrapper:
             content,pic_list = htm2txt(content_wrapper)
@@ -43,16 +43,16 @@ def parse_page(filepath):
         tags = TAGGER.get_tag(content+title)
         out = dumps([ title, content, author, tags ])
 
-        a = RssPo(content,10000065,title, pic_list, 0, 10000065)
+        a = RssPo(content,2585,title, pic_list, 0, 2585,tags)
         a.htm2po_by_po()
 
         writer = Writer.get_instance()
         writer = writer.choose_writer('ucdchina.data')
         writer.write(out+'\n')
 
-def save_page(page,url):
+def save_page(page, url):
     filename = name_builder(url)
-    with open(filename,'w') as f:
+    with open(filename, 'w') as f:
         f.write(page)
     parse_page(filename)
 
@@ -67,7 +67,12 @@ def parse_index(page, url):
         else:
             parse_page(filename)
 
-def yeeyan_url_builder():
+def ucdchina_daily():
+    word_list = ['PM', 'UCD', 'UR', 'ia-id', 'VD', 'HappyDesign']
+    for typ in word_list:
+        yield parse_index, 'http://ucdchina.com/%s'%str(typ)
+
+def ucd_url_builder():
     for page in xrange(68):
         yield parse_index, 'http://ucdchina.com/PM?p=%s'%str(page)
     for page in xrange(1256):
@@ -91,8 +96,8 @@ def main():
     }
 
     fetcher = NoCacheFetch(0, headers=headers)
-    spider = Rolling( fetcher, yeeyan_url_builder() )
-    spider_runner = GCrawler(spider, workers_count=1)
+    spider = Rolling( fetcher, ucd_url_builder() )
+    spider_runner = GCrawler(spider, workers_count=10)
     spider_runner.start()
 
 if __name__ == '__main__':

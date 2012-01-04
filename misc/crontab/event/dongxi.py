@@ -31,8 +31,7 @@ from model.days import time_by_string, datetime_to_minutes
 import threading
 from writer import Writer,CURRNET_PATH
 
-def name_builder(url):
-    return os.path.join(CURRNET_PATH,"dongxi", md5(url).hexdigest())
+CURRENT_PATH = path.dirname(path.abspath(__file__))
 
 def dongxi_url_builder():
     for i in xrange(1,695):
@@ -47,6 +46,7 @@ def parse_index(page,url):
             yield parse_page,'http://dongxi.net/%s'%url
 
 def parse_page(page,url):
+
     title = txt_wrap_by('<div class="content_title clearfix">','</h1>',page).strip().split('>')[-1].strip()
     author = txt_wrap_by('<a class="link_text_blue" href="','</a>',page).strip().split('>')[-1].strip()
 
@@ -61,6 +61,7 @@ def parse_rat(page,url,title,author,tags, po_url, content):
     dic = loads(page)
     rating = dic['fav_count']
     out = dumps([ title, author, tags, rating, po_url,content ])
+
     writer = Writer.get_instance()
     writer = writer.choose_writer('dongxi.data')
     writer.write(out+'\n')
@@ -69,9 +70,9 @@ def main():
     headers = {
     }
 
-    fetcher = NoCacheFetch(0, headers=headers)
+    fetcher = Fetch(path.join(CURRNET_PATH,'cache'), headers=headers)
     spider = Rolling(fetcher,dongxi_url_builder())
-    spider_runner = GCrawler(spider, workers_count=1)
+    spider_runner = GCrawler(spider, workers_count=3)
     spider_runner.start()
 
 if __name__ == '__main__':
