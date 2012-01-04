@@ -485,14 +485,15 @@ var _CODESH;
 function codesh(){
     if(IE6)return;
     if($(".codebrush")[0]){
-        if(!_CODESH){
+        if(_CODESH){
+            SyntaxHighlighter.highlight();
+        }else{
             $.ajax({
                 url: "http://0.42qu.us/SyntaxHighlighter/sh.js",
                 dataType: "script",
                 cache: true
             })
-        }else{
-            SyntaxHighlighter.all();
+            _CODESH=1
         }
     }
 }
