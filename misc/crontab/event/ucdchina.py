@@ -1,4 +1,5 @@
-#!/usr/bin/env python # -*- coding: utf-8 -*-
+#!/usr/bin/env python 
+# -*- coding: utf-8 -*-
 
 import _env
 import urllib2
@@ -14,6 +15,7 @@ from yajl import dumps
 from hashlib import md5
 import threading
 from zkit.lock_file import LockFile
+from writer import Writer,CURRNET_PATH
 from zkit.classification.classification import GetTag  
 
 CURRNET_PATH = path.dirname(path.abspath(__file__))
@@ -62,7 +64,7 @@ def parse_page(filepath):
         print out
 
         writer = Writer.get_instance()
-        writer = writer.get_writer('ucdchina.data')
+        writer = writer.choose_writer('ucdchina.data')
         writer.write(out+'\n')
 
 def save_page(page, url):

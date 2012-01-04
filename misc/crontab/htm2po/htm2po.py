@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
-
-
-
 from fetch_pic import fetch_pic
 
 import json
