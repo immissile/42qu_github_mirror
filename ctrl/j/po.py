@@ -40,11 +40,11 @@ def post_reply(self, id):
                 if reply_id:
                     reply = Reply.mc_get(reply_id)
                     reply.user = user
-                    result = _reply_list_dump([reply], True)
+                    result = _reply_list_dump([reply], True, user.id)
         self.finish(dumps(result))
         return reply_id
 
-def _reply_list_dump(reply_list, can_rm):
+def _reply_list_dump(reply_list, can_rm, current_user_id):
     result = []
     career_bind(reply_list, "user_id")
     ico_url_bind_with_default(tuple(i.user for i in reply_list))
@@ -87,7 +87,7 @@ class PoReplyJson(Base):
             po_pos_state_buzz(user_id, po) 
 
         if po and po.can_view(user_id):
-            result = _reply_list_dump( po.reply_list() , po.can_admin(user_id))
+            result = _reply_list_dump( po.reply_list() , po.can_admin(user_id), user_id)
         else:
             result = ()
         return self.finish(dumps(result))
