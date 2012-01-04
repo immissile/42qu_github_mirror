@@ -397,6 +397,6 @@ EVENT_LOCATION = {
 SEARCH = dict([(v,k) for k,v in PID2NAME.iteritems()])
 for pinyin, pin_city  in EVENT_LOCATION.iteritems():
     best_match, match = ordered_LSS_list(pin_city,SEARCH.keys())[0]
-    print '"%s" : %s'%(pinyin, SEARCH[best_match])
+    print '"%s" : %s ,'%(pin_city, SEARCH[best_match])
 #    print pin_city, pinyin  , best_match ,SEARCH[best_match] 
 
