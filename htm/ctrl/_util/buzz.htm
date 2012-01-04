@@ -96,7 +96,9 @@ show = any((evnet_li,buzz_at))
 count, buzz_at_from_user_list  = buzz_at
 buzz_at_from_user_list = " , ".join(buzz_at_from_user_list)
 %>
-<div class="buzz_w"><a href="/notice/buzz/at">\
+<div class="buzz_at">\
+<a href="javascript:void(0)" class="buzz_x"></a>\
+<a href="/notice/buzz/at">\
 ${buzz_at_from_user_list}
     %if count: 
 等<span class="m01">${count}</span>人
