@@ -25,8 +25,8 @@ $(".buzz_li").live("click",function(){
         })
     })
     function _(data){
-        cbody.removeClass('reply_reply_loading')
-        render_reply(cbody.append, data)
+        cbody.removeClass('reply_reply_loading').append(render_reply(data))
+        codesh()
         var height = t.scrollHeight+2, 
             winheight=$(window).height() - 260;
 
