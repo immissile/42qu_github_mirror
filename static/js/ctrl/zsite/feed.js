@@ -3,8 +3,50 @@
 61 word
 62 note
 */
+$(".buzz_li").live("click",function(){
+    $(this.parentNode).find(".buzz_x")[0].visited = 1;
+    var content = $(
+'<div id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea></div>'
+    ), self = $(this), href=this.href, cbody=content.find('#reply_reply_body'), t=cbody[0],
+    fancybox=$.fancybox;
+    self.css({color:"#99a"});
+    content.find('#reply_name').html(self.html()).attr('href',href)
 
-(function() {
+    fancybox({
+        content:content, 
+        onComplete:function(){
+            content.find('textarea').focus()
+            $.getJSON(
+                '/j/po/reply/json/'+href.split("/")[4].split("#")[0],
+                function(data){
+                    render_reply(data).appendTo(
+                        cbody.removeClass('reply_reply_loading')
+                    )   
+                    var height = t.scrollHeight+2, 
+                        winheight=$(window).height() - 260;
+
+                    if(height>winheight){
+                        height = winheight;
+                    }else{
+                        cbody.css("padding","0")
+                    }
+ 
+                    cbody.css({
+                        height:height
+                    })
+                    t.scrollTop=t.scrollHeight-t.offsetHeight-5
+
+                    fancybox.resize()
+
+                }
+            )
+        }
+    })
+    return false
+
+})
+
+;(function() {
     function winresize(){
         var body=$("#B")
         if(body.width() < 1024){
@@ -232,10 +274,6 @@
 
 
 
-$(".buzz_li").live("click",function(){
-    $(this.parentNode).find(".buzz_x")[0].visited = 1;
-
-})
 $(".buzz_x").live("click", function(){
     var id=this.rel, buzz=$("#buzz"+id)
     if($("#buzz_win_reply .buzz_li").length<=1){
