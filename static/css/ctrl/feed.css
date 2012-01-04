@@ -61,8 +61,8 @@ margin-bottom:32px
 #feed_loading{
 outline:0;
 display:block;
-height:8px;
-background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
+height:32px;
+background:url(/img/gif/load42.gif) 50% 50% no-repeat;
 margin-bottom:64px;
 }
 .fdloading{
