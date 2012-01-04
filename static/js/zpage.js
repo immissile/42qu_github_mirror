@@ -288,7 +288,6 @@ fcmc = function (id,count){
     $('#fcmpop_'+id).remove();
     $('#fcmx_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="fcma"><span class="mr3">'+count+'</span>评论</a>')
 }
-
 fcmcbtn = function  (id){
     var textarea=$('#txt_'+id) , 
         cont = textarea.val(),
@@ -299,21 +298,10 @@ fcmcbtn = function  (id){
     }
     $('#fcml_'+id).append(fcmload)
     textarea.focus().val('').height(80)
-    $.postJSON(
-        '/j/po/reply/'+id,
-        {
-            "txt":cont
-        },function(r){
-            if(r.can_not_reply){
-                $.fancybox({
-                    content: CANNOT_REPLY
-                })
-                return
-            } 
+    post_reply(id, cont, function(r){
             fcmload.replaceWith(render_reply(r))
-    
-        }
-    )
+
+    })
 }
 $(".reply_at").live("click", function(){
     var self=$(this),
@@ -333,6 +321,23 @@ $(".reply_at").live("click", function(){
     txt.val(val)
 })
 })()
+
+function post_reply(id, txt ,recall){
+    $.postJSON(
+        '/j/po/reply/'+id,
+        {
+            "txt":txt
+        },function(r){
+            if(r.can_not_reply){
+                $.fancybox({
+                    content: CANNOT_REPLY
+                })
+                return
+            } 
+            recall && recall(r); 
+        }
+    )
+}
 
 function nav2_touch(){
     if(!islogin())return;
