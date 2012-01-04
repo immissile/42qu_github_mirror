@@ -239,12 +239,12 @@ function render_reply(data){
 var doc=$(document), h=doc_height();
 fcm = function (id,count){
     if(!$('#fcmpop_'+id)[0]){
-        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>', self_parent=self.parent();
+        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>', self_parent=self.parent(), fcmload=$('<div class="fcmload"/>');
         self_parent.find('.fdbar').before('<div id="fcmpop_'+id+'" class="fcmpop"><div class="fcmtxt"><textarea class="txta" id="txt_'+id+'"></textarea></div><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
         var self_a = self_parent.find($(".fcma")).hide(),fcmtxt=self_parent.find('.fcmtxt');
         self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
         if(count){
-            fcmtxt.before('<div class="fcmload"></div>')
+            fcmtxt.before(fcmload)
             $.postJSON(
             "/j/po/reply/json/"+id,
             function(data){
@@ -257,7 +257,7 @@ fcm = function (id,count){
                 }
 */
                 fcml = $(fcml)
-                self_parent.find($('.fcmload')).replaceWith(fcml)
+                fcmload.replaceWith(fcml)
                 fcml.append(render_reply(data))
                 fcml.slideDown(function(){fcml.show()})
 
@@ -288,13 +288,17 @@ fcmc = function (id,count){
     $('#fcmpop_'+id).remove();
     $('#fcmx_'+id).replaceWith('<a href="javascript:fcm('+id+','+count+');void(0)" class="fcma"><span class="mr3">'+count+'</span>评论</a>')
 }
-fcmcbtn = function (id){
-    var textarea=$('#txt_'+id) , cont = textarea.val()
-    var my = $('<div class="fcmi" ><div class="c9">我</div><pre></pre></div>')
+
+fcmcbtn = function  (id){
+    var textarea=$('#txt_'+id) , 
+        cont = textarea.val(),
+        fcmload=$('<div class="fcmload"/>');
+
     if(!cont.length){
         return;
     }
-
+    $('#fcml_'+id).append(fcmload)
+    textarea.focus().val('').height(80)
     $.postJSON(
         '/j/po/reply/'+id,
         {
@@ -306,9 +310,7 @@ fcmcbtn = function (id){
                 })
                 return
             } 
-            textarea.focus().val('').height(100)
-            my.find('pre').text(cont)
-            $('#fcml_'+id).append(my)
+            fcmload.replaceWith(render_reply(r))
     
         }
     )
