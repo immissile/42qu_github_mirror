@@ -115,7 +115,7 @@ def htm2txt(htm):
                             li.append(s)
                     elif name in BLOCK:
                         li.append(u'\n%s\n' % s)
-                    elif name in BOLD:
+                    elif name in BOLD and "**" not in s and "\n" not in s:
                         li.append(u'**%s**' % s)
                     else:
                         li.append(s)
