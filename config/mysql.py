@@ -95,6 +95,10 @@ DB_MAIN_TABLE = (
     'site_sync',
     'ppt',
     'failed_mq',
+    'spammer',
+    'buzz_at_pos',
+    'buzz_at',
+    'buzz_reply',
 )
 
 DB_GOOGLE_TABLE = (
