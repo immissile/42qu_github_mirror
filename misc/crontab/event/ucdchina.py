@@ -16,7 +16,6 @@ from hashlib import md5
 import threading
 from zkit.lock_file import LockFile
 from writer import Writer,CURRNET_PATH
-from misc.crontab.htm2po.htm2po import htm2po_by_po
 from zkit.classification.classification import GetTag  
 from rss_po import RssPo
 
