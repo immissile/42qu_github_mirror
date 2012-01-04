@@ -54,14 +54,24 @@ class PoReplyJson(JLoginBase):
             reply_list = po.reply_list()
             career_bind(reply_list, "user_id")
             ico_url_bind_with_default(tuple(i.user for i in reply_list))
+            pre_user_id = 0
+
             for reply in reply_list:
                 user = reply.user
                 career = reply.career
                 career = " , ".join(filter(bool,career))
                 if not career:
                     career = 0
+
+                user_id = user.id
+                if user_id == pre_user_id:
+                    ico = "#"
+                else:
+                    ico = user.ico
+
+                pre_user_id = user_id
                 result.append(
-                    (url_or_id(user.id), reply.htm, user.name , career, user.ico)
+                    (url_or_id(user_id), reply.htm, user.name , career, ico)
                 )
 
         return self.finish(dumps(result))
