@@ -1,6 +1,17 @@
 rm = _rm("#reply","/po/reply/rm/")
 $(function(){$(".G,.G4").css('position','static')})
-$("#txt_form").elastic_login()
+$("#txt_form").elastic_login().submit(function(){
+    var textarea=$(this).find('textarea')
+    post_reply(id, textarea.val(),function(data){
+        textarea.val('').focus()
+            var reply_list =  $("#reply_list").show();
+            reply_list.find(".fcmi:last").css('border-bottom','1px dotted #ccc')
+            reply_list.append(render_reply(data)).find(".fcmi:last").css(
+                'border','0'
+            )
+        }
+    })
+})
 $(function(){
     if(islogin()&&$('#txt_form')[0]){
         $("#reply_txt").pop_at("/j/at/reply/"+$('#txt_form').attr('action').split('/')[3],27)
