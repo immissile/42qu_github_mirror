@@ -14,12 +14,11 @@ from zkit.pic import picopen
 from model.cid import CID_SITE, CID_COM
 from model.zsite_url import url_or_id
 import time
-from model.ico import pic_url_with_default
+from model.ico import pic_url_with_default, ico_url_bind_with_default
 from model.feed_render import feed_tuple_by_db
 from model.career import career_current, career_bind, career_dict
 from model.txt2htm import txt_withlink
 from model.buzz_reply import buzz_reply_hide
-from model.ico import ico_url_bind_with_default
 
 def post_reply(self, id):
     user = self.current_user
@@ -54,7 +53,8 @@ class PoReplyJson(JLoginBase):
             reply_list = po.reply_list()
             career_bind(reply_list, "user_id")
             ico_url_bind_with_default(tuple(i.user for i in reply_list))
-            pre_user_id = 0
+
+            pre_user_id = None
 
             for reply in reply_list:
                 user = reply.user
@@ -64,15 +64,15 @@ class PoReplyJson(JLoginBase):
                     career = 0
 
                 user_id = user.id
+
                 if user_id == pre_user_id:
-                    ico = "#"
+                    result[-1][-1].append(reply.htm)
                 else:
-                    ico = user.ico
+                    result.append(
+                        (url_or_id(user_id), user.name , career, user.ico, [reply.htm])
+                    )
 
                 pre_user_id = user_id
-                result.append(
-                    (url_or_id(user_id), reply.htm, user.name , career, ico)
-                )
 
         return self.finish(dumps(result))
 
