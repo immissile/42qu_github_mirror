@@ -124,10 +124,13 @@ def career_set(id, user_id, unit, title, txt, begin, end, cid):
     else:
         career_new(user_id, unit_id, title_id, txt, begin, end, cid)
 
-def career_list_set(id, user_id, unit, title, txt, begin, end, cid):
+def career_list_set(id, user, unit, title, txt, begin, end, cid):
+    user_id = user.id
     for id, unit, title, txt, begin, end in zip(id, unit, title, txt, begin, end):
         career_set(id, user_id, unit, title, txt, begin, end, cid)
     mc_flush(user_id, cid)
+    from zsite_verify import zsite_verify_ajust
+    zsite_verify_ajust(user)
 
 @mc_career_id_list('{user_id}_{cid}')
 def career_id_list(user_id, cid):

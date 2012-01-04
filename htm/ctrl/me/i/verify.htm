@@ -1,27 +1,10 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%!
-from model.zsite import ZSITE_STATE_WAIT_VERIFY
 from model.ico import ico 
-%>
-%if current_user.state == ZSITE_STATE_WAIT_VERIFY:
-<style>
-.fullscreen{
-margin-top:20%;
-}
-.fullscreen p{
-line-height:32px;
-margin:16px 0;
-font-size:16px;
-text-align:center;
-}
-</style>
-<div class="fullscreen">
-<p>认证申请已提交 , 请等管理员审批</p>
-<p><a href="/">点此返回首页</a></p>
-</div>
-%else:
-<style>
+from model.zsite_verify import ZSITE_VERIFY_NEED_NAME , ZSITE_VERIFY_NEED_ICO  , ZSITE_VERIFY_NEED_CAREER    
+%>                         
+<style>                    
 .btnw #disabled{
 background:#fff;
 border:0;
@@ -38,13 +21,15 @@ margin:32px 0;
 <%htm:form>
 <div class="tc f16 mt32 fullscreen">
 <%
-need_career = not any(current_user.career)
-need_pic = not ico.get(current_user_id)
-need_info = need_career or need_pic
+need_career = ajust&ZSITE_VERIFY_NEED_CAREER
+need_pic = ajust&ZSITE_VERIFY_NEED_ICO 
+need_name = ajust&ZSITE_VERIFY_NEED_NAME
 %>
-% if need_info:
 <h1>资料不全 , 请您补充</h1>
 <div class="content">
+% if need_name:
+<p><a href="/i">点击这里</a> , 更正姓名</a>
+% endif
 % if need_career:
 <p><a href="/i/career">点击这里</a> , 完善履历</p>
 % endif
@@ -53,24 +38,7 @@ need_info = need_career or need_pic
 % endif
 </div>
 <p class="btns">
-    <span class="btnw"><button type="submit" ${' id="disabled"' if need_info else ''|n}>补充完成 , 刷新页面</button></span>
+    <span class="btnw"><button type="submit">补充完成 , 刷新页面</button></span>
 </p>
-%else:
-<h1>请阅读以下文字, 确认完成后, 再提交认证申请</h1>
-<div class="content">
-<p>1. 填写个人资料, 内容丰富准确, 真实可信</p>
-<p>2. 上传本人照片, 图像清晰雅观, 可以辨认</p>
-</div>
-<p class="btns">
-    <span class="btnw"><button${' id="disabled"' if need_info else ''|n} type="submit">提交</button></span>
-</p>
-% endif
 </div>
 </%htm:form>
-<script>
-$("#disabled").click(function(){
-    location.reload()    
-    return false
-})
-</script>
-%endif

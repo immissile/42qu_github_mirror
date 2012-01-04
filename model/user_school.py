@@ -61,7 +61,8 @@ def user_school_json(user_id):
     return dumps(user_school_tuple(user_id))
 
 
-def user_school_new(user_id, school_id, school_year, school_degree, school_department, txt='', id=None):
+def user_school_new(user, school_id, school_year, school_degree, school_department, txt='', id=None):
+    user_id = user.id
     if txt.startswith('经历简述 '):
         txt = ''
     school_id = int(school_id or 0)
@@ -90,6 +91,8 @@ def user_school_new(user_id, school_id, school_year, school_degree, school_depar
         u.txt = txt
         u.save()
         mc_flush(user_id, school_id, school_year)
+        from zsite_verify import zsite_verify_ajust
+        zsite_verify_ajust(user)
         return u
 
 
