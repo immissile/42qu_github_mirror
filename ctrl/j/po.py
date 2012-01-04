@@ -3,7 +3,7 @@
 from yajl import dumps
 from ctrl._urlmap.j import urlmap
 from model.zsite_url import zsite_by_domain
-from _handler import JLoginBase
+from _handler import JLoginBase, Base
 from model.fs import fs_url_jpg
 from model.po import Po, CID_WORD, CID_NOTE, po_word_new
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
@@ -78,7 +78,7 @@ def _reply_list_dump(reply_list, can_rm):
     return result
 
 @urlmap('/j/po/reply/json/(\d+)')
-class PoReplyJson(JLoginBase):
+class PoReplyJson(Base):
     def get(self, id):
         po = Po.mc_get(id)
         user_id = self.current_user_id
