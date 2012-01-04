@@ -98,7 +98,7 @@ def zsite_name_rm(id):
     if url:
         zsite_name_edit(id, url)
     else:
-        zsite_name_edit(id, '0'+str(id))
+        zsite_name_edit(id, '')
     zsite = Zsite.mc_get(id)
     rendermail(
         '/mail/notice/name_rm.txt', 
