@@ -12,17 +12,17 @@ margin-bottom:0
 background:#fff;
 padding-left:0
 }
-.buzz_win_reply .buzz_x, .buzz_at .buzz_x{
+.buzz_win_reply .buzz_x, .buzz_at .x{
     display:inline-block;
     height:14px;
     width:17px;
     background:url(/img/gif/xx.gif) no-repeat 4px 5px;
     _background-position:-50px 5px;
 }
-.buzz_win_reply .buzz_w:hover .buzz_x, .buzz_at:hover .buzz_x{
+.buzz_win_reply .buzz_w:hover .buzz_x, .buzz_at:hover .x{
     background-position:-50px 5px;
 }
-.buzz_win_reply .buzz_w .buzz_x:hover, .buzz_at .buzz_x:hover{
+.buzz_win_reply .buzz_w .buzz_x:hover, .buzz_at .x:hover{
     background-position:-21px 5px;
 }
 .buzz_win_reply .buzz_au{

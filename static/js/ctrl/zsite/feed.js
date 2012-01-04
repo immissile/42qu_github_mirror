@@ -285,7 +285,10 @@ $(".buzz_li").live("click",function(){
 
 
 
-
+$(".buzz_at .x").click(function(){
+    $(this.parentNode).fadeOut();
+    $.postJSON("/j/buzz/at/x")
+})
 
 
 $(".buzz_x").live("click", function(){
