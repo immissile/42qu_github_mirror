@@ -18,8 +18,13 @@ $(".buzz_li").live("click",function(){
 
     content.find('#reply_name').html(self.html()).attr('href',href)
     content.find('button').click(function(){
-        post_reply(id, textarea.val(),function(data){
-            textarea.val('')
+        var v=textarea.val(), 
+            fancybox=$.fancybox;
+        if(!v.length)return;
+        textarea.val('')
+        fancybox.showActivity();
+        post_reply(id, v,function(data){
+            fancybox.hideActivity();
             textarea.focus()
             _(data)
         })

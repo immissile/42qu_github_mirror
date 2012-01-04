@@ -1,16 +1,25 @@
 rm = _rm("#reply","/po/reply/rm/")
 $(function(){$(".G,.G4").css('position','static')})
 $("#txt_form").elastic_login().submit(function(){
-    var textarea=$(this).find('textarea')
-    post_reply(id, textarea.val(),function(data){
-        textarea.val('').focus()
+        var textarea=$(this).find('textarea'),
+            v=textarea.val(),
+            fancybox=$.fancybox;
+        if(!v.length)return;
+        textarea.val('')
+
+        fancybox.showActivity();
+ 
+        post_reply(PO_ID, v,function(data){
+            textarea.focus();
+            fancybox.hideActivity();
+
             var reply_list =  $("#reply_list").show();
-            reply_list.find(".fcmi:last").css('border-bottom','1px dotted #ccc')
+            reply_list.find(".fcmi:last").css('borderBottom','1px dotted #ccc')
             reply_list.append(render_reply(data)).find(".fcmi:last").css(
                 'border','0'
             )
-        }
-    })
+        })
+    return false
 })
 $(function(){
     if(islogin()&&$('#txt_form')[0]){
