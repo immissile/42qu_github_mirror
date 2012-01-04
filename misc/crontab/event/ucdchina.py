@@ -16,10 +16,31 @@ from hashlib import md5
 import threading
 from zkit.lock_file import LockFile
 from writer import Writer,CURRNET_PATH
+from zkit.classification.classification import GetTag  
+
+CURRNET_PATH = path.dirname(path.abspath(__file__))
+TAGGER = GetTag()
+
+class Writer(object):
+    instance = None
+    WRITTER_DICT = {}
+    def __init__(self):
+        pass
+
+    def get_writer(self, name):
+        if name not in Writer.WRITTER_DICT:
+            Writer.WRITTER_DICT[name] = LockFile(path.join(CURRNET_PATH, name), 'wa')
+        return Writer.WRITTER_DICT[name]
+
+    @staticmethod
+    def get_instance():
+        if not Writer.instance:
+            Writer.instance = Writer()
+        return Writer.instance
 
 
 def name_builder(url):
-    return os.path.join(CURRNET_PATH,"ucdchina",path.basename(url))
+    return os.path.join(CURRNET_PATH, "ucdchina", path.basename( url))
 
 def parse_page(filepath):
     with open(filepath) as f:
@@ -27,23 +48,28 @@ def parse_page(filepath):
 
         title = txt_wrap_by('<title>', '- UCD大社区', page)
         author = txt_wrap_by('style=" float:left; color:#999;">', '</span', page)
-        author = txt_wrap_by('作者：','|',author)
-        content_wrapper = txt_wrap_by('<div id="pageContentWrap" style="font-size:13px; ">','</div',page)
+        author = txt_wrap_by('作者：', '|', author)
+        content_wrapper = txt_wrap_by('<div id="pageContentWrap" style="font-size:13px; ">', '</div', page)
 
         if content_wrapper:
-            content = str(htm2txt(content_wrapper)[0])
+            content,pic_list = htm2txt(content_wrapper)
         else:
-            return 
+            return
 
-        out = dumps([ title,  content, author ])
+        content = str(content)
+
+        tags = TAGGER.get_tag(content+title)
+
+        out = dumps([ title, content, author, tags ])
+        print out
 
         writer = Writer.get_instance()
         writer = writer.choose_writer('ucdchina.data')
         writer.write(out+'\n')
 
-def save_page(page,url):
+def save_page(page, url):
     filename = name_builder(url)
-    with open(filename,'w') as f:
+    with open(filename, 'w') as f:
         f.write(page)
     parse_page(filename)
 
@@ -58,7 +84,12 @@ def parse_index(page, url):
         else:
             parse_page(filename)
 
-def yeeyan_url_builder():
+def ucdchina_daily():
+    word_list = ['PM', 'UCD', 'UR', 'ia-id', 'VD', 'HappyDesign']
+    for typ in word_list:
+        yield parse_index, 'http://ucdchina.com/%s'%str(typ)
+
+def ucd_url_builder():
     for page in xrange(68):
         yield parse_index, 'http://ucdchina.com/PM?p=%s'%str(page)
     for page in xrange(1256):
@@ -82,7 +113,7 @@ def main():
     }
 
     fetcher = NoCacheFetch(0, headers=headers)
-    spider = Rolling( fetcher, yeeyan_url_builder() )
+    spider = Rolling( fetcher, ucd_url_builder() )
     spider_runner = GCrawler(spider, workers_count=1)
     spider_runner.start()
 
