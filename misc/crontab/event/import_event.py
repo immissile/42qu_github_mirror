@@ -3,6 +3,7 @@
 import _env
 from model._db import Model, McModel, McCache, McNum
 from model.po import po_new, STATE_RM
+from datetime import datetime
 from model.po_event import po_event_pic_new , EVENT_CID, po_event_feedback_new
 from model.event import Event, event_init2to_review
 from model.state import STATE_SECRET
@@ -24,6 +25,7 @@ from zkit.earth import PID2NAME, PLACE_L1L2
 import re
 from model.days import time_by_string, datetime_to_minutes
 from model.event import EVENT_CID_CN
+from zkit.location_douban import DOUBAN2ID
 
 EVENT_DICT = dict([(unicode(v), k) for k, v in EVENT_CID_CN])
 
@@ -35,16 +37,29 @@ class EventImport(Model):
 DOUBAN_SITE_LIST = (
         # url , user_id , zsite_id
         #(' http://site.douban.com/widget/events/117123/',10074584,10199666),#单向街      
-        (' http://site.douban.com/widget/events/1409398/',10000065,10091192),#Python     
+        #(' http://site.douban.com/widget/events/1409398/',10000065,10091192),#Python     
         #(' http://site.douban.com/widget/events/326387/',10018609,10133826),#真人图书馆  
         #(' http://site.douban.com/widget/events/1226483/',10010448,10126347),#科学松鼠会 
         #(' http://site.douban.com/widget/events/4134513/',10018576,10200247),#豆瓣公开课 
         #(' http://site.douban.com/widget/events/3954604/',10019039,10200245), #草地音乐 
 )
 
+def location_finder(name):
+    if name in DOUBAN2ID:
+        return DOUBAN2ID[name]
+    else:
+        if name in PLACE_DICT:
+            return PLACE_DICT[name]
+    return 1
+
 def save_event(self, phone, address, begin_time, end_time, pic, title, intro, douban_event_id , typ):
 
-    
+    begin_time = time_by_string(begin_time)
+    end_time = time_by_string(end_time)
+
+    if begin_time < datetime.now():
+        return None
+
     if typ in EVENT_DICT:
         event_cid = EVENT_DICT[typ]
     else:
@@ -57,16 +72,9 @@ def save_event(self, phone, address, begin_time, end_time, pic, title, intro, do
     else:
         address = address[2]
 
-    begin_time = time_by_string(begin_time)
-    end_time = time_by_string(end_time)
 
-    pid = 1
-    if place in PLACE_DICT:
-        pid = PLACE_DICT[place]
-
-    city_pid = 1
-    if city in PLACE_DICT:
-        city_pid = PLACE_DICT[city]
+    city_pid = location_finder(city)
+    pid = location_finder(place)
 
     if pid not in PLACE_L1L2[city_pid]:
         city_pid = pid
@@ -126,6 +134,8 @@ class ParseEventIndex(object):
     def __call__(self, html, url):
         html = txt_wrap_by('<ul class="list-m">', '</ul>', html)
         items = txt_wrap_by_all('<li class="item">', '</div>', html)
+        if not items:
+            items = txt_wrap_by_all('<h3><a','</h3',html)
 
         links = []
         for item in items:
@@ -155,7 +165,8 @@ class ParseEventIndex(object):
 
         event = save_event(self, phone, address, begin_time, end_time, pic_url, title, intro, douban_event_id, typ)
 
-        yield save_pic, pic_url, event
+        if event:
+            yield save_pic, pic_url, event
 
 
 def main():
