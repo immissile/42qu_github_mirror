@@ -83,26 +83,9 @@ font-size:16px;text-align:center;margin-top:10%;
 <%
 po_id = str(po.id)
 %>
-<div id="reply_list">
-    %for reply in po.reply_list():
-<%
-user = reply.user
-user_id = user.id
-%>
-<div class="sdw" id="reply${reply.id}"><div class="sd">
-    <pre>${reply.htm|n}</pre>
-    <div class="bar">
-%if can_admin or reply.can_rm(current_user_id):
-    <a href="javascript:rm(${reply.id});void(0)" class="rm">删除</a> 
-%else:
-    <span class="c9 L">${friendly_time(reply.create_time)}</span>
-%endif
-<a href="${user.link}" class="replyer TPH">${user.name}</a> 
-<a class="reply_at" rel="${url_or_id(user_id)}" href="javascript:void(0)"></a>
-    </div>
-</div></div>
-    %endfor
-</div>
+<div class="fcmpop">
+<div id="reply_list"></div>
+<script>PO_ID=${po_id}</script>\
 
     %if po.state > STATE_SECRET:
 <%htm:form id="txt_form" action="/po/reply/${po_id}">\
@@ -117,4 +100,27 @@ ${htm.reply_textarea()}
 </div>
 </%htm:form>
     %endif
+</div>
+
+##<div id="reply_list">
+##    %for reply in po.reply_list():
+##<%
+##user = reply.user
+##user_id = user.id
+##%>
+##<div class="sdw" id="reply${reply.id}"><div class="sd">
+##    <pre>${reply.htm|n}</pre>
+##    <div class="bar">
+##%if can_admin or reply.can_rm(current_user_id):
+##    <a href="javascript:rm(${reply.id});void(0)" class="rm">删除</a> 
+##%else:
+##    <span class="c9 L">${friendly_time(reply.create_time)}</span>
+##%endif
+##<a href="${user.link}" class="replyer TPH">${user.name}</a> 
+##<a class="reply_at" rel="${url_or_id(user_id)}" href="javascript:void(0)"></a>
+##    </div>
+##</div></div>
+##    %endfor
+##</div>
+##
 </%def>
