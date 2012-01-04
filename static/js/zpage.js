@@ -230,9 +230,11 @@ function doc_height(){
 
 var TMPL_REPLY;
 
-function render_reply(data){
+function render_reply(recall,data){
     TMPL_REPLY = TMPL_REPLY||$('<script type="text/x-jquery-tmpl"><div class="fcmi">{{if $data[3]}}<a target="_blank" href="//${$data[0]}'+HOST_SUFFIX+'" ><img class="fcico" src="${$data[3]}"></a>{{else}}<div class="fcico"></div>{{/if}}<div class="fcrb">{{each $data[4]}}<pre class="fcpre${$index}">{{html $value}}</pre>{{/each}}<div class="fcname"><a href="//${$data[0]}'+HOST_SUFFIX+'" class="fcmname c9 TPH" target="_blank"><span>${$data[1]}</span>{{if $data[2]}} ( ${$data[2]} ){{/if}}</a><a class="zsite_reply reply_at" rel="${$data[0]}" href="javascript:void(0)"></a></div></div></div></script>');
-    return TMPL_REPLY.tmpl(data)
+    recall(TMPL_REPLY.tmpl(data))
+    codesh();
+    return 
 }
 
 (function(){
@@ -258,7 +260,7 @@ fcm = function (id,count){
 */
                 fcml = $(fcml)
                 fcmload.replaceWith(fcml)
-                fcml.append(render_reply(data))
+                render_reply(fcml.append,data)
                 fcml.slideDown(function(){fcml.show()})
 
                 var e = $('#txt_'+id)
@@ -266,7 +268,6 @@ fcm = function (id,count){
                     doc.scrollTop(fcml.offset().top-50)             
                 }
                 
-                codesh();
             })
         }else{
             fcmtxt.before(fcml)
@@ -299,7 +300,7 @@ fcmcbtn = function  (id){
     $('#fcml_'+id).append(fcmload)
     textarea.focus().val('').height(80)
     post_reply(id, cont, function(r){
-            fcmload.replaceWith(render_reply(r))
+            render_reply(fcmload.replaceWith, r)
 
     })
 }
