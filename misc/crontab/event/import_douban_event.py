@@ -36,12 +36,12 @@ class EventImport(Model):
 
 DOUBAN_SITE_LIST = (
         # url , user_id , zsite_id
-        #(' http://site.douban.com/widget/events/117123/',10074584,10199666),#单向街      
-        #(' http://site.douban.com/widget/events/1409398/',10000065,10091192),#Python     
-        #(' http://site.douban.com/widget/events/326387/',10018609,10133826),#真人图书馆  
-        #(' http://site.douban.com/widget/events/1226483/',10010448,10126347),#科学松鼠会 
-        #(' http://site.douban.com/widget/events/4134513/',10018576,10200247),#豆瓣公开课 
-        #(' http://site.douban.com/widget/events/3954604/',10019039,10200245), #草地音乐 
+        (117123  , 10074584,10199666),#单向街      
+        (1409398 , 10000065,10091192),#Python     
+        (326387  , 10018609,10133826),#真人图书馆  
+        (1226483 , 10010448,10126347),#科学松鼠会 
+        (4134513 , 10018576,10200247),#豆瓣公开课 
+        (3954604 , 10019039,10200245), #草地音乐 
 )
 
 def location_finder(name):
@@ -77,7 +77,7 @@ def save_event(self, phone, address, begin_time, end_time, pic, title, intro, do
     pid = location_finder(place)
 
     if pid not in PLACE_L1L2[city_pid]:
-        city_pid = pid
+        pid = city_pid
 
     begin = datetime_to_minutes(begin_time)
     end = datetime_to_minutes(end_time)
@@ -172,13 +172,13 @@ class ParseEventIndex(object):
 def main():
     url_list = []
     for url, user_id, zsite_id in DOUBAN_SITE_LIST:
-        url_list.append((ParseEventIndex(user_id, zsite_id), url))
+        url_list.append((ParseEventIndex(user_id, zsite_id), "http://site.douban.com/widget/events/%s"%zsite_id))
 
     #self.url, self.user_id, self.zsite_id = url, user_id, zsite_id
     headers = {
         'Cookie':'bid=i9gsK/lU40A',
     }
-    fetcher = NoCacheFetch(0, headers=headers)
+    fetcher = NoCacheFetch(30, headers=headers)
     spider = Rolling( fetcher, url_list )
     spider_runner = GCrawler(spider, workers_count=1)
     spider_runner.start()
