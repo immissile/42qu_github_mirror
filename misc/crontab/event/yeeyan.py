@@ -13,9 +13,8 @@ import os.path
 from yajl import dumps
 from hashlib import md5
 import threading
-
-CURRNET_PATH = path.dirname(path.abspath(__file__))
-
+from zkit.lock_file import LockFile
+from writer import Writer,CURRNET_PATH
 
 def name_builder(url):
     return os.path.join(CURRNET_PATH,"yeeyan", md5(url).hexdigest())
@@ -25,13 +24,16 @@ def parse_page(filepath):
         page = f.read()
 
         title = txt_wrap_by('<title>译言网 | ', '</ti', page)
-        tags_wrapper = txt_wrap_by('class="tags bdr">', '</div', page)
-        tags_wrapper = tags_wrapper.replace('<b>Tags:</b>','')
-        tags = txt_wrap_by_all("'>", '</a', tags_wrapper)
+        tags_wrapper = txt_wrap_by('wumiiTags = "', '"', page)
+        tags = tags_wrapper.split(',')
         author = txt_wrap_by('<h2 id="user_info"', '/a', page)
         author = txt_wrap_by('">','<',author)
         rating = txt_wrap_by('已有<span class="number">', '</span', page)
-        content = str(htm2txt(txt_wrap_by('id="conBox">','<div class="article_content">',page))[0])
+        content_wrapper = txt_wrap_by('id="conBox">','<div class="article_content">',page)
+        if content_wrapper:
+            content = str(htm2txt(content_wrapper)[0])
+        else:
+            return 
 
         reply_wrapper_list = txt_wrap_by_all('class="comment_content">', '</ul', page)
         reply_list = []
@@ -39,6 +41,10 @@ def parse_page(filepath):
             reply_list.append(txt_wrap_by('<p>', '</p', reply_wrapper))
 
         out = dumps([ title, tags, content, author, rating , reply_list])
+
+        writer = Writer.get_instance()
+        writer = writer.choose_writer('yeeyan.data')
+        writer.write(out+'\n')
 
 def save_page(page,url):
     filename = name_builder(url)
@@ -68,7 +74,7 @@ def main():
 
     fetcher = NoCacheFetch(0, headers=headers)
     spider = Rolling( fetcher, yeeyan_url_builder() )
-    spider_runner = GCrawler(spider, workers_count=1)
+    spider_runner = GCrawler(spider, workers_count=100)
     spider_runner.start()
 
 if __name__ == '__main__':
