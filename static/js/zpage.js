@@ -415,8 +415,13 @@ function init_say(){
                         pop.find('.pop_hero_name').text(result[0])
 
                         $('body').prepend(pop)
-                        
-                        pop.offset({top:self.offset().top-126,left:self.offset().left-30}).mouseleave(
+                       
+                        var left = 30;
+                        if(1){ 
+                            left = pop.width()-left();
+                            pop.addClass("pop_heroR")
+                        }
+                        pop.offset({top:self.offset().top-126,left:self.offset().left-left}).mouseleave(
                             function(e){
                                 pop_hero_remove()
                             }
