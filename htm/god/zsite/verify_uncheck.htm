@@ -1,0 +1,115 @@
+<%namespace file="/_util/user_index.htm" import="user_index"/>
+<%inherit file="/god/_base.htm" />
+
+<%!
+from model.cid import CID_USER, CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
+from model.ico import pic_url_with_default, ico
+from model.career import career_list_all
+from model.zsite_show import zsite_show_get
+from model.zsite_rank import zsite_rank_max
+%>
+<%def name="htm_head()">
+<style>
+.bar .yes, .bar .show{
+display:block;
+margin-bottom:14px;
+}
+.bar .no{
+float:right;
+}
+.bar .txt{
+float:right;
+width:500px;
+margin-right:14px;
+height:100px
+}
+.bar{
+text-align:center;
+}
+.sdw h1 a{
+text-align:center;
+font-size:25px;
+color:#00f;
+}
+.txtdefault{
+float:right;
+}
+.txtdefault a{
+display:block;
+padding-right:14px;
+}
+.ico{
+float:left;
+margin-right:16px
+}
+.item{
+margin-top:32px
+}
+</style>
+</%def>
+<%
+id = zsite.id
+pic_id = ico.get(id)
+%>
+<div class="sdw" id="zsite${id}">
+<div class="sd c">
+<div id="user_info">
+${user_index(zsite, False)}
+</div>
+<div class="bar">
+<div class="L">
+<div style="margin-bottom:32px">
+<a class="show" href="/zsite/verify/show/new/${id}">加入秀</a>
+</div>
+
+<div style="margin-top:32px">
+<div>
+    <a href="${zsite.link}">主页</a>
+</div>
+<div>
+    <a href="/zsite/${id}" target="_blank">管理</a>
+</div>
+<div class="item"><a target="_blank" href="/sudo/${id}?next=${zsite.link}/i/career">修改个人履历</a></div>
+</div>
+</div>
+<a href="/zsite/verify/next/${id}">下一个</a>
+
+<div class="R">
+    <div style="margin-right:32px;font-size:16px;text-align:left">
+
+<form method="POST">
+    <div style="margin-top:16px">
+        <input type="checkbox" name="pic" value="1" id="rm_pic"> <label for="rm_pic">头像</label>
+    </div>
+    <div style="margin-top:16px"><input type="checkbox" name="name" value="1" id="rm_name"> <label for="rm_name">昵称 ${zsite.name}</label></div>
+<%
+career_list = career_list_all(id)
+%>
+        %for career in career_list:
+    <div style="margin-top:16px">
+        <input type="checkbox" name="career" value="${career.id}" id="rm_career${career.id}"> <label for="rm_career${career.id}">${career.unit} ${career.title}</label>
+    </div>
+        %endfor
+    <div style="margin-top:32px">
+        <span class="btnw"><button class="btn" type="submit">请选择要删除的项</button></span>
+    </div>
+    <input type="hidden" name="id" value="${id}">
+</form>
+</div>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+(function(){
+    var host=location.host, base_host='${zsite.link}'
+    $("#zsite_link a").each(function(){
+        this.href=this.href.replace(host,base_host)
+        this.target="_blank"
+    })
+})()
+</script>
