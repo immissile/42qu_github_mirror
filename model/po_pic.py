@@ -163,7 +163,7 @@ PIC_SPACE = re.compile(r'\s{1,3}[ \t]*(图:\d+)[ \t]*(\s*)', re.MULTILINE)
 #    return pic2htm(self.txt, pic_seq_dict_html(self.user_id, self.id))
 
 def re_pic2htm(match, d):
-    print match, '!!'
+    #print match, '!!'
     m = int(match.group(1))
     return d.get(m, match.group(0))
 

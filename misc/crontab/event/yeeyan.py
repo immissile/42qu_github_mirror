@@ -1,4 +1,5 @@
-#!/usr/bin/env python # -*- coding: utf-8 -*-
+#!/usr/bin/env python 
+# -*- coding: utf-8 -*-
 
 import _env
 import urllib2
@@ -63,13 +64,15 @@ def parse_index(page, url):
         else:
             parse_page(filename)
 
+def yeeyan_daily():
+    return parse_index,'http://article.yeeyan.org/list_a?page=1'
+
 def yeeyan_url_builder():
     for page in xrange(1, 5001):
         yield parse_index, 'http://article.yeeyan.org/list_a?page=%s'%str(page)
 
 def main():
     headers = {
-        'Cookie':'bid=i9gsK/lU40A',
     }
 
     fetcher = NoCacheFetch(0, headers=headers)

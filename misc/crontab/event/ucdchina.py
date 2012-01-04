@@ -17,27 +17,9 @@ import threading
 from zkit.lock_file import LockFile
 from writer import Writer,CURRNET_PATH
 from zkit.classification.classification import GetTag  
+from rss_po import RssPo
 
-CURRNET_PATH = path.dirname(path.abspath(__file__))
 TAGGER = GetTag()
-
-class Writer(object):
-    instance = None
-    WRITTER_DICT = {}
-    def __init__(self):
-        pass
-
-    def get_writer(self, name):
-        if name not in Writer.WRITTER_DICT:
-            Writer.WRITTER_DICT[name] = LockFile(path.join(CURRNET_PATH, name), 'wa')
-        return Writer.WRITTER_DICT[name]
-
-    @staticmethod
-    def get_instance():
-        if not Writer.instance:
-            Writer.instance = Writer()
-        return Writer.instance
-
 
 def name_builder(url):
     return os.path.join(CURRNET_PATH, "ucdchina", path.basename( url))
@@ -54,14 +36,13 @@ def parse_page(filepath):
         if content_wrapper:
             content,pic_list = htm2txt(content_wrapper)
         else:
-            return
-
+            return 
+        
         content = str(content)
-
         tags = TAGGER.get_tag(content+title)
-
         out = dumps([ title, content, author, tags ])
-        print out
+        a = RssPo(content,2585,title, pic_list, 0, 2585,tags)
+        a.htm2po_by_po()
 
         writer = Writer.get_instance()
         writer = writer.choose_writer('ucdchina.data')
@@ -114,7 +95,7 @@ def main():
 
     fetcher = NoCacheFetch(0, headers=headers)
     spider = Rolling( fetcher, ucd_url_builder() )
-    spider_runner = GCrawler(spider, workers_count=1)
+    spider_runner = GCrawler(spider, workers_count=10)
     spider_runner.start()
 
 if __name__ == '__main__':

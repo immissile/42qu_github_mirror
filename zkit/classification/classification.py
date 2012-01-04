@@ -1,7 +1,7 @@
 #coding:utf-8
 
 from collections import defaultdict
-from idf import idf_zhihu
+from zkit.idf import idf_zhihu
 from mmseg import seg_txt
 from yajl import loads
 from generate_lib import TAG2ID, WORD2ID, BAYES_RANK
