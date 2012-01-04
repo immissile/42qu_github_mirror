@@ -236,7 +236,7 @@ function render_reply(data){
     result.find(".rm").click(function(){
         if(confirm("删除此回复 ?")){
             var fcmi = $(this).parents('.fcmi'),fcpre=$(this).parents('.fcpre');
-            ((fcmi.find('.fcpre').length>1)?fcpre:fcmi).fadeOut();
+            ((fcmi.find('.fcpre').length>1)?fcpre:fcmi).fadeOut(function(){fcpre.remove()});
             $.postJSON("/po/reply/rm/"+this.rel)
         }
         return false
