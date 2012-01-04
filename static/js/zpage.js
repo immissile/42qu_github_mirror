@@ -315,7 +315,7 @@ fcmcbtn = function  (id){
         }
     )
 }
-$("#feeds .reply_at").live("click", function(){
+$(".reply_at").live("click", function(){
     var self=$(this),
         txt= self.parents('.fcmpop').find('textarea').focus(),
         val=txt.val(),

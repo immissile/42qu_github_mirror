@@ -6,7 +6,7 @@
 $(".buzz_li").live("click",function(){
     $(this.parentNode).find(".buzz_x")[0].visited = 1;
     var content = $(
-'<div id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea></div>'
+'<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea></div>'
     ), self = $(this), href=this.href, cbody=content.find('#reply_reply_body'), t=cbody[0],
     fancybox=$.fancybox;
     self.css({color:"#99a"});
