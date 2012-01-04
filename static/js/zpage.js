@@ -416,13 +416,13 @@ function init_say(){
 
                         $('body').prepend(pop)
                        
-                        var left = 30;
-                        if(1){ 
+                        var left = 30,base_left=self.offset().left;
+                        if(base_left*1.5>$('body').width()){ 
                             left = pop.width()-50;
                             pop.addClass("pop_heroR")
                             pop.find('.pop_hero_to').css('marginLeft',IE6?left-62:left)
                         }
-                        pop.offset({top:self.offset().top-126,left:self.offset().left-left}).mouseleave(
+                        pop.offset({top:self.offset().top-126,left:base_left-left}).mouseleave(
                             function(e){
                                 pop_hero_remove()
                             }
