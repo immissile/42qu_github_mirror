@@ -2,7 +2,7 @@ input,pre,body,button,select,textarea{
 font:14px/28px Segoe UI,Tahoma,Verdana,Arial,Helvetica,sans-serif;
 }
 body{
-overflow:hidden;
+overflow-x:hidden;
 }
 body,img,a,div,span,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,textarea,th,td,tr,input{
 margin:0;padding:0;
