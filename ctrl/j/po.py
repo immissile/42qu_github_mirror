@@ -57,10 +57,9 @@ class PoReplyJson(JLoginBase):
             for reply in reply_list:
                 user = reply.user
                 career = reply.career
-                career = " , ".join(career)
-                if career:
-                    career = "( %s )"%career 
-                
+                career = " , ".join(filter(bool,career))
+                if not career:
+                    career = 0
                 result.append(
                     (url_or_id(user.id), reply.htm, user.name , career, user.ico)
                 )
