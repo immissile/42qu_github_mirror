@@ -16,6 +16,11 @@ from hashlib import md5
 import threading
 from zkit.lock_file import LockFile
 from writer import Writer,CURRNET_PATH
+from misc.crontab.htm2po.htm2po import htm2po_by_po
+from zkit.classification.classification import GetTag  
+
+TAGGER = GetTag()
+
 
 
 def name_builder(url):
@@ -35,7 +40,8 @@ def parse_page(filepath):
         else:
             return 
 
-        out = dumps([ title,  content, author ])
+        tags = TAGGER.get_tag(content+title)
+        out = dumps([ title, content, author, tags ])
 
         writer = Writer.get_instance()
         writer = writer.choose_writer('ucdchina.data')
