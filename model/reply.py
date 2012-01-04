@@ -174,7 +174,8 @@ class Reply(McModel):
         mc_lastest_hash.delete(user_id)
 
     def can_rm(self, user_id):
-        return self.user_id == user_id
+        if user_id:
+            return self.user_id == user_id
 
 
 def mc_flush_reply_id_list(cid, rid):

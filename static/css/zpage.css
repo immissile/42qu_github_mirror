@@ -504,3 +504,18 @@ margin-top:0;
 padding-top:0;
 border:0;
 }
+.fcpre .rm{
+
+background:url(/img/gif/xx.gif) no-repeat -50px 9px;
+height:18px;
+margin-left:14px;
+width:14px;
+display:none;
+_display:inline-block;
+}
+.fcpre:hover .rm{
+display:inline-block;
+}
+.fcpre:hover .rm:hover{
+background-position:-21px 9px;
+}
