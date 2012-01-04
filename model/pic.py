@@ -66,15 +66,10 @@ def pic_no(id, admin_id):
     user_id = _pic_no(id, admin_id)
     if user_id:
         from zsite_show import zsite_show_rm
-        from zsite import Zsite, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY, ZSITE_STATE_WAIT_VERIFY
+        from zsite_verify import zsite_verify_ajust
+        from model.zsite import Zsite
         zsite = Zsite.mc_get(user_id)
-        zsite_show_rm(zsite)
-        if zsite.state == ZSITE_STATE_WAIT_VERIFY:
-            zsite.state = ZSITE_STATE_FAILED_VERIFY
-        else:
-            zsite.state = ZSITE_STATE_ACTIVE
-        zsite.save()
-
+        zsite_verify_ajust(zsite)
 
 PIC_RM_TEMPLATE = {
     CID_ICO: '/mail/pic/rm_ico.txt',

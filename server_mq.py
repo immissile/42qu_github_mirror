@@ -5,7 +5,6 @@ from model.feed import mq_feed_rt_rm_by_rid
 from model.mail import mq_rendermail
 from model.notice import mq_notice_event_notice, mq_notice_question, mq_invite_question_mail
 from model.pic import mq_pic_rm_mail
-from model.zsite import mq_zsite_verify_mail
 from model.event import mq_event_kill_extra
 from model.po_recommend import mq_rm_rec_po_by_po_id
 from model.buzz import mq_buzz_follow_new
