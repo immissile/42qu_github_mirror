@@ -164,14 +164,6 @@ margin-top:14px;
 padding-bottom:14px;
 border-bottom:1px dotted #ccc; 
 }
-#feeds .reply_at {
-  background: url("/img/gif/reply.gif") no-repeat scroll 0 0 transparent;
-  display: inline-block;
-  height: 11px;
-  margin: 9px 0 0 6px;
-  vertical-align: 0;
-  width: 12px;
-}
 #feeds .fcmbtn{
 text-align:right;
 margin:6px 0 4px 0;

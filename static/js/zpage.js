@@ -228,10 +228,13 @@ function doc_height(){
     return document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight
 }
 
-var TMPL_REPLY=$('<div style="padding-bottom: 14px; border-bottom: 1px dotted rgb(204, 204, 204);" class="fcmi"><img style="float: left; width: 45px; margin-top: 6px; margin-right: 14px;" src="http://p.zuroc.xxx/96/614/614.jpg"><div style="overflow: hidden;"><pre>跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址 </pre><a style="color: rgb(153, 153, 153);" href="//dfengyang.42qu.com" class="fcmname c9 TPH" target="_top">董凤阳 ( 豆瓣网 , 程序开发 )</a><a class="zsite_reply"></a> </div></div>')
+var TMPL_REPLY;
+
 function render_reply(data){
+    TMPL_REPLY = TMPL_REPLY||$('<script type="text/x-jquery-tmpl"><div class="fcmi"><img style="float: left; width: 45px; margin-top: 6px; margin-right: 14px;" src="http://p.zuroc.xxx/96/614/614.jpg"><div style="overflow: hidden;"><pre>跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址 </pre><a href="//dfengyang.42qu.com" class="fcmname c9 TPH">${$data[1]}</a><a class="zsite_reply reply_at" rel="${$data[0]}"></a> </div></div></script>');
     return TMPL_REPLY.tmpl(data)
 }
+
 (function(){
 var doc=$(document), h=doc_height();
 fcm = function (id,count){
@@ -245,7 +248,6 @@ fcm = function (id,count){
             $.postJSON(
             "/j/po/reply/json/"+id,
             function(data){
-console.info(data)
                 self_parent.find($('.fcmload')).replaceWith(render_reply(data))
 /*
                 for(i=0;i<data.length;i++){
@@ -255,10 +257,10 @@ console.info(data)
                     html.find(".fcmname").text(t[2])
                 }
 */
-                $('#fcml_'+id).slideDown(function(){$(this).show()})
+                var _fcml = $('#fcml_'+id).slideDown(function(){$(this).show()})
                 var e = $('#txt_'+id)
                 if(e.offset().top-doc.scrollTop()>h){
-                    doc.scrollTop($("#fcml_"+id).offset().top-50)             
+                    doc.scrollTop(_fcml.offset().top-50)             
                 }
                 
                 codesh();
