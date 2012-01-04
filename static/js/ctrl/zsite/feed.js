@@ -7,7 +7,6 @@
 (function() {
     function winresize(){
         var body=$("#B")
-        console.info(body.width())
         if(body.width() < 1024){
             body.addClass('b1024') 
         }else{
