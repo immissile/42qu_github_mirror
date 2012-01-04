@@ -451,6 +451,9 @@ white-space:nowrap;
 .pop_hero_motto , .pop_hero_bio{
 margin:0 8px 0 0;
 }
+.pop_heroR .pop_hero_motto , .pop_heroR  .pop_hero_bio{
+margin:0 0 0 8px;
+}
 .pop_heroR .pop_hero_banner{
 float:right;
 padding:3px 3px 0 12px;
