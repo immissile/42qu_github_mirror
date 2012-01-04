@@ -237,9 +237,17 @@ class Po(McModel, ReplyMixin):
             return self.user_id == user_id
 
     def reply_new(self, user, txt, state=STATE_ACTIVE):
-        result = super(Po, self).reply_new(user, txt, state)
-        mc_feed_tuple.delete(self.id)
-        return result
+        reply_id = super(Po, self).reply_new(user, txt, state)
+        #print 'reply_id', reply_id
+        if reply_id:
+            user_id = user.id
+            id = self.id
+            mc_feed_tuple.delete(id)
+            from po_pos import po_pos_state_buzz
+            from buzz_reply import  mq_buzz_po_reply_new
+            po_pos_state_buzz(user_id, self)
+            mq_buzz_po_reply_new(user_id, reply_id, id, self.user_id)
+        return reply_id
 
 
     def tag_new(self):
@@ -473,12 +481,23 @@ def mc_flush_zsite_cid(zsite_id, cid):
     _(zsite_id, cid)
 
 if __name__ == '__main__':
-    from zsite_list import zsite_id_list
-    from cid import CID_USER
-    id_list = zsite_id_list(0, CID_USER)
-    for id in id_list:
-        for i in Po.where(user_id=id).where(zsite_id=0).where('state>%s'%STATE_RM):
-            print i.link
+    from zsite import Zsite
+    from po_pos import po_pos_get
+
+    zsite_id = 10001299
+    po_id = 10202108
+    print po_pos_get(zsite_id, po_id)
+    user = Zsite.mc_get(zsite_id)
+    po = Po.mc_get(po_id)
+    po.reply_new(user, 'test6')
+    print po_pos_get(zsite_id, po_id)
+    pass
+#    from zsite_list import zsite_id_list
+#    from cid import CID_USER
+#    id_list = zsite_id_list(0, CID_USER)
+#    for id in id_list:
+#        for i in Po.where(user_id=id).where(zsite_id=0).where('state>%s'%STATE_RM):
+#            print i.link
 #exist = set()
 #for i in Po.where(cid=CID_NOTE).where("zsite_id!=0").where("state>%s"%STATE_RM):
 #    name = i.name
