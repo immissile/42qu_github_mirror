@@ -13,13 +13,13 @@ from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_i
 from zkit.pic import picopen
 from model.cid import CID_SITE, CID_COM
 from model.zsite_url import url_or_id
-from model.career import career_dict
 import time
 from model.ico import pic_url_with_default
 from model.feed_render import feed_tuple_by_db
-from model.career import career_current
+from model.career import career_current, career_bind, career_dict
 from model.txt2htm import txt_withlink
 from model.buzz_reply import buzz_reply_hide
+from model.ico import ico_url_bind_with_default
 
 def post_reply(self, id):
     user = self.current_user
@@ -48,12 +48,22 @@ class PoReplyJson(JLoginBase):
         user_id = self.current_user_id
         result = []
         buzz_reply_hide(user_id, id)
+
+
         if po and po.can_view(user_id):
-            for reply in po.reply_list():
+            reply_list = po.reply_list()
+            career_bind(reply_list, "user_id")
+            ico_url_bind_with_default(tuple(i.user for i in reply_list))
+            for reply in reply_list:
                 user = reply.user
+                career = reply.career
+                career = " , ".join(filter(bool,career))
+                if not career:
+                    career = 0
                 result.append(
-                    (url_or_id(user.id), reply.htm, user.name)
+                    (url_or_id(user.id), reply.htm, user.name , career, user.ico)
                 )
+
         return self.finish(dumps(result))
 
 
