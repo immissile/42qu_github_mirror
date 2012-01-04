@@ -259,7 +259,7 @@ fcm = function (id,count){
                 fcml = $(fcml)
                 self_parent.find($('.fcmload')).replaceWith(fcml)
                 fcml.append(render_reply(data))
-                fcml.slideDown(function(){_fcml.show()})
+                fcml.slideDown(function(){fcml.show()})
 
                 var e = $('#txt_'+id)
                 if(e.offset().top-doc.scrollTop()>h){
@@ -317,7 +317,7 @@ $("#feeds .reply_at").live("click", function(){
     var self=$(this),
         txt= self.parents('.fcmpop').find('textarea').focus(),
         val=txt.val(),
-        name=$(this.previousSibling).text(),
+        name=$(this.previousSibling).find('span').text(),
         add;
 
     add =  "@"+name+'('+this.rel+') '
