@@ -231,7 +231,7 @@ function doc_height(){
 var TMPL_REPLY;
 
 function render_reply(data){
-    TMPL_REPLY = TMPL_REPLY||$('<script type="text/x-jquery-tmpl"><div class="fcmi">{{if $data[3]}}<a target="_blank" href="//${$data[0]}'+HOST_SUFFIX+'" ><img class="fcico" src="${$data[3]}"></a>{{else}}<div class="fcico"></div>{{/if}}<div class="fcrb">{{each $data[4]}}<pre class="fcpre fcpre${$index}">{{html $value}}<a href="javascript:void(0)" class="rm"></a></pre>{{/each}}<div class="fcname"><a href="//${$data[0]}'+HOST_SUFFIX+'" class="fcmname c9 TPH" target="_blank"><span>${$data[1]}</span>{{if $data[2]}} ( ${$data[2]} ){{/if}}</a><a class="zsite_reply reply_at" rel="${$data[0]}" href="javascript:void(0)"></a></div></div></div></script>');
+    TMPL_REPLY = TMPL_REPLY||$('<script type="text/x-jquery-tmpl"><div class="fcmi">{{if $data[3]}}<a target="_blank" href="//${$data[0]}'+HOST_SUFFIX+'" ><img class="fcico" src="${$data[3]}"></a>{{else}}<div class="fcico"></div>{{/if}}<div class="fcrb">{{each $data[4]}}<pre class="fcpre fcpre${$index}">{{html $value[0]}}{{if $value[2]}}<a href="javascript:void(0)" rel="${$value[1]}" class="rm"></a>{{/if}}</pre>{{/each}}<div class="fcname"><a href="//${$data[0]}'+HOST_SUFFIX+'" class="fcmname c9 TPH" target="_blank"><span>${$data[1]}</span>{{if $data[2]}} ( ${$data[2]} ){{/if}}</a><a class="zsite_reply reply_at" rel="${$data[0]}" href="javascript:void(0)"></a></div></div></div></script>');
     var result = TMPL_REPLY.tmpl(data)
     result.find(".rm").click(function(){
         if(confirm("删除此回复 ?")){

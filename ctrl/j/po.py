@@ -40,15 +40,14 @@ def post_reply(self, id):
                 if reply_id:
                     reply = Reply.mc_get(reply_id)
                     reply.user = user
-                    result = _reply_list_dump([reply])
+                    result = _reply_list_dump([reply], True)
         self.finish(dumps(result))
         return reply_id
 
-def _reply_list_dump(reply_list):
+def _reply_list_dump(reply_list, can_rm):
     result = []
     career_bind(reply_list, "user_id")
     ico_url_bind_with_default(tuple(i.user for i in reply_list))
-
     pre_user_id = None
 
     for reply in reply_list:
@@ -60,11 +59,18 @@ def _reply_list_dump(reply_list):
 
         user_id = user.id
 
+
+        reply_tuple = (
+            reply.htm, 
+            reply.id, 
+            can_rm or reply.can_rm(current_user_id)
+        )
+
         if user_id == pre_user_id:
-            result[-1][-1].append(reply.htm)
+            result[-1][-1].append(reply_tuple)
         else:
             result.append(
-                (url_or_id(user_id), user.name , career, user.ico, [reply.htm])
+                (url_or_id(user_id), user.name , career, user.ico, [reply_tuple])
             )
 
         pre_user_id = user_id
@@ -76,11 +82,12 @@ class PoReplyJson(JLoginBase):
     def get(self, id):
         po = Po.mc_get(id)
         user_id = self.current_user_id
-        buzz_reply_hide(user_id, id)
-        po_pos_state_buzz(user_id, po) 
+        if user_id:
+            buzz_reply_hide(user_id, id)
+            po_pos_state_buzz(user_id, po) 
 
         if po and po.can_view(user_id):
-            result = _reply_list_dump( po.reply_list() )
+            result = _reply_list_dump( po.reply_list() , po.can_admin(user_id))
         else:
             result = ()
         return self.finish(dumps(result))
