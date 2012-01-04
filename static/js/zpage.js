@@ -228,11 +228,15 @@ function doc_height(){
     return document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight
 }
 
+var TMPL_REPLY=$('<div style="padding-bottom: 14px; border-bottom: 1px dotted rgb(204, 204, 204);" class="fcmi"><img style="float: left; width: 45px; margin-top: 6px; margin-right: 14px;" src="http://p.zuroc.xxx/96/614/614.jpg"><div style="overflow: hidden;"><pre>跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址跪求此视频的地址 </pre><a style="color: rgb(153, 153, 153);" href="//dfengyang.42qu.com" class="fcmname c9 TPH" target="_top">董凤阳 ( 豆瓣网 , 程序开发 )</a><a class="zsite_reply"></a> </div></div>')
+function render_reply(data){
+    return TMPL_REPLY.tmpl(data)
+}
 (function(){
 var doc=$(document), h=doc_height();
 fcm = function (id,count){
     if(!$('#fcmpop_'+id)[0]){
-        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>',t,html, self_parent=self.parent();
+        var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>', self_parent=self.parent();
         self_parent.find('.fdbar').before('<div id="fcmpop_'+id+'" class="fcmpop"><div class="fcmtxt"><textarea class="txta" id="txt_'+id+'"></textarea></div><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
         var self_a = self_parent.find($(".fcma")).hide(),fcmtxt=self_parent.find('.fcmtxt');
         self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
@@ -241,13 +245,16 @@ fcm = function (id,count){
             $.postJSON(
             "/j/po/reply/json/"+id,
             function(data){
-                self_parent.find($('.fcmload')).replaceWith(fcml)
+console.info(data)
+                self_parent.find($('.fcmload')).replaceWith(render_reply(data))
+/*
                 for(i=0;i<data.length;i++){
                     t=data[i]
                     html = $('<div class="fcmi"><a target="_blank" class="fcmname c9 TPH" href="//'+t[0]+HOST_SUFFIX+'"></a><a href="javascript:void(0)" rel="'+t[0]+'" class="reply_at"></a><pre>'+t[1]+'</pre></div>')
                     $('#fcml_'+id).append(html)
                     html.find(".fcmname").text(t[2])
                 }
+*/
                 $('#fcml_'+id).slideDown(function(){$(this).show()})
                 var e = $('#txt_'+id)
                 if(e.offset().top-doc.scrollTop()>h){
