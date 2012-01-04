@@ -18,10 +18,9 @@ from zkit.lock_file import LockFile
 from writer import Writer,CURRNET_PATH
 from misc.crontab.htm2po.htm2po import htm2po_by_po
 from zkit.classification.classification import GetTag  
+from rss_po import RssPo
 
 TAGGER = GetTag()
-
-
 
 def name_builder(url):
     return os.path.join(CURRNET_PATH,"ucdchina",path.basename(url))
@@ -36,12 +35,17 @@ def parse_page(filepath):
         content_wrapper = txt_wrap_by('<div id="pageContentWrap" style="font-size:13px; ">','</div',page)
 
         if content_wrapper:
-            content = str(htm2txt(content_wrapper)[0])
+            content,pic_list = htm2txt(content_wrapper)
         else:
             return 
+        
+        content = str(content)
 
         tags = TAGGER.get_tag(content+title)
         out = dumps([ title, content, author, tags ])
+
+        a = RssPo(content,10000065,title, pic_list, 0, 10000065)
+        a.htm2po_by_po()
 
         writer = Writer.get_instance()
         writer = writer.choose_writer('ucdchina.data')
