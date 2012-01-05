@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import _env
+from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 from model._db import Model, McModel, McCache, McNum
 from model.po import po_new, STATE_RM
 from datetime import datetime
@@ -17,7 +18,6 @@ from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from xml.sax.saxutils import unescape
 from zkit.htm2txt import htm2txt
-from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 from time import sleep
 from os.path import exists
 import os.path
@@ -38,12 +38,12 @@ class ImportDoubanEvent(Model):
 
 DOUBAN_SITE_LIST = (
         # url , user_id , zsite_id
-        (117123  , 10074584,10199666),#单向街      
-        (1409398 , 10000065,10091192),#Python     
-        (326387  , 10018609,10133826),#真人图书馆  
-        (1226483 , 10010448,10126347),#科学松鼠会 
-        (4134513 , 10018576,10200247),#豆瓣公开课 
-        (3954604 , 10019039,10200245), #草地音乐 
+        (117123  , 10074584, 10199666), #单向街      
+        (1409398 , 10000065, 10091192), #Python     
+        (326387  , 10018609, 10133826), #真人图书馆  
+        (1226483 , 10010448, 10126347), #科学松鼠会 
+        (4134513 , 10018576, 10200247), #豆瓣公开课 
+        (3954604 , 10019039, 10200245), #草地音乐 
 )
 
 def location_finder(name):
@@ -54,7 +54,7 @@ def location_finder(name):
             return PLACE_DICT[name]
     return 1
 
-def save_event(self, phone, address, begin_time, end_time,  title, intro, douban_event_id , typ):
+def save_event(self, phone, address, begin_time, end_time, title, intro, douban_event_id , typ):
 
     begin_time = time_by_string(begin_time)
     end_time = time_by_string(end_time)
@@ -116,7 +116,9 @@ def save_event(self, phone, address, begin_time, end_time,  title, intro, douban
     po.save()
 
     event_init2to_review(id)
-    ImportDoubanEvent(id, int(douban_event_id)).save()
+    import_douban_event = ImportDoubanEvent.get_or_create(id=int(douban_event_id))
+    import_douban_event.event_id = id
+    import_douban_event.save()
 
     return event
 
@@ -138,7 +140,7 @@ class ParseEventIndex(object):
         html = txt_wrap_by('<ul class="list-m">', '</ul>', html)
         items = txt_wrap_by_all('<li class="item">', '</div>', html)
         if not items:
-            items = txt_wrap_by_all('<h3><a','</h3',html)
+            items = txt_wrap_by_all('<h3><a', '</h3', html)
 
         links = []
         for item in items:
@@ -146,11 +148,11 @@ class ParseEventIndex(object):
 
             id = txt_wrap_by('http://www.douban.com/event/', '/', link)
             id = int(id)
-
             event = ImportDoubanEvent.get(id)
             if not event:
                 yield self.parse_event_page, link , id
-
+                ImportDoubanEvent(id=id,event_id=0).save()
+ 
     def parse_event_page(self, page, url, douban_event_id):
         title = txt_wrap_by('h1>', '</h1>', page)
         pic_url = txt_wrap_by('href="', '"', txt_wrap_by('class="album_photo"', '>', page))
@@ -166,7 +168,7 @@ class ParseEventIndex(object):
         if phone:
             phone = phone.replace('：', '').replace(':', '')
 
-        event = save_event(self, phone, address, begin_time, end_time,  title, intro, douban_event_id, typ)
+        event = save_event(self, phone, address, begin_time, end_time, title, intro, douban_event_id, typ)
 
         if event:
             yield save_pic, pic_url, event
@@ -175,7 +177,7 @@ class ParseEventIndex(object):
 def main():
     url_list = []
     for url, user_id, zsite_id in DOUBAN_SITE_LIST:
-        url_list.append((ParseEventIndex(user_id, zsite_id), "http://site.douban.com/widget/events/%s/"%url))
+        url_list.append((ParseEventIndex(user_id, zsite_id), 'http://site.douban.com/widget/events/%s/'%url))
 
     #self.url, self.user_id, self.zsite_id = url, user_id, zsite_id
     headers = {
