@@ -281,10 +281,7 @@ fcm = function (id,count){
         $("#txt_"+id).pop_at("/j/at/reply/"+id)
         self_parent.find('textarea').focus().elastic()
         button = self_parent.find('button')
-        ctrl_submit(
-            $("#txt_"+id),
-            function(){ button.click()}
-            );
+        $("#txt_"+id).ctrl_submit( function(){ button.click()});
     }
 }
 

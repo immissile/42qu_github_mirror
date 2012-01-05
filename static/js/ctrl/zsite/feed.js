@@ -231,10 +231,7 @@ $(".buzz_li").live("click",function(){
         });
     
     $(function(){
-        ctrl_submit(
-            $("#po_word_txt"),
-            function(){$(".say_btn").click()}
-            );
+        $("#po_word_txt").ctrl_submit( function(){$(".say_btn").click()});
     })
 
 
