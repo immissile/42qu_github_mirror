@@ -605,7 +605,7 @@ def event_review_yes(id):
     event = Event.mc_get(id)
     #print event,id, event.state
 
-    if event and event.state == EVENT_STATE_TO_REVIEW:
+    if event and event.state <= EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_BEGIN
         event.save()
         mc_flush_by_city_pid_cid(event.city_pid, event.cid)
@@ -788,7 +788,7 @@ def event_joiner_by_owner_id(user_id):
     return result
 
 if __name__ == '__main__':
-    print event_review_yes(10202682)
+    print event_review_yes(10202687)
 #    print last_event_by_zsite_id(10001299).id
 #    from zsite import Zsite
 #    from po import Po
