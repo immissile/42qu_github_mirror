@@ -10,7 +10,7 @@ function reply(id,at_txt){
 			textarea = reply.find("textarea")
             textarea.focus().val(at_txt)
 
-            keyboard_shortcut(
+            ctrl_submit(
                 textarea,
                 function(){reply.submit()}
                 );

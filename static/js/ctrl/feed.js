@@ -35,7 +35,7 @@ function share(id) {
 			textarea = reply.find("textarea"),
             tip = $('.rec_tip');
 
-            keyboard_shortcut(
+            ctrl_submit(
                 textarea,
                 function(){reply.submit()}
                 );

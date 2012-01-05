@@ -2,7 +2,7 @@ rm = _rm("#reply","/po/reply/rm/")
 $(function(){
     $(".G,.G4").css('position','static')
 
-    keyboard_shortcut(
+    ctrl_submit(
         $("#reply_txt"),
         function(){$("#txt_form").submit()}
         );

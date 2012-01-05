@@ -16,7 +16,7 @@ $(".buzz_li").live("click",function(){
     id = href.split("/")[4].split("#")[0];
 
    
-    keyboard_shortcut(
+    ctrl_submit(
         textarea,
         function(){ button.click()}
         );
@@ -236,7 +236,7 @@ $(".buzz_li").live("click",function(){
         });
     
     $(function(){
-        keyboard_shortcut(
+        ctrl_submit(
             $("#po_word_txt"),
             function(){$(".say_btn").click()}
             );

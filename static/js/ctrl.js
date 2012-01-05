@@ -308,7 +308,7 @@ function feed_load_maker(FEED_ATTR_BASE ){
     return _
 }
 
-function keyboard_shortcut(element,callback){
+function ctrl_submit(element,callback){
         var isCtrl = false;
         element.keyup(function (e) {
             if(e.which == 17) isCtrl=false;
