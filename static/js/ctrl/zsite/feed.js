@@ -122,7 +122,7 @@ $(".buzz_li").live("click",function(){
 							t.rt_list.push(rt_list[j])
 						}
 					}
-                    t.rter=rter={};
+                    rter={};
                     exist_rter={};
 					t.rt_list = $.map(t.rt_list, array2zsite);
                     for(j=0;j<rt_list.length;j++)
@@ -135,12 +135,12 @@ $(".buzz_li").live("click",function(){
                             exist_rter[rter_id] = 1
                         }
                     }
-                    t.rtL=rtL=[];
-                    t.rtC=rtC=0;
+                    t.rter=[];
                     for(j in rter){
+                        t.rter.push([j,rter[j]]);
+                    }
+                    if(t.rter.length){
                         t.has_rter = 1;
-                        rtC++;
-                        rtL.push([j,rter[j]]);
                     }
                 } else {
                         t.rt_list = [0]
