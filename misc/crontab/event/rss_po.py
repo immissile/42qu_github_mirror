@@ -43,9 +43,12 @@ class RssPo(object):
         self.txt, self.user_id, self.title, self.pic_list, self.state, self.site_id,self.tags = txt, user_id, title, pic_list, state, site_id, tags
 
     def find_dup(self):
-        self.idf_list = RssPo.idfer.tf_idf(self.txt+self.title)
+        self.idf_list = RssPo.idfer.tf_idf(self.title)
+        self.idf_list.sort(key=lambda x:x[1],reverse=True)
         
     def htm2po_by_po(self):
+        if self.find_dup():
+            return
         txt = self.txt.rstrip()
         if not txt:
             return

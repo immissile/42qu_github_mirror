@@ -280,6 +280,11 @@ fcm = function (id,count){
         }
         $("#txt_"+id).pop_at("/j/at/reply/"+id)
         self_parent.find('textarea').focus().elastic()
+        button = self_parent.find('button')
+        keyboard_shortcut(
+            $("#txt_"+id),
+            function(){ button.trigger("click")}
+            );
     }
 }
 
