@@ -169,7 +169,8 @@ class FdTxt(Base):
             if cid == CID_EVENT:
                 result = [result]
                 event = Event.mc_get(id)
-                result.append('<p>联系电话 : %s</p>'%escape(event.phone))
+                if event.phone:
+                    result.append('<p>联系电话 : %s</p>'%escape(event.phone))
                 if event.transport:
                     result.append(
                         '<p>交通方式 : %s</p>'%escape(event.transport)
