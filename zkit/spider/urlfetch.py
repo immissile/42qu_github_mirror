@@ -68,12 +68,12 @@ class NoCacheFetch(object):
         self.sleep = sleep
 
     def read(self, url):
-        if self.sleep:
-            time.sleep(self.sleep)
-        print "reading url",url
+        #print "reading url",url
         conn = urllib2.urlopen(url, timeout=30)
         data = conn.read()
         conn.close()
+        if self.sleep:
+            time.sleep(self.sleep)
         return data
 
     @retryOnURLError(3)
