@@ -32,7 +32,15 @@ jQuery.fn.extend({
             self.find('textarea').elastic().focus(islogin)
         })
 		return this.submit(islogin)
-	}
+	},
+    ctrl_submit : function (callback){
+        $(this).keypress(function(event){
+            if(event.which == 13 && event.ctrlKey) {
+                callback&&callback()
+                return false;
+            }
+        })
+    }
 })
 
 function islogin(){
@@ -308,14 +316,6 @@ function feed_load_maker(FEED_ATTR_BASE ){
     return _
 }
 
-function ctrl_submit(element,callback){
-    element.keypress(function(event) {
-        if(event.which == 13 && event.ctrlKey) ) {
-            callback&&callback()
-            return false;
-        }
-    })
-}
 /*
         var isCtrl = false;
         element.keyup(function (e) {
