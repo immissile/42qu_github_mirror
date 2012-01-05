@@ -72,7 +72,7 @@ _ico = pic_url_with_default(current_user_id,219)
 
 {{if has_rter}} 
 {{each(k,v) rter}}
-{{if v[1]!=0}}
+{{if v[1]!=0}}{{if $index}} , {{/if}}
 <a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>
 {{/if}}
 {{/each}} 推荐
