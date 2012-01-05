@@ -16,10 +16,7 @@ $(".buzz_li").live("click",function(){
     id = href.split("/")[4].split("#")[0];
 
    
-    ctrl_submit(
-        textarea,
-        function(){ button.click()}
-        );
+    textarea.ctrl_submit( function(){ button.click()});
 
     self.css({color:"#99a"});
 
