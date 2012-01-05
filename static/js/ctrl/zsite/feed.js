@@ -18,7 +18,7 @@ $(".buzz_li").live("click",function(){
    
     keyboard_shortcut(
         textarea,
-        function(){ button.trigger("click")}
+        function(){ button.click()}
         );
 
     self.css({color:"#99a"});
@@ -238,7 +238,7 @@ $(".buzz_li").live("click",function(){
     $(function(){
         keyboard_shortcut(
             $("#po_word_txt"),
-            function(){$(".say_btn").trigger("click")}
+            function(){$(".say_btn").click()}
             );
     })
 

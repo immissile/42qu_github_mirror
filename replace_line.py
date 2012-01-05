@@ -4,11 +4,13 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-/me/newbie/0
->>>>>>> other
+.trigger("click")
+.trigger("submit")
 """
 
 TO_STRING = """
+.click()
+.submit()
 """
 
 def run():

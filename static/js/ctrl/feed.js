@@ -37,7 +37,7 @@ function share(id) {
 
             keyboard_shortcut(
                 textarea,
-                function(){reply.trigger("submit")}
+                function(){reply.submit()}
                 );
 
             change = function(){$('.sync_show').hide();};

@@ -4,7 +4,7 @@ $(function(){
 
     keyboard_shortcut(
         $("#reply_txt"),
-        function(){$("#txt_form").trigger("submit")}
+        function(){$("#txt_form").submit()}
         );
 })
 $("#txt_form").elastic_login().submit(function(){

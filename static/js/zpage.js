@@ -283,7 +283,7 @@ fcm = function (id,count){
         button = self_parent.find('button')
         keyboard_shortcut(
             $("#txt_"+id),
-            function(){ button.trigger("click")}
+            function(){ button.click()}
             );
     }
 }

@@ -12,7 +12,7 @@ function reply(id,at_txt){
 
             keyboard_shortcut(
                 textarea,
-                function(){reply.trigger("submit")}
+                function(){reply.submit()}
                 );
 
 			reply.submit(function() {
