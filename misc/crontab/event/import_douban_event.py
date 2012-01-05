@@ -99,7 +99,7 @@ def save_event(self, phone, address, begin_time, end_time, pic, title, intro, do
         transport,
         begin,
         end,
-        int(100*price),
+        0,
         limit_up,
         limit_down,
         phone,
