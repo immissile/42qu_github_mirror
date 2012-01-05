@@ -174,7 +174,7 @@ class ParseEventIndex(object):
 def main():
     url_list = []
     for url, user_id, zsite_id in DOUBAN_SITE_LIST:
-        url_list.append((ParseEventIndex(user_id, zsite_id), "http://site.douban.com/widget/events/%s"%zsite_id))
+        url_list.append((ParseEventIndex(user_id, zsite_id), "http://site.douban.com/widget/events/%s/"%url))
 
     #self.url, self.user_id, self.zsite_id = url, user_id, zsite_id
     headers = {
