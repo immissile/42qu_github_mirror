@@ -788,7 +788,14 @@ def event_joiner_by_owner_id(user_id):
     return result
 
 if __name__ == '__main__':
-    print event_review_yes(10202687)
+    pass
+
+#    for i in Event.where(state=EVENT_STATE_TO_REVIEW):
+#        print i.id
+#        i.state = EVENT_STATE_REJECT
+#        i.save()
+
+    #print event_review_yes(10202687)
 #    print last_event_by_zsite_id(10001299).id
 #    from zsite import Zsite
 #    from po import Po
