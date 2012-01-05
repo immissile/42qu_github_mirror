@@ -5,7 +5,7 @@ from _handler import Base
 from _urlmap import urlmap
 
 @urlmap('/tag')
-class Tag(Base):
+class Index(Base):
     def get(self):
         return self.render()
 
