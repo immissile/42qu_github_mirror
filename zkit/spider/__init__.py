@@ -3,4 +3,4 @@
 
 from rolling import Rolling
 from urlfetch import Fetch, NoCacheFetch
-from gcrawler import GCrawler 
+from gspider import GSpider 

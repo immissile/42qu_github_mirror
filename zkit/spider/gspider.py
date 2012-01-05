@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    gevent crawler
+    gevent spider
     ~~~~~~~~~~~~~~~~
     BSD License
     2011 by raptor.zh@gmail.com.
@@ -23,7 +23,7 @@ import traceback
 
 CURRENT_PATH = path.dirname(path.abspath(__file__))
 
-class GCrawler(object):
+class GSpider(object):
     def __init__(self, spider,  workers_count=8):
         self.spider = spider
         self.jobs = [gevent.spawn(self._work) for i in range(workers_count)]

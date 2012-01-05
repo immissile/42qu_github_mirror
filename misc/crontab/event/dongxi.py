@@ -19,7 +19,7 @@ from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 import os.path as path
 from xml.sax.saxutils import unescape
 from zkit.htm2txt import htm2txt
-from zkit.spider import Rolling, Fetch, NoCacheFetch, GCrawler
+from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 from time import sleep
 from os.path import exists
 import os.path
@@ -77,7 +77,7 @@ def main():
 
     fetcher = Fetch(path.join(CURRNET_PATH,'cache'), headers=headers)
     spider = Rolling(fetcher,dongxi_url_builder())
-    spider_runner = GCrawler(spider, workers_count=3)
+    spider_runner = GSpider(spider, workers_count=3)
     spider_runner.start()
 
 if __name__ == '__main__':
