@@ -43,7 +43,7 @@ class GSpider(object):
                     print('Error on get %s:%s\n%s' % (item[1], e, traceback.format_exc()))
         finally:
             self.job_count -= 1
-            print("Worker done, job count: %s" % self.job_count)
+            #print("Worker done, job count: %s" % self.job_count)
 
 
 def main():
