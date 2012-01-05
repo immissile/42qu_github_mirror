@@ -54,7 +54,7 @@ def location_finder(name):
             return PLACE_DICT[name]
     return 1
 
-def save_event(self, phone, address, begin_time, end_time, pic, title, intro, douban_event_id , typ):
+def save_event(self, phone, address, begin_time, end_time,  title, intro, douban_event_id , typ):
 
     begin_time = time_by_string(begin_time)
     end_time = time_by_string(end_time)
@@ -108,6 +108,7 @@ def save_event(self, phone, address, begin_time, end_time, pic, title, intro, do
     )
 
     id = event.id
+
 
     po = po_new(CID_EVENT, self.user_id, '', STATE_SECRET , id=id, zsite_id=self.zsite_id)
     po.name_ = title
@@ -165,7 +166,7 @@ class ParseEventIndex(object):
         if phone:
             phone = phone.replace('：', '').replace(':', '')
 
-        event = save_event(self, phone, address, begin_time, end_time, pic_url, title, intro, douban_event_id, typ)
+        event = save_event(self, phone, address, begin_time, end_time,  title, intro, douban_event_id, typ)
 
         if event:
             yield save_pic, pic_url, event
