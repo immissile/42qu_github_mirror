@@ -50,7 +50,7 @@ _ico = pic_url_with_default(current_user_id,219)
 {{/if}}
 {{/if}}
 {{/if}}
-<a href="/${id}" target="_blank">${name}</a><span class="split">-</span><a target="_blank" class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="split">-</span>{{each(k,v) rter}}<a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>{{/each}} 推荐{{/if}} 
+<a href="/${id}" target="_blank">${name}</a><span class="split">-</span><a target="_blank" class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="split">-</span>{{each rter}}<a target="_blank" class='fcmname c0 TPH' href="${$value[0]}">${$value[1]}</a>{{/each}} 推荐{{/if}} 
 </div></div></div>
 {{/each}}
 {{else}}
@@ -71,9 +71,9 @@ _ico = pic_url_with_default(current_user_id,219)
 {{/each}}
 
 {{if has_rter}} 
-{{each(k,v) rter}}
+{{each rter}}
 {{if $index}} , {{/if}}
-<a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>
+<a target="_blank" class='fcmname c0 TPH' href="${$value[0]}">${$value[1]}</a>
 {{/each}} 推荐
 {{/if}}
 </div>

@@ -137,11 +137,9 @@ $(".buzz_li").live("click",function(){
                     }
                     t.rter=[];
                     for(j in rter){
-                        t.rter.push([j,rter[j]]);
+                        t.rter.push([j,rter[j][0]]);
                     }
-                    if(t.rter.length){
-                        t.has_rter = 1;
-                    }
+                    t.has_rter = t.rter.length;
                 } else {
                         t.rt_list = [0]
                 }
