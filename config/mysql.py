@@ -99,6 +99,7 @@ DB_MAIN_TABLE = (
     'buzz_at_pos',
     'buzz_at',
     'buzz_reply',
+    'import_douban_event',
 )
 
 DB_GOOGLE_TABLE = (
