@@ -1,3 +1,7 @@
+.tag_form{
+width:721px;
+margin:auto;
+}
 .tag_edit span{
 border:1px solid #eee;
 padding:7px 14px;
@@ -18,12 +22,37 @@ margin-right:14px;
 }
 .tag_page pre{
 line-height:28px;
-margin-bottom:28px;
 }
 .tag_page{
-width:721px;
-margin:auto;
+margin-bottom:32px;
+padding-bottom:32px;
+border-bottom:5px solid #ccc;
 }
 .tag_new{
 margin:14px 0;
+}
+.tag_page h2{
+font-size:16px;
+text-align:left;
+margin:14px 0;
+}
+.jump a{
+margin-left:32px;
+}
+.jump{
+float:right
+}
+.tag_tip{
+margin-top:14px;
+text-align:center;
+margin-bottom:14px;
+padding:14px;
+border:1px dotted #ccc;
+}
+.label{
+padding:7px;
+border:1px solid #ccc;
+}
+.label input{
+margin-right:7px;
 }

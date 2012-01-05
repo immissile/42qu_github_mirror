@@ -6,8 +6,12 @@ from model.cid import CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
 <%def name="htm_head()">
 ${css.god_tag|n}
 </%def>
+
+<%htm:form className="tag_form">
+<div class="tag_tip">总 1233 篇 ; 剩 1345 篇</div>
+%for i in range(15):
 <div class="tag_page">
-<h1>张沈鹏</h1>
+<h2><span class="jump"><a href="#">选标签</a><a href="#">下一篇</a></span>张沈鹏</h2>
 <pre>java就是白开水
 作者：挑灯看剑
 
@@ -24,9 +28,11 @@ ${css.god_tag|n}
 因此java语言的特性、这个圈子的氛围也在发展中迎合着工业化的趋势，鸡生蛋蛋生鸡，结果java就变成现在这个样子：解渴但没滋味的白开水。
 
 好在世界在变平，个体的生产力越来越强大，差异化越来越明显，因此，传统的工业化方式，不再是企业能力scale的唯一选择，google正在做这种尝试，祝他成功。</pre>
-<%htm:form>
+
 <div style="margin-top:10px">
 <div class="tag_edit">
+<label for="po1">
+<h2 class="label"><input type="checkbox" id="po1">张沈鹏</h2></label>
 %for pos, tag_id in enumerate(xrange(19)):
 <span><input 
 %if pos<7:
@@ -36,7 +42,12 @@ type="checkbox" id="tag${tag_id}"><label for="tag${tag_id}">张沈鹏</label></s
 %endfor
 </div>
 <div class="tag_new"><input type="text">追加标签(以空格隔开)</div>
+</div>
+</div>
+%endfor
+
 <span class="btnw"><button type="submit">确定</button></span>
-</div>
+
 </%htm:form>
-</div>
+
+
