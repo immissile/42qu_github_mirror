@@ -58,8 +58,13 @@ def parse_page(page,url):
     yield parse_rat,'http://dongxi.net/content/widget/page_id/%s'%rating_num,title,author,tags, url,content
 
 def parse_rat(page,url,title,author,tags, po_url, content):
-    dic = loads(page)
-    rating = dic['fav_count']
+    rating = 0
+    try:
+        dic = loads(page)
+        rating = dic['fav_count']
+    except:
+        pass
+
     out = dumps([ title, author, tags, rating, po_url,content ])
 
     writer = Writer.get_instance()

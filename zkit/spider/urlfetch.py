@@ -37,7 +37,6 @@ class Fetch(object):
 
         if path.exists(file_path):
             with open(file_path) as f:
-                print 'Using Cache ...%s' % url
                 data = f.read()
                 return data
 
