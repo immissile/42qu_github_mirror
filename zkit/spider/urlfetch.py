@@ -41,7 +41,7 @@ class Fetch(object):
                 return data
 
     def read(self, url):
-        print "Downing ...%s" %url
+        #print "Downing ...%s" %url
         conn = urllib2.urlopen(url, timeout=30)
         data = conn.read()
         conn.close()
@@ -70,7 +70,7 @@ class NoCacheFetch(object):
     def read(self, url):
         if self.sleep:
             time.sleep(self.sleep)
-        print "reading url",url
+        #print "reading url",url
         conn = urllib2.urlopen(url, timeout=30)
         data = conn.read()
         conn.close()
