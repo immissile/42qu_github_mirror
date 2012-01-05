@@ -14,8 +14,7 @@ from model.zsite import Zsite
 from model.cid import CID_SITE
 from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.po_prev_next import mc_flush
-import zkit.idf import idf_zhihu
-
+import re
 
 class RssPo(object):
     def __init__(self, txt, user_id, title, pic_list, state):
