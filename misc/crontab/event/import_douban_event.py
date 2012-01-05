@@ -180,7 +180,7 @@ def main():
     headers = {
         'Cookie':'bid=i9gsK/lU40A',
     }
-    fetcher = NoCacheFetch(30, headers=headers)
+    fetcher = NoCacheFetch(10, headers=headers)
     spider = Rolling( fetcher, url_list )
     spider_runner = GSpider(spider, workers_count=1)
     spider_runner.start()

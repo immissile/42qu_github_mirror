@@ -17,7 +17,7 @@ def datetime_to_minutes(datetime):
 #    m=m.zfill(2)
 #    d=d.zfill(2)
 #    time = int(y+m+d)
-    time = year*1000+m*100+d
+    time = y*10000+m*100+d
     return ymd2minute(time)+h*60+M
 
 def time_by_string(s):
