@@ -12,12 +12,19 @@ $(".buzz_li").live("click",function(){
     cbody = content.find('#reply_reply_body'), t=cbody[0],
     textarea = content.find('textarea'),
     fancybox = $.fancybox,
+    button = content.find('button'),
     id = href.split("/")[4].split("#")[0];
+
+   
+    keyboard_shortcut(
+        textarea,
+        function(){ button.trigger("click")}
+        );
 
     self.css({color:"#99a"});
 
     content.find('#reply_name').html(self.html()).attr('href',href)
-    content.find('button').click(function(){
+    button.click(function(){
         var v=textarea.val(), 
             fancybox=$.fancybox;
         if(!v.length)return;

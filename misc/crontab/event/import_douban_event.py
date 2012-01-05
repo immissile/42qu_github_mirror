@@ -17,7 +17,7 @@ from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from xml.sax.saxutils import unescape
 from zkit.htm2txt import htm2txt
-from zkit.spider import Rolling, Fetch, NoCacheFetch, GCrawler
+from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 from time import sleep
 from os.path import exists
 import os.path
@@ -30,7 +30,9 @@ from zkit.location_douban import DOUBAN2ID
 EVENT_DICT = dict([(unicode(v), k) for k, v in EVENT_CID_CN])
 
 PLACE_DICT = dict([(unicode(v), k) for k, v in PID2NAME.items()])
-class EventImport(Model):
+
+
+class ImportDoubanEvent(Model):
     pass
 
 
@@ -97,7 +99,7 @@ def save_event(self, phone, address, begin_time, end_time, pic, title, intro, do
         transport,
         begin,
         end,
-        int(100*price),
+        0,
         limit_up,
         limit_down,
         phone,
@@ -113,7 +115,7 @@ def save_event(self, phone, address, begin_time, end_time, pic, title, intro, do
     po.save()
 
     event_init2to_review(id)
-    EventImport(id, int(douban_event_id)).save()
+    ImportDoubanEvent(id, int(douban_event_id)).save()
 
     return event
 
@@ -144,7 +146,7 @@ class ParseEventIndex(object):
             id = txt_wrap_by('http://www.douban.com/event/', '/', link)
             id = int(id)
 
-            event = EventImport.get(id)
+            event = ImportDoubanEvent.get(id)
             if not event:
                 yield self.parse_event_page, link , id
 
@@ -180,7 +182,7 @@ def main():
     }
     fetcher = NoCacheFetch(30, headers=headers)
     spider = Rolling( fetcher, url_list )
-    spider_runner = GCrawler(spider, workers_count=1)
+    spider_runner = GSpider(spider, workers_count=1)
     spider_runner.start()
 
 if __name__ == '__main__':

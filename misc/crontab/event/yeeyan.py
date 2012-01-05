@@ -7,7 +7,7 @@ from zkit.htm2txt import htm2txt
 from urllib2 import urlopen
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 import os.path as path
-from zkit.spider import Rolling, Fetch, NoCacheFetch, GCrawler
+from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 from time import sleep
 from os.path import exists
 import os.path
@@ -71,13 +71,18 @@ def yeeyan_url_builder():
     for page in xrange(1, 5001):
         yield parse_index, 'http://article.yeeyan.org/list_a?page=%s'%str(page)
 
+def yeeyan_cache_walker():
+    from glob import  glob
+    for file_name in glob(join(CURRNET_PATH,'yeeyan','*')):
+        parse_page(file_name)
+
 def main():
     headers = {
     }
 
     fetcher = NoCacheFetch(0, headers=headers)
     spider = Rolling( fetcher, yeeyan_url_builder() )
-    spider_runner = GCrawler(spider, workers_count=100)
+    spider_runner = GSpider(spider, workers_count=100)
     spider_runner.start()
 
 if __name__ == '__main__':

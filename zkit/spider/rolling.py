@@ -3,7 +3,7 @@
 
 
 import _env
-from gcrawler import GCrawler 
+from gspider import GSpider 
 from collections import  defaultdict
 import os
 from gevent import monkey, queue
@@ -56,8 +56,8 @@ def main():
             (callback, 'http://www.baidu.com'),
         )
     )
-    crawler = GCrawler(spider, workers_count=10)
-    crawler.start()
+    spider = GSpider(spider, workers_count=10)
+    spider.start()
 
 if __name__ == '__main__':
     main()

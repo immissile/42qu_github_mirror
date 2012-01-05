@@ -7,7 +7,7 @@ from zkit.htm2txt import htm2txt
 from urllib2 import urlopen
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 import os.path as path
-from zkit.spider import Rolling, Fetch, NoCacheFetch, GCrawler
+from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 from time import sleep
 from os.path import exists
 import os.path
@@ -41,6 +41,7 @@ def parse_page(filepath):
         content = str(content)
         tags = TAGGER.get_tag(content+title)
         out = dumps([ title, content, author, tags ])
+
         a = RssPo(content,2585,title, pic_list, 0, 2585,tags)
         a.htm2po_by_po()
 
@@ -95,7 +96,7 @@ def main():
 
     fetcher = NoCacheFetch(0, headers=headers)
     spider = Rolling( fetcher, ucd_url_builder() )
-    spider_runner = GCrawler(spider, workers_count=10)
+    spider_runner = GSpider(spider, workers_count=10)
     spider_runner.start()
 
 if __name__ == '__main__':
