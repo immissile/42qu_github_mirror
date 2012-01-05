@@ -71,6 +71,11 @@ def yeeyan_url_builder():
     for page in xrange(1, 5001):
         yield parse_index, 'http://article.yeeyan.org/list_a?page=%s'%str(page)
 
+def yeeyan_cache_walker():
+    from glob import  glob
+    for file_name in glob(join(CURRNET_PATH,'yeeyan','*')):
+        parse_page(file_name)
+
 def main():
     headers = {
     }
