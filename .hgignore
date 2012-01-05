@@ -29,3 +29,6 @@ static/file/*
 .ropeproject/*
 *.orig
 .*.ropeproject
+misc/crontab/event/cache/
+misc/crontab/event/ucdchina/
+linux/zrank/

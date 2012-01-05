@@ -41,6 +41,7 @@ def parse_page(filepath):
         content = str(content)
         tags = TAGGER.get_tag(content+title)
         out = dumps([ title, content, author, tags ])
+
         a = RssPo(content,2585,title, pic_list, 0, 2585,tags)
         a.htm2po_by_po()
 

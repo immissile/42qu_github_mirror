@@ -1,3 +1,5 @@
+    $(function(){
+    })
 function reply(id,at_txt){
     if(!islogin())return;
 	var fancybox = $.fancybox;
@@ -7,6 +9,12 @@ function reply(id,at_txt){
 			var reply = $("#vote_reply"),
 			textarea = reply.find("textarea")
             textarea.focus().val(at_txt)
+
+            keyboard_shortcut(
+                textarea,
+                function(){reply.trigger("submit")}
+                );
+
 			reply.submit(function() {
 				var txt = $.trim(textarea.val());
 				fancybox.showActivity()

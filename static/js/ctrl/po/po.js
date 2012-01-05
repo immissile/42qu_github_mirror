@@ -1,5 +1,12 @@
 rm = _rm("#reply","/po/reply/rm/")
-$(function(){$(".G,.G4").css('position','static')})
+$(function(){
+    $(".G,.G4").css('position','static')
+
+    keyboard_shortcut(
+        $("#reply_txt"),
+        function(){$("#txt_form").trigger("submit")}
+        );
+})
 $("#txt_form").elastic_login().submit(function(){
         var textarea=$(this).find('textarea'),
             v=textarea.val(),
