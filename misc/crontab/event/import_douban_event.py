@@ -30,7 +30,9 @@ from zkit.location_douban import DOUBAN2ID
 EVENT_DICT = dict([(unicode(v), k) for k, v in EVENT_CID_CN])
 
 PLACE_DICT = dict([(unicode(v), k) for k, v in PID2NAME.items()])
-class EventImport(Model):
+
+
+class ImportDoubanEvent(Model):
     pass
 
 
@@ -113,7 +115,7 @@ def save_event(self, phone, address, begin_time, end_time, pic, title, intro, do
     po.save()
 
     event_init2to_review(id)
-    EventImport(id, int(douban_event_id)).save()
+    ImportDoubanEvent(id, int(douban_event_id)).save()
 
     return event
 
@@ -144,7 +146,7 @@ class ParseEventIndex(object):
             id = txt_wrap_by('http://www.douban.com/event/', '/', link)
             id = int(id)
 
-            event = EventImport.get(id)
+            event = ImportDoubanEvent.get(id)
             if not event:
                 yield self.parse_event_page, link , id
 
