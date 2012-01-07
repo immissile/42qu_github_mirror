@@ -94,6 +94,8 @@ from os import getpid
 
 PID = str(getpid()).ljust(7)
 
+logging.warn("PID:%s", PID)
+
 @profile_middleware([SQLSTORE, mc])
 def _execute(self, transforms, *args, **kwargs):
     """Executes this request with the given output transforms."""
@@ -104,7 +106,7 @@ def _execute(self, transforms, *args, **kwargs):
     if method not in self.SUPPORTED_METHODS:
         raise HTTPError(405)
 
-    logging.warn("%s %s %s/%s %s", PID, method, request.host, request.path, time.time())
+    logging.warn("%s %s %s %s%s", PID, self.get_cookie('S') or '-', method, request.host, request.path,)
 
     if method not in ('GET', 'HEAD') and self.application.settings.get('xsrf_cookies'):
         self.check_xsrf_cookie()
@@ -113,6 +115,8 @@ def _execute(self, transforms, *args, **kwargs):
         getattr(self, method.lower())(*args, **kwargs)
         if self._auto_finish and not self._finished:
             self.finish()
+
+    logging.warn("%s", request.path)
 
 web.RequestHandler._execute = _execute
 
