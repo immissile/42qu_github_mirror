@@ -42,6 +42,7 @@ BUZZ_AT_SHOW = 30
 BUZZ_AT_HIDE = 20
 BUZZ_AT_RMED = 0
 
+mc_po_list_by_buzz_at_user_id = McCacheM('BuzzAtByUserIdForShow:%s')
 
 class BuzzAt(Model):
     pass
@@ -81,7 +82,6 @@ def buzz_at_reply_rm(reply_id):
 
 BUZZ_AT_COL = 'id,from_id,po_id,reply_id'
 
-mc_po_list_by_buzz_at_user_id = McCache('BuzzAtByUserIdForShow:%s')
 
 def buzz_at_dump_for_show(li):
     po_id_list = []
@@ -96,12 +96,6 @@ def buzz_at_dump_for_show(li):
     po_mc_get_dict = Po.mc_get_dict(po_id_list)
     result = []
     return result
-
-mc_po_list_by_buzz_at_user_id = McCacheM('BuzzAtByUserIdForShow+%s')
-
-
-    
-
 
 
 buzz_at_count = McNum(lambda user_id: BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).count(), 'BuzzAtCount+%s')
@@ -140,7 +134,6 @@ def buzz_at_list(user_id, limit, offset):
 
 @mc_po_list_by_buzz_at_user_id('{user_id}')
 def po_list_by_buzz_at_user_id(user_id):
-
     result = BuzzAt.where(
         to_id=user_id, state=BUZZ_AT_SHOW
     ).order_by('id desc').col_list(7, 0, 'id, from_id, po_id, reply_id')
