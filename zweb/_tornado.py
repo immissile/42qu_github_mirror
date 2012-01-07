@@ -106,7 +106,7 @@ def _execute(self, transforms, *args, **kwargs):
     if method not in self.SUPPORTED_METHODS:
         raise HTTPError(405)
 
-    logging.warn("%s %s %s %s%s", PID, self.get_cookie('S') or '-', method, request.host, request.path,)
+    logging.warn("PID %s %s %s %s%s", PID, self.get_cookie('S') or '-', method, request.host, request.path,)
 
     if method not in ('GET', 'HEAD') and self.application.settings.get('xsrf_cookies'):
         self.check_xsrf_cookie()
