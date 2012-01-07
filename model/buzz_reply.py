@@ -4,7 +4,7 @@ from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from buzz_at import buzz_at_new, buzz_at_reply_rm
 from txt import txt_get
-
+from model.po_pos import po_pos_get_last_reply_id
 from mq import mq_client
 #def mq_client(f):
 #    return f
@@ -153,7 +153,8 @@ def po_list_by_buzz_reply_user_id(user_id):
 
     result = []
     for po in po_list:
-        t = (po.id, po.name, po.new_reply_count, po.new_reply_show, po.reply_id_last)
+        id = po.id
+        t = (id, po.name, po.new_reply_count, po.new_reply_show, po_pos_get_last_reply_id(user_id,id))
         result.append(t)
     return result
 

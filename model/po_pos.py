@@ -19,6 +19,10 @@ def user_id_list_by_po_pos_buzz(po_id):
         ).col_list(col="user_id")
     )
 
+
+def po_pos_get_last_reply_id(user_id, po_id):
+    return po_pos_get(user_id, po_id)[0]
+
 @mc_po_pos('{user_id}_{po_id}')
 def po_pos_get(user_id, po_id):
     p = PoPos.get(user_id=user_id, po_id=po_id)

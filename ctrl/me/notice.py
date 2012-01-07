@@ -6,7 +6,7 @@ from model.state import STATE_APPLY,STATE_BUZZ_ACTIVE, STATE_BUZZ_RM
 from zkit.page import page_limit_offset
 from model.buzz import buzz_list, buzz_count
 from zkit.page import page_limit_offset
-from model.buzz_at import buzz_at_count,buzz_at_list,buzz_at_pos_set
+from model.buzz_at import buzz_at_count,buzz_at_list
 from model.zsite import Zsite
 from model.cid import CID_SITE
 
@@ -91,11 +91,6 @@ class At(LoginBase):
         )
 
         reply_list = buzz_at_list(current_user.id,limit,offset)
-
-        if n==1:
-            if reply_list:
-                max_id = reply_list[0][0]
-                buzz_at_pos_set(self.current_user_id,max_id)
 
         self.render(
             reply_list=reply_list,
