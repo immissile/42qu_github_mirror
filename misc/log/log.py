@@ -25,8 +25,8 @@ import lzma
 
 def error499_count(data):
     count = 0
-    for line in data.split("\n"):
-        line = line.split()
+    for pline in data.split("\n"):
+        line = pline.split()
         if len(line)<3:
             continue
         code = int(line[2])
