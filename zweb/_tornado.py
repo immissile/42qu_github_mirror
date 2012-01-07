@@ -116,7 +116,7 @@ def _execute(self, transforms, *args, **kwargs):
         if self._auto_finish and not self._finished:
             self.finish()
 
-    logging.warn("%s", request.path)
+    logging.warn("%s %s", PID, request.path)
 
 web.RequestHandler._execute = _execute
 
