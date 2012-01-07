@@ -42,13 +42,16 @@ BUZZ_AT_SHOW = 30
 BUZZ_AT_HIDE = 20
 BUZZ_AT_RMED = 0
 
-buzz_at_pos = Kv('buzz_at_pos', int)
 
 class BuzzAt(Model):
     pass
 
 def at_id_set_by_txt(txt):
     return set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)]))
+
+
+def buzz_at_hide(user_id, buzz_at_id):
+    return
 
 def buzz_at_pos_set(id,pos):
     buzz_at_pos.set(id,pos)
@@ -125,7 +128,7 @@ def buzz_at_by_user_id_for_show(user_id):
 
 buzz_at_user_count = McNum(
     lambda user_id: BuzzAt.raw_sql(
-        'select count(DISTINCT from_id) from buzz_at where to_id=%s and state=%s and id>%s', user_id, BUZZ_AT_SHOW, buzz_at_pos.get(user_id)
+        'select count(DISTINCT from_id) from buzz_at where to_id=%s and state=%s', user_id, BUZZ_AT_SHOW, 
     ).fetchone()[0] ,
     'BuzzAtUserCount+%s'
 )
@@ -166,7 +169,17 @@ def buzz_at_list(user_id, limit, offset):
 
 if __name__ == '__main__':
     pass
-    #print buzz_at_list(     10031395, 10, 0)
-    print buzz_at_user_count(10000000)
-    print buzz_at_by_user_id_for_show(10000000)
-    mc_buzz_at_by_user_id_for_show.delete(10000000)
+
+    buzz_at_pos = Kv('buzz_at_pos', int)
+    
+    from model.zsite import Zsite, CID_USER
+    from zweb.orm import ormiter
+    for i in ormiter(Zsite, 'cid=%s'%CID_USER):
+        id = buzz_at_pos.get(i.id)
+        if id:
+            for j in BuzzAt.where(state=BUZZ_AT_SHOW).where("id<=%s"%id):
+                j.state = BUZZ_AT_HIDE
+                j.save()
+
+
+
