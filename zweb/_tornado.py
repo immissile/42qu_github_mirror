@@ -92,17 +92,20 @@ web.RequestHandler.clear_cookie = clear_cookie
 from model._db import SQLSTORE, mc
 from os import getpid
 
-PID = str(getpid())
+PID = str(getpid()).ljust(7)
 
 @profile_middleware([SQLSTORE, mc])
 def _execute(self, transforms, *args, **kwargs):
     """Executes this request with the given output transforms."""
+    request = self.request
+    method = request.method
     self._transforms = transforms
-    if self.request.method not in self.SUPPORTED_METHODS:
+
+    if method not in self.SUPPORTED_METHODS:
         raise HTTPError(405)
-    # If XSRF cookies are turned on, reject form submissions without
-    # the proper cookie
-    method = self.request.method
+
+    logging.warn("%s %s %s/%s %s", PID, method, request.host, request.path, time.time())
+
     if method not in ('GET', 'HEAD') and self.application.settings.get('xsrf_cookies'):
         self.check_xsrf_cookie()
     self.prepare()

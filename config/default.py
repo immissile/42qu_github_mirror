@@ -19,7 +19,6 @@ import sys
 from os.path import join
 from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 
-
 def prepare(o):
     
 #    o.REDIS_DB = redis.Redis()
