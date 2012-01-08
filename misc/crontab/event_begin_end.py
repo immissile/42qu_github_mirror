@@ -13,6 +13,7 @@ def event_begin(begin, end):
         event_begin2now(i)
 
 def _event_end(end):
+    end = end + 8*60
     for i in ormiter(Event, 'state=%s and end_time<=%s' % (EVENT_STATE_NOW, end)):
         event_end(i)
 
