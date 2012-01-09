@@ -51,17 +51,9 @@ class BuzzAt(Model):
 def at_id_set_by_txt(txt):
     return set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)]))
 
-def buzz_at_hide(user_id, buzz_at_id=0):
-    if buzz_at_id:
-        buzz_at = BuzzAt.get(id=buzz_at_id, to_id=user_id)
-        if buzz_at:
-            buzz_at.state = BUZZ_AT_HIDE
-            buzz_at.save()
-            if buzz_at.reply_id:
-                BuzzAt.where(
-                    po_id=buzz_at.po_id,
-                    state=BUZZ_AT_SHOW,
-                ).where("reply_id>0").update(state=BUZZ_AT_HIDE)
+def buzz_at_hide(user_id, po_id=0):
+    if po_id:
+        BuzzAt.where(po_id=po_id,to_id=user_id).update(state=BUZZ_AT_HIDE)
     else:
         for i in po_list_by_buzz_at_user_id(user_id):
             po_id = i[0]
