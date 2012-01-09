@@ -4,7 +4,6 @@ from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 from buzz_at import buzz_at_new, buzz_at_reply_rm
 from txt import txt_get
-from model.po_pos import po_pos_get_last_reply_id
 from mq import mq_client
 #def mq_client(f):
 #    return f
@@ -122,16 +121,16 @@ mc_po_list_by_buzz_reply_user_id = McCacheM('PoListByBuzzReplyUserId-%s')
 @mc_po_list_by_buzz_reply_user_id('{user_id}')
 def po_list_by_buzz_reply_user_id(user_id):
     from model.po import Po
-    from model.po_pos import po_pos_get
+    from model.po_pos import po_pos_get_last_reply_id
     from model.reply import Reply
-    from model.zsite import Zsite
     from model.buzz_po_bind_user import buzz_po_bind_user
 
     id_list = po_id_list_by_buzz_reply_user_id(user_id)
     po_list = Po.mc_get_list(id_list)
 
+    po_user_id = []
     for i in po_list:
-        pos = po_pos_get(user_id, i.id)[0]
+        pos = po_pos_get_last_reply_id(user_id, i.id)
         new_reply_id_list = []
         for reply_id in i.reply_id_list():
             if reply_id > pos:
@@ -140,21 +139,10 @@ def po_list_by_buzz_reply_user_id(user_id):
         user_id_list = []
         for reply in Reply.mc_get_list(reversed(new_reply_id_list)):
             user_id_list.append(reply.user_id)
+        po_user_id.append(user_id_list)
 
-        buzz_user_bind(i, user_id_list)
+    return buzz_po_bind_user(po_list, po_user_id, user_id)
 
-    result = []
-    for po in po_list:
-        id = po.id
-        t = (
-            id, 
-            po.name, 
-            po.new_reply_count, 
-            po.new_reply_show, 
-            po_pos_get_last_reply_id(user_id,id)
-        )
-        result.append(t)
-    return result
 
 if __name__ == '__main__':
     pass

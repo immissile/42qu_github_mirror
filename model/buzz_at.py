@@ -8,6 +8,7 @@ from zsite_url import id_by_url
 from zkit.algorithm.unique import unique
 from collections import defaultdict
 from mq import mq_client
+from model.buzz_po_bind_user import buzz_po_bind_user
 #def mq_client(f):
 #    return f
 
@@ -139,6 +140,8 @@ def buzz_at_list(user_id, limit, offset):
 
 @mc_po_list_by_buzz_at_user_id('{user_id}')
 def po_list_by_buzz_at_user_id(user_id):
+    from model.po import Po
+
     result = BuzzAt.where(
         to_id=user_id, state=BUZZ_AT_SHOW
     ).order_by('id desc').col_list(
@@ -155,14 +158,14 @@ def po_list_by_buzz_at_user_id(user_id):
          
     po_list = Po.mc_get_list(id_list)
 
-    for i in po_list:
-
-
-    return ()
+    return buzz_po_bind_user(po_list, [
+        id2user[i.id] for i in po_list
+    ])
 
 if __name__ == '__main__':
     pass
 
+    print po_list_by_buzz_at_user_id(10000000)
     class BuzzAtPos(Model):
         pass
 
