@@ -10,7 +10,7 @@ function reply(id,at_txt){
 			textarea = reply.find("textarea")
             textarea.focus().val(at_txt)
 
-            textarea.ctrl_submit( function(){reply.submit()});
+            textarea.ctrl_enter( function(){reply.submit()});
 
 			reply.submit(function() {
 				var txt = $.trim(textarea.val());

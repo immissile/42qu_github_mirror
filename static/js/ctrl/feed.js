@@ -35,7 +35,7 @@ function share(id) {
 			textarea = reply.find("textarea"),
             tip = $('.rec_tip');
 
-            textarea.ctrl_submit( function(){reply.submit()});
+            textarea.ctrl_enter( function(){reply.submit()});
 
             change = function(){$('.sync_show').hide();};
             can_say = txt_maxlen(textarea, tip, 142, change);

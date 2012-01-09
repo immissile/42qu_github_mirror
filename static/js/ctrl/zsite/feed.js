@@ -16,7 +16,7 @@ $(".buzz_li").live("click",function(){
     id = href.split("/")[4].split("#")[0];
 
    
-    textarea.ctrl_submit( function(){ button.click()});
+    textarea.ctrl_enter( function(){ button.click()});
 
     self.css({color:"#99a"});
 
@@ -231,7 +231,7 @@ $(".buzz_li").live("click",function(){
         });
     
     $(function(){
-        $("#po_word_txt").ctrl_submit( function(){$(".say_btn").click()});
+        $("#po_word_txt").ctrl_enter( function(){$(".say_btn").click()});
     })
 
 

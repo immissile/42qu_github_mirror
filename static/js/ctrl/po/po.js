@@ -2,7 +2,7 @@ rm = _rm("#reply","/po/reply/rm/")
 $(function(){
     $(".G,.G4").css('position','static')
 
-    $("#reply_txt").ctrl_submit( function(){$("#txt_form").submit()});
+    $("#reply_txt").ctrl_enter( function(){$("#txt_form").submit()});
 })
 $("#txt_form").elastic_login().submit(function(){
         var textarea=$(this).find('textarea'),

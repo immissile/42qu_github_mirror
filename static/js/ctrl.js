@@ -33,7 +33,7 @@ jQuery.fn.extend({
         })
 		return this.submit(islogin)
 	},
-    ctrl_submit : function (callback){
+    ctrl_enter : function (callback){
         $(this).keypress(function(event){
             if(event.which == 13 && event.ctrlKey) {
                 callback&&callback()
