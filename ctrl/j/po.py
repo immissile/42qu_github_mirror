@@ -21,6 +21,7 @@ from model.txt2htm import txt_withlink
 from model.buzz_reply import buzz_reply_hide
 from model.po_pos import po_pos_state_buzz
 from model.reply import Reply
+from model.buzz_at import buzz_at_hide
 
 def post_reply(self, id):
     user = self.current_user
@@ -77,13 +78,12 @@ def _reply_list_dump(reply_list, can_rm, current_user_id):
     
     return result
 
-@urlmap('/j/po/reply/json/(\d+)')
-class PoReplyJson(Base):
+class PoJsonBase(Base):
     def get(self, id):
-        po = Po.mc_get(id)
         user_id = self.current_user_id
+        self._hide(user_id, id)
+        po = Po.mc_get(id)
         if user_id:
-            buzz_reply_hide(user_id, id)
             po_pos_state_buzz(user_id, po) 
 
         if po and po.can_view(user_id):
@@ -91,6 +91,15 @@ class PoReplyJson(Base):
         else:
             result = ()
         return self.finish(dumps(result))
+
+
+@urlmap('/j/po/at/json/(\d+)')
+class PoAtJson(PoJsonBase):
+    _hide = staticmethod(buzz_at_hide)
+
+@urlmap('/j/po/reply/json/(\d+)')
+class PoReplyJson(PoJsonBase):
+    _hide = staticmethod(buzz_reply_hide)
 
 
 
