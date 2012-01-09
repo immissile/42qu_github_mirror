@@ -1,5 +1,3 @@
-    $(function(){
-    })
 function reply(id,at_txt){
     if(!islogin())return;
 	var fancybox = $.fancybox;

@@ -84,16 +84,23 @@ class PoJsonBase(Base):
         self._hide(user_id, id)
         po = Po.mc_get(id)
         if user_id:
-            po_pos_state_buzz(user_id, po) 
-
+            po_pos_state_buzz(user_id, po)
+ 
+        cid = po.cid 
+        r = {
+            'cid':cid
+        }
+        if cid == CID_WORD:
+            reply_list = [ po ] 
+        else:
+            reply_list = []
+            r['name'] = po.name
         if po and po.can_view(user_id):
-            reply_list = po.reply_list()
-            if po.cid == CID_WORD:
-                reply_list.insert(0, po)
+            reply_list.extend(po.reply_list())
             result = _reply_list_dump( reply_list , po.can_admin(user_id), user_id)
         else:
             result = ()
-        return self.finish(dumps(result))
+        return self.finish(r)
 
 
 @urlmap('/j/po/at/json/(\d+)')
