@@ -128,7 +128,7 @@ user_li_len = len(user_li)
 %if new_reply_count:
 等<span class="buzz_cou">${new_reply_count}</span>人
 %endif
-%else:
+%elif user_li:
 <%
 user_id, user_name = user_li[0]
 %>
