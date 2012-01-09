@@ -299,14 +299,14 @@ $(".buzz_at .x").click(function(){
 
 
 $(".buzz_x").live("click", function(){
-    var id=this.rel, buzz=$("#buzz"+id)
-    if($("#buzz_win_reply .buzz_li").length<=1){
-        $("#buzz_win_reply").hide()
+    var id=this.rel, buzz=$("#buzz"+id), box=buzz.parents('.buzz_box')
+    if(box.find(".buzz_li").length<=1){
+        box.remove()
     }else{
         buzz.hide(buzz.remove);
     }
     if(!this.visited){
-        $.postJSON( '/j/buzz/reply/x/'+id)
+        $.postJSON( '/j/buzz/'+box[0].id.slice(9)+'/x/'+id)
     }
 
 })
