@@ -38,7 +38,13 @@ class Page(object):
         now = int(now)
         if now <= 0:
             now = 1
+
+        end = (count+limit-1)//limit
+        if now > end:
+            now = end
+        
         self.now = now
+ 
         self.total = (count+limit-1)//limit
         self.href = href
         self.template = template
