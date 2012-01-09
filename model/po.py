@@ -481,17 +481,22 @@ def mc_flush_zsite_cid(zsite_id, cid):
     _(zsite_id, cid)
 
 if __name__ == '__main__':
-    from zsite import Zsite
-    from po_pos import po_pos_get
-
-    zsite_id = 10001299
-    po_id = 10202108
-    print po_pos_get(zsite_id, po_id)
-    user = Zsite.mc_get(zsite_id)
-    po = Po.mc_get(po_id)
-    po.reply_new(user, 'test6')
-    print po_pos_get(zsite_id, po_id)
     pass
+    po = Po.mc_get(10199705)
+    print po.name
+    print po.cid
+
+#    from zsite import Zsite
+#    from po_pos import po_pos_get
+#
+#    zsite_id = 10001299
+#    po_id = 10202108
+#    print po_pos_get(zsite_id, po_id)
+#    user = Zsite.mc_get(zsite_id)
+#    po = Po.mc_get(po_id)
+#    po.reply_new(user, 'test6')
+#    print po_pos_get(zsite_id, po_id)
+#    pass
 #    from zsite_list import zsite_id_list
 #    from cid import CID_USER
 #    id_list = zsite_id_list(0, CID_USER)
