@@ -105,7 +105,7 @@ class PoAtReplyJson(PoJsonBase):
 def _po_reply_result(self, po, id, reply_list=None):
     user_id = self.current_user_id
     if user_id:
-        buzz_reply_hide(user_id, id)
+        self._hide(user_id, id)
         po_pos_state_buzz(user_id, po)
 
     if po and po.can_view(user_id):
@@ -119,6 +119,7 @@ def _po_reply_result(self, po, id, reply_list=None):
 
 @urlmap('/j/po/reply/json/(\d+)')
 class PoReplyJson(Base):
+    _hide = staticmethod(buzz_reply_hide)
     def get(self, id):
         po = Po.mc_get(id)
         result = _po_reply_result(self, po, id)
