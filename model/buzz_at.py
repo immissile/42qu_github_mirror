@@ -54,7 +54,7 @@ def buzz_at_hide(user_id, buzz_at_id):
     buzz_at = BuzzAt.get(id=buzz_at_id, user_id=user_id)
     if buzz_at:
         buzz_at.state = BUZZ_AT_HIDE
-        buzz_at.save() 
+        buzz_at.save()
         mc_flush(user_id)
 
 def buzz_at_new(from_id, txt, po_id, reply_id=0):
@@ -107,7 +107,7 @@ def mc_flush(user_id):
 def buzz_at_col_list(user_id, limit, offset):
     return BuzzAt.where(
         to_id=user_id
-    ).where("state>=%s",BUZZ_AT_HIDE).order_by('id desc').col_list(
+    ).where('state>=%s', BUZZ_AT_HIDE).order_by('id desc').col_list(
         limit, offset, BUZZ_AT_COL
     )
 
@@ -137,19 +137,23 @@ def po_list_by_buzz_at_user_id(user_id):
     result = BuzzAt.where(
         to_id=user_id, state=BUZZ_AT_SHOW
     ).order_by('id desc').col_list(7, 0, 'id, from_id, po_id, reply_id')
-    return () 
+    return ()
 
 if __name__ == '__main__':
     pass
 
-    buzz_at_pos = Kv('buzz_at_pos', int)
+
+    class BuzzAtPos(Model):
+        pass
 
     from model.zsite import Zsite, CID_USER
     from zweb.orm import ormiter
-    for i in ormiter(Zsite, 'cid=%s'%CID_USER):
-        id = buzz_at_pos.get(i.id)
-        if id:
-            for j in BuzzAt.where(state=BUZZ_AT_SHOW).where('id<=%s'%id):
+    for i in ormiter(BuzzAtPos):
+        user_id = i.id
+        value = i.value
+        if user_id:
+            print user_id
+            for j in BuzzAt.where(state=BUZZ_AT_SHOW).where('id<=%s'%value).where(to_id=user_id):
                 j.state = BUZZ_AT_HIDE
                 j.save()
 
