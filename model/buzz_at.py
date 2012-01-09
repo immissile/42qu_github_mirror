@@ -6,7 +6,7 @@ from txt import txt_bind, txt_get, txt_new
 from kv import Kv
 from zsite_url import id_by_url
 from zkit.algorithm.unique import unique
-
+from collections import defaultdict
 from mq import mq_client
 #def mq_client(f):
 #    return f
@@ -51,10 +51,15 @@ def at_id_set_by_txt(txt):
     return set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)]))
 
 def buzz_at_hide(user_id, buzz_at_id):
-    buzz_at = BuzzAt.get(id=buzz_at_id, user_id=user_id)
+    buzz_at = BuzzAt.get(id=buzz_at_id, to_id=user_id)
     if buzz_at:
         buzz_at.state = BUZZ_AT_HIDE
         buzz_at.save()
+        if buzz_at.reply_id:
+            BuzzAt.where(
+                po_id=buzz_at.po_id,
+                state=BUZZ_AT_SHOW,
+            ).where("reply_id>0").update(state=BUZZ_AT_HIDE)
         mc_flush(user_id)
 
 def buzz_at_new(from_id, txt, po_id, reply_id=0):
@@ -136,7 +141,15 @@ def buzz_at_list(user_id, limit, offset):
 def po_list_by_buzz_at_user_id(user_id):
     result = BuzzAt.where(
         to_id=user_id, state=BUZZ_AT_SHOW
-    ).order_by('id desc').col_list(7, 0, 'id, from_id, po_id, reply_id')
+    ).order_by('id desc').col_list(
+        32, 0, 'id, from_id, po_id, reply_id'
+    )
+    id_list = []
+    id2user = defaultdict(list)
+    for id, from_id, po_id, reply_id in result:
+        id_list.append(po_id) 
+        id2user[po_id]
+ 
     return ()
 
 if __name__ == '__main__':
