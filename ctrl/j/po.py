@@ -102,13 +102,15 @@ class PoAtJson(PoJsonBase):
 class PoAtReplyJson(PoJsonBase):
     _hide = staticmethod(buzz_reply_hide)
 
-def _po_reply_result(self, po, id, reply_list=[]):
+def _po_reply_result(self, po, id, reply_list=None):
     user_id = self.current_user_id
     if user_id:
         buzz_reply_hide(user_id, id)
         po_pos_state_buzz(user_id, po)
 
     if po and po.can_view(user_id):
+        if reply_list is None:
+            reply_list = []
         reply_list.extend(po.reply_list())
         result = _reply_list_dump( reply_list , po.can_admin(user_id), user_id)
     else:
