@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
-from buzz_at import buzz_at_new, buzz_at_reply_rm
+from buzz_at import buzz_at_new, buzz_at_reply_rm, BuzzAt, BUZZ_AT_SHOW
 from txt import txt_get
 from mq import mq_client
 #def mq_client(f):
@@ -48,6 +48,9 @@ def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
     if buzz_to:
         now = int(time())
         for user_id in buzz_to:
+            if BuzzAt.get(po_id=po_id, to_id=user_id, state=BUZZ_AT_SHOW ):
+                continue
+
             buzz_reply = BuzzReply.get_or_create(po_id=po_id, user_id=user_id)
             buzz_reply.update_time = now
             buzz_reply.state = BUZZ_REPLY_STATE_SHOW
