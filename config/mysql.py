@@ -96,7 +96,7 @@ DB_MAIN_TABLE = (
     'ppt',
     'failed_mq',
     'spammer',
-    'buzz_at_pos',
+   # 'buzz_at_pos',
     'buzz_at',
     'buzz_reply',
     'import_douban_event',

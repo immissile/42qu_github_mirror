@@ -17,7 +17,8 @@ def _sync_site_po(begin_id):
         zsite = Zsite.mc_get(ZSITE_BIND_FOR_SYNC)
         if zsite:
             po = Po.mc_get(ss.po_id)
-            sync_site_po(po, zsite)
+            if po:
+                sync_site_po(po, zsite)
         return begin_id
 
 
