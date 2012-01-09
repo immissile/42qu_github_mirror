@@ -142,7 +142,6 @@ def po_list_by_buzz_at_user_id(user_id):
 if __name__ == '__main__':
     pass
 
-
     class BuzzAtPos(Model):
         pass
 
