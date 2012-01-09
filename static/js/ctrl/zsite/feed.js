@@ -7,7 +7,8 @@ $(".buzz_li").live("click",function(){
     $(this.parentNode).find(".buzz_x")[0].visited = 1;
     var content = $(
 '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
-    ), self = $(this), 
+    ), self = $(this),
+    rel = self.parents('.buzz_box')[0].id.slice(9),
     href = this.href, 
     cbody = content.find('#reply_reply_body'), t=cbody[0],
     textarea = content.find('textarea'),
@@ -57,7 +58,7 @@ $(".buzz_li").live("click",function(){
         content:content, 
         onComplete:function(){
             textarea.focus()
-            $.getJSON( '/j/po/reply/json/'+id, _)
+            $.getJSON( '/j/po/'+rel+'/json/'+id, _)
         }
     })
     return false
