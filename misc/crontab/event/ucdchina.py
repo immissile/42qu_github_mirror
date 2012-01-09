@@ -20,9 +20,12 @@ from zkit.classification.classification import GetTag
 from rss_po import RssPo
 
 TAGGER = GetTag()
+#SETTINGS HERE
+UCDCHINA_ZSITE_ID = 2585
+UCD_USER_ID = 2585
 
 def name_builder(url):
-    return os.path.join(CURRNET_PATH, "ucdchina", path.basename( url))
+    return os.path.join(CURRNET_PATH, "ucdchina", path.basename(url))
 
 def parse_page(filepath):
     with open(filepath) as f:
@@ -42,8 +45,8 @@ def parse_page(filepath):
         tags = TAGGER.get_tag(content+title)
         out = dumps([ title, content, author, tags ])
 
-        a = RssPo(content,2585,title, pic_list, 0, 2585,tags)
-        a.htm2po_by_po()
+        #a = RssPo(content,UCD_USER_ID,title, pic_list, 0, UCDCHINA_ZSITE_ID,tags)
+        #a.htm2po_by_po() 
 
         writer = Writer.get_instance()
         writer = writer.choose_writer('ucdchina.data')
@@ -56,33 +59,37 @@ def save_page(page, url):
     parse_page(filename)
 
 def parse_index(page, url):
-    link_wrapper_list = txt_wrap_by_all('<div id="mainWrap">', '<!--/#mainWrap', page)
+    link_wrapper_list = txt_wrap_by('<div id="mainWrap">', '<!--/#mainWrap', page)
     link_list = []
-    for link_wrapper in link_wrapper_list:
-        url = txt_wrap_by('/snap/', '"', link_wrapper)
+
+    url_list = txt_wrap_by_all('/snap/', '"', link_wrapper_list)
+    for url in url_list:
         filename = name_builder(url)
+        if 'img src' in url:
+            continue
         if not exists(filename):
             yield save_page, 'http://ucdchina.com/snap/'+url
         else:
+            print "using cache",url
             parse_page(filename)
 
 def ucdchina_daily():
-    word_list = ['PM', 'UCD', 'UR', 'ia-id', 'VD', 'HappyDesign']
+    word_list = ['PM', 'UCD', 'UR', 'IA-ID', 'VD', 'HappyDesign']
     for typ in word_list:
         yield parse_index, 'http://ucdchina.com/%s'%str(typ)
 
 def ucd_url_builder():
     for page in xrange(68):
         yield parse_index, 'http://ucdchina.com/PM?p=%s'%str(page)
-    for page in xrange(1256):
+    for page in xrange(62):
         yield parse_index, 'http://ucdchina.com/UCD?p=%s'%str(page)
-    for page in xrange(393):
+    for page in xrange(19):
         yield parse_index, 'http://ucdchina.com/UR?p=%s'%str(page)
-    for page in xrange(1374):
-        yield parse_index, 'http://ucdchina.com/ia-id?p=%s'%str(page)
-    for page in xrange(297):
-        yield parse_index, 'http://ucdchina.com/VD?%p=%s'%str(page)
-    for page in xrange(1133):
+    for page in xrange(68):
+        yield parse_index, 'http://ucdchina.com/IA-ID?p=%s'%str(page)
+    for page in xrange(14):
+        yield parse_index, 'http://ucdchina.com/VD?p=%s'%str(page)
+    for page in xrange(56):
         yield parse_index, 'http://ucdchina.com/HappyDesign?p=%s'%str(page)
 
 def main():
