@@ -15,6 +15,13 @@ class BuzzX(JLoginBase):
         buzz_reply_hide_or_rm_by_user_id(current_user_id)
         self.finish('{}')
 
+@urlmap("/j/buzz/at/x")
+class BuzzAtX(JLoginBase):
+    def post(self):
+        current_user_id = self.current_user_id
+        buzz_at_hide(current_user_id)
+        self.finish('{}')
+
 @urlmap("/j/buzz/at/x/(\d+)")
 class BuzzAtX(JLoginBase):
     def post(self, id):

@@ -159,7 +159,7 @@ def career_current_str(user_id):
     t = career_current(user_id)
     t = ' , '.join(filter(bool, t))
     if t:
-        t = '( %s )'%t
+        t = ' ( %s )'%t
     return t
 
 @mc_career_current('{user_id}')
