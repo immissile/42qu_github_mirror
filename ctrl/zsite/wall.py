@@ -113,7 +113,7 @@ class Txt(ZsiteBase):
         self.redirect('/wall/%s' % id)
 
 
-@urlmap('/wall/reply/rm/(\d+)')
+@urlmap('/wall/rm/reply/(\d+)')
 class ReplyRm(ZsiteBase):
     def post(self, id):
         current_user_id = self.current_user_id

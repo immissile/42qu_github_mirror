@@ -41,7 +41,7 @@ class ReplyList(Base):
         )
 
 
-@urlmap('/reply/rm/(\d+)')
+@urlmap('/rm/reply/(\d+)')
 class ReplyRm(Base):
     def get(self, id):
         r = Reply.mc_get(id)

@@ -1,4 +1,4 @@
-rm = _rm("#reply","/po/reply/rm/")
+rm = _rm("#reply","/po/rm/reply/")
 $(function(){
     $(".G,.G4").css('position','static')
 

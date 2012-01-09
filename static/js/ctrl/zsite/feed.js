@@ -42,6 +42,7 @@ $(".buzz_li").live("click",function(){
             reply_name.text(data.name)
         }
         _result(data.result)
+        content.find('.rm:first')[0].rel=''
     }
     function _result(result){
         cbody.removeClass('reply_reply_loading').append(render_reply(result))

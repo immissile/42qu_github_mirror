@@ -74,7 +74,7 @@ class PoReply(_handler.OauthAccessBase):
             })
 
 
-@urlmap('/po/reply/rm')
+@urlmap('/po/rm/reply')
 class PoReplyRm(_handler.OauthAccessBase):
     def get(self):
         id = int(self.get_argument('id'))

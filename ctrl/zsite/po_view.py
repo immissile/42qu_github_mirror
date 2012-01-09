@@ -401,7 +401,7 @@ class PoTag(ZsiteBase):
         )
 
 
-@urlmap('/po/reply/rm/(\d+)')
+@urlmap('/po/rm/reply/(\d+)')
 class ReplyRm(LoginBase):
     def post(self, id):
         user_id = self.current_user_id
