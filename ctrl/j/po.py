@@ -80,12 +80,7 @@ def _reply_list_dump(reply_list, can_admin, current_user_id):
 
 class PoJsonBase(Base):
     def get(self, id):
-        user_id = self.current_user_id
-        self._hide(user_id, id)
         po = Po.mc_get(id)
-        if user_id:
-            po_pos_state_buzz(user_id, po)
- 
         cid = po.cid 
         r = {
             'cid':cid
@@ -95,22 +90,39 @@ class PoJsonBase(Base):
         else:
             reply_list = []
             r['name'] = po.name
-        if po and po.can_view(user_id):
-            reply_list.extend(po.reply_list())
-            result = _reply_list_dump( reply_list , po.can_admin(user_id), user_id)
-        else:
-            result = ()
-        r['result'] = result
+        r['result'] = _po_reply_result(self, po, id, reply_list)
         return self.finish(r)
 
 
-@urlmap('/j/po/at/json/(\d+)')
+@urlmap('/j/po-at/json/(\d+)')
 class PoAtJson(PoJsonBase):
     _hide = staticmethod(buzz_at_hide)
 
-@urlmap('/j/po/reply/json/(\d+)')
-class PoReplyJson(PoJsonBase):
+@urlmap('/j/po-reply/json/(\d+)')
+class PoAtReplyJson(PoJsonBase):
     _hide = staticmethod(buzz_reply_hide)
+
+def _po_reply_result(self, po, id, reply_list=[]):
+    user_id = self.current_user_id
+    if user_id:
+        buzz_reply_hide(user_id, id)
+        po_pos_state_buzz(user_id, po)
+
+    if po and po.can_view(user_id):
+        reply_list.extend(po.reply_list())
+        result = _reply_list_dump( reply_list , po.can_admin(user_id), user_id)
+    else:
+        result = ()
+    return result 
+
+@urlmap('/j/po/reply/json/(\d+)')
+class PoReplyJson(Base):
+    def get(self, id):
+        po = Po.mc_get(id)
+        result = _po_reply_result(self, po, id)
+        return self.finish(dumps(result))
+
+
 
 
 

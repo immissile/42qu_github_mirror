@@ -41,11 +41,10 @@ $(".buzz_li").live("click",function(){
         }else{
             reply_name.text(data.name)
         }
-        _result(data.result)
-        content.find('.rm:first')[0].rel=''
+        _result(data.result,1)
     }
-    function _result(result){
-        cbody.removeClass('reply_reply_loading').append(render_reply(result))
+    function _result(result,i){
+        cbody.removeClass('reply_reply_loading').append(render_reply(result,i))
         codesh()
         var height = t.scrollHeight+2, 
             winheight=$(window).height() - 260;
@@ -67,7 +66,7 @@ $(".buzz_li").live("click",function(){
         content:content, 
         onComplete:function(){
             textarea.focus()
-            $.getJSON( '/j/po/'+rel+'/json/'+id, _)
+            $.getJSON( '/j/po-'+rel+'/json/'+id, _)
         }
     })
     return false
