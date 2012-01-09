@@ -147,9 +147,17 @@ def po_list_by_buzz_at_user_id(user_id):
     id_list = []
     id2user = defaultdict(list)
     for id, from_id, po_id, reply_id in result:
-        id_list.append(po_id) 
-        id2user[po_id]
- 
+        po_id_in = po_id in id2user
+        if po_id_in or len(id_list)<7:
+            if not po_id_in:
+                id_list.append(po_id) 
+            id2user[po_id].append(from_id)
+         
+    po_list = Po.mc_get_list(id_list)
+
+    for i in po_list:
+
+
     return ()
 
 if __name__ == '__main__':
