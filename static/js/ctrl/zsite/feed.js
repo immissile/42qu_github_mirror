@@ -14,14 +14,15 @@ $(".buzz_li").live("click",function(){
     textarea = content.find('textarea'),
     fancybox = $.fancybox,
     button = content.find('button'),
-    id = href.split("/")[4].split("#")[0];
+    id = href.split("/")[4].split("#")[0],
+    reply_name=content.find('#reply_name');
 
    
     textarea.ctrl_enter( function(){ button.click()});
 
     self.css({color:"#99a"});
 
-    content.find('#reply_name').html(self.html()).attr('href',href)
+    reply_name.html(self.html()).attr('href',href)
     button.click(function(){
         var v=textarea.val(), 
             fancybox=$.fancybox;
@@ -31,11 +32,19 @@ $(".buzz_li").live("click",function(){
         post_reply(id, v,function(data){
             fancybox.hideActivity();
             textarea.focus()
-            _(data)
+            _result(data)
         })
     })
     function _(data){
-        cbody.removeClass('reply_reply_loading').append(render_reply(data))
+        if(data.cid==61){
+            reply_name.remove()
+        }else{
+            reply_name.text(data.name)
+        }
+        _result(data.result)
+    }
+    function _result(result){
+        cbody.removeClass('reply_reply_loading').append(render_reply(result))
         codesh()
         var height = t.scrollHeight+2, 
             winheight=$(window).height() - 260;
@@ -52,7 +61,6 @@ $(".buzz_li").live("click",function(){
         t.scrollTop=t.scrollHeight-t.offsetHeight-5
 
         fancybox.resize()
-
     }
     fancybox({
         content:content, 
@@ -265,7 +273,7 @@ $(".buzz_li").live("click",function(){
     )
 
     /* 站点推荐 */
-    
+/*    
     $(".site_li").hover(
         function(r){
             $(this).find(".delbtn")
@@ -280,23 +288,10 @@ $(".buzz_li").live("click",function(){
     $(".site_fav_a").click(function(){
         $(this).addClass("fav_loading");
     });
-
+*/
 })()
 
 
-
-$(".buzz_at .x").click(function(){
-    var me = this,
-        p = me.parentNode,
-        pp = p.parentNode;
-    p=$(p).fadeOut(function(){
-        p.remove()
-        if(!$(pp).find('div')[0]){
-            $(pp.parentNode).remove()
-        }
-    })
-    $.postJSON("/j/buzz/at/x")
-})
 
 
 $(".buzz_x").live("click", function(){

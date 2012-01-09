@@ -100,6 +100,7 @@ class PoJsonBase(Base):
             result = _reply_list_dump( reply_list , po.can_admin(user_id), user_id)
         else:
             result = ()
+        r['result'] = result
         return self.finish(r)
 
 
