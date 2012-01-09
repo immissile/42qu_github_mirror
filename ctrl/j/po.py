@@ -45,7 +45,7 @@ def post_reply(self, id):
         self.finish(dumps(result))
         return reply_id
 
-def _reply_list_dump(reply_list, can_rm, current_user_id):
+def _reply_list_dump(reply_list, can_admin, current_user_id):
     result = []
     career_bind(reply_list, "user_id")
     ico_url_bind_with_default(tuple(i.user for i in reply_list))
@@ -64,7 +64,7 @@ def _reply_list_dump(reply_list, can_rm, current_user_id):
         reply_tuple = (
             reply.htm, 
             reply.id, 
-            can_rm or reply.can_rm(current_user_id)
+            can_admin or reply.can_admin(current_user_id)
         )
 
         if user_id == pre_user_id:
@@ -87,7 +87,10 @@ class PoJsonBase(Base):
             po_pos_state_buzz(user_id, po) 
 
         if po and po.can_view(user_id):
-            result = _reply_list_dump( po.reply_list() , po.can_admin(user_id), user_id)
+            reply_list = po.reply_list()
+            if po.cid == CID_WORD:
+                reply_list.insert(0, po)
+            result = _reply_list_dump( reply_list , po.can_admin(user_id), user_id)
         else:
             result = ()
         return self.finish(dumps(result))

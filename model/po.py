@@ -465,16 +465,16 @@ def mc_flush_cid_list_all(user_id, cid_list):
 
 
 def reply_rm_if_can(user_id, id):
-    can_rm = None
+    can_admin = None
     r = Reply.mc_get(id)
     if r:
         po = Po.mc_get(r.rid)
         if po:
-            can_rm = r.can_rm(user_id) or po.can_admin(user_id)
-            if can_rm:
+            can_admin = r.can_admin(user_id) or po.can_admin(user_id)
+            if can_admin:
                 r.rm()
                 mc_feed_tuple.delete(po.id)
-    return can_rm
+    return can_admin
 
 def mc_flush_zsite_cid(zsite_id, cid):
     from model.site_po import mc_flush_zsite_cid as _

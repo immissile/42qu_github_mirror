@@ -111,7 +111,7 @@ ${htm.reply_textarea()}
 ##<div class="sdw" id="reply${reply.id}"><div class="sd">
 ##    <pre>${reply.htm|n}</pre>
 ##    <div class="bar">
-##%if can_admin or reply.can_rm(current_user_id):
+##%if can_admin or reply.can_admin(current_user_id):
 ##    <a href="javascript:rm(${reply.id});void(0)" class="rm">删除</a> 
 ##%else:
 ##    <span class="c9 L">${friendly_time(reply.create_time)}</span>
