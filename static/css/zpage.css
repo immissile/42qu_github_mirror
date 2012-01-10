@@ -519,3 +519,7 @@ display:inline-block;
 .fcpre:hover .rm:hover{
 background-position:-21px 9px;
 }
+#reply_reply_body .video{
+height: 387px;
+width: 474px;
+}
