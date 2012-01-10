@@ -35,7 +35,6 @@ CURRENT_PATH = path.dirname(path.abspath(__file__))
 
 
 class Dongxi(object):
-    """docstring for Dongxi"""
     def __init__(self):
         pass
 
@@ -55,7 +54,7 @@ class Dongxi(object):
                 yield self.parse_page,'http://dongxi.net/%s'%url
 
     def parse_page(self,page,url):
-
+        print "Dongxi...%s"%url
         title = txt_wrap_by('<div class="content_title clearfix">','</h1>',page).strip().split('>')[-1].strip()
         author = txt_wrap_by('<a class="link_text_blue" href="','</a>',page).strip().split('>')[-1].strip()
 
