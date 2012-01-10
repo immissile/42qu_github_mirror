@@ -36,6 +36,7 @@ class Fetch(object):
         file_path = path.join(cache_dir, file_name)
 
         if path.exists(file_path):
+            print "Using cache"
             with open(file_path) as f:
                 data = f.read()
                 return data

@@ -33,50 +33,60 @@ from writer import Writer,CURRNET_PATH
 
 CURRENT_PATH = path.dirname(path.abspath(__file__))
 
-def dongxi_url_builder():
-    for i in xrange(1,695):
-        yield parse_index,'http://dongxi.net/index/original?type=channel&slug=all&cate=havetrans&page=%s'%str(i)
 
-def parse_index(page,url):
-    link_wrap_list = txt_wrap_by_all('已翻译','<span',page)
-    link_list = []
-    for link_wrap in link_wrap_list:
-        url = txt_wrap_by('href="','"',link_wrap)
-        if url:
-            yield parse_page,'http://dongxi.net/%s'%url
-
-def parse_page(page,url):
-
-    title = txt_wrap_by('<div class="content_title clearfix">','</h1>',page).strip().split('>')[-1].strip()
-    author = txt_wrap_by('<a class="link_text_blue" href="','</a>',page).strip().split('>')[-1].strip()
-
-    tags = map(lambda x:x.split('>')[-1],txt_wrap_by_all("<a  class='link_text_blue'",'</a>',page))
-    rating_num = txt_wrap_by('onclick="favorate(',')',page)
-    
-    content = txt_wrap_by('id="full_text">','</div',page)
-
-    yield parse_rat,'http://dongxi.net/content/widget/page_id/%s'%rating_num,title,author,tags, url,content
-
-def parse_rat(page,url,title,author,tags, po_url, content):
-    rating = 0
-    try:
-        dic = loads(page)
-        rating = dic['fav_count']
-    except:
+class Dongxi(object):
+    """docstring for Dongxi"""
+    def __init__(self):
         pass
 
-    out = dumps([ title, author, tags, rating, po_url,content ])
+    def daily_dongxi():
+        yield parse_index,'http://dongxi.net/index/original?type=channel&slug=all&cate=havetrans'
 
-    writer = Writer.get_instance()
-    writer = writer.choose_writer('dongxi.data')
-    writer.write(out+'\n')
+    def dongxi_crawler(self):
+        for i in xrange(1,695):
+            yield self.parse_index,'http://dongxi.net/index/original?type=channel&slug=all&cate=havetrans&page=%s'%str(i)
+
+    def parse_index(self,page,url):
+        link_wrap_list = txt_wrap_by_all('已翻译','<span',page)
+        link_list = []
+        for link_wrap in link_wrap_list:
+            url = txt_wrap_by('href="','"',link_wrap)
+            if url:
+                yield self.parse_page,'http://dongxi.net/%s'%url
+
+    def parse_page(self,page,url):
+
+        title = txt_wrap_by('<div class="content_title clearfix">','</h1>',page).strip().split('>')[-1].strip()
+        author = txt_wrap_by('<a class="link_text_blue" href="','</a>',page).strip().split('>')[-1].strip()
+
+        tags = map(lambda x:x.split('>')[-1],txt_wrap_by_all("<a  class='link_text_blue'",'</a>',page))
+        rating_num = txt_wrap_by('onclick="favorate(',')',page)
+        
+        content = txt_wrap_by('id="full_text">','</div',page)
+
+        yield self.parse_rat,'http://dongxi.net/content/widget/page_id/%s'%rating_num,title,author,tags, url,content
+
+    def parse_rat(self,page,url,title,author,tags, po_url, content):
+        rating = 0
+        try:
+            dic = loads(page)
+            rating = dic['fav_count']
+        except:
+            pass
+
+        out = dumps([ title, author, tags, rating, po_url,content ])
+
+        writer = Writer.get_instance()
+        writer = writer.choose_writer('dongxi.data')
+        writer.write(out+'\n')
 
 def main():
     headers = {
     }
 
+    dongxi = Dongxi()
     fetcher = Fetch(path.join(CURRNET_PATH,'cache'), headers=headers)
-    spider = Rolling(fetcher,dongxi_url_builder())
+    spider = Rolling(fetcher,dongxi.dongxi_crawler())
     spider_runner = GSpider(spider, workers_count=3)
     spider_runner.start()
 
