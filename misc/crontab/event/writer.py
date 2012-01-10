@@ -14,7 +14,7 @@ class Writer(object):
 
     def choose_writer(self,name):
         if name not in Writer.WRITTER_DICT:
-            Writer.WRITTER_DICT[name]=LockFile(path.join(CURRNET_PATH, name),'wa')
+            Writer.WRITTER_DICT[name]=LockFile(path.join(CURRNET_PATH, name),'a')
         return Writer.WRITTER_DICT[name]
 
     @staticmethod
