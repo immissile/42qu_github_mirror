@@ -55,5 +55,22 @@ def anti_same_post(func, user_id, *args, **kwds):
         return
     return func(user_id, *args, **kwds)
 
+def spammer_reset(user_id):
+    from model.po import Po, po_rm, reply_rm_if_can
+    from zsite_tag import zsite_tag_rm_by_po
+    for i in Po.where(user_id=user_id):
+        po_rm(user_id, i.id)
+        zsite_tag_rm_by_po(i)
+
+    from model.reply import Reply
+    for i in Reply.where(user_id=user_id):
+        reply_rm_if_can(user_id, i.id)
+
+        
+    
+
+
+
 if __name__ == '__main__':
     print is_spammer(14)
+    spammer_reset()

@@ -263,10 +263,10 @@ def count_po_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=6):
     )
 
 
-def zsite_tag_rm_by_user_id(user_id):
-    tag_list = zsite_tag_id_list_with_init(user_id)
-    for id in tag_list:
-        zsite_tag_rm_by_tag_id(user_id,id)
+#def zsite_tag_rm_by_user_id(user_id):
+#    tag_list = zsite_tag_id_list_with_init(user_id)
+#    for id in tag_list:
+#        zsite_tag_rm_by_tag_id(user_id,id)
 
 
 if __name__ == '__main__':
@@ -275,4 +275,4 @@ if __name__ == '__main__':
     zsite_tag_rm_by_user_id(10001299)
     #print zsite_tag_list_by_zsite_id_if_len(10000000)
     pass
-
+()

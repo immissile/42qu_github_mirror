@@ -477,31 +477,11 @@ def reply_rm_if_can(user_id, id):
     return can_admin
 
 
-def po_rm_by_user_id(user_id):
-    from cid import CID_PO
-    for i in CID_PO: 
-        total =  po_list_count(user_id,i,True)
-        if total:
-            for po_id in po_id_list(user_id,i,True,total,0):
-                po_rm(user_id,po_id)
-
-def reply_rm_by_user_id(user_id):
-    from reply import Reply
-    from cid import CID_PO
-    for i in CID_PO: 
-        for r in Reply.where(user_id=user_id,cid=i):
-            reply_rm_if_can(user_id,r.id)
-
 def mc_flush_zsite_cid(zsite_id, cid):
     from model.site_po import mc_flush_zsite_cid as _
     _(zsite_id, cid)
 
 
-def rm_all_po_and_reply_and_tag_by_user_id(user_id):
-    from zsite_tag import zsite_tag_rm_by_user_id 
-    reply_rm_by_user_id(user_id)
-    po_rm_by_user_id(user_id)
-    zsite_tag_rm_by_user_id(user_id)
 if __name__ == '__main__':
     rm_all_po_and_reply_and_tag_by_user_id(10001299)
     pass
