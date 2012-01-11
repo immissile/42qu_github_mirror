@@ -72,6 +72,7 @@ def spammer_reset(user_id):
 
 
 if __name__ == '__main__':
+    pass
     #print is_spammer(14)
 
-    #spammer_reset(10207348)
+    spammer_reset(10207348)
