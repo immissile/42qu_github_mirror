@@ -258,9 +258,6 @@ padding-top:14px;
     font-size:12px;
     font-family:'Trebuchet MS', Helvetica, sans-serif;
 }
-.buzz_h1{
-    border: 0pt none; text-align: left; font-size: 14px; background: url(/img/gif/adot.gif) no-repeat scroll -4px 7px transparent;padding-left:16px;color:#000;
-}
 .split
 {
     margin: 0 11px;
@@ -352,30 +349,7 @@ ul
     margin-bottom:-10px;
     padding-bottom:10px;
 }
-.buzz_text *
-{
-    background:white;
-    overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-}
 
-.buzz_win
-{
-    padding:6px 0 6px 0;
-}
-.buzz_w
-{
-    line-height: 22px;
-    /*border-bottom: 1px dotted #CCC;*/
-    padding-bottom: 6px;
-    padding-left: 17px;
-    background: url(/img/png/list_style_disc.png) no-repeat 4px 0;
-}
-.buzz_au, .buzz_au a{
-    color:#999
-}
-.buzz_au a:hover{
-    color:#d20;
-}
 .buzz_cou
 {
     margin:3px 0
