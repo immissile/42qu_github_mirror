@@ -64,8 +64,9 @@ def buzz_po_reply_rm(po_id, reply_id):
     from po_pos import PoPos, STATE_BUZZ
     from model.po import Po
     po = Po.mc_get(po_id)
-    if po and reply_id >= po.reply_id_last:
-        for user_id in PoPos.where(po_id=po_id, state=STATE_BUZZ).where('pos>%s', reply_id).col_list(col='user_id'):
+    reply_id_last = po.reply_id_last
+    if po and reply_id >= reply_id_last:
+        for user_id in PoPos.where(po_id=po_id, state=STATE_BUZZ).where('pos>=%s', reply_id_last).col_list(col='user_id'):
             BuzzReply.where(po_id=po_id, user_id=user_id, state=BUZZ_REPLY_STATE_SHOW).update(state=BUZZ_REPLY_STATE_HIDE)
             mc_flush(user_id)
     buzz_at_reply_rm(reply_id)
