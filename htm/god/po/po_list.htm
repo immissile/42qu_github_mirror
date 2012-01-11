@@ -85,6 +85,7 @@ site = Zsite.get(po.zsite_id)
 日记\
 % endif
 </a>
+<a style="float:right;margin-right:50px;"href="/rm/${po.user_id}-${po.id}">删除</a>
 ${po.name_htm|n}
 </p>
 %if cid!=CID_WORD and cid!=CID_REC:
@@ -113,7 +114,13 @@ ${friendly_time(po.create_time)}
 </p>
 </div>
 <p class="tr">
-<a class="L" href="/po/show/set/${id}">
+<a class="L" href="\
+    %if cid == CID_NOTE:
+    /po/edit/show/${id}\
+    %else:
+    /po/show/set/${id}\
+    %endif
+    ">
     % if po_is_show(po):
     设置
     % elif po.state >= STATE_ACTIVE:
