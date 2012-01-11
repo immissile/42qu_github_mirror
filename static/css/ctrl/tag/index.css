@@ -4,7 +4,7 @@
 }
 .site_name{
     background:#fff;
-    padding-right:2px;
+    padding-right:6px;
 }
 .site_title{
     overflow:auto;
@@ -12,8 +12,6 @@
 }
 .site_left{
     float:left;
-    margin-left:30px;
-    _margin-left:23px;
 }
 .site_img{
     margin-top:2px;
@@ -26,6 +24,9 @@
     margin-left:12px;
     margin-top:0;
     line-height:20px;
+}
+.site_info_no_img{
+    margin-left:60px
 }
 .site_bio{
     color:#999;
@@ -62,13 +63,12 @@
     width:260px;
     margin-left:12px;
 }
+.site_li{
+    padding-bottom:18px;
+}
 .site_rec{
     margin-top:16px;
     margin-bottom:18px;
-}
-.site_li{
-    margin-top:16px;
-    height:50px;
 }
 .com_wrap{
 float:left;
@@ -78,7 +78,8 @@ width:722px;
 width:666px;
 }
 .com_side{
-width:250px
+width:250px;
+font-family:'Trebuchet MS',Helvetica,sans-serif;
 }
 .H .site{
 margin-left:-32px

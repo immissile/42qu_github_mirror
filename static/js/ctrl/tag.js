@@ -5,14 +5,10 @@ b1024()
         rec_wrapper=$("#rec_wrapper"),
         site_rec=$("#site_rec");
 
-    function addRec(){
 
-        if(data&&data.length){
-            site = data.pop();
-            rec_wrapper.append(site_rec.tmpl());
-        }
+    if(data&&data.length){
+        rec_wrapper.append(site_rec.tmpl(data));
     }
-    addRec();
 
     fav=function(id){
         $("#rec_id"+id).addClass("fav_loading");

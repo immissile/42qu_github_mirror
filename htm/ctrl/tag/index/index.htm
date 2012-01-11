@@ -21,28 +21,27 @@ t
 
 
 
-
         ${site_rec_render()}
-        <p class="buzz_h1" id="rec_title">人物志</p>
-        <div class="site_rec" id="rec_wrapper" ></div>
-        <script id="site_rec" type="text/x-jquery-tmpl">
+<p class="buzz_h1" id="rec_title">人物志</p>
+<div class="site_rec" id="rec_wrapper" ></div>
+<script id="site_rec" type="text/x-jquery-tmpl">
 <%text>
-<div class="site_li" id="rec_${site[0]}">
-{{if site[3]}}
-<div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
+<div class="site_li c" id="rec_${$data[0]}">
+{{if $data[3]}}
+<div class="site_left"><div class="site_img"><a href="${$data[1]}"><img class="site_avatar" src="${$data[3]}"></a></div></div>
+<div class="
+{{else}}
+<div class="site_info_no_img
 {{/if}}
-<div class="site_info">
-<span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
-<a id="rec_id${site[0]}" class="site_fav_a${site[5]}"></a>
-<div class="site_bio">${site[3]}</div>
+site_info">
+<span class="site_name"><a target="_top" id="site_name_a" href="${$data[1]}">${$data[2]}</a></span>
+<a id="rec_id${$data[0]}" class="site_fav_a${$data[5]}"></a>
+<div class="site_bio">${$data[3]}</div>
 </div>
 
 </div>
 </%text>
         </script>
-
-
-
 
 
     </div>
