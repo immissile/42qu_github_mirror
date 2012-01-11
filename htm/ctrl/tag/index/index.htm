@@ -32,17 +32,18 @@ t
     <div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
     <div class="site_info">
         <span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
-        {{if site[5] == 3}}
-        <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:fav('${site[0]}')"></a>
-        <div class="site_bio">${site[3]}</div>
-    </div>
+<a id="rec_id${site[0]}" 
+    {{if site[5] == 3}}
+class="site_fav_a" href="javascript:fav(${site[0]})"
+    {{else}}
+        {{if site[5] == 1}}
+class="site_faved" 
+href="javascript:unfav(${site[0]});void(0)"
+        {{/if}}
     {{/if}}
-    {{if site[5] == 1}}
-    <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:follow_a(${site[0]});void(0)"></a>
+></a>
     <div class="site_bio">${site[3]}</div>
 </div>
-<div class="delbtn"><a href="javascript:follow_a(${site[0]});void(0)" onclick=""></a></div>
-{{/if}}
 
 </div>
 {{/if}}
@@ -60,25 +61,23 @@ t
 <script src="${js.ctrl_tag}"></script>
 
 
-<%doc>
-{{if site.length}}
-<div class="site_li" id='rec_${site[0]}'>
-    <div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
-    <div class="site_info">
-        <span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
-        {{if site[5] == 3}}
-        <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:fav('${site[0]}')"></a>
-        <div class="site_bio">${site[3]}</div>
-    </div>
-    <div class="delbtn"><a href="javascript:del('${site[0]}')" onclick=""></a></div>
-    {{/if}}
-    {{if site[5] == 1}}
-    <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:follow_a(${site[0]});void(0)"></a>
-    <div class="site_bio">${site[3]}</div>
-</div>
-<div class="delbtn"><a href="javascript:follow_a(${site[0]});void(0)" onclick=""></a></div>
-{{/if}}
-
-</div>
-{{/if}}
-</%doc>
+##{{if site.length}}
+##<div class="site_li" id='rec_${site[0]}'>
+##    <div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
+##    <div class="site_info">
+##        <span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
+##        {{if site[5] == 3}}
+##        <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:fav('${site[0]}')"></a>
+##        <div class="site_bio">${site[3]}</div>
+##    </div>
+##    <div class="delbtn"><a href="javascript:del('${site[0]}')" onclick=""></a></div>
+##    {{/if}}
+##    {{if site[5] == 1}}
+##    <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:follow_a(${site[0]});void(0)"></a>
+##    <div class="site_bio">${site[3]}</div>
+##</div>
+##<div class="delbtn"><a href="javascript:follow_a(${site[0]});void(0)" onclick=""></a></div>
+##{{/if}}
+##
+##</div>
+##{{/if}}
