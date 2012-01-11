@@ -1,6 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%def name="htm_head()">
 ${css.ctrl_zsite_com|n}
+${css.ctrl_hero|n}
 <style>
 .com_wrap{
 float:left;
@@ -12,20 +13,34 @@ width:666px;
 .com_side{
 width:250px
 }
+.H .site{
+margin-left:-32px
+}
+.b1024 .H .site{
+margin-left:0
+}
 h1{
 font-size:24px;
+}
+#search{
+width:211px;
+}
+.search{
+margin-top:24px;
 }
 </style>
 </%def>
 <div class="G">
 <div class="com_wrap">
-    <h1>Python 编程爱好者</h1>
+    <h1>编程爱好者</h1>
     <div class="com_main">
 t
     </div>
 </div>
     <div class="com_side">
-x
+<form class="search" action="http://zuroc.42qu.com/q">
+<input type="text" style="color:#999" value="搜索此话题下内容 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
+
     </div>
 </div>
 
