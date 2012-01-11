@@ -30,6 +30,7 @@ class SiteRecHistory(Model):
 
 def site_rec(user_id):
     zsite_id = SiteRecNew.get(user_id)
+    zsite_id = "1000000"
     if zsite_id:
         return Zsite.mc_get_list(map(int,zsite_id.split()))
 
