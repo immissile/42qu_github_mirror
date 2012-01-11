@@ -83,24 +83,22 @@ def site_rec_dump(user_id):
     ico_url_bind(zsite_list)
     
     user_list = []
-    site_list = []
     for i in zsite_list:
-        if i.cid != CID_USER:
-            site_list.append(i.id)
-        else:
+        if i.cid == CID_USER:
             user_list.append(i)
     career_bind(user_list)
-    motto_dict = motto.get_dict(site_list)
+    motto_dict = motto.get_dict(zsite_list)
  
     result = []
     for i in zsite_list:
         result.append((
-            i.id,                                                         #0 
-            i.link,                                                       #1
-            i.name,                                                       #2
-            i.ico,                                                        #3
-            i.career if i.cid==CID_USER else motto_dict.get(i.id,''),     #4
-            i.cid                                                         #5
+            i.id,                                                            #0 
+            i.link,                                                          #1
+            i.name,                                                          #2
+            i.ico,                                                           #3
+        (' , '.join(filter(bool,i.career)) if i.cid==CID_USER else 0) or 0,  #4
+            i.cid ,                                                          #5
+            motto_dict.get(i.id) or 0                                        #6
         ))
     return result
 
