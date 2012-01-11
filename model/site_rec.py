@@ -15,7 +15,10 @@ from model.zsite import  Zsite
 from model.cid import CID_SITE
 from model.zsite_fav import zsite_fav_new, zsite_fav_rm
 from model.top_rec import top_rec_unmark, TOP_REC_CID_SITE_REC, top_rec_mark
-
+from model.follow import follow_get_list
+from model.ico import ico_url_bind
+from model.career import career_bind
+from model.motto import motto
 
 SiteRec = Kv('site_rec', 0)
 SiteRecNew = Kv('site_rec_new', 0)
@@ -74,6 +77,32 @@ def site_rec_feeckback(user_id, zsite_id, state):
 def site_rec_set(user_id, site_id):
     SiteRecNew.set(user_id, ' '.join([str(i) for i in site_id]))
     top_rec_mark(user_id, TOP_REC_CID_SITE_REC)
+
+def site_rec_dump(user_id):
+    zsite_list = site_rec(user_id)
+    ico_url_bind(zsite_list)
+    
+    user_list = []
+    site_list = []
+    for i in zsite_list:
+        if i.cid == CID_SITE:
+            site_list.append(i.id)
+        else:
+            user_list.append(i)
+    career_bind(user_list)
+    motto_dict = motto.get_dict(site_list)
+ 
+    result = []
+    for i in zsite_list:
+        result.append((
+            i.id, 
+            i.link, 
+            i.name, 
+            i.ico,
+            i.career if i.cid!=CID_SITE else motto_dict.get(i.id,''),
+            i.cid
+        ))
+    return result
 
 if __name__ == '__main__':
     from model.zsite_url import id_by_url

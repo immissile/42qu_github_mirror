@@ -27,17 +27,17 @@ t
         <div class="site_rec" id="rec_wrapper" ></div>
         <script id="site_rec" type="text/x-jquery-tmpl">
 <%text>
-{{if site.length}}
-<div class="site_li" id='rec_${site[0]}'>
+<div class="site_li" id="rec_${site[0]}">
+{{if site[3]}}
 <div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
+{{/if}}
 <div class="site_info">
 <span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
 <a id="rec_id${site[0]}" class="site_fav_a${site[5]}"></a>
-    <div class="site_bio">${site[3]}</div>
+<div class="site_bio">${site[3]}</div>
 </div>
 
 </div>
-{{/if}}
 </%text>
         </script>
 
