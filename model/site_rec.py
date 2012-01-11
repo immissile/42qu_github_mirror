@@ -18,6 +18,7 @@ from model.top_rec import top_rec_unmark, TOP_REC_CID_SITE_REC, top_rec_mark
 from model.follow import follow_get_list
 from model.ico import ico_url_bind
 from model.career import career_bind
+from zkit.txt import cnenoverflow
 from model.motto import motto
 
 SiteRec = Kv('site_rec', 0)
@@ -87,18 +88,27 @@ def site_rec_dump(user_id):
         if i.cid == CID_USER:
             user_list.append(i)
     career_bind(user_list)
-    motto_dict = motto.get_dict(zsite_list)
+    motto_dict = motto.get_dict(i.id for i in zsite_list)
  
+    cnenoverflow
     result = []
     for i in zsite_list:
+        career = (' , '.join(filter(bool,i.career)) if i.cid==CID_USER else 0) or 0
+        _motto = motto_dict.get(i.id) or 0
+        if _motto:
+            length = 14
+            if not career:
+                length += length
+            _motto = cnenoverflow(_motto, length)[0]
+
         result.append((
             i.id,                                                            #0 
             i.link,                                                          #1
             i.name,                                                          #2
             i.ico,                                                           #3
-        (' , '.join(filter(bool,i.career)) if i.cid==CID_USER else 0) or 0,  #4
+            career,                                                          #4
             i.cid ,                                                          #5
-            motto_dict.get(i.id) or 0                                        #6
+            _motto                                                           #6
         ))
     return result
 
