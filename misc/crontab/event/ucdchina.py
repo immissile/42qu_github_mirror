@@ -20,84 +20,103 @@ from zkit.classification.classification import GetTag
 from rss_po import RssPo
 
 TAGGER = GetTag()
+#SETTINGS HERE
+UCDCHINA_ZSITE_ID = 2585
+UCD_USER_ID = 2585
 
-def name_builder(url):
-    return os.path.join(CURRNET_PATH, "ucdchina", path.basename( url))
+class UCDchina(object):
+    def __init__(self):
+        pass
 
-def parse_page(filepath):
-    with open(filepath) as f:
-        page = f.read()
+    def name_builder(self,url):
+        return os.path.join(CURRNET_PATH, "ucdchina", path.basename(url))
 
-        title = txt_wrap_by('<title>', '- UCD大社区', page)
-        author = txt_wrap_by('style=" float:left; color:#999;">', '</span', page)
-        author = txt_wrap_by('作者：', '|', author)
-        content_wrapper = txt_wrap_by('<div id="pageContentWrap" style="font-size:13px; ">', '</div', page)
+    def parse_page(self,filepath):
+        with open(filepath) as f:
+            page = f.read()
 
-        if content_wrapper:
-            content,pic_list = htm2txt(content_wrapper)
-        else:
-            return 
-        
-        content = str(content)
-        tags = TAGGER.get_tag(content+title)
-        out = dumps([ title, content, author, tags ])
+            title = txt_wrap_by('<title>', '- UCD大社区', page)
+            author = txt_wrap_by('style=" float:left; color:#999;">', '</span', page)
+            author = txt_wrap_by('作者：', '|', author)
+            content_wrapper = txt_wrap_by('<div id="pageContentWrap" style="font-size:13px; ">', '</div', page)
+            url =txt_wrap_by('阅读和发布评论：<a href="','"',page)
 
-        a = RssPo(content,2585,title, pic_list, 0, 2585,tags)
-        a.htm2po_by_po()
+            if content_wrapper:
+                content,pic_list = htm2txt(content_wrapper)
+            else:
+                return 
+            
+            content = str(content)
+            tags = TAGGER.get_tag(content+title)
+            out = dumps([title,url,tags])
+            print out
+            #out = dumps([ title, content, author, tags ])
 
-        writer = Writer.get_instance()
-        writer = writer.choose_writer('ucdchina.data')
-        writer.write(out+'\n')
+            #a = RssPo(content,UCD_USER_ID,title, pic_list, 0, UCDCHINA_ZSITE_ID,tags)
+            #a.htm2po_by_po() 
 
-def save_page(page, url):
-    filename = name_builder(url)
-    with open(filename, 'w') as f:
-        f.write(page)
-    parse_page(filename)
+           # writer = Writer.get_instance()
+           # writer = writer.choose_writer('ucdchina.data')
+           # writer.write(out+'\n')
 
-def parse_index(page, url):
-    link_wrapper_list = txt_wrap_by_all('<div id="mainWrap">', '<!--/#mainWrap', page)
-    link_list = []
-    for link_wrapper in link_wrapper_list:
-        url = txt_wrap_by('/snap/', '"', link_wrapper)
-        filename = name_builder(url)
-        if not exists(filename):
-            yield save_page, 'http://ucdchina.com/snap/'+url
-        else:
-            parse_page(filename)
+    def save_page(page, url):
+        filename = self.name_builder(url)
+        with open(filename, 'w') as f:
+            f.write(page)
+        self.parse_page(filename)
 
-def ucdchina_daily():
-    word_list = ['PM', 'UCD', 'UR', 'ia-id', 'VD', 'HappyDesign']
-    for typ in word_list:
-        yield parse_index, 'http://ucdchina.com/%s'%str(typ)
+    def parse_index(self,page, url):
+        link_wrapper_list = txt_wrap_by('<div id="mainWrap">', '<!--/#mainWrap', page)
+        link_list = []
 
-def ucd_url_builder():
-    for page in xrange(68):
-        yield parse_index, 'http://ucdchina.com/PM?p=%s'%str(page)
-    for page in xrange(1256):
-        yield parse_index, 'http://ucdchina.com/UCD?p=%s'%str(page)
-    for page in xrange(393):
-        yield parse_index, 'http://ucdchina.com/UR?p=%s'%str(page)
-    for page in xrange(1374):
-        yield parse_index, 'http://ucdchina.com/ia-id?p=%s'%str(page)
-    for page in xrange(297):
-        yield parse_index, 'http://ucdchina.com/VD?%p=%s'%str(page)
-    for page in xrange(1133):
-        yield parse_index, 'http://ucdchina.com/HappyDesign?p=%s'%str(page)
+        url_list = txt_wrap_by_all('/snap/', '"', link_wrapper_list)
+        for url in url_list:
+            filename = self.name_builder(url)
+            if 'img src' in url:
+                continue
+            if not exists(filename):
+                yield self.save_page, 'http://ucdchina.com/snap/'+url
+            else:
+                print "using cache",url
+                self.parse_page(filename)
+
+    def ucdchina_daily(self):
+        word_list = ['PM', 'UCD', 'UR', 'IA-ID', 'VD', 'HappyDesign']
+        for typ in word_list:
+            yield self.parse_index, 'http://ucdchina.com/%s'%str(typ)
+
+    def ucd_url_builder(self):
+        for page in xrange(68):
+            yield self.parse_index, 'http://ucdchina.com/PM?p=%s'%str(page)
+        for page in xrange(62):
+            yield self.parse_index, 'http://ucdchina.com/UCD?p=%s'%str(page)
+        for page in xrange(19):
+            yield self.parse_index, 'http://ucdchina.com/UR?p=%s'%str(page)
+        for page in xrange(68):
+            yield self.parse_index, 'http://ucdchina.com/IA-ID?p=%s'%str(page)
+        for page in xrange(14):
+            yield self.parse_index, 'http://ucdchina.com/VD?p=%s'%str(page)
+        for page in xrange(56):
+            yield self.parse_index, 'http://ucdchina.com/HappyDesign?p=%s'%str(page)
 
 def main():
-    headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7',
-            'Accept': ' text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5',
-            'Accept-Language':'zh-cn,zh;q=0.5',
-            'Accept-Charset':'gb18030,utf-8;q=0.7,*;q=0.7',
-            'Content-type':'application/x-www-form-urlencoded'
-    }
+    #headers = {
+    #        'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7',
+    #        'Accept': ' text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5',
+    #        'Accept-Language':'zh-cn,zh;q=0.5',
+    #        'Accept-Charset':'gb18030,utf-8;q=0.7,*;q=0.7',
+    #        'Content-type':'application/x-www-form-urlencoded'
+    #}
 
-    fetcher = NoCacheFetch(0, headers=headers)
-    spider = Rolling( fetcher, ucd_url_builder() )
-    spider_runner = GSpider(spider, workers_count=10)
-    spider_runner.start()
+    ucd_china = UCDchina()
+    from glob import glob
+    file_list=glob('ucdchina/*')
+    for f in file_list:
+        ucd_china.parse_page(f)
+    #fetcher = NoCacheFetch(0, headers=headers)
+    #spider = Rolling( fetcher, ucd_china.ucd_url_builder() )
+    #spider_runner = GSpider(spider, workers_count=10)
+    #spider_runner.start()
 
 if __name__ == '__main__':
     main()
