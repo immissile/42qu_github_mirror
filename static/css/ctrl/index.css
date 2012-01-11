@@ -426,7 +426,7 @@ background:url(/img/gif/loading12.gif) no-repeat 0 1px;
     border:0;margin:0 -1px 0 0;padding:0 9px 0 0;
 }
 .bkimg{
-width:236px;padding:3px;
+width:242px;padding:2px 0 3px 0;
 }
 .buzz_win_book .sdw{
 padding:0
@@ -439,6 +439,7 @@ padding:3px
 }
 .buzz_win_book a{
     color:#000;
+    line-height:0;
     display:block;
 }
 .buzz_win_book .bktxt{
