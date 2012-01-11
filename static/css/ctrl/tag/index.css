@@ -1,0 +1,108 @@
+
+.site_avatar{
+    width:48px;
+    height:48px;
+}
+.site_name{
+    background:#fff;
+    padding-right:2px;
+}
+.site_title{
+    overflow:auto;
+    margin-top:12px;
+}
+.site_left{
+    float:left;
+    margin-left:30px;
+    _margin-left:23px;
+}
+.site_img{
+    margin-top:2px;
+    clear:both;
+}
+.site_info{
+    float:left;
+    overflow:hidden;
+    width:190px;
+    margin-left:12px;
+    margin-top:0;
+    line-height:20px;
+}
+.site_bio{
+    color:#999;
+    margin-top:4px;
+    height:40px;
+    padding-top:11px;
+    margin-top:-11px;
+    border-top:1px dotted #ccc;
+}
+.site_txt_a{
+    height:32px;
+    overflow:hidden;
+    display:block;
+}
+.site_fav_a{
+    display:inline-block;
+    width:20px;
+    height:16px;
+    margin-top:2px;
+    background:url("/img/png/plus.png") #fff no-repeat 0 -16px;
+    float:right;
+    _margin-top:-17px;
+}
+.site_fav_a:hover{
+    background:url("/img/png/plus.png") no-repeat 0 0px #fff;
+}
+.site_faved
+{
+    background:url("/img/png/plus.png") #fff no-repeat 0 -32px;
+}
+.site_txt{
+    overflow:hidden;
+    float:left;
+    width:260px;
+    margin-left:12px;
+}
+.site_rec{
+    margin-top:16px;
+    margin-bottom:18px;
+}
+.site_li{
+    margin-top:16px;
+    height:50px;
+    margin-left:-30px;
+}
+#rec_title
+{
+    display:none;
+}
+#rec_wrapper{
+    height:62px;
+    display:none;
+}
+.com_wrap{
+float:left;
+width:722px;
+}
+.com_main{
+width:666px;
+}
+.com_side{
+width:250px
+}
+.H .site{
+margin-left:-32px
+}
+.b1024 .H .site{
+margin-left:0
+}
+h1{
+font-size:24px;
+padding-bottom:27px;
+}
+#search{
+width:211px;
+}
+.search{
+margin-top:27px;
+}

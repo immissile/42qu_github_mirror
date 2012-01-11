@@ -6,24 +6,22 @@ b1024()
         site_rec=$("#site_rec");
 
     function addRec(){
-        console.info(data)
 
         if(data&&data.length){
             site = data.pop();
             rec_wrapper.append(site_rec.tmpl());
-
             rec_wrapper.show();
             $("#rec_"+ site[0]).hide().show("slow");
             $("#rec_title").show();
 
         }
-        if(!rec_wrapper.find("").html()){
+        if(!rec_wrapper.find("").html().length){
             $("#rec_title").hide("fast");
             rec_wrapper.hide("fast");
         }
     }
     addRec();
-
+/*
     function loadrec(id){
         $.postJSON("/j/site/rec/new",{},function(r){
             if(r!='')
@@ -76,4 +74,5 @@ b1024()
     }
     $(".buzz_h1").hover(function(){$(this).find("a").show()},function(){$(this).find("a").hide()});
     $(".buzz_w").hover(function(){$(this).find('.bzr').show()},function(){$(this).find(".bzr").hide()});
+*/
 });
