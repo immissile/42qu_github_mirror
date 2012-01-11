@@ -65,7 +65,8 @@ def spammer_reset(user_id):
     from model.reply import Reply
     for i in Reply.where(user_id=user_id):
         reply_rm_if_can(user_id, i.id)
-
+    
+    spammer_new(user_id)
         
     
 

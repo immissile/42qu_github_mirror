@@ -270,8 +270,9 @@ def count_po_list_by_zsite_tag_id_cid(zsite_tag_id, cid, limit=6):
 
 
 if __name__ == '__main__':
-    #from model.cid import CID_AUDIO
+    from model.cid import CID_NOTE
     #print tag_id_by_user_id_cid(10000212, CID_AUDIO)
-    zsite_tag_rm_by_user_id(10001299)
     #print zsite_tag_list_by_zsite_id_if_len(10000000)
     pass
+    print zsite_tag_cid_count(1, CID_NOTE)
+    
