@@ -12,7 +12,7 @@ from _db import cursor_by_table, McModel, McCache, McNum, Model, McCacheM, McCac
 from model.zsite import Zsite
 from kv import Kv
 from model.zsite import  Zsite
-from model.cid import CID_SITE
+from model.cid import CID_SITE, CID_USER
 from model.zsite_fav import zsite_fav_new, zsite_fav_rm
 from model.top_rec import top_rec_unmark, TOP_REC_CID_SITE_REC, top_rec_mark
 from model.follow import follow_get_list
@@ -85,7 +85,7 @@ def site_rec_dump(user_id):
     user_list = []
     site_list = []
     for i in zsite_list:
-        if i.cid == CID_SITE:
+        if i.cid != CID_USER:
             site_list.append(i.id)
         else:
             user_list.append(i)
@@ -95,12 +95,12 @@ def site_rec_dump(user_id):
     result = []
     for i in zsite_list:
         result.append((
-            i.id, 
-            i.link, 
-            i.name, 
-            i.ico,
-            i.career if i.cid!=CID_SITE else motto_dict.get(i.id,''),
-            i.cid
+            i.id,                                                         #0 
+            i.link,                                                       #1
+            i.name,                                                       #2
+            i.ico,                                                        #3
+            i.career if i.cid==CID_USER else motto_dict.get(i.id,''),     #4
+            i.cid                                                         #5
         ))
     return result
 

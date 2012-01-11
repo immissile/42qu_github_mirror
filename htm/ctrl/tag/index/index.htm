@@ -27,14 +27,17 @@ t
 <script id="site_rec" type="text/x-jquery-tmpl">
 <%text>
 <div class="site_li c" id="rec_${$data[0]}">
-{{if $data[3]}}
-<div class="site_left"><div class="site_img"><a href="${$data[1]}"><img class="site_avatar" src="${$data[3]}"></a></div></div>
-<div class="
+{{if $data[3]}}<div class="site_left"><div
+class="site_img"><a
+target="_blank"
+href="${$data[1]}"><img 
+class="site_avatar" src="${$data[3]}"></a></div></div><div class="
 {{else}}
 <div class="site_info_no_img
 {{/if}}
 site_info">
-<span class="site_name"><a target="_top" id="site_name_a" href="${$data[1]}">${$data[2]}</a></span>
+<span class="site_name"><a target="_top"
+id="site_name_a" href="${$data[1]}">${$data[2]}</a></span>
 <a id="rec_id${$data[0]}" class="site_fav_a${$data[5]}"></a>
 <div class="site_bio">${$data[3]}</div>
 </div>
