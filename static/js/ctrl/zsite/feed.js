@@ -72,19 +72,8 @@ $(".buzz_li").live("click",function(){
     return false
 
 })
-
 ;(function() {
-    function winresize(){
-        var body=$("#B")
-        if(body.width() < 1024){
-            body.addClass('b1024') 
-        }else{
-            body.removeClass('b1024')
-        }
-    }
-    winresize()
-    $(window).resize(winresize)
-
+    b1024()
     /*消息流*/
 	var feed_loader = feed_load_maker( "id rt_list"),
 	DATE_ATTR = "zsite_cid zsite_name zsite_link unit title pic".split(' ');

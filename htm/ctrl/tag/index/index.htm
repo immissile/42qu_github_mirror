@@ -2,6 +2,10 @@
 <%def name="htm_head()">
 ${css.ctrl_zsite_com|n}
 <style>
+.com_wrap{
+float:left;
+width:722px;
+}
 .com_main{
 width:666px;
 }
@@ -9,18 +13,20 @@ width:666px;
 width:250px
 }
 h1{
-width:666px;
 font-size:24px;
 }
 </style>
 </%def>
-<h1>Python 编程爱好者</h1>
 <div class="G">
+<div class="com_wrap">
+    <h1>Python 编程爱好者</h1>
     <div class="com_main">
 t
     </div>
+</div>
     <div class="com_side">
 x
     </div>
 </div>
 
+<script src="${js.ctrl_tag}"></script>
