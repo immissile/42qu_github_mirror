@@ -152,7 +152,7 @@ def follow_get_list(from_id, to_id_list):
         '%s_%s'
     )
     _dict = dict(
-        (i[1], _follow_result[i]) for i in _id_list 
+        (i[1], _follow_result[i]) for i in _id_list
     )
     result = []
     for i in to_id_list:
@@ -162,7 +162,7 @@ def follow_get_list(from_id, to_id_list):
             result.append(True)
         else:
             result.append(_dict[i])
-    return result 
+    return result
 
 
 if __name__ == '__main__':
@@ -170,4 +170,5 @@ if __name__ == '__main__':
     #print mc_follow_id_list_by_to_id
     #print following_id_rank_tuple(10000000)
     #print follow_list_show_by_from_id(10000000, 1)
-    print follow_get_list(10001955, [10000217, 10001955])
+    from yajl import dumps
+    print dumps(follow_get_list(10001955, [10000217, 10001955]))

@@ -82,17 +82,23 @@ def site_rec_set(user_id, site_id):
 def site_rec_dump(user_id):
     zsite_list = site_rec(user_id)
     ico_url_bind(zsite_list)
+    zsite_id_list = tuple(i.id for i in zsite_list)
     
     user_list = []
     for i in zsite_list:
         if i.cid == CID_USER:
             user_list.append(i)
     career_bind(user_list)
-    motto_dict = motto.get_dict(i.id for i in zsite_list)
- 
+    motto_dict = motto.get_dict(zsite_id_list)
+
     cnenoverflow
     result = []
-    for i in zsite_list:
+     
+
+    for i, is_follow in zip(
+        zsite_list,
+        follow_get_list(user_id, zsite_id_list)
+    ):
         career = (' , '.join(filter(bool,i.career)) if i.cid==CID_USER else 0) or 0
         _motto = motto_dict.get(i.id) or 0
         if _motto:
@@ -108,7 +114,8 @@ def site_rec_dump(user_id):
             i.ico,                                                           #3
             career,                                                          #4
             i.cid ,                                                          #5
-            _motto                                                           #6
+            _motto ,                                                         #6
+            is_follow ,                                                      #7
         ))
     return result
 
