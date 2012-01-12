@@ -64,8 +64,9 @@ def buzz_po_reply_rm(po_id, reply_id):
     from po_pos import PoPos, STATE_BUZZ
     from model.po import Po
     po = Po.mc_get(po_id)
-    if po and reply_id >= po.reply_id_last:
-        for user_id in PoPos.where(po_id=po_id, state=STATE_BUZZ).where('pos>%s', reply_id).col_list(col='user_id'):
+    reply_id_last = po.reply_id_last
+    if po and reply_id >= reply_id_last:
+        for user_id in PoPos.where(po_id=po_id, state=STATE_BUZZ).where('pos>=%s', reply_id_last).col_list(col='user_id'):
             BuzzReply.where(po_id=po_id, user_id=user_id, state=BUZZ_REPLY_STATE_SHOW).update(state=BUZZ_REPLY_STATE_HIDE)
             mc_flush(user_id)
     buzz_at_reply_rm(reply_id)
@@ -150,5 +151,15 @@ def po_list_by_buzz_reply_user_id(user_id):
 if __name__ == '__main__':
     pass
     user_id = 10031395
-    for i in po_list_by_buzz_reply_user_id(user_id):
-        print i
+    from zweb.orm import ormiter
+    from model.po import Po
+    from model.po_pos import PoPos
+    from po_pos import PoPos, STATE_BUZZ
+    for po in ormiter(Po):
+        po_id = po.id
+        print po.id
+        reply_id_last = po.reply_id_last
+        for user_id in PoPos.where(po_id=po_id, state=STATE_BUZZ).where('pos>=%s', reply_id_last).col_list(col='user_id'):
+            BuzzReply.where(po_id=po_id, user_id=user_id, state=BUZZ_REPLY_STATE_SHOW).update(state=BUZZ_REPLY_STATE_HIDE)
+            mc_flush(user_id)
+

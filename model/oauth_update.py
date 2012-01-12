@@ -398,7 +398,7 @@ def api_network_http(host, netloc, headers, body, method, connection=httplib.HTT
 
 if __name__ == '__main__':
     from oauth import OauthToken
-    oauth_id = OauthToken.where(app_id=11).where(zsite_id=10001542)[0].id
+    oauth_id = OauthToken.where(app_id=9).where(zsite_id=10001299)[0].id
     print oauth_id
     p = sync_by_oauth_id(oauth_id, '''42qu.com : 我很牛逼哟！！加入我们把！！''', 'http://42qu.com/zhendi')
     print p
