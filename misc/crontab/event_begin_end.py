@@ -30,6 +30,10 @@ def main():
 if __name__ == '__main__':
     main()
 
+    #end = time()  // 60  + 10*60
+    #print end
+    #for i in ormiter(Event, 'state=%s ' % (EVENT_STATE_NOW)):
+    #    print i.end_time
 #    from model.po import Po
 #    end = (time() - timezone) // 60 + 1
 #    
