@@ -179,6 +179,10 @@ color:#999
 background:#eee;
 color:#999;
 }
-.main_nav .pnum{
-margin-left:22px
+.main_nav .bfav{
+    width:16px;
+    height:16px;
+    display:inline-block;
+    vertical-align:-3px;
+    background:url(/img/png/bfav.png) #fff no-repeat;
 }
