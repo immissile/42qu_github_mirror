@@ -1,7 +1,3 @@
-.site_avatar{
-    width:48px;
-    height:48px;
-}
 .site_name{
     background:#fff;
     padding-right:6px;
@@ -20,13 +16,18 @@
 .site_info{
     float:left;
     overflow:hidden;
-    width:190px;
-    margin-left:12px;
+    width:186px;
+    margin-left:10px;
     margin-top:0;
     line-height:20px;
 }
+.site_avatar{
+    width:54px;
+    margin-top:1px;
+    height:54px;
+}
 .site_info_no_img{
-    margin-left:60px
+    margin-left:66px
 }
 .site_bio{
     color:#999;
