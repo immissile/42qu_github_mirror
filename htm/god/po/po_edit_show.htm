@@ -7,7 +7,6 @@ from model.po_show import po_is_show
 from model.zsite import Zsite
 from model.god_po_show import po_show_zsite_channel
 from model.site_sync import site_sync_get
-from zkit.txt import format_txt
 %>
 <style>
 .edit{
@@ -76,6 +75,7 @@ margin-left:6px;
         <div class="title"><a href="${po.link}" target="_blank">${po.name}</a></div>
         <div>
             <span class="check"><input type="checkbox" name="broad" checked value="1" id="broad"><label for="broad">广播</label></span>
+            <span class="check"><input type="checkbox" name="format" checked value="1" id="format"><label for="format">排版</label></span>
             <span class="check"><input type="checkbox" name="sync" value="1" id="sync"><label for="sync">同步</label></span>
 % if po_is_show(po):
             <span class="check"><a href="/po/show/rm/${po.id}">删除广播</a></span>
@@ -95,9 +95,9 @@ site = Zsite.get(po.zsite_id)
 %endif
         <div class="selects">
             <div class="line">
-<%
-zsite_list = zsite_show_list(CID_SITE)
-%>
+##<%
+##zsite_list = zsite_show_list(CID_SITE)
+##%>
 ##% for site in zsite_list:
 ##                <span class="single"><input type="radio" id="rd${site.id}" name="site" value="${site.id}"><label class="rdl" for="rd${site.id}">${site.name}</label></span>
 ##%endfor
@@ -107,9 +107,8 @@ zsite_list = zsite_show_list(CID_SITE)
 <div class="edit">
     <div><input class="txt_name"  type="txt" name="name" value="${po.name}"></div>
     %if po.cid != CID_WORD:
-    <div><textarea name="txt" class="txt_cont">${format_txt(po.txt)}</textarea></div>
+    <div><textarea name="txt" class="txt_cont">${po.txt}</textarea></div>
     %endif
-    <input type="hidden" name="next" value="${next}">
 </div>
 <input type="hidden" name="next" value="${next}">
 </%htm:form>
