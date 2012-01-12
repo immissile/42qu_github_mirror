@@ -98,13 +98,17 @@ margin-left:-32px
 .b1024 .H .site{
 margin-left:-3px;
 }
-.b1024 h1{
-padding-left:27px;
-}
 h1{
-font-size:24px;
+padding-left:52px;
+font-size:16px;
+font-weight:bold;
 padding-bottom:27px;
 text-align:left;
+}
+.tagtxt{
+    font-weight:normal;
+    margin:7px 0 -7px 0;
+    font-size:14px;
 }
 #search{
 font-size:13px;
@@ -163,10 +167,6 @@ margin-left:-12px;
     border-bottom: 1px dotted #ccc;
     padding: 7px 2px;
 }
-.tagtxt{
-    margin:10px 1px -7px 0;
-    font-size:14px;
-}
 .com_main .page{
 border-top:1px dotted #ccc;
 padding-top:14px;
@@ -178,11 +178,4 @@ color:#999
 .com_main .page .now{
 background:#eee;
 color:#999;
-}
-.main_nav .bfav{
-    width:16px;
-    height:16px;
-    display:inline-block;
-    vertical-align:-3px;
-    background:url(/img/png/bfav.png) #fff no-repeat;
 }
