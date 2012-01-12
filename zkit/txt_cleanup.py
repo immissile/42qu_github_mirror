@@ -48,12 +48,14 @@ def line_iter(line):
 
 def _line_iter(line):
     char_buffer = []
+    pre_word_type = 0
     for char, word_type in _iter(line):
-        if word_type != STOP_CHAR:
+        if word_type != STOP_CHAR or pre_word_type == EN_CHAR:
             char_buffer.append(char)
         elif char_buffer:
             yield char_buffer
             char_buffer = []
+        pre_word_type = word_type
     if char_buffer:
         yield char_buffer
 

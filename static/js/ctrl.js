@@ -24,6 +24,18 @@ function _rm(prefix, url) {
 		}
 	}
 }
+function b1024(){
+    function winresize(){
+        var body=$("body")
+        if(body.width() < 1024){
+            body.addClass('b1024') 
+        }else{
+            body.removeClass('b1024')
+        }
+    }
+    winresize()
+    $(window).resize(winresize)
+}
 jQuery.fn.extend({
 	elastic_login: function() {
         var self=this;

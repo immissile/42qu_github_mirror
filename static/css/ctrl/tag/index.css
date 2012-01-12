@@ -1,0 +1,110 @@
+.site_name{
+    background:#fff;
+    padding-right:6px;
+}
+.site_title{
+    overflow:auto;
+    margin-top:12px;
+}
+.site_left{
+    float:left;
+}
+.site_img{
+    margin-top:2px;
+    clear:both;
+}
+.site_info{
+    float:left;
+    overflow:hidden;
+    width:187px;
+    margin-left:10px;
+    margin-top:0;
+    line-height:20px;
+}
+.site_avatar{
+    width:53px;
+    margin-top:2px;
+    height:53px;
+}
+.site_info_no_img{
+    margin-left:67px
+}
+.site_bio{
+    color:#999;
+    margin-top:4px;
+    height:40px;
+    padding-top:11px;
+    margin-top:-11px;
+    border-top:1px dotted #ccc;
+}
+.site_txt_a{
+    height:32px;
+    overflow:hidden;
+    display:block;
+}
+.sitefav1 , .sitefav0, .sitefavtrue{
+    display:inline-block;
+    width:20px;
+    height:16px;
+    margin-top:2px;
+    cursor:pointer;
+    background:url(/img/png/plus.png) #fff no-repeat 0 -16px;
+    float:right;
+    _margin-top:-17px;
+}
+.sitefav0:hover{
+    background-position:0 0;
+}
+.sitefav1
+{
+    background-position:0 -32px;
+}
+.sitefav1:hover{
+    background-position:0 -48px;
+}
+.sitefavtrue{
+    background-position: 2px -77px;
+}
+.sitefavtrue:hover{
+    background-position: 2px -63px;
+}
+.site_txt{
+    overflow:hidden;
+    float:left;
+    width:260px;
+    margin-left:12px;
+}
+.site_li{
+    padding-bottom:18px;
+}
+.site_rec{
+    margin-top:16px;
+    margin-bottom:18px;
+}
+.com_wrap{
+float:left;
+width:722px;
+}
+.com_main{
+width:666px;
+}
+.com_side{
+width:250px;
+font-family:'Trebuchet MS',Helvetica,sans-serif;
+}
+.H .site{
+margin-left:-32px
+}
+.b1024 .H .site{
+margin-left:0
+}
+h1{
+font-size:24px;
+padding-bottom:27px;
+}
+#search{
+width:211px;
+}
+.search{
+margin-top:27px;
+}
