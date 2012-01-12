@@ -48,16 +48,19 @@
     height:16px;
     margin-top:2px;
     cursor:pointer;
-    background:url(/img/png/plus.png) #fff no-repeat 0 -16px;
+    background:url(/img/png/plus.png) #fff no-repeat 2px -16px;
     float:right;
     _margin-top:-17px;
 }
 .sitefav0:hover{
-    background:url(/img/png/plus.png) no-repeat 0 0px #fff;
+    background-position:2px 0;
 }
 .sitefav1
 {
-    background:url(/img/png/plus.png) #fff no-repeat 0 -32px;
+    background-position:2px -32px;
+}
+.sitefav1:hover{
+    background-position: 2px -48px;
 }
 .site_txt{
     overflow:hidden;
