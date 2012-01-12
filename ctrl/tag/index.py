@@ -9,8 +9,8 @@ from zkit.page import page_limit_offset
 class Index(Base):
     def get(self):
         page, limit, offset = page_limit_offset(
-
+            "/%s", 100, 1
         )
-        self.render()
+        self.render(page=str(page))
 
 
