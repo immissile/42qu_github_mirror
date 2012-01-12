@@ -2,6 +2,7 @@
 
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 import htmlentitydefs, re
+from upyun import save_rss_pic
 BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
 
 _char = re.compile(r'&(\w+?);')
@@ -98,13 +99,10 @@ def htm2txt(htm):
                 elif name == 'img':
                     src = i.get('src')
                     if src:
-                        #print src
                         if src not in pic_list:
-                            pic_seq = len(pic_list) + 1
-                            pic_list.append(src)
-                        else:
-                            pic_seq = pic_list.index(src) + 1
-                        li.append(u'\n图:%s\n' % pic_seq)
+                            img_url = save_rss_pic(src)
+                            pic_list.append(img_url)
+                        li.append(u'\n图:%s\n' % img_url)
                 else:
                     s = soup2txt_recursion(i)
 
