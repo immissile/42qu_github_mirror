@@ -301,6 +301,9 @@ background-position:-2px 1px;
 #feeds .faved{
 background-position:-2px -31px;
 }
+#feeds .faved:hover{
+background-position:-2px -47px;
+}
 #feeds .faving{
 background:url(/img/gif/loading12.gif) no-repeat 0 1px;
 }

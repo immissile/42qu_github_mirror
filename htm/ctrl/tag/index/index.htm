@@ -26,7 +26,7 @@ ${css.ctrl_index|n}
 </div>
 <div>
 <div id="feeds">
-%for pos, i in enumerate(range(3)):
+%for pos, i in enumerate(xrange(7)):
     <div 
 style="margin-top: 0pt; padding: 5px 2px; 
 %if pos:
@@ -36,7 +36,13 @@ border-top:0;
 %endif
 " 
 class="fdbar">     <span class="L"><span class="fdopt" style="text-align: right;"><a rel="10200938" href="javascript:void(0)" class="fav"></a>
-<a href="http://zuroc.42qu.com/10200938" target="_top">小故事</a>  
+<a href="http://zuroc.42qu.com/10200938" target="_top" 
+%if pos%5!=1:
+style="color:#000"
+%else:
+style="color:#999"
+%endif
+>小故事</a>  
 </span>     </span><div class="zname" style=""><span></span><a target="_top" href="http://wangleheng.42qu.com/">joyfire 王乐珩</a></div>          </div>
 %endfor
 </div>
