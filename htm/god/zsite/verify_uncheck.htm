@@ -72,16 +72,18 @@ ${user_index(zsite, False)}
 <div class="item"><a target="_blank" href="/sudo/${id}?next=${zsite.link}/i/career">修改个人履历</a></div>
 </div>
 </div>
-<a href="/zsite/verify/next/${id}">下一个</a>
+##<a href="/zsite/verify/next/${id}">下一个</a>
 
 <div class="R">
-    <div style="margin-right:32px;font-size:16px;text-align:left">
+    <div style="margin-right:700px;font-size:16px;text-align:left">
 
 <form method="POST">
+    <div style="margin-top:32px">
+        <span class="btnw"><button class="btn" type="submit">请选择要删除的项</button></span>
+    </div>
     <div style="margin-top:16px">
         <input type="checkbox" name="pic" value="1" id="rm_pic"> <label for="rm_pic">头像</label>
     </div>
-    <div style="margin-top:16px"><input type="checkbox" name="name" value="1" id="rm_name"> <label for="rm_name">昵称 ${zsite.name}</label></div>
 <%
 career_list = career_list_all(id)
 %>
@@ -90,9 +92,7 @@ career_list = career_list_all(id)
         <input type="checkbox" name="career" value="${career.id}" id="rm_career${career.id}"> <label for="rm_career${career.id}">${career.unit} ${career.title}</label>
     </div>
         %endfor
-    <div style="margin-top:32px">
-        <span class="btnw"><button class="btn" type="submit">请选择要删除的项</button></span>
-    </div>
+    <div style="margin-top:16px"><input type="checkbox" name="name" value="1" id="rm_name"> <label for="rm_name">昵称 ${zsite.name}</label></div>
     <input type="hidden" name="id" value="${id}">
 </form>
 </div>
