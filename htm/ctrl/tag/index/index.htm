@@ -4,6 +4,7 @@
 ${css.ctrl_zsite_com|n}
 ${css.ctrl_hero|n}
 ${css.ctrl_tag_index|n}
+${css.ctrl_index|n}
 </%def>
 <div class="G">
 <div class="com_wrap">
@@ -23,7 +24,23 @@ ${css.ctrl_tag_index|n}
 <span class="split">-</span>\
 <a href="#">视频</a>\
 </div>
-wwwwwwwwwwwwwwww
+<div>
+<div id="feeds">
+%for pos, i in enumerate(range(3)):
+    <div 
+style="margin-top: 0pt; padding: 5px 2px; 
+%if pos:
+border-top: 1px solid rgb(238, 238, 238);
+%else:
+border-top:0;
+%endif
+" 
+class="fdbar">     <span class="L"><span class="fdopt" style="text-align: right;"><a rel="10200938" href="javascript:void(0)" class="fav"></a>
+<a href="http://zuroc.42qu.com/10200938" target="_top">小故事</a>  
+</span>     </span><div class="zname" style=""><span></span><a target="_top" href="http://wangleheng.42qu.com/">joyfire 王乐珩</a></div>          </div>
+%endfor
+</div>
+</div>
 
 %if page:
 ${page|n}
