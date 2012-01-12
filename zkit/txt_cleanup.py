@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
     print _hash1.hash
     print _hash2.hash
-    #print _hash1.hamming_distance(_hash2)
+    print _hash1.hamming_distance(_hash2)
     #64 3 肯定有16位是一样的
    
      
