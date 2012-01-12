@@ -13,6 +13,7 @@ from zkit.page import page_limit_offset
 from model.god_po_show import mc_po_show_zsite_channel
 from model.site_sync import site_sync_rm, site_sync_new
 from model.spammer import spammer_reset, spammer_new
+from zkit.txt import format_txt
 
 
 PAGE_LIMIT = 50
@@ -156,11 +157,14 @@ class PoEditShow(Base):
         broad = self.get_argument('broad', None)
         site = self.get_argument('site', None)
         sync = self.get_argument('sync', None)
+        forma = self.get_argument('format',None)
         _edit(broad,sync,site,po,id) 
         if name:
             po.name_ = name
             po.save()
         if txt:
+            if forma:
+                txt = format_txt(txt)
             po.txt_set(txt)
        
         self.redirect(next)
