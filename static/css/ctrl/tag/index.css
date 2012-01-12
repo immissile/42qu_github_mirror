@@ -96,11 +96,15 @@ font-family:'Trebuchet MS',Helvetica,sans-serif;
 margin-left:-32px
 }
 .b1024 .H .site{
-margin-left:0
+margin-left:-3px;
+}
+.b1024 h1{
+padding-left:27px;
 }
 h1{
 font-size:24px;
 padding-bottom:27px;
+text-align:left;
 }
 #search{
 font-size:13px;
