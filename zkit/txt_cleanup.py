@@ -38,7 +38,7 @@ def _cn_en_iter(line):
             elif i in STOP_CHAR_SET:
                 yield i, STOP_CHAR
             elif i in SPACE_CHAR_SET:
-                yield " ", SPACE_CHAR
+                yield ' ', SPACE_CHAR
             else:
                 yield i, SIGN_CHAR
 
@@ -70,10 +70,14 @@ def _line_iter(line):
         yield char_buffer
 
 from heapq import nlargest
+from hashlib import md5
 def feature(txt, limit=64):
     lines = nlargest(limit, [i for i in line_iter(txt) if len(i)>30], key=len)
     return lines
 
+def feature_md5(txt, limit=64):
+    result = [md5(i).digest() for i in feature(txt, limit)]
+    return result
 
 
 if __name__ == '__main__':
@@ -85,7 +89,7 @@ Use this command to anonymously check out the latest project source code:
 
 　　对比近几年的春晚开场，虎年春晚以歌舞大联欢引导主持出场，兔年春晚则主打“山楂树组合”，到龙年春晚由王珞丹等“新鲜”面孔混搭朱军、李咏、老毕组成的“霸气男人帮”阵容，“鲜”字概念逐年突显。
 """
-    txt2 = '输入是一个向量，'+txt1+"""输出是一个f位的签名值。为了陈述方便，假设输入的是一个文档的特征集合，每个特征有一定的权重。比如特征可以是文档中的词，其权重可以是这个词出现的次数。simhash算法如：
+    txt2 = '输入是一个向量，\n'+txt1+"""\n输出是一个f位的签名值。为了陈述方便，假设输入的是一个文档的特征集合，每个特征有一定的权重。比如特征可以是文档中的词，其权重可以是这个词出现的次数。simhash算法如：
 """
     #64 3 肯定有16位是一样的
 
@@ -101,9 +105,5 @@ Use this command to anonymously check out the latest project source code:
     for i in feature(txt1):
         print i
 
-
-
-
-
-
-
+    for i in feature_md5(txt1):
+        print repr(i)
