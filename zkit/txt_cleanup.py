@@ -107,7 +107,7 @@ Use this command to anonymously check out the latest project source code:
 
     for i in feature_md5(txt1):
         print repr(i)
-    #key md5 - value array doc_id
-    #defaultdict doc_id[same_count]
-    #feature_len
-    #if same_count> feature_len*.618 
+#key md5 - value array doc_id
+#defaultdict doc_id[same_count]
+#feature_len
+#if same_count> feature_len*.618 
