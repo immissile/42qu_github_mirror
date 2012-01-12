@@ -141,9 +141,30 @@ height:18px;
 #tagbar .xatagset{
 padding:7px; 8px 0 0;
 }
-
+.main_nav{
+color:#ccc;
+}
+.main_nav a{
+    color:#999;
+}
+.main_nav .split{
+margin:0 14px;
+}
+.main_nav2{
+margin-left:-12px;
+}
+.main_nav a:hover{
+    color:#333;
+}
+.main_nav .now{
+    color:#666;
+}
+.main_nav{
+    border-bottom: 1px dotted #ccc;
+    padding: 7px 14px;
+}
 .tagtxt{
-margin:10px 1px -7px 0;
-font-size:14px;
+    margin:10px 1px -7px 0;
+    font-size:14px;
 }
 
