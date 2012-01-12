@@ -289,7 +289,7 @@ margin:0 1px;
 #feeds .fav, #feeds .fav:hover , #feeds .faving,  #feeds .faved{
 padding:0;
 display:inline-block;
-background:url(/img/png/plus.png) no-repeat scroll -2px -15px;
+background:url(/img/png/star.png) no-repeat scroll -2px -15px;
 display: inline-block;
 height: 15px;
 vertical-align: -2px;
