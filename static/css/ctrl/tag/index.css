@@ -16,18 +16,18 @@
 .site_info{
     float:left;
     overflow:hidden;
-    width:186px;
+    width:187px;
     margin-left:10px;
     margin-top:0;
     line-height:20px;
 }
 .site_avatar{
-    width:54px;
-    margin-top:1px;
-    height:54px;
+    width:53px;
+    margin-top:2px;
+    height:53px;
 }
 .site_info_no_img{
-    margin-left:66px
+    margin-left:67px
 }
 .site_bio{
     color:#999;
@@ -42,7 +42,7 @@
     overflow:hidden;
     display:block;
 }
-.sitefav1 , .sitefav0{
+.sitefav1 , .sitefav0, .sitefavtrue{
     display:inline-block;
     width:20px;
     height:16px;
@@ -61,6 +61,12 @@
 }
 .sitefav1:hover{
     background-position: 2px -48px;
+}
+.sitefavtrue{
+    background-position: 2px -77px;
+}
+.sitefavtrue:hover{
+    background-position: 2px -63px;
 }
 .site_txt{
     overflow:hidden;
