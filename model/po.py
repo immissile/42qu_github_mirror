@@ -483,9 +483,10 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
-    rm_all_po_and_reply_and_tag_by_user_id(10001299)
-    pass
-    #po = Po.mc_get(10199705)
+    #rm_all_po_and_reply_and_tag_by_user_id(10001299)
+    #pass
+    po = Po.mc_get(10199705)
+    print dir(po)
     #print po.name
     #print po.cid
 
