@@ -1,0 +1,88 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
+<%def name="htm_head()">
+${css.ctrl_zsite_com|n}
+${css.ctrl_hero|n}
+${css.ctrl_tag_index|n}
+</%def>
+<div class="G">
+<div class="com_wrap">
+    <h1>编程爱好者</h1>
+    <div class="com_main">
+t
+    </div>
+</div>
+    <div class="com_side">
+<form class="search" action="http://zuroc.42qu.com/q">
+<input type="text" style="color:#999" value="搜索此话题下内容 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
+
+<div style="font-size:12px;margin-top:19px;">
+
+
+
+
+        ${site_rec_render()}
+<p class="buzz_h1" id="rec_title">贡献者</p>
+<div class="site_rec" id="rec_wrapper" ></div>
+<script id="site_rec" type="text/x-jquery-tmpl">
+<%text>
+<div class="site_li c" id="rec_${$data[0]}">
+{{if $data[3]}}<div class="site_left"><div
+class="site_img"><a
+target="_blank"
+href="${$data[1]}"><img 
+class="site_avatar" src="${$data[3]}"></a></div></div><div class="
+{{else}}
+<div class="site_info_no_img
+{{/if}}
+site_info">
+<span class="site_name"><a target="_top"
+id="site_name_a" href="${$data[1]}">${$data[2]}</a></span>
+<a id="rec_id${$data[0]}"
+{{if $data[7] === true}}
+href="${$data[1]}/i" target="_blank"
+{{else}}
+href="javascript:void(0)"
+{{/if}}
+class="sitefav${$data[7]}"></a>
+<div class="site_bio">
+{{if $data[5]==1 && $data[4]}}
+<div>${$data[4]}</div>
+{{/if}}
+
+{{if $data[6]}}<div>${$data[6]}</div>{{/if}}
+</div>
+</div>
+
+</div>
+</%text>
+        </script>
+
+
+    </div>
+</div>
+
+
+<script src="${js.ctrl_tag}"></script>
+
+
+##{{if site.length}}
+##<div class="site_li" id='rec_${site[0]}'>
+##    <div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
+##    <div class="site_info">
+##        <span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
+##        {{if site[5] == 3}}
+##        <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:fav('${site[0]}')"></a>
+##        <div class="site_bio">${site[3]}</div>
+##    </div>
+##    <div class="delbtn"><a href="javascript:del('${site[0]}')" onclick=""></a></div>
+##    {{/if}}
+##    {{if site[5] == 1}}
+##    <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:follow_a(${site[0]});void(0)"></a>
+##    <div class="site_bio">${site[3]}</div>
+##</div>
+##<div class="delbtn"><a href="javascript:follow_a(${site[0]});void(0)" onclick=""></a></div>
+##{{/if}}
+##
+##</div>
+##{{/if}}
