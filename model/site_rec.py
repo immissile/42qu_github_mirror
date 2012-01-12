@@ -107,6 +107,8 @@ def site_rec_dump(user_id):
                 length += length
             _motto = cnenoverflow(_motto, length)[0]
 
+        if is_follow and is_follow is not True:
+            is_follow = 1
         result.append((
             i.id,                                                            #0 
             i.link,                                                          #1
