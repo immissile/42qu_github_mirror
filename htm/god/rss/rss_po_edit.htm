@@ -25,6 +25,9 @@ padding:4px;
 margin:10px auto;
 border:1px dotted #ccc;
 }
+.btnw{
+margin-left:400px;
+}
 .txt_cont{
 width:700px;
 height:480px;
@@ -47,20 +50,20 @@ site = Zsite.get(po.user_id)
 %endif
 <span><input type="checkbox" name="rt" id="rt"  checked ><label for="rt">全站转发</label></span>
 <span><input type="checkbox" name="sync" id="sync" ><label for="sync">同步</label></span>
+    <span class="btnw"><button type="submit">提交</button></span>
     <div><textarea name="txt" class="txt_cont">${po.txt}</textarea></div>
     <input type="hidden" name="next" value="${next}">
-选择小组：
-<div class="selects">
-            <div class="line">
-<%
-zsite_list = zsite_show_list(CID_SITE)
-%>
-% for site in zsite_list:
-                <span class="single"><input type="radio" id="rd${site.id}" name="site" value="${site.id}"><label class="rdl" for="rd${site.id}">${site.name}</label></span>
-%endfor
-            </div>
-        </div>
+##选择小组：
+##<div class="selects">
+##            <div class="line">
+##<%
+##zsite_list = zsite_show_list(CID_SITE)
+##%>
+##% for site in zsite_list:
+##                <span class="single"><input type="radio" id="rd${site.id}" name="site" value="${site.id}"><label class="rdl" for="rd${site.id}">${site.name}</label></span>
+##%endfor
+##            </div>
+##        </div>
     </div>
-    <span class="btnw"><button type="submit">提交</button></span>
 </div>
 </form>

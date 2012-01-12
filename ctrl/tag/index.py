@@ -6,4 +6,4 @@ from ctrl._urlmap.tag import urlmap
 @urlmap('/')
 class Index(Base):
     def get(self):
-        self.finish("1345")
+        self.render()
