@@ -16,18 +16,18 @@
 .site_info{
     float:left;
     overflow:hidden;
-    width:187px;
+    width:186px;
     margin-left:10px;
     margin-top:0;
     line-height:20px;
 }
 .site_avatar{
-    width:53px;
-    margin-top:2px;
-    height:53px;
+    width:54px;
+    margin-top:3px;
+    height:54px;
 }
 .site_info_no_img{
-    margin-left:67px
+    margin-left:68px
 }
 .site_bio{
     color:#999;
