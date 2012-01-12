@@ -108,3 +108,27 @@ width:211px;
 .search{
 margin-top:27px;
 }
+#tagbar{
+margin-top:14px;
+margin-left:-7px;
+}
+#tagbar .xa{
+margin-left:7px;
+padding:7px 14px;
+}
+#tagbar .xatxt .xa{
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FCFCFF',endColorstr='#f6f6ff');
+background:-webkit-gradient(linear,0 0,0 100%,from(#FCFCFF),to(#f6f6ff));
+background:-moz-linear-gradient(top,#FCFCFF,#f6f6ff);
+}
+.xa{
+border:1px solid #e0e0e0;
+box-shadow:0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
+}
+.xatagset{  
+background:url(/img/gif/tagset.gif) no-repeat; 
+}
+
+
+
+
