@@ -37,8 +37,10 @@ def picopen(image):
         need_rgb = False
 
     if need_rgb:
-        im = im.convert('RGB', dither=Image.NONE)
-
+        try:
+            im = im.convert('RGB', dither=Image.NONE)
+        except IndexError:
+            pass
     return im
 
 

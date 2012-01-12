@@ -84,7 +84,6 @@ ${user_index(zsite, False)}
     <div style="margin-top:16px">
         <input type="checkbox" name="pic" value="1" id="rm_pic"> <label for="rm_pic">头像</label>
     </div>
-    <div style="margin-top:16px"><input type="checkbox" name="name" value="1" id="rm_name"> <label for="rm_name">昵称 ${zsite.name}</label></div>
 <%
 career_list = career_list_all(id)
 %>
@@ -93,6 +92,7 @@ career_list = career_list_all(id)
         <input type="checkbox" name="career" value="${career.id}" id="rm_career${career.id}"> <label for="rm_career${career.id}">${career.unit} ${career.title}</label>
     </div>
         %endfor
+    <div style="margin-top:16px"><input type="checkbox" name="name" value="1" id="rm_name"> <label for="rm_name">昵称 ${zsite.name}</label></div>
     <input type="hidden" name="id" value="${id}">
 </form>
 </div>
