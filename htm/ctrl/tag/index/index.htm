@@ -7,12 +7,67 @@ ${css.ctrl_tag_index|n}
 </%def>
 <div class="G">
 <div class="com_wrap">
-    <h1>编程爱好者</h1>
+<h1>京东商城\
+<div class="tagtxt" class="">时间管理（Time Management）就是用技巧、技术和工具帮助人们完成工作，实现目标。</div>
+</h1>
     <div class="com_main">
-t
+<div id="feeds">
+<div class="main_nav">
+<a rel="10200938" href="javascript:void(0)" class="fav"></a>
+<div class="R">\
+<a class="now" href="#">文章</a>\
+<span class="split">-</span>\
+<a href="#">问题</a>\
+<span class="split">-</span>\
+<a href="#">微博</a>\
+<span class="split">-</span>\
+<a href="#">图片</a>\
+<span class="split">-</span>\
+<a href="#">视频</a></div>\
+</div>
+<div>
+%for pos, i in enumerate(xrange(7)):
+    <div 
+style="margin-top: 0pt; padding: 5px 2px; 
+%if pos:
+border-top: 1px solid rgb(238, 238, 238);
+%else:
+border-top:0;
+%endif
+" 
+class="fdbar">     <span class="L"><span class="fdopt" style="text-align: right;"><a rel="10200938" href="javascript:void(0)" class="fav"></a>
+<a href="http://zuroc.42qu.com/10200938" target="_top" 
+%if pos%5!=1:
+style="color:#000"
+%else:
+style="color:#999"
+%endif
+>小故事<span style="font-size:12px;margin-left:7px;color:#999">山东临朐县20万干部群众正在服用一些不知名的药品，怀疑这20万人被强行做 ...</span></a>  
+</span>     </span><div class="zname" style=""><a style="font-size:12px" target="_top" href="http://wangleheng.42qu.com/">joyfire 王乐珩</a></div>          </div>
+%endfor
+</div>
+</div>
+
+%if page:
+${page|n}
+%endif
     </div>
+
 </div>
     <div class="com_side">
+
+
+<div id="tagbar">
+<span class="xatxt">
+<a class="xa" href="javascript:void(0)">关注</a>\
+<a class="xa" href="javascript:void(0)">投递</a>\
+<a class="xa" href="javascript:void(0)">提问</a>\
+</span>\
+<a class="xa xatagset" href="javascript:void(0)"><span></span></a>
+</div>
+
+
+
 <form class="search" action="http://zuroc.42qu.com/q">
 <input type="text" style="color:#999" value="搜索此话题下内容 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
 
@@ -22,7 +77,7 @@ t
 
 
         ${site_rec_render()}
-<p class="buzz_h1" id="rec_title">贡献者</p>
+<div class="buzz_h1" id="rec_title">贡献者</div>
 <div class="site_rec" id="rec_wrapper" ></div>
 <script id="site_rec" type="text/x-jquery-tmpl">
 <%text>

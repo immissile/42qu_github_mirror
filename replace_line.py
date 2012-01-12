@@ -4,11 +4,11 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-reply/rm
+plus.png
 """
 
 TO_STRING = """
-rm/reply
+star.png
 """
 
 def run():

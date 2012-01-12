@@ -469,7 +469,14 @@ background:-moz-linear-gradient(top,#f8f8f9,#e6e6e8);
 -o-box-shadow:0 1px 0 #fff inset,0 1px 0 rgba(0,0,0,.1);
 box-shadow:0 1px 0 #fff inset,0 1px 0 rgba(0,0,0,.1);text-shadow:0 1px 0 #fff;border:1px solid #bbb;color:#666!important;}
 .xa:active{
-background:#fff;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd',endColorstr='#dddddd');background:-webkit-gradient(linear,0 0,0 100%,from(#ddd),to(#ddd));background:-moz-linear-gradient(top,#ddd,#ddd);-webkit-box-shadow:none;-moz-box-shadow:none;-o-box-shadow:none;box-shadow:none;
+background:#fff;
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd',endColorstr='#dddddd');
+background:-webkit-gradient(linear,0 0,0 100%,from(#ddd),to(#ddd));
+background:-moz-linear-gradient(top,#ddd,#ddd);
+-webkit-box-shadow:none;
+-moz-box-shadow:none;
+-o-box-shadow:none;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset;
 }
 
 .gask{
@@ -522,4 +529,25 @@ background-position:-21px 9px;
 #reply_reply_body .video{
 height: 387px;
 width: 474px;
+}
+#feeds .fav, #feeds .fav:hover , #feeds .faving,  #feeds .faved{
+padding:0;
+display:inline-block;
+background:url(/img/png/star.png) no-repeat scroll -2px -15px;
+display: inline-block;
+height: 15px;
+vertical-align: -2px;
+width: 18px;
+}
+#feeds .fav:hover{
+background-position:-2px 1px;
+}
+#feeds .faved{
+background-position:-2px -31px;
+}
+#feeds .faved:hover{
+background-position:-2px -47px;
+}
+#feeds .faving{
+background:url(/img/gif/loading12.gif) no-repeat 0 1px;
 }
