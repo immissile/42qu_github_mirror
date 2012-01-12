@@ -22,7 +22,7 @@ from zkit.txt import cnenoverflow
 from model.motto import motto
 
 SiteRec = Kv('site_rec', 0)
-SiteRecNew = Kv('site_rec_new', 0)
+#SiteRecNew = Kv('site_rec_new', 0)
 
 class SiteRecHistory(Model):
     pass
