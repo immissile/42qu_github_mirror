@@ -116,7 +116,27 @@ class PoSyncRm(Base):
         site_sync_rm(id)
         self.redirect('/po/show/set/%s'%id)
 
-@urlmap('/po/edit/show/(\d+)')
+
+
+def _edit(broad,sync,site,po,id):
+    if broad:
+        from model.po_recommend import po_recommend_new
+        test_po = Po.get(rid =po.id,user_id = 0, state = STATE_ACTIVE)
+        if not test_po:
+            po_recommend_new(po.id,0,'')
+    else:
+        po_show_rm(po)
+
+    if sync:
+        site_sync_new(id)
+    else:
+        site_sync_rm(id)
+
+    if site:
+        po.zsite_id_set(site)
+
+
+@urlmap('/po/show/edit/(\d+)')
 class PoEditShow(Base):
     def get(self,id):
         next = self.request.headers.get('Referer', '')
@@ -136,22 +156,7 @@ class PoEditShow(Base):
         broad = self.get_argument('broad', None)
         site = self.get_argument('site', None)
         sync = self.get_argument('sync', None)
-        if broad:
-            from model.po_recommend import po_recommend_new
-            test_po = Po.get(rid =po.id,user_id = 0, state = STATE_ACTIVE)
-            if not test_po:
-                po_recommend_new(po.id,0,'')
-        else:
-            po_show_rm(po)
-
-        if sync:
-            site_sync_new(id)
-        else:
-            site_sync_rm(id)
-
-        if site:
-            po.zsite_id_set(site)
-        
+        _edit(broad,sync,site,po,id) 
         if name:
             po.name_ = name
             po.save()
@@ -159,6 +164,8 @@ class PoEditShow(Base):
             po.txt_set(txt)
        
         self.redirect(next)
+
+
 
 @urlmap('/po/show/set/(\d+)')
 class PoShowSet(Base):
@@ -178,22 +185,7 @@ class PoShowSet(Base):
         site = self.get_argument('site', None)
         sync = self.get_argument('sync', None)
         if po:
-            if broad:
-                from model.po_recommend import po_recommend_new
-                test_po = Po.get(rid =po.id,user_id = 0, state = STATE_ACTIVE)
-                if not test_po:
-                    po_recommend_new(po.id,0,'')
-            else:
-                po_show_rm(po)
-
-            if sync:
-                site_sync_new(id)
-            else:
-                site_sync_rm(id)
-
-            if site:
-                po.zsite_id_set(site)
-
+            _edit(broad,sync,site,po,id)
             return self.redirect(next)
 
         self.render(
@@ -202,23 +194,31 @@ class PoShowSet(Base):
         )
 
 
-@urlmap('/rm/(\d+)-(\d+)')
-class Rm(Base):
-    def get(self,user_id,po_id):
-        user = Zsite.mc_get(user_id)
-        if user:
-            self.render(user=user)
 
-    def post(self,user_id,po_id):
+@urlmap('/rm/(\d+)')
+class Rm(Base):
+    def get(self,po_id):
+        p = Po.mc_get(po_id)
+        if p:
+            user = p.user
+            if user:
+                self.render(user=user)
+
+    def post(self,po_id):
         add = self.get_argument('add_spammer',None)
         del_all = self.get_argument('del_all',None)
-        if add:
-            spammer_new(user_id)
-        
-        if del_all:
-            spammer_reset(user_id)
+        p = Po.mc_get(po_id)
+        if p:
+            user = p.user
+            if user:
+                user_id = user.id
+            if add:
+                spammer_new(user_id)
+            
+            if del_all:
+                spammer_reset(user_id)
 
-        po_rm(user_id,po_id)
+            po_rm(user_id,po_id)
        
        
         self.redirect('/po')

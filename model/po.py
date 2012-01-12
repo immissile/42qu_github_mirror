@@ -491,6 +491,9 @@ if __name__ == '__main__':
             f.write(po.name)
             f.write(po.txt)
     #po = Po.mc_get(10199705)
+    #pass
+    po = Po.mc_get(10199705)
+    print dir(po)
     #print po.name
     #print po.cid
 
