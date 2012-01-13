@@ -82,6 +82,7 @@ def cnenoverflow(s, length):
     return txt, has_more
 
 def format_txt(txt):
+    txt = txt.replace("　"," ")
     return "\n\n".join(filter(bool,map(str.strip,txt.split("\n"))))
 
 #<span style="margin-left:4px"><a href="#">显示全部</a></span>
