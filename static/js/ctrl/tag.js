@@ -35,13 +35,22 @@ b1024()
     var feeds=$("#feeds"), 
         feed_index=$("#feed_index"), 
         render_txt=$("#render_txt"), 
-        scrollTop=feeds.offset().top-14;
+        scrollTop=feeds.offset().top-14,
+        rendered_txt,
+        oldtop=0,
+        winj=$(window);
 
-
+    $('.readx').live('click',function(){
+        rendered_txt.remove()
+        feed_index.show() 
+        winj.scrollTop(oldtop)
+    })
     $('.reada').live('click',function(){
         feed_index.hide();
-        feeds.append(render_txt.tmpl())
-        $(window).scrollTop(scrollTop)
+        rendered_txt = render_txt.tmpl()
+        feeds.append(rendered_txt)
+        oldtop=winj.scrollTop()
+        winj.scrollTop(scrollTop)
         return false; 
     })
 })();
