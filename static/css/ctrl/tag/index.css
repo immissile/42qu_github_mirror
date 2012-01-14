@@ -195,7 +195,7 @@ margin-left:-2px;
 }
 .readx{
 display:inline-block;
-background:url(/img/gif/xx.gif) no-repeat -51px 6px;
+background:url(/img/gif/xx.gif) no-repeat -45px 6px;
 margin-right:-6px;
 padding:0 6px 6px;
 vertical-align:-6px;
@@ -203,7 +203,7 @@ width:9px;
 height:15px;
 }
 .readx:hover{
-background-position:-22px 6px;
+background-position:-16px 6px;
 }
 
 
