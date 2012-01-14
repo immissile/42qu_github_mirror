@@ -32,5 +32,16 @@ b1024()
 });
 
 (function(){
-   alert(1) 
+    var feeds=$("#feeds"), 
+        feed_index=$("#feed_index"), 
+        render_txt=$("#render_txt"), 
+        scrollTop=feeds.offset().top-14;
+
+
+    $('.reada').live('click',function(){
+        feed_index.hide();
+        feeds.append(render_txt.tmpl())
+        $(window).scrollTop(scrollTop)
+        return false; 
+    })
 })();
