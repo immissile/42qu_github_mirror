@@ -58,7 +58,9 @@ b1024()
         oldtop=winj.scrollTop()
         
         winj.scrollTop(scrollTop)
-        feed_loading.replaceWith(render_txt.tmpl())
+        $.get("/j/fdtxt/3875",function(txt){
+            feed_loading.replaceWith(render_txt.tmpl({txt:txt}))
+        })
         return false; 
     })
 })();
