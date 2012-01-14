@@ -207,4 +207,14 @@ height:15px;
 background-position:-16px 6px;
 }
 
-
+#feed_loading{
+margin:230px auto;
+}
+#main_nav_title{
+float:left;
+color:#000;
+}
+.main_nav_txt{
+text-align:right;
+padding:14px 0 14px;
+}

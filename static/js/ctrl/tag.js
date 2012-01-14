@@ -36,21 +36,28 @@ b1024()
         feed_index=$("#feed_index"), 
         render_txt=$("#render_txt"), 
         scrollTop=feeds.offset().top-14,
-        rendered_txt,
         oldtop=0,
-        winj=$(window);
+        winj=$(window),
+        txt_loading=$('<div class="main_nav main_nav_txt"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div><div id="feed_loading"></div>'),
+        txt_title=txt_loading.find('#main_nav_title')
+;
 
     $('.readx').live('click',function(){
-        rendered_txt.remove()
+        txt_loading.remove()
         feed_index.show() 
         winj.scrollTop(oldtop)
     })
+
+
     $('.reada').live('click',function(){
         feed_index.hide();
-        rendered_txt = render_txt.tmpl()
-        feeds.append(rendered_txt)
+        var self=$(this);
+        txt_title.html(self.find('.title').html());
+        feeds.append(txt_loading)
         oldtop=winj.scrollTop()
+        
         winj.scrollTop(scrollTop)
+
         return false; 
     })
 })();
