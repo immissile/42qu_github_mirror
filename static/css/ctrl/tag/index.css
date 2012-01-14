@@ -186,10 +186,10 @@ color:#999;
 color:#333;
 }
 .main_back{
-display:inline-block;
+float:left;
 width:20px;
 height:20px;
 background:url(https://mail.google.com/mail/u/0/pimages/2/toolbar/back.png) no-repeat 50% 50%;
-vertical-align:-7px;
+margin-top:4px;
 margin-left:-2px;
 }
