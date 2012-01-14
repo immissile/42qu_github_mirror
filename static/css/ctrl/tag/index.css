@@ -185,3 +185,11 @@ color:#999;
 .com_main .page a:hover{
 color:#333;
 }
+.main_back{
+display:inline-block;
+width:20px;
+height:20px;
+background:url(https://mail.google.com/mail/u/0/pimages/2/toolbar/back.png) no-repeat 50% 50%;
+vertical-align:-7px;
+margin-left:-2px;
+}
