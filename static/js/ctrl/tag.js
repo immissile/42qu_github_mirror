@@ -10,7 +10,7 @@ b1024()
         rec_wrapper.append(site_rec.tmpl(data));
     }
 
-    fav=function(id){
+    function fav(id){
         $("#rec_id"+id).addClass("fav_loading");
         callback=function(){
             $("#rec_id"+id).removeClass("fav_loading");
@@ -20,7 +20,7 @@ b1024()
         _(id, 2,callback);
     }
 
-    unfav=function(id){
+    function unfav (id){
         callback=function(){};
         _(id, 0,callback);
         $("#rec_id"+id).removeClass("site_faved");
@@ -28,4 +28,9 @@ b1024()
     }
     $(".buzz_h1").hover(function(){$(this).find("a").show()},function(){$(this).find("a").hide()});
     $(".buzz_w").hover(function(){$(this).find('.bzr').show()},function(){$(this).find(".bzr").hide()});
+
 });
+
+(function(){
+
+})();
