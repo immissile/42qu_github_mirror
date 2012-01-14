@@ -76,7 +76,7 @@ def feature(txt, limit=64):
     return lines
 
 def feature_md5(txt, limit=64):
-    result = [md5(i).digest() for i in feature(txt, limit)]
+    result = [md5(i).hexdigest() for i in feature(txt, limit)]
     return result
 
 

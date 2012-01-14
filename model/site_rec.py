@@ -22,7 +22,7 @@ from zkit.txt import cnenoverflow
 from model.motto import motto
 
 SiteRec = Kv('site_rec', 0)
-SiteRecNew = Kv('site_rec_new', 0)
+#SiteRecNew = Kv('site_rec_new', 0)
 
 class SiteRecHistory(Model):
     pass
@@ -33,7 +33,7 @@ class SiteRecHistory(Model):
 #        return Zsite.mc_get(zsite_id)
 
 def site_rec(user_id):
-    zsite_id = SiteRecNew.get(user_id)
+    #zsite_id = SiteRecNew.get(user_id)
     zsite_id = "10000000 10000001"
     if zsite_id:
         return Zsite.mc_get_list(map(int,zsite_id.split()))
@@ -107,6 +107,8 @@ def site_rec_dump(user_id):
                 length += length
             _motto = cnenoverflow(_motto, length)[0]
 
+        if is_follow and is_follow is not True:
+            is_follow = 1
         result.append((
             i.id,                                                            #0 
             i.link,                                                          #1

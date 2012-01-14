@@ -3,15 +3,6 @@
 import _env
 import urllib2
 from urllib2 import urlopen
-from model._db import Model, McModel, McCache, McCacheA, McLimitA, McNum
-from model.po import po_new, STATE_RM
-from model.po_event import po_event_pic_new , EVENT_CID, po_event_feedback_new
-from model.event import Event, event_init2to_review
-from model.state import STATE_RM, STATE_SECRET, STATE_ACTIVE
-from model.cid import CID_EVENT, CID_EVENT_FEEDBACK, CID_NOTICE_EVENT_JOINER_FEEDBACK, CID_NOTICE_EVENT_ORGANIZER_SUMMARY
-from model.event import Event, EVENT_STATE_INIT, EVENT_STATE_REJECT, EVENT_STATE_TO_REVIEW, EVENT_STATE_NOW, EVENT_JOIN_STATE_END, EVENT_JOIN_STATE_YES, EVENT_JOIN_STATE_FEEDBACK_GOOD, EVENT_JOIN_STATE_FEEDBACK_NORMAL, event_new_if_can_change, EventJoiner, event_joiner_user_id_list, event_joiner_get, event_joiner_state, last_event_by_zsite_id, event_new
-from model.po_event import po_event_pic_new , EVENT_CID, po_event_feedback_new
-from model.days import today_ymd_int, ymd2minute, minute2ymd, ONE_DAY_MINUTE
 from urllib import urlencode
 from zkit.pic import picopen
 from json import loads
@@ -26,21 +17,17 @@ import os.path
 from zkit.earth import PID2NAME
 import re
 from yajl import dumps,loads
-from hashlib import md5
-from model.days import time_by_string, datetime_to_minutes
 import threading
-from writer import Writer,CURRNET_PATH
+from writer import Writer,CURRNET_PATH,Spider, url_is_fetched,Spider
 
-CURRENT_PATH = path.dirname(path.abspath(__file__))
 
 
 class Dongxi(object):
-    """docstring for Dongxi"""
     def __init__(self):
         pass
 
-    def daily_dongxi():
-        yield parse_index,'http://dongxi.net/index/original?type=channel&slug=all&cate=havetrans'
+    def daily_dongxi(self):
+        yield self.parse_index,'http://dongxi.net/index/original?type=channel&slug=all&cate=havetrans'
 
     def dongxi_crawler(self):
         for i in xrange(1,695):
@@ -51,11 +38,11 @@ class Dongxi(object):
         link_list = []
         for link_wrap in link_wrap_list:
             url = txt_wrap_by('href="','"',link_wrap)
-            if url:
+            if url and not url_is_fetched(url):
                 yield self.parse_page,'http://dongxi.net/%s'%url
 
     def parse_page(self,page,url):
-
+        print "Dongxi...%s"%url
         title = txt_wrap_by('<div class="content_title clearfix">','</h1>',page).strip().split('>')[-1].strip()
         author = txt_wrap_by('<a class="link_text_blue" href="','</a>',page).strip().split('>')[-1].strip()
 
@@ -74,19 +61,24 @@ class Dongxi(object):
         except:
             pass
 
-        out = dumps([ title, author, tags, rating, po_url,content ])
+        content,pic_list = htm2txt(content)
+        content = str(content)
+        pic_list = ['http://dongxi.net'+i for i in pic_list]
 
-        writer = Writer.get_instance()
-        writer = writer.choose_writer('dongxi.data')
-        writer.write(out+'\n')
+        #out = dumps([title,tags,content ,author ,rating, po_url,None ])
+        Spider.insert(title, tags, content, author, rating ,url, None, pic_list)
+
+        #writer = Writer.get_instance()
+        #writer = writer.choose_writer('dongxi.data')
+        #writer.write(out+'\n')
 
 def main():
     headers = {
     }
 
     dongxi = Dongxi()
-    fetcher = Fetch(path.join(CURRNET_PATH,'cache'), headers=headers)
-    spider = Rolling(fetcher,dongxi.dongxi_crawler())
+    fetcher = NoCacheFetch(0,headers=headers)
+    spider = Rolling(fetcher,dongxi.daily_dongxi())
     spider_runner = GSpider(spider, workers_count=3)
     spider_runner.start()
 
