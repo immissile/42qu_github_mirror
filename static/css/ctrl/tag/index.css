@@ -87,6 +87,7 @@ width:722px;
 }
 .com_main{
 width:666px;
+padding-bottom:14px;
 }
 .com_side{
 width:250px;
@@ -173,7 +174,7 @@ margin-left:-12px;
 border-top:1px dotted #ccc;
 padding-top:14px;
 margin-top:7px;
-margin-bottom:-7px;
+margin-bottom:4px;
 }
 .com_main .page a{
 color:#999
