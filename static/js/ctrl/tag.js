@@ -38,8 +38,9 @@ b1024()
         scrollTop=feeds.offset().top-14,
         oldtop=0,
         winj=$(window),
-        txt_loading=$('<div><div class="main_nav main_nav_txt"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div><div id="feed_loading"></div></div>'),
+        txt_loading=$('<div><div class="main_nav" id="main_nav_txt"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div><div id="feed_loading"></div></div>'),
         txt_title=txt_loading.find('#main_nav_title'),
+        main_nav_txt = txt_loading.find('#main_nav_txt')
         feed_loading=txt_loading.find('#feed_loading')
 ;
 
@@ -63,4 +64,19 @@ b1024()
         })
         return false; 
     })
+
+
+
+    if(!IE6){
+        if(main_nav_txt[0]){
+            var top = main_nav_txt.offset().top, win=$(window).scroll(function() {
+                if(win.scrollTop() >= scrollTop+14){
+                    main_nav_txt.css({'position':'fixed',"marginTop":"-152px"})
+                }else{
+                    main_nav_txt.css({'position':'absolute',"marginTop":"0"})
+                }
+            })
+        }
+    }
+
 })();

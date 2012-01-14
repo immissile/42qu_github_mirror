@@ -150,6 +150,8 @@ padding:7px; 8px 0 0;
 }
 .main_nav{
 color:#ccc;
+padding:7px 0;
+border-bottom: 1px dotted #ccc;
 }
 .main_nav a{
     color:#999;
@@ -167,7 +169,6 @@ margin-left:-12px;
     color:#666;
 }
 .main_nav{
-    border-bottom: 1px dotted #ccc;
     padding: 7px 2px;
 }
 .com_main .page{
@@ -208,13 +209,23 @@ background-position:-16px 6px;
 }
 
 #feed_loading{
-margin:220px auto;
+padding:234px auto 220px;
 }
 #main_nav_title{
 float:left;
 color:#000;
 }
-.main_nav_txt{
+#main_nav_txt{
+width:666px;
+background:#fff;
+position:absolute;
+_position:static;
+padding:14px 0;
 text-align:right;
-padding:14px 0 14px;
+border-bottom: 1px solid #f3f3f3;
+box-shadow:0 2px 2px #f3f3f3;
+}
+.prebody{
+padding-top:70px;
+margin-top:0;
 }
