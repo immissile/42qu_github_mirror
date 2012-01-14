@@ -38,8 +38,9 @@ b1024()
         scrollTop=feeds.offset().top-14,
         oldtop=0,
         winj=$(window),
-        txt_loading=$('<div class="main_nav main_nav_txt"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div><div id="feed_loading"></div>'),
-        txt_title=txt_loading.find('#main_nav_title')
+        txt_loading=$('<div><div class="main_nav main_nav_txt"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div><div id="feed_loading"></div></div>'),
+        txt_title=txt_loading.find('#main_nav_title'),
+        feed_loading=txt_loading.find('#feed_loading')
 ;
 
     $('.readx').live('click',function(){
@@ -57,7 +58,7 @@ b1024()
         oldtop=winj.scrollTop()
         
         winj.scrollTop(scrollTop)
-
+        feed_loading.replaceWith(render_txt.tmpl())
         return false; 
     })
 })();
