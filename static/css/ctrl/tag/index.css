@@ -209,7 +209,8 @@ background-position:-16px 6px;
 }
 
 #feed_loading{
-padding:234px auto 220px;
+padding:234px 0 220px;
+margin:0;
 }
 #main_nav_title{
 float:left;
