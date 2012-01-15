@@ -57,7 +57,7 @@ b1024()
         }
     })
 
-    $('.reada').live('click',function(){
+    $('.readl').live('click',function(){
         feed_index.hide();
         var self=$(this);
         txt_title.html(self.find('.title').html());

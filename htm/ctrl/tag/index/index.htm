@@ -36,18 +36,18 @@ ${css.ctrl_tag_index|n}
 <a href="#">视频</a></div>\
 </div>
 <div>
-%for pos, i in enumerate(xrange(20)):
+%for pos, id in enumerate(xrange(20)):
     <div 
-style="margin-top: 0pt; padding: 5px 2px; 
-%if pos:
-border-top: 1px solid rgb(238, 238, 238);
-%else:
+id="readl${id}"
+style="
+%if not pos:
 border-top:0;
 %endif
 " 
-class="fdbar">
-<span class="L"><span class="fdopt" style="text-align: right;"><a rel="10200938" href="javascript:void(0)" class="fav"></a>
-<a href="http://zuroc.42qu.com/10200938" target="_top" 
+class="readl c">
+<a rel="10200938" href="javascript:void(0)" class="fav"></a>
+<div class="L">
+<span 
 %if pos%5!=1:
 style="color:#000"
 %else:
@@ -55,9 +55,10 @@ style="color:#999"
 %endif
 class="reada"
 ><span class="title">小故事</span>\
-<span style="font-size:12px;margin-left:7px;color:#999">山东临朐县20万干部群众正在服用一些不知名的药品，怀疑这20万人被强行做 ...</span></a>  
-</span></span>
-<div class="zname" style=""><a style="font-size:12px" target="_top" href="http://wangleheng.42qu.com/">joyfire 王乐珩</a></div>          
+<span class="rtip">山东临朐县20万干部群众正在服用一些不知名的药品，怀疑这20万人被强行做 ...</span>
+</span>  
+</div> 
+<div class="zname" style=""><a style="font-size:12px" target="_top" href="http://wangleheng.42qu.com/">joyfire 王乐珩</a></div>         
 </div>
 %endfor
 </div>
