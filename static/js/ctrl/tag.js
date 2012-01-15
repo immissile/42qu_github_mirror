@@ -36,20 +36,26 @@ b1024()
         feed_index=$("#feed_index"), 
         render_txt=$("#render_txt"), 
         scrollTop=feeds.offset().top-14,
-        oldtop=0,
+        oldtop=-1,
         winj=$(window),
         txt_loading=$('<div><div class="main_nav" id="main_nav_txt"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div><div id="feed_loading"></div></div>'),
         txt_title=txt_loading.find('#main_nav_title'),
         main_nav_txt = txt_loading.find('#main_nav_txt')
-        feed_loading=txt_loading.find('#feed_loading')
-;
+        feed_loading=txt_loading.find('#feed_loading');
 
-    $('.readx').live('click',function(){
+    function readx(){
         txt_loading.remove()
         feed_index.show() 
         winj.scrollTop(oldtop)
-    })
+        oldtop=-1
+    }
 
+    $('.readx').live('click',readx)
+    $(document).bind("keypress",function(e){
+        if(e.keyCode == 27 && oldtop>0){
+            readx()
+        }
+    })
 
     $('.reada').live('click',function(){
         feed_index.hide();
