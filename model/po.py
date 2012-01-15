@@ -53,7 +53,9 @@ class Po(McModel, ReplyMixin):
     @property
     def txt(self):
         cid = self.cid
-        if cid in (CID_WORD, CID_EVENT_NOTICE, CID_REC):
+        if cid == CID_WORD:
+            return self.name_
+        elif cid in (CID_EVENT_NOTICE, CID_REC):
             return self.name_
         elif cid == CID_ANSWER:
             return txt_get(self.id) or self.name_
