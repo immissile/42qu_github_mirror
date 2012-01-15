@@ -494,9 +494,11 @@ if __name__ == '__main__':
             f.write(po.txt)
     #po = Po.mc_get(10199705)
     #pass
-    po = Po.mc_get(10199705)
-    print dir(po)
-    #print po.name
+    po = Po.mc_get(10210260)
+    
+    po.name_ = po.name_.replace("\n"," ; ").replace(";  ;"," ; ").replace("2012  ;","2012 ")
+    po.save()
+    print po.name
     #print po.cid
 
 #    from zsite import Zsite
