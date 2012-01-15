@@ -237,7 +237,13 @@ margin:7px 3px 0 0;
 .readl a{
 color:#999;
 }
-.readl, .readl span, .readl div{
+.reado{
+float:left;
+height:28px;
+overflow:hidden;
+width::500px
+}
+.reado, .reado span, .reado div{
 cursor:pointer;
 }
 .readl{
