@@ -52,7 +52,7 @@ b1024()
 
     $('.readx').live('click',readx)
     $(document).bind("keypress",function(e){
-        if(e.keyCode == 27 && oldtop>0){
+        if(e.keyCode == 27 && oldtop>=0){
             readx()
         }
     })
