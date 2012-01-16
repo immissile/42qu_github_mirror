@@ -2,6 +2,9 @@ b1024();
 function render_item(data){
     var result = $("#render_item").tmpl(data)
     result[0].style.borderTop=0
+    result.find('.TPH').each(function(){
+        this.href="//"+this.rel+HOST_SUFFIX
+    })
     result.appendTo("#item_list");
     
 }
