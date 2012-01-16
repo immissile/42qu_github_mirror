@@ -61,7 +61,7 @@ def mail_link(mail):
 def cnenlen(s):
     if type(s) is str:
         s = s.decode('utf-8', 'ignore')
-    return len(s.encode('gb18030', 'ignore')) / 2.0
+    return len(s.encode('gb18030', 'ignore')) // 2
 
 def cnencut(s, length):
     ts = type(s)
