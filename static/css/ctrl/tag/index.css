@@ -150,7 +150,7 @@ padding:7px; 8px 0 0;
 }
 .main_nav{
 color:#ccc;
-padding:7px 0;
+padding: 7px 2px;
 border-bottom: 1px dotted #ccc;
 }
 .main_nav a{
@@ -170,9 +170,6 @@ margin-left:-12px;
 }
 .main_nav .now{
     color:#666;
-}
-.main_nav{
-    padding: 7px 2px;
 }
 .com_main .page{
 border-top:1px dotted #ccc;
