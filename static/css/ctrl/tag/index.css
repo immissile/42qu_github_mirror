@@ -216,15 +216,24 @@ margin:0;
 float:left;
 color:#000;
 }
-#main_nav_txt{
-width:666px;
+
+#main_nav_in{
+margin-left:-1px;
+padding:14px 1px;
 background:#fff;
-position:absolute;
-_position:static;
-padding:14px 0;
-text-align:right;
+width:666px;
 border-bottom: 1px solid #f3f3f3;
 box-shadow:0 2px 2px #f3f3f3;
+}
+#main_nav_txt{
+width:666px;
+overflow:hidden;
+height:59px;
+position:absolute;
+_position:static;
+text-align:right;
+border-bottom:0;
+padding:0;
 }
 .prebody{
 padding-top:70px;

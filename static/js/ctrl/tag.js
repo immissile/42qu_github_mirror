@@ -47,7 +47,7 @@ function render_item(data){
         scrollTop=feeds.offset().top-14,
         oldtop=-1,
         winj=$(window),
-        txt_loading=$('<div><div class="main_nav" id="main_nav_txt"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div><div id="feed_loading"></div></div>'),
+        txt_loading=$('<div><div class="main_nav" id="main_nav_txt"><div id="main_nav_in"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div></div><div id="feed_loading"></div></div>'),
         txt_title=txt_loading.find('#main_nav_title'),
         main_nav_txt = txt_loading.find('#main_nav_txt'),
         feed_loading=txt_loading.find('#feed_loading'),
