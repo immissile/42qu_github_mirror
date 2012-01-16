@@ -10,8 +10,22 @@ ${css.ctrl_tag_index|n}
 </%def>
 
 <script id="render_txt" type="text/x-jquery-tmpl"><%text>
-<pre class="prebody">{{html txt}}</pre>
-<div style="border-top:1px dotted #ccc;margin-top:7px;padding-top:14px;margin-bottom:4px" class="fdbar">     <span class="L"><span class="fdopt"><a class="fav" href="javascript:void(0)" rel="10208285"></a><span class="split">-</span><a href="javascript:share(10208285);void(0)" class="vote">推荐</a><span class="split">-</span><a href="javascript:fcm(10208285,5);void(0)" class="fcma"><span class="mr3">5</span>评论</a></span>     </span>  <a target="_blank" href="/10208285">1-12 12:42</a><span class="split">,</span>东西网 <a rel="nofollow" class="aH" href="http://yun.baidu.com/" target="_blank" style="height:14px;"></a></div>
+<pre class="prebody">{{html txt}}</pre><div
+class="fdbar"><span
+class="L"><span
+class="fdopt"><a
+class="fav"
+href="javascript:void(0)" rel="${id}"></a><span
+class="split">-</span><a
+href="javascript:share(${id});void(0)"
+class="vote">推荐</a><span
+class="split">-</span><a
+href="javascript:fcm(${id},${reply_count});void(0)"
+class="fcma"><span
+class="mr3">{{if reply_count}}${reply_count}{{/if}}</span>评论</a></span></span><a 
+target="_blank" href="/${link}">${time}</a><span
+class="split">,</span>{{html user_name}}<a
+class="aH" href="${link}" target="_blank"></a></div>
 </%text></script>
 
 <div class="G">

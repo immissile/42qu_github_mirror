@@ -278,3 +278,12 @@ overflow:hidden;
 width:520px;
 text-align:left;
 }
+.fdbar .aH{
+height:14px;
+}
+.fdbar{
+border-top:1px dotted #ccc;
+margin-top:7px;
+padding-top:14px;
+margin-bottom:4px
+}

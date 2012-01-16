@@ -70,13 +70,23 @@ function render_item(data){
 
     $('.reado').live('click',function(){
         feed_index.hide();
-        var self=$(this), title=self.find('.title').addClass('c9');
+        var self=$(this), 
+            title=self.find('.title').addClass('c9'), 
+            id=this.id.slice(5), 
+            user=$(this.parentNode).find('.TPH'),
+            user_link=user[0].href;
         txt_title.html(title.html());
         feeds.append(txt_loading);
         oldtop=winj.scrollTop();
         winj.scrollTop(scrollTop);
-        $.get("/j/fdtxt/"+this.id.slice(5),function(r){
-            txt_body = render_txt.tmpl({txt:r})
+        $.get(
+            "/j/po/json/"+id,
+            function(r){
+            r.id=id
+            r.user_name=user.html()
+            r.link = user_link+"/"+id
+            r.time = $.timeago(r.create_time)
+            txt_body = render_txt.tmpl(r)
             feed_loading.replaceWith(txt_body)
             winj.scrollTop(scrollTop)
         })
