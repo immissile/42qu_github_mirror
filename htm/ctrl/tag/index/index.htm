@@ -42,31 +42,6 @@ ${css.ctrl_tag_index|n}
 
 </div>
 <div id="item_list"></div>
-<script id="render_item" type="text/x-jquery-tmpl"><%text>
-    <div 
-style="
-%if not pos:
-border-top:0;
-%endif
-" 
-class="readl c">
-<a rel="10200938" href="javascript:void(0)" class="fav"></a>
-<div id="reado${id}" class="reado">
-<span 
-%if pos%5!=1:
-style="color:#000"
-%else:
-style="color:#999"
-%endif
-class="reada"
-><span class="title">小故事</span>\
-<span class="rtip">山东临朐县20万干部群众正在服用一些不知名的药品，怀疑这20万人被强行做 ...</span>
-</span>  
-</div>
-<div class="zname" style=""><a style="font-size:12px" target="_top" href="http://wangleheng.42qu.com/">joyfire 王乐珩</a></div>         
-</div>
-</%text></script>
-<script>render_item(${json_encode(items)|n}) </script>
 
 %if page:
 ${page|n}
@@ -140,6 +115,22 @@ class="sitefav${$data[7]}"></a>
 
 
 <script src="${js.ctrl_tag}"></script>
+<script id="render_item" type="text/x-jquery-tmpl"><%text>
+<div class="readl c">
+<a rel="${$data[0]}" href="javascript:void(0)"
+class="fav{{if $data[5]}}ed{{/if}}"></a>
+<div id="reado${$data[0]}" class="reado">
+<span class="reada">
+<span class="title">${$data[1]}</span>
+<span class="rtip">${$data[2]}</span>
+</span>  
+</div>
+<div class="zname">
+<a href="#" rel="${$data[3]}" class="TPH" target="_blank">${$data[4]}</a>
+</div>         
+</div>
+</%text></script>
+<script>render_item(${json_encode(items)|n}) </script>
 
 
 ##{{if site.length}}

@@ -11,8 +11,8 @@ class Index(Base):
         page, limit, offset = page_limit_offset(
             "/%s", 100, 1
         )
-        
-        items = po_by_tag(1)
+        current_user_id = self.current_user_id
+        items = po_by_tag(1, current_user_id)
         self.render(
             page  = str(page),
             items = items

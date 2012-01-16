@@ -1,4 +1,10 @@
-b1024()
+b1024();
+function render_item(data){
+    var result = $("#render_item").tmpl(data)
+    result[0].style.borderTop=0
+    result.appendTo("#item_list");
+    
+}
 ;$(function(){
 
     var data = $.parseJSON($("#site_data").html()),
@@ -59,16 +65,17 @@ b1024()
 
     $('.reado').live('click',function(){
         feed_index.hide();
-        var self=$(this);
-        txt_title.html(self.find('.title').html());
-        feeds.append(txt_loading)
-        oldtop=winj.scrollTop()
-        
-        winj.scrollTop(scrollTop)
+        var self=$(this), title=self.find('.title').addClass('c9');
+        txt_title.html(title.html());
+        feeds.append(txt_loading);
+        oldtop=winj.scrollTop();
+        winj.scrollTop(scrollTop);
+
         $.get("/j/fdtxt/3875",function(txt){
             feed_loading.replaceWith(render_txt.tmpl({txt:txt}))
             winj.scrollTop(scrollTop)
         })
+
         return false; 
     })
 
