@@ -43,12 +43,7 @@ ${css.ctrl_tag_index|n}
 </div>
 <div>
 <script>\
-<%
-items = [
-   # id , name, txt, reply_count,  author_id , author_name , is_read, is_star 
-]
-%>
-var items = ${json_encode(items)} 
+var items = ${json_encode(items)|n} 
 </script>
 
 %for pos, id in enumerate(xrange(20)):

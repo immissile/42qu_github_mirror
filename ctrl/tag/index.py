@@ -3,7 +3,7 @@
 from _handler import Base, LoginBase
 from ctrl._urlmap.tag import urlmap
 from zkit.page import page_limit_offset
-
+from model.po_by_tag import po_by_tag
 
 @urlmap('/')
 class Index(Base):
@@ -11,6 +11,11 @@ class Index(Base):
         page, limit, offset = page_limit_offset(
             "/%s", 100, 1
         )
-        self.render(page=str(page))
+        
+        items = po_by_tag(1)
+        self.render(
+            page  = str(page),
+            items = items
+        )
 
 
