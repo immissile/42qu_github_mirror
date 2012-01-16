@@ -30,8 +30,8 @@ def po_by_tag(tag_id, user_id):
         name_len = cnenlen(name)
         txt = po.txt
 
-        if txt and name_len < 38:
-            tip = cnenoverflow(txt, 38-name_len)[0]
+        if txt and name_len < 36:
+            tip = cnenoverflow(txt, 36-name_len)[0]
         else:
             tip = ''
 

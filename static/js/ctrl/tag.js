@@ -6,7 +6,7 @@ function render_item(data){
         this.href="//"+this.rel+HOST_SUFFIX
     })
     result.appendTo("#item_list");
-    
+    $(".com_main").css('visibility',"visible");
 }
 ;$(function(){
 
@@ -49,14 +49,16 @@ function render_item(data){
         winj=$(window),
         txt_loading=$('<div><div class="main_nav" id="main_nav_txt"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div><div id="feed_loading"></div></div>'),
         txt_title=txt_loading.find('#main_nav_title'),
-        main_nav_txt = txt_loading.find('#main_nav_txt')
-        feed_loading=txt_loading.find('#feed_loading');
+        main_nav_txt = txt_loading.find('#main_nav_txt'),
+        feed_loading=txt_loading.find('#feed_loading'),
+        txt_body;
 
     function readx(){
         txt_loading.remove()
         feed_index.show() 
         winj.scrollTop(oldtop)
         oldtop=-1
+        txt_body.replaceWith(feed_loading)
     }
 
     $('.readx').live('click',readx)
@@ -73,9 +75,9 @@ function render_item(data){
         feeds.append(txt_loading);
         oldtop=winj.scrollTop();
         winj.scrollTop(scrollTop);
-
-        $.get("/j/fdtxt/3875",function(txt){
-            feed_loading.replaceWith(render_txt.tmpl({txt:txt}))
+        $.get("/j/fdtxt/"+this.id.slice(5),function(r){
+            txt_body = render_txt.tmpl({txt:r})
+            feed_loading.replaceWith(txt_body)
             winj.scrollTop(scrollTop)
         })
 
