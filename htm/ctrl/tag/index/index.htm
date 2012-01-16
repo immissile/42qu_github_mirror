@@ -1,3 +1,6 @@
+<%!
+from tornado.escape import json_encode 
+%>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 <%def name="htm_head()">
@@ -39,6 +42,15 @@ ${css.ctrl_tag_index|n}
 
 </div>
 <div>
+<script>\
+<%
+items = [
+   # id , name, txt, reply_count,  author_id , author_name , is_read, is_star 
+]
+%>
+var items = ${json_encode(items)} 
+</script>
+
 %for pos, id in enumerate(xrange(20)):
     <div 
 style="
