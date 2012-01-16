@@ -41,12 +41,8 @@ ${css.ctrl_tag_index|n}
 <div class="R c9"><span class="mr3">33</span>文章</div>\
 
 </div>
-<div>
-<script>\
-var items = ${json_encode(items)|n} 
-</script>
-
-%for pos, id in enumerate(xrange(20)):
+<div id="item_list"></div>
+<script id="render_item" type="text/x-jquery-tmpl"><%text>
     <div 
 style="
 %if not pos:
@@ -69,8 +65,8 @@ class="reada"
 </div>
 <div class="zname" style=""><a style="font-size:12px" target="_top" href="http://wangleheng.42qu.com/">joyfire 王乐珩</a></div>         
 </div>
-%endfor
-</div>
+</%text></script>
+<script>render_item(${json_encode(items)|n}) </script>
 
 %if page:
 ${page|n}
