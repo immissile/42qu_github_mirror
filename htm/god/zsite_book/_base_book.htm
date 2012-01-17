@@ -8,13 +8,10 @@ book_zsite = Zsite.mc_get(book.id)
 %>
 
 <div style="font-size:16px;">
-<div class="L" style="margin-right:32px;padding-right:32px;border-right:1px dotted #ccc">
+<div class="L" style="margin-right:32px;padding-right:32px;border-right:1px dotted #ccc;background:#Fff">
 <div style="padding:14px 0">
-<p>${book_zsite.name}</p>
-</div>
-    %if book.douban_pic_id:
-<img src="http://img3.douban.com/lpic/s${book.douban_pic_id}.jpg">
-    %endif
+<div>${book_zsite.name}</div>
+<div>评分 : ${"%.1f"%(book.rating/100.0)} / ${book.rating_num}人</div>
 <p>
 %if book.douban_id:
 <a target="_blank" 
@@ -22,6 +19,10 @@ href="http://book.douban.com/subject/${book.douban_id}/">豆瓣链接</a>
 %endif
 </p>
 <p>作者 : ${book.author}</p>
+</div>
+    %if book.douban_pic_id:
+<img src="http://img3.douban.com/lpic/s${book.douban_pic_id}.jpg">
+    %endif
 </div>
 
 

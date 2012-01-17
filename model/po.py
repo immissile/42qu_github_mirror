@@ -53,7 +53,9 @@ class Po(McModel, ReplyMixin):
     @property
     def txt(self):
         cid = self.cid
-        if cid in (CID_WORD, CID_EVENT_NOTICE, CID_REC):
+        if cid == CID_WORD:
+            return self.name_
+        elif cid in (CID_EVENT_NOTICE, CID_REC):
             return self.name_
         elif cid == CID_ANSWER:
             return txt_get(self.id) or self.name_
@@ -237,9 +239,17 @@ class Po(McModel, ReplyMixin):
             return self.user_id == user_id
 
     def reply_new(self, user, txt, state=STATE_ACTIVE):
-        result = super(Po, self).reply_new(user, txt, state)
-        mc_feed_tuple.delete(self.id)
-        return result
+        reply_id = super(Po, self).reply_new(user, txt, state)
+        #print 'reply_id', reply_id
+        if reply_id:
+            user_id = user.id
+            id = self.id
+            mc_feed_tuple.delete(id)
+            from po_pos import po_pos_state_buzz
+            from buzz_reply import  mq_buzz_po_reply_new
+            po_pos_state_buzz(user_id, self)
+            mq_buzz_po_reply_new(user_id, reply_id, id, self.user_id)
+        return reply_id
 
 
     def tag_new(self):
@@ -457,28 +467,57 @@ def mc_flush_cid_list_all(user_id, cid_list):
 
 
 def reply_rm_if_can(user_id, id):
-    can_rm = None
+    can_admin = None
     r = Reply.mc_get(id)
     if r:
         po = Po.mc_get(r.rid)
         if po:
-            can_rm = r.can_rm(user_id) or po.can_admin(user_id)
-            if can_rm:
+            can_admin = r.can_admin(user_id) or po.can_admin(user_id)
+            if can_admin:
                 r.rm()
                 mc_feed_tuple.delete(po.id)
-    return can_rm
+    return can_admin
+
 
 def mc_flush_zsite_cid(zsite_id, cid):
     from model.site_po import mc_flush_zsite_cid as _
     _(zsite_id, cid)
 
+
 if __name__ == '__main__':
-    from zsite_list import zsite_id_list
-    from cid import CID_USER
-    id_list = zsite_id_list(0, CID_USER)
-    for id in id_list:
-        for i in Po.where(user_id=id).where(zsite_id=0).where('state>%s'%STATE_RM):
-            print i.link
+    #rm_all_po_and_reply_and_tag_by_user_id(10001299)
+    pass
+    from os import path
+    for po in Po.where(user_id=10000000,cid = CID_NOTE,state=STATE_ACTIVE):
+        with open(path.join('/home/work/10000000/', str(po.id)),'w') as f:
+            f.write(po.name)
+            f.write(po.txt)
+    #po = Po.mc_get(10199705)
+    #pass
+    po = Po.mc_get(10210260)
+    
+    po.name_ = po.name_.replace("\n"," ; ").replace(";  ;"," ; ").replace("2012  ;","2012 ")
+    po.save()
+    print po.name
+    #print po.cid
+
+#    from zsite import Zsite
+#    from po_pos import po_pos_get
+#
+#    zsite_id = 10001299
+#    po_id = 10202108
+#    print po_pos_get(zsite_id, po_id)
+#    user = Zsite.mc_get(zsite_id)
+#    po = Po.mc_get(po_id)
+#    po.reply_new(user, 'test6')
+#    print po_pos_get(zsite_id, po_id)
+#    pass
+#    from zsite_list import zsite_id_list
+#    from cid import CID_USER
+#    id_list = zsite_id_list(0, CID_USER)
+#    for id in id_list:
+#        for i in Po.where(user_id=id).where(zsite_id=0).where('state>%s'%STATE_RM):
+#            print i.link
 #exist = set()
 #for i in Po.where(cid=CID_NOTE).where("zsite_id!=0").where("state>%s"%STATE_RM):
 #    name = i.name

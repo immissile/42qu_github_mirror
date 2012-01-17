@@ -1,4 +1,4 @@
-rm = _rm("#reply","/wall/reply/rm/")
+rm = _rm("#reply","/wall/rm/reply/")
 $(function(){
 
 $("#reply_form").elastic_login();

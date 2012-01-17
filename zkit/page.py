@@ -38,7 +38,13 @@ class Page(object):
         now = int(now)
         if now <= 0:
             now = 1
+
+        end = (count+limit-1)//limit
+        if now > end:
+            now = end
+        
         self.now = now
+ 
         self.total = (count+limit-1)//limit
         self.href = href
         self.template = template
@@ -92,10 +98,10 @@ class Page(object):
             links = []
             if now > 1:
                 links.append(
-                    PAGE_NO_TEMPLATE%(href%(now-1), '上一页')
+                    PAGE_NO_TEMPLATE%(href%(now-1), '&lt;')
                 )
             else:
-                links.append('<span>上一页</span>')
+                links.append('<span>&lt;</span>')
 
             if merge_begin:
                 links.append(
@@ -142,11 +148,11 @@ class Page(object):
 
             if now < total:
                 links.append(
-                    PAGE_NO_TEMPLATE%(href%(now+1), '下一页')
+                    PAGE_NO_TEMPLATE%(href%(now+1), '&gt;')
                 )
             else:
                 links.append(
-                    """<span>下一页</span>"""
+                    """<span>&gt;</span>"""
                 )
             htm = ''.join(links)
             return self.template%htm

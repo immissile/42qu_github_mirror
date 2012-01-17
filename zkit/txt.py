@@ -81,6 +81,10 @@ def cnenoverflow(s, length):
         has_more = False
     return txt, has_more
 
+def format_txt(txt):
+    txt = txt.replace("　"," ")
+    return "\n\n".join(filter(bool,map(str.strip,txt.split("\n"))))
+
 #<span style="margin-left:4px"><a href="#">显示全部</a></span>
 if __name__ == '__main__':
     print mail_link('zsp007@gmail.com')

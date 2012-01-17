@@ -94,11 +94,18 @@ DB_MAIN_TABLE = (
     'com_apply',
     'site_sync',
     'ppt',
+    'failed_mq',
+    'spammer',
+   # 'buzz_at_pos',
+    'buzz_at',
+    'buzz_reply',
+    'import_douban_event',
 )
 
 DB_GOOGLE_TABLE = (
     'google_rank',
     'rss_po',
+    'spider',
 )
 
 

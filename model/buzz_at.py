@@ -6,10 +6,11 @@ from txt import txt_bind, txt_get, txt_new
 from kv import Kv
 from zsite_url import id_by_url
 from zkit.algorithm.unique import unique
-
-#from mq import mq_client
-def mq_client(f):
-    return f
+from collections import defaultdict
+from mq import mq_client
+from model.buzz_po_bind_user import buzz_po_bind_user
+#def mq_client(f):
+#    return f
 
 
 
@@ -42,7 +43,7 @@ BUZZ_AT_SHOW = 30
 BUZZ_AT_HIDE = 20
 BUZZ_AT_RMED = 0
 
-buzz_at_pos = Kv('buzz_at_pos', int)
+mc_po_list_by_buzz_at_user_id = McCacheM('BuzzAtByUserIdForShow:%s')
 
 class BuzzAt(Model):
     pass
@@ -50,6 +51,14 @@ class BuzzAt(Model):
 def at_id_set_by_txt(txt):
     return set(filter(bool, [id_by_url(i[2]) for i in RE_AT.findall(txt)]))
 
+def buzz_at_hide(user_id, po_id=0):
+    if po_id:
+        BuzzAt.where(po_id=po_id,to_id=user_id).update(state=BUZZ_AT_HIDE)
+    else:
+        for i in po_list_by_buzz_at_user_id(user_id):
+            po_id = i[0]
+            BuzzAt.where(po_id=po_id,to_id=user_id).update(state=BUZZ_AT_HIDE)
+    mc_flush(user_id)
 
 def buzz_at_new(from_id, txt, po_id, reply_id=0):
     at_id_set = at_id_set_by_txt(txt)
@@ -57,7 +66,7 @@ def buzz_at_new(from_id, txt, po_id, reply_id=0):
         buzz_at = BuzzAt(from_id=from_id, to_id=to_id, reply_id=reply_id, po_id=po_id, state=BUZZ_AT_SHOW)
         buzz_at.save()
         mc_flush(to_id)
-        mc_buzz_at_by_user_id_for_show.delete(to_id)
+        mc_po_list_by_buzz_at_user_id.delete(to_id)
 
     return at_id_set
 
@@ -76,7 +85,6 @@ def buzz_at_reply_rm(reply_id):
 
 BUZZ_AT_COL = 'id,from_id,po_id,reply_id'
 
-mc_buzz_at_by_user_id_for_show = McCache('BuzzAtByUserIdForShow:%s')
 
 def buzz_at_dump_for_show(li):
     po_id_list = []
@@ -92,65 +100,82 @@ def buzz_at_dump_for_show(li):
     result = []
     return result
 
-mc_buzz_at_by_user_id_for_show = McCacheM('BuzzAtByUserIdForShow+%s')
-
-@mc_buzz_at_by_user_id_for_show('{user_id}')
-def buzz_at_by_user_id_for_show(user_id):
-    #if mc_buzz_at_by_user_id_for_show.get(user_id) == 0:
-    #    return ()
-    #begin_id = buzz_at_pos.get(user_id)
-    from model.zsite import Zsite
-    begin_id = 0
-    result = tuple(reversed( BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).where('id>%s', begin_id).order_by('id').col_list(10, 0, 'id, from_id')))
-    count = buzz_at_user_count(user_id)
-    if result:
-        result = unique(tuple(i[1] for i in result))[:3]
-        count = buzz_at_count(user_id) - len(result)
-        from model.zsite import Zsite
-        result = Zsite.mc_get_list(result)
-        return max(count, 0), tuple(i.name for i in result)
-
-buzz_at_user_count = McNum(
-    lambda user_id: BuzzAt.raw_sql(
-        'select count(DISTINCT from_id) from buzz_at where to_id=%s and state=%s', user_id, BUZZ_AT_SHOW
-    ).fetchone()[0] ,
-    'BuzzAtUserCount+%s'
-)
 
 buzz_at_count = McNum(lambda user_id: BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).count(), 'BuzzAtCount+%s')
 
 def mc_flush(user_id):
-    buzz_at_user_count.delete(user_id)
     buzz_at_count.delete(user_id)
-    mc_buzz_at_by_user_id_for_show.delete(user_id)
+    mc_po_list_by_buzz_at_user_id.delete(user_id)
 
 def buzz_at_col_list(user_id, limit, offset):
-    return BuzzAt.where(to_id=user_id, state=BUZZ_AT_SHOW).order_by('id desc').col_list(limit, offset, BUZZ_AT_COL)
+    return BuzzAt.where(
+        to_id=user_id
+    ).where('state>=%s', BUZZ_AT_HIDE).order_by('id desc').col_list(
+        limit, offset, BUZZ_AT_COL
+    )
 
 def buzz_at_list(user_id, limit, offset):
     po_id_list = []
     reply_id_list = []
     user_id_list = []
     id_list = []
-    for id,from_id,po_id,reply_id in buzz_at_col_list(user_id, limit, offset):
+    for id, from_id, po_id, reply_id in buzz_at_col_list(user_id, limit, offset):
         id_list.append(id)
         po_id_list.append(po_id)
-        reply_id_list.append(reply_id) 
+        reply_id_list.append(reply_id)
         user_id_list.append(from_id)
-   
+
     from model.zsite import Zsite
     from model.po import Po
     from model.reply import Reply
-    return tuple(zip(        
-        id_list, 
+    return tuple(zip(
+        id_list,
         Zsite.mc_get_list(user_id_list),
         Po.mc_get_list(po_id_list),
         Reply.mc_get_list(reply_id_list),
     ))
 
+@mc_po_list_by_buzz_at_user_id('{user_id}')
+def po_list_by_buzz_at_user_id(user_id):
+    from model.po import Po
 
-        
+    result = BuzzAt.where(
+        to_id=user_id, state=BUZZ_AT_SHOW
+    ).order_by('id desc').col_list(
+        32, 0, 'id, from_id, po_id, reply_id'
+    )
+    id_list = []
+    id2user = defaultdict(list)
+    for id, from_id, po_id, reply_id in result:
+        po_id_in = po_id in id2user
+        if po_id_in or len(id_list)<7:
+            if not po_id_in:
+                id_list.append(po_id) 
+            id2user[po_id].append(from_id)
+         
+    po_list = Po.mc_get_list(id_list)
+
+    return buzz_po_bind_user(po_list, [
+        id2user[i.id] for i in po_list
+    ])
 
 if __name__ == '__main__':
     pass
-    print buzz_at_list(10000000, 10, 0)
+
+    print po_list_by_buzz_at_user_id(10000000)
+    class BuzzAtPos(Model):
+        pass
+
+    from model.zsite import Zsite, CID_USER
+    from zweb.orm import ormiter
+    for i in ormiter(BuzzAtPos):
+        user_id = i.id
+        value = i.value
+        if user_id:
+            print user_id
+            for j in BuzzAt.where(state=BUZZ_AT_SHOW).where('id<=%s'%value).where(to_id=user_id):
+                j.state = BUZZ_AT_HIDE
+                j.save()
+
+
+

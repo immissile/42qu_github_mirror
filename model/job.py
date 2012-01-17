@@ -223,22 +223,34 @@ def mc_flush(com_id):
         mc_com_job_id_list_by_com_id_state.delete('%s_%s'%(com_id, state))
 
 if __name__ == '__main__':
-    #job_type_set(25, [2,3225])
-    com0, com1, com2, com3 = set(), set(), set(), set()
-    for i in ComJob.where():
-        com0.add(i.com_id)
     from zsite import Zsite
     from zsite_com import ZsiteCom
     from cid import CID_COM
     from zsite_show import zsite_show_list
     from zsite_member import zsite_member_admin_list
     from user_mail import mail_by_user_id
+    #job_type_set(25, [2,3225])
+    com0, com1, com2, com3 = set(), set(), set(), set()
+    for i in ComJob.where():
+        com0.add(i.com_id)
     com3 = set([i.id for i in zsite_show_list(CID_COM)])
-    print com3
+    #print com3
     for i in Zsite.where(cid=CID_COM):
         com1.add(i.id)
     for i in ZsiteCom.where('video_id != %s', 0):
         com2.add(i.id)
-    print len(com0-com2-com3)
-    print';'.join( [mail_by_user_id(zsite_member_admin_list(i)[0].id) for i in com0-com2-com3])
-    print len(com0), len(com1), len(com2), len(com3), len(com0-com2-com3)
+    for i in com1-com3:
+        c =  ZsiteCom.mc_get(i) 
+        z = Zsite.mc_get(i)
+        print '---------'
+        print '公司名:',z.name,
+        print 'http:%s'%z.link
+        print '公司愿望:',c.hope
+        print '公司钱:',c.money,
+        print '公司文化:',c.culture,
+        print '公司团队:',c.team,
+        print '公司视频:',c.video_id,
+        print '公司电话:',c.phone
+    #print len(com0-com2-com3)
+    #print';'.join( [mail_by_user_id(zsite_member_admin_list(i)[0].id) for i in com0-com2-com3])
+    #print len(com0), len(com1), len(com2), len(com3), len(com0-com2-com3)

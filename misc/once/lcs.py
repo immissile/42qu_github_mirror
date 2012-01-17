@@ -2,7 +2,7 @@
 # find an LCS (Longest Common Subsequence). 
 # *public domain* 
 
-def   LSS(x, y):
+def LSS(x, y):
     if (len(x) == 0 or len(y) == 0):
         return 0
     else:

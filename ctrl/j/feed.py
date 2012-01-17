@@ -19,7 +19,6 @@ from model.po_video import CID_VIDEO, video_htm_autoplay
 from model.event import Event
 from zkit.time_format import friendly_time
 from model.fav import fav_add, fav_rm
-from model.sync import mq_sync_recommend_by_zsite_id,sync_recommend
 from cgi import escape
 from ctrl.j.po import post_reply
 from model.zsite import zsite_name_id_dict
@@ -170,7 +169,8 @@ class FdTxt(Base):
             if cid == CID_EVENT:
                 result = [result]
                 event = Event.mc_get(id)
-                result.append('<p>联系电话 : %s</p>'%escape(event.phone))
+                if event.phone:
+                    result.append('<p>联系电话 : %s</p>'%escape(event.phone))
                 if event.transport:
                     result.append(
                         '<p>交通方式 : %s</p>'%escape(event.transport)

@@ -9,10 +9,11 @@ from model.kv_misc import kv_int_call, KV_EVENT_STATE
 
 
 def event_begin(begin, end):
-    for i in ormiter(Event, 'state=%s and begin_time>%s and begin_time<=%s' % (EVENT_STATE_BEGIN, begin, end)):
+    for i in ormiter(Event, 'state=%s and begin_time>%s' % (EVENT_STATE_BEGIN, begin)):
         event_begin2now(i)
 
 def _event_end(end):
+    end = end + 8*60
     for i in ormiter(Event, 'state=%s and end_time<=%s' % (EVENT_STATE_NOW, end)):
         event_end(i)
 
@@ -29,6 +30,13 @@ def main():
 if __name__ == '__main__':
     main()
 
+#    end = time()  // 60  + 10*60
+#    print end
+#    for i in ormiter(Event, 'state=%s ' % (EVENT_STATE_NOW)):
+#        print i.end_time , i.id
+#
+    #e = Event.mc_get(10206300)
+    #print e.state
 #    from model.po import Po
 #    end = (time() - timezone) // 60 + 1
 #    

@@ -48,7 +48,7 @@ class School(LoginBase):
         if school_id:
             if is_my:
                 user_school_new(
-                    self.current_user_id, 
+                    self.current_user, 
                     school_id, school_year, school_degree,
                     school_department
                 ) 

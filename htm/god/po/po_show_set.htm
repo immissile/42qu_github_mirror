@@ -71,9 +71,9 @@ site = Zsite.get(po.zsite_id)
 <%
 zsite_list = zsite_show_list(CID_SITE)
 %>
-% for site in zsite_list:
-                <span class="single"><input type="radio" id="rd${site.id}" name="site" value="${site.id}"><label class="rdl" for="rd${site.id}">${site.name}</label></span>
-%endfor
+##% for site in zsite_list:
+##                <span class="single"><input type="radio" id="rd${site.id}" name="site" value="${site.id}"><label class="rdl" for="rd${site.id}">${site.name}</label></span>
+##%endfor
             </div>
         </div>
     </div>

@@ -30,18 +30,18 @@ ${css.ctrl_zsite_site|n}
 ##%if reply_last:
 ##        <div id="reply_last">
 ##        <%
-##        can_rm = reply_last.can_rm(current_user_id)
+##        can_admin = reply_last.can_admin(current_user_id)
 ##        id = reply_last.id
 ##        user = reply_last.user
 ##        %>\
 ##        <div id="reply${id}" class="sdw"><div class="sd c"> 
 ##        <div>\
-##        ${reply_render_body(reply_last, can_rm)}\
+##        ${reply_render_body(reply_last, can_admin)}\
 ##        <div class="bar">
 ##        <span class="L">
 ##        ${friendly_time(reply_last.create_time)} 
 ##        </span>
-##        %if can_rm:
+##        %if can_admin:
 ##        <a href="/mark/${id}">编辑</a>
 ##        %endif
 ##        </div>\

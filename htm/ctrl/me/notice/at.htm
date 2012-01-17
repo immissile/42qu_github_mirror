@@ -1,0 +1,23 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/zsite/_util/notice.htm" import="reply_render"/>
+
+<%def name="htm_title()">${zsite.name} - 提到我</%def>
+<%def name="htm_head()">
+${css.ctrl_wall_page|n}
+<script src="${js.ctrl_notice|n}"></script>
+</%def>
+
+<a href="/" class="back_a"></a>
+<div class="po_tag">
+    <div id="wall" style="margin:auto;padding:32px 0 64px">
+
+        <div id="reply_list">
+            %for i in reply_list:
+            ${reply_render(i)}
+            %endfor
+        </div>
+
+        ${page|n}
+
+    </div>
+</div>

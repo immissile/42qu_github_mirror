@@ -79,6 +79,11 @@ def site_ico_new(user_id, pic, site_id=None):
 
     return pic_id
 
+def user_ico_new(user, pic):
+    from zsite_verify import zsite_verify_ajust
+    ico_new(user.id, pic)
+    zsite_verify_ajust(user)
+
 def ico_new(id, pic):
     pic_id = pic_new_save(CID_ICO, id, pic)
     ico_save(pic_id, pic)
@@ -120,14 +125,17 @@ def ico_url_with_default(id):
     url = ico_url(id)
     return url or ICO96_DEFAULT
 
-def ico_url_bind_with_default(zsite_list):
+def ico_url_bind_with_default(zsite_list, func=ico_url_with_default):
     key = 'ico'
     for i in zsite_list:
         setattr(
             i,
             key,
-            ico_url_with_default(i.id)
+            func(i.id)
         )
+
+def ico_url_bind(zsite_list):
+    return ico_url_bind_with_default(zsite_list, ico_url)
 
 def pic_url_bind(zsite_list, size):
     key = 'pic%s' % size

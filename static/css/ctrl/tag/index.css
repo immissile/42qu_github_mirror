@@ -1,0 +1,265 @@
+.site_name{
+    background:#fff;
+    padding-right:6px;
+}
+.site_title{
+    overflow:auto;
+    margin-top:12px;
+}
+.site_left{
+    float:left;
+}
+.site_img{
+    margin-top:2px;
+    clear:both;
+}
+.site_info{
+    float:left;
+    overflow:hidden;
+    width:186px;
+    margin-left:10px;
+    margin-top:0;
+    line-height:20px;
+}
+.site_avatar{
+    width:54px;
+    margin-top:3px;
+    height:54px;
+}
+.site_info_no_img{
+    margin-left:68px
+}
+.site_bio{
+    color:#999;
+    margin-top:4px;
+    height:40px;
+    padding-top:11px;
+    margin-top:-11px;
+    border-top:1px dotted #ccc;
+}
+.site_txt_a{
+    height:32px;
+    overflow:hidden;
+    display:block;
+}
+.sitefav1 , .sitefav0, .sitefavtrue{
+    display:inline-block;
+    width:20px;
+    height:16px;
+    margin-top:2px;
+    cursor:pointer;
+    background:url(/img/png/star.png) #fff no-repeat 0 -16px;
+    float:right;
+    _margin-top:-17px;
+}
+.sitefav0:hover{
+    background-position:0 0;
+}
+.sitefav1
+{
+    background-position:0 -32px;
+}
+.sitefav1:hover{
+    background-position:0 -48px;
+}
+.sitefavtrue{
+    background-position: 2px -77px;
+}
+.sitefavtrue:hover{
+    background-position: 2px -63px;
+}
+.site_txt{
+    overflow:hidden;
+    float:left;
+    width:260px;
+    margin-left:12px;
+}
+.site_li{
+    padding-bottom:18px;
+}
+.site_rec{
+    margin-top:16px;
+    margin-bottom:18px;
+}
+.com_wrap{
+float:left;
+width:722px;
+}
+.com_main{
+width:666px;
+padding-bottom:14px;
+}
+.com_side{
+width:250px;
+font-family:'Trebuchet MS',Helvetica,sans-serif;
+}
+.H .site{
+margin-left:-32px
+}
+.b1024 .H .site{
+margin-left:-3px;
+}
+h1{
+padding-left:30px;
+font-size:16px;
+font-weight:bold;
+padding-bottom:27px;
+text-align:left;
+}
+.tagtxt{
+    display:inline;
+    font-weight:normal;
+    margin:0 0 0 14px;
+    font-size:12px;
+    color:#666;
+}
+#search{
+font-size:13px;
+width:206px;
+padding-left:8px;
+}
+.search{
+margin-top:27px;
+}
+#tagbar{
+margin-top:27px;
+margin-left:-7px;
+}
+#tagbar .xa{
+margin-left:7px;
+padding:7px 14px;
+}
+#tagbar .xatxt .xa{
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FCFCFF',endColorstr='#f6f6ff');
+background:-webkit-gradient(linear,0 0,0 100%,from(#FCFCFF),to(#f6f6ff));
+background:-moz-linear-gradient(top,#FCFCFF,#f6f6ff);
+}
+.xa{
+border:1px solid #e0e0e0;
+box-shadow:0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
+}
+.xatagset span{  
+background:url(/img/gif/tagset.gif) no-repeat 50% 50%;
+vertical-align:-4px;
+display:inline-block;
+width:39px;
+height:18px;
+}
+#tagbar .xatagset{
+padding:7px; 8px 0 0;
+}
+.main_nav{
+color:#ccc;
+padding:7px 0;
+border-bottom: 1px dotted #ccc;
+}
+.main_nav a{
+    color:#999;
+}
+#feeds .main_nav .split{
+margin:0 14px;
+}
+.main_nav2{
+margin-left:-12px;
+}
+.main_nav a:hover{
+    color:#333;
+}
+.main_nav .now{
+    color:#666;
+}
+.main_nav{
+    padding: 7px 2px;
+}
+.com_main .page{
+border-top:1px dotted #ccc;
+padding-top:14px;
+margin-top:7px;
+margin-bottom:5px;
+}
+.com_main .page a{
+color:#999
+}
+.com_main .page .now{
+background:#eee;
+color:#999;
+}
+.com_main .page a:hover{
+color:#333;
+}
+.main_back{
+float:left;
+width:20px;
+height:20px;
+background:url(https://mail.google.com/mail/u/0/pimages/2/toolbar/back.png) no-repeat 50% 50%;
+margin-top:4px;
+margin-left:-2px;
+}
+.readx{
+display:inline-block;
+background:url(/img/gif/xx.gif) no-repeat -45px 6px;
+margin-right:-6px;
+padding:0 6px 6px;
+vertical-align:-6px;
+width:9px;
+height:15px;
+}
+.readx:hover{
+background-position:-16px 6px;
+}
+
+#feed_loading{
+padding:234px 0 220px;
+margin:0;
+}
+#main_nav_title{
+float:left;
+color:#000;
+}
+#main_nav_txt{
+width:666px;
+background:#fff;
+position:absolute;
+_position:static;
+padding:14px 0;
+text-align:right;
+border-bottom: 1px solid #f3f3f3;
+box-shadow:0 2px 2px #f3f3f3;
+}
+.prebody{
+padding-top:70px;
+margin-top:0;
+}
+.readl .fav, .readl .faved, .readl .faving{
+float:left;
+margin:7px 3px 0 0;
+}
+.readl a{
+color:#999;
+}
+.reado{
+float:left;
+height:28px;
+overflow:hidden;
+width::500px
+}
+.reado, .reado span, .reado div{
+cursor:pointer;
+}
+.readl{
+border-top: 1px solid #eee;
+margin-top: 0;
+text-align:right; 
+padding: 5px 2px; 
+}
+.readl .zname, .readl .rtip{
+font-size:13px;
+}
+.readl .rtip{
+vertical-align:-1px;
+margin-left:7px;
+color:#999;
+}
+
+
+

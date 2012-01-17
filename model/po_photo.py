@@ -22,8 +22,8 @@ def photo_new(user_id, photo):
 def po_photo_save(photo_id, photo):
     p1 = pic_fit_width_cut_height_if_large(photo, 721)
     fs_set_jpg('721', photo_id, p1)
-    p1 = pic_fit_width_cut_height_if_large(photo, 677)
-    fs_set_jpg('677', photo_id, p1)
+    #p1 = pic_fit_width_cut_height_if_large(photo, 677)
+    #fs_set_jpg('677', photo_id, p1)
 
 
 def po_photo_new(user_id, name, txt, img, state=STATE_ACTIVE, zsite_id=0):

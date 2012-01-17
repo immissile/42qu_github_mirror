@@ -27,8 +27,6 @@ def url_or_id(id):
 
 @mc_id_by_url('{url}')
 def _id_by_url(url):
-    if url.isdigit():
-        return int(url)
     u = Url.get(url=url)
     if u is None:
         return 0
@@ -36,6 +34,8 @@ def _id_by_url(url):
 
 def id_by_url(url):
     url = url.lower()
+    if url.isdigit():
+        return int(url)
     return _id_by_url(url)
 
 def url_new(id, url):

@@ -69,10 +69,6 @@ class ReplyMixin(object):
         cursor.connection.commit()
         mc_flush_reply_id_list(cid, rid)
 
-        if cid in CID_PO:
-            from po_pos import po_pos_state, STATE_BUZZ
-            po_pos_state(user_id, rid, STATE_BUZZ)
-            mq_buzz_po_reply_new(user_id, id, rid, self.user_id)
 #            key = '%s_%s' % (rid, user_id)
 #            if mc_reply_in_1h.get(key) is None:
 #                mq_buzz_po_reply_new(user_id, rid)
@@ -177,8 +173,9 @@ class Reply(McModel):
         user_id = self.user_id
         mc_lastest_hash.delete(user_id)
 
-    def can_rm(self, user_id):
-        return self.user_id == user_id
+    def can_admin(self, user_id):
+        if user_id:
+            return self.user_id == user_id
 
 
 def mc_flush_reply_id_list(cid, rid):
@@ -191,4 +188,16 @@ def mc_flush_reply_id_list(cid, rid):
 
 
 if __name__ == '__main__':
+    r = Reply.raw_sql('select *,count(rid) from reply where cid = 61 group by rid order by count(rid) desc limit 16').fetchall()
+    from po import Po
+    p_l,c_l = [],[]
+    for i in r:
+        p_l.append(i[1])
+        c_l.append(i[-1])
+    p = Po.mc_get_list(p_l)
+    p = filter(lambda x:x,p)
+    p = map(lambda x:(x.name,'http:%s'%x.link),p)
+    res = zip(p,c_l[1:])
+    for n,((i,j),k) in enumerate(res):
+        print '第%s名：'%(n+1),i,'[[%s]]'%j,'\n','回复数:',k,'\n\n'
     pass

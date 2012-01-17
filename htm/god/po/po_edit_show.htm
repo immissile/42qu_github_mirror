@@ -1,0 +1,114 @@
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%!
+from model.zsite_show import zsite_show_list
+from model.cid import CID_SITE
+from model.po_show import po_is_show
+from model.zsite import Zsite
+from model.god_po_show import po_show_zsite_channel
+from model.site_sync import site_sync_get
+%>
+<style>
+.edit{
+text-align:left;
+width:900px;
+margin:30px auto;
+}
+.txt_name{
+width:500px;
+height:40px;
+font-size:16px;
+padding:6px;
+padding:4px;
+margin:10px auto;
+border:1px dotted #ccc;
+}
+.txt_cont{
+width:700px;
+height:480px;
+margin:auto;
+font-size:16px;
+line-height:30px;
+border:1px dotted #ccc;
+}
+.cont{
+margin:15px 0 30px 15px;
+text-align:left;
+border:0px solid red;
+}
+.title{
+font-size:14px;
+color:#999;
+margin-bottom:20px;
+}
+.btnw{
+    float:right;
+    margin-right:450px;
+}
+.check{
+margin-left:18px;
+vertical-align:10px;
+font-size:16px;
+color:#333;
+}
+.selects{
+padding-top:15px;
+}
+.single{
+font-size:14px;
+color:#333;
+margin-right:20px;
+float:left;
+width:180px;
+padding:5px;
+}
+#broad,#sync{
+margin-right:6px;
+}
+.rdl{
+margin-left:6px;
+}
+
+</style>
+<%htm:form>
+    <div class="cont">
+        <div class="title"><a href="${po.link}" target="_blank">${po.name}</a></div>
+        <div>
+            <span class="check"><input type="checkbox" name="broad" checked value="1" id="broad"><label for="broad">广播</label></span>
+            <span class="check"><input type="checkbox" name="format" checked value="1" id="format"><label for="format">排版</label></span>
+            <span class="check"><input type="checkbox" name="sync" value="1" id="sync"><label for="sync">同步</label></span>
+% if po_is_show(po):
+            <span class="check"><a href="/po/show/rm/${po.id}">删除广播</a></span>
+%endif
+% if site_sync_get(po.id):
+            <span class="check"><a href="/po/sync/rm/${po.id}">删除同步</a></span>
+%endif
+            <span class="btnw"><button type="submit">确定</button></span>
+        </div>
+% if po.zsite_id:
+<%
+site = Zsite.get(po.zsite_id)
+%>
+%if site:
+<div class="mt27">小组 : <a style="color:red;font-weight:bold" href="${site.link}" target="_blank">${site.name}</a></div> 
+%endif
+%endif
+        <div class="selects">
+            <div class="line">
+##<%
+##zsite_list = zsite_show_list(CID_SITE)
+##%>
+##% for site in zsite_list:
+##                <span class="single"><input type="radio" id="rd${site.id}" name="site" value="${site.id}"><label class="rdl" for="rd${site.id}">${site.name}</label></span>
+##%endfor
+            </div>
+        </div>
+    </div>
+<div class="edit">
+    <div><input class="txt_name"  type="txt" name="name" value="${po.name}"></div>
+    %if po.cid != CID_WORD:
+    <div><textarea name="txt" class="txt_cont">${po.txt}</textarea></div>
+    %endif
+</div>
+<input type="hidden" name="next" value="${next}">
+</%htm:form>

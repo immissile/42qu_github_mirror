@@ -1,28 +1,38 @@
-rm = _rm("#reply","/po/reply/rm/")
-$(function(){$(".G,.G4").css('position','static')})
-$("#txt_form").elastic_login()
-$(".reply_at").live("click", function(){
-    var txt=$("#reply_txt").focus(),
-        val=txt.val(),
-        name=$(this.parentNode).find(".replyer").text(),
-        add;
-    add =  "@"+name+'('+this.rel+') '
-    if(val.length){
-        if($.trim(val)==val){
-            val+=" "
-        }
-        val+=add;
-    }else val=add;
+rm = _rm("#reply","/po/rm/reply/")
+$(function(){
+    $(".G,.G4").css('position','static')
 
-    txt.val(val)
+    $("#reply_txt").ctrl_enter( function(){$("#txt_form").submit()});
+})
+$("#txt_form").elastic_login().submit(function(){
+        var textarea=$(this).find('textarea'),
+            v=textarea.val(),
+            fancybox=$.fancybox;
+        if(!v.length)return;
+        textarea.val('')
 
+        fancybox.showActivity();
+ 
+        post_reply(PO_ID, v,function(data){
+            textarea.focus();
+            fancybox.hideActivity();
+
+            var reply_list =  $("#reply_list").show();
+            reply_list.find(".fcmi:last").css('borderBottom','1px dotted #ccc')
+            reply_list.append(render_reply(data)).find(".fcmi:last").css(
+                'border','0'
+            )
+        })
+    return false
 })
 $(function(){
-    if(islogin()){
+    if(islogin()&&$('#txt_form')[0]){
         $("#reply_txt").pop_at("/j/at/reply/"+$('#txt_form').attr('action').split('/')[3],27)
         $("#reply_txt").elastic()
     }
 })
+
+
 if(!IE6){
     $(function(){
         var st = $('#sT');
@@ -80,7 +90,17 @@ $(function(){
     }
     $(input_ban)
     $(document).ajaxComplete(input_ban)
+    
+    $.postJSON(
+        "/j/po/reply/json/"+PO_ID, 
+        function(data){
+var reply_list =  $("#reply_list");
+if(data.length){
+    reply_list.append(render_reply(data)).find(".fcmi:last").css('border','0')
+}else{
+    reply_list.hide()
+}
+        }
+    )
 
 })();
-
-

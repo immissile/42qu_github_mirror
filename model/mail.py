@@ -77,10 +77,10 @@ def sendmail(
     server.esmtp_features['auth'] = 'LOGIN PLAIN'
     server.login(SMTP_USERNAME, SMTP_PASSWORD)
 
+    #print email
     text = str(text)
     subject = str(subject)
     sendmail_imp(server, sender, sender_name, email, name, subject, text, format=format)
-
     if email != NOEMAIL:
         subject = '%s %s %s'%(name, subject, email)
         sendmail_imp(server, sender, sender_name, 'kanrss_backup@googlegroups.com', name, subject, text, format=format)
@@ -125,4 +125,5 @@ from mq import mq_client
 mq_rendermail = mq_client(rendermail)
 
 if '__main__' == __name__:
-    sendmail('122', '2345', 'zsp007@gmail.com')
+    #sendmail('122', '2345', 'zsp007@gmail.com')
+    print SENDER_MAIL

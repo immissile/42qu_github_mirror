@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 from time import time
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
-from buzz_at import buzz_at_new, buzz_at_reply_rm
+from buzz_at import buzz_at_new, buzz_at_reply_rm, BuzzAt, BUZZ_AT_SHOW
 from txt import txt_get
-
 from mq import mq_client
 #def mq_client(f):
 #    return f
@@ -49,6 +48,9 @@ def buzz_po_reply_new(from_id, reply_id, po_id, po_user_id):
     if buzz_to:
         now = int(time())
         for user_id in buzz_to:
+            if BuzzAt.get(po_id=po_id, to_id=user_id, state=BUZZ_AT_SHOW ):
+                continue
+
             buzz_reply = BuzzReply.get_or_create(po_id=po_id, user_id=user_id)
             buzz_reply.update_time = now
             buzz_reply.state = BUZZ_REPLY_STATE_SHOW
@@ -62,8 +64,11 @@ def buzz_po_reply_rm(po_id, reply_id):
     from po_pos import PoPos, STATE_BUZZ
     from model.po import Po
     po = Po.mc_get(po_id)
-    if po and reply_id >= po.reply_id_last:
-        for user_id in PoPos.where(po_id=po_id, state=STATE_BUZZ).where('po_pos>%s', reply_id).col_list(col='user_id'):
+    if not po:
+        return
+    reply_id_last = po.reply_id_last
+    if po and reply_id >= reply_id_last:
+        for user_id in PoPos.where(po_id=po_id, state=STATE_BUZZ).where('pos>=%s', reply_id_last).col_list(col='user_id'):
             BuzzReply.where(po_id=po_id, user_id=user_id, state=BUZZ_REPLY_STATE_SHOW).update(state=BUZZ_REPLY_STATE_HIDE)
             mc_flush(user_id)
     buzz_at_reply_rm(reply_id)
@@ -96,6 +101,7 @@ def buzz_reply_hide_or_rm(po_id, user_id):
             buzz.save()
             from model.po_pos import po_pos_state_mute
             po_pos_state_mute(buzz.user_id, buzz.po_id)
+            mc_flush(user_id)
 
 def buzz_reply_hide(user_id, po_id):
     buzz_reply = BuzzReply.get(
@@ -104,7 +110,7 @@ def buzz_reply_hide(user_id, po_id):
     if buzz_reply:
         buzz_reply.state = BUZZ_REPLY_STATE_HIDE
         buzz_reply.save()
-        if buzz_reply.id in po_id_list_by_buzz_reply_user_id(user_id):
+        if buzz_reply.po_id in po_id_list_by_buzz_reply_user_id(user_id):
             mc_flush(user_id)
 
 def buzz_reply_hide_or_rm_by_user_id(user_id):
@@ -116,21 +122,21 @@ def mc_flush(user_id):
     mc_po_id_list_by_buzz_reply_user_id.delete(user_id)
     mc_po_list_by_buzz_reply_user_id.delete(user_id)
 
-mc_po_list_by_buzz_reply_user_id = McCacheM('PoListByBuzzReplyUserId:%s')
+mc_po_list_by_buzz_reply_user_id = McCacheM('PoListByBuzzReplyUserId-%s')
 
 @mc_po_list_by_buzz_reply_user_id('{user_id}')
 def po_list_by_buzz_reply_user_id(user_id):
     from model.po import Po
-    from model.po_pos import po_pos_get
+    from model.po_pos import po_pos_get_last_reply_id
     from model.reply import Reply
-    from model.zsite import Zsite
+    from model.buzz_po_bind_user import buzz_po_bind_user
 
-    show_limt = 3
     id_list = po_id_list_by_buzz_reply_user_id(user_id)
     po_list = Po.mc_get_list(id_list)
 
+    po_user_id = []
     for i in po_list:
-        pos = po_pos_get(user_id, i.id)[0]
+        pos = po_pos_get_last_reply_id(user_id, i.id)
         new_reply_id_list = []
         for reply_id in i.reply_id_list():
             if reply_id > pos:
@@ -139,25 +145,23 @@ def po_list_by_buzz_reply_user_id(user_id):
         user_id_list = []
         for reply in Reply.mc_get_list(reversed(new_reply_id_list)):
             user_id_list.append(reply.user_id)
+        po_user_id.append(user_id_list)
 
-        new_reply_show = []
-        for uid in user_id_list:
-            if uid not in new_reply_show and user_id != uid:
-                new_reply_show.append(uid)
-                if len(new_reply_show) == show_limt:
-                    break
+    return buzz_po_bind_user(po_list, po_user_id, user_id)
 
-        i.new_reply_show = [(z.id, z.name) for z in Zsite.mc_get_list(new_reply_show)]
-        i.new_reply_count = max((len(set(user_id_list)) - show_limt, 0))
-
-    result = []
-    for po in po_list:
-        t = (po.id, po.name, po.new_reply_count, po.new_reply_show)
-        result.append(t)
-    return result
 
 if __name__ == '__main__':
     pass
-    user_id = 10000000
-    for i in po_list_by_buzz_reply_user_id(user_id):
-        print i
+    user_id = 10031395
+    from zweb.orm import ormiter
+    from model.po import Po
+    from model.po_pos import PoPos
+    from po_pos import PoPos, STATE_BUZZ
+    for po in ormiter(Po):
+        po_id = po.id
+        print po.id
+        reply_id_last = po.reply_id_last
+        for user_id in PoPos.where(po_id=po_id, state=STATE_BUZZ).where('pos>=%s', reply_id_last).col_list(col='user_id'):
+            BuzzReply.where(po_id=po_id, user_id=user_id, state=BUZZ_REPLY_STATE_SHOW).update(state=BUZZ_REPLY_STATE_HIDE)
+            mc_flush(user_id)
+

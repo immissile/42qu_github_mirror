@@ -74,17 +74,17 @@ class PoReply(_handler.OauthAccessBase):
             })
 
 
-@urlmap('/po/reply/rm')
+@urlmap('/po/rm/reply')
 class PoReplyRm(_handler.OauthAccessBase):
     def get(self):
         id = int(self.get_argument('id'))
         user_id = self.current_user_id
         r = reply.Reply.mc_get(id)
-        can_rm = None
+        can_admin = None
         if r:
             po = Po.mc_get(r.rid)
             if po:
-                can_rm = r.can_rm(user_id) or po.can_admin(user_id)
-                if can_rm:
+                can_admin = r.can_admin(user_id) or po.can_admin(user_id)
+                if can_admin:
                     r.rm()
-        self.finish({'status': can_rm})
+        self.finish({'status': can_admin})

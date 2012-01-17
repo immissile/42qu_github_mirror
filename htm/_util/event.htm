@@ -73,7 +73,9 @@ row1, row2, diff_day = begin_end_by_minute(
 
 <%def name="event_content(event, po)">
 ${po.htm|n}\
+%if event.phone:
 <p class="mt28">联系电话 : ${event.phone}</p>\
+%endif
 %if event.transport:
 <p>交通方式 : ${event.transport}</p>\
 %endif

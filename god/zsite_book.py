@@ -5,7 +5,7 @@ from _urlmap import urlmap
 from tornado import httpclient
 import tornado.web
 import logging
-from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite, zsite_book_lib_new, zsite_book_lib, ZsiteBookLib, zsite_book_lib_browse, zsite_book_lib_return
+from model.zsite_book import zsite_book_new, zsite_book_id_by_isbn, ZsiteBook, Zsite, zsite_book_lib_new, zsite_book_lib, ZsiteBookLib, zsite_book_lib_browse, zsite_book_lib_return, ZSITE_BOOK_LIB_STATE_EXIST, zsite_book_lib_rm
 from model.user_mail import user_id_by_mail
 from model.user_new import user_new
 from model.zsite import Zsite
@@ -37,6 +37,12 @@ class BookLib(Base):
                 zsite_book_lib_return(id, self.current_user_id)
         return self.get(id)       
 
+@urlmap('/book/lib/rm/(\d+)')
+class BookLibRm(Base):
+    def get(self, id):
+        booklib = zsite_book_lib_rm(id)
+        book = ZsiteBook.mc_get(booklib.book_id)
+        return self.redirect("/book/new/%s"%booklib.book_id) 
  
 @urlmap('/book/lib/browse/(\d+)/(\d+)')
 class BookLibBrowse(Base):
@@ -80,7 +86,7 @@ class BookLibBrowse(Base):
 @urlmap('/book-(\d+)')
 class ZsiteBookPage(Base):
     def get(self, n):
-        self.render(page_list=zsite_book_lib()) 
+        self.render(page_list=zsite_book_lib(None,None,ZSITE_BOOK_LIB_STATE_EXIST )) 
 
 @urlmap('/book')
 class Index(Base):
@@ -97,10 +103,6 @@ class BookIsbn(Base):
         self.finish(result)
 
 
-@urlmap("/book/(\d+)")
-class Book(Base):
-    def get(self, id):
-        self.render() 
 
 @urlmap("/book/new/(\d+)")
 class BookNew(Base):

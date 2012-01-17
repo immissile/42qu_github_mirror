@@ -113,21 +113,21 @@ class Txt(ZsiteBase):
         self.redirect('/wall/%s' % id)
 
 
-@urlmap('/wall/reply/rm/(\d+)')
+@urlmap('/wall/rm/reply/(\d+)')
 class ReplyRm(ZsiteBase):
     def post(self, id):
         current_user_id = self.current_user_id
         r = Reply.mc_get(id)
-        can_rm = r.can_rm(current_user_id)
+        can_admin = r.can_admin(current_user_id)
 
         wall = Wall.mc_get(r.rid)
         if r:
             zsite_id_list = wall.zsite_id_list()
             if wall:
-                if can_rm is False and (current_user_id in zsite_id_list):
-                    can_rm = True
+                if can_admin is False and (current_user_id in zsite_id_list):
+                    can_admin = True
 
-        if can_rm:
+        if can_admin:
             wall.reply_rm(r)
-        self.finish({'success':can_rm})
+        self.finish({'success':can_admin})
 

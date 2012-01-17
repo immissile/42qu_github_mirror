@@ -3,7 +3,7 @@
 from yajl import dumps
 from ctrl._urlmap.j import urlmap
 from model.zsite_url import zsite_by_domain
-from _handler import JLoginBase
+from _handler import JLoginBase, Base
 from model.fs import fs_url_jpg
 from model.po import Po, CID_WORD, CID_NOTE, po_word_new
 from model.po_pic import pic_can_add, po_pic_new, po_pic_rm
@@ -13,12 +13,15 @@ from model.zsite_tag import zsite_tag_list_by_zsite_id_with_init, tag_id_by_po_i
 from zkit.pic import picopen
 from model.cid import CID_SITE, CID_COM
 from model.zsite_url import url_or_id
-from model.career import career_dict
 import time
-from model.ico import pic_url_with_default
+from model.ico import pic_url_with_default, ico_url_bind_with_default
 from model.feed_render import feed_tuple_by_db
-from model.career import career_current
+from model.career import career_current, career_bind, career_dict
 from model.txt2htm import txt_withlink
+from model.buzz_reply import buzz_reply_hide
+from model.po_pos import po_pos_state_buzz
+from model.reply import Reply
+from model.buzz_at import buzz_at_hide
 
 def post_reply(self, id):
     user = self.current_user
@@ -26,7 +29,7 @@ def post_reply(self, id):
     if not user_can_reply(user):
         self.finish('{"can_not_reply":1}')
     else:
-        result = {}
+        result = []
         txt = self.get_argument('txt', None)
 
         reply_id = None
@@ -35,25 +38,94 @@ def post_reply(self, id):
             po = Po.mc_get(id)
             if po.can_view(user_id):
                 reply_id = po.reply_new(user, txt, po.state)
-
-        self.finish(result)
+                if reply_id:
+                    reply = Reply.mc_get(reply_id)
+                    reply.user = user
+                    result = _reply_list_dump([reply], True, user.id)
+        self.finish(dumps(result))
         return reply_id
 
+def _reply_list_dump(reply_list, can_admin, current_user_id):
+    result = []
+    career_bind(reply_list, "user_id")
+    ico_url_bind_with_default(tuple(i.user for i in reply_list))
+    pre_user_id = None
 
-@urlmap('/j/po/reply/json/(\d+)')
-class PoReplyJson(JLoginBase):
+    for reply in reply_list:
+        user = reply.user
+        career = reply.career
+        career = " , ".join(filter(bool,career))
+        if not career:
+            career = 0
+
+        user_id = user.id
+
+
+        reply_tuple = (
+            reply.htm, 
+            reply.id, 
+            can_admin or reply.can_admin(current_user_id)
+        )
+
+        if user_id == pre_user_id:
+            result[-1][-1].append(reply_tuple)
+        else:
+            result.append(
+                (url_or_id(user_id), user.name , career, user.ico, [reply_tuple])
+            )
+
+        pre_user_id = user_id
+    
+    return result
+
+class PoJsonBase(Base):
     def get(self, id):
         po = Po.mc_get(id)
-        user_id = self.current_user_id
-        result = []
+        cid = po.cid 
+        r = {
+            'cid':cid
+        }
+        if cid == CID_WORD:
+            reply_list = [ po ] 
+        else:
+            reply_list = []
+            r['name'] = po.name
+        r['result'] = _po_reply_result(self, po, id, reply_list)
+        return self.finish(r)
 
-        if po and po.can_view(user_id):
-            for reply in po.reply_list():
-                user = reply.user
-                result.append(
-                    (url_or_id(user.id), reply.htm, user.name)
-                )
+
+@urlmap('/j/po-at/json/(\d+)')
+class PoAtJson(PoJsonBase):
+    _hide = staticmethod(buzz_at_hide)
+
+@urlmap('/j/po-reply/json/(\d+)')
+class PoAtReplyJson(PoJsonBase):
+    _hide = staticmethod(buzz_reply_hide)
+
+def _po_reply_result(self, po, id, reply_list=None):
+    user_id = self.current_user_id
+    if user_id:
+        self._hide(user_id, id)
+        po_pos_state_buzz(user_id, po)
+
+    if po and po.can_view(user_id):
+        if reply_list is None:
+            reply_list = []
+        reply_list.extend(po.reply_list())
+        result = _reply_list_dump( reply_list , po.can_admin(user_id), user_id)
+    else:
+        result = ()
+    return result 
+
+@urlmap('/j/po/reply/json/(\d+)')
+class PoReplyJson(Base):
+    _hide = staticmethod(buzz_reply_hide)
+    def get(self, id):
+        po = Po.mc_get(id)
+        result = _po_reply_result(self, po, id)
         return self.finish(dumps(result))
+
+
 
 
 
@@ -117,7 +189,7 @@ class Word(JLoginBase):
         self.finish(dumps(result))
 
 @urlmap('/j/po/reply/(\d+)')
-class Reply(JLoginBase):
+class JPoReply(JLoginBase):
     post = get = post_reply
 
 @urlmap('/j/po/tag/edit')

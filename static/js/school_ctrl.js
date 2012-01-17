@@ -20,7 +20,11 @@ function school_department(dep_node, uid){
     dep_node.append('<option value="">其它院系</option>')
 }
 
+
 function pop_school(){
+    var school_name_builder = function(name){
+        return name.replace('大学', '大').replace('科学技术', '科').replace('中国', '中').replace('师范', '师').replace('科技', '科').replace('交通', '交').replace('财经', '财').replace('工业', '工').replace('北京', '北').replace('科学', '科').replace('农业', '农')
+    }
     var self=$(this).blur()
     select_id = self.attr('id')
     dep_id = self.attr('id').replace('school_select','dep')
@@ -36,7 +40,7 @@ function pop_school(){
     var txt = $('#univ_txt')
     var univs_node = $('.univs')
     txt.keyup(function(){
-        var key = txt.val()
+        var key = school_name_builder(txt.val())
         if(key==''){
             var cid = $('.coun_now').attr('id').substr(5)
             if($('.prov_now')[0]){
@@ -48,7 +52,7 @@ function pop_school(){
         } else{
             univs_node.find('.univ').each(function(){
                 var self = $(this)
-                if(self.html().indexOf(key)<0){
+                if(school_name_builder(self.html()).indexOf(key)<0){
                     self.parent().hide()
                 }else{
                     self.parent().show()

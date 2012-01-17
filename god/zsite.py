@@ -3,14 +3,14 @@
 import urllib
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite, ZSITE_STATE_WAIT_VERIFY, zsite_verify_yes, zsite_verify_no, zsite_verify_no_without_notify, zsite_name_rm, ZSITE_STATE_ACTIVE, ZSITE_STATE_FAILED_VERIFY
+from model.zsite import Zsite,   zsite_name_rm, ZSITE_STATE_ACTIVE 
 from model.zsite_show import zsite_show_new, zsite_show_rm
 from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_ZSITE_TUPLE, CID_USER
 from zkit.page import page_limit_offset
-
+from model.zsite_verify import ZsiteUserVerifyed, ZSITE_USER_VERIFYED_CHECKED,ZSITE_USER_VERIFYED_UNCHECK
 from model.pic import pic_no
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
@@ -23,9 +23,10 @@ from model.search_zsite import search_new
 from config import SITE_DOMAIN, ADMIN_MAIL
 from urlparse import urlparse
 from model.zsite_url import id_by_url
-from model.zsite import Zsite, zsite_by_query
+from model.zsite import  zsite_by_query
 from model.user_mail import user_id_by_mail
 from model.spammer import spammer_new , spammer_rm
+from model.career import career_rm
 
 @urlmap('/zsite/(\d+)')
 class Index(Base):
@@ -119,56 +120,61 @@ class Mail(Base):
         self.redirect('/zsite/%s' % id)
 
 
-@urlmap('/zsite/verify/new/(0|1)/(\d+)')
-class VerifyNew(Base):
-    def get(self, state, id):
-        state = int(state)
+@urlmap('/zsite/verify/show/new/(\d+)')
+class VerifyShowNew(Base):
+    def get(self, id):
         zsite = Zsite.mc_get(id)
-
-        if zsite:
-            if state:
-                zsite_verify_yes(zsite)
-            else:
-                zsite_verify_no_without_notify(zsite)
-
-        self.redirect('/zsite/%s'%id)
+        zsite_show_new(id, zsite.cid)
+        return self.redirect("/zsite/verify/next/%s"%id)
 
 
-@urlmap('/zsite/verify/(0|1|2)/(\d+)')
-class Verify(Base):
-    def post(self, state, id):
-        state = int(state)
-        txt = self.get_argument('txt', '')
-        zsite = Zsite.mc_get(id)
-        if zsite and zsite.state in (
-            ZSITE_STATE_WAIT_VERIFY,
-            ZSITE_STATE_ACTIVE,
-            ZSITE_STATE_FAILED_VERIFY,
-        ):
-            if state:
-                zsite_verify_yes(zsite)
-                if state == 2:
-                    zsite_show_new(id, zsite.cid, zsite_rank_max(6))
-            else:
-                zsite_verify_no(zsite, txt)
-            self.finish({'state': True})
-        else:
-            self.finish({'state': False})
+@urlmap('/zsite/verify/next/(\d+)')
+class VerifyShowNext(Base):
+    def get(self, id):
+        zsite_user_verifyed = ZsiteUserVerifyed.get(
+            user_id=id,
+            state=ZSITE_USER_VERIFYED_UNCHECK
+        )
+        if zsite_user_verifyed:
+            zsite_user_verifyed.state = ZSITE_USER_VERIFYED_CHECKED
+            zsite_user_verifyed.save()
+        return self.redirect("/zsite/verify/uncheck")
+
+@urlmap('/zsite/verify/uncheck')
+class VerifyUncheck(Base):
+    def get(self):
+        zsite_user_verifyed = ZsiteUserVerifyed.get(
+            state=ZSITE_USER_VERIFYED_UNCHECK
+        )
+        if not zsite_user_verifyed:
+            return self.redirect("/")
+        zsite = Zsite.mc_get(zsite_user_verifyed.user_id)
+        self.render(zsite=zsite)
+
+    def post(self):
+        id = self.get_argument('id')
+        name = self.get_argument('name',None)
+        pic = self.get_argument('pic',None)
+        career_id_list = map(int,self.get_arguments('career',()))
+
+        admin_id = self.current_user.id
+        user = Zsite.mc_get(id)
+
+        if career_id_list:
+            for career_id in career_id_list:
+                career_rm(career_id, int(id))
+            from model.zsite_verify import zsite_verify_ajust
+            zsite_verify_ajust(user)
+        if name:
+            zsite_name_rm(id)
+        if pic:
+            from model.ico import ico
+            pic_no(ico.get(id), admin_id)
+        return self.redirect("/zsite/verify/next/%s"%id)
+        #return self.redirect("/zsite/verify/uncheck")
 
 PAGE_LIMIT = 100
 
-@urlmap('/zsite/verify(%s)' % '|'.join(map(str, CID_ZSITE_TUPLE)))
-class VerifyList(Base):
-    def get(self, cid):
-        zsite = Zsite.get(cid=cid, state=ZSITE_STATE_WAIT_VERIFY)
-        if zsite:
-            zsite_id = zsite.id
-            self.render(
-                zsite=zsite,
-                motto=_motto.get(zsite_id)
-            )
-        else:
-            self.redirect('/')
 
 
 

@@ -3,7 +3,7 @@
 
 
 import _env
-from gcrawler import GCrawler 
+from gspider import GSpider 
 from collections import  defaultdict
 import os
 from gevent import monkey, queue
@@ -20,8 +20,8 @@ class Rolling(object):
         subitems = self.subitems
 
         for item in self.url_iter:
-            url , callback = item
-            yield url, callback, (), {}
+            self.push(*item)
+            yield subitems.get(timeout=60)
 
         while True:
             try:
@@ -40,8 +40,8 @@ class Rolling(object):
         if r != None:
             new_items = callback(r, url, *args, **kwds)
         if new_items is not None:
-            for i in new_items:
-                self.push(i)
+            for item in new_items:
+                self.push(*item)
         return r
 
 
@@ -56,8 +56,9 @@ def main():
             (callback, 'http://www.baidu.com'),
         )
     )
-    crawler = GCrawler(spider, workers_count=10)
-    crawler.start()
+    spider = GSpider(spider, workers_count=10)
+    spider.start()
 
 if __name__ == '__main__':
-    main()
+    #main()
+    pass

@@ -102,12 +102,12 @@ def career_rm(id, user_id):
         mc_flush(user_id, o.cid)
 
 def career_set(id, user_id, unit, title, txt, begin, end, cid):
-    if unit == "单位":
-        unit = ""
-    if title == "头衔":
-        title = ""
-    if txt.startswith("经历简述 "):
-        txt = ""
+    if unit == '单位':
+        unit = ''
+    if title == '头衔':
+        title = ''
+    if txt.startswith('经历简述 '):
+        txt = ''
 
     if not any((txt, title , unit)):
         career_rm(id, user_id)
@@ -124,10 +124,13 @@ def career_set(id, user_id, unit, title, txt, begin, end, cid):
     else:
         career_new(user_id, unit_id, title_id, txt, begin, end, cid)
 
-def career_list_set(id, user_id, unit, title, txt, begin, end, cid):
+def career_list_set(id, user, unit, title, txt, begin, end, cid):
+    user_id = user.id
     for id, unit, title, txt, begin, end in zip(id, unit, title, txt, begin, end):
         career_set(id, user_id, unit, title, txt, begin, end, cid)
     mc_flush(user_id, cid)
+    from zsite_verify import zsite_verify_ajust
+    zsite_verify_ajust(user)
 
 @mc_career_id_list('{user_id}_{cid}')
 def career_id_list(user_id, cid):
@@ -152,6 +155,12 @@ def career_list_all(user_id):
     return li
 
 
+def career_current_str(user_id):
+    t = career_current(user_id)
+    t = ' , '.join(filter(bool, t))
+    if t:
+        t = ' ( %s )'%t
+    return t
 
 @mc_career_current('{user_id}')
 def career_current(user_id):
@@ -173,7 +182,7 @@ def career_current(user_id):
             if school_department:
                 title2 = SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[school_department]
             elif school_year:
-                title2 = "%s 级"%school_year
+                title2 = '%s 级'%school_year
             return  school_id or '', title2
     return '', ''
 

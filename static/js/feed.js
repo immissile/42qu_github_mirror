@@ -1,6 +1,5 @@
 function feed_page(feed_url, feeds_id, parse_result, loaded, end){
 
-
     var begin_id = $("#begin_id").val(0),
         autocount=0,
         feed_load = $("#feed_load").click(function() {
@@ -39,13 +38,15 @@ function feed_page(feed_url, feeds_id, parse_result, loaded, end){
             loaded&&loaded()
         })
     }
-    render_feed()
-    var win = $(window)
-	win.scroll(function() {
-		if (autocount < 5 && ! is_loading && win.scrollTop() > ($(document).height() - win.height() * 2)) {
-			autocount += 1;
-			render_feed();
-		}
-	})
-
+    $(function(){
+        render_feed()
+        var win = $(window)
+        win.scroll(function() {
+            if (autocount < 5 && ! is_loading && win.scrollTop() > ($(document).height() - win.height() * 2)) {
+                autocount += 1;
+                render_feed();
+            }
+        })
+    })
 };
+

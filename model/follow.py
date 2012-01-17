@@ -6,6 +6,7 @@ from gid import gid
 from days import ONE_DAY
 from zsite_url import name_dict_url_dict_by_zsite_id_list
 from model.cid import CID_USER
+from zkit.mc_func import mc_func_get_dict_with_key_pattern
 
 follow_count_by_to_id = McNum(lambda to_id: Follow.where(to_id=to_id).count(), 'FollowCountByToId.%s')
 follow_count_by_from_id = McNum(lambda from_id: Follow.where(from_id=from_id).count(), 'FollowCountByFromId.%s')
@@ -70,8 +71,11 @@ def follow_reply_name_dict_url_dict_by_from_id_cid(from_id, po_id):
 
 
 def follow_get(from_id, to_id):
-    if from_id:
-        return _follow_get(from_id, to_id)
+    if from_id and to_id:
+        if from_id == to_id:
+            return True
+        else:
+            return _follow_get(from_id, to_id)
     return False
 
 @mc_follow_get('{from_id}_{to_id}')
@@ -84,6 +88,9 @@ def _follow_get(from_id, to_id):
     if result:
         return result[0]
     return 0
+
+
+
 
 def follow_rm(from_id, to_id):
     id = follow_get(from_id, to_id)
@@ -130,9 +137,38 @@ def mc_flush(from_id, to_id, cid):
     follow_count_by_to_id.delete(to_id)
     follow_count_by_from_id.delete(from_id)
 
+def follow_get_list(from_id, to_id_list):
+    if not from_id:
+        return [0]*len(to_id_list)
+
+    _id_list = [
+        (from_id, i) for i in to_id_list if i != from_id and i
+    ]
+
+    _follow_result = mc_func_get_dict_with_key_pattern(
+        mc_follow_get,
+        _follow_get,
+        _id_list,
+        '%s_%s'
+    )
+    _dict = dict(
+        (i[1], _follow_result[i]) for i in _id_list
+    )
+    result = []
+    for i in to_id_list:
+        if not i:
+            result.append(False)
+        elif from_id == i:
+            result.append(True)
+        else:
+            result.append(_dict[i])
+    return result
+
+
 if __name__ == '__main__':
     #print follow_get(10001955, 10000217)
     #print mc_follow_id_list_by_to_id
     #print following_id_rank_tuple(10000000)
     #print follow_list_show_by_from_id(10000000, 1)
-    print Follow.count()
+    from yajl import dumps
+    print dumps(follow_get_list(10001955, [10000217, 10001955]))

@@ -24,6 +24,18 @@ function _rm(prefix, url) {
 		}
 	}
 }
+function b1024(){
+    function winresize(){
+        var body=$("body")
+        if(body.width() < 1024){
+            body.addClass('b1024') 
+        }else{
+            body.removeClass('b1024')
+        }
+    }
+    winresize()
+    $(window).resize(winresize)
+}
 jQuery.fn.extend({
 	elastic_login: function() {
         var self=this;
@@ -32,7 +44,16 @@ jQuery.fn.extend({
             self.find('textarea').elastic().focus(islogin)
         })
 		return this.submit(islogin)
-	}
+	},
+    ctrl_enter : function (callback){
+        $(this).keydown(function(event){
+            event = event.originalEvent;
+            if(event.keyCode == 13 && (event.metaKey||event.ctrlKey)) {
+                callback&&callback()
+                return false;
+            }
+        })
+    }
 })
 
 function islogin(){
@@ -143,7 +164,7 @@ function init_user() {
 	init_none()
 }
 
-CANNOT_REPLY = '<div class="fancyban"><p>啊 , 出错了 !</p><p>为了假装一本正经的讨论气氛</p><p>未认证用户没有发言权</p><p><a href="/i/verify">点此申请认证吧</a></p></div>'
+CANNOT_REPLY = '<div class="fancyban"><p>啊 , 出错了 !</p><p>为了维护讨论的气氛</p><p><a href="/i/verify">点此补充您的资料吧</a></p></div>'
 
 function follow_a(id) {
 	var a = $("#follow_a" + id),
@@ -308,3 +329,13 @@ function feed_load_maker(FEED_ATTR_BASE ){
     return _
 }
 
+/*
+        var isCtrl = false;
+        element.keyup(function (e) {
+            if(e.which == 17) isCtrl=false;
+        }).keydown(function (e) {
+            if(e.which == 17) isCtrl=true;
+            if(e.which == 13 && isCtrl == true) {
+                callback && callback()
+            }
+        });*/

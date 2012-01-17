@@ -39,26 +39,26 @@ _ico = pic_url_with_default(current_user_id,219)
 {{each item}}
 <div class="G"><div class="site_po"><div>
 {{if rt_list.length}} 
-{{if (rt_list.length==1 && rt_list[0].txt[2]==0)}}{{else}}
-<p>
+{{if (rt_list.length==1 && rt_list[0].txt[2]==0)}}{{else}}{{if rt_list.length}}
+<div>
 {{each rt_list}}
 {{if $value.txt[1]!=""}}
 <p><a target="_blank" class='fcmname c0 TPH'  href="${$value.link}">${$value.name}</a>{{if rt_list.length==1}} 推荐{{/if}} : ${$value.txt[1]} <a class="zsite_reply" href="/po/${$value.txt[0]}" target="_blank"></a></p> 
 {{/if}}
 {{/each}}
+</div>
 {{/if}}
 {{/if}}
-</p>
-<a href="/${id}" target="_blank">${name}</a><span class="split">-</span><a target="_blank"
-class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="split">-</span>{{each(k,v) rter}}{{if v[1]!=0}}<a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>{{/if}}{{/each}} 推荐{{/if}} 
+{{/if}}
+<a href="/${id}" target="_blank">${name}</a><span class="split">-</span><a target="_blank" class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="split">-</span>{{each rter}}{{if $index}} , {{/if}}<a target="_blank" class='fcmname c0 TPH' href="${$value[0]}">${$value[1]}</a>{{/each}} 推荐{{/if}} 
 </div></div></div>
 {{/each}}
 {{else}}
 <div class="feed_li">
-    <div class="feed_left">
+    <div class="feedB">
 <div class="imgw"><a target="_blank" href="${zsite_link}"><img src="${pic}"></a></div></div>
     <div class="feed_part">
-    <div class="feed_right">
+    <div class="feedS">
 {{each item}}
 <div class="sdw {{if $index+1==item.length}}sdwb{{/if}}"><div class="sd cid${cid}">
 {{if rt_list.length}} 
@@ -71,15 +71,15 @@ class="c0" href="${zsite_link}">${zsite_name}</a>{{if has_rter}}<span class="spl
 {{/each}}
 
 {{if has_rter}} 
-{{each(k,v) rter}}
-{{if v[1]!=0}}
-<a target="_blank" class='fcmname c0 TPH' href="${k}">${v[0]}</a>
-{{/if}}
+{{each rter}}
+{{if $index}} , {{/if}}
+<a target="_blank" class='fcmname c0 TPH' href="${$value[0]}">${$value[1]}</a>
 {{/each}} 推荐
 {{/if}}
 </div>
 {{/if}}
 {{/if}}
+
 
 {{if cid==68}}
 <a href="/${id}"><img class="feed_event_img" src="${rid}"></a>
@@ -95,21 +95,16 @@ quality="high" bgcolor="#FFFFFF" class="audio"
 src="${FS_URL}/swf/1bit.swf"
 <%text>type="application/x-shockwave-flash"
 wmode= "Opaque"></embed>{{/if}}{{if name}}{{if cid == 73}}{{html name}}{{else}}<a
-target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}
-{{/if}}
-{{/if}}
-</a>
-{{/if}}
-
-{{if tag_id}}
-<a class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
-{{/if}}
-{{if cid==65}}
+target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}{{/if}}{{/if}}</a>{{/if}}{{if tag_id}}<a 
+    class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}{{if !$index}}<div 
+    class="zname"><span></span><a 
+    target="_blank" class="TPH" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}</pre>
+{{/if}}{{if cid==65}}
 <a class="fdimga" target="_blank" href="/${id}"><img class="fdimg" src="${rid}"></a>
 {{/if}}
 {{if cid==68}}
 <div class="feed_event_prop">
-<p >地点<span class="colon">:</span>${place_name}</p>
+<p>地点<span class="colon">:</span>${place_name}</p>
 <p class="ml48 feed_event_pid">${address}</p>
 <p>时间<span class="colon">:</span>${time_row1}</p>
 {{if time_diff_day}}
@@ -119,10 +114,12 @@ target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_i
 {{/if}}
 </div>
 {{/if}}
-<div class="fdtxt fdtxt${$index}" id="fdtxt${id}">
+<div class="fdtxt{{if !$index}}{{if !rt_list.length || (rt_list.length==1 && rt_list[0].txt[2]==0)}} fdtxt${$index}{{/if}}{{/if}}" id="fdtxt${id}">
         {{if cid==61 || cid == 66}}
-<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}
-{{if txt_more}}<a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
+<div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}{{if !$index && cid==61 &&  !rid}}<div 
+    class="zname"><span></span><a 
+class="TPH" target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}{{if txt_more}}<a 
+    href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
 {{if cid == 66}}<a onclick="fdvideo(this,${id});" class="fdvideo" href="javascript:void(0)">播放视频</a>{{/if}}
         {{else}}
             {{if cid==68}}
@@ -139,37 +136,24 @@ target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_i
         {{/if}}
     </div>
     <div class="fdbar">
-    <span class="L">
-{{if !$index}}
-<a class="zname" target="_blank" href="${zsite_link}">${zsite_name}
-{{if unit||title}}({{/if}}
-{{if unit}}${unit}{{/if}}
-{{if unit&&title}}.{{/if}}
-{{if title}}${title}{{/if}} 
-{{if unit||title}}){{/if}} , 
-</a>
-{{/if}}
-<a href="/${id}" target="_blank">${create_time}</a>
-        {{if rt_list.length}} 
-<span class="mr3"></span>
-            {{if rt_list.length  && rt_list[0].txt[2] == 0 }}
-, 广播
-            {{/if}}
-        {{/if}}
-    </span>
-
-<span class="fdopt">{{if cid!=72}}{{if site_id}}<a href="//${site_url}"
-target="_blank">${site_name}</a><span
-class="split">-</span>{{/if}}{{/if}}<a
-class="fcma"
-href="javascript:fcm(${id},${reply_count});void(0)">{{if reply_count}}<span
-class="mr3">${reply_count}</span>{{/if}}评论</a><span
+    <span class="L"><span class="fdopt"><a
+rel="${id}" href="javascript:void(0)"
+class="{{if fav}}faved{{else}}fav{{/if}}"
+></a><span
 class="split">-</span><a
 class="vote" href="javascript:share(${id});void(0)">推荐</a><span
 class="split">-</span><a
-rel="${id}" href="javascript:void(0)"
-class="{{if fav}}faved{{else}}fav{{/if}}"
-></a></span>
+class="fcma"
+href="javascript:fcm(${id},${reply_count});void(0)">{{if reply_count}}<span
+class="mr3">${reply_count}</span>{{/if}}评论</a></span>
+    </span>
+
+{{if cid!=72}}{{if site_id}}<a href="//${site_url}"
+target="_blank">${site_name}</a><span
+class="split">,</span>{{/if}}{{/if}}<a
+href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[0].txt[2] == 0 }}<span class="split">,</span>广播{{/if}}
+
+
     </div>
 </div></div>
 {{/each}}
@@ -182,8 +166,8 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 
 <div class="index_wrap">
     <div class="left_wrap">
-        <div class="feed_li">
-            <div class="feed_self">
+        <div class="feed_li" id="feed_self">
+            <div class="feedB">
     %if _ico == PIC_DEFAULT%'219':
 <a href="/i/pic" class="c0 imgw">
     <img src="${FS_URL}/img/png/noicon.png">
@@ -194,15 +178,11 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 </a>
             </div>
             <div class="feed_part">
-                <div class="feed_right">
+                <div class="feedS">
                     <div class="sdw">
                         <div class="sd cid62">
                             <%htm:form  action="/po/new_word" id="po_word_form">
-                            <div class="fdtxt">
-                                <div class="fdtxtin">
-                                    <textarea class="po_word_txt po_word_txt_bg" id="po_word_txt" name="txt"></textarea>
-                                </div>
-                            </div>
+<textarea class="po_word_txt po_word_txt_bg"  id="po_word_txt"name="txt"></textarea>
                             <div class="fdbar">
                                 <span class="say_type">
                                     <span class="fdopt">
@@ -226,8 +206,13 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
     <div id="feeds">
         <input id="begin_id" type="hidden"/>
     </div>
+    <a id="feed_load" href="javascript:void(0)">加载更多</a>
+    <div id="feed_loading"></div>
     </div>
     <div class="right_wrap">
+
+
+<a class="gask" href="http://zuroc.42qu.com/10204513">有空 ?  来写42区小功能吧!</a>
         ${buzz_show(current_user_id)}
 <%doc>
         ${site_rec_render()}
@@ -263,8 +248,6 @@ class="{{if fav}}faved{{else}}fav{{/if}}"
 
 
 <%def name="htm_foot()">
-<a id="feed_load" href="javascript:void(0)">加载更多</a>
-<div id="feed_loading"></div>
 <script>init_user()</script>
 <script src="${js.ctrl_zsite_feed}"></script>
 </%def>

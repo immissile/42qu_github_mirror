@@ -1,0 +1,53 @@
+<%!
+from model.cid import CID_ICO, CID_ICO96, CID_PO_PIC, CID_PIC
+%>
+<%inherit file="/god/_base.htm" />
+<%namespace file="/ctrl/_util/htm.htm" name="htm"/>
+<%def name="htm_head()">
+${css.god_tag|n}
+</%def>
+
+<%htm:form className="tag_form">
+<div class="tag_tip">总 1233 篇 ; 剩 1345 篇</div>
+%for i in range(15):
+<div class="tag_page">
+<h2><span class="jump"><a href="#">选标签</a><a href="#">下一篇</a></span>张沈鹏</h2>
+<pre>java就是白开水
+作者：挑灯看剑
+
+最近在设计笔试题，hongqn写了一个读C++代码的题，我要写一个类似的java代码的题目。 很想写一个表现java语言特性的例子，可是思来想去，发现Java实在是一个没什么特点的语言，面面俱到但是平平庸庸。写java程序这些年，觉着java越来越像一杯白开水，能饥渴，但是没味道，很实用，但是没趣味。
+
+这似乎是java、或者说是java这个圈子的一个特点： 鼓励程序员脱离语言实现的细节，不要去玩弄语言，尽可能只用语言的最小功能集。 Paul Graham(Hackers and Painters的作者)曾说：java程序员的水平不如python程序员(原话不是这样，我这是意译)。 至少在我认知范围内，言之有理。 原因是什么：java程序员的寿命会比较短，因为这个圈子更容易让程序员有转行的压力。
+
+对技术人员来说，如果赖以生存的技术领域和技术工具的深度有限，那么必然面临生存危机。 java是这样一个领域吗？ 理论上不是，但实际上是。
+
+理论上，java技术没有明显的瑕疵，而且可以玩的很深，可以让人在技术的海洋中游得很远，可以做很多事，而且可以做的很好。
+
+事实上，因为java走的路子是工业化，工业化的结果必然是要尽量降低个体对整体的影响力，让每个人成为螺丝钉是工业化的极致追求。
+
+因此java语言的特性、这个圈子的氛围也在发展中迎合着工业化的趋势，鸡生蛋蛋生鸡，结果java就变成现在这个样子：解渴但没滋味的白开水。
+
+好在世界在变平，个体的生产力越来越强大，差异化越来越明显，因此，传统的工业化方式，不再是企业能力scale的唯一选择，google正在做这种尝试，祝他成功。</pre>
+
+<div style="margin-top:10px">
+<div class="tag_edit">
+<label for="po1">
+<h2 class="label"><input type="checkbox" id="po1">张沈鹏</h2></label>
+%for pos, tag_id in enumerate(xrange(19)):
+<span><input 
+%if pos<7:
+checked
+%endif
+type="checkbox" id="tag${tag_id}"><label for="tag${tag_id}">张沈鹏</label></span>\
+%endfor
+</div>
+<div class="tag_new"><input type="text">追加标签(以空格隔开)</div>
+</div>
+</div>
+%endfor
+
+<span class="btnw"><button type="submit">确定</button></span>
+
+</%htm:form>
+
+

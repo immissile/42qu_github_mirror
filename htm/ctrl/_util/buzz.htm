@@ -1,5 +1,6 @@
 <%!
-from model.cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW,  CID_BUZZ_PO_REPLY,  CID_BUZZ_EVENT_JOIN,  CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_TUPLE_CN ,  CID_REVIEW
+from model.cid import CID_BUZZ_SYS,  CID_BUZZ_FOLLOW,    CID_BUZZ_EVENT_JOIN,  CID_WORD, CID_BUZZ_EVENT_FEEDBACK_JOINER, CID_BUZZ_EVENT_FEEDBACK_OWNER, CID_EVENT_NOTICE , CID_BUZZ_SITE_NEW , CID_BUZZ_SITE_FAV, CID_ZSITE_TUPLE_CN ,  CID_REVIEW
+from config import SITE_DOMAIN
 from model.zsite import Zsite
 from model.buzz import buzz_show as _buzz_show, buzz_unread_count
 from zkit.txt import cnenoverflow
@@ -8,8 +9,8 @@ from model.po import Po
 from model.event import event_list_by_zsite_id
 from model.event import event_joiner_by_owner_id
 from model.buzz_reply import po_list_by_buzz_reply_user_id
-from config import SITE_DOMAIN
-from model.buzz_at import buzz_at_by_user_id_for_show
+from model.buzz_at import po_list_by_buzz_at_user_id
+from model.career import career_current_str
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_link, user_career_link, user_link_list, user_link_list_with_career, po_link"/>
 
@@ -80,10 +81,10 @@ ${CID_ZSITE_TUPLE_CN[entry.cid]} <a href="${entry.link}" target="_blank">${entry
 <%def name="buzz_render_tip(user_id)">
 <%
 evnet_li = event_joiner_by_owner_id(user_id)
-buzz_at = buzz_at_by_user_id_for_show(user_id)
-show = any((evnet_li,buzz_at))
+show = any((evnet_li,))
 %>
 %if show:
+<div>
 <div class="buzz_h1">小提醒</div>\
 <div class="buzz_win">\
 %for id, name, count in evnet_li:
@@ -91,44 +92,33 @@ show = any((evnet_li,buzz_at))
 <a href="/event/check/${id}" target="_blank">${name} : <span class="mr3">+${count}</span>报名 , 请确认</a>\
 </div>\
 %endfor
-    %if buzz_at:
-<%
-count, buzz_at_from_user_list  = buzz_at
-buzz_at_from_user_list = " , ".join(buzz_at_from_user_list)
-%>
-<div class="buzz_w"><a href="/notice/buzz/at">\
-${buzz_at_from_user_list}
-    %if count: 
-等<span class="m01">${count}</span>人
-    %endif
-<span class="m01">@</span>我</a>
 </div>\
-    %endif
-</div>\
+</div>
 %endif
 </%def>
 
 
-<%def name="buzz_render_reply(user_id)">
+<%def name="_buzz_render_po(en, cn, user_id, func)">
 <%
-li = po_list_by_buzz_reply_user_id(user_id)
+li = func(user_id)
 %>
 %if li:
-<div id="buzz_win_reply" class="buzz_box">\
+<div id="buzz_win_${en}" class="buzz_box">\
 <div class="buzz_h1">\
-<a href="javascript:void(0)" class="buzzX" rel="reply"></a>讨论区\
+<a href="javascript:void(0)" class="buzzX" rel="${en}"></a>${cn}\
 </div>\
-<div class="buzz_win buzz_win_reply">\
-    %for po_id, po_name, new_reply_count, user_li in li:
+<div class="buzz_win buzz_win_${en}">\
+    %for po_id, po_name, new_reply_count, user_li, last_reply_id in li:
 <%
 user_li_len = len(user_li)
 %>
     <div class="buzz_w" id="buzz${po_id}">
     <div>\
 <a href="javascript:void(0)" rel="${po_id}" class="buzz_x"></a>\
-<a href="/${po_id}"  target="_blank" class="buzz_li">${cnenoverflow(po_name,15)[0]}</a>
+<a href="/po/${po_id}#${last_reply_id}"  target="_blank" class="buzz_li">${cnenoverflow(po_name,15)[0]}</a>
     </div>
     <div class="buzz_au">
+%if len(user_li) > 1:
 %for pos, (user_id, user_name) in enumerate(user_li,1):
 <a href="//${user_id}.${SITE_DOMAIN}" class="TPH">${user_name}</a>
 %if pos!=user_li_len:
@@ -138,7 +128,12 @@ user_li_len = len(user_li)
 %if new_reply_count:
 等<span class="buzz_cou">${new_reply_count}</span>人
 %endif
-跟帖
+%elif user_li:
+<%
+user_id, user_name = user_li[0]
+%>
+<a href="//${user_id}.${SITE_DOMAIN}" class="TPH">${user_name}${career_current_str(user_id)}</a>
+%endif
     </div>
     </div>
     %endfor
@@ -159,9 +154,11 @@ unread = unread-len(buzz_list)
 <a href="javascript:void(0)" class="buzzX"></a>新鲜事\
 </div>\
 <div class="buzz_win">\
+    <div class="buzz_av">
     % for i in buzz_list:
     <div class="buzz_w">${buzz_render(i)}</div>\
     % endfor
+    </div>
     % if unread:
         <div><a class="unread" href="/notice/buzz">等<span class="mg03">${unread}</span>条</a></div>
     % endif
@@ -172,19 +169,20 @@ unread = unread-len(buzz_list)
 </%def>
 
 <%def name="buzz_show(user_id)">
-${buzz_render_tip(user_id)}
-${buzz_render_reply(user_id)}
 ${buzz_render_fresh(user_id)}
+${buzz_render_tip(user_id)}
+${_buzz_render_po( "at"     ,  "提到我" , user_id, po_list_by_buzz_at_user_id    )}
+${_buzz_render_po( "reply"  ,  "讨论区" , user_id, po_list_by_buzz_reply_user_id )}
 
 <div class="buzz_h1">荐书单</div>\
 <div class="buzz_win buzz_win_book">
     <div class="sdw">
         <div class="sd">
-<a href="http://goo.gl/U5Hjn" target="_blank">
-            <img class="bkimg" src="http://img1.douban.com/lpic/s6987692.jpg">
-            <div class="bktxt">
-韩寒说：“我只是站在这个舞台上被灯光照着的小人物”。
-            </div>
+##http://click.union.360buy.com/JdClick/?unionId=2939&t=4&to=http://www.360buy.com/product/10855047.html
+##http://t.cn/SadZXM
+<a href="http://t.cn/SadZXM" target="_blank">
+            <img class="bkimg" src="http://s4.42qu.us/img/jpg/book/3.jpg">
+            <div class="bktxt"> 设计不是一种技能，而是捕捉事物本质的感觉能力和洞察能力 —  原研哉 </div>
 </a>
         </div>
     </div>

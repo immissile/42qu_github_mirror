@@ -49,11 +49,12 @@ def feed_tuple_by_db(id):
     #else:
     reply_count = m.reply_count
     if cid == CID_PHOTO:
-        rid = fs_url_jpg(677, rid)
+        rid = fs_url_jpg(721, rid)
     elif cid == CID_AUDIO:
         rid = fs_url_audio(id, '')
     elif cid == CID_EVENT:
         event = Event.mc_get(id)
+        feed_rm(id)
         rid = fs_url_jpg(162, event.pic_id)
     else:
         rid = rid

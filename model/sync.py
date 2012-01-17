@@ -144,7 +144,6 @@ def sync_recommend(id, po_id):
                 txt = txt+"分享: "
             sync_by_oauth_id(oauth_id, txt + cnencut(rec_po.name_,50)  , 'http:%s'%rec_po.link)
 
-mq_sync_recommend_by_zsite_id = mq_client(sync_recommend)
 
 def sync_follow_oauth_id_bind(user_id, cid, oauth_id):
     for pos, sync_follow in enumerate(

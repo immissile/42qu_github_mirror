@@ -380,7 +380,7 @@ display:block;
 float:left;
 line-height:20px;
 width:60px;
-margin:0 0 12px 40px;
+margin:0 0 12px 39px;
 font-size:14px;
 }
 #fancybox-content .other_login{
@@ -400,4 +400,33 @@ border:dotted #ccc;
 border-width:1px 0;
 margin:16px 0 14px;
 line-height:14px;
+}
+.buzz_h1{
+    border: 0pt none; text-align: left; font-size: 14px; background: url(/img/gif/adot.gif) no-repeat scroll -4px 7px transparent;padding-left:16px;color:#000;
+}
+.buzz_win
+{
+    padding:6px 0 6px 0;
+}
+.buzz_w
+{
+    line-height: 22px;
+    /*border-bottom: 1px dotted #CCC;*/
+    padding-bottom: 6px;
+    padding-left: 17px;
+    background: url(/img/png/list_style_disc.png) no-repeat 4px 0;
+}
+.buzz_win a
+{
+    color:#004276;
+}
+.buzz_win a:hover
+{
+    color:#d20;
+}
+.buzz_au, .buzz_au a{
+    color:#999
+}
+.buzz_au a:hover{
+    color:#d20;
 }

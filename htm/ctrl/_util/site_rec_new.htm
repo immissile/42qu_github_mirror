@@ -1,22 +1,13 @@
 <%!
-from model.ico import ico_url_with_default
-from config import FS_URL
-from model.motto import motto_get
-from model.site_po import po_list_by_zsite_id
-from model.cid import CID_NOTE
-from config import SITE_DOMAIN
-from model.site_rec import site_rec
+from model.site_rec import site_rec_dump
 from yajl import dumps
 from cgi import escape
 %>
 <%def name="site_rec_render()">
 <%
-site_list=site_rec(current_user_id)
+site_list=site_rec_dump(current_user_id)
 %>
 %if site_list:
-<%
-site_list=[(i.id,i.link,i.name,ico_url_with_default(i.id),motto_get(i.id),i.cid) for i in site_list]
-%>
 <script type="text/x-json" id="site_data">
     ${escape(dumps(site_list))|n}
 </script>

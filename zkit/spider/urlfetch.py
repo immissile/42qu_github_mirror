@@ -1,5 +1,7 @@
 from os import path
+import os
 from hashlib import md5
+import  time
 import urllib2
 import urlparse
 
@@ -34,12 +36,13 @@ class Fetch(object):
         file_path = path.join(cache_dir, file_name)
 
         if path.exists(file_path):
+            print "Using cache"
             with open(file_path) as f:
-                #logger.debug('Using Cache ...%s' % url)
                 data = f.read()
                 return data
 
     def read(self, url):
+        #print "Downing ...%s" %url
         conn = urllib2.urlopen(url, timeout=30)
         data = conn.read()
         conn.close()
@@ -49,6 +52,11 @@ class Fetch(object):
     def __call__(self, url):
         data = self.cache_get(url)
         if data is None:
+            cache_dir = path.join(
+                    self.cache, urlparse.urlparse(url).hostname
+                    )
+            file_name = md5(url).hexdigest()
+            file_path = path.join(cache_dir, file_name)
             with open(file_path, 'w') as f:
                 data = self.read(url)
                 f.write(data)
@@ -56,14 +64,17 @@ class Fetch(object):
         return data
 
 class NoCacheFetch(object):
-    def __init__(self, headers={}):
+    def __init__(self,sleep = 0, headers={} ):
         self.headers = headers
+        self.sleep = sleep
 
     def read(self, url):
         print "reading url",url
         conn = urllib2.urlopen(url, timeout=30)
         data = conn.read()
         conn.close()
+        if self.sleep:
+            time.sleep(self.sleep)
         return data
 
     @retryOnURLError(3)

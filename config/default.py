@@ -19,7 +19,6 @@ import sys
 from os.path import join
 from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 
-
 def prepare(o):
     
 #    o.REDIS_DB = redis.Redis()
@@ -34,7 +33,7 @@ def prepare(o):
     o.MYSQL_PASSWD = '42qu'
 
     o.MQ_PORT = 11300
-    o.MQ_FAIL_MAIL_ADDR = 'dev@42qu.com'
+    o.MQ_FAIL_MAIL_ADDR = "zsp007@gmail.com"
 
     o.FILE_DOMAIN = 'p.%s'%o.SITE_DOMAIN
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN

@@ -28,7 +28,11 @@ mq_rm_rec_po_by_po_id = mq_client(rm_rec_po_by_po_id)
 def po_recommend_new(rid, user_id, name, reply_id=None):
     '''新建推荐'''
     #判定?
-    #rec_po = Po.mc_get(rid)
+    rec_po = Po.mc_get(rid)
+    if not rec_po:
+        return
+    from po_pos import po_pos_state_buzz
+    po_pos_state_buzz(user_id, rec_po)
 
     recommend = po_new(
         CID_REC,
@@ -52,8 +56,6 @@ def po_recommend_new(rid, user_id, name, reply_id=None):
         )
         rr.save()
 
-    from po_pos import po_pos_state, STATE_BUZZ
-    po_pos_state(user_id, rid, STATE_BUZZ)
 
     return recommend
 

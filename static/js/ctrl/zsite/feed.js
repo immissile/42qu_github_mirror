@@ -3,8 +3,78 @@
 61 word
 62 note
 */
+$(".buzz_li").live("click",function(){
+    $(this.parentNode).find(".buzz_x")[0].visited = 1;
+    var content = $(
+'<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
+    ), self = $(this),
+    rel = self.parents('.buzz_box')[0].id.slice(9),
+    href = this.href, 
+    cbody = content.find('#reply_reply_body'), t=cbody[0],
+    textarea = content.find('textarea'),
+    fancybox = $.fancybox,
+    button = content.find('button'),
+    id = href.split("/")[4].split("#")[0],
+    reply_name=content.find('#reply_name');
 
-(function() {
+   
+    textarea.ctrl_enter( function(){ button.click()});
+
+    self.css({color:"#99a"});
+
+    reply_name.html(self.html()).attr('href',href)
+    button.click(function(){
+        var v=textarea.val(), 
+            fancybox=$.fancybox;
+        if(!v.length)return;
+        textarea.val('')
+        fancybox.showActivity();
+        post_reply(id, v,function(data){
+            fancybox.hideActivity();
+            textarea.focus()
+            _result(data)
+        })
+    })
+    function _(data){
+        if(data.cid==61){
+            reply_name.remove()
+        }else{
+            reply_name.text(data.name)
+        }
+        _result(data.result,1)
+    }
+    function _result(result,i){
+        cbody.removeClass('reply_reply_loading').append(render_reply(result,i))
+        codesh()
+        var height = t.scrollHeight+2, 
+            winheight=$(window).height() - 260;
+
+        if(height>winheight){
+            height = winheight;
+        }else{
+            cbody.css("padding","0")
+        }
+
+        cbody.css({
+            height:height
+        })
+        t.scrollTop=t.scrollHeight-t.offsetHeight-5
+
+        fancybox.resize()
+    }
+    fancybox({
+        content:content, 
+        onComplete:function(){
+            textarea.focus()
+            $.getJSON( '/j/po-'+rel+'/json/'+id, _)
+        }
+    })
+    return false
+
+})
+;(function() {
+    b1024()
+    /*消息流*/
 	var feed_loader = feed_load_maker( "id rt_list"),
 	DATE_ATTR = "zsite_cid zsite_name zsite_link unit title pic".split(' ');
 
@@ -47,7 +117,7 @@
 							t.rt_list.push(rt_list[j])
 						}
 					}
-                    t.rter=rter={};
+                    rter={};
                     exist_rter={};
 					t.rt_list = $.map(t.rt_list, array2zsite);
                     for(j=0;j<rt_list.length;j++)
@@ -60,13 +130,11 @@
                             exist_rter[rter_id] = 1
                         }
                     }
-                    t.rtL=rtL=[];
-                    t.rtC=rtC=0;
+                    t.rter=[];
                     for(j in rter){
-                        t.has_rter = 1;
-                        rtC++;
-                        rtL.push([j,rter[j]]);
+                        t.rter.push([j,rter[j][0]]);
                     }
+                    t.has_rter = t.rter.length;
                 } else {
                         t.rt_list = [0]
                 }
@@ -129,7 +197,7 @@
     po_word_form=$('#po_word_form').submit(
         function(){
             if(can_say()){
-                var val = textarea.val(); 
+                var val = po_word_txt.val(); 
                 if($.trim(val)=='')return false;
                 txt_tip.html('')
                 say_btn.hide().after(saying)
@@ -143,7 +211,7 @@
                         if(result){
                             $('#feed').tmpl(init_result(result)).prependTo("#feeds")
                         }
-                        textarea.val('').attr(
+                        po_word_txt.val('').attr(
                             "class","po_word_txt po_word_txt_sayed"
                         ).removeAttr('disabled')
                         say_btn.show();
@@ -158,18 +226,16 @@
     say_btn = $(".say_btn").click(
         function(){
             po_word_form.submit()
-        }),
-    textarea = $('#po_word_txt').click(
-        function(){
-            textarea.animate({"height":"78px"},"fast");
-        }).blur(function(){
-            if(textarea.val()==''){
-                textarea.animate({"height":"34px"},"fast");
-            }
-        }).pop_at("/j/at")
-    ;
+        });
+    
+    $(function(){
+        $("#po_word_txt").ctrl_enter( function(){$(".say_btn").click()});
+    })
 
+
+    txt_tip.html('Ctrl + Enter 直接发布')
 	po_word_txt.blur().val('').focus(function() {
+        txt_tip.show()
 		this.className="po_word_txt"
 	}).blur(function() {
 		var self = $(this),
@@ -177,7 +243,17 @@
 		if (!val || ! val.length) {
 			self.addClass(po_word_txt_bg)
 		}
-	}).addClass(po_word_txt_bg);
+	}).addClass(po_word_txt_bg).click(
+    function(){
+        po_word_txt.animate({"height":"78px"},"fast");
+    }).blur(function(){
+        if(po_word_txt.val()==''){
+            txt_tip.html('Ctrl + Enter 直接发布')
+            po_word_txt.animate({"height":"44px"},"fast");
+            txt_tip.hide();
+        }
+    }).pop_at("/j/at")
+    ;
     
     var can_say = txt_maxlen(
         po_word_txt, 
@@ -186,7 +262,7 @@
     )
 
     /* 站点推荐 */
-    
+/*    
     $(".site_li").hover(
         function(r){
             $(this).find(".delbtn")
@@ -201,27 +277,21 @@
     $(".site_fav_a").click(function(){
         $(this).addClass("fav_loading");
     });
-
+*/
 })()
 
 
 
 
-
-
-$(".buzz_li").live("click",function(){
-    $(this.parentNode).find(".buzz_x")[0].visited = 1;
-
-})
 $(".buzz_x").live("click", function(){
-    var id=this.rel, buzz=$("#buzz"+id)
-    if($("#buzz_win_reply .buzz_li").length<=1){
-        $("#buzz_win_reply").hide()
+    var id=this.rel, buzz=$("#buzz"+id), box=buzz.parents('.buzz_box')
+    if(box.find(".buzz_li").length<=1){
+        box.remove()
     }else{
         buzz.hide(buzz.remove);
     }
     if(!this.visited){
-        $.postJSON( '/j/buzz/reply/x/'+id)
+        $.postJSON( '/j/buzz/'+box[0].id.slice(9)+'/x/'+id)
     }
 
 })
@@ -232,81 +302,3 @@ $(".buzzX").click(function(){
     }
     $(this).parents('.buzz_box').hide() 
 })
-;$(function(){
-
-    var data = $.parseJSON($("#site_data").html()),
-        rec_wrapper=$("#rec_wrapper"),
-        site_rec=$("#site_rec");
-
-    function addRec(){
-        if(data&&data.length){
-            site = data.pop();
-            rec_wrapper.append(site_rec.tmpl());
-
-            rec_wrapper.show();
-            $("#rec_"+ site[0]).hide().show("slow");
-            $("#rec_title").show();
-
-        }
-        if(!rec_wrapper.find("").html()){
-            $("#rec_title").hide("fast");
-            rec_wrapper.hide("fast");
-        }
-    }
-    addRec();
-/*
-
-    function loadrec(id){
-        $.postJSON("/j/site/rec/new",{},function(r){
-            if(r!='')
-        {
-            site={
-                "id":r[0],
-            "link":r[1],
-            "name":r[2],
-            "ico":r[3],
-            "motto":r[4]
-            };
-            $("#site_rec").tmpl(site).appendTo("#rec_wrapper");
-            refreshState();
-        }
-        });
-    }
-
-    function _(id, state, callback){
-        $.postJSON( '/j/site/rec/'+id+'-'+state,{},function(r)
-                {
-                    callback&&callback();
-                }
-                )
-    }
-
-    del=function(r){
-        i = $('#rec_'+r);
-        i.hide("slow",addRec);
-        callback=function(){
-            loadrec(0);
-        };
-        _(r, 1,callback);
-    };
-
-    fav=function(id){
-        $("#rec_id"+id).addClass("fav_loading");
-        callback=function(){
-            $("#rec_id"+id).removeClass("fav_loading");
-            $("#rec_id"+id).addClass("site_faved");
-            $("#rec_id"+id).attr("href","javascript:unfav("+id+")");
-        };
-        _(id, 2,callback);
-    }
-
-    unfav=function(id){
-        callback=function(){};
-        _(id, 0,callback);
-        $("#rec_id"+id).removeClass("site_faved");
-        $("#rec_id"+id).attr("href","javascript:fav("+id+")");
-    }
-    $(".buzz_h1").hover(function(){$(this).find("a").show()},function(){$(this).find("a").hide()});
-    $(".buzz_w").hover(function(){$(this).find('.bzr').show()},function(){$(this).find(".bzr").hide()});
-*/
-});

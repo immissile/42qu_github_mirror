@@ -19,12 +19,12 @@ ${css.ctrl_wall_page|n}
 <div id="wall">
 ${wall_reply_textarea('/wall/%s' % wall.id)}
 <%
-_can_rm = current_user_id in zsite_id_list
+_can_admin = current_user_id in zsite_id_list
 %>
 <div id="reply_list">
 %for i in reply_list:
 <%
-can_rm = _can_rm or i.can_rm(current_user_id)
+can_admin = _can_admin or i.can_admin(current_user_id)
 %>
 <%
 id = i.id
@@ -32,7 +32,7 @@ user = i.user
 %>\
 <div id="reply${id}" class="sdw"><div class="sd c"> 
 <div>\
-${reply_render_body(i, can_rm)}\
+${reply_render_body(i, can_admin)}\
 <div class="bar">
 <span class="L">
 <a href="${user.link}">${user.name}</a> 
@@ -41,7 +41,7 @@ ${reply_render_body(i, can_rm)}\
 %endif
 , ${friendly_time(i.create_time)} 
 </span>
-%if can_rm:
+%if can_admin:
 <a href="javascript:rm(${id});void(0)">删除</a>
 %endif
 </div>\

@@ -1,0 +1,158 @@
+<%inherit file="/ctrl/_base/zsite.htm" />
+<%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
+<%def name="htm_head()">
+${css.ctrl_zsite_com|n}
+${css.ctrl_hero|n}
+${css.ctrl_tag_index|n}
+</%def>
+
+<script id="render_txt" type="text/x-jquery-tmpl"><%text>
+<pre class="prebody">{{html txt}}</pre>
+<div style="border-top:1px dotted #ccc;margin-top:7px;padding-top:14px;margin-bottom:4px" class="fdbar">     <span class="L"><span class="fdopt"><a class="fav" href="javascript:void(0)" rel="10208285"></a><span class="split">-</span><a href="javascript:share(10208285);void(0)" class="vote">推荐</a><span class="split">-</span><a href="javascript:fcm(10208285,5);void(0)" class="fcma"><span class="mr3">5</span>评论</a></span>     </span>  <a target="_blank" href="/10208285">1-12 12:42</a><span class="split">,</span>东西网 <a rel="nofollow" class="aH" href="http://yun.baidu.com/" target="_blank" style="height:14px;"></a></div>
+</%text></script>
+
+<div class="G">
+<div class="com_wrap">
+<h1>京东商城\
+<div class="tagtxt" class="">时间管理（Time Management）就是用技巧、技术和工具帮助人们完成工作，实现目标。</div>
+</h1>
+    
+
+
+
+<div class="com_main">
+<div id="feeds"><div id="feed_index">
+<div class="main_nav">
+<a rel="10200938" href="javascript:void(0)" class="fav"></a>
+<div class="R">\
+<a class="now" href="#">文章</a>\
+<span class="split">-</span>\
+<a href="#">问题</a>\
+<span class="split">-</span>\
+<a href="#">微博</a>\
+<span class="split">-</span>\
+<a href="#">图片</a>\
+<span class="split">-</span>\
+<a href="#">视频</a></div>\
+</div>
+<div>
+%for pos, id in enumerate(xrange(20)):
+    <div 
+style="
+%if not pos:
+border-top:0;
+%endif
+" 
+class="readl c">
+<a rel="10200938" href="javascript:void(0)" class="fav"></a>
+<div id="reado${id}" class="reado">
+<span 
+%if pos%5!=1:
+style="color:#000"
+%else:
+style="color:#999"
+%endif
+class="reada"
+><span class="title">小故事</span>\
+<span class="rtip">山东临朐县20万干部群众正在服用一些不知名的药品，怀疑这20万人被强行做 ...</span>
+</span>  
+</div>
+<div class="zname" style=""><a style="font-size:12px" target="_top" href="http://wangleheng.42qu.com/">joyfire 王乐珩</a></div>         
+</div>
+%endfor
+</div>
+
+%if page:
+${page|n}
+%endif
+</div>
+</div>
+</div>
+</div>
+    <div class="com_side">
+
+
+<div id="tagbar">
+<span class="xatxt">
+<a class="xa" href="javascript:void(0)">关注</a>\
+<a class="xa" href="javascript:void(0)">投递</a>\
+<a class="xa" href="javascript:void(0)">提问</a>\
+</span>\
+<a class="xa xatagset" href="javascript:void(0)"><span></span></a>
+</div>
+
+
+
+<form class="search" action="http://zuroc.42qu.com/q">
+<input type="text" style="color:#999" value="搜索此话题下内容 ..." name="q" id="search" autocomplete="off"><input type="submit" class="search_btn" value=""></form>
+
+<div style="font-size:12px;margin-top:19px;">
+
+
+
+
+        ${site_rec_render()}
+<div class="buzz_h1" id="rec_title">贡献者</div>
+<div class="site_rec" id="rec_wrapper" ></div>
+<script id="site_rec" type="text/x-jquery-tmpl">
+<%text>
+<div class="site_li c" id="rec_${$data[0]}">
+{{if $data[3]}}<div class="site_left"><div
+class="site_img"><a
+target="_blank"
+href="${$data[1]}"><img 
+class="site_avatar" src="${$data[3]}"></a></div></div><div class="
+{{else}}
+<div class="site_info_no_img
+{{/if}}
+site_info">
+<span class="site_name"><a target="_top"
+id="site_name_a" href="${$data[1]}">${$data[2]}</a></span>
+<a id="rec_id${$data[0]}"
+{{if $data[7] === true}}
+href="${$data[1]}/i" target="_blank"
+{{else}}
+href="javascript:void(0)"
+{{/if}}
+class="sitefav${$data[7]}"></a>
+<div class="site_bio">
+{{if $data[5]==1 && $data[4]}}
+<div>${$data[4]}</div>
+{{/if}}
+
+{{if $data[6]}}<div>${$data[6]}</div>{{/if}}
+</div>
+</div>
+
+</div>
+</%text>
+        </script>
+
+
+    </div>
+</div>
+
+
+<script src="${js.ctrl_tag}"></script>
+
+
+##{{if site.length}}
+##<div class="site_li" id='rec_${site[0]}'>
+##    <div class="site_left"><div class="site_img"><a href="${site[1]}"><img class="site_avatar" src="${site[3]}"></a></div></div>
+##    <div class="site_info">
+##        <span class="site_name"><a target="_top" id="site_name_a" href="${site[1]}">${site[2]}</a></span>
+##        {{if site[5] == 3}}
+##        <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:fav('${site[0]}')"></a>
+##        <div class="site_bio">${site[3]}</div>
+##    </div>
+##    <div class="delbtn"><a href="javascript:del('${site[0]}')" onclick=""></a></div>
+##    {{/if}}
+##    {{if site[5] == 1}}
+##    <a class="site_fav_a" id="rec_id${site[0]}" href="javascript:follow_a(${site[0]});void(0)"></a>
+##    <div class="site_bio">${site[3]}</div>
+##</div>
+##<div class="delbtn"><a href="javascript:follow_a(${site[0]});void(0)" onclick=""></a></div>
+##{{/if}}
+##
+##</div>
+##{{/if}}

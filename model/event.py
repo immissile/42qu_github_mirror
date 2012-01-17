@@ -603,7 +603,9 @@ def event_rm(user_id, id):
 
 def event_review_yes(id):
     event = Event.mc_get(id)
-    if event and event.state == EVENT_STATE_TO_REVIEW:
+    #print event,id, event.state
+
+    if event and event.state <= EVENT_STATE_TO_REVIEW:
         event.state = EVENT_STATE_BEGIN
         event.save()
         mc_flush_by_city_pid_cid(event.city_pid, event.cid)
@@ -786,6 +788,15 @@ def event_joiner_by_owner_id(user_id):
     return result
 
 if __name__ == '__main__':
+    pass
+    event = Event.mc_get(10204180)
+    print event.state , event.end_time
+#    for i in Event.where(state=EVENT_STATE_TO_REVIEW):
+#        print i.id
+#        i.state = EVENT_STATE_REJECT
+#        i.save()
+
+    #print event_review_yes(10202687)
 #    print last_event_by_zsite_id(10001299).id
 #    from zsite import Zsite
 #    from po import Po
@@ -795,7 +806,7 @@ if __name__ == '__main__':
 #        print 'http:%s'%i.link, '---', mail_by_user_id(i.id), '---', 'http:%s'%e.link, '---', Po.mc_get(e.id).name_
 #print last_event_by_zsite_id(10001299).id
 
-    for id , name, j in event_joiner_by_owner_id(10000000):
-        print id, name, j
+    #for id , name, j in event_joiner_by_owner_id(10000000):
+    #    print id, name, j
 
-    print event_joiner_new_count(2803)
+    #print event_joiner_new_count(2803)

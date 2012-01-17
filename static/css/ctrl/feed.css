@@ -1,3 +1,6 @@
+#txt_tip{
+display:none;
+}
 .feedbar a, .vote0 .num{
 color:#B2B2B2;
 outline:0;
@@ -58,7 +61,7 @@ margin-bottom:32px
 #feed_loading{
 outline:0;
 display:block;
-height:8px;
+height:32px;
 background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
 margin-bottom:64px;
 }
@@ -81,5 +84,5 @@ background: url(/img/gif/sayed.gif) no-repeat 50% 50%;
 }
 
 .po_word_txt_bg{
-background: url(/img/gif/today.gif) no-repeat 50% 50%;
+background: url(/img/gif/today.gif) no-repeat 50% 35%;
 }
