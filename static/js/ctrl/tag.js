@@ -6,7 +6,7 @@ function render_item(data){
         this.href="//"+this.rel+HOST_SUFFIX
     })
     result.appendTo("#item_list");
-    $(".com_main").css('visibility',"visible");
+    $(".com_main,.com_side").show();
 }
 ;$(function(){
 
