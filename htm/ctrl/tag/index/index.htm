@@ -1,3 +1,6 @@
+<%!
+from tornado.escape import json_encode 
+%>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 <%def name="htm_head()">
@@ -7,8 +10,22 @@ ${css.ctrl_tag_index|n}
 </%def>
 
 <script id="render_txt" type="text/x-jquery-tmpl"><%text>
-<pre class="prebody">{{html txt}}</pre>
-<div style="border-top:1px dotted #ccc;margin-top:7px;padding-top:14px;margin-bottom:4px" class="fdbar">     <span class="L"><span class="fdopt"><a class="fav" href="javascript:void(0)" rel="10208285"></a><span class="split">-</span><a href="javascript:share(10208285);void(0)" class="vote">推荐</a><span class="split">-</span><a href="javascript:fcm(10208285,5);void(0)" class="fcma"><span class="mr3">5</span>评论</a></span>     </span>  <a target="_blank" href="/10208285">1-12 12:42</a><span class="split">,</span>东西网 <a rel="nofollow" class="aH" href="http://yun.baidu.com/" target="_blank" style="height:14px;"></a></div>
+<pre class="prebody">{{html txt}}</pre><div
+class="fdbar"><span
+class="L"><span
+class="fdopt"><a
+class="fav"
+href="javascript:void(0)" rel="${id}"></a><span
+class="split">-</span><a
+href="javascript:share(${id});void(0)"
+class="vote">推荐</a><span
+class="split">-</span><a
+href="javascript:fcm(${id},${reply_count});void(0)"
+class="fcma"><span
+class="mr3">{{if reply_count}}${reply_count}{{/if}}</span>评论</a></span></span><a 
+target="_blank" href="/${link}">${time}</a><span
+class="split">,</span>{{html user_name}}<a
+class="aH" href="${link}" target="_blank"></a></div>
 </%text></script>
 
 <div class="G">
@@ -24,43 +41,21 @@ ${css.ctrl_tag_index|n}
 <div id="feeds"><div id="feed_index">
 <div class="main_nav">
 <a rel="10200938" href="javascript:void(0)" class="fav"></a>
-<div class="R">\
-<a class="now" href="#">文章</a>\
-<span class="split">-</span>\
-<a href="#">问题</a>\
-<span class="split">-</span>\
-<a href="#">微博</a>\
-<span class="split">-</span>\
-<a href="#">图片</a>\
-<span class="split">-</span>\
-<a href="#">视频</a></div>\
+##<div class="R">\
+##<a class="now" href="#">文章</a>\
+##<span class="split">-</span>\
+##<a href="#">问题</a>\
+##<span class="split">-</span>\
+##<a href="#">微博</a>\
+##<span class="split">-</span>\
+##<a href="#">图片</a>\
+##<span class="split">-</span>\
+##<a href="#">视频</a></div>\
+
+<div class="R c9"><span class="mr3">${total}</span>文章</div>\
+
 </div>
-<div>
-%for pos, id in enumerate(xrange(20)):
-    <div 
-style="
-%if not pos:
-border-top:0;
-%endif
-" 
-class="readl c">
-<a rel="10200938" href="javascript:void(0)" class="fav"></a>
-<div id="reado${id}" class="reado">
-<span 
-%if pos%5!=1:
-style="color:#000"
-%else:
-style="color:#999"
-%endif
-class="reada"
-><span class="title">小故事</span>\
-<span class="rtip">山东临朐县20万干部群众正在服用一些不知名的药品，怀疑这20万人被强行做 ...</span>
-</span>  
-</div>
-<div class="zname" style=""><a style="font-size:12px" target="_top" href="http://wangleheng.42qu.com/">joyfire 王乐珩</a></div>         
-</div>
-%endfor
-</div>
+<div id="item_list"></div>
 
 %if page:
 ${page|n}
@@ -134,6 +129,22 @@ class="sitefav${$data[7]}"></a>
 
 
 <script src="${js.ctrl_tag}"></script>
+<script id="render_item" type="text/x-jquery-tmpl"><%text>
+<div class="readl c">
+<a rel="${$data[0]}" href="javascript:void(0)"
+class="fav{{if $data[5]}}ed{{/if}}"></a>
+<div id="reado${$data[0]}" class="reado">
+<span class="reada">
+<span class="title">${$data[1]}</span>
+<span class="rtip">${$data[2]}</span>
+</span>  
+</div>
+<div class="zname">
+<a href="#" rel="${$data[3]}" class="TPH" target="_blank">${$data[4]}</a>
+</div>         
+</div>
+</%text></script>
+<script>render_item(${json_encode(items)|n}) </script>
 
 
 ##{{if site.length}}

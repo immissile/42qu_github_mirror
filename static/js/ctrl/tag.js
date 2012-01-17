@@ -1,4 +1,13 @@
-b1024()
+b1024();
+function render_item(data){
+    var result = $("#render_item").tmpl(data)
+    result[0].style.borderTop=0
+    result.find('.TPH').each(function(){
+        this.href="//"+this.rel+HOST_SUFFIX
+    })
+    result.appendTo("#item_list");
+    $(".com_main").css('visibility',"visible");
+}
 ;$(function(){
 
     var data = $.parseJSON($("#site_data").html()),
@@ -38,37 +47,50 @@ b1024()
         scrollTop=feeds.offset().top-14,
         oldtop=-1,
         winj=$(window),
-        txt_loading=$('<div><div class="main_nav" id="main_nav_txt"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div><div id="feed_loading"></div></div>'),
+        txt_loading=$('<div><div class="main_nav" id="main_nav_txt"><div id="main_nav_in"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div></div><div id="feed_loading"></div></div>'),
         txt_title=txt_loading.find('#main_nav_title'),
-        main_nav_txt = txt_loading.find('#main_nav_txt')
-        feed_loading=txt_loading.find('#feed_loading');
+        main_nav_txt = txt_loading.find('#main_nav_txt'),
+        feed_loading=txt_loading.find('#feed_loading'),
+        txt_body;
 
     function readx(){
         txt_loading.remove()
         feed_index.show() 
         winj.scrollTop(oldtop)
         oldtop=-1
+        txt_body.replaceWith(feed_loading)
     }
 
     $('.readx').live('click',readx)
-    $(document).bind("keypress",function(e){
-        if(e.keyCode == 27 && oldtop>0){
+    $(document).bind("keyup",function(e){
+        if(e.keyCode == 27 && oldtop>=0){
             readx()
         }
     })
 
     $('.reado').live('click',function(){
         feed_index.hide();
-        var self=$(this);
-        txt_title.html(self.find('.title').html());
-        feeds.append(txt_loading)
-        oldtop=winj.scrollTop()
-        
-        winj.scrollTop(scrollTop)
-        $.get("/j/fdtxt/3875",function(txt){
-            feed_loading.replaceWith(render_txt.tmpl({txt:txt}))
+        var self=$(this), 
+            title=self.find('.title').addClass('c9'), 
+            id=this.id.slice(5), 
+            user=$(this.parentNode).find('.TPH'),
+            user_link=user[0].href;
+        txt_title.html(title.html());
+        feeds.append(txt_loading);
+        oldtop=winj.scrollTop();
+        winj.scrollTop(scrollTop);
+        $.get(
+            "/j/po/json/"+id,
+            function(r){
+            r.id=id
+            r.user_name=user.html()
+            r.link = user_link+"/"+id
+            r.time = $.timeago(r.create_time)
+            txt_body = render_txt.tmpl(r)
+            feed_loading.replaceWith(txt_body)
             winj.scrollTop(scrollTop)
         })
+
         return false; 
     })
 

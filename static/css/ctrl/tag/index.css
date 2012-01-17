@@ -150,11 +150,14 @@ padding:7px; 8px 0 0;
 }
 .main_nav{
 color:#ccc;
-padding:7px 0;
+padding: 7px 2px;
 border-bottom: 1px dotted #ccc;
 }
 .main_nav a{
     color:#999;
+}
+.com_main{
+visibility:hidden;
 }
 #feeds .main_nav .split{
 margin:0 14px;
@@ -167,9 +170,6 @@ margin-left:-12px;
 }
 .main_nav .now{
     color:#666;
-}
-.main_nav{
-    padding: 7px 2px;
 }
 .com_main .page{
 border-top:1px dotted #ccc;
@@ -216,15 +216,24 @@ margin:0;
 float:left;
 color:#000;
 }
-#main_nav_txt{
-width:666px;
+
+#main_nav_in{
+margin-left:-1px;
+padding:14px 1px;
 background:#fff;
-position:absolute;
-_position:static;
-padding:14px 0;
-text-align:right;
+width:666px;
 border-bottom: 1px solid #f3f3f3;
 box-shadow:0 2px 2px #f3f3f3;
+}
+#main_nav_txt{
+width:666px;
+overflow:hidden;
+height:59px;
+position:absolute;
+_position:static;
+text-align:right;
+border-bottom:0;
+padding:0;
 }
 .prebody{
 padding-top:70px;
@@ -237,12 +246,6 @@ margin:7px 3px 0 0;
 .readl a{
 color:#999;
 }
-.reado{
-float:left;
-height:28px;
-overflow:hidden;
-width::500px
-}
 .reado, .reado span, .reado div{
 cursor:pointer;
 }
@@ -252,6 +255,11 @@ margin-top: 0;
 text-align:right; 
 padding: 5px 2px; 
 }
+.readl .zname{
+width:118px;
+overflow:hidden;
+float:right;
+}
 .readl .zname, .readl .rtip{
 font-size:13px;
 }
@@ -260,6 +268,22 @@ vertical-align:-1px;
 margin-left:7px;
 color:#999;
 }
-
-
-
+.reado:hover .title, .reado:hover .rtip{
+text-shadow:1px 1px 2px #ccc;
+}
+.reado{
+float:left;
+height:28px;
+overflow:hidden;
+width:520px;
+text-align:left;
+}
+.fdbar .aH{
+height:14px;
+}
+.fdbar{
+border-top:1px dotted #ccc;
+margin-top:7px;
+padding-top:14px;
+margin-bottom:4px
+}
