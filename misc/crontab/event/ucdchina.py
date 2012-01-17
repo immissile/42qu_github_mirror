@@ -55,11 +55,11 @@ class UCDchina(object):
             #a = RssPo(content,UCD_USER_ID,title, pic_list, 0, UCDCHINA_ZSITE_ID,tags)
             #a.htm2po_by_po() 
 
-           # writer = Writer.get_instance()
-           # writer = writer.choose_writer('ucdchina.data')
-           # writer.write(out+'\n')
+           #writer = Writer.get_instance()
+           #writer = writer.choose_writer('ucdchina.data')
+           #writer.write(out+'\n')
 
-    def save_page(page, url):
+    def save_page(self,page, url):
         filename = self.name_builder(url)
         with open(filename, 'w') as f:
             f.write(page)
