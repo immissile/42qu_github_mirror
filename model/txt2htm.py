@@ -12,6 +12,7 @@ r'((?:https?://[\w\-]+\.)'
 r'[\w\-.%/=+#:~!,\'\*\^@]+'
 r'(?:\?[\w\-.;%/=+#:~!,\'\*&$@]*)?)'
 )
+RE_IMG = re.compile(r'图:(.+jpg)')
 RE_LINK_TARGET = re.compile(
 r'(\[\[)?((?:https?://[\w\-]+\.)'
 r'[\w\-.%/=+#:~!,\'\*\^@]+'
@@ -71,6 +72,8 @@ def replace_link(match):
         return HTM_YOUKU%g
     elif g.endswith('.swf'):
         return HTM_SWF%g
+    elif g.endswith('.jpg'):
+        return """<a target="_blank" href="%s" rel="nofollow"><img src="%s"/></a>""" %(g, g)
     else:
         if (b and b.startswith('[[')) and (e and e.endswith(']]')):
             return """<a title="%s" target="_blank" href="%s" class="aH" rel="nofollow"></a>""" %(g, g)
@@ -108,18 +111,25 @@ def replace_at(match):
 
 
 if __name__ == '__main__':
+    print txt2htm_withlink('''
+支付宝推荐
+交通罚款代办全新上线！全国交通违章罚单免费查询。
+出账单：全民年度账单发布，年度大盘点，《2011，我们一起走过》
+更多帮助 | 去问吧找答案
+图:http://img3.douban.com/lpic/s7044274.jpg
+    ''')
 
-    print txt_withlink( """
-{{{#!python
-/**
-s
-**/
-def replace_at(match):
-
-    prefix, name, url = match.groups()
-    return '%s@<a target="_blank" href="//%s.%s">%s</a>' % (prefix, url, SITE_DOMAIN, name)
-
-}}}""")
+#    print txt_withlink( """
+#{{{#!python
+#/**
+#s
+#**/
+#def replace_at(match):
+#
+#    prefix, name, url = match.groups()
+#    return '%s@<a target="_blank" href="//%s.%s">%s</a>' % (prefix, url, SITE_DOMAIN, name)
+#
+#}}}""")
 
 #    print txt_withlink("""
 #输出 :
@@ -128,3 +138,6 @@ def replace_at(match):
 #加勒比海盗
 #http://player.youku.com/player.php/sid/XMzA4NDkzNTQ4/v.swf
 #""")
+    #print RE_IMG.sub(lambda x:'<img src="%s"/>'%x.groups(),'''
+    #图:http://google.com/icon.jpg
+    #''')

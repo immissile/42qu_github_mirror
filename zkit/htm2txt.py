@@ -101,7 +101,6 @@ def htm2txt(htm):
                     if src:
                         if src not in pic_list:
                             img_url = upyun_rsspic.append(src)
-                            #img_url = save_rss_pic(src)
                             pic_list.append(img_url)
                         li.append(u'\n图:%s\n' % img_url)
                 else:
