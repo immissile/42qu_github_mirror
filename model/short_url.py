@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from _db import  McModel
+from _db import  Model
 from config import SHORT_DOMAIN
 from zkit.base58 import b58decode, b58encode
 from zkit.img_filter import img_filter
 from txt2htm import RE_LINK_TARGET
 
-class UrlShort(McModel):
+class UrlShort(Model):
     pass
 
 def replace_link(match):
@@ -21,11 +21,8 @@ def replace_link(match):
 
 
 def url_short(url):
-    short_url = UrlShort.get(value=url)
-    if not short_url:
-        short_url = UrlShort(value=url)
-        short_url.save()
-
+    short_url = UrlShort(value=url)
+    short_url.save()
     s_url_id = b58encode(short_url.id)
 
     link = 'http://%s/%s' % (SHORT_DOMAIN, s_url_id)
@@ -41,7 +38,6 @@ def url_short_by_id(id):
 def url_short_txt(s):
     if type(s) is unicode:
         s = str(s)
-    s = '\r'.join(map(str.rstrip, s.replace('\r\n', '\r').replace('\n', '\r').split('\r')))
     s = RE_LINK_TARGET.sub(replace_link, s)
     return s
 

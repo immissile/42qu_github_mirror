@@ -40,6 +40,8 @@ def prepare(o):
 
     o.DEBUG = False
 
+    o.SHORT_DOMAIN = '42qu.us'
+
     o.DISABLE_LOCAL_CACHED = False
     o.MEMCACHED_ADDR = ('127.0.0.1:11211', )
 
