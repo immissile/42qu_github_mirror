@@ -2,7 +2,7 @@
 
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 import htmlentitydefs, re
-from upyun import save_rss_pic
+from upyun import upyun_rsspic
 BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
 
 _char = re.compile(r'&(\w+?);')
@@ -100,7 +100,8 @@ def htm2txt(htm):
                     src = i.get('src')
                     if src:
                         if src not in pic_list:
-                            img_url = save_rss_pic(src)
+                            img_url = upyun_rsspic.append(src)
+                            #img_url = save_rss_pic(src)
                             pic_list.append(img_url)
                         li.append(u'\n图:%s\n' % img_url)
                 else:
@@ -113,7 +114,7 @@ def htm2txt(htm):
                             li.append(s)
                     elif name in BLOCK:
                         li.append(u'\n%s\n' % s)
-                    elif name in BOLD and "**" not in s and "\n" not in s:
+                    elif name in BOLD and '**' not in s and '\n' not in s:
                         li.append(u'**%s**' % s)
                     else:
                         li.append(s)
@@ -131,7 +132,7 @@ if __name__ == '__main__':
     reload(sys)
     sys.setdefaultencoding('utf-8')
     print htm2txt("""
-<pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;"><span class="cc"><table><tr><td><img src="http://img3.douban.com/view/note/large/public/p180084057-2.jpg" alt=""/></td></tr><tr><td align='center' class="wr pl"></td></tr></table></span>
+<pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;"><span class="cc"><table><tr><td><img src="http://27.media.tumblr.com/tumblr_lj8noxh3ee1qixe63o1_250.jpg" alt=""/></td></tr><tr><td align='center' class="wr pl"></td></tr></table></span>
 如果<h1><h2>某一天</h2></h1>，
 你身上多了一个“恢复出厂设置”按钮，一按身体和记忆一切归为出生时。 你会去按它吗？</pre>
 """)[0]
