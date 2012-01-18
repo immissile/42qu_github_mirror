@@ -17,5 +17,5 @@ class UrlShortJson(_handler.Base):
     def get(self):
         url = self.get_argument('url', '')
         link = url_short(url)
-        self.finish(jsonp(self, "%s"%link))
+        self.finish(jsonp(self, '"%s"'%link))
 
