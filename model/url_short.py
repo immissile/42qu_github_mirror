@@ -31,7 +31,7 @@ def url_short(url):
 
         link = '%s/%s' % (SHORT_LINK, s_url_id)
         return link
-    return "
+    return ""
 
 def url_short_by_id(id):
     #id = b58decode(id)
