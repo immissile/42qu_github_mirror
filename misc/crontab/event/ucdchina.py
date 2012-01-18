@@ -43,7 +43,7 @@ class UCDchina(object):
             blog_url = txt_wrap_by('>推荐您进入文章源地址阅读和发布评论：<a href="','"',page)
 
             if content_wrapper:
-                content,pic_list = htm2txt(content_wrapper)
+                content,pic_list = htm2txt(content_wrapper.decode('utf-8','ignore' ))
             else:
                 return 
             

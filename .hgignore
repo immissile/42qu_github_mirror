@@ -32,3 +32,6 @@ static/file/*
 misc/crontab/event/cache/
 misc/crontab/event/ucdchina/
 linux/zrank/
+misc/crontab/event/yeeyan/*
+test/*
+misc/crontab/event/danxiangjie/*
