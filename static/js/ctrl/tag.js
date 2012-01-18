@@ -91,7 +91,7 @@ function render_item(data){
 
             r.id=id
             r.user_name=user.html()
-            r.link = user_link+"/"+id
+            r.link = user_link+id
             r.time = $.timeago(r.create_time)
             r.fav = $('#fav'+id)[0].className
 
