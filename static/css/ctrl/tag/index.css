@@ -156,8 +156,8 @@ border-bottom: 1px dotted #ccc;
 .main_nav a{
     color:#999;
 }
-.com_main{
-visibility:hidden;
+.com_main, .com_side{
+display:none
 }
 #feeds .main_nav .split{
 margin:0 14px;
@@ -259,6 +259,7 @@ padding: 5px 2px;
 width:118px;
 overflow:hidden;
 float:right;
+height:26px;
 }
 .readl .zname, .readl .rtip{
 font-size:13px;

@@ -53,7 +53,9 @@ class Po(McModel, ReplyMixin):
     @property
     def txt(self):
         cid = self.cid
-        if cid in (CID_WORD, CID_EVENT_NOTICE, CID_REC):
+        if cid == CID_WORD:
+            return self.name_
+        elif cid in (CID_EVENT_NOTICE, CID_REC):
             return self.name_
         elif cid == CID_ANSWER:
             return txt_get(self.id) or self.name_
@@ -483,17 +485,20 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
+        
     #rm_all_po_and_reply_and_tag_by_user_id(10001299)
     pass
-    from os import path
-    for po in Po.where(user_id=10000000,cid = CID_NOTE,state=STATE_ACTIVE):
-        with open(path.join('/home/work/10000000/', str(po.id)),'w') as f:
-            f.write(po.name)
-            f.write(po.txt)
-    #po = Po.mc_get(10199705)
-    #pass
-    po = Po.mc_get(10199705)
-    print dir(po)
+    #from os import path
+    #for po in Po.where(user_id=10000000,cid = CID_NOTE,state=STATE_ACTIVE):
+    #    with open(path.join('/home/work/10000000/', str(po.id)),'w') as f:
+    #        f.write(po.name)
+    #        f.write(po.txt)
+    ##po = Po.mc_get(10199705)
+    ##pass
+    #po = Po.mc_get(10210260)
+    #
+    #po.name_ = po.name_.replace("\n"," ; ").replace(";  ;"," ; ").replace("2012  ;","2012 ")
+    #po.save()
     #print po.name
     #print po.cid
 
