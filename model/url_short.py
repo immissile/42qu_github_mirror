@@ -23,12 +23,15 @@ def replace_link(match):
 
 
 def url_short(url):
-    url_short = UrlShort(value=url)
-    url_short.save()
-    s_url_id = b58encode(url_short.id)
+    url = url.strip()
+    if url:
+        url_short = UrlShort(value=url)
+        url_short.save()
+        s_url_id = b58encode(url_short.id)
 
-    link = '%s/%s' % (SHORT_LINK, s_url_id)
-    return link
+        link = '%s/%s' % (SHORT_LINK, s_url_id)
+        return link
+    return "
 
 def url_short_by_id(id):
     #id = b58decode(id)
