@@ -12,7 +12,6 @@ r'((?:https?://[\w\-]+\.)'
 r'[\w\-.%/=+#:~!,\'\*\^@]+'
 r'(?:\?[\w\-.;%/=+#:~!,\'\*&$@]*)?)'
 )
-RE_IMG = re.compile(r'图:(.+jpg)')
 RE_LINK_TARGET = re.compile(
 r'(\[\[)?((?:https?://[\w\-]+\.)'
 r'[\w\-.%/=+#:~!,\'\*\^@]+'
@@ -138,6 +137,3 @@ if __name__ == '__main__':
 #加勒比海盗
 #http://player.youku.com/player.php/sid/XMzA4NDkzNTQ4/v.swf
 #""")
-    #print RE_IMG.sub(lambda x:'<img src="%s"/>'%x.groups(),'''
-    #图:http://google.com/icon.jpg
-    #''')
