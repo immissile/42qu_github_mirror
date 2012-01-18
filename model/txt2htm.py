@@ -21,6 +21,7 @@ RE_SPACE = re.compile(""" ( +)""")
 RE_AT = re.compile(r'(\s|^)@([^@\(\)\s]+(?:\s+[^@\(\)\s]+)*)\(([a-zA-Z0-9][a-zA-Z0-9\-]{,31})\)(?=\s|$)')
 RE_BOLD = re.compile(r'\*{2}([^\*].*?)\*{2}')
 RE_CODE = re.compile(r'\{\{\{(.*)\}\}\}', re.S)
+RE_IMG = re.compile(r'图:.+href="(.+?.jpg).+(</a>)?')
 
 HTM_SWF = """<embed src="%s" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>"""
 HTM_YOUKU = HTM_SWF%'''http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior'''
@@ -71,14 +72,17 @@ def replace_link(match):
         return HTM_YOUKU%g
     elif g.endswith('.swf'):
         return HTM_SWF%g
-    elif g.endswith('.jpg'):
-        return """<a target="_blank" href="%s" rel="nofollow"><img src="%s"/></a>""" %(g, g)
     else:
         if (b and b.startswith('[[')) and (e and e.endswith(']]')):
             return """<a title="%s" target="_blank" href="%s" class="aH" rel="nofollow"></a>""" %(g, g)
         else:
             return """<a target="_blank" href="%s" rel="nofollow">%s</a>""" %(g, g)
     return ''
+
+def replace_img(match):
+    g =  match.groups()[0]
+    print g
+    return """<a target="_blank" href="%s" rel="nofollow"><img src="%s"/></a>""" %(g, g)
 
 def replace_bold(match):
     txt = match.groups()[0]
@@ -102,6 +106,7 @@ def txt2htm_withlink(s):
     s = s.replace('\n', '\n<br>')
     s = RE_LINK_TARGET.sub(replace_link, s)
     s = RE_SPACE.sub(replace_space, s)
+    s = RE_IMG.sub(replace_img,s)
     return s
 
 def replace_at(match):
@@ -115,7 +120,9 @@ if __name__ == '__main__':
 交通罚款代办全新上线！全国交通违章罚单免费查询。
 出账单：全民年度账单发布，年度大盘点，《2011，我们一起走过》
 更多帮助 | 去问吧找答案
-图:http://img3.douban.com/lpic/s7044274.jpg
+图:http://img3.douban.com/lpic/s7044274.jpg  图:http://img3.douban.com/lpic/s704427411.jpg 
+图:http://img3.douban.com/lpic/s7044274.jpg 
+http://img3.douban.com/lpic/s7044274.jpg
     ''')
 
 #    print txt_withlink( """

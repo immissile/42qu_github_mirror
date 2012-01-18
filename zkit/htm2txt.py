@@ -100,9 +100,9 @@ def htm2txt(htm):
                     src = i.get('src')
                     if src:
                         if src not in pic_list:
-                            img_url = upyun_rsspic.append(src)
-                            pic_list.append(img_url)
-                        li.append(u'\n图:%s\n' % img_url)
+                            #img_url = upyun_rsspic.append(src)
+                            pic_list.append(src)
+                        li.append(u'\n图:%s\n' % src)
                 else:
                     s = soup2txt_recursion(i)
 
