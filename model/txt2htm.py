@@ -108,23 +108,23 @@ def replace_at(match):
 
 
 if __name__ == '__main__':
+#
+#    print txt_withlink( """
+#{{{#!python
+#/**
+#s
+#**/
+#def replace_at(match):
+#
+#    prefix, name, url = match.groups()
+#    return '%s@<a target="_blank" href="//%s.%s">%s</a>' % (prefix, url, SITE_DOMAIN, name)
+#
+#}}}""")
 
-    print txt_withlink( """
-{{{#!python
-/**
-s
-**/
-def replace_at(match):
-
-    prefix, name, url = match.groups()
-    return '%s@<a target="_blank" href="//%s.%s">%s</a>' % (prefix, url, SITE_DOMAIN, name)
-
-}}}""")
-
-#    print txt_withlink("""
-#输出 :
-#Google Reader 视频
-#http://player.youku.com/player.php/sid/XMjQ2ODM1Mjcy/v.swf
-#加勒比海盗
-#http://player.youku.com/player.php/sid/XMzA4NDkzNTQ4/v.swf
-#""")
+    print txt_withlink("""
+输出 :
+Google Reader 视频
+http://player.youku.com/player.php/sid/XMjQ2ODM1Mjcy/v.swf
+加勒比海盗
+http://player.youku.com/player.php/sid/XMzA4NDkzNTQ4/v.swf
+""")

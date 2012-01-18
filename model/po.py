@@ -19,6 +19,7 @@ from zkit.txt import cnencut
 from zkit.attrcache import attrcache
 from cgi import escape
 import json
+from short_url import url_short_txt
 from zkit.jsdict import JsDict
 from buzz_reply import mq_buzz_po_rm
 from buzz_at import mq_buzz_at_new
@@ -102,6 +103,7 @@ class Po(McModel, ReplyMixin):
 
     def txt_set(self, txt):
         id = self.id
+        txt = url_short_txt(txt)
         txt_new(id, txt or '')
         self.mc_flush()
 
@@ -378,11 +380,11 @@ def _po_rm(user_id, po):
     fav_rm_by_po(po)
     return True
 
-
 def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
     _is_same_post = is_same_post(user_id, name, zsite_id)
     #print _is_same_post, '_is_same_post', name
     if name and not _is_same_post:
+        name = url_short_txt(name)
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
             m.feed_new()
