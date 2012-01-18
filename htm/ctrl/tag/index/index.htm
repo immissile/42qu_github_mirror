@@ -14,7 +14,7 @@ ${css.ctrl_tag_index|n}
 class="fdbar"><span
 class="L"><span
 class="fdopt"><a
-class="fav"
+class="${fav}"
 href="javascript:void(0)" rel="${id}"></a><span
 class="split">-</span><a
 href="javascript:share(${id});void(0)"
@@ -132,6 +132,7 @@ class="sitefav${$data[7]}"></a>
 <script id="render_item" type="text/x-jquery-tmpl"><%text>
 <div class="readl c">
 <a rel="${$data[0]}" href="javascript:void(0)"
+id="fav${$data[0]}"
 class="fav{{if $data[5]}}ed{{/if}}"></a>
 <div id="reado${$data[0]}" class="reado">
 <span class="reada">
