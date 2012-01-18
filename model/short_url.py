@@ -30,7 +30,7 @@ def url_short(url):
 
 def url_short_by_id(id):
     id = b58decode(id)
-    url = UrlShort.mc_get(id)
+    url = UrlShort.get(id)
     if url:
         return url.value
     return None
@@ -47,4 +47,4 @@ if __name__ == '__main__':
 
 #print url_short_by_id('3T')
     print url_short_txt('sfsdfsdf http://g.cn/df.png http://google.com https://mail.google.com/mail/u/0/#inbox/134ec4da6de5b5a7 https://mail.google.com/mail/u/0/#inbox')
-    #print url_short_by_id('4x')
+    print url_short_by_id('4x')
