@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from zrank import hot, confidence
+#from zrank import hot, confidence
 from _db import Model, McModel, McCache, McCacheA, McLimitA, McNum
 from vote import vote_up_count, vote_down_count
 from zsite import Zsite
