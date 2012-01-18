@@ -49,4 +49,5 @@ if __name__ == '__main__':
 #    print url_short("http://google"+str(i))
 
 #print url_short_by_id('3T')
-    print url_short_txt("sfsdfsdf http://google.com https://mail.google.com/mail/u/0/#inbox/134ec4da6de5b5a7")
+    print url_short_txt('sfsdfsdf http://google.com https://mail.google.com/mail/u/0/#inbox/134ec4da6de5b5a7 https://mail.google.com/mail/u/0/#inbox')
+    print url_short_by_id('4x')
