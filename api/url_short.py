@@ -7,7 +7,7 @@ from model.url_short import url_short, url_short_by_key, url_short_txt
 from zweb.json import jsonp
 from yajl import dumps
 
-@urlmap('/url/short/(.+)')
+@urlmap('/url/short/([a-zA-Z0-9\-_]+)')
 class UrlShort(_handler.Base):
     def get(self, key):
         self.finish(url_short_by_key(key))
