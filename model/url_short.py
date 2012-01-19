@@ -4,7 +4,7 @@
 import _env
 from _db import  Model
 from config import SHORT_DOMAIN
-from zkit.id2char.py import b58decode, b58encode
+from zkit.id2char import num_decode, num_encode
 from zkit.img_filter import img_filter
 from txt2htm import RE_LINK_TARGET
 
@@ -27,14 +27,14 @@ def url_short(url):
     if url:
         url_short = UrlShort(value=url)
         url_short.save()
-        s_url_id = b58encode(url_short.id)
+        s_url_id = num_encode(url_short.id)
 
         link = '%s/%s' % (SHORT_LINK, s_url_id)
         return link
     return ""
 
 def url_short_by_id(id):
-    #id = b58decode(id)
+    #id = num_decode(id)
     url = UrlShort.get(id)
     if url:
         return url.value
