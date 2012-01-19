@@ -6,11 +6,12 @@ from zkit.page import page_limit_offset
 from model.po_by_tag import po_by_tag
 
 @urlmap('/')
+@urlmap('/-(\d+)')
 class Index(Base):
-    def get(self):
+    def get(self,n=1):
         total = 100
         page, limit, offset = page_limit_offset(
-            "/%s", total, 1
+            "/-%s", total, n
         )
         current_user_id = self.current_user_id
         items = po_by_tag(1, current_user_id)
