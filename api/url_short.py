@@ -3,14 +3,14 @@
 
 import _handler
 from _urlmap import urlmap
-from model.url_short import url_short, url_short_by_id, url_short_txt
+from model.url_short import url_short, url_short_by_key, url_short_txt
 from zweb.json import jsonp
 from yajl import dumps
 
-@urlmap('/url/short/(\d+)')
+@urlmap('/url/short/([a-zA-Z0-9\-_]+)')
 class UrlShort(_handler.Base):
-    def get(self, id):
-        self.finish(url_short_by_id(id))
+    def get(self, key):
+        self.finish(url_short_by_key(key))
 
 @urlmap('/url/short')
 class UrlShortJson(_handler.Base):
