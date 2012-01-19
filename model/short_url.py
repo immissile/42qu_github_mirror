@@ -8,6 +8,8 @@ from zkit.base58 import b58decode, b58encode
 from zkit.img_filter import img_filter
 from txt2htm import RE_LINK_TARGET
 
+
+SHORT_LINK = 'http://%s'%SHORT_DOMAIN
 class UrlShort(Model):
     pass
 
@@ -15,7 +17,7 @@ def replace_link(match):
     from po_video import  video_filter
     gs = match.groups()
     b, g , e = gs
-    if not ( video_filter(g)[0] or img_filter(g) or g.startswith('http://%s'%SHORT_DOMAIN)):
+    if not ( video_filter(g)[0] or img_filter(g) or g.startswith(SHORT_LINK):
         g = url_short(g)
     return g
 
@@ -25,7 +27,7 @@ def url_short(url):
     short_url.save()
     s_url_id = b58encode(short_url.id)
 
-    link = 'http://%s/%s' % (SHORT_DOMAIN, s_url_id)
+    link = '%s/%s' % (SHORT_LINK, s_url_id)
     return link
 
 def url_short_by_id(id):
