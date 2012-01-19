@@ -19,7 +19,7 @@ from zkit.txt import cnencut
 from zkit.attrcache import attrcache
 from cgi import escape
 import json
-from short_url import url_short_txt
+from url_short import url_short_txt
 from zkit.jsdict import JsDict
 from buzz_reply import mq_buzz_po_rm
 from buzz_at import mq_buzz_at_new

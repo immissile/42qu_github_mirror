@@ -28,7 +28,7 @@ def goo_gl(url):
     res = response.read()
     conn.close()
     r = json.loads(res)
-    return r['short_url']
+    return r['url_short']
  
 def paste_code():
     request = urllib2.Request(

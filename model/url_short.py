@@ -23,9 +23,9 @@ def replace_link(match):
 
 
 def url_short(url):
-    short_url = UrlShort(value=url)
-    short_url.save()
-    s_url_id = b58encode(short_url.id)
+    url_short = UrlShort(value=url)
+    url_short.save()
+    s_url_id = b58encode(url_short.id)
 
     link = '%s/%s' % (SHORT_LINK, s_url_id)
     return link

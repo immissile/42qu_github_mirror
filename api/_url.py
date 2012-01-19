@@ -5,4 +5,4 @@ import feed
 import oauth
 import compatible
 import j
-import short_url
+import url_short

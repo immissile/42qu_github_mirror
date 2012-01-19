@@ -3,7 +3,7 @@
 
 import _handler
 from _urlmap import urlmap
-from model.short_url import url_short, url_short_by_id, url_short_txt
+from model.url_short import url_short, url_short_by_id, url_short_txt
 from zweb.json import jsonp
 from yajl import dumps
 

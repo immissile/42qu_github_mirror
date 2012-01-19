@@ -13,7 +13,7 @@ from urlfetch import urlfetch
 
 SINA_API_KEY = '3152496704'
 
-SINA_SHORT_URL = 'http://api.t.sina.com.cn/short_url/shorten.json?source=%s&url_long=%%s'%SINA_API_KEY
+SINA_SHORT_URL = 'http://api.t.sina.com.cn/url_short/shorten.json?source=%s&url_long=%%s'%SINA_API_KEY
 
 def t_cn(url):
     url = urllib.quote(url)
