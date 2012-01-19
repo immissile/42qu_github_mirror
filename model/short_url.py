@@ -20,8 +20,8 @@ def replace_link(match):
     return g
 
 
-def url_short(url):
-    short_url = UrlShort(value=url)
+def url_short(url, user_id=0):
+    short_url = UrlShort(value=url, user_id=user_id)
     short_url.save()
     s_url_id = b58encode(short_url.id)
 
