@@ -25,4 +25,4 @@ def num_decode(s):
     return n
 
 if __name__ == '__main__':
-    pass
+    print num_encode(13456)
