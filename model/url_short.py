@@ -4,7 +4,7 @@
 import _env
 from _db import  Model
 from config import SHORT_DOMAIN
-from zkit.id2char import num_decode, num_encode
+from zkit.num2code import num_decode, num_encode
 from zkit.img_filter import img_filter
 from txt2htm import RE_LINK_TARGET
 
