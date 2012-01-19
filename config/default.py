@@ -32,6 +32,8 @@ def prepare(o):
     o.MYSQL_USER = 'root'
     o.MYSQL_PASSWD = '42qu'
 
+
+    o.DUMPLICATE_DB = 'test.kch'
     o.MQ_PORT = 11300
     o.MQ_FAIL_MAIL_ADDR = "zsp007@gmail.com"
 
