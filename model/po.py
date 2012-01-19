@@ -103,7 +103,7 @@ class Po(McModel, ReplyMixin):
 
     def txt_set(self, txt):
         id = self.id
-        txt = url_short_txt(txt)
+        txt = url_short_txt(txt, self.user_id)
         txt_new(id, txt or '')
         self.mc_flush()
 
@@ -384,7 +384,7 @@ def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
     _is_same_post = is_same_post(user_id, name, zsite_id)
     #print _is_same_post, '_is_same_post', name
     if name and not _is_same_post:
-        name = url_short_txt(name)
+        name = url_short_txt(name, user_id)
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
             m.feed_new()
