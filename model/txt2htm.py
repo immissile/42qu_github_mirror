@@ -91,13 +91,14 @@ def replace_bold(match):
 def txt_withlink(s):
     if type(s) is unicode:
         s = str(s)
-    s = '\r'.join(map(str.rstrip, s.replace('\r\n', '\r').replace('\n', '\r').split('\r')))
+    #s = '\r'.join(map(str.rstrip, s.replace('\r\n', '\r').replace('\n', '\r').split('\r')))
     s = escape(s)
     replace_code = ReplaceCode()
     s = txt_map('\r{{{', '\r}}}\r', '\r%s\r'%s, replace_code).strip()
     s = RE_BOLD.sub(replace_bold, s)
     s = RE_LINK_TARGET.sub(replace_link, s)
     s = RE_AT.sub(replace_at, s)
+    s = RE_IMG.sub(replace_img,s)
     s = replace_code.loads(s)
     return s
 
