@@ -37,4 +37,8 @@ adfdf
 
 　　对比近asdfasdf几年的春晚开场，虎年春晚以歌舞大联欢引导主持出场，兔年春晚则主打“山楂树组合”，到龙年春晚由王珞丹等“新鲜”面孔混搭朱军、李咏、老毕组成的“霸气男人帮”阵容，“鲜”字概念逐年突显。
 '''
-    print find_duplicate(a)
+    #print find_duplicate(a)
+
+    from po import Po
+    for po in Po.where(cid = CID_NOTE,state=STATE_ACTIVE):
+        Duplicate.insert(po.txt,po.id)

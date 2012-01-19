@@ -44,7 +44,6 @@ CID_EVENT_NOTICE = 70
 CID_PRODUCT = 71
 CID_REVIEW = 72
 CID_REC = 73
-CID_TAG_PO = 74
 
 CID_PIC = (
     CID_ICO,
@@ -67,7 +66,6 @@ CID_PO = (
     CID_PRODUCT,
     CID_REVIEW,
     CID_REC,
-    CID_TAG_PO,
 )
 
 # Notice
