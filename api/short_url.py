@@ -12,8 +12,9 @@ class UrlShort(_handler.Base):
     def get(self, id):
         self.finish(url_short_by_id(id))
 
-@urlmap('/url/json/short/(.+)')
+@urlmap('/url/json/short/')
 class UrlShortJson(_handler.Base):
-    def get(self,id):
-        self.finish(jsonp(self, dumps(url_short_by_id(id))))
+    def get(self):
+        url = self.get_argument("url",None)
+        self.finish(jsonp(self, dumps(url_short(url))))
         

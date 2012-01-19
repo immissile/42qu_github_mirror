@@ -29,6 +29,7 @@ def url_short(url, user_id=0):
     return link
 
 def url_short_by_id(id):
+    print id
     id = b58decode(id)
     url = UrlShort.get(id)
     if url:
