@@ -29,9 +29,9 @@ def b58encode(value):
 
     encoded = ''
     while value >= __b58base:
-	div, mod = divmod(value, __b58base)
-	encoded = __b58chars[mod] + encoded # add to left
-	value = div
+        div, mod = divmod(value, __b58base)
+        encoded = __b58chars[mod] + encoded # add to left
+        value = div
     encoded = __b58chars[value] + encoded # most significant remainder
     return encoded
 
@@ -41,11 +41,11 @@ def b58decode(encoded):
     """
 
     value = 0
-    column_multiplier = 1;
+    column_multiplier = 1
     for c in encoded[::-1]:
-	column = __b58chars.index(c)
-	value += column * column_multiplier
-	column_multiplier *= __b58base
+        column = __b58chars.index(c)
+        value += column * column_multiplier
+        column_multiplier *= __b58base
     return value
 
 if __name__ == '__main__':
