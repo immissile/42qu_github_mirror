@@ -33,8 +33,11 @@ def url_short(url):
         return link
     return ""
 
+def url_short_by_key(key):
+    id = num_decode(key)
+    return url_short_by_id(id)
+
 def url_short_by_id(id):
-    #id = num_decode(id)
     url = UrlShort.get(id)
     if url:
         return url.value
