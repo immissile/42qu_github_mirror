@@ -17,7 +17,7 @@ def replace_link(match):
     from po_video import  video_filter
     gs = match.groups()
     b, g , e = gs
-    if not ( video_filter(g)[0] or img_filter(g) or g.startswith(SHORT_LINK):
+    if not ( video_filter(g)[0] or img_filter(g) or g.startswith(SHORT_LINK) ):
         g = url_short(g)
     return g
 
