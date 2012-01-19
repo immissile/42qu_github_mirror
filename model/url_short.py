@@ -13,19 +13,19 @@ SHORT_LINK = 'http://%s'%SHORT_DOMAIN
 class UrlShort(Model):
     pass
 
-def replace_link(match):
+def replace_link(match, user_id):
     from po_video import  video_filter
     gs = match.groups()
     b, g , e = gs
     if not ( video_filter(g)[0] or img_filter(g) or g.startswith(SHORT_LINK) ):
-        g = url_short(g)
+        g = url_short(g, user_id)
     return g
 
 
-def url_short(url):
+def url_short(url, user_id=0):
     url = url.strip()
     if url:
-        url_short = UrlShort(value=url)
+        url_short = UrlShort(value=url, user_id=user_id)
         url_short.save()
         s_url_id = num_encode(url_short.id)
 
@@ -43,13 +43,13 @@ def url_short_by_id(id):
         return url.value
     return ""
 
-def url_short_txt(s):
+def url_short_txt(s, user_id=0):
     #TODO remove
     return s
 
     if type(s) is unicode:
         s = str(s)
-    s = RE_LINK_TARGET.sub(replace_link, s)
+    s = RE_LINK_TARGET.sub(lambda match:replace_link(match,user_id), s)
     return s
 
 if __name__ == '__main__':
