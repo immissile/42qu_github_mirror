@@ -4,7 +4,7 @@
 import _env
 from _db import  Model
 from config import SHORT_DOMAIN
-from zkit.base58 import b58decode, b58encode
+from zkit.id2char.py import b58decode, b58encode
 from zkit.img_filter import img_filter
 from txt2htm import RE_LINK_TARGET
 
