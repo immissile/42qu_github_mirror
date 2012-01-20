@@ -3,8 +3,8 @@
 import _env
 import urllib2
 from urllib2 import urlopen
-from urllib import urlencode
-from zkit.pic import picopen
+from urllib import urlencode 
+from zkit.pic import picopen 
 from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 import os.path as path
@@ -21,7 +21,7 @@ import threading
 from writer import Writer,CURRNET_PATH,Spider, url_is_fetched,Spider
 
 
-out_f = open("dongxi.data",'w')
+#out_f = open("dongxi.data",'w')
 
 class Dongxi(object):
     def __init__(self):
@@ -68,7 +68,9 @@ class Dongxi(object):
 
         out = dumps([title,tags,content ,author ,rating, po_url,None ])
         #Spider.insert(title, tags, content, author, rating ,url, None, pic_list)
-        print >>out_f,out 
+        print out
+        #print >>out_f,out 
+        raw_input()
 
         #writer = Writer.get_instance()
         #writer = writer.choose_writer('dongxi.data')
