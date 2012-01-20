@@ -2,20 +2,38 @@ $('.fav').live('click', function() {
 	if (!$.cookie.get('S')) {
 		return login();
 	}
-	var self = this, pnum=$(self).prev();
-	self.className = 'faving'
-	$.postJSON('/j/feed/fav/' + this.rel, function() {
-		self.className = 'faved';
+	var self = $(this), pnum=$(self).prev(),url;
+    if(self.hasClass('fav_tag'))
+    {
+        url='/j/fav';
+    }else{
+        url='/j/feed/fav/';
+    }
+    self.removeClass('fav');
+    self.addClass('faving');
+	$.postJSON(url + this.rel, function() {
+        self.removeClass('faving');
+		self.addClass('faved');
         if(pnum.hasClass("pnum")){
             pnum.html(pnum.html()-0+1)
         }
 	})
 })
 $('.faved').live('click', function() {
-	var self = this, pnum=$(self).prev();
-	self.className = 'faving'
-	$.postJSON('/j/feed/unfav/' + this.rel, function() {
-		self.className = 'fav';
+	var self = $(this), pnum=$(self).prev(),url;
+
+    if(self.hasClass('fav_tag'))
+    {
+        url='/j/fav/rm';
+    }else{
+        url='/j/feed/unfav/';
+    }
+    self.removeClass('faved');
+    self.addClass('faving');
+
+	$.postJSON(url + this.rel, function() {
+        self.removeClass('faving');
+		self.addClass('fav');
         if(pnum.hasClass("pnum")){
             pnum.html(pnum.html()-1)
         }

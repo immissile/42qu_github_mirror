@@ -8,6 +8,8 @@ from zkit.txt import cnenlen , cnenoverflow
 from model.fav import fav_cid_dict
 from _db import  McModel, McLimitA
 
+mc_po_id_list = McLimitA('PoZsiteTag.%s', 512)
+
 class PoZsiteTag(McModel):
     pass
 
@@ -16,8 +18,9 @@ def zsite_tag_new_po(po, rank, zsite_id):
     tag_po.save()
     return tag_po
 
+def zsite_tag_po_count(tag_id):
+    return PoZsiteTag.where(zsite_id=tag_id).count()
 
-mc_po_id_list = McLimitA('PoZsiteTag.%s', 512)
 
 @mc_po_id_list('{tag_id}-{limit}-{offset}')
 def get_po_id_list(tag_id, limit, offset):
@@ -70,5 +73,6 @@ def po_by_tag(tag_id, user_id, limit, offset):
 if __name__ == '__main__':
     pass
     #print po_by_tag(1, 0)
-    for i in  po_id_list(tag_id=61662, limit=100, offset=0, ):
+    for i in  get_po_id_list(tag_id=61662, limit=100, offset=0, ):
         print i
+    print zsite_tag_po_count(61662)

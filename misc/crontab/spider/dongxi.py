@@ -21,6 +21,7 @@ import threading
 from writer import Writer,CURRNET_PATH,Spider, url_is_fetched,Spider
 
 
+out_f = open("dongxi.data",'w')
 
 class Dongxi(object):
     def __init__(self):
@@ -65,8 +66,9 @@ class Dongxi(object):
         content = str(content)
         pic_list = ['http://dongxi.net'+i for i in pic_list]
 
-        #out = dumps([title,tags,content ,author ,rating, po_url,None ])
-        Spider.insert(title, tags, content, author, rating ,url, None, pic_list)
+        out = dumps([title,tags,content ,author ,rating, po_url,None ])
+        #Spider.insert(title, tags, content, author, rating ,url, None, pic_list)
+        print >>out_f,out 
 
         #writer = Writer.get_instance()
         #writer = writer.choose_writer('dongxi.data')

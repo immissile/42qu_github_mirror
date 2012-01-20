@@ -2,7 +2,7 @@
 
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 import htmlentitydefs, re
-from upyun import upyun_rsspic
+from upyun import upyun_rsspic,upyun_fetch_pic
 BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
 
 _char = re.compile(r'&(\w+?);')
@@ -100,8 +100,8 @@ def htm2txt(htm):
                     src = i.get('src')
                     if src:
                         if src not in pic_list:
-                            img_url = upyun_rsspic.append(src)
                             pic_list.append(src)
+                        img_url = upyun_fetch_pic(src)
                         li.append(u'\n图:%s\n' % img_url)
                 else:
                     s = soup2txt_recursion(i)
