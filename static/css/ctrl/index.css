@@ -15,7 +15,7 @@ padding-left:0
     display:inline-block;
     height:14px;
     width:17px;
-    background:url(/img/gif/xx.gif) no-repeat 4px 5px;
+    background:url(/img/gif/x2.gif) no-repeat 4px 5px;
     _background-position:-50px 5px;
 }
 .buzz_win_reply .buzz_w:hover .buzz_x, .buzz_win_at:hover .buzz_x{
@@ -30,7 +30,7 @@ padding-left:0
 }
 .buzzX
 {
-    background:url(/img/gif/xx.gif) no-repeat -50px 9px;
+    background:url(/img/gif/x2.gif) no-repeat -50px 9px;
     height:28px;
     width:16px;
     display:none;
@@ -293,13 +293,19 @@ margin:0 1px;
     border:0;margin:0 -1px 0 0;padding:0 9px 0 0;
 }
 .bkimg{
-width:242px;padding:2px 0 3px 0;
+width:112px;padding:3px;
 }
 .buzz_win_book .sdw{
-padding:0
+padding:0;
+float:left;
+width:120px;
+margin-left:10px;
+}
+.buzz_win_book{
+margin-left:-10px;
 }
 .buzz_win_book .sd{
-padding:3px
+padding:0
 }
 .buzz_win_book a:hover{
     color:#000;
@@ -309,8 +315,17 @@ padding:3px
     line-height:0;
     display:block;
 }
+.buzz_win_book .bkname{
+text-align:center;
+padding:3px;
+border-bottom:1px solid #eee;
+}
+.buzz_win_book .bkname, .buzz_win_book .bktxt{
+line-height:18px;
+}
 .buzz_win_book .bktxt{
-line-height:21px;padding:3px 7px;border-top:1px solid #eee;
+padding:3px 6px 6px 5px;
+border-top:1px solid #eee;
 }
 .unread{
 margin-left:17px
