@@ -297,10 +297,15 @@ width:112px;padding:3px;
 }
 .buzz_win_book .sdw{
 padding:0;
+float:left;
 width:120px;
+margin-left:10px;
+}
+.buzz_win_book{
+margin-left:-10px;
 }
 .buzz_win_book .sd{
-padding:3px
+padding:0
 }
 .buzz_win_book a:hover{
     color:#000;
@@ -310,9 +315,17 @@ padding:3px
     line-height:0;
     display:block;
 }
+.buzz_win_book .bkname{
+text-align:center;
+padding:3px;
+border-bottom:1px solid #eee;
+}
+.buzz_win_book .bkname, .buzz_win_book .bktxt{
+line-height:18px;
+}
 .buzz_win_book .bktxt{
-margin-left:10px;
-line-height:21px;padding:3px 7px;border-top:1px solid #eee;
+padding:3px 6px 6px 5px;
+border-top:1px solid #eee;
 }
 .unread{
 margin-left:17px
