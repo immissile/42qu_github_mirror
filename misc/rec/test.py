@@ -9,4 +9,4 @@ print redis_client.get('key1')
 redis_client.set('key1','value1')
 print redis_client.get('key2')
 
-
+help(redis_client)
