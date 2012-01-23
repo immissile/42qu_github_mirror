@@ -21,13 +21,15 @@ def po_by_rec_read(user_id, limit=7):
     return Po.mc_get_list(rec_read(user_id, limit))
 
 def po_by_rec_read_equal_limit(user_id, limit=7):
-    id_list = rec_read(user_id, limit)
-    if len(id_list) >= limit:
-        return Po.mc_get_list(id_list)
-    return []
+    key = REDIS_REC_READ%user_id
+    if redis.zcard(key) < limit:
+        return []
+    return po_by_rec_read(user_id) 
+
+
+def rec_read_empty(user_id):
+    redis.delete(REDIS_REC_READ%user_id)
 
 if __name__ == '__main__':
-    pass
-    print po_by_rec_read(1, 3)
-
+    rec_read_empty(1)
 
