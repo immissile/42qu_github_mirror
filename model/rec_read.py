@@ -32,5 +32,5 @@ def rec_read_empty(user_id):
 
 if __name__ == '__main__':
     user_id = 10000000
-      
+    from model.po import Po      
 
