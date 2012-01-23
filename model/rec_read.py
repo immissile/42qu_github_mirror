@@ -10,9 +10,7 @@ def rec_read(user_id, limit=7):
     key = REDIS_REC_READ%user_id
     result = redis.zrevrange(key , 0, limit, False)
     redis.zremrangebyrank(key, -limit-1 , -1)
-
-    redis.lpush(REDIS_REC_LOG%user_id, *revesed(result))
-
+    redis.lpush(REDIS_REC_LOG%user_id, *result)
     return result
 
 def rec_read_extend(user_id , id_score_list):
