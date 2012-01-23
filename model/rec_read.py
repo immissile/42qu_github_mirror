@@ -3,12 +3,16 @@ from _db import redis
 from zkit.zitertools import lineiter
 
 REDIS_REC_READ = 'RecRead:%s'
+REDIS_REC_LOG = "RecLog:%s"
 
 def rec_read(user_id, limit=7):
     limit = limit-1
     key = REDIS_REC_READ%user_id
     result = redis.zrevrange(key , 0, limit, False)
     redis.zremrangebyrank(key, -limit-1 , -1)
+
+    redis.lpush(REDIS_REC_LOG%user_id, *revesed(result))
+
     return result
 
 def rec_read_extend(user_id , id_score_list):
