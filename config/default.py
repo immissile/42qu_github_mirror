@@ -26,6 +26,9 @@ def prepare(o):
     o.SITE_NAME = '42区'
     o.PORT = 6666
 
+    o.REDIS_CONFIG = {
+        "unix_socket_path":"/tmp/redis.sock"
+    }
     o.MYSQL_HOST = '127.0.0.1'
     o.MYSQL_PORT = '3306'
     o.MYSQL_MAIN = 'zpage'
