@@ -31,5 +31,6 @@ def rec_read_empty(user_id):
     redis.delete(REDIS_REC_READ%user_id)
 
 if __name__ == '__main__':
-    rec_read_empty(1)
+    user_id = 10000000
+      
 
