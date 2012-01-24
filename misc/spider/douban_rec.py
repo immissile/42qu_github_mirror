@@ -7,6 +7,8 @@ from kyotocabinet import DB
 import sys
 from os.path import join, abspath, dirname
 from time import time
+
+
 fetched = DB()
 fetched.open(
     join(dirname(abspath(__file__)), "douban_rec_fetched.kch"),
@@ -18,6 +20,7 @@ db.open(
     join(dirname(abspath(__file__)), "douban_rec.kch"),
     DB.OWRITER | DB.OCREATE
 )
+
 API_KEY = "00d9bb33af90bf5c028d319b0eb23e14"
 
 REC_URL = "http://api.douban.com/people/%%s/recommendations?alt=json&apikey=%s"%API_KEY
@@ -55,14 +58,14 @@ def user_id_list_by_rec(data, url, id, start_index=None):
             title = i[u'title'][u'$t']
             if title.startswith("推荐"):
                 title = title[2:]
-            cid = i[u'db:attribute'][0]
+            cid = i[u'db:attribute'][0][u'$t']
             print title, cid
 
         if start_index is not None:
             start = start_index+10
             url = "%s&max-result=10&start-index=%s"%(REC_URL%i, start)
             yield user_id_list_by_rec, url, id, start
-
+        print "---------------------------------------"
 
 def main():
     url_list = [
