@@ -34,11 +34,11 @@ def user_id_list_by_like(data, url):
         if not uid.isdigit():
             db[uid] = id
 
-        url = REC_URL%id 
+        url = REC_URL%id
 
         if id not in fetched:
             fetched[id] = NOW
-            yield user_id_list_by_rec, url , id, 0 
+            yield user_id_list_by_rec, url , id, 1
         else:
             yield user_id_list_by_rec, url , id
 
@@ -50,14 +50,14 @@ def user_id_list_by_rec(data, url, id, start_index=None):
     data = loads(data)
     entry_list = data['entry']
     #print len(entry_list)
-    if entry_list: 
+    if entry_list:
         for i in entry_list:
             title = i[u'title'][u'$t']
             if title.startswith("推荐"):
                 title = title[2:]
-            cid = i[u'db:attribute']
+            cid = i[u'db:attribute'][0]
             print title, cid
- 
+
         if start_index is not None:
             start = start_index+10
             url = "%s&max-result=10&start-index=%s"%(REC_URL%i, start)
