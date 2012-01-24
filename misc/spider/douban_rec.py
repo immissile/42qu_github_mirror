@@ -55,7 +55,7 @@ def user_id_list_by_rec(data, url, id, start_index=None):
             title = i[u'title'][u'$t']
             if title.startswith("推荐"):
                 title = title[2:]
-            print title
+            print i 
         if start_index is not None:
             start = start_index+10
             url = "%s&max-result=10&start-index=%s"%(REC_URL%i, start)
