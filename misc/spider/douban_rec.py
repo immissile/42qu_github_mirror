@@ -5,21 +5,53 @@ from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 from json import loads
 from kyotocabinet import DB
 import sys
-from os.path import join, abspath, dirname
+from os.path import join, abspath, dirname,exists
+from os import mkdirs
 from time import time
 
+DOUBAN_REC_CID = set("""artist
+artist_video
+back
+book
+discussion
+doulist
+entry
+event
+group
+movie
+music
+note
+online
+photo
+photo_album
+review
+site
+topic
+url""".split())
+
+DBPATH = join(dirname(abspath(__file__),"db")
+
+if not exists(DBPATH):
+    mkdirs(DBPATH)
 
 fetched = DB()
 fetched.open(
-    join(dirname(abspath(__file__)), "douban_rec_fetched.kch"),
+    DBPATH, "rec_fetched.kch"),
     DB.OWRITER | DB.OCREATE
 )
 
 db = DB()
 db.open(
-    join(dirname(abspath(__file__)), "douban_rec.kch"),
+    DBPATH, "rec.kch"),
     DB.OWRITER | DB.OCREATE
 )
+
+fetch_cache = DB()
+fetch_cache.open(
+    DBPATH, "fetch_cache.kch"),
+    DB.OWRITER | DB.OCREATE
+)
+
 
 API_KEY = "00d9bb33af90bf5c028d319b0eb23e14"
 
@@ -45,18 +77,29 @@ def user_id_list_by_like(data, url):
         else:
             yield user_id_list_by_rec, url , id
 
-def url_id_list_by_rec_all(id):
-    start_index = 0
-    start_index += 10
+
 
 def user_id_list_by_rec(data, url, id, start_index=None):
+    #print url
+    
     data = loads(data)
     entry_list = data['entry']
     if entry_list:
         for i in entry_list:
-            title = i[u'content'][u'$t']
-            cid = i[u'db:attribute'][0][u'$t']
-            print cid, title
+            title = i[u'content'][u'$t'].replace("\r"," ").replace("\n"," ").strip()
+            attribute = i[u'db:attribute']
+            cid = str(attribute[0][u'$t'])
+            if cid in DOUBAN_REC_CID: 
+                if cid == "note":
+                    pass
+                elif cid == "url":
+                    pass
+                elif cid == "topic":
+                    pass
+                elif cid == "entry":
+                    pass
+                else:
+                    print i[u'id'][u'$t'].rsplit("/",1)[1] 
 
         if start_index is not None:
             start = start_index+10
@@ -73,7 +116,7 @@ def main():
 
     }
 
-    fetcher = NoCacheFetch(1, headers=headers)
+    fetcher = NoCacheFetch( headers=headers)
     spider = Rolling( fetcher, url_list )
     spider_runner = GSpider(spider, workers_count=1)
     spider_runner.start()
