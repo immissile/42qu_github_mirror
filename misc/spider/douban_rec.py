@@ -3,17 +3,33 @@
 import _env
 from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 from json import loads
+from kyotocabinet import DB
+import sys
+from os.path import join, abspath, dirname
 
+
+db = DB()
+db.open(
+    join(dirname(abspath(__file__)), "douban_rec.kch"),
+    DB.OWRITER | DB.OCREATE
+)
 API_KEY = "00d9bb33af90bf5c028d319b0eb23e14"
 
-"apikey=%s"%API_KEY
+REC_URL="http://api.douban.com/people/%%s/recommendations?alt=json&apikey=%s"%API_KEY
 
 LIKE_URL = "http://www.douban.com/j/like?tkind=%s&tid=%s"
 
 def user_id_list_by_like(data, url):
     for i in loads(data):
-        print int(i['id']) , i['uid']
+        id = int(i['id'])
+        uid = i['uid']
+        if not uid.isdigit():
+            db[uid] = id
+        yield user_id_list_by_rec, REC_URL%id , id
 
+
+def user_id_list_by_rec(data, url, id):
+    print loads(data)
 
 def main():
     url_list = [
@@ -26,11 +42,13 @@ def main():
 
     }
 
-    fetcher = NoCacheFetch(headers=headers)
+    fetcher = NoCacheFetch(1, headers=headers)
     spider = Rolling( fetcher, url_list )
     spider_runner = GSpider(spider, workers_count=1)
     spider_runner.start()
 
 
 if __name__ == "__main__":
+
     main()
+    db.close()
