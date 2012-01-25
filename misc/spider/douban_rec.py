@@ -76,7 +76,6 @@ def fetch_like_if_new(cid, rid):
     if key not in fetch_like:
         fetch_like[key] = NOW
         return user_id_list_by_like , URL_LIKE%(cid, rid) 
-    
 
 def fetch_if_new(uid):
     if not uid.isdigit() and uid not in db:
@@ -91,13 +90,13 @@ def parse_note(title):
         yield fetch_if_new(uid)
     note_url , note_title = t[1]
     note_id = note_url.rstrip("/").rsplit("/",1)[1]
-    yield fetch_like_if_new(CID_NOTE, note_id)
-    print note_title, note_url
+    result = fetch_like_if_new(CID_NOTE, note_id)
+    if result:
+        yield result
+        print note_url
 
 
 def user_id_list_by_rec(data, url, id, start_index=None):
-    print url
-
     data = loads(data)
     entry_list = data['entry']
     if entry_list:
