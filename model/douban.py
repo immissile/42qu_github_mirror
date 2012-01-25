@@ -17,7 +17,7 @@
 #user_id     
 #topic_id    #小站 / 小组
 #title            
-#state       # 10 . 未达到推荐门槛 20. 审核未通过 30. 达到推荐门槛, 但未审核  60&40. 审核通过 , 抹去作者信息(比如原来就是转帖) 70&50. 审核通过 , 保留作者信息 
+#state       # 10. 达到推荐门槛, 但未审核  30. 审核未通过 60&40. 审核通过 , 抹去作者信息(比如原来就是转帖) 70&50. 审核通过 , 保留作者信息 
 #html
 
 #douban_user_feed
@@ -36,6 +36,8 @@
 #1. douban_feed    (一个月后在抓取一次即可, 一共也只需要抓取2次)
 #2. 豆瓣用户的推荐 (现有的爬虫更新规则)
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
+
+DOUBAN_FEED_STATE_TO_REIVEW = #达到推荐门槛, 但未审核  
 
 CID_DOUBAN_FEED_NOTE = 1015
 CID_DOUBAN_FEED_TOPIC = 1013
@@ -149,9 +151,13 @@ def douban_feed_new(
         o.user_id = user_id
     if topic_id:
         o.topic_id = topic_id
-    if not o
-    if rec+like > 10 :
-        state =  
+
+    if not o.state:
+        state = 0
+        if rec+like > 10 :
+            state =  DOUBAN_FEED_STATE_TO_REIVEW
+        o.state = state
+    
     o.save()
     return o.id
 
