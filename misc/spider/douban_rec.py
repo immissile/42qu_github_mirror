@@ -33,7 +33,7 @@ kvdb = KvDb()
 db = kvdb.open_db("rec")
 fetch_uid = kvdb.open_db("rec_fetch_uid")
 fetch_rec = kvdb.open_db( "fetch_rec")
-fetch_note = kvdb.open_db('fetch_note')
+fetch_like = kvdb.open_db('fetch_like')
 
 API_KEY = "00d9bb33af90bf5c028d319b0eb23e14"
 
@@ -43,10 +43,17 @@ URL_LIKE = "http://www.douban.com/j/like?tkind=%s&tid=%s"
 
 URL_USER_INFO = "http://api.douban.com/people/%%s?alt=json&apikey=%s"%API_KEY
 
+CID_NOTE = 1015
 
 NOW = int(time()/60)
 
-def user_id_list_by_like(data, url):
+def user_id_list_by_like(data, url, cid, rid):
+    key = "%s:%s"%(cid,rid)
+    if key in fetch_like:
+        return
+    else:
+        fetch_like[key] = NOW
+
     for i in loads(data):
         id = int(i['id'])
         uid = i['uid']
@@ -77,13 +84,13 @@ def fetch_if_new(uid):
 
 
 def parse_note(title):
-
     t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
     uid_url = t[0][0]
     if uid_url.startswith("http://www.douban.com/people/"):
         uid = uid_url.strip("/").rsplit("/", 1)[1]
         yield fetch_if_new(uid)
-
+    note_url , note_title = t[1]
+    print note_title, note_url
 
 
 def user_id_list_by_rec(data, url, id, start_index=None):
@@ -123,7 +130,7 @@ def user_id_list_by_rec(data, url, id, start_index=None):
 
 def main():
     url_list = [
-        (user_id_list_by_like, URL_LIKE%(1015 , 193974547)),
+        (user_id_list_by_like, URL_LIKE%(1015 , 193974547), 1015, 193974547),
     ]
 
     headers = {

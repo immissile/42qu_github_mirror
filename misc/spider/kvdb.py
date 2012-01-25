@@ -14,7 +14,7 @@ class KvDb(object):
     def open_db(self, name):
         db = DB()
         db.open(
-            join(self.path, "%s.kch"name),
+            join(self.path, "%s.kch"%name),
             DB.OWRITER | DB.OCREATE
         )
         self.opendb.append(db)
