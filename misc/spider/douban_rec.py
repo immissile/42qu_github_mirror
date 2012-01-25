@@ -81,18 +81,23 @@ def fetch_if_new(uid):
     if not uid.isdigit() and uid not in db:
         return fetch_id_by_uid, URL_USER_INFO%uid, uid
 
+def url_last(url):
+    return url.rstrip("/").rsplit("/",1)[1]
+
 def parse_topic(title):
     t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
-    print t
+    group_url , group_name = t[0] 
+    group_url = url_last(group_url)
+    print group_url, group_name
 
 def parse_note(title):
     t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
     uid_url = t[0][0]
     if uid_url.startswith("http://www.douban.com/people/"):
-        uid = uid_url.strip("/").rsplit("/", 1)[1]
+        uid = url_last(uid_url)
         yield fetch_if_new(uid)
     note_url , note_title = t[1]
-    note_id = note_url.rstrip("/").rsplit("/",1)[1]
+    note_id = url_last(note_url)
     result = fetch_like_if_new(CID_NOTE, note_id)
     if result:
         yield result
