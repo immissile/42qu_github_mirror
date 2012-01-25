@@ -36,11 +36,11 @@ fetch_cache = kvdb.open_db( "fetch_cache.kch")
 
 API_KEY = "00d9bb33af90bf5c028d319b0eb23e14"
 
-REC_URL = "http://api.douban.com/people/%%s/recommendations?alt=json&apikey=%s"%API_KEY
+URL_REC = "http://api.douban.com/people/%%s/recommendations?alt=json&apikey=%s"%API_KEY
 
-LIKE_URL = "http://www.douban.com/j/like?tkind=%s&tid=%s"
+URL_LIKE = "http://www.douban.com/j/like?tkind=%s&tid=%s"
 
-USER_INFO_URL = "http://api.douban.com/people/%%s?alt=json&apikey=%s"%API_KEY
+URL_USER_INFO = "http://api.douban.com/people/%%s?alt=json&apikey=%s"%API_KEY
 
 NOW = int(time()/60)
 
@@ -52,7 +52,7 @@ def user_id_list_by_like(data, url):
         if not uid.isdigit():
             db[uid] = id
 
-        url = REC_URL%id
+        url = URL_REC%id
 
         if id not in fetched:
             fetched[id] = NOW
@@ -66,12 +66,12 @@ def fetch_id_by_uid(data, url, uid):
     db[uid] = id
     if id not in fetched:
         fetched[id] = NOW
-        yield user_id_list_by_rec, REC_URL%id , id, 1
+        yield user_id_list_by_rec, URL_REC%id , id, 1
         
     
 def fetch_if_new(uid):
     if not uid.isdigit() and uid not in db:
-        return fetch_id_by_uid, USER_INFO_URL%uid, uid
+        return fetch_id_by_uid, URL_USER_INFO%uid, uid
 
 
 def user_id_list_by_rec(data, url, id, start_index=None):
@@ -103,12 +103,12 @@ def user_id_list_by_rec(data, url, id, start_index=None):
 
         if start_index is not None:
             start = start_index+10
-            url = "%s&max-result=10&start-index=%s"%(REC_URL%id, start)
+            url = "%s&max-result=10&start-index=%s"%(URL_REC%id, start)
             yield user_id_list_by_rec, url, id, start
 
 def main():
     url_list = [
-        (user_id_list_by_like, LIKE_URL%(1015 , 193974547)),
+        (user_id_list_by_like, URL_LIKE%(1015 , 193974547)),
     ]
 
     headers = {
