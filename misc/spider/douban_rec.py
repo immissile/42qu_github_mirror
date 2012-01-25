@@ -2,7 +2,7 @@
 
 import _env
 from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
-from zkit.bot_txt import txt_wrap_by_all
+from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from json import loads
 import sys
 from time import time
@@ -103,10 +103,12 @@ def parse_note(title):
             yield func , note_url
 
 def parse_people_note(data, url):
-    print data
+    title = txt_wrap_by(data, "<title>","</title>")
+    print title
 
 def parse_site_note(data, url):
-    print data
+    title = txt_wrap_by(data, "<title>","</title>")
+    print title
 
 def user_id_list_by_rec(data, url, id, start_index=None):
     data = loads(data)
@@ -153,7 +155,7 @@ def main():
 
     fetcher = NoCacheFetch( headers=headers)
     spider = Rolling( fetcher, url_list )
-    spider_runner = GSpider(spider, workers_count=1)
+    spider_runner = GSpider(spider, workers_count=1, debug=True)
     spider_runner.start()
 
 
