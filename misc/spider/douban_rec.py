@@ -74,6 +74,14 @@ def fetch_if_new(uid):
         return fetch_id_by_uid, URL_USER_INFO%uid, uid
 
 
+def parse_note(title):
+
+    t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
+    uid_url = t[0][0]
+    if uid_url.startswith("http://www.douban.com/people/"):
+        uid = uid_url.strip("/").rsplit("/", 1)[1]
+        yield fetch_if_new(uid)
+
 def user_id_list_by_rec(data, url, id, start_index=None):
     print url
 
@@ -86,18 +94,22 @@ def user_id_list_by_rec(data, url, id, start_index=None):
             cid = str(attribute[0][u'$t'])
             if cid in DOUBAN_REC_CID:
                 if cid == "note":
-                    t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
-                    uid_url = t[0][0]
-                    if uid_url.startswith("http://www.douban.com/people/"):
-                        uid = uid_url.strip("/").rsplit("/", 1)[1]
-                        yield fetch_if_new(uid)
                     #print t[1]
+                    func = parse_note
                 elif cid == "url":
-                    pass
+                    func = 0
                 elif cid == "topic":
-                    pass
+                    func = 0
                 elif cid == "entry":
-                    pass
+                    func = 0
+                elif cid == "video":
+                    func = 0
+                else:
+                    func = 0
+
+                if func:
+                    for i in func(title):
+                        yield i
                 else:
                     fetch_cache[ i[u'id'][u'$t'].rsplit("/", 1)[1] ] = "%s %s %s"%(id, cid, title)
 
