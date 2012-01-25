@@ -98,11 +98,6 @@ def parse_topic(title):
         yield result
         yield parse_topic_htm , topic_url
 
-def parse_topic_htm(data, url):
-    title , num = parse_title_num_htm(data)
-    htm = txt_wrap_by_all('<div class="topic-content">','</div>',data)
-    print htm
-    print title, num
 
 def parse_note(title):
     t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
@@ -123,6 +118,11 @@ def parse_note(title):
             func = 0
         if func:
             yield func , note_url
+
+def parse_topic_htm(data, url):
+    title , num = parse_title_num_htm(data)
+    htm = txt_wrap_by('<div class="topic-content">','</div>',data)
+    print title, num
 
 def parse_title_num_htm(data):
     title = txt_wrap_by("<title>","</title>", data)
