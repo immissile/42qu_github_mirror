@@ -94,21 +94,19 @@ def parse_note(title):
     if result:
         yield result
         if note_url.startswith("http://www.douban.com/note/"):
-            func = parse_people_note
+            func = parse_note
         elif note_url.startswith("http://site.douban.com/widget/notes/"):
-            func = parse_site_note
+            func = parse_note
         else:
             func = 0
         if func:
             yield func , note_url
 
-def parse_people_note(data, url):
+def parse_note(data, url):
     title = txt_wrap_by(data, "<title>","</title>")
+    print data
     print title
 
-def parse_site_note(data, url):
-    title = txt_wrap_by(data, "<title>","</title>")
-    print title
 
 def user_id_list_by_rec(data, url, id, start_index=None):
     data = loads(data)
