@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from _server import Run
+from zweb.server_tornado import Run
 import config
 from api._application import application
 
