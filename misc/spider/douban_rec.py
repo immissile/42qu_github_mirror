@@ -112,12 +112,12 @@ def parse_note_htm(data):
 
 def parse_note_site_htm(data, url):
     html = txt_wrap_by(' class="note-content"><pre>',"</pre>",data)
-    title , rec_num = parse_note_htm(data)
+    title , num = parse_note_htm(data)
     print title, num
 
 def parse_note_people_htm(data, url):
     html = txt_wrap_by('<pre class="note">',"</pre>",data)
-    title , rec_num = parse_note_htm(data)
+    title , num = parse_note_htm(data)
     print title, num
     #print title
     #print html
