@@ -6,65 +6,11 @@ from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from json import loads
 import sys
 from time import time
-from kvdb import KvDb
+from model.douban import user_id_by_douban_url, douban_url_user_new, \
+CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE, douban_rec_new, douban_user_feed_new,\
+douban_feed_new
 
 
-#douban_url
-#id
-#rid
-#cid # 1 user 2 group 3 site
-#url
-#name
-
-#douban_feed
-#id
-#cid
-#rid
-#rec         #推荐的人数
-#like        #喜欢的人数
-#user_id     
-#topic_id    #小站 / 小组
-#title            
-#state       # 10 . 未达到推荐门槛 20. 审核未通过 30. 达到推荐门槛, 但未审核  60&40. 审核通过 , 抹去作者信息(比如原来就是转帖) 70&50. 审核通过 , 保留作者信息 
-#html
-
-#douban_user_feed
-#id
-#feed_id
-#user_id
-#state       # 1 rec 2 like
-
-#需要定期重新抓取的 
-#1. douban_feed    (一个月后在抓取一次即可, 一共也只需要抓取2次)
-#2. 豆瓣用户的推荐 (现有的爬虫更新规则)
-
-
-DOUBAN_REC_CID = set("""artist
-artist_video
-back
-book
-discussion
-doulist
-entry
-event
-group
-movie
-music
-note
-online
-photo
-photo_album
-review
-site
-topic
-url""".split())
-
-kvdb = KvDb()
-
-db = kvdb.open_db("rec")
-fetch_uid = kvdb.open_db("rec_fetch_uid")
-fetch_rec = kvdb.open_db( "fetch_rec")
-fetch_like = kvdb.open_db('fetch_like')
 
 API_KEY = "00d9bb33af90bf5c028d319b0eb23e14"
 
@@ -74,43 +20,35 @@ URL_LIKE = "http://www.douban.com/j/like?tkind=%s&tid=%s"
 
 URL_USER_INFO = "http://api.douban.com/people/%%s?alt=json&apikey=%s"%API_KEY
 
-CID_NOTE = 1015
-CID_TOPIC = 1013
-
-NOW = int(time()/60)
-
-def user_id_list_by_like(data, url):
+def user_id_list_by_like(data, url, cid, rid):
     for i in loads(data):
         id = int(i['id'])
         uid = i['uid']
 
-        if not uid.isdigit():
-            db[uid] = id
-
         url = URL_REC%id
 
-        if id not in fetch_uid:
-            fetch_uid[id] = NOW
-            yield user_id_list_by_rec, url , id, 1
+        user_id = user_id_by_douban_url(id)
+
+        douban_user_feed_new(cid, rid, user_id)
+
+        if not user_id:
+            user_id = douban_url_user_new(uid, id, i['screen_name'])
+            yield user_id_list_by_rec, url , id, user_id, 1
         else:
-            yield user_id_list_by_rec, url , id
+            yield user_id_list_by_rec, url , id, user_id
 
 def fetch_id_by_uid(data, url, uid):
     data = loads(data)
     id = data[u'id'][u'$t'].rsplit("/", 1)[1]
-    db[uid] = id
-    if id not in fetch_uid:
-        fetch_uid[id] = NOW
-        yield user_id_list_by_rec, URL_REC%id , id, 1
+    user_id = user_id_by_douban_url(id)
+    if not user_id:
+        screen_name = ???
+        user_id = douban_url_user_new(uid, id, screen_name)
+        yield user_id_list_by_rec, URL_REC%id , id, user_id, 1
 
-def fetch_like_if_new(cid, rid):
-    key = "%s:%s"%(cid, rid)
-    if key not in fetch_like:
-        fetch_like[key] = NOW
-        return user_id_list_by_like , URL_LIKE%(cid, rid)
 
-def fetch_if_new(uid):
-    if not uid.isdigit() and uid not in db:
+def fetch_user(uid):
+    if not uid.isdigit() and not user_id_by_douban_url(uid):
         return fetch_id_by_uid, URL_USER_INFO%uid, uid
 
 def url_last(url):
@@ -121,12 +59,14 @@ def parse_topic(title):
     group_url , group_name = t[0]
     group_url = url_last(group_url)
     topic_url , topic_name = t[1]
-    topic_id = url_last(topic_url)
 
-    result = fetch_like_if_new(CID_TOPIC, topic_id)
-    if result:
+    rid = url_last(topic_url)
+    cid = CID_DOUBAN_FEED_TOPIC
+    
+    id = id_by_douban_feed(cid, rid)
+    if not id:
         #print group_url, group_name, topic_url, topic_name
-        yield result
+        yield user_id_list_by_like , URL_LIKE%(cid, rid), cid, rid
         yield parse_topic_htm , topic_url
 
 
@@ -135,47 +75,74 @@ def parse_note(title):
     uid_url = t[0][0]
     if uid_url.startswith("http://www.douban.com/people/"):
         uid = url_last(uid_url)
-        yield fetch_if_new(uid)
+        yield fetch_user(uid)
     note_url , note_title = t[1]
     note_id = url_last(note_url)
-    result = fetch_like_if_new(CID_NOTE, note_id)
-    if result:
-        yield result
+    cid = CID_DOUBAN_FEED_NOTE
+    id = id_by_douban_feed(cid, note_id)
+    if not id:
+        yield user_id_list_by_like , URL_LIKE%(cid, note_id), cid, note_id
+
         if note_url.startswith("http://www.douban.com/note/"):
             func = parse_note_people_htm
         elif note_url.startswith("http://site.douban.com/widget/notes/"):
             func = parse_note_site_htm
         else:
             func = 0
+
         if func:
             yield func , note_url
 
+class ParseHtm(object):
+    cid = None
 
-def parse_title_num_htm(data):
-    title = txt_wrap_by("<title>", "</title>", data)
-    rec_num = txt_wrap_by('<span class="rec-num">', "人</span>", data) or 0
-    like_num = txt_wrap_by('<span class="fav-num" data-tid="', '</a>喜欢</span>', data) or 0
-    if like_num:
-        like_num = txt_wrap_by('<a href="#">', '人', like_num)
-    return title , int(rec_num)+int(like_num)
+    def htm(self, data):
+        return ""
 
-def parse_topic_htm(data, url):
-    title , num = parse_title_num_htm(data)
-    htm = txt_wrap_by('<div class="topic-content">', '</div>', data)
-    print url , title, num
+    def user_id(self, data):
+        return 0
 
-def parse_note_site_htm(data, url):
-    html = txt_wrap_by(' class="note-content"><pre>', "</pre>", data)
-    title , num = parse_title_num_htm(data)
-    print url , title, num
+    def topic_id(self, data):
+        return 0
 
-def parse_note_people_htm(data, url):
-    html = txt_wrap_by('<pre class="note">', "</pre>", data)
-    title , num = parse_title_num_htm(data)
-    print url , title, num
+    def __call__(self, data, url):
+        rid = url_last(url)
+        title = txt_wrap_by("<title>", "</title>", data)
+        rec_num = txt_wrap_by('<span class="rec-num">', "人</span>", data) or 0
+        like_num = txt_wrap_by('<span class="fav-num" data-tid="', '</a>喜欢</span>', data) or 0
+        if like_num:
+            like_num = txt_wrap_by('<a href="#">', '人', like_num)
+
+        douban_feed_new(
+            self.cid, rid, rec_num, like_num, title, 
+            self.htm(data)      ,
+            self.user_id(data)  ,
+            self.topic_id(data) 
+        )       
+
+class ParseTopicHtm(ParseHtm):
+    cid = CID_DOUBAN_FEED_TOPIC
+    def htm(self, data):
+        return txt_wrap_by('<div class="topic-content">', '</div>', data)
+
+parse_topic_htm = ParseTopicHtm()
+
+class ParseNoteSiteHtm(ParseHtm):
+    cid = CID_DOUBAN_FEED_NOTE
+    def htm(self, data):
+        return txt_wrap_by(' class="note-content"><pre>', "</pre>", data)
+
+parse_note_site_htm = ParseNoteSiteHtm()
+
+class ParseNotePeopleHtm(ParseHtm):
+    cid = CID_DOUBAN_FEED_NOTE
+    def htm(self, data):
+        return txt_wrap_by('<pre class="note">', "</pre>", data)
+
+parse_note_people_htm = ParseNotePeopleHtm()
 
 
-def user_id_list_by_rec(data, url, id, start_index=None):
+def user_id_list_by_rec(data, url, id, user_id, start_index=None):
     data = loads(data)
     entry_list = data['entry']
     if entry_list:
@@ -203,16 +170,18 @@ def user_id_list_by_rec(data, url, id, start_index=None):
                         for i in _iter:
                             yield i
                 else:
-                    fetch_rec[ i[u'id'][u'$t'].rsplit("/", 1)[1] ] = "%s %s %s"%(id, cid, title)
-
+                    douban_rec_new(
+                        i[u'id'][u'$t'].rsplit("/", 1)[1] , 
+                        user_id, cid, title
+                    )
         if start_index is not None:
             start = start_index+10
             url = "%s&max-result=10&start-index=%s"%(URL_REC%id, start)
-            yield user_id_list_by_rec, url, id, start
+            yield user_id_list_by_rec, url, id, user_id, start
 
 def main():
     url_list = [
-        (user_id_list_by_like, URL_LIKE%(1015 , 193974547)),
+        (user_id_list_by_like, URL_LIKE%(1015 , 193974547)), 1015, 193974547,
     ]
 
     headers = {
@@ -222,7 +191,7 @@ def main():
 
     fetcher = NoCacheFetch( headers=headers)
     spider = Rolling( fetcher, url_list )
-    
+
     debug = False
     debug = True
 
@@ -233,4 +202,3 @@ def main():
 if __name__ == "__main__":
 
     main()
-    kvdb.close_db()
