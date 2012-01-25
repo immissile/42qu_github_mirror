@@ -8,6 +8,37 @@ import sys
 from time import time
 from kvdb import KvDb
 
+
+#douban_url
+#id
+#rid
+#cid # 1 user 2 group 3 site
+#url
+#name
+
+#douban_feed
+#id
+#cid
+#rid
+#rec         #推荐的人数
+#like        #喜欢的人数
+#user_id     
+#topic_id    #小站 / 小组
+#title            
+#state       # 10 . 未达到推荐门槛 20. 审核未通过 30. 达到推荐门槛, 但未审核  60&40. 审核通过 , 抹去作者信息(比如原来就是转帖) 70&50. 审核通过 , 保留作者信息 
+#html
+
+#douban_user_feed
+#id
+#feed_id
+#user_id
+#state       # 1 rec 2 like
+
+#需要定期重新抓取的 
+#1. douban_feed    (一个月后在抓取一次即可, 一共也只需要抓取2次)
+#2. 豆瓣用户的推荐 (现有的爬虫更新规则)
+
+
 DOUBAN_REC_CID = set("""artist
 artist_video
 back
