@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from _server import Run
-from rpc._application import application
 import config
+from rpc._application import application
 
 run = Run(config.RPC_PORT, application)
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from _server import Run
-from god._application import application
 import config
+from god._application import application
 
 run = Run(config.GOD_PORT, application)
 
