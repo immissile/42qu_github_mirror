@@ -18,9 +18,10 @@ def WSGIServer(port, application):
 
 
 class Run(object):
-    def __init__(self, port, application):
+    def __init__(self, port, application, wsgi_server=WSGIServer):
         self.port = port
         self.application = application
+        self.wsgi_server = wsgi_server
 
     def __call__(self):
         import sys
@@ -33,6 +34,6 @@ class Run(object):
 
         print 'server on port %s'%port
 
-        WSGIServer(port, self.application)
+        self.wsgi_server(port, self.application)
 
 

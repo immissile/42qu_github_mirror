@@ -31,4 +31,12 @@ def WSGIServer(port, application):
     )
     application = timeit_middleware(application)
     logging.info('\nGAME BEGIN\n\n')
-    return CherryPyWSGIServer(('0.0.0.0', port), application, numthreads=10)
+    
+    server = CherryPyWSGIServer(('0.0.0.0', port), application, numthreads=10)
+
+    try:
+        server.start()
+    except KeyboardInterrupt:
+        server.stop()
+
+
