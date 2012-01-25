@@ -94,17 +94,17 @@ def parse_note(title):
     if result:
         yield result
         if note_url.startswith("http://www.douban.com/note/"):
-            func = parse_note
+            func = parse_note_htm
         elif note_url.startswith("http://site.douban.com/widget/notes/"):
-            func = parse_note
+            func = parse_note_htm
         else:
             func = 0
         if func:
             yield func , note_url
 
-def parse_note(data, url):
-    title = txt_wrap_by(data, "<title>","</title>")
-    print data
+def parse_note_htm(data, url):
+    title = txt_wrap_by("<title>","</title>", data)
+    html = txt_wrap_by('<pre class="note">',"</pre>",data)
     print title
 
 
