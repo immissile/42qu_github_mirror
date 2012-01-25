@@ -44,6 +44,7 @@ URL_LIKE = "http://www.douban.com/j/like?tkind=%s&tid=%s"
 URL_USER_INFO = "http://api.douban.com/people/%%s?alt=json&apikey=%s"%API_KEY
 
 CID_NOTE = 1015
+CID_TOPIC = 1013
 
 NOW = int(time()/60)
 
@@ -89,7 +90,19 @@ def parse_topic(title):
     group_url , group_name = t[0] 
     group_url = url_last(group_url)
     topic_url , topic_name = t[1]
-    print group_url, group_name, topic_url, topic_name
+    topic_id = url_last(topic_url)
+
+    result = fetch_like_if_new(CID_TOPIC, topic_id)
+    if result:
+        #print group_url, group_name, topic_url, topic_name
+        yield result
+        yield parse_topic_htm , topic_url
+
+def parse_topic_htm(data, url):
+    title , num = parse_title_num_htm(data)
+    htm = txt_wrap_by_all('<div class="topic-content">','</div>',data)
+    print htm
+    print title, num
 
 def parse_note(title):
     t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
@@ -111,7 +124,7 @@ def parse_note(title):
         if func:
             yield func , note_url
 
-def parse_note_htm(data):
+def parse_title_num_htm(data):
     title = txt_wrap_by("<title>","</title>", data)
     rec_num = txt_wrap_by('<span class="rec-num">', "人</span>", data) or 0
     like_num = txt_wrap_by('<span class="fav-num" data-tid="', '</a>喜欢</span>', data) or 0
@@ -121,12 +134,12 @@ def parse_note_htm(data):
 
 def parse_note_site_htm(data, url):
     html = txt_wrap_by(' class="note-content"><pre>',"</pre>",data)
-    title , num = parse_note_htm(data)
+    title , num = parse_title_num_htm(data)
     print title, num
 
 def parse_note_people_htm(data, url):
     html = txt_wrap_by('<pre class="note">',"</pre>",data)
-    title , num = parse_note_htm(data)
+    title , num = parse_title_num_htm(data)
     print title, num
     #print title
     #print html
