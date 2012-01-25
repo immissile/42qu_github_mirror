@@ -93,8 +93,20 @@ def parse_note(title):
     result = fetch_like_if_new(CID_NOTE, note_id)
     if result:
         yield result
-        print note_url
+        if note_url.startswith("http://www.douban.com/note/"):
+            func = parse_people_note
+        elif note_url.startswith("http://site.douban.com/widget/notes/"):
+            func = parse_site_note
+        else:
+            func = 0
+        if func:
+            yield func , note_url
 
+def parse_people_note(data, url):
+    print data
+
+def parse_site_note(data, url):
+    print data
 
 def user_id_list_by_rec(data, url, id, start_index=None):
     data = loads(data)
