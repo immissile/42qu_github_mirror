@@ -20,8 +20,9 @@ class Rolling(object):
         subitems = self.subitems
 
         for item in self.url_iter:
-            self.push(*item)
-            yield subitems.get(timeout=60)
+            if item is not None:
+                self.push(*item)
+                yield subitems.get(timeout=60)
 
         while True:
             try:
@@ -41,7 +42,8 @@ class Rolling(object):
             new_items = callback(r, url, *args, **kwds)
         if new_items is not None:
             for item in new_items:
-                self.push(*item)
+                if item is not None:
+                    self.push(*item)
         return r
 
 

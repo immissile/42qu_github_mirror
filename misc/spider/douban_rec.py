@@ -2,12 +2,11 @@
 
 import _env
 from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
+from zkit.bot_txt import txt_wrap_by_all
 from json import loads
-from kyotocabinet import DB
 import sys
-from os.path import join, abspath, dirname,exists
-from os import mkdirs
 from time import time
+from kvdb import KvDb
 
 DOUBAN_REC_CID = set("""artist
 artist_video
@@ -29,35 +28,19 @@ site
 topic
 url""".split())
 
-DBPATH = join(dirname(abspath(__file__),"db")
+kvdb = KvDb()
 
-if not exists(DBPATH):
-    mkdirs(DBPATH)
-
-fetched = DB()
-fetched.open(
-    DBPATH, "rec_fetched.kch"),
-    DB.OWRITER | DB.OCREATE
-)
-
-db = DB()
-db.open(
-    DBPATH, "rec.kch"),
-    DB.OWRITER | DB.OCREATE
-)
-
-fetch_cache = DB()
-fetch_cache.open(
-    DBPATH, "fetch_cache.kch"),
-    DB.OWRITER | DB.OCREATE
-)
-
+db = kvdb.open_db("rec.kch")
+fetched = kvdb.open_db("rec_fetched.kch")
+fetch_cache = kvdb.open_db( "fetch_cache.kch")
 
 API_KEY = "00d9bb33af90bf5c028d319b0eb23e14"
 
 REC_URL = "http://api.douban.com/people/%%s/recommendations?alt=json&apikey=%s"%API_KEY
 
 LIKE_URL = "http://www.douban.com/j/like?tkind=%s&tid=%s"
+
+USER_INFO_URL = "http://api.douban.com/people/%%s?alt=json&apikey=%s"%API_KEY
 
 NOW = int(time()/60)
 
@@ -77,21 +60,38 @@ def user_id_list_by_like(data, url):
         else:
             yield user_id_list_by_rec, url , id
 
+def fetch_id_by_uid(data, url, uid):
+    data = loads(data)
+    id = data[u'id'][u'$t'].rsplit("/",1)[1]
+    db[uid] = id
+    if id not in fetched:
+        fetched[id] = NOW
+        yield user_id_list_by_rec, REC_URL%id , id, 1
+        
+    
+def fetch_if_new(uid):
+    if not uid.isdigit() and uid not in db:
+        return fetch_id_by_uid, USER_INFO_URL%uid, uid
 
 
 def user_id_list_by_rec(data, url, id, start_index=None):
-    #print url
-    
+    print url
+
     data = loads(data)
     entry_list = data['entry']
     if entry_list:
         for i in entry_list:
-            title = i[u'content'][u'$t'].replace("\r"," ").replace("\n"," ").strip()
+            title = i[u'content'][u'$t'].replace("\r", " ").replace("\n", " ").strip()
             attribute = i[u'db:attribute']
             cid = str(attribute[0][u'$t'])
-            if cid in DOUBAN_REC_CID: 
+            if cid in DOUBAN_REC_CID:
                 if cid == "note":
-                    pass
+                    t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
+                    uid_url = t[0][0]
+                    if uid_url.startswith("http://www.douban.com/people/"):
+                        uid = uid_url.strip("/").rsplit("/", 1)[1]
+                        yield fetch_if_new(uid)
+                    #print t[1]
                 elif cid == "url":
                     pass
                 elif cid == "topic":
@@ -99,7 +99,7 @@ def user_id_list_by_rec(data, url, id, start_index=None):
                 elif cid == "entry":
                     pass
                 else:
-                    print i[u'id'][u'$t'].rsplit("/",1)[1] 
+                    fetch_cache[ i[u'id'][u'$t'].rsplit("/", 1)[1] ] = "%s %s %s"%(id, cid, title)
 
         if start_index is not None:
             start = start_index+10
@@ -125,6 +125,4 @@ def main():
 if __name__ == "__main__":
 
     main()
-    db.close()
-    fetched.close()
-
+    kvdb.close_db()
