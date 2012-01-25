@@ -119,10 +119,6 @@ def parse_note(title):
         if func:
             yield func , note_url
 
-def parse_topic_htm(data, url):
-    title , num = parse_title_num_htm(data)
-    htm = txt_wrap_by('<div class="topic-content">','</div>',data)
-    print title, num
 
 def parse_title_num_htm(data):
     title = txt_wrap_by("<title>","</title>", data)
@@ -132,16 +128,21 @@ def parse_title_num_htm(data):
         like_num = txt_wrap_by('<a href="#">', '人', like_num)
     return title , int(rec_num)+int(like_num)
 
+def parse_topic_htm(data, url):
+    title , num = parse_title_num_htm(data)
+    htm = txt_wrap_by('<div class="topic-content">','</div>',data)
+    print url , title, num
+
 def parse_note_site_htm(data, url):
     html = txt_wrap_by(' class="note-content"><pre>',"</pre>",data)
     title , num = parse_title_num_htm(data)
-    print title, num
+    print url , title, num
 
 def parse_note_people_htm(data, url):
     html = txt_wrap_by('<pre class="note">',"</pre>",data)
     title , num = parse_title_num_htm(data)
     print title, num
-    #print title
+    print url , title, num
     #print html
 
 
