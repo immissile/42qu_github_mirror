@@ -2,7 +2,7 @@
 
 import _env
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
-from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new, CID_DOUBAN_FEED_REC
+from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new, CID_DOUBAN_USER_FEED_REC
 
 def url_last(url):
     return url.rstrip("/").rsplit("/", 1)[1]
@@ -28,7 +28,7 @@ def _parse_result(user_id, cid,  url):
         if func:
             yield func , url, user_id
     else:
-        douban_user_feed_new(CID_DOUBAN_FEED_REC, rid, user_id)
+        douban_user_feed_new(CID_DOUBAN_USER_FEED_REC, rid, user_id)
         
 def parse_topic(title, user_id):
     t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
@@ -54,7 +54,7 @@ class ParseHtm(object):
 
     def __call__(self, data, url, user_id):
         rid = url_last(url)
-        douban_user_feed_new(CID_DOUBAN_FEED_REC, rid, user_id)
+        douban_user_feed_new(CID_DOUBAN_USER_FEED_REC, rid, user_id)
         title = txt_wrap_by("<title>", "</title>", data)
         rec_num = txt_wrap_by('<span class="rec-num">', "人</span>", data) or 0
         like_num = txt_wrap_by('<span class="fav-num" data-tid="', '</a>喜欢</span>', data) or 0

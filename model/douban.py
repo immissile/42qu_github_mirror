@@ -44,8 +44,8 @@ CID_DOUBAN_URL_USER = 1
 CID_DOUBAN_URL_GROUP = 2
 CID_DOUBAN_URL_SITE = 3
 
-CID_DOUBAN_FEED_LIKE = 1
-CID_DOUBAN_FEED_REC = 2
+CID_DOUBAN_USER_FEED_LIKE = 1
+CID_DOUBAN_USER_FEED_REC = 2
 
 
 DOUBAN_REC2CID = {
@@ -149,6 +149,9 @@ def douban_feed_new(
         o.user_id = user_id
     if topic_id:
         o.topic_id = topic_id
+    if not o
+    if rec+like > 10 :
+        state =  
     o.save()
     return o.id
 
