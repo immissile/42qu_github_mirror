@@ -191,7 +191,9 @@ def main():
 
     fetcher = NoCacheFetch( headers=headers)
     spider = Rolling( fetcher, url_list )
+    
     debug = False
+    debug = True
 
     spider_runner = GSpider(spider, workers_count=1, debug=debug)
     spider_runner.start()
