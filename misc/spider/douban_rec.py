@@ -75,7 +75,7 @@ def fetch_like_if_new(cid, rid):
     key = "%s:%s"%(cid,rid)
     if key not in fetch_like:
         fetch_like[key] = NOW
-        return URL_LIKE%(cid, rid), user_id_list_by_like
+        return user_id_list_by_like , URL_LIKE%(cid, rid) 
     
 
 def fetch_if_new(uid):
