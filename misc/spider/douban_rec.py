@@ -66,28 +66,28 @@ def user_id_list_by_like(data, url):
 
 def fetch_id_by_uid(data, url, uid):
     data = loads(data)
-    id = data[u'id'][u'$t'].rsplit("/",1)[1]
+    id = data[u'id'][u'$t'].rsplit("/", 1)[1]
     db[uid] = id
     if id not in fetch_uid:
         fetch_uid[id] = NOW
         yield user_id_list_by_rec, URL_REC%id , id, 1
-        
+
 def fetch_like_if_new(cid, rid):
-    key = "%s:%s"%(cid,rid)
+    key = "%s:%s"%(cid, rid)
     if key not in fetch_like:
         fetch_like[key] = NOW
-        return user_id_list_by_like , URL_LIKE%(cid, rid) 
+        return user_id_list_by_like , URL_LIKE%(cid, rid)
 
 def fetch_if_new(uid):
     if not uid.isdigit() and uid not in db:
         return fetch_id_by_uid, URL_USER_INFO%uid, uid
 
 def url_last(url):
-    return url.rstrip("/").rsplit("/",1)[1]
+    return url.rstrip("/").rsplit("/", 1)[1]
 
 def parse_topic(title):
     t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
-    group_url , group_name = t[0] 
+    group_url , group_name = t[0]
     group_url = url_last(group_url)
     topic_url , topic_name = t[1]
     topic_id = url_last(topic_url)
@@ -121,7 +121,7 @@ def parse_note(title):
 
 
 def parse_title_num_htm(data):
-    title = txt_wrap_by("<title>","</title>", data)
+    title = txt_wrap_by("<title>", "</title>", data)
     rec_num = txt_wrap_by('<span class="rec-num">', "人</span>", data) or 0
     like_num = txt_wrap_by('<span class="fav-num" data-tid="', '</a>喜欢</span>', data) or 0
     if like_num:
@@ -130,16 +130,16 @@ def parse_title_num_htm(data):
 
 def parse_topic_htm(data, url):
     title , num = parse_title_num_htm(data)
-    htm = txt_wrap_by('<div class="topic-content">','</div>',data)
+    htm = txt_wrap_by('<div class="topic-content">', '</div>', data)
     print url , title, num
 
 def parse_note_site_htm(data, url):
-    html = txt_wrap_by(' class="note-content"><pre>',"</pre>",data)
+    html = txt_wrap_by(' class="note-content"><pre>', "</pre>", data)
     title , num = parse_title_num_htm(data)
     print url , title, num
 
 def parse_note_people_htm(data, url):
-    html = txt_wrap_by('<pre class="note">',"</pre>",data)
+    html = txt_wrap_by('<pre class="note">', "</pre>", data)
     title , num = parse_title_num_htm(data)
     print url , title, num
 
