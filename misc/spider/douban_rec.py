@@ -30,9 +30,10 @@ url""".split())
 
 kvdb = KvDb()
 
-db = kvdb.open_db("rec.kch")
-fetched = kvdb.open_db("rec_fetched.kch")
-fetch_cache = kvdb.open_db( "fetch_cache.kch")
+db = kvdb.open_db("rec")
+fetch_uid = kvdb.open_db("rec_fetch_uid")
+fetch_rec = kvdb.open_db( "fetch_rec")
+fetch_note = kvdb.open_db('fetch_note')
 
 API_KEY = "00d9bb33af90bf5c028d319b0eb23e14"
 
@@ -41,6 +42,7 @@ URL_REC = "http://api.douban.com/people/%%s/recommendations?alt=json&apikey=%s"%
 URL_LIKE = "http://www.douban.com/j/like?tkind=%s&tid=%s"
 
 URL_USER_INFO = "http://api.douban.com/people/%%s?alt=json&apikey=%s"%API_KEY
+
 
 NOW = int(time()/60)
 
@@ -54,8 +56,8 @@ def user_id_list_by_like(data, url):
 
         url = URL_REC%id
 
-        if id not in fetched:
-            fetched[id] = NOW
+        if id not in fetch_uid:
+            fetch_uid[id] = NOW
             yield user_id_list_by_rec, url , id, 1
         else:
             yield user_id_list_by_rec, url , id
@@ -64,8 +66,8 @@ def fetch_id_by_uid(data, url, uid):
     data = loads(data)
     id = data[u'id'][u'$t'].rsplit("/",1)[1]
     db[uid] = id
-    if id not in fetched:
-        fetched[id] = NOW
+    if id not in fetch_uid:
+        fetch_uid[id] = NOW
         yield user_id_list_by_rec, URL_REC%id , id, 1
         
     
@@ -82,6 +84,8 @@ def parse_note(title):
         uid = uid_url.strip("/").rsplit("/", 1)[1]
         yield fetch_if_new(uid)
 
+
+
 def user_id_list_by_rec(data, url, id, start_index=None):
     print url
 
@@ -94,7 +98,6 @@ def user_id_list_by_rec(data, url, id, start_index=None):
             cid = str(attribute[0][u'$t'])
             if cid in DOUBAN_REC_CID:
                 if cid == "note":
-                    #print t[1]
                     func = parse_note
                 elif cid == "url":
                     func = 0
@@ -111,7 +114,7 @@ def user_id_list_by_rec(data, url, id, start_index=None):
                     for i in func(title):
                         yield i
                 else:
-                    fetch_cache[ i[u'id'][u'$t'].rsplit("/", 1)[1] ] = "%s %s %s"%(id, cid, title)
+                    fetch_rec[ i[u'id'][u'$t'].rsplit("/", 1)[1] ] = "%s %s %s"%(id, cid, title)
 
         if start_index is not None:
             start = start_index+10

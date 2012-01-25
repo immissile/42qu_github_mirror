@@ -14,7 +14,7 @@ class KvDb(object):
     def open_db(self, name):
         db = DB()
         db.open(
-            join(self.path, name),
+            join(self.path, "%s.kch"name),
             DB.OWRITER | DB.OCREATE
         )
         self.opendb.append(db)
@@ -27,7 +27,7 @@ class KvDb(object):
 if __name__ == "__main__":
 
     kvdb = KvDb()
-    fetch_cache = kvdb.open_db( "fetch_cache.kch")
+    fetch_cache = kvdb.open_db( "fetch_uid")
     for i in fetch_cache:
         print i, fetch_cache[i]
 
