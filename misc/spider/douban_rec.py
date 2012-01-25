@@ -88,7 +88,8 @@ def parse_topic(title):
     t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
     group_url , group_name = t[0] 
     group_url = url_last(group_url)
-    print group_url, group_name
+    topic_url , topic_name = t[1]
+    print group_url, group_name, topic_url, topic_name
 
 def parse_note(title):
     t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
