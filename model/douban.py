@@ -118,9 +118,9 @@ def douban_url_new(cid, url, rid, name):
 def douban_url_user_new(url, rid, name):
     douban_url_new(CID_DOUBAN_URL_USER, url, rid, name)
 
-@mc_id_by_douban_feed("{cid}_{url}")
+@mc_id_by_douban_feed("{cid}_{rid}")
 def id_by_douban_feed(cid, rid):
-    c = DoubanUrl.raw_sql("select id from douban_feed where cid=%s and rid=%s", cid, rid)
+    c = DoubanFeed.raw_sql("select id from douban_feed where cid=%s and rid=%s", cid, rid)
     r = c.fetchone()
     if r:
         return r[0]
