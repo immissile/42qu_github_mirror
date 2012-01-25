@@ -81,6 +81,9 @@ def fetch_if_new(uid):
     if not uid.isdigit() and uid not in db:
         return fetch_id_by_uid, URL_USER_INFO%uid, uid
 
+def parse_topic(title):
+    t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
+    print t
 
 def parse_note(title):
     t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
@@ -137,7 +140,7 @@ def user_id_list_by_rec(data, url, id, start_index=None):
                 elif cid == "url":
                     func = 0
                 elif cid == "topic":
-                    func = 0
+                    func = parse_topic
                 elif cid == "entry":
                     func = 0
                 elif cid == "video":
@@ -146,8 +149,10 @@ def user_id_list_by_rec(data, url, id, start_index=None):
                     func = 0
 
                 if func:
-                    for i in func(title):
-                        yield i
+                    _iter = func(title)
+                    if _iter is not None:
+                        for i in _iter:
+                            yield i
                 else:
                     fetch_rec[ i[u'id'][u'$t'].rsplit("/", 1)[1] ] = "%s %s %s"%(id, cid, title)
 
@@ -168,7 +173,9 @@ def main():
 
     fetcher = NoCacheFetch( headers=headers)
     spider = Rolling( fetcher, url_list )
-    spider_runner = GSpider(spider, workers_count=1, debug=True)
+    debug = False
+
+    spider_runner = GSpider(spider, workers_count=1, debug=debug)
     spider_runner.start()
 
 
