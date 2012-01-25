@@ -141,9 +141,7 @@ def parse_note_site_htm(data, url):
 def parse_note_people_htm(data, url):
     html = txt_wrap_by('<pre class="note">',"</pre>",data)
     title , num = parse_title_num_htm(data)
-    print title, num
     print url , title, num
-    #print html
 
 
 def user_id_list_by_rec(data, url, id, start_index=None):
