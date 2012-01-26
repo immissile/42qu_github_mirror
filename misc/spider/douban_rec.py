@@ -6,7 +6,8 @@ from json import loads
 import sys
 from time import time
 from model.douban import user_id_by_douban_url, douban_url_user_new, \
-CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE, douban_rec_new, douban_user_feed_new
+CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE, douban_rec_new, douban_user_feed_new,\
+DOUBAN_REC_CID
 from douban_parse import parse_topic, parse_note
 
 
@@ -90,7 +91,7 @@ def user_id_list_by_rec(data, url, id, user_id, start_index=None):
 
 def main():
     url_list = [
-        (user_id_list_by_like, URL_LIKE%(1015 , 193974547)), 1015, 193974547,
+        (user_id_list_by_like, URL_LIKE%(1015 , 193974547) , 1015, 193974547,), 
     ]
 
     headers = {

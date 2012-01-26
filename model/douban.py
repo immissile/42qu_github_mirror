@@ -50,7 +50,7 @@ CID_DOUBAN_USER_FEED_LIKE = 1
 CID_DOUBAN_USER_FEED_REC = 2
 
 
-DOUBAN_REC2CID = {
+DOUBAN_REC_CID = {
     'photo_album':1,
     'doulist':2,
     'group':3,
@@ -96,7 +96,7 @@ def douban_user_feed_new(cid, rid, user_id):
 
 @mc_id_by_douban_url("{cid}_{url}")
 def id_by_douban_url(cid, url):
-    if url.isdigit():
+    if type(url) in (int,long) or url.isdigit():
         sql = "select id from douban_url where cid=%s and rid=%s"
     else:
         sql = "select id from douban_url where cid=%s and url=%s"
@@ -128,7 +128,7 @@ def id_by_douban_feed(cid, rid):
         return r[0]
 
 def douban_rec_new(id, user_id, cid , htm):
-    cid = DOUBAN_REC2CID.get(cid, 0)
+    cid = DOUBAN_REC_CID.get(cid, 0)
     if not cid:
         return
     o = DoubanRec.get_or_create(id=id)

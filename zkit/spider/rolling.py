@@ -3,7 +3,7 @@
 
 
 import _env
-from gspider import GSpider 
+from gspider import GSpider
 from collections import  defaultdict
 import os
 from gevent import monkey, queue
