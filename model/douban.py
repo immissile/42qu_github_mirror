@@ -119,7 +119,9 @@ def user_id_by_douban_url(url):
 def douban_url_new(cid, url, rid, name):
     if url == str(rid):
         url = ''
-    o = DoubanUrl.get(cid=cid, rid=rid)
+    o = None
+    if rid:
+        o = DoubanUrl.get(cid=cid, rid=rid)
     if o is None and url:
         o = DoubanUrl.get(cid=cid, url=url)
     if o is None:
