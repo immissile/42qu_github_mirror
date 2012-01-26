@@ -73,8 +73,8 @@ DOUBAN_REC_CID = {
     'photo':19,
 }
 
-mc_id_by_douban_url = McCache("IdByDoubanUrl:%s")
-mc_id_by_douban_feed = McCache("IdByDoubanFeed:%s")
+mc_id_by_douban_url = McCache("IdByDoubanUrl.%s")
+mc_id_by_douban_feed = McCache("IdByDoubanFeed.%s")
 
 class DoubanUrl(Model):
     pass
