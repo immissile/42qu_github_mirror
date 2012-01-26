@@ -40,7 +40,7 @@ class GSpider(object):
                 if item is None:
                     continue
                 if self.debug:
-                    print ">>> %s"%item[1]
+                    print "\t\t %s"%item
                 try:
                     self.spider.worker(item)
                 except Exception, e:
