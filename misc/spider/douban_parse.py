@@ -116,8 +116,8 @@ class ParseTopicHtm(ParseHtm):
         return line
 
     def topic_id(self, data):
-        line = txt_wrap_by('<div class="aside">','">',data)
-        line = txt_wrap_by('http://www.douban.com/group/','/',line)
+        line = txt_wrap_by('<div class="aside">','">回',data)
+        line = txt_wrap_by('"http://www.douban.com/group/','/',line)
         id = id_by_douban_url_new(CID_DOUBAN_URL_GROUP, line)
         return id
 
