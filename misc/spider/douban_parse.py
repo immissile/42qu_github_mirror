@@ -74,10 +74,17 @@ class ParseHtm(object):
     def topic_id(self, data):
         return 0
 
+
+    def title(self, data)
+        title = txt_wrap_by("<title>", "</title>", data)
+        return title
+
     def __call__(self, data, url, user_id):
         rid = url_last(url)
         douban_user_feed_new(CID_DOUBAN_USER_FEED_REC, rid, user_id)
-        title = txt_wrap_by("<title>", "</title>", data)
+
+        title = self.title(data)
+
         rec_num = txt_wrap_by('<span class="rec-num">', "人</span>", data) or 0
         like_num = txt_wrap_by('<span class="fav-num" data-tid="', '</a>喜欢</span>', data) or 0
         if like_num:
@@ -120,6 +127,12 @@ class ParseTopicHtm(ParseHtm):
         line = txt_wrap_by('"http://www.douban.com/group/','/',line)
         id = id_by_douban_url_new(CID_DOUBAN_URL_GROUP, line)
         return id
+    
+    def title(self, data)
+        title = txt_wrap_by('<tr><td class="tablelc"></td><td class="tablecc"><strong>标题：</strong>','</td>', data)
+        if not title:
+            title = txt_wrap_by("<title>", "</title>", data)
+        return title
 
 parse_topic_htm = ParseTopicHtm()
 
