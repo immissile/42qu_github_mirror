@@ -88,6 +88,7 @@ class ParseHtm(object):
         )       
         for uid in set(txt_wrap_by_all('href="http://www.douban.com/people/','"',data)):
             print "uid" , "..."
+            from douban_like import fetch_user 
             yield fetch_user(uid)
 
 class ParseTopicHtm(ParseHtm):
