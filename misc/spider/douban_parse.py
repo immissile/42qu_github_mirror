@@ -127,7 +127,7 @@ class ParseTopicHtm(ParseHtm):
         id = id_by_douban_url_new(CID_DOUBAN_URL_GROUP, line)
         return id
     
-    def title(self, data)
+    def title(self, data):
         title = txt_wrap_by('<tr><td class="tablelc"></td><td class="tablecc"><strong>标题：</strong>','</td>', data)
         if not title:
             title = txt_wrap_by("<title>", "</title>", data)
