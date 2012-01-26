@@ -1,6 +1,7 @@
 #coding:utf-8
 
 import _env
+from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new, CID_DOUBAN_USER_FEED_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE
 
@@ -21,6 +22,7 @@ class ParseRec(object):
         id = id_by_douban_feed(cid, rid)
 
         if not id and func:
+            from douban_like import user_id_list_by_like
             yield user_id_list_by_like , URL_LIKE%(cid, rid), cid, rid
             yield func , url, user_id
         else:
@@ -56,8 +58,6 @@ parse_note = ParseRecNote()
 
  
 
-def parse_note(title, user_id):
-    return _parse_result(user_id, CID_DOUBAN_FEED_NOTE,  url)
 
 class ParseHtm(object):
     cid = None
