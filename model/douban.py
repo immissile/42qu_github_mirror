@@ -114,7 +114,7 @@ def douban_url_new(cid, url, rid, name):
     o = DoubanUrl.get(cid=cid, rid=rid)
     if o is None and url:
         o = DoubanUrl.get(cid=cid, url=url)
-    else:
+    if o is None:
         o = DoubanUrl(cid=cid) 
     o.rid = rid
     o.url = url
