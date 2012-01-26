@@ -40,7 +40,7 @@ def fetch_id_by_uid(data, url, uid):
     id = data[u'id'][u'$t'].rsplit("/", 1)[1]
     user_id = user_id_by_douban_url(id)
     if not user_id:
-        screen_name = ???
+        screen_name = data[u'title'][u'$t']
         user_id = douban_url_user_new(uid, id, screen_name)
         yield user_id_list_by_rec, URL_REC%id , id, user_id, 1
 
