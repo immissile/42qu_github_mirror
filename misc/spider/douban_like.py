@@ -78,6 +78,7 @@ def user_id_list_by_rec(data, url, id, user_id, start_index=None):
                         for i in _iter:
                             yield i
                 else:
+                    #print i[u'id'][u'$t'].rsplit("/", 1)[1] , user_id, title 
                     douban_rec_new(
                         i[u'id'][u'$t'].rsplit("/", 1)[1] , 
                         user_id, cid, title

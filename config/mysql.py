@@ -107,6 +107,7 @@ DB_GOOGLE_TABLE = (
     'rss_po',
     'spider',
     'douban_url',
+    'douban_rec',
     'douban_feed',
     'douban_user_feed',
 )
