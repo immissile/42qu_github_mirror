@@ -25,6 +25,7 @@
 #rid
 #user_id
 #cid       # 1 rec 2 like
+#vote
 
 #douban_rec
 #id
