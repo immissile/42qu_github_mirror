@@ -121,6 +121,9 @@ def douban_url_new(cid, url, rid, name):
     if url == str(rid):
         url = ''
     o = None
+    if url.isdigit():
+        rid = int(url)
+        url = ""
     if rid:
         o = DoubanUrl.get(cid=cid, rid=rid)
     if o is None and url:
@@ -180,10 +183,10 @@ def douban_feed_new(
 if __name__ == '__main__':
     pass
     for i in """
-delete from douban_feed;
-delete from douban_rec;
-delete from douban_url;
-delete from douban_user_feed;
+TRUNCATE TABLE  douban_feed;
+TRUNCATE TABLE  douban_rec;
+TRUNCATE TABLE  douban_url;
+TRUNCATE TABLE  douban_user_feed;
     """.strip().split(";"):
         if i.strip():
             DoubanFeed.raw_sql(i.strip()+";")
