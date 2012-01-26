@@ -96,7 +96,7 @@ def douban_user_feed_new(cid, rid, user_id):
 
 @mc_id_by_douban_url("{cid}_{url}")
 def id_by_douban_url(cid, url):
-    if type(url) in (int,long) or url.isdigit():
+    if type(url) in (int, long) or url.isdigit():
         sql = "select id from douban_url where cid=%s and rid=%s"
     else:
         sql = "select id from douban_url where cid=%s and url=%s"
@@ -138,7 +138,7 @@ def douban_rec_new(id, user_id, cid , htm):
     o.save()
 
 def douban_feed_new(
-    cid , rid , rec , like , title  , htm,  user_id=0, topic_id=0 
+    cid , rid , rec , like , title  , htm, user_id=0, topic_id=0
 ):
     o = DoubanFeed.get_or_create(cid=cid, rid=rid)
     o.rec = rec
@@ -155,18 +155,20 @@ def douban_feed_new(
     if not o.state:
         state = 0
         if rec+like > 10 :
-            state =  DOUBAN_FEED_STATE_TO_REIVEW
+            state = DOUBAN_FEED_STATE_TO_REIVEW
         o.state = state
-    
+
     o.save()
     return o.id
 
 if __name__ == '__main__':
     pass
-    DoubanFeed.raw_sql("""
-delete  from douban_feed;
-delete  from douban_rec;
-delete  from douban_url;
-delete  from douban_user_feed;
-    """)
+    for i in """
+delete from douban_feed;
+delete from douban_rec;
+delete from douban_url;
+delete from douban_user_feed;
+    """.strip().split(";"):
+        if i.strip():
+            DoubanFeed.raw_sql(i.strip()+";")
 
