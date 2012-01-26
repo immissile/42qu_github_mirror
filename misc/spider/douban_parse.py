@@ -101,7 +101,8 @@ class ParseHtm(object):
         for uid in set(txt_wrap_by_all('href="http://www.douban.com/people/','"',data)):
             uid = uid.rstrip('/')
             from douban_like import fetch_user 
-            yield fetch_user(uid)
+            if uid.isalnum():
+                yield fetch_user(uid)
 
 class ParseTopicHtm(ParseHtm):
     cid = CID_DOUBAN_FEED_TOPIC
