@@ -3,7 +3,9 @@
 import _env
 from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
-from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new, CID_DOUBAN_USER_FEED_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE
+from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new,\
+CID_DOUBAN_USER_FEED_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE,\
+user_id_by_douban_url, douban_url_user_new 
 
 def url_last(url):
     return url.rstrip("/").rsplit("/", 1)[1]
@@ -80,10 +82,20 @@ class ParseHtm(object):
         if like_num:
             like_num = txt_wrap_by('<a href="#">', '人', like_num)
 
+        _owner_id = self.user_id(data)
+        if _owner_id:
+            owner_id = owner_id_by_douban_url(_owner_id)
+
+            if not owner_id:
+                from douban_like import fetch_user 
+                yield fetch_user(_owner_id)
+            
+            owner_id = owner_id_by_douban_url(_owner_id)
+
         douban_feed_new(
             self.cid, rid, rec_num, like_num, title, 
             self.htm(data)      ,
-            self.user_id(data)  ,
+            owner_id  ,
             self.topic_id(data) 
         )       
         for uid in set(txt_wrap_by_all('href="http://www.douban.com/people/','"',data)):
@@ -95,6 +107,11 @@ class ParseTopicHtm(ParseHtm):
     cid = CID_DOUBAN_FEED_TOPIC
     def htm(self, data):
         return txt_wrap_by('<div class="topic-content">', '</div>', data)
+
+    def user_id(self, data):
+        line = txt_wrap_by('<div class="user-face">','">',data)
+        line = txt_wrap_by('"http://www.douban.com/people/','/',line)
+        return line
 
 parse_topic_htm = ParseTopicHtm()
 
@@ -109,6 +126,12 @@ class ParseNotePeopleHtm(ParseHtm):
     cid = CID_DOUBAN_FEED_NOTE
     def htm(self, data):
         return txt_wrap_by('<pre class="note">', "</pre>", data)
+
+    def user_id(self, data):
+        line = txt_wrap_by('<div class="pic">','">',data)
+        line = txt_wrap_by('"http://www.douban.com/people/','/',line)
+        return line
+
 
 parse_note_people_htm = ParseNotePeopleHtm()
 
