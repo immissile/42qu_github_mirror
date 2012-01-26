@@ -4,7 +4,7 @@ import _env
 from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new,\
-CID_DOUBAN_USER_FEED_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE,\
+DOUBAN_USER_FEED_VOTE_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE,\
 user_id_by_douban_url, douban_url_user_new, id_by_douban_url_new ,\
 CID_DOUBAN_URL_GROUP, CID_DOUBAN_URL_SITE 
 
@@ -27,9 +27,9 @@ class ParseRec(object):
         if not id and func:
             from douban_like import user_id_list_by_like, URL_LIKE
             yield user_id_list_by_like , URL_LIKE%(cid, rid), cid, rid
-            yield func , url, user_id
+            yield func , url
         else:
-            douban_user_feed_new(CID_DOUBAN_USER_FEED_REC, rid, user_id)
+            douban_user_feed_new(DOUBAN_USER_FEED_VOTE_REC, cid, rid, user_id)
        
 class ParseRecTopic(ParseRec):
     cid = CID_DOUBAN_FEED_TOPIC
@@ -78,9 +78,8 @@ class ParseHtm(object):
         title = txt_wrap_by("<title>", "</title>", data)
         return title
 
-    def __call__(self, data, url, user_id):
+    def __call__(self, data, url):
         rid = url_last(url)
-        douban_user_feed_new(CID_DOUBAN_USER_FEED_REC, rid, user_id)
 
         title = self.title(data)
 
