@@ -74,8 +74,7 @@ class ParseHtm(object):
     def topic_id(self, data):
         return 0
 
-
-    def title(self, data)
+    def title(self, data):
         title = txt_wrap_by("<title>", "</title>", data)
         return title
 
