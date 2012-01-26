@@ -2,7 +2,7 @@
 
 import _env
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
-from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new, CID_DOUBAN_USER_FEED_REC
+from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new, CID_DOUBAN_USER_FEED_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE
 
 def url_last(url):
     return url.rstrip("/").rsplit("/", 1)[1]

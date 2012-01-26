@@ -37,7 +37,7 @@
 #2. 豆瓣用户的推荐 (现有的爬虫更新规则)
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
 
-DOUBAN_FEED_STATE_TO_REIVEW = #达到推荐门槛, 但未审核  
+DOUBAN_FEED_STATE_TO_REIVEW = 10 #达到推荐门槛, 但未审核  
 
 CID_DOUBAN_FEED_NOTE = 1015
 CID_DOUBAN_FEED_TOPIC = 1013
