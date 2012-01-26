@@ -89,7 +89,7 @@ class ParseHtm(object):
             if not _owner_id:
                 from douban_like import fetch_user 
                 yield fetch_user(owner_id)
-                _owner_id = douban_url_user_new(url, 0, "") 
+                _owner_id = douban_url_user_new(owner_id, 0, "") 
             owner_id = _owner_id 
         
         douban_feed_new(
@@ -114,12 +114,22 @@ class ParseTopicHtm(ParseHtm):
         line = txt_wrap_by('"http://www.douban.com/people/','/',line)
         return line
 
+    def topic_id(self, data):
+        line = txt_wrap_by('<div class="aside">','">',data)
+        line = txt_wrap_by('http://www.douban.com/group/','/',data)
+        return line
+
 parse_topic_htm = ParseTopicHtm()
 
 class ParseNoteSiteHtm(ParseHtm):
     cid = CID_DOUBAN_FEED_NOTE
     def htm(self, data):
         return txt_wrap_by(' class="note-content"><pre>', "</pre>", data)
+
+    def topic_id(self, data):
+        line = txt_wrap_by('<div class="sp-logo">','" ',data)
+        line = txt_wrap_by('http://site.douban.com/','/',line)
+        return line
 
 parse_note_site_htm = ParseNoteSiteHtm()
 

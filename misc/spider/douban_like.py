@@ -28,8 +28,8 @@ def user_id_list_by_like(data, url, cid, rid):
         if not user_id:
             user_id = douban_url_user_new(uid, id, i['screen_name'])
             yield user_id_list_by_rec, url , id, user_id, 1
-        else:
-            yield user_id_list_by_rec, url , id, user_id
+#        else:
+#            yield user_id_list_by_rec, url , id, user_id
 
 
         douban_user_feed_new(cid, rid, user_id)
