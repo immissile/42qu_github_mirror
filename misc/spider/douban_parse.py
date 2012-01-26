@@ -5,7 +5,8 @@ from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new,\
 CID_DOUBAN_USER_FEED_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE,\
-user_id_by_douban_url, douban_url_user_new 
+user_id_by_douban_url, douban_url_user_new, id_by_douban_url_new ,\
+CID_DOUBAN_URL_GROUP, CID_DOUBAN_URL_SITE 
 
 def url_last(url):
     return url.rstrip("/").rsplit("/", 1)[1]
@@ -117,7 +118,8 @@ class ParseTopicHtm(ParseHtm):
     def topic_id(self, data):
         line = txt_wrap_by('<div class="aside">','">',data)
         line = txt_wrap_by('http://www.douban.com/group/','/',data)
-        return line
+        id = id_by_douban_url_new(CID_DOUBAN_URL_GROUP, line)
+        return id
 
 parse_topic_htm = ParseTopicHtm()
 
@@ -128,13 +130,15 @@ class ParseNoteSiteHtm(ParseHtm):
 
     def topic_id(self, data):
         line = txt_wrap_by('<div class="sp-logo">','" ',data)
-        line = txt_wrap_by('http://site.douban.com/','/',line)
-        return line
+        line = txt_wrap_by('http://site.douban.com/','/',line) 
+        id = id_by_douban_url_new(CID_DOUBAN_URL_SITE, line)
+        return id
 
 parse_note_site_htm = ParseNoteSiteHtm()
 
 class ParseNotePeopleHtm(ParseHtm):
     cid = CID_DOUBAN_FEED_NOTE
+
     def htm(self, data):
         return txt_wrap_by('<pre class="note">', "</pre>", data)
 
