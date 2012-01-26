@@ -78,9 +78,6 @@ DOUBAN_REC_CID = {
 mc_id_by_douban_url = McCache('IdByDoubanUrl%s')
 mc_id_by_douban_feed = McCache('IdByDoubanFeed%s')
 
-class DoubanUrl(Model):
-    pass
-
 class DoubanFeed(Model):
     pass
 
