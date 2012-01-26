@@ -24,10 +24,11 @@ import traceback
 CURRENT_PATH = path.dirname(path.abspath(__file__))
 
 class GSpider(object):
-    def __init__(self, spider,  workers_count=8):
+    def __init__(self, spider,  workers_count=8, debug=False):
         self.spider = spider
         self.jobs = [gevent.spawn(self._work) for i in range(workers_count)]
         self.job_count = len(self.jobs)
+        self.debug = debug
 
     def start(self):
         gevent.joinall(self.jobs)
@@ -36,7 +37,10 @@ class GSpider(object):
         scheduler = self.spider.scheduler()
         try:
             for item in scheduler:
-                #print item,"!!item"
+                if item is None:
+                    continue
+                if self.debug:
+                    print "\t%s"%str(item[1])
                 try:
                     self.spider.worker(item)
                 except Exception, e:
