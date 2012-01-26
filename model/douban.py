@@ -97,12 +97,12 @@ def douban_user_feed_new(cid, rid, user_id):
 @mc_id_by_douban_url("{cid}_{url}")
 def id_by_douban_url(cid, url):
     if type(url) in (int, long) or url.isdigit():
-        sql = "select id from douban_url where cid=%s and rid=%s"
+        sql = "select id, rid from douban_url where cid=%s and rid=%s"
     else:
-        sql = "select id from douban_url where cid=%s and url=%s"
+        sql = "select id, rid from douban_url where cid=%s and url=%s"
 
     result = DoubanUrl.raw_sql( sql , cid , url).fetchone()
-    if result:
+    if result and result[1]:
         return result[0]
 
 def user_id_by_douban_url(url):
@@ -111,7 +111,12 @@ def user_id_by_douban_url(url):
 def douban_url_new(cid, url, rid, name):
     if url == str(rid):
         url = ''
-    o = DoubanUrl.get_or_create(cid=cid, rid=rid)
+    o = DoubanUrl.get(cid=cid, rid=rid)
+    if o is None and url:
+        o = DoubanUrl.get(cid=cid, url=url)
+    else:
+        o = DoubanUrl(cid=cid) 
+    o.rid = rid
     o.url = url
     o.name = name
     o.save()

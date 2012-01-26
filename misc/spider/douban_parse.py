@@ -84,12 +84,12 @@ class ParseHtm(object):
 
         owner_id = self.user_id(data)
         if owner_id:
-            _owner_id = user_id_by_douban_url(_owner_id)
+            _owner_id = user_id_by_douban_url(owner_id)
 
             if not _owner_id:
                 from douban_like import fetch_user 
                 yield fetch_user(owner_id)
-                _owner_id = user_id_by_douban_url(_owner_id)
+                _owner_id = douban_url_user_new(url, 0, "") 
             owner_id = _owner_id 
         
         douban_feed_new(
@@ -110,11 +110,8 @@ class ParseTopicHtm(ParseHtm):
         return txt_wrap_by('<div class="topic-content">', '</div>', data)
 
     def user_id(self, data):
-        print "topic ..............................."
         line = txt_wrap_by('<div class="user-face">','">',data)
-        print line
         line = txt_wrap_by('"http://www.douban.com/people/','/',line)
-        print line
         return line
 
 parse_topic_htm = ParseTopicHtm()
