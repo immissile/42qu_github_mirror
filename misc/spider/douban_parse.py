@@ -7,37 +7,56 @@ from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_ne
 def url_last(url):
     return url.rstrip("/").rsplit("/", 1)[1]
 
+class ParseRec(object):
+    cid = None
+    
+    def func_url(self, title):
+        return (None, "") 
 
-def _parse_result(user_id, cid,  url):
-    rid = url_last(url)
-    id = id_by_douban_feed(cid, rid)
-
-    if not id:
-        yield user_id_list_by_like , URL_LIKE%(cid, rid), cid, rid
+    def __call__(self, title, user_id):
+        cid = self.cid
         
-        func = 0
+        func , url = self.func_url(title)
+        rid = url_last(url)
+        id = id_by_douban_feed(cid, rid)
 
-        if cid == CID_DOUBAN_FEED_NOTE:
-            if url.startswith("http://www.douban.com/note/"):
-                func = parse_note_people_htm
-            elif url.startswith("http://site.douban.com/widget/notes/"):
-                func = parse_note_site_htm
-        elif cid == CID_DOUBAN_FEED_TOPIC:    
-            func = parse_topic_htm
-
-        if func:
+        if not id and func:
+            yield user_id_list_by_like , URL_LIKE%(cid, rid), cid, rid
             yield func , url, user_id
-    else:
-        douban_user_feed_new(CID_DOUBAN_USER_FEED_REC, rid, user_id)
-        
-def parse_topic(title, user_id):
-    t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
-    url , topic_name = t[1]
-    return _parse_result(user_id, CID_DOUBAN_FEED_TOPIC, url)
+        else:
+            douban_user_feed_new(CID_DOUBAN_USER_FEED_REC, rid, user_id)
+       
+class ParseRecTopic(ParseRec):
+    cid = CID_DOUBAN_FEED_TOPIC
+
+    def func_url(self, title):
+        t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
+        url , topic_name = t[1]
+        return parse_topic_htm, url
+
+parse_topic = ParseRecTopic()
+
+
+class ParseRecNote(ParseRec):
+    cid = CID_DOUBAN_FEED_NOTE
+
+    def func_url(self, title):
+        t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
+        url , note_title = t[1]
+
+        if url.startswith("http://www.douban.com/note/"):
+            func = parse_note_people_htm
+        elif url.startswith("http://site.douban.com/widget/notes/"):
+            func = parse_note_site_htm
+        else:
+            func = 0
+        return func, url
+
+parse_note = ParseRecNote()
+
+ 
 
 def parse_note(title, user_id):
-    t = [i.split('">', 1) for i in txt_wrap_by_all('<a href="', '</a>', title)]
-    url , note_title = t[1]
     return _parse_result(user_id, CID_DOUBAN_FEED_NOTE,  url)
 
 class ParseHtm(object):
