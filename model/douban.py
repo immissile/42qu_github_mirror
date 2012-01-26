@@ -118,7 +118,7 @@ def douban_url_new(cid, url, rid, name):
     return o.id
 
 def douban_url_user_new(url, rid, name):
-    douban_url_new(CID_DOUBAN_URL_USER, url, rid, name)
+    return douban_url_new(CID_DOUBAN_URL_USER, url, rid, name)
 
 @mc_id_by_douban_feed("{cid}_{rid}")
 def id_by_douban_feed(cid, rid):

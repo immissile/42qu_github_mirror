@@ -24,7 +24,6 @@ def user_id_list_by_like(data, url, cid, rid):
 
         user_id = user_id_by_douban_url(id)
 
-        douban_user_feed_new(cid, rid, user_id)
 
         if not user_id:
             user_id = douban_url_user_new(uid, id, i['screen_name'])
@@ -33,6 +32,7 @@ def user_id_list_by_like(data, url, cid, rid):
             yield user_id_list_by_rec, url , id, user_id
 
 
+        douban_user_feed_new(cid, rid, user_id)
 
 def fetch_id_by_uid(data, url, uid):
     data = loads(data)
