@@ -2,7 +2,7 @@
 from json import loads
 from model.douban import user_id_by_douban_url, douban_url_user_new, \
 CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE, douban_rec_new, douban_user_feed_new,\
-DOUBAN_REC_CID
+DOUBAN_REC_CID, CID_DOUBAN_USER_FEED_LIKE , CID_DOUBAN_USER_FEED_REC 
 from douban_parse import parse_topic, parse_note 
 
 
@@ -32,7 +32,7 @@ def user_id_list_by_like(data, url, cid, rid):
 #            yield user_id_list_by_rec, url , id, user_id
 
 
-        douban_user_feed_new(cid, rid, user_id)
+        douban_user_feed_new(CID_DOUBAN_USER_FEED_LIKE, cid, rid, user_id)
 
 def fetch_id_by_uid(data, url, uid):
     data = loads(data)

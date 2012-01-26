@@ -87,7 +87,7 @@ class DoubanUserFeed(Model):
 class DoubanRec(Model):
     pass
 
-def douban_user_feed_new(cid, rid, user_id):
+def douban_user_feed_new(vote, cid, rid, user_id):
     o = DoubanUserFeed.get_or_create(cid=cid, rid=rid, user_id=user_id)
     id = o.id
     o.save()
