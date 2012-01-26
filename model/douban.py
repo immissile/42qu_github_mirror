@@ -159,7 +159,7 @@ def douban_feed_new(
 
     if not o.state:
         state = 0
-        if rec+like > 10 :
+        if int(rec)+int(like) > 10 :
             state = DOUBAN_FEED_STATE_TO_REIVEW
         o.state = state
 
