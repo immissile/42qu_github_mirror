@@ -84,13 +84,13 @@ class ParseHtm(object):
 
         _owner_id = self.user_id(data)
         if _owner_id:
-            owner_id = owner_id_by_douban_url(_owner_id)
+            owner_id = user_id_by_douban_url(_owner_id)
 
             if not owner_id:
                 from douban_like import fetch_user 
                 yield fetch_user(_owner_id)
             
-            owner_id = owner_id_by_douban_url(_owner_id)
+            owner_id = user_id_by_douban_url(_owner_id)
 
         douban_feed_new(
             self.cid, rid, rec_num, like_num, title, 
