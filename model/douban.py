@@ -101,7 +101,7 @@ def id_by_douban_url(cid, url):
     else:
         sql = "select id from douban_url where cid=%s and url=%s"
 
-    result = DoubanUrl.raw_sql( sql, cid , url).fetchone()
+    result = DoubanUrl.raw_sql( sql , cid , url).fetchone()
     if result:
         return result[0]
 
