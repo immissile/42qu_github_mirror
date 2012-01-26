@@ -163,4 +163,10 @@ def douban_feed_new(
 
 if __name__ == '__main__':
     pass
+    """
+delete  from douban_feed;
+delete  from douban_rec;
+delete  from douban_url;
+delete  from douban_user_feed;
+    """
 

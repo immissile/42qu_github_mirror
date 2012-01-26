@@ -22,7 +22,7 @@ class ParseRec(object):
         id = id_by_douban_feed(cid, rid)
 
         if not id and func:
-            from douban_like import user_id_list_by_like
+            from douban_like import user_id_list_by_like, URL_LIKE
             yield user_id_list_by_like , URL_LIKE%(cid, rid), cid, rid
             yield func , url, user_id
         else:
