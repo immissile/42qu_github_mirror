@@ -193,6 +193,7 @@ def title_normal(title):
             .replace('）',")")\
             .replace("：",":")\
             .replace("转发","转")\
+            .replace("-转","转")\
             .replace("转帖","转")\
             .replace("转贴","转")\
             .replace("转载","转")\
