@@ -196,7 +196,12 @@ if __name__ == '__main__':
 
         if is_douban:
             is_douban_count += 1
-            print "%s %10s %5s %5s %s"%(i.cid, i.rid, i.rec, i.like, i.title)
+            if i.cid == CID_DOUBAN_FEED_TOPIC:
+                link = "http://www.douban.com/group/topic/%s"%i.rid
+            elif i.cid == CID_DOUBAN_FEED_NOTE:
+                link = "http://www.douban.com/note/%s"%i.rid
+
+            print "%s %5s %5s %s"%( link, i.rec, i.like, i.title)
         else:
             not_douban_count += 1
 
