@@ -181,8 +181,13 @@ def douban_feed_new(
     return o.id
 
 from zkit.htm2txt import htm2txt, unescape
+import re
+
+RE_ZT = re.compile("\bZT\b")
+
 def title_normal(title):
     title = unescape(title)
+    title = RE_ZT.sub("转",title) 
     title = " %s "%title.strip()
     title = title\
             .replace('【',"[")\
@@ -205,7 +210,7 @@ def title_normal(title):
             .replace(" 转 ","")\
             .replace("。转","")\
             .replace("》转","》")\
-            .strip() 
+            .strip()
     return title
 
 if __name__ == '__main__':
