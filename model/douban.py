@@ -182,6 +182,20 @@ def douban_feed_new(
 
 if __name__ == '__main__':
     pass
+    for i in DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW).order_by("rec desc"):
+        txt = "\n".join([i.title,i.htm])
+        is_douban = False
+
+        for word in ("豆瓣","豆邮","豆友","?start="):
+            if word in txt:
+                is_douban = True
+                break
+
+        if is_douban:
+            print "%5s %5s %s"%(i.rec, i.like, i.title)
+        
+
+
 #    for i in """
 #TRUNCATE TABLE  douban_feed;
 #TRUNCATE TABLE  douban_rec;
