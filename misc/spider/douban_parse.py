@@ -118,11 +118,14 @@ class ParseTopicHtm(ParseHtm):
         ]
         user_id = self.user_id(data)
         topic_reply =  txt_wrap_by('<ul class="topic-reply">','</ul>',data)
-        topic_reply =  txt_wrap_by_all(' <div class="reply-doc">','<div class="operation_div"',topic_reply)
-        #print user_id,topic_reply
+        topic_reply =  txt_wrap_by_all(' <div class="reply-doc">',' class="lnk-reply">回应</a>',topic_reply)
+        
         for i in topic_reply:
             owner_id = txt_wrap_by('<div class="bg-img-green">','</h4>',i)
-            print i
+            owner_id = txt_wrap_by('<a href="http://www.douban.com/people/','/">',owner_id)
+            if owner_id!=user_id:
+                break
+            result.append(txt_wrap_by('</div>','<div class="operation_div"',i)) 
                     
         return '\n'.join(result)
 
