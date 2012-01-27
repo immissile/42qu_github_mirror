@@ -246,4 +246,4 @@ if __name__ == '__main__':
 #    """.strip().split(";"):
 #        if i.strip():
 #            DoubanFeed.raw_sql(i.strip()+";")
-
+ 
