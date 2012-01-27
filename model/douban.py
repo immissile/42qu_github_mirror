@@ -226,7 +226,7 @@ if __name__ == '__main__':
         else:
             not_douban_count += 1
 
-        if not is_douban:
+        if is_douban:
 
             if i.cid == CID_DOUBAN_FEED_TOPIC:
                 link = "http://www.douban.com/group/topic/%s"%i.rid
