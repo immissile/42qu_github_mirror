@@ -278,6 +278,10 @@ $(".buzz_li").live("click",function(){
         $(this).addClass("fav_loading");
     });
 */
+
+    $(".buzz_win_book").isotope({ itemSelector : '.sdw' });
+
+
 })()
 
 
