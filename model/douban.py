@@ -200,12 +200,17 @@ if __name__ == '__main__':
             not_douban_count += 1
 
         if not is_douban:
+            title = i.title\
+                     .replace("（转帖）","")\
+                     .replace("转：","")\
+                     .replace("[转]","")\
+
             if i.cid == CID_DOUBAN_FEED_TOPIC:
                 link = "http://www.douban.com/group/topic/%s"%i.rid
             elif i.cid == CID_DOUBAN_FEED_NOTE:
                 link = "http://www.douban.com/note/%s"%i.rid
 
-            print "%60s %5s %5s %s"%( link, i.rec, i.like, i.title)
+            print "%60s %5s %5s %s"%( link, i.rec, i.like, title)
 
     print is_douban_count, not_douban_count 
 
