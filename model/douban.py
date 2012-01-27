@@ -189,7 +189,7 @@ if __name__ == '__main__':
         txt = "\n".join([i.title,i.htm])
         is_douban = False
 
-        for word in ("豆瓣","豆邮","豆友","?start=","douban.com"):
+        for word in ("豆瓣","豆邮","豆友","?start=",">http://www.douban"):
             if word in txt:
                 is_douban = True
                 break
