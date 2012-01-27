@@ -182,6 +182,9 @@ def douban_feed_new(
 
 if __name__ == '__main__':
     pass
+    is_douban_count = 0
+    not_douban_count = 0
+
     for i in DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW).order_by("rec desc"):
         txt = "\n".join([i.title,i.htm])
         is_douban = False
@@ -192,8 +195,12 @@ if __name__ == '__main__':
                 break
 
         if is_douban:
-            print "%5s %5s %s"%(i.rec, i.like, i.title)
-        
+            is_douban_count += 1
+            print "%s %10s %5s %5s %s"%(i.cid, i.rid, i.rec, i.like, i.title)
+        else:
+            not_douban_count += 1
+
+    print is_douban_count, not_douban_count 
 
 
 #    for i in """
