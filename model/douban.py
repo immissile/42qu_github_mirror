@@ -201,7 +201,7 @@ if __name__ == '__main__':
             elif i.cid == CID_DOUBAN_FEED_NOTE:
                 link = "http://www.douban.com/note/%s"%i.rid
 
-            print "%s %5s %5s %s"%( link, i.rec, i.like, i.title)
+            print "%60s %5s %5s %s"%( link, i.rec, i.like, i.title)
         else:
             not_douban_count += 1
 
