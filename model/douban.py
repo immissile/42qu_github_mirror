@@ -180,11 +180,38 @@ def douban_feed_new(
     o.save()
     return o.id
 
+from zkit.htm2txt import htm2txt, unescape
+def title_normal(title):
+    title = unescape(title)
+    title = " %s "%title.strip()
+    title = title\
+            .replace('【',"[")\
+            .replace('】',"]")\
+            .replace('［',"[")\
+            .replace('］',"]")\
+            .replace('（',"(")\
+            .replace('）',")")\
+            .replace("：",":")\
+            .replace("转发","转")\
+            .replace("转帖","转")\
+            .replace("转贴","转")\
+            .replace("转载","转")\
+            .replace("转:","")\
+            .replace("《转》","")\
+            .replace("[转]","")\
+            .replace("(转)","")\
+            .replace("转)","")\
+            .replace(" 转 ","")\
+            .replace("。转","")\
+            .replace("》转","》")\
+            .strip() 
+    return title
+
 if __name__ == '__main__':
     pass
     is_douban_count = 0
     not_douban_count = 0
-
+    
     for i in DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW).order_by("rec desc"):
         txt = "\n".join([i.title,i.htm])
         is_douban = False
@@ -200,17 +227,13 @@ if __name__ == '__main__':
             not_douban_count += 1
 
         if not is_douban:
-            title = i.title\
-                     .replace("（转帖）","")\
-                     .replace("转：","")\
-                     .replace("[转]","")\
 
             if i.cid == CID_DOUBAN_FEED_TOPIC:
                 link = "http://www.douban.com/group/topic/%s"%i.rid
             elif i.cid == CID_DOUBAN_FEED_NOTE:
                 link = "http://www.douban.com/note/%s"%i.rid
 
-            print "%60s %5s %5s %s"%( link, i.rec, i.like, title)
+            print "%60s %5s %5s %s"%( link, i.rec, i.like, title_normal(i.title))
 
     print is_douban_count, not_douban_count 
 
