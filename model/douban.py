@@ -73,8 +73,8 @@ DOUBAN_REC_CID = {
     'photo':19,
 }
 
-mc_id_by_douban_url = McCache("IdByDoubanUrl%s")
-mc_id_by_douban_feed = McCache("IdByDoubanFeed%s")
+mc_id_by_douban_url = McCache('IdByDoubanUrl%s')
+mc_id_by_douban_feed = McCache('IdByDoubanFeed%s')
 
 class DoubanUrl(Model):
     pass
@@ -96,17 +96,17 @@ def douban_user_feed_new(vote, cid, rid, user_id):
 
 
 def id_by_douban_url_new(cid, url):
-    id =  id_by_douban_url(cid, url)
+    id = id_by_douban_url(cid, url)
     if not id:
         id = douban_url_new(cid, url, 0, '')
     return id
 
-@mc_id_by_douban_url("{cid}_{url}")
+@mc_id_by_douban_url('{cid}_{url}')
 def id_by_douban_url(cid, url):
     if type(url) in (int, long) or url.isdigit():
-        sql = "select id, rid from douban_url where cid=%s and rid=%s"
+        sql = 'select id, rid from douban_url where cid=%s and rid=%s'
     else:
-        sql = "select id, rid from douban_url where cid=%s and url=%s"
+        sql = 'select id, rid from douban_url where cid=%s and url=%s'
 
     result = DoubanUrl.raw_sql( sql , cid , url).fetchone()
     if result:
@@ -123,13 +123,13 @@ def douban_url_new(cid, url, rid, name):
     o = None
     if url.isdigit():
         rid = int(url)
-        url = ""
+        url = ''
     if rid:
         o = DoubanUrl.get(cid=cid, rid=rid)
     if o is None and url:
         o = DoubanUrl.get(cid=cid, url=url)
     if o is None:
-        o = DoubanUrl(cid=cid) 
+        o = DoubanUrl(cid=cid)
     o.rid = rid
     o.url = url
     o.name = name
@@ -139,9 +139,9 @@ def douban_url_new(cid, url, rid, name):
 def douban_url_user_new(url, rid, name):
     return douban_url_new(CID_DOUBAN_URL_USER, url, rid, name)
 
-@mc_id_by_douban_feed("{cid}_{rid}")
+@mc_id_by_douban_feed('{cid}_{rid}')
 def id_by_douban_feed(cid, rid):
-    c = DoubanFeed.raw_sql("select id from douban_feed where cid=%s and rid=%s", cid, rid)
+    c = DoubanFeed.raw_sql('select id from douban_feed where cid=%s and rid=%s', cid, rid)
     r = c.fetchone()
     if r:
         return r[0]
@@ -183,33 +183,33 @@ def douban_feed_new(
 from zkit.htm2txt import htm2txt, unescape
 import re
 
-RE_ZT = re.compile("\bZT\b")
+RE_ZT = re.compile('(?!A-Z)ZT(?!A-Z)')
 
 def title_normal(title):
     title = unescape(title)
-    title = RE_ZT.sub("转",title) 
-    title = " %s "%title.strip()
+    title = RE_ZT.sub('转', title)
+    title = ' %s '%title.strip()
     title = title\
-            .replace('【',"[")\
-            .replace('】',"]")\
-            .replace('［',"[")\
-            .replace('］',"]")\
-            .replace('（',"(")\
-            .replace('）',")")\
-            .replace("：",":")\
-            .replace("转发","转")\
-            .replace("-转","转")\
-            .replace("转帖","转")\
-            .replace("转贴","转")\
-            .replace("转载","转")\
-            .replace("转:","")\
-            .replace("《转》","")\
-            .replace("[转]","")\
-            .replace("(转)","")\
-            .replace("转)","")\
-            .replace(" 转 ","")\
-            .replace("。转","")\
-            .replace("》转","》")\
+            .replace('【', '[')\
+            .replace('】', ']')\
+            .replace('［', '[')\
+            .replace('］', ']')\
+            .replace('（', '(')\
+            .replace('）', ')')\
+            .replace('：', ':')\
+            .replace('转发', '转')\
+            .replace('-转', '转')\
+            .replace('转帖', '转')\
+            .replace('转贴', '转')\
+            .replace('转载', '转')\
+            .replace('转:', '')\
+            .replace('《转》', '')\
+            .replace('[转]', '')\
+            .replace('(转)', '')\
+            .replace('转)', '')\
+            .replace(' 转 ', '')\
+            .replace('。转', '')\
+            .replace('》转', '》')\
             .strip()
     return title
 
@@ -217,12 +217,12 @@ if __name__ == '__main__':
     pass
     is_douban_count = 0
     not_douban_count = 0
-    
-    for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW),key=lambda x:-x.rec-x.like):
-        txt = "\n".join([i.title,i.htm])
+
+    for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW), key=lambda x:-x.rec-x.like):
+        txt = '\n'.join([i.title, i.htm])
         is_douban = False
 
-        for word in ("豆瓣","豆邮","豆友","?start=",">http://www.douban."):
+        for word in ('豆瓣', '豆邮', '豆友', '?start=', '>http://www.douban.'):
             if word in txt:
                 is_douban = True
                 break
@@ -235,13 +235,13 @@ if __name__ == '__main__':
         if not is_douban:
 
             if i.cid == CID_DOUBAN_FEED_TOPIC:
-                link = "http://www.douban.com/group/topic/%s"%i.rid
+                link = 'http://www.douban.com/group/topic/%s'%i.rid
             elif i.cid == CID_DOUBAN_FEED_NOTE:
-                link = "http://www.douban.com/note/%s"%i.rid
+                link = 'http://www.douban.com/note/%s'%i.rid
 
-            print "%60s %5s %5s %s"%( link, i.rec, i.like, title_normal(i.title))
+            print '%60s %5s %5s %s'%( link, i.rec, i.like, title_normal(i.title))
 
-    print is_douban_count, not_douban_count 
+    print is_douban_count, not_douban_count
 
 
 #    for i in """
@@ -252,4 +252,4 @@ if __name__ == '__main__':
 #    """.strip().split(";"):
 #        if i.strip():
 #            DoubanFeed.raw_sql(i.strip()+";")
- 
+
