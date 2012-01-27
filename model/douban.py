@@ -182,12 +182,12 @@ def douban_feed_new(
 
 if __name__ == '__main__':
     pass
-    for i in """
-TRUNCATE TABLE  douban_feed;
-TRUNCATE TABLE  douban_rec;
-TRUNCATE TABLE  douban_url;
-TRUNCATE TABLE  douban_user_feed;
-    """.strip().split(";"):
-        if i.strip():
-            DoubanFeed.raw_sql(i.strip()+";")
+#    for i in """
+#TRUNCATE TABLE  douban_feed;
+#TRUNCATE TABLE  douban_rec;
+#TRUNCATE TABLE  douban_url;
+#TRUNCATE TABLE  douban_user_feed;
+#    """.strip().split(";"):
+#        if i.strip():
+#            DoubanFeed.raw_sql(i.strip()+";")
 
