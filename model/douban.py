@@ -212,7 +212,7 @@ if __name__ == '__main__':
     is_douban_count = 0
     not_douban_count = 0
     
-    for i in DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW).order_by("rec desc"):
+    for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW),key=lambda x:-x.rec-x.like):
         txt = "\n".join([i.title,i.htm])
         is_douban = False
 
