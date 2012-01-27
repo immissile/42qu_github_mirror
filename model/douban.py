@@ -189,21 +189,23 @@ if __name__ == '__main__':
         txt = "\n".join([i.title,i.htm])
         is_douban = False
 
-        for word in ("豆瓣","豆邮","豆友","?start=",">http://www.douban"):
+        for word in ("豆瓣","豆邮","豆友","?start=",">http://www.douban."):
             if word in txt:
                 is_douban = True
                 break
 
         if is_douban:
             is_douban_count += 1
+        else:
+            not_douban_count += 1
+
+        if not is_douban:
             if i.cid == CID_DOUBAN_FEED_TOPIC:
                 link = "http://www.douban.com/group/topic/%s"%i.rid
             elif i.cid == CID_DOUBAN_FEED_NOTE:
                 link = "http://www.douban.com/note/%s"%i.rid
 
             print "%60s %5s %5s %s"%( link, i.rec, i.like, i.title)
-        else:
-            not_douban_count += 1
 
     print is_douban_count, not_douban_count 
 
