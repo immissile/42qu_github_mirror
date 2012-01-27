@@ -83,18 +83,26 @@ def cnenoverflow(s, length):
 
 
 def format_txt(txt):
-    txt = txt.replace('　', ' ').replace('\r\n', '\n').replace('\r', '\n')
+    txt = txt.replace('　', ' ').replace('\r\n', '\n').replace('\r', '\n').rstrip().rstrip("\n")
     txt = map(str.strip, txt.split('\n'))
     result = []
     pre = True
+    has_split = False
     for i in txt:
-        if i or not pre:
+        if i :
             result.append(i)
             pre = True
+        elif not pre and result[-1]:
+            result.append(i)
+            has_split = True
         else:
             pre = False
 
-    txt = '\n\n'.join(result).rstrip("\n")
+    if has_split:
+        split = "\n"
+    else:
+        split = "\n\n"
+    txt = split.join(result)
     return txt
 
 #<span style="margin-left:4px"><a href="#">显示全部</a></span>
