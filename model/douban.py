@@ -1,42 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#douban_url
-#id
-#rid
-#cid # 1 user 2 group 3 site
-#url
-#name
-
-#douban_feed
-#id
-#cid
-#rid
-#rec         #推荐的人数
-#like        #喜欢的人数
-#user_id     
-#topic_id    #小站 / 小组
-#title            
-#state       # 10. 达到推荐门槛, 但未审核  30. 审核未通过 60&40. 审核通过 , 抹去作者信息(比如原来就是转帖) 70&50. 审核通过 , 保留作者信息 
-#html
-
-#douban_user_feed
-#id
-#rid
-#user_id
-#cid       # 1 rec 2 like
-#vote
-
-#douban_rec
-#id
-#cid
-#htm
-#user_id
 
 #需要定期重新抓取的 
 #1. douban_feed    (一个月后在抓取一次即可, 一共也只需要抓取2次)
 #2. 豆瓣用户的推荐 (现有的爬虫更新规则)
-from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
+from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, mc
 from zkit.htm2txt import htm2txt, unescape
 import re
 
@@ -76,7 +45,6 @@ DOUBAN_REC_CID = {
 mc_id_by_douban_url = McCache('IdByDoubanUrl%s')
 mc_id_by_douban_feed = McCache('IdByDoubanFeed%s')
 
-
 class ModelUrl(object):
     @classmethod
     def new(cls, id, url, name):
@@ -101,17 +69,37 @@ class ModelUrl(object):
 
         if url:
             o.url = url
+            key = "%s:%s"%(cls.__name__ , url)
+            mc.set(key, id)
+        key = "%s:%s"%(cls.__name__ , id)
+        mc.set(key, id)
 
         if name:
             o.name = name
 
         o.save()
+       
+        return id
 
+    @classmethod
+    def by_url(cls, url):
+        key = "%s:%s"%(cls.__name__ , url)
+        id = mc.get(key) 
+        if id is None:
+            if type(url) in (int,long) or url.isdigit():
+                o = cls.mc_get(url)
+                if o:
+                    id = o.id
+            else: 
+                o = cls.get(url=url)
+                if o:
+                    id = o.id
+        mc.set(key, id or 0) 
         return id
 
 class DoubanUser(McModel, ModelUrl):
     pass
-class DoubanGroupUid(Model):
+class DoubanGroup(McModel, ModelUrl):
     pass
 class DoubanFeed(Model):
     pass
@@ -119,6 +107,9 @@ class DoubanUserFeed(Model):
     pass
 class DoubanRec(Model):
     pass
+class DoubanFeedOwner(Model):
+    pass
+
 
 def douban_user_feed_new(vote, cid, rid, user_id):
     o = DoubanUserFeed.get_or_create(cid=cid, rid=rid, user_id=user_id)
@@ -211,9 +202,10 @@ def title_normal(title):
 
 if __name__ == '__main__':
     pass
-    from zweb.orm import ormiter
-    for i in ormiter(DoubanUser):
-        print i.id, i.name, i.url
+    print DoubanUser.by_url("zuroc")
+#    from zweb.orm import ormiter
+#    for i in ormiter(DoubanUser):
+#        print i.id, i.name, i.url
 #    print dir(DoubanUser.table)
 #    print user_id_by_douban_url("catcabinet")
 #    print len("在非相对论系统中，粒子运动速度远小于光速，它们间的相互作用仍很频繁，参与相互作用的粒子数目较多")

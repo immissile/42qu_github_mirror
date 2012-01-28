@@ -5,15 +5,15 @@ from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new,\
 DOUBAN_USER_FEED_VOTE_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE,\
-DOUBAN_REC_CID, DoubanUser, DOUBAN_USER_FEED_VOTE_LIKE 
-from douban_recommendation import douban_recommendation_begin_tuple, URL_LIKE
+DOUBAN_REC_CID, DoubanUser, DOUBAN_USER_FEED_VOTE_LIKE, DoubanFeedOwner
+from douban_recommendation import douban_recommendation_begin_tuple, URL_LIKE, user_id_by_txt
+
 
 def parse_like(data, url, cid, rid):
     for i in loads(data):
         id = int(i[u'id'])
 
-        if not DoubanUser.mc_get(id):
-            yield douban_recommendation_begin_tuple(id)
+        yield douban_recommendation_begin_tuple(id)
 
         douban_user_feed_new(DOUBAN_USER_FEED_VOTE_LIKE, cid, rid, id)
 
@@ -67,8 +67,6 @@ class ParseRecNote(ParseRec):
 
 parse_note = ParseRecNote()
 
- 
-
 
 class ParseHtm(object):
     cid = None
@@ -96,34 +94,41 @@ class ParseHtm(object):
         if like_num:
             like_num = txt_wrap_by('<a href="#">', '人', like_num)
 
+        _topic = _owner = 0
+        
         owner_id = self.user_id(data)
         try:
             owner_id = int(owner_id)
         except ValueError:
-            _owner_id = user_id_by_douban_url(owner_id)
-            if not _owner_id:
-                pass
+            _owner_id = DoubanUser.by_url(owner_id)
+            if _owner_id:
+                owner_id = _owner_id
+            else:
+                _owner = owner_id
+                owner_id = 0
 
-#        if owner_id:
-#            _owner_id = user_id_by_douban_url(owner_id)
-#
-#            if not _owner_id:
-#                from douban_like import fetch_user 
-#                yield fetch_user(owner_id)
-#                _owner_id = douban_url_user_new(owner_id, 0, "") 
-#            owner_id = _owner_id 
-#        
-#        douban_feed_new(
-#            self.cid, rid, rec_num, like_num, title, 
-#            self.htm(data),
-#            owner_id  ,
-#            self.topic_id(data) 
-#        )       
-#        for uid in set(txt_wrap_by_all('href="http://www.douban.com/people/','"',data)):
-#            uid = uid.rstrip('/')
-#            from douban_like import fetch_user 
-#            if uid.isalnum():
-#                yield fetch_user(uid)
+        topic_id = self.topic_id(data)
+        try:
+            topic_id = int(topic_id)
+        except ValueError:
+            _topic = topic_id
+            topic_id = 0
+
+        feed_id = douban_feed_new(
+            self.cid, 
+            rid, 
+            rec_num, 
+            like_num, 
+            title, 
+            self.htm(data),
+            owner_id  ,
+            topic_id
+        )      
+        if _owner or _topic:
+            DoubanFeedOwner(id=feed_id, topic=_topic, owner=_owner).save()
+
+        for user_id in user_id_by_txt(data):
+            yield douban_recommendation_begin_tuple(id)
 
 class ParseTopicHtm(ParseHtm):
     cid = CID_DOUBAN_FEED_TOPIC
@@ -153,8 +158,7 @@ class ParseTopicHtm(ParseHtm):
     def topic_id(self, data):
         line = txt_wrap_by('<div class="aside">','">回',data)
         line = txt_wrap_by('"http://www.douban.com/group/','/',line)
-        id = id_by_douban_url_new(CID_DOUBAN_URL_GROUP, line)
-        return id
+        return line
     
     def title(self, data):
         title = txt_wrap_by('<tr><td class="tablelc"></td><td class="tablecc"><strong>标题：</strong>','</td>', data)
@@ -171,9 +175,8 @@ class ParseNoteSiteHtm(ParseHtm):
 
     def topic_id(self, data):
         line = txt_wrap_by('<div class="sp-logo">','" ',data)
-        line = txt_wrap_by('http://site.douban.com/','/',line) 
-        id = id_by_douban_url_new(CID_DOUBAN_URL_SITE, line)
-        return id
+        line = txt_wrap_by('http://site.douban.com/widget/notes/','/',line) 
+        return line
 
 parse_note_site_htm = ParseNoteSiteHtm()
 

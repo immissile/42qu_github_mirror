@@ -34,22 +34,17 @@ def douban_recommendation(data, url, start_index=None):
         [i['@href'].strip('/').rsplit('/', 1)[-1]
         for i in data[u'author'][u'link'][:2]]
     )
-
+    
     if start_index == 1:
         name = data[u'title'][u'$t'][:-4]
         DoubanUser.new(user_id, url, name)
-
-    EXIST.add(user_id)
-    EXIST.add(url)
 
     if entry_list:
         for i in entry_list:
             title = i[u'content'][u'$t'].replace('\r', ' ').replace('\n', ' ').strip()
 
             for uid in user_id_by_txt(title):
-                if uid not in EXIST:
-                    EXIST.add(uid)
-                    yield douban_recommendation, URL_REC%uid, 1
+                yield douban_recommendation_begin_tuple(id)
 
             attribute = i[u'db:attribute']
             cid = str(attribute[0][u'$t'])
@@ -69,6 +64,11 @@ def douban_recommendation(data, url, start_index=None):
             yield douban_recommendation, url, start
 
 def douban_recommendation_begin_tuple(id):
+    if not DoubanUser.by_url(uid):
+        return
+    if id in EXIST:
+        return
+    EXIST.add(id)
     return douban_recommendation, URL_REC%id, 1
 
 def main():
