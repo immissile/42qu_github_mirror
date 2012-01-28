@@ -33,7 +33,7 @@ def douban_recommendation(data, url, start_index=None):
             for uid in user_id_by_txt(title):
                 if uid not in EXIST:
                     EXIST.add(uid)
-                    #yield douban_recommendation, URL_REC%uid, 1
+                    yield douban_recommendation, URL_REC%uid, 1
 
             attribute = i[u'db:attribute']
             cid = str(attribute[0][u'$t'])
