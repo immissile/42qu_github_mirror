@@ -6,13 +6,15 @@ from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new,\
 DOUBAN_USER_FEED_VOTE_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE,\
 DOUBAN_REC_CID, DoubanUser, DOUBAN_USER_FEED_VOTE_LIKE 
-from douban_recommendation
-def user_id_list_by_like(data, url, cid, rid):
+from douban_recommendation import douban_recommendation_begin_tuple, URL_LIKE
+
+def parse_like(data, url, cid, rid):
     for i in loads(data):
         id = int(i[u'id'])
 
         if not DoubanUser.mc_get(id):
-            yield 
+            yield douban_recommendation_begin_tuple(id)
+
         douban_user_feed_new(DOUBAN_USER_FEED_VOTE_LIKE, cid, rid, id)
 
 def url_last(url):
@@ -31,9 +33,8 @@ class ParseRec(object):
         rid = url_last(url)
         id = id_by_douban_feed(cid, rid)
 
-        if not id and func:
-            from douban_like import user_id_list_by_like, URL_LIKE
-            yield user_id_list_by_like , URL_LIKE%(cid, rid), cid, rid
+        if not id and func: 
+            yield parse_like , URL_LIKE%(cid, rid), cid, rid
             yield func , url
         else:
             douban_user_feed_new(DOUBAN_USER_FEED_VOTE_REC, cid, rid, user_id)
@@ -95,27 +96,27 @@ class ParseHtm(object):
         if like_num:
             like_num = txt_wrap_by('<a href="#">', '人', like_num)
 
-        owner_id = self.user_id(data)
-        if owner_id:
-            _owner_id = user_id_by_douban_url(owner_id)
-
-            if not _owner_id:
-                from douban_like import fetch_user 
-                yield fetch_user(owner_id)
-                _owner_id = douban_url_user_new(owner_id, 0, "") 
-            owner_id = _owner_id 
-        
-        douban_feed_new(
-            self.cid, rid, rec_num, like_num, title, 
-            self.htm(data)      ,
-            owner_id  ,
-            self.topic_id(data) 
-        )       
-        for uid in set(txt_wrap_by_all('href="http://www.douban.com/people/','"',data)):
-            uid = uid.rstrip('/')
-            from douban_like import fetch_user 
-            if uid.isalnum():
-                yield fetch_user(uid)
+#        owner_id = self.user_id(data)
+#        if owner_id:
+#            _owner_id = user_id_by_douban_url(owner_id)
+#
+#            if not _owner_id:
+#                from douban_like import fetch_user 
+#                yield fetch_user(owner_id)
+#                _owner_id = douban_url_user_new(owner_id, 0, "") 
+#            owner_id = _owner_id 
+#        
+#        douban_feed_new(
+#            self.cid, rid, rec_num, like_num, title, 
+#            self.htm(data)      ,
+#            owner_id  ,
+#            self.topic_id(data) 
+#        )       
+#        for uid in set(txt_wrap_by_all('href="http://www.douban.com/people/','"',data)):
+#            uid = uid.rstrip('/')
+#            from douban_like import fetch_user 
+#            if uid.isalnum():
+#                yield fetch_user(uid)
 
 class ParseTopicHtm(ParseHtm):
     cid = CID_DOUBAN_FEED_TOPIC
