@@ -96,7 +96,14 @@ class ParseHtm(object):
         if like_num:
             like_num = txt_wrap_by('<a href="#">', '人', like_num)
 
-#        owner_id = self.user_id(data)
+        owner_id = self.user_id(data)
+        try:
+            owner_id = int(owner_id)
+        except ValueError:
+            _owner_id = user_id_by_douban_url(owner_id)
+            if not _owner_id:
+                pass
+
 #        if owner_id:
 #            _owner_id = user_id_by_douban_url(owner_id)
 #
@@ -108,7 +115,7 @@ class ParseHtm(object):
 #        
 #        douban_feed_new(
 #            self.cid, rid, rec_num, like_num, title, 
-#            self.htm(data)      ,
+#            self.htm(data),
 #            owner_id  ,
 #            self.topic_id(data) 
 #        )       
