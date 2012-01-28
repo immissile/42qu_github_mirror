@@ -72,6 +72,7 @@ def douban_recommendation(data, url, start_index=None):
             yield douban_recommendation, url, start
 
 def douban_recommendation_begin_tuple(id):
+    id = str(id)
     if DoubanUser.by_url(id):
         return
     if id in EXIST:
