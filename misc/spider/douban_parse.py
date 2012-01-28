@@ -174,8 +174,7 @@ class ParseNoteSiteHtm(ParseHtm):
         return txt_wrap_by(' class="note-content"><pre>', "</pre>", data)
 
     def topic_id(self, data):
-        line = txt_wrap_by('<div class="sp-logo">','" ',data)
-        line = txt_wrap_by('http://site.douban.com/widget/notes/','/',line) 
+        line = txt_wrap_by('http://site.douban.com/widget/notes/','/',data) 
         return line
 
 parse_note_site_htm = ParseNoteSiteHtm()
