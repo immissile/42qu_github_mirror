@@ -111,6 +111,7 @@ DB_GOOGLE_TABLE = (
     'douban_user',
     'douban_group',
     'douban_user_feed',
+    'douban_feed_owner',
     'douban_user_to_fetch',
 )
 

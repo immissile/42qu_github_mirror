@@ -9,8 +9,10 @@ from itertools import chain
 def main():
     for cid, func in DOUBAN_REC_PARSE.iteritems():
         for i in ormiter(DoubanRec, 'cid=%s'%cid):
-            print func(i.htm, i.user_id)
+            for i in func(i.htm, i.user_id):
+                yield i
 
 if __name__ == '__main__':
 
-    main()
+    from douban_spider import  spider
+    spider(main())
