@@ -37,6 +37,8 @@
 #1. douban_feed    (一个月后在抓取一次即可, 一共也只需要抓取2次)
 #2. 豆瓣用户的推荐 (现有的爬虫更新规则)
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
+from zkit.htm2txt import htm2txt, unescape
+import re
 
 DOUBAN_FEED_STATE_TO_REIVEW = 10 #达到推荐门槛, 但未审核  
 
@@ -180,8 +182,6 @@ def douban_feed_new(
     o.save()
     return o.id
 
-from zkit.htm2txt import htm2txt, unescape
-import re
 
 RE_ZT = re.compile('(?!A-Z)ZT(?!A-Z)')
 
@@ -214,6 +214,8 @@ def title_normal(title):
     return title
 
 if __name__ == '__main__':
+    print len("在非相对论系统中，粒子运动速度远小于光速，它们间的相互作用仍很频繁，参与相互作用的粒子数目较多")
+    raise
     pass
     is_douban_count = 0
     not_douban_count = 0
