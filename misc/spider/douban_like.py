@@ -45,11 +45,15 @@ def fetch_id_by_uid(data, url, uid):
         screen_name = data[u'title'][u'$t']
         user_id = douban_url_user_new(uid, id, screen_name)
         yield user_id_list_by_rec, URL_REC%id , id, user_id, 1
+
     if uid in FETCH_USER:
         del FETCH_USER[uid]
 
 def fetch_user(uid):
     if not uid.isdigit() and not user_id_by_douban_url(uid) and uid not in FETCH_USER:
+
+        FETCH_USER.add(uid)
+
         return fetch_id_by_uid, URL_USER_INFO%uid, uid
 
 
