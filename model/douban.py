@@ -214,6 +214,7 @@ def title_normal(title):
     return title
 
 if __name__ == '__main__':
+    print user_id_by_douban_url("catcabinet")
     print len("在非相对论系统中，粒子运动速度远小于光速，它们间的相互作用仍很频繁，参与相互作用的粒子数目较多")
     raise
     pass
@@ -254,4 +255,3 @@ if __name__ == '__main__':
 #    """.strip().split(";"):
 #        if i.strip():
 #            DoubanFeed.raw_sql(i.strip()+";")
-
