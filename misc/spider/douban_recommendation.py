@@ -2,11 +2,11 @@
 
 
 import _env
-from douban_spider import URL_REC, spider
 from model.douban import DOUBAN_REC_CID, douban_rec_new, DoubanUser
 from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from model.days import int_by_string
+from douban_spider import URL_REC, spider
 
 def user_id_by_txt(htm):
     return [
@@ -61,9 +61,12 @@ def douban_recommendation(data, url, start_index=None):
             url = "%s&max-result=10&start-index=%s"%(URL_REC%user_id, start)
             yield douban_recommendation, url, start
 
+def douban_recommendation_begin_tuple(id):
+    return douban_recommendation, URL_REC%id, 1
+
 def main():
     url_list = [
-        ( douban_recommendation, URL_REC%'zuroc', 1),
+        douban_recommendation_begin_tuple('zuroc')
     ]
     spider(url_list)
 

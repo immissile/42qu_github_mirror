@@ -15,24 +15,6 @@ URL_LIKE = "http://www.douban.com/j/like?tkind=%s&tid=%s"
 
 URL_USER_INFO = "http://api.douban.com/people/%%s?alt=json&apikey=%s"%API_KEY
 
-def user_id_list_by_like(data, url, cid, rid):
-    for i in loads(data):
-        id = int(i['id'])
-        uid = i['uid']
-
-        url = URL_REC%id
-
-        user_id = user_id_by_douban_url(id)
-
-
-        if not user_id:
-            user_id = douban_url_user_new(uid, id, i['screen_name'])
-            yield user_id_list_by_rec, url , id, user_id, 1
-#        else:
-#            yield user_id_list_by_rec, url , id, user_id
-
-
-        douban_user_feed_new(DOUBAN_USER_FEED_VOTE_LIKE, cid, rid, user_id)
 
 
 FETCH_USER = set()

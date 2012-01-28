@@ -5,7 +5,15 @@ from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new,\
 DOUBAN_USER_FEED_VOTE_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE,\
-DOUBAN_REC_CID 
+DOUBAN_REC_CID, DoubanUser, DOUBAN_USER_FEED_VOTE_LIKE 
+from douban_recommendation
+def user_id_list_by_like(data, url, cid, rid):
+    for i in loads(data):
+        id = int(i[u'id'])
+
+        if not DoubanUser.mc_get(id):
+            yield 
+        douban_user_feed_new(DOUBAN_USER_FEED_VOTE_LIKE, cid, rid, id)
 
 def url_last(url):
     return url.rstrip("/").rsplit("/", 1)[1]

@@ -78,19 +78,6 @@ mc_id_by_douban_feed = McCache('IdByDoubanFeed%s')
 
 
 class ModelUrl(object):
-#    @classmethod
-#    def id_by_url(cls, url):
-#        if type(url) in (int, long) or url.isdigit():
-#            return url    
-#        tabel = cls.Meta.table 
-#
-#        sql = 'select id from %s url=%%s'%table
-#
-#        result = cls.raw_sql( sql , url).fetchone()
-#        if result:
-#            return result[0]
-#
-#
     @classmethod
     def new(cls, id, url, name):
         if url == str(id):
@@ -102,7 +89,7 @@ class ModelUrl(object):
 
         o = None
         if id:
-            o = cls.get(id)
+            o = cls.mc_get(id)
 
         if o is None and url:
             o = cls.get(url=url)
@@ -122,7 +109,7 @@ class ModelUrl(object):
 
         return id
 
-class DoubanUser(Model, ModelUrl):
+class DoubanUser(McModel, ModelUrl):
     pass
 class DoubanGroupUid(Model):
     pass
