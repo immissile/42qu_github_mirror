@@ -106,10 +106,13 @@ DB_GOOGLE_TABLE = (
     'google_rank',
     'rss_po',
     'spider',
-    'douban_url',
     'douban_rec',
     'douban_feed',
+    'douban_user',
+    'douban_site',
+    'douban_group',
     'douban_user_feed',
+    'douban_user_to_fetch',
 )
 
 
