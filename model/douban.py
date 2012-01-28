@@ -121,9 +121,7 @@ mc_id_by_douban_feed = McCache('IdByDoubanFeed%s')
 
 class DoubanUser(Model):
     pass
-class DoubanGroup(Model):
-    pass
-class DoubanSite(Model):
+class DoubanGroupUid(Model):
     pass
 
 class DoubanUserToFetch(Model):
