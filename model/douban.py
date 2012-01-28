@@ -69,32 +69,32 @@ class ModelUrl(object):
 
         if url:
             o.url = url
-            key = "%s:%s"%(cls.__name__ , url)
+            key = '%s:%s'%(cls.__name__ , url)
             mc.set(key, id)
-        key = "%s:%s"%(cls.__name__ , id)
+        key = '%s:%s'%(cls.__name__ , id)
         mc.set(key, id)
 
         if name:
             o.name = name
 
         o.save()
-       
+
         return id
 
     @classmethod
     def by_url(cls, url):
-        key = "%s:%s"%(cls.__name__ , url)
-        id = mc.get(key) 
+        key = '%s:%s'%(cls.__name__ , url)
+        id = mc.get(key)
         if id is None:
-            if type(url) in (int,long) or url.isdigit():
+            if type(url) in (int, long) or url.isdigit():
                 o = cls.mc_get(url)
                 if o:
                     id = o.id
-            else: 
+            else:
                 o = cls.get(url=url)
                 if o:
                     id = o.id
-        mc.set(key, id or 0) 
+        mc.set(key, id or 0)
         return id
 
 class DoubanUser(McModel, ModelUrl):
@@ -135,9 +135,6 @@ def id_by_douban_feed(cid, rid):
         return r[0]
 
 def douban_rec_new(id, user_id, cid , htm, time):
-    cid = DOUBAN_REC_CID.get(cid, 0)
-    if not cid:
-        return
     o = DoubanRec.get_or_create(id=id)
     o.htm = htm
     o.user_id = user_id
@@ -154,7 +151,7 @@ def douban_feed_new(
     if title:
         o.title = title
     if htm:
-        o.htm = htm.replace("<wbr>","")
+        o.htm = htm.replace('<wbr>', '')
     if user_id:
         o.user_id = user_id
     if topic_id:
@@ -202,10 +199,10 @@ def title_normal(title):
 
 if __name__ == '__main__':
     pass
-    print DoubanUser.by_url("zuroc")
-#    from zweb.orm import ormiter
-#    for i in ormiter(DoubanUser):
-#        print i.id, i.name, i.url
+#    print DoubanUser.by_url('zuroc')
+    from zweb.orm import ormiter
+    for i in ormiter(DoubanUser):
+        print i.id, i.name, i.url
 #    print dir(DoubanUser.table)
 #    print user_id_by_douban_url("catcabinet")
 #    print len("在非相对论系统中，粒子运动速度远小于光速，它们间的相互作用仍很频繁，参与相互作用的粒子数目较多")

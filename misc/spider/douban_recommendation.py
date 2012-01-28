@@ -50,6 +50,7 @@ def douban_recommendation(data, url, start_index=None):
             attribute = i[u'db:attribute']
             cid = str(attribute[0][u'$t'])
             if cid in DOUBAN_REC_CID:
+                cid = DOUBAN_REC_CID[cid]
                 id = i[u'id'][u'$t'].rsplit('/', 1)[1]
                 time = i[u'published'][u'$t'].split('+', 1)[0]
                 time = int_by_string(time)
