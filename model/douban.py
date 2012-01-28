@@ -235,7 +235,7 @@ if __name__ == '__main__':
             elif i.cid == CID_DOUBAN_FEED_NOTE:
                 link = 'http://www.douban.com/note/%s'%i.rid
 
-            print '%60s %5s %5s %s'%( link, i.rec, i.like, title_normal(i.title))
+            print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal(i.title), len(i.htm))
 
 #    print is_douban_count, not_douban_count
 

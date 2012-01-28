@@ -59,7 +59,7 @@ def douban_recommendation(data, url, start_index=None):
                     time
                 )
                 from douban_parse import DOUBAN_REC_PARSE
-                for cid in DOUBAN_REC_PARSE:
+                if cid in DOUBAN_REC_PARSE:
                     _ = DOUBAN_REC_PARSE[cid](title, user_id)
                     if _ is not None:
                         for item in _:
