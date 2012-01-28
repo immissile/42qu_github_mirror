@@ -3,7 +3,7 @@
 
 import _env
 from douban_spider import URL_REC, spider
-from model.douban import DOUBAN_REC_CID, douban_rec_new
+from model.douban import DOUBAN_REC_CID, douban_rec_new, DoubanUser
 from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 
@@ -19,9 +19,17 @@ EXIST = set()
 
 def douban_recommendation(data, url, start_index=None):
     data = loads(data)
-    entry_list = data['entry']
+    entry_list = data[u'entry']
 
-    user_id, url = map(str,[i['@href'].strip('/').rsplit('/', 1)[-1] for i in data[u'author'][u'link'][:2]])
+    user_id, url = map(
+        str,
+        [i['@href'].strip('/').rsplit('/', 1)[-1] 
+        for i in data[u'author'][u'link'][:2]]
+    )
+
+    if start_index == 1:
+        name = data[u'title'][u'$t'][:-4]
+        DoubanUser.new(user_id, url, name)
     
     EXIST.add(user_id)
     EXIST.add(url)

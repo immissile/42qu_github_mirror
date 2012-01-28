@@ -77,7 +77,7 @@ mc_id_by_douban_url = McCache('IdByDoubanUrl%s')
 mc_id_by_douban_feed = McCache('IdByDoubanFeed%s')
 
 
-#class ModelUrl(Model):
+class ModelUrl(object):
 #    @classmethod
 #    def id_by_url(cls, url):
 #        if type(url) in (int, long) or url.isdigit():
@@ -91,35 +91,38 @@ mc_id_by_douban_feed = McCache('IdByDoubanFeed%s')
 #            return result[0]
 #
 #
-#    @classmethod
-#    def new(cls, id, url, name):
-#        if url == str(id):
-#            url = ''
-#
-#        if url.isdigit():
-#            id = int(url)
-#            url = ''
-#
-#        o = None
-#        if id:
-#            o = cls.get(id)
-#
-#        if o is None and url:
-#            o = cls.get(url=url)
-#
-#        o.id = id
-#
-#        if url:
-#            o.url = url
-#
-#        if name:
-#            o.name = name
-#
-#        o.save()
-#
-#        return id
+    @classmethod
+    def new(cls, id, url, name):
+        if url == str(id):
+            url = ''
 
-class DoubanUser(Model):
+        if url.isdigit():
+            id = int(url)
+            url = ''
+
+        o = None
+        if id:
+            o = cls.get(id)
+
+        if o is None and url:
+            o = cls.get(url=url)
+
+        if o is None:
+            o = cls()
+
+        o.id = id
+
+        if url:
+            o.url = url
+
+        if name:
+            o.name = name
+
+        o.save()
+
+        return id
+
+class DoubanUser(Model, ModelUrl):
     pass
 class DoubanGroupUid(Model):
     pass
@@ -220,6 +223,9 @@ def title_normal(title):
 
 if __name__ == '__main__':
     pass
+    from zweb.orm import ormiter
+    for i in ormiter(DoubanUser):
+        print i.name, i.url
 #    print dir(DoubanUser.table)
 #    print user_id_by_douban_url("catcabinet")
 #    print len("在非相对论系统中，粒子运动速度远小于光速，它们间的相互作用仍很频繁，参与相互作用的粒子数目较多")
