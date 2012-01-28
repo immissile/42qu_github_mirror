@@ -156,7 +156,7 @@ def id_by_douban_feed(cid, rid):
     if r:
         return r[0]
 
-def douban_rec_new(id, user_id, cid , htm):
+def douban_rec_new(id, user_id, cid , htm, time):
     cid = DOUBAN_REC_CID.get(cid, 0)
     if not cid:
         return
@@ -164,6 +164,7 @@ def douban_rec_new(id, user_id, cid , htm):
     o.htm = htm
     o.user_id = user_id
     o.cid = cid
+    o.time = time
     o.save()
 
 def douban_feed_new(

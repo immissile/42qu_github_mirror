@@ -6,6 +6,7 @@ from douban_spider import URL_REC, spider
 from model.douban import DOUBAN_REC_CID, douban_rec_new, DoubanUser
 from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
+from model.days import int_by_string
 
 def user_id_by_txt(htm):
     return [
@@ -47,9 +48,12 @@ def douban_recommendation(data, url, start_index=None):
             cid = str(attribute[0][u'$t'])
             if cid in DOUBAN_REC_CID:
                 id = i[u'id'][u'$t'].rsplit('/', 1)[1]
+                time = i[u'published'][u'$t'].split("+",1)[0]
+                time = int_by_string(time)
                 douban_rec_new(
                     id ,
-                    user_id, cid, title
+                    user_id, cid, title,
+                    time
                 )
     
         if start_index is not None:
