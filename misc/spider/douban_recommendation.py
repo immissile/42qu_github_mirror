@@ -16,12 +16,13 @@ URL_LIKE = 'http://www.douban.com/j/like?tkind=%s&tid=%s'
 URL_USER_INFO = 'http://api.douban.com/people/%%s?alt=json&apikey=%s'%API_KEY
 
 def user_id_by_txt(htm):
-    return [
+    r = [
         str(uid).rstrip('/')
         for uid in
         set(txt_wrap_by_all('href="http://www.douban.com/people/', '"', htm))
     ]
-
+    r = [i for i in r if i.isalnum()]
+    return r
 
 EXIST = set()
 

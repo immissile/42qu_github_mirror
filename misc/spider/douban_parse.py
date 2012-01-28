@@ -34,8 +34,8 @@ class ParseRec(object):
         id = id_by_douban_feed(cid, rid)
 
         if not id and func: 
-            yield parse_like , URL_LIKE%(cid, rid), cid, rid
             yield func , url
+            yield parse_like , URL_LIKE%(cid, rid), cid, rid
         else:
             douban_user_feed_new(DOUBAN_USER_FEED_VOTE_REC, cid, rid, user_id)
        
