@@ -5,8 +5,7 @@ from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_new,\
 DOUBAN_USER_FEED_VOTE_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE,\
-user_id_by_douban_url, douban_url_user_new, id_by_douban_url_new ,\
-CID_DOUBAN_URL_GROUP, CID_DOUBAN_URL_SITE 
+DOUBAN_REC_CID 
 
 def url_last(url):
     return url.rstrip("/").rsplit("/", 1)[1]
@@ -175,6 +174,11 @@ class ParseNotePeopleHtm(ParseHtm):
 
 
 parse_note_people_htm = ParseNotePeopleHtm()
+
+DOUBAN_REC_PARSE = {
+    DOUBAN_REC_CID['note']:parse_note,
+    DOUBAN_REC_CID['topic']:parse_topic,
+}
 
 if __name__ == "__main__":
     html = """ """
