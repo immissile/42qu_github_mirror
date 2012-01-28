@@ -44,7 +44,7 @@ def douban_recommendation(data, url, start_index=None):
             title = i[u'content'][u'$t'].replace('\r', ' ').replace('\n', ' ').strip()
 
             for uid in user_id_by_txt(title):
-                yield douban_recommendation_begin_tuple(id)
+                yield douban_recommendation_begin_tuple(uid)
 
             attribute = i[u'db:attribute']
             cid = str(attribute[0][u'$t'])
@@ -64,7 +64,7 @@ def douban_recommendation(data, url, start_index=None):
             yield douban_recommendation, url, start
 
 def douban_recommendation_begin_tuple(id):
-    if not DoubanUser.by_url(uid):
+    if DoubanUser.by_url(id):
         return
     if id in EXIST:
         return

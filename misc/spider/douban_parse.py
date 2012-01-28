@@ -128,7 +128,7 @@ class ParseHtm(object):
             DoubanFeedOwner(id=feed_id, topic=_topic, owner=_owner).save()
 
         for user_id in user_id_by_txt(data):
-            yield douban_recommendation_begin_tuple(id)
+            yield douban_recommendation_begin_tuple(user_id)
 
 class ParseTopicHtm(ParseHtm):
     cid = CID_DOUBAN_FEED_TOPIC
