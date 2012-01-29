@@ -15,7 +15,7 @@ REDIS_REC_CID_TUPLE = (
 )
 
 REDIS_REC_CID_DICT = dict(REDIS_REC_CID_TUPLE)
-
+REDIS_REC_CID_LEN = len(REDIS_REC_CID_TUPLE)
 REDIS_REC_CID = 'RecCid:%s'
 REDIS_REC_CID_POS = 'RecCid#%s'
 REDIS_REC_READ = 'RecRead:%s'
@@ -79,10 +79,21 @@ def rec_cid_extend(cid, id_time_list):
     return redis.zadd(REDIS_REC_CID%cid, *lineiter(id_time_list))
 
 def rec_cid_pos_update(user_id, cid_time_list):
-    return redis.zadd(REDIS_REC_CID_POS%user_id, *lineiter(cid_time_list))
+    key = REDIS_REC_CID_POS%user_id
+    if not redis.exists(key):
+        redis.rpush(key, *([0]*REDIS_REC_CID_LEN))
+    for cid, time in cid_time_list:
+        redis.set(cid-1, time)
 
 def rec_cid_pos_by_user_id(user_id):
-    return redis.zrange(REDIS_REC_CID_POS%user_id, 0, -1, withscores=True)
+    key = REDIS_REC_CID_POS%user_id
+    result = redis.lrange(key, 0, -1)
+    diff = REDIS_REC_CID_LEN - len(result)
+    if diff:
+        more = [0]*diff
+        result.extend(more)
+        redis.rpush(key, *more)
+    return result
 
 def rec_read_log(user_id, limit=7, offset=0):
     if offset == 0:
@@ -113,14 +124,14 @@ def rec_read_empty(user_id):
         REDIS_REC_LOG,
     ):
         redis.delete(key%user_id)
-    
+
 if __name__ == '__main__':
     user_id = 10000000
     from model.po import Po
-
+    print rec_cid_pos_by_user_id(user_id)
     #   rec_read_extend(user_id, [(1, 1), (2, 2)])
 #    print rec_read_log(user_id,1)
     #print rec_read_empty(user_id)
-    print rec_cid_pos_by_user_id(user_id)
+    #print rec_cid_pos_by_user_id(user_id)
     #rec_cid_pos_update(user_id, ((1, 1), ))
 
