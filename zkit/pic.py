@@ -146,6 +146,7 @@ def pic_fit(image, width, height=None):
                 height_begin = (y-height)//4
 
             image = image.crop((width_begin, height_begin, width_begin+width, height_begin+height))
+
     return image
 
 
@@ -159,6 +160,7 @@ def pic_fit_height_if_high(image, width, height=None):
         p.paste(image, ((y-x)//2, 0))
         image = p
         del p
+
     return pic_fit(image, width, height)
 
 
