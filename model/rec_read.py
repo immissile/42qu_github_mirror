@@ -139,21 +139,38 @@ def rec_read_cid(user_id, limit):
     result = []
     rec_pos_update = []
 
-    for cid, start, limit in zip(
+    can_rec_cid = set(REDIS_REC_CID_DICT)
+
+    for cid, start, cid_limit in zip(
         xrange(1, REDIS_REC_CID_LEN+1),
         rec_cid_pos_by_user_id(user_id),
         rec_user_cid_limit(user_id, limit)
     ):
-        if not limit:
+        if not cid_limit:
             continue
-        r = redis.zrangebyscore(REDIS_REC_CID%cid, '(%s'%start, '+inf', 0, limit)
+
+        r = redis.zrangebyscore(REDIS_REC_CID%cid, '(%s'%start, '+inf', 0, cid_limit)
         if r:
             last = r[-1]
             result.extend(r)
         else:
             last = start
+            can_rec_cid.remove(cid)
 
         rec_pos_update.append(last)
+
+
+    while True:
+        diff = limit - len(result)
+
+        if diff <= 0 or not can_rec_cid:
+            break
+
+        cid_limit = int(1+(diff / len(can_rec_cid)))
+        rec_pos_update = dict(rec_pos_update)
+
+        for cid in set(can_rec_cid):
+            can_rec_cid.remove(cid)
 
 
     if result:
