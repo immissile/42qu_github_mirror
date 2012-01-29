@@ -36,7 +36,7 @@ class ParseGroupHtm(object):
         intro = self.intro(data)
         short_url = self.group_short_url(data)
 
-        print name, member_num
+        print name, member_num, leader_id
 
         group = DoubanGroup.new(group_id, short_url, name)
         group.member = member_num
