@@ -3,7 +3,18 @@ from _db import redis
 from zkit.zitertools import lineiter
 from time import time
 
+REDIS_REC_CID_TUPLE = (
+    (1, "网络·科技·创业"),
+    (2, "情感·社会·人文"),
+    (3, "政治·经济"),
+    (4, "生活·旅行"),
+    (5, "图书·电影·音乐"),
+    (6, "职业·成长"),
+    (7, "酷知识"),
+)
+REDIS_REC_CID_DICT = dict(REDIS_REC_CID_TUPLE)
 
+REDIS_REC_CID = "RecCid:%s" 
 REDIS_REC_READ = 'RecRead:%s'
 REDIS_REC_LOG = 'RecLog:%s'
 
@@ -90,3 +101,6 @@ if __name__ == '__main__':
     rec_read_extend(user_id, [(1, 1), (2, 2)])
     print rec_read_log(user_id,1)
     #print rec_read_empty(user_id)
+
+    
+
