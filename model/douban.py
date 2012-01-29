@@ -79,7 +79,7 @@ class ModelUrl(object):
 
         o.save()
 
-        return id
+        return o
 
     @classmethod
     def by_url(cls, url):
