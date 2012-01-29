@@ -145,7 +145,7 @@ def douban_rec_new(id, user_id, cid , htm, time):
     o.save()
 
 def douban_feed_new(
-    cid , rid , rec , like , title  , htm, user_id=0, topic_id=0
+    cid , rid , rec , like , title  , htm, time, user_id=0, topic_id=0
 ):
     o = DoubanFeed.get_or_create(cid=cid, rid=rid)
     o.rec = rec
@@ -164,7 +164,7 @@ def douban_feed_new(
         if int(rec)+int(like) > 10 :
             state = DOUBAN_FEED_STATE_TO_REIVEW
         o.state = state
-
+    o.time = time
     o.save()
     return o.id
 
