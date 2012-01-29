@@ -63,7 +63,6 @@ def rec_read(user_id, limit=7):
     if total:
         redis.zremrangebyrank(key, -total , -1)
 
-
     return result
 
 def rec_read_extend(user_id , id_score_list):
