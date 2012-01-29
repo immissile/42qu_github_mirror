@@ -1,0 +1,41 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from hashlib import md5
+from zkit.upyun import  upyun_rsspic
+%>
+<%def name="htm_head()">
+<style>
+a.eventcat {
+    color:#999;
+    margin:8px 16px;
+}
+li{
+display:inline-block;
+}
+.oper{
+margin:0 10px;
+}
+</style>
+</%def>
+
+<ul>
+% for i in li:
+<%
+file_key = md5(i.url).hexdigest()+".jpg"
+src =  upyun_rsspic.get_file_url(file_key)
+%>
+<li>
+<div>
+<a href="${i.url}">
+    <img src="${src}"/>
+</a>
+</div>
+<div class="oper">
+<a href="/allow/${i.id}">OK</a>
+<a href="/disallow/${i.id}" class="R">Del</a>
+</div>
+</li>
+% endfor
+</ul>
+
+${page|n}

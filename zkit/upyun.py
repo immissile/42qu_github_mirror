@@ -18,22 +18,6 @@ class UpYun(object):
         self.headers['Authorization'] = 'Basic %s' % base64.b64encode('%s:%s' % (self.username, self.password))
         self.headers['Mkdir'] = 'true'
 
-    #def append(self,  url, path_builder=UPYUN_PATH_BUILDER):
-    #    filename = md5(url).hexdigest()+'.jpg'
-    #    #file_path = path_builder%filename[:10]
-    #    file_path = path_builder%( "/".join([filename[:2], filename[2:4]]))
-    #    if not os.path.exists(file_path):
-    #        os.makedirs(file_path)
-    #    file_path = os.path.join(file_path, filename)
-    #    if not os.path.exists(file_path):
-    #        img = fetch_pic(url)
-    #        if img:
-    #            with open(file_path, 'w') as f:
-    #                img = pic_fit_width_cut_height_if_large(img, 721)
-    #                img.save(f, 'JPEG')
-    #            self.upload(file_path)
-    #    return self.domain%filename
-
     def upload(self, filename):
         with open(filename) as f:
             data = f.read()
@@ -45,7 +29,7 @@ class UpYun(object):
         connection.request('PUT', path, data, self.headers)
         result = connection.getresponse()
         print result.status, result.reason,self.domain%os.path.basename(path)
-        return self.domain%os.path.basename(path)
+        return self.get_file_url(os.path.basename(path))
 
     def upload_img(self, path, img):
         data = StringIO()
@@ -53,6 +37,9 @@ class UpYun(object):
         url = self.upload_data(path,data.getvalue())
         data.close()
         return url
+    
+    def get_file_url(self,filename):
+        return upyun_rsspic.domain%filename
 
 def builder_path(suffix, url):
     filename = md5(url).hexdigest()+'.jpg'

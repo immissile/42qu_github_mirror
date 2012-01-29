@@ -12,8 +12,7 @@ ENGINE = MyISAM;
 CREATE TABLE `zpage`.`po_pic_pos` (
   `id` int  NOT NULL,
     `value` int  NOT NULL,
-      PRIMARY KEY (`id`)
-      )
+      PRIMARY KEY (`id`))
 ENGINE = MyISAM;
 
 CREATE TABLE `zpage`.`pic_wall_pics` (
@@ -53,15 +52,20 @@ class PoPicShow(McModel):
 class PicWallPics(McModel):
     pass
 
-def md5_file(url):
-    return md5(url).hexdigest()
+def upyun_file(img, id):
+    thumb = pic_fit(img, 211, 311)
+    filename = str(id)+'.jpg'
+    fileanme = upyun_rsspic.get_file_url(filename)
+    url = upyun_rsspic.upload_img(filename, thumb)
+    return url
 
 def new_pic_wall_pic(url, title, description, state=STATE_WAIT):
     new_pic = PicWallPics(url=url, title=title, description=description, state=state)
     new_pic.save()
     img = fetch_pic(url)
     img = picopen(img)
-    upyun_file(img,md5_file(url))
+    filename = md5(url).hexdigest()
+    upyun_file(img,filename)
     return new_pic
 
 def append_to_wall():
@@ -70,6 +74,7 @@ def append_to_wall():
         img = fetch_pic(pic.url)
         img = picopen(img)
         #TODO: po_photo_new(user_id, name, txt, img, state, zsite_id)
+        #0 用户是不能显示的
         po = po_photo_new(0, pic.title, pic.description, img, STATE_ACTIVE, 0)
         pic.state = STATE_ADDED
         pic.save()
@@ -83,14 +88,6 @@ def pic_set_state(id,state):
         pic.state = state
         pic.save()
     return pic
-
-def yun_url(po_id):
-    return upyun_rsspic.domain%(str(po_id)+'.jpg')
-
-def upyun_file(img, id):
-    thumb = pic_fit(img, 211, 311)
-    url = upyun_rsspic.upload_img(yun_url(id), thumb)
-    return url
 
 def get_new_user_wall_pos(user_id):
     #TODO:改offset的取值
@@ -114,14 +111,20 @@ def next_wall_pic(user_id):
     if next_pos <= PoPicShow.max_id():
         PoPicPos.set(user_id, next_pos)
 
-
     if wall_pic:
         po = Po.mc_get(wall_pic.po_id)
-        thumb = yun_url(po.id)
-        return thumb, fs_url_jpg(721, po.rid)
+        filename = str(po.id)+'.jpg'
+        thumb = upyun_rsspic.get_file_url(filename)
+        return thumb, fs_url_jpg(721, po.rid),po
 
 if __name__ == '__main__':
-    new_pic_wall_pic('http://p4.42qu.us/721/174/49326.jpg', 'title', 'desc',state=STATE_INIT)
+    #new_pic_wall_pic('http://p4.42qu.us/721/174/49326.jpg', 'title', 'desc',state=STATE_INIT)
+    #new_pic_wall_pic('http://p4.42qu.us/721/751/97007.jpg', 'title', 'desc',state=STATE_INIT)
+    #new_pic_wall_pic('http://p4.42qu.us/721/404/174484.jpg', 'title', 'desc',state=STATE_INIT)
+    #new_pic_wall_pic('http://img7.ph.126.net/QMxCFXB0CPQVneWD3RfW2w==/567735028042614877.jpg', 'title', 'desc',state=STATE_INIT)
+    #new_pic_wall_pic('http://img7.ph.126.net/fGr2DJJKtnegNUGU0YTQNg==/43065671453950557.jpg', 'title', 'desc',state=STATE_INIT)
+
+
     #append_to_wall()
     #PoPicShow(po_id=65140).save()
     #print next_wall_pic(10031395)
