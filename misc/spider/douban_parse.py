@@ -21,6 +21,8 @@ def parse_like(data, url, cid, rid):
 def url_last(url):
     return url.rstrip('/').rsplit('/', 1)[1]
 
+EXIST_PARSE = set()
+
 class ParseRec(object):
     cid = None
 
@@ -35,8 +37,10 @@ class ParseRec(object):
         id = id_by_douban_feed(cid, rid)
 
         if not id and func:
-            yield func , url
-            yield parse_like , URL_LIKE%(cid, rid), cid, rid
+            if url not in EXIST_PARSE:
+                yield func , url
+                yield parse_like , URL_LIKE%(cid, rid), cid, rid
+                EXIST_PARSE.add(url)
         else:
             douban_user_feed_new(DOUBAN_USER_FEED_VOTE_REC, cid, rid, user_id)
 
@@ -126,11 +130,15 @@ class ParseHtm(object):
             topic_id
         )
 
+
         if _owner or _topic:
             DoubanFeedOwner(id=feed_id, topic=_topic, owner=_owner).save()
 
         for user_id in user_id_by_txt(data):
             yield douban_recommendation_begin_tuple(user_id)
+
+        if url in EXIST_PARSE:
+            del EXIST_PARSE[url]
 
 class ParseTopicHtm(ParseHtm):
     cid = CID_DOUBAN_FEED_TOPIC
