@@ -124,8 +124,9 @@ class ParseHtm(object):
             self.htm(data),
             owner_id  ,
             topic_id
-        )      
-        if _owner or _topic and not DoubanFeedOwner.get(feed_id):
+        )     
+ 
+        if _owner or _topic:
             DoubanFeedOwner(id=feed_id, topic=_topic, owner=_owner).save()
 
         for user_id in user_id_by_txt(data):
