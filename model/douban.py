@@ -70,7 +70,7 @@ class ModelUrl(object):
 
         if url:
             o.url = url
-            print url
+            #print url
             key = mc_model_url%(cls.__name__ , url)
             mc.set(key, id)
         key = mc_model_url%(cls.__name__ , id)
