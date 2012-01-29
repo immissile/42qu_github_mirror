@@ -39,6 +39,8 @@ CREATE TABLE `douban_group` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_bin NOT NULL,
   `url` varchar(64) COLLATE utf8_bin NOT NULL,
+  `member` int(10) unsigned NOT NULL DEFAULT '0',
+  `leader` varchar(64) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Index_2` (`url`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
