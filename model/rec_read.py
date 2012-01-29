@@ -60,9 +60,11 @@ def rec_read_log(user_id, limit=7, offset=0):
         rec_read(user_id, limit)
 
     key = REDIS_REC_LOG%user_id
-    length = redis.zcard(key)
 
-    return  length, redis.zrevrange(key, offset, offset+limit-1)
+    return  redis.zrevrange(key, offset, offset+limit-1)
+
+def rec_read_log_with_len(user_id, limit=7, offset=0):
+    return redis.zcard(key), rec_read_log(user_id, limit, offset)
 
 from model.po import Po
 
