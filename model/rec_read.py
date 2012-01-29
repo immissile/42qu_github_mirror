@@ -4,19 +4,20 @@ from zkit.zitertools import lineiter
 from time import time
 
 REDIS_REC_CID_TUPLE = (
-    (1, "网络·科技·创业"),
-    (2, "情感·社会·人文"),
-    (3, "女性·时尚·星座"),
-    (6, "图书·电影·音乐"),
-    (7, "职业·成长·学习"),
-    (4, "政治·经济·历史"),
-    (5, "生活·旅行·居家"),
-    (8, "酷知识"),
+    (1, '网络·科技·创业'),
+    (2, '情感·社会·人文'),
+    (3, '女性·时尚·星座'),
+    (6, '图书·电影·音乐'),
+    (7, '职业·成长·学习'),
+    (4, '政治·经济·历史'),
+    (5, '生活·旅行·居家'),
+    (8, '酷知识'),
 )
 
 REDIS_REC_CID_DICT = dict(REDIS_REC_CID_TUPLE)
 
-REDIS_REC_CID = "RecCid:%s" 
+REDIS_REC_CID = 'RecCid:%s'
+REDIS_REC_CID_POS = 'RecCid#%s'
 REDIS_REC_READ = 'RecRead:%s'
 REDIS_REC_LOG = 'RecLog:%s'
 
@@ -69,7 +70,7 @@ def rec_read(user_id, limit=7):
 def rec_read_extend(user_id , id_score_list):
     return redis.zadd(REDIS_REC_READ%user_id, *lineiter(id_score_list))
 
-def rec_cid_extend(cid, id_time_list)
+def rec_cid_extend(cid, id_time_list):
     cid = int(cid)
 
     if cid not in REDIS_REC_CID_DICT:
@@ -77,6 +78,11 @@ def rec_cid_extend(cid, id_time_list)
 
     return redis.zadd(REDIS_REC_CID%cid, *lineiter(id_time_list))
 
+def rec_cid_pos_update(user_id, cid_time_list):
+    return redis.zadd(REDIS_REC_CID_POS%user_id, *lineiter(cid_time_list))
+
+def rec_cid_pos_by_user_id(user_id):
+    return redis.zrange(REDIS_REC_CID_POS%user_id, 0, -1, True)
 
 def rec_read_log(user_id, limit=7, offset=0):
     if offset == 0:
@@ -108,9 +114,9 @@ if __name__ == '__main__':
     user_id = 10000000
     from model.po import Po
 
-    rec_read_extend(user_id, [(1, 1), (2, 2)])
-    print rec_read_log(user_id,1)
+    #   rec_read_extend(user_id, [(1, 1), (2, 2)])
+#    print rec_read_log(user_id,1)
     #print rec_read_empty(user_id)
-
-    
+    print rec_cid_pos_by_user_id(user_id)
+    #rec_cid_pos_update(user_id, ((1, 1), ))
 
