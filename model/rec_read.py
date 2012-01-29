@@ -90,7 +90,6 @@ def po_by_rec_read_equal_limit(user_id, limit=7):
         return []
     return po_by_rec_read(user_id)
 
-
 def rec_read_empty(user_id):
     redis.delete(REDIS_REC_READ%user_id)
     redis.delete(REDIS_REC_LOG%user_id)
