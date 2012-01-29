@@ -57,7 +57,6 @@ def main():
         if feed.cid == CID_DOUBAN_FEED_TOPIC:
             group_url = feed.topic_id or i.topic
             group = DoubanGroup.by_url(group_url)
-
             if not group:
                 if not group_url in exist:
                     exist.add(group_url)
@@ -67,8 +66,9 @@ def main():
                 topic_id = group
 
         user_id = feed.user_id or i.owner
-        user_id = DoubanUser.by_url(user_id)
-
+        if not (user_id and str(user_id).isdigit()): 
+            user_id = DoubanUser.by_url(user_id)
+        
         if topic_id is not None and user_id:
             feed.topic_id = topic_id
             feed.user_id = user_id
