@@ -70,7 +70,7 @@ class ModelUrl(object):
 
         if url:
             o.url = url
-            print url
+            #print url
             key = mc_model_url%(cls.__name__ , url)
             mc.set(key, id)
         key = mc_model_url%(cls.__name__ , id)
@@ -145,7 +145,7 @@ def douban_rec_new(id, user_id, cid , htm, time):
     o.save()
 
 def douban_feed_new(
-    cid , rid , rec , like , title  , htm, user_id=0, topic_id=0
+    cid , rid , rec , like , title  , htm, time, user_id=0, topic_id=0
 ):
     o = DoubanFeed.get_or_create(cid=cid, rid=rid)
     o.rec = rec
@@ -164,7 +164,7 @@ def douban_feed_new(
         if int(rec)+int(like) > 10 :
             state = DOUBAN_FEED_STATE_TO_REIVEW
         o.state = state
-
+    o.time = time
     o.save()
     return o.id
 
@@ -238,11 +238,10 @@ if __name__ == '__main__':
 
     print is_douban_count, not_douban_count
 
-#
+
 #    for i in """
 #TRUNCATE TABLE douban_feed
 #TRUNCATE TABLE douban_feed_owner
-#TRUNCATE TABLE douban_group
 #TRUNCATE TABLE douban_rec
 #TRUNCATE TABLE douban_user
 #TRUNCATE TABLE douban_user_feed 

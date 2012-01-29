@@ -6,7 +6,7 @@ from model.douban import douban_feed_new, id_by_douban_feed, douban_user_feed_ne
 DOUBAN_USER_FEED_VOTE_REC, CID_DOUBAN_FEED_TOPIC, CID_DOUBAN_FEED_NOTE,\
 DOUBAN_REC_CID, DoubanUser, DOUBAN_USER_FEED_VOTE_LIKE, DoubanFeedOwner
 from douban_recommendation import douban_recommendation_begin_tuple, URL_LIKE, user_id_by_txt
-
+from model.days import int_by_string
 
 def parse_like(data, url, cid, rid):
     for i in loads(data):
@@ -81,6 +81,9 @@ class ParseHtm(object):
     def user_id(self, data):
         return 0
 
+    def time(self, data):
+        return 0
+
     def topic_id(self, data):
         return 0
 
@@ -118,6 +121,10 @@ class ParseHtm(object):
             _topic = topic_id
             topic_id = 0
 
+        time = self.time(data)
+        if time:
+            time = int_by_string(time)
+
         feed_id = douban_feed_new(
             self.cid,
             rid,
@@ -125,7 +132,8 @@ class ParseHtm(object):
             like_num,
             title,
             self.htm(data),
-            owner_id  ,
+            time,
+            owner_id,
             topic_id
         )
 
@@ -175,6 +183,11 @@ class ParseTopicHtm(ParseHtm):
             title = txt_wrap_by('<title>', '</title>', data)
         return title
 
+    def time(self, data):
+        line = txt_wrap_by('<div class="topic-doc">','</span>',data)
+        line = txt_wrap_by('<span class="color-green">',None,line)
+        return line
+
 parse_topic_htm = ParseTopicHtm()
 
 class ParseNoteSiteHtm(ParseHtm):
@@ -184,6 +197,10 @@ class ParseNoteSiteHtm(ParseHtm):
 
     def topic_id(self, data):
         line = txt_wrap_by('http://site.douban.com/widget/notes/', '/', data)
+        return line
+
+    def time(self, data):
+        line = txt_wrap_by('<span class="datetime">','</span>', data)
         return line
 
 parse_note_site_htm = ParseNoteSiteHtm()
@@ -199,6 +216,10 @@ class ParseNotePeopleHtm(ParseHtm):
         line = txt_wrap_by('"http://www.douban.com/people/', '/', line)
         return line
 
+    def time(self, data):
+        line = txt_wrap_by('<div class="note-header">', '</span>', data)
+        line = txt_wrap_by('<span class="pl">', None, line)
+        return line
 
 parse_note_people_htm = ParseNotePeopleHtm()
 
