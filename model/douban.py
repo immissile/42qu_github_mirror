@@ -1,42 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#douban_url
-#id
-#rid
-#cid # 1 user 2 group 3 site
-#url
-#name
-
-#douban_feed
-#id
-#cid
-#rid
-#rec         #推荐的人数
-#like        #喜欢的人数
-#user_id     
-#topic_id    #小站 / 小组
-#title            
-#state       # 10. 达到推荐门槛, 但未审核  30. 审核未通过 60&40. 审核通过 , 抹去作者信息(比如原来就是转帖) 70&50. 审核通过 , 保留作者信息 
-#html
-
-#douban_user_feed
-#id
-#rid
-#user_id
-#cid       # 1 rec 2 like
-#vote
-
-#douban_rec
-#id
-#cid
-#htm
-#user_id
 
 #需要定期重新抓取的 
 #1. douban_feed    (一个月后在抓取一次即可, 一共也只需要抓取2次)
 #2. 豆瓣用户的推荐 (现有的爬虫更新规则)
-from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM
+from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, mc
 from zkit.htm2txt import htm2txt, unescape
 import re
 
@@ -45,12 +14,10 @@ DOUBAN_FEED_STATE_TO_REIVEW = 10 #达到推荐门槛, 但未审核
 CID_DOUBAN_FEED_NOTE = 1015
 CID_DOUBAN_FEED_TOPIC = 1013
 
-CID_DOUBAN_URL_USER = 1
-CID_DOUBAN_URL_GROUP = 2
-CID_DOUBAN_URL_SITE = 3
 
 DOUBAN_USER_FEED_VOTE_LIKE = 1
 DOUBAN_USER_FEED_VOTE_REC = 2
+
 
 
 DOUBAN_REC_CID = {
@@ -78,14 +45,71 @@ DOUBAN_REC_CID = {
 mc_id_by_douban_url = McCache('IdByDoubanUrl%s')
 mc_id_by_douban_feed = McCache('IdByDoubanFeed%s')
 
+class ModelUrl(object):
+    @classmethod
+    def new(cls, id, url, name):
+        if url == str(id):
+            url = ''
+
+        if url.isdigit():
+            id = int(url)
+            url = ''
+
+        o = None
+        if id:
+            o = cls.mc_get(id)
+
+        if o is None and url:
+            o = cls.get(url=url)
+
+        if o is None:
+            o = cls()
+
+        o.id = id
+
+        if url:
+            o.url = url
+            key = '%s:%s'%(cls.__name__ , url)
+            mc.set(key, id)
+        key = '%s:%s'%(cls.__name__ , id)
+        mc.set(key, id)
+
+        if name:
+            o.name = name
+
+        o.save()
+
+        return id
+
+    @classmethod
+    def by_url(cls, url):
+        key = '%s:%s'%(cls.__name__ , url)
+        id = mc.get(key)
+        if id is None:
+            if type(url) in (int, long) or url.isdigit():
+                o = cls.mc_get(url)
+                if o:
+                    id = o.id
+            else:
+                o = cls.get(url=url)
+                if o:
+                    id = o.id
+        mc.set(key, id or 0)
+        return id
+
+class DoubanUser(McModel, ModelUrl):
+    pass
+class DoubanGroup(McModel, ModelUrl):
+    pass
 class DoubanFeed(Model):
     pass
-
 class DoubanUserFeed(Model):
     pass
-
 class DoubanRec(Model):
     pass
+class DoubanFeedOwner(Model):
+    pass
+
 
 def douban_user_feed_new(vote, cid, rid, user_id):
     o = DoubanUserFeed.get_or_create(cid=cid, rid=rid, user_id=user_id)
@@ -94,49 +118,14 @@ def douban_user_feed_new(vote, cid, rid, user_id):
     return id
 
 
-def id_by_douban_url_new(cid, url):
-    id = id_by_douban_url(cid, url)
-    if not id:
-        id = douban_url_new(cid, url, 0, '')
-    return id
 
-@mc_id_by_douban_url('{cid}_{url}')
-def id_by_douban_url(cid, url):
-    if type(url) in (int, long) or url.isdigit():
-        sql = 'select id, rid from douban_url where cid=%s and rid=%s'
-    else:
-        sql = 'select id, rid from douban_url where cid=%s and url=%s'
 
-    result = DoubanUrl.raw_sql( sql , cid , url).fetchone()
-    if result:
-        if cid == CID_DOUBAN_URL_USER and not result[1]:
-            return
-        return result[0]
+def user_id_by_url(url):
+    return id_by_url(DoubanUser, url)
 
-def user_id_by_douban_url(url):
-    return id_by_douban_url(CID_DOUBAN_URL_USER, url)
 
-def douban_url_new(cid, url, rid, name):
-    if url == str(rid):
-        url = ''
-    o = None
-    if url.isdigit():
-        rid = int(url)
-        url = ''
-    if rid:
-        o = DoubanUrl.get(cid=cid, rid=rid)
-    if o is None and url:
-        o = DoubanUrl.get(cid=cid, url=url)
-    if o is None:
-        o = DoubanUrl(cid=cid)
-    o.rid = rid
-    o.url = url
-    o.name = name
-    o.save()
-    return o.id
-
-def douban_url_user_new(url, rid, name):
-    return douban_url_new(CID_DOUBAN_URL_USER, url, rid, name)
+#def douban_user_new(url, id, name):
+#    return douban_url_new(DoubanUser, url, id, name)
 
 @mc_id_by_douban_feed('{cid}_{rid}')
 def id_by_douban_feed(cid, rid):
@@ -145,14 +134,12 @@ def id_by_douban_feed(cid, rid):
     if r:
         return r[0]
 
-def douban_rec_new(id, user_id, cid , htm):
-    cid = DOUBAN_REC_CID.get(cid, 0)
-    if not cid:
-        return
+def douban_rec_new(id, user_id, cid , htm, time):
     o = DoubanRec.get_or_create(id=id)
     o.htm = htm
     o.user_id = user_id
     o.cid = cid
+    o.time = time
     o.save()
 
 def douban_feed_new(
@@ -164,7 +151,7 @@ def douban_feed_new(
     if title:
         o.title = title
     if htm:
-        o.htm = htm
+        o.htm = htm.replace('<wbr>', '')
     if user_id:
         o.user_id = user_id
     if topic_id:
@@ -211,44 +198,52 @@ def title_normal(title):
     return title
 
 if __name__ == '__main__':
-    print user_id_by_douban_url("catcabinet")
-    print len("在非相对论系统中，粒子运动速度远小于光速，它们间的相互作用仍很频繁，参与相互作用的粒子数目较多")
-    raise
     pass
-    is_douban_count = 0
-    not_douban_count = 0
+#    print DoubanUser.by_url('zuroc')
+#   from zweb.orm import ormiter
+#   for i in ormiter(DoubanUser):
+#       print i.id, i.name, i.url
+#    print dir(DoubanUser.table)
+#    print user_id_by_douban_url("catcabinet")
+#    print len("在非相对论系统中，粒子运动速度远小于光速，它们间的相互作用仍很频繁，参与相互作用的粒子数目较多")
+#    raise
+#    pass
+#   is_douban_count = 0
+#   not_douban_count = 0
+#
+#   for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW), key=lambda x:-x.rec-x.like):
+#       txt = '\n'.join([i.title, i.htm])
+#       is_douban = False
+#
+#       for word in ('豆瓣', '豆邮', '豆友', '?start=', '>http://www.douban.'):
+#           if word in txt:
+#               is_douban = True
+#               break
+#
+#       if is_douban:
+#           is_douban_count += 1
+#       else:
+#           not_douban_count += 1
+#
+#       if not is_douban:
+#
+#           if i.cid == CID_DOUBAN_FEED_TOPIC:
+#               link = 'http://www.douban.com/group/topic/%s'%i.rid
+#           elif i.cid == CID_DOUBAN_FEED_NOTE:
+#               link = 'http://www.douban.com/note/%s'%i.rid
+#
+#           print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal(i.title), len(i.htm))
+#
+#    print is_douban_count, not_douban_count
 
-    for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW), key=lambda x:-x.rec-x.like):
-        txt = '\n'.join([i.title, i.htm])
-        is_douban = False
-
-        for word in ('豆瓣', '豆邮', '豆友', '?start=', '>http://www.douban.'):
-            if word in txt:
-                is_douban = True
-                break
-
-        if is_douban:
-            is_douban_count += 1
-        else:
-            not_douban_count += 1
-
-        if not is_douban:
-
-            if i.cid == CID_DOUBAN_FEED_TOPIC:
-                link = 'http://www.douban.com/group/topic/%s'%i.rid
-            elif i.cid == CID_DOUBAN_FEED_NOTE:
-                link = 'http://www.douban.com/note/%s'%i.rid
-
-            print '%60s %5s %5s %s'%( link, i.rec, i.like, title_normal(i.title))
-
-    print is_douban_count, not_douban_count
-
-
+#
 #    for i in """
-#TRUNCATE TABLE  douban_feed;
-#TRUNCATE TABLE  douban_rec;
-#TRUNCATE TABLE  douban_url;
-#TRUNCATE TABLE  douban_user_feed;
-#    """.strip().split(";"):
+#TRUNCATE TABLE douban_feed
+#TRUNCATE TABLE douban_feed_owner
+#TRUNCATE TABLE douban_group
+#TRUNCATE TABLE douban_rec
+#TRUNCATE TABLE douban_user
+#TRUNCATE TABLE douban_user_feed 
+#    """.strip().split('\n'):
 #        if i.strip():
-#            DoubanFeed.raw_sql(i.strip()+";")
+#            DoubanFeed.raw_sql(i.strip()+';')

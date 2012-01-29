@@ -3,13 +3,6 @@
 import _env
 from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 
-API_KEY = "00d9bb33af90bf5c028d319b0eb23e14"
-
-URL_REC = "http://api.douban.com/people/%%s/recommendations?alt=json&apikey=%s"%API_KEY
-
-URL_LIKE = "http://www.douban.com/j/like?tkind=%s&tid=%s"
-
-URL_USER_INFO = "http://api.douban.com/people/%%s?alt=json&apikey=%s"%API_KEY
 
 def spider(url_list):
     headers = {

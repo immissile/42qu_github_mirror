@@ -22,6 +22,27 @@ CREATE TABLE `douban_feed` (
   KEY `Index_2` (`cid`,`rid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `douban_feed_owner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `douban_feed_owner` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `owner` varbinary(64) NOT NULL,
+  `topic` varbinary(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `douban_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `douban_group` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `url` varchar(64) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`url`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `douban_rec`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -30,21 +51,20 @@ CREATE TABLE `douban_rec` (
   `cid` tinyint(3) unsigned NOT NULL,
   `htm` text NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
+  `time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `douban_url`;
+DROP TABLE IF EXISTS `douban_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `douban_url` (
+CREATE TABLE `douban_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cid` int(10) unsigned NOT NULL,
-  `rid` int(10) unsigned NOT NULL,
+  `name` varchar(64) COLLATE utf8_bin NOT NULL,
   `url` varchar(64) COLLATE utf8_bin NOT NULL,
-  `name` varchar(128) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Index_3` (`cid`,`rid`,`url`) USING BTREE,
-  KEY `Index_2` (`cid`,`url`)
+  KEY `Index_2` (`url`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `douban_user_feed`;
