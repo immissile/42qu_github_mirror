@@ -25,7 +25,6 @@ REDIS_REC_LOG = 'RecLog:%s'
 
 
 def rec_read(user_id, limit=7):
-    limit = limit-1
     key = REDIS_REC_READ%user_id
 
     now = int(time() - 1327823396)
@@ -43,7 +42,7 @@ def rec_read(user_id, limit=7):
     count = 0
 
     while True:
-        result = redis.zrevrange(key , total, total+limit, False)
+        result = redis.zrevrange(key , total, total+limit-1, False)
 
 
         for i in result:
@@ -68,11 +67,11 @@ def rec_read(user_id, limit=7):
         redis.zremrangebyrank(key, -total , -1)
 
     diff = limit - count
-    while diff >= 0:
-        result = rec_read_cid(user_id, limit)
 
+    while diff > 0:
+        result = rec_read_cid(user_id, limit)
         if not result:
-            break 
+            break
 
         for i in result:
             if redis.zscore(key_log, i):
@@ -208,7 +207,7 @@ def rec_read_cid(user_id, limit):
             rec_pos_dict[cid] = _(cid, start, cid_limit)
 
     if rec_pos_dict is not None:
-         rec_pos_update = [rec_pos_dict[i] for i in cid_range]
+        rec_pos_update = [rec_pos_dict[i] for i in cid_range]
 
     if result:
         key = REDIS_REC_CID_POS%user_id
@@ -233,5 +232,5 @@ if __name__ == '__main__':
     #test = list(zip(range(100), range(100)))
 #    rec_cid_extend(1, test)
 #    print redis.zrangebyscore(REDIS_REC_CID%cid, "(3", '+inf', 0,7)
-    print rec_read_cid(user_id, 7)
-
+    result = rec_read_log(user_id, 7, 0)
+    print result , len(result)
