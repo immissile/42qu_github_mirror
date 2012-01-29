@@ -2,7 +2,9 @@
 from tornado.escape import json_encode 
 from model.motto import motto_get
 from model.zsite_fav import zsite_fav_get
-
+from model.po_by_tag import tag_author_list
+from yajl import dumps
+from cgi import escape
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
@@ -94,10 +96,17 @@ ${page|n}
 
 <div style="font-size:12px;margin-top:19px;">
 
+<%
+site_list=tag_author_list(zsite_id)
+%>
+%if site_list:
+<script type="text/x-json" id="site_data">
+    ${escape(dumps(site_list))|n}
+</script>
+%endif
 
 
-
-        ${site_rec_render()}
+##        ${site_rec_render()}
 <div class="buzz_h1" id="rec_title">贡献者</div>
 <div class="site_rec" id="rec_wrapper" ></div>
 <script id="site_rec" type="text/x-jquery-tmpl">

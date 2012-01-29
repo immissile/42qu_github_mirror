@@ -1,12 +1,17 @@
 #coding:utf-8
 import _db
-from model.po import Po
-from model.cid import CID_NOTE
-from model.zsite import Zsite
-from model.txt import txt_bind
+from po import Po
+from cid import CID_NOTE, CID_TAG, CID_USER
+from zsite import Zsite
+from model.ico import ico_url_bind
+from txt import txt_bind
 from zkit.txt import cnenlen , cnenoverflow
-from model.fav import fav_cid_dict
+from fav import fav_cid_dict
+from model.motto import motto
+from model.follow import follow_get_list
+from model.career import career_bind
 from _db import  McModel, McLimitA
+from zsite_list  import zsite_list_new, zsite_list_get,  zsite_id_list
 
 mc_po_id_list = McLimitA('PoZsiteTag.%s', 512)
 
@@ -16,11 +21,26 @@ class PoZsiteTag(McModel):
 def zsite_tag_new_po(po, rank, zsite_id):
     tag_po= PoZsiteTag(po_id=po.id, cid=po.cid, zsite_id=zsite_id, rank=rank)
     tag_po.save()
+    
+    author_list = zsite_list_get(po.user_id,zsite_id)
+    if not author_list:
+        author_list = zsite_list_new(po.user_id,zsite_id,CID_TAG) 
+    else:
+        author_list.rank+=1
+        author_list.save()
+
     return tag_po
 
-def zsite_tag_po_count(tag_id):
-    return PoZsiteTag.where(zsite_id=tag_id).count()
+def zsite_tag_po_count(tag_id): return PoZsiteTag.where(zsite_id=tag_id).count()
 
+def zsite_author_list(zsite_id):
+    return Zsite.mc_get_list(zsite_id_list(zsite_id,CID_TAG))
+
+def get_or_create_tag(tag):
+    found = Zsite.get(name=tag, cid=CID_TAG)
+    if not found:
+        found = zsite_new(k, CID_TAG, ZSITE_STATE_SITE_PUBLIC)
+    return found
 
 @mc_po_id_list('{tag_id}-{limit}-{offset}')
 def get_po_id_list(tag_id, limit, offset):
@@ -69,6 +89,47 @@ def po_by_tag(tag_id, user_id, limit, offset):
 # 0   1       2     3           4               5
 # id , name, tip,  author_id , author_name , is_star 
     return result
+
+def tag_author_list(zsite_id):
+    zsite_list = zsite_author_list(zsite_id)
+    ico_url_bind(zsite_list)
+    zsite_id_list = tuple(i.id for i in zsite_list)
+    
+    user_list = []
+    for i in zsite_list:
+        if i.cid == CID_USER:
+            user_list.append(i)
+    career_bind(user_list)
+    motto_dict = motto.get_dict(zsite_id_list)
+
+    result = []
+
+    for i, is_follow in zip(
+        zsite_list,
+        follow_get_list(zsite_id, zsite_id_list)
+    ):
+        career = (' , '.join(filter(bool,i.career)) if i.cid==CID_USER else 0) or 0
+        _motto = motto_dict.get(i.id) or 0
+        if _motto:
+            length = 14
+            if not career:
+                length += length
+            _motto = cnenoverflow(_motto, length)[0]
+
+        if is_follow and is_follow is not True:
+            is_follow = 1
+        result.append((
+            i.id,                                                            #0 
+            i.link,                                                          #1
+            i.name,                                                          #2
+            i.ico,                                                           #3
+            career,                                                          #4
+            i.cid ,                                                          #5
+            _motto ,                                                         #6
+            is_follow ,                                                      #7
+        ))
+    return result
+
 
 if __name__ == '__main__':
     pass

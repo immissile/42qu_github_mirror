@@ -102,6 +102,7 @@ def zsite_list_new(zsite_id, owner_id, cid, rank=1, state=STATE_ACTIVE):
         zsite.rank = rank
     zsite.save()
     mc_flush(owner_id, cid, zsite_id, state)
+    return zsite
 
 
 def mc_flush(owner_id, cid, zsite_id=0, state=None):

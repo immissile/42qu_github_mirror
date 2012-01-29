@@ -9,17 +9,10 @@ from model.cid import CID_TAG
 from model.zsite import Zsite
 from zkit.htm2txt import htm2txt
 from yajl import loads
-from model.po_by_tag import PoZsiteTag, zsite_tag_new_po
+from model.po_by_tag import PoZsiteTag, zsite_tag_new_po, get_or_create_tag
 from model.po import po_note_new, Po
 
 CURRNET_PATH = path.dirname(path.abspath(__file__))
-
-
-def get_or_create_tag(tag):
-    found = Zsite.get(name=tag, cid=CID_TAG)
-    if not found:
-        found = zsite_new(k, CID_TAG, ZSITE_STATE_SITE_PUBLIC)
-    return found
 
 
 def main():
