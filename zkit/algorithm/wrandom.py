@@ -112,9 +112,44 @@ def sample_or_shuffle(population, k):
     shuffle(population)
     return population
 
+
+def limit_by_rank(incr_rank_list, limit):
+        
+    result = [
+       random() for i in xrange(limit)
+    ]
+    result.sort()
+
+    incr_rank_list.append(1)
+    
+    l = []
+
+    index = 0 
+    small = incr_rank_list[index]
+    count = 0
+
+    for i in result:
+        if i < small:
+            count += 1
+        else:
+            l.append(count)
+            count = 0
+            index += 1
+            small = incr_rank_list[index]
+
+    l.append(count)
+
+    return l
+
 if __name__ == '__main__':
-    z = wsample_k2(
-        [2, 3, 4], 2
-    )
-    for i in range(10):
-        print z()
+    print limit_by_rank([0.3, ], 10000)
+
+
+    #z = wsample_k2(
+    #    [2, 3, 4], 2
+    #)
+    #for i in range(10):
+    #    print z()
+
+
+
