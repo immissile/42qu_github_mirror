@@ -28,12 +28,15 @@ def rec_read(user_id, limit=7):
 
         for i in result:
             total += 1
+
             if redis.zscore(key_log, i):
                 continue
+
             t.append(i)
             t.append(now+offset)
             offset -= 0.1
             count += 1
+
             if count >= limit:
                 break
 
