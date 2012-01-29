@@ -6,8 +6,9 @@ def txt_wrap_by(begin, end, html):
     start = html.find(begin)
     if start >= 0:
         start += len(begin)
-        end = html.find(end, start)
-        if end >= 0:
+        if end is not None:
+            end = html.find(end, start)
+        if end is None or end >= 0:
             return html[start:end].strip()
 
 def txt_wrap_by_all(begin, end, html):

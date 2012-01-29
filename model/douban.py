@@ -44,6 +44,7 @@ DOUBAN_REC_CID = {
 
 mc_id_by_douban_url = McCache('IdByDoubanUrl%s')
 mc_id_by_douban_feed = McCache('IdByDoubanFeed%s')
+mc_model_url = "%s.%s"
 
 class ModelUrl(object):
     @classmethod
@@ -69,9 +70,10 @@ class ModelUrl(object):
 
         if url:
             o.url = url
-            key = '%s:%s'%(cls.__name__ , url)
+            print url
+            key = mc_model_url%(cls.__name__ , url)
             mc.set(key, id)
-        key = '%s:%s'%(cls.__name__ , id)
+        key = mc_model_url%(cls.__name__ , id)
         mc.set(key, id)
 
         if name:
@@ -83,7 +85,7 @@ class ModelUrl(object):
 
     @classmethod
     def by_url(cls, url):
-        key = '%s:%s'%(cls.__name__ , url)
+        key = mc_model_url%(cls.__name__ , url)
         id = mc.get(key)
         if id is None:
             if type(url) in (int, long) or url.isdigit():
