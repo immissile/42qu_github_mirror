@@ -20,7 +20,8 @@ def rec_read(user_id, limit=7):
     key_log = REDIS_REC_LOG%user_id
 
     t = []
-    while 1:
+
+    while True:
         result = redis.zrevrange(key , total, total+limit, False)
 
         offset = 0
