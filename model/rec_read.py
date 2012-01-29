@@ -1,7 +1,9 @@
 #coding:utf-8
 from _db import redis
 from zkit.zitertools import lineiter
+from zkit.algorithm.wrandom import limit_by_rank
 from time import time
+from random import shuffle
 
 REDIS_REC_CID_TUPLE = (
     (1, '网络·科技·创业'),
@@ -111,6 +113,17 @@ def rec_cid_extend(cid, id_time_list):
 
     return redis.zadd(REDIS_REC_CID%cid, *lineiter(id_time_list))
 
+REC_USER_CID_RANK_DEFAULT = [
+    float(i)/REDIS_REC_CID_LEN
+    for i in xrange(1, REDIS_REC_CID_LEN)
+]
+
+
+def rec_user_cid_rank(user_id):
+    return REC_USER_CID_RANK_DEFAULT
+
+def rec_user_cid_limit(user_id, limit):
+    return limit_by_rank(rec_user_cid_rank(user_id), limit)
 
 def rec_cid_pos_by_user_id(user_id):
     key = REDIS_REC_CID_POS%user_id
@@ -122,12 +135,18 @@ def rec_cid_pos_by_user_id(user_id):
         redis.rpush(key, *more)
     return result
 
-def rec_read_cid(user_id):
+def rec_read_cid(user_id, limit):
     result = []
     rec_pos_update = []
 
-    for cid, start in zip(xrange(1, REDIS_REC_CID_LEN+1), rec_cid_pos_by_user_id(user_id)):
-        r = redis.zrangebyscore(REDIS_REC_CID%cid, '(%s'%start, '+inf', 0, 7)
+    for cid, start, limit in zip(
+        xrange(1, REDIS_REC_CID_LEN+1),
+        rec_cid_pos_by_user_id(user_id),
+        rec_user_cid_limit(user_id, limit)
+    ):
+        if not limit:
+            continue
+        r = redis.zrangebyscore(REDIS_REC_CID%cid, '(%s'%start, '+inf', 0, limit)
         if r:
             last = r[-1]
             result.extend(r)
@@ -136,15 +155,16 @@ def rec_read_cid(user_id):
 
         rec_pos_update.append(last)
 
-    
+
     if result:
         key = REDIS_REC_CID_POS%user_id
 
-        p = redis.pipeline() 
+        p = redis.pipeline()
         p.delete(key)
         p.rpush(key, *rec_pos_update)
         p.execute()
 
+    shuffle( result )
     return result
 
 if __name__ == '__main__':
@@ -155,8 +175,9 @@ if __name__ == '__main__':
     #print rec_read_empty(user_id)
     #print rec_cid_pos_by_user_id(user_id)
     #rec_cid_pos_update(user_id, ((1, 1), ))
-    cid = 1
-    test = list(zip(range(100), range(100)))
+    #cid = 1
+    #test = list(zip(range(100), range(100)))
 #    rec_cid_extend(1, test)
 #    print redis.zrangebyscore(REDIS_REC_CID%cid, "(3", '+inf', 0,7)
-    print rec_read_cid(user_id)
+    print rec_read_cid(user_id, 7)
+
