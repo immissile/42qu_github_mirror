@@ -1,4 +1,3 @@
-#coding:utf-8
 
 import _env
 from json import loads
@@ -138,7 +137,7 @@ class ParseHtm(object):
             yield douban_recommendation_begin_tuple(user_id)
 
         if url in EXIST_PARSE:
-            del EXIST_PARSE[url]
+            EXIST_PARSE.remove(url)
 
 class ParseTopicHtm(ParseHtm):
     cid = CID_DOUBAN_FEED_TOPIC
@@ -212,4 +211,3 @@ if __name__ == '__main__':
     html = """ """
 
 
-    print parse_topic_htm.htm(html)
