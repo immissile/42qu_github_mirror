@@ -93,6 +93,7 @@ def txt_withlink(s):
     s = RE_LINK_TARGET.sub(replace_link, s)
     s = RE_AT.sub(replace_at, s)
     s = replace_code.loads(s)
+    s = s.replace("\r","\n")
     return s
 
 def txt2htm_withlink(s):
@@ -121,10 +122,17 @@ if __name__ == '__main__':
 #
 #}}}""")
 
-    print txt_withlink("""
-输出 :
-Google Reader 视频
-http://player.youku.com/player.php/sid/XMjQ2ODM1Mjcy/v.swf
-加勒比海盗
-http://player.youku.com/player.php/sid/XMzA4NDkzNTQ4/v.swf
-""")
+    print txt_withlink(r'''                                                        
+支付宝推荐
+图:http://img3.douban.com/lpic/s7044274.jpg  图:http://img3.douban.com/lpic/s704427411.jpg 
+图:http://img3.douban.com/lpic/s7044274.jpg                                        
+http://img3.douban.com/lpic/s7044274.jpg
+    ''').decode("utf-8","ignore")
+
+#    print txt_withlink("""
+#输出 :
+#Google Reader 视频
+#http://player.youku.com/player.php/sid/XMjQ2ODM1Mjcy/v.swf
+#加勒比海盗
+#http://player.youku.com/player.php/sid/XMzA4NDkzNTQ4/v.swf
+#""")
