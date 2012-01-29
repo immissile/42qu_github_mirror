@@ -138,17 +138,10 @@ def rec_cid_pos_by_user_id(user_id):
 def rec_read_cid(user_id, limit):
     result = []
     rec_pos_update = []
-
     can_rec_cid = set(REDIS_REC_CID_DICT)
+    cid_range = range(1, REDIS_REC_CID_LEN+1)
 
-    for cid, start, cid_limit in zip(
-        xrange(1, REDIS_REC_CID_LEN+1),
-        rec_cid_pos_by_user_id(user_id),
-        rec_user_cid_limit(user_id, limit)
-    ):
-        if not cid_limit:
-            continue
-
+    def _(cid, start, cid_limit):
         r = redis.zrangebyscore(REDIS_REC_CID%cid, '(%s'%start, '+inf', 0, cid_limit)
         if r:
             last = r[-1]
@@ -156,9 +149,22 @@ def rec_read_cid(user_id, limit):
         else:
             last = start
             can_rec_cid.remove(cid)
+        return last
 
+
+
+    for cid, start, cid_limit in zip(
+        cid_range,
+        rec_cid_pos_by_user_id(user_id),
+        rec_user_cid_limit(user_id, limit)
+    ):
+        if cid_limit:
+            last = _(cid, start, cid_limit)
+        else:
+            last = start
         rec_pos_update.append(last)
 
+    rec_pos_dict = None
 
     while True:
         diff = limit - len(result)
@@ -167,11 +173,19 @@ def rec_read_cid(user_id, limit):
             break
 
         cid_limit = int(1+(diff / len(can_rec_cid)))
-        rec_pos_update = dict(rec_pos_update)
 
-        for cid in set(can_rec_cid):
-            can_rec_cid.remove(cid)
+        if rec_pos_dict is None:
+            rec_pos_dict = dict(zip(cid_range, rec_pos_update))
 
+
+        cid_list = list(can_rec_cid)
+        shuffle(cid_list)
+        for cid in cid_list:
+            start = rec_pos_dict[cid]
+            rec_pos_dict[cid] = _(cid, start, cid_limit)
+
+    if rec_pos_dict is not None:
+         rec_pos_update = [rec_pos_dict[i] for i in cid_range]
 
     if result:
         key = REDIS_REC_CID_POS%user_id
