@@ -21,23 +21,23 @@ def rec_read(user_id, limit=7):
 
     while count:
         result = redis.zrevrange(key , 0, limit, False)
-        if result:
-            redis.zremrangebyrank(key, -len(result) , -1)
-            
-            t = []
-
-            offset = 0
-            for i in result:
-                if redis.zscore(key_log, i):
-                    continue
-                t.append(i)
-                t.append(now+offset)
-                offset += 0.1
-                count -= 1
-                
-            redis.zadd(key_log, *t)
-        else:
+        if not result:
             break
+
+        redis.zremrangebyrank(key, -len(result) , -1)
+
+        t = []
+
+        offset = 0
+        for i in result:
+            if redis.zscore(key_log, i):
+                continue
+            t.append(i)
+            t.append(now+offset)
+            offset += 0.1
+            count -= 1
+
+        redis.zadd(key_log, *t)
 
     return result
 
@@ -50,7 +50,7 @@ def rec_read_log(user_id, limit=7, offset=0):
 
     key = REDIS_REC_LOG%user_id
     length = redis.zcard(key)
-     
+
     return  length, redis.zrevrange(key, offset, offset+limit-1)
 
 from model.po import Po
@@ -73,6 +73,6 @@ if __name__ == '__main__':
     user_id = 10000000
     from model.po import Po
 
-    rec_read_extend(user_id, [(1,4),(2,1)])
+    rec_read_extend(user_id, [(1, 4), (2, 1)])
     print rec_read_log(user_id)
     print rec_read_empty(user_id)
