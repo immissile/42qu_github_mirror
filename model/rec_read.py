@@ -20,6 +20,7 @@ REDIS_REC_CID = "RecCid:%s"
 REDIS_REC_READ = 'RecRead:%s'
 REDIS_REC_LOG = 'RecLog:%s'
 
+
 def rec_read(user_id, limit=7):
     limit = limit-1
     key = REDIS_REC_READ%user_id
@@ -67,6 +68,15 @@ def rec_read(user_id, limit=7):
 
 def rec_read_extend(user_id , id_score_list):
     return redis.zadd(REDIS_REC_READ%user_id, *lineiter(id_score_list))
+
+def rec_cid_extend(cid, id_time_list)
+    cid = int(cid)
+
+    if cid not in REDIS_REC_CID_DICT:
+        return
+
+    return redis.zadd(REDIS_REC_CID%cid, *lineiter(id_time_list))
+
 
 def rec_read_log(user_id, limit=7, offset=0):
     if offset == 0:
