@@ -10,7 +10,7 @@ REDIS_REC_CID_TUPLE = (
     (6, '图书·电影·音乐'),
     (7, '职业·成长·学习'),
     (4, '政治·经济·历史'),
-    (5, '生活·旅行·居家'),
+    (5, '生活·旅行·设计'),
     (8, '酷知识'),
 )
 
@@ -144,6 +144,7 @@ def rec_read_cid(user_id):
         p.delete(key)
         p.rpush(key, *rec_pos_update)
         p.execute()
+
     return result
 
 if __name__ == '__main__':
