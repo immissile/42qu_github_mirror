@@ -28,10 +28,13 @@ ENGINE = MyISAM;
 
 '''
 
+import _env
+
 from _db import  McModel
 from kv import Kv
 from po import Po
 from fs import fs_url_jpg
+from zkit.fetch_pic import fetch_pic
 
 PoPicPos = Kv('po_pic_pos')
 
@@ -47,7 +50,10 @@ def new_pic_wall_pic(url,title,description):
     return new_pic
 
 def approve_pic(id):
-    pic = 
+    pic = PicWallPics.mc_get(id)
+    if pic:
+        img = fetch_pic(pic.url)
+
 
 def get_new_user_wall_pos(user_id):
     #TODO:改offset的取值
