@@ -9,3 +9,4 @@ import fav
 import auth
 import com 
 import buzz
+import pic_wall
