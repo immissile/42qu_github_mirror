@@ -134,4 +134,7 @@ if __name__ == '__main__':
     #print rec_read_empty(user_id)
     #print rec_cid_pos_by_user_id(user_id)
     #rec_cid_pos_update(user_id, ((1, 1), ))
-
+    cid = 1
+    test = list(zip(range(100),range(100)))
+#    rec_cid_extend(1, test)
+    print redis.zrangebyscore(REDIS_REC_CID%cid, "(3", '+inf', 0,7)
