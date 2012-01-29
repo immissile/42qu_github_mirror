@@ -70,30 +70,6 @@ def rec_read(user_id, limit=7):
 def rec_read_extend(user_id , id_score_list):
     return redis.zadd(REDIS_REC_READ%user_id, *lineiter(id_score_list))
 
-def rec_cid_extend(cid, id_time_list):
-    cid = int(cid)
-
-    if cid not in REDIS_REC_CID_DICT:
-        return
-
-    return redis.zadd(REDIS_REC_CID%cid, *lineiter(id_time_list))
-
-def rec_cid_pos_update(user_id, cid_time_list):
-    key = REDIS_REC_CID_POS%user_id
-    if not redis.exists(key):
-        redis.rpush(key, *([0]*REDIS_REC_CID_LEN))
-    for cid, time in cid_time_list:
-        redis.set(cid-1, time)
-
-def rec_cid_pos_by_user_id(user_id):
-    key = REDIS_REC_CID_POS%user_id
-    result = redis.lrange(key, 0, -1)
-    diff = REDIS_REC_CID_LEN - len(result)
-    if diff:
-        more = [0]*diff
-        result.extend(more)
-        redis.rpush(key, *more)
-    return result
 
 def rec_read_log(user_id, limit=7, offset=0):
     if offset == 0:
@@ -125,16 +101,56 @@ def rec_read_empty(user_id):
     ):
         redis.delete(key%user_id)
 
+#rec cid
+
+def rec_cid_extend(cid, id_time_list):
+    cid = int(cid)
+
+    if cid not in REDIS_REC_CID_DICT:
+        return
+
+    return redis.zadd(REDIS_REC_CID%cid, *lineiter(id_time_list))
+
+
+def rec_cid_pos_by_user_id(user_id):
+    key = REDIS_REC_CID_POS%user_id
+    result = redis.lrange(key, 0, -1)
+    diff = REDIS_REC_CID_LEN - len(result)
+    if diff:
+        more = [0]*diff
+        result.extend(more)
+        redis.rpush(key, *more)
+    return result
+
+def rec_read_cid(user_id):
+    result = []
+    rec_pos_update = []
+    for cid, start in zip(xrange(1, REDIS_REC_CID_LEN+1), rec_cid_pos_by_user_id(user_id)):
+        result = redis.zrangebyscore(REDIS_REC_CID%cid, '(%s'%start, '+inf', 0, 7)
+        print result
+        if result:
+            last = result[-1]
+        else:
+            last = start
+        rec_pos_update.append(last)
+
+    key = REDIS_REC_CID_POS%user_id
+   
+    p = redis.pipeline() 
+    p.delete(key)
+    p.rpush(key, *rec_pos_update)
+    p.execute()
+
 if __name__ == '__main__':
     user_id = 10000000
     from model.po import Po
-    print rec_cid_pos_by_user_id(user_id)
     #   rec_read_extend(user_id, [(1, 1), (2, 2)])
 #    print rec_read_log(user_id,1)
     #print rec_read_empty(user_id)
     #print rec_cid_pos_by_user_id(user_id)
     #rec_cid_pos_update(user_id, ((1, 1), ))
     cid = 1
-    test = list(zip(range(100),range(100)))
+    test = list(zip(range(100), range(100)))
 #    rec_cid_extend(1, test)
-    print redis.zrangebyscore(REDIS_REC_CID%cid, "(3", '+inf', 0,7)
+#    print redis.zrangebyscore(REDIS_REC_CID%cid, "(3", '+inf', 0,7)
+    print rec_read_cid(user_id)
