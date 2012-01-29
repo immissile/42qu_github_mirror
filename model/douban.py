@@ -238,11 +238,10 @@ if __name__ == '__main__':
 
     print is_douban_count, not_douban_count
 
-#
+
 #    for i in """
 #TRUNCATE TABLE douban_feed
 #TRUNCATE TABLE douban_feed_owner
-#TRUNCATE TABLE douban_group
 #TRUNCATE TABLE douban_rec
 #TRUNCATE TABLE douban_user
 #TRUNCATE TABLE douban_user_feed 
