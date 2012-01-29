@@ -38,11 +38,13 @@ def rec_read(user_id, limit=7):
 
     t = []
 
+
+    offset = 0
+    count = 0
+
     while True:
         result = redis.zrevrange(key , total, total+limit, False)
 
-        offset = 0
-        count = 0
 
         for i in result:
             total += 1
@@ -61,13 +63,34 @@ def rec_read(user_id, limit=7):
         if count >= limit or len(result) < limit:
             break
 
-    if t:
-        redis.zadd(key_log, *t)
 
     if total:
         redis.zremrangebyrank(key, -total , -1)
 
-    return result
+    diff = limit - count
+    while diff >= 0:
+        result = rec_read_cid(user_id, limit)
+
+        if not result:
+            break 
+
+        for i in result:
+            if redis.zscore(key_log, i):
+                continue
+
+            t.append(i)
+            t.append(now+offset)
+            offset -= 0.1
+            count += 1
+
+            if count >= limit:
+                break
+
+        diff = limit - count
+
+    if t:
+        redis.zadd(key_log, *t)
+
 
 def rec_read_extend(user_id , id_score_list):
     return redis.zadd(REDIS_REC_READ%user_id, *lineiter(id_score_list))
