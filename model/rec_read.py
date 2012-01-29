@@ -232,5 +232,8 @@ if __name__ == '__main__':
     #test = list(zip(range(100), range(100)))
 #    rec_cid_extend(1, test)
 #    print redis.zrangebyscore(REDIS_REC_CID%cid, "(3", '+inf', 0,7)
-    result = rec_read_log(user_id, 7, 0)
-    print result , len(result)
+    #result = rec_read_log(user_id, 7, 0)
+    #print result , len(result)
+
+    for i in REDIS_REC_CID_DICT:
+        redis.delete(REDIS_REC_CID_POS%i)
