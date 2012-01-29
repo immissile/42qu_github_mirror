@@ -1,4 +1,4 @@
-
+#coding:utf-8
 import _env
 from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
