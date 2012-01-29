@@ -37,25 +37,25 @@ from po import Po
 from model.state import STATE_ACTIVE
 from fs import fs_url_jpg
 from zkit.fetch_pic import fetch_pic
+from zkit.pic import picopen
 
 STATE_WAIT = 0
 STATE_ADDED = 1
 
 PoPicPos = Kv('po_pic_pos')
-
 class PoPicShow(McModel):
     pass
 
 class PicWallPics(McModel):
     pass
 
-def new_pic_wall_pic(url, title, description, state):
-    new_pic = new_pic_wall_pic(url=url, title=title, description=description, state=STATE_WAIT)
+def new_pic_wall_pic(url, title, description, state=STATE_WAIT):
+    new_pic = PicWallPics(url=url, title=title, description=description, state=STATE_WAIT)
     new_pic.save()
     return new_pic
 
-def approve_pic(id):
-    pic = PicWallPics.mc_get(id)
+def append_new_wall():
+    pic = PicWallPics.where(state=STATE_WAIT).order_by('id asc')[0]
     if pic:
         img = fetch_pic(pic.url)
         img = picopen(img)
@@ -63,7 +63,8 @@ def approve_pic(id):
         po = po_photo_new(0, pic.title, pic.description, img, STATE_ACTIVE, 0)
         pic.state = STATE_ADDED
         pic.save()
-
+        PoPicShow(po_id=po.id).save()
+        return po
 
 def get_new_user_wall_pos(user_id):
     #TODO:改offset的取值
@@ -92,6 +93,8 @@ def next_wall_pic(user_id):
         return po.id,fs_url_jpg(721, po.rid)
 
 if __name__ == '__main__':
+    new_pic_wall_pic('http://p4.42qu.us/721/174/49326.jpg','title','desc')
+    append_new_wall()
     #PoPicShow(po_id=65140).save()
     #print next_wall_pic(10031395)
     pass
