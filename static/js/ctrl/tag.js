@@ -54,19 +54,36 @@ function render_item(data){
         txt_body;
 
     function readx(){
+        var fav=txt_body.find(".fav,.faved")[0];
+        $('#fcmx_'+fav.rel).click();
         txt_loading.remove()
         feed_index.show() 
         winj.scrollTop(oldtop)
         oldtop=-1
-        var fav=txt_body.find(".fav,.faved")[0];
         if(fav){
             $("#fav"+fav.rel)[0].className = fav.className;
         }
-
         txt_body.replaceWith(feed_loading)
     }
 
+    function change_txt(){
+        self = $(".fav_txt")
+        if(self.hasClass('isfaved')){
+            self.html("关注");
+            self.removeClass('isfaved');
+        }else{
+            self.html("遗忘");
+            self.addClass('isfaved');
+        }
+    }
+
     $('.readx').live('click',readx)
+    $(".fav_txt").click(
+            function(e){
+                $(".fav_tag").click();
+            });
+
+    $(".fav_tag").click(function(e){change_txt()})
     $(document).bind("keyup",function(e){
         if(e.keyCode == 27 && oldtop>=0){
             readx()

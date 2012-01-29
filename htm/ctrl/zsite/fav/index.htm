@@ -1,7 +1,7 @@
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/tag_list.htm" import="tag_list_word, tag_list_note, tag_list_answer, tag_list_question, tag_list_photo, tag_list_video, tag_list_audio, tag_list_event, tag_list_site"/>
 <%!
-from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_SITE, CID_REC
+from model.cid import CID_WORD, CID_NOTE, CID_QUESTION, CID_ANSWER, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_EVENT, CID_SITE, CID_REC, CID_TAG
 from model.fav import fav_po_list_by_user_id_cid, fav_po_count_by_user_id_cid
 from model.po import PO_CN_EN, PO_EN
 from model.zsite import Zsite
@@ -52,6 +52,9 @@ ${func(po_count, po_list)}
 <%
 po_site_list = zsite_list_sample(zsite_id, CID_SITE, 6)
 po_site_count = zsite_list_count(zsite_id,CID_SITE)
+###临时察看结果###
+po_site_list.extend(zsite_list_sample(zsite_id, CID_TAG, 6))
+po_site_count+=(zsite_list_count(zsite_id,CID_TAG))
 %>
 
 ${tag_list_site(po_site_count, po_site_list)}

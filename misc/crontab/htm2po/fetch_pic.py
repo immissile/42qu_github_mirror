@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import urllib2
-from zkit.retry import urlfetch
+from zkit.urlfetch import urlfetch
 from zkit.pic import picopen
 
 exist = {}

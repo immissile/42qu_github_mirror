@@ -34,13 +34,17 @@ from _db import  McModel
 from po_photo import po_photo_new
 from kv import Kv
 from po import Po
+from hashlib import md5
 from model.state import STATE_ACTIVE
 from fs import fs_url_jpg
 from zkit.fetch_pic import fetch_pic
-from zkit.pic import picopen
+from zkit.pic import picopen, pic_fit
+from zkit.upyun import upyun_fetch_pic, upyun_rsspic
 
-STATE_WAIT = 0
-STATE_ADDED = 1
+STATE_INIT = 0
+STATE_IGNORE = 1
+STATE_WAIT = 2
+STATE_ADDED = 3
 
 PoPicPos = Kv('po_pic_pos')
 class PoPicShow(McModel):
@@ -49,12 +53,18 @@ class PoPicShow(McModel):
 class PicWallPics(McModel):
     pass
 
+def md5_file(url):
+    return md5(url).hexdigest()
+
 def new_pic_wall_pic(url, title, description, state=STATE_WAIT):
-    new_pic = PicWallPics(url=url, title=title, description=description, state=STATE_WAIT)
+    new_pic = PicWallPics(url=url, title=title, description=description, state=state)
     new_pic.save()
+    img = fetch_pic(url)
+    img = picopen(img)
+    upyun_file(img,md5_file(url))
     return new_pic
 
-def append_new_wall():
+def append_to_wall():
     pic = PicWallPics.where(state=STATE_WAIT).order_by('id asc')[0]
     if pic:
         img = fetch_pic(pic.url)
@@ -64,7 +74,23 @@ def append_new_wall():
         pic.state = STATE_ADDED
         pic.save()
         PoPicShow(po_id=po.id).save()
+        upyun_file(img, po.id)
         return po
+
+def pic_set_state(id,state):
+    pic = PicWallPics.mc_get(id)
+    if pic:
+        pic.state = state
+        pic.save()
+    return pic
+
+def yun_url(po_id):
+    return upyun_rsspic.domain%(str(po_id)+'.jpg')
+
+def upyun_file(img, id):
+    thumb = pic_fit(img, 211, 311)
+    url = upyun_rsspic.upload_img(yun_url(id), thumb)
+    return url
 
 def get_new_user_wall_pos(user_id):
     #TODO:改offset的取值
@@ -88,13 +114,15 @@ def next_wall_pic(user_id):
     if next_pos <= PoPicShow.max_id():
         PoPicPos.set(user_id, next_pos)
 
+
     if wall_pic:
         po = Po.mc_get(wall_pic.po_id)
-        return po.id,fs_url_jpg(721, po.rid)
+        thumb = yun_url(po.id)
+        return thumb, fs_url_jpg(721, po.rid)
 
 if __name__ == '__main__':
-    new_pic_wall_pic('http://p4.42qu.us/721/174/49326.jpg','title','desc')
-    append_new_wall()
+    new_pic_wall_pic('http://p4.42qu.us/721/174/49326.jpg', 'title', 'desc',state=STATE_INIT)
+    #append_to_wall()
     #PoPicShow(po_id=65140).save()
     #print next_wall_pic(10031395)
     pass

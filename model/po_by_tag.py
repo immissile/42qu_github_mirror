@@ -6,9 +6,30 @@ from model.zsite import Zsite
 from model.txt import txt_bind
 from zkit.txt import cnenlen , cnenoverflow
 from model.fav import fav_cid_dict
+from _db import  McModel, McLimitA
 
-def po_by_tag(tag_id, user_id):
-    po_list = Po.where(cid=CID_NOTE).order_by("id desc")[:25]
+mc_po_id_list = McLimitA('PoZsiteTag.%s', 512)
+
+class PoZsiteTag(McModel):
+    pass
+
+def zsite_tag_new_po(po, rank, zsite_id):
+    tag_po= PoZsiteTag(po_id=po.id, cid=po.cid, zsite_id=zsite_id, rank=rank)
+    tag_po.save()
+    return tag_po
+
+def zsite_tag_po_count(tag_id):
+    return PoZsiteTag.where(zsite_id=tag_id).count()
+
+
+@mc_po_id_list('{tag_id}-{limit}-{offset}')
+def get_po_id_list(tag_id, limit, offset):
+    po_list = PoZsiteTag.where(zsite_id=tag_id).order_by('rank desc').col_list(limit, offset,col='po_id')
+    return po_list
+
+def po_by_tag(tag_id, user_id, limit, offset):
+    po_list = Po.mc_get_list(get_po_id_list(tag_id,limit,offset))
+    #po_list = Po.where(cid=CID_NOTE).order_by('id desc')[:25]
     txt_bind(po_list)
 
     Zsite.mc_bind(po_list, 'user', 'user_id')
@@ -17,7 +38,7 @@ def po_by_tag(tag_id, user_id):
     po_id_list = [i.id for i in po_list]
 
     fav_dict = fav_cid_dict(
-        user_id, 
+        user_id,
         po_id_list
     )
 
@@ -50,7 +71,8 @@ def po_by_tag(tag_id, user_id):
     return result
 
 if __name__ == '__main__':
-    print po_by_tag(1, 0)
-
-
-
+    pass
+    #print po_by_tag(1, 0)
+    for i in  get_po_id_list(tag_id=61662, limit=100, offset=0, ):
+        print i
+    print zsite_tag_po_count(61662)
