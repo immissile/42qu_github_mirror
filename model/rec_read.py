@@ -22,8 +22,8 @@ def rec_read(user_id, limit=7):
     while count:
         result = redis.zrevrange(key , 0, limit, False)
         if result:
-            redis.zremrangebyrank(key, -limit-1 , -1)
-
+            redis.zremrangebyrank(key, -len(result) , -1)
+            
             t = []
 
             offset = 0
@@ -50,7 +50,7 @@ def rec_read_log(user_id, limit=7, offset=0):
 
     key = REDIS_REC_LOG%user_id
     length = redis.zcard(key)
-    
+     
     return  length, redis.zrevrange(key, offset, offset+limit-1)
 
 from model.po import Po
