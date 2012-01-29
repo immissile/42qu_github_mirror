@@ -82,7 +82,7 @@ def rec_cid_pos_update(user_id, cid_time_list):
     return redis.zadd(REDIS_REC_CID_POS%user_id, *lineiter(cid_time_list))
 
 def rec_cid_pos_by_user_id(user_id):
-    return redis.zrange(REDIS_REC_CID_POS%user_id, 0, -1, True)
+    return redis.zrange(REDIS_REC_CID_POS%user_id, 0, -1, withscores=True)
 
 def rec_read_log(user_id, limit=7, offset=0):
     if offset == 0:
@@ -107,9 +107,13 @@ def po_by_rec_read_equal_limit(user_id, limit=7):
     return po_by_rec_read(user_id)
 
 def rec_read_empty(user_id):
-    redis.delete(REDIS_REC_READ%user_id)
-    redis.delete(REDIS_REC_LOG%user_id)
-
+    for key in (
+        REDIS_REC_CID_POS,
+        REDIS_REC_READ,
+        REDIS_REC_LOG,
+    ):
+        redis.delete(key%user_id)
+    
 if __name__ == '__main__':
     user_id = 10000000
     from model.po import Po
