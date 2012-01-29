@@ -64,7 +64,7 @@ def new_pic_wall_pic(url, title, description, state=STATE_WAIT):
     new_pic.save()
     img = fetch_pic(url)
     img = picopen(img)
-    filename = md5(url).hexdigest()
+    filename = md5(url+"thumb").hexdigest()
     upyun_file(img,filename)
     return new_pic
 
@@ -125,7 +125,8 @@ if __name__ == '__main__':
     #new_pic_wall_pic('http://img7.ph.126.net/fGr2DJJKtnegNUGU0YTQNg==/43065671453950557.jpg', 'title', 'desc',state=STATE_INIT)
 
 
-    #append_to_wall()
+    for i in range(19):
+        append_to_wall()
     #PoPicShow(po_id=65140).save()
     #print next_wall_pic(10031395)
     pass

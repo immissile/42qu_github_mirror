@@ -27,14 +27,15 @@ class PicWall(Base):
             page=page,
         )
 
-@urlmap('/allow/(\d+)')
-class AllowPic(Base):
-    def get(self,n):
-        pic_set_state(n,STATE_WAIT)
-        self.redirect("/pic_wall")
+@urlmap('/allowpics')
+class MassAllow(Base):
+    def post(self):
+        yes_list = self.get_argument("yes").split(',')
+        no_list = self.get_argument("no").split(',')
+        for yes in yes_list:
+            pic_set_state(yes,STATE_WAIT)
 
-@urlmap('/disallow/(\d+)')
-class DisallowPic(Base):
-    def get(self,n):
-        pic_set_state(n,STATE_IGNORE)
-        self.redirect("/pic_wall")
+        for no in no_list:
+            pic_set_state(no,STATE_IGNORE)
+
+        self.finish("{}")
