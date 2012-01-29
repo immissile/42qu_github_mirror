@@ -125,21 +125,26 @@ def rec_cid_pos_by_user_id(user_id):
 def rec_read_cid(user_id):
     result = []
     rec_pos_update = []
+
     for cid, start in zip(xrange(1, REDIS_REC_CID_LEN+1), rec_cid_pos_by_user_id(user_id)):
-        result = redis.zrangebyscore(REDIS_REC_CID%cid, '(%s'%start, '+inf', 0, 7)
-        print result
-        if result:
-            last = result[-1]
+        r = redis.zrangebyscore(REDIS_REC_CID%cid, '(%s'%start, '+inf', 0, 7)
+        if r:
+            last = r[-1]
+            result.extend(r)
         else:
             last = start
+
         rec_pos_update.append(last)
 
-    key = REDIS_REC_CID_POS%user_id
-   
-    p = redis.pipeline() 
-    p.delete(key)
-    p.rpush(key, *rec_pos_update)
-    p.execute()
+    
+    if result:
+        key = REDIS_REC_CID_POS%user_id
+
+        p = redis.pipeline() 
+        p.delete(key)
+        p.rpush(key, *rec_pos_update)
+        p.execute()
+    return result
 
 if __name__ == '__main__':
     user_id = 10000000
