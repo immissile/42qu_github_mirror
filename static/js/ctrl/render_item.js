@@ -43,7 +43,7 @@ $.template(
                 '<span class="split">-</span>'+
             '<a href="javascript:share(${id});void(0)" class="vote">推荐</a>'+
                 '<span class="split">-</span>'+
-            '<a href="javascript:fcm(${id},${reply_count});void(0)" class="fcma">'+
+            '<a href="/${id}" class="fcma">'+
                 '<span class="mr3">{{if reply_count}}${reply_count}{{/if}}</span>'+
                 '评论'+
             '</a>'+

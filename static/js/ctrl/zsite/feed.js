@@ -1,28 +1,19 @@
 
-/*
-61 word
-62 note
-*/
-$(".bzlive").live("click",function(){
-    $(this.parentNode).find(".buzz_x")[0].visited = 1;
+function popreply(cid, title_html, href){
     var content = $(
-'<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
-    ), self = $(this),
-    rel = self.parents('.buzz_box')[0].id.slice(9),
-    href = this.href, 
-    cbody = content.find('#reply_reply_body'), t=cbody[0],
-    textarea = content.find('textarea'),
-    fancybox = $.fancybox,
-    button = content.find('button'),
-    id = href.split("/")[4].split("#")[0],
-    reply_name=content.find('#reply_name');
+        '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
+        ),
+        cbody = content.find('#reply_reply_body'), 
+        t=cbody[0],
+        textarea = content.find('textarea'),
+        fancybox = $.fancybox,
+        button = content.find('button'),
+        reply_name=content.find('#reply_name'),
+        id = href.split("/")[4].split("#")[0];
 
-   
-    textarea.ctrl_enter( function(){ button.click()});
+        textarea.ctrl_enter( function(){ button.click()});
+        reply_name.html(title_html).attr('href',href)
 
-    self.css({color:"#99a"});
-
-    reply_name.html(self.html()).attr('href',href)
     button.click(function(){
         var v=textarea.val(), 
             fancybox=$.fancybox;
@@ -69,8 +60,23 @@ $(".bzlive").live("click",function(){
             $.getJSON( '/j/po-'+rel+'/json/'+id, _)
         }
     })
-    return false
+}
 
+/*
+61 word
+62 note
+*/
+$(".bzlive").live("click",function(){
+    $(this.parentNode).find(".buzz_x")[0].visited = 1;
+    var self = $(this);
+
+    popreply(
+        self.parents('.buzz_box')[0].id.slice(9), 
+        self.html(),
+        this.href
+    )
+    self.css({color:"#99a"});
+    return false
 })
 ;(function() {
     b1024()
