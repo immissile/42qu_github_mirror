@@ -1,6 +1,6 @@
 
 function feedrecx(){
-    $("feedrec").hide()
+    $("#rowrec").hide()
 }
 function popreply(cid, title_html, href, counter){
     var content = $(
