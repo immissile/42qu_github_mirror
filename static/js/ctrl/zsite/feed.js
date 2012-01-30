@@ -3,7 +3,7 @@
 61 word
 62 note
 */
-$(".buzz_li").live("click",function(){
+$(".bzlive").live("click",function(){
     $(this.parentNode).find(".buzz_x")[0].visited = 1;
     var content = $(
 '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
