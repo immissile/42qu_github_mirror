@@ -43,7 +43,7 @@ $.template(
                 '<span class="split">-</span>'+
             '<a href="javascript:share(${id});void(0)" class="vote">推荐</a>'+
                 '<span class="split">-</span>'+
-            '<a href="/${id}" class="fcma">'+
+            '<a href="/po/${id}" target="_blank" class="fcma bzreply">'+
                 '<span class="mr3">{{if reply_count}}${reply_count}{{/if}}</span>'+
                 '评论'+
             '</a>'+
@@ -65,7 +65,7 @@ function note_li(feed_index){
             '<a href="javascript:void(0)" class="readx"></a>'+
         '</div>'+
     '</div>'+
-    '<div id="main_nav_title"></div>'+
+    '<div id="main_nav_title" class="readtitle"></div>'+
     '<div id="read_loading"></div>'+
 '</div>'
         ),
@@ -117,7 +117,7 @@ function note_li(feed_index){
             r.link = user_link+id
             r.time = $.timeago(r.create_time)
             r.fav = $('#fav'+id)[0].className
-
+            
             txt_body = $.tmpl('note_txt',r)
             read_loading.replaceWith(txt_body)
             txt_opt.html(txt_body.find('.fdopt').html());

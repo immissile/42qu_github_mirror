@@ -57,7 +57,7 @@ function popreply(cid, title_html, href){
         content:content, 
         onComplete:function(){
             textarea.focus()
-            $.getJSON( '/j/po-'+rel+'/json/'+id, _)
+            $.getJSON( '/j/po-'+cid+'/json/'+id, _)
         }
     })
 }
@@ -66,6 +66,14 @@ function popreply(cid, title_html, href){
 61 word
 62 note
 */
+$(".bzreply").live("click",function(){
+    popreply(
+        "reply",
+        $(this).parents('.readpad').find('.readtitle').html(),
+        this.href
+    )
+    return false
+})
 $(".bzlive").live("click",function(){
     $(this.parentNode).find(".buzz_x")[0].visited = 1;
     var self = $(this);
