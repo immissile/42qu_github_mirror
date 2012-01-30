@@ -3,6 +3,7 @@
 import _env
 from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 
+#Cookie: bid="55/9+SIFH50"; __gads=ID=227c583a14c13dc1:T=1327909678:S=ALNI_MaHgWBFQ_WaU31RNei_UaAIoRXb0Q; dbcl2="1262808:PQFaR3yY2cI"; ck="O91t"; __utma=30149280.1492613719.1327909685.1327909685.1327909685.1; __utmb=30149280.2.10.1327909685; __utmc=30149280; __utmz=30149280.1327909685.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=30149280.126
 
 def spider(url_list):
     headers = {
