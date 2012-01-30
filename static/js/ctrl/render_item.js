@@ -134,4 +134,3 @@ function note_li(feed_index){
 
 
 
-

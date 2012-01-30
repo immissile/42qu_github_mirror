@@ -1,4 +1,7 @@
 
+function feedrecx(){
+    $("feedrec").hide()
+}
 function popreply(cid, title_html, href, counter){
     var content = $(
         '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
