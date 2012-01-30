@@ -74,15 +74,15 @@ def urlfetch(url, headers={}):
 class MultiHeadersFetch(object):
     def __init__(self,  headers=() ):
         self._headers = headers
+        self.pos = 0
 
     @property
     def headers(self):
         _headers = self._headers
         
-        pos = 0
+        self.pos = (self.pos+1)%len(_headers) 
         while True:
-            yield _headers[pos]
-            pos = (pos+1)%len(_headers) 
+            return _headers[self.pos]
     
     def read(self, url):
         headers = self.headers
