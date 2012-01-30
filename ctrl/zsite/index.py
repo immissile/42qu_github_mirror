@@ -37,10 +37,10 @@ class Feed(LoginBase):
     def get(self):
         current_user_id = self.current_user_id
 
-        from model.po_by_tag import po_by_tag
+#        from model.po_by_tag import po_by_tag
  
         self.render(
-            rec_item_list= po_by_tag(1, current_user_id, 1)*7
+#            rec_item_list= po_by_tag(1, current_user_id, 1)*7
         )
 
 

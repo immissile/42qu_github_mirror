@@ -208,6 +208,7 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
 
 
     <div id="feeds">
+<%doc>
 <div class="feed_li feedL feedrec" id="rowrec">\
 <div class="feedB">
 <a href="javascript:void(0)"><div class="sdw"><div class="sd">\
@@ -228,6 +229,7 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
 </div>
 </div></div></div></div>
 </div>
+</%doc>
 
 
         <input id="begin_id" type="hidden"/>
@@ -277,11 +279,10 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
 <script>init_user()</script>
 <script src="${js.ctrl_zsite_feed}"></script>
 
-<script id="render_item" type="text/x-jquery-tmpl"><%text>
-
-</%text></script>
+<%doc>
 <script src="${js.ctrl_render_item}"></script>
 <script>_render_note('#feedrec', '#item_list', ${json_encode(rec_item_list)|n}) </script>
+</%doc>
 
 </%def>
 
