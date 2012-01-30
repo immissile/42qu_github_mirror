@@ -29,7 +29,7 @@ class UpYun(object):
         connection = httplib.HTTPConnection(UPYUN_API_URL)
         connection.request('PUT', path, data, self.headers)
         result = connection.getresponse()
-        #print "DDDDDDDDDDD",result.status, result.reason,self.domain%os.path.basename(path)
+        #print result.status, result.reason,self.domain%os.path.basename(path)
         return self.get_file_url(os.path.basename(path))
 
     def upload_img(self, path, img):
@@ -65,7 +65,6 @@ def exists(url):
     response = conn.getresponse()
     conn.close()
     return response.status == 200
-
 
 upyun_rsspic = UpYun(UPYUN_DOMAIN, UPYUN_USERNAME, UPYUN_PWD, UPYUN_SPACENAME)
 

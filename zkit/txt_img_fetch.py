@@ -25,6 +25,7 @@ def fetch_pic(url):
             result = ''
     if link:
         result+='[['
+
     return result
 
 if __name__ == '__main__':
