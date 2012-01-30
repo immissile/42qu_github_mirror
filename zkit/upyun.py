@@ -20,13 +20,27 @@ class UpYun(object):
         self.headers['Mkdir'] = 'true'
 
     def upload(self, filename):
-        print 'uploading filename', filename
-        path = os.path.join('/', self.spacename , os.path.basename(filename))
-        connection = httplib.HTTPConnection(UPYUN_API_URL)
         with open(filename) as f:
-            body_content = f.read()
-            connection.request('PUT', path, body_content, self.headers)
-            result = connection.getresponse()
+            data = f.read()
+            self.upload_data(filename, data)
+
+    def upload_data(self, path, data):
+        path = os.path.join('/', self.spacename , os.path.basename(path))
+        connection = httplib.HTTPConnection(UPYUN_API_URL)
+        connection.request('PUT', path, data, self.headers)
+        result = connection.getresponse()
+        #print "DDDDDDDDDDD",result.status, result.reason,self.domain%os.path.basename(path)
+        return self.get_file_url(os.path.basename(path))
+
+    def upload_img(self, path, img):
+        data = StringIO()
+        img.save(data,'JPEG')
+        url = self.upload_data(path,data.getvalue())
+        data.close()
+        return url
+    
+    def get_file_url(self,filename):
+        return upyun_rsspic.domain%filename
 
 def builder_path(suffix, url):
     filename = md5(url).hexdigest()+'.jpg'
@@ -58,6 +72,7 @@ upyun_rsspic = UpYun(UPYUN_DOMAIN, UPYUN_USERNAME, UPYUN_PWD, UPYUN_SPACENAME)
 def upyun_fetch_pic(url):
     file_path, filename = builder_path(UPYUN_PATH_BUILDER, url)
     upyun_url = upyun_rsspic.domain%filename
+    #print url,upyun_url
     if not os.path.exists(file_path):
         img = fetch_pic(url)
         if not img:
@@ -76,8 +91,9 @@ def upyun_fetch_pic(url):
                 img.save(data, 'gif')
             save_to_md5_file_name(UPYUN_PATH_BUILDER, data.getvalue(), url)
             data.close()
-            if not exists(upyun_url):
-                upyun_rsspic.upload(file_path)
+
+    if not exists(upyun_url):
+        upyun_rsspic.upload(file_path)
 
     return upyun_url
 
