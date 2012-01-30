@@ -1,5 +1,5 @@
 
-function popreply(cid, title_html, href){
+function popreply(cid, title_html, href, counter){
     var content = $(
         '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
         ),
@@ -9,8 +9,17 @@ function popreply(cid, title_html, href){
         fancybox = $.fancybox,
         button = content.find('button'),
         reply_name=content.find('#reply_name'),
-        id = href.split("/")[4].split("#")[0];
+        id = href.split("/")[4].split("#")[0],
+        count=true;
 
+        if(counter){
+            count=counter.html()
+            if(count.length){
+                count-=0
+            }else{
+                count=0
+            }
+        }
         textarea.ctrl_enter( function(){ button.click()});
         reply_name.html(title_html).attr('href',href)
 
@@ -24,6 +33,10 @@ function popreply(cid, title_html, href){
             fancybox.hideActivity();
             textarea.focus()
             _result(data)
+            if(counter){
+                count+=1
+                counter.html(count)
+            }
         })
     })
     function _(data){
@@ -53,11 +66,16 @@ function popreply(cid, title_html, href){
 
         fancybox.resize()
     }
+    if(!count){
+        cbody.css('height',0).removeClass('reply_reply_loading')
+    }
     fancybox({
         content:content, 
         onComplete:function(){
             textarea.focus()
-            $.getJSON( '/j/po-'+cid+'/json/'+id, _)
+            if(count){ 
+                $.getJSON( '/j/po-'+cid+'/json/'+id, _)
+            }
         }
     })
 }
@@ -67,10 +85,12 @@ function popreply(cid, title_html, href){
 62 note
 */
 $(".bzreply").live("click",function(){
+    var self=$(this)
     popreply(
         "reply",
-        $(this).parents('.readpad').find('.readtitle').html(),
-        this.href
+        self.parents('.readpad').find('.readtitle').html(),
+        this.href,
+        self.find('.count')
     )
     return false
 })

@@ -44,7 +44,7 @@ $.template(
             '<a href="javascript:share(${id});void(0)" class="vote">推荐</a>'+
                 '<span class="split">-</span>'+
             '<a href="/po/${id}" target="_blank" class="fcma bzreply">'+
-                '<span class="mr3">{{if reply_count}}${reply_count}{{/if}}</span>'+
+                '<span class="count mr3">{{if reply_count}}${reply_count}{{/if}}</span>'+
                 '评论'+
             '</a>'+
         '</span></span>'+
