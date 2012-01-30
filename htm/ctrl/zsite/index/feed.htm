@@ -1,7 +1,9 @@
+
 <%!
 from model.career import career_current
 from config import SITE_DOMAIN, FS_URL 
 from model.ico import pic_url_with_default,PIC_DEFAULT
+from tornado.escape import json_encode 
 %>
 <%namespace file="/ctrl/_util/user.htm" import="user_career_link, po_link"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
@@ -57,7 +59,7 @@ _ico = pic_url_with_default(current_user_id,219)
 <div class="feed_li">
     <div class="feedB">
 <div class="imgw"><a target="_blank" href="${zsite_link}"><img src="${pic}"></a></div></div>
-    <div class="feed_part">
+    <div class="feedP">
     <div class="feedS">
 {{each item}}
 <div class="sdw {{if $index+1==item.length}}sdwb{{/if}}"><div class="sd cid${cid}">
@@ -166,7 +168,7 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
 
 <div class="index_wrap">
     <div class="left_wrap">
-        <div class="feed_li" id="feed_self">
+        <div class="feed_li feedL" id="feed_self">
             <div class="feedB">
     %if _ico == PIC_DEFAULT%'219':
 <a href="/i/pic" class="c0 imgw">
@@ -177,7 +179,7 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
     %endif
 </a>
             </div>
-            <div class="feed_part">
+            <div class="feedP">
                 <div class="feedS">
                     <div class="sdw">
                         <div class="sd cid62">
@@ -203,7 +205,33 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
                 </div>
             </div>
         </div>
+
+
     <div id="feeds">
+<%doc>
+<div class="feed_li feedL feedrec" id="rowrec">\
+<div class="feedB">
+<a href="javascript:void(0)"><div class="sdw"><div class="sd">\
+<img src="http://i.imgur.com/mGVTU.jpg">\
+<div class="recimgtit">那些年我们一起追的女孩</div>\
+</div></div>\
+</a>
+</div>\
+
+<div class="feedP"><div class="feedS"><div class="sdw sdwb"><div class="sd">\
+<div id="feedrec">
+<a class="feedx" href="javascript:feedrecx();void(0)"></a>\
+<div class="feedtab">\
+<a href="javascript:void(0)" style="">文章</a>\
+</div>
+<div id="item_list"></div>
+<div class="readl c"><a href="#">更多 ...</a></div>
+</div>
+</div></div></div></div>
+</div>
+</%doc>
+
+
         <input id="begin_id" type="hidden"/>
     </div>
     <a id="feed_load" href="javascript:void(0)">加载更多</a>
@@ -250,6 +278,12 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
 <%def name="htm_foot()">
 <script>init_user()</script>
 <script src="${js.ctrl_zsite_feed}"></script>
+
+<%doc>
+<script src="${js.ctrl_render_item}"></script>
+<script>_render_note('#feedrec', '#item_list', ${json_encode(rec_item_list)|n}) </script>
+</%doc>
+
 </%def>
 
 

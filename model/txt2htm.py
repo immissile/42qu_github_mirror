@@ -93,7 +93,7 @@ def txt_withlink(s):
     s = RE_LINK_TARGET.sub(replace_link, s)
     s = RE_AT.sub(replace_at, s)
     s = replace_code.loads(s)
-    s = s.replace("\r","\n")
+#    s = s.replace("\r","\n")
     return s
 
 def txt2htm_withlink(s):
