@@ -86,7 +86,7 @@ class MultiHeadersFetch(object):
     
     def read(self, url):
         headers = self.headers
-        print headers
+        #print headers
         data = urlfetch(url, headers)
         return data
 
