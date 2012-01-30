@@ -85,7 +85,9 @@ class MultiHeadersFetch(object):
             pos = (pos+1)%len(_headers) 
     
     def read(self, url):
-        data = urlfetch(url, self.headers)
+        headers = self.headers
+        print headers
+        data = urlfetch(url, headers)
         return data
 
     @retryOnURLError(3)
