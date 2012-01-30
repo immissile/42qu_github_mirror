@@ -84,7 +84,7 @@ def main():
     from zweb.orm import ormiter
     from douban_spider import  spider
     url_list = []
-    for id in DoubanUser.where().col_list():
+    for id in DoubanUser.where().order_by("id desc").col_list():
         url_list.append((douban_recommendation, URL_REC%id, 1))
     spider(url_list)
 
