@@ -81,10 +81,11 @@ def douban_recommendation_begin_tuple(id):
     return douban_recommendation, URL_REC%id, 1
 
 def main():
+    from zweb.ormiter import ormiter
     from douban_spider import  spider
-    url_list = [
-        douban_recommendation_begin_tuple('zuroc')
-    ]
+    url_list = []
+    for i in ormiter(DoubanUser):
+        url_list.append((douban_recommendation, URL_REC%i.id, 1))
     spider(url_list)
 
 if __name__ == '__main__':
