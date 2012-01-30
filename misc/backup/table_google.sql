@@ -18,6 +18,7 @@ CREATE TABLE `douban_feed` (
   `title` varchar(255) COLLATE utf8_bin NOT NULL,
   `htm` mediumtext COLLATE utf8_bin NOT NULL,
   `state` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `time` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Index_2` (`cid`,`rid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

@@ -201,8 +201,8 @@ def title_normal(title):
 
 if __name__ == '__main__':
     pass
-    print "DoubanUser.count()", DoubanUser.count()
-    print "DoubanFeed.count()", DoubanFeed.count()
+    print 'DoubanUser.count()', DoubanUser.count()
+    print 'DoubanFeed.count()', DoubanFeed.count()
 #
 ##    print DoubanUser.by_url('zuroc')
 ##   from zweb.orm import ormiter
