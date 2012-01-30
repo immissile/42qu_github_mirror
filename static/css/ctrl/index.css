@@ -472,4 +472,6 @@ padding-right:20px;
 #read_loading{
 padding:78px 0;
 }
-
+#main_nav_in .readx{
+vertical-align:-5px;
+}
