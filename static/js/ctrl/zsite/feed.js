@@ -62,8 +62,9 @@ function popreply(cid, title_html, href, counter){
         cbody.css({
             height:height
         })
-        t.scrollTop=t.scrollHeight-t.offsetHeight-5
-
+        if(!count){ //有count的就从第一个开始显示
+            t.scrollTop=t.scrollHeight-t.offsetHeight-5
+        }
         fancybox.resize()
     }
     if(!count){
