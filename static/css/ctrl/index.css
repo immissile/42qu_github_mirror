@@ -456,13 +456,20 @@ padding:2px 12px;
 padding:3px 14px;
 }
 #main_nav_in{
-padding:4px 20px;
+padding:10px 20px;
+border-bottom:1px solid #eee;
 }
 #feeds .readpad .fdbar{
 margin-bottom:7px;
 }
+.prebody{
+min-height:167px
+}
 .prebody,#main_nav_title, #feeds .readpad .fdbar{
 padding-left:20px;
 padding-right:20px;
+}
+#read_loading{
+padding:78px 0;
 }
 
