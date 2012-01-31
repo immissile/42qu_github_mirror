@@ -417,4 +417,16 @@ background:transparent;
 line-height:0;
 padding: 0;
 }
+#feed_rec .feedB .sd img{
+width: 211px; padding: 3px; height: 311px;
+}
+.recimgtit{
+font-size: 12px;
+line-height: 22px; 
+text-align: center; 
+margin-top: 2px; padding: 3px; 
+background:#f9f9f9; 
+color:#666; 
+border-top:1px solid #eee;
+}
 
