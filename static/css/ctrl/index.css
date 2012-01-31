@@ -434,4 +434,9 @@ background:#f9f9f9;
 color:#666; 
 border-top:1px solid #eee;
 }
-
+.feedx{
+float:right;
+height:28px;
+width:23px;
+background:url(/img/gif/x2.gif) no-repeat -51px 14px;
+}
