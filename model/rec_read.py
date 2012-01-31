@@ -102,7 +102,7 @@ def rec_read_extend(user_id , id_score_list):
 def rec_read_more(user_id, limit):
     lock = mc_rec_lock.get(user_id) or 0
 
-    if lock < 5 :
+    if lock <= 3 :
         mc_rec_lock.set(user_id, lock+1, 300)
         return rec_read(user_id, limit)
 
