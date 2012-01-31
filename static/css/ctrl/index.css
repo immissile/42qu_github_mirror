@@ -411,5 +411,10 @@ padding:2px 3px;
 margin-bottom:7px;
 }
 #feed_rec .feedB{
-margin-bottom:27px;
+background:transparent;
 }
+#feed_rec .feedB .sd{
+line-height:0;
+padding: 0;
+}
+
