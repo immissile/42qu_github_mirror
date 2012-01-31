@@ -148,28 +148,8 @@ height:18px;
 #tagbar .xatagset{
 padding:7px; 8px 0 0;
 }
-.main_nav{
-color:#ccc;
-padding: 7px 2px;
-border-bottom: 1px dotted #ccc;
-}
-.main_nav a{
-    color:#999;
-}
 .com_main, .com_side{
 display:none
-}
-#feeds .main_nav .split{
-margin:0 14px;
-}
-.main_nav2{
-margin-left:-12px;
-}
-.main_nav a:hover{
-    color:#333;
-}
-.main_nav .now{
-    color:#666;
 }
 .com_main .page{
 border-top:1px dotted #ccc;
@@ -187,97 +167,9 @@ color:#999;
 .com_main .page a:hover{
 color:#333;
 }
-.main_back{
-float:left;
-width:20px;
-height:20px;
-background:url(https://mail.google.com/mail/u/0/pimages/2/toolbar/back.png) no-repeat 50% 50%;
-margin-top:4px;
-margin-left:-2px;
-}
-.readx{
-display:inline-block;
-background:url(/img/gif/x2.gif) no-repeat -45px 6px;
-margin-right:-6px;
-padding:0 6px 6px;
-vertical-align:-6px;
-width:9px;
-height:15px;
-}
-.readx:hover{
-background-position:-16px 6px;
-}
-
-#feed_loading{
+#read_loading{
 padding:234px 0 220px;
 margin:0;
-}
-#main_nav_title{
-float:left;
-color:#000;
-}
-
-#main_nav_in{
-margin-left:-1px;
-padding:14px 1px;
-background:#fff;
-width:666px;
-border-bottom: 1px solid #f3f3f3;
-box-shadow:0 2px 2px #f3f3f3;
-}
-#main_nav_txt{
-width:666px;
-overflow:hidden;
-height:59px;
-position:absolute;
-_position:static;
-text-align:right;
-border-bottom:0;
-padding:0;
-}
-.prebody{
-padding-top:70px;
-margin-top:0;
-}
-.readl .fav, .readl .faved, .readl .faving{
-float:left;
-margin:7px 3px 0 0;
-}
-.readl a{
-color:#999;
-}
-.reado, .reado span, .reado div{
-cursor:pointer;
-}
-.readl{
-border-top: 1px solid #eee;
-margin-top: 0;
-text-align:right; 
-padding: 5px 2px; 
-}
-.readl .zname{
-width:118px;
-overflow:hidden;
-float:right;
-height:26px;
-}
-.readl .zname, .readl .rtip{
-font-size:13px;
-}
-.readl .rtip{
-vertical-align:-1px;
-margin-left:7px;
-color:#999;
-}
-.reado:hover .title, .reado:hover .rtip{
-text-shadow:1px 1px 2px #ccc;
-}
-.reado{
-float:left;
-height:28px;
-overflow:hidden;
-width:520px;
-text-align:left;
 }
 .fdbar .aH{
 height:14px;
@@ -287,4 +179,19 @@ border-top:1px dotted #ccc;
 margin-top:7px;
 padding-top:14px;
 margin-bottom:4px
+}
+.readl .zname{
+width:118px;
+height:28px;
+}
+.reado{
+height:28px;
+width:520px;
+}
+#main_nav_in{
+width:666px;
+}
+#main_nav_txt{
+width:666px;
+overflow:hidden;
 }

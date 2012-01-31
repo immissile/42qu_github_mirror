@@ -7,8 +7,8 @@ from model.txt import txt_bind
 from zkit.txt import cnenlen , cnenoverflow
 from model.fav import fav_cid_dict
 
-def po_by_tag(tag_id, user_id):
-    po_list = Po.where(cid=CID_NOTE).order_by("id desc")[:25]
+def po_by_tag(tag_id, user_id, limit=25):
+    po_list = Po.where(cid=CID_NOTE).order_by('id desc')[:limit]
     txt_bind(po_list)
 
     Zsite.mc_bind(po_list, 'user', 'user_id')
@@ -17,7 +17,7 @@ def po_by_tag(tag_id, user_id):
     po_id_list = [i.id for i in po_list]
 
     fav_dict = fav_cid_dict(
-        user_id, 
+        user_id,
         po_id_list
     )
 

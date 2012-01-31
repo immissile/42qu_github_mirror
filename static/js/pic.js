@@ -107,7 +107,7 @@ $('.rmpic').live("click", function() {
         DELETEURL, 
         {seq: id},
         function(data){
-            t.val(t.val().replace(eval('/图-' + id + '/g'), ''));
+            t.val(t.val().replace(eval('/图:' + id + '/g'), ''));
             $("#pic" + id).fadeOut();
         })
     }
