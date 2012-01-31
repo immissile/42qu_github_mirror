@@ -148,28 +148,8 @@ height:18px;
 #tagbar .xatagset{
 padding:7px; 8px 0 0;
 }
-.main_nav{
-color:#ccc;
-padding: 7px 2px;
-border-bottom: 1px dotted #ccc;
-}
-.main_nav a{
-    color:#999;
-}
 .com_main, .com_side{
 display:none
-}
-#feeds .main_nav .split{
-margin:0 14px;
-}
-.main_nav2{
-margin-left:-12px;
-}
-.main_nav a:hover{
-    color:#333;
-}
-.main_nav .now{
-    color:#666;
 }
 .com_main .page{
 border-top:1px dotted #ccc;
@@ -215,4 +195,3 @@ width:666px;
 width:666px;
 overflow:hidden;
 }
-

@@ -634,3 +634,23 @@ margin:0 0 14px;
 .readauthor a{
 color:#999;
 }
+.main_nav{
+color:#ccc;
+padding: 7px 2px;
+border-bottom: 1px dotted #ccc;
+}
+.main_nav a{
+    color:#999;
+}
+#feeds .main_nav .split{
+margin:0 14px;
+}
+.main_nav2{
+margin-left:-12px;
+}
+.main_nav a:hover{
+    color:#333;
+}
+.main_nav .now{
+    color:#666;
+}

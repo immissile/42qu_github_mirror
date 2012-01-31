@@ -447,9 +447,19 @@ background-position:-22px 14px;
 display:inline-block;
 color:#999;
 border-right:1px solid #eee;
-padding:3px 14px;
 }
 .feedtab{border-bottom:1px solid #f3f3f3;}
 .feedrec .readl{
 padding:2px 12px;
 }
+.feedtab a{
+padding:3px 14px;
+}
+#main_nav_in{
+padding:4px 20px;
+}
+.prebody,#main_nav_title{
+padding-left:20px;
+padding-right:20px;
+}
+
