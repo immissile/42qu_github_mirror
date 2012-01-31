@@ -263,7 +263,8 @@ if __name__ == '__main__':
     user_id = 10000000
     from model.po import Po
     #rec_cid_push(2, 3)
-    #print redis.zrange(REDIS_REC_CID%2, 0, 11)
+    print redis.zrange(REDIS_REC_CID%1, 0, 11)
+
 
     #   rec_read_extend(user_id, [(1, 1), (2, 2)])
 #    print rec_read_log(user_id,1)
@@ -277,8 +278,8 @@ if __name__ == '__main__':
     #result = rec_read_log(user_id, 7, 0)
     #print result , len(result)
 
-    #for i in REDIS_REC_CID_DICT:
-    #    redis.delete(REDIS_REC_CID_POS%i)
+    for i in REDIS_REC_CID_DICT:
+        redis.delete(REDIS_REC_CID%i)
 #    print len(REC_USER_CID_RANK_DEFAULT)
 #    print REC_USER_CID_RANK_DEFAULT
 #    print type(REC_USER_CID_RANK_DEFAULT[0])
