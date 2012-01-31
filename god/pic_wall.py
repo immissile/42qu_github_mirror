@@ -30,12 +30,18 @@ class PicWall(Base):
 @urlmap('/allowpics')
 class MassAllow(Base):
     def post(self):
-        yes_list = self.get_argument("yes").split(',')
-        no_list = self.get_argument("no").split(',')
-        for yes in yes_list:
-            pic_set_state(yes,STATE_WAIT)
 
-        for no in no_list:
-            pic_set_state(no,STATE_IGNORE)
+        yes_list = self.get_argument("yes",None)
+        no_list = self.get_argument("no",None)
+
+        if no_list:
+            no_list = no_list.split(',')
+            for no in no_list:
+                pic_set_state(no,STATE_IGNORE)
+
+        if yes_list:
+            yes_list = yes_list.split(',')
+            for yes in yes_list:
+                pic_set_state(yes,STATE_WAIT)
 
         self.finish("{}")

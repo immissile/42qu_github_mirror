@@ -100,7 +100,8 @@ def get_current_user_wall_pic(user_id):
     pos = PoPicPos.get(user_id)
     if not pos:
         pos = get_new_user_wall_pos(user_id)
-        PoPicPos.set(user_id, pos)
+        if pos:
+            PoPicPos.set(user_id, pos)
     return pos
 
 def next_wall_pic(user_id):
