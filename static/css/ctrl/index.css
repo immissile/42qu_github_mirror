@@ -440,3 +440,6 @@ height:28px;
 width:23px;
 background:url(/img/gif/x2.gif) no-repeat -51px 14px;
 }
+.feedx:hover{
+background-position:-22px 14px;
+}
