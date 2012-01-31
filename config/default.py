@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import _env
 
-import zkit.cookie_morsel 
 
 import yajl
 import json
@@ -14,6 +13,7 @@ json.loads = yajl.loads
 json.load = yajl.load
 
 
+import zkit.cookie_morsel 
 from hmako.lookup import TemplateLookup
 import sys
 from os.path import join
