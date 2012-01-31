@@ -156,12 +156,11 @@ def redis_rec_cid_rank_default(rank):
     r.fromlist(rank)
     return r
 
-REC_USER_CID_RANK_DEFAULT  = (
+REC_USER_CID_RANK_DEFAULT  = map(redis_rec_cid_rank_default, (
     REC_USER_CID_RANK_DEFAULT_FOR_0,
     REC_USER_CID_RANK_DEFAULT_FOR_MAN,
     REC_USER_CID_RANK_DEFAULT_FOR_WOMAN
-)
-REC_USER_CID_RANK_DEFAULT = map(redis_rec_cid_rank_default, REC_USER_CID_RANK_DEFAULT)
+))
 
 def rec_user_cid_rank(user_id):
     from model.user_info import user_sex
@@ -175,8 +174,8 @@ def rec_user_cid_rank(user_id):
         t = array('f')
         t.fromstring(rank)
         rank = t
-    return rank
 
+    return rank
 
 def rec_user_cid_limit(user_id, limit):
     return limit_by_rank(rec_user_cid_rank(user_id), limit)
