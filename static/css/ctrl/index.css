@@ -125,7 +125,7 @@ li
 {
     line-height:14px;
 }
-.feed_part
+.feedP
 {
     margin-right:239px;
 }
@@ -190,7 +190,7 @@ margin-right:0;
 .feedB,.feedS{
     margin-right:300px;
 }
-.feedL .feed_part{
+.feedL .feedP{
     margin-right:0;
     margin-left:242px;
 }
@@ -369,10 +369,10 @@ color:#99a;
 .b1024 .feedB{
 display:none;
 }
-.b1024 .feed_part{
+.b1024 .feedP{
 margin-right:0;
 }
-.b1024 .feedL .feed_part{
+.b1024 .feedL .feedP{
 margin-left:0;
 }
 .b1024 #feeds .sdw{
