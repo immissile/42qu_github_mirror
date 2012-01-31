@@ -75,7 +75,7 @@ class Link(LoginBase):
 def render_tag_site(self,n=1,template='/ctrl/tag/index/index.htm'):
     total = zsite_tag_po_count(self.zsite.id)
     page, limit, offset = page_limit_offset(
-        "/-%s", total, n
+        "/-%s", total, n, limit = 15
     )
     current_user_id = self.current_user_id
     items = po_by_tag(self.zsite.id, current_user_id, limit, offset )

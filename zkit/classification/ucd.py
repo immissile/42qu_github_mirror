@@ -32,12 +32,12 @@ def parse_data():
             content = txt_img_fetch(content)
             author = data[2]
             tag_list = data[3]
+            print title, ','.join([i[0] for i in tag_list])
             po = po_note_new(64278, title, content, zsite_id=64278)
 
             if txt_is_duplicate(content):
                 po_rm(64278, po.id)
             else:
-                print title, ','.join([i[0] for i in tag_list])
                 set_record(content, po.id)
                 for tag in tag_list:
                     _tag = get_or_create_tag(tag[0])

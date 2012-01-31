@@ -15,7 +15,7 @@ def fetch_pic(url):
         link = True
         url = url.replace('[[','')
 
-    if '.feedsky.com/' in url:
+    if '.feedsky.com/' in url or '1.42qu.us' in url:
         result = ''
     else:
         result = upyun_fetch_pic(url)

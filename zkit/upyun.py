@@ -20,6 +20,7 @@ class UpYun(object):
         self.headers['Mkdir'] = 'true'
 
     def upload(self, filename):
+        print 'uploading filename', filename
         path = os.path.join('/', self.spacename , os.path.basename(filename))
         connection = httplib.HTTPConnection(UPYUN_API_URL)
         with open(filename) as f:
@@ -44,22 +45,25 @@ def save_to_md5_file_name(suffix, data, url, root='/'):
 
 
 def exists(url):
-    try:
-        urlopen(url)
-        return True
-    except:
-        return False
+    site, path = os.path.split(url)
+    conn = httplib.HTTPConnection(site.replace('http://', ''))
+    conn.request('HEAD', '/'+path)
+    response = conn.getresponse()
+    conn.close()
+    return response.status == 200
+
 
 upyun_rsspic = UpYun(UPYUN_DOMAIN, UPYUN_USERNAME, UPYUN_PWD, UPYUN_SPACENAME)
 
 def upyun_fetch_pic(url):
     file_path, filename = builder_path(UPYUN_PATH_BUILDER, url)
+    upyun_url = upyun_rsspic.domain%filename
     if not os.path.exists(file_path):
         img = fetch_pic(url)
         if not img:
             return url
-        
-        x,y = img.size
+
+        x, y = img.size
         if x < 48 and y < 48:
             return None
 
@@ -72,10 +76,15 @@ def upyun_fetch_pic(url):
                 img.save(data, 'gif')
             save_to_md5_file_name(UPYUN_PATH_BUILDER, data.getvalue(), url)
             data.close()
-            if not exists(url):
+            if not exists(upyun_url):
                 upyun_rsspic.upload(file_path)
 
-    return upyun_rsspic.domain%filename
+    return upyun_url
+
 
 if __name__ == '__main__':
-    print upyun_fetch_pic('http://www.ifanr.com/wp-content/uploads/2012/01/timeline-the-story-of-your-life.jpeg')
+    #print upyun_fetch_pic('http://www.ifanr.com/wp-content/uploads/2012/01/timeline-the-story-of-your-life.jpeg')
+    print exists('http://1.42qu.us/4ec22cb3b11734330557f229bfa44aa6.jpg')
+    #print checkURL('http://1.42qu.us/648dcf451b52741e6965ac91d224592e.jpg')
+    pass
+
