@@ -5,6 +5,8 @@ from zkit.algorithm.wrandom import limit_by_rank
 from time import time
 from random import shuffle
 
+#更新规则 每3分钟 有更新 
+
 REDIS_REC_CID_TUPLE = (
     (1, '女性·时尚·星座'),
     (2, '网络·科技·创业'),
