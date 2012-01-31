@@ -196,15 +196,15 @@ def rec_read_cid(user_id, limit):
     cid_range = range(1, REDIS_REC_CID_LEN+1)
 
     def _(cid, start, cid_limit):
-        r = redis.zrangebyscore(REDIS_REC_CID%cid, '(%s'%start, '+inf', 0, cid_limit)
+        r = redis.zrangebyscore(REDIS_REC_CID%cid, '(%s'%start, '+inf', 0, cid_limit, True)
         if r:
-            last = r[-1]
-            result.extend(r)
+            last = r[-1][1]
+            result.extend([i[0] for i in r])
         else:
             last = start
             can_rec_cid.remove(cid)
-        return last
 
+        return last
 
 
     for cid, start, cid_limit in zip(
@@ -236,6 +236,11 @@ def rec_read_cid(user_id, limit):
         shuffle(cid_list)
         for cid in cid_list:
             start = rec_pos_dict[cid]
+            diff = limit - len(result)
+            if diff <= 0:
+                break
+            elif cid_limit > diff:
+                cid_limit = diff
             rec_pos_dict[cid] = _(cid, start, cid_limit)
 
     if rec_pos_dict is not None:
@@ -279,6 +284,7 @@ if __name__ == '__main__':
 #    print REC_USER_CID_RANK_DEFAULT
 #    print type(REC_USER_CID_RANK_DEFAULT[0])
     #print rec_read_empty(user_id)
-    #print po_json_by_rec_read(user_id)
+    print po_json_by_rec_read(user_id)
 
-    print rec_read_cid(user_id, 3)
+    #print rec_read_cid(user_id, 3)
+    #print redis.zrangebyscore(REDIS_REC_CID%1, 68603, 99999999, 0, 33, True)
