@@ -71,6 +71,7 @@ def rec_read(user_id, limit=7):
     diff = limit - count
 
     while diff > 0:
+        #print 'while diff', diff
         result = rec_read_cid(user_id, limit)
         if not result:
             break
@@ -97,7 +98,7 @@ def rec_read_extend(user_id , id_score_list):
     return redis.zadd(REDIS_REC_READ%user_id, *lineiter(id_score_list))
 
 
-def rec_read_log(user_id, limit=7, offset=0):
+def rec_read_page(user_id, limit=7, offset=0):
     lock = mc_rec_lock.get(user_id) or 0
     if offset == 0 and  lock <= 3:
         mc_rec_lock.set(user_id, lock+1, 300)
@@ -107,13 +108,11 @@ def rec_read_log(user_id, limit=7, offset=0):
 
     return  redis.zrevrange(key, offset, offset+limit-1)
 
-def rec_read_log_with_len(user_id, limit=7, offset=0):
-    return redis.zcard(key), rec_read_log(user_id, limit, offset)
+def rec_read_page_with_len(user_id, limit=7, offset=0):
+    return redis.zcard(key), rec_read_page(user_id, limit, offset)
 
 from model.po import Po
 
-def po_by_rec_read(user_id, limit=7):
-    return Po.mc_get_list(rec_read(user_id, limit))
 
 def po_by_rec_read_equal_limit(user_id, limit=7):
     key = REDIS_REC_READ%user_id
@@ -126,7 +125,7 @@ def rec_read_empty(user_id):
         REDIS_REC_CID_POS,
         REDIS_REC_READ,
         REDIS_REC_LOG,
-        REDIS_REC_RANK 
+        REDIS_REC_RANK
     ):
         redis.delete(key%user_id)
 
@@ -156,7 +155,7 @@ def redis_rec_cid_rank_default(rank):
     r.fromlist(rank)
     return r
 
-REC_USER_CID_RANK_DEFAULT  = map(redis_rec_cid_rank_default, (
+REC_USER_CID_RANK_DEFAULT = map(redis_rec_cid_rank_default, (
     REC_USER_CID_RANK_DEFAULT_FOR_0,
     REC_USER_CID_RANK_DEFAULT_FOR_MAN,
     REC_USER_CID_RANK_DEFAULT_FOR_WOMAN
@@ -169,7 +168,7 @@ def rec_user_cid_rank(user_id):
 
     if not rank:
         rank = REC_USER_CID_RANK_DEFAULT[user_sex(user_id)]
-        redis.set(key,rank.tostring())
+        redis.set(key, rank.tostring())
     else:
         t = array('f')
         t.fromstring(rank)
@@ -253,11 +252,18 @@ def rec_read_cid(user_id, limit):
     shuffle( result )
     return result
 
+
+
+from model.po_json import po_json
+def po_json_by_rec_read(user_id, limit=7):
+    id_list = rec_read_page(user_id, limit)
+    return po_json(user_id , id_list, 47)
+
 if __name__ == '__main__':
     user_id = 10000000
     from model.po import Po
     #   rec_read_extend(user_id, [(1, 1), (2, 2)])
-#    print rec_read_log(user_id,1)
+#    print rec_read_page(user_id,1)
     #print rec_read_empty(user_id)
     #print rec_cid_pos_by_user_id(user_id)
     #rec_cid_pos_update(user_id, ((1, 1), ))
@@ -265,7 +271,7 @@ if __name__ == '__main__':
     #test = list(zip(range(100), range(100)))
 #    rec_cid_extend(1, test)
 #    print redis.zrangebyscore(REDIS_REC_CID%cid, "(3", '+inf', 0,7)
-    #result = rec_read_log(user_id, 7, 0)
+    #result = rec_read_page(user_id, 7, 0)
     #print result , len(result)
 
     #for i in REDIS_REC_CID_DICT:
@@ -273,4 +279,4 @@ if __name__ == '__main__':
 #    print len(REC_USER_CID_RANK_DEFAULT)
 #    print REC_USER_CID_RANK_DEFAULT
 #    print type(REC_USER_CID_RANK_DEFAULT[0])
-    print rec_user_cid_rank(user_id)
+    print po_json_by_rec_read(user_id)
