@@ -53,7 +53,17 @@ function note_li(feed_index){
         scrollTop=feeds.offset().top-14,
         oldtop=-1,
         winj=$(window),
-        txt_loading=$('<div><div class="main_nav" id="main_nav_txt"><div id="main_nav_in"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div></div><div id="feed_loading"></div></div>'),
+        txt_loading=$(
+'<div>'+
+    '<div class="main_nav" id="main_nav_txt">'+
+        '<div id="main_nav_in">'+
+            '<a href="javascript:void(0)" class="readx"></a>'+
+        '</div>'+
+    '</div>'+
+    '<div id="main_nav_title"></div>'+
+    '<div id="feed_loading"></div>'+
+'</div>'
+        ),
         txt_title=txt_loading.find('#main_nav_title'),
         main_nav_txt=txt_loading.find('#main_nav_txt'),
         feed_loading=txt_loading.find('#feed_loading'),
@@ -109,22 +119,6 @@ function note_li(feed_index){
 
 
 
-    if(!IE6){
-        if(main_nav_txt[0]){
-            var top = main_nav_txt.offset().top, win=$(window).scroll(function() {
-                if(win.scrollTop() >= scrollTop+14){
-                    main_nav_txt.css(
-                        {
-                            'position':'fixed',
-                            "marginTop":-scrollTop-14
-                        }
-                    )
-                }else{
-                    main_nav_txt.css({'position':'absolute',"marginTop":"0"})
-                }
-            })
-        }
-    }
 
 };
 

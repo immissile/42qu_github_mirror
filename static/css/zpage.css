@@ -585,11 +585,31 @@ padding: 5px 2px;
 .readl .zname{
 overflow:hidden;
 float:right;
-height:26px;
 }
 .reado{
 float:left;
-height:28px;
 overflow:hidden;
 text-align:left;
+}
+
+#main_nav_txt{
+text-align:right;
+border-bottom:0;
+padding:0;
+}
+#main_nav_in{
+padding:14px 1px;
+background:#fff;
+border-bottom: 1px solid #f3f3f3;
+box-shadow:0 2px 2px #f3f3f3;
+}
+#main_nav_title{
+color:#000;
+margin-top:14px;
+font-weight:bold;
+}
+.prebody{
+padding-top:14px;
+margin-top:0;
+color:#333
 }
