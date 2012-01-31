@@ -28,7 +28,14 @@ function _render_note(feed_index, elem, data){
 
 $.template(
     'note_txt',
-    '<pre class="prebody">{{html txt}}</pre>'+
+    '<pre class="prebody">{{html txt}}'+
+        '<div class="readauthor">'+
+            '<a target="_blank" href="/${link}">${time}</a>'+
+            '<span class="split">,</span>'+
+            '{{html user_name}}'+
+            '<a class="aH" href="${link}" target="_blank"></a>'+
+        '</div>'+
+    '</pre>'+
     '<div class="fdbar">'+
         '<span class="L"><span class="fdopt">'+
             '<a class="${fav}" href="javascript:void(0)" rel="${id}"></a>'+
@@ -40,23 +47,20 @@ $.template(
                 '评论'+
             '</a>'+
         '</span></span>'+
-        '<a target="_blank" href="/${link}">${time}</a>'+
-        '<span class="split">,</span>'+
-        '{{html user_name}}'+
-        '<a class="aH" href="${link}" target="_blank"></a>'+
     '</div>'
 )
 
 
 function note_li(feed_index){
     var feeds=$(feed_index[0].parentNode), 
-        scrollTop=feeds.offset().top-14,
+        scrollTop,
         oldtop=-1,
         winj=$(window),
         txt_loading=$(
 '<div>'+
     '<div class="main_nav" id="main_nav_txt">'+
         '<div id="main_nav_in">'+
+            '<div id="main_nav_opt"></div>'+
             '<a href="javascript:void(0)" class="readx"></a>'+
         '</div>'+
     '</div>'+
@@ -67,7 +71,10 @@ function note_li(feed_index){
         txt_title=txt_loading.find('#main_nav_title'),
         main_nav_txt=txt_loading.find('#main_nav_txt'),
         feed_loading=txt_loading.find('#feed_loading'),
+        txt_opt=txt_loading.find('#main_nav_opt'),
         txt_body;
+
+
     function readx(){
         txt_loading.remove()
         feed_index.show() 
@@ -89,6 +96,7 @@ function note_li(feed_index){
     })
 
     $('.reado').live('click',function(){
+        scrollTop = feeds.offset().top-14
         feed_index.hide();
         var self=$(this), 
             title=self.find('.title').addClass('c9'), 
@@ -96,10 +104,10 @@ function note_li(feed_index){
             user=$(this.parentNode).find('.TPH'),
             user_link=user[0].href
             ;
-        txt_title.html(title.html());
         feeds.append(txt_loading);
         oldtop=winj.scrollTop();
         winj.scrollTop(scrollTop);
+        txt_title.html(title.html())
         $.get(
         "/j/po/json/"+id,
         function(r){
@@ -111,6 +119,7 @@ function note_li(feed_index){
 
             txt_body = $.tmpl('note_txt',r)
             feed_loading.replaceWith(txt_body)
+            txt_opt.html(txt_body.find('.fdopt').html());
             winj.scrollTop(scrollTop)
         })
 

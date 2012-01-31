@@ -187,27 +187,6 @@ color:#999;
 .com_main .page a:hover{
 color:#333;
 }
-.main_back{
-float:left;
-width:20px;
-height:20px;
-background:url(https://mail.google.com/mail/u/0/pimages/2/toolbar/back.png) no-repeat 50% 50%;
-margin-top:4px;
-margin-left:-2px;
-}
-.readx{
-display:inline-block;
-background:url(/img/gif/x2.gif) no-repeat -45px 6px;
-margin-right:-6px;
-padding:0 6px 6px;
-vertical-align:-6px;
-width:9px;
-height:15px;
-}
-.readx:hover{
-background-position:-16px 6px;
-}
-
 #feed_loading{
 padding:234px 0 220px;
 margin:0;
@@ -236,3 +215,4 @@ width:666px;
 width:666px;
 overflow:hidden;
 }
+

@@ -593,23 +593,44 @@ text-align:left;
 }
 
 #main_nav_txt{
-text-align:right;
+text-align:left;
 border-bottom:0;
 padding:0;
 }
-#main_nav_in{
-padding:14px 1px;
-background:#fff;
-border-bottom: 1px solid #f3f3f3;
-box-shadow:0 2px 2px #f3f3f3;
-}
 #main_nav_title{
 color:#000;
-margin-top:14px;
 font-weight:bold;
+margin-top:14px;
+}
+#main_nav_opt{
+float:right;
+}
+#main_nav_in{
+padding:7px 1px;
+background:#fff;
+border-bottom: 1px dotted #ccc;
 }
 .prebody{
 padding-top:14px;
 margin-top:0;
-color:#333
+color:#222;
+}
+.readx{
+display:inline-block;
+background:url(/img/gif/back2.gif) no-repeat -22px 0;
+padding:0;
+width:20px;
+vertical-align:-6px;
+height:15px;
+}
+.readx:hover{
+background-position:0 0;
+}
+.readauthor{
+text-align:right;
+color:#999;
+margin:0 0 14px;
+}
+.readauthor a{
+color:#999;
 }
