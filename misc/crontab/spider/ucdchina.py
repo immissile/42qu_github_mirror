@@ -7,7 +7,7 @@ from zkit.htm2txt import htm2txt
 from urllib2 import urlopen
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 import os.path as path
-from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
+#from zkit.spider import Rolling, Fetch, NoCacheFetch, GSpider
 from time import sleep
 from os.path import exists
 import os.path
@@ -16,10 +16,10 @@ from hashlib import md5
 import threading
 from zkit.lock_file import LockFile
 from writer import Writer,CURRNET_PATH
-from zkit.classification.classification import GetTag  
-from rss_po import RssPo
+#from zkit.classification.classification import GetTag  
+#from rss_po import RssPo
 
-TAGGER = GetTag()
+#TAGGER = GetTag()
 #SETTINGS HERE
 UCDCHINA_ZSITE_ID = 2585
 UCD_USER_ID = 2585
@@ -28,8 +28,8 @@ class UCDchina(object):
     def __init__(self):
         pass
 
-    def name_builder(self,url):
-        return os.path.join(CURRNET_PATH, "ucdchina", path.basename(url))
+    #def name_builder(self,url):
+    #    return os.path.join(CURRNET_PATH, "ucdchina", path.basename(url))
 
     def parse_page(self,filepath):
         with open(filepath) as f:
@@ -40,65 +40,68 @@ class UCDchina(object):
             author = txt_wrap_by('作者：', '|', author)
             content_wrapper = txt_wrap_by('<div id="pageContentWrap" style="font-size:13px; ">', '</div', page)
             url =txt_wrap_by('阅读和发布评论：<a href="','"',page)
+            blog_url = txt_wrap_by('>推荐您进入文章源地址阅读和发布评论：<a href="','"',page)
 
             if content_wrapper:
-                content,pic_list = htm2txt(content_wrapper)
+                content,pic_list = htm2txt(content_wrapper.decode('utf-8','ignore' ))
             else:
                 return 
             
             content = str(content)
             tags = TAGGER.get_tag(content+title)
+            #tags = TAGGER.get_tag(content+title)
             #out = dumps([title,url,tags])
             #print out
             out = dumps([ title, content, author, tags ])
+            #out = dumps([ title, content, author, blog_url ])
             print out
 
             #a = RssPo(content,UCD_USER_ID,title, pic_list, 0, UCDCHINA_ZSITE_ID,tags)
             #a.htm2po_by_po() 
 
-           # writer = Writer.get_instance()
-           # writer = writer.choose_writer('ucdchina.data')
-           # writer.write(out+'\n')
+           #writer = Writer.get_instance()
+           #writer = writer.choose_writer('ucdchina.data')
+           #writer.write(out+'\n')
 
-    def save_page(page, url):
-        filename = self.name_builder(url)
-        with open(filename, 'w') as f:
-            f.write(page)
-        self.parse_page(filename)
+    #def save_page(self,page, url):
+    #    filename = self.name_builder(url)
+    #    with open(filename, 'w') as f:
+    #        f.write(page)
+    #    self.parse_page(filename)
 
-    def parse_index(self,page, url):
-        link_wrapper_list = txt_wrap_by('<div id="mainWrap">', '<!--/#mainWrap', page)
-        link_list = []
+    #def parse_index(self,page, url):
+    #    link_wrapper_list = txt_wrap_by('<div id="mainWrap">', '<!--/#mainWrap', page)
+    #    link_list = []
 
-        url_list = txt_wrap_by_all('/snap/', '"', link_wrapper_list)
-        for url in url_list:
-            filename = self.name_builder(url)
-            if 'img src' in url:
-                continue
-            if not exists(filename):
-                yield self.save_page, 'http://ucdchina.com/snap/'+url
-            else:
-                print "using cache",url
-                self.parse_page(filename)
+    #    url_list = txt_wrap_by_all('/snap/', '"', link_wrapper_list)
+    #    for url in url_list:
+    #        filename = self.name_builder(url)
+    #        if 'img src' in url:
+    #            continue
+    #        if not exists(filename):
+    #            yield self.save_page, 'http://ucdchina.com/snap/'+url
+    #        else:
+    #            print "using cache",url
+    #            self.parse_page(filename)
 
-    def ucdchina_daily(self):
-        word_list = ['PM', 'UCD', 'UR', 'IA-ID', 'VD', 'HappyDesign']
-        for typ in word_list:
-            yield self.parse_index, 'http://ucdchina.com/%s'%str(typ)
+    #def ucdchina_daily(self):
+    #    word_list = ['PM', 'UCD', 'UR', 'IA-ID', 'VD', 'HappyDesign']
+    #    for typ in word_list:
+    #        yield self.parse_index, 'http://ucdchina.com/%s'%str(typ)
 
-    def ucd_url_builder(self):
-        for page in xrange(68):
-            yield self.parse_index, 'http://ucdchina.com/PM?p=%s'%str(page)
-        for page in xrange(62):
-            yield self.parse_index, 'http://ucdchina.com/UCD?p=%s'%str(page)
-        for page in xrange(19):
-            yield self.parse_index, 'http://ucdchina.com/UR?p=%s'%str(page)
-        for page in xrange(68):
-            yield self.parse_index, 'http://ucdchina.com/IA-ID?p=%s'%str(page)
-        for page in xrange(14):
-            yield self.parse_index, 'http://ucdchina.com/VD?p=%s'%str(page)
-        for page in xrange(56):
-            yield self.parse_index, 'http://ucdchina.com/HappyDesign?p=%s'%str(page)
+    #def ucd_url_builder(self):
+    #    for page in xrange(68):
+    #        yield self.parse_index, 'http://ucdchina.com/PM?p=%s'%str(page)
+    #    for page in xrange(62):
+    #        yield self.parse_index, 'http://ucdchina.com/UCD?p=%s'%str(page)
+    #    for page in xrange(19):
+    #        yield self.parse_index, 'http://ucdchina.com/UR?p=%s'%str(page)
+    #    for page in xrange(68):
+    #        yield self.parse_index, 'http://ucdchina.com/IA-ID?p=%s'%str(page)
+    #    for page in xrange(14):
+    #        yield self.parse_index, 'http://ucdchina.com/VD?p=%s'%str(page)
+    #    for page in xrange(56):
+    #        yield self.parse_index, 'http://ucdchina.com/HappyDesign?p=%s'%str(page)
 
 def main():
     #headers = {
@@ -111,7 +114,7 @@ def main():
 
     ucd_china = UCDchina()
     from glob import glob
-    file_list=glob('ucdchina/*')
+    file_list=glob(path.join(CURRNET_PATH, 'ucdchina/*'))
     for f in file_list:
         ucd_china.parse_page(f)
     #fetcher = NoCacheFetch(0, headers=headers)

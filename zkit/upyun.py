@@ -18,23 +18,6 @@ class UpYun(object):
         self.headers['Authorization'] = 'Basic %s' % base64.b64encode('%s:%s' % (self.username, self.password))
         self.headers['Mkdir'] = 'true'
 
-    #def append(self,  url, path_builder=UPYUN_PATH_BUILDER):
-    #    filename = md5(url).hexdigest()+'.jpg'
-    #    #file_path = path_builder%filename[:10]
-    #    file_path = path_builder%( "/".join([filename[:2], filename[2:4]]))
-    #    if not os.path.exists(file_path):
-    #        os.makedirs(file_path)
-    #    file_path = os.path.join(file_path, filename)
-    #    if not os.path.exists(file_path):
-    #        img = fetch_pic(url)
-    #        if img:
-    #            with open(file_path, 'w') as f:
-    #                img = pic_fit_width_cut_height_if_large(img, 721)
-    #                img.save(f, 'JPEG')
-    #            self.upload(file_path)
-    #    return self.domain%filename
-
-
     def upload(self, filename):
         path = os.path.join('/', self.spacename , os.path.basename(filename))
         connection = httplib.HTTPConnection(UPYUN_API_URL)

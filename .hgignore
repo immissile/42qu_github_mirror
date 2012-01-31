@@ -38,4 +38,6 @@ misc/crontab/spider/danxiangjie/*
 misc/crontab/spider/ucdchina/*
 misc/crontab/spider/test/*
 zkit/classification/test/*
+misc/crontab/event/yeeyan/*
 test/*
+misc/crontab/event/danxiangjie/*
