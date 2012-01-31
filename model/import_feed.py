@@ -42,15 +42,13 @@ STATE_ALLOWED = 2
 STATE_ALLOWED_WITHNO_AUTHOR = 3
 STATE_PO_IS_CREATED = 4 #is needed?
 
-def get_feed_2_edit(next=False):
+def get_feed_2_edit():
     feed = ImportFeed.where(state = STATE_INIT)
-    if next:
-        if len(feed)>1:
-            return feed[1]
-    else:
-        if feed:
-            return feed[0]
+    if len(feed)>1:
+        return feed[1]
 
+def rm_import_feed(id):
+    set_feed_state(id,STATE_DISALLOWED)
 
 def new_import_feed(title, body, author_id, url, src_id, state=STATE_INIT):
     body = format_txt(htm2txt(body))
@@ -62,6 +60,7 @@ def set_feed_state(id, state):
     feed = ImportFeed.get(id)
     if feed:
         feed.state = state
+        feed.save()
 
 def get_zsite_user_id(douban_user):
     zsite_id = 10001518

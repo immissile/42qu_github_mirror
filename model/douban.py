@@ -8,9 +8,9 @@
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, mc
 from zkit.htm2txt import htm2txt, unescape
 import re
-from kv_misc import kv_int,  KV_IMPORT_DOUBAN
 
 DOUBAN_FEED_STATE_TO_REIVEW = 10 #达到推荐门槛, 但未审核  
+DOUBAN_FEED_STATE_REVIEWED = 20
 
 CID_DOUBAN_FEED_NOTE = 1015
 CID_DOUBAN_FEED_TOPIC = 1013
@@ -162,7 +162,7 @@ def douban_feed_new(
 
     if not o.state:
         state = 0
-        if int(rec)+int(like) > 10 :
+        if int(rec)+int(like) > 20 :
             state = DOUBAN_FEED_STATE_TO_REIVEW
         o.state = state
     o.time = time
@@ -201,13 +201,10 @@ def title_normal(title):
     return title
 
 def get_most_rec_and_likes():
-    id = kv_int.get(KV_IMPORT_DOUBAN)
-    feed_list = DoubanFeed.where('`like` + `rec` >5000').where('id >%s',id)[:5]
-    if feed_list:
-        max_id = max([i.id for i in feed_list])
-        if max_id < DoubanFeed.max_id:
-            kv_int.set(KV_IMPORT_DOUBAN, max_id)
-
+    feed_list = DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW).where('`like` + `rec` >5000')[:5]
+    for i in feed_list:
+        i.state = DOUBAN_FEED_STATE_REVIEWED
+        i.save()
     return feed_list
 
 
@@ -215,6 +212,10 @@ def get_most_rec_and_likes():
 if __name__ == '__main__':
     pass
     #kv_int.set(KV_IMPORT_DOUBAN,0)
+    #get_most_rec_and_likes()
+    #for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_REVIEWED):
+    #    i.state = DOUBAN_FEED_STATE_TO_REIVEW
+    #    i.save()
     #print get_most_rec_and_likes()
     #print 'DoubanUser.count()', DoubanUser.count()
     #print 'DoubanFeed.count()', DoubanFeed.count()

@@ -4,6 +4,19 @@ from yajl import dumps
 from cgi import escape
 from model.import_feed import ImportFeed, STATE_INIT
 
+%>
+<%def name="htm_head()">
+<style>
+    #body
+    {
+        width:650px;
+        height:500px;
+    }
+</style>
+</%def>
+
+<%
+
 feed = ImportFeed.where(state = STATE_INIT)
 result={}
 if feed:
@@ -11,24 +24,6 @@ if feed:
     result['title'] = feed[0].title
     result['body'] = feed[0].body
     result['tags'] = 'empty'
-
-%>
-<%def name="htm_head()">
-<style>
-a.eventcat {
-    color:#999;
-    margin:8px 16px;
-}
-li{
-display:inline-block;
-}
-.oper{
-margin:0 10px;
-}
-</style>
-</%def>
-
-<%
 %>
 <script type="text/x-json" id="site_data">
     ${escape(dumps(result))|n}
@@ -43,7 +38,7 @@ margin:0 10px;
 
     <label for="body">正文</label>
     <br/>
-    <textarea id="body" name="body" rows="10" cols="30">{{html body}}</textarea>
+    <textarea id="body" name="body">{{html body}}</textarea>
     <br/>
 
     <label for="cid">种类</label>
@@ -77,28 +72,39 @@ margin:0 10px;
 </div>
 
 <button id="okbtn">Next</button>
+<button id="nobtn">Pass</button>
 
 <script type="text/javascript">
-    var data = $.parseJSON($("#site_data").html())
-    $("#editwrapper").html($("#render_txt").tmpl(data));
-    $.getJSON('/import_feed/next/1',function(r){
-                data['title']= r['title'];
-                data['body'] = r['body'];
-                data['tags'] = r['tags'];
-                data['id'] = r['id'];
-            })
+    var data = $.parseJSON($("#site_data").html());
+    
+    function refresh_data(r)
+    {
+        if(r!=null){
+        data['title']= r['title'];
+        data['body'] = r['body'];
+        data['tags'] = r['tags'];
+        data['id'] = r['id'];
+        }else{
+        data['title']= '';
+        data['body'] = '';
+        data['tags'] = '';
+        data['id'] = '';
+        }
+    }
 
-    $("#okbtn").click(
-            function(){
-            $("#editwrapper").html($("#render_txt").tmpl(data));
+$("#editwrapper").html($("#render_txt").tmpl(data));
+$.getJSON('/import_feed/next',refresh_data)
 
-            $.postJSON('/import_feed/next/1', $("#editform").serialize(),
-                function(r){
-                data['title']= r['title'];
-                data['body'] = r['body'];
-                data['tags'] = r['tags'];
-                data['id'] = r['id'];
-                });
-            });
+$("#okbtn").click(function(){
+        post_data = $("#editform").serialize();
+        $("#editwrapper").html($("#render_txt").tmpl(data));
+        $.postJSON('/import_feed/next',post_data ,refresh_data);
+        });
+
+$("#nobtn").click(function(){
+        post_data = $("#editform").serialize();
+        $("#editwrapper").html($("#render_txt").tmpl(data));
+        $.postJSON('/import_feed/rm',post_data ,refresh_data);
+        });
 
 </script>
