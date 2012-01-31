@@ -22,10 +22,13 @@ def replace_link(match, user_id):
     return g
 
 
-def url_short(url, user_id=0):
+def url_short(url, user_id=0, check_exist=True):
     url = url.strip()
     if url:
-        url_short = UrlShort.get_or_create(value=url, user_id=user_id)
+        if check_exist:
+            url_short = UrlShort.get_or_create(value=url, user_id=user_id)
+        else:
+            url_short = UrlShort(value=url, user_id=user_id)
         url_short.save()
         s_url_id = num_encode(url_short.id)
 
@@ -44,8 +47,6 @@ def url_short_by_id(id):
     return ""
 
 def url_short_txt(s, user_id=0):
-    #TODO remove
-    return s
 
     if type(s) is unicode:
         s = str(s)
@@ -58,4 +59,4 @@ if __name__ == '__main__':
 
 #print url_short_by_id('3T')
     #print url_short_txt('sfsdfsdf http://g.cn/df.png http://google.com https://mail.google.com/mail/u/0/#inbox/134ec4da6de5b5a7 https://mail.google.com/mail/u/0/#inbox')
-    print url_short("http://baidu.com")
+    print url_short_txt("http://baidu.com/x.html")

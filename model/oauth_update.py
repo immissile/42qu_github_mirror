@@ -11,7 +11,7 @@ import hashlib
 from zkit.txt import cnenoverflow
 from xml.sax.saxutils import escape, quoteattr
 from oauth_util import oauth_url, oauth_request_parameters, oauth_header, _oauth_escape
-from shorturl import shorturl
+from url_short import url_short
 from config import DOUBAN_CONSUMER_SECRET, DOUBAN_CONSUMER_KEY,\
 SINA_CONSUMER_SECRET, SINA_CONSUMER_KEY,\
 QQ_CONSUMER_SECRET, QQ_CONSUMER_KEY,\
@@ -367,7 +367,7 @@ def sync_by_oauth_id(oauth_id, txt, url=None, name=None):
     out = oauth_token_by_oauth_id(oauth_id)
     if out:
         cid, key, secret = out
-        url = shorturl(url)
+        url = url_short(url)
         if name:
             txt = '#%s# %s'%(name.replace(' ', '_'), txt)
 
