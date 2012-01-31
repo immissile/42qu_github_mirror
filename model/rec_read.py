@@ -1,5 +1,5 @@
 #coding:utf-8
-from _db import redis
+from _db import redis , McCache
 from zkit.zitertools import lineiter
 from zkit.algorithm.wrandom import limit_by_rank
 from time import time
@@ -24,7 +24,7 @@ REDIS_REC_CID = 'RecCid:%s'
 REDIS_REC_CID_POS = 'RecCid#%s'
 REDIS_REC_READ = 'RecRead:%s'
 REDIS_REC_LOG = 'RecLog:%s'
-
+mc_rec_lock = McCache("RecLock:%s")
 
 def rec_read(user_id, limit=7):
     key = REDIS_REC_READ%user_id
@@ -98,7 +98,9 @@ def rec_read_extend(user_id , id_score_list):
 
 
 def rec_read_log(user_id, limit=7, offset=0):
-    if offset == 0:
+    lock = mc_rec_lock.get(user_id) or 0
+    if offset == 0 and  lock <= 3:
+        mc_rec_lock.set(user_id, lock+1, 300)
         rec_read(user_id, limit)
 
     key = REDIS_REC_LOG%user_id
