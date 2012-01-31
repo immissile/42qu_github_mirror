@@ -66,12 +66,12 @@ function note_li(feed_index){
         '</div>'+
     '</div>'+
     '<div id="main_nav_title"></div>'+
-    '<div id="feed_loading"></div>'+
+    '<div id="read_loading"></div>'+
 '</div>'
         ),
         txt_title=txt_loading.find('#main_nav_title'),
         main_nav_txt=txt_loading.find('#main_nav_txt'),
-        feed_loading=txt_loading.find('#feed_loading'),
+        read_loading=txt_loading.find('#read_loading'),
         txt_opt=txt_loading.find('#main_nav_opt'),
         txt_body;
 
@@ -86,7 +86,7 @@ function note_li(feed_index){
             $("#fav"+fav.rel)[0].className = fav.className;
         }
 
-        txt_body.replaceWith(feed_loading)
+        txt_body.replaceWith(read_loading)
     }
 
     $('.readx').live('click',readx)
@@ -119,7 +119,7 @@ function note_li(feed_index){
             r.fav = $('#fav'+id)[0].className
 
             txt_body = $.tmpl('note_txt',r)
-            feed_loading.replaceWith(txt_body)
+            read_loading.replaceWith(txt_body)
             txt_opt.html(txt_body.find('.fdopt').html());
             winj.scrollTop(scrollTop)
         })
