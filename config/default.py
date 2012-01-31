@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import _env
 
 
 import yajl
 import json
-from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 
 json.dump = yajl.dump
 json.dumps = yajl.dumps
@@ -13,6 +11,8 @@ json.loads = yajl.loads
 json.load = yajl.load
 
 
+import _env
+from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 import zkit.cookie_morsel 
 from hmako.lookup import TemplateLookup
 import sys
