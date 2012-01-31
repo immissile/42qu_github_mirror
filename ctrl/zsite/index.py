@@ -30,7 +30,7 @@ def render_zsite_site(self, n=1, page_template='/-%s'):
 @urlmap('/live')
 class Live(ZsiteBase):
     def get(self):
-        self.redirect("/feed", True)
+        self.redirect('/feed', True)
 
 @urlmap('/feed')
 class Feed(LoginBase):

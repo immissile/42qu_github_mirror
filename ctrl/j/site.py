@@ -22,5 +22,5 @@ class Oauth(JLoginBase):
 @urlmap('/j/site/rec/new')
 class SiteRecNew(JLoginBase):
     def post(self):
-        self.finish("{}")
+        self.finish('{}')
         return

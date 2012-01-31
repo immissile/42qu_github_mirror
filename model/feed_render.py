@@ -130,7 +130,7 @@ def render_feed_list(id_list, zsite_id, rt_dict) :
         if id in rt_dict:
             for  v in rt_dict[id]:
                 entry = []
-                if v[2]>0:
+                if v[2] > 0:
                     zsite = Zsite.mc_get(v[2])
                     _name = zsite.name
                     _link = zsite.link
@@ -140,7 +140,7 @@ def render_feed_list(id_list, zsite_id, rt_dict) :
                     _link = '1'
                     _user_id = v[2]
 
-                entry.extend([_name,_link, _user_id,v])
+                entry.extend([_name, _link, _user_id, v])
                 out.append(entry)
 
         result = [
@@ -212,7 +212,7 @@ def render_feed_by_zsite_id(zsite_id, limit=MAXINT, begin_id=MAXINT):
             id = po.rid
             od = rt_dict[id]
             user_id = po.user_id
-            data = (po.id, po.txt,po.user_id)
+            data = (po.id, po.txt, po.user_id)
             od.append(data)
         else:
             id = po.id

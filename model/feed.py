@@ -16,7 +16,7 @@ mc_feed_iter = McCacheM('FeedIter:%s')
 mc_feed_tuple = McCacheM('F%s')
 mc_feed_rt_id = McCache('R%s')
 
-cursor = cursor_by_table('feed') 
+cursor = cursor_by_table('feed')
 class Feed(McModel):
     pass
 
@@ -55,16 +55,16 @@ def feed_rt_rm(zsite_id, rid):
             _id = id[0]
             cursor.execute('delete from feed where id=%s', _id)
             from po import po_rm
-            po_rm(zsite_id,_id)
+            po_rm(zsite_id, _id)
             cursor.connection.commit()
             mc_feed_iter.delete(zsite_id)
             mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
 
 def feed_rt(zsite_id, rid):
     feed = Feed.mc_get(rid)
-    if feed and not feed.cid==CID_REC and not feed_rt_id(zsite_id, rid):
+    if feed and not feed.cid == CID_REC and not feed_rt_id(zsite_id, rid):
         from po_recommend import po_recommend_new
-        po_recommend_new(rid,zsite_id,'')
+        po_recommend_new(rid, zsite_id, '')
         #feed_new(gid(), zsite_id, feed.cid, rid)
         mc_feed_rt_id.delete('%s_%s'%(zsite_id, rid))
 
@@ -151,5 +151,5 @@ def feed_merge_iter(
 if __name__ == '__main__':
     pass
 
-    id = 10204513 
+    id = 10204513
     feed_rm(id)

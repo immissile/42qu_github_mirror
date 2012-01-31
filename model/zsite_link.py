@@ -142,7 +142,7 @@ def link_list_cid_by_zsite_id(zsite_id, cid_name_dict=dict(OAUTH2NAME)):
     return link_list, link_cid
 
 if __name__ == '__main__':
-    
+
     from cid import CID_USER
     from user_mail import mail_by_user_id
     from zsite import Zsite
@@ -152,7 +152,7 @@ if __name__ == '__main__':
         link.extend([zs.zsite_id])
         sites[zs.link.rstrip('/')] = zs.zsite_id
     print len(link)
-    link = filter(lambda x:Zsite.mc_get(x).cid == CID_USER,link)
+    link = filter(lambda x:Zsite.mc_get(x).cid == CID_USER, link)
     print len(link)
     s = """
     http://zerolabrary.appspot.com
@@ -213,9 +213,9 @@ if __name__ == '__main__':
     http://weiye.info    
     """
     for i in s.split():
-        print i,mail_by_user_id(sites[i]) , sites[i]
-    #print link_id_cid(1)
-    #print link_id_name_by_zsite_id(1)
-    #print ZsiteLink.raw_sql('select max(id) from zsite_link').fetchone()
-    #pass
-    #print link_list_cid_by_zsite_id(67)
+        print i, mail_by_user_id(sites[i]) , sites[i]
+#print link_id_cid(1)
+#print link_id_name_by_zsite_id(1)
+#print ZsiteLink.raw_sql('select max(id) from zsite_link').fetchone()
+#pass
+#print link_list_cid_by_zsite_id(67)

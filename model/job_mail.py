@@ -78,12 +78,12 @@ def job_mail_verifyed(id, department_id=0):
 
 
 if __name__ == '__main__':
-    for i in JobMail.where(mail="dreamerunion@126.com"):
+    for i in JobMail.where(mail='dreamerunion@126.com'):
         print i
         job_mail_verifyed(i.zsite_id)
-   # zsite_id = 10163143
-   # department_id = 0
-   # jm = JobMail.get(zsite_id=zsite_id, department_id=department_id)
-   # print jm.mail
-   # mc_flush(zsite_id, department_id)
-   # print job_mail_if_exist(zsite_id)
+# zsite_id = 10163143
+# department_id = 0
+# jm = JobMail.get(zsite_id=zsite_id, department_id=department_id)
+# print jm.mail
+# mc_flush(zsite_id, department_id)
+# print job_mail_if_exist(zsite_id)

@@ -73,17 +73,17 @@ def tf_idf_by_zhihu():
             for j in l['answer']:
                 idf.append(j['answer'])
 
-    with open(join(current_path,"data/review.txt")) as review:
+    with open(join(current_path, 'data/review.txt')) as review:
         result = []
         for line in review:
             line = line.strip()
             if not line:
                 continue
-            if line.startswith(">->->"):
+            if line.startswith('>->->'):
                 if result:
-                    line = line.split(" ",5)
+                    line = line.split(' ', 5)
                     result.append(line[-1])
-                    txt = "\n".join(result)
+                    txt = '\n'.join(result)
                     idf.append(txt)
                     print line[1]
                     #print txt

@@ -19,7 +19,7 @@ class UserSchool(McModel):
     pass
 
 
-user_school_count = McNum(lambda school_id:UserSchool.raw_sql('select count(distinct(user_id)) from user_school where school_id=%s',school_id).fetchone()[0], 'UserSchoolCount:%s')
+user_school_count = McNum(lambda school_id:UserSchool.raw_sql('select count(distinct(user_id)) from user_school where school_id=%s', school_id).fetchone()[0], 'UserSchoolCount:%s')
 
 
 user_school_year_count = McNum(lambda school_id, year:UserSchool.where(school_id=school_id, school_year=year).count(), 'UserSchoolYearCount:%s')
@@ -109,12 +109,12 @@ def user_school_search(school_id, school_year, school_degree, school_department)
 
     user_school = UserSchool.where(school_id=school_id)
     if school_year and int(school_year):
-        user_school = user_school.where(school_year=school_year) 
+        user_school = user_school.where(school_year=school_year)
     #if school_degree:
     #    user_school = user_school.where(school_degree=school_degree) 
     if school_department and int(school_department):
         user_school = user_school.where(school_department=school_department)
-    id_list = user_school.col_list(col="user_id")
+    id_list = user_school.col_list(col='user_id')
     rank_dict = zsite_rank.get_dict(id_list)
     items = sorted(rank_dict.iteritems(), key=lambda x:-x[1])
     return Zsite.mc_get_list(i[0] for i in items)
@@ -123,8 +123,8 @@ def user_school_search(school_id, school_year, school_degree, school_department)
 if __name__ == '__main__':
     for i in SCHOOL_UNIVERSITY:
         #r = user_school_search(i, 0 , 0, 0)
-        t = user_school_search(i,0,0,0)
+        t = user_school_search(i, 0, 0, 0)
         if t:
             pass
             #print t
-            
+

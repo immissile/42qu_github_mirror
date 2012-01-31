@@ -311,7 +311,7 @@ class PoOne(ZsiteBase):
             po, zsite_tag_id
         )
 
-        buzz_reply_hide(user_id,po.id)
+        buzz_reply_hide(user_id, po.id)
 
         return self.render(
             self.template,

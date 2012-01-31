@@ -14,9 +14,9 @@ def LSS(x, y):
         else:
             return 0
 
-def ordered_LSS_list(txt,txt_list):
-    out = [ (i,LSS(txt,i)) for i in txt_list]
-    out.sort(key=lambda x:x[1],reverse=True)
+def ordered_LSS_list(txt, txt_list):
+    out = [ (i, LSS(txt, i)) for i in txt_list]
+    out.sort(key=lambda x:x[1], reverse=True)
     return out
 
 

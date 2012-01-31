@@ -10,22 +10,22 @@ def find_duplicate(txt):
     count = 0
     for i in feature_list:
         if Duplicate.mc_get(i):
-            count+=1
-        if len(feature_list)*0.618<count:
+            count += 1
+        if len(feature_list)*0.618 < count:
             return True
             break
     return False
 
 class Duplicate(McModel):
     @staticmethod
-    def insert(txt,id):
+    def insert(txt, id):
         feature_list = feature_md5(txt)
         for feature in feature_list:
             dul = Duplicate.get_or_create(id=feature)
             if not dul.doc_id_list:
-                dul.doc_id_list="%s"%id
+                dul.doc_id_list = '%s'%id
             else:
-                dul.doc_id_list+=" %s"%id
+                dul.doc_id_list += ' %s'%id
             dul.save()
 
 if __name__ == '__main__':

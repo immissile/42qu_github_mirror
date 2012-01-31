@@ -11,7 +11,7 @@ from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from model.user_mail import mail_by_user_id, user_mail_new
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
-from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE,  ZSITE_STATE_APPLY
+from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
 from model.user_auth import user_password_new, user_password_verify
 from cgi import escape
 from urlparse import parse_qs, urlparse
@@ -161,9 +161,9 @@ class UserInfoEdit(LoginBase):
         o = UserInfo.mc_get(current_user_id) or JsDict()
         c = namecard_get(current_user_id) or JsDict()
 
-        name=current_user.name
+        name = current_user.name
         if name.isdigit():
-            name = ""
+            name = ''
 
         self.render(
             name=name,
@@ -240,15 +240,15 @@ class Verify(LoginBase):
             if state >= ZSITE_STATE_VERIFY:
                 from model.zsite_url import url_by_id
                 if not url_by_id(current_user_id):
-                    link = "/i/url"
+                    link = '/i/url'
                 else:
                     link = '/'
                 return self.redirect(link)
             elif state <= ZSITE_STATE_APPLY:
                 return self.redirect('/auth/verify/sended/%s' % current_user_id)
 
-        self.render(ajust = ajust)
-    
+        self.render(ajust=ajust)
+
     post = get
 
 

@@ -19,7 +19,7 @@ import re
 class RssPo(object):
     def __init__(self, txt, user_id, title, pic_list, state):
         self.txt, self.user_id, self.title, self.pic_list, state = txt, user_id, title, pic_list, state
-    
+
 def htm2po_by_po(pre):
     txt = pre.txt.rstrip()
     if not txt:

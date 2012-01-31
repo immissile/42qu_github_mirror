@@ -16,7 +16,7 @@ def user_id_list_by_po_pos_buzz(po_id):
     return set(
         PoPos.where(
             po_id=po_id, state=STATE_BUZZ
-        ).col_list(col="user_id")
+        ).col_list(col='user_id')
     )
 
 
@@ -43,13 +43,13 @@ def po_buzz_list(po_id):
 
 def po_pos_mark(user_id, po):
     _po_pos(
-        user_id, po, STATE_MUTE, 
+        user_id, po, STATE_MUTE,
         'insert delayed into po_pos (user_id, po_id, pos, state) values (%s, %s, %s, %s) on duplicate key update pos=values(pos)'
     )
 
 def po_pos_set(user_id, po):
     _po_pos(
-        user_id, po, STATE_BUZZ, 
+        user_id, po, STATE_BUZZ,
         'insert delayed into po_pos (user_id, po_id, pos, state) values (%s, %s, %s, %s) on duplicate key update pos=values(pos), state=values(state)'
     )
 
@@ -60,7 +60,7 @@ def _po_pos(user_id, po, state, sql):
     if pos > pos_old:
         PoPos.raw_sql(
             sql,
-            user_id, po_id, pos, state 
+            user_id, po_id, pos, state
         )
         mc_po_pos.delete('%s_%s' % (user_id, po_id))
 
