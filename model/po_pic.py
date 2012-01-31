@@ -182,7 +182,7 @@ def pic_htm(htm, user_id, po_id):
 def pic_rss(htm, pic_list):
     htm = PIC_SPACE.sub(re_pic_space, htm)
     htm = PIC_SUB.sub(lambda x: re_pic2htm_list(x, pic_list), htm)
-    htm = htm.replace('\r\r', '</div><div class="p">')
+    htm = htm.replace('\r\r', '</div><div class="p">').replace("\r","\n")
     htm = '<div class="p">%s</div>' % htm
     return htm
 
