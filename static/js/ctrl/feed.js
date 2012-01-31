@@ -5,7 +5,9 @@ $('.fav').live('click', function() {
 	var self = this, pnum=$(self).prev();
 	self.className = 'faving'
 	$.postJSON('/j/feed/fav/' + this.rel, function() {
-		self.className = 'faved';
+
+		$('.fav'+this.rel).attr('className','faved');
+
         if(pnum.hasClass("pnum")){
             pnum.html(pnum.html()-0+1)
         }
@@ -15,7 +17,9 @@ $('.faved').live('click', function() {
 	var self = this, pnum=$(self).prev();
 	self.className = 'faving'
 	$.postJSON('/j/feed/unfav/' + this.rel, function() {
-		self.className = 'fav';
+
+		$('.fav'+this.rel).attr('className','fav');
+
         if(pnum.hasClass("pnum")){
             pnum.html(pnum.html()-1)
         }
