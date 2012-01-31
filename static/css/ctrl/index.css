@@ -478,3 +478,10 @@ vertical-align:-5px;
 .readl .zname{
 display:none;
 }
+#item_list{
+height:259px;
+background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
+}
+#item_list .readl{
+background:#fff;
+}
