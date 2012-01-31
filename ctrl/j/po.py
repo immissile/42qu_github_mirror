@@ -47,14 +47,14 @@ def post_reply(self, id):
 
 def _reply_list_dump(reply_list, can_admin, current_user_id):
     result = []
-    career_bind(reply_list, 'user_id')
+    career_bind(reply_list, "user_id")
     ico_url_bind_with_default(tuple(i.user for i in reply_list))
     pre_user_id = None
 
     for reply in reply_list:
         user = reply.user
         career = reply.career
-        career = ' , '.join(filter(bool, career))
+        career = " , ".join(filter(bool,career))
         if not career:
             career = 0
 
@@ -62,8 +62,8 @@ def _reply_list_dump(reply_list, can_admin, current_user_id):
 
 
         reply_tuple = (
-            reply.htm,
-            reply.id,
+            reply.htm, 
+            reply.id, 
             can_admin or reply.can_admin(current_user_id)
         )
 
@@ -75,18 +75,18 @@ def _reply_list_dump(reply_list, can_admin, current_user_id):
             )
 
         pre_user_id = user_id
-
+    
     return result
 
 class PoJsonBase(Base):
     def get(self, id):
         po = Po.mc_get(id)
-        cid = po.cid
+        cid = po.cid 
         r = {
             'cid':cid
         }
         if cid == CID_WORD:
-            reply_list = [ po ]
+            reply_list = [ po ] 
         else:
             reply_list = []
             r['name'] = po.name
@@ -115,7 +115,7 @@ def _po_reply_result(self, po, id, reply_list=None):
         result = _reply_list_dump( reply_list , po.can_admin(user_id), user_id)
     else:
         result = ()
-    return result
+    return result 
 
 @urlmap('/j/po/reply/json/(\d+)')
 class PoReplyJson(Base):

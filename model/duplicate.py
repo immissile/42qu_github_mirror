@@ -10,28 +10,28 @@ from array import array
 class DB_Kyoto(object):
     def __init__(self, db_file):
         self.db = DB()
-        self.db_file = db_file
+        self.db_file = db_file 
         if not self.db.open(db_file, DB.OWRITER | DB.OCREATE):
-            print >> sys.stderr, 'open error: ' + str(self.db.error())
+            print >>sys.stderr, "open error: " + str(self.db.error())
 
-    def set(self, txt, po_id):
+    def set(self,txt,po_id):
         feature_list = feature_md5(txt)
         for feature in feature_list:
             key = feature
             entry = self.get(key)
             if not entry:
-                val = array('L', [po_id])
-                if not self.db.set(key, val.tostring()):
-                    print >> sys.stderr, 'open error: ' + str(self.db.error())
+                val = array('L',[po_id])
+                if not self.db.set(key,val.tostring()):
+                    print >>sys.stderr, "open error: " + str(self.db.error())
             else:
-                val = array('L')
+                val  = array('L')
                 val.fromstring(entry)
                 val.append(po_id)
-                self.db.set(key, val.tostring())
+                self.db.set(key,val.tostring())
 
-    def get(self, key):
+    def get(self,key):
         po_id = self.db.get(key)
-        result = array('L')
+        result = array("L")
         result.fromstring(po_id)
         return result
 
@@ -40,7 +40,7 @@ dup_db = DB_Kyoto(DUMPLICATE_DB)
 def find_duplicate(txt):
     feature_list = feature_md5(txt)
     count = 0
-    result = set()
+    result = set() 
     for i in feature_list:
         db_get = dup_db.get(i)
         if db_get:

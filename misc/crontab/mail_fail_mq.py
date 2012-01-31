@@ -25,7 +25,7 @@ def main():
         out.append('\n******************************\n')
 
     if out:
-        sendmail('42qu.com failed mq %s'%now, ''.join(out), MQ_FAIL_MAIL_ADDR, name='failed_mq')
+        sendmail("42qu.com failed mq %s"%now, ''.join(out), MQ_FAIL_MAIL_ADDR, name='failed_mq')
 
 if __name__ == '__main__':
     main()

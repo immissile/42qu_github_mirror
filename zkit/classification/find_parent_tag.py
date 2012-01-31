@@ -12,7 +12,7 @@ class ParentTagger(object):
     def __init__(self):
         from generate_lib import TAG2ID
         self.word_to_id = TAG2ID.word_to_id()
-        self.word_to_id = dict([(unicode(k), v) for k, v in self.word_to_id.iteritems()])
+        self.word_to_id = dict([(unicode(k),v) for k,v in self.word_to_id.iteritems()])
 
         self.id_to_word = TAG2ID.id2word()
 
@@ -27,7 +27,7 @@ class ParentTagger(object):
         out = []
         for i in  set_list:
             out.append(self.word_to_id[i])
-            print self.word_to_id[i], i
+            print self.word_to_id[i],i
 
         return out
 

@@ -155,8 +155,8 @@ class ParseEventIndex(object):
             event = ImportDoubanEvent.get(id)
             if not event:
                 yield self.parse_event_page, link , id
-                ImportDoubanEvent(id=id, event_id=0).save()
-
+                ImportDoubanEvent(id=id,event_id=0).save()
+ 
     def parse_event_page(self, page, url, douban_event_id):
         title = txt_wrap_by('h1>', '</h1>', page)
         pic_url = txt_wrap_by('href="', '"', txt_wrap_by('class="album_photo"', '>', page))

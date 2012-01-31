@@ -141,8 +141,8 @@ def sync_recommend(id, po_id):
             if txt:
                 txt = '%s -> '%txt
             else:
-                txt = txt+'分享: '
-            sync_by_oauth_id(oauth_id, txt + cnencut(rec_po.name_, 50)  , 'http:%s'%rec_po.link)
+                txt = txt+"分享: "
+            sync_by_oauth_id(oauth_id, txt + cnencut(rec_po.name_,50)  , 'http:%s'%rec_po.link)
 
 
 def sync_follow_oauth_id_bind(user_id, cid, oauth_id):

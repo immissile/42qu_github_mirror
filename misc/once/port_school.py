@@ -12,9 +12,9 @@ user = defaultdict(list)
 
 
 for i in Career.where():
-    if i.unit == '单位':
+    if i.unit == "单位":
         print i.unit , i.title, i.id
-        if i.title == '头衔':
+        if i.title=="头衔":
             i.delete()
 
 #with open("exported2") as f:

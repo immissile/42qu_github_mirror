@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 def sp_txt(txt):
-    if str(txt).replace(' ', '').isalnum():
-        yield txt
+    if str(txt).replace(" ",'').isalnum():
+        yield txt 
     else:
-        txt = txt.decode('utf-8', 'ignore')
+        txt = txt.decode('utf-8','ignore')
         for i in range(len(txt)-1):
             yield txt[i:i+2]
 

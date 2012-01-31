@@ -107,10 +107,10 @@ http://hijava.42qu.com/
 http://10027580.42qu.com/
 http://10020850.42qu.com/
 """
-    zsite_id = 10186434
+    zsite_id = 10186434 
     from zsite_url import id_by_url
     for i in user.split():
-        url = i[7:i.find('.')]
+        url = i[7:i.find(".")]
         if url.isdigit():
             id = int(url)
         else:

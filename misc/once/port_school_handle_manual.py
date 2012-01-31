@@ -61,10 +61,10 @@ def handle(school):
             depDict = SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME
 
         dep_id = []
-        for k, v in depDict.iteritems():
-            mlen = find_lcs_len(name.encode('utf-8'), v.encode('utf-8'))
+        for k,v in depDict.iteritems():
+            mlen = find_lcs_len(name.encode('utf-8'),v.encode('utf-8'))
             if mlen > 3:
-                dep_id.append((k, mlen))
+                dep_id.append((k,mlen))
 
         dep_id.sort(key=lambda x:x[1])
 
@@ -72,45 +72,45 @@ def handle(school):
             dep_id = 0
         else:
             dep_id = dep_id[0][0]
-            print name, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[dep_id]
+            print name,SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[dep_id]
 
     return [school[0], school_id, dep_id]
 
 def main():
     w = open('verified', 'aw')
     handled = open('logging').read().split()
-    logging = open('logging', 'w')
-
+    logging = open('logging','w')
+    
     for i in handled:
-        logging.write('\n'+i)
+        logging.write("\n"+i)
 
     with open('logging2') as f:
         count = 0
         for school in f:
-            if str(count) not in handled and len(school) > 1:
+            if str(count) not in handled and len(school)>1:
                 print '====%s===='%str(count)
 
                 data = loads(school)
                 out = dumps(handle(data))
                 if out != 'null':
                     w.write('\n'+out)
-                logging.write('\n'+str(count))
+                logging.write("\n"+str(count))
             count += 1
 
 
 def ba():
-    a = open('verified')
-    b = open('logging2')
-    new = open('newestEx', 'w')
-    extraInfo = []
+    a = open("verified")
+    b = open("logging2")
+    new = open("newestEx","w")
+    extraInfo= []
     out = []
     for line in b:
         extraInfo.append(loads(line))
 
-    for pos, data in enumerate(a):
+    for pos,data in enumerate(a):
         olddata = loads(data)
-        olddata.extend([extraInfo[pos][3], extraInfo[pos][4]])
-        new.write(dumps(olddata)+'\n')
+        olddata.extend([extraInfo[pos][3],extraInfo[pos][4]])
+        new.write(dumps(olddata)+"\n")
 
 
 if __name__ == '__main__':

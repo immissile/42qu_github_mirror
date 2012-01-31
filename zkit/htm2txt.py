@@ -2,7 +2,7 @@
 
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 import htmlentitydefs, re
-from upyun import upyun_rsspic, upyun_fetch_pic
+from upyun import upyun_rsspic,upyun_fetch_pic
 BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
 
 _char = re.compile(r'&(\w+?);')

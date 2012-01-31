@@ -103,7 +103,7 @@ def zsite_user_state(zsite_id, user_id):
 
 
 if __name__ == '__main__':
-    zsite_admin_new(10126043, 10018800)
+    zsite_admin_new(10126043,10018800)
     #from model.zsite import Zsite
     #class ZsiteAdmin(McModel):
     #    pass

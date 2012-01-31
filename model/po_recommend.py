@@ -17,10 +17,10 @@ class RecRep(McModel):
     pass
 
 
-def rm_rec_po_by_po_id(user_id, id):
+def rm_rec_po_by_po_id(user_id,id):
     ''' DANGEROUS USE WITH CAUTION '''
-    for po in Po.where('cid = %s and rid=%s', CID_REC, id):
-        po_rm(po.user_id, po.id)
+    for po in Po.where('cid = %s and rid=%s',CID_REC,id):
+        po_rm(po.user_id,po.id)
 
 from mq import mq_client
 mq_rm_rec_po_by_po_id = mq_client(rm_rec_po_by_po_id)

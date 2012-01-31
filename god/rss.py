@@ -192,7 +192,7 @@ class RssPoEdit(Base):
         txt = self.get_argument('txt', None)
         rt = self.get_argument('rt', None)
         title = self.get_argument('name', None)
-        sync = self.get_argument('sync', None)
+        sync = self.get_argument('sync',None)
         po = RssPo.mc_get(id)
         po.txt = txt
         next = self.get_argument('next', None) or '/rss_index'
@@ -206,7 +206,7 @@ class RssPoEdit(Base):
         if title:
             po.title = title
         po.save()
-
+        
         if sync:
             site_sync_new(id)
         else:

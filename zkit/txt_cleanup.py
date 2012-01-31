@@ -81,8 +81,8 @@ def feature_md5(txt, limit=64):
 
 def sp_txt(txt):
 
-    if str(txt).replace(' ', '').isalnum():
-        yield txt
+    if str(txt).replace(" ",'').isalnum():
+        yield txt 
     else:
         for i in _line_iter(txt):
             for n in range(len(i)-1):
@@ -115,11 +115,11 @@ Use this command to anonymously check out the latest project source code:
     for i in sp_txt(txt1):
         print i
 
-#for i in feature(txt1):
-#    print i
+    #for i in feature(txt1):
+    #    print i
 
-#for i in feature_md5(txt1):
-#    print repr(i)
+    #for i in feature_md5(txt1):
+    #    print repr(i)
 #key md5 - value array doc_id
 #defaultdict doc_id[same_count]
 #feature_len

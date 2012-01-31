@@ -40,5 +40,5 @@ def urlfetch(url, data=None):
             print url
         traceback.print_exc()
 
-if __name__ == '__main__':
-    print urlfetch('http://google.com')
+if __name__=='__main__':
+    print urlfetch("http://google.com")
