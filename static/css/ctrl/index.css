@@ -414,7 +414,7 @@ margin-bottom:7px;
 .feed_rec .feedB{
 background:transparent;
 }
-.feed_rec .sd{
+#feeds .feed_rec .sd{
 padding: 0;
 }
 .feed_rec .feedB .sd{
@@ -443,3 +443,18 @@ background:url(/img/gif/x2.gif) no-repeat -51px 14px;
 .feedx:hover{
 background-position:-22px 14px;
 }
+.feedtab a{
+display:inline-block;
+color:#999;
+border-right:1px solid #eee;
+padding: 4px 14px;
+}
+#feeds .feed_rec .readl .title{
+margin-left:5px;
+}
+#feeds .feed_rec .readl .fdbar{
+margin-top:0;
+padding:5px 12px;
+border-top: 1px solid #eee;
+}
+
