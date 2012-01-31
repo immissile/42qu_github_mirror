@@ -114,7 +114,12 @@ function note_li(feed_index){
         if(main_nav_txt[0]){
             var top = main_nav_txt.offset().top, win=$(window).scroll(function() {
                 if(win.scrollTop() >= scrollTop+14){
-                    main_nav_txt.css({'position':'fixed',"marginTop":-scrollTop-14})
+                    main_nav_txt.css(
+                        {
+                            'position':'fixed',
+                            "marginTop":-scrollTop-14
+                        }
+                    )
                 }else{
                     main_nav_txt.css({'position':'absolute',"marginTop":"0"})
                 }
