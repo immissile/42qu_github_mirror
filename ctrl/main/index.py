@@ -12,7 +12,7 @@ class Index(Base):
         current_user = self.current_user
         if current_user:
             self.redirect(
-                '%s/live'%current_user.link
+                '%s/feed'%current_user.link
             )
         else:
             self.redirect('/login')
