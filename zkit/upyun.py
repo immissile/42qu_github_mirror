@@ -28,7 +28,7 @@ class UpYun(object):
         connection = httplib.HTTPConnection(UPYUN_API_URL)
         connection.request('PUT', path, data, self.headers)
         result = connection.getresponse()
-        print result.status, result.reason,self.domain%os.path.basename(path)
+        #print result.status, result.reason,self.domain%os.path.basename(path)
         return self.get_file_url(os.path.basename(path))
 
     def upload_img(self, path, img):

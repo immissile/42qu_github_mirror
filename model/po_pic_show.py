@@ -24,7 +24,6 @@ CREATE TABLE `zpage`.`pic_wall_pics` (
           )
 ENGINE = MyISAM;
 
-
 '''
 
 import _env

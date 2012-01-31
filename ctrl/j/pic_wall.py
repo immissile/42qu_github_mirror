@@ -11,7 +11,15 @@ class PicWall(JLoginBase):
     def get(self):
         user_id = self.current_user_id
         thumb , url, po = next_wall_pic(user_id)
-        self.write('<img src=%s />'%thumb)
-        self.write('<img src=%s />'%url)
+        result = [
+                thumb,
+                url,
+                po.name,
+                po.txt
+                ]
+        self.finish(dumps(result))
 
-        self.write('<a href="/%s">LINK</a>'%po.id)
+       # self.write('<img src=%s />'%thumb)
+       # self.write('<img src=%s />'%url)
+
+       # self.write('<a href="/%s">LINK</a>'%po.id)
