@@ -398,7 +398,7 @@ def po_note_new(user_id, name, txt, state=STATE_ACTIVE, zsite_id=0):
     name = name or time_title()
     if not is_same_post(user_id, name, txt, zsite_id):
         m = po_new(CID_NOTE, user_id, name, state, zsite_id=zsite_id)
-        txt_new(m.id, txt)
+        m.txt_set(txt)
         if state > STATE_SECRET:
             m.feed_new()
         return m
