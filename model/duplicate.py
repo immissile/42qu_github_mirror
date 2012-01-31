@@ -58,7 +58,6 @@ def find_duplicate(feature_list):
 def txt_is_duplicate(txt):
     feature_list = feature_md5(txt)
     found,count = find_duplicate(feature_list)
-    print len(feature_list),count
     if count>len(feature_list)*0.618:
         return True
     return False

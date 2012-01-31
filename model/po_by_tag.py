@@ -22,11 +22,10 @@ def zsite_tag_new_po(po, rank, zsite_id):
     tag_po = PoZsiteTag(po_id=po.id, cid=po.cid, zsite_id=zsite_id, rank=rank)
     tag_po.save()
 
-    author_list = zsite_list_get(po.user_id, zsite_id)
+    author_list = zsite_list_get(po.user_id, zsite_id, cid=CID_TAG)
     if not author_list:
         author_list = zsite_list_new(po.user_id, zsite_id, CID_TAG)
     else:
-        print '!'
         author_list.rank += 1
         author_list.save()
 

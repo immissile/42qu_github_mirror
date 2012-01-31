@@ -186,7 +186,9 @@ def zsite_list_sample(zsite_id, cid, k):
     )
 
 if __name__ == '__main__':
-    pass
-    from model.cid import CID_PRODUCT
-    for i in ZsiteList.where(cid=CID_PRODUCT):
-        i.delete()
+    #$pass
+    #$from model.cid import CID_PRODUCT
+    #$for i in ZsiteList.where(cid=CID_PRODUCT):
+    #$    i.delete()
+
+    print zsite_list_id_get(64278,51168,cid=6)
