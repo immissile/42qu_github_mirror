@@ -1,6 +1,6 @@
 b1024();
 function render_note(data){
-    _render_note("#feeds","#item_list", data)[0].style.borderTop=0;
+    _render_note("#feed_index","#item_list", data)[0].style.borderTop=0;
     $(".com_main,.com_side").show();
 }
 

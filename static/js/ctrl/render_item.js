@@ -15,13 +15,13 @@ $.template(
 )
 
 
-function _render_note(feeds, elem, data){
+function _render_note(feed_index, elem, data){
     var result = $.tmpl('note_li', data)
     result.find('.TPH').each(function(){
         this.href="//"+this.rel+HOST_SUFFIX
     })
     result.appendTo(elem);
-    note_li($(feeds))
+    note_li($(feed_index))
     return result
 }
 
@@ -48,17 +48,16 @@ $.template(
 )
 
 
-function note_li(feeds){
-    var feed_index=$("#feed_index"), 
+function note_li(feed_index){
+    var feeds=$(feed_index[0].parentNode), 
         scrollTop=feeds.offset().top-14,
         oldtop=-1,
         winj=$(window),
         txt_loading=$('<div><div class="main_nav" id="main_nav_txt"><div id="main_nav_in"><a href="javascript:void(0)" class="readx"></a><span id="main_nav_title"></span></div></div><div id="feed_loading"></div></div>'),
         txt_title=txt_loading.find('#main_nav_title'),
-        main_nav_txt = txt_loading.find('#main_nav_txt'),
+        main_nav_txt=txt_loading.find('#main_nav_txt'),
         feed_loading=txt_loading.find('#feed_loading'),
         txt_body;
-
     function readx(){
         txt_loading.remove()
         feed_index.show() 
