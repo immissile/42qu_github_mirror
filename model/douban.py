@@ -8,6 +8,7 @@
 from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, mc
 from zkit.htm2txt import htm2txt, unescape
 import re
+from kv_misc import kv_int,  KV_IMPORT_DOUBAN
 
 DOUBAN_FEED_STATE_TO_REIVEW = 10 #达到推荐门槛, 但未审核  
 
@@ -199,47 +200,61 @@ def title_normal(title):
             .strip()
     return title
 
+def get_most_rec_and_likes():
+    id = kv_int.get(KV_IMPORT_DOUBAN)
+    feed_list = DoubanFeed.where('`like` + `rec` >5000').where('id >%s',id)[:5]
+    if feed_list:
+        max_id = max([i.id for i in feed_list])
+        if max_id < DoubanFeed.max_id:
+            kv_int.set(KV_IMPORT_DOUBAN, max_id)
+
+    return feed_list
+
+
+
 if __name__ == '__main__':
     pass
-    print 'DoubanUser.count()', DoubanUser.count()
-    print 'DoubanFeed.count()', DoubanFeed.count()
+    #kv_int.set(KV_IMPORT_DOUBAN,0)
+    #print get_most_rec_and_likes()
+    #print 'DoubanUser.count()', DoubanUser.count()
+    #print 'DoubanFeed.count()', DoubanFeed.count()
 
-#    print DoubanUser.by_url('zuroc')
-#   from zweb.orm import ormiter
-#   for i in ormiter(DoubanUser):
-#       print i.id, i.name, i.url
-#    print dir(DoubanUser.table)
-#    print user_id_by_douban_url("catcabinet")
-#    print len("在非相对论系统中，粒子运动速度远小于光速，它们间的相互作用仍很频繁，参与相互作用的粒子数目较多")
-#    raise
-#    pass
-    is_douban_count = 0
-    not_douban_count = 0
+#   # print DoubanUser.by_url('zuroc')
+#   #from zweb.orm import ormiter
+#   #for i in ormiter(DoubanUser):
+#   #    print i.id, i.name, i.url
+#   # print dir(DoubanUser.table)
+#   # print user_id_by_douban_url("catcabinet")
+#   # print len("在非相对论系统中，粒子运动速度远小于光速，它们间的相互作用仍很频繁，参与相互作用的粒子数目较多")
+#   # raise
+#   # pass
+    #is_douban_count = 0
+    #not_douban_count = 0
 
-    for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW), key=lambda x:-x.rec-x.like):
-        txt = '\n'.join([i.title, i.htm])
-        is_douban = False
+    #for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW), key=lambda x:-x.rec-x.like):
+    #    txt = '\n'.join([i.title, i.htm])
+    #    is_douban = False
 
-        for word in ('豆瓣', '豆邮', '豆友', '?start=', '>http://www.douban.'):
-            if word in txt:
-                is_douban = True
-                break
+    #    for word in ('豆瓣', '豆邮', '豆友', '?start=', '>http://www.douban.'):
+    #        if word in txt:
+    #            is_douban = True
+    #            break
 
-        if is_douban:
-            is_douban_count += 1
-        else:
-            not_douban_count += 1
+    #    if is_douban:
+    #        is_douban_count += 1
+    #    else:
+    #        not_douban_count += 1
 
-        if not is_douban:
+    #    if not is_douban:
 
-            if i.cid == CID_DOUBAN_FEED_TOPIC:
-                link = 'http://www.douban.com/group/topic/%s'%i.rid
-            elif i.cid == CID_DOUBAN_FEED_NOTE:
-                link = 'http://www.douban.com/note/%s'%i.rid
+    #        if i.cid == CID_DOUBAN_FEED_TOPIC:
+    #            link = 'http://www.douban.com/group/topic/%s'%i.rid
+    #        elif i.cid == CID_DOUBAN_FEED_NOTE:
+    #            link = 'http://www.douban.com/note/%s'%i.rid
 
-            print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal(i.title), len(i.htm))
+    #        print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal(i.title), len(i.htm))
 
-    print is_douban_count, not_douban_count
+    #print is_douban_count, not_douban_count
 
 #
 ##    print DoubanUser.by_url('zuroc')

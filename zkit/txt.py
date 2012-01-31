@@ -83,6 +83,7 @@ def cnenoverflow(s, length):
 
 
 def format_txt(txt):
+    txt = str(txt)
     txt = txt.replace('　', ' ').replace('\r\n', '\n').replace('\r', '\n').rstrip().rstrip("\n")
     txt = map(str.strip, txt.split('\n'))
     result = []
