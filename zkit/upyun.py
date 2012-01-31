@@ -65,6 +65,8 @@ def upyun_fetch_pic(url):
     file_path, filename = builder_path(UPYUN_PATH_BUILDER, url)
     if not os.path.exists(file_path):
         img = fetch_pic(url)
+        if not img:
+            return url
         data = StringIO()
         if not url.endswith('gif'):
             img = pic_fit_width_cut_height_if_large(img, 721)
