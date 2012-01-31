@@ -60,10 +60,16 @@ if __name__ == '__main__':
 
 #print url_short_by_id('3T')
     #print url_short_txt('sfsdfsdf http://g.cn/df.png http://google.com https://mail.google.com/mail/u/0/#inbox/134ec4da6de5b5a7 https://mail.google.com/mail/u/0/#inbox')
-    print url_short_txt("""
-英文的学术叫法叫做 re-visit policy ( http://en.wikipedia.org/wiki/Web_crawler )
-简单的说, 就是通过历史的抓取页面更新, 预测下一次的抓取更新的时间
-http://oak.cs.ucla.edu/~cho/research/crawl.html 页面上有一个论文汇总 , 可以下载这些论文
-Ka Cheung Sia, Junghoo Cho "Efficient Monitoring Algorithm for Fast News Alert." Technical Report, UCLA Computer Science Department, June 2005.
-英文的学术叫法叫做 re-visit policy ( http://42qu.us/mJbJ )
-""")
+#    print url_short_txt("""
+#英文的学术叫法叫做 re-visit policy ( http://en.wikipedia.org/wiki/Web_crawler )
+#简单的说, 就是通过历史的抓取页面更新, 预测下一次的抓取更新的时间
+#http://oak.cs.ucla.edu/~cho/research/crawl.html 页面上有一个论文汇总 , 可以下载这些论文
+#Ka Cheung Sia, Junghoo Cho "Efficient Monitoring Algorithm for Fast News Alert." Technical Report, UCLA Computer Science Department, June 2005.
+#英文的学术叫法叫做 re-visit policy ( http://42qu.us/mJbJ )
+#""")
+    for i in UrlShort.where():
+        v = i.value
+        if "42qu.us" in v and "360b" in v:
+            print v
+            i.delete()
+    print i.count()
