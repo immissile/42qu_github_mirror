@@ -37,7 +37,8 @@ $.template(
         '</div>'+
     '</pre>'+
     '<div class="fdbar">'+
-        '<span class="L"><span class="fdopt">'+
+        '<a href="javascript:void(0)" class="readx"></a>'+
+        '<span><span class="fdopt">'+
             '<a class="${fav}" href="javascript:void(0)" rel="${id}"></a>'+
                 '<span class="split">-</span>'+
             '<a href="javascript:share(${id});void(0)" class="vote">推荐</a>'+
@@ -57,7 +58,7 @@ function note_li(feed_index){
         oldtop=-1,
         winj=$(window),
         txt_loading=$(
-'<div>'+
+'<div class="readpad">'+
     '<div class="main_nav" id="main_nav_txt">'+
         '<div id="main_nav_in">'+
             '<div id="main_nav_opt"></div>'+

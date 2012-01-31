@@ -458,7 +458,10 @@ padding:3px 14px;
 #main_nav_in{
 padding:4px 20px;
 }
-.prebody,#main_nav_title{
+#feeds .readpad .fdbar{
+margin-bottom:7px;
+}
+.prebody,#main_nav_title, #feeds .readpad .fdbar{
 padding-left:20px;
 padding-right:20px;
 }

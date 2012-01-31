@@ -642,7 +642,7 @@ border-bottom: 1px dotted #ccc;
 .main_nav a{
     color:#999;
 }
-#feeds .main_nav .split{
+#feeds .readpad .split{
 margin:0 14px;
 }
 .main_nav2{
@@ -653,4 +653,16 @@ margin-left:-12px;
 }
 .main_nav .now{
     color:#666;
+}
+.readpad .fdbar{
+margin-bottom:0;
+padding-top:7px;
+}
+.fdbar .readx{
+    float:left;
+    margin-left:1px;
+    margin-top:11px;
+}
+.readpad .fdbar .fdopt{
+margin-right:1px;
 }
