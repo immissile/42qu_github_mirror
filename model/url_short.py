@@ -34,7 +34,7 @@ def url_short(url, user_id=0, check_exist=True):
 
         link = '%s/%s' % (SHORT_LINK, s_url_id)
         return link
-    return ""
+    return ''
 
 def url_short_by_key(key):
     id = num_decode(key)
@@ -44,13 +44,13 @@ def url_short_by_id(id):
     url = UrlShort.get(id)
     if url:
         return url.value
-    return ""
+    return ''
 
 def url_short_txt(s, user_id=0):
 
     if type(s) is unicode:
         s = str(s)
-    s = RE_LINK_TARGET.sub(lambda match:replace_link(match,user_id), s)
+    s = RE_LINK_TARGET.sub(lambda match:replace_link(match, user_id), s)
     return s
 
 if __name__ == '__main__':
@@ -59,4 +59,9 @@ if __name__ == '__main__':
 
 #print url_short_by_id('3T')
     #print url_short_txt('sfsdfsdf http://g.cn/df.png http://google.com https://mail.google.com/mail/u/0/#inbox/134ec4da6de5b5a7 https://mail.google.com/mail/u/0/#inbox')
-    print url_short_txt("http://baidu.com/x.html")
+    print url_short_txt("""
+英文的学术叫法叫做 re-visit policy ( http://en.wikipedia.org/wiki/Web_crawler )
+简单的说, 就是通过历史的抓取页面更新, 预测下一次的抓取更新的时间
+http://oak.cs.ucla.edu/~cho/research/crawl.html 页面上有一个论文汇总 , 可以下载这些论文
+Ka Cheung Sia, Junghoo Cho "Efficient Monitoring Algorithm for Fast News Alert." Technical Report, UCLA Computer Science Department, June 2005.
+""")
