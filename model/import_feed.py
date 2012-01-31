@@ -4,8 +4,7 @@
 '''
 CREATE TABLE  `zpage`.`import_feed` (
   `id` int(11) NOT NULL auto_increment,
-  `title` varbinary(256) NOT NULL,
-  `body` blob NOT NULL,
+  `title` varbinary(256) NOT NULL, `body` blob NOT NULL,
   `author_id` int(11) NOT NULL,
   `url` varbinary(1024) NOT NULL,
   `state` int(11) NOT NULL,
@@ -44,6 +43,16 @@ STATE_ALLOWED = 2
 STATE_ALLOWED_WITHNO_AUTHOR = 3
 STATE_PO_IS_CREATED = 4 #is needed?
 
+def get_feed_2_edit(next=False):
+    feed = ImportFeed.where(state = STATE_INIT)
+    if next:
+        if len(feed)>1:
+            return feed[1]
+    else:
+        if feed:
+            return feed[0]
+
+
 def new_import_feed(title, body, author_id, url, src_id, state=STATE_INIT):
     body = format_txt(htm2txt(body))
     new_feed = ImportFeed(title=title, body=body, author_id=author_id, url=url, state=state , src_id = src_id)
@@ -56,11 +65,11 @@ def set_feed_state(id, state):
         feed.state = state
 
 def get_zsite_user_id(douban_user):
-    zsite_id = 0
+    zsite_id = 10001518
     if douban_user:
         douban_username = douban_user.name
         #TODO: get zsite_user_id
-        zsite_id = 10000000
+        zsite_id = 10001518
     return zsite_id
 
 def get_feed_domain_zsite_id(url):
@@ -72,20 +81,26 @@ def allow_feed(id, erase_author=False):
     feed = ImportFeed.get(id)
     if feed:
         if erase_author:
+            zsite_id = 0
             user_id = 0
             po_rid = 0
-            zsite_id = 0
+            feed.state = STATE_ALLOWED_WITHNO_AUTHOR
         else:
             douban_user = DoubanUser.get(feed.author_id)
             user_id = get_zsite_user_id(douban_user)
             if user_id == 0:
                 zsite_id = get_feed_domain_zsite_id(feed.url)
                 po_rid = feed.author_id
+            else:
+                zsite_id = 0
+            feed.state = STATE_ALLOWED
 
-        body = txt_img_fetch(body)
+        feed.save()
+        body = txt_img_fetch(feed.body)
         po = po_note_new(user_id, feed.title, body, zsite_id = zsite_id)
-        import_record.set(po.id, feed.src_id)
-        return po
+        if po:
+            import_record.set(po.id, feed.src_id)
+            return po
 
 def fetch_feed():
     for i in get_most_rec_and_likes():
@@ -93,5 +108,5 @@ def fetch_feed():
 
 if __name__ == '__main__':
     pass
-    #fetch_feed()
+    fetch_feed()
 
