@@ -278,8 +278,8 @@ if __name__ == '__main__':
     #result = rec_read_log(user_id, 7, 0)
     #print result , len(result)
 
-    for i in REDIS_REC_CID_DICT:
-        redis.delete(REDIS_REC_CID%i)
+    #for i in REDIS_REC_CID_DICT:
+    #    redis.delete(REDIS_REC_CID%i)
 #    print len(REC_USER_CID_RANK_DEFAULT)
 #    print REC_USER_CID_RANK_DEFAULT
 #    print type(REC_USER_CID_RANK_DEFAULT[0])
