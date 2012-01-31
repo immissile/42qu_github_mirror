@@ -128,7 +128,6 @@ class="sitefav${$data[7]}"></a>
 </div>
 
 
-<script src="${js.ctrl_tag}"></script>
 <script id="render_item" type="text/x-jquery-tmpl"><%text>
 <div class="readl c">
 <a rel="${$data[0]}" href="javascript:void(0)"
@@ -145,6 +144,7 @@ class="fav{{if $data[5]}}ed{{/if}}"></a>
 </div>         
 </div>
 </%text></script>
+<script src="${js.ctrl_tag}"></script>
 <script>render_item(${json_encode(items)|n}) </script>
 
 

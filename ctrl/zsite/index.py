@@ -27,15 +27,23 @@ def render_zsite_site(self, n=1, page_template='/-%s'):
     return li, page
 
 
-@urlmap('/live')
-class Live(ZsiteBase):
-    def get(self):
-        self.redirect("/feed", True)
+#@urlmap('/live')
+#class Live(ZsiteBase):
+#    def get(self):
+#        self.redirect("/feed", True)
 
 @urlmap('/feed')
 class Feed(LoginBase):
     def get(self):
-        self.render()
+        current_user_id = self.current_user_id
+
+        from model.po_by_tag import po_by_tag
+ 
+        self.render(
+            rec_item_list= po_by_tag(1, current_user_id, 1)*7
+        )
+
+
 
 @urlmap('/')
 @urlmap('/-(\d+)')
