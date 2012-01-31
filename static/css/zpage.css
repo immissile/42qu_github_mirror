@@ -583,7 +583,6 @@ text-align:right;
 padding: 5px 2px; 
 }
 .readl .zname{
-width:118px;
 overflow:hidden;
 float:right;
 height:26px;
@@ -592,6 +591,5 @@ height:26px;
 float:left;
 height:28px;
 overflow:hidden;
-width:520px;
 text-align:left;
 }
