@@ -71,7 +71,6 @@ def rec_read(user_id, limit=7):
     diff = limit - count
 
     while diff > 0:
-        #print 'while diff', diff
         result = rec_read_cid(user_id, limit)
         if not result:
             break
@@ -100,7 +99,8 @@ def rec_read_extend(user_id , id_score_list):
 
 def rec_read_page(user_id, limit=7, offset=0):
     lock = mc_rec_lock.get(user_id) or 0
-    if offset == 0 and  lock <= 3:
+
+    if offset == 0 and  lock <= 5 or 1: #:
         mc_rec_lock.set(user_id, lock+1, 300)
         rec_read(user_id, limit)
 
@@ -264,7 +264,6 @@ if __name__ == '__main__':
     from model.po import Po
     #   rec_read_extend(user_id, [(1, 1), (2, 2)])
 #    print rec_read_page(user_id,1)
-    #print rec_read_empty(user_id)
     #print rec_cid_pos_by_user_id(user_id)
     #rec_cid_pos_update(user_id, ((1, 1), ))
     #cid = 1
@@ -279,4 +278,7 @@ if __name__ == '__main__':
 #    print len(REC_USER_CID_RANK_DEFAULT)
 #    print REC_USER_CID_RANK_DEFAULT
 #    print type(REC_USER_CID_RANK_DEFAULT[0])
-    print po_json_by_rec_read(user_id)
+    #print rec_read_empty(user_id)
+    #print po_json_by_rec_read(user_id)
+
+    print rec_read_cid(user_id, 3)
