@@ -410,15 +410,20 @@ border:1px dotted #ccc;width:715px;height:80px;
 padding:2px 3px;
 margin-bottom:7px;
 }
-#feed_rec .feedB{
+
+.feed_rec .feedB{
 background:transparent;
 }
-#feed_rec .feedB .sd{
-line-height:0;
+.feed_rec .sd{
 padding: 0;
 }
-#feed_rec .feedB .sd img{
-width: 211px; padding: 3px; height: 311px;
+.feed_rec .feedB .sd{
+line-height:0;
+}
+.feed_rec .feedB .sd img{
+width:211px; 
+padding:3px;
+height: 311px;
 }
 .recimgtit{
 font-size: 12px;
