@@ -25,7 +25,7 @@ def replace_link(match, user_id):
 def url_short(url, user_id=0):
     url = url.strip()
     if url:
-        url_short = UrlShort(value=url, user_id=user_id)
+        url_short = UrlShort.get_or_create(value=url, user_id=user_id)
         url_short.save()
         s_url_id = num_encode(url_short.id)
 
