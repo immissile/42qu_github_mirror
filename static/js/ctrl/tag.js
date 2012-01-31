@@ -120,8 +120,6 @@ function render_item(data){
         return false; 
     })
 
-
-
     if(!IE6){
         if(main_nav_txt[0]){
             var top = main_nav_txt.offset().top, win=$(window).scroll(function() {

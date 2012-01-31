@@ -19,6 +19,7 @@ $('.fav').live('click', function() {
         }
 	})
 })
+
 $('.faved').live('click', function() {
 	var self = $(this), pnum=$(self).prev(),url;
 

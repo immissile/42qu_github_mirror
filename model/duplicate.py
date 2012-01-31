@@ -32,7 +32,8 @@ class DB_Kyoto(object):
     def get(self,key):
         po_id = self.db.get(key)
         result = array("L")
-        result.fromstring(po_id)
+        if po_id:
+            result.fromstring(po_id)
         return result
 
 dup_db = DB_Kyoto(DUMPLICATE_DB)
@@ -57,7 +58,7 @@ adfdfdfasdfasd f asd fas
 
 asdfasdf　　对比近asdfasdf几年的春晚开场，虎年春晚以歌舞大联欢引导主持出场，兔年春晚则主打“山楂树组合”，到龙年春晚由王珞丹等“新鲜”面孔混搭朱军、李咏、老毕组成的“霸气男人帮”阵容，“鲜”字概念逐年突显。
 '''
-    #dup_db.set(a,3)
+    #dup_db.set(a,2)
     print find_duplicate(a)
 
     #from po import Po

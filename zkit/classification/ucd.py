@@ -11,9 +11,9 @@ from zkit.htm2txt import htm2txt
 from yajl import loads
 from model.po_by_tag import PoZsiteTag, zsite_tag_new_po, get_or_create_tag
 from model.po import po_note_new, Po
+from model.duplicate import find_duplicate
 
 CURRNET_PATH = path.dirname(path.abspath(__file__))
-
 
 def main():
     dic = fromfile(path.join(CURRNET_PATH, 'tag2id'))
@@ -35,7 +35,6 @@ def parse_data():
             for tag in tag_list:
                 _tag = get_or_create_tag(tag[0])
                 zsite_tag_new_po(po, float(tag[1]), _tag.id)
-
 
 if __name__ == '__main__':
     parse_data()
