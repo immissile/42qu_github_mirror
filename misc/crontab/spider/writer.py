@@ -15,17 +15,19 @@ class Spider(Model):
     @staticmethod
     def insert(title, tags, content, author, rating, url, reply_list, pic_list):
         key = url_key_builder(url)
-        entry = Spider.get_or_create(url_hash=key)
-        entry.title = title
-        entry.tags = dumps(tags)
-        entry.content = content
-        entry.author = author
-        entry.rating = rating
-        entry.url = url
-        entry.url_hash = key
-        entry.reply_list = dumps(reply_list)
-        entry.pic_list = dumps(pic_list)
-        entry.save()
+        if not Spider.get(url_hash=key):
+            entry = Spider()
+            entry.title = title
+            entry.tags = dumps(tags)
+            entry.content = content
+            entry.author = author
+            entry.rating = rating
+            entry.url_hash = key
+            entry.url = url
+            entry.url_hash = key
+            entry.reply_list = dumps(reply_list)
+            entry.pic_list = dumps(pic_list)
+            entry.save()
 
 def url_is_fetched(url):
     key = url_key_builder(url)

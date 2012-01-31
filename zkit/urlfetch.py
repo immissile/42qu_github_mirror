@@ -29,6 +29,16 @@ def retry(func):
 
 @retry
 def urlfetch(url, data=None):
-    r = urlopen(url, data, timeout=30)
-    c = r.read()
-    return c
+    try:
+        r = urllib2.urlopen(url, data, timeout=30)
+        c = r.read()
+        return c
+    except:
+        if isinstance(url, urllib2.Request):
+            print url.get_full_url()
+        else:
+            print url
+        traceback.print_exc()
+
+if __name__=='__main__':
+    print urlfetch("http://google.com")

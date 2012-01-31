@@ -7,7 +7,8 @@ from po import po_note_new
 from douban import DoubanUser
 from zkit.htm2txt import htm2txt
 from zkit.txt import format_txt
-
+from zkit.txt_img_fetch import txt_img_fetch
+from 
 
 class ImportFeed(Model):
     pass
@@ -55,7 +56,8 @@ def allow_feed(id, erase_author=False):
                 zsite_id = get_feed_domain_zsite_id(feed.url)
                 po_rid = feed.author_id
         body = format_txt(htm2txt(feed.body))
-        po_note_new(user_id, feed.title, feed.body, zsite_id = zsite_id)
+        body = txt_img_fetch(body)
+        po_note_new(user_id, feed.title, body, zsite_id = zsite_id)
 
 
 
