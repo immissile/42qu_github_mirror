@@ -99,7 +99,7 @@ def rec_read(user_id, limit=7):
 def rec_read_extend(user_id , id_score_list):
     return redis.zadd(REDIS_REC_READ%user_id, *lineiter(id_score_list))
 
-def rec_read_more(user_id):
+def rec_read_more(user_id, limit):
     lock = mc_rec_lock.get(user_id) or 0
 
     if lock < 3 :
@@ -107,13 +107,13 @@ def rec_read_more(user_id):
         return rec_read(user_id, limit)
 
 def rec_read_lastest(user_id, limit=7):
-    if rec_read_more(user_id):
+    if rec_read_more(user_id, limit):
         return rec_read_by_user_id(user_id, limit)
-    return (,)
+    return ()
 
 def rec_read_page(user_id, limit=7, offset=0):
     if offset==0:
-        rec_read_more(user_id)
+        rec_read_more(user_id, limit)
     return rec_read_by_user_id(user_id, limit, offset)
 
 
