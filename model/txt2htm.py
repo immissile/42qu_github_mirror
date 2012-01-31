@@ -127,7 +127,8 @@ if __name__ == '__main__':
 图:http://img3.douban.com/lpic/s7044274.jpg  图:http://img3.douban.com/lpic/s704427411.jpg 
 图:http://img3.douban.com/lpic/s7044274.jpg                                        
 http://img3.douban.com/lpic/s7044274.jpg
-    ''').decode("utf-8","ignore")
+xxx[[http://img3.douban.com/lpic/s7044274]]
+    ''').decode('utf-8', 'ignore')
 
 #    print txt_withlink("""
 #输出 :
