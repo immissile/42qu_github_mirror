@@ -26,10 +26,13 @@ REDIS_REC_LOG = 'RecLog:%s'
 REDIS_REC_RANK = 'RecRank:%s'
 mc_rec_lock = McCache('RecLock:%s')
 
+def time_now():
+    return int(time() - 1327823396)
+
 def rec_read(user_id, limit=7):
     key = REDIS_REC_READ%user_id
 
-    now = int(time() - 1327823396)
+    now = time_now()
 
     if limit < 0:
         limit = 0
@@ -132,13 +135,16 @@ def rec_read_empty(user_id):
 
 #rec cid
 
-def rec_cid_extend(cid, id_time_list):
-    cid = int(cid)
+def rec_cid_push(cid, id):
+    return redis.zadd(REDIS_REC_CID%cid, id, time_now())
 
-    if cid not in REDIS_REC_CID_DICT:
-        return
-
-    return redis.zadd(REDIS_REC_CID%cid, *lineiter(id_time_list))
+#def rec_cid_extend(cid, id_time_list):
+#    cid = int(cid)
+#
+#    if cid not in REDIS_REC_CID_DICT:
+#        return
+#
+#    return redis.zadd(REDIS_REC_CID%cid, *lineiter(id_time_list))
 
 REC_USER_CID_RANK_DEFAULT_FOR_MAN = [0.25/REDIS_REC_CID_LEN]
 REC_USER_CID_RANK_DEFAULT_FOR_WOMAN = [2.0/REDIS_REC_CID_LEN]
@@ -256,6 +262,9 @@ def rec_read_cid(user_id, limit):
 if __name__ == '__main__':
     user_id = 10000000
     from model.po import Po
+    #rec_cid_push(2, 3)
+    #print redis.zrange(REDIS_REC_CID%2, 0, 11)
+
     #   rec_read_extend(user_id, [(1, 1), (2, 2)])
 #    print rec_read_log(user_id,1)
     #print rec_read_empty(user_id)
@@ -273,4 +282,4 @@ if __name__ == '__main__':
 #    print len(REC_USER_CID_RANK_DEFAULT)
 #    print REC_USER_CID_RANK_DEFAULT
 #    print type(REC_USER_CID_RANK_DEFAULT[0])
-    print rec_user_cid_rank(user_id)
+    #print rec_user_cid_rank(user_id)
