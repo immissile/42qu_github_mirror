@@ -93,7 +93,6 @@ function note_li(feed_index){
         $.get(
         "/j/po/json/"+id,
         function(r){
-
             r.id=id
             r.user_name=user.html()
             r.link = user_link+id
