@@ -43,6 +43,9 @@ def user_info_new(
     o.save()
     return o
 
+#1为男 , 2为女
+def user_sex
+
 if __name__ == '__main__':
     pass
     n = UserInfo.mc_get(10001299)

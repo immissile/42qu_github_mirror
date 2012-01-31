@@ -23,6 +23,7 @@ REDIS_REC_CID = 'RecCid:%s'
 REDIS_REC_CID_POS = 'RecCid#%s'
 REDIS_REC_READ = 'RecRead:%s'
 REDIS_REC_LOG = 'RecLog:%s'
+REDIS_REC_RANK = 'RecRank:%s'
 mc_rec_lock = McCache("RecLock:%s")
 
 def rec_read(user_id, limit=7):
@@ -138,13 +139,30 @@ def rec_cid_extend(cid, id_time_list):
 
     return redis.zadd(REDIS_REC_CID%cid, *lineiter(id_time_list))
 
-REC_USER_CID_RANK_DEFAULT = [
-    float(i)/REDIS_REC_CID_LEN
-    for i in xrange(1, REDIS_REC_CID_LEN)
-]
+REC_USER_CID_RANK_DEFAULT_FOR_MAN = [0.25/REDIS_REC_CID_LEN]
+REC_USER_CID_RANK_DEFAULT_FOR_WOMAN = [2.0/REDIS_REC_CID_LEN]
+REC_USER_CID_RANK_DEFAULT_FOR_0 = [1.0/REDIS_REC_CID_LEN]
+def redis_rec_cid_rank_default(rank):
+    total = REDIS_REC_CID_LEN - 1
+    begin = rank[0]
+    base = (1-begin)/total
+    rank.extend([
+        i*base+begin
+        for i in xrange(1, total)
+    ])
+
+REC_USER_CID_RANK_DEFAULT = (
+    REC_USER_CID_RANK_DEFAULT_FOR_0,
+    REC_USER_CID_RANK_DEFAULT_FOR_MAN,
+    REC_USER_CID_RANK_DEFAULT_FOR_WOMAN
+)
+
+map(redis_rec_cid_rank_default,REC_USER_CID_RANK_DEFAULT)
 
 
 def rec_user_cid_rank(user_id):
+    from model.user_info import user_info_get
+    #REDIS_REC_RANK
     return REC_USER_CID_RANK_DEFAULT
 
 def rec_user_cid_limit(user_id, limit):
@@ -238,5 +256,8 @@ if __name__ == '__main__':
     #result = rec_read_log(user_id, 7, 0)
     #print result , len(result)
 
-    for i in REDIS_REC_CID_DICT:
-        redis.delete(REDIS_REC_CID_POS%i)
+    #for i in REDIS_REC_CID_DICT:
+    #    redis.delete(REDIS_REC_CID_POS%i)
+    print len(REC_USER_CID_RANK_DEFAULT)
+    print REC_USER_CID_RANK_DEFAULT
+
