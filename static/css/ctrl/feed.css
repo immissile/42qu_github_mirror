@@ -109,6 +109,9 @@ color:#999;
 .reado, .reado span, .reado div{
 cursor:pointer;
 }
+.reado{
+height:32px;
+}
 .readl{
 height:32px;
 line-height:32px;

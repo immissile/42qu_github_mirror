@@ -1,8 +1,8 @@
 $.template(
     'note_li',
     '<div class="readl c">'+
-        '<a rel="${$data[0]}" href="javascript:void(0)" id="fav${$data[0]}" class="fav${$data[0]} fav{{if $data[5]}}ed{{/if}}"></a>'+
         '<div id="reado${$data[0]}" class="reado">'+
+            '<a rel="${$data[0]}" href="javascript:void(0)" id="fav${$data[0]}" class="fav${$data[0]} fav{{if $data[5]}}ed{{/if}}"></a>'+
             '<span class="reada">'+
                 '<span class="title">${$data[1]}</span>'+
                 '<span class="rtip">${$data[2]}</span>'+
@@ -92,13 +92,14 @@ function note_li(feed_index){
         }
     })
 
-    $('.reado').live('click',function(){
+    $('.reada').live('click',function(){
         scrollTop = feeds.offset().top-14
         feed_index.hide();
-        var self=$(this), 
+        var p = this.parentNode,
+            self=$(p), 
             title=self.find('.title').addClass('c9'), 
-            id=this.id.slice(5), 
-            user=$(this.parentNode).find('.TPH'),
+            id=p.id.slice(5), 
+            user=$(p.parentNode).find('.TPH'),
             user_link=user[0].href
             ;
         feeds.append(txt_loading);

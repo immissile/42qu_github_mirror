@@ -1,4 +1,5 @@
-$('.fav').live('click', function() {
+$('.fav').live('click', function(e) {
+    e.stopPropagation()
 	if (!$.cookie.get('S')) {
 		return login();
 	}
@@ -14,7 +15,8 @@ $('.fav').live('click', function() {
         }
 	})
 })
-$('.faved').live('click', function() {
+$('.faved').live('click', function(e) {
+    e.stopPropagation()
 	var self = this, pnum=$(self).prev(), id=this.rel, c = 'fav fav'+id;
 	self.className = 'faving'
 	$.postJSON('/j/feed/unfav/' + this.rel, function() {
