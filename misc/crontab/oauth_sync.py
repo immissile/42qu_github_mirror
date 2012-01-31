@@ -47,7 +47,7 @@ def _sync_join_event(begin_id):
 def _sync_recommend(begin_id):
     for i in ormiter(Feed,
         'id>%s and cid=%s'%(
-            begin_id, CID_REC
+            begin_id,CID_REC
         )
     ):
         begin_id = i.id

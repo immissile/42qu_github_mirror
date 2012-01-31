@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import _env
 
-import zkit.cookie_morsel
+import zkit.cookie_morsel 
 
 import yajl
 import json
@@ -20,7 +20,7 @@ from os.path import join
 from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 
 def prepare(o):
-
+    
 #    o.REDIS_DB = redis.Redis()
     o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
@@ -33,7 +33,7 @@ def prepare(o):
     o.MYSQL_PASSWD = '42qu'
 
     o.MQ_PORT = 11300
-    o.MQ_FAIL_MAIL_ADDR = 'zsp007@gmail.com'
+    o.MQ_FAIL_MAIL_ADDR = "zsp007@gmail.com"
 
     o.FILE_DOMAIN = 'p.%s'%o.SITE_DOMAIN
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN

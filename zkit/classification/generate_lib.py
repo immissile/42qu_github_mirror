@@ -13,11 +13,11 @@ current_path = os.path.dirname(os.path.abspath(__file__))
 class WordId(object):
     def __init__(self):
         self._dict = {}
-
+    
     def word_to_id(self):
         return self._dict
 
-    def get_id_by_tag(self, tag):
+    def get_id_by_tag(self,tag):
         if tag in self._dict:
             return _dict[tag]
         return None
@@ -45,7 +45,7 @@ class WordId(object):
         return result
 
     def id2word(self):
-        return dict((k, v) for v, k in self._dict.iteritems())
+        return dict((k,v) for v,k in self._dict.iteritems())
 
 class TagWord(object):
     def __init__(self, path):
@@ -74,7 +74,7 @@ class TagWord(object):
                 训练时, 将主题也算作一个词来处理.
                 '''
                 for tag in tags:
-                    yield tag, id_list
+                    yield tag,id_list
 
     def txt_tag_generator(self):
         word2id = self.word2id
@@ -118,7 +118,7 @@ class BayesRank(object):
             word_topic_freq = {}
             for topic_id, count in topic_count.iteritems():
                 topic2title = topic_id_title_count[topic_id]
-                if topic2title < 20:
+                if topic2title<20:
                     continue
                 word_topic_freq[topic_id] = count/float(topic2title)
 
@@ -129,15 +129,15 @@ class BayesRank(object):
         return word_topic_bayes
 
 def main():
-    tagword = TagWord('data/out.js')
+    tagword=TagWord("data/out.js")
     tagword.tofile()
-    WORD_ID2TAG_ID = fromfile( 'data/word_id2tag_id')
+    WORD_ID2TAG_ID = fromfile( "data/word_id2tag_id")
     bayes_rank = BayesRank(WORD_ID2TAG_ID)
-    tofile( 'data/bayes_rank' , bayes_rank.rank())
+    tofile( "data/bayes_rank" , bayes_rank.rank())
 
 if __name__ == '__main__':
     main()
 else:
-    BAYES_RANK = fromfile(join(current_path, 'data/bayes_rank'))
+    BAYES_RANK = fromfile(join(current_path, "data/bayes_rank"))
     TAG2ID = WordId().fromfile(join(current_path, 'data/tag2id'))
     WORD2ID = WordId().fromfile(join(current_path, 'data/word2id'))

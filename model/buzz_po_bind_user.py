@@ -4,7 +4,7 @@ from itertools import chain
 
 SHOW_LIMT = 3
 
-def buzz_po_bind_user(po_list , po_user_id_list, user_id=0):
+def buzz_po_bind_user(po_list ,po_user_id_list, user_id=0):
     from model.po_pos import po_pos_get_last_reply_id
     user_dict = Zsite.mc_get_dict(chain(*po_user_id_list))
     result = []
@@ -19,7 +19,7 @@ def buzz_po_bind_user(po_list , po_user_id_list, user_id=0):
                     break
 
         new_reply_show = [
-            (z.id, z.name)
+            (z.id, z.name) 
             for z in map(user_dict.get, new_reply_show)
         ]
         new_reply_count = max(
@@ -28,11 +28,11 @@ def buzz_po_bind_user(po_list , po_user_id_list, user_id=0):
 
 
         t = (
-            id,
-            i.name,
-            new_reply_count,
-            new_reply_show,
-            po_pos_get_last_reply_id(user_id, id)
+            id, 
+            i.name, 
+            new_reply_count, 
+            new_reply_show, 
+            po_pos_get_last_reply_id(user_id,id)
         )
         result.append(t)
 

@@ -57,7 +57,7 @@ class PoRss(ZsiteBase):
 
 @urlmap('/po/rec/(\d+)')
 class PoRec(LoginBase):
-    def post(self, id):
+    def post(self,id):
         current_user_id = self.current_user_id
         rec_po = Po.mc_get(id)
         if rec_po and rec_po.cid == CID_REC and rec_po.user_id == current_user_id:
@@ -65,7 +65,7 @@ class PoRec(LoginBase):
             rec_po.name_ = name
             rec_po.save()
         self.finish('{}')
-
+        
 @urlmap('/po/word')
 class PoWord(LoginBase):
     def post(self):

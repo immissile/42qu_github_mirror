@@ -42,7 +42,7 @@ class GetTag(object):
             for seg in sp_txt(ID2TAG[topic_id]):
                 if seg in txt:
                     break
-
+                
 
         #for k in highest_word_list:
         #    print ID2TAG[k]

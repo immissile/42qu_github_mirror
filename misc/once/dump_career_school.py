@@ -15,6 +15,6 @@ user = defaultdict(list)
 for pos, i in enumerate(Career.where(cid=CID_EDU)):
     result = {}
     for j in i._fields:
-        result[j] = getattr(i, j)
+        result[j]=getattr(i,j)
 
-    print dumps(result)
+    print dumps(result) 

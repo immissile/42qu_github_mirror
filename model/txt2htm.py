@@ -80,7 +80,7 @@ def replace_link(match):
     return ''
 
 def replace_img(match):
-    g = match.groups()[0]
+    g =  match.groups()[0]
     print g
     return """<a target="_blank" href="%s" rel="nofollow"><img src="%s"/></a>""" %(g, g)
 
@@ -106,7 +106,7 @@ def txt2htm_withlink(s):
     s = s.replace('\n', '\n<br>')
     s = RE_LINK_TARGET.sub(replace_link, s)
     s = RE_SPACE.sub(replace_space, s)
-    s = RE_IMG.sub(replace_img, s)
+    s = RE_IMG.sub(replace_img,s)
     return s
 
 def replace_at(match):

@@ -15,21 +15,21 @@ class BuzzX(JLoginBase):
         buzz_reply_hide_or_rm_by_user_id(current_user_id)
         self.finish('{}')
 
-@urlmap('/j/buzz/at/x')
+@urlmap("/j/buzz/at/x")
 class BuzzAtX(JLoginBase):
     def post(self):
         current_user_id = self.current_user_id
         buzz_at_hide(current_user_id)
         self.finish('{}')
 
-@urlmap('/j/buzz/at/x/(\d+)')
+@urlmap("/j/buzz/at/x/(\d+)")
 class BuzzAtX(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
         buzz_at_hide(current_user_id, id)
         self.finish('{}')
 
-@urlmap('/j/buzz/reply/x/(\d+)')
+@urlmap("/j/buzz/reply/x/(\d+)")
 class BuzzReplyX(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id

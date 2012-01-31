@@ -19,7 +19,7 @@ SPAM_USER_ID = set(Spammer.where().col_list())
 
 def spammer_new(user_id):
     user_id = int(user_id)
-    Spammer.get_or_create(id=user_id).save()
+    Spammer.get_or_create(id=user_id).save() 
     SPAM_USER_ID.add(user_id)
 
 def spammer_rm(user_id):
@@ -65,23 +65,23 @@ def spammer_reset(user_id):
     from model.reply import Reply
     for i in Reply.where(user_id=user_id):
         reply_rm_if_can(user_id, i.id)
-
-
-
+    
+    
+    
     from model.wall import Wall
     from model.zsite import Zsite
     z = Zsite.mc_get(user_id)
     total = z.reply_count
     if total:
-        reply_list = z.reply_list_reversed(total, 0)
+        reply_list = z.reply_list_reversed(total,0)
         for reply in reply_list:
             wall = Wall.mc_get(reply.rid)
             if wall:
                 wall.reply_rm(reply)
-
+    
 
     spammer_new(user_id)
-
+        
 
 
 
