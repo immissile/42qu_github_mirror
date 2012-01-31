@@ -179,7 +179,7 @@ color:#d20
     background:url(/img/gif/comment.gif) no-repeat -48px 20px;
     position: relative;
 }
-#feed_self .feedB{
+.feedL .feedB{
 float:left;
 background-position:228px 20px;
 padding-right:24px;
@@ -190,7 +190,7 @@ margin-right:0;
 .feedB,.feedS{
     margin-right:300px;
 }
-#feed_self .feed_part{
+.feedL .feed_part{
     margin-right:0;
     margin-left:242px;
 }
@@ -372,7 +372,7 @@ display:none;
 .b1024 .feed_part{
 margin-right:0;
 }
-.b1024 #feed_self .feed_part{
+.b1024 .feedL .feed_part{
 margin-left:0;
 }
 .b1024 #feeds .sdw{
@@ -409,4 +409,7 @@ padding:0 3px;
 border:1px dotted #ccc;width:715px;height:80px;
 padding:2px 3px;
 margin-bottom:7px;
+}
+#feed_rec .feedB{
+margin-bottom:27px;
 }
