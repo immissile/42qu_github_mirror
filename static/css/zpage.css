@@ -551,3 +551,14 @@ background-position:-2px -47px;
 #feeds .faving{
 background:url(/img/gif/loading12.gif) no-repeat 0 1px;
 }
+.readl .rtip{
+vertical-align:-1px;
+margin-left:7px;
+color:#999;
+}
+.readl .zname, .readl .rtip{
+font-size:13px;
+}
+.reado:hover .title, .reado:hover .rtip{
+text-shadow:1px 1px 2px #ccc;
+}
