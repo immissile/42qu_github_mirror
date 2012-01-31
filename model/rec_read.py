@@ -143,6 +143,7 @@ def rec_cid_extend(cid, id_time_list):
 REC_USER_CID_RANK_DEFAULT_FOR_MAN = [0.25/REDIS_REC_CID_LEN]
 REC_USER_CID_RANK_DEFAULT_FOR_WOMAN = [2.0/REDIS_REC_CID_LEN]
 REC_USER_CID_RANK_DEFAULT_FOR_0 = [1.0/REDIS_REC_CID_LEN]
+
 def redis_rec_cid_rank_default(rank):
     total = REDIS_REC_CID_LEN - 1
     begin = rank[0]
@@ -155,12 +156,11 @@ def redis_rec_cid_rank_default(rank):
     r.fromlist(rank)
     return r
 
-REC_USER_CID_RANK_DEFAULT  = (
+REC_USER_CID_RANK_DEFAULT  = map(redis_rec_cid_rank_default, (
     REC_USER_CID_RANK_DEFAULT_FOR_0,
     REC_USER_CID_RANK_DEFAULT_FOR_MAN,
     REC_USER_CID_RANK_DEFAULT_FOR_WOMAN
-)
-REC_USER_CID_RANK_DEFAULT = map(redis_rec_cid_rank_default, REC_USER_CID_RANK_DEFAULT)
+))
 
 def rec_user_cid_rank(user_id):
     from model.user_info import user_sex
@@ -174,9 +174,8 @@ def rec_user_cid_rank(user_id):
         t = array('f')
         t.fromstring(rank)
         rank = t
+
     return rank
-
-
 
 def rec_user_cid_limit(user_id, limit):
     return limit_by_rank(rec_user_cid_rank(user_id), limit)
