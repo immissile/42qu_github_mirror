@@ -1,11 +1,6 @@
 b1024();
-function render_item(data){
-    var result = $("#render_item").tmpl(data)
-    result[0].style.borderTop=0
-    result.find('.TPH').each(function(){
-        this.href="//"+this.rel+HOST_SUFFIX
-    })
-    result.appendTo("#item_list");
+function render_note(data){
+    _render_note("#item_list", data);
     $(".com_main,.com_side").show();
 }
 ;$(function(){

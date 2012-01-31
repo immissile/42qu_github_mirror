@@ -423,7 +423,7 @@ line-height:0;
 .feed_rec .feedB .sd img{
 width:211px; 
 padding:3px;
-height:293px;
+height:294px;
 }
 .recimgtit{
 font-size: 12px;
@@ -449,7 +449,7 @@ color:#999;
 border-right:1px solid #eee;
 padding:3px 14px;
 }
-.feedtab{border-bottom:1px solid #eee;}
+.feedtab{border-bottom:1px solid #f3f3f3;}
 .feed_rec .readl{
 padding:2px 12px;
 }

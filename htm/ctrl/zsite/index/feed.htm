@@ -276,23 +276,10 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
 <script src="${js.ctrl_zsite_feed}"></script>
 
 <script id="render_item" type="text/x-jquery-tmpl"><%text>
-<div class="readl c">
-<a rel="${$data[0]}" href="javascript:void(0)"
-id="fav${$data[0]}"
-class="fav{{if $data[5]}}ed{{/if}}"></a>
-<div id="reado${$data[0]}" class="reado">
-<span class="reada">
-<span class="title">${$data[1]}</span>
-<span class="rtip">${$data[2]}</span>
-</span>  
-</div>
-<div class="zname">
-<a href="#" rel="${$data[3]}" class="TPH" target="_blank">${$data[4]}</a>
-</div>         
-</div>
+
 </%text></script>
-<script src="${js.ctrl_tag}"></script>
-<script>render_item(${json_encode(rec_item_list)|n}) </script>
+<script src="${js.ctrl_render_item}"></script>
+<script>_render_note('#item_list', ${json_encode(rec_item_list)|n}) </script>
 
 </%def>
 

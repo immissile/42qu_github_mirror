@@ -144,8 +144,11 @@ class="fav{{if $data[5]}}ed{{/if}}"></a>
 </div>         
 </div>
 </%text></script>
+<script src="${js.ctrl_render_item}"></script>
 <script src="${js.ctrl_tag}"></script>
-<script>render_item(${json_encode(items)|n}) </script>
+<script>\
+render_note(${json_encode(items)|n})
+</script>
 
 
 ##{{if site.length}}
