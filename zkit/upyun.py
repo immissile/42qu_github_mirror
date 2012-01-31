@@ -50,17 +50,22 @@ def upyun_fetch_pic(url):
         img = fetch_pic(url)
         if not img:
             return url
-        data = StringIO()
-        if not url.endswith('gif'):
-            img = pic_fit_width_cut_height_if_large(img, 721)
-            img.save(data, 'JPEG')
-        else:
-            img.save(data, 'gif')
-        save_to_md5_file_name(UPYUN_PATH_BUILDER, data.getvalue(), url)
-        data.close()
+        
+        x,y = img.size
+        if x < 48 and y < 48:
+            return None
 
-        upyun_rsspic.upload(file_path)
-        return upyun_rsspic.domain%filename
+        if img:
+            data = StringIO()
+            if not url.endswith('gif'):
+                img = pic_fit_width_cut_height_if_large(img, 721)
+                img.save(data, 'JPEG')
+            else:
+                img.save(data, 'gif')
+            save_to_md5_file_name(UPYUN_PATH_BUILDER, data.getvalue(), url)
+            data.close()
+            upyun_rsspic.upload(file_path)
+
     return upyun_rsspic.domain%filename
 
 if __name__ == '__main__':
