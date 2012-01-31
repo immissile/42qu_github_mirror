@@ -44,7 +44,13 @@ def user_info_new(
     return o
 
 #1为男 , 2为女
-def user_sex
+def user_sex(user_id):
+    o = UserInfo.mc_get(user_id)
+    if o:
+        sex = o.sex
+    else:
+        sex = 0
+    return sex
 
 if __name__ == '__main__':
     pass

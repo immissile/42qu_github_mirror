@@ -4,7 +4,7 @@ from zkit.zitertools import lineiter
 from zkit.algorithm.wrandom import limit_by_rank
 from time import time
 from random import shuffle
-
+from array import array
 
 REDIS_REC_CID_TUPLE = (
     (1, '女性·时尚·星座'),
@@ -24,7 +24,7 @@ REDIS_REC_CID_POS = 'RecCid#%s'
 REDIS_REC_READ = 'RecRead:%s'
 REDIS_REC_LOG = 'RecLog:%s'
 REDIS_REC_RANK = 'RecRank:%s'
-mc_rec_lock = McCache("RecLock:%s")
+mc_rec_lock = McCache('RecLock:%s')
 
 def rec_read(user_id, limit=7):
     key = REDIS_REC_READ%user_id
@@ -126,6 +126,7 @@ def rec_read_empty(user_id):
         REDIS_REC_CID_POS,
         REDIS_REC_READ,
         REDIS_REC_LOG,
+        REDIS_REC_RANK 
     ):
         redis.delete(key%user_id)
 
@@ -150,20 +151,32 @@ def redis_rec_cid_rank_default(rank):
         i*base+begin
         for i in xrange(1, total)
     ])
+    r = array('f')
+    r.fromlist(rank)
+    return r
 
-REC_USER_CID_RANK_DEFAULT = (
+REC_USER_CID_RANK_DEFAULT  = (
     REC_USER_CID_RANK_DEFAULT_FOR_0,
     REC_USER_CID_RANK_DEFAULT_FOR_MAN,
     REC_USER_CID_RANK_DEFAULT_FOR_WOMAN
 )
-
-map(redis_rec_cid_rank_default,REC_USER_CID_RANK_DEFAULT)
-
+REC_USER_CID_RANK_DEFAULT = map(redis_rec_cid_rank_default, REC_USER_CID_RANK_DEFAULT)
 
 def rec_user_cid_rank(user_id):
-    from model.user_info import user_info_get
-    #REDIS_REC_RANK
-    return REC_USER_CID_RANK_DEFAULT
+    from model.user_info import user_sex
+    key = REDIS_REC_RANK%user_id
+    rank = redis.get(key)
+
+    if not rank:
+        rank = REC_USER_CID_RANK_DEFAULT[user_sex(user_id)]
+        redis.set(key,rank.tostring())
+    else:
+        t = array('f')
+        t.fromstring(rank)
+        rank = t
+    return rank
+
+
 
 def rec_user_cid_limit(user_id, limit):
     return limit_by_rank(rec_user_cid_rank(user_id), limit)
@@ -258,6 +271,7 @@ if __name__ == '__main__':
 
     #for i in REDIS_REC_CID_DICT:
     #    redis.delete(REDIS_REC_CID_POS%i)
-    print len(REC_USER_CID_RANK_DEFAULT)
-    print REC_USER_CID_RANK_DEFAULT
-
+#    print len(REC_USER_CID_RANK_DEFAULT)
+#    print REC_USER_CID_RANK_DEFAULT
+#    print type(REC_USER_CID_RANK_DEFAULT[0])
+    print rec_user_cid_rank(user_id)
