@@ -3,6 +3,7 @@
 
 import _env
 import base64
+from urllib2 import urlopen
 import httplib
 import os
 from fetch_pic import fetch_pic
@@ -42,6 +43,13 @@ def save_to_md5_file_name(suffix, data, url, root='/'):
     return file_path, filename
 
 
+def exists(url):
+    try:
+        urlopen(url)
+        return True
+    except:
+        return False
+
 upyun_rsspic = UpYun(UPYUN_DOMAIN, UPYUN_USERNAME, UPYUN_PWD, UPYUN_SPACENAME)
 
 def upyun_fetch_pic(url):
@@ -64,7 +72,10 @@ def upyun_fetch_pic(url):
                 img.save(data, 'gif')
             save_to_md5_file_name(UPYUN_PATH_BUILDER, data.getvalue(), url)
             data.close()
-            upyun_rsspic.upload(file_path)
+            if not exists(url):
+                upyun_rsspic.upload(file_path)
+            else:
+                print "pass"
 
     return upyun_rsspic.domain%filename
 

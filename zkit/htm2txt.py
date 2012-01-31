@@ -99,7 +99,7 @@ def htm2txt(htm):
                     src = i.get('src')
                     if src:
                         #img_url = upyun_fetch_pic(src)
-                        li.append(u'\n图:%s \n' % src)
+                        li.append(u'\n图:%s::图\n' % src)
                 else:
                     s = soup2txt_recursion(i)
 
