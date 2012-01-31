@@ -411,16 +411,16 @@ padding:2px 3px;
 margin-bottom:7px;
 }
 
-.feed_rec .feedB{
+.feedrec .feedB{
 background:transparent;
 }
-#feeds .feed_rec .sd{
+#feeds .feedrec .sd{
 padding: 0;
 }
-.feed_rec .feedB .sd{
+.feedrec .feedB .sd{
 line-height:0;
 }
-.feed_rec .feedB .sd img{
+.feedrec .feedB .sd img{
 width:211px; 
 padding:3px;
 height:294px;
@@ -450,6 +450,6 @@ border-right:1px solid #eee;
 padding:3px 14px;
 }
 .feedtab{border-bottom:1px solid #f3f3f3;}
-.feed_rec .readl{
+.feedrec .readl{
 padding:2px 12px;
 }
