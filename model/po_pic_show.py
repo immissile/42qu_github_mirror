@@ -52,7 +52,7 @@ class PicWallPics(McModel):
     pass
 
 def upyun_file(img, id):
-    thumb = pic_fit(img, 211, 311)
+    thumb = pic_fit(img, 211, 293)
     filename = str(id)+'.jpg'
     fileanme = upyun_rsspic.get_file_url(filename)
     url = upyun_rsspic.upload_img(filename, thumb)
