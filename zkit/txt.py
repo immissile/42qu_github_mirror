@@ -88,11 +88,20 @@ def format_txt(txt):
     result = []
 
     has_split = False
+
+
     for i in txt:
         if i:
-            if len(i) > 140 and result and result[-1]:
+            space = len(i) > 140
+
+            if space and result and result[-1]:
                 result.append('')
+
             result.append(i)
+
+            if space:
+                result.append('')
+
             pre = True
         elif result and result[-1]:
             result.append(i)
