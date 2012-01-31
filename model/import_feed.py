@@ -30,7 +30,6 @@ from zkit.htm2txt import htm2txt
 from zkit.txt import format_txt
 from zkit.txt_img_fetch import txt_img_fetch
 from kv import Kv
-from site_sync import site_sync_rm, site_sync_new
 
 import_record = Kv('import_record',0)
 
@@ -77,7 +76,7 @@ def get_feed_domain_zsite_id(url):
     zsite_id = 1
     return zsite_id
 
-def allow_feed(id, erase_author=False):
+def feed_2_po(id, erase_author=False):
     feed = ImportFeed.get(id)
     if feed:
         if erase_author:
@@ -109,4 +108,5 @@ def fetch_feed():
 if __name__ == '__main__':
     pass
     fetch_feed()
+    #print ImportFeed.where(state = STATE_INIT)
 

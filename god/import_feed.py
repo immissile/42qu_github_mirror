@@ -3,7 +3,8 @@
 
 from _handler import Base
 from _urlmap import urlmap
-from model.import_feed import ImportFeed, get_feed_2_edit, allow_feed
+from model.site_sync import site_sync_rm, site_sync_new
+from model.import_feed import ImportFeed, get_feed_2_edit, feed_2_po
 from yajl import dumps
 
 @urlmap('/import_feed')
@@ -36,7 +37,11 @@ class ImportFeedShow(Base):
         sync = self.get_argument('sync',None)
         delauthor = self.get_argument('delauthor',None)
 
-        allow_feed(id,sync)
+        po = feed_2_po(id,delauthor)
+        if sync:
+            #site_sync(po.id)
+            pass
+
         print id,title,sync,delauthor
 
         _get(self,next)
