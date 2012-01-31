@@ -21,15 +21,15 @@ ITEM = (
     ],
 )
 
+for i in ITEM:
+    link = LINK%i[1]
+    i[1] = url_short(link)
+
 def rec_item():
-    for i in ITEM:
-        link = LINK%i[1]
-#        print link
-        i[1] = url_short(link)
-#        print i[1]
     return ITEM
 
 
 if __name__ == '__main__':
+    print rec_item()
     print rec_item()
 
