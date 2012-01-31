@@ -26,7 +26,7 @@ _SCHOOL_UNIVERSITY = dict((replace_name(v), k) for k, v in SCHOOL_UNIVERSITY.ite
 
 
 f = open('out2.txt', 'w')
-err = open('logging2','w')
+err = open('logging2', 'w')
 fcount = 0
 for pos, i in enumerate(data):
 
@@ -79,17 +79,17 @@ for pos, i in enumerate(data):
 
         if pok:
             print name, SCHOOL_UNIVERSITY_DEPARTMENT_ID2NAME[depDict[p[0]]]
-            f.write("\n"+dumps([i[0],_SCHOOL_UNIVERSITY[c[0]],depDict[p[0]],i[3],i[4]]))
+            f.write('\n'+dumps([i[0], _SCHOOL_UNIVERSITY[c[0]], depDict[p[0]], i[3], i[4]]))
             f.flush()
         else:
-            f.write("\n"+dumps([i[0],_SCHOOL_UNIVERSITY[c[0]],' ',i[3],i[4]]))
+            f.write('\n'+dumps([i[0], _SCHOOL_UNIVERSITY[c[0]], ' ', i[3], i[4]]))
             f.flush()
             pass
         pass
 
     else:
         fcount += 1
-        err.write("\n" + dumps(i))
+        err.write('\n' + dumps(i))
         err.flush()
 
     #    print  _name

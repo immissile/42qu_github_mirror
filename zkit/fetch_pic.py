@@ -20,7 +20,7 @@ def fetch_pic(url, referer=None):
 
 if __name__ == '__main__':
     pass
-    fetch_pic("http://27.media.tumblr.com/tumblr_ly0eyceSeo1qigppz_1326962065_cover.jpg")
-    
+    fetch_pic('http://27.media.tumblr.com/tumblr_ly0eyceSeo1qigppz_1326962065_cover.jpg')
+
 
 

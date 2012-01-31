@@ -35,9 +35,9 @@ SCHOOL_LINK = '/q/school/%s/%s/%s/%s'
 @urlmap('/q/school/(\d+)/(\d+)/(\d+)/(\d+)-(\d+)')
 class School(LoginBase):
     def get(self, id=0, year=0, degree=0, department=0, n=1):
-        school_id         = self.get_argument('school_id', None)
-        school_year       = self.get_argument('school_year', 0)
-        school_degree     = self.get_argument('school_degree', 0)
+        school_id = self.get_argument('school_id', None)
+        school_year = self.get_argument('school_year', 0)
+        school_degree = self.get_argument('school_degree', 0)
         school_department = self.get_argument('school_department', 0)
         is_my = int(bool(self.get_argument('is_my', None) == 'on'))
         id = int(id)
@@ -48,10 +48,10 @@ class School(LoginBase):
         if school_id:
             if is_my:
                 user_school_new(
-                    self.current_user, 
+                    self.current_user,
                     school_id, school_year, school_degree,
                     school_department
-                ) 
+                )
             return self.redirect(
                 SCHOOL_LINK%(
                     school_id, school_year, school_degree, school_department
@@ -62,18 +62,18 @@ class School(LoginBase):
 
 
         if not id and school_tuple:
-            id, school_id, school_year, school_degree, school_department, txt = school_tuple[0]           
+            id, school_id, school_year, school_degree, school_department, txt = school_tuple[0]
             return self.redirect(SCHOOL_LINK%(school_id, school_year, school_degree, school_department))
-        
+
         year = int(year)
         degree = int(degree)
         department = int(department)
 
         result = user_school_search(id, year, degree, department)
         result_len = len(result)
-        
+
         if len(result) < 64 and id and any((year, degree, department)):
-            school_count =  user_school_count(id)
+            school_count = user_school_count(id)
             if school_count <= result_len:
                 school_count = 0
         else:
@@ -81,20 +81,20 @@ class School(LoginBase):
 
 
         self.render(
-            school_data       = (   0                 ,
-                                    id         , 
+            school_data=(   0                 ,
+                                    id         ,
                                     year       ,
                                     degree     ,
-                                    department ,     
-                                    '' 
+                                    department ,
+                                    ''
                                 ),
-            _id                = id, 
-            school_tuple      = school_tuple          ,
-            result            = result,
-            year              = year,
-            degree            = degree,
-            department        = department,    
-            school_count      = school_count 
+            _id=id,
+            school_tuple=school_tuple          ,
+            result=result,
+            year=year,
+            degree=degree,
+            department=department,
+            school_count=school_count
         )
 
 

@@ -190,16 +190,16 @@ def mc_flush_reply_id_list(cid, rid):
 if __name__ == '__main__':
     r = Reply.raw_sql('select *,count(rid) from reply where cid = 62 group by rid order by count(rid) desc limit 50').fetchall()
     from po import Po
-    p_l,c_l = [],[]
+    p_l, c_l = [], []
     for i in r:
         p_l.append(i[1])
         c_l.append(i[-1])
     p = Po.mc_get_list(p_l)
-    p = filter(lambda x:x,p)
-    p = map(lambda x:(x.name,x.txt,'http:%s'%x.link),p)
-    res = zip(p,c_l[1:])
-    for n,((i,l,j),k) in enumerate(res):
+    p = filter(lambda x:x, p)
+    p = map(lambda x:(x.name, x.txt, 'http:%s'%x.link), p)
+    res = zip(p, c_l[1:])
+    for n, ((i, l, j), k) in enumerate(res):
         print '#'*20
-        print '第%s名：'%(n+1),i,j,'\n','回复数:',k,
-        print l,'\n\n'
+        print '第%s名：'%(n+1), i, j, '\n', '回复数:', k,
+        print l, '\n\n'
     pass

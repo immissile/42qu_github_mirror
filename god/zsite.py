@@ -3,14 +3,14 @@
 import urllib
 from _handler import Base
 from _urlmap import urlmap
-from model.zsite import Zsite,   zsite_name_rm, ZSITE_STATE_ACTIVE 
+from model.zsite import Zsite, zsite_name_rm, ZSITE_STATE_ACTIVE
 from model.zsite_show import zsite_show_new, zsite_show_rm
 from model.zsite_url import url_new
 from model.user_mail import mail_by_user_id
 from model.mail import sendmail
 from model.cid import CID_ZSITE_TUPLE, CID_USER
 from zkit.page import page_limit_offset
-from model.zsite_verify import ZsiteUserVerifyed, ZSITE_USER_VERIFYED_CHECKED,ZSITE_USER_VERIFYED_UNCHECK
+from model.zsite_verify import ZsiteUserVerifyed, ZSITE_USER_VERIFYED_CHECKED, ZSITE_USER_VERIFYED_UNCHECK
 from model.pic import pic_no
 from model.txt import txt_get, txt_new
 from model.motto import motto as _motto
@@ -125,7 +125,7 @@ class VerifyShowNew(Base):
     def get(self, id):
         zsite = Zsite.mc_get(id)
         zsite_show_new(id, zsite.cid)
-        return self.redirect("/zsite/verify/next/%s"%id)
+        return self.redirect('/zsite/verify/next/%s'%id)
 
 
 @urlmap('/zsite/verify/next/(\d+)')
@@ -138,7 +138,7 @@ class VerifyShowNext(Base):
         if zsite_user_verifyed:
             zsite_user_verifyed.state = ZSITE_USER_VERIFYED_CHECKED
             zsite_user_verifyed.save()
-        return self.redirect("/zsite/verify/uncheck")
+        return self.redirect('/zsite/verify/uncheck')
 
 @urlmap('/zsite/verify/uncheck')
 class VerifyUncheck(Base):
@@ -147,15 +147,15 @@ class VerifyUncheck(Base):
             state=ZSITE_USER_VERIFYED_UNCHECK
         )
         if not zsite_user_verifyed:
-            return self.redirect("/")
+            return self.redirect('/')
         zsite = Zsite.mc_get(zsite_user_verifyed.user_id)
         self.render(zsite=zsite)
 
     def post(self):
         id = self.get_argument('id')
-        name = self.get_argument('name',None)
-        pic = self.get_argument('pic',None)
-        career_id_list = map(int,self.get_arguments('career',()))
+        name = self.get_argument('name', None)
+        pic = self.get_argument('pic', None)
+        career_id_list = map(int, self.get_arguments('career', ()))
 
         admin_id = self.current_user.id
         user = Zsite.mc_get(id)
@@ -170,7 +170,7 @@ class VerifyUncheck(Base):
         if pic:
             from model.ico import ico
             pic_no(ico.get(id), admin_id)
-        return self.redirect("/zsite/verify/next/%s"%id)
+        return self.redirect('/zsite/verify/next/%s'%id)
         #return self.redirect("/zsite/verify/uncheck")
 
 PAGE_LIMIT = 100
@@ -237,12 +237,12 @@ class TestAccount(Base):
 
 @urlmap('/zsite/spammer/rm/(\d+)')
 class SpammerRm(Base):
-    def get(self,id):
+    def get(self, id):
         spammer_rm(id)
         self.redirect('/zsite/%s' % id)
 
 @urlmap('/zsite/spammer/new/(\d+)')
 class SpammerNew(Base):
-    def get(self,id):
+    def get(self, id):
         spammer_new(id)
         self.redirect('/zsite/%s' % id)

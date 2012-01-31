@@ -15,8 +15,8 @@ from yajl import dumps
 from hashlib import md5
 import threading
 from zkit.lock_file import LockFile
-from writer import Writer,CURRNET_PATH
-from zkit.classification.classification import GetTag  
+from writer import Writer, CURRNET_PATH
+from zkit.classification.classification import GetTag
 from rss_po import RssPo
 
 TAGGER = GetTag()
@@ -28,10 +28,10 @@ class UCDchina(object):
     def __init__(self):
         pass
 
-    def name_builder(self,url):
-        return os.path.join(CURRNET_PATH, "ucdchina", path.basename(url))
+    def name_builder(self, url):
+        return os.path.join(CURRNET_PATH, 'ucdchina', path.basename(url))
 
-    def parse_page(self,filepath):
+    def parse_page(self, filepath):
         with open(filepath) as f:
             page = f.read()
 
@@ -39,13 +39,13 @@ class UCDchina(object):
             author = txt_wrap_by('style=" float:left; color:#999;">', '</span', page)
             author = txt_wrap_by('作者：', '|', author)
             content_wrapper = txt_wrap_by('<div id="pageContentWrap" style="font-size:13px; ">', '</div', page)
-            url =txt_wrap_by('阅读和发布评论：<a href="','"',page)
+            url = txt_wrap_by('阅读和发布评论：<a href="', '"', page)
 
             if content_wrapper:
-                content,pic_list = htm2txt(content_wrapper)
+                content, pic_list = htm2txt(content_wrapper)
             else:
-                return 
-            
+                return
+
             content = str(content)
             tags = TAGGER.get_tag(content+title)
             #out = dumps([title,url,tags])
@@ -56,9 +56,9 @@ class UCDchina(object):
             #a = RssPo(content,UCD_USER_ID,title, pic_list, 0, UCDCHINA_ZSITE_ID,tags)
             #a.htm2po_by_po() 
 
-           # writer = Writer.get_instance()
-           # writer = writer.choose_writer('ucdchina.data')
-           # writer.write(out+'\n')
+    # writer = Writer.get_instance()
+    # writer = writer.choose_writer('ucdchina.data')
+    # writer.write(out+'\n')
 
     def save_page(page, url):
         filename = self.name_builder(url)
@@ -66,7 +66,7 @@ class UCDchina(object):
             f.write(page)
         self.parse_page(filename)
 
-    def parse_index(self,page, url):
+    def parse_index(self, page, url):
         link_wrapper_list = txt_wrap_by('<div id="mainWrap">', '<!--/#mainWrap', page)
         link_list = []
 
@@ -78,7 +78,7 @@ class UCDchina(object):
             if not exists(filename):
                 yield self.save_page, 'http://ucdchina.com/snap/'+url
             else:
-                print "using cache",url
+                print 'using cache', url
                 self.parse_page(filename)
 
     def ucdchina_daily(self):
@@ -111,13 +111,13 @@ def main():
 
     ucd_china = UCDchina()
     from glob import glob
-    file_list=glob('ucdchina/*')
+    file_list = glob('ucdchina/*')
     for f in file_list:
         ucd_china.parse_page(f)
-    #fetcher = NoCacheFetch(0, headers=headers)
-    #spider = Rolling( fetcher, ucd_china.ucd_url_builder() )
-    #spider_runner = GSpider(spider, workers_count=10)
-    #spider_runner.start()
+#fetcher = NoCacheFetch(0, headers=headers)
+#spider = Rolling( fetcher, ucd_china.ucd_url_builder() )
+#spider_runner = GSpider(spider, workers_count=10)
+#spider_runner.start()
 
 if __name__ == '__main__':
     main()

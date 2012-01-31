@@ -5,13 +5,13 @@ from model.vote import Vote
 from model.po import po_new, Po, STATE_ACTIVE, STATE_SECRET, po_list_count
 from model.cid import CID_REC
 from zweb.orm import ormiter
-from model.po_recommend import mc_po_recommend_id_by_rid_user_id,RecRep
+from model.po_recommend import mc_po_recommend_id_by_rid_user_id, RecRep
 from model.feed import Feed
 
 
 
 def main():
-    for vote in ormiter(Feed,'rid !=0'):
+    for vote in ormiter(Feed, 'rid !=0'):
         recommend = po_new(
             CID_REC,
             vote.zsite_id,
@@ -24,7 +24,7 @@ def main():
             '%s_%s'%(vote.rid, vote.zsite_id),
             recommend.id
         )
-        vote.cid  =CID_REC
+        vote.cid = CID_REC
         vote.rid = 0
         vote.save()
 

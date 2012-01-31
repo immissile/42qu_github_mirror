@@ -1,14 +1,14 @@
 #coding:utf-8
 from _db import Model
-from zsite import Zsite, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY, \
-CID_USER,  ZSITE_STATE_FAILED_VERIFY
+from zsite import Zsite, ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY,\
+CID_USER, ZSITE_STATE_FAILED_VERIFY
 from model.ico import ico
 from model.career import career_current
 from model.zsite_show import zsite_show_rm
 
-ZSITE_VERIFY_NEED_NAME     = 0b1
-ZSITE_VERIFY_NEED_ICO      = 0b10
-ZSITE_VERIFY_NEED_CAREER   = 0b100
+ZSITE_VERIFY_NEED_NAME = 0b1
+ZSITE_VERIFY_NEED_ICO = 0b10
+ZSITE_VERIFY_NEED_CAREER = 0b100
 
 #CREATE TABLE `zpage`.`zsite_user_verifyed` (
 #  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -52,18 +52,18 @@ def zsite_verify_ajust(zsite):
     id = zsite.id
     name = zsite.name
     if name.isdigit() or not name:
-        need |= ZSITE_VERIFY_NEED_NAME 
+        need |= ZSITE_VERIFY_NEED_NAME
 
     if not ico.get(id):
-        need |= ZSITE_VERIFY_NEED_ICO 
-    
+        need |= ZSITE_VERIFY_NEED_ICO
+
     if not any(career_current(id)):
         need |= ZSITE_VERIFY_NEED_CAREER
- 
+
     if need:
         zsite_verify_rm(zsite)
         return need
-    else: 
+    else:
         zsite_verify_new(zsite)
 
 if __name__ == '__main__':
@@ -76,4 +76,4 @@ if __name__ == '__main__':
         )
     ):
         print zsite.id, zsite_verify_ajust(zsite)
-        
+

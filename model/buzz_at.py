@@ -53,11 +53,11 @@ def at_id_set_by_txt(txt):
 
 def buzz_at_hide(user_id, po_id=0):
     if po_id:
-        BuzzAt.where(po_id=po_id,to_id=user_id).update(state=BUZZ_AT_HIDE)
+        BuzzAt.where(po_id=po_id, to_id=user_id).update(state=BUZZ_AT_HIDE)
     else:
         for i in po_list_by_buzz_at_user_id(user_id):
             po_id = i[0]
-            BuzzAt.where(po_id=po_id,to_id=user_id).update(state=BUZZ_AT_HIDE)
+            BuzzAt.where(po_id=po_id, to_id=user_id).update(state=BUZZ_AT_HIDE)
     mc_flush(user_id)
 
 def buzz_at_new(from_id, txt, po_id, reply_id=0):
@@ -148,11 +148,11 @@ def po_list_by_buzz_at_user_id(user_id):
     id2user = defaultdict(list)
     for id, from_id, po_id, reply_id in result:
         po_id_in = po_id in id2user
-        if po_id_in or len(id_list)<7:
+        if po_id_in or len(id_list) < 7:
             if not po_id_in:
-                id_list.append(po_id) 
+                id_list.append(po_id)
             id2user[po_id].append(from_id)
-         
+
     po_list = Po.mc_get_list(id_list)
 
     return buzz_po_bind_user(po_list, [

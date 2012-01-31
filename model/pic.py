@@ -104,7 +104,7 @@ mq_pic_rm_mail = mq_client(pic_rm_mail)
 
 if __name__ == '__main__':
     #for i in  Pic.where(user_id=10005704):
-        #print i.id, i.cid
+    #print i.id, i.cid
     from ico import ico
     print ico.get(10000645)
-    ico.set(10000645,788)
+    ico.set(10000645, 788)

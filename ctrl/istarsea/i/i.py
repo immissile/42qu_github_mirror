@@ -11,7 +11,7 @@ from model.zsite_url import url_by_id, url_new, url_valid, RE_URL
 from model.user_mail import mail_by_user_id, user_mail_new
 from model.txt import txt_get, txt_new
 from model.mail_notice import CID_MAIL_NOTICE_ALL, mail_notice_all, mail_notice_set
-from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE,  ZSITE_STATE_APPLY
+from model.zsite import zsite_name_edit, user_can_reply, ZSITE_STATE_VERIFY, ZSITE_STATE_ACTIVE, ZSITE_STATE_APPLY
 from model.user_auth import user_password_new, user_password_verify
 from cgi import escape
 from urlparse import parse_qs, urlparse

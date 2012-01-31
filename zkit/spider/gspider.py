@@ -24,7 +24,7 @@ import traceback
 CURRENT_PATH = path.dirname(path.abspath(__file__))
 
 class GSpider(object):
-    def __init__(self, spider,  workers_count=8):
+    def __init__(self, spider, workers_count=8):
         self.spider = spider
         self.jobs = [gevent.spawn(self._work) for i in range(workers_count)]
         self.job_count = len(self.jobs)

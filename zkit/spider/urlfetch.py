@@ -36,7 +36,7 @@ class Fetch(object):
         file_path = path.join(cache_dir, file_name)
 
         if path.exists(file_path):
-            print "Using cache"
+            print 'Using cache'
             with open(file_path) as f:
                 data = f.read()
                 return data
@@ -64,12 +64,12 @@ class Fetch(object):
         return data
 
 class NoCacheFetch(object):
-    def __init__(self,sleep = 0, headers={} ):
+    def __init__(self, sleep=0, headers={} ):
         self.headers = headers
         self.sleep = sleep
 
     def read(self, url):
-        print "reading url",url
+        print 'reading url', url
         conn = urllib2.urlopen(url, timeout=30)
         data = conn.read()
         conn.close()
@@ -79,9 +79,9 @@ class NoCacheFetch(object):
 
     @retryOnURLError(3)
     def __call__(self, url):
-        data  = self.read(url)
+        data = self.read(url)
         return data
 
 from os import path
 CURRENT_PATH = path.dirname(path.abspath(__file__))
-fetch=Fetch(path.join(CURRENT_PATH, "cache"))
+fetch = Fetch(path.join(CURRENT_PATH, 'cache'))

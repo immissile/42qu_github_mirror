@@ -102,7 +102,7 @@ class Reg(NoLoginBase):
                 self.set_cookie('E', mail)
 
                 phone = self.get_argument('phone', '')
-                namecard_new(user_id,phone=phone)
+                namecard_new(user_id, phone=phone)
 
             return self.redirect('/auth/reged/%s'%user_id)
 

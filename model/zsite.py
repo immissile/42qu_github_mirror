@@ -101,8 +101,8 @@ def zsite_name_rm(id):
         zsite_name_edit(id, '')
     zsite = Zsite.mc_get(id)
     rendermail(
-        '/mail/notice/name_rm.txt', 
-        mail_by_user_id(id), 
+        '/mail/notice/name_rm.txt',
+        mail_by_user_id(id),
         zsite.name,
         link=zsite.link,
     )
