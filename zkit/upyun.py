@@ -74,8 +74,6 @@ def upyun_fetch_pic(url):
             data.close()
             if not exists(url):
                 upyun_rsspic.upload(file_path)
-            else:
-                print "pass"
 
     return upyun_rsspic.domain%filename
 
