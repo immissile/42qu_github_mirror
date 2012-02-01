@@ -327,7 +327,7 @@ $(".bzlive").live("click",function(){
 
 $(".buzz_x").live("click", function(){
     var id=this.rel, buzz=$("#buzz"+id), box=buzz.parents('.buzz_box')
-    if(box.find(".buzz_li").length<=1){
+    if(box.find(".buzz_x").length<=1){
         box.remove()
     }else{
         buzz.hide(buzz.remove);
