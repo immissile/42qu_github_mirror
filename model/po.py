@@ -205,6 +205,9 @@ class Po(McModel, ReplyMixin):
         #TODO REMOVE
         if u:
             return '%s/%s' % (u.link, self.id)
+        elif not self.user_id:
+            return None
+
 
     @attrcache
     def link_target(self):

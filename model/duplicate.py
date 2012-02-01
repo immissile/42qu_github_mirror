@@ -44,7 +44,6 @@ def set_record(txt, id):
 
 
 def find_duplicate(feature_list):
-    #feature_list = feature_md5(txt)
     result = set()
     count = 0
     for i in feature_list:

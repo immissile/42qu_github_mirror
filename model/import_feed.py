@@ -56,7 +56,7 @@ def new_import_feed(title, body, author_id, url, src_id, state=STATE_INIT):
     if not txt_is_duplicate(body):
         new_feed = ImportFeed(title=title, body=body, author_id=author_id, url=url, state=state , src_id = src_id)
         new_feed.save()
-        set_record(new_feed.id)
+        set_record(body,new_feed.id)
         return new_feed
 
 def set_feed_state(id, state):
@@ -65,8 +65,8 @@ def set_feed_state(id, state):
         feed.state = state
         feed.save()
 
-def get_zsite_user_id(douban_user):
-    zsite_id = 10001518
+def get_local_user_id(douban_user):
+    zsite_id = 0
     if douban_user:
         douban_username = douban_user.name
         #TODO: get zsite_user_id
@@ -74,8 +74,9 @@ def get_zsite_user_id(douban_user):
     return zsite_id
 
 def get_feed_domain_zsite_id(url):
-    #TODO: fill code
-    zsite_id = 1
+    #TODO: get Domain => zsite_id
+    #TODO:Currently using 豆瓣的
+    zsite_id = 68615 #@dev machine
     return zsite_id
 
 def feed_2_po(id, erase_author=False):
@@ -86,20 +87,25 @@ def feed_2_po(id, erase_author=False):
             user_id = 0
             po_rid = 0
             feed.state = STATE_ALLOWED_WITHNO_AUTHOR
+
         else:
             douban_user = DoubanUser.get(feed.author_id)
-            user_id = get_zsite_user_id(douban_user)
-            if user_id == 0:
+            user_id = get_local_user_id(douban_user)
+            if not user_id :
                 zsite_id = get_feed_domain_zsite_id(feed.url)
                 po_rid = feed.author_id
             else:
                 zsite_id = 0
+                po_rid = 0 
             feed.state = STATE_ALLOWED
 
         feed.save()
         body = txt_img_fetch(feed.body)
         po = po_note_new(user_id, feed.title, body, zsite_id = zsite_id)
         if po:
+            po.rid = po_rid
+            po.save()
+
             import_record.set(po.id, feed.src_id)
             return po
 
