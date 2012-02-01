@@ -287,8 +287,8 @@ if __name__ == '__main__':
     user_id = 10000000
     from model.po import Po
     #rec_cid_push(2, 3)
-    print redis.zrange(REDIS_REC_CID%1, 0, 11)
-
+    #print redis.zrange(REDIS_REC_CID%1, 0, 11)
+    rec_read_empty(user_id)
 
     #   rec_read_extend(user_id, [(1, 1), (2, 2)])
 #    print rec_read_lastest(user_id,1)
@@ -307,7 +307,7 @@ if __name__ == '__main__':
 #    print REC_USER_CID_RANK_DEFAULT
 #    print type(REC_USER_CID_RANK_DEFAULT[0])
     #print rec_read_empty(user_id)
-    print po_json_by_rec_read(user_id)
+    #print po_json_by_rec_read(user_id)
     #print rec_read_empty(10001518)
     #print rec_read_cid(user_id, 3)
     #print redis.zrangebyscore(REDIS_REC_CID%1, 68603, 99999999, 0, 33, True)

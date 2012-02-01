@@ -150,8 +150,10 @@ li
     clear:both;
     overflow:hidden;
 }
-.zname{
+#readl .zname{
 display:none;
+}
+.zname{
 margin-left:21px;
 }
 .zname span{
