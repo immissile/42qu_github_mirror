@@ -25,7 +25,7 @@ ENGINE = MyISAM;
 import _env
 from _db import Model
 from po import po_note_new
-from douban import DoubanUser, get_most_rec_and_likes
+from douban import DoubanUser, douban_feed_to_review_iter
 from zkit.htm2txt import htm2txt
 from zkit.txt import format_txt
 from zkit.txt_img_fetch import txt_img_fetch
@@ -37,19 +37,19 @@ import_record = Kv('import_record',0)
 class ImportFeed(Model):
     pass
 
-STATE_INIT = 0
-STATE_DISALLOWED = 1
-STATE_ALLOWED = 2
-STATE_ALLOWED_WITHNO_AUTHOR = 3
-STATE_PO_IS_CREATED = 4 #is needed?
+IMPORT_FEED_STATE_INIT = 0
+IMPORT_FEED_STATE_RM = 1
+IMPORT_FEED_STATE_REVIEWED = 2
+IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR = 3
+IMPORT_FEED_STATE_PO_IS_CREATED = 4 #is needed?
 
-def get_feed_2_edit():
-    return ImportFeed.where(state=STATE_INIT)[1]
+def feed_next():
+    return ImportFeed.where(state=IMPORT_FEED_STATE_INIT)[1]
 
-def rm_import_feed(id):
-    set_feed_state(id,STATE_DISALLOWED)
+def import_feed_rm(id):
+    feed_state_set(id,IMPORT_FEED_STATE_RM)
 
-def new_import_feed(title, txt, author_id, url, src_id, state=STATE_INIT):
+def import_feed_new(title, txt, author_id, url, src_id, state=IMPORT_FEED_STATE_INIT):
     txt = format_txt(htm2txt(txt))
     if not txt_is_duplicate(txt):
         new_feed = ImportFeed(title=title, txt=txt, author_id=author_id, url=url, state=state , src_id = src_id)
@@ -57,13 +57,13 @@ def new_import_feed(title, txt, author_id, url, src_id, state=STATE_INIT):
         set_record(new_feed.id)
         return new_feed
 
-def set_feed_state(id, state):
+def feed_state_set(id, state):
     feed = ImportFeed.get(id)
     if feed:
         feed.state = state
         feed.save()
 
-def get_zsite_user_id(douban_user):
+def zsite_id_by_douban_user_id(douban_user):
     zsite_id = 10001518
     if douban_user:
         douban_username = douban_user.name
@@ -72,23 +72,23 @@ def get_zsite_user_id(douban_user):
     return zsite_id
 
 
-def feed_2_po(id, erase_author=False):
+def feed2po(id, erase_author=False):
     feed = ImportFeed.get(id)
     if feed:
         if erase_author:
             zsite_id = 0
             user_id = 0
             po_rid = 0
-            feed.state = STATE_ALLOWED_WITHNO_AUTHOR
+            feed.state = IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR
         else:
             douban_user = DoubanUser.get(feed.author_id)
-            user_id = get_zsite_user_id(douban_user)
+            user_id = zsite_id_by_douban_user_id(douban_user)
             if user_id == 0:
                 zsite_id = feed.zsite_id
                 po_rid = feed.author_id
             else:
                 zsite_id = 0
-            feed.state = STATE_ALLOWED
+            feed.state = IMPORT_FEED_STATE_REVIEWED
 
         feed.save()
         txt = txt_img_fetch(feed.txt)
@@ -97,14 +97,14 @@ def feed_2_po(id, erase_author=False):
             import_record.set(po.id, feed.src_id)
             return po
 
-def fetch_feed():
-    for i in get_most_rec_and_likes():
-        new_import_feed(
+def import_feed_by_douban_feed():
+    for i in douban_feed_to_review_iter():
+        import_feed_new(
             i.title, i.htm, i.user_id, i.cid, i.id
         )
 
 if __name__ == '__main__':
     pass
-    fetch_feed()
-    #print ImportFeed.where(state = STATE_INIT)
+    import_feed_by_douban_feed()
+    #print ImportFeed.where(state = IMPORT_FEED_STATE_INIT)
 

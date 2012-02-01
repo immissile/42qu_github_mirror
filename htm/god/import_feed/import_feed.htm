@@ -2,7 +2,7 @@
 <%!
 from yajl import dumps
 from cgi import escape
-from model.import_feed import ImportFeed, STATE_INIT
+from model.import_feed import ImportFeed, IMPORT_FEED_STATE_INIT
 
 %>
 <%def name="htm_head()">
@@ -17,7 +17,7 @@ from model.import_feed import ImportFeed, STATE_INIT
 
 <%
 
-feed = ImportFeed.where(state = STATE_INIT)
+feed = ImportFeed.where(state = IMPORT_FEED_STATE_INIT)
 result={}
 if feed:
     result['id'] = feed[0].id
