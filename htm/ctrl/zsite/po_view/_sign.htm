@@ -2,7 +2,7 @@
 from model.zsite import Zsite
 from model.cid import CID_SITE, CID_NOTE
 from model.rss import rss_link_by_po_id
-from model.url_short import url_short_by_id
+from model.url_short import id2url
 from model.import_feed import PoMeta, PoMetaUser
 %>\
 <%
@@ -36,8 +36,8 @@ po_zsite = Zsite.mc_get(po.zsite_id)
 <%
 ori_po = PoMeta.get(po.rid)
 if ori_po:
-    url = url_short_by_id(ori_po.url_id)
-    user =  PoMetaUser.get(ori_po.user_id)
+    url = id2url(ori_po.url_id)
+    user =  PoMetaUser.mc_get(ori_po.user_id)
 %>
     %if user:
         <a target="_blank" href="${user.link}">${user.name}</a> @ \
