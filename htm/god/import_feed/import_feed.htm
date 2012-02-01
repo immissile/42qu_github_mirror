@@ -63,12 +63,11 @@ from model.rec_read import REDIS_REC_CID_TUPLE
     <br/>
 
     <label for="cid">种类</label>
+    <br/>
     </%text>
-    <select id="cid" name="cid">
-        % for id,name in REDIS_REC_CID_TUPLE:
-            <option value="${id}">${name}</option>
-        % endfor
-    </select>
+    % for id,name in REDIS_REC_CID_TUPLE:
+    <input type="radio" name="cid" value="${id}" id="cid${id}"/ ><label for="cid${id}">${name}</label><br/>
+    % endfor
     <%text>
 
     <br/>
