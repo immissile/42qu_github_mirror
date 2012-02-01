@@ -59,7 +59,7 @@ class Duplicator(object):
         if not feature_list:
             return []
 
-        print feature_list
+        #print feature_list
         feature_list_len = float(len(feature_list))
         min_same_count = int(feature_list_len*0.618)+1
     
