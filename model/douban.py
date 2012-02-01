@@ -128,11 +128,11 @@ def douban_user_feed_new(vote, cid, rid, user_id):
     return id
 
 
-def user_id_by_feed_id(id):
+def douban_user_id_by_feed_id(id):
     feed = DoubanFeed.get(id)
     if feed:
         user = DoubanUser.get(feed.user_id)
-        print user, feed.user_id
+        #print user, feed.user_id
         if user:
             return user
     
