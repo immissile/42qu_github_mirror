@@ -3,7 +3,7 @@
 from _handler import Base, LoginBase
 from ctrl._urlmap.tag import urlmap
 from zkit.page import page_limit_offset
-from model.po_by_tag import po_by_tag
+from model.po_list_by_tag_id import po_list_by_tag_id
 
 
 @urlmap('/')
@@ -15,7 +15,7 @@ class Index(Base):
             "/-%s", total, n
         )
         current_user_id = self.current_user_id
-        items = po_by_tag(47036, current_user_id, limit, offset )
+        items = po_list_by_tag_id(47036, current_user_id, limit, offset )
         self.render(
             page  = str(page),
             total = total,

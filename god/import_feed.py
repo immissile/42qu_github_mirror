@@ -4,7 +4,7 @@
 from _handler import Base
 from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
-from model.import_feed import ImportFeed, get_feed_2_edit, feed_2_po , rm_import_feed
+from model.import_feed import ImportFeed, feed_next, feed2po , import_feed_rm
 from model.rec_read import rec_cid_push
 from yajl import dumps
 
@@ -12,17 +12,17 @@ from yajl import dumps
 class ImportFeed(Base):
     def get(self):
         self.render()
-        
+
 
 def _get(self):
-    feed = get_feed_2_edit()
+    feed = feed_next()
     if feed:
         result = {
-                'id':feed.id,
-                'title':feed.title,
-                'body':feed.body,
-                'tags':'empty',
-                }
+            'id':feed.id,
+            'title':feed.title,
+            'txt':feed.txt,
+            'tags':[],
+        }
         self.finish(dumps(result))
 
 @urlmap('/import_feed/next')
@@ -32,12 +32,12 @@ class ImportFeedShow(Base):
     def post(self):
         id = self.get_argument('id',None)
         title = self.get_argument('title',None)
-        body = self.get_argument('body',None)
+        txt = self.get_argument('txt',None)
         sync = self.get_argument('sync',None)
         delauthor = self.get_argument('delauthor',None)
         cid = self.get_argument('cid',None)
 
-        po = feed_2_po(id,delauthor)
+        po = feed2po(id,delauthor)
         if po and cid:
             print cid,po.id
             rec_cid_push(cid, po.id)
@@ -53,6 +53,6 @@ class ImportFeedShow(Base):
 class ImportFeedRm(Base):
     def post(self):
         id = self.get_argument('id',None)
-        rm_import_feed(id)
+        import_feed_rm(id)
         _get(self)
 

@@ -81,7 +81,7 @@ def replace_link(match):
 
 def replace_img(match):
     g = match.groups()[0]
-    return """<a target="_blank" href="http://%s" rel="nofollow"><img src="http://%s"/></a>""" %(g, g)
+    return """<a target="_blank" href="//%s"><img src="//%s"/></a>""" %(g, g)
 
 def replace_bold(match):
     txt = match.groups()[0]
@@ -90,7 +90,7 @@ def replace_bold(match):
 def txt_withlink(s):
     if type(s) is unicode:
         s = str(s)
-    #s = '\r'.join(map(str.rstrip, s.replace('\r\n', '\r').replace('\n', '\r').split('\r')))
+    s = '\r'.join(map(str.rstrip, s.replace('\r\n', '\r').replace('\n', '\r').split('\r')))
     s = escape(s)
     replace_code = ReplaceCode()
     s = txt_map('\r{{{', '\r}}}\r', '\r%s\r'%s, replace_code).strip()
@@ -100,7 +100,6 @@ def txt_withlink(s):
     s = RE_AT.sub(replace_at, s)
     s = RE_IMG.sub(replace_img, s)
     s = replace_code.loads(s)
-#    s = s.replace("\r","\n")
     return s
 
 def txt2htm_withlink(s):
@@ -117,7 +116,13 @@ def replace_at(match):
 
 
 if __name__ == '__main__':
-    print txt_withlink(r'''
+    print """
+<!doctype html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"></head>
+<body>
+%s
+</body>
+</html>
+"""%txt_withlink(r'''
 支付宝推荐
 交通罚款代办全新上线！全国交通违章罚单免费查询。
 出账单：全民年度账单发布，年度大盘点，《2011，我们一起走过》

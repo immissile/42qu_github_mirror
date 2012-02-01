@@ -126,9 +126,6 @@ class PoReplyJson(Base):
         return self.finish(dumps(result))
 
 
-
-
-
 @urlmap('/j/po/(\d+)')
 class JPo(JLoginBase):
     def get(self, id):

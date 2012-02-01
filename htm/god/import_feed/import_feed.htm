@@ -2,12 +2,12 @@
 <%!
 from yajl import dumps
 from cgi import escape
-from model.import_feed import ImportFeed, STATE_INIT
+from model.import_feed import ImportFeed, IMPORT_FEED_STATE_INIT
 
 %>
 <%def name="htm_head()">
 <style>
-    #body
+    #txt
     {
         width:650px;
         height:500px;
@@ -17,12 +17,12 @@ from model.import_feed import ImportFeed, STATE_INIT
 
 <%
 
-feed = ImportFeed.where(state = STATE_INIT)
+feed = ImportFeed.where(state = IMPORT_FEED_STATE_INIT)
 result={}
 if feed:
     result['id'] = feed[0].id
     result['title'] = feed[0].title
-    result['body'] = feed[0].body
+    result['txt'] = feed[0].txt
     result['tags'] = 'empty'
 %>
 <script type="text/x-json" id="site_data">
@@ -36,9 +36,9 @@ if feed:
     <input id="title" name="title" type="text" value="${title}" />
     <br/>
 
-    <label for="body">正文</label>
+    <label for="txt">正文</label>
     <br/>
-    <textarea id="body" name="body">{{html body}}</textarea>
+    <textarea id="txt" name="txt">{{html txt}}</textarea>
     <br/>
 
     <label for="cid">种类</label>
@@ -81,12 +81,12 @@ if feed:
     {
         if(r!=null){
         data['title']= r['title'];
-        data['body'] = r['body'];
+        data['txt'] = r['txt'];
         data['tags'] = r['tags'];
         data['id'] = r['id'];
         }else{
         data['title']= '';
-        data['body'] = '';
+        data['txt'] = '';
         data['tags'] = '';
         data['id'] = '';
         }

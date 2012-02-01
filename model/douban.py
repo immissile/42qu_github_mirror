@@ -200,23 +200,26 @@ def title_normal(title):
             .strip()
     return title
 
-def get_most_rec_and_likes():
-    feed_list = DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW).where('`like` + `rec` >5000')[:5]
-    for i in feed_list:
+def douban_feed_to_review_iter():
+    from zweb.orm import ormiter
+    for i in ormiter(
+        DoubanFeed,
+        'state = %s'%DOUBAN_FEED_STATE_TO_REIVEW
+    ):
         i.state = DOUBAN_FEED_STATE_REVIEWED
         i.save()
-    return feed_list
+        yield i
 
 
 
 if __name__ == '__main__':
     pass
     #kv_int.set(KV_IMPORT_DOUBAN,0)
-    #get_most_rec_and_likes()
+    #douban_feed_to_review_iter()
     #for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_REVIEWED):
     #    i.state = DOUBAN_FEED_STATE_TO_REIVEW
     #    i.save()
-    #print get_most_rec_and_likes()
+    #print douban_feed_to_review_iter()
     #print 'DoubanUser.count()', DoubanUser.count()
     #print 'DoubanFeed.count()', DoubanFeed.count()
 

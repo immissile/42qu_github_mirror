@@ -2,7 +2,7 @@
 from tornado.escape import json_encode 
 from model.motto import motto_get
 from model.zsite_fav import zsite_fav_get
-from model.po_by_tag import tag_author_list
+from model.po_list_by_tag_id import zsite_author_list_json
 from yajl import dumps
 from cgi import escape
 %>
@@ -97,7 +97,7 @@ ${page|n}
 <div style="font-size:12px;margin-top:19px;">
 
 <%
-site_list=tag_author_list(zsite_id)
+site_list=zsite_author_list_json(zsite_id)
 %>
 %if site_list:
 <script type="text/x-json" id="site_data">
