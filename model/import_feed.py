@@ -34,19 +34,13 @@ ENGINE = MyISAM;
 import _env
 from _db import Model, McModel
 from po import po_note_new
-from douban import DoubanUser, douban_feed_to_review_iter, douban_user_id_by_feed_id
-from zkit.htm2txt import htm2txt
-from zkit.txt import format_txt
+from douban import DoubanUser, douban_feed_to_review_iter, douban_user_by_feed_id , title_normal
 from model.txt_img_fetch import txt_img_fetch
 from kv import Kv
-from duplicate import Duplicator
 from url_short import url_short_id
 from site_sync import site_sync_new
-from config import DUMPLICATE_DB_PREFIX
 from rec_read import rec_cid_push
 
-douban_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'douban')
-#douban_duplicator = Duplicator('douban.kch')
 
 IMPORT_FEED_STATE_RM = 0
 IMPORT_FEED_STATE_INIT = 10
@@ -58,7 +52,11 @@ IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC = 50
 
 IMPORT_FEED_STATE_POED = 60 
 
-DOUBAN_ZSITE_ID = 68615
+DOUBAN_ZSITE_ID = 10216239
+
+IMPORT_FEED_CID_DICT = {
+        DOUBAN_ZSITE_ID : 1, #douban
+        }
 
 class PoMeta(McModel):
     pass
@@ -78,9 +76,9 @@ def user_url_by_po_meta_user_id(id):
         if user.cid == DOUBAN_ZSITE_ID:
             return 'http://www.douban.com/people/%s'%user_id.url
 
-def user_id_by_feed_id_zsite_id(feed_id, zsite_id):
+def user_by_feed_id_zsite_id(feed_id, zsite_id):
     if zsite_id == DOUBAN_ZSITE_ID:
-        return douban_user_id_by_feed_id(feed_id)
+        return douban_user_by_feed_id(feed_id)
 
 def feed_next():
     return ImportFeed.where(state=IMPORT_FEED_STATE_INIT)[1]
@@ -88,27 +86,6 @@ def feed_next():
 def import_feed_rm(id):
     feed_state_set(id, IMPORT_FEED_STATE_RM)
 
-def import_feed_new(title, txt, author_id, url, src_id, zsite_id, state=IMPORT_FEED_STATE_INIT):
-    txt = format_txt(htm2txt(txt))
-    if not douban_duplicator.txt_is_duplicate(txt):
-
-        douban_user = DoubanUser.get(author_id)
-        user_id = zsite_id_by_douban_user_id(douban_user)
-
-        new_feed = ImportFeed(
-                title=title,
-                txt=txt,
-                user_id=user_id,
-                zsite_id=zsite_id,
-                state=state,
-                rid=src_id,
-                url=url
-                )
-
-        new_feed.save()
-        douban_duplicator.set_record(txt, new_feed.id)
-
-        return new_feed
 
 def feed_state_set(id, state):
     feed = ImportFeed.get(id)
@@ -117,10 +94,11 @@ def feed_state_set(id, state):
         feed.save()
 
 def zsite_id_by_douban_user_id(douban_user):
+    #TODO: get zsite_user_id
+    return 0
     zsite_id = 0
     if douban_user:
         douban_username = douban_user.name
-        #TODO: get zsite_user_id
         zsite_id = 10001518
     return zsite_id
 
@@ -135,7 +113,9 @@ def feed2po_new():
         ):
         txt = txt_img_fetch(feed.txt)
 
-        user_id = feed.user_id
+        feed_user =  user_by_feed_id_zsite_id(feed.rid, feed.zsite_id)
+        user_id = zsite_id_by_douban_user_id(feed_user)
+
         zsite_id = feed.zsite_id
 
         is_without_author = feed.state == IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC or feed.state == IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR
@@ -144,11 +124,10 @@ def feed2po_new():
             user_id = 0
             zsite_id = 0
 
-        po = po_note_new(user_id, feed.title, txt, zsite_id=zsite_id)
+        title = title_normal(feed.title)
+        po = po_note_new(user_id, title, txt, zsite_id=zsite_id)
 
         if po:
-            feed_user =  user_id_by_feed_id_zsite_id(feed.rid, zsite_id)
-
             if not feed_user:
                 feed_user_id = 0
             else:
@@ -194,11 +173,6 @@ def review_feed(id, cid, author_rm=False, sync=False):
         feed.cid = cid
         feed.save()
 
-def import_feed_by_douban_feed():
-    for i in douban_feed_to_review_iter():
-        import_feed_new(
-            i.title, i.htm, i.user_id, i.link, i.id, DOUBAN_ZSITE_ID
-        )
 
 if __name__ == '__main__':
     pass

@@ -128,7 +128,7 @@ def douban_user_feed_new(vote, cid, rid, user_id):
     return id
 
 
-def douban_user_id_by_feed_id(id):
+def douban_user_by_feed_id(id):
     feed = DoubanFeed.get(id)
     if feed:
         user = DoubanUser.get(feed.user_id)
@@ -231,6 +231,7 @@ if __name__ == '__main__':
     #kv_int.set(KV_IMPORT_DOUBAN,0)
     #douban_feed_to_review_iter()
     for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_REVIEWED):
+        print i
         i.state = DOUBAN_FEED_STATE_TO_REIVEW
         i.save()
     #print douban_feed_to_review_iter()
