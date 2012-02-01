@@ -160,7 +160,7 @@ def feed2po_new():
 
 def review_feed(id, cid, erase_author=False, sync=False):
     feed = ImportFeed.get(id)
-    if feed:
+    if feed and feed.state==IMPORT_FEED_STATE_INIT :
         if erase_author:
             if sync:
                 feed.state = IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC
