@@ -12,7 +12,7 @@ from config import MQ_FAIL_MAIL_ADDR
 def main():
     cursor = cursor_by_table('failed_mq')
     now = datetime.datetime.now().strftime('%Y%m%d')
-    cursor.execute('select id,body,exc,func,time from failed_mq where time>%s'%str(int(now)-1))
+    cursor.execute('select id,body,exc,func,time from failed_mq where time>%s'%str(int(now)))
 
     out = []
     for id, body, exc, func, ctime in cursor.fetchall():

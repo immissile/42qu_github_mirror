@@ -331,33 +331,34 @@ def po_cid_set(po, cid):
 
 def po_rm(user_id, id):
     po = Po.mc_get(id)
-    cid = po.cid
-    rid = po.rid
-    #print po,user_id,id
-    if po.can_admin(user_id):
-        from po_question import answer_count
-        if cid == CID_QUESTION:
-            if answer_count(id):
-                return
-        elif cid == CID_EVENT:
-            from model.event import event_rm
-            event_rm(user_id, id)
-        elif cid == CID_EVENT_FEEDBACK:
-            from model.po_event import po_event_feedback_rm
-            from model.rank import rank_rm
-            po_event_feedback_rm(user_id, rid)
-            rank_rm(id, rid)
-        elif cid == CID_EVENT_NOTICE:
-            from model.po_event import mc_po_event_notice_id_list_by_event_id
-            mc_po_event_notice_id_list_by_event_id.delete(rid)
-        if cid == CID_REC:
-            from model.po_recommend import po_recommend_rm_reply
-            po_recommend_rm_reply(id, user_id)
+    if po:
+        cid = po.cid
+        rid = po.rid
+        #print po,user_id,id
+        if po.can_admin(user_id):
+            from po_question import answer_count
+            if cid == CID_QUESTION:
+                if answer_count(id):
+                    return
+            elif cid == CID_EVENT:
+                from model.event import event_rm
+                event_rm(user_id, id)
+            elif cid == CID_EVENT_FEEDBACK:
+                from model.po_event import po_event_feedback_rm
+                from model.rank import rank_rm
+                po_event_feedback_rm(user_id, rid)
+                rank_rm(id, rid)
+            elif cid == CID_EVENT_NOTICE:
+                from model.po_event import mc_po_event_notice_id_list_by_event_id
+                mc_po_event_notice_id_list_by_event_id.delete(rid)
+            if cid == CID_REC:
+                from model.po_recommend import po_recommend_rm_reply
+                po_recommend_rm_reply(id, user_id)
 
-        from model.po_recommend import mq_rm_rec_po_by_po_id
-        mq_rm_rec_po_by_po_id(user_id, id)
+            from model.po_recommend import mq_rm_rec_po_by_po_id
+            mq_rm_rec_po_by_po_id(user_id, id)
 
-        return _po_rm(user_id, po)
+            return _po_rm(user_id, po)
 
 
 def _po_rm(user_id, po):
@@ -487,7 +488,25 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
-        
+    class PoRidMeta(McModel):
+        pass
+    count = 0
+#id  name_   user_id     cid     rid     state   create_time     zsite_id
+    from zweb.orm import ormiter
+    for i in ormiter(PoRidMeta):
+        id = i.id
+        if not Po.get(id):
+            print count,i,i.user_id
+            count+=1
+            po = Po.mc_get(id)
+            if po:
+                Po(id=po.id,name_=po.name_,cid=po.cid, rid=po.rid, user_id=po.user_id,state=po.state,create_time=po.create_time,zsite_id=po.zsite_id).save()
+            else:
+                feed_rm(i.id)
+                from model.zsite_tag import ZsiteTagPo
+                for t in ZsiteTagPo.where(po_id=id):
+                    t.delete()
+
     #rm_all_po_and_reply_and_tag_by_user_id(10001299)
     pass
     #for po in Po.where(cid = CID_NOTE,state=STATE_ACTIVE):
