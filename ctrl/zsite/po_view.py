@@ -258,7 +258,7 @@ class PoOne(ZsiteBase):
         po = Po.mc_get(id)
         if po:
             self._po = po
-            if po.user_id == self.zsite_id:
+            if po.user_id == self.zsite_id or not po.user_id:
                 return po
             return self.redirect(po.link)
         return self.redirect('/')

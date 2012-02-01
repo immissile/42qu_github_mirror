@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import _env
 from collections import defaultdict
 from idf import idf_zhihu
 from mmseg import seg_txt
 from yajl import loads
+from zkit.txt_cleanup import sp_txt
 
 class ParentTagger(object):
     def __init__(self):
@@ -14,15 +16,11 @@ class ParentTagger(object):
 
         self.id_to_word = TAG2ID.id2word()
 
-    def sp_txt(self, txt):
-        txt = unicode(txt)
-        for i in range(len(txt)-1):
-            yield txt[i]+txt[i+1]
 
     def get_parent_tag(self, tag):
         set_list = []
 
-        for i in self.sp_txt(tag):
+        for i in sp_txt(tag):
             if i in self.word_to_id:
                 set_list.append(i)
 

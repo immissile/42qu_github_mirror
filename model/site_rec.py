@@ -20,6 +20,7 @@ from model.ico import ico_url_bind
 from model.career import career_bind
 from zkit.txt import cnenoverflow
 from model.motto import motto
+from zsite_json import zsite_json
 
 SiteRec = Kv('site_rec', 0)
 #SiteRecNew = Kv('site_rec_new', 0)
@@ -81,45 +82,7 @@ def site_rec_set(user_id, site_id):
 
 def site_rec_dump(user_id):
     zsite_list = site_rec(user_id)
-    ico_url_bind(zsite_list)
-    zsite_id_list = tuple(i.id for i in zsite_list)
-    
-    user_list = []
-    for i in zsite_list:
-        if i.cid == CID_USER:
-            user_list.append(i)
-    career_bind(user_list)
-    motto_dict = motto.get_dict(zsite_id_list)
-
-    cnenoverflow
-    result = []
-     
-
-    for i, is_follow in zip(
-        zsite_list,
-        follow_get_list(user_id, zsite_id_list)
-    ):
-        career = (' , '.join(filter(bool,i.career)) if i.cid==CID_USER else 0) or 0
-        _motto = motto_dict.get(i.id) or 0
-        if _motto:
-            length = 14
-            if not career:
-                length += length
-            _motto = cnenoverflow(_motto, length)[0]
-
-        if is_follow and is_follow is not True:
-            is_follow = 1
-        result.append((
-            i.id,                                                            #0 
-            i.link,                                                          #1
-            i.name,                                                          #2
-            i.ico,                                                           #3
-            career,                                                          #4
-            i.cid ,                                                          #5
-            _motto ,                                                         #6
-            is_follow ,                                                      #7
-        ))
-    return result
+    return zsite_json(user_id, zsite_list)
 
 if __name__ == '__main__':
     from model.zsite_url import id_by_url

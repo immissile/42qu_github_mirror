@@ -1,10 +1,12 @@
 #coding:utf-8
 
+import _env
 from collections import defaultdict
 from zkit.idf import idf_zhihu
 from mmseg import seg_txt
 from yajl import loads
 from generate_lib import TAG2ID, WORD2ID, BAYES_RANK
+from zkit.txt_cleanup import sp_txt
 
 import sys;
 reload(sys);
@@ -50,9 +52,6 @@ class GetTag(object):
         return highest_word_list
         #return [ID2TAG[k] for k in highest_word_list]
 
-def sp_txt(txt):
-    for i in range(len(txt)-1):
-        yield txt[i:i+2]
 
 if __name__ == '__main__':
     txt = '''
