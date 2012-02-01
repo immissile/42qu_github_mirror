@@ -50,7 +50,7 @@ class Duplicator(object):
         result = defaultdict(int)
         for i in feature_list:
             for j in self.db.get(i):
-                result[j]+=1
+                result[j] += 1
         return result
 
     def txt_is_duplicate(self, txt):
@@ -62,13 +62,13 @@ class Duplicator(object):
         #print feature_list
         feature_list_len = float(len(feature_list))
         min_same_count = int(feature_list_len*0.618)+1
-    
+
         result = []
         for id, same_count in self.__find_duplicate__(feature_list).iteritems():
             print same_count
             if same_count > min_same_count:
                 result.append((id, same_count/feature_list_len))
-        
+
         return result
 
 
@@ -89,7 +89,7 @@ d
     from config import DUMPLICATE_DB_PREFIX
 
     dup_db = Duplicator(DUMPLICATE_DB_PREFIX%'test2')
-    dup_db.set_record(a,3)
+    dup_db.set_record(a, 3)
     print dup_db.txt_is_duplicate(a)
 
     #from po import Po
