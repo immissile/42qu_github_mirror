@@ -145,6 +145,8 @@ def rec_read_empty(user_id):
     ):
         redis.delete(key%user_id)
 
+    mc_rec_lock.delete(user_id)
+
 #rec cid
 
 def rec_cid_push(cid, id):
