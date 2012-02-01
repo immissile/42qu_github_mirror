@@ -15,7 +15,7 @@ from zsite_list  import zsite_list_new, zsite_list_get, zsite_id_list
 from zsite_json import zsite_json
 
 
-mc_po_id_list_by_tag_id = McLimitA('PoZsiteTag.%s', 512)
+mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 
 class PoZsiteTag(McModel):
     pass
