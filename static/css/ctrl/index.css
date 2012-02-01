@@ -154,7 +154,8 @@ li
 display:none;
 }
 .zname{
-margin-left:21px;
+display:inline;
+margin-left:7px;
 }
 .zname span{
 border-bottom:1px dotted #aaa;

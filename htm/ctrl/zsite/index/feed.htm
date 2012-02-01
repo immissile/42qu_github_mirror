@@ -125,10 +125,10 @@ quality="high" bgcolor="#FFFFFF" class="audio"
 src="${FS_URL}/swf/1bit.swf"
 <%text>type="application/x-shockwave-flash"
 wmode= "Opaque"></embed>{{/if}}{{if name}}{{if cid == 73}}{{html name}}{{else}}<a
-target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}{{/if}}{{/if}}</a>{{/if}}{{if tag_id}}<a 
-    class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}{{if !$index}}<div 
+target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{{/if}}">${name}{{/if}}{{/if}}</a>{{/if}}{{if !$index}}<div 
     class="zname"><span></span><a 
-    target="_blank" class="TPH" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}</pre>
+    target="_blank" class="TPH" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}{{if tag_id}}<a 
+    class="tag" href="/tag/${tag_id}">#${tag_name}#</a>{{/if}}</pre>
 {{/if}}{{if cid==65}}
 <a class="fdimga" target="_blank" href="/${id}"><img class="fdimg" src="${rid}"></a>
 {{/if}}
