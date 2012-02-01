@@ -34,15 +34,15 @@ class ImportFeedShow(Base):
         title = self.get_argument('title',None)
         txt = self.get_argument('txt',None)
         sync = self.get_argument('sync',None)
-        delauthor = self.get_argument('delauthor',None)
+        author_rm = self.get_argument('author_rm',None)
         cid = self.get_argument('cid',None)
 
-        po = review_feed(id,delauthor, sync)
+        po = review_feed(id,author_rm, sync)
         if po and cid:
             print cid,po.id
             rec_cid_push(cid, po.id)
 
-        print id,title,sync,delauthor
+        print id,title,sync,author_rm
         self.get()
 
 @urlmap('/import_feed/rm')
