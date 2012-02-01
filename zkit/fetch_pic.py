@@ -4,13 +4,18 @@
 import urllib2
 from urlfetch import urlfetch
 from pic import picopen
+from urlparse import urlparse
 
 
 def fetch_pic(url, referer=None):
     headers = {}
 
+    parts = urlparse(url)
+
     if referer:
         headers['Referer'] = referer
+    else:
+        headers['Referer'] = 'http://%s'%parts[1]
 
     request = urllib2.Request(url, None, headers)
     raw = urlfetch(request)

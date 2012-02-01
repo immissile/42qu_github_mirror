@@ -12,8 +12,10 @@ from model.motto import motto
 from model.follow import follow_get_list
 from model.career import career_bind
 from zsite_list  import zsite_list_new, zsite_list_get, zsite_id_list
+from zsite_json import zsite_json
 
-mc_po_id_list = McLimitA('PoZsiteTag.%s', 512)
+
+mc_po_id_list_by_tag_id = McLimitA('PoZsiteTag.%s', 512)
 
 class PoZsiteTag(McModel):
     pass
@@ -57,8 +59,8 @@ def po_id_list_by_tag_id(tag_id, limit, offset=0):
     return po_list
 
 
-def po_by_tag(tag_id, user_id, limit=25):
-    id_list = po_id_list_by_tag_id(tag_id, limit)
+def po_by_tag(tag_id, user_id, limit=25, offset=0):
+    id_list = po_id_list_by_tag_id(tag_id, limit, offset)
     return po_json(user_id, id_list, 36)
 
 def tag_author_list(zsite_id):

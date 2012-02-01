@@ -105,7 +105,14 @@ class DoubanUser(McModel, ModelUrl):
 class DoubanGroup(McModel, ModelUrl):
     pass
 class DoubanFeed(Model):
-    pass
+    @property
+    def link(self):
+        if self.cid == CID_DOUBAN_FEED_TOPIC:
+            link = 'http://www.douban.com/group/topic/%s'%self.rid
+        elif self.cid == CID_DOUBAN_FEED_NOTE:
+            link = 'http://www.douban.com/note/%s'%self.rid
+        return link
+
 class DoubanUserFeed(Model):
     pass
 class DoubanRec(Model):
@@ -121,7 +128,11 @@ def douban_user_feed_new(vote, cid, rid, user_id):
     return id
 
 
-
+def user_id_by_feed_id(id):
+    feed = DoubanFeed.get(id)
+    if feed:
+        return feed.user_id
+    
 
 def user_id_by_url(url):
     return id_by_url(DoubanUser, url)
@@ -216,9 +227,9 @@ if __name__ == '__main__':
     pass
     #kv_int.set(KV_IMPORT_DOUBAN,0)
     #douban_feed_to_review_iter()
-    #for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_REVIEWED):
-    #    i.state = DOUBAN_FEED_STATE_TO_REIVEW
-    #    i.save()
+    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_REVIEWED):
+        i.state = DOUBAN_FEED_STATE_TO_REIVEW
+        i.save()
     #print douban_feed_to_review_iter()
     #print 'DoubanUser.count()', DoubanUser.count()
     #print 'DoubanFeed.count()', DoubanFeed.count()
