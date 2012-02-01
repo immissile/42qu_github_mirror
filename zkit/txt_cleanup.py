@@ -85,11 +85,14 @@ def sp_txt(txt):
         yield txt 
     else:
         for i in _line_iter(txt):
-            for n in range(len(i)-1):
-                if i[n].isspace():
-                    pass
-                else:
-                    yield ''.join(i[n:n+2])
+           # for n in xrange(len(i)-1):
+           #     if not i[n].isspace():
+           #         yield ''.join(i[n:n+2])
+
+            for pos,char in enumerate(i):
+                if not char.isspace():
+                    yield ''.join(i[pos:pos+2])
+                
 
 if __name__ == '__main__':
     txt1 = """

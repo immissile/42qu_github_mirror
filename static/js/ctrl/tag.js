@@ -37,7 +37,7 @@ function render_note(data){
 
 });
 
-
+/*
     function readx(){
         var fav=txt_body.find(".fav,.faved")[0];
         $('#fcmx_'+fav.rel).click();
@@ -115,5 +115,5 @@ function render_note(data){
             })
         }
     }
-
 })();
+*/
