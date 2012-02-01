@@ -4,6 +4,85 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `douban_feed`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `douban_feed` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cid` int(10) unsigned NOT NULL,
+  `rid` int(10) unsigned NOT NULL,
+  `rec` int(10) unsigned NOT NULL,
+  `like` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `topic_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `title` varchar(255) COLLATE utf8_bin NOT NULL,
+  `htm` mediumtext COLLATE utf8_bin NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`cid`,`rid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `douban_feed_owner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `douban_feed_owner` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `owner` varbinary(64) NOT NULL,
+  `topic` varbinary(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `douban_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `douban_group` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `url` varchar(64) COLLATE utf8_bin NOT NULL,
+  `member` int(10) unsigned NOT NULL DEFAULT '0',
+  `leader` varchar(64) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`url`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `douban_rec`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `douban_rec` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `cid` tinyint(3) unsigned NOT NULL,
+  `htm` text NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `douban_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `douban_user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `url` varchar(64) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`url`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `douban_user_feed`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `douban_user_feed` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `cid` smallint(5) unsigned NOT NULL,
+  `vote` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`rid`,`user_id`,`cid`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `google_rank`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

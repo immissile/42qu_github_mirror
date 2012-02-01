@@ -156,6 +156,22 @@ class Feed(JLoginBase):
 
         self.finish(result)
 
+@urlmap('/j/po/json/(\d+)')
+class PoJson(Base):
+    def get(self, id):
+        po = Po.mc_get(id)
+        current_user_id = self.current_user_id
+        if po.can_view(self.current_user_id): 
+            result = {
+                'txt':po.htm,
+                'reply_count':po.reply_count,
+                'create_time':po.create_time
+            }
+            po_pos_mark(current_user_id, po)
+        else:
+            result = {}
+
+        self.finish(result)
 
 @urlmap('/j/fdtxt/(\d+)')
 class FdTxt(Base):

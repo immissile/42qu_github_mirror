@@ -52,5 +52,5 @@ def shorturl(url):
 
 
 if '__main__' == __name__:
-    url = 'http://baidu.com?2'
+    url = 'http://baidu.com?233'
     print shorturl(url)

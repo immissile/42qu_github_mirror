@@ -93,6 +93,7 @@ def feed_tuple_by_db(id):
         )
 
     return result
+
 class FeedBase(object):
     def __init__(self, id, rt_id_list, cid, reply_count, zsite_id, vote, name):
         self.id = id

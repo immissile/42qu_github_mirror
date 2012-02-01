@@ -13,4 +13,5 @@ JS = [
 'ctrl/feed.js',
 'po.js',
 'ctrl/at.js',
+'ctrl/com/isotope.js',
 ]

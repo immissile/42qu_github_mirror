@@ -157,13 +157,13 @@ class PoEditShow(Base):
         broad = self.get_argument('broad', None)
         site = self.get_argument('site', None)
         sync = self.get_argument('sync', None)
-        forma = self.get_argument('format',None)
+        _format = self.get_argument('format',None)
         _edit(broad,sync,site,po,id) 
         if name:
             po.name_ = name
             po.save()
         if txt:
-            if forma:
+            if _format:
                 txt = format_txt(txt)
             po.txt_set(txt)
        

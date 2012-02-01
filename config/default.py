@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import _env
 
-import zkit.cookie_morsel 
 
 import yajl
 import json
-from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 
 json.dump = yajl.dump
 json.dumps = yajl.dumps
@@ -14,6 +11,9 @@ json.loads = yajl.loads
 json.load = yajl.load
 
 
+import _env
+from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
+import zkit.cookie_morsel 
 from hmako.lookup import TemplateLookup
 import sys
 from os.path import join
@@ -26,12 +26,17 @@ def prepare(o):
     o.SITE_NAME = '42区'
     o.PORT = 6666
 
+    o.REDIS_CONFIG = {
+        "unix_socket_path":"/tmp/redis.sock"
+    }
     o.MYSQL_HOST = '127.0.0.1'
     o.MYSQL_PORT = '3306'
     o.MYSQL_MAIN = 'zpage'
     o.MYSQL_USER = 'root'
     o.MYSQL_PASSWD = '42qu'
 
+
+    o.DUMPLICATE_DB = 'test.kch'
     o.MQ_PORT = 11300
     o.MQ_FAIL_MAIL_ADDR = "zsp007@gmail.com"
 
@@ -39,6 +44,8 @@ def prepare(o):
     o.FS_DOMAIN = 's.%s'%o.SITE_DOMAIN
 
     o.DEBUG = False
+
+    o.SHORT_DOMAIN = '42qu.us'
 
     o.DISABLE_LOCAL_CACHED = False
     o.MEMCACHED_ADDR = ('127.0.0.1:11211', )

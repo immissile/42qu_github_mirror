@@ -16,7 +16,7 @@ from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.po_prev_next import mc_flush
 from zkit.idf import idf_zhihu
 import urllib2
-from zkit.retry import urlfetch
+from zkit.urlfetch import urlfetch
 from zkit.pic import picopen
 
 exist = {}

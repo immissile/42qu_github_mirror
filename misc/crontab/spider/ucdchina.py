@@ -48,10 +48,12 @@ class UCDchina(object):
                 return 
             
             content = str(content)
+            tags = TAGGER.get_tag(content+title)
             #tags = TAGGER.get_tag(content+title)
             #out = dumps([title,url,tags])
             #print out
-            out = dumps([ title, content, author, blog_url ])
+            out = dumps([ title, content, author, tags ])
+            #out = dumps([ title, content, author, blog_url ])
             print out
 
             #a = RssPo(content,UCD_USER_ID,title, pic_list, 0, UCDCHINA_ZSITE_ID,tags)

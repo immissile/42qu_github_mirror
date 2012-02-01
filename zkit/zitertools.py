@@ -13,11 +13,18 @@
 # [60, 61, 62, 63, 64, 65, 66, 67, 68, 69],
 # [70, 71, 72, 73, 74]]
 
-def chunkiter(list, n):
+def chunkiter(l, n):
     """ Yielistd successive n-sized chunks from list.
     """
-    for i in xrange(0, len(list), n):
-        yield list[i:i+n]
+    for i in xrange(0, len(l), n):
+        yield l[i:i+n]
 
 
+def lineiter(l):
+    result = []
+    for i in l:
+        result.extend(i)
+    return result
 
+if "__main__" == __name__:
+    pass 

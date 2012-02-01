@@ -23,6 +23,8 @@ def datetime_to_minutes(datetime):
 def time_by_string(s):
     return datetime.datetime(*map(int, TIME_BY_STRING.findall(s)))
 
+def int_by_string(s):
+    return int(mktime(time_by_string(s).timetuple()))
 
 def today_days():
     return int((time() - timezone) // ONE_DAY)

@@ -61,7 +61,7 @@ def mail_link(mail):
 def cnenlen(s):
     if type(s) is str:
         s = s.decode('utf-8', 'ignore')
-    return len(s.encode('gb18030', 'ignore')) / 2.0
+    return len(s.encode('gb18030', 'ignore')) // 2
 
 def cnencut(s, length):
     ts = type(s)
@@ -81,11 +81,38 @@ def cnenoverflow(s, length):
         has_more = False
     return txt, has_more
 
+
 def format_txt(txt):
-    return "\n\n".join(filter(bool,map(str.strip,txt.split("\n"))))
+    txt = str(txt)
+    txt = txt.replace('　', ' ').replace('\r\n', '\n').replace('\r', '\n').rstrip().rstrip("\n")
+    txt = map(str.strip, txt.split('\n'))
+    result = []
+    
+    has_split = False
+    for i in txt:
+        if i:
+            result.append(i)
+            pre = True
+        elif result and result[-1]:
+            result.append(i)
+            has_split = True
+
+    if has_split:
+        split = "\n"
+    else:
+        split = "\n\n"
+    txt = split.join(result)
+    return txt
 
 #<span style="margin-left:4px"><a href="#">显示全部</a></span>
 if __name__ == '__main__':
     print mail_link('zsp007@gmail.com')
     print mail_link('zsp007@42qu.com')
+    print format_txt("""
+1、请你自我介绍一下你自己？
+回答提示：一般人回答这个问题过于平常，只说姓名、年龄、爱好、工作经验，这些在简历上都有。其实，企业最希望知道的是求职者能否胜任工作，包括：最强的技能、最深入研究的知识领域、个性中最积极的部分、做过的最成功的事，主要的成就等，这些都可以和学习无关，也可以和学习有关，但要突出积极的个性和做事的能力，说得合情合理企业才会相信。企业很重视一个人的礼貌，求职者要尊重考官，在回答每个问题之后都说一句“谢谢”，企业喜欢有礼貌的求职者。
 
+2、你觉得你个性上最大的优点是什么？
+回答提示：沉着冷静、条理清楚、立场坚定、顽强向上、乐于助人和关心他人、适应能力和幽默感、乐观和友爱。我经过一到两年的培训及项目实战，加上实习工作，使我适合这份工作。
+
+""")

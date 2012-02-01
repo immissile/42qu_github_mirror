@@ -19,6 +19,7 @@ from zkit.txt import cnencut
 from zkit.attrcache import attrcache
 from cgi import escape
 import json
+from url_short import url_short_txt
 from zkit.jsdict import JsDict
 from buzz_reply import mq_buzz_po_rm
 from buzz_at import mq_buzz_at_new
@@ -53,7 +54,9 @@ class Po(McModel, ReplyMixin):
     @property
     def txt(self):
         cid = self.cid
-        if cid in (CID_WORD, CID_EVENT_NOTICE, CID_REC):
+        if cid == CID_WORD:
+            return self.name_
+        elif cid in (CID_EVENT_NOTICE, CID_REC):
             return self.name_
         elif cid == CID_ANSWER:
             return txt_get(self.id) or self.name_
@@ -100,6 +103,7 @@ class Po(McModel, ReplyMixin):
 
     def txt_set(self, txt):
         id = self.id
+        txt = url_short_txt(txt, self.user_id)
         txt_new(id, txt or '')
         self.mc_flush()
 
@@ -376,11 +380,11 @@ def _po_rm(user_id, po):
     fav_rm_by_po(po)
     return True
 
-
 def po_word_new(user_id, name, state=None, rid=0, zsite_id=0):
     _is_same_post = is_same_post(user_id, name, zsite_id)
     #print _is_same_post, '_is_same_post', name
     if name and not _is_same_post:
+        name = url_short_txt(name, user_id)
         m = po_new(CID_WORD, user_id, name, state, rid, zsite_id=zsite_id)
         if m and (state is None or state > STATE_SECRET):
             m.feed_new()
@@ -483,17 +487,18 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
+        
     #rm_all_po_and_reply_and_tag_by_user_id(10001299)
     pass
-    from os import path
-    for po in Po.where(user_id=10000000,cid = CID_NOTE,state=STATE_ACTIVE):
-        with open(path.join('/home/work/10000000/', str(po.id)),'w') as f:
-            f.write(po.name)
-            f.write(po.txt)
+    #for po in Po.where(cid = CID_NOTE,state=STATE_ACTIVE):
+    #    print po.txt
+    #    raw_input()
     #po = Po.mc_get(10199705)
-    #pass
-    po = Po.mc_get(10199705)
-    print dir(po)
+    ##pass
+    #po = Po.mc_get(10210260)
+    #
+    #po.name_ = po.name_.replace("\n"," ; ").replace(";  ;"," ; ").replace("2012  ;","2012 ")
+    #po.save()
     #print po.name
     #print po.cid
 

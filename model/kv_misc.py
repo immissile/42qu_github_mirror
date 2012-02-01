@@ -31,6 +31,7 @@ KV_EVENT_PAY = 11 # 活动结束转账
 KV_SEO_PING = 12 # SEO ping PO
 KV_REPLY_NUM = 13 #回复数
 KV_INVITE_MESSAGE = 14 #邀请邮件
+KV_IMPORT_DOUBAN = 15 #导入豆瓣
 
 #微博同步
 KV_SYNC_PO_BY_ZSITE_ID = 15 # 发文 

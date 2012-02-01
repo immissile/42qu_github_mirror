@@ -5,6 +5,7 @@ from os.path import dirname, abspath, join
 PWD = dirname(abspath(__file__))
 sys.path.append(dirname(dirname(PWD)))
 
+
+import zkit.spider 
 import config
 config.DISABLE_LOCAL_CACHED = True
-

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import urllib2
-from retry import urlfetch
+from urlfetch import urlfetch
 from pic import picopen
 
 
@@ -18,4 +18,7 @@ def fetch_pic(url, referer=None):
     img = picopen(raw)
     return img
 
-
+if __name__ == '__main__':
+    pass
+    fetch_pic("http://27.media.tumblr.com/tumblr_ly0eyceSeo1qigppz_1326962065_cover.jpg")
+    

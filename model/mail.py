@@ -125,5 +125,5 @@ from mq import mq_client
 mq_rendermail = mq_client(rendermail)
 
 if '__main__' == __name__:
-    #sendmail('122', '2345', 'zsp007@gmail.com')
+    sendmail('122', '2345', 'zsp007@gmail.com')
     print SENDER_MAIL

@@ -49,11 +49,11 @@ padding-bottom:16px;
 	width:20px;
 	height:16px;
 	margin-top:2px;
-	background:url(/img/png/plus.png) #fff no-repeat 0 -16px;
+	background:url(/img/png/star.png) #fff no-repeat 0 -16px;
 	float:right;
 }
 .site_fav_a:hover{
-	background:url(/img/png/plus.png) no-repeat 0 0px #fff;
+	background:url(/img/png/star.png) no-repeat 0 0px #fff;
 }
 .site_faved
 {
@@ -61,6 +61,6 @@ padding-bottom:16px;
 	width:20px;
 	height:16px;
 	margin-top:2px;
-	background:url(/img/png/plus.png) #fff no-repeat 0 -30px;
+	background:url(/img/png/star.png) #fff no-repeat 0 -30px;
 	float:right;
 }

@@ -16,18 +16,18 @@
 .site_info{
     float:left;
     overflow:hidden;
-    width:187px;
+    width:186px;
     margin-left:10px;
     margin-top:0;
     line-height:20px;
 }
 .site_avatar{
-    width:53px;
-    margin-top:2px;
-    height:53px;
+    width:54px;
+    margin-top:3px;
+    height:54px;
 }
 .site_info_no_img{
-    margin-left:67px
+    margin-left:68px
 }
 .site_bio{
     color:#999;
@@ -48,7 +48,7 @@
     height:16px;
     margin-top:2px;
     cursor:pointer;
-    background:url(/img/png/plus.png) #fff no-repeat 0 -16px;
+    background:url(/img/png/star.png) #fff no-repeat 0 -16px;
     float:right;
     _margin-top:-17px;
 }
@@ -87,6 +87,7 @@ width:722px;
 }
 .com_main{
 width:666px;
+padding-bottom:14px;
 }
 .com_side{
 width:250px;
@@ -96,15 +97,105 @@ font-family:'Trebuchet MS',Helvetica,sans-serif;
 margin-left:-32px
 }
 .b1024 .H .site{
-margin-left:0
+margin-left:-3px;
 }
 h1{
-font-size:24px;
+padding-left:30px;
+font-size:16px;
+font-weight:bold;
 padding-bottom:27px;
+text-align:left;
+}
+.tagtxt{
+    display:inline;
+    font-weight:normal;
+    margin:0 0 0 14px;
+    font-size:12px;
+    color:#666;
 }
 #search{
-width:211px;
+font-size:13px;
+width:206px;
+padding-left:8px;
 }
 .search{
 margin-top:27px;
+}
+#tagbar{
+margin-top:27px;
+margin-left:-7px;
+}
+#tagbar .xa{
+margin-left:7px;
+padding:7px 14px;
+}
+#tagbar .xatxt .xa{
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FCFCFF',endColorstr='#f6f6ff');
+background:-webkit-gradient(linear,0 0,0 100%,from(#FCFCFF),to(#f6f6ff));
+background:-moz-linear-gradient(top,#FCFCFF,#f6f6ff);
+}
+.xa{
+border:1px solid #e0e0e0;
+box-shadow:0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
+}
+.xatagset span{  
+background:url(/img/gif/tagset.gif) no-repeat 50% 50%;
+vertical-align:-4px;
+display:inline-block;
+width:39px;
+height:18px;
+}
+#tagbar .xatagset{
+padding:7px; 8px 0 0;
+}
+.com_main, .com_side{
+display:none
+}
+.com_main .page{
+border-top:1px dotted #ccc;
+padding-top:14px;
+margin-top:7px;
+margin-bottom:5px;
+}
+.com_main .page a{
+color:#999
+}
+.com_main .page .now{
+background:#eee;
+color:#999;
+}
+.com_main .page a:hover{
+color:#333;
+}
+#read_loading{
+padding:234px 0 220px;
+margin:0;
+}
+.fdbar .aH{
+height:14px;
+}
+.fdbar{
+border-top:1px dotted #ccc;
+margin-top:7px;
+padding-top:14px;
+margin-bottom:4px
+}
+.readl .zname{
+width:118px;
+height:28px;
+}
+.reado{
+height:28px;
+width:520px;
+}
+#main_nav_in{
+width:666px;
+}
+#main_nav_txt{
+width:666px;
+overflow:hidden;
+}
+.prebody a img
+{
+    display:block;
 }

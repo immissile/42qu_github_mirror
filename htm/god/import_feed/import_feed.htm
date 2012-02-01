@@ -1,0 +1,110 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from yajl import dumps
+from cgi import escape
+from model.import_feed import ImportFeed, STATE_INIT
+
+%>
+<%def name="htm_head()">
+<style>
+    #body
+    {
+        width:650px;
+        height:500px;
+    }
+</style>
+</%def>
+
+<%
+
+feed = ImportFeed.where(state = STATE_INIT)
+result={}
+if feed:
+    result['id'] = feed[0].id
+    result['title'] = feed[0].title
+    result['body'] = feed[0].body
+    result['tags'] = 'empty'
+%>
+<script type="text/x-json" id="site_data">
+    ${escape(dumps(result))|n}
+</script>
+
+<script id="render_txt" type="text/x-jquery-tmpl"><%text>
+    <form id="editform" rel="${id}">
+    <label for="title">标题</label>
+    <br/>
+    <input id="title" name="title" type="text" value="${title}" />
+    <br/>
+
+    <label for="body">正文</label>
+    <br/>
+    <textarea id="body" name="body">{{html body}}</textarea>
+    <br/>
+
+    <label for="cid">种类</label>
+    <select id="cid" name="cid">
+        <option value="1">女性·时尚·星座</option>
+        <option value="2">网络·科技·创业</option>
+        <option value="3">情感·社会·人文</option>
+        <option value="4">图书·电影·音乐</option>
+        <option value="5">职业·成长·学习</option>
+        <option value="6">政治·经济·历史</option>
+        <option value="7">生活·旅行·健康</option>
+        <option value="8">酷知识</option>
+    </select>
+
+    <br/>
+    <label for="tags">标签</label>
+    <input id="tags" name="tags" type="text" value="${tags}" />
+    <br/>
+
+    <input id="sync" name="sync" type="checkbox" />
+    <label for="sync">同步</label>
+
+    <input id="delauthor" name="delauthor" type="checkbox" />
+    <label for="delauthor">删除作者</label>
+
+    <input id="" name="id" style="display:none" value="${id}" type="text" />
+</form>
+</%text></script>
+
+<div id="editwrapper">
+</div>
+
+<button id="okbtn">Next</button>
+<button id="nobtn">Pass</button>
+
+<script type="text/javascript">
+    var data = $.parseJSON($("#site_data").html());
+    
+    function refresh_data(r)
+    {
+        if(r!=null){
+        data['title']= r['title'];
+        data['body'] = r['body'];
+        data['tags'] = r['tags'];
+        data['id'] = r['id'];
+        }else{
+        data['title']= '';
+        data['body'] = '';
+        data['tags'] = '';
+        data['id'] = '';
+        }
+    }
+
+$("#editwrapper").html($("#render_txt").tmpl(data));
+$.getJSON('/import_feed/next',refresh_data)
+
+$("#okbtn").click(function(){
+        post_data = $("#editform").serialize();
+        $("#editwrapper").html($("#render_txt").tmpl(data));
+        $.postJSON('/import_feed/next',post_data ,refresh_data);
+        });
+
+$("#nobtn").click(function(){
+        post_data = $("#editform").serialize();
+        $("#editwrapper").html($("#render_txt").tmpl(data));
+        $.postJSON('/import_feed/rm',post_data ,refresh_data);
+        });
+
+</script>

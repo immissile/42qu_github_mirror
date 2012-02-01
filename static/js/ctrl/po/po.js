@@ -31,6 +31,8 @@ $(function(){
         $("#reply_txt").elastic()
     }
 })
+
+
 if(!IE6){
     $(function(){
         var st = $('#sT');

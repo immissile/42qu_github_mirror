@@ -4,23 +4,9 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-    upyun_path_builder 
-    upyun_username 
-    upyun_pwd 
-    upyun_spacename 
-    upyun_api_url 
-    upyun_domain 
-    upyun_dirname 
 """
 
 TO_STRING = """
-    UPYUN_PATH_BUILDER 
-    UPYUN_USERNAME 
-    UPYUN_PWD 
-    UPYUN_SPACENAME 
-    UPYUN_API_URL 
-    UPYUN_DOMAIN 
-    UPYUN_DIRNAME 
 """
 
 def run():

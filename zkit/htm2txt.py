@@ -2,7 +2,7 @@
 
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 import htmlentitydefs, re
-from upyun import upyun_rsspic
+from upyun import upyun_rsspic,upyun_fetch_pic
 BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
 
 _char = re.compile(r'&(\w+?);')
@@ -72,7 +72,6 @@ def htm2txt(htm):
 
     soup = BeautifulSoup(htm)
 
-    pic_list = []
 
     def soup2txt_recursion(soup):
         li = []
@@ -99,10 +98,8 @@ def htm2txt(htm):
                 elif name == 'img':
                     src = i.get('src')
                     if src:
-                        if src not in pic_list:
-                            img_url = upyun_rsspic.append(src)
-                            pic_list.append(src)
-                        li.append(u'\n图:%s\n' % img_url)
+                        #img_url = upyun_fetch_pic(src)
+                        li.append(u'\n图:%s::图\n' % src)
                 else:
                     s = soup2txt_recursion(i)
 
@@ -124,7 +121,7 @@ def htm2txt(htm):
     s = unescape(s.strip())
     txt = '\n\n'.join(filter(bool, [i.strip() for i in s.splitlines()]))
     txt = BLOD_LINE.sub('**', txt)
-    return txt , pic_list
+    return txt 
 
 if __name__ == '__main__':
     import sys
@@ -134,5 +131,6 @@ if __name__ == '__main__':
 <pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;"><span class="cc"><table><tr><td><img src="http://27.media.tumblr.com/tumblr_lj8noxh3ee1qixe63o1_250.jpg" alt=""/></td></tr><tr><td align='center' class="wr pl"></td></tr></table></span>
 如果<h1><h2>某一天</h2></h1>，
 你身上多了一个“恢复出厂设置”按钮，一按身体和记忆一切归为出生时。 你会去按它吗？</pre>
-""")[0]
+""")
     #print unescape("""<option value='&#20013;&#22269;&#35821;&#35328;&#25991;&#23398;&#31995;'>&#20013;&#22269;&#35821;&#35328;&#25991;&#23398;&#31995;</option>""")
+

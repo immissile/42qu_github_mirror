@@ -39,7 +39,7 @@ line-height:150%;
 text-align:center;
 }
 .page a,.page span{
-padding:2px 5px;
+padding:0 5px 2px;
 line-height:27px;
 margin:1px 3px;
 text-decoration:none;
@@ -274,7 +274,7 @@ color:#999;
 color:#d10;
 }
 .aH{
-background:url(/img/gif/icons/gif/black/to_size/arrow1_ne.gif) no-repeat scroll 50% 50%; 
+background:url(/img/gif/icons/gif/light_gray/to_size/arrow1_ne.gif) no-repeat scroll 50% 50%; 
 display:inline-block; 
 line-height:27px; 
 height:18px;
@@ -469,7 +469,14 @@ background:-moz-linear-gradient(top,#f8f8f9,#e6e6e8);
 -o-box-shadow:0 1px 0 #fff inset,0 1px 0 rgba(0,0,0,.1);
 box-shadow:0 1px 0 #fff inset,0 1px 0 rgba(0,0,0,.1);text-shadow:0 1px 0 #fff;border:1px solid #bbb;color:#666!important;}
 .xa:active{
-background:#fff;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd',endColorstr='#dddddd');background:-webkit-gradient(linear,0 0,0 100%,from(#ddd),to(#ddd));background:-moz-linear-gradient(top,#ddd,#ddd);-webkit-box-shadow:none;-moz-box-shadow:none;-o-box-shadow:none;box-shadow:none;
+background:#fff;
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd',endColorstr='#dddddd');
+background:-webkit-gradient(linear,0 0,0 100%,from(#ddd),to(#ddd));
+background:-moz-linear-gradient(top,#ddd,#ddd);
+-webkit-box-shadow:none;
+-moz-box-shadow:none;
+-o-box-shadow:none;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset;
 }
 
 .gask{
@@ -506,7 +513,7 @@ border:0;
 }
 .fcpre .rm{
 float:none;
-background:url(/img/gif/xx.gif) no-repeat -50px 9px;
+background:url(/img/gif/x2.gif) no-repeat -50px 9px;
 height:18px;
 margin-left:14px;
 width:14px;
@@ -523,3 +530,26 @@ background-position:-21px 9px;
 height: 387px;
 width: 474px;
 }
+#feeds .fav, #feeds .fav:hover , #feeds .faving,  #feeds .faved{
+padding:0;
+display:inline-block;
+background:url(/img/png/star.png) no-repeat scroll -2px -15px;
+display: inline-block;
+height: 15px;
+vertical-align: -2px;
+width: 18px;
+}
+#feeds .fav:hover{
+background-position:-2px 1px;
+}
+#feeds .faved{
+background-position:-2px -31px;
+}
+#feeds .faved:hover{
+background-position:-2px -47px;
+}
+#feeds .faving{
+background:url(/img/gif/loading12.gif) no-repeat 0 1px;
+}
+
+

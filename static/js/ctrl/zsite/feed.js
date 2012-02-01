@@ -1,28 +1,31 @@
 
-/*
-61 word
-62 note
-*/
-$(".buzz_li").live("click",function(){
-    $(this.parentNode).find(".buzz_x")[0].visited = 1;
+function feedrecx(){
+    $("#rowrec").hide()
+}
+function popreply(cid, title_html, href, counter){
     var content = $(
-'<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
-    ), self = $(this),
-    rel = self.parents('.buzz_box')[0].id.slice(9),
-    href = this.href, 
-    cbody = content.find('#reply_reply_body'), t=cbody[0],
-    textarea = content.find('textarea'),
-    fancybox = $.fancybox,
-    button = content.find('button'),
-    id = href.split("/")[4].split("#")[0],
-    reply_name=content.find('#reply_name');
+        '<div class="fcmpop" id="reply_reply_pop"><a target="_blank" id="reply_name"></a><div id="reply_reply_body" class="reply_reply_loading"></div><textarea></textarea><div class="tr"><span class="btnw"><button type="submit" class="button">回复</button></span></div></div>'
+        ),
+        cbody = content.find('#reply_reply_body'), 
+        t=cbody[0],
+        textarea = content.find('textarea'),
+        fancybox = $.fancybox,
+        button = content.find('button'),
+        reply_name=content.find('#reply_name'),
+        id = href.split("/")[4].split("#")[0],
+        count=true;
 
-   
-    textarea.ctrl_enter( function(){ button.click()});
+        if(counter){
+            count=counter.html()
+            if(count.length){
+                count-=0
+            }else{
+                count=0
+            }
+        }
+        textarea.ctrl_enter( function(){ button.click()});
+        reply_name.html(title_html).attr('href',href)
 
-    self.css({color:"#99a"});
-
-    reply_name.html(self.html()).attr('href',href)
     button.click(function(){
         var v=textarea.val(), 
             fancybox=$.fancybox;
@@ -33,6 +36,10 @@ $(".buzz_li").live("click",function(){
             fancybox.hideActivity();
             textarea.focus()
             _result(data)
+            if(counter){
+                count+=1
+                counter.html(count)
+            }
         })
     })
     function _(data){
@@ -58,19 +65,50 @@ $(".buzz_li").live("click",function(){
         cbody.css({
             height:height
         })
-        t.scrollTop=t.scrollHeight-t.offsetHeight-5
-
+        if(!count){ //有count的就从第一个开始显示
+            t.scrollTop=t.scrollHeight-t.offsetHeight-5
+        }
         fancybox.resize()
+    }
+    if(!count){
+        cbody.css('height',0).removeClass('reply_reply_loading')
     }
     fancybox({
         content:content, 
         onComplete:function(){
             textarea.focus()
-            $.getJSON( '/j/po-'+rel+'/json/'+id, _)
+            if(count){ 
+                $.getJSON( '/j/po-'+cid+'/json/'+id, _)
+            }
         }
     })
-    return false
+}
 
+/*
+61 word
+62 note
+*/
+$(".bzreply").live("click",function(){
+    var self=$(this)
+    popreply(
+        "reply",
+        self.parents('.readpad').find('.readtitle').html(),
+        this.href,
+        self.find('.count')
+    )
+    return false
+})
+$(".bzlive").live("click",function(){
+    $(this.parentNode).find(".buzz_x")[0].visited = 1;
+    var self = $(this);
+
+    popreply(
+        self.parents('.buzz_box')[0].id.slice(9), 
+        self.html(),
+        this.href
+    )
+    self.css({color:"#99a"});
+    return false
 })
 ;(function() {
     b1024()
@@ -278,6 +316,10 @@ $(".buzz_li").live("click",function(){
         $(this).addClass("fav_loading");
     });
 */
+
+    $(".buzz_win_book").isotope({ itemSelector : '.sdw' });
+
+
 })()
 
 

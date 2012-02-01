@@ -4,7 +4,7 @@
 输入 ::
 
     {
-        id:
+        user_id:
         access_token: //可选
     }
 

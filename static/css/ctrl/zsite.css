@@ -380,7 +380,7 @@ display:block;
 float:left;
 line-height:20px;
 width:60px;
-margin:0 0 12px 40px;
+margin:0 0 12px 39px;
 font-size:14px;
 }
 #fancybox-content .other_login{
@@ -415,6 +415,14 @@ line-height:14px;
     padding-bottom: 6px;
     padding-left: 17px;
     background: url(/img/png/list_style_disc.png) no-repeat 4px 0;
+}
+.buzz_win a
+{
+    color:#004276;
+}
+.buzz_win a:hover
+{
+    color:#d20;
 }
 .buzz_au, .buzz_au a{
     color:#999
