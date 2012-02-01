@@ -21,7 +21,7 @@ PAGE_LIMIT = 50
 @urlmap('/po(?:-(\d+))?')
 class PoList(Base):
     def get(self, n=1):
-        qs = Po.where('state>%s', STATE_RM).where('zsite_id!=user_id')
+        qs = Po.where('state>%s', STATE_RM).where('zsite_id!=user_id').where('user_id!=0')
         total = qs.count()
         page, limit, offset = page_limit_offset(
             '/po-%s',

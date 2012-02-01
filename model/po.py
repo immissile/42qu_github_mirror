@@ -206,7 +206,7 @@ class Po(McModel, ReplyMixin):
         if u:
             return '%s/%s' % (u.link, self.id)
         elif not self.user_id:
-            return None
+            return '/%s' % self.id
 
 
     @attrcache
