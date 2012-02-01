@@ -37,13 +37,18 @@ def po_json(user_id, po_id_list, line_width):
             tip = ''
 
         id = po.id
-
+        if not user:
+            user_id = 0
+            user_name = None
+        else:
+            user_id = user.id
+            user_name = None
         result.append((
             id,
             name,
             tip,
-            user.id,
-            user.name,
+            user_id,
+            user_name,
             fav_dict[id]
         ))
 # 0   1       2     3           4               5
