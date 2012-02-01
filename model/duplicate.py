@@ -5,6 +5,7 @@ from _db import McModel
 from zkit.txt_cleanup import feature_md5
 from kyotocabinet import *
 from array import array
+from collections import defaultdict
 
 class DB_Kyoto(object):
     def __init__(self, db_file):
@@ -25,8 +26,9 @@ class DB_Kyoto(object):
             else:
                 val = array('L')
                 val.fromstring(entry)
-                val.append(po_id)
-                self.db.set(key, val.tostring())
+                if po_id not in val:
+                    val.append(po_id)
+                    self.db.set(key, val.tostring())
                 return val
 
     def get(self, key):
@@ -38,37 +40,36 @@ class DB_Kyoto(object):
 
 
 class Duplicator(object):
-    def __init__(self,db_path):
+    def __init__(self, db_path):
         self.db = DB_Kyoto(db_path)
 
-    def set_record(self,txt,id):
+    def set_record(self, txt, id):
         return self.db.set(txt, id)
 
-    def find_duplicate(self,feature_list):
-        result = set()
-        count = 0
+    def __find_duplicate__(self, feature_list):
+        result = defaultdict(int)
         for i in feature_list:
-            db_get = self.db.get(i)
-            if db_get:
-                count+=1
-                for j in db_get:
-                    result.add(j)
-        return [i for i in result],count
+            for j in self.db.get(i):
+                result[j]+=1
+        return result
 
-    def txt_is_duplicate(self,txt):
+    def txt_is_duplicate(self, txt):
         feature_list = feature_md5(txt)
-        found,count = self.find_duplicate(feature_list)
-        if count>len(feature_list)*0.618:
-            return True
-        return False
 
-#dup_db = DB_Kyoto(DUMPLICATE_DB)
+        if not feature_list:
+            return []
 
-#dub = Duplicator(DUMPLICATE_DB)
-#
-#set_record = dub.set_record
-#find_duplicate = dub.find_duplicate
-#txt_is_duplicate = dub.txt_is_duplicate
+        print feature_list
+        feature_list_len = float(len(feature_list))
+        min_same_count = int(feature_list_len*0.618)+1
+    
+        result = []
+        for id, same_count in self.__find_duplicate__(feature_list).iteritems():
+            print same_count
+            if same_count > min_same_count:
+                result.append((id, same_count/feature_list_len))
+        
+        return result
 
 
 if __name__ == '__main__':
@@ -85,8 +86,11 @@ d
 f
 d
 '''
-    #dup_db.set(a,3)
-    print find_duplicate(a)
+    from config import DUMPLICATE_DB_PREFIX
+
+    dup_db = Duplicator(DUMPLICATE_DB_PREFIX%'test2')
+    dup_db.set_record(a,3)
+    print dup_db.txt_is_duplicate(a)
 
     #from po import Po
     #for po in Po.where(cid = CID_NOTE,state=STATE_ACTIVE):
