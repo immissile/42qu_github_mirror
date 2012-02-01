@@ -52,7 +52,7 @@ class ImportRecord(Model):
 class ImportFeed(Model):
     pass
 
-class ImportPoUser(Model):
+class PoRidUser(Model):
     pass
 
 
@@ -139,7 +139,7 @@ def feed2po_new():
             else:
                 douban_user_id = douban_user.id
 
-                user = ImportPoUser.get_or_create(id = douban_user.id)
+                user = PoRidUser.get_or_create(id = douban_user.id)
 
                 user.name = douban_user.name
                 user.cid = zsite_id
