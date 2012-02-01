@@ -38,7 +38,6 @@ class ParseRec(object):
         if not id and func:
             if url not in EXIST_PARSE:
                 yield func , url
-                yield parse_like , URL_LIKE%(cid, rid), cid, rid
                 EXIST_PARSE.add(url)
         else:
             douban_user_feed_new(DOUBAN_USER_FEED_VOTE_REC, cid, rid, user_id)
@@ -100,6 +99,7 @@ class ParseHtm(object):
         like_num = txt_wrap_by('<span class="fav-num" data-tid="', '</a>喜欢</span>', data) or 0
         if like_num:
             like_num = txt_wrap_by('<a href="#">', '人', like_num)
+            yield parse_like , URL_LIKE%(cid, rid), cid, rid
 
         _topic = _owner = 0
 

@@ -144,6 +144,14 @@ http://img3.douban.com/lpic/s7044274.jpg
 #
 #}}}""")
 
+    print txt_withlink(r'''                                                        
+支付宝推荐
+图:http://img3.douban.com/lpic/s7044274.jpg  图:http://img3.douban.com/lpic/s704427411.jpg 
+图:http://img3.douban.com/lpic/s7044274.jpg                                        
+http://img3.douban.com/lpic/s7044274.jpg
+xxx[[http://img3.douban.com/lpic/s7044274]]
+    ''').decode('utf-8', 'ignore')
+
 #    print txt_withlink("""
 #输出 :
 #Google Reader 视频
