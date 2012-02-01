@@ -10,15 +10,19 @@ def txt_img_fetch(txt):
     return txt_map(r'图:', '\n', txt+"\n", fetch_pic).rstrip("\n")
 
 
-def fetch_pic(url):
-    url = url.replace('图:','')
+def fetch_pic(line):
+    url = line.replace('图:','')
     netloc = urlparse(url)[1]
 
-    if not netloc or netloc ==  UPYUN_DOMAIN:
-        return url
+    if not netloc:
+        return ''
 
     if 'feedsky.com' in netloc:
-        return url
+        return ''
+
+    if netloc ==  UPYUN_DOMAIN:
+        return line
+
 
     result = upyun_fetch_pic(url)
     if result:
