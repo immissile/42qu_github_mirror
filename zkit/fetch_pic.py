@@ -2,14 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import urllib2
-from zkit.urlfetch import urlfetch
-from zkit.pic import picopen
+from urlfetch import urlfetch
+from pic import picopen
 
-exist = {}
 
 def fetch_pic(url, referer=None):
-    if url in exist:
-        return exist[url]
     headers = {}
 
     if referer:
@@ -19,13 +16,9 @@ def fetch_pic(url, referer=None):
     raw = urlfetch(request)
 
     img = picopen(raw)
-    exist[url] = img
     return img
 
-
-def main():
-    fetch_pic('http://static9.photo.sina.com.cn/middle/4860bdb2g760bced6c288&amp;690')
-
-
-if '__main__' == __name__:
-    main()
+if __name__ == '__main__':
+    pass
+    fetch_pic("http://27.media.tumblr.com/tumblr_ly0eyceSeo1qigppz_1326962065_cover.jpg")
+    

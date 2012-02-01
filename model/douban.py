@@ -10,6 +10,7 @@ from zkit.htm2txt import htm2txt, unescape
 import re
 
 DOUBAN_FEED_STATE_TO_REIVEW = 10 #达到推荐门槛, 但未审核  
+DOUBAN_FEED_STATE_REVIEWED = 20
 
 CID_DOUBAN_FEED_NOTE = 1015
 CID_DOUBAN_FEED_TOPIC = 1013
@@ -161,7 +162,7 @@ def douban_feed_new(
 
     if not o.state:
         state = 0
-        if int(rec)+int(like) > 10 :
+        if int(rec)+int(like) > 20 :
             state = DOUBAN_FEED_STATE_TO_REIVEW
         o.state = state
     o.time = time
@@ -199,10 +200,66 @@ def title_normal(title):
             .strip()
     return title
 
+def get_most_rec_and_likes():
+    from zweb.orm import ormiter
+    for i in ormiter(
+        DoubanFeed,
+        'state = %s'%DOUBAN_FEED_STATE_TO_REIVEW
+    ):
+        i.state = DOUBAN_FEED_STATE_REVIEWED
+        i.save()
+        yield i
+
+
+
 if __name__ == '__main__':
     pass
-    print 'DoubanUser.count()', DoubanUser.count()
-    print 'DoubanFeed.count()', DoubanFeed.count()
+    #kv_int.set(KV_IMPORT_DOUBAN,0)
+    #get_most_rec_and_likes()
+    #for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_REVIEWED):
+    #    i.state = DOUBAN_FEED_STATE_TO_REIVEW
+    #    i.save()
+    #print get_most_rec_and_likes()
+    #print 'DoubanUser.count()', DoubanUser.count()
+    #print 'DoubanFeed.count()', DoubanFeed.count()
+
+#   # print DoubanUser.by_url('zuroc')
+#   #from zweb.orm import ormiter
+#   #for i in ormiter(DoubanUser):
+#   #    print i.id, i.name, i.url
+#   # print dir(DoubanUser.table)
+#   # print user_id_by_douban_url("catcabinet")
+#   # print len("在非相对论系统中，粒子运动速度远小于光速，它们间的相互作用仍很频繁，参与相互作用的粒子数目较多")
+#   # raise
+#   # pass
+    #is_douban_count = 0
+    #not_douban_count = 0
+
+    #for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW), key=lambda x:-x.rec-x.like):
+    #    txt = '\n'.join([i.title, i.htm])
+    #    is_douban = False
+
+    #    for word in ('豆瓣', '豆邮', '豆友', '?start=', '>http://www.douban.'):
+    #        if word in txt:
+    #            is_douban = True
+    #            break
+
+    #    if is_douban:
+    #        is_douban_count += 1
+    #    else:
+    #        not_douban_count += 1
+
+    #    if not is_douban:
+
+    #        if i.cid == CID_DOUBAN_FEED_TOPIC:
+    #            link = 'http://www.douban.com/group/topic/%s'%i.rid
+    #        elif i.cid == CID_DOUBAN_FEED_NOTE:
+    #            link = 'http://www.douban.com/note/%s'%i.rid
+
+    #        print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal(i.title), len(i.htm))
+
+    #print is_douban_count, not_douban_count
+
 #
 ##    print DoubanUser.by_url('zuroc')
 ##   from zweb.orm import ormiter

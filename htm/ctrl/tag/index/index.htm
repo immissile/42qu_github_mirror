@@ -1,5 +1,10 @@
 <%!
 from tornado.escape import json_encode 
+from model.motto import motto_get
+from model.zsite_fav import zsite_fav_get
+from model.po_list_by_tag_id import zsite_author_list_json
+from yajl import dumps
+from cgi import escape
 %>
 <%inherit file="/ctrl/_base/zsite.htm" />
 <%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
@@ -9,11 +14,33 @@ ${css.ctrl_hero|n}
 ${css.ctrl_tag_index|n}
 </%def>
 
+<%
+is_faved = zsite_fav_get(zsite,current_user_id)
+%>
+
+<script id="render_txt" type="text/x-jquery-tmpl"><%text>
+<pre class="prebody" id="fdtxt${id}">{{html txt}}</pre><div
+class="fdbar"><span
+class="L"><span
+class="fdopt"><a
+class="${fav}"
+href="javascript:void(0)" rel="${id}"></a><span
+class="split">-</span><a
+href="javascript:share(${id});void(0)"
+class="vote">推荐</a><span
+class="split">-</span><a
+href="javascript:fcm(${id},${reply_count});void(0)"
+class="fcma"><span
+class="mr3">{{if reply_count}}${reply_count}{{/if}}</span>评论</a></span></span><a 
+target="_blank" href="/${link}">${time}</a><span
+class="split">,</span>{{html user_name}}<a
+class="aH" href="${link}" target="_blank"></a></div>
+</%text></script>
 
 <div class="G">
 <div class="com_wrap">
-<h1>京东商城\
-<div class="tagtxt" class="">时间管理（Time Management）就是用技巧、技术和工具帮助人们完成工作，实现目标。</div>
+    <h1>${zsite.name}
+        <div class="tagtxt" class="">${motto_get(zsite.id)}</div>
 </h1>
     
 
@@ -22,7 +49,7 @@ ${css.ctrl_tag_index|n}
 <div class="com_main">
 <div id="feeds"><div id="feed_index">
 <div class="main_nav">
-<a rel="10200938" href="javascript:void(0)" class="fav"></a>
+    <a href="javascript:void(0)" class="${"faved" if is_faved else "fav"} fav_tag"></a>
 ##<div class="R">\
 ##<a class="now" href="#">文章</a>\
 ##<span class="split">-</span>\
@@ -51,7 +78,11 @@ ${page|n}
 
 <div id="tagbar">
 <span class="xatxt">
-<a class="xa" href="javascript:void(0)">关注</a>\
+%if is_faved:
+<a class="xa fav_txt" href="javascript:void(0)" >遗忘</a>\
+%else:
+<a class="xa fav_txt" href="javascript:void(0)" >关注</a>\
+%endif
 <a class="xa" href="javascript:void(0)">投递</a>\
 <a class="xa" href="javascript:void(0)">提问</a>\
 </span>\
@@ -65,10 +96,17 @@ ${page|n}
 
 <div style="font-size:12px;margin-top:19px;">
 
+<%
+site_list=zsite_author_list_json(zsite_id)
+%>
+%if site_list:
+<script type="text/x-json" id="site_data">
+    ${escape(dumps(site_list))|n}
+</script>
+%endif
 
 
-
-        ${site_rec_render()}
+##        ${site_rec_render()}
 <div class="buzz_h1" id="rec_title">贡献者</div>
 <div class="site_rec" id="rec_wrapper" ></div>
 <script id="site_rec" type="text/x-jquery-tmpl">

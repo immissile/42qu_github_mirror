@@ -235,15 +235,44 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
         </div>
 
 
+<<<<<<< local
 <div id="feeds">\
 ${rec_read(rec_item_list)}\
 <input id="begin_id" type="hidden">\
+=======
+    <div id="feeds">
+<%doc>
+<div class="feed_li feedL feedrec" id="rowrec">\
+<div class="feedB">
+<a href="javascript:void(0)"><div class="sdw"><div class="sd">\
+<img src="http://i.imgur.com/mGVTU.jpg">\
+<div class="recimgtit">那些年我们一起追的女孩</div>\
+</div></div>\
+</a>
+>>>>>>> other
 </div>\
 <a id="feed_load" href="javascript:void(0)">加载更多</a>\
 <div id="feed_loading"></div>\
 
 </div>
+<<<<<<< local
 <div class="right_wrap">
+=======
+<div id="item_list"></div>
+<div class="readl c"><a href="#">更多 ...</a></div>
+</div>
+</div></div></div></div>
+</div>
+</%doc>
+
+
+        <input id="begin_id" type="hidden"/>
+    </div>
+    <a id="feed_load" href="javascript:void(0)">加载更多</a>
+    <div id="feed_loading"></div>
+    </div>
+    <div class="right_wrap">
+>>>>>>> other
 
 
 <a class="gask" href="http://zuroc.42qu.com/10204513">有空 ?  来写42区小功能吧!</a>
@@ -285,9 +314,19 @@ ${rec_read(rec_item_list)}\
 <script>init_user()</script>
 <script src="${js.ctrl_zsite_feed}"></script>
 
+<<<<<<< local
 <script id="render_item" type="text/x-jquery-tmpl"><%text>
+=======
+<%doc>
+<script src="${js.ctrl_render_item}"></script>
+<script>_render_note('#feedrec', '#item_list', ${json_encode(rec_item_list)|n}) </script>
+</%doc>
+>>>>>>> other
 
+<<<<<<< local
 </%text></script>
+=======
+>>>>>>> other
 </%def>
 
 

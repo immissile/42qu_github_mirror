@@ -4,13 +4,10 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-CID_DOUBAN_USER_FEED_LIKE
-CID_DOUBAN_USER_FEED_REC
+
 """
 
 TO_STRING = """
-DOUBAN_USER_FEED_VOTE_LIKE
-DOUBAN_USER_FEED_VOTE_REC
 """
 
 def run():

@@ -195,3 +195,7 @@ width:666px;
 width:666px;
 overflow:hidden;
 }
+.prebody a img
+{
+    display:block;
+}

@@ -9,8 +9,8 @@ COOKIE = (
     'bid="nEgHvgAsWEE"; __gads=ID=2b98e7952a634985:T=1327963957:S=ALNI_MZB-OBrqBqdnaoPwjRPUcSaMXGCtQ; dbcl2="2071563:+uSySLuPTDw"; ck="crbf"; __utma=30149280.294517378.1327963985.1327963985.1327963985.1; __utmb=30149280.4.10.1327963985; __utmc=30149280; __utmz=30149280.1327963985.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=30149280.207' ,
     'bid="AD1wrRA/Clc"; __gads=ID=f963176c5ef49907:T=1327964066:S=ALNI_MZ10_yq5XmQI1jkKGr-2lxMfyVcQg; ll="None"; __utma=30149280.1335466508.1327964087.1327964087.1327964087.1; __utmb=30149280.8.9.1327964120431; __utmc=30149280; __utmz=30149280.1327964087.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); dbcl2="4370980:FrK9jGcZRvg"; ck="ZrnT"; __utmv=30149280.437',
 )
-def spider(url_list):
 
+def spider(url_list):
     fetcher = MultiHeadersFetch( 
         headers=tuple(
             { 'Cookie': i } for i in COOKIE

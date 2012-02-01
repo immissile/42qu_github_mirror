@@ -65,6 +65,7 @@ class Yeeyan(object):
         self.parse_page(filename)
 
     def parse_index(self,page, url):
+        print "!"
         link_wrapper_list = txt_wrap_by_all('<h5 clas', '</h5', page)
         link_list = []
         for link_wrapper in link_wrapper_list:
@@ -86,6 +87,14 @@ class Yeeyan(object):
 
 def main():
     headers = {
+            'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Charset':'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+            'Accept-Language':'en,en-US;q=0.8,zh-CN;q=0.6,zh;q=0.4',
+            'Cache-Control':'max-age=0',
+            'Connection':'keep-alive',
+            'Host':'www.zhihu.com',
+            'Referer:http':'//www.zhihu.com/',
+            'User-Agent':'Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.12 Safari/535.11',
     }
     new_yeeyan = Yeeyan()
     fetcher = NoCacheFetch(0, headers=headers)

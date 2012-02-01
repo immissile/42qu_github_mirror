@@ -5,7 +5,7 @@ from ctrl._urlmap.j import urlmap
 from _handler import JLoginBase
 from model.zsite_url import zsite_by_domain
 from model.zsite_fav import zsite_fav_new, zsite_fav_rm
-from model.cid import CID_SITE, CID_COM
+from model.cid import CID_SITE, CID_COM, CID_TAG
 
 @urlmap('/j/fav/rm')
 class FavRm(JLoginBase):
@@ -16,7 +16,7 @@ class FavRm(JLoginBase):
         host = self.request.host
         zsite = zsite_by_domain(host)
 
-        if zsite and zsite.cid in (CID_SITE, CID_COM):
+        if zsite and zsite.cid in (CID_SITE, CID_COM, CID_TAG):
             zsite_fav_rm(zsite, current_user_id)
 
         self.finish('{}')
@@ -33,7 +33,7 @@ class Fav(JLoginBase):
         zsite_id = zsite.id
         cid = zsite.cid
 
-        if zsite and cid in (CID_SITE, CID_COM):
+        if zsite and cid in (CID_SITE, CID_COM, CID_TAG):
             zsite_fav_new(zsite, current_user_id)
 
 

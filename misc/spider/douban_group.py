@@ -8,6 +8,8 @@ class ParseGroupHtm(object):
     def member_num(self, data):
         #女巫店小组 浏览所有店里的小孩们 (43025
         line = txt_wrap_by('/members">', ')</a>', data)
+        if not line:
+            return 0
         return int(txt_wrap_by(' (', None, line))
 
     def group_id(self, data):
