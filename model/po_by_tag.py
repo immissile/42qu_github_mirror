@@ -1,56 +1,73 @@
 #coding:utf-8
-import _db
-from model.po import Po
-from model.cid import CID_NOTE
-from model.zsite import Zsite
-from model.txt import txt_bind
+from _db import  McModel, McLimitA, McNum
+from model.po_json import po_json, Po
+from po import Po
+from cid import CID_NOTE, CID_TAG, CID_USER
+from zsite import Zsite
+from model.ico import ico_url_bind
+from txt import txt_bind
 from zkit.txt import cnenlen , cnenoverflow
-from model.fav import fav_cid_dict
-
-def po_by_tag(tag_id, user_id, limit=25):
-    po_list = Po.where(cid=CID_NOTE).order_by('id desc')[:limit]
-    txt_bind(po_list)
-
-    Zsite.mc_bind(po_list, 'user', 'user_id')
-    result = []
-
-    po_id_list = [i.id for i in po_list]
-
-    fav_dict = fav_cid_dict(
-        user_id,
-        po_id_list
-    )
-
-    for po in po_list:
-
-        name = po.name
-        user = po.user
+from fav import fav_cid_dict
+from model.motto import motto
+from model.follow import follow_get_list
+from model.career import career_bind
+from zsite_list  import zsite_list_new, zsite_list_get, zsite_id_list
+from zsite_json import zsite_json
 
 
-        name_len = cnenlen(name)
-        txt = po.txt
+mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 
-        if txt and name_len < 36:
-            tip = cnenoverflow(txt, 36-name_len)[0]
-        else:
-            tip = ''
+class PoZsiteTag(McModel):
+    pass
 
-        id = po.id
+def zsite_tag_po_new(zsite_id, po, rank):
+    tag_po = PoZsiteTag.get_or_create(po_id=po.id, cid=po.cid, zsite_id=zsite_id)
+    tag_po.rank=rank
+    tag_po.save()
 
-        result.append((
-            id,
-            name,
-            tip,
-            user.id,
-            user.name,
-            fav_dict[id]
-        ))
-# 0   1       2     3           4               5
-# id , name, tip,  author_id , author_name , is_star 
-    return result
+    user_rank = zsite_list_get(po.user_id, zsite_id, CID_TAG)
+    if not user_rank:
+        user_rank = zsite_list_new(po.user_id, zsite_id, CID_TAG)
+    else:
+        user_rank.rank += 1
+        user_rank.save()
+
+    mc_flush(zsite_id)
+
+    return tag_po
+
+zsite_tag_po_count=McNum(
+    lambda tag_id: PoZsiteTag.where(zsite_id=tag_id).count(),
+    "ZsiteTagPoCount:%s"
+)
+def mc_flush(zsite_id):
+    zsite_tag_po_count.delete(zsite_id)
+    mc_po_id_list_by_tag_id.delete(zsite_id)
+
+def zsite_author_list(zsite_id):
+    return Zsite.mc_get_list(zsite_id_list(zsite_id, CID_TAG))
+
+def tag_by_name(name):
+    found = Zsite.get(name=name, cid=CID_TAG)
+    if not found:
+        found = zsite_new(k, CID_TAG)
+    return found
+
+@mc_po_id_list_by_tag_id('{tag_id}')
+def po_id_list_by_tag_id(tag_id, limit, offset=0):
+    po_list = PoZsiteTag.where(zsite_id=tag_id).order_by('rank desc').col_list(limit, offset, col='po_id')
+    return po_list
+
+
+def po_by_tag(tag_id, user_id, limit=25, offset=0):
+    id_list = po_id_list_by_tag_id(tag_id, limit, offset)
+    return po_json(user_id, id_list, 36)
+
+def tag_author_list(zsite_id):
+    zsite_list = zsite_author_list(zsite_id)
+    return zsite_json(zsite_id, zsite_list)
+
 
 if __name__ == '__main__':
-    print po_by_tag(1, 0)
-
-
-
+    pass
+    #print po_by_tag(1, 0)

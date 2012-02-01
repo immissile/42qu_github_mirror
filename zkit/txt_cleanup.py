@@ -79,6 +79,20 @@ def feature_md5(txt, limit=64):
     result = [md5(i).hexdigest() for i in feature(txt, limit)]
     return result
 
+def sp_txt(txt):
+
+    if str(txt).replace(" ",'').isalnum():
+        yield txt 
+    else:
+        for i in _line_iter(txt):
+           # for n in xrange(len(i)-1):
+           #     if not i[n].isspace():
+           #         yield ''.join(i[n:n+2])
+
+            for pos,char in enumerate(i):
+                if not char.isspace():
+                    yield ''.join(i[pos:pos+2])
+                
 
 if __name__ == '__main__':
     txt1 = """
@@ -101,12 +115,14 @@ Use this command to anonymously check out the latest project source code:
 
     #搜索 为4份 每个到对应的key下面找
     #再分4份
-
-    for i in feature(txt1):
+    for i in sp_txt(txt1):
         print i
 
-    for i in feature_md5(txt1):
-        print repr(i)
+    #for i in feature(txt1):
+    #    print i
+
+    #for i in feature_md5(txt1):
+    #    print repr(i)
 #key md5 - value array doc_id
 #defaultdict doc_id[same_count]
 #feature_len
