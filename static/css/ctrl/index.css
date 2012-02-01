@@ -488,3 +488,6 @@ background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
 #item_list .readl{
 background:#fff;
 }
+#rowrec .feedB{
+padding-bottom:16px;
+}
