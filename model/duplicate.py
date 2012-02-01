@@ -3,8 +3,7 @@
 
 from _db import McModel
 from zkit.txt_cleanup import feature_md5
-from kyotocabinet import *
-from config import DUMPLICATE_DB
+from kyotocabinet import DB
 from array import array
 
 class DB_Kyoto(object):
@@ -54,11 +53,11 @@ class Duplicator(object):
                 count+=1
                 for j in db_get:
                     result.add(j)
-        return [i for i in result],count
+        return [i for i in result], count
 
     def txt_is_duplicate(self,txt):
         feature_list = feature_md5(txt)
-        found,count = self.find_duplicate(feature_list)
+        found, count = self.find_duplicate(feature_list)
         if count>len(feature_list)*0.618:
             return True
         return False
@@ -87,7 +86,7 @@ f
 d
 '''
     #dup_db.set(a,3)
-    print find_duplicate(a)
+    #print find_duplicate(a)
 
     #from po import Po
     #for po in Po.where(cid = CID_NOTE,state=STATE_ACTIVE):
