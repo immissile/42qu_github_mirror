@@ -31,8 +31,8 @@ $.template(
     '<pre class="prebody">{{html txt}}'+
         '<div class="readauthor">'+
             '<a target="_blank" href="/${link}">${time}</a>'+
-            '<span class="split">,</span>'+
             '{{if link}}'+
+            '<span class="split">,</span>'+
             '{{html user_name}}'+
             '<a class="aH" href="${link}" target="_blank"></a>'+
             '{{/if}}'+
