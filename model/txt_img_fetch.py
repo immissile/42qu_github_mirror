@@ -11,7 +11,7 @@ def txt_img_fetch(txt):
 
 
 def fetch_pic(line):
-    url = line.replace('图:', '')
+    url = str(line)[4:-1]
     netloc = urlparse(url)[1]
 
     if not netloc:
