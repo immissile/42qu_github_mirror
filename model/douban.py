@@ -230,9 +230,15 @@ if __name__ == '__main__':
     pass
     #kv_int.set(KV_IMPORT_DOUBAN,0)
     #douban_feed_to_review_iter()
-    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_REVIEWED):
-        i.state = DOUBAN_FEED_STATE_TO_REIVEW
-        i.save()
+    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
+        total = i.rec + i.like
+        if total < 2000:
+            i.state = 0
+            i.save()
+        else:
+            print title_normal(i.title)
+
+
     #print douban_feed_to_review_iter()
     #print 'DoubanUser.count()', DoubanUser.count()
     #print 'DoubanFeed.count()', DoubanFeed.count()
