@@ -71,7 +71,7 @@ def url_dict_by_zsite_id_list(zsite_id_list):
 
 
 NO_URL = set(('god', 'admin', 'review', 'lolicon', 'lolita', 'loli', 'risako', 'lara', 'luna', 'nuva'))
-RESERVED_URL = set(('google', 'youdao', 'taobao', 'douban', 'facebook', 'twitter', 'javaeye')) | NO_URL
+RESERVED_URL = set(('google', 'youdao', 'taobao',  'facebook', 'twitter', 'javaeye')) | NO_URL
 RE_URL = re.compile(r'^[a-zA-Z0-9\-]*$')
 
 def url_valid_base(url):
