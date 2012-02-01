@@ -7,11 +7,30 @@ from model.import_feed import ImportFeed, IMPORT_FEED_STATE_INIT
 %>
 <%def name="htm_head()">
 <style>
+    #title{
+        padding:7px;
+        width:90%;
+    }
+    .check{
+        font-size:16px;
+        margin-top:14px
+    }
+    .check label{
+        margin-right:32px
+    }
     #txt
     {
-        width:650px;
+        width:90%;
         height:500px;
     }
+    #okbtn{
+        padding:7px 30px;
+        margin-top:14px;    
+    }
+    #nobtn{
+        float:right;
+        margin-right:10%
+    } 
 </style>
 </%def>
 
@@ -57,12 +76,13 @@ from model.rec_read import REDIS_REC_CID_TUPLE
     <input id="tags" name="tags" type="text" value="${tags}" />
     <br/>
 
+<div class="check">
     <input id="sync" name="sync" type="checkbox" />
     <label for="sync">同步</label>
 
     <input id="author_rm" name="author_rm" type="checkbox" />
     <label for="author_rm">删除作者</label>
-
+</div>
     <input id="" name="id" style="display:none" value="${id}" type="text" />
 </form>
 </%text>
@@ -71,8 +91,8 @@ from model.rec_read import REDIS_REC_CID_TUPLE
 <div id="editwrapper">
 </div>
 
-<button id="okbtn">Next</button>
-<button id="nobtn">Pass</button>
+<button id="okbtn">确认</button>
+<button id="nobtn">跳过</button>
 
 <script type="text/javascript">
     var data = $.parseJSON($("#site_data").html());
