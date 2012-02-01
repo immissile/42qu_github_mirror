@@ -30,6 +30,7 @@ from zkit.htm2txt import htm2txt
 from zkit.txt import format_txt
 from zkit.txt_img_fetch import txt_img_fetch
 from kv import Kv
+from duplicate import txt_is_duplicate, set_record
 
 import_record = Kv('import_record',0)
 
@@ -52,9 +53,11 @@ def rm_import_feed(id):
 
 def new_import_feed(title, body, author_id, url, src_id, state=STATE_INIT):
     body = format_txt(htm2txt(body))
-    new_feed = ImportFeed(title=title, body=body, author_id=author_id, url=url, state=state , src_id = src_id)
-    new_feed.save()
-    return new_feed
+    if not txt_is_duplicate(body):
+        new_feed = ImportFeed(title=title, body=body, author_id=author_id, url=url, state=state , src_id = src_id)
+        new_feed.save()
+        set_record(new_feed.id)
+        return new_feed
 
 def set_feed_state(id, state):
     feed = ImportFeed.get(id)
