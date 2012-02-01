@@ -4,7 +4,6 @@
 from _db import McModel
 from zkit.txt_cleanup import feature_md5
 from kyotocabinet import *
-from config import DUMPLICATE_DB
 from array import array
 
 class DB_Kyoto(object):
