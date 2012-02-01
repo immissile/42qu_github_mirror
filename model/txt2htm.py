@@ -81,7 +81,7 @@ def replace_link(match):
 
 def replace_img(match):
     g = match.groups()[0]
-    return """<a target="_blank" href="http://%s" rel="nofollow"><img src="http://%s"/></a>""" %(g, g)
+    return """<a target="_blank" href="//%s"><img src="//%s"/></a>""" %(g, g)
 
 def replace_bold(match):
     txt = match.groups()[0]
