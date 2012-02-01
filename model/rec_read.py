@@ -288,7 +288,7 @@ if __name__ == '__main__':
     from model.po import Po
     #rec_cid_push(2, 3)
     #print redis.zrange(REDIS_REC_CID%1, 0, 11)
-    rec_read_empty(user_id)
+    rec_read_empty(10001542)
 
     #   rec_read_extend(user_id, [(1, 1), (2, 2)])
 #    print rec_read_lastest(user_id,1)
