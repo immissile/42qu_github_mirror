@@ -3,7 +3,7 @@
 
 from _db import McModel
 from zkit.txt_cleanup import feature_md5
-from kyotocabinet import DB
+from kyotocabinet import *
 from array import array
 from collections import defaultdict
 
