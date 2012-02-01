@@ -11,10 +11,10 @@ def txt_img_fetch(txt):
 
 
 def fetch_pic(url):
-#    url = url.replace('图:','')
+    url = url.replace('图:','')
     netloc = urlparse(url)[1]
 
-    if netloc ==  UPYUN_DOMAIN:
+    if not netloc or netloc ==  UPYUN_DOMAIN:
         return url
 
     if 'feedsky.com' in netloc:
@@ -22,7 +22,7 @@ def fetch_pic(url):
 
     result = upyun_fetch_pic(url)
     if result:
-        result = '图:%s '%result
+        result = '图:%s\n'%result
     else:
         result = url
 
@@ -37,5 +37,5 @@ if __name__ == '__main__':
     ，
     你身上多了一个“恢复出厂设置”按钮，一按身体和记忆一切归为出生时。 你会去按它吗？
     '''
-    from htm2txt import htm2txt
+    from zkit.htm2txt import htm2txt
     print txt_img_fetch(htm2txt(a))
