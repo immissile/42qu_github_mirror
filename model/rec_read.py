@@ -279,7 +279,7 @@ def rec_read_cid(user_id, limit):
 
 
 from model.po_json import po_json
-def po_json_by_rec_read(user_id, limit=7):
+def po_json_by_rec_read(user_id, limit=8):
     id_list = rec_read_lastest(user_id, limit)
     return po_json(user_id , id_list, 47)
 
