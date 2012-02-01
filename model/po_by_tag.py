@@ -1,9 +1,6 @@
 #coding:utf-8
-import _db
-<<<<<<< local
-from model.cid import CID_NOTE
+from _db import  McModel, McLimitA, McNum
 from model.po_json import po_json, Po
-=======
 from po import Po
 from cid import CID_NOTE, CID_TAG, CID_USER
 from zsite import Zsite
@@ -14,100 +11,61 @@ from fav import fav_cid_dict
 from model.motto import motto
 from model.follow import follow_get_list
 from model.career import career_bind
-from _db import  McModel, McLimitA
 from zsite_list  import zsite_list_new, zsite_list_get, zsite_id_list
->>>>>>> other
 
-<<<<<<< local
-def po_by_tag(tag_id, user_id, limit=25):
-    id_list = Po.where(cid=CID_NOTE).order_by('id desc').col_list(limit, 0)
-    return po_json(user_id, id_list, 36)
-=======
 mc_po_id_list = McLimitA('PoZsiteTag.%s', 512)
 
 class PoZsiteTag(McModel):
     pass
 
-def zsite_tag_new_po(po, rank, zsite_id):
-    tag_po = PoZsiteTag(po_id=po.id, cid=po.cid, zsite_id=zsite_id, rank=rank)
+def zsite_tag_po_new(zsite_id, po, rank):
+    tag_po = PoZsiteTag.get_or_create(po_id=po.id, cid=po.cid, zsite_id=zsite_id)
+    tag_po.rank=rank
     tag_po.save()
 
-    author_list = zsite_list_get(po.user_id, zsite_id, cid=CID_TAG)
-    if not author_list:
-        author_list = zsite_list_new(po.user_id, zsite_id, CID_TAG)
+    user_rank = zsite_list_get(po.user_id, zsite_id, CID_TAG)
+    if not user_rank:
+        user_rank = zsite_list_new(po.user_id, zsite_id, CID_TAG)
     else:
-        author_list.rank += 1
-        author_list.save()
+        user_rank.rank += 1
+        user_rank.save()
+
+    mc_flush(zsite_id)
 
     return tag_po
 
-def zsite_tag_po_count(tag_id): return PoZsiteTag.where(zsite_id=tag_id).count()
+zsite_tag_po_count=McNum(
+    lambda tag_id: PoZsiteTag.where(zsite_id=tag_id).count(),
+    "ZsiteTagPoCount:%s"
+)
+def mc_flush(zsite_id):
+    zsite_tag_po_count.delete(zsite_id)
+    mc_po_id_list_by_tag_id.delete(zsite_id)
 
 def zsite_author_list(zsite_id):
     return Zsite.mc_get_list(zsite_id_list(zsite_id, CID_TAG))
 
-def get_or_create_tag(tag):
-    found = Zsite.get(name=tag, cid=CID_TAG)
+def tag_by_name(name):
+    found = Zsite.get(name=name, cid=CID_TAG)
     if not found:
-        found = zsite_new(k, CID_TAG, ZSITE_STATE_SITE_PUBLIC)
+        found = zsite_new(k, CID_TAG)
     return found
 
-@mc_po_id_list('{tag_id}-{limit}-{offset}')
-def get_po_id_list(tag_id, limit, offset):
+@mc_po_id_list_by_tag_id('{tag_id}')
+def po_id_list_by_tag_id(tag_id, limit, offset=0):
     po_list = PoZsiteTag.where(zsite_id=tag_id).order_by('rank desc').col_list(limit, offset, col='po_id')
     return po_list
 
-def po_by_tag(tag_id, user_id, limit, offset):
-    po_list = Po.mc_get_list(get_po_id_list(tag_id, limit, offset))
-    #po_list = Po.where(cid=CID_NOTE).order_by('id desc')[:25]
-    txt_bind(po_list)
->>>>>>> other
 
+def po_by_tag(tag_id, user_id, limit=25):
+    id_list = po_id_list_by_tag_id(tag_id, limit)
+    return po_json(user_id, id_list, 36)
 
 def tag_author_list(zsite_id):
     zsite_list = zsite_author_list(zsite_id)
-    ico_url_bind(zsite_list)
-    zsite_id_list = tuple(i.id for i in zsite_list)
-
-    user_list = []
-    for i in zsite_list:
-        if i.cid == CID_USER:
-            user_list.append(i)
-    career_bind(user_list)
-    motto_dict = motto.get_dict(zsite_id_list)
-
-    result = []
-
-    for i, is_follow in zip(
-        zsite_list,
-        follow_get_list(zsite_id, zsite_id_list)
-    ):
-        career = (' , '.join(filter(bool, i.career)) if i.cid==CID_USER else 0) or 0
-        _motto = motto_dict.get(i.id) or 0
-        if _motto:
-            length = 14
-            if not career:
-                length += length
-            _motto = cnenoverflow(_motto, length)[0]
-
-        if is_follow and is_follow is not True:
-            is_follow = 1
-        result.append((
-            i.id, #0 
-            i.link, #1
-            i.name, #2
-            i.ico, #3
-            career, #4
-            i.cid , #5
-            _motto , #6
-            is_follow , #7
-        ))
-    return result
+    return zsite_json(zsite_id, zsite_list)
 
 
 if __name__ == '__main__':
     pass
     #print po_by_tag(1, 0)
-    for i in  get_po_id_list(tag_id=61662, limit=100, offset=0, ):
-        print i
-    print zsite_tag_po_count(61662)

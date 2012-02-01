@@ -306,12 +306,9 @@ if __name__ == '__main__':
 #    print len(REC_USER_CID_RANK_DEFAULT)
 #    print REC_USER_CID_RANK_DEFAULT
 #    print type(REC_USER_CID_RANK_DEFAULT[0])
-<<<<<<< local
     #print rec_read_empty(user_id)
     print po_json_by_rec_read(user_id)
-    print rec_read_empty(10001518)
+    #print rec_read_empty(10001518)
     #print rec_read_cid(user_id, 3)
     #print redis.zrangebyscore(REDIS_REC_CID%1, 68603, 99999999, 0, 33, True)
-=======
     #print rec_user_cid_rank(user_id)
->>>>>>> other

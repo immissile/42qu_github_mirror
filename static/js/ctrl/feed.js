@@ -3,7 +3,6 @@ $('.fav').live('click', function(e) {
 	if (!$.cookie.get('S')) {
 		return login();
 	}
-<<<<<<< local
 	var self = this, pnum=$(self).prev(), id=this.rel, c = 'faved fav'+id;
 	self.className = 'faving'
 	$.postJSON('/j/feed/fav/' + id, function() {
@@ -11,7 +10,7 @@ $('.fav').live('click', function(e) {
 		$('.fav'+id).attr('class',c);
         self.className = c
 
-=======
+/*
 	var self = $(this), pnum=$(self).prev(),url;
     if(self.hasClass('fav_tag'))
     {
@@ -24,31 +23,23 @@ $('.fav').live('click', function(e) {
 	$.postJSON(url + this.rel, function() {
         self.removeClass('faving');
 		self.addClass('faved');
->>>>>>> other
+*/
         if(pnum.hasClass("pnum")){
             pnum.html(pnum.html()-0+1)
         }
 	})
 })
-<<<<<<< local
 $('.faved').live('click', function(e) {
     e.stopPropagation()
 	var self = this, pnum=$(self).prev(), id=this.rel, c = 'fav fav'+id;
 	self.className = 'faving'
 	$.postJSON('/j/feed/unfav/' + this.rel, function() {
-=======
->>>>>>> other
 
-<<<<<<< local
 		$('.fav'+id).attr('class',c);
         self.className = c;
-=======
+/*
 $('.faved').live('click', function() {
 	var self = $(this), pnum=$(self).prev(),url;
->>>>>>> other
-
-<<<<<<< local
-=======
     if(self.hasClass('fav_tag'))
     {
         url='/j/fav/rm';
@@ -61,7 +52,7 @@ $('.faved').live('click', function() {
 	$.postJSON(url + this.rel, function() {
         self.removeClass('faving');
 		self.addClass('fav');
->>>>>>> other
+*/
         if(pnum.hasClass("pnum")){
             pnum.html(pnum.html()-1)
         }
