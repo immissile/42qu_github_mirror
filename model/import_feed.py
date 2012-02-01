@@ -40,7 +40,7 @@ from zkit.txt import format_txt
 from zkit.txt_img_fetch import txt_img_fetch
 from kv import Kv
 from duplicate import Duplicator
-from url_short import url_short2id
+from url_short import url_short_id
 from site_sync import site_sync_new
 from config import DUMPLICATE_DB_PREFIX
 
@@ -52,15 +52,15 @@ class ImportRecord(Model):
 class ImportFeed(Model):
     pass
 
-IMPORT_FEED_STATE_INIT = 0
-IMPORT_FEED_STATE_RM = 1
+IMPORT_FEED_STATE_RM = 0
+IMPORT_FEED_STATE_INIT = 10
 
-IMPORT_FEED_STATE_REVIEWED = 2
-IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR = 3
-IMPORT_FEED_STATE_REVIEWED_SYNC = 4
-IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC = 5
+IMPORT_FEED_STATE_REVIEWED = 20
+IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR = 30
+IMPORT_FEED_STATE_REVIEWED_SYNC = 40
+IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC = 50
 
-IMPORT_FEED_STATE_PO_IS_CREATED = 6 #is needed?
+IMPORT_FEED_STATE_POED = 60 #is needed?
 
 DOUBAN_ZSITE_ID = 68615
 
@@ -68,7 +68,7 @@ def feed_next():
     return ImportFeed.where(state=IMPORT_FEED_STATE_INIT)[1]
 
 def import_feed_rm(id):
-    feed_state_set(id,IMPORT_FEED_STATE_RM)
+    feed_state_set(id, IMPORT_FEED_STATE_RM)
 
 def import_feed_new(title, txt, author_id, url, src_id, zsite_id, state=IMPORT_FEED_STATE_INIT):
     txt = format_txt(htm2txt(txt))
@@ -78,12 +78,12 @@ def import_feed_new(title, txt, author_id, url, src_id, zsite_id, state=IMPORT_F
         user_id = zsite_id_by_douban_user_id(douban_user)
 
         new_feed = ImportFeed(
-                title=title, 
-                txt=txt, 
-                user_id=user_id, 
+                title=title,
+                txt=txt,
+                user_id=user_id,
                 zsite_id=zsite_id,
-                state=state, 
-                rid = src_id, 
+                state=state,
+                rid=src_id,
                 url=url
                 )
 
@@ -108,35 +108,35 @@ def zsite_id_by_douban_user_id(douban_user):
 
 def feed2po_new():
     from zweb.orm import ormiter
-    for feed in ormiter(ImportFeed,'state=%s or state=%s or state=%s or state=%s'%(
-                IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR, 
-                IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC,
-                IMPORT_FEED_STATE_REVIEWED,
-                IMPORT_FEED_STATE_REVIEWED_SYNC)
-                ):
+    for feed in ormiter(
+            ImportFeed,
+            'state>%s or state<%s'%(
+                IMPORT_FEED_STATE_INIT,
+                IMPORT_FEED_STATE_POED
+            )
+        ):
         txt = txt_img_fetch(feed.txt)
 
         user_id = feed.user_id
         zsite_id = feed.zsite_id
 
-        if feed.state==IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC or feed.state == IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR:
-                user_id = 0
-                zsite_id = 0
+        if feed.state == IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC or feed.state == IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR:
+            user_id = 0
+            zsite_id = 0
 
-        po = po_note_new(user_id, feed.title, txt, zsite_id = zsite_id)
+        po = po_note_new(user_id, feed.title, txt, zsite_id=zsite_id)
 
         if po:
 
-            record = ImportRecord.get_or_create(id = po.id)
+            record = ImportRecord.get_or_create(id=po.id)
             record.user_id = user_id_by_feed_id(feed.rid)
-            record.url_id = url_short2id(feed.url)
+            record.url_id = url_short_id(feed.url)
             record.save()
 
-            if feed.state>=IMPORT_FEED_STATE_REVIEWED_SYNC:
-                #site_sync_new(po.id)
-                pass
-            
-            feed.state = IMPORT_FEED_STATE_PO_IS_CREATED
+            if feed.state >= IMPORT_FEED_STATE_REVIEWED_SYNC:
+                site_sync_new(po.id)
+
+            feed.state = IMPORT_FEED_STATE_POED
             feed.save()
 
 def review_feed(id, author_rm=False, sync=False):
