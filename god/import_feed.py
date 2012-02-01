@@ -4,7 +4,7 @@
 from _handler import Base
 from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
-from model.import_feed import ImportFeed, feed_next, feed2po , import_feed_rm
+from model.import_feed import ImportFeed, feed_next, review_feed , import_feed_rm
 from model.rec_read import rec_cid_push
 from yajl import dumps
 
@@ -37,14 +37,10 @@ class ImportFeedShow(Base):
         delauthor = self.get_argument('delauthor',None)
         cid = self.get_argument('cid',None)
 
-        po = feed2po(id,delauthor)
+        po = review_feed(id,delauthor, sync)
         if po and cid:
             print cid,po.id
             rec_cid_push(cid, po.id)
-
-        if sync:
-            #site_sync(po.id)
-            pass
 
         print id,title,sync,delauthor
         self.get()

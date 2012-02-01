@@ -36,7 +36,6 @@ def prepare(o):
     o.MYSQL_PASSWD = '42qu'
 
 
-    o.DUMPLICATE_DB = '/tmp/dumplicate.kch'
     o.MQ_PORT = 11300
     o.MQ_FAIL_MAIL_ADDR = "zsp007@gmail.com"
 
@@ -144,6 +143,7 @@ def finish(o):
     o.RPC_URL = '//RPC.%s' % o.SITE_DOMAIN
     o.RPC_HTTP = 'http:%s' % o.RPC_URL
 
+    o.DUMPLICATE_DB = '%s/dumplicate.%s.kch'%(o.FILE_PATH , o.SITE_DOMAIN)
     o.SENDER_NAME = o.SITE_DOMAIN
 
     HTM_PATH = join(_env.PREFIX, 'htm')

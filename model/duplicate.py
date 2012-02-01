@@ -37,30 +37,40 @@ class DB_Kyoto(object):
             result.fromstring(po_id)
         return result
 
-dup_db = DB_Kyoto(DUMPLICATE_DB)
 
-def set_record(txt, id):
-    return dup_db.set(txt, id)
+class Duplicator(object):
+    def __init__(self,db_path):
+        self.db = DB_Kyoto(db_path)
 
+    def set_record(self,txt,id):
+        return self.db.set(txt, id)
 
-def find_duplicate(feature_list):
-    #feature_list = feature_md5(txt)
-    result = set()
-    count = 0
-    for i in feature_list:
-        db_get = dup_db.get(i)
-        if db_get:
-            count+=1
-            for j in db_get:
-                result.add(j)
-    return [i for i in result],count
+    def find_duplicate(self,feature_list):
+        result = set()
+        count = 0
+        for i in feature_list:
+            db_get = self.db.get(i)
+            if db_get:
+                count+=1
+                for j in db_get:
+                    result.add(j)
+        return [i for i in result],count
 
-def txt_is_duplicate(txt):
-    feature_list = feature_md5(txt)
-    found,count = find_duplicate(feature_list)
-    if count>len(feature_list)*0.618:
-        return True
-    return False
+    def txt_is_duplicate(self,txt):
+        feature_list = feature_md5(txt)
+        found,count = self.find_duplicate(feature_list)
+        if count>len(feature_list)*0.618:
+            return True
+        return False
+
+#dup_db = DB_Kyoto(DUMPLICATE_DB)
+
+dub = Duplicator(DUMPLICATE_DB)
+
+set_record = dub.set_record
+find_duplicate = dub.find_duplicate
+txt_is_duplicate = dub.txt_is_duplicate
+
 
 if __name__ == '__main__':
     a = '''

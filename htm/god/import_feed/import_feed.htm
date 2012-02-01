@@ -16,7 +16,6 @@ from model.import_feed import ImportFeed, IMPORT_FEED_STATE_INIT
 </%def>
 
 <%
-
 feed = ImportFeed.where(state = IMPORT_FEED_STATE_INIT)
 result={}
 if feed:
@@ -24,12 +23,15 @@ if feed:
     result['title'] = feed[0].title
     result['txt'] = feed[0].txt
     result['tags'] = 'empty'
+
+from model.rec_read import REDIS_REC_CID_TUPLE
 %>
 <script type="text/x-json" id="site_data">
     ${escape(dumps(result))|n}
 </script>
 
-<script id="render_txt" type="text/x-jquery-tmpl"><%text>
+<script id="render_txt" type="text/x-jquery-tmpl">
+    <%text>
     <form id="editform" rel="${id}">
     <label for="title">标题</label>
     <br/>
@@ -42,16 +44,13 @@ if feed:
     <br/>
 
     <label for="cid">种类</label>
+    </%text>
     <select id="cid" name="cid">
-        <option value="1">女性·时尚·星座</option>
-        <option value="2">网络·科技·创业</option>
-        <option value="3">情感·社会·人文</option>
-        <option value="4">图书·电影·音乐</option>
-        <option value="5">职业·成长·学习</option>
-        <option value="6">政治·经济·历史</option>
-        <option value="7">生活·旅行·健康</option>
-        <option value="8">酷知识</option>
+        % for id,name in REDIS_REC_CID_TUPLE:
+            <option value="${id}">${name}</option>
+        % endfor
     </select>
+    <%text>
 
     <br/>
     <label for="tags">标签</label>
@@ -66,7 +65,8 @@ if feed:
 
     <input id="" name="id" style="display:none" value="${id}" type="text" />
 </form>
-</%text></script>
+</%text>
+</script>
 
 <div id="editwrapper">
 </div>
