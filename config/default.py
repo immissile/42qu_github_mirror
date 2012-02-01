@@ -26,6 +26,9 @@ def prepare(o):
     o.SITE_NAME = '42区'
     o.PORT = 6666
 
+    o.UPYUN_DOMAIN = '1.42qu.us'
+    o.UPYUN_URL = 'http://%s/%%s'%o.UPYUN_DOMAIN
+
     o.REDIS_CONFIG = {
         "unix_socket_path":"/tmp/redis.sock"
     }
@@ -34,6 +37,7 @@ def prepare(o):
     o.MYSQL_MAIN = 'zpage'
     o.MYSQL_USER = 'root'
     o.MYSQL_PASSWD = '42qu'
+
 
     o.MQ_PORT = 11300
     o.MQ_FAIL_MAIL_ADDR = "zsp007@gmail.com"
@@ -142,6 +146,7 @@ def finish(o):
     o.RPC_URL = '//RPC.%s' % o.SITE_DOMAIN
     o.RPC_HTTP = 'http:%s' % o.RPC_URL
 
+    o.DUMPLICATE_DB_PREFIX = '%s/%s.dumplicate.%%s.kch'%(o.FILE_PATH , o.SITE_DOMAIN)
     o.SENDER_NAME = o.SITE_DOMAIN
 
     HTM_PATH = join(_env.PREFIX, 'htm')

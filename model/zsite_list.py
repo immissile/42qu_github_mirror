@@ -102,6 +102,7 @@ def zsite_list_new(zsite_id, owner_id, cid, rank=1, state=STATE_ACTIVE):
         zsite.rank = rank
     zsite.save()
     mc_flush(owner_id, cid, zsite_id, state)
+    return zsite
 
 
 def mc_flush(owner_id, cid, zsite_id=0, state=None):
@@ -185,7 +186,9 @@ def zsite_list_sample(zsite_id, cid, k):
     )
 
 if __name__ == '__main__':
-    pass
-    from model.cid import CID_PRODUCT
-    for i in ZsiteList.where(cid=CID_PRODUCT):
-        i.delete()
+    #$pass
+    #$from model.cid import CID_PRODUCT
+    #$for i in ZsiteList.where(cid=CID_PRODUCT):
+    #$    i.delete()
+
+    print zsite_list_id_get(64278,51168,cid=6)

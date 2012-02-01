@@ -202,9 +202,11 @@ class Po(McModel, ReplyMixin):
     @attrcache
     def link(self):
         u = self.user
-        #TODO REMOVE
         if u:
-            return '%s/%s' % (u.link, self.id)
+            link = '%s/%s' % (u.link, self.id)
+        elif not self.user_id:
+            link = '/%s' % self.id
+        return link
 
     @attrcache
     def link_target(self):

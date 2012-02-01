@@ -61,7 +61,7 @@ margin:0 7px;
     margin-bottom:10px;
 }
 .site_po {
-    margin: -6px 0 27px 50px;
+    margin: -6px 0 27px 0;
 }
 .fdtxt
 {
@@ -151,7 +151,7 @@ li
     overflow:hidden;
 }
 .zname{
-display:inline;
+display:none;
 margin-left:21px;
 }
 .zname span{
@@ -474,4 +474,14 @@ padding:72px 0 71px;
 }
 #main_nav_in .readx{
 vertical-align:-5px;
+}
+.readl .zname{
+display:none;
+}
+#item_list{
+height:259px;
+background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
+}
+#item_list .readl{
+background:#fff;
 }
