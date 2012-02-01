@@ -138,7 +138,7 @@ def feed2po_new():
         user_id = feed.user_id
         zsite_id = feed.zsite_id
 
-        is_without_author = feed.state == IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC or feed.state == IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR
+        is_without_author = ((feed.state == IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC) or (feed.state == IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR))
 
         if is_without_author:
             user_id = 0
