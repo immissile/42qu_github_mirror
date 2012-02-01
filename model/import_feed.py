@@ -52,6 +52,10 @@ class ImportRecord(Model):
 class ImportFeed(Model):
     pass
 
+class ImportPoUser(Model):
+    pass
+
+
 IMPORT_FEED_STATE_RM = 0
 IMPORT_FEED_STATE_INIT = 10
 
@@ -128,9 +132,25 @@ def feed2po_new():
 
         if po:
 
-            record = ImportRecord.get_or_create(id=po.id)
-            record.user_id = user_id_by_feed_id(feed.rid)
+            douban_user =  user_id_by_feed_id(feed.rid)
+
+            if not douban_user:
+                douban_user_id = 0
+            else:
+                douban_user_id = douban_user.id
+
+                user = ImportPoUser.get_or_create(id = douban_user.id)
+
+                user.name = douban_user.name
+                user.cid = zsite_id
+                user.url = url_short_id('http://www.douban.com/people/%s/'%douban_user.id)
+
+                user.save()
+
+            record = ImportRecord.get_or_create(id = po.id)
+            record.user_id = douban_user_id
             record.url_id = url_short_id(feed.url)
+
             record.save()
 
             if feed.state >= IMPORT_FEED_STATE_REVIEWED_SYNC:
@@ -139,9 +159,11 @@ def feed2po_new():
             feed.state = IMPORT_FEED_STATE_POED
             feed.save()
 
-def review_feed(id, author_rm=False, sync=False):
+            rec_cid_push(feed.cid, po.id)
+
+def review_feed(id, cid, author_rm=False, sync=False):
     feed = ImportFeed.get(id)
-    if feed:
+    if feed and feed.state==IMPORT_FEED_STATE_INIT :
         if author_rm:
             if sync:
                 feed.state = IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC
@@ -153,6 +175,7 @@ def review_feed(id, author_rm=False, sync=False):
             else:
                 feed.state = IMPORT_FEED_STATE_REVIEWED
 
+        feed.cid = cid
         feed.save()
 
 def import_feed_by_douban_feed():

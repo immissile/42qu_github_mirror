@@ -30,25 +30,21 @@ class ImportFeedShow(Base):
     get = _get
 
     def post(self):
-        id = self.get_argument('id',None)
-        title = self.get_argument('title',None)
-        txt = self.get_argument('txt',None)
-        sync = self.get_argument('sync',None)
-        author_rm = self.get_argument('author_rm',None)
-        cid = self.get_argument('cid',None)
+        id = self.get_argument('id', None)
+        title = self.get_argument('title', None)
+        txt = self.get_argument('txt', None)
+        sync = self.get_argument('sync', None)
+        author_rm = self.get_argument('author_rm', None)
+        cid = self.get_argument('cid', None)
 
-        po = review_feed(id,author_rm, sync)
-        if po and cid:
-            print cid,po.id
-            rec_cid_push(cid, po.id)
+        review_feed(id, cid, author_rm, sync)
 
-        print id,title,sync,author_rm
         self.get()
 
 @urlmap('/import_feed/rm')
 class ImportFeedRm(Base):
     def post(self):
-        id = self.get_argument('id',None)
+        id = self.get_argument('id', None)
         import_feed_rm(id)
         _get(self)
 
