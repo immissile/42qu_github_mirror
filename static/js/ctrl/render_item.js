@@ -8,9 +8,9 @@ $.template(
                 '<span class="rtip">${$data[2]}</span>'+
             '</span>'+
         '</div>'+
-        '<div class="zname">'+
+        '{{if $data[3]}}<div class="zname">'+
             '<a href="#" rel="${$data[3]}" class="TPH" target="_blank">${$data[4]}</a>'+
-        '</div>'+
+        '</div>{{/if}}'+
     '</div>'
 )
 
@@ -32,8 +32,10 @@ $.template(
         '<div class="readauthor">'+
             '<a target="_blank" href="/${link}">${time}</a>'+
             '<span class="split">,</span>'+
+            '{{if link}}'+
             '{{html user_name}}'+
             '<a class="aH" href="${link}" target="_blank"></a>'+
+            '{{/if}}'+
         '</div>'+
     '</pre>'+
     '<div class="fdbar">'+
@@ -100,7 +102,7 @@ function note_li(feed_index){
             title=self.find('.title').addClass('c9'), 
             id=p.id.slice(5), 
             user=$(p.parentNode).find('.TPH'),
-            user_link=user[0].href
+            user_link
             ;
         feeds.append(txt_loading);
         oldtop=winj.scrollTop();
@@ -110,8 +112,13 @@ function note_li(feed_index){
         "/j/po/json/"+id,
         function(r){
             r.id=id
+            if(user[0]){
+                user_link=user[0].href+id
+            }else{
+                user_link = 0
+            }
             r.user_name=user.html()
-            r.link = user_link+id
+            r.link = user_link
             r.time = $.timeago(r.create_time)
             r.fav = $('#fav'+id)[0].className
             
