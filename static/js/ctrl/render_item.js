@@ -64,7 +64,7 @@ function note_li(feed_index){
     '<div class="main_nav" id="main_nav_txt">'+
         '<div id="main_nav_in">'+
             '<div id="main_nav_opt"></div>'+
-            '<a href="javascript:void(0)" class="readx"></a>'+
+            '<a href="javascript:void(0)" title="快捷键 ESC" class="readx"></a>'+
         '</div>'+
     '</div>'+
     '<div id="main_nav_title" class="readtitle"></div>'+
