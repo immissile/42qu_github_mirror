@@ -52,6 +52,9 @@ class ImportRecord(Model):
 class ImportFeed(Model):
     pass
 
+class ImportPoUser(Model):
+    pass
+
 IMPORT_FEED_STATE_INIT = 0
 IMPORT_FEED_STATE_RM = 1
 
@@ -127,8 +130,22 @@ def feed2po_new():
 
         if po:
 
+            douban_user =  user_id_by_feed_id(feed.rid)
+            if not douban_user:
+                douban_user_id = 0
+            else:
+                douban_user_id = douban_user.id
+
+                user = ImportPoUser.get_or_create(id = douban_user.id)
+
+                user.name = douban_user.name
+                user.cid = zsite_id
+                user.url = url_short2id('http://www.douban.com/people/%s/'%douban_user.id)
+
+                user.save()
+
             record = ImportRecord.get_or_create(id = po.id)
-            record.user_id = user_id_by_feed_id(feed.rid)
+            record.user_id = douban_user_id
             record.url_id = url_short2id(feed.url)
             record.save()
 
@@ -139,7 +156,9 @@ def feed2po_new():
             feed.state = IMPORT_FEED_STATE_PO_IS_CREATED
             feed.save()
 
-def review_feed(id, erase_author=False, sync=False):
+            rec_cid_push(feed.cid, po.id)
+
+def review_feed(id, cid, erase_author=False, sync=False):
     feed = ImportFeed.get(id)
     if feed:
         if erase_author:
@@ -153,6 +172,7 @@ def review_feed(id, erase_author=False, sync=False):
             else:
                 feed.state = IMPORT_FEED_STATE_REVIEWED
 
+        feed.cid = cid
         feed.save()
 
 def import_feed_by_douban_feed():
