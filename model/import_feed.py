@@ -45,8 +45,8 @@ from site_sync import site_sync_new
 from config import DUMPLICATE_DB_PREFIX
 from rec_read import rec_cid_push
 
-#douban_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'douban')
-douban_duplicator = Duplicator('douban.kch')
+douban_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'douban')
+#douban_duplicator = Duplicator('douban.kch')
 
 IMPORT_FEED_STATE_RM = 0
 IMPORT_FEED_STATE_INIT = 10
