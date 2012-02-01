@@ -12,7 +12,7 @@ from yajl import loads
 from model.po_by_tag import PoZsiteTag, zsite_tag_po_new, tag_by_name
 from model.po import po_note_new, Po, po_rm
 from model.duplicate import txt_is_duplicate, set_record
-from zkit.txt_img_fetch import txt_img_fetch
+from model.txt_img_fetch import txt_img_fetch
 
 CURRNET_PATH = path.dirname(path.abspath(__file__))
 

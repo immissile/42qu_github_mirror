@@ -26,6 +26,9 @@ def prepare(o):
     o.SITE_NAME = '42区'
     o.PORT = 6666
 
+    o.UPYUN_DOMAIN = '1.42qu.us'
+    o.UPYUN_URL = 'http://%s/%%s'%o.UPYUN_DOMAIN
+
     o.REDIS_CONFIG = {
         "unix_socket_path":"/tmp/redis.sock"
     }

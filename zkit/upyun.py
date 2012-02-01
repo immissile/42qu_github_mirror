@@ -6,12 +6,10 @@ import base64
 from urllib2 import urlopen
 import httplib
 import os
-from fetch_pic import fetch_pic
 from cStringIO import StringIO
-from pic import pic_fit_width_cut_height_if_large
 from hashlib import md5
 import traceback
-from config import UPYUN_USERNAME, UPYUN_PWD, UPYUN_SPACENAME, UPYUN_API_URL, UPYUN_DOMAIN, UPYUN_DIRNAME, UPYUN_PATH_BUILDER
+UPYUN_API_URL = 'v0.api.upyun.com'
 
 class UpYun(object):
     def __init__(self, domain, username, password, spacename, headers={}):
@@ -40,7 +38,7 @@ class UpYun(object):
         return url
     
     def get_file_url(self,filename):
-        return upyun_rsspic.domain%filename
+        return self.domain%filename
 
 def builder_path(suffix, url):
     filename = md5(url).hexdigest()+'.jpg'
@@ -66,35 +64,6 @@ def exists(url):
     conn.close()
     return response.status == 200
 
-upyun_rsspic = UpYun(UPYUN_DOMAIN, UPYUN_USERNAME, UPYUN_PWD, UPYUN_SPACENAME)
-
-def upyun_fetch_pic(url):
-    file_path, filename = builder_path(UPYUN_PATH_BUILDER, url)
-    upyun_url = upyun_rsspic.domain%filename
-    #print url,upyun_url
-    if not os.path.exists(file_path):
-        img = fetch_pic(url)
-        if not img:
-            return url
-
-        x, y = img.size
-        if x < 48 and y < 48:
-            return None
-
-        if img:
-            data = StringIO()
-            if not url.endswith('gif'):
-                img = pic_fit_width_cut_height_if_large(img, 721)
-                img.save(data, 'JPEG')
-            else:
-                img.save(data, 'gif')
-            save_to_md5_file_name(UPYUN_PATH_BUILDER, data.getvalue(), url)
-            data.close()
-
-    if not exists(upyun_url):
-        upyun_rsspic.upload(file_path)
-
-    return upyun_url
 
 
 if __name__ == '__main__':

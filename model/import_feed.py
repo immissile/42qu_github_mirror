@@ -37,7 +37,7 @@ from po import po_note_new
 from douban import DoubanUser, douban_feed_to_review_iter, user_id_by_feed_id
 from zkit.htm2txt import htm2txt
 from zkit.txt import format_txt
-from zkit.txt_img_fetch import txt_img_fetch
+from model.txt_img_fetch import txt_img_fetch
 from kv import Kv
 from duplicate import Duplicator
 from url_short import url_short_id
