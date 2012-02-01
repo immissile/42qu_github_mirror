@@ -28,7 +28,7 @@ def fetch_pic(line):
     if result:
         result = '图:%s\n'%result
     else:
-        result = url
+        result = line
 
     return result
 
