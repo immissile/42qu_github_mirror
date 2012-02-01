@@ -65,11 +65,11 @@ class Duplicator(object):
 
 #dup_db = DB_Kyoto(DUMPLICATE_DB)
 
-dub = Duplicator(DUMPLICATE_DB)
-
-set_record = dub.set_record
-find_duplicate = dub.find_duplicate
-txt_is_duplicate = dub.txt_is_duplicate
+#dub = Duplicator(DUMPLICATE_DB)
+#
+#set_record = dub.set_record
+#find_duplicate = dub.find_duplicate
+#txt_is_duplicate = dub.txt_is_duplicate
 
 
 if __name__ == '__main__':

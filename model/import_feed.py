@@ -42,9 +42,9 @@ from kv import Kv
 from duplicate import Duplicator
 from url_short import url_short2id
 from site_sync import site_sync_new
+from config import DUMPLICATE_DB_PREFIX
 
-
-douban_duplicator = Duplicator('douban_duplicator.kch')
+douban_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'douban')
 
 class ImportRecord(Model):
     pass
