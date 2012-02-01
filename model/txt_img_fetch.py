@@ -7,11 +7,11 @@ from urlparse import urlparse
 from config import UPYUN_DOMAIN
 
 def txt_img_fetch(txt):
-    return txt_map(r'图:', '\n', txt+"\n", fetch_pic).rstrip("\n")
+    return txt_map(r'图:', '\n', txt+'\n', fetch_pic).rstrip('\n')
 
 
 def fetch_pic(line):
-    url = line.replace('图:','')
+    url = line.replace('图:', '')
     netloc = urlparse(url)[1]
 
     if not netloc:
@@ -20,7 +20,7 @@ def fetch_pic(line):
     if 'feedsky.com' in netloc:
         return ''
 
-    if netloc ==  UPYUN_DOMAIN:
+    if netloc == UPYUN_DOMAIN:
         return line
 
 
@@ -43,3 +43,5 @@ if __name__ == '__main__':
     '''
     from zkit.htm2txt import htm2txt
     print txt_img_fetch(htm2txt(a))
+
+
