@@ -115,7 +115,7 @@ def rec_read_lastest(user_id, limit=7):
     return ()
 
 def rec_read_page(user_id, limit=7, offset=0):
-    if offset==0:
+    if offset == 0:
         rec_read_more(user_id, limit)
     return rec_read_by_user_id(user_id, limit, offset)
 
