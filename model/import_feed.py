@@ -32,7 +32,7 @@ ENGINE = MyISAM;
 '''
 
 import _env
-from _db import Model
+from _db import Model, McModel
 from po import po_note_new
 from douban import DoubanUser, douban_feed_to_review_iter, douban_user_id_by_feed_id
 from zkit.htm2txt import htm2txt
@@ -60,20 +60,20 @@ IMPORT_FEED_STATE_POED = 60
 
 DOUBAN_ZSITE_ID = 68615
 
-class PoMeta(Model):
+class PoMeta(McModel):
     pass
 
 class ImportFeed(Model):
     pass
 
-class PoMetaUser(Model):
+class PoMetaUser(McModel):
     @property
     def link(self):
         if self.cid == DOUBAN_ZSITE_ID:
             return 'http://www.douban.com/people/%s'%self.url
 
 def user_url_by_po_meta_user_id(id):
-    user = PoMetaUser.get(id)
+    user = PoMetaUser.mc_get(id)
     if user:
         if user.cid == DOUBAN_ZSITE_ID:
             return 'http://www.douban.com/people/%s'%user_id.url

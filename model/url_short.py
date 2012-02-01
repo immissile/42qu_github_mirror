@@ -21,6 +21,13 @@ def replace_link(match, user_id):
         g = url_short(g, user_id)
     return g
 
+def id2url(id):
+    if id:
+        s_url_id = num_encode(id)
+        link = '%s/%s' % (SHORT_LINK, s_url_id)
+        return link
+
+
 def url_short_id(url, user_id=0):
     url = url.strip()
     if url:
@@ -28,14 +35,9 @@ def url_short_id(url, user_id=0):
         url_short.save()
         return url_short.id
 
-
 def url_short(url, user_id=0):
     id = url_short_id(url,user_id)
-    if id:
-        s_url_id = num_encode(id)
-        link = '%s/%s' % (SHORT_LINK, s_url_id)
-        return link
-    return ""
+    return id2url(id)
 
 def url_short_by_key(key):
     id = num_decode(key)
@@ -63,5 +65,6 @@ if __name__ == '__main__':
 #print url_short_by_id('3T')
     #print url_short_txt('sfsdfsdf http://g.cn/df.png http://google.com https://mail.google.com/mail/u/0/#inbox/134ec4da6de5b5a7 https://mail.google.com/mail/u/0/#inbox')
     #print url_short("http://baidu.com")
-    id = url_short_id('http://google.com/ncr')
-    print url_short_by_id(id)
+    #id = url_short_id('http://google.com/ncr')
+    #print url_short_by_id(id)
+    print url_short_by_key('D6')
