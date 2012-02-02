@@ -5,12 +5,11 @@ from _handler import Base
 from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
 from model.import_feed import ImportFeed, feed_next, review_feed , import_feed_rm, apply_tag
-from model.rec_read import rec_cid_push, rec_id_by_cid, rec_change
+from model.rec_read import rec_cid_push, rec_id_by_cid, rec_change, rec_rm
 from model.douban import title_normal
 from model.po_by_tag import tag_list_by_po_id
-from model.po import Po
+from model.po import Po, po_rm
 from yajl import dumps
-from model.po import Po
 
 @urlmap('/import_feed')
 class ImportFeed(Base):
@@ -44,7 +43,6 @@ class ImportFeedShow(Base):
         cid = self.get_argument('cid', None)
         tags = self.get_argument('tags', None)
 
-        print tags
         review_feed(id, cid, title, txt, tags, author_rm, sync)
 
         self.get()
@@ -106,6 +104,14 @@ class ImportFeedEdit(Base):
 
         self.redirect('/import_feed/list/%s'%old_cid)
 
-
-
+@urlmap('/import_feed/(\d+)/rm/(\d+)')
+class ImportFeedRm(Base):
+    def get(self,cid=0,id=0):
+        id = int(id)
+        if id:
+            po = Po.mc_get(id)
+            po_rm(po.user_id,po.id)
+            rec_rm(po.id, cid)
+        self.redirect('/import_feed/list/%s'%cid)
+            
 #self.write('%s,%s,%s,%s'%(id,title,cid,tags))
