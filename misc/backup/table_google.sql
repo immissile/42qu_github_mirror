@@ -99,6 +99,22 @@ CREATE TABLE `google_rank` (
   KEY `Index_3` (`follower`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `import_feed`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `import_feed` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varbinary(512) NOT NULL,
+  `txt` mediumblob NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `zsite_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `rid` int(10) unsigned NOT NULL DEFAULT '0',
+  `url` varbinary(1024) NOT NULL,
+  `cid` smallint(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rss_po`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

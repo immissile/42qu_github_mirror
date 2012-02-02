@@ -150,9 +150,12 @@ li
     clear:both;
     overflow:hidden;
 }
-.zname{
+#readl .zname{
 display:none;
-margin-left:21px;
+}
+.zname{
+display:inline;
+margin-left:7px;
 }
 .zname span{
 border-bottom:1px dotted #aaa;
@@ -484,4 +487,7 @@ background:url(/img/gif/loading_bar.gif) 50% 50% no-repeat;
 }
 #item_list .readl{
 background:#fff;
+}
+#rowrec .feedB{
+padding-bottom:16px;
 }

@@ -25,12 +25,14 @@ po_zsite = Zsite.mc_get(po.zsite_id)
         %endif
     %endif
 %endif
+%if po.user_id:
 <a href="${zsite_url}">${zsite.name}</a>\
 % if zsite_tag_id:
  : \
 <a href="${zsite_url}/tag/${zsite_tag_id}">${tag_name}</a>\
 % elif po.state == STATE_SECRET:
  : 私密
+%endif
 %endif
 %if po.cid == CID_NOTE and po.rid:
 <%
