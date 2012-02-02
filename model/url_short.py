@@ -65,7 +65,7 @@ if __name__ == '__main__':
     #print url_short("http://baidu.com")
     #id = url_short_id('http://google.com/ncr')
     #print url_short_by_id(id)
-    print url_short_by_key('D6')
+    print url_short_by_key('MK')
     print url_short_txt("""
 英文的学术叫法叫做 re-visit policy ( http://en.wikipedia.org/wiki/Web_crawler )
 简单的说, 就是通过历史的抓取页面更新, 预测下一次的抓取更新的时间

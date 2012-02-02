@@ -101,6 +101,7 @@ class ImportFeedEdit(Base):
             if cid:
                 rec_change(po.id, old_cid, int(cid))
 
+            po.save()
             apply_tag(tags, po)
 
 

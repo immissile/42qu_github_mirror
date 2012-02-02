@@ -112,7 +112,7 @@ def feed2po_new():
                 IMPORT_FEED_STATE_POED
             )
         ):
-        txt = txt_img_fetch(feed.txt) 
+        txt = txt_img_fetch(feed.txt)
         feed_user = user_by_feed_id_zsite_id(feed.rid, feed.zsite_id)
         user_id = zsite_id_by_douban_user_id(feed_user)
 
@@ -156,7 +156,7 @@ def feed2po_new():
 
             print feed.cid, po.id
             rec_cid_push(feed.cid, po.id)
-            apply_tag(feed.tags,po)
+            apply_tag(feed.tags, po)
 
 def review_feed(id, cid, title, txt, tags, author_rm=False, sync=False):
     feed = ImportFeed.get(id)
@@ -180,12 +180,12 @@ def review_feed(id, cid, title, txt, tags, author_rm=False, sync=False):
 
         feed.save()
 
-def apply_tag(tags,po):
+def apply_tag(tags, po):
     tag_po_rm_by_po_id(po.id)
 
     tags = tags.split(',')
     for tag in tags:
-        zsite_tag_po_new_by_name(tag,po,100)
+        zsite_tag_po_new_by_name(tag, po, 100)
 
 if __name__ == '__main__':
     pass
