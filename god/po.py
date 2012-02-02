@@ -119,12 +119,12 @@ class PoSyncRm(Base):
 
 
 
-def _edit(broad,sync,site,po,id):
+def _edit(broad, sync, site, po, id):
     if broad:
         from model.po_recommend import po_recommend_new
-        test_po = Po.get(rid =po.id,user_id = 0, state = STATE_ACTIVE)
+        test_po = Po.get(rid=po.id, user_id=0, state=STATE_ACTIVE)
         if not test_po:
-            po_recommend_new(po.id,0,'')
+            po_recommend_new(po.id, 0, '')
     else:
         po_show_rm(po)
 
@@ -139,7 +139,7 @@ def _edit(broad,sync,site,po,id):
 
 @urlmap('/po/show/edit/(\d+)')
 class PoEditShow(Base):
-    def get(self,id):
+    def get(self, id):
         next = self.request.headers.get('Referer', '')
         po = Po.mc_get(id)
         if po:
@@ -147,9 +147,9 @@ class PoEditShow(Base):
                 po=po,
                 next=next,
             )
-    
 
-    def post(self,id):
+
+    def post(self, id):
         po = Po.mc_get(id)
         next = self.get_argument('next', '/po')
         name = self.get_argument('name', None)
@@ -157,8 +157,8 @@ class PoEditShow(Base):
         broad = self.get_argument('broad', None)
         site = self.get_argument('site', None)
         sync = self.get_argument('sync', None)
-        _format = self.get_argument('format',None)
-        _edit(broad,sync,site,po,id) 
+        _format = self.get_argument('format', None)
+        _edit(broad, sync, site, po, id)
         if name:
             po.name_ = name
             po.save()
@@ -166,7 +166,7 @@ class PoEditShow(Base):
             if _format:
                 txt = format_txt(txt)
             po.txt_set(txt)
-       
+
         self.redirect(next)
 
 
@@ -189,7 +189,7 @@ class PoShowSet(Base):
         site = self.get_argument('site', None)
         sync = self.get_argument('sync', None)
         if po:
-            _edit(broad,sync,site,po,id)
+            _edit(broad, sync, site, po, id)
             return self.redirect(next)
 
         self.render(
@@ -201,31 +201,28 @@ class PoShowSet(Base):
 
 @urlmap('/rm/(\d+)')
 class Rm(Base):
-    def get(self,po_id):
+    def get(self, po_id):
         p = Po.mc_get(po_id)
         if p:
             user = p.user
-            if user or not p.user_id:
+            if user:
                 self.render(user=user)
 
-    def post(self,po_id):
-        add = self.get_argument('add_spammer',None)
-        del_all = self.get_argument('del_all',None)
+    def post(self, po_id):
+        add = self.get_argument('add_spammer', None)
+        del_all = self.get_argument('del_all', None)
         p = Po.mc_get(po_id)
         if p:
             user = p.user
             if user:
                 user_id = user.id
-            else:
-                user_id = 0
-
             if add:
                 spammer_new(user_id)
-            
+
             if del_all:
                 spammer_reset(user_id)
 
-            po_rm(user_id,po_id)
-       
-       
+            po_rm(user_id, po_id)
+
+
         self.redirect('/po')
