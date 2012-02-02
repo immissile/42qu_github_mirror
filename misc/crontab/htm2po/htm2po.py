@@ -14,6 +14,7 @@ from model.zsite import Zsite
 from model.cid import CID_SITE
 from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.po_prev_next import mc_flush
+from model.txt_img_fetch import txt_img_fetch
 import re
 
     
@@ -47,21 +48,7 @@ def htm2po_by_po(pre):
     if not rp:
         rss_po_id(pre.id, po_id)
 
-    pic_list = json.loads(pre.pic_list)
-
-    for seq, url in enumerate(pic_list, 1):
-        if '.feedsky.com/' in url:
-            img = None
-        else:
-            img = fetch_pic(url)
-            if img:
-                x, y = img.size
-                if x < 48 and y < 48:
-                    img = None
-        if img:
-            po_pic_new(pre.user_id, po_id, img, seq)
-        else:
-            txt = re.sub('\s*图:%s\s*'%seq, '', txt, re.MULTILINE)
+    txt = txt_img_fetch(txt)
 
     po.txt_set(txt)
 
