@@ -108,8 +108,21 @@ def rec_read_more(user_id, limit):
     lock = mc_rec_lock.get(user_id) or 0
 
     if lock < REC_READ_LOCK_MIN :
-        mc_rec_lock.set(user_id, lock+1, 300)
         result = rec_read(user_id, limit)
+
+        if result:
+            lock = lock+1
+            timeout = 300
+        else:
+            lock = REC_READ_LOCK_MIN+1
+            timeout = 3600
+
+        mc_rec_lock.set(user_id, lock, timeout)
+
+        return result 
+
+    return ()
+
 
 def rec_read_lastest(user_id, limit=7):
     if rec_read_more(user_id, limit):
@@ -292,7 +305,8 @@ if __name__ == '__main__':
     from model.po import Po
     #rec_cid_push(2, 3)
     #print redis.zrange(REDIS_REC_CID%1, 0, 11)
-    rec_read_empty(user_id)
+    print rec_read_more(user_id,7)
+    #rec_read_empty(user_id)
 
     #   rec_read_extend(user_id, [(1, 1), (2, 2)])
 #    print rec_read_lastest(user_id,1)
