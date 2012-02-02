@@ -205,8 +205,12 @@ class Po(McModel, ReplyMixin):
 
     @attrcache
     def link(self):
-        u = self.user
-        if u:
+        cid = self.cid
+        user_id = self.user_id
+        if cid == CID_PRODUCT:
+            link = "//%s.42qu.com/#product_%s"%(self.zsite_id, self.id)
+        elif user_id:
+            u = Zsite.mc_get(user_id)
             link = '%s/%s' % (u.link, self.id)
         elif not self.user_id:
             link = "//0.%s/%s"%(SITE_DOMAIN, self.id)
@@ -498,8 +502,8 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
-    po = Po.mc_get(10216314)
-    print po.user_id, po.zsite_id
+    po = Po.mc_get(10215880)
+    print  po.link
     #rm_all_po_and_reply_and_tag_by_user_id(10001299)
     pass
     #for po in Po.where(cid = CID_NOTE,state=STATE_ACTIVE):
@@ -548,3 +552,4 @@ if __name__ == '__main__':
 #        else:
 #            exist.add(name)
 #
+
