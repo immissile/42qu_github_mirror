@@ -294,8 +294,8 @@ def rec_read_cid(user_id, limit):
     shuffle( result )
     return result
 
-def rec_id_by_cid(cid, limit = -1):
-    return redis.zrevrange(REDIS_REC_CID%cid, 0, limit)
+def rec_id_by_cid(cid, offset=0, limit = -1):
+    return redis.zrevrange(REDIS_REC_CID%cid, offset, limit)
 
 def rec_change(po_id, old_cid, new_cid):
     rec_rm(po_id,old_cid)
