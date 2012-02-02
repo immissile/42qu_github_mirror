@@ -1,22 +1,17 @@
-<%namespace file="/ctrl/_util/site_rec.htm" import="site_rec_render"/>
 <%namespace file="/ctrl/_util/site_sync.htm" import="oauth_sync"/>
 <%!
-from model.top_rec import top_rec, TOP_REC_CID_OAUTH_BINDED, TOP_REC_CID_SITE_REC 
+from model.top_rec import top_rec, TOP_REC_CID_OAUTH_BINDED
 %>
 <%def name="top_rec()">
 <%
 mark = top_rec(current_user_id) 
 mark_oauth = not TOP_REC_CID_OAUTH_BINDED&mark
-mark_site_rec = TOP_REC_CID_SITE_REC&mark
 %>
-%if any((mark_oauth, mark_site_rec)):
+%if any((mark_oauth)):
 <style>\
 @import url(${css.ctrl_site_rec_|n});\
 </style>\
 %if mark_oauth:
 ${oauth_sync()}\
-%elif mark_site_rec: 
-${site_rec_render()}\
-%endif
 %endif
 </%def>
