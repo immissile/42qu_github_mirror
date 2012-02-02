@@ -18,7 +18,7 @@ def import_feed_by_douban_feed():
         )
 
 def import_feed_new(title, txt, url, src_id, zsite_id, state=IMPORT_FEED_STATE_INIT):
-    txt = format_txt(htm2txt(txt))
+    txt = format_txt(htm2txt(txt)).replace("豆友","网友").replace("豆邮","私信")
     if not douban_duplicator.txt_is_duplicate(txt):
 
        # douban_user = DoubanUser.get(author_id)

@@ -189,5 +189,9 @@ if __name__ == '__main__':
     pass
     #import_feed_by_douban_feed()
     #print ImportFeed.where(state = IMPORT_FEED_STATE_INIT)
-    feed2po_new()
+    #feed2po_new()
+    from zweb.orm import ormiter
+    for i in ormiter(ImportFeed):
+        i.txt = i.txt.replace("豆友","网友")
+        i.save()
 
