@@ -26,7 +26,7 @@ class EventCheck(JLoginBase):
                             if txt:
                                 event_joiner_no(o, txt)
 
-            buzz_event_read(id, current_user_id,  o.user_id)
+            #buzz_event_read(id, current_user_id,  o.user_id)
 
         self.finish('{}')
 
