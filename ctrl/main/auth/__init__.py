@@ -16,7 +16,7 @@ from model.oauth import oauth_token_key_by_id, token_key_login_set
 from config import SITE_URL
 from model.sync import sync_follow_new
 
-LOGIN_REDIRECT = '%s/live'
+LOGIN_REDIRECT = '%s/feed'
 
 @urlmap('/logout')
 class Logout(XsrfGetBase):

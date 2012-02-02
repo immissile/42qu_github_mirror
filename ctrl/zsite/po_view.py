@@ -102,7 +102,7 @@ class PoPage(ZsiteBase):
                 Zsite.mc_bind([i.target for i in rid_po_list], 'user', 'user_id')
 
             if is_self:
-                back_a = '/live'
+                back_a = '/feed'
             else:
                 back_a = '/'
 
@@ -441,7 +441,7 @@ class Rm(XsrfGetBase):
         user = self.current_user
         user_id = self.current_user_id
         po_rm(user_id, id)
-        self.redirect('%s/live'%user.link)
+        self.redirect('%s/feed'%user.link)
 
     post = get
 

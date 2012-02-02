@@ -16,7 +16,7 @@ class PoAudio(LoginBase):
         name = self.get_argument('name', None)
         txt = self.get_argument('txt', None)
 
-        link = '/live'
+        link = '/feed'
 
         if po_id:
             po_id = int(po_id)

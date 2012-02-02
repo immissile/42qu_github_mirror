@@ -29,7 +29,7 @@ class Link(LinkEdit):
     def post(self):
         self.save()
         current_user = self.current_user
-        self.redirect('%s/live'%current_user.link)
+        self.redirect('%s/feed'%current_user.link)
 
 @urlmap('/i/guide')
 class Newbie0(LoginBase):

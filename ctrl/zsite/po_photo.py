@@ -19,7 +19,7 @@ class PoPhoto(LoginBase):
         user_id = self.current_user_id
 
 
-        link = '/live'
+        link = '/feed'
 
         if po_id:
             po_id = int(po_id)

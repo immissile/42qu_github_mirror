@@ -19,7 +19,7 @@ class PoVideo(LoginBase):
         txt = self.get_argument('txt', None)
 
 
-        link = '/live'
+        link = '/feed'
 
         if po_id:
             po_id = int(po_id)

@@ -73,7 +73,7 @@ class PoWord(LoginBase):
         txt = self.get_argument('txt', '')
         if txt:
             po_word_new(current_user.id, txt)
-        return self.redirect('/live')
+        return self.redirect('/feed')
 
 @urlmap('/po/new_word')
 class PoWordNew(LoginBase):
