@@ -42,7 +42,7 @@ if feed:
     result['title'] = feed[0].title
     result['txt'] = feed[0].txt
     result['tags'] = ''
-    result['del_author'] = True if feed[0].title!= title_normal(feed[0].title) else False
+    result['del_author'] = feed[0].title!= title_normal(feed[0].title) 
 
 from model.rec_read import REDIS_REC_CID_TUPLE
 %>

@@ -78,10 +78,11 @@ def tag_po_rm_by_po_id(po_id):
         mc_flush(tag.zsite_id)
 
 def tag_list_by_po_id(po_id):
-    zsite_id_list = [tag.zsite_id for tag in PoZsiteTag.where(po_id=po_id)]
+    zsite_id_list = PoZsiteTag.where(po_id=po_id).col_list(col="zsite_id")
     return Zsite.mc_get_list(zsite_id_list)
 
 
 if __name__ == '__main__':
     pass
+    print tag_list_by_po_id(69217)
     #print po_by_tag(1, 0)

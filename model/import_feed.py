@@ -155,7 +155,7 @@ def feed2po_new():
             feed.save()
 
             rec_cid_push(feed.cid, po.id)
-            apply_tag(feed.tags, po)
+            po_tag_new(feed.tags, po)
 
 def review_feed(id, cid, title, txt, author_rm=False, sync=False):
     feed = ImportFeed.get(id)
@@ -178,7 +178,7 @@ def review_feed(id, cid, title, txt, author_rm=False, sync=False):
 
         feed.save()
 
-def apply_tag(tags, po):
+def po_tag_new(tags, po):
     tag_po_rm_by_po_id(po.id)
 
     tags = tags.split(',')

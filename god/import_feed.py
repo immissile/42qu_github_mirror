@@ -4,10 +4,11 @@
 from _handler import Base
 from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
-from model.import_feed import ImportFeed, feed_next, review_feed , import_feed_rm, apply_tag
-from model.rec_read import rec_cid_push, rec_id_by_cid, rec_change, rec_rm
+from model.import_feed import ImportFeed, feed_next, review_feed , import_feed_rm, po_tag_new
+from model.rec_read import rec_cid_push, rec_id_by_cid, rec_cid_mv, rec_rm, rec_cid_count
 from model.douban import title_normal
 from model.po_by_tag import tag_list_by_po_id
+from zkit.page import page_limit_offset
 from model.po import Po, po_rm
 from yajl import dumps
 
@@ -55,15 +56,28 @@ class ImportFeedRm(Base):
         _get(self)
 
 @urlmap('/import_feed/list/(\d+)')
+@urlmap('/import_feed/list/(\d+)-(\d+)')
 class ImportFeedList(Base):
-    def get(self, n=1):
-        n = int(n)
-        id_list = rec_id_by_cid(n)
+    def get(self, cid=1, n=1):
+
+        total = rec_cid_count(cid)
+
+        page, limit, offset = page_limit_offset(
+                 '/import_feed/list/%s-%%s'%cid,
+                 total,
+                 n
+             )
+
+        cid = int(cid)
+        id_list = rec_id_by_cid(cid,limit, offset)
         po_list = Po.mc_get_list(id_list)
+
         self.render(
+                page = page,
                 items=po_list,
-                cid=n
+                cid=cid
                 )
+
 @urlmap('/import_feed/edit/(\d+)')
 @urlmap('/import_feed/(\d+)/edit/(\d+)')
 class ImportFeedEdit(Base):
@@ -92,15 +106,16 @@ class ImportFeedEdit(Base):
         if po:
             if author_rm:
                 po.rid = 0
+                po.zsite_id = 0
             if sync:
                 site_sync_new(po.id)
             po.txt_set(txt)
             po.name_ = title
             if cid:
-                rec_change(po.id, old_cid, int(cid))
+                rec_cid_mv(po.id, old_cid, int(cid))
 
             po.save()
-            apply_tag(tags, po)
+            po_tag_new(tags, po)
 
         self.redirect('/import_feed/list/%s'%old_cid)
 

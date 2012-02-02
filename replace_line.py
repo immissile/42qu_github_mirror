@@ -4,11 +4,13 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-upyun_fetch_pic
+rec_change
+apply_tag
 """
 
 TO_STRING = """
-upyun_fetch_pic
+rec_cid_mv
+po_tag_new
 """
 
 def run():
