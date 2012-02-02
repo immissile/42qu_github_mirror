@@ -148,7 +148,7 @@ def rss_feed_update(res, id, user_id, limit=None):
                 htm = tidy_fragment(htm, {'indent': 0})[0]
                 htm = htm.replace('<br />', '\n')
 #                print htm
-                txt, pic_list = htm2txt(htm)
+                txt, pic_list = htm2txt(htm), ''
 
                 pic_list = json.dumps(pic_list)
                 if txt:
