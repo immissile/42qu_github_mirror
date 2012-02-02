@@ -88,7 +88,7 @@ class ImportFeedEdit(Base):
         sync = self.get_argument('sync', None)
         author_rm = self.get_argument('author_rm', None)
         cid = self.get_argument('cid', None)
-        tags = self.get_argument('tags', None)
+        tags = self.get_argument('tags', '')
 
         po = Po.mc_get(id)
         if po:
@@ -101,6 +101,7 @@ class ImportFeedEdit(Base):
             if cid:
                 rec_change(po.id, old_cid, int(cid))
 
+            apply_tag(tags, po)
 
 
 
