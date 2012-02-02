@@ -3,7 +3,7 @@ from _db import  McModel, McLimitA, McNum
 from model.po_json import po_json, Po
 from po import Po
 from cid import CID_NOTE, CID_TAG, CID_USER
-from zsite import Zsite
+from zsite import Zsite, zsite_new
 from model.ico import ico_url_bind
 from txt import txt_bind
 from zkit.txt import cnenlen , cnenoverflow
