@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
+from _handler import ZsiteBase, LoginBase, XsrfGetBase, login,Base
 from ctrl._urlmap.zsite import urlmap
 from model.po_prev_next import po_prev_next
 from model.zsite_tag import zsite_tag_id_tag_name_by_po_id
