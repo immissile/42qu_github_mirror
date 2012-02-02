@@ -120,7 +120,7 @@ def rec_read_more(user_id, limit):
 
         mc_rec_lock.set(user_id, lock, timeout)
 
-        return result 
+        return result
 
     return ()
 
@@ -294,24 +294,24 @@ def rec_read_cid(user_id, limit):
     shuffle( result )
     return result
 
-def rec_id_by_cid(cid, limit = -1,offset=0):
+def rec_id_by_cid(cid, limit=-1, offset=0):
     if limit != -1:
         limit = offset+limit-1
-    return redis.zrevrange(REDIS_REC_CID%cid, offset, limit ) 
+    return redis.zrevrange(REDIS_REC_CID%cid, offset, limit )
 
 def rec_cid_mv(po_id, old_cid, new_cid):
-    rec_rm(po_id,old_cid)
-    rec_cid_push(new_cid,po_id)
+    rec_rm(po_id, old_cid)
+    rec_cid_push(new_cid, po_id)
 
-def rec_rm(po_id,cid):
-    redis.zrem(REDIS_REC_CID%cid,po_id)
+def rec_rm(po_id, cid):
+    redis.zrem(REDIS_REC_CID%cid, po_id)
 
 def po_json_by_rec_read(user_id, limit=8):
     id_list = rec_read_lastest(user_id, limit)
     return po_json(user_id , id_list, 47)
 
 def rec_cid_count(cid):
-    return redis.zcount(REDIS_REC_CID%cid,'-inf','+inf')
+    return redis.zcount(REDIS_REC_CID%cid, '-inf', '+inf')
 
 if __name__ == '__main__':
     user_id = 10000000
