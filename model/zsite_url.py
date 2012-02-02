@@ -114,7 +114,7 @@ def url_by_digit_domain(domain):
     from zsite import Zsite
     if domain.endswith(SITE_DOMAIN_SUFFIX):
         domain = domain[:-len(SITE_DOMAIN_SUFFIX)]
-        if domain.isdigit():
+        if domain.isdigit() and int(domain):
             zsite_id = domain
             url = url_by_id(zsite_id)
             if url:
