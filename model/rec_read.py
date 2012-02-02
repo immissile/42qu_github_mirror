@@ -314,17 +314,17 @@ def rec_cid_count(cid):
     return redis.zcount(REDIS_REC_CID%cid, '-inf', '+inf')
 
 if __name__ == '__main__':
-    from model.po import Po,STATE_ACTIVE
-    for cid in REDIS_REC_CID_DICT:
-        id_list = redis.zrevrange(REDIS_REC_CID%cid, 0, -1 )
-        for po in Po.mc_get_list(id_list):
-            po.state = STATE_ACTIVE
-            po.save()
+    #from model.po import Po,STATE_ACTIVE
+    #for cid in REDIS_REC_CID_DICT:
+    #    id_list = redis.zrevrange(REDIS_REC_CID%cid, 0, -1 )
+    #    for po in Po.mc_get_list(id_list):
+    #        po.state = STATE_ACTIVE
+    #        po.save()
 
     user_id = 10000000
     from model.po import Po
     mc_rec_lock.delete(user_id)
-    #rec_read_empty(user_id)
+    rec_read_empty(user_id)
 
     #rec_cid_push(2, 3)
     #print redis.zrange(REDIS_REC_CID%1, 0, 11)
