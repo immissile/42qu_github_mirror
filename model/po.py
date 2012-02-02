@@ -498,9 +498,8 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
-    po = Po.mc_get(10216312)
-    po.state = STATE_ACTIVE
-    po.save()
+    po = Po.mc_get(10216893)
+    print po.user_id, po.zsite_id
     #rm_all_po_and_reply_and_tag_by_user_id(10001299)
     pass
     #for po in Po.where(cid = CID_NOTE,state=STATE_ACTIVE):
