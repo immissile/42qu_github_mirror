@@ -43,4 +43,4 @@ def import_feed_new(title, txt, url, src_id, zsite_id, state=IMPORT_FEED_STATE_I
 
 if __name__ == '__main__':
     feed2po_new()
-    #import_feed_by_douban_feed()
+    import_feed_by_douban_feed()

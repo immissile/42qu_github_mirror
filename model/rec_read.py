@@ -317,7 +317,7 @@ if __name__ == '__main__':
     #rec_read_empty(user_id)
     #print redis.zrange(REDIS_REC_CID%1, 0, 11)
     print 'old',rec_id_by_cid(1,11)
-    rec_change(69202,1,2)
+    #rec_change(69202,1,2)
     print 'new',rec_id_by_cid(1,11)
     print 'new2',rec_id_by_cid(2,11)
 

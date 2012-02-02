@@ -181,10 +181,10 @@ class Po(McModel, ReplyMixin):
                 pre_po_zsite = Zsite.mc_get(q.user_id)
                 if pre_po_zsite:
                     if q.cid != CID_WORD:
-                        name = '推荐 <a href="%s" >%s</a> ~ <a href="%s">%s</a>' % (q.link, escape(q.name), pre_po_zsite.link, pre_po_zsite.name, )
+                        name = '推荐 <a href="%s" >%s</a> ~ <a href="%s">%s</a>' % (q.link, escape(q.name), pre_po_zsite.link, escape(pre_po_zsite.name), )
                     else:
                         name = '推荐 <a href="%s" class="fcmname c0 TPH" >%s</a> : %s <a class="zsite_reply" href="%s" target="_blank"></a>'%(
-                            pre_po_zsite.link, pre_po_zsite.name, escape(q.name), q.link
+                            pre_po_zsite.link, escape(pre_po_zsite.name), escape(q.name), q.link
                         )
                 else:
                     name = '推荐 <a href="%s" >%s</a>' % (q.link, escape(q.name))

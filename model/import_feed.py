@@ -51,7 +51,7 @@ IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR = 30
 IMPORT_FEED_STATE_REVIEWED_SYNC = 40
 IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC = 50
 
-IMPORT_FEED_STATE_POED = 60
+IMPORT_FEED_STATE_POED = 60 
 
 DOUBAN_ZSITE_ID = 10216239
 
@@ -131,14 +131,14 @@ def feed2po_new():
             if not feed_user:
                 feed_user_id = 0
             else:
-                user = PoMetaUser.get_or_create(name=feed_user.name, cid=zsite_id)
+                user = PoMetaUser.get_or_create(name = feed_user.name, cid = zsite_id)
                 user.url = feed_user.id
 
                 user.save()
 
                 feed_user_id = user.id
 
-            record = PoMeta.get_or_create(id=po.id)
+            record = PoMeta.get_or_create(id = po.id)
             record.user_id = feed_user_id
             record.url_id = url_short_id(feed.url)
 
@@ -157,9 +157,9 @@ def feed2po_new():
             rec_cid_push(feed.cid, po.id)
             apply_tag(feed.tags, po)
 
-def review_feed(id, cid, title, txt, tags, author_rm=False, sync=False):
+def review_feed(id, cid, title, txt, author_rm=False, sync=False):
     feed = ImportFeed.get(id)
-    if feed and feed.state == IMPORT_FEED_STATE_INIT :
+    if feed and feed.state==IMPORT_FEED_STATE_INIT :
         if author_rm:
             if sync:
                 feed.state = IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC
