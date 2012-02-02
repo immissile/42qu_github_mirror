@@ -3,7 +3,7 @@ from _db import  McModel, McLimitA, McNum
 from model.po_json import po_json, Po
 from po import Po
 from cid import CID_NOTE, CID_TAG, CID_USER
-from zsite import Zsite
+from zsite import Zsite, zsite_new
 from model.ico import ico_url_bind
 from txt import txt_bind
 from zkit.txt import cnenlen , cnenoverflow
@@ -50,7 +50,7 @@ def zsite_author_list(zsite_id):
 def tag_by_name(name):
     found = Zsite.get(name=name, cid=CID_TAG)
     if not found:
-        found = zsite_new(k, CID_TAG)
+        found = zsite_new(name, CID_TAG)
     return found
 
 @mc_po_id_list_by_tag_id('{tag_id}')
@@ -64,8 +64,13 @@ def po_by_tag(tag_id, user_id, limit=25, offset=0):
     return po_json(user_id, id_list, 36)
 
 def tag_author_list(zsite_id):
-    zsite_list = zsite_author_list(zsite_id)
+    zsite_list = filter(lambda x:x,zsite_author_list(zsite_id))
     return zsite_json(zsite_id, zsite_list)
+
+def zsite_tag_po_new_by_name(tag_name,po,rank):
+    tag_name=tag_name.strip()
+    tag = tag_by_name(tag_name)
+    return zsite_tag_po_new(tag.id, po, rank)
 
 
 if __name__ == '__main__':
