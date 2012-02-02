@@ -3,7 +3,7 @@
 from yajl import dumps
 from cgi import escape
 from model.import_feed import ImportFeed, IMPORT_FEED_STATE_INIT
-from model.douban import title_normal
+from model.douban import is_rt_by_title
 %>
 <%def name="htm_head()">
 <style>
@@ -56,7 +56,7 @@ if feed:
     result['title'] = feed[0].title
     result['txt'] = feed[0].txt
     result['tags'] = ''
-    result['del_author'] = feed[0].title!= title_normal(feed[0].title) 
+    result['del_author'] = is_rt_by_title(feed[0].title) 
 
 from model.rec_read import REDIS_REC_CID_TUPLE
 %>

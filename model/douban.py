@@ -166,7 +166,7 @@ def douban_feed_new(
     o.rec = rec
     o.like = like
     if title:
-        o.title = title
+        o.title = title_normal_sign(title)
     if htm:
         o.htm = htm.replace('<wbr>', '')
     if user_id:
@@ -186,18 +186,22 @@ def douban_feed_new(
 
 RE_ZT = re.compile('(?!A-Z)ZT(?!A-Z)')
 
-def title_normal(title):
-    title = unescape(title)
-    title = RE_ZT.sub('转', title)
-    title = ' %s '%title.strip()
-    title = title\
+def title_normal_sign(title):
+    title = unescape(title)\
             .replace('【', '[')\
             .replace('】', ']')\
             .replace('［', '[')\
             .replace('］', ']')\
             .replace('（', '(')\
             .replace('）', ')')\
-            .replace('：', ':')\
+            .replace('：', ':').strip()
+
+    return title
+
+def title_normal_rt(title):
+    title = RE_ZT.sub('转', title)
+    title = ' %s '%title.strip()
+    title = title\
             .replace('转发', '转')\
             .replace('-转', '转')\
             .replace('转帖', '转')\
@@ -224,28 +228,33 @@ def douban_feed_to_review_iter():
         i.save()
         yield i
 
+def is_rt_by_title(title):
+    t = title_normal_sign(title)
+    return title_normal_rt(t)==t
 
+def title_normal(title):
+    return title_normal_rt(title_normal_sign(title))
 
 if __name__ == '__main__':
     pass
-    txt='转:你和一个人越亲密，会越多看到他的疲惫。'
-    print txt!=title_normal(txt)
+    txt='教你怎样成为K歌之王，几天改变你的嗓音!!!（附内部练习＋教学视频）'
+    print title_normal(txt)
     #kv_int.set(KV_IMPORT_DOUBAN,0)
     #douban_feed_to_review_iter()
-    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
-        total = i.rec + i.like
-        if total < 2000:
-            i.state = 0
-            i.save()
-        else:
-            print title_normal(i.title)
+    #for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
+    #    total = i.rec + i.like
+    #    if total < 2000:
+    #        i.state = 0
+    #        i.save()
+    #    else:
+    #        print title_normal_rt(i.title)
 #    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
 #        total = i.rec + i.like
 #        if total < 2000:
 #            i.state = 0
 #            i.save()
 #        else:
-#            print title_normal(i.title)
+#            print title_normal_rt(i.title)
 
     #print douban_feed_to_review_iter()
     print 'DoubanUser.count()', DoubanUser.count()
@@ -284,7 +293,7 @@ if __name__ == '__main__':
     #        elif i.cid == CID_DOUBAN_FEED_NOTE:
     #            link = 'http://www.douban.com/note/%s'%i.rid
 
-    #        print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal(i.title), len(i.htm))
+    #        print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal_rt(i.title), len(i.htm))
 
     #print is_douban_count, not_douban_count
 
@@ -322,7 +331,7 @@ if __name__ == '__main__':
 #            elif i.cid == CID_DOUBAN_FEED_NOTE:
 #                link = 'http://www.douban.com/note/%s'%i.rid
 #
-#            print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal(i.title), len(i.htm))
+#            print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal_rt(i.title), len(i.htm))
 #
 #    print is_douban_count, not_douban_count
 #

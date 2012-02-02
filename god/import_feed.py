@@ -6,7 +6,7 @@ from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
 from model.import_feed import ImportFeed, feed_next, review_feed , import_feed_rm, po_tag_new
 from model.rec_read import rec_cid_push, rec_id_by_cid, rec_cid_mv, rec_rm, rec_cid_count
-from model.douban import title_normal
+from model.douban import is_rt_by_title 
 from model.po_by_tag import tag_list_by_po_id
 from zkit.page import page_limit_offset
 from model.po import Po, po_rm
@@ -21,7 +21,7 @@ class ImportFeed(Base):
 def _get(self):
     feed = feed_next()
     if feed:
-        del_author = feed.title != title_normal(feed.title)
+        del_author = is_rt_by_title(feed.title)
         result = {
             'id':feed.id,
             'title':feed.title,
