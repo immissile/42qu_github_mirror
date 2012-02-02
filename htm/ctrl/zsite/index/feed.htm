@@ -8,7 +8,7 @@ from tornado.escape import json_encode
 <%namespace file="/ctrl/_util/user.htm" import="user_career_link, po_link"/>
 <%namespace file="/ctrl/_util/htm.htm" name="htm"/>
 <%namespace file="/ctrl/_util/buzz.htm" import="buzz_show"/>
-<%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
+##<%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 ##<%namespace file="/ctrl/_util/friend_rec.htm" import="friend_rec_render"/>
 
 <%def name="rec_read(rec_item_list)">
@@ -249,7 +249,7 @@ ${rec_read(rec_item_list)}\
 <a class="gask" href="http://zuroc.42qu.com/10204513">有空 ?  来写42区小功能吧!</a>
         ${buzz_show(current_user_id)}
 <%doc>
-        ${site_rec_render()}
+        ##${site_rec_render()}
         <p class="buzz_h1" id="rec_title">站点推荐</p>
         <div class="site_rec" id="rec_wrapper" ></div>
         <script id="site_rec" type="text/x-jquery-tmpl">
