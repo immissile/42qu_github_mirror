@@ -12,7 +12,10 @@ from datetime import datetime
 
 <%def name="htm_title()">
 %if can_view:
-${po.name} - ${zsite.name}\
+${po.name}\
+%if zsite:
+ - ${zsite.name}\
+%endif
 %if tag_name:
  - ${tag_name}
 %endif 
@@ -23,7 +26,7 @@ ${css.ctrl_po|n}
 % if po.cid == CID_EVENT:
 ${css.ctrl_po_event_page|n}
 <link rel="alternate" href="http://meet.${SITE_DOMAIN}/rss" type="application/rss+xml" title="${SITE_NAME}活动" />
-% else:
+% elif zsite:
 <link rel="alternate" href="/rss" type="application/rss+xml" title="${zsite.name} - 文章" />
 % endif
 </%def>

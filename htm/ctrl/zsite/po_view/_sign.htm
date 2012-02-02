@@ -5,9 +5,6 @@ from model.rss import rss_link_by_po_id
 from model.url_short import id2url
 from model.import_feed import PoMeta, PoMetaUser
 %>\
-<%
-zsite_url = zsite.link
-%>\
 %if po.zsite_id:
 <%
 po_zsite = Zsite.mc_get(po.zsite_id) 
@@ -26,6 +23,9 @@ po_zsite = Zsite.mc_get(po.zsite_id)
     %endif
 %endif
 %if po.user_id:
+<%
+zsite_url = zsite.link
+%>\
 <a href="${zsite_url}">${zsite.name}</a>\
 % if zsite_tag_id:
  : \
