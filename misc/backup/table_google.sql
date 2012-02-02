@@ -111,6 +111,7 @@ CREATE TABLE `import_feed` (
   `rid` int(10) unsigned NOT NULL DEFAULT '0',
   `url` varbinary(1024) NOT NULL,
   `cid` smallint(6) NOT NULL,
+  `tags` varbinary(512) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Index_2` (`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
