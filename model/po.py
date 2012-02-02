@@ -209,7 +209,7 @@ class Po(McModel, ReplyMixin):
         user_id = self.user_id
         if cid == CID_PRODUCT:
             link = "//%s.42qu.com/#product_%s"%(self.zsite_id, self.id)
-        elif not self.user_id:
+        else:
             link = "//%s.%s/%s"%(self.user_id,SITE_DOMAIN, self.id)
 
         return link
