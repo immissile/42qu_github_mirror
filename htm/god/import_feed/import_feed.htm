@@ -7,6 +7,19 @@ from model.douban import title_normal
 %>
 <%def name="htm_head()">
 <style>
+    #tags{
+        font-size:16px;
+        padding:3px;
+        width:90%;
+    }
+    .redis_cid{
+        width:60%;
+    }
+    .redis_cid span{
+        float:left;
+        margin-left:27px;
+        margin-top:14px;
+    }
     #title{
         padding:7px;
         width:90%;
@@ -22,6 +35,7 @@ from model.douban import title_normal
     {
         width:90%;
         height:500px;
+        padding:3px 7px;
     }
     #okbtn{
         padding:7px 30px;
@@ -63,18 +77,19 @@ from model.rec_read import REDIS_REC_CID_TUPLE
     <textarea id="txt" name="txt">{{html txt}}</textarea>
     <br/>
 
+<div>
     <label for="tags">标签</label>
     <input id="tags" name="tags" type="text" value="${tags}" />
-    <br/>
+</div>
 
-    <label for="cid">种类</label>
-    <br/>
     </%text>
+<div class="redis_cid c">
     % for id,name in REDIS_REC_CID_TUPLE:
-    <span style="float:left">
+    <span>
     <input type="radio" name="cid"  value="${id}" id="cid${id}"/ ><label for="cid${id}">${name}</label><br/>
     </span>
     % endfor
+</div>
     <%text>
 
     <br/>

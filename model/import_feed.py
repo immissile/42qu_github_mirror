@@ -157,7 +157,7 @@ def feed2po_new():
             rec_cid_push(feed.cid, po.id)
             po_tag_new(feed.tags, po)
 
-def review_feed(id, cid, title, txt, author_rm=False, sync=False):
+def review_feed(id, cid, title, txt, tags, author_rm=False, sync=False):
     feed = ImportFeed.get(id)
     if feed and feed.state==IMPORT_FEED_STATE_INIT :
         if author_rm:
