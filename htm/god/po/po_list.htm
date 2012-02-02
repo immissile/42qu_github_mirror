@@ -142,8 +142,9 @@ ${friendly_time(po.create_time)}
 %else:
 <div>
     %if user:
-    <a href="${user.link}" target="_blank"> ${user.name}</a> : ${po.name_htm|n} <a href="${po.link}" target="_blank">▷</a>
+    <a href="${user.link}" target="_blank"> ${user.name}</a> : 
     %endif
+${po.name_htm|n} <a href="${po.link}" target="_blank">▷</a>
 <a href="/po/show/set/${id}">\
 % if po_is_show(po):
 设置\

@@ -23,6 +23,7 @@ from url_short import url_short_txt
 from zkit.jsdict import JsDict
 from buzz_reply import mq_buzz_po_rm
 from buzz_at import mq_buzz_at_new
+from config import SITE_DOMAIN
 #from sync import mq_sync_po_by_zsite_id
 
 PO_CN_EN = (
@@ -180,13 +181,13 @@ class Po(McModel, ReplyMixin):
                 pre_po_zsite = Zsite.mc_get(q.user_id)
                 if pre_po_zsite:
                     if q.cid != CID_WORD:
-                        name = '推荐 <a href="%s" >%s</a> ~ <a href="%s">%s</a>' % (q.link, q.name, pre_po_zsite.link, pre_po_zsite.name, )
+                        name = '推荐 <a href="%s" >%s</a> ~ <a href="%s">%s</a>' % (q.link, escape(q.name), pre_po_zsite.link, pre_po_zsite.name, )
                     else:
                         name = '推荐 <a href="%s" class="fcmname c0 TPH" >%s</a> : %s <a class="zsite_reply" href="%s" target="_blank"></a>'%(
-                            pre_po_zsite.link, pre_po_zsite.name, q.htm, q.link
+                            pre_po_zsite.link, pre_po_zsite.name, escape(q.name), q.link
                         )
                 else:
-                    name = '推荐 <a href="%s" >%s</a>' % (q.link, q.name )
+                    name = '推荐 <a href="%s" >%s</a>' % (q.link, escape(q.name))
                 return name
             else:
                 if q.user_id == self.user_id:
@@ -208,7 +209,8 @@ class Po(McModel, ReplyMixin):
         if u:
             link = '%s/%s' % (u.link, self.id)
         elif not self.user_id:
-            link = '/%s' % self.id
+            link = "//0.%s/%s"%(SITE_DOMAIN, self.id)
+
         return link
 
     @attrcache
