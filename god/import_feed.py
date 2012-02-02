@@ -37,7 +37,7 @@ class ImportFeedShow(Base):
         author_rm = self.get_argument('author_rm', None)
         cid = self.get_argument('cid', None)
 
-        review_feed(id, cid, author_rm, sync)
+        review_feed(id, cid, title, txt, author_rm, sync)
 
         self.get()
 

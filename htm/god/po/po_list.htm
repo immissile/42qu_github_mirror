@@ -50,10 +50,10 @@ cid = po.cid
 state = po.state
 name = po.name
 user = po.user
-if user.cid == CID_USER: 
+if user and user.cid == CID_USER: 
     ico_url = _ico_url(po.user_id)
 %>\
-%if user.cid == CID_USER:
+%if user and user.cid == CID_USER:
 <div class="sdw">
 <div class="sd c">
 %if ico_url and user:
@@ -141,7 +141,9 @@ ${friendly_time(po.create_time)}
 </div>
 %else:
 <div>
-<a href="${user.link}" target="_blank"> ${user.name}</a> : ${po.name_htm|n} <a href="${po.link}" target="_blank">▷</a>
+    %if user:
+    <a href="${user.link}" target="_blank"> ${user.name}</a> : ${po.name_htm|n} <a href="${po.link}" target="_blank">▷</a>
+    %endif
 <a href="/po/show/set/${id}">\
 % if po_is_show(po):
 设置\
