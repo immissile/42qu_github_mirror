@@ -209,11 +209,8 @@ class Po(McModel, ReplyMixin):
         user_id = self.user_id
         if cid == CID_PRODUCT:
             link = "//%s.42qu.com/#product_%s"%(self.zsite_id, self.id)
-        elif user_id:
-            u = Zsite.mc_get(user_id)
-            link = '%s/%s' % (u.link, self.id)
         elif not self.user_id:
-            link = "//0.%s/%s"%(SITE_DOMAIN, self.id)
+            link = "//%s.%s/%s"%(self.user_id,SITE_DOMAIN, self.id)
 
         return link
 

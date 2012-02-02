@@ -253,12 +253,12 @@ CID2TEMPLATE = {
 
 
 @urlmap('/(\d+)')
-class PoOne(ZsiteBase):
+class PoOne(Base):
     def po(self, id):
         po = Po.mc_get(id)
         if po:
             self._po = po
-            if po.user_id == self.zsite_id or not po.user_id:
+            if po.user_id == self.zsite_id:
                 return po
             return self.redirect(po.link)
         return self.redirect('/')
