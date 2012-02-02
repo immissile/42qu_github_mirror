@@ -89,7 +89,7 @@ def htm2txt(htm):
                     if not RE_TU.match(ss.lstrip().encode('utf-8')):
                         li.append(ss)
                         href = i.get('href')
-                        if href and href.startswith('http'):
+                        if href and href.startswith('http') and href!=ss:
                             li.append('[[%s]]'%href)
                         li.append(s[len(ss):])
                     else:

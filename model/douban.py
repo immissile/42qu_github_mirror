@@ -232,13 +232,13 @@ if __name__ == '__main__':
     print txt!=title_normal(txt)
     #kv_int.set(KV_IMPORT_DOUBAN,0)
     #douban_feed_to_review_iter()
-    #for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
-    #    total = i.rec + i.like
-    #    if total < 2000:
-    #        i.state = 0
-    #        i.save()
-    #    else:
-    #        print title_normal(i.title)
+    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
+        total = i.rec + i.like
+        if total < 2000:
+            i.state = 0
+            i.save()
+        else:
+            print title_normal(i.title)
 #    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
 #        total = i.rec + i.like
 #        if total < 2000:
