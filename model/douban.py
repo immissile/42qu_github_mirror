@@ -230,7 +230,7 @@ def douban_feed_to_review_iter():
 
 def is_rt_by_title(title):
     t = title_normal_sign(title)
-    return title_normal_rt(t)==t
+    return title_normal_rt(t)!=t
 
 def title_normal(title):
     return title_normal_rt(title_normal_sign(title))
@@ -238,7 +238,7 @@ def title_normal(title):
 if __name__ == '__main__':
     pass
     txt='教你怎样成为K歌之王，几天改变你的嗓音!!!（附内部练习＋教学视频）'
-    print title_normal(txt)
+    print is_rt_by_title(txt)
     #kv_int.set(KV_IMPORT_DOUBAN,0)
     #douban_feed_to_review_iter()
     #for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
