@@ -280,6 +280,8 @@ def rec_read_cid(user_id, limit):
     shuffle( result )
     return result
 
+def rec_id_by_cid(cid, limit = -1):
+    return redis.zrange(REDIS_REC_CID%cid, 0, limit)
 
 
 from model.po_json import po_json
@@ -291,8 +293,9 @@ if __name__ == '__main__':
     user_id = 10000000
     from model.po import Po
     #rec_cid_push(2, 3)
-    #print redis.zrange(REDIS_REC_CID%1, 0, 11)
-    rec_read_empty(user_id)
+    #rec_read_empty(user_id)
+    print redis.zrange(REDIS_REC_CID%1, 0, 11)
+    print rec_id_by_cid(1,11)
 
     #   rec_read_extend(user_id, [(1, 1), (2, 2)])
 #    print rec_read_lastest(user_id,1)

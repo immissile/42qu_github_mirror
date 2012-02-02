@@ -40,6 +40,7 @@ from kv import Kv
 from url_short import url_short_id
 from site_sync import site_sync_new
 from rec_read import rec_cid_push
+from po_by_tag import zsite_tag_po_new_by_name
 
 
 IMPORT_FEED_STATE_RM = 0
@@ -50,7 +51,7 @@ IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR = 30
 IMPORT_FEED_STATE_REVIEWED_SYNC = 40
 IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC = 50
 
-IMPORT_FEED_STATE_POED = 60 
+IMPORT_FEED_STATE_POED = 60
 
 DOUBAN_ZSITE_ID = 10216239
 
@@ -111,9 +112,8 @@ def feed2po_new():
                 IMPORT_FEED_STATE_POED
             )
         ):
-        txt = txt_img_fetch(feed.txt)
-
-        feed_user =  user_by_feed_id_zsite_id(feed.rid, feed.zsite_id)
+        txt = txt_img_fetch(feed.txt) 
+        feed_user = user_by_feed_id_zsite_id(feed.rid, feed.zsite_id)
         user_id = zsite_id_by_douban_user_id(feed_user)
 
         zsite_id = feed.zsite_id
@@ -131,14 +131,14 @@ def feed2po_new():
             if not feed_user:
                 feed_user_id = 0
             else:
-                user = PoMetaUser.get_or_create(name = feed_user.name, cid = zsite_id)
+                user = PoMetaUser.get_or_create(name=feed_user.name, cid=zsite_id)
                 user.url = feed_user.id
 
                 user.save()
 
                 feed_user_id = user.id
 
-            record = PoMeta.get_or_create(id = po.id)
+            record = PoMeta.get_or_create(id=po.id)
             record.user_id = feed_user_id
             record.url_id = url_short_id(feed.url)
 
@@ -154,11 +154,13 @@ def feed2po_new():
             feed.state = IMPORT_FEED_STATE_POED
             feed.save()
 
+            print feed.cid, po.id
             rec_cid_push(feed.cid, po.id)
+            apply_tag(feed.tags,po)
 
-def review_feed(id, cid, title, txt, author_rm=False, sync=False):
+def review_feed(id, cid, title, txt, tags, author_rm=False, sync=False):
     feed = ImportFeed.get(id)
-    if feed and feed.state==IMPORT_FEED_STATE_INIT :
+    if feed and feed.state == IMPORT_FEED_STATE_INIT :
         if author_rm:
             if sync:
                 feed.state = IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC
@@ -173,9 +175,15 @@ def review_feed(id, cid, title, txt, author_rm=False, sync=False):
         feed.title = title
         feed.txt = txt
         feed.cid = cid
+        print tags
+        feed.tags = tags
 
         feed.save()
 
+def apply_tag(tags,po):
+    tags = tags.split(',')
+    for tag in tags:
+        zsite_tag_po_new_by_name(tag,po,100)
 
 if __name__ == '__main__':
     pass
