@@ -295,7 +295,9 @@ def rec_read_cid(user_id, limit):
     return result
 
 def rec_id_by_cid(cid, limit = -1,offset=0):
-    return redis.zrevrange(REDIS_REC_CID%cid, offset, limit)
+    if limit != -1:
+        limit = offset+limit-1
+    return redis.zrevrange(REDIS_REC_CID%cid, offset, limit ) 
 
 def rec_cid_mv(po_id, old_cid, new_cid):
     rec_rm(po_id,old_cid)
