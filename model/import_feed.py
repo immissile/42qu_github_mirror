@@ -192,6 +192,6 @@ if __name__ == '__main__':
     #feed2po_new()
     from zweb.orm import ormiter
     for i in ormiter(ImportFeed):
-        i.txt = i.txt.replace("豆友","网友")
+        i.txt = i.txt.replace("豆友","网友").replace("豆油","私信").replace("豆邮","私信")
         i.save()
 
