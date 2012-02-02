@@ -104,6 +104,8 @@ DB_MAIN_TABLE = (
     'user_school',
     'po_zsite_tag',
     'product_show',
+    'po_meta',
+    'po_meta_user',
 )
 
 DB_GOOGLE_TABLE = (
