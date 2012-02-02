@@ -39,6 +39,8 @@ ${self.H()}\
 <%
 if zsite_id:
     request_host = host(zsite_id)
+elif zsite_id == 0:
+    request_host = SITE_DOMAIN
 else:
     request_host = request.host
 %>
