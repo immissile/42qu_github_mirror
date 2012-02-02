@@ -365,6 +365,9 @@ def po_rm(user_id, id):
             from model.po_recommend import mq_rm_rec_po_by_po_id
             mq_rm_rec_po_by_po_id(user_id, id)
 
+            from po_by_tag  import tag_po_rm_by_po_id
+            tag_po_rm_by_po_id(po.id)
+
             return _po_rm(user_id, po)
 
 

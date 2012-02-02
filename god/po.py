@@ -205,7 +205,7 @@ class Rm(Base):
         p = Po.mc_get(po_id)
         if p:
             user = p.user
-            if user:
+            if user or not p.user_id:
                 self.render(user=user)
 
     def post(self,po_id):
@@ -216,6 +216,9 @@ class Rm(Base):
             user = p.user
             if user:
                 user_id = user.id
+            else:
+                user_id = 0
+
             if add:
                 spammer_new(user_id)
             

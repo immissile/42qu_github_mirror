@@ -104,6 +104,8 @@ class ImportFeedEdit(Base):
             po.save()
             apply_tag(tags, po)
 
+        self.redirect('/import_feed/list/%s'%old_cid)
+
 
 
 #self.write('%s,%s,%s,%s'%(id,title,cid,tags))
