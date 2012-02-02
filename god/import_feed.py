@@ -26,7 +26,7 @@ def _get(self):
             'title':feed.title,
             'txt':feed.txt,
             'tags':[],
-            'del_author':True if del_author else False
+            'del_author':del_author
         }
         self.finish(dumps(result))
 
