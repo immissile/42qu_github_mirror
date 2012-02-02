@@ -498,31 +498,14 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
-    class PoRidMeta(McModel):
-        pass
-    count = 0
-#id  name_   user_id     cid     rid     state   create_time     zsite_id
-    from zweb.orm import ormiter
-    for i in ormiter(PoRidMeta):
-        id = i.id
-        if not Po.get(id):
-            print count,i,i.user_id
-            count+=1
-            po = Po.mc_get(id)
-            if po:
-                Po(id=po.id,name_=po.name_,cid=po.cid, rid=po.rid, user_id=po.user_id,state=po.state,create_time=po.create_time,zsite_id=po.zsite_id).save()
-            else:
-                feed_rm(i.id)
-                from model.zsite_tag import ZsiteTagPo
-                for t in ZsiteTagPo.where(po_id=id):
-                    t.delete()
-
+    po = Po.mc_get(10216312)
+    po.state = STATE_ACTIVE
+    po.save()
     #rm_all_po_and_reply_and_tag_by_user_id(10001299)
     pass
     #for po in Po.where(cid = CID_NOTE,state=STATE_ACTIVE):
     #    print po.txt
     #    raw_input()
-    #po = Po.mc_get(10199705)
     ##pass
     #po = Po.mc_get(10210260)
     #
