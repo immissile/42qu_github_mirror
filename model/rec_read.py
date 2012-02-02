@@ -324,7 +324,7 @@ if __name__ == '__main__':
     user_id = 10000000
     from model.po import Po
     mc_rec_lock.delete(user_id)
-    #rec_read_empty(user_id)
+    rec_read_empty(user_id)
 
     #rec_cid_push(2, 3)
     #print redis.zrange(REDIS_REC_CID%1, 0, 11)
