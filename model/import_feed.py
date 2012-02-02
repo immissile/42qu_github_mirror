@@ -40,7 +40,7 @@ from kv import Kv
 from url_short import url_short_id
 from site_sync import site_sync_new
 from rec_read import rec_cid_push
-from po_by_tag import zsite_tag_po_new_by_name
+from po_by_tag import zsite_tag_po_new_by_name, tag_po_rm_by_po_id
 
 
 IMPORT_FEED_STATE_RM = 0
@@ -181,6 +181,8 @@ def review_feed(id, cid, title, txt, tags, author_rm=False, sync=False):
         feed.save()
 
 def apply_tag(tags,po):
+    tag_po_rm_by_po_id(po.id)
+
     tags = tags.split(',')
     for tag in tags:
         zsite_tag_po_new_by_name(tag,po,100)

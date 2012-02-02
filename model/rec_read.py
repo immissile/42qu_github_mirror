@@ -296,6 +296,10 @@ def rec_read_cid(user_id, limit):
 def rec_id_by_cid(cid, limit = -1):
     return redis.zrange(REDIS_REC_CID%cid, 0, limit)
 
+def rec_change(po_id, old_cid, new_cid):
+    redis.zrem(REDIS_REC_CID%old_cid,po_id)
+    rec_cid_push(new_cid,po_id)
+
 
 from model.po_json import po_json
 def po_json_by_rec_read(user_id, limit=8):
@@ -307,10 +311,13 @@ if __name__ == '__main__':
     from model.po import Po
     #rec_cid_push(2, 3)
     #print redis.zrange(REDIS_REC_CID%1, 0, 11)
-    print rec_read_more(user_id,7)
+    #print rec_read_more(user_id,7)
     #rec_read_empty(user_id)
-    print redis.zrange(REDIS_REC_CID%1, 0, 11)
-    print rec_id_by_cid(1,11)
+    #print redis.zrange(REDIS_REC_CID%1, 0, 11)
+    print 'old',rec_id_by_cid(1,11)
+    rec_change(69202,1,2)
+    print 'new',rec_id_by_cid(1,11)
+    print 'new2',rec_id_by_cid(2,11)
 
     #   rec_read_extend(user_id, [(1, 1), (2, 2)])
 #    print rec_read_lastest(user_id,1)
