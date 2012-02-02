@@ -100,6 +100,10 @@ DB_MAIN_TABLE = (
     'buzz_at',
     'buzz_reply',
     'import_douban_event',
+    'url_short', 
+    'user_school',
+    'po_zsite_tag',
+    'product_show',
 )
 
 DB_GOOGLE_TABLE = (
