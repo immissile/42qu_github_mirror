@@ -21,7 +21,7 @@ CREATE TABLE `douban_feed` (
   `time` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Index_2` (`cid`,`rid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `douban_feed_owner`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -31,7 +31,7 @@ CREATE TABLE `douban_feed_owner` (
   `owner` varbinary(64) NOT NULL,
   `topic` varbinary(64) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=binary;
+) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `douban_group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -57,7 +57,7 @@ CREATE TABLE `douban_rec` (
   `time` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `time` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=110748133 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `douban_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -68,7 +68,7 @@ CREATE TABLE `douban_user` (
   `url` varchar(64) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Index_2` (`url`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=57965517 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `douban_user_feed`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -81,7 +81,7 @@ CREATE TABLE `douban_user_feed` (
   `vote` tinyint(3) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `Index_2` (`rid`,`user_id`,`cid`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=666 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `google_rank`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -115,6 +115,40 @@ CREATE TABLE `import_feed` (
   PRIMARY KEY (`id`),
   KEY `Index_2` (`state`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `netease_album`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `netease_album` (
+  `id` int(11) unsigned NOT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `place` varchar(20) DEFAULT NULL,
+  `published` varchar(20) DEFAULT NULL,
+  `url` varchar(1024) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `netease_photo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `netease_photo` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `url` varchar(1024) NOT NULL,
+  `album_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=153387 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `netease_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `netease_user` (
+  `id` int(11) unsigned NOT NULL,
+  `url` varchar(1024) DEFAULT NULL,
+  `nickname` varchar(256) DEFAULT NULL,
+  `name` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rss_po`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
