@@ -26,7 +26,7 @@ def prepare(o):
 #    o.REDIS_DB = redis.Redis()
 
     o.PRIVILEGE_ADMIN = (
-        (10001518,(PRIVILEGE_IMPORT_FEED,)), #用户名 
+        (10014590,(PRIVILEGE_IMPORT_FEED,)), #夭夭
     )
 
     o.PRIVILEGE_SUPER = set((

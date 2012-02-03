@@ -67,6 +67,9 @@ if __name__ == '__main__':
     #print url_short_by_id(id)
     print url_short_by_key('MK')
     print url_short_txt("""
+
+http://www.iconfinder.com/search/?q=iconset%3Apopo_emotions_full_png
+
 英文的学术叫法叫做 re-visit policy ( http://en.wikipedia.org/wiki/Web_crawler )
 简单的说, 就是通过历史的抓取页面更新, 预测下一次的抓取更新的时间
 http://oak.cs.ucla.edu/~cho/research/crawl.html 页面上有一个论文汇总 , 可以下载这些论文
