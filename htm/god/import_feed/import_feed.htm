@@ -117,23 +117,8 @@ from model.rec_read import REDIS_REC_CID_TUPLE
     
     function refresh_data(r)
     {
-        $("#author_rm").attr('checked',data['author_rm']);
-
-        if(r!=null){
-        data['title']= r['title'];
-        data['txt'] = r['txt'];
-        data['tags'] = r['tags'];
-        data['id'] = r['id'];
-        data['author_rm'] = r['author_rm'];
-        data['url'] = r['url'];
-        }else{
-        data['title']= '';
-        data['txt'] = '';
-        data['tags'] = '';
-        data['id'] = '';
-        data['delauthor'] = '';
-        data['url'] = '';
-        }
+        $("#author_rm").attr('checked',data.author_rm);
+        data = r||{};
     }
     function auto_height(){
         $("#txt").height($("#txt")[0].scrollHeight);
@@ -146,17 +131,17 @@ $.getJSON('/import_feed/next',refresh_data)
 
 $("#okbtn").click(function(){
         if($("input:radio:checked").val()){
-        post_data = $("#editform").serialize();
+        var post_data = $("#editform").serialize();
         $("#editwrapper").html($("#render_txt").tmpl(data));
         $.postJSON('/import_feed/next',post_data ,refresh_data);
-        auto_height();
+            auto_height();
         }else{
         alert("请选择类型");
         }
-        });
+});
 
 $("#nobtn").click(function(){
-        post_data = $("#editform").serialize();
+        var post_data = $("#editform").serialize();
         $("#editwrapper").html($("#render_txt").tmpl(data));
         $.postJSON('/import_feed/rm',post_data ,refresh_data);
         auto_height();
