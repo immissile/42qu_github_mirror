@@ -4,19 +4,23 @@ from os.path import abspath, dirname, basename, join
 from os import walk
 
 FROM_STRING = """
-rec_change
-apply_tag
+index_wrap
+left_wrap
+right_wrap
 """
 
 TO_STRING = """
-rec_cid_mv
-po_tag_new
+
+Iwp
+Lwp
+Rwp
+
 """
 
 def run():
     from_string = FROM_STRING.strip()
     to_string = TO_STRING.strip()
-    for from_s, to_s in zip(FROM_STRING.split('\n'), TO_STRING.split('\n')):
+    for from_s, to_s in zip(filter(bool,FROM_STRING.split('\n')), filter(bool,TO_STRING.split('\n'))):
         replace(from_s.strip(), to_s.strip())
 
 def replace(from_string, to_string):

@@ -129,7 +129,7 @@ li
 {
     margin-right:239px;
 }
-.index_wrap{
+.Iwp{
     margin:36px auto 0;
     max-width:1296px;
     overflow:hidden;
@@ -140,7 +140,7 @@ li
 #po_word_form{
     padding-left:0;
 }
-.left_wrap{
+.Lwp{
     width:100%;
     float:left;
     margin-left:12px;
@@ -237,7 +237,7 @@ padding-top:14px;
     display:block;
     float:left;
 }
-.right_wrap{
+.Rwp{
     float:left;
     width:250px;
     margin:0 0 0 -174px;
