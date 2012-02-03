@@ -7,7 +7,6 @@ BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
 _char = re.compile(r'&(\w+?);')
 _dec = re.compile(r'&#(\d{2,4});')
 _hex = re.compile(r'&#x(\d{2,4});')
-RE_TU = re.compile(r"^图:.*$")
 
 def _char_unescape(m, defs=htmlentitydefs.entitydefs):
     try:
@@ -87,9 +86,9 @@ def htm2txt(htm):
                     s = soup2txt_recursion(i)
                     ss = s.rstrip()
 
-                    if ss.find('\n', 1) > 0 or not RE_TU.match(ss.lstrip().encode('utf-8')):
+                    href = i.get('href')
+                    if href not in ss:
                         li.append(ss)
-                        href = i.get('href')
                         if href and href.startswith('http') and href != ss:
                             li.append('[[%s]]'%href)
                         li.append(s[len(ss):])
