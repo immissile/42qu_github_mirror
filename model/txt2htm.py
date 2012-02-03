@@ -95,19 +95,28 @@ def txt_withlink(s):
     replace_code = ReplaceCode()
     s = txt_map('\r{{{', '\r}}}\r', '\r%s\r'%s, replace_code).strip()
     s = RE_BOLD.sub(replace_bold, s)
-    s = s.replace('图:http://', '图://')
-    s = RE_LINK_TARGET.sub(replace_link, s)
+
+    s = replace_link_img(s)
+
     s = RE_AT.sub(replace_at, s)
-    s = RE_IMG.sub(replace_img, s)
     s = replace_code.loads(s)
+
+    return s
+
+def replace_link_img(s):
+    s = s.replace('图：', '图:')
+    s = s.replace('图:http://', '图://')
+
+    s = RE_LINK_TARGET.sub(replace_link, s)
+
+    s = RE_IMG.sub(replace_img, s)
     return s
 
 def txt2htm_withlink(s):
     s = escape(s)
     s = s.replace('\n', '\n<br>')
-    s = RE_LINK_TARGET.sub(replace_link, s)
+    s = replace_link_img(s)
     s = RE_SPACE.sub(replace_space, s)
-    s = RE_IMG.sub(replace_img, s)
     return s
 
 def replace_at(match):

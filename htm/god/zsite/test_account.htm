@@ -1,25 +1,15 @@
 <%inherit file="/god/_base.htm" />
 <%! 
 from model.zsite import Zsite
-%>
-<%
-test_account_list = (
-10014918, 10001542, 10001518, 10016605, 10008640, 10007647, 10030280, 10030281,
-10001299, 
-10016494,
-10000212,
-10000000,
-10001637,
-)
+from config import PRIVILEGE_SUPER
 %>
 
-%for test_account_id in test_account_list:
+%for test_account_id in PRIVILEGE_SUPER:
 <%
 test_account_user = Zsite.mc_get(id=test_account_id)
 test_account_name = test_account_user.name
 %>
 <div style="border:1px solid #ccc;padding:10px;margin:10px;float:left">
-
 <p>${test_account_id}</p> 
 <p>${test_account_name}</p>
 <p >
