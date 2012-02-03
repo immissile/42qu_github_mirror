@@ -38,9 +38,7 @@ class Feed(LoginBase):
 #        from model.po_by_tag import po_by_tag
  
         self.render(
-            rec_item_list = po_json_by_rec_read(
-                current_user_id
-            )
+            rec_item_list = po_json_by_rec_read( current_user_id)
         )
 
 @urlmap('/read')

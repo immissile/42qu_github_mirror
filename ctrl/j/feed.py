@@ -64,7 +64,7 @@ class FeedUp(JLoginBase):
     def post(self, id):
         current_user_id = self.current_user_id
 
-        sync = self.get_argument('sync','')
+        sync = self.get_argument('sync', '')
         txt = self.get_argument('txt', '')
 
         po = Po.mc_get(id)
@@ -82,8 +82,8 @@ class FeedUp(JLoginBase):
         if not self._finished:
             self.finish('{}')
 
-        #mq_sync_recommend_by_zsite_id(current_user_id,rec.id)
-        #sync_recommend(current_user_id,rec.id)
+#mq_sync_recommend_by_zsite_id(current_user_id,rec.id)
+#sync_recommend(current_user_id,rec.id)
 
 
 @urlmap('/j/feed/(\d+)')
@@ -145,7 +145,7 @@ class Feed(JLoginBase):
                         t
                     ))
                 else:
-                    print 'zsite_id', zsite_id
+                    #print 'feed_rm', id, zsite_id
                     feed_rm(id)
 
             r.append(zsite_name_id_dict(site_id_set))
@@ -161,7 +161,7 @@ class PoJson(Base):
     def get(self, id):
         po = Po.mc_get(id)
         current_user_id = self.current_user_id
-        if po.can_view(self.current_user_id): 
+        if po.can_view(self.current_user_id):
             result = {
                 'txt':po.htm,
                 'reply_count':po.reply_count,
