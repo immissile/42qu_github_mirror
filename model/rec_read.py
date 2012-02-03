@@ -322,7 +322,7 @@ if __name__ == '__main__':
 
     user_id = 10000000
     #print rec_read_page(user_id, limit=7, offset=0)
-    print rec_read_count(user_id)
+    #print rec_read_count(user_id)
 
     #from model.po import Po,STATE_ACTIVE
     #for cid in REDIS_REC_CID_DICT:
@@ -332,7 +332,7 @@ if __name__ == '__main__':
     #        po.save()
 
     #from model.po import Po
-    #mc_rec_lock.delete(user_id)
+    mc_rec_lock.delete(user_id)
     #rec_read_empty(user_id)
 
     #rec_cid_push(2, 3)
