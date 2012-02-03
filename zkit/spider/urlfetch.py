@@ -60,10 +60,15 @@ class Fetch(object):
         return data
 
 def urlfetch(url, headers={}):
-    request = urllib2.Request(
-        url=url,
-        headers=headers
-    )
+    if type(url) is dict:
+	    if 'headers' not in url:
+	        url['headers'] = headers
+	        request = urllib2.Request(**url)
+    else:
+	     request = urllib2.Request(
+    		  url=url,
+              headers=headers
+    		  )
 
     urlopener = urllib2.build_opener()
     r = urlopener.open(request, timeout=30)
