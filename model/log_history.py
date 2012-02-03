@@ -9,8 +9,8 @@ import time
 from model.cid import CID_USER
 from operator import itemgetter
 from follow import Follow
-from config import PART_TIME_JOBS_RULES, PART_TIME_CID_CN
-from part_time_job import PartTimeJob
+from model.privilege import PART_TIME_JOBS_RULES, PRIVILEGE_CN
+from model.part_time_job import PartTimeJob
 
 
 LOG_HISTORY_CID_USER = 1
@@ -18,6 +18,7 @@ LOG_HISTORY_CID_PO = 2
 LOG_HISTORY_CID_REPLY = 3
 LOG_HISTORY_CID_FOLLOW = 4
 LOG_HISTORY_CID_PO_ZSITE = 5
+
 LOG_HISTORY_CID = (
     LOG_HISTORY_CID_USER,
     LOG_HISTORY_CID_PO,
@@ -39,7 +40,7 @@ PART_TIME_JOB_DICT = dict()
 for user_id,rule_list in PART_TIME_JOBS_RULES:
     for rule in rule_list:
         max_id += 1
-        PART_TIME_JOB_DICT[user_id,max_id]= ('%s - %s'%(Zsite.mc_get(user_id).name, PART_TIME_CID_CN.get(rule)),rule)
+        PART_TIME_JOB_DICT[user_id,max_id]= ('%s - %s'%(Zsite.mc_get(user_id).name, PRIVILEGE_CN.get(rule)),rule)
 
 LOG_HISTORY_CN_CID.update([(cid,v[0]) for (user_id,cid),v in PART_TIME_JOB_DICT.items()])
 LOG_HISTORY_CID+=tuple([cid for (user_id,cid) in PART_TIME_JOB_DICT.keys()])
@@ -86,7 +87,7 @@ def log_incr_list(cid, limit=100):
 def log_part_time():
     for user_id,cid in PART_TIME_JOB_DICT.keys():
         num = PartTimeJob.raw_sql(
-            'select count(1) from part_time_job where user_id=%s and cid=%s', user_id,cid
+            'select count(1) from privilege where user_id=%s and cid=%s', user_id,cid
         ).fetchone()[0]
         log_history_new(PartTimeJob, cid, num)
 

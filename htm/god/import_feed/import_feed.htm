@@ -56,7 +56,7 @@ if feed:
     result['title'] = feed[0].title
     result['txt'] = feed[0].txt
     result['tags'] = ''
-    result['del_author'] = is_rt_by_title(feed[0].title) 
+    result['author_rm'] = is_rt_by_title(feed[0].title) 
     result['url']=feed[0].url
 
 from model.rec_read import REDIS_REC_CID_TUPLE
@@ -68,10 +68,6 @@ from model.rec_read import REDIS_REC_CID_TUPLE
 <script id="render_txt" type="text/x-jquery-tmpl">
     <%text>
     <form id="editform" rel="${id}">
-        <label for="title">标题
-            <a href="${url}" target="_blank">${title}</a>
-        </label>
-    <br/>
     <input id="title" name="title" type="text" value="${title}" />
     <br/>
 
@@ -103,6 +99,7 @@ from model.rec_read import REDIS_REC_CID_TUPLE
 
     <input id="author_rm" name="author_rm" type="checkbox"/>
     <label for="author_rm">删除作者</label>
+    <a href="${url}" target="_blank">原文链接</a>
 </div>
     <input id="" name="id" style="display:none" value="${id}" type="text" />
 </form>
@@ -120,23 +117,8 @@ from model.rec_read import REDIS_REC_CID_TUPLE
     
     function refresh_data(r)
     {
-        $("#author_rm").attr('checked',data['del_author']);
-
-        if(r!=null){
-        data['title']= r['title'];
-        data['txt'] = r['txt'];
-        data['tags'] = r['tags'];
-        data['id'] = r['id'];
-        data['del_author'] = r['del_author'];
-        data['url'] = r['url'];
-        }else{
-        data['title']= '';
-        data['txt'] = '';
-        data['tags'] = '';
-        data['id'] = '';
-        data['delauthor'] = '';
-        data['url'] = '';
-        }
+        $("#author_rm").attr('checked',data.author_rm);
+        data = r||{};
     }
     function auto_height(){
         $("#txt").height($("#txt")[0].scrollHeight);
@@ -149,17 +131,17 @@ $.getJSON('/import_feed/next',refresh_data)
 
 $("#okbtn").click(function(){
         if($("input:radio:checked").val()){
-        post_data = $("#editform").serialize();
+        var post_data = $("#editform").serialize();
         $("#editwrapper").html($("#render_txt").tmpl(data));
         $.postJSON('/import_feed/next',post_data ,refresh_data);
-        auto_height();
+            auto_height();
         }else{
         alert("请选择类型");
         }
-        });
+});
 
 $("#nobtn").click(function(){
-        post_data = $("#editform").serialize();
+        var post_data = $("#editform").serialize();
         $("#editwrapper").html($("#render_txt").tmpl(data));
         $.postJSON('/import_feed/rm',post_data ,refresh_data);
         auto_height();

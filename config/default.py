@@ -12,42 +12,28 @@ json.load = yajl.load
 
 
 import _env
+from privilege import 
 from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 import zkit.cookie_morsel 
 from hmako.lookup import TemplateLookup
 import sys
 from os.path import join
-from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
+from privilege import PRIVILEGE_IMPORT_FEED
+
+
 
 def prepare(o):
     
 #    o.REDIS_DB = redis.Redis()
-    o.ADMINISTRATORS = [110001518]
 
-    o.PART_TIME_JOBS_RULES = (
-            (10001518,[0,1]), #user_id : [job_cid]
-            (10001517,[0,1]), #user_id : [job_cid]
-            )
+    o.PRIVILEGE_ADMIN = (
+        (10001518,(PRIVILEGE_IMPORT_FEED,)), #用户名 
+    )
 
-    o.PART_TIME_CID_COMMONTASK = 0
-    o.PART_TIME_CID_IMPORT_FEED = 1
+    o.PRIVILEGE_SUPER = set((
+        10000000, #张沈鹏 
 
-    o.PART_TIME_CID_CN = {
-            o.PART_TIME_CID_COMMONTASK:"日常",
-            o.PART_TIME_CID_IMPORT_FEED:"rss导入审核"
-            }
-
-    o.PART_TIME_JOBS_PAGE_DICT = {
-            o.PART_TIME_CID_COMMONTASK:[
-                '/',
-                '/chart',
-                ],#common task
-            o.PART_TIME_CID_IMPORT_FEED:[
-                '/import_feed',
-                '/import_feed/next',
-                '/import_feed/rm',
-                ], #import_feed
-            }
+    ))
 
     o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
