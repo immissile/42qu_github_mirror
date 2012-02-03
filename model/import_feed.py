@@ -12,7 +12,7 @@ from site_sync import site_sync_new
 from rec_read import rec_cid_push
 from po_by_tag import zsite_tag_po_new_by_name, tag_po_rm_by_po_id
 from part_time_job import part_time_job_new
-from config import PART_TIME_CID_IMPORT_FEED
+from config.privilege import PRIVILEGE_IMPORT_FEED
 
 
 IMPORT_FEED_STATE_RM = 0
@@ -57,7 +57,7 @@ def feed_next():
     return ImportFeed.where(state=IMPORT_FEED_STATE_INIT)[1]
 
 def import_feed_rm(id, current_user_id):
-    part_time_job_new(PART_TIME_CID_IMPORT_FEED, id, current_user_id)
+    part_time_job_new(PRIVILEGE_IMPORT_FEED, id, current_user_id)
     feed_state_set(id, IMPORT_FEED_STATE_RM)
 
 
@@ -149,7 +149,7 @@ def review_feed(id, cid, title, txt, tags, current_user_id, author_rm=False, syn
         feed.cid = cid
         feed.tags = tags
         
-        part_time_job_new(PART_TIME_CID_IMPORT_FEED, feed.id, current_user_id)
+        part_time_job_new(PRIVILEGE_IMPORT_FEED, feed.id, current_user_id)
 
         feed.save()
 

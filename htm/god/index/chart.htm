@@ -3,6 +3,7 @@
 from config import FS_URL 
 from yajl import dumps
 from model.log_history import LOG_HISTORY_CID, LOG_HISTORY_CN_CID , log_incr_list
+from model.zsite import Zsite
 %>
 <%def name="htm_head()">
 ${css.god_chart|n}
@@ -14,13 +15,18 @@ ${css.god_chart|n}
 </p>
 <%def name="render_chart(cid)">
 <%
-data = log_incr_list(cid)
+data , user_id = log_incr_list(cid)
 %>
 %if data:
 <%
 y_max = max(data)
 y_min = min(data)
 step = max(int((y_max - y_min)/10),1)
+
+if user_id:
+    title = Zsite.mc_get(user_id).name
+else:
+    title = ""
 
 json_data = {
     "elements": [ 
@@ -34,7 +40,7 @@ json_data = {
 }
 %>
 <div class="chart">
-    <div class="chart_title">${LOG_HISTORY_CN_CID[cid]} 昨日 +${data[-1]}</div>
+    <div class="chart_title">${LOG_HISTORY_CN_CID[cid]} ${title} 昨日 +${data[-1]}</div>
     <div id="chart${cid}"></div>
 <script>
 swfobject.embedSWF(
