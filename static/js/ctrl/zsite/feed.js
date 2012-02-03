@@ -317,7 +317,6 @@ $(".bzlive").live("click",function(){
     });
 */
 
-    $(".buzz_win_book").isotope({ itemSelector : '.sdw' });
 
 
 })()
