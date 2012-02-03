@@ -160,7 +160,7 @@ PATH_NAME = (
 )
 %>
 %for path,name in PATH_NAME:
-%if has_privilege_by_user_id_path(user_id):
+%if has_privilege_by_user_id_path(user_id,path):
 <a class="cola" href="${path|n}">${name}</a>
 %endif
 %endif
