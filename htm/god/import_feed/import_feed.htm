@@ -57,6 +57,7 @@ if feed:
     result['txt'] = feed[0].txt
     result['tags'] = ''
     result['del_author'] = is_rt_by_title(feed[0].title) 
+    result['url']=feed[0].url
 
 from model.rec_read import REDIS_REC_CID_TUPLE
 %>
@@ -67,7 +68,9 @@ from model.rec_read import REDIS_REC_CID_TUPLE
 <script id="render_txt" type="text/x-jquery-tmpl">
     <%text>
     <form id="editform" rel="${id}">
-    <label for="title">标题</label>
+        <label for="title">标题
+            <a href="${url}" target="_blank">${title}</a>
+        </label>
     <br/>
     <input id="title" name="title" type="text" value="${title}" />
     <br/>
@@ -125,12 +128,14 @@ from model.rec_read import REDIS_REC_CID_TUPLE
         data['tags'] = r['tags'];
         data['id'] = r['id'];
         data['del_author'] = r['del_author'];
+        data['url'] = r['url'];
         }else{
         data['title']= '';
         data['txt'] = '';
         data['tags'] = '';
         data['id'] = '';
         data['delauthor'] = '';
+        data['url'] = '';
         }
     }
     function auto_height(){

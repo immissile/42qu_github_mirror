@@ -27,7 +27,8 @@ def _get(self):
             'title':feed.title,
             'txt':feed.txt,
             'tags':[],
-            'del_author':del_author
+            'del_author':del_author,
+            'url':feed.url
         }
         self.finish(dumps(result))
 
