@@ -7,6 +7,8 @@ class Base(LoginBase):
     def prepare(self):
         super(Base, self).prepare()
         current_user_id = self.current_user_id
+        if self._finished:
+            return
         if not has_privilege_by_user_id_path(current_user_id, self.request.path):
             self.redirect('/')
 
