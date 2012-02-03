@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import _env
 from time import time
 from config import PRIVILEGE_ADMIN, PRIVILEGE_SUPER 
 from config.privilege import PRIVILEGE_IMPORT_FEED
@@ -34,5 +34,4 @@ def has_privilege_by_user_id_path(user_id, path):
 
 
 if __name__ == '__main__':
-    #part_time_job_new(1, 1, 10001517)
-    pass
+    print has_privilege_by_user_id_path(10001542,"/import_feed")

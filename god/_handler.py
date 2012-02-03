@@ -5,10 +5,9 @@ from zweb._handler.main import LoginBase
 
 class Base(LoginBase):
     def prepare(self):
+        super(Base, self).prepare()
         current_user_id = self.current_user_id
-        if has_privilege_by_user_id_path(current_user_id, self.request.path):
-            super(Base, self).prepare()
-        else:
+        if not has_privilege_by_user_id_path(current_user_id, self.request.path):
             self.redirect('/')
 
     def post(self, *arg, **kwds):
