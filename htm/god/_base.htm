@@ -1,6 +1,6 @@
 <%!
 from config import SITE_URL, SITE_DOMAIN, PRIVILEGE_SUPER 
-from config.privilege import PRIVILEGE_IMPORT_FEED , PRIVILEGE_ADMIN_DICT
+from config.privilege import PRIVILEGE_IMPORT_FEED , PRIVILEGE_ADMIN_DICT,has_privilege_by_user_id_path
 from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_SITE
 from model.zsite import Zsite,  ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY 
 from model.money import withdraw_open_count, withdraw_max
@@ -153,8 +153,16 @@ count = product_count()
 <a class="cola tc" href="/chart">网站报表</a>
 <a class="cola tc" href="http://t.cn/aCOG3v" target="_blank">京东返点</a>
 
-%elif PRIVILEGE_IMPORT_FEED in PRIVILEGE_ADMIN_DICT.get(current_user_id,[]):
-<a class="cola" href="/import_feed">审核导入文章</a>
+%endif
+<%
+PATH_NAME = (
+    ("/import_feed","审核导入文章")
+)
+%>
+%for path,name in PATH_NAME:
+%if has_privilege_by_user_id_path(user_id):
+<a class="cola" href="${path|n}">${name}</a>
+%endif
 %endif
 </%def>
 

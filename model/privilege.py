@@ -15,7 +15,7 @@ PRIVILEGE_CN = {
 
 PRIVILEGE_ADMIN_DICT = dict(PRIVILEGE_ADMIN)
 
-def page_is_allowed_by_user_id_path(user_id, path):
+def has_privilege_by_user_id_path(user_id, path):
 
     if user_id in  PRIVILEGE_SUPER:
         return True
