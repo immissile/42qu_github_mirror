@@ -7,7 +7,7 @@ BLOD_LINE = re.compile(r"^\s*\*\*[\r\n]+", re.M)
 _char = re.compile(r'&(\w+?);')
 _dec = re.compile(r'&#(\d{2,4});')
 _hex = re.compile(r'&#x(\d{2,4});')
-RE_TU = re.compile(r"^\s*图:\d+\s*$")
+RE_TU = re.compile(r"^图:.*$")
 
 def _char_unescape(m, defs=htmlentitydefs.entitydefs):
     try:
@@ -86,10 +86,11 @@ def htm2txt(htm):
                 if name == 'a':
                     s = soup2txt_recursion(i)
                     ss = s.rstrip()
-                    if not RE_TU.match(ss.lstrip().encode('utf-8')):
+
+                    if ss.find('\n', 1) > 0 or not RE_TU.match(ss.lstrip().encode('utf-8')):
                         li.append(ss)
                         href = i.get('href')
-                        if href and href.startswith('http') and href!=ss:
+                        if href and href.startswith('http') and href != ss:
                             li.append('[[%s]]'%href)
                         li.append(s[len(ss):])
                     else:
@@ -120,18 +121,13 @@ def htm2txt(htm):
     s = unescape(s.strip())
     txt = '\n\n'.join(filter(bool, [i.strip() for i in s.splitlines()]))
     txt = BLOD_LINE.sub('**', txt)
-    return txt 
+    return txt
 
 if __name__ == '__main__':
     import sys
     reload(sys)
     sys.setdefaultencoding('utf-8')
     print htm2txt("""
-<pre style="font-family:Verdana;font-size:14px;white-space:pre-wrap;word-wrap:break-word;line-height:27px;"><span class="cc"><table><tr><td><a href="#">
-<img src="#asga">wweaew
-<img src="http://27.media.tumblr.com/tumblr_lj8noxh3ee1qixe63o1_250.jpg" alt=""/></a ></td></tr><tr><td align='center' class="wr pl"></td></tr></table></span>
-如果<h1><h2>某一天</h2></h1>，
-你身上多了一个“恢复出厂设置”按钮，一按身体和记忆一切归为出生时。 你会去按它吗？</pre>
-""")
+    <p style="text-align: center;"><a href="http://www.ifanr.com/wp-content/uploads/2012/02/phone7_test.jpg"><img class="aligncenter size-full wp-image-71339" title="phone_test" src="http://www.ifanr.com/wp-content/uploads/2012/02/phone7_test.jpg" alt="" width="600" height="375" />2</a>""")
     #print unescape("""<option value='&#20013;&#22269;&#35821;&#35328;&#25991;&#23398;&#31995;'>&#20013;&#22269;&#35821;&#35328;&#25991;&#23398;&#31995;</option>""")
 
