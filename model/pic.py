@@ -108,3 +108,6 @@ if __name__ == '__main__':
     from ico import ico
     print ico.get(10000645)
     ico.set(10000645,788)
+
+
+
