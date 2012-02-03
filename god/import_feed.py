@@ -21,13 +21,13 @@ class ImportFeed(Base):
 def _get(self):
     feed = feed_next()
     if feed:
-        del_author = is_rt_by_title(feed.title)
+        author_rm = is_rt_by_title(feed.title)
         result = {
             'id':feed.id,
             'title':feed.title,
             'txt':feed.txt,
             'tags':[],
-            'del_author':del_author,
+            'author_rm':author_rm,
             'url':feed.url
         }
         self.finish(dumps(result))
