@@ -23,6 +23,8 @@ from model.douban import is_rt_by_title
     #title{
         padding:7px;
         width:90%;
+        display:block;
+        margin:14px 0;
     }
     .check{
         font-size:16px;
@@ -69,12 +71,7 @@ from model.rec_read import REDIS_REC_CID_TUPLE
     <%text>
     <form id="editform" rel="${id}">
     <input id="title" name="title" type="text" value="${title}" />
-    <br/>
-
-    <label for="txt">正文</label>
-    <br/>
     <textarea id="txt" name="txt">{{html txt}}</textarea>
-    <br/>
 
 <div>
     <label for="tags">标签</label>
