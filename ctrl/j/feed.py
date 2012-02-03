@@ -145,7 +145,7 @@ class Feed(JLoginBase):
                         t
                     ))
                 else:
-                    print 'zsite_id', zsite_id
+                    print 'feed_rm %s zsite_id %s'%(id, zsite_id)
                     feed_rm(id)
 
             r.append(zsite_name_id_dict(site_id_set))
