@@ -62,7 +62,7 @@ def photo_163_parse_photo_album(data, url, u_name, a_id, u_id, hits):
     data = data.decode('gbk').encode('utf-8')
     title = txt_wrap_by("name: '", "'", data)
     author = txt_wrap_by("nickName : '"
-                                    , "',", data)
+            , "',", data)
     author_url = txt_wrap_by("hostHomeUrl :'", "',", data)
     place = txt_wrap_by('拍摄于 </span>', '<b class=', data)
     place = place.replace('<em>', '').replace('</em>', '')
@@ -80,8 +80,11 @@ def photo_163_parse_photo_album(data, url, u_name, a_id, u_id, hits):
         print src
 
 def photo_163_parse_hits(data, url, photo_list):
-    for i in range(len(photo_list)):
-        photo_list[i].append(txt_wrap_by('s'+str(i)+'.vcnt=', ';', data))
+    for i in photo_list:
+        i.append(txt_wrap_by('s'+str(i)+'.vcnt=', ';', data))
+
+    #for i in range(len(photo_list)):
+    #    photo_list[i].append(txt_wrap_by('s'+str(i)+'.vcnt=', ';', data))
     photo_list = filter(lambda e:int(e[3])>HITS_THRESHOLD, photo_list)
     for u_name, u_id, a_id, hits in photo_list:
         print u_name, u_id, a_id, hits
@@ -105,12 +108,12 @@ def photo_163_parse_column_newlist(data, url, column_id, page_num):
 
     if len(photo_ids) == PHOTO_NUM_PER_PAGE:
         yield photo_163_parse_column_newlist,\
-                                PHOTO_163_NEWLIST_URL.\
-                                format(column_id, (page_num+1)*PHOTO_NUM_PER_PAGE), column_id, page_num+1
+                PHOTO_163_NEWLIST_URL.\
+                format(column_id, (page_num+1)*PHOTO_NUM_PER_PAGE), column_id, page_num+1
 
 def photo_163_parse_main(data, url):
     yield photo_163_parse_column_newlist,\
-                                                                PHOTO_163_NEWLIST_URL.format(48, '0'), 48, 0
+            PHOTO_163_NEWLIST_URL.format(48, '0'), 48, 0 # format > %
     """
         for column_id in txt_wrap_by_all('sid="','"><span',data):
                                 print column_id

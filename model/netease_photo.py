@@ -11,30 +11,25 @@ class NeteasePhoto(McModel):
 class NeteaseAlbum(McModel):
     pass
 
-def netease_user_new(id,url,nickname,name):
-        o=NeteaseUser.get_or_create(id=id,url=url)
-        o.nickname=nickname
-        o.name=name
-        o.save()
-        return o.id
+def netease_user_new(id, url, nickname, name):
+    o = NeteaseUser.get(id)
+    if not o:
+        o = NeteaseUser(id=id, url=url, nickname=nickname, name=name).save()
+    return o.id
 
-def netease_photo_new(url,album_id):
-        o=NeteasePhoto.get_or_create(url=url)
-        o.album_id=album_id
-        o.save()
-        return o.id
+def netease_photo_new(url, album_id):
+    o = NeteasePhoto.get(url=url)
+    if not o:
+        o = NeteasePhoto(url=url, album_id=album_id).save()
+    return o.id
 
 def netease_album_new(id, title, user_id, place, published, url):
-        o=NeteaseAlbum.get_or_create(id=id)
-        o.title=title
-        o.user_id=user_id
-        o.place=place
-        o.published=published
-        o.url=url
-        o.save()
-        return o.id
+    o = NeteaseAlbum.get(id)
+    if not o:
+        o = NeteaseAlbum(id=id,title=title,user_id=user_id,place=place,published=published,url=url).save()
+    return o.id
 
 if __name__ == '__main__':
-        print NeteasePhoto.count()
-        print NeteaseAlbum.count()
-        print NeteaseUser.count()
+    print NeteasePhoto.count()
+    print NeteaseAlbum.count()
+    print NeteaseUser.count()
