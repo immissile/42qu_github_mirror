@@ -120,10 +120,6 @@ DB_GOOGLE_TABLE = (
     'douban_feed_owner',
     'douban_user_to_fetch',
     'import_feed',
-    'netease_album',
-    'netease_photo',
-    'netease_user',
-
 )
 
 
