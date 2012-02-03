@@ -24,14 +24,15 @@ def has_privilege_by_user_id_path(user_id, path):
         return True
 
     cid_list = PRIVILEGE_ADMIN_DICT.get(user_id,[])
-
+    
     for cid in cid_list:
         prefix = PRIVILEGE_DICT[cid]
-        if prefix.startswith(prefix):
+
+        if path.startswith(prefix):
             return True
 
-
+    return False
 
 
 if __name__ == '__main__':
-    print has_privilege_by_user_id_path(10001542,"/import_feed")
+    print has_privilege_by_user_id_path(10014590,"/z")
