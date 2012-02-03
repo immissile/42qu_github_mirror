@@ -8,6 +8,7 @@ from zkit.txt import format_txt
 from config import DUMPLICATE_DB_PREFIX
 from zkit.htm2txt import htm2txt
 from model.douban import douban_feed_to_review_iter, DoubanUser 
+from zkit.single_process import single_process
 
 douban_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'douban')
 
@@ -41,6 +42,11 @@ def import_feed_new(title, txt, url, src_id, zsite_id, state=IMPORT_FEED_STATE_I
         return new_feed
 
 
-if __name__ == '__main__':
+@single_process
+def main():
     feed2po_new()
     import_feed_by_douban_feed()
+
+
+if __name__ == '__main__':
+    main()
