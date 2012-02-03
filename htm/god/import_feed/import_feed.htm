@@ -143,11 +143,16 @@ $("#editwrapper").html($("#render_txt").tmpl(data));
 $.getJSON('/import_feed/next',refresh_data)
 
 $("#okbtn").click(function(){
+        if($("input:radio:checked").val()){
         post_data = $("#editform").serialize();
         $("#editwrapper").html($("#render_txt").tmpl(data));
         $.postJSON('/import_feed/next',post_data ,refresh_data);
         auto_height();
+        }else{
+        alert("请选择类型");
+        }
         });
+
 
 $("#nobtn").click(function(){
         post_data = $("#editform").serialize();

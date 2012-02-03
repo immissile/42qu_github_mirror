@@ -42,7 +42,7 @@ class ImportFeedShow(Base):
         sync = self.get_argument('sync', None)
         author_rm = self.get_argument('author_rm', None)
         cid = self.get_argument('cid', None)
-        tags = self.get_argument('tags', None)
+        tags = self.get_argument('tags', '')
 
         review_feed(id, cid, title, txt, tags, author_rm, sync)
 
