@@ -317,7 +317,10 @@ if __name__ == '__main__':
     pass
 
     user_id = 10000000
-    print rec_read_page(user_id, limit=7, offset=0)
+    #print rec_read_page(user_id, limit=7, offset=0)
+    key = REDIS_REC_LOG%user_id
+    print key
+    print redis.zcard(key)
 
     #from model.po import Po,STATE_ACTIVE
     #for cid in REDIS_REC_CID_DICT:
