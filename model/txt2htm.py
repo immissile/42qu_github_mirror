@@ -105,6 +105,7 @@ def txt_withlink(s):
 
 def replace_link_img(s):
     s = s.replace('图：', '图:')
+    s = s.replace('图: http://', '图:http://')
     s = s.replace('图:http://', '图://')
 
     s = RE_LINK_TARGET.sub(replace_link, s)
