@@ -29,10 +29,6 @@ def render_zsite_site(self, n=1, page_template='/-%s'):
     return li, page
 
 
-#@urlmap('/live')
-#class Live(ZsiteBase):
-#    def get(self):
-#        self.redirect("/feed", True)
 
 @urlmap('/feed')
 class Feed(LoginBase):
@@ -47,7 +43,10 @@ class Feed(LoginBase):
             )
         )
 
-
+@urlmap('/read')
+class Read(LoginBase):
+    def get(self):
+        pass
 
 @urlmap('/')
 @urlmap('/-(\d+)')
