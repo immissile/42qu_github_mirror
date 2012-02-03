@@ -12,3 +12,4 @@ class Index(Base):
 class Chart(Base):
     def get(self):
         self.render()
+

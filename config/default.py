@@ -22,6 +22,18 @@ from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
 def prepare(o):
     
 #    o.REDIS_DB = redis.Redis()
+    o.ADMINISTRATORS = [110001518]
+    o.PART_TIME_JOBS = [
+            1,#import_feed
+            ]
+    o.PART_TIME_ALLOWED_PAGE = {
+            1:[
+                '/import_feed',
+                '/import_feed/next',
+                '/import_feed/rm',
+                ]
+            }
+
     o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
     o.PORT = 6666
