@@ -14,7 +14,7 @@ def part_time_job_new(cid,rid,user_id):
     record.save()
 
 def page_is_allowed_by_user_id_path(user_id,path):
-    job_id_list = PART_TIME_JOBS_RULES.get(user_id,[])
+    job_id_list = dict(PART_TIME_JOBS_RULES).get(user_id,[])
     allowed_path = set()
     for job_id in job_id_list:
         allowed_path|=set(PART_TIME_JOBS_PAGE_DICT[job_id])
