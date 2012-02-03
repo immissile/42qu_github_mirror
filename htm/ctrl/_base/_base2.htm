@@ -4,6 +4,10 @@ from model.zsite_url import host
 from model.notice import notice_unread as _notice_unread
 %>
 
+<%def name="htm_head()">
+${css.ctrl_index|n}
+</%def>
+
 <%def name="h_nav_notice()">
 %if current_user_id:
 <%
