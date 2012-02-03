@@ -1,0 +1,20 @@
+<%!
+from model.career import career_current
+from config import SITE_DOMAIN, FS_URL 
+from model.ico import pic_url_with_default,PIC_DEFAULT
+from tornado.escape import json_encode 
+%>
+
+<%inherit file="/ctrl/_base/_base2.htm" />
+<%def name="h_nav()">
+<div class="HN">\
+%if not current_user:
+<div class="D"><a href="${SITE_URL|n}/auth/login" class="DA">登录</a></div>\
+<div class="D"><a href="${SITE_URL|n}/auth/reg" class="DA">注册</a></div>\
+%endif
+${self.h_nav_more()}\
+</div>\
+</%def>
+
+
+<%def name="h_nav_more()"></%def>

@@ -4,6 +4,10 @@ from model.zsite_url import host
 from model.notice import notice_unread as _notice_unread
 %>
 
+<%def name="htm_head()">
+${css.ctrl_index|n}
+</%def>
+
 <%def name="h_nav_notice()">
 %if current_user_id:
 <%
@@ -97,6 +101,17 @@ ${h_nav_notice()}\
 ${self.h_nav()}
 </%def>
 
+<%def name="h_nav()">
+<div class="HN">\
+%if not current_user:
+<div class="D"><a href="${SITE_URL|n}/auth/login" class="DA">登录</a></div>\
+<div class="D"><a href="${SITE_URL|n}/auth/reg" class="DA">注册</a></div>\
+%endif
+${self.h_nav_more()}\
+</div>\
+</%def>
+
+<%def name="h_nav_more()"></%def>
 
 
 <%def name="T()">\

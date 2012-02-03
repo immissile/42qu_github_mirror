@@ -234,7 +234,10 @@ class Po(McModel, ReplyMixin):
         return '%s/po/edit/%s' % (u.link, self.id)
 
     def feed_new(self):
-        feed_new(self.id, self.user_id, self.cid)
+        user_id = self.user_id
+        if not user_id:
+            return
+        feed_new(self.id, user_id, self.cid)
 
     def can_view(self, user_id):
         if self.state <= STATE_RM:
