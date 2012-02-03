@@ -57,7 +57,7 @@ LOG_PART_TIME_MAPPING = {
 class LogHistory(Model):
     pass
 
-def log_history_new(cls , cid, num,user_id=0, day=None):
+def log_history_new(cls , cid, num, user_id=0, day=None):
     if day is None:
         day = today_days()
     c = LogHistory.raw_sql(
@@ -79,30 +79,30 @@ def log_history_new(cls , cid, num,user_id=0, day=None):
     else:
         max_id = 0
 
-    print "'insert into log_history (day,num,incr,cid, max_id, user_id) values (%s,%s,%s,%s,%s,%s) on duplicate key update num=%s, incr=%s, max_id=%s'"%(day , num, incr, cid, max_id,user_id, num, incr, max_id)
+    #print "'insert into log_history (day,num,incr,cid, max_id, user_id) values (%s,%s,%s,%s,%s,%s) on duplicate key update num=%s, incr=%s, max_id=%s'"%(day , num, incr, cid, max_id,user_id, num, incr, max_id)
     LogHistory.raw_sql(
 'insert into log_history (day,num,incr,cid, max_id, user_id) values (%s,%s,%s,%s,%s,%s) on duplicate key update num=%s, incr=%s, max_id=%s',
-    day , num, incr, cid, max_id,user_id, num, incr, max_id
+    day , num, incr, cid, max_id, user_id, num, incr, max_id
     )
 
 
 def log_incr_list(cid, limit=100):
     c = LogHistory.raw_sql(
-'select incr, user_id from log_history where cid=%s order by day asc limit %s', cid,limit+1
+'select incr, user_id from log_history where cid=%s order by day asc limit %s', cid, limit+1
     ).fetchall()
     user_id = c[0][1] if len(c) else 0
     return list(map(itemgetter(0), c))[1:], user_id
 
 
 def log_part_time():
-    from config import PRIVILEGE_ADMIN 
-    for user_id,v in PRIVILEGE_ADMIN: 
+    from config import PRIVILEGE_ADMIN
+    for user_id, v in PRIVILEGE_ADMIN:
         for part_time_cid in v:
-            cid = LOG_PART_TIME_MAPPING[part_time_cid] 
+            cid = LOG_PART_TIME_MAPPING[part_time_cid]
             num = PartTimeJob.raw_sql(
-                'select count(1) from part_time_job where user_id=%s and cid=%s', user_id,part_time_cid
+                'select count(1) from part_time_job where user_id=%s and cid=%s', user_id, part_time_cid
             ).fetchone()[0]
-            print cid,user_id,num
+            #print cid,user_id,num
             log_history_new(PartTimeJob, cid, num, user_id=user_id)
 
 def log_num_user():
@@ -146,5 +146,5 @@ if __name__ == '__main__':
     #).fetchall()
     #print c
     #log_num()
-    data,user_id =  log_incr_list(6, limit=100)
+    data, user_id = log_incr_list(6, limit=100)
     print max(data)
