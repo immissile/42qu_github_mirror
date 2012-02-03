@@ -1,5 +1,5 @@
 <%!
-from config import SITE_URL, SITE_DOMAIN
+from config import SITE_URL, SITE_DOMAIN, ADMINISTRATORS , PART_TIME_CID_IMPORT_FEED, PART_TIME_JOBS_RULES
 from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_SITE
 from model.zsite import Zsite,  ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY 
 from model.money import withdraw_open_count, withdraw_max
@@ -50,8 +50,7 @@ pic_to_review_count = pic_to_review_count_by_cid(CID_ICO)
     <a class="logout" href="${SITE_URL}/logout?${_xsrf}">登出</a>
     <a href="${current_user.link}" >${current_user.name}</a>
 </p>
-
-
+%if current_user_id in ADMINISTRATORS:
 <div>
 <%
 uncheck_count = ZsiteUserVerifyed.where(state=ZSITE_USER_VERIFYED_UNCHECK).count()
@@ -153,6 +152,9 @@ count = product_count()
 <a class="cola tc" href="/chart">网站报表</a>
 <a class="cola tc" href="http://t.cn/aCOG3v" target="_blank">京东返点</a>
 
+%elif PART_TIME_CID_IMPORT_FEED in PART_TIME_JOBS_RULES.get(current_user_id,[]):
+<a class="cola" href="/import_feed">审核导入文章</a>
+%endif
 </%def>
 
 <%def name="htm_title()">后台</%def>\
