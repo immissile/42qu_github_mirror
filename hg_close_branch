@@ -91,30 +91,31 @@ def main():
         print "\n"
         for pos, i in enumerate(t, 1):
             print "%s\t%s\t%s"%(str(pos).ljust(3), i[0].ljust(35), i[1])
-        num = raw_input("\nCLOSE BRANCH  : ").strip()
-        if num.isdigit():
-            num = int(num) - 1
-            if num < 0:
-                break
-            if num >= 0 and num < len(t):
-                branch = t[num][0]
-                cmd = """
-hg update %s
-hg commit --close-branch -m close
-hg update default
-    """%branch
-                line_break = "-"*64
-                cmd = [i.strip() for i in cmd.split("\n") if i]
-                print "\n关闭分支 %s ?(Y确认,否则取消)"%branch
-                if getch() in ["y", "Y"]:
-                    print line_break
-                    import os
-                    success = True
-                    for i in cmd:
-                        print ">>>%s"%i
-                        if os.system(i) != 0:
-                             success = False
-                             break
+        num_list = raw_input("\nCLOSE BRANCH  : ").strip().split()
+        for num in num_list:
+            if num.isdigit():
+                num = int(num) - 1
+                if num < 0:
+                    break
+                if num >= 0 and num < len(t):
+                    branch = t[num][0]
+                    cmd = """
+    hg update %s
+    hg commit --close-branch -m close
+    hg update default
+        """%branch
+                    line_break = "-"*64
+                    cmd = [i.strip() for i in cmd.split("\n") if i]
+                    print "\n关闭分支 %s ?(Y确认,否则取消)"%branch
+                    if getch() in ["y", "Y"]:
+                        print line_break
+                        import os
+                        success = True
+                        for i in cmd:
+                            print ">>>%s"%i
+                            if os.system(i) != 0:
+                                 success = False
+                                 break
 
 
 
