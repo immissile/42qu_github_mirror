@@ -79,47 +79,58 @@ def main():
     #os.chroot(path) 
     sys.argv = sys.argv[:1]
 
-    hg_branch = os.popen("hg branches").readlines()
+    hg_branch = os.popen('hg branches').readlines()
     while True:
         t = []
         for i in hg_branch:
             i = i.strip()
-            if i and i.find(":") > 0:
-                name = i.split(" ", 1)
-                if name[0] != "default":
+            if i and i.find(':') > 0:
+                name = i.split(' ', 1)
+                if name[0] != 'default':
                     t.append(map(str.strip, name))
-        print "\n"
+        print '\n'
         for pos, i in enumerate(t, 1):
-            print "%s\t%s\t%s"%(str(pos).ljust(3), i[0].ljust(35), i[1])
-        num = raw_input("\nCLOSE BRANCH  : ").strip()
-        if num.isdigit():
-            num = int(num) - 1
-            if num < 0:
-                break
-            if num >= 0 and num < len(t):
-                branch = t[num][0]
-                cmd = """
+            print '%s\t%s\t%s'%(str(pos).ljust(3), i[0].ljust(35), i[1])
+
+        num_list = raw_input('\nCLOSE BRANCH  : ').strip().split()
+
+        branch_list = []
+
+        for num in num_list:
+            if num.isdigit():
+                num = int(num) - 1
+                if num < 0:
+                    break
+                if num >= 0 and num < len(t):
+                    branch = t[num][0]
+                    branch_list.append(branch)
+
+        print '\n关闭分支\n%s\n(Y确认,否则取消)'%'\n'.join(branch_list)
+
+        if not getch() in ['y', 'Y']:
+            continue
+
+        for branch in branch_list:
+            cmd = """
 hg update %s
 hg commit --close-branch -m close
 hg update default
-    """%branch
-                line_break = "-"*64
-                cmd = [i.strip() for i in cmd.split("\n") if i]
-                print "\n关闭分支 %s ?(Y确认,否则取消)"%branch
-                if getch() in ["y", "Y"]:
-                    print line_break
-                    import os
-                    success = True
-                    for i in cmd:
-                        print ">>>%s"%i
-                        if os.system(i) != 0:
-                             success = False
-                             break
+"""%branch
+            line_break = '-'*64
+            cmd = [i.strip() for i in cmd.split('\n') if i]
+            print line_break
+            import os
+            success = True
+            for i in cmd:
+                print '>>>%s'%i
+                if os.system(i) != 0:
+                    success = False
+                    break
 
 
 
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 
