@@ -63,7 +63,7 @@ def urlfetch(url, headers={}):
     if type(url) is dict:
 	    if 'headers' not in url:
 	        url['headers'] = headers
-	        request = urllib2.Request(**url)
+        request = urllib2.Request(**url)
     else:
 	     request = urllib2.Request(
     		  url=url,

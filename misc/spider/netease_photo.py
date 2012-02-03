@@ -137,4 +137,4 @@ def main():
     spider(url_list)
 
 if __name__ == '__main__':
-    spider(main())
+    main()
