@@ -60,7 +60,7 @@ def photo_163_parse_photo_album(data,url,u_name,a_id,u_id,hits):
 		#返回 标题, 作者名字, 作者id , 拍摄地点 , 图片的网址列表
 		#163的页面用的是gbk编码
 		data=data.decode("gbk").encode('utf-8')
-		title=txt_wrap_by("name: '","'",data)
+		title=txt_wrap_by(" name: '","',",data)
 		author=txt_wrap_by("nickName : '"
 						,"',",data)
 		author_url=txt_wrap_by("hostHomeUrl :'", "',",data)
@@ -110,7 +110,7 @@ def photo_163_parse_column_newlist(data,url,column_id,page_num):
 
 def photo_163_parse_main(data, url):
 		yield photo_163_parse_column_newlist,\
-								PHOTO_163_NEWLIST_URL.format(48,'0'),48,0
+								PHOTO_163_NEWLIST_URL.format(48,'342'),48,19
 		"""
         for column_id in txt_wrap_by_all('sid="','"><span',data):
 				print column_id
@@ -125,7 +125,7 @@ def spider(url_list):
     spider = Rolling( fetcher, url_list )
 
     debug = False
-    spider_runner = GSpider(spider, workers_count=1, debug=debug)
+    spider_runner = GSpider(spider, debug=debug)
     spider_runner.start()
 
 def main():
