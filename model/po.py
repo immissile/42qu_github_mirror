@@ -208,9 +208,9 @@ class Po(McModel, ReplyMixin):
         cid = self.cid
         user_id = self.user_id
         if cid == CID_PRODUCT:
-            link = "//%s.42qu.com/#product_%s"%(self.zsite_id, self.id)
+            link = '//%s.42qu.com/#product_%s'%(self.zsite_id, self.id)
         else:
-            link = "//%s.%s/%s"%(self.user_id,SITE_DOMAIN, self.id)
+            link = '//%s.%s/%s'%(self.user_id, SITE_DOMAIN, self.id)
 
         return link
 
@@ -235,9 +235,10 @@ class Po(McModel, ReplyMixin):
 
     def feed_new(self):
         user_id = self.user_id
-        if not user_id:
+        cid = self.cid
+        if not user_id and cid != CID_REC:
             return
-        feed_new(self.id, user_id, self.cid)
+        feed_new(self.id, user_id, cid)
 
     def can_view(self, user_id):
         if self.state <= STATE_RM:
