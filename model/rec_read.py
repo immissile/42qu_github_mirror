@@ -140,6 +140,10 @@ def rec_read_by_user_id(user_id, limit, offset=0):
     key = REDIS_REC_LOG%user_id
     return  redis.zrevrange(key, offset, offset+limit-1)
 
+def rec_read_count(user_id):
+    key = REDIS_REC_LOG%user_id
+    return redis.zcard(key)
+
 def rec_read_lastest_with_len(user_id, limit=7, offset=0):
     return redis.zcard(key), rec_read_lastest(user_id, limit, offset)
 
@@ -318,9 +322,7 @@ if __name__ == '__main__':
 
     user_id = 10000000
     #print rec_read_page(user_id, limit=7, offset=0)
-    key = REDIS_REC_LOG%user_id
-    print key
-    print redis.zcard(key)
+    print rec_read_count(user_id)
 
     #from model.po import Po,STATE_ACTIVE
     #for cid in REDIS_REC_CID_DICT:
