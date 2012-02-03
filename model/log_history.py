@@ -9,6 +9,8 @@ import time
 from model.cid import CID_USER
 from operator import itemgetter
 from follow import Follow
+from config import PART_TIME_JOBS_RULES, PART_TIME_CID_CN
+from part_time_job import PartTimeJob
 
 
 LOG_HISTORY_CID_USER = 1
@@ -32,10 +34,19 @@ LOG_HISTORY_CN_CID = {
 }
 
 
+max_id = max(LOG_HISTORY_CID)
+PART_TIME_JOB_DICT = dict()
+for user_id,rule_list in PART_TIME_JOBS_RULES:
+    for rule in rule_list:
+        max_id += 1
+        PART_TIME_JOB_DICT[user_id,max_id]= ('%s - %s'%(Zsite.mc_get(user_id).name, PART_TIME_CID_CN.get(rule)),rule)
+
+LOG_HISTORY_CN_CID.update([(cid,v[0]) for (user_id,cid),v in PART_TIME_JOB_DICT.items()])
+LOG_HISTORY_CID+=tuple([cid for (user_id,cid) in PART_TIME_JOB_DICT.keys()])
+
+
 class LogHistory(Model):
     pass
-
-
 
 def log_history_new(cls , cid, num, day=None):
     if day is None:
@@ -72,6 +83,13 @@ def log_incr_list(cid, limit=100):
     return list(reversed(map(itemgetter(0), c)))[1:]
 
 
+def log_part_time():
+    for user_id,cid in PART_TIME_JOB_DICT.keys():
+        num = PartTimeJob.raw_sql(
+            'select count(1) from part_time_job where user_id=%s and cid=%s', user_id,cid
+        ).fetchone()[0]
+        log_history_new(PartTimeJob, cid, num)
+
 def log_num_user():
     num = Zsite.raw_sql(
         'select count(1) from zsite where cid=%s', CID_USER
@@ -104,12 +122,13 @@ def log_num():
     log_num_po()
     log_num_follow()
     log_num_po_zsite()
+    log_part_time()
 
 
 if __name__ == '__main__':
-    c = LogHistory.raw_sql(
-        'select day , incr, num from log_history where cid=%s order by day desc limit %s', LOG_HISTORY_CID_REPLY, 100
-    ).fetchall()
-    print c
-    log_num()
-    print log_incr_list(LOG_HISTORY_CID_REPLY, limit=100)
+    #c = LogHistory.raw_sql(
+    #    'select day , incr, num from log_history where cid=%s order by day desc limit %s', LOG_HISTORY_CID_REPLY, 100
+    #).fetchall()
+    #print c
+    #log_num()
+    print log_incr_list(6, limit=100)

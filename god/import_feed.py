@@ -45,7 +45,8 @@ class ImportFeedShow(Base):
         cid = self.get_argument('cid', None)
         tags = self.get_argument('tags', '')
 
-        review_feed(id, cid, title, txt, tags, author_rm, sync)
+        current_user_id = self.current_user_id
+        review_feed(id, cid, title, txt, tags,current_user_id, author_rm, sync)
 
         self.get()
 
@@ -53,7 +54,9 @@ class ImportFeedShow(Base):
 class ImportFeedRm(Base):
     def post(self):
         id = self.get_argument('id', None)
-        import_feed_rm(id)
+        current_user_id = self.current_user_id
+
+        import_feed_rm(id, current_user_id)
         _get(self)
 
 @urlmap('/import_feed/list/(\d+)')
