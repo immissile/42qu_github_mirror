@@ -46,7 +46,9 @@ class Feed(LoginBase):
 @urlmap('/read')
 class Read(LoginBase):
     def get(self):
-        pass
+        return self.render()
+
+
 
 @urlmap('/')
 @urlmap('/-(\d+)')
