@@ -2,7 +2,7 @@
 
 
 import _env
-from model.douban import DOUBAN_REC_CID, douban_rec_new, DoubanUser
+from model.douban import DOUBAN_REC_CID, douban_rec_new, DoubanUser, Model
 from json import loads
 from zkit.bot_txt import txt_wrap_by_all, txt_wrap_by
 from model.days import int_by_string
@@ -14,6 +14,9 @@ URL_REC = 'http://api.douban.com/people/%%s/recommendations?alt=json&apikey=%s'%
 URL_LIKE = 'http://www.douban.com/j/like?tkind=%s&tid=%s'
 
 URL_USER_INFO = 'http://api.douban.com/people/%%s?alt=json&apikey=%s'%API_KEY
+    
+class DoubanFetched(Model):
+    pass
 
 def user_id_by_txt(htm):
     r = [
@@ -70,6 +73,9 @@ def douban_recommendation(data, url, start_index=None):
             start = start_index+10
             url = '%s&max-result=10&start-index=%s'%(URL_REC%user_id, start)
             yield douban_recommendation, url, start
+    else:
+        f = DoubanFetched.get_or_create(id=user_id)
+        f.save()
 
 def douban_recommendation_begin_tuple(id):
     id = str(id)
@@ -83,10 +89,14 @@ def douban_recommendation_begin_tuple(id):
 def main():
     from zweb.orm import ormiter
     from douban_spider import  spider
+
     def url_list():
         for i in ormiter(DoubanUser):
             id = i.id
+            if DoubanFetched.get(id):
+                continue
             yield douban_recommendation, URL_REC%id, 1
+
     spider(url_list())
 
 if __name__ == '__main__':

@@ -13,7 +13,7 @@ def parse_like(data, url, cid, rid):
         id = int(i[u'id'])
         uid = i[u'uid']
 
-        yield douban_recommendation_begin_tuple(uid)
+        #yield douban_recommendation_begin_tuple(uid)
 
         douban_user_feed_new(DOUBAN_USER_FEED_VOTE_LIKE, cid, rid, id)
 
