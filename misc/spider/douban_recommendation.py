@@ -44,8 +44,8 @@ def douban_recommendation(data, url, start_index=None):
         for i in entry_list:
             title = i[u'content'][u'$t'].replace('\r', ' ').replace('\n', ' ').strip()
 
-            for uid in user_id_by_txt(title):
-                yield douban_recommendation_begin_tuple(uid)
+#            for uid in user_id_by_txt(title):
+#                yield douban_recommendation_begin_tuple(uid)
 
             attribute = i[u'db:attribute']
             cid = str(attribute[0][u'$t'])
@@ -83,10 +83,11 @@ def douban_recommendation_begin_tuple(id):
 def main():
     from zweb.orm import ormiter
     from douban_spider import  spider
-    url_list = []
-    for id in DoubanUser.where().order_by("id desc").col_list():
-        url_list.append((douban_recommendation, URL_REC%id, 1))
-    spider(url_list)
+    def url_list():
+        for i in ormiter(DoubanUser):
+            id = i.id
+            yield douban_recommendation, URL_REC%id, 1
+    spider(url_list())
 
 if __name__ == '__main__':
 
