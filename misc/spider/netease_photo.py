@@ -77,7 +77,7 @@ def photo_163_parse_photo_album(data, url, u_name, a_id, u_id, hits):
 
 def photo_163_parse_hits(data, url, photo_list):
     for i in range(len(photo_list)):
-        photo_list[i].append(txt_wrap_by('s'+str(i)+'.vcnt=', ';', data))
+        photo_list[i].append(txt_wrap_by('s%s.vcnt='%str(i), ';', data))
     photo_list = filter(lambda e:int(e[3])>HITS_THRESHOLD, photo_list)
     for u_name, u_id, a_id, hits in photo_list:
         album_url = PHOTO_163_ALBUM_URL.format(u_name, a_id)
@@ -89,12 +89,12 @@ def photo_163_parse_column_newlist(data, url, column_id, page_num):
     photo_list = []
     photo_ids = txt_wrap_by_all('var ', '={}', data)
     for i in photo_ids:
-        user_name = txt_wrap_by(i+'.domainName=', ';', data)
+        user_name = txt_wrap_by('%s.domainName=' %i, ';', data)
         if 'null' == user_name:
-            user_name = txt_wrap_by(i+'.uname=', ';', data)
+            user_name = txt_wrap_by('%s.uname=' %i , ';', data)
         user_name = user_name.strip('"')
-        album_id = txt_wrap_by(i+'.id=', ';', data)
-        user_id = txt_wrap_by(i+'.aopUserId=', ';', data)
+        album_id = txt_wrap_by('%s.id=' %i, ';', data)
+        user_id = txt_wrap_by('%s.aopUserId='%i, ';', data)
         photo_list.append([user_name, user_id, album_id])
 
     yield photo_163_parse_hits, build_hits_req(photo_list), photo_list

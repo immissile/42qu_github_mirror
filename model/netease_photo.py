@@ -12,7 +12,8 @@ class NeteaseAlbum(McModel):
     pass
 
 def netease_user_new(id, url, nickname, name):
-    o = NeteaseUser.get_or_create(id=id, url=url)
+    o = NeteaseUser.get_or_create(id=id)
+    o.url=url
     o.nickname = nickname
     o.name = name
     o.save()
