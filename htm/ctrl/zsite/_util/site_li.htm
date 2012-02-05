@@ -52,7 +52,7 @@ href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_id}{{else}}${id}{
         {{if cid==61 || cid == 66}}
 <div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}
 {{if txt_more}}<a href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
-{{if cid == 66}}<a onclick="fdvideo(this);" class="fdvideo" href="${rid}">播放视频</a>{{/if}}
+{{if cid == 66}}<a onclick="return fdvideo(this);" class="fdvideo" href="${rid}">播放视频</a>{{/if}}
         {{else}}
             {{if cid==68}}
 <div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}</div>

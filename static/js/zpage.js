@@ -514,7 +514,7 @@ function codesh(){
 }
 
 function fdvideo(e){
-    var content = $('<embed align="middle" wmode="Opaque" type="application/x-shockwave-flash" allowscriptaccess="sameDomain" allowfullscreen="true" class="video" quality="high" src="'+e.herf+'">'),
+    var content = $('<embed align="middle" wmode="Opaque" type="application/x-shockwave-flash" allowscriptaccess="sameDomain" allowfullscreen="true" class="video" quality="high" src="'+e.href+'">'),
         win = $(window),
         width = win.width()-120,
         height = win.height()-90,
