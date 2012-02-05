@@ -36,13 +36,14 @@ def import_by_file(filename, from_id=0):
             name_list = []
             if 'author' in data:
                 for item in data['author']:
-                    name_list.append( 
+                    name_list.append(
                         item[u'name'][u'$t'].encode('utf-8')
                     )
 
             author = name_join(name_list)
-            print data
             attribute = data['db:attribute']
+
+            result = {}
             for i in attribute:
                 key = i['@name']
                 value = i['$t']
@@ -53,14 +54,26 @@ def import_by_file(filename, from_id=0):
                     key = 'isbn'
 
                 if key == 'translator':
-                    if key not in data:
-                        data[key] = []
-                    data[key].append(value)
+                    if key not in result:
+                        result[key] = []
+                    result[key].append(value)
                 else:
-                    data[key] = value
+                    result[key] = value
+
+            link = data['link']
+
+            for i in link:
+                key = i['@rel']
+                value = i['@href']
+                result[key] = value
+
+            name = result['title']
+            pic_id = result['image'].rsplit('s', 1)[-1][:-4]
+            print name.encode('utf-8', 'ignore'), pic_id
+
+            #{u'publisher': u'\u82b1\u57ce\u51fa\u7248\u793e', 'isbn': u'9787536045958', u'isbn10': u'7536045956', u'pubdate': u'2005-9', u'title': u'\u5341\u5e74\u706f', u'price': u'25.0', u'binding': u'\u5e73\u88c5', u'pages': u'309'}
 
 
-            print data
             sleep(1)
 
 #name =  self.get_argument('title', '无题') 
