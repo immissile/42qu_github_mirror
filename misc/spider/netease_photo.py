@@ -35,14 +35,14 @@ def build_hits_req(photos):
     data.append('c0-id=0')
     num = len(photos)
     for i in range(num):
-        data.append('c0-e%s=number:%s' % (str(i+1), str(photos[i][2])))
+        data.append('c0-e%s=number:%s' % ((i+1), (photos[i][2])))
 
     content = ','.join('reference:c0-e%s'%(i+1) for i in xrange(num) )
     data.append('c0-param0=Array:[%s]' % content)
 
     for i in range(num):
         data.append('c0-e%s=number:%s' %
-                    (str(num+i+1), str(photos[i][1])))
+                    ((num+i+1), (photos[i][1])))
 
     content = ','.join('reference:c0-e%s'%(i+1+num) for i in xrange(num) )
     data.append('c0-param1=Array:[%s]' % content)
@@ -77,7 +77,7 @@ def photo_163_parse_photo_album(data, url, u_name, a_id, u_id, hits):
 
 def photo_163_parse_hits(data, url, photo_list):
     for i in range(len(photo_list)):
-        photo_list[i].append(txt_wrap_by('s%s.vcnt='%str(i), ';', data))
+        photo_list[i].append(txt_wrap_by('s%s.vcnt='%(i), ';', data))
     photo_list = filter(lambda e:int(e[3])>HITS_THRESHOLD, photo_list)
     for u_name, u_id, a_id, hits in photo_list:
         album_url = PHOTO_163_ALBUM_URL.format(u_name, a_id)

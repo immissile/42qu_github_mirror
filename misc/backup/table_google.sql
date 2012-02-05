@@ -136,7 +136,8 @@ CREATE TABLE `netease_photo` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `url` varchar(1024) NOT NULL,
   `album_id` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `url_idx` (`url`(333)) USING HASH
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `netease_user`;
