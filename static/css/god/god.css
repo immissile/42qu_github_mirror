@@ -57,6 +57,7 @@ color: #000;
 
 .search{
 text-align:center;
+margin-bottom:16px;
 }
 .search input{
 height:26px;
@@ -81,7 +82,7 @@ background:#fff;
 color:#999;
 }
 .coltitle{
-margin:16px 0 8px;
+margin:0 0 8px;
 }
 .col2{
 padding-bottom:32px;
