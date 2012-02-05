@@ -528,6 +528,6 @@ function fdvideo(e){
     content.height(height).width(width);
 
     $.fancybox({content:content})
-
+    return false
 }
 

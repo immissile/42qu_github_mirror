@@ -54,7 +54,7 @@ def feed_tuple_by_db(id):
     elif cid == CID_AUDIO:
         rid = fs_url_audio(id, '')
     elif cid == CID_VIDEO:
-        rid = video_link_autoplay(cid, rid)
+        rid = video_link_autoplay(rid, id)
     elif cid == CID_EVENT:
         event = Event.mc_get(id)
         feed_rm(id)
