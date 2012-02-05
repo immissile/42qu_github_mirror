@@ -76,6 +76,8 @@ def import_by_file(filename, from_id=0):
 
                     name = result['title']
                     pic_id = result['image'].rsplit('s', 1)[-1][:-4]
+                    if not pic_id.isdigit():
+                        pic_id = 0
 
                     translator = name_join(
                         result.get('translator', ())
@@ -123,4 +125,4 @@ def import_by_file(filename, from_id=0):
 
  
 import_by_file('book_all.txt')
-import_by_file('book_zf.txt')
+import_by_file('book_zf.txt',403)
