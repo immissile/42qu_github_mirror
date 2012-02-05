@@ -155,13 +155,14 @@ def zsite_book_by_lib(book_id):
     l = ZsiteBookLib.where(book_id=book_id)
     return list(l)
 
-def zsite_book_lib_new(book_id, total):
+def zsite_book_lib_new(book_id, total, owner_id=0):
     if not ZsiteBook.mc_get(book_id):
         return
     for i in range(total):
         book = ZsiteBookLib(
             book_id=book_id,
-            state=ZSITE_BOOK_LIB_STATE_EXIST
+            state=ZSITE_BOOK_LIB_STATE_EXIST,
+            owner_id=owner_id
         )
         book.save()
 
@@ -265,3 +266,4 @@ if __name__ == '__main__':
     #for j, i in enumerate(Zsite.where(cid=CID_COM)):
     #print i.name, j
     pass
+    print ZsiteBook.where(douban_id=0).count()
