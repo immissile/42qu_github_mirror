@@ -4,7 +4,7 @@ import re
 from _db import Model, McModel, McCache, McCacheA, McNum, McCacheM
 from cid import CID_VIDEO
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
-from video_swf import video_filter,  video_link_by_cid_uri, VIDEO_CID2LINK_AUTOPLAY
+from video_swf import video_filter,  video_link_by_cid_uri, VIDEO_CID2LINK_AUTOPLAY,_HTM_SWF
 
 mc_video_uri = McCache('VideoUri:%s')
 
@@ -21,10 +21,10 @@ def video_uri(id):
     return ''
 
 def video_htm_autoplay(cid, id):
-    return video_link_by_cid_uri(cid, video_uri(id), VIDEO_CID2LINK_AUTOPLAY)
+    return _HTM_SWF%video_link_by_cid_uri(cid, video_uri(id), VIDEO_CID2LINK_AUTOPLAY)
 
 def video_htm(cid, id):
-    return video_link_by_cid_uri(cid, video_uri(id))
+    return _HTM_SWF%video_link_by_cid_uri(cid, video_uri(id))
 
 def video_new(id, uri):
     v = Video.get_or_create(id=id)

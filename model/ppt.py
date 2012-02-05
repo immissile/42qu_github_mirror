@@ -5,7 +5,8 @@ from model.fs import fs_set, fs_path, fs_url, fs_file
 from zkit.slideshare import slideshare_upload, slideshare_url
 from config import SLIDESHARE_KEY, SLIDESHARE_SECRET , SLIDESHARE_USERNAME , SLIDESHARE_PASSWORD
 from model.zsite_com import ZsiteCom
-from model.po_video import VIDEO_CID_SLIDESHARE, video_new
+from model.po_video import video_new
+from model.video_swf import VIDEO_CID_SLIDESHARE
 from time import time
 from model.gid import gid
 
