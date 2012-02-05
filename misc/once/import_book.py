@@ -18,8 +18,6 @@ def name_join(name_list):
 
 URL = 'http://api.douban.com/book/subject/isbn/%s?apikey=00d9bb33af90bf5c028d319b0eb23e14&alt=json'
 
-
-
 def import_by_file(filename, from_id=0):
     with open(filename) as bookisbn:
         for line in bookisbn:
@@ -31,8 +29,10 @@ def import_by_file(filename, from_id=0):
                 if not book_id:
                     link = URL%isbn
                     data = urlfetch(link)
-                    data = loads(data)
+                    if not data:
+                        continue
 
+                    data = loads(data)
                     if 'id' not in data:
                         isbn = None
 
@@ -81,7 +81,9 @@ def import_by_file(filename, from_id=0):
                         result.get('translator', ())
                     )
 
-                    pages = result['pages']
+                    pages = result.get('pages','0')
+                    if not pages.isdigit():
+                        pages = 0
                     publisher = result.get('publisher', '').encode('utf-8', 'ignore')
                     rating = data['gd:rating']['@average']
                     rating_num = data['gd:rating']['@numRaters']
@@ -108,8 +110,17 @@ def import_by_file(filename, from_id=0):
             if book_id:
                 if not zsite_book_by_lib(book_id):
                     zsite_book_lib_new(book_id, 1, from_id)
-            else:
+    
+    with open(filename) as bookisbn:
+        for line in bookisbn:
+            line = line.strip()
+            isbn = isbn_by_str(line)
+            book_id = None
+            if isbn:
+                book_id = zsite_book_id_by_isbn(isbn)
+            if not book_id:
                 print line
+
  
 import_by_file('book_all.txt')
 import_by_file('book_zf.txt')
