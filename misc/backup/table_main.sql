@@ -426,8 +426,10 @@ CREATE TABLE `log_history` (
   `incr` int(10) unsigned NOT NULL,
   `cid` int(10) unsigned NOT NULL,
   `max_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Index_2` (`cid`,`day`) USING BTREE
+  UNIQUE KEY `Index_2` (`cid`,`day`) USING BTREE,
+  KEY `user_id` (`user_id`,`cid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `mail_notice`;
@@ -718,6 +720,19 @@ CREATE TABLE `oauth_token_www163` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `part_time_job`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `part_time_job` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cid` int(10) unsigned NOT NULL,
+  `rid` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `create_time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`user_id`,`cid`,`create_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pay_account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
