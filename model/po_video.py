@@ -4,8 +4,7 @@ import re
 from _db import Model, McModel, McCache, McCacheA, McNum, McCacheM
 from cid import CID_VIDEO
 from model.po import po_new , txt_new , is_same_post , STATE_SECRET, STATE_ACTIVE, time_title
-from config import FS_URL
-from video_swf import video_filter, video_htm, video_htm_autoplay
+from video_swf import video_filter,  video_link_by_cid_uri, VIDEO_CID2LINK_AUTOPLAY
 
 mc_video_uri = McCache('VideoUri:%s')
 
@@ -20,6 +19,12 @@ def video_uri(id):
     if r:
         return r[0]
     return ''
+
+def video_htm_autoplay(cid, id):
+    return video_link_by_cid_uri(cid, video_uri(id), VIDEO_CID2LINK_AUTOPLAY)
+
+def video_htm(cid, id):
+    return video_link_by_cid_uri(cid, video_uri(id))
 
 def video_new(id, uri):
     v = Video.get_or_create(id=id)
@@ -50,9 +55,6 @@ if __name__ == '__main__':
     pass
     print
     s = 'http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=bp2011-111130022417-phpapp02&'
-    s = s[54:s.find('&', 54)]
-    print s
-
 
 
 

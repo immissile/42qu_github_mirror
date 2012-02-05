@@ -1,51 +1,45 @@
 #coding:utf-8
-
+import _env
+from config import FS_URL
 
 VIDEO_CID_YOUKU = 1
 VIDEO_CID_TUDOU = 2
 VIDEO_CID_SINA = 3
 VIDEO_CID_SLIDESHARE = 4
 
-LINK_AUTOPLAY_YOUKU = "http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior&isAutoPlay=true"
+LINK_AUTOPLAY_YOUKU = 'http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior&isAutoPlay=true'
 
-LINK_AUTOPLAY_TUDOU = "http://www.tudou.com/v/%s&autoPlay=true/v.swf"
+LINK_AUTOPLAY_TUDOU = 'http://www.tudou.com/v/%s&autoPlay=true/v.swf'
 
-LINK_AUTOPLAY_SINA = "http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?autoplay=1&vid=%s&uid=%s"
+LINK_AUTOPLAY_SINA = 'http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?autoplay=1&vid=%s&uid=%s'
 
-LINK_SLIDESHARE = "%s/swf/ssplayer2.swf?doc=%%s&rel=0"%FS_URL
+LINK_SLIDESHARE = '%s/swf/ssplayer2.swf?doc=%%s&rel=0'%FS_URL
 
+LINK_YOUKU = 'http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior'
+
+
+LINK_TUDOU = 'http://www.tudou.com/v/%s/v.swf'
+
+
+LINK_SINA = 'http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?vid=%s&uid=%s&autoPlay=0'
 
 _HTM_SWF = '''<embed src="%s" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>'''
 
-HTM_YOUKU = _HTM_SWF%"http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior"
-
-HTM_AUTOPLAY_YOUKU = _HTM_SWF%LINK_AUTOPLAY_YOUKU
-
-HTM_TUDOU = _HTM_SWF%"http://www.tudou.com/v/%s/v.swf"
-
-HTM_AUTOPLAY_TUDOU = _HTM_SWF%LINK_AUTOPLAY_TUDOU
-
-HTM_AUTOPLAY_SINA = _HTM_SWF%LINK_AUTOPLAY_SINA
-
-HTM_SINA = _HTM_SWF%"http://p.you.video.sina.com.cn/swf/quotePlayer20110627_V4_4_41_20.swf?vid=%s&uid=%s&autoPlay=0"
-
-HTM_SLIDESHARE = _HTM_SWF%LINK_SLIDESHARE
-
-
-
-VIDEO_CID2HTM = {
-    VIDEO_CID_YOUKU:HTM_YOUKU,
-    VIDEO_CID_TUDOU:HTM_TUDOU,
-    VIDEO_CID_SINA:HTM_SINA,
-    VIDEO_CID_SLIDESHARE:HTM_SLIDESHARE,
+VIDEO_CID2LINK = {
+    VIDEO_CID_YOUKU      :  LINK_YOUKU,
+    VIDEO_CID_TUDOU      :  LINK_TUDOU,
+    VIDEO_CID_SINA       :  LINK_SINA,
+    VIDEO_CID_SLIDESHARE :  LINK_SLIDESHARE,
 }
 
-VIDEO_CID2HTM_AUTOPLAY = {
-    VIDEO_CID_YOUKU:HTM_AUTOPLAY_YOUKU,
-    VIDEO_CID_TUDOU:HTM_AUTOPLAY_TUDOU,
-    VIDEO_CID_SINA:HTM_AUTOPLAY_SINA,
-    VIDEO_CID_SLIDESHARE:HTM_SLIDESHARE,
+VIDEO_CID2LINK_AUTOPLAY = {
+    VIDEO_CID_YOUKU      :  LINK_AUTOPLAY_YOUKU,
+    VIDEO_CID_TUDOU      :  LINK_AUTOPLAY_TUDOU,
+    VIDEO_CID_SINA       :  LINK_AUTOPLAY_SINA,
+    VIDEO_CID_SLIDESHARE :  LINK_SLIDESHARE,
 }
+
+
 def video_filter(url):
     if url.startswith('http://v.youku.com/v_show/id_'):
         video = url[29:url.rfind('.')]
@@ -68,18 +62,22 @@ def video_filter(url):
         video_site = None
     return video, video_site
 
-def video_htm_autoplay(cid, id):
-    if cid == VIDEO_CID_SINA:
-        return VIDEO_CID2HTM_AUTOPLAY[cid] % tuple(video_uri(id).split('-'))
-    return VIDEO_CID2HTM_AUTOPLAY[cid] % video_uri(id)
 
-def video_htm(cid, id):
-    if cid == VIDEO_CID_SINA:
-        return VIDEO_CID2HTM[cid] % tuple(video_uri(id).split('-'))
-    return VIDEO_CID2HTM[cid] % video_uri(id)
+def video_autoplay_link(url , link_dict=VIDEO_CID2LINK):
+    video , video_site = video_filter(url)
 
-if __name__ == "__main__":
+    if video_site is None:
+        return
+
+    return video_link_by_cid_uri(video_site, video, VIDEO_CID2LINK_AUTOPLAY)
+
+def video_link_by_cid_uri(cid, uri, link_dict=VIDEO_CID2LINK):
+    if cid == VIDEO_CID_SINA:
+        uri = tuple(uri).split('-')
+    return link_dict[cid]%uri
+
+if __name__ == '__main__':
     pass
-
+    print video_autoplay_link('http://v.youku.com/v_show/id_XMzE4MDI5NjI4.html')
 
 
