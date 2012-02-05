@@ -20,8 +20,11 @@ def video_uri(id):
         return r[0]
     return ''
 
+def video_link_autoplay(cid, id):
+    return video_link_by_cid_uri(cid, video_uri(id), VIDEO_CID2LINK_AUTOPLAY)
+
 def video_htm_autoplay(cid, id):
-    return _HTM_SWF%video_link_by_cid_uri(cid, video_uri(id), VIDEO_CID2LINK_AUTOPLAY)
+    return _HTM_SWF%video_link_autoplay(cid, id)
 
 def video_htm(cid, id):
     return _HTM_SWF%video_link_by_cid_uri(cid, video_uri(id))

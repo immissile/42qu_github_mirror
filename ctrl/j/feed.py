@@ -15,7 +15,7 @@ from itertools import groupby
 from operator import itemgetter
 from model.career import career_dict
 from model.zsite import Zsite
-from model.po_video import CID_VIDEO, video_htm_autoplay
+from model.po_video import CID_VIDEO, video_link_autoplay
 from model.event import Event
 from zkit.time_format import friendly_time
 from model.fav import fav_add, fav_rm
@@ -248,10 +248,4 @@ class FdTxt(Base):
             result = ''
         self.finish(result)
 
-@urlmap('/j/fdvideo/(\d+)')
-class FdVideo(Base):
-    def get(self, id):
-        po = Po.mc_get(id)
-        if po and po.cid == CID_VIDEO:
-            self.finish(video_htm_autoplay(po.rid, id))
 
