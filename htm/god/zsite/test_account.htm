@@ -1,19 +1,54 @@
 <%inherit file="/god/_base.htm" />
 <%! 
 from model.zsite import Zsite
-from config import PRIVILEGE_SUPER
+from config import PRIVILEGE_SUPER,PRIVILEGE_ADMIN, PRIVILEGE_CN
 %>
-
-%for test_account_id in PRIVILEGE_SUPER:
+<%def name="render_user(test_account_user)">
 <%
-test_account_user = Zsite.mc_get(id=test_account_id)
+test_account_id = test_account_user.id
 test_account_name = test_account_user.name
 %>
-<div style="border:1px solid #ccc;padding:10px;margin:10px;float:left">
 <p>${test_account_id}</p> 
 <p>${test_account_name}</p>
-<p >
+<p>
 <a target="_blank" href="/sudo/${test_account_id}">变身</a>
 </p> 
+</%def>
+
+<style>
+.user{
+border:1px solid #ccc;padding:10px;margin:10px;float:left
+}
+.admin_list{
+border-bottom:1px solid #eee;
+padding:27px 0;
+}
+.bt1c{
+border-top:1px solid #eee;
+padding:14px;
+margin-top:14px;
+}
+</style>
+
+<div class="admin_list">
+<div>超级管理员</div>
+%for test_account_user in Zsite.mc_get_list(PRIVILEGE_SUPER):
+<div class="user">
+${render_user(test_account_user)}
 </div>
 %endfor
+</div>
+
+<div class="admin_list">
+<div>普通管理员</div>
+%for test_account_user,privilege_list in zip(Zsite.mc_get_list(i[0] for i in PRIVILEGE_ADMIN),privilege):
+<div class="user">
+${render_user(test_account_user)}
+<div class="bt1c">
+%if privilege in privilege_list:
+${PRIVILEGE_CN[privilege]}
+%endfor
+</div>
+</div>
+%endfor
+</div>
