@@ -153,5 +153,5 @@ def feed_merge_iter(
 if __name__ == '__main__':
     pass
 
-    id = 10204513 
-    feed_rm(id)
+    #id = 10204513 
+    #feed_rm(id)
