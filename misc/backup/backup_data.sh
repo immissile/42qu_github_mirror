@@ -1,6 +1,6 @@
 PREFIX=$(cd "$(dirname "$0")"; pwd)
-mkdir -p /mnt/zpage_db/mysql
-FILEDIR=/mnt/zpage_db/mysql
+mkdir -p /mnt/$USER/mysql
+FILEDIR=/mnt/$USER/mysql
 FILE=$FILEDIR/`date +%Y_%m_%d_%H_%M_%S`.7z
 python $PREFIX/backup_data.py | 7z a -si -bd  $FILE > /dev/null
 
