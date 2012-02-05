@@ -266,4 +266,4 @@ if __name__ == '__main__':
     #for j, i in enumerate(Zsite.where(cid=CID_COM)):
     #print i.name, j
     pass
-    print ZsiteBook.where(douban_id=0).count()
+    print ZsiteBookLib.where(from_id=0).count()
