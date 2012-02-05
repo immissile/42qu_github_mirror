@@ -3,37 +3,6 @@ HOST_SUFFIX=location.host.slice(location.host.indexOf("."));
 (function( jQuery ){
 
 
-function _fdvideo(){
-    var content = $('<embed align="middle" wmode="Opaque" type="application/x-shockwave-flash" allowscriptaccess="sameDomain" allowfullscreen="true" class="video" quality="high" src="http://static.youku.com/v/swf/qplayer.swf?VideoIDS=XMzE4MDI5NjI4=&amp;isShowRelatedVideo=false&amp;showAd=0&amp;winType=interior">'),
-        win = $(window),
-        width = win.width()-120,
-        height = win.height()-90,
-        mwidth = height*16/9;
-
-    if(width<mwidth){
-        height=width*9/16
-    }else{
-        width=mwidth
-    }
-    content.height(height).width(width);
-
-    $.fancybox({content:content})
-
-}
-function fdvideo(e, id) {
-    var div = $('<div class="fdswf"><div class="fdloading"/></div>')
-    $(e).replaceWith(div)
-    $.get("/j/fdvideo/" + id, function(html) {
-        div.html(html)
-        var win = $(window),
-        winst = win.scrollTop(),
-        offset = div.offset().top + div.height() - winst - win.height();
-
-        if (offset > 0) {
-            win.scrollTop(winst + offset)
-        }
-    })
-}
 
 jQuery.extend({
     cookie : {
@@ -542,5 +511,23 @@ function codesh(){
             _CODESH=1
         }
     }
+}
+
+function fdvideo(e){
+    var content = $('<embed align="middle" wmode="Opaque" type="application/x-shockwave-flash" allowscriptaccess="sameDomain" allowfullscreen="true" class="video" quality="high" src="'+e.herf+'">'),
+        win = $(window),
+        width = win.width()-120,
+        height = win.height()-90,
+        mwidth = height*16/9;
+
+    if(width<mwidth){
+        height=width*9/16
+    }else{
+        width=mwidth
+    }
+    content.height(height).width(width);
+
+    $.fancybox({content:content})
+
 }
 
