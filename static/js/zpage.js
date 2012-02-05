@@ -527,7 +527,7 @@ function fdvideo(e){
     }
     content.height(height).width(width);
 
-    $.fancybox({content:content});
+    $.fancybox({content:content,hideOnOverlayClick:false});
 
     return false
 }
