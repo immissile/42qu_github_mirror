@@ -7,7 +7,7 @@ import sys
 PREFIX = dirname(abspath(__file__))
 sys.path = [dirname(dirname(PREFIX))] + sys.path
 
-from config import DB_CONFIG
+from config import DB_CONFIG, MYSQL_MAIN
 
 COMM_OPTION = ' -h%s -P%s -u%s -p%s %s '
 def backup_table(key, host, port, name, user, password):
@@ -22,12 +22,11 @@ def backup_table(key, host, port, name, user, password):
     cmd = 'mysqldump ' + create_table_option
     #print cmd
 
-    with open(join(PREFIX, 'table_%s'%key), 'w') as backfile:
+    with open(join(PREFIX, 'table_%s_%s.sql'%(MYSQL_MAIN, key)), 'w') as backfile:
         subprocess.Popen(
             cmd.split(),
             stdout=backfile
         )
-
 
 for key, value in DB_CONFIG.iteritems():
     host, port, name, user, password = value.get('master').split(':')

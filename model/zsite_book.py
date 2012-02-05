@@ -64,13 +64,13 @@ from model.days import today_days, days2today
 mc_zsite_book_id_by_isbn = McCache('ZsiteBookIdByIsbn:%s')
 
 ZSITE_BOOK_LIB_STATE_RMED = 0
-ZSITE_BOOK_LIB_STATE_EXIST  = 10
+ZSITE_BOOK_LIB_STATE_EXIST = 10
 ZSITE_BOOK_LIB_STATE_BROWSE = 20
 
 ZSITE_BOOK_LIB_STATE2CN = {
-    ZSITE_BOOK_LIB_STATE_EXIST  : "在库" ,
-    ZSITE_BOOK_LIB_STATE_BROWSE : "借出" , 
-    ZSITE_BOOK_LIB_STATE_RMED   : "删除" ,
+    ZSITE_BOOK_LIB_STATE_EXIST  : '在库' ,
+    ZSITE_BOOK_LIB_STATE_BROWSE : '借出' ,
+    ZSITE_BOOK_LIB_STATE_RMED   : '删除' ,
 }
 
 class ZsiteBookBrowseHistory(Model):
@@ -81,9 +81,9 @@ class ZsiteBookBrowse(McModel):
     def expired_days(self):
         now = today_days()
         if self.expire < now:
-            return now - self.expire 
+            return now - self.expire
         return 0
-    
+
     @property
     def expire_date(self):
         return days2today(self.expire)
@@ -100,7 +100,7 @@ class ZsiteBookLib(McModel):
     @property
     def is_exist(self):
         return self.state == ZSITE_BOOK_LIB_STATE_EXIST
-    
+
     @property
     def is_rmed(self):
         return self.state == ZSITE_BOOK_LIB_STATE_RMED
@@ -120,22 +120,30 @@ def name_split(name_list):
 
 @mc_zsite_book_id_by_isbn('{isbn}')
 def zsite_book_id_by_isbn(isbn):
-    isbn_len = len(str(isbn))
-    if  isbn_len == 10:
-        isbn = isbn10to13(isbn)
-        isbn_len = 13
-    if isbn_len == 13:
+    isbn = isbn_by_str(isbn)
+    if isbn:
         book = ZsiteBook.get(isbn=isbn)
         if book:
             return book.id
 
     return 0
 
+
+def isbn_by_str(isbn):
+    if not isbn.isdigit():
+        return
+    isbn_len = len(str(isbn))
+    if isbn_len not in (10, 13):
+        return
+    if isbn_len == 10:
+        isbn = isbn10to13(isbn)
+    return isbn
+
 def zsite_book_lib(limit=None, offset=0, state=0):
-        
+
     l = ZsiteBookLib.where()
     if state:
-        l = l.where("state>=%s", state)
+        l = l.where('state>=%s', state)
     l.order_by('book_id desc')
     if offset and limit:
         limit = offset+limit
@@ -170,11 +178,11 @@ def zsite_book_lib_return(id, admin_id):
         browse = ZsiteBookBrowse.mc_get(id)
         if browse:
             ZsiteBookBrowseHistory(
-                book_lib_id = id,
-                begin_days  = browse.begin_days,
-                end_days    = today_days(),
-                user_id     = zsite_book_lib.owner_id,
-                admin_id    = admin_id
+                book_lib_id=id,
+                begin_days=browse.begin_days,
+                end_days=today_days(),
+                user_id=zsite_book_lib.owner_id,
+                admin_id=admin_id
             ).save()
             browse.delete()
         zsite_book_lib.owner_id = 0
@@ -256,5 +264,4 @@ def isbn10to13(number):
 if __name__ == '__main__':
     #for j, i in enumerate(Zsite.where(cid=CID_COM)):
     #print i.name, j
-    #print isbn10to13(7543639130)
     pass
