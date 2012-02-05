@@ -6,7 +6,7 @@ from cgi import escape
 from config import SITE_DOMAIN
 from zkit.bot_txt import  txt_wrap_by, txt_map
 from uuid import uuid4
-from model.video_swf import video_autoplay_link
+from model.video_swf import video_autoplay_link, _HTM_SWF
 
 RE_LINK = re.compile(
 r'((?:https?://[\w\-]+\.)'
@@ -24,7 +24,6 @@ RE_BOLD = re.compile(r'\*{2}([^\*].*?)\*{2}')
 RE_CODE = re.compile(r'\{\{\{(.*)\}\}\}', re.S)
 RE_IMG = re.compile(r'图://(.+?(jpg|gif|png|jpeg))')
 
-HTM_SWF = """<embed src="%s" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>"""
 
 def replace_space(match):
     return ' '+len(match.groups()[0])*'&nbsp;'
@@ -69,7 +68,7 @@ def replace_link(match):
     if video:
         return '<a onclick="fdvideo(this);" class="fdvideo" href="%s">播放视频</a>'%g
     elif g.endswith('.swf'):
-        return HTM_SWF%g
+        return _HTM_SWF%g
     else:
         if (b and b.startswith('[[')) and (e and e.endswith(']]')):
             return """<a title="%s" target="_blank" href="%s" class="aH" rel="nofollow"></a>""" %(g, g)
