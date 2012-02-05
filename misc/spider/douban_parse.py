@@ -105,6 +105,9 @@ class ParseHtm(object):
         _topic = _owner = 0
 
         owner_id = self.user_id(data)
+        if owner_id is None:
+            return
+
         try:
             owner_id = int(owner_id)
         except ValueError:
