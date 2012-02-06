@@ -56,23 +56,29 @@ def url_short_txt(s, user_id=0):
     return s
 
 if __name__ == '__main__':
+    from zweb.orm import ormiter
+    print UrlShort.count()
+    for i in ormiter(UrlShort):
+        if "xxxxxxxxxx" in i.value:
+            i.delete()
+
 #for i in range(199):
 #    print url_short("http://google"+str(i))
-    print url_short_by_key('mJbC')
-
-#print url_short_by_id('3T')
-    #print url_short_txt('sfsdfsdf http://g.cn/df.png http://google.com https://mail.google.com/mail/u/0/#inbox/134ec4da6de5b5a7 https://mail.google.com/mail/u/0/#inbox')
-    #print url_short("http://baidu.com")
-    #id = url_short_id('http://google.com/ncr')
-    #print url_short_by_id(id)
-    print url_short_by_key('MK')
-    print url_short_txt("""
-
-http://www.iconfinder.com/search/?q=iconset%3Apopo_emotions_full_png
-
-英文的学术叫法叫做 re-visit policy ( http://en.wikipedia.org/wiki/Web_crawler )
-简单的说, 就是通过历史的抓取页面更新, 预测下一次的抓取更新的时间
-http://oak.cs.ucla.edu/~cho/research/crawl.html 页面上有一个论文汇总 , 可以下载这些论文
-Ka Cheung Sia, Junghoo Cho "Efficient Monitoring Algorithm for Fast News Alert." Technical Report, UCLA Computer Science Department, June 2005.
-英文的学术叫法叫做 re-visit policy ( [[http://42qu.us/mJbJ]] )
-""")
+#    print url_short_by_key('mJbC')
+#
+##print url_short_by_id('3T')
+#    #print url_short_txt('sfsdfsdf http://g.cn/df.png http://google.com https://mail.google.com/mail/u/0/#inbox/134ec4da6de5b5a7 https://mail.google.com/mail/u/0/#inbox')
+#    #print url_short("http://baidu.com")
+#    #id = url_short_id('http://google.com/ncr')
+#    #print url_short_by_id(id)
+#    print url_short_by_key('MK')
+#    print url_short_txt("""
+#
+#http://www.iconfinder.com/search/?q=iconset%3Apopo_emotions_full_png
+#
+#英文的学术叫法叫做 re-visit policy ( http://en.wikipedia.org/wiki/Web_crawler )
+#简单的说, 就是通过历史的抓取页面更新, 预测下一次的抓取更新的时间
+#http://oak.cs.ucla.edu/~cho/research/crawl.html 页面上有一个论文汇总 , 可以下载这些论文
+#Ka Cheung Sia, Junghoo Cho "Efficient Monitoring Algorithm for Fast News Alert." Technical Report, UCLA Computer Science Department, June 2005.
+#英文的学术叫法叫做 re-visit policy ( [[http://42qu.us/mJbJ]] )
+#""")
