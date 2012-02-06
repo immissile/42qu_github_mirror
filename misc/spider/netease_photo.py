@@ -108,7 +108,8 @@ def photo_163_parse_column_newlist(data, url, column_id, page_num):
     if len(photo_ids) == PHOTO_NUM_PER_PAGE:
         yield photo_163_parse_column_newlist,\
                 PHOTO_163_NEWLIST_URL.\
-                    format(column_id, (page_num + 1) * PHOTO_NUM_PER_PAGE), column_id, page_num + 1
+                format(column_id, (page_num + 1) * PHOTO_NUM_PER_PAGE),\
+                column_id, page_num + 1
 
 
 def photo_163_parse_main(data, url):
