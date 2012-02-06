@@ -39,7 +39,7 @@ for name, rank in name_rank():
 
 
     name = ' '.join((
-        '/'.join(name_list),
+        ' / '.join(name_list),
         ' '.join('#%s#'%i for i in name_tag_list)
     )).strip()
 
