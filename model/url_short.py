@@ -61,10 +61,6 @@ if __name__ == '__main__':
     for i in ormiter(UrlShort):
         val = i.value
         print i.id,i.value
-        if val.startswith("http://") or val.startswith("https://"):
-            val = "".join(reversed(val))
-            i.value = val
-            i.save() 
 
 #        print i.value, i.id
 
