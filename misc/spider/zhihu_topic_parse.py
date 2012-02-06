@@ -30,6 +30,8 @@ for k, v in NAME_COUNT.iteritems():
 NAME_KEYWORD = {}
 
 for name, rank in name_rank():
+    if rank < 3:
+        continue
     name_list = [name[0]]
     name_tag_list = []
     for i in name[1:]:
@@ -55,7 +57,6 @@ for name, rank in name_rank():
 import _env
 from zkit.pprint import pprint
 
-from pprint import pprint
 pprint(NAME_KEYWORD)
 
 
