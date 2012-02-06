@@ -33,9 +33,11 @@ def parse_topic(data, url):
             tip, url, img , topic_id , rank = i[1:]
             if img == DEFAULT_IMG:
                 img = None
+            else:
+                img = str(img).replace('_l.jpg', '_s.jpg')
             if tip == url:
                 url = ''
-            RESULT[int(topic_id)] = (str(tip), str(url), img ,  int(rank))
+            RESULT[int(topic_id)] = (str(tip), str(url), img , int(rank))
 
 def spider(url_list):
     fetcher = Fetch('/tmp')
@@ -44,7 +46,7 @@ def spider(url_list):
     debug = False
     debug = True
 
-    spider_runner = GSpider(spider,  debug=debug)
+    spider_runner = GSpider(spider, debug=debug)
     spider_runner.start()
 
 from operator import itemgetter
@@ -61,10 +63,9 @@ if __name__ == '__main__':
         result.append([i[0]])
         result[-1].extend(i[1])
 
-    with open("zhihu_topic_data.py","w") as topic:
-        topic.write("#coding:utf-8\n")
-        topic.write("ZHIHU_TOPIC = ")
-
+    with open('zhihu_topic_data.py', 'w') as topic:
+        topic.write('#coding:utf-8\n')
+        topic.write('ZHIHU_TOPIC = ')
         topic.write(pformat(result))
 
 
