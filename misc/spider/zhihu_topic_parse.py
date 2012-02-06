@@ -8,9 +8,9 @@ NAME_COUNT = defaultdict(int)
 def name_rank():
     for id, name , url , img, rank in ZHIHU_TOPIC:
         id = int(id)
-        if id in (6,96): #知乎指南
+        if id in (6, 96): #知乎指南
             continue
-        name = name.replace("~","-")
+        name = name.replace('|', '-')
         name = [
             i.replace('）', '')
             for i in
@@ -32,23 +32,23 @@ for name, rank in name_rank():
     name_list = [name[0]]
     name_tag_list = []
     for i in name[1:]:
-        i = i.replace("/","|").replace("#",".").replace("[","#").replace("]","#")
+        i = i.replace('#', '.').replace('[', '#').replace(']', '#')
         if i in TAG_TAG:
             name_tag_list.append(i)
         else:
-            name_list.append(i) 
+            name_list.append(i)
 
 
-    name = " ".join((
-        "/".join(name_list),
-        " ".join("#%s#"%i for i in name_tag_list)
+    name = ' '.join((
+        '/'.join(name_list),
+        ' '.join('#%s#'%i for i in name_tag_list)
     )).strip()
-    
-    NAME2KEYWORD.append("%s %s"%(rank,name)) 
- 
+    if rank:
+        NAME2KEYWORD.append('%s %s'%(rank, name))
+
 import _env
 from zkit.pprint import pprint
 
-print "~".join(NAME2KEYWORD)
+print '~'.join(NAME2KEYWORD)
 
 
