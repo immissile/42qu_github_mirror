@@ -1,29 +1,36 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from _db import Model, McModel, McCache, McLimitM, McNum, McCacheA, McCacheM, mc
-from zkit.htm2txt import htm2txt, unescape
+from _db import McModel
+
 
 class NeteaseUser(McModel):
     pass
+
+
 class NeteasePhoto(McModel):
     pass
+
+
 class NeteaseAlbum(McModel):
     pass
 
+
 def netease_user_new(id, url, nickname, name):
     o = NeteaseUser.get_or_create(id=id)
-    o.url=url
+    o.url = url
     o.nickname = nickname
     o.name = name
     o.save()
     return o.id
+
 
 def netease_photo_new(url, album_id):
     o = NeteasePhoto.get_or_create(url=url)
     o.album_id = album_id
     o.save()
     return o.id
+
 
 def netease_album_new(id, title, user_id, place, published, url):
     o = NeteaseAlbum.get_or_create(id=id)
