@@ -18,7 +18,7 @@ def chariter():
 
 
 URL_TEMPLATE = 'http://www.zhihu.com/topic/autocomplete?token=%s&max_matches=999999&use_similar=0'
-DEFAULT_IMG = 'http://p1.zhimg.com//e8/2b/e82bab09c_s.jpg'
+DEFAULT_IMG = 'http://p1.zhimg.com//e8/2b/e82bab09c_'
 
 from zkit.spider import Rolling, Fetch, GSpider
 
@@ -31,10 +31,10 @@ def parse_topic(data, url):
     for i in data:
         if i[0] == 'topic' and len(i) > 3:
             tip, url, img , topic_id , rank = i[1:]
-            if img == DEFAULT_IMG:
+            if img.startswith(DEFAULT_IMG):
                 img = None
             else:
-                img = str(img).replace('_l.jpg', '_s.jpg')
+                img = str(img).replace('_s.jpg', '_l.jpg')
             if tip == url:
                 url = ''
             RESULT[int(topic_id)] = (str(tip), str(url), img , int(rank))
