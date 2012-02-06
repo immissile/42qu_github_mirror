@@ -54,7 +54,7 @@ if __name__ == '__main__':
     for i in set(chariter()):
         url_list.append((parse_topic, URL_TEMPLATE%quote(i)))
     spider(url_list)
-    RESULT.sort(key=itemgetter(0))
+    RESULT = RESULT.item().sort(key=itemgetter(0))
     with open("zhihu_topic_data.py","w") as topic:
         topic.write("#coding:utf-8")
         topic.write("ZHIHU_TOPIC = ")
