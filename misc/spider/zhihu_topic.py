@@ -54,12 +54,18 @@ if __name__ == '__main__':
     for i in set(chariter()):
         url_list.append((parse_topic, URL_TEMPLATE%quote(i)))
     spider(url_list)
-    RESULT = RESULT.item().sort(key=itemgetter(0))
+    RESULT = RESULT.items()
+    RESULT.sort(key=itemgetter(0))
+    result = []
+    for i in RESULT:
+        result.append([i[0]])
+        result[-1].extend(i[1])
+
     with open("zhihu_topic_data.py","w") as topic:
         topic.write("#coding:utf-8")
         topic.write("ZHIHU_TOPIC = ")
 
-        topic.write(pformat(RESULT))
+        topic.write(pformat(result))
 
 
 
