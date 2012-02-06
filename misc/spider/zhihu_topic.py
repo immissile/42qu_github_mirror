@@ -22,7 +22,7 @@ DEFAULT_IMG = 'http://p1.zhimg.com//e8/2b/e82bab09c_s.jpg'
 
 from zkit.spider import Rolling, Fetch, GSpider
 
-RESULT = []
+RESULT = {}
 
 def parse_topic(data, url):
     if 'zhimg.com' not in data:
@@ -35,7 +35,7 @@ def parse_topic(data, url):
                 img = None
             if tip == url:
                 url = ''
-            RESULT.append((int(topic_id) , str(tip), str(url), img ,  int(rank)))
+            RESULT[int(topic_id)] = (str(tip), str(url), img ,  int(rank))
 
 def spider(url_list):
     fetcher = Fetch('/tmp')
@@ -58,6 +58,8 @@ if __name__ == '__main__':
     with open("zhihu_topic_data.py","w") as topic:
         topic.write("#coding:utf-8")
         topic.write("ZHIHU_TOPIC = ")
+
         topic.write(pformat(RESULT))
+
 
 
