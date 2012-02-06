@@ -62,7 +62,7 @@ if __name__ == '__main__':
         result[-1].extend(i[1])
 
     with open("zhihu_topic_data.py","w") as topic:
-        topic.write("#coding:utf-8")
+        topic.write("#coding:utf-8\n")
         topic.write("ZHIHU_TOPIC = ")
 
         topic.write(pformat(result))
