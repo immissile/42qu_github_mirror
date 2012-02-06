@@ -1176,7 +1176,8 @@ CREATE TABLE `url_short` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `value` varbinary(1024) NOT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `value` (`value`(1000))
 ) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_info`;
