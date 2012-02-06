@@ -35,7 +35,7 @@ def parse_topic(data, url):
                 img = None
             if tip == url:
                 url = ''
-            RESULT.append((topic_id , tip, url, img ,  int(rank)))
+            RESULT.append((int(topic_id) , str(tip), str(url), img ,  int(rank)))
 
 def spider(url_list):
     fetcher = Fetch('/tmp')
@@ -47,14 +47,16 @@ def spider(url_list):
     spider_runner = GSpider(spider,  debug=debug)
     spider_runner.start()
 
-
+from operator import itemgetter
 
 if __name__ == '__main__':
     url_list = []
     for i in set(chariter()):
         url_list.append((parse_topic, URL_TEMPLATE%quote(i)))
     spider(url_list)
+    RESULT.sort(key=itemgetter(0))
     with open("zhihu_topic_data.py","w") as topic:
+        topic.write("#coding:utf-8")
         topic.write("ZHIHU_TOPIC = ")
         topic.write(pformat(RESULT))
 
