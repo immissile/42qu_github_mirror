@@ -27,6 +27,8 @@ for k, v in NAME_COUNT.iteritems():
     if v > 3:
         TAG_TAG.add(k)
 
+NAME_KEYWORD = {}
+
 for name, rank in name_rank():
     name_list = [name[0]]
     name_tag_list = []
@@ -43,12 +45,17 @@ for name, rank in name_rank():
         ' '.join('#%s#'%i for i in name_tag_list)
     )).strip()
 
-    print name
+    NAME_KEYWORD[name] = []
+    for i in name_list:
+        i = i.replace("·"," ")
+        i = i.split()
+        NAME_KEYWORD[name].extend(i)
+     
 
 import _env
 from zkit.pprint import pprint
 
 from pprint import pprint
-
+pprint(NAME_KEYWORD)
 
 
