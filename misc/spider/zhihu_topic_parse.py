@@ -40,15 +40,15 @@ for name, rank in name_rank():
 
 
     name = " ".join((
-        " / ".join(name_list),
+        "/".join(name_list),
         " ".join("#%s#"%i for i in name_tag_list)
     )).strip()
     
-    NAME2KEYWORD.append(name) 
+    NAME2KEYWORD.append("%s %s"%(rank,name)) 
  
 import _env
 from zkit.pprint import pprint
 
-pprint(NAME2KEYWORD)
+print "~".join(NAME2KEYWORD)
 
 
