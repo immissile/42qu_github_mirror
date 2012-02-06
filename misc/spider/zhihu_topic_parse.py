@@ -56,7 +56,9 @@ for name, rank in name_rank():
 
 import _env
 from zkit.pprint import pprint
+from yajl import dumps
 
-pprint(NAME_KEYWORD)
+#pprint(NAME_KEYWORD)
+print dumps(NAME_KEYWORD)
 
 
