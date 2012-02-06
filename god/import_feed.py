@@ -26,7 +26,7 @@ def _get(self):
             'id':feed.id,
             'title':feed.title,
             'txt':feed.txt,
-            'tags':[],
+            'tags':feed.tags,
             'author_rm':author_rm,
             'url':feed.url
         }

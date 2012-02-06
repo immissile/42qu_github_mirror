@@ -79,7 +79,20 @@ def feature_md5(txt, limit=64):
     result = [md5(i).hexdigest() for i in feature(txt, limit)]
     return result
 
+def title_normal_sign(title):
+    title = title\
+            .replace('【', '[')\
+            .replace('】', ']')\
+            .replace('［', '[')\
+            .replace('］', ']')\
+            .replace('（', '(')\
+            .replace('）', ')')\
+            .replace('：', ':').strip()
+
+    return title
+
 def sp_txt(txt):
+    txt = title_normal_sign(txt)
 
     if str(txt).replace(" ",'').isalnum():
         yield txt 
@@ -91,7 +104,8 @@ def sp_txt(txt):
 
             for pos,char in enumerate(i):
                 if not char.isspace():
-                    yield ''.join(i[pos:pos+2])
+                    if pos+2 <= len(i):
+                        yield ''.join(i[pos:pos+2])
                 
 
 if __name__ == '__main__':

@@ -57,7 +57,7 @@ if feed:
     result['id'] = feed[0].id
     result['title'] = feed[0].title
     result['txt'] = feed[0].txt
-    result['tags'] = ''
+    result['tags'] = feed[0].tags
     result['author_rm'] = is_rt_by_title(feed[0].title) 
     result['url']=feed[0].url
 
