@@ -247,7 +247,7 @@ if __name__ == '__main__':
             i.state = 0
             i.save()
         else:
-    #        print title_normal_rt(i.title)
+            print title_normal_rt(i.title)
 #    for i in DoubanFeed.where():
 #        if "肝癌" in i.htm:
 #            print i.title, i.link
