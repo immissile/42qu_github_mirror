@@ -8,7 +8,7 @@ NAME_COUNT = defaultdict(int)
 def name_rank():
     for id, name , url , img, rank in ZHIHU_TOPIC:
         id = int(id)
-        if id in (6, 96): #知乎指南
+        if "知乎" in name and "知乎"!=name: 
             continue
         name = name.replace('|', '-')
         name = [
