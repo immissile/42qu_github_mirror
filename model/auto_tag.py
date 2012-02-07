@@ -32,7 +32,6 @@ def tag_new(tag_name, id):
             model = TAG_NEW_MODEL_ADD_NEW
 
         for pos in range(1, len(sub_tag)):
-
             sub_str = sub_tag[:pos]
             key = REDIS_ZSET_CID%sub_str
 
@@ -78,7 +77,6 @@ def tag_by_name(name):
 def trie2zset(name):
     first_char = name[0]
     id = tag_from_trie(first_char)[0][1]
-    print 'convert',name,id
     trie_iter(first_char, partial(trie2zset_iter_handler, id=id))
 
 def trie2zset_iter_handler(key, id):
@@ -88,7 +86,6 @@ def trie2zset_iter_handler(key, id):
         key = key.split('*')[0]
 
     key = REDIS_ZSET_CID%key
-    print 'convert',key, id
     redis.zadd(key, id , 1)
 
 def trie_tag_new(name):
