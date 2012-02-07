@@ -83,7 +83,8 @@ def zsite_name_edit(id, name):
     if id:
         zsite = Zsite.mc_get(id)
         if zsite:
-            if zsite.cid == CID_USER:
+            cid = zsite.cid
+            if cid == CID_USER:
                 name = name.decode("utf-8","ignore")[:24]
             zsite.name = name
             zsite.save()
