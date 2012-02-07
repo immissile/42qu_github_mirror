@@ -1,36 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-CREATE TABLE  `zpage`.`import_feed` (
-  `id` int(11) NOT NULL auto_increment,
-  `title` varbinary(256) NOT NULL, `txt` blob NOT NULL,
-  `author_id` int(11) NOT NULL,
-  `url` varbinary(1024) NOT NULL,
-  `state` int(11) NOT NULL,
-  `src_id` int(11) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=binary
-
-CREATE TABLE `zpage`.`import_record` (
-  `key` int  NOT NULL,
-  `value` int  NOT NULL,
-  PRIMARY KEY (`key`)
-)
-ENGINE = MyISAM;
-
-
-CREATE TABLE `zpage`.`import_po_user` (
-  `id` int  NOT NULL,
-  `name` varchar(128)  NOT NULL,
-  `cid` SMALLINT  NOT NULL,
-  `url` int  NOT NULL,
-  PRIMARY KEY (`id`)
-)
-ENGINE = MyISAM;
-
-'''
-
 import _env
 from _db import Model, McModel
 from po import po_note_new
@@ -41,6 +11,8 @@ from url_short import url_short_id
 from site_sync import site_sync_new
 from rec_read import rec_cid_push
 from po_by_tag import zsite_tag_po_new_by_name, tag_po_rm_by_po_id
+from part_time_job import part_time_job_new
+from config.privilege import PRIVILEGE_IMPORT_FEED
 
 
 IMPORT_FEED_STATE_RM = 0
@@ -84,7 +56,8 @@ def user_by_feed_id_zsite_id(feed_id, zsite_id):
 def feed_next():
     return ImportFeed.where(state=IMPORT_FEED_STATE_INIT)[1]
 
-def import_feed_rm(id):
+def import_feed_rm(id, current_user_id):
+    part_time_job_new(PRIVILEGE_IMPORT_FEED, id, current_user_id)
     feed_state_set(id, IMPORT_FEED_STATE_RM)
 
 
@@ -157,7 +130,7 @@ def feed2po_new():
             rec_cid_push(feed.cid, po.id)
             po_tag_new(feed.tags, po)
 
-def review_feed(id, cid, title, txt, tags, author_rm=False, sync=False):
+def review_feed(id, cid, title, txt, tags, current_user_id, author_rm=False, sync=False):
     feed = ImportFeed.get(id)
     if feed and feed.state==IMPORT_FEED_STATE_INIT :
         if author_rm:
@@ -175,6 +148,8 @@ def review_feed(id, cid, title, txt, tags, author_rm=False, sync=False):
         feed.txt = txt
         feed.cid = cid
         feed.tags = tags
+        
+        part_time_job_new(PRIVILEGE_IMPORT_FEED, feed.id, current_user_id)
 
         feed.save()
 

@@ -21,13 +21,14 @@ class ImportFeed(Base):
 def _get(self):
     feed = feed_next()
     if feed:
-        del_author = is_rt_by_title(feed.title)
+        author_rm = is_rt_by_title(feed.title)
         result = {
             'id':feed.id,
             'title':feed.title,
             'txt':feed.txt,
             'tags':[],
-            'del_author':del_author
+            'author_rm':author_rm,
+            'url':feed.url
         }
         self.finish(dumps(result))
 
@@ -42,9 +43,10 @@ class ImportFeedShow(Base):
         sync = self.get_argument('sync', None)
         author_rm = self.get_argument('author_rm', None)
         cid = self.get_argument('cid', None)
-        tags = self.get_argument('tags', None)
+        tags = self.get_argument('tags', '')
 
-        review_feed(id, cid, title, txt, tags, author_rm, sync)
+        current_user_id = self.current_user_id
+        review_feed(id, cid, title, txt, tags,current_user_id, author_rm, sync)
 
         self.get()
 
@@ -52,7 +54,9 @@ class ImportFeedShow(Base):
 class ImportFeedRm(Base):
     def post(self):
         id = self.get_argument('id', None)
-        import_feed_rm(id)
+        current_user_id = self.current_user_id
+
+        import_feed_rm(id, current_user_id)
         _get(self)
 
 @urlmap('/import_feed/list/(\d+)')

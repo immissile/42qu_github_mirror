@@ -237,18 +237,22 @@ def title_normal(title):
 
 if __name__ == '__main__':
     pass
-    txt='教你怎样成为K歌之王，几天改变你的嗓音!!!（附内部练习＋教学视频）'
-    print is_rt_by_title(txt)
+    #txt='教你怎样成为K歌之王，几天改变你的嗓音!!!（附内部练习＋教学视频）'
+    #print is_rt_by_title(txt)
     #kv_int.set(KV_IMPORT_DOUBAN,0)
     #douban_feed_to_review_iter()
-    #for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
-    #    total = i.rec + i.like
-    #    if total < 2000:
-    #        i.state = 0
-    #        i.save()
-    #    else:
-    #        print title_normal_rt(i.title)
-#    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
+    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
+        total = i.rec + i.like
+        if total < 2000:
+            i.state = 0
+            i.save()
+        else:
+            print title_normal_rt(i.title)
+#    for i in DoubanFeed.where():
+#        if "肝癌" in i.htm:
+#            print i.title, i.link
+#        if "肝" in i.htm:
+#            print i.title, i.link
 #        total = i.rec + i.like
 #        if total < 2000:
 #            i.state = 0
@@ -257,8 +261,8 @@ if __name__ == '__main__':
 #            print title_normal_rt(i.title)
 
     #print douban_feed_to_review_iter()
-    print 'DoubanUser.count()', DoubanUser.count()
-    print 'DoubanFeed.count()', DoubanFeed.count()
+    #print 'DoubanUser.count()', DoubanUser.count()
+    #print 'DoubanFeed.count()', DoubanFeed.count()
 
 #   # print DoubanUser.by_url('zuroc')
 #   #from zweb.orm import ormiter

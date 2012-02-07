@@ -137,7 +137,7 @@ target="_blank" href="/{{if rid && (cid==61 || cid==64 || cid==63)}}${question_i
     class="zname"><span></span><a 
 class="TPH" target="_blank" href="${zsite_link}">${zsite_name} {{if unit||title}}({{/if}} {{if unit}}${unit}{{/if}} {{if unit&&title}}.{{/if}} {{if title}}${title}{{/if}} {{if unit||title}}){{/if}}</a></div>{{/if}}{{if txt_more}}<a 
     href="javascript:void(0)" class="fdext" onclick="fdtxt(this,${id});">浏览正文</a>{{/if}}</div>
-{{if cid == 66}}<a onclick="fdvideo(this,${id});" class="fdvideo" href="javascript:void(0)">播放视频</a>{{/if}}
+{{if cid == 66}}<a onclick="return fdvideo(this);" class="fdvideo" href="${rid}">播放视频</a>{{/if}}
         {{else}}
             {{if cid==68}}
 <div class="fdtxtin">{{if txt_more}}${txt}{{else}}{{html txt}}{{/if}}</div>

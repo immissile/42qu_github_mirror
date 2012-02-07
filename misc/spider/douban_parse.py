@@ -13,7 +13,7 @@ def parse_like(data, url, cid, rid):
         id = int(i[u'id'])
         uid = i[u'uid']
 
-        yield douban_recommendation_begin_tuple(uid)
+        #yield douban_recommendation_begin_tuple(uid)
 
         douban_user_feed_new(DOUBAN_USER_FEED_VOTE_LIKE, cid, rid, id)
 
@@ -92,6 +92,7 @@ class ParseHtm(object):
 
     def __call__(self, data, url):
         rid = url_last(url)
+        cid = self.cid
 
         title = self.title(data)
 
@@ -104,6 +105,9 @@ class ParseHtm(object):
         _topic = _owner = 0
 
         owner_id = self.user_id(data)
+        if owner_id is None:
+            return
+
         try:
             owner_id = int(owner_id)
         except ValueError:
@@ -126,7 +130,7 @@ class ParseHtm(object):
             time = int_by_string(time)
 
         feed_id = douban_feed_new(
-            self.cid,
+            cid,
             rid,
             rec_num,
             like_num,
@@ -141,8 +145,8 @@ class ParseHtm(object):
         if _owner or _topic:
             DoubanFeedOwner(id=feed_id, topic=_topic, owner=_owner).save()
 
-        for user_id in user_id_by_txt(data):
-            yield douban_recommendation_begin_tuple(user_id)
+        #for user_id in user_id_by_txt(data):
+        #    yield douban_recommendation_begin_tuple(user_id)
 
         if url in EXIST_PARSE:
             EXIST_PARSE.remove(url)
