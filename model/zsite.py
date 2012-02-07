@@ -84,7 +84,7 @@ def zsite_name_edit(id, name):
         zsite = Zsite.mc_get(id)
         if zsite:
             if zsite.cid == CID_USER:
-                name = name.decode("utf-8","ignore")[:16]
+                name = name.decode("utf-8","ignore")[:24]
             zsite.name = name
             zsite.save()
             mc_feed_user_dict.delete(id)
