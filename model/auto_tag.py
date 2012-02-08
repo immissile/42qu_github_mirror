@@ -45,13 +45,13 @@ class TagSet(object):
 
     def set_cache(self,key, name_value_list):
         key = self.CACHE%key
-        for result, rank in name_value_list:
-            redis.zadd(key, result, rank)
+        for result in name_value_list:
+            redis.sadd(key, result)
         redis.expire(key, 1800)
 
     def get_cache(self,key):
         key = self.CACHE%key
-        return redis.zrevrange(key, 0, -1, True)
+        return redis.smembers(key)
 
     def tag_fav(self, id, name=None):
         old_name = self.tag_id2name(id)
@@ -73,13 +73,15 @@ class TagSet(object):
         return results
 
     def tag_new(self, tag_name, id):
-        tag_name = tag_name.replace('/','').replace('*','')
+        tag_name = tag_name.replace('*','')
         if not tag_name.strip():
             return
 
         model = None
         for sub_tag in tag_name.split('/'):
-            sub_tag = unicode(sub_tag).lower()
+            sub_tag = unicode(sub_tag).lower().strip()
+            if not sub_tag:
+                return
 
             first_char = sub_tag[0]
 
@@ -148,9 +150,7 @@ class TagSet(object):
             for name in name_list:
                 results.append(set(self.tag_id_list_by_name(name)))
 
-            print results
             results = reduce(lambda x,y:x&y,results)
-            print results
             self.set_cache(key, results)
 
         return self.tag_id_list2_result(results)
@@ -172,7 +172,7 @@ class TagSet(object):
 
     def trie2zset(self, name):
         first_char = name[0]
-        id = self.tag_from_trie(first_char)[0][0]
+        id = self.tag_from_trie(first_char)[0]
         self.trie_iter(first_char, partial(self.trie2zset_iter_handler, id=id, new_name=name))
 
     def trie2zset_iter_handler(self, key, id, new_name):
@@ -197,19 +197,24 @@ class TagSet(object):
     def trie_iter(self, prefix, callback):
         rangelen = 50
         start = redis.zrank(self.TRIE, prefix)
-        result = 0 , 0 
-        end = alse
-        while start is not None:
+        results = []
+        end = False
+        while start != None and not end:
             range = redis.zrange(self.TRIE, start, start + rangelen - 1)
             start += rangelen
-            if not range:
+            if not range or len(range) == 0:
                 break
             for entry in range:
-                if not entry.startswith(prefix):
+                entry = unicode(entry)
+                minlen = min((len(entry), len(prefix)))
+                if entry[0:minlen] != prefix[0:minlen]:
+                    end = True
                     break
-                else:
-                    result = callback(entry)
-        return result
+                result = callback(entry)
+                if result:
+                    name, id = result[0], result[1]
+                    results.append(id)
+        return results
 
     def tag_from_trie(self, prefix):
         prefix = unicode(prefix)
@@ -223,11 +228,11 @@ def rm():
 if __name__ == '__main__':
     #tag_tag = TagSet('po')
     #tag_tag.tag_new('史蒂夫/乔布斯/steve/jobs', 10086)
-    #tag_tag.tag_new('火', 0)
-    #tag_tag.tag_new('火车', 1)
-    #tag_tag.tag_new('火柴', 2)
     #tag_tag.tag_new('/'.join(['新浪微博', 'VS', 'Twitter']), 10010)
     #tag_tag.tag_new('/'.join(['蒂姆', '库克', 'Tim', 'Cook']), 881009)
+    ##tag_tag.tag_new('火', 0)
+    ##tag_tag.tag_new('火车', 1)
+    ##tag_tag.tag_new('火柴', 2)
     #print redis.zscore(REDIS_TRIE,'stev')
     #for i in tag_from_trie('j'):
     #    print list(i)
@@ -235,7 +240,7 @@ if __name__ == '__main__':
     #print redis.zrange(REDIS_TRIE,0,-1)
     #redis.keys()
     #print tag_from_trie('史')[0][0]
-    print tag_tag.tag_by_name_list('a d')
+    print tag_tag.tag_by_name_list('t c')
     #print tag_tag.tag_by_name('T')
 
     #from timeit import timeit
