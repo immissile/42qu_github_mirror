@@ -48,6 +48,133 @@ from model.douban import is_rt_by_title
         margin-right:10%
     } 
 </style>
+<style>
+ul.token-input-list-42qu {
+    overflow: hidden; 
+    height: auto !important; 
+    height: 1%;
+    width: 400px;
+    border: 1px solid #8496ba;
+    cursor: text;
+    font-size: 12px;
+    font-family: Verdana;
+    min-height: 1px;
+    z-index: 999;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    list-style-type: none;
+    clear: left;
+}
+
+ul.token-input-list-42qu li input {
+    border: 0;
+    width: 100px;
+    padding: 3px 8px;
+    background-color: white;
+    margin: 2px 0;
+    -webkit-appearance: caret;
+}
+
+li.token-input-token-42qu {
+color:#000;
+    background:#fff;
+    display:inline-block;
+    height: 19px;
+    line-height: 19px;
+    padding-right:8px;
+    border:1px solid #ececec;
+    border-left:0;
+    border-bottom:1px solid #D9D8DA;
+    border-right:1px solid #ddd;
+    padding-bottom:1px;
+    padding-top:1px;
+    font-size:12px;
+    padding-left:6px;
+}
+
+li.token-input-token-42qu p {
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+li.token-input-token-42qu span {
+    color: #a6b3cf;
+    margin-left: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+li.token-input-token-42qu:hover{
+    background-color: #f3fcff;
+}
+li.token-input-token-42qu:hover p{
+    color:#d20;
+}
+li.token-input-selected-token-42qu {
+    background-color: #5670a6;
+    border: 1px solid #3b5998;
+    color: #fff;
+}
+
+li.token-input-input-token-42qu {
+    float: left;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+div.token-input-dropdown-42qu {
+    position: absolute;
+    width: 400px;
+    background-color: #fff;
+    overflow: hidden;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    cursor: default;
+    font-size: 11px;
+    font-family: Verdana;
+    z-index: 1;
+}
+
+div.token-input-dropdown-42qu p {
+    margin: 0;
+    padding: 5px;
+    font-weight: bold;
+    color: #777;
+}
+
+div.token-input-dropdown-42qu ul {
+    margin: 0;
+    padding: 0;
+}
+
+div.token-input-dropdown-42qu ul li {
+    background-color: #fff;
+    padding: 3px;
+    margin: 0;
+    list-style-type: none;
+}
+
+div.token-input-dropdown-42qu ul li.token-input-dropdown-item-42qu {
+    background-color: #fff;
+}
+
+div.token-input-dropdown-42qu ul li.token-input-dropdown-item2-42qu {
+    background-color: #fff;
+}
+
+div.token-input-dropdown-42qu ul li em {
+    font-weight: bold;
+    font-style: normal;
+}
+
+div.token-input-dropdown-42qu ul li.token-input-selected-dropdown-item-42qu {
+    background-color: #3b5998;
+    color: #fff;
+}
+</style>
 </%def>
 
 <%
@@ -63,6 +190,13 @@ if feed:
 
 from model.rec_read import REDIS_REC_CID_TUPLE
 %>
+
+<script type="text/javascript">
+$(function(){
+    $("#tags").tokenInput("http://shell.loopj.com/tokeninput/tvshows.php",{theme: "42qu"})
+});
+</script>
+
 <script type="text/x-json" id="site_data">
     ${escape(dumps(result))|n}
 </script>
