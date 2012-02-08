@@ -29,7 +29,7 @@ class TagSet(object):
         self.ID2NAME = '%s'%(REDIS_ID2NAME%name)
         self.CACHE = '%s%%s'%(REDIS_CACHE%name)
 
-    def set_cache(key, name_value_list):
+    def set_cache(self,key, name_value_list):
         key = self.CACHE%key
         for result, rank in name_value_list:
             redis.zadd(key, result, rank)
@@ -58,14 +58,14 @@ class TagSet(object):
     def tag_new(self, tag_name, id):
         model = None
         for sub_tag in tag_name.split('/'):
-            sub_tag = unicode(sub_tag)
+            sub_tag = unicode(sub_tag).lower()
 
             first_char = sub_tag[0]
 
             old_name_list = self.tag_from_trie(first_char)
             if old_name_list:
                 old_name_list = self.tag_id_list2_result(old_name_list)
-                old_name_list = old_name_list[0][0].split('/')
+                old_name_list = old_name_list[0][0].lower().split('/')
 
 
             if redis.exists(self.ZSET_CID%first_char):
@@ -82,6 +82,7 @@ class TagSet(object):
                     key = REDIS_ZSET_CID%sub_tag
                     redis.zadd(key, id, 1)
                 else:
+                    print 'trie addint ',sub_tag
                     self.trie_tag_new(sub_tag)
                     self.trie_tag_new('%s*%s*'%(sub_tag, id))
 
@@ -130,7 +131,7 @@ class TagSet(object):
         return redis.zrevrange(key, 0, -1, True)
 
     def tag_by_name_list(self, name_list_str):
-        name_list = name_list_str.strip().split()
+        name_list = name_list_str.strip().lower().split()
         name_list.sort()
 
         key = '-'.join(name_list)
@@ -155,12 +156,12 @@ class TagSet(object):
         results = []
         if redis.exists(self.ZSET_CID%name):
             results = self.tag_from_zset_by_key(self.ZSET_CID%name)
-            print results
         elif redis.zscore(self.TRIE, name) != None:
             results = self.tag_from_trie(name)
         return results
 
     def tag_by_name(self, name):
+        name = name.lower()
         id_list = self.tag_id_list_by_name(name)
         return self.tag_id_list2_result(id_list)
 
@@ -230,9 +231,9 @@ if __name__ == '__main__':
     #print tag_from_trie('史')[0][0]
     #print tag_tag.tag_by_name('Tw')
     #print tag_tag.tag_by_name('Ti')
-    print tag_tag.tag_by_name('T')
-    tag_tag.tag_fav(881009)
-    #print tag_tag.tag_by_name_list('s Co')
+    print tag_tag.tag_by_name('t')
+    #tag_tag.tag_fav(881009)
+    print tag_tag.tag_by_name_list('s Co')
     #print tag_tag.tag_by_name('C')
     #print tag_tag.tag_by_name('新')
     pass

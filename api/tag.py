@@ -12,7 +12,7 @@ from yajl import dumps
 class TagGet(Base):
     def handle_tag(self,name):
         if name:
-            self.finish(dumps(tag_tag.tag_by_name(name)))
+            self.finish(dumps(tag_tag.tag_by_name_list(name)))
 
     def post(self):
         name = self.get_argument('name',None)
