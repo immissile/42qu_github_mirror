@@ -73,79 +73,6 @@ class TagSet(object):
         result_list.sort(key=lambda x:x[2], reverse=True)
         return result_list
 
-    def tag_new(self, tag_name, id, rank=1):
-        tag_name = tag_name.replace('`', "'").strip()
-        redis.hset(self.ID2NAME, id, '%s`%s'%(tag_name,rank))
-        
-        tag_name = tag_name.lower().replace('/', ' ').strip()
-
-        if not tag_name:
-            return
-
-        model = None
-
-        total_list = tag_name.split(" ")
-
-        ZSET_CID = self.ZSET_CID
-        for sub_tag in total_list:
-            sub_tag_len = len(sub_tag)
-            for pos in xrange(1, sub_tag_len+1):
-                sub_str = sub_tag[:pos]
-
-                old_name_list = self._tag_from_trie(sub_str)
-                if old_name_list:
-                    old_name_list = self._tag_id_list2result(old_name_list)
-                    old_name_list = old_name_list[0][0].lower().split('/')
-
-                key = ZSET_CID%sub_str
-                 
-
-            #first_char = sub_tag[0]
-            
-            #if redis.zscore(self.TRIE, first_char) is not None:
-            #    model = TAG_NEW_MODEL_CHANGE2ZSET
-            #else:
-            #    model = TAG_NEW_MODEL_ADD_NEW
-
-            #if model == TAG_NEW_MODEL_CHANGE2ZSET:
-            #    self._trie2zset(sub_tag)
-            #    if sub_tag in old_name_list:
-            #        key = REDIS_ZSET_CID%sub_tag
-            #        redis.zadd(key, id, 1)
-            #    else:
-            #        self._trie_tag_new(sub_tag)
-            #        self._trie_tag_new('%s`%s`'%(sub_tag, id))
-
-            #using_set = False
-            #for pos in range(1, len(sub_tag)):
-            #    sub_str = sub_tag[:pos]
-            #    key = self.ZSET_CID%sub_str
-
-            #    if model == TAG_NEW_MODEL_ADD_NEW:
-            #        self._trie_tag_new(sub_str)
-
-            #    if model == TAG_NEW_MODEL_CHANGE2ZSET:
-
-            #        for old_name in old_name_list:
-            #            if old_name.startswith(sub_str):
-            #                using_set = True
-            #                break
-
-            #        if using_set:
-            #            redis.zadd(key, id, 1)
-            #        else:
-            #            self._trie_tag_new(sub_str)
-            #if model == TAG_NEW_MODEL_CHANGE2ZSET:
-            #    if using_set:
-            #        key = self.ZSET_CID%sub_tag
-            #        redis.zadd(key, id, 1)
-            #    else:
-            #        self._trie_tag_new('%s`%s`'%(sub_tag, id))
-
-            #if model == TAG_NEW_MODEL_ADD_NEW:
-            #    self._trie_tag_new(sub_tag)
-            #    self._trie_tag_new('%s`%s`'%(sub_tag, id))
-
 
     def tag_by_name_list(self, name_list_str):
         name_list = name_list_str.strip().lower().split()
@@ -209,19 +136,6 @@ class TagSet(object):
             return result.split('`')
 
     def _trie_key_iter(self, prefix):
-        rangelen = 20
-        start = redis.zrank(self.TRIE, prefix)
-        result = None
-        while start is not None:
-            r = redis.zrange(self.TRIE, start, start + rangelen - 1)
-            rlen = len(r)
-            start += rlen
-            if not rlen:
-                return 
-            for entry in r:
-                if not entry.startswith(prefix):
-                    return
-                yield entry
  
 
     def _trie_name_id_iter(self, prefix):
