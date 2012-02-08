@@ -285,7 +285,7 @@ def pinyin_by_char(char):
 
     return bits[lowcp-0xa0-1] # 0xa0 is nope in bits, the first element is 0xa1
 
-def pinyin_by_str(text):
+def pinyin_list_by_str(text):
     if not isinstance(text, unicode):
         text = text.decode('utf-8')
 
@@ -294,7 +294,10 @@ def pinyin_by_str(text):
         pinyin = pinyin_by_char(char)
         if pinyin:
             pinyin_list.append(pinyin)
-    return ''.join(pinyin_list)
+    return pinyin_list
+
+def pinyin_by_str(text):
+    return ''.join(pinyin_list_by_str(text))
 
 if __name__ == '__main__':
     print dir(startswith_pinyin_initial('zh'))

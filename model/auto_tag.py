@@ -3,6 +3,7 @@
 
 from _db import redis
 from functools import partial
+from zkit.pinyin import pinyin_list_by_str
 
 REDIS_ZSET_CID = 'RED_ZSET:%s'
 REDIS_TRIE = 'RED_TRIE:%s'
@@ -73,12 +74,17 @@ class TagSet(object):
         return results
 
     def tag_new(self, tag_name, id):
-        tag_name = tag_name.replace('*','')
+        tag_name = tag_name.replace('*','').replace(' ','')
+        redis.hset(self.ID2NAME, id, '%s*1'%tag_name)
+
         if not tag_name.strip():
             return
 
         model = None
-        for sub_tag in tag_name.split('/'):
+
+        total_list = tag_name.split('/')
+
+        for sub_tag in total_list:
             sub_tag = unicode(sub_tag).lower().strip()
             if not sub_tag:
                 return
@@ -103,6 +109,7 @@ class TagSet(object):
                     self.trie_tag_new(sub_tag)
                     self.trie_tag_new('%s*%s*'%(sub_tag, id))
 
+            using_set = False
             for pos in range(1, len(sub_tag)):
                 sub_str = sub_tag[:pos]
                 key = self.ZSET_CID%sub_str
@@ -111,7 +118,6 @@ class TagSet(object):
                     self.trie_tag_new(sub_str)
 
                 if model == TAG_NEW_MODEL_CHANGE2ZSET:
-                    using_set = False
 
                     for old_name in old_name_list:
                         if old_name.startswith(sub_str):
@@ -122,14 +128,17 @@ class TagSet(object):
                         redis.zadd(key, id, 1)
                     else:
                         self.trie_tag_new(sub_str)
-
+            if model == TAG_NEW_MODEL_CHANGE2ZSET:
+                if using_set:
+                    key = self.ZSET_CID%sub_tag
+                    redis.zadd(key, id, 1)
+                else:
+                    self.trie_tag_new('%s*%s*'%(sub_tag, id))
 
             if model == TAG_NEW_MODEL_ADD_NEW:
                 self.trie_tag_new(sub_tag)
                 self.trie_tag_new('%s*%s*'%(sub_tag, id))
 
-        if model == TAG_NEW_MODEL_ADD_NEW or model==TAG_NEW_MODEL_CHANGE2ZSET:
-            redis.hset(self.ID2NAME, id, '%s*1'%tag_name)
             
     def set(self,name,id):
         redis.hset(self.ID2NAME, id, '%s*1'%name)
@@ -154,7 +163,6 @@ class TagSet(object):
             self.set_cache(key, results)
 
         return self.tag_id_list2_result(results)
-
 
     def tag_id_list_by_name(self, name):
         name = unicode(name)
@@ -215,6 +223,24 @@ class TagSet(object):
                     name, id = result[0], result[1]
                     results.append(id)
         return results
+        #rangelen = 50
+        #start = redis.zrank(self.TRIE, prefix)
+        #result = None
+        #signal = False
+        #while start is not None and not result:
+        #    range = redis.zrange(self.TRIE, start, start + rangelen - 1)
+        #    start += rangelen
+        #    if not range:
+        #        break
+        #    for entry in range:
+        #        if not entry.startswith(prefix):
+        #            signal = True
+        #            break
+        #        else:
+        #            result = callback(entry)
+        #    if signal:break
+        #if result:
+        #    return [result[1]]
 
     def tag_from_trie(self, prefix):
         prefix = unicode(prefix)
@@ -228,6 +254,8 @@ def rm():
 if __name__ == '__main__':
     #tag_tag = TagSet('po')
     #tag_tag.tag_new('史蒂夫/乔布斯/steve/jobs', 10086)
+    #tag_tag.tag_new('jobs', 123)
+    #tag_tag.tag_new('steve/jobs', 334423)
     #tag_tag.tag_new('/'.join(['新浪微博', 'VS', 'Twitter']), 10010)
     #tag_tag.tag_new('/'.join(['蒂姆', '库克', 'Tim', 'Cook']), 881009)
     ##tag_tag.tag_new('火', 0)
@@ -240,8 +268,8 @@ if __name__ == '__main__':
     #print redis.zrange(REDIS_TRIE,0,-1)
     #redis.keys()
     #print tag_from_trie('史')[0][0]
-    print tag_tag.tag_by_name_list('t c')
-    #print tag_tag.tag_by_name('T')
+    print tag_tag.tag_by_name_list('ac')
+    #print tag_tag.tag_by_name('Tim')
 
     #from timeit import timeit
     #def f():
