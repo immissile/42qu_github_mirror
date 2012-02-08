@@ -2,20 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from model._db import redis 
+from _handler import Base, LoginBase, XsrfGetBase
+from _urlmap import urlmap
+from model.auto_tag import TagSet,tag_po
+from yajl import dumps
 
-def tag_from_zset(name):
-    pass
+@urlmap('/po/tag')
+class TagGet(Base):
+    def post(self):
+        name = self.get_argument('name',None)
+        if name:
+            dumps(self.finish(tag_po.tag_by_name(name)))
 
-def tag_from_trie(name):
-    pass
-
-def tag_new(tag_name):
-    for sub_tag in tag_name.split("/"):
-        sub_tag = str(sub_tag)
-        for pos in xrange(len(sub_tag)):
-            print sub_tag[:pos]
-
-if __name__ == '__main__':
-    tag_new("史蒂夫/乔布斯/steve/jobs")
 
