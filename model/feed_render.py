@@ -75,7 +75,7 @@ def feed_tuple_by_db(id):
 
     txt = m.txt
     if cid != CID_WORD:
-        txt, has_more = cnenoverflow(txt, 70)
+        txt, has_more = cnenoverflow(txt, 100)
         if not has_more:
             txt = m.htm
         result.extend((txt, has_more))
