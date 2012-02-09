@@ -58,7 +58,7 @@ def wsample2(wlist):
         return wlist[idx]
     return sample
 
-
+#返回一个函数 , 可以反复调用
 def wsample_k2(wlist, k, key=None):
     if k >= len(wlist):
         return lambda:wlist

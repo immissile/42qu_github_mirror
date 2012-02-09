@@ -83,6 +83,9 @@ def zsite_name_edit(id, name):
     if id:
         zsite = Zsite.mc_get(id)
         if zsite:
+            cid = zsite.cid
+            if cid == CID_USER:
+                name = name.decode("utf-8","ignore")[:24]
             zsite.name = name
             zsite.save()
             mc_feed_user_dict.delete(id)
@@ -204,19 +207,25 @@ if __name__ == '__main__':
     from zweb.orm import ormiter
     from model.ico import  pic_url, ico_save, picopen
     from os.path import exists
-
-    for line in """
-/mnt/zpage/721/557/186925.jpg
-/mnt/zpage/721/142/185486.jpg
-/mnt/zpage/721/159/186527.jpg
-/mnt/zpage/721/813/187181.jpg
-""".strip().split():
-        path = line.replace('/721/', '/0/')
-        if exists(path):
-            id = path.rsplit('/', 1)[-1][:-4]
-            img = picopen(open(path).read())
-            print id
-            ico_save(id, img)
+    for zsite in ormiter(Zsite, "cid=%s"%CID_USER):
+        name = zsite.name.decode("utf-8","ignore")[:24]
+        if name != zsite.name:
+            print zsite.name
+            print name
+            zsite.name = name
+            zsite.save() 
+#    for line in """
+#/mnt/zpage/721/557/186925.jpg
+#/mnt/zpage/721/142/185486.jpg
+#/mnt/zpage/721/159/186527.jpg
+#/mnt/zpage/721/813/187181.jpg
+#""".strip().split():
+#        path = line.replace('/721/', '/0/')
+#        if exists(path):
+#            id = path.rsplit('/', 1)[-1][:-4]
+#            img = picopen(open(path).read())
+#            print id
+#            ico_save(id, img)
 
 #for i in ormiter(Zsite):
 #    s = pic_url(i.id, 721)
