@@ -786,7 +786,6 @@ $.TokenList = function (input, url_or_data, settings) {
                 if(settings.crossDomain) {
                     ajax_params.dataType = "jsonp";
                 }
-
                 // Attach the success callback
                 ajax_params.success = function(results) {
                   if($.isFunction(settings.onResult)) {
