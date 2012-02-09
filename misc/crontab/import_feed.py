@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from model.import_feed import feed2po_new, zsite_id_by_douban_user_id,ImportFeed, IMPORT_FEED_STATE_INIT, DOUBAN_ZSITE_ID, IMPORT_FEED_CID_DICT
+from model.import_feed import feed2po_new, zsite_id_by_douban_user_id, ImportFeed, IMPORT_FEED_STATE_INIT, DOUBAN_ZSITE_ID, IMPORT_FEED_CID_DICT
 from model.duplicate import Duplicator
 from zkit.txt import format_txt
 from config import DUMPLICATE_DB_PREFIX
 from zkit.htm2txt import htm2txt
-from model.douban import douban_feed_to_review_iter, DoubanUser 
+from model.douban import douban_feed_to_review_iter, DoubanUser
 from zkit.single_process import single_process
 from zkit.classification.classification import GetTag
 
@@ -16,27 +16,27 @@ tag_getter = GetTag()
 douban_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'douban')
 
 def import_feed_by_douban_feed():
-    count = 0
+#    count = 0
     for i in douban_feed_to_review_iter():
-        if count> 10:
-            break
-        count+=1
-        print "!"
+#        if count> 10:
+#            break
+#        count+=1
+#        print "!"
         import_feed_new(
-            i.title, i.htm,  i.link, i.id, DOUBAN_ZSITE_ID
+            i.title, i.htm, i.link, i.id, DOUBAN_ZSITE_ID
         )
 
-def import_feed_new(title, txt, url, src_id, zsite_id,tags='', state=IMPORT_FEED_STATE_INIT):
-    txt = format_txt(htm2txt(txt)).replace("豆友","网友").replace("豆油","私信").replace("豆邮","私信")
+def import_feed_new(title, txt, url, src_id, zsite_id, tags='', state=IMPORT_FEED_STATE_INIT):
+    txt = format_txt(htm2txt(txt)).replace('豆友', '网友').replace('豆油', '私信').replace('豆邮', '私信')
     if not douban_duplicator.txt_is_duplicate(txt):
 
-       # douban_user = DoubanUser.get(author_id)
-       # user_id = zsite_id_by_douban_user_id(douban_user)
+        # douban_user = DoubanUser.get(author_id)
+        # user_id = zsite_id_by_douban_user_id(douban_user)
 
         #cid = IMPORT_FEED_CID_DICT[zsite_id]
 
         if not tags:
-            tags = ','.join(tag_getter.get_tag(txt))
+            tags = '`'.join(tag_getter.get_tag(txt))
 
         new_feed = ImportFeed(
                 title=title,
@@ -61,8 +61,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-    """
+    #main()
     txt = '''
 Pinterest的一些思考
 周末在家的时候，除了重构了部分代码以外，最多的时候想的就是Pinterest这件事情。最近太多关关于Pinterest的新闻出来了，包括花瓣拿到的4.5 M 美金的投资。包括估值巨高的Pinterest的各种事情。
@@ -77,4 +76,3 @@ Pinterest的模式更为松散，确切的说，Pinterest的模式的信息粒�
 那下一个是Pinterest吗？它能不能在中国顺利的成长？我觉得借鉴一下delicious的经验就可以知道这是很难的一条路，yupoo也没有完全复制Flickr的成功。或许或许，在中国Pinterest的机会不在花瓣，而在于美丽说。    
 '''
     print  tag_getter.get_tag(txt)
-    """
