@@ -7,7 +7,7 @@ from model.auto_tag import auto_complete_tag
 from yajl import dumps
 
 
-@urlmap('/po/tag/(.*)')
+@urlmap('/po/tag/search.php')
 @urlmap('/po/tag')
 class TagGet(Base):
     def handle_tag(self,name):
@@ -18,6 +18,7 @@ class TagGet(Base):
         name = self.get_argument('name',None)
         self.handle_tag(name)
 
-    def get(self,name):
+    def get(self):
+        name = self.get_argument('q',None)
         self.handle_tag(name)
 

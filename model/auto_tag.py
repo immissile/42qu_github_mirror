@@ -136,7 +136,6 @@ class AutoComplete:
         id_list = []
         cid_key = self.ZSET_CID%key
 
-        print key,cid_key
         if redis.exists(cid_key):
             id_list = redis.zrevrange(cid_key, 0, -1)
 
@@ -173,8 +172,7 @@ class AutoComplete:
 
     def id_name_list_by_name_list(self, name_list_str):
         return self._id_rank_name_by_prefix_from_trie(self.tag_by_name_list(name_list_str))
-
-
+    
 auto_complete_tag = AutoComplete('tag')
 
 if __name__ == '__main__':
