@@ -4,7 +4,6 @@
 from _db import redis
 from zkit.zitertools import lineiter
 from zkit.pinyin import pinyin_list_by_str
-from functools import partial
 
 REDIS_ZSET_CID = '%s`'
 REDIS_TRIE = 'RED_TRIE:%s'
@@ -32,15 +31,12 @@ class AutoComplete:
         return redis.smembers(key)
 
     def _id_rank_by_prefix_from_trie(self, prefix):
-        result = []
         id_list = self.id_list_by_key(prefix)
-        for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
-            rank = name_rank.rsplit('`', 1)[1]
-            result.append((id, rank))
+        result = [x[:2] for x in self._id_rank_name_by_prefix_from_trie(id_list)]
 
         return result
 
-    def _id_name_by_id_list(self, id_list):
+    def _id_rank_name_by_prefix_from_trie(self, id_list):
         result = []
 
         if id_list:
@@ -50,8 +46,8 @@ class AutoComplete:
 
         return result
 
-
     def append(self, name, id , rank=1):
+        name = name.decode('utf-8','ignore')
         ID2NAME = self.ID2NAME
 
         value = redis.hget(ID2NAME, id)
@@ -96,7 +92,7 @@ class AutoComplete:
                     start = redis.zrank(TRIE, sub_str)
                     if start is not None: #已经存在, 删除
 
-                        olist = self._id_rank_by_prefix_from_trie(sub_str)
+                        olist = [x[:2] for x in self._id_rank_by_prefix_from_trie(sub_str)]
                         olist.append((id, rank))
 
                         p = redis.pipeline()
@@ -140,6 +136,7 @@ class AutoComplete:
         id_list = []
         cid_key = self.ZSET_CID%key
 
+        print key,cid_key
         if redis.exists(cid_key):
             id_list = redis.zrevrange(cid_key, 0, -1)
 
@@ -151,7 +148,7 @@ class AutoComplete:
     def id_name_list_by_key(self, key):
         key = key.lower()
         id_list = self.id_list_by_key(key)
-        return  self._id_name_by_id_list(id_list)
+        return  self._id_rank_name_by_prefix_from_trie(id_list)
 
     def tag_by_name_list(self, name_list_str):
         name_list = name_list_str.strip().lower().split()
@@ -159,7 +156,7 @@ class AutoComplete:
 
         key = '-'.join(name_list)
         result_list = self._get_cache(key)
-        #result_list = None
+        result_list = None
 
         if result_list is None:
             result_list = reduce(
@@ -175,7 +172,7 @@ class AutoComplete:
         return result_list
 
     def id_name_list_by_name_list(self, name_list_str):
-        return self._id_name_by_id_list(self.tag_by_name_list(name_list_str))
+        return self._id_rank_name_by_prefix_from_trie(self.tag_by_name_list(name_list_str))
 
 
 auto_complete_tag = AutoComplete('tag')
@@ -189,10 +186,10 @@ if __name__ == '__main__':
     #    print i
     #print "=+++"
 
-    #printb auto_complete_tag.id_name_list_by_name_list("f f8")
+    print auto_complete_tag.id_name_list_by_name_list("f f8")
 
-    from timeit import timeit
-    def f():
-        auto_complete_tag.id_name_list_by_name_list('t')
+    #from timeit import timeit
+    #def f():
+    #    auto_complete_tag.id_name_list_by_name_list('t')
 
-    print timeit(f,number=10000)/10000
+    #print timeit(f,number=10000)/10000
