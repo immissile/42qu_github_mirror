@@ -137,12 +137,12 @@ class AutoComplete:
         cid_key = self.ZSET_CID%key
 
         if redis.exists(cid_key):
-            id_list = redis.zrevrange(cid_key, 0, -1)
+            id_list = redis.zrevrange(cid_key, 0, 6)
 
         elif redis.zrank(self.TRIE, key) is not None:
             id_list = self._trie_name_id_iter(key)
 
-        return id_list
+        return id_list[:7]
 
     def id_name_list_by_key(self, key):
         key = key.lower()
@@ -150,7 +150,7 @@ class AutoComplete:
         return  self._id_rank_name_by_prefix_from_trie(id_list)
 
     def tag_by_name_list(self, name_list_str):
-        name_list = name_list_str.strip().lower().split()
+        name_list = name_list_str.strip().lower().replace('`',"'").split()
         name_list.sort()
 
         key = '-'.join(name_list)
