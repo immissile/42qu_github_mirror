@@ -4,6 +4,7 @@ from yajl import dumps
 from cgi import escape
 from model.import_feed import ImportFeed, IMPORT_FEED_STATE_INIT
 from model.douban import is_rt_by_title
+from config import API_URL
 %>
 <%def name="htm_head()">
 <style>
@@ -198,7 +199,7 @@ from model.rec_read import REDIS_REC_CID_TUPLE
 
 <script type="text/javascript">
 $(function(){
-    $("#tags").tokenInput("http://api.wooparadog.xxx/po/tag/search.php?q=",{theme: "42qu"})
+    $("#tags").tokenInput("${API_URL}/po/tag",{theme: "42qu"})
 });
 </script>
 
