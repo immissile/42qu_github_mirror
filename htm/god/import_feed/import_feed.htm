@@ -49,6 +49,14 @@ from model.douban import is_rt_by_title
     } 
 </style>
 <style>
+.token-input-delete-token-42qu{
+width:17px;
+height:19px;
+background:url(http://s.realfex.xxx/img/png/label.png) no-repeat -35px 0;
+display:inline-block;
+height:23px;
+vertical-align:-7px;
+}
 ul.token-input-list-42qu {
     overflow: hidden; 
     height: auto !important; 
@@ -77,26 +85,24 @@ ul.token-input-list-42qu li input {
 }
 
 li.token-input-token-42qu {
+float:left;
 color:#000;
     background:#fff;
     display:inline-block;
-    height: 19px;
-    line-height: 19px;
-    padding-right:8px;
+    font-size:12px;
+margin:3px;
+}
+
+li.token-input-token-42qu p {
+    display:inline-block;
+    margin: 0;
+    line-height:21px;
+    height:21px;
     border:1px solid #ececec;
     border-left:0;
     border-bottom:1px solid #D9D8DA;
     border-right:1px solid #ddd;
-    padding-bottom:1px;
-    padding-top:1px;
-    font-size:12px;
-    padding-left:6px;
-}
-
-li.token-input-token-42qu p {
-    display: inline;
-    padding: 0;
-    margin: 0;
+    padding:0 6px;
 }
 
 li.token-input-token-42qu span {
@@ -105,16 +111,15 @@ li.token-input-token-42qu span {
     font-weight: bold;
     cursor: pointer;
 }
-li.token-input-token-42qu:hover{
+
+
+
+li.token-input-selected-token-42qu p{
     background-color: #f3fcff;
-}
-li.token-input-token-42qu:hover p{
     color:#d20;
 }
-li.token-input-selected-token-42qu {
-    background-color: #5670a6;
-    border: 1px solid #3b5998;
-    color: #fff;
+li.token-input-selected-token-42qu span{
+    background-position:-70px ;
 }
 
 li.token-input-input-token-42qu {
@@ -193,7 +198,7 @@ from model.rec_read import REDIS_REC_CID_TUPLE
 
 <script type="text/javascript">
 $(function(){
-    $("#tags").tokenInput("http://shell.loopj.com/tokeninput/tvshows.php",{theme: "42qu"})
+    $("#tags").tokenInput("http://api.wooparadog.xxx/po/tag/search.php?q=",{theme: "42qu"})
 });
 </script>
 
