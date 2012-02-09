@@ -1,239 +1,193 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# -`- coding: utf-8 -`-
 
 from _db import redis
-from functools import partial
+from zkit.zitertools import lineiter
+from zkit.pinyin import pinyin_list_by_str
 
-REDIS_ZSET_CID = 'RED_ZSET:%s'
+REDIS_ZSET_CID = '%s`'
 REDIS_TRIE = 'RED_TRIE:%s'
 REDIS_ID2NAME = 'RED_ID2NAME%s'
 REDIS_CACHE = 'RED_TAGCACHE%s'
 
-TAG_NEW_MODEL_ADD_NEW = 1
-TAG_NEW_MODEL_INC_ZSET = 2
-TAG_NEW_MODEL_CHANGE2ZSET = 3
 
+__metaclass__ = type
 
-def trie_handle_entry(entry):
-    if entry.endswith('*'):
-        entry = entry.split('*')
-        return tuple(entry[:2])
-
-
-class TagSet(object):
+class AutoComplete:
     def __init__(self, name):
-        self.name = name
-
         self.ZSET_CID = '%s%%s'%(REDIS_ZSET_CID%name)
         self.TRIE = '%s'%(REDIS_TRIE%name)
         self.ID2NAME = '%s'%(REDIS_ID2NAME%name)
         self.CACHE = '%s%%s'%(REDIS_CACHE%name)
 
-    def set_cache(self,key, name_value_list):
+    def _set_cache(self, key, name_value_list):
         key = self.CACHE%key
-        for result, rank in name_value_list:
-            redis.zadd(key, result, rank)
-        redis.expire(key, 1800)
+        for result in name_value_list:
+            redis.sadd(key, result)
+        redis.expire(key, 86400)
 
-    def tag_fav(self, id, name=None):
-        old_name = self.tag_id2name(id)
-        if old_name:
-            name, rank = old_name
-            rank = int(rank) + 1
-            new_name = '*'.join([name, str(rank)])
-            redis.hset(self.ID2NAME, id, new_name)
-        elif name:
-            redis.hset(self.ID2NAME, id, '%s*1'%name)
+    def _get_cache(self, key):
+        key = self.CACHE%key
+        return redis.smembers(key)
 
-    def tag_id_list2_result(self, id_list):
-        results = []
-        for id, zrank in id_list:
-            name, rank = self.tag_id2name(id)
-            results.append((name, id, rank))
+    def _id_rank_by_prefix_from_trie(self, prefix):
+        id_list = self.id_list_by_key(prefix)
+        result = [x[:2] for x in self._id_rank_name_by_prefix_from_trie(id_list)]
 
-        results.sort(key=lambda x:x[2], reverse=True)
-        return results
+        return result
 
+    def _id_rank_name_by_prefix_from_trie(self, id_list):
+        result = []
 
-    def tag_new(self, tag_name, id):
-        model = None
-        for sub_tag in tag_name.split('/'):
-            sub_tag = unicode(sub_tag).lower()
+        if id_list:
+            for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
+                name, rank = name_rank.rsplit('`', 1)
+                result.append((id, rank, name))
 
-            first_char = sub_tag[0]
+        return result
 
-            old_name_list = self.tag_from_trie(first_char)
-            if old_name_list:
-                old_name_list = self.tag_id_list2_result(old_name_list)
-                old_name_list = old_name_list[0][0].lower().split('/')
+    def append(self, name, id , rank=1):
+        name = name.decode('utf-8','ignore')
+        ID2NAME = self.ID2NAME
 
+        value = redis.hget(ID2NAME, id)
+        if value:
+            #TODO 如果rank不一样, 需要进行修改
+            #TODO 如果name不一样, 需要删除然后重新索引
+            return
 
-            if redis.exists(self.ZSET_CID%first_char):
-                model = TAG_NEW_MODEL_INC_ZSET
-            elif redis.zscore(self.TRIE, first_char) != None:
-                model = TAG_NEW_MODEL_CHANGE2ZSET
-            else:
-                model = TAG_NEW_MODEL_ADD_NEW
+        tag_name = name.replace('`', "'").strip()
+        redis.hset(ID2NAME, id, '%s`%s'%(tag_name, rank))
 
-            if model == TAG_NEW_MODEL_CHANGE2ZSET:
-                #TODO: remove from trie, add final string to zset
-                self.trie2zset(sub_tag)
-                if sub_tag in old_name_list:
-                    key = REDIS_ZSET_CID%sub_tag
-                    redis.zadd(key, id, 1)
-                else:
-                    print 'trie addint ',sub_tag
-                    self.trie_tag_new(sub_tag)
-                    self.trie_tag_new('%s*%s*'%(sub_tag, id))
+        tag_name = tag_name.lower().replace('/', ' ').strip()
 
-            for pos in range(1, len(sub_tag)):
+        if not tag_name:
+            return
+
+        total_list = tag_name.split(' ')
+
+        ZSET_CID = self.ZSET_CID
+        TRIE = self.TRIE
+
+        ztrie_not_rmed = True
+        ztrie_not_newed = True
+
+        for sub_tag in total_list:
+            sub_tag_len = len(sub_tag)
+            for pos in xrange(1, sub_tag_len+1):
                 sub_str = sub_tag[:pos]
-                key = self.ZSET_CID%sub_str
 
-                if model == TAG_NEW_MODEL_ADD_NEW:
-                    self.trie_tag_new(sub_str)
+                if ztrie_not_newed:
+                    key = ZSET_CID%sub_str
 
-                if model == TAG_NEW_MODEL_INC_ZSET:
-                    #increase sub string value in zset
-                    redis.zincrby(key, id, 1)
-
-                if model == TAG_NEW_MODEL_CHANGE2ZSET:
-                    #adding sub strings to zset, remove later
-                    using_set = False
-
-                    for old_name in old_name_list:
-                        if old_name.startswith(sub_str):
-                            using_set = True
-                            break
-
-                    if using_set:
-                        redis.zadd(key, id, 1)
+                if ztrie_not_rmed and ztrie_not_newed:
+                    if redis.exists(key):
+                        redis.zadd(key, id, rank)
+                        continue
                     else:
-                        self.trie_tag_new(sub_str)
+                        ztrie_not_rmed = False
+
+                if ztrie_not_newed:
+
+                    start = redis.zrank(TRIE, sub_str)
+                    if start is not None: #已经存在, 删除
+
+                        olist = [x[:2] for x in self._id_rank_by_prefix_from_trie(sub_str)]
+                        olist.append((id, rank))
+
+                        p = redis.pipeline()
+                        p.zadd(key, *lineiter(olist))
+                        p.zrem(TRIE, sub_str)
+                        p.execute()
+
+                        continue
+                    else:
+                        ztrie_not_newed = False
+
+                if pos == sub_tag_len:
+                    redis.zadd(TRIE, sub_str, 0)
+                    sub_str = '%s`%s`'%(sub_str, id)
+
+                redis.zadd(TRIE, sub_str, 0)
+
+    def _trie_key_iter(self, prefix):
+        rangelen = 50
+        start = redis.zrank(self.TRIE, prefix)
+        try:
+            while start is not None:
+                r = redis.zrange(self.TRIE, start, start + rangelen - 1)
+                rlen = len(r)
+                start += rlen
+                if not rlen:
+                    break
+                for entry in r:
+                    if not entry.startswith(prefix):
+                        raise StopIteration
+                    if entry.endswith('`'):
+                        yield entry
+        except StopIteration:
+            pass
 
 
-            if model == TAG_NEW_MODEL_ADD_NEW:
-                #final string to trie
-                redis.hset(self.ID2NAME, id, '%s*1'%tag_name)
-                #redis.hset(self.ID2NAME, id, tag_name)
-                self.trie_tag_new(sub_tag)
-                self.trie_tag_new('%s*%s*'%(sub_tag, id))
+    def _trie_name_id_iter(self, prefix):
+        return [i[:-1].rsplit('`', 1)[1] for i in self._trie_key_iter(prefix)]
 
-            elif model == TAG_NEW_MODEL_INC_ZSET:
-                #final key to increase
-                key = self.ZSET_CID%sub_tag
-                redis.zincrby(key, id, 1)
-                pass
+    def id_list_by_key(self, key):
+        id_list = []
+        cid_key = self.ZSET_CID%key
 
+        if redis.exists(cid_key):
+            id_list = redis.zrevrange(cid_key, 0, -1)
 
+        elif redis.zrank(self.TRIE, key) is not None:
+            id_list = self._trie_name_id_iter(key)
 
-    def tag_from_zset_by_key(self, key):
-        return redis.zrevrange(key, 0, -1, True)
+        return id_list
+
+    def id_name_list_by_key(self, key):
+        key = key.lower()
+        id_list = self.id_list_by_key(key)
+        return  self._id_rank_name_by_prefix_from_trie(id_list)
 
     def tag_by_name_list(self, name_list_str):
         name_list = name_list_str.strip().lower().split()
         name_list.sort()
 
         key = '-'.join(name_list)
-        results = redis.zrevrange(key, 0, -1, True)
+        result_list = self._get_cache(key)
+        result_list = None
 
-        if not results:
-            results = dict()
-            for name in name_list:
-                for tag in self.tag_id_list_by_name(name):
-                    id = str(tag[0])
-                    if id not in results:
-                        results[id] = tag[1]
+        if result_list is None:
+            result_list = reduce(
+                set.intersection, map(
+                    set, map(
+                        self.id_list_by_key,
+                        name_list
+                    )
+                )
+            )
+            self._set_cache(key, result_list)
 
-            results = results.items()
-            self.set_cache(key, results)
+        return result_list
 
-        return self.tag_id_list2_result(results)
-
-
-    def tag_id_list_by_name(self, name):
-        name = unicode(name)
-        results = []
-        if redis.exists(self.ZSET_CID%name):
-            results = self.tag_from_zset_by_key(self.ZSET_CID%name)
-        elif redis.zscore(self.TRIE, name) != None:
-            results = self.tag_from_trie(name)
-        return results
-
-    def tag_by_name(self, name):
-        name = name.lower()
-        id_list = self.tag_id_list_by_name(name)
-        return self.tag_id_list2_result(id_list)
-
-    def trie2zset(self, name):
-        first_char = name[0]
-        id = self.tag_from_trie(first_char)[0][0]
-        self.trie_iter(first_char, partial(self.trie2zset_iter_handler, id=id, new_name=name))
-
-    def trie2zset_iter_handler(self, key, id, new_name):
-        if new_name.startswith(key):
-            redis.zrem(self.TRIE, key)
-
-            if key.endswith('*'):
-                key = key.split('*')[0]
-
-            key = self.ZSET_CID%key
-            redis.zadd(key, id , 1)
-
-    def trie_tag_new(self, name):
-        redis.zadd(self.TRIE, name, 0)
-
-    def tag_id2name(self, id):
-        result = redis.hget(self.ID2NAME, id)
-        if result:
-            return result.split('*')
-
-    def trie_iter(self, prefix, callback):
-        rangelen = 50
-        start = redis.zrank(self.TRIE, prefix)
-        results = []
-        while start != None:
-            range = redis.zrange(self.TRIE, start, start + rangelen - 1)
-            start += rangelen
-            if not range or len(range) == 0:
-                break
-            for entry in range:
-                entry = unicode(entry)
-                minlen = min((len(entry), len(prefix)))
-                if entry[0:minlen] != prefix[0:minlen]:
-                    break
-                result = callback(entry)
-                if result:
-                    name, id = result[0], result[1]
-                    results.append((id, 0))
-        return results
-
-    def tag_from_trie(self, prefix):
-        prefix = unicode(prefix)
-        return self.trie_iter(prefix, trie_handle_entry)
-
-tag_tag = TagSet('tag')
-
-def rm():
-    redis.DEL(REDIS_TRIE)
+    def id_name_list_by_name_list(self, name_list_str):
+        return self._id_rank_name_by_prefix_from_trie(self.tag_by_name_list(name_list_str))
+    
+auto_complete_tag = AutoComplete('tag')
 
 if __name__ == '__main__':
-    #tag_tag = TagSet('po')
-    #tag_tag.tag_new('史蒂夫/乔布斯/steve/jobs', 10086)
-    #tag_tag.tag_new('/'.join(['新浪微博', 'VS', 'Twitter']), 10010)
-    #tag_tag.tag_new('/'.join(['蒂姆', '库克', 'Tim', 'Cook']), 881009)
-    #print redis.zscore(REDIS_TRIE,'stev')
-    #for i in tag_from_trie('j'):
-    #    print list(i)
-    #print '/'.join(i)
-    #print redis.zrange(REDIS_TRIE,0,-1)
-    #redis.keys()
-    #print tag_from_trie('史')[0][0]
-    #print tag_tag.tag_by_name('Tw')
-    #print tag_tag.tag_by_name('Ti')
-    print tag_tag.tag_by_name('t')
-    #tag_tag.tag_fav(881009)
-    print tag_tag.tag_by_name_list('s Co')
-    #print tag_tag.tag_by_name('C')
-    #print tag_tag.tag_by_name('新')
     pass
+    #auto_complete_tag = AutoComplete('tag')
+    #auto_complete_tag.append('Facebook/F8', 76514)
+    #auto_complete_tag.append('flask', 76515)
+    #for i in auto_complete_tag.id_name_list_by_key("f"):
+    #    print i
+    #print "=+++"
+
+    print auto_complete_tag.id_name_list_by_name_list("f f8")
+
+    #from timeit import timeit
+    #def f():
+    #    auto_complete_tag.id_name_list_by_name_list('t')
+
+    #print timeit(f,number=10000)/10000
