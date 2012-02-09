@@ -25,6 +25,6 @@ if __name__ == '__main__':
             score = zsite_fav_count_by_zsite(zsite)
             name = name_rank.rsplit('`', 1)[0]
             redis.hset(auto_complete_tag.ID2NAME, id, '%s`%s'%(name, score))
-
+            print id
 
 
