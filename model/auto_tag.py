@@ -25,7 +25,7 @@ class AutoComplete:
     def _set_cache(self, key, id_list):
         key = self.CACHE%key
         result = array('I')
-        result.fromlist(list(id_list))
+        result.fromlist(list(map(int,id_list)))
         redis.setex(
             key, result.tostring(), EXPIRE
         )
@@ -43,7 +43,8 @@ class AutoComplete:
 
     def _id_rank_name_by_id_list(self, id_list):
         result = []
-
+        
+        #print id_list, "id_list"
         if id_list:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
@@ -178,7 +179,7 @@ class AutoComplete:
                 elif redis.zrank(TRIE, key) is not None:
                     result.append( self._trie_name_id_list(key) )
 
-            if len(key_list) == name_list:
+            if len(key_list) == len(name_list):
                 mkey = self._key_list_inter(key_list)
                 id_list = redis.zrevrange(mkey, 0, limit)
             else:
@@ -206,7 +207,7 @@ class AutoComplete:
                         id_list = result
                 else:
                     id_list = []
-
+            
             self._set_cache(name_key, id_list)
 
         return id_list
