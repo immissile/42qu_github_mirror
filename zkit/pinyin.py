@@ -272,7 +272,7 @@ PINYIN = {
 
 def pinyin_by_char(char):
     if not isinstance(char, unicode):
-        char = char.decode('utf-8')
+        char = char.decode('utf-8','ignore')
 
     gbk = char.encode('gbk', 'ignore')
     if len(gbk) < 2:
@@ -287,7 +287,7 @@ def pinyin_by_char(char):
 
 def pinyin_list_by_str(text):
     if not isinstance(text, unicode):
-        text = text.decode('utf-8')
+        text = text.decode('utf-8','ignore')
 
     pinyin_list = []
     for char in text:
