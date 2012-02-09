@@ -28,7 +28,7 @@ for k, v in NAME_COUNT.iteritems():
         TAG_TAG.add(k)
 
 NAME_KEYWORD = {}
-
+NAME_RANK = {}
 for name, rank in name_rank():
     if rank < 3:
         continue
@@ -53,12 +53,14 @@ for name, rank in name_rank():
         i = i.split()
         NAME_KEYWORD[name].extend(i)
      
+    NAME_RANK[name] = rank
 
 import _env
 from zkit.pprint import pprint
 from yajl import dumps
 
 #pprint(NAME_KEYWORD)
-print dumps(NAME_KEYWORD)
+#print dumps(NAME_KEYWORD)
+print dumps(NAME_RANK)
 
 
