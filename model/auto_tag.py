@@ -145,7 +145,7 @@ class AutoComplete:
     def _key_list_inter(self, key_list):
         ZSET_CID = self.ZSET_CID
         if len(key_list) > 1:
-            mkey = '-'.join(key_list)
+            mkey = '`'.join(key_list)
             mkey = ZSET_CID%mkey
             if not redis.exists(mkey):
                 p = redis.pipeline()
@@ -231,8 +231,8 @@ if __name__ == '__main__':
     #    print i
     #print "=+++"
 
-    print auto_complete_tag.id_rank_name_list_by_str('f')
-    print auto_complete_tag.id_rank_name_list_by_str('f f8')
+    print auto_complete_tag.id_rank_name_list_by_str('facebook')
+    #print auto_complete_tag.id_rank_name_list_by_str('f f8')
 
     #from timeit import timeit
     #def f():
