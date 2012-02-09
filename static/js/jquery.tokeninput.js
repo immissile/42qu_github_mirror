@@ -21,9 +21,9 @@ var DEFAULT_SETTINGS = {
     jsonContainer: null,
 
 	// Display settings
-    hintText: "Type in a search term",
-    noResultsText: "No results",
-    searchingText: "Searching...",
+    hintText: "搜索标签",
+    noResultsText: "无结果",
+    searchingText: "搜索中...",
     deleteText: "",
     animateDropdown: true,
 

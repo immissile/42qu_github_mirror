@@ -199,30 +199,25 @@ from model.rec_read import REDIS_REC_CID_TUPLE
 
 <script type="text/javascript">
 $(function(){
-    $("#tags").tokenInput("http:${API_URL}/po/tag",{theme: "42qu", onResult: function (results) {
-var list = [],i=0,t;
-for(;i<results.length;++i){
-    t = results[i]
-    list.push({
-        id:t[0],
-        name:t[1]+' '+t[2]
-    })
-return list 
-}
-/*
-                    var objList = []
-                    $.each(results, function() {
-                        var obj = {}
-                        var item = $(this)
-                        obj.name = item[2]
-                        obj.id = item[0]
-                        obj.num = item[1]
-                        objList.push(obj)
+    $("#tags").tokenInput("http:${API_URL}/po/tag",
+        {
+            theme: "42qu",
+            onResult: function (results) {
+                var list = [],i=0,t;
+                for(;i<results.length;++i){
+                    t = results[i]
+                    list.push({
+                        id:t[0],
+                        name:t[2],
+                        num:t[1]
                     })
-                   return objList
-*/
                 }
-            })
+                return list
+            },
+            resultsFormatter: function(item){
+                return '<li>'+item.name+'<span style="color:#aaa;margin-left:8px;">'+item.num+'人关注</span></li>'
+            }
+        })
 });
 </script>
 
