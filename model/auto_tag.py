@@ -6,9 +6,9 @@ from zkit.zitertools import lineiter
 from zkit.pinyin import pinyin_list_by_str
 
 REDIS_ZSET_CID = '%s`'
-REDIS_TRIE = 'RED_TRIE:%s'
-REDIS_ID2NAME = 'RED_ID2NAME%s'
-REDIS_CACHE = 'RED_TAGCACHE%s'
+REDIS_TRIE = 'ACTrie:%s'
+REDIS_ID2NAME = 'ACId2Name:%s'
+REDIS_CACHE = 'ACCache:%s'
 
 
 __metaclass__ = type
