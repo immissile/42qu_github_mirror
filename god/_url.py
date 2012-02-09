@@ -18,3 +18,4 @@ import com
 import tag
 import zsite_book
 import import_feed
+import pic_wall

@@ -1,0 +1,69 @@
+<%inherit file="/god/_base.htm" />
+<%!
+from hashlib import md5
+from zkit.upyun import  upyun_rsspic
+%>
+<%def name="htm_head()">
+<style>
+a.eventcat {
+    color:#999;
+    margin:8px 16px;
+}
+li{
+display:inline-block;
+}
+.oper{
+margin:0 10px;
+}
+</style>
+</%def>
+
+<ul>
+% for i in li:
+<%
+file_key = md5(i.url+"thumb").hexdigest()+".jpg"
+src =  upyun_rsspic.get_file_url(file_key)
+%>
+<li id="check${i.id}">
+<div>
+<a href="${i.url}">
+    <img src="${src}"/>
+</a>
+</div>
+<div class="oper">
+##<a href="/allow/${i.id}">OK</a>
+##<a href="/disallow/${i.id}" class="R">Del</a>
+<a href="#" class="delbtn" rel="${i.id}">Del</a>
+</div>
+</li>
+% endfor
+</ul>
+
+<button>OK</button>
+</form>
+
+<script type="text/javascript">
+    yes_list = [ ${','.join([str(i.id) for i in li])} ];
+    no_list=[];
+    $(function(){
+            $(".delbtn").click(function(){
+                yes_list.pop(this.rel);
+                no_list.push(this.rel);
+                $("#check"+this.rel).remove();
+                });
+
+            $("button").click(function(){
+                $.postJSON('/allowpics',
+                    {
+                    "yes":yes_list.join(),
+                    "no":no_list.join()
+                    },
+                    function(r){
+                    location.reload(true);
+                    }
+                    );
+                })
+            });
+</script>
+
+${page|n}

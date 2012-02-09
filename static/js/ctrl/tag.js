@@ -61,6 +61,17 @@ function render_note(data){
         }
     }
 
+    function change_txt(){
+        self = $(".fav_txt")
+        if(self.hasClass('isfaved')){
+            self.html("关注");
+            self.removeClass('isfaved');
+        }else{
+            self.html("遗忘");
+            self.addClass('isfaved');
+        }
+    }
+
     $('.readx').live('click',readx)
     $(".fav_txt").click(
             function(e){

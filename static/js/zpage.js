@@ -255,7 +255,7 @@ fcm = function (id,count){
         var self = $('#fdtxt'+id), fcml='<div class="fcml" id="fcml_'+id+'"></div>', self_parent=self.parent(), fcmload=$('<div class="fcmload"/>');
         self_parent.find('.fdbar').before('<div id="fcmpop_'+id+'" class="fcmpop"><div class="fcmtxt"><textarea class="txta" id="txt_'+id+'"></textarea></div><div class="fcmbtn"><a href="/'+id+'" target="_blank" class="fcm2">链接</a><span class="btnw"><button onclick="fcmcbtn('+id+')">回复</button></span></div></div>')
         var self_a = self_parent.find($(".fcma")).hide(),fcmtxt=self_parent.find('.fcmtxt');
-        self_a.replaceWith('<a id="fcmx_'+id+'" href="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
+        self_a.replaceWith('<a id="fcmx_'+id+'" onclick="javascript:fcmc('+id+','+count+');void(0)">收起</a>')
         if(count){
             fcmtxt.before(fcmload)
             $.postJSON(

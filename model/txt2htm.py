@@ -87,7 +87,7 @@ def replace_bold(match):
 def txt_withlink(s):
     if type(s) is unicode:
         s = str(s)
-    s = '\r'.join(map(str.rstrip, s.replace('\r\n', '\r').replace('\n', '\r').split('\r')))
+    #s = '\r'.join(map(str.rstrip, s.replace('\r\n', '\r').replace('\n', '\r').split('\r')))
     s = escape(s)
     replace_code = ReplaceCode()
     s = txt_map('\r{{{', '\r}}}\r', '\r%s\r'%s, replace_code).strip()
@@ -96,6 +96,7 @@ def txt_withlink(s):
     s = replace_link_img(s)
 
     s = RE_AT.sub(replace_at, s)
+    s = RE_IMG.sub(replace_img, s)
     s = replace_code.loads(s)
 
     return s
@@ -115,6 +116,7 @@ def txt2htm_withlink(s):
     s = s.replace('\n', '\n<br>')
     s = replace_link_img(s)
     s = RE_SPACE.sub(replace_space, s)
+    s = RE_IMG.sub(replace_img, s)
     return s
 
 def replace_at(match):
@@ -150,7 +152,15 @@ http://img3.douban.com/lpic/s7044274.jpg
 #    return '%s@<a target="_blank" href="//%s.%s">%s</a>' % (prefix, url, SITE_DOMAIN, name)
 #
 #}}}""")
-
+    print txt_withlink(r'''
+支付宝推荐
+交通罚款代办全新上线！全国交通违章罚单免费查询。
+出账单：全民年度账单发布，年度大盘点，《2011，我们一起走过》
+更多帮助 | 去问吧找答案
+图:http://img3.douban.com/lpic/s7044274.jpg  图:http://img3.douban.com/lpic/s704427411.jpg 
+图:http://img3.douban.com/lpic/s7044274.jpg 
+http://img3.douban.com/lpic/s7044274.jpg
+    ''')
     print txt_withlink(r'''                                                        
 支付宝推荐
 图:http://img3.douban.com/lpic/s7044274.jpg  图:http://img3.douban.com/lpic/s704427411.jpg 
