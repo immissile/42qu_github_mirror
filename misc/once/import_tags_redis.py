@@ -7,23 +7,33 @@ from model.auto_tag import auto_complete_tag
 from zweb.orm import ormiter
 from model.cid import CID_TAG
 from model._db import redis
-from import_tags import TMP_REDIS
-from model.zsite_fav import zsite_fav_count_by_zsite  
+from model.zsite_fav import zsite_fav_count_by_zsite
+from os import path
+from yajl import loads
+from model.po_by_tag import  tag_by_name
+from zkit.bot_txt import txt_map
+
+CURRNET_PATH = path.dirname(path.abspath(__file__))
+TMP_REDIS = 'tmp_import_redis'
+import re
+
+RE_X = re.compile('#.+?#')
 
 if __name__ == '__main__':
-    for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
-        print i.id, i.name
-        #tag_tag.set(i.name,i.id)
-        rank = redis.hget(TMP_REDIS,i.name)
-        auto_complete_tag.append(i.name, i.id,rank)
+    Zsite.where('cid=%s',CID_TAG).delete()
 
-    for id,name_rank in redis.hgetall(auto_complete_tag.ID2NAME).iteritems():
-        zsite = Zsite.mc_get(id) 
-        if zsite:
-            score =  zsite_fav_count_by_zsite(zsite)
-            name = name_rank.rsplit('`',1)[0]
-            redis.set(auto_complete_tag.ID2NAME,id,'name`%s'%score)
-        
+    with open(path.join(CURRNET_PATH,'tag_score.js')) as d:
+        score_dict = loads(d.read())
+        name_id = {}
 
+        for name , rank in score_dict.iteritems():
+            name = RE_X.sub('', name)
+            print name    
+            id =  tag_by_name(name).id
+            auto_complete_tag.append(name, id, rank)
+            name_id[name] = id
+            print name, rank, "rank"
 
-
+        for name , id in name_id.iteritems():
+            redis.hset(auto_complete_tag.ID2NAME, id, '%s`%s'%(name, 0))
+            print name, rank, "id"
