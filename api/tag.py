@@ -12,6 +12,6 @@ class TagGet(Base):
 
     def post(self):
         name = self.get_argument('q',None)
-        self.finish(dumps(auto_complete_tag.id_name_list_by_name_list(name)))
+        self.finish(dumps((int(i[0]),int(i[1]),i[2]) for i in auto_complete_tag.id_name_list_by_name_list(name)))
 
     get = post
