@@ -21,9 +21,9 @@ var DEFAULT_SETTINGS = {
     jsonContainer: null,
 
 	// Display settings
-    hintText: "Type in a search term",
-    noResultsText: "No results",
-    searchingText: "Searching...",
+    hintText: "搜索标签",
+    noResultsText: "无结果",
+    searchingText: "搜索中...",
     deleteText: "",
     animateDropdown: true,
 
@@ -786,7 +786,6 @@ $.TokenList = function (input, url_or_data, settings) {
                 if(settings.crossDomain) {
                     ajax_params.dataType = "jsonp";
                 }
-
                 // Attach the success callback
                 ajax_params.success = function(results) {
                   if($.isFunction(settings.onResult)) {
