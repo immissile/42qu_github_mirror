@@ -80,7 +80,6 @@ class TagSet(object):
 
         key = '-'.join(name_list)
         result_list = self._get_cache(key)
-        result_list = None
 
         if result_list is None:
             result_list = reduce(

@@ -32,14 +32,21 @@ class AutoComplete:
         return redis.smembers(key)
 
     def _id_rank_by_prefix_from_trie(self, prefix):
-        return self._id_name_by_id_list(self._trie_key_iter(prefix))
+        result = []
+        id_list = self.id_list_by_key(prefix)
+        for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
+            rank = name_rank.rsplit('`', 1)[1]
+            result.append((id, rank))
+
+        return result
 
     def _id_name_by_id_list(self, id_list):
         result = []
 
-        for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
-            name, rank = name_rank.rsplit('`', 1)
-            result.append((id, rank, name))
+        if id_list:
+            for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
+                name, rank = name_rank.rsplit('`', 1)
+                result.append((id, rank, name))
 
         return result
 
@@ -91,7 +98,6 @@ class AutoComplete:
 
                         olist = self._id_rank_by_prefix_from_trie(sub_str)
                         olist.append((id, rank))
-                        print olist
 
                         p = redis.pipeline()
                         p.zadd(key, *lineiter(olist))
@@ -140,10 +146,10 @@ class AutoComplete:
         elif redis.zrank(self.TRIE, key) is not None:
             id_list = self._trie_name_id_iter(key)
 
-        print key, id_list
         return id_list
 
     def id_name_list_by_key(self, key):
+        key = key.lower()
         id_list = self.id_list_by_key(key)
         return  self._id_name_by_id_list(id_list)
 
@@ -152,8 +158,8 @@ class AutoComplete:
         name_list.sort()
 
         key = '-'.join(name_list)
-        #result_list = self._get_cache(key)
-        result_list = None
+        result_list = self._get_cache(key)
+        #result_list = None
 
         if result_list is None:
             result_list = reduce(
@@ -164,22 +170,29 @@ class AutoComplete:
                     )
                 )
             )
-            #self._set_cache(key, result_list)
+            self._set_cache(key, result_list)
 
         return result_list
 
     def id_name_list_by_name_list(self, name_list_str):
         return self._id_name_by_id_list(self.tag_by_name_list(name_list_str))
 
+
+auto_complete_tag = AutoComplete('tag')
+
 if __name__ == '__main__':
     pass
-    auto_complete_tag = AutoComplete('tag')
-    auto_complete_tag.append('Facebook/F8', 76514)
-    auto_complete_tag.append('flask', 76515)
-    #for i in auto_complete_tag.id_name_list_by_key("F"):
+    #auto_complete_tag = AutoComplete('tag')
+    #auto_complete_tag.append('Facebook/F8', 76514)
+    #auto_complete_tag.append('flask', 76515)
+    #for i in auto_complete_tag.id_name_list_by_key("f"):
     #    print i
-    ##print "=+++"
+    #print "=+++"
 
-    #for i in auto_complete_tag.id_name_list_by_name_list("f f8"):
-    #    print i
+    #printb auto_complete_tag.id_name_list_by_name_list("f f8")
 
+    from timeit import timeit
+    def f():
+        auto_complete_tag.id_name_list_by_name_list('t')
+
+    print timeit(f,number=10000)/10000

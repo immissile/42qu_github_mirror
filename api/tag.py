@@ -3,7 +3,7 @@
 
 from _handler import Base, LoginBase, XsrfGetBase
 from _urlmap import urlmap
-from model.auto_tag import TagSet,tag_tag
+from model.auto_tag import auto_complete_tag
 from yajl import dumps
 
 
@@ -12,7 +12,7 @@ from yajl import dumps
 class TagGet(Base):
     def handle_tag(self,name):
         if name:
-            self.finish(dumps(tag_tag.tag_by_name_list(name)))
+            self.finish(dumps(auto_complete_tag.id_name_list_by_name_list(name)))
 
     def post(self):
         name = self.get_argument('name',None)
