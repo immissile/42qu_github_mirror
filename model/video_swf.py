@@ -73,7 +73,7 @@ def video_autoplay_link(url , link_dict=VIDEO_CID2LINK):
 
 def video_link_by_cid_uri(cid, uri, link_dict=VIDEO_CID2LINK):
     if cid == VIDEO_CID_SINA:
-        uri = tuple(uri).split('-')
+        uri = tuple(uri.split('-'))
     return link_dict[cid]%uri
 
 if __name__ == '__main__':
