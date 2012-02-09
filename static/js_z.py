@@ -14,4 +14,5 @@ JS = [
 'po.js',
 'ctrl/at.js',
 'ctrl/com/isotope.js',
+'jquery.tokeninput.js'
 ]
