@@ -1,5 +1,5 @@
 #coding:utf-8
-from _db import redis , McCache
+from _db import McCache
 from zkit.zitertools import lineiter
 from zkit.algorithm.wrandom import limit_by_rank
 from time import time
@@ -311,6 +311,8 @@ def rec_rm(po_id, cid):
     redis.zrem(REDIS_REC_CID%cid, po_id)
 
 def po_json_by_rec_read(user_id, limit=8):
+    return []
+
     id_list = rec_read_lastest(user_id, limit)
     return po_json(user_id , id_list, 47)
 
@@ -319,7 +321,6 @@ def rec_cid_count(cid):
 
 if __name__ == '__main__':
     pass
-
     
 
     user_id = 10000000
@@ -334,7 +335,7 @@ if __name__ == '__main__':
     #        po.save()
 
     #from model.po import Po
-    mc_rec_lock.delete(user_id)
+    #mc_rec_lock.delete(user_id)
     #rec_read_empty(user_id)
 
     #rec_cid_push(2, 3)
