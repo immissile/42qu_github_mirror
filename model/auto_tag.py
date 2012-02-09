@@ -103,7 +103,7 @@ class AutoComplete:
                         id_list = self._trie_name_id_list(sub_str)
                         olist = [x[:2] for x in self._id_rank_name_by_id_list(id_list)]
                         olist.append((id, rank))
-                        print olist
+                        #print olist
 
                         p = redis.pipeline()
                         p.zadd(key, *lineiter(olist))
@@ -166,7 +166,6 @@ class AutoComplete:
 
         name_key = '`'.join(name_list)
         id_list = self._get_cache(name_key)
-        id_list = None #TODO
 
         ZSET_CID = self.ZSET_CID
         TRIE = self.TRIE
@@ -216,11 +215,7 @@ class AutoComplete:
 
         return id_list
 
-        #result_list = None
 
-#        if result_list is None:
-
-        return result_list
 
     def id_rank_name_list_by_str(self, query):
         return self._id_rank_name_by_id_list(self.id_list_by_str(query))
@@ -237,7 +232,7 @@ if __name__ == '__main__':
     #print "=+++"
 
     print auto_complete_tag.id_rank_name_list_by_str('f')
-    #print auto_complete_tag.id_rank_name_list_by_str('f f8')
+    print auto_complete_tag.id_rank_name_list_by_str('f f8')
 
     #from timeit import timeit
     #def f():
