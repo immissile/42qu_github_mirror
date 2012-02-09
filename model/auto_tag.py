@@ -25,7 +25,7 @@ class AutoComplete:
     def _set_cache(self, key, id_list):
         key = self.CACHE%key
         result = array('I')
-        result.fromlist(list(map(int,id_list)))
+        result.fromlist(list(map(int, id_list)))
         redis.setex(
             key, result.tostring(), EXPIRE
         )
@@ -43,8 +43,7 @@ class AutoComplete:
 
     def _id_rank_name_by_id_list(self, id_list):
         result = []
-        
-        #print id_list, "id_list"
+
         if id_list:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
@@ -55,6 +54,9 @@ class AutoComplete:
     def append(self, name, id , rank=1):
         name = name.decode('utf-8', 'ignore')
         ID2NAME = self.ID2NAME
+
+        if rank is None:
+            rank = 0
 
         value = redis.hget(ID2NAME, id)
         if value:
@@ -98,9 +100,10 @@ class AutoComplete:
                     start = redis.zrank(TRIE, sub_str)
                     if start is not None: #已经存在, 删除
 
-                        id_list = self._trie_name_id_list(key)
+                        id_list = self._trie_name_id_list(sub_str)
                         olist = [x[:2] for x in self._id_rank_name_by_id_list(id_list)]
                         olist.append((id, rank))
+                        print olist
 
                         p = redis.pipeline()
                         p.zadd(key, *lineiter(olist))
@@ -166,14 +169,13 @@ class AutoComplete:
         id_list = None #TODO
 
         ZSET_CID = self.ZSET_CID
-        TRIE = self.TRIE 
+        TRIE = self.TRIE
 
         if id_list is None:
             key_list = []
             result = []
             for key in name_list:
                 cid_key = ZSET_CID%key
-
                 if redis.exists(cid_key):
                     key_list.append(key)
                 elif redis.zrank(TRIE, key) is not None:
@@ -189,6 +191,8 @@ class AutoComplete:
                             set, result
                         )
                     )
+                elif result:
+                    result = result[0]
                 if result:
                     if key_list:
                         mkey = self._key_list_inter(key_list)
@@ -207,7 +211,7 @@ class AutoComplete:
                         id_list = result
                 else:
                     id_list = []
-            
+
             self._set_cache(name_key, id_list)
 
         return id_list
@@ -233,7 +237,7 @@ if __name__ == '__main__':
     #print "=+++"
 
     print auto_complete_tag.id_rank_name_list_by_str('f')
-    print auto_complete_tag.id_rank_name_list_by_str('f f8')
+    #print auto_complete_tag.id_rank_name_list_by_str('f f8')
 
     #from timeit import timeit
     #def f():

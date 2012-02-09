@@ -11,6 +11,8 @@ from import_tags import TMP_REDIS
 from model.zsite_fav import zsite_fav_count_by_zsite
 
 if __name__ == '__main__':
+    import import_tags
+    import_tags.main()
     for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
         print i.id, i.name
         #tag_tag.set(i.name,i.id)
