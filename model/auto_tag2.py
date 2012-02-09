@@ -136,6 +136,7 @@ class TagSet(object):
             return result.split('`')
 
     def _trie_key_iter(self, prefix):
+        pass
  
 
     def _trie_name_id_iter(self, prefix):
