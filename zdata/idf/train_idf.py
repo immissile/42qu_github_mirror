@@ -2,9 +2,11 @@
 import _env
 from df import Df
 from config import ZDATA_PATH
-from os.path import join,exists
+from os.path import join, exists
 from glob import glob
 from idf import idf_dumps
+from zkit.tofromfile import tofile, fromfile
+from os import makedirs
 
 ZDATA_PATH_TRAIN_IDF = join(ZDATA_PATH, "train/df")
 
@@ -24,7 +26,15 @@ def main():
     for i in glob(join(ZDATA_PATH_TRAIN_IDF, "wanfang", "Periodical_*")):
         merge(i)
 
-    idf_dumps(join(ZDATA_PATH,"idf"), df._count, df._df)
+    PATH = join(ZDATA_PATH, "data")
+    if not exists(PATH):
+        makedirs(PATH)
+
+    tofile(
+        join(PATH, "idf"),
+        idf_dumps(df._count, df._df),
+    )
+
 
 if __name__ == "__main__":
     main()
