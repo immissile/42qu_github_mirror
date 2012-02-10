@@ -94,7 +94,7 @@ class AutoComplete:
             if not redis.exists(mkey):
                 p = redis.pipeline()
                 p.zinterstore(mkey, map(ZSET_CID.__mod__, name_list), 'MAX')
-                p.expire(mkey, EXPIRE*7)
+                p.expire(mkey, EXPIRE)
                 p.execute()
 
             id_list = redis.zrevrange(mkey, 0, limit)
