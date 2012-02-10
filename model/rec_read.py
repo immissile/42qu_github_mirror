@@ -2,14 +2,45 @@
 from _db import McCache
 from time import time
 from model.po_json import po_json
+from model.days import time_new_offset
+
+REDIS_REC_LOG = 'Rec:%s'
+
+def rec_read(user_id, limit):
+    now = time_new_offset()
+
+    if limit < 0:
+        limit = 0
+
+    t = []
+    count = 0
+    offset = 0
+
+    while count < limit:
+        continue
+        #推荐一个 
+        t.append(i)
+        t.append(now+offset)
+
+        offset += 0.01
+        count += 1
+
+    if count:
+        key_log = REDIS_REC_LOG%user_id
+        redis.zadd(key_log, *t)
+
+def rec_read_log_by_user_id(user_id, limit, offset):
+    key = REDIS_REC_LOG%user_id
+    return  redis.zrevrange(key, offset, offset+limit-1)
 
 
-
-
-def po_json_by_rec_read(user_id, limit=8):
+def rec_read_more(user_id, limit):
+    if rec_read(user_id, limit):
+        return rec_read_log_by_user_id(user_id, limit)
     return []
 
-    id_list = rec_read_lastest(user_id, limit)
+def po_json_by_rec_read(user_id, limit=8):
+    id_list = rec_read_more(user_id, limit)
     return po_json(user_id , id_list, 47)
 
 if __name__ == '__main__':
