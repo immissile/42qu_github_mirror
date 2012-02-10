@@ -74,4 +74,4 @@ if __name__=='__main__':
     from kyotocabinet import DB
     db = DB()
     db.open('/mnt/zdata/kyoto/kyoto.kch', DB.OREADER)
-    print db.get(916100)
+    print db.get(15439)
