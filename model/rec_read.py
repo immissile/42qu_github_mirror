@@ -8,6 +8,7 @@ from zkit.zitertools import lineiter, chunkiter
 from array import array
 from model.zsite_list import zsite_list, ZsiteList
 from model.cid import CID_TAG
+from math import log
 
 __metaclass__ = type
 
@@ -30,8 +31,8 @@ def tag_rank_by_user_id(user_id):
 REDIS_REC_LOG = 'Rec-%s'
 REDIS_REC_USER_TOPIC = 'Rec@%s'
 REC_TOPIC_DEFAULT = tag_rank_by_user_id(0) #TODO
+REC_TOPIC_DEFAULT = [(i[0], 1 ) for i in REC_TOPIC_DEFAULT]
 REC_TOPIC_DEFAULT_DUMPS = dumps_id_rank(REC_TOPIC_DEFAULT)
-
 
 def rec_read_new(po_id, tag_id_list):
     pass
