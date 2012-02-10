@@ -1,5 +1,5 @@
 #coding:utf-8
-from _db import  McModel, McLimitA, McNum, McCacheA
+from _db import  McModel, Model, McLimitA, McNum, McCacheA
 from model.po_json import po_json, Po
 from po import Po
 from cid import CID_NOTE, CID_TAG, CID_USER
@@ -103,7 +103,7 @@ def _tag_rm_by_user_id_id_list(user_id, id_list):
 @mc_tag_id_list_by_po_id("{po_id}")
 def tag_id_list_by_po_id(po_id):
     zsite_id_list = PoZsiteTag.where(po_id=po_id).col_list(col='zsite_id')
-    return zsite_id_list(po_id) 
+    return zsite_id_list
 
 def mc_flush_by_po_id(po_id):
     mc_tag_id_list_by_po_id.delete(po_id)
