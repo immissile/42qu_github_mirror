@@ -24,19 +24,9 @@ class Idf(object):
         self._count = 0
 
     def append(self, txt):
-        for i in set(txt2word):
+        for i in set(txt2word(txt)):
             self._idf[i] += 1
         self._count += 1
-
-    def dumps(self):
-        result = {}
-        count = float(self._count)
-        for k, v in self._idf.iteritems():
-            rank = count/v
-            if rank > 1000000: # idf训练中, 低于1/100w的的词直接去掉..
-                continue
-            result[k] = log(rank)
-        return result
 
     def tofile(self, f):
         tofile(
@@ -46,16 +36,26 @@ class Idf(object):
     def fromfile(self, f):
         self._count , self._idf = fromfile(f)
 
+    #def dumps(self):
+    #    result = {}
+    #    count = float(self._count)
+    #    for k, v in self._idf.iteritems():
+    #        rank = count/v
+    #        if rank > 1000000: # idf训练中, 低于1/100w的的词直接去掉..
+    #            continue
+    #        result[k] = log(rank)
+    #    return result
 
-    def tf_idf(self, txt):
-        tf = defaultdict(int)
-        for i in txt2word(txt):
-            tf[i] += 1
-        result = []
-        for k, v in tf.iteritems():
-            if k in self._idf:
-                result.append((k, v*self._idf[k]))
-        return result
+
+    #def tf_idf(self, txt):
+    #    tf = defaultdict(int)
+    #    for i in txt2word(txt):
+    #        tf[i] += 1
+    #    result = []
+    #    for k, v in tf.iteritems():
+    #        if k in self._idf:
+    #            result.append((k, v*self._idf[k]))
+    #    return result
 
 
 

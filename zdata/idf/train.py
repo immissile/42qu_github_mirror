@@ -3,8 +3,7 @@
 
 import _env
 import os
-from tfidf.idf import Idf
-from tfidf.config import DATA_DIR
+from idf import Idf
 from zkit.txt_cleanup import line_iter
 
 def tf_idf_by_zhihu():
