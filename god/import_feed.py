@@ -4,7 +4,7 @@
 from _handler import Base
 from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
-from model.feed_import import FeedImport, feed_next, review_feed , feed_import_rm, po_tag_new
+from model.feed_import import FeedImport, feed_next, feed_review , feed_import_rm, po_tag_new
 from model.douban import is_rt_by_title 
 from model.po_by_tag import tag_list_by_po_id
 from zkit.page import page_limit_offset
@@ -45,7 +45,7 @@ class FeedImportShow(Base):
         tags = self.get_argument('tags', '')
 
         current_user_id = self.current_user_id
-        review_feed(id,  title, txt, tags,current_user_id, author_rm, sync)
+        feed_review(id,  title, txt, tags,current_user_id, author_rm, sync)
 
         self.get()
 

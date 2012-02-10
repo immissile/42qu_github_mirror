@@ -10,7 +10,7 @@ from kv import Kv
 from url_short import url_short_id
 from site_sync import site_sync_new
 from rec_read import  rec_read_new
-from po_by_tag import zsite_tag_po_new_by_name, tag_po_rm_by_po_id, po_tag_id_list_new
+from po_by_tag import zsite_tag_po_new_by_name, tag_po_rm_by_po_id, po_id_tag_id_list_new
 from part_time_job import part_time_job_new
 from config.privilege import PRIVILEGE_FEED_IMPORT
 
@@ -127,9 +127,9 @@ def feed2po_new():
             feed.state = FEED_IMPORT_STATE_POED
             feed.save()
 
-            po_tag_id_list_new(po, tag_id_list)
+            po_id_tag_id_list_new(po_id, feed.tag_id_list.split())
 
-def review_feed(id,  title, txt, tag_id_list, current_user_id, author_rm=False, sync=False):
+def feed_review(id,  title, txt, tag_id_list, current_user_id, author_rm=False, sync=False):
     feed = FeedImport.get(id)
     if feed and feed.state==FEED_IMPORT_STATE_INIT :
         if author_rm:
