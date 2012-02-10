@@ -20,8 +20,8 @@ def loads_id_rank(id_rank):
     return list(chunkiter(r, 2))
 
 
-REDIS_REC_LOG = 'Rec:%s'
-REDIS_REC_USER_TOPIC = 'Rec>%s'
+REDIS_REC_LOG = 'Rec-%s'
+REDIS_REC_USER_TOPIC = 'Rec@%s'
 REC_TOPIC_DEFAULT = [] #TODO
 REC_TOPIC_DEFAULT_DUMPS = dumps_id_rank(REC_TOPIC_DEFAULT)
 
