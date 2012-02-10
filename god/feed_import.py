@@ -4,7 +4,7 @@
 from _handler import Base
 from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
-from model.feed_import import FeedImport, feed_next, feed_review , feed_import_rm, po_tag_new
+from model.feed_import import FeedImport, feed_next, feed_review , feed_import_rm, po_tag_new_by_autocompelte
 from model.douban import is_rt_by_title 
 from model.po_by_tag import tag_list_by_po_id
 from zkit.page import page_limit_offset
@@ -81,7 +81,7 @@ class FeedImportEdit(Base):
         sync = self.get_argument('sync', None)
         author_rm = self.get_argument('author_rm', None)
         cid = self.get_argument('cid', None)
-        tags = self.get_argument('tags', '')
+        tag_list = self.get_argument('tags', '')
 
         po = Po.mc_get(id)
         if po:
@@ -96,7 +96,7 @@ class FeedImportEdit(Base):
                 rec_cid_mv(po.id, old_cid, int(cid))
 
             po.save()
-            po_tag_new(tags, po)
+            po_tag_new_by_autocompelte(po, tag_list)
 
         self.redirect('/feed_import/list/%s'%old_cid)
 

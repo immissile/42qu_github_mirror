@@ -10,7 +10,7 @@ from model._db import redis
 from model.zsite_fav import zsite_fav_count_by_zsite
 from os import path
 from yajl import loads
-from model.po_by_tag import  tag_by_name
+from model.po_by_tag import  tag_by_str
 from zkit.bot_txt import txt_map
 
 CURRNET_PATH = path.dirname(path.abspath(__file__))
@@ -29,7 +29,7 @@ if __name__ == '__main__':
         for name , rank in score_dict.iteritems():
             name = RE_X.sub('', name)
             print name    
-            id =  tag_by_name(name).id
+            id =  tag_by_str(name).id
             autocomplete_tag.append(name, id, rank)
             name_id[name] = id
             print name, rank, "rank"

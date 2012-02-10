@@ -10,7 +10,7 @@ from model._db import redis
 from model.zsite_fav import zsite_fav_count_by_zsite
 from os import path
 from yajl import loads
-from model.po_by_tag import  tag_by_name
+from model.po_by_tag import  tag_by_str
 from zkit.bot_txt import txt_map
 from model.zsite import zsite_new, ZSITE_STATE_ACTIVE
 from model.zsite_list import zsite_list_new, ZsiteList

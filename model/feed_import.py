@@ -10,7 +10,7 @@ from kv import Kv
 from url_short import url_short_id
 from site_sync import site_sync_new
 from rec_read import  rec_read_new
-from po_by_tag import zsite_tag_po_new_by_name, tag_rm_by_po_id, po_tag_id_list_new
+from po_by_tag import zsite_tag_po_new_by_name, po_tag_id_list_new
 from part_time_job import part_time_job_new
 from config.privilege import PRIVILEGE_FEED_IMPORT
 

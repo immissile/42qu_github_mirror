@@ -57,7 +57,7 @@ def mc_flush_by_zsite_id(zsite_id):
 def zsite_author_list(zsite_id):
     return Zsite.mc_get_list(zsite_id_list(zsite_id, CID_TAG))
 
-def tag_by_name(name):
+def tag_by_str(name):
     found = Zsite.get(name=name, cid=CID_TAG)
     if not found:
         found = zsite_new(name, CID_TAG)
@@ -79,7 +79,7 @@ def tag_author_list(zsite_id):
 
 def zsite_tag_po_new_by_name(tag_name, po, rank):
     tag_name = tag_name.strip()
-    tag = tag_by_name(tag_name)
+    tag = tag_by_str(tag_name)
     return zsite_tag_po_new(tag.id, po, rank)
 
 def tag_rm_by_po(po):
@@ -111,6 +111,14 @@ def mc_flush_by_po_id(po_id):
 def tag_list_by_po_id(po_id):
     zsite_id_list = tag_id_list_by_po_id(po_id)
     return Zsite.mc_get_list(zsite_id_list)
+
+def po_tag_new_by_autocompelte(po, tag_list):
+    tag_id_list = []
+    for i in tag_id_list:
+        if i.startswith("-"):
+            i = i[1:]
+        else:
+            tag_id_list.append(i)
 
 def po_tag_id_list_new(po, tag_id_list):
     new_tag_id_list = set(map(int, tag_id_list))

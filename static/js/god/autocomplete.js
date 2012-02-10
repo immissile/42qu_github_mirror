@@ -22,6 +22,6 @@ $(function(){
         auto_height();
     });
     auto_height();
-    autocomplete_tag("#tags", JSON.parse(data.tags)
+    autocomplete_tag("#tags", JSON.parse(data.tags))
 });
 
