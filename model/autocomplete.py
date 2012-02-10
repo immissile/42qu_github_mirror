@@ -30,11 +30,11 @@ class AutoComplete:
     def _get_cache(self, key):
         key = self.CACHE%key
         r = redis.get(key)
-        if r:
+        if r is not None:
             t = array('I')
             t.fromstring(r)
         else:
-            t = []
+            t = None
         return t
 
 
@@ -84,7 +84,6 @@ class AutoComplete:
         id_list = self._get_cache(name_key)
 
         #id_list = None #TODO REMOVE
-
         ZSET_CID = self.ZSET_CID
 
         if id_list is None:
@@ -106,7 +105,6 @@ class AutoComplete:
     def id_rank_name_list_by_str(self, query):
         result = []
         id_list = self.id_list_by_str(query)
-
         if id_list:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
@@ -126,7 +124,7 @@ if __name__ == '__main__':
     #print "=+++"
 
     from zkit.pprint import pprint
-    pprint( autocomplete_tag.id_rank_name_list_by_str('我爱') )
+    pprint( autocomplete_tag.id_rank_name_list_by_str('x') )
     #print autocomplete_tag.id_rank_name_list_by_str('f f8')
 
     #from timeit import timeit
