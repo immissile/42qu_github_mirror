@@ -4,15 +4,15 @@
 from _handler import Base
 from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
-from model.import_feed import ImportFeed, feed_next, review_feed , import_feed_rm, po_tag_new
+from model.feed_import import FeedImport, feed_next, review_feed , feed_import_rm, po_tag_new
 from model.douban import is_rt_by_title 
 from model.po_by_tag import tag_list_by_po_id
 from zkit.page import page_limit_offset
 from model.po import Po, po_rm
 from yajl import dumps
 
-@urlmap('/import_feed')
-class ImportFeed(Base):
+@urlmap('/feed_import')
+class FeedImport(Base):
     def get(self):
         self.render()
 
@@ -31,8 +31,8 @@ def _get(self):
         }
         self.finish(dumps(result))
 
-@urlmap('/import_feed/next')
-class ImportFeedShow(Base):
+@urlmap('/feed_import/next')
+class FeedImportShow(Base):
     get = _get
 
     def post(self):
@@ -49,19 +49,19 @@ class ImportFeedShow(Base):
 
         self.get()
 
-@urlmap('/import_feed/rm')
-class ImportFeedRm(Base):
+@urlmap('/feed_import/rm')
+class FeedImportRm(Base):
     def post(self):
         id = self.get_argument('id', None)
         current_user_id = self.current_user_id
 
-        import_feed_rm(id, current_user_id)
+        feed_import_rm(id, current_user_id)
         _get(self)
 
 
-@urlmap('/import_feed/edit/(\d+)')
-@urlmap('/import_feed/(\d+)/edit/(\d+)')
-class ImportFeedEdit(Base):
+@urlmap('/feed_import/edit/(\d+)')
+@urlmap('/feed_import/(\d+)/edit/(\d+)')
+class FeedImportEdit(Base):
     def get(self, cid=0, id=0):
         id = int(id)
         cid = int(cid)
@@ -71,7 +71,7 @@ class ImportFeedEdit(Base):
                 tags = tag_list_by_po_id(po.id)
                 self.render(po=po, cid=cid, tags=tags)
         else:
-            self.redirect('/import_feed/list/1')
+            self.redirect('/feed_import/list/1')
 
     def post(self, old_cid=0):
         old_cid = int(old_cid)
@@ -98,6 +98,6 @@ class ImportFeedEdit(Base):
             po.save()
             po_tag_new(tags, po)
 
-        self.redirect('/import_feed/list/%s'%old_cid)
+        self.redirect('/feed_import/list/%s'%old_cid)
 
             

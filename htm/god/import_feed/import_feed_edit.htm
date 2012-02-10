@@ -2,7 +2,7 @@
 <%!
 from yajl import dumps
 from cgi import escape
-from model.import_feed import ImportFeed, IMPORT_FEED_STATE_INIT
+from model.feed_import import FeedImport, IMPORT_FEED_STATE_INIT
 from model.rec_read import REDIS_REC_CID_TUPLE
 
 %>
@@ -35,7 +35,7 @@ from model.rec_read import REDIS_REC_CID_TUPLE
 </style>
 </%def>
 
-<form id="editform" action="/import_feed/edit/${cid}" method="POST"  >
+<form id="editform" action="/feed_import/edit/${cid}" method="POST"  >
 <label for="title">标题</label>
 <br/>
 <input id="title" name="title" type="text" value="${po.name}" />
@@ -69,7 +69,7 @@ from model.rec_read import REDIS_REC_CID_TUPLE
 </div>
     <input id="" name="id" style="display:none" value="${po.id}" type="text" />
     <input type="submit" id="okbtn" value="确认" />
-    <a href="/import_feed/${cid}/rm/${po.id}" id="nobtn"><button>删除</button></a>
+    <a href="/feed_import/${cid}/rm/${po.id}" id="nobtn"><button>删除</button></a>
 </form>
 
 <script type="text/javascript">

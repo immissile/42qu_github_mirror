@@ -34,7 +34,7 @@ IMPORT_FEED_CID_DICT = {
 class PoMeta(McModel):
     pass
 
-class ImportFeed(Model):
+class FeedImport(Model):
     pass
 
 class PoMetaUser(McModel):
@@ -54,15 +54,15 @@ def user_by_feed_id_zsite_id(feed_id, zsite_id):
         return douban_user_by_feed_id(feed_id)
 
 def feed_next():
-    return ImportFeed.where(state=IMPORT_FEED_STATE_INIT)[1]
+    return FeedImport.where(state=IMPORT_FEED_STATE_INIT)[1]
 
-def import_feed_rm(id, current_user_id):
+def feed_import_rm(id, current_user_id):
     part_time_job_new(PRIVILEGE_IMPORT_FEED, id, current_user_id)
     feed_state_set(id, IMPORT_FEED_STATE_RM)
 
 
 def feed_state_set(id, state):
-    feed = ImportFeed.get(id)
+    feed = FeedImport.get(id)
     if feed:
         feed.state = state
         feed.save()
@@ -79,7 +79,7 @@ def zsite_id_by_douban_user_id(douban_user):
 def feed2po_new():
     from zweb.orm import ormiter
     for feed in ormiter(
-            ImportFeed,
+            FeedImport,
             'state>%s and state<%s'%(
                 IMPORT_FEED_STATE_INIT,
                 IMPORT_FEED_STATE_POED
@@ -130,7 +130,7 @@ def feed2po_new():
             po_tag_new(tags, po)
 
 def review_feed(id,  title, txt, tags, current_user_id, author_rm=False, sync=False):
-    feed = ImportFeed.get(id)
+    feed = FeedImport.get(id)
     if feed and feed.state==IMPORT_FEED_STATE_INIT :
         if author_rm:
             if sync:
@@ -163,11 +163,11 @@ def po_tag_new(tags, po):
 
 if __name__ == '__main__':
     pass
-    #import_feed_by_douban_feed()
-    #print ImportFeed.where(state = IMPORT_FEED_STATE_INIT)
+    #feed_import_by_douban_feed()
+    #print FeedImport.where(state = IMPORT_FEED_STATE_INIT)
     #feed2po_new()
     from zweb.orm import ormiter
-    for i in ormiter(ImportFeed):
+    for i in ormiter(FeedImport):
         i.txt = i.txt.replace("豆友","网友").replace("豆油","私信").replace("豆邮","私信")
         i.save()
 

@@ -6,7 +6,7 @@ from config import PRIVILEGE_ADMIN, PRIVILEGE_SUPER
 from config.privilege import PRIVILEGE_IMPORT_FEED
 
 PRIVILEGE_DICT = {
-    PRIVILEGE_IMPORT_FEED:'/import_feed',
+    PRIVILEGE_IMPORT_FEED:'/feed_import',
 }
 
 PRIVILEGE_CN = {

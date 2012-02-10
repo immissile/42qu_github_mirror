@@ -120,7 +120,7 @@ DB_GOOGLE_TABLE = (
     'douban_feed_owner',
     'douban_user_to_fetch',
     'douban_fetched',
-    'import_feed',
+    'feed_import',
 )
 
 

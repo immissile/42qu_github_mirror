@@ -13,12 +13,12 @@ $(function(){
 
     $("#editwrapper").html($("#render_txt").tmpl(data));
 
-    $.getJSON('/import_feed/next',refresh_data)
+    $.getJSON('/feed_import/next',refresh_data)
 
     $("#nobtn").click(function(){
         var post_data = $("#editform").serialize();
         $("#editwrapper").html($("#render_txt").tmpl(data));
-        $.postJSON('/import_feed/rm',post_data ,refresh_data);
+        $.postJSON('/feed_import/rm',post_data ,refresh_data);
         auto_height();
     });
     auto_height();
