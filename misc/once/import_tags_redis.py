@@ -37,3 +37,5 @@ if __name__ == '__main__':
         for name , id in name_id.iteritems():
             redis.hset(auto_complete_tag.ID2NAME, id, '%s`%s'%(name, 0))
             print name, rank, "id"
+
+

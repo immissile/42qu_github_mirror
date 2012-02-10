@@ -6,6 +6,9 @@ from model.days import time_new_offset
 from zkit.algorithm.wrandom import wsample2
 from zkit.zitertools import lineiter, chunkiter
 from array import array
+from model.zsite_list import zsite_list, ZsiteList
+from model.cid import CID_TAG
+from math import log
 
 __metaclass__ = type
 
@@ -20,11 +23,16 @@ def loads_id_rank(id_rank):
     return list(chunkiter(r, 2))
 
 
+def tag_rank_by_user_id(user_id):
+    c = ZsiteList.raw_sql('select id, rank from zsite_list where cid=%s and owner_id=%s order by rank desc limit 512', CID_TAG, user_id)
+    return c.fetchall()
+
+
 REDIS_REC_LOG = 'Rec-%s'
 REDIS_REC_USER_TOPIC = 'Rec@%s'
-REC_TOPIC_DEFAULT = [] #TODO
+REC_TOPIC_DEFAULT = tag_rank_by_user_id(0) #TODO
+REC_TOPIC_DEFAULT = [(i[0], 1 ) for i in REC_TOPIC_DEFAULT]
 REC_TOPIC_DEFAULT_DUMPS = dumps_id_rank(REC_TOPIC_DEFAULT)
-
 
 def rec_read_new(po_id, tag_id_list):
     pass
@@ -50,8 +58,9 @@ class RecTopicPicker:
         self._picker_set()
 
     def delete(self, topic_id):
+        #print topic_id
         r = []
-        for i in self.topic_id_rank_list:
+        for i in self._topic_id_rank_list:
             if i[0] == topic_id:
                 continue
             r.append(i)
@@ -73,7 +82,7 @@ class RecTopicPicker:
         if _picker is None:
             return
 
-        return _picker()
+        return _picker()[0]
 
 def rec_read(user_id, limit):
     now = time_new_offset()
@@ -95,7 +104,7 @@ def rec_read(user_id, limit):
 
         po_id = rec_read_by_topic(user_id, topic_id)
         if not po_id:
-            rec_read_by_topic.delete(topic_id)
+            rec_topic_picker.delete(topic_id)
             continue
 
         t.append(po_id)
@@ -127,10 +136,10 @@ def po_json_by_rec_read(user_id, limit=8):
 if __name__ == '__main__':
     pass
 
-
-    user_id = 10000000
-    print po_json_by_rec_read(10000000)
-
+    user_id = 1000000
+    key = REDIS_REC_USER_TOPIC%user_id
+    redis.delete(key)
+    print rec_read_more(user_id, 7)
 
     #print rec_read_page(user_id, limit=7, offset=0)
     #print rec_read_count(user_id)
