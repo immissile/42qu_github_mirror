@@ -132,8 +132,10 @@ def zsite_by_query(query):
     return user_id
 
 
-def zsite_new(name, cid, state=ZSITE_STATE_APPLY):
-    zsite = Zsite(id=gid(), cid=cid, name=name, state=state)
+def zsite_new(name, cid, state=ZSITE_STATE_APPLY, id=None):
+    if id is None:
+        id = gid()
+    zsite = Zsite(id=id, cid=cid, name=name, state=state)
     zsite.save()
 #    page = Zpage(
 #        zsite_id=zsite.id,
