@@ -29,15 +29,4 @@ static/file/*
 .ropeproject/*
 *.orig
 .*.ropeproject
-misc/crontab/spider/cache/
-misc/crontab/spider/ucdchina/
-linux/zrank/
-misc/crontab/spider/cache/*
-misc/crontab/spider/yeeyan/*
-misc/crontab/spider/danxiangjie/*
-misc/crontab/spider/ucdchina/*
-misc/crontab/spider/test/*
-zkit/classification/test/*
-misc/crontab/event/yeeyan/*
 test/*
-misc/crontab/event/danxiangjie/*
