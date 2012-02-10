@@ -20,6 +20,7 @@ ul.token-input-list {
     padding: 0;
     background-color: #fff;
     list-style-type: none;
+    font-size:12px;
     clear: left;
 }
 
@@ -53,7 +54,7 @@ li.token-input-token p {
     padding:0 6px;
 }
 
-li.token-input-token span {
+li.token-input-token span b{
     color: #a6b3cf;
     margin-left: 5px;
     font-weight: bold;
