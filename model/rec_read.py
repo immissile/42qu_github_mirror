@@ -33,7 +33,6 @@ REC_TOPIC_DEFAULT = tag_rank_by_user_id(0) #TODO
 REC_TOPIC_DEFAULT_DUMPS = dumps_id_rank(REC_TOPIC_DEFAULT)
 
 
-
 def rec_read_new(po_id, tag_id_list):
     pass
 
@@ -58,6 +57,7 @@ class RecTopicPicker:
         self._picker_set()
 
     def delete(self, topic_id):
+        #print topic_id
         r = []
         for i in self._topic_id_rank_list:
             if i[0] == topic_id:
