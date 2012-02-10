@@ -23,6 +23,7 @@ def train(filename, parser):
         r = envoy.run(cmd)
         print r.std_out
         return
+
     if not exists(path):
         return
 
