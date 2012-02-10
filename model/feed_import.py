@@ -161,6 +161,6 @@ if __name__ == '__main__':
     for i in ormiter(FeedImport):
         i.txt = i.txt.replace("豆友","网友").replace("豆油","私信").replace("豆邮","私信")
         i.tag_id_list = ""
-        print i.id
+        print i.id, i.tag_id_list
         i.save()
 

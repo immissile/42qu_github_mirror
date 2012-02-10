@@ -30,7 +30,7 @@ def _get(self):
 def _dumps_feed(feed):
     if feed:
         author_rm = is_rt_by_title(feed.title)
-        tag_id_list = feed.tag_id_list.split(' ')
+        tag_id_list = filter(bool,feed.tag_id_list.split(' '))
         tag_id_list = list(
             zip(
                 [ i.name for i in Zsite.mc_get_list(tag_id_list) ], 
