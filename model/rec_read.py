@@ -23,7 +23,7 @@ def loads_id_rank(id_rank):
 
 
 def tag_rank_by_user_id(user_id):
-    c = ZsiteList.raw_sql('select id, rank from zsite_list where cid=%s and owner_id=%s order by rank desc limit 1024', CID_TAG, user_id)
+    c = ZsiteList.raw_sql('select id, rank from zsite_list where cid=%s and owner_id=%s order by rank desc limit 512', CID_TAG, user_id)
     return c.fetchall()
 
 
@@ -136,8 +136,8 @@ if __name__ == '__main__':
     pass
 
     user_id = 1000000
-    REDIS_REC_USER_TOPIC%user_id
-    redis.delete(user_id)
+    key = REDIS_REC_USER_TOPIC%user_id
+    redis.delete(key)
     print rec_read_more(user_id, 7)
 
     #print rec_read_page(user_id, limit=7, offset=0)
