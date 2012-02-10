@@ -12,6 +12,7 @@ from zkit.page import page_limit_offset
 from model.po import Po, po_rm
 from tornado.escape import json_encode 
 from yajl import dumps
+from model.zsite import Zsite
 
 @urlmap('/feed_import')
 class Index(Base):
@@ -29,11 +30,19 @@ def _get(self):
 def _dumps_feed(feed):
     if feed:
         author_rm = is_rt_by_title(feed.title)
+        tag_id_list = feed.tag_id_list.split(' ')
+        tag_id_list = list(
+            zip(
+                [ i.name for i in Zsite.mc_get_list(tag_id_list) ], 
+                tag_id_list
+            )
+        )
+
         result = {
             'id':feed.id,
             'title':feed.title,
             'txt':feed.txt,
-            'tag_id_list':[(tag,0) for tag in feed.tag_id_list.split(',')],
+            'tag_id_list':tag_id_list,
             'author_rm':author_rm,
             'url':feed.url
         }
