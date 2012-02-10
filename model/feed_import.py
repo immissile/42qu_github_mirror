@@ -12,22 +12,22 @@ from site_sync import site_sync_new
 from rec_read import  rec_read_new
 from po_by_tag import zsite_tag_po_new_by_name, tag_po_rm_by_po_id
 from part_time_job import part_time_job_new
-from config.privilege import PRIVILEGE_IMPORT_FEED
+from config.privilege import PRIVILEGE_FEED_IMPORT
 
 
-IMPORT_FEED_STATE_RM = 0
-IMPORT_FEED_STATE_INIT = 10
+FEED_IMPORT_STATE_RM = 0
+FEED_IMPORT_STATE_INIT = 10
 
-IMPORT_FEED_STATE_REVIEWED = 20
-IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR = 30
-IMPORT_FEED_STATE_REVIEWED_SYNC = 40
-IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC = 50
+FEED_IMPORT_STATE_REVIEWED = 20
+FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR = 30
+FEED_IMPORT_STATE_REVIEWED_SYNC = 40
+FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC = 50
 
-IMPORT_FEED_STATE_POED = 60 
+FEED_IMPORT_STATE_POED = 60 
 
 DOUBAN_ZSITE_ID = 10216239
 
-IMPORT_FEED_CID_DICT = {
+FEED_IMPORT_CID_DICT = {
         DOUBAN_ZSITE_ID : 1, #douban
         }
 
@@ -54,11 +54,11 @@ def user_by_feed_id_zsite_id(feed_id, zsite_id):
         return douban_user_by_feed_id(feed_id)
 
 def feed_next():
-    return FeedImport.where(state=IMPORT_FEED_STATE_INIT)[1]
+    return FeedImport.where(state=FEED_IMPORT_STATE_INIT)[1]
 
 def feed_import_rm(id, current_user_id):
-    part_time_job_new(PRIVILEGE_IMPORT_FEED, id, current_user_id)
-    feed_state_set(id, IMPORT_FEED_STATE_RM)
+    part_time_job_new(PRIVILEGE_FEED_IMPORT, id, current_user_id)
+    feed_state_set(id, FEED_IMPORT_STATE_RM)
 
 
 def feed_state_set(id, state):
@@ -81,8 +81,8 @@ def feed2po_new():
     for feed in ormiter(
             FeedImport,
             'state>%s and state<%s'%(
-                IMPORT_FEED_STATE_INIT,
-                IMPORT_FEED_STATE_POED
+                FEED_IMPORT_STATE_INIT,
+                FEED_IMPORT_STATE_POED
             )
         ):
         txt = txt_img_fetch(feed.txt)
@@ -91,7 +91,7 @@ def feed2po_new():
 
         zsite_id = feed.zsite_id
 
-        is_without_author = ((feed.state == IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC) or (feed.state == IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR))
+        is_without_author = ((feed.state == FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC) or (feed.state == FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR))
 
         if is_without_author:
             user_id = 0
@@ -121,33 +121,33 @@ def feed2po_new():
                 po.rid = record.id
                 po.save()
 
-            if feed.state >= IMPORT_FEED_STATE_REVIEWED_SYNC:
+            if feed.state >= FEED_IMPORT_STATE_REVIEWED_SYNC:
                 site_sync_new(po.id)
 
-            feed.state = IMPORT_FEED_STATE_POED
+            feed.state = FEED_IMPORT_STATE_POED
             feed.save()
 
             po_tag_new(tags, po)
 
 def review_feed(id,  title, txt, tags, current_user_id, author_rm=False, sync=False):
     feed = FeedImport.get(id)
-    if feed and feed.state==IMPORT_FEED_STATE_INIT :
+    if feed and feed.state==FEED_IMPORT_STATE_INIT :
         if author_rm:
             if sync:
-                feed.state = IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC
+                feed.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC
             else:
-                feed.state = IMPORT_FEED_STATE_REVIEWED_WITHOUT_AUTHOR
+                feed.state = FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR
         else:
             if sync:
-                feed.state = IMPORT_FEED_STATE_REVIEWED_SYNC
+                feed.state = FEED_IMPORT_STATE_REVIEWED_SYNC
             else:
-                feed.state = IMPORT_FEED_STATE_REVIEWED
+                feed.state = FEED_IMPORT_STATE_REVIEWED
 
         feed.title = title
         feed.txt = txt
         feed.tags = tags
         
-        part_time_job_new(PRIVILEGE_IMPORT_FEED, feed.id, current_user_id)
+        part_time_job_new(PRIVILEGE_FEED_IMPORT, feed.id, current_user_id)
 
         feed.save()
 
@@ -164,7 +164,7 @@ def po_tag_new(tags, po):
 if __name__ == '__main__':
     pass
     #feed_import_by_douban_feed()
-    #print FeedImport.where(state = IMPORT_FEED_STATE_INIT)
+    #print FeedImport.where(state = FEED_IMPORT_STATE_INIT)
     #feed2po_new()
     from zweb.orm import ormiter
     for i in ormiter(FeedImport):

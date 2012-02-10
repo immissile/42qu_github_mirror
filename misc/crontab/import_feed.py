@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from model.feed_import import feed2po_new, zsite_id_by_douban_user_id, FeedImport, IMPORT_FEED_STATE_INIT, DOUBAN_ZSITE_ID, IMPORT_FEED_CID_DICT
+from model.feed_import import feed2po_new, zsite_id_by_douban_user_id, FeedImport, FEED_IMPORT_STATE_INIT, DOUBAN_ZSITE_ID, FEED_IMPORT_CID_DICT
 from model.duplicate import Duplicator
 from zkit.txt import format_txt
 from config import DUMPLICATE_DB_PREFIX
@@ -26,14 +26,14 @@ def feed_import_by_douban_feed():
             i.title, i.htm, i.link, i.id, DOUBAN_ZSITE_ID
         )
 
-def feed_import_new(title, txt, url, src_id, zsite_id, tags='', state=IMPORT_FEED_STATE_INIT):
+def feed_import_new(title, txt, url, src_id, zsite_id, tags='', state=FEED_IMPORT_STATE_INIT):
     txt = format_txt(htm2txt(txt)).replace('豆友', '网友').replace('豆油', '私信').replace('豆邮', '私信')
     if not douban_duplicator.txt_is_duplicate(txt):
 
         # douban_user = DoubanUser.get(author_id)
         # user_id = zsite_id_by_douban_user_id(douban_user)
 
-        #cid = IMPORT_FEED_CID_DICT[zsite_id]
+        #cid = FEED_IMPORT_CID_DICT[zsite_id]
 
         if not tags:
             tags = '`'.join(tag_getter.get_tag(txt))

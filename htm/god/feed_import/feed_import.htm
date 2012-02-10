@@ -2,7 +2,7 @@
 <%!
 from yajl import dumps
 from cgi import escape
-from model.feed_import import FeedImport, IMPORT_FEED_STATE_INIT
+from model.feed_import import FeedImport, FEED_IMPORT_STATE_INIT
 from model.douban import is_rt_by_title
 %>
 <%def name="htm_head()">
@@ -52,7 +52,7 @@ ${css.god_auto_tag|n}
 </%def>
 
 <%
-feed = FeedImport.where(state = IMPORT_FEED_STATE_INIT)
+feed = FeedImport.where(state = FEED_IMPORT_STATE_INIT)
 result={}
 if feed:
     result['id'] = feed[0].id

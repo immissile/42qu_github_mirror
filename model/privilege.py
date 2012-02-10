@@ -3,14 +3,14 @@
 import _env
 from time import time
 from config import PRIVILEGE_ADMIN, PRIVILEGE_SUPER 
-from config.privilege import PRIVILEGE_IMPORT_FEED
+from config.privilege import PRIVILEGE_FEED_IMPORT
 
 PRIVILEGE_DICT = {
-    PRIVILEGE_IMPORT_FEED:'/feed_import',
+    PRIVILEGE_FEED_IMPORT:'/feed_import',
 }
 
 PRIVILEGE_CN = {
-    PRIVILEGE_IMPORT_FEED:"热文推荐"
+    PRIVILEGE_FEED_IMPORT:"热文推荐"
 }
 
 PRIVILEGE_ADMIN_DICT = dict(PRIVILEGE_ADMIN)

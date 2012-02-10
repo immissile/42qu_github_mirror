@@ -17,7 +17,7 @@ import zkit.cookie_morsel
 from hmako.lookup import TemplateLookup
 import sys
 from os.path import join
-from privilege import PRIVILEGE_IMPORT_FEED
+from privilege import PRIVILEGE_FEED_IMPORT
 
 
 
@@ -26,7 +26,7 @@ def prepare(o):
 #    o.REDIS_DB = redis.Redis()
 
     o.PRIVILEGE_ADMIN = (
-        (10014590,(PRIVILEGE_IMPORT_FEED,)), #夭夭
+        (10014590,(PRIVILEGE_FEED_IMPORT,)), #夭夭
     )
 
     o.NGINX_LOGROTATE_DIR = "/var/log/nginx"
