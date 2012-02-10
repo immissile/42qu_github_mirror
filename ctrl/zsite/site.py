@@ -178,7 +178,7 @@ class MySite( SiteListBase, MyBase, ZsiteBase):
 class Read(LoginBase):
     def get(self, n=1):
         zsite = self.zsite
-        if self.cid == CID_SITE:
+        if zsite.cid == CID_SITE:
             current_user = self.current_user
             current_user_id = self.current_user_id
             zsite_fav_get_and_touch(zsite, current_user_id)
