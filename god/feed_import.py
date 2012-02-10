@@ -14,7 +14,7 @@ from tornado.escape import json_encode
 from yajl import dumps
 
 @urlmap('/feed_import')
-class FeedImport(Base):
+class Index(Base):
     def get(self):
         o = FeedImport.get(state = FEED_IMPORT_STATE_INIT)
         self.render(result=_dumps_feed(o))

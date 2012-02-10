@@ -5,14 +5,13 @@ from cgi import escape
 from model.douban import is_rt_by_title
 %>
 <%def name="htm_head()">
-${css.god_autocomplete|n}
 ${css.god_feed_import|n}
+${css.god_autocomplete|n}
 </%def>
 
 <script type="text/x-json" id="site_data">
 ${result|n}
 </script>
-<script src="${js.god_autocomplete|n}"></script>
 <script id="render_txt" type="text/x-jquery-tmpl">
 <%text>
     <form id="editform" rel="${id}">
@@ -41,7 +40,8 @@ ${result|n}
 </form>
 </%text>
 </script>
-
+<div id>
 <button id="okbtn">确认</button>
 <button id="nobtn">跳过</button>
 
+<script src="${js.god_autocomplete|n}"></script>
