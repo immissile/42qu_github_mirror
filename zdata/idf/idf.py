@@ -4,6 +4,7 @@
 import _env
 from math import log
 from zkit.tofromfile import tofile, fromfile
+from collections import defaultdict
 
 def idf_dumps(count, df):
     result = {}
@@ -16,12 +17,12 @@ def idf_dumps(count, df):
 
     return result
 
-def tf_idf(idf, word_list):
+def tf_idf(word_list, idf):
     tf = defaultdict(int)
     for i in word_list:
         tf[i] += 1
     result = []
     for k, v in tf.iteritems():
-        if k in self._idf:
+        if k in idf:
             result.append((k, v*idf[k]))
     return result

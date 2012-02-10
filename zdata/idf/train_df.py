@@ -6,7 +6,7 @@ from os.path import join, exists
 from yajl import loads
 from glob import glob
 from os import mkdir
-import envoy
+#import envoy
 
 ZDATA_PATH_TRAIN_IDF = join(ZDATA_PATH, "train/df")
 
@@ -18,10 +18,10 @@ def train(filename, parser):
 
     tofile = "%s.idf"%path
     if exists(tofile):
-        cmd = 'scp %s work@stdyun.com:%s'%(tofile, tofile)
-        print cmd
-        r = envoy.run(cmd)
-        print r.std_out
+        #cmd = 'scp %s work@stdyun.com:%s'%(tofile, tofile)
+        #print cmd
+        #r = envoy.run(cmd)
+        #print r.std_out
         return
 
     if not exists(path):

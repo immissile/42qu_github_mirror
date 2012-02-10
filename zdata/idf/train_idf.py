@@ -18,7 +18,7 @@ def main():
 
         if not exists(path):
             return
-
+        print path
         df.extend_by_file(path)
 
     merge( "zhihu.js")
