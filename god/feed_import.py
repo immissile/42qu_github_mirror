@@ -26,7 +26,7 @@ def _get(self):
             'id':feed.id,
             'title':feed.title,
             'txt':feed.txt,
-            'tags':[(tag,0) for tag in feed.tags.split(',')],
+            'tag_id_list':[(tag,0) for tag in feed.tag_id_list.split(',')],
             'author_rm':author_rm,
             'url':feed.url
         }
@@ -43,10 +43,10 @@ class FeedImportShow(Base):
         sync = self.get_argument('sync', None)
         author_rm = self.get_argument('author_rm', None)
 #        cid = self.get_argument('cid', None)
-        tags = self.get_argument('tags', '')
+        tag_id_list = self.get_argument('tag_id_list', '')
 
         current_user_id = self.current_user_id
-        feed_review(id,  title, txt, tags,current_user_id, author_rm, sync)
+        feed_review(id,  title, txt, tag_id_list,current_user_id, author_rm, sync)
 
         self.get()
 
@@ -69,8 +69,8 @@ class FeedImportEdit(Base):
         if  id:
             po = Po.mc_get(id)
             if po:
-                tags = tag_list_by_po_id(po.id)
-                self.render(po=po, cid=cid, tags=tags)
+                tag_id_list = tag_list_by_po_id(po.id)
+                self.render(po=po, cid=cid, tag_id_list=tag_id_list)
         else:
             self.redirect('/feed_import/list/1')
 
@@ -82,7 +82,7 @@ class FeedImportEdit(Base):
         sync = self.get_argument('sync', None)
         author_rm = self.get_argument('author_rm', None)
         cid = self.get_argument('cid', None)
-        tag_list = self.get_argument('tags', '')
+        tag_list = self.get_argument('tag_id_list', '')
 
         po = Po.mc_get(id)
         if po:

@@ -8,7 +8,7 @@ from model.douban import is_rt_by_title
 <%def name="htm_head()">
 ${css.god_autocomplete|n}
 <style>
-    #tags{
+    #tag_id_list{
         font-size:16px;
         padding:3px;
         width:90%;
@@ -58,10 +58,10 @@ if feed:
     result['id'] = feed[0].id
     result['title'] = feed[0].title
     result['txt'] = feed[0].txt
-    result['tags'] = []
-    for tag in feed[0].tags.split(','):
-        result['tags'].append((tag,0))
-    #result['tags'] = feed[0].tags
+    result['tag_id_list'] = []
+    for tag in feed[0].tag_id_list.split(','):
+        result['tag_id_list'].append((tag,0))
+    #result['tag_id_list'] = feed[0].tag_id_list
     result['author_rm'] = is_rt_by_title(feed[0].title) 
     result['url']=feed[0].url
 
@@ -75,12 +75,12 @@ from model.rec_read import REDIS_REC_CID_TUPLE
 <script id="render_txt" type="text/x-jquery-tmpl">
     <%text>
     <form id="editform" rel="${id}">
-    <input id="title" name="title" type="text" value="${title}" />
+    <input id="title" name="title" type="text" value="${title}" >
     <textarea id="txt" name="txt">{{html txt}}</textarea>
 
 <div>
-    <label for="tags">标签</label>
-    <input id="tags" name="tags" type="text" value="${tags}" />
+    <label for="tag_id_list">标签</label>
+    <input id="tag_id_list" name="tag_id_list" type="text" value="${tag_id_list}" >
 </div>
 
     </%text>
@@ -89,14 +89,14 @@ from model.rec_read import REDIS_REC_CID_TUPLE
     <br/>
 
 <div class="check">
-    <input id="sync" name="sync" type="checkbox" />
+    <input id="sync" name="sync" type="checkbox" >
     <label for="sync">同步</label>
 
-    <input id="author_rm" name="author_rm" type="checkbox"/>
+    <input id="author_rm" name="author_rm" type="checkbox">
     <label for="author_rm">删除作者</label>
     <a href="${url}" target="_blank">原文链接</a>
 </div>
-    <input id="" name="id" style="display:none" value="${id}" type="text" />
+    <input id="" name="id" style="display:none" value="${id}" type="text" >
 </form>
 </%text>
 </script>
