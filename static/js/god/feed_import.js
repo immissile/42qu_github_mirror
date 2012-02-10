@@ -22,6 +22,6 @@ $(function(){
         auto_height();
     });
     auto_height();
-    autocomplete_tag("#tag_id_list", data.tags)
+    autocomplete_tag("#tag_id_list", data.tag_id_list)
 });
 
