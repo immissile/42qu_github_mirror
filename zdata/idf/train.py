@@ -61,7 +61,6 @@ def wanfang_parser(stdin):
         
 
 def main():
-    pass
     for i in glob(join(ZDATA_PATH_TRAIN_IDF,"wanfang","Periodical_*")):
         train(i, wanfang_parser)
     train( "review.txt", douban_review_parser)
