@@ -39,7 +39,7 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
     if(idPrefix){
         o.idPrefix = idPrefix
     }
-    elem.tokenInput("http://api"+HOST_SUFFIX+"/po/tag",o)
+    elem.tokenInput("http://api"+HOST_SUFFIX+"/tag",o)
     
     if(default_tag_list.length){
         for(i=0;i<default_tag_list.length;++i){
