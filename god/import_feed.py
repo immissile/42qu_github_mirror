@@ -5,7 +5,6 @@ from _handler import Base
 from _urlmap import urlmap
 from model.site_sync import site_sync_rm, site_sync_new
 from model.import_feed import ImportFeed, feed_next, review_feed , import_feed_rm, po_tag_new
-from model.rec_read import rec_cid_push, rec_id_by_cid, rec_cid_mv, rec_rm, rec_cid_count
 from model.douban import is_rt_by_title 
 from model.po_by_tag import tag_list_by_po_id
 from zkit.page import page_limit_offset
@@ -59,28 +58,6 @@ class ImportFeedRm(Base):
         import_feed_rm(id, current_user_id)
         _get(self)
 
-@urlmap('/import_feed/list/(\d+)')
-@urlmap('/import_feed/list/(\d+)-(\d+)')
-class ImportFeedList(Base):
-    def get(self, cid=1, n=1):
-
-        total = rec_cid_count(cid)
-
-        page, limit, offset = page_limit_offset(
-                 '/import_feed/list/%s-%%s'%cid,
-                 total,
-                 n
-             )
-
-        cid = int(cid)
-        id_list = rec_id_by_cid(cid,limit, offset)
-        po_list = Po.mc_get_list(id_list)
-
-        self.render(
-                page = page,
-                items=po_list,
-                cid=cid
-                )
 
 @urlmap('/import_feed/edit/(\d+)')
 @urlmap('/import_feed/(\d+)/edit/(\d+)')
@@ -123,14 +100,4 @@ class ImportFeedEdit(Base):
 
         self.redirect('/import_feed/list/%s'%old_cid)
 
-@urlmap('/import_feed/(\d+)/rm/(\d+)')
-class ImportFeedRm(Base):
-    def get(self,cid=0,id=0):
-        id = int(id)
-        if id:
-            po = Po.mc_get(id)
-            po_rm(po.user_id,po.id)
-            rec_rm(po.id, cid)
-        self.redirect('/import_feed/list/%s'%cid)
             
-#self.write('%s,%s,%s,%s'%(id,title,cid,tags))
