@@ -30,11 +30,12 @@ class Idf(object):
 
     def tofile(self, f):
         tofile(
-            f, (self._count, self.dumps())
+            f, (self._count, dict(self._idf.iteritems()))
         )
 
     def fromfile(self, f):
-        self._count , self._idf = fromfile(f)
+        self._count , _idf = fromfile(f)
+        self._idf = defaultdict(int)(_idf.iteritems())
 
     #def dumps(self):
     #    result = {}
