@@ -3,11 +3,12 @@
 
 import _env
 from zkit.tofromfile import tofile, fromfile
+from math import log
 
 def idf_dumps(filename, count, df):
     result = {}
-    count = float(self._count)
-    for k, v in idf.iteritems():
+    count = float(count)
+    for k, v in df.iteritems():
         rank = count/v
         if rank > 1000000: # idf训练中, 低于1/100w的的词直接去掉..
             continue

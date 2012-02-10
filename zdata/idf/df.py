@@ -33,21 +33,12 @@ class Df(object):
             f, (self._count, dict(self._df.iteritems()))
         )
 
-    def fromfile(self, f):
-        self._count , _df = fromfile(f)
-        self._df = defaultdict(int)(_df.iteritems())
-
-
-    def extend(self, other):
-        self.count += other.count
-        for k,v in other._df.iteritems():
+    def extend_by_file(self, filename):
+        _count , _df = fromfile(filename)
+        self._count += _count
+        for k,v in _df.iteritems():
             self._df[k]+=v
 
-def df_merge(*args):
-    df = Df()
-    for i in args:
-        df.extend(i)
-    return df
 
 
 
