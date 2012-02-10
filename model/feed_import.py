@@ -127,9 +127,9 @@ def feed2po_new():
             feed.state = FEED_IMPORT_STATE_POED
             feed.save()
 
-            po_tag_id_list_new(po, tag_id_list)
+            po_tag_id_list_new(po, feed.tag_id_list.split())
 
-def review_feed(id,  title, txt, tag_id_list, current_user_id, author_rm=False, sync=False):
+def feed_review(id,  title, txt, tag_id_list, current_user_id, author_rm=False, sync=False):
     feed = FeedImport.get(id)
     if feed and feed.state==FEED_IMPORT_STATE_INIT :
         if author_rm:
