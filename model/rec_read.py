@@ -26,6 +26,9 @@ REC_TOPIC_DEFAULT = [] #TODO
 REC_TOPIC_DEFAULT_DUMPS = dumps_id_rank(REC_TOPIC_DEFAULT)
 
 
+def rec_read_new(po_id, tag_id_list):
+    pass
+
 #TODO
 def rec_read_by_topic(user_id, topic_id):
     return
