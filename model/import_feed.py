@@ -9,7 +9,7 @@ from model.txt_img_fetch import txt_img_fetch
 from kv import Kv
 from url_short import url_short_id
 from site_sync import site_sync_new
-from rec_read import rec_cid_push
+from rec_read import  rec_read_new
 from po_by_tag import zsite_tag_po_new_by_name, tag_po_rm_by_po_id
 from part_time_job import part_time_job_new
 from config.privilege import PRIVILEGE_IMPORT_FEED
@@ -127,7 +127,7 @@ def feed2po_new():
             feed.state = IMPORT_FEED_STATE_POED
             feed.save()
 
-            rec_cid_push(feed.cid, po.id)
+            rec_read_new(po.id, feed.tags.split('`'))
             po_tag_new(feed.tags, po)
 
 def review_feed(id, cid, title, txt, tags, current_user_id, author_rm=False, sync=False):

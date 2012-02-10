@@ -11,7 +11,7 @@ from tornado.escape import json_encode
 ##<%namespace file="/ctrl/_util/site_rec_new.htm" import="site_rec_render"/>
 ##<%namespace file="/ctrl/_util/friend_rec.htm" import="friend_rec_render"/>
 
-<%def name="rec_read(rec_item_list)">
+<%def name="rec_read_render(rec_item_list)">
 %if rec_item_list:
 <div class="feed_li feedL feedrec" id="rowrec">\
 <div class="feedB">
@@ -223,7 +223,7 @@ href="/${id}" target="_blank">${create_time}</a>{{if rt_list.length  && rt_list[
 
 
 <div id="feeds">\
-${rec_read(rec_item_list)}\
+${rec_read_render(rec_item_list)}\
 <input id="begin_id" type="hidden">\
 </div>\
 <a id="feed_load" href="javascript:void(0)">加载更多</a>\
