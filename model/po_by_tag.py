@@ -18,7 +18,7 @@ from zsite_json import zsite_json
 mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 mc_tag_id_list_by_po_id = McCacheA("TagIdListByPoId.%s")
 
-class PoZsiteTag(McModel):
+class PoZsiteTag(Model):
     pass
 
 def zsite_tag_po_new(zsite_id, po, rank=1):
