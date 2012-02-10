@@ -127,8 +127,7 @@ def feed2po_new():
             feed.state = IMPORT_FEED_STATE_POED
             feed.save()
 
-            rec_read_new(po.id, feed.tags.split('`'))
-            po_tag_new(feed.tags, po)
+            po_tag_new(tags, po)
 
 def review_feed(id,  title, txt, tags, current_user_id, author_rm=False, sync=False):
     feed = ImportFeed.get(id)
@@ -158,6 +157,9 @@ def po_tag_new(tags, po):
     tags = tags.split(',')
     for tag in tags:
         zsite_tag_po_new_by_name(tag, po, 100)
+
+    tags = feed.tags.split(' '
+    rec_read_new(po.id, tags)
 
 if __name__ == '__main__':
     pass
