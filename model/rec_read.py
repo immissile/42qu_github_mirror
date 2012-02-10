@@ -22,9 +22,11 @@ def loads_id_rank(id_rank):
 
 REDIS_REC_LOG = 'Rec:%s'
 REDIS_REC_USER_TOPIC = "Rec>%s"
-REC_TOPIC_DEFAULT = []
 REC_TOPIC_DEFAULT_DUMPS = dumps_id_rank(REC_TOPIC_DEFAULT) 
 
+REC_TOPIC_DEFAULT = [] #TODO
+
+#TODO
 def rec_read_by_topic(user_id, topic_id):
     return 
 
