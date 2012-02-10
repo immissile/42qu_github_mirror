@@ -160,5 +160,7 @@ if __name__ == '__main__':
     from zweb.orm import ormiter
     for i in ormiter(FeedImport):
         i.txt = i.txt.replace("豆友","网友").replace("豆油","私信").replace("豆邮","私信")
+        i.tag_id_list = ""
+        print i.id
         i.save()
 
