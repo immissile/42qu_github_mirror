@@ -29,7 +29,17 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
                 if(String(item.id).substring(0,1)=='-'){
                     return '<li class="dropdown_add">添加 "'+item.name+'" 标签</li>'
                 }
-                return '<li>'+item.name+'<span class="drop_follow_num">'+item.num+'人关注</span></li>'
+                var num = item.num-0;
+                var s=[
+                    '<li>',item.name
+                ]
+                if(num){
+                    s.push( 
+                        '<span class="drop_follow_num">'+item.num+'人关注</span>'
+                    )
+                }
+                s.push('</li>')
+                return s.join('') 
             },
             tokenFormatter: function(item){
                  return '<li class="token-input-token"><p>'+item.name+'</p></li>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'">' 
