@@ -22,7 +22,7 @@ class PoZsiteTag(McModel):
 
 def zsite_tag_po_new(zsite_id, po, rank):
     tag_po = PoZsiteTag.get_or_create(po_id=po.id, cid=po.cid, zsite_id=zsite_id)
-    tag_po.rank=rank
+    tag_po.rank = rank
     tag_po.save()
 
     user_rank = zsite_list_get(po.user_id, zsite_id, CID_TAG)
@@ -36,9 +36,9 @@ def zsite_tag_po_new(zsite_id, po, rank):
 
     return tag_po
 
-zsite_tag_po_count=McNum(
+zsite_tag_po_count = McNum(
     lambda tag_id: PoZsiteTag.where(zsite_id=tag_id).count(),
-    "ZsiteTagPoCount:%s"
+    'ZsiteTagPoCount:%s'
 )
 def mc_flush(zsite_id):
     zsite_tag_po_count.delete(zsite_id)
@@ -64,11 +64,11 @@ def po_by_tag(tag_id, user_id, limit=25, offset=0):
     return po_json(user_id, id_list, 36)
 
 def tag_author_list(zsite_id):
-    zsite_list = filter(lambda x:x,zsite_author_list(zsite_id))
+    zsite_list = filter(lambda x:x, zsite_author_list(zsite_id))
     return zsite_json(zsite_id, zsite_list)
 
-def zsite_tag_po_new_by_name(tag_name,po,rank):
-    tag_name=tag_name.strip()
+def zsite_tag_po_new_by_name(tag_name, po, rank):
+    tag_name = tag_name.strip()
     tag = tag_by_name(tag_name)
     return zsite_tag_po_new(tag.id, po, rank)
 
@@ -78,7 +78,7 @@ def tag_po_rm_by_po_id(po_id):
         mc_flush(tag.zsite_id)
 
 def tag_list_by_po_id(po_id):
-    zsite_id_list = PoZsiteTag.where(po_id=po_id).col_list(col="zsite_id")
+    zsite_id_list = PoZsiteTag.where(po_id=po_id).col_list(col='zsite_id')
     return Zsite.mc_get_list(zsite_id_list)
 
 def po_id_tag_id_list_new(po, tag_id_list):
