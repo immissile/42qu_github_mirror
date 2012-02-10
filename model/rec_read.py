@@ -6,6 +6,8 @@ from model.days import time_new_offset
 from zkit.algorithm.wrandom import wsample2
 from zkit.zitertools import lineiter, chunkiter
 from array import array
+from model.zsite_list import zsite_list
+from model.cid import CID_TAG
 
 __metaclass__ = type
 
@@ -18,6 +20,8 @@ def loads_id_rank(id_rank):
     r = array('I')
     r.fromstring(id_rank)
     return list(chunkiter(r, 2))
+
+
 
 
 REDIS_REC_LOG = 'Rec-%s'
