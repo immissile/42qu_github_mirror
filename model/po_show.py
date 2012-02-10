@@ -15,7 +15,7 @@ def po_show_new(po):
 
 def po_show_rm(po_id):
     feed_rt_rm(0, po_id)
-    Po.where(user_id=0, rid=po.id, cid=CID_REC, state=STATE_ACTIVE).delete()
+    Po.where(user_id=0, rid=po_id, cid=CID_REC, state=STATE_ACTIVE).delete()
 
 def po_show_list(limit, offset):
     ids = feed_rt_list(0, limit, offset)

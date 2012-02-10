@@ -12,9 +12,6 @@ def user_new(mail, password=None, name=None, sex=0):
     return user_id
 
 
-
-
-
 if __name__ == '__main__':
     #from zsite import Zsite
     #z = Zsite.mc_get(10001229)
