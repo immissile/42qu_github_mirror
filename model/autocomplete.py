@@ -83,7 +83,7 @@ class AutoComplete:
         name_key = '`'.join(name_list)
         id_list = self._get_cache(name_key)
 
-        id_list = None #TODO REMOVE
+        #id_list = None #TODO REMOVE
 
         ZSET_CID = self.ZSET_CID
 
