@@ -1,12 +1,12 @@
-.token-input-delete-token-42qu{
+.token-input-delete-token{
     width:17px;
     height:19px;
-    background:url(http://s.realfex.xxx/img/png/label.png) no-repeat -35px 0;
+    background:url(/img/png/label.png) no-repeat -35px 0;
     display:inline-block;
     height:23px;
     vertical-align:-7px;
 }
-ul.token-input-list-42qu {
+ul.token-input-list {
     overflow: hidden; 
     height: auto !important; 
     height: 1%;
@@ -24,7 +24,7 @@ ul.token-input-list-42qu {
     clear: left;
 }
 
-ul.token-input-list-42qu li input {
+ul.token-input-list li input {
     border: 0;
     width: 100px;
     padding: 3px 8px;
@@ -33,7 +33,7 @@ ul.token-input-list-42qu li input {
     -webkit-appearance: caret;
 }
 
-li.token-input-token-42qu {
+li.token-input-token {
 float:left;
 color:#000;
     background:#fff;
@@ -42,7 +42,7 @@ color:#000;
 margin:3px;
 }
 
-li.token-input-token-42qu p {
+li.token-input-token p {
     display:inline-block;
     margin: 0;
     line-height:21px;
@@ -54,7 +54,7 @@ li.token-input-token-42qu p {
     padding:0 6px;
 }
 
-li.token-input-token-42qu span {
+li.token-input-token span {
     color: #a6b3cf;
     margin-left: 5px;
     font-weight: bold;
@@ -63,22 +63,22 @@ li.token-input-token-42qu span {
 
 
 
-li.token-input-selected-token-42qu p{
+li.token-input-selected-token p{
     background-color: #f3fcff;
     color:#d20;
 }
-li.token-input-selected-token-42qu span{
+li.token-input-selected-token span{
     background-position:-70px ;
 }
 
-li.token-input-input-token-42qu {
+li.token-input-input-token {
     float: left;
     margin: 3px;
     padding: 0;
     list-style-type: none;
 }
 
-div.token-input-dropdown-42qu {
+div.token-input-dropdown {
     position: absolute;
     width: 400px;
     background-color: #fff;
@@ -92,43 +92,43 @@ div.token-input-dropdown-42qu {
     z-index: 1;
 }
 
-div.token-input-dropdown-42qu p {
+div.token-input-dropdown p {
     margin: 0;
     padding: 5px;
     font-weight: bold;
     color: #777;
 }
 
-div.token-input-dropdown-42qu ul {
+div.token-input-dropdown ul {
     margin: 0;
     padding: 0;
 }
 
-div.token-input-dropdown-42qu ul li {
+div.token-input-dropdown ul li {
     background-color: #fff;
     padding: 3px;
     margin: 0;
     list-style-type: none;
 }
 
-div.token-input-dropdown-42qu ul li b{
+div.token-input-dropdown ul li b{
     font-weight:bold;
 }
 
-div.token-input-dropdown-42qu ul li.token-input-dropdown-item-42qu {
+div.token-input-dropdown ul li.token-input-dropdown-item {
     background-color: #fff;
 }
 
-div.token-input-dropdown-42qu ul li.token-input-dropdown-item2-42qu {
+div.token-input-dropdown ul li.token-input-dropdown-item2 {
     background-color: #fff;
 }
 
-div.token-input-dropdown-42qu ul li em {
+div.token-input-dropdown ul li em {
     font-weight: bold;
     font-style: normal;
 }
 
-div.token-input-dropdown-42qu ul li.token-input-selected-dropdown-item-42qu {
+div.token-input-dropdown ul li.token-input-selected-dropdown-item {
     background-color: #3b5998;
     color: #fff;
 }

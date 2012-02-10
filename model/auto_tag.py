@@ -114,23 +114,23 @@ class AutoComplete:
 
         return result
 
-auto_complete_tag = AutoComplete('tag')
+autocomplete_tag = AutoComplete('tag')
 
 if __name__ == '__main__':
     pass
-    #auto_complete_tag = AutoComplete('tag')
-    #auto_complete_tag.append('Facebook/F8', 76514)
-    #auto_complete_tag.append('flask', 76515)
-    #for i in auto_complete_tag.id_name_list_by_key("f"):
+    #autocomplete_tag = AutoComplete('tag')
+    #autocomplete_tag.append('Facebook/F8', 76514)
+    #autocomplete_tag.append('flask', 76515)
+    #for i in autocomplete_tag.id_name_list_by_key("f"):
     #    print i
     #print "=+++"
 
     from zkit.pprint import pprint
-    pprint( auto_complete_tag.id_rank_name_list_by_str('我爱') )
-    #print auto_complete_tag.id_rank_name_list_by_str('f f8')
+    pprint( autocomplete_tag.id_rank_name_list_by_str('我爱') )
+    #print autocomplete_tag.id_rank_name_list_by_str('f f8')
 
     #from timeit import timeit
     #def f():
-    #    auto_complete_tag.id_name_list_by_name_list('t')
+    #    autocomplete_tag.id_name_list_by_name_list('t')
 
     #print timeit(f,number=10000)/10000

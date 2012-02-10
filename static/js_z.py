@@ -14,5 +14,6 @@ JS = [
 'po.js',
 'ctrl/at.js',
 'ctrl/com/isotope.js',
-'jquery.tokeninput.js'
+'jquery.tokeninput.js',
+'autocomplete.js',
 ]

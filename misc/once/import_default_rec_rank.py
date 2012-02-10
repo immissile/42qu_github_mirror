@@ -3,7 +3,7 @@
 
 import _env
 from model.zsite import Zsite
-from model.auto_tag import auto_complete_tag
+from model.auto_tag import autocomplete_tag
 from zweb.orm import ormiter
 from model.cid import CID_TAG
 from model._db import redis
@@ -23,7 +23,7 @@ RE_X = re.compile('#.+?#')
 
 if __name__ == '__main__':
     #Zsite.where('cid=%s', CID_TAG).delete()
-    #kv = redis.hgetall(auto_complete_tag.ID2NAME)
+    #kv = redis.hgetall(autocomplete_tag.ID2NAME)
     #for id, name in kv.iteritems():
     #    name = name.split('`')[0]
     #    zsite_new(name, CID_TAG, ZSITE_STATE_ACTIVE, id)

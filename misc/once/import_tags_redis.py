@@ -3,7 +3,7 @@
 
 import _env
 from model.zsite import Zsite
-from model.auto_tag import auto_complete_tag
+from model.auto_tag import autocomplete_tag
 from zweb.orm import ormiter
 from model.cid import CID_TAG
 from model._db import redis
@@ -30,12 +30,12 @@ if __name__ == '__main__':
             name = RE_X.sub('', name)
             print name    
             id =  tag_by_name(name).id
-            auto_complete_tag.append(name, id, rank)
+            autocomplete_tag.append(name, id, rank)
             name_id[name] = id
             print name, rank, "rank"
 
         for name , id in name_id.iteritems():
-            redis.hset(auto_complete_tag.ID2NAME, id, '%s`%s'%(name, 0))
+            redis.hset(autocomplete_tag.ID2NAME, id, '%s`%s'%(name, 0))
             print name, rank, "id"
 
 
