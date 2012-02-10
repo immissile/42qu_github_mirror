@@ -4,9 +4,9 @@ from yajl import dumps
 from cgi import escape
 from model.import_feed import ImportFeed, IMPORT_FEED_STATE_INIT
 from model.douban import is_rt_by_title
-from config import API_URL
 %>
 <%def name="htm_head()">
+${css.god_auto_tag|n}
 <style>
     #tags{
         font-size:16px;
@@ -49,138 +49,6 @@ from config import API_URL
         margin-right:10%
     } 
 </style>
-<style>
-.token-input-delete-token-42qu{
-width:17px;
-height:19px;
-background:url(http://s.realfex.xxx/img/png/label.png) no-repeat -35px 0;
-display:inline-block;
-height:23px;
-vertical-align:-7px;
-}
-ul.token-input-list-42qu {
-    overflow: hidden; 
-    height: auto !important; 
-    height: 1%;
-    width: 400px;
-    border: 1px solid #8496ba;
-    cursor: text;
-    font-size: 12px;
-    font-family: Verdana;
-    min-height: 1px;
-    z-index: 999;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
-    list-style-type: none;
-    clear: left;
-}
-
-ul.token-input-list-42qu li input {
-    border: 0;
-    width: 100px;
-    padding: 3px 8px;
-    background-color: white;
-    margin: 2px 0;
-    -webkit-appearance: caret;
-}
-
-li.token-input-token-42qu {
-float:left;
-color:#000;
-    background:#fff;
-    display:inline-block;
-    font-size:12px;
-margin:3px;
-}
-
-li.token-input-token-42qu p {
-    display:inline-block;
-    margin: 0;
-    line-height:21px;
-    height:21px;
-    border:1px solid #ececec;
-    border-left:0;
-    border-bottom:1px solid #D9D8DA;
-    border-right:1px solid #ddd;
-    padding:0 6px;
-}
-
-li.token-input-token-42qu span {
-    color: #a6b3cf;
-    margin-left: 5px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-
-
-li.token-input-selected-token-42qu p{
-    background-color: #f3fcff;
-    color:#d20;
-}
-li.token-input-selected-token-42qu span{
-    background-position:-70px ;
-}
-
-li.token-input-input-token-42qu {
-    float: left;
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-div.token-input-dropdown-42qu {
-    position: absolute;
-    width: 400px;
-    background-color: #fff;
-    overflow: hidden;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    cursor: default;
-    font-size: 11px;
-    font-family: Verdana;
-    z-index: 1;
-}
-
-div.token-input-dropdown-42qu p {
-    margin: 0;
-    padding: 5px;
-    font-weight: bold;
-    color: #777;
-}
-
-div.token-input-dropdown-42qu ul {
-    margin: 0;
-    padding: 0;
-}
-
-div.token-input-dropdown-42qu ul li {
-    background-color: #fff;
-    padding: 3px;
-    margin: 0;
-    list-style-type: none;
-}
-
-div.token-input-dropdown-42qu ul li.token-input-dropdown-item-42qu {
-    background-color: #fff;
-}
-
-div.token-input-dropdown-42qu ul li.token-input-dropdown-item2-42qu {
-    background-color: #fff;
-}
-
-div.token-input-dropdown-42qu ul li em {
-    font-weight: bold;
-    font-style: normal;
-}
-
-div.token-input-dropdown-42qu ul li.token-input-selected-dropdown-item-42qu {
-    background-color: #3b5998;
-    color: #fff;
-}
-</style>
 </%def>
 
 <%
@@ -190,23 +58,20 @@ if feed:
     result['id'] = feed[0].id
     result['title'] = feed[0].title
     result['txt'] = feed[0].txt
-    result['tags'] = feed[0].tags
+    result['tags'] = []
+    for tag in feed[0].tags.split(','):
+        result['tags'].append((tag,0))
+    #result['tags'] = feed[0].tags
     result['author_rm'] = is_rt_by_title(feed[0].title) 
     result['url']=feed[0].url
 
 from model.rec_read import REDIS_REC_CID_TUPLE
 %>
 
-<script type="text/javascript">
-$(function(){
-    $("#tags").tokenInput("${API_URL}/po/tag",{theme: "42qu"})
-});
-</script>
-
 <script type="text/x-json" id="site_data">
     ${escape(dumps(result))|n}
 </script>
-
+<script src="${js.god_auto_tag|n}"></script>
 <script id="render_txt" type="text/x-jquery-tmpl">
     <%text>
     <form id="editform" rel="${id}">
@@ -219,14 +84,7 @@ $(function(){
 </div>
 
     </%text>
-<div class="redis_cid c">
-    % for id,name in REDIS_REC_CID_TUPLE:
-    <span>
-    <input type="radio" name="cid"  value="${id}" id="cid${id}"/ ><label for="cid${id}">${name}</label><br/>
-    </span>
-    % endfor
-</div>
-    <%text>
+   <%text>
 
     <br/>
 
@@ -265,17 +123,6 @@ $(function(){
 $("#editwrapper").html($("#render_txt").tmpl(data));
 
 $.getJSON('/import_feed/next',refresh_data)
-
-$("#okbtn").click(function(){
-        if($("input:radio:checked").val()){
-        var post_data = $("#editform").serialize();
-        $("#editwrapper").html($("#render_txt").tmpl(data));
-        $.postJSON('/import_feed/next',post_data ,refresh_data);
-            auto_height();
-        }else{
-        alert("请选择类型");
-        }
-});
 
 $("#nobtn").click(function(){
         var post_data = $("#editform").serialize();

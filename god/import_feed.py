@@ -25,7 +25,7 @@ def _get(self):
             'id':feed.id,
             'title':feed.title,
             'txt':feed.txt,
-            'tags':feed.tags,
+            'tags':[(tag,0) for tag in feed.tags.split(',')],
             'author_rm':author_rm,
             'url':feed.url
         }
@@ -41,11 +41,11 @@ class ImportFeedShow(Base):
         txt = self.get_argument('txt', None)
         sync = self.get_argument('sync', None)
         author_rm = self.get_argument('author_rm', None)
-        cid = self.get_argument('cid', None)
+#        cid = self.get_argument('cid', None)
         tags = self.get_argument('tags', '')
 
         current_user_id = self.current_user_id
-        review_feed(id, cid, title, txt, tags,current_user_id, author_rm, sync)
+        review_feed(id,  title, txt, tags,current_user_id, author_rm, sync)
 
         self.get()
 

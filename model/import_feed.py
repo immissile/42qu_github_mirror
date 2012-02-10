@@ -130,7 +130,7 @@ def feed2po_new():
             rec_read_new(po.id, feed.tags.split('`'))
             po_tag_new(feed.tags, po)
 
-def review_feed(id, cid, title, txt, tags, current_user_id, author_rm=False, sync=False):
+def review_feed(id,  title, txt, tags, current_user_id, author_rm=False, sync=False):
     feed = ImportFeed.get(id)
     if feed and feed.state==IMPORT_FEED_STATE_INIT :
         if author_rm:
@@ -146,7 +146,6 @@ def review_feed(id, cid, title, txt, tags, current_user_id, author_rm=False, syn
 
         feed.title = title
         feed.txt = txt
-        feed.cid = cid
         feed.tags = tags
         
         part_time_job_new(PRIVILEGE_IMPORT_FEED, feed.id, current_user_id)

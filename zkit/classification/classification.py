@@ -199,6 +199,12 @@ if __name__ == '__main__':
 '''
     cla = GetTag()
     print ','.join(cla.get_tag(txt))
+    raw_input()
+    print ','.join(cla.get_tag(txt))
+    print ','.join(cla.get_tag(txt))
+    print ','.join(cla.get_tag(txt))
+    print ','.join(cla.get_tag(txt))
+    print ','.join(cla.get_tag(txt))
 
 #ID2TAG = TAG2ID.id2word()
 #
