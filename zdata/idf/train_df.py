@@ -1,6 +1,6 @@
 #coding:utf-8
 import _env
-from df import Idf
+from df import Df
 from config import ZDATA_PATH
 from os.path import join, exists
 from yajl import loads
@@ -11,12 +11,12 @@ import envoy
 ZDATA_PATH_TRAIN_IDF = join(ZDATA_PATH, "train/df")
 
 def train(filename, parser):
-    if filename.endswith(".df"):
+    if filename.endswith(".idf"):
         return
 
     path = join(ZDATA_PATH_TRAIN_IDF, filename)
 
-    tofile = "%s.df"%path
+    tofile = "%s.idf"%path
     if exists(tofile):
         cmd = 'scp %s work@stdyun.com:%s'%(tofile, tofile)
         print cmd
@@ -27,7 +27,7 @@ def train(filename, parser):
     if not exists(path):
         return
 
-    df = Idf()
+    df = Df()
     count = 0
     with open(path) as f:
         for txt in parser(f):

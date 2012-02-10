@@ -39,6 +39,9 @@ class Df(object):
 
 
     def extend(self, other):
+        self.count += other.count
+        for k,v in other._df.iteritems():
+            self._df[k]+=v
 
 def df_merge(*args):
     df = Df()
