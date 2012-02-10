@@ -27,7 +27,7 @@ def feed_import_by_douban_feed():
             i.title, i.htm, i.link, i.id, DOUBAN_ZSITE_ID
         )
 
-def feed_import_new(title, txt, url, src_id, zsite_id, tags='', state=FEED_IMPORT_STATE_INIT):
+def feed_import_new(title, txt, url, src_id, zsite_id, tag_id_list='', state=FEED_IMPORT_STATE_INIT):
     txt = format_txt(htm2txt(txt)).replace('豆友', '网友').replace('豆油', '私信').replace('豆邮', '私信')
     if not douban_duplicator.txt_is_duplicate(txt):
 
@@ -36,20 +36,21 @@ def feed_import_new(title, txt, url, src_id, zsite_id, tags='', state=FEED_IMPOR
 
         #cid = FEED_IMPORT_CID_DICT[zsite_id]
 
-        if not tags:
+        #TODO
+        if not tag_id_list:
             name_list = tag_getter.get_tag(txt)
             for tag_name in  name_list:
                 zsite_list.append(Zsite.get(name=tag_name))
 
         new_feed = FeedImport(
-                title=title,
-                txt=txt,
-                zsite_id=zsite_id,
-                state=state,
-                rid=src_id,
-                url=url,
-                tags=tags,
-                )
+            title=title,
+            txt=txt,
+            zsite_id=zsite_id,
+            state=state,
+            rid=src_id,
+            url=url,
+            tag_id_list=tag_id_list,
+        )
 
         new_feed.save()
         douban_duplicator.set_record(txt, new_feed.id)
