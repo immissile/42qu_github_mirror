@@ -29,6 +29,7 @@ def prepare(o):
         (10014590,(PRIVILEGE_IMPORT_FEED,)), #夭夭
     )
 
+    o.NGINX_LOGROTATE_DIR = "/var/log/nginx"
     o.PRIVILEGE_SUPER = set((
         10000000, #张沈鹏 
         10014918, #Zsp 007

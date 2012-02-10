@@ -54,7 +54,12 @@ def log2zsite_uv_daliy(days, f):
 def log_parser(date):
     from model.zsite_rank import zsite_rank_rebase, zsite_rank_update
     from model.zsite_show import zsite_show_update
-    filepath = '/var/log/nginx_backup/%s_zsite.access_log-%s.lzma' %(SITE_DOMAIN.replace('.', '_'), date)
+    from config import NGINX_LOGROTATE_DIR
+    from os.path import join
+    filepath = join(
+        NGINX_LOGROTATE_DIR,
+        '%s_zsite.access_log-%s.lzma'%(SITE_DOMAIN.replace('.', '_'), date)
+    )
     #print filepath
     pipe = subprocess.Popen(['lzcat', filepath], stdout=subprocess.PIPE, ).stdout
     days = date_to_days(date)
