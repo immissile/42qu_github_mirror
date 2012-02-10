@@ -1,12 +1,10 @@
 function autocomplete_tag(id, default_tag_list, idPrefix){
     var elem=$(id), t, i, 
         o = {
-            onResult: function (results) {
+            onResult: function (results, word) {
                 var list = [],
                     i=0, 
-                    ctrl=0,
-                    word = $('#'+o.idPrefix+'-tags').val();
-        
+                    ctrl=1;
                 for(;i<results.length;++i){
                     t = results[i]
                     t = {
@@ -15,7 +13,7 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
                         num:t[1]
                     }
                     if(t.name == word){
-                        ctrl = 1 
+                        ctrl = 0 
                         list.unshift(t)
                     }else{
                         list.push(t)
@@ -27,7 +25,7 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
             propertyToSearch: "name",
             resultsFormatter: function(item){
                 if(String(item.id).substring(0,1)=='-'){
-                    return '<li class="dropdown_add">添加 "'+item.name+'" 标签</li>'
+                    return '<li class="dropdown_add">添加 '+item.name+' 标签</li>'
                 }
                 var num = item.num-0;
                 var s=[
@@ -42,7 +40,7 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
                 return s.join('') 
             },
             tokenFormatter: function(item){
-                 return '<li class="token-input-token"><p>'+item.name+'</p></li>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'">' 
+                 return '<li class="token-input-token"><p>'+item.name+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
             }
 
         }
