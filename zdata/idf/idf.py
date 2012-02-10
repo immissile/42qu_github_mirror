@@ -22,7 +22,11 @@ def tf_idf(word_list, idf):
     for i in word_list:
         tf[i] += 1
     result = []
+   
+    s = float(sum(i**2 for i in tf.itervalues()))
+
     for k, v in tf.iteritems():
         if k in idf:
-            result.append((k, v*idf[k]))
+            result.append((k, v/s*idf[k]))
+
     return result

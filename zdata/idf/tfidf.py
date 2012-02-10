@@ -12,5 +12,6 @@ def tf_idf(word_list):
     return _tf_idf(word_list, IDF)
 
 if __name__ == "__main__":
-    print tf_idf(["李开复"])     
+    for k, v in tf_idf(["李开复","中国"]):
+        print k,v 
 
