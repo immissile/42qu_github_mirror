@@ -6,7 +6,7 @@ from model.feed_import import FeedImport, FEED_IMPORT_STATE_INIT
 from model.douban import is_rt_by_title
 %>
 <%def name="htm_head()">
-${css.god_auto_tag|n}
+${css.god_autocomplete|n}
 <style>
     #tags{
         font-size:16px;
@@ -71,7 +71,7 @@ from model.rec_read import REDIS_REC_CID_TUPLE
 <script type="text/x-json" id="site_data">
     ${escape(dumps(result))|n}
 </script>
-<script src="${js.god_auto_tag|n}"></script>
+<script src="${js.god_autocomplete|n}"></script>
 <script id="render_txt" type="text/x-jquery-tmpl">
     <%text>
     <form id="editform" rel="${id}">

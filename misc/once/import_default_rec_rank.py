@@ -3,7 +3,7 @@
 
 import _env
 from model.zsite import Zsite
-from model.auto_tag import autocomplete_tag
+from model.autocomplete import autocomplete_tag
 from zweb.orm import ormiter
 from model.cid import CID_TAG
 from model._db import redis

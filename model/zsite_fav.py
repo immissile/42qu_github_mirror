@@ -4,7 +4,7 @@ from model.zsite_list import zsite_list_new, STATE_RM, STATE_ACTIVE, zsite_list_
 from model.zsite import Zsite
 from model.buzz import mq_buzz_site_fav
 from model.cid import CID_TAG
-from model.auto_tag import autocomplete_tag
+from model.autocomplete import autocomplete_tag
 
 def zsite_fav_rm(zsite, owner_id):
     fav = zsite_fav_get(zsite, owner_id)

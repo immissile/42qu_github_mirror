@@ -3,7 +3,7 @@
 
 from _handler import Base, LoginBase, XsrfGetBase
 from _urlmap import urlmap
-from model.auto_tag import autocomplete_tag
+from model.autocomplete import autocomplete_tag
 from yajl import dumps
 from zweb.json import jsonp
 from cgi import escape
