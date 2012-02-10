@@ -1,5 +1,5 @@
 #coding:utf-8
-from _db import McCache
+from _db import McCache, redis
 from time import time
 from model.po_json import po_json
 from model.days import time_new_offset
@@ -10,25 +10,25 @@ from array import array
 __metaclass__ = type
 
 def dumps_id_rank(id_rank):
-    r = array('I')    
+    r = array('I')
     r.fromlist(lineiter(id_rank))
-    return r.tostring() 
+    return r.tostring()
 
 def loads_id_rank(id_rank):
-    r = array('I')    
+    r = array('I')
     r.fromstring(id_rank)
-    return list(chunkiter(r,2)) 
+    return list(chunkiter(r, 2))
 
 
 REDIS_REC_LOG = 'Rec:%s'
-REDIS_REC_USER_TOPIC = "Rec>%s"
-REC_TOPIC_DEFAULT_DUMPS = dumps_id_rank(REC_TOPIC_DEFAULT) 
-
+REDIS_REC_USER_TOPIC = 'Rec>%s'
 REC_TOPIC_DEFAULT = [] #TODO
+REC_TOPIC_DEFAULT_DUMPS = dumps_id_rank(REC_TOPIC_DEFAULT)
+
 
 #TODO
 def rec_read_by_topic(user_id, topic_id):
-    return 
+    return
 
 class RecTopicPicker:
     def __init__(self, user_id):
@@ -37,13 +37,13 @@ class RecTopicPicker:
         result = redis.get(key)
 
         if result is None:
-            result = REC_TOPIC_DEFAULT 
-            redis.set(_key, REC_TOPIC_DEFAULT_DUMPS)
+            result = REC_TOPIC_DEFAULT
+            redis.set(key, REC_TOPIC_DEFAULT_DUMPS)
         else:
-            result = loads_id_rank(id_rank)
+            result = loads_id_rank(result)
 
         self._topic_id_rank_list = result
-        self._key = key 
+        self._key = key
         self._picker_set()
 
     def delete(self, topic_id):
@@ -53,7 +53,7 @@ class RecTopicPicker:
                 continue
             r.append(i)
 
-        self._topic_id_rank_list = r 
+        self._topic_id_rank_list = r
         redis.set(self._key, dumps_id_rank(r))
         self._picker_set()
 
@@ -63,7 +63,7 @@ class RecTopicPicker:
             self._picker = wsample2(_topic_id_rank_list)
         else:
             self._picker = None
- 
+
     def choice(self):
         _picker = self._picker
 
@@ -77,7 +77,7 @@ def rec_read(user_id, limit):
 
     if limit < 0:
         limit = 0
-    
+
     t = []
     count = 0
     offset = 0
@@ -93,7 +93,7 @@ def rec_read(user_id, limit):
         po_id = rec_read_by_topic(user_id, topic_id)
         if not po_id:
             rec_read_by_topic.delete(topic_id)
-            continue 
+            continue
 
         t.append(po_id)
         t.append(now+offset)
@@ -104,6 +104,8 @@ def rec_read(user_id, limit):
     if count:
         key_log = REDIS_REC_LOG%user_id
         redis.zadd(key_log, *t)
+
+    return count
 
 def rec_read_log_by_user_id(user_id, limit, offset):
     key = REDIS_REC_LOG%user_id
@@ -121,9 +123,12 @@ def po_json_by_rec_read(user_id, limit=8):
 
 if __name__ == '__main__':
     pass
-    
+
 
     user_id = 10000000
+    print po_json_by_rec_read(10000000)
+
+
     #print rec_read_page(user_id, limit=7, offset=0)
     #print rec_read_count(user_id)
 
