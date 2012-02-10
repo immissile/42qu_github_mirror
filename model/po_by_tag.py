@@ -82,14 +82,15 @@ def tag_list_by_po_id(po_id):
     return Zsite.mc_get_list(zsite_id_list)
 
 def po_tag_id_list_new(po, tag_id_list):
-    tag_po_rm_by_po_id(po.id)
+    pass
+    #tag_po_rm_by_po_id(po.id)
 
-    tag_id_list = tag_id_list.split(',')
-    for tag in tag_id_list:
-        zsite_tag_po_new_by_name(tag, po, 100)
+    #tag_id_list = tag_id_list.split(',')
+    #for tag in tag_id_list:
+    #    zsite_tag_po_new_by_name(tag, po, 100)
 
-    tag_id_list = feed.tag_id_list.split(' '
-    rec_read_new(po.id, tag_id_list)
+    #tag_id_list = feed.tag_id_list.split(' '
+    #rec_read_new(po.id, tag_id_list)
 
 if __name__ == '__main__':
     pass
