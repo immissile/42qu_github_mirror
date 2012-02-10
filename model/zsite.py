@@ -209,13 +209,10 @@ if __name__ == '__main__':
     from zweb.orm import ormiter
     from model.ico import  pic_url, ico_save, picopen
     from os.path import exists
-    for zsite in ormiter(Zsite, "cid=%s"%CID_USER):
-        name = zsite.name.decode("utf-8","ignore")[:24]
-        if name != zsite.name:
-            print zsite.name
-            print name
-            zsite.name = name
-            zsite.save() 
+    from model.cid import CID_TAG
+    for zsite in ormiter(Zsite, "cid=%s"%CID_TAG):
+        print zsite.link
+        break
 #    for line in """
 #/mnt/zpage/721/557/186925.jpg
 #/mnt/zpage/721/142/185486.jpg
