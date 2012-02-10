@@ -2,77 +2,19 @@
 <%!
 from yajl import dumps
 from cgi import escape
-from model.feed_import import FeedImport, FEED_IMPORT_STATE_INIT
 from model.douban import is_rt_by_title
 %>
 <%def name="htm_head()">
 ${css.god_autocomplete|n}
-<style>
-    #tag_id_list{
-        font-size:16px;
-        padding:3px;
-        width:90%;
-    }
-    .redis_cid{
-        width:60%;
-    }
-    .redis_cid span{
-        float:left;
-        margin-left:27px;
-        margin-top:14px;
-    }
-    #title{
-        padding:7px;
-        width:90%;
-        display:block;
-        margin:14px 0;
-    }
-    .check{
-        font-size:16px;
-        margin-top:14px
-    }
-    .check label{
-        margin-right:32px
-    }
-    #txt
-    {
-        width:90%;
-        height:500px;
-        padding:3px 7px;
-    }
-    #okbtn{
-        padding:7px 30px;
-        margin-top:14px;    
-    }
-    #nobtn{
-        float:right;
-        margin-right:10%
-    } 
-</style>
+${css.god_feed_import|n}
 </%def>
 
-<%
-feed = FeedImport.where(state = FEED_IMPORT_STATE_INIT)
-result={}
-if feed:
-    result['id'] = feed[0].id
-    result['title'] = feed[0].title
-    result['txt'] = feed[0].txt
-    result['tag_id_list'] = []
-    for tag in feed[0].tag_id_list.split(','):
-        result['tag_id_list'].append((tag,0))
-    #result['tag_id_list'] = feed[0].tag_id_list
-    result['author_rm'] = is_rt_by_title(feed[0].title) 
-    result['url']=feed[0].url
-
-%>
-
 <script type="text/x-json" id="site_data">
-    ${escape(dumps(result))|n}
+${result|n}
 </script>
 <script src="${js.god_autocomplete|n}"></script>
 <script id="render_txt" type="text/x-jquery-tmpl">
-    <%text>
+<%text>
     <form id="editform" rel="${id}">
     <input id="title" name="title" type="text" value="${title}" >
     <textarea id="txt" name="txt">{{html txt}}</textarea>
@@ -99,9 +41,6 @@ if feed:
 </form>
 </%text>
 </script>
-
-<div id="editwrapper">
-</div>
 
 <button id="okbtn">确认</button>
 <button id="nobtn">跳过</button>
