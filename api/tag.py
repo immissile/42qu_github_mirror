@@ -12,7 +12,9 @@ class TagGet(Base):
 
     def post(self):
         name = self.get_argument('q',None)
-        result = dumps((int(i[0]),int(i[1]),i[2]) for i in auto_complete_tag.id_name_list_by_name_list(name)) 
+        if name:
+            result = dumps((int(i[0]),int(i[1]),i[2]) for i in auto_complete_tag.id_rank_name_list_by_str(name)) 
+
         self.finish(jsonp(self,result))
 
     get = post

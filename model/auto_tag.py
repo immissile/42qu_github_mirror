@@ -93,7 +93,7 @@ class AutoComplete:
 
             if not redis.exists(mkey):
                 p = redis.pipeline()
-                p.zinterstore(mkey, map(ZSET_CID.__mod__, key_list), 'MAX')
+                p.zinterstore(mkey, map(ZSET_CID.__mod__, name_list), 'MAX')
                 p.expire(mkey, EXPIRE*7)
                 p.execute()
 

@@ -26,7 +26,7 @@ def _get(self):
             'id':feed.id,
             'title':feed.title,
             'txt':feed.txt,
-            'tags':feed.tags,
+            'tags':[(tag,0) for tag in feed.tags.split(',')],
             'author_rm':author_rm,
             'url':feed.url
         }
