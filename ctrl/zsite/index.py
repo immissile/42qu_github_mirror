@@ -41,10 +41,6 @@ class Feed(LoginBase):
             rec_item_list = po_json_by_rec_read( current_user_id)
         )
 
-@urlmap('/read')
-class Read(LoginBase):
-    def get(self):
-        return self.render()
 
 
 
