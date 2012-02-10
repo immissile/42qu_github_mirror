@@ -4,37 +4,86 @@ from time import time
 from model.po_json import po_json
 from model.days import time_new_offset
 from zkit.algorithm.wrandom import wsample2
+from zkit.zitertools import lineiter, chunkiter
+from array import array
+
+__metaclass__ = type
+
+def dumps_id_rank(id_rank):
+    r = array('I')    
+    r.fromlist(lineiter(id_rank))
+    return r.tostring() 
+
+def loads_id_rank(id_rank):
+    r = array('I')    
+    r.fromstring(id_rank)
+    return list(chunkiter(r,2)) 
+
 
 REDIS_REC_LOG = 'Rec:%s'
 REDIS_REC_USER_TOPIC = "Rec>%s"
+REC_TOPIC_DEFAULT = []
+REC_TOPIC_DEFAULT_DUMPS = dumps_id_rank(REC_TOPIC_DEFAULT) 
 
 def rec_read_by_topic(topic_id):
     return 
 
-def topic_id_by_user_id(user_id):
-    key = REDIS_REC_USER_TOPIC%user_id
-    user_topic = [] 
+class RecTopicPicker:
+    def __init__(self, user_id):
+        key = REDIS_REC_USER_TOPIC%user_id
+        result = redis.get(key)
 
-    if user_topic:
-        user_topic_picker = wsample2(user_topic)
-    
+        if result is None:
+            result = REC_TOPIC_DEFAULT 
+            redis.set(_key, REC_TOPIC_DEFAULT_DUMPS)
+        else:
+            result = loads_id_rank(id_rank)
+
+        self._topic_id_rank_list = result
+        self._key = key 
+        self._picker = wsample2(result)
+
+    def delete(self, topic_id):
+        r = []
+        for i in self.topic_id_rank_list:
+            if i[0] == topic_id:
+                continue
+            r.append(i)
+
+        self._picker = wsample2(r)
+        self._topic_id_rank_list = r 
+        redis.set(self._key, dumps_id_rank(r))
+ 
+    def choice(self):
+        user_topic = [] 
+
+        if user_topic:
+            return user_topic 
 
 def rec_read(user_id, limit):
     now = time_new_offset()
 
     if limit < 0:
         limit = 0
-
+    
     t = []
     count = 0
     offset = 0
 
+    rec_topic_picker = RecTopicPicker(user_id)
+
     while count < limit:
-        topic_id = user_topic_picker()[0]
+
+        topic_id = rec_topic_picker.choice()
         if not topic_id:
-            continue
-        i = rec_read_by_topic(topic_id)
-        t.append(i)
+            break
+
+        po_id = rec_read_by_topic(topic_id)
+        if not po_id:
+            rec_read_by_topic.delete(topic_id)
+            continue 
+
+        t.append(po_id)
         t.append(now+offset)
 
         offset += 0.01
