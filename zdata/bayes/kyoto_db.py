@@ -10,16 +10,15 @@ from kyotocabinet import *
 from zdata.config import KYOTO_DB_PATH
 
 MAX_INT = (1<<32)-1
-CURRENT_PATH = path.dirname(path.abspath(__file__))
 
 class DB_Kyoto(object):
     def __init__(self, db_file):
         #from train import TAG2ID, WORD2ID#, BAYES_RANK
         #self.ider = WORD2ID
-        super(DB_Kyoto, self).__init__()
         self.db = DB()
         self.db_file = db_file
-        if not self.db.open(path.join(KYOTO_DB_PATH,self.db_file), DB.OREADER):
+        print path.join(KYOTO_DB_PATH,self.db_file)
+        if not self.db.open(path.join(KYOTO_DB_PATH,self.db_file), DB.OWRITER | DB.OCREATE):
             print >>sys.stderr, "open error: " + str(self.db.error())
 
     def set(self,entry):
@@ -70,5 +69,9 @@ def convert2dict(array_l):
     return [ (array_l[i],array_l[i+1]) for i in range(len(array_l)) if i%2==0]
 
 if __name__=='__main__':
-    import doctest
-    doctest.testmod()
+    #import doctest
+    #doctest.testmod()
+    from kyotocabinet import DB
+    db = DB()
+    db.open('/mnt/zdata/kyoto/kyoto.kch', DB.OREADER)
+    print db.get(916100)

@@ -4,6 +4,7 @@
 import _env
 from model.import_feed import feed2po_new, zsite_id_by_douban_user_id, ImportFeed, IMPORT_FEED_STATE_INIT, DOUBAN_ZSITE_ID, IMPORT_FEED_CID_DICT
 from model.duplicate import Duplicator
+from model.zsite import Zsite
 from zkit.txt import format_txt
 from config import DUMPLICATE_DB_PREFIX
 from zkit.htm2txt import htm2txt
@@ -36,7 +37,9 @@ def import_feed_new(title, txt, url, src_id, zsite_id, tags='', state=IMPORT_FEE
         #cid = IMPORT_FEED_CID_DICT[zsite_id]
 
         if not tags:
-            tags = '`'.join(tag_getter.get_tag(txt))
+            name_list = tag_getter.get_tag(txt)
+            for tag_name in  name_list:
+                zsite_list.append(Zsite.get(name=tag_name))
 
         new_feed = ImportFeed(
                 title=title,

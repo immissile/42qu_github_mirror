@@ -17,7 +17,7 @@ ID2TAG = TAG2ID.id2word()
 class GetTag(object):
     def __init__(self ):
         self.idf = idf_zhihu()
-        self.db = DB_Kyoto('kyoto.kch')
+        self.db = DB_Kyoto('bayes.kch')
 
     def get_tag(self, txt):
         topic_rank = defaultdict(float)
@@ -31,6 +31,8 @@ class GetTag(object):
             WORD2ID.id_list_by_word_list(i[0] for i in tfidf_list)
         ):
             topic_items_dict  = self.db.get(word_id)
+            print word,word_id,topic_items_dict
+            raw_input()
             if topic_items_dict:
                 for topic_id, bayes in topic_items_dict:
                     topic_rank[topic_id] += (word_tfidf*bayes)
