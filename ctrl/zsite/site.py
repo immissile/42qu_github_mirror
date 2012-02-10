@@ -16,7 +16,6 @@ from ctrl.site.index import _site_save
 from model.zsite_url import url_by_id, url_new
 from model.zsite_fav import zsite_fav_rm
 from model.search_zsite import search_new
-from ctrl.zsite.index import render_zsite_site
 from _handler import ZsiteBase
 from model.zsite_list import zsite_list_count, zsite_id_list
 from ctrl._util.site import _SiteListBase, FavBase, MyBase
@@ -173,18 +172,4 @@ class MySite( SiteListBase, MyBase, ZsiteBase):
     page_url = '/site/my-%s'
 
 
-@urlmap('/read')
-@urlmap('/read-(\d+)')
-class Read(LoginBase):
-    def get(self, n=1):
-        zsite = self.zsite
-        if self.cid == CID_SITE:
-            current_user = self.current_user
-            current_user_id = self.current_user_id
-            zsite_fav_get_and_touch(zsite, current_user_id)
-
-            li, page = render_zsite_site(self, n, '/read-%s')
-            self.render(li=li, page=page)
-        else:
-            self.render("/ctrl/zsite/index/read.htm")
 
