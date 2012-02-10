@@ -1,6 +1,6 @@
 #coding:utf-8
 import _env
-from idf import Idf
+from df import Idf
 from config import ZDATA_PATH
 from os.path import join, exists
 from yajl import loads
@@ -8,15 +8,15 @@ from glob import glob
 from os import mkdir
 import envoy
 
-ZDATA_PATH_TRAIN_IDF = join(ZDATA_PATH, "train/idf")
+ZDATA_PATH_TRAIN_IDF = join(ZDATA_PATH, "train/df")
 
 def train(filename, parser):
-    if filename.endswith(".idf"):
+    if filename.endswith(".df"):
         return
 
     path = join(ZDATA_PATH_TRAIN_IDF, filename)
 
-    tofile = "%s.idf"%path
+    tofile = "%s.df"%path
     if exists(tofile):
         cmd = 'scp %s work@stdyun.com:%s'%(tofile, tofile)
         print cmd
@@ -27,16 +27,16 @@ def train(filename, parser):
     if not exists(path):
         return
 
-    idf = Idf()
+    df = Idf()
     count = 0
     with open(path) as f:
         for txt in parser(f):
-            idf.append(txt)
+            df.append(txt)
             if count%1000 == 1:
                 print filename, count
             count += 1
 
-    idf.tofile(tofile)
+    df.tofile(tofile)
 
 def douban_review_parser(review):
     result = []
