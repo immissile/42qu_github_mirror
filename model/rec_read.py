@@ -3,11 +3,21 @@ from _db import McCache
 from time import time
 from model.po_json import po_json
 from model.days import time_new_offset
+from zkit.algorithm.wrandom import wsample2
 
 REDIS_REC_LOG = 'Rec:%s'
 
+def rec_read_by_topic(topic_id):
+    return []
+
 def rec_read(user_id, limit):
     now = time_new_offset()
+
+    user_topic = [] 
+    if not user_topic:
+        user_topic = []
+
+    user_topic_picker = wsample2(user_topic)
 
     if limit < 0:
         limit = 0
@@ -17,8 +27,9 @@ def rec_read(user_id, limit):
     offset = 0
 
     while count < limit:
-        continue
-        #推荐一个 
+        topic_id = user_topic_picker()[0]
+
+        i = rec_read_by_topic(topic_id)
         t.append(i)
         t.append(now+offset)
 
