@@ -6,11 +6,13 @@ from model.days import time_new_offset
 from zkit.algorithm.wrandom import wsample2
 
 REDIS_REC_LOG = 'Rec:%s'
+REDIS_REC_USER_TOPIC = "Rec>%s"
 
 def rec_read_by_topic(topic_id):
     return 
 
 def topic_id_by_user_id(user_id):
+    key = REDIS_REC_USER_TOPIC%user_id
     user_topic = [] 
 
     if user_topic:
