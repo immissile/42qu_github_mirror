@@ -173,6 +173,8 @@ def begin_end_by_minute(begin_time, end_time):
 
     return ' '.join(row1), row2, diff_day
 
+def time_new_offset():
+    return int(time() - 1327823396)
 
 if __name__ == '__main__':
-    print days2today(today_days())
+    print time_new_offset()
