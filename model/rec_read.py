@@ -25,12 +25,13 @@ REDIS_REC_USER_TOPIC = "Rec>%s"
 REC_TOPIC_DEFAULT = []
 REC_TOPIC_DEFAULT_DUMPS = dumps_id_rank(REC_TOPIC_DEFAULT) 
 
-def rec_read_by_topic(topic_id):
+def rec_read_by_topic(user_id, topic_id):
     return 
 
 class RecTopicPicker:
     def __init__(self, user_id):
         key = REDIS_REC_USER_TOPIC%user_id
+
         result = redis.get(key)
 
         if result is None:
@@ -41,7 +42,7 @@ class RecTopicPicker:
 
         self._topic_id_rank_list = result
         self._key = key 
-        self._picker = wsample2(result)
+        self._picker_set()
 
     def delete(self, topic_id):
         r = []
@@ -50,15 +51,24 @@ class RecTopicPicker:
                 continue
             r.append(i)
 
-        self._picker = wsample2(r)
         self._topic_id_rank_list = r 
         redis.set(self._key, dumps_id_rank(r))
+        self._picker_set()
+
+    def _picker_set(self):
+        _topic_id_rank_list = self._topic_id_rank_list
+        if _topic_id_rank_list:
+            self._picker = wsample2(_topic_id_rank_list)
+        else:
+            self._picker = None
  
     def choice(self):
-        user_topic = [] 
+        _picker = self._picker
 
-        if user_topic:
-            return user_topic 
+        if _picker is None:
+            return
+
+        return _picker()
 
 def rec_read(user_id, limit):
     now = time_new_offset()
@@ -78,7 +88,7 @@ def rec_read(user_id, limit):
         if not topic_id:
             break
 
-        po_id = rec_read_by_topic(topic_id)
+        po_id = rec_read_by_topic(user_id, topic_id)
         if not po_id:
             rec_read_by_topic.delete(topic_id)
             continue 
