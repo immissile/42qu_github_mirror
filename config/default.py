@@ -29,7 +29,7 @@ def prepare(o):
         (10014590,(PRIVILEGE_FEED_IMPORT,)), #夭夭
     )
 
-    o.ZDATA_FILE = "/mnt/zdata/"
+    o.ZDATA_PATH = "/mnt/zdata/"
 
     o.NGINX_LOGROTATE_DIR = "/var/log/nginx"
     o.PRIVILEGE_SUPER = set((
