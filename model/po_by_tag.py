@@ -28,12 +28,14 @@ def zsite_tag_po_new(zsite_id, po, rank=1):
     tag_po.rank = rank
     tag_po.save()
 
-    user_rank = zsite_list_get(po.user_id, zsite_id, CID_TAG)
-    if not user_rank:
-        user_rank = zsite_list_new(po.user_id, zsite_id, CID_TAG)
-    else:
-        user_rank.rank += 1
-        user_rank.save()
+    user_id = po.user_id
+    if user_id:
+        user_rank = zsite_list_get(user_id, zsite_id, CID_TAG)
+        if not user_rank:
+            user_rank = zsite_list_new(user_id, zsite_id, CID_TAG)
+        else:
+            user_rank.rank += 1
+            user_rank.save()
 
     mc_flush(zsite_id, po_id)
 
@@ -80,11 +82,23 @@ def zsite_tag_po_new_by_name(tag_name, po, rank):
     tag = tag_by_name(tag_name)
     return zsite_tag_po_new(tag.id, po, rank)
 
-def tag_rm_by_po_id(po_id):
-    for tag_id in tag_id_list_by_po_id(po_id):
+def tag_rm_by_po(po):
+    po_id = po.id
+    user_id = po.user_id
+    _tag_rm_by_user_id_id_list(user_id, tag_id_list_by_po_id(po_id))
+    mc_flush_by_po_id(po_id)
+
+def _tag_rm_by_user_id_id_list(user_id, id_list):
+    for tag_id in id_list:
         PoZsiteTag.where(zsite_id=tag_id).delete()
         mc_flush_by_zsite_id(tag_id)
-    mc_flush_by_po_id(po_id)
+
+        user_rank = zsite_list_get(user_id, tag_id, CID_TAG)
+        if not user_rank and user_rank.rank:
+            user_rank.rank -= 1
+            user_rank.save()
+            
+
 
 @mc_tag_id_list_by_po_id("{po_id}")
 def tag_id_list_by_po_id(po_id):
@@ -98,18 +112,16 @@ def tag_list_by_po_id(po_id):
     zsite_id_list = tag_id_list_by_po_id(po_id)
     return Zsite.mc_get_list(zsite_id_list)
 
-def po_tag_id_list_new(po_id, tag_id_list):
+def po_tag_id_list_new(po, tag_id_list):
     new_tag_id_list = set(map(int, tag_id_list))
     old_tag_id_list = set(tag_id_list_by_po_id)
     
     to_add = new_tag_id_list - old_tag_id_list
     to_rm = old_tag_id_list - new_tag_id_list
 
-
-    for tag_id in to_rm:
-        PoZsiteTag.where(zsite_id=tag_id).delete()
-        mc_flush_by_zsite_id(tag_id)
-    
+    user_id = po.user_id
+    _tag_rm_by_user_id_id_list(user_id, to_rm)
+ 
     for tag_id in to_add:
         zsite_tag_po_new(zsite_id, po)
 
