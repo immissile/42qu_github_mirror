@@ -10,7 +10,7 @@ from kv import Kv
 from url_short import url_short_id
 from site_sync import site_sync_new
 from rec_read import  rec_read_new
-from po_by_tag import zsite_tag_po_new_by_name, tag_po_rm_by_po_id
+from po_by_tag import zsite_tag_po_new_by_name, tag_po_rm_by_po_id, po_tag_id_list_new
 from part_time_job import part_time_job_new
 from config.privilege import PRIVILEGE_FEED_IMPORT
 
@@ -127,9 +127,9 @@ def feed2po_new():
             feed.state = FEED_IMPORT_STATE_POED
             feed.save()
 
-            po_tag_new(tags, po)
+            po_tag_id_list_new(po, tag_id_list)
 
-def review_feed(id,  title, txt, tags, current_user_id, author_rm=False, sync=False):
+def review_feed(id,  title, txt, tag_id_list, current_user_id, author_rm=False, sync=False):
     feed = FeedImport.get(id)
     if feed and feed.state==FEED_IMPORT_STATE_INIT :
         if author_rm:
@@ -145,21 +145,12 @@ def review_feed(id,  title, txt, tags, current_user_id, author_rm=False, sync=Fa
 
         feed.title = title
         feed.txt = txt
-        feed.tags = tags
+        feed.tag_id_list = tag_id_list
         
         part_time_job_new(PRIVILEGE_FEED_IMPORT, feed.id, current_user_id)
 
         feed.save()
 
-def po_tag_new(tags, po):
-    tag_po_rm_by_po_id(po.id)
-
-    tags = tags.split(',')
-    for tag in tags:
-        zsite_tag_po_new_by_name(tag, po, 100)
-
-    tags = feed.tags.split(' '
-    rec_read_new(po.id, tags)
 
 if __name__ == '__main__':
     pass
