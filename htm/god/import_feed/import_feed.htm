@@ -190,7 +190,10 @@ if feed:
     result['id'] = feed[0].id
     result['title'] = feed[0].title
     result['txt'] = feed[0].txt
-    result['tags'] = feed[0].tags
+    result['tags'] = []
+    for tag in feed[0].tags.split(','):
+        result['tags'].append((tag,0))
+    #result['tags'] = feed[0].tags
     result['author_rm'] = is_rt_by_title(feed[0].title) 
     result['url']=feed[0].url
 
