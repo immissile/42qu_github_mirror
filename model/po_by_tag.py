@@ -116,9 +116,11 @@ def po_tag_new_by_autocompelte(po, tag_list):
     tag_id_list = []
     for i in tag_id_list:
         if i.startswith("-"):
-            i = i[1:]
+            tag = tag_by_str(i[1:])
+            tag_id_list.append(tag.id)
         else:
             tag_id_list.append(i)
+    return po_tag_id_list_new(po, tag_id_list)
 
 def po_tag_id_list_new(po, tag_id_list):
     new_tag_id_list = set(map(int, tag_id_list))
