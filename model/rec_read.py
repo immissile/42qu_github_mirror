@@ -8,16 +8,17 @@ from zkit.algorithm.wrandom import wsample2
 REDIS_REC_LOG = 'Rec:%s'
 
 def rec_read_by_topic(topic_id):
-    return []
+    return 
+
+def topic_id_by_user_id(user_id):
+    user_topic = [] 
+
+    if user_topic:
+        user_topic_picker = wsample2(user_topic)
+    
 
 def rec_read(user_id, limit):
     now = time_new_offset()
-
-    user_topic = [] 
-    if not user_topic:
-        user_topic = []
-
-    user_topic_picker = wsample2(user_topic)
 
     if limit < 0:
         limit = 0
@@ -28,7 +29,8 @@ def rec_read(user_id, limit):
 
     while count < limit:
         topic_id = user_topic_picker()[0]
-
+        if not topic_id:
+            continue
         i = rec_read_by_topic(topic_id)
         t.append(i)
         t.append(now+offset)
