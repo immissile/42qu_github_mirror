@@ -81,7 +81,7 @@ def tag_list_by_po_id(po_id):
     zsite_id_list = PoZsiteTag.where(po_id=po_id).col_list(col="zsite_id")
     return Zsite.mc_get_list(zsite_id_list)
 
-def po_tag_id_list_new(po, tag_id_list):
+def po_id_tag_id_list_new(po, tag_id_list):
     pass
     #tag_po_rm_by_po_id(po.id)
 
