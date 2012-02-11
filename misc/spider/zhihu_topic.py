@@ -40,19 +40,19 @@ def parse_topic(data, url):
                 img = str(img).replace('_s.jpg', '_l.jpg')
             if tip == url:
                 url = ''
-            other_name = i[6:]
+            other_name = set(map(str, i[6:]))
             #if other_name:
             #    print tip
             #    for i in other_name:
             #        print i,
             #    raw_input()
             topic_id = int(topic_id)
-            if ( topic_id not in RESULT ) or ( 
-                not RESULT[topic_id][-1] and other_name
-            ):
-                RESULT[topic_id] = (
-                    str(tip), str(url), img , int(rank), map(str,other_name)
-                )
+            if topic_id not in RESULT:
+                RESULT[topic_id] = [
+                    str(tip), str(url), img , int(rank), other_name
+                ]
+            else:
+                RESULT[topic_id][-1]|=other_name
 
 def spider(url_list):
     fetcher = Fetch('/tmp')
@@ -81,6 +81,7 @@ if __name__ == '__main__':
     for i in RESULT:
         result.append([i[0]])
         result[-1].extend(i[1])
+        result[-1][-1] = list(result[-1][-1])
 
     with open('zhihu_topic_data.py', 'w') as topic:
         topic.write('#coding:utf-8\n')
