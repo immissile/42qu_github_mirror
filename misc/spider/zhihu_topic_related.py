@@ -19,10 +19,13 @@ URL_TEMPLATE = 'http://www.zhihu.com/topic/related?tid=%s'
 from zkit.spider import Rolling, Fetch, GSpider
 
 RESULT = {}
-
+TOPIC = {}
 def parse_topic(data, url, id):
-    RESULT[id] = loads(data)
-
+    RESULT[id] = li = []
+    for i in loads(data):
+        id = i[3]
+        li.append(id)
+        TOPIC[id] = map(str, (i[0], i[1], i[2], i[4]))
 
 def spider(url_list):
     fetcher = Fetch('/tmp')
@@ -31,7 +34,7 @@ def spider(url_list):
     debug = False
     debug = True
 
-    spider_runner = GSpider(spider, workers_count=42, debug=debug)
+    spider_runner = GSpider(spider, workers_count=1, debug=debug)
     spider_runner.start()
 
 from operator import itemgetter
@@ -50,8 +53,10 @@ if __name__ == '__main__':
 
     with open('zhihu_topic_related_data.py', 'w') as topic:
         topic.write('#coding:utf-8\n')
-        topic.write('ZHIHU_TOPIC_RELATED = ')
+        topic.write('TOPIC_RELATED = ')
         topic.write(pformat(RESULT))
+        topic.write('TOPIC = ')
+        topic.write(pformat(TOPIC))
 
 
 

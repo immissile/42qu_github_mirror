@@ -26,6 +26,7 @@ def zhihu_topic_title(html):
 
 def zhihu_topic_parser(html, url):
     txt = txt_wrap_by( 'DZMT.push(["current_topic",',')',html )
+    print txt
     print pformat(loads(txt)[:2])
 
 
@@ -39,7 +40,7 @@ def spider(url_list):
     fetcher = Fetch(
         '/tmp',
         tuple( { 'Cookie': i } for i in COOKIE)[0],
-        1,
+        0,
         zhihu_topic_title
     )
     spider = Rolling( fetcher, url_list )
