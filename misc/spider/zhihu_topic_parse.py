@@ -19,7 +19,7 @@ def name_rank():
         ]
         yield _name , name, rank
 
-for name, rank in name_rank():
+for _name, name, rank in name_rank():
     for i in name:
         NAME_COUNT[i] += 1
 
@@ -55,7 +55,8 @@ for _name, name, rank in name_rank():
         NAME_KEYWORD[name].extend(i)
 
 #    NAME_RANK[name] = rank
-    NAME_RANK[_name] = name
+    if _name != name:
+        NAME_RANK[_name] = name
 
 import _env
 from zkit.pprint import pprint
