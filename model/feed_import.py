@@ -159,10 +159,11 @@ if __name__ == '__main__':
     #feed_import_by_douban_feed()
     #print FeedImport.where(state = FEED_IMPORT_STATE_INIT)
     #feed2po_new()
-    from zweb.orm import ormiter
-    for i in ormiter(FeedImport):
-        i.txt = i.txt.replace("豆友","网友").replace("豆油","私信").replace("豆邮","私信")
-        i.tag_id_list = ""
-        print i.id, i.tag_id_list
-        i.save()
-
+    #from zweb.orm import ormiter
+    #for i in ormiter(FeedImport):
+    #    i.txt = i.txt.replace("豆友","网友").replace("豆油","私信").replace("豆邮","私信")
+    #    i.tag_id_list = ""
+    #    print i.id, i.tag_id_list
+    #    i.save()
+    print FeedImport.where(state=FEED_IMPORT_STATE_INIT)[:2]
+    print FeedImport.get(state = FEED_IMPORT_STATE_INIT)
