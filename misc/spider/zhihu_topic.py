@@ -17,7 +17,8 @@ def chariter():
                 yield i[-1]
 
 
-URL_TEMPLATE = 'http://www.zhihu.com/topic/autocomplete?token=%s&max_matches=999999&use_similar=0'
+#URL_TEMPLATE = 'http://www.zhihu.com/topic/autocomplete?token=%s&max_matches=999999&use_similar=0'
+URL_TEMPLATE = 'http://www.zhihu.com/topic-reg/autocomplete?no_add=1&token=%s&max_matches=9999999&use_similar=0'
 DEFAULT_IMG = '.zhimg.com//e8/2b/e82bab09c_'
 
 from zkit.spider import Rolling, Fetch, GSpider
@@ -27,17 +28,31 @@ RESULT = {}
 def parse_topic(data, url):
     if 'zhimg.com' not in data:
         return
+    #["topic", "百度", "百度", "http://p1.zhimg.com//e7/5e/e75e39ed2_s.jpg", 413, "5854", "baidu"]
     data = loads(data)[0]
     for i in data:
         if i[0] == 'topic' and len(i) > 3:
-            tip, url, img , topic_id , rank = i[1:]
+            tip, url, img , topic_id , rank = i[1:6]
+
             if DEFAULT_IMG in img:
-                img = None
+                img = ''
             else:
                 img = str(img).replace('_s.jpg', '_l.jpg')
             if tip == url:
                 url = ''
-            RESULT[int(topic_id)] = (str(tip), str(url), img , int(rank))
+            other_name = i[6:]
+            #if other_name:
+            #    print tip
+            #    for i in other_name:
+            #        print i,
+            #    raw_input()
+            topic_id = int(topic_id)
+            if ( topic_id not in RESULT ) or ( 
+                not RESULT[topic_id][-1] and other_name
+            ):
+                RESULT[topic_id] = (
+                    str(tip), str(url), img , int(rank), map(str,other_name)
+                )
 
 def spider(url_list):
     fetcher = Fetch('/tmp')
@@ -52,6 +67,10 @@ def spider(url_list):
 from operator import itemgetter
 
 if __name__ == '__main__':
+
+#    print u'["topic", "\u767e\u5ea6", "\u767e\u5ea6", "http://p1.zhimg.com//e7/5e/e75e39ed2_s.jpg", 413, "5854", "baidu"]'
+
+
     url_list = []
     for i in set(chariter()):
         url_list.append((parse_topic, URL_TEMPLATE%quote(i)))
