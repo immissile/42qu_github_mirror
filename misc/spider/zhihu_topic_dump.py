@@ -18,7 +18,11 @@ def chariter():
 
 
 #URL_TEMPLATE = 'http://www.zhihu.com/topic/autocomplete?token=%s&max_matches=999999&use_similar=0'
+#这个的rank是关注人数
+
 URL_TEMPLATE = 'http://www.zhihu.com/topic-reg/autocomplete?no_add=1&token=%s&max_matches=9999999&use_similar=0'
+#这个的rank是热门回答数
+
 DEFAULT_IMG = '.zhimg.com//e8/2b/e82bab09c_'
 
 from zkit.spider import Rolling, Fetch, GSpider
