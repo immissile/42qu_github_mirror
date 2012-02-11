@@ -19,10 +19,11 @@ def retryOnURLError(self, trycnt=3):
     return funcwrapper
 
 class Fetch(object):
-    def __init__(self, cache, headers={}, sleep=0):
+    def __init__(self, cache, headers={}, sleep=0, cache_valid=bool):
         self.cache = cache
         self.headers = headers
-        self.sleep = sleep 
+        self.sleep = sleep
+        self.cache_valid = cache_valid
 
     def cache_get(self, url):
         cache_dir = path.join(
@@ -36,11 +37,13 @@ class Fetch(object):
         file_name = md5(url).hexdigest()
         file_path = path.join(cache_dir, file_name)
 
+
         if path.exists(file_path):
-            print 'Using cache'
             with open(file_path) as f:
                 data = f.read()
-                return data
+                if self.cache_valid(data):
+                    print 'USE CACHE'
+                    return data
 
     def read(self, url):
         data = urlfetch(url, self.headers)
@@ -76,18 +79,18 @@ def urlfetch(url, headers={}):
     return j
 
 class MultiHeadersFetch(object):
-    def __init__(self,  headers=() ):
+    def __init__(self, headers=() ):
         self._headers = headers
         self.pos = 0
 
     @property
     def headers(self):
         _headers = self._headers
-        
-        self.pos = (self.pos+1)%len(_headers) 
+
+        self.pos = (self.pos+1)%len(_headers)
         while True:
             return _headers[self.pos]
-    
+
     def read(self, url):
         headers = self.headers
         #print headers
