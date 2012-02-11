@@ -91,6 +91,22 @@ CREATE TABLE `douban_user_feed` (
   KEY `Index_2` (`rid`,`user_id`,`cid`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `feed_import`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `feed_import` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varbinary(512) NOT NULL,
+  `txt` mediumblob NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `zsite_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `rid` int(10) unsigned NOT NULL DEFAULT '0',
+  `url` varbinary(1024) NOT NULL,
+  `tag_id_list` varbinary(1024) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_2` (`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=binary;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `google_rank`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -106,23 +122,6 @@ CREATE TABLE `google_rank` (
   UNIQUE KEY `uid` (`uid`) USING BTREE,
   KEY `Index_3` (`follower`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `feed_import`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `feed_import` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varbinary(512) NOT NULL,
-  `txt` mediumblob NOT NULL,
-  `state` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `zsite_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `rid` int(10) unsigned NOT NULL DEFAULT '0',
-  `url` varbinary(1024) NOT NULL,
-  `cid` smallint(6) NOT NULL,
-  `tags` varbinary(512) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `Index_2` (`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=binary;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `rss_po`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
