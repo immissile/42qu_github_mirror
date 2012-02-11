@@ -9,8 +9,9 @@ from zhihu_topic_data import ZHIHU_TOPIC
 from operator import itemgetter
 from zkit.spider import Rolling, Fetch, MultiHeadersFetch, GSpider, NoCacheFetch
 
+ZHIHU_TOPIC.sort(key=lambda x:-x[4])
+
 def zhihu_topic_url():
-    ZHIHU_TOPIC.sort(key=lambda x:-x[4])
     for i in ZHIHU_TOPIC:
         url = i[2] or i[1]
         url = quote(url)
@@ -27,13 +28,13 @@ COOKIE = (
 
 def spider(url_list):
 #    fetcher = MultiHeadersFetch(  headers=tuple( { 'Cookie': i } for i in COOKIE))
-    fetcher = Fetch("/tmp", headers=tuple( { 'Cookie': i } for i in COOKIE)[0], sleep=1)
+    fetcher = Fetch("/tmp", headers=tuple( { 'Cookie': i } for i in COOKIE)[0])
     spider = Rolling( fetcher, url_list )
 
     debug = False
     debug = True
 
-    spider_runner = GSpider(spider, workers_count=1, debug=debug)
+    spider_runner = GSpider(spider, workers_count=30, debug=debug)
     spider_runner.start()
 
 spider(zhihu_topic_url())
