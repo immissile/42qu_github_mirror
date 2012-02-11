@@ -6,7 +6,8 @@ from collections import defaultdict
 NAME_COUNT = defaultdict(int)
 
 def name_rank():
-    for id, name , url , img, rank in ZHIHU_TOPIC:
+    for id, _name , url , img, rank in ZHIHU_TOPIC:
+        name = _name
         id = int(id)
         if "知乎" in name and "知乎"!=name: 
             continue
@@ -16,7 +17,7 @@ def name_rank():
             for i in
             name.split('（')
         ]
-        yield name, rank
+        yield _name , name, rank
 
 for name, rank in name_rank():
     for i in name:
@@ -29,7 +30,7 @@ for k, v in NAME_COUNT.iteritems():
 
 NAME_KEYWORD = {}
 NAME_RANK = {}
-for name, rank in name_rank():
+for _name, name, rank in name_rank():
     if rank < 3:
         continue
     name_list = [name[0]]
@@ -44,7 +45,7 @@ for name, rank in name_rank():
 
     name = ' '.join((
         ' / '.join(name_list),
-        ' '.join('#%s#'%i for i in name_tag_list)
+#        ' '.join('#%s#'%i for i in name_tag_list)
     )).strip()
 
     NAME_KEYWORD[name] = []
@@ -52,8 +53,9 @@ for name, rank in name_rank():
         i = i.replace("·"," ")
         i = i.split()
         NAME_KEYWORD[name].extend(i)
-     
-    NAME_RANK[name] = rank
+
+#    NAME_RANK[name] = rank
+    NAME_RANK[_name] = name
 
 import _env
 from zkit.pprint import pprint
