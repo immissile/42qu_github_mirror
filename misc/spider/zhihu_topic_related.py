@@ -48,10 +48,10 @@ if __name__ == '__main__':
 
     spider(url_list)
 
-    with open('zhihu_topic_related.py', 'w') as topic:
+    with open('zhihu_topic_related_data.py', 'w') as topic:
         topic.write('#coding:utf-8\n')
         topic.write('ZHIHU_TOPIC_RELATED = ')
-        topic.write(pformat(result))
+        topic.write(pformat(RESULT))
 
 
 

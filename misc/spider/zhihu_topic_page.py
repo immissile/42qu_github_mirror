@@ -19,13 +19,15 @@ def zhihu_topic_url():
         yield zhihu_topic_parser, 'http://www.zhihu.com/topic/%s'%url
 
 def zhihu_topic_title(html):
-    title = txt_wrap_by('<h2 class="xmrw" >', '</h2>', html)
-    return title 
+    return "<h3>相关话题</h3>" in html
 
+# [["\u8c46\u74e3\u4e5d\u70b9", "\u8c46\u74e3\u4e5d\u70b9", "http://p1.zhimg.com/a1/78/a178d3f0d_s.jpg", 4717], [["\u8c46\u74e3", "\u8c46\u74e3", "http://p1.zhimg.com/10/59/1059dd38c_s.jpg", 9675]], 1, 0, "", 0]]);
+#当前话题 当前话题的父话题
 
 def zhihu_topic_parser(html, url):
-    print zhihu_topic_title(html)
-    print html
+    txt = txt_wrap_by( 'DZMT.push(["current_topic",',')',html )
+    print pformat(loads(txt)[:2])
+
 
 COOKIE = (
     #'__utmz=155987696.1328970860.126.10.utmcsr=zhihu.com|utmccn=(referral)|utmcmd=referral|utmcct=/register; __utma=155987696.922373387.1325132903.1328965603.1328970860.126; __utmv=155987696.Logged%20In; q_c0=MjE4NjYyfFV1YjRvdGczalJFOWlCd0g=|1328973675|4be5e7eae08c14109a129099780c733abe350bba; __utmb=155987696.90.9.1328973170544; __utmc=155987696',
