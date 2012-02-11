@@ -24,9 +24,12 @@ def zhihu_topic_title(html):
 # [["\u8c46\u74e3\u4e5d\u70b9", "\u8c46\u74e3\u4e5d\u70b9", "http://p1.zhimg.com/a1/78/a178d3f0d_s.jpg", 4717], [["\u8c46\u74e3", "\u8c46\u74e3", "http://p1.zhimg.com/10/59/1059dd38c_s.jpg", 9675]], 1, 0, "", 0]]);
 #当前话题 当前话题的父话题
 
+COUNT = 0 
 def zhihu_topic_parser(html, url):
     txt = txt_wrap_by( 'DZMT.push(["current_topic",',')',html )
-    print txt
+    COUNT += 1
+    global COUNT
+    print COUNT
     print pformat(loads(txt)[:2])
 
 
@@ -40,7 +43,7 @@ def spider(url_list):
     fetcher = Fetch(
         '/tmp',
         tuple( { 'Cookie': i } for i in COOKIE)[0],
-        0,
+        1,
         zhihu_topic_title
     )
     spider = Rolling( fetcher, url_list )
