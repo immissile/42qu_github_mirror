@@ -105,11 +105,14 @@ count = product_count()
 <a class="cola" href="/feed_import/list/1">修改导入文章</a>
 <p class="coltitle">RSS文章</p>
 
-<a class="cola" href="/rss_index?${Rss.max_id()}"><span class="R">${rss_po_total(RSS_UNCHECK)}</span>未审核</a>
-<a class="cola" href="/rss_index/${RSS_PRE_PO}?${Rss.max_id()}"><span class="R">${rss_po_total(RSS_PRE_PO)}</span>已审核</a>
-<a class="cola" href="/rss_index/${RSS_RT_PO}?${Rss.max_id()}"><span class="R">${rss_po_total(RSS_RT_PO)}</span>已审核并全站转发</a>
-<a class="cola" href="/rss_index/${RSS_POED}?${Rss.max_id()}"><span class="R">${rss_po_total(RSS_POED)}</span>已发表</a>
-<a class="cola" href="/rss_index/${RSS_RM}?${Rss.max_id()}"><span class="R">${rss_po_total(RSS_RM)}</span>已删除</a>
+<%
+max_id = Rss.max_id()
+%>
+<a class="cola" href="/rss_index?${max_id}">未审核</a>
+<a class="cola" href="/rss_index/${RSS_PRE_PO}?${max_id}">已审核</a>
+<a class="cola" href="/rss_index/${RSS_RT_PO}?${max_id}">已审核并全站转发</a>
+<a class="cola" href="/rss_index/${RSS_POED}?${max_id}">已发表</a>
+<a class="cola" href="/rss_index/${RSS_RM}?${max_id}">已删除</a>
 
 <p class="coltitle">RSS订阅</p>
 <a class="cola" href="/rss_gid/0">待订阅</a>
@@ -119,13 +122,13 @@ count = product_count()
 
 
 <p class="coltitle">回复</p>
-<a class="cola" href="/reply_list/${CID_USER}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_USER).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_USER).count()}</span>留言</a>
-<a class="cola" href="/reply_list/${CID_NOTE}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_NOTE).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_NOTE).count()}</span>文章</a>
-<a class="cola" href="/reply_list/${CID_WORD}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_WORD).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_WORD).count()}</span>微博</a>
-<a class="cola" href="/reply_list/${CID_QUESTION}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_QUESTION).count()}</span>评论</a>
-<a class="cola" href="/reply_list/${CID_PHOTO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_PHOTO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_PHOTO).count()}</span>图片</a>
-<a class="cola" href="/reply_list/${CID_VIDEO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_VIDEO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_VIDEO).count()}</span>视频</a>
-<a class="cola" href="/reply_list/${CID_AUDIO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_AUDIO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_AUDIO).count()}</span>声音</a>
+<a class="cola" href="/reply_list/${CID_USER}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_USER).fetchone()[0] or ''}">留言</a>
+<a class="cola" href="/reply_list/${CID_NOTE}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_NOTE).fetchone()[0] or ''}">文章</a>
+<a class="cola" href="/reply_list/${CID_WORD}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_WORD).fetchone()[0] or ''}">微博</a>
+<a class="cola" href="/reply_list/${CID_QUESTION}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}">评论</a>
+<a class="cola" href="/reply_list/${CID_PHOTO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_PHOTO).fetchone()[0] or ''}">图片</a>
+<a class="cola" href="/reply_list/${CID_VIDEO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_VIDEO).fetchone()[0] or ''}">视频</a>
+<a class="cola" href="/reply_list/${CID_AUDIO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_AUDIO).fetchone()[0] or ''}">声音</a>
 
 
 

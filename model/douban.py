@@ -241,13 +241,13 @@ if __name__ == '__main__':
     #print is_rt_by_title(txt)
     #kv_int.set(KV_IMPORT_DOUBAN,0)
     #douban_feed_to_review_iter()
-    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
-        total = i.rec + i.like
-        if total < 2000:
-            i.state = 0
-            i.save()
-        else:
-            print title_normal_rt(i.title)
+#    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
+#        total = i.rec + i.like
+#        if total < 2000:
+#            i.state = 0
+#            i.save()
+#        else:
+#            print title_normal_rt(i.title)
 #    for i in DoubanFeed.where():
 #        if "肝癌" in i.htm:
 #            print i.title, i.link
