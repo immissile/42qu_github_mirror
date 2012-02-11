@@ -12,7 +12,6 @@ ZDATA_PATH_TRAIN_IDF = join(ZDATA_PATH, "train/df")
 
 def main():
     df = Df()
-
     def merge(filename):
         path = join(ZDATA_PATH_TRAIN_IDF, "%s.idf"%filename)
 
