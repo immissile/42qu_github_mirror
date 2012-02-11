@@ -19,9 +19,10 @@ def retryOnURLError(self, trycnt=3):
     return funcwrapper
 
 class Fetch(object):
-    def __init__(self, cache, headers={}):
+    def __init__(self, cache, headers={}, sleep=0):
         self.cache = cache
         self.headers = headers
+        self.sleep = sleep 
 
     def cache_get(self, url):
         cache_dir = path.join(
@@ -42,7 +43,10 @@ class Fetch(object):
                 return data
 
     def read(self, url):
-        return urlfetch(url, self.headers)
+        data = urlfetch(url, self.headers)
+        if self.sleep:
+            time.sleep(self.sleep)
+        return data
 
     @retryOnURLError(3)
     def __call__(self, url):

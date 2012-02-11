@@ -14,25 +14,20 @@ def zhihu_topic_url():
     for i in ZHIHU_TOPIC:
         url = i[2] or i[1]
         url = quote(url)
-        yield 'http://www.zhihu.com/topic/%s'%url
+        yield zhihu_topic_parser, 'http://www.zhihu.com/topic/%s'%url
 
 
 def zhihu_topic_parser(html, url):
     print html
 
 COOKIE = (
-    '__utmz=155987696.1328970860.126.10.utmcsr=zhihu.com|utmccn=(referral)|utmcmd=referral|utmcct=/register; __utma=155987696.922373387.1325132903.1328965603.1328970860.126; __utmv=155987696.Logged%20In; q_c0=MjE4NjYyfFV1YjRvdGczalJFOWlCd0g=|1328973675|4be5e7eae08c14109a129099780c733abe350bba; __utmb=155987696.90.9.1328973170544; __utmc=155987696'
+    '__utmz=155987696.1328970860.126.10.utmcsr=zhihu.com|utmccn=(referral)|utmcmd=referral|utmcct=/register; __utma=155987696.922373387.1325132903.1328965603.1328970860.126; __utmv=155987696.Logged%20In; q_c0=MjE4NjYyfFV1YjRvdGczalJFOWlCd0g=|1328973675|4be5e7eae08c14109a129099780c733abe350bba; __utmb=155987696.90.9.1328973170544; __utmc=155987696',
 
 )
 
 def spider(url_list):
-#    fetcher = MultiHeadersFetch( 
-    fetcher = NoCacheFetch(
-        60,
-        headers=tuple(
-            { 'Cookie': i } for i in COOKIE
-        )
-    )
+#    fetcher = MultiHeadersFetch(  headers=tuple( { 'Cookie': i } for i in COOKIE))
+    fetcher = Fetch("/tmp", headers=tuple( { 'Cookie': i } for i in COOKIE)[0], sleep=1)
     spider = Rolling( fetcher, url_list )
 
     debug = False
