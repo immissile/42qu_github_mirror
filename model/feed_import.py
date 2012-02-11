@@ -54,7 +54,9 @@ def user_by_feed_id_zsite_id(feed_id, zsite_id):
         return douban_user_by_feed_id(feed_id)
 
 def feed_next():
-    return FeedImport.where(state=FEED_IMPORT_STATE_INIT)[1]
+    fdlist = FeedImport.where(state=FEED_IMPORT_STATE_INIT)[1:2]
+    if fdlist:
+        return fdlist[0]
 
 def feed_import_rm(id, current_user_id):
     part_time_job_new(PRIVILEGE_FEED_IMPORT, id, current_user_id)
