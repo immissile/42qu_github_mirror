@@ -9,8 +9,8 @@ import os
 from os.path import join, dirname
 from zkit.tofromfile import tofile, fromfile
 
-from parent_tag import ParentTagger
-from zdata.config import DATA_DIR
+#from parent_tag import ParentTagger
+from zdata.config import DATA_DIR, TRAINING_DATA_DIR
 from kyoto_db import DB_Kyoto
 
 current_path = os.path.dirname(os.path.abspath(__file__))
@@ -95,7 +95,7 @@ class TagWord(object):
         self.tag2id = WordId()
         self.word2id = WordId()
         self.path = path
-        self.parent_tag_finder = ParentTagger()
+        #self.parent_tag_finder = ParentTagger()
         print "Loading done"
 
     def _txt_tag_generator(self):
@@ -115,9 +115,9 @@ class TagWord(object):
             print 'Processing...', data_src
             with open(data_src) as f:
                 for line in f:
-                    #if count > 1000:
-                    #    break
-                    #count += 1
+                    if count > 1000:
+                        break
+                    count += 1
                     data = loads(line)
                     if 'tags' in data:
                         tags = data['tags']
@@ -140,8 +140,8 @@ class TagWord(object):
                     '''
                     查找上级标签
                     '''
-                    parent_list = self.parent_tag_finder.get_parent_tag_list_by_list(tags)
-                    tags.extend(parent_list)
+                    #parent_list = self.parent_tag_finder.get_parent_tag_list_by_list(tags)
+                    #tags.extend(parent_list)
                     id_list = tag2id.id_list_by_word_list(tags)
                     yield data['txt'], id_list
 
@@ -213,12 +213,13 @@ class BayesRank(object):
 #return word_topic_bayes
 
 def main():
-    #tagword = TagWord(join(current_path, 'train_data/'))
-    #tagword.tofile()
-    #WORD_ID2TAG_ID = fromfile(join(DATA_DIR, 'word_id2tag_id'))
+    print join(TRAINING_DATA_DIR,"bayes/")
+    tagword = TagWord(join(TRAINING_DATA_DIR,"bayes/"))
+    tagword.tofile()
+    WORD_ID2TAG_ID = fromfile(join(DATA_DIR, 'word_id2tag_id'))
     bayes_rank = BayesRank(WORD_ID2TAG_ID)
     
-    #bayes_rank.rank()
+    bayes_rank.rank()
     #tofile(join(DATA_DIR, 'bayes_rank') , bayes_rank.rank())
 
 if __name__ == '__main__':

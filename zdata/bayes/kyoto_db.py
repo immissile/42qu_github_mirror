@@ -73,5 +73,9 @@ if __name__=='__main__':
     #doctest.testmod()
     from kyotocabinet import DB
     db = DB()
-    db.open('/mnt/zdata/kyoto/kyoto.kch', DB.OREADER)
-    print db.get(15439)
+    db.open('/mnt/zdata/kyoto/kyoto.kch', DB.OWRITER | DB.OCREATE)
+    for i in db:
+        print i,dir(i)
+
+    db.set(1,1)
+    print db.get(1)
