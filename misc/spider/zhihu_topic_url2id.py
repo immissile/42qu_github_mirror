@@ -13759,18 +13759,20 @@ ID2MY = {
   41475: 10224394L
 }
 
-from zhihu_topic_data_with_follow import ZHIHU_TOPIC
-url2id = {}
-for i in ZHIHU_TOPIC:
-    url = i[2] or i[1]
-    id = i[0]
-    rank = i[-1]
 
-    if id in ID2MY:
-        url2id[ID2MY[id] ] = rank 
+if __name__ == "__main__":
+    
+    url2id = {}
+    for i in ZHIHU_TOPIC:
+        url = i[2] or i[1]
+        id = i[0]
+        rank = i[-1]
+
+        if id in ID2MY:
+            url2id[ID2MY[id] ] = rank 
 
 
-from zkit.pprint import pprint
+    from zkit.pprint import pprint
 
-pprint(url2id)
+    pprint(url2id)
 
