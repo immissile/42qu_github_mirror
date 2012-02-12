@@ -14,6 +14,7 @@ for feed in reader.feed("feed/http://book.douban.com/feed/review/book"):
     data['title'] = feed['title']
     data['author'] = feed['author']
     data['content'] = feed['content']
+    data['updated'] = feed['updated']
     
     result.append(data)
 
