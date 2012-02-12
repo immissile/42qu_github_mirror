@@ -8,7 +8,7 @@ class HowLong(object):
         self.done = 0
         self.remain = remain
  
-    def remain_after_this(self):
+    def again(self):
         self.done += 1
         self.remain -= 1
         if self.done:

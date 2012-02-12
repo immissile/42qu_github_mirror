@@ -39,7 +39,7 @@ def zhihu_topic_parser(html, url):
     txt = txt_wrap_by( 'DZMT.push(["current_topic",', ')', html )
     global FETCH_COUNT
 
-    print how_long.done, how_long.remain, how_long.remain_after_this()
+    print how_long.done, how_long.remain, how_long.again()
     print loads(txt)[:2][0][0]
 
 
