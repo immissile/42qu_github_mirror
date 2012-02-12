@@ -7,9 +7,15 @@ from json import loads
 
 reader = Reader(GREADER_USERNAME, GREADER_PASSWORD)
 
-
+result = []
 for feed in reader.feed("feed/http://book.douban.com/feed/review/book"):
     pprint(feed)
+    data = {}
+    data['title'] = feed['title']
+    data['author'] = feed['author']
+    data['content'] = feed['content']
+    
+    result.append(data)
 
 
 if __name__ == "__main__":
