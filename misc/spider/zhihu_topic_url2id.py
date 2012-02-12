@@ -12291,7 +12291,6 @@ ID2MY = {
   30974: 10233529L,
   30981: 10226133L,
   30983: 10230242L,
-  30984: 10222186L,
   31003: 10222805L,
   31033: 10229447L,
   31041: 10229102L,
@@ -13765,9 +13764,10 @@ url2id = {}
 for i in ZHIHU_TOPIC:
     url = i[2] or i[1]
     id = i[0]
+    rank = i[-1]
 
     if id in ID2MY:
-        url2id[url] = ID2MY[id] 
+        url2id[ID2MY[id] ] = rank 
 
 
 from zkit.pprint import pprint
