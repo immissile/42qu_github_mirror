@@ -221,19 +221,19 @@ if __name__ == '__main__':
     name_map = defaultdict(list)
     count = 0
     for zsite in ormiter(Zsite, 'cid=%s'%CID_TAG):
-        name = zsite.name.replace(" I/O","IO")
+        name = zsite.name.replace(' I/O', 'IO').replace('TCP/IP', 'TCP-IP')
         zsite.save()
         name_s = map(str.lower, map(str.strip, name.split('/')))
 
         for i in name_s:
             if i != name:
                 name_map[i].append(zsite.id)
-        
-    for k,v in name_map.iteritems():
+
+    for k, v in name_map.iteritems():
         if len(v) > 1:
             for i in Zsite.mc_get_list(v):
-                print i.id , i.name , "-->> " 
-            print ""
+                print i.id , i.name , '-->> '
+            print ''
 
 
 #    for line in """
