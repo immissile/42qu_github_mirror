@@ -9,13 +9,15 @@ from zhihu_topic_id_rank import ID2RANK
 from operator import itemgetter
 from zkit.spider import Rolling, Fetch, MultiHeadersFetch, GSpider, NoCacheFetch
 from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
-
+from zhihu_topic_url2id_data import URL2ID
+ 
 ID2RANK = ID2RANK.items()
 ID2RANK.sort(key=lambda x:-x[1])
+id2url = dict((v,k) for k,v in URL2ID.items())
 
 def zhihu_topic_url():
-    for i in ZHIHU_TOPIC:
-        url = i[2] or i[1]
+    for k,v in ID2RANK:
+        url = id2url[k]
         url = quote(url)
         yield zhihu_topic_parser, 'http://www.zhihu.com/topic/%s'%url
 
