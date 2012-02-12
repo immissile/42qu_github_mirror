@@ -1,4 +1,5 @@
-{
+import _env
+ID2MY = {
   1: 10230976L,
   2: 10232199L,
   4: 10227860L,
@@ -13758,3 +13759,18 @@
   41474: 10231911L,
   41475: 10224394L
 }
+
+from zhihu_topic_data_with_follow import ZHIHU_TOPIC
+url2id = {}
+for i in ZHIHU_TOPIC:
+    url = i[2] or i[1]
+    id = i[0]
+
+    if id in ID2MY:
+        url2id[url] = ID2MY[id] 
+
+
+from zkit.pprint import pprint
+
+pprint(url2id)
+
