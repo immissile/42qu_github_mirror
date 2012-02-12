@@ -46,7 +46,7 @@ def spider(url_list):
     fetcher = Fetch(
         '/tmp',
         tuple( { 'Cookie': i } for i in COOKIE)[0],
-        30,
+        10,
         zhihu_topic_title
     )
     spider = Rolling( fetcher, url_list )

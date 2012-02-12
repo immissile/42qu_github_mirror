@@ -56,8 +56,8 @@ class Fetch(object):
         data = self.cache_get(url)
         if data is None:
             cache_dir = path.join(
-                    self.cache, urlparse.urlparse(url).hostname
-                    )
+                self.cache, urlparse.urlparse(url).hostname
+            )
             file_name = md5(url).hexdigest()
             file_path = path.join(cache_dir, file_name)
             with open(file_path, 'w') as f:
