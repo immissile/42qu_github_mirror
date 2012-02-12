@@ -23,7 +23,7 @@ def tf_idf(word_list, idf):
     for i in word_list:
         tf[i] += 1
     result = []
- 
+
     total = len(word_list)
     for k, v in tf.iteritems():
         if k in idf:
@@ -32,6 +32,6 @@ def tf_idf(word_list, idf):
             result.append((k, v*idf[k]))
 
     total = sum(i[1]**2 for i in result)**.5
-    result = [(i[0], i[1]/total) for i in result] 
-    result.sort(key=itemgetter(1),reverse=True)
+    result = [(i[0], i[1]/total) for i in result]
+    result.sort(key=itemgetter(1), reverse=True)
     return result
