@@ -124,7 +124,7 @@ Use this command to anonymously check out the latest project source code:
 
     #搜索 为4份 每个到对应的key下面找
     #再分4份
-    for i in sp_txt(txt1):
+    for i in line_iter(txt1):
         print i
 
     #for i in feature(txt1):

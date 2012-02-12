@@ -5,6 +5,7 @@ import _env
 from math import log
 from zkit.tofromfile import tofile, fromfile
 from collections import defaultdict
+from operator import itemgetter
 
 def idf_dumps(count, df):
     result = {}
@@ -22,11 +23,15 @@ def tf_idf(word_list, idf):
     for i in word_list:
         tf[i] += 1
     result = []
-   
-    s = float(sum(i**2 for i in tf.itervalues()))
-
+ 
+    total = len(word_list)
     for k, v in tf.iteritems():
         if k in idf:
-            result.append((k, v/s*idf[k]))
+            v = 1+log(v)
+            #print k, v,  idf[k] ,"---------"
+            result.append((k, v*idf[k]))
 
+    total = sum(i[1]**2 for i in result)**.5
+    result = [(i[0], i[1]/total) for i in result] 
+    result.sort(key=itemgetter(1),reverse=True)
     return result
