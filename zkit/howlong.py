@@ -4,16 +4,18 @@ from time import time
 
 class HowLong(object):
     def __init__(self, remain):
-        self._begin = time()
-        self._done = 0
-        self._remain = remain
+        self._begin = None
+        self.done = 0
+        self.remain = remain
  
-    def done(self):
-        self._done += 1
-        self._remain -= 1
-        if self._done: 
-            diff = time() - self._begin
-            sec = self._remain * diff / self._done
+    def remain_after_this(self):
+        self.done += 1
+        self.remain -= 1
+        if self.done:
+            if  self._begin is None:
+                self._begin = time()
+            diff = time() - self.begin
+            sec = self.remain * diff / self.done
             return sec/3600.0 
     
 
