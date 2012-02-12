@@ -25,6 +25,7 @@ from model.zsite import Zsite
 from model.zsite_fav import zsite_fav_get_and_touch
 from model.wall import Wall, wall_by_from_id_to_id
 from model.reply import Reply
+from ctrl.zsite.index import render_zsite_site
 
 PAGE_LIMIT = 56
 
