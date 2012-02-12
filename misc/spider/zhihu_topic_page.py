@@ -11,23 +11,23 @@ from zkit.spider import Rolling, Fetch, MultiHeadersFetch, GSpider, NoCacheFetch
 from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
 from zhihu_topic_url2id_data import URL2ID
 from zkit.howlong import HowLong
- 
+
 ID2RANK = ID2RANK.items()
 ID2RANK.sort(key=lambda x:-x[1])
-id2url = dict((v,k) for k,v in URL2ID.items())
+id2url = dict((v, k) for k, v in URL2ID.items())
 
 def zhihu_topic_url():
-    for k,v in ID2RANK:
+    for k, v in ID2RANK:
         url = id2url[k]
         url = quote(url)
         yield zhihu_topic_parser, 'http://www.zhihu.com/topic/%s'%url
 
-CACHE_COUNT = 0 
+CACHE_COUNT = 0
 FETCH_COUNT = 0
 how_long = HowLong(len(ID2RANK))
 
 def zhihu_topic_title(html):
-    r = "<h3>相关话题</h3>" in html
+    r = '<h3>相关话题</h3>' in html
     if r:
         how_long.done -= 1
     return r
@@ -36,9 +36,9 @@ def zhihu_topic_title(html):
 #当前话题 当前话题的父话题
 
 def zhihu_topic_parser(html, url):
-    txt = txt_wrap_by( 'DZMT.push(["current_topic",',')',html )
+    txt = txt_wrap_by( 'DZMT.push(["current_topic",', ')', html )
     global FETCH_COUNT
- 
+
     print how_long.done, how_long.remain, how_long.remain_after_this()
     print loads(txt)[:2][0][0]
 

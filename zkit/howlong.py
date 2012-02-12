@@ -4,7 +4,7 @@ from time import time
 
 class HowLong(object):
     def __init__(self, remain):
-        self._begin = None
+        self._begin = time()
         self.done = 0
         self.remain = remain
  
@@ -12,9 +12,7 @@ class HowLong(object):
         self.done += 1
         self.remain -= 1
         if self.done:
-            if  self._begin is None:
-                self._begin = time()
-            diff = time() - self.begin
+            diff = time() - self._begin
             sec = self.remain * diff / self.done
             return sec/3600.0 
     
