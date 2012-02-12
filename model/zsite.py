@@ -214,6 +214,149 @@ if __name__ == '__main__':
 
     o = Zsite.mc_get(10224276)
 
+    s = """10228391 Django / 框架 -->> Django
+10229276 Express / 框架 -->> Express
+
+10221720 索尼爱立信 / Sony Ericsson -->> x
+10229578 索爱 / Sony Ericsson -->> 索尼爱立信 / Sony Ericsson / 索爱
+
+10226590 拉拉 / lesbian -->> 拉拉 / 蕾丝边 / lesbian 
+10233537 Lesbian -->> x
+
+10232779 LEGO -->> x
+10233139 乐高 / LEGO -->> 
+
+10223165 新蛋网 / Newegg -->> 新蛋 / Newegg 
+10232928 Newegg -->> x
+
+10231103 Android / 操作系统 -->> Android / 安卓
+10234061 iQQ / 操作系统 -->> iQQ
+
+10221959 康泰纳仕 / Conde Nast -->> 
+10228320 Conde Nast -->> x
+
+10222435 Eric Schmidt -->> x
+10231156 埃里克·施密特 / Eric Schmidt -->> 
+
+10221528 工商管理硕士 / MBA -->> 
+10230864 MBA -->> x
+
+10222458 GIS / 地理信息系统 -->> 
+10232868 GIS -->> x
+
+10221952 愤怒的小鸟 / Angry Birds -->> 
+10231718 Angry Birds -->> x
+
+10222432 中国国际数码互动娱乐产品及技术应用展览会 / ChinaJoy -->> 
+10226839 Chinajoy -->> x
+
+10222562 音乐播放器 / 硬件 -->> 音乐播放器
+10224057 产品设计 / 硬件 -->> 产品设计 / Product Design
+
+10222186 mfc sdk  c/c++ -->> mfc / sdk
+10227358 C / C++ -->> C & C++
+10230686 C++ -->> x
+
+10221390 三国志  -->> 
+10223964 三国志 / 史书 -->> x
+
+10224219 Color  -->> Color / 颜色
+10228494 Color -->> x
+
+10232103 Nikon -->> x
+10233608 尼康 / Nikon -->> 
+
+10223150 MOTO Defy  / ME525/MB525 -->> MOTO Defy / 摩托罗拉 Defy
+10223288 ME525 -->> x
+
+10220771 Java 虚拟机 / JVM -->> 
+10224387 Java 虚拟机 -->> x
+
+10228073 本格 / 推理小说流派 -->> 本格 / 新本格 / 推理小说 / 侦探小说
+10231417 新本格 / 推理小说流派 -->> x
+
+10224601 App Store -->> x
+10232016 软件商店 / App Store -->> 
+
+10221852 键盘 / 计算机 -->> 键盘
+10227476 键盘 / 乐器 -->> x
+
+10220920 亚马逊软件商店 / Android -->> 亚马逊软件商店 / Android软件商店 / Android App Store
+10231103 Android / 操作系统 -->> Android / 安卓
+
+10222979 How To -->> x
+10224695 如何 / How To -->> 
+
+10224063 Fancy -->> Fancy
+10228451 Fancy / 网站 -->> x
+
+10227757 苹果 / 水果 -->> x
+
+10223867 Jonathan Ive -->> x
+10232890 乔纳森·艾弗 / Jonathan Ive -->> 
+
+10227476 键盘 / 乐器 -->> 键盘 / keyboard
+10231052 笛 / 乐器 -->> 笛 / 笛子
+
+10225548 魔兽世界 / World of Warcraft / WOW -->> 
+10233973 WOW -->> x
+
+10227124 谷歌公司 / Google -->> 谷歌 / Google
+10233600 Google -->> x
+
+10223039 Readability -->> x
+10231499 可读性 / Readability -->> 
+
+10225244 互联网数据中心 / IDC -->> 
+10231479 IDC -->> x
+
+10220913 CFD -->> x
+10233487 计算流体力学 / CFD -->> 
+
+10228703 扎客 / Zaker -->> 
+10233753 Zaker -->> x
+
+10228451 Fancy / 网站 -->> Fancy
+10231910 下厨房 / 网站 -->> 下厨房
+
+10221035 优衣库 / UNIQLO -->> 
+10229280 Uniqlo -->> x
+
+10227358 C / C++ -->> C & C++
+10234409 C  -->> x
+
+10225242 VJIA / V+ -->> x
+10232002 V+ / 凡客诚品旗下 -->> 凡客诚品 &VJIA
+
+10225384 宜家家居 / IKEA -->> x
+10228882 宜家 / IKEA -->> 宜家 / IKEA
+
+10222562 音乐播放器 / 硬件 -->> x
+10226329 音乐播放器  -->> 
+
+10221168 联邦快递 / FedEx -->> 
+10222735 FedEx -->> x
+
+10230261 Java  -->> 
+10231395 Swing / Java -->> Swing
+
+10229286 高清 / HD -->> 
+10231825 HD -->> x"""
+
+    s = s.split('\n')
+    for i in s:
+        if not i.strip():
+            continue
+        i, x = i.split('-->>')
+        id = i.split(' ')[0]
+        if x.endswith(' x'):
+            Zsite.where(id=id).delete()
+        elif not x.strip():
+            continue
+        else:
+            print x
+    raise
+
     #小写
     #别名
     #/
