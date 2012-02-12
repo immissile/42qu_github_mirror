@@ -10,7 +10,7 @@ from operator import itemgetter
 from zkit.spider import Rolling, Fetch, MultiHeadersFetch, GSpider, NoCacheFetch
 from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
 from zhihu_topic_url2id_data import URL2ID
-from time import time
+from zkit.howlong import HowLong
  
 ID2RANK = ID2RANK.items()
 ID2RANK.sort(key=lambda x:-x[1])
@@ -24,13 +24,12 @@ def zhihu_topic_url():
 
 CACHE_COUNT = 0 
 FETCH_COUNT = 0
-BEGIN_TIME = time()
+how_long = HowLong(len(ID2RANK))
 
 def zhihu_topic_title(html):
     r = "<h3>相关话题</h3>" in html
     if r:
-        global CACHE_COUNT
-        CACHE_COUNT += 1
+        how_long._done -= 1
     return r
 
 # [["\u8c46\u74e3\u4e5d\u70b9", "\u8c46\u74e3\u4e5d\u70b9", "http://p1.zhimg.com/a1/78/a178d3f0d_s.jpg", 4717], [["\u8c46\u74e3", "\u8c46\u74e3", "http://p1.zhimg.com/10/59/1059dd38c_s.jpg", 9675]], 1, 0, "", 0]]);
@@ -39,9 +38,8 @@ def zhihu_topic_title(html):
 def zhihu_topic_parser(html, url):
     txt = txt_wrap_by( 'DZMT.push(["current_topic",',')',html )
     global FETCH_COUNT
-    FETCH_COUNT += 1
-    remain = len(ID2RANK) - FETCH_COUNT
-    print FETCH_COUNT, FETCH_COUNT-CACHE_COUNT,  remain, (time() - BEGIN_TIME)*remain/(FETCH_COUNT-CACHE_COUNT+1)/60.0/60.0
+ 
+    print how_long._done, how_long._remain, how_long.done()
     print loads(txt)[:2][0][0]
 
 
