@@ -13,10 +13,11 @@ from model.follow import follow_get_list
 from model.career import career_bind
 from zsite_list  import zsite_list_new, zsite_list_get, zsite_id_list
 from zsite_json import zsite_json
+from zkit.algorithm.unique import unique
 
 
 mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
-mc_tag_id_list_by_po_id = McCacheA("TagIdListByPoId.%s")
+mc_tag_id_list_by_po_id = McCacheA('TagIdListByPoId.%s')
 
 class PoZsiteTag(Model):
     pass
@@ -57,11 +58,44 @@ def mc_flush_by_zsite_id(zsite_id):
 def zsite_author_list(zsite_id):
     return Zsite.mc_get_list(zsite_id_list(zsite_id, CID_TAG))
 
-def tag_by_str(name):
+
+
+def tag_new(name):
     found = Zsite.get(name=name, cid=CID_TAG)
     if not found:
         found = zsite_new(name, CID_TAG)
-    return found
+    #TODO
+    #1. 更新autocompelete
+    #2. 更新别名库
+    id = None
+    return id 
+
+def tag_by_name(name):
+    low = name.lower()
+    #TODO
+    #查找别名库
+    id = None
+    if not id:
+        id = tag_new(name)
+    return id
+
+def tag_alias_new(id, name):
+    #添加别名
+    pass
+
+def tag_alias_by_id_str(id, name):
+    #根据 id 和 name 返回别名 (自动补全提示的时候, 如果输入的字符串 lower以后不在tag的名称里面, 那么就查找这个tag的所有别名 , 找到一个保护这个name的别名)
+    pass
+
+def tag_by_str(s):
+    id_list = []
+    name = map(str.strip, s.split('/'))
+    for i in name:
+        id_list.append(tag_by_name(i))
+    return id_list 
+
+
+
 
 @mc_po_id_list_by_tag_id('{tag_id}')
 def po_id_list_by_tag_id(tag_id, limit, offset=0):
@@ -97,10 +131,10 @@ def _tag_rm_by_user_id_id_list(user_id, id_list):
         if not user_rank and user_rank.rank:
             user_rank.rank -= 1
             user_rank.save()
-            
 
 
-@mc_tag_id_list_by_po_id("{po_id}")
+
+@mc_tag_id_list_by_po_id('{po_id}')
 def tag_id_list_by_po_id(po_id):
     zsite_id_list = PoZsiteTag.where(po_id=po_id).col_list(col='zsite_id')
     return zsite_id_list
@@ -115,36 +149,38 @@ def tag_list_by_po_id(po_id):
 def po_tag_new_by_autocompelte(po, tag_list):
     tag_id_list = []
     for i in tag_id_list:
-        if i.startswith("-"):
-            tag = tag_by_str(i[1:])
-            tag_id_list.append(tag.id)
+        if i.startswith('-'):
+            for id in tag_by_str(i[1:]):
+                tag_id_list.append(id)
         else:
             tag_id_list.append(i)
-    return po_tag_id_list_new(po, tag_id_list)
+    return po_tag_id_list_new(po, unique(tag_id_list))
 
 def po_tag_id_list_new(po, tag_id_list):
     new_tag_id_list = set(map(int, tag_id_list))
     old_tag_id_list = set(tag_id_list_by_po_id)
-    
+
     to_add = new_tag_id_list - old_tag_id_list
     to_rm = old_tag_id_list - new_tag_id_list
 
     user_id = po.user_id
     _tag_rm_by_user_id_id_list(user_id, to_rm)
- 
+
     for tag_id in to_add:
         zsite_tag_po_new(zsite_id, po)
 
 
 
-    #tag_rm_by_po_id(po.id)
+#tag_rm_by_po_id(po.id)
 
-    #tag_id_list = tag_id_list.split(',')
-    #for tag in tag_id_list:
-    #    zsite_tag_po_new_by_name(tag, po, 100)
+#tag_id_list = tag_id_list.split(',')
+#for tag in tag_id_list:
+#    zsite_tag_po_new_by_name(tag, po, 100)
 
-    #tag_id_list = feed.tag_id_list.split(' '
-    #rec_read_new(po.id, tag_id_list)
+#tag_id_list = feed.tag_id_list.split(' '
+#rec_read_new(po.id, tag_id_list)
+
+
 
 if __name__ == '__main__':
     pass
