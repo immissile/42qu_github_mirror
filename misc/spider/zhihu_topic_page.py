@@ -5,12 +5,13 @@ from os.path import abspath, dirname, join
 from json import loads
 from urllib import quote
 from zkit.pprint import pformat
-from zhihu_topic_data import ZHIHU_TOPIC
+from zhihu_topic_id_rank import ID2RANK
 from operator import itemgetter
 from zkit.spider import Rolling, Fetch, MultiHeadersFetch, GSpider, NoCacheFetch
 from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
 
-ZHIHU_TOPIC.sort(key=lambda x:-x[4])
+ID2RANK = ID2RANK.items()
+ID2RANK.sort(key=lambda x:-x[1])
 
 def zhihu_topic_url():
     for i in ZHIHU_TOPIC:
