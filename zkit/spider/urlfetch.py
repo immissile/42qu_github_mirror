@@ -21,9 +21,19 @@ def retryOnURLError(self, trycnt=3):
 class Fetch(object):
     def __init__(self, cache, headers={}, sleep=0, cache_valid=bool):
         self.cache = cache
-        self.headers = headers
+        self._headers = headers
+        self._pos = 0
         self.sleep = sleep
         self.cache_valid = cache_valid
+    
+    @property
+    def headers(self):
+        _headers = self._headers
+        if type(_headers) is dict:
+            return _headers
+        else:
+            self._pos = (self._pos+1)%len(_headers)
+            return _headers[self._pos]
 
     def cache_get(self, url):
         cache_dir = path.join(
@@ -46,7 +56,8 @@ class Fetch(object):
                     return data
 
     def read(self, url):
-        data = urlfetch(url, self.headers)
+        _headers = self.headers
+        data = urlfetch(url, _headers)
         if self.sleep:
             time.sleep(self.sleep)
         return data
@@ -88,8 +99,7 @@ class MultiHeadersFetch(object):
         _headers = self._headers
 
         self.pos = (self.pos+1)%len(_headers)
-        while True:
-            return _headers[self.pos]
+        return _headers[self.pos]
 
     def read(self, url):
         headers = self.headers
