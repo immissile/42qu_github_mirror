@@ -73,8 +73,11 @@ from operator import itemgetter
 if __name__ == '__main__':
 
 #    print u'["topic", "\u767e\u5ea6", "\u767e\u5ea6", "http://p1.zhimg.com//e7/5e/e75e39ed2_s.jpg", 413, "5854", "baidu"]'
+    for i in chariter():
+        print i
+        raw_input()
 
-
+    raise
     url_list = []
     for i in set(chariter()):
         url_list.append((parse_topic, URL_TEMPLATE%quote(i)))
