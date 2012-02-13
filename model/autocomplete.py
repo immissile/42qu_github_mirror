@@ -111,7 +111,11 @@ class AutoComplete:
         if id_list:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
-                result.append((id, rank, name))
+                if query not in name:
+                    from po_by_tag import tag_alias_by_id_str
+                    alias = tag_alias_by_id_str(id,name)
+                
+                result.append((id, rank, name,alias))
         return result
 
 autocomplete_tag = AutoComplete('tag')

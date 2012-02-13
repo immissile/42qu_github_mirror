@@ -1,5 +1,5 @@
 #coding:utf-8
-from _db import  McModel, Model, McLimitA, McNum, McCacheA
+from _db import  McModel, Model, McLimitA, McNum, McCacheA, redis
 from model.po_json import po_json, Po
 from po import Po
 from cid import CID_NOTE, CID_TAG, CID_USER
@@ -18,6 +18,7 @@ from zkit.algorithm.unique import unique
 
 mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 mc_tag_id_list_by_po_id = McCacheA('TagIdListByPoId.%s')
+redis_alias = 'tagAlias:%s'
 
 class PoZsiteTag(Model):
     pass
@@ -83,14 +84,21 @@ def tag_by_name(name):
         id = tag_new(name)
     return id
 
+class TagAlias(McModel):
+    #id, name
+    #id->cluster index
+    pass
+
 def tag_alias_new(id, name):
     #添加别名
-    pass
+    redis.sadd(redis_alias%id,name)
+
 
 def tag_alias_rm(id, name):
-    pass
+    redis.srem(redis_alias%id,name)
 
 def tag_alias_by_id(id):
+    #TODO:放在mysql
     pass
 
 def tag_alias_by_id_str(id, name):
@@ -100,7 +108,10 @@ def tag_alias_by_id_str(id, name):
     #name.find(query) == -1
     #id - alias_list 
     #for i in alias_list : if i.find(query) >= 0  : return i
-    pass
+    alias_list = redis.smembers(redis_alias%id)
+    for i in alias_list:
+        if query in i:
+            return i
 
 def tag_by_str(s):
     id_list = []
