@@ -4,7 +4,7 @@ import mmseg
 from os.path import abspath, dirname, join
 from json import loads
 from urllib import quote
-from zkit.pprint import pformat
+from zkit.pprint import pformat, pprint
 from zhihu_topic_id_rank import ID2RANK
 from operator import itemgetter
 from zkit.spider import Rolling, Fetch, MultiHeadersFetch, GSpider, NoCacheFetch
@@ -13,12 +13,16 @@ from zhihu_topic_url2id_data import URL2ID
 from zkit.howlong import HowLong
 from urllib import  urlencode
 
+
 ID2RANK = ID2RANK.items()
 ID2RANK.sort(key=lambda x:-x[1])
 id2url = dict((v, k) for k, v in URL2ID.items())
 
 def zhihu_topic_url():
     for k, v in ID2RANK:
+        if k not in id2url:
+            print k, v
+            continue
         url = id2url[k]
         url = quote(url)
         yield zhihu_topic_parser, 'http://www.zhihu.com/topic/%s'%url
@@ -28,17 +32,15 @@ FETCH_COUNT = 0
 how_long = HowLong(len(ID2RANK))
 
 def zhihu_topic_title(url , html):
-    if "请输入图中的数字：" in html:
-        print "请输入图中的数字："
+    if '请输入图中的数字：' in html:
+        print '请输入图中的数字：'
 
-    if "offset=" in url and "<!doctype"  in html:
+    if 'offset=' in url and '<!doctype'  in html:
         return False
 
     r = '<h3>你的话题经验</h3>' in html
     #print url, r, html
-    if r:
-        how_long.done -= 1
-    else:
+    if not r:
         r = any((
                 '<h3>邀请别人回答问题</h3>' in html,
                 '"feed-' in html
@@ -50,7 +52,7 @@ def zhihu_topic_title(url , html):
 
 def zhihu_topic_parser(html, url):
     global FETCH_COUNT
-    #print how_long.again(), how_long.done, how_long.remain
+    print how_long.again(), how_long.done, how_long.remain
 
     #txt = txt_wrap_by( 'DZMT.push(["current_topic",', ')', html )
     #print loads(txt)[:2][0][0]
@@ -67,8 +69,15 @@ def zhihu_topic_parser(html, url):
 #offset = 20
 #start = 12624381
 
-def zhihu_topic_feed(html, url, start):
-    print  start, html[:10]
+def zhihu_topic_feed(html, url, offset):
+    #o = loads(html)
+    #pprint(o)
+    id_list = txt_wrap_by_all('href=\\"/question/', '\\">', html)
+    if len(id_list) == 20:
+        offset += 20
+        yield zhihu_topic_feed, {'url':url['url'], 'data':urlencode(dict(start=id_list[-1], offset=offset))}, offset
+
+
 
 #def zhihu_question_parser(html, url):
 #    print url
