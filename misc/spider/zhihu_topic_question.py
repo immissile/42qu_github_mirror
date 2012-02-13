@@ -28,10 +28,14 @@ FETCH_COUNT = 0
 how_long = HowLong(len(ID2RANK))
 
 def zhihu_topic_title(url , html):
+    if "请输入图中的数字：" in html:
+        print "请输入图中的数字："
+
     if "offset=" in url and "<!doctype"  in html:
         return False
 
-    r = '<h3>相关话题</h3>' in html
+    r = '<h3>你的话题经验</h3>' in html
+    #print url, r, html
     if r:
         how_long.done -= 1
     else:
@@ -66,8 +70,8 @@ def zhihu_topic_parser(html, url):
 def zhihu_topic_feed(html, url, start):
     print  start, html[:10]
 
-def zhihu_question_parser(html, url):
-    print url
+#def zhihu_question_parser(html, url):
+#    print url
 
 COOKIE = (
     '__utmz=155987696.1328970860.126.10.utmcsr=zhihu.com|utmccn=(referral)|utmcmd=referral|utmcct=/register; __utma=155987696.922373387.1325132903.1328965603.1328970860.126; __utmv=155987696.Logged%20In; q_c0=MjE4NjYyfFV1YjRvdGczalJFOWlCd0g=|1328973675|4be5e7eae08c14109a129099780c733abe350bba; __utmb=155987696.90.9.1328973170544; __utmc=155987696',
