@@ -4,6 +4,7 @@ from hashlib import md5
 import  time
 import urllib2
 import urlparse
+from urllib import urlencode
 
 def retryOnURLError(self, trycnt=3):
     def funcwrapper(fn):
@@ -35,9 +36,18 @@ class Fetch(object):
             self._pos = (self._pos+1)%len(_headers)
             return _headers[self._pos]
 
-    def cache_get(self, url):
+    def _key(self, url):
+        key = url
         if type(url) is dict:
-            url = url['url']
+            _url = url['url']
+            if 'data' in url:
+                key = "%s?%s"%(_url, url['data'])
+            url = _url
+        return key, url
+
+    def cache_get(self, url):
+        key,url = self._key(url)
+
         cache_dir = path.join(
             self.cache, urlparse.urlparse(url).hostname
         )
@@ -46,7 +56,7 @@ class Fetch(object):
 
         if not path.exists(cache_dir):
             os.mkdir(cache_dir)
-        file_name = md5(url).hexdigest()
+        file_name = md5(key).hexdigest()
         file_path = path.join(cache_dir, file_name)
 
 
@@ -68,10 +78,11 @@ class Fetch(object):
     def __call__(self, url):
         data = self.cache_get(url)
         if data is None:
+            key, _url = self._key(url)
             cache_dir = path.join(
-                self.cache, urlparse.urlparse(url).hostname
+                self.cache, urlparse.urlparse(key).hostname
             )
-            file_name = md5(url).hexdigest()
+            file_name = md5(key).hexdigest()
             file_path = path.join(cache_dir, file_name)
             with open(file_path, 'w') as f:
                 data = self.read(url)
@@ -90,10 +101,6 @@ def urlfetch(url, headers={}):
             headers=headers
         )
 
-    request = urllib2.Request(
-        url=url,
-        headers=headers
-    )
 
     urlopener = urllib2.build_opener()
     r = urlopener.open(request, timeout=30)

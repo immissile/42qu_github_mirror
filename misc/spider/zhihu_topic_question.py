@@ -32,7 +32,11 @@ def zhihu_topic_title(html):
     if r:
         how_long.done -= 1
     else:
-        r = '<h3>邀请别人回答问题</h3>' in html
+        r = any((
+                '<h3>邀请别人回答问题</h3>' in html,
+            #    '"feed-' in html
+            ))
+
     return r
 
 # [["\u8c46\u74e3\u4e5d\u70b9", "\u8c46\u74e3\u4e5d\u70b9", "http://p1.zhimg.com/a1/78/a178d3f0d_s.jpg", 4717], [["\u8c46\u74e3", "\u8c46\u74e3", "http://p1.zhimg.com/10/59/1059dd38c_s.jpg", 9675]], 1, 0, "", 0]]);
@@ -58,7 +62,7 @@ def zhihu_topic_parser(html, url):
 #start = 12624381
 
 def zhihu_topic_feed(html, url, start):
-    print html
+    print url, start, html[:100]
 
 def zhihu_question_parser(html, url):
     print url
