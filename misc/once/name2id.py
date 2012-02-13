@@ -6,11 +6,28 @@ from model.zsite import Zsite
 from model.cid import CID_TAG
 from zkit.pprint import pprint
 
+
+#S = """
+#10228502 互联网
+#10225318 手机应用
+#10222498 Microsoft Word
+#10229885 米饭网
+#10232540 垃圾回收 / 计算机科学
+#10224348 Windows Live Messenger
+#""".strip().split("\n")
+#id_list = [
+#    i.split(" ")[0] for i in S
+#]
+#print id_list
+#for i in Zsite.mc_get_list(id_list):
+#    print i
+#    i.delete()
+
 ID2MY = dict((k,v) for k,v in ID2MY.iteritems() if Zsite.mc_get(v))
 print """
 import _env
-ID2MY = {
-"""
+ID2MY = 
+""",
 pprint(ID2MY)
 print """
 
@@ -29,7 +46,7 @@ if __name__ == "__main__":
     from zkit.pprint import pprint
 
     pprint(url2id)
-"""
+#"""
 #RESULT = {}
 #for tag in Zsite.where(cid=CID_TAG):
 #    name_list = map(str.strip, tag.name.split('/'))
@@ -50,7 +67,7 @@ if __name__ == "__main__":
 #            print zsite.id, zsite.name
 #        else:
 #            continue
-#
+
 
 
 #pprint(RESULT)
