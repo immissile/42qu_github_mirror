@@ -59,6 +59,9 @@ def zsite_author_list(zsite_id):
     return Zsite.mc_get_list(zsite_id_list(zsite_id, CID_TAG))
 
 
+def tag_rename(id, name):
+    # zsite.name 豆瓣 - > 豆瓣 / douban
+    pass
 
 def tag_new(name):
     found = Zsite.get(name=name, cid=CID_TAG)
@@ -67,6 +70,7 @@ def tag_new(name):
     #TODO
     #1. 更新autocompelete
     #2. 更新别名库
+    
     id = None
     return id 
 
@@ -83,8 +87,19 @@ def tag_alias_new(id, name):
     #添加别名
     pass
 
+def tag_alias_rm(id, name):
+    pass
+
+def tag_alias_by_id(id):
+    pass
+
 def tag_alias_by_id_str(id, name):
-    #根据 id 和 name 返回别名 (自动补全提示的时候, 如果输入的字符串 lower以后不在tag的名称里面, 那么就查找这个tag的所有别名 , 找到一个保护这个name的别名)
+    #根据 id 和 name 返回别名 (自动补全提示的时候, 如果输入的字符串 lower以后不在tag的名称里面, 那么就查找这个tag的所有别名 , 找到一个包含这个name的别名)
+    #name 百度
+    #query baidu
+    #name.find(query) == -1
+    #id - alias_list 
+    #for i in alias_list : if i.find(query) >= 0  : return i
     pass
 
 def tag_by_str(s):
