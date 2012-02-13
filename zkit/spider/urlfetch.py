@@ -63,8 +63,8 @@ class Fetch(object):
         if path.exists(file_path):
             with open(file_path) as f:
                 data = f.read()
-                if self.cache_valid(data):
-                    print 'USE CACHE'
+                if self.cache_valid(key, data):
+                    print 'USE CACHE ', key
                     return data
 
     def read(self, url):
@@ -95,12 +95,12 @@ def urlfetch(url, headers={}):
         if 'headers' not in url:
             url['headers'] = headers
         request = urllib2.Request(**url)
+        #print url 
     else:
         request = urllib2.Request(
             url=url,
             headers=headers
         )
-
 
     urlopener = urllib2.build_opener()
     r = urlopener.open(request, timeout=30)
@@ -122,7 +122,6 @@ class MultiHeadersFetch(object):
 
     def read(self, url):
         headers = self.headers
-        #print headers
         data = urlfetch(url, headers)
         return data
 
