@@ -23,7 +23,9 @@ for fn in glob("/mnt/zdata/train/df/wanfang/*"):
             s = loads(line.strip())
             if not s[2]:
                 continue
-            txt = "\n".join(s[:2])
+            txt = "\n".join(filter(bool,s[:2])).strip()
+            if not txt:
+                continue
             tag_list = set(str(i).replace('·', '.').lower() for i in s[2])
 
             exist_tag = tag_list&NAME2ID_SET
