@@ -30,6 +30,8 @@ def zhihu_topic_title(html):
     r = '<h3>相关话题</h3>' in html
     if r:
         how_long.done -= 1
+    else:
+        r = '<h3>邀请别人回答问题</h3>' in html
     return r
 
 # [["\u8c46\u74e3\u4e5d\u70b9", "\u8c46\u74e3\u4e5d\u70b9", "http://p1.zhimg.com/a1/78/a178d3f0d_s.jpg", 4717], [["\u8c46\u74e3", "\u8c46\u74e3", "http://p1.zhimg.com/10/59/1059dd38c_s.jpg", 9675]], 1, 0, "", 0]]);
@@ -45,7 +47,7 @@ def zhihu_topic_parser(html, url):
     feed_id_list = txt_wrap_by_all('id="feed-', '">',html)
     #print len(question_id_list), len(feed_id_list)
     for i in question_id_list:
-        yield zhihu_topic_parser, "http://www.zhihu.com/question/19883983"
+        yield zhihu_topic_parser, "http://www.zhihu.com/question/%s"%i
 
 def zhihu_question_parser(html, url):
     print url
