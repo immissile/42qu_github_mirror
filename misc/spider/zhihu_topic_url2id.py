@@ -1,3 +1,4 @@
+
 import _env
 ID2MY = {
   1: 10230976L,
@@ -13761,16 +13762,16 @@ ID2MY = {
 
 
 if __name__ == "__main__":
-    
+    from zhihu_topic_data_20120211 import  ZHIHU_TOPIC
     url2id = {}
     for i in ZHIHU_TOPIC:
         url = i[2] or i[1]
         id = i[0]
-        rank = i[-1]
+        rank = i[-2]
 
         if id in ID2MY:
-            url2id[ID2MY[id] ] = rank 
-
+            #url2id[ID2MY[id] ] = rank 
+            url2id[url] = id
 
     from zkit.pprint import pprint
 
