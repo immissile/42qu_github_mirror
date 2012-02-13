@@ -1,18 +1,12 @@
 #coding:utf-8
 import _env
 from name2id import NAME2ID
-from mmseg import seg_txt
 from glob import glob
 from name2id import NAME2ID
 from json import loads
-from zkit.pprint import pprint
-from math import log
-from collections import defaultdict
-from zkit import tofromfile
 from word2tag import train
 
 NAME2ID_SET = set(NAME2ID)
-WORD2TAG_COUNT = {}
 
 def wangfang_parser(fn):
     with open(fn) as infile:
@@ -33,12 +27,12 @@ def wangfang_parser(fn):
 for fn in glob("/mnt/zdata/train/df/wanfang/*"):
     if "." in fn:
         continue
+    print fn
     train(fn, wangfang_parser)
 
 
 #            exist_tag = tag_list&NAME2ID_SET
 #            if exist_tag:
-#                word_list = list(seg_txt(str(txt)))
 #                word2count = defaultdict(int)
 #                for i in word_list:
 #                    word2count[i] += 1
