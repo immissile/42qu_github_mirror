@@ -8,14 +8,15 @@ from zkit import tofromfile
 from math import log
 from zkit.pprint import pprint
 from os.path import basename, join, exists
+from glob import glob
 
 CACHE_PATH = "/mnt/zdata/train/tag"
 
 def train(filename, parser):
     fname = basename(filename)
-    cache_path = join(CACHE_PATH,fname)
+    cache_path = join(CACHE_PATH, fname)
     if exists(cache_path):
-        return 
+        return
 
     word2tag_count = {}
     for tag_id_list, txt in parser(filename):
@@ -27,7 +28,7 @@ def train(filename, parser):
             continue
 
         for tid in tuple(tag_id_set):
-            tag_id_set.update(PTAG.get(tid,()))
+            tag_id_set.update(PTAG.get(tid, ()))
 
         word2count = defaultdict(int)
         word_list = list(seg_txt(str(txt)))
@@ -35,15 +36,44 @@ def train(filename, parser):
             word2count[i] += 1
 
         for k, v in word2count.iteritems():
-           if k not in word2tag_count:
-               word2tag_count[k] = {}
-           t = word2tag_count[k]
-           for id in tag_id_set:
-               if id not in t:
-                   t[id] = 0
-               t[id] += (1+log(float(v)))
+            if k not in word2tag_count:
+                word2tag_count[k] = {}
+            t = word2tag_count[k]
+            for id in tag_id_set:
+                if id not in t:
+                    t[id] = 0
+                t[id] += (1+log(float(v)))
 
     tofromfile.tofile(cache_path, word2tag_count)
+
+def merge():
+    word_topic_freq = defaultdict(lambda:defaultdict(float))
+    for i in glob(CACHE_PATH+"/*"):
+        for word, topic_freq in tofromfile.fromfile(i).iteritems():
+            if len(word.strip()) <= 3:
+                continue
+            for topic, freq in topic_freq.iteritems():
+                #print topic, freq
+                word_topic_freq[word][topic] += freq
+        #break
+
+    word_topic_bayes = defaultdict(lambda:defaultdict(float))
+
+    for word, topic_freq in word_topic_freq.iteritems():
+        total = sum(topic_freq.itervalues())
+
+        for topic, freq in topic_freq.iteritems():
+            word_topic_bayes[word][topic] = freq/total
+
+        word_topic_bayes[word] = dict(topic_freq.iteritems())
+
+    word_topic_bayes = dict(word_topic_bayes.iteritems())
+    pprint(word_topic_bayes)
+
+
+
+if __name__ == "__main__":
+    merge()
 
 #    path = join(ZDATA_PATH_TRAIN_IDF, filename)
 #
