@@ -36,6 +36,8 @@ class Fetch(object):
             return _headers[self._pos]
 
     def cache_get(self, url):
+        if type(url) is dict:
+            url = url['url']
         cache_dir = path.join(
             self.cache, urlparse.urlparse(url).hostname
         )

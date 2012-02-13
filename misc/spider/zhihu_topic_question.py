@@ -11,6 +11,7 @@ from zkit.spider import Rolling, Fetch, MultiHeadersFetch, GSpider, NoCacheFetch
 from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
 from zhihu_topic_url2id_data import URL2ID
 from zkit.howlong import HowLong
+from urllib import  urlencode
 
 ID2RANK = ID2RANK.items()
 ID2RANK.sort(key=lambda x:-x[1])
@@ -45,9 +46,19 @@ def zhihu_topic_parser(html, url):
     #print loads(txt)[:2][0][0]
     question_id_list = filter(str.isdigit, txt_wrap_by_all('href="/question/', '">', html))
     feed_id_list = txt_wrap_by_all('id="feed-', '">', html)
-    #print len(question_id_list), len(feed_id_list)
-    for i in question_id_list:
-        yield zhihu_question_parser, 'http://www.zhihu.com/question/%s'%i
+    if len(feed_id_list) >= 20:
+        last_one = feed_id_list[-1]
+        yield zhihu_topic_feed, {'url':url, 'data':urlencode(dict(start=last_one, offset=20))}, 20
+
+#print len(question_id_list), len(feed_id_list)
+#for i in question_id_list:
+#    yield zhihu_question_parser, 'http://www.zhihu.com/question/%s'%i
+
+#offset = 20
+#start = 12624381
+
+def zhihu_topic_feed(html, url, start):
+    print html
 
 def zhihu_question_parser(html, url):
     print url
