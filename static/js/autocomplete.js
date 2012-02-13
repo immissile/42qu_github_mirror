@@ -25,7 +25,7 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
             propertyToSearch: "name",
             resultsFormatter: function(item){
                 if(String(item.id).substring(0,1)=='-'){
-                    return '<li class="dropdown_add">添加 '+item.name+' 标签</li>'
+                    return '<li class="dropdown_add">添加 '+$('#token-input-tag_id_list').val()+' 标签</li>'
                 }
                 var num = item.num-0;
                 var s=[
@@ -41,8 +41,8 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
             },
             tokenFormatter: function(item){
                  return '<li class="token-input-token"><p>'+item.name+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
-            }
-
+            },
+            animateDropdown: false
         }
     if(idPrefix){
         o.idPrefix = idPrefix

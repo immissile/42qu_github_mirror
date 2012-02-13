@@ -33,7 +33,7 @@ def _dumps_feed(feed):
         tag_id_list = filter(bool,feed.tag_id_list.split(' '))
         tag_id_list = list(
             zip(
-                [ i.name for i in Zsite.mc_get_list(tag_id_list) ], 
+                [ i.name for i in Zsite.mc_get_list(tag_id_list) if i is not None], 
                 tag_id_list
             )
         )

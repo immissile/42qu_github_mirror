@@ -5,12 +5,13 @@
     display:inline-block;
     height:23px;
     vertical-align:-7px;
+    cursor:pointer;
 }
 ul.token-input-list {
     overflow: hidden; 
     height: auto !important; 
     height: 1%;
-    width: 400px;
+    width: 650px; 
     border: 1px solid #8496ba;
     cursor: text;
     min-height: 1px;
@@ -32,12 +33,14 @@ ul.token-input-list li input {
 }
 
 li.token-input-token {
-float:left;
-color:#000;
+    float:left;
+    color:#000;
     background:#fff;
     display:inline-block;
     font-size:12px;
-margin:3px;
+    margin:3px;
+    cursor:default;
+
 }
 
 li.token-input-token p {
@@ -79,7 +82,7 @@ li.token-input-input-token {
 div.token-input-dropdown {
     font-size:12px;
     position: absolute;
-    width: 400px;
+    width: 651px;
     background-color: #fff;
     overflow: hidden;
     border-left: 1px solid #ccc;
