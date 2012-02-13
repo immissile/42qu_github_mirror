@@ -17,7 +17,7 @@ ID2TAG = TAG2ID.id2word()
 class GetTag(object):
     def __init__(self ):
         self.idf = idf_zhihu()
-        self.db = DB_Kyoto('bayes.kch')
+        self.db = DB_Kyoto('test.kch')
 
     def get_tag(self, txt):
         topic_rank = defaultdict(float)

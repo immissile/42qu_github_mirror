@@ -18,7 +18,8 @@ class DB_Kyoto(object):
         self.db = DB()
         self.db_file = db_file
         print path.join(KYOTO_DB_PATH,self.db_file)
-        if not self.db.open(path.join(KYOTO_DB_PATH,self.db_file), DB.OWRITER | DB.OCREATE):
+        #if not self.db.open(path.join(KYOTO_DB_PATH,self.db_file), DB.OWRITER | DB.OCREATE):
+        if not self.db.open(path.join(KYOTO_DB_PATH,self.db_file), DB.OREADER):
             print >>sys.stderr, "open error: " + str(self.db.error())
 
     def set(self,entry):
@@ -34,6 +35,7 @@ class DB_Kyoto(object):
         if value:
             result = array('L')
             result.fromstring(value)
+            result = filter(lambda x:x,result)
             return convert2dict(result)
         else:
             #print >>sys.stderr, self.ider.get_word_by_id(key)
@@ -66,16 +68,21 @@ def convert2dict(array_l):
     >>> convert2dict([1L, 429496729L, 2L, 1288490188L])
     {1:0.1,2:0.3}
     '''
-    return [ (array_l[i],array_l[i+1]) for i in range(len(array_l)) if i%2==0]
+    return [ (array_l[i],array_l[i+1]) for i in range(len(array_l)) if i%2==0 ]
 
 if __name__=='__main__':
     #import doctest
     #doctest.testmod()
     from kyotocabinet import DB
     db = DB()
-    db.open('/mnt/zdata/kyoto/kyoto.kch', DB.OWRITER | DB.OCREATE)
-    for i in db:
-        print i,dir(i)
+    db.open('/mnt/zdata/kyoto/test.kch', DB.OREADER)
 
-    db.set(1,1)
-    print db.get(1)
+    #for i in db:
+    #    print i
+    #    raw_input()
+
+    value = db.get(15439)
+
+    result = array('L')
+    result.fromstring(value)
+    print [i for i in result if i]
