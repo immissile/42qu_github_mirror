@@ -14,11 +14,13 @@ from model.career import career_bind
 from zsite_list  import zsite_list_new, zsite_list_get, zsite_id_list
 from zsite_json import zsite_json
 from zkit.algorithm.unique import unique
+from model.autocomplete import  autocomplete_tag
 
 
 mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 mc_tag_id_list_by_po_id = McCacheA('TagIdListByPoId.%s')
 redis_alias = 'tagAlias:%s'
+redis_alias_name2id = 'alias2id'
 
 class PoZsiteTag(Model):
     pass
@@ -70,6 +72,7 @@ def tag_new(name):
         found = zsite_new(name, CID_TAG)
     #TODO
     #1. 更新autocompelete
+    autocomplete_tag.append(name,found.id)
     #2. 更新别名库
     
     id = None
@@ -77,38 +80,50 @@ def tag_new(name):
 
 def tag_by_name(name):
     low = name.lower()
-    #TODO
-    #查找别名库
-    id = None
+
+    id = redis.hget(redis_alias_name2id,name)
+
     if not id:
         id = tag_new(name)
     return id
 
 class TagAlias(McModel):
-    #id, name
-    #id->cluster index
+    #id, tag_id, name
+    #tag_id->cluster index
+    #name -> index
     pass
 
-def tag_alias_new(id, name):
+def tag_alias_new(id, name, alias):
     #添加别名
-    redis.sadd(redis_alias%id,name)
+    redis.sadd(redis_alias%name,alias)
 
+    tag_alias = TagAlias.get(tag_id=id,name=alias)
+    if not tag_alias:
+        new_alias = TagAlias(tag_id=id,name=alias)
+        new_alias.save()
+
+    redis.hset(redis_alias_name2id,name,id)
 
 def tag_alias_rm(id, name):
     redis.srem(redis_alias%id,name)
 
+    tag_alias = TagAlias.get(tag_id=id,name=name)
+    if tag_alias:
+        tag_alias.rm()
+
 def tag_alias_by_id(id):
     #TODO:放在mysql
-    pass
+    tag_alias_list = TagAlias.where(tag_id=id).col_list(col="name")
+    return tag_alias_list
 
-def tag_alias_by_id_str(id, name):
+def tag_alias_by_name_query(name, query):
     #根据 id 和 name 返回别名 (自动补全提示的时候, 如果输入的字符串 lower以后不在tag的名称里面, 那么就查找这个tag的所有别名 , 找到一个包含这个name的别名)
     #name 百度
     #query baidu
     #name.find(query) == -1
     #id - alias_list 
     #for i in alias_list : if i.find(query) >= 0  : return i
-    alias_list = redis.smembers(redis_alias%id)
+    alias_list = redis.smembers(redis_alias%name)
     for i in alias_list:
         if query in i:
             return i
