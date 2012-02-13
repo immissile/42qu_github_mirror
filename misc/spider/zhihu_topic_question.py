@@ -43,11 +43,11 @@ def zhihu_topic_parser(html, url):
 
     #txt = txt_wrap_by( 'DZMT.push(["current_topic",', ')', html )
     #print loads(txt)[:2][0][0]
-    question_id_list = filter(str.isdigit,txt_wrap_by_all('href="/question/', '">', html))
-    feed_id_list = txt_wrap_by_all('id="feed-', '">',html)
+    question_id_list = filter(str.isdigit, txt_wrap_by_all('href="/question/', '">', html))
+    feed_id_list = txt_wrap_by_all('id="feed-', '">', html)
     #print len(question_id_list), len(feed_id_list)
     for i in question_id_list:
-        yield zhihu_topic_parser, "http://www.zhihu.com/question/%s"%i
+        yield zhihu_question_parser, 'http://www.zhihu.com/question/%s'%i
 
 def zhihu_question_parser(html, url):
     print url
