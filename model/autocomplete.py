@@ -13,7 +13,10 @@ REDIS_CACHE = 'ACCache:%s'
 __metaclass__ = type
 EXPIRE = 86400
 
+
 class AutoComplete:
+    #别名可以自动补全
+
     def __init__(self, name):
         self.ZSET_CID = '%s%%s'%(REDIS_ZSET_CID%name)
         self.ID2NAME = '%s'%(REDIS_ID2NAME%name)
@@ -109,7 +112,6 @@ class AutoComplete:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
                 result.append((id, rank, name))
-
         return result
 
 autocomplete_tag = AutoComplete('tag')
