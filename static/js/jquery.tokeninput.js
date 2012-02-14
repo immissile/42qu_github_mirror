@@ -287,6 +287,31 @@ $.TokenList = function (input, url_or_data, settings) {
             }
         });
 
+        //solve Chinese input search problem by realfex
+        function event_init() {
+            if (input_box[0].addEventListener) {
+                // all browsers except IE before version 9
+                input_box[0].addEventListener ("input", OnInput, false);
+            }
+            
+            if (input_box[0].attachEvent) {
+                // Internet Explorer and Opera
+                input_box[0].attachEvent ("onpropertychange", OnPropChanged);
+
+            }
+        }
+        // Firefox, Google Chrome, Opera, Safari from version 5, Internet Explorer from version 9
+        function OnInput (event) {
+            setTimeout(function(){do_search();}, 5);
+        }
+        // Internet Explorer
+        function OnPropChanged (event) {
+            setTimeout(function(){do_search();}, 5);
+        }
+        event_init()
+
+
+
     // Keep a reference to the original input box
     var hidden_input = $(input)
                            .hide()
