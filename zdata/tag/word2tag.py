@@ -65,8 +65,8 @@ def merge():
                 #print topic, freq
                 word_topic_freq[word][topic] += freq
 
-        if pos>3:
-            break
+#        if pos>3:
+#            break
 
     total = sum(topic_word_count.itervalues())
 
