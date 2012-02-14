@@ -9,6 +9,7 @@ from math import log
 from zkit.pprint import pprint
 from os.path import basename, join, exists
 from glob import glob
+from yajl import dumps
 
 CACHE_PATH = "/mnt/zdata/train/tag"
 
@@ -48,27 +49,40 @@ def train(filename, parser):
 
 def merge():
     word_topic_freq = defaultdict(lambda:defaultdict(float))
-    for i in glob(CACHE_PATH+"/*"):
+    topic_word_count = defaultdict(float)
+
+    for pos, i in enumerate(glob(CACHE_PATH+"/*")):
         for word, topic_freq in tofromfile.fromfile(i).iteritems():
+
             if len(word.strip()) <= 3:
                 continue
+
+
             for topic, freq in topic_freq.iteritems():
+                topic = int(topic)
+                topic_word_count[topic] += freq
                 #print topic, freq
                 word_topic_freq[word][topic] += freq
-        #break
 
-    word_topic_bayes = defaultdict(lambda:defaultdict(float))
+        if pos>3:
+            break
+
+    total = sum(topic_word_count.itervalues())
 
     for word, topic_freq in word_topic_freq.iteritems():
-        total = sum(topic_freq.itervalues())
 
+        tf = []
+        
+        ftotal = 0.0
         for topic, freq in topic_freq.iteritems():
-            word_topic_bayes[word][topic] = freq/total
+            f = freq*10000/topic_word_count[topic]
+            tf.append((topic, f))
+            ftotal += f
+        
+        tf = [(k,v/ftotal) for k,v in tf]
 
-        word_topic_bayes[word] = dict(topic_freq.iteritems())
+        print dumps((word, line))    
 
-    word_topic_bayes = dict(word_topic_bayes.iteritems())
-    pprint(word_topic_bayes)
 
 
 
