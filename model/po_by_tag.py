@@ -101,10 +101,10 @@ def tag_by_name(name):
         id = tag_new(name)
     return id
 
-def tag_alias_new(id, name, alias):
+def tag_alias_new(id, alias):
     #添加别名
-    redis.sadd(redis_alias%name,alias)
-    redis.hset(redis_alias_name2id,name,id)
+    redis.sadd(redis_alias%id,alias)
+    redis.hset(redis_alias_name2id,alias,id)
 
     tag_alias = TagAlias.get(tag_id=id,name=alias)
     if not tag_alias:
