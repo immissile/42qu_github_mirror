@@ -83,7 +83,7 @@ def zhihu_topic_feed(html, url, offset):
     question_id_list = txt_wrap_by_all('href=\\"/question/', '\\"', html)
     QUESTION_ID_SET.update(map(int,question_id_list))
 
-    print len(QUESTION_ID_SET),'question', how_long.done, how_long.remain, how_long.estimate()
+    print ">>>", len(QUESTION_ID_SET),'question', how_long.done, how_long.remain, how_long.estimate()
 
 #    for i in id_list:
 #        yield zhihu_question_parser, "http://www.zhihu.com/question/%s"%i
