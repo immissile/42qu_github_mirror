@@ -55,7 +55,6 @@ def zhihu_topic_title(url , html):
 
 def zhihu_topic_parser(html, url):
     global FETCH_COUNT
-    print how_long.again(), how_long.done, how_long.remain
 
     #txt = txt_wrap_by( 'DZMT.push(["current_topic",', ')', html )
     #print loads(txt)[:2][0][0]
@@ -83,7 +82,8 @@ def zhihu_topic_feed(html, url, offset):
     id_list = txt_wrap_by_all('id=\\"feed-', '\\"', html)
     question_id_list = txt_wrap_by_all('href=\\"/question/', '\\"', html)
     QUESTION_ID_SET.update(map(int,question_id_list))
-    print len(QUESTION_ID_SET),'question', question_id_list
+
+    print len(QUESTION_ID_SET),'question', how_long.done, how_long.remain, how_long.estimate()
 
 #    for i in id_list:
 #        yield zhihu_question_parser, "http://www.zhihu.com/question/%s"%i
@@ -91,7 +91,8 @@ def zhihu_topic_feed(html, url, offset):
     if id_list:
         offset += o['msg'][0]
         yield zhihu_topic_feed, {'url':url['url'], 'data':urlencode(dict(start=id_list[-1], offset=offset))}, offset
-
+    else:
+        print "done", how_long.again(), how_long.done, how_long.remain
 
 
 def zhihu_question_parser(html, url):
