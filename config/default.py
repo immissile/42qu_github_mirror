@@ -17,11 +17,40 @@ import zkit.cookie_morsel
 from hmako.lookup import TemplateLookup
 import sys
 from os.path import join
-from mysql import DB_MAIN_TABLE, DB_GOOGLE_TABLE
+from privilege import PRIVILEGE_FEED_IMPORT
+
+
 
 def prepare(o):
     
 #    o.REDIS_DB = redis.Redis()
+
+    o.PRIVILEGE_ADMIN = (
+        (10014590,(PRIVILEGE_FEED_IMPORT,)), #夭夭
+    )
+
+    o.ZDATA_PATH = "/mnt/zdata/"
+
+    o.NGINX_LOGROTATE_DIR = "/var/log/nginx"
+    o.PRIVILEGE_SUPER = set((
+        10000000, #张沈鹏 
+        10014918, #Zsp 007
+        10001542, #010001542
+        10001518, #Zsp00 7
+        10016605, #Zsp 0 0 7
+        10008640, #Z S P007
+        10007647, #Z S P 0 0 7
+        10030280, #Z S P 00 7
+        10030281, #wewt
+        10002411, #realfex
+        10031395, #wooparadog
+        10078835, #李嫣然
+#        10001299, #真谛~
+#        10016494, #周凯华
+#        10000212, #张近东
+#        10001637, #陶紫旺
+    ))
+
     o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
     o.PORT = 6666

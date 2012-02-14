@@ -17,4 +17,4 @@ import weekly_mail
 import com
 import tag
 import zsite_book
-import import_feed
+import feed_import

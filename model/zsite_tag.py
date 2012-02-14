@@ -274,5 +274,5 @@ if __name__ == '__main__':
     #print tag_id_by_user_id_cid(10000212, CID_AUDIO)
     #print zsite_tag_list_by_zsite_id_if_len(10000000)
     pass
-    print zsite_tag_cid_count(1, CID_NOTE)
+    #print zsite_tag_cid_count(1, CID_NOTE)
     

@@ -9,7 +9,7 @@ from model.cid import CID_TAG
 from model.zsite import Zsite
 from zkit.htm2txt import htm2txt
 from yajl import loads
-from model.po_by_tag import PoZsiteTag, zsite_tag_po_new, tag_by_name
+from model.po_by_tag import PoZsiteTag, zsite_tag_po_new, tag_by_str
 from model.po import po_note_new, Po, po_rm
 from model.duplicate import txt_is_duplicate, set_record
 from model.txt_img_fetch import txt_img_fetch
@@ -19,7 +19,7 @@ CURRNET_PATH = path.dirname(path.abspath(__file__))
 def main():
     dic = fromfile(path.join(CURRNET_PATH, 'tag2id'))
     for k, v in dic.iteritems():
-        site = tag_by_name(k)
+        site = tag_by_str(k)
         print site.name
         print site.id
 
@@ -40,7 +40,7 @@ def parse_data():
             else:
                 set_record(content, po.id)
                 for tag in tag_list:
-                    _tag = tag_by_name(tag[0])
+                    _tag = tag_by_str(tag[0])
                     zsite_tag_po_new(_tag.id, po, float(tag[1]))
 
 if __name__ == '__main__':

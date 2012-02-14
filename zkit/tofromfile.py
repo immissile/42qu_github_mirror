@@ -16,6 +16,7 @@ def fromfile(f):
     return result
 
 
+
 if __name__ == '__main__':
     tofile('z', {2:2})
     print fromfile("z")

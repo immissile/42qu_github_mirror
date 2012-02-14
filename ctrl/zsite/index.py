@@ -41,10 +41,6 @@ class Feed(LoginBase):
             rec_item_list = po_json_by_rec_read( current_user_id)
         )
 
-@urlmap('/read')
-class Read(LoginBase):
-    def get(self):
-        return self.render()
 
 
 
@@ -82,18 +78,18 @@ class Link(LoginBase):
         self.redirect(link_by_id(id))
 
 
-def render_tag_site(self,n=1,template='/ctrl/tag/index/index.htm'):
+def render_tag_site(self,n=1,template='/zsite/index/tag.htm'):
     total = zsite_tag_po_count(self.zsite.id)
     page, limit, offset = page_limit_offset(
         "/-%s", total, n, limit = 15
     )
     current_user_id = self.current_user_id
-    items = po_by_tag(self.zsite.id, current_user_id, limit, offset )
+    item_list = po_by_tag(self.zsite.id, current_user_id, limit, offset )
     self.render(
         template,
         page  = str(page),
         total = total,
-        items = items,
+        item_list = item_list,
     )
 
 

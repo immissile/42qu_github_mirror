@@ -79,8 +79,8 @@ def main():
     #os.chroot(path) 
     sys.argv = sys.argv[:1]
 
-    hg_branch = os.popen('hg branches').readlines()
     while True:
+        hg_branch = os.popen('hg branches').readlines()
         t = []
         for i in hg_branch:
             i = i.strip()

@@ -1,0 +1,44 @@
+
+#tag_id_list{
+    font-size:16px;
+    padding:3px;
+    width:90%;
+}
+.redis_cid{
+    width:60%;
+}
+.redis_cid span{
+    float:left;
+    margin-left:27px;
+    margin-top:14px;
+}
+#title{
+    padding:7px;
+    width:90%;
+    display:block;
+    margin:14px 0;
+}
+.check{
+    font-size:16px;
+    margin-top:14px
+}
+.check label{
+    margin-right:32px
+}
+#txt
+{
+    width:90%;
+    height:500px;
+    padding:3px 7px;
+}
+#okbtn{
+    padding:7px 30px;
+    margin-top:14px;    
+}
+#nobtn{
+    float:right;
+    margin-right:10%
+}
+.btnbar{
+padding-bottom:256px;
+} 

@@ -15,6 +15,7 @@ def po_show_new(po):
 
 def po_show_rm(po_id):
     feed_rt_rm(0, po_id)
+    Po.where(user_id=0, rid=po_id, cid=CID_REC, state=STATE_ACTIVE).delete()
 
 def po_show_list(limit, offset):
     ids = feed_rt_list(0, limit, offset)
@@ -33,5 +34,7 @@ def po_is_show(po):
 
 
 if __name__ == '__main__':
-    for i in po_show_list(0, 'id', 25, 0):
-        print i.name_
+    po = Po.mc_get(10218451)
+#    po_show_rm(po.id)
+#    print po_is_show(po)
+

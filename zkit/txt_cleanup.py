@@ -79,19 +79,29 @@ def feature_md5(txt, limit=64):
     result = [md5(i).hexdigest() for i in feature(txt, limit)]
     return result
 
+def title_normal_sign(title):
+    title = title\
+            .replace('【', '[')\
+            .replace('】', ']')\
+            .replace('［', '[')\
+            .replace('］', ']')\
+            .replace('（', '(')\
+            .replace('）', ')')\
+            .replace('：', ':').strip()
+
+    return title
+
 def sp_txt(txt):
+    txt = title_normal_sign(txt).replace('“',' ').replace('”' ,' ').replace('、',' ').replace('，',' ')
 
     if str(txt).replace(" ",'').isalnum():
         yield txt 
     else:
-        for i in _line_iter(txt):
-           # for n in xrange(len(i)-1):
-           #     if not i[n].isspace():
-           #         yield ''.join(i[n:n+2])
-
-            for pos,char in enumerate(i):
-                if not char.isspace():
-                    yield ''.join(i[pos:pos+2])
+        for j in line_iter(txt):
+            j = j.decode("utf-8","ignore").split() 
+            for i in j:
+                for k in xrange(0,len(i)-1):
+                    yield i[k:k+2]
                 
 
 if __name__ == '__main__':
@@ -101,8 +111,7 @@ Use this command to anonymously check out the latest project source code:
 
 　　另外，记者昨天获悉，影视演员王珞丹(微博)将在开场歌舞中亮相。开场歌舞作为春晚第一炮，不仅要给观众最好的“第一眼”印象，同时也是过去一年里当红艺人的展示舞台。
 
-　　对比近几年的春晚开场，虎年春晚以歌舞大联欢引导主持出场，兔年春晚则主打“山楂树组合”，到龙年春晚由王珞丹等“新鲜”面孔混搭朱军、李咏、老毕组成的“霸气男人帮”阵容，“鲜”字概念逐年突显。
-"""
+　　对比近几年的春晚开场，虎年春晚以歌舞大联欢引导主持出场，兔年春晚则主打“山楂树组合”，到龙年春晚由王珞丹等“新鲜”面孔混搭朱军、李咏、老毕组成的“霸气男人帮”阵容，“鲜”字概念逐年突"""
     txt2 = '输入是一个向量，\n'+txt1+"""\n输出是一个f位的签名值。为了陈述方便，假设输入的是一个文档的特征集合，每个特征有一定的权重。比如特征可以是文档中的词，其权重可以是这个词出现的次数。simhash算法如：
 """
     #64 3 肯定有16位是一样的
@@ -115,7 +124,7 @@ Use this command to anonymously check out the latest project source code:
 
     #搜索 为4份 每个到对应的key下面找
     #再分4份
-    for i in sp_txt(txt1):
+    for i in line_iter(txt1):
         print i
 
     #for i in feature(txt1):

@@ -18,10 +18,10 @@ padding-left:0
     background:url(/img/gif/x2.gif) no-repeat 4px 5px;
     _background-position:-50px 5px;
 }
-.buzz_win_reply .buzz_w:hover .buzz_x, .buzz_win_at:hover .buzz_x{
+.buzz_win_reply .buzz_w:hover .buzz_x, .buzz_win_at .buzz_w:hover .buzz_x{
     background-position:-50px 5px;
 }
-.buzz_win_reply .buzz_w .buzz_x:hover, .buzz_win_at .buzz_x:hover{
+.buzz_win_reply .buzz_w .buzz_x:hover, .buzz_win_at .buzz_w .buzz_x:hover{
     background-position:-21px 5px;
 }
 .buzz_win_reply .buzz_au, .buzz_win_at .buzz_au{

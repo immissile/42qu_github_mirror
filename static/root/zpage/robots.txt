@@ -2,6 +2,6 @@ User-agent: *
 Disallow: /link/
 Disallow: /pay
 Disallow: /auth/login
-Disallow: /dont_dont_panic
-Disallow: /lost_your_towel
+Disallow: /panic
+Disallow: /lose_your_towel
 Sitemap: http://42qu.com/sitemap.xml

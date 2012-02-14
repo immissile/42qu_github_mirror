@@ -214,7 +214,8 @@ class Query(object):
 
     def execute_query(self):
         values = self.extract_condition_values()
-        return Query.raw_sql(self.query_template(), values, self.db)
+        sql = self.query_template()
+        return Query.raw_sql(sql, values, self.db)
 
     def update(self, *args, **kwds):
         values = self.extract_condition_values()

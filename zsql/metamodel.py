@@ -31,6 +31,7 @@ def get(cls, __obj_pk=None, **kwargs):
             'id': __obj_pk
         }
     q = Query(model=cls, conditions=kwargs)
+    q.limit = (0, 1)
     q = q.execute_query()
     q = q.fetchone()
     if q:

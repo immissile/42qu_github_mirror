@@ -1,6 +1,9 @@
 HOST_SUFFIX=location.host.slice(location.host.indexOf("."));
 
 (function( jQuery ){
+
+
+
 jQuery.extend({
     cookie : {
         set:function(dict, days, path){
@@ -199,7 +202,7 @@ function fancybox_word(title, path, finish, can_post){
 }
 
 /* 显示全部 */
- function fdtxt(e, id) {
+function fdtxt(e, id) {
     var txt = $(e).parents('.fdtxt'),
     all = txt.find(".fdall");
     all.addClass("fdloading").find('.fdext').remove()
@@ -209,20 +212,8 @@ function fancybox_word(title, path, finish, can_post){
         codesh()
     })
 }
- function fdvideo(e, id) {
-    var div = $('<div class="fdswf"><div class="fdloading"/></div>')
-    $(e).replaceWith(div)
-    $.get("/j/fdvideo/" + id, function(html) {
-        div.html(html)
-        var win = $(window),
-        winst = win.scrollTop(),
-        offset = div.offset().top + div.height() - winst - win.height();
 
-        if (offset > 0) {
-            win.scrollTop(winst + offset)
-        }
-    })
-}
+
 
 function doc_height(){
     return document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight
@@ -522,3 +513,25 @@ function codesh(){
     }
 }
 
+function fdvideo(e){
+    var content = $('<embed align="middle" wmode="Opaque" type="application/x-shockwave-flash" allowscriptaccess="sameDomain" allowfullscreen="true" class="video" quality="high" src="'+e.href+'">'),
+        win = $(window),
+        width = win.width()-120,
+        height = win.height()-90,
+        mwidth = height*16/9;
+
+    if(width<mwidth){
+        height=width*9/16
+    }else{
+        width=mwidth
+    }
+    content.height(height).width(width);
+
+    $.fancybox({content:content,hideOnOverlayClick:false});
+
+    return false
+}
+
+RegExp.escape = function(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}

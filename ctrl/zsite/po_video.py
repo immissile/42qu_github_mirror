@@ -2,7 +2,7 @@
 from _handler import ZsiteBase, LoginBase, XsrfGetBase, login
 from ctrl._urlmap.zsite import urlmap
 from model.po import Po
-from model.po_video import po_video_new, VIDEO_CID_YOUKU, VIDEO_CID_TUDOU, VIDEO_CID_SINA, video_filter
+from model.po_video import po_video_new,  video_filter
 from model.zsite_tag import zsite_tag_new_by_tag_id
 from model.state import STATE_ACTIVE, STATE_PO_ZSITE_SHOW_THEN_REVIEW
 from model.zsite_site import zsite_id_by_zsite_user_id

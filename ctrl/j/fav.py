@@ -21,7 +21,6 @@ class FavRm(JLoginBase):
 
         self.finish('{}')
 
-
 @urlmap('/j/fav')
 class Fav(JLoginBase):
     def get(self):
@@ -35,7 +34,6 @@ class Fav(JLoginBase):
 
         if zsite and cid in (CID_SITE, CID_COM, CID_TAG):
             zsite_fav_new(zsite, current_user_id)
-
 
         txt = self.get_argument('txt', None)
         if txt:

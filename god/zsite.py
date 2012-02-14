@@ -218,7 +218,7 @@ class UserSearch(Base):
 
 
 @urlmap('/sudo/(\d+)')
-class avatar(Base):
+class Sudo(Base):
     def get(self, avatar_id):
         session = user_session(avatar_id)
         self.set_cookie('S', session)

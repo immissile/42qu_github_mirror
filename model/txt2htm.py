@@ -6,6 +6,7 @@ from cgi import escape
 from config import SITE_DOMAIN
 from zkit.bot_txt import  txt_wrap_by, txt_map
 from uuid import uuid4
+from model.video_swf import video_autoplay_link, _HTM_SWF
 
 RE_LINK = re.compile(
 r'((?:https?://[\w\-]+\.)'
@@ -23,8 +24,6 @@ RE_BOLD = re.compile(r'\*{2}([^\*].*?)\*{2}')
 RE_CODE = re.compile(r'\{\{\{(.*)\}\}\}', re.S)
 RE_IMG = re.compile(r'图://(.+?(jpg|gif|png|jpeg))')
 
-HTM_SWF = """<embed src="%s" quality="high" class="video" allowfullscreen="true" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" wmode= "Opaque"></embed>"""
-HTM_YOUKU = HTM_SWF%'''http://static.youku.com/v/swf/qplayer.swf?VideoIDS=%s=&isShowRelatedVideo=false&showAd=0&winType=interior'''
 
 def replace_space(match):
     return ' '+len(match.groups()[0])*'&nbsp;'
@@ -64,14 +63,12 @@ class ReplaceCode(object):
 def replace_link(match):
     gs = match.groups()
     b, g , e = gs
-    if g.startswith('http://v.youku.com/v_show/id_'):
-        g = g[29:g.rfind('.')]
-        return HTM_YOUKU%g
-    elif g.startswith('http://player.youku.com/player.php/sid/'):
-        g = g[39:g.rfind('/')]
-        return HTM_YOUKU%g
+    video = video_autoplay_link(g)
+
+    if video:
+        return '<a onclick="return fdvideo(this);" class="fdvideo" href="%s">播放视频</a>'%video
     elif g.endswith('.swf'):
-        return HTM_SWF%g
+        return _HTM_SWF%g
     else:
         if (b and b.startswith('[[')) and (e and e.endswith(']]')):
             return """<a title="%s" target="_blank" href="%s" class="aH" rel="nofollow"></a>""" %(g, g)
@@ -95,19 +92,29 @@ def txt_withlink(s):
     replace_code = ReplaceCode()
     s = txt_map('\r{{{', '\r}}}\r', '\r%s\r'%s, replace_code).strip()
     s = RE_BOLD.sub(replace_bold, s)
-    s = s.replace('图:http://', '图://')
-    s = RE_LINK_TARGET.sub(replace_link, s)
+
+    s = replace_link_img(s)
+
     s = RE_AT.sub(replace_at, s)
-    s = RE_IMG.sub(replace_img, s)
     s = replace_code.loads(s)
+
+    return s
+
+def replace_link_img(s):
+    s = s.replace('图：', '图:')
+    s = s.replace('图: http://', '图:http://')
+    s = s.replace('图:http://', '图://')
+
+    s = RE_LINK_TARGET.sub(replace_link, s)
+
+    s = RE_IMG.sub(replace_img, s)
     return s
 
 def txt2htm_withlink(s):
     s = escape(s)
     s = s.replace('\n', '\n<br>')
-    s = RE_LINK_TARGET.sub(replace_link, s)
+    s = replace_link_img(s)
     s = RE_SPACE.sub(replace_space, s)
-    s = RE_IMG.sub(replace_img, s)
     return s
 
 def replace_at(match):

@@ -1,5 +1,6 @@
 <%!
-from config import SITE_URL, SITE_DOMAIN
+from config import SITE_URL, SITE_DOMAIN, PRIVILEGE_SUPER 
+from model.privilege import PRIVILEGE_ADMIN_DICT,has_privilege_by_user_id_path
 from model.cid import CID_USER, CID_PIC, CID_ICO, CID_WORD, CID_NOTE, CID_QUESTION, CID_PHOTO, CID_VIDEO, CID_AUDIO, CID_SITE
 from model.zsite import Zsite,  ZSITE_STATE_ACTIVE, ZSITE_STATE_VERIFY 
 from model.money import withdraw_open_count, withdraw_max
@@ -42,16 +43,16 @@ ${self.htm_head()}\
 pic_to_review_count = pic_to_review_count_by_cid(CID_ICO)
 %>
 <h1><a href="//god.${SITE_DOMAIN}">${SITE_DOMAIN}</a></h1>
-<form class="search" action="/zsite/user_search" method="POST">\
-<input id="search" type="text" name="input" value="${value or ''}">\
-<input class="search_btn" type="submit" value="">\
-</form>\
 <p class="coltitle">
     <a class="logout" href="${SITE_URL}/logout?${_xsrf}">登出</a>
     <a href="${current_user.link}" >${current_user.name}</a>
 </p>
 
-
+%if current_user_id in PRIVILEGE_SUPER:
+<form class="search" action="/zsite/user_search" method="POST">\
+<input id="search" type="text" name="input" value="${value or ''}">\
+<input class="search_btn" type="submit" value="">\
+</form>\
 <div>
 <%
 uncheck_count = ZsiteUserVerifyed.where(state=ZSITE_USER_VERIFYED_UNCHECK).count()
@@ -100,15 +101,18 @@ count = product_count()
 <a class="cola" href="/product?${count}"><span class="R">${count}</span>产品</a>
 
 <a class="cola" href="/com"><span class="R">${Zsite.where(cid=CID_COM).count()}</span>全部公司</a>
-<a class="cola" href="/import_feed">审核导入文章</a>
-<a class="cola" href="/import_feed/list/1">修改导入文章</a>
+<a class="cola" href="/feed_import">审核导入文章</a>
+<a class="cola" href="/feed_import/list/1">修改导入文章</a>
 <p class="coltitle">RSS文章</p>
 
-<a class="cola" href="/rss_index?${Rss.max_id()}"><span class="R">${rss_po_total(RSS_UNCHECK)}</span>未审核</a>
-<a class="cola" href="/rss_index/${RSS_PRE_PO}?${Rss.max_id()}"><span class="R">${rss_po_total(RSS_PRE_PO)}</span>已审核</a>
-<a class="cola" href="/rss_index/${RSS_RT_PO}?${Rss.max_id()}"><span class="R">${rss_po_total(RSS_RT_PO)}</span>已审核并全站转发</a>
-<a class="cola" href="/rss_index/${RSS_POED}?${Rss.max_id()}"><span class="R">${rss_po_total(RSS_POED)}</span>已发表</a>
-<a class="cola" href="/rss_index/${RSS_RM}?${Rss.max_id()}"><span class="R">${rss_po_total(RSS_RM)}</span>已删除</a>
+<%
+max_id = Rss.max_id()
+%>
+<a class="cola" href="/rss_index?${max_id}">未审核</a>
+<a class="cola" href="/rss_index/${RSS_PRE_PO}?${max_id}">已审核</a>
+<a class="cola" href="/rss_index/${RSS_RT_PO}?${max_id}">已审核并全站转发</a>
+<a class="cola" href="/rss_index/${RSS_POED}?${max_id}">已发表</a>
+<a class="cola" href="/rss_index/${RSS_RM}?${max_id}">已删除</a>
 
 <p class="coltitle">RSS订阅</p>
 <a class="cola" href="/rss_gid/0">待订阅</a>
@@ -118,13 +122,13 @@ count = product_count()
 
 
 <p class="coltitle">回复</p>
-<a class="cola" href="/reply_list/${CID_USER}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_USER).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_USER).count()}</span>留言</a>
-<a class="cola" href="/reply_list/${CID_NOTE}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_NOTE).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_NOTE).count()}</span>文章</a>
-<a class="cola" href="/reply_list/${CID_WORD}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_WORD).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_WORD).count()}</span>微博</a>
-<a class="cola" href="/reply_list/${CID_QUESTION}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_QUESTION).count()}</span>评论</a>
-<a class="cola" href="/reply_list/${CID_PHOTO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_PHOTO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_PHOTO).count()}</span>图片</a>
-<a class="cola" href="/reply_list/${CID_VIDEO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_VIDEO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_VIDEO).count()}</span>视频</a>
-<a class="cola" href="/reply_list/${CID_AUDIO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_AUDIO).fetchone()[0] or ''}"><span class="R">${Reply.where('cid=%s',CID_AUDIO).count()}</span>声音</a>
+<a class="cola" href="/reply_list/${CID_USER}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_USER).fetchone()[0] or ''}">留言</a>
+<a class="cola" href="/reply_list/${CID_NOTE}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_NOTE).fetchone()[0] or ''}">文章</a>
+<a class="cola" href="/reply_list/${CID_WORD}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_WORD).fetchone()[0] or ''}">微博</a>
+<a class="cola" href="/reply_list/${CID_QUESTION}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_QUESTION).fetchone()[0] or ''}">评论</a>
+<a class="cola" href="/reply_list/${CID_PHOTO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_PHOTO).fetchone()[0] or ''}">图片</a>
+<a class="cola" href="/reply_list/${CID_VIDEO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_VIDEO).fetchone()[0] or ''}">视频</a>
+<a class="cola" href="/reply_list/${CID_AUDIO}?${Reply.raw_sql('select max(id) from reply where cid = %s',CID_AUDIO).fetchone()[0] or ''}">声音</a>
 
 
 
@@ -135,7 +139,7 @@ count = product_count()
     %else:
     href = "/chart"
     %endif
-    ><span class="R">${pic_to_review_count}</span>待审核</a>
+    >待审核</a>
 <a class="cola tc" href="/pic/reviewed${CID_ICO}/1">已通过</a>
 <a class="cola tc" href="/pic/reviewed${CID_ICO}/0">被删除</a>
 
@@ -153,6 +157,17 @@ count = product_count()
 <a class="cola tc" href="/chart">网站报表</a>
 <a class="cola tc" href="http://t.cn/aCOG3v" target="_blank">京东返点</a>
 
+%endif
+<%
+PATH_NAME = (
+    ("/feed_import","审核导入文章"),
+)
+%>
+%for path,name in PATH_NAME:
+%if has_privilege_by_user_id_path(current_user_id,path):
+<a class="cola" href="${path|n}">${name}</a>
+%endif
+%endfor
 </%def>
 
 <%def name="htm_title()">后台</%def>\
