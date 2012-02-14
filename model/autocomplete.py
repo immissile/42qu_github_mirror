@@ -4,7 +4,7 @@
 from _db import redis
 from zkit.zitertools import lineiter
 from array import array
-from po_by_tag import tag_alias_by_id_str
+from po_by_tag import tag_alias_by_id_query
 
 REDIS_ZSET_CID = '%s`'
 REDIS_ID2NAME = 'ACId2Name:%s'
@@ -113,7 +113,7 @@ class AutoComplete:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
                 if query not in name:
-                    alias = tag_alias_by_name_query(name,query) 
+                    alias = tag_alias_by_id_query(name,query) 
                 result.append((id, rank, name,alias))
         return result
 
