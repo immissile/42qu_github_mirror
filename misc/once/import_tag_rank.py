@@ -6,13 +6,13 @@ from model.cid import CID_TAG
 from model.zsite import Zsite
 from model.zsite_list import zsite_list_new
 
-for i in ormiter(Zsite,"cid=%s"%CID_TAG):
+for i in ormiter(Zsite, 'cid=%s'%CID_TAG):
     id = i.id
-    rank = ID2RANK.get(id, 0) 
+    rank = ID2RANK.get(id, 0)
     print id, rank
     zsite_list_new(id, 0, CID_TAG, rank)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     pass
 
 
