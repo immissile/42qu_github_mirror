@@ -88,7 +88,7 @@ def zhihu_topic_feed(html, url, offset):
 #    for i in id_list:
 #        yield zhihu_question_parser, "http://www.zhihu.com/question/%s"%i
 #    print id_list
-    if id_list:
+    if len(id_list)>3:
         offset += o['msg'][0]
         yield zhihu_topic_feed, {'url':url['url'], 'data':urlencode(dict(start=id_list[-1], offset=offset))}, offset
     else:
