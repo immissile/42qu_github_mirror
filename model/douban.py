@@ -241,11 +241,11 @@ if __name__ == '__main__':
     #print is_rt_by_title(txt)
     #kv_int.set(KV_IMPORT_DOUBAN,0)
     #douban_feed_to_review_iter()
-#    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
-#        total = i.rec + i.like
-#        if total < 2000:
-#            i.state = 0
-#            i.save()
+    for i in DoubanFeed.where('state = %s',DOUBAN_FEED_STATE_TO_REIVEW):
+        total = i.rec + i.like
+        if total < 2000:
+            i.state = 0
+            i.save()
 #        else:
 #            print title_normal_rt(i.title)
 #    for i in DoubanFeed.where():
@@ -276,28 +276,28 @@ if __name__ == '__main__':
     #is_douban_count = 0
     #not_douban_count = 0
 
-    #for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW), key=lambda x:-x.rec-x.like):
-    #    txt = '\n'.join([i.title, i.htm])
-    #    is_douban = False
+    for i in sorted(DoubanFeed.where(state=DOUBAN_FEED_STATE_TO_REIVEW), key=lambda x:-x.rec-x.like):
+        txt = '\n'.join([i.title, i.htm])
+        is_douban = False
 
-    #    for word in ('豆瓣', '豆邮', '豆友', '?start=', '>http://www.douban.'):
-    #        if word in txt:
-    #            is_douban = True
-    #            break
+        for word in ('豆瓣', '豆邮', '豆友', '?start=', '>http://www.douban.'):
+            if word in txt:
+                is_douban = True
+                break
 
-    #    if is_douban:
-    #        is_douban_count += 1
-    #    else:
-    #        not_douban_count += 1
+#        if is_douban:
+#            is_douban_count += 1
+#        else:
+#            not_douban_count += 1
 
-    #    if not is_douban:
+        if not is_douban:
 
-    #        if i.cid == CID_DOUBAN_FEED_TOPIC:
-    #            link = 'http://www.douban.com/group/topic/%s'%i.rid
-    #        elif i.cid == CID_DOUBAN_FEED_NOTE:
-    #            link = 'http://www.douban.com/note/%s'%i.rid
+            if i.cid == CID_DOUBAN_FEED_TOPIC:
+                link = 'http://www.douban.com/group/topic/%s'%i.rid
+            elif i.cid == CID_DOUBAN_FEED_NOTE:
+                link = 'http://www.douban.com/note/%s'%i.rid
 
-    #        print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal_rt(i.title), len(i.htm))
+            print '%60s %5s %5s %s %s'%( link, i.rec, i.like, title_normal_rt(i.title), len(i.htm))
 
     #print is_douban_count, not_douban_count
 
