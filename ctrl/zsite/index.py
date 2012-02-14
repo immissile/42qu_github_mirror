@@ -78,7 +78,7 @@ class Link(LoginBase):
         self.redirect(link_by_id(id))
 
 
-def render_tag_site(self,n=1,template='/zsite/index/tag.htm'):
+def render_tag_site(self,n=1,template='/ctrl/zsite/index/tag.htm'):
     total = zsite_tag_po_count(self.zsite.id)
     page, limit, offset = page_limit_offset(
         "/-%s", total, n, limit = 15

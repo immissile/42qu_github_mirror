@@ -212,7 +212,9 @@ if __name__ == '__main__':
     from model.cid import CID_TAG
     from collections import defaultdict
 
-    o = Zsite.mc_get(10224276)
+    o = Zsite.get(cid=CID_TAG)
+    print o.link
+#    o = Zsite.mc_get(10224276)
 
 #    s = """10228391 Django / 框架 -->> Django
 #10229276 Express / 框架 -->> Express
