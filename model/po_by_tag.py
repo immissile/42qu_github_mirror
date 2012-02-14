@@ -16,6 +16,23 @@ from zsite_json import zsite_json
 from zkit.algorithm.unique import unique
 from model.autocomplete import  autocomplete_tag
 
+'''
+CREATE TABLE `zpage`.`tag_alias` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tag_id` int UNSIGNED NOT NULL,
+  `name` varchar(64)  NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `tag_id`(`tag_id`),
+  INDEX `name`(`name`)
+)
+ENGINE = MyISAM;
+'''
+
+class TagAlias(McModel):
+    #id, tag_id, name
+    #tag_id->cluster index
+    #name -> index
+    pass
 
 mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 mc_tag_id_list_by_po_id = McCacheA('TagIdListByPoId.%s')
@@ -61,7 +78,6 @@ def mc_flush_by_zsite_id(zsite_id):
 def zsite_author_list(zsite_id):
     return Zsite.mc_get_list(zsite_id_list(zsite_id, CID_TAG))
 
-
 def tag_rename(id, name):
     # zsite.name 豆瓣 - > 豆瓣 / douban
     pass
@@ -70,9 +86,9 @@ def tag_new(name):
     found = Zsite.get(name=name, cid=CID_TAG)
     if not found:
         found = zsite_new(name, CID_TAG)
-    #TODO
     #1. 更新autocompelete
     autocomplete_tag.append(name,found.id)
+    #TODO
     #2. 更新别名库
     
     id = None
@@ -80,18 +96,10 @@ def tag_new(name):
 
 def tag_by_name(name):
     low = name.lower()
-
     id = redis.hget(redis_alias_name2id,name)
-
     if not id:
         id = tag_new(name)
     return id
-
-class TagAlias(McModel):
-    #id, tag_id, name
-    #tag_id->cluster index
-    #name -> index
-    pass
 
 def tag_alias_new(id, name, alias):
     #添加别名
@@ -172,8 +180,6 @@ def _tag_rm_by_user_id_id_list(user_id, id_list):
         if not user_rank and user_rank.rank:
             user_rank.rank -= 1
             user_rank.save()
-
-
 
 @mc_tag_id_list_by_po_id('{po_id}')
 def tag_id_list_by_po_id(po_id):

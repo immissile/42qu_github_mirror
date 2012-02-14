@@ -129,7 +129,7 @@ if __name__ == '__main__':
     #print "=+++"
 
     from zkit.pprint import pprint
-    pprint( autocomplete_tag.id_rank_name_list_by_str('x') )
+    pprint(autocomplete_tag.id_rank_name_list_by_str('x'))
     #print autocomplete_tag.id_rank_name_list_by_str('f f8')
 
     #from timeit import timeit
