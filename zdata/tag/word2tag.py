@@ -10,6 +10,7 @@ from zkit.pprint import pprint
 from os.path import basename, join, exists
 from glob import glob
 from yajl import dumps
+from name2id import NAME2ID
 
 CACHE_PATH = "/mnt/zdata/train/tag"
 
@@ -69,8 +70,16 @@ def merge():
 
     total = sum(topic_word_count.itervalues())
 
-    for word, topic_freq in word_topic_freq.iteritems():
 
+    for word, topic_freq in word_topic_freq.iteritems():
+        if word in NAME2ID:
+            tid = NAME2ID[word]
+            now = topic_freq[tid]
+            topic_freq[tid] = new = sum(topic_freq.itervalues()) 
+            topic_word_count[tid]+=(new-now)
+            total += new-now
+
+    for word, topic_freq in word_topic_freq.iteritems():
         tf = []
         
         ftotal = 0.0
@@ -81,7 +90,7 @@ def merge():
         
         tf = [(k,v/ftotal) for k,v in tf]
 
-        print dumps((word, line))    
+        print dumps((word, tf))    
 
 
 
