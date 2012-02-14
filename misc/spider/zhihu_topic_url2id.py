@@ -13763,12 +13763,15 @@ if __name__ == "__main__":
         url = i[2] or i[1]
         id = i[0]
         rank = i[-1]
-
+    #url2id = {}
+    #for i in ZHIHU_TOPIC:
+    #    url = i[2] or i[1]
+    #    id = i[0]
+    #    rank = i[-1]
         if id in ID2MY:
             #url2id[ID2MY[id] ] = rank 
             url2id[url ] = ID2MY[id]
 
 
-    from zkit.pprint import pprint
+    #from zkit.pprint import pprint
 
-    pprint(url2id)

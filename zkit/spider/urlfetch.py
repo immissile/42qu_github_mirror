@@ -4,6 +4,7 @@ from hashlib import md5
 import  time
 import urllib2
 import urlparse
+from urllib import urlencode
 
 def retryOnURLError(self, trycnt=3):
     def funcwrapper(fn):
@@ -35,7 +36,18 @@ class Fetch(object):
             self._pos = (self._pos+1)%len(_headers)
             return _headers[self._pos]
 
+    def _key(self, url):
+        key = url
+        if type(url) is dict:
+            _url = url['url']
+            if 'data' in url:
+                key = "%s?%s"%(_url, url['data'])
+            url = _url
+        return key, url
+
     def cache_get(self, url):
+        key,url = self._key(url)
+
         cache_dir = path.join(
             self.cache, urlparse.urlparse(url).hostname
         )
@@ -44,15 +56,15 @@ class Fetch(object):
 
         if not path.exists(cache_dir):
             os.mkdir(cache_dir)
-        file_name = md5(url).hexdigest()
+        file_name = md5(key).hexdigest()
         file_path = path.join(cache_dir, file_name)
 
 
         if path.exists(file_path):
             with open(file_path) as f:
                 data = f.read()
-                if self.cache_valid(data):
-                    print 'USE CACHE'
+                if self.cache_valid(key, data):
+                    print 'USE CACHE ', key
                     return data
 
     def read(self, url):
@@ -66,10 +78,11 @@ class Fetch(object):
     def __call__(self, url):
         data = self.cache_get(url)
         if data is None:
+            key, _url = self._key(url)
             cache_dir = path.join(
-                self.cache, urlparse.urlparse(url).hostname
+                self.cache, urlparse.urlparse(key).hostname
             )
-            file_name = md5(url).hexdigest()
+            file_name = md5(key).hexdigest()
             file_path = path.join(cache_dir, file_name)
             with open(file_path, 'w') as f:
                 data = self.read(url)
@@ -78,10 +91,16 @@ class Fetch(object):
         return data
 
 def urlfetch(url, headers={}):
-    request = urllib2.Request(
-        url=url,
-        headers=headers
-    )
+    if type(url) is dict:
+        if 'headers' not in url:
+            url['headers'] = headers
+        request = urllib2.Request(**url)
+        #print url 
+    else:
+        request = urllib2.Request(
+            url=url,
+            headers=headers
+        )
 
     urlopener = urllib2.build_opener()
     r = urlopener.open(request, timeout=30)
@@ -103,7 +122,6 @@ class MultiHeadersFetch(object):
 
     def read(self, url):
         headers = self.headers
-        #print headers
         data = urlfetch(url, headers)
         return data
 
