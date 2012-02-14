@@ -12,14 +12,18 @@ from tornado.escape import json_encode
 margin:27px 0 0  -7px;
 }
 #tagbar .xatxt .xa{
+display:inline-block;
 margin-left:7px;
-padding:7px 14px;
+padding:3px 14px;
 border:1px solid #e0e0e0;
 background:-moz-linear-gradient(center top , #FCFCFF, #F6F6FF) repeat;
 box-shadow:0 1px 0 #FFFFFF inset, 0 1px 0 rgba(150, 150, 255, 0.1);
 color:#666666 !important;
 text-shadow:0 1px 0 #FFF;
 font-size:14px;
+background:#fff\9;
+filter:progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndColorStr='#f3f3f3');
+background-image:-webkit-gradient(linear,0 0,0 100%,from(#fff),to(#f3f3f3));
 }
 .xatagset span {
 background: url(http://s.realfex.xxx/img/gif/tagset.gif) no-repeat 50% 50%;
@@ -32,9 +36,12 @@ width: 39px;
 box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
 }
 #tagbar .xatagset {
-padding: 7px;
+padding:3px 7px;
+padding:2px 7px 4px\9;
 margin-left:7px;
 font-size:14px;
+display:inline-block;
+border:1px solid #e0e0e0;
 }
 #search{
 font-size: 13px;
@@ -75,12 +82,15 @@ padding-left:3px;
 }
 #token-input-search{
 height:auto;
+height:26px\9;
 padding:0;
 color:#999;
 font-size:13px;
 }
 div.token-input-dropdown{
 width:246px;
+box-shadow:-1px 1px 1px #eee;
+border:1px solid #eee;
 }
 div.token-input-dropdown p{
 padding:0 3px;
@@ -99,8 +109,9 @@ padding: 0 10px;
 line-height:22px;
 }
 div.token-input-dropdown ul li.token-input-selected-dropdown-item{
-color:#a10;
-background:#f9f9ff;
+color:#fff;
+/*background:#f9f9ff;*/
+background:#d20;
 }
 .tag_wrap{
 width:722px;
@@ -124,18 +135,30 @@ margin:0 3px;
 $(function(){
     autocomplete_tag("#search", [], 1)
     function show_placeholder(){
-        if(!$('#search').val().length>0){
+        if(!$('#token-input-search').val().length>0){
             $('.token-input-list').hide()
             $('#search').show()
             $('#token-input-search').unbind('blur')
         }
+        if(document.activeElement.id!='token-input-search'){
+            $('.token-input-dropdown').hide()
+        }
+    }
+    function show_token_input(){
+        $('#token-input-search').focus().blur(show_placeholder).focus(function(){
+            if($('#token-input-search').val().length>0)
+            $('.token-input-dropdown').show()}
+        )
     }
     show_placeholder()
     $('#search').bind('click',function(){
         $(".token-input-list").show()
         $(this).hide()
-        $('#token-input-search').focus().blur(show_placeholder)
-
+        if(navigator.userAgent.indexOf("MSIE")>0) { 
+            setTimeout(show_token_input,10)
+        }else{
+            show_token_input()
+        }
     })
 })
 </script>
