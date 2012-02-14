@@ -4,6 +4,7 @@
 from _db import redis
 from zkit.zitertools import lineiter
 from array import array
+from po_by_tag import tag_alias_by_id_str
 
 REDIS_ZSET_CID = '%s`'
 REDIS_ID2NAME = 'ACId2Name:%s'
@@ -111,7 +112,9 @@ class AutoComplete:
         if id_list:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
-                result.append((id, rank, name))
+                if query not in name:
+                    alias = tag_alias_by_name_query(name,query) 
+                result.append((id, rank, name,alias))
         return result
 
 autocomplete_tag = AutoComplete('tag')
@@ -126,7 +129,7 @@ if __name__ == '__main__':
     #print "=+++"
 
     from zkit.pprint import pprint
-    pprint( autocomplete_tag.id_rank_name_list_by_str('x') )
+    pprint(autocomplete_tag.id_rank_name_list_by_str('x'))
     #print autocomplete_tag.id_rank_name_list_by_str('f f8')
 
     #from timeit import timeit
