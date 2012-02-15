@@ -4,7 +4,7 @@ from json import dumps, loads
 from zhihu_topic_data_with_follow import ZHIHU_TOPIC
 from zkit.pprint import pprint
 from name2id import NAME2ID
-from name_tidy import name_tidy
+from zdata.tag.name_tidy import name_tidy
 
 id2topic = dict([(i[1], i[0]) for i in ZHIHU_TOPIC])
 
