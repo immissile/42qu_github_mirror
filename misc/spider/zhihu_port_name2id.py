@@ -5,22 +5,30 @@ from zhihu_topic_url2id import ID2MY
 from zhihu_topic_data_20120211 import ZHIHU_TOPIC
 from model.zsite import Zsite
 from itertools import chain
+from model.cid import CID_TAG
+from zkit.pprint import pprint
 
+MY2ID = dict((k,v) for v,k in ID2MY.iteritems())
 def main():
+    id2alias = {}
     for zhihu_topic in ZHIHU_TOPIC:
         id = zhihu_topic[0]
-        name = zhihu_topic[1]
         alias_list = zhihu_topic[5]
-        
-        if id in ID2MY:
-            tag = Zsite.mc_get(ID2MY[id])
-            if tag:
-                ori_tag = tag.name
-                for i in chain(map(str.strip, ori_tag.split("/")),alias_list):
-                    #result[i]=ID2MY[id]
-                    print '"%s":%s,'%(i,str(ID2MY[id]))
-                 #redis - >baidu tag_id
+        id2alias[int(id)] = alias_list
 
+
+    name2id = {}
+    for i in Zsite.where(cid=CID_TAG):
+        tag_list = map(str.strip, i.name.split("/"))
+        zhihu_id = MY2ID[i.id]
+        alias_list = id2alias.get(zhihu_id,())
+
+        tag_list.extend(alias_list)
+       
+        for name, id in tag_list:
+            name2id[name] = id
+
+     pprint(name2id)
 
 
 if __name__ == '__main__':
