@@ -85,7 +85,7 @@ class AutoComplete:
         name_key = '`'.join(name_list)
         id_list = self._get_cache(name_key)
 
-        #id_list = None #TODO REMOVE
+        id_list = None #TODO REMOVE
         ZSET_CID = self.ZSET_CID
 
         if id_list is None:
@@ -110,7 +110,7 @@ class AutoComplete:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
                 if query not in name:
-                    alias = tag_alias_by_id_query(name,query) 
+                    alias = tag_alias_by_id_query(id,query) 
                 result.append((id, rank, name,alias))
         return result
 
