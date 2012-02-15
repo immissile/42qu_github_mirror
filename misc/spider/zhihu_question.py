@@ -50,7 +50,7 @@ def spider(url_list):
         '/tmp',
     #    tuple( { 'Cookie': i } for i in COOKIE),
         {},
-        2.6,
+        0, #2.6,
         zhihu_topic_title
     )
     spider = Rolling( fetcher, url_list )
