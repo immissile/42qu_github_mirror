@@ -31,7 +31,7 @@ def zhihu_question_parser(html, url):
     answer_count =  int(answer_count or 0)
 
     if answer_count:
-        txt = txt_wrap_by_all('<div class="xmrw">','</div>', html)
+        txt = filter(bool, txt_wrap_by_all('<div class="xmrw">','</div>', html))
         if not txt:
             print url
             print name
@@ -90,9 +90,9 @@ RESULT.sort(key=lambda x:-x[0])
 with open('zhihu_question_dumped.json', 'w') as dumped:
     with open('zhihu_question_to_dump.json', 'w') as to_dump:
         for i in RESULT:
-            if i[0] == len(i[-1]):
-                dumped.write(dumps(i))
+            if i[0] > len(i[-1]):
+                dumped.write(dumps(i)+"\n")
             else:
-                to_dump.write(dumps(i))
+                to_dump.write(dumps(i)+"\n")
 
 
