@@ -147,7 +147,7 @@ def name_dict_url_dict_by_zsite_id_list(zsite_id_list):
 
 
 if __name__ == '__main__':
-    id = id_by_url('whoyang')
+    id = id_by_url('iloveu')
     print id
     #url_new(id,'xianguo-com')
     #id = id_by_url('42qu-job')
