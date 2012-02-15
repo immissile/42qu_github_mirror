@@ -11,6 +11,7 @@ from zhihu_topic_url2id import ID2MY
 id2topic = dict([(i[1], i[0]) for i in ZHIHU_TOPIC])
 
 myidset = set(NAME2ID.itervalues())
+myiddict = dict([(k,v) for v,k in NAME2ID.iteritems()])
 
 def txt_tag(): 
     with open('zhihu_question_dumped.json') as zhihu_question_dump:
@@ -37,14 +38,20 @@ def txt_tag():
                     continue
                 else:
                     tag_list.append(id)
-            yield line[0], tag_list
+            yield line[2], tag_list
+            for t in line[-1]:
+                yield t, tag_list
+                
 
 
 if __name__ == '__main__':
     pass
 
     for txt, tag_list in txt_tag():
-        print txt, tag_list
+        print txt
+        for i in tag_list:
+            print myiddict[i],
+        print "\n"
         
 
 
