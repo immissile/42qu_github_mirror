@@ -18,6 +18,7 @@ def main():
 
 
     name2id = {}
+
     for i in Zsite.where(cid=CID_TAG):
         tag_list = map(str.strip, i.name.split("/"))
         zhihu_id = MY2ID[i.id]
@@ -28,8 +29,9 @@ def main():
         for name, id in tag_list:
             name2id[name] = id
 
-     pprint(name2id)
+    pprint(name2id)
 
 
 if __name__ == '__main__':
     main()
+
