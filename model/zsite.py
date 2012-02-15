@@ -212,10 +212,63 @@ if __name__ == '__main__':
     from model.cid import CID_TAG
     from collections import defaultdict
 
-    id = 10221793
-    o = Zsite.mc_get(id)
+    s = """
+10224683
+10227234
+10220747  
+10229490
+10222872 
+10234207
+10228073
+10225013
+10222872
+10224219 
+10230580  
+10222518 
+10227189 
+10234107
+10223262
+10228974
+10221372
+10227947
+10225206
+10226001
+10225740
+10226740
+10232009
+10229765
+10231270
+10226740
+10229670
+10226642
+10224979
+10229349
+10227178
+10221667
+10229154
+10232474
+10228073
+10224287
+10220983
+10233271
+10226102
+10227020
+10221762
+10224057
+10229783
+10221965""".strip()
 
-    print o.name
+    s = map(int,s.split("\n"))
+
+    print s
+    for i in s:
+        Zsite.where(id=i).delete()
+
+    #id = 10224057
+  #  id = 10232186 
+  #  o = Zsite.mc_get(id)
+
+  #  print o.name
 
 
 #    s = """10228391 Django / 框架 -->> Django
@@ -367,23 +420,25 @@ if __name__ == '__main__':
     #小写
     #别名
     #/
-#    name_map = defaultdict(list)
-#    count = 0
-#    for zsite in ormiter(Zsite, 'cid=%s'%CID_TAG):
-#        name = zsite.name.replace(' I/O', 'IO').replace('TCP/IP', 'TCP-IP')
-#        zsite.save()
-#        name_s = map(str.lower, map(str.strip, name.split('/')))
-#
-#        for i in name_s:
-#            if i != name:
-#                name_map[i].append(zsite.id)
-#
-#    for k, v in name_map.iteritems():
-#        if len(v) > 1:
-#            for i in Zsite.mc_get_list(v):
-#                print i.id , i.name , '-->> '
-#            print ''
+    name_map = defaultdict(list)
+    count = 0
+    for zsite in ormiter(Zsite, 'cid=%s'%CID_TAG):
+        name = zsite.name.replace(' I/O', 'IO').replace('TCP/IP', 'TCP-IP')
+        zsite.save()
+        name_s = map(str.lower, map(str.strip, name.split('/')))
 
+        id = zsite.id
+        for i in name_s:
+            name_map[i].append(id)
+
+    for k, v in name_map.iteritems():
+        if len(v) > 1:
+            for i in Zsite.mc_get_list(v):
+                print i.id , i.name , '-->> '
+            print ''
+
+  #  print name_map["产品设计"]
+  #  print name_map["产品设计"]
 
 #    for line in """
 #/mnt/zpage/721/557/186925.jpg
