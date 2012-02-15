@@ -26,11 +26,14 @@ def main():
 
         tag_list.extend(alias_list)
        
-        for name, id in tag_list:
-            name2id[name] = id
+        for name in tag_list:
+            name2id[name.lower()] = i.id
 
+    print """
+#coding:utf-8
+
+NAME2ID = """
     pprint(name2id)
-
 
 if __name__ == '__main__':
     main()
