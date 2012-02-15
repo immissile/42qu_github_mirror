@@ -11,7 +11,6 @@ def main():
         id = zhihu_topic[0]
         name = zhihu_topic[1]
         alias_list = zhihu_topic[5]
-        
         if id in ID2MY:
             tag = Zsite.mc_get(ID2MY[id])
             if tag:
@@ -20,8 +19,6 @@ def main():
                     #result[i]=ID2MY[id]
                     print '"%s":%s,'%(i,str(ID2MY[id]))
                  #redis - >baidu tag_id
-
-
 
 if __name__ == '__main__':
     main()
