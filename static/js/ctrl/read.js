@@ -1,2 +1,4 @@
+$(function(){
+    $(".buzz_win_book").isotope({ itemSelector : '.sdw' });
+})
 
-$(".buzz_win_book").isotope({ itemSelector : '.sdw' });

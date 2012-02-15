@@ -233,3 +233,29 @@ line-height:18px;
 padding:3px 6px 6px 5px;
 border-top:1px solid #eee;
 }
+#reply_name{
+text-align:center;
+display:block;
+border-bottom:1px dotted #ccc;
+padding-bottom:14px;
+color:#004276;
+padding-top:2px;
+}
+#reply_reply_body{
+height:90px;
+display:block;
+overflow:auto;
+margin-bottom:2px;
+padding-right:14px;
+}
+.reply_reply_loading{
+background:url(/img/gif/loading_bar.gif) no-repeat 50% 50%;
+}
+#reply_reply_pop{
+padding:0 3px;
+}
+#reply_reply_pop textarea{
+border:1px dotted #ccc;width:715px;height:80px;
+padding:2px 3px;
+margin-bottom:7px;
+}
