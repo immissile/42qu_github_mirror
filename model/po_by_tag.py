@@ -14,10 +14,14 @@ from model.career import career_bind
 from zsite_list  import zsite_list_new, zsite_list_get, zsite_id_list
 from zsite_json import zsite_json
 from zkit.algorithm.unique import unique
+from zkit.pprint import pprint
+from zkit.fanjian import utf8_ftoj
 
 
 mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 mc_tag_id_list_by_po_id = McCacheA('TagIdListByPoId.%s')
+
+
 
 class PoZsiteTag(Model):
     pass
@@ -104,7 +108,7 @@ def tag_alias_by_id_str(id, name):
 
 def tag_by_str(s):
     id_list = []
-    name = map(str.strip, s.split('/'))
+    name = map(utf8_ftoj,map(str.strip, s.split('/')))
     for i in name:
         id_list.append(tag_by_name(i))
     return id_list 
