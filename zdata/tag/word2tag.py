@@ -9,10 +9,9 @@ from math import log
 from zkit.pprint import pprint
 from os.path import basename, join, exists
 from glob import glob
-from yajl import dumps
 from name2id import NAME2ID
 from name_tidy import name_tidy
-
+from yajl import dumps
 CACHE_PATH = "/mnt/zdata/train/tag"
 
 def train(filename, parser):
@@ -50,16 +49,7 @@ def train(filename, parser):
     tofromfile.tofile(cache_path, word2tag_count)
 
 def merge():
-    from kyotocabinet import DB
-    word_topic_freq = defaultdict(lambda:defaultdict(float))
-    topic_word_count = defaultdict(float)
-
-
-    db_path = join(ZDATA_PATH,"bayes.kch")
-    db = DB()
-    db.open(db_path, DB.OWRITER | DB.OCREATE)
-
-
+    CACHE_PATH = "/home/work/wanfang/tag"
     for pos, i in enumerate(glob(CACHE_PATH+"/*")):
         for word, topic_freq in tofromfile.fromfile(i).iteritems():
 
@@ -67,12 +57,17 @@ def merge():
                 continue
 
             word = name_tidy(word)
-
+            s = [word]
             for topic, freq in topic_freq.iteritems():
                 topic = int(topic)
-                topic_word_count[topic] += freq
+                s.append((topic, freq))
+            print dumps(s)
+
+#                if topic not in db:
+#                    topic_word_count[topic] = 0
+#                topic_word_count[topic] += freq
                 #print topic, freq
-                word_topic_freq[word][topic] += freq
+#                word_topic_freq[word][topic] += freq
 
 #        if pos>3:
 #            break

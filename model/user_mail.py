@@ -90,6 +90,6 @@ if __name__ == '__main__':
     #from zsite import Zsite, CID_USER, STATE_ACTIVE
     #for i in Zsite.where(cid=CID_USER).where("state>=%s"%STATE_ACTIVE):
     #    print i.id
-    print mail_by_user_id(10079424)
+    print mail_by_user_id(10128296)
 
 
