@@ -30,3 +30,6 @@ static/file/*
 *.orig
 .*.ropeproject
 test/*
+misc/crontab/spider/cache/*
+misc/crontab/spider/ucdchina/*
+misc/crontab/spider/yeeyan/*
