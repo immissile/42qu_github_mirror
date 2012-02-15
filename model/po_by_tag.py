@@ -14,7 +14,6 @@ from model.career import career_bind
 from zsite_list  import zsite_list_new, zsite_list_get, zsite_id_list
 from zsite_json import zsite_json
 from zkit.algorithm.unique import unique
-from model.autocomplete import  autocomplete_tag
 
 '''
 CREATE TABLE `zpage`.`tag_alias` (
@@ -105,6 +104,7 @@ def tag_new(name):
     if not found:
         found = zsite_new(name, CID_TAG)
     #1. 更新autocompelete
+    from model.autocomplete import  autocomplete_tag
     autocomplete_tag.append(name,found.id)
     #TODO
     #2. 更新别名库
@@ -153,6 +153,7 @@ def tag_alias_by_id_query(id, query):
     #name.find(query) == -1
     #id - alias_list 
     #for i in alias_list : if i.find(query) >= 0  : return i
+    print "query"
     alias_list = redis.smembers(redis_alias%id)
     for i in alias_list:
         if query in i:
