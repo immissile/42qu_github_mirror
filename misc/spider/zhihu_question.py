@@ -48,7 +48,8 @@ def spider(url_list):
 #    fetcher = MultiHeadersFetch(  headers=tuple( { 'Cookie': i } for i in COOKIE))
     fetcher = Fetch(
         '/tmp',
-        tuple( { 'Cookie': i } for i in COOKIE),
+    #    tuple( { 'Cookie': i } for i in COOKIE),
+        {},
         2.6,
         zhihu_topic_title
     )
@@ -57,7 +58,7 @@ def spider(url_list):
     debug = False
     debug = True
 
-    spider_runner = GSpider(spider, workers_count=1, debug=debug)
+    spider_runner = GSpider(spider, workers_count=100, debug=debug)
     spider_runner.start()
 
     
