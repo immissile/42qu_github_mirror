@@ -17,6 +17,7 @@ redis = redis.Redis(**REDIS_CONFIG)
 def merge():
     CACHE_PATH = "/home/work/wanfang/tag"
     for pos, i in enumerate(glob(CACHE_PATH+"/*")):
+        print pos, i
         for word, topic_freq in tofromfile.fromfile(i).iteritems():
 
             if len(word.strip()) <= 3:
@@ -27,7 +28,6 @@ def merge():
             for topic, freq in topic_freq.iteritems():
                 topic = int(topic)
                 redis.hincrby(word, topic, int(freq*100))
-                print topic
 
 
 
