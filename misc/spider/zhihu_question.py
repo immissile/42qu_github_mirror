@@ -8,8 +8,8 @@ from operator import itemgetter
 from zkit.spider import Rolling, Fetch, MultiHeadersFetch, GSpider, NoCacheFetch
 from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
 from zkit.howlong import HowLong
-from zhihu_question_id import QUESTION_ID_SET
 from zkit.htm2txt import unescape 
+
 
 def zhihu_question_parser(html, url):
     name = txt_wrap_by(
@@ -45,12 +45,10 @@ COOKIE = (
 
 
 def spider(url_list):
-#    fetcher = MultiHeadersFetch(  headers=tuple( { 'Cookie': i } for i in COOKIE))
     fetcher = Fetch(
         '/tmp',
         tuple( { 'Cookie': i } for i in COOKIE),
-        {},
-        2.6,
+        5,
         zhihu_topic_title
     )
     spider = Rolling( fetcher, url_list )
