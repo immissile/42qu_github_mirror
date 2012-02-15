@@ -24,7 +24,9 @@ def zhihu_question_parser(html, url):
 def zhihu_question_url():
     with open("zhihu_question_dumped.json") as zhihu_question_dump:
         for line in zhihu_question_dump:
-            url = loads(line)[1]
+            line = loads(line)
+            url = line[1]
+            print line[0]
             yield zhihu_question_parser, url 
 
 how_long = HowLong(67585)
