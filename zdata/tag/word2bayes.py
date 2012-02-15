@@ -1,52 +1,15 @@
 #coding:utf-8
 import _env
 from config import ZDATA_PATH
-from ptag import PTAG
-from mmseg import seg_txt
 from collections import defaultdict
-from zkit import tofromfile
-from math import log
-from zkit.pprint import pprint
-from os.path import basename, join, exists
-from glob import glob
 from name2id import NAME2ID
-from name_tidy import name_tidy
-from yajl import dumps
-CACHE_PATH = "/mnt/zdata/train/tag"
+import glob
+from config import REDIS_CONFIG
+import redis
 
-def train(filename, parser):
-    fname = basename(filename)
-    cache_path = join(CACHE_PATH, fname)
-    if exists(cache_path):
-        return
+REDIS_CONFIG['db']=1
+redis = redis.Redis(**REDIS_CONFIG)
 
-    word2tag_count = {}
-    for tag_id_list, txt in parser(filename):
-        if not txt.strip():
-            continue
-
-        tag_id_set = set(tag_id_list)
-        if not tag_id_set:
-            continue
-
-        for tid in tuple(tag_id_set):
-            tag_id_set.update(PTAG.get(tid, ()))
-
-        word2count = defaultdict(int)
-        word_list = list(seg_txt(str(txt)))
-        for i in word_list:
-            word2count[i] += 1
-
-        for k, v in word2count.iteritems():
-            if k not in word2tag_count:
-                word2tag_count[k] = {}
-            t = word2tag_count[k]
-            for id in tag_id_set:
-                if id not in t:
-                    t[id] = 0
-                t[id] += (1+log(float(v)))
-
-    tofromfile.tofile(cache_path, word2tag_count)
 
 def merge():
     CACHE_PATH = "/home/work/wanfang/tag"
@@ -61,6 +24,7 @@ def merge():
             for topic, freq in topic_freq.iteritems():
                 topic = int(topic)
                 s.append((topic, freq))
+
             print dumps(s)
 
 #                if topic not in db:
