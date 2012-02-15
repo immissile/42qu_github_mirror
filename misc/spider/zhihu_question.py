@@ -22,7 +22,7 @@ def zhihu_question_parser(html, url):
     print how_long.again(), how_long.remain, how_long.done
     
 def zhihu_question_url():
-    with open("zhihu_question_dumped.json") as zhihu_question_dump:
+    with open("zhihu_question_to_dump.json") as zhihu_question_dump:
         for line in zhihu_question_dump:
             line = loads(line)
             url = line[1]
