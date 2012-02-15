@@ -12,7 +12,6 @@ from glob import glob
 from yajl import dumps
 from name2id import NAME2ID
 from name_tidy import name_tidy
-from kyotocabinet import DB
 
 CACHE_PATH = "/mnt/zdata/train/tag"
 
@@ -51,6 +50,7 @@ def train(filename, parser):
     tofromfile.tofile(cache_path, word2tag_count)
 
 def merge():
+    from kyotocabinet import DB
     word_topic_freq = defaultdict(lambda:defaultdict(float))
     topic_word_count = defaultdict(float)
 
