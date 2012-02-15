@@ -25,7 +25,10 @@ def zhihu_question_parser(html, url):
     else:
         answer_count = txt_wrap_by('<h3 style="margin: 0 0 5px;">', ' 个答案</', html)
 
-    RESULT.append((int(answer_count), url, name))
+    tag = map(unescape, txt_wrap_by('<a class="xjl" href="javascript:;">', '</a>', html))
+
+    RESULT.append((int(answer_count), url, name, tag))
+
     print how_long.again(), how_long.remain, how_long.done
 
 def zhihu_question_url():
