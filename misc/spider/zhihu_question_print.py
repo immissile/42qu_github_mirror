@@ -7,14 +7,15 @@ from zkit.pprint import pprint
 from name2id import NAME2ID
 from zdata.tag.name_tidy import name_tidy
 from zhihu_topic_url2id import ID2MY
+from itertools import chain
 
 id2topic = dict([(i[1], i[0]) for i in ZHIHU_TOPIC])
 
 myidset = set(NAME2ID.itervalues())
-myiddict = dict([(k,v) for v,k in NAME2ID.iteritems()])
+myiddict = dict([(k, v) for v, k in NAME2ID.iteritems()])
 
-def txt_tag(): 
-    with open('zhihu_question_dumped.json') as zhihu_question_dump:
+def txt_tag(filename):
+    with open(filename) as zhihu_question_dump:
         for line in zhihu_question_dump:
             line = loads(line)
             tags = line[-2]
@@ -28,7 +29,7 @@ def txt_tag():
                     if id not in myidset:
                         id = 0
                 else:
-                    id = 0 
+                    id = 0
 
                 if not id:
                     tag = name_tidy(tag)
@@ -41,17 +42,20 @@ def txt_tag():
             yield line[2], tag_list
             for t in line[-1]:
                 yield t, tag_list
-                
+
 
 
 if __name__ == '__main__':
     pass
 
-    for txt, tag_list in txt_tag():
+    for txt, tag_list in chain(
+        txt_tag('zhihu_question_dumped.json'),
+        txt_tag('zhihu_question_to_dump.json')
+    ):
         print txt
         for i in tag_list:
             print myiddict[i],
-        print "\n"
-        
+        print '\n'
+
 
 
