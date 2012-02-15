@@ -22,10 +22,12 @@ def zhihu_question_parser(html, url):
     print how_long.again(), how_long.remain, how_long.done
     
 def zhihu_question_url():
-    for i in QUESTION_ID_SET:
-        yield zhihu_question_parser, 'http://www.zhihu.com/question/%s'%i
+    with open("zhihu_question_dumped.json") as zhihu_question_dump:
+        for line in zhihu_question_dump:
+            url = loads(line)[1]
+            yield zhihu_question_parser, url 
 
-how_long = HowLong(len(QUESTION_ID_SET))
+how_long = HowLong(67585)
 
 def zhihu_topic_title(url , html):
     if '请输入图中的数字：' in html:
