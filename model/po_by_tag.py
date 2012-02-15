@@ -78,8 +78,26 @@ def mc_flush_by_zsite_id(zsite_id):
 def zsite_author_list(zsite_id):
     return Zsite.mc_get_list(zsite_id_list(zsite_id, CID_TAG))
 
-def tag_rename(id, name):
-    # zsite.name 豆瓣 - > 豆瓣 / douban
+
+'''
+别名用到
+redis_alias = 'tagAlias:%s'
+redis_alias_name2id = 'alias2id'
+'''
+
+def tag_mv(id,new_name):
+    #TODO:修改一个标签.
+    '''
+    修改数据库中的,
+    修改redis中的, NAME2ID, 和别名用到的几个.
+    '''
+    pass
+
+def tag_rm(id):
+    #TODO:删除一个标签.
+    '''
+    数据库, redis: NAME2ID, zset, 以及别名用到的几个.
+    '''
     pass
 
 def tag_new(name):
@@ -90,6 +108,9 @@ def tag_new(name):
     autocomplete_tag.append(name,found.id)
     #TODO
     #2. 更新别名库
+    '''
+    我想这个单独做出一个页面, 给一个tag添加tag, 而不是在给文章标签的时候自动给别名
+    '''
     
     id = None
     return id 
