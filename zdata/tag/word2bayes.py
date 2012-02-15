@@ -26,9 +26,8 @@ def merge():
             s = [word]
             for topic, freq in topic_freq.iteritems():
                 topic = int(topic)
-                s.append((topic, freq))
-
-            print dumps(s)
+                redis.hincrby(word, topic, int(freq*100))
+                print topic
 
 
 
