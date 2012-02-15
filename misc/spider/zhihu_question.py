@@ -26,12 +26,15 @@ def zhihu_question_url():
         for line in zhihu_question_dump:
             line = loads(line)
             url = line[1]
-            print line[0]
+            #print line[0]
             yield zhihu_question_parser, url 
 
 how_long = HowLong(67585)
 
 def zhihu_topic_title(url , html):
+    #if  'href="/draft">' in html:
+    #    return
+
     if '请输入图中的数字：' in html:
         print '请输入图中的数字：'
         return
