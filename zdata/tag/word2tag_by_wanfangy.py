@@ -2,9 +2,9 @@
 import _env
 from name2id import NAME2ID
 from glob import glob
-from name2id import NAME2ID
 from json import loads
 from word2tag import train
+from name_tidy import name_tidy
 
 NAME2ID_SET = set(NAME2ID)
 
@@ -17,7 +17,7 @@ def wangfang_parser(fn):
             txt = "\n".join(filter(bool,s[:2])).strip()
             if not txt:
                 continue
-            tag_list = set(str(i).replace('·', '.').lower() for i in s[2])
+            tag_list = set(name_tidy(i) for i in s[2])
             exist_tag = tag_list&NAME2ID_SET
             if exist_tag:
                 exist_id_list = list(NAME2ID[i] for i in exist_tag)
