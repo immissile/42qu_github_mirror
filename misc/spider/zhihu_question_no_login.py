@@ -10,6 +10,7 @@ from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
 from zkit.howlong import HowLong
 from zhihu_question_id import QUESTION_ID_SET
 from zkit.htm2txt import unescape, htm2txt
+from yajl import dumps
 
 RESULT = []
 
@@ -34,14 +35,14 @@ def zhihu_question_parser(html, url):
         if not txt:
             print url
             print name
-            raw_input()
+            #raw_input()
         else:
             print txt[0]
     else:
         if "个答案" in html and ("0 个答案" not in html) and "还没有答案" not in html:
             print url
             print html 
-            raw_input()
+            #raw_input()
         txt = []
 
     RESULT.append((answer_count, url, name, tag, [htm2txt(i) for i in txt]))
@@ -86,6 +87,5 @@ def spider(url_list):
 spider(zhihu_question_url())
 RESULT.sort(key=lambda x:-x[0])
 
-with open('zhihu_question_order_by_answer.py', 'w') as result:
-    result.write('#coding:utf-8\nQUESTION_LIST =')
-    result.write(pformat(RESULT))
+with open('zhihu_question_order_by_answer.json', 'w') as result:
+    result.write(dumps(RESULT))
