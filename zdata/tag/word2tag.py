@@ -11,6 +11,7 @@ from os.path import basename, join, exists
 from glob import glob
 from yajl import dumps
 from name2id import NAME2ID
+from name_tidy import name_tidy
 
 CACHE_PATH = "/mnt/zdata/train/tag"
 
@@ -70,8 +71,8 @@ def merge():
 
     total = sum(topic_word_count.itervalues())
 
-
     for word, topic_freq in word_topic_freq.iteritems():
+        word = name_tidy(word)
         if word in NAME2ID:
             tid = NAME2ID[word]
             now = topic_freq[tid]
