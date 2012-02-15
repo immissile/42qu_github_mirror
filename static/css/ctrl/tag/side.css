@@ -16,7 +16,7 @@ filter:progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff',EndCol
 background-image:-webkit-gradient(linear,0 0,0 100%,from(#fff),to(#f3f3f3));
 }
 .xatagset span {
-background: url(http://s.realfex.xxx/img/gif/tagset.gif) no-repeat 50% 50%;
+background: url(/img/gif/tagset.gif) no-repeat 50% 50%;
 display: inline-block;
 height: 18px;
 vertical-align: -4px;
@@ -50,7 +50,7 @@ vertical-align: middle;
 padding: 1px 3px;
 }
 .search .search_btn {
-background: url("http://s.realfex.xxx/img/png/search_btn.png") no-repeat;
+background: url(/img/png/search_btn.png) no-repeat;
 border: medium none;
 cursor: pointer;
 height: 30px;
