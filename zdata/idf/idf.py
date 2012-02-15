@@ -35,3 +35,5 @@ def tf_idf(word_list, idf):
     result = [(i[0], i[1]/total) for i in result]
     result.sort(key=itemgetter(1), reverse=True)
     return result
+
+
