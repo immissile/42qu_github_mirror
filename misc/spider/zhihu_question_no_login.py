@@ -33,6 +33,9 @@ def zhihu_topic_title(url , html):
         return
 
     r = '<h3>邀请别人回答问题</h3>' in html
+    if not r:
+        r = ">已有帐号了？请登录</h" in html
+
     return r
 
 COOKIE = (
