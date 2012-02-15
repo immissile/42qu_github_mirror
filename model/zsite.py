@@ -212,6 +212,8 @@ if __name__ == '__main__':
     from model.cid import CID_TAG
     from collections import defaultdict
 
+    o = Zsite.get(cid=CID_TAG)
+    print o.link
     id = 10221793
     o = Zsite.mc_get(id)
 
