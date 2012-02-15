@@ -87,5 +87,12 @@ def spider(url_list):
 spider(zhihu_question_url())
 RESULT.sort(key=lambda x:-x[0])
 
-with open('zhihu_question_order_by_answer.json', 'w') as result:
-    result.write(dumps(RESULT))
+with open('zhihu_question_dumped.json', 'w') as dumped:
+    with open('zhihu_question_to_dump.json', 'w') as to_dump:
+        for i in RESULT:
+            if i[0] == len(i[-1]):
+                dumped.write(dumps(i))
+            else:
+                to_dump.write(dumps(i))
+
+
