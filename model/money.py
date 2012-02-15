@@ -202,7 +202,7 @@ def pay_notice(pay_id):
 
 # Charge
 CHARGE_TAX = {
-    CID_PAY_ALIPAY: 1.5 / 100,
+    CID_PAY_ALIPAY: 0 , #1.5 / 100,
 }
 
 def charge_new(price, user_id, cid, for_id=0):

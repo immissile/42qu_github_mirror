@@ -32,7 +32,7 @@ def main():
     print """
 #coding:utf-8
 
-NAME2ID = """
+NAME2ID = """,
     pprint(name2id)
 
 if __name__ == '__main__':
