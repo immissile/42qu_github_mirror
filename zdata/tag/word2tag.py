@@ -70,9 +70,12 @@ def merge():
 
             for topic, freq in topic_freq.iteritems():
                 topic = int(topic)
-                topic_word_count[topic] += freq
+                print word, topic
+#                if topic not in db:
+#                    topic_word_count[topic] = 0
+#                topic_word_count[topic] += freq
                 #print topic, freq
-                word_topic_freq[word][topic] += freq
+#                word_topic_freq[word][topic] += freq
 
 #        if pos>3:
 #            break
