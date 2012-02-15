@@ -14,16 +14,14 @@ with open('zhihu_question_dumped.json') as zhihu_question_dump:
         tags = line[-2]
         for tag in tags:
             tag = str(tag)
-            id = id2topic.get(tag,0)
+            id = id2topic.get(tag, 0)
             if not id:
                 tag = name_tidy(tag)
                 id = NAME2ID.get(tag, 0)
             else:
                 pass
-            print id
             if not id:
-                print tag
-                raw_input() 
+                continue
 
 if __name__ == '__main__':
     pass
