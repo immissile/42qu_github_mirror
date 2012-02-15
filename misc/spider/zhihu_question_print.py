@@ -1,19 +1,31 @@
 #coding:utf-8
 import _env
-from zhihu_question_order_by_answer import QUESTION_LIST
 from json import dumps, loads
+from zhihu_topic_data_with_follow import ZHIHU_TOPIC
+from zkit.pprint import pprint
+from name2id import NAME2ID
+from name_tidy import name_tidy
 
-for i in QUESTION_LIST:
-    i = list(i)
-    count , url, title, tags, txt = i
-    if count == len(txt):
-        for j in i[-1]:
-            print j
-            print loads(j.replace("\n",r"\n"))
-        #i[-1] = map(loads,i[-1])
-        #print dumps(i)
+id2topic = dict([(i[1], i[0]) for i in ZHIHU_TOPIC])
 
-if __name__ == "__main__":
+with open('zhihu_question_dumped.json') as zhihu_question_dump:
+    for line in zhihu_question_dump:
+        line = loads(line)
+        tags = line[-2]
+        for tag in tags:
+            tag = str(tag)
+            id = id2topic.get(tag,0)
+            if not id:
+                tag = name_tidy(tag)
+                id = NAME2ID.get(tag, 0)
+            else:
+                pass
+            print id
+            if not id:
+                print tag
+                raw_input() 
+
+if __name__ == '__main__':
     pass
 
 
