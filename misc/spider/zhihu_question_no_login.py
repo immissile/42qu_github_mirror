@@ -9,7 +9,7 @@ from zkit.spider import Rolling, Fetch, MultiHeadersFetch, GSpider, NoCacheFetch
 from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
 from zkit.howlong import HowLong
 from zhihu_question_id import QUESTION_ID_SET
-from zkit.htm2txt import unescape
+from zkit.htm2txt import unescape, htm2txt
 
 RESULT = []
 
@@ -26,8 +26,25 @@ def zhihu_question_parser(html, url):
         answer_count = txt_wrap_by('<h3 style="margin: 0 0 5px;">', ' 个答案</', html)
 
     tag = map(unescape, txt_wrap_by_all('<a class="xjl" href="javascript:;">', '</a>', html))
-    #print tag[0] 
-    RESULT.append((int(answer_count), url, name, tag))
+    #print tag[0]
+    answer_count =  int(answer_count or 0)
+
+    if answer_count:
+        txt = txt_wrap_by_all('<div class="xmrw">','</div>', html)
+        if not txt:
+            print url
+            print name
+            raw_input()
+        else:
+            print txt[0]
+    else:
+        if "个答案" in html and ("0 个答案" not in html) and "还没有答案" not in html:
+            print url
+            print html 
+            raw_input()
+        txt = []
+
+    RESULT.append((answer_count, url, name, tag, [htm2txt(i) for i in txt]))
 
     print how_long.again(), how_long.remain, how_long.done
 
