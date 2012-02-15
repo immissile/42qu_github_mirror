@@ -91,8 +91,8 @@ with open('zhihu_question_dumped.json', 'w') as dumped:
     with open('zhihu_question_to_dump.json', 'w') as to_dump:
         for i in RESULT:
             if i[0] > len(i[-1]):
-                dumped.write(dumps(i)+"\n")
-            else:
                 to_dump.write(dumps(i)+"\n")
+            else:
+                dumped.write(dumps(i)+"\n")
 
 
