@@ -25,8 +25,8 @@ def zhihu_question_parser(html, url):
     else:
         answer_count = txt_wrap_by('<h3 style="margin: 0 0 5px;">', ' 个答案</', html)
 
-    tag = map(unescape, txt_wrap_by('<a class="xjl" href="javascript:;">', '</a>', html))
-
+    tag = map(unescape, txt_wrap_by_all('<a class="xjl" href="javascript:;">', '</a>', html))
+    #print tag[0] 
     RESULT.append((int(answer_count), url, name, tag))
 
     print how_long.again(), how_long.remain, how_long.done
@@ -69,5 +69,6 @@ def spider(url_list):
 spider(zhihu_question_url())
 RESULT.sort(key=lambda x:-x[0])
 
-with open('zhihu_question_order_by_answer.py',"w") as result:
+with open('zhihu_question_order_by_answer.py', 'w') as result:
+    result.write('#coding:utf-8\nQUESTION_LIST =')
     result.write(pformat(RESULT))
