@@ -36,7 +36,7 @@ def zhihu_topic_title(url , html):
     #    return
 
     if '请输入图中的数字：' in html:
-        print '请输入图中的数字：'
+        print '请输入图中的数字： in cache'
         return
 
     r = '<h3>邀请别人回答问题</h3>' in html
@@ -61,7 +61,7 @@ def spider(url_list):
     fetcher = Fetch(
         '/tmp',
         tuple( { 'Cookie': i.replace('Cookie:','').strip() } for i in COOKIE),
-        30,
+        12,
         zhihu_topic_title
     )
     spider = Rolling( fetcher, url_list )
