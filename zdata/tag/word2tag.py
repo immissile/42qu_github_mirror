@@ -12,6 +12,7 @@ from glob import glob
 from yajl import dumps
 from name2id import NAME2ID
 from name_tidy import name_tidy
+from kyotocabinet import DB
 
 CACHE_PATH = "/mnt/zdata/train/tag"
 
@@ -53,12 +54,19 @@ def merge():
     word_topic_freq = defaultdict(lambda:defaultdict(float))
     topic_word_count = defaultdict(float)
 
+
+    db_path = join(ZDATA_PATH,"bayes.kch")
+    db = DB()
+    db.open(db_path, DB.OWRITER | DB.OCREATE)
+
+
     for pos, i in enumerate(glob(CACHE_PATH+"/*")):
         for word, topic_freq in tofromfile.fromfile(i).iteritems():
 
             if len(word.strip()) <= 3:
                 continue
 
+            word = name_tidy(word)
 
             for topic, freq in topic_freq.iteritems():
                 topic = int(topic)
@@ -69,30 +77,28 @@ def merge():
 #        if pos>3:
 #            break
 
-    total = sum(topic_word_count.itervalues())
-
-    for word, topic_freq in word_topic_freq.iteritems():
-        word = name_tidy(word)
-        if word in NAME2ID:
-            tid = NAME2ID[word]
-            now = topic_freq[tid]
-            topic_freq[tid] = new = sum(topic_freq.itervalues()) 
-            topic_word_count[tid]+=(new-now)
-            total += new-now
-
-    for word, topic_freq in word_topic_freq.iteritems():
-        tf = []
-        
-        ftotal = 0.0
-        for topic, freq in topic_freq.iteritems():
-            f = freq*10000/topic_word_count[topic]
-            tf.append((topic, f))
-            ftotal += f
-        
-        tf = [(k,v/ftotal) for k,v in tf]
-
-        print dumps((word, tf))    
-
+#    total = sum(topic_word_count.itervalues())
+#
+#    for word, topic_freq in word_topic_freq.iteritems():
+#        if word in NAME2ID:
+#            tid = NAME2ID[word]
+#            now = topic_freq[tid]
+#            topic_freq[tid] = new = sum(topic_freq.itervalues()) 
+#            topic_word_count[tid]+=(new-now)
+#            total += new-now
+#
+#    for word, topic_freq in word_topic_freq.iteritems():
+#        tf = []
+#        
+#        ftotal = 0.0
+#        for topic, freq in topic_freq.iteritems():
+#            f = freq*10000/topic_word_count[topic]
+#            tf.append((topic, f))
+#            ftotal += f
+#        
+#        tf = [(k,v/ftotal) for k,v in tf]
+#
+#        print dumps((word, tf))    
 
 
 
