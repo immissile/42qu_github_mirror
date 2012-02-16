@@ -459,7 +459,7 @@ class ShareFavBase(ZsiteBase):
                 if po.user_id:
                     link = po.user.link
                 else:
-                    link = "0%s"%SITE_DOMAIN_SUFFIX
+                    link = "//0%s"%SITE_DOMAIN_SUFFIX
                 return self.redirect('%s%s' % (link, self.request.path))
             return self.redirect(po.link)
         return self.redirect('/')
