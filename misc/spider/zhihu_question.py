@@ -53,6 +53,7 @@ COOKIE = (
 
 """Cookie: _xsrf=af5b78fb77e842258c87716af77115c7; __utma=155987696.1623286680.1329322924.1329322924.1329322924.1; __utmb=155987696.4.10.1329322924; __utmc=155987696; __utmz=155987696.1329322924.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=155987696.Logged%20In; q_c0=MjIwMDA0fGVHSXZJTFl1ZGxRVHBMSGQ=|1329322930|a98a0b215fb8dd6f698193149447c98e352ef13c""",
 
+"""Cookie: _xsrf=74d12a578bd942a08c8ed0570b783019; __utma=155987696.1975482818.1329361470.1329361470.1329361470.1; __utmb=155987696.8.10.1329361470; __utmc=155987696; __utmz=155987696.1329361470.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=155987696.Logged%20In; q_c0=NDMwfEUySWpWdVp5cHFGdllGNDI=|1329361485|8d1af7b931c14ef2626bcc431ec75cd094a78bd6""",
 
 )
 
@@ -61,7 +62,7 @@ def spider(url_list):
     fetcher = Fetch(
         '/tmp',
         tuple( { 'Cookie': i.replace('Cookie:','').strip() } for i in COOKIE),
-        20,
+        25,
         zhihu_topic_title
     )
     spider = Rolling( fetcher, url_list )
