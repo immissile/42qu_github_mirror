@@ -503,8 +503,30 @@ def mc_flush_zsite_cid(zsite_id, cid):
 
 
 if __name__ == '__main__':
-    po = Po.mc_get(10215880)
-    print  po.link
+    po = Po.mc_get(10236747)
+    print  po.name_
+
+    name = """第一日
+
+• HTML 与 模版
+• css与js
+
+预习材料
+
+
+1. 网页设计师 : 循序渐进
+2. html.chm
+3. css.htm
+4. Javascript教程 http://www.w3school.com.cn/js/index.asp
+5. 15天学会jquery
+6. jquery.chm
+
+下载地址 : https://bitbucket.org/zuroc/42qu-school/src/02ffbde7b7e4/book 
+"""
+
+    po.name_ = name
+    po.save()
+
     #rm_all_po_and_reply_and_tag_by_user_id(10001299)
     pass
     #for po in Po.where(cid = CID_NOTE,state=STATE_ACTIVE):
