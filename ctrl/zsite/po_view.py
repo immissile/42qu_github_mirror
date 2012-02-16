@@ -454,13 +454,8 @@ class ShareFavBase(ZsiteBase):
         po = Po.mc_get(id)
         if po:
             if po.cid in PO_SHARE_FAV_CID and po.can_view(self.current_user_id):
-                if po.user_id == self.zsite_id:
+                if po.user_id == self.zsite_id or not po.user_id:
                     return po
-                if po.user_id:
-                    link = po.user.link
-                else:
-                    link = "//0%s"%SITE_DOMAIN_SUFFIX
-                return self.redirect('%s%s' % (link, self.request.path))
             return self.redirect(po.link)
         return self.redirect('/')
 
