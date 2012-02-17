@@ -55,20 +55,22 @@ def txt_tag(filename):
 
 
 def txt_tag_id_list():
-    for tag_string , title, txt_list in chain(
+    txt_list = []
+
+    for tag_string , title, _txt_list in chain(
         zhihu_to_dump(),
         txt_tag('zhihu_question_to_dump.json'),
     ):
         tag_list = tag_id_list_by_str_list(tag_string)
 
-        yield title, tag_list
-        for i in txt_list:
-            yield i, tag_list
+        txt_list.append(title)
+        txt_list.extend(_txt_list)
+        yield tag_list, txt_list
 
 if __name__ == '__main__':
     pass
 
-    for txt , tag_list in txt_tag_id_list():
+    for tag_list, txt_list in txt_tag_id_list():
         print tag_list 
 
 #    for i in :
