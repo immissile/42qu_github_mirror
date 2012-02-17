@@ -138,10 +138,10 @@ def zsite_tag_po_new_by_name(tag_name, po, rank):
 def tag_rm_by_po(po):
     po_id = po.id
     user_id = po.user_id
-    _tag_rm_by_user_id_id_list(user_id, tag_id_list_by_po_id(po_id))
+    _tag_rm_by_user_id_list(user_id, tag_id_list_by_po_id(po_id))
     mc_flush_by_po_id(po_id)
 
-def _tag_rm_by_user_id_id_list(user_id, id_list):
+def _tag_rm_by_user_id_list(user_id, id_list):
     for tag_id in id_list:
         PoZsiteTag.where(zsite_id=tag_id).delete()
         mc_flush_by_zsite_id(tag_id)
@@ -176,17 +176,18 @@ def po_tag_new_by_autocompelte(po, tag_list):
     return po_tag_id_list_new(po, unique(tag_id_list))
 
 def po_tag_id_list_new(po, tag_id_list):
+    po_id = po.id
     new_tag_id_list = set(map(int, tag_id_list))
-    old_tag_id_list = set(tag_id_list_by_po_id)
+    old_tag_id_list = set(tag_id_list_by_po_id(po_id))
 
     to_add = new_tag_id_list - old_tag_id_list
     to_rm = old_tag_id_list - new_tag_id_list
 
     user_id = po.user_id
-    _tag_rm_by_user_id_id_list(user_id, to_rm)
+    _tag_rm_by_user_id_list(user_id, to_rm)
 
     for tag_id in to_add:
-        zsite_tag_po_new(zsite_id, po)
+        zsite_tag_po_new(tag_id, po)
 
 
 
@@ -203,5 +204,9 @@ def po_tag_id_list_new(po, tag_id_list):
 
 if __name__ == '__main__':
     pass
-    print tag_list_by_po_id(69217)
+    #print tag_list_by_po_id(69217)
     #print po_by_tag(1, 0)
+
+    from model.po import Po,CID_NOTE
+    for i in Po.where(cid=CID_NOTE).order_by("id desc")[:20]:
+        po_tag_id_list_new(i, [137110])
