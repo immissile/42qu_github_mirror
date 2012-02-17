@@ -12,7 +12,12 @@ from glob import glob
 from name2id import NAME2ID
 from name_tidy import name_tidy
 from yajl import dumps
+from os import makedirs
+from zkit.fanjian import utf8_ftoj 
+
 CACHE_PATH = "/mnt/zdata/train/tag"
+if not exists(CACHE_PATH):
+    makedirs(CACHE_PATH)
 
 def train(filename, parser):
     fname = basename(filename)
@@ -33,7 +38,7 @@ def train(filename, parser):
             tag_id_set.update(PTAG.get(tid, ()))
 
         word2count = defaultdict(int)
-        word_list = list(seg_txt(str(txt)))
+        word_list = list(seg_txt(utf8_ftoj(str(txt))))
         for i in word_list:
             word2count[i] += 1
 

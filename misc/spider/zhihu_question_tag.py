@@ -48,39 +48,43 @@ def txt_tag(filename):
             line = loads(line)
             yield line[-2], line[2], line[-1]
 
-        #    tag_list = tag_id_list_by_str_list(line[-2])
-        #    yield line[2], tag_list
-        #    for t in line[-1]:
-        #        yield t, tag_list
+#    tag_list = tag_id_list_by_str_list(line[-2])
+#    yield line[2], tag_list
+#    for t in line[-1]:
+#        yield t, tag_list
 
 
 def txt_tag_id_list():
-    txt_list = []
 
-    for tag_string , title, _txt_list in chain(
+    for pos, (tag_string , title, _txt_list) in enumerate(chain(
+        txt_tag('/home/zuroc/zpage/misc/spider/zhihu_question_to_dump.json'),
         zhihu_to_dump(),
-        txt_tag('zhihu_question_to_dump.json'),
-    ):
+    )):
         tag_list = tag_id_list_by_str_list(tag_string)
-
-        txt_list.append(title)
+        txt_list = [title]
+        print pos, title
         txt_list.extend(_txt_list)
-        yield tag_list, txt_list
+        for i in txt_list:
+            yield tag_list, i
+        #for i in txt_list[1:4]:
+            #print i,"\n"
 
 if __name__ == '__main__':
     pass
 
-    for tag_list, txt_list in txt_tag_id_list():
-        print tag_list 
+    #for tag_list, txt_list in txt_tag_id_list():
+    #    print tag_list 
+    from zdata.tag.word2tag import train
+    train('zhihu', lambda x:txt_tag_id_list())
 
 #    for i in :
 #        yield i[0], i[]
 
-        #yield line[2], tag_list
-        #for t in line[-1]:
-        #    yield t, tag_list
-        #for tag in tag_string:
-        #    print tag
+#yield line[2], tag_list
+#for t in line[-1]:
+#    yield t, tag_list
+#for tag in tag_string:
+#    print tag
 
 
 #        print txt
