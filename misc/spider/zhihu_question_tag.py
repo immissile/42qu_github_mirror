@@ -14,35 +14,41 @@ id2topic = dict([(i[1], i[0]) for i in ZHIHU_TOPIC])
 myidset = set(NAME2ID.itervalues())
 myiddict = dict([(k, v) for v, k in NAME2ID.iteritems()])
 
+def tag_id_list_by_str_list(tags):
+    tag_list = []
+
+    for tag in tags:
+        id = tag_to_id(tag)
+        if not id:
+            continue
+        else:
+            tag_list.append(id)
+
+    return tag_list
+
+def tag_to_id(tag):
+    tag = str(tag)
+    id = id2topic.get(tag, 0)
+    if id in ID2MY:
+        id = ID2MY[id]
+        if id not in myidset:
+            id = 0
+    else:
+        id = 0
+
+    if not id:
+        tag = name_tidy(tag)
+        id = NAME2ID.get(tag, 0)
+    return id
+
 def txt_tag(filename):
     with open(filename) as zhihu_question_dump:
         for line in zhihu_question_dump:
             line = loads(line)
-            tags = line[-2]
-            tag_list = []
-
-            for tag in tags:
-                tag = str(tag)
-                id = id2topic.get(tag, 0)
-                if id in ID2MY:
-                    id = ID2MY[id]
-                    if id not in myidset:
-                        id = 0
-                else:
-                    id = 0
-
-                if not id:
-                    tag = name_tidy(tag)
-                    id = NAME2ID.get(tag, 0)
-
-                if not id:
-                    continue
-                else:
-                    tag_list.append(id)
+            tag_list = tag_id_list_by_str_list(line[-2])
             yield line[2], tag_list
             for t in line[-1]:
                 yield t, tag_list
-
 
 
 if __name__ == '__main__':
