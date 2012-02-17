@@ -62,7 +62,7 @@ def txt_tag_id_list():
     )):
         tag_list = tag_id_list_by_str_list(tag_string)
         txt_list = [title]
-        print pos, title
+        print pos, title, tag_list
         txt_list.extend(_txt_list)
         for i in txt_list:
             yield tag_list, i
