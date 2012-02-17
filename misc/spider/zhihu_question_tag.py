@@ -69,7 +69,7 @@ if __name__ == '__main__':
     pass
 
     for txt , tag_list in txt_tag_id_list():
-        pass
+        print tag_list 
 
 #    for i in :
 #        yield i[0], i[]

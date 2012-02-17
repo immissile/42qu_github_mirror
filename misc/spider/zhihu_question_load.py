@@ -44,3 +44,6 @@ if __name__ == '__main__':
 
     for i in zhihu_to_dump():
         print i[0], i[1]
+
+
+
