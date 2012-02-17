@@ -32,7 +32,7 @@ def zhihu_to_dump():
             if exists(path):
                 yield line_parser(path, line)
             else:
-                pass
+                yield line[-2], line[2], line[-1]
 
 def line_parser(path, line):
     if exists(path):
@@ -42,7 +42,6 @@ def line_parser(path, line):
                 s = parse_content(t)
                 return line[-2], line[2], s
 
-    return line[-2], line[2], line[-1]
 
 
 if __name__ == '__main__':
