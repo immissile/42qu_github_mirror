@@ -3,15 +3,18 @@
 import _env
 from glob import glob
 from zkit.bot_txt import txt_wrap_by, txt_wrap_by_all
+from zkit.htm2txt import unescape, htm2txt
 
 def parse_content(txt):
     id = txt_wrap_by('<a href="/question/', '/log" class="xrv">', txt)
-    t = txt_wrap_by('<title>', ' - 知乎</title>', txt)
+    t = unescape(txt_wrap_by('<title>', ' - 知乎</title>', txt))
     tlist = txt_wrap_by_all('<div class="xmrw">', '</div>', txt)
+
     print id
     for i in tlist:
-        print i
-    raw_input() 
+        print htm2txt(i)
+
+    #raw_input() 
 
 
 
