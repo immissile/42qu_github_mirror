@@ -11,7 +11,7 @@ from zkit.tofromfile import tofile, fromfile
 
 from parent_tag import ParentTagger
 from zdata.config import DATA_DIR
-from kyoto_db import DB_Kyoto
+from kyoto_db import DbKyoto
 
 current_path = os.path.dirname(os.path.abspath(__file__))
 TAG_MAPPING = open(join(current_path, 'mapping.py'), 'w')
@@ -172,7 +172,7 @@ class BayesRank(object):
         word_topic_count = self.word_topic_count = defaultdict(lambda:defaultdict(int))
         self.tag2id = WordId().fromfile(join(DATA_DIR, 'tag2id'))
         self.word2id = WordId().fromfile(join(DATA_DIR, 'word2id'))
-        self.db = DB_Kyoto('test.kch')
+        self.db = DbKyoto('test.kch')
 
         for word_id_list, tag_id_list in word_id2tag_id:
             for tag_id in tag_id_list:

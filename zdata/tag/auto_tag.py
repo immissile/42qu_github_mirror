@@ -6,7 +6,7 @@ from mmseg import seg_txt
 from yajl import loads
 from zdata.tfidf.idf import idf_zhihu
 from zdata.bayes.train import TAG2ID, WORD2ID 
-from zdata.bayes.kyoto_db import DB_Kyoto
+from zdata.bayes.kyoto_db import DbKyoto
 from zkit.sp_txt import sp_txt
 
 import sys;
@@ -17,7 +17,7 @@ ID2TAG = TAG2ID.id2word()
 class GetTag(object):
     def __init__(self ):
         self.idf = idf_zhihu()
-        self.db = DB_Kyoto('bayes.kch')
+        self.db = DbKyoto('bayes.kch')
 
     def get_tag(self, txt):
         topic_rank = defaultdict(float)

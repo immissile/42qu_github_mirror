@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-from _db import McModel
+import _env
 from zkit.txt_cleanup import feature_md5
-from kyotocabinet import *
+from kyotocabinet import DB
 from array import array
 from collections import defaultdict
 
-class DB_Kyoto(object):
+class DbKyoto(object):
     def __init__(self, db_file):
         self.db = DB()
         self.db_file = db_file
@@ -41,7 +40,7 @@ class DB_Kyoto(object):
 
 class Duplicator(object):
     def __init__(self, db_path):
-        self.db = DB_Kyoto(db_path)
+        self.db = DbKyoto(db_path)
 
     def set_record(self, txt, id):
         return self.db.set(txt, id)
