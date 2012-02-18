@@ -48,6 +48,7 @@ def tag_id_list_rank_by_txt(txt):
         key=itemgetter(1),
         reverse=True
     ):
+        print tag_id
         has_tag = False
 
         if tag_id not in ID2NAME:
