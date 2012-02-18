@@ -69,6 +69,7 @@ def tag_id_list_rank_by_txt(txt):
 
             if tag_list:
                 for j in tag_list:
+                    #print j, str(j) in txt
                     if str(j) in txt:
                         has_tag = True
                         break
