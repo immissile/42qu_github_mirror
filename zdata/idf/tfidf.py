@@ -36,8 +36,10 @@ def tag_id_list_rank_by_txt(txt):
     txt = txt.lower()
     tag_id_list_rank = defaultdict(int)
     for word, rank in tf_idf_seg_txt(txt):
+        print word
         if word in db_tag_bayes:
             ar = array('I')
+            print ar
             for tag_id, bayes in chunkiter(ar.fromstring(db_tag_bayes[word]),2):
                 tag_id_list_rank[tag_id]+=(bayes*rank)
 
@@ -48,7 +50,6 @@ def tag_id_list_rank_by_txt(txt):
         key=itemgetter(1),
         reverse=True
     ):
-        print tag_id
         has_tag = False
 
         if tag_id not in ID2NAME:
