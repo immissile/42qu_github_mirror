@@ -29,8 +29,8 @@ class TagAlias(McModel):
 mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 mc_tag_id_list_by_po_id = McCacheA('TagIdListByPoId.%s')
 
-redis_alias = 'TagAlias:%s'
-redis_alias_name2id = 'AliasName2Id'
+REDIS_ALIAS = 'TagAlias:%s'
+REDIS_ALIAS_NAME2ID = 'AliasName2Id'
 
 REDIS_FEED_SECTION = 'SEC_CID:%s:%s'
 REDIS_FEED_PO_ID2CID = 'SEC_PO2CID'
@@ -134,12 +134,12 @@ def tag_new(name):
 
 def _tag_alias_new(id, name):
     low = name.lower()
-    redis.sadd(redis_alias%id, low)
+    redis.sadd(REDIS_ALIAS%id, low)
 
 
 def tag_by_name(name):
     low = name.lower()
-    id = redis.hget(redis_alias_name2id, low)
+    id = redis.hget(REDIS_ALIAS_NAME2ID, low)
     if not id:
         id = tag_new(name)
     return id
@@ -148,7 +148,7 @@ def tag_alias_new(id, name):
     from model.autocomplete import  autocomplete_tag
     #添加别名
     low = name.lower()
-    oid = redis.hget(redis_alias_name2id, low)
+    oid = redis.hget(REDIS_ALIAS_NAME2ID, low)
     if oid:
         return 
 
@@ -160,7 +160,7 @@ def tag_alias_new(id, name):
     tag_alias.save()
 
     _tag_alias_new(id, name)
-    redis.hset(redis_alias_name2id, name, id)
+    redis.hset(REDIS_ALIAS_NAME2ID, name, id)
     autocomplete_tag.append_alias(name, id)
 
 def tag_alias_rm(alias_id):
@@ -171,8 +171,8 @@ def tag_alias_rm(alias_id):
     if tag_alias:
         id = tag_alias.tag_id
         name = tag_alias.name
-        redis.srem(redis_alias%id, low)
-        redis.hdel(redis_alias_name2id, name)
+        redis.srem(REDIS_ALIAS%id, low)
+        redis.hdel(REDIS_ALIAS_NAME2ID, name)
         tag_alias.delete()
         autocomplete_tag.pop_alias(name, id)
 
@@ -188,7 +188,7 @@ def tag_alias_by_id_query(id, query):
     #name.find(query) == -1
     #id - alias_list 
     #for i in alias_list : if i.find(query) >= 0  : return i
-    alias_list = redis.smembers(redis_alias%id)
+    alias_list = redis.smembers(REDIS_ALIAS%id)
     for i in alias_list:
         if query in i:
             return i
