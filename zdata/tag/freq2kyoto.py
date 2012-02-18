@@ -16,10 +16,11 @@ def main():
         for line in word_tf:
             line = line.strip()
             word, bayes_list = loads(line)
-            ar = array('I')
-            ar.fromlist(lineiter(bayes_list))
-            ar.tostring()
-            db[word] = ar
+            if bayes_list:
+                ar = array('I')
+                ar.fromlist(lineiter(bayes_list))
+                ar.tostring()
+                db[word] = ar
 
 if "__main__" == __name__:
     main()
