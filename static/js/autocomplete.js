@@ -1,5 +1,5 @@
-function autocomplete_tag(id, default_tag_list, onlySearch, idPrefix){
-    onlySearch = (typeof(onlySearch)=="undefined")?0:onlySearch
+function autocomplete_tag(id, default_tag_list, only_search, idPrefix){
+    //only_search = (typeof(only_search)=="undefined")?0:only_search
     var elem=$(id), t, i, 
         o = {
             onResult: function (results, word) {
@@ -20,13 +20,13 @@ function autocomplete_tag(id, default_tag_list, onlySearch, idPrefix){
                         list.push(t)
                     }
                 }
-                if(ctrl && !onlySearch)list.unshift({id:'-'+word,name:word,num:0})
+                if(ctrl && !only_search)list.unshift({id:'-'+word,name:word,num:0})
                 return list
             },
-            hintText:onlySearch?null:'搜索标签',
+            hintText:only_search?null:'搜索标签',
             propertyToSearch: "name",
             onAdd: function (item) {
-                if(onlySearch){
+                if(only_search){
                     window.location.href = 'http://42qu.com'
                 }
             },
