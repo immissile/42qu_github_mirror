@@ -49,8 +49,6 @@ class PoMetaUser(McModel):
             return 'http://www.douban.com/people/%s'%self.url
 
 
-        
-
 def user_url_by_po_meta_user_id(id):
     user = PoMetaUser.mc_get(id)
     if user:
