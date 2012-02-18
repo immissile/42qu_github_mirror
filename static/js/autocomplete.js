@@ -1,4 +1,5 @@
-function autocomplete_tag(id, default_tag_list, idPrefix){
+function autocomplete_tag(id, default_tag_list, onlySearch, idPrefix){
+    onlySearch = (typeof(onlySearch)=="undefined")?0:onlySearch
     var elem=$(id), t, i, 
         o = {
             onResult: function (results, word) {
@@ -19,21 +20,38 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
                         list.push(t)
                     }
                 }
-                if(ctrl)list.unshift({id:'-'+word,name:word,num:0})
+                if(ctrl && !onlySearch)list.unshift({id:'-'+word,name:word,num:0})
                 return list
             },
+            hintText:onlySearch?null:'搜索标签',
             propertyToSearch: "name",
+            onAdd: function (item) {
+                if(onlySearch){
+                    window.location.href = 'http://42qu.com'
+                }
+            },
             resultsFormatter: function(item){
                 if(String(item.id).substring(0,1)=='-'){
-                    return '<li class="dropdown_add">添加 '+item.name+' 标签</li>'
+                    return '<li class="dropdown_add">添加 '+$('#token-input-'+id.substring(1)).val()+' 标签</li>'
                 }
-                var num = item.num-0;
+                var num = item.num-0, ctxt;
+                switch(item.cid){
+                    case 0:
+                        ctxt = '个回答'
+                        break
+                    case 1:
+                        ctxt = '人关注'
+                        break
+                    case 2:
+                        ctxt = '个粉丝'
+                        break
+                }
                 var s=[
                     '<li>',item.name
                 ]
                 if(num){
                     s.push( 
-                        '<span class="drop_follow_num">'+item.num+'人关注</span>'
+                        '<span class="drop_follow_num">' + item.num + ctxt + '</span>'
                     )
                 }
                 s.push('</li>')
@@ -41,8 +59,8 @@ function autocomplete_tag(id, default_tag_list, idPrefix){
             },
             tokenFormatter: function(item){
                  return '<li class="token-input-token"><p>'+item.name+'</p>'+'<input type="hidden" name="tag_id_list" value="'+item.id+'"></li>' 
-            }
-
+            },
+            animateDropdown: false
         }
     if(idPrefix){
         o.idPrefix = idPrefix
