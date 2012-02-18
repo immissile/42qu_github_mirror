@@ -30,19 +30,20 @@ ID2NAME = defaultdict(list)
 for name, id in NAME2ID.iteritems():
     ID2NAME[name].append(id)
 
-db_tag_bayes = DB(join(ZDATA_PATH,"data/bayes.kch"), DB.OREADER)
+db_tag_bayes = DB()
+db_tag_bayes.open(join(ZDATA_PATH,"data/bayes.kch"), DB.OREADER)
+
 
 def tag_id_list_rank_by_txt(txt):
     txt = txt.lower()
     tag_id_list_rank = defaultdict(int)
     for word, rank in tf_idf_seg_txt(txt):
-        print word
         if word in db_tag_bayes:
             ar = array('I')
-            print ar
-            for tag_id, bayes in chunkiter(ar.fromstring(db_tag_bayes[word]),2):
+            ar.fromstring(db_tag_bayes[word])
+            #print db_tag_bayes[word]
+            for tag_id, bayes in chunkiter(ar,2):
                 tag_id_list_rank[tag_id]+=(bayes*rank)
-
     result = []
 
     for tag_id, rank in sorted(

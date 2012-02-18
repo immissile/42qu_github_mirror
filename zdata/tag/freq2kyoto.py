@@ -20,8 +20,7 @@ def main():
             if bayes_list:
                 ar = array('I')
                 ar.fromlist(lineiter(bayes_list))
-                ar.tostring()
-                db[word] = ar
+                db[word] = ar.tostring()
 
 if "__main__" == __name__:
     main()
