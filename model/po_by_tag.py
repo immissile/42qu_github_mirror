@@ -1,5 +1,5 @@
 #coding:utf-8
-from _db import  McModel, Model, McLimitA, McNum, McCacheA
+from _db import  McModel, Model, McLimitA, McNum, McCacheA, redis
 from model.po_json import po_json, Po
 from po import Po
 from cid import CID_NOTE, CID_TAG, CID_USER
@@ -18,8 +18,16 @@ from zkit.pprint import pprint
 from zkit.fanjian import utf8_ftoj
 
 
+class TagAlias(McModel):
+    #id, tag_id, name
+    #tag_id->cluster index
+    #name -> index
+    pass
+
 mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 mc_tag_id_list_by_po_id = McCacheA('TagIdListByPoId.%s')
+redis_alias = 'TagAlias:%s'
+redis_alias_name2id = 'AliasName2Id'
 
 
 
@@ -63,58 +71,97 @@ def zsite_author_list(zsite_id):
     return Zsite.mc_get_list(zsite_id_list(zsite_id, CID_TAG))
 
 
-def tag_rename(id, name):
-    # zsite.name 豆瓣 - > 豆瓣 / douban
+
+def tag_mv(id, new_name):
+    #TODO:修改一个标签.
+    '''
+    修改数据库中的,
+    修改redis中的, NAME2ID, 和别名用到的几个.
+    '''
+    pass
+
+def tag_rm(id):
+    #TODO:删除一个标签.
+    '''
+    数据库, redis: NAME2ID, zset, 以及别名用到的几个.
+    '''
     pass
 
 def tag_new(name):
     found = Zsite.get(name=name, cid=CID_TAG)
     if not found:
         found = zsite_new(name, CID_TAG)
-    #TODO
-    #1. 更新autocompelete
-    #2. 更新别名库
     
-    id = None
-    return id 
+    id = found.id
+
+    #1. 更新autocompelete
+    from model.autocomplete import  autocomplete_tag
+    autocomplete_tag.append(name, id)
+
+    name = map(utf8_ftoj, map(str.strip, s.split('/')))
+    for i in name:
+        _tag_alias_new(name)
+         
+    return id
+
+def _tag_alias_new(id, name):
+    low = name.lower()
+    redis.sadd(redis_alias%id, low)
+
 
 def tag_by_name(name):
     low = name.lower()
-    #TODO
-    #查找别名库
-    id = None
+    id = redis.hget(redis_alias_name2id, low)
     if not id:
         id = tag_new(name)
     return id
 
 def tag_alias_new(id, name):
     #添加别名
-    pass
+    _tag_alias_new(id, name)
+    redis.hset(redis_alias_name2id, name, id)
 
-def tag_alias_rm(id, name):
-    pass
+    tag_alias = TagAlias.get(tag_id=id, name=name)
+    if not tag_alias:
+        new_alias = TagAlias(tag_id=id, name=name)
+        new_alias.save()
+        autocomplete_tag.append_alias(name, id)
+
+def tag_alias_rm(alias_id):
+    #Remove redis
+    low = name.lower()
+    tag_alias = TagAlias.get(alias_id)
+    if tag_alias:
+        id = tag_alias.tag_id
+        name = tag_alias.name
+        redis.srem(redis_alias%id, low)
+        redis.hdel(redis_alias_name2id, name)
+        tag_alias.delete()
+        autocomplete_tag.pop_alias(name, id)
 
 def tag_alias_by_id(id):
-    pass
+    #TODO:放在mysql
+    tag_alias_list = TagAlias.where(tag_id=id).col_list(col='name')
+    return tag_alias_list
 
-def tag_alias_by_id_str(id, name):
+def tag_alias_by_id_query(id, query):
     #根据 id 和 name 返回别名 (自动补全提示的时候, 如果输入的字符串 lower以后不在tag的名称里面, 那么就查找这个tag的所有别名 , 找到一个包含这个name的别名)
     #name 百度
     #query baidu
     #name.find(query) == -1
     #id - alias_list 
     #for i in alias_list : if i.find(query) >= 0  : return i
-    pass
+    alias_list = redis.smembers(redis_alias%id)
+    for i in alias_list:
+        if query in i:
+            return i
 
 def tag_by_str(s):
     id_list = []
-    name = map(utf8_ftoj,map(str.strip, s.split('/')))
+    name = map(utf8_ftoj, map(str.strip, s.split('/')))
     for i in name:
         id_list.append(tag_by_name(i))
-    return id_list 
-
-
-
+    return id_list
 
 @mc_po_id_list_by_tag_id('{tag_id}')
 def po_id_list_by_tag_id(tag_id, limit, offset=0):
@@ -150,8 +197,6 @@ def _tag_rm_by_user_id_id_list(user_id, id_list):
         if not user_rank and user_rank.rank:
             user_rank.rank -= 1
             user_rank.save()
-
-
 
 @mc_tag_id_list_by_po_id('{po_id}')
 def tag_id_list_by_po_id(po_id):
