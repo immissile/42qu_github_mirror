@@ -84,7 +84,7 @@ class AutoComplete:
                 yield ZSET_CID%py
 
             for pos in xrange(2, len(pylist)+1):
-                yield ZSET_CID%"".join(pylist[:pos]
+                yield ZSET_CID%"".join(pylist[:pos])
 
     def pop_alias(self, name, id):
         for i in self._key(name):
@@ -129,8 +129,12 @@ class AutoComplete:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
                 if query not in name:
-                    alias = tag_alias_by_id_query(id,query) 
-                result.append((id, rank, name,alias))
+                    alias = tag_alias_by_id_query(id,query) or 0 
+                else:
+                    alias = 0
+                result.append(
+                    (id, rank, name,alias)
+                )
         return result
 
 autocomplete_tag = AutoComplete('tag')
