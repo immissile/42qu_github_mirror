@@ -53,6 +53,9 @@ def merge():
                 tf[id] = fcount
                 fcount += diff
 
+            if not fcount:
+                continue
+
             t = []
             for topic, f in tf.iteritems():
                 rank = int(f*10000/fcount)

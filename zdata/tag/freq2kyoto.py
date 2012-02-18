@@ -16,6 +16,7 @@ def main():
         for line in word_tf:
             line = line.strip()
             word, bayes_list = loads(line)
+            print word
             if bayes_list:
                 ar = array('I')
                 ar.fromlist(lineiter(bayes_list))
