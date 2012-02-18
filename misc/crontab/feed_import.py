@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from model.feed_import import feed2po_new, zsite_id_by_douban_user_id, FeedImport, FEED_IMPORT_STATE_WITHOUT_TAG, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC
+from model.feed_import import  zsite_id_by_douban_user_id, FeedImport, FEED_IMPORT_STATE_WITHOUT_TAG, FEED_IMPORT_STATE_INIT, FEED_IMPORT_STATE_POED, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR_SYNC, FEED_IMPORT_STATE_REVIEWED_WITHOUT_AUTHOR, FEED_IMPORT_STATE_REVIEWED_SYNC
 from config import ZSITE_DOUBAN_ID
 from model.duplicate import Duplicator
 from model.zsite import Zsite
@@ -11,10 +11,10 @@ from config import DUMPLICATE_DB_PREFIX
 from zkit.htm2txt import htm2txt
 from zkit.single_process import single_process
 from model.txt_img_fetch import txt_img_fetch
-from url_short import url_short_id
-from douban import DoubanUser, douban_feed_to_review_iter, douban_user_by_feed_id , title_normal
-from site_sync import site_sync_new
-from po_by_tag import zsite_tag_po_new_by_name, po_tag_id_list_new
+from model.url_short import url_short_id
+from model.douban import DoubanUser, douban_feed_to_review_iter, douban_user_by_feed_id , title_normal
+from model.site_sync import site_sync_new
+from model.po_by_tag import zsite_tag_po_new_by_name, po_tag_id_list_new
 
 
 import_feed_duplicator = Duplicator(DUMPLICATE_DB_PREFIX%'import_feed')
@@ -121,7 +121,7 @@ def feed_new(feed):
 
 @single_process
 def main():
-    #feed2po_new()
+    feed2po_new()
     feed_import_by_douban_feed()
 
 

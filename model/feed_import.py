@@ -6,7 +6,6 @@ from _db import Model, McModel, redis
 from po import po_note_new
 from kv import Kv
 from rec_read import  rec_read_new, REDIS_REC_CID_DICT
-from po_by_tag import zsite_tag_po_new_by_name, po_tag_id_list_new
 from part_time_job import part_time_job_new
 from config.privilege import PRIVILEGE_FEED_IMPORT
 from zrank.sorts import hot
