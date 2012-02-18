@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from model.feed_import import feed2po_new, zsite_id_by_douban_user_id, FeedImport, FEED_IMPORT_STATE_INIT, DOUBAN_ZSITE_ID, FEED_IMPORT_CID_DICT
+from model.feed_import import feed2po_new, zsite_id_by_douban_user_id, FeedImport, FEED_IMPORT_STATE_INIT, FEED_IMPORT_CID_DICT
+from config import DOUBAN_ZSITE_ID
 from model.duplicate import Duplicator
 from model.zsite import Zsite
 from zkit.txt import format_txt

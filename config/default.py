@@ -53,6 +53,8 @@ def prepare(o):
 #        10001637, #陶紫旺
     ))
 
+    o.DOUBAN_ZSITE_ID = 10216239
+
     o.SITE_DOMAIN = '42qu.test'
     o.SITE_NAME = '42区'
     o.PORT = 6666
