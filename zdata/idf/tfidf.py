@@ -23,9 +23,17 @@ from collections import defaultdict
 from array import array
 from zkit.zitertools import chunkiter
 from operator import itemgetter
+from zdata.tag.name2id import NAME2ID
+from zkit.txt_cleanup import sp_txt
+
+ID2NAME = defaultdict(list)
+for name, id in NAME2ID.iteritems():
+    ID2NAME[name].append(id)
+
 db_tag_bayes = DB()
 
 def tag_id_list_rank_by_txt(txt):
+    txt = txt.lower()
     tag_id_list_rank = defaultdict(int)
     for word, rank in tf_idf_seg_txt(txt):
         if word in db_tag_bayes:
@@ -34,12 +42,34 @@ def tag_id_list_rank_by_txt(txt):
                 tag_id_list_rank[tag_id]+=(bayes*rank)
 
     result = []
+
     for tag_id, rank in sort(
         tag_id_list_rank.iteritems(),
         key=itemgetter(1),
         reverse=True
     ):
-        result.append(( tag_id, rank))
+        has_tag = False
+
+        if tag_id not in ID2NAME:
+            continue
+
+        for i in ID2NAME[tag_id]:
+            if has_tag:
+                break
+
+            tag_list = list(sp_txt(i))
+
+            if tag_list:
+                for j in tag_list:
+                    if j in txt:
+                        has_tag = True
+                        break
+            elif i in txt:
+                has_tag = True
+                break
+
+        if has_tag:
+            result.append((tag_id, rank))
 
     return result
 
