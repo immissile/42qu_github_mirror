@@ -4,6 +4,7 @@
 from _db import redis
 from zkit.zitertools import lineiter
 from array import array
+from po_by_tag import tag_alias_by_id_query
 
 REDIS_ZSET_CID = '%s`'
 REDIS_ID2NAME = 'ACId2Name:%s'
@@ -39,8 +40,6 @@ class AutoComplete:
         else:
             t = None
         return t
-
-
 
     def append(self, name, id , rank=1):
         from zkit.pinyin import pinyin_list_by_str
@@ -86,12 +85,11 @@ class AutoComplete:
         name_key = '`'.join(name_list)
         id_list = self._get_cache(name_key)
 
-        #id_list = None #TODO REMOVE
+        id_list = None #TODO REMOVE
         ZSET_CID = self.ZSET_CID
 
         if id_list is None:
             mkey = ZSET_CID%name_key
-            print mkey
 
             if not redis.exists(mkey):
                 p = redis.pipeline()
@@ -111,7 +109,9 @@ class AutoComplete:
         if id_list:
             for id, name_rank in zip(id_list, redis.hmget(self.ID2NAME, id_list)):
                 name, rank = name_rank.rsplit('`', 1)
-                result.append((id, rank, name))
+                if query not in name:
+                    alias = tag_alias_by_id_query(id,query) 
+                result.append((id, rank, name,alias))
         return result
 
 autocomplete_tag = AutoComplete('tag')
@@ -126,8 +126,8 @@ if __name__ == '__main__':
     #print "=+++"
 
     from zkit.pprint import pprint
-    pprint( autocomplete_tag.id_rank_name_list_by_str('x') )
-    #print autocomplete_tag.id_rank_name_list_by_str('f f8')
+    pprint(autocomplete_tag.id_rank_name_list_by_str('baidu'))
+    #print autocomplete_tag.id_rank_name_list_by_str('f')
 
     #from timeit import timeit
     #def f():
