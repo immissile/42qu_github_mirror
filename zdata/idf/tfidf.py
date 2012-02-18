@@ -28,7 +28,7 @@ from zkit.txt_cleanup import sp_txt
 
 ID2NAME = defaultdict(list)
 for name, id in NAME2ID.iteritems():
-    ID2NAME[name].append(id)
+    ID2NAME[id].append(name)
 
 db_tag_bayes = DB()
 db_tag_bayes.open(join(ZDATA_PATH,"data/bayes.kch"), DB.OREADER)
@@ -38,12 +38,17 @@ def tag_id_list_rank_by_txt(txt):
     txt = txt.lower()
     tag_id_list_rank = defaultdict(int)
     for word, rank in tf_idf_seg_txt(txt):
-        if word in db_tag_bayes:
+        #print word
+        ars = db_tag_bayes.get(word)
+        if ars:
             ar = array('I')
-            ar.fromstring(db_tag_bayes[word])
+            ar.fromstring(ars)
+            #print len(ar)
             #print db_tag_bayes[word]
+            #print word, ar
             for tag_id, bayes in chunkiter(ar,2):
                 tag_id_list_rank[tag_id]+=(bayes*rank)
+
     result = []
 
     for tag_id, rank in sorted(
