@@ -98,9 +98,8 @@ def tag_new(name):
     from model.autocomplete import  autocomplete_tag
     autocomplete_tag.append(name, id)
 
-    name = map(utf8_ftoj, map(str.strip, s.split('/')))
-    for i in name:
-        _tag_alias_new(name)
+    for i in map(utf8_ftoj, map(str.strip, name.split('/'))):
+        _tag_alias_new(i)
          
     return id
 
@@ -117,17 +116,26 @@ def tag_by_name(name):
     return id
 
 def tag_alias_new(id, name):
+    from model.autocomplete import  autocomplete_tag
     #添加别名
+    low = name.lower()
+    oid = redis.hget(redis_alias_name2id, low)
+    if oid:
+        return 
+
+    tag_alias = TagAlias.get_or_create(name=name)
+#    if not id:
+#        print id, name
+#        raw_input()
+    tag_alias.tag_id = id
+    tag_alias.save()
+
     _tag_alias_new(id, name)
     redis.hset(redis_alias_name2id, name, id)
-
-    tag_alias = TagAlias.get(tag_id=id, name=name)
-    if not tag_alias:
-        new_alias = TagAlias(tag_id=id, name=name)
-        new_alias.save()
-        autocomplete_tag.append_alias(name, id)
+    autocomplete_tag.append_alias(name, id)
 
 def tag_alias_rm(alias_id):
+    from model.autocomplete import  autocomplete_tag
     #Remove redis
     low = name.lower()
     tag_alias = TagAlias.get(alias_id)
