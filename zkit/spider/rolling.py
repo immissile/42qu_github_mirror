@@ -24,6 +24,14 @@ class Rolling(object):
                 self.push(*item)
                 yield subitems.get(timeout=60)
 
+            while True:
+                try:
+                    item = subitems.get_nowait()
+                except Queue.Empty:
+                    break 
+                else:
+                    yield item
+
         while True:
             try:
                 item = subitems.get(timeout=60)
