@@ -22,7 +22,6 @@ class Rolling(object):
         for item in self.url_iter:
             if item is not None:
                 self.push(*item)
-                yield subitems.get(timeout=60)
 
             while True:
                 try:
