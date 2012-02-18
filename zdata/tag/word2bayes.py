@@ -31,5 +31,6 @@ def merge(path):
 
 
 if __name__ == "__main__":
-    cache_path = "/home/work/wanfang/tag"
+    #cache_path = "/home/work/wanfang/tag"
+    cache_path = "/home/work/wanfang/zhihu"
     merge(cache_path)
