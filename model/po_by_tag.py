@@ -37,9 +37,9 @@ def section_rank_refresh(po):
     cid = redis.hget(REDIS_FEED_PO_ID2CID, po.id)
     if cid:
         for tag_id in tag_id_list_by_po_id(po_id=po.id):
-            ups = fav_user_count_by_po_id(po.id) + po.reply_count
+            ups = fav_user_count_by_po_id(po.id)*2 + po.reply_count
             key = REDIS_FEED_SECTION%(str(tag_id), str(cid))
-            new_rank = hot(ups,0, po.create_time )
+            new_rank = hot(ups, 0, po.create_time )
             redis.zadd(key, po.id, new_rank)
 
 def section_append_new(po, cid, tag_id):
@@ -49,7 +49,7 @@ def section_append_new(po, cid, tag_id):
         redis.zadd(key, po.id, hot(1, 0, po.create_time))
         #将po放在相应的po_id=>cid中
         redis.hset(REDIS_FEED_PO_ID2CID, po.id, cid)
-        print 'tag_id', tag_id, 'cid', cid,'po_id', po.id
+        print 'tag_id', tag_id, 'cid', cid, 'po_id', po.id
 
 
 def zsite_tag_po_new(zsite_id, po, rank=1):
@@ -244,5 +244,5 @@ if __name__ == '__main__':
     #po= Po.get(10236870)
     #po.reply_new(Zsite.mc_get(user_id),'test')
     #section_rank_refresh(po)
-    print section_list_by_tag_id_cid(10228122,2)
+    print section_list_by_tag_id_cid(10228122, 2)
 
