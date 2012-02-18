@@ -28,10 +28,10 @@ def feed_import_by_douban_feed():
         ).replace('豆油', '私信').replace('豆邮', '私信')
 
         feed_import_new(
-            i.title, txt, i.link, i.id, ZSITE_DOUBAN_ID
+           ZSITE_DOUBAN_ID, i.id, i.title, txt, i.link,  i.like+i.rec
         )
 
-def feed_import_new(title, txt, url, rid, zsite_id):
+def feed_import_new(zsite_id, rid, title, txt, url,  rank):
     txt = format_txt(htm2txt(txt))
 
     if import_feed_duplicator.txt_is_duplicate(txt):
@@ -45,7 +45,8 @@ def feed_import_new(title, txt, url, rid, zsite_id):
         rid=rid,
         url=url,
         tag_id_list='',
-        state=FEED_IMPORT_STATE_WITHOUT_TAG
+        state=FEED_IMPORT_STATE_WITHOUT_TAG,
+        rank=rank
     )
 
     new_feed.save()
