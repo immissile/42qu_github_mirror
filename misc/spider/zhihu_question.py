@@ -60,7 +60,7 @@ COOKIE = (
 
 def spider(url_list):
     fetcher = Fetch(
-        '/tmp',
+        '/home/zuroc/tmp',
         tuple( { 'Cookie': i.replace('Cookie:','').strip() } for i in COOKIE),
         25,
         zhihu_topic_title
