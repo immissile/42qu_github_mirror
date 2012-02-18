@@ -37,7 +37,6 @@ def feed_import_new(zsite_id, rid, title, txt, url,  rank):
     if import_feed_duplicator.txt_is_duplicate(txt):
         return
 
-
     new_feed = FeedImport(
         title=title,
         txt=txt,
