@@ -27,4 +27,4 @@ def lineiter(l):
     return result
 
 if "__main__" == __name__:
-    pass 
+    pass
