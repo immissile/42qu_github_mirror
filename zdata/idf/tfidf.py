@@ -17,6 +17,34 @@ def tf_idf_seg_txt(txt):
     word_list = list(seg_txt(txt))
     return tf_idf(word_list)
 
+
+from kyotocabinet import DB
+from collections import defaultdict
+from array import array
+from zkit.zitertools import chunkiter
+from operator import itemgetter
+db_tag_bayes = DB()
+
+def tag_id_list_rank_by_txt(txt):
+    tag_id_list_rank = defaultdict(int)
+    for word, rank in tf_idf_seg_txt(txt):
+        if word in db_tag_bayes:
+            ar = array('I')
+            for tag_id, bayes in chunkiter(ar.fromstring(db_tag_bayes[word]),2):
+                tag_id_list_rank[tag_id]+=(bayes*rank)
+
+    result = []
+    for tag_id, rank in sort(
+        tag_id_list_rank.iteritems(),
+        key=itemgetter(1),
+        reverse=True
+    ):
+        result.append(( tag_id, rank))
+
+    return result
+
+
+
 if __name__ == '__main__':
     txt = """
 首先要问下自己的内心。
