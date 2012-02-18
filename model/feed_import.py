@@ -38,17 +38,17 @@ class FeedImport(Model):
 class PoMetaUser(McModel):
     @property
     def link(self):
-        if self.cid == DOUBAN_ZSITE_ID:
+        if self.cid == ZSITE_DOUBAN_ID:
             return 'http://www.douban.com/people/%s'%self.url
 
 def user_url_by_po_meta_user_id(id):
     user = PoMetaUser.mc_get(id)
     if user:
-        if user.cid == DOUBAN_ZSITE_ID:
+        if user.cid == ZSITE_DOUBAN_ID:
             return 'http://www.douban.com/people/%s'%user_id.url
 
 def user_by_feed_id_zsite_id(feed_id, zsite_id):
-    if zsite_id == DOUBAN_ZSITE_ID:
+    if zsite_id == ZSITE_DOUBAN_ID:
         return douban_user_by_feed_id(feed_id)
 
 def feed_next():
