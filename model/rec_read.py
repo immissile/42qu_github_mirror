@@ -10,6 +10,16 @@ from model.zsite_list import zsite_list, ZsiteList
 from model.cid import CID_TAG
 from math import log
 
+REDIS_REC_CID_TUPLE = (
+    (1, "新闻 / 快讯"),
+    (2, "报道 / 深度"),
+    (3, "评论 / 观点"),
+    (4, "资料 / 知识"),
+    (5, "问题 / 讨论"),
+    (6, "灌水 / 闲聊"),
+)
+REDIS_REC_CID_DICT = dict(REDIS_REC_CID_TUPLE)
+
 __metaclass__ = type
 
 def dumps_id_rank(id_rank):

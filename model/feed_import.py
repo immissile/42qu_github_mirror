@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import _env
-from _db import Model, McModel
+from _db import Model, McModel, redis
 from po import po_note_new
 from douban import DoubanUser, douban_feed_to_review_iter, douban_user_by_feed_id , title_normal
 from model.txt_img_fetch import txt_img_fetch
 from kv import Kv
 from url_short import url_short_id
 from site_sync import site_sync_new
-from rec_read import  rec_read_new
+from rec_read import  rec_read_new, REDIS_REC_CID_DICT
 from po_by_tag import zsite_tag_po_new_by_name, po_tag_id_list_new
 from part_time_job import part_time_job_new
 from config.privilege import PRIVILEGE_FEED_IMPORT
@@ -31,9 +31,14 @@ FEED_IMPORT_CID_DICT = {
         DOUBAN_ZSITE_ID : 1, #douban
         }
 
+REDIS_FEED_SECTION = "SEC_CID:%s"
+
 class PoMeta(McModel):
     pass
 
+'''
+ALTER TABLE `zpage_google`.`feed_import` ADD COLUMN `cid` SMALLINT UNSIGNED AFTER `tag_id_list`;
+'''
 class FeedImport(Model):
     pass
 
@@ -42,6 +47,12 @@ class PoMetaUser(McModel):
     def link(self):
         if self.cid == DOUBAN_ZSITE_ID:
             return 'http://www.douban.com/people/%s'%self.url
+
+def section_append_new(po_id, cid):
+    #TODO: add po_id to redis_cid
+    if cid in REDIS_REC_CID_DICT:
+        key = REDIS_FEED_SECTION%str(cid)
+        redis.sadd(key, po_id)
 
 def user_url_by_po_meta_user_id(id):
     user = PoMetaUser.mc_get(id)
@@ -129,9 +140,12 @@ def feed2po_new():
             feed.state = FEED_IMPORT_STATE_POED
             feed.save()
 
+            cid  = feed.cid
+            section_append_new(po.id,cid)
+
             po_tag_id_list_new(po, feed.tag_id_list.split())
 
-def feed_review(id,  title, txt, tag_id_list, current_user_id, author_rm=False, sync=False):
+def feed_review(id,  cid, title, txt, tag_id_list, current_user_id, author_rm=False, sync=False):
     feed = FeedImport.get(id)
     if feed and feed.state==FEED_IMPORT_STATE_INIT :
         if author_rm:
@@ -145,6 +159,7 @@ def feed_review(id,  title, txt, tag_id_list, current_user_id, author_rm=False, 
             else:
                 feed.state = FEED_IMPORT_STATE_REVIEWED
 
+        feed.cid = int(cid)
         feed.title = title
         feed.txt = txt
         feed.tag_id_list = tag_id_list
