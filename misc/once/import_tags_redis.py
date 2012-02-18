@@ -27,9 +27,10 @@ for name, id in NAME2ID.iteritems():
 if __name__ == '__main__':
     name_id = {}
     for i in Zsite.where(cid=CID_TAG):
+        lname = i.name.lower() 
         for name in ID2NAME.get(i.id,()):
             name = name.lower()
-            if name not in i.name:
+            if name not in lname:
                 print i.name, name 
     
  
