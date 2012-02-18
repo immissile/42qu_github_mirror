@@ -30,7 +30,7 @@ ID2NAME = defaultdict(list)
 for name, id in NAME2ID.iteritems():
     ID2NAME[name].append(id)
 
-db_tag_bayes = DB()
+db_tag_bayes = DB(join(ZDATA_PATH,"data/bayes.kch"), DB.OREADER)
 
 def tag_id_list_rank_by_txt(txt):
     txt = txt.lower()
