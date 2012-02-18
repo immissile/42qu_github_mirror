@@ -5,6 +5,7 @@ from zkit.txt_cleanup import feature_md5
 from kyotocabinet import DB
 from array import array
 from collections import defaultdict
+import sys
 
 class DbKyoto(object):
     def __init__(self, db_file):

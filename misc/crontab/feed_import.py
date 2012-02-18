@@ -26,7 +26,7 @@ def feed_import_by_douban_feed():
         txt = i.htm.replace(
             '豆友', '网友'
         ).replace('豆油', '私信').replace('豆邮', '私信')
-
+        print i.id, i.title
         feed_import_new(
            ZSITE_DOUBAN_ID, i.id, i.title, txt, i.link,  i.like+i.rec
         )
