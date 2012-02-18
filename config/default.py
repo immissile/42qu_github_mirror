@@ -34,7 +34,7 @@ def prepare(o):
     o.NGINX_LOGROTATE_DIR = "/var/log/nginx"
     o.PRIVILEGE_SUPER = set((
         10000000, #张沈鹏 
-        10001299,
+        10001299, #于鹏
         10014918, #Zsp 007
         10001542, #010001542
         10184259, #10184259
