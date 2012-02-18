@@ -10,6 +10,16 @@ from model.zsite_list import zsite_list, ZsiteList
 from model.cid import CID_TAG
 from math import log
 
+REDIS_REC_CID_TUPLE = (
+    (1, "新闻 / 快讯"),
+    (2, "报道 / 深度"),
+    (3, "评论 / 观点"),
+    (4, "资料 / 知识"),
+    (5, "问题 / 讨论"),
+    (6, "灌水 / 闲聊"),
+)
+REDIS_REC_CID_DICT = dict(REDIS_REC_CID_TUPLE)
+
 __metaclass__ = type
 
 def dumps_id_rank(id_rank):
@@ -55,7 +65,7 @@ class RecTopicPicker:
 
         self._topic_id_rank_list = result
         self._key = key
-        self._picker_set()
+        self._choice_set()
 
     def delete(self, topic_id):
         #print topic_id
@@ -67,22 +77,22 @@ class RecTopicPicker:
 
         self._topic_id_rank_list = r
         redis.set(self._key, dumps_id_rank(r))
-        self._picker_set()
+        self._choice_set()
 
-    def _picker_set(self):
+    def _choice_set(self):
         _topic_id_rank_list = self._topic_id_rank_list
         if _topic_id_rank_list:
-            self._picker = wsample2(_topic_id_rank_list)
+            self._choice = wsample2(_topic_id_rank_list)
         else:
-            self._picker = None
+            self._choice = None
 
     def choice(self):
-        _picker = self._picker
+        _choice = self._choice
 
-        if _picker is None:
+        if _choice is None:
             return
 
-        return _picker()[0]
+        return _choice()[0]
 
 def rec_read(user_id, limit):
     now = time_new_offset()
@@ -94,17 +104,18 @@ def rec_read(user_id, limit):
     count = 0
     offset = 0
 
-    rec_topic_picker = RecTopicPicker(user_id)
+    rec_topic_choice = RecTopicPicker(user_id)
 
     while count < limit:
 
-        topic_id = rec_topic_picker.choice()
+        topic_id = rec_topic_choice.choice()
         if not topic_id:
             break
 
         po_id = rec_read_by_topic(user_id, topic_id)
         if not po_id:
-            rec_topic_picker.delete(topic_id)
+            #print "delete", topic_id
+            rec_topic_choice.delete(topic_id)
             continue
 
         t.append(po_id)
@@ -136,7 +147,11 @@ def po_json_by_rec_read(user_id, limit=8):
 if __name__ == '__main__':
     pass
 
-    #user_id = 1000000
+    user_id = 1000000
+    rec_topic_choice = RecTopicPicker(user_id)
+    for i in xrange(10):
+        print rec_topic_choice.choice()
+
     #key = REDIS_REC_USER_TOPIC%user_id
     #redis.delete(key)
     #print rec_read_more(user_id, 7)

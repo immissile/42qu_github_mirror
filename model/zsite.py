@@ -212,6 +212,22 @@ if __name__ == '__main__':
 #    from os.path import exists
 #    from model.cid import CID_TAG
 #    from collections import defaultdict
+    from zweb.orm import ormiter
+    from model.ico import  pic_url, ico_save, picopen
+    from os.path import exists
+    from model.cid import CID_TAG
+    from collections import defaultdict
+
+
+    #id = 10224057
+  #  id = 10232186 
+  #  o = Zsite.mc_get(id)
+
+  #  print o.name
+
+
+#    s = """10228391 Django / 框架 -->> Django
+#10229276 Express / 框架 -->> Express
 #
 #
 #    s = map(int,s.split("\n"))
