@@ -141,7 +141,8 @@ def rec_read_more(user_id, limit):
     return []
 
 def po_json_by_rec_read(user_id, limit=8):
-    id_list = rec_read_more(user_id, limit)
+    id_list = []
+    #id_list = rec_read_more(user_id, limit)
     return po_json(user_id , id_list, 47)
 
 if __name__ == '__main__':
