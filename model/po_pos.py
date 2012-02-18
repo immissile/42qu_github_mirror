@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from time import time
-from _db import cursor_by_table, Model, McModel, McLimitA, McCache, McCacheA, McCacheM
+from _db import cursor_by_table, Model, McModel, McLimitA, McCache, McCacheA, McCacheM, redis
 from po import Po
 
 STATE_BUZZ = 1
@@ -57,6 +57,11 @@ def _po_pos(user_id, po, state, sql):
     pos = po.reply_id_last
     po_id = po.id
     pos_old, _ = po_pos_get(user_id, po_id)
+    print pos_old
+    if pos_old == -1:
+        from po_by_tag import REDIS_FEED_PO_VIEWED_COUNT, section_rank_refresh
+        redis.hincrby(REDIS_FEED_PO_VIEWED_COUNT, po.id, 1)
+        section_rank_refresh(po)
     if pos > pos_old:
         PoPos.raw_sql(
             sql,

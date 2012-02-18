@@ -199,3 +199,63 @@ overflow:hidden;
 {
     display:block;
 }
+.buzz_win_book .sdw{
+padding:0;
+float:left;
+width:120px;
+margin-bottom:10px;
+margin-left:10px;
+}
+.buzz_win_book{
+margin-left:-10px;
+margin-top:2px;
+}
+.buzz_win_book .sd{
+padding:0
+}
+.buzz_win_book a:hover{
+    color:#000;
+}
+.buzz_win_book a{
+    color:#000;
+    line-height:0;
+    display:block;
+}
+.buzz_win_book .bkname{
+text-align:center;
+padding:3px;
+border-bottom:1px solid #eee;
+}
+.buzz_win_book .bkname, .buzz_win_book .bktxt{
+line-height:18px;
+}
+.buzz_win_book .bktxt{
+padding:3px 6px 6px 5px;
+border-top:1px solid #eee;
+}
+#reply_name{
+text-align:center;
+display:block;
+border-bottom:1px dotted #ccc;
+padding-bottom:14px;
+color:#004276;
+padding-top:2px;
+}
+#reply_reply_body{
+height:90px;
+display:block;
+overflow:auto;
+margin-bottom:2px;
+padding-right:14px;
+}
+.reply_reply_loading{
+background:url(/img/gif/loading_bar.gif) no-repeat 50% 50%;
+}
+#reply_reply_pop{
+padding:0 3px;
+}
+#reply_reply_pop textarea{
+border:1px dotted #ccc;width:715px;height:80px;
+padding:2px 3px;
+margin-bottom:7px;
+}
