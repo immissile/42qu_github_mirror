@@ -18,11 +18,21 @@ from zdata.tag.name2id import NAME2ID
 CURRNET_PATH = path.dirname(path.abspath(__file__))
 TMP_REDIS = 'tmp_import_redis'
 import re
+from collections import defaultdict
 
+ID2NAME = defaultdict(list)
+for name, id in NAME2ID.iteritems():
+    ID2NAME[id].append(name)
 
 if __name__ == '__main__':
     name_id = {}
     for i in Zsite.where(cid=CID_TAG):
+        for name in ID2NAME.get(i.id,()):
+            name = name.lower()
+            if name not in i.name:
+                print i.name, name 
+    
+ 
 #        id = i.id
 #        rank = ID2RANK.get(id, 0)
 #        name = i.name
