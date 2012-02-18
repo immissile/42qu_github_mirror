@@ -43,7 +43,7 @@ def tag_id_list_rank_by_txt(txt):
 
     result = []
 
-    for tag_id, rank in sort(
+    for tag_id, rank in sorted(
         tag_id_list_rank.iteritems(),
         key=itemgetter(1),
         reverse=True
@@ -116,5 +116,8 @@ if __name__ == '__main__':
 【责任编辑：云霞 TEL：（010）'''
 
 
-    for k, v in tf_idf_seg_txt(txt)[:10]:
-        print k, v
+    for k, v in tag_id_list_rank_by_txt(txt)[:10]:
+        print k, v,
+        for i in ID2NAME[k]:
+            print i,
+        print ""
