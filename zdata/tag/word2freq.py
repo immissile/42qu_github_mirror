@@ -58,10 +58,10 @@ def merge():
                 rank = int(f*10000/fcount)
                 if rank:
                     t.append((topic, rank))
-
-            word_freq.write(
-                dumps([word, t])+"\n"
-            )
+            if t:
+                word_freq.write(
+                    dumps([word, t])+"\n"
+                )
 
 
 
