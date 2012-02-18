@@ -14,9 +14,8 @@ REDIS_CONFIG['db']=1
 redis = redis.Redis(**REDIS_CONFIG)
 
 
-def merge():
-    CACHE_PATH = "/home/work/wanfang/tag"
-    for pos, i in enumerate(glob(CACHE_PATH+"/*")):
+def merge(path):
+    for pos, i in enumerate(glob(path+"/*")):
         print pos, i
         for word, topic_freq in tofromfile.fromfile(i).iteritems():
 
@@ -32,4 +31,5 @@ def merge():
 
 
 if __name__ == "__main__":
-    merge()
+    cache_path = "/home/work/wanfang/tag"
+    merge(cache_path)
