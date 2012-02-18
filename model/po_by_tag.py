@@ -24,6 +24,7 @@ mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 mc_tag_id_list_by_po_id = McCacheA('TagIdListByPoId.%s')
 REDIS_FEED_SECTION = 'SEC_CID:%s:%s'
 REDIS_FEED_PO_ID2CID = 'SEC_PO2CID'
+REDIS_FEED_PO_VIEWED_COUNT = 'SEC_PoCnt'
 
 class PoZsiteTag(Model):
     pass
@@ -37,7 +38,8 @@ def section_rank_refresh(po):
     cid = redis.hget(REDIS_FEED_PO_ID2CID, po.id)
     if cid:
         for tag_id in tag_id_list_by_po_id(po_id=po.id):
-            ups = fav_user_count_by_po_id(po.id)*2 + po.reply_count
+            viewd_count = int(redis.hget(REDIS_FEED_PO_VIEWED_COUNT, po.id))
+            ups = fav_user_count_by_po_id(po.id)*5 + po.reply_count*3 + viewd_count
             key = REDIS_FEED_SECTION%(str(tag_id), str(cid))
             new_rank = hot(ups, 0, po.create_time )
             redis.zadd(key, po.id, new_rank)
@@ -49,8 +51,6 @@ def section_append_new(po, cid, tag_id):
         redis.zadd(key, po.id, hot(1, 0, po.create_time))
         #将po放在相应的po_id=>cid中
         redis.hset(REDIS_FEED_PO_ID2CID, po.id, cid)
-        print 'tag_id', tag_id, 'cid', cid, 'po_id', po.id
-
 
 def zsite_tag_po_new(zsite_id, po, rank=1):
     po_id = po.id
@@ -238,11 +238,13 @@ if __name__ == '__main__':
     '''
     #print tag_list_by_po_id(10236870)
     #print section_list_by_tag_id_cid(10228122,2)
-    #from model.fav import fav_add
-    #user_id =10000398 
+    from model.fav import fav_add
+    from po_pos import po_pos_mark
+    user_id = 10000393
+    po = Po.get(10236870)
     ##fav_add(user_id, 10236870)
-    #po= Po.get(10236870)
+    po_pos_mark(po=po, user_id=user_id)
     #po.reply_new(Zsite.mc_get(user_id),'test')
-    #section_rank_refresh(po)
+    section_rank_refresh(po)
     print section_list_by_tag_id_cid(10228122, 2)
 
