@@ -13,6 +13,7 @@ from rec_read import  rec_read_new, REDIS_REC_CID_DICT
 from po_by_tag import zsite_tag_po_new_by_name, po_tag_id_list_new
 from part_time_job import part_time_job_new
 from config.privilege import PRIVILEGE_FEED_IMPORT
+from zrank.sorts import hot
 
 
 FEED_IMPORT_STATE_RM = 0
@@ -31,7 +32,6 @@ FEED_IMPORT_CID_DICT = {
         DOUBAN_ZSITE_ID : 1, #douban
         }
 
-REDIS_FEED_SECTION = "SEC_CID:%s"
 
 class PoMeta(McModel):
     pass
@@ -48,11 +48,8 @@ class PoMetaUser(McModel):
         if self.cid == DOUBAN_ZSITE_ID:
             return 'http://www.douban.com/people/%s'%self.url
 
-def section_append_new(po_id, cid):
-    #TODO: add po_id to redis_cid
-    if cid in REDIS_REC_CID_DICT:
-        key = REDIS_FEED_SECTION%str(cid)
-        redis.sadd(key, po_id)
+
+        
 
 def user_url_by_po_meta_user_id(id):
     user = PoMetaUser.mc_get(id)
@@ -141,9 +138,8 @@ def feed2po_new():
             feed.save()
 
             cid  = feed.cid
-            section_append_new(po.id,cid)
 
-            po_tag_id_list_new(po, feed.tag_id_list.split())
+            po_tag_id_list_new(po, feed.tag_id_list.split(),cid)
 
 def feed_review(id,  cid, title, txt, tag_id_list, current_user_id, author_rm=False, sync=False):
     feed = FeedImport.get(id)
@@ -180,5 +176,6 @@ if __name__ == '__main__':
     #    i.tag_id_list = ""
     #    print i.id, i.tag_id_list
     #    i.save()
-    print FeedImport.where(state=FEED_IMPORT_STATE_INIT)[:2]
-    print FeedImport.get(state = FEED_IMPORT_STATE_INIT)
+    #print FeedImport.where(state=FEED_IMPORT_STATE_INIT)[:2]
+    #print FeedImport.get(state = FEED_IMPORT_STATE_INIT)
+    print hot(2,0,1310424775)

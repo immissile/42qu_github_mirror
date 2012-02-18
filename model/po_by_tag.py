@@ -20,11 +20,22 @@ from zkit.fanjian import utf8_ftoj
 
 mc_po_id_list_by_tag_id = McLimitA('PoIdListByTagId.%s', 512)
 mc_tag_id_list_by_po_id = McCacheA('TagIdListByPoId.%s')
-
-
+REDIS_FEED_SECTION = "SEC_CID:%s:%s"
+REDIS_FEED_PO_ID2CID = "SEC_PO2CID"
 
 class PoZsiteTag(Model):
     pass
+
+def section_list_by_cid(tag_id,cid):
+    key = REDIS_FEED_SECTION%(str(tag_id),str(cid))
+    id_list = redis.zrevrange(key,0,-1)
+    return id_list
+
+def section_append_new(po, cid, tag_id):
+    if cid in REDIS_REC_CID_DICT:
+        #将分数放到相应的ranged set里面
+        key = REDIS_FEED_SECTION%(str(tag_id),str(cid))
+        redis.zadd(key, po.id, hot(1,0,po.create_time))
 
 def zsite_tag_po_new(zsite_id, po, rank=1):
     po_id = po.id
@@ -113,14 +124,10 @@ def tag_by_str(s):
         id_list.append(tag_by_name(i))
     return id_list 
 
-
-
-
 @mc_po_id_list_by_tag_id('{tag_id}')
 def po_id_list_by_tag_id(tag_id, limit, offset=0):
     po_list = PoZsiteTag.where(zsite_id=tag_id).order_by('rank desc').col_list(limit, offset, col='po_id')
     return po_list
-
 
 def po_by_tag(tag_id, user_id, limit=25, offset=0):
     id_list = po_id_list_by_tag_id(tag_id, limit, offset)
@@ -175,7 +182,7 @@ def po_tag_new_by_autocompelte(po, tag_list):
             tag_id_list.append(i)
     return po_tag_id_list_new(po, unique(tag_id_list))
 
-def po_tag_id_list_new(po, tag_id_list):
+def po_tag_id_list_new(po, tag_id_list,cid):
     po_id = po.id
     new_tag_id_list = set(map(int, tag_id_list))
     old_tag_id_list = set(tag_id_list_by_po_id(po_id))
@@ -188,6 +195,7 @@ def po_tag_id_list_new(po, tag_id_list):
 
     for tag_id in to_add:
         zsite_tag_po_new(tag_id, po)
+        section_append_new(cid=cid,po=po,tag_id=tag_id)
 
 
 
