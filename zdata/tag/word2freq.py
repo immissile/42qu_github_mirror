@@ -21,26 +21,37 @@ def merge():
 
     f = "word2count.txt"
 
-    with open(f,"w") as word2freq:
-        for key in redis.keys("*"):
-            l = redis.hgetall(key)
-            for k,v in l.iteritems():
-                topic_count[int(k)]+=int(v)
-                word2freq.write("%s %s %s\n"%(k,v,key))
+    keys = redis.keys("ab*")
+    for pos, key in enumerate(keys):
+        l = redis.hgetall(key)
+        print "1",pos, key
+        for k,v in l.iteritems():
+            topic_count[int(k)]+=int(v)
 
-    with open(f) as freq:
-        with open("topic_freq_word.txt", "w") as topic_freq_word:
-            for line in freq:
-                line = line.strip()
-                topic , freq , word = line.split(" ",2)
-                topic = int(topic)
-                count = topic_freq_count[topic]
-                if count < 10000:
-                    continue
-                freq = int(freq)*500000/count
-                if freq > 0:
-#                    print topic, freq, word
-                    topic_freq_word.write("%s %s %s\n"%(topic, freq, word))
+    word_topic_freq = defaultdict(list)
+
+    for pos, word in enumerate(keys):
+        l = redis.hgetall(key)
+        for topic, freq in l.iteritems():
+            topic = int(topic)
+            count = topic_count[topic]
+            if count < 10000:
+                continue
+            freq = int(freq)*500000/count
+            if freq > 0:
+                word_topic_freq[word].append((topic, freq))
+        print "2",pos, word
+
+    with open("word_tf.txt", "w") as word_tf:
+        for pos,(word, tf) in enumerate(word_topic_freq.iteritems()):
+            print "3",pos, word
+            fcount = sum(i[1] for i in tf)
+            t = []
+            s = [word, t]
+            for topic, f in tf:
+                t.append((topic, int(f*10000/fcount)))
+
+            word_tf.write(dumps(s)+"\n")
 
 
 
