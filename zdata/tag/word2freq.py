@@ -32,6 +32,7 @@ def merge():
 
     with open("word_freq.txt", "w") as word_freq:
         for pos, word in enumerate(keys):
+            tf = []
             l = redis.hgetall(word)
             for topic, freq in l.iteritems():
                 topic = int(topic)
@@ -40,7 +41,29 @@ def merge():
                     continue
                 freq = int(freq)*500000/count
                 if freq > 0:
-                    word_freq.write("%s %s %s\n"%(topic, freq, word))
+                    tf.append((topic, freq))
+
+            fcount = sum(i[1] for i in tf)
+
+            tf = dict(tf)
+            id = NAME2ID.get(name_tidy(word), 0)
+            if id:
+                t = tf.get(id,0)
+                diff = fcount - t
+                tf[id] = fcount
+                fcount += diff
+
+            t = []
+            for topic, f in tf.iteritems():
+                rank = int(f*10000/fcount)
+                if rank:
+                    t.append((topic, rank))
+
+            word_freq.write(
+                dumps([word, t])+"\n"
+            )
+
+                    #word_freq.write("%s %s %s\n"%(topic, freq, word))
                 #word_topic_freq[word].append((topic, freq))
         #print "2",pos, word
 
