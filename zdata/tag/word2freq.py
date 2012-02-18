@@ -31,7 +31,7 @@ def merge():
     word_topic_freq = defaultdict(list)
 
     for pos, word in enumerate(keys):
-        l = redis.hgetall(key)
+        l = redis.hgetall(word)
         for topic, freq in l.iteritems():
             topic = int(topic)
             count = topic_count[topic]
