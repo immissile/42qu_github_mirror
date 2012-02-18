@@ -45,6 +45,6 @@ if __name__ == '__main__':
     #        )
     #        print pos, name 
 
-    print Zsite.where(cid=CID_TAG).count()
-    print ZsiteList.where(cid=CID_TAG,owner_id=0).count()
+    #print Zsite.where(cid=CID_TAG).count()
+    #print ZsiteList.where(cid=CID_TAG,owner_id=0).count()
 

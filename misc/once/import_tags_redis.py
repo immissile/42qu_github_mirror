@@ -32,23 +32,25 @@ if __name__ == '__main__':
     for i in Zsite.where(cid=CID_TAG):
         lname = i.name.strip().lower() 
         id = i.id
+        rank = ID2RANK.get(id, 0)
+        print id
         for name in ID2NAME.get(id,()):
             if name.lower() not in lname:
                 print i.name, name
-                tag_alias_new(id, name)               
+                tag_alias_new(id, name, rank)               
    
-        autocomplete_tag.append(i.name, id)
+        autocomplete_tag.append(i.name, id, rank)
+        name_id[i.name] = id
 
         for j in map(utf8_ftoj, map(str.strip, i.name.split('/'))):
             _tag_alias_new(id, j)
  
+    for name , id in name_id.iteritems():
+        redis.hset(autocomplete_tag.ID2NAME, id, '%s`%s'%(name, 0))
+        print name, rank, 'id'
  
 #        id = i.id
-#        rank = ID2RANK.get(id, 0)
 #        name = i.name
 #        autocomplete_tag.append(name, id, rank)
 #        name_id[name] = id
 #
-#    for name , id in name_id.iteritems():
-#        redis.hset(autocomplete_tag.ID2NAME, id, '%s`%s'%(name, 0))
-#        print name, rank, 'id'

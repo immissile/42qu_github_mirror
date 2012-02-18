@@ -14,7 +14,7 @@ from model.career import career_bind
 from zsite_list  import zsite_list_new, zsite_list_get, zsite_id_list
 from zsite_json import zsite_json
 from zkit.algorithm.unique import unique
-from zkit.pprint import pprint
+#from zkit.pprint import pprint
 from zkit.fanjian import utf8_ftoj
 
 
@@ -115,7 +115,7 @@ def tag_by_name(name):
         id = tag_new(name)
     return id
 
-def tag_alias_new(id, name):
+def tag_alias_new(id, name, rank=1):
     from model.autocomplete import  autocomplete_tag
     #添加别名
     low = name.lower()
@@ -132,7 +132,7 @@ def tag_alias_new(id, name):
 
     _tag_alias_new(id, name)
     redis.hset(redis_alias_name2id, name, id)
-    autocomplete_tag.append_alias(name, id)
+    autocomplete_tag.append_alias(name, id, rank)
 
 def tag_alias_rm(alias_id):
     from model.autocomplete import  autocomplete_tag
