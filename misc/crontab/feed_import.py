@@ -28,33 +28,34 @@ def feed_import_new(title, txt, url, src_id, zsite_id, tag_id_list='', state=FEE
     if zsite_id == DOUBAN_ZSITE_ID:
         txt = txt.replace('豆友', '网友').replace('豆油', '私信').replace('豆邮', '私信')
 
-    if not import_feed_duplicator.txt_is_duplicate(txt):
+    if import_feed_duplicator.txt_is_duplicate(txt):
+        return 
 
-        # douban_user = DoubanUser.get(author_id)
-        # user_id = zsite_id_by_douban_user_id(douban_user)
+    # douban_user = DoubanUser.get(author_id)
+    # user_id = zsite_id_by_douban_user_id(douban_user)
 
-        #cid = FEED_IMPORT_CID_DICT[zsite_id]
+    #cid = FEED_IMPORT_CID_DICT[zsite_id]
 
-        #TODO
-        if not tag_id_list:
-            name_list = tag_getter.get_tag(txt)
-            for tag_name in  name_list:
-                zsite_list.append(Zsite.get(name=tag_name))
+    #TODO
+    if not tag_id_list:
+        name_list = tag_getter.get_tag(txt)
+        for tag_name in  name_list:
+            zsite_list.append(Zsite.get(name=tag_name))
 
-        new_feed = FeedImport(
-            title=title,
-            txt=txt,
-            zsite_id=zsite_id,
-            state=state,
-            rid=src_id,
-            url=url,
-            tag_id_list=tag_id_list,
-        )
+    new_feed = FeedImport(
+        title=title,
+        txt=txt,
+        zsite_id=zsite_id,
+        state=state,
+        rid=src_id,
+        url=url,
+        tag_id_list=tag_id_list,
+    )
 
-        new_feed.save()
-        import_feed_duplicator.set_record(txt, new_feed.id)
+    new_feed.save()
+    import_feed_duplicator.set_record(txt, new_feed.id)
 
-        return new_feed
+    return new_feed
 
 
 @single_process
