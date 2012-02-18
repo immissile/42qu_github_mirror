@@ -21,7 +21,7 @@ def merge():
 
     f = "word2count.txt"
 
-    keys = redis.keys("ab*")
+    keys = redis.keys("*")
     for pos, key in enumerate(keys):
         l = redis.hgetall(key)
         print "1",pos, key
