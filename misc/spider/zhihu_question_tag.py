@@ -58,7 +58,7 @@ def txt_tag_id_list():
 
     for pos, (tag_string , title, _txt_list) in enumerate(chain(
         zhihu_to_dump(),
-        txt_tag('/home/zuroc/zpage/misc/spider/zhihu_question_to_dump.json'),
+        txt_tag('/home/zuroc/zpage/misc/spider/zhihu_question_dumped.json'),
     )):
         tag_list = tag_id_list_by_str_list(tag_string)
         txt_list = [title]
