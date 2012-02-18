@@ -9,7 +9,7 @@ from model.autocomplete  import autocomplete_tag
 def main():
     for k, v in NAME2ID.iteritems():
         alias, id = k, v
-        autocomplete_tag.append(alias, id)
+#        autocomplete_tag.append(alias, id)
         tag_alias_new(alias=alias, id=id)
 
 if __name__ == '__main__':

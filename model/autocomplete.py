@@ -41,8 +41,12 @@ class AutoComplete:
             t = None
         return t
 
+    def append_alias(self, name, id, rank=1):
+        from zkit.fanjian import ftoj
+        name = ftoj(name.decode('utf-8', 'ignore'))
+        self._append(name, id, rank)
+
     def append(self, name, id , rank=1):
-        from zkit.pinyin import pinyin_list_by_str
         from zkit.fanjian import ftoj
         name = ftoj(name.decode('utf-8', 'ignore'))
         ID2NAME = self.ID2NAME
@@ -55,11 +59,15 @@ class AutoComplete:
             #TODO 如果rank不一样, 需要进行修改
             #TODO 如果name不一样, 需要删除然后重新索引
             return
-
+        
         tag_name = name.replace('`', "'").strip()
         redis.hset(ID2NAME, id, '%s`%s'%(tag_name, rank))
+        self._append(tag_name, id, rank)
 
-        tag_name = tag_name.lower().replace('/', ' ').strip()
+    def _key(self, name):
+        from zkit.pinyin import pinyin_list_by_str
+
+        tag_name = name.lower().replace('/', ' ').strip()
 
         if not tag_name:
             return
@@ -69,11 +77,22 @@ class AutoComplete:
         for sub_tag in tag_name.split(' '):
             for pos in xrange(1, len(sub_tag)+1):
                 key = sub_tag[:pos]
-                redis.zadd(ZSET_CID%key, id, rank)
+                yield ZSET_CID%key
 
-            for py in pinyin_list_by_str(sub_tag):
-                redis.zadd(ZSET_CID%py, id, rank)
+            pylist = pinyin_list_by_str(sub_tag)
+            for py in pylist:
+                yield ZSET_CID%py
 
+            for pos in xrange(2, len(pylist)+1):
+                yield ZSET_CID%"".join(pylist[:pos]
+
+    def pop_alias(self, name, id):
+        for i in self._key(name):
+            redis.zrem(i, id)    
+
+    def _append(self, name, id, rank=1):
+        for i in self._key(name):
+            redis.zadd(i, id, rank) 
 
     def id_list_by_str(self, query, limit=7):
         name_list = query.strip().lower().replace('`', "'").split()
@@ -85,7 +104,7 @@ class AutoComplete:
         name_key = '`'.join(name_list)
         id_list = self._get_cache(name_key)
 
-        id_list = None #TODO REMOVE
+        #id_list = None #TODO REMOVE
         ZSET_CID = self.ZSET_CID
 
         if id_list is None:
