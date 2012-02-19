@@ -36,10 +36,10 @@ def feed_import_new(zsite_id, rid, title, txt, url,  rank):
     title = unescape(title)
     txt = format_txt(htm2txt(txt))
 
-    print zsite_id, rid, title
-    sleep(0.1)
     if import_feed_duplicator.txt_is_duplicate(txt):
         return
+    #print zsite_id, rid, title
+    #sleep(0.1)
 
     new_feed = FeedImport(
         title=title,
