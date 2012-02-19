@@ -4,6 +4,8 @@ from config import DEBUG
 from time import time
 import logging
 
+#print "config", DEBUG
+
 def escape(string):
     return '`%s`' % string
 

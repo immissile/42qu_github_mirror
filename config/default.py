@@ -220,6 +220,14 @@ def finish(o):
             'tables': DB_GOOGLE_TABLE,
         },
     }
+
+    if o.DEBUG:
+        import logging
+        logging.basicConfig(
+            level=logging.DEBUG,
+            format='%(message)s\n',
+            datefmt='%H:%M:%S',
+        )
     return o
 
 def load(self, *args):

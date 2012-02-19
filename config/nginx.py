@@ -74,8 +74,6 @@ def render_machine(host, name_list):
 
 render_machine('krios', """
 zuroc
-zjd
-yup
 wooparadog
 work
 realfex
